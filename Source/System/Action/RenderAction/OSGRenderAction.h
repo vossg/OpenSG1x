@@ -162,6 +162,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool getZWriteTrans(void);
     void setLocalLights(bool bVal);
     bool getLocalLights(void);
+    void setCorrectTwoSidedLighting(bool bVal);
+    bool getCorrectTwoSidedLighting(void);
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -232,6 +234,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool                      _bSortTrans;
     bool                      _bZWriteTrans;
     bool                      _bLocalLights;
+    bool                      _bCorrectTwoSidedLighting;
 
     std::vector<LightStore>   _vLights;
     LightsMap                 _lightsMap;

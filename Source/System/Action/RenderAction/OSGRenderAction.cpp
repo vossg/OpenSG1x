@@ -244,9 +244,10 @@ RenderAction::RenderAction(void) :
     _uiNumGeometries     (0),
     _uiNumTransGeometries(0),
 
-    _bSortTrans          (true),
-    _bZWriteTrans        (false),
-    _bLocalLights        (false),
+    _bSortTrans              (true),
+    _bZWriteTrans            (false),
+    _bLocalLights            (false),
+    _bCorrectTwoSidedLighting(false),
 
     _vLights(),
     _lightsMap(),
@@ -293,9 +294,10 @@ RenderAction::RenderAction(const RenderAction &source) :
     _uiNumGeometries     (source._uiNumGeometries),
     _uiNumTransGeometries(source._uiNumTransGeometries),
 
-    _bSortTrans          (source._bSortTrans),
-    _bZWriteTrans        (source._bZWriteTrans),
-    _bLocalLights        (source._bLocalLights),
+    _bSortTrans              (source._bSortTrans),
+    _bZWriteTrans            (source._bZWriteTrans),
+    _bLocalLights            (source._bLocalLights),
+    _bCorrectTwoSidedLighting(source._bCorrectTwoSidedLighting),
 
     _vLights             (source._vLights),
     _lightsMap           (source._lightsMap),
@@ -933,6 +935,20 @@ void RenderAction::draw(DrawTreeNode *pRoot)
             _currMatrix.second = pRoot->getMatrixStore().second;
             updateTopMatrix();
 
+            // Negative scaled matrices in conjunction with double sided lighting
+            // gives wrong render results cause the lighting itselfs gets inverted.
+            // This corrects this behavior.
+            if(_bCorrectTwoSidedLighting)
+            {
+                const Matrix &m = _currMatrix.second;
+                // test for a "flipped" matrix
+                // glFrontFace can give conflicts with the polygon chunk ...
+                if(m[0].cross(m[1]).dot(m[2]) < 0.0)
+                    glFrontFace(GL_CW);
+                else
+                    glFrontFace(GL_CCW);
+            }
+            
     #ifdef PRINT_MAT
             fprintf(stderr, "pushed to gl %d\n", _uiActiveMatrix);
 
@@ -1028,6 +1044,16 @@ void RenderAction::setLocalLights(bool bVal)
 bool RenderAction::getLocalLights(void)
 {
     return _bLocalLights;
+}
+
+void RenderAction::setCorrectTwoSidedLighting(bool bVal)
+{
+    _bCorrectTwoSidedLighting = bVal;
+}
+
+bool RenderAction::getCorrectTwoSidedLighting(void)
+{
+    return _bCorrectTwoSidedLighting;
 }
 
 // initialisation
