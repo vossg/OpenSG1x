@@ -58,7 +58,7 @@
 #pragma reset woff 1375
 #endif
 
-#include <OSGWindowBase.h>
+#include <OSGWindowDef.h>
 #include "OSGWindow.h"
 
 #ifdef WIN32

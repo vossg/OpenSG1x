@@ -82,7 +82,7 @@
 #include <iostream.h>
 #endif
 
-#include <OSGWindowBase.h>
+#include <OSGWindowDef.h>
 
 OSG_BEGIN_NAMESPACE
 
