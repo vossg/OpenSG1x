@@ -199,7 +199,7 @@ struct FunctorBuildObjFuncType1
     typedef typename CallArgT              ::ObjType ObjType;
     typedef typename ArgsT                 ::Arg1T   ArgType;
 
-    typedef typename ArgsCollector<ArgType>          ArgColl;
+    typedef          ArgsCollector<ArgType>          ArgColl;
 
     typedef typename ClassMemFunc1<RetT, 
                                    ObjType, 
@@ -214,7 +214,7 @@ struct FunctorBuildFuncType2
 
     typedef typename ArgsT                 ::Arg1T   ArgType;
 
-    typedef typename ArgsCollector<ArgType>          ArgColl;
+    typedef          ArgsCollector<ArgType>          ArgColl;
 
     typedef typename ClassMemFunc1<RetT, 
                                    ObjType, 

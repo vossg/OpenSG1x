@@ -176,8 +176,8 @@ struct TypedMethodVoidFunctor1ObjCPtrFGen
     typedef          ArgsCollector <Arg1T> ArgColl;
 
     typedef typename ClassMemFunc1<T1, 
-                                   T2::StoredObjectType, 
-                                   ArgColl             >::MemFunc Func;
+                                   typename T2::StoredObjectType, 
+                                   ArgColl                     >::MemFunc Func;
 };
 
 
@@ -210,8 +210,8 @@ struct TypedMethodVoidFunctor1ObjCPtrRefFGen
     typedef          ArgsCollector <Arg1T> ArgColl;
 
     typedef typename ClassMemFunc1<T1, 
-                                   T2::StoredObjectType, 
-                                   ArgColl             >::MemFunc Func;
+                                   typename T2::StoredObjectType, 
+                                   ArgColl                     >::MemFunc Func;
 };
 
 #ifndef OSG_MICROSOFT_COMPILER_ALERT
@@ -334,7 +334,7 @@ TypedStoredObjectVoidFunctor2<PtrCallArg   <ObjectT>,
 
 
 //---------------------------------------------------------------------------
-//  osgTypedMethodFunctor2CPtrRef
+//  osgTypedMethodVoidFunctor2CPtrRef
 //---------------------------------------------------------------------------
 
 template <class ObjectT, class Arg1T> inline
@@ -367,8 +367,8 @@ struct TypedMethodVoidFunctor2ObjCPtrRefFGen
     typedef ArgsCollector2<Arg1T, T4>  ArgColl;
 
     typedef typename ClassMemFunc2<T1, 
-                                   T2::StoredObjectType, 
-                                   ArgColl             >::MemFunc Func;
+                                   typename T2::StoredObjectType, 
+                                   ArgColl                     >::MemFunc Func;
 
 };
 
@@ -392,7 +392,7 @@ TypedStoredObjectVoidFunctor2<CPtrRefCallArg<ObjectT>,
 
 
 //---------------------------------------------------------------------------
-//  osgTypedMethodFunctor2ObjCPtrRef
+//  osgTypedMethodVoidFunctor2ObjCPtrPtr
 //---------------------------------------------------------------------------
 
 
@@ -408,8 +408,8 @@ struct TypedMethodVoidFunctor2ObjCPtrPtrFGen
     typedef ArgsCollector2<Arg1T, T4>  ArgColl;
 
     typedef typename ClassMemFunc2<T1, 
-                                   T2::StoredObjectType, 
-                                   ArgColl             >::MemFunc Func;
+                                   typename T2::StoredObjectType, 
+                                   ArgColl                     >::MemFunc Func;
 
 };
 
@@ -444,11 +444,15 @@ struct TypedMethodFunctor2BaseCPtrRefFGen
     typedef ArgsCollector <T3> ArgColl;
 
     typedef typename ClassMemFunc1<T1, 
-                                   T2::StoredObjectType, 
-                                   ArgColl             >::MemFunc Func;
+                                   typename T2::StoredObjectType, 
+                                   ArgColl                     >::MemFunc Func;
 };
 
 #ifndef OSG_MICROSOFT_COMPILER_ALERT
+
+#ifdef __sgi
+#pragma set woff 1424
+#endif
 
 template <class RetT,  class ObjectT, 
           class Arg1T, class Arg2T> inline
@@ -460,6 +464,10 @@ TypedObjectFunctor2<RetT,
     typename TypedMethodFunctor2BaseCPtrRefFGen<RetT, 
                                                 ObjectT, 
                                                 Arg2T  >::Func pFunc);
+
+#ifdef __sgi
+#pragma reset woff 1424
+#endif
 
 #endif
 

@@ -112,7 +112,7 @@ struct TypedSOTraits2
     typedef typename CallArgT::ArgType           ArgType;
 
     typedef typename StoredObjCallArgT::ArgType  SetObjectT;
-    typedef typename ObjType                    *StoredObjectT;
+    typedef          ObjType                    *StoredObjectT;
 
     typedef typename ArgsT::Arg1T                Arg2T;
 
@@ -433,7 +433,7 @@ class TypedFunctionFunctor2 :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typename TypedTraits2<RetT, CallArgT, ArgsT> TypeTraits;
+    typedef TypedTraits2<RetT, CallArgT, ArgsT> TypeTraits;
 
     typedef 
         TypedFunctionFunctorBase<TypedFunctor2Base<RetT, 
@@ -929,7 +929,7 @@ class TypedStoredObjectFunctor2 :
                                                           SizeTraitsT>,
                                         TypedSOTraits2   <RetT, 
                                                           StoredObjectT,
-                                                          ArgObjectT::ArgsC,
+                                                 typename ArgObjectT::ArgsC,
                                                           ArgsT> >
 {
   public:
@@ -957,7 +957,7 @@ class TypedStoredObjectFunctor2 :
 
     typedef TypedSOTraits2<RetT, 
                            StoredObjectT,
-                           ArgObjectT::ArgsC,
+                           typename ArgObjectT::ArgsC,
                            ArgsT            > TypeSOTraits; 
 
     typedef 
@@ -968,7 +968,7 @@ class TypedStoredObjectFunctor2 :
                               SizeTraitsT>,
             TypedSOTraits2   <RetT, 
                               StoredObjectT,
-                              ArgObjectT::ArgsC,
+                              typename ArgObjectT::ArgsC,
                               ArgsT            > >Inherited;
 
     //-----------------------------------------------------------------------
@@ -1066,7 +1066,7 @@ class TypedStoredObjectVoidFunctor2 :
                                                               SizeTraitsT>,
                                         TypedSOTraits2      <void, 
                                                              StoredObjectT,
-                                                             ArgObjectT::ArgsC,
+                                                    typename ArgObjectT::ArgsC,
                                                              ArgsT> >
 {
   public:
@@ -1093,9 +1093,9 @@ class TypedStoredObjectVoidFunctor2 :
     //-----------------------------------------------------------------------
 
     typedef TypedSOTraits2<void, 
-                          StoredObjectT,
-                          ArgObjectT::ArgsC,
-                          ArgsT            > TypeSOTraits;
+                           StoredObjectT,
+                           typename ArgObjectT::ArgsC,
+                           ArgsT                     > TypeSOTraits;
     typedef 
         TypedStoredObjectFunctorBase<
             TypedVoidFunctor2Base<ArgObjectT,
@@ -1103,8 +1103,8 @@ class TypedStoredObjectVoidFunctor2 :
                                   SizeTraitsT>,
             TypedSOTraits2       <void, 
                                   StoredObjectT,
-                                  ArgObjectT::ArgsC,
-                                  ArgsT            > >Inherited;
+                                  typename ArgObjectT::ArgsC,
+                                  ArgsT                     > >Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

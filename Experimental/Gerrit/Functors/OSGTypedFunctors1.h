@@ -109,8 +109,8 @@ struct TypedSOTraits1
 
     typedef typename ArgsT::ArgType              ArgType;
 
-    typedef typename ObjType                    *SetObjectT;
-    typedef typename ObjType                    *StoredObjectT;
+    typedef          ObjType                    *SetObjectT;
+    typedef          ObjType                    *StoredObjectT;
 
     typedef typename
         FunctorBuildObjFuncType1<RetT, 
@@ -874,7 +874,7 @@ class TypedStoredObjectFunctor1 :
                           SizeTraitsT>,
         TypedSOTraits1   <RetT, 
                           StoredObjectT,
-                          ArgsT::ArgsC> >
+                          typename ArgsT::ArgsC> >
 {
   public:
 
@@ -898,7 +898,9 @@ class TypedStoredObjectFunctor1 :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef TypedSOTraits1<RetT, StoredObjectT, ArgsT::ArgsC> TypeTraits;
+    typedef TypedSOTraits1<RetT, 
+                           StoredObjectT, 
+                           typename ArgsT::ArgsC> TypeTraits;
 
     typedef 
         TypedStoredObjectFunctorBase<
@@ -907,7 +909,7 @@ class TypedStoredObjectFunctor1 :
                               SizeTraitsT>,
             TypedSOTraits1   <RetT, 
                               StoredObjectT,
-                              ArgsT::ArgsC> >Inherited;
+                              typename ArgsT::ArgsC> >Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -998,7 +1000,7 @@ class TypedStoredObjectVoidFunctor1 :
                                                               SizeTraitsT>,
                                         TypedSOTraits1       <void, 
                                                               StoredObjectT,
-                                                              ArgsT::ArgsC> >
+                                                     typename ArgsT::ArgsC> >
 {
   public:
 
@@ -1022,7 +1024,9 @@ class TypedStoredObjectVoidFunctor1 :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef TypedSOTraits1<void, StoredObjectT, ArgsT::ArgsC> TypeTraits;
+    typedef TypedSOTraits1<void, 
+                           StoredObjectT, 
+                           typename ArgsT::ArgsC> TypeTraits;
 
     typedef 
         TypedStoredObjectFunctorBase<
@@ -1030,7 +1034,7 @@ class TypedStoredObjectVoidFunctor1 :
                                   SizeTraitsT>,
             TypedSOTraits1       <void, 
                                   StoredObjectT,
-                                  ArgsT::ArgsC> >Inherited;
+                                  typename ArgsT::ArgsC> >Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

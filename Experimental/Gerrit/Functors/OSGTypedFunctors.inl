@@ -572,7 +572,7 @@ TypedStoredObjectVoidFunctor2<PtrCallArg   <ObjectT>,
 
 
 //---------------------------------------------------------------------------
-//  osgTypedMethodFunctor2CPtrRef
+//  osgTypedMethodVoidFunctor2CPtrRef
 //---------------------------------------------------------------------------
 
 
@@ -598,7 +598,7 @@ TypedObjectVoidFunctor2<CPtrRefCallArg<ObjectT>,
 
 
 //---------------------------------------------------------------------------
-//  osgTypedMethodFunctor2ObjCPtrRef
+//  osgTypedMethodFunctor2ObjCPtrPtr
 //---------------------------------------------------------------------------
 
 template <class ObjectT, 
@@ -630,9 +630,44 @@ TypedStoredObjectVoidFunctor2<CPtrRefCallArg<ObjectT>,
 
 
 //---------------------------------------------------------------------------
+//  osgTypedMethodFunctor2ObjCPtrRef
+//---------------------------------------------------------------------------
+
+template <class ObjectT, 
+          class Arg1T, 
+          class Arg2T> inline
+TypedStoredObjectVoidFunctor2<CPtrRefCallArg<ObjectT>, 
+                              CPtrRefCallArg<Arg1T  >,
+                              ArgsCollector <Arg2T  > > 
+    osgTypedMethodVoidFunctor2ObjCPtrRef(
+
+             ObjectT                                              &pObj,
+
+    typename TypedMethodVoidFunctor2ObjCPtrRefFGen<void,
+                                                   ObjectT, 
+                                                   Arg1T, 
+                                                   Arg2T  >::Func  pFunc)
+{
+    typedef TypedStoredObjectVoidFunctor2<CPtrRefCallArg<ObjectT>, 
+                                          CPtrRefCallArg<Arg1T  >,
+                                          ArgsCollector <Arg2T  > > OFunctor;
+
+    OFunctor returnValue;
+
+    returnValue.setMethod      (pFunc);    
+    returnValue.setCalledObject(pObj);
+
+    return returnValue;
+} 
+
+
+//---------------------------------------------------------------------------
 //  osgTypedMethodFunctor2BaseCPtrRef
 //---------------------------------------------------------------------------
 
+#ifdef __sgi
+#pragma set woff 1424
+#endif
 
 template <class RetT,  class ObjectT, 
           class Arg1T, class Arg2T> inline
@@ -661,5 +696,9 @@ TypedObjectFunctor2<RetT,
    
     return returnValue;
 }
+
+#ifdef __sgi
+#pragma reset woff 1424
+#endif
 
 OSG_END_NAMESPACE
