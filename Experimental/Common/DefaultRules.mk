@@ -12,28 +12,34 @@ cnvUnix2Win = "$(shell cygpath -w $(1))"
 ifeq ($(OS_BASE), cygwin)
 $(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
-	$(INC_OPTION)"$(OBJDIR)" $(OBJ_OPTION)"$(OBJDIR)\\" $(call cnvUnix2Win,$<)
+	$(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."					\
+	$(OBJ_OPTION)"$(OBJDIR)\\" $(call cnvUnix2Win,$<)
 $(OBJDIR)/%$(OBJ_SUFFIX): %.c
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
-	$(INC_OPTION)"$(OBJDIR)" $(OBJ_OPTION)"$(OBJDIR)\\" $(call cnvUnix2Win,$<)
+	$(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."					\
+	 $(OBJ_OPTION)"$(OBJDIR)\\" $(call cnvUnix2Win,$<)
 else
 $(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
-	$(INC_OPTION)$(OBJDIR) $(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
+	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
+	 $(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
 $(OBJDIR)/%$(OBJ_SUFFIX): %.c
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
-	$(INC_OPTION)$(OBJDIR) $(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
+	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
+	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
 endif
 
 ifeq ($(OS_BASE), cygwin)
 $(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
-	$(INC_OPTION)"$(OBJDIR)" $(OBJ_OPTION)"$(OBJDIR)\\" $<
+	$(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."					\
+	$(OBJ_OPTION)"$(OBJDIR)\\" $<
 
 else
 $(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
-	$(INC_OPTION)$(OBJDIR) $(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
+	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
+	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
 endif
 
 ifeq ($(OS_BASE), cygwin)
@@ -169,7 +175,7 @@ ifneq ($(LIB_BISONTARGET_CPP),)
 $(LIB_BISONTARGET_CPP): $(LIB_BISONSOURCES)
 	$(BISON) -d -v -p$(BISON_INTERNAL) -b$(BISON_INTERNAL) $<
 	mv $(BISON_INTERNAL).tab.c  $(OBJDIR)/$(BISON_EXTERNAL).tab.cpp
-	mv $(BISON_INTERNAL).tab.h  $(OBJDIR)/$(BISON_EXTERNAL).tab.h
+	mv $(BISON_INTERNAL).tab.h            $(BISON_EXTERNAL).tab.h
 	mv $(BISON_INTERNAL).output $(OBJDIR)/$(BISON_EXTERNAL).output
 endif
 

@@ -205,7 +205,7 @@ void SField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
 {
     if(getType() == obj.getType())
     {
-        setValue(*((SField<FieldTypeT, fieldNameSpace> *) &obj));
+        setValue(*((const SField<FieldTypeT, fieldNameSpace> *) &obj));
     }
 }
 

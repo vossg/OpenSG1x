@@ -544,7 +544,7 @@ char PointInterface<ValueTypeT, StorageInterfaceT>::cvsid[] =
 template <class ValueTypeT, 
           class StorageInterfaceT> inline
 PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
-    void)
+    void) : Inherited()
 {
     UInt32 i;
 
@@ -560,7 +560,7 @@ PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
 PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
-    const PointInterface &source)
+    const PointInterface &source) : Inherited()
 {
     UInt32 i;
 
@@ -578,7 +578,7 @@ PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
 PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
-    const ValueTypeT *pVals)
+    const ValueTypeT *pVals) : Inherited()
 {
     UInt32 i;
 
@@ -606,7 +606,7 @@ PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
 PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
-    ValueTypeT *pVals)
+    ValueTypeT *pVals) : Inherited()
 {
     UInt32 i;
 
@@ -654,7 +654,7 @@ template <class    ValueTypeT,
           class    StorageInterfaceT> inline
 PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
     const ValueTypeT rVal1, 
-    const ValueTypeT rVal2)
+    const ValueTypeT rVal2) : Inherited()
 {
     UInt32 i;
 
@@ -689,7 +689,7 @@ template <class    ValueTypeT,
 PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
     const ValueTypeT rVal1, 
     const ValueTypeT rVal2, 
-    const ValueTypeT rVal3)
+    const ValueTypeT rVal3) : Inherited()
 {
     UInt32 i;
 
@@ -731,7 +731,7 @@ PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
     const ValueTypeT rVal1, 
     const ValueTypeT rVal2, 
     const ValueTypeT rVal3, 
-    const ValueTypeT rVal4)
+    const ValueTypeT rVal4) : Inherited()
 {
     UInt32 i;
 
@@ -1356,7 +1356,7 @@ char VectorInterface<ValueTypeT, StorageInterfaceT>::cvsid[] =
 template <class ValueTypeT, 
           class StorageInterfaceT> inline
 VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
-    void)
+    void) : Inherited()
 {
     UInt32 i;
 
@@ -1372,14 +1372,8 @@ VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
 VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
-    const VectorInterface &source)
+    const VectorInterface &source) : Inherited(source)
 {
-    UInt32 i;
-
-    for(i = 0; i < _iSize; i++)
-    {
-        _values[i] = source._values[i];
-    }
 }
 
 /** \brief Constructor which takes a const value array.
@@ -1390,24 +1384,8 @@ VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
 VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
-    const ValueTypeT *pVals)
+    const ValueTypeT *pVals) : Inherited(pVals)
 {
-    UInt32 i;
-
-    if(pVals == NULL)
-    {
-        for(i = 0; i < _iSize; i++)
-        {
-            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
-        }
-    }
-    else
-    {
-        for(i = 0; i < _iSize; i++)
-        {
-            _values[i] = pVals[i];
-        }
-    }
 }
 
 /** \brief Constructor which takes a const value array.
@@ -1418,24 +1396,8 @@ VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
 VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
-    ValueTypeT *pVals)
+    ValueTypeT *pVals) : Inherited(pVals)
 {
-    UInt32 i;
-
-    if(pVals == NULL)
-    {
-        for(i = 0; i < _iSize; i++)
-        {
-            _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
-        }
-    }
-    else
-    {
-        for(i = 0; i < _iSize; i++)
-        {
-            _values[i] = pVals[i];
-        }
-    }    
 }
 
 /*

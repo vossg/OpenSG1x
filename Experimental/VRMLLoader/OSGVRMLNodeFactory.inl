@@ -449,6 +449,7 @@ void VRMLNodeFactory<BaseT>::addFieldValue(const Char8 *szFieldVal)
 template <class BaseT> inline
 void VRMLNodeFactory<BaseT>::dumpTable(void)
 {
+#if 0
     NodeNameDescHash::iterator  mNodeDescIt = _mNodeDescHash.begin();
     FieldNameTypeHash::iterator mFieldHashIt;
 
@@ -469,6 +470,7 @@ void VRMLNodeFactory<BaseT>::dumpTable(void)
 
         mNodeDescIt++;
     }
+#endif
 }
 
 //---------------------------------------------------------------------------

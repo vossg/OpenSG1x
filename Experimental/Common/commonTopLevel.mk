@@ -73,6 +73,76 @@ LibClean: $(SUB_LIBTARGETS)
 DepClean: SUB_TARGET := DepClean
 DepClean: $(SUB_LIBTARGETS) 
 
+#########################################################################
+# install
+#########################################################################
+
+install-includes:
+	@if [ ! -w include ]; then mkdir include; fi
+	@cd include; 														\
+	rm -f *.h *.inl *.h;												\
+	find $($(PROJ)POOL)							\
+		\( -type d \( -name CVS -o -name Test -o -name include -o 		\
+		   -name Tools \) -prune \) 									\
+		-o -type f -name '*\.hpp' -print -exec $(LINK) {} . \; ;		\
+	find $($(PROJ)POOL)							\
+		\( -type d \( -name CVS -o -name Test -o -name include  -o 		\
+		   -name Tools \) -prune \) 									\
+		-o -type f -name '*\.h' -print -exec $(LINK) {} . \; ;			\
+	find $($(PROJ)POOL)            				\
+		\( -type d \( -name CVS -o -name Test -o -name include \)		\
+		   -prune \)													\
+		-o -type f -name '*\.inl' -print -exec $(LINK) {} . \; ;		\
+	cd ..;
+
+install-libs:
+	@if [ ! -w lib ]; then mkdir lib; fi
+	@if [ ! -w lib/dbg ]; then mkdir lib/dbg; fi
+	@if [ ! -w lib/opt ]; then mkdir lib/opt; fi
+	@CURRDIR=`pwd`															\
+	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
+						-exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;	\
+	cd lib/dbg;																\
+	rm -f *$(SO_SUFFIX);													\
+	for t in $$BUILDLIBS; 													\
+	do																		\
+		echo  $$t;															\
+		$(LINK) $$t .;														\
+	done
+	@CURRDIR=`pwd`															\
+	BUILDLIBS=`find $$CURRDIR -name 'lib-opt' 			        			\
+						-exec find {} -name '*\$(SO_SUFFIX)' -print \;` ;	\
+	cd lib/opt;																\
+	rm -f *$(SO_SUFFIX);													\
+	for t in $$BUILDLIBS; 													\
+	do																		\
+		echo  $$t;															\
+		$(LINK) $$t .;														\
+	done
+ifeq ($(OS_BASE),cygwin)
+	@CURRDIR=`pwd`															\
+	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
+						-exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;	\
+	cd lib/opt;																\
+	rm -f *$(LIB_SUFFIX);													\
+	for t in $$BUILDLIBS; 													\
+	do																		\
+		echo  $$t;															\
+		$(LINK) $$t .;														\
+	done
+	CURRDIR=`pwd`															\
+	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
+						-exec find {} -name '*\$(LIB_SUFFIX)' -print \;` ;	\
+	cd lib/opt;																\
+	rm -f *$(LIB_SUFFIX);													\
+	for t in $$BUILDLIBS; 													\
+	do																		\
+		echo  $$t;															\
+		$(LINK) $$t .;														\
+	done
+endif
+
+install: install-includes install-libs
 
 %.src:
 	@if [ -d $* ]; then 													\

@@ -2,10 +2,10 @@
 SUB_DIR     := @ac_gdz_package_name_out@Lib
 PACKAGENAME := @ac_gdz_package_name_out@
 
-HAS_INCL    := 
+HAS_INCL    := 1
 HAS_LIB     := 1
 
-
+INCL_DIR    := $(BUILD_BASE)/@ac_gdz_package_name_out@Lib
 
 REQUIRED_SYSTEM_PACKAGES :=
 

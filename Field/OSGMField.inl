@@ -377,7 +377,7 @@ void MField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
 {
     if(getType() == obj.getType())
     {
-        setValues(*((MField<FieldTypeT, fieldNameSpace> *) &obj));
+        setValues(*((const MField<FieldTypeT, fieldNameSpace> *) &obj));
     }
 }
 

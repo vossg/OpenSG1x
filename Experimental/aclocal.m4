@@ -575,11 +575,17 @@ dnl e5
     ac_gdz_glut_incdir_e5=
     ac_gdz_glut_libdir_e5=
 
-    if [[ -n "$ac_gdz_glut_dir" ]]; then
+    if [[ "$with_glut" = yes ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_glut_lib_e5='glut32.lib'
+        else
+           ac_gdz_glut_lib_e5='-lglut'
+        fi
+    elif [[ -n "$ac_gdz_glut_dir" ]]; then
         if [[ $build_os = cygwin ]]; then
            ac_gdz_glut_incdir_e5='"'`cygpath -w $ac_gdz_glut_dir/include`'"'
            ac_gdz_glut_libdir_e5='"'`cygpath -w $ac_gdz_glut_dir/lib`'"'
-            ac_gdz_glut_lib_e5='glut32.lib'
+           ac_gdz_glut_lib_e5='glut32.lib'
         else
            ac_gdz_glut_incdir_e5=$ac_gdz_glut_dir/include
            ac_gdz_glut_libdir_e5=$ac_gdz_glut_dir/lib

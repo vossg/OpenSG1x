@@ -61,7 +61,7 @@ AC_ARG_WITH(glut,     [  --with-glut=DIR          Where to find the glut files t
 			,with_glut=no) 
 
 if [[ "$with_glut" = yes ]]; then
-	ac_gdz_glut_dir=
+	ac_gdz_glut_dir=yes
 elif [[ "$with_glut" = no ]]; then
 	ac_gdz_glut_dir=
 else
@@ -216,7 +216,12 @@ else
 	ac_gdz_systen_incl_dir=
 	ac_gdz_system_lib_dir=
 
-	ac_gdz_base_system_libs=
+	ac_gdz_base_system_libs='-lm'
+
+    if test $build_os = linux-gnu; 
+    then 
+    	ac_gdz_base_system_libs='-pthread '$ac_gdz_base_system_libs
+    fi
 fi 
 
 

@@ -622,7 +622,7 @@ template <class RetTypeT, class InTypeT> inline
 RetTypeT dcast(const InTypeT oIn)
 {
     return RetTypeT(
-        (dynamic_cast<const RetTypeT::ObjectType *>(oIn.getCPtr())),
+        (dynamic_cast<const typename RetTypeT::ObjectType *>(oIn.getCPtr())),
         oIn._containerSize,
         oIn._uiParentEPos);
 }

@@ -435,7 +435,7 @@ void PThreadBase::setupChangeList(void)
         (*pChangeList)->clearAll();
     }
 
-    (*pChangeList)->setAspect(Inherited::_uiApectId);
+    (*pChangeList)->setAspect(Inherited::_uiAspectId);
     pthread_setspecific(_changeListKey, (void *) pChangeList);  
 #endif
 

@@ -39,11 +39,7 @@ OS_BASE              := @ac_gdz_os_base@
 ### BASE DIRS #########################################################
 
 INCL_$(OS_BASE) := $(INC_OPTION)"@ac_gdz_gen_base_inc_e1@" $(INCL_$(OS_BASE))
-ifeq ($(OS_BASE), cygwin)
 LIBS_$(OS_BASE) := @ac_gdz_base_system_libs@ 
-else
-LIBS_$(OS_BASE) := @ac_gdz_base_system_libs@ -lm
-endif
 
 INCLUDE_SYSTEM  := @ac_gdz_system_incl_dir@
 LINK_SYSTEM     := @ac_gdz_system_lib_dir@

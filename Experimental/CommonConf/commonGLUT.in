@@ -9,7 +9,9 @@ endif
 
 ifneq ($(LINK_GLUT),)
 LIBPATHS_GLUT     := $(LIBPATH_OPTION)$(LINK_GLUT)
+endif
 
+ifneq ($(LIB_GLUT),)
 LIB_FILE_GLUT     := $(LIB_GLUT)
 endif
 

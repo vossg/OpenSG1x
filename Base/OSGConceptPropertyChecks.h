@@ -68,16 +68,16 @@ struct _OSG_##OSGPROP##_Property_Spec                           \
     }                                                           \
 }
 
-#define OSG_PROPERTY_VIOLATION(OSGPROP)                         \
-template<class T1>                                              \
-static void __OSG_##OSGPROP##_Property_violation(T1)            \
-{                                                               \
-    while(0)                                                    \
-    {                                                           \
-        T1::OSG##OSGPROP##Prop v1 = T1::osg##OSGPROP##Prop;     \
-                                                                \
-        osgSinkUnusedWarning(v1);                               \
-    }                                                           \
+#define OSG_PROPERTY_VIOLATION(OSGPROP)                                  \
+template<class T1>                                                       \
+static void __OSG_##OSGPROP##_Property_violation(T1)                     \
+{                                                                        \
+    while(0)                                                             \
+    {                                                                    \
+        typename T1::OSG##OSGPROP##Prop v1 = T1::osg##OSGPROP##Prop;     \
+                                                                         \
+        osgSinkUnusedWarning(v1);                                        \
+    }                                                                    \
 }
 
 

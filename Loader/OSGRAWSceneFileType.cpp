@@ -55,7 +55,7 @@
 #endif
 
 #ifdef OSG_SGI_STL
-#include <limits>
+//#include <limits>
 #endif
 
 #define OSG_COMPILELOADER
