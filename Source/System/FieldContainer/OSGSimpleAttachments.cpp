@@ -155,7 +155,11 @@ void setName(      AttachmentContainerPtr  container,
     if(att == NullFC)
     {
         name = Name::create();
-        container->addAttachment(name);
+        beginEditCP(container, AttachmentContainer::AttachmentsFieldMask);
+        {
+            container->addAttachment(name);
+        }
+        endEditCP(container, AttachmentContainer::AttachmentsFieldMask);
     }
     else
     {   
@@ -167,8 +171,13 @@ void setName(      AttachmentContainerPtr  container,
             return;
         }
     }
+    
   
-    name->getFieldPtr()->getValue().assign(namestring);   
+    beginEditCP(name);
+    {
+        name->getFieldPtr()->getValue().assign(namestring);   
+    }
+    endEditCP(name);
 }
 
 /*! 
