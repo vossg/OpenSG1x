@@ -423,18 +423,12 @@ void RemoteAspect::sendSync(Connection &connection,
         destroyedI!=changeList->endDestroyed() ;
         destroyedI++)
     {
-        /*
-          !!! BUG, If it is destroyed, then there is no 
-          container ID. -> Bug in opensg sync
-
-          cmd=DESTROYED;
-          connection.putValue(cmd);
-          connection.putValue(*destroyedI);
-          FDEBUG (( "Destroyed: ID:%d\n",*destroyedI ))
-        */
+        cmd=DESTROYED;
+        connection.putValue(cmd);
+        connection.putValue(*destroyedI);
     }
 
-    // addref
+    // destroy
     for(addRefedI =changeList->beginAddRefd();
         addRefedI!=changeList->endAddRefd();
         addRefedI++)
