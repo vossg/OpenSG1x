@@ -7,19 +7,19 @@
 CFG=@OSGPACK@Lib - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "@OSGPACK@Lib.mak".
-!MESSAGE 
+!MESSAGE
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "@OSGPACK@Lib.mak" CFG="@OSGPACK@Lib - Win32 Debug"
-!MESSAGE 
+!MESSAGE
 !MESSAGE Possible choices for configuration are:
-!MESSAGE 
+!MESSAGE
 !MESSAGE "@OSGPACK@Lib - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "@OSGPACK@Lib - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE 
+!MESSAGE
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -42,9 +42,9 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP 
-# ADD CPP @OSG_CCFLAGS@ @OSG_CCFLAGS_OPT@ @OSG_CURR_LIB_DEF@ @OSG_CONF_PACKS@ @OSG_QT_DEFS@ @OSG_INCL@ /FD /c /Zm1200
-# SUBTRACT CPP 
+# ADD BASE CPP
+# ADD CPP @OSG_CCFLAGS@ @OSG_CCFLAGS_OPT@ @OSG_CURR_LIB_DEF@ @OSG_CONF_PACKS@ @OSG_QT_DEFS@ @OSG_INCL@ /FD /c /Zm1000
+# SUBTRACT CPP
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -69,9 +69,9 @@ LINK32=xilink6.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP 
-# ADD CPP @OSG_CCFLAGS@ @OSG_CCFLAGS_DBG@ @OSG_CURR_LIB_DEF@ @OSG_CONF_PACKS@ @OSG_QT_DEFS@ @OSG_INCL@ /FD /c /Zm1200
-# SUBTRACT CPP 
+# ADD BASE CPP
+# ADD CPP @OSG_CCFLAGS@ @OSG_CCFLAGS_DBG@ @OSG_CURR_LIB_DEF@ @OSG_CONF_PACKS@ @OSG_QT_DEFS@ @OSG_INCL@ /FD /c /Zm1000
+# SUBTRACT CPP
 # ADD BASE MTL /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -80,9 +80,9 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=xilink6.exe
-# ADD BASE LINK32           
+# ADD BASE LINK32
 # ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib @OSG_LIB_EXT@ -NODEFAULTLIB -dll -map -Debug -out:..\lib\dbg\OSG@OSGPACK@.dll
-      
 
-!ENDIF 
+
+!ENDIF
 
