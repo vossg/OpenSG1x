@@ -36,90 +36,54 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSG_GLUT_WINDOW_H_
-#define _OSG_GLUT_WINDOW_H_
+#ifndef _OSGGLUTWINDOW_H_
+#define _OSGGLUTWINDOW_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #ifdef OSG_WITH_GLUT
 
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEGLUTWINDOWLIB
-#       define OSG_GLUTWINDOWLIB_DLLMAPPING     __declspec(dllexport)
-#       define OSG_GLUTWINDOWLIB_DLLTMPLMAPPING __declspec(dllexport)
-#   else
-#       define OSG_GLUTWINDOWLIB_DLLMAPPING     __declspec(dllimport)
-#       define OSG_GLUTWINDOWLIB_DLLTMPLMAPPING __declspec(dllimport)
-#   endif
-#else
-#define OSG_GLUTWINDOWLIB_DLLMAPPING
-#define OSG_GLUTWINDOWLIB_DLLTMPLMAPPING
-#endif
+#include <OSGConfig.h>
 
-#include "OSGWindowBase.h"
-#include "OSGWindow.h"
+#include <OSGGLUTWindowBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-class GLUTWindow;
-typedef FCPtr <WindowPtr, GLUTWindow> GLUTWindowPtr;
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \brief GLUT window class
+/*! \brief *put brief class description here* 
  */
 
-class OSG_GLUTWINDOWLIB_DLLMAPPING GLUTWindow : public Window
+class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindow : public GLUTWindowBase
 {
+  private:
+
+    typedef GLUTWindowBase Inherited;
+
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
 
-    typedef void (*GLExtensionFunc)(void);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector  bvFlags  = 0) const;
 
-    static const char *getClassname(void) { return "GLUTWindow"; };
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    /*-------------- general fieldcontainer declaration --------------------*/
-
-    OSG_FIELD_CONTAINER_DECL(GLUTWindowPtr)
-
-    /*------------------------- your_category -------------------------------*/
-
-    /** GL implementation dependent function **/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Window functions                              */
+    /*! \{                                                                 */
     
     // query the system for a GL function
-    virtual GLExtensionFunc getFunctionByName(const Char8 *s);
-    
-    // Window-system dependent functions
+    virtual void (*getFunctionByName(const Char8 *s))(void);
     
     // init the window: create the context  
     // Nothing to do here for GLUT
@@ -129,174 +93,58 @@ class OSG_GLUTWINDOWLIB_DLLMAPPING GLUTWindow : public Window
     // set the active window, if needed
     virtual void activate( void );
     
-    virtual void deactivate ( void ) {}
+    // activate the window: bind the OGL context    
+    // set the active window, if needed      
+    virtual void deactivate ( void );
     
-    // swap buffers     for this window
+    // swap buffers for this window
     // does not set the active window!
     virtual void swap( void );
 
-    /*------------------------- your_operators ------------------------------*/
-
-    void     setWinID(int id) { _winid = id;   };
-    Int32 setWinID(void)   { return _winid; };
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
-    virtual void dump(      UInt32    uiIndent = 0, 
-                      const BitVector bvFlags  = 0) const;
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    // Variables should all be in GLUTWindowBase.
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-    
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
 
     GLUTWindow(void);
+    GLUTWindow(const GLUTWindow &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~GLUTWindow(void); 
 
+    /*! \}                                                                 */
+    
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef Window Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-    friend class FieldContainerType;
+    friend class GLUTWindowBase;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    static FieldContainerType _type;
- 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    /// window id
-    Int32 _winid;
-    
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
 
-    GLUTWindow(const GLUTWindow &source);
     void operator =(const GLUTWindow &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-/** \brief class pointer
- */
 typedef GLUTWindow *GLUTWindowP;
-
-/** \brief GLUTWindowPtr
- */
-typedef FCPtr<WindowPtr, GLUTWindow> GLUTWindowPtr;
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief GLUTWindowPtr field traits 
- */
-
-template <>
-struct FieldDataTraits<GLUTWindowPtr> : public Traits
-{
-    static DataType                 _type;
-    enum                            { StringConvertable = 0x00  };
-
-    static DataType &getType (void) { return _type;             }
-    static Char8    *getSName(void) { return "SFGLUTWindowPtr"; }
-    static Char8    *getMName(void) { return "MFGLUTWindowPtr"; }
-};
-
-/** \brief SFGLUTWindowPtr
- */
-
-typedef SField<GLUTWindowPtr>       SFGLUTWindowPtr;
-
-#ifndef OSG_COMPILEGLUTWINDOWINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GLUTWindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, GLUTWindowPtr, OSG_GLUTWINDOWLIB_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-/** \brief MFGLUTWindowPtr
- */
-
-typedef MField<GLUTWindowPtr>       MFGLUTWindowPtr;
-
-#ifndef OSG_COMPILEGLUTWINDOWINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<GLUTWindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, GLUTWindowPtr, OSG_GLUTWINDOWLIB_DLLTMPLMAPPING)
-
-#endif
-#endif
 
 OSG_END_NAMESPACE
 
-#include "OSGGLUTWindow.inl"
+#include <OSGGLUTWindow.inl>
+#include <OSGGLUTWindowBase.inl>
+
+#define OSGGLUTWINDOW_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* OSG_WITH_GLUT */
 
-#endif /* _OSG_GLUT_WINDOW_H_ */
+#endif /* _OSGGLUTWINDOW_H_ */

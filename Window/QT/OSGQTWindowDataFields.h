@@ -36,130 +36,76 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-// Minimalistic OpenSG program
 
-// GLUT is used for window handling
-#include <GL/glut.h>
+#ifndef _OSGQTWINDOWDATAFIELDS_H_
+#define _OSGQTWINDOWDATAFIELDS_H_
+#ifdef __sgi
+#pragma once
+#endif
 
-// General OpenSG configuration, needed everywhere
+
 #include <OSGConfig.h>
 
-// The GLUT-OpenSG connection class
-#include <OSGGLUTWindow.h>
+#include <OSGBaseTypes.h>
+#include <OSGFieldDataType.h>
 
-// A little helper to simplify scene management and interaction
-#include <OSGSimpleSceneManager.h>
-
-// Methods to create simple geometry: boxes, spheres, tori etc.
-#include <OSGSimpleGeometry.h>
+#include "OSGQGLWidget_qt.h"
 
 
-#include <OSGSceneFileHandler.h>
+/*! The field types for the local types needed by the QTWindow class */
+
+OSG_BEGIN_NAMESPACE
 
 
-// Activate the OpenSG namespace
-OSG_USING_NAMESPACE
-
-SimpleSceneManager *mgr;
-
-NodePtr scene;
-
-// Standard GLUT callback functions
-void display( void )
+template <>
+struct FieldDataTraits<OSGQGLWidgetP> : 
+    public FieldTraitsRecurseBase<OSGQGLWidgetP>
 {
-    mgr->idle();
-    mgr->redraw();
-}
+    static DataType             _type;                       
 
-void reshape( int w, int h )
-{
-    mgr->resize( w, h );
-    glutPostRedisplay();
-}
+    enum                        { StringConvertable = ToStringConvertable };
+    enum                        { bHasParent        = 0x00 };
 
-void
-motion(int x, int y)
-{
-    mgr->mouseMove( x, y );
-    glutPostRedisplay();
-}
+    static DataType &getType (void) { return _type;        }
 
-void
-mouse(int button, int state, int x, int y)
-{
-    if ( state )
-        mgr->mouseButtonRelease( button, x, y );
-    else
-        mgr->mouseButtonPress( button, x, y );
-    glutPostRedisplay();
-}
+    static char     *getSName(void) { return "SFOSGQGLWidgetP"; }
+    static char     *getMName(void) { return "MFOSGQGLWidgetP"; }
 
-void
-key(unsigned char key, int x, int y)
-{
-    switch(key)
+    static void      putToString  (const OSGQGLWidgetP &,
+                                         string   &outVal)
     {
-    case 27:    exit(1);
-    case 'a':   mgr->setHighlight( scene );
-                break;
-    case 's':   mgr->setHighlight( NullFC );
-                break;
-    case 'l':   mgr->useOpenSGLogo();
-                break;
-    case 'f':   mgr->setNavigationMode(Navigator::FLY);
-                break;
-    case 't':   mgr->setNavigationMode(Navigator::TRACKBALL);
-                break;
+        outVal.assign("OSGQGLWidgetP");
     }
-    mgr->key(key,x,y);
-    glutPostRedisplay();
-}
+};
 
-// Initialize GLUT & OpenSG and set up the scene
-int main (int argc, char **argv)
-{
-    // OSG init
-    osgInit(argc,argv);
+//! SFOSGQGLWidgetP
+//! \ingroup SingleFields
 
-    // GLUT init
-    glutInit(&argc, argv);
-    glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-    int winid = glutCreateWindow("OpenSG");
-    glutReshapeFunc(reshape);
-    glutDisplayFunc(display);
-    glutMouseFunc(mouse);
-    glutMotionFunc(motion);
-    glutKeyboardFunc(key);
-    glutIdleFunc(display);
+typedef SField<OSGQGLWidgetP> SFOSGQGLWidgetP;
 
-    // the connection between GLUT and OpenSG
-    GLUTWindowPtr gwin= GLUTWindow::create();
-    gwin->setId(winid);
-    gwin->init();
+//! MFOSGQGLWidgetP
+//! \ingroup MultiFields
 
-    // create the scene
+typedef MField<OSGQGLWidgetP> MFOSGQGLWidgetP;
 
-    NodePtr scene;
-    
-    if(argc < 2)
-    {
-        scene = makeTorus(.5, 2, 16, 16);
-    }
-    else
-    {
-        scene = SceneFileHandler::the().read(argv[1]);
-    }
+// Instantiations
 
-    // create the SimpleSceneManager helper
-    mgr = new SimpleSceneManager;
+#ifndef OSG_COMPILEWINDOWQTINST
+#if defined(__sgi)
 
-    mgr->setWindow( gwin );
-    mgr->setRoot( scene );
+#pragma do_not_instantiate SField<OSGQGLWidgetP>::_fieldType
+#pragma do_not_instantiate MField<OSGQGLWidgetP>::_fieldType
 
-    mgr->showAll();
+#else
 
-    // GLUT main loop
-    glutMainLoop();
+OSG_DLLEXPORT_DECL1(SField, OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
 
-    return 0;
-}
+#endif
+#endif
+
+OSG_END_NAMESPACE
+
+#define OSGQTWINDOWDATAFIELDS_HEADER_CVSID "@(#)$Id: OSGQTWindowDataFields.h,v 1.1 2002/02/05 20:39:34 dirk Exp $"
+
+#endif /* _OSGQTWINDOWDATAFIELDS_H_ */

@@ -40,114 +40,80 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEWINDOWWIN32INST
-
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
 
 // Forget everything if we're not doing a windows compile
 #ifdef WIN32
 
-#include "OSGViewport.h"
-#include "OSGCamera.h"
-#include "OSGBackground.h"
 #include "OSGWIN32Window.h"
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGWIN32WINDOW_HEADER_CVSID;
+    static char cvsid_inl[] = OSGWIN32WINDOW_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*! \class osg::WIN32Window
-    \ingroup Windows
-
-The WIN32Window class.
-
+The class for WIN32 windows. 	
 */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*----------------------- constructors & destructors ----------------------*/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+//! Constructor
 
-char WIN32Window::cvsid[] = "@(#)$Id: $";
-
-// Static Class Varible implementations: 
-
-FieldContainerType WIN32Window::_type(
-    "WIN32Window",
-    "Window",
-    0,
-    (PrototypeCreateF) &WIN32Window::createEmpty,
-    0,
-    NULL,
-    0);
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-OSG_FIELD_CONTAINER_DEF(WIN32Window, WIN32WindowPtr)
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-WIN32Window::WIN32Window( void ) :
+WIN32Window::WIN32Window(void) :
     Inherited()
 {
 }
 
-WIN32Window::WIN32Window( const WIN32Window& source ) :
+//! Copy Constructor
+
+WIN32Window::WIN32Window(const WIN32Window &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+//! Destructor
 
 WIN32Window::~WIN32Window(void)
 {
-    // delete the ports and the context
 }
 
-/*------------------------------ access -----------------------------------*/
+/*----------------------------- class specific ----------------------------*/
 
-/*---------------------------- properties ---------------------------------*/
+//! initialize the static features of the class, e.g. action callbacks
+
+void WIN32Window::initMethod (void)
+{
+}
+
+//! react to field changes
+
+void WIN32Window::changed(BitVector, ChangeMode)
+{
+}
+
+//! output the instance for debug purposes
+
+void WIN32Window::dump(      UInt32    , 
+                         const BitVector ) const
+{
+    SLOG << "Dump WIN32Window NI" << endl;
+}
 
 /*-------------------------- your_category---------------------------------*/
 
@@ -155,14 +121,17 @@ WIN32Window::~WIN32Window(void)
 // init the window: create the HDC and context
 void WIN32Window::init( void )
 {
-    _hdc = GetDC(_hwin);
+    setHdc(GetDC(getHwin()));
 
-    if ( _glcx == NULL && ! ( _glcx = wglCreateContext( _hdc ) ) )
+    if(getHglrc() == NULL )
     {
-        cout << "WIN32Window::init: failed: " << GetLastError() << endl;        
+        setHglrc(wglCreateContext(getHdc()));
+        
+        if(getHglrc() == NULL)
+            cout << "WIN32Window::init: failed: " << GetLastError() << endl;        
     }
 
-    ReleaseDC(_hwin,_hdc);
+    ReleaseDC(getHwin(),getHdc());
     activate();
     setupGL();
     deactivate();
@@ -171,9 +140,9 @@ void WIN32Window::init( void )
 // activate the window: bind the OGL context
 void WIN32Window::activate( void )
 {    
-    _hdc = GetDC(_hwin);
+    setHdc(GetDC(getHwin()));
 
-    if ( ! wglMakeCurrent( _hdc, _glcx ) )
+    if(!wglMakeCurrent(getHdc(), getHglrc() ) )
     {
         cout << "WIN32Window::activate: failed: " << GetLastError() << endl;        
     }
@@ -185,64 +154,13 @@ void WIN32Window::deactivate ( void )
     wglMakeCurrent(NULL, NULL);
 
     // release the hardware device context
-    ReleaseDC(_hwin,_hdc);
+    ReleaseDC(getHwin(),getHdc());
 }
 
 // swap front and back buffers
 void WIN32Window::swap( void )
 {
-    SwapBuffers( _hdc );
+    SwapBuffers(getHdc());
 }
 
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-void WIN32Window::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
-                       const BitVector OSG_CHECK_ARG(bvFlags )) const
-{
-    SLOG << "Dump WIN32Window NI" << endLog;
-}
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-#endif  // Windows compile?
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
-
+#endif // WIN32

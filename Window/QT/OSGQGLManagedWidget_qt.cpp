@@ -47,9 +47,9 @@
 
 #include "OSGConfig.h"
 
-#include "OSGQTWindow.h"
-
 #include "OSGQGLManagedWidget_qt.h"
+
+#include "OSGQTWindow.h"
 
 OSG_USING_NAMESPACE
 
@@ -59,7 +59,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.12 2002/02/04 20:14:13 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.13 2002/02/05 20:39:34 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGQGLMANAGEDWIDGET_HEADER_CVSID;
 }
 

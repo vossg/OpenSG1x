@@ -72,7 +72,7 @@ class OSG_WINDOWXLIB_DLLMAPPING XWindow : public XWindowBase
     /*! \name            GL implementation functions                       */
     /*! \{                                                                 */
 
-    virtual void    (*getFunctionByName ( const Char8 *s ))();
+    virtual void    (*getFunctionByName ( const Char8 *s ))(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

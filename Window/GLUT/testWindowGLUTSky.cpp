@@ -73,6 +73,12 @@ display(void)
     m2.setTranslate( tball.getPosition() );
 
     m1.mult( m2 );
+    
+    m3.setIdentity();
+//    m3.setScale(.0001);
+ 
+    m1.mult( m3 );
+   
     cam_trans->getSFMatrix()->setValue( m1 );
 
     win->draw( ract );
@@ -207,16 +213,6 @@ int main (int argc, char **argv)
     
     glutIdleFunc(display);  
 
-    // glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-    
-    glEnable( GL_DEPTH_TEST );
-    glEnable( GL_LIGHTING );
-    glEnable( GL_LIGHT0 );
-
-    // OSG
-
-    SceneFileHandler::the().print();
-
     // create the graph
 
     // beacon for camera and light  
@@ -249,7 +245,7 @@ int main (int argc, char **argv)
     dl->setAmbient( .3, .3, .3, 1 );
     dl->setDiffuse( 1, 1, 1, 1 );
     dl->setDirection(0,0,1);
-    dl->setBeacon( b1n);
+    dl->setBeacon(b1n);
     endEditCP(dl);
 
     // root
@@ -283,9 +279,9 @@ int main (int argc, char **argv)
     PerspectiveCameraPtr cam = PerspectiveCamera::create();
 
     cam->setBeacon( b1n );
-    cam->setFov( deg2rad( 60 ) );
-    cam->setNear( 0.1 );
-    cam->setFar( 10000 );
+    cam->setFov( Pi/2 );
+    cam->setNear( 1 );
+    cam->setFar( 100000 );
 
     // Background
     SkyBackgroundPtr sky = SkyBackground::create();
@@ -345,8 +341,9 @@ int main (int argc, char **argv)
     glGetIntegerv( GL_VIEWPORT, glvp );
 
     gwin = GLUTWindow::create();
-    gwin->setWinID(winid);
+    gwin->setId(winid);
     gwin->setSize( glvp[2], glvp[3] );
+    gwin->init();
 
     win = gwin;
 

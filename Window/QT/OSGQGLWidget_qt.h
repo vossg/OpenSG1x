@@ -48,19 +48,6 @@
 
 #ifdef OSG_WITH_QT
 
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEQTWINDOWLIB
-#       define OSG_QTWINDOWLIB_DLLMAPPING     __declspec(dllexport)
-#       define OSG_QTWINDOWLIB_DLLTMPLMAPPING __declspec(dllexport)
-#   else
-#       define OSG_QTWINDOWLIB_DLLMAPPING     __declspec(dllimport)
-#       define OSG_QTWINDOWLIB_DLLTMPLMAPPING __declspec(dllimport)
-#   endif
-#else
-#define OSG_QTWINDOWLIB_DLLMAPPING
-#define OSG_QTWINDOWLIB_DLLTMPLMAPPING
-#endif
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -83,6 +70,7 @@
 #endif
 
 #include "OSGConfig.h"
+#include <OSGWindowQTDef.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -101,7 +89,7 @@ OSG_BEGIN_NAMESPACE
 /*! OSGQGL widget class
  */
 
-class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLWidget : public QGLWidget
+class OSG_WINDOWQTLIB_DLLMAPPING OSGQGLWidget : public QGLWidget
 {
   Q_OBJECT
 
@@ -194,13 +182,8 @@ class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLWidget : public QGLWidget
 
 /** \brief class pointer
  */
-/** \brief QTWindowPtr
- */
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief QTWindowPtr field traits 
- */
+
+typedef OSGQGLWidget *OSGQGLWidgetP;
 
 OSG_END_NAMESPACE
 

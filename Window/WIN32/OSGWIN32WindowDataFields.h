@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGXWINDOWDATAFIELDS_H_
-#define _OSGXWINDOWDATAFIELDS_H_
+#ifndef _OSGWIN32WINDOWDATAFIELDS_H_
+#define _OSGWIN32WINDOWDATAFIELDS_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -46,23 +46,20 @@
 
 #include <OSGConfig.h>
 
-#include <GL/glx.h>
+// Forget everything if we're not doing a windows compile
+#ifdef WIN32
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDataType.h>
 
+#include <windows.h>
 
-/*! The field types for the local types needed by the XWindow class */
+/*! The field types for the local types needed by the WIN32WINdow class */
 
 OSG_BEGIN_NAMESPACE
 
-
-typedef Display *DisplayP;
-typedef ::Window X11Window;
-
-
 template <>
-struct FieldDataTraits<DisplayP> : public FieldTraitsRecurseBase<DisplayP>
+struct FieldDataTraits<HWND> : public FieldTraitsRecurseBase<HWND>
 {
     static DataType             _type;                       
 
@@ -71,18 +68,18 @@ struct FieldDataTraits<DisplayP> : public FieldTraitsRecurseBase<DisplayP>
 
     static DataType &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFDisplayP"; }
-    static char     *getMName(void) { return "MFDisplayP"; }
+    static char     *getSName(void) { return "SFHWND"; }
+    static char     *getMName(void) { return "MFHWND"; }
 
-    static void      putToString  (const DisplayP &,
+    static void      putToString  (const HWND &,
                                          string   &outVal)
     {
-        outVal.assign("DisplayP");
+        outVal.assign("HWND");
     }
 };
 
 template <>
-struct FieldDataTraits<X11Window> : public FieldTraitsRecurseBase<X11Window>
+struct FieldDataTraits<HDC> : public FieldTraitsRecurseBase<HDC>
 {
     static DataType             _type;                       
 
@@ -91,18 +88,18 @@ struct FieldDataTraits<X11Window> : public FieldTraitsRecurseBase<X11Window>
 
     static DataType &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFX11Window"; }
-    static char     *getMName(void) { return "MFX11Window"; }
+    static char     *getSName(void) { return "SFHDC"; }
+    static char     *getMName(void) { return "MFHDC"; }
 
-    static void      putToString  (const X11Window &,
+    static void      putToString  (const HDC &,
                                          string    &outVal)
     {
-        outVal.assign("X11Window");
+        outVal.assign("HDC");
     }
 };
 
 template <>
-struct FieldDataTraits<GLXContext> : public FieldTraitsRecurseBase<GLXContext>
+struct FieldDataTraits<HGLRC> : public FieldTraitsRecurseBase<HGLRC>
 {
     static DataType             _type;                       
 
@@ -111,74 +108,110 @@ struct FieldDataTraits<GLXContext> : public FieldTraitsRecurseBase<GLXContext>
 
     static DataType &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFGLXContext"; }
-    static char     *getMName(void) { return "MFGLXContext"; }
+    static char     *getSName(void) { return "SFHGLRC"; }
+    static char     *getMName(void) { return "MFHGLRC"; }
 
-    static void      putToString  (const GLXContext &,
+    static void      putToString  (const HGLRC &,
                                          string     &outVal)
     {
-        outVal.assign("GLXContext");
+        outVal.assign("HGLRC");
     }
 };
 
-//! SFDisplayP
+template <>
+struct FieldDataTraits<PAINTSTRUCT> : public FieldTraitsRecurseBase<PAINTSTRUCT>
+{
+    static DataType             _type;                       
+
+    enum                        { StringConvertable = ToStringConvertable };
+    enum                        { bHasParent        = 0x00 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFPAINTSTRUCT"; }
+    static char     *getMName(void) { return "MFPAINTSTRUCT"; }
+
+    static void      putToString  (const PAINTSTRUCT &,
+                                         string     &outVal)
+    {
+        outVal.assign("PAINTSTRUCT");
+    }
+};
+
+//! SFHWND
 //! \ingroup SingleFields
 
-typedef SField<DisplayP> SFDisplayP;
+typedef SField<HWND> SFHWND;
 
-//! MFDisplayP
+//! MFHWND
 //! \ingroup MultiFields
 
-typedef MField<DisplayP> MFDisplayP;
+typedef MField<HWND> MFHWND;
 
-//! SFX11Window
+//! SFHDC
 //! \ingroup SingleFields
 
-typedef SField<X11Window> SFX11Window;
+typedef SField<HDC> SFHDC;
 
-//! MFX11Window
+//! MFHDC
 //! \ingroup MultiFields
 
-typedef MField<X11Window> MFX11Window;
+typedef MField<HDC> MFHDC;
 
-//! SFGLXContext
+//! SFHGLRC
 //! \ingroup SingleFields
 
-typedef SField<GLXContext> SFGLXContext;
+typedef SField<HGLRC> SFHGLRC;
 
-//! MFGLXContext
+//! MFHGLRC
 //! \ingroup MultiFields
 
-typedef MField<GLXContext> MFGLXContext;
+typedef MField<HGLRC> MFHGLRC;
+
+//! SFPAINTSTRUCT
+//! \ingroup SingleFields
+
+typedef SField<PAINTSTRUCT> SFPAINTSTRUCT;
+
+//! MFPAINTSTRUCT
+//! \ingroup MultiFields
+
+typedef MField<PAINTSTRUCT> MFPAINTSTRUCT;
 
 // Instantiations
 
 #ifndef OSG_COMPILEWINDOWXINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<DisplayP>  ::_fieldType
-#pragma do_not_instantiate SField<X11Window> ::_fieldType
-#pragma do_not_instantiate SField<GLXContext>::_fieldType
+#pragma do_not_instantiate SField<HWND>       ::_fieldType
+#pragma do_not_instantiate SField<HDC>        ::_fieldType
+#pragma do_not_instantiate SField<HGLRC>      ::_fieldType
+#pragma do_not_instantiate SField<PAINTSTRUCT>::_fieldType
 
-#pragma do_not_instantiate MField<DisplayP>  ::_fieldType
-#pragma do_not_instantiate MField<X11Window> ::_fieldType
-#pragma do_not_instantiate MField<GLXContext>::_fieldType
+#pragma do_not_instantiate MField<HWND>       ::_fieldType
+#pragma do_not_instantiate MField<HDC>        ::_fieldType
+#pragma do_not_instantiate MField<HGLRC>      ::_fieldType
+#pragma do_not_instantiate MField<PAINTSTRUCT>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DECL1(SField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DECL1(SField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, HWND,        OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, HDC,         OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, HGLRC,       OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, PAINTSTRUCT, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 
-OSG_DLLEXPORT_DECL1(MField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DECL1(MField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DECL1(MField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, HWND,        OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, HDC,         OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, HGLRC,       OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, PAINTSTRUCT, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 
 #endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowDataFields.h,v 1.2 2002/02/05 20:39:35 dirk Exp $"
+#define OSGWINDOWWIN32DATAFIELDS_HEADER_CVSID "@(#)$Id: OSGWIN32WindowDataFields.h,v 1.1 2002/02/05 20:39:35 dirk Exp $"
 
-#endif /* _OSGXWINDOWDATAFIELDS_H_ */
+#endif /* WIN32 */
+
+#endif /* _OSGWIN32WINDOWDATAFIELDS_H_ */

@@ -36,278 +36,95 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSG_QT_WINDOW_H_
-#define _OSG_QT_WINDOW_H_
+#ifndef _OSGQTWINDOW_H_
+#define _OSGQTWINDOW_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
+#include <OSGConfig.h>
 
-#ifdef OSG_WITH_QT
-
-#ifdef __sgi
-#pragma set woff 1375
-#endif
-
-#ifdef OSG_WIN32_ICL
-#pragma warning (disable : 171)
-#endif
-
-#include <qgl.h>
-
-#ifdef OSG_WIN32_ICL
-#pragma warning (error : 171)
-#endif
-
-#ifdef __sgi
-#pragma reset woff 1375
-#endif
-
-#include "OSGWindow.h"
-
-#ifdef WIN32
-#include "OSGWIN32Window.h"
-#else
-#include "OSGXWindow.h"
-#endif
-
-#include "OSGQGLWidget_qt.h"
+#include <OSGQTWindowBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-class QTWindow;
-
-typedef FCPtr <WindowPtr, QTWindow> QTWindowPtr;
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \brief QT window class
+/*! \brief *put brief class description here* 
  */
 
-#ifdef WIN32
-class OSG_QTWINDOWLIB_DLLMAPPING QTWindow : public WIN32Window
-#else
-class OSG_QTWINDOWLIB_DLLMAPPING QTWindow : public XWindow
-#endif
+class OSG_WINDOWQTLIB_DLLMAPPING QTWindow : public QTWindowBase
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    static const char *getClassname(void) { return "QTWindow"; };
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    /*-------------- general fieldcontainer declaration --------------------*/
-
-    OSG_FIELD_CONTAINER_DECL(QTWindowPtr)
-
-    /*------------------------- your_category -------------------------------*/
-    
-    // Window-system dependent functions
-    
-    // init the window: create the context
-    virtual void init( void );
-    
-    /****** derived from WIN32Window / XWindow
-    
-    // activate the window: bind the OGL context    
-    // set the active window, if needed
-    virtual void activate( void );
-    
-    // swap buffers     for this window
-    // does not set the active window!
-    virtual void swap( void );
-
-    */
-
-    /*------------------------- your_operators ------------------------------*/
-
-    void         setGlWidget  (OSGQGLWidget *glWidget) { _glWidget = glWidget; };
-    OSGQGLWidget *getGlWidget (void)                   { return _glWidget; };
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
-    virtual void dump(      UInt32    uiIndent = 0, 
-                      const BitVector bvFlags  = 0) const;
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-    
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    QTWindow(void);
-    virtual ~QTWindow(void); 
-
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    typedef QTWindowBase Inherited;
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-#ifdef WIN32
-    typedef WIN32Window Inherited;
-#else
-    typedef XWindow Inherited;
-#endif
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector  bvFlags  = 0) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Window functions                              */
+    /*! \{                                                                 */
+
+    // init the window: create the context
+    virtual void init( void );
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    // Variables should all be in QTWindowBase.
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    QTWindow(void);
+    QTWindow(const QTWindow &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~QTWindow(void); 
+
+    /*! \}                                                                 */
+    
+    /*==========================  PRIVATE  ================================*/
+  private:
 
     friend class FieldContainer;
-    friend class FieldContainerType;
+    friend class QTWindowBase;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    static FieldContainerType _type;
- 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    /// QT Widget
-    OSGQGLWidget* _glWidget;
-    
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
 
-    QTWindow(const QTWindow &source);
     void operator =(const QTWindow &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-/** \brief class pointer
- */
 typedef QTWindow *QTWindowP;
-
-/** \brief QTWindowPtr
- */
-typedef FCPtr<WindowPtr, QTWindow> QTWindowPtr;
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief QTWindowPtr field traits 
- */
-
-template <>
-struct FieldDataTraits<QTWindowPtr> : public Traits
-{
-    enum                         { StringConvertable = 0x00  };
-
-    static Char8 *getSName(void) { return "SFQTWindowPtr"; }
-    static Char8 *getMName(void) { return "MFQTWindowPtr"; }
-};
-
-/** \brief SFQTWindowPtr
- */
-typedef SField<QTWindowPtr>       SFQTWindowPtr;
-
-#ifndef OSG_COMPILEQTWINDOWINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<QTWindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, QTWindowPtr, OSG_QTWINDOWLIB_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-/** \brief MFQTWindowPtr
- */
-typedef MField<QTWindowPtr>       MFQTWindowPtr;
-
-#ifndef OSG_COMPILEQTWINDOWINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<QTWindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, QTWindowPtr, OSG_QTWINDOWLIB_DLLTMPLMAPPING)
-
-#endif
-#endif
 
 OSG_END_NAMESPACE
 
 #include <OSGQTWindow.inl>
+#include <OSGQTWindowBase.inl>
 
-#endif /* OSG_WITH_QT */
+#define OSGQTWINDOW_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSG_QT_WINDOW_H_ */
+#endif /* _OSGQTWINDOW_H_ */

@@ -36,18 +36,20 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#ifdef OSG_WITH_GLUT
+
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEGLUTWINDOWINST
-
-#ifdef OSG_WITH_GLUT
-
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
+
+#define OSG_COMPILEWINDOWGLUTINST
+
+#include "OSGGLUTWindow.h"
 
 #include <GL/glut.h>
 
@@ -66,120 +68,70 @@
 
 OSG_USING_NAMESPACE
 
-
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
-
-/*! \class osg::GLUTWindow
-    \ingroup Windows
-
-The GLUTWindow class.
-
-*/
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<GLUTWindowPtr>::_type("GLUTWindowPtr", 
-                                               "WindowPtr",
-                                               true);
-
-#if defined(__sgi)
-
-#pragma instantiate SField<GLUTWindowPtr>::_fieldType
-#pragma instantiate MField<GLUTWindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, GLUTWindowPtr, OSG_GLUTWINDOWLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, GLUTWindowPtr, OSG_GLUTWINDOWLIB_DLLTMPLMAPPING)
-
+#ifdef __sgi
+#pragma set woff 1174
 #endif
 
-OSG_END_NAMESPACE
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGGLUTWINDOW_HEADER_CVSID;
+    static char cvsid_inl[] = OSGGLUTWINDOW_INLINE_CVSID;
+}
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
-char GLUTWindow::cvsid[] = "@(#)$Id: $";
+/*! \class osg::GLUTWindow
+The class for GLUT-based windows. 	
+*/
 
-// Static Class Varible implementations: 
+/*----------------------- constructors & destructors ----------------------*/
 
-FieldContainerType GLUTWindow::_type(
-    "GLUTWindow", 
-    "Window", 
-    0,
-    (PrototypeCreateF) &GLUTWindow::createEmpty,
-    0,
-    NULL, 
-    0);
+//! Constructor
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-OSG_FIELD_CONTAINER_DEF(GLUTWindow, GLUTWindowPtr)
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-GLUTWindow::GLUTWindow( void ) :
-    Inherited(), _winid( 0 )
+GLUTWindow::GLUTWindow(void) :
+    Inherited()
 {
 }
 
-GLUTWindow::GLUTWindow( const GLUTWindow& source ) :
-    Inherited( source ), _winid( source._winid )
+//! Copy Constructor
+
+GLUTWindow::GLUTWindow(const GLUTWindow &source) :
+    Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+//! Destructor
 
 GLUTWindow::~GLUTWindow(void)
 {
-    // delete the ports and the context
 }
 
-/*------------------------------ access -----------------------------------*/
+/*----------------------------- class specific ----------------------------*/
 
-/*---------------------------- properties ---------------------------------*/
+//! initialize the static features of the class, e.g. action callbacks
 
-/*-------------------------- your_category---------------------------------*/
+void GLUTWindow::initMethod (void)
+{
+}
 
+//! react to field changes
+
+void GLUTWindow::changed(BitVector, ChangeMode)
+{
+}
+
+//! output the instance for debug purposes
+
+void GLUTWindow::dump(      UInt32    , 
+                         const BitVector ) const
+{
+    SLOG << "Dump GLUTWindow NI" << endl;
+}
+    
+/* ------------- Window functions -----------------------*/    
     
 // init the window: create the context  
 void GLUTWindow::init( void )
@@ -190,8 +142,13 @@ void GLUTWindow::init( void )
 // activate the window: bind the OGL context    
 void GLUTWindow::activate( void )
 {
-    if ( glutGetWindow() != _winid )
-        glutSetWindow( _winid );
+    if ( glutGetWindow() != getId() )
+        glutSetWindow( getId() );
+}
+    
+// deactivate the window  
+void GLUTWindow::deactivate( void )
+{
 }
     
 // swap front and back buffers  
@@ -202,7 +159,7 @@ void GLUTWindow::swap( void )
 
 
 // Query for a GL extension function
-GLUTWindow::GLExtensionFunc GLUTWindow::getFunctionByName(const Char8 *s)
+void (*GLUTWindow::getFunctionByName(const Char8 *s))(void)
 {
 #ifdef sgi
     static void *libHandle = NULL;
@@ -217,56 +174,5 @@ GLUTWindow::GLExtensionFunc GLUTWindow::getFunctionByName(const Char8 *s)
     return (  glXGetProcAddressARB((const GLubyte *)s )  );
 #endif
 }
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-void GLUTWindow::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
-                      const BitVector OSG_CHECK_ARG(bvFlags )) const
-{
-    SLOG << "Dump GLUTWindow NI" << endl;
-}
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 
 #endif // OSG_WITH_GLUT

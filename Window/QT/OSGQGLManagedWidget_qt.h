@@ -42,6 +42,8 @@
 #pragma once
 #endif
 
+#include <OSGWindowQTDef.h>
+
 #include "OSGBaseTypes.h"
 
 #include "OSGQGLWidget_qt.h"
@@ -55,7 +57,7 @@ OSG_BEGIN_NAMESPACE
  *  \brief Brief
  */
 
-class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLManagedWidget : public OSGQGLWidget
+class OSG_WINDOWQTLIB_DLLMAPPING OSGQGLManagedWidget : public OSGQGLWidget
 {
 
   Q_OBJECT
@@ -146,6 +148,6 @@ typedef OSGQGLManagedWidget *OSGQGLManagedWidgetP;
 
 OSG_END_NAMESPACE
 
-#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.6 2002/02/04 20:14:13 dirk Exp $"
+#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQGLManagedWidget_qt.h,v 1.7 2002/02/05 20:39:34 dirk Exp $"
 
 #endif /* _OSGQGLManagedWidget_H_ */
