@@ -110,18 +110,11 @@ SFString *SHLChunkBase::getSFFragmentProgram(void)
     return &_sfFragmentProgram;
 }
 
-//! Get the SHLChunk::_mfParamNames field.
+//! Get the SHLChunk::_mfParameters field.
 inline
-MFString *SHLChunkBase::getMFParamNames(void)
+MFSHLUniformBasePtr *SHLChunkBase::getMFParameters(void)
 {
-    return &_mfParamNames;
-}
-
-//! Get the SHLChunk::_mfParamValues field.
-inline
-MFVec4f *SHLChunkBase::getMFParamValues(void)
-{
-    return &_mfParamValues;
+    return &_mfParameters;
 }
 
 //! Get the SHLChunk::_sfGLId field.
@@ -196,49 +189,28 @@ void SHLChunkBase::setGLId(const UInt32 &value)
 }
 
 
-//! Get the value of the \a index element the SHLChunk::_mfParamNames field.
+//! Get the value of the \a index element the SHLChunk::_mfParameters field.
 inline
-std::string &SHLChunkBase::getParamNames(const UInt32 index)
+SHLUniformBasePtr &SHLChunkBase::getParameters(const UInt32 index)
 {
-    return _mfParamNames[index];
+    return _mfParameters[index];
 }
 
-//! Get the SHLChunk::_mfParamNames field.
+//! Get the SHLChunk::_mfParameters field.
 inline
-MFString &SHLChunkBase::getParamNames(void)
+MFSHLUniformBasePtr &SHLChunkBase::getParameters(void)
 {
-    return _mfParamNames;
+    return _mfParameters;
 }
 
-//! Get the SHLChunk::_mfParamNames field.
+//! Get the SHLChunk::_mfParameters field.
 inline
-const MFString &SHLChunkBase::getParamNames(void) const
+const MFSHLUniformBasePtr &SHLChunkBase::getParameters(void) const
 {
-    return _mfParamNames;
-}
-
-//! Get the value of the \a index element the SHLChunk::_mfParamValues field.
-inline
-Vec4f &SHLChunkBase::getParamValues(const UInt32 index)
-{
-    return _mfParamValues[index];
-}
-
-//! Get the SHLChunk::_mfParamValues field.
-inline
-MFVec4f &SHLChunkBase::getParamValues(void)
-{
-    return _mfParamValues;
-}
-
-//! Get the SHLChunk::_mfParamValues field.
-inline
-const MFVec4f &SHLChunkBase::getParamValues(void) const
-{
-    return _mfParamValues;
+    return _mfParameters;
 }
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.1 2004/05/07 16:04:31 a-m-z Exp $"
+#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.2 2004/06/04 19:59:26 a-m-z Exp $"
 

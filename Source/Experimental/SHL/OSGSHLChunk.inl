@@ -42,49 +42,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*--------------------------- Access ------------------------------------*/
-
-/*! Concvenience function to add a new parameter and directly set its value.
-*/
-inline
-bool SHLChunk::addParameter(const char   *name, 
-                                      Int16  index, 
-                                const Vec4f  &value)
-{
-    addParameter(name, index);
-    return setParameter(index, value);
-}
-
-inline 
-const Vec4f &SHLChunk::getParameter(const char *name)
-{
-    return getParameter(findParameter(name));
-}
-
-inline 
-const Vec4f &SHLChunk::getParameter(const std::string &name)
-{
-    return getParameter(findParameter(name.c_str()));
-}
-
-inline       
-bool SHLChunk::setParameter(const char *name, const Vec4f& value)
-{
-    return setParameter(findParameter(name), value);
-}
-
-inline       
-bool SHLChunk::setParameter(const std::string &name, const Vec4f &value)
-{
-    return setParameter(findParameter(name.c_str()), value);
-}
-    
-inline
-Int16 SHLChunk::findParameter(const char *name)
-{
-    return findParameter(std::string(name));
-}
-
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNK_INLINE_CVSID "@(#)$Id: OSGSHLChunk.inl,v 1.1 2004/05/07 16:04:31 a-m-z Exp $"
+#define OSGSHLCHUNK_INLINE_CVSID "@(#)$Id: OSGSHLChunk.inl,v 1.2 2004/06/04 19:59:26 a-m-z Exp $"

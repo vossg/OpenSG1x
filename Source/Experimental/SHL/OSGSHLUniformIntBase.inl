@@ -4,8 +4,6 @@
  *                                                                           *
  *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
- *                            www.opensg.org                                 *
- *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
@@ -44,88 +42,91 @@
  **          Any changes made to this file WILL be lost when it is          **
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
+ **     Do not change this file, changes should be done in the derived      **
+ **     class SHLUniformInt!
+ **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
-
-#ifndef _OSGSHLCHUNKFIELDS_H_
-#define _OSGSHLCHUNKFIELDS_H_
-#ifdef __sgi
-#pragma once
-#endif
-
 #include <OSGConfig.h>
-
-#include <OSGFieldContainerPtr.h>
-#include <OSGNodeCoreFieldDataType.h>
-#include <OSGSystemDef.h>
-
-#include <OSGStateChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class SHLChunk;
 
-#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
-//! SHLChunkPtr
-
-typedef FCPtr<StateChunkPtr, SHLChunk> SHLChunkPtr;
-
-#endif
-
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpSystemFieldTraits
- */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
-
-template <>
-struct FieldDataTraits<SHLChunkPtr> : 
-    public FieldTraitsRecurseMapper<SHLChunkPtr, true>
+//! access the type of the class
+inline
+OSG::FieldContainerType &SHLUniformIntBase::getClassType(void)
 {
-    static DataType             _type;                       
+    return _type; 
+} 
 
-    enum                        { StringConvertable = 0x00 };
-    enum                        { bHasParent        = 0x01 };
+//! access the numerical type of the class
+inline
+OSG::UInt32 SHLUniformIntBase::getClassTypeId(void) 
+{
+    return _type.getId(); 
+} 
 
-    static DataType &getType (void) { return _type;        }
+//! create a new instance of the class
+inline
+SHLUniformIntPtr SHLUniformIntBase::create(void) 
+{
+    SHLUniformIntPtr fc; 
 
-    static char     *getSName(void) { return "SFSHLChunkPtr"; }
-    static char     *getMName(void) { return "MFSHLChunkPtr"; }
-};
+    if(getClassType().getPrototype() != OSG::NullFC) 
+    {
+        fc = SHLUniformIntPtr::dcast(
+            getClassType().getPrototype()-> shallowCopy()); 
+    }
+    
+    return fc; 
+}
 
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsRecurseMapper<SHLChunkPtr, true>
-    \hideinhierarchy
- */
-#endif
+//! create an empty new instance of the class, do not copy the prototype
+inline
+SHLUniformIntPtr SHLUniformIntBase::createEmpty(void) 
+{ 
+    SHLUniformIntPtr returnValue; 
+    
+    newPtr(returnValue); 
 
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+    return returnValue; 
+}
 
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpSystemFieldSingle */
+/*------------------------------ get -----------------------------------*/
 
-typedef SField<SHLChunkPtr> SFSHLChunkPtr;
-#endif
+//! Get the SHLUniformInt::_sfValue field.
+inline
+SFInt32 *SHLUniformIntBase::getSFValue(void)
+{
+    return &_sfValue;
+}
 
-#ifndef OSG_COMPILESHLCHUNKINST
-OSG_DLLEXPORT_DECL1(SField, SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-#endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpSystemFieldMulti */
+//! Get the value of the SHLUniformInt::_sfValue field.
+inline
+Int32 &SHLUniformIntBase::getValue(void)
+{
+    return _sfValue.getValue();
+}
 
-typedef MField<SHLChunkPtr> MFSHLChunkPtr;
-#endif
+//! Get the value of the SHLUniformInt::_sfValue field.
+inline
+const Int32 &SHLUniformIntBase::getValue(void) const
+{
+    return _sfValue.getValue();
+}
 
-#ifndef OSG_COMPILESHLCHUNKINST
-OSG_DLLEXPORT_DECL1(MField, SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-#endif
+//! Set the value of the SHLUniformInt::_sfValue field.
+inline
+void SHLUniformIntBase::setValue(const Int32 &value)
+{
+    _sfValue.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGSHLChunkFields.h,v 1.2 2004/06/04 19:59:26 a-m-z Exp $"
+#define OSGSHLUNIFORMINTBASE_INLINE_CVSID "@(#)$Id: OSGSHLUniformIntBase.inl,v 1.1 2004/06/04 19:59:26 a-m-z Exp $"
 
-#endif /* _OSGSHLCHUNKFIELDS_H_ */

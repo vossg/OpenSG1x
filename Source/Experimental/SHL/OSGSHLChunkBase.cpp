@@ -70,11 +70,8 @@ const OSG::BitVector  SHLChunkBase::VertexProgramFieldMask =
 const OSG::BitVector  SHLChunkBase::FragmentProgramFieldMask = 
     (TypeTraits<BitVector>::One << SHLChunkBase::FragmentProgramFieldId);
 
-const OSG::BitVector  SHLChunkBase::ParamNamesFieldMask = 
-    (TypeTraits<BitVector>::One << SHLChunkBase::ParamNamesFieldId);
-
-const OSG::BitVector  SHLChunkBase::ParamValuesFieldMask = 
-    (TypeTraits<BitVector>::One << SHLChunkBase::ParamValuesFieldId);
+const OSG::BitVector  SHLChunkBase::ParametersFieldMask = 
+    (TypeTraits<BitVector>::One << SHLChunkBase::ParametersFieldId);
 
 const OSG::BitVector  SHLChunkBase::GLIdFieldMask = 
     (TypeTraits<BitVector>::One << SHLChunkBase::GLIdFieldId);
@@ -92,11 +89,8 @@ const OSG::BitVector SHLChunkBase::MTInfluenceMask =
 /*! \var std::string     SHLChunkBase::_sfFragmentProgram
     fragment program source
 */
-/*! \var std::string     SHLChunkBase::_mfParamNames
-    program parameter names
-*/
-/*! \var Vec4f           SHLChunkBase::_mfParamValues
-    program parameter
+/*! \var SHLUniformBasePtr SHLChunkBase::_mfParameters
+    parameter list
 */
 /*! \var UInt32          SHLChunkBase::_sfGLId
     
@@ -116,16 +110,11 @@ FieldDescription *SHLChunkBase::_desc[] =
                      FragmentProgramFieldId, FragmentProgramFieldMask,
                      false,
                      (FieldAccessMethod) &SHLChunkBase::getSFFragmentProgram),
-    new FieldDescription(MFString::getClassType(), 
-                     "paramNames", 
-                     ParamNamesFieldId, ParamNamesFieldMask,
+    new FieldDescription(MFSHLUniformBasePtr::getClassType(), 
+                     "parameters", 
+                     ParametersFieldId, ParametersFieldMask,
                      false,
-                     (FieldAccessMethod) &SHLChunkBase::getMFParamNames),
-    new FieldDescription(MFVec4f::getClassType(), 
-                     "paramValues", 
-                     ParamValuesFieldId, ParamValuesFieldMask,
-                     false,
-                     (FieldAccessMethod) &SHLChunkBase::getMFParamValues),
+                     (FieldAccessMethod) &SHLChunkBase::getMFParameters),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
@@ -188,8 +177,7 @@ void SHLChunkBase::executeSync(      FieldContainer &other,
 SHLChunkBase::SHLChunkBase(void) :
     _sfVertexProgram          (), 
     _sfFragmentProgram        (), 
-    _mfParamNames             (), 
-    _mfParamValues            (), 
+    _mfParameters             (), 
     _sfGLId                   (), 
     Inherited() 
 {
@@ -202,8 +190,7 @@ SHLChunkBase::SHLChunkBase(void) :
 SHLChunkBase::SHLChunkBase(const SHLChunkBase &source) :
     _sfVertexProgram          (source._sfVertexProgram          ), 
     _sfFragmentProgram        (source._sfFragmentProgram        ), 
-    _mfParamNames             (source._mfParamNames             ), 
-    _mfParamValues            (source._mfParamValues            ), 
+    _mfParameters             (source._mfParameters             ), 
     _sfGLId                   (source._sfGLId                   ), 
     Inherited                 (source)
 {
@@ -231,14 +218,9 @@ UInt32 SHLChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfFragmentProgram.getBinSize();
     }
 
-    if(FieldBits::NoField != (ParamNamesFieldMask & whichField))
+    if(FieldBits::NoField != (ParametersFieldMask & whichField))
     {
-        returnValue += _mfParamNames.getBinSize();
-    }
-
-    if(FieldBits::NoField != (ParamValuesFieldMask & whichField))
-    {
-        returnValue += _mfParamValues.getBinSize();
+        returnValue += _mfParameters.getBinSize();
     }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
@@ -265,14 +247,9 @@ void SHLChunkBase::copyToBin(      BinaryDataHandler &pMem,
         _sfFragmentProgram.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (ParamNamesFieldMask & whichField))
+    if(FieldBits::NoField != (ParametersFieldMask & whichField))
     {
-        _mfParamNames.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (ParamValuesFieldMask & whichField))
-    {
-        _mfParamValues.copyToBin(pMem);
+        _mfParameters.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
@@ -298,14 +275,9 @@ void SHLChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfFragmentProgram.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (ParamNamesFieldMask & whichField))
+    if(FieldBits::NoField != (ParametersFieldMask & whichField))
     {
-        _mfParamNames.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (ParamValuesFieldMask & whichField))
-    {
-        _mfParamValues.copyFromBin(pMem);
+        _mfParameters.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
@@ -328,11 +300,8 @@ void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
     if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
         _sfFragmentProgram.syncWith(pOther->_sfFragmentProgram);
 
-    if(FieldBits::NoField != (ParamNamesFieldMask & whichField))
-        _mfParamNames.syncWith(pOther->_mfParamNames);
-
-    if(FieldBits::NoField != (ParamValuesFieldMask & whichField))
-        _mfParamValues.syncWith(pOther->_mfParamValues);
+    if(FieldBits::NoField != (ParametersFieldMask & whichField))
+        _mfParameters.syncWith(pOther->_mfParameters);
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
@@ -370,7 +339,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.1 2004/05/07 16:04:31 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.2 2004/06/04 19:59:26 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

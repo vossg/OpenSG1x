@@ -50,6 +50,10 @@
 #include <OSGGLEXT.h>
 #include <OSGRemoteAspect.h>
 
+#include <OSGSHLUniformBase.h>
+#include <OSGSHLUniformInt.h>
+#include <OSGSHLUniformReal.h>
+
 #include "OSGSHLChunk.h"
 
 OSG_USING_NAMESPACE
@@ -85,7 +89,17 @@ UInt32 SHLChunk::_funcGetUniformLocation = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcBindAttribLocation = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcGetAttribLocation = Window::invalidFunctionID;
 
+UInt32 SHLChunk::_funcUniform1i = Window::invalidFunctionID;
+UInt32 SHLChunk::_funcUniform2iv = Window::invalidFunctionID;
+UInt32 SHLChunk::_funcUniform3iv = Window::invalidFunctionID;
+UInt32 SHLChunk::_funcUniform4iv = Window::invalidFunctionID;
+
+UInt32 SHLChunk::_funcUniform1f = Window::invalidFunctionID;
+UInt32 SHLChunk::_funcUniform2fv = Window::invalidFunctionID;
+UInt32 SHLChunk::_funcUniform3fv = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcUniform4fv = Window::invalidFunctionID;
+
+UInt32 SHLChunk::_funcUniformMatrix4fv = Window::invalidFunctionID;
 
 SHLChunk::destroyMap SHLChunk::_destroy;
 
@@ -179,8 +193,40 @@ SHLChunk::SHLChunk(const SHLChunk &source) :
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGetAttribLocationARB", 
                                   _shl_extension);
     
+    _funcUniform1i =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniform1iARB", 
+                                  _shl_extension);
+
+    _funcUniform2iv =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniform2ivARB", 
+                                  _shl_extension);
+                                  
+    _funcUniform3iv =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniform3ivARB", 
+                                  _shl_extension);
+                                  
+    _funcUniform4iv =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniform4ivARB", 
+                                  _shl_extension);
+
+    _funcUniform1f =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniform1fARB", 
+                                  _shl_extension);
+
+    _funcUniform2fv =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniform2fvARB", 
+                                  _shl_extension);
+
+    _funcUniform3fv =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniform3fvARB", 
+                                  _shl_extension);
+
     _funcUniform4fv =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniform4fvARB", 
+                                  _shl_extension);
+
+    _funcUniformMatrix4fv =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniformMatrix4fvARB", 
                                   _shl_extension);
 }
 
@@ -247,7 +293,7 @@ void SHLChunk::changed(BitVector whichField, UInt32 origin)
         Window::reinitializeGLObject(getGLId());
     }
 
-    if(whichField & ParamValuesFieldMask)
+    if(whichField & ParametersFieldMask)
     {
         Window::refreshGLObject(getGLId());
     }
@@ -307,38 +353,7 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
             updateProgram(win);
         }
 
-        programsIt it = _programs.find(win);
-        if(it != _programs.end())
-        {
-            GLuint program = (*it).second;
-            // get "glUseProgramObjectARB" function pointer
-            void (OSG_APIENTRY* useProgramObject)(GLuint programObj) =
-            (void (OSG_APIENTRY*)(GLuint programObj))
-            win->getFunction(_funcUseProgramObject);
-            
-            useProgramObject(program);
-            
-            // get "glUniform4fvARB" function pointer
-            void (OSG_APIENTRY* uniform4fv)(GLint location, GLsizei count, GLfloat *value) =
-            (void (OSG_APIENTRY*)(GLint location, GLsizei count, GLfloat *value))
-            win->getFunction(_funcUniform4fv);
-    
-            // get "glGetUniformLocationARB" function pointer
-            GLint (OSG_APIENTRY* getUniformLocation)(GLuint programObj, const char *name) =
-            (GLint (OSG_APIENTRY*)(GLuint programObj, const char *name))
-            win->getFunction(_funcGetUniformLocation);
-            
-            
-            // HACK need to add all parameter types.
-            // set params
-            for(UInt16 i = 0; i < getParamValues().size(); ++i)
-            {
-                GLint location = getUniformLocation(program, getParamNames()[i].c_str());
-                Vec4f &val = getParamValues()[i];
-                uniform4fv(location, 1, val.getValues());
-            }
-            useProgramObject(0);
-        }
+        updateParameters(win);
     }
     else
     {
@@ -512,6 +527,94 @@ void SHLChunk::updateProgram(Window *win)
     }
 }
 
+void SHLChunk::updateParameters(Window *win)
+{
+    programsIt it = _programs.find(win);
+    if(it == _programs.end())
+        return;
+
+    GLuint program = (*it).second;
+        
+    // get "glUseProgramObjectARB" function pointer
+    void (OSG_APIENTRY* useProgramObject)(GLuint programObj) =
+    (void (OSG_APIENTRY*)(GLuint programObj))
+    win->getFunction(_funcUseProgramObject);
+    
+    useProgramObject(program);
+
+#if 0
+    // get "glUniform4fvARB" function pointer
+    void (OSG_APIENTRY* uniform4fv)(GLint location, GLsizei count, GLfloat *value) =
+    (void (OSG_APIENTRY*)(GLint location, GLsizei count, GLfloat *value))
+    win->getFunction(_funcUniform4fv);
+#endif
+
+    // get "glGetUniformLocationARB" function pointer
+    GLint (OSG_APIENTRY* getUniformLocation)(GLuint programObj, const char *name) =
+    (GLint (OSG_APIENTRY*)(GLuint programObj, const char *name))
+    win->getFunction(_funcGetUniformLocation);
+
+    for(UInt32 i = 0; i < getParameters().size(); ++i)
+    {
+        UInt16 groupid = getParameters()[i]->getType().getGroupId();
+        // mehr speed hier koennte man auch einen switch machen ein enum mit types
+        // in die UniformBase und eines neues Type Field was dann
+        // in den erbenden Klassen in onCreate mit dem jeweiligen
+        // enum wert gesetzt wird ...
+        if(groupid == SHLUniformInt::getClassType().getGroupId())
+        {
+            // mit templates etwas kuerzer machen dazu muessen aber
+            // die functions prototypen als typedef rumliegen?
+            // sendUniform<SHLUniformInt>(getParameters()[i], _funcUniform1i);
+
+            SHLUniformIntPtr uniform = SHLUniformIntPtr::dcast(getParameters()[i]);
+            if(uniform != NullFC)
+            {
+                // get "glUniform1iARB" function pointer
+                void (OSG_APIENTRY* uniform1i)(GLint location, GLint value) =
+                (void (OSG_APIENTRY*)(GLint location, GLint value))
+                win->getFunction(_funcUniform1i);
+                
+                //printf("setting: %s %d\n", uniform->getName().c_str(), uniform->getValue());
+                GLint location = getUniformLocation(program, uniform->getName().c_str());
+                if(location != -1)
+                    uniform1i(location, uniform->getValue());
+                else
+                    FWARNING(("Unknown parameter '%s'!\n", uniform->getName().c_str()));
+            }
+        }
+        else if(groupid == SHLUniformReal::getClassType().getGroupId())
+        {
+            SHLUniformRealPtr uniform = SHLUniformRealPtr::dcast(getParameters()[i]);
+            if(uniform != NullFC)
+            {
+                // get "glUniform1fARB" function pointer
+                void (OSG_APIENTRY* uniform1f)(GLint location, GLfloat value) =
+                (void (OSG_APIENTRY*)(GLint location, GLfloat value))
+                win->getFunction(_funcUniform1f);
+
+                GLint location = getUniformLocation(program, uniform->getName().c_str());
+                if(location != -1)
+                    uniform1f(location, uniform->getValue());
+                else
+                    FWARNING(("Unknown parameter '%s'!\n", uniform->getName().c_str()));
+            }
+        }
+    }
+
+    /*
+    // HACK need to add all parameter types.
+    // set params
+    for(UInt16 i = 0; i < getParamValues().size(); ++i)
+    {
+        GLint location = getUniformLocation(program, getParamNames()[i].c_str());
+        Vec4f &val = getParamValues()[i];
+        uniform4fv(location, 1, val.getValues());
+    }
+    */
+    useProgramObject(0);
+}
+
 /*---------------------------- Access ------------------------------------*/
 
 /*! Read the program string from the given file
@@ -602,64 +705,55 @@ bool SHLChunk::readFragmentProgram(std::istream &stream)
     return true;
 }
 
-/*! Add a named parameter 
-*/
-bool SHLChunk::addParameter(const char   *name, 
-                                      Int16  index)
+template<class UniformType, class ValueType> 
+void SHLChunk::setUniformParameterT(const char *name, ValueType value)
 {
-    if(index < 0)
-        return true;
-        
-    if(getParamNames().size() <= index)
+    if(name == NULL)
+        return;
+
+    MFSHLUniformBasePtr &parameters = getParameters();
+
+    bool found = false;
+    UInt32 i=0;
+    for(i=0;i<parameters.size();++i)
     {
-        getParamNames().resize(index + 1);
+        if(parameters[i]->getName() == name)
+        {
+            found = true;
+            break;
+        }
     }
-    getParamNames()[index] = name;
-    return false;
-}
-    
-const Vec4f& SHLChunk::getParameter(Int16 index)
-{
-    static const Vec4f bad(-1e10,-1e10,-1e10);
-    
-    if(index < 0)
-        return bad;
-        
-    if(getParamValues().size() <= index)
+
+    if(found)
     {
-        return getParamValues()[index];
+        UniformType::Ptr uniform = UniformType::Ptr::dcast(parameters[i]);
+        if(uniform == NullFC)
+        {
+            FWARNING(("Parameter '%s' has wrong type!\n", name));
+            return;
+        }
+        uniform->setValue(value);
     }
-    
-    return bad;
-}
- 
-/*! Set parameter value, create it if not set yet.
-*/
-bool SHLChunk::setParameter(Int16 index, const Vec4f& value)
-{
-    if(index < 0)
-        return true;
-        
-    if(getParamValues().size() <= index)
+    else
     {
-        getParamValues().resize(index + 1);
+        UniformType::Ptr uniform = UniformType::create();
+        if(uniform != NullFC)
+        {
+            uniform->setName(name);
+            uniform->setValue(value);
+            parameters.push_back(uniform);
+        }
     }
-    getParamValues()[index] = value;
-    return false;
 }
 
-/*! Find the index for a named parameter, return -1 if not found.
-*/
-Int16 SHLChunk::findParameter(const std::string &name)
+void SHLChunk::setUniformParameter(const char *name, Int32 value)
 {
-    MField<std::string>::iterator it;
-    
-    it = std::find(getParamNames().begin(), getParamNames().end(), name);
+    setUniformParameterT<SHLUniformInt, Int32>(name, value);
+}
 
-    if(it == getParamNames().end())
-        return -1;
-
-    return it - getParamNames().begin();
+void SHLChunk::setUniformParameter(const char *name, Real32 value)
+{
+    setUniformParameterT<SHLUniformReal, Real32>(name, value);
 }
 
 /*------------------------------ State ------------------------------------*/
@@ -678,7 +772,8 @@ void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
     (void (OSG_APIENTRY*)(GLuint programObj))
     action->getWindow()->getFunction(_funcUseProgramObject);
     
-    useProgramObject((*it).second);
+    GLuint program = (*it).second;
+    useProgramObject(program);
 }
 
 
@@ -710,7 +805,10 @@ void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
     it = _programs.find(action->getWindow());
 
     if(it != _programs.end())
-        useProgramObject((*it).second);
+    {
+        GLuint program = (*it).second;
+        useProgramObject(program);
+    }
 }
 
 
@@ -749,11 +847,8 @@ bool SHLChunk::operator == (const StateChunk &other) const
 
     if(getVertexProgram() != tother->getVertexProgram() ||
        getFragmentProgram() != tother->getFragmentProgram() ||
-       getParamValues().size() != tother->getParamValues().size() ||
-       getParamNames().size()  != tother->getParamNames().size())
+       getParameters().size() != tother->getParameters().size())
         return false;
-    
-    
 
     return true;
 }
@@ -776,7 +871,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.7 2004/05/27 18:20:29 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.8 2004/06/04 19:59:26 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
