@@ -862,7 +862,7 @@ void keyboard(unsigned char k, int x, int y){
 	This one looks a bit more complicated... well, if the 's' key is pressed we enter the corresponding case statement, where we first get an 
 	osg::MFForegroundPtr variable, which is actually a muli field that contains all osg::ForegroundPtr of this specific viewport. The viewport we have
 	chosen is the right one with the image background. Remember we added the viewport with the gradient background first, which will become viewport 
-	number 0 and the right viewport therefor becoming number 1 which we got above my calling 'window->getPort(1)'. Unfortunately the return result of 
+	number 0 and the right viewport therefore becoming number 1 which we got above my calling 'window->getPort(1)'. Unfortunately the return result of 
 	getMFForegrounds() is actually a pointer to the osg::MFForegroundPtr datastructure. I am not quite sure if that was intended as in most cases this is
 	handeled different, but anyhow we simply dereference the pointer and now have the multi field correctly stored. In the next line we 'extract' the 
 	osg::FileGrabForeground which is number 1, because we first added the image foreground which is number 0 - same procedure as with the viewport numbers.

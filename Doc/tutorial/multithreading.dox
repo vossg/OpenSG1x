@@ -8,13 +8,15 @@ using namespace OSG;
 Chapter Overview
 <HR>
 	\ref TutorialMultithreadigSimpleExample <BR>
+	\ref TutorialMultithreadingChangeList <BR>
+	\ref TutorialMultithreadingTutorial <BR>
 <HR>
-
-\section TutorialMultithreadigSimpleExample Simple Example
 
 Multithreading is often not very easy to handle and even more often it is dangerous and evil to debug. However, multithreading is powerful and very useful in
 many situations. At the very beginning I promised that multithreading is very easy with OpenSG. So now let's see if I can hold this promise. If I am right you
 will finally rewarded for all these begin- and endEditCP blocks you have written (or copied) so far.
+
+\section TutorialMultithreadigSimpleExample Simple Example
 
 Well, let's start right of with something very simple, just to see how easy it can be to use multiple threads (if you know how ;) ).
 
@@ -36,12 +38,12 @@ somewhere before the main function.
 \code
 void printA(void *args){
 	while (true)
-		std::cout << "A";
+		std::cout << "A" << std::endl;
 }
 
 void printB(void *args){
 	while (true)
-		std::cout << "B";
+		std::cout << "B" << std::endl;
 }
 \endcode
 
@@ -62,24 +64,188 @@ you need some geometry to see that effect), because the OpenSG rendering (i.e. t
 You can find the code in file 13multithreading.cpp, like always in the progs folder.
 
 If you like to replace the letters with a word or a sentence and watch what happens. I chose "Power Mac G5" and "Taschenrechner", the next image shows the
-output.
+terminal output.
 
 \image html thread_change.png "Two threads producing non-stop output"
 \image latex thread_change.eps "Two threads producing non-stop output" width=6cm
 
-As you can see, the printing of "Power mac G5" was interrupted directly after a "P" and the other word began with "rechner" where "Taschen" was completly left
-out. Afterwards the output continues normally. What happend? Well, the execution of threads is handled by your operating system, which decides when a thread is
+As you can see, the printing of "Taschenrechner" was completed correctly, but "Power Mac G5" suddenly started at " G5" and left out the beginning. Afterwards
+the output continues normally. What happend? Well, the execution of threads is handled by your operating system, which decides when a thread is
 halted an another stalled process is continued. If your threads are computing some stuff in the background that might be no problem to you, but if potentially
 these threads can produce output in the terminal, that might not be desired. Most likely you want the output of the first thread finished, before the second
-starts. 
+starts.
+
+You might not be easily able to reproduce this "error" because several hundred or even thousands words are printed before the active thread changes, so the
+breakings are very rare.
 
 Even worse is if one thread writes data and another is writing or reading the same data segment - this will crash your application in most cases or at least
-will produce undesired results. 
+will produce undesired results. You could pipe the result into a file, but if you do so, let the application run a few seconds only
 
-\subsection TutorialMultithreadingSimpleExample SLOG
+We will later be able to solve the output problem...
 
-The simultaneous ouput problem can be solved easily with OpenSG. We have always used the <I>cout</I> command from the standard template library to print 
-something in the terminal. As OpenSG is designed with thread safety in mind, it provides an alternative command, that will first finish its output, before
-another thread is allowed to take over.
+\section TutorialMultithreadingChangeList Change Lists
 
+Well, it is time for some therory now. As I mentioned above, the real problem is the asynchronous read and write of data, which will happen for sure if two or
+more threads are working on the sccene graph. So how does OpenSG handle that problem? You already have used osg::FieldContainers all the time, well, at least
+objects that were derived from it - remember, all node cores are derived from field container, for example. 
+
+Every time a field container is created, not only one instance is created, but two per default. These multiple instances of one and the same field container
+are called aspects and every thread is associated with one single aspect. If data is written by one thread, only the corresponding aspect's data is changed at
+that time. The following figure illustrates this:
+
+\image html aspects.png "Two threads and one field container with two aspects" 
+\image latex aspects.eps "Two threads and one field container with two aspects" width = 8cm
+
+Here you have one field container of type transform, which holds two aspects. Two threads are running and each has assigned a single aspect. If thread two
+now sets a new matrix that field in the appropiate threads aspect is changed - the other thread's fild stays untouched.
+
+Of course, this has the potential to cause heavy problems, as we now have inconsistent data, because thread one seems not to be aware of the new matrix thread 
+two has set. That is what change lists are for. Every thread has it's own change list. Each time data is written an entry is added to the corresponding change 
+list. At some point, the threads needs to be synchronized and that is where a change lists content is read and the relevant data of this aspect is copied to 
+all other aspects. The synchronizing has to be initiated manually and can't be done automatically.
+
+Well, this will be easier to understand if we consider a little example. So here we go: imagine we want a simple torus (yes, again amazing geometry!) which 
+should rotate around the y axis - so we need a new transformation matrix every frame. This time this computation will be done in an additional thread. Please
+keep in mind that this is for didactic reasons only, as it would not be very smart to create own threads for such simple tasks ;)
+
+\section TutorialMultithreadingTutorial Tutorial - Moving torus with multiple threads
+
+Anyway, let's start right away with our 00framework.cpp file. You need an additional header and some global variables
+
+\code
+#include <OpenSG/OSGThreadManager.h>
+
+using namespace std;
+
+SimpleSceneManager *mgr;
+NodePtr scene;
+//we will store the transformation globally - this
+//is not necessary, but comfortable
+TransformPtr trans;
+
+Thread* animationThread;
+Barrier *syncBarrier;
+
+\endcode
+
+This should look familiar to you, except for the Barrier variable, which will be used later to synchronize the threds again.
+
+The createScenegraph() function is quite unspectacular - we have a transform node with a single child, the torus. That's all
+
+\code
+NodePtr createScenegraph(){
+    // the scene must be created here
+	NodePtr n = makeTorus(0.5,4,8,16);
+	
+	//add a simple Transformation
+	trans = Transform::create();
+	beginEditCP(trans);
+		Matrix m;
+		m.setIdentity();
+		trans->setMatrix(m);
+	endEditCP(trans);
+	
+	NodePtr transNode = Node::create();
+	beginEditCP(transNode);
+		transNode->setCore(trans);
+		transNode->addChild(n);
+	endEditCP(transNode);
+	
+	return transNode;
+}
+\endcode
+
+Next comes the function that will compute and set the new transformation. This function
+will be run in an own thread
+
+\code
+//this function will run in a thread and simply will
+//rotate the cube by setting a new transformation matrix
+void rotate(void *args){
+	// we won't stop calculating new matrices....
+	while(true){
+		Real32 time = glutGet(GLUT_ELAPSED_TIME);
+		Matrix m;
+		m.setIdentity();
+		m.setRotate(Quaternion(Vec3f(0,1,0), time/1000));
+		
+		beginEditCP(trans);
+			trans->setMatrix(m);
+		endEditCP(trans);
+		// nothing unusual until here
+		
+		//well that's new...
+		
+		//wait until two threads are cought in the
+		//same barrier
+		syncBarrier->enter(2);
+		
+		//just the same again
+		syncBarrier->enter(2);
+	}
+}
+\endcode
+
+The display() function also needs to be replaced
+
+\code
+void display(void)
+{
+	// we wait here until the animation thread enters
+	//the first barrier
+	syncBarrier->enter(2);
+	
+	//now we sync data
+	animationThread->getChangeList()->applyAndClear();
+	
+	// and again
+	syncBarrier->enter(2);
+		
+	// now render...
+	mgr->redraw();
+}
+\endcode
+
+Finally you need to add the following code between the call of createScenegraph() and glutMainLoop() in the main() function.
+
+\code
+	//create the barrier, that will be used to
+	//synchronize threads
+	
+	//instead of NULL you could provide a name
+	syncBarrier = Barrier::get(NULL);
+
+    mgr = new SimpleSceneManager;
+    mgr->setWindow(gwin );
+    mgr->setRoot  (scene);
+    mgr->showAll();
+	
+	//create the thread that will run generation of new matrices
+	animationThread = dynamic_cast<Thread *>(ThreadManager::the()->getThread("anim"));
+
+	//do it...
+	animationThread->runFunction(rotate, 1, NULL);
+\endcode
+
+If you execute this application you will see an animated torus... well, amazing as this one looks exactly like the one from the second tutorial 
+(\ref TutorialBasicTutorial). However, this time it is a lot more impressive as we have used two threads.
+
+Maybe it is time to talk about what we have actually done here. We have a rough picture about what aspects and change lists are - and we have this working 
+example now. The situation is as follows: The main thread is actually doning the same thing like always, that is setting up everything that is needed and 
+rendering the graph until the application is terminated. The second thread only changes the contents of the transform core of the scenegraph - at least
+it's own aspect. Let us give the main thread number 1 (and therefore aspect 1, too) and the animation thread number 2 as well as aspect 2. Then, thread 2 is
+constantly changing the matrix value of the transform field container in aspect 2 while the value in aspect 1 is staying untouched. Thread 1, however, will
+render the graph and thus is using aspect 1 and therefore is using the old (unchanged) value.
+
+You saw the application working, but now comment the line out that says
+<PRE>
+	animationThread->getChangeList()->applyAndClear();
+</PRE>
+found in the display() function.
+
+The application will still run, but this time without any movement of the torus. That is why we just skipped synchronization of the two threads. Without this
+command thread 2 is doing a fine job, but thread 1 will never become aware of the changes. So the change list of thread 2 has to be applied on thread 1 thus
+all changes from aspect 2 are copied to aspect 1.
+
+[TODO: continue]
 */

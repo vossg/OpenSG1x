@@ -52,7 +52,7 @@ These types can be easily identified by their names
   </TR>
 </TABLE>
 
-An unsigned 32 bit integer is therefor <I>UInt32</I>. The reason for using these wrapper is, that the usual "int" variable is 32 bits
+An unsigned 32 bit integer is therefore <I>UInt32</I>. The reason for using these wrapper is, that the usual "int" variable is 32 bits
 long for most systems... but not for every system. By using Int32 you do not have to care, you can be sure that this type is always
 that long.
 
@@ -742,7 +742,7 @@ You can find the full code here : <A HREF = "progs/02movingTorus.cpp">progs/02mo
 Now that we have seen how the very basic concepts of OpenSG works, it is time for some more background knowledge. In this section I will explain
 the field container concept to you. Even if you do not care about how things are realized and how the actually work, you should read this section
 as it is very essential to the way how OpenSG works. As I mentioned before, OpenSG was designed to handle multithreaded data in an easy way and
-therefore makes also clustering very easy. The developers decided to create containers which are protected against simultaneous access from more
+thereforee makes also clustering very easy. The developers decided to create containers which are protected against simultaneous access from more
 than one thread. With these field containers, the smart pointer were introduced as it was necessary to avoid working with standard pointer. Nearly
 every OpenSG specific class related to data storage is derived from FieldContainer. If you want to convince yourself how often this class is 
 derived, then have a look at osg::FieldContainer. As I mentioned before: <B>Every class that is derived from FieldContainer, needs to be 
@@ -1059,7 +1059,7 @@ with roof and chimney. And maybe you can build even more things into it ;-). Oka
 <I>
 This is a frontal wireframe view of the house we want to build. Because we are lazy we are cheating a bit when it comes to building the roof. We
 have no appropriate standard geometry so we use a box with the correct length and rotate it by 45 degrees. So the diagonal length of the box must
-be as long as the top side of our house is: The diagonal length must therefor be twenty and our old friend Pythagoras tells us that the edge length
+be as long as the top side of our house is: The diagonal length must therefore be twenty and our old friend Pythagoras tells us that the edge length
 have to be approximately 14.14. The chimney will be a cylinder with height 10 and radius 1 just stuck into the roof. Please notice that I am not
 claiming to do excellent modelling work here.
 </I>

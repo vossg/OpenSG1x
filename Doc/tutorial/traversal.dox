@@ -35,7 +35,7 @@ and on entering every node some function is called. There are some predefined ac
 \section TutorialTraversalActions Actions
 
 osg::Action objects are created like nodes and cores via ::create() but as these are not derived from osg::FieldContainer simple pointers will do. A render
-action is therefor simply created by 
+action is therefore simply created by 
 
 \code
 	RenderAction *ra = RenderAction::create();
@@ -206,7 +206,7 @@ the graph is traversed once for every operator you have defined which may slow d
 nodes which will be skipped during traversal.
 
 Depending on your scene, graph operators can have a great impact of on the performance of your application, but keep in mind that this is not true in general.
-For example, the 3D Studio Max VRML exporter is not very good, therefor you can archieve great results with graph ops, where as the Cinma 4D exporter is
+For example, the 3D Studio Max VRML exporter is not very good, therefore you can archieve great results with graph ops, where as the Cinma 4D exporter is
 doing a good job and there is not that much to optimize left. However, giving it a try can always be useful.
 
 Graph Operators are very easy to use. They are not derived from field container and can be instantiated as usual c++ objects.

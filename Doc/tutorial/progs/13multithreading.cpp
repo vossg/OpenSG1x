@@ -21,13 +21,15 @@ NodePtr createScenegraph(){
 }
 
 void printA(void *args){
-	while (true)
-		std::cout << "Taschenrechner";
+		while (true)
+			SLOG << "Taschenrechner" << endLog;
+			//std::cout << "Taschenrechner" << std::endl;
 }
 
 void printB(void *args){
-	while (true)
-		std::cout << "Power Mac G5";
+		while (true)
+			SLOG << "Power Mac G5" << endLog;
+			//std::cout << "Power Mac G5" << std::endl;
 }
 
 int main(int argc, char **argv)

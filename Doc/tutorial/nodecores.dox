@@ -756,7 +756,7 @@ the women. Insert this directly after the last line of code you just added.
 <I>
 After compiling and executing you can see that there are two identical models on your screen, but in a different color. How can that be? Materials
 can be assigned directly to the geometry, but as I mentioned earlier, it is also possible to use a material group which assigns a material to all
-its children without using the material field of the geometry. This is always the case when loading VRML files and this is therefor the reason why
+its children without using the material field of the geometry. This is always the case when loading VRML files and this is therefore the reason why
 we see two different materials on sceen. On the left side we have the original whereas on the right side we have the copied geometry with missing
 information about a material because this was stored in one of the geometries parent nodes.
 </I>
