@@ -620,9 +620,11 @@ int main(int argc,char **argv)
     char type='M';
     bool clientRendering=true;
     bool compose=false;
+#ifdef SORTLAST
     int subtilesize=32;
     UInt32 balanceType=0;
     bool sortPipe=false;
+#endif
     
     try
     {
@@ -658,9 +660,11 @@ int main(int argc,char **argv)
                     case 'r':
                         rows=atoi(argv[i]+2);
                         break;
+#ifdef SORTLAST
                     case 't':
                         subtilesize=atoi(argv[i]+2);
                         break;
+#endif
                     case 'i':
                         interleave=atoi(argv[i]+2);
                         break;
@@ -673,6 +677,7 @@ int main(int argc,char **argv)
                     case 'P':
                         type='P';
                         break;
+#ifdef SORTLAST
                     case 'L':
                     {
                         type='L';
@@ -689,6 +694,7 @@ int main(int argc,char **argv)
                         }
                         break;
                     }
+#endif
                     case 'M':
                         type='M';
                         break;
