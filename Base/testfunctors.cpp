@@ -197,11 +197,11 @@ int A::acount = 0;
 
 class A1
 {
+  public:
+
     static int acount;
 
     int aid;
-
-  public:
 
     A1(void) : aid(acount++) {}
     virtual ~A1(void) {} 
@@ -266,6 +266,12 @@ class A1
     void     bar1P(Pointer<A> &, Int32 &arg1)
     {
         fprintf(stderr, "A::bar1P %d %d\n", aid, arg1);
+    };
+
+
+    void     bar1TP(Int32 arg1, Int32 arg2)
+    {
+        fprintf(stderr, "A::bar1TP %d %d %d\n", aid, arg1, arg2);
     };
 
 
@@ -441,6 +447,8 @@ typedef Functor1Base<Int32, Pointer<A> &> Functor1IP;
 
 typedef Functor2Base<void,     Pointer<A> &, Int32 &> Functor2P;
 typedef Functor2Base<Int32, Pointer<A> &, Int32 &> Functor2IP;
+
+typedef Functor2Base<void, Int32 , Int32 > Functor2TP;
 
 void testfunctor1(void)
 {
@@ -737,16 +745,51 @@ void testpointer2(void)
 }
 
 
+void testpointer3(void)
+{
+    UInt32 i;
+
+    
+    A1 a1;
+
+    fprintf(stderr, "testpointer3 started on %d\n", a1.aid);    
+    
+    Pointer<A1> pA1;
+
+    pA1 = &a1;
+
+    Int32 j;
+
+    vector<Functor2TP> funcVec;
+
+    funcVec.push_back(osgMethodFunctor2CPtr<void, 
+                                            Int32, 
+                                            Int32, 
+                                            Pointer<A1> >(pA1, &A1::bar1TP));
+
+    for(i = 0; i < funcVec.size(); i++)
+    {
+        fprintf(stderr, "%d : \t", i);
+        j = i;
+        funcVec[i].call(j, j+1);
+    }
+    
+    fprintf(stderr, "testpointer3 end\n");    
+}
+
+
 
 void main(void)
 {
-    testfunctor1();
-    testfunctor1a();
-    testfunctor2();
-    testfunctor2a();
+//    testfunctor1();
+//    testfunctor1a();
+//    testfunctor2();
+//    testfunctor2a();
 
-    testpointer1();
-    testpointer1a();
+//    testpointer1();
+//    testpointer1a();
 
-    testpointer2();
+//    testpointer2();
+
+    testpointer3();
 }
