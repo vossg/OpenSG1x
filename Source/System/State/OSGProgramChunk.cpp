@@ -271,7 +271,7 @@ Int16 ProgramChunk::findParameter(const std::string &name)
 {
     MField<std::string>::iterator it;
     
-    it = find(getParamNames().begin(), getParamNames().end(), name);
+    it = std::find(getParamNames().begin(), getParamNames().end(), name);
     
     if(it == getParamNames().end())
         return -1;
