@@ -68,7 +68,19 @@
 #include "OSGBackground.h"
 #include "OSGPerspectiveCamera.h"
 
-using namespace osg;
+OSG_USING_NAMESPACE
+
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::PerspectiveCamera
+    \ingroup Cameras
+
+The PerspectiveCamera base class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *

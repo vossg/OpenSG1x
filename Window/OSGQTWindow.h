@@ -85,10 +85,7 @@ typedef FCPtr <WindowPtr, QTWindow> QTWindowPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief QT window class
  */
 
 #ifdef WIN32

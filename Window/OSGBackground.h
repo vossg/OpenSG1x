@@ -71,10 +71,7 @@ typedef FCPtr<FieldContainerPtr, Background> BackgroundPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief background base class
  */
 
 class OSG_WINDOW_DLLMAPPING Background : public FieldContainer

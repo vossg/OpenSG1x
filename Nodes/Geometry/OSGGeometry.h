@@ -52,6 +52,7 @@
 #include <OSGMFMathTypes.h>
 #include <OSGMFVecTypes.h>
 #include <OSGMFSysTypes.h>
+#include <OSGFieldContainer.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGFieldDescription.h>
 #include <OSGAction.h>
@@ -81,12 +82,8 @@ class FaceIterator;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Abstract Geometry base class
- *
- *  The base class for all Geometry node types. Defines the common interface
- *  for all geometry, so for general tools use these interfaces. They are pretty general
- *  and minimal though, so don't expect them to be blindingly fast.
+/*! \ingroup GeometryLib
+ *  \brief Geometry base class
  */
 
 class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore

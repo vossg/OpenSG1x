@@ -60,21 +60,16 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum VecBase::VectorSizeE
- *  \brief 
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \var VecBase::VectorSizeE VecBase::_iSize
- * 
- */
+/*! \class osg::MaterialChunk
+	\ingroup StateChunks
 
-/** \fn const char *VecBase::getClassname(void)
- *  \brief Classname
- */
+The material chunk class.
 
-/** \var ValueTypeT VecBase::_values[iSize];
- *  \brief Value store
- */
+*/
 
 /***************************************************************************\
  *                               Types                                     *

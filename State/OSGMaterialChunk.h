@@ -48,6 +48,7 @@
 
 #include <vector>
 
+#include "OSGFieldContainer.h"
 #include "OSGFieldContainerPtr.h"
 #include "OSGSFMathTypes.h"
 #include "OSGSFVecTypes.h"
@@ -73,10 +74,8 @@ typedef FCPtr<StateChunkPtr, MaterialChunk> MaterialChunkPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+
+/*! chunk for glMaterial() attributes
  */
 
 class MaterialChunk : public StateChunk

@@ -74,10 +74,7 @@ typedef FCPtr<BackgroundPtr, GradientBackground> GradientBackgroundPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief gradient background class
  */
 
 class OSG_WINDOW_DLLMAPPING GradientBackground : public Background

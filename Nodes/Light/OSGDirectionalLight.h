@@ -71,7 +71,7 @@ typedef FCPtr<LightPtr, DirectionalLight> DirectionalLightPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup NodeLib LightNodes
+/*! \ingroup LightNodes
  *  \brief Directional light
  */
 

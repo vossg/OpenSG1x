@@ -78,10 +78,7 @@ class DrawAction;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief Camera base class
  */
 
 class OSG_WINDOW_DLLMAPPING Camera : public FieldContainer

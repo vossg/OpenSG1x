@@ -66,10 +66,7 @@ typedef FCPtr <WindowPtr, GLUTWindow> GLUTWindowPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief GLUT window class
  */
 
 class OSG_WINDOW_DLLMAPPING GLUTWindow : public Window

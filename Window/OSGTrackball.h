@@ -46,6 +46,9 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief Trackball class
+ */
+
 class OSG_WINDOW_DLLMAPPING Trackball
 {
   public:

@@ -63,10 +63,7 @@ typedef FCPtr <WindowPtr, WIN32Window> WIN32WindowPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief WIN32 window class
  */
 
 class WIN32Window : public Window

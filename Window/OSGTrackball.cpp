@@ -42,7 +42,19 @@
 
 #include "OSGTrackball.h"
 
-using namespace osg;
+OSG_USING_NAMESPACE
+
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::Trackball
+    \ingroup Windows
+
+The Trackball class.
+
+*/
 
 Trackball::Trackball(Real32 rSize) :
     _bSum(false),

@@ -62,21 +62,19 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum VecBase::VectorSizeE
- *  \brief 
- */
 
-/** \var VecBase::VectorSizeE VecBase::_iSize
- * 
- */
 
-/** \fn const char *VecBase::getClassname(void)
- *  \brief Classname
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \var ValueTypeT VecBase::_values[iSize];
- *  \brief Value store
- */
+/*! \defgroup SimpleGeometry
+	\ingroup GeometryLib
+
+SimpleGeometry combines a number of functions to create some spezialized 
+geometry very easily. 
+
+*/
 
 #ifdef __sgi
 #pragma set woff 1174
@@ -87,6 +85,20 @@ static char cvsid[] = "@(#)$Id: $";
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
+
+
+
+/*! \ingroup SimpleGeometry
+	\return NodePtr the created plane
+	\param xsize	the plane's size in the x direction
+	\param ysize	the plane's size in the y direction
+	\param hor		number of subdivisons in the x direction
+	\param vert		number of subdivisons in the y direction
+
+makePlane creates a plane in the x/y plane. It spans the [-\a xsize /2,\a xsize /2]x
+[-\a ysize /2,\a ysize/2] area and is subdivided into \a hor * \a vert quads.
+
+*/
 
 OSG_GEOMETRY_DLLMAPPING
 NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
@@ -176,6 +188,18 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 	return node;
 }
 
+
+/*! \ingroup SimpleGeometry
+	\return NodePtr the created cone
+	\param height	the cone's height
+	\param radius	the cone's radius
+	\param sides	number of subdivisons in the x direction
+
+makeCone creates a cone. It's base sits in the origin of the x/y plane. 
+It's radius is \a radius and the base is subdivided into \a sides parts.
+Vertically it is subdivided into 2 parts.
+
+*/
 
 NodePtr OSG::makeCone( Real32 height, Real32 radius, UInt16 sides )
 {
@@ -296,6 +320,17 @@ NodePtr OSG::makeCone( Real32 height, Real32 radius, UInt16 sides )
 }
 
 
+/*! \ingroup SimpleGeometry
+	\return NodePtr the created torus
+	\param innerRadius	the torus' inner radius
+	\param outerRadius	the torus' outer radius
+	\param sides		number of subdivisons for the inner radius
+	\param rings		number of subdivisons for the outer radius
+
+makeTorus creates a torus in the x/y plane.
+
+*/
+
 NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UInt16 rings )
 {
 	if ( innerRadius <= 0 || outerRadius <= 0 || sides < 3 || rings < 3 )
@@ -399,6 +434,9 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 }
 
 
+/*! \ingroup SimpleGeometry
+*/
+
 Real32 setVecLen(Vec3f &vec, Real32 length ) 
 {
 
@@ -418,7 +456,10 @@ Real32 setVecLen(Vec3f &vec, Real32 length )
 	return vec.length();
 }
 
-void subdivideTriangle( Vec3f &v1, 
+/*! \ingroup SimpleGeometry
+*/
+
+static void subdivideTriangle( Vec3f &v1, 
 						Vec3f &v2, 
 						Vec3f &v3, 
 						Int32 depth, 
@@ -475,6 +516,15 @@ void subdivideTriangle( Vec3f &v1,
 		
 }
 
+/*! \ingroup SimpleGeometry
+	\return NodePtr the created sphere
+	\param depth	the sphere's subdivision depth
+	\param radius	the sphere's radius
+
+makeSphere creates a sphere centered in the origin. It is created by recursive 
+subdivision of an icosahedron, with \a depth giving the number of subdivisions.
+
+*/
 
 NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
 {	

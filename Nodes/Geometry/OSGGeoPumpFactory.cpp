@@ -71,21 +71,18 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum VecBase::VectorSizeE
- *  \brief 
- */
 
-/** \var VecBase::VectorSizeE VecBase::_iSize
- * 
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \fn const char *VecBase::getClassname(void)
- *  \brief Classname
- */
+/*! \defgroup PumpFactory
+	\ingroup GeometryLib
 
-/** \var ValueTypeT VecBase::_values[iSize];
- *  \brief Value store
- */
+The PumpFactory is responsible for selecting the most appropriate pump
+function to send the geometry's data to OpenGL.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *

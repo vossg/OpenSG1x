@@ -67,23 +67,19 @@
 #include "OSGBackground.h"
 #include "OSGGradientBackground.h"
 
-/** \enum VecBase::VectorSizeE
- *  \brief 
- */
+OSG_USING_NAMESPACE
 
-/** \var VecBase::VectorSizeE VecBase::_iSize
- * 
- */
 
-/** \fn const char *VecBase::getBackground(void)
- *  \brief Background
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \var ValueTypeT VecBase::_values[iSize];
- *  \brief Value store
- */
+/*! \class osg::GradientBackground
+    \ingroup Backgrounds
 
-using namespace osg;
+The GradientBackground class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *
@@ -110,7 +106,7 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
+char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.3 2001/02/13 16:01:29 dirk Exp $";
 
 OSG_FC_FIRST_FIELD_IDM_DEF(GradientBackground, ColorField)
 OSG_FC_FIELD_IDM_DEF      (GradientBackground, PositionField, ColorField)

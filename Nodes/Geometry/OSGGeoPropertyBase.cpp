@@ -59,6 +59,17 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \defgroup GeoProperties
+	\ingroup GeometryLib
+
+GeoProperties are the wrapper classes for the geometry's attributes.
+They encapsulate and abstract the specific types of the attributes and
+offer an interface that is targeted at glVertexArrays. To simplify usage
+tehy also have a generic interface, which is easy to use, but not as
+efficient as the specific one.
+
+*/
+
 // explicit instantiation to work around compiler problems with static
 // init for templated classes
 

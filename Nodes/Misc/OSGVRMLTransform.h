@@ -53,6 +53,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGNodeCore.h>
 #include <OSGSFMathTypes.h>
+#include <OSGFieldContainer.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGFieldDescription.h>
 #include <OSGAction.h>
@@ -81,13 +82,8 @@ typedef FCPtr<TransformPtr, VRMLTransform> VRMLTransformPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \defgroup VRMLTransform  Transform nodes
- *  Transformation nodes.
- */
-/*! \ingroup FieldContainerLib Transform
- *  \brief A vrml style transformation node.
- *
- *  Transform provides one matrix to transform objects.
+/*! VRMLTransform provides a vrml style transformation.
+ *	\ingroup NodesLib
  */
 
 class OSG_MISC_DLLMAPPING VRMLTransform : public Transform

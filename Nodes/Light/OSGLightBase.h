@@ -76,6 +76,7 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGNodeCore.h>
+#include <OSGFieldContainer.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGSFBaseTypes.h>
 #include <OSGFieldDescription.h>

@@ -57,17 +57,30 @@ OSG_BEGIN_NAMESPACE
 //  Functions
 //---------------------------------------------------------------------------
 
+
+/*! \brief create a plane
+ *  \ingroup SimpleGeometry
+ */
 OSG_GEOMETRY_DLLMAPPING NodePtr makePlane(Real32 xsize, Real32 ysize, 
                                 		  UInt16 hor,   UInt16 vert);
 
 
+/*! \brief create a cone
+ *  \ingroup SimpleGeometry
+ */
 OSG_GEOMETRY_DLLMAPPING NodePtr makeCone( Real32 height, Real32 radius, 
 										  UInt16 sides );
 
+/*! \brief create a torus
+ *  \ingroup SimpleGeometry
+ */
 OSG_GEOMETRY_DLLMAPPING NodePtr makeTorus( Real32 innerRadius, 
 										   Real32 outerRadius, 
 										   UInt16 sides, UInt16 rings );
 
+/*! \brief create a sphere
+ *  \ingroup SimpleGeometry
+ */
 OSG_GEOMETRY_DLLMAPPING NodePtr makeSphere( UInt16 depth, Real32 radius );
 
 OSG_END_NAMESPACE

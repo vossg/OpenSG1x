@@ -62,7 +62,19 @@
 #include "OSGBackground.h"
 #include "OSGGLUTWindow.h"
 
-using namespace osg;
+OSG_USING_NAMESPACE
+
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::GLUTWindow
+    \ingroup Windows
+
+The GLUTWindow class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *

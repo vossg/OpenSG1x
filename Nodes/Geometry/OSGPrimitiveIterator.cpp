@@ -57,21 +57,37 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
 
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
+/*! \defgroup GeoIterators
+	\ingroup GeometryLib
+
+Access to Geometry is complicated by its flexibility and the fact that it is
+somewhat heavily OpenGL-centric.
+
+The GeoIterators simplify this access by putting an iterator interface on top 
+of the Geometry that provides access to single primitives, i.e. single
+stripes, polygons, lines etc. and allow access to the primitive's
+attributes independent of it's actual representation. Thus it is
+posssible to access the color of a specific vertex of a specific
+primitive no matter if it's indexed or not and what type it has.
+
+*/
+
+/*! \class osg::PrimitiveIterator
+
+The PrimitiveIterator is the highest level iterator and splits the
+primitives of the geometry into single primitives. It also abstracts
+away the indexing and types of the attributes.
+
+For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
+
+*/
+
 
 /***************************************************************************\
  *                               Types                                     *
@@ -81,7 +97,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.5 2001/02/12 16:01:08 vossg Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.6 2001/02/13 15:54:16 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

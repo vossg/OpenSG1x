@@ -71,10 +71,8 @@ typedef FCPtr<FieldContainerPtr, State> StatePtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup StateLib
+ *  \brief State base class
  */
 
 class OSG_STATE_DLLMAPPING State : public FieldContainer
@@ -90,7 +88,7 @@ class OSG_STATE_DLLMAPPING State : public FieldContainer
     //-----------------------------------------------------------------------
 
     OSG_FC_FIRST_FIELD_IDM_DECL(ChunksField)
-
+	
     OSG_FC_LAST_FIELD_IDM_DECL (ChunksField)
 
     //-----------------------------------------------------------------------

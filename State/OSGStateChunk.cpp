@@ -48,21 +48,23 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum VecBase::VectorSizeE
- *  \brief 
- */
 
-/** \var VecBase::VectorSizeE VecBase::_iSize
- * 
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \fn const char *VecBase::getClassname(void)
- *  \brief Classname
- */
+/*! \defgroup StateChunks
+	\ingroup StateLib
 
-/** \var ValueTypeT VecBase::_values[iSize];
- *  \brief Value store
- */
+The StateChunk encapsulates a logical part of the OpenGL state. 
+
+*/
+
+/*! \class osg::StateChunk
+
+The state chunk base class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *

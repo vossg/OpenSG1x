@@ -48,6 +48,7 @@
 
 #include <vector>
 
+#include "OSGFieldContainer.h"
 #include "OSGFieldContainerPtr.h"
 #include "OSGSFMathTypes.h"
 #include "OSGSFVecTypes.h"
@@ -72,11 +73,8 @@ typedef FCPtr<StateChunkPtr, LightChunk> LightChunkPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
- */
+/*! class for light source chunks.
+ */ 
 
 class OSG_STATE_DLLMAPPING LightChunk : public StateChunk
 {

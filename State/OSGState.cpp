@@ -61,6 +61,31 @@
 
 OSG_USING_NAMESPACE
 
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \defgroup StateLib
+
+The State encapsulates the OpenGL state. 
+
+It's main purpose is being a container that holds the state for a renderable
+object and be the basis for state sorting and state change minimisation.
+
+The State is comprimsed of a number of smaller parts (StateChunks). These
+encapsulate a logical part of the OpenGL state and are used as the
+minimisation unit.
+
+*/
+
+/*! \class osg::State
+
+The state base class.
+
+*/
+
+
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/

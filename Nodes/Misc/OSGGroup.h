@@ -49,6 +49,7 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGNodeCore.h>
+#include <OSGFieldContainer.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGMiscBase.h>
 
@@ -73,12 +74,8 @@ typedef FCPtr<NodeCorePtr, Group> GroupPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup Group
- *  Group is the basic NodeCore for inner nodes in the tree.
- *
- *  Group is the simplest form of a NodeCore. A group
- *  carries no predefined data and most actions will only traverse the
- *  children list. So usually the group does nothing.
+/*! Group is the basic NodeCore for inner nodes in the tree.
+ *	\ingroup NodesLib
  */
 
 class OSG_MISC_DLLMAPPING Group : public NodeCore

@@ -56,7 +56,19 @@
 
 #include "OSGQGLWidget_qt.h"
 
-using namespace osg;
+OSG_USING_NAMESPACE
+
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::OSGQGLWidget
+    \ingroup Windows
+
+The OSGQGLWidget class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *

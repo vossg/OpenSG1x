@@ -124,10 +124,7 @@ class DrawAction;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief Viewport class
  */
 
 class OSG_WINDOW_DLLMAPPING Viewport : public FieldContainer

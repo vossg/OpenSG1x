@@ -70,8 +70,8 @@ typedef FCPtr<PointLightPtr, SpotLight> SpotLightPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup NodeLib LightNodes
- *  \brief Spot light
+/*! \ingroup LightNodes
+ *  \brief Spotlight
  */
 
 class OSG_LIGHT_DLLMAPPING SpotLight : public PointLight

@@ -48,6 +48,7 @@
 
 #include <vector>
 
+#include "OSGFieldContainer.h"
 #include "OSGFieldContainerPtr.h"
 #include "OSGSFMathTypes.h"
 #include "OSGStateChunk.h"
@@ -70,10 +71,7 @@ typedef FCPtr<StateChunkPtr, TransformChunk> TransformChunkPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! chunk for modelview transformations
  */
 
 class OSG_STATE_DLLMAPPING TransformChunk : public StateChunk

@@ -50,6 +50,11 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! @name Color GeoProperty specializations
+ */
+
+//@{
+	
 //---------------------------------------------------------------------------
 //  Forward References
 //---------------------------------------------------------------------------
@@ -64,6 +69,10 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 // Color 3f
+
+/*! \brief GeoColor3fPropertyDesc
+ *  \ingroup GeoProperties
+ */
 
 struct GeoColor3fPropertyDesc
 {
@@ -112,6 +121,10 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 
 // Color 3ub
 
+/*! \brief GeoColor3ubPropertyDesc
+ *  \ingroup GeoProperties
+ */
+
 struct GeoColor3ubPropertyDesc
 {
 	static const Char8 *getTypeName (void) { return "GeoColor3ub";         }
@@ -159,6 +172,10 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 // Color 4ub
 
 
+/*! \brief GeoColor4ubPropertyDesc
+ *  \ingroup GeoProperties
+ */
+
 struct GeoColor4ubPropertyDesc
 {
 	static const Char8 *getTypeName  (void) { return "GeoColor4ub";         }
@@ -197,6 +214,8 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 
 #endif
 #endif
+
+//@}
 
 OSG_END_NAMESPACE
 

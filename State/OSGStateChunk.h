@@ -136,10 +136,8 @@ class OSG_STATE_DLLMAPPING StateChunkClass
 	static vector<UInt32>* _numslots;
 };
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup StateChunks
+ *  \brief StateChunk base class
  */
 
 class OSG_STATE_DLLMAPPING StateChunk : public FieldContainer

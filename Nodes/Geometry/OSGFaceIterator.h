@@ -71,10 +71,8 @@ typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief The FaceIterator allows iteration through faces, i.e. tris and/or quads.
+ *  \ingroup GeoIterators
  */
 
 class OSG_GEOMETRY_DLLMAPPING FaceIterator
@@ -97,64 +95,80 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+	//! classname access	
     static const char *getClassname(void) { return "FaceIterator"; }
  
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
+	//! default constructor	
     FaceIterator( void );
  
+	//! copy constructor	
     FaceIterator(const FaceIterator &source);
  
-	// used by geometry to create them. useful for seeking	
+	//! geometry constructor
     FaceIterator( const GeometryPtr& geo );
+
+ 	//! node constructor
     FaceIterator( const NodePtr& geo );
 
+	//! destructor
     virtual ~FaceIterator(void); 
 
     /*------------------------- access -------------------------------*/
 
-	// get the triangle index
+	//! get the face index
 	inline Int32    	getIndex		( void 	      ) const;
 
-	// type of currently processed primitive
+	//! get the type of the currently processed primitive
 	inline UInt8 getType				( void ) const;
 
-	// get the length of the face
+	//! get the length, i.e. number of points of the face
 	inline Int32    	getLength		( void 	      ) const;
 
-	// get the data indices/values. Indices < 0 indicate data not present
-	// in that case the value will be Nullxxx
 
-	inline Int32    	getPositionIndex( Int32 which ) const;
-	inline Pnt3f		getPosition		( Int32 which ) const;
+	//! @name face point attribute access
+	//@{
 
-	inline Int32    	getNormalIndex	( Int32 which ) const;
-	inline Vec3f   		getNormal	 	( Int32 which ) const;
+	inline Int32    	getPositionIndex	( Int32 which ) const;
+	inline Pnt3f		getPosition			( Int32 which ) const;
 
-	inline Int32    	getColorIndex 	( Int32 which ) const;
-	inline Color3f		getColor		( Int32 which ) const;
+	inline Int32    	getNormalIndex		( Int32 which ) const;
+	inline Vec3f   		getNormal	 		( Int32 which ) const;
 
+	inline Int32    	getColorIndex 		( Int32 which ) const;
+	inline Color3f		getColor			( Int32 which ) const;
+
+	inline Int32    	getTexCoordsIndex 	( Int32 which ) const;
+	inline TexCoords2f	getTexCoords		( Int32 which ) const;
+	
+	//@}
 
     /*------------------------- your_operators ------------------------------*/
 
+	//! increment to the next face
     void operator ++( void );
 
-	// seek from the beginning to face with index index
+	//! seek from the beginning to face with index \a index
 	void seek( Int32 index );
 
     /*------------------------- assignment ----------------------------------*/
 
+	//! assigment operator
     FaceIterator & operator =(const FaceIterator &source);
 
     /*------------------------- comparison ----------------------------------*/
 
-    Bool operator < (const FaceIterator &other) const;
-    
+	//! @name comparison operators
+	//@{
+		
+    Bool operator <  (const FaceIterator &other) const;    
 	Bool operator == (const FaceIterator &other) const;
 	Bool operator != (const FaceIterator &other) const;
 
+	//@}
 
   protected:
 
@@ -182,7 +196,10 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
+	//! set the iterator to the first face
 	void setToBegin( void );
+
+	//! set the iterator after the last face
 	void setToEnd( void );
 	
   private:
@@ -199,6 +216,7 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
+	//! Geometry needs access to setToBegin() and setToEnd() for construction
 	friend class Geometry;
 	
     //-----------------------------------------------------------------------
@@ -209,6 +227,7 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
+	//! the CVS version id
 	static char cvsid[];
 
     //-----------------------------------------------------------------------
@@ -219,20 +238,20 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 	
-	// the primitive Iterator it's based on
+	//! the primitive Iterator it's based on
 	PrimitiveIterator _primIt;
 	
-	// the geometry (for faster access)
+	//! the geometry (for faster access)
 	GeometryPtr 	_geo;
 	
-	// Mainly for statistics.
+	//! the face index, input for seek().
 	Int32 			_faceIndex;
 	
-	// index of the first actual point within the active primitive
+	//! index of the first actual point within the active primitive
 	// this is the index into the primitive
 	UInt32 			_actPrimIndex;
 	
-	// indices of the actual triangels' points
+	//! indices of the actual triangles' points
 	// these are indices into the primtive's indices, not actual indices
 	Int32 			_facePntIndex[4];
 	
@@ -241,7 +260,7 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// called when stepping to next primitive, and at beginning
+	//! called when stepping to next primitive, and at beginning
 	void startPrim( void );
 };
 
@@ -249,8 +268,7 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
-
+//! class pointer
 typedef FaceIterator *FaceIteratorP;
 
 OSG_END_NAMESPACE

@@ -67,23 +67,19 @@
 #include "OSGBackground.h"
 #include "OSGSolidBackground.h"
 
-/** \enum VecBase::VectorSizeE
- *  \brief 
- */
+OSG_USING_NAMESPACE
 
-/** \var VecBase::VectorSizeE VecBase::_iSize
- * 
- */
 
-/** \fn const char *VecBase::getBackground(void)
- *  \brief Background
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \var ValueTypeT VecBase::_values[iSize];
- *  \brief Value store
- */
+/*! \class osg::SolidBackground
+    \ingroup Backgrounds
 
-using namespace osg;
+The SolidBackground class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *
@@ -110,7 +106,7 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
+char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.3 2001/02/13 16:01:29 dirk Exp $";
 
 OSG_FC_FIRST_FIELD_IDM_DEF(SolidBackground, ColorField)
 OSG_FC_LAST_FIELD_IDM_DEF (SolidBackground, ColorField)

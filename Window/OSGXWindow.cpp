@@ -65,7 +65,19 @@
 #include "OSGBackground.h"
 #include "OSGXWindow.h"
 
-using namespace osg;
+OSG_USING_NAMESPACE
+
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::XWindow
+    \ingroup Windows
+
+The XWindow class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *
@@ -75,7 +87,7 @@ using namespace osg;
  *                           Class variables                               *
 \***************************************************************************/
 
-char XWindow::cvsid[] = "@(#)$Id: OSGXWindow.cpp,v 1.3 2001/02/12 16:46:01 dirk Exp $";
+char XWindow::cvsid[] = "@(#)$Id: OSGXWindow.cpp,v 1.4 2001/02/13 16:01:29 dirk Exp $";
 
 // Static Class Varible implementations: 
 

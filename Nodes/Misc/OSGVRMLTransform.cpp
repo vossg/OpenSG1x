@@ -60,21 +60,6 @@
 
 OSG_USING_NAMESPACE
 
-/** \fn const char *VRMLTransform::getClassname(void)
- *  \brief Classname
- */
-
-/** \typedef VRMLTransform::Inherited
- *  \brief Parent type
- */
-
-/** \fn VRMLTransform::VRMLTransform(const VRMLTransform &source)
- *  \brief Not implemented.
- */
-
-/** \fn void VRMLTransform::operator =(const VRMLTransform &source)
- *  \brief Not implemented.
- */
 
 /***************************************************************************\
  *                               Types                                     *

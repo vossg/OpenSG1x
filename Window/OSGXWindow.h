@@ -74,10 +74,7 @@ typedef FCPtr <WindowPtr, XWindow> XWindowPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief X11 window class
  */
 
 class OSG_WINDOW_DLLMAPPING XWindow : public Window

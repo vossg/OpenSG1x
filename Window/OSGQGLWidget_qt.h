@@ -85,10 +85,7 @@ class OSGQGLWidget;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! OSGQGL widget class
  */
 
 class OSG_WINDOW_DLLMAPPING OSGQGLWidget : public QGLWidget

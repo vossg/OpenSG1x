@@ -57,21 +57,20 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
+/*! \class osg::TriangleIterator
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
+The TriangleIterator iterates through the geometry one triangle at a
+time.  Larger primtitives like strips are automatically split into
+triangles, non-polygonal primitives like lines and points are ignored.
+
+\sa PrimitiveIterator FaceIterator
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *
@@ -81,7 +80,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.5 2001/02/12 16:01:08 vossg Exp $";
+char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.6 2001/02/13 15:54:16 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -62,25 +62,6 @@
 
 OSG_USING_NAMESPACE
 
-/** \fn const char *Transform::getClassname(void)
- *  \brief Classname
- */
-
-/** \typedef Transform::Inherited
- *  \brief Parent type
- */
-
-/** \var SFMatrix Transform::_matrix
- *  \brief Transformation matrix
- */
-
-/** \fn Transform::Transform(const Transform &source)
- *  \brief Not implemented.
- */
-
-/** \fn void Transform::operator =(const Transform &source)
- *  \brief Not implemented.
- */
 
 /***************************************************************************\
  *                               Types                                     *

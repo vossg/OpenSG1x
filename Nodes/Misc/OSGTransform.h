@@ -53,6 +53,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGNodeCore.h>
 #include <OSGSFMathTypes.h>
+#include <OSGFieldContainer.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGFieldDescription.h>
 #include <OSGAction.h>
@@ -79,13 +80,8 @@ typedef FCPtr<NodeCorePtr, Transform> TransformPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \defgroup Transform  Transform nodes
- *  Transformation nodes.
- */
-/*! \ingroup FieldContainerLib Transform
- *  \brief A simple matrix transformation.
- *
- *  Transform provides one matrix to transform objects.
+/*! Transform provides one matrix to transform objects.
+ *	\ingroup NodesLib
  */
 
 class OSG_MISC_DLLMAPPING Transform : public NodeCore

@@ -56,18 +56,6 @@
 
 #include "OSGGeometry.h"
 
-/** \fn const char *SimpleAttachment::getClassname(void)
- *  \brief Classname
- */
-
-/** \typedef SimpleAttachment::Inherited
- *  \brief Parent type
- */
-
-/** \typedef SimpleAttachment::_field
- *  \brief Data store
- */
-
 OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
@@ -110,25 +98,39 @@ OSG_BEGIN_NAMESPACE
 
 /*------------------------------ access -----------------------------------*/
 
-
+/*! Return the index of the current face. The index runs from 0 to the
+	number of faces in the geometry. Its main use is as an input to seek().
+*/
 inline		 
-Int32 FaceIterator::getIndex( void) const
+Int32 FaceIterator::getIndex( void ) const
 {
 	return _faceIndex;
 }
 
+/*! Return the type of the current primitive. Mainly useful to be able
+	to treat e.g. polygons differently than other triangle-generating
+	primitives.
+*/
 inline		 
 UInt8 FaceIterator::getType( void ) const
 {
 	return _primIt.getType();
 }
 
+
+/*! Return the length of the current face. 3 or 4, depending on the current 
+	primitive.
+*/
 inline		 
 Int32 FaceIterator::getLength( void) const
 {
 	return _facePntIndex[3] == -1 ? 3 : 4;
 }
 
+
+/*! Return the position index of a point in the current face. 
+	\param which the point to access. Must be between 0 and getLength().
+*/
 inline		 
 Int32 FaceIterator::getPositionIndex( Int32 which ) const
 {
@@ -138,6 +140,10 @@ Int32 FaceIterator::getPositionIndex( Int32 which ) const
 		return -1;
 }
 
+
+/*! Return the position of a point in the current face. 
+	\param which the point to access. Must be between 0 and getLength().
+*/
 inline		 
 Pnt3f FaceIterator::getPosition( Int32 which ) const
 {
@@ -149,6 +155,9 @@ Pnt3f FaceIterator::getPosition( Int32 which ) const
 	return _geo->getPositions()->getValue( ind );
 }
 
+/*! Return the normal index of a point in the current face. 
+	\param which the point to access. Must be between 0 and getLength().
+*/
 inline		 
 Int32 FaceIterator::getNormalIndex( Int32 which ) const
 {
@@ -158,6 +167,9 @@ Int32 FaceIterator::getNormalIndex( Int32 which ) const
 		return -1;
 }
 
+/*! Return the normal of a point in the current face. 
+	\param which the point to access. Must be between 0 and getLength().
+*/
 inline 
 Vec3f FaceIterator::getNormal( Int32 which ) const
 {	
@@ -169,6 +181,9 @@ Vec3f FaceIterator::getNormal( Int32 which ) const
 	return _geo->getNormals()->getValue( ind );
 }
 
+/*! Return the color index of a point in the current face. 
+	\param which the point to access. Must be between 0 and getLength().
+*/
 inline		 
 Int32 FaceIterator::getColorIndex( Int32 which ) const
 {
@@ -178,6 +193,9 @@ Int32 FaceIterator::getColorIndex( Int32 which ) const
 		return -1;
 }
 
+/*! Return the color of a point in the current face. 
+	\param which the point to access. Must be between 0 and getLength().
+*/
 inline 
 Color3f FaceIterator::getColor( Int32 which ) const
 {	
@@ -187,6 +205,33 @@ Color3f FaceIterator::getColor( Int32 which ) const
 		return NullColor3f;
 		
 	return _geo->getColors()->getValue( ind );
+}
+
+
+/*! Return the texture coordinate index of a point in the current face. 
+	\param which the point to access. Must be between 0 and getLength().
+*/
+inline		 
+Int32 FaceIterator::getTexCoordsIndex( Int32 which ) const
+{
+	if ( _facePntIndex[which] >= 0 )
+		return _primIt.getTexCoordsIndex( _facePntIndex[which] );
+	else 
+		return -1;
+}
+
+/*! Return the texture coordinate of a point in the current face. 
+	\param which the point to access. Must be between 0 and getLength().
+*/
+inline 
+Vec2f FaceIterator::getTexCoords( Int32 which ) const
+{	
+	Int32 ind = getTexCoordsIndex( which );
+	
+	if ( ind < 0 )
+		return NullVec2f;
+		
+	return _geo->getTexCoords()->getValue( ind );
 }
 
 

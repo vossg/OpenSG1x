@@ -66,7 +66,35 @@
 #include "OSGCamera.h"
 #include "OSGWindow.h"
 
-using namespace osg;
+OSG_USING_NAMESPACE
+
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \defgroup WindowLib
+
+The WindowLib include all objects concerned with opening, managing and
+drawing into windows.
+
+*/
+
+
+/*! \defgroup Windows
+    \ingroup WindowLib
+
+The Windows group include all the general and window-system specific
+Window objects.
+
+*/
+
+/*! \class osg::Window
+    \ingroup Windows
+
+The Window base class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *
@@ -497,6 +525,8 @@ void Window::draw( DrawAction * action )
 {
 	activate();
 	
+	resizeGL();
+
 	drawAllViewports( action );
 
 	swap();

@@ -71,10 +71,8 @@ typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief The TriangleIterator allows iteration through triangles.
+ *  \ingroup GeoIterators
  */
 
 class OSG_GEOMETRY_DLLMAPPING TriangleIterator

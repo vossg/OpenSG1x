@@ -66,23 +66,26 @@
 #include "OSGWindow.h"
 #include "OSGBackground.h"
 
-/** \enum VecBase::VectorSizeE
- *  \brief 
- */
+OSG_USING_NAMESPACE
 
-/** \var VecBase::VectorSizeE VecBase::_iSize
- * 
- */
 
-/** \fn const char *VecBase::getBackground(void)
- *  \brief Background
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \var ValueTypeT VecBase::_values[iSize];
- *  \brief Value store
- */
+/*! \defgroup Backgrounds
+    \ingroup WindowLib
 
-using namespace osg;
+The Background group includes all the objects that can clear a Viewport.
+
+*/
+
+/*! \class osg::Background
+    \ingroup Backgrounds
+
+The Background base class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *

@@ -64,21 +64,16 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum VecBase::VectorSizeE
- *  \brief 
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \var VecBase::VectorSizeE VecBase::_iSize
- * 
- */
+/*! \class osg::TextureChunk
+	\ingroup StateChunks
 
-/** \fn const char *VecBase::getClassname(void)
- *  \brief Classname
- */
+The texture chunk class.
 
-/** \var ValueTypeT VecBase::_values[iSize];
- *  \brief Value store
- */
+*/
 
 /***************************************************************************\
  *                               Types                                     *
@@ -106,7 +101,7 @@ OSG_FC_FIELD_IDM_DEF      (TextureChunk, GenFuncQPlaneField,GenFuncRPlaneField )
 OSG_FC_FIELD_IDM_DEF      (TextureChunk, GLIdField, 		GenFuncQPlaneField )  
 OSG_FC_LAST_FIELD_IDM_DEF (TextureChunk, GLIdField)
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.3 2001/02/13 03:53:31 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.4 2001/02/13 15:57:39 dirk Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
 

@@ -63,23 +63,26 @@
 #include "OSGViewport.h"
 #include "OSGCamera.h"
 
-/** \enum VecBase::VectorSizeE
- *  \brief 
- */
+OSG_USING_NAMESPACE
 
-/** \var VecBase::VectorSizeE VecBase::_iSize
- * 
- */
 
-/** \fn const char *VecBase::getClassname(void)
- *  \brief Classname
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \var ValueTypeT VecBase::_values[iSize];
- *  \brief Value store
- */
+/*! \defgroup Cameras
+    \ingroup WindowLib
 
-using namespace osg;
+The Camera group includes all the Camera and camera enhancement objects.
+
+*/
+
+/*! \class osg::Camera
+    \ingroup Cameras
+
+The Camera base class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *

@@ -62,7 +62,19 @@
 #include "OSGBackground.h"
 #include "OSGWIN32Window.h"
 
-using namespace osg;
+OSG_USING_NAMESPACE
+
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::WIN32Window
+    \ingroup Windows
+
+The WIN32Window class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *
@@ -72,7 +84,7 @@ using namespace osg;
  *                           Class variables                               *
 \***************************************************************************/
 
-char WIN32Window::cvsid[] = "@(#)$Id: OSGWIN32Window.cpp,v 1.3 2001/02/12 16:44:52 dirk Exp $";
+char WIN32Window::cvsid[] = "@(#)$Id: OSGWIN32Window.cpp,v 1.4 2001/02/13 16:01:29 dirk Exp $";
 
 // Static Class Varible implementations: 
 

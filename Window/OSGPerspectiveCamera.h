@@ -72,10 +72,7 @@ typedef FCPtr <CameraPtr,
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief PerspectiveCamera class
  */
 
 class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public Camera

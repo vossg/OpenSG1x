@@ -69,11 +69,10 @@ typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
-
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+ 
+/*! \brief The PrimitiveIterator iterates through a geometry one primitive
+ *  at a time.
+ *  \ingroup GeoIterators
  */
 
 class OSG_GEOMETRY_DLLMAPPING PrimitiveIterator 

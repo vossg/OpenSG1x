@@ -1,4 +1,6 @@
+.tags
+cscope.out cscope.files
 .lastdbg
 obj.*
 test*IRIX64
-
+Debug

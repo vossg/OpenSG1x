@@ -48,6 +48,7 @@
 
 #include <vector>
 
+#include "OSGFieldContainer.h"
 #include "OSGFieldContainerPtr.h"
 #include "OSGSFMathTypes.h"
 #include "OSGSFSysTypes.h"
@@ -75,10 +76,7 @@ typedef FCPtr<StateChunkPtr, TextureChunk> TextureChunkPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! chunk for single texture attributes
  */
 
 class OSG_STATE_DLLMAPPING TextureChunk : public StateChunk

@@ -72,10 +72,7 @@ typedef FCPtr<BackgroundPtr, SolidBackground> SolidBackgroundPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief SolidBackground class
  */
 
 class OSG_WINDOW_DLLMAPPING SolidBackground : public Background

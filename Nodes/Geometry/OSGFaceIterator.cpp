@@ -57,21 +57,26 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
+/*! \class osg::FaceIterator
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
+The FaceIterator iterates through the geometry one face at a time. A
+face in this case is a triangle or quad. Larger primtitives like strips
+are automatically split into triangles and quads, non-polygonal
+primitives like lines and points are ignored.
+
+Only quad-based primitives (Quadstrips and Quads) are split into quads, 
+everything else is split into triangles. Testing if a polygon is a quad
+is just too expensive and rarely useful.
+
+\sa PrimitiveIterator TriangleIterator
+
+*/
+
 
 /***************************************************************************\
  *                               Types                                     *
@@ -81,7 +86,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.5 2001/02/12 16:01:08 vossg Exp $";
+char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.6 2001/02/13 15:54:16 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -115,29 +120,11 @@ char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.5 2001/02/12 16:0
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
-
 FaceIterator::FaceIterator(void) : 
 	_primIt(), _geo(),
 	_faceIndex(0), _actPrimIndex(), _facePntIndex()
 {
 }
-
-FaceIterator::FaceIterator( const GeometryPtr& geo ) :
-	_primIt(), _geo( geo ),
-	_faceIndex(0), _actPrimIndex(), _facePntIndex()
-{
-	_primIt.setGeo( geo );
-}
-
-FaceIterator::FaceIterator( const NodePtr& geo ) :
-	_primIt(), _geo( dcast<GeometryPtr>(geo->getCore()) ),
-	_faceIndex(0), _actPrimIndex(), _facePntIndex()
-{
-	_primIt.setGeo( geo );
-}
-
 
 FaceIterator::FaceIterator(const FaceIterator &source) :
 	_primIt( source._primIt ), _geo( source._geo ),
@@ -149,8 +136,28 @@ FaceIterator::FaceIterator(const FaceIterator &source) :
 	_facePntIndex[3] = source._facePntIndex[3];
 }
 
-/** \brief Destructor
- */
+/*! 
+These constructors create an iterator for the given geometry/node.
+They are useful to create an iterator to be used to seek() to a specific
+indexed face. Otherwise, use Geometry::beginFaces() resp. Geometry::endFaces()
+to create an iterator.
+*/
+//@{
+FaceIterator::FaceIterator( const NodePtr& geo ) :
+	_primIt(), _geo( dcast<GeometryPtr>(geo->getCore()) ),
+	_faceIndex(0), _actPrimIndex(), _facePntIndex()
+{
+	_primIt.setGeo( geo );
+}
+
+FaceIterator::FaceIterator( const GeometryPtr& geo ) :
+	_primIt(), _geo( geo ),
+	_faceIndex(0), _actPrimIndex(), _facePntIndex()
+{
+	_primIt.setGeo( geo );
+}
+//@}
+
 
 FaceIterator::~FaceIterator(void)
 {
@@ -162,8 +169,9 @@ FaceIterator::~FaceIterator(void)
 
 /*-------------------------- your_category---------------------------------*/
 
-/** \brief increment
- */
+/*! The increment operator steps the iterator to the next face. If it is
+already beyond the last face it does not change.
+*/
 
 void FaceIterator::operator++ ()
 {
@@ -226,6 +234,11 @@ void FaceIterator::operator++ ()
 						break;
 	}			
 }
+
+
+/*! Helper function to reset all state to the beginning of a new primitive.
+Also skips non-polygonal primitives (lines, points).
+*/
 
 void FaceIterator::startPrim( void )
 {
@@ -323,9 +336,6 @@ void FaceIterator::setToEnd( void )
 
 /*-------------------------- assignment -----------------------------------*/
 
-/** \brief assignment
- */
-
 FaceIterator& FaceIterator::operator = (const FaceIterator &source)
 {
 	if (this == &source)
@@ -351,18 +361,12 @@ FaceIterator& FaceIterator::operator = (const FaceIterator &source)
 
 /*-------------------------- comparison -----------------------------------*/
 
-/** \brief assignment
- */
-
 Bool FaceIterator::operator < (const FaceIterator &other) const
 {
     return _primIt < other._primIt ||
 			( _primIt == other._primIt &&
 		      _actPrimIndex < other._actPrimIndex );
 }
-
-/** \brief equal
- */
 
 Bool FaceIterator::operator == (const FaceIterator &other) const
 {
@@ -374,14 +378,10 @@ Bool FaceIterator::operator == (const FaceIterator &other) const
 			_actPrimIndex == other._actPrimIndex;
 }
 
-/** \brief unequal
- */
-
 Bool FaceIterator::operator != (const FaceIterator &other) const
 {
 	return ! (*this == other);
 }
-
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -391,34 +391,4 @@ Bool FaceIterator::operator != (const FaceIterator &other) const
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

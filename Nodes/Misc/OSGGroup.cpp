@@ -58,7 +58,19 @@
 OSG_USING_NAMESPACE
 
 /***************************************************************************\
-  *                               Types                                     *
+ *                            Description                                  *
+\***************************************************************************/
+
+/*!  \class osg::Group
+
+Group is the simplest form of a NodeCore. A group
+carries no predefined data and most actions will only traverse the
+children list. So usually the group does nothing.
+
+*/
+
+/***************************************************************************\
+*                                Types                                     *
 \***************************************************************************/
 
 OSG_BEGIN_NAMESPACE

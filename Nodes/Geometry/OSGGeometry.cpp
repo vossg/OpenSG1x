@@ -75,21 +75,26 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum VecBase::VectorSizeE
- *  \brief 
- */
 
-/** \var VecBase::VectorSizeE VecBase::_iSize
- * 
- */
 
-/** \fn const char *VecBase::getClassname(void)
- *  \brief Classname
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \var ValueTypeT VecBase::_values[iSize];
- *  \brief Value store
- */
+/*! \defgroup GeometryLib
+	\ingroup NodeCores
+
+The basic polygonal geometry library.
+
+*/
+
+/*! \class osg::Geometry
+
+The base class for all Geometry node types. Defines the common interface
+for all geometry, so for general tools use these interfaces. They are pretty general
+and minimal though, so don't expect them to be blindingly fast.
+
+*/
 
 OSG_GEOMETRY_DLLMAPPING GeometryPtr OSG::NullGeo;
 

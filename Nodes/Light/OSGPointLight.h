@@ -72,8 +72,8 @@ typedef FCPtr<LightPtr, PointLight> PointLightPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup NodeLib LightNodes
- *  \brief Point light
+/*! \ingroup LightNodes
+ *  \brief Pointlight
  */
 
 class OSG_LIGHT_DLLMAPPING PointLight : public LightBase
