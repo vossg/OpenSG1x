@@ -375,7 +375,7 @@ void GraphicStatisticsForeground::removeElement(StatElemDescBase &desc)
 void GraphicStatisticsForeground::drawAnalog(UInt32 ID,   
                                              StatElem* el,
                                              DrawActionBase* base, 
-                                             Viewport* port)
+                                             Viewport *)
 {
 
     // helper Var
@@ -1420,7 +1420,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.6 2002/07/26 14:13:15 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.7 2002/07/27 12:43:17 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
