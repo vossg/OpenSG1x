@@ -76,7 +76,7 @@ dnl ############# Compiler Settings #####################
 AC_ARG_WITH(compiler,[  --with-compiler=<compiler> choose one of the following\
  compilers
         IRIX      : CC, CC64
-        Windows   : icl (==50), icl50, icl60, icl70, cl.net, cl.net2003
+        Windows   : icl (==50), icl50, icl60, icl70, icl71, icl80, cl.net, cl.net2003
         GNU/Linux : g++,icc,g++3
         Darwin    : c++,c++3,g++,g++3
         HPUX      : aCC],
