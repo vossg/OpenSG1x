@@ -1097,11 +1097,13 @@ if test $build_os = cygwin; then
 else 
 
     ac_gdz_compiler_exe_ranlib=
+    ac_gdz_compiler_exe_lnk="ar -cr"
 
     case "$build_os" in
 
        solaris*)
-		ac_gdz_compiler_exe_shared="$CC -shared"
+		ac_gdz_compiler_exe_shared="$CC -template=no%wholeclass,extdef -ptv -G -mt"
+		ac_gdz_compiler_exe_lnk="$CC -template=no%wholeclass,extdef -ptv -xar -mt"
         ;;
 
        darwin*)
@@ -1120,7 +1122,6 @@ else
 
     esac
 
-    ac_gdz_compiler_exe_lnk="ar -cr"
 
 	ac_gdz_flex_exe=flex
 	ac_gdz_bison_exe=bison
@@ -1151,6 +1152,10 @@ dnl a symlink from gmake to make
         hpux*)
             ac_gdz_compiler_exe_exe='$(CC) +DA2.0N -AA +ESnolit +inst_auto -Wf,-o'
 			ac_gdz_base_system_libs=$ac_gdz_base_system_libs' -lpthread'
+        ;;
+        solaris*)
+    		ac_gdz_compiler_exe_exe='$(CC) -template=no%wholeclass,extdef -ptv -mt'
+			ac_gdz_base_system_libs=$ac_gdz_base_system_libs' -lpthread -lresolv -lsocket  -lnsl '
         ;;
         *)
             ac_gdz_compiler_exe_exe='$(CC)'

@@ -55,6 +55,11 @@
 #include <dlfcn.h>
 #endif
 
+#if defined(__sun)
+#include <dlfcn.h>
+#include <link.h>
+#endif
+
 #include <OSGDrawAction.h>
 #include <OSGRenderAction.h>
 #include "OSGViewport.h"
@@ -857,9 +862,12 @@ void OSG::Window::frameInit(void)
         std::back_insert_iterator< std::vector<std::string> > 
             extension_front_inserter(_extensions);
 
+        std::string foo(reinterpret_cast<const char*>
+                        (glGetString(GL_EXTENSIONS)));
+
+
         std::copy(string_token_iterator(
-                                std::string(reinterpret_cast<const char*>
-                                        (glGetString(GL_EXTENSIONS))),
+                                foo,
                                 ",. "),
                   string_token_iterator(),
                   extension_front_inserter);
@@ -978,16 +986,16 @@ void OSG::Window::frameExit(void)
     This is called internally when extension functions are first cached. 
 */
 
-OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(const Char8 *s)
-//void (*OSG::Window::getFunctionByName(const Char8 *s))(void)
+OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
+    const Char8 *s)
 {
-    void (*retval)(void);
-    
+    GLExtensionFunction retval = NULL;
+
 #if defined(GLX_VERSION_1_4)
 
     retval = glXGetProcAddress((const GLubyte *) s);
 
-#elif defined(__hpux) || defined (__sgi)
+#elif defined(__hpux) || defined (__sgi) || defined(__sun)
 
     static void *libHandle = NULL;
 
@@ -1003,7 +1011,7 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(const Char8 *s)
         }
     }
 
-    retval = (void (*)(void)) dlsym(libHandle, s);
+    retval = reinterpret_cast<GLExtensionFunction>(dlsym(libHandle, s));
 
 // UGLY HACK: SGI/NVidia header don't define GLX_ARB_get_proc_address,
 // but they use __GLX_glx_h__ instead of GLX_H as an include guard.
@@ -1024,7 +1032,7 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(const Char8 *s)
         libHandle = dlopen("libGL.dylib", RTLD_NOW);
     }
 
-    retval = (void (*)(void)) dlsym(libHandle, s);
+    retval = reinterpret_cast<GLExtensionFunction>(dlsym(libHandle, s));
 
 #elif defined(WIN32)
 
@@ -1036,12 +1044,17 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(const Char8 *s)
 
 #endif
 
-    if(!retval)
+    if(retval == NULL)
     {
         FNOTICE(("Window::getFunctionByName: Couldn't get function '%s' for "
                  "Window %p.\n", s, this));
     }
-    
+    else
+    {
+        FNOTICE(("Window::getFunctionByName: got function '%s' for "
+                 "Window %p at %p.\n", s, this, retval));
+    }
+
     return retval;
 }
 

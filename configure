@@ -3391,11 +3391,13 @@ echo "configure:3265: checking system dir" >&5
 else 
 
     ac_gdz_compiler_exe_ranlib=
+    ac_gdz_compiler_exe_lnk="ar -cr"
 
     case "$build_os" in
 
        solaris*)
-		ac_gdz_compiler_exe_shared="$CC -shared"
+		ac_gdz_compiler_exe_shared="$CC -template=no%wholeclass,extdef -ptv -G -mt"
+		ac_gdz_compiler_exe_lnk="$CC -template=no%wholeclass,extdef -ptv -xar -mt"
         ;;
 
        darwin*)
@@ -3414,7 +3416,6 @@ else
 
     esac
 
-    ac_gdz_compiler_exe_lnk="ar -cr"
 
 	ac_gdz_flex_exe=flex
 	ac_gdz_bison_exe=bison
@@ -3443,6 +3444,10 @@ else
         hpux*)
             ac_gdz_compiler_exe_exe='$(CC) +DA2.0N -AA +ESnolit +inst_auto -Wf,-o'
 			ac_gdz_base_system_libs=$ac_gdz_base_system_libs' -lpthread'
+        ;;
+        solaris*)
+    		ac_gdz_compiler_exe_exe='$(CC) -template=no%wholeclass,extdef -ptv -mt'
+			ac_gdz_base_system_libs=$ac_gdz_base_system_libs' -lpthread -lresolv -lsocket  -lnsl '
         ;;
         *)
             ac_gdz_compiler_exe_exe='$(CC)'
@@ -3491,7 +3496,7 @@ fi
 ac_gdz_common_system=$ac_gdz_commonconf_dir/common.$build-$ac_gdz_compiler_base.in
 
 echo $ac_n "checking project config common.project.in""... $ac_c" 1>&6
-echo "configure:3495: checking project config common.project.in" >&5
+echo "configure:3500: checking project config common.project.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.project.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -3502,7 +3507,7 @@ else
 fi
 
 echo $ac_n "checking package config common.libs.in""... $ac_c" 1>&6
-echo "configure:3506: checking package config common.libs.in" >&5
+echo "configure:3511: checking package config common.libs.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.libs.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -3514,7 +3519,7 @@ fi
 
 
 echo $ac_n "checking additional package configs""... $ac_c" 1>&6
-echo "configure:3518: checking additional package configs" >&5
+echo "configure:3523: checking additional package configs" >&5
 
 for i in `find . -name common.libs.in | sed -e 's|^./||'` ;
 do

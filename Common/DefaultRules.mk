@@ -168,6 +168,21 @@ define linux_make_depend
 			>> $@ 
 endef
 
+define solaris_make_depend
+	@echo "# Building dependency $(@F) from $(<F)"
+	@-rm -f $@
+	@echo '# Module dependencies' > $@
+	@cpp $(DEPEND_OPTION) $< $(CCDEPFLAGS) $(CCLOCALFLAGS) $(INCL) 	\
+	 $(INC_OPTION)$(OBJDIR) $(INC_OPTION). 							\
+	 | $(SED) -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 					\
+	 		  -e 's/\/usr\/include\/[^ ]*//g'						\
+	 		  -e 's/\/usr\/local\/[^ ]*//g'							\
+	 		  -e 's/\/usr\/Software\/[^ ]*//g'						\
+			  -e 's/.*\.\.\/Base\/[^ ]*//g'							\
+			  -e 's/^\([^\.]*\)$(OBJ_SUFFIX):/\1$(DEP_SUFFIX) \1$(OBJ_SUFFIX):/1' \
+			>> $@ 
+endef
+
 define hpux_make_depend
 	@echo "# Building dependency $(@F) from $(<F)"
 	@-rm -f $@
@@ -253,6 +268,29 @@ endif
 $(OBJDIR)/%$(DEP_SUFFIX): %.c
 ifneq ($(OSGNODEPSREBUILD),1)
 	$(irix_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+endif
+
+ifeq ($(OS_BASE),solaris2.9)
+$(OBJDIR)/%$(DEP_SUFFIX): %.cpp
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(solaris_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+
+$(OBJDIR)/%$(DEP_SUFFIX): $(OBJDIR)/%.cpp
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(solaris_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+
+$(OBJDIR)/%$(DEP_SUFFIX): %.c
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(solaris_make_depend)
 else
 	@echo "# Skipping dependency $(@F) from $(<F) "
 endif
@@ -558,8 +596,6 @@ endif
 ifneq ($(LIB_DEF_SRC),)
 
 ifneq ($(LIB_HEADER_SRC),)
-
-$(warning $(LIB_HEADER_SRC) $(LIB_DEF_SRC))
 
 lib.$(DBG).def: $(LIB_DEF_SRC) $(LIB_HEADER_SRC)
 	cp  $(LIB_HEADER_SRC) ./lib.$(DBG).def
