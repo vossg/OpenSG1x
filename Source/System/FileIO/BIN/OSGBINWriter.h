@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGBINWriter_H_
-#define _OSGBINWriter_H_
+#ifndef _OSGBINWRITER_H_
+#define _OSGBINWRITER_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -52,34 +52,26 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Brief
-//! \ingroup baselib
-
 class OSG_SYSTEMLIB_DLLMAPPING BINWriter
 {
     /*==========================  PUBLIC  =================================*/
   public:
 	
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                   Constructors/Destructor                    */
     /*! \{                                                                 */
 
-    BINWriter(FILE *file);
+             BINWriter(FILE *file);
+    virtual ~BINWriter(void      );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    virtual ~BINWriter(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Access                                       */
+    /*! \name                 write                                        */
     /*! \{                                                                 */
 
     void write(            NodePtr  node );
     void write(std::vector<NodePtr> nodes);
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -89,13 +81,12 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
     /*! \{                                                                 */
 
     /*! \hideinhierarchy */
-
 	struct FCInfo 
 	{
          OSG::IDString     type;
 		 FieldContainerPtr ptr;  
  		 BitVector         mask; //should match UInt32
-		 FCInfo();
+		 FCInfo(void);
 	};
     //FieldContainerId is of type UInt32
   	typedef std::map<     UInt32,             FCInfo  > FCInfoMap;	
@@ -125,29 +116,31 @@ class OSG_SYSTEMLIB_DLLMAPPING BINWriter
     /*! \name                    Helper                                    */
     /*! \{                                                                 */
 
-	void addToIdMap(FieldContainerPtr fcPtr);
-	void writeFileHeader();
+	void addToIdMap      (FieldContainerPtr fcPtr      );
+	void writeFileHeader (void                         );
 	void doIndexFC       (FieldContainerPtr fieldConPtr);
-    void doWriteIndexedFC();
-
+    void doWriteIndexedFC(void                         );
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
+    /*---------------------------------------------------------------------*/
+    /*! \name                provate members                               */
+    /*! \{                                                                 */
 
 	FCInfoMap            _fcMap;
 	FCTypeIdMap          _fcIdMap;
 	BinaryFileHandler    _outFileHandler;
     std::vector<NodePtr> _vec_pRootNodes;
     
+    /*! \}                                                                 */
+
     BINWriter(const BINWriter &source);
     void operator =(const BINWriter &source);
-
 };
 
 OSG_END_NAMESPACE
 
 #define OSGBINWRITER_HEADER_CVSID "@(#)$Id: $"
 
-
-#endif /* _OSGBINWriter_H_ */
+#endif /* _OSGBINWRITER_H_ */

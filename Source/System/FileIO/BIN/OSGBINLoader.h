@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGBINLoader_H_
-#define _OSGBINLoader_H_
+#ifndef _OSGBINLOADER_H_
+#define _OSGBINLOADER_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -52,19 +52,12 @@ OSG_BEGIN_NAMESPACE
 class OSG_SYSTEMLIB_DLLMAPPING BINLoader
 {
     /*==========================  PUBLIC  =================================*/
-
   public:
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                   Constructors/Destructor                    */
     /*! \{                                                                 */
 
-    BINLoader(FILE *file);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
+             BINLoader(FILE *file);
     virtual ~BINLoader();
 
     /*! \}                                                                 */
@@ -87,7 +80,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
     friend class FCIdMapper;
 
     /*! \hideinhierarchy */
-
     struct FCInfoStruct
     {
         UInt32            newId;
@@ -99,7 +91,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
     typedef std::map<UInt32, FCInfoStruct> IDLookupMap;
 
     /*! \hideinhierarchy */
-
     struct FCIdMapper : public FieldContainerMapper
     {                                              
       public:
@@ -110,7 +101,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
     };
 
     /*! \hideinhierarchy */
-
     class BinaryFileHandler : public BinaryDataHandler
     {
       public:
@@ -130,17 +120,28 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
     /*==========================  PRIVATE  ================================*/
   private:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                   private helper functions                   */
+    /*! \{                                                                 */
+
+    void createFieldContainers(void);
+    void chargeFieldContainers(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   provate members                            */
+    /*! \{                                                                 */
+
          BinaryFileHandler _inFileHandler;
          IDLookupMap       _fcInfoMap;
          UInt32            _countContainers;
     std::vector<NodePtr>   _vec_pRootNodes;
 
-    void createFieldContainers(void);
-    void chargeFieldContainers(void);
+    /*! \}                                                                 */
 };
 
 OSG_END_NAMESPACE
 
 #define OSGBINLOADER_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGBINLoader_H_ */
+#endif /* _OSGBINLOADER_H_ */

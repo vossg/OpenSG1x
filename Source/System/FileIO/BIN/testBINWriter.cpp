@@ -1,58 +1,68 @@
 #include <OSGConfig.h>
- 
+
 #include <iostream>
 #include <fstream>
 
 #include <OSGNode.h>
+#include <OSGGroup.h>
 #include <OSGBaseFunctions.h>
 #include <OSGSceneFileHandler.h>
 #include <OSGBINWriter.h>
 
-int main (int argc, char *argv[])
+/* */
+int main(int argc, char *argv[])
 {
-    for ( int i = 0; i < argc; i++ )
-        std::cout << "Param " << i << ":" << argv[i] << std::endl;
+    FILE    *outFile;
 
     OSG::osgInit(argc, argv);
 
-    FILE *outFile;
-    const char *inFileName  = "tie.wrl";
-    const char *outFileName = "tie.bin";
-    std::string s;
-    
-    if( argc > 1 )
-        inFileName  = argv[1];
+    OSG::NodePtr    root = OSG::Node::create();
+    OSG::GroupPtr   group = OSG::Group::create();
+    beginEditCP(root);
+    beginEditCP(group);
+    root->setCore(group);
 
-	if (argc > 2)
-			outFileName = argv[2];
-    else
+    if(argc < 3)
     {
-        s = argv[1];
-        s.replace( s.rfind("."), s.size(), ".bin");
-        outFileName = s.c_str();
+        std::cout << argv[0] << "infile1 [infile2 ...] outfile" << std::endl;
+        return 1;
     }
-    
-	if(fopen(inFileName, "rb")!=NULL)
-	{
-		outFile = fopen(outFileName, "wb");
-		
-		if (outFile==NULL)
-			std::cerr<<"ERROR: Cannot create file """<<outFileName<<""""<<std::endl;
-		else
-		{
-    		std::cout << "reading " << inFileName << "..." << std::endl;
-			OSG::NodePtr root = OSG::SceneFileHandler::the().read(inFileName,0);
-    		std::cout << "writing " << outFileName << "..." << std::endl;
-			OSG::BINWriter writer(outFile);
-    		writer.write( root );
-			std::cout<<"done"<<std::endl;
-//            root->dump();
-		}
 
-		fclose(outFile);
-	}
-	else std::cerr<<inFileName<<" not found!"<<std::endl;
-    
-	
-	return 0;
+    for(int a = 1; a < (argc - 1); ++a)
+    {
+        std::cout << "read:" << argv[a] << std::endl;
+
+        OSG::NodePtr    node = OSG::SceneFileHandler::the().read(argv[a], 0);
+        if(node == OSG::NullFC)
+        {
+            std::cerr <<
+                "ERROR: Cannot read file " <<
+                argv[a] <<
+                "" <<
+                std::endl;
+            continue;
+        }
+
+        root->addChild(node);
+    }
+
+    std::cout << "write:" << argv[argc - 1] << std::endl;
+    outFile = fopen(argv[argc - 1], "w");
+    if(outFile == NULL)
+    {
+        std::cerr <<
+            "ERROR: Cannot create file " <<
+            argv[argc - 1] <<
+            "" <<
+            std::endl;
+        return 1;
+    }
+
+    OSG::BINWriter writer(outFile);
+    writer.write(root);
+
+    endEditCP(root);
+    endEditCP(group);
+
+    return 0;
 }

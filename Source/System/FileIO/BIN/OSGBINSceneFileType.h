@@ -48,10 +48,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*!\ingroup GrpSystemDrawablesGeometrymetryLoaderLib 
- * \brief OSGBINSceneFileType
- */ 
-
 class OSG_SYSTEMLIB_DLLMAPPING BINSceneFileType : public SceneFileType
 {
     /*==========================  PUBLIC  =================================*/
@@ -87,7 +83,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BINSceneFileType : public SceneFileType
 
     virtual NodePtr read(const Char8  *fileName, 
                                UInt32  uiAddOptions,
-                               UInt32  uiSubOption ) const;
+                               UInt32  uiSubOption     ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
