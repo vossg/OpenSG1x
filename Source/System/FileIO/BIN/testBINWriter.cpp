@@ -59,6 +59,15 @@ int main(int argc, char *argv[])
     }
 
     OSG::BINWriter writer(outFile);
+
+    // print volume
+    root->invalidateVolume();
+    root->updateVolume();
+    const OSG::DynamicVolume &vol = root->getVolume();
+    OSG::Vec3f vmin,vmax;
+    vol.getBounds(vmin, vmax);
+    std::cout << "Volume: from " << vmin << " to " << vmax << std::endl;
+
     writer.write(root);
 
     OSG::endEditCP(root);
