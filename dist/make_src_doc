@@ -20,12 +20,19 @@
 ##trap errorexit  ERR HUP INT QUIT
 ##trap normalexit EXIT
 
-OSGROOT=$1
-shift
+if test ${#*} -lt 1
+then
+    OSGPOOL=`pwd`/OpenSG
+else
+    OSGPOOL=$1
+    shift
+fi
 
-# does the OSGROOT exist? If not, check it out.
+echo "Making source/doc dist in " $OSGPOOL
 
-if ! test -d $OSGROOT
+# does the OSGPOOL exist? If not, check it out.
+
+if ! test -d $OSGPOOL
 then
     # Check out the sources
     
@@ -39,16 +46,16 @@ then
     fi
     
     # go where it's suppoosed to be
-    cd `dirname $OSGROOT`
+    cd `dirname $OSGPOOL`
     
     # cvs needs to be in the path!
     cvs -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co -P OpenSG 
 
-    mv OpenSG `basename $OSGROOT`
+    mv OpenSG `basename $OSGPOOL`
 fi
 
 # lets do it
-cd $OSGROOT
+cd $OSGPOOL
 
 # get the version
 VERSION=`cat VERSION`
@@ -57,19 +64,19 @@ VERSION=`cat VERSION`
 rm -rf dist Stuff Statistics Tools/newClass examples/DeriveFCExample examples/Cubes
 
 # remove the CVS stuff
-find . -name CVS -exec rm -rf {} \;
+find . -name CVS | xargs rm -rf
 
 # pack it up
 cd ..
 
-mv $OSGROOT OpenSG-$VERSION
+mv $OSGPOOL OpenSG-$VERSION
 
 tar cf - OpenSG-$VERSION | gzip -9 > OpenSG-$VERSION-src.tgz
 
 # go back and make the docs
 cd OpenSG-$VERSION
 
-##make doc
+make doc
 
 # make the starter guide
 

@@ -1,0 +1,17 @@
+#!/bin/sh
+# 
+# Simple starter script that sets LD_LIBRARY_PATH and starts osgSceneViewer
+#
+
+echo $0
+
+BASEDIR=`dirname $0`
+if test "$LD_LIBRARY_PATH"x == x
+then
+    export LD_LIBRARY_PATH=${BASEDIR}/lib/##DBG##
+else    
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${BASEDIR}/lib/##DBG##
+fi
+
+${BASEDIR}/osgSceneViewer $*
+

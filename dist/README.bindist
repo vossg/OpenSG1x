@@ -5,3 +5,16 @@
 This is a binary distribution of OpenSG. It contains tutorial examples for
 OpenSG and the includes and libs to remake them.
 
+It also contains a simple scene viewer based on OpenSG called osgSceneViewer.
+It is based on QT 3.0, which is not installed everywhere yet. That's why we
+included the library in the lib directory. Add that to your library path to run
+it, or use the run_osgSceneViewer script.
+
+OpenSG is a portable scenegraph library for realtime rendering
+applications.For more details visit www.opensg.org.
+
+
+Yours
+
+    The OpenSG Team
+    

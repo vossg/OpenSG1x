@@ -6,19 +6,24 @@
 # This is an extremely optimistic script, it does no 
 # error checking whatever. Use with care!
 
-OSGROOT=$1
-shift
+if test ${#*} -lt 1
+then
+    OSGPOOL=`pwd`/OpenSG
+else
+    OSGPOOL=$1
+    shift
+fi
 
-echo "Making binary dist in" $OSGROOT
+echo "Making binary dist in" $OSGPOOL
 
-# does the OSGROOT exist? If not, check it out.
+# does the OSGPOOL exist? If not, check it out.
 
-if ! test -d $OSGROOT
+if ! test -d $OSGPOOL
 then
     # Check out the sources
     
     # little trick to get around the password input
-    # not nice but works. Anyone got a better solutions?
+    # not nice but works. Anyone got a better solution?
     
     cvs_ok=`fgrep -l anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg $HOME/.cvspass`
     if test "x$cvs_ok" = x
@@ -27,22 +32,25 @@ then
     fi
     
     # go where it's suppoosed to be
-    cd `dirname $OSGROOT`
+    cd `dirname $OSGPOOL`
     
     # cvs needs to be in the path!
     cvs -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co -P OpenSG 
 
-    mv OpenSG `basename $OSGROOT`
+    if test `basename $OSGPOOL` != OpenSG
+    then
+        mv OpenSG `basename $OSGPOOL`
+    fi
 fi
 
 # get the version
 
-VERSION=`cat $OSGROOT/VERSION`
+VERSION=`cat $OSGPOOL/VERSION | sed -e "/\n/d"`
 
 # make the libs
 
 olddir=`pwd`
-cd $OSGROOT
+cd $OSGPOOL
 
 system=`CommonConf/config.guess`
 
@@ -51,44 +59,56 @@ system=`CommonConf/config.guess`
 case $system in
 
     mips-sgi-* )    
-        
-    glut_args="--with-glut=/igd/a4/software/IRIX/packages/glut-3.7"
-    qt_args="--with-qt=/igd/a4/software/IRIX/packages/qt-2.3"
-    tif_args="--with-tif=/usr"
-    jpeg_args="--with-jpeg=/usr"
+    
+    glut_dir="/igd/a4/software/IRIX"
+    glut_lib="libglut.a"
+    glut_args="--with-glut=$glut_dir"
+    qt_dir="/igd/a4/software/IRIX/packages/qt-3.0"
+    qt_lib=libqt.so.3.0.0
+    qt_args="--with-qt=$qt_dir"
+    tif_args="--with-tif"
+    jpeg_args="--with-jpeg"
     png_args=""
     par_jobs=6
     compiler=${compiler:=CC}
     export PATH=/igd/a4/software/IRIX/bin/:$PATH
-        distname=sgi
+    distname=sgi
     ;;
     
     *-pc-linux-gnu )    
         
-    qt_args="--with-qt=/igd/a4/software/Linux/packages/qt-2.3"
-        glut_args="--with-glut=/usr"
-        par_jobs=2
+    glut_dir="/usr"
+    glut_lib="libglut.so.3"
+    glut_args="--with-glut=$glut_dir"
+    qt_dir="/igd/a4/software/Linux/packages/qt-3.0"
+    qt_lib=libqt.so.3.0.0
+    qt_args="--with-qt=$qt_dir"
+    par_jobs=2
     compiler=${compiler:=g++}
     config_shell=bash
     mail=/usr/bin/Mail
     export PATH=/igd/a4/software/Linux/bin/:$PATH
-        distname=linux
+    distname=linux
     ;;
 
     *-pc-cygwin )   
         
-    qt_args="--with-qt=`pwd`/../packages/qt-2.3"
-        glut_args="--with-glut=`pwd`/../packages/glut_3.7"
+    glut_dir="`pwd`/../packages/glut_3.7"
+    glut_lib="glut32.dll"
+    glut_args="--with-glut=$glut_dir"
+    qt_dir="/f/qt"
+    qt_lib=qt-mt300.dll
+    qt_args="--with-qt=$qt_dir"
     tif_args=""
-        par_jobs=1
+    par_jobs=1
     compiler=${compiler:=icl50}
     config_shell=bash
-        distname=win
+    distname=win
     ;;
     
    *)
     
-        echo "Unknown system $system!"
+    echo "Unknown system $system!"
     exit 1
     ;;
     
@@ -97,7 +117,7 @@ esac
 
 # configure it
 
-rm -rf Builds/$system-$compiler
+##rm -rf Builds/$system-$compiler
 
 $config_shell ./configure --with-compiler=$compiler $stl_args $glut_args \
     $qt_args $tif_args $jpeg_args $png_args
@@ -108,11 +128,17 @@ $config_shell ./configure --with-compiler=$compiler $stl_args $glut_args \
 cd Builds/$system-$compiler
 export OSGSUBPARJOBS=$par_jobs
 
+gmake opt 
+gmake INSTALL_DIR=`pwd` install
+
 gmake dbg 
 gmake INSTALL_DIR=`pwd` install
 
-gmake opt 
-gmake INSTALL_DIR=`pwd` install
+# make the sceneviewer
+
+cd ../../examples/SceneViewer
+
+gmake QTDIR=$qt_dir OSGROOT=../../Builds/$system-$compiler
 
 cd $olddir
 
@@ -120,24 +146,32 @@ cd $olddir
 
 case $system in
     # Windows is very different from the Unices. No, really. :)
-    # the dbg libs are renamed to *-dbg, the tutorials get a .dsw 
     *-pc-cygwin )           
+
+    cd $olddir
     
     rm -rf OpenSG-$VERSION-$distname
     mkdir OpenSG-$VERSION-$distname
     cd OpenSG-$VERSION-$distname
     
     # copy windows defaults
-    cp -r $OSGROOT/dist/win/lib .
-    cp -r $OSGROOT/dist/win/dist/* .
-    cp -r $OSGROOT/dist/win/README.bindist README.txt
-    
+    # copies GLUT lib automatically
+    cp -r $OSGPOOL/dist/win/lib .
+    cp -r $OSGPOOL/dist/win/dist/* .
+    cp    $OSGPOOL/dist/win/README.bindist README.txt
+
+    # copy the QT lib, as Qt 3.0 is not everywhere yet
+    cp ${qt_dir}/lib/${qt_lib} lib
+ 
+    # copy the SceneViewer
+    cp $OSGPOOL/examples/SceneViewer/osgSceneViewer.exe .
+   
     # copy OpenSG stuff
-    cp -r $OSGROOT/Builds/$system-$compiler/include .
-    cp -r $OSGROOT/Builds/$system-$compiler/lib/opt/* lib
+    cp -r $OSGPOOL/Builds/$system-$compiler/include .
+    cp -r $OSGPOOL/Builds/$system-$compiler/lib/opt/* lib
     
 #  doesn't work. Libname is written in lib :(
-#    for i in $OSGROOT/Builds/$system-$compiler/lib/dbg/*.dll ;
+#    for i in $OSGPOOL/Builds/$system-$compiler/lib/dbg/*.dll ;
 #    do
 #        l=`basename $i .dll`
 #        d=`dirname $i`
@@ -146,17 +180,17 @@ case $system in
 #    done
     
     # do the tutorials
-    cp -r $OSGROOT/tutorials .
+    cp -r $OSGPOOL/tutorials .
     
     cd tutorials
-    gmake -f Makefile.win LIBTYPE=
-    gmake -f Makefile.win LIBTYPE= dsw
+    gmake -f Makefile.win
+    gmake -f Makefile.win dsw
     
     # cleanup the garbage
     rm -rf CVS Makefile* common.* template.* Tutorials.dsp.raw README BUILD vc60.idb
     
-    cp $OSGROOT/dist/win/BUILD.tutorials BUILD.txt
-    cp $OSGROOT/dist/win/README.tutorials README.txt
+    cp $OSGPOOL/dist/win/BUILD.tutorials BUILD.txt
+    cp $OSGPOOL/dist/win/README.tutorials README.txt
     
     exit
     ;;
@@ -170,33 +204,47 @@ rm -rf OpenSG-$VERSION-$distname-opt
 mkdir OpenSG-$VERSION-$distname-opt
 
 cd OpenSG-$VERSION-$distname-opt
-cp $OSGROOT/dist/README.bindist README
+cp $OSGPOOL/dist/README.bindist README
 
 # copy the libs/includes
 
-cp -r $OSGROOT/Builds/$system-$compiler/include .
+cp -r $OSGPOOL/Builds/$system-$compiler/include .
+cp -r $OSGPOOL/Builds/$system-$compiler/bin .
 
 mkdir lib
-cp -r $OSGROOT/Builds/$system-$compiler/lib/opt lib
+cp -r $OSGPOOL/Builds/$system-$compiler/lib/opt lib
+
+# copy the QT lib, as Qt 3.0 is not everywhere yet
+cp ${qt_dir}/lib/${qt_lib} lib/opt
+ln -s ${qt_lib} lib/opt/libqt.so.3.0
+ln -s ${qt_lib} lib/opt/libqt.so.3
+ln -s ${qt_lib} lib/opt/libqt.so
+
+# copy the GLUT lib, as it is not everywhere yet
+cp ${glut_dir}/lib/${glut_lib} lib/opt
 
 # make the tutorial examples
 
-cp -r $OSGROOT/tutorials .
+cp -r $OSGPOOL/tutorials .
 
 cd tutorials
 rm -rf CVS
 sed -e 's|##DBG##|opt|g' < Makefile.dist > Makefile
+sed -e 's|##DBG##|opt|g' < $OSGPOOL/dist/README.tutorials > README
+sed -e 's|##DBG##|opt|g' < $OSGPOOL/dist/BUILD.tutorials > BUILD
+sed -e 's|##DBG##|opt|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneViewer
+chmod 755 ../run_osgSceneViewer
 
 #remove the stuff we don't need here
 rm Makefile.dist Makefile.win template.*  Tutorials.dsp.raw common.cygwin
-
-cp $OSGROOT/dist/README.tutorials README
-cp $OSGROOT/dist/BUILD.tutorials BUILD
 
 gmake
 gmake clean
 
 cd ..
+
+# copy the SceneViewer
+cp $OSGPOOL/examples/SceneViewer/osgSceneViewer .
 
 # do system-specific stuff
 
@@ -220,17 +268,15 @@ mv OpenSG-$VERSION-$distname-opt OpenSG-$VERSION-$distname-opt+dbg
 
 cd OpenSG-$VERSION-$distname-opt+dbg
 
-cp -r ../OpenSG-$VERSION/Builds/$system-$compiler/lib/dbg lib
+cp -r ${OSGPOOL}/Builds/$system-$compiler/lib/dbg lib
+#needed by SceneViewer, and not everywhere yet
+ln -s ../opt/${qt_lib} lib/dbg
+ln -s ${qt_lib} lib/dbg/libqt.so.3.0
+ln -s ${qt_lib} lib/dbg/libqt.so.3
+ln -s ${qt_lib} lib/dbg/libqt.so
 
-cd tutorials
-gmake Clean
-
-sed -e 's|##DBG##|dbg|g' < $OSGROOT/tutorials/Makefile.dist > Makefile
-
-gmake
-gmake clean
-
-cd ..
+# copy the GLUT lib, as it is not everywhere yet
+ln -s ../opt/${glut_lib} lib/dbg
 
 # do system-specific stuff
 
@@ -252,7 +298,28 @@ tar cf - OpenSG-$VERSION-${distname}-opt+dbg | \
 mv OpenSG-$VERSION-$distname-opt+dbg OpenSG-$VERSION-$distname-dbg
 
 cd OpenSG-$VERSION-$distname-dbg
+#needed by SceneViewer, and not everywhere yet
+rm -rf lib/dbg/${qt_lib}
+cp ${qt_dir}/lib/${qt_lib} lib/dbg
+rm -rf lib/dbg/${glut_lib}
+cp ${glut_dir}/lib/${glut_lib} lib/dbg
 rm -rf lib/opt
+
+# Build the dbg-tutorials again
+
+cd tutorials
+gmake Clean
+
+sed -e 's|##DBG##|dbg|g' < $OSGPOOL/tutorials/Makefile.dist > Makefile
+sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/README.tutorials > README
+sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/BUILD.tutorials > BUILD
+sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneViewer
+chmod 755 ../run_osgSceneViewer
+
+gmake
+gmake clean
+
+cd ..
 
 # do system-specific stuff
 

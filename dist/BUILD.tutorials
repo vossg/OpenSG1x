@@ -4,24 +4,30 @@
 
 These programs are included in compiled form in the binary
 distributions that we have, so if you want to run them, see if there
-isn't a binary dist for your platform. If you want to compile your
-changed versions you should read this, though.
+isn't a binary dist for your platform. If you want to change them and
+recompile them you should read this, though.
 
-They all use GLUT, so you need to have it installed. It comes with most
-Linux distros, other system will need to download and make it, see
-http://www.opensg.org/prerequisites.EN.html for details.
-
-To compile them you will probably have to adjust the settings in
+To compile them you will probably have to adjust the settings in the
 Makefile for your system, mainly the directories where to find the GLUT
 library.
 
-The makefile expects an installed OpenSG. It tries to use the one
-installed in the Builds hierarchy, i.e. at ../Builds/*/include and
-../Builds/*/lib respectively. In a dist it uses the one installed one
-directory up. If it isn't there adjust the OSGROOT variable in
+They all use GLUT, so you need to have it installed. It comes with most
+Linux distros, other system will need to download and make it, see
+http://www.opensg.org/prerequisites.EN.html for details. Set the GLUTPATH
+variable in Makefile to the place where it is installed.
+
+The Makefile expects an installed OpenSG. By default it uses the one 
+installed one directory up. If it isn't there adjust the OSGROOT variable in
 Makefile.
 
 A simple make should create all the tutorial examples now. If it
-doesn't, tell us.
+doesn't, tell us. Don't forget to set your LD_LIBRARY_PATH to include
+the directories where the libraries are, e.g. 
 
-See README on what they do and how to use them.
+(for sh/bash/ksh users)
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:../lib/##DBG##
+
+(for csh/tcsh users)
+    setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:../lib/##DBG##
+
+See README on what the tutorials do and how to use them.
