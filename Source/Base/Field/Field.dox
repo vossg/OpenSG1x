@@ -78,7 +78,7 @@ data to multi fields. See the field container docs for details.
 
 #if !defined(OSG_DO_DOC) || OSG_DOC_LEVEL > 1
 
-/*! \page PageBaseFieldExt Creating new Field Types
+/*! \page PageBaseFieldExt Creating New Field Types
 
 All the data that is kept in FieldConatiners has to be in Fields. Fields
 provide the interface for the reflecivity and generic access methods to work.
@@ -147,6 +147,14 @@ copyFromBin(BinaryDataHandler &mem, type &object);
 
 The last two methods work via a BinaryDataHandler, which abstracts a memory
 block. 
+
+There are some details that have to be done in order for all the static
+elements to be available and all necessary templates to be instatiated.
+Especially for types that are to be used in libraries on Windows some
+constraints need to be satisfied.
+
+For an example on how to implement new Field types, see Examples/NewTypes in 
+the source code or source distribution.
 
 */
 
