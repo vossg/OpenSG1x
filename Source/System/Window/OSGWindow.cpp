@@ -330,20 +330,13 @@ void OSG::Window::onDestroy(void)
     // decrement GLObjects reference counter.
     for(UInt32 i = 1; i < _glObjects.size(); ++i)
     {
-        GLObject *obj = _glObjects[i];
-        UInt32 rc = obj->getRefCounter();
-
         // has the object been used in this context at all?
-        if(getGlObjectLastReinitialize()[i] != 0) 
-        {                  
-            _glObjects[i]->getFunctor().call( this, packIdStatus(i, destroy));
-    
-            if((rc = _glObjects[ i ]->decRefCounter()) <= 0)
-            {           
-                // call functor with the final-flag
-                _glObjects[i]->getFunctor().call( this, 
-                                                packIdStatus(i, finaldestroy));
-            }
+        if(getGlObjectLastReinitialize()[i] != 0)
+        {
+            _glObjects[i]->decRefCounter();
+            // we can't call here the destroy callbacks because the
+            // gl context is not guaranteed to be current, but destroying
+            // the context should delete all gl objects.
         }
     }
 
@@ -788,7 +781,9 @@ void OSG::Window::destroyGLObject(UInt32 id, UInt32 num)
 
     for(it = _allWindows.begin(); it != _allWindows.end(); ++it)
     {
-        (*it)->_glObjectDestroyList.push_back(DestroyEntry(id,num));
+        // has the object been used in this context at all?
+        if((*it)->getGlObjectLastReinitialize()[id] != 0) 
+            (*it)->_glObjectDestroyList.push_back(DestroyEntry(id,num));
     }
 }
 
