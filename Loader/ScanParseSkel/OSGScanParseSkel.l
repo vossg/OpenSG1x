@@ -219,7 +219,6 @@ header (#[^\n]*\n)
 <NODE>DEF           { return DEF; }
 <NODE>USE           { return USE; }
 <NODE>TO            { return TO; }
-<NODE>IS            { return IS; }
 <NODE>ROUTE         { return ROUTE; }
 <NODE>NULL          { return SFN_NULL; }
 <NODE>Script        { return SCRIPT; }
@@ -963,12 +962,14 @@ header (#[^\n]*\n)
 }
 
 <EXTERROR>. { return 0; }
- 
-<*>"{" { return OPENBRACE; }
-<*>"}" { return CLOSEBRACE; }
-<*>"[" { return OPENBRACKET; }
-<*>"]" { return CLOSEBRACKET; }
-<*>"." { return PERIOD; }
+
+
+<*>"IS" { BEGIN NODE; expectToken = 0; return IS; }
+<*>"{"  { return OPENBRACE;                       }
+<*>"}"  { return CLOSEBRACE;                      }
+<*>"["  { return OPENBRACKET;                     }
+<*>"]"  { return CLOSEBRACKET;                    }
+<*>"."  { return PERIOD;                          }
 
  /* Diese Regel erkennt Whitespace oder ansonsten nicht */
  /* erkannte Token in allen Startzustaenden */

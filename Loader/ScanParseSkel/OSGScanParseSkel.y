@@ -425,7 +425,16 @@ resInterfaceDeclarationScriptField : FIELD
                                                }
 ;
 
-resInterafceDeclarationScriptFieldEnd : IS fieldId 
+resInterafceDeclarationScriptFieldEnd : IS fieldId { nextType = 0; 
+
+                                                     if(_pSkel != NULL)
+                                                     {
+                                                       _pSkel->is(
+                                                        OSGScanParseSkel_text);
+
+                                                       _pSkel->endProtoField();
+                                                     }
+                                                   } 
                                       | fieldValue { nextType = 0; 
 
                                                      if(_pSkel != NULL)
@@ -473,15 +482,24 @@ nodeBodyElement : fieldId
                                         
                     } 
                    }
-                  fieldValue
-                  { if(_pSkel != NULL)
-                     _pSkel->endField();
-                  }
+                  fieldEnd
                 | routeStatement 
                 | protoStatement 
 ;
 
 //                | generalId IS generalId 
+
+fieldEnd : IS generalId { if(_pSkel != NULL)
+                          {
+                            _pSkel->is(OSGScanParseSkel_text);
+                            _pSkel->endField();
+                          }
+                        } 
+         | fieldValue   { if(_pSkel != NULL)
+                            _pSkel->endField();
+                        }
+;
+
 
 generalId  : ID
 ;

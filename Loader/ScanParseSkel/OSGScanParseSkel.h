@@ -178,6 +178,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     virtual void endNode  (void);
 
     virtual void use      (const Char8 *szName);
+    virtual void is       (const Char8 *szName);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

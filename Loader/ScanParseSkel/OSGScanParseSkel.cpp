@@ -245,6 +245,10 @@ void ScanParseSkel::use(const Char8 *szName)
     PINFO << "Use : " << szName << endl;
 }
 
+void ScanParseSkel::is(const Char8 *)
+{
+}
+
 /*-------------------------------------------------------------------------*/
 /*                               Helper                                    */
 
