@@ -240,7 +240,8 @@ Bool Plane::intersectInfinite(const Line &line, Pnt3f &point) const
 /**
   Intersect line and plane, returning true if there is an intersection
   false if line is parallel to plane. t is the distance along
-  the line, which may be negative
+  the line, which may be negative, i.e. the check is against a double
+  infinite line. 
 */
 Bool Plane::intersectInfinite(const Line &line, Real32 &t) const
 {

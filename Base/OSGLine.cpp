@@ -55,12 +55,12 @@
 
 OSG_USING_NAMESPACE
 
-/**
-  Construct a line from two points lying on the line.  If you
-  want to construct a line from a position and a direction, use
-  Line(p, p + d).
-  Line is directed from p0 to p1.
-*/
+/*! \class osg::Line
+    A line starting at a point p and extending infinitely far into the direction d.
+    This will probably split up into multiple classes for dual-inifinite and non-
+    infinite lines
+ */
+
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -187,14 +187,14 @@ Bool Line::intersect(const SphereVolume &sphere,
     d = sqrt(d);
     t1 = b - d;
 
-    if (t1 > 1)
-        return false;
+//    if (t1 > 1)
+//        return false;
 
     t2 = b + d;
 
     if ( t1 < Eps )
     {
-        if ( t2 < Eps || t2 > 1 )
+        if ( t2 < Eps /*|| t2 > 1*/ )
         {
             return false;
         }
@@ -355,7 +355,7 @@ Bool Line::intersect(const BoxVolume &box,
             tl=( low [0] - _pos[0] ) * r;
         }
 
-        if (te > 1)   return false;
+//        if (te > 1)   return false;
 
         if (tl < out)   out = tl;
         if (te > in)    in = te;
@@ -379,7 +379,7 @@ Bool Line::intersect(const BoxVolume &box,
             tl=( low [1] - _pos[1] ) * r;
         }
 
-        if (te > 1)   return false;
+//      if (te > 1)   return false;
 
         if (tl < out)   out = tl;
         if (te > in)    in = te;
@@ -403,7 +403,7 @@ Bool Line::intersect(const BoxVolume &box,
             tl=( low [2] - _pos[2] ) * r;
         }
 
-        if (te > 1)   return false;
+//        if (te > 1)   return false;
 
         if (tl < out)   out = tl;
         if (te > in)    in = te;
