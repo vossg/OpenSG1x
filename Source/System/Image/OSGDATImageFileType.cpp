@@ -49,6 +49,9 @@
 #include <fstream>
 
 #include <OSGLog.h>
+#include <OSGImageFileHandler.h>
+#include <OSGPathHandler.h>
+#include <OSGFileSystem.h>
 
 #include "OSGDATImageFileType.h"
 
@@ -219,7 +222,15 @@ bool DATImageFileType::read (      ImagePtr &image,
             {
                 inVol.open(objectFileName.c_str(), 
                            std::ios::in | std::ios::binary );
-                if (inVol)
+                if (inVol.fail() && ImageFileHandler::the().getPathHandler())
+                {
+                    // Try to find the file in the search path
+                    inVol.clear(); // reset the error state
+                    PathHandler * ph = ImageFileHandler::the().getPathHandler();
+                    inVol.open(ph->findFile(objectFileName.c_str()).c_str(),
+                               std::ios::in | std::ios::binary );
+                }
+                if (inVol.good())
                 {
                     image->set ( pixelFormat, res[0], res[1], res[2]);
                     dataSize = bpv * res[0] * res[1] * res[2];
@@ -233,8 +244,8 @@ bool DATImageFileType::read (      ImagePtr &image,
                 }
                 else 
                 {
-                    FWARNING (( "Can not open %s image data\n", 
-                                objectFileName.c_str() ));
+                    FLOG (( "Can not open %s image data\n", 
+                             objectFileName.c_str() ));
                 }
             }
             else 
