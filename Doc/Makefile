@@ -126,7 +126,7 @@ DOC_FILES := $(DOC_LIBS) $(DOC_PAGES)
 #			 ../Source/Base/StringConversion/StringConversion.dox	\
 #			 ../Source/Base/StringConversion
 
-#DOC_FILES := $(DOC_PAGES) 
+DOC_FILES := $(DOC_PAGES) 
 
 # level-dependent defines
 DOC_LEVEL ?= 1
