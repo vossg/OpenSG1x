@@ -50,6 +50,14 @@
 #include <GL/glu.h>
 #endif
 
+// _GLUfuncptr doesn't exist on all platforms.
+#if defined(WIN32)
+typedef void (CALLBACK *OSGGLUfuncptr)();
+#elif defined(__linux)
+typedef void (GLAPIENTRY *OSGGLUfuncptr)();
+#else
+typedef void (*OSGGLUfuncptr)();
+#endif
 
 #define OSGGLU_HEADER_CVSID "@(#)$Id: $"
 
