@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     }
 
     std::cout << "write:" << argv[argc - 1] << std::endl;
-    outFile = fopen(argv[argc - 1], "w");
+    outFile = fopen(argv[argc - 1], "wb");
     if(outFile == NULL)
     {
         std::cerr <<
