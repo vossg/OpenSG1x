@@ -46,6 +46,7 @@
 #include "OSGConfig.h"
 
 #include <OSGGL.h>
+#include <OSGGLU.h>
 
 #include "OSGLightChunk.h"
 
@@ -141,6 +142,8 @@ void LightChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 void LightChunk::activate(DrawActionBase *, UInt32 index)
 {
+	glErr("light:activate:precheck");
+
     glLightfv(GL_LIGHT0 + index, GL_DIFFUSE,
                             _sfDiffuse.getValue().getValuesRGBA());
     glLightfv(GL_LIGHT0 + index, GL_AMBIENT,
@@ -157,6 +160,7 @@ void LightChunk::activate(DrawActionBase *, UInt32 index)
                             _sfQuadraticAttenuation.getValue());
 
     glLightf( GL_LIGHT0 + index, GL_SPOT_CUTOFF, _sfCutoff.getValue());
+
     if(_sfCutoff.getValue() < 180)
     {
         glLightfv(GL_LIGHT0 + index, GL_SPOT_DIRECTION,
@@ -164,10 +168,14 @@ void LightChunk::activate(DrawActionBase *, UInt32 index)
         glLightf( GL_LIGHT0 + index, GL_SPOT_EXPONENT, _sfExponent.getValue());
     }
     glEnable(GL_LIGHT0 + index);
+
+	glErr("light:activate:postcheck");
 }
 
 void LightChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32 index)
 {
+	glErr("light:changed:precheck");
+
     LightChunk const *old = dynamic_cast<LightChunk const*>(old_chunk);
 
     // change from me to me?
@@ -199,6 +207,8 @@ void LightChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32 ind
                                         _sfDirection.getValue().getValues());
         glLightf( GL_LIGHT0 + index, GL_SPOT_EXPONENT, _sfExponent.getValue());
     }
+
+	glErr("light:changed:postcheck");
 }
 
 void LightChunk::deactivate(DrawActionBase *, UInt32 index)

@@ -46,6 +46,7 @@
 #include "OSGConfig.h"
 
 #include <OSGGL.h>
+#include <OSGGLU.h>
 
 #include "OSGMaterialChunk.h"
 
@@ -130,6 +131,8 @@ void MaterialChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 void MaterialChunk::activate(DrawActionBase *, UInt32)
 {
+	glErr("material:activate:precheck");
+
     GLenum target;
 
     if(getBackMaterial())
@@ -188,10 +191,14 @@ void MaterialChunk::activate(DrawActionBase *, UInt32)
     {
         glDisable(GL_LIGHTING);
     }
+
+	glErr("material:activate:postcheck");
 }
 
 void MaterialChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
 {
+	glErr("material:changed:precheck");
+
     MaterialChunk const *old = dynamic_cast<MaterialChunk const*>(old_chunk);
 
     // change from me to me?
@@ -207,7 +214,8 @@ void MaterialChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
         return;
     }
 
-    if(getColorMaterial() == GL_NONE && getBackColorMaterial() == GL_NONE &&
+    if(getColorMaterial() == GL_NONE && 
+		((getBackColorMaterial() == GL_NONE) || ! getBackMaterial())  &&
        (old->getColorMaterial()     != GL_NONE || 
         old->getBackColorMaterial() != GL_NONE
        )
@@ -282,11 +290,12 @@ void MaterialChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
                 glMaterialf( GL_BACK, GL_SHININESS, _sfBackShininess.getValue());
         }
     }
+
+	glErr("material:changed:precheck");
 }
 
 void MaterialChunk::deactivate(DrawActionBase *, UInt32)
 {
-
     if(getLit())
         glDisable(GL_LIGHTING);
 
