@@ -973,6 +973,19 @@
 #define GL_OCCLUSION_TEST_RESULT_HP       0x8166
 #endif
 
+/*---------------------------------------------------------------------*/
+/*! \name GL_EXT_texture_compression_s3tc                              */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+#ifndef GL_EXT_texture_compression_s3tc
+#define GL_COMPRESSED_RGB_S3TC_DXT1_EXT   0x83F0
+#define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT  0x83F1
+#define GL_COMPRESSED_RGBA_S3TC_DXT3_EXT  0x83F2
+#define GL_COMPRESSED_RGBA_S3TC_DXT5_EXT  0x83F3
+#endif
+
 #ifndef GL_VERSION_1_2
 #define GL_CLAMP_TO_EDGE                  0x812F
 #endif
