@@ -2718,8 +2718,14 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
         {
             BlendChunkPtr pBlendChunk = OSG::BlendChunk::create();
             
-            pBlendChunk->setSrcFactor (GL_SRC_ALPHA);
-            pBlendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+            beginEditCP(pBlendChunk, BlendChunk::SrcFactorFieldMask |
+                                     BlendChunk::DestFactorFieldMask);
+            {
+                pBlendChunk->setSrcFactor (GL_SRC_ALPHA);
+                pBlendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+            }
+            endEditCP(pBlendChunk, BlendChunk::SrcFactorFieldMask |
+                                   BlendChunk::DestFactorFieldMask);
             
             beginEditCP(pChunkMat, ChunkMaterial::ChunksFieldMask);
             {
