@@ -24,7 +24,7 @@ NodePtr createScenegraph(){
     
     //Load the image we want to use as a texture
     ImagePtr image = Image::create();
-    image->read("images/bricks.jpg");
+    image->read("data/bricks.jpg");
     
     //now we create the texture that will hold the image
     SimpleTexturedMaterialPtr tex = SimpleTexturedMaterial::create();

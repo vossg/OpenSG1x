@@ -14,6 +14,8 @@ Chapter Overview
 	\ref TutorialTraversalActionsRender <BR>
 	\ref TutorialTraversalActionsIntersect <BR>
     \ref TutorialTraversalActionsTraverse <BR>
+	\ref TutorialTraversalGraphOps <BR>
+	\ref TutorialTraversalTutorial
 <HR>
 
 What have we learned so far? We know how to create a scenegraph and we can use the simple scene manager to have a fully functional application. In the last
@@ -188,7 +190,99 @@ a function that will count the polygons.
 
 \section TutorialTraversalGraphOps Graph Operators
 
-[TODO: complete this section]
+<B>
+Attention:
+
+Graph Operators are not available in OpenSG Version 1.2! If you want to benefit from graph operators you have to use the CVS version.
+</B>
+
+Graph operators can apply complex operations on the graph, with only very few effort (for you). Usaually one or more graph operators are applied after you
+loaded a modell from file. The problem is, that a loader needs to be very flexible. Some want highly optimized geometry for hight performance, where others
+might prefer a close as possible representation of the original modell with the structure staying untouched. With the help of graph operators you can make 
+sure the result fits your needs.  
+
+Often you want to apply more than just one operator. osg::GraphOpSeq stores a sequence of osg::GrapOp which will be applied one after another. Note, that
+the graph is traversed once for every operator you have defined which may slow down loading of bigger files. It is possible to specify an exclude list of
+nodes which will be skipped during traversal.
+
+Depending on your scene, graph operators can have a great impact of on the performance of your application, but keep in mind that this is not true in general.
+For example, the 3D Studio Max VRML exporter is not very good, therefor you can archieve great results with graph ops, where as the Cinma 4D exporter is
+doing a good job and there is not that much to optimize left. However, giving it a try can always be useful.
+
+Graph Operators are very easy to use. They are not derived from field container and can be instantiated as usual c++ objects.
+
+\code
+	SplitGraphOp* spo = new SplitGraphOp;
+	spo->setMaxPolygons(50);
+\endcode
+
+There are two ways how graph operators can be applied to the scenegraph. You can apply the operator direcly by calling traverse() on a node of your choice,
+usually the root node.
+
+\code
+	spo->traverse(scene);
+\endcode
+
+The most common way is to create a sequence of operators and pass it to the loader. The follwoing example shows a sequence of two operators which are 
+passed to the loader.
+
+\code
+	GraphOpSeq *graphOperator = new GraphOpSeq;
+	
+	//first we verify the geometry
+	graphOperator->addGraphOp(new MergeGraphOp);
+	graphOperator->addGraphOp(new VerifyGeoGraphOp);
+	
+    
+	someNode = SceneFileHandler::the().read("some_file.wrl", graphOperator);
+\endcode
+
+Here is an overview of the predefined graph operators
+
+\subsection TutorialTraversalGraphOpsMerge Merge
+
+osg::MergeGraphOp tries to combine geometry that has the same attributes and hence is combinable. Remember the section about \ref GeometryIndexing? This
+operator will change some indices and deletes the attribute values that become obsolete. In addition to that the graph will be flattened as transformations
+are applied to the vertices thus there is only one transformation per vertex. This operator is smart enough to handle LOD correct, so it should work with any
+modell.
+
+\subsection TutorialTraversalGraphOpsMaterialMerge Material Merge
+
+This one is extremly useful under certain circumstances. I had the following situation during a recent project: Someone modelled a few different bulings and
+someone else build a little city from these with copy and paste. The buildings were textured, of course. Well, we exported that to VRML with Studio Max and
+after loading with OpenSG our memory was all but gone... 1 GB of memory wasted. What happend? The texture that was assigned to the buildings was loaded once
+for each one and was not reused probably... and we had lots of buildings. 
+
+This is where the material merge graph operator will help you out. If apllied to the graph it will look for identical textures, that will be shared as
+expected afterwards. If you have a smart exporter or readily optimized data you won't need this operator, in every other case it would be wise to use it.
+This operator can actually cause no harm to your scenegraph so you can use it in most cases - just to make sure.
+
+\subsection TutorialTraversalGraphOpsPrune Prune
+
+Very small objects (realtive to the whole seen) are automatically deleted by osg::PruneGraphOp. Of course, it is possible that you may loose important data, 
+but on the other side if you have a file created by some architect you might not be happy about the scews he modelled throughout the skyscaper object. The 
+prune operator might be able to remove these small objects automatically. However, in most cases you have to check if the result is good for your needs.
+
+\subsection TutorialTraversalGraphOpsStripe Stripe
+
+This one simply stripes geometry. The result is the same as if you were using QUAD_STRIP or TRIANGLE_STRIP in OpenGL. 
+
+\subsection TutorialTraversalGraphOpsSharePtr SharePtr
+
+The sg::SharePtrGraphOp tries to share field container which have the same values regardless of what type they are. You should stripe a geometry fist, bevor
+you share field containers and not the other way around, else you  might encounter some problems. 
+
+\subsection TutorialTraversalGraphOpsVerify Verify
+
+Simply checks if the geometry is consitent.
+[TODO: what happens if it is not?]
+
+\subsection TutorialTraversalGraphOpsSplit Split Graph Operator
+
+With this operator you can split a scenegraph into several parts which will contain a predefined number of polygons. This is very useful if you, for example,
+load a very large mesh. Usually this will not be very performant as this object is stored in one single node and the view frustum culling can not work 
+efficently. By splitting it up into several nodes you can improve performance remarkably. But be careful, splitting up a 100.000 geometry core into single nodes
+with each 50 polygons won't be speedy at all...
 
 \section TutorialTraversalTutorial Tutorial - Graph Traversal
 
@@ -261,7 +355,7 @@ Now compile and execute the application. After the window appears push 'p' and w
 and not the terminal is active. The result should look like this
 
 \image html terminal_results.png "Terminal results"
-\image latex terminal_results.png "Terminal results" width=6cm
+\image latex terminal_results.eps "Terminal results" width=6cm
 
 As you can see there are three nodes whose name contain the prefix FACESET_ which we encountered before when we were implementing a search for the geometry core
 of the woman modell in section \ref TutorialNodeCoresTutorial. Some nodes have no name set at all but three other have exactly the same name as it was provided
@@ -294,4 +388,193 @@ the other case. After you have finished that compile and execute the application
 
 After you have pushed the 'g' key you will know that our assumtion was correct! If you have problems compiling it you can have a look at the complete program 
 here : <a href = "progs/12traversal.cpp">progs/12traversal.cpp</a>
+
+
+Now either take that file or the one you just created. We are now going to tune or program a bit up and use some graph operators. First we extend our program 
+to load files from the command line. This is actually no big deal. In the main() function locate the line where we call createScenegraph() and replace it with
+
+\code
+	if (argc > 1)
+		scene =createScenegraph(argv[1]);
+	else
+		scene = createScenegraph("data/brick_quads.wrl");
+\endcode
+
+This either loads a file passed in the command line (i.e. the first parameter), or if none is given, it load's a default scene. Now alter the line that actually
+loads the file in the createScenegraph() method. The new correct command is
+
+\code
+	NodePtr n = SceneFileHandler::the().read(filename);
+\endcode
+
+Give it a try by calling the program by
+<PRE>
+	./12traversel2 data/beethoven.wrl
+</PRE>
+assuming that you called your file that way and that it is located in the "progs" folder.
+
+Before we begin implementing optimizations with graph operators, you have to add new include files
+
+\code
+#include <OpenSG/OSGGraphOpSeq.h>
+#include <OpenSG/OSGSplitGraphOp.h>
+#include <OpenSG/OSGVerifyGeoGraphOp.h>
+#include <OpenSG/OSGMergeGraphOp.h>
+#include <OpenSG/OSGSharePtrGraphOp.h>
+\endcode
+
+Now we are going to apply a little sequence of graph operators right when loading the file. In the createScenegraph() function add the following code just before
+the command you edited last.
+
+\code
+	// define the Graph Op Sequence here
+	GraphOpSeq *graphOperator = new GraphOpSeq;
+	
+	//first we verify the geometry
+	graphOperator->addGraphOp(new VerifyGeoGraphOp);
+	//merge geometry and transformations
+	graphOperator->addGraphOp(new MergeGraphOp);
+	//merge identical field containers
+	graphOperator->addGraphOp(new SharePtrGraphOp);
+	//verify again
+	graphOperator->addGraphOp(new VerifyGeoGraphOp);
+\endcode
+
+now we need to pass the sequence object to the loader. Once again change the line that loads the file
+
+\code
+	NodePtr n = SceneFileHandler::the().read(filename, graphOperator);
+\endcode
+
+Now, after loading the resulting graph will be modified by the graph operator sequence. In this sepcifc case the geometry will first be verified, then the
+geometry will be optimized by merging reusable parts, as well as appling transformations to the vertices directly, where possible. Next all field containers
+with identical content are shared and finally the the geometry is verified again.
+	
+Again, please note, that this does not always result in better graphs! If you try it with the scene from "brick_quads.wrl" you will not notice any 
+significant changes at all.
+
+You can try to load the first example file "torus_sphere_cone.wrl". The system will inform you that five cores where shared. Furthermore if you now
+push 'p', you can see that there are only four nodes left: a node without name (that has to be the root node) and three futher nodes, we previously have
+identified as the nodes storing the geometry cores. All other nodes have not survived the optimization - the transformations are gone as they have been computed
+into the vertex positions. Well, that's 11 nodes have been reduced to 4, that is more than 50%! 
+	
+As next we want to apply another graph operator manually during runtime. This time we will use the split graph operator. In order to have some feedback we
+will create another traversal action that count nodes beforehand. This is now buisiness as usual: The function that will act as a functor 
+(add it just below the others)
+	
+\code
+//This one will count how many nodes are stored in the graph
+Action::ResultE countNodes(NodePtr& node){
+	counter++;
+	return Action::Continue;
+}
+\endcode
+	
+We will use it later on.
+
+So what next? We want to split the graph into many little nodes with 50 polygons each when the user presses the 's' key. So edit your keyboard callback function
+and add the following code
+
+\code
+	case 's':
+			cout << "Splitting Graph now...";
+			
+			counter=0;
+			
+			traverse(scene,
+					osgTypedFunctionFunctor1CPtrRef
+					<Action::ResultE, NodePtr>(countNodes));
+					
+			cout << "Number of nodes before splitting: " << counter << endl;
+			
+			SplitGraphOp* spo = new SplitGraphOp;
+			spo->setMaxPolygons(50);
+			spo->traverse(scene);
+			delete spo;
+			
+			cout << "done" << endl;
+			
+			counter=0;
+			
+			traverse(scene,
+					osgTypedFunctionFunctor1CPtrRef
+					<Action::ResultE, NodePtr>(countNodes));
+					
+			cout << "Number of nodes after splitting: " << counter << endl;
+			
+		break;
+\endcode
+
+<B>
+If you have less than 512 MB of memory, you should choose more than 50 polygons as max polygon value - maybe 100 or 250.
+</B>
+
+After compiling execute the application with
+<PRE>
+./12traversal3 data/beethoven.wrl
+</PRE>
+
+Try to rotate the guy. If you have a moderate PC you might notice that the performance is not that great, as here are 60.000 polygons in one node. Memory
+consumtion lies by about 23 MB. Now split the graph up by pushing 's' - this may take some time. Memory consumtion goes up to about 307 MB, but performance
+increases significantly as now the view frustum culling can work better. The number of nodes increases from 2 to 1190 nodes if you used 50 polygons as maximum!
+
+Of course, this one is just for demonstartion - in real live that would not be adviseable!
+
+The code so far can be dound in "progs/12traversal2.cpp"
+
+\subsection TutorialTraversalTutorialIntersect Hit it
+
+As a last feature for this tutorial we are going to add the possibility to click into the window to select objects which will then be deleted. 
+
+First remove the code that created the graph operator sequence during createScenegraph(). Do not forget to adjust the load command by removing the operator
+sequence parameter. We do not want these optimiziations for this example, because the single boxes would be merged into a single one. You see - as we
+want to preserve the structure this time, graph optimizer are not always what you want...
+
+Anyway, replace the mouse() function with the following code
+
+\code
+void mouse(int button, int state, int x, int y)
+{
+    if (!state)
+        mgr->mouseButtonRelease(button, x, y);
+    else{
+		// this is the case when the mouse button 
+		// is released
+        
+		//just to inform the simple scene manager
+		mgr->mouseButtonPress(button, x, y);
+
+		//calculates a ray from the camera trough
+		//the clicked pixel
+		Line ray = mgr->calcViewRay(x, y);
+	
+		IntersectAction *iAct = IntersectAction::create();
+	
+		iAct->setLine(ray);
+		iAct->apply(scene);
+	
+		//see if anything was hit
+		if (iAct->didHit()){
+			// get the hit point
+			Pnt3f p = iAct->getHitPoint();
+		
+			cout << "Hit point : " << p[0] << " " << p[1] << " " << p[2] << endl;
+			
+			//and the node that was hitted
+			NodePtr n = iAct->getHitObject();
+			
+			//we decrease the refernce count - which will now
+			//be zero, hence the object will be deleted!
+			subRefCP(n);
+		}
+	}
+        
+    glutPostRedisplay();
+}
+\endcode
+
+and then compile and execute the application. You can now click away boxes... with some more features this one could evolve into a game! ;) You see using
+intersect actions is not that difficult.
+
+Next Chapter : \ref Multithreading
 */

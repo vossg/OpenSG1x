@@ -1,0 +1,60 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \page Multithreading Multithreading
+\latexonly Starter:NewChapter \endlatexonly
+
+Chapter Overview
+<HR>
+<HR>
+
+Multithreading is often not very easy to handle and even more often it is dangerous and evil to debug. However, multithreading is powerful and very useful in
+many situations. At the very beginning I promised that multithreading is very easy with OpenSG. So now let's see if I can hold this promise. If I am right you
+will finally rewarded for all these begin- and endEditCP blocks you have written (or copied) so far.
+
+Well, let's start right of with something very simple, just to see how easy it can be to use multiple threads (if you know how ;) ).
+
+As always, please make a copy of the framwork file. We really need no geometry at all for this little demonstration, but the scene manager must have at least
+a root node. So create a group node or some simple geometry, whatever you want, an give it to the simple scene manager. Try to execute, just to make sure
+everthing works fine - there is nothing more annoying than searching hours for an error in your threads where the real error lies somewhere else!
+
+First there is, of course, a new include files, that needs to be added.
+
+\code
+	#include "#include <OpenSG/OSGThreadManager.h>"
+\endcode
+
+Like with the simple scene manager, too, the thread manager will include most other include files needed in this context. 
+
+First we need a function that will be executed by a thread. As we want to create two new threads, beside the main thread, we want to functions - paste them
+somewhere before the main function.
+
+\code
+void printA(void *args){
+	while (true)
+		std::cout << "A";
+}
+
+void printB(void *args){
+	while (true)
+		std::cout << "B";
+}
+\endcode
+
+These functions will simply print A or B respektivley until the application is terminated. Now we need to create and start the threads that will run both
+functions. Add the following code right before the main function!
+
+\code
+	Thread* threadOne = dynamic_cast<Thread *>(ThreadManager::the()->getThread("One"));
+	Thread* threadTwo = dynamic_cast<Thread *>(ThreadManager::the()->getThread("Two"));
+    
+	threadOne->runFunction(printA, 1, NULL);
+	threadTwo->runFunction(printB, 1, NULL);
+\endcode
+
+If you now run this application, watch the terminal. You will see many many A's and B's mixed together. Notice that you still can navigate in the window (well,
+you need some geometry to see that effect), because the OpenSG rendering (i.e. the GLUT main loop) runs in the main thread. 
+
+If you like to replace the letters with a word or a sentence and watch what happens.
+*/
