@@ -215,10 +215,10 @@ class VRMLStaticActionMixin : public VRMLAction
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef vector<VRMLActionFunctor> FunctorStore;
-    typedef vector<VRMLNode *>        VRMLNodeStore;
+    typedef std::vector<VRMLActionFunctor> FunctorStore;
+    typedef std::vector<VRMLNode *>        VRMLNodeStore;
 
-    typedef VRMLNodeStore::iterator   VRMLNodeStoreIt;
+    typedef VRMLNodeStore::iterator        VRMLNodeStoreIt;
 
     //-----------------------------------------------------------------------
     //   constants                                                           

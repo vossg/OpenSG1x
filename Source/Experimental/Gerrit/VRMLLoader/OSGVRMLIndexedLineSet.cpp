@@ -428,8 +428,8 @@ void VRMLIndexedLineSetBinder::finish(VRMLToOSGAction *pAction)
     }
 
 
-    vector<Int32> dummyVec;
-    bool          dummyBool = false;
+    std::vector<Int32> dummyVec;
+    bool               dummyBool = false;
 
     setIndexFromVRMLData(pGeo,
                          pCoordIndex   ->getValues(),

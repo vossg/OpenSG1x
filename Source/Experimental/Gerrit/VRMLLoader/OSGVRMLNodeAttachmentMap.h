@@ -65,7 +65,7 @@ OSG_BEGIN_NAMESPACE
 //   Types
 //---------------------------------------------------------------------------
 
-typedef map<UInt32, VRMLNodeAttachment *> VRMLNodeAttachmentMap;
+typedef std::map<UInt32, VRMLNodeAttachment *> VRMLNodeAttachmentMap;
 
 template <>
 struct OSG_VRML_DLLMAPPING FieldDataTraits<VRMLNodeAttachmentMap>// : 

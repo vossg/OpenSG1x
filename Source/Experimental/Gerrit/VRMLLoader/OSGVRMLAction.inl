@@ -64,7 +64,7 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 template <class StaticDescT>
-vector<
+std::vector<
   typename VRMLStaticActionMixin<StaticDescT>::VRMLActionFunctor> *
     VRMLStaticActionMixin<StaticDescT>::_pDefaultTravFunctors = NULL;
 
@@ -230,7 +230,7 @@ VRMLAction::ActionResult
     {
         if(*nodesBeginIt == NULL)
         {
-            SWARNING << "apply: encountered NullNode!" << endl;
+            SWARNING << "apply: encountered NullNode!" << std::endl;
 
             return Stop;
         }

@@ -101,17 +101,17 @@ class OSG_BASE_DLLMAPPING TypeFactory : public FactoryBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef map   <IDStringLink, UInt32>  TypeNameMap;
+    typedef std::map   <IDStringLink, UInt32>  TypeNameMap;
 
-    typedef TypeNameMap::iterator         TypeNameMapIt;
-    typedef TypeNameMap::const_iterator   TypeNameMapConstIt;
+    typedef TypeNameMap::iterator              TypeNameMapIt;
+    typedef TypeNameMap::const_iterator        TypeNameMapConstIt;
 
-    typedef vector<TypeBase           *>  TypeStore;
+    typedef std::vector<TypeBase           *>  TypeStore;
 
-    typedef TypeStore::iterator           TypeStoreIt;
-    typedef TypeStore::const_iterator     TypeStoreConstIt;
+    typedef TypeStore::iterator                TypeStoreIt;
+    typedef TypeStore::const_iterator          TypeStoreConstIt;
 
-    typedef vector<TypeNameMap        *>  TypeMapsStore;
+    typedef std::vector<TypeNameMap        *>  TypeMapsStore;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

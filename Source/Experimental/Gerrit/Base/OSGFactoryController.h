@@ -111,10 +111,10 @@ class OSG_BASE_DLLMAPPING FactoryController
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef map<IDStringLink, FactoryBase *> FactoryMap;
+    typedef std::map<IDStringLink, FactoryBase *> FactoryMap;
 
-    typedef FactoryMap::iterator             FactoryMapIt;
-    typedef FactoryMap::const_iterator       FactoryMapConstIt;
+    typedef FactoryMap::iterator                  FactoryMapIt;
+    typedef FactoryMap::const_iterator            FactoryMapConstIt;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

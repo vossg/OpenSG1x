@@ -90,10 +90,10 @@ class OSG_BASE_DLLMAPPING ChangedChangeListMixin : public MemoryObject
     typedef typename Desc::ContainerId            ContainerId;
     typedef typename Desc::ChangedMask            ChangedMask;
 
-    typedef          pair  <ContainerId, 
-                            ChangedMask         > ChangedEntry;
+    typedef          std::pair  <ContainerId, 
+                                 ChangedMask    > ChangedEntry;
 
-    typedef          vector<ChangedEntry        > ChangedStore;
+    typedef          std::vector<ChangedEntry   > ChangedStore;
 
     typedef typename ChangedStore::size_type      changed_size_type;
     typedef typename ChangedStore::const_iterator changed_const_iterator;

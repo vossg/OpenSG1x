@@ -152,17 +152,17 @@ class ContainerFactoryMixin : public FactoryBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef map   <UInt32,       ContainerType *>    TypeIdMap;
-    typedef map   <IDStringLink, ContainerType *>    TypeNameMap;
+    typedef std::map   <UInt32,       ContainerType *>    TypeIdMap;
+    typedef std::map   <IDStringLink, ContainerType *>    TypeNameMap;
 
-    typedef vector<              ContainerType *>    UninitTypeStore;
+    typedef std::vector<              ContainerType *>    UninitTypeStore;
 
-    typedef typename TypeIdMap      ::iterator       TypeIdMapIt;
-    typedef typename TypeNameMap    ::iterator       TypeNameMapIt;
-    typedef typename UninitTypeStore::iterator       UninitTypeStoreIt;
+    typedef typename TypeIdMap      ::iterator            TypeIdMapIt;
+    typedef typename TypeNameMap    ::iterator            TypeNameMapIt;
+    typedef typename UninitTypeStore::iterator            UninitTypeStoreIt;
 
-    typedef typename TypeIdMap      ::const_iterator TypeIdMapConstIt;
-    typedef typename TypeNameMap    ::const_iterator TypeNameMapCnstIt;
+    typedef typename TypeIdMap      ::const_iterator      TypeIdMapConstIt;
+    typedef typename TypeNameMap    ::const_iterator      TypeNameMapCnstIt;
 
     //-----------------------------------------------------------------------
     //   class variables                                                     

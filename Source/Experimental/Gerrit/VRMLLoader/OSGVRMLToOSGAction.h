@@ -49,7 +49,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGVRMLAction.h>
 #include <OSGIDString.h>
-#include <OSGLightBase.h>
+#include <OSGLight.h>
 
 #include <map>
 
@@ -110,7 +110,7 @@ class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef map<IDStringLink, VRMLNode *> NameNodeMap;
+    typedef std::map<IDStringLink, VRMLNode *> NameNodeMap;
 
     //-----------------------------------------------------------------------
     //   constants                                                           
@@ -238,7 +238,7 @@ class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
     DataTransferMode getDataTransferMode(void                           );
 
 
-    void             dropLight          (LightBasePtr      pLight       );
+    void             dropLight          (LightPtr          pLight       );
 
     NodePtr          getLightRoot       (void                           );
     NodePtr          getLightLeave      (void                           );

@@ -227,7 +227,7 @@ VRMLFontStyle::VRMLFontStyle(void) :
     _sfStyle      (    ),
     _sfTopToBottom(true)
 {
-    string szJustify("BEGIN");
+    std::string szJustify("BEGIN");
     
     _sfFamily.getValue().assign("SERIF");
     _sfStyle .getValue().assign("PLAIN");

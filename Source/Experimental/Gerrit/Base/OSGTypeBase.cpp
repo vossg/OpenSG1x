@@ -147,7 +147,7 @@ bool TypeBase::initialize(void)
         {
             SWARNING << "ERROR: could not find parent type named "
                      << _szParentName.str()
-                     << endl;
+                     << std::endl;
         }
         else
         {
@@ -163,7 +163,7 @@ bool TypeBase::initialize(void)
             << _szName.str() 
             << " | "
             << _bTypeBaseInitialized
-            << endl;
+            << std::endl;
 
     return _bTypeBaseInitialized;
 }
@@ -328,7 +328,7 @@ void TypeBase::dump(      UInt32    uiIndent,
                     const BitVector         ) const
 {
     indentLog(uiIndent, PLOG);
-    PLOG << "TypeBase : " << getId() << " | " << getCName() << endl;
+    PLOG << "TypeBase : " << getId() << " | " << getCName() << std::endl;
 }
 
 

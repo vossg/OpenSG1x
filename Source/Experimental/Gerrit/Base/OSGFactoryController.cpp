@@ -199,14 +199,14 @@ bool FactoryController::registerTypeFactory(TypeFactory *pFactory)
 {
     if(pFactory == NULL)
     {
-		SWARNING << "no type factory given" << endl;
+		SWARNING << "no type factory given" << std::endl;
 
 		return false;        
     }
 
 	if(pFactory->getName().isEmpty() == true) 
     {
-		SWARNING << "TypeFactory without name" << endl;
+		SWARNING << "TypeFactory without name" << std::endl;
 
 		return false;
 	}
@@ -216,7 +216,7 @@ bool FactoryController::registerTypeFactory(TypeFactory *pFactory)
         SWARNING << "ERROR: Can't add a second "
                  << "type factory with the name " 
                  << pFactory->getCName()
-                 << endl;
+                 << std::endl;
         
         return false;
     }
@@ -224,7 +224,7 @@ bool FactoryController::registerTypeFactory(TypeFactory *pFactory)
     _pTypeFactory = pFactory;
 
     PINFO << "Registered type factory " << pFactory->getCName() 
-          << endl;
+          << std::endl;
 
     return true;
 }
@@ -233,14 +233,14 @@ bool FactoryController::registerFactory(FactoryBase *pFactory)
 {
     if(pFactory == NULL)
     {
-		SWARNING << "no factory given" << endl;
+		SWARNING << "no factory given" << std::endl;
 
 		return false;        
     }
 
 	if(pFactory->getName().isEmpty() == true) 
     {
-		SWARNING << "FactoryBase without name" << endl;
+		SWARNING << "FactoryBase without name" << std::endl;
 
 		return false;
 	}
@@ -248,7 +248,7 @@ bool FactoryController::registerFactory(FactoryBase *pFactory)
     if(findFactory(pFactory->getCName()) != NULL)
     {
         SWARNING << "ERROR: Can't add a second "
-                 << "type with the name " << pFactory->getCName() << endl;
+                 << "type with the name " << pFactory->getCName() << std::endl;
 
         return false;
     }
@@ -256,7 +256,7 @@ bool FactoryController::registerFactory(FactoryBase *pFactory)
     _mFactoryMap[pFactory->getName()] = pFactory;
     
     PINFO << "Registered factory " << pFactory->getCName() 
-          << endl;
+          << std::endl;
 
     return true;
 }

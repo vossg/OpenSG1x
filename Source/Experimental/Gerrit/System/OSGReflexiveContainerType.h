@@ -146,14 +146,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ReflexiveContainerType : public DataType
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef map   <IDStringLink, DataElementDesc *> DescMap;
-    typedef vector<              DataElementDesc *> DescVec;
+    typedef std::map   <IDStringLink, DataElementDesc *> DescMap;
+    typedef std::vector<              DataElementDesc *> DescVec;
 
-    typedef DescMap::iterator                       DescMapIt;
-    typedef DescVec::iterator                       DescVecIt;
+    typedef DescMap::iterator                            DescMapIt;
+    typedef DescVec::iterator                            DescVecIt;
 
-    typedef DescMap::const_iterator                 DescMapConstIt;
-    typedef DescVec::const_iterator                 DescVecConstIt;
+    typedef DescMap::const_iterator                      DescMapConstIt;
+    typedef DescVec::const_iterator                      DescVecConstIt;
 
     //-----------------------------------------------------------------------
     //   class variables                                                     

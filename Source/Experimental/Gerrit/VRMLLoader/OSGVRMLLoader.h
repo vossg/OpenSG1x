@@ -96,13 +96,13 @@ class OSG_VRML_DLLMAPPING VRMLLoader :
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef stack <      VRMLNode          *> NodeStack;
-    typedef stack <      Field             *> FieldStack;
-    typedef stack <const DataElementDesc   *> ElementDescStack;
+    typedef std::stack <      VRMLNode          *> NodeStack;
+    typedef std::stack <      Field             *> FieldStack;
+    typedef std::stack <const DataElementDesc   *> ElementDescStack;
 
-    typedef vector<      VRMLNode          *> ResultStore;
+    typedef std::vector<      VRMLNode          *> ResultStore;
 
-    typedef map   <IDStringLink, VRMLNode  *> NameNodeMap;
+    typedef std::map   <IDStringLink, VRMLNode  *> NameNodeMap;
 
     //-----------------------------------------------------------------------
     //   constants                                                           

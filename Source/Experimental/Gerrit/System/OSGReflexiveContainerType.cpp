@@ -128,7 +128,7 @@ bool ReflexiveContainerType::initFields(void)
                 SWARNING << "ERROR: Double field description " 
                          << "in " << _szName.str() << "from " 
                          << _vDesc[i]->getCName() 
-                         << _vDesc[i]->getTypeId() << endl;
+                         << _vDesc[i]->getTypeId() << std::endl;
 
                 returnValue = false;
             }
@@ -137,14 +137,14 @@ bool ReflexiveContainerType::initFields(void)
         {
             SWARNING << "ERROR: Invalid field description " 
                      << "in " << _szName.str() << "from " 
-                     << _vDesc[i]->getTypeId() << endl;
+                     << _vDesc[i]->getTypeId() << std::endl;
             
             returnValue = false;
         }
 
     }
 
-    sort(_vDescVec.begin(), _vDescVec.end(), DataElementDescPLT());
+    std::sort(_vDescVec.begin(), _vDescVec.end(), DataElementDescPLT());
 
     return returnValue;
 }
@@ -177,7 +177,7 @@ bool ReflexiveContainerType::initParentFields(void)
                 {
                     SWARNING << "ERROR: Can't add field "
                              << "description a second time: " 
-                             << (*dPIt).first.str() << endl; 
+                             << (*dPIt).first.str() << std::endl; 
                 }
             } 				
             
@@ -190,7 +190,7 @@ bool ReflexiveContainerType::initParentFields(void)
         {
             SWARNING << "ERROR: parent not initialized "
                      << "name " << _szParentName.str() 
-                     << endl;
+                     << std::endl;
             
             returnValue = false;
         }
@@ -231,7 +231,7 @@ bool ReflexiveContainerType::initialize(void)
     PINFO << "init ReflexiveContainerType (" 
           << _bReflexTypeInitialized
           << ")" 
-          << endl;
+          << std::endl;
 
     return _bReflexTypeInitialized;
 }
@@ -359,9 +359,9 @@ UInt32 ReflexiveContainerType::addDescription(
 
             _mDescMap[IDStringLink(pDesc->getCName())] = pDesc;
 
-            descVIt = find(_vDescVec.begin(), 
-                           _vDescVec.end(),
-                           pNullDesc);
+            descVIt = std::find(_vDescVec.begin(), 
+                                _vDescVec.end(),
+                                 pNullDesc);
 
             if(descVIt == _vDescVec.end())
             {
@@ -381,14 +381,14 @@ UInt32 ReflexiveContainerType::addDescription(
             SWARNING << "ERROR: Double field description " 
                      << "in " << _szName.str() << "from " 
                      << desc.getCName() 
-                     << desc.getTypeId() << endl;
+                     << desc.getTypeId() << std::endl;
         }
     }
     else
     {
         SWARNING << "ERROR: Invalid field description " 
                  << "in " << _szName.str() << "from " 
-                 << desc.getTypeId() << endl;
+                 << desc.getTypeId() << std::endl;
     }
 
     return returnValue;
@@ -415,7 +415,7 @@ bool ReflexiveContainerType::subDescription(UInt32 uiFieldId)
         returnValue = false;
     }
 
-    descVIt = find(_vDescVec.begin(), _vDescVec.end(), pDesc);
+    descVIt = std::find(_vDescVec.begin(), _vDescVec.end(), pDesc);
 
     if(descVIt != _vDescVec.end())
     {
@@ -452,25 +452,25 @@ void ReflexiveContainerType::dump(      UInt32    uiIndent,
                                   const BitVector bvFlags) const
 {
     indentLog(uiIndent, PLOG);
-    PLOG << "ReflexiveContainerType : " << endl;
+    PLOG << "ReflexiveContainerType : " << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "{" << endl;
+    PLOG << "{" << std::endl;
 
     uiIndent += 4;
 
     Inherited::dump(uiIndent, bvFlags);
 
     indentLog(uiIndent, PLOG);
-    PLOG << "Descriptions" << endl;
+    PLOG << "Descriptions" << std::endl;
 
     indentLog(uiIndent, PLOG);
-    PLOG << "{" << endl;
+    PLOG << "{" << std::endl;
 
     if(_vDescVec.size() == 0)
     {
         indentLog(uiIndent + 4, PLOG);
-        PLOG << "<No Descriptions>" << endl;
+        PLOG << "<No Descriptions>" << std::endl;
     }
     else
     {
@@ -481,12 +481,12 @@ void ReflexiveContainerType::dump(      UInt32    uiIndent,
     }
 
     indentLog(uiIndent, PLOG);
-    PLOG << "}" << endl;
+    PLOG << "}" << std::endl;
 
     uiIndent -= 4;
     
     indentLog(uiIndent, PLOG);
-    PLOG << "}" << endl;
+    PLOG << "}" << std::endl;
 }
 
 

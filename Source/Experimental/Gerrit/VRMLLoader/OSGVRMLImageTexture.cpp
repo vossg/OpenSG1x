@@ -291,7 +291,7 @@ void VRMLImageTextureBinder::init(VRMLToOSGAction *)
     }
     else
     {
-        delete pImage;
+        subRefP(pImage);
     }
 
     _pFieldContainer = pTexture;

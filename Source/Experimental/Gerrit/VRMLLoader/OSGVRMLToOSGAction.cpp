@@ -197,7 +197,7 @@ VRMLToOSGAction::DataTransferMode VRMLToOSGAction::getDataTransferMode(void)
 }
 
 
-void VRMLToOSGAction::dropLight(LightBasePtr pLight)
+void VRMLToOSGAction::dropLight(LightPtr pLight)
 {
     if(pLight == NullFC)
         return;

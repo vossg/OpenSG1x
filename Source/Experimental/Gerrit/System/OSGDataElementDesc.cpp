@@ -101,7 +101,7 @@ AnonObjectP DataElementDesc::getElement(
     }
 	else 
     {
-		SWARNING << "No accessMethod for " << _szName.str() << endl;
+		SWARNING << "No accessMethod for " << _szName.str() << std::endl;
 	}
 
 	return pElement;
@@ -264,7 +264,7 @@ void DataElementDesc::dump(      UInt32     uiIndent,
             << " | "
             << _elementType.getId()
             << "]"
-            << endl;
+            << std::endl;
 }
 
 
