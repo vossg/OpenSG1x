@@ -48,6 +48,7 @@
 
 #include <OSGConfig.h>
 #include <OSGBase.h>
+#include <OSGBaseTypes.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -993,6 +994,7 @@ class OSG_BASE_DLLMAPPING VectorInterface :
  *  \ingroup BaseMathVectors
  */
 typedef VectorInterface<Real32, VecStorage2<Real32> > Vec2f;
+extern Vec2f NullVec2f;
 
 /** \var typedef Vec2f *Vec2fP;
  *  \brief Vec2fP
@@ -1005,6 +1007,7 @@ typedef Vec2f *Vec2fP;
  *  \ingroup BaseMathVectors
  */
 typedef VectorInterface<Real32, VecStorage3<Real32> > Vec3f;
+extern Vec3f NullVec3f;
 
 /** \var typedef Vec3f *Vec3fP;
  *  \brief Vec3fP
@@ -1017,6 +1020,7 @@ typedef Vec3f *Vec3fP;
  *  \ingroup BaseMathVectors
  */
 typedef VectorInterface<Real32, VecStorage4<Real32> > Vec4f;
+extern Vec4f NullVec4f;
 
 /** \var typedef Vec4f *Vec4fP;
  *  \brief Vec4fP
@@ -1029,6 +1033,7 @@ typedef Vec4f *Vec4fP;
  *  \ingroup BaseMathVectors
  */
 typedef VectorInterface<UInt16, VecStorage2<UInt16> > Vec2s;
+extern Vec2s NullVec2s;
 
 /** \var typedef Vec2s *Vec2sP;
  *  \brief Vec2sP
@@ -1041,6 +1046,7 @@ typedef Vec2s *Vec2sP;
  *  \ingroup BaseMathVectors
  */
 typedef VectorInterface<UInt8, VecStorage4<UInt8> > Vec4ub;
+extern Vec4ub NullVec4ub;
 
 /** \var typedef Vec4ub *Vec4ubP;
  *  \brief Vec4ubP
@@ -1054,6 +1060,7 @@ typedef Vec4ub *Vec4ubP;
  *  \ingroup BaseMathVectors
  */
 typedef PointInterface<Real32, VecStorage2<Real32> > Pnt2f;
+extern Pnt2f NullPnt2f;
 
 /** \var typedef Pnt2f *Pnt2fP;
  *  \brief Vec2fP
@@ -1066,6 +1073,7 @@ typedef Pnt2f *Pnt2fP;
  *  \ingroup BaseMathVectors
  */
 typedef PointInterface<Real32, VecStorage3<Real32> > Pnt3f;
+extern Pnt3f NullPnt3f;
 
 /** \var typedef Pnt3f *Pnt3fP;
  *  \brief Vec3fP
@@ -1078,6 +1086,7 @@ typedef Pnt3f *Pnt3fP;
  *  \ingroup BaseMathVectors
  */
 typedef PointInterface<Real32, VecStorage4<Real32> > Pnt4f;
+extern Pnt4f NullPnt4f;
 
 /** \var typedef Pnt4f *Pnt4fP;
  *  \brief Vec4fP
@@ -1090,6 +1099,7 @@ typedef Pnt4f *Pnt4fP;
  *  \ingroup BaseMathVectors
  */
 typedef PointInterface<UInt16, VecStorage2<UInt16> > Pnt2s;
+extern Pnt2s NullPnt2s;
 
 /** \var typedef Vec2s *Vec2sP;
  *  \brief Vec2sP
