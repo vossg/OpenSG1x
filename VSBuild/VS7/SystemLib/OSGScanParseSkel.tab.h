@@ -1,8 +1,9 @@
-#ifndef OSGSCANPARSESKEL__TAB_H
-# define OSGSCANPARSESKEL__TAB_H
+#ifndef BISON_OSGSCANPARSESKEL__TAB_H
+# define BISON_OSGSCANPARSESKEL__TAB_H
 
 # ifndef YYSTYPE
 #  define YYSTYPE int
+#  define YYSTYPE_IS_TRIVIAL 1
 # endif
 # define	DEF	257
 # define	USE	258
@@ -64,41 +65,43 @@
 # define	Tok_SFVec2f	314
 # define	Tok_SFVec3f	315
 # define	TOK_MFCOLOR4F	316
-# define	TOK_MFCOLOR3F	317
-# define	TOK_MFMATRIX	318
-# define	TOK_MFPNT2F	319
-# define	TOK_MFPNT3F	320
-# define	TOK_MFPNT4F	321
-# define	TOK_MFVEC4F	322
-# define	TOK_MFPLANE	323
-# define	TOK_SFCOLOR4F	324
-# define	TOK_SFCOLOR3F	325
-# define	TOK_SFMATRIX	326
-# define	TOK_SFPNT2F	327
-# define	TOK_SFPNT3F	328
-# define	TOK_SFPNT4F	329
-# define	TOK_SFVEC4F	330
-# define	TOK_SFPLANE	331
-# define	TOK_SFVOLUME	332
-# define	Tok_MFColor4f	333
-# define	Tok_MFColor3f	334
-# define	Tok_MFMatrix	335
-# define	Tok_MFPnt2f	336
-# define	Tok_MFPnt3f	337
-# define	Tok_MFPnt4f	338
-# define	Tok_MFVec4f	339
-# define	Tok_MFPlane	340
-# define	Tok_SFColor4f	341
-# define	Tok_SFColor3f	342
-# define	Tok_SFMatrix	343
-# define	Tok_SFPnt2f	344
-# define	Tok_SFPnt3f	345
-# define	Tok_SFPnt4f	346
-# define	Tok_SFVec4f	347
-# define	Tok_SFPlane	348
-# define	Tok_SFVolume	349
+# define	TOK_MFCOLOR4I	317
+# define	TOK_MFCOLOR3F	318
+# define	TOK_MFMATRIX	319
+# define	TOK_MFPNT2F	320
+# define	TOK_MFPNT3F	321
+# define	TOK_MFPNT4F	322
+# define	TOK_MFVEC4F	323
+# define	TOK_MFPLANE	324
+# define	TOK_SFCOLOR4F	325
+# define	TOK_SFCOLOR4I	326
+# define	TOK_SFCOLOR3F	327
+# define	TOK_SFMATRIX	328
+# define	TOK_SFPNT2F	329
+# define	TOK_SFPNT3F	330
+# define	TOK_SFPNT4F	331
+# define	TOK_SFVEC4F	332
+# define	TOK_SFPLANE	333
+# define	TOK_SFVOLUME	334
+# define	Tok_MFColor4f	335
+# define	Tok_MFColor4i	336
+# define	Tok_MFColor3f	337
+# define	Tok_MFMatrix	338
+# define	Tok_MFPnt2f	339
+# define	Tok_MFPnt3f	340
+# define	Tok_MFPnt4f	341
+# define	Tok_MFVec4f	342
+# define	Tok_MFPlane	343
+# define	Tok_SFColor4f	344
+# define	Tok_SFColor4i	345
+# define	Tok_SFColor3f	346
+# define	Tok_SFMatrix	347
+# define	Tok_SFPnt2f	348
+# define	Tok_SFPnt3f	349
+# define	Tok_SFPnt4f	350
+# define	Tok_SFVec4f	351
+# define	Tok_SFPlane	352
+# define	Tok_SFVolume	353
 
 
-extern YYSTYPE OSGScanParseSkel_lval;
-
-#endif /* not OSGSCANPARSESKEL__TAB_H */
+#endif /* not BISON_OSGSCANPARSESKEL__TAB_H */

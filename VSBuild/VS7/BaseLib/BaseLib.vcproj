@@ -16,13 +16,14 @@
 			IntermediateDirectory=".\Release"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			WholeProgramOptimization="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-Zm1200 -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion /Zm1200"
+				AdditionalOptions="-Zm400 -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml "
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..,."
-				PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILEBASELIB;OSG_WITH_GLUT;OSG_WITH_QT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;OSG_WITH_FREETYPE1;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG"
+				PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILEBASELIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -31,12 +32,20 @@
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
-				CompileAs="0"/>
+				CompileAs="0">
+				<IntelOptions
+					InlineFunctionExpansion="1"
+					StringPooling="1"
+					RuntimeLibrary="2"
+					EnableFunctionLevelLinking="1"
+					RuntimeTypeInfo="1"
+					AllOptions="/c  /I &quot;..&quot; /I &quot;.&quot; /nologo /W1 /O2 /Ob1 /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D &quot;WINVER=0x0400&quot; /D &quot;_WIN32_WINDOWS=0x0410&quot; /D &quot;_WIN32_WINNT=0x0400&quot; /D &quot;_OSG_HAVE_CONFIGURED_H_&quot; /D &quot;OSG_BUILD_DLL&quot; /D &quot;OSG_COMPILEBASELIB&quot; /D &quot;OSG_WITH_GLUT&quot; /D &quot;OSG_WITH_TIF&quot; /D &quot;OSG_WITH_JPG&quot; /D &quot;OSG_WITH_PNG&quot; /D &quot;OSG_WITH_GIF&quot; /D &quot;QT_NO_STL&quot; /D &quot;QT_DLL&quot; /D &quot;QT_THREAD_SUPPORT&quot; /D &quot;QT_ACCESSIBILITY_SUPPORT&quot; /D &quot;QT_NO_DEBUG&quot; /D &quot;_WINDLL&quot; /GF /FD /EHsc /MD /Gy /GR /Fp&quot;./Release/BaseLib.pch&quot; /Fo&quot;./Release/&quot; /Fd&quot;./Release/&quot; /Gd -Zm400 -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml"
+					MSOriginalAdditionalOptions="-Zm400 -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml "/>
+			</Tool>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions=""
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib"
 				OutputFile="..\lib\opt\OSGBase.dll"
 				LinkIncremental="1"
@@ -46,7 +55,12 @@
 				ProgramDatabaseFile=".\..\lib\opt/OSGBase.pdb"
 				GenerateMapFile="TRUE"
 				MapFileName=".\Release/OSGBase.map"
-				ImportLibrary=".\..\lib\opt/OSGBase.lib"/>
+				ImportLibrary=".\..\lib\opt/OSGBase.lib"
+				AdditionalOptions="">
+				<IntelOptions
+					AllOptions="/NOLOGO /DLL /OUT:&quot;..\lib\opt\OSGBase.dll&quot; /INCREMENTAL:NO MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib /NODEFAULTLIB /DEF:&quot;.\lib.dbg.def&quot; /PDB:&quot;.\..\lib\opt/OSGBase.pdb&quot; /MAP:&quot;.\Release/OSGBase.map&quot; /TLBID:1 /IMPLIB:&quot;.\..\lib\opt/OSGBase.lib&quot;  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"
+					MSOriginalAdditionalOptions=""/>
+			</Tool>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -75,13 +89,14 @@
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			WholeProgramOptimization="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-Zm1000 -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion /Zm1000"
+				AdditionalOptions="-Zm400 -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml"
 				Optimization="0"
 				AdditionalIncludeDirectories="..,."
-				PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILEBASELIB;OSG_WITH_GLUT;OSG_WITH_QT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;OSG_WITH_FREETYPE1;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG"
+				PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILEBASELIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
@@ -90,12 +105,19 @@
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
 				DebugInformationFormat="4"
-				CompileAs="0"/>
+				CompileAs="0">
+				<IntelOptions
+					Optimization="0"
+					BasicRuntimeChecks="3"
+					RuntimeLibrary="3"
+					RuntimeTypeInfo="1"
+					AllOptions="/c  /I &quot;..&quot; /I &quot;.&quot; /ZI /nologo /W1 /Od /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D &quot;WINVER=0x0400&quot; /D &quot;_WIN32_WINDOWS=0x0410&quot; /D &quot;_WIN32_WINNT=0x0400&quot; /D &quot;_OSG_HAVE_CONFIGURED_H_&quot; /D &quot;OSG_BUILD_DLL&quot; /D &quot;_DEBUG&quot; /D &quot;OSG_COMPILEBASELIB&quot; /D &quot;OSG_WITH_GLUT&quot; /D &quot;OSG_WITH_TIF&quot; /D &quot;OSG_WITH_JPG&quot; /D &quot;OSG_WITH_PNG&quot; /D &quot;OSG_WITH_GIF&quot; /D &quot;QT_NO_STL&quot; /D &quot;QT_DLL&quot; /D &quot;QT_THREAD_SUPPORT&quot; /D &quot;QT_ACCESSIBILITY_SUPPORT&quot; /D &quot;QT_NO_DEBUG&quot; /D &quot;_WINDLL&quot; /FD /EHsc /RTC1 /MDd /GR /Fp&quot;./Debug/BaseLib.pch&quot; /Fo&quot;./Debug/&quot; /Fd&quot;./Debug/&quot; /Gd -Zm400 -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml"
+					MSOriginalAdditionalOptions="-Zm400 -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml"/>
+			</Tool>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions=""
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib"
 				OutputFile="..\lib\dbg\OSGBase.dll"
 				LinkIncremental="2"
@@ -106,7 +128,12 @@
 				ProgramDatabaseFile=".\..\lib\dbg/OSGBase.pdb"
 				GenerateMapFile="TRUE"
 				MapFileName=".\Debug/OSGBase.map"
-				ImportLibrary=".\..\lib\dbg/OSGBase.lib"/>
+				ImportLibrary=".\..\lib\dbg/OSGBase.lib"
+				AdditionalOptions="">
+				<IntelOptions
+					AllOptions="/NOLOGO /DLL /OUT:&quot;..\lib\dbg\OSGBase.dll&quot; /INCREMENTAL MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib /NODEFAULTLIB /DEF:&quot;.\lib.dbg.def&quot; /DEBUG /PDB:&quot;.\..\lib\dbg/OSGBase.pdb&quot; /MAP:&quot;.\Debug/OSGBase.map&quot; /TLBID:1 /IMPLIB:&quot;.\..\lib\dbg/OSGBase.lib&quot;  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"
+					MSOriginalAdditionalOptions=""/>
+			</Tool>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -127,6 +154,8 @@
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
 				Name="VCWebDeploymentTool"/>
+			<IntelOptions
+				CompilerName="1"/>
 		</Configuration>
 	</Configurations>
 	<Files>
@@ -137,370 +166,277 @@
 				Name="SourceBaseBase h"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBarrier.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBarrier.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBase.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBase.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBaseFunctions.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBaseFunctions.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBaseThread.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBaseThread.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBaseTypeTraits.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBaseTypeTraits.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBaseTypes.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBaseTypes.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBinaryDataHandler.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBinaryDataHandler.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBoxVolume.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBoxVolume.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGColor.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGColor.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGConceptPropertyChecks.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGConceptPropertyChecks.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGConfig.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGConfig.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGCylinderVolume.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGCylinderVolume.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGDataType.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGDataType.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGDate.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGDate.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGDynamicVolume.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGDynamicVolume.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGException.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGException.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGExportDefines.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGExportDefines.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGFileSystem.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGFileSystem.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGFrustumVolume.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGFrustumVolume.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGGL.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGGL.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGGLEXT.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGGLEXT.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGGLU.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGGLU.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGGLUT.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGGLUT.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGIDString.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGIDString.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGIDStringLink.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGIDStringLink.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGLine.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGLine.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGLock.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGLinearTransform.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGLog.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGLock.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGMPBase.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGLog.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGMatrix.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGMPBase.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGMatrixUtility.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGMatrix.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGMemoryObject.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGMatrixUtility.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGNormalQuantifier.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGMemoryObject.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGPathHandler.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGNormalQuantifier.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGPlane.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGPathHandler.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGQuaternion.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGPlane.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGSharedLibrary.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGQuaternion.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGSphereVolume.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGSharedLibrary.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGThreadManager.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGSphereVolume.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGTime.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGThreadManager.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGTypeBase.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGTime.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGTypeFactory.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGTypeBase.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGVector.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGTypeFactory.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGVolume.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGVector.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGVolumeFunctions.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGVolume.h"/>
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGVolumeFunctions.h"/>
 			</Filter>
 			<Filter
 				Name="SourceBaseField h"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGBaseFieldDataType.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGBaseFieldDataType.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGBoolFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGBoolFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGColor3fFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGColor3fFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGColor3ubFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGColor3ubFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGColor4fFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGColor4fFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGColor4ubFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGColor4ubFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGDynamicVolumeFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGDynamicVolumeFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGField.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGField.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGFieldDataType.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGFieldDataType.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGFieldFactory.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGFieldFactory.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGFieldType.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGFieldType.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGGLenumFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGGLenumFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGInt16Fields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGInt16Fields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGInt32Fields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGInt32Fields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGInt64Fields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGInt64Fields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGInt8Fields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGInt8Fields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGMFBaseTypes.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGMFBaseTypes.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGMFMathTypes.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGMFMathTypes.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGMFSysTypes.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGMFSysTypes.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGMFVecTypes.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGMFVecTypes.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGMField.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGMField.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGMFieldVector.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGMFieldVector.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGMathFieldDataType.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGMathFieldDataType.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGMatrixFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGMatrixFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGPlaneFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGPlaneFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGPnt2fFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGPnt2fFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGPnt3fFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGPnt3fFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGPnt4fFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGPnt4fFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGQuaternionFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGQuaternionFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGReal32Fields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGReal32Fields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGReal64Fields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGReal64Fields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGSFBaseTypes.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGSFBaseTypes.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGSFMathTypes.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGSFMathTypes.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGSFSysTypes.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGSFSysTypes.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGSFVecTypes.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGSFVecTypes.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGSField.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGSField.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGStringFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGStringFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGSysFieldDataType.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGSysFieldDataType.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGTimeFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGTimeFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGUInt16Fields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGUInt16Fields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGUInt32Fields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGUInt32Fields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGUInt64Fields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGUInt64Fields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGUInt8Fields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGUInt8Fields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGVec2fFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGVec2fFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGVec3fFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGVec2sFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGVec4fFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGVec2usFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGVec4ubFields.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGVec3fFields.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGVecFieldDataType.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGVec3sFields.h"/>
+				<File
+					RelativePath="..\..\..\Source\Base\Field\OSGVec4fFields.h"/>
+				<File
+					RelativePath="..\..\..\Source\Base\Field\OSGVec4ubFields.h"/>
+				<File
+					RelativePath="..\..\..\Source\Base\Field\OSGVecFieldDataType.h"/>
 			</Filter>
 			<Filter
 				Name="SourceBaseFunctors h"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\Functors\OSGFunctorBase.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Functors\OSGFunctorBase.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctorBase.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctorBase.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors1.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors1.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors2.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors2.h"/>
 			</Filter>
 			<Filter
 				Name="SourceBaseNetworkBase h"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Base\OSGBinaryMessage.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGBinaryMessage.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnection.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnection.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnectionFactory.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnectionFactory.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnectionType.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnectionType.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Base\OSGNetworkMessage.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGNetworkMessage.h"/>
 			</Filter>
 			<Filter
 				Name="SourceBaseNetworkSocket h"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGDgramSocket.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGDgramSocket.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGMulticastConnection.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGMulticastConnection.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocket.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocket.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocketAddress.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocketAddress.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocketException.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocketException.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocketSelection.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocketSelection.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGStreamSockConnection.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGStreamSockConnection.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGStreamSocket.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGStreamSocket.h"/>
 			</Filter>
 			<Filter
 				Name="SourceBaseStringConversion h"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\StringConversion\OSGIndenter.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGIndenter.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\StringConversion\OSGStandardStringConversionState.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGStandardStringConversionState.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringConversionStateBase.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringConversionStateBase.h"/>
 				<File
-					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringTokenizer.h">
-				</File>
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringTokenizer.h"/>
+			</Filter>
+			<Filter
+				Name="SourceBaseXml h"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Xml\OSGShared_ptr.h"/>
+				<File
+					RelativePath="..\..\..\Source\Base\Xml\OSGXmlconfig.h"/>
+				<File
+					RelativePath="..\..\..\Source\Base\Xml\OSGXmlparser.h"/>
+				<File
+					RelativePath="..\..\..\Source\Base\Xml\OSGXmlpp.h"/>
+				<File
+					RelativePath="..\..\..\Source\Base\Xml\OSGXmltokenizer.h"/>
 			</Filter>
 		</Filter>
 		<Filter
@@ -510,144 +446,105 @@
 				Name="SourceBaseBase inl"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBaseFunctions.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBaseFunctions.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBinaryDataHandler.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBinaryDataHandler.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBoxVolume.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBoxVolume.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGColor.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGColor.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGCylinderVolume.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGCylinderVolume.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGDate.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGDate.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGDynamicVolume.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGDynamicVolume.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGFileSystem.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGFileSystem.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGFrustumVolume.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGFrustumVolume.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGIDString.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGIDString.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGIDStringLink.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGIDStringLink.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGLine.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGLine.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGLog.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGLinearTransform.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGMatrix.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGLog.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGNormalQuantifier.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGMatrix.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGPlane.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGNormalQuantifier.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGQuaternion.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGPlane.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGSphereVolume.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGQuaternion.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGThreadManager.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGSphereVolume.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGTime.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGThreadManager.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGVector.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGTime.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGVolume.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGVector.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGVolumeFunctions.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGVolume.inl"/>
+				<File
+					RelativePath="..\..\..\Source\Base\Base\OSGVolumeFunctions.inl"/>
 			</Filter>
 			<Filter
 				Name="SourceBaseField inl"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGMField.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGMField.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGMFieldTypeDef.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGMFieldTypeDef.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGMFieldTypeScanTypeDef.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGMFieldTypeScanTypeDef.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGMFieldVector.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGMFieldVector.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGSField.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGSField.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGSFieldTypeDef.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGSFieldTypeDef.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGSFieldTypeScanTypeDef.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGSFieldTypeScanTypeDef.inl"/>
 			</Filter>
 			<Filter
 				Name="SourceBaseFunctors inl"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\Functors\OSGFunctorBase.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Functors\OSGFunctorBase.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctorBase.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctorBase.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors1.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors1.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors2.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors2.inl"/>
 			</Filter>
 			<Filter
 				Name="SourceBaseNetworkBase inl"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Base\OSGBinaryMessage.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGBinaryMessage.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnection.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnection.inl"/>
 			</Filter>
 			<Filter
 				Name="SourceBaseStringConversion inl"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\StringConversion\OSGIndenter.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGIndenter.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\StringConversion\OSGStandardStringConversionState.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGStandardStringConversionState.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringConversionStateBase.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringConversionStateBase.inl"/>
 				<File
-					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringTokenizer.inl">
-				</File>
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringTokenizer.inl"/>
 			</Filter>
 		</Filter>
 		<Filter
@@ -657,215 +554,168 @@
 				Name="SourceBaseBase cpp"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBarrier.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBarrier.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBaseFunctions.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBaseFunctions.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBaseThread.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBaseThread.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBinaryDataHandler.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBinaryDataHandler.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGBoxVolume.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGBoxVolume.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGColor.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGColor.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGCylinderVolume.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGCylinderVolume.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGDataType.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGDataType.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGDate.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGDate.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGDynamicVolume.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGDynamicVolume.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGException.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGException.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGFrustumVolume.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGFrustumVolume.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGIDString.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGIDString.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGIDStringLink.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGIDStringLink.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGLine.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGLine.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGLock.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGLock.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGLog.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGLog.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGMPBase.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGMPBase.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGMatrixUtility.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGMatrixUtility.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGMemoryObject.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGMemoryObject.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGNormalQuantifier.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGNormalQuantifier.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGPathHandler.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGPathHandler.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGPlane.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGPlane.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGSharedLibrary.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGSharedLibrary.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGSphereVolume.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGSphereVolume.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGThreadManager.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGThreadManager.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGTime.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGTime.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGTypeBase.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGTypeBase.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGTypeFactory.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGTypeFactory.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGVector.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGVector.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGVolume.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGVolume.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Base\OSGVolumeFunctions.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Base\OSGVolumeFunctions.cpp"/>
 			</Filter>
 			<Filter
 				Name="SourceBaseField cpp"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGField.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGField.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGFieldFactory.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGFieldFactory.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGFieldType.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGFieldType.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Field\OSGTypeInst.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Field\OSGTypeInst.cpp"/>
 			</Filter>
 			<Filter
 				Name="SourceBaseNetworkBase cpp"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Base\OSGBinaryMessage.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGBinaryMessage.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnection.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnection.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnectionFactory.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnectionFactory.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnectionType.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnectionType.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Base\OSGNetworkMessage.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Base\OSGNetworkMessage.cpp"/>
 			</Filter>
 			<Filter
 				Name="SourceBaseNetworkSocket cpp"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGDgramSocket.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGDgramSocket.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGMulticastConnection.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGMulticastConnection.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocket.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocket.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocketAddress.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocketAddress.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocketException.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocketException.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocketSelection.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocketSelection.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGStreamSockConnection.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGStreamSockConnection.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\Network\Socket\OSGStreamSocket.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\Network\Socket\OSGStreamSocket.cpp"/>
 			</Filter>
 			<Filter
 				Name="SourceBaseStringConversion cpp"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Base\StringConversion\OSGIndenter.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGIndenter.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\StringConversion\OSGStandardStringConversionState.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGStandardStringConversionState.cpp"/>
 				<File
-					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringTokenizer.cpp">
-				</File>
+					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringTokenizer.cpp"/>
+			</Filter>
+			<Filter
+				Name="SourceBaseXml cpp"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Base\Xml\OSGXmlparser.cpp"/>
+				<File
+					RelativePath="..\..\..\Source\Base\Xml\OSGXmlpp.cpp"/>
+				<File
+					RelativePath="..\..\..\Source\Base\Xml\OSGXmltokenizer.cpp"/>
 			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath=".\lib.dbg.def">
-			</File>
+				RelativePath=".\lib.dbg.def"/>
 		</Filter>
 		<Filter
 			Name="Scan/Parse Files"
 			Filter="y;l">
 			<Filter
 				Name="SourceBaseBase ly"
-				Filter="">
-			</Filter>
+				Filter=""/>
 			<Filter
 				Name="SourceBaseField ly"
-				Filter="">
-			</Filter>
+				Filter=""/>
 			<Filter
 				Name="SourceBaseFunctors ly"
-				Filter="">
-			</Filter>
+				Filter=""/>
 			<Filter
 				Name="SourceBaseNetworkBase ly"
-				Filter="">
-			</Filter>
+				Filter=""/>
 			<Filter
 				Name="SourceBaseNetworkSocket ly"
-				Filter="">
-			</Filter>
+				Filter=""/>
 			<Filter
 				Name="SourceBaseStringConversion ly"
-				Filter="">
-			</Filter>
+				Filter=""/>
+			<Filter
+				Name="SourceBaseXml ly"
+				Filter=""/>
 		</Filter>
 	</Files>
-	<Globals>
-	</Globals>
+	<Globals/>
 </VisualStudioProject>

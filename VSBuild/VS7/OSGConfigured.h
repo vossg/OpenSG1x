@@ -51,6 +51,14 @@
 
 #define OSG_DISABLE_DEPRECATED 1
 
+#if defined(OSG_DEBUG)
+/* #undef OSG_DEBUG_FCPTR */
+/* #undef OSG_DEBUG_NO_FCPTR_ARITHM */
+#endif
+
+/* #undef OSG_OPT_DRAWTREE */
+/* #undef OSG_PTHREAD_ELF_TLS */
+
 /* #undef OSG_NO_GLUT_GLSUBDIR */
 
 #if defined(WIN32) && ! defined(__ICL)
