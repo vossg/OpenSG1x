@@ -130,8 +130,16 @@
 
 
     ?create@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@SA?AV?$FCPtr@VAttachmentPtr@osg@@V?$SimpleAttachment@UNameAttachmentDesc@osg@@@2@@2@XZ
-    
+    ?create@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@SA?AV?$FCPtr@VAttachmentPtr@osg@@V?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@2@@2@XZ
+
     ?getClassType@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+
+    ?getField@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@QAEAAV?$SField@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$0A@@2@XZ
+    ?getField@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@QAEAAV?$SField@PAX$0A@@2@XZ
+
+    ?getFieldPtr@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@QAEPAV?$SField@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$0A@@2@XZ
+
 
     ?dump@?$SField@VNodePtr@osg@@$0A@@osg@@UBEXXZ
     ?setAbstrValue@?$SField@VNodePtr@osg@@$0A@@osg@@UAEXABVField@2@@Z
@@ -145,9 +153,6 @@
     ?setValue@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXABVNodePtr@2@@Z
     ??0?$SField@VNodePtr@osg@@$0A@@osg@@QAE@XZ
     ??1?$SField@VNodePtr@osg@@$0A@@osg@@UAE@XZ
-
-    ?getFieldPtr@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@QAEPAV?$SField@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$0A@@2@XZ
-
 
     ?getClassType@?$DynFieldAttachment@UGenericAttDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
 
