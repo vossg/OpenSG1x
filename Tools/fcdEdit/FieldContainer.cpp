@@ -611,7 +611,7 @@ bool FieldContainer::writeDesc (const char *fN)
     for (npI = _fieldList.begin(); npI != _fieldList.end(); npI++) {
       if(!npI->type())
       {
-        cerr << "Type of field " << npI->name() << "is NULL!?!" << endl;
+        cerr << "Type of field " << npI->name() << " is NULL!?!" << endl;
       }
       out << nprefix << "<Field" << endl;
       putField(out, pprefix, NAME_FIELD, npI->name());
@@ -767,9 +767,9 @@ bool FieldContainer::writeTempl(
 	// file loop
 	// some useful strings
 	char *libname = _library;
-	char *libnameUpper = strdup( _library );
-	char *fcnameUpper = strdup( fcname );
-	char *parentnameUpper = strdup( parentname );
+	char *libnameUpper = strdup( _library ? _library : "" );
+	char *fcnameUpper = strdup( fcname ? fcname : "UNSET" );
+	char *parentnameUpper = strdup( parentname ? parentname : "UNSET" );
 	const char *description = _description ? _description : "";
 	const char *headerPrefix = _systemComponent ? "" : "OpenSG/";
 	const char *parentHeaderPrefix = 
@@ -1257,10 +1257,10 @@ bool FieldContainer::writeTempl(
 				char * s;
 
 				values[CARDINALITYE]        = fieldcardinality;
-				values[FieldtypeE]          = strdup(fieldtype);
-				values[FieldtypeCapsE]      = strdup(fieldtype);
-				values[FieldtypeCapsCleanE] = strdup(fieldtype);
-				values[fieldnameE]          = strdup(fieldname);
+				values[FieldtypeE]          = strdup(fieldtype?fieldtype:"UNSET");
+				values[FieldtypeCapsE]      = strdup(fieldtype?fieldtype:"UNSET");
+				values[FieldtypeCapsCleanE] = strdup(fieldtype?fieldtype:"UNSET");
+				values[fieldnameE]          = strdup(fieldname?fieldname:"UNSET");
 				values[FieldnameE]          = fieldnameCaps;
 				values[FIELDNAMEE]          = fieldnameUpper;
 				values[fieldvisibilityE]    = (char*)(fieldIt->visibility() ? "false" : "true");
