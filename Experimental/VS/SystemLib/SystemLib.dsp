@@ -427,6 +427,14 @@ SOURCE=..\..\..\Window\OSGCameraBase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\Window\OSGCameraDecorator.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Window\OSGCameraDecoratorBase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\Window\OSGDynamicBackground.cpp
 # End Source File
 # Begin Source File
@@ -456,6 +464,14 @@ SOURCE=..\..\..\Window\OSGSolidBackground.cpp
 # Begin Source File
 
 SOURCE=..\..\..\Window\OSGSolidBackgroundBase.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Window\OSGTileCameraDecorator.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Window\OSGTileCameraDecoratorBase.cpp
 # End Source File
 # Begin Source File
 
@@ -1203,6 +1219,18 @@ SOURCE=..\..\..\Window\OSGCameraBase.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\Window\OSGCameraDecorator.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Window\OSGCameraDecoratorBase.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Window\OSGCameraDecoratorFields.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\Window\OSGCameraFields.h
 # End Source File
 # Begin Source File
@@ -1248,6 +1276,18 @@ SOURCE=..\..\..\Window\OSGSolidBackgroundBase.h
 # Begin Source File
 
 SOURCE=..\..\..\Window\OSGSolidBackgroundFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Window\OSGTileCameraDecorator.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Window\OSGTileCameraDecoratorBase.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Window\OSGTileCameraDecoratorFields.h
 # End Source File
 # Begin Source File
 
@@ -1595,6 +1635,14 @@ SOURCE=..\..\..\Window\OSGCameraBase.inl
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\Window\OSGCameraDecorator.inl
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Window\OSGCameraDecoratorBase.inl
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\Window\OSGDynamicBackground.inl
 # End Source File
 # Begin Source File
@@ -1624,6 +1672,14 @@ SOURCE=..\..\..\Window\OSGSolidBackground.inl
 # Begin Source File
 
 SOURCE=..\..\..\Window\OSGSolidBackgroundBase.inl
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Window\OSGTileCameraDecorator.inl
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Window\OSGTileCameraDecoratorBase.inl
 # End Source File
 # Begin Source File
 
