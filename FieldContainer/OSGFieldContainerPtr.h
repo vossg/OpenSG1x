@@ -107,7 +107,7 @@ class OSGFieldContainerPtr
 #endif
 
     template <class T>
-    T dcast(void)
+    T dcast(void) const
 	{
 		return T(* ((T *) this));
 	}
@@ -118,7 +118,7 @@ class OSGFieldContainerPtr
 
 #else
     template <class T>
-    T &dcast(T &result)
+    T &dcast(T &result) const
 	{
 	    result = * ((T *) this);
 		return result;
