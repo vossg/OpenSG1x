@@ -97,19 +97,7 @@ class Action;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \defgroup Action
- *  The tree traversals.
- */
-
-/*! \defgroup ActionFunctions
- *  \ingroup Action
- *  The functions used to execute the actions
- */
-
-/*! \ingroup Action
- *  \brief 
- *
- *  detailed
+/*! \brief Action base class
  */
 
 class OSG_ACTION_DLLMAPPING Action 

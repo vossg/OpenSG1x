@@ -50,23 +50,26 @@
 #include <OSGNodeCore.h>
 #include "OSGAction.h"
 
-/** \enum VecBase::VectorSizeE
- *  \brief 
- */
+OSG_USING_NAMESPACE
 
-/** \var VecBase::VectorSizeE VecBase::_iSize
- * 
- */
 
-/** \fn const char *VecBase::getClassname(void)
- *  \brief Classname
- */
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-/** \var ValueTypeT VecBase::_values[iSize];
- *  \brief Value store
- */
+/*! \defgroup ActionLib
 
-using namespace OSG;
+The Action are the active components that traverse the tree of nodes and 
+perform function (or rather functors) on them. 
+
+*/
+
+/*! \class osg::Action
+    \ingroup ActionLib
+
+The action base class.
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *
