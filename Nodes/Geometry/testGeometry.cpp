@@ -44,6 +44,7 @@ OSG::Pnt3f calcMean(const MFPnt3f &mfIn)
 
 int main (int argc, char **argv)
 {
+    UInt32 i;
     osgInit(argc, argv);
     
     NodePtr  p1 = Node::create();
@@ -104,14 +105,14 @@ int main (int argc, char **argv)
 	cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
 	cerr << p->size() << " Points: " << endl;
 
-	for ( int i = 0; i < p->size(); i++ )
+	for(i = 0; i < p->size(); i++ )
 	{
 		cerr << "Point " << i << " " << p->getValue( i ) << endl;
 	}
 
 	cerr << "Generic Access" << endl;
 	cerr << pnts->getSize() << " Points: " << endl;
-	for ( int i = 0; i < pnts->getSize(); i++ )
+	for(i = 0; i < pnts->getSize(); i++ )
 	{
 		Pnt3f pp;
 		pnts->getValue(pp,i);
