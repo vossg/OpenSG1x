@@ -73,10 +73,6 @@ void WebInterface::handleRequests()
     std::string         path,url;
     ParameterT          param;
     HandlerT::iterator  hI;
-    std::stringbuf     *pbuf;
-    int                 size;
-    char               *buffer;
-    int                 pos;
 
     while(checkRequest(url))
     {
@@ -96,25 +92,10 @@ void WebInterface::handleRequests()
             (this->*hI->second)(_body,path,param);
         else
             _body << "<html>Invalid path</html>";
+        _body.flush();
         _accepted.setDelay(false);
         // finish request
-        pbuf = _body.rdbuf();
-        size = pbuf->in_avail();
-        buffer = new char[ 1460 ];
-        pos = 0;
-        while(size > 1460)
-        {
-            memcpy(buffer,pbuf->str().c_str()+pos,1460);
-            _accepted.send(buffer,1460);
-            size -= 1460;
-            pos  += 1460;
-        }
-        if(size)
-        {
-            memcpy(buffer,pbuf->str().c_str()+pos,size);
-            _accepted.send(buffer,size);
-        }
-        delete [] buffer;
+        _accepted.send(_body.str().c_str(), _body.str().length());
         // close connection
         _accepted.close();
     }
