@@ -119,8 +119,7 @@ NodePtr NFIOBase::read(std::istream &is, const std::string &options)
     
     FieldContainerPtr fc = readFieldContainer();
     node = NodePtr::dcast(fc);
-    // disabled it for now need to fix a strange crash.
-    //fillAttachmentParents(node);
+    fillAttachmentParents(node);
 
     delete _in;
 
@@ -831,6 +830,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.4 2004/10/21 17:25:47 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.5 2004/10/23 18:03:50 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }
