@@ -6,6 +6,10 @@
 #include <iostream.h>
 #endif
 
+#ifdef __linux
+#include <time.h>
+#endif
+
 #include <OSGBaseFunctions.h>
 #include "OSGFunctors.h"
 

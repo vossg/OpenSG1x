@@ -1101,7 +1101,11 @@ void QuaternionBase<ValueTypeT>::mult(const ValueTypeT rVal1[4],
 template <class ValueTypeT> inline
 ostream &operator <<(ostream &os, const QuaternionBase<ValueTypeT> &obj)
 {
+#ifdef OSG_SGI_STL
     os << fixed << showpoint << setprecision(3) << setfill(' ');
+#else
+    os << setprecision(3) << setfill(' ');
+#endif
 
 	return os << setw(8) 
               << obj.x() << " " << obj.y() << " " 

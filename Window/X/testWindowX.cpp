@@ -33,7 +33,7 @@
 #include "OSGXWindow.h"
 #include "OSGCamera.h"
 #include "OSGPerspectiveCamera.h"
-#include "OSGBackground.h"
+#include "OSGSolidBackground.h"
 
 #include "OSGRAWSceneFileType.h"
 #include "OSGTrackball.h"
@@ -76,6 +76,8 @@ void redraw ( void )
 {
 	Matrix m1, m2, m3;
     Quaternion q1;
+
+	win->frameInit();		
 	
 	win->resizeGL();
 
@@ -88,7 +90,7 @@ void redraw ( void )
 	
 	win->drawAllViewports( ract );
 	win->swap();
-	win->frame();		
+	win->frameExit();		
 }
 
 int main (int argc, char **argv)
@@ -134,8 +136,8 @@ int main (int argc, char **argv)
 	endEditCP(dlight);
 	
 	beginEditCP(dl);
-	dl->setAmbientColor( .3, .3, .3, 1 );
-	dl->setDiffuseColor( 1, 1, 1, 1 );
+	dl->setAmbient( .3, .3, .3, 1 );
+	dl->setDiffuse( 1, 1, 1, 1 );
 	dl->setDirection(0,0,1);
 	dl->setBeacon( b1n);
 	endEditCP(dl);
@@ -180,12 +182,12 @@ int main (int argc, char **argv)
 	PerspectiveCameraPtr cam = PerspectiveCamera::create();
 
 	cam->setBeacon( b1n );
-	cam->setDegrees( 60 );
+	cam->setFov( 60 );
 	cam->setNear( 0.1 );
 	cam->setFar( 10000 );
 
 	// Background
-	BackgroundPtr bkgnd = Background::create();
+	SolidBackgroundPtr bkgnd = SolidBackground::create();
 	
 	// Viewport
 	

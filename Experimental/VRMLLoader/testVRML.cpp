@@ -3,7 +3,7 @@
 
 #include <OSGVRMLFile.h>
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
     OSG::NodePtr pRoot;
 
@@ -35,4 +35,6 @@ void main(int argc, char **argv)
 //    char *szFilename = "stirnwand.wrl";
 
     OSG::osgExit();
+
+    return 0;
 }

@@ -1319,7 +1319,7 @@ void matutilitytest( void )
 	
 }
 
-void main(void)
+int main(void)
 {
     osgInit(0, NULL);
 
@@ -1328,4 +1328,6 @@ void main(void)
 //    matrixTest();
 //   quattest();
 //	matutilitytest();
+
+    return 0;
 }

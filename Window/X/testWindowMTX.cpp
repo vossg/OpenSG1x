@@ -44,7 +44,7 @@
 #include "OSGXWindow.h"
 #include "OSGCamera.h"
 #include "OSGPerspectiveCamera.h"
-#include "OSGBackground.h"
+#include "OSGSolidBackground.h"
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
 #include "OSGRAWSceneFileType.h"
@@ -134,13 +134,14 @@ void *drawThreadProc (void *arg)
 	
 	while ( ! drawThreadStop[my_id] )
 	{
+		my_win->frameInit();
 		my_win->resizeGL();
 		
 		doCamTrans( my_id );
 		my_win->drawAllViewports( ract );
 		
 		my_win->swap();
-		my_win->frame();
+		my_win->frameExit();
 	}
 	
 	// Destroy context
@@ -189,8 +190,8 @@ int main (int argc, char **argv)
 	endEditCP(dlight);
 	
 	beginEditCP(dl);
-	dl->setAmbientColor( .3, .3, .3, 1 );
-	dl->setDiffuseColor( 1, 1, 1, 1 );
+	dl->setAmbient( .3, .3, .3, 1 );
+	dl->setDiffuse( 1, 1, 1, 1 );
 	dl->setDirection(0,0,1);
 	dl->setBeacon( b1n);
 	endEditCP(dl);
@@ -244,7 +245,7 @@ int main (int argc, char **argv)
 	root->dump();
 
 	// Background
-	BackgroundPtr bkgnd = Background::create();
+	SolidBackgroundPtr bkgnd = SolidBackground::create();
 	
 	// Action
 	
@@ -269,7 +270,7 @@ int main (int argc, char **argv)
 	cam = PerspectiveCamera::create();
 
 	cam->setBeacon( cam_trans->getMFParents()->getValue(0) );
-	cam->setDegrees( 60 );
+	cam->setFov( 60 );
 	cam->setNear( 0.1 );
 	cam->setFar( 10000 );
 
@@ -349,7 +350,8 @@ int main (int argc, char **argv)
 		drawThreadStop[i] = false;
 
 		// get new thread
-		drawThread[i] = gThreadManager->getThread(NULL);
+		drawThread[i] = 
+            dynamic_cast<Thread *>(gThreadManager->getThread(NULL));
 		if ( drawThread[i] != NULL )   // and spin it ...
       	{	   
 			drawThread[i]->run( drawThreadProc, 0, (void *)i );
