@@ -2234,7 +2234,9 @@ else
 	ac_gdz_systen_incl_dir_e1=
 	ac_gdz_system_lib_dir_e1=
 
-	ac_gdz_base_system_libs='-lm'
+	if test $build_os = linux-gnu; then
+		ac_gdz_base_system_libs='-ldl -lm'
+	fi
 
     ac_gdz_compiler_exe_exe='$(CC)'
 
@@ -2269,7 +2271,7 @@ fi
 ac_gdz_common_system=$ac_gdz_commonconf_dir/common.$build-$ac_gdz_compiler_base.in
 
 echo $ac_n "checking project config common.project.in""... $ac_c" 1>&6
-echo "configure:2273: checking project config common.project.in" >&5
+echo "configure:2275: checking project config common.project.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.project.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -2280,7 +2282,7 @@ else
 fi
 
 echo $ac_n "checking package config common.libs.in""... $ac_c" 1>&6
-echo "configure:2284: checking package config common.libs.in" >&5
+echo "configure:2286: checking package config common.libs.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.libs.in"; then
     echo "$ac_t"""yes"" 1>&6

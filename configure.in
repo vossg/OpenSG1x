@@ -495,7 +495,9 @@ dnl a symlink from gmake to make
 	ac_gdz_systen_incl_dir_e1=
 	ac_gdz_system_lib_dir_e1=
 
-	ac_gdz_base_system_libs='-lm'
+	if test $build_os = linux-gnu; then
+		ac_gdz_base_system_libs='-ldl -lm'
+	fi
 
     ac_gdz_compiler_exe_exe='$(CC)'
 
