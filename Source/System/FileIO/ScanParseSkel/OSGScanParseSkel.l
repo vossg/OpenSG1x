@@ -228,7 +228,7 @@ header (#[^\n]*\n)
                     }
                   }
 
-<*>"IS" { BEGIN NODE; expectToken = 0; return IS; }
+<*>"IS" { BEGIN NODE; expectToken = 0; fprintf(stderr, "bar\n"); return IS; }
 
  /* Der Lexer ist im Zustand NODE, wenn Knosten gelesen werden. */
  /* Hierbei gibt es drei Moeglichkeiten: Wurzelknoten im der */
@@ -290,7 +290,7 @@ header (#[^\n]*\n)
 <INITIAL,NODE>SFVec4f       { return Tok_SFVec4f;    }
 <INITIAL,NODE>SFPlane       { return Tok_SFPlane;    } 
 
-<INITIAL,NODE>{IdFirstChar}{IdRestChar}* { //fprintf(stderr, "ID : %s\n", vrml97_text);
+<INITIAL,NODE>{IdFirstChar}{IdRestChar}* { /*fprintf(stderr, "ID : %s\n", OSGScanParseSkel_text);*/
                                            return ID; }
 
 <mfcolorValue,mffloatValue,mfint32Value,mfrotationValue,mfstringValue>\[ {

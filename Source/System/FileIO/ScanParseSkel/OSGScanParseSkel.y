@@ -622,10 +622,12 @@ fieldValue : TOK_SFBOOL
 
 
 sfnodeValue : nodeStatement 
+            | IS generalId
             | SFN_NULL
 ;
 
-mfnodeValue : nodeStatement             
+mfnodeValue : nodeStatement   
+            | IS generalId          
             | OPENBRACKET nodeStatementsORempty CLOSEBRACKET
 ;
 
