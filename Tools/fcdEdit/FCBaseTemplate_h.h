@@ -207,7 +207,7 @@ char *FCBaseTemplate_h[]={
 "",
 "@@BeginFieldLoop@@",
 "@@if !isPrivate", 
-"    @!CARDINALITY!@@!Fieldtype:15!@	_@!fieldname!@;",
+"    @!CARDINALITY!@@!Fieldtype:15!@   _@!fieldname!@;",
 "@@endif", 
 "@@EndFieldLoop@@",
 "@@endif", 
@@ -337,7 +337,7 @@ char *FCBaseTemplate_h[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.15 2001/09/19 14:36:41 mroth Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.16 2001/10/02 16:52:36 dirk Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };

@@ -67,7 +67,7 @@ char *FCTemplate_cpp[]={
 "",
 "namespace",
 "{",
-"    static char cvsid_cpp[] = \"@(#)$Id: FCTemplate_cpp.h,v 1.7 2001/09/17 14:15:07 vossg Exp $\";",
+"    static char cvsid_cpp[] = \"@(#)$Id: FCTemplate_cpp.h,v 1.8 2001/10/02 16:52:36 dirk Exp $\";",
 "    static char cvsid_hpp[] = OSG@!CLASSNAME!@_HEADER_CVSID;",
 "    static char cvsid_inl[] = OSG@!CLASSNAME!@_INLINE_CVSID;",
 "}",
@@ -128,7 +128,7 @@ char *FCTemplate_cpp[]={
 "void @!Classname!@::dump(      UInt32     uiIndent, ",
 "                         const BitVector &bvFlags) const",
 "{",
-"	SLOG << \"Dump @!Classname!@ NI\" << endl;", 
+"    SLOG << \"Dump @!Classname!@ NI\" << endl;", 
 "}",
 "",
 NULL};
