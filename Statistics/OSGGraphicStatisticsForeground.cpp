@@ -191,7 +191,7 @@ void GraphicStatisticsForeground::draw(DrawActionBase *action, Viewport * port)
     
     
     // ratio = height / width
-    Real32 ratio  =  ( (Real32)port->getPixelHeight()) / ((Real32) port->getPixelWidth());
+//    Real32 ratio  =  ( (Real32)port->getPixelHeight()) / ((Real32) port->getPixelWidth());
     
     
     
@@ -1410,7 +1410,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.12 2002/08/07 04:04:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.13 2002/08/07 08:27:35 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 

@@ -122,8 +122,8 @@ void SortFirstWindow::dump(      UInt32    ,
 /** transfer server cababilities to the client
  *
  **/
-void SortFirstWindow::serverInit( WindowPtr serverWindow,
-                                  UInt32 id)
+void SortFirstWindow::serverInit( WindowPtr ,
+                                  UInt32 )
 {
 #if 0
     UInt32 sync;
