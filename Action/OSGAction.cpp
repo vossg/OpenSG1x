@@ -295,7 +295,7 @@ OSGAction::ResultE OSGAction::recurse( OSGNodePtr node  )
 		return Quit;					
 	}
 	
-	const OSGFieldContainerType &t = core->getType();	
+//	const OSGFieldContainerType &t = core->getType();	
 	OSGAction::ResultE result;
 	
 	_actList = NULL;

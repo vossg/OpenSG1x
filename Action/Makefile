@@ -1,12 +1,15 @@
 #!gmake -r -k
 
-OSGCOMMON ?= Common
+OSGCOMMON     ?= Common
+OSGCOMMONPACK ?= CommonPackages
 
-#ifndef OSGPOOL
-OSGPOOL         = $(shell pwd)/..
-#endif
+ifndef OSGPOOL
+OSGPOOL         = $(shell expr `pwd` : '\(.*/OpenSG\).*' )
+endif
 
-REQUIRED_PACKAGES := DrawAction Misc FieldContainer Field Log Base
+REQUIRED_INCPACKAGES := DrawAction Misc FieldContainer Field Log Base
+REQUIRED_LNKPACKAGES := DrawAction Misc FieldContainer Field Log Base
 
 include $(OSGPOOL)/$(OSGCOMMON)/common.mk
 include $(OSGPOOL)/$(OSGCOMMON)/commonSub.mk
+
