@@ -229,6 +229,18 @@ Vec2f FaceIterator::getTexCoords( Int32 which ) const
 }
 
 
+/*! Return the index index of a point in the current face. 
+	\param which the point to access. Must be between 0 and getLength().
+*/
+inline		 
+Int32 FaceIterator::getIndexIndex( Int32 which ) const
+{
+	if ( _facePntIndex[which] >= 0 )
+		return _primIt.getIndexIndex( _facePntIndex[which] );
+	else 
+		return -1;
+}
+
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
