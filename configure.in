@@ -287,6 +287,10 @@ AC_ARG_ENABLE(compiler-pedantic-errors,     [  --enable-compiler-pedantic-errors
 			,enable_compiler_pedantic_errors=no) 
 
 
+dnl ############# CP Settings #####################
+
+AC_ARG_ENABLE(compiler-path,     [  --enable-compiler-path             Reference compiler with path],
+			,enable_compiler_path=no) 
 
 dnl ############# Helper #####################
 

@@ -1,10 +1,18 @@
 AC_DEFUN(AC_GDZ_PROG_CXX_WORKS,
 [AC_BEFORE([$0], [AC_PROG_CXXCPP])dnl
 
-if test $2"set" = set; then
-    AC_PATH_PROGS(CXX, $1, unknown_compiler, $PATH)
+if test $enable_compiler_path = yes; then
+    if test $2"set" = set; then
+        AC_PATH_PROGS(CXX, $1, unknown_compiler, $PATH)
+    else
+        AC_PATH_PROGS(CXX, $1, unknown_compiler, $PATH:$2)
+    fi
 else
-    AC_PATH_PROGS(CXX, $1, unknown_compiler, $PATH:$2)
+    if test $2"set" = set; then
+        AC_CHECK_PROGS(CXX, $1, unknown_compiler, $PATH)
+    else
+        AC_CHECK_PROGS(CXX, $1, unknown_compiler, $PATH:$2)
+    fi
 fi
 
 AC_PROG_CXX_WORKS
