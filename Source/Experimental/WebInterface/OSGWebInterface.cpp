@@ -1,6 +1,7 @@
 #include <OSGConfig.h>
 #include <OSGFieldContainerFields.h>
 #include <OSGNodeCore.h>
+#include <OSGSimpleAttachments.h>
 #include <OSGLog.h>
 
 #include "OSGWebInterface.h"
@@ -341,7 +342,7 @@ void WebInterface::treeViewNode(std::ostream &os,NodePtr node,
         os << "<li>NullFC</li>\n";
         return;
     }
-    sprintf(idstr,"%d",node.getFieldContainerId());
+    sprintf(idstr,"%u",node.getFieldContainerId());
     if(param.count(IDString(idstr)))
     {
         setParam(param,"close",idstr);
@@ -356,8 +357,11 @@ void WebInterface::treeViewNode(std::ostream &os,NodePtr node,
         setParam(param,"open",NULL);
         os << "<li><a href=\"" << folder << "\">&nbsp + &nbsp</a>";
     }
+
     os << "&nbsp &nbsp &nbsp "
+       << "<b>" << getNodeName(node) << "</b>&nbsp &nbsp &nbsp "
        << createFCViewReference(node);
+       
     if(node->getCore() != NullFC)
     {
         os <<  "&nbsp &nbsp &nbsp Core: "
@@ -539,6 +543,7 @@ void WebInterface::fcViewHandler(std::ostream &os,
     {
         os << "<h1>"
            << fcPtr->getTypeName()
+           << " " << getNodeName(fcPtr)
            << "</h1>"
            << "<table><tr><th>Field</th><th>Field Type</th><th>&nbsp;</th>"
            << "<th>Value</th></tr>\n";
@@ -589,7 +594,7 @@ void WebInterface::fcViewHandler(std::ostream &os,
                     if(field)
                     {
                         field->getValueByStr(value);
-                        os << "<form action=\"fcedit\""
+                        os << "<form action=\"fcedit\">"
                            << "<input type=\"submit\" value=\"Edit\">"
                            << "<input type=\"hidden\" name=\"id\" value=\""
                            << fcPtr.getFieldContainerId()
@@ -642,7 +647,7 @@ void WebInterface::fcEditHandler(std::ostream &os,
         os << "<html>Unknown field in container</html>";
         return;
     }
-    desc=fcPtr->getType().getFieldDescription(fid+1);
+    desc=fcPtr->getType().getFieldDescription(fid);
     if(getParam(param,"value"))
     {
         beginEditCP(fcPtr,desc->getFieldMask());
@@ -655,7 +660,7 @@ void WebInterface::fcEditHandler(std::ostream &os,
        << "."
        << desc->getName().str()
        << "</h1>\n"
-       << "<form action=\"fcedit\""
+       << "<form action=\"fcedit\">"
        << "<textarea name=\"value\" cols=\"50\" rows=\"10\">"
        << value
        << "</textarea><p>"
@@ -665,6 +670,7 @@ void WebInterface::fcEditHandler(std::ostream &os,
        << "\">"
        << "<input type=\"hidden\" name=\"field\" value=\""
        << fid
+       << "\">"
        << "</form>"
        << "</html>";
 }
@@ -699,4 +705,26 @@ void WebInterface::treeViewHandler(std::ostream &os,
     treeViewNode(os,_root,param);
     os << "</ul>"
        << "</html>";
+}
+
+/*! Returns the name of a field container.
+*/
+const char *WebInterface::getNodeName(const FieldContainerPtr &fcPtr)
+{
+    static const char *unnamed = "";
+    
+    if(fcPtr == NullFC)
+        return unnamed;
+    
+    AttachmentContainerPtr acPtr = AttachmentContainerPtr::dcast(fcPtr);
+    
+    if(acPtr == NullFC)
+        return unnamed;
+    
+    const Char8 *name = getName(acPtr);
+
+    if(name == NULL)
+        return unnamed;
+    
+    return name;
 }

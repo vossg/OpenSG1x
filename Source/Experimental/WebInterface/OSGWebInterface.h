@@ -94,6 +94,7 @@ private:
     void        treeViewNode         (std::ostream     &os,
                                       NodePtr           node,
                                       ParameterT       &param );
+    const char *getNodeName          (const FieldContainerPtr &fcPtr);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
