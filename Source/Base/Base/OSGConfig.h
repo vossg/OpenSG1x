@@ -280,14 +280,6 @@
 
 # define OSG_HAS_FLOATMATH
 
-/*! \brief Use the math functions from the std:: namespace
- *  \ingroup GrpBaseDefines
-    The std:: namespace has a set of overloaded functions for many
-    math operations, up to and including long double versions.
- */
-
-# define OSG_USE_STDMATH
-
 /*! \brief SGI's stl implementation is available
  *  \ingroup GrpBaseDefines
  */
@@ -335,6 +327,13 @@
 # define OSG_HAS_ATANF2
 
 # define OSG_HAS_FLOATMATH
+
+
+/*! \brief Use the math functions from the std:: namespace
+ *  \ingroup GrpBaseDefines
+    The std:: namespace has a set of overloaded functions for many
+    math operations, up to and including long double versions.
+ */
 
 # define OSG_USE_STDMATH
 
