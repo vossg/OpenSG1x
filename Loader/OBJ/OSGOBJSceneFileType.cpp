@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.12 2001/10/12 21:24:52 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.13 2001/10/12 22:33:05 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -252,6 +252,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
               }
           }
 
+#if 0
       cerr << "--------------------------------------------------------" << endl;
       i = 0;
       for (meshI = meshList.begin(); meshI != meshList.end(); meshI++) {
@@ -265,7 +266,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
         i++;
       }
       cerr << "--------------------------------------------------------" << endl;
-
+#endif
       // create Geometry objects
       for (meshI = meshList.begin(); meshI != meshList.end(); meshI++)
         {
@@ -334,35 +335,31 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
               }
               endEditCP ( geoPtr );
 
+            beginEditCP(lensPtr);
+            beginEditCP(typePtr);
+            beginEditCP(indexPtr);
+            
             for ( faceI = meshI->faceList.begin(); 
                   faceI != meshI->faceList.end(); faceI++)
-              {
-                  n = faceI->tieVec.size();
+            {
+                n = faceI->tieVec.size();
                   
-                  // add the lens entry
-                  beginEditCP(lensPtr);
-                  {
-                    lensPtr->addValue(n);
-                    }
-                    endEditCP(lensPtr);
+                // add the lens entry
+                lensPtr->addValue(n);
 
-                    // add the type entry
-                    beginEditCP(typePtr);
-                    {
-                    typePtr->addValue(GL_POLYGON);
-                  }
-                  endEditCP(typePtr);
+                // add the type entry
+                typePtr->addValue(GL_POLYGON);
                   
-                  // create the index values
-                  beginEditCP ( indexPtr );
-                  {
-                    for (i = 0; i < n; i++)
-                      for (j = 0; j < 3; j++)
+                // create the index values
+                for (i = 0; i < n; i++)
+                    for (j = 0; j < 3; j++)
                         if ( meshIndexMask & (1 << j))
-                          indexPtr->addValue( faceI->tieVec[i].index[j]);
-                  }
-                  endEditCP ( indexPtr );
-              }
+                            indexPtr->addValue( faceI->tieVec[i].index[j]);
+            }
+            
+            endEditCP(indexPtr);
+            endEditCP(typePtr);
+            endEditCP(lensPtr);
             
             // check if we have normals
             if ((meshIndexMask & 4) == 0)
