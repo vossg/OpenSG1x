@@ -293,6 +293,9 @@ void Node::addChild(const NodePtr &childP)
 {	
     if(childP != NullFC)
     {
+		// do the ref early, to prevent destroys on getParent(a)->addChild(a)
+		addRefCP(childP);
+
 		// already somebody else's child?
 		if ( childP->getParent() != NullNode )
 		{
@@ -307,8 +310,6 @@ void Node::addChild(const NodePtr &childP)
         }
         endEditCP  (childP, Node::ParentFieldMask);
 
-        addRefCP(childP);
-
 		// TODO Check if required (GV)
 		invalidateVolume();
     }
@@ -320,6 +321,9 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
 
     if(childP != NullFC)
     {
+		// do the ref early, to prevent destroys on getParent(a)->addChild(a)
+		addRefCP(childP);
+
 		// already somebody else's child?
 		if ( childP->getParent() != NullNode )
 		{
@@ -335,8 +339,6 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
             childP->setParent(getPtr());
         }
         endEditCP  (childP, Node::ParentFieldMask);
-
-        addRefCP(childP);
     }
 
     // TODO check if required (GV)
@@ -346,15 +348,11 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
 void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
 {
     if(childP != NullFC)
-    {
-		// already somebody else's child?
-		if ( childP->getParent() != NullNode )
-		{
-			childP->getParent()->subChild( childP );
-		}
-		
+    {		
+		// do the ref early, to prevent destroys on getParent(a)->addChild(a)
         addRefCP(childP);
 
+		// remove the current child
         beginEditCP(_children.getValue(childIndex), Node::ParentFieldMask);
         {
             _children.getValue(childIndex)->setParent(NullNode);
@@ -363,9 +361,14 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
 
         subRefCP(_children.getValue(childIndex));
 
+		// already somebody else's child?
+		if ( childP->getParent() != NullNode )
+		{
+			childP->getParent()->subChild( childP );
+		}
 
+		// set the new child
         _children.getValue(childIndex) = childP;
-
 
         beginEditCP(childP, Node::ParentFieldMask);
         {
@@ -389,13 +392,8 @@ Bool Node::replaceChildBy(const NodePtr &childP,
     {
         if(childIt != _children.end())
         {
-			// already somebody else's child?
-			if ( newChildP->getParent() != NullNode )
-			{
-				newChildP->getParent()->subChild( newChildP );
-			}
-		
-            addRefCP(newChildP);
+			// do the ref early, to prevent destroys on getParent(a)->addChild(a)
+			addRefCP(newChildP);
 
             beginEditCP(childP, Node::ParentFieldMask);
             {
@@ -404,6 +402,12 @@ Bool Node::replaceChildBy(const NodePtr &childP,
             endEditCP  (childP, Node::ParentFieldMask);
 
             subRefCP(childP);
+
+			// already somebody else's child?
+			if ( newChildP->getParent() != NullNode )
+			{
+				newChildP->getParent()->subChild( newChildP );
+			}
 
             (*childIt) = newChildP;
 
@@ -859,9 +863,11 @@ Node::~Node (void )
 
 void Node::setParent(const NodePtr &parent)
 { 
-    addRefCP(parent);
+	if ( parent != NullNode )
+	    addRefCP(parent);
 
-    subRefCP(_parent.getValue());
+	if ( _parent.getValue() != NullNode )
+		subRefCP(_parent.getValue());
 
     _parent.setValue(parent);
 }
@@ -895,27 +901,27 @@ void Node::executeSyncImpl(      Node      *pOther,
 {
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (VolumeFieldMask & whichField))
+    if (FieldBits::NoField != (VolumeFieldMask & whichField))
     {
         _volume.syncWith(pOther->_volume);
     }
 
-    if(FieldBits::NoField != (ParentFieldMask & whichField))
+    if (FieldBits::NoField != (ParentFieldMask & whichField))
     {
         _parent.syncWith(pOther->_parent);
     }
 
-    if(FieldBits::NoField != (ChildrenFieldMask & whichField))
+    if (FieldBits::NoField != (ChildrenFieldMask & whichField))
     {
         _children.syncWith(pOther->_children);
     }
 
-    if(FieldBits::NoField != (CoreFieldMask & whichField))
+    if (FieldBits::NoField != (CoreFieldMask & whichField))
     {
         _core.syncWith(pOther->_core);
     }
 
-    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
+    if (FieldBits::NoField != (AttachmentsFieldMask & whichField))
     {
         _attachmentMap.syncWith(pOther->_attachmentMap);
     }
