@@ -646,7 +646,7 @@ UInt32 MField<FieldTypeT, fieldNameSpace>::getSize(void) const
  */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-UInt32 MField<FieldTypeT, fieldNameSpace>::empty(void) const
+Bool MField<FieldTypeT, fieldNameSpace>::empty(void) const
 {
 	return _value.empty();
 }
