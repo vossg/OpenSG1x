@@ -32,6 +32,7 @@ var_expand()
         -e "s/%SUFFIX%/$suffix/g"           < $src > $dest
 }
 
+echo $0 $*
 
 while test ${#*} -gt 0 
 do
@@ -224,8 +225,8 @@ echo "System" $system
 echo "Dist" $distname
 
 # Add QT to PATH for moc and uic
-export PATH=$qt_dir/bin:$PATH
-export LD_LIBRARY_PATH=$qt_dir/lib:$LD_LIBRARY_PATH
+export PATH="${qt_dir}/bin:$PATH"
+export LD_LIBRARY_PATH="${qt_dir}/lib:$LD_LIBRARY_PATH"
 
 # configure it
 
