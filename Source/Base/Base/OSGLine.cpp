@@ -119,22 +119,26 @@ void Line::setValue(const Pnt3f &pos, const Vec3f &dir)
     parallel, otherwise return true.
  */
 
-#ifdef __sgi
-#pragma set woff 1209
-#endif
-
-bool Line::getClosestPoints(const Line  &OSG_CHECK_ARG(line2    ),
-                                  Pnt3f &OSG_CHECK_ARG(ptOnThis ),
-                                  Pnt3f &OSG_CHECK_ARG(ptOnLine2)) const
+bool Line::getClosestPoints(const Line  &line2,
+                                  Pnt3f &ptOnThis,
+                                  Pnt3f &ptOnLine2)
+const
 {
-    // TODO
-    assert(false);
-    return false;
-}
+    // Assumes that _dir and line2._dir are valid and normalized
 
-#ifdef __sgi
-#pragma reset woff 1209
-#endif
+    Vec3f normal=_dir.cross(line2._dir);
+    if(normal.isZero()) return false; // Lines are parallel
+
+    Vec3f p0p1=line2._pos-_pos;
+    Real32 lengthSqr=normal.squareLength();
+    Real32 s=p0p1.cross(line2._dir).dot(normal) / lengthSqr;
+    Real32 t=p0p1.cross(      _dir).dot(normal) / lengthSqr;
+
+    ptOnThis =      _pos + s *       _dir;
+    ptOnLine2=line2._pos + t * line2._dir;
+
+    return true;
+}
 
 /*! Returns the closest point on the line to the given point.
  */
