@@ -585,7 +585,7 @@ void VRMLFile::beginNode(
             {
                 indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
                 PNOTICE << "Nodecore named : " << szNodename << endl;
-                
+
                 NodeCorePtr pNodeCore = NodeCorePtr::dcast(pNewNode);
                 NamePtr     pNodename = Name::create();
                 
@@ -602,7 +602,8 @@ void VRMLFile::beginNode(
             {
                 indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
                 PNOTICE << "Fieldcontainer " << szNodeTypename 
-                        << "is neither node nor nodecore " << endl;
+                        << " is neither node nor nodecore " << endl;
+
                 
                 NameContainerMap::iterator mIt = 
                     _nameFCMap.find(StringLink(szNodename));

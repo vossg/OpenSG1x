@@ -214,9 +214,13 @@ protoStatements : protoStatements protoStatement
                 |                 protoStatement
 ;
 
-proto : PROTO 
-        nodeTypeId { if(_pSkel != NULL) 
+protoId : nodeTypeId { if(_pSkel != NULL) 
                         _pSkel->beginProtoInterface(OSGScanParseSkel_text); }
+        | SCRIPT     { if(_pSkel != NULL) 
+                        _pSkel->beginProtoInterface(OSGScanParseSkel_text); }
+
+proto : PROTO 
+        protoId 
         OPENBRACKET 
         interfaceDeclarationsORempty 
         CLOSEBRACKET { if(_pSkel != NULL) 
@@ -346,10 +350,15 @@ node : nodeTypeId { if(_pSkel != NULL)
        nodeBodyORempty   
        CLOSEBRACE { if(_pSkel != NULL)
                      _pSkel->endNode(); }
-     | SCRIPT
-       OPENBRACE 
+     | SCRIPT     { if(_pSkel != NULL)
+                     _pSkel->beginNode(OSGScanParseSkel_text, szName1); 
+
+                    freeName(szName1);
+                  }
+       OPENBRACE
        scriptBodyORempty 
-       CLOSEBRACE 
+       CLOSEBRACE { if(_pSkel != NULL)
+                     _pSkel->endNode(); }
 ;
 
 nodeBodyORempty : nodeBody
@@ -368,12 +377,83 @@ scriptBody : scriptBody scriptBodyElement
            |            scriptBodyElement
 ;
 
+/*
 scriptBodyElement : nodeBodyElement 
                   | restrictedInterfaceDeclaration 
                   | EVENTIN  fieldType eventInId  IS eventInId 
                   | EVENTOUT fieldType eventOutId IS eventOutId 
                   | FIELD    fieldType fieldId    IS fieldId 
 ;
+*/
+
+/*
+rInterfaceDeclarationScript : EVENTIN  
+                              fieldType  { setName(szName1, 
+                                                   OSGScanParseSkel_text); }
+                              eventInId  { if(_pSkel != NULL)
+                                            _pSkel->addProtoEventIn(
+                                             szName1,
+                                             OSGScanParseSkel_text); 
+                                           freeName(szName1); }
+                            | EVENTOUT 
+                              fieldType  { setName(szName1, 
+                                                   OSGScanParseSkel_text); }
+                              eventOutId { if(_pSkel != NULL)
+                                            _pSkel->addProtoEventOut(
+                                             szName1,
+                                             OSGScanParseSkel_text); 
+                                            freeName(szName1); }
+                               | FIELD    
+                                 fieldType  { setName(szName1, 
+                                                      OSGScanParseSkel_text); }
+                                 fieldId    { expectType(nextType); 
+                                              if(_pSkel != NULL)
+                                               _pSkel->beginProtoField(
+                                                szName1,
+                                                nextType,
+                                                OSGScanParseSkel_text); 
+                                              freeName(szName1); } 
+                                 fieldValue { nextType = 0; 
+                                              if(_pSkel != NULL)
+                                               _pSkel->endProtoField();
+                                             }
+;
+*/
+
+/*
+                  | EVENTIN  fieldType eventInId  IS eventInId 
+                  | EVENTOUT fieldType eventOutId IS eventOutId 
+*/
+
+resInterfaceDeclarationScriptEvent : EVENTIN  
+                                     fieldType  
+                                     eventInId  
+                                   | EVENTOUT 
+                                     fieldType  
+                                     eventOutId 
+;
+
+resInterfaceDeclarationScriptEventEnd : IS eventId 
+                                      |
+;
+
+resInterfaceDeclarationScriptField : FIELD     { fprintf(stderr,"XX1\n"); }
+                                     fieldType { fprintf(stderr,"XX2\n"); }
+                                     fieldId   { fprintf(stderr,"XX3\n"); }
+;
+
+resInterafceDeclarationScriptFieldEnd : IS fieldId { fprintf(stderr,"XX4\n"); }
+                                      | fieldValue { fprintf(stderr,"XX5\n"); }
+;
+
+scriptBodyElement : nodeBodyElement 
+                  | resInterfaceDeclarationScriptEvent 
+                    resInterfaceDeclarationScriptEventEnd
+                  | resInterfaceDeclarationScriptField { fprintf(stderr,"XX6\n"); }
+                    resInterafceDeclarationScriptFieldEnd
+                    { fprintf(stderr,"XX7\n"); }
+;
+
 
 nodeBodyElement : fieldId 
                   { if(_pSkel != NULL)
@@ -414,6 +494,9 @@ nodeTypeId : ID
 ;
 
 fieldId    : ID 
+;
+
+eventId    : ID 
 ;
 
 eventInId  : ID 

@@ -215,6 +215,7 @@ header (#[^\n]*\n)
 <NODE>IS            { return IS; }
 <NODE>ROUTE         { return ROUTE; }
 <NODE>NULL          { return SFN_NULL; }
+<NODE>Script        { return SCRIPT; }
 <NODE>eventIn       { return EVENTIN; }
 <NODE>eventOut      { return EVENTOUT; }
 <NODE>field         { return FIELD; }

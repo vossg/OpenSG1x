@@ -853,6 +853,8 @@ void VRMLShapeDesc::endNode(FieldContainerPtr pFC)
 
         if(pNode != NullFC && pNode->getCore() == NullFC)
         {
+            PWARNING << "warning empty material, using default\n" << endl;
+
             MaterialGroupPtr pMatGroup = MaterialGroup::create();
             beginEditCP(pMatGroup);
             {
@@ -2221,6 +2223,7 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
                 }
                 else
                 {
+                    PWARNING << "No material, adding default" << endl;
                     beginEditCP(pMatGroup);
                     {
                         pMatGroup->setMaterial(
@@ -2240,7 +2243,7 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
 
 Bool VRMLAppearanceDesc::use(FieldContainerPtr pFC)
 {
-    return true;
+    return false;
 }
 
 
@@ -2354,12 +2357,12 @@ void VRMLMaterialDesc::reset(void)
 {
     _pMat = SimpleMaterial::NullPtr;
 
-//    _defaultAmbientIntensity.setValue(_ambientIntensity);
-//    _defaultDiffuseColor    .setValue(_diffuseColor);
-//    _defaultEmissiveColor   .setValue(_emissiveColor);
-//    _defaultShininess       .setValue(_shininess);
-//    _defaultSpecularColor   .setValue(_specularColor);
-//    _defaultTransparency    .setValue(_transparency);
+    _ambientIntensity.setValue(_defaultAmbientIntensity);
+    _diffuseColor    .setValue(_defaultDiffuseColor);
+    _emissiveColor   .setValue(_defaultEmissiveColor);
+    _shininess       .setValue(_defaultShininess);
+    _specularColor   .setValue(_defaultSpecularColor);
+    _transparency    .setValue(_defaultTransparency);
 }
 
 MaterialPtr VRMLMaterialDesc::getDefaultMaterial(void)
@@ -2490,6 +2493,8 @@ FieldContainerPtr VRMLMaterialDesc::beginNode(
     const Char8       *,
     FieldContainerPtr  pCurrentFC)
 {
+    reset();
+
     _pMat = SimpleMaterial::create();
 
     return _pMat;

@@ -70,6 +70,8 @@ display(void)
 	cam_trans->getSFMatrix()->setValue( m1 );
 
 	win->draw( ract );
+
+    OSG::Thread::getCurrentChangeList()->clearAll();
 }
 
 void reshape( int w, int h )
@@ -223,25 +225,49 @@ void key(unsigned char key, int x, int y)
 {
 	switch ( key )
 	{
-	case 27:	OSG::osgExit(); exit(0);
-	case 'a':	glDisable( GL_LIGHTING );
-				cerr << "Lighting disabled." << endl;
-				break;
-	case 's':	glEnable( GL_LIGHTING );
-				cerr << "Lighting enabled." << endl;
-				break;
-	case 'z':	glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-				cerr << "PolygonMode: Point." << endl;
-				break;
-	case 'x':	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-				cerr << "PolygonMode: Line." << endl;
-				break;
-	case 'c':	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-				cerr << "PolygonMode: Fill." << endl;
-				break;
-	case 'w':	doWire = !doWire;
-				cerr << "BBox render: " << (doWire?"on":"off") << endl;
-				break;
+        case 27:	
+            OSG::osgExit(); 
+            exit(0);
+        case 'a':	
+            glDisable( GL_LIGHTING );
+            cerr << "Lighting disabled." << endl;
+            break;
+        case 's':	
+            glEnable( GL_LIGHTING );
+            cerr << "Lighting enabled." << endl;
+            break;
+        case 'z':	
+            glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
+            cerr << "PolygonMode: Point." << endl;
+            break;
+        case 'x':	
+            glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
+            cerr << "PolygonMode: Line." << endl;
+            break;
+        case 'c':	
+            glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+            cerr << "PolygonMode: Fill." << endl;
+            break;
+        case 'w':	
+            doWire = !doWire;
+            cerr << "BBox render: " << (doWire?"on":"off") << endl;
+            break;
+        case 'd':
+            root->dump(0, 0);
+            break;
+        case 'v':
+            glEnable(GL_COLOR_MATERIAL);
+            break;
+        case 'V':
+            glDisable(GL_COLOR_MATERIAL);
+            break;
+        case 'b':     
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            break;
+        case 'B':     
+            glDisable(GL_BLEND);
+            break;
 	}
 }
 
@@ -320,7 +346,7 @@ int main (int argc, char **argv)
 
     for(OSG::UInt32 numFiles = 1; numFiles < argc; numFiles++)
     {
-        file = OSG::SceneFileHandler::the().read(argv[numFiles]);
+        file = OSG::SceneFileHandler::the().read(argv[numFiles], 0);
                      
         OSG::beginEditCP(dlight);
         dlight->addChild( file );
@@ -347,8 +373,8 @@ int main (int argc, char **argv)
 
 	cam->setBeacon( b1n );
 	cam->setFov( OSG::deg2rad( 60 ) );
-	cam->setNear( 0.1 );
-	cam->setFar( 5000 );
+	cam->setNear( 1 );
+	cam->setFar( 50000 );
 
 	// Solid Background
 	OSG::SolidBackgroundPtr bkgnd = OSG::SolidBackground::create();
@@ -403,13 +429,19 @@ int main (int argc, char **argv)
                    min[1] + ((max[1] - min[1]) * 0.5), 
                    max[2] + ( max[2] - min[2] ) * 1.5 );
 
+    float scale = (max[2] - min[2] + max[1] - min[1] + max[0] - min[0]) / 6;
+
 	tball.setMode( OSG::Trackball::OSGObject );
 	tball.setStartPosition( pos, true );
 	tball.setSum( true );
 	tball.setTranslationMode( OSG::Trackball::OSGFree );
-    tball.setTranslationScale(50.);
+    tball.setTranslationScale(scale);
 	// run...
-	
+
+	cam->setFar(fabs(max[2] + ( max[2] - min[2] ) * 3));
+
+    
+
 	glutMainLoop();
 	
     return 0;
