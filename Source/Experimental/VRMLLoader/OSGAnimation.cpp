@@ -42,6 +42,7 @@
 
 #include "OSGAnimation.h"
 #include <OSGAttachment.h>
+#include <OSGSimpleAttachments.h>
 
 extern "C"
 {
