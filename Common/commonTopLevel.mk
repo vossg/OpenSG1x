@@ -460,6 +460,15 @@ update: update-includes install-libs-cp install-bin
 	    cd ..;                                                              \
 	fi
 
+#########################################################################
+# Collection Targets
+#########################################################################
+
+dbgall: dbg tests
+
+optall: opt testsOpt
+
+all:    dbgall optall
 
 #########################################################################
 # Help Target
@@ -481,6 +490,10 @@ help:
 	@echo 
 	@echo "tests      build dbg tests"
 	@echo "testsOpt   build opt tests"
+	@echo 
+	@echo "dbgall     make dbg ; make tests"
+	@echo "optall     make opt ; make testsOpt"
+	@echo "all        make dbgall ; make optall"
 	@echo 
 	@echo "Cleanup targets"
 	@echo 
