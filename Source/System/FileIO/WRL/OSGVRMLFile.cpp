@@ -69,6 +69,8 @@
 #include <OSGGeoProperty.h>
 #include <OSGTime.h>
 
+#include <OSGSimpleAttachments.h>
+
 OSG_USING_NAMESPACE
 
 /*! \class osg::VRMLFile

@@ -175,6 +175,16 @@ typedef SField<Real64> SFReal64;
 OSG_DLLEXPORT_DECL1(SField, Real64, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
+
+typedef SField<void *>   SFVoidP;
+#endif
+
+#ifndef OSG_COMPILEFIELDINST
+OSG_DLLEXPORT_DECL1(SField, void *, OSG_BASE_DLLTMPLMAPPING)
+#endif
+
 OSG_END_NAMESPACE
 
 #define OSGSFSYSTYPES_HEADER_CVSID "@(#)$Id: $"

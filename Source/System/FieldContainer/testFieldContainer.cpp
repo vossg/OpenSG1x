@@ -17,6 +17,7 @@
 #include <OSGFieldContainer.h>
 #include <OSGGroup.h>
 #include <OSGFieldContainerPtr.h>
+#include <OSGSimpleAttachments.h>
 
 int main (int argc, char **argv)
 {
@@ -244,8 +245,17 @@ int main (int argc, char **argv)
     
     std::cerr << "Name convenience" << std::endl;
     
-    std::cerr << "No name: " << OSG::getName(p3) << std::endl;
-    
+    if(OSG::getName(p3) == NULL)
+    {
+        std::cerr << "No name: (NULL)" << std::endl;
+    }
+    else
+    {
+        std::cerr << "Strange No name not NULL: " 
+                  << OSG::getName(p3)  
+                  << std::endl;
+    }
+
     OSG::setName(p3, "Hugo");
     
     std::cerr << "Name: " << OSG::getName(p3) << std::endl;
@@ -256,9 +266,48 @@ int main (int argc, char **argv)
      
     OSG::setName(p3, NULL);
     
-    std::cerr << "Removed Name: " << OSG::getName(p3) << std::endl;
-   
+    if(OSG::getName(p3) == NULL)
+    {
+        std::cerr << "Removed name: (NULL)" << std::endl;
+    }
+    else
+    {
+        std::cerr << "Removed name not NULL: " 
+                  << OSG::getName(p3)  
+                  << std::endl;
+    }
 
+    if(OSG::getVoidP(p3) == NULL)
+    {
+        std::cerr << "No VoidPAttachent: (NULL)" << std::endl;
+    }
+    else
+    {
+        std::cerr << "Strange No VoidPAttachent not NULL: " 
+                  << OSG::getVoidP(p3) 
+                  << std::endl;
+    }
+
+    double d;
+
+    OSG::setVoidP(p3, &d);
+    std::cerr << "VoidPAttachent: " 
+              << (&d) 
+              << " | "
+              << OSG::getVoidP(p3) << std::endl;
+
+    OSG::setVoidP(p3, NULL);
+
+    if(OSG::getVoidP(p3) == NULL)
+    {
+        std::cerr << "Removed VoidPAttachent: (NULL)" << std::endl;
+    }
+    else
+    {
+        std::cerr << "Strange Removed VoidPAttachent not NULL: " 
+                  << OSG::getVoidP(p3) 
+                  << std::endl;
+    }
 
     OSG::subRefCP(p3);
     OSG::subRefCP(p1);

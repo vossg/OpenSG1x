@@ -75,6 +75,8 @@
 #include <OSGGroup.h>
 #include <OSGImagePFields.h>
 
+#include <OSGSimpleAttachments.h>
+
 #include "OSGViewport.h"
 #include "OSGCamera.h"
 #include "OSGWindow.h"

@@ -40,6 +40,7 @@
 
 #include "OSGOSGWriter.h"
 #include <OSGAttachment.h>
+#include <OSGSimpleAttachments.h>
 #include "OSGVRMLNodeDescs.h"
 
 OSG_USING_NAMESPACE

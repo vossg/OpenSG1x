@@ -59,6 +59,8 @@
 #include <OSGMaterialGroup.h>
 #include "OSGAction.h"
 #include "OSGVRMLWriteAction.h"
+#include <OSGSimpleAttachments.h>
+
 
 #include <OSGGL.h>
 

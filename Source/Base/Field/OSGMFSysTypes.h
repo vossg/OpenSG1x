@@ -232,6 +232,17 @@ typedef MField<Real64> MFReal64;
 OSG_DLLEXPORT_DECL1(MField, Real64, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldMulti */
+
+typedef MField<void *>   MFVoidP;
+#endif
+
+#ifndef OSG_COMPILEFIELDINST
+OSG_DLLEXPORT_DECL1(MField, void *, OSG_BASE_DLLTMPLMAPPING)
+#endif
+
 OSG_END_NAMESPACE
 
 #endif /* _OSGSFSYSTYPES_H_ */

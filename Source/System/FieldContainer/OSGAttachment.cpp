@@ -52,42 +52,6 @@
 
 OSG_USING_NAMESPACE
 
-#if 1
-
-FieldDescription *NameAttachmentDesc::_desc[] =
-{
-    new FieldDescription(
-        FieldTypeT::getClassType(), 
-        getFieldName(), 
-        OSG_FC_FIELD_IDM_DESC(SimpleAttachment<
-                                  NameAttachmentDesc>::SimpleField),
-        false,
-//        (FieldAccessMethod) NULL)
-
-        (FieldAccessMethod) &SimpleAttachment<
-                                  NameAttachmentDesc>::getFieldPtr)
-
-};
-
-#endif
-
-#ifdef WIN32
-OSG_FC_TYPE_FUNCTIONS_INL_TMPL_DEF(NameAttachmentDesc,
-                                   SimpleAttachment)
-#endif
-
-OSG_BEGIN_NAMESPACE
-
-#ifndef CRASH_GCC_31
-OSG_FC_DLLEXPORT_DEF      (SimpleAttachment,
-                           NameAttachmentDesc,
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
-#endif
-
-OSG_END_NAMESPACE
-
-OSG_USING_NAMESPACE
-
 /*! \var MFFieldContainerPtr Attachment::_parents
     \brief Parents multifield
  */
@@ -361,83 +325,6 @@ std::ostream &OSG::operator <<(      std::ostream  &stream,
     return stream;
 }
 
-
-/*-------------------------------------------------------------------------*/
-/*                   Name Attachment Utility Functions                     */
-
-//! Return the name attached to the container, NULL if none attached or
-//! container is NULL.
-const char *OSG::getName( AttachmentContainerPtr container )
-{
-    if( container == NullFC )
-        return 0;
-   
-    // Get attachment pointer
-    AttachmentPtr att = container->findAttachment(
-                                        Name::getClassType().getGroupId() );
-    if( att == NullFC )
-        return 0;
-   
-    // Cast to name pointer                           
-    NamePtr name = NamePtr::dcast( att );
-    if( name == NullFC )
-        return 0;
-   
-    return name->getFieldPtr()->getValue().c_str();
-}
-
-//! Set the name attached to the container. If the container doesn't have a
-//! name attachement yet one is created. 
-void OSG::setName(      AttachmentContainerPtr  container, 
-                  const std::string            &namestring)
-{
-    if(container == NullFC)
-    {
-        FFATAL(("setName: no container?!?"));
-        return;
-    }
-   
-    // Get attachment pointer
-    AttachmentPtr att = container->findAttachment(
-                                        Name::getClassType().getGroupId() );
-    NamePtr name;
-    
-    if(att == NullFC)
-    {
-        name = Name::create();
-        container->addAttachment(name);
-    }
-    else
-    {   
-        name = NamePtr::dcast(att);
-        if(name == NullFC)
-        {
-            FFATAL(("setName: Name Attachment is not castable to Name?!?"));
-            return;
-        }
-    }
-  
-    name->getFieldPtr()->getValue().assign(namestring);   
-}
-
-//! Set the name attached to the container. If the container doesn't have a
-//! name attachement yet one is created. If the name is NULL, an attached
-//! name is removed.
-void OSG::setName( AttachmentContainerPtr container, const char *name )
-{
-    if(name == NULL)
-    {
-        AttachmentPtr att = container->findAttachment(
-                                        Name::getClassType().getGroupId() );
- 
-        if(att != NullFC)
-        {
-            container->subAttachment(att);
-        }       
-    }
-    else
-        setName(container, std::string(name));
-}
 
 
 /*-------------------------------------------------------------------------*/

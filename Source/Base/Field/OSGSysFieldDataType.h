@@ -603,6 +603,47 @@ struct FieldDataTraits<Real64> :
 /*! \hideinhierarchy                                */
 #endif
 
+
+/*! \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
+template <>
+struct FieldDataTraits<void *> : public FieldTraits
+{
+    static  DataType                 _type;
+    typedef FieldDataTraits<void *>  Self;
+    typedef void *                   ArgumentType;
+    typedef void *                   FieldTypeT;
+
+    enum             { StringConvertable = 0x00                        };
+
+    static DataType &getType      (void) { return _type;               }
+
+    static Char8    *getSName     (void) { return "SFVoidP";           }
+    static Char8    *getMName     (void) { return "MFVoidP";           }
+
+    static void     *getDefault   (void) { return NULL;                }
+
+    static UInt32 getBinSize (const FieldTypeT &)
+    {
+        return 0;
+    }
+
+    static void   copyToBin  (      BinaryDataHandler   &, 
+                              const FieldTypeT          &)
+    {
+    }
+
+    static void   copyFromBin(      BinaryDataHandler   &, 
+                                    FieldTypeT          &)
+    {
+    }
+};
+
+
 #endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 OSG_END_NAMESPACE

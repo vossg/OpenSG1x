@@ -251,6 +251,11 @@ int main (int argc, char **argv)
     std::cerr << "Geometry type " << g1->getType().getId() << std::endl;
     
 
+    std::vector<OSG::Color3f> colData_l;
+    OSG::GeoColors3fPtr colorPtr_l;
+
+    colorPtr_l->getField().setValues(colData_l);
+
     win = GLUTWindow::create();
     win->init();
     
