@@ -195,7 +195,7 @@ void WIN32Window::swap( void )
 void WIN32Window::dump(      UInt32     uiIndent, 
                        const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump WIN32Window NI" << endl;
+    SLOG << "Dump WIN32Window NI" << endLog;
 }
 
 /*-------------------------------------------------------------------------*\
