@@ -1,7 +1,0 @@
-
-ok, here it is, the preliminary Version for Microsofts Visual Studio actually
-using their compiler. Currently only one test case and the raw loader
-are up an running. Configure and the other loaders should follow soon.
-
-Gerrit
-
