@@ -105,6 +105,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewport : public ShadowMapViewportBase
   protected:
 
     void checkLights(RenderActionBase* action);
+    void updateLights(void);
     void initializeLights(RenderActionBase *action);
     void createShadowMaps(RenderActionBase* action);
     void projectShadowMaps(RenderActionBase* action);
@@ -176,6 +177,6 @@ OSG_END_NAMESPACE
 #include "OSGShadowMapViewportBase.inl"
 #include "OSGShadowMapViewport.inl"
 
-#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.2 2004/08/06 15:38:14 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.3 2004/08/07 15:40:55 a-m-z Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORT_H_ */

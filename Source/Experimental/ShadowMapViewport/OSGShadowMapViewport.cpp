@@ -450,58 +450,28 @@ void ShadowMapViewport::checkLights(RenderActionBase* action)
     }
 
     if(!changed)
+    {
+        updateLights();
         return;
+    }
 
     _mapSizeChanged = false;
 
     initializeLights(action);
 }
 
-void ShadowMapViewport::initializeLights(RenderActionBase *action)
+void ShadowMapViewport::updateLights(void)
 {
-    // Garbage-Collection of old LightCameras and Stuff.
-    // Maybe still a memory-leak TODO: Needs to be improved!
-    if(_oldLights.size() > 0)
-    {
-        FDEBUG(("Clearing Lightcamera-Garbage!\n"));
-
-        for(UInt32 i=0; i<_oldLights.size(); ++i)
-        {
-            getRoot()->subChild(_lightCamBeacons[i]);
-            subRefCP(_lightCameras[i]);
-        }
-
-        _lightCameras.clear();
-        _lightCamTrans.clear();
-        _lightCamBeacons.clear();
-        _lightStates.clear();
-        _shadowTextures.clear();
-    }
-
-    FDEBUG(("Initialising lights.\n"));
-
-    _oldLights = _lights;
-
     SpotLightPtr tmpSpot;
     DirectionalLightPtr tmpDir;
     PointLightPtr tmpPoint;
     Matrix tmpMatrix;
-    TransformPtr Trans;
-    GLuint tmpTexture;
     bool isSpot, isDirect;
     Real32 sceneWidth = 0.0;
     Real32 sceneHeight = 0.0;
 
-    //Setting up Light-Cameras, ShadowMaps and TextureChunks
     for(UInt32 i = 0; i < _lights.size(); ++i)
     {
-        // Remembering initial state of Lights
-        _lightStates.push_back(_lights[i]->getOn());
-        //Fill Transformation-List, so it can be used later on
-        _lightCamTrans.push_back(Trans);
-        //Creation of Lightcam-Beacon
-        _lightCamBeacons.push_back(makeCoredNode<Transform>(&_lightCamTrans[i]));
-        
         //Giving new Camera Rotation and Position of the light it belongs to
         beginEditCP(_lightCamTrans[i]);
         {
@@ -512,9 +482,6 @@ void ShadowMapViewport::initializeLights(RenderActionBase *action)
             //Is the Lightsource a Spotlight?
             if(_lights[i]->getType() == SpotLight::getClassType())
             {
-                //Creation of new Perspective-LightCam
-                _lightCameras.push_back(PerspectiveCamera::create());
-
                 //Casting to Spotlight
                 tmpSpot = SpotLightPtr::dcast(_lights[i]);
                 FDEBUG(("Found Spotlight!\n"));
@@ -530,8 +497,6 @@ void ShadowMapViewport::initializeLights(RenderActionBase *action)
                 Vec3f diff;
                 Pnt3f center;
 
-                //Creation of new Matrix-LightCam
-                _lightCameras.push_back(MatrixCamera::create());
                 tmpDir = DirectionalLightPtr::dcast(_lights[i]);
                 FDEBUG(("Found Directionallight!\n"));
                 isSpot = false;
@@ -554,8 +519,7 @@ void ShadowMapViewport::initializeLights(RenderActionBase *action)
             {
                 Vec3f dir;
                 Pnt3f center;
-                
-                _lightCameras.push_back(PerspectiveCamera::create());    
+
                 tmpPoint = PointLightPtr::dcast(_lights[i]);
                 FDEBUG(("Found PointLight!\n"));
                 isSpot = false;
@@ -592,8 +556,6 @@ void ShadowMapViewport::initializeLights(RenderActionBase *action)
             _lightCamTrans[i]->setMatrix(tmpMatrix);
         }
         endEditCP(_lightCamTrans[i]);
-
-        addRefCP(_lightCameras[i]);
 
         //Feeding new Camera with paramters of original camera
         beginEditCP(_lightCameras[i]);
@@ -651,8 +613,67 @@ void ShadowMapViewport::initializeLights(RenderActionBase *action)
             }
             
              _lightCameras[i]->setBeacon(_lightCamBeacons[i]);
-           }
+        }
         endEditCP(_lightCameras[i]);
+    }
+}
+
+void ShadowMapViewport::initializeLights(RenderActionBase *action)
+{
+    // Garbage-Collection of old LightCameras and Stuff.
+    // Maybe still a memory-leak TODO: Needs to be improved!
+    if(_oldLights.size() > 0)
+    {
+        FDEBUG(("Clearing Lightcamera-Garbage!\n"));
+
+        for(UInt32 i=0; i<_oldLights.size(); ++i)
+        {
+            getRoot()->subChild(_lightCamBeacons[i]);
+            subRefCP(_lightCameras[i]);
+        }
+
+        _lightCameras.clear();
+        _lightCamTrans.clear();
+        _lightCamBeacons.clear();
+        _lightStates.clear();
+        _shadowTextures.clear();
+    }
+
+    FDEBUG(("Initialising lights.\n"));
+
+    _oldLights = _lights;
+
+    //Setting up Light-Cameras, ShadowMaps and TextureChunks
+    for(UInt32 i = 0; i < _lights.size(); ++i)
+    {
+        // Remembering initial state of Lights
+        _lightStates.push_back(_lights[i]->getOn());
+        //Fill Transformation-List, so it can be used later on
+        _lightCamTrans.push_back(NullFC);
+        //Creation of Lightcam-Beacon
+        _lightCamBeacons.push_back(makeCoredNode<Transform>(&_lightCamTrans[i]));
+        
+        //Giving new Camera Rotation and Position of the light it belongs to
+        beginEditCP(_lightCamTrans[i]);
+        {
+            //Is the Lightsource a Spotlight?
+            if(_lights[i]->getType() == SpotLight::getClassType())
+            {
+                //Creation of new Perspective-LightCam
+                _lightCameras.push_back(PerspectiveCamera::create());
+            }
+            else if(_lights[i]->getType() == DirectionalLight::getClassType())
+            {
+                _lightCameras.push_back(MatrixCamera::create());
+            }
+            else // Preparation for PointLight -- In this version just a hack
+            {
+                _lightCameras.push_back(PerspectiveCamera::create());    
+            }
+        }
+        endEditCP(_lightCamTrans[i]);
+
+        addRefCP(_lightCameras[i]);
 
         if(getRoot() == NullFC)
         {
@@ -700,6 +721,8 @@ void ShadowMapViewport::initializeLights(RenderActionBase *action)
         glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_INTENSITY);
         _texChunks[i]->deactivate(action, 3);
     }
+
+    updateLights();
 }
 //------------------------------------------------
 
@@ -959,7 +982,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.2 2004/08/06 15:38:14 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.3 2004/08/07 15:40:55 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 
