@@ -55,7 +55,7 @@ First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lig
 		type="UInt32"
 		cardinality="single"
 		visibility="external"
-		defaultValue="128"
+		defaultValue="512"
 		access="public"
 	>
 	</Field>

@@ -131,7 +131,6 @@ ShadowMapViewport::ShadowMapViewport(void) :
     Inherited(),
     _need_update(false),
     _mapRenderSize(128),
-    _oldMapSize(0),
     _mapSizeChanged(false),
     _windowW(0),
     _windowH(0),
@@ -156,7 +155,6 @@ ShadowMapViewport::ShadowMapViewport(const ShadowMapViewport &source) :
     Inherited(source),
     _need_update(source._need_update),
     _mapRenderSize(source._mapRenderSize),
-    _oldMapSize(source._oldMapSize),
     _mapSizeChanged(source._mapSizeChanged),
     _windowW(source._windowW),
     _windowH(source._windowH),
@@ -234,7 +232,7 @@ void ShadowMapViewport::onCreate(const ShadowMapViewport */*source*/)
 
     _need_update = true;
 
-    _mapRenderSize = 512;
+    _mapRenderSize = 128;
 
     _dummy = makeCoredNode<Group>();
     addRefCP(_dummy);
@@ -386,26 +384,25 @@ void ShadowMapViewport::checkMapResolution()
         if(_mapRenderSize == 0)
             _mapRenderSize = 128;
     }
-
     else
-    {        
-        _mapRenderSize = 128;    
+    {
+        _mapRenderSize = 128;
         FDEBUG(("Could not find Window. Map will be set to 128\n"));
     }
-    
-    beginEditCP(getPtr(), ShadowMapViewport::MapSizeFieldMask);
-        setMapSize(osgnextpower2(getMapSize() + 1) / 2);
-    beginEditCP(getPtr(), ShadowMapViewport::MapSizeFieldMask);
-    
+
+    UInt32 mapSize = osgnextpower2(getMapSize() + 1) / 2;
+    if(mapSize < _mapRenderSize)
+        mapSize = _mapRenderSize;
+
     GLint max_tex_size = 0;
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_tex_size);
     
-    if(getMapSize() > max_tex_size)
-    {
-        beginEditCP(getPtr(), ShadowMapViewport::MapSizeFieldMask);
-            setMapSize(max_tex_size);
-        beginEditCP(getPtr(), ShadowMapViewport::MapSizeFieldMask);
-    }
+    if(mapSize > max_tex_size)
+        mapSize = max_tex_size;
+    
+    beginEditCP(getPtr(), ShadowMapViewport::MapSizeFieldMask);
+        setMapSize(mapSize);
+    beginEditCP(getPtr(), ShadowMapViewport::MapSizeFieldMask);
 }
 
 Action::ResultE ShadowMapViewport::findLight(NodePtr& node)
@@ -448,14 +445,13 @@ void ShadowMapViewport::checkLights(RenderActionBase* action)
 
     if(!changed)
     {
-        if(_mapSizeChanged || _mapRenderSize != _oldMapSize)
+        if(_mapSizeChanged)
             changed = true;
     }
 
     if(!changed)
         return;
 
-    _oldMapSize = _mapRenderSize;
     _mapSizeChanged = false;
 
     initializeLights(action);
@@ -773,6 +769,7 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
                     _poly->activate(action,0);
 
                     action->apply(getSceneRoot());
+                    // check is this necessary.
                     action->getWindow()->validateGLObject(_texChunks[i]->getGLId());
 
                     _poly->deactivate(action,0);
@@ -962,7 +959,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.1 2004/08/06 11:49:22 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.2 2004/08/06 15:38:14 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

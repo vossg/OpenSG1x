@@ -115,7 +115,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewport : public ShadowMapViewportBase
 
     bool                    _need_update;
     UInt32                  _mapRenderSize;
-    UInt32                  _oldMapSize;
     bool                    _mapSizeChanged;
     UInt32                  _windowW;
     UInt32                  _windowH;
@@ -177,6 +176,6 @@ OSG_END_NAMESPACE
 #include "OSGShadowMapViewportBase.inl"
 #include "OSGShadowMapViewport.inl"
 
-#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.1 2004/08/06 11:49:36 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.2 2004/08/06 15:38:14 a-m-z Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORT_H_ */

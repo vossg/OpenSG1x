@@ -201,7 +201,7 @@ ShadowMapViewportBase::ShadowMapViewportBase(void) :
     _sfOffFactor              (UInt32(10)), 
     _sfSceneRoot              (), 
     _sfShadowColor            (Color4f(0,0,0,1)), 
-    _sfMapSize                (UInt32(128)), 
+    _sfMapSize                (UInt32(512)), 
     _mfLightNodes             (), 
     Inherited() 
 {
@@ -401,7 +401,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.1 2004/08/06 11:49:36 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.2 2004/08/06 15:38:14 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

@@ -268,5 +268,5 @@ const MFNodePtr &ShadowMapViewportBase::getLightNodes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.1 2004/08/06 11:49:36 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.2 2004/08/06 15:38:14 a-m-z Exp $"
 

@@ -264,6 +264,6 @@ typedef ShadowMapViewportBase *ShadowMapViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.1 2004/08/06 11:49:36 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.2 2004/08/06 15:38:14 a-m-z Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORTBASE_H_ */
