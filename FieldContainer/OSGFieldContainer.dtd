@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
 
 <!ELEMENT FieldContainer ( PCDATA | Field* ) >
-<!ATTLIST FieldContainer 	name 	CDATA 	#REQUIRED
-							parent	CDATA	#REQUIRED
-							library	CDATA	#REQUIRED
+<!ATTLIST FieldContainer 	name 				CDATA 				#REQUIRED
+							parent				CDATA				#REQUIRED
+							library				CDATA				#REQUIRED
 							pointerfieldtypes	( none | single | multi | both )	"none"
 							abstract			( true | false )	"false"
 							systemcomponent		( true | false )	"false"
