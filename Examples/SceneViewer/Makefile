@@ -28,7 +28,7 @@ LIBTYPE ?= dbg
 ### PROJECT ##########################################################
 TARGET = osgSceneViewer
 PROJINC = -I. -DQT_CLEAN_NAMESPACE # -DOSG_DEBUG
-PROJLIB = 
+PROJLIB = -lefence
 PROBACK = *.ndf
 ######################################################################
 
@@ -158,7 +158,7 @@ endif
 
 $(SYSTARGET):  $(BINOBJS)
 	@echo "Linking $(SYSTARGET) (from $(BINOBJS))"
-	$(LDPREFIX) $(LD) $(LDFLAGS) $(BINOBJS) $(LIBS) $(LDOUT)$@
+	$(LDPREFIX) $(LD) $(LDFLAGS) $(BINOBJS) $(LIBS) $(PROJLIB) $(LDOUT)$@
 	@$(BINSET) $(SYSTARGET)
 
 ######################################################################

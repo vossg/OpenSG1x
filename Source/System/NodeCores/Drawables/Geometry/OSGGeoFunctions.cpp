@@ -63,17 +63,17 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-#if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
-#pragma warning (disable : 383)
-#endif
-
-/*! \ingroup Geometry
+/*! \ingroup GeoFunctions
 
 calcVertexNormals calculates the normals for the geometry's vertices. It
 does this simply by accumulating the face normals of all triangles that
 use the vertex and renormalizing.
 
 */
+
+#if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
+#pragma warning (disable : 383)
+#endif
 
 #ifdef __sgi
 #pragma set woff 1209
@@ -1303,7 +1303,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
   std::vector<int> primitive;
   GeoPLengthsPtr lensPtr;
   GeoPTypesPtr geoTypePtr;
-  GeoIndicesPtr indexPtr;
+  GeoIndicesPtr indexPtr = NullFC;
   Time time, inputT, optimizeT, outputT;
   UInt32 triN, lineN, pointN, triCount;
   Int32 typeVec[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN };
@@ -1323,10 +1323,12 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
       if (indexPtr == NullFC)
         startCost = pN;
       else
+      {
         if (indexMapSize)
           startCost = indexPtr->size() / indexMapSize;
         else
           startCost = indexPtr->size();
+      }
     }
   else
     {
@@ -1340,7 +1342,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
                  startCost, (triN * 3), indexMapSize, triN, lineN, pointN));
       
       inputT = getSystemTime();
-      
+
       triCount = 0;
       if (multiIndex) 
         {
@@ -1415,31 +1417,38 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
       if (bestCost && (bestCost < startCost))
         {
           // check/create the indexPtr/lengthsPtr/geoTypePtr
-          indexPtr->clear();
           
+          osg::beginEditCP(geoPtr, osg::Geometry::LengthsFieldMask | 
+                                   osg::Geometry::TypesFieldMask    );
+
           lensPtr = geoPtr->getLengths();
           if (lensPtr == osg::NullFC)
+          {
             lensPtr = osg::GeoPLengthsUI32::create();
-          else
-            lensPtr->clear();
+            geoPtr->setLengths(lensPtr);
+          }
           
           geoTypePtr = geoPtr->getTypes();
           if (geoTypePtr == osg::NullFC)
-            geoTypePtr = osg::GeoPTypesUI8::create();
-          else
-            geoTypePtr->clear();
-          
-          // set lens/geoType/index/mapping the index mapping
-          osg::beginEditCP(geoPtr);
           {
-            geoPtr->setLengths(lensPtr);
+            geoTypePtr = osg::GeoPTypesUI8::create();
             geoPtr->setTypes(geoTypePtr);
           }
-          osg::endEditCP(geoPtr);
+          
+          osg::endEditCP(geoPtr, osg::Geometry::LengthsFieldMask | 
+                                 osg::Geometry::TypesFieldMask    );
           
           time = getSystemTime();
           optimizeT = time - optimizeT;
           outputT = time;
+          
+          beginEditCP(lensPtr);
+          beginEditCP(geoTypePtr);
+          beginEditCP(indexPtr);
+          
+          lensPtr->clear();
+          geoTypePtr->clear();
+          indexPtr->clear();
           
           FDEBUG (("Start graph.getPrimitive() loop (triN: %d)\n", triN));
           
@@ -1458,16 +1467,8 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
                           if (typeVec[t] == GL_TRIANGLES)
                             triCount += (n / 3);
                           else {
-                            osg::beginEditCP(lensPtr);
-                            {
-                              lensPtr->push_back(n);
-                            }
-                            osg::endEditCP (lensPtr);
-                            osg::beginEditCP (geoTypePtr);
-                            {
-                              geoTypePtr->push_back( typeVec[t] );
-                            }
-                            osg::endEditCP (geoTypePtr);
+                             lensPtr->push_back(n);
+                             geoTypePtr->push_back( typeVec[t] );
                           }
                           if (multiIndex)
                             {
@@ -1489,20 +1490,16 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
 
               if (triCount) 
                 {
-                  osg::beginEditCP(lensPtr);
-                  {
-                    lensPtr->push_back(triCount * 3);
-                  }
-                  osg::endEditCP (lensPtr);
-                  osg::beginEditCP (geoTypePtr);
-                  {
-                    geoTypePtr->push_back( GL_TRIANGLES );
-                  }
-                  osg::endEditCP (geoTypePtr);
+                  lensPtr->push_back(triCount * 3);
+                  geoTypePtr->push_back( GL_TRIANGLES );
                   triCount = 0;
                 }
             }
-          
+
+          endEditCP(lensPtr);
+          endEditCP(geoTypePtr);
+          endEditCP(indexPtr);
+         
           time = getSystemTime();
           outputT = time - outputT;
           
@@ -1554,7 +1551,6 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
   GeoIndicesPtr indexPtr;
   UChar8 *dataElem;
   std::vector<Int32> indexRemap;
-  Time startTime = osg::getSystemTime();
 
   if (geoPtr != NullFC)
   {
@@ -1588,9 +1584,10 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
 
   if ( indexPtr != NullFC )
   {
-
-    // find first propMask;
+    // get the index count
     indexMapSize = geoPtr->getIndexMapping().size();
+    
+    // find first propMask;
     if (indexMapSize) 
     {
       propMask = geoPtr->getIndexMapping()[0];
@@ -1611,6 +1608,11 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
     // remap the index for a single index block
     for (indexBlock = 0; propMask;) 
     {
+      // reset stat counter
+      indexSharedCount = 0;
+      dataRemapCount = 0;
+      indexRemapCount = 0;
+
       // find master property
       for (masterPropMask = 1; (propMask & masterPropMask) == 0;)
         masterPropMask <<= 1;
@@ -1634,8 +1636,7 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
             {
               slaveDataVec.push_back  ( slaveProp->getData() );
               slaveDSizeVec.push_back ( slaveProp->getFormatSize() * 
-                                           slaveProp->getDimension()  + 
-                                           slaveProp->getStride() );
+                                        slaveProp->getDimension() );
             }
             else
             {
@@ -1645,6 +1646,7 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
         sN = slaveDataVec.size();
         iN = indexPtr->size() / indexMapSize;
         memMap.clear();
+        indexRemap.clear();
         indexRemap.resize(masterProp->size(), -1);
         mem.second = masterProp->getFormatSize() * masterProp->getDimension();
 
@@ -1652,15 +1654,15 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
         {
           index = indexPtr->getValue(i * indexMapSize + indexBlock);          
           if (indexRemap[index] >= 0) {
-            if (indexRemap[index] != index)
+            if (indexRemap[index] == index)
+            {
+              indexSharedCount++;
+            }
+            else
             {
               indexPtr->setValue( indexRemap[index], 
                                   i * indexMapSize + indexBlock );
               indexRemapCount++;
-            }
-            else
-            {
-              indexSharedCount++;
             }
           }
           else {
@@ -1669,11 +1671,11 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
             mem.first = dataElem;
             mmI = memMap.find(mem);
             if (mmI == memMap.end())
-              {
+            {
                 // index not found; store new data/index
                 memMap[mem] = index;
                 indexRemap[index] = index;
-              }
+            }
             else
             {
                 // data found; check slave property
@@ -1706,8 +1708,13 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
       }
       else
       {
-        FFATAL (("Invalid masterProp %d\n", masterProp));
+        FFATAL (("Invalid masterProp %d, mask: %d, block: %d\n", 
+                 int(masterProp), propMask, indexBlock ));
       }
+      
+      FNOTICE (("Create sharedIndex: %d/%d pass; data/index remap: %d/%d \n",
+                indexBlock, int(propMask), 
+                dataRemapCount, indexRemapCount ));
 
       // get next propery Mask
       if (++indexBlock < indexMapSize)
@@ -1716,11 +1723,6 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
         propMask = 0;
     }
   }
-
-  FNOTICE (("Create sharedIndex: %g %d/%d/%d %d \n", 
-            double(osg::getSystemTime() - startTime),
-            indexSharedCount, indexRemapCount, dataRemapCount, 
-            indexBlock ));
 
   return (indexRemapCount + dataRemapCount);
 
@@ -2089,7 +2091,6 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getFaceNormals(GeometryPtr geo, Real32 len
   GeoPLengthsPtr lens = GeoPLengthsUI32::create();
 
   // calculate
-  beginEditCP(pnts);
 
   FaceIterator faceIter = geo->beginFaces();
   Pnt3f center;

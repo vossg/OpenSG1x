@@ -150,7 +150,7 @@ void LogBuf::write(const Char8 *buffer, std::streamsize size)
         delete chunk;
     }
     
-    if(cb = _callback)
+    if ((cb = _callback))
         cb(buffer,size, _clientData);
 }
 

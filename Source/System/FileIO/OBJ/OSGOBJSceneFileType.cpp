@@ -134,7 +134,8 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
   GeoPTypesPtr typePtr; 
   DataElem dataElem;
   Char8 strBuf[8192], *token, *nextToken;
-  Int32 strBufSize = sizeof(strBuf)/sizeof(Char8), index, indexType;
+  Int32 strBufSize = sizeof(strBuf)/sizeof(Char8);
+  Int32 index, posIndex, indexType;
   Int32 i,j,n,primCount[3];
   std::list<Mesh> meshList;
   std::map<std::string, SimpleTexturedMaterialPtr> mtlMap;
@@ -145,6 +146,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
   Int32 indexMask, meshIndexMask;
   std::list<Face>::iterator faceI;
   std::list<Mesh>::iterator meshI;
+  bool isSingleIndex;
 
   // Path handler for material files
   PathHandler ph;
@@ -199,7 +201,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                 vec3f.setValues(x,y,z);
                 normalPtr->push_back(vec3f);                    
                 break;
-              case MTL_LIB_DE:
+              case LIB_MTL_DE:
                 in >> elem;
                 readMTL ( elem.c_str(), ph, mtlMap );
                 in.ignore(INT_MAX, '\n'); 
@@ -282,6 +284,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
           
           // create and check mesh index mask
           meshIndexMask = 0;
+          isSingleIndex = true;
           if ( meshI->faceList.empty() == false)
             for ( faceI = meshI->faceList.begin(); 
                   faceI != meshI->faceList.end(); faceI++)
@@ -290,23 +293,33 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                 n = faceI->tieVec.size();
                 for (i = 0; i < n; i++)
                   for (j = 0; j < 3; j++)
-                    if (faceI->tieVec[i].index[j] >= 0)
+                  { 
+                    if ((index = (faceI->tieVec[i].index[j])) >= 0)
                       indexMask |= (1 << j);
+                    if (j)
+                      isSingleIndex &= (posIndex == index);
+                    else
+                      posIndex = index;
+                  }
                 if (meshIndexMask == 0)
                   meshIndexMask = indexMask;
                 else
                   if (meshIndexMask != indexMask)
                     {
-                      FFATAL (( "IndexMask unmatch (i,j), can not create geo"));
+                      FFATAL (( "IndexMask unmatch, can not create geo\n"));
                       meshIndexMask = 0;
                       break;
                     }
               }
           else
-                        {
+            {
               FWARNING (("Mesh with empty faceList\n"));
             }
           
+          if (isSingleIndex)
+            cerr << "XXXXX OBJ Mesh " << meshI->name 
+                 << " isSingleIndex" << endl;
+
           // fill the geo properties
           if (meshIndexMask) 
             {
@@ -318,6 +331,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                     geoPtr->getIndexMapping().push_back( Geometry::MapTexCoords );
                 if (meshIndexMask & 4)
                   geoPtr->getIndexMapping().push_back( Geometry::MapNormal );
+
                 geoPtr->setPositions ( coordPtr );
                 geoPtr->setTexCoords ( texCoordPtr );
                 geoPtr->setNormals   ( normalPtr );
@@ -503,7 +517,7 @@ OBJSceneFileType::OBJSceneFileType(const Char8  *suffixArray[],
     _dataElemMap()
 
 {
-    initDataElemMap();
+    initElemMap();
 }
 
 //----------------------------
@@ -530,7 +544,7 @@ OBJSceneFileType::OBJSceneFileType(const Char8  *suffixArray[],
 OBJSceneFileType::OBJSceneFileType(const OBJSceneFileType &obj) :
     SceneFileType(obj)
 {
-    initDataElemMap();
+    initElemMap();
 }
 
 //----------------------------
@@ -590,32 +604,39 @@ const Char8 *OBJSceneFileType::getName(void) const
  ****************************/
 
 
-void OBJSceneFileType::initDataElemMap(void)
+void OBJSceneFileType::initElemMap(void)
 {
-    if (_dataElemMap.empty())
+  if (_dataElemMap.empty())
     {
       _dataElemMap[""]        = UNKNOWN_DE;
+     
       _dataElemMap["v"]       = VERTEX_DE;
       _dataElemMap["vt"]      = VERTEX_TEXTURECOORD_DE;
       _dataElemMap["vn"]      = VERTEX_NORMAL_DE;
       _dataElemMap["f"]       = FACE_DE;
       _dataElemMap["fo"]      = FACE_DE;
-      _dataElemMap["mtllib"]  = MTL_LIB_DE;
-      _dataElemMap["newmtl"]  = NEW_MTL_DE;
-      _dataElemMap["Kd"]      = MTL_DIFFUSE_DE;
-      _dataElemMap["Ka"]      = MTL_AMBIENT_DE;
-      _dataElemMap["Ks"]      = MTL_SPECULAR_DE;
-      _dataElemMap["Ns"]      = MTL_SHININESS_DE;
-      _dataElemMap["Tr"]      = MTL_TRANSPARENCY_DE;
-      _dataElemMap["map_Kd"]  = MTL_MAP_KD_DE;
-      _dataElemMap["map_Ka"]  = MTL_MAP_KA_DE;
-      _dataElemMap["map_Ks"]  = MTL_MAP_KS_DE;
-      _dataElemMap["illum"]   = MTL_ILLUM_DE;
-      _dataElemMap["refl"]    = MTL_REFL_DE;
+      _dataElemMap["mtllib"]  = LIB_MTL_DE;
       _dataElemMap["usemtl"]  = USE_MTL_DE;
       _dataElemMap["g"]       = GROUP_DE;
       _dataElemMap["s"]       = SMOOTHING_GROUP_DE;
       _dataElemMap["o"]       = OBJECT_DE;
+    }
+
+  if (_mtlElemMap.empty())
+    {
+      _mtlElemMap[""]        = UNKNOWN_ME;
+
+      _mtlElemMap["newmtl"]  = NEW_MTL_ME;
+      _mtlElemMap["Kd"]      = MTL_DIFFUSE_ME;
+      _mtlElemMap["Ka"]      = MTL_AMBIENT_ME;
+      _mtlElemMap["Ks"]      = MTL_SPECULAR_ME;
+      _mtlElemMap["Ns"]      = MTL_SHININESS_ME;
+      _mtlElemMap["Tr"]      = MTL_TRANSPARENCY_ME;
+      _mtlElemMap["map_Kd"]  = MTL_MAP_KD_ME;
+      _mtlElemMap["map_Ka"]  = MTL_MAP_KA_ME;
+      _mtlElemMap["map_Ks"]  = MTL_MAP_KS_ME;
+      _mtlElemMap["illum"]   = MTL_ILLUM_ME;
+      _mtlElemMap["refl"]    = MTL_REFL_ME;
     }
 }
 
@@ -626,177 +647,117 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
 {
   Int32 mtlCount = 0;
   std::ifstream in(pathHandler.findFile(fileName).c_str());
-  SimpleTexturedMaterialPtr mtlPtr;
+  SimpleTexturedMaterialPtr mtlPtr = NullFC;
   Real32 a,b,c;
   std::string elem;
-  std::map<std::string, DataElem>::const_iterator elemI;
-  DataElem dataElem;
+  std::map<std::string, MaterialElem>::const_iterator elemI;
+  MaterialElem mtlElem;
   std::map<std::string, osg::Image*> imageMap;
   std::map<std::string, osg::Image*>::iterator iI;
-  Image *image;
+  Image *image = 0;
 
   if (in)
     for (in >> elem; in.eof() == false; in >> elem) 
-      if (elem[0] == '#' ||
-    	  elem[0] == '$'
-    	  )
+      if (elem[0] == '#' || elem[0] == '$' )
         in.ignore(INT_MAX, '\n'); 
       else
         {
-          elemI = _dataElemMap.find(elem);
-          dataElem = ((elemI == _dataElemMap.end()) ?
-                      UNKNOWN_DE : elemI->second);
-          switch (dataElem) 
-            {
-            case NEW_MTL_DE:
-              in >> elem;
-              mtlPtr = SimpleTexturedMaterial::create();
-              beginEditCP(mtlPtr);
-              {
-                mtlPtr->setColorMaterial(GL_NONE);
-              }
+          elemI = _mtlElemMap.find(elem);
+          mtlElem = ((elemI == _mtlElemMap.end()) ?
+                     UNKNOWN_ME : elemI->second);
+          if (mtlElem == NEW_MTL_ME)
+          {
+            in >> elem;
+            if (mtlPtr != NullFC)
               endEditCP(mtlPtr);
-              mtlMap[elem] = mtlPtr;
-              mtlCount++;
-              break;
-            case MTL_DIFFUSE_DE:
-              if (mtlPtr == NullFC)
+            mtlPtr = SimpleTexturedMaterial::create();
+            beginEditCP(mtlPtr);
+            mtlPtr->setColorMaterial(GL_NONE);
+            mtlMap[elem] = mtlPtr;
+            mtlCount++;
+          }
+          else
+          {
+            if (mtlPtr == NullFC)
+            {  
+              FFATAL (( "Invalid Mtl token: %s, newmtl expected in %s\n",
+                        elem.c_str(), fileName ));
+              in.ignore(INT_MAX, '\n');
+            }
+            else 
+            {
+              switch (mtlElem) 
+              {
+              case MTL_DIFFUSE_ME:
+                in >> a >> b >> c;
+                mtlPtr->setDiffuse( Color3f( a,b,c ));
+                break;
+              case MTL_AMBIENT_ME:
+                in >> a >> b >> c;
+                mtlPtr->setAmbient( Color3f( a,b,c ));
+                break;
+              case MTL_SPECULAR_ME:
+                in >> a >> b >> c;
+                mtlPtr->setSpecular( Color3f( a,b,c ));
+                break;
+              case MTL_SHININESS_ME:
+                in >> a;
+                mtlPtr->setShininess(a);
+                break;
+              case MTL_ILLUM_ME:
+                ; // TODO: What to do with illum ?!?
+                in >> elem;
+                // FFATAL (("obj mtl illum not handled yet\n"));
+                break;
+              case MTL_REFL_ME:
+                mtlPtr->setEnvMap(true);
+                break;
+              case MTL_TRANSPARENCY_ME:
+                in >> a;
+                mtlPtr->setTransparency(a);
+                break;
+              case MTL_MAP_KD_ME:
+              case MTL_MAP_KA_ME:
+              case MTL_MAP_KS_ME:
+                image = 0;
+                in >> elem;                
+                iI = imageMap.find(elem);
+                if (iI == imageMap.end())
                 {
-                  FFATAL (( "Invalid %s entry in %s\n",
+                  elem = pathHandler.findFile(elem.c_str());
+                  image = osg::ImageFileHandler::the().read(elem.c_str());
+                  imageMap[elem] = image;
+                }                     
+                else 
+                {
+                  image = iI->second;
+                }
+                if (image) {
+                  mtlPtr->setImage(image);
+
+                  // force stand material ?!?
+                  mtlPtr->setDiffuse( Color3f( .8, .8, .8 ) );
+                  mtlPtr->setSpecular( Color3f( 1, 1, 1 ) );
+                  mtlPtr->setShininess( 20 );
+                }
+                else
+                {
+                  FFATAL (( "Can not find %s texture file in mtl %s \n",
                             elem.c_str(), fileName ));
-                }
-              else
-                {
-                  beginEditCP(mtlPtr);
-                  {
-                    in >> a >> b >> c;
-                    mtlPtr->setDiffuse( Color3f( a,b,c ));
-                  }
-                  endEditCP(mtlPtr);
-                }
-              break;
-            case MTL_AMBIENT_DE:
-              if (mtlPtr == NullFC)
-                {
-                  FFATAL (( "Invalid %s entry in %s\n",
-                            elem.c_str(), fileName ));
-                }
-              else
-                {
-                  beginEditCP(mtlPtr);
-                  {
-                    in >> a >> b >> c;
-                    mtlPtr->setAmbient( Color3f( a,b,c ));
-                  }
-                  endEditCP(mtlPtr);
-                }
-              break;
-            case MTL_SPECULAR_DE:
-              if (mtlPtr == NullFC)
-                {
-                  FFATAL (( "Invalid %s entry in %s\n",
-                            elem.c_str(), fileName ));
-                }
-              else
-                {
-                  beginEditCP(mtlPtr);
-                  {
-                    in >> a >> b >> c;
-                    mtlPtr->setSpecular( Color3f( a,b,c ));
-                  }
-                  endEditCP(mtlPtr);
-                }
-              break;
-            case MTL_SHININESS_DE:
-              if (mtlPtr == NullFC)
-                {
-                  FFATAL (( "Invalid %s entry in %s\n",
-                            elem.c_str(), fileName ));
-                }
-              else
-                {
-                  beginEditCP(mtlPtr);
-                  {
-                    in >> a;
-                    mtlPtr->setShininess(a);
-                  }
-                  endEditCP(mtlPtr);
-                }
-              break;
-            case MTL_ILLUM_DE:
-              if (mtlPtr == NullFC)
-                {
-                  FFATAL (( "Invalid %s entry in %s\n",
-                            elem.c_str(), fileName ));
-                }
-              else
-                {
-                  beginEditCP(mtlPtr);
-                  {
-                    in >> elem
-                    ; // TODO: What to do with illum ?!?
-                  }
-                  endEditCP(mtlPtr);
-                }
-              break;
-	        case MTL_REFL_DE:
-		      beginEditCP(mtlPtr, SimpleTexturedMaterial::EnvMapFieldMask);
-		      mtlPtr->setEnvMap(true);
-		      endEditCP(mtlPtr);
-	    	  break;
-	        case MTL_TRANSPARENCY_DE:
-              if (mtlPtr == NullFC)
-                {
-                  FFATAL (( "Invalid %s entry in %s\n",
-                            elem.c_str(), fileName ));
-                }
-              else
-				{
-					in >> a;
-					beginEditCP(mtlPtr, 
-                                SimpleTexturedMaterial::TransparencyFieldMask);
-					mtlPtr->setTransparency(a);
-		  		    endEditCP(mtlPtr, 
-                              SimpleTexturedMaterial::TransparencyFieldMask);
-				}
-			  break;
-            case MTL_MAP_KD_DE:
-            case MTL_MAP_KA_DE:
-            case MTL_MAP_KS_DE:
-              if (mtlPtr == NullFC)
-                {
-                  FFATAL (( "Invalid %s entry in %s\n",
-                            elem.c_str(), fileName ));
-                }
-              else
-                {
-                  in >> elem;
-                  iI = imageMap.find(elem);
-                  if (iI == imageMap.end())
-                    {
-                      elem = pathHandler.findFile(elem.c_str());
-                      image = osg::ImageFileHandler::the().read(elem.c_str());
-                      imageMap[elem] = image;
-                    }                     
-                  else
-                    image = iI->second;
-                  if (image)
-                    {
-                      beginEditCP(mtlPtr);
-                      {
-                        mtlPtr->setImage(image);
-                      }
-                      endEditCP(mtlPtr);
-                    }
                 }
               break;               
-            default:
+              default:
               FWARNING (( "Invalid %s entry in %s\n",
                           elem.c_str(), fileName ));
               in.ignore(INT_MAX, '\n');
+              }
             }
+          }
         }
   
+  if (mtlPtr != NullFC)
+    endEditCP(mtlPtr);
+          
   return mtlCount;
 }
 

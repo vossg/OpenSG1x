@@ -4,6 +4,7 @@
 
 #ifndef WIN32
 
+#include <OSGDrawable.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGPassiveWindow.h>
 #include <OSGSimpleSceneManager.h>
@@ -245,7 +246,7 @@ int main(int argc, char **argv)
 	*/
 	
 	collector = &statfg->getCollector();
-    collector->getElem(Geometry::statNTriangles);
+    collector->getElem(Drawable::statNTriangles);
     mgr->getAction()->setStatistics(collector);
 
     beginEditCP(pwin->getPort(0));

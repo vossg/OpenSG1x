@@ -132,21 +132,33 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     enum DataElem 
     { 
       UNKNOWN_DE = 0,
+
       VERTEX_DE, VERTEX_TEXTURECOORD_DE, VERTEX_NORMAL_DE,
-      MTL_LIB_DE, NEW_MTL_DE, 
-      MTL_DIFFUSE_DE, MTL_AMBIENT_DE, MTL_SPECULAR_DE, 
-      MTL_SHININESS_DE, MTL_ILLUM_DE,
-      MTL_TRANSPARENCY_DE,
-      MTL_MAP_KD_DE, MTL_MAP_KA_DE, MTL_MAP_KS_DE,
-      MTL_REFL_DE,
       FACE_DE, 
+
+      LIB_MTL_DE, 
       USE_MTL_DE, 
+
       GROUP_DE, SMOOTHING_GROUP_DE, OBJECT_DE
     };
 
     std::map<std::string, DataElem> _dataElemMap;
 
-    void initDataElemMap(void);
+    enum MaterialElem 
+    {
+      UNKNOWN_ME = 0,
+      
+      NEW_MTL_ME, 
+      MTL_DIFFUSE_ME, MTL_AMBIENT_ME, MTL_SPECULAR_ME, 
+      MTL_SHININESS_ME, MTL_ILLUM_ME,
+      MTL_TRANSPARENCY_ME,
+      MTL_MAP_KD_ME, MTL_MAP_KA_ME, MTL_MAP_KS_ME,
+      MTL_REFL_ME
+    };
+
+    std::map<std::string, MaterialElem> _mtlElemMap;
+
+    void initElemMap(void);
 
     class Mesh;
     friend class Mesh;

@@ -6,6 +6,7 @@
 #include <OSGSimpleSceneManager.h>
 #include <OSGSceneFileHandler.h>
 
+#include <OSGDrawable.h>
 #include <OSGSimpleStatisticsForeground.h>
 #include <OSGStatElemTypes.h>
 #include <OSGStatCollector.h>
@@ -127,20 +128,20 @@ int main(int argc, char **argv)
                        "%d Nodes drawn");
     statfg->addElement(RenderAction::statNTransGeometries, 
                        "%d transparent Nodes drawn");
-    statfg->addElement(Geometry::statNTriangles, 
+    statfg->addElement(Drawable::statNTriangles, 
                        "%d triangles drawn");
-    statfg->addElement(Geometry::statNLines, 
+    statfg->addElement(Drawable::statNLines, 
                        "%d lines drawn");
-    statfg->addElement(Geometry::statNPoints, 
+    statfg->addElement(Drawable::statNPoints, 
                        "%d points drawn");
-    statfg->addElement(Geometry::statNVertices, 
+    statfg->addElement(Drawable::statNVertices, 
                        "%d vertices transformed");
     endEditCP(statfg);
     
     collector = &statfg->getCollector();
     
     // add optional elements
-    collector->getElem(Geometry::statNTriangles);
+    collector->getElem(Drawable::statNTriangles);
     
     mgr->getAction()->setStatistics(collector);
     
