@@ -141,8 +141,12 @@ void ClusterWindow::init( void )
     std::string autostart;
     std::string env;
 
+    Real32 progress = 0.0f;
+    Real32 progressStep = 1.0f / Real32(getServers().size());
+
     if(getAutostart().size())
     {
+        progressStep /= 2;
         std::vector<FILE*>           pipes;
 
         for(id=0 ; id<getServers().size() ; ++id)
@@ -150,6 +154,10 @@ void ClusterWindow::init( void )
             std::ostringstream command;
 
             server    = getServers()[id];
+            int pos=server.find(":");
+            if(pos>=0)
+                server.erase(pos);
+
             autostart = getAutostart()[id % getAutostart().size()];
 
             for(c = 0 ; c < autostart.length() ; ++c)
@@ -159,6 +167,9 @@ void ClusterWindow::init( void )
                     {
                         case 's': 
                             command << server;
+                            break;
+                        case 'n': 
+                            command << getServers()[id];
                             break;
                         case 'i':
                             command << id;
@@ -194,6 +205,28 @@ void ClusterWindow::init( void )
         {
             if(pipes[id]) 
             {
+                // update progress
+                if(_connectionFP != NULL)
+                {
+                    std::string message;
+                    message += "Starting:" + getServers()[id]; 
+                    if(!_connectionFP(message, progress))
+                    {
+                        // abort, cleanup remaining pipes
+                        for( ; id<getServers().size() ; ++id)
+                        {
+                            if(pipes[id]) 
+                            {
+#ifdef WIN32
+                                _pclose(pipes[id]);
+#else
+                                pclose(pipes[id]);
+#endif
+                            }
+                            throw AsyncCancel();
+                        }
+                    }
+                }
                 SINFO << "Waiting for " << getServers()[id] << " to start." << std::endl;
                 char result;
                 std::string line="";
@@ -214,12 +247,10 @@ void ClusterWindow::init( void )
                 pclose(pipes[id]);
 #endif
                 SINFO << getServers()[id] << " started." << std::endl;
+                progress += progressStep;
             }
         }
     }
-
-    Real32 progress = 0.0f;
-    Real32 progressStep = 1.0f / Real32(getServers().size());
 
     // connect to all servers
     for(s =getServers().begin();
@@ -239,52 +270,71 @@ void ClusterWindow::init( void )
         {
             try
             {
-                // find server
-                do
+                // update progress
+                if(_connectionFP != NULL)
                 {
-                    msg.clear();
-                    msg.putString(*s);
-                    msg.putString(getConnectionType());
-                    
-                    if(_sfServiceAddress.getValue().size() != 0)
+                    std::string message;
+                    message += "Connecting:" + *s; 
+                    if(!_connectionFP(message, progress))
                     {
-                        SINFO << "send request to:" << 
-                            _sfServiceAddress.getValue()
-                              << std::endl;
-                        serviceSock.sendTo(
-                            msg,SocketAddress(
-                                _sfServiceAddress.getValue().c_str(),
-                                getServicePort()));
+                        serviceSock.close();
+                        throw AsyncCancel();
                     }
-                    SINFO << "send request to:" 
-                          << SocketAddress(SocketAddress::BROADCAST,
-                                           getServicePort()).getHost().c_str()
+                }
+
+                // try to connect with the servers name
+                try 
+                {
+                    channel = connection->connectPoint(*s,0.1);
+                    if(channel >= 0) {
+                        retry=false;
+                        SINFO << "Connected with address:" << *s << std::endl;
+                        break;
+                    }
+                }
+                catch(...)
+                {
+                }
+                // find server
+                msg.clear();
+                msg.putString(*s);
+                msg.putString(getConnectionType());
+                    
+                if(_sfServiceAddress.getValue().size() != 0)
+                {
+                    SINFO << "send request to:" << 
+                        _sfServiceAddress.getValue()
                           << std::endl;
                     serviceSock.sendTo(
-                        msg,SocketAddress(SocketAddress::BROADCAST,
-                                          getServicePort()));
-
-                    if(_connectionFP != NULL)
+                        msg,SocketAddress(
+                            _sfServiceAddress.getValue().c_str(),
+                            getServicePort()));
+                }
+                SINFO << "send request to:" 
+                      << SocketAddress(SocketAddress::BROADCAST,
+                                       getServicePort()).getHost().c_str()
+                      << std::endl;
+                serviceSock.sendTo(
+                    msg,SocketAddress(SocketAddress::BROADCAST,
+                                      getServicePort()));
+                if(serviceSock.waitReadable(0.1))
+                {
+                    serviceSock.recv(msg);
+                    msg.getString(respServer);
+                    msg.getString(respAddress);
+                    if(respServer == *s)
                     {
-                        if(!_connectionFP((*s), progress))
-                        {
-                            serviceSock.close();
-                            _connectionOk = false;
-                            return;
-                        }
+                        SINFO << "Found at address " << respAddress << std::endl;
+                        // connect to server
+                        channel = connection->connectPoint(respAddress);
+                        if(channel >= 0)
+                            retry=false;
                     }
                 }
-                while(serviceSock.waitReadable(_connectionTimeout)==false);
-                serviceSock.recv(msg);
-                msg.getString(respServer);
-                msg.getString(respAddress);
-                if(respServer == *s)
-                {
-                    SINFO << "Found at address " << respAddress << std::endl;
-                    // connect to server
-                    connection->connectPoint(respAddress);
-                    retry=false;
-                }
+            }
+            catch(AsyncCancel &)
+            {
+                throw;
             }
             catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
             {
@@ -321,17 +371,34 @@ void ClusterWindow::init( void )
     {
         SINFO << "Run clustering in network order mode" << std::endl;
     }
+    // inform connection finished
+    if(_connectionFP != NULL)
+        _connectionFP("ok", 1.0);
 }
 
-bool ClusterWindow::initAsync(connectioncbfp fp, Real32 timeout)
+bool ClusterWindow::initAsync(connectioncbfp fp)
+{
+    bool result;
+    connectioncbfp saveFP = _connectionFP;
+
+    _connectionFP = fp;
+    try 
+    {
+        init();
+        result = true;
+    }
+    catch(AsyncCancel &e)
+    {
+        result = false;
+    }
+    _connectionFP = saveFP;
+
+    return result;
+}
+
+void ClusterWindow::setConnectionCB(connectioncbfp fp)
 {
     _connectionFP = fp;
-    _connectionTimeout = timeout;
-    _connectionOk = true;
-    init();
-    _connectionFP = NULL;
-    _connectionTimeout = 2.0f;
-    return _connectionOk;
 }
 
 void ClusterWindow::render(RenderActionBase *action)
@@ -420,6 +487,13 @@ void ClusterWindow::setStatistics(StatCollector *statistics)
     _statistics = statistics;
     if(getNetwork()->getAspect())
         getNetwork()->getAspect()->setStatistics(statistics);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                          exceptions                                     */
+
+ClusterWindow::AsyncCancel::AsyncCancel()
+{
 }
 
 /*-------------------------------------------------------------------------*/
@@ -540,8 +614,6 @@ ClusterWindow::ClusterWindow(void) :
      Inherited(),
     _firstFrame(true),
     _statistics(NULL),
-    _connectionTimeout(2.0f),
-    _connectionOk(true),
     _connectionFP(NULL),
     _network(NULL)
 {
@@ -553,9 +625,7 @@ ClusterWindow::ClusterWindow(const ClusterWindow &source) :
     Inherited(source),
     _firstFrame(true),
     _statistics(NULL),
-    _connectionTimeout(2.0f),
-    _connectionOk(true),
-    _connectionFP(NULL),
+    _connectionFP(source._connectionFP),
     _network(NULL)
 {
 }
