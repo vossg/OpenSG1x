@@ -75,7 +75,7 @@ inline Color3f
 GeoProperty<GeoColor3ubPropertyDesc>::getValue( const UInt32 index ) 
 {
 	const Color3ub &val = _field.getValue( index );
-	return Color3f( val.red()/255., val.green()/255., val.blue()/255. );
+	return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
 }
 
 template<>
@@ -83,7 +83,7 @@ inline Color3f
 GeoProperty<GeoColor3ubPropertyDesc>::getValue( const UInt32 index ) const
 {
 	const Color3ub &val = _field.getValue( index );
-	return Color3f( val.red()/255., val.green()/255., val.blue()/255. );
+	return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
 }
 
 template<>
@@ -93,7 +93,9 @@ GeoProperty<GeoColor3ubPropertyDesc>::getValue(
 	const UInt32 index ) 
 {
 	const Color3ub &val = _field.getValue( index );
-	res.setValuesRGB( val.red()/255., val.green()/255., val.blue()/255. );
+	res.setValuesRGB(	val.red  ()/255.f,  
+						val.green()/255.f,  
+						val.blue ()/255.f );
 }
 
 template<>
@@ -103,7 +105,9 @@ GeoProperty<GeoColor3ubPropertyDesc>::getValue(
 	const UInt32 index ) const
 {
 	const Color3ub &val = _field.getValue( index );
-	res.setValuesRGB( val.red()/255., val.green()/255., val.blue()/255. );
+	res.setValuesRGB(	val.red  ()/255.f,  
+						val.green()/255.f,  
+						val.blue ()/255.f );
 }
 
 template<>
@@ -112,7 +116,9 @@ GeoProperty<GeoColor3ubPropertyDesc>::setValue( const Color3f & val,
 	const UInt32 index ) 
 {
 	_field.setValue( 
-			Color3ub( val.red() * 255., val.green() * 255., val.blue() * 255.), 
+			Color3ub(	UInt8(val.red  () * 255.f), 
+						UInt8(val.green() * 255.f), 
+						UInt8(val.blue () * 255.f)), 
 			index );
 }
 
@@ -121,7 +127,9 @@ inline void
 GeoProperty<GeoColor3ubPropertyDesc>::addValue( const Color3f & val ) 
 {
 	_field.addValue( 
-			Color3ub( val.red() * 255., val.green() * 255., val.blue() * 255.) 
+			Color3ub(	UInt8(val.red  () * 255.f), 
+						UInt8(val.green() * 255.f), 
+						UInt8(val.blue () * 255.f) ) 
 			);
 }
 
@@ -133,7 +141,7 @@ inline Color3f
 GeoProperty<GeoColor4ubPropertyDesc>::getValue( const UInt32 index ) 
 {
 	const Color4ub &val = _field.getValue( index );
-	return Color3f( val.red()/255., val.green()/255., val.blue()/255. );
+	return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
 }
 
 template<>
@@ -141,7 +149,7 @@ inline Color3f
 GeoProperty<GeoColor4ubPropertyDesc>::getValue( const UInt32 index ) const
 {
 	const Color4ub &val = _field.getValue( index );
-	return Color3f( val.red()/255., val.green()/255., val.blue()/255. );
+	return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
 }
 
 template<>
@@ -151,7 +159,7 @@ GeoProperty<GeoColor4ubPropertyDesc>::getValue(
 	const UInt32 index ) 
 {
 	const Color4ub &val = _field.getValue( index );
-	res.setValuesRGB( val.red()/255., val.green()/255., val.blue()/255. );
+	res.setValuesRGB( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
 }
 
 template<>
@@ -161,7 +169,7 @@ GeoProperty<GeoColor4ubPropertyDesc>::getValue(
 	const UInt32 index ) const
 {
 	const Color4ub &val = _field.getValue( index );
-	res.setValuesRGB( val.red()/255., val.green()/255., val.blue()/255. );
+	res.setValuesRGB( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
 }
 
 template<>
@@ -170,7 +178,10 @@ GeoProperty<GeoColor4ubPropertyDesc>::setValue( const Color3f & val,
 	const UInt32 index ) 
 {
 	_field.setValue( 
-			Color4ub( val.red() * 255., val.green() * 255., val.blue() * 255., 255), 
+			Color4ub(	UInt8(val.red  () * 255.f), 
+						UInt8(val.green() * 255.f), 
+						UInt8(val.blue () * 255.f), 
+						255), 
 			index );
 }
 
@@ -179,7 +190,10 @@ inline void
 GeoProperty<GeoColor4ubPropertyDesc>::addValue( const Color3f & val ) 
 {
 	_field.addValue( 
-			Color4ub( val.red() * 255., val.green() * 255., val.blue() * 255., 255) 
+			Color4ub(	UInt8(val.red  () * 255.f), 
+						UInt8(val.green() * 255.f), 
+						UInt8(val.blue () * 255.f), 
+						255) 
 			);
 }
 
