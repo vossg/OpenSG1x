@@ -1,0 +1,69 @@
+#include <qapp.h>
+#include <unistd.h>
+
+#include <ParseComandLine.h>
+#include <FieldContainerViewCtl.h>
+
+#include <string>
+
+int main( int argc, char **argv )
+{ 
+	int retCode = -1;
+  QApplication app( argc, argv );
+	FieldContainer fc;
+	bool writeBase = false, writeFC = false;
+	const char *optstring = "d:t:bfh";
+	std::string fcdFile, typeFile;
+	int opt = 0;
+
+	while (opt >= 0) {
+		opt = getopt(argc,argv,optstring);
+		switch (opt) {
+		case 'd':
+			fcdFile = optarg;
+			break;
+		case 't':
+			typeFile = optarg;
+			break;
+		case 'b':
+			writeBase = true;
+			break;
+		case 'f':
+			writeFC = true;
+			break;
+		case 'h':
+			cerr << "Usage: fcdEdit -d file.fcd -t file.ftd -bfh" << endl;
+			cerr << "  -d file.fcd: load the field container description" << endl;
+			cerr << "  -t file.ftd: load the field type description" << endl;
+			cerr << "  -b write the field container base code files" << endl;
+			cerr << "  -f write the field container code files" << endl;
+			cerr << "  -h print usage" << endl;
+			return 0;
+			break;
+		}
+	}
+		
+	if (typeFile.empty())
+		Field::loadDefaultFieldTypeList();
+	else
+		Field::loadFieldTypeList(typeFile.c_str());
+
+	if (writeBase || writeFC) {
+		if (fcdFile.empty())
+			cerr << "ERROR: Can't write code without description" << endl;
+		else {
+			fc.readDesc(fcdFile.c_str());
+			fc.writeCode(writeBase,writeFC);
+			retCode = 0;
+		}
+	}
+	else {
+		FieldContainerViewCtl fCViewCtl(fcdFile.c_str());
+		app.setMainWidget(&fCViewCtl);
+		fCViewCtl.show();
+		retCode = app.exec();
+	}
+
+	return 0;
+}
+

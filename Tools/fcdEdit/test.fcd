@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="VRMLTransform"
+	parent="Transform"
+	library="MISC"
+	pointerfieldtypes="both"
+>
+This is the documentation for the VRMLTransform class.  	
+	<Field
+		name="center"
+		type="Vec3f"
+		cardinality="single"
+		visibility="internal"
+	>
+	The Center is ... 	
+	</Field>
+	<Field
+		name="rotation"
+		type="Quaternion"
+		cardinality="single"
+		visibility="internal"
+	>
+	The Rotation is ... 	
+	</Field>
+	<Field
+		name="scale"
+		type="Vec3f"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="1.,1.,1."
+	>
+	The Scale is ... 	
+	</Field>
+	<Field
+		name="scaleOrientation"
+		type="Quaternion"
+		cardinality="single"
+		visibility="internal"
+	>
+	The ScaleOrientation is ... 	
+	</Field>
+	<Field
+		name="translation"
+		type="Vec3f"
+		cardinality="single"
+		visibility="internal"
+	>
+	The Translation is ... 	
+	</Field>
+	<Field
+		name="knoedel"
+		type="Vec3f"
+		cardinality="multi"
+		visibility="internal"
+	>
+	The Knoedel is a round squishy object. 	
+	</Field>
+</FieldContainer>
