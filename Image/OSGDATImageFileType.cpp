@@ -122,9 +122,9 @@ Bool DATImageFileType::read (      Image &image,
   KeyType key;
   FormatType formatType;
   UInt32 res[3];
-  int bpv, dataSize;
+  int bpv, dataSize = 0;
   Image::PixelFormat pixelFormat;
-  char *dataBuffer;
+  char *dataBuffer = 0;
   Bool needConversion;
 
   res[0] = res[1] = res[2] = 0;
@@ -242,23 +242,33 @@ Bool DATImageFileType::read (      Image &image,
       FWARNING (( "Invalid/Missing DAT ObjectFileName\n" ));
     }
 
-  // vol data
-  if (dataSize && dataBuffer && needConversion)
+  // check/reformat vol data
+  if (dataSize && dataBuffer)
     {
-      switch (formatType)
+      if (needConversion) 
         {
-        case UCHAR_FT:
-          break;
-        case USHORT_FT:
-          break;
-        case UINT_FT:
-          break;
-        case ULONG_FT:
-          break;
-        case FLOAT_FT:
-          break;
-        case DOUBLE_FT:
-          break;
+          FLOG (("DAT-Data convert not impl. yet !\n"));
+          {
+            switch (formatType)
+              {
+              case UCHAR_FT:
+                break;
+              case USHORT_FT:
+                break;
+              case UINT_FT:
+                break;
+              case ULONG_FT:
+                break;
+              case FLOAT_FT:
+                break;
+              case DOUBLE_FT:
+                break;
+              }
+          }
+        }
+      else 
+        {
+          retCode = true;
         }
     }
 
