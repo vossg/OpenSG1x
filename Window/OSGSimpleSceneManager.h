@@ -57,6 +57,7 @@
 #include <OSGPerspectiveCamera.h>
 #include <OSGDirectionalLight.h>
 #include <OSGNavigator.h>
+#include <OSGStatisticsForeground.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -120,8 +121,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
 
     virtual void  useOpenSGLogo    ( void );
     
-            void setNavigationMode ( Navigator::Mode new_mode );
-    inline  bool setClickCenter    ( bool mode );
+            void  setNavigationMode( Navigator::Mode new_mode );
+    inline  bool  setClickCenter   ( bool mode );
+
+    virtual void  setStatistics    ( bool on );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -171,26 +174,28 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    WindowPtr            _win;
-    NodePtr              _root;
+    WindowPtr                    _win;
+    NodePtr                      _root;
 
-    ImageForegroundPtr   _foreground;
+    ImageForegroundPtr           _foreground;
+    StatisticsForegroundPtr      _statforeground;
+    bool                         _statstate;
 
-    NodePtr              _highlight;
-    NodePtr              _highlightNode;
-    GeoPositions3fPtr    _highlightPoints;
+    NodePtr                      _highlight;
+    NodePtr                      _highlightNode;
+    GeoPositions3fPtr            _highlightPoints;
      
-    NodePtr              _internalRoot;
-    DirectionalLightPtr  _headlight;
-    RenderAction *       _action;
-    TransformPtr         _cart;
-    PerspectiveCameraPtr _camera;
+    NodePtr                      _internalRoot;
+    DirectionalLightPtr          _headlight;
+    RenderAction *               _action;
+    TransformPtr                 _cart;
+    PerspectiveCameraPtr         _camera;
 
-    Navigator            _navigator;
+    Navigator                    _navigator;
 
-    Int16                _lastx;
-    Int16                _lasty;
-    UInt16               _mousebuttons;
+    Int16                        _lastx;
+    Int16                        _lasty;
+    UInt16                       _mousebuttons;
 
     static  SimpleMaterialPtr    _highlightMaterial;
  
@@ -216,6 +221,6 @@ OSG_END_NAMESPACE
 
 #include "OSGSimpleSceneManager.inl"
 
-#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.13 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.14 2002/06/10 19:10:07 dirk Exp $"
 
 #endif /* _OSGSIMPLESCENEMANAGER_H_ */

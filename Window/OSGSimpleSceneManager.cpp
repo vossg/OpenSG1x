@@ -49,6 +49,9 @@
 #include <OSGSolidBackground.h>
 #include <OSGViewport.h>
 #include <OSGLogoData.h>
+#include <OSGSimpleStatisticsForeground.h>
+#include <OSGStatElemTypes.h>
+#include <OSGStatCollector.h>
 
 #include "OSGSimpleSceneManager.h"
 
@@ -120,6 +123,14 @@ OSG_USING_NAMESPACE
     The core for the light source.
  */
 
+/*! \var SimpleSceneManager::_foreground
+    ImageForeground used by the logo.
+ */
+
+/*! \var SimpleSceneManager::_statstate
+    Bool to indicate if statistics should be displayed or not.
+ */
+
 /*! \var SimpleSceneManager::_action
     The action used to render the scene.
  */
@@ -165,6 +176,8 @@ SimpleSceneManager::SimpleSceneManager(void) :
     _win            (NullFC), 
     _root           (NullFC), 
     _foreground     (NullFC),
+    _statforeground (NullFC),
+    _statstate      (false),
 
     _highlight      (NullFC), 
     _highlightNode  (NullFC), 
@@ -324,6 +337,30 @@ void SimpleSceneManager::setHighlight(NodePtr highlight)
     highlightChanged();
 }
 
+/*! set the statistics setting. Only works after the window has been created.
+ */
+void SimpleSceneManager::setStatistics(bool on)
+{
+    if(_statforeground != NullFC && on != _statstate) 
+    {
+        ViewportPtr vp = _win->getPort().getValue(0);
+        
+        if(on)
+        {
+            vp->getForegrounds().push_back(_statforeground);
+        }
+        else
+        {
+            MFForegroundPtr::iterator it;
+            
+            it = vp->getForegrounds().find(_statforeground);
+            vp->getForegrounds().erase(it);
+        }
+        
+        _statstate = on;
+    }
+}
+
 /*-------------------------------------------------------------------------*/
 /*                               Updates                                   */
 
@@ -381,6 +418,41 @@ void SimpleSceneManager::initialize(void)
         endEditCP(bg);
 
         _foreground = ImageForeground::create();
+        
+        SimpleStatisticsForegroundPtr sf = SimpleStatisticsForeground::create();
+
+        beginEditCP(sf);
+        sf->setSize(25);
+        sf->setColor(Color4f(0,1,0,0.7));
+        sf->addElement(RenderAction::statDrawTime,      "Draw FPS: %r.3f");
+        sf->addElement(DrawActionBase::statTravTime,    "TravTime: %.3f s");
+        sf->addElement(RenderAction::statDrawTime,      "DrawTime: %.3f s");
+        sf->addElement(DrawActionBase::statCullTestedNodes, 
+                           "%d Nodes culltested");
+        sf->addElement(DrawActionBase::statCulledNodes, 
+                           "%d Nodes culled");
+        sf->addElement(RenderAction::statNMaterials, 
+                           "%d material changes");
+        sf->addElement(RenderAction::statNMatrices, 
+                           "%d matrix changes");
+        sf->addElement(RenderAction::statNGeometries, 
+                           "%d Nodes drawn");
+        sf->addElement(RenderAction::statNTransGeometries, 
+                           "%d transparent Nodes drawn");
+        sf->addElement(Geometry::statNTriangles,    "%d triangles drawn");
+        sf->addElement(Geometry::statNLines,        "%d lines drawn");
+        sf->addElement(Geometry::statNPoints,       "%d points drawn");
+        sf->addElement(Geometry::statNVertices,     "%d vertices transformed");
+        endEditCP(sf);
+
+        StatCollector *collector = &sf->getCollector();
+
+        // add optional elements
+        collector->getElem(Geometry::statNTriangles);
+
+        _action->setStatistics(collector);
+
+        _statforeground = sf;
 
         ViewportPtr vp = Viewport::create();
         beginEditCP(vp);
@@ -736,7 +808,7 @@ bool SimpleSceneManager::operator < (const SimpleSceneManager &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.24 2002/06/01 03:55:41 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.25 2002/06/10 19:10:06 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
