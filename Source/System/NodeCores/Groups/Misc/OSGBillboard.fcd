@@ -36,4 +36,22 @@
 		access="public"
 	>
 	</Field>
+	<Field
+		name="minAngle"
+		type="Real32"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="0.0f"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="maxAngle"
+		type="Real32"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="-1.0f"
+		access="public"
+	>
+	</Field>
 </FieldContainer>

@@ -68,6 +68,8 @@
 #include <OSGVec3fFields.h> // AxisOfRotation type
 #include <OSGBoolFields.h> // FocusOnCamera type
 #include <OSGBoolFields.h> // AlignToScreen type
+#include <OSGReal32Fields.h> // MinAngle type
+#include <OSGReal32Fields.h> // MaxAngle type
 
 #include <OSGBillboardFields.h>
 
@@ -94,12 +96,16 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public Group
         AxisOfRotationFieldId = Inherited::NextFieldId,
         FocusOnCameraFieldId  = AxisOfRotationFieldId + 1,
         AlignToScreenFieldId  = FocusOnCameraFieldId  + 1,
-        NextFieldId           = AlignToScreenFieldId  + 1
+        MinAngleFieldId       = AlignToScreenFieldId  + 1,
+        MaxAngleFieldId       = MinAngleFieldId       + 1,
+        NextFieldId           = MaxAngleFieldId       + 1
     };
 
     static const OSG::BitVector AxisOfRotationFieldMask;
     static const OSG::BitVector FocusOnCameraFieldMask;
     static const OSG::BitVector AlignToScreenFieldMask;
+    static const OSG::BitVector MinAngleFieldMask;
+    static const OSG::BitVector MaxAngleFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -129,6 +135,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public Group
            SFVec3f             *getSFAxisOfRotation (void);
            SFBool              *getSFFocusOnCamera  (void);
            SFBool              *getSFAlignToScreen  (void);
+           SFReal32            *getSFMinAngle       (void);
+           SFReal32            *getSFMaxAngle       (void);
 
            Vec3f               &getAxisOfRotation (void);
      const Vec3f               &getAxisOfRotation (void) const;
@@ -136,6 +144,10 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public Group
      const bool                &getFocusOnCamera  (void) const;
            bool                &getAlignToScreen  (void);
      const bool                &getAlignToScreen  (void) const;
+           Real32              &getMinAngle       (void);
+     const Real32              &getMinAngle       (void) const;
+           Real32              &getMaxAngle       (void);
+     const Real32              &getMaxAngle       (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -145,6 +157,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public Group
      void setAxisOfRotation ( const Vec3f &value );
      void setFocusOnCamera  ( const bool &value );
      void setAlignToScreen  ( const bool &value );
+     void setMinAngle       ( const Real32 &value );
+     void setMaxAngle       ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -193,6 +207,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public Group
     SFVec3f             _sfAxisOfRotation;
     SFBool              _sfFocusOnCamera;
     SFBool              _sfAlignToScreen;
+    SFReal32            _sfMinAngle;
+    SFReal32            _sfMaxAngle;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

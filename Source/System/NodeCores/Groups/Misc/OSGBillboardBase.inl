@@ -117,6 +117,20 @@ SFBool *BillboardBase::getSFAlignToScreen(void)
     return &_sfAlignToScreen;
 }
 
+//! Get the Billboard::_sfMinAngle field.
+inline
+SFReal32 *BillboardBase::getSFMinAngle(void)
+{
+    return &_sfMinAngle;
+}
+
+//! Get the Billboard::_sfMaxAngle field.
+inline
+SFReal32 *BillboardBase::getSFMaxAngle(void)
+{
+    return &_sfMaxAngle;
+}
+
 
 //! Get the value of the Billboard::_sfAxisOfRotation field.
 inline
@@ -181,8 +195,50 @@ void BillboardBase::setAlignToScreen(const bool &value)
     _sfAlignToScreen.setValue(value);
 }
 
+//! Get the value of the Billboard::_sfMinAngle field.
+inline
+Real32 &BillboardBase::getMinAngle(void)
+{
+    return _sfMinAngle.getValue();
+}
+
+//! Get the value of the Billboard::_sfMinAngle field.
+inline
+const Real32 &BillboardBase::getMinAngle(void) const
+{
+    return _sfMinAngle.getValue();
+}
+
+//! Set the value of the Billboard::_sfMinAngle field.
+inline
+void BillboardBase::setMinAngle(const Real32 &value)
+{
+    _sfMinAngle.setValue(value);
+}
+
+//! Get the value of the Billboard::_sfMaxAngle field.
+inline
+Real32 &BillboardBase::getMaxAngle(void)
+{
+    return _sfMaxAngle.getValue();
+}
+
+//! Get the value of the Billboard::_sfMaxAngle field.
+inline
+const Real32 &BillboardBase::getMaxAngle(void) const
+{
+    return _sfMaxAngle.getValue();
+}
+
+//! Set the value of the Billboard::_sfMaxAngle field.
+inline
+void BillboardBase::setMaxAngle(const Real32 &value)
+{
+    _sfMaxAngle.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGBILLBOARDBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGBILLBOARDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

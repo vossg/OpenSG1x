@@ -43,7 +43,7 @@
 #endif
 
 #include <OSGConfig.h>
-
+#include <OSGMatrix.h>
 #include <OSGBillboardBase.h>
 #include <OSGAction.h>
 
@@ -84,7 +84,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Billboard : public BillboardBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
+    virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
@@ -113,7 +113,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Billboard : public BillboardBase
     /*! \name                      NodeCore Specific                       */
     /*! \{                                                                 */
 
-    void            adjustVolume  (Volume & volume);
+    virtual void accumulateMatrix(Matrix &result);
+
+    void         adjustVolume   (Volume & volume);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -138,6 +140,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Billboard : public BillboardBase
     friend class BillboardBase;
 
     static void initMethod(void);
+
+    Matrix _camTransform;
 
     // prohibit default functions (move to 'public' if you need one)
 

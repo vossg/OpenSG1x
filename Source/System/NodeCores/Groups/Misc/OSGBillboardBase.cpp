@@ -73,6 +73,12 @@ const OSG::BitVector  BillboardBase::FocusOnCameraFieldMask =
 const OSG::BitVector  BillboardBase::AlignToScreenFieldMask = 
     (TypeTraits<BitVector>::One << BillboardBase::AlignToScreenFieldId);
 
+const OSG::BitVector  BillboardBase::MinAngleFieldMask = 
+    (TypeTraits<BitVector>::One << BillboardBase::MinAngleFieldId);
+
+const OSG::BitVector  BillboardBase::MaxAngleFieldMask = 
+    (TypeTraits<BitVector>::One << BillboardBase::MaxAngleFieldId);
+
 const OSG::BitVector BillboardBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -87,6 +93,12 @@ const OSG::BitVector BillboardBase::MTInfluenceMask =
     
 */
 /*! \var bool            BillboardBase::_sfAlignToScreen
+    
+*/
+/*! \var Real32          BillboardBase::_sfMinAngle
+    
+*/
+/*! \var Real32          BillboardBase::_sfMaxAngle
     
 */
 
@@ -108,7 +120,17 @@ FieldDescription *BillboardBase::_desc[] =
                      "alignToScreen", 
                      AlignToScreenFieldId, AlignToScreenFieldMask,
                      true,
-                     (FieldAccessMethod) &BillboardBase::getSFAlignToScreen)
+                     (FieldAccessMethod) &BillboardBase::getSFAlignToScreen),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "minAngle", 
+                     MinAngleFieldId, MinAngleFieldMask,
+                     true,
+                     (FieldAccessMethod) &BillboardBase::getSFMinAngle),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "maxAngle", 
+                     MaxAngleFieldId, MaxAngleFieldMask,
+                     true,
+                     (FieldAccessMethod) &BillboardBase::getSFMaxAngle)
 };
 
 
@@ -167,6 +189,8 @@ BillboardBase::BillboardBase(void) :
     _sfAxisOfRotation         (Vec3f(0.f, 1.f, 0.f)), 
     _sfFocusOnCamera          (bool(true)), 
     _sfAlignToScreen          (bool(false)), 
+    _sfMinAngle               (Real32(0.0f)), 
+    _sfMaxAngle               (Real32(-1.0f)), 
     Inherited() 
 {
 }
@@ -179,6 +203,8 @@ BillboardBase::BillboardBase(const BillboardBase &source) :
     _sfAxisOfRotation         (source._sfAxisOfRotation         ), 
     _sfFocusOnCamera          (source._sfFocusOnCamera          ), 
     _sfAlignToScreen          (source._sfAlignToScreen          ), 
+    _sfMinAngle               (source._sfMinAngle               ), 
+    _sfMaxAngle               (source._sfMaxAngle               ), 
     Inherited                 (source)
 {
 }
@@ -210,6 +236,16 @@ UInt32 BillboardBase::getBinSize(const BitVector &whichField)
         returnValue += _sfAlignToScreen.getBinSize();
     }
 
+    if(FieldBits::NoField != (MinAngleFieldMask & whichField))
+    {
+        returnValue += _sfMinAngle.getBinSize();
+    }
+
+    if(FieldBits::NoField != (MaxAngleFieldMask & whichField))
+    {
+        returnValue += _sfMaxAngle.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -232,6 +268,16 @@ void BillboardBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (AlignToScreenFieldMask & whichField))
     {
         _sfAlignToScreen.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (MinAngleFieldMask & whichField))
+    {
+        _sfMinAngle.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (MaxAngleFieldMask & whichField))
+    {
+        _sfMaxAngle.copyToBin(pMem);
     }
 
 
@@ -257,6 +303,16 @@ void BillboardBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfAlignToScreen.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (MinAngleFieldMask & whichField))
+    {
+        _sfMinAngle.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (MaxAngleFieldMask & whichField))
+    {
+        _sfMaxAngle.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -274,6 +330,12 @@ void BillboardBase::executeSyncImpl(      BillboardBase *pOther,
 
     if(FieldBits::NoField != (AlignToScreenFieldMask & whichField))
         _sfAlignToScreen.syncWith(pOther->_sfAlignToScreen);
+
+    if(FieldBits::NoField != (MinAngleFieldMask & whichField))
+        _sfMinAngle.syncWith(pOther->_sfMinAngle);
+
+    if(FieldBits::NoField != (MaxAngleFieldMask & whichField))
+        _sfMaxAngle.syncWith(pOther->_sfMaxAngle);
 
 
 }

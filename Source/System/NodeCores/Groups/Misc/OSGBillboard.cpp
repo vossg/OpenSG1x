@@ -55,7 +55,6 @@
 #include "OSGCamera.h"
 #include "OSGNode.h"
 #include "OSGQuaternion.h"
-#include "OSGMatrix.h"
 
 OSG_USING_NAMESPACE
 
@@ -68,14 +67,16 @@ OSG_USING_NAMESPACE
 //! Constructor
 
 Billboard::Billboard(void) :
-    Inherited()
+    Inherited(),
+    _camTransform()
 {
 }
 
 //! Copy Constructor
 
 Billboard::Billboard(const Billboard &source) :
-    Inherited(source)
+    Inherited(source),
+    _camTransform(source._camTransform)
 {
 }
 
@@ -151,10 +152,10 @@ void Billboard::changed(BitVector whichField, UInt32 origin)
 
 //! output the instance for debug purposes
 
-void Billboard::dump(      UInt32    , 
-                         const BitVector ) const
+void Billboard::dump(      UInt32    uiIndent,
+                     const BitVector bvFlags ) const
 {
-    SLOG << "Dump Billboard NI" << std::endl;
+    Inherited::dump(uiIndent, bvFlags);
 }
 
 
@@ -182,7 +183,12 @@ void Billboard::adjustVolume( Volume & volume )
     volume.extendBy( center + dia );
 }
 
-void Billboard::calcMatrix(      DrawActionBase *pAction, 
+void Billboard::accumulateMatrix(Matrix &result)
+{
+    result.mult(_camTransform);
+}
+
+void Billboard::calcMatrix(      DrawActionBase *pAction,
                            const Matrix         &mToWorld,
                                  Matrix         &mResult)
 {
@@ -199,9 +205,6 @@ void Billboard::calcMatrix(      DrawActionBase *pAction,
     mResult.invertFrom(mToWorld);
     
     mToWorld.mult(n);
-
-//    cerr << "XXXXX" << std::endl;
-//    cerr << mCamToWorld << std::endl << std::endl;
 
     if(getAxisOfRotation() == Vec3f::Null)
     {
@@ -272,7 +275,7 @@ void Billboard::calcMatrix(      DrawActionBase *pAction,
                 Vec3f u  (0.f, 1.f, 0.f);
                 Vec3f vUp;
                 Vec3f uW;
-                
+
                 vDir.setValue(mCamToWorld[2]);
                 
                 vUp.setValue (mCamToWorld[1]);
@@ -307,6 +310,21 @@ void Billboard::calcMatrix(      DrawActionBase *pAction,
         tDir = wUp .cross(s  );
         
         q1.setValue(n, tDir);
+
+        // clamp angle to [min; max]
+        Vec3f axis;
+        Real32 angle;
+
+        if ( getMinAngle() <= getMaxAngle() ) {
+            q1.getValueAsAxisRad(axis, angle);
+
+            if (angle < getMinAngle())
+                angle = getMinAngle();
+            if (angle > getMaxAngle())
+                angle = getMaxAngle();
+
+            q1.setValueAsAxisRad(axis, angle);
+        }
     }
 
     Matrix mTrans;
@@ -327,6 +345,8 @@ void Billboard::calcMatrix(      DrawActionBase *pAction,
 
     mResult.mult(mTrans);
     mResult.mult(mToWorld);
+
+    _camTransform = mResult;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -337,8 +357,6 @@ Action::ResultE Billboard::drawEnter(Action *action)
     DrawAction *da = dynamic_cast<DrawAction *>(action);
 
     Matrix mMat;
-
-//    cerr << "BB::draw" << std::endl;
 
     calcMatrix(da,     
                da->getActNode()->getToWorld(),
@@ -364,13 +382,39 @@ Action::ResultE Billboard::drawLeave(Action *)
 /*-------------------------------------------------------------------------*/
 /*                            Intersect                                    */
 
-Action::ResultE Billboard::intersectEnter(Action *)
+Action::ResultE Billboard::intersectEnter(Action *action)
 {
-    return Action::Continue; 
+    IntersectAction *ia = dynamic_cast<IntersectAction *>(action);
+    Matrix           m(_camTransform);
+
+    m.invert();
+
+    Pnt3f pos;
+    Vec3f dir;
+
+    m.multFullMatrixPnt(ia->getLine().getPosition (), pos);
+    m.multMatrixVec    (ia->getLine().getDirection(), dir);
+
+    ia->setLine(Line(pos, dir), ia->getMaxDist());
+    ia->scale(dir.length());
+
+    return Action::Continue;
 }
 
-Action::ResultE Billboard::intersectLeave(Action *)
+Action::ResultE Billboard::intersectLeave(Action *action)
 {
+    IntersectAction *ia = dynamic_cast<IntersectAction *>(action);
+    Matrix           m(_camTransform);
+
+    Pnt3f pos;
+    Vec3f dir;
+
+    m.multFullMatrixPnt(ia->getLine().getPosition (), pos);
+    m.multMatrixVec    (ia->getLine().getDirection(), dir);
+
+    ia->setLine(Line(pos, dir), ia->getMaxDist());
+    ia->scale(dir.length());
+
     return Action::Continue;
 }
 
@@ -382,8 +426,6 @@ Action::ResultE Billboard::renderEnter(Action *action)
     RenderAction *pAction = dynamic_cast<RenderAction *>(action);
 
     Matrix mMat;
-
-//    cerr << "BB::render" << std::endl;
 
     calcMatrix(pAction, pAction->top_matrix(), mMat);
 
