@@ -157,6 +157,39 @@ bool VectorFontGlyph::createTriangles(void)
 
         _numPoints = totalPoints;
 
+#ifdef GLU_VERSION_1_2
+        if(!k)
+        {
+            lastOrdering = doThis->isClockwise();
+            gluTessBeginPolygon(triangulator, NULL);
+            gluTessBeginContour(triangulator);
+        }
+        else
+        {
+            if(doThis->isClockwise() == lastOrdering)
+            {
+                gluTessEndContour(triangulator);
+                gluTessEndPolygon(triangulator);
+                gluTessBeginPolygon(triangulator, NULL);
+                gluTessBeginContour(triangulator);
+            }
+            else
+            {
+                gluTessEndContour(triangulator);
+                gluTessBeginContour(triangulator);
+            }
+        }
+
+        for(i = 0; i < doThis->getNumPoints(); i++)
+        {
+            point = doThis->getPoint(i);
+            vertex[0] = point[0];
+            vertex[1] = point[1];
+            vertex[2] = point[2] = tmpDepth;
+            gluTessVertex(triangulator, vertex, (void *) _points[last + i]);
+        }
+    }
+#else
         if(!k)
         {
             lastOrdering = doThis->isClockwise();
@@ -186,17 +219,28 @@ bool VectorFontGlyph::createTriangles(void)
             gluTessVertex(triangulator, vertex, (void *) _points[last + i]);
         }
     }
+#endif
 
     if(_depth == -0.0)
         _depth *= -1;
     _depth *= 10;
 
+#ifdef GLU_VERSION_1_2
+    if(_numPoints)
+    {
+        gluTessEndContour(triangulator);
+        gluTessEndPolygon(triangulator);
+        gluDeleteTess(triangulator);
+        tmTesselator = 0;
+    }
+#else
     if(_numPoints)
     {
         gluEndPolygon(triangulator);
         gluDeleteTess(triangulator);
         tmTesselator = 0;
     }
+#endif
 
     _numFrontFaces = _numIndices / 3;
 
