@@ -118,6 +118,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
                             const Functor &func            );
     static void addFieldFilter   ( UInt32 typeId,BitVector mask   );
     static void subFieldFilter   ( UInt32 typeId,BitVector mask   );
+    
+    static void restoreChangeList   (ChangeList *tocl);
+    static void storeChangeList     (ChangeList *cl  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -167,6 +170,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     std::vector<Functor>              _destroyedFunctors;
     std::vector<Functor>              _changedFunctors;
     StatCollector                    *_statistics;
+    
+    static std::map<UInt32, UInt32>   _clStore;
+    typedef std::map<UInt32, UInt32>::iterator clStoreIt;
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

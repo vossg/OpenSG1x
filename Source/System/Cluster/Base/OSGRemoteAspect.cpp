@@ -69,7 +69,8 @@ OSG_USING_NAMESPACE
  *
  **/
 
-RemoteAspect::FieldFilterT RemoteAspect::_fieldFilter;
+RemoteAspect::FieldFilterT  RemoteAspect::_fieldFilter;
+std::map<UInt32, UInt32>    RemoteAspect::_clStore;
 
 StatElemDesc<StatTimeElem> RemoteAspect::statSyncTime
     ("remoteSyncTime", "time for scenegraph distribution");
@@ -717,6 +718,68 @@ void RemoteAspect::addFieldFilter( UInt32 typeId,BitVector mask)
 void RemoteAspect::subFieldFilter( UInt32 typeId,BitVector mask)
 {
     _fieldFilter[typeId] &= ~mask;
+}
+
+/*! creates a changelist from the store and merges this to the changelist. 
+ */
+void RemoteAspect::restoreChangeList(ChangeList *tocl)
+{
+    ChangeList *cl = new ChangeList;
+    for(clStoreIt i = _clStore.begin();i != _clStore.end(); ++i)
+    {
+        UInt32 id = (*i).first;
+        FieldContainerPtr fc = FieldContainerFactory::the()->getContainer(id);
+        cl->addCreated(id);
+        for(UInt32 j=0;j<(*i).second;++j)
+            cl->addAddRefd(fc);
+        cl->addChanged(fc, FieldBits::AllFields);
+    }
+
+    tocl->merge(*cl);
+    delete cl;
+}
+
+/*! store all created, addRefd, subRefd, destroyed into the clStore.
+ */
+void RemoteAspect::storeChangeList(ChangeList *cl)
+{
+    // created
+    for(ChangeList::idrefd_const_iterator i = cl->beginCreated(); i != cl->endCreated(); ++i)
+    {
+        clStoreIt ci = _clStore.find(*i);
+        if(ci == _clStore.end())
+            _clStore.insert(std::pair<UInt32, UInt32>(*i, 0));
+    }
+
+    // addRef
+    for(ChangeList::idrefd_const_iterator i = cl->beginAddRefd(); i != cl->endAddRefd(); ++i)
+    {
+        clStoreIt ci = _clStore.find(*i);
+        if(ci != _clStore.end())
+            (*ci).second++;
+        //else
+        //    FWARNING(("Called addRef on a not created fieldcontainer!\n"));
+    }
+    
+    // subRef
+    for(ChangeList::idrefd_const_iterator i = cl->beginSubRefd(); i != cl->endSubRefd(); ++i)
+    {
+        clStoreIt ci = _clStore.find(*i);
+        if(ci != _clStore.end())
+            (*ci).second--;
+        //else
+        //    FWARNING(("Called subRef on a not created fieldcontainer!\n"));
+    }
+    
+    // destroyed
+    for(ChangeList::idrefd_const_iterator i = cl->beginDestroyed(); i != cl->endDestroyed(); ++i)
+    {
+        clStoreIt ci = _clStore.find(*i);
+        if(ci != _clStore.end())
+            _clStore.erase(ci);
+    }
+    
+    //printf("created size: %u\n", _clStore.size());
 }
 
 /*-------------------------------------------------------------------------*/
