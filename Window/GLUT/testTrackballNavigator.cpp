@@ -75,9 +75,7 @@
 #include "OSGSolidBackground.h"
 //#include "OSGUniformBackground.h"
 
-#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
-#include "OSGRAWSceneFileType.h"
-#endif
+#include "OSGSceneFileHandler.h"
 
 #include "OSGNavigator.h"
 
@@ -273,10 +271,6 @@ int main (int argc, char **argv)
     glEnable( GL_LIGHT0 );
 
     // OSG
-
-#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
-    RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
-#endif
 
     SceneFileHandler::the().print();
 
