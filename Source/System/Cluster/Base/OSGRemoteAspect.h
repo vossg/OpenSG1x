@@ -70,7 +70,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
         NEWTYPE   =4,
         CHANGED   =5,
         ADDREFED  =6,
-        SUBREFED  =7
+        SUBREFED  =7,
+        IDMAPPING =8
     };
 
     /** functor called for changed containers **/
@@ -79,10 +80,16 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
                               CPtrRefCallArg<FieldContainerPtr>, 
                               FunctorArgs                      > Functor;
 
-    /** Map of received containers **/
-    typedef std::map<UInt32,UInt32>    ReceivedFCT;
-    /** Map of received types **/
-    typedef std::map<UInt32,UInt32>    ReceivedTypeT;
+    /** Map remote to local id **/
+    typedef std::map<UInt64,UInt32>    LocalFCMapT;
+    /** Map local to remote id **/
+    typedef std::map<UInt32,UInt64>    RemoteFCMapT;
+    /** Map remote to local type **/
+    typedef std::map<UInt32,UInt32>    LocalTypeMapT;
+
+    /** id set **/
+    typedef std::set<UInt32>           IdSetT;
+
     /** Field filter map **/
     typedef std::map<UInt32,BitVector> FieldFilterT;
     typedef std::map<UInt32,BitVector> FieldMaskMapT;
@@ -91,7 +98,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    RemoteAspect();
+    RemoteAspect(UInt32 aspectId=0);
     virtual ~RemoteAspect(void); 
 
     /*! \}                                                                 */
@@ -125,14 +132,33 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     /*! \name                   member                                     */
     /*! \{                                                                 */
 
+    /** Aspect id **/
+    UInt32                            _aspectId;
+
     /** remote id to fieldcontainer mapping **/
-    ReceivedFCT                       _receivedFC;
+    LocalFCMapT                       _localFC;
+    /** local to remote fieldcontainer mapping **/
+    RemoteFCMapT                      _remoteFC;
     /** remote typeid mapping **/
-    ReceivedTypeT                     _receivedType;
-    /** is type mapped **/
-    std::set<UInt32>                  _sentType;
+    LocalTypeMapT                     _localType;
+
+    /** indicates fc was sent **/
+    IdSetT                            _sentFC;
+    /** indicates fc was received **/
+    IdSetT                            _receivedFC;
+
+    /** indicates remote knows this fc **/
+    IdSetT                            _mappedFC;
+    /** indicates mapped type **/
+    IdSetT                            _mappedType;
+
+    UInt32                            _remoteAspectId;
+
+#if 0
     /** mapped fieldcontainer with mask **/
     std::map<UInt32,BitVector>        _sentFC;
+#endif
+
     /** fild filter **/
     FieldFilterT                      _fieldFilter;
     std::vector<Functor>              _createdFunctors;
@@ -153,6 +179,17 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
 
     /*==========================  PRIVATE  ================================*/
   private:
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Helper functions                             */
+    /*! \{                                                                 */
+
+    void handleFCMapping   (Connection &connection               );
+    void clearFCMapping    (UInt32 localId,UInt32 remoteId       );
+    bool getLocalId        (UInt32  remoteId,
+                            UInt32 &localId                      );
+    UInt64 getFullRemoteId (UInt32  remoteId                     );
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                 static elements                              */
     /*! \{                                                                 */
