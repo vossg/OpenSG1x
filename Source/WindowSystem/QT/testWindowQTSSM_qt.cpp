@@ -107,6 +107,7 @@ void MyOSGQGLWidget::keyPressEvent ( QKeyEvent *ke )
 {
     if ( ke->key() == Key_Escape )
     {
+        osgExit();
         a->quit();
     }
     repaint();
