@@ -135,12 +135,9 @@ void DVRVolumeTexture::changed(BitVector whichField, UInt32 origin)
                 getImage()->getWidth(), 
                 getImage()->getHeight(), 
                 getImage()->getDepth()));
-    
-        for(Int32 j = 0;
-            j < getImage()->getWidth () * 
-                getImage()->getHeight() * 
-                getImage()->getDepth ();
-            j++)
+
+        // need to fix this for compressed textures!
+        for(Int32 j = 0;j < getImage()->getSize();j++)
         {
 //          cerr << j << ": " << (int) img[j] << std::endl ;
             hist[img[j]]++;
