@@ -1,3 +1,6 @@
+
+OSGROOT=../../Builds/*/
+
 ### PROJECT ##########################################################
 TARGET = osgSceneViewer
 PROJINC = -I. -DOSG_DEBUG
@@ -151,7 +154,7 @@ ifeq ($(OS),SunOS)
 	XPMLIB 	= -R$(PPOOL)/lib/$(OS) -lXpm
 	MINC 		=	-I/usr/dt/include 
 	MLIB		= -R/usr/dt/lib -L/usr/dt/lib -lXm 
-	QTINC		=	-I$(PPOOL)/include/qt -D QT_LIB
+	QTINC		=	-I$(PPOOL)/include/qt -D QT_LIB -DQT_CLEAN_NAMESPACE
 	QTLIB		= -L$(PPOOL)/lib/$(OS) -lqt
 	QGLINC	=	-I$(QTDIR)/include -D QGL_LIB
 	QGLLIB	= -L$(QTDIR)/lib -lqgl
@@ -264,7 +267,7 @@ ifeq ($(OS),HP-UX)
 	XLIB  	= -L/usr/lib/X11R6 -L/usr/lib/X11R5 -lXt -lXext -lX11
 	MINC 		=	-I/usr/dt/include 
 	MLIB		= -R/usr/dt/lib -L/usr/dt/lib -lXm 
-	QTINC		=	-I$(QTDIR)/include
+	QTINC		=	-I$(QTDIR)/include  -DQT_CLEAN_NAMESPACE
 	QTLIB		= -L$(QTDIR)/lib -lqt
 	OGLINC	= -I/opt/graphics/OpenGL/include -DHP_OGL -DOPENGL_LIB
 	OGLLIB	= -L/opt/graphics/OpenGL/lib -lGLU -lGL
@@ -337,8 +340,8 @@ ifeq ($(OS),IRIX)
 	XLIB  	= -L/usr/$(LIBDIR) -lXmu -lXext -lXt -lX11
 	MINC 		=	-I/usr/include/X11 
 	MLIB		= -L/usr/$(LIBDIR) -lXm 
-	QTINC		=	-I$(QTDIR)/include
-	QTLIB		= -L$(QTDIR)/$(LIBDIR) -lqt
+	QTINC		=	-I$(QTDIR)/include  -DQT_CLEAN_NAMESPACE
+	QTLIB		= -L$(QTDIR)/lib -lqt
 	QTOGLINC = 
 	QTOGLLIB = -lqgl
 	OGLINC	= -I/usr/include -DSGI_OGL -DOPENGL -DOPENGL_EXTENSIONS -DOPENGL_LIB
@@ -358,7 +361,7 @@ ifeq ($(OS),IRIX)
 	AEIINC  = -DAEI_LIB
 	AEILIB  = -L$(PPOOL)/lib/$(OS) -laei$(LIBSUF)
 	GLUTINC = -I$(PPOOL)/include -D GLUT_LIB
-	GLUTLIB = -I$(PPOOL)/lib/$(OS) -lglut
+	GLUTLIB = -I$(PPOOL)/lib/$(OS) 
 #	GLUTINC = -I/usr/include
 #	GLUTLIB = -I/usr/$(LIBDIR) -lglut
 	CAMINC  = -I/usr/include -DCAMERA_LIB
@@ -371,6 +374,21 @@ ifeq ($(OS),IRIX)
 	MEDLIB  = -L$(POOL)/lib/$(OS) -lmedusa$(LIBSUF)
 	THRINC  = 
 	THRLIB  = -lpthread -ldl
+	LOGINC  = -D LOG_LIB
+	LOGLIB  = -L$(PPOOL)/lib/$(OS)/$(LIBDIR) -llog$(LIBSUF)
+	OSGINC  = -I$(OSGROOT)/include
+	OSGDLIB = -L$(OSGROOT)/lib/dbg
+	OSGOLIB = -L$(OSGROOT)/lib/opt
+	OSGBASEINC  =
+	OSGBASELIB  = -lOSGBase
+	OSGSYSINC   = 
+	OSGSYSLIB   = -lOSGSystem
+	OSGWXINC    = 
+	OSGWXLIB    = -lOSGWindowX
+	OSGWGLUTINC = -DOSG_WITH_GLUT
+	OSGWGLUTLIB = -lOSGWindowGLUT
+	OSGWQTINC   = -DOSG_WITH_QT
+	OSGWQTLIB   = -lOSGWindowQT
 endif
 #-- SGI --------------------------------------------------------------
 ifeq ($(OS),IRIX64)
@@ -399,7 +417,7 @@ ifeq ($(OS),IRIX64)
 	LINK    = ln -s
 	LEX     = flex -dLst
 	YACC    = /sgi/gnu2.7.2/bin/bison
-	MOC     = moc
+	MOC     = $(QTDIR)/bin/moc
 	DFLAG   = -g -D DEBUG
 	OPTFLAG = -D NDEBUG
 	LDFLAGS = -o $(SYSTARGET) 
@@ -451,8 +469,10 @@ ifeq ($(OS),IRIX64)
 	XLIB  	= -L/usr/$(LIBDIR) -lXmu -lXext -lXt -lXi -lX11
 	MINC 		=	-I/usr/include/X11 
 	MLIB		= -L/usr/lib32 -lXm 
-	QTINC		=	-I$(PPOOL)/include/qt
-	QTLIB		= -L$(PPOOL)/lib/$(OS)/$(LIBDIR) -lqt
+	QTINC		=	-I$(QTDIR)/include  -DQT_CLEAN_NAMESPACE
+	QTLIB		= -L$(QTDIR)/lib -lqt
+	QTOGLINC = 
+	QTOGLLIB = -lqgl
 	CAMINC  = -I/usr/include -DCAMERA_LIB
 	CAMLIB  = -L$(PPOOL)/lib/$(OS)/$(LIBDIR) -lcamera -L/usr/$(LIBDIR) -lvl
 	#ANIMINC = -I$(PPOOL)/include/ANIM -D ANIM_LIB
@@ -492,7 +512,7 @@ ifeq ($(OS),IRIX64)
 	GLTTINC = -I/$(PPOOL)/include/gltt -D GLTT_LIB
 	GLTTLIB = -L$(PPOOL)/lib/$(OS)/$(LIBDIR) -lgltt
 	GLUTINC = -I$(PPOOL)/include -D GLUT_LIB
-	GLUTLIB = -L/$(PPOOL)/lib/IRIX/$(LIBDIR) -lglut-sm-nfa
+	GLUTLIB = -L/$(PPOOL)/lib/IRIX/$(LIBDIR) 
 	#GLUTINC = -I/igd/a4/lib/glut-3.7/include -D GLUT_LIB
 	#GLUTLIB = -L/igd/a4/lib/glut-3.7/lib -lglut
 	S3INC = -D S3_LIB
@@ -586,7 +606,7 @@ ifeq ($(OS),Linux)
 	XLIB	 	= -L/usr/X11R6/lib -lXmu -lXext -lXt -lSM -lICE -lXi -lX11
 	MINC 		=	-I/usr/X11R6/include 
 	MLIB		= -L/usr/X11R6/lib -lXm 
-	QTINC		=	-I$(QTDIR)/include
+	QTINC		=	-I$(QTDIR)/include  -DQT_CLEAN_NAMESPACE
 	QTLIB		= -L$(QTDIR)/lib -lqt
 	VORINC  = -I$(PPOOL)/include/voronoi -DVORONOI_LIB
 	VORLIB  = -L$(PPOOL)/lib/$(OS) -lvor$(LIBSUF)
@@ -786,7 +806,7 @@ ifeq ($(findstring WIN,$(OS)),WIN)
 	ZLIB     = zlib.lib
 	A3DINC  = /I "V:\include\a3d" /D A3D_LIB
 	A3DLIB  = ia3dutil.lib
-	QTINC		=	/I "V:\include\qt-2.1.1"
+	QTINC		=	/I "V:\include\qt-2.1.1" 
 	QTLIB		= /libpath:"D:\qt-1.42\lib" qt.lib 
 	GLTTINC = /I "V:\include\gltt" /D GLTT_LIB
 	GLTTLIB = gltt.lib 
