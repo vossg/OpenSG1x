@@ -1,34 +1,34 @@
-# Microsoft Developer Studio Project File - Name="Action" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="Light" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=Action - Win32 Debug
+CFG=Light - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "Action.mak".
+!MESSAGE NMAKE /f "Light.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "Action.mak" CFG="Action - Win32 Debug"
+!MESSAGE NMAKE /f "Light.mak" CFG="Light - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "Action - Win32 Release" (based on "Win32 (x86) Static Library")
-!MESSAGE "Action - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "Light - Win32 Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "Light - Win32 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
-# PROP AllowPerConfigDependencies 1
+# PROP AllowPerConfigDependencies 0
 # PROP Scc_ProjName ""
 # PROP Scc_LocalPath ""
 CPP=xicl6.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "Action - Win32 Release"
+!IF  "$(CFG)" == "Light - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /I "." /I "..\Base" /I "..\Log" /I "..\FieldContainer" /I "..\Field" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -51,7 +51,7 @@ LIB32=xilink6.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ELSEIF  "$(CFG)" == "Action - Win32 Debug"
+!ELSEIF  "$(CFG)" == "Light - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -64,7 +64,7 @@ LIB32=xilink6.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "." /I "..\Base" /I "..\Log" /I "..\FieldContainer" /I "..\Field" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GR /GX- /ZI /Od /I "." /I "..\..\Action" /I "..\..\Action\DrawAction" /I "..\Geometry" /I "..\Misc" /I "..\..\FieldContainer" /I "..\..\Field" /I "..\..\Log" /I "..\..\Base" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /FR /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -78,19 +78,55 @@ LIB32=xilink6.exe -lib
 
 # Begin Target
 
-# Name "Action - Win32 Release"
-# Name "Action - Win32 Debug"
+# Name "Light - Win32 Release"
+# Name "Light - Win32 Debug"
 # Begin Source File
 
-SOURCE=.\OSGAction.cpp
+SOURCE=.\OSGDirectionalLight.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGAction.h
+SOURCE=.\OSGDirectionalLight.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGAction.inl
+SOURCE=.\OSGDirectionalLight.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGLightBase.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGLightBase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGLightBase.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGPointLight.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGPointLight.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGPointLight.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGSpotLight.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGSpotLight.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGSpotLight.inl
 # End Source File
 # End Target
 # End Project

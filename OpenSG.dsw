@@ -27,7 +27,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Fhs"=.\Fhs\Fhs.dsp - Package Owner=<4>
+Project: "DrawAction"=.\Action\DrawAction\DrawAction.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -75,7 +75,43 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Light"=.\Nodes\Light\Light.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Loader"=.\Loader\Loader.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Log"=.\Log\Log.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Misc"=.\Nodes\Misc\Misc.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -99,7 +135,19 @@ Package=<4>
 
 ###############################################################################
 
-Project: "TestFhsLoader"=.\TestFhsLoader\TestFhsLoader.dsp - Package Owner=<4>
+Project: "State"=.\State\State.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "TestWindowGlut"=.\Window\TestWindowGlut\TestWindowGlut.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -114,7 +162,7 @@ Package=<4>
     Project_Dep_Name Base
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name Fhs
+    Project_Dep_Name DrawAction
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Field
@@ -126,13 +174,28 @@ Package=<4>
     Project_Dep_Name Geometry
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name Light
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Log
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Misc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name State
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Window
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Loader
     End Project Dependency
 }}}
 
 ###############################################################################
 
-Project: "TestFhsLoaderWin"=.\TestFhsLoaderWin\TestFhsLoaderWin.dsp - Package Owner=<4>
+Project: "Window"=.\Window\Window.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -140,27 +203,6 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name Action
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Base
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Fhs
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Field
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name FieldContainer
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Geometry
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Log
-    End Project Dependency
 }}}
 
 ###############################################################################

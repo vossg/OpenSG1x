@@ -64,7 +64,7 @@ LIB32=xilink6.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "." /I "..\Log" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /FR /YX /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GR /GX- /ZI /Od /I "." /I "..\Log" /I "..\FieldContainer" /I "..\Field" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /FR /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -80,6 +80,14 @@ LIB32=xilink6.exe -lib
 
 # Name "Base - Win32 Release"
 # Name "Base - Win32 Debug"
+# Begin Source File
+
+SOURCE=.\OSGAspect.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGAspect.h
+# End Source File
 # Begin Source File
 
 SOURCE=.\OSGBarrier.cpp
@@ -118,15 +126,11 @@ SOURCE=.\OSGChangeList.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGColor.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\OSGColor.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGConditional.h
+SOURCE=.\OSGColor.inl
 # End Source File
 # Begin Source File
 
@@ -147,6 +151,18 @@ SOURCE=.\OSGDate.cpp
 # Begin Source File
 
 SOURCE=.\OSGDate.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGDynamicVolume.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGDynamicVolume.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGFrustumVolume.h
 # End Source File
 # Begin Source File
 

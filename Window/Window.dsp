@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="Misc" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="Window" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=Misc - Win32 Debug
+CFG=Window - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "Misc.mak".
+!MESSAGE NMAKE /f "Window.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "Misc.mak" CFG="Misc - Win32 Debug"
+!MESSAGE NMAKE /f "Window.mak" CFG="Window - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "Misc - Win32 Release" (based on "Win32 (x86) Static Library")
-!MESSAGE "Misc - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "Window - Win32 Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "Window - Win32 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -28,7 +28,7 @@ CFG=Misc - Win32 Debug
 CPP=xicl6.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "Misc - Win32 Release"
+!IF  "$(CFG)" == "Window - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -51,7 +51,7 @@ LIB32=xilink6.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ELSEIF  "$(CFG)" == "Misc - Win32 Debug"
+!ELSEIF  "$(CFG)" == "Window - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -64,7 +64,7 @@ LIB32=xilink6.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /GR /GX- /ZI /Od /I "." /I "..\..\Action" /I "..\..\Action\DrawAction" /I "..\Geometry" /I "..\Misc" /I "..\..\FieldContainer" /I "..\..\Field" /I "..\..\Log" /I "..\..\Base" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GR /GX- /ZI /Od /I "." /I "..\State" /I "..\Action" /I "..\Action\DrawAction" /I "..\Nodes\Misc" /I "..\FieldContainer" /I "..\Field" /I "..\Log" /I "..\Base" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /FR /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -78,31 +78,87 @@ LIB32=xilink6.exe -lib
 
 # Begin Target
 
-# Name "Misc - Win32 Release"
-# Name "Misc - Win32 Debug"
+# Name "Window - Win32 Release"
+# Name "Window - Win32 Debug"
 # Begin Source File
 
-SOURCE=.\OSGGroup.cpp
+SOURCE=.\OSGBackground.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGGroup.h
+SOURCE=.\OSGBackground.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGGroup.inl
+SOURCE=.\OSGBackground.inl
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGTransform.cpp
+SOURCE=.\OSGCamera.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGTransform.h
+SOURCE=.\OSGCamera.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGTransform.inl
+SOURCE=.\OSGCamera.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGLUTWindow.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGLUTWindow.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGLUTWindow.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGPerspectiveCamera.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGPerspectiveCamera.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGPerspectiveCamera.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGTrackball.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGTrackball.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGViewport.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGViewport.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGViewport.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGWindow.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGWindow.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGWindow.inl
 # End Source File
 # End Target
 # End Project

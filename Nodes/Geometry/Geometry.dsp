@@ -64,7 +64,7 @@ LIB32=xilink6.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "." /I "..\..\Base" /I "..\..\Action" /I "..\..\FieldContainer" /I "..\..\Field" /I "..\..\Log" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GR /GX- /ZI /Od /I "." /I "..\..\Base" /I "..\..\Action" /I "..\..\Action\DrawAction" /I "..\..\FieldContainer" /I "..\..\Field" /I "..\..\Log" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /FR /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -91,6 +91,38 @@ SOURCE=.\OSGGeometry.h
 # Begin Source File
 
 SOURCE=.\OSGGeometry.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoProperty.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoProperty.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoProperty.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPumpFactory.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPumpFactory.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGGeoPumpFactory.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGSimpleGeometry.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGSimpleGeometry.h
 # End Source File
 # End Target
 # End Project
