@@ -232,6 +232,6 @@ typedef ImageForegroundBase *ImageForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageForegroundBase.h,v 1.1 2001/10/03 20:37:36 dirk Exp $"
+#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageForegroundBase.h,v 1.2 2001/10/04 03:02:03 vossg Exp $"
 
 #endif /* _OSGIMAGEFOREGROUNDBASE_H_ */

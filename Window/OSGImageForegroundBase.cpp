@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.1 2001/10/03 20:37:36 dirk Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.2 2001/10/04 03:02:03 vossg Exp $";
     static char cvsid_hpp       [] = OSGIMAGEFOREGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGIMAGEFOREGROUNDBASE_INLINE_CVSID;
 
