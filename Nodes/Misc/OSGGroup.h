@@ -123,8 +123,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Group : public GroupBase
 
 OSG_END_NAMESPACE
 
-#include <OSGGroup.inl>
 #include <OSGGroupBase.inl>
+#include <OSGGroup.inl>
 
 #define OSGGROUP_HEADER_CVSID "@(#)$Id: $"
 

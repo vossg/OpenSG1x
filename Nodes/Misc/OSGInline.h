@@ -119,8 +119,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Inline : public InlineBase
 
 OSG_END_NAMESPACE
 
-#include <OSGInline.inl>
 #include <OSGInlineBase.inl>
+#include <OSGInline.inl>
 
 #define OSGINLINE_HEADER_CVSID "@(#)$Id: $"
 

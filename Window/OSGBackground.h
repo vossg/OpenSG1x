@@ -139,7 +139,7 @@ typedef Background *BackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGBackground.inl>
 #include <OSGBackgroundBase.inl>
+#include <OSGBackground.inl>
 
 #endif /* _OSGBACKGROUND_H_ */

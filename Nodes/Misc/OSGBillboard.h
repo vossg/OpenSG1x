@@ -141,9 +141,10 @@ typedef Billboard *BillboardP;
 
 OSG_END_NAMESPACE
 
-#include <OSGBillboard.inl>
 #include <OSGBillboardBase.inl>
+#include <OSGBillboard.inl>
 
 #define OSGBILLBOARD_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGBILLBOARD_H_ */
+

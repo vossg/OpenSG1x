@@ -204,7 +204,7 @@ typedef Geometry *GeometryP;
 
 OSG_END_NAMESPACE
 
-#include <OSGGeometry.inl>
 #include <OSGGeometryBase.inl>
+#include <OSGGeometry.inl>
 
 #endif /* _OSGGEOMETRY_H_ */

@@ -120,8 +120,8 @@ typedef Switch *SwitchP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSwitch.inl>
 #include <OSGSwitchBase.inl>
+#include <OSGSwitch.inl>
 
 #define OSGSWITCH_HEADER_CVSID "@(#)$Id: $"
 

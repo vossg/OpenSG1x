@@ -152,7 +152,7 @@ typedef TransformChunk *TransformChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTransformChunk.inl>
 #include <OSGTransformChunkBase.inl>
+#include <OSGTransformChunk.inl>
 
 #endif /* _OSGTRANSFORMCHUNK_H_ */

@@ -142,8 +142,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
 
 OSG_END_NAMESPACE
 
-#include <OSGSpotLight.inl>
 #include <OSGSpotLightBase.inl>
+#include <OSGSpotLight.inl>
 
 #define OSGSPOTLIGHT_HEADER_CVSID "@(#)$Id: $"
 

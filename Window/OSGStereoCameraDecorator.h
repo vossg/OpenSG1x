@@ -114,9 +114,9 @@ typedef StereoCameraDecorator *StereoCameraDecoratorP;
 
 OSG_END_NAMESPACE
 
-#include <OSGStereoCameraDecorator.inl>
 #include <OSGStereoCameraDecoratorBase.inl>
+#include <OSGStereoCameraDecorator.inl>
 
-#define OSGSTEREOCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGStereoCameraDecorator.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSTEREOCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGStereoCameraDecorator.h,v 1.2 2002/04/01 14:25:22 vossg Exp $"
 
 #endif /* _OSGSTEREOCAMERADECORATOR_H_ */

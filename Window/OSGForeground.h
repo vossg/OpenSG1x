@@ -138,8 +138,8 @@ typedef Foreground *ForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGForeground.inl>
 #include <OSGForegroundBase.inl>
+#include <OSGForeground.inl>
 
 #endif /* _OSGFOREGROUND_H_ */
 

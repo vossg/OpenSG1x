@@ -138,7 +138,7 @@ typedef TileCameraDecorator *TileCameraDecoratorP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTileCameraDecorator.inl>
 #include <OSGTileCameraDecoratorBase.inl>
+#include <OSGTileCameraDecorator.inl>
 
 #endif /* _OSGTILECAMERADECORATOR_H_ */

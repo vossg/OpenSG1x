@@ -116,9 +116,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform :
 
 OSG_END_NAMESPACE
 
-#include <OSGComponentTransform.inl>
 #include <OSGComponentTransformBase.inl>
+#include <OSGComponentTransform.inl>
 
-#define OSGCOMPONENTTRANSFORM_HEADER_CVSID "@(#)$Id: OSGComponentTransform.h,v 1.6 2002/02/16 03:48:42 vossg Exp $"
+#define OSGCOMPONENTTRANSFORM_HEADER_CVSID "@(#)$Id: OSGComponentTransform.h,v 1.7 2002/04/01 14:25:25 vossg Exp $"
 
 #endif /* _OSGCOMPONENTTRANSFORM_H_ */

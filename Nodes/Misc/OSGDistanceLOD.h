@@ -121,9 +121,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
 
 OSG_END_NAMESPACE
 
-#include <OSGDistanceLOD.inl>
 #include <OSGDistanceLODBase.inl>
+#include <OSGDistanceLOD.inl>
 
-#define OSGDISTANCELOD_HEADER_CVSID "@(#)$Id: OSGDistanceLOD.h,v 1.7 2002/02/16 03:48:42 vossg Exp $"
+#define OSGDISTANCELOD_HEADER_CVSID "@(#)$Id: OSGDistanceLOD.h,v 1.8 2002/04/01 14:25:25 vossg Exp $"
 
 #endif /* _OSGDISTANCELOD_H_ */

@@ -133,9 +133,9 @@ typedef FCPtr<WindowPtr, PassiveWindow> PassiveWindowPtr;
 
 OSG_END_NAMESPACE
 
-#include <OSGPassiveWindow.inl>
 #include <OSGPassiveWindowBase.inl>
+#include <OSGPassiveWindow.inl>
 
-#define OSGPASSIVEWINDOW_HEADER_CVSID "@(#)$Id: OSGPassiveWindow.h,v 1.1 2002/01/28 21:24:11 dirk Exp $"
+#define OSGPASSIVEWINDOW_HEADER_CVSID "@(#)$Id: OSGPassiveWindow.h,v 1.2 2002/04/01 14:25:22 vossg Exp $"
 
 #endif /* _OSGPASSIVEWINDOW_H_ */

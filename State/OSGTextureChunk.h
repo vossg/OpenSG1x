@@ -186,7 +186,7 @@ typedef TextureChunk *TextureChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTextureChunk.inl>
 #include <OSGTextureChunkBase.inl>
+#include <OSGTextureChunk.inl>
 
 #endif /* _OSGTEXTURECHUNK_H_ */

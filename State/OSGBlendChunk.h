@@ -156,7 +156,7 @@ typedef BlendChunk *BlendChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGBlendChunk.inl>
 #include <OSGBlendChunkBase.inl>
+#include <OSGBlendChunk.inl>
 
 #endif /* _OSGBLENDCHUNK_H_ */

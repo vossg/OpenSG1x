@@ -161,7 +161,7 @@ typedef State *StateP;
 
 OSG_END_NAMESPACE
 
-#include <OSGState.inl>
 #include <OSGStateBase.inl>
+#include <OSGState.inl>
 
 #endif /* _OSGSTATE_H_ */

@@ -150,7 +150,7 @@ typedef Viewport *ViewportP;
 
 OSG_END_NAMESPACE
 
-#include <OSGViewport.inl>
 #include <OSGViewportBase.inl>
+#include <OSGViewport.inl>
 
 #endif /* _OSGVIEWPORT_H_ */

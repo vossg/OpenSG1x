@@ -121,9 +121,9 @@ typedef GrabForeground *GrabForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGGrabForeground.inl>
 #include <OSGGrabForegroundBase.inl>
+#include <OSGGrabForeground.inl>
 
-#define OSGGRABFOREGROUND_HEADER_CVSID "@(#)$Id: OSGGrabForeground.h,v 1.1 2002/01/18 22:58:09 dirk Exp $"
+#define OSGGRABFOREGROUND_HEADER_CVSID "@(#)$Id: OSGGrabForeground.h,v 1.2 2002/04/01 14:25:22 vossg Exp $"
 
 #endif /* _OSGGRABFOREGROUND_H_ */

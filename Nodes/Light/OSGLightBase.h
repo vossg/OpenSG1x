@@ -153,8 +153,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public LightBaseBase
 
 OSG_END_NAMESPACE
 
-#include <OSGLightBase.inl>
 #include <OSGLightBaseBase.inl>
+#include <OSGLightBase.inl>
 
 #define OSGLIGHTBASE_HEADER_CVSID "@(#)$Id: $"
 

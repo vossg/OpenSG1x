@@ -125,9 +125,9 @@ typedef MaterialGroup *MaterialGroupP;
 
 OSG_END_NAMESPACE
 
-#include <OSGMaterialGroup.inl>
 #include <OSGMaterialGroupBase.inl>
+#include <OSGMaterialGroup.inl>
 
-#define OSGMATERIALGROUP_HEADER_CVSID "@(#)$Id: OSGMaterialGroup.h,v 1.12 2002/02/16 03:48:42 vossg Exp $"
+#define OSGMATERIALGROUP_HEADER_CVSID "@(#)$Id: OSGMaterialGroup.h,v 1.13 2002/04/01 14:25:25 vossg Exp $"
 
 #endif /* _OSGMATERIALGROUP_H_ */

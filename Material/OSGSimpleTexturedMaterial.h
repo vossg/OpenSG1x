@@ -135,9 +135,9 @@ typedef SimpleTexturedMaterial *SimpleTexturedMaterialP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSimpleTexturedMaterial.inl>
 #include <OSGSimpleTexturedMaterialBase.inl>
+#include <OSGSimpleTexturedMaterial.inl>
 
-#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.6 2002/02/04 20:14:08 dirk Exp $"
+#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.7 2002/04/01 14:25:26 vossg Exp $"
 
 #endif /* _OSGTEXTUREDSIMPLEMATERIAL_H_ */

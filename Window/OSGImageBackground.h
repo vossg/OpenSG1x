@@ -124,9 +124,9 @@ typedef ImageBackground *ImageBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGImageBackground.inl>
 #include <OSGImageBackgroundBase.inl>
+#include <OSGImageBackground.inl>
 
-#define OSGIMAGEBACKGROUND_HEADER_CVSID "@(#)$Id: OSGImageBackground.h,v 1.2 2001/11/01 09:03:30 vossg Exp $"
+#define OSGIMAGEBACKGROUND_HEADER_CVSID "@(#)$Id: OSGImageBackground.h,v 1.3 2002/04/01 14:25:22 vossg Exp $"
 
 #endif /* _OSGIMAGEBACKGROUND_H_ */

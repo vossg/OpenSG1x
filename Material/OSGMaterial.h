@@ -171,7 +171,7 @@ extern OSG_SYSTEMLIB_DLLMAPPING MaterialPtr NullMaterial;
 
 OSG_END_NAMESPACE
 
-#include <OSGMaterial.inl>
 #include <OSGMaterialBase.inl>
+#include <OSGMaterial.inl>
 
 #endif /* _OSGMATERIAL_H_ */

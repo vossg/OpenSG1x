@@ -128,7 +128,7 @@ typedef PassiveBackground *PassiveBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPassiveBackground.inl>
 #include <OSGPassiveBackgroundBase.inl>
+#include <OSGPassiveBackground.inl>
 
 #endif /* _OSGPASSIVEBACKGROUND_H_ */

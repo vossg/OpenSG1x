@@ -139,9 +139,9 @@ typedef TextureTransformChunk *TextureTransformChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTextureTransformChunk.inl>
 #include <OSGTextureTransformChunkBase.inl>
+#include <OSGTextureTransformChunk.inl>
 
-#define OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunk.h,v 1.2 2002/02/19 16:28:46 dirk Exp $"
+#define OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunk.h,v 1.3 2002/04/01 14:25:23 vossg Exp $"
 
 #endif /* _OSGTEXTURETRANSFORMCHUNK_H_ */

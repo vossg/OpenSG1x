@@ -121,9 +121,9 @@ typedef FileGrabForeground *FileGrabForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGFileGrabForeground.inl>
 #include <OSGFileGrabForegroundBase.inl>
+#include <OSGFileGrabForeground.inl>
 
-#define OSGFILEGRABFOREGROUND_HEADER_CVSID "@(#)$Id: OSGFileGrabForeground.h,v 1.1 2002/01/18 22:58:09 dirk Exp $"
+#define OSGFILEGRABFOREGROUND_HEADER_CVSID "@(#)$Id: OSGFileGrabForeground.h,v 1.2 2002/04/01 14:25:22 vossg Exp $"
 
 #endif /* _OSGFILEGRABFOREGROUND_H_ */

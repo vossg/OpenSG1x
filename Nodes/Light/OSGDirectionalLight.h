@@ -136,8 +136,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
 
 OSG_END_NAMESPACE
 
-#include <OSGDirectionalLight.inl>
 #include <OSGDirectionalLightBase.inl>
+#include <OSGDirectionalLight.inl>
 
 #define OSGDIRECTIONALLIGHT_HEADER_CVSID "@(#)$Id: $"
 

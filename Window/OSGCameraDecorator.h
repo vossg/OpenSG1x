@@ -136,9 +136,9 @@ typedef CameraDecorator *CameraDecoratorP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCameraDecorator.inl>
 #include <OSGCameraDecoratorBase.inl>
+#include <OSGCameraDecorator.inl>
 
-#define OSGCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGCameraDecorator.h,v 1.8 2002/03/19 18:15:49 dirk Exp $"
+#define OSGCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGCameraDecorator.h,v 1.9 2002/04/01 14:25:22 vossg Exp $"
 
 #endif /* _OSGCAMERADECORATOR_H_ */

@@ -121,9 +121,9 @@ typedef StatisticsForeground *StatisticsForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGStatisticsForeground.inl>
 #include <OSGStatisticsForegroundBase.inl>
+#include <OSGStatisticsForeground.inl>
 
-#define OSGSTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGStatisticsForeground.h,v 1.1 2002/03/19 17:46:18 dirk Exp $"
+#define OSGSTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGStatisticsForeground.h,v 1.2 2002/04/01 14:25:23 vossg Exp $"
 
 #endif /* _OSGSTATISTICSFOREGROUND_H_ */

@@ -139,8 +139,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
 
 OSG_END_NAMESPACE
 
-#include <OSGPointLight.inl>
 #include <OSGPointLightBase.inl>
+#include <OSGPointLight.inl>
 
 #define OSGPOINTLIGHT_HEADER_CVSID "@(#)$Id: $"
 

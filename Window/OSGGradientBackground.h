@@ -138,7 +138,7 @@ typedef GradientBackground *GradientBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGGradientBackground.inl>
 #include <OSGGradientBackgroundBase.inl>
+#include <OSGGradientBackground.inl>
 
 #endif /* _OSGGRADIENTBACKGROUND_H_ */

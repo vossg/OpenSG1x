@@ -161,7 +161,7 @@ typedef MaterialChunk *MaterialChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGMaterialChunk.inl>
 #include <OSGMaterialChunkBase.inl>
+#include <OSGMaterialChunk.inl>
 
 #endif /* _OSGMATERIALCHUNK_H_ */

@@ -122,9 +122,9 @@ typedef StereoBufferViewport *StereoBufferViewportP;
 
 OSG_END_NAMESPACE
 
-#include <OSGStereoBufferViewport.inl>
 #include <OSGStereoBufferViewportBase.inl>
+#include <OSGStereoBufferViewport.inl>
 
-#define OSGSTEREOBUFFERVIEWPORT_HEADER_CVSID "@(#)$Id: OSGStereoBufferViewport.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSTEREOBUFFERVIEWPORT_HEADER_CVSID "@(#)$Id: OSGStereoBufferViewport.h,v 1.2 2002/04/01 14:25:22 vossg Exp $"
 
 #endif /* _OSGSTEREOBUFFERVIEWPORT_H_ */

@@ -387,7 +387,7 @@ typedef Window *WindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGWindow.inl>
 #include <OSGWindowBase.inl>
+#include <OSGWindow.inl>
 
 #endif /* _OSGWINDOW_H_ */

@@ -122,9 +122,9 @@ typedef ShearedStereoCameraDecorator *ShearedStereoCameraDecoratorP;
 
 OSG_END_NAMESPACE
 
-#include <OSGShearedStereoCameraDecorator.inl>
 #include <OSGShearedStereoCameraDecoratorBase.inl>
+#include <OSGShearedStereoCameraDecorator.inl>
 
-#define OSGSHEAREDSTEREOCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGShearedStereoCameraDecorator.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSHEAREDSTEREOCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGShearedStereoCameraDecorator.h,v 1.2 2002/04/01 14:25:22 vossg Exp $"
 
 #endif /* _OSGSHEAREDSTEREOCAMERADECORATOR_H_ */

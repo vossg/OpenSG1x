@@ -134,7 +134,7 @@ typedef PerspectiveCamera *PerspectiveCameraP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPerspectiveCamera.inl>
 #include <OSGPerspectiveCameraBase.inl>
+#include <OSGPerspectiveCamera.inl>
 
 #endif /* _OSGPERSPECTIVECAMERA_H_ */

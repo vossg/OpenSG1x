@@ -156,9 +156,9 @@ typedef Particles *ParticlesP;
 
 OSG_END_NAMESPACE
 
-#include <OSGParticles.inl>
 #include <OSGParticlesBase.inl>
+#include <OSGParticles.inl>
 
-#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.5 2002/03/19 17:19:38 dirk Exp $"
+#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.6 2002/04/01 14:25:26 vossg Exp $"
 
 #endif /* _OSGPARTICLES_H_ */

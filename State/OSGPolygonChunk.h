@@ -152,7 +152,7 @@ typedef PolygonChunk *PolygonChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPolygonChunk.inl>
 #include <OSGPolygonChunkBase.inl>
+#include <OSGPolygonChunk.inl>
 
 #endif /* _OSGPOLYGONCHUNK_H_ */

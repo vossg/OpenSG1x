@@ -140,8 +140,8 @@ typedef ImageForeground *ImageForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGImageForeground.inl>
 #include <OSGImageForegroundBase.inl>
+#include <OSGImageForeground.inl>
 
 #endif /* _OSGIMAGEFORGROUND_H_ */
 

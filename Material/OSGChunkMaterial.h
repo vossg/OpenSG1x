@@ -141,7 +141,7 @@ typedef ChunkMaterial *ChunkMaterialP;
 
 OSG_END_NAMESPACE
 
-#include <OSGChunkMaterial.inl>
 #include <OSGChunkMaterialBase.inl>
+#include <OSGChunkMaterial.inl>
 
 #endif /* _OSGCHUNKMATERIAL_H_ */

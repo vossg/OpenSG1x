@@ -144,7 +144,7 @@ typedef SimpleMaterial *SimpleMaterialP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSimpleMaterial.inl>
 #include <OSGSimpleMaterialBase.inl>
+#include <OSGSimpleMaterial.inl>
 
 #endif /* _OSGSIMPLEMATERIAL_H_ */

@@ -204,7 +204,7 @@ typedef MatrixCamera *MatrixCameraP;
 
 OSG_END_NAMESPACE
 
-#include <OSGMatrixCamera.inl>
 #include <OSGMatrixCameraBase.inl>
+#include <OSGMatrixCamera.inl>
 
 #endif /* _OSGMATRIXCAMERA_H_ */

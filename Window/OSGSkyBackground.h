@@ -135,9 +135,9 @@ typedef SkyBackground *SkyBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSkyBackground.inl>
 #include <OSGSkyBackgroundBase.inl>
+#include <OSGSkyBackground.inl>
 
-#define OSGSKYBACKGROUND_HEADER_CVSID "@(#)$Id: OSGSkyBackground.h,v 1.2 2002/03/19 18:15:49 dirk Exp $"
+#define OSGSKYBACKGROUND_HEADER_CVSID "@(#)$Id: OSGSkyBackground.h,v 1.3 2002/04/01 14:25:22 vossg Exp $"
 
 #endif /* _OSGSKYBACKGROUND_H_ */

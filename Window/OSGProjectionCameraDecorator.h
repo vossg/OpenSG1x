@@ -134,9 +134,9 @@ typedef ProjectionCameraDecorator *ProjectionCameraDecoratorP;
 
 OSG_END_NAMESPACE
 
-#include <OSGProjectionCameraDecorator.inl>
 #include <OSGProjectionCameraDecoratorBase.inl>
+#include <OSGProjectionCameraDecorator.inl>
 
-#define OSGPROJECTIONCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGProjectionCameraDecorator.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGPROJECTIONCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGProjectionCameraDecorator.h,v 1.2 2002/04/01 14:25:22 vossg Exp $"
 
 #endif /* _OSGPROJECTIONCAMERADECORATOR_H_ */

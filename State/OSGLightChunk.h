@@ -152,7 +152,7 @@ typedef LightChunk *LightChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGLightChunk.inl>
 #include <OSGLightChunkBase.inl>
+#include <OSGLightChunk.inl>
 
 #endif /* _OSGLIGHTCHUNK_H_ */

@@ -123,9 +123,9 @@ typedef PassiveViewport *PassiveViewportP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPassiveViewport.inl>
 #include <OSGPassiveViewportBase.inl>
+#include <OSGPassiveViewport.inl>
 
-#define OSGPASSIVEVIEWPORT_HEADER_CVSID "@(#)$Id: OSGPassiveViewport.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGPASSIVEVIEWPORT_HEADER_CVSID "@(#)$Id: OSGPassiveViewport.h,v 1.2 2002/04/01 14:25:22 vossg Exp $"
 
 #endif /* _OSGPASSIVEVIEWPORT_H_ */

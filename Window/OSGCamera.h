@@ -168,7 +168,7 @@ typedef Camera *CameraP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCamera.inl>
 #include <OSGCameraBase.inl>
+#include <OSGCamera.inl>
 
 #endif /* _OSGCAMERA_H_ */

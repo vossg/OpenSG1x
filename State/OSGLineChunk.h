@@ -149,9 +149,9 @@ typedef LineChunk *LineChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGLineChunk.inl>
 #include <OSGLineChunkBase.inl>
+#include <OSGLineChunk.inl>
 
-#define OSGLINECHUNK_HEADER_CVSID "@(#)$Id: OSGLineChunk.h,v 1.2 2002/02/04 20:14:10 dirk Exp $"
+#define OSGLINECHUNK_HEADER_CVSID "@(#)$Id: OSGLineChunk.h,v 1.3 2002/04/01 14:25:23 vossg Exp $"
 
 #endif /* _OSGLINECHUNK_H_ */

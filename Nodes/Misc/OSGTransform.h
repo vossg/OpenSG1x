@@ -137,8 +137,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
 
 OSG_END_NAMESPACE
 
-#include <OSGTransform.inl>
 #include <OSGTransformBase.inl>
+#include <OSGTransform.inl>
 
 #define OSGTRANSFORM_HEADER_CVSID "@(#)$Id: $"
 

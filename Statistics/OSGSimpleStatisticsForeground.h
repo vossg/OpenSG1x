@@ -141,9 +141,9 @@ typedef SimpleStatisticsForeground *SimpleStatisticsForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSimpleStatisticsForeground.inl>
 #include <OSGSimpleStatisticsForegroundBase.inl>
+#include <OSGSimpleStatisticsForeground.inl>
 
-#define OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForeground.h,v 1.2 2002/03/20 06:32:39 vossg Exp $"
+#define OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForeground.h,v 1.3 2002/04/01 14:25:23 vossg Exp $"
 
 #endif /* _OSGSIMPLESTATISTICSFOREGROUND_H_ */

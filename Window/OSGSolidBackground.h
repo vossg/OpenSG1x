@@ -134,7 +134,7 @@ typedef SolidBackground *SolidBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSolidBackground.inl>
 #include <OSGSolidBackgroundBase.inl>
+#include <OSGSolidBackground.inl>
 
 #endif /* _OSGSOLIDBACKGROUND_H_ */
