@@ -1,0 +1,21 @@
+/*!	\mainpage OpenSG - The Open Source Scenegraph
+
+Welcome to OpenSG. 
+
+This documentation is still in its infancy. We're trying to figure out
+how to make the, otherwise very smart, doxygen tool understand our use
+of C++, templates and typedefs. Only with partial success so far.
+It works somewhat, but the class graph and the collboration diagrams
+don't always reflect the actual class relations. But they show the
+logical relations, so it's possible to follow the inheritance
+logically.
+
+The Modules list is manually generated and reflects the structure
+better. Admitted, there is not much more than the groups themselves,
+but we're working on it. Bear with us for the time being.
+
+We hope you enjoy the system anyway. Visit us at www.opensg.org to learn
+more about us and the background.
+
+*/
+
