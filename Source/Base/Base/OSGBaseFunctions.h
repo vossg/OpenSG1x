@@ -44,12 +44,12 @@
 #endif
 
 #include <math.h>
-
 #include <string.h>
 
 #ifndef WIN32
 #include <strings.h>
 #include <unistd.h>
+#include <errno.h>
 #endif
 
 #ifdef __sun
