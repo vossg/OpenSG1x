@@ -273,15 +273,7 @@ struct FieldDataTraits<ParticleBSPTree> :
 typedef SField<ParticleBSPTree> SFParticleBSPTree;
 
 #ifndef OSG_COMPILEPARTICLEBSPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<ParticleBSPTree>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, ParticleBSPTree, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -289,6 +281,6 @@ OSG_END_NAMESPACE
 
 #include <OSGParticleBSP.inl>
 
-#define OSGPARTICLEBSP_HEADER_CVSID "@(#)$Id: OSGParticleBSP.h,v 1.3 2002/03/05 23:10:31 dirk Exp $"
+#define OSGPARTICLEBSP_HEADER_CVSID "@(#)$Id: OSGParticleBSP.h,v 1.4 2002/05/24 09:48:39 vossg Exp $"
 
 #endif /* _OSGPARTICLES_H_ */

@@ -97,15 +97,7 @@ struct FieldDataTraits<WindowPtr> :
 typedef SField<WindowPtr> SFWindowPtr;
 
 #ifndef OSG_COMPILEWINDOWINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<WindowPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFWindowPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<WindowPtr> MFWindowPtr;
 
 #ifndef OSG_COMPILEWINDOWINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<WindowPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGWindowFields.h,v 1.13 2001/11/30 11:48:21 vossg Exp $"
+#define OSGWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGWindowFields.h,v 1.14 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGWINDOWFIELDS_H_ */

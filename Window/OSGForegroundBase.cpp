@@ -172,22 +172,15 @@ void ForegroundBase::executeSyncImpl(      ForegroundBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<ForegroundPtr>::_type("ForegroundPtr", "AttachmentContainerPtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<ForegroundPtr>::_fieldType
-#pragma instantiate MField<ForegroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 

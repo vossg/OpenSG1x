@@ -49,6 +49,10 @@
 
 #include "OSGGeoPropertyBase.h"
 
+OSG_USING_NAMESPACE
+
+OSG_GEO_PROP_TYPE_TMPL_DEF(AbstractGeoProperty, GeoPropertyDesc, PtrType)
+
 OSG_BEGIN_NAMESPACE
 
 /*! \defgroup GeoProperties OpenSG Geo Properties
@@ -61,24 +65,6 @@ tehy also have a generic interface, which is easy to use, but not as
 efficient as the specific one.
 
 */
-
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate AbstractGeoProperty<GeoPositionsPropertyDesc  >::_type
-
-#pragma instantiate AbstractGeoProperty<GeoNormalsPropertyDesc    >::_type
-
-#pragma instantiate AbstractGeoProperty<GeoColorsPropertyDesc     >::_type
-
-#pragma instantiate AbstractGeoProperty<GeoTexCoordsPropertyDesc >::_type
-
-#pragma instantiate AbstractGeoProperty<GeoIndicesPropertyDesc     >::_type
-
-#pragma instantiate AbstractGeoProperty<GeoPTypesPropertyDesc     >::_type
-
-#pragma instantiate AbstractGeoProperty<GeoPLengthsPropertyDesc   >::_type
-
-#else
 
 OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(AbstractGeoProperty, 
                                 GeoPositionsPropertyDesc, 
@@ -107,8 +93,6 @@ OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(AbstractGeoProperty,
 OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(AbstractGeoProperty,
                                 GeoPLengthsPropertyDesc, 
                                 OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 

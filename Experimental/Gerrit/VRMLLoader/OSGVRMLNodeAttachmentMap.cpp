@@ -64,12 +64,6 @@ OSG_USING_NAMESPACE
 DataType FieldDataTraits<VRMLNodeAttachmentMap>::_type(
     "VRMLNodeAttachmentMap", "STLType");
 
-#if defined(__sgi)
-
-#pragma instantiate SFVRMLNodeAttachmentMap::_fieldType
-#pragma instantiate MFVRMLNodeAttachmentMap::_fieldType
-
-#else
 
 #if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (disable : 424)
@@ -85,9 +79,6 @@ OSG_DLLEXPORT_MFIELD_DEF1(VRMLNodeAttachmentMap,
 #if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (default : 424)
 #endif
-
-#endif
-
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

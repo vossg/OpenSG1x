@@ -149,19 +149,9 @@ FieldDescription *GeoPositions4dPropertyDesc::_desc[] =
 #endif
 };
 
+OSG_GEO_PROP_TYPE_TMPL_DEF(GeoProperty, GeoPropertyDesc, PtrType)
+
 OSG_BEGIN_NAMESPACE
-
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate GeoProperty        <GeoPositions2fPropertyDesc>::_type
-#pragma instantiate GeoProperty        <GeoPositions3fPropertyDesc>::_type
-#pragma instantiate GeoProperty        <GeoPositions4fPropertyDesc>::_type
-
-#pragma instantiate GeoProperty        <GeoPositions2dPropertyDesc>::_type
-#pragma instantiate GeoProperty        <GeoPositions3dPropertyDesc>::_type
-#pragma instantiate GeoProperty        <GeoPositions4dPropertyDesc>::_type
-
-#else
 
 OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        , 
                            GeoPositions2fPropertyDesc, 
@@ -182,8 +172,6 @@ OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
 OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        , 
                            GeoPositions4dPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 

@@ -97,15 +97,7 @@ struct FieldDataTraits<ChunkMaterialPtr> :
 typedef SField<ChunkMaterialPtr> SFChunkMaterialPtr;
 
 #ifndef OSG_COMPILECHUNKMATERIALINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<ChunkMaterialPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFChunkMaterialPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<ChunkMaterialPtr> MFChunkMaterialPtr;
 
 #ifndef OSG_COMPILECHUNKMATERIALINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<ChunkMaterialPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGCHUNKMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGChunkMaterialFields.h,v 1.10 2002/02/28 10:18:28 mroth Exp $"
+#define OSGCHUNKMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGChunkMaterialFields.h,v 1.11 2002/05/24 09:48:37 vossg Exp $"
 
 #endif /* _OSGCHUNKMATERIALFIELDS_H_ */

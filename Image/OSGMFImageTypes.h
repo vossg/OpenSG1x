@@ -65,15 +65,7 @@ OSG_BEGIN_NAMESPACE
 typedef MField<ImageP> MFImageP;
 
 #ifndef OSG_COMPILEIMAGEINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<ImageP>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, ImageP, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

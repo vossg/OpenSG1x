@@ -510,6 +510,9 @@ bool FieldContainerType::initFields(void)
 
     _bInitialized = true;
 
+	if(_pDesc == NULL)
+		return true;
+
     for(i = 0; i < _uiDescByteCounter / sizeof(FieldDescription *); i++)
     {
         if(_pDesc[i]->isValid())

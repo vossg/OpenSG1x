@@ -61,15 +61,7 @@ OSG_BEGIN_NAMESPACE
 typedef MField<FieldContainerPtr> MFFieldContainerPtr;
 
 #ifndef OSG_COMPILECONTAINERFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<FieldContainerPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, FieldContainerPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

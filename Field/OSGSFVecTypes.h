@@ -66,15 +66,7 @@ OSG_BEGIN_NAMESPACE
 typedef SField<Vec2f> SFVec2f;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<Vec2f>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, Vec2f, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -85,15 +77,7 @@ OSG_DLLEXPORT_DECL1(SField, Vec2f, OSG_BASE_DLLTMPLMAPPING)
 typedef SField<Vec3f> SFVec3f;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<Vec3f>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, Vec3f, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 /*! \brief SFVec4f
@@ -103,15 +87,7 @@ OSG_DLLEXPORT_DECL1(SField, Vec3f, OSG_BASE_DLLTMPLMAPPING)
 typedef SField<Vec4f> SFVec4f;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<Vec4f>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, Vec4f, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -122,15 +98,7 @@ OSG_DLLEXPORT_DECL1(SField, Vec4f, OSG_BASE_DLLTMPLMAPPING)
 typedef SField<Pnt2f> SFPnt2f;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<Pnt2f>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, Pnt2f, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -141,15 +109,7 @@ OSG_DLLEXPORT_DECL1(SField, Pnt2f, OSG_BASE_DLLTMPLMAPPING)
 typedef SField<Pnt2d> SFPnt2d;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<Pnt2d>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, Pnt2d, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -160,15 +120,7 @@ OSG_DLLEXPORT_DECL1(SField, Pnt2d, OSG_BASE_DLLTMPLMAPPING)
 typedef SField<Pnt3f> SFPnt3f;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<Pnt3f>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, Pnt3f, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -179,15 +131,7 @@ OSG_DLLEXPORT_DECL1(SField, Pnt3f, OSG_BASE_DLLTMPLMAPPING)
 typedef SField<Pnt3d> SFPnt3d;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<Pnt3d>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, Pnt3d, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -198,15 +142,7 @@ OSG_DLLEXPORT_DECL1(SField, Pnt3d, OSG_BASE_DLLTMPLMAPPING)
 typedef SField<Pnt4f> SFPnt4f;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<Pnt4f>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, Pnt4f, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -217,15 +153,7 @@ OSG_DLLEXPORT_DECL1(SField, Pnt4f, OSG_BASE_DLLTMPLMAPPING)
 typedef SField<Pnt4d> SFPnt4d;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<Pnt4d>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, Pnt4d, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

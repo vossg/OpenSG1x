@@ -152,24 +152,20 @@ class AbstractGeoProperty :
     /*==========================  PRIVATE  ================================*/
   private:       
 
-#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    // Cannot name type Inherited because of MS compiler probs
+
     typedef typename GeoPropertyDesc::Inherited            LocalInherited;
     typedef typename GeoPropertyDesc::InheritedDesc        LocalInheritedDesc;
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
     typedef          GeoPropertyInterface<GeoPropertyDesc> LocalInterface;
 #endif
-#else
-    typedef typename GeoPropertyDesc::Inherited            Inherited;
-    typedef typename GeoPropertyDesc::InheritedDesc        InheritedDesc;
-
-#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
-    typedef          GeoPropertyInterface<GeoPropertyDesc> Interface;
-#endif
-#endif
 
     static FieldContainerType _type;
 };
+
+
+
 
 template <class GeoPropertyDesc>
 class GeoProperty :
@@ -178,43 +174,29 @@ class GeoProperty :
     /*==========================  PRIVATE  ================================*/
   private:
 
-#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    // Cannot name type Inherited because of MS compiler probs
+
     typedef typename GeoPropertyDesc::Inherited     LocalInherited;
     typedef typename GeoPropertyDesc::InheritedDesc LocalInheritedDesc;
     typedef typename GeoPropertyDesc::InheritedPtr  LocalInheritedPtr;
-#else
-    typedef typename GeoPropertyDesc::Inherited     Inherited;
-    typedef typename GeoPropertyDesc::InheritedDesc InheritedDesc;
-    typedef typename GeoPropertyDesc::InheritedPtr  InheritedPtr;
-#endif
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
-#ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoPropDataFieldId = LocalInherited::NextFieldId,
-#else
-        GeoPropDataFieldId = Inherited::NextFieldId,
-#endif
+
         NextFieldId        = GeoPropDataFieldId + 1
     };
 
-//1 << GeoProperty<GeoPropertyDesc>::GeoPropDataFieldId
-    static const BitVector GeoPropDataFieldMask =
-        1 << GeoPropDataFieldId;
+    static const BitVector GeoPropDataFieldMask = 1 << GeoPropDataFieldId;
 
     typedef GeoProperty<GeoPropertyDesc>         PropertyType;
     typedef GeoProperty<GeoPropertyDesc>         Self;
 
-#ifdef OSG_MICROSOFT_COMPILER_HACKS
     typedef FCPtr<LocalInheritedPtr,
                   PropertyType                 > PtrType;
-#else
-    typedef FCPtr<InheritedPtr,
-                  PropertyType                 > PtrType;
-#endif
 
     typedef typename GeoPropertyDesc::StoredFieldType     StoredFieldType;
     typedef typename GeoPropertyDesc::GenericType         StoredGenericType;
@@ -237,11 +219,7 @@ class GeoProperty :
           StoredFieldType &getField(void);
     const StoredFieldType &getField(void) const;
 
-#ifdef OSG_MICROSOFT_COMPILER_HACKS
     virtual LocalInheritedPtr clone(void);
-#else
-    virtual InheritedPtr clone(void);
-#endif
 
     virtual UInt32  getFormat    (void) const;
     virtual UInt32  getFormatSize(void) const;
@@ -356,113 +334,57 @@ class GeoProperty :
 typedef AbstractGeoProperty<GeoPositionsPropertyDesc> GeoPositions;
 
 #ifndef OSG_COMPILEGEOPROPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate AbstractGeoProperty<GeoPositionsPropertyDesc>::_type
-
-#else
-
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
                             GeoPositionsPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 typedef AbstractGeoProperty<GeoNormalsPropertyDesc> GeoNormals;
 
 #ifndef OSG_COMPILEGEOPROPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate AbstractGeoProperty<GeoNormalsPropertyDesc>::_type
-
-#else
-
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
                             GeoNormalsPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 typedef AbstractGeoProperty<GeoColorsPropertyDesc> GeoColors;
 
 #ifndef OSG_COMPILEGEOPROPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate AbstractGeoProperty<GeoColorsPropertyDesc>::_type
-
-#else
-
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
                             GeoColorsPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 typedef AbstractGeoProperty<GeoTexCoordsPropertyDesc> GeoTexCoords;
 
 #ifndef OSG_COMPILEGEOPROPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate AbstractGeoProperty<GeoTexCoordsPropertyDesc>::_type
-
-#else
-
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
                             GeoTexCoordsPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 typedef AbstractGeoProperty<GeoIndicesPropertyDesc> GeoIndices;
 
 #ifndef OSG_COMPILEGEOPROPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate AbstractGeoProperty<GeoIndicesPropertyDesc>::_type
-
-#else
-
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
                             GeoIndicesPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 typedef AbstractGeoProperty<GeoPTypesPropertyDesc> GeoPTypes;
 
 #ifndef OSG_COMPILEGEOPROPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate AbstractGeoProperty<GeoPTypesPropertyDesc>::_type
-
-#else
-
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
                             GeoPTypesPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 typedef AbstractGeoProperty<GeoPLengthsPropertyDesc> GeoPLengths;
 
 #ifndef OSG_COMPILEGEOPROPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate AbstractGeoProperty<GeoPLengthsPropertyDesc>::_type
-
-#else
-
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
                             GeoPLengthsPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

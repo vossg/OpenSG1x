@@ -97,15 +97,7 @@ struct FieldDataTraits<MatrixCameraPtr> :
 typedef SField<MatrixCameraPtr> SFMatrixCameraPtr;
 
 #ifndef OSG_COMPILEMATRIXCAMERAINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<MatrixCameraPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFMatrixCameraPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<MatrixCameraPtr> MFMatrixCameraPtr;
 
 #ifndef OSG_COMPILEMATRIXCAMERAINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<MatrixCameraPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGMATRIXCAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGMatrixCameraFields.h,v 1.2 2002/03/19 18:15:49 dirk Exp $"
+#define OSGMATRIXCAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGMatrixCameraFields.h,v 1.3 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGMATRIXCAMERAFIELDS_H_ */

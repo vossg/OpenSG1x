@@ -95,19 +95,11 @@ struct FieldDataTraits<ImageBackgroundPtr> :
 typedef SField<ImageBackgroundPtr> SFImageBackgroundPtr;
 
 #ifndef OSG_COMPILEIMAGEBACKGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<ImageBackgroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, ImageBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGImageBackgroundFields.h,v 1.4 2001/11/30 11:48:20 vossg Exp $"
+#define OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGImageBackgroundFields.h,v 1.5 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGIMAGEBACKGROUNDFIELDS_H_ */

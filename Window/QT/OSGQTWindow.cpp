@@ -173,16 +173,7 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<OSGQGLWidgetP>::_type("OSGQGLWidgetP", NULL);
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<OSGQGLWidgetP>::_fieldType
-#pragma instantiate MField<OSGQGLWidgetP>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE

@@ -97,15 +97,7 @@ struct FieldDataTraits<MaterialGroupPtr> :
 typedef SField<MaterialGroupPtr> SFMaterialGroupPtr;
 
 #ifndef OSG_COMPILEMATERIALGROUPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<MaterialGroupPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFMaterialGroupPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<MaterialGroupPtr> MFMaterialGroupPtr;
 
 #ifndef OSG_COMPILEMATERIALGROUPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<MaterialGroupPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialGroupFields.h,v 1.10 2001/11/30 11:48:20 vossg Exp $"
+#define OSGMATERIALGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialGroupFields.h,v 1.11 2002/05/24 09:48:38 vossg Exp $"
 
 #endif /* _OSGMATERIALGROUPFIELDS_H_ */

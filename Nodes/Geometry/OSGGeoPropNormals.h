@@ -92,17 +92,9 @@ struct GeoNormals3fPropertyDesc
 typedef GeoProperty<GeoNormals3fPropertyDesc> GeoNormals3f;
 
 #ifndef OSG_COMPILEGEOPROPNORMALINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoNormals3fPropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoNormals3fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

@@ -181,22 +181,15 @@ void PassiveViewportBase::executeSyncImpl(      PassiveViewportBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<PassiveViewportPtr>::_type("PassiveViewportPtr", "ViewportPtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<PassiveViewportPtr>::_fieldType
-#pragma instantiate MField<PassiveViewportPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(PassiveViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PassiveViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 
@@ -214,7 +207,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveViewportBase.cpp,v 1.8 2002/05/21 11:50:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveViewportBase.cpp,v 1.9 2002/05/24 09:48:40 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPASSIVEVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPASSIVEVIEWPORTBASE_INLINE_CVSID;
 

@@ -97,15 +97,7 @@ struct FieldDataTraits<GLUTWindowPtr> :
 typedef SField<GLUTWindowPtr> SFGLUTWindowPtr;
 
 #ifndef OSG_COMPILEGLUTWINDOWINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GLUTWindowPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFGLUTWindowPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING)
 typedef MField<GLUTWindowPtr> MFGLUTWindowPtr;
 
 #ifndef OSG_COMPILEGLUTWINDOWINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<GLUTWindowPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGGLUTWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGGLUTWindowFields.h,v 1.1 2002/02/05 20:39:33 dirk Exp $"
+#define OSGGLUTWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGGLUTWindowFields.h,v 1.2 2002/05/24 09:48:41 vossg Exp $"
 
 #endif /* _OSGGLUTWINDOWFIELDS_H_ */

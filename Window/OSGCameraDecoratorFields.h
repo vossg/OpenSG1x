@@ -97,15 +97,7 @@ struct FieldDataTraits<CameraDecoratorPtr> :
 typedef SField<CameraDecoratorPtr> SFCameraDecoratorPtr;
 
 #ifndef OSG_COMPILECAMERADECORATORINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<CameraDecoratorPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFCameraDecoratorPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<CameraDecoratorPtr> MFCameraDecoratorPtr;
 
 #ifndef OSG_COMPILECAMERADECORATORINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<CameraDecoratorPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorFields.h,v 1.8 2001/11/30 11:48:20 vossg Exp $"
+#define OSGCAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorFields.h,v 1.9 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGCAMERADECORATORFIELDS_H_ */

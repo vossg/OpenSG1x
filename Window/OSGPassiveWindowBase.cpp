@@ -181,22 +181,15 @@ void PassiveWindowBase::executeSyncImpl(      PassiveWindowBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<PassiveWindowPtr>::_type("PassiveWindowPtr", "WindowPtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<PassiveWindowPtr>::_fieldType
-#pragma instantiate MField<PassiveWindowPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(PassiveWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PassiveWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 
@@ -214,7 +207,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveWindowBase.cpp,v 1.10 2002/05/21 11:50:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveWindowBase.cpp,v 1.11 2002/05/24 09:48:40 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPASSIVEWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPASSIVEWINDOWBASE_INLINE_CVSID;
 

@@ -61,15 +61,7 @@ OSG_BEGIN_NAMESPACE
 typedef SField<AttachmentMap>     SFAttachmentMap;
 
 #ifndef OSG_COMPILECONTAINERFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<AttachmentMap>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, AttachmentMap, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

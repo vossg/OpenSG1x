@@ -94,25 +94,6 @@ DataType FieldDataTraits<AttachmentMap         >::_type(
     "AttachmentMap",
     NULL);
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<FieldContainerPtr     >::_fieldType
-#pragma instantiate SField<AttachmentContainerPtr>::_fieldType
-#pragma instantiate SField<NodePtr               >::_fieldType
-#pragma instantiate SField<NodeCorePtr           >::_fieldType
-#pragma instantiate SField<NodeCorePtr           >::_fieldType
-#pragma instantiate SField<AttachmentPtr         >::_fieldType
-#pragma instantiate SField<AttachmentMap         >::_fieldType
-
-#pragma instantiate MField<FieldContainerPtr     >::_fieldType
-#pragma instantiate MField<AttachmentContainerPtr>::_fieldType
-#pragma instantiate MField<NodePtr               >::_fieldType
-#pragma instantiate MField<NodeCorePtr           >::_fieldType
-#pragma instantiate MField<AttachmentPtr         >::_fieldType
-#pragma instantiate MField<AttachmentMap         >::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(FieldContainerPtr,     OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(AttachmentContainerPtr,OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(NodePtr,               OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -126,8 +107,6 @@ OSG_DLLEXPORT_MFIELD_DEF1(NodePtr,               OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(NodeCorePtr,           OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(AttachmentPtr,         OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(AttachmentMap,         OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 

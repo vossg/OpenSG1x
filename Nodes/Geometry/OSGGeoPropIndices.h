@@ -94,17 +94,9 @@ typedef GeoProperty<GeoIndicesUI32PropertyDesc> GeoIndicesUI32;
 
 
 #ifndef OSG_COMPILEGEOPROPINDEXINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoIndicesUI32PropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoIndicesUI32PropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

@@ -92,17 +92,9 @@ struct GeoPositions2fPropertyDesc
 typedef GeoProperty<GeoPositions2fPropertyDesc> GeoPositions2f;
 
 #ifndef OSG_COMPILEGEOPROPPOSITIONINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoPositions2fPropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPositions2fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -151,17 +143,9 @@ struct GeoPositions3fPropertyDesc
 typedef GeoProperty<GeoPositions3fPropertyDesc> GeoPositions3f;
 
 #ifndef OSG_COMPILEGEOPROPPOSITIONINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoPositions3fPropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPositions3fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -210,17 +194,9 @@ struct GeoPositions4fPropertyDesc
 typedef GeoProperty<GeoPositions4fPropertyDesc> GeoPositions4f;
 
 #ifndef OSG_COMPILEGEOPROPPOSITIONINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoPositions4fPropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPositions4fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -269,17 +245,9 @@ struct GeoPositions2dPropertyDesc
 typedef GeoProperty<GeoPositions2dPropertyDesc> GeoPositions2d;
 
 #ifndef OSG_COMPILEGEOPROPPOSITIONINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoPositions2dPropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPositions2dPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -328,17 +296,9 @@ struct GeoPositions3dPropertyDesc
 typedef GeoProperty<GeoPositions3dPropertyDesc> GeoPositions3d;
 
 #ifndef OSG_COMPILEGEOPROPPOSITIONINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoPositions3dPropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPositions3dPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -387,17 +347,9 @@ struct GeoPositions4dPropertyDesc
 typedef GeoProperty<GeoPositions4dPropertyDesc> GeoPositions4d;
 
 #ifndef OSG_COMPILEGEOPROPPOSITIONINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoPositions4dPropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPositions4dPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

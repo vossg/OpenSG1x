@@ -314,22 +314,15 @@ void WIN32WindowBase::executeSyncImpl(      WIN32WindowBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<WIN32WindowPtr>::_type("WIN32WindowPtr", "WindowPtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<WIN32WindowPtr>::_fieldType
-#pragma instantiate MField<WIN32WindowPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 
@@ -347,7 +340,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWIN32WindowBase.cpp,v 1.12 2002/05/21 11:50:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWIN32WindowBase.cpp,v 1.13 2002/05/24 09:48:41 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGWIN32WINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWIN32WINDOWBASE_INLINE_CVSID;
 

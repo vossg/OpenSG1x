@@ -67,19 +67,11 @@ FieldDescription *GeoPTypesUI8PropertyDesc::_desc[] =
 #endif
 };
 
+OSG_GEO_PROP_TYPE_TMPL_DEF(GeoProperty, GeoPropertyDesc, PtrType)
+
 OSG_BEGIN_NAMESPACE
-
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate GeoProperty        <GeoPTypesUI8PropertyDesc >::_type
-
-#else
 
 OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
                            GeoPTypesUI8PropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
-
-
 OSG_END_NAMESPACE

@@ -97,15 +97,7 @@ struct FieldDataTraits<SwitchPtr> :
 typedef SField<SwitchPtr> SFSwitchPtr;
 
 #ifndef OSG_COMPILESWITCHINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<SwitchPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFSwitchPtr
@@ -114,15 +106,7 @@ OSG_DLLEXPORT_DECL1(SField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<SwitchPtr> MFSwitchPtr;
 
 #ifndef OSG_COMPILESWITCHINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<SwitchPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

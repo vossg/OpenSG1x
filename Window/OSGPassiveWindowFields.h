@@ -97,15 +97,7 @@ struct FieldDataTraits<PassiveWindowPtr> :
 typedef SField<PassiveWindowPtr> SFPassiveWindowPtr;
 
 #ifndef OSG_COMPILEPASSIVEWINDOWINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<PassiveWindowPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, PassiveWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFPassiveWindowPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, PassiveWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<PassiveWindowPtr> MFPassiveWindowPtr;
 
 #ifndef OSG_COMPILEPASSIVEWINDOWINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<PassiveWindowPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, PassiveWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGPassiveWindowFields.h,v 1.2 2002/03/19 18:15:49 dirk Exp $"
+#define OSGPASSIVEWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGPassiveWindowFields.h,v 1.3 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGPASSIVEWINDOWFIELDS_H_ */

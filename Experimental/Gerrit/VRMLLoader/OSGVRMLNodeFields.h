@@ -100,13 +100,6 @@ typedef MField<VRMLNode *> MFVRMLNode;
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 #ifndef OSG_COMPILEVRMLNODEINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SFVRMLNode::_fieldType
-#pragma do_not_instantiate MFVRMLNode::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, 
                     VRMLNode *, 
                     OSG_VRML_DLLTMPLMAPPING)
@@ -114,8 +107,6 @@ OSG_DLLEXPORT_DECL1(SField,
 OSG_DLLEXPORT_DECL1(MField, 
                     VRMLNode *, 
                     OSG_VRML_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */

@@ -70,7 +70,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQTWindowBase.cpp,v 1.4 2002/05/20 08:10:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQTWindowBase.cpp,v 1.5 2002/05/24 09:48:41 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGQTWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQTWINDOWBASE_INLINE_CVSID;
 
@@ -248,16 +248,7 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<QTWindowPtr>::_type("QTWindowPtr", "WindowPtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<QTWindowPtr>::_fieldType
-#pragma instantiate MField<QTWindowPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(QTWindowPtr, OSG_WINDOWQTLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(QTWindowPtr, OSG_WINDOWQTLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE

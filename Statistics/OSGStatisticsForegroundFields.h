@@ -97,15 +97,7 @@ struct FieldDataTraits<StatisticsForegroundPtr> :
 typedef SField<StatisticsForegroundPtr> SFStatisticsForegroundPtr;
 
 #ifndef OSG_COMPILESTATISTICSFOREGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<StatisticsForegroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFStatisticsForegroundPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPIN
 typedef MField<StatisticsForegroundPtr> MFStatisticsForegroundPtr;
 
 #ifndef OSG_COMPILESTATISTICSFOREGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<StatisticsForegroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGStatisticsForegroundFields.h,v 1.1 2002/03/19 17:46:18 dirk Exp $"
+#define OSGSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGStatisticsForegroundFields.h,v 1.2 2002/05/24 09:48:39 vossg Exp $"
 
 #endif /* _OSGSTATISTICSFOREGROUNDFIELDS_H_ */

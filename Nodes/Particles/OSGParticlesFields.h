@@ -97,15 +97,7 @@ struct FieldDataTraits<ParticlesPtr> :
 typedef SField<ParticlesPtr> SFParticlesPtr;
 
 #ifndef OSG_COMPILEPARTICLESINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<ParticlesPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFParticlesPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<ParticlesPtr> MFParticlesPtr;
 
 #ifndef OSG_COMPILEPARTICLESINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<ParticlesPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESFIELDS_HEADER_CVSID "@(#)$Id: OSGParticlesFields.h,v 1.3 2002/01/10 21:14:10 dirk Exp $"
+#define OSGPARTICLESFIELDS_HEADER_CVSID "@(#)$Id: OSGParticlesFields.h,v 1.4 2002/05/24 09:48:39 vossg Exp $"
 
 #endif /* _OSGPARTICLESFIELDS_H_ */

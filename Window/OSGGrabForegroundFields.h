@@ -97,15 +97,7 @@ struct FieldDataTraits<GrabForegroundPtr> :
 typedef SField<GrabForegroundPtr> SFGrabForegroundPtr;
 
 #ifndef OSG_COMPILEGRABFOREGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GrabForegroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFGrabForegroundPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<GrabForegroundPtr> MFGrabForegroundPtr;
 
 #ifndef OSG_COMPILEGRABFOREGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<GrabForegroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGGRABFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGrabForegroundFields.h,v 1.1 2002/01/18 22:58:09 dirk Exp $"
+#define OSGGRABFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGrabForegroundFields.h,v 1.2 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGGRABFOREGROUNDFIELDS_H_ */

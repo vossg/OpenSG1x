@@ -92,17 +92,9 @@ typedef GeoProperty<GeoPTypesUI8PropertyDesc> GeoPTypesUI8;
 
 
 #ifndef OSG_COMPILEGEOPROPPTYPEINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoPTypesUI8PropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPTypesUI8PropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

@@ -91,6 +91,10 @@ struct GenericAttDesc
     static const Char8 *getTypeName      (void) { return "GenericAtt"; }
     static const Char8 *getParentTypeName(void) { return "Attachment"; }
     static const Char8 *getGroupName     (void) { return "VRMLGenAtt"; }
+
+    static InitContainerF     getInitMethod(void) { return NULL; }
+
+    static FieldDescription **getDesc      (void) { return NULL; }
 };
 
 typedef DynFieldAttachment<GenericAttDesc>  GenericAtt;
@@ -99,17 +103,9 @@ typedef GenericAtt::PtrType                 GenericAttPtr;
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 #ifndef OSG_COMPILEVRMLNODEDESCINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate DynFieldAttachment<GenericAttDesc>::_type
-
-#else
-
 OSG_ABSTR_FC_DLLEXPORT_DECL(DynFieldAttachment, 
                             GenericAttDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
@@ -133,15 +129,7 @@ typedef SField<GenericAttPtr>       SFGenericPtr;
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 #ifndef OSG_COMPILEVRMLNODEDESCINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GenericAttPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
@@ -153,15 +141,7 @@ OSG_DLLEXPORT_DECL1(SField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<GenericAttPtr>       MFGenericAttPtr;
 
 #ifndef OSG_COMPILEVRMLNODEDESCINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<GenericAttPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //---------------------------------------------------------------------------

@@ -65,18 +65,6 @@ DataType FieldDataTraits<GeoPTypesPtr    >::_type("GeoPTypesPtr",
 DataType FieldDataTraits<GeoPLengthsPtr  >::_type("GeoPLengthsPtr",
                                                  "GeoPLengthsInterfacePtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField             <GeoPositionsPtr           >::_fieldType
-#pragma instantiate SField             <GeoNormalsPtr             >::_fieldType
-#pragma instantiate SField             <GeoColorsPtr              >::_fieldType
-#pragma instantiate SField             <GeoTexCoordsPtr          >::_fieldType
-#pragma instantiate SField             <GeoIndicesPtr              >::_fieldType
-#pragma instantiate SField             <GeoPTypesPtr              >::_fieldType
-#pragma instantiate SField             <GeoPLengthsPtr            >::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(GeoPositionsPtr , OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(GeoNormalsPtr   , OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(GeoColorsPtr    , OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -84,7 +72,5 @@ OSG_DLLEXPORT_SFIELD_DEF1(GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(GeoIndicesPtr    , OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(GeoPTypesPtr    , OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(GeoPLengthsPtr  , OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE

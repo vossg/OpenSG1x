@@ -593,22 +593,15 @@ void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<ParticlesPtr>::_type("ParticlesPtr", "NodeCorePtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<ParticlesPtr>::_fieldType
-#pragma instantiate MField<ParticlesPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 
@@ -626,7 +619,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.15 2002/05/21 11:50:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.16 2002/05/24 09:48:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
 

@@ -576,7 +576,7 @@ endif
 #-- NT --------------------------------------------------------------
 ifeq ($(findstring WIN,$(OS)),WIN)
 
-	QTDIR := q:\\packages\\qt-2.3
+#	QTDIR := q:\\packages\\qt-2.3
 	OS		= WIN32
 	GCC 		= gcc
 	GCXX 		= g++
@@ -698,8 +698,8 @@ ifeq ($(findstring WIN,$(OS)),WIN)
 	ZLIB     = zlib.lib
 	A3DINC  = -I "V:\include\a3d" -D A3D_LIB
 	A3DLIB  = ia3dutil.lib
-	QTINC		=	-I "$(QTDIR)\\include"
-	QTLIB		= /libpath:"$(QTDIR)\lib"  qt230.lib
+	QTINC		=	-I "$(shell cygpath -w $(QTDIR)\\include)"
+	QTLIB		= /libpath:"$(shell cygpath -w $(QTDIR)\\lib)"  qt-mt301.lib qtmain.lib
 	GLTTINC = -I "V:\include\gltt" /D GLTT_LIB
 	GLTTLIB = gltt.lib 
 	OGLINC	= /D OPENGL_LIB
@@ -1111,6 +1111,7 @@ objlist: implist.mk
 	@cat implist.mk >> objlist.mk
 	@cat < objlist.mk | \
 	tr '\n' ' ' | \
+	tr '\r' ' ' | \
 	sed 's/\.cc/\.$(SYSDEP)\.o/g' | \
 	sed 's/\.cxx/\.$(SYSDEP)\.o/g' | \
 	sed 's/\.cpp/\.$(SYSDEP)\.o/g' | \
@@ -1126,8 +1127,8 @@ deplist.$(SYSDEP).mk:
 
 depend: implist.mk $(shell test -f implist.mk && cat implist.mk) declist.mk $(shell test -f declist.mk && cat declist.mk)
 	@echo "make deplist.$(SYSDEP).mk"
-	@makedepend 2>/dev/null $(INCS) $(shell cat implist.mk) \
-	-f - | sed 's/\.o/\.$(SYSDEP)\.o/' > deplist.$(SYSDEP).mk
+#	@makedepend 2>/dev/null $(INCS) $(shell cat implist.mk) \
+#	-f - | sed 's/\.o/\.$(SYSDEP)\.o/' > deplist.$(SYSDEP).mk
 
 ######################################################################
 

@@ -95,19 +95,11 @@ struct FieldDataTraits<SolidBackgroundPtr> :
 typedef SField<SolidBackgroundPtr> SFSolidBackgroundPtr;
 
 #ifndef OSG_COMPILESOLIDBACKGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<SolidBackgroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, SolidBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSOLIDBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundFields.h,v 1.12 2001/11/30 11:48:21 vossg Exp $"
+#define OSGSOLIDBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundFields.h,v 1.13 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGSOLIDBACKGROUNDFIELDS_H_ */

@@ -97,15 +97,7 @@ struct FieldDataTraits<PassiveViewportPtr> :
 typedef SField<PassiveViewportPtr> SFPassiveViewportPtr;
 
 #ifndef OSG_COMPILEPASSIVEVIEWPORTINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<PassiveViewportPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, PassiveViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFPassiveViewportPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, PassiveViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<PassiveViewportPtr> MFPassiveViewportPtr;
 
 #ifndef OSG_COMPILEPASSIVEVIEWPORTINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<PassiveViewportPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, PassiveViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGPassiveViewportFields.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGPASSIVEVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGPassiveViewportFields.h,v 1.2 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGPASSIVEVIEWPORTFIELDS_H_ */

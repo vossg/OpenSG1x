@@ -97,15 +97,7 @@ struct FieldDataTraits<SimpleStatisticsForegroundPtr> :
 typedef SField<SimpleStatisticsForegroundPtr> SFSimpleStatisticsForegroundPtr;
 
 #ifndef OSG_COMPILESIMPLESTATISTICSFOREGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<SimpleStatisticsForegroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFSimpleStatisticsForegroundPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPL
 typedef MField<SimpleStatisticsForegroundPtr> MFSimpleStatisticsForegroundPtr;
 
 #ifndef OSG_COMPILESIMPLESTATISTICSFOREGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<SimpleStatisticsForegroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESTATISTICSFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForegroundFields.h,v 1.1 2002/03/19 17:46:17 dirk Exp $"
+#define OSGSIMPLESTATISTICSFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForegroundFields.h,v 1.2 2002/05/24 09:48:39 vossg Exp $"
 
 #endif /* _OSGSIMPLESTATISTICSFOREGROUNDFIELDS_H_ */

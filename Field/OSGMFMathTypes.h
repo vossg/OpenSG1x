@@ -66,15 +66,7 @@ OSG_BEGIN_NAMESPACE
 typedef MField<Matrix>     MFMatrix;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<Matrix>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, Matrix, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -85,15 +77,7 @@ OSG_DLLEXPORT_DECL1(MField, Matrix, OSG_BASE_DLLTMPLMAPPING)
 typedef MField<Quaternion> MFQuaternion;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<Quaternion>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, Quaternion, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

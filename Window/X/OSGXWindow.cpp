@@ -188,25 +188,12 @@ DataType FieldDataTraits<DisplayP>  ::_type("DisplayP", NULL);
 DataType FieldDataTraits<X11Window> ::_type("X11Window", NULL);
 DataType FieldDataTraits<GLXContext>::_type("GLXContext", NULL);
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<DisplayP>  ::_fieldType
-#pragma instantiate MField<DisplayP>  ::_fieldType
-#pragma instantiate SField<X11Window> ::_fieldType
-#pragma instantiate MField<X11Window> ::_fieldType
-#pragma instantiate SField<GLXContext>::_fieldType
-#pragma instantiate MField<GLXContext>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 

@@ -97,15 +97,7 @@ struct FieldDataTraits<ForegroundPtr> :
 typedef SField<ForegroundPtr> SFForegroundPtr;
 
 #ifndef OSG_COMPILEFOREGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<ForegroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFForegroundPtr
@@ -114,15 +106,7 @@ OSG_DLLEXPORT_DECL1(SField, ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<ForegroundPtr> MFForegroundPtr;
 
 #ifndef OSG_COMPILEFOREGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<ForegroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

@@ -91,17 +91,9 @@ struct GeoTexCoords2fPropertyDesc
 typedef GeoProperty<GeoTexCoords2fPropertyDesc> GeoTexCoords2f;
 
 #ifndef OSG_COMPILEGEOPROPTEXCOORDSINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoTexCoords2fPropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoTexCoords2fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -150,17 +142,9 @@ struct GeoTexCoords3fPropertyDesc
 typedef GeoProperty<GeoTexCoords3fPropertyDesc> GeoTexCoords3f;
 
 #ifndef OSG_COMPILEGEOPROPTEXCOORDSINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoTexCoords3fPropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoTexCoords3fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 

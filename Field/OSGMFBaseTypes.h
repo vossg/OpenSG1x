@@ -65,15 +65,7 @@ OSG_BEGIN_NAMESPACE
 typedef MField<string> MFString;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<string>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, string, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -84,15 +76,7 @@ OSG_DLLEXPORT_DECL1(MField, string, OSG_BASE_DLLTMPLMAPPING)
 typedef MField<Time, 1> MFTime;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<Time, 1>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL2(MField, Time, 1, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -103,15 +87,7 @@ OSG_DLLEXPORT_DECL2(MField, Time, 1, OSG_BASE_DLLTMPLMAPPING)
 typedef MField<Color3f> MFColor3f;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<Color3f>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, Color3f, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -122,15 +98,7 @@ OSG_DLLEXPORT_DECL1(MField, Color3f, OSG_BASE_DLLTMPLMAPPING)
 typedef MField<Color4f> MFColor4f;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<Color4f>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, Color4f, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -141,15 +109,7 @@ OSG_DLLEXPORT_DECL1(MField, Color4f, OSG_BASE_DLLTMPLMAPPING)
 typedef MField<Color3ub> MFColor3ub;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<Color3ub>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, Color3ub, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -160,15 +120,7 @@ OSG_DLLEXPORT_DECL1(MField, Color3ub, OSG_BASE_DLLTMPLMAPPING)
 typedef MField<Color4ub> MFColor4ub;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<Color4ub>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, Color4ub, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -179,15 +131,7 @@ OSG_DLLEXPORT_DECL1(MField, Color4ub, OSG_BASE_DLLTMPLMAPPING)
 typedef MField<DynamicVolume> MFVolume;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<DynamicVolume>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, DynamicVolume, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -198,15 +142,7 @@ OSG_DLLEXPORT_DECL1(MField, DynamicVolume, OSG_BASE_DLLTMPLMAPPING)
 typedef MField<BitVector, 1>  MFBitVector;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<BitVector>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL2(MField, BitVector, 1, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -217,15 +153,7 @@ OSG_DLLEXPORT_DECL2(MField, BitVector, 1, OSG_BASE_DLLTMPLMAPPING)
 typedef MField<Plane> MFPlane;
 
 #ifndef OSG_COMPILEFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<Plane>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, Plane, OSG_BASE_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

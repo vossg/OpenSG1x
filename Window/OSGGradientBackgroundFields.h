@@ -96,19 +96,11 @@ struct FieldDataTraits<GradientBackgroundPtr> :
 typedef MField<GradientBackgroundPtr> MFGradientBackgroundPtr;
 
 #ifndef OSG_COMPILEGRADIENTBACKGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<GradientBackgroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, GradientBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundFields.h,v 1.12 2001/11/30 11:48:20 vossg Exp $"
+#define OSGGRADIENTBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundFields.h,v 1.13 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGGRADIENTBACKGROUNDFIELDS_H_ */

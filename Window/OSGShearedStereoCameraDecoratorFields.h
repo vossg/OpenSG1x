@@ -97,15 +97,7 @@ struct FieldDataTraits<ShearedStereoCameraDecoratorPtr> :
 typedef SField<ShearedStereoCameraDecoratorPtr> SFShearedStereoCameraDecoratorPtr;
 
 #ifndef OSG_COMPILESHEAREDSTEREOCAMERADECORATORINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<ShearedStereoCameraDecoratorPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFShearedStereoCameraDecoratorPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTM
 typedef MField<ShearedStereoCameraDecoratorPtr> MFShearedStereoCameraDecoratorPtr;
 
 #ifndef OSG_COMPILESHEAREDSTEREOCAMERADECORATORINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<ShearedStereoCameraDecoratorPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHEAREDSTEREOCAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGShearedStereoCameraDecoratorFields.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSHEAREDSTEREOCAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGShearedStereoCameraDecoratorFields.h,v 1.2 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGSHEAREDSTEREOCAMERADECORATORFIELDS_H_ */

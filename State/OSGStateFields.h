@@ -97,15 +97,7 @@ struct FieldDataTraits<StatePtr> :
 typedef SField<StatePtr> SFStatePtr;
 
 #ifndef OSG_COMPILESTATEINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<StatePtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFStatePtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<StatePtr> MFStatePtr;
 
 #ifndef OSG_COMPILESTATEINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<StatePtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEFIELDS_HEADER_CVSID "@(#)$Id: OSGStateFields.h,v 1.11 2001/11/30 11:48:20 vossg Exp $"
+#define OSGSTATEFIELDS_HEADER_CVSID "@(#)$Id: OSGStateFields.h,v 1.12 2002/05/24 09:48:39 vossg Exp $"
 
 #endif /* _OSGSTATEFIELDS_H_ */

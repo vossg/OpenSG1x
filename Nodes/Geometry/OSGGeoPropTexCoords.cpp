@@ -83,15 +83,9 @@ FieldDescription *GeoTexCoords3fPropertyDesc::_desc[] =
 #endif
 };
 
+OSG_GEO_PROP_TYPE_TMPL_DEF(GeoProperty, GeoPropertyDesc, PtrType)
+
 OSG_BEGIN_NAMESPACE
-
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate GeoProperty        <GeoTexCoords2fPropertyDesc>::_type
-
-#pragma instantiate GeoProperty        <GeoTexCoords3fPropertyDesc>::_type
-
-#else
 
 OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty,
                            GeoTexCoords2fPropertyDesc, 
@@ -100,7 +94,5 @@ OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty,
 OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty,
                            GeoTexCoords3fPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE

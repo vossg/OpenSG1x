@@ -97,15 +97,7 @@ struct FieldDataTraits<GroupPtr> :
 typedef SField<GroupPtr> SFGroupPtr;
 
 #ifndef OSG_COMPILEGROUPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GroupPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFGroupPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<GroupPtr> MFGroupPtr;
 
 #ifndef OSG_COMPILEGROUPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<GroupPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGGroupFields.h,v 1.12 2001/11/30 11:48:20 vossg Exp $"
+#define OSGGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGGroupFields.h,v 1.13 2002/05/24 09:48:38 vossg Exp $"
 
 #endif /* _OSGGROUPFIELDS_H_ */

@@ -95,17 +95,9 @@ struct GeoColors3fPropertyDesc
 typedef GeoProperty<GeoColors3fPropertyDesc> GeoColors3f;
 
 #ifndef OSG_COMPILEGEOPROPCOLORINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoColors3fPropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoColors3fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -158,17 +150,9 @@ struct GeoColors4fPropertyDesc
 typedef GeoProperty<GeoColors4fPropertyDesc> GeoColors4f;
 
 #ifndef OSG_COMPILEGEOPROPCOLORINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoColors4fPropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoColors4fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 /*! \brief GeoColors3ubPropertyDesc
@@ -220,17 +204,9 @@ struct GeoColors3ubPropertyDesc
 typedef GeoProperty<GeoColors3ubPropertyDesc> GeoColors3ub;
 
 #ifndef OSG_COMPILEGEOPROPCOLORINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoColors3ubPropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoColors3ubPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 /*! \brief GeoColors4ubPropertyDesc
@@ -282,17 +258,9 @@ struct GeoColors4ubPropertyDesc
 typedef GeoProperty<GeoColors4ubPropertyDesc> GeoColors4ub;
 
 #ifndef OSG_COMPILEGEOPROPCOLORINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoColors4ubPropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoColors4ubPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

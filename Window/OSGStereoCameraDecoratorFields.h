@@ -97,15 +97,7 @@ struct FieldDataTraits<StereoCameraDecoratorPtr> :
 typedef SField<StereoCameraDecoratorPtr> SFStereoCameraDecoratorPtr;
 
 #ifndef OSG_COMPILESTEREOCAMERADECORATORINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<StereoCameraDecoratorPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, StereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFStereoCameraDecoratorPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, StereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPI
 typedef MField<StereoCameraDecoratorPtr> MFStereoCameraDecoratorPtr;
 
 #ifndef OSG_COMPILESTEREOCAMERADECORATORINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<StereoCameraDecoratorPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, StereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSTEREOCAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGStereoCameraDecoratorFields.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSTEREOCAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGStereoCameraDecoratorFields.h,v 1.2 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGSTEREOCAMERADECORATORFIELDS_H_ */

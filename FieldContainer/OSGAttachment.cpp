@@ -69,18 +69,15 @@ FieldDescription *NameAttachmentDesc::_desc[] =
 
 #endif
 
+OSG_FC_TYPE_FUNCTIONS_INL_TMPL_DEF(NameAttachmentDesc,
+                                   SimpleAttachment)
+
 OSG_BEGIN_NAMESPACE
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SimpleAttachment<NameAttachmentDesc>::_type
-
-#else
 #ifndef CRASH_GCC_31
 OSG_FC_DLLEXPORT_DEF      (SimpleAttachment,
                            NameAttachmentDesc,
                            OSG_SYSTEMLIB_DLLTMPLMAPPING);
-#endif
 #endif
 
 OSG_END_NAMESPACE

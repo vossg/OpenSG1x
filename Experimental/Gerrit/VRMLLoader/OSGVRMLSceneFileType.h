@@ -42,6 +42,7 @@
 #pragma once
 #endif
 
+#include <OSGVRMLBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGSceneFileType.h>
 
@@ -53,7 +54,7 @@ class VRMLToOSGAction;
 //! VRML97 SceneFileType
 //! \ingroup GeometryLoaderLib
 
-class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
+class OSG_VRML_DLLMAPPING VRMLSceneFileType : public SceneFileType
 {
     /*==========================  PUBLIC  =================================*/
   public:

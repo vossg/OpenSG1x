@@ -1019,16 +1019,19 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
 #define OSG_FIELD_CONTAINER_INL_TMPL_DEF(OSG_CLASS,                  \
                                          OSG_TMPL_PARAM,             \
                                          OSG_CLASS_PTR)              \
-    OSG_FC_TYPE_FUNCTIONS_INL_TMPL_DEF  (OSG_TMPL_PARAM, OSG_CLASS)  \
     OSG_FC_SIZE_FUNCTIONS_INL_TMPL_DEF  (OSG_TMPL_PARAM, OSG_CLASS)  \
     OSG_FC_CREATE_FUNCTIONS_INL_TMPL_DEF(OSG_TMPL_PARAM,             \
                                          OSG_CLASS,                  \
                                          OSG_CLASS_PTR)
 
+#if 0
+    OSG_FC_TYPE_FUNCTIONS_INL_TMPL_DEF  (OSG_TMPL_PARAM, OSG_CLASS)  
+    OSG_FC_ST_TYPE_FUNCTIONS_INL_TMPL_DEF  (OSG_TMPL_PARAM, OSG_CLASS)  
+#endif
+
 #define OSG_FIELD_CONTAINER_ST_INL_TMPL_DEF(OSG_CLASS,                  \
                                             OSG_TMPL_PARAM,             \
                                             OSG_CLASS_PTR)              \
-    OSG_FC_ST_TYPE_FUNCTIONS_INL_TMPL_DEF  (OSG_TMPL_PARAM, OSG_CLASS)  \
     OSG_FC_SIZE_FUNCTIONS_INL_TMPL_DEF     (OSG_TMPL_PARAM, OSG_CLASS)  \
     OSG_FC_CREATE_FUNCTIONS_INL_TMPL_DEF   (OSG_TMPL_PARAM,             \
                                             OSG_CLASS,                  \

@@ -252,22 +252,15 @@ void StereoBufferViewportBase::executeSyncImpl(      StereoBufferViewportBase *p
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<StereoBufferViewportPtr>::_type("StereoBufferViewportPtr", "ViewportPtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<StereoBufferViewportPtr>::_fieldType
-#pragma instantiate MField<StereoBufferViewportPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(StereoBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StereoBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 
@@ -285,7 +278,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStereoBufferViewportBase.cpp,v 1.8 2002/05/21 11:50:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStereoBufferViewportBase.cpp,v 1.9 2002/05/24 09:48:40 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTEREOBUFFERVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTEREOBUFFERVIEWPORTBASE_INLINE_CVSID;
 

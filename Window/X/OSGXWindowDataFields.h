@@ -159,18 +159,6 @@ typedef MField<GLXContext> MFGLXContext;
 // Instantiations
 
 #ifndef OSG_COMPILEWINDOWXINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<DisplayP>  ::_fieldType
-#pragma do_not_instantiate SField<X11Window> ::_fieldType
-#pragma do_not_instantiate SField<GLXContext>::_fieldType
-
-#pragma do_not_instantiate MField<DisplayP>  ::_fieldType
-#pragma do_not_instantiate MField<X11Window> ::_fieldType
-#pragma do_not_instantiate MField<GLXContext>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DECL1(SField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DECL1(SField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
@@ -178,12 +166,10 @@ OSG_DLLEXPORT_DECL1(SField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DECL1(MField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DECL1(MField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DECL1(MField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowDataFields.h,v 1.4 2002/02/22 16:46:47 neumannc Exp $"
+#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowDataFields.h,v 1.5 2002/05/24 09:48:41 vossg Exp $"
 
 #endif /* _OSGXWINDOWDATAFIELDS_H_ */

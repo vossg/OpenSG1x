@@ -97,15 +97,7 @@ struct FieldDataTraits<SimpleTexturedMaterialPtr> :
 typedef SField<SimpleTexturedMaterialPtr> SFSimpleTexturedMaterialPtr;
 
 #ifndef OSG_COMPILESIMPLETEXTUREDMATERIALINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<SimpleTexturedMaterialPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFSimpleTexturedMaterialPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPP
 typedef MField<SimpleTexturedMaterialPtr> MFSimpleTexturedMaterialPtr;
 
 #ifndef OSG_COMPILESIMPLETEXTUREDMATERIALINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<SimpleTexturedMaterialPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialFields.h,v 1.4 2001/11/30 11:48:19 vossg Exp $"
+#define OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialFields.h,v 1.5 2002/05/24 09:48:37 vossg Exp $"
 
 #endif /* _OSGSIMPLETEXTUREDMATERIALFIELDS_H_ */

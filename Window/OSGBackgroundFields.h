@@ -97,15 +97,7 @@ struct FieldDataTraits<BackgroundPtr> :
 typedef SField<BackgroundPtr> SFBackgroundPtr;
 
 #ifndef OSG_COMPILEBACKGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<BackgroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFBackgroundPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<BackgroundPtr> MFBackgroundPtr;
 
 #ifndef OSG_COMPILEBACKGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<BackgroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGBackgroundFields.h,v 1.13 2001/11/30 11:48:20 vossg Exp $"
+#define OSGBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGBackgroundFields.h,v 1.14 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGBACKGROUNDFIELDS_H_ */

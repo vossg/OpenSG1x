@@ -261,15 +261,7 @@ OSG_BEGIN_NAMESPACE
 DataType FieldDataTraits<StatCollector>::_type("StatCollector", 
         "None");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<StatCollector>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(StatCollector, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 

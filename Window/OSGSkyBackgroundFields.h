@@ -96,19 +96,11 @@ struct FieldDataTraits<SkyBackgroundPtr> :
 typedef MField<SkyBackgroundPtr> MFSkyBackgroundPtr;
 
 #ifndef OSG_COMPILESKYBACKGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<SkyBackgroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, SkyBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundFields.h,v 1.1 2002/01/08 23:33:36 dirk Exp $"
+#define OSGSKYBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundFields.h,v 1.2 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGSKYBACKGROUNDFIELDS_H_ */

@@ -356,18 +356,9 @@ typedef FCPtr           <AttachmentPtr,  Name> NamePtr;
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 #ifndef OSG_COMPILEATTACHMENTINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SimpleAttachment<NameAttachmentDesc>::_type
-//#pragma do_not_instantiate SimpleAttachment<NameAttachmentDesc>::_desc
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(SimpleAttachment, 
                       NameAttachmentDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */

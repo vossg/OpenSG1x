@@ -252,22 +252,15 @@ void InlineBase::executeSyncImpl(      InlineBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<InlinePtr>::_type("InlinePtr", "NodeCorePtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<InlinePtr>::_fieldType
-#pragma instantiate MField<InlinePtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 

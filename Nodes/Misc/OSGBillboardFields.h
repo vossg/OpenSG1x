@@ -97,15 +97,7 @@ struct FieldDataTraits<BillboardPtr> :
 typedef SField<BillboardPtr> SFBillboardPtr;
 
 #ifndef OSG_COMPILEBILLBOARDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<BillboardPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFBillboardPtr
@@ -114,15 +106,7 @@ OSG_DLLEXPORT_DECL1(SField, BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<BillboardPtr> MFBillboardPtr;
 
 #ifndef OSG_COMPILEBILLBOARDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<BillboardPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

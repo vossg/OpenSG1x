@@ -104,13 +104,6 @@ typedef MField<VRMLNodeAttachmentMap> MFVRMLNodeAttachmentMap;
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 #ifndef OSG_COMPILEVRMLNODEATTMAPINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SFVRMLNodeAttachmentMap::_fieldType
-#pragma do_not_instantiate MFVRMLNodeAttachmentMap::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, 
                     VRMLNodeAttachmentMap, 
                     OSG_VRML_DLLTMPLMAPPING)
@@ -118,8 +111,6 @@ OSG_DLLEXPORT_DECL1(SField,
 OSG_DLLEXPORT_DECL1(MField, 
                     VRMLNodeAttachmentMap, 
                     OSG_VRML_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 #endif

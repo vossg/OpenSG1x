@@ -97,15 +97,7 @@ struct FieldDataTraits<TransformPtr> :
 typedef SField<TransformPtr> SFTransformPtr;
 
 #ifndef OSG_COMPILETRANSFORMINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<TransformPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFTransformPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<TransformPtr> MFTransformPtr;
 
 #ifndef OSG_COMPILETRANSFORMINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<TransformPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMFIELDS_HEADER_CVSID "@(#)$Id: OSGTransformFields.h,v 1.11 2001/11/30 11:48:20 vossg Exp $"
+#define OSGTRANSFORMFIELDS_HEADER_CVSID "@(#)$Id: OSGTransformFields.h,v 1.12 2002/05/24 09:48:39 vossg Exp $"
 
 #endif /* _OSGTRANSFORMFIELDS_H_ */

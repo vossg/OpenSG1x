@@ -64,13 +64,6 @@ OSG_USING_NAMESPACE
 DataType FieldDataTraits<VRMLNode *>::_type(
     "VRMLNodePtr", "ReflexiveContainerPtr");
 
-#if defined(__sgi)
-
-#pragma instantiate SFVRMLNode::_fieldType
-#pragma instantiate MFVRMLNode::_fieldType
-
-#else
-
 #if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (disable : 424)
 #endif
@@ -84,9 +77,6 @@ OSG_DLLEXPORT_MFIELD_DEF1(VRMLNode *,
 #if defined(WIN32) || defined(OSG_LINUX_ICC)
 #pragma warning (default : 424)
 #endif
-
-#endif
-
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

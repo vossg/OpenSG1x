@@ -97,15 +97,7 @@ struct FieldDataTraits<PerspectiveCameraPtr> :
 typedef SField<PerspectiveCameraPtr> SFPerspectiveCameraPtr;
 
 #ifndef OSG_COMPILEPERSPECTIVECAMERAINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<PerspectiveCameraPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFPerspectiveCameraPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<PerspectiveCameraPtr> MFPerspectiveCameraPtr;
 
 #ifndef OSG_COMPILEPERSPECTIVECAMERAINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<PerspectiveCameraPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraFields.h,v 1.12 2001/11/30 11:48:21 vossg Exp $"
+#define OSGPERSPECTIVECAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraFields.h,v 1.13 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGPERSPECTIVECAMERAFIELDS_H_ */

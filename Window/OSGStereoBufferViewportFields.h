@@ -97,15 +97,7 @@ struct FieldDataTraits<StereoBufferViewportPtr> :
 typedef SField<StereoBufferViewportPtr> SFStereoBufferViewportPtr;
 
 #ifndef OSG_COMPILESTEREOBUFFERVIEWPORTINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<StereoBufferViewportPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, StereoBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFStereoBufferViewportPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, StereoBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPIN
 typedef MField<StereoBufferViewportPtr> MFStereoBufferViewportPtr;
 
 #ifndef OSG_COMPILESTEREOBUFFERVIEWPORTINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<StereoBufferViewportPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, StereoBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSTEREOBUFFERVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGStereoBufferViewportFields.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGSTEREOBUFFERVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGStereoBufferViewportFields.h,v 1.2 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGSTEREOBUFFERVIEWPORTFIELDS_H_ */

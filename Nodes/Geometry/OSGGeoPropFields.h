@@ -76,15 +76,7 @@ struct FieldDataTraits<GeoPositionsPtr> :
 typedef SField<GeoPositionsPtr> SFGeoPositionsPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GeoPositionsPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, GeoPositionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -108,15 +100,7 @@ struct FieldDataTraits<GeoNormalsPtr> :
 typedef SField<GeoNormalsPtr> SFGeoNormalsPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GeoNormalsPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, GeoNormalsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -139,15 +123,7 @@ struct FieldDataTraits<GeoColorsPtr> :
 typedef SField<GeoColorsPtr> SFGeoColorsPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GeoColorsPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, GeoColorsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -171,15 +147,7 @@ struct FieldDataTraits<GeoTexCoordsPtr> :
 typedef SField<GeoTexCoordsPtr> SFGeoTexCoordsPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GeoTexCoordsPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -202,15 +170,7 @@ struct FieldDataTraits<GeoIndicesPtr> :
 typedef SField<GeoIndicesPtr> SFGeoIndicesPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GeoIndicesPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, GeoIndicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -234,15 +194,7 @@ struct FieldDataTraits<GeoPTypesPtr> :
 typedef SField<GeoPTypesPtr> SFGeoPTypesPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GeoPTypesPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, GeoPTypesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 
@@ -265,15 +217,7 @@ struct FieldDataTraits<GeoPLengthsPtr> :
 typedef SField<GeoPLengthsPtr> SFGeoPLengthsPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GeoPLengthsPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, GeoPLengthsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

@@ -186,15 +186,7 @@ struct FieldDataTraits<StatCollector> :
 typedef SField<StatCollector> SFStatCollector;
 
 #ifndef OSG_COMPILESTATCOLLECTORINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<StatCollector>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, StatCollector, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 

@@ -283,22 +283,15 @@ void BillboardBase::executeSyncImpl(      BillboardBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<BillboardPtr>::_type("BillboardPtr", "NodeCorePtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<BillboardPtr>::_fieldType
-#pragma instantiate MField<BillboardPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 

@@ -407,22 +407,15 @@ void ProjectionCameraDecoratorBase::executeSyncImpl(      ProjectionCameraDecora
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<ProjectionCameraDecoratorPtr>::_type("ProjectionCameraDecoratorPtr", "StereoCameraDecoratorPtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<ProjectionCameraDecoratorPtr>::_fieldType
-#pragma instantiate MField<ProjectionCameraDecoratorPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 
@@ -440,7 +433,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGProjectionCameraDecoratorBase.cpp,v 1.8 2002/05/21 11:50:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGProjectionCameraDecoratorBase.cpp,v 1.9 2002/05/24 09:48:40 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROJECTIONCAMERADECORATORBASE_INLINE_CVSID;
 

@@ -61,11 +61,6 @@ OSG_BEGIN_NAMESPACE
 typedef SField<NodeCorePtr>       SFNodeCorePtr;
 
 #ifndef OSG_COMPILECONTAINERFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<NodeCorePtr>::_fieldType
-
-#else
 
 #ifdef OSG_LINUX_ICC
 #pragma warning( disable : 444 )
@@ -77,7 +72,6 @@ OSG_DLLEXPORT_DECL1(SField, NodeCorePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #pragma warning( default : 444 )
 #endif
 
-#endif
 #endif
 
 OSG_END_NAMESPACE

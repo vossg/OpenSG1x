@@ -93,21 +93,12 @@ typedef MField<OSGQGLWidgetP> MFOSGQGLWidgetP;
 // Instantiations
 
 #ifndef OSG_COMPILEWINDOWQTINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<OSGQGLWidgetP>::_fieldType
-#pragma do_not_instantiate MField<OSGQGLWidgetP>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DECL1(MField, OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGQTWINDOWDATAFIELDS_HEADER_CVSID "@(#)$Id: OSGQTWindowDataFields.h,v 1.3 2002/02/22 16:46:46 neumannc Exp $"
+#define OSGQTWINDOWDATAFIELDS_HEADER_CVSID "@(#)$Id: OSGQTWindowDataFields.h,v 1.4 2002/05/24 09:48:41 vossg Exp $"
 
 #endif /* _OSGQTWINDOWDATAFIELDS_H_ */

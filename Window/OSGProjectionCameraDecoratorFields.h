@@ -97,15 +97,7 @@ struct FieldDataTraits<ProjectionCameraDecoratorPtr> :
 typedef SField<ProjectionCameraDecoratorPtr> SFProjectionCameraDecoratorPtr;
 
 #ifndef OSG_COMPILEPROJECTIONCAMERADECORATORINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<ProjectionCameraDecoratorPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFProjectionCameraDecoratorPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLM
 typedef MField<ProjectionCameraDecoratorPtr> MFProjectionCameraDecoratorPtr;
 
 #ifndef OSG_COMPILEPROJECTIONCAMERADECORATORINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<ProjectionCameraDecoratorPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGPROJECTIONCAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGProjectionCameraDecoratorFields.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGPROJECTIONCAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGProjectionCameraDecoratorFields.h,v 1.2 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGPROJECTIONCAMERADECORATORFIELDS_H_ */

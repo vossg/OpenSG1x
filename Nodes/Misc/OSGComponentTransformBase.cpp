@@ -345,22 +345,15 @@ void ComponentTransformBase::executeSyncImpl(      ComponentTransformBase *pOthe
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<ComponentTransformPtr>::_type("ComponentTransformPtr", "TransformPtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<ComponentTransformPtr>::_fieldType
-#pragma instantiate MField<ComponentTransformPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 
@@ -378,7 +371,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.15 2002/05/21 11:50:15 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.16 2002/05/24 09:48:38 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID;
 

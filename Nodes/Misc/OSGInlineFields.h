@@ -97,15 +97,7 @@ struct FieldDataTraits<InlinePtr> :
 typedef SField<InlinePtr> SFInlinePtr;
 
 #ifndef OSG_COMPILEINLINEINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<InlinePtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFInlinePtr
@@ -114,15 +106,7 @@ OSG_DLLEXPORT_DECL1(SField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<InlinePtr> MFInlinePtr;
 
 #ifndef OSG_COMPILEINLINEINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<InlinePtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

@@ -108,83 +108,6 @@ DataType FieldDataTraits<Quaternion>::_type("Quaternion", "BaseType");
 
 DataType FieldDataTraits<Plane>::_type("Plane", "BaseType");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<bool,2>::_fieldType
-#pragma instantiate SField< Int8 >::_fieldType
-#pragma instantiate SField<UInt8 >::_fieldType
-#pragma instantiate SField< Int16>::_fieldType
-#pragma instantiate SField<UInt16>::_fieldType
-#pragma instantiate SField< Int32>::_fieldType
-#pragma instantiate SField<UInt32>::_fieldType
-#pragma instantiate SField< Int64>::_fieldType
-#pragma instantiate SField<UInt64>::_fieldType
-#pragma instantiate SField<Real32>::_fieldType
-#pragma instantiate SField<Real64>::_fieldType
-
-#pragma instantiate MField<bool,2>::_fieldType
-#pragma instantiate MField< Int8 >::_fieldType
-#pragma instantiate MField<UInt8 >::_fieldType
-#pragma instantiate MField< Int16>::_fieldType
-#pragma instantiate MField<UInt16>::_fieldType
-#pragma instantiate MField< Int32>::_fieldType
-#pragma instantiate MField<UInt32>::_fieldType
-#pragma instantiate MField< Int64>::_fieldType
-#pragma instantiate MField<UInt64>::_fieldType
-#pragma instantiate MField<Real32>::_fieldType
-#pragma instantiate MField<Real64>::_fieldType
-
-#pragma instantiate SField<string       >::_fieldType
-#pragma instantiate SField<Time, 1      >::_fieldType
-#pragma instantiate SField<Color3f      >::_fieldType
-#pragma instantiate SField<Color4f      >::_fieldType
-#pragma instantiate SField<Color3ub     >::_fieldType
-#pragma instantiate SField<Color4ub     >::_fieldType
-#pragma instantiate SField<DynamicVolume>::_fieldType
-#pragma instantiate SField<BitVector, 1 >::_fieldType
-
-#pragma instantiate MField<string       >::_fieldType
-#pragma instantiate MField<Time, 1      >::_fieldType
-#pragma instantiate MField<Color3f      >::_fieldType
-#pragma instantiate MField<Color4f      >::_fieldType
-#pragma instantiate MField<Color3ub     >::_fieldType
-#pragma instantiate MField<Color4ub     >::_fieldType
-#pragma instantiate MField<DynamicVolume>::_fieldType
-#pragma instantiate MField<BitVector, 1 >::_fieldType
-
-#pragma instantiate SField<Vec2f>::_fieldType
-#pragma instantiate SField<Vec3f>::_fieldType
-#pragma instantiate SField<Vec4f>::_fieldType
-#pragma instantiate SField<Pnt2f>::_fieldType
-#pragma instantiate SField<Pnt2d>::_fieldType
-#pragma instantiate SField<Pnt3f>::_fieldType
-#pragma instantiate SField<Pnt3d>::_fieldType
-#pragma instantiate SField<Pnt4f>::_fieldType
-#pragma instantiate SField<Pnt4d>::_fieldType
-
-#pragma instantiate MField<Vec2f>::_fieldType
-#pragma instantiate MField<Vec3f>::_fieldType
-#pragma instantiate MField<Vec4f>::_fieldType
-#pragma instantiate MField<Pnt2f>::_fieldType
-#pragma instantiate MField<Pnt2d>::_fieldType
-#pragma instantiate MField<Pnt3f>::_fieldType
-#pragma instantiate MField<Pnt3d>::_fieldType
-#pragma instantiate MField<Pnt4f>::_fieldType
-#pragma instantiate MField<Pnt4d>::_fieldType
-
-#pragma instantiate MField<Vec4ub>::_fieldType
-
-#pragma instantiate SField<Matrix    >::_fieldType
-#pragma instantiate SField<Quaternion>::_fieldType
-
-#pragma instantiate MField<Matrix    >::_fieldType
-#pragma instantiate MField<Quaternion>::_fieldType
-
-#pragma instantiate SField<Plane>::_fieldType
-#pragma instantiate MField<Plane>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF2(bool  , 2, OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1( Int8 , OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(UInt8 , OSG_BASE_DLLTMPLMAPPING);
@@ -259,15 +182,10 @@ OSG_DLLEXPORT_MFIELD_DEF1(Quaternion, OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(Plane,       OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(Plane,       OSG_BASE_DLLTMPLMAPPING);
 
-#endif
-
 OSG_END_NAMESPACE
 
 
 OSG_USING_NAMESPACE
-
-//template const FieldType MField<Quaternion>::_fieldType;
-///template const FieldType &MField<Quaternion>::getClassType(void);
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

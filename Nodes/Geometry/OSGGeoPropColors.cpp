@@ -115,16 +115,9 @@ FieldDescription *GeoColors4ubPropertyDesc::_desc[] =
 #endif
 };
 
+OSG_GEO_PROP_TYPE_TMPL_DEF(GeoProperty, GeoPropertyDesc, PtrType)
+
 OSG_BEGIN_NAMESPACE
-
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate GeoProperty        <GeoColors3fPropertyDesc   >::_type
-#pragma instantiate GeoProperty        <GeoColors4fPropertyDesc   >::_type
-#pragma instantiate GeoProperty        <GeoColors3ubPropertyDesc  >::_type
-#pragma instantiate GeoProperty        <GeoColors4ubPropertyDesc  >::_type
-
-#else
 
 OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
                            GeoColors3fPropertyDesc, 
@@ -141,7 +134,5 @@ OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
 OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
                            GeoColors4ubPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE

@@ -79,26 +79,13 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef OSG_SGI_EXPLICIT_INSTANTIATION
-#pragma instantiate DynFieldAttachment<GenericAttDesc>::_type
-#else
-template <>
-FieldContainerType DynFieldAttachment<GenericAttDesc>::_type(
-    GenericAttDesc::getTypeName(),
-    GenericAttDesc::getParentTypeName(),
-    GenericAttDesc::getGroupName(),
-    (PrototypeCreateF) &DynFieldAttachment<GenericAttDesc>::createEmpty,
-    NULL,
-    NULL,
-    0,
-    true);
+OSG_FC_ST_TYPE_FUNCTIONS_INL_TMPL_DEF(GenericAttDesc,
+                                      DynFieldAttachment)
+                           
 
-/*
-OSG_ABSTR_FC_DLLEXPORT_DEF(DynFieldAttachment, 
-                           GenericAttDesc, 
-                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
-                           */
-#endif
+OSG_DYNFIELD_FC_DLLEXPORT_DEF(DynFieldAttachment, 
+                              GenericAttDesc, 
+                              OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
 #pragma warning (disable : 383)

@@ -1536,16 +1536,7 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<ImageP>::  _type("ImageP", NULL);
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#   pragma instantiate SField < ImageP >::_fieldType
-#   pragma instantiate MField < ImageP >::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(ImageP, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ImageP, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE

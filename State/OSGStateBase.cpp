@@ -221,22 +221,15 @@ void StateBase::executeSyncImpl(      StateBase *pOther,
 }
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<StatePtr>::_type("StatePtr", "FieldContainerPtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<StatePtr>::_fieldType
-#pragma instantiate MField<StatePtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 
@@ -254,7 +247,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.29 2002/05/21 11:50:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.30 2002/05/24 09:48:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATEBASE_INLINE_CVSID;
 

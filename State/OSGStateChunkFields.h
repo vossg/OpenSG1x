@@ -97,15 +97,7 @@ struct FieldDataTraits<StateChunkPtr> :
 typedef SField<StateChunkPtr> SFStateChunkPtr;
 
 #ifndef OSG_COMPILESTATECHUNKINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<StateChunkPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFStateChunkPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<StateChunkPtr> MFStateChunkPtr;
 
 #ifndef OSG_COMPILESTATECHUNKINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<StateChunkPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGStateChunkFields.h,v 1.12 2001/11/30 11:48:20 vossg Exp $"
+#define OSGSTATECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGStateChunkFields.h,v 1.13 2002/05/24 09:48:39 vossg Exp $"
 
 #endif /* _OSGSTATECHUNKFIELDS_H_ */

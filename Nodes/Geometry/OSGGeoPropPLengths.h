@@ -97,17 +97,9 @@ typedef GeoProperty<GeoPLengthsUI32PropertyDesc> GeoPLengthsUI32;
 
 
 #ifndef OSG_COMPILEGEOPROPPLENGTHINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate GeoProperty<GeoPLengthsUI32PropertyDesc>::_type
-
-#else
-
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoPLengthsUI32PropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

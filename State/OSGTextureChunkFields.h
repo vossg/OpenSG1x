@@ -97,15 +97,7 @@ struct FieldDataTraits<TextureChunkPtr> :
 typedef SField<TextureChunkPtr> SFTextureChunkPtr;
 
 #ifndef OSG_COMPILETEXTURECHUNKINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<TextureChunkPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFTextureChunkPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<TextureChunkPtr> MFTextureChunkPtr;
 
 #ifndef OSG_COMPILETEXTURECHUNKINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<TextureChunkPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTextureChunkFields.h,v 1.10 2002/01/09 10:18:27 dirk Exp $"
+#define OSGTEXTURECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTextureChunkFields.h,v 1.11 2002/05/24 09:48:39 vossg Exp $"
 
 #endif /* _OSGTEXTURECHUNKFIELDS_H_ */

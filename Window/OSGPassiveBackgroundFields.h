@@ -95,15 +95,7 @@ struct FieldDataTraits<PassiveBackgroundPtr> :
 typedef SField<PassiveBackgroundPtr> SFPassiveBackgroundPtr;
 
 #ifndef OSG_COMPILEPASSIVEBACKGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<PassiveBackgroundPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, PassiveBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE

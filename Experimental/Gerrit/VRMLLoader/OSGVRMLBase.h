@@ -53,7 +53,7 @@
 //---------------------------------------------------------------------------
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILESYSTEMLIB
+#   ifdef OSG_COMPILEWINDOWGLUTLIB
 #       define OSG_VRML_DLLMAPPING     __declspec(dllexport)
 #       define OSG_VRML_DLLTMPLMAPPING __declspec(dllexport)
 #   else

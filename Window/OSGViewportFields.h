@@ -97,15 +97,7 @@ struct FieldDataTraits<ViewportPtr> :
 typedef SField<ViewportPtr> SFViewportPtr;
 
 #ifndef OSG_COMPILEVIEWPORTINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<ViewportPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFViewportPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<ViewportPtr> MFViewportPtr;
 
 #ifndef OSG_COMPILEVIEWPORTINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<ViewportPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGViewportFields.h,v 1.13 2001/11/30 11:48:21 vossg Exp $"
+#define OSGVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGViewportFields.h,v 1.14 2002/05/24 09:48:40 vossg Exp $"
 
 #endif /* _OSGVIEWPORTFIELDS_H_ */

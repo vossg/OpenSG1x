@@ -350,22 +350,15 @@ void CameraBase::setFar(const Real32 &value)
 
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<CameraPtr>::_type("CameraPtr", "AttachmentContainerPtr");
 
-#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
-
-#pragma instantiate SField<CameraPtr>::_fieldType
-#pragma instantiate MField<CameraPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_SFIELD_DEF1(CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-#endif
 
 OSG_END_NAMESPACE
 
@@ -383,7 +376,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.33 2002/05/21 11:50:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.34 2002/05/24 09:48:40 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCAMERABASE_INLINE_CVSID;
 
