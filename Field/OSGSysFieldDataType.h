@@ -115,7 +115,7 @@ struct FieldDataTraits<Bool> : public Traits
             return false;
         }
         
-        return true;
+        return outVal;
     }
 
     static void             putToString(const Bool   &,
