@@ -130,6 +130,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     void mouseButtonPress(UInt16 button, Int16 x, Int16 y);
     void mouseButtonRelease(UInt16 button, Int16 x, Int16 y);
 
+    Line calcViewRay(Int16 x, Int16 y);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Actions                                  */
@@ -209,6 +211,6 @@ OSG_END_NAMESPACE
 
 #include "OSGSimpleSceneManager.inl"
 
-#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.6 2001/10/11 23:51:52 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.7 2001/10/16 13:22:25 dirk Exp $"
 
 #endif /* _OSGSIMPLESCENEMANAGER_H_ */

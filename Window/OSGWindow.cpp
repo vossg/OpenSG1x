@@ -611,6 +611,7 @@ void Window::setupGL ( void )
     glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
     glPixelStorei( GL_PACK_ALIGNMENT, 1 );
     
+    glDepthFunc( GL_LEQUAL );
     glEnable( GL_DEPTH_TEST );
 }
 

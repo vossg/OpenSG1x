@@ -161,7 +161,7 @@ SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.11 2001/10/15 09:16:05 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.12 2001/10/16 13:22:24 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
@@ -476,7 +476,9 @@ void SimpleSceneManager::updateHighlight(void)
     _highlightPoints->setValue(Pnt3f(min[0], max[1], max[2]), 6);
     _highlightPoints->setValue(Pnt3f(max[0], max[1], max[2]), 7);
     endEditCP(_highlightPoints);
-
+    
+    beginEditCP(_highlightNode->getCore(), Geometry::PositionsFieldMask);
+    endEditCP  (_highlightNode->getCore(), Geometry::PositionsFieldMask);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -559,6 +561,20 @@ void SimpleSceneManager::mouseButtonRelease(UInt16 button, Int16 x, Int16 y)
     _mousebuttons &= ~(1 << button);
     _lastx = x;
     _lasty = y;
+}
+
+
+/*! Calculate a ray that starts at the eye and goes through the position on the
+    screen given by x,y.
+ */
+
+Line SimpleSceneManager::calcViewRay(Int16 x, Int16 y)
+{
+    Line l;
+    
+    _camera->calcViewRay( l, x, y, *_win->getPort().getValue(0) );
+    
+    return l;
 }
 
 /*------------------------------ access -----------------------------------*/
