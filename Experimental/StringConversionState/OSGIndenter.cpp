@@ -58,8 +58,15 @@ OSG_USING_NAMESPACE
 
 /*! Constructor documentation
  */
+
 Indenter::Indenter(UInt32 indent, UInt32 step) :
     _indent(indent), _step(step)
+{
+}
+
+Indenter::Indenter(const Indenter &source) :
+    _indent(source._indent), 
+    _step  (source._step  )
 {
 }
 
@@ -112,7 +119,7 @@ bool Indenter::operator < (const Indenter &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGIndenter.cpp,v 1.4 2002/05/02 08:58:13 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGIndenter.cpp,v 1.5 2002/05/02 10:16:51 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGINDENTER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGINDENTER_INLINE_CVSID;
 }
