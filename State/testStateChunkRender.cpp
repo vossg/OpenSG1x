@@ -116,6 +116,15 @@ int main( int argc, char *argv[] )
 	
 	glutIdleFunc(display);
 	
+	// create the dummy structures
+	
+	// the window is needed for the chunks that access GLObjects
+	
+	win = GLUTWindow::create();
+	
+	dact = DrawAction::create();
+	dact->setWindow( win.getCPtr() );
+	
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
 	gluPerspective( 60, 1, 0.1, 10 );
@@ -185,6 +194,7 @@ int main( int argc, char *argv[] )
 		image.read( argv[1] );
 	
 	xchunk1 = TextureChunk::create();
+    beginEditCP(xchunk1);
 	xchunk1->setImage( &image );
 	xchunk1->setMinFilter( GL_LINEAR_MIPMAP_LINEAR );
 	xchunk1->setMagFilter( GL_NEAREST );
@@ -192,6 +202,13 @@ int main( int argc, char *argv[] )
 	xchunk1->setWrapT( GL_REPEAT );
 	xchunk1->setEnvMode( GL_REPLACE );
 	xchunk1->setScale( false );
+    endEditCP(xchunk1);
+
+	xchunk1->imageContentChanged();
+ 
+    beginEditCP(xchunk1);
+	xchunk1->setImage( &image );
+    endEditCP(xchunk1);
 
 	// blend chunk
 
@@ -221,15 +238,6 @@ int main( int argc, char *argv[] )
 	for ( int i = 0; i < 32; i++ )
 		pchunk->getMFStipple()->push_back( stipple[i] );
 	}
-	
-	// create the dummy structures
-	
-	// the window is needed for the chunks that access GLObjects
-	
-	win = GLUTWindow::create();
-	
-	dact = DrawAction::create();
-	dact->setWindow( win.getCPtr() );
 	
 	glutMainLoop();
 
