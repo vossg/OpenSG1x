@@ -68,7 +68,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGGeoCubes.cpp,v 1.2 2002/06/28 12:53:43 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGGeoCubes.cpp,v 1.3 2002/09/02 11:48:34 vossg Exp $";
     static char cvsid_hpp[] = OSGGEOCUBES_HEADER_CVSID;
     static char cvsid_inl[] = OSGGEOCUBES_INLINE_CVSID;
 }
@@ -134,11 +134,11 @@ void GeoCubes::initMethod (void)
 
 void GeoCubes::changed(BitVector whichField, UInt32 from)
 {
-//  SLOG << "Geocubes::changed in..." << endl;
+//  SLOG << "Geocubes::changed in..." << std::endl;
   if (whichField & PositionFieldMask ||
       whichField & LengthFieldMask ||
       whichField & ColorFieldMask) {
-//      SLOG << "Geocubes::changed: need to retessellate " << endl;
+//      SLOG << "Geocubes::changed: need to retessellate " << std::endl;
       tessellate(); // we have to retessellate
   }
 
@@ -150,12 +150,13 @@ void GeoCubes::changed(BitVector whichField, UInt32 from)
 //! tessellate: generate the geometry
 void GeoCubes::tessellate(void)
 {
-//  SLOG << "tessellate called..." << endl;
+//  SLOG << "tessellate called..." << std::endl;
 
     if ( getMFPosition()->size() != getMFLength()->size() ||
          getMFPosition()->size() != getMFColor()->size() ) 
     {
-         SWARNING << "GeoCubes::tessellate: inconsistent attributes!" << endl;
+         SWARNING << "GeoCubes::tessellate: inconsistent attributes!" 
+                  << std::endl;
          return;
     }
 
@@ -197,8 +198,8 @@ void GeoCubes::tessellate(void)
         gpos->clear();
         for ( UInt32 i = 0; i < numcubes; i++ )
         {
-            Pnt3f p = pos->getValue( i );       
-            Real32 l = len->getValue( i ) / 2.f;
+            Pnt3f p  = (*pos)[i];       
+            Real32 l = (*len)[i] / 2.f;
             gpos->push_back( Pnt3f( p[0] - l, p[1] - l, p[2] - l ));
             gpos->push_back( Pnt3f( p[0] + l, p[1] - l, p[2] - l ));
             gpos->push_back( Pnt3f( p[0] + l, p[1] + l, p[2] - l ));
@@ -285,7 +286,7 @@ void GeoCubes::tessellate(void)
         for ( UInt32 i = 0; i < numcubes; i++ )
         { 
             for ( UInt32 j = 0; j < 24; j++ )
-                gcol->push_back( col->getValue(i) );
+                gcol->push_back( (*col)[i] );
         }
     endEditCP  ( gcol );
 
@@ -315,6 +316,6 @@ void GeoCubes::tessellate(void)
 void GeoCubes::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump GeoCubes NI" << endl;
+    SLOG << "Dump GeoCubes NI" << std::endl;
 }
 

@@ -86,7 +86,7 @@ A test node for directly rendering to OpenGL.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Cubes::cvsid[] = "@(#)$Id: OSGCubes.cpp,v 1.6 2002/06/28 12:50:31 dirk Exp $";
+char Cubes::cvsid[] = "@(#)$Id: OSGCubes.cpp,v 1.7 2002/09/02 11:48:33 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -174,7 +174,7 @@ void Cubes::changed(BitVector, UInt32)
 void Cubes::dump(      UInt32     uiIndent, 
                          const BitVector bvFlags) const
 {
-    SLOG << "Dump Cubes NI" << endl;
+    SLOG << "Dump Cubes NI" << std::endl;
 }
 
     
@@ -185,7 +185,7 @@ Action::ResultE Cubes::draw(Action * action )
     if ( getMFPosition()->size() != getMFLength()->size() ||
          getMFPosition()->size() != getMFColor()->size() )
     {
-        SWARNING << "Cubes::draw: inconsistent attributes!" << endl;
+        SWARNING << "Cubes::draw: inconsistent attributes!" << std::endl;
         return Action::Continue;
     }
 
@@ -205,10 +205,10 @@ Action::ResultE Cubes::draw(Action * action )
     // draw the cubes
     for ( UInt32 i = 0; i < pos->size(); i++ )
     {
-        glColor3fv( (GLfloat*) &col->getValue(i) );
+        glColor3fv( (GLfloat*) &((*col)[i]) );
         
-        Pnt3f p = pos->getValue( i );       
-        Real32 l = len->getValue( i ) / 2.f;
+        Pnt3f  p = (*pos)[i];       
+        Real32 l = (*len)[i] / 2.f;
         
         glNormal3f( 0, 0, -1 );
         glVertex3f( p[0] - l, p[1] - l, p[2] - l );
@@ -268,9 +268,9 @@ void Cubes::adjustVolume( Volume & volume )
     // go through all the cubes adjusting the volume
     for ( int i = 0; i < pos->size(); i++ )
     {
-        Pnt3f center = pos->getValue( i );
+        Pnt3f center = (*pos)[i];
         
-        Real32 l = len->getValue( i ) / 2;
+        Real32 l = (*len)[i] / 2;
         
         // create the corners of the cube
         for ( Int16 z = -1; z <= 1; z += 2 )

@@ -78,7 +78,7 @@ typedef FCPtr<GeometryPtr, GeoCubes> GeoCubesPtr;
 
 template <>
 struct FieldDataTraits<GeoCubesPtr> : 
-    public FieldTraitsRecurseMapper<GeoCubesPtr>
+    public FieldTraitsRecurseMapper<GeoCubesPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, GeoCubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGGEOCUBESFIELDS_HEADER_CVSID "@(#)$Id: OSGGeoCubesFields.h,v 1.2 2002/06/01 10:37:27 vossg Exp $"
+#define OSGGEOCUBESFIELDS_HEADER_CVSID "@(#)$Id: OSGGeoCubesFields.h,v 1.3 2002/09/02 11:48:34 vossg Exp $"
 
 #endif /* _OSGGEOCUBESFIELDS_H_ */

@@ -78,7 +78,7 @@ typedef FCPtr<NodeCorePtr, Cubes> CubesPtr;
 
 template <>
 struct FieldDataTraits<CubesPtr> : 
-    public FieldTraitsRecurseMapper<CubesPtr>
+    public FieldTraitsRecurseMapper<CubesPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, CubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGCUBESFIELDS_HEADER_CVSID "@(#)$Id: OSGCubesFields.h,v 1.7 2002/06/28 12:50:31 dirk Exp $"
+#define OSGCUBESFIELDS_HEADER_CVSID "@(#)$Id: OSGCubesFields.h,v 1.8 2002/09/02 11:48:33 vossg Exp $"
 
 #endif /* _OSGCUBESFIELDS_H_ */

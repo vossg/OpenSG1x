@@ -91,8 +91,8 @@ void OSGSceneView::init()
 {
   int i, n;
   QPopupMenu *menu;
-  list<const char *> suffixList;
-  list<const char *>::iterator sI;
+  std::list<const char *> suffixList;
+  std::list<const char *>::iterator sI;
 
   // init the class variables
   rootTreeItem = 0;
@@ -170,7 +170,7 @@ void OSGSceneView::setActiveNode( osg::NodePtr node )
   for (wI = viewList.begin(); wI != viewList.end(); ++wI)
     if ((w = dynamic_cast<osg::OSGQGLManagedWidget*>(*wI)))
       {
-				cerr << "update one manager" << endl;
+				std::cerr << "update one manager" << std::endl;
 				w->getManager().setHighlight(node);
 			}
    
@@ -461,7 +461,7 @@ void OSGSceneView::insertFromFile( osg::NodePtr parent )
 void OSGSceneView::exportToFile( osg::NodePtr node )
 {
   osg::BINWriter *writer;
-  ofstream outStream;
+  std::ofstream outStream;
   // shout we use the global filer ?!?
   QString filter = "OpenSG Binary Scene file (*.bin)";
   QString fName = QFileDialog::getSaveFileName ( QString::null,
@@ -472,7 +472,11 @@ void OSGSceneView::exportToFile( osg::NodePtr node )
   if (!fName.isEmpty())
     {
         FILE *outFile = fopen(fName.latin1(), "wb");
-cerr << "FN: " << fName.latin1() << " FILE " << outFile << endl;
+        std::cerr << "FN: " 
+                  << fName.latin1()
+                  << " FILE "
+                  << outFile 
+                  << std::endl;
 
         if (outFile!=NULL)
         {
