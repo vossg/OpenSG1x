@@ -536,6 +536,8 @@
 
 # define OSG_DLSYM_NEEDS_UNDERSCORE
 
+# define OSG_USE_STDMATH
+
 #define OSG_FOUND_OS
 
 # endif // if defined(darwin)
