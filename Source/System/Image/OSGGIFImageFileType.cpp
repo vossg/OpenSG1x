@@ -155,11 +155,12 @@ typedef struct
 } GIFStream;
 
 
-static GIFStream*   GIFRead(char *), *GIFReadFP(FILE *);
-static int      GIFTest(char *);
-static int      GIFWrite(char *, GIFStream *, int);
-static int      GIFWriteFP(FILE *, GIFStream *, int);
-static int      GIFFree (GIFStream *);
+static GIFStream *GIFRead   (char *);
+static GIFStream *GIFReadFP (FILE *);
+       int        GIFTest   (char *);
+       int        GIFWrite  (char *, GIFStream *, int);
+static int        GIFWriteFP(FILE *, GIFStream *, int);
+static int        GIFFree   (GIFStream *);
 
 #endif
 
@@ -557,7 +558,7 @@ static jmp_buf                  setjmp_buffer;
 static int    verbose = GIF_FALSE;
 //static int    showComment = GIF_FALSE;
 
-static int     GIFTest(char *file)
+int GIFTest(char *file)
 {
     FILE    *fd = fopen(file, "rb");
     char    buf[10];
@@ -1591,7 +1592,7 @@ static int GIFWriteFP(FILE *fp, GIFStream *stream, int optimize)
 #endif
 
 /* */
-static int GIFWrite(char *file, GIFStream *stream, int optimize)
+int GIFWrite(char *file, GIFStream *stream, int optimize)
 {
     if(stream != NULL)
     {

@@ -670,9 +670,6 @@ void OSG::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
     {
         Int32 tind = ti.getIndex();
         Vec3f faceNorm(faceNormals[tind]);
-        Int32 v0 = ti.getPositionIndex(0);
-        Int32 v1 = ti.getPositionIndex(1);
-        Int32 v2 = ti.getPositionIndex(2);
 
         if (faceNorm.squareLength() != 0.0)
         {

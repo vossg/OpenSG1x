@@ -415,12 +415,12 @@ ImageFileHandler::ImageFileHandler(void)
 /*!
 Invalid Copy Constructor
 */
-ImageFileHandler::ImageFileHandler(const ImageFileHandler &obj)
+ImageFileHandler::ImageFileHandler(const ImageFileHandler &)
 {
-  FFATAL (("Run Copy Constructor on Singleton ImageFileHandler !\n"));
-
-  _pPathHandler = NULL;
-  return;
+    FFATAL (("Run Copy Constructor on Singleton ImageFileHandler !\n"));
+    
+    _pPathHandler = NULL;
+    return;
 }
 
 //-------------------------------------------------------------------------

@@ -1209,11 +1209,11 @@ bool Image::hasAlphaChannel(void)
 Method returns the right frame data for the given time.
 
 */
-UChar8 *Image::getDataByTime (Time   time, UInt32 mipmapNum) const
+UChar8 *Image::getDataByTime(Time   time, UInt32) const
 {
-  UInt32 frameNum = calcFrameNum(time,true);
+  UInt32 frameNum = calcFrameNum(time, true);
   
-  return getData(0,frameNum);
+  return getData(0, frameNum);
 }
 
 //-------------------------------------------------------------------------
