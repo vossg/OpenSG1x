@@ -48,7 +48,7 @@
 #include <GL/gl.h>
 
 #include <OSGState.h>
-#include <OSGDrawAction.h>
+#include <OSGDrawActionBase.h>
 #include <OSGGeometry.h>
 
 #include "OSGChunkMaterial.h"
@@ -75,7 +75,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.17 2001/12/28 18:31:03 jbehr Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.18 2002/01/04 16:40:28 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -170,7 +170,7 @@ Bool ChunkMaterial::subChunk( StateChunkPtr chunk )
 
 
 
-void ChunkMaterial::draw( Geometry* geo, DrawAction * action )
+void ChunkMaterial::draw( Geometry* geo, DrawActionBase * action )
 {
     StatePtr state = makeState();
 
@@ -179,6 +179,21 @@ void ChunkMaterial::draw( Geometry* geo, DrawAction * action )
     state->activate( action );
 
     geo->draw( action );
+
+    state->deactivate( action );
+
+    subRefCP( state ); // kill it
+}
+
+void ChunkMaterial::draw( DrawFunctor& func, DrawActionBase * action )
+{
+    StatePtr state = makeState();
+
+    addRefCP( state );
+
+    state->activate( action );
+
+    func.call( action );
 
     state->deactivate( action );
 
@@ -223,7 +238,7 @@ Bool ChunkMaterial::isTransparent(void) const
     MFStateChunkPtr::const_iterator it        = _mfChunks.begin();
     MFStateChunkPtr::const_iterator chunksEnd = _mfChunks.end();
 
-    for (; (it != chunksEnd) && (returnValue == false); ++it)
+    for (; it != chunksEnd && returnValue == false; ++it)
     {
         returnValue = (*it)->isTransparent();
     }

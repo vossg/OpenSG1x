@@ -44,6 +44,8 @@
 #endif
 
 #include <OSGConfig.h>
+#include <OSGFunctors.h>
+#include <OSGAction.h>
 #include <OSGMaterialBase.h>
 #include <OSGState.h>
 
@@ -51,7 +53,7 @@ OSG_BEGIN_NAMESPACE
 
 
 class Geometry;
-class DrawAction;
+class DrawActionBase;
 
 
 //! Material class
@@ -88,18 +90,23 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
     /*! \name                   Rendering                                  */
     /*! \{                                                                 */
 
+    // TODO: switch geo to functor too, remove makeState, replace by rebuild
+    
+    typedef Functor1Base<Action::ResultE,DrawActionBase*> DrawFunctor;
+
+    virtual void       draw          (DrawFunctor& func,
+                                      DrawActionBase * action )= 0;
+
     virtual void       draw          (Geometry* geo,
-                                      DrawAction * action )= 0;
+                                      DrawActionBase * action )= 0;
 
+    virtual StatePtr   makeState     (void)                    = 0;
 
-    virtual StatePtr   makeState     (void)                = 0;
-
-
-    virtual void       rebuildState  (void)                = 0;
+    virtual void       rebuildState  (void)                    = 0;
 
             StatePtr   getState      (void);
 
-    virtual Bool       isTransparent (void) const          = 0;
+    virtual Bool       isTransparent (void) const              = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -117,6 +124,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
 
 
     StatePtr _pState;  // !!! TODO is that MT safe?
+    // Yes, but not efficient. Every material has as many States as there
+    // are aspects, each of which itself is threadsafe (i.e. multibuffered).
+    // A single State per Material would be better. I'm just not sure how to
+    // initialize it. :( DR
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

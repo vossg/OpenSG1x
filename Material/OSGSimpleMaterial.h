@@ -91,9 +91,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
     /*! \name                   Rendering                                  */
     /*! \{                                                                 */
 
-    virtual void       draw              (Geometry* geo,
-                                          DrawAction * action );
-
     virtual StatePtr   makeState         (void);
 
     virtual void       rebuildState      (void);

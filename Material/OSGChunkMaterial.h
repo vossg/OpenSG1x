@@ -82,8 +82,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
     /*! \name                   Rendering                                  */
     /*! \{                                                                 */
 
+    virtual void       draw              (DrawFunctor& func,
+                                          DrawActionBase * action );
+
     virtual void       draw              (Geometry* geo,
-                                          DrawAction * action);
+                                          DrawActionBase * action);
 
     virtual StatePtr   makeState         (void);
 

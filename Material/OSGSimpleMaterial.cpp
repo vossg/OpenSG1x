@@ -79,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.19 2001/10/15 03:10:22 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.20 2002/01/04 16:40:29 dirk Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -155,20 +155,6 @@ void SimpleMaterial::changed(BitVector, ChangeMode)
 }
 
 /*-------------------------- your_category---------------------------------*/
-
-
-void SimpleMaterial::draw( Geometry* geo, DrawAction * action )
-{
-    StatePtr state = makeState();
-
-    state->activate( action );
-
-    geo->draw( action );
-
-    state->deactivate( action );
-
-    subRefCP( state );
-}
 
 StatePtr SimpleMaterial::makeState( void )
 {
