@@ -123,6 +123,20 @@ int main (int argc, char **argv)
 	osgEndEditCP(pnts);
 
 
+	GeoColor4ub::PtrType cols = GeoColor4ub::create();
+	g1->setColors( cols );
+	g1->setColorPerVertex( true );
+	osgBeginEditCP(cols);
+	cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
+	cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
+	cols->getFieldPtr()->addValue( Color4ub(   0, 255, 255, 255) );
+	cols->getFieldPtr()->addValue( Color4ub(   0, 255, 255, 255) );
+	cols->getFieldPtr()->addValue( Color4ub( 255,   0, 255, 255) );
+	cols->getFieldPtr()->addValue( Color4ub( 255, 255,   0, 255) );
+	cols->getFieldPtr()->addValue( Color4ub( 255,   0,   0, 255) );
+	cols->getFieldPtr()->addValue( Color4ub(   0, 255,   0, 255) );
+	osgEndEditCP(cols);
+
 	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
 	g1->setIndex( index );
 	osgBeginEditCP(index);
