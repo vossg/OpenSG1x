@@ -108,7 +108,7 @@ bool Node::getActive(void)
 }
 
 inline
-const bool Node::getActive(void) const
+bool Node::getActive(void) const
 {
     return getTravMask() == TypeTraits<UInt32>::getMax();
 }
