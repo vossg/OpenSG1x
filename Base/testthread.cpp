@@ -66,6 +66,8 @@ void *thread_routine(void *arg)
         fprintf(stderr, "Release Lock %d\n", *my_id);
     }
 
+//    exit(1);
+
     return(NULL); 
 }
 
@@ -139,6 +141,8 @@ int main(int argc, char **argv)
         }
     }
 
+    fprintf(stderr, "After create \n");
+
     osgsleep(2000);
 
     for(j = 0; j < NUM_THREADS; j++)
@@ -152,6 +156,8 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Wait for %d\n", j);
         Thread::join(gThreads[j]);
     }
+
+    osgsleep(20000);
 
     fprintf(stderr, "Thread test finished\n");
 }

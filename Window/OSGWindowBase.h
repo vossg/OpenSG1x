@@ -49,12 +49,15 @@
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
 #   ifdef OSG_COMPILEWINDOW
-#       define OSG_WINDOW_DLLMAPPING __declspec(dllexport)
+#       define OSG_WINDOW_DLLMAPPING     __declspec(dllexport)
+#       define OSG_WINDOW_DLLTMPLMAPPING
 #   else
-#       define OSG_WINDOW_DLLMAPPING __declspec(dllimport)
+#       define OSG_WINDOW_DLLMAPPING     __declspec(dllimport)
+#       define OSG_WINDOW_DLLTMPLMAPPING __declspec(dllimport)
 #   endif
 #else
 #define OSG_WINDOW_DLLMAPPING
+#define OSG_WINDOW_DLLTMPLMAPPING
 #endif
 
 #endif /* _OSGWINDOWBASE_H_ */

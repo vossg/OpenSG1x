@@ -215,10 +215,10 @@ class OSG_BASE_DLLMAPPING QuaternionBase
 
     /*------------------------- comparison ----------------------------------*/
 
-    bool operator <  (const QuaternionBase &other);
+    Bool operator <  (const QuaternionBase &other);
     
-	bool operator == (const QuaternionBase &other);
-	bool operator != (const QuaternionBase &other);
+	Bool operator == (const QuaternionBase &other);
+	Bool operator != (const QuaternionBase &other);
 
   protected:
 

@@ -37,7 +37,10 @@
 #include "OSGPerspectiveCamera.h"
 #include "OSGBackground.h"
 //#include "OSGUniformBackground.h"
+
+#if defined(__linux)
 #include "OSGRAWSceneFileType.h"
+#endif
 
 #include "OSGTrackball.h"
 
@@ -225,7 +228,7 @@ int main (int argc, char **argv)
 
 	// OSG
 
-#if defined(WIN32) || defined(LINUX)
+#if defined(__linux)
     RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
 #endif
 

@@ -10,8 +10,11 @@ endif
 OSGMAINMAKE    = 1
 
 SUBLIBS        = Action Action/DrawAction Base Field FieldContainer Log \
-			     Loader Material Nodes State Window
+				 Material Nodes State Window Loader
 
+#Base Field FieldContainer Log
+# \
+#			     Loader 
 #				 Image 
 
 

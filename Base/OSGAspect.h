@@ -129,8 +129,8 @@ class OSG_BASE_DLLMAPPING Aspect
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static bool init(void);
-    static bool exit(void);
+    static Bool init(void);
+    static Bool exit(void);
 
     static void moveList(ChangeList *listP, 
                          UInt32      fromAspect,

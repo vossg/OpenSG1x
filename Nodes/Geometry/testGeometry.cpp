@@ -16,8 +16,31 @@
 #include <OSGMFVecTypes.h>
 #include <OSGBaseFunctions.h>
 #include "OSGGeometry.h"
+#include "OSGGeoProperty.h"
 
 using namespace OSG;
+
+OSG::Pnt3f calcMean(const MFPnt3f &mfIn)
+{
+    typedef Pnt3f PointInterfaceT;
+
+    PointInterfaceT returnValue;
+
+    if(mfIn.size() == 0)
+        return returnValue;
+
+    for(Int32 i = 0; i < mfIn.size(); i++)
+    {
+        for(Int32 j = 0; j < PointInterfaceT::_iSize; j++)
+        {
+            returnValue[j] += mfIn[i][j];
+        }
+    }
+
+    returnValue /= mfIn.size();
+
+    return returnValue;
+}
 
 int main (int argc, char **argv)
 {
@@ -26,7 +49,7 @@ int main (int argc, char **argv)
     NodePtr  p1 = Node::create();
     GeometryPtr g1 = Geometry::create();
 
-    GeoPosition3f::getStaticType().getId();
+    GeoPosition3f::getStaticType();
 
 	p1->setCore( g1 );
 
@@ -44,13 +67,13 @@ int main (int argc, char **argv)
 
 	MFPnt3f *p = pnts->getFieldPtr();		// The p pointer is not MT-safe!!
 
-	pnts->getFieldPtr()->addValue( Pnt3f( -1, -1, -1) );
+	pnts->getFieldPtr()->addValue( Pnt3f( -2, -1, -1) );
 	pnts->getFieldPtr()->addValue( Pnt3f(  1, -1, -1) );
-	p->addValue( Pnt3f( -1,  1, -1) );
+	p->addValue( Pnt3f( -2,  1, -1) );
 	p->addValue( Pnt3f(  1,  1, -1) );
-	p->addValue( Pnt3f( -1, -1,  1) );
+	p->addValue( Pnt3f( -2, -1,  1) );
 	p->addValue( Pnt3f(  1, -1,  1) );
-	p->addValue( Pnt3f( -1,  1,  1) );
+	p->addValue( Pnt3f( -2,  1,  1) );
 	p->addValue( Pnt3f(  1,  1,  1) );
 
 	osgEndEditCP(g1, FieldBits::AllFields);
@@ -69,6 +92,10 @@ int main (int argc, char **argv)
 	}
 
 	cerr << "Geometry Points: " << hex << g1->getPositions() << endl;
+
+    Pnt3f mean = calcMean(*p);
+
+    cerr << "Mean " << mean << endl;
 	
 	// invalidate manually, automatic not yet working
 	const_cast<Volume&>(p1->getVolume()).setValid( false );

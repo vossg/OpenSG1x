@@ -72,36 +72,124 @@ OSG_BEGIN_NAMESPACE
 
 typedef MField<Vec2f> MFVec2f;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Vec2f>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Vec2f, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief MFVec3f
  */
 
 typedef MField<Vec3f> MFVec3f;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Vec3f>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Vec3f, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief MFVec4f
  */
 
 typedef MField<Vec4f> MFVec4f;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Vec4f>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Vec4f, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief MFVec4ub
  */
 
 typedef MField<Vec4ub> MFVec4ub;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Vec4ub>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Vec4ub, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief MFPnt3f
  */
 
 typedef MField<Pnt2f> MFPnt2f;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Pnt2f>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Pnt2f, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief MFPnt3f
  */
 
 typedef MField<Pnt3f> MFPnt3f;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Pnt3f>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Pnt3f, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief MFPnt3f
  */
 
 typedef MField<Pnt4f> MFPnt4f;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Pnt4f>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Pnt4f, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 OSG_END_NAMESPACE
 
 #endif /* _OSGSFVECBASE_H_ */
+
+
+
+

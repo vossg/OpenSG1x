@@ -69,6 +69,8 @@
 #include "OSGTriangleIterator.h"
 #include "OSGFaceIterator.h"
 
+#include "OSGGeoPropPtrs.h"
+
 OSG_USING_NAMESPACE
 
 /** \enum VecBase::VectorSizeE

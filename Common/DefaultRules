@@ -173,16 +173,24 @@ endif
 
 ifeq ($(OS_BASE), NT)
 
+ifneq ($(SUB_LIB_DEF),)
+DEF_FLAG   := /DEF:$(SUB_LIB_DEF)
+DEF_SOFLAG := /DEF:$(SUB_LIB_DEF)
+else
+DEF_FLAG   := /DEF
+DEF_SOFLAG :=
+endif
+
 $(SUB_LIB): $(LIBOBJECTS) 
 ifdef LIBOBJECTS
 	@echo $(LIBOBJECTS) 
-	$(AR) /out:"$(SUB_LIB)" $(LIBOBJECTS) $(AR_FLAGS)
+	$(AR) /out:"$(SUB_LIB)" $(LIBOBJECTS) $(AR_FLAGS) $(DEF_FLAG)
 endif
 
 $(SUB_SO): $(LIBOBJECTS) $(PROJLIBSDEP)
 	@echo $(LIBOBJECTS) $(AR_FLAGS)
-	$(LD_SHARED) /out:"$(SUB_SO)" $(LD_SHARED_FLAGS) $(LIBOBJECTS) 	\
-		     $(PROJLIBS) $(POST_LINK_LIBS)
+	$(LD_SHARED) /out:"$(SUB_SO)" $(LD_SHARED_FLAGS) $(DEF_SOFLAG) \
+	$(LIBOBJECTS) $(PROJLIBS) $(POST_LINK_LIBS) 
 
 else
 

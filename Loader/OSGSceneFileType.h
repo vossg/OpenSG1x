@@ -128,7 +128,7 @@ class OSG_LOADER_DLLMAPPING SceneFileType
 		 virtual NodePtr read (const char *fileName ) const = 0;
 		 
 		 /** write the given image to 'fileName' */
-		 virtual bool write ( const NodePtr node,
+		 virtual Bool write ( const NodePtr node,
 													const char *fileName ) const = 0;
 		 
 		 /** print debug info to cerr */

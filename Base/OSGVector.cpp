@@ -57,13 +57,13 @@ OSG_USING_NAMESPACE
 
 // Null values
 
-Vec2f	NullVec2f( 0,0 );
-Vec3f	NullVec3f( 0,0,0 );
-Vec4f	NullVec4f( 0,0,0,0 );
-Vec2s	NullVec2s( 0,0 );
-Vec4ub	NullVec4ub( 0,0,0,0 );
-Pnt2f	NullPnt2f( 0,0 );
-Pnt3f	NullPnt3f( 0,0,0 );
-Pnt4f	NullPnt4f( 0,0,0,0 );
-Pnt2s	NullPnt2s( 0,0 );
+Vec2f	OSG_BASE_DLLMAPPING NullVec2f( 0,0 );
+Vec3f	OSG_BASE_DLLMAPPING NullVec3f( 0,0,0 );
+Vec4f	OSG_BASE_DLLMAPPING NullVec4f( 0,0,0,0 );
+Vec2s	OSG_BASE_DLLMAPPING NullVec2s( 0,0 );
+Vec4ub	OSG_BASE_DLLMAPPING NullVec4ub( 0,0,0,0 );
+Pnt2f	OSG_BASE_DLLMAPPING NullPnt2f( 0,0 );
+Pnt3f	OSG_BASE_DLLMAPPING NullPnt3f( 0,0,0 );
+Pnt4f	OSG_BASE_DLLMAPPING NullPnt4f( 0,0,0,0 );
+Pnt2s	OSG_BASE_DLLMAPPING NullPnt2s( 0,0 );
 

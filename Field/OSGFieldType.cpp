@@ -140,7 +140,7 @@ FieldType::FieldType(const char           *szName,
     {
 		if(FieldFactory::_fieldTypeV == NULL) 
         {
-			FieldFactory::_fieldTypeV = new vector<FieldType *>;
+			FieldFactory::_fieldTypeV = new vector<FieldType *>(0);
 		}
         
 		FieldFactory::_fieldTypeV->push_back(this);

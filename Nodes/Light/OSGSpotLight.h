@@ -76,18 +76,22 @@ typedef FCPtr<PointLightPtr, SpotLight> SpotLightPtr;
 
 class OSG_LIGHT_DLLMAPPING SpotLight : public PointLight
 {
+  private:
+
+    typedef PointLight Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(DirectionField )
+    OSG_FC_FIRST_FIELD_IDM_DECL(DirectionField                 )
 
-    OSG_FC_FIELD_IDM_DECL      (SpotExpField   )  
-    OSG_FC_FIELD_IDM_DECL      (SpotCutOffField)  
+    OSG_FC_FIELD_IDM_DECL      (SpotExpField,    DirectionField)  
+    OSG_FC_FIELD_IDM_DECL      (SpotCutOffField, SpotExpField  )  
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (SpotCutOffField                )
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -199,8 +203,6 @@ class OSG_LIGHT_DLLMAPPING SpotLight : public PointLight
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
-
-    typedef PointLight Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

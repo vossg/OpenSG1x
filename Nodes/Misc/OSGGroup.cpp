@@ -51,6 +51,7 @@
 #endif
 
 #define OSG_COMPILEMISC
+#define OSG_COMPILEGROUPINST
 
 #include "OSGGroup.h"
 
@@ -59,6 +60,22 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
   *                               Types                                     *
 \***************************************************************************/
+
+OSG_BEGIN_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SField<GroupPtr>::_fieldType
+#pragma instantiate MField<GroupPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, GroupPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, GroupPtr, OSG_MISC_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
 
 /***************************************************************************\
  *                           Class variables                               *

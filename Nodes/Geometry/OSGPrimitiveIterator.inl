@@ -55,7 +55,6 @@
 #endif
 
 #include "OSGGeometry.h"
-#include "OSGPrimitiveIterator.h"
 
 /** \fn const char *SimpleAttachment::getClassname(void)
  *  \brief Classname

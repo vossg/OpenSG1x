@@ -7,10 +7,10 @@ ifndef OSGPOOL
 OSGPOOL         = $(shell expr `pwd` : '\(.*/OpenSG\).*' )
 endif
 
-REQUIRED_INCPACKAGES := DrawAction Action Geometry Material Misc FieldContainer \
-						Field Base Log
-REQUIRED_LNKPACKAGES := DrawAction Action Geometry Material Misc FieldContainer \
-						Field Base Log
+REQUIRED_INCPACKAGES := DrawAction Action Geometry Material Misc \
+						FieldContainer Field Base Log
+REQUIRED_LNKPACKAGES := Geometry DrawAction Action Material Misc \
+						FieldContainer Field Base Log
 
 #FieldContainer Field
 

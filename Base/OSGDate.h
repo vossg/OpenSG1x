@@ -60,8 +60,8 @@ OSG_BEGIN_NAMESPACE
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class Date;
-bool operator==(const Date &v1, const Date &v2);
-bool operator< (const Date &v1, const Date &v2);
+Bool operator==(const Date &v1, const Date &v2);
+Bool operator< (const Date &v1, const Date &v2);
 ostream& operator<< (ostream & os, const Date &obj);
 istream& operator>> (istream & is, Date &obj);
 #endif
@@ -167,10 +167,10 @@ public:
   void set (const char *string);
 
   /** check if year is leap year */
-  bool isLeapYear (void);
+  Bool isLeapYear (void);
 
   /** check if the date valid */
-  bool valid (void);
+  Bool valid (void);
 
 protected:
 
@@ -247,10 +247,10 @@ private:
  public:
 
   /** equal comparison operator */
-  friend bool operator == (const Date &v1,const Date &v2);
+  friend Bool operator == (const Date &v1,const Date &v2);
   
   /** lower comparison operator */
-  friend bool operator < (const Date &v1,const Date &v2);
+  friend Bool operator < (const Date &v1,const Date &v2);
   
   /** write values from stream */
   friend ostream &operator << (ostream &os, const Date &obj);

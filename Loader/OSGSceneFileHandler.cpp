@@ -164,7 +164,7 @@ SceneFileType * SceneFileHandler::getFileType ( const char *fileName )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -204,7 +204,7 @@ NodePtr SceneFileHandler::read (const char *fileName )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -215,9 +215,9 @@ NodePtr SceneFileHandler::read (const char *fileName )
 //s:
 //
 //------------------------------
-bool SceneFileHandler::write ( const NodePtr node, const char *fileName )
+Bool SceneFileHandler::write ( const NodePtr node, const char *fileName )
 {
-	bool retCode = false;
+	Bool retCode = false;
 	SceneFileType *type = getFileType(fileName);
 
 	if (type) {
@@ -280,7 +280,7 @@ void SceneFileHandler::print (void )
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -291,9 +291,9 @@ void SceneFileHandler::print (void )
 //s:
 //
 //------------------------------
-bool SceneFileHandler::addSceneFileType (SceneFileType &fileType )
+Bool SceneFileHandler::addSceneFileType (SceneFileType &fileType )
 {
-	bool retCode = false;
+	Bool retCode = false;
 	list<String>::iterator sI;
 	map <String, SceneFileType *>::iterator smI;
 	String suffix;

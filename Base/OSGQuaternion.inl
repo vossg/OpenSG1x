@@ -1031,7 +1031,7 @@ const QuaternionBase<ValueTypeT> &
  */
 
 template <class ValueTypeT> inline
-bool QuaternionBase<ValueTypeT>::operator <(
+Bool QuaternionBase<ValueTypeT>::operator <(
     const QuaternionBase &other)
 {
     return this < &other;

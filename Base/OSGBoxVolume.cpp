@@ -424,7 +424,7 @@ const BoxVolume &BoxVolume::operator =(const BoxVolume &b1)
 OSG_BEGIN_NAMESPACE
 
 /// Equality comparisons
-bool operator ==(const BoxVolume &b1, const BoxVolume &b2)
+Bool operator ==(const BoxVolume &b1, const BoxVolume &b2)
 {
 	return ((b1._min[0] == b2._min[0]) &&
 	        (b1._min[1] == b2._min[1]) &&

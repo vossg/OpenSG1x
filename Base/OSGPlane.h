@@ -51,8 +51,8 @@ class Matrix;
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class Plane;
-bool operator ==(const Plane &p1, const Plane &p2);
-bool operator !=(const Plane &p1, const Plane &p2);
+Bool operator ==(const Plane &p1, const Plane &p2);
+Bool operator !=(const Plane &p1, const Plane &p2);
 #endif
 
 /** Oriented plane in 3D space defined by normal and distance.
@@ -137,10 +137,10 @@ public:
 	inline float getDistanceFromOrigin(void) const { return _distance; }
 
 	/// Equality comparison operators
-	friend bool operator ==(const Plane &p1, const Plane &p2);
+	friend Bool operator ==(const Plane &p1, const Plane &p2);
 
 	/// Inequality comparison operators
-	inline friend bool operator !=(const Plane &p1, const Plane &p2)
+	inline friend Bool operator !=(const Plane &p1, const Plane &p2)
 	{ return !(p1 == p2); }
 
 };

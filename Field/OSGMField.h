@@ -76,12 +76,12 @@ OSG_BEGIN_NAMESPACE
  *  hopefully fast enough.
  */
 
-#if !defined(__sun) && !defined(WIN32)  && !defined(__linux)
+#if defined(FU) && !defined(__sun) && !defined(WIN32)  && !defined(__linux)
 
 #pragma set woff 1375
 
 template<class _Tp, class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) >
-class OSG_FIELD_DLLMAPPING MFieldVector : public vector<_Tp, _Alloc>
+class MFieldVector : public vector<_Tp, _Alloc>
 {
   public:
 
@@ -236,7 +236,7 @@ class OSG_FIELD_DLLMAPPING MField : public Field
     //   types                                                               
     //-----------------------------------------------------------------------
 
-#if !defined(__sun) && !defined(WIN32)  && !defined(__linux)
+#if defined(FU) && !defined(__sun) && !defined(WIN32)  && !defined(__linux)
     typedef MFieldVector<FieldTypeT>                  StorageType;
 
     typedef typename MFieldVector<FieldTypeT>::
@@ -258,16 +258,18 @@ class OSG_FIELD_DLLMAPPING MField : public Field
     typedef typename vector<FieldTypeT>::const_reference const_reference;
 #endif
     
+    typedef typename osgIF<fieldNameSpace == 1,
+                           FieldDataTraits1<FieldTypeT>,
+                           FieldDataTraits2<FieldTypeT> >::_IRet MF1Trait;
+
     typedef typename osgIF<fieldNameSpace == 0, 
                            FieldDataTraits <FieldTypeT>, 
-                           FieldDataTraits1<FieldTypeT> >::_IRet MFieldTraits;
+                           MF1Trait>::_IRet MFieldTraits;
 
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
-
-	static const FieldType _fieldType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -369,6 +371,8 @@ class OSG_FIELD_DLLMAPPING MField : public Field
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
+
+	static const FieldType _fieldType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     

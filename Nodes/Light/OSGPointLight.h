@@ -78,19 +78,23 @@ typedef FCPtr<LightPtr, PointLight> PointLightPtr;
 
 class OSG_LIGHT_DLLMAPPING PointLight : public LightBase
 {
+  private:
+
+    typedef LightBase Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(PositionField  )
+    OSG_FC_FIRST_FIELD_IDM_DECL(PositionField                   )
 
-    OSG_FC_FIELD_IDM_DECL      (ConstAttenField)  
-    OSG_FC_FIELD_IDM_DECL      (LinAttenField  )  
-    OSG_FC_FIELD_IDM_DECL      (QuadAttenField )  
+    OSG_FC_FIELD_IDM_DECL      (ConstAttenField, PositionField  )
+    OSG_FC_FIELD_IDM_DECL      (LinAttenField,   ConstAttenField)  
+    OSG_FC_FIELD_IDM_DECL      (QuadAttenField,  LinAttenField  )
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (QuadAttenField                  )  
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -209,8 +213,6 @@ class OSG_LIGHT_DLLMAPPING PointLight : public LightBase
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
-
-    typedef LightBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

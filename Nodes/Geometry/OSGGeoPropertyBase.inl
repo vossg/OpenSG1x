@@ -1,0 +1,496 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                         Copyright 2000 by OpenSG Forum                    *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "OSGConfig.h"
+
+#ifdef OSG_STREAM_IN_STD_NAMESPACE
+#include <iostream>
+#else
+#include <iostream.h>
+#endif
+
+/** \fn const char *SimpleAttachment::getClassname(void)
+ *  \brief Classname
+ */
+
+/** \typedef SimpleAttachment::Inherited
+ *  \brief Parent type
+ */
+
+/** \typedef SimpleAttachment::_field
+ *  \brief Data store
+ */
+
+OSG_BEGIN_NAMESPACE
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+template <class GeoPropertyDesc>
+char AbstractGeoProperty<GeoPropertyDesc>::cvsid[] = 
+    "@(#)$Id: $";
+
+#ifndef __linux
+template <class GeoPropertyDesc>
+const  AbstractGeoProperty<GeoPropertyDesc>::PtrType
+    AbstractGeoProperty<GeoPropertyDesc>::NullPtr;
+#endif
+
+#if defined(OSG_MICROSOFT_COMPILER_ALERT)
+template <class GeoPropertyDesc>
+FieldContainerType AbstractGeoProperty<GeoPropertyDesc>::_type = 
+    FieldContainerType(
+        GeoPropertyDesc::getTypeName(),
+        InheritDesc::getTypeName(),
+        GeoPropertyDesc::getGroupName(),
+        NULL,
+        GeoPropertyDesc::getInitMethod(),
+        NULL,
+        0);
+#else
+template <class GeoPropertyDesc>
+FieldContainerType AbstractGeoProperty<GeoPropertyDesc>::_type(
+        GeoPropertyDesc::getTypeName(),
+        InheritDesc::getTypeName(),
+        GeoPropertyDesc::getGroupName(),
+        NULL,
+        GeoPropertyDesc::getInitMethod(),
+        NULL,
+        0);
+#endif
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+OSG_ABSTR_FIELD_CONTAINER_INL_TMPL_DEF(AbstractGeoProperty,
+                                       GeoPropertyDesc,
+                                       PtrType)
+
+
+/*------------- constructors & destructors --------------------------------*/
+
+template <class GeoPropertyDesc> inline
+AbstractGeoProperty<GeoPropertyDesc>::AbstractGeoProperty(void) :
+    Inherited()
+{
+}
+
+
+template <class GeoPropertyDesc> inline
+AbstractGeoProperty<GeoPropertyDesc>::AbstractGeoProperty(
+    const AbstractGeoProperty &source) :
+        Inherited(source)
+{
+}
+
+
+template <class GeoPropertyDesc> inline
+AbstractGeoProperty<GeoPropertyDesc>::~AbstractGeoProperty(void)
+{
+}
+
+
+/*--------------------------- type information-----------------------------*/
+
+/*------------------------------ access -----------------------------------*/
+
+/*------------------------------ access -----------------------------------*/
+
+/*------------------------------- size ----------------------------------*/
+
+/*------------------------------- dump ----------------------------------*/
+
+template <class GeoPropertyDesc> inline
+void AbstractGeoProperty<GeoPropertyDesc>::dump(void) const
+{
+    SDEBUG << "Dump AbstractGeoProperty<GeoPropertyDesc> NI" << endl;
+}
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+
+
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+OSG_FC_FIRST_FIELD_IDM_INL_TMPL_DEF(GeoProperty,
+                                    GeoPropertyDesc,
+                                    GeoPropDataField)
+
+OSG_FC_LAST_FIELD_IDM_INL_TMPL_DEF(GeoProperty,
+                                   GeoPropertyDesc,
+                                   GeoPropDataField)
+
+template <class GeoPropertyDesc>
+char GeoProperty<GeoPropertyDesc>::cvsid[] = 
+    "@(#)$Id: $";
+
+
+/** \brief NULL pointer
+ */
+
+
+template <class GeoPropertyDesc>
+const  GeoProperty<GeoPropertyDesc>::PtrType 
+    GeoProperty<GeoPropertyDesc>::NullPtr;
+
+
+/** \brief Property field description
+ */
+
+template <class GeoPropertyDesc>
+FieldDescription GeoProperty<GeoPropertyDesc>::_desc[] = 
+{
+    FieldDescription(
+        FieldType::getClassType(), 
+        GeoPropertyDesc::getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoPropDataField),
+        false,
+        (FieldAccessMethod) &GeoProperty::getFieldPtr)
+};
+
+/** \brief Attachment type
+ */
+
+#if defined(OSG_MICROSOFT_COMPILER_ALERT)
+template <class GeoPropertyDesc>
+FieldContainerType GeoProperty<GeoPropertyDesc>::_type = 
+    FieldContainerType(
+        GeoPropertyDesc::getTypeName(),
+        InheritDesc::getTypeName(),
+        GeoPropertyDesc::getGroupName(),
+        (PrototypeCreateF) &GeoProperty<GeoPropertyDesc>::createEmpty,
+        GeoPropertyDesc::getInitMethod(),
+        _desc,
+        sizeof(_desc));
+#else
+template <class GeoPropertyDesc>
+FieldContainerType GeoProperty<GeoPropertyDesc>::_type(
+        GeoPropertyDesc::getTypeName(),
+        InheritDesc::getTypeName(),
+        GeoPropertyDesc::getGroupName(),
+        (PrototypeCreateF) &GeoProperty<GeoPropertyDesc>::createEmpty,
+        GeoPropertyDesc::getInitMethod(),
+        _desc,
+        sizeof(FieldDescription));
+#endif
+
+
+
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+OSG_FIELD_CONTAINER_INL_TMPL_DEF(GeoProperty,
+                                 GeoPropertyDesc,
+                                 PtrType)
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+template <class GeoPropertyDesc> 
+inline GeoProperty<GeoPropertyDesc>::GeoProperty(void) :
+    Inherited(),
+    _field()
+{
+}
+
+
+/** \brief Copy Constructor
+ */
+
+template <class GeoPropertyDesc> 
+inline GeoProperty<GeoPropertyDesc>::GeoProperty(
+    const GeoProperty &source ) :
+         Inherited(source),
+        _field(source._field)
+{
+}
+
+
+/** \brief Destructor
+ */
+
+template <class GeoPropertyDesc> 
+inline GeoProperty<GeoPropertyDesc>::~GeoProperty(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
+/** \brief Returns pointer to stored field
+ */
+
+template <class GeoPropertyDesc> 
+inline 
+typename GeoPropertyDesc::FieldType * 
+    GeoProperty<GeoPropertyDesc>::getFieldPtr(void)
+{
+    return &_field;
+}
+
+/** \brief Returns reference to the stored field
+ */
+
+template <class GeoPropertyDesc> 
+inline typename GeoPropertyDesc::FieldType & 
+    GeoProperty<GeoPropertyDesc>::getField(void)
+{
+    return _field;
+}
+
+/** \brief Returns const reference to the stored field
+ */
+
+template <class GeoPropertyDesc> 
+inline const typename GeoPropertyDesc::FieldType & 
+    GeoProperty<GeoPropertyDesc>::getField(void) const
+{
+    return _field;
+}
+
+
+/** \brief Returns dimensionality of property
+ */
+
+template <class GeoPropertyDesc> 
+inline UInt32 GeoProperty<GeoPropertyDesc>::getFormat(void)
+{
+    return GeoPropertyDesc::getFormat();
+}
+
+
+template <class GeoPropertyDesc> 
+inline UInt32 GeoProperty<GeoPropertyDesc>::getFormatSize(void)
+{
+    return GeoPropertyDesc::getFormatSize();
+}
+
+
+template <class GeoPropertyDesc> 
+inline UInt32 GeoProperty<GeoPropertyDesc>::getStride(void)
+{
+    return GeoPropertyDesc::getStride();
+}
+
+
+template <class GeoPropertyDesc> 
+inline UInt32 GeoProperty<GeoPropertyDesc>::getDimension(void)
+{
+    return GeoPropertyDesc::getDimension();
+}
+
+template <class GeoPropertyDesc> 
+inline UInt32 GeoProperty<GeoPropertyDesc>::getSize(void)
+{
+    return _field.size();
+}
+
+
+template <class GeoPropertyDesc> 
+inline UInt8 *GeoProperty<GeoPropertyDesc>::getData(void)
+{
+    return (UInt8 *) &(_field[0]);
+}
+
+// generic access to properties
+
+// defaults, works for most types with same dimension as generic type
+
+template <class propertyDesc> 
+inline typename propertyDesc::GenericType
+GeoProperty<propertyDesc>::getValue( const UInt32 index )
+{
+	return _field.getValue( index );
+}
+
+template <class propertyDesc> 
+inline typename propertyDesc::GenericType
+GeoProperty<propertyDesc>::getValue( const UInt32 index ) const
+{
+	return _field.getValue( index );
+}
+
+template <class propertyDesc> 
+inline void GeoProperty<propertyDesc>::getValue( 
+		typename propertyDesc::GenericType & val,
+		const UInt32 index )
+{
+	val = _field.getValue( index );
+}
+
+
+template <class propertyDesc> 
+inline void GeoProperty<propertyDesc>::getValue( 
+		typename propertyDesc::GenericType & val,
+		const UInt32 index ) const
+{
+	val = _field.getValue( index );
+}
+
+template <class propertyDesc> 
+inline void GeoProperty<propertyDesc>::setValue(
+		const typename propertyDesc::GenericType & value,
+		const UInt32 index)
+{
+	_field.setValue( value, index );
+}
+
+template <class propertyDesc> 
+inline void GeoProperty<propertyDesc>::addValue( 
+		const typename propertyDesc::GenericType & value)
+{
+	_field.addValue( value );
+}
+
+/*------------------------------- dump ----------------------------------*/
+
+template <class GeoPropertyDesc> inline
+void GeoProperty<GeoPropertyDesc>::dump(void) const
+{
+    SDEBUG << "Dump GeoProperty<GeoPropertyDesc> NI" << endl;
+}
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+OSG_END_NAMESPACE
+
+///---------------------------------------------------------------------------
+///  FUNCTION: 
+///---------------------------------------------------------------------------
+//:  Example for the head comment of a function
+///---------------------------------------------------------------------------
+///
+//p: Paramaters: 
+//p: 
+///
+//g: GlobalVars:
+//g: 
+///
+//r: Return:
+//r: 
+///
+//c: Caution:
+//c: 
+///
+//a: Assumptions:
+//a: 
+///
+//d: Description:
+//d: 
+///
+//s: SeeAlso:
+//s: 
+///---------------------------------------------------------------------------
+

@@ -1170,7 +1170,7 @@ PointInterface<ValueTypeT, StorageInterfaceT> &
 
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
-bool PointInterface<ValueTypeT, StorageInterfaceT>::operator < (
+Bool PointInterface<ValueTypeT, StorageInterfaceT>::operator < (
     const PointInterface &other) const
 {
     missing;
@@ -1501,7 +1501,7 @@ void VectorInterface<ValueTypeT, StorageInterfaceT>::normalize(void)
 
     ValueTypeT rLength = length();
 
-    if(abs(rLength) < Eps)
+    if(osgabs(rLength) < Eps)
         rLength = TypeConstants<ValueTypeT>::getOneElement();
     else
         rLength = TypeConstants<ValueTypeT>::getOneElement() / rLength;
@@ -1773,7 +1773,7 @@ VectorInterface<ValueTypeT, StorageInterfaceT> &
 
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
-bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator < (
+Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator < (
     const VectorInterface &other) const
 {
     missing;

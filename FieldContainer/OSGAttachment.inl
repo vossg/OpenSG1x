@@ -320,27 +320,27 @@ const  DynFieldAttachment<AttachmentDescT>::PtrType
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class AttachmentDescT> 
-FieldContainerType SynFieldAttachment<AttachmentDescT>::_type = 
+FieldContainerType DynFieldAttachment<AttachmentDescT>::_type = 
 	FieldContainerType(
 		AttachmentDescT::getTypeName(),
-		"Attachment",
+		AttachmentDescT::getParentTypeName(),
+		AttachmentDescT::getGroupName(),
+		(PrototypeCreateF) &DynFieldAttachment<AttachmentDescT>::createEmpty,
 		NULL,
-		(PrototypeCreateF) &DynFieldAttachment<
-                                              AttachmentDescT>::createEmpty,
 		NULL,
-		NULL,
-		0);
+        NULL,
+		true);
 #else
 template <class AttachmentDescT> 
 FieldContainerType DynFieldAttachment<AttachmentDescT>::_type(
     AttachmentDescT::getTypeName(),
-    "Attachment",
+    AttachmentDescT::getParentTypeName(),
+    AttachmentDescT::getGroupName(),
+    (PrototypeCreateF) &DynFieldAttachment<AttachmentDescT>::createEmpty,
     NULL,
-    (PrototypeCreateF) &DynFieldAttachment<
-                                              AttachmentDescT>::createEmpty,
     NULL,
     NULL,
-    0);
+    true);
 #endif
 
 

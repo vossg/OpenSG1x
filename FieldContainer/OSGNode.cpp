@@ -549,7 +549,7 @@ void Node::print(UInt32 indent) const
 
 void Node::dump(void) const
 {
-    SDEBUG << "Dump Node NI" << endl;
+    print(0);
 }
 
 /*-------------------------- comparison -----------------------------------*/

@@ -3,7 +3,7 @@
 
 ### Binaries #######################################################
 
-CC         = $(GCC_BIN)/gcc 
+CC         = $(GCC_BIN)/g++
 C          = $(GCC_BIN)/gcc 
 AR         = ar -car -o
 CPP        = $(GCC_DIR)/cpp 
@@ -26,7 +26,8 @@ BINSET      = touch
 # For QT
 DEP_PLATTFORMDEF = -D__linux__
 
-SOURCE_DEFINES   = -D__linux -D_GNU_SOURCE -D__STL_USE_NEW_IOSTREAMS
+SOURCE_DEFINES   = -D__linux -D_GNU_SOURCE 
+#-D__STL_USE_NEW_IOSTREAMS
 
 SYSTEM_DEFINES   =
 
@@ -135,6 +136,7 @@ INCL$(OS) += -I$(INCLUDE_STL)
 endif
 
 INCL$(OS) += -I$(INCLUDE_SYSTEM_CC)
+INCL$(OS) += -I$(INCLUDE_SYSTEM_DEP_CC)
 
 # Jo
 #-D$(OS)_OS -DNATIVE_CC -DSTL_HSUFFIX

@@ -15,9 +15,9 @@ LIBCIO       :=
 ### Binaries #######################################################
 
 ifdef OSG_BUILD_DLL
-CC         = $(ICL_BIN)/icl /nologo  
+CC         = $(ICL_BIN)/icl /nologo /I. 
 C          = $(ICL_BIN)/icl /nologo
-AR         = $(ICL_BIN)/xilink /nologo /lib /DEF /NODEFAULTLIB 
+AR         = $(ICL_BIN)/xilink /nologo /lib /NODEFAULTLIB 
 else
 CC         = $(ICL_BIN)/icl /nologo  
 C          = $(ICL_BIN)/icl /nologo
@@ -141,7 +141,7 @@ ifneq ($(LINK_STL),)
 LD_FLAGS += /LIBPATH:$(LINK_STL)
 endif
 
-LD_SHARED_FLAGS = /incremental:no /machine:I386			\
+LD_SHARED_FLAGS = /incremental:no /machine:I386 /subsystem:windows			\
 		  	      $(LINK_OPTIMIZE) $(LINK_DEBUG)
 
 ifneq ($(LINK_STL),)

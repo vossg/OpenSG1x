@@ -86,7 +86,7 @@ vector<Aspect *> Aspect::_aspectV(ThreadManager::getNumAspects());
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-bool Aspect::init(void)
+Bool Aspect::init(void)
 {
     for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
     {
@@ -96,7 +96,7 @@ bool Aspect::init(void)
     return true;
 }
 
-bool Aspect::exit(void)
+Bool Aspect::exit(void)
 {
     for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
     {

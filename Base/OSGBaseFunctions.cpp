@@ -104,7 +104,7 @@ void OSG::osgAddInitFunction(InitFuncF initFunc)
 {
     if(osgInitFunctions == NULL)
     {
-        osgInitFunctions = new vector<InitFuncF>;
+        osgInitFunctions = new vector<InitFuncF>(0);
     }
 
     osgInitFunctions->push_back(initFunc);
@@ -115,7 +115,7 @@ void OSG::osgAddExitFunction(ExitFuncF exitFunc)
 {
     if(osgExitFunctions == NULL)
     {
-        osgExitFunctions = new vector<ExitFuncF>;
+        osgExitFunctions = new vector<ExitFuncF>(0);
     }
     
     osgExitFunctions->push_back(exitFunc);

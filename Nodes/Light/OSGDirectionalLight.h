@@ -77,6 +77,10 @@ typedef FCPtr<LightPtr, DirectionalLight> DirectionalLightPtr;
 
 class OSG_LIGHT_DLLMAPPING DirectionalLight : public LightBase
 {
+  private:
+
+    typedef LightBase Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
@@ -85,7 +89,7 @@ class OSG_LIGHT_DLLMAPPING DirectionalLight : public LightBase
 
     OSG_FC_FIRST_FIELD_IDM_DECL(DirectionField)
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (DirectionField)
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -185,8 +189,6 @@ class OSG_LIGHT_DLLMAPPING DirectionalLight : public LightBase
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
-
-    typedef LightBase Inherited;
 
     //-----------------------------------------------------------------------
     //   class variables                                                     

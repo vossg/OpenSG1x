@@ -42,6 +42,7 @@
 #endif
 
 #define OSG_COMPILESTATE
+#define OSG_COMPILESTATECHUNKINST
 
 #include "OSGStateChunk.h"
 
@@ -67,6 +68,22 @@ OSG_USING_NAMESPACE
  *                               Types                                     *
 \***************************************************************************/
 
+OSG_BEGIN_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SField<StateChunkPtr>::_fieldType
+#pragma instantiate MField<StateChunkPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 // StateChunkClass code
 
 vector<String>* StateChunkClass::_classNames = NULL;
@@ -76,8 +93,8 @@ StateChunkClass::StateChunkClass( String name, UInt32 numslots )
 {
 	if ( ! _classNames )
 	{
-		_classNames = new vector<String>;
-		_numslots = new vector<UInt32>;
+		_classNames = new vector<String>(0);
+		_numslots   = new vector<UInt32>(0);
 	}
 
 	_classId = _classNames->size();

@@ -55,6 +55,7 @@
 #include <GL/gl.h>
 
 #define OSG_COMPILEWINDOW
+#define OSG_COMPILEVIEWPORTINST
 
 #include <OSGField.h>
 #include <OSGFieldContainer.h>
@@ -70,6 +71,22 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
+
+OSG_BEGIN_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SField<ViewportPtr>::_fieldType
+#pragma instantiate MField<ViewportPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, ViewportPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, ViewportPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
 
 /***************************************************************************\
  *                           Class variables                               *

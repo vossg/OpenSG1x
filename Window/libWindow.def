@@ -1,0 +1,27 @@
+LIBRARY   libOSGWindow
+DESCRIPTION "Window lib"
+EXPORTS
+
+    ?getClassType@?$SField@V?$FCPtr@VFieldContainerPtr@osg@@VWindow@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ @1
+
+    ?getType@?$SField@V?$FCPtr@VFieldContainerPtr@osg@@VWindow@2@@osg@@$0A@@osg@@UBEABVFieldType@2@XZ     @2
+    ?getType@?$MField@V?$FCPtr@VFieldContainerPtr@osg@@VWindow@2@@osg@@$0A@@osg@@UBEABVFieldType@2@XZ     @3
+
+    ?getClassType@?$MField@V?$FCPtr@VFieldContainerPtr@osg@@VBackground@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ @10
+    ?getClassType@?$SField@V?$FCPtr@VFieldContainerPtr@osg@@VBackground@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ @11
+
+
+    ?getClassType@?$MField@V?$FCPtr@V?$FCPtr@VFieldContainerPtr@osg@@VCamera@2@@osg@@VPerspectiveCamera@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ @20
+    ?getClassType@?$SField@V?$FCPtr@V?$FCPtr@VFieldContainerPtr@osg@@VCamera@2@@osg@@VPerspectiveCamera@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ @21
+
+    ?getClassType@?$MField@V?$FCPtr@VFieldContainerPtr@osg@@VWindow@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ @30
+    ?getType@?$MField@V?$FCr@VFieldContainerPtr@osg@@VWindow@2@@osg@@$0A@@osg@@UBEABVFieldType@2@XZ       @31
+    ?getType@?$MField@V?$FCPtr@VFieldContainerPtr@osg@@VWindow@2@@osg@@$0A@@osg@@UBEABVFieldType@2@XZ     @32 
+
+    ?getClassType@?$MField@V?$FCPtr@VFieldContainerPtr@osg@@VCamera@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ @40
+    ?getClassType@?$SField@V?$FCPtr@VFieldContainerPtr@osg@@VCamera@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ @41
+
+    ?getClassType@?$MField@V?$FCPtr@VFieldContainerPtr@osg@@VViewport@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ @50
+    ?getClassType@?$SField@V?$FCPtr@VFieldContainerPtr@osg@@VViewport@2@@osg@@$0A@@osg@@SAABVFieldType@2@XZ @51
+    
+    

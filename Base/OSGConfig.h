@@ -306,6 +306,8 @@
 # define OSG_HAS_FLOATMATH
 // streams in std namespace
 # define OSG_STREAM_IN_STD_NAMESPACE
+
+#   define OSG_SGI_STL
 # endif
 
 // compiler supports namespaces
@@ -322,6 +324,7 @@
 # define OSG_STREAM_RDBUF_HAS_PARAM
 # define OSG_NEED_EXPLICIT_INST_FOR_STATIC
 # define OSG_LONGLONG_HAS_LL
+# define OSG_HAS_STD_NAMESPACE
 # endif
 
 #if defined __linux
@@ -538,12 +541,199 @@ OSG_USING_STD_NAMESPACE
 #define OSG_APIENTRY
 #else
 #define OSG_APIENTRY APIENTRY
+//#define OSG_BOOL_IS_UNSIGNED
 #endif
 
 
 #ifdef OSG_DEBUG
 //#define OSG_DEBUG_TYPED_FCPTR
 #define OSG_DEBUG_LOCK_STAT
+#endif
+
+
+#if defined(WIN32)
+#define OSG_EXPORT_TYPE_DECL1(CLASSNAME, T1, DLLMAPPING)                     \
+    extern template DLLMAPPING                                               \
+        const FieldType  CLASSNAME<T1>::_fieldType;
+#define OSG_EXPORT_TYPE_DECL2(CLASSNAME, T1, T2, DLLMAPPING)                 \
+    extern template DLLMAPPING                                               \
+        const FieldType  CLASSNAME<T1, T2>::_fieldType;
+
+#define OSG_EXPORT_GETTYPE_DECL1(CLASSNAME, T1, DLLMAPPING)                  \
+    extern template DLLMAPPING                                               \
+        const FieldType &CLASSNAME<T1>::getType    (void) const;
+#define OSG_EXPORT_GETTYPE_DECL2(CLASSNAME, T1, T2, DLLMAPPING)              \
+    extern template DLLMAPPING                                               \
+        const FieldType &CLASSNAME<T1, T2>::getType(void) const;
+
+#define OSG_EXPORT_GETCLASSTYPE_DECL1(CLASSNAME, T1, DLLMAPPING)             \
+    extern template DLLMAPPING                                               \
+        const FieldType &CLASSNAME<T1>::getClassType(void);
+#define OSG_EXPORT_GETCLASSTYPE_DECL2(CLASSNAME, T1, T2, DLLMAPPING)         \
+    extern template DLLMAPPING                                               \
+        const FieldType &CLASSNAME<T1, T2>::getClassType(void);
+
+#define OSG_DLLEXPORT_DECL1(CLASSNAME, T1, DLLMAPPING)                       \
+    OSG_EXPORT_GETTYPE_DECL1     (CLASSNAME, T1, DLLMAPPING)                 \
+    OSG_EXPORT_TYPE_DECL1        (CLASSNAME, T1, DLLMAPPING)                 \
+    OSG_EXPORT_GETCLASSTYPE_DECL1(CLASSNAME, T1, DLLMAPPING)
+
+#define OSG_DLLEXPORT_DECL2(CLASSNAME, T1, T2, DLLMAPPING)                   \
+    OSG_EXPORT_TYPE_DECL2        (CLASSNAME, T1, T2, DLLMAPPING)             \
+    OSG_EXPORT_GETTYPE_DECL2     (CLASSNAME, T1, T2, DLLMAPPING)             \
+    OSG_EXPORT_GETCLASSTYPE_DECL2(CLASSNAME, T1, T2, DLLMAPPING)
+
+
+
+#define OSG_EXPORT_TYPE_DEF1(CLASSNAME, T1, DLLMAPPING)                      \
+    template DLLMAPPING                                                      \
+        const FieldType  CLASSNAME<T1>::_fieldType;
+#define OSG_EXPORT_TYPE_DEF2(CLASSNAME, T1, T2, DLLMAPPING)                  \
+    template DLLMAPPING                                                      \
+        const FieldType  CLASSNAME<T1, T2>::_fieldType;
+
+#define OSG_EXPORT_GETTYPE_DEF1(CLASSNAME, T1, DLLMAPPING)                   \
+    template DLLMAPPING                                                      \
+        const FieldType &CLASSNAME<T1>::getType    (void) const;
+#define OSG_EXPORT_GETTYPE_DEF2(CLASSNAME, T1, T2, DLLMAPPING)               \
+    template DLLMAPPING                                                      \
+        const FieldType &CLASSNAME<T1, T2>::getType(void) const;
+
+#define OSG_EXPORT_GETCLASSTYPE_DEF1(CLASSNAME, T1, DLLMAPPING)              \
+    template DLLMAPPING                                                      \
+        const FieldType &CLASSNAME<T1>::getClassType    (void);
+#define OSG_EXPORT_GETCLASSTYPE_DEF2(CLASSNAME, T1, T2, DLLMAPPING)          \
+    template DLLMAPPING                                                      \
+        const FieldType &CLASSNAME<T1, T2>::getClassType(void);
+
+#define OSG_DLLEXPORT_DEF1(CLASSNAME, T1, DLLMAPPING)                        \
+    OSG_EXPORT_TYPE_DEF1        (CLASSNAME, T1, DLLMAPPING)                  \
+    OSG_EXPORT_GETTYPE_DEF1     (CLASSNAME, T1, DLLMAPPING)                  \
+    OSG_EXPORT_GETCLASSTYPE_DEF1(CLASSNAME, T1, DLLMAPPING)
+
+
+#define OSG_DLLEXPORT_DEF2(CLASSNAME, T1, T2, DLLMAPPING)                    \
+    OSG_EXPORT_TYPE_DEF2        (CLASSNAME, T1, T2, DLLMAPPING)              \
+    OSG_EXPORT_GETTYPE_DEF2     (CLASSNAME, T1, T2, DLLMAPPING)              \
+    OSG_EXPORT_GETCLASSTYPE_DEF2(CLASSNAME, T1, T2, DLLMAPPING)
+
+
+
+#define OSG_FC_EXPORT_TYPE_DECL(CLASSNAME, T1, DLLMAPPING)                   \
+    extern template DLLMAPPING                                               \
+        FieldContainerType CLASSNAME<T1>::_type;
+
+#define OSG_FC_EXPORT_DESC_DECL(CLASSNAME, T1, DLLMAPPING)                   \
+    extern template DLLMAPPING                                               \
+        FieldDescription   CLASSNAME<T1>::_desc[];
+
+#define OSG_FC_EXPORT_GETTYPE_DECL(CLASSNAME, T1, DLLMAPPING)                \
+    extern template DLLMAPPING                                               \
+              FieldContainerType &CLASSNAME<T1>::getType(void);              \
+    extern template DLLMAPPING                                               \
+        const FieldContainerType &CLASSNAME<T1>::getType(void) const;        \
+    extern template DLLMAPPING                                               \
+              FieldContainerType &CLASSNAME<T1>::getStaticType(void);        \
+    extern template DLLMAPPING                                               \
+              UInt32              CLASSNAME<T1>::getStaticTypeId(void);
+
+#define OSG_FC_DLLEXPORT_DECL(CLASSNAME, T1, DLLMAPPING)                     \
+    OSG_FC_EXPORT_TYPE_DECL   (CLASSNAME, T1, DLLMAPPING)                    \
+    OSG_FC_EXPORT_DESC_DECL   (CLASSNAME, T1, DLLMAPPING)                    \
+    OSG_FC_EXPORT_GETTYPE_DECL(CLASSNAME, T1, DLLMAPPING)     
+
+#define OSG_ABSTR_FC_DLLEXPORT_DECL(CLASSNAME, T1, DLLMAPPING)               \
+    OSG_FC_EXPORT_TYPE_DECL   (CLASSNAME, T1, DLLMAPPING)                    \
+    OSG_FC_EXPORT_GETTYPE_DECL(CLASSNAME, T1, DLLMAPPING)     
+
+
+
+#define OSG_FC_EXPORT_TYPE_DEF(CLASSNAME, T1, DLLMAPPING)                    \
+    template DLLMAPPING                                                      \
+        FieldContainerType CLASSNAME<T1>::_type;
+
+#define OSG_FC_EXPORT_DESC_DEF(CLASSNAME, T1, DLLMAPPING)                    \
+    template DLLMAPPING                                                      \
+        FieldDescription   CLASSNAME<T1>::_desc[];
+
+#define OSG_FC_EXPORT_GETTYPE_DEF(CLASSNAME, T1, DLLMAPPING)                 \
+    template DLLMAPPING                                                      \
+              FieldContainerType &CLASSNAME<T1>::getType(void);              \
+    template DLLMAPPING                                                      \
+        const FieldContainerType &CLASSNAME<T1>::getType(void) const;        \
+    template DLLMAPPING                                                      \
+              FieldContainerType &CLASSNAME<T1>::getStaticType(void);        \
+    template DLLMAPPING                                                      \
+              UInt32              CLASSNAME<T1>::getStaticTypeId(void);
+
+#define OSG_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING)                      \
+    OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)                     \
+    OSG_FC_EXPORT_DESC_DEF   (CLASSNAME, T1, DLLMAPPING)                     \
+    OSG_FC_EXPORT_GETTYPE_DEF(CLASSNAME, T1, DLLMAPPING)     
+
+
+#define OSG_ABSTR_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING)                \
+    OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)                     \
+    OSG_FC_EXPORT_GETTYPE_DEF(CLASSNAME, T1, DLLMAPPING)     
+
+#elif defined (__linux)
+
+#define OSG_EXPORT_TYPE_DECL1(CLASSNAME, T1, DLLMAPPING)                     \
+    extern template const FieldType  CLASSNAME<T1>::_fieldType;
+#define OSG_EXPORT_TYPE_DECL2(CLASSNAME, T1, T2, DLLMAPPING)                 \
+    extern template const FieldType  CLASSNAME<T1, T2>::_fieldType;
+
+#define OSG_DLLEXPORT_DECL1(CLASSNAME, T1, DLLMAPPING)                       \
+    OSG_EXPORT_TYPE_DECL1        (CLASSNAME, T1, DLLMAPPING)
+
+#define OSG_DLLEXPORT_DECL2(CLASSNAME, T1, T2, DLLMAPPING)                   \
+    OSG_EXPORT_TYPE_DECL2        (CLASSNAME, T1, T2, DLLMAPPING)             \
+
+
+#define OSG_EXPORT_TYPE_DEF1(CLASSNAME, T1, DLLMAPPING)                      \
+    template const FieldType  CLASSNAME<T1>::_fieldType;
+#define OSG_EXPORT_TYPE_DEF2(CLASSNAME, T1, T2, DLLMAPPING)                  \
+    template const FieldType  CLASSNAME<T1, T2>::_fieldType;
+
+#define OSG_DLLEXPORT_DEF1(CLASSNAME, T1, DLLMAPPING)                        \
+    OSG_EXPORT_TYPE_DEF1        (CLASSNAME, T1, DLLMAPPING)                  \
+
+#define OSG_DLLEXPORT_DEF2(CLASSNAME, T1, T2, DLLMAPPING)                    \
+    OSG_EXPORT_TYPE_DEF2        (CLASSNAME, T1, T2, DLLMAPPING)              \
+
+
+
+#define OSG_FC_EXPORT_TYPE_DECL(CLASSNAME, T1, DLLMAPPING)                   \
+    extern template FieldContainerType CLASSNAME<T1>::_type;
+
+#define OSG_FC_EXPORT_DESC_DECL(CLASSNAME, T1, DLLMAPPING)                   \
+    extern template FieldDescription   CLASSNAME<T1>::_desc[];
+
+
+#define OSG_FC_DLLEXPORT_DECL(CLASSNAME, T1, DLLMAPPING)                     \
+    OSG_FC_EXPORT_TYPE_DECL   (CLASSNAME, T1, DLLMAPPING)                    \
+    OSG_FC_EXPORT_DESC_DECL   (CLASSNAME, T1, DLLMAPPING)                    \
+
+#define OSG_ABSTR_FC_DLLEXPORT_DECL(CLASSNAME, T1, DLLMAPPING)               \
+    OSG_FC_EXPORT_TYPE_DECL   (CLASSNAME, T1, DLLMAPPING)                    \
+
+
+
+#define OSG_FC_EXPORT_TYPE_DEF(CLASSNAME, T1, DLLMAPPING)                    \
+    template FieldContainerType CLASSNAME<T1>::_type;
+
+#define OSG_FC_EXPORT_DESC_DEF(CLASSNAME, T1, DLLMAPPING)                    \
+    template FieldDescription   CLASSNAME<T1>::_desc[];
+
+#define OSG_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING)                      \
+    OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)                     \
+
+#define OSG_ABSTR_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING)                \
+    OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)
+
+#elif defined (__sgi)
+#else
+#error Could not determine system
 #endif
 
 #endif /* _OSGCONFIG_H_ */

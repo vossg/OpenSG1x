@@ -42,15 +42,20 @@
 
 #include <OSGBaseTypes.h>
 
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#if defined(WIN32) && defined(OSG_BUILD_DLL) 
 #   ifdef OSG_COMPILEFIELD
-#       define OSG_FIELD_DLLMAPPING __declspec(dllexport)
+#       define OSG_FIELD_DLLMAPPING     __declspec(dllexport)
+#       define OSG_FIELD_DLLTMPLMAPPING 
 #   else
-#       define OSG_FIELD_DLLMAPPING __declspec(dllimport)
+#       define OSG_FIELD_DLLMAPPING     __declspec(dllimport)
+#       define OSG_FIELD_DLLTMPLMAPPING __declspec(dllimport)
 #   endif
 #else
 #define OSG_FIELD_DLLMAPPING
+#define OSG_FIELD_DLLTMPLMAPPING 
 #endif
+
+
 
 OSG_BEGIN_NAMESPACE
 
@@ -84,7 +89,7 @@ struct OSG_FIELD_DLLMAPPING Traits
  */
 
 template <class FieldTypeT>
-struct OSG_FIELD_DLLMAPPING FieldDataTraits : public Traits
+struct FieldDataTraits : public Traits
 {
 };
 
@@ -96,7 +101,12 @@ struct OSG_FIELD_DLLMAPPING FieldDataTraits : public Traits
  */
 
 template <class FieldTypeT>
-struct OSG_FIELD_DLLMAPPING FieldDataTraits1 : public Traits
+struct FieldDataTraits1 : public Traits
+{
+};
+
+template <class FieldTypeT>
+struct FieldDataTraits2 : public Traits
 {
 };
 

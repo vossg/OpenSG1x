@@ -71,7 +71,7 @@ OSG_BEGIN_NAMESPACE
 \*-------------------------------------------------------------------------*/
 
 inline
-const FieldContainerType &FieldContainer::getStaticType(void)
+FieldContainerType &FieldContainer::getStaticType(void)
 { 
     return _type; 
 }

@@ -55,6 +55,7 @@
 #endif
 
 #define OSG_COMPILEWINDOW
+#define OSG_COMPILEBACKGROUNDINST
 
 #include <OSGFieldContainer.h>
 #include <OSGNode.h>
@@ -86,6 +87,23 @@ using namespace osg;
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
+
+OSG_BEGIN_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SField<BackgroundPtr>::_fieldType
+#pragma instantiate MField<BackgroundPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, BackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, BackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 /***************************************************************************\
  *                           Class variables                               *

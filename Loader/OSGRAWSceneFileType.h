@@ -94,7 +94,7 @@ public:
   /** get method for attribute the */
   virtual RAWSceneFileType & the (void) { return _the; }
 
-#if defined(WIN32) || defined(__linux)
+#if defined(__linux)
   static  RAWSceneFileType & staticThe (void) { return _the; }
 #endif
 
@@ -102,7 +102,7 @@ public:
   virtual NodePtr read (const char *fileName) const;
 
   /** write the image to the given file */
-  virtual bool write (const NodePtr node, const char *fileName) const;
+  virtual Bool write (const NodePtr node, const char *fileName) const;
 
   /** get method for the type name */
   virtual const char *getName (void) const { return "RAW GEOMETRY"; }

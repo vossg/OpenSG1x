@@ -115,9 +115,12 @@ FieldContainerType NewNode::_type("NewNode",
 
 struct DynDesc
 {
-    typedef Attachment Parent;
+    typedef Attachment    Parent;
+    typedef AttachmentPtr ParentPtr;
 
-    static const char *getTypeName(void) { return "DynDesc"; }
+    static const char *getTypeName      (void) { return "DynDesc";    }
+    static const char *getParentTypeName(void) { return "Attachment"; }
+    static const char *getGroupName     (void) { return "Test";       }
 };
 
 int main (int argc, char **argv)

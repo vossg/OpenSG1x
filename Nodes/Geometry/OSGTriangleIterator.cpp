@@ -40,6 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILEGEOMETRY
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -80,7 +81,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.1 2001/01/13 02:05:26 dirk Exp $";
+char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.2 2001/01/18 11:06:17 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

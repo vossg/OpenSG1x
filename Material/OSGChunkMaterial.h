@@ -71,6 +71,10 @@ typedef FCPtr <MaterialPtr, ChunkMaterial> ChunkMaterialPtr;
 
 class OSG_MATERIAL_DLLMAPPING ChunkMaterial : public Material
 {
+  private:
+
+	typedef Material Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
@@ -79,7 +83,7 @@ class OSG_MATERIAL_DLLMAPPING ChunkMaterial : public Material
 
     OSG_FC_FIRST_FIELD_IDM_DECL(StateChunksField)
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (StateChunksField)
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -89,7 +93,6 @@ class OSG_MATERIAL_DLLMAPPING ChunkMaterial : public Material
     //   types                                                               
     //-----------------------------------------------------------------------
 
-	typedef Material Inherited;
     typedef ChunkMaterialPtr Ptr;
 
     //-----------------------------------------------------------------------

@@ -87,8 +87,6 @@ class OSG_FIELD_DLLMAPPING SField : public Field
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-	static const FieldType _fieldType;
-
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -97,9 +95,13 @@ class OSG_FIELD_DLLMAPPING SField : public Field
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef typename osgIF<fieldNameSpace == 1,
+                           FieldDataTraits1<FieldTypeT>, 
+                           FieldDataTraits2<FieldTypeT> >::_IRet SF1Trait;
+
     typedef typename osgIF<fieldNameSpace == 0, 
                            FieldDataTraits <FieldTypeT>, 
-                           FieldDataTraits1<FieldTypeT> >::_IRet SFieldTraits;
+                           SF1Trait>::_IRet SFieldTraits;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -160,6 +162,8 @@ class OSG_FIELD_DLLMAPPING SField : public Field
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
+
+    static const FieldType _fieldType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     

@@ -80,25 +80,38 @@ typedef FCPtr<StateChunkPtr, LightChunk> LightChunkPtr;
 
 class OSG_STATE_DLLMAPPING LightChunk : public StateChunk
 {
+  private:
+
+	typedef StateChunk Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(DiffuseField             )
+    OSG_FC_FIRST_FIELD_IDM_DECL(DiffuseField)
 
-    OSG_FC_FIELD_IDM_DECL      (AmbientField             )  
-    OSG_FC_FIELD_IDM_DECL      (SpecularField            )  
-    OSG_FC_FIELD_IDM_DECL      (PositionField            )  
-    OSG_FC_FIELD_IDM_DECL      (DirectionField           )   
-    OSG_FC_FIELD_IDM_DECL      (ExponentField            )
-    OSG_FC_FIELD_IDM_DECL      (CutoffField              )  
-    OSG_FC_FIELD_IDM_DECL      (ConstantAttenuationField )  
-    OSG_FC_FIELD_IDM_DECL      (LinearAttenuationField   )  
-    OSG_FC_FIELD_IDM_DECL      (QuadraticAttenuationField)  
+    OSG_FC_FIELD_IDM_DECL      (AmbientField, 
+                                DiffuseField)  
+    OSG_FC_FIELD_IDM_DECL      (SpecularField, 
+                                AmbientField)  
+    OSG_FC_FIELD_IDM_DECL      (PositionField,  
+                                SpecularField)  
+    OSG_FC_FIELD_IDM_DECL      (DirectionField, 
+                                PositionField)   
+    OSG_FC_FIELD_IDM_DECL      (ExponentField,  
+                                DirectionField)
+    OSG_FC_FIELD_IDM_DECL      (CutoffField,   
+                                ExponentField)  
+    OSG_FC_FIELD_IDM_DECL      (ConstantAttenuationField, 
+                                CutoffField)  
+    OSG_FC_FIELD_IDM_DECL      (LinearAttenuationField,  
+                                ConstantAttenuationField)  
+    OSG_FC_FIELD_IDM_DECL      (QuadraticAttenuationField,
+                                LinearAttenuationField)  
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (QuadraticAttenuationField)  
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -108,7 +121,6 @@ class OSG_STATE_DLLMAPPING LightChunk : public StateChunk
     //   types                                                               
     //-----------------------------------------------------------------------
 
-	typedef StateChunk Inherited;
     typedef LightChunkPtr Ptr;
 
     //-----------------------------------------------------------------------

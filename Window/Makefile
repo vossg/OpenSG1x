@@ -9,8 +9,8 @@ endif
 
 REQUIRED_INCPACKAGES := Loader Light  Misc Geometry DrawAction Action \
 						FieldContainer Field Base Log
-REQUIRED_LNKPACKAGES := Action Misc Geometry FieldContainer Field Log	\
-						Base DrawAction Action Light Loader					 
+REQUIRED_LNKPACKAGES := Loader Action Misc Geometry Material FieldContainer \
+						Field Log State Base DrawAction Action Light 
 #Loader Loader
 include $(OSGPOOL)/$(OSGCOMMON)/common.mk
 include $(OSGPOOL)/$(OSGCOMMON)/commonSub.mk

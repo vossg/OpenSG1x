@@ -48,12 +48,15 @@
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
 #   ifdef OSG_COMPILESTATE
-#       define OSG_STATE_DLLMAPPING __declspec(dllexport)
+#       define OSG_STATE_DLLMAPPING     __declspec(dllexport)
+#       define OSG_STATE_DLLTMPLMAPPING
 #   else
-#       define OSG_STATE_DLLMAPPING __declspec(dllimport)
+#       define OSG_STATE_DLLMAPPING     __declspec(dllimport)
+#       define OSG_STATE_DLLTMPLMAPPING __declspec(dllimport)
 #   endif
 #else
 #define OSG_STATE_DLLMAPPING
+#define OSG_STATE_DLLTMPLMAPPING
 #endif
 
 #include <vector>
@@ -287,7 +290,33 @@ struct FieldDataTraits<StateChunkPtr> : public Traits
 };
 
 typedef SField<StateChunkPtr> SFStateChunkPtr;
+
+#ifndef OSG_COMPILESTATECHUNKINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<StateChunkPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 typedef MField<StateChunkPtr> MFStateChunkPtr;
+
+#ifndef OSG_COMPILESTATECHUNKINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<StateChunkPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, StateChunkPtr, OSG_STATE_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 
 // null pointer
 

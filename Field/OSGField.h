@@ -71,7 +71,7 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 template <class T>
-struct OSG_FIELD_DLLMAPPING ErrorFromToString
+struct ErrorFromToString
 {
     static Bool              getFromString(      T      &,
                                            const Char8 *&)

@@ -76,60 +76,187 @@ OSG_BEGIN_NAMESPACE
 /** \brief SFBool
  */
 
-typedef SField<Bool>   SFBool;
+typedef SField<Bool, 2>   SFBool;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<Bool, 2>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL2(SField, Bool, 2, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief SFInt8
  */
 
 typedef SField<Int8>   SFInt8;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<Int8>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, Int8, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief SFUInt8
  */
 
 typedef SField<UInt8>  SFUInt8;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<UInt8>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, UInt8, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief SFInt16
  */
 
 typedef SField<Int16>  SFInt16;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<Int16>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, Int16, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief SFUInt16
  */
 
 typedef SField<UInt16> SFUInt16;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<UInt16>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, UInt16, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief SFInt32
  */
 typedef SField<Int32>  SFInt32;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<Int32>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, Int32, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief SFUInt32
  */
 
 typedef SField<UInt32> SFUInt32;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<UInt32>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, UInt32, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief SFInt64
  */
 typedef SField<Int64>  SFInt64;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<Int64>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, Int64, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief SFUInt64
  */
 
 typedef SField<UInt64> SFUInt64;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<UInt64>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, UInt64, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief SFReal32
  */
 
 typedef SField<Real32> SFReal32;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<Real32>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, Real32, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief SFReal64
  */
 
 typedef SField<Real64> SFReal64;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<Real64>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, Real64, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 

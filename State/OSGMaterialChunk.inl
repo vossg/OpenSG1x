@@ -104,6 +104,7 @@ OSG_FIELD_CONTAINER_INL_DEF(MaterialChunk, MaterialChunkPtr)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+inline
 const StateChunkClass *  MaterialChunk::getClass( void ) const
 {
 	return &_class;

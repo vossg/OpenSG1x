@@ -196,7 +196,7 @@ UInt32 FieldContainerFactory::registerFieldContainer(
         _storeLock->aquire();
 
     if(_fieldcontainerStoreV == NULL)
-        _fieldcontainerStoreV = new FieldContainerStore;
+        _fieldcontainerStoreV = new FieldContainerStore(0);
 
     _fieldcontainerStoreV->push_back(fieldP);
     

@@ -96,19 +96,21 @@ class OSG_LIGHT_DLLMAPPING LightBase : public NodeCore
 {
   private:
 
+    typedef NodeCore Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(AmbientField )
+    OSG_FC_FIRST_FIELD_IDM_DECL(AmbientField                )
 
-    OSG_FC_FIELD_IDM_DECL      (DiffuseField )  
-    OSG_FC_FIELD_IDM_DECL      (SpecularField)  
-    OSG_FC_FIELD_IDM_DECL      (BeaconField  )
+    OSG_FC_FIELD_IDM_DECL      (DiffuseField,  AmbientField )  
+    OSG_FC_FIELD_IDM_DECL      (SpecularField, DiffuseField )  
+    OSG_FC_FIELD_IDM_DECL      (BeaconField,   SpecularField)
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (BeaconField                 )
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -237,8 +239,6 @@ class OSG_LIGHT_DLLMAPPING LightBase : public NodeCore
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
-
-    typedef NodeCore Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

@@ -16,3 +16,4 @@ PROJLIBS_FILE_$(PACKAGENAME) := \
 	$(call buildLibName,$(PROJLIBS_FILE_$(PACKAGENAME)))
 endif
 endif
+

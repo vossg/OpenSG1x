@@ -103,7 +103,7 @@ public:
   virtual NodePtr read (const char *fileName);
 
   /** write image  */
-  virtual bool write (const NodePtr node, const char *fileName);
+  virtual Bool write (const NodePtr node, const char *fileName);
 
   /** print debug info to cerr */
   void print (void);
@@ -191,7 +191,7 @@ private:
 //------------------------------
 
   /**  */
-  static bool addSceneFileType (SceneFileType &fileType);
+  static Bool addSceneFileType (SceneFileType &fileType);
 
 
 //------------------------------

@@ -226,16 +226,19 @@ void Action::registerLeaveFunction( const FieldContainerType &type,
 
 // application entry points
 
-Action::ResultE Action::apply( vector<NodePtr>::iterator begin,
-	vector<NodePtr>::iterator end  )
+Action::ResultE Action::apply(vector<NodePtr>::iterator begin,
+                              vector<NodePtr>::iterator end)
 {
 	Action::ResultE res = Continue;
 	
+/*  Does not work everywhere. (GV)
+
 	if ( ! begin || ! end )
 	{
 		SWARNING << "apply: begin or end is NULL!" << endl;
 		return Quit;
 	}
+*/
 	
 	// call the start function and its' returns
 	if ( ( res = callStart() ) != Continue )

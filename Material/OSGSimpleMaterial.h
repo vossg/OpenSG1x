@@ -47,7 +47,6 @@ OSG_BEGIN_NAMESPACE
 
 class MaterialChunk;
 typedef FCPtr<StateChunkPtr, MaterialChunk> MaterialChunkPtr;
-typedef SField<MaterialChunkPtr           > SFMaterialChunkPtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -68,21 +67,25 @@ typedef FCPtr <ChunkMaterialPtr, SimpleMaterial> SimpleMaterialPtr;
 
 class OSG_MATERIAL_DLLMAPPING SimpleMaterial : public ChunkMaterial
 {
+  private:
+
+	typedef ChunkMaterial Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(AmbientField)
+    OSG_FC_FIRST_FIELD_IDM_DECL(AmbientField                     )
 
-    OSG_FC_FIELD_IDM_DECL(DiffuseField)
-    OSG_FC_FIELD_IDM_DECL(SpecularField)
-    OSG_FC_FIELD_IDM_DECL(ShininessField)
-    OSG_FC_FIELD_IDM_DECL(EmissionField)
-    OSG_FC_FIELD_IDM_DECL(TransparencyField)
+    OSG_FC_FIELD_IDM_DECL      (DiffuseField,      AmbientField  )
+    OSG_FC_FIELD_IDM_DECL      (SpecularField,     DiffuseField  )
+    OSG_FC_FIELD_IDM_DECL      (ShininessField,    SpecularField )
+    OSG_FC_FIELD_IDM_DECL      (EmissionField,     ShininessField)
+    OSG_FC_FIELD_IDM_DECL      (TransparencyField, EmissionField )
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (TransparencyField                )
 
     static const SimpleMaterialPtr NullPtr;
 
@@ -94,7 +97,6 @@ class OSG_MATERIAL_DLLMAPPING SimpleMaterial : public ChunkMaterial
     //   types                                                               
     //-----------------------------------------------------------------------
 
-	typedef ChunkMaterial Inherited;
     typedef SimpleMaterialPtr Ptr;
 
     //-----------------------------------------------------------------------

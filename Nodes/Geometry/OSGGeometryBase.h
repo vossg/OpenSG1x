@@ -49,12 +49,16 @@
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
 #   ifdef OSG_COMPILEGEOMETRY
-#       define OSG_GEOMETRY_DLLMAPPING __declspec(dllexport)
+#       define OSG_GEOMETRY_DLLMAPPING     __declspec(dllexport)
+#       define OSG_GEOMETRY_DLLTMPLMAPPING 
+//__declspec(dllexport)
 #   else
-#       define OSG_GEOMETRY_DLLMAPPING __declspec(dllimport)
+#       define OSG_GEOMETRY_DLLMAPPING     __declspec(dllimport)
+#       define OSG_GEOMETRY_DLLTMPLMAPPING __declspec(dllimport)
 #   endif
 #else
 #define OSG_GEOMETRY_DLLMAPPING
+#define OSG_GEOMETRY_DLLTMPLMAPPING
 #endif
 
 #endif /* _OSGGEOMETRYBASE_H_ */

@@ -55,6 +55,7 @@
 #endif
 
 #define OSG_COMPILEWINDOW
+#define OSG_COMPILEGLUTWINDOWINST
 
 #include "OSGViewport.h"
 #include "OSGCamera.h"
@@ -66,6 +67,22 @@ using namespace osg;
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
+
+OSG_BEGIN_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SField<GLUTWindowPtr>::_fieldType
+#pragma instantiate MField<GLUTWindowPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, GLUTWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, GLUTWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
 
 /***************************************************************************\
  *                           Class variables                               *

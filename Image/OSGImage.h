@@ -92,7 +92,7 @@ public:
   Image (void);
 
   /** Copy Constructor */
-  Image (const Image &obj, bool copy);
+  Image (const Image &obj, Bool copy);
 
   /** Destructor */
   virtual ~Image (void);
@@ -106,30 +106,30 @@ public:
     	    	  unsigned char *data = 0);
 
   /** set methode wich sets the image data */
-  bool set (int width, int height, const char *pixelFormat, 
+  Bool set (int width, int height, const char *pixelFormat, 
 						unsigned char *data = 0);
 
   /** set methode wich sets the image data */
-  bool set (int width, int height, int depth,
+  Bool set (int width, int height, int depth,
 						const char *pixelFormat, unsigned char *data = 0);
 
   /** reformate the image to the given pixelFormat */
-  bool reformat (const char *pixelFormat, Image *destination = 0);
+  Bool reformat (const char *pixelFormat, Image *destination = 0);
 
   /** scale the image to the given dimension */
-  bool scale (int width, int height, int depth =1, Image *destination = 0);
+  Bool scale (int width, int height, int depth =1, Image *destination = 0);
 
   /** methode to write the image data to the given File */
-  bool write (const char *fileName);
+  Bool write (const char *fileName);
 
   /** methode to read the image data from the given File */
-  bool read (const char *fileName);
+  Bool read (const char *fileName);
 
   /** Equality comparison operator */
-  bool operator == (const Image &image);
+  Bool operator == (const Image &image);
 
   /** lower comparison operator */
-  bool operator < (const Image &image);
+  Bool operator < (const Image &image);
 
   /** get method for attribute dimension */
   int dimension (void) const { return _dimension; }
@@ -257,7 +257,7 @@ private:
 //------------------------------
 
   /** internal method to alloc and copy the image data */
-  bool createData (const unsigned char *data);
+  Bool createData (const unsigned char *data);
 
 };
 

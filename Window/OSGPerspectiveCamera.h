@@ -51,20 +51,18 @@
 #include <OSGFrustumVolume.h>
 #include <OSGMatrix.h>
 
-class Camera;
-
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
 //  Forward References
 //---------------------------------------------------------------------------
 
+class Camera;
 class DrawAction;
 
 class PerspectiveCamera;
 typedef FCPtr <CameraPtr,
                PerspectiveCamera   > PerspectiveCameraPtr;
-typedef MField<PerspectiveCameraPtr> MFPerspectiveCameraPtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -82,6 +80,10 @@ typedef MField<PerspectiveCameraPtr> MFPerspectiveCameraPtr;
 
 class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public Camera
 {
+  private:
+
+    typedef Camera Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
@@ -90,7 +92,7 @@ class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public Camera
 
     OSG_FC_FIRST_FIELD_IDM_DECL(DegreeField)
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (DegreeField)
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -181,8 +183,6 @@ class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public Camera
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef Camera Inherited;
-
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
@@ -254,11 +254,38 @@ struct FieldDataTraits<PerspectiveCameraPtr> : public Traits
 
 /** \brief SFPerspectiveCameraPtr
  */
+
 typedef SField<PerspectiveCameraPtr>       SFPerspectiveCameraPtr;
+
+#ifndef OSG_COMPILEPERSPEKTIVECAMERAINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<PerspectiveCameraPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, PerspectiveCameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 
 /** \brief MFPerspectiveCameraPtr
  */
+
 typedef MField<PerspectiveCameraPtr>       MFPerspectiveCameraPtr;
+
+#ifndef OSG_COMPILEPERSPEKTIVECAMERAINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<PerspectiveCameraPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, PerspectiveCameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 

@@ -90,6 +90,10 @@ typedef FCPtr<NodeCorePtr, Transform> TransformPtr;
 
 class OSG_MISC_DLLMAPPING Transform : public NodeCore
 {
+  private:
+
+    typedef NodeCore Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
@@ -98,7 +102,7 @@ class OSG_MISC_DLLMAPPING Transform : public NodeCore
     
     OSG_FC_FIRST_FIELD_IDM_DECL(MatrixField)
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (MatrixField)
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -197,8 +201,6 @@ class OSG_MISC_DLLMAPPING Transform : public NodeCore
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef NodeCore Inherited;
-
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
@@ -266,9 +268,34 @@ struct FieldDataTraits<TransformPtr> : public Traits
  */
 typedef SField<TransformPtr> SFTransformPtr;
 
+#ifndef OSG_COMPILETRANSFORMINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<TransformPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, TransformPtr, OSG_MISC_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+
 /** \brief MFTransformPtr
  */
 typedef MField<TransformPtr> MFTransformPtr;
+
+#ifndef OSG_COMPILETRANSFORMINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<TransformPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, TransformPtr, OSG_MISC_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 

@@ -108,9 +108,9 @@ ChangeList::ChangeList(void) :
     _bReadOnly(false),
     _aspectId(Thread::getAspect()),
     _listMode(Public),
-    _changedFieldContainerV(),
-    _addRefdFieldContainerV(),
-    _subRefdFieldContainerV()
+    _changedFieldContainerV(0),
+    _addRefdFieldContainerV(0),
+    _subRefdFieldContainerV(0)
 {
     Aspect::addList(this, _aspectId);
 }

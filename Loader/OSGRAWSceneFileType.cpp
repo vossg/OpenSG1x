@@ -102,7 +102,7 @@ RAWSceneFileType RAWSceneFileType::_the ( suffixA, sizeof(suffixA));
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -221,7 +221,7 @@ NodePtr RAWSceneFileType::read (const char *fileName ) const
 //GlobalVars:
 //g: 
 //Returns:
-//r:bool
+//r:Bool
 // Caution
 //c: 
 //Assumations:
@@ -232,7 +232,7 @@ NodePtr RAWSceneFileType::read (const char *fileName ) const
 //s:
 //
 //------------------------------
-bool RAWSceneFileType::write ( const NodePtr node, 
+Bool RAWSceneFileType::write ( const NodePtr node, 
 																  const char *fileName) const
 {	
 	return false;
@@ -285,6 +285,7 @@ RAWSceneFileType::RAWSceneFileType ( const char *suffixArray[],
 																					 UInt16 suffixByteCount )
 	: SceneFileType ( suffixArray, suffixByteCount)
 {
+    fprintf(stderr, "Init Raw Scene File Type %d\n", this);
 	return;
 }
 

@@ -79,22 +79,26 @@ class NodePtr;
 
 class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer 
 {
+  private:
+
+    typedef FieldContainer Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(VolumeField     )
+    OSG_FC_FIRST_FIELD_IDM_DECL(VolumeField                    )
 
-    OSG_FC_FIELD_IDM_DECL      (ParentField     )
-    OSG_FC_FIELD_IDM_DECL      (ChildrenField   )
+    OSG_FC_FIELD_IDM_DECL      (ParentField,      VolumeField  )
+    OSG_FC_FIELD_IDM_DECL      (ChildrenField,    ParentField  )
 
-    OSG_FC_FIELD_IDM_DECL      (CoreField       )
+    OSG_FC_FIELD_IDM_DECL      (CoreField,        ChildrenField)
 
-    OSG_FC_FIELD_IDM_DECL      (AttachmentsField)
+    OSG_FC_FIELD_IDM_DECL      (AttachmentsField, CoreField    )
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (AttachmentsField               )
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -252,8 +256,6 @@ class OSG_FIELDCONTAINER_DLLMAPPING Node : public FieldContainer
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
-
-    typedef FieldContainer Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

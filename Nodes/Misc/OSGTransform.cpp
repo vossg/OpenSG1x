@@ -53,6 +53,7 @@
 #endif
 
 #define OSG_COMPILEMISC
+#define OSG_COMPILETRANSFORMINST
 
 #include "OSGTransform.h"
 #include "OSGDrawAction.h"
@@ -82,6 +83,22 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
+
+OSG_BEGIN_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SField<TransformPtr>::_fieldType
+#pragma instantiate MField<TransformPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, TransformPtr, OSG_MISC_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, TransformPtr, OSG_MISC_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
 
 /***************************************************************************\
  *                           Class variables                               *

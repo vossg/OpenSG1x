@@ -56,6 +56,7 @@
 #endif
 
 #define OSG_COMPILEWINDOW
+#define OSG_COMPILECAMERAINST
 
 #include "OSGNode.h"
 #include "OSGFieldContainerPtr.h"
@@ -82,6 +83,22 @@ using namespace osg;
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
+
+OSG_BEGIN_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SField<CameraPtr>::_fieldType
+#pragma instantiate MField<CameraPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, CameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, CameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
 
 /***************************************************************************\
  *                           Class variables                               *

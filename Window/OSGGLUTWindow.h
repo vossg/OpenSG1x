@@ -57,7 +57,6 @@ OSG_BEGIN_NAMESPACE
 
 class GLUTWindow;
 typedef FCPtr <WindowPtr, GLUTWindow> GLUTWindowPtr;
-typedef SField<GLUTWindowPtr        > SFGLUTWindowPtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -238,11 +237,37 @@ struct FieldDataTraits<GLUTWindowPtr> : public Traits
 
 /** \brief SFGLUTWindowPtr
  */
+
 typedef SField<GLUTWindowPtr>       SFGLUTWindowPtr;
+
+#ifndef OSG_COMPILEGLUTWINDOWINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<GLUTWindowPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, GLUTWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief MFGLUTWindowPtr
  */
+
 typedef MField<GLUTWindowPtr>       MFGLUTWindowPtr;
+
+#ifndef OSG_COMPILEGLUTWINDOWINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<GLUTWindowPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, GLUTWindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 

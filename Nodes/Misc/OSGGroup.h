@@ -219,9 +219,34 @@ struct FieldDataTraits<GroupPtr> : public Traits
  */
 typedef SField<GroupPtr> SFGroupPtr;
 
+#ifndef OSG_COMPILEGROUPINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<GroupPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, GroupPtr, OSG_MISC_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+
 /** \brief MFGroupPtr
  */
 typedef MField<GroupPtr> MFGroupPtr;
+
+#ifndef OSG_COMPILEGROUPINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<GroupPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, GroupPtr, OSG_MISC_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 

@@ -407,7 +407,8 @@ ostream &operator <<(      ostream            &outStream,
  */
 
 typedef Color3<Real32> Color3f;
-extern Color3f NullColor3f;
+
+extern OSG_BASE_DLLMAPPING Color3f NullColor3f;
 
 /*! \var Color4<Real32> Color4f;
  *  \ingroup BaseColors
@@ -415,7 +416,8 @@ extern Color3f NullColor3f;
  */
 
 typedef Color4<Real32> Color4f;
-extern Color4f NullColor4f;
+
+extern OSG_BASE_DLLMAPPING Color4f NullColor4f;
 
 /*! \var Color3<UInt8> Color3ub;
  *  \ingroup BaseColors
@@ -423,7 +425,8 @@ extern Color4f NullColor4f;
  */
 
 typedef Color3<UInt8> Color3ub;
-extern Color3ub NullColor3ub;
+
+extern OSG_BASE_DLLMAPPING Color3ub NullColor3ub;
 
 /*! \var Color4<UInt8> Color4ub;
  *  \ingroup BaseColors
@@ -431,7 +434,8 @@ extern Color3ub NullColor3ub;
  */
 
 typedef Color4<UInt8> Color4ub;
-extern Color4ub NullColor4ub;
+
+extern OSG_BASE_DLLMAPPING Color4ub NullColor4ub;
 
 OSG_END_NAMESPACE
 

@@ -70,41 +70,145 @@ OSG_BEGIN_NAMESPACE
 
 typedef MField<String>        MFString;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<String>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, String, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief MFTime
  */
 
 typedef MField<Time, 1>       MFTime;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Time, 1>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL2(MField, Time, 1, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief MFColor3f
  */
 
 typedef MField<Color3f>       MFColor3f;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Color3f>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Color3f, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief MFColor4f
  */
 
 typedef MField<Color4f>       MFColor4f;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Color4f>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Color4f, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief MFColor3ub
  */
 
 typedef MField<Color3ub>       MFColor3ub;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Color3ub>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Color3ub, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief MFColor4ub
  */
 
 typedef MField<Color4ub>       MFColor4ub;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<Color4ub>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, Color4ub, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 
 /** \brief MFVolume
  */
 
 typedef MField<DynamicVolume> MFVolume;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<DynamicVolume>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, DynamicVolume, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief MFBitVector
  */
 
 typedef MField<BitVector, 1>  MFBitVector;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<BitVector>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL2(MField, BitVector, 1, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 OSG_END_NAMESPACE
 
 #endif /* _OSGMFBASETYPES_H_ */
+
+
+
+
+
+
+

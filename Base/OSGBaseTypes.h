@@ -258,7 +258,13 @@ typedef double     Real64;
  *  \ingroup BaseTypes
  */
 
+#ifdef OSG_BOOL_IS_UNSIGNED
+#ifndef Bool
+typedef unsigned      Bool;
+#endif
+#else
 typedef bool          Bool;
+#endif
 
 /*! \var typedef char Char8;
  *  \brief Char8

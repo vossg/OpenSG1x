@@ -54,6 +54,7 @@
 #endif
 
 #define OSG_COMPILEWINDOW
+#define OSG_COMPILEPERSPEKTIVECAMERAINST
 
 #include <OSGBaseTypes.h>
 #include <OSGLog.h>
@@ -72,6 +73,22 @@ using namespace osg;
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
+
+OSG_BEGIN_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SField<PerspectiveCameraPtr>::_fieldType
+#pragma instantiate MField<PerspectiveCameraPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, PerspectiveCameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, PerspectiveCameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
 
 /***************************************************************************\
  *                           Class variables                               *

@@ -49,12 +49,15 @@
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
 #   ifdef OSG_COMPILEMISC
-#       define OSG_MISC_DLLMAPPING __declspec(dllexport)
+#       define OSG_MISC_DLLMAPPING     __declspec(dllexport)
+#       define OSG_MISC_DLLTMPLMAPPING 
 #   else
-#       define OSG_MISC_DLLMAPPING __declspec(dllimport)
+#       define OSG_MISC_DLLMAPPING     __declspec(dllimport)
+#       define OSG_MISC_DLLTMPLMAPPING __declspec(dllimport)
 #   endif
 #else
 #define OSG_MISC_DLLMAPPING
+#define OSG_MISC_DLLTMPLMAPPING
 #endif
 
 #endif /* _OSGMISCBASE_H_ */

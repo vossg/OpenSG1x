@@ -64,13 +64,23 @@ class Viewport;
 typedef FCPtr <FieldContainerPtr, Viewport> ViewportPtr;
 typedef MField<ViewportPtr                > MFViewportPtr;
 
+#ifndef OSG_COMPILEVIEWPORTINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<ViewportPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, ViewportPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 class Pipe;
 typedef FCPtr <FieldContainerPtr, Pipe> PipePtr;
-typedef SField<PipePtr                > SFPipePtr;
 
 class Window;
 typedef FCPtr <FieldContainerPtr, Window> WindowPtr;
-typedef SField<WindowPtr                > SFWindowPtr;
 
 class DrawAction;
 
@@ -90,18 +100,22 @@ class DrawAction;
 
 class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
 {
+  private:
+
+    typedef FieldContainer Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(WidthField )
+    OSG_FC_FIRST_FIELD_IDM_DECL(WidthField              )
 
-    OSG_FC_FIELD_IDM_DECL      (HeightField)
-    OSG_FC_FIELD_IDM_DECL      (PortsField )
+    OSG_FC_FIELD_IDM_DECL      (HeightField, WidthField )
+    OSG_FC_FIELD_IDM_DECL      (PortsField,  HeightField)
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (PortsField              )
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -234,8 +248,6 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef FieldContainer Inherited;
-
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
@@ -303,11 +315,39 @@ struct FieldDataTraits<WindowPtr> : public Traits
 
 /** \brief SFWindowPtr
  */
+
 typedef SField<WindowPtr>       SFWindowPtr;
+
+#ifndef OSG_COMPILEWINDOWINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<WindowPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 
 /** \brief MFWindowPtr
  */
+
 typedef MField<WindowPtr>       MFWindowPtr;
+
+
+#ifndef OSG_COMPILEWINDOWINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<WindowPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 

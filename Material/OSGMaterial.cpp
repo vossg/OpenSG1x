@@ -43,6 +43,9 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEMATERIAL
+#define OSG_COMPILEMATERIALINST
+
 #include "OSGFieldDescription.h"
 #include "OSGMaterial.h"
 
@@ -52,12 +55,28 @@ OSG_USING_NAMESPACE
  *                               Types                                     *
 \***************************************************************************/
 
+OSG_BEGIN_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SField<MaterialPtr>::_fieldType
+#pragma instantiate MField<MaterialPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, MaterialPtr, OSG_MATERIAL_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, MaterialPtr, OSG_MATERIAL_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.1 2000/12/17 23:46:51 dirk Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.2 2001/01/18 11:06:16 vossg Exp $";
 
 // FieldDescription Material::_desc[] = {};
 

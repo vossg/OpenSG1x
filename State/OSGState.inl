@@ -110,7 +110,7 @@ OSG_FIELD_CONTAINER_INL_DEF(State, StatePtr)
 
 /*------------------------------ access -----------------------------------*/
 
-	
+inline	
 StateChunkPtr State::getChunk( UInt32 id )
 {
 	if ( id < _chunks.size() )
@@ -119,12 +119,14 @@ StateChunkPtr State::getChunk( UInt32 id )
 	return NullStateChunk;
 }
 
+inline
 Bool State::chunkPresent( UInt32 id )
 {
 	return	id < _chunks.size() && 
 			_chunks.getValue( id ) != NullStateChunk ;
 }
 
+inline
 Bool State::chunkPresent( StateChunkPtr chunk )
 {
 	return chunkPresent( chunk->getClassID() );

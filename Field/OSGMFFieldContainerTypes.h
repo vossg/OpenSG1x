@@ -70,21 +70,76 @@ OSG_BEGIN_NAMESPACE
 
 typedef MField<FieldContainerPtr> MFFieldContainerPtr;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<FieldContainerPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, FieldContainerPtr, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief MFNodePtr
  */
 
 typedef MField<NodePtr>           MFNodePtr;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<NodePtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, NodePtr, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief MFNodeCorePtr
  */
 
 typedef MField<NodeCorePtr>       MFNodeCorePtr;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<NodeCorePtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, NodeCorePtr, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief MFAttachmentMap
  */
 
 typedef MField<AttachmentMap>     MFAttachmentMap;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<AttachmentMap>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, AttachmentMap, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+
 OSG_END_NAMESPACE
 
 #endif /* _OSGMFFIELDCONTAINERTYPES_H_ */
+
+
+
+
+
+

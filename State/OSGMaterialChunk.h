@@ -80,20 +80,24 @@ typedef FCPtr<StateChunkPtr, MaterialChunk> MaterialChunkPtr;
 
 class MaterialChunk : public StateChunk
 {
+  private:
+
+	typedef StateChunk Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(DiffuseField             )
+    OSG_FC_FIRST_FIELD_IDM_DECL(DiffuseField                 )
 
-    OSG_FC_FIELD_IDM_DECL      (AmbientField             )  
-    OSG_FC_FIELD_IDM_DECL      (SpecularField            )  
-    OSG_FC_FIELD_IDM_DECL      (EmissionField            )  
-    OSG_FC_FIELD_IDM_DECL      (ShininessField           )   
+    OSG_FC_FIELD_IDM_DECL      (AmbientField,   DiffuseField )  
+    OSG_FC_FIELD_IDM_DECL      (SpecularField,  AmbientField )  
+    OSG_FC_FIELD_IDM_DECL      (EmissionField,  SpecularField)  
+    OSG_FC_FIELD_IDM_DECL      (ShininessField, EmissionField)   
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL(ShininessField                )
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -103,7 +107,6 @@ class MaterialChunk : public StateChunk
     //   types                                                               
     //-----------------------------------------------------------------------
 
-	typedef StateChunk Inherited;
     typedef MaterialChunkPtr Ptr;
 
     //-----------------------------------------------------------------------

@@ -54,9 +54,10 @@
 #include <OSGMFSysTypes.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGFieldDescription.h>
-#include <OSGGeoProperty.h>
 #include <OSGAction.h>
 #include <OSGMaterial.h>
+
+#include <OSGGeoPropFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -90,28 +91,32 @@ class FaceIterator;
 
 class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
 {
+  private:
+
+    typedef NodeCore Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(TypesField          )
+    OSG_FC_FIRST_FIELD_IDM_DECL(TypesField                                )
 
-    OSG_FC_FIELD_IDM_DECL      (LengthsField        )
-    OSG_FC_FIELD_IDM_DECL      (PositionsField      )
+    OSG_FC_FIELD_IDM_DECL      (LengthsField,         TypesField          )
+    OSG_FC_FIELD_IDM_DECL      (PositionsField,       LengthsField        )
 
-    OSG_FC_FIELD_IDM_DECL      (NormalsField        )
-    OSG_FC_FIELD_IDM_DECL      (NormalPerVertexField)
+    OSG_FC_FIELD_IDM_DECL      (NormalsField,         PositionsField      )
+    OSG_FC_FIELD_IDM_DECL      (NormalPerVertexField, NormalsField        )
 
-    OSG_FC_FIELD_IDM_DECL      (ColorsField         )
-    OSG_FC_FIELD_IDM_DECL      (ColorPerVertexField )
+    OSG_FC_FIELD_IDM_DECL      (ColorsField,          NormalPerVertexField)
+    OSG_FC_FIELD_IDM_DECL      (ColorPerVertexField,  ColorsField         )
 
-    OSG_FC_FIELD_IDM_DECL      (GeoIndexField       )
+    OSG_FC_FIELD_IDM_DECL      (GeoIndexField,        ColorPerVertexField )
 
-    OSG_FC_FIELD_IDM_DECL      (MaterialField       )
+    OSG_FC_FIELD_IDM_DECL      (MaterialField,        GeoIndexField       )
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (MaterialField                              )
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -261,8 +266,6 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
-
-    typedef NodeCore Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

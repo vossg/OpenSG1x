@@ -79,6 +79,10 @@ typedef FCPtr<FieldContainerPtr, Background> BackgroundPtr;
 
 class OSG_WINDOW_DLLMAPPING Background : public FieldContainer
 {
+  private:
+
+    typedef FieldContainer Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
@@ -161,8 +165,6 @@ class OSG_WINDOW_DLLMAPPING Background : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef FieldContainer Inherited;
-
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
@@ -232,12 +234,39 @@ struct FieldDataTraits<BackgroundPtr> : public Traits
  */
 typedef SField<BackgroundPtr>       SFBackgroundPtr;
 
+#ifndef OSG_COMPILEBACKGROUNDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<BackgroundPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, BackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+
 /** \brief MFBackgroundPtr
  */
 typedef MField<BackgroundPtr>       MFBackgroundPtr;
+
+#ifndef OSG_COMPILEBACKGROUNDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<BackgroundPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, BackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 
 #include <OSGBackground.inl>
 
 #endif /* _OSGBACKGROUND_H_ */
+
+

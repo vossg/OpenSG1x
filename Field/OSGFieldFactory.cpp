@@ -136,10 +136,10 @@ FieldFactory::~FieldFactory(void )
 Field * FieldFactory::createField(UInt32 typeId)
 {
 	if((  _fieldTypeV          != NULL) &&
-       ((*_fieldTypeV)[typeId] != NULL) && 
-       ((*_fieldTypeV)[typeId]->_createMethod))
+       ((*_fieldTypeV)[typeId - 1] != NULL) && 
+       ((*_fieldTypeV)[typeId - 1]->_createMethod))
     {
-		return (*_fieldTypeV)[typeId]->_createMethod();
+		return (*_fieldTypeV)[typeId - 1]->_createMethod();
     }
 	else
     {
@@ -188,7 +188,10 @@ FieldType * FieldFactory::getFieldType (const char *szName)
 
 FieldType * FieldFactory::getFieldType(UInt32 typeId)
 {
-	return _fieldTypeV ? (*_fieldTypeV)[typeId] : NULL;
+    if(typeId >= _fieldTypeV->size())
+        return NULL;
+
+	return _fieldTypeV ? (*_fieldTypeV)[typeId - 1] : NULL;
 }
 
 
@@ -200,7 +203,7 @@ FieldType * FieldFactory::getFieldType(UInt32 typeId)
 const char *FieldFactory::getFieldTypeName(UInt32 typeId)
 {
 	FieldType *fieldType = 
-        _fieldTypeV ? (*_fieldTypeV)[typeId] : NULL;
+        _fieldTypeV ? (*_fieldTypeV)[typeId - 1] : NULL;
 
 	return fieldType ? fieldType->_szName : NULL;
 }

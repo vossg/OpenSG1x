@@ -21,8 +21,11 @@
 #include <OSGDrawAction.h>
 #include <OSGGeometry.h>
 
-#include "OSGSceneFileHandler.cpp"
+#include "OSGSceneFileHandler.h"
+
+#ifdef __linux
 #include "OSGRAWSceneFileType.h"
+#endif
 
 OSG_USING_NAMESPACE
 
@@ -56,8 +59,8 @@ int main (int argc, char **argv)
 
 	const char *fileName = (argc > 1) ? argv[1] : "test.raw";
 
-#ifdef WIN32
-//    RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
+#ifdef __linux
+    RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
 #endif
 	
 	SceneFileHandler::the().print();

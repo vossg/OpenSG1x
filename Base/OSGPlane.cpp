@@ -110,7 +110,7 @@ void Plane::offset(float d)
 */
 Bool Plane::intersect(const Line &line, Vec3f &point) const
 {
-	bool retCode = false;
+	Bool retCode = false;
 	
 	float condition = _normalVec.dot(line.getDirection());
 	
@@ -163,7 +163,7 @@ Bool Plane::isInHalfSpace( const Vec3f &point ) const
 OSG_BEGIN_NAMESPACE
 
 /// Equality comparison operators
-bool operator ==(const Plane &p1, const Plane &p2)
+Bool operator ==(const Plane &p1, const Plane &p2)
 {
 	return ((p1._distance == p2._distance) &&
 	        (p1._normalVec == p2._normalVec));

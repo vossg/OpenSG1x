@@ -84,7 +84,7 @@ char Color3<ValueTypeT>::cvsid[] = "@(#)$Id: $";
 \*-------------------------------------------------------------------------*/
 
 
-template <class ValueTypeT>
+template <class ValueTypeT> inline
 void Color3<ValueTypeT>::convertFromHSV(ValueType *rgbP, 
                                         Real32 h,
                                         Real32 s,
@@ -146,7 +146,7 @@ void Color3<ValueTypeT>::convertFromHSV(ValueType *rgbP,
     }
 }
 
-template <class ValueTypeT>
+template <class ValueTypeT> inline
 void Color3<ValueTypeT>::convertToHSV(const ValueType *rgbP, 
                                       Real32 &h,
                                       Real32 &s,
@@ -193,7 +193,7 @@ void Color3<ValueTypeT>::convertToHSV(const ValueType *rgbP,
     }
 }
 
-template <class ValueTypeT>
+template <class ValueTypeT> inline
 UInt32 Color3<ValueTypeT>::maxPart(const ValueType *rgbP)
 {
 	if(rgbP[0] > rgbP[1])
@@ -221,7 +221,7 @@ UInt32 Color3<ValueTypeT>::maxPart(const ValueType *rgbP)
 }
 
 
-template <class ValueTypeT>
+template <class ValueTypeT> inline
 UInt32 Color3<ValueTypeT>::minPart(const ValueType *rgbP)
 {
 	if(rgbP[0] < rgbP[1])

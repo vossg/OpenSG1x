@@ -78,6 +78,10 @@ OSG_BEGIN_NAMESPACE
 
 class OSG_FIELDCONTAINER_DLLMAPPING NodeCore : public FieldContainer 
 {
+  private:
+
+    typedef FieldContainer Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
@@ -86,9 +90,9 @@ class OSG_FIELDCONTAINER_DLLMAPPING NodeCore : public FieldContainer
 
     OSG_FC_FIRST_FIELD_IDM_DECL(ParentsField)
     
-    OSG_FC_FIELD_IDM_DECL      (AttachmentsField)
+    OSG_FC_FIELD_IDM_DECL      (AttachmentsField, ParentsField)
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (AttachmentsField)
 
     //-----------------------------------------------------------------------
     //   enums                                                               

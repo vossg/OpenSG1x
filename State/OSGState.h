@@ -78,6 +78,10 @@ typedef FCPtr<FieldContainerPtr, State> StatePtr;
 
 class OSG_STATE_DLLMAPPING State : public FieldContainer
 {
+  private:
+
+	typedef FieldContainer Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
@@ -86,7 +90,7 @@ class OSG_STATE_DLLMAPPING State : public FieldContainer
 
     OSG_FC_FIRST_FIELD_IDM_DECL(ChunksField)
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (ChunksField)
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -96,7 +100,6 @@ class OSG_STATE_DLLMAPPING State : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-	typedef FieldContainer Inherited;
     typedef StateChunkPtr Ptr;
 
     //-----------------------------------------------------------------------

@@ -78,7 +78,9 @@ typedef FCPtr<StateChunkPtr, TransformChunk> TransformChunkPtr;
 
 class OSG_STATE_DLLMAPPING TransformChunk : public StateChunk
 {
-  public:
+  private:
+
+	typedef StateChunk Inherited;
 
   public:
 
@@ -88,7 +90,7 @@ class OSG_STATE_DLLMAPPING TransformChunk : public StateChunk
     
     OSG_FC_FIRST_FIELD_IDM_DECL(MatrixField)
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (MatrixField)
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -98,7 +100,6 @@ class OSG_STATE_DLLMAPPING TransformChunk : public StateChunk
     //   types                                                               
     //-----------------------------------------------------------------------
 
-	typedef StateChunk Inherited;
     typedef TransformChunkPtr Ptr;
 
     //-----------------------------------------------------------------------

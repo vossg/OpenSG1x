@@ -68,10 +68,34 @@ OSG_BEGIN_NAMESPACE
 
 typedef SField<Matrix>     SFMatrix;
 
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<Matrix>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, Matrix, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 /** \brief SFQuaternion
  */
 
 typedef SField<Quaternion> SFQuaternion;
+
+#ifndef OSG_COMPILEFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<Quaternion>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, Quaternion, OSG_FIELD_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 

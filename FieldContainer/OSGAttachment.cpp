@@ -51,10 +51,24 @@
 #endif
 
 #define OSG_COMPILEFIELDCONTAINER
+#define OSG_COMPILEATTACHMENTINST
 
 #include "OSGAttachment.h"
 
 OSG_USING_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SimpleAttachment<NameAttachmentDesc>::_type
+#pragma instantiate SimpleAttachment<NameAttachmentDesc>::_desc
+
+#else
+
+OSG_FC_DLLEXPORT_DEF      (SimpleAttachment, 
+                           NameAttachmentDesc, 
+                           OSG_FIELDCONTAINER_TMPLDLLMAPPING)
+
+#endif
 
 /** \fn const char *Attachment::getClassname(void)
  *  \brief Classname

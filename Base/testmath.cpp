@@ -1284,8 +1284,8 @@ void main(void)
     osgInit(0, NULL);
 
 //    vectorTestConstructAndSetTest();
-//    vectorMathTests();
+    vectorMathTests();
     matrixTest();
-//   quattest();
-	matutilitytest();
+   quattest();
+//	matutilitytest();
 }

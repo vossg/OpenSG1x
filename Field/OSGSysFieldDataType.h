@@ -51,7 +51,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <>
-struct FieldDataTraits<Bool> : public Traits
+struct FieldDataTraits2<Bool> : public Traits
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };

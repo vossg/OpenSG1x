@@ -197,6 +197,9 @@ createSubSoName  = $(addprefix $(LIBPRAEFIX), \
 createSubSoLink  = $(addprefix lib, \
 	               $(addsuffix .$(SYSDEP).$(SOEXT), $(CURRENTDIR)))
 
+createLibDefName = $(addprefix lib, \
+				   $(addsuffix .def, $(CURRENTDIR)))
+
 #########################################################################
 # Create Package Include
 #########################################################################

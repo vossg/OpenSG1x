@@ -43,6 +43,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEMATERIAL
+
 #include <OSGFieldDescription.h>
 
 #include <OSGAction.h>
@@ -94,7 +96,7 @@ OSG_FC_LAST_FIELD_IDM_DEF(SimpleMaterial, TransparencyField)
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.2 2000/12/21 10:23:43 dirk Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.3 2001/01/18 11:06:16 vossg Exp $";
 
 
 FieldDescription SimpleMaterial::_desc[] = 

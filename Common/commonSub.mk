@@ -83,6 +83,8 @@ SUB_LIB_LINK = $(call createSublibLink)
 SUB_LIB_UNIX      := $(call convWinUnix,$(SUB_LIB))
 SUB_LIB_LINK_UNIX := $(call convWinUnix,$(SUB_LIB_LINK))
 endif
+SUB_LIB_TESTDEF = $(call createLibDefName)
+SUB_LIB_DEF     = $(wildcard $(SUB_LIB_TESTDEF))
 else
 ifeq ($(OSGMAKESO),1)
 SUB_SO      = $(call createSubSoName)
@@ -106,7 +108,7 @@ SUB_LIB      = $(call createSublibName)
 SUB_LIB_LINK = $(call createSublibLink)
 
 SUB_LIB_UNIX      := $(SUB_LIB)
-SUB_LIB_LINK)UNIX := $(SUB_LIB_LINK)
+SUB_LIB_LINK_UNIX := $(SUB_LIB_LINK)
 
 SUB_LIB_UNIX      := $(SUB_LIB)
 SUB_LIB_LINK_UNIX := $(SUB_LIB_LINK)

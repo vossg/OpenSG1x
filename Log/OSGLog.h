@@ -294,15 +294,8 @@ class OSG_LOG_DLLMAPPING Log : public ostream
 typedef Log *LogP;
 
 /** appLog */
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILELOG
-        extern OSG_LOG_DLLMAPPING LogP osgLogP;
-#   else
-        OSG_LOG_DLLMAPPING LogP osgLogP;
-#   endif 
-#else
-extern LogP osgLogP;
-#endif
+
+extern OSG_LOG_DLLMAPPING LogP osgLogP;
 
 inline OSG_LOG_DLLMAPPING void  initLog   (void);
 inline OSG_LOG_DLLMAPPING Log  &osgLog    (void); 

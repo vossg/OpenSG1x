@@ -58,6 +58,7 @@
 
 #include "OSGSimpleGeometry.h"
 #include "OSGGeometry.h"
+#include "OSGGeoPropPtrs.h"
 
 OSG_USING_NAMESPACE
 
@@ -90,7 +91,7 @@ static char cvsid[] = "@(#)$Id: $";
 OSG_GEOMETRY_DLLMAPPING
 NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 {
-	GeoPosition3fPtr		pnts  = GeoPosition3f::create();
+	GeoPosition3fPtr    pnts  = GeoPosition3f::create();
 	GeoNormal3fPtr		norms = GeoNormal3f::create();
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
 	GeoPLengthPtr		lens  = GeoPLength::create();	

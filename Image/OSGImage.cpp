@@ -124,7 +124,7 @@ OSG_USING_NAMESPACE
 //s:
 //
 //------------------------------
-bool Image::set ( int width, int height, 
+Bool Image::set ( int width, int height, 
 										 const char *pixelFormat, unsigned char *data  )
 {
 	_width = width;
@@ -155,7 +155,7 @@ bool Image::set ( int width, int height,
 //s:
 //
 //------------------------------
-bool Image::set ( int width, int height, int depth, 
+Bool Image::set ( int width, int height, int depth, 
 										 const char *pixelFormat, unsigned char *data )
 {
 	_width = width;
@@ -187,12 +187,12 @@ bool Image::set ( int width, int height, int depth,
 //s:
 //
 //------------------------------
-bool Image::reformat (const char *pixelFormat, Image *destination )
+Bool Image::reformat (const char *pixelFormat, Image *destination )
 {
 		/*
 	unsigned char *data;
 	int srcI, destI, DestSize;
-	bool valid = false;
+	Bool valid = false;
 	int sum;
 
 	cout << "INFO: Try to reformat image from pixelDepth " 
@@ -362,10 +362,10 @@ void Image::clear(unsigned char pixelValue)
 //s:
 //
 //------------------------------
-bool Image::scale (int width, int height, int depth,
+Bool Image::scale (int width, int height, int depth,
 											Image *destination )
 {
-	bool retCode = true;
+	Bool retCode = true;
 	unsigned char *data, *dest, *slice, *line, *pixel;
 	float sx, sy, sz, p;
 	int x,y,z;
@@ -432,7 +432,7 @@ bool Image::scale (int width, int height, int depth,
 //s:
 //
 //------------------------------
-bool Image::write (const char *fileName )
+Bool Image::write (const char *fileName )
 {
   return ImageFileHandler::the().write(*this, fileName);
 }
@@ -457,7 +457,7 @@ bool Image::write (const char *fileName )
 //s:
 //
 //------------------------------
-bool Image::read (const char *fileName )
+Bool Image::read (const char *fileName )
 {
 	return ImageFileHandler::the().read(*this, fileName);
 }
@@ -491,11 +491,11 @@ bool Image::read (const char *fileName )
 //s:
 //
 //------------------------------
-bool Image::createData (const unsigned char *data )
+Bool Image::createData (const unsigned char *data )
 {
 		int i, bitCount = 0, c;
 	unsigned long size;
-	bool expectDigit;
+	Bool expectDigit;
 	const char *format = _pixelFormat.str();
 
 	if (!_pixelFormat.empty()) {
@@ -615,7 +615,7 @@ Image::Image (void )
 //s:
 //
 //------------------------------
-Image::Image (const Image &obj, bool copy )
+Image::Image (const Image &obj, Bool copy )
 : _dimension(0), _width(obj._width), _height(obj._height), _depth(obj._depth),
   _pixelDepth(0), _pixelFormat(obj._pixelFormat), _data(0)
 
@@ -739,7 +739,7 @@ Image::Image ( int width, int height, const char *pixelFormat,
 //s:
 //
 //------------------------------
-bool Image::operator == (const Image &image )
+Bool Image::operator == (const Image &image )
 {
  unsigned long i, size = _width * _height * _depth * _pixelDepth;
 
@@ -774,7 +774,7 @@ bool Image::operator == (const Image &image )
 //s:
 //
 //------------------------------
-bool Image::operator < (const Image &image )
+Bool Image::operator < (const Image &image )
 {
 	return (size() < image.size()) ? true : false;
 }

@@ -43,6 +43,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEMATERIAL
+
 #include <OSGFieldDescription.h>
 
 #include <OSGAction.h>
@@ -72,7 +74,7 @@ OSG_FC_LAST_FIELD_IDM_DEF(ChunkMaterial, StateChunksField)
 
 
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.1 2000/12/17 23:46:51 dirk Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.2 2001/01/18 11:06:16 vossg Exp $";
 
 
 FieldDescription ChunkMaterial::_desc[] = 
@@ -172,7 +174,7 @@ Bool ChunkMaterial::subChunk( StateChunkPtr chunk )
 	
 	i = _chunks.find( chunk );
 	
-	if ( ! i )
+	if (i != _chunks.end())
 	{
 		SWARNING << "ChunkMaterial::subChunk(" << this << ") has no chunk " 
 				 << chunk << endl;

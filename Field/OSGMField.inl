@@ -44,7 +44,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-#if !defined(__sun) && !defined(WIN32)  && !defined(__linux)
+#if defined(FU) && !defined(__sun) && !defined(WIN32)  && !defined(__linux)
 
 /** \fn const char *OSGMFieldVector::getClassname(void)
  *  \brief Classname
@@ -295,7 +295,7 @@ Field *MField<FieldTypeT, fieldNameSpace>::create(void)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, fieldNameSpace>::MField(void) :
     Inherited(),
-    _values()
+    _values(0)
 {
 }
 
@@ -684,7 +684,7 @@ void MField<FieldTypeT, fieldNameSpace>::dump(void) const
 
     for(UInt32 i = 0; i < _values.size(); i++)
     {
-        cout << _values[i] << " , ";
+//        cout << _values[i] << " , ";
     }
 
     cout << endl;

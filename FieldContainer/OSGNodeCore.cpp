@@ -211,7 +211,8 @@ void NodeCore::print(UInt32 indent) const
 
     indentLog(indent, PLOG);
 
-    PLOG << "Core : " << getType().getName() << endl;
+    PLOG << "Core : " << getType().getName()
+         << "("       << this << ")" << endl;
 
 /*
     for(i = 0; i < indent; i++)

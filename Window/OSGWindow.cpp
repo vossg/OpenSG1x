@@ -53,6 +53,7 @@
 #endif
 
 #define OSG_COMPILEWINDOW
+#define OSG_COMPILEWINDOWINST
 
 #include "OSGViewport.h"
 // #include "OSGPipe.h"
@@ -66,6 +67,22 @@ using namespace osg;
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
+
+OSG_BEGIN_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SField<WindowPtr>::_fieldType
+#pragma instantiate MField<WindowPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
 
 /***************************************************************************\
  *                           Class variables                               *

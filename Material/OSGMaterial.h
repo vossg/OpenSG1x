@@ -38,9 +38,11 @@
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
 #   ifdef OSG_COMPILEMATERIAL
-#       define OSG_MATERIAL_DLLMAPPING __declspec(dllexport)
+#       define OSG_MATERIAL_DLLMAPPING     __declspec(dllexport)
+#       define OSG_MATERIAL_DLLTMPLMAPPING
 #   else
-#       define OSG_MATERIAL_DLLMAPPING __declspec(dllimport)
+#       define OSG_MATERIAL_DLLMAPPING     __declspec(dllimport)
+#       define OSG_MATERIAL_DLLTMPLMAPPING __declspec(dllimport)
 #   endif
 #else
 #define OSG_MATERIAL_DLLMAPPING
@@ -235,7 +237,7 @@ struct OSG_MATERIAL_DLLMAPPING FieldDataTraits<MaterialPtr> : public Traits
 
     static Bool          getDefault(void)    { return false; }
 
-    static bool             getFromString(MaterialPtr &,
+    static Bool             getFromString(MaterialPtr &,
                                           const char *&)
     {
         // TO_BE_DONE
@@ -250,7 +252,33 @@ struct OSG_MATERIAL_DLLMAPPING FieldDataTraits<MaterialPtr> : public Traits
 };
 
 typedef SField<MaterialPtr> SFMaterialPtr;
+
+#ifndef OSG_COMPILEMATERIALINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<MaterialPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, MaterialPtr, OSG_MATERIAL_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 typedef MField<MaterialPtr> MFMaterialPtr;
+
+#ifndef OSG_COMPILEMATERIALINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<MaterialPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, MaterialPtr, OSG_MATERIAL_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 
 // null pointer
 

@@ -23,7 +23,7 @@ int main (int argc, char **argv)
 	
 	osgInit(argc, argv);
 
-#ifdef WIN32
+#ifdef __linux
     RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
 #endif
 

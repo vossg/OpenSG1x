@@ -182,7 +182,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
 
     /*------------------------- type information-----------------------------*/
 
-    static const FieldContainerType &getStaticType  (void);
+    static       FieldContainerType &getStaticType  (void);
     static       UInt32              getStaticTypeId(void);
 
     //-----------------------------------------------------------------------
@@ -424,6 +424,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
 
 #define OSG_FC_TMPL_VAR_INL 
 
+#ifdef FMSCOMPILER
+
 // Macros used to derive a new fieldcontainer
 
 /*! \ingroup FieldContainerLib
@@ -532,6 +534,59 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
 /*! \ingroup FieldContainerLib
  *  \brief put the field information in the fielddescription constructor
  */
+#else
+#define OSG_FC_FIRST_FIELD_IDM_DECL(OSG_ELEMNAME)                             \
+  static const OSG::UInt32    OSG_ELEMNAME##Id   = Inherited::NextFieldId;    \
+  static const OSG::BitVector OSG_ELEMNAME##Mask = Inherited::NextFieldMask;
+
+#define OSG_FC_FIELD_IDM_DECL(OSG_ELEMNAME, OSG_PREV_ELEMNAME)                \
+  static const OSG::UInt32    OSG_ELEMNAME##Id   = OSG_PREV_ELEMNAME##Id + 1; \
+  static const OSG::BitVector OSG_ELEMNAME##Mask = OSG_PREV_ELEMNAME##Mask <<1;
+
+#define OSG_FC_LAST_FIELD_IDM_DECL(OSG_PREV_ELEMNAME)                         \
+  static const OSG::UInt32    NextFieldId   = OSG_PREV_ELEMNAME##Id + 1;      \
+  static const OSG::BitVector NextFieldMask = OSG_PREV_ELEMNAME##Mask << 1;
+
+ 
+#define OSG_FC_FIRST_FIELD_IDM_DEF(OSG_CLASS, OSG_ELEMNAME)                   \
+  const OSG::UInt32    OSG_CLASS::OSG_ELEMNAME##Id;                           \
+  const OSG::BitVector OSG_CLASS::OSG_ELEMNAME##Mask;
+
+#define OSG_FC_FIRST_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                        \
+                                            OSG_TMPL_PARAM,                   \
+                                            OSG_ELEMNAME)                     \
+  template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                         \
+  const OSG::UInt32    OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##Id;           \
+  template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                         \
+  const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##Mask;
+
+
+#define OSG_FC_FIELD_IDM_DEF(OSG_CLASS, OSG_ELEMNAME, OSG_PREV_ELEMNAME)      \
+  const OSG::UInt32    OSG_CLASS::OSG_ELEMNAME##Id;                           \
+  const OSG::BitVector OSG_CLASS::OSG_ELEMNAME##Mask;
+
+#define OSG_FC_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                              \
+                                      OSG_TMPL_PARAM,                         \
+                                      OSG_ELEMNAME,                           \
+                                      OSG_PREV_ELEMNAME)                      \
+  template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                         \
+  const OSG::UInt32    OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##Id;           \
+  template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                         \
+  const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##Mask;
+
+#define OSG_FC_LAST_FIELD_IDM_DEF(OSG_CLASS, OSG_PREV_ELEMNAME)               \
+  const OSG::UInt32    OSG_CLASS::NextFieldId;                                \
+  const OSG::BitVector OSG_CLASS::NextFieldMask;
+
+#define OSG_FC_LAST_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                         \
+                                           OSG_TMPL_PARAM,                    \
+                                           OSG_PREV_FIELDNAME)                \
+  template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                         \
+  const OSG::UInt32    OSG_CLASS<OSG_TMPL_PARAM>::NextFieldId;                \
+  template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                         \
+  const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask;
+
+#endif
 
 #define OSG_FC_FIELD_IDM_DESC(OSG_FIELDNAME)                                  \
     OSG_FIELDNAME##Id, OSG_FIELDNAME##Mask
@@ -631,31 +686,31 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
     static OSG_CLASS_PTR create(void);
 
 #ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-#define OSG_FC_CREATE_INL_DEF(OSG_CLASS, OSG_CLASS_PTR)                 \
-    inline                                                              \
-    OSG_CLASS_PTR OSG_CLASS::create(void)                               \
-    {                                                                   \
-        OSG_CLASS_PTR fc;                                               \
-                                                                        \
-        if(_type.getPrototype() != OSG::NullFC)                         \
-            fc = _type.getPrototype()->clone().dcast<OSG_CLASS_PTR>();  \
-                                                                        \
-        return fc;                                                      \
+#define OSG_FC_CREATE_INL_DEF(OSG_CLASS, OSG_CLASS_PTR)                       \
+    inline                                                                    \
+    OSG_CLASS_PTR OSG_CLASS::create(void)                                     \
+    {                                                                         \
+        OSG_CLASS_PTR fc;                                                     \
+                                                                              \
+        if(getStaticType().getPrototype() != OSG::NullFC)                     \
+         fc = getStaticType().getPrototype()->clone().dcast<OSG_CLASS_PTR>(); \
+                                                                              \
+        return fc;                                                            \
     }
 
-#define OSG_FC_CREATE_INL_TMPL_DEF(OSG_TMPL_PARAM,                      \
-                                   OSG_CLASS,                           \
-                                   OSG_CLASS_PTR)                       \
-    template <class OSG_TMPL_PARAM> inline                              \
-    OSG_CLASS<OSG_TMPL_PARAM>::OSG_CLASS_PTR                            \
-        OSG_CLASS<OSG_TMPL_PARAM>::create(void)                         \
-    {                                                                   \
-        OSG_CLASS_PTR fc;                                               \
-                                                                        \
-        if(_type.getPrototype() != OSG::NullFC)                         \
-            fc = _type.getPrototype()->clone().dcast<OSG_CLASS_PTR>();  \
-                                                                        \
-        return fc;                                                      \
+#define OSG_FC_CREATE_INL_TMPL_DEF(OSG_TMPL_PARAM,                            \
+                                   OSG_CLASS,                                 \
+                                   OSG_CLASS_PTR)                             \
+    template <class OSG_TMPL_PARAM> inline                                    \
+    OSG_CLASS<OSG_TMPL_PARAM>::OSG_CLASS_PTR                                  \
+        OSG_CLASS<OSG_TMPL_PARAM>::create(void)                               \
+    {                                                                         \
+        OSG_CLASS_PTR fc;                                                     \
+                                                                              \
+        if(getStaticType().getPrototype() != OSG::NullFC)                     \
+         fc = getStaticType().getPrototype()->clone().dcast<OSG_CLASS_PTR>(); \
+                                                                              \
+        return fc;                                                            \
     }
 #else
 #define OSG_FC_CREATE_INL_DEF(OSG_CLASS, OSG_CLASS_PTR)                 \
@@ -664,8 +719,8 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
     {                                                                   \
         OSG_CLASS_PTR fc;                                               \
                                                                         \
-        if(_type.getPrototype() != OSG::NullFC)                         \
-            _type.getPrototype()->clone().dcast(fc);                    \
+        if(getStaticType().getPrototype() != OSG::NullFC)               \
+            getStaticType().getPrototype()->clone().dcast(fc);          \
                                                                         \
         return fc;                                                      \
 }
@@ -679,8 +734,8 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
     {                                                                   \
         OSG_CLASS_PTR fc;                                               \
                                                                         \
-        if(_type.getPrototype() != OSG::NullFC)                         \
-            _type.getPrototype()->clone().dcast(fc);                    \
+        if(getStaticType().getPrototype() != OSG::NullFC)               \
+            getStaticType().getPrototype()->clone().dcast(fc);          \
                                                                         \
         return fc;                                                      \
 }

@@ -79,11 +79,15 @@ OSG_BEGIN_NAMESPACE
 
 class OSG_FIELDCONTAINER_DLLMAPPING Attachment : public FieldContainer 
 {
+  private:
+
+    typedef FieldContainer Inherited;
+
   public:
 
     OSG_FC_FIRST_FIELD_IDM_DECL(ParentsField)
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (ParentsField)
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -165,8 +169,6 @@ class OSG_FIELDCONTAINER_DLLMAPPING Attachment : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef FieldContainer Inherited;
-
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
@@ -213,6 +215,10 @@ class OSG_FIELDCONTAINER_DLLMAPPING Attachment : public FieldContainer
 template <class AttachmentDescT>
 class OSG_FIELDCONTAINER_DLLMAPPING SimpleAttachment : public Attachment
 {
+  private:
+
+    typedef Attachment Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
@@ -235,7 +241,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING SimpleAttachment : public Attachment
 
     OSG_FC_FIRST_FIELD_IDM_DECL(SimpleField)
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (SimpleField)
 
     static const PtrType NullPtr;
 
@@ -310,8 +316,6 @@ class OSG_FIELDCONTAINER_DLLMAPPING SimpleAttachment : public Attachment
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef Attachment Inherited;
-
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
@@ -374,6 +378,21 @@ typedef SimpleAttachment<NameAttachmentDesc> Name;
 
 typedef FCPtr<AttachmentPtr,  Name> NamePtr;
 
+#ifndef OSG_COMPILEATTACHMENTINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SimpleAttachment<NameAttachmentDesc>::_type
+#pragma do_not_instantiate SimpleAttachment<NameAttachmentDesc>::_desc
+
+#else
+
+OSG_FC_DLLEXPORT_DECL(SimpleAttachment, 
+                      NameAttachmentDesc,
+                      OSG_FIELDCONTAINER_TMPLDLLMAPPING)
+
+#endif
+#endif
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -385,7 +404,8 @@ typedef FCPtr<AttachmentPtr,  Name> NamePtr;
  */
 
 template <class AttachmentDescT>
-class OSG_FIELDCONTAINER_DLLMAPPING DynFieldAttachment : public AttachmentDescT::Parent
+class OSG_FIELDCONTAINER_DLLMAPPING DynFieldAttachment : 
+    public AttachmentDescT::Parent
 {
   public:
 
@@ -399,7 +419,9 @@ class OSG_FIELDCONTAINER_DLLMAPPING DynFieldAttachment : public AttachmentDescT:
 
     typedef DynFieldAttachment<AttachmentDescT   > DynFieldAttType;
 
-    typedef FCPtr<AttachmentPtr,  DynFieldAttType> PtrType;
+    typedef typename AttachmentDescT::ParentPtr    ParentPtrType;
+
+    typedef FCPtr<ParentPtrType,  DynFieldAttType> PtrType;
 
     //-----------------------------------------------------------------------
     //   constants                                                           
@@ -525,7 +547,7 @@ class OSG_FIELDCONTAINER_DLLMAPPING DynFieldAttachment : public AttachmentDescT:
 /** \brief AttachmentP
  */
 
-typedef Attachment                    *AttachmentP;
+typedef Attachment                 *AttachmentP;
 
 typedef map<UInt32, AttachmentPtr>  AttachmentMap;
 

@@ -66,7 +66,6 @@ OSG_BEGIN_NAMESPACE
 class Camera;
 
 typedef FCPtr <FieldContainerPtr, Camera> CameraPtr;
-typedef MField<CameraPtr                > MFCameraPtr;
 
 class Viewport;
 class DrawAction;
@@ -87,18 +86,22 @@ class DrawAction;
 
 class OSG_WINDOW_DLLMAPPING Camera : public FieldContainer
 {
+  private:
+
+    typedef FieldContainer Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(BeaconField)
+    OSG_FC_FIRST_FIELD_IDM_DECL(BeaconField           )
 
-    OSG_FC_FIELD_IDM_DECL      (NearField  )
-    OSG_FC_FIELD_IDM_DECL      (FarField   )
+    OSG_FC_FIELD_IDM_DECL      (NearField, BeaconField)
+    OSG_FC_FIELD_IDM_DECL      (FarField,  NearField  )
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (FarField              )
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -223,8 +226,6 @@ class OSG_WINDOW_DLLMAPPING Camera : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef FieldContainer Inherited;
-
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
@@ -294,11 +295,37 @@ struct FieldDataTraits<CameraPtr> : public Traits
 
 /** \brief SFCameraPtr
  */
+
 typedef SField<CameraPtr>       SFCameraPtr;
+
+#ifndef OSG_COMPILECAMERAINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<CameraPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, CameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief MFCameraPtr
  */
+
 typedef MField<CameraPtr>       MFCameraPtr;
+
+#ifndef OSG_COMPILECAMERAINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<CameraPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, CameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 

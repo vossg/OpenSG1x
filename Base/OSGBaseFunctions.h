@@ -599,7 +599,7 @@ OSG_BASE_DLLMAPPING Int32 osgstrcasecmp(const char *string1,
 
 OSG_BASE_DLLMAPPING struct LTString
 {
-    bool operator()(const char* s1, const char* s2) const
+    Bool operator()(const char* s1, const char* s2) const
     {
         return strcmp(s1, s2) < 0;
     }

@@ -65,17 +65,54 @@ class Camera;
 typedef FCPtr <FieldContainerPtr, Camera> CameraPtr;
 typedef SField<CameraPtr                   > SFCameraPtr;
 
+#ifndef OSG_COMPILECAMERAINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<CameraPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, CameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+
 class Window;
 typedef FCPtr <FieldContainerPtr, Window> WindowPtr;
 typedef SField<WindowPtr                   > SFWindowPtr;
+
+#ifndef OSG_COMPILEWINDOWINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<WindowPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 
 class Background;
 typedef FCPtr <FieldContainerPtr, Background> BackgroundPtr;
 typedef SField<BackgroundPtr                   > SFBackgroundPtr;
 
+#ifndef OSG_COMPILEBACKGROUNDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<BackgroundPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, BackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 class Viewport;
 typedef FCPtr <FieldContainerPtr, Viewport> ViewportPtr;
-typedef SField<ViewportPtr                   > SFViewportPtr;
 
 class DrawAction;
 
@@ -95,23 +132,25 @@ class DrawAction;
 
 class OSG_WINDOW_DLLMAPPING Viewport : public FieldContainer
 {
+    typedef FieldContainer Inherited;
+
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_FC_FIRST_FIELD_IDM_DECL(LeftField      )
+    OSG_FC_FIRST_FIELD_IDM_DECL(LeftField                   )
 
-    OSG_FC_FIELD_IDM_DECL      (RightField     )
-    OSG_FC_FIELD_IDM_DECL      (BottomField    )
-    OSG_FC_FIELD_IDM_DECL      (TopField       )
-    OSG_FC_FIELD_IDM_DECL      (ParentField    )
-    OSG_FC_FIELD_IDM_DECL      (CameraField    )
-    OSG_FC_FIELD_IDM_DECL      (RootField      )
-    OSG_FC_FIELD_IDM_DECL      (BackgroundField)
+    OSG_FC_FIELD_IDM_DECL      (RightField,      LeftField  )
+    OSG_FC_FIELD_IDM_DECL      (BottomField,     RightField )
+    OSG_FC_FIELD_IDM_DECL      (TopField,        BottomField)
+    OSG_FC_FIELD_IDM_DECL      (ParentField,     TopField   )
+    OSG_FC_FIELD_IDM_DECL      (CameraField,     ParentField)
+    OSG_FC_FIELD_IDM_DECL      (RootField,       CameraField)
+    OSG_FC_FIELD_IDM_DECL      (BackgroundField, RootField  )
 
-    OSG_FC_LAST_FIELD_IDM_DECL
+    OSG_FC_LAST_FIELD_IDM_DECL (BackgroundField             )
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -281,8 +320,6 @@ class OSG_WINDOW_DLLMAPPING Viewport : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef FieldContainer Inherited;
-
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
@@ -351,11 +388,37 @@ struct FieldDataTraits<ViewportPtr> : public Traits
 
 /** \brief SFViewportPtr
  */
+
 typedef SField<ViewportPtr>       SFViewportPtr;
+
+#ifndef OSG_COMPILEVIEWPORTINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<ViewportPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, ViewportPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 /** \brief MFViewportPtr
  */
+
 typedef MField<ViewportPtr>       MFViewportPtr;
+
+#ifndef OSG_COMPILEVIEWPORTINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<ViewportPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, ViewportPtr, OSG_WINDOW_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 
