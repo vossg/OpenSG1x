@@ -357,7 +357,6 @@ int BezierTensorSurface::midPointSubDivision( beziersurfacematrix &newbeziers)
 int BezierTensorSurface::midPointSubDivision( beziersurfacevector &newbeziers )
 {
   int error;
-  unsigned int i;
 
   newbeziers.resize( 3 ); // we return exactly 3 new bezier tensorsurfaces
 

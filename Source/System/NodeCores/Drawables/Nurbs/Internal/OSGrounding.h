@@ -25,9 +25,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-/* #include "config.h" */
+// This is only necessary for Intel CPUs, to make sure they 
+// don't use a higher precision internally
 
-// just a temporary solution for Linux and Win32.
+#if defined(WIN32) || defined(__linux)
+
 #ifndef WIN32
 #define OSG_HAVE_FPU_CONTROL_H	1
 #endif /* WIN32 */
@@ -63,5 +65,7 @@ OSG_BEGIN_NAMESPACE
 #    endif /* not WIN32 */
 #  endif /* not OSG_HAVE_FLOATINGPOINT_H */
 #endif /* not OSG_HAVE_FPU_CONTROL_H */
+
+#endif
 
 OSG_END_NAMESPACE

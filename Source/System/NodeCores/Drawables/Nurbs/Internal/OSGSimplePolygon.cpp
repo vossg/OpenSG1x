@@ -295,8 +295,7 @@ int SimplePolygon::triangulate( vec2dvector &globalverts, simplepolygonvector &p
   validThirdPoints.resize( vertices.size( ) );
 
   SimplePolygon poly;
-  int v1;
-  int i2, i3; // this is an index into the vertices[] vector
+  int v1, i2, i3; // this is an index into the vertices[] vector
   int err;
   ivector verts; //p1verts, p2verts, p3verts;
   int i;
@@ -312,7 +311,7 @@ int SimplePolygon::triangulate( vec2dvector &globalverts, simplepolygonvector &p
 
   for( j = 0; j < (int)vertices.size(); j++ ) {
 	i = ( j + offs ) % vertices.size( );
-    v1 = vertices[ i ];
+//    v1 = vertices[ i ];
     if ( i == (int) vertices.size() - 1 )
       i2 = 0; //v2 = vertices [ 0 ];
     else
@@ -423,7 +422,7 @@ int SimplePolygon::triangulateForFEM( vec2dvector &globalverts, simplepolygonvec
 //				std::cerr << "triangulate out!!!" << std::endl;
 				return 0;
 			}
-			return -1;
+//			return -1;
 		case 4:
 			{
 				const int		ci_v1 = vertices[ 0 ];
@@ -513,7 +512,7 @@ int SimplePolygon::triangulateForFEM( vec2dvector &globalverts, simplepolygonvec
 					}
 				}
 			}
-			return 0;
+//			return 0;
 	}
 
 	SimplePolygon		cl_poly;
@@ -642,12 +641,13 @@ bool SimplePolygon::checkOrient( const vec3dvector &crclSpaceVerts, const vec3dv
 	if( ccl_norm_p.dot( ccl_norm_t ) < DCTP_EPS ) return false;
 
 	return true;
-
+#if 0
 	if( crclNormals[ ci_v1 ].dot( ccl_norm_t ) < DCTP_EPS ) return false;
 	if( crclNormals[ ci_v2 ].dot( ccl_norm_t ) < DCTP_EPS ) return false;
 	if( crclNormals[ ci_v3 ].dot( ccl_norm_t ) < DCTP_EPS ) return false;
 
 	return true;
+#endif
 }
 
 
@@ -669,11 +669,13 @@ bool SimplePolygon::checkOrient( const vec3dvector &crclSpaceVerts, const vec3dv
 
 	return true;
 
+#if 0
 	if( crclNormals[ i1 ].dot( ccl_norm_t ) < DCTP_EPS ) return false;
 	if( crclNormals[ i2 ].dot( ccl_norm_t ) < DCTP_EPS ) return false;
 	if( crclNormals[ i3 ].dot( ccl_norm_t ) < DCTP_EPS ) return false;
 
 	return true;
+#endif
 }
 
 
@@ -742,7 +744,7 @@ int SimplePolygon::findThirdPoint( vec2dvector &globalverts, int i1, int i2, int
 
 //  std::cerr << "No third point for " << i1 << " " << i2 << " ." << std::endl;
 
-  return 0;
+//  return 0;
 }
 
 //! Is the triangle formed by the vertices (i1, i2, i3) inside the polygon ?

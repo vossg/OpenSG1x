@@ -365,8 +365,8 @@ void CNurbsPatchSurface::getTessellation( std::vector< Pnt3f > &gverts,
                                           std::vector< SimplePolygon > &tris,
                                           bool usedelaunay )
 {
-	Real64 d_time, d_last_time;
-	d_last_time = getSystemTime();
+//	Real64 d_time, d_last_time;
+//	d_last_time = getSystemTime();
 	
 	if ( ( m_vtSurfaces[ 0 ].ucStatus & BEZIER_SURFACES_VALID ) &&
                   ( ( m_vtSurfaces[ 0 ].ucStatus & TRIM_SEGS_VALID ) == 0 ) )
@@ -549,8 +549,10 @@ void CNurbsPatchSurface::calculatePointsNormalsAndTextureCoords(
     //copy the normals into the vvclEdgeLoopsNorm structure
     unsigned int numloops = m_vtSurfaces[0].vvclEdgeLoops.size();
     unsigned int actlooplength;
-    unsigned int ui_actvertidx = 0;
 	unsigned int ui_actloop;
+#ifdef OSG_KEEP_2D_POINTS
+	unsigned int ui_actvertidx = 0;
+#endif
   
     vec3d cl_norm;
     Int32 i_err;          
@@ -720,7 +722,6 @@ void CNurbsPatchSurface::ConvertToBezier( unsigned int uiSurface )
 //			std::cerr << "processing curve " << ui_curve + 1 << std::endl;
 			bezier2dvector	vcl_converted_tmp;
 			dvector			vd_pars;
-			int				i_err;
 
 			vec2dvector		vcl_cp =
 				rvvcl_trimming_loops[ ui_loop ][ ui_prev ].getControlPointVector( );
@@ -742,7 +743,7 @@ void CNurbsPatchSurface::ConvertToBezier( unsigned int uiSurface )
 			}
 			ui_prev = ui_curve;
 
-			if( i_err = rvvcl_trimming_loops[ ui_loop ][ ui_curve ].makeBezier( vcl_converted_tmp, vd_pars ) )
+			if( rvvcl_trimming_loops[ ui_loop ][ ui_curve ].makeBezier( vcl_converted_tmp, vd_pars ) )
 			{
 //				SWARNING << "Conversion of trimming loop " << ui_loop + 1;
 //				SWARNING << " curve " << ui_curve + 1;

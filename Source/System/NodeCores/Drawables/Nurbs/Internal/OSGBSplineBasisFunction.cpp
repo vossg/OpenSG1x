@@ -440,7 +440,7 @@ int BSplineBasisFunction::findSpan( double &u )
 
   while( u < knots[ n ] ) --n;
   return n;
-
+#if 0
   if ( fabs( u - knots[ n + 1 ] ) < DCTP_EPS ) return n; //special case: u is at the end FIXME: double ==double ???
   dvector::size_type low = 0;
   while ( fabs( knots[ low ] - knots[ low + 1 ] ) < DCTP_EPS ) ++low; //FIXME: double ==double ???
@@ -456,6 +456,7 @@ int BSplineBasisFunction::findSpan( double &u )
     mid = ( low + high ) / 2;
   }
   return mid;
+#endif
 }
 
 

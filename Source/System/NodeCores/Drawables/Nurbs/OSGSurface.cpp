@@ -1832,7 +1832,7 @@ void Surface::readfromtso( std::ifstream &infile, bool useTextures )
     {
         for ( v = 0; v < cpvsize; ++v )
         {
-            k = u * cpvsize + v;
+//            k = u * cpvsize + v;
             vec3 = v3cps[ u ][ v ];
             _mfControlPoints.push_back( Pnt3f( vec3.x, vec3.y, vec3.z ) );
         }
@@ -2048,7 +2048,7 @@ void Surface::onCreate(const Surface *source)
     Inherited::onCreate(source);
 }
 
-void Surface::handleGL(Window* win, UInt32 idstatus)
+void Surface::handleGL(Window*, UInt32 idstatus)
 {
     Window::GLObjectStatusE mode;
     UInt32 id;

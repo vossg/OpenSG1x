@@ -2432,7 +2432,7 @@ void BSplineTensorSurface::computeTexforTrimming( std::vector< vec2d > &rvclUV,
 void BSplineTensorSurface::correctDers( const vec2d cclUV, const vec3d cclPos, vec3d &rclDU, vec3d &rclDV )
 {
 	return;
-
+#if 0
 	if( rclDU.quad_size( ) < DCTP_EPS )
 	{
 		// du is zero
@@ -2566,4 +2566,5 @@ void BSplineTensorSurface::correctDers( const vec2d cclUV, const vec3d cclPos, v
 		}
 //		std::cerr << " -> " << rclDV << std::endl;
 	}
+#endif
 }
