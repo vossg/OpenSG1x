@@ -106,9 +106,6 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
     FaceIterator( void );
  
     FaceIterator(const FaceIterator &source);
-	
-    FaceIterator( const GeometryPtr& geo );
-    FaceIterator( const NodePtr& geo );
  
     virtual ~FaceIterator(void); 
 
@@ -148,6 +145,11 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
     
 	Bool operator == (const FaceIterator &other) const;
 	Bool operator != (const FaceIterator &other) const;
+
+
+	// used by geometry to create them. not useful for applications	
+    FaceIterator( const GeometryPtr& geo );
+    FaceIterator( const NodePtr& geo );
 
   protected:
 

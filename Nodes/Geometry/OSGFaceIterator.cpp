@@ -81,7 +81,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.2 2001/01/18 11:06:17 vossg Exp $";
+char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.3 2001/01/21 22:16:05 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -192,10 +192,9 @@ void FaceIterator::operator++ ()
 							_facePntIndex[1] = _actPrimIndex++;
 							_facePntIndex[2] = _actPrimIndex++;
 							_facePntIndex[3] = -1;
-							_actPrimIndex += 3;	
 							break;
-	case GL_QUAD_STRIP: 	_facePntIndex[0] = _facePntIndex[2];
-							_facePntIndex[1] = _facePntIndex[3];
+	case GL_QUAD_STRIP: 	_facePntIndex[0] = _facePntIndex[3];
+							_facePntIndex[1] = _facePntIndex[2];
 							_facePntIndex[3] = _actPrimIndex++;
 							_facePntIndex[2] = _actPrimIndex++;
 							break;
@@ -285,7 +284,7 @@ void FaceIterator::startPrim( void )
 								startPrim();
 							break;
 						}
-						_facePntIndex[3] = _facePntIndex[3];						
+						_facePntIndex[3] = _facePntIndex[2];						
 						_facePntIndex[2] = _actPrimIndex++;						
 						break;
 	default:			SWARNING << "FaceIterator::startPrim: encountered " 

@@ -81,7 +81,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.2 2001/01/18 11:06:17 vossg Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.3 2001/01/21 22:16:05 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -243,6 +243,7 @@ PrimitiveIterator& PrimitiveIterator::operator = (const PrimitiveIterator &sourc
 	this->_types 			= source._types;
 	this->_lengths 			= source._lengths;
 	this->_indices 			= source._indices;
+	this->_ended 			= source._ended;
 
 	return *this;
 }

@@ -81,7 +81,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.2 2001/01/18 11:06:17 vossg Exp $";
+char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.3 2001/01/21 22:16:05 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -190,7 +190,6 @@ void TriangleIterator::operator++ ()
 	case GL_TRIANGLES:  	_triPntIndex[0] = _actPrimIndex++;
 							_triPntIndex[1] = _actPrimIndex++;
 							_triPntIndex[2] = _actPrimIndex++;
-							_actPrimIndex += 3;	
 							break;
 	case GL_QUAD_STRIP:
 	case GL_TRIANGLE_STRIP: if ( _actPrimIndex & 1 )
@@ -211,14 +210,12 @@ void TriangleIterator::operator++ ()
 							{
 								_triPntIndex[1] = _triPntIndex[2];
 								_triPntIndex[2] = _actPrimIndex++;
-								++_actPrimIndex;	
 							}
 							else
 							{
 								_triPntIndex[0] = _actPrimIndex++;
 								_triPntIndex[1] = _actPrimIndex++;
 								_triPntIndex[2] = _actPrimIndex++;
-								_actPrimIndex += 3;
 							}							
 							break;
 	default:			SWARNING << "TriangleIterator::++: encountered " 

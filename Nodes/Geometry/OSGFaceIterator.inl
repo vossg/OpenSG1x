@@ -137,6 +137,9 @@ Pnt3f FaceIterator::getPosition( Int32 which ) const
 {
 	Int32 ind = getPositionIndex( which );
 	
+	if ( ind < 0 )
+		return NullPnt3f;
+	
 	return _geo->getPositions()->getValue( ind );
 }
 

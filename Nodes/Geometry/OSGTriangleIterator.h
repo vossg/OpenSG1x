@@ -107,9 +107,6 @@ class OSG_GEOMETRY_DLLMAPPING TriangleIterator
  
     TriangleIterator(const TriangleIterator &source);
 	
-    TriangleIterator( const GeometryPtr& geo );
-    TriangleIterator( const NodePtr& geo );
- 
     virtual ~TriangleIterator(void); 
 
     /*------------------------- access -------------------------------*/
@@ -146,6 +143,10 @@ class OSG_GEOMETRY_DLLMAPPING TriangleIterator
 	Bool operator == (const TriangleIterator &other) const;
 	Bool operator != (const TriangleIterator &other) const;
 
+	// used by geometry to create them. not useful for applications	
+    TriangleIterator( const GeometryPtr& geo );
+    TriangleIterator( const NodePtr& geo );
+ 
   protected:
 
     //-----------------------------------------------------------------------
