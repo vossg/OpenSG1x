@@ -110,7 +110,7 @@ void FOXWindow::changed(BitVector, UInt32)
 void FOXWindow::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump FOXWindow NI" << endl;
+    SLOG << "Dump FOXWindow NI" << std::endl;
 }
 
 void FOXWindow::init( void )
