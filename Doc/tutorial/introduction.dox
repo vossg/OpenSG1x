@@ -174,10 +174,9 @@ If you are using a csh/tcsh shell, the line is nearly the same:
 
 You need to set the LD_LIBRARY_PATH every time you open a new terminal! Because that would be very annoying, there is, of course,
 a better way. Instead of typing that command every time you can add it to your profile file. That file lies within your homefolder 
-and is called ".bash_profile", ".profile" or 
+and is called ".bash_profile", ".bashrc", ".profile" or 
 ".tcsh_profile" or something similar to that depending on the type of shell and operating system you are using. Please do not miss that dot, it is 
-necessary. This file is sourced every time you open a new shell. Please notice that this will only take effect after a reboot or at least a restart
-of the X server.
+necessary. This file is sourced every time you open a new shell, so you have to open a new terminal for it to take effect. In the remainder of this document we will refer to this file just as ".profile".
 
 \subsection TutorialInstallationCygwin Installation on Cygwin
 
@@ -248,12 +247,30 @@ export  LIB="C:\Program Files\Microsoft Visual Studio
 		.NET\Vc7\PlatformSDK\Lib"
 \endcode
 
+Both commands have to be on a single line, they may not contain line breaks.
+ 
 <I>Note:
 
 Depending on your language version of Windows and also depending on your version of Visual Studio .NET you might have to adjust the path!
+
+This is necessary when you get errors like "The dynamic link library mspdb70.dll could not be found in the specified path ...". The name of library might change, but this is the first one you get on VS.NET.
+
+To resolve this problem you need to add the path where that library resides to your PATH environment variable in your .profile:
+
+
+\code
+
+export PATH="/cygdrive/c/Program Files/Microsoft Visual Studio .NET/Common7/IDE:$PATH"
+
+\endcode
+
+Note that this should be a Unix/Cygwin path, i.e. using "/" instead of "\" and using "/cygdrive/c/" instead of "C:".
+
+Alternatively you can use the GUI approach described below. In that case you should use the Windows version of the path.
+
 </I>
 
-Both commands are a single line each, of course. If you are one of the GUI-clickers, you also can add both paths in the environment variables panel found in
+If you are one of the GUI-clickers, you also can add both paths in the environment variables panel found in
 System Preferences>System>Extended>Environment Variables. (The actual words may differ, as I own only the german Windows version). The following image shows
 the corresponding window for setting environment variables
 
