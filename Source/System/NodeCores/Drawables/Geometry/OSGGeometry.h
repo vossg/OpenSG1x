@@ -49,6 +49,7 @@
 
 #include <OSGGeometryBase.h>
 #include <OSGGeoPropPtrs.h>
+#include <OSGMaterial.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -58,7 +59,7 @@ class TriangleIterator;
 class PrimitiveIterator;
 class FaceIterator;
 
-/*! \brief The Geometry class, see \ref PageSystemGeometry for a description.
+/*! The Geometry class, see \ref PageSystemGeometry for a description.
 */
 class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 {
@@ -195,6 +196,17 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     void handleGL(Window* win, UInt32 id);
 
     void onCreate(const Geometry *source = NULL);
+
+    bool CompareMaterials(MaterialPtr m1, MaterialPtr m2);
+    Int16 MergeIndex( const GeometryPtr other );
+
+    void merge0( const GeometryPtr other );
+    void merge1( const GeometryPtr other );
+    void merge2( const GeometryPtr other );
+    void merge3( const GeometryPtr other );
+    void merge4( const GeometryPtr other );
+    void merge5( const GeometryPtr other );
+    void merge6( const GeometryPtr other );
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
