@@ -275,6 +275,7 @@
     <slot>setActiveNodeFromListItem(QListViewItem * item)</slot>
     <slot>createView(osg::NodePtr node)</slot>
     <slot>updateAllViews()</slot>
+    <slot>closeAllViews()</slot>
     <slot>deleteNode(osg::NodePtr node)</slot>
     <slot>popupTreeMenu(QListViewItem * parentItem)</slot>
     <slot>menuHandler(int id)</slot>

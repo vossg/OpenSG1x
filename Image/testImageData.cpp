@@ -19,7 +19,7 @@ int main (int argc, char **argv)
     ofstream out;
     osg::ImageFileType *fileType;
     osg::Image image;
-    osg::UInt32 *data = 0;
+    osg::UChar8 *data = 0;
     unsigned long i,maxSize;
 
     OSG::ImageFileHandler::the().print();
@@ -43,15 +43,14 @@ int main (int argc, char **argv)
             if (out.eof() == false)
             {
                 maxSize = fileType->maxBufferSize(image);
-                data = new osg::UInt32[( maxSize + 3 ) / 4];
+                data = new osg::UChar8[maxSize];
                 maxSize = fileType->store(image,(osg::UChar8*)data);
-                maxSize = ( maxSize + 3 ) / 4;
-                out << "unsigned long imageData[] = {" << hex;
+                out << "unsigned char imageData[] = {" ;
                 for (i = 0; i < maxSize; i++)
                 {
-                    if ((i % 6) == 0)
+                    if ((i % 8) == 0)
                         out << endl;
-                    out << "0x" << long(data[i]) << ", ";
+                    out << int(data[i]) << ", ";
                 }
                 out << endl << "};" << endl;
                 delete [] data;

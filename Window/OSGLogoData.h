@@ -50,10 +50,10 @@
 
 OSG_BEGIN_NAMESPACE
 
-extern UInt32 LogoData[];
+extern UChar8 LogoData[];
 
 OSG_END_NAMESPACE
 
-#define OSGLOGODATA_HEADER_CVSID "@(#)$Id: OSGLogoData.h,v 1.1 2001/10/11 23:51:52 dirk Exp $"
+#define OSGLOGODATA_HEADER_CVSID "@(#)$Id: OSGLogoData.h,v 1.2 2001/10/15 14:13:13 jbehr Exp $"
 
 #endif /* _OSGLOGODATA_H_ */

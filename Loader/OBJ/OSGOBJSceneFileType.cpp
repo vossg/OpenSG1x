@@ -75,7 +75,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.16 2001/10/15 07:05:35 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.17 2001/10/15 14:13:12 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -598,6 +598,7 @@ void OBJSceneFileType::initDataElemMap(void)
       _dataElemMap["Kd"]      = MTL_DIFFUSE_DE;
       _dataElemMap["Ka"]      = MTL_AMBIENT_DE;
       _dataElemMap["Ks"]      = MTL_SPECULAR_DE;
+      _dataElemMap["Ns"]      = MTL_SHININESS_DE;
       _dataElemMap["usemtl"]  = USE_MTL_DE;
       _dataElemMap["g"]       = GROUP_DE;
       _dataElemMap["s"]       = SMOOTHING_GROUP_DE;
@@ -639,61 +640,93 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
               mtlMap[elem] = mtlPtr;
               mtlCount++;
               break;
-                case MTL_DIFFUSE_DE:
-                    if (mtlPtr == NullFC)
-                    {
-                        FFATAL (( "Invalid %s entry in %s\n",
-                                   elem.c_str(), fileName ));
-                    }
-                    else
-                    {
-                    beginEditCP(mtlPtr);
-                    {
+            case MTL_DIFFUSE_DE:
+              if (mtlPtr == NullFC)
+                {
+                  FFATAL (( "Invalid %s entry in %s\n",
+                            elem.c_str(), fileName ));
+                }
+              else
+                {
+                  beginEditCP(mtlPtr);
+                  {
                     in >> a >> b >> c;
                     mtlPtr->setDiffuse( Color3f( a,b,c ));
-                    }
-                    endEditCP(mtlPtr);
-                    }
-                    break;
-                case MTL_AMBIENT_DE:
-                    if (mtlPtr == NullFC)
-                    {
-                        FFATAL (( "Invalid %s entry in %s\n",
-                                   elem.c_str(), fileName ));
-                    }
-                    else
-                    {
-                        beginEditCP(mtlPtr);
-                        {
-                        in >> a >> b >> c;
-                        mtlPtr->setAmbient( Color3f( a,b,c ));
-                        }
-                        endEditCP(mtlPtr);
-                    }
-                    break;
-                case MTL_SPECULAR_DE:
-                    if (mtlPtr == NullFC)
-                    {
-                        FFATAL (( "Invalid %s entry in %s\n",
-                                   elem.c_str(), fileName ));
-                    }
-                    else
-                    {
-                        beginEditCP(mtlPtr);
-                        {
-                        in >> a >> b >> c;
-                        mtlPtr->setSpecular( Color3f( a,b,c ));
-                        }
-                        endEditCP(mtlPtr);
-                    }
-                    break;
-                default:
-                    FWARNING (( "Invalid %s entry in %s\n",
-                                 elem.c_str(), fileName ));
-                    in.ignore(INT_MAX, '\n');
+                  }
+                  endEditCP(mtlPtr);
                 }
+              break;
+            case MTL_AMBIENT_DE:
+              if (mtlPtr == NullFC)
+                {
+                  FFATAL (( "Invalid %s entry in %s\n",
+                            elem.c_str(), fileName ));
+                }
+              else
+                {
+                  beginEditCP(mtlPtr);
+                  {
+                    in >> a >> b >> c;
+                    mtlPtr->setAmbient( Color3f( a,b,c ));
+                  }
+                  endEditCP(mtlPtr);
+                }
+              break;
+            case MTL_SPECULAR_DE:
+              if (mtlPtr == NullFC)
+                {
+                  FFATAL (( "Invalid %s entry in %s\n",
+                            elem.c_str(), fileName ));
+                }
+              else
+                {
+                  beginEditCP(mtlPtr);
+                  {
+                    in >> a >> b >> c;
+                    mtlPtr->setSpecular( Color3f( a,b,c ));
+                  }
+                  endEditCP(mtlPtr);
+                }
+              break;
+            case MTL_SHININESS_DE:
+              if (mtlPtr == NullFC)
+                {
+                  FFATAL (( "Invalid %s entry in %s\n",
+                            elem.c_str(), fileName ));
+                }
+              else
+                {
+                  beginEditCP(mtlPtr);
+                  {
+                    in >> a;
+                    mtlPtr->setShininess(a);
+                  }
+                  endEditCP(mtlPtr);
+                }
+              break;
+            case MTL_ILLUM_DE:
+              if (mtlPtr == NullFC)
+                {
+                  FFATAL (( "Invalid %s entry in %s\n",
+                            elem.c_str(), fileName ));
+                }
+              else
+                {
+                  beginEditCP(mtlPtr);
+                  {
+                    in >> a;
+                    ; // TODO: What to do with illum ?!?
+                  }
+                  endEditCP(mtlPtr);
+                }
+              break;
+            default:
+              FWARNING (( "Invalid %s entry in %s\n",
+                          elem.c_str(), fileName ));
+              in.ignore(INT_MAX, '\n');
             }
-
-    return mtlCount;
+        }
+  
+  return mtlCount;
 }
 

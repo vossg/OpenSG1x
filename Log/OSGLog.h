@@ -123,8 +123,8 @@ class OSG_BASE_DLLMAPPING LogOStream : public ostream
 };
 
 /*! \ingroup LogLib
- *  \brief Logger ostream, required to fix some problems between the different
- *         plattforms
+ *  \brief stream buf helper class; creates a chunk buffer of all messages
+ *         which can ge fetched by a application (e.g. gui)
  */
 
 class OSG_BASE_DLLMAPPING LogBuf : public streambuf

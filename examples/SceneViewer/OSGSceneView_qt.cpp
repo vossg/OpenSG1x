@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Wed Oct 10 18:40:13 2001
+** Created: Mon Oct 15 13:11:26 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -38,7 +38,7 @@ OSGSceneView::OSGSceneView( QWidget* parent,  const char* name, WFlags fl )
     : QWidget( parent, name, fl )
 {
     if ( !name )
-    setName( "OSGSceneView" );
+	setName( "OSGSceneView" );
     resize( 773, 744 ); 
     setCaption( trUtf8( "Form1", "" ) );
     OSGSceneViewLayout = new QHBoxLayout( this ); 

@@ -250,7 +250,7 @@ void OSGSceneView::createView( osg::NodePtr node )
                 this,   SLOT   ( removeView (QWidget *) ) );
       widget->getManager().setRoot( node );
       widget->getManager().showAll();
-      widget->getManager().useOpenSGLogo();
+      // widget->getManager().useOpenSGLogo();
       widget->show();
     }  
 }
@@ -266,6 +266,19 @@ void OSGSceneView::updateAllViews(void)
   for (wI = viewList.begin(); wI != viewList.end(); ++wI)
     if ((w = dynamic_cast<QGLWidget*>(*wI)))
       w->updateGL();
+}
+
+//////////////////////////////////////////////////////////////////
+// closeAllViews: close all views                               //
+//////////////////////////////////////////////////////////////////
+void OSGSceneView::closeAllViews(void)
+{
+  std::list<QWidget*>::iterator wI;
+  QWidget *w;
+  
+  for (wI = viewList.begin(); wI != viewList.end(); ++wI)
+    if ((w = *wI))
+      w->close();
 }
 
 //////////////////////////////////////////////////////////////////
