@@ -121,7 +121,7 @@ void Volume::setInfinite (const Bool value = true)
 		_state &= ~OSGEMPTY;
 	}
 	else 
-		_state = ~OSGINFINITE; 
+		_state &= ~OSGINFINITE; 
 }
 
 /**  Checks if the volume is infinite */

@@ -114,7 +114,7 @@ void BoxVolume::setBounds(float w, float h, float d)
 
 		Volume::setValid(true);
 		Volume::setEmpty(false);
-		Volume::setInfinite(true);
+		Volume::setInfinite(false);
 }
 
 /// set method
@@ -127,7 +127,7 @@ void BoxVolume::setBounds(float xmin, float ymin, float zmin,
 
 		Volume::setValid(true);
 		Volume::setEmpty(false);
-		Volume::setInfinite(true);
+		Volume::setInfinite(false);
 }
 
 /// set method
@@ -138,7 +138,7 @@ void BoxVolume::setBounds(const Pnt3f &min, const Pnt3f &max)
 			
 	Volume::setValid(true);
 	Volume::setEmpty(false);
-	Volume::setInfinite(true);
+	Volume::setInfinite(false);
 }
 
 
