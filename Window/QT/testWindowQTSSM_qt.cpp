@@ -135,6 +135,12 @@ int main( int argc, char **argv )
     }
 
     // Create Windows
+
+    QGLFormat::setDefaultFormat(QGLFormat(QGL::DirectRendering | 
+                                          QGL::DoubleBuffer    |  
+                                          QGL::DepthBuffer     |
+                                          QGL::Rgba            ));
+    
     
     for(int i = 0; i < nwindows; ++i)
     {

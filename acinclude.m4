@@ -1052,9 +1052,19 @@ dnl e5
                     ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_libdir; ls qt[0-9]*.lib 2> /dev/null`
                 fi
             ;;
-
             *)
-               ac_gdz_qt_lib_e6='-lqt'
+                ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_libdir; ls libqt-mt.so 2> /dev/null`
+
+                if test "x"$ac_gdz_qt_lib_e6 = "x"; then
+                    ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_libdir; ls libqt.so 2> /dev/null`
+
+                    if test "x"$ac_gdz_qt_lib_e6 != "x"; then
+                        ac_gdz_qt_lib_e6='-lqt'
+                    fi
+        
+                else
+                    ac_gdz_qt_lib_e6='-lqt-mt'
+                fi
             ;;
         esac
 

@@ -71,6 +71,7 @@
 
 #include "OSGConfig.h"
 #include <OSGWindowQTDef.h>
+#include <OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -107,16 +108,16 @@ class OSG_WINDOWQTLIB_DLLMAPPING OSGQGLWidget : public QGLWidget
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    OSGQGLWidget( QWidget *parent, const char *name=0, 
-                    const QGLWidget * shareWidget=0, WFlags f=0 );
+    OSGQGLWidget(       QWidget   *parent, 
+                  const Char8     *name        = 0, 
+                  const QGLWidget *shareWidget = 0, 
+                        WFlags     f           = 0);
                     
-    OSGQGLWidget( const QGLFormat & format= QGLFormat( DirectRendering | 
-                                                        DoubleBuffer | 
-                                                        DepthBuffer |
-                                                        Rgba),
-                  QWidget *parent=0, const char *name=0, 
-                  const QGLWidget * shareWidget=0, WFlags f=0   
-                );
+    OSGQGLWidget(const QGLFormat &format      = QGLFormat::defaultFormat(),
+                       QWidget   *parent      = 0, 
+                 const Char8     *name        = 0, 
+                 const QGLWidget *shareWidget = 0, 
+                       WFlags     f           = 0);
 
     virtual ~OSGQGLWidget();
     

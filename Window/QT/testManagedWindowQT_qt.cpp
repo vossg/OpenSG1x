@@ -19,10 +19,16 @@
 
 int main( int argc, char ** argv )
 {
-  osg::osgInit(argc,argv);
+    osg::osgInit(argc,argv);
 
-  int retCode = -1;
-  QApplication qapp( argc, argv );
+    int retCode = -1;
+    QApplication qapp( argc, argv );
+
+    QGLFormat::setDefaultFormat(QGLFormat(QGL::DirectRendering | 
+                                          QGL::DoubleBuffer    |  
+                                          QGL::DepthBuffer     |
+                                          QGL::Rgba            ));
+    
   osg::OSGQGLManagedWidget widget;
   osg::NodePtr root;
   

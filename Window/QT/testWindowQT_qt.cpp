@@ -328,6 +328,13 @@ int main( int argc, char **argv )
     Vec3f pos( 0, 0, max[2] + ( max[2] - min[2] ) * 1.5 );
 
     // Create Window
+
+/*
+    QGLFormat::setDefaultFormat(QGLFormat(QGL::DirectRendering | 
+                                          QGL::DoubleBuffer    |  
+                                          QGL::DepthBuffer     |
+                                          QGL::Rgba            ));
+                                          */
     
     glWidget = new MyOSGQGLWidget();
 

@@ -376,6 +376,11 @@ int main( int argc, char **argv )
     tball.setTranslationMode( Trackball::OSGFree );
 
     // Create Windows
+
+    QGLFormat::setDefaultFormat(QGLFormat(QGL::DirectRendering | 
+                                          QGL::DoubleBuffer    |  
+                                          QGL::DepthBuffer     |
+                                          QGL::Rgba            ));
     
     for ( i = 0; i < NUM_THREADS; i++ )
     {   
