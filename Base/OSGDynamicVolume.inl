@@ -74,7 +74,7 @@ void DynamicVolume::getCenter (Pnt3f &center) const
 inline 
 float DynamicVolume::getVolume (void) const
 {
-	getBaseVolume().getVolume();
+	return getBaseVolume().getVolume();
 }
 	
 /** gives the boundaries of the volume */
@@ -107,14 +107,14 @@ void DynamicVolume::extendBy (const Volume &volume)
 inline 
 Bool DynamicVolume::intersect (const Pnt3f &point) const
 {
-	getBaseVolume().intersect(point);
+	return getBaseVolume().intersect(point);
 }
 
 /** intersect the volume with the given Line */
 inline 
 Bool DynamicVolume::intersect (const Line &line ) const
 {
-	getBaseVolume().intersect(line);
+	return getBaseVolume().intersect(line);
 }
 
 /** intersect the volume with the given Line */
@@ -122,21 +122,21 @@ inline
 Bool DynamicVolume::intersect ( const Line &line, 
 												Real32 &enter, Real32 &exit  ) const
 {
-	getBaseVolume().intersect(line,enter,exit);
+	return getBaseVolume().intersect(line,enter,exit);
 }
 
 /** intersect the volume with another volume */
 inline 
 Bool DynamicVolume::intersect (const Volume &volume) const
 {
-	getBaseVolume().intersect(volume);
+	return getBaseVolume().intersect(volume);
 }
 
 /** check if the point is on the volume's surface */
 inline 
 Bool DynamicVolume::isOnSurface (const Pnt3f &point) const
 {
-	getBaseVolume().isOnSurface(point);
+	return getBaseVolume().isOnSurface(point);
 }
 
 /*-------------------------- transformation -------------------------------*/
