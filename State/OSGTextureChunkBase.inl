@@ -163,6 +163,12 @@ SFUInt32 *TextureChunkBase::getSFEnvMode(void)
 }
 
 inline
+SFColor4f *TextureChunkBase::getSFEnvColor(void)
+{
+    return &_sfEnvColor;
+}
+
+inline
 SFUInt32 *TextureChunkBase::getSFGLId(void)
 {
     return &_sfGLId;
@@ -368,6 +374,24 @@ void TextureChunkBase::setEnvMode(const UInt32 &value)
 }
 
 inline
+Color4f &TextureChunkBase::getEnvColor(void)
+{
+    return _sfEnvColor.getValue();
+}
+
+inline
+const Color4f &TextureChunkBase::getEnvColor(void) const
+{
+    return _sfEnvColor.getValue();
+}
+
+inline
+void TextureChunkBase::setEnvColor(const Color4f &value)
+{
+    _sfEnvColor.setValue(value);
+}
+
+inline
 UInt32 &TextureChunkBase::getGLId(void)
 {
     return _sfGLId.getValue();
@@ -386,8 +410,7 @@ void TextureChunkBase::setGLId(const UInt32 &value)
 }
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureChunkBase.inl,v 1.17 2002/07/02 15:00:53 dirk Exp $"
+#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureChunkBase.inl,v 1.18 2002/08/29 16:10:40 dirk Exp $"
 

@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -78,6 +76,7 @@
 #include <OSGUInt32Fields.h> // WrapT type
 #include <OSGUInt32Fields.h> // WrapR type
 #include <OSGUInt32Fields.h> // EnvMode type
+#include <OSGColor4fFields.h> // EnvColor type
 #include <OSGUInt32Fields.h> // GLId type
 
 #include <OSGTextureChunkFields.h>
@@ -111,7 +110,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
         WrapTFieldId          = WrapSFieldId          + 1,
         WrapRFieldId          = WrapTFieldId          + 1,
         EnvModeFieldId        = WrapRFieldId          + 1,
-        GLIdFieldId           = EnvModeFieldId        + 1,
+        EnvColorFieldId       = EnvModeFieldId        + 1,
+        GLIdFieldId           = EnvColorFieldId       + 1,
         NextFieldId           = GLIdFieldId           + 1
     };
 
@@ -126,6 +126,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     static const osg::BitVector WrapTFieldMask;
     static const osg::BitVector WrapRFieldMask;
     static const osg::BitVector EnvModeFieldMask;
+    static const osg::BitVector EnvColorFieldMask;
     static const osg::BitVector GLIdFieldMask;
 
 
@@ -162,6 +163,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
            SFUInt32            *getSFWrapT          (void);
            SFUInt32            *getSFWrapR          (void);
            SFUInt32            *getSFEnvMode        (void);
+           SFColor4f           *getSFEnvColor       (void);
            SFUInt32            *getSFGLId           (void);
 
            ImageP              &getImage          (void);
@@ -186,6 +188,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      const UInt32              &getWrapR          (void) const;
            UInt32              &getEnvMode        (void);
      const UInt32              &getEnvMode        (void) const;
+           Color4f             &getEnvColor       (void);
+     const Color4f             &getEnvColor       (void) const;
            UInt32              &getGLId           (void);
      const UInt32              &getGLId           (void) const;
 
@@ -205,6 +209,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      void setWrapT          ( const UInt32 &value );
      void setWrapR          ( const UInt32 &value );
      void setEnvMode        ( const UInt32 &value );
+     void setEnvColor       ( const Color4f &value );
      void setGLId           ( const UInt32 &value );
 
     /*! \}                                                                 */
@@ -262,6 +267,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     SFUInt32            _sfWrapT;
     SFUInt32            _sfWrapR;
     SFUInt32            _sfEnvMode;
+    SFColor4f           _sfEnvColor;
     SFUInt32            _sfGLId;
 
     /*! \}                                                                 */
@@ -310,6 +316,6 @@ typedef TextureChunkBase *TextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.26 2002/07/02 15:00:53 dirk Exp $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.27 2002/08/29 16:10:40 dirk Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */

@@ -75,7 +75,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.44 2002/08/07 17:08:54 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.45 2002/08/29 16:10:39 dirk Exp $";
 
 StateChunkClass TextureChunk::_class("Texture", osgMaxTextures);
 
@@ -162,11 +162,11 @@ TextureChunk::TextureChunk(void) :
     Inherited()
 {
     _extTex3D          = 
-        Window::registerExtension(OSG_DLSYM_UNDERSCORE"GL_EXT_texture3D"    );
+        Window::registerExtension("GL_EXT_texture3D"    );
     _arbMultiTex       = 
-        Window::registerExtension(OSG_DLSYM_UNDERSCORE"GL_ARB_multitexture" );
+        Window::registerExtension("GL_ARB_multitexture" );
     _arbCubeTex        = 
-     Window::registerExtension(OSG_DLSYM_UNDERSCORE"GL_ARB_texture_cube_map");
+        Window::registerExtension("GL_ARB_texture_cube_map");
     _funcTexImage3D    = 
         Window::registerFunction (GL_FUNC_TEXIMAGE3D                        );
     _funcTexSubImage3D = 
@@ -852,6 +852,8 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 
     // texture env
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
+    glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, 
+                (GLfloat*)getEnvColor().getValuesRGBA());
 
     // register combiners etc. goes here
 
@@ -952,6 +954,9 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 
     if(oldp->getEnvMode() != getEnvMode())
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
+
+    glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, 
+                    (GLfloat*)getEnvColor().getValuesRGBA());
 
     if(target != oldtarget)
     {

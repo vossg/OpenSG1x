@@ -105,6 +105,9 @@ const OSG::BitVector  TextureChunkBase::WrapRFieldMask =
 const OSG::BitVector  TextureChunkBase::EnvModeFieldMask = 
     (1 << TextureChunkBase::EnvModeFieldId);
 
+const OSG::BitVector  TextureChunkBase::EnvColorFieldMask = 
+    (1 << TextureChunkBase::EnvColorFieldId);
+
 const OSG::BitVector  TextureChunkBase::GLIdFieldMask = 
     (1 << TextureChunkBase::GLIdFieldId);
 
@@ -143,6 +146,9 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
     
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvMode
+    
+*/
+/*! \var Color4f         TextureChunkBase::_sfEnvColor
     
 */
 /*! \var UInt32          TextureChunkBase::_sfGLId
@@ -208,6 +214,11 @@ FieldDescription *TextureChunkBase::_desc[] =
                      EnvModeFieldId, EnvModeFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvMode),
+    new FieldDescription(SFColor4f::getClassType(), 
+                     "envColor", 
+                     EnvColorFieldId, EnvColorFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvColor),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
@@ -282,6 +293,7 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfWrapT                  (UInt32(GL_REPEAT)), 
     _sfWrapR                  (UInt32(GL_REPEAT)), 
     _sfEnvMode                (UInt32(GL_REPLACE)), 
+    _sfEnvColor               (Color4f(0,0,0,0)), 
     _sfGLId                   (), 
     Inherited() 
 {
@@ -305,6 +317,7 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfWrapT                  (source._sfWrapT                  ), 
     _sfWrapR                  (source._sfWrapR                  ), 
     _sfEnvMode                (source._sfEnvMode                ), 
+    _sfEnvColor               (source._sfEnvColor               ), 
     _sfGLId                   (source._sfGLId                   ), 
     Inherited                 (source)
 {
@@ -379,6 +392,11 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfEnvMode.getBinSize();
     }
 
+    if(FieldBits::NoField != (EnvColorFieldMask & whichField))
+    {
+        returnValue += _sfEnvColor.getBinSize();
+    }
+
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         returnValue += _sfGLId.getBinSize();
@@ -446,6 +464,11 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (EnvModeFieldMask & whichField))
     {
         _sfEnvMode.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvColorFieldMask & whichField))
+    {
+        _sfEnvColor.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
@@ -516,6 +539,11 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfEnvMode.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (EnvColorFieldMask & whichField))
+    {
+        _sfEnvColor.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         _sfGLId.copyFromBin(pMem);
@@ -563,6 +591,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (EnvModeFieldMask & whichField))
         _sfEnvMode.syncWith(pOther->_sfEnvMode);
 
+    if(FieldBits::NoField != (EnvColorFieldMask & whichField))
+        _sfEnvColor.syncWith(pOther->_sfEnvColor);
+
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
 
@@ -598,7 +629,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.39 2002/07/02 15:00:53 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.40 2002/08/29 16:10:39 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 
