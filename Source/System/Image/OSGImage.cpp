@@ -154,10 +154,10 @@ void Image::dump(UInt32    ,
         pfStr = "RGBA_DXT1";
         break;
     case OSG_RGBA_DXT3:
-        pfStr = "RGB_DXT3";
+        pfStr = "RGBA_DXT3";
         break;
     case OSG_RGBA_DXT5:
-        pfStr = "RGB_DXT5";
+        pfStr = "RGBA_DXT5";
         break;
     default:
         pfStr = "UNKNOWN_PIXEL_FORMAT";
