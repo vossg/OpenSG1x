@@ -48,6 +48,7 @@
 #include "OSGGeometry.h"
 #include "OSGTextureChunk.h"
 #include "OSGWindow.h"
+#include "OSGMaterial.h"
 
 #include <map>
 
@@ -197,6 +198,9 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
     LocalTypeMapT::iterator             localTypeI;
     LocalFCMapT::iterator               localFCI;
 
+    // hack. No materialchange after image chagne
+    std::vector<MaterialPtr>            materials;
+
     if(_statistics)
     {
         _statistics->getElem(statSyncTime)->start();
@@ -340,7 +344,9 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                         // do we need to call this?
                         changedCP(fcPtr, mask);
                     }
-
+                    MaterialPtr mat=MaterialPtr::dcast(fcPtr);
+                    if(mat != NullFC)
+                        materials.push_back(mat);
                     callChanged(fcPtr);
                 }
                 else
@@ -421,6 +427,18 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
         }
     } 
     while(!finish);
+
+    // chunks don't tell the material if they where changed.
+    // This causes problems if textures are loaded after
+    // the first matieral change. The Material is not aware
+    // of a trasnparency. 
+    // Force rebuildState.
+    for(std::vector<MaterialPtr>::iterator mI=materials.begin();
+        mI != materials.end();
+        ++mI) 
+    {
+        changedCP(*mI);
+    }
 
     // unregister mapper into factory
     factory->setMapper(NULL);
