@@ -281,7 +281,7 @@ fi
 
 dnl ############# TIF Settings #####################
 
-AC_ARG_ENABLE(tif,     [  --enable_tif                       Build with tif support],
+AC_ARG_ENABLE(tif,     [  --enable-tif                       Build with tif support],
 			,enable_tif=no) 
 AC_ARG_WITH(tif,     [  --with-tif=DIR                     Use DIR/lib DIR/include to find the tif files],
 			,with_tif=) 
@@ -477,7 +477,7 @@ fi
 
 dnl ############# MNG Settings #####################
 
-AC_ARG_ENABLE(mng,     [  --enable-mng=DIR                   Build with mng supprt],
+AC_ARG_ENABLE(mng,     [  --enable-mng                   Build with mng supprt],
 			,enable_mng=no) 
 AC_ARG_WITH(mng,     [  --with-mng=DIR                     Use DIR/lib DIR/include to find the mng files],
 			,with_mng=) 

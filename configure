@@ -44,7 +44,7 @@ ac_help="$ac_help
 ac_help="$ac_help
   --with-qtbindir=DIR                Use qt binaries from the given directory"
 ac_help="$ac_help
-  --enable_tif                       Build with tif support"
+  --enable-tif                       Build with tif support"
 ac_help="$ac_help
   --with-tif=DIR                     Use DIR/lib DIR/include to find the tif files"
 ac_help="$ac_help
@@ -68,7 +68,7 @@ ac_help="$ac_help
 ac_help="$ac_help
   --with-pnglibdir=DIR               Use png lib from the given directory"
 ac_help="$ac_help
-  --enable-mng=DIR                   Build with mng supprt"
+  --enable-mng                   Build with mng supprt"
 ac_help="$ac_help
   --with-mng=DIR                     Use DIR/lib DIR/include to find the mng files"
 ac_help="$ac_help
