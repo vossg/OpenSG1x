@@ -37,17 +37,19 @@
 OSG_BEGIN_NAMESPACE
 
 inline
-BinaryDataHandler::ReadError::ReadError(const string &reson) : 
+BinaryDataHandler::ReadError::ReadError(const Char8 *reson) : 
     Exception() 
 {
-    _what += "BinaryDataHandler ReadError: " + reson;
+    _what += "BinaryDataHandler ReadError: ";
+    _what += reson;
 }
 
 inline
-BinaryDataHandler::WriteError::WriteError(const string &reson) : 
+BinaryDataHandler::WriteError::WriteError(const Char8 *reson) : 
     Exception() 
 {
-    _what += "BinaryDataHandler WriteError: " + reson;
+    _what += "BinaryDataHandler WriteError: ";
+    _what += reson;
 }
 
 inline 

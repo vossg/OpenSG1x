@@ -66,12 +66,12 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
 
     struct ReadError : public Exception 
     {
-        ReadError(const string &reson);
+        ReadError(const Char8 *reson);
     };
     
     struct WriteError : public Exception 
     {
-        WriteError(const string &reson);
+        WriteError(const Char8 *reson);
     };
  
     /*! \}                                                                 */
