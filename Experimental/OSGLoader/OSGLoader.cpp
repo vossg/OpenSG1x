@@ -592,14 +592,15 @@ NodePtr OSGLoader::getRoot(void)
     return _pRootNode;
 }
 
-vector<NodePtr> OSGLoader::getRoots(void)
+vector<FieldContainerPtr> OSGLoader::getRoots(void)
 {
-	vector<NodePtr> nodeVec;
+	vector<FieldContainerPtr> fcVec;
+
 	for( UInt32 i=0; i<_pRootNode->getNChildren(); ++i )
 	{
-		nodeVec.push_back( _pRootNode->getChild(i) );
+		fcVec.push_back( _pRootNode->getChild(i) );
 	}
-	return nodeVec;
+	return fcVec;
 }
 
 void OSGLoader::addFieldValue(const Char8 *szFieldVal)

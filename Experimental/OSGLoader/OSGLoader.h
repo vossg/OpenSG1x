@@ -212,7 +212,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     virtual void    endField               (void);
 
     virtual NodePtr getRoot                (void);
-	virtual vector<NodePtr> getRoots       (void);
+	virtual vector<FieldContainerPtr> getRoots       (void);
 
     virtual FieldContainerPtr getReference(const Char8 *szName);
 

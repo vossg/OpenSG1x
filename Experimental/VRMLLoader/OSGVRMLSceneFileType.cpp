@@ -117,12 +117,16 @@ NodePtr VRMLSceneFileType::read(const Char8 *fileName, UInt32 uiOptions) const
     return  _pVRMLLoader->getRoot();
 }
 
-vector<NodePtr> VRMLSceneFileType::readTopNodes(const Char8* fileName,
-													  UInt32 uiOptions) const
+vector<FieldContainerPtr> VRMLSceneFileType::readTopNodes(const Char8* fName,
+                                                          UInt32 uiOpts)const
 {
-	vector<NodePtr> nodeVec;
-	nodeVec.push_back( read(fileName, uiOptions) );
-	return nodeVec;
+  NodePtr nodePtr = read(fName, uiOpts);
+	vector<FieldContainerPtr> fcVec;
+
+  if (nodePtr != NullFC)
+    fcVec.push_back( nodePtr );
+
+	return fcVec;
 }
 
 

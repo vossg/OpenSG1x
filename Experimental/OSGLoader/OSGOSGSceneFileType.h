@@ -106,8 +106,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
     virtual NodePtr read (const Char8    *fileName, 
                          		UInt32    uiOptions) const;
 	
-	virtual vector<NodePtr> readTopNodes(const Char8	*fileName,
-									   		   UInt32	uiOptions) const;
+    virtual vector<FieldContainerPtr> readTopNodes(const Char8	*fileName,
+                                                   UInt32	uiOptions) const;
 
     virtual Bool    write(const NodePtr   node, 
                           const char     *fileName ) const;
