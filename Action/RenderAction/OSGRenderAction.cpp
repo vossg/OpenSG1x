@@ -417,6 +417,126 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     }
 }
 
+void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
+{
+    Material *pMat;
+    State    *pState;
+
+    if(_pMaterial != NULL)
+    {
+        pMat = _pMaterial;
+    }
+    else if(mat != NULL)
+    {
+        pMat = mat;
+    }
+    else
+    {
+        return;
+    }
+
+    MaterialMap::iterator it        = _mMatMap.find(pMat);
+
+    pMat->rebuildState();
+
+    pState = pMat->getState().getCPtr();
+
+    if(_bSortTrans == true && pMat->isTransparent() == true)
+    {
+        DrawTreeNode *pNewElem = new DrawTreeNode;
+        Pnt3f         objPos;
+            
+        getActNode()->getVolume().getCenter(objPos);
+        
+        _currMatrix.second.mult(objPos);
+            
+        pNewElem->setFunctor    (func);
+        pNewElem->setMatrixStore(_currMatrix);
+            
+        pNewElem->setState      (pState);
+        pNewElem->setScalar     (objPos[2]);
+
+        if(_pTransMatRoot->getFirstChild() == NULL)
+        {
+            _pTransMatRoot->addChild(pNewElem);
+        }
+        else
+        {
+            DrawTreeNode *pCurrent = _pTransMatRoot->getFirstChild();
+            DrawTreeNode *pLast    = NULL;
+            Bool          bFound   = false;
+
+            do
+            {
+
+                if(pNewElem->getScalar() > pCurrent->getScalar())
+                {
+                    pLast    = pCurrent;
+                    pCurrent = pCurrent->getBrother();
+                }
+                else
+                {
+                    bFound = true;
+                }
+
+            } while(bFound   == false && 
+                    pCurrent != NULL    );
+            
+            
+            if(bFound == true)
+            {
+                if(pLast == NULL)
+                {
+                    _pTransMatRoot->insertFirstChild(       pNewElem);
+                }
+                else
+                {
+                    _pTransMatRoot->insertChildAfter(pLast, pNewElem);
+                }
+            }
+            else
+            {
+                _pTransMatRoot->addChild(pNewElem);
+            }
+        }
+
+
+        _uiNumTransGeometries++;
+    }
+    else
+    {
+        DrawTreeNode *pNewElem = new DrawTreeNode;
+
+        if(it == _mMatMap.end())
+        {
+            DrawTreeNode *pNewMatElem = new DrawTreeNode;
+            
+            _mMatMap[pMat].push_back(pNewMatElem);
+            
+            pNewElem->setFunctor    (func);
+            pNewElem->setMatrixStore(_currMatrix);
+            
+            pNewMatElem->addChild(pNewElem);
+            pNewMatElem->setState(pState);
+            
+            _pMatRoot->addChild(pNewMatElem);
+        }
+        else
+        {
+            vector<DrawTreeNode *>::iterator treesIt  = it->second.begin();
+            vector<DrawTreeNode *>::iterator treesEnd = it->second.end();
+            
+            pNewElem->setFunctor    (func);
+            pNewElem->setMatrixStore(_currMatrix);
+            
+            for(;treesIt != treesEnd; ++treesIt)
+            {
+                (*treesIt)->addChild(pNewElem);
+            }
+        }
+    }
+}
+
 void RenderAction::dropLight(LightBase *pLight)
 {
     if(pLight != NULL)
@@ -549,7 +669,11 @@ void RenderAction::draw(DrawTreeNode *pRoot)
 
         _uiNumGeometries++;
     }
-
+    else if(pRoot->hasFunctor())
+    {
+        pRoot->getFunctor().call(this);
+    }
+    
     if(pRoot->getFirstChild() != NULL)
     {
         draw(pRoot->getFirstChild());

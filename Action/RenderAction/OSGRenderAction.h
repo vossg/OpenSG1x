@@ -52,6 +52,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGDrawActionBase.h>
 #include <OSGMatrix.h>
+#include <OSGMaterial.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -132,6 +133,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
 
     void dropGeometry(Geometry  *pGeo);
     void dropLight   (LightBase *pLight);
+    void dropFunctor (Material::DrawFunctor &func, Material *mat);
 
     /*------------------------- comparison ----------------------------------*/
 
