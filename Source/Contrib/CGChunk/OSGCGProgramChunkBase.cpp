@@ -45,160 +45,129 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class CGChunk!
+ **     class CGProgramChunk!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#define OSG_COMPILECGCHUNKINST
+#define OSG_COMPILECGPROGRAMCHUNKINST
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
 
-#include "OSGCGChunkBase.h"
-#include "OSGCGChunk.h"
+#include "OSGCGProgramChunkBase.h"
+#include "OSGCGProgramChunk.h"
 
 
 OSG_USING_NAMESPACE
 
-const OSG::BitVector  CGChunkBase::VertexProgramFieldMask = 
-    (TypeTraits<BitVector>::One << CGChunkBase::VertexProgramFieldId);
+const OSG::BitVector  CGProgramChunkBase::ProgramFieldMask = 
+    (TypeTraits<BitVector>::One << CGProgramChunkBase::ProgramFieldId);
 
-const OSG::BitVector  CGChunkBase::FragmentProgramFieldMask = 
-    (TypeTraits<BitVector>::One << CGChunkBase::FragmentProgramFieldId);
+const OSG::BitVector  CGProgramChunkBase::ParamNamesFieldMask = 
+    (TypeTraits<BitVector>::One << CGProgramChunkBase::ParamNamesFieldId);
 
-const OSG::BitVector  CGChunkBase::ParamNamesFieldMask = 
-    (TypeTraits<BitVector>::One << CGChunkBase::ParamNamesFieldId);
+const OSG::BitVector  CGProgramChunkBase::ParamValuesFieldMask = 
+    (TypeTraits<BitVector>::One << CGProgramChunkBase::ParamValuesFieldId);
 
-const OSG::BitVector  CGChunkBase::ParamValuesFieldMask = 
-    (TypeTraits<BitVector>::One << CGChunkBase::ParamValuesFieldId);
+const OSG::BitVector  CGProgramChunkBase::GLIdFieldMask = 
+    (TypeTraits<BitVector>::One << CGProgramChunkBase::GLIdFieldId);
 
-const OSG::BitVector  CGChunkBase::GLIdFieldMask = 
-    (TypeTraits<BitVector>::One << CGChunkBase::GLIdFieldId);
+const OSG::BitVector  CGProgramChunkBase::ProfileFieldMask = 
+    (TypeTraits<BitVector>::One << CGProgramChunkBase::ProfileFieldId);
 
-const OSG::BitVector  CGChunkBase::VertexProfileFieldMask = 
-    (TypeTraits<BitVector>::One << CGChunkBase::VertexProfileFieldId);
-
-const OSG::BitVector  CGChunkBase::FragmentProfileFieldMask = 
-    (TypeTraits<BitVector>::One << CGChunkBase::FragmentProfileFieldId);
-
-const OSG::BitVector CGChunkBase::MTInfluenceMask = 
+const OSG::BitVector CGProgramChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
 
-/*! \var std::string     CGChunkBase::_sfVertexProgram
+/*! \var std::string     CGProgramChunkBase::_sfProgram
     vertex program source
 */
-/*! \var std::string     CGChunkBase::_sfFragmentProgram
-    fragment program source
-*/
-/*! \var std::string     CGChunkBase::_mfParamNames
+/*! \var std::string     CGProgramChunkBase::_mfParamNames
     program parameter names
 */
-/*! \var Vec4f           CGChunkBase::_mfParamValues
+/*! \var Vec4f           CGProgramChunkBase::_mfParamValues
     program parameter
 */
-/*! \var UInt32          CGChunkBase::_sfGLId
+/*! \var UInt32          CGProgramChunkBase::_sfGLId
     
 */
-/*! \var UInt32          CGChunkBase::_sfVertexProfile
-    vertex profile
-*/
-/*! \var UInt32          CGChunkBase::_sfFragmentProfile
+/*! \var UInt32          CGProgramChunkBase::_sfProfile
     vertex profile
 */
 
-//! CGChunk description
+//! CGProgramChunk description
 
-FieldDescription *CGChunkBase::_desc[] = 
+FieldDescription *CGProgramChunkBase::_desc[] = 
 {
     new FieldDescription(SFString::getClassType(), 
-                     "vertexProgram", 
-                     VertexProgramFieldId, VertexProgramFieldMask,
+                     "program", 
+                     ProgramFieldId, ProgramFieldMask,
                      false,
-                     (FieldAccessMethod) &CGChunkBase::getSFVertexProgram),
-    new FieldDescription(SFString::getClassType(), 
-                     "fragmentProgram", 
-                     FragmentProgramFieldId, FragmentProgramFieldMask,
-                     false,
-                     (FieldAccessMethod) &CGChunkBase::getSFFragmentProgram),
+                     (FieldAccessMethod) &CGProgramChunkBase::getSFProgram),
     new FieldDescription(MFString::getClassType(), 
                      "paramNames", 
                      ParamNamesFieldId, ParamNamesFieldMask,
                      false,
-                     (FieldAccessMethod) &CGChunkBase::getMFParamNames),
+                     (FieldAccessMethod) &CGProgramChunkBase::getMFParamNames),
     new FieldDescription(MFVec4f::getClassType(), 
                      "paramValues", 
                      ParamValuesFieldId, ParamValuesFieldMask,
                      false,
-                     (FieldAccessMethod) &CGChunkBase::getMFParamValues),
+                     (FieldAccessMethod) &CGProgramChunkBase::getMFParamValues),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     (FieldAccessMethod) &CGChunkBase::getSFGLId),
+                     (FieldAccessMethod) &CGProgramChunkBase::getSFGLId),
     new FieldDescription(SFUInt32::getClassType(), 
-                     "vertexProfile", 
-                     VertexProfileFieldId, VertexProfileFieldMask,
+                     "profile", 
+                     ProfileFieldId, ProfileFieldMask,
                      false,
-                     (FieldAccessMethod) &CGChunkBase::getSFVertexProfile),
-    new FieldDescription(SFUInt32::getClassType(), 
-                     "fragmentProfile", 
-                     FragmentProfileFieldId, FragmentProfileFieldMask,
-                     false,
-                     (FieldAccessMethod) &CGChunkBase::getSFFragmentProfile)
+                     (FieldAccessMethod) &CGProgramChunkBase::getSFProfile)
 };
 
 
-FieldContainerType CGChunkBase::_type(
-    "CGChunk",
+FieldContainerType CGProgramChunkBase::_type(
+    "CGProgramChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &CGChunkBase::createEmpty,
-    CGChunk::initMethod,
+    NULL, 
+    CGProgramChunk::initMethod,
     _desc,
     sizeof(_desc));
 
-//OSG_FIELD_CONTAINER_DEF(CGChunkBase, CGChunkPtr)
+//OSG_FIELD_CONTAINER_DEF(CGProgramChunkBase, CGProgramChunkPtr)
 
 /*------------------------------ get -----------------------------------*/
 
-FieldContainerType &CGChunkBase::getType(void) 
+FieldContainerType &CGProgramChunkBase::getType(void) 
 {
     return _type; 
 } 
 
-const FieldContainerType &CGChunkBase::getType(void) const 
+const FieldContainerType &CGProgramChunkBase::getType(void) const 
 {
     return _type;
 } 
 
 
-FieldContainerPtr CGChunkBase::shallowCopy(void) const 
+UInt32 CGProgramChunkBase::getContainerSize(void) const 
 { 
-    CGChunkPtr returnValue; 
-
-    newPtr(returnValue, dynamic_cast<const CGChunk *>(this)); 
-
-    return returnValue; 
-}
-
-UInt32 CGChunkBase::getContainerSize(void) const 
-{ 
-    return sizeof(CGChunk); 
+    return sizeof(CGProgramChunk); 
 }
 
 
-void CGChunkBase::executeSync(      FieldContainer &other,
+void CGProgramChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CGChunkBase *) &other, whichField);
+    this->executeSyncImpl((CGProgramChunkBase *) &other, whichField);
 }
 
 /*------------------------- constructors ----------------------------------*/
@@ -207,14 +176,12 @@ void CGChunkBase::executeSync(      FieldContainer &other,
 #pragma warning (disable : 383)
 #endif
 
-CGChunkBase::CGChunkBase(void) :
-    _sfVertexProgram          (), 
-    _sfFragmentProgram        (), 
+CGProgramChunkBase::CGProgramChunkBase(void) :
+    _sfProgram                (), 
     _mfParamNames             (), 
     _mfParamValues            (), 
     _sfGLId                   (), 
-    _sfVertexProfile          (UInt32(CG_PROFILE_UNKNOWN)), 
-    _sfFragmentProfile        (UInt32(CG_PROFILE_UNKNOWN)), 
+    _sfProfile                (UInt32(CG_PROFILE_UNKNOWN)), 
     Inherited() 
 {
 }
@@ -223,38 +190,31 @@ CGChunkBase::CGChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-CGChunkBase::CGChunkBase(const CGChunkBase &source) :
-    _sfVertexProgram          (source._sfVertexProgram          ), 
-    _sfFragmentProgram        (source._sfFragmentProgram        ), 
+CGProgramChunkBase::CGProgramChunkBase(const CGProgramChunkBase &source) :
+    _sfProgram                (source._sfProgram                ), 
     _mfParamNames             (source._mfParamNames             ), 
     _mfParamValues            (source._mfParamValues            ), 
     _sfGLId                   (source._sfGLId                   ), 
-    _sfVertexProfile          (source._sfVertexProfile          ), 
-    _sfFragmentProfile        (source._sfFragmentProfile        ), 
+    _sfProfile                (source._sfProfile                ), 
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
 
-CGChunkBase::~CGChunkBase(void)
+CGProgramChunkBase::~CGProgramChunkBase(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 CGChunkBase::getBinSize(const BitVector &whichField)
+UInt32 CGProgramChunkBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (VertexProgramFieldMask & whichField))
+    if(FieldBits::NoField != (ProgramFieldMask & whichField))
     {
-        returnValue += _sfVertexProgram.getBinSize();
-    }
-
-    if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
-    {
-        returnValue += _sfFragmentProgram.getBinSize();
+        returnValue += _sfProgram.getBinSize();
     }
 
     if(FieldBits::NoField != (ParamNamesFieldMask & whichField))
@@ -272,33 +232,23 @@ UInt32 CGChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfGLId.getBinSize();
     }
 
-    if(FieldBits::NoField != (VertexProfileFieldMask & whichField))
+    if(FieldBits::NoField != (ProfileFieldMask & whichField))
     {
-        returnValue += _sfVertexProfile.getBinSize();
-    }
-
-    if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
-    {
-        returnValue += _sfFragmentProfile.getBinSize();
+        returnValue += _sfProfile.getBinSize();
     }
 
 
     return returnValue;
 }
 
-void CGChunkBase::copyToBin(      BinaryDataHandler &pMem,
+void CGProgramChunkBase::copyToBin(      BinaryDataHandler &pMem,
                                   const BitVector         &whichField)
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (VertexProgramFieldMask & whichField))
+    if(FieldBits::NoField != (ProgramFieldMask & whichField))
     {
-        _sfVertexProgram.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
-    {
-        _sfFragmentProgram.copyToBin(pMem);
+        _sfProgram.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (ParamNamesFieldMask & whichField))
@@ -316,32 +266,22 @@ void CGChunkBase::copyToBin(      BinaryDataHandler &pMem,
         _sfGLId.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (VertexProfileFieldMask & whichField))
+    if(FieldBits::NoField != (ProfileFieldMask & whichField))
     {
-        _sfVertexProfile.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
-    {
-        _sfFragmentProfile.copyToBin(pMem);
+        _sfProfile.copyToBin(pMem);
     }
 
 
 }
 
-void CGChunkBase::copyFromBin(      BinaryDataHandler &pMem,
+void CGProgramChunkBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
 
-    if(FieldBits::NoField != (VertexProgramFieldMask & whichField))
+    if(FieldBits::NoField != (ProgramFieldMask & whichField))
     {
-        _sfVertexProgram.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
-    {
-        _sfFragmentProgram.copyFromBin(pMem);
+        _sfProgram.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (ParamNamesFieldMask & whichField))
@@ -359,30 +299,22 @@ void CGChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfGLId.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (VertexProfileFieldMask & whichField))
+    if(FieldBits::NoField != (ProfileFieldMask & whichField))
     {
-        _sfVertexProfile.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
-    {
-        _sfFragmentProfile.copyFromBin(pMem);
+        _sfProfile.copyFromBin(pMem);
     }
 
 
 }
 
-void CGChunkBase::executeSyncImpl(      CGChunkBase *pOther,
+void CGProgramChunkBase::executeSyncImpl(      CGProgramChunkBase *pOther,
                                         const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (VertexProgramFieldMask & whichField))
-        _sfVertexProgram.syncWith(pOther->_sfVertexProgram);
-
-    if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
-        _sfFragmentProgram.syncWith(pOther->_sfFragmentProgram);
+    if(FieldBits::NoField != (ProgramFieldMask & whichField))
+        _sfProgram.syncWith(pOther->_sfProgram);
 
     if(FieldBits::NoField != (ParamNamesFieldMask & whichField))
         _mfParamNames.syncWith(pOther->_mfParamNames);
@@ -393,11 +325,8 @@ void CGChunkBase::executeSyncImpl(      CGChunkBase *pOther,
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
 
-    if(FieldBits::NoField != (VertexProfileFieldMask & whichField))
-        _sfVertexProfile.syncWith(pOther->_sfVertexProfile);
-
-    if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
-        _sfFragmentProfile.syncWith(pOther->_sfFragmentProfile);
+    if(FieldBits::NoField != (ProfileFieldMask & whichField))
+        _sfProfile.syncWith(pOther->_sfProfile);
 
 
 }
@@ -410,11 +339,11 @@ void CGChunkBase::executeSyncImpl(      CGChunkBase *pOther,
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<CGChunkPtr>::_type("CGChunkPtr", "StateChunkPtr");
+DataType FieldDataTraits<CGProgramChunkPtr>::_type("CGProgramChunkPtr", "StateChunkPtr");
 #endif
 
-OSG_DLLEXPORT_SFIELD_DEF1(CGChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(CGChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(CGProgramChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(CGProgramChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 
@@ -432,10 +361,10 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
-    static Char8 cvsid_hpp       [] = OSGCGCHUNKBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGCGCHUNKBASE_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGProgramChunkBase.cpp,v 1.1 2004/02/29 18:40:35 a-m-z Exp $";
+    static Char8 cvsid_hpp       [] = OSGCGPROGRAMCHUNKBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGCGPROGRAMCHUNKBASE_INLINE_CVSID;
 
-    static Char8 cvsid_fields_hpp[] = OSGCGCHUNKFIELDS_HEADER_CVSID;
+    static Char8 cvsid_fields_hpp[] = OSGCGPROGRAMCHUNKFIELDS_HEADER_CVSID;
 }
 

@@ -1,33 +1,24 @@
 <?xml version="1.0"?>
 
 <FieldContainer
-	name="CGChunk"
+	name="CGProgramChunk"
 	parent="StateChunk"
 	library="Contrib"
 	pointerfieldtypes="both"
-	structure="concrete"
+	structure="abstract"
 	systemcomponent="true"
 	parentsystemcomponent="true"
 	decoratable="false"
 	useLocalIncludes="false"
 >
 	<Field
-		name="vertexProgram"
+		name="program"
 		type="std::string"
 		cardinality="single"
 		visibility="external"
 		access="public"
 	>
 	vertex program source
-	</Field>
-	<Field
-		name="fragmentProgram"
-		type="std::string"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-	fragment program source
 	</Field>
 	<Field
 		name="paramNames"
@@ -56,17 +47,7 @@
 	>
 	</Field>
 	<Field
-		name="vertexProfile"
-		type="UInt32"
-		cardinality="single"
-		visibility="external"
-		defaultValue="CG_PROFILE_UNKNOWN"
-		access="public"
-	>
-	vertex profile
-	</Field>
-	<Field
-		name="fragmentProfile"
+		name="profile"
 		type="UInt32"
 		cardinality="single"
 		visibility="external"

@@ -48,8 +48,8 @@
 \*****************************************************************************/
 
 
-#ifndef _OSGCGCHUNKFIELDS_H_
-#define _OSGCGCHUNKFIELDS_H_
+#ifndef _OSGCGPROGRAMCHUNKFIELDS_H_
+#define _OSGCGPROGRAMCHUNKFIELDS_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -64,12 +64,12 @@
 
 OSG_BEGIN_NAMESPACE
 
-class CGChunk;
+class CGProgramChunk;
 
 #if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
-//! CGChunkPtr
+//! CGProgramChunkPtr
 
-typedef FCPtr<StateChunkPtr, CGChunk> CGChunkPtr;
+typedef FCPtr<StateChunkPtr, CGProgramChunk> CGProgramChunkPtr;
 
 #endif
 
@@ -81,8 +81,8 @@ typedef FCPtr<StateChunkPtr, CGChunk> CGChunkPtr;
 #endif
 
 template <>
-struct FieldDataTraits<CGChunkPtr> : 
-    public FieldTraitsRecurseMapper<CGChunkPtr, true>
+struct FieldDataTraits<CGProgramChunkPtr> : 
+    public FieldTraitsRecurseMapper<CGProgramChunkPtr, true>
 {
     static DataType             _type;                       
 
@@ -91,12 +91,12 @@ struct FieldDataTraits<CGChunkPtr> :
 
     static DataType &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFCGChunkPtr"; }
-    static char     *getMName(void) { return "MFCGChunkPtr"; }
+    static char     *getSName(void) { return "SFCGProgramChunkPtr"; }
+    static char     *getMName(void) { return "MFCGProgramChunkPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsRecurseMapper<CGChunkPtr, true>
+/*! \class  FieldTraitsRecurseMapper<CGProgramChunkPtr, true>
     \hideinhierarchy
  */
 #endif
@@ -107,25 +107,25 @@ struct FieldDataTraits<CGChunkPtr> :
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribFieldSingle */
 
-typedef SField<CGChunkPtr> SFCGChunkPtr;
+typedef SField<CGProgramChunkPtr> SFCGProgramChunkPtr;
 #endif
 
-#ifndef OSG_COMPILECGCHUNKINST
-OSG_DLLEXPORT_DECL1(SField, CGChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING)
+#ifndef OSG_COMPILECGPROGRAMCHUNKINST
+OSG_DLLEXPORT_DECL1(SField, CGProgramChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING)
 #endif
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribFieldMulti */
 
-typedef MField<CGChunkPtr> MFCGChunkPtr;
+typedef MField<CGProgramChunkPtr> MFCGProgramChunkPtr;
 #endif
 
-#ifndef OSG_COMPILECGCHUNKINST
-OSG_DLLEXPORT_DECL1(MField, CGChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING)
+#ifndef OSG_COMPILECGPROGRAMCHUNKINST
+OSG_DLLEXPORT_DECL1(MField, CGProgramChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGCGCHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
+#define OSGCGPROGRAMCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGCGProgramChunkFields.h,v 1.1 2004/02/29 18:40:35 a-m-z Exp $"
 
-#endif /* _OSGCGCHUNKFIELDS_H_ */
+#endif /* _OSGCGPROGRAMCHUNKFIELDS_H_ */

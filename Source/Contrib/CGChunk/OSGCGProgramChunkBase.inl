@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class CGChunk!
+ **     class CGProgramChunk!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -55,246 +55,164 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldContainerType &CGChunkBase::getClassType(void)
+OSG::FieldContainerType &CGProgramChunkBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 CGChunkBase::getClassTypeId(void) 
+OSG::UInt32 CGProgramChunkBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
-//! create a new instance of the class
-inline
-CGChunkPtr CGChunkBase::create(void) 
-{
-    CGChunkPtr fc; 
-
-    if(getClassType().getPrototype() != OSG::NullFC) 
-    {
-        fc = CGChunkPtr::dcast(
-            getClassType().getPrototype()-> shallowCopy()); 
-    }
-    
-    return fc; 
-}
-
-//! create an empty new instance of the class, do not copy the prototype
-inline
-CGChunkPtr CGChunkBase::createEmpty(void) 
-{ 
-    CGChunkPtr returnValue; 
-    
-    newPtr(returnValue); 
-
-    return returnValue; 
-}
-
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the CGChunk::_sfVertexProgram field.
+//! Get the CGProgramChunk::_sfProgram field.
 inline
-SFString *CGChunkBase::getSFVertexProgram(void)
+SFString *CGProgramChunkBase::getSFProgram(void)
 {
-    return &_sfVertexProgram;
+    return &_sfProgram;
 }
 
-//! Get the CGChunk::_sfFragmentProgram field.
+//! Get the CGProgramChunk::_mfParamNames field.
 inline
-SFString *CGChunkBase::getSFFragmentProgram(void)
-{
-    return &_sfFragmentProgram;
-}
-
-//! Get the CGChunk::_mfParamNames field.
-inline
-MFString *CGChunkBase::getMFParamNames(void)
+MFString *CGProgramChunkBase::getMFParamNames(void)
 {
     return &_mfParamNames;
 }
 
-//! Get the CGChunk::_mfParamValues field.
+//! Get the CGProgramChunk::_mfParamValues field.
 inline
-MFVec4f *CGChunkBase::getMFParamValues(void)
+MFVec4f *CGProgramChunkBase::getMFParamValues(void)
 {
     return &_mfParamValues;
 }
 
-//! Get the CGChunk::_sfGLId field.
+//! Get the CGProgramChunk::_sfGLId field.
 inline
-SFUInt32 *CGChunkBase::getSFGLId(void)
+SFUInt32 *CGProgramChunkBase::getSFGLId(void)
 {
     return &_sfGLId;
 }
 
-//! Get the CGChunk::_sfVertexProfile field.
+//! Get the CGProgramChunk::_sfProfile field.
 inline
-SFUInt32 *CGChunkBase::getSFVertexProfile(void)
+SFUInt32 *CGProgramChunkBase::getSFProfile(void)
 {
-    return &_sfVertexProfile;
-}
-
-//! Get the CGChunk::_sfFragmentProfile field.
-inline
-SFUInt32 *CGChunkBase::getSFFragmentProfile(void)
-{
-    return &_sfFragmentProfile;
+    return &_sfProfile;
 }
 
 
-//! Get the value of the CGChunk::_sfVertexProgram field.
+//! Get the value of the CGProgramChunk::_sfProgram field.
 inline
-std::string &CGChunkBase::getVertexProgram(void)
+std::string &CGProgramChunkBase::getProgram(void)
 {
-    return _sfVertexProgram.getValue();
+    return _sfProgram.getValue();
 }
 
-//! Get the value of the CGChunk::_sfVertexProgram field.
+//! Get the value of the CGProgramChunk::_sfProgram field.
 inline
-const std::string &CGChunkBase::getVertexProgram(void) const
+const std::string &CGProgramChunkBase::getProgram(void) const
 {
-    return _sfVertexProgram.getValue();
+    return _sfProgram.getValue();
 }
 
-//! Set the value of the CGChunk::_sfVertexProgram field.
+//! Set the value of the CGProgramChunk::_sfProgram field.
 inline
-void CGChunkBase::setVertexProgram(const std::string &value)
+void CGProgramChunkBase::setProgram(const std::string &value)
 {
-    _sfVertexProgram.setValue(value);
+    _sfProgram.setValue(value);
 }
 
-//! Get the value of the CGChunk::_sfFragmentProgram field.
+//! Get the value of the CGProgramChunk::_sfGLId field.
 inline
-std::string &CGChunkBase::getFragmentProgram(void)
-{
-    return _sfFragmentProgram.getValue();
-}
-
-//! Get the value of the CGChunk::_sfFragmentProgram field.
-inline
-const std::string &CGChunkBase::getFragmentProgram(void) const
-{
-    return _sfFragmentProgram.getValue();
-}
-
-//! Set the value of the CGChunk::_sfFragmentProgram field.
-inline
-void CGChunkBase::setFragmentProgram(const std::string &value)
-{
-    _sfFragmentProgram.setValue(value);
-}
-
-//! Get the value of the CGChunk::_sfGLId field.
-inline
-UInt32 &CGChunkBase::getGLId(void)
+UInt32 &CGProgramChunkBase::getGLId(void)
 {
     return _sfGLId.getValue();
 }
 
-//! Get the value of the CGChunk::_sfGLId field.
+//! Get the value of the CGProgramChunk::_sfGLId field.
 inline
-const UInt32 &CGChunkBase::getGLId(void) const
+const UInt32 &CGProgramChunkBase::getGLId(void) const
 {
     return _sfGLId.getValue();
 }
 
-//! Set the value of the CGChunk::_sfGLId field.
+//! Set the value of the CGProgramChunk::_sfGLId field.
 inline
-void CGChunkBase::setGLId(const UInt32 &value)
+void CGProgramChunkBase::setGLId(const UInt32 &value)
 {
     _sfGLId.setValue(value);
 }
 
-//! Get the value of the CGChunk::_sfVertexProfile field.
+//! Get the value of the CGProgramChunk::_sfProfile field.
 inline
-UInt32 &CGChunkBase::getVertexProfile(void)
+UInt32 &CGProgramChunkBase::getProfile(void)
 {
-    return _sfVertexProfile.getValue();
+    return _sfProfile.getValue();
 }
 
-//! Get the value of the CGChunk::_sfVertexProfile field.
+//! Get the value of the CGProgramChunk::_sfProfile field.
 inline
-const UInt32 &CGChunkBase::getVertexProfile(void) const
+const UInt32 &CGProgramChunkBase::getProfile(void) const
 {
-    return _sfVertexProfile.getValue();
+    return _sfProfile.getValue();
 }
 
-//! Set the value of the CGChunk::_sfVertexProfile field.
+//! Set the value of the CGProgramChunk::_sfProfile field.
 inline
-void CGChunkBase::setVertexProfile(const UInt32 &value)
+void CGProgramChunkBase::setProfile(const UInt32 &value)
 {
-    _sfVertexProfile.setValue(value);
-}
-
-//! Get the value of the CGChunk::_sfFragmentProfile field.
-inline
-UInt32 &CGChunkBase::getFragmentProfile(void)
-{
-    return _sfFragmentProfile.getValue();
-}
-
-//! Get the value of the CGChunk::_sfFragmentProfile field.
-inline
-const UInt32 &CGChunkBase::getFragmentProfile(void) const
-{
-    return _sfFragmentProfile.getValue();
-}
-
-//! Set the value of the CGChunk::_sfFragmentProfile field.
-inline
-void CGChunkBase::setFragmentProfile(const UInt32 &value)
-{
-    _sfFragmentProfile.setValue(value);
+    _sfProfile.setValue(value);
 }
 
 
-//! Get the value of the \a index element the CGChunk::_mfParamNames field.
+//! Get the value of the \a index element the CGProgramChunk::_mfParamNames field.
 inline
-std::string &CGChunkBase::getParamNames(const UInt32 index)
+std::string &CGProgramChunkBase::getParamNames(const UInt32 index)
 {
     return _mfParamNames[index];
 }
 
-//! Get the CGChunk::_mfParamNames field.
+//! Get the CGProgramChunk::_mfParamNames field.
 inline
-MFString &CGChunkBase::getParamNames(void)
+MFString &CGProgramChunkBase::getParamNames(void)
 {
     return _mfParamNames;
 }
 
-//! Get the CGChunk::_mfParamNames field.
+//! Get the CGProgramChunk::_mfParamNames field.
 inline
-const MFString &CGChunkBase::getParamNames(void) const
+const MFString &CGProgramChunkBase::getParamNames(void) const
 {
     return _mfParamNames;
 }
 
-//! Get the value of the \a index element the CGChunk::_mfParamValues field.
+//! Get the value of the \a index element the CGProgramChunk::_mfParamValues field.
 inline
-Vec4f &CGChunkBase::getParamValues(const UInt32 index)
+Vec4f &CGProgramChunkBase::getParamValues(const UInt32 index)
 {
     return _mfParamValues[index];
 }
 
-//! Get the CGChunk::_mfParamValues field.
+//! Get the CGProgramChunk::_mfParamValues field.
 inline
-MFVec4f &CGChunkBase::getParamValues(void)
+MFVec4f &CGProgramChunkBase::getParamValues(void)
 {
     return _mfParamValues;
 }
 
-//! Get the CGChunk::_mfParamValues field.
+//! Get the CGProgramChunk::_mfParamValues field.
 inline
-const MFVec4f &CGChunkBase::getParamValues(void) const
+const MFVec4f &CGProgramChunkBase::getParamValues(void) const
 {
     return _mfParamValues;
 }
 
 OSG_END_NAMESPACE
 
-#define OSGCGCHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGCGPROGRAMCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCGProgramChunkBase.inl,v 1.1 2004/02/29 18:40:35 a-m-z Exp $"
 
