@@ -65,6 +65,8 @@
 
 #include <OSGLog.h>
 
+#define OSG_COMPILEIMAGE
+
 #include "OSGPNMImageFileType.h"
 
 OSG_USING_NAMESPACE
@@ -78,9 +80,9 @@ static const char *suffixArray[] =
 	"pnm", "pbm", "pgm", "ppm"
 };
 
-PNMImageFileType PNMImageFileType::_the ( suffixArray,
-    	    	    	    	    	    	    	    	sizeof(suffixArray),
-																								'P', -1 );
+PNMImageFileType PNMImageFileType::_the ( 	suffixArray,
+											sizeof(suffixArray),
+											'P', -1 );
 
 
 /*****************************

@@ -54,7 +54,7 @@ OSG_BEGIN_NAMESPACE
 */
 
 
-class OSG_DLLEXPORT ImageFileType {
+class OSG_IMAGE_DLLMAPPING ImageFileType {
 
 private:
 

@@ -69,7 +69,7 @@ OSG_BEGIN_NAMESPACE
 //------------------------------
 
 
-class OSG_DLLEXPORT PNMImageFileType : public ImageFileType 
+class OSG_IMAGE_DLLMAPPING PNMImageFileType : public ImageFileType 
 {
 
 public:
@@ -96,10 +96,10 @@ public:
   virtual PNMImageFileType & the (void) { return _the; }
 
   /** get method for the attribute majorMagic */
-  virtual Int16 getMajorMagic (void);
+  //virtual Int16 getMajorMagic (void);
 
   /** get method for the attribute minorMagic */
-  virtual Int16 getMinorMagic (void);
+  //virtual Int16 getMinorMagic (void);
 
   /** read the image from the given file */
   virtual bool read (Image &image, const char *fileName);
@@ -108,7 +108,7 @@ public:
   virtual bool write (const Image &image, const char *fileName);
 
   /** get method for the type name */
-  virtual const char *getName (void) { return "PNG IMAGE"; }
+  virtual const char *getName (void) { return "PNM IMAGE"; }
 
 protected:
 

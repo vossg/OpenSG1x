@@ -12,13 +12,13 @@
 #include "OSGImageFileHandler.cpp"
 #include "OSGImage.h"
 
-using OSG::OSGImage;
+using osg::Image;
 
 int main (int argc, char **argv)
 {
-	OSGImage image, image2;
+	Image image, image2;
 	
-	// OSGImageFileHandler::the().print();
+	//ImageFileHandler::the().print();
 
 	image.set (256,256, "R5G5B5P1");
 

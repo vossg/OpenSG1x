@@ -72,7 +72,7 @@
 OSG_BEGIN_NAMESPACE
 
 
-class OSG_DLLEXPORT ImageFileHandler {
+class OSG_IMAGE_DLLMAPPING ImageFileHandler {
 
 	friend class ImageFileType;
 		

@@ -62,6 +62,7 @@ extern "C" {
 }
 #endif     
 
+#define OSG_COMPILEIMAGE
 
 #include "OSGJPGImageFileType.h"
 #include <OSGLog.h>

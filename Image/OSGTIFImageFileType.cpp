@@ -52,6 +52,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEIMAGE
+
 #include "OSGTIFImageFileType.h"
 
 #ifdef TIFF_LIB
@@ -60,7 +62,7 @@
 
 #include <OSGLog.h>
 
-OSG_USING_NAMESPACE;
+OSG_USING_NAMESPACE
 
 // Static Class Varible implementations:
 static const char *suffixArray[] = {
@@ -138,10 +140,10 @@ bool TIFImageFileType::read (Image &image, const char *fileName )
 #ifdef TIFF_LIB
 
 	TIFF *in = TIFFOpen(fileName, "r");
-	UChar *data = 0, *line = 0, *dest;
+	UChar8 *data = 0, *line = 0, *dest;
 	UInt32 w, h, u, v;
-	ushort bpp;
-	Char errorMessage[1024];
+	UInt16 bpp;
+	Char8 errorMessage[1024];
 	UInt16* sampleinfo;
 	UInt16 extrasamples;
 	UInt16 si;
@@ -165,7 +167,7 @@ bool TIFImageFileType::read (Image &image, const char *fileName )
 			}
 		}
 
-		data = new UChar [w*h*4];
+		data = new UChar8 [w*h*4];
 		if ( TIFFRGBAImageOK( in, errorMessage ) &&
 				 TIFFReadRGBAImage(in, w, h, (uint32*)data, 1)) 
 			valid = true;
@@ -235,52 +237,54 @@ bool TIFImageFileType::read (Image &image, const char *fileName )
 //------------------------------
 bool TIFImageFileType::write (const Image &image, const char *fileName )
 {
-		bool retCode = false;
+	bool retCode = false;
 
 #ifdef TIFF_LIB
 
-  TIFF *out = TIFFOpen(fileName, "w");
-  int lineSize = image.width() * image.pixelDepth();
-	int photoMetric, samplesPerPixel;
-	unsigned char *data;
-  int row;
+  	TIFF *out = TIFFOpen(fileName, "w");
+  	int lineSize = image.width() * image.pixelDepth();
+	int photometric, samplesPerPixel;
+	const unsigned char *data;
+  	int row;
 
 	// TODO: implemet all cases correct 
 
-	switch (image.pixelDepth()) {
+	switch (image.pixelDepth()) 
+	{
 	case 1:
 		samplesPerPixel = 1;
-		photoMetric = PHOTOMETRIC_MINISBLACK;
+		photometric = PHOTOMETRIC_MINISBLACK;
 		break;
 	case 2:
 		samplesPerPixel = 2;
-		photoMetric = PHOTOMETRIC_MINISBLACK;
+		photometric = PHOTOMETRIC_MINISBLACK;
 		break;
 	case 3:
 		samplesPerPixel = 3;
-		photoMetric = PHOTOMETRIC_RGB;
+		photometric = PHOTOMETRIC_RGB;
 		break;
 	case 4:
 		samplesPerPixel = 4;
-		photoMetric = PHOTOMETRIC_RGB;
+		photometric = PHOTOMETRIC_RGB;
 		break;
 	}
 
-	if (out) {
+	if (out) 
+	{
 		TIFFSetField(out, TIFFTAG_IMAGEWIDTH,  image.width());
 		TIFFSetField(out, TIFFTAG_IMAGELENGTH, image.height());
 		TIFFSetField(out, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
 		TIFFSetField(out, TIFFTAG_SAMPLESPERPIXEL, samplesPerPixel);
 		TIFFSetField(out, TIFFTAG_BITSPERSAMPLE, 8);
 		TIFFSetField(out, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-		TIFFSetField(out, TIFFTAG_PHOTOMETRIC, photoMetric);
+		TIFFSetField(out, TIFFTAG_PHOTOMETRIC, photometric);
 		TIFFSetField(out, TIFFTAG_COMPRESSION, COMPRESSION_LZW);
 		TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, TIFFDefaultStripSize(out, -1));
 		
-		for (row = 0; row < image.height(); row++) {
-			data = image.data() + 
-				((image.height() - row - 1) * (image.width() * image.pixelDepth()));
-			if (TIFFWriteScanline(out, data, row, 0) < 0)
+		for (row = 0; row < image.height(); row++) 
+		{
+			data = image.data() + ((image.height() - row - 1) * lineSize);
+			if (TIFFWriteScanline(out, (tdata_t)data, row, 0) < 0)
 				break;
 		}
 		
@@ -290,8 +294,8 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 #else
 
 	SWARNING << getName() 
-					 << " write is not compiled into the current binary " 
-					 << endl;
+			 << " write is not compiled into the current binary " 
+			 << endl;
 
 #endif
 
@@ -342,9 +346,9 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 //
 //------------------------------
 TIFImageFileType::TIFImageFileType ( const char *suffixArray[], 
-																					 UInt16 suffixByteCount, 
-																					 Int16 majorMagic, 
-																					 Int16 minorMagic )
+									UInt16 suffixByteCount, 
+									Int16 majorMagic, 
+									Int16 minorMagic )
 	: ImageFileType ( suffixArray, suffixByteCount, majorMagic, minorMagic)
 {
 	return;

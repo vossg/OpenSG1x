@@ -55,6 +55,8 @@
 #include <OSGLog.h>
 #include <OSGBaseTypes.h>
 
+#define OSG_COMPILEIMAGE
+
 #include "OSGImageFileHandler.h"
 
 OSG_USING_NAMESPACE

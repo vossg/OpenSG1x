@@ -45,6 +45,9 @@
 
 
 // Class declarations
+
+#define OSG_COMPILEIMAGE
+
 #include "OSGImageFileType.h"
 #include "OSGImageFileHandler.h"
 #include "OSGLog.h"

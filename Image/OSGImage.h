@@ -48,6 +48,19 @@
 //Includes
 //-------------------------------
 
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILESTATE
+#       define OSG_IMAGE_DLLMAPPING     __declspec(dllexport)
+#       define OSG_IMAGE_DLLTMPLMAPPING
+#   else
+#       define OSG_IMAGE_DLLMAPPING     __declspec(dllimport)
+#       define OSG_IMAGE_DLLTMPLMAPPING __declspec(dllimport)
+#   endif
+#else
+#define OSG_IMAGE_DLLMAPPING
+#define OSG_IMAGE_DLLTMPLMAPPING
+#endif
+
 #include <OSGString.h>
 #include <OSGStringLink.h>
 #include <OSGBaseTypes.h>
@@ -69,7 +82,7 @@ OSG_BEGIN_NAMESPACE
 //------------------------------
 
 
-class OSG_DLLEXPORT Image {
+class OSG_IMAGE_DLLMAPPING Image {
 
 public:
 
@@ -262,6 +275,7 @@ private:
 };
 
 typedef Image* ImageP;
+
 
 OSG_END_NAMESPACE
 

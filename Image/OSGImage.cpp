@@ -52,6 +52,9 @@
 
 #include <OSGLog.h>
 
+#define OSG_COMPILEIMAGE
+#define OSG_COMPILEIMAGEINST
+
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
 #else
@@ -62,7 +65,25 @@
 #include "OSGImage.h"
 #include "OSGImageFileHandler.h"
 
+#include "OSGSFImageTypes.h"
+#include "OSGMFImageTypes.h"
+
 OSG_USING_NAMESPACE
+
+
+#if defined(__sgi)
+
+#pragma instantiate SField<Image*>::_fieldType
+#pragma instantiate MField<Image*>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, Image*, OSG_IMAGE_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, Image*, OSG_IMAGE_DLLTMPLMAPPING)
+
+#endif
+
+
 
 /* enum VecBase::VectorSizeE
  * brief 

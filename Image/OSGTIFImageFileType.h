@@ -96,10 +96,10 @@ public:
   virtual TIFImageFileType the (void) { return _the; }
 
   /** get method for the attribute majorMagic */
-  virtual Int16 getMajorMagic (void);
+  //virtual Int16 getMajorMagic (void);
 
   /** get method for the attribute minorMagic */
-  virtual Int16 getMinorMagic (void);
+  //virtual Int16 getMinorMagic (void);
 
   /** get method for the type name */
   virtual const char *getName (void) { return "TIF IMAGE"; }

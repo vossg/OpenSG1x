@@ -71,7 +71,7 @@ OSG_BEGIN_NAMESPACE
 //------------------------------
 
 
-class OSG_DLLEXPORT JPGImageFileType : public ImageFileType
+class OSG_IMAGE_DLLMAPPING JPGImageFileType : public ImageFileType
 {
 
 public:
@@ -95,10 +95,10 @@ public:
   virtual ~JPGImageFileType (void);
 
   /** get method for attribute minormagic, -1 => no minor magic code */
-  virtual Int16 getMinorMagic (void);
+  //virtual Int16 getMinorMagic (void);
 
   /** get method for attribute majormagic, -1 => no minor magic code */
-  virtual Int16 getMajorMagic (void);
+  //virtual Int16 getMajorMagic (void);
 
   /** get method for the type name */
   virtual const char *getName (void) { return "JPG IMAGE"; }
