@@ -42,15 +42,15 @@ OSG::Pnt3f calcMean(const MFPnt3f &mfIn)
 // try to create instances of all property types, to make sure they all work
 // on Windows (MS compiler is pretty braindead about this) :((
 
-#define DOTEST(name, etype)\
+#define DOTEST(name, etype, classtype, ptrtype, generictype)\
 {\
     UInt16 i;\
     \
     FLOG(("Type:%s\n", #name));\
     \
-    FLOG(("static ClassType: %s\n", name##::getClassType().getCName() ));\
+    FLOG(("static ClassType: %s\n", classtype.getCName() ));\
    \
-    name##::PtrType p = name::create();\
+    ptrtype p = name::create();\
     FLOG(("dynamic ClassType: %s\n", p->getType().getCName() ));\
     \
     SLOG << "Resize...";\
@@ -70,7 +70,7 @@ OSG::Pnt3f calcMean(const MFPnt3f &mfIn)
 		 << " FormatSize: " << p->getFormatSize() \
 	     << " Stride:" << p->getStride() << " Size: " << p->getSize() << "," << p->size() \
 	     << " Data:" << p->getData() << endLog; \
-	name##::GenericType g;\
+	generictype g;\
 	SLOG << "Generic getValue...";\
 	g = p->getValue(0);\
 	PLOG << "Generic getValueTo...";\
@@ -93,35 +93,35 @@ OSG::Pnt3f calcMean(const MFPnt3f &mfIn)
 void testTypes(void)
 {
 	SLOG << "Testing type completeness" << endLog;
-	DOTEST(GeoPTypesUI8,    UInt8   );
-	DOTEST(GeoPLengthsUI32, UInt32  );
-	DOTEST(GeoPLengthsUI16, UInt16  );
-	DOTEST(GeoPLengthsUI8,  UInt8   );
-	DOTEST(GeoIndicesUI32,  UInt32  );
-	DOTEST(GeoIndicesUI16,  UInt16  );
-	DOTEST(GeoPositions2s,  Pnt2s   );
-	DOTEST(GeoPositions3s,  Pnt3s   );
-	DOTEST(GeoPositions4s,  Pnt4s   );
-	DOTEST(GeoPositions2f,  Pnt2f   );
-	DOTEST(GeoPositions3f,  Pnt3f   );
-	DOTEST(GeoPositions4f,  Pnt4f   );
-	DOTEST(GeoPositions2d,  Pnt2d   );
-	DOTEST(GeoPositions3d,  Pnt3d   );
-	DOTEST(GeoPositions4d,  Pnt4d   );
-	DOTEST(GeoTexCoords1f,  Real32  );
-	DOTEST(GeoTexCoords2f,  Vec2f   );
-	DOTEST(GeoTexCoords3f,  Vec3f   );
-	DOTEST(GeoTexCoords4f,  Vec4f   );
-	DOTEST(GeoTexCoords1d,  Real64  );
-	DOTEST(GeoTexCoords2d,  Vec2d   );
-	DOTEST(GeoTexCoords3d,  Vec3d   );
-	DOTEST(GeoTexCoords4d,  Vec4d   );
-	DOTEST(GeoNormals3f,    Vec3f   );
-	DOTEST(GeoNormals3s,    Vec3s   );
-	DOTEST(GeoColors3ub,    Color3ub);
-	DOTEST(GeoColors4ub,    Color4ub);
-	DOTEST(GeoColors3f,     Color3f );
-	DOTEST(GeoColors4f,     Color4f );
+	DOTEST(GeoPTypesUI8,    UInt8   , GeoPTypesUI8::getClassType(), GeoPTypesUI8::PtrType, GeoPTypesUI8::GenericType);
+	DOTEST(GeoPLengthsUI32, UInt32  , GeoPLengthsUI32::getClassType(), GeoPLengthsUI32::PtrType, GeoPLengthsUI32::GenericType);
+	DOTEST(GeoPLengthsUI16, UInt16  , GeoPLengthsUI16::getClassType(), GeoPLengthsUI16::PtrType, GeoPLengthsUI16::GenericType);
+	DOTEST(GeoPLengthsUI8,  UInt8   , GeoPLengthsUI8::getClassType(), GeoPLengthsUI8::PtrType, GeoPLengthsUI8::GenericType);
+	DOTEST(GeoIndicesUI32,  UInt32  , GeoIndicesUI32::getClassType(), GeoIndicesUI32::PtrType, GeoIndicesUI32::GenericType);
+	DOTEST(GeoIndicesUI16,  UInt16  , GeoIndicesUI16::getClassType(), GeoIndicesUI16::PtrType, GeoIndicesUI16::GenericType);
+	DOTEST(GeoPositions2s,  Pnt2s   , GeoPositions2s::getClassType(), GeoPositions2s::PtrType, GeoPositions2s::GenericType);
+	DOTEST(GeoPositions3s,  Pnt3s   , GeoPositions3s::getClassType(), GeoPositions3s::PtrType, GeoPositions3s::GenericType);
+	DOTEST(GeoPositions4s,  Pnt4s   , GeoPositions4s::getClassType(), GeoPositions4s::PtrType, GeoPositions4s::GenericType);
+	DOTEST(GeoPositions2f,  Pnt2f   , GeoPositions2f::getClassType(), GeoPositions2f::PtrType, GeoPositions2f::GenericType);
+	DOTEST(GeoPositions3f,  Pnt3f   , GeoPositions3f::getClassType(), GeoPositions3f::PtrType, GeoPositions3f::GenericType);
+	DOTEST(GeoPositions4f,  Pnt4f   , GeoPositions4f::getClassType(), GeoPositions4f::PtrType, GeoPositions4f::GenericType);
+	DOTEST(GeoPositions2d,  Pnt2d   , GeoPositions2d::getClassType(), GeoPositions2d::PtrType, GeoPositions2d::GenericType);
+	DOTEST(GeoPositions3d,  Pnt3d   , GeoPositions3d::getClassType(), GeoPositions3d::PtrType, GeoPositions3d::GenericType);
+	DOTEST(GeoPositions4d,  Pnt4d   , GeoPositions4d::getClassType(), GeoPositions4d::PtrType, GeoPositions4d::GenericType);
+	DOTEST(GeoTexCoords1f,  Real32  , GeoTexCoords1f::getClassType(), GeoTexCoords1f::PtrType, GeoTexCoords1f::GenericType);
+	DOTEST(GeoTexCoords2f,  Vec2f   , GeoTexCoords2f::getClassType(), GeoTexCoords2f::PtrType, GeoTexCoords2f::GenericType);
+	DOTEST(GeoTexCoords3f,  Vec3f   , GeoTexCoords3f::getClassType(), GeoTexCoords3f::PtrType, GeoTexCoords3f::GenericType);
+	DOTEST(GeoTexCoords4f,  Vec4f   , GeoTexCoords4f::getClassType(), GeoTexCoords4f::PtrType, GeoTexCoords4f::GenericType);
+	DOTEST(GeoTexCoords1d,  Real64  , GeoTexCoords1d::getClassType(), GeoTexCoords1d::PtrType, GeoTexCoords1d::GenericType);
+	DOTEST(GeoTexCoords2d,  Vec2d   , GeoTexCoords2d::getClassType(), GeoTexCoords2d::PtrType, GeoTexCoords2d::GenericType);
+	DOTEST(GeoTexCoords3d,  Vec3d   , GeoTexCoords3d::getClassType(), GeoTexCoords3d::PtrType, GeoTexCoords3d::GenericType);
+	DOTEST(GeoTexCoords4d,  Vec4d   , GeoTexCoords4d::getClassType(), GeoTexCoords4d::PtrType, GeoTexCoords4d::GenericType);
+	DOTEST(GeoNormals3f,    Vec3f   , GeoNormals3f::getClassType(), GeoNormals3f::PtrType, GeoNormals3f::GenericType);
+	DOTEST(GeoNormals3s,    Vec3s   , GeoNormals3s::getClassType(), GeoNormals3s::PtrType, GeoNormals3s::GenericType);
+	DOTEST(GeoColors3ub,    Color3ub, GeoColors3ub::getClassType(), GeoColors3ub::PtrType, GeoColors3ub::GenericType);
+	DOTEST(GeoColors4ub,    Color4ub, GeoColors4ub::getClassType(), GeoColors4ub::PtrType, GeoColors4ub::GenericType);
+	DOTEST(GeoColors3f,     Color3f , GeoColors3f::getClassType(), GeoColors3f::PtrType, GeoColors3f::GenericType);
+	DOTEST(GeoColors4f,     Color4f , GeoColors4f::getClassType(), GeoColors4f::PtrType, GeoColors4f::GenericType);
 	SLOG << "Types done" << endLog;
 }
 
