@@ -7,6 +7,9 @@
 
 #include "OSGFOXGLWidgetPFields.h"
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
+
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<FOXGLWidgetP>::_type("FOXGLWidgetP", "IntegralType");
