@@ -1,0 +1,227 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>ChangeListViewer</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>ChangeListViewer</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>640</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>5</hsizetype>
+            <vsizetype>5</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="minimumSize">
+        <size>
+            <width>200</width>
+            <height>100</height>
+        </size>
+    </property>
+    <property name="baseSize">
+        <size>
+            <width>640</width>
+            <height>4800</height>
+        </size>
+    </property>
+    <property name="caption">
+        <string>Change List Viewer</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QLayoutWidget" row="1" column="0">
+            <property name="name">
+                <cstring>LayoutHBox</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>26</number>
+                </property>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>UpdateButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Update</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>CloseButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Close</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QSplitter" row="0" column="0">
+            <property name="name">
+                <cstring>Splitter2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <widget class="QListView">
+                <column>
+                    <property name="text">
+                        <string>FC Name</string>
+                    </property>
+                    <property name="clickable">
+                        <bool>false</bool>
+                    </property>
+                    <property name="resizeable">
+                        <bool>true</bool>
+                    </property>
+                </column>
+                <column>
+                    <property name="text">
+                        <string>FC Type</string>
+                    </property>
+                    <property name="clickable">
+                        <bool>false</bool>
+                    </property>
+                    <property name="resizeable">
+                        <bool>true</bool>
+                    </property>
+                </column>
+                <property name="name">
+                    <cstring>FCListView</cstring>
+                </property>
+                <property name="resizePolicy">
+                    <enum>Manual</enum>
+                </property>
+                <property name="vScrollBarMode">
+                    <enum>Auto</enum>
+                </property>
+                <property name="dragAutoScroll">
+                    <bool>false</bool>
+                </property>
+                <property name="selectionMode">
+                    <enum>Single</enum>
+                </property>
+                <property name="allColumnsShowFocus">
+                    <bool>true</bool>
+                </property>
+                <property name="itemMargin">
+                    <number>1</number>
+                </property>
+                <property name="rootIsDecorated">
+                    <bool>true</bool>
+                </property>
+                <property name="resizeMode">
+                    <enum>AllColumns</enum>
+                </property>
+            </widget>
+            <widget class="QTable">
+                <property name="name">
+                    <cstring>FCDetailView</cstring>
+                </property>
+                <property name="resizePolicy">
+                    <enum>Default</enum>
+                </property>
+                <property name="numRows">
+                    <number>0</number>
+                </property>
+                <property name="numCols">
+                    <number>0</number>
+                </property>
+                <property name="readOnly">
+                    <bool>true</bool>
+                </property>
+                <property name="selectionMode">
+                    <enum>NoSelection</enum>
+                </property>
+            </widget>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>CloseButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ChangeListViewer</receiver>
+        <slot>close()</slot>
+    </connection>
+    <connection>
+        <sender>FCListView</sender>
+        <signal>selectionChanged(QListViewItem*)</signal>
+        <receiver>ChangeListViewer</receiver>
+        <slot>setActiveFC(QListViewItem*)</slot>
+    </connection>
+    <connection>
+        <sender>UpdateButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ChangeListViewer</receiver>
+        <slot>updateFCList()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="global" impldecl="in declaration">OSGConfig.h</include>
+    <include location="global" impldecl="in declaration">OSGChangeList.h</include>
+    <include location="global" impldecl="in implementation">OSGFieldContainerType.h</include>
+    <include location="global" impldecl="in implementation">OSGNode.h</include>
+    <include location="global" impldecl="in implementation">OSGAttachment.h</include>
+    <include location="local" impldecl="in implementation">OSGChangeListViewer_qt_moc.cpp</include>
+    <include location="global" impldecl="in implementation">OSGBaseTypes.h</include>
+    <include location="global" impldecl="in implementation">OSGFieldDescription.h</include>
+    <include location="global" impldecl="in implementation">qpainter.h</include>
+    <include location="global" impldecl="in implementation">qpalette.h</include>
+    <include location="global" impldecl="in implementation">OSGThreadManager.h</include>
+    <include location="global" impldecl="in implementation">OSGLog.h</include>
+    <include location="global" impldecl="in implementation">OSGAttachment.h</include>
+    <include location="local" impldecl="in implementation">OSGChangeListViewer_qt.ui.h</include>
+</includes>
+<forwards>
+    <forward>class ColorTableItem</forward>
+</forwards>
+<variables>
+    <variable>QListViewItem* _destroyedRoot</variable>
+    <variable>QListViewItem* _createdRoot</variable>
+    <variable>QListViewItem* _subrefRoot</variable>
+    <variable>QListViewItem* _addrefRoot</variable>
+    <variable>QListViewItem* _changedRoot</variable>
+    <variable>osg::ChangeList* _changeList</variable>
+    <variable>osg::UInt32 _numAspects</variable>
+    <variable>QColor _changedColor</variable>
+    <variable>QColor _normalColor</variable>
+</variables>
+<slots>
+    <slot>updateFCList()</slot>
+    <slot>setActiveFC( QListViewItem * activeItem )</slot>
+    <slot>setChangeList( osg::ChangeList * list )</slot>
+    <slot>displayDynFieldAtt( OSG::FieldContainerPtr fcPtr, OSG::BitVector changeMask, bool allFlag=true)</slot>
+    <slot>displayFC(OSG::FieldContainerPtr fcPtr, OSG::BitVector changeMask, bool allFlag=true)</slot>
+    <slot>init()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
+
+
+
+
+
+
+
