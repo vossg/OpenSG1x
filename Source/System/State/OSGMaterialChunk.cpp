@@ -246,11 +246,11 @@ void MaterialChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
 
         if(getBackMaterial())
         {
-            target = GL_FRONT_AND_BACK;
+            target = GL_FRONT;
         }
         else
         {
-            target = GL_FRONT;
+            target = GL_FRONT_AND_BACK;
         }
         
         glMaterialfv(target, GL_DIFFUSE,
@@ -266,7 +266,7 @@ void MaterialChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
             glMaterialf( target, GL_SHININESS, _sfShininess.getValue());
         
         if(getBackMaterial())
-        {       
+        {
             glMaterialfv(GL_BACK, GL_DIFFUSE,
                           _sfBackDiffuse.getValue().getValuesRGBA());
             glMaterialfv(GL_BACK, GL_AMBIENT,
