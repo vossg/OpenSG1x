@@ -1,30 +1,32 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Mon Sep 2 18:52:24 2002
-**      by:  The User Interface Compiler (uic)
+** Created: Fr 15. Aug 10:55:55 2003
+**      by: The User Interface Compiler ($Id: qt/main.cpp   3.1.2   edited Dec 19 11:45 $)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
+
 #ifndef OSGSCENEVIEW_H
 #define OSGSCENEVIEW_H
 
 #include <qvariant.h>
+#include <qwidget.h>
+#include <qpopupmenu.h>
 #include <OpenSG/OSGNode.h>
 #include <list>
-#include <qpopupmenu.h>
-#include <qwidget.h>
-class QVBoxLayout; 
-class QHBoxLayout; 
-class QGridLayout; 
+
+class QVBoxLayout;
+class QHBoxLayout;
+class QGridLayout;
+class QSplitter;
 class QGroupBox;
 class QListView;
 class QListViewItem;
-class QSplitter;
 class QTable;
 
 class OSGSceneView : public QWidget
-{ 
+{
     Q_OBJECT
 
 public:
@@ -40,7 +42,6 @@ public:
     QTable* infoTable;
     QGroupBox* GroupBox5;
     QTable* fieldsTable;
-
 
 public slots:
     virtual void addListItem( osg::NodePtr node, QListViewItem * parentItem );
@@ -62,11 +63,6 @@ public slots:
     virtual void removeView( QWidget * object );
 
 protected:
-    QHBoxLayout* OSGSceneViewLayout;
-    QHBoxLayout* GroupBox1Layout;
-    QHBoxLayout* GroupBox3Layout;
-    QHBoxLayout* GroupBox5Layout;
-
     QListViewItem *activeTreeItem;
     QListViewItem *rootTreeItem;
     QString filter;
@@ -75,6 +71,15 @@ protected:
     osg::NodePtr rootNode;
     std::list<QWidget *> viewList;
     bool statState;
+
+    QHBoxLayout* OSGSceneViewLayout;
+    QHBoxLayout* GroupBox1Layout;
+    QHBoxLayout* GroupBox3Layout;
+    QHBoxLayout* GroupBox5Layout;
+
+protected slots:
+    virtual void languageChange();
+
 };
 
 #endif // OSGSCENEVIEW_H
