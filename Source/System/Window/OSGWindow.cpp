@@ -330,10 +330,16 @@ void OSG::Window::onDestroy(void)
     // decrement GLObjects reference counter.
     for(UInt32 i = 1; i < _glObjects.size(); ++i)
     {
-        // has the object been used in this context at all?
-        if(getGlObjectLastReinitialize()[i] != 0)
+        GLObject *obj = _glObjects[i];
+        if(obj == NULL)
         {
-            _glObjects[i]->decRefCounter();
+            FDEBUG(("Window::onDestroy: object %u already destroyed!\n", i));
+            continue;
+        }
+        // has the object been used in this context at all?
+        if(i < getGlObjectLastReinitialize().size() && getGlObjectLastReinitialize()[i] != 0)
+        {
+            obj->decRefCounter();
             // we can't call here the destroy callbacks because the
             // gl context is not guaranteed to be current, but destroying
             // the context should delete all gl objects.
@@ -343,7 +349,7 @@ void OSG::Window::onDestroy(void)
     std::vector<WindowPtr>::iterator it;
     it = std::find(_allWindows.begin(), _allWindows.end(), WindowPtr(this));
     
-    // prototype windowa re not added to the list, so they might not be found.
+    // prototype window are not added to the list, so they might not be found.
     if(it != _allWindows.end()) 
         _allWindows.erase( it );
 }
