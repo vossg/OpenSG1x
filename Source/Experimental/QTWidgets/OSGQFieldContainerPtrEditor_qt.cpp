@@ -41,6 +41,8 @@
 #include <OSGFieldContainerPtr.h>
 #include <OSGSField.h>
 #include <OSGMField.h>
+#include <OSGSFFieldContainerPtr.h>
+#include <OSGMFFieldContainerPtr.h>
 #include <OSGSysFieldDataType.h>
 #include <OSGQOSGWidgetFactoryHelper.h>
 
@@ -107,8 +109,8 @@ QFieldContainerPtrEditor::readField(
 
     if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
     {
-        SField<FieldContainerPtr> *pSF =
-            reinterpret_cast<SField<FieldContainerPtr> *>(
+        SFFieldContainerPtr *pSF =
+            reinterpret_cast<SFFieldContainerPtr *>(
                 pFC.getAspectCPtr(uiAspect)->getField(uiFieldId));
 
         if(pSF->getValue() == NullFC)
@@ -140,8 +142,8 @@ QFieldContainerPtrEditor::readField(
     }
     else
     {
-        MField<FieldContainerPtr> *pMF =
-            reinterpret_cast<MField<FieldContainerPtr> *>(
+        MFFieldContainerPtr *pMF =
+            reinterpret_cast<MFFieldContainerPtr *>(
                 pFC.getAspectCPtr(uiAspect)->getField(uiFieldId));
 
         if((*pMF)[uiValueIndex] == NullFC)
@@ -191,16 +193,16 @@ QFieldContainerPtrEditor::writeField(
 
     if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
     {
-        SField<FieldContainerPtr> *pSF =
-            reinterpret_cast<SField<FieldContainerPtr> *>(
+        SFFieldContainerPtr *pSF =
+            reinterpret_cast<SFFieldContainerPtr *>(
                 pFC->getField(uiFieldId));
 
         pSF->getValue() = FieldContainerFactory::the()->getContainer(uiContId);
     }
     else
     {
-        MField<FieldContainerPtr> *pMF =
-            reinterpret_cast<MField<FieldContainerPtr> *>(
+        MFFieldContainerPtr *pMF =
+            reinterpret_cast<MFFieldContainerPtr *>(
                 pFC->getField(uiFieldId));
 
         (*pMF)[uiValueIndex] =
@@ -221,8 +223,8 @@ QFieldContainerPtrEditor::addFieldElem(
     }
     else
     {
-        MField<FieldContainerPtr> *pMF =
-            reinterpret_cast<MField<FieldContainerPtr> *>(
+        MFFieldContainerPtr *pMF =
+            reinterpret_cast<MFFieldContainerPtr *>(
                 pFC->getField(uiFieldId));
         UInt32 uiInsertIndex = osgMin(uiValueIndex, pMF->size());
 
@@ -243,8 +245,8 @@ QFieldContainerPtrEditor::removeFieldElem(
     }
     else
     {
-        MField<FieldContainerPtr> *pMF =
-            reinterpret_cast<MField<FieldContainerPtr> *>(
+        MFFieldContainerPtr *pMF =
+            reinterpret_cast<MFFieldContainerPtr *>(
                 pFC->getField(uiFieldId));
         UInt32 uiRemoveIndex = osgMin(uiValueIndex,
                                       pMF->empty() ? 0 : pMF->size() - 1);
@@ -330,7 +332,7 @@ QFieldContainerPtrEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.4 2004/08/14 18:17:01 a-m-z Exp $";
+    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.5 2004/08/20 14:59:21 a-m-z Exp $";
     static Char8 cvsid_hpp     [] = OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl     [] = OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID;
 }
