@@ -42,9 +42,10 @@ COMPEXT           ?=
 
 OS                := $(OS)$(OSGCOMPEXT)
 
-INTERNALTARGETS    = SubLib dbg opt dbgclean optclean clean 		\
-					 dbgClean optClean Clean distclean initclean	\
-					 init depend dbgdepend optdepend html doc printinfo
+INTERNALTARGETS    = SubLib dbg opt dbgclean optclean clean 			\
+					 dbgClean optClean Clean distclean initclean		\
+					 init depend dbgdepend optdepend html doc printinfo	\
+					 %.$(OBJEXT) %.$(LIBEXT) %.cpp %.h %.inl %.y %.l
 
 COMMONINCLUDE     := $(COMMONPATH)/$(COMMONINCLUDE)$(OS).mk
 
