@@ -46,19 +46,20 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGScanParseSkel.tab.h>
+#include <OSGScanParseSkelBase.h>
 
 #ifdef OSG_FLEX_USE_IOSTREAM_INPUT
 #include <iosfwd>
 #endif
 
-class OSGScanParseSkel_FlexLexer;
+class OSGScanParseLexer;
 
 OSG_BEGIN_NAMESPACE
 
 //! Parser / Scanner Skeleton for VRML97 syntax based file formats
 //! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
-class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
+class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel : public ScanParseSkelBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -131,13 +132,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \{                                                                 */
 
 #ifdef OSG_FLEX_USE_IOSTREAM_INPUT
-    virtual void         scanStream       (std::istream &is);
+    virtual       void   scanStream (      std::istream &is        );
 #endif
 
-    virtual void         scanFile         (const Char8  *szFilename);
+    virtual       void   scanFile   (const Char8        *szFilename);
 
-    virtual Int32        lex              (      void                );
-    virtual const Char8 *getText          (      void                );
+    virtual       Int32  lex        (      void                    );
+    virtual const Char8 *getText    (      void                    );
+
+                  void   expectType (      Int32        iNextType  ); 
+
+    virtual       void   handleError(const Char8       *szErrorText);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -264,9 +269,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    bool                        _bMapTypeIds;
-    Char8                      *_szReferenceHeader;
-    OSGScanParseSkel_FlexLexer *_pLexer;
+    bool               _bMapTypeIds;
+    Char8             *_szReferenceHeader;
+    OSGScanParseLexer *_pLexer;
 
     void reset             (      void);
 

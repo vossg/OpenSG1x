@@ -43,6 +43,8 @@
 #define YYLTYPE_IS_TRIVIAL 1
 #define YYSTYPE_IS_TRIVIAL 1
 
+#define OSGScanParseSkel_error SKEL->handleError
+
 #ifdef WIN32
 #include <malloc.h>
 #define YYSIZE_T size_t
@@ -61,19 +63,9 @@
 
 OSG_USING_NAMESPACE
 
-extern int  iLineNum;
-//extern char OSGScanParseSkel_l_text[];
-
-//extern int OSGScanParseSkel_l_lex(void);
-//       int OSGScanParseSkel_lex  (void);
-
-       int OSGScanParseSkel_lex  (YYSTYPE *lvalp, void *);
-
-extern void expectType(int iType);
+int OSGScanParseSkel_lex(YYSTYPE *lvalp, void *);
 
 int nextType;
-
-void OSGScanParseSkel_error(char *s);
 
 char *szName1    = NULL;
 char *szName2    = NULL;
@@ -366,7 +358,7 @@ restrictedInterfaceDeclaration : EVENTIN
                                | FIELD    
                                  fieldType  { setName(szName1, 
                                                       SKELTEXT);}
-                                 fieldId    { expectType(nextType); 
+                                 fieldId    { SKEL->expectType(nextType); 
                                               if(SKEL != NULL)
                                                SKEL->beginFieldDecl(
                                                 szName1,
@@ -383,7 +375,7 @@ interfaceDeclaration : restrictedInterfaceDeclaration
                      | EXPOSEDFIELD 
                        fieldType    { setName(szName1, 
                                               SKELTEXT); }
-                       fieldId      { expectType(nextType);  
+                       fieldId      { SKEL->expectType(nextType);  
                                       if(SKEL != NULL)
                                        SKEL->beginExposedFieldDecl(
                                         szName1,
@@ -405,7 +397,7 @@ externproto : EXTERNPROTO
                  if(SKEL != NULL) 
                      SKEL->endExternProtoInterface(); 
 
-                 expectType(TOK_MFSTRING); 
+                 SKEL->expectType(TOK_MFSTRING); 
               }
               URLList 
               {
@@ -616,7 +608,7 @@ resInterfaceDeclarationScriptField : FIELD
                                      fieldType { setName(szName1, 
                                                          SKELTEXT);
                                                }
-                                     fieldId   { expectType(nextType); 
+                                     fieldId   { SKEL->expectType(nextType); 
                                               
                                                  if(SKEL != NULL)
                                                      SKEL->beginFieldDecl(
@@ -649,7 +641,7 @@ resInterfaceDeclarationScriptExpField : EXPOSEDFIELD
                                         fieldType { setName(szName1, 
                                                             SKELTEXT);
                                                   }
-                                        fieldId   { expectType(nextType); 
+                                        fieldId   { SKEL->expectType(nextType);
                                                 
                                                     if(SKEL != NULL)
                                                         SKEL->
@@ -713,7 +705,7 @@ nodeBodyElement : fieldId
                                         iFieldTypeId);
                      }
     
-                     expectType(iFieldTypeId); 
+                     SKEL->expectType(iFieldTypeId); 
 
                      SKEL->beginField(SKELTEXT, 
                                         iFieldTypeId);
@@ -878,15 +870,6 @@ nodeStatements : nodeStatements nodeStatement
 
 %%
 
-extern void setSkel    (ScanParseSkel *pSkel);
-extern void clearSkel  (void);
-
-void OSGScanParseSkel_error (char *s)  /* Called by fhs_parse on error */
-{
-  FWARNING(("-----> %s in Line %d\n", s, iLineNum + 1));
-}
-
-
 void setName (char *&szName, const char *szVal)
 {
     stringDup(szVal, szName);
@@ -899,14 +882,7 @@ void freeName(char *&szName)
     szName = NULL;
 }
 
-
 int OSGScanParseSkel_lex(YYSTYPE *, void *pSkel)
 {
-    setSkel(SKEL);
-
-    int returnValue = SKEL->lex();
-
-    clearSkel();
- 
-    return returnValue;
+    return SKEL->lex();
 }

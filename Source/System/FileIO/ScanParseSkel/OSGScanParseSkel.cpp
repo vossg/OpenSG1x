@@ -54,15 +54,10 @@
 #include "OSGScanParseSkel.h"
 #include "OSGBaseFunctions.h"
 #include "OSGLog.h"
+#include "OSGScanParseLexer.h"
 
-#define yyFlexLexer OSGScanParseSkel_FlexLexer
-#include <FlexLexer.h>
-#undef yyFlexLexer
 
 OSG_USING_NAMESPACE
-
-//extern int  OSGScanParseSkel_char;
-extern void resetScanner(void);
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
@@ -86,37 +81,18 @@ ScanParseSkel::~ScanParseSkel(void)
 
 extern int OSGScanParseSkel_parse(void *);
 
-//#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
-//extern std::istream *OSGScanParseSkel_is;
-//#else
-//extern FILE         *OSGScanParseSkel_in;
-//#endif
-
-//extern void setSkel    (ScanParseSkel *pSkel);
-//extern void clearSkel  (void);
-extern void abortParser(void);
-
 #ifdef OSG_FLEX_USE_IOSTREAM_INPUT
 void ScanParseSkel::scanStream(std::istream &is)
 {
     if(is.good())
     {
-//        setSkel(this);
-
-//        OSGScanParseSkel_is = &is;
-
         delete _pLexer;
 
-        _pLexer = new OSGScanParseSkel_FlexLexer(&is);
+        _pLexer = new OSGScanParseLexer(this, &is);
 
         OSGScanParseSkel_parse(this);
-
-        reset();
-
-//        clearSkel();
     }
 }
-
 #endif
 
 void ScanParseSkel::scanFile(const Char8 *szFilename)
@@ -140,19 +116,13 @@ void ScanParseSkel::scanFile(const Char8 *szFilename)
 
     if(pInFile != NULL)
     {
-//        setSkel(this);
-
         PNOTICE << "Loading File : " << szFilename << std::endl;
 
         OSGScanParseSkel_in = pInFile;
 
         OSGScanParseSkel_parse(this);
 
-        reset();
-
         fclose(pInFile);
-
-//        clearSkel();
     }
 #endif
 }
@@ -175,6 +145,21 @@ const Char8 *ScanParseSkel::getText(void)
         returnValue = _pLexer->YYText();
 
     return returnValue;
+}
+
+void ScanParseSkel::expectType(Int32 iNextType)
+{
+    if(_pLexer != NULL)
+        _pLexer->expectType(iNextType);
+}
+
+
+void ScanParseSkel::handleError(const Char8 *szErrorText)
+{
+    FWARNING(("-----> %s in Line %d, read\n", 
+              szErrorText, 
+              _pLexer->lineno(), 
+              _pLexer->YYText()));
 }
 
 /*-------------------------------------------------------------------------*/
@@ -404,8 +389,6 @@ UInt32 ScanParseSkel::getFieldType(const Char8 *)
 
 void ScanParseSkel::reset(void)
 {
-//    OSGScanParseSkel_l_char = -2;
-    resetScanner();
 }
 
 void ScanParseSkel::setMapTypeIds(bool bVal)
