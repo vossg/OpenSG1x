@@ -102,13 +102,17 @@ void ImageBackground::clear(DrawActionBase *, Viewport *vp)
                  _sfColor.getValue()[1],
                  _sfColor.getValue()[2],
                  1);                 
-    glClear(GL_COLOR_BUFFER_BIT);
     
     ImagePtr img = getImage();
 
     if(img == NullFC || img->getWidth() <= 0 || img->getHeight() <= 0)
+    {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         return; 
+    }
 
+    glClear(GL_COLOR_BUFFER_BIT);
+    
     bool depth=glIsEnabled(GL_DEPTH_TEST);
     glDisable(GL_DEPTH_TEST);
 
