@@ -249,7 +249,7 @@ Action::ResultE  IntersectAction::setEnterLeave( Real32 enter, Real32 leave )
 void IntersectAction::setHit( Real32 t, NodePtr obj, Int32 triIndex, 
     Vec3f &normal )
 {
-    if ( t < 0 || t > _hitT )
+    if ( t < 0 || t > _hitT || t > _maxdist)
         return;
         
     _hitT = t;
