@@ -157,6 +157,8 @@ void VRMLFile::scanFile(const Char8 *szFilename, UInt32 uiOptions)
     _pLightRoot          = NullFC;
     _pCurrentGlobalLight = NullFC;
 
+    _nameFCMap.clear();
+    
 #ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::resetIndent();
 #endif
@@ -192,6 +194,8 @@ void VRMLFile::scanFile(const Char8  *szFilename,
     _pSceneRootNode      = NullFC;
     _pLightRoot          = NullFC;
     _pCurrentGlobalLight = NullFC;
+
+    _nameFCMap.clear();
 
 #ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::resetIndent();

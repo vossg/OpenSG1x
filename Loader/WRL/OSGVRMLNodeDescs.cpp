@@ -771,7 +771,7 @@ bool VRMLShapeDesc::prototypeAddField(const Char8  *szFieldType,
 #endif
     }
 
-    if(stringcasecmp("apperance", szFieldname) == 0)
+    if(stringcasecmp("appearance", szFieldname) == 0)
     {
         _pCurrField = _pNodeCoreProto->getField("material");
         returnValue = true;
@@ -3042,7 +3042,7 @@ void VRMLLODDesc::getFieldAndDesc(
 
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
-    PINFO << "VRMLShapeDesc::getFieldAndDesc : looking for " 
+    PINFO << "VRMLLODDesc::getFieldAndDesc : looking for " 
           << szFieldname 
           << endl;
 #endif
@@ -3271,7 +3271,7 @@ void VRMLSwitchDesc::getFieldAndDesc(
 
 #ifdef OSG_DEBUG_VRML
     indentLog(getIndent(), PINFO);
-    PINFO << "VRMLShapeDesc::getFieldAndDesc : looking for " 
+    PINFO << "VRMLSwitchDesc::getFieldAndDesc : looking for " 
           << szFieldname 
           << endl;
 #endif
