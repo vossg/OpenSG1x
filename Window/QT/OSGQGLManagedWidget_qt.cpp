@@ -56,7 +56,7 @@ using namespace osg;
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.2 2001/10/12 16:57:22 dirk Exp $";
+    char cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.3 2001/10/14 19:07:26 dirk Exp $";
     char cvsid_hpp[] = OSG_HEADER_CVSID;
     char cvsid_inl[] = OSG_INLINE_CVSID;
 }
@@ -207,9 +207,9 @@ void OSGQGLManagedWidget::initializeGL ( void )
   glEnable( GL_LIGHT0 );
   glEnable( GL_DEPTH_TEST );
   glEnable( GL_NORMALIZE );
-  glEnable( GL_CULL_FACE );
-  glEnable ( GL_BLEND );
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  // glEnable( GL_CULL_FACE );                              not a good idea
+  // glEnable ( GL_BLEND );                                 not needed
+  // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);     not needed
 
 }
 
