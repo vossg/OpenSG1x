@@ -94,7 +94,7 @@ PathHandler::~PathHandler(void)
 }
 
 /*-------------------------------------------------------------------------*/
-/*                                Set                                      */
+/*                                Get                                      */
 
 string PathHandler::findFile(const Char8 *fileName)
 {
@@ -170,6 +170,11 @@ string PathHandler::findFile(const Char8 *fileName)
     }
 
     return returnValue;
+}
+
+const string &PathHandler::getBaseFile (void) const
+{
+  return _baseFilePath;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -787,7 +792,7 @@ void PathHandler::parseWin32PathList(const Char8 *pathList, PathList &result)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.12 2002/06/13 09:16:15 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.13 2002/06/26 16:41:42 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSGPATHHANDLER_HEADER_CVSID;
 }
 

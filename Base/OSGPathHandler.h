@@ -86,6 +86,8 @@ class OSG_BASE_DLLMAPPING PathHandler
 
     string findFile(const Char8 *fileName);
 
+    const string &getBaseFile (void) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */
@@ -196,5 +198,5 @@ OSG_END_NAMESPACE
 
 #endif /* _OSGPATHHANDLER_H */
 
-#define OSGPATHHANDLER_HEADER_CVSID "@(#)$Id: OSGPathHandler.h,v 1.5 2002/02/11 03:46:26 vossg Exp $"
+#define OSGPATHHANDLER_HEADER_CVSID "@(#)$Id: OSGPathHandler.h,v 1.6 2002/06/26 16:41:42 jbehr Exp $"
 
