@@ -89,7 +89,7 @@ For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.23 2002/08/07 04:04:12 vossg Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.24 2002/09/02 08:12:36 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -324,7 +324,7 @@ void PrimitiveIterator::seek( Int32 index )
     }
     else
     {
-        _primIndex = max( 0, index );   
+        _primIndex = std::max( 0, index );   
         
         for ( UInt32 j = 0; j < _primIndex; j++ )
             _actPointIndex += _lengths->getValue( j );
