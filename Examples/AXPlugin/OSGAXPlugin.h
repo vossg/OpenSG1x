@@ -3,16 +3,22 @@
  * \brief
  * \author Andreas Zieringer
  */
- 
+
+#include <sstream>
+
 #include <qgl.h>
 #include <qaxbindable.h>
 #include <qpushbutton.h>
+#include <qcstring.h>
 
 #include <OpenSG/OSGSimpleSceneManager.h>
 #include <OpenSG/OSGPassiveWindow.h>
 
 class QVBox;
 class QHBox;
+class QProgressBar;
+class QNetworkOperation;
+class QUrlOperator;
 
 class OpenSGWidget : public QGLWidget
 {
@@ -95,7 +101,7 @@ public:
     QString getMotionFactor(void) const;
 
 public slots:
-    
+
     void setSrc(const QString &src);
 
     void setFrom(const QString &fromstr);
@@ -116,6 +122,11 @@ private slots:
     void droppedFiles(const QStringList &files);
     void changedHeadlight(bool s);
     void toggleTools(void);
+    void loadSlot(void);
+
+    void urlOpDataTransferProgress(int bytesDone, int bytesTotal,
+                                   QNetworkOperation *op);
+    void urlOpData(const QByteArray &data, QNetworkOperation *op);
 
 protected:
 
@@ -123,11 +134,16 @@ protected:
 
 private:
 
-    QVBox *_main;
-    QVBox        *_gl_container;
-    OpenSGWidget *_gl;
-    OSG::NodePtr _root;
-    bool _show_tools;
+    QVBox               *_main;
+    QVBox               *_gl_container;
+    OpenSGWidget        *_gl;
+    OSG::NodePtr        _root;
+    bool                _show_tools;
 
-    QPushButton *_headlight;
+    QPushButton         *_headlight;
+    QProgressBar        *_progress;
+
+    QUrlOperator        *_urlop;
+    std::stringstream   *_data;
+    QString             _src;
 };

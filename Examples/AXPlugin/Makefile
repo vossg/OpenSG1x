@@ -335,7 +335,7 @@ includelink:
 
 clean:
 	-rm -f *.$(SYSDEP).o *.$(SYSDEP)*_pure_* *.bak *.swp *~ *% \#*\# 
-	-rm -f $(TARGET)$(BINSUF) $(SYSTARGET) $(TARGET).* moc_*
+	-rm -f $(TARGET)$(BINSUF) $(SYSTARGET) $(TARGET).exe moc_*
 
 Clean: clean
 	-rm -rf qtmoc *.o *.mk OOBR* *.dep TAGS tags *.bin

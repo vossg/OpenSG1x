@@ -7,7 +7,7 @@
 // ./OpenSGax.exe -dumpidl OpenSGax.idl -version 1.0
 // midl /nologo OpenSGax.idl /tlb OpenSGax.tlb
 
-#include <sstream>
+//#include <sstream>
 
 // Qt stuff
 #include <qapplication.h>
@@ -24,6 +24,11 @@
 #include <qobjectlist.h>
 #include <objsafe.h>
 #include <qdir.h>
+#include <qnetwork.h>
+#include <qurl.h>
+#include <qurloperator.h>
+#include <qprogressbar.h>
+#include <qtimer.h>
 
 #include <OpenSG/OSGConfig.h>
 #include <OpenSG/OSGBaseFunctions.h>
@@ -314,7 +319,10 @@ OSGAXPlugin::OSGAXPlugin(QWidget *parent, const char *name) :
         _gl(NULL),
         _root(NullFC),
         _show_tools(true),
-        _headlight(NULL)
+        _headlight(NULL),
+        _progress(NULL),
+        _data(NULL),
+        _src("")
 {
     // When we register the server with "OpenSGax.exe -regserver"
     // the OSGAXPlugin instance is created directly
@@ -324,6 +332,8 @@ OSGAXPlugin::OSGAXPlugin(QWidget *parent, const char *name) :
     
     if(OSG::GlobalSystemState != Running)
         return;
+
+    qInitNetworkProtocols();
 
     setAcceptDrops(true);
 
@@ -365,6 +375,10 @@ OSGAXPlugin::OSGAXPlugin(QWidget *parent, const char *name) :
     _headlight->blockSignals(false);
     
     connect(_gl, SIGNAL(changedHeadlight(bool)), this, SLOT(changedHeadlight(bool)));
+    
+    _progress = new QProgressBar(_gl);
+    _progress->resize(_gl->width(), 20);
+    _progress->hide();
     
     // create root node.
     _root = Node::create();
@@ -423,6 +437,7 @@ void OSGAXPlugin::destroyScene(void)
     if(_root == NullFC)
         return;
 
+    _src = "";
     beginEditCP(_root);
     while(_root->getNChildren() > 0)
         _root->subChild(_root->getChild(0));
@@ -432,10 +447,52 @@ void OSGAXPlugin::destroyScene(void)
 
 NodePtr OSGAXPlugin::load(const QString &filename)
 {
-    QString fname = QDir::convertSeparators(filename);
-    QApplication::setOverrideCursor(QCursor(Qt::waitCursor));
-    NodePtr scene = SceneFileHandler::the().read(fname.latin1(), NULL);
-    QApplication::restoreOverrideCursor();
+    if(filename.isEmpty())
+        return NullFC;
+
+    QUrl url(filename);
+
+    NodePtr scene = NullFC;
+    if(url.isLocalFile())
+    {
+        QString fname = QDir::convertSeparators(filename);
+        QApplication::setOverrideCursor(QCursor(Qt::waitCursor));
+        scene = SceneFileHandler::the().read(fname.latin1(), NULL);
+        QApplication::restoreOverrideCursor();
+    }
+    else
+    {
+        // remove filename from url.
+        QString address = filename;
+        address = address.replace(url.fileName(), "");
+
+        std::stringstream data(std::ios_base::in|
+                               std::ios_base::out|
+                               std::ios_base::binary);
+        _data = &data;
+        QUrlOperator urlop(address);
+        connect(&urlop, SIGNAL(data(const QByteArray &, QNetworkOperation *)),
+                this, SLOT(urlOpData(const QByteArray &, QNetworkOperation *)));
+        connect(&urlop, SIGNAL(dataTransferProgress(int, int, QNetworkOperation *)), this,
+                SLOT(urlOpDataTransferProgress(int, int, QNetworkOperation *)));
+        urlop.get(url.fileName());
+        const QNetworkOperation *net = urlop.get(url.fileName());
+        
+        while(net->state() != QNetworkProtocol::StDone &&
+              net->state() != QNetworkProtocol::StFailed &&
+              net->state() != QNetworkProtocol::StStopped)
+        {
+            qApp->processEvents();
+        }
+
+        if(net->state() == QNetworkProtocol::StDone)
+            scene = SceneFileHandler::the().read(data, url.fileName().latin1());
+        //QString text;
+        //text.sprintf("Loaded %d bytes.", _data->str().size());
+        //QMessageBox::warning(this, "OSGAXPlugin", text);
+        _data = NULL;
+        _progress->hide();
+    }
     
     if(scene != NullFC)
     {
@@ -446,7 +503,7 @@ NodePtr OSGAXPlugin::load(const QString &filename)
     else
     {
         QString text;
-        text.sprintf("Couldn't load '%s'!", fname.latin1());
+        text.sprintf("Couldn't load '%s'!", filename.latin1());
         QMessageBox::warning(this, "OSGAXPlugin", text);
     }
     
@@ -454,6 +511,37 @@ NodePtr OSGAXPlugin::load(const QString &filename)
     _gl->updateGL();
 
     return scene;
+}
+
+void OSGAXPlugin::loadSlot(void)
+{
+    load(_src);
+}
+
+void OSGAXPlugin::urlOpDataTransferProgress(int bytesDone, int bytesTotal,
+                                   QNetworkOperation *op)
+{
+    if(_data == NULL)
+        return;
+
+    if(bytesTotal != -1 && _data->str().size() != bytesTotal)
+        _data->str().resize(bytesTotal);
+    
+    if(_progress->isHidden())
+        _progress->show();
+    if(_progress->width() != _gl->width())
+        _progress->resize(_gl->width(), _progress->height());
+    _progress->setTotalSteps(bytesTotal);
+    _progress->setProgress(bytesDone);
+}
+
+void OSGAXPlugin::urlOpData(const QByteArray &data, QNetworkOperation *op)
+{
+    if(_data == NULL)
+        return;
+
+    for(int i=0;i<data.size();++i)
+        _data->put(data[i]);
 }
 
 void OSGAXPlugin::setShowTools(bool s)
@@ -472,13 +560,13 @@ QString OSGAXPlugin::getSrc(void) const
 
 void OSGAXPlugin::setSrc(const QString &src)
 {
-    //QString path = QDir::currentDirPath();
-    //QMessageBox::warning(NULL, "OSGAXPlugin::setSrc", src);
-    
     // Destroy old scene
     destroyScene();
 
-    load(src);
+    _src = src;
+    // load the file in the next event loop so the GUI is finished
+    // with initialization and visible.
+    QTimer::singleShot(1, this, SLOT(loadSlot()));
 }
 
 QString OSGAXPlugin::getFrom(void) const
