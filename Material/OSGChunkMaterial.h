@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -36,8 +47,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include "OSGState.h"
-#include "OSGMaterial.h"
+#include <OSGConfig.h>
+
+#include <OSGChunkMaterialBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -45,19 +57,9 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class State;
-typedef FCPtr <FieldContainerPtr, State> StatePtr;
-
-class StateChunk;
-typedef FCPtr <FieldContainerPtr, StateChunk> StateChunkPtr;
-typedef MField<StateChunkPtr                   > MFStateChunkPtr;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
-
-class ChunkMaterial;
-typedef FCPtr <MaterialPtr, ChunkMaterial> ChunkMaterialPtr;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -66,22 +68,14 @@ typedef FCPtr <MaterialPtr, ChunkMaterial> ChunkMaterialPtr;
 /*! \brief ChunkMaterial class
  */
 
-class OSG_MATERIAL_DLLMAPPING ChunkMaterial : public Material
+class OSG_MATERIAL_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
 {
-  private:
-
-	typedef Material Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(StateChunksField)
-
-    OSG_FC_LAST_FIELD_IDM_DECL (StateChunksField)
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -90,23 +84,30 @@ class OSG_MATERIAL_DLLMAPPING ChunkMaterial : public Material
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef ChunkMaterialPtr Ptr;
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "ChunkMaterial"; }
- 
+    static const char *getClassname(void) { return "ChunkMaterial"; };
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(ChunkMaterialPtr)
+    /*--------------------------- access fields ----------------------------*/
 
-    /*----------------------------- dump ----------------------------------*/
+    /*----------------------------- access ----------------------------------*/
+
+    /*-------------------------- transformation ----------------------------*/
+
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
+    /*------------------------------ volume -------------------------------*/
+
+    /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
@@ -128,23 +129,7 @@ class OSG_MATERIAL_DLLMAPPING ChunkMaterial : public Material
 	
 	// remove the chunk from the material
 	Bool 	subChunk( StateChunkPtr chunk );
-	
-    /*------------------------- assignment ----------------------------------*/
 
-    /*------------------------- comparison ----------------------------------*/
-
-#if 0
-	// defines an ordering for materials.
-    virtual Bool operator < (const ChunkMaterial &other) const;
-    
-	virtual Bool operator == (const ChunkMaterial &other) const;
-	virtual Bool operator != (const ChunkMaterial &other) const;
-#endif
-
-    /*------------------------- debug ----------------------------------*/
-
-	void print( void );
-	
   protected:
 
     //-----------------------------------------------------------------------
@@ -166,38 +151,36 @@ class OSG_MATERIAL_DLLMAPPING ChunkMaterial : public Material
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
-	MFStateChunkPtr _chunks;
-	 
+
+    // They should all be in ChunkMaterialBase.
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	/** property access. Returns FCNULL if not set or available. */
-
-	MFStateChunkPtr		*getMFStateChunks( void );
-
-
     ChunkMaterial(void);
-    ChunkMaterial(const ChunkMaterial &source);    
+    ChunkMaterial(const ChunkMaterial &source);
     virtual ~ChunkMaterial(void); 
-
+    
   private:
 
     //-----------------------------------------------------------------------
-    //   enums                                 pri                              
+    //   enums                                                               
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef ChunkMaterialBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class FieldContainer;
-	
+    friend class FieldContainer;
+    friend class ChunkMaterialBase;
+
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
@@ -206,38 +189,39 @@ class OSG_MATERIAL_DLLMAPPING ChunkMaterial : public Material
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
-
-	static FieldDescription   _desc[];
-	static FieldContainerType _type;
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+    static void initMethod( void );
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
-	ChunkMaterial & operator =(const ChunkMaterial &source);
+    // void operator =(const ChunkMaterial &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
 
+/** \brief class pointer
+ */
 typedef ChunkMaterial *ChunkMaterialP;
 
 OSG_END_NAMESPACE
 
-#include "OSGChunkMaterial.inl"
+#include <OSGChunkMaterial.inl>
+#include <OSGChunkMaterialBase.inl>
 
-#endif /* _ChunkMaterial_H_ */
+#endif /* _OSGCHUNKMATERIAL_H_ */

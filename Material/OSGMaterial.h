@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -36,39 +47,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEMATERIAL
-#       define OSG_MATERIAL_DLLMAPPING     __declspec(dllexport)
-#       define OSG_MATERIAL_DLLTMPLMAPPING __declspec(dllexport)
-#   else
-#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
-                                     defined(OSG_COMPILEINTERSECTACTION)   || \
-                                     defined(OSG_COMPILEACTION)            || \
-                                     defined(OSG_COMPILEFIELD)             || \
-                                     defined(OSG_COMPILEFIELDCONTAINER)    || \
-                                     defined(OSG_COMPILEIMAGE)             || \
-                                     defined(OSG_COMPILELOADER)            || \
-                                     defined(OSG_COMPILEMISC)              || \
-                                     defined(OSG_COMPILEMULTITHREADING)    || \
-                                     defined(OSG_COMPILELIGHT)             || \
-                                     defined(OSG_COMPILEGEOMETRY)          || \
-                                     defined(OSG_COMPILESTATE)             || \
-                                     defined(OSG_COMPILEWINDOW)            || \
-                                     defined(OSG_COMPILESYSTEMLIB))
-#           define OSG_MATERIAL_DLLMAPPING     __declspec(dllexport)
-#           define OSG_MATERIAL_DLLTMPLMAPPING __declspec(dllexport)
-#       else
-#           define OSG_MATERIAL_DLLMAPPING     __declspec(dllimport)
-#           define OSG_MATERIAL_DLLTMPLMAPPING __declspec(dllimport)
-#       endif
-#   endif
-#else
-#define OSG_MATERIAL_DLLMAPPING
-#define OSG_MATERIAL_DLLTMPLMAPPING
-#endif
+#include <OSGConfig.h>
 
-#include "OSGFieldDescription.h"
-#include "OSGFieldContainer.h"
+#include <OSGMaterialBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -77,32 +58,27 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 class Geometry;
-typedef FCPtr <NodeCorePtr, Geometry> GeometryPtr;
-
 class DrawAction;
 
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
-class Material;
-typedef FCPtr<FieldContainerPtr, Material> MaterialPtr;
-
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \brief Material base class
+/*! \brief *put brief class description here* 
  */
 
-class Material : public FieldContainer
+class OSG_MATERIAL_DLLMAPPING Material : public MaterialBase
 {
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -111,39 +87,40 @@ class Material : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-	typedef FieldContainer Inherited;
-    typedef MaterialPtr Ptr;
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGMaterial"; }
- 
+    static const char *getClassname(void) { return "Material"; };
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_ABSTR_FIELD_CONTAINER_DECL(MaterialPtr)
+    /*--------------------------- access fields ----------------------------*/
 
-    /*----------------------------- dump ----------------------------------*/
+    /*----------------------------- access ----------------------------------*/
+
+    /*-------------------------- transformation ----------------------------*/
+
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
+    /*------------------------------ volume -------------------------------*/
+
+    /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
- 
+
     /*------------------------- your_category -------------------------------*/
 
 	/** sets up the OpenGL and calls the Geometry's draw method.
 	    Not sure that's the best idea. Alternative: Functor */
 	
 	virtual void draw( Geometry* geo, DrawAction * action ) = 0;
-
-    /*----------------------------- access ----------------------------------*/
-
-	
-    /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -153,10 +130,6 @@ class Material : public FieldContainer
 	virtual Bool operator == (const Material &other) const;
 	virtual Bool operator != (const Material &other) const;
 
-    /*------------------------- debug ----------------------------------*/
-
-	void print( void );
-	
   protected:
 
     //-----------------------------------------------------------------------
@@ -178,16 +151,17 @@ class Material : public FieldContainer
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
+
+    // They should all be in MaterialBase.
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     Material(void);
+    Material(const Material &source);
     virtual ~Material(void); 
-
-    Material(const Material &source);    
-
+    
   private:
 
     //-----------------------------------------------------------------------
@@ -198,12 +172,15 @@ class Material : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef MaterialBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class FieldContainer;
-	
+    friend class FieldContainer;
+    friend class MaterialBase;
+
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
@@ -212,90 +189,35 @@ class Material : public FieldContainer
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
-
-	static FieldDescription   _desc[];
-	static FieldContainerType _type;
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+    static void initMethod( void );
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
-	Material & operator =(const Material &source);
+    // prohibit default functions (move to 'public' if you need one)
+
+    // void operator =(const Material &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
 
+/** \brief class pointer
+ */
 typedef Material *MaterialP;
-
-// field support
-
-template <>
-struct OSG_MATERIAL_DLLMAPPING FieldDataTraits<MaterialPtr> : public Traits
-{
-    enum		{ StringConvertable = ToStringConvertable | 
-										FromStringConvertable };
-
-    static char *getSName(void) { return "SFMaterialPtr"; }
-    static char *getMName(void) { return "MFMaterialPtr"; }
-
-    static Bool          getDefault(void)    { return false; }
-
-    static Bool             getFromString(MaterialPtr &,
-                                          const char *&)
-    {
-        // TO_BE_DONE
-        return false;
-    }
-
-    static void             putToString(const MaterialPtr &,
-                                              String &)
-    {
-        // TO_BE_DONE
-    }
-};
-
-typedef SField<MaterialPtr> SFMaterialPtr;
-
-#ifndef OSG_COMPILEMATERIALINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<MaterialPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, MaterialPtr, OSG_MATERIAL_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-typedef MField<MaterialPtr> MFMaterialPtr;
-
-#ifndef OSG_COMPILEMATERIALINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<MaterialPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, MaterialPtr, OSG_MATERIAL_DLLTMPLMAPPING)
-
-#endif
-#endif
-
 
 // null pointer
 
@@ -303,6 +225,7 @@ extern OSG_MATERIAL_DLLMAPPING MaterialPtr NullMaterial;
 
 OSG_END_NAMESPACE
 
-#include "OSGMaterial.inl"
+#include <OSGMaterial.inl>
+#include <OSGMaterialBase.inl>
 
-#endif /* _OSGMaterial_H_ */
+#endif /* _OSGMATERIAL_H_ */

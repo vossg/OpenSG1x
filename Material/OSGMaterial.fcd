@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="Material"
+	parent="FieldContainer"
+	library="Material"
+	structure="abstract"
+	pointerfieldtypes="both"
+>
+</FieldContainer>

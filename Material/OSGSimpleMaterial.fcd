@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="SimpleMaterial"
+	parent="ChunkMaterial"
+	library="Material"
+	structure="concrete"
+	pointerfieldtypes="none"
+>
+	<Field
+		name="ambient"
+		type="Color3f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,0"
+	>
+	</Field>
+	<Field
+		name="diffuse"
+		type="Color3f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,0"
+	>
+	</Field>
+	<Field
+		name="specular"
+		type="Color3f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,0"
+	>
+	</Field>
+	<Field
+		name="shininess"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+	>
+	</Field>
+	<Field
+		name="emission"
+		type="Color3f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,0"
+	>
+	</Field>
+	<Field
+		name="transparency"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+	>
+	</Field>
+</FieldContainer>
