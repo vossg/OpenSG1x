@@ -51,6 +51,8 @@ OSG_BEGIN_NAMESPACE
 
 class DrawActionBase;
 
+struct ParticlesDrawer;
+
 /*! \brief Particles NodeCore 
  */
 
@@ -67,7 +69,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
     /*! \name                     Modes                                    */
     /*! \{                                                                 */
     
-    enum { Points=0, Lines, ViewDirQuads, ViewerQuads, Boxes, Arrows }
+    enum { Points=0, Lines, ViewDirQuads, Arrows, 
+           LastMode }
            ModeE;
     
     enum { Any=0, BackToFront, FrontToBack } DrawOrderE;
@@ -132,6 +135,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
     Int32 *calcIndex(DrawActionBase *action, UInt32 &len, 
                      Int32 *index = NULL);
 
+    ParticlesDrawer *findDrawer(void);
+    
     /*! \}                                                                 */
    
     /*==========================  PRIVATE  ================================*/
@@ -154,6 +159,6 @@ OSG_END_NAMESPACE
 #include <OSGParticles.inl>
 #include <OSGParticlesBase.inl>
 
-#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.3 2002/01/10 21:14:10 dirk Exp $"
+#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.4 2002/01/16 15:14:00 dirk Exp $"
 
 #endif /* _OSGPARTICLES_H_ */

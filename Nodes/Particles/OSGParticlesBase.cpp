@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.3 2002/01/10 21:14:10 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.4 2002/01/16 15:14:00 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
 
@@ -132,9 +132,6 @@ const OSG::BitVector  ParticlesBase::DrawOrderFieldMask =
 const OSG::BitVector  ParticlesBase::DynamicFieldMask = 
     (1 << ParticlesBase::DynamicFieldId);
 
-const OSG::BitVector  ParticlesBase::PumpFieldMask = 
-    (1 << ParticlesBase::PumpFieldId);
-
 const OSG::BitVector  ParticlesBase::BspFieldMask = 
     (1 << ParticlesBase::BspFieldId);
 
@@ -173,9 +170,6 @@ const OSG::BitVector  ParticlesBase::BspFieldMask =
     
 */
 /*! \var Bool            ParticlesBase::_sfDynamic
-    
-*/
-/*! \var UInt32          ParticlesBase::_sfPump
     
 */
 /*! \var ParticleBSPTree ParticlesBase::_sfBsp
@@ -240,15 +234,10 @@ FieldDescription *ParticlesBase::_desc[] =
                      DynamicFieldId, DynamicFieldMask,
                      false,
                      (FieldAccessMethod) &ParticlesBase::getSFDynamic),
-    new FieldDescription(SFUInt32::getClassType(), 
-                     "pump", 
-                     PumpFieldId, PumpFieldMask,
-                     true,
-                     (FieldAccessMethod) &ParticlesBase::getSFPump),
     new FieldDescription(SFParticleBSPTree::getClassType(), 
                      "bsp", 
                      BspFieldId, BspFieldMask,
-                     false,
+                     true,
                      (FieldAccessMethod) &ParticlesBase::getSFBsp)
 };
 
@@ -319,7 +308,6 @@ ParticlesBase::ParticlesBase(void) :
     _sfMaterial               (), 
     _sfDrawOrder              (UInt32(0)), 
     _sfDynamic                (Bool(true)), 
-    _sfPump                   (), 
     _sfBsp                    (), 
     Inherited() 
 {
@@ -343,7 +331,6 @@ ParticlesBase::ParticlesBase(const ParticlesBase &source) :
     _sfMaterial               (source._sfMaterial               ), 
     _sfDrawOrder              (source._sfDrawOrder              ), 
     _sfDynamic                (source._sfDynamic                ), 
-    _sfPump                   (source._sfPump                   ), 
     _sfBsp                    (source._sfBsp                    ), 
     Inherited                 (source)
 {
@@ -418,11 +405,6 @@ UInt32 ParticlesBase::getBinSize(const BitVector &whichField)
         returnValue += _sfDynamic.getBinSize();
     }
 
-    if(FieldBits::NoField != (PumpFieldMask & whichField))
-    {
-        returnValue += _sfPump.getBinSize();
-    }
-
     if(FieldBits::NoField != (BspFieldMask & whichField))
     {
         returnValue += _sfBsp.getBinSize();
@@ -490,11 +472,6 @@ void ParticlesBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (DynamicFieldMask & whichField))
     {
         _sfDynamic.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (PumpFieldMask & whichField))
-    {
-        _sfPump.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (BspFieldMask & whichField))
@@ -565,11 +542,6 @@ void ParticlesBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfDynamic.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (PumpFieldMask & whichField))
-    {
-        _sfPump.copyFromBin(pMem);
-    }
-
     if(FieldBits::NoField != (BspFieldMask & whichField))
     {
         _sfBsp.copyFromBin(pMem);
@@ -616,9 +588,6 @@ void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
 
     if(FieldBits::NoField != (DynamicFieldMask & whichField))
         _sfDynamic.syncWith(pOther->_sfDynamic);
-
-    if(FieldBits::NoField != (PumpFieldMask & whichField))
-        _sfPump.syncWith(pOther->_sfPump);
 
     if(FieldBits::NoField != (BspFieldMask & whichField))
         _sfBsp.syncWith(pOther->_sfBsp);

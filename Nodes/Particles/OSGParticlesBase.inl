@@ -159,12 +159,6 @@ SFBool *ParticlesBase::getSFDynamic(void)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-SFUInt32 *ParticlesBase::getSFPump(void)
-{
-    return &_sfPump;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
 SFParticleBSPTree *ParticlesBase::getSFBsp(void)
 {
     return &_sfBsp;
@@ -316,24 +310,6 @@ void ParticlesBase::setDynamic(const Bool &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-UInt32 &ParticlesBase::getPump(void)
-{
-    return _sfPump.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const UInt32 &ParticlesBase::getPump(void) const
-{
-    return _sfPump.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void ParticlesBase::setPump(const UInt32 &value)
-{
-    _sfPump.setValue(value);
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
 ParticleBSPTree &ParticlesBase::getBsp(void)
 {
     return _sfBsp.getValue();
@@ -403,5 +379,5 @@ const MFReal32 &ParticlesBase::getTextureZs(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.3 2002/01/10 21:14:10 dirk Exp $"
+#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.4 2002/01/16 15:14:00 dirk Exp $"
 

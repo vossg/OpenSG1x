@@ -3,6 +3,7 @@
 #include <string.h>
 #include <GL/glut.h>
 #include <OSGConfig.h>
+#include <OSGTime.h>
 #include <OSGGLUTWindow.h>
 #include <OSGSimpleSceneManager.h>
 #include <OSGComponentTransform.h>
@@ -13,7 +14,7 @@
 
 #include <OSGParticleBSP.h>
 
-#include <ostream>
+//#include <iostream.h>
 //#include <OSGWriter.h>
 
 OSG_USING_NAMESPACE
@@ -26,14 +27,104 @@ Vec3f *velocities;
 ParticlesPtr particles;
 GeoPositions3fPtr pnts,secpnts;
 MFInt32 *indices;
+UInt32 numParticles;
 
 Bool doMotion=true;
 Bool doIndices=false;
+Bool runBench=false;
+
+
+#ifdef __sgi
+#include <sys/fpu.h>
+#include <signal.h>
+
+void sighand(int sig)
+{
+    printf("caught signal %x\n", sig);
+    
+    
+}
+
+int matherr(struct math_exception *x)
+{
+	char sterr[50];
+	int argc=1;
+	
+	switch (x->type)
+	{
+	case DOMAIN:	strcpy(sterr, "domain error");
+					break;
+	case SING:		strcpy(sterr, "singularity");
+					break;
+	case OVERFLOW:	strcpy(sterr, "overflow");
+					break;
+	case UNDERFLOW:	strcpy(sterr, "underflow");
+					break;
+	case TLOSS:		strcpy(sterr, "total loss of significance");
+					break;
+	case PLOSS:		strcpy(sterr, "partial loss of significance");
+					break;					
+	}
+	
+	if (!strcmp(x->name, "atan2") || !strcmp(x->name, "atan2f") || 
+		!strcmp(x->name, "pow"  ) || !strcmp(x->name, "powf") || 
+		!strcmp(x->name, "modff") || !strcmp(x->name, "modf") || 
+		!strcmp(x->name, "atan2") || !strcmp(x->name, "ldexp"))
+		argc=2;
+	
+	if (argc==1)
+		fprintf(stderr, "%s in %s(%lf), res %lf\n", sterr, x->name, 
+				x->arg1, x->retval);
+	else
+		fprintf(stderr, "%s in %s(%lf, %lf), res %lf\n", sterr, x->name, 
+				x->arg1, x->arg2, x->retval);
+
+	return(1);
+}
+
+void enableFPE(void)
+{
+	union fpc_csr csr;
+	
+	csr.fc_word = get_fpc_csr();
+
+	csr.fc_struct.en_divide0 = 
+	csr.fc_struct.en_overflow = 
+	csr.fc_struct.en_underflow = 1;
+
+	csr.fc_struct.se_divide0 = 0;
+
+	fprintf(stderr, "Enabling floating point exceptions.\n");
+
+	set_fpc_csr( csr.fc_word );		
+}
+#else
+void enableFPE(void)
+{
+}
+#endif
 
 int main(int argc, char **argv)
 {
+//    enableFPE();
+
+#ifdef __sgi 	
+	signal(SIGSEGV, (void (*)(int))sighand);
+	signal(SIGTRAP, (void (*)(int))sighand);
+	signal(SIGBUS, (void (*)(int))sighand);
+#endif
+   
     // OSG init
     osgInit(argc,argv);
+
+    if (argc > 1 && ! strcmp(argv[1],"-bench"))
+    {
+        runBench = true;
+        argc--;
+        argv++;
+        glutInitWindowPosition(0,0);
+        glutInitWindowSize(600,600);
+    }
 
     // GLUT init
     int winid = setupGLUT(&argc, argv);
@@ -65,11 +156,11 @@ int main(int argc, char **argv)
     pnode->setCore(particles);
     endEditCP(pnode);
 
-    UInt32 count = 100;
+    numParticles = 100;
     
     if (argc > 1)
     {
-        count=atoi(argv[1]);
+        numParticles=atoi(argv[1]);
     }
     
     beginEditCP(particles);
@@ -85,14 +176,15 @@ int main(int argc, char **argv)
 
     indices = particles->getMFIndices();
     
-    velocities=new Vec3f [count];
+    velocities=new Vec3f [numParticles];
     
     beginEditCP(pnts);
     beginEditCP(secpnts);
     beginEditCP(cols);
-    for(UInt32 i=0; i < count; ++i)
+    for(UInt32 i=0; i < numParticles; ++i)
     {
         Pnt3f pnt(osgrand(),osgrand(),osgrand());
+        indices->addValue(i);  
         p->addValue(pnt);  
         sp->addValue(pnt);  
         velocities[i].setValues(osgrand()/30.f/2, osgrand()/30.f/2, osgrand()/30.f/2);
@@ -113,7 +205,7 @@ int main(int argc, char **argv)
     particles->setSecPositions( secpnts );
     particles->setColors( cols );
     particles->setNormals( norms );
-    
+                    
     endEditCP(particles);
  
     // set volume static to prevent constant update
@@ -188,7 +280,7 @@ int main(int argc, char **argv)
     mgr->showAll();
 
     mgr->setHighlight(scene);
-        
+    
     // GLUT main loop
     glutMainLoop();
 
@@ -267,6 +359,27 @@ void idle(void)
 // redraw the window
 void display(void)
 {
+       
+    if(runBench)
+    {
+        static Int32 preframes = 5; // some drivers don't like to be swamped early
+        
+        if(--preframes < 0)
+        {
+            Time start,stop;
+
+            start = getSystemTime();
+            for(UInt32 i = 0; i < 100; i++)
+            {
+                mgr->redraw();
+            }
+            stop = getSystemTime();
+            FLOG(( "100 frames a %d parts in %.2f secs (%.0f parts/sec)\n",
+                    numParticles, stop-start, 100 * numParticles / (stop-start) ));
+            exit(0);
+        }
+    }
+    
     mgr->redraw();
 }
 
@@ -301,6 +414,11 @@ void keyboard(unsigned char k, int , int )
     switch(k)
     {
     case 27:    exit(1);
+    case '0':   beginEditCP(particles, Particles::ModeFieldMask);
+                particles->setMode(Particles::Points);
+                endEditCP  (particles, Particles::ModeFieldMask);
+                FLOG(("Particles switched to Points mode\n"));
+                break;
     case '1':   beginEditCP(particles, Particles::ModeFieldMask);
                 particles->setMode(Particles::Lines);
                 endEditCP  (particles, Particles::ModeFieldMask);
@@ -366,7 +484,7 @@ void keyboard(unsigned char k, int , int )
 int setupGLUT(int *argc, char *argv[])
 {
     glutInit(argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | (runBench?0:GLUT_DOUBLE) );
     
     int winid = glutCreateWindow("OpenSG");
     
