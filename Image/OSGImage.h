@@ -165,6 +165,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
                  Int32 depth = 1,
                  Image *destination = 0);
 
+    bool scaleNextPower2 ( Image *destination = 0 );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      SubImage                                */

@@ -381,16 +381,19 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
 
   // TODO !!! code all the cases !!!
 
-  if ( getSize() && pixelFormat && (pixelFormat != _pixelFormat) ) 
+  if ( getSize() && pixelFormat &&
+       (destination || (pixelFormat != _pixelFormat) ) {
     {
       dest->set(pixelFormat, _width, _height, _depth );
       data = dest->_data;
       destSize = dest->getSize();
       if (data) 
         switch (_pixelFormat) {
-        case OSG_L_PF: // source pixelFormat == 1
+          //-----------------------------------------------------
+        case OSG_L_PF: 
           switch (pixelFormat) {
           case OSG_L_PF:
+            memcpy (_data,data,destSize);
             break;
           case OSG_LA_PF:
             for (srcI = destI = 0; destI < destSize; ) 
@@ -420,7 +423,8 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
             break;
           }
           break;
-        case OSG_LA_PF: // source pixelFormat == 2
+          //-----------------------------------------------------
+        case OSG_LA_PF: 
           switch (pixelFormat) {
           case OSG_L_PF:
             for (srcI = destI = 0; destI < destSize; ) 
@@ -430,6 +434,7 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
               }
             break;
           case OSG_LA_PF:
+            memcpy (_data,data,destSize);
             break;
           case OSG_RGB_PF:
             for (srcI = destI = 0; destI < destSize; ) 
@@ -453,14 +458,34 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
             break;
           }
           break;
-        case OSG_RGB_PF: // source pixelFormat == 3
+          //-----------------------------------------------------
+        case OSG_RGB_PF: 
           switch (pixelFormat) 
             {
             case OSG_L_PF:
+              for (srcI = destI = 0; destI < destSize; ) 
+                {
+                  sum = 0;
+                  sum += _data[srcI++];
+                  sum += _data[srcI++];
+                  sum += _data[srcI++];
+                  data[destI++] = sum / 3;
+                }               
+              break;
               break;
             case OSG_LA_PF:
+              for (srcI = destI = 0; destI < destSize; ) 
+                {
+                  sum = 0;
+                  sum += _data[srcI++];
+                  sum += _data[srcI++];
+                  sum += _data[srcI++];
+                  data[destI++] = sum / 3;
+                  data[destI++] = sum / 3;
+                }               
               break;
             case OSG_RGB_PF:
+              memcpy (_data,data,destSize);
               break;
             case OSG_RGBA_PF:
               for (srcI = destI = 0; destI < destSize; ) 
@@ -476,15 +501,43 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
               break;
             }
           break;
-        case OSG_RGBA_PF: // source pixelFormat == 4
+          //-----------------------------------------------------
+        case OSG_RGBA_PF: 
           switch (pixelFormat) {
           case OSG_L_PF:
+            for (srcI = destI = 0; destI < destSize; ) 
+              {
+                sum = 0;
+                sum += _data[srcI++];
+                sum += _data[srcI++];
+                sum += _data[srcI++];
+                data[destI++] = sum / 3;
+                srcI++;
+              }               
+              break;
             break;
           case OSG_LA_PF:
+            for (srcI = destI = 0; destI < destSize; ) 
+              {
+                sum = 0;
+                sum += _data[srcI++];
+                sum += _data[srcI++];
+                sum += _data[srcI++];
+                data[destI++] = sum / 3;
+                data[destI++] = _data[srcI++];
+              }               
             break;
           case OSG_RGB_PF:
+            for (srcI = destI = 0; destI < destSize; ) 
+              {
+                data[destI++] = _data[srcI++];
+                data[destI++] = _data[srcI++];
+                data[destI++] = _data[srcI++];
+                srcI++;
+              }               
             break;
           case OSG_RGBA_PF:
+            memcpy (_data,data,destSize);
             break;
           default:
             break;
@@ -651,6 +704,14 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth, Image *destination)
                 scaleData(src, sw, sh, sd, dest, dw, dh, dd);
             }
         }
+
+        // rip the data from the local destImage if necessary
+        if(!destination)
+          {
+            this->set(*destImage,false);
+            destImage->_data = 0;
+            delete destImage;
+          }
     }
     else
     {       // same size; just copy the data necessary
@@ -658,16 +719,35 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth, Image *destination)
             *destination = *this;
     }
 
-    // rip the data from the local destImage if necessary
-    if(!destination)
-    {
-        delete[] _data;
-        _data = destImage->_data;
-        destImage->_data = 0;
-        delete destImage;
-    }
-
     return retCode;
+}
+
+//----------------------------
+// Function name: scale
+//----------------------------
+//
+//Parameters:
+//p: int width, int height, int depth =1, Image *destination = 0
+//GlobalVars:
+//g:
+//Returns:
+//r:bool
+// Caution
+//c:
+//Assumations:
+//a:
+//Describtions:
+//d: scale the image to the given dimension
+//SeeAlso:
+//s:
+//
+//------------------------------
+bool Image::scaleNextPower2 ( Image *destination = 0 )
+{
+  return scale ( osgnextpower2(_width), 
+                 osgnextpower2(_height),
+                 osgnextpower2(_depth),
+                 destination );
 }
 
 
