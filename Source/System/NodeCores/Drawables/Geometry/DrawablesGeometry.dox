@@ -191,7 +191,7 @@ Some rules of thumb:
   }
   MFColor3ub *c = col->getFieldPtr();
   beginEditCP(col, Geometry::ColorsFieldMask);
-  p->push_back(Color3ub(255, 0, 255));
+  c->push_back(Color3ub(255, 0, 255));
   ...
   endEditCP(col, Geometry::ColorsFieldMask);
   \endcode
@@ -265,7 +265,7 @@ indices are used per vertex. If it's not set a single index for all available
 properties is used (or none at all).
 
 In addition to the properties geometry keeps a osg::MaterialPtr to define the
-material that's used for rendering the geometry (see \ref PageSystemMaterials) and
+material that's used for rendering the geometry (see \ref PageSystemMaterial) and
 a flag that activates caching the geometry in OpenGL display lists. As
 geometry rendering is not optimized very much right now that's the best way to
 get decent performance. Display lists are turned on by default.

@@ -200,6 +200,15 @@ void FaceIterator::operator++()
                                 _facePntIndex[1] = _facePntIndex[2];
                             }                           
                             _facePntIndex[2] = _actPrimIndex++;
+                            
+                            if(getPositionIndex(0) == getPositionIndex(1) ||
+                               getPositionIndex(0) == getPositionIndex(2) ||
+                               getPositionIndex(1) == getPositionIndex(2))
+                            {
+                                --_faceIndex;
+                                ++(*this);
+                            }
+                               
                             break;
     case GL_POLYGON:
     case GL_TRIANGLE_FAN:   _facePntIndex[1] = _facePntIndex[2];

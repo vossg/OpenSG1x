@@ -185,6 +185,15 @@ void TriangleIterator::operator++()
                                 _triPntIndex[1] = _triPntIndex[2];
                             }                           
                             _triPntIndex[2] = _actPrimIndex++;
+                            
+                            if(getPositionIndex(0) == getPositionIndex(1) ||
+                               getPositionIndex(0) == getPositionIndex(2) ||
+                               getPositionIndex(1) == getPositionIndex(2))
+                            {
+                                --_triIndex;
+                                ++(*this);
+                            }
+                               
                             break;
     case GL_POLYGON:
     case GL_TRIANGLE_FAN:   _triPntIndex[1] = _triPntIndex[2];

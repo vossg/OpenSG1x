@@ -91,6 +91,7 @@ int main (int argc, char **argv)
     type->getFieldPtr()->push_back( GL_POLYGON );
     type->getFieldPtr()->push_back( GL_POLYGON );
     type->getFieldPtr()->push_back( GL_POLYGON );
+    type->getFieldPtr()->push_back( GL_TRIANGLE_STRIP );
     endEditCP(type);
 
 
@@ -98,7 +99,7 @@ int main (int argc, char **argv)
     g->setLengths( lens );
     beginEditCP(lens);
     {
-    static Int32 l[] = { 2,4,3,3,9,5,5,12,6,3,4,5,-1};
+    static Int32 l[] = { 2,4,3,3,9,5,5,12,6,3,4,5,5,-1};
     for ( int ind = 0; l[ind] >= 0; ind++ )
         lens->getFieldPtr()->push_back( l[ind] );
     }
@@ -111,7 +112,8 @@ int main (int argc, char **argv)
     {
     static Int32 i[] = { 0,1, 0,1,1,2, 4,5,6, 5,6,7, 0,1,2,1,2,3,2,3,4,
                           3,0,2,1,6, 0,3,2,1,5, 0,1,2,3,4,5,6,7,0,1,4,5,
-                          6,5,7,4,3,0, 0,1,2, 0,1,2,3, 0,1,2,3,4, -1};
+                          6,5,7,4,3,0, 0,1,2, 0,1,2,3, 0,1,2,3,4, 
+                          0,1,2,1,3, -1};
     for ( int ind = 0; i[ind] >= 0; ind++ )
         index->getFieldPtr()->push_back( i[ind] );
     }

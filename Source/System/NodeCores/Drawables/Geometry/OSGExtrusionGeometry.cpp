@@ -91,7 +91,7 @@ static char cvsid[] = "@(#)$Id: $";
 /*! \{                                                                 */
 
 
-/*! \func osg::makeExtrusion
+/*! \fn osg::makeExtrusion
     \ingroup GrpSystemDrawablesGeometrySimpleGeometry
 
     Create an extrusion Geometry, see \ref PageSystemSimpleGeometryExtrusion

@@ -538,17 +538,17 @@ void GeoPump128(Window   *win,
 
     if (PositionsData)
     {        
-        glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(PositionsPtr->getDimension(), PositionsPtr->getFormat(),
                         PositionsStride, PositionsData);
+        glEnableClientState(GL_VERTEX_ARRAY);
         modified|=(1<<0);
     }
 
     if (ColorsData)
     {
-        glEnableClientState(GL_COLOR_ARRAY);
         glColorPointer(ColorsPtr->getDimension(), ColorsPtr->getFormat(),
                        ColorsStride, ColorsData);
+        glEnableClientState(GL_COLOR_ARRAY);
         modified|=(1<<1);        
     }
 
@@ -556,7 +556,6 @@ void GeoPump128(Window   *win,
     {
         if (win->hasExtension(GeoPumpFactory::_extSecondaryColor))
         {
-            glEnableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
              void (OSG_APIENTRY*_glSecondaryColorPointerEXT)
                   (GLint size,GLenum type,GLsizei stride,const GLvoid *pointer)=
             (void (OSG_APIENTRY*)(GLint size,GLenum type,GLsizei stride,const GLvoid *pointer))
@@ -565,6 +564,7 @@ void GeoPump128(Window   *win,
             _glSecondaryColorPointerEXT(SecColorsPtr->getDimension(),
                                        SecColorsPtr->getFormat(),
                                        SecColorsStride, SecColorsData);
+            glEnableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
             modified|=(1<<2);
         }
         else
@@ -574,8 +574,8 @@ void GeoPump128(Window   *win,
 
     if (NormalsData)
     {
-        glEnableClientState(GL_NORMAL_ARRAY);
         glNormalPointer(NormalsPtr->getFormat(), NormalsStride, NormalsData);
+        glEnableClientState(GL_NORMAL_ARRAY);
         modified|=(1<<3);
     }
 
@@ -586,15 +586,15 @@ void GeoPump128(Window   *win,
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
             (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE0_ARB);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoordsPtr->getDimension(), TexCoordsPtr->getFormat(),
                                TexCoordsStride, TexCoordsData);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         }
         else
         {
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoordsPtr->getDimension(), TexCoordsPtr->getFormat(),
                                TexCoordsStride, TexCoordsData);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         }
         modified|=(1<<4);
     }
@@ -606,9 +606,9 @@ void GeoPump128(Window   *win,
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
             (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE1_ARB);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoords1Ptr->getDimension(), TexCoords1Ptr->getFormat(),
                                TexCoords1Stride, TexCoords1Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             modified|=(1<<5);
         }
         else
@@ -622,9 +622,9 @@ void GeoPump128(Window   *win,
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
             (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE2_ARB);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoords2Ptr->getDimension(), TexCoords2Ptr->getFormat(),
                                TexCoords2Stride, TexCoords2Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             modified|=(1<<6);
         }
         else
@@ -638,9 +638,9 @@ void GeoPump128(Window   *win,
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
             (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE3_ARB);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoords3Ptr->getDimension(), TexCoords3Ptr->getFormat(),
                                TexCoords3Stride, TexCoords3Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             modified|=(1<<7);
         }
         else
@@ -683,7 +683,7 @@ void GeoPump128(Window   *win,
 
         if(modified&(1<<4))
         {
-           _glClientActiveTextureARB(GL_TEXTURE0_ARB);
+            _glClientActiveTextureARB(GL_TEXTURE0_ARB);
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         }
         
@@ -732,17 +732,17 @@ void GeoPump129(Window   *win,
 
     if (PositionsData)
     {        
-        glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(PositionsPtr->getDimension(), PositionsPtr->getFormat(),
                         PositionsStride, PositionsData);
+        glEnableClientState(GL_VERTEX_ARRAY);
         modified|=(1<<0);
     }
 
     if (ColorsData)
     {
-        glEnableClientState(GL_COLOR_ARRAY);
         glColorPointer(ColorsPtr->getDimension(), ColorsPtr->getFormat(),
                        ColorsStride, ColorsData);
+        glEnableClientState(GL_COLOR_ARRAY);
         modified|=(1<<1);        
     }
 
@@ -750,7 +750,6 @@ void GeoPump129(Window   *win,
     {
         if (win->hasExtension(GeoPumpFactory::_extSecondaryColor))
         {
-            glEnableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
              void (OSG_APIENTRY*_glSecondaryColorPointerEXT)
                   (GLint size,GLenum type,GLsizei stride,const GLvoid *pointer)=
             (void (OSG_APIENTRY*)(GLint size,GLenum type,GLsizei stride,const GLvoid *pointer))
@@ -759,6 +758,7 @@ void GeoPump129(Window   *win,
             _glSecondaryColorPointerEXT(SecColorsPtr->getDimension(),
                                        SecColorsPtr->getFormat(),
                                        SecColorsStride, SecColorsData);
+            glEnableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
             modified|=(1<<2);
         }
         else
@@ -768,8 +768,8 @@ void GeoPump129(Window   *win,
 
     if (NormalsData)
     {
-        glEnableClientState(GL_NORMAL_ARRAY);
         glNormalPointer(NormalsPtr->getFormat(), NormalsStride, NormalsData);
+        glEnableClientState(GL_NORMAL_ARRAY);
         modified|=(1<<3);
     }
 
@@ -780,15 +780,15 @@ void GeoPump129(Window   *win,
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
             (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE0_ARB);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoordsPtr->getDimension(), TexCoordsPtr->getFormat(),
                                TexCoordsStride, TexCoordsData);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         }
         else
         {
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoordsPtr->getDimension(), TexCoordsPtr->getFormat(),
                                TexCoordsStride, TexCoordsData);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         }
         modified|=(1<<4);
     }
@@ -800,9 +800,9 @@ void GeoPump129(Window   *win,
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
             (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE1_ARB);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoords1Ptr->getDimension(), TexCoords1Ptr->getFormat(),
                                TexCoords1Stride, TexCoords1Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             modified|=(1<<5);
         }
         else
@@ -816,9 +816,9 @@ void GeoPump129(Window   *win,
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
             (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE2_ARB);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoords2Ptr->getDimension(), TexCoords2Ptr->getFormat(),
                                TexCoords2Stride, TexCoords2Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             modified|=(1<<6);
         }
         else
@@ -832,9 +832,9 @@ void GeoPump129(Window   *win,
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
             (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
             _glClientActiveTextureARB(GL_TEXTURE3_ARB);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (TexCoords3Ptr->getDimension(), TexCoords3Ptr->getFormat(),
                                TexCoords3Stride, TexCoords3Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             modified|=(1<<7);
         }
         else
@@ -879,7 +879,7 @@ void GeoPump129(Window   *win,
 
         if(modified&(1<<4))
         {
-           _glClientActiveTextureARB(GL_TEXTURE0_ARB);
+            _glClientActiveTextureARB(GL_TEXTURE0_ARB);
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         }
         
