@@ -42,6 +42,7 @@
 #include <OSGFieldDataType.h>
 #include <OSGAttachmentContainerFieldDataType.h>
 #include <OSGFieldContainerPtrForward.h>
+#include <OSGNodePtrImpl.h>
 
 OSG_BEGIN_NAMESPACE
 
