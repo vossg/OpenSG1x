@@ -597,7 +597,7 @@ class ToolChain:
         if _po.getOption('glut'):
             self.env.Append(CPPDEFINES = ['OSG_WITH_GLUT'])
         if _po.getOption('jpg'):
-            self.env.Append(CPPDEFINES = ['OSG_WITH_JPEG'])
+            self.env.Append(CPPDEFINES = ['OSG_WITH_JPG'])
         if _po.getOption('tif'):
             self.env.Append(CPPDEFINES = ['OSG_WITH_TIF'])
         if _po.getOption('png'):
