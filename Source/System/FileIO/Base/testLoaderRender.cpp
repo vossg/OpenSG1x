@@ -17,6 +17,8 @@
 // Methods to create simple geometry: boxes, spheres, tori etc.
 #include <OSGSimpleGeometry.h>
 
+#include <OSGGradientBackground.h>
+
 #include <OSGImageFileHandler.h>
 #include <OSGPathHandler.h>
 
@@ -186,6 +188,26 @@ int main (int argc, char **argv)
 
     mgr->showAll();
 
+    // create a gradient background.
+    GradientBackgroundPtr gback = GradientBackground::create();
+    beginEditCP(gback, GradientBackground::LineFieldMask);
+        gback->clearLines();
+        gback->addLine(Color3f(0.7, 0.7, 0.8), 0);
+        gback->addLine(Color3f(0.0, 0.1, 0.3), 1);
+    endEditCP(gback, GradientBackground::LineFieldMask);
+
+    WindowPtr win = mgr->getWindow();
+    beginEditCP(win);
+        for(int i=0;i<win->getPort().size();++i)
+        {
+            ViewportPtr vp = win->getPort()[i];
+            beginEditCP(vp);
+                vp->setBackground(gback);
+            endEditCP(vp);
+        }
+    endEditCP(win);
+
+    
     // GLUT main loop
     glutMainLoop();
 
