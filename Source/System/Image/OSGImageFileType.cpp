@@ -54,6 +54,12 @@
 
 OSG_USING_NAMESPACE
 
+
+/*! \class osg::ImageFileType
+    \ingroup GrpSystemImage
+    
+*/
+
 // Static Class Varible implementations: 
 
 bool ImageFileType::Head::netToHost(void)

@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class ProjectionCameraDecorator;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ProjectionCameraDecoratorPtr
 
 typedef FCPtr<StereoCameraDecoratorPtr, ProjectionCameraDecorator> ProjectionCameraDecoratorPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief ProjectionCameraDecoratorPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<ProjectionCameraDecoratorPtr> :
     static char     *getSName(void) { return "SFProjectionCameraDecoratorPtr"; }
     static char     *getMName(void) { return "MFProjectionCameraDecoratorPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFProjectionCameraDecoratorPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<ProjectionCameraDecoratorPtr> SFProjectionCameraDecoratorPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLM
 #endif
 
 //! MFProjectionCameraDecoratorPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<ProjectionCameraDecoratorPtr> MFProjectionCameraDecoratorPtr;
 

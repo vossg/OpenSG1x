@@ -66,12 +66,15 @@ OSG_BEGIN_NAMESPACE
 
 class LightChunk;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! LightChunkPtr
 
 typedef FCPtr<StateChunkPtr, LightChunk> LightChunkPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief LightChunkPtr field traits 
-    \ingroup FieldLib
 */
 
 template <>
@@ -83,6 +86,7 @@ struct FieldDataTraits<LightChunkPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
+#endif             // exclude from doc
 
 
 OSG_END_NAMESPACE

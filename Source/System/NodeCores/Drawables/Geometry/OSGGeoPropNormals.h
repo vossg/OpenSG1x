@@ -47,7 +47,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-struct GeoNormals3fPropertyDesc
+struct GeoNormals3fPropertyDesc : public GeoNormalsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -89,7 +89,9 @@ struct GeoNormals3fPropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoNormals3fPropertyDesc> GeoNormals3f;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPNORMALINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,

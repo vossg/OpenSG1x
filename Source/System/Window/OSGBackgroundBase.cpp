@@ -66,7 +66,6 @@ OSG_USING_NAMESPACE
 
 
 
-//! Background type
 
 FieldContainerType BackgroundBase::_type(
     "Background",
@@ -106,8 +105,6 @@ void BackgroundBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -121,16 +118,12 @@ BackgroundBase::BackgroundBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 BackgroundBase::BackgroundBase(const BackgroundBase &source) :
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 BackgroundBase::~BackgroundBase(void)
 {
@@ -178,7 +171,9 @@ void BackgroundBase::executeSyncImpl(      BackgroundBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<BackgroundPtr>::_type("BackgroundPtr", "AttachmentContainerPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

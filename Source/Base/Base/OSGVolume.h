@@ -49,7 +49,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup BaseBaseVolume
+/*! \ingroup GrpBaseBaseVolume
  */
 
 class OSG_BASE_DLLMAPPING Volume 

@@ -86,7 +86,6 @@ FieldDescription *MaterialDrawableBase::_desc[] =
                      (FieldAccessMethod) &MaterialDrawableBase::getSFMaterial)
 };
 
-//! MaterialDrawable type
 
 FieldContainerType MaterialDrawableBase::_type(
     "MaterialDrawable",
@@ -126,8 +125,6 @@ void MaterialDrawableBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -142,8 +139,6 @@ MaterialDrawableBase::MaterialDrawableBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 MaterialDrawableBase::MaterialDrawableBase(const MaterialDrawableBase &source) :
     _sfMaterial               (source._sfMaterial               ), 
     Inherited                 (source)
@@ -151,8 +146,6 @@ MaterialDrawableBase::MaterialDrawableBase(const MaterialDrawableBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 MaterialDrawableBase::~MaterialDrawableBase(void)
 {
@@ -218,7 +211,9 @@ void MaterialDrawableBase::executeSyncImpl(      MaterialDrawableBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<MaterialDrawablePtr>::_type("MaterialDrawablePtr", "DrawablePtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(MaterialDrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MaterialDrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -239,7 +234,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawableBase.cpp,v 1.1 2002/09/25 16:46:17 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawableBase.cpp,v 1.2 2002/10/24 14:22:00 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALDRAWABLEBASE_INLINE_CVSID;
 

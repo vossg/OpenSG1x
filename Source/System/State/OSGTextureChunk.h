@@ -44,6 +44,7 @@
 #endif
 
 #include <OSGConfig.h>
+#include <OSGGLEXT.h>
 #include <OSGWindow.h>
 #include <OSGTextureChunkBase.h>
 
@@ -51,20 +52,24 @@ OSG_BEGIN_NAMESPACE
 
 #define osgMaxTextures 4
 
-//! chunk for single texture attributes
-
 class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                Instance Functions                            */
+    /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *getClass(void) const;
+    virtual const  StateChunkClass * getClass    (void) const;
 
-    virtual      bool              isTransparent(void) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name              Static Chunk Class Access                       */
+    /*! \{                                                                 */
+
+    static        UInt32           getStaticClassId  (void);
+    static  const StateChunkClass *getStaticClass    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -93,6 +98,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
                              UInt32 index = 0);
 
     virtual void deactivate (DrawActionBase * action, UInt32 index = 0);
+
+    virtual bool isTransparent (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -172,6 +179,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     static UInt32 _funcActiveTexture;
     static UInt32 _arbCubeTex;
 
+    // class. Used for indexing in State
+    // protected to give CubeTextureChunk access
+    static StateChunkClass _class;
+
+    // protected to give CubeTextureChunk access
+    static void initMethod( void );
+
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -181,11 +195,6 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     friend class TextureChunkBase;
 
     static char cvsid[];
-
-    // class. Used for indexing in State
-    static StateChunkClass _class;
-
-    static void initMethod( void );
 
     /*---------------------------------------------------------------------*/
     /*! \name                         GL                                   */
@@ -206,5 +215,7 @@ OSG_END_NAMESPACE
 
 #include <OSGTextureChunkBase.inl>
 #include <OSGTextureChunk.inl>
+
+#define OSGTEXTURECHUNK_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGTEXTURECHUNK_H_ */

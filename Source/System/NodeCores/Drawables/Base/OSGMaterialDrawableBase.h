@@ -103,7 +103,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialDrawableBase : public Drawable
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 
@@ -204,6 +204,6 @@ typedef MaterialDrawableBase *MaterialDrawableBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.1 2002/09/25 16:46:17 jbehr Exp $"
+#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.2 2002/10/24 14:22:00 dirk Exp $"
 
 #endif /* _OSGMATERIALDRAWABLEBASE_H_ */

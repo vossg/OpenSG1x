@@ -106,7 +106,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public MaterialDrawable
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 
@@ -228,6 +228,6 @@ typedef SlicesBase *SlicesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSLICESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.27 2002/09/16 18:39:11 vossg Exp $"
+#define OSGSLICESBASE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSLICESBASE_H_ */

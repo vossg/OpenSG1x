@@ -66,7 +66,6 @@ OSG_USING_NAMESPACE
 
 
 
-//! Material type
 
 FieldContainerType MaterialBase::_type(
     "Material",
@@ -106,8 +105,6 @@ void MaterialBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -121,16 +118,12 @@ MaterialBase::MaterialBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 MaterialBase::MaterialBase(const MaterialBase &source) :
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 MaterialBase::~MaterialBase(void)
 {
@@ -178,7 +171,9 @@ void MaterialBase::executeSyncImpl(      MaterialBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<MaterialPtr>::_type("MaterialPtr", "AttachmentContainerPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

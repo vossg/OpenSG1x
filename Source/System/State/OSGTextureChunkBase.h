@@ -139,7 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

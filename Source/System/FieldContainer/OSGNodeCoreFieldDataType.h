@@ -47,16 +47,16 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \file OSGNodeCoreFieldDataType.h
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief OpenSG NodeCore Field Data Types  
 */
 
 /*! \brief NodeCorePtr field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>

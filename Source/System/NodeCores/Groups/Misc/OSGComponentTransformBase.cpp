@@ -130,7 +130,6 @@ FieldDescription *ComponentTransformBase::_desc[] =
                      (FieldAccessMethod) &ComponentTransformBase::getSFTranslation)
 };
 
-//! ComponentTransform type
 
 FieldContainerType ComponentTransformBase::_type(
     "ComponentTransform",
@@ -179,8 +178,6 @@ void ComponentTransformBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -199,8 +196,6 @@ ComponentTransformBase::ComponentTransformBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 ComponentTransformBase::ComponentTransformBase(const ComponentTransformBase &source) :
     _sfCenter                 (source._sfCenter                 ), 
     _sfRotation               (source._sfRotation               ), 
@@ -212,8 +207,6 @@ ComponentTransformBase::ComponentTransformBase(const ComponentTransformBase &sou
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 ComponentTransformBase::~ComponentTransformBase(void)
 {
@@ -351,7 +344,9 @@ void ComponentTransformBase::executeSyncImpl(      ComponentTransformBase *pOthe
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ComponentTransformPtr>::_type("ComponentTransformPtr", "TransformPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

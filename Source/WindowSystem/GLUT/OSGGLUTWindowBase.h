@@ -103,7 +103,7 @@ class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindowBase : public Window
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

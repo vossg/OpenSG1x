@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Viewport;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ViewportPtr
 
 typedef FCPtr<AttachmentContainerPtr, Viewport> ViewportPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief ViewportPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<ViewportPtr> :
     static char     *getSName(void) { return "SFViewportPtr"; }
     static char     *getMName(void) { return "MFViewportPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFViewportPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<ViewportPtr> SFViewportPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFViewportPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<ViewportPtr> MFViewportPtr;
 

@@ -43,6 +43,10 @@
 OSG_BEGIN_NAMESPACE
 
 
+/*! Return the chunk with the given id. Returns NullFC if no such chunk is in
+   the State. 
+*/
+
 inline
 StateChunkPtr State::getChunk( UInt32 id )
 {
@@ -52,6 +56,9 @@ StateChunkPtr State::getChunk( UInt32 id )
     return NullFC;
 }
 
+/*! Checks if a chunk with the given id is in the current state. 
+*/
+
 inline
 bool State::chunkPresent( UInt32 id )
 {
@@ -59,10 +66,13 @@ bool State::chunkPresent( UInt32 id )
             _mfChunks[id] != NullFC ;
 }
 
+/*! Checks if a chunk like the given type is in the current state. 
+*/
+
 inline
 bool State::chunkPresent( StateChunkPtr chunk )
 {
-    return chunkPresent( chunk->getClassID() );
+    return chunkPresent( chunk->getClassId() );
 }
 
 

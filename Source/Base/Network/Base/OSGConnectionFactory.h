@@ -50,7 +50,7 @@
 OSG_BEGIN_NAMESPACE
 
 //! Brief
-//! \ingroup baselib
+//! \ingroup GrpBaseNetwork
 
 class OSG_BASE_DLLMAPPING ConnectionFactory 
 {

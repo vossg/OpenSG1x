@@ -86,7 +86,6 @@ FieldDescription *StateBase::_desc[] =
                      (FieldAccessMethod) &StateBase::getMFChunks)
 };
 
-//! State type
 
 FieldContainerType StateBase::_type(
     "State",
@@ -135,8 +134,6 @@ void StateBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -151,8 +148,6 @@ StateBase::StateBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 StateBase::StateBase(const StateBase &source) :
     _mfChunks                 (source._mfChunks                 ), 
     Inherited                 (source)
@@ -160,8 +155,6 @@ StateBase::StateBase(const StateBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 StateBase::~StateBase(void)
 {
@@ -227,7 +220,9 @@ void StateBase::executeSyncImpl(      StateBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<StatePtr>::_type("StatePtr", "FieldContainerPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

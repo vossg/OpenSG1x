@@ -94,7 +94,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

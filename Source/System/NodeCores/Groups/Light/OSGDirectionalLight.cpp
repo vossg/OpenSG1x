@@ -55,6 +55,11 @@ OSG_USING_NAMESPACE
  *  attribute is the light's direction.
  */
 
+/*----------------------------- class variables ---------------------------*/
+
+StatElemDesc<StatIntElem>  DirectionalLight::statNDirectionalLights(
+"NDirectionalLights", "number of directional light sources");
+
 
 /*-------------------------------------------------------------------------*/
 /*                                Set                                      */
@@ -138,6 +143,8 @@ Action::ResultE DirectionalLight::drawEnter(Action *action)
 
     glPopMatrix();
 
+    da->getStatistics()->getElem(DirectionalLight::statNDirectionalLights)->inc();
+
     return Action::Continue;
 }
     
@@ -157,6 +164,9 @@ Action::ResultE DirectionalLight::renderEnter(Action *action)
     if(getOn() == false)
         return Action::Continue;
 
+    DrawActionBase *da    = dynamic_cast<DrawActionBase *>(action);
+    da->getStatistics()->getElem(DirectionalLight::statNDirectionalLights)->inc();
+    
     return Light::renderEnter(action);
 }
 

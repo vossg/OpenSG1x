@@ -130,7 +130,6 @@ FieldDescription *SortFirstWindowBase::_desc[] =
                      (FieldAccessMethod) &SortFirstWindowBase::getSFUseFaceDistribution)
 };
 
-//! SortFirstWindow type
 
 FieldContainerType SortFirstWindowBase::_type(
     "SortFirstWindow",
@@ -179,8 +178,6 @@ void SortFirstWindowBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -199,8 +196,6 @@ SortFirstWindowBase::SortFirstWindowBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 SortFirstWindowBase::SortFirstWindowBase(const SortFirstWindowBase &source) :
     _sfCompression            (source._sfCompression            ), 
     _sfSubtileSize            (source._sfSubtileSize            ), 
@@ -212,8 +207,6 @@ SortFirstWindowBase::SortFirstWindowBase(const SortFirstWindowBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 SortFirstWindowBase::~SortFirstWindowBase(void)
 {
@@ -348,7 +341,9 @@ void SortFirstWindowBase::executeSyncImpl(      SortFirstWindowBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SortFirstWindowPtr>::_type("SortFirstWindowPtr", "ClusterWindowPtr");
+#endif
 
 
 OSG_END_NAMESPACE

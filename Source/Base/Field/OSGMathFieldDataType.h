@@ -49,16 +49,16 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \file OSGMathFieldDataType.h
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief OpenSG Math Field Data Types  
 */
 
 /*! \brief Matrix field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields 
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti 
 */
 
 template <>
@@ -164,9 +164,9 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
 };
 
 /*! \brief Quaternion field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>

@@ -94,7 +94,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawableBase : public NodeCore
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 
@@ -170,6 +170,6 @@ typedef DrawableBase *DrawableBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGDrawableBase.h,v 1.1 2002/09/25 16:46:17 jbehr Exp $"
+#define OSGDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGDrawableBase.h,v 1.2 2002/10/24 14:22:00 dirk Exp $"
 
 #endif /* _OSGDRAWABLEBASE_H_ */

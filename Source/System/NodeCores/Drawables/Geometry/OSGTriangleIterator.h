@@ -51,10 +51,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! The TriangleIterator allows iteration through triangles.
-//! \ingroup GeoIterators
-
-class OSG_SYSTEMLIB_DLLMAPPING TriangleIterator
+class OSG_SYSTEMLIB_DLLMAPPING TriangleIterator : public PrimitiveIterator
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -70,10 +67,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TriangleIterator
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    TriangleIterator( void );
-    TriangleIterator( const GeometryPtr& geo );
-    TriangleIterator( const NodePtr& geo );
+    TriangleIterator(void);
     TriangleIterator(const TriangleIterator &source);
+    TriangleIterator(const GeometryPtr& geo);
+    TriangleIterator(const NodePtr& geo);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -87,33 +84,36 @@ class OSG_SYSTEMLIB_DLLMAPPING TriangleIterator
     /*! \name                       Get                                    */
     /*! \{                                                                 */
 
-    inline Int32        getIndex        ( void        ) const;
-    inline UInt32       getType         ( void ) const;
+    inline Int32        getIndex            (void       ) const;
 
-    inline Int32        getPositionIndex    ( Int32 which ) const;
-    inline Pnt3f        getPosition         ( Int32 which ) const;
+    inline Int32        getPositionIndex    (Int32 which) const;
+    inline Pnt3f        getPosition         (Int32 which) const;
 
-    inline Int32        getNormalIndex      ( Int32 which ) const;
-    inline Vec3f        getNormal           ( Int32 which ) const;
+    inline Int32        getNormalIndex      (Int32 which) const;
+    inline Vec3f        getNormal           (Int32 which) const;
 
-    inline Int32        getColorIndex       ( Int32 which ) const;
-    inline Color3f      getColor            ( Int32 which ) const;
+    inline Int32        getColorIndex       (Int32 which) const;
+    inline Color3f      getColor            (Int32 which) const;
 
-    inline Int32        getTexCoordsIndex   ( Int32 which ) const;
-    inline Vec2f        getTexCoords        ( Int32 which ) const;
+    inline Int32        getTexCoordsIndex   (Int32 which) const;
+    inline Vec2f        getTexCoords        (Int32 which) const;
+    inline Int32        getTexCoordsIndex1  (Int32 which) const;
+    inline Vec2f        getTexCoords1       (Int32 which) const;
+    inline Int32        getTexCoordsIndex2  (Int32 which) const;
+    inline Vec2f        getTexCoords2       (Int32 which) const;
+    inline Int32        getTexCoordsIndex3  (Int32 which) const;
+    inline Vec2f        getTexCoords3       (Int32 which) const;
 
-    inline Int32        getIndexIndex       ( Int32 which ) const;
+    inline Int32        getIndexIndex       (Int32 which) const;
 
- 
-           GeometryPtr  getGeometry         (void         ) const;
  
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Operators                              */
     /*! \{                                                                 */
 
-    void operator ++( void );
-    void seek( Int32 index );
+    void operator ++(void);
+    void seek(Int32 index);
 
     TriangleIterator & operator =(const TriangleIterator &source);
     bool operator < (const TriangleIterator &other) const;
@@ -128,8 +128,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TriangleIterator
     /*! \name                       Set                                    */
     /*! \{                                                                 */
           
-    void setToBegin( void );
-    void setToEnd( void );
+    void setToBegin(void);
+    void setToEnd(void);
     
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -143,15 +143,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TriangleIterator
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    PrimitiveIterator _primIt;
-    GeometryPtr     _geo;
     Int32           _triIndex;
     UInt32          _actPrimIndex;
     Int32           _triPntIndex[3];
 
     /*! \}                                                                 */
     
-    void startPrim( void );
+    void startPrim(void);
 };
 
 typedef TriangleIterator *TriangleIteratorP;

@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class MaterialDrawable;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! MaterialDrawablePtr
 
 typedef FCPtr<DrawablePtr, MaterialDrawable> MaterialDrawablePtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief MaterialDrawablePtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<MaterialDrawablePtr> :
     static char     *getSName(void) { return "SFMaterialDrawablePtr"; }
     static char     *getMName(void) { return "MFMaterialDrawablePtr"; }
 };
+#endif             // exclude from doc
 
 //! SFMaterialDrawablePtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<MaterialDrawablePtr> SFMaterialDrawablePtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, MaterialDrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFMaterialDrawablePtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<MaterialDrawablePtr> MFMaterialDrawablePtr;
 
@@ -111,6 +115,6 @@ OSG_DLLEXPORT_DECL1(MField, MaterialDrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLEFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableFields.h,v 1.1 2002/09/25 16:46:17 jbehr Exp $"
+#define OSGMATERIALDRAWABLEFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableFields.h,v 1.2 2002/10/24 14:22:01 dirk Exp $"
 
 #endif /* _OSGMATERIALDRAWABLEFIELDS_H_ */

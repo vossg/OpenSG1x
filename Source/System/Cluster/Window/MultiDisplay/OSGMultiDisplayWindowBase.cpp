@@ -97,7 +97,6 @@ FieldDescription *MultiDisplayWindowBase::_desc[] =
                      (FieldAccessMethod) &MultiDisplayWindowBase::getSFVServers)
 };
 
-//! MultiDisplayWindow type
 
 FieldContainerType MultiDisplayWindowBase::_type(
     "MultiDisplayWindow",
@@ -146,8 +145,6 @@ void MultiDisplayWindowBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -163,8 +160,6 @@ MultiDisplayWindowBase::MultiDisplayWindowBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 MultiDisplayWindowBase::MultiDisplayWindowBase(const MultiDisplayWindowBase &source) :
     _sfHServers               (source._sfHServers               ), 
     _sfVServers               (source._sfVServers               ), 
@@ -173,8 +168,6 @@ MultiDisplayWindowBase::MultiDisplayWindowBase(const MultiDisplayWindowBase &sou
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 MultiDisplayWindowBase::~MultiDisplayWindowBase(void)
 {
@@ -255,7 +248,9 @@ void MultiDisplayWindowBase::executeSyncImpl(      MultiDisplayWindowBase *pOthe
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<MultiDisplayWindowPtr>::_type("MultiDisplayWindowPtr", "ClusterWindowPtr");
+#endif
 
 
 OSG_END_NAMESPACE

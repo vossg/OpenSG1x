@@ -49,15 +49,40 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \brief TypeTraitsBase, documentation dummy
- *  \ingroup BaseTraits
+ *  \ingroup GrpBaseTraits
  */
 
 struct OSG_BASE_DLLMAPPING TypeTraitsBase
 {
+    static const  bool               IsPOD    = true;
+    static const  MathTypeProperties MathProp = BoolValue;
+
+    static const  bool              BitsSet     = true ;
+    static const  bool              BitsClear   = false;
+
+    static        bool              getZeroElement(void)
+    {
+        return false;
+    }
+
+    static        bool              getOneElement (void)
+    {
+        return true;
+    }
+
+    static        bool              getMax        (void)
+    {
+        return true;
+    }
+
+    static        bool              getMin        (void)
+    {
+        return false;
+    }
 };
 
 /*! \brief TypeTraits
- *  \ingroup BaseTraits
+ *  \ingroup GrpBaseTraits
  */
 
 template <class LookupTypeT>
@@ -106,7 +131,7 @@ struct TypeTraits<bool> : public TypeTraitsBase
 };
 
 /*! \brief TypeTraits<UInt8>
- *  \ingroup BaseTraits
+ *  \ingroup GrpBaseTraits
  */
 
 template <>
@@ -179,7 +204,7 @@ struct TypeTraits<UInt8> : public TypeTraitsBase
 };
 
 /*! \brief TypeTraits<Int8>
- *  \ingroup BaseTraits
+ *  \ingroup GrpBaseTraits
  */
 
 template <>
@@ -245,7 +270,7 @@ struct TypeTraits<Int8> : public TypeTraitsBase
 };
 
 /*! \brief TypeTraits<UInt16>
- *  \ingroup BaseTraits
+ *  \ingroup GrpBaseTraits
  */
 
 template <>
@@ -317,7 +342,7 @@ struct TypeTraits<UInt16> : public TypeTraitsBase
 };
 
 /*! \brief TypeTraits<Int16>
- *  \ingroup BaseTraits
+ *  \ingroup GrpBaseTraits
  */
 
 template <>
@@ -383,7 +408,7 @@ struct TypeTraits<Int16> : public TypeTraitsBase
 };
 
 /*! \brief TypeTraits<UInt32>
- *  \ingroup BaseTraits
+ *  \ingroup GrpBaseTraits
  */
 
 template <>
@@ -450,7 +475,7 @@ struct TypeTraits<UInt32> : public TypeTraitsBase
 };
 
 /*! \brief TypeTraits<Int32>
- *  \ingroup BaseTraits
+ *  \ingroup GrpBaseTraits
  */
 
 template <>
@@ -518,7 +543,7 @@ struct TypeTraits<Int32> : public TypeTraitsBase
 
 
 /*! \brief TypeTraits<UInt64>
- *  \ingroup BaseTraits
+ *  \ingroup GrpBaseTraits
  */
 
 template <>
@@ -610,7 +635,7 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
 };
 
 /*! \brief TypeTraits<Int64>
- *  \ingroup BaseTraits
+ *  \ingroup GrpBaseTraits
  */
 
 template <>
@@ -701,7 +726,7 @@ struct TypeTraits<Int64> : public TypeTraitsBase
 };
 
 /*! \brief TypeTraits<Real64>
- *  \ingroup BaseTraits
+ *  \ingroup GrpBaseTraits
  */
 
 template <>
@@ -757,7 +782,7 @@ struct TypeTraits<Real64> : public TypeTraitsBase
 };
 
 /*! \brief TypeTraits<Real32>
- *  \ingroup BaseTraits
+ *  \ingroup GrpBaseTraits
  */
 
 template <>

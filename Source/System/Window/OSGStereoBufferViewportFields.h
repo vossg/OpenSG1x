@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class StereoBufferViewport;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! StereoBufferViewportPtr
 
 typedef FCPtr<ViewportPtr, StereoBufferViewport> StereoBufferViewportPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief StereoBufferViewportPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<StereoBufferViewportPtr> :
     static char     *getSName(void) { return "SFStereoBufferViewportPtr"; }
     static char     *getMName(void) { return "MFStereoBufferViewportPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFStereoBufferViewportPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<StereoBufferViewportPtr> SFStereoBufferViewportPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, StereoBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPIN
 #endif
 
 //! MFStereoBufferViewportPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<StereoBufferViewportPtr> MFStereoBufferViewportPtr;
 

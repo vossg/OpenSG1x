@@ -282,6 +282,20 @@ int main(int argc, char **argv)
     // show the whole scene
     mgr->showAll();
     
+    // OpenGL info
+    GLint val;
+    
+#define cv(v)\
+    glGetIntegerv((v),&val);\
+    printf("%s: %d\n", #v, val)
+    
+    cv(GL_RED_BITS);
+    cv(GL_GREEN_BITS);
+    cv(GL_BLUE_BITS);
+    cv(GL_DEPTH_BITS);
+    
+    glEnable(GL_DEPTH_TEST);
+    
     // GLUT main loop
     glutMainLoop();
 

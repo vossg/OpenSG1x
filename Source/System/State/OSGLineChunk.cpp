@@ -54,53 +54,66 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::LineChunk
-    \ingroup StateChunks
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-The line chunk contains the parameters that are specific set for lines.
+/*! \class osg::LineChunk
+    \ingroup GrpSystemState
+
+See \ref PageSystemLineChunk for details.
+
 */
 
 
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
 StateChunkClass LineChunk::_class("Line");
 
-/*----------------------- constructors & destructors ----------------------*/
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-//! Constructor
+void LineChunk::initMethod (void)
+{
+    Inherited::initMethod();
+}
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
 
 LineChunk::LineChunk(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 LineChunk::LineChunk(const LineChunk &source) :
     Inherited(source)
 {
 }
 
-//! Destructor
-
 LineChunk::~LineChunk(void)
 {
 }
 
-/*----------------------------- class specific ----------------------------*/
-
-//! initialize the static features of the class, e.g. action callbacks
-
-void LineChunk::initMethod (void)
-{
-}
-
-//! react to field changes
+/*------------------------------- Sync -----------------------------------*/
 
 void LineChunk::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
-//! output the instance for debug purposes
+/*------------------------------ Output ----------------------------------*/
 
 void LineChunk::dump(      UInt32    , 
                          const BitVector ) const
@@ -109,7 +122,7 @@ void LineChunk::dump(      UInt32    ,
 }
 
 
-/*-------------------------- your_category---------------------------------*/
+/*------------------------------ State ------------------------------------*/
 
 void LineChunk::activate(DrawActionBase *, UInt32)
 {
@@ -155,7 +168,7 @@ void LineChunk::deactivate ( DrawActionBase *, UInt32 )
     }
 }
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------- Comparison -----------------------------------*/
 
 Real32 LineChunk::switchCost(StateChunk *)
 {
@@ -177,7 +190,15 @@ bool LineChunk::operator == (const StateChunk &other) const
 {
     LineChunk const *tother = dynamic_cast<LineChunk const*>(&other);
 
-    if ( !tother )
+    if(!tother)
+        return false;
+
+    if(tother == this)
+        return true;
+
+    if(getWidth()          != tother->getWidth()          ||
+       getStipplePattern() != tother->getStipplePattern() ||
+       getSmooth()         != tother->getSmooth()           )
         return false;
 
     return true;
@@ -209,3 +230,8 @@ namespace
     static char cvsid_hpp[] = OSGLINECHUNK_HEADER_CVSID;
     static char cvsid_inl[] = OSGLINECHUNK_INLINE_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+

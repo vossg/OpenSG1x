@@ -52,7 +52,7 @@ OSG_BEGIN_NAMESPACE
 
 class TypeBase;
 
-/*! \ingroup BaseBaseTypeSystem
+/*! \ingroup GrpBaseBaseTypeSystem
  */
 
 class OSG_BASE_DLLMAPPING TypeFactory

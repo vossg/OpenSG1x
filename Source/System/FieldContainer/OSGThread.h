@@ -67,7 +67,7 @@ class ChangeList;
 //---------------------------------------------------------------------------
 
 //! ThreadCommonBase
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class OSG_SYSTEMLIB_DLLMAPPING ThreadCommonBase : public BaseThread
 {
@@ -140,7 +140,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ThreadCommonBase : public BaseThread
 #ifdef OSG_USE_PTHREADS
 
 //! PThreadBase
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class PThreadBase : public ThreadCommonBase
 {
@@ -243,7 +243,7 @@ typedef PThreadBase ThreadBase;
 #ifdef OSG_USE_SPROC
 
 //! SprocBase
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class SprocBase : public ThreadCommonBase
 {
@@ -333,7 +333,7 @@ typedef SprocBase ThreadBase;
 #ifdef OSG_USE_WINTHREADS
 
 //! WinThreadBase
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class OSG_SYSTEMLIB_DLLMAPPING WinThreadBase : public ThreadCommonBase
 {
@@ -433,7 +433,7 @@ typedef WinThreadBase ThreadBase;
 //---------------------------------------------------------------------------
 
 //! Thread
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
 {
@@ -516,7 +516,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
 //---------------------------------------------------------------------------
 
 //! ExternalThread
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class OSG_SYSTEMLIB_DLLMAPPING ExternalThread : public ThreadBase
 {

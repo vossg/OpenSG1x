@@ -52,16 +52,16 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \file OSGBaseFieldDataType.h
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief OpenSG Base Field Data Types  
 */
 
 /*! \brief Color3f field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -143,9 +143,9 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> :
 
 
 /*! \brief Color4f field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -232,9 +232,9 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> :
 
 
 /*! \brief Color3ub field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -314,9 +314,9 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> :
 
 
 /*! \brief Color4ub field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -403,9 +403,9 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
 
 
 /*! \brief string field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -501,9 +501,9 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<std::string> :
 
 
 /*! \brief Time field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -577,9 +577,9 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> :
 
 
 /*! \brief DynamicVolume field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -862,9 +862,9 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
 };
 
 /*! \brief BitVector field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -933,9 +933,9 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> :
 
 
 /*! \brief Plane field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>

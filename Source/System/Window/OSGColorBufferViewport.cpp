@@ -51,7 +51,9 @@
 OSG_USING_NAMESPACE
 
 /*! \class osg::ColorBufferViewport
-A Viewport is a part of the Window it is attached to used for rendering. Every Window can hold an arbitrary number of viewports.
+    \ingroup GrpSystemWindowViewports
+    
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/

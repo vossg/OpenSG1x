@@ -73,7 +73,7 @@ int main( int argc, char *argv[] )
 
     std::cerr << "Transform chunk class: " << tchunk->getClass()->getName()
               << ", id "
-              << tchunk->getClassID() << ", numslots "
+              << tchunk->getClassId() << ", numslots "
               << tchunk->getClass()->getNumSlots()
               << std::endl;
 
@@ -86,7 +86,7 @@ int main( int argc, char *argv[] )
 
     std::cerr << "Material chunk class: " << mchunk->getClass()->getName()
               << ", id "
-              << mchunk->getClassID() << ", numslots "
+              << mchunk->getClassId() << ", numslots "
               << tchunk->getClass()->getNumSlots()
               << std::endl;
 
@@ -107,7 +107,7 @@ int main( int argc, char *argv[] )
 
     std::cerr << "Light chunk class: " 
               << lchunk->getClass()->getName() << ", id "
-              << lchunk->getClassID() << ", numslots "
+              << lchunk->getClassId() << ", numslots "
               << lchunk->getClass()->getNumSlots()
               << std::endl;
 
@@ -143,7 +143,7 @@ int main( int argc, char *argv[] )
 
     std::cerr << "Texture chunk class: " << xchunk->getClass()->getName()
               << ", id "
-              << xchunk->getClassID() << ", numslots "
+              << xchunk->getClassId() << ", numslots "
               << xchunk->getClass()->getNumSlots()
               << std::endl;
 

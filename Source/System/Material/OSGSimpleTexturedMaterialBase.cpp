@@ -133,7 +133,6 @@ FieldDescription *SimpleTexturedMaterialBase::_desc[] =
                      (FieldAccessMethod) &SimpleTexturedMaterialBase::getSFEnvMap)
 };
 
-//! SimpleTexturedMaterial type
 
 FieldContainerType SimpleTexturedMaterialBase::_type(
     "SimpleTexturedMaterial",
@@ -182,8 +181,6 @@ void SimpleTexturedMaterialBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -202,8 +199,6 @@ SimpleTexturedMaterialBase::SimpleTexturedMaterialBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 SimpleTexturedMaterialBase::SimpleTexturedMaterialBase(const SimpleTexturedMaterialBase &source) :
     _sfImage                  (source._sfImage                  ), 
     _sfMinFilter              (source._sfMinFilter              ), 
@@ -215,8 +210,6 @@ SimpleTexturedMaterialBase::SimpleTexturedMaterialBase(const SimpleTexturedMater
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 SimpleTexturedMaterialBase::~SimpleTexturedMaterialBase(void)
 {
@@ -354,7 +347,9 @@ void SimpleTexturedMaterialBase::executeSyncImpl(      SimpleTexturedMaterialBas
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SimpleTexturedMaterialPtr>::_type("SimpleTexturedMaterialPtr", "SimpleMaterialPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

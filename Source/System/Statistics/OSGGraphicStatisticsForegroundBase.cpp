@@ -53,8 +53,6 @@
 
 #define OSG_COMPILEGRAPHICSTATISTICSFOREGROUNDINST
 
-#ifndef WIN32
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -253,7 +251,6 @@ FieldDescription *GraphicStatisticsForegroundBase::_desc[] =
                      (FieldAccessMethod) &GraphicStatisticsForegroundBase::getSFBorderEnabled)
 };
 
-//! GraphicStatisticsForeground type
 
 FieldContainerType GraphicStatisticsForegroundBase::_type(
     "GraphicStatisticsForeground",
@@ -302,8 +299,6 @@ void GraphicStatisticsForegroundBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -333,8 +328,6 @@ GraphicStatisticsForegroundBase::GraphicStatisticsForegroundBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 GraphicStatisticsForegroundBase::GraphicStatisticsForegroundBase(const GraphicStatisticsForegroundBase &source) :
     _mfDisplayType            (source._mfDisplayType            ), 
     _mfSize                   (source._mfSize                   ), 
@@ -357,8 +350,6 @@ GraphicStatisticsForegroundBase::GraphicStatisticsForegroundBase(const GraphicSt
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 GraphicStatisticsForegroundBase::~GraphicStatisticsForegroundBase(void)
 {
@@ -694,7 +685,9 @@ void GraphicStatisticsForegroundBase::executeSyncImpl(      GraphicStatisticsFor
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<GraphicStatisticsForegroundPtr>::_type("GraphicStatisticsForegroundPtr", "StatisticsForegroundPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(GraphicStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(GraphicStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -722,4 +715,3 @@ namespace
     static Char8 cvsid_fields_hpp[] = OSGGRAPHICSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID;
 }
 
-#endif

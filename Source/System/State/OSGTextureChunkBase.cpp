@@ -226,7 +226,6 @@ FieldDescription *TextureChunkBase::_desc[] =
                      (FieldAccessMethod) &TextureChunkBase::getSFGLId)
 };
 
-//! TextureChunk type
 
 FieldContainerType TextureChunkBase::_type(
     "TextureChunk",
@@ -275,8 +274,6 @@ void TextureChunkBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -303,8 +300,6 @@ TextureChunkBase::TextureChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfImage                  (source._sfImage                  ), 
     _sfInternalFormat         (source._sfInternalFormat         ), 
@@ -324,8 +319,6 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 TextureChunkBase::~TextureChunkBase(void)
 {
@@ -607,7 +600,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<TextureChunkPtr>::_type("TextureChunkPtr", "StateChunkPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

@@ -49,7 +49,7 @@
 OSG_BEGIN_NAMESPACE
 
 //! Parser / Scanner Skeleton for VRML97 syntax based file formats 
-//! \ingroup GeometryLoaderLib 
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib 
 
 class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 {

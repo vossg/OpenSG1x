@@ -108,7 +108,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
     virtual void getFrustum              (FrustumVolume &result,
                                           const Viewport& port);
     
-   
+    /* get it all in a nice package */
+    
+    virtual void getWorldToScreen        (Matrix        &result, 
+                                          const Viewport& port);
+    
     /* calc a ray from the eye through the given pixel into the scene */
     /* pixel are from top-left */
     bool calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port);

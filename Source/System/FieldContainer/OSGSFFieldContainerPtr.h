@@ -47,8 +47,8 @@
 #include <OSGFieldContainerFieldDataType.h>
 
 /** \file OSGSFFieldContainerPtr.h
- *  \ingroup FieldLib
- *  \ingroup SingleFields
+ *  \ingroup GrpBaseField
+ *  \ingroup GrpBaseFieldSingle
  *  \brief OpenSG field container single fields
  *
  * <UL>

@@ -50,7 +50,7 @@
 OSG_BEGIN_NAMESPACE
 
 /*! ComponentTransform provides a vrml style transformation.
- *  \ingroup NodesLib
+ *  \ingroup GrpSystemNodeCoresMisc
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform : 

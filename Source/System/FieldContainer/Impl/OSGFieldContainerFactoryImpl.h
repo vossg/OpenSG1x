@@ -58,7 +58,7 @@ class FieldContainerType;
 //---------------------------------------------------------------------------
 
 //! FieldContainerMapper
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 struct OSG_SYSTEMLIB_DLLMAPPING FieldContainerMapper
 {
@@ -70,7 +70,7 @@ struct OSG_SYSTEMLIB_DLLMAPPING FieldContainerMapper
 //---------------------------------------------------------------------------
 
 //!  \brief FieldContainerFactory
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 {

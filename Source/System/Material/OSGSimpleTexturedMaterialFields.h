@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class SimpleTexturedMaterial;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! SimpleTexturedMaterialPtr
 
 typedef FCPtr<SimpleMaterialPtr, SimpleTexturedMaterial> SimpleTexturedMaterialPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief SimpleTexturedMaterialPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<SimpleTexturedMaterialPtr> :
     static char     *getSName(void) { return "SFSimpleTexturedMaterialPtr"; }
     static char     *getMName(void) { return "MFSimpleTexturedMaterialPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFSimpleTexturedMaterialPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<SimpleTexturedMaterialPtr> SFSimpleTexturedMaterialPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPP
 #endif
 
 //! MFSimpleTexturedMaterialPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<SimpleTexturedMaterialPtr> MFSimpleTexturedMaterialPtr;
 

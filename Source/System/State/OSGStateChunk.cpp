@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright(C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -53,16 +53,10 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup StateChunks OpenSG State Lib
-    \ingroup StateLib
-
-The StateChunk encapsulates a logical part of the OpenGL state.
-
-*/
-
 /*! \class osg::StateChunk
-
-The state chunk base class.
+    \ingroup GrpSystemState
+    
+The state chunk base class. See \ref PageSystemStateChunk for the conceptual background. 
 
 */
 
@@ -70,15 +64,48 @@ The state chunk base class.
  *                               Types                                     *
 \***************************************************************************/
 
+/*! \class osg::StateChunkClass
+    \ingroup GrpSystemState
 
-// StateChunkClass code
+The classification class for StateChunks. See \ref PageSystemStateChunkClass for the
+conceptual background.
+
+*/
+
+/*! \var osg::StateChunkClass::_classId
+    The numerical ID associated with each StateChunkClass. It is used to
+    uniquely identify and quickly compare the class.
+    
+    \dev The classId is consecutive in the number of slots allocated to the
+    chunk class, i.e. if a class has id 4 and 4 chunks, the next registered
+    class will get id 8. The classId is used as an index into the osg::State's
+    chunk vector, which necessitates this behaviour. \enddev
+*/   
+
+/*! The global vector of known StateChunkClasses' names. Use
+    StateChunkClass::getName with the Classes ID to access it.
+    
+    \dev See the osg::StateChunkClass::_classId for details. \enddev
+*/   
 
 std::vector<std::string> *StateChunkClass::_classNames = NULL;
-std::vector<     UInt32> *StateChunkClass::_numslots   = NULL;
 
-StateChunkClass::StateChunkClass( Char8 *name, UInt32 numslots )
+/*! The global vector of known StateChunkClasses' number of concurrently
+    active slots. Use StateChunkClass::getNumSlots with the Class's ID to access
+    it.
+    
+    \dev See the osg::StateChunkClass::_classId for details. \enddev
+*/   
+
+std::vector<UInt32> *StateChunkClass::_numslots   = NULL;
+
+/*! Constructor. The name is mandatory, the number of concurrently active slots
+    is optional, default is 1. 
+*/
+
+StateChunkClass::StateChunkClass(Char8 *name, UInt32 numslots)
 {
-    if ( ! _classNames )
+    if(!_classNames)
     {
         _classNames = new std::vector<std::string>(0);
         _numslots   = new std::vector<     UInt32>(0);
@@ -86,56 +113,69 @@ StateChunkClass::StateChunkClass( Char8 *name, UInt32 numslots )
 
     _classId = _classNames->size();
 
-    for ( unsigned i = 0; i < numslots; i++ )
+    for(unsigned i = 0; i < numslots; i++)
     {
         _classNames->push_back(std::string(name));
-        _numslots->push_back  (numslots);
+        _numslots->push_back (numslots);
     }
 }
 
-StateChunkClass::iterator StateChunkClass::begin( void )
-{
-    return _classNames->begin();
-}
-
-StateChunkClass::iterator StateChunkClass::end( void )
-{
-    return _classNames->end();
-}
-
-// instance access
-
-UInt32 StateChunkClass::getID( void ) const
+UInt32 StateChunkClass::getId(void) const
 {
     return _classId;
 }
 
-Int32 StateChunkClass::getNumSlots( void ) const
+const Char8 *StateChunkClass::getName(void) const
 {
-    return (*_numslots)[_classId];
+    return(*_classNames)[_classId].c_str();
 }
 
-const Char8 *StateChunkClass::getName( void ) const
+Int32 StateChunkClass::getNumSlots(void) const
 {
-    return (*_classNames)[_classId].c_str();
+    return(*_numslots)[_classId];
 }
 
-// static access
+/*! Access the name for the class whose id is index. 
+*/
 
-Int32 StateChunkClass::getNumSlots( UInt32 index )
+const Char8 *StateChunkClass::getName(UInt32 index)
 {
-    if ( index >= (*_numslots).size() )
-        return -1;
-
-    return (*_numslots)[index];
-}
-
-const Char8 *StateChunkClass::getName( UInt32 index )
-{
-    if ( index >= (*_classNames).size() )
+    if(index >=(*_classNames).size())
             return "<Unknown StatChunkClass!>";
 
-    return (*_classNames)[index].c_str();
+    return(*_classNames)[index].c_str();
+}
+
+/*! Access the number of slots for the class whose id is index. 
+*/
+
+Int32 StateChunkClass::getNumSlots(UInt32 index)
+{
+    if(index >=(*_numslots).size())
+        return -1;
+
+    return(*_numslots)[index];
+}
+
+/*! \var osg::StateChunkClass::iterator
+
+    Iterator type to access the chunk class list.
+*/
+
+/*! Iterator to allow access to all known StateChunkClasses. 
+*/
+
+StateChunkClass::iterator StateChunkClass::begin(void)
+{
+    return _classNames->begin();
+}
+
+/*! Iterator to allow access to all known StateChunkClasses. 
+*/
+
+StateChunkClass::iterator StateChunkClass::end(void)
+{
+    return _classNames->end();
 }
 
 
@@ -149,30 +189,7 @@ char StateChunk::cvsid[] = "@(#)$Id: $";
  *                           Class methods                                 *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
-
-void StateChunk::initMethod (void)
+void StateChunk::initMethod(void)
 {
 }
 
@@ -187,41 +204,27 @@ void StateChunk::initMethod (void)
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
-
 StateChunk::StateChunk(void) :
     Inherited()
 {
 }
-
-/** \brief Copy Constructor
- */
 
 StateChunk::StateChunk(const StateChunk &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 StateChunk::~StateChunk(void)
 {
 }
 
-
-/** \brief react to field changes
- */
+/*------------------------------- Sync -----------------------------------*/
 
 void StateChunk::changed(BitVector, UInt32)
 {
 }
 
-/*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
+/*------------------------------ Output ----------------------------------*/
 
 void StateChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
                       const BitVector OSG_CHECK_ARG(bvFlags )) const
@@ -230,11 +233,26 @@ void StateChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 }
 
 
-/*---------------------------- properties ---------------------------------*/
+/*------------------------------ State ------------------------------------*/
 
-const StateChunkClass *  StateChunk::getClass( void ) const
+void StateChunk::activate(DrawActionBase *OSG_CHECK_ARG(action), 
+                          UInt32          OSG_CHECK_ARG(index ))
 {
-    return NULL;
+    FWARNING(("StateChunk::activate called!\n"));
+}
+
+void StateChunk::changeFrom(DrawActionBase *action, 
+                            StateChunk     *old, 
+                            UInt32          index)
+{
+    old->deactivate(action, index);
+    activate(action, index);
+}
+
+void StateChunk::deactivate(DrawActionBase *OSG_CHECK_ARG(action), 
+                            UInt32          OSG_CHECK_ARG(index))
+{
+    FWARNING(("StateChunk::deactivate called!\n"));
 }
 
 bool StateChunk::isTransparent(void) const
@@ -242,64 +260,31 @@ bool StateChunk::isTransparent(void) const
     return false;
 }
 
-/*-------------------------- your_category---------------------------------*/
+/*---------------------- Chunk Class Access -------------------------------*/
 
-void StateChunk::activate(DrawActionBase *OSG_CHECK_ARG(action), 
-                          UInt32          OSG_CHECK_ARG(index ))
+const StateChunkClass *StateChunk::getClass(void) const
 {
+    return NULL;
 }
 
-void StateChunk::changeFrom(DrawActionBase *action, 
-                            StateChunk     *old, 
-                            UInt32          index)
-{
-    old->deactivate( action, index );
-    activate( action, index );
-}
-
-void StateChunk::deactivate(DrawActionBase *OSG_CHECK_ARG(action), 
-                            UInt32          OSG_CHECK_ARG(index ))
-{
-}
-
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------- Comparison -----------------------------------*/
 
 Real32 StateChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
 }
 
-/** \brief assignment
- */
-
-bool StateChunk::operator < (const StateChunk &other) const
+bool StateChunk::operator <(const StateChunk &other) const
 {
     return this < &other;
 }
 
-/** \brief equal
- */
-
-bool StateChunk::operator == (const StateChunk &OSG_CHECK_ARG(other)) const
+bool StateChunk::operator ==(const StateChunk &OSG_CHECK_ARG(other)) const
 {
     return false;
 }
 
-/** \brief unequal
- */
-
-bool StateChunk::operator != (const StateChunk &other) const
+bool StateChunk::operator !=(const StateChunk &other) const
 {
-    return ! (*this == other);
+    return !(*this == other);
 }
-
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-

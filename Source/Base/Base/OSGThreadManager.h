@@ -65,7 +65,7 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 //! MPFieldStore
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 template <class MPFieldT>
 class MPFieldStore
@@ -157,7 +157,7 @@ class MPFieldStore
 //---------------------------------------------------------------------------
 
 //! ThreadManager
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class OSG_BASE_DLLMAPPING ThreadManager
 {

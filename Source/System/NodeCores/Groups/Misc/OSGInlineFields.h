@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Inline;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! InlinePtr
 
 typedef FCPtr<NodeCorePtr, Inline> InlinePtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief InlinePtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<InlinePtr> :
     static char     *getSName(void) { return "SFInlinePtr"; }
     static char     *getMName(void) { return "MFInlinePtr"; }
 };
+#endif             // exclude from doc
 
 //! SFInlinePtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<InlinePtr> SFInlinePtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFInlinePtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<InlinePtr> MFInlinePtr;
 

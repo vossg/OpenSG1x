@@ -47,7 +47,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-struct GeoIndicesUI32PropertyDesc
+struct GeoIndicesUI32PropertyDesc : public GeoIndicesPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -90,7 +90,9 @@ struct GeoIndicesUI32PropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoIndicesUI32PropertyDesc> GeoIndicesUI32;
+#endif
 
 
 #ifndef OSG_COMPILEGEOPROPINDEXINST

@@ -1,0 +1,15 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \defgroup GrpSystemRenderingBackend Rendering Backend
+    \ingroup GrpSystem
+    
+Rendering Backend.
+
+See \ref PageSystemSystemRenderingBackend for details.
+*/
+
+/*! \page PageSystemRenderingBackend Rendering Backend
+
+*/

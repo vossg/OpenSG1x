@@ -65,8 +65,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \class StreamSocket
- *  \ingroup Network
+/** \class osg::StreamSocket
+ *  \ingroup GrpBaseNetwork
  *  \brief Stream socket handler
  *  \author Marcus Roth
  *

@@ -36,16 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-/*! \page vecpointmat Vector, Point and Matrix Design
- *  to be done soon, so stay tuned :-)) (GV)
- *
- * Important :
- *
- * \li vectors and points are different classes
- * \li M * v | M * p semantics
- * \li M transposed is stored
- */
-
 #include <stdio.h>
 
 OSG_BEGIN_NAMESPACE

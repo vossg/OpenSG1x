@@ -1,0 +1,93 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \defgroup GrpSystemNodeCoresGroups Groups
+    \ingroup GrpSystemNodeCores
+    
+See \ref PageSystemNCGroups for details.
+ 
+*/
+
+/*! \page PageSystemNCGroups Groups
+
+\latexonly Starter:NewChapter \endlatexonly
+
+Groups are all the NodeCores who can be used as interior nodes in the graph.
+These nodes can have and actually use their children.
+
+\section NCGroupsGroup Group
+
+A Group is the simplest NodeCore, it doesn't do much. If asked to do something
+it calls its children to do the same thing, if asked for information it
+gathers it from the children. Really basic.
+
+\section NCGroupsSwitch Switch
+
+A Switch node allows to select one of its children for traversal instead of
+all of them (as for the other nodes).
+
+\section NCGroupsTransform Transform
+
+A Transform Core is the basic means of moving objects around the scene. It
+keeps a single Matrix that is applied to all its children.
+
+\section NCGroupsComponentTransform ComponentTransform
+
+A ComponentTransform is close to a Transform, but the transformation is
+defined in an easier to use way, the same way it is done in systems like
+OpenInventor or VRML. It consists of a center and a rotation around that
+center, followed by a scale relative to a given scaleOrientation, which is
+finally followed by a translation.
+
+\section NCGroupsDistanceLOD DistanceLOD
+
+Levels of Detail are a simple way of increasing rendering performance. The
+basic idea is to have a number of differently detailed versions of an object
+and use low-res versions for objects that are far away. 
+
+A DistanceLOD is the simplest version, which switches versions based on
+distance to the viewer. There is a distance associated with every child of the
+Node, the details follow the VRML specification.
+
+\section NCGroupsLights Lights
+
+A Light defines a source of light in the scene. Generally, two types of
+information are of interest: The position of the light source (geometry), and
+what elements of the scene are lit (semantics). Since the graph structure
+essentially describes the semantics of the scene, the node containing the
+Light describes what is lit: The subgraph attached to the Light. Necessarily,
+the position in space of a Light has to be defined by other means than the
+accumulated transform to the Light's node as the subgraphs position and
+orientation might coincide with the light source's.
+
+To define the position and orientation of the light a separate node, a beacon,
+is used. The light has a SFNodePtr to reference the beacon, which can be
+anywhere in the scene. A light is positioned in the coordinate system of the
+beacon. Tip: Using the beacon of the camera (see [sec:camera]) as the beacon
+of a light source creates a headlight.
+
+Every light is closely related to OpenGL's light specification. It has a
+diffuse, specular and ambient color.
+
+Additionally it can be switched on and off using the on field.
+
+\subsection NCGroupsDirectionalLight DirectionalLight
+
+The DirectionalLight just has a direction. To use it as a headlight use
+(0,0,-1) as a direction.
+
+\subsection NCGroupsPointLight PointLight
+
+The Pointlight has a position to define its location. In addition, as it
+really is located in the scene, it has an attenuation parameters to change the
+light's intensity depending on the distance to the light.
+
+\subsection NCGroupsSpotLight SpotLight
+
+The SpotLight adds a direction to the PointLight and a spotCutOff angle to
+define the area that's lit. To define the light intensity fallof within that
+area the spotExponent field is used.
+
+
+*/

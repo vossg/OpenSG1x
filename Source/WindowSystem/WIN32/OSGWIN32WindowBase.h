@@ -112,7 +112,7 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32WindowBase : public Window
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

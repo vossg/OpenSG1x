@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Window;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! WindowPtr
 
 typedef FCPtr<AttachmentContainerPtr, Window> WindowPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief WindowPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<WindowPtr> :
     static char     *getSName(void) { return "SFWindowPtr"; }
     static char     *getMName(void) { return "MFWindowPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFWindowPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<WindowPtr> SFWindowPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFWindowPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<WindowPtr> MFWindowPtr;
 

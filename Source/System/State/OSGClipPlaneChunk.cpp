@@ -43,17 +43,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define OSG_COMPILELIB
-
 #include <OSGConfig.h>
+
+#include <OSGGL.h>
 
 #include <OSGDrawActionBase.h>
 #include <OSGRenderAction.h>
 #include <OSGCamera.h>
 
 #include "OSGClipPlaneChunk.h"
-
-#include <OSGGL.h>
 
 
 
@@ -67,63 +65,65 @@
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
 /*! \class osg::ClipPlaneChunk
-The clipPlane chunk contains the parameter that is specific set for clip planes.
+    \ingroup GrpSystemState
+    
+See \ref PageSystemClipPlaneChunk for details.
+
 */
 
-/*----------------------- class variables ---------------------------------*/
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
    
 StateChunkClass ClipPlaneChunk::_class("ClipPlane", 4);
 
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                 -
+\*-------------------------------------------------------------------------*/
    
 /*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
 
 ClipPlaneChunk::ClipPlaneChunk(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 ClipPlaneChunk::ClipPlaneChunk(const ClipPlaneChunk &source) :
     Inherited(source)
 {
 }
 
-//! Destructor
-
 ClipPlaneChunk::~ClipPlaneChunk(void)
 {
 }
 
-/*----------------------------- class specific ----------------------------*/
-
-//! initialize the static features of the class, e.g. action callbacks
-
-void ClipPlaneChunk::initMethod (void)
-{
-}
-
-//! react to field changes
+/*------------------------------- Sync -----------------------------------*/
 
 void ClipPlaneChunk::changed(BitVector, UInt32)
 {
 }
 
-//! output the instance for debug purposes
+/*------------------------------ Output ----------------------------------*/
 
 void ClipPlaneChunk::dump(      UInt32    , 
-                         const BitVector ) const
+                          const BitVector) const
 {
     SLOG << "Dump ClipPlaneChunk NI" << std::endl;
 }
 
 
-/*-------------------------- your_category---------------------------------*/
+/*------------------------------ State ------------------------------------*/
 
-void ClipPlaneChunk::activate ( DrawActionBase *action, UInt32 idx)
+void ClipPlaneChunk::activate(DrawActionBase *action, UInt32 idx)
 {
 //    SWARNING << "ClipPlaneChunk::activate(idx:" << idx << ") : " << this << std::endl;
 
@@ -161,7 +161,7 @@ void ClipPlaneChunk::activate ( DrawActionBase *action, UInt32 idx)
 //    SWARNING << "productMat:" << std::endl << cameraMat << std::endl;
 
     
-    if ( _sfEnable.getValue() != GL_FALSE )
+    if(_sfEnable.getValue() != GL_FALSE)
     {
         GLdouble glEq[4];
         Vec4f   & eq = _sfEquation.getValue();
@@ -174,8 +174,8 @@ void ClipPlaneChunk::activate ( DrawActionBase *action, UInt32 idx)
         glPushMatrix();
         glLoadMatrixf(cameraMat.getValues());
         
-        glClipPlane( GL_CLIP_PLANE0 + idx, glEq );
-        glEnable( GL_CLIP_PLANE0 + idx );
+        glClipPlane( GL_CLIP_PLANE0 + idx, glEq);
+        glEnable( GL_CLIP_PLANE0 + idx);
         
         glPopMatrix();
 	
@@ -186,7 +186,8 @@ void ClipPlaneChunk::activate ( DrawActionBase *action, UInt32 idx)
 
 
 
-void ClipPlaneChunk::changeFrom( DrawActionBase *action, StateChunk * old_chunk, UInt32 idx)
+void ClipPlaneChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk, 
+                                UInt32 idx)
 {
 //    SWARNING << "ClipPlaneChunk::changeFrom(idx:" << idx << ") : " << this << std::endl;
 
@@ -194,7 +195,7 @@ void ClipPlaneChunk::changeFrom( DrawActionBase *action, StateChunk * old_chunk,
 
     // change from me to me?
     // this assumes I haven't changed in the meantime. is that a valid assumption?
-    if ( old == this )
+    if(old == this)
         return;
 
 
@@ -231,11 +232,11 @@ void ClipPlaneChunk::changeFrom( DrawActionBase *action, StateChunk * old_chunk,
 //    SWARNING << "productMat:" << std::endl << cameraMat << std::endl;
     
     
-    if ( _sfEnable.getValue() != old->_sfEnable.getValue() )
+    if(_sfEnable.getValue() != old->_sfEnable.getValue())
     {
 //        SWARNING << " - SOMETHING is different" << std::endl;
 	    
-        if ( _sfEnable.getValue() != GL_FALSE )
+        if(_sfEnable.getValue() != GL_FALSE)
         {
 	    GLdouble glEq[4];
 	    Vec4f   & eq = _sfEquation.getValue();
@@ -248,8 +249,8 @@ void ClipPlaneChunk::changeFrom( DrawActionBase *action, StateChunk * old_chunk,
 	    glPushMatrix();
 	    glLoadMatrixf(cameraMat.getValues());
 	
-	    glClipPlane( GL_CLIP_PLANE0 + idx, glEq );
-	    glEnable( GL_CLIP_PLANE0 + idx );
+	    glClipPlane( GL_CLIP_PLANE0 + idx, glEq);
+	    glEnable( GL_CLIP_PLANE0 + idx);
 
 	    glPopMatrix();
 
@@ -257,7 +258,7 @@ void ClipPlaneChunk::changeFrom( DrawActionBase *action, StateChunk * old_chunk,
 	}
         else  
         {
-	    glDisable( GL_CLIP_PLANE0 + idx );
+	    glDisable( GL_CLIP_PLANE0 + idx);
 
 //            SWARNING << " - DISABLED plane" << std::endl;
         }
@@ -269,58 +270,49 @@ void ClipPlaneChunk::changeFrom( DrawActionBase *action, StateChunk * old_chunk,
 }
 
 
-void ClipPlaneChunk::deactivate ( DrawActionBase *, UInt32 idx)
+void ClipPlaneChunk::deactivate(DrawActionBase *, UInt32 idx)
 {
 //    SWARNING << "ClipPlaneChunk::deactivate(idx:" << idx << ") : " << this << std::endl;
 
-    if ( _sfEnable.getValue() != GL_FALSE )
+    if(_sfEnable.getValue() != GL_FALSE)
     {
-        glDisable( GL_CLIP_PLANE0 + idx );
+        glDisable( GL_CLIP_PLANE0 + idx);
 
 //        SWARNING << " - DISABLED plane" << std::endl;
     }
 }
 
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------- Comparison -----------------------------------*/
 
 Real32 ClipPlaneChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
 }
 
-/** \brief assignment
- */
-
 bool ClipPlaneChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
 
-/** \brief equal
- */
-
 bool ClipPlaneChunk::operator == (const StateChunk &other) const
 {
     ClipPlaneChunk const *tother = dynamic_cast<ClipPlaneChunk const*>(&other);
 
-    if ( !tother )
+    if(!tother)
         return false;
 
-    if ( _sfEnable.getValue() != tother->_sfEnable.getValue() )
+    if(_sfEnable.getValue() != tother->_sfEnable.getValue())
         return false;
 
-    if ( _sfEquation.getValue() != tother->_sfEquation.getValue() )
+    if(_sfEquation.getValue() != tother->_sfEquation.getValue())
         return false;
 
-    if ( _sfBeacon.getValue() != tother->_sfBeacon.getValue() )
+    if(_sfBeacon.getValue() != tother->_sfBeacon.getValue())
         return false;
     
     return true;
 }
-
-/** \brief unequal
- */
 
 bool ClipPlaneChunk::operator != (const StateChunk &other) const
 {
@@ -336,14 +328,14 @@ bool ClipPlaneChunk::operator != (const StateChunk &other) const
 #endif
 
 #ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
+#pragma warning( disable : 177)
 #endif
 
 namespace
 {
     static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
-    static Char8 cvsid_hpp       [] = OSGCLIPPLANECHUNKBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGCLIPPLANECHUNKBASE_INLINE_CVSID;
+    static Char8 cvsid_hpp       [] = OSGCLIPPLANECHUNK_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGCLIPPLANECHUNK_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCLIPPLANECHUNKFIELDS_HEADER_CVSID;
 }

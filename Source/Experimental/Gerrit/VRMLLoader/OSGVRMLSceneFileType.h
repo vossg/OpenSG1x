@@ -52,7 +52,7 @@ class VRMLLoader;
 class VRMLToOSGAction;
 
 //! VRML97 SceneFileType
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_VRML_DLLMAPPING VRMLSceneFileType : public SceneFileType
 {

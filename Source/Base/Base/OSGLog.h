@@ -48,13 +48,13 @@
 #include <fstream>
 #include <list>
 
-/*! \defgroup Log Log
-    \ingroup Base
+/*! \defgroup GrpBaseLog Log
+    \ingroup GrpBase
  */
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup Log
+/*! \ingroup GrpBaseLog
     \brief Log types
  */
 
@@ -67,7 +67,7 @@ enum LogType
     LOG_BUFFER = 4
 };
 
-/*! \ingroup Log
+/*! \ingroup GrpBaseLog
     \brief Log Levels
  */
 
@@ -81,7 +81,7 @@ enum LogLevel
     LOG_DEBUG   = 5
 };
 
-/*! \ingroup Log
+/*! \ingroup GrpBaseLog
     \brief Log Header Element
  */
 
@@ -98,7 +98,7 @@ enum LogHeaderElem
     LOG_ALL_HEADER           = 127
 };
 
-/*! \ingroup Log
+/*! \ingroup GrpBaseLog
     \brief Log Module Handling
  */
 
@@ -111,7 +111,7 @@ enum LogModuleHandling
     LOG_MODULE_ALL            = 7
 };
 
-/*! \ingroup Log
+/*! \ingroup GrpBaseLog
     \brief Logger ostream, required to fix some problems between the different
            plattforms
  */
@@ -127,7 +127,7 @@ struct OSG_BASE_DLLMAPPING LogOStream : public std::ostream
     void setrdbuf(std::streambuf *buf);
 };
 
-/*! \ingroup Log
+/*! \ingroup GrpBaseLog
     \brief stream buf helper class; creates a chunk buffer of all messages
            which can ge fetched by a application (e.g. gui)
  */
@@ -214,7 +214,7 @@ class OSG_BASE_DLLMAPPING LogBuf : public std::streambuf
     
 };
 
-/*! \ingroup Log
+/*! \ingroup GrpBaseLog
  *  \brief Message logger class, handles info,warning and error messages
  */
 
@@ -423,35 +423,35 @@ inline              void          indentLog   (     UInt32        indent,
 
 
 /*! \brief SLOG
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define SLOG     \
     osgStartLog(true, OSG::LOG_LOG,     OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief SFATAL
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define SFATAL   \
     osgStartLog(true, OSG::LOG_FATAL,   OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief SWARNING
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define SWARNING \
     osgStartLog(true, OSG::LOG_WARNING, OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief SNOTICE
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define SNOTICE  \
     osgStartLog(true, OSG::LOG_NOTICE,  OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief SINFO
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define SINFO    \
@@ -459,35 +459,35 @@ inline              void          indentLog   (     UInt32        indent,
 
 
 /*! \brief PLOG
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define PLOG     \
     osgStartLog(false, OSG::LOG_LOG,     OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief PFATAL
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define PFATAL   \
     osgStartLog(false, OSG::LOG_FATAL,   OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief PWARNING
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define PWARNING \
     osgStartLog(false, OSG::LOG_WARNING, OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief PNOTICE
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define PNOTICE  \
     osgStartLog(false, OSG::LOG_NOTICE,  OSG_LOG_MODULE, __FILE__, __LINE__)
 
 /*! \brief PINFO
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define PINFO    \
@@ -499,7 +499,7 @@ inline              void          indentLog   (     UInt32        indent,
 // use the (( )) convention instead
 
 /*! \brief FLOG
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define FLOG(par)                                               \
@@ -515,7 +515,7 @@ inline              void          indentLog   (     UInt32        indent,
 }
 
 /*! \brief FFATAL
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define FFATAL(par)                                             \
@@ -534,7 +534,7 @@ inline              void          indentLog   (     UInt32        indent,
 }
 
 /*! \brief FWARNING
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define FWARNING(par)                                           \
@@ -553,7 +553,7 @@ inline              void          indentLog   (     UInt32        indent,
 }
 
 /*! \brief FNOTICE
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define FNOTICE(par)                                            \
@@ -572,7 +572,7 @@ inline              void          indentLog   (     UInt32        indent,
 }
 
 /*! \brief FINFO
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define FINFO(par)                                              \
@@ -591,7 +591,7 @@ inline              void          indentLog   (     UInt32        indent,
 }
 
 /*! \brief FDEBUG
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #ifdef OSG_DEBUG
@@ -613,7 +613,7 @@ inline              void          indentLog   (     UInt32        indent,
 #endif
 
 /*! \brief FASSERT
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define FASSERT(condition, doExit)                              \
@@ -637,7 +637,7 @@ inline              void          indentLog   (     UInt32        indent,
 }
 
 /*! \brief FFASSERT
-    \ingroup Log
+    \ingroup GrpBaseLog
 */
 
 #define FFASSERT(condition, doExit, par)                        \

@@ -115,7 +115,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

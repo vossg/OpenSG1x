@@ -48,7 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! \ingroup GeometryLib
+//! \ingroup GrpSystemNodeCoresDrawablesGeometry
 //! Multi/Single index dictionary
 
 struct IndexDic 
@@ -77,25 +77,25 @@ struct IndexDic
 /*! \{                                                                      */
 
 /*! \brief calculate vertex normals for the geometry. 
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometryFunctions
  */
 OSG_SYSTEMLIB_DLLMAPPING
 void calcVertexNormals(GeometryPtr geo);
 
 /*! \brief calculate vertex normals for the geometry, use creaseAngle to discrimnate
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometryFunctions
  */
 OSG_SYSTEMLIB_DLLMAPPING
 void calcVertexNormals( GeometryPtr geo,  Real32 creaseAngle );
 
 /*! \brief calculate face normals for the geometry
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometryFunctions
  */
 OSG_SYSTEMLIB_DLLMAPPING
 void calcFaceNormals( GeometryPtr geo );
 
 /*! \brief create the geometry index form the given FaceSet (VRML style) data 
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometryFunctions
  */
 OSG_SYSTEMLIB_DLLMAPPING
 Int32 setIndexFromVRMLData(      GeometryPtr    geo,
@@ -114,7 +114,7 @@ Int32 setIndexFromVRMLData(      GeometryPtr    geo,
 /*! \brief optimize the geo by creating strips and fans, 
  *  creates new index values but does not touch the property values
  *  returns the number of points to be transformed 
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometryFunctions
  */
 OSG_SYSTEMLIB_DLLMAPPING
 Int32 createOptimizedPrimitives (GeometryPtr geo,
@@ -125,7 +125,7 @@ Int32 createOptimizedPrimitives (GeometryPtr geo,
                                  bool        colorCode       = false );
 
 /*! \brief creates new index to share vertex property data
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometryFunctions
  */
 OSG_SYSTEMLIB_DLLMAPPING
 Int32 createSharedIndex ( GeometryPtr geo );
@@ -133,20 +133,20 @@ Int32 createSharedIndex ( GeometryPtr geo );
 /*! \brief creates a single index geo from multi(interleave) geo.
  *  function will change (copy/resort) the property values.
  *  returns the number of property values
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometryFunctions
  */
 OSG_SYSTEMLIB_DLLMAPPING
 Int32 createSingleIndex ( GeometryPtr geo );
 
 /*! \brief return the number of triangle/line/point elem 
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometryFunctions
  */
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 calcPrimitiveCount ( GeometryPtr geo,
                             UInt32 &triangle, UInt32 &line, UInt32 &point );
 
 /*! \brief merge the given geometries into a minimal number of nodes
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometryFunctions
  */
 OSG_SYSTEMLIB_DLLMAPPING
 void mergeGeometries(std::vector<NodePtr> &nodes, 
@@ -154,14 +154,14 @@ void mergeGeometries(std::vector<NodePtr> &nodes,
 
 
 /*! \brief create a geometry that shows the normals of the geometry
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometryFunctions
  */
 OSG_SYSTEMLIB_DLLMAPPING
 NodePtr getNormals( GeometryPtr geo, Real32 length );
 
 
 /*! \brief create a geometry that shows the face normals of another geometry
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometryFunctions
  */
 OSG_SYSTEMLIB_DLLMAPPING
 NodePtr getFaceNormals(GeometryPtr geo, Real32 length);

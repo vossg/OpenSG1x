@@ -116,10 +116,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
 
 
     static void registerEnterDefault (const FieldContainerType &type, 
-                                      const Functor            &func);
+                                      const Action::Functor    &func);
     
     static void registerLeaveDefault (const FieldContainerType &type, 
-                                      const Functor            &func);
+                                      const Action::Functor    &func);
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

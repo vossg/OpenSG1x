@@ -68,6 +68,12 @@
 
 OSG_USING_NAMESPACE
 
+
+/*! \class osg::MNGImageFileType 
+    \ingroup GrpSystemImage
+    
+*/
+
 /*****************************
  *   Types
  *****************************/

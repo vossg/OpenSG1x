@@ -66,12 +66,15 @@ OSG_BEGIN_NAMESPACE
 
 class ClipPlaneChunk;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ClipPlaneChunkPtr
 
 typedef FCPtr<StateChunkPtr, ClipPlaneChunk> ClipPlaneChunkPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief ClipPlaneChunkPtr field traits 
-    \ingroup FieldLib
 */
 
 template <>
@@ -83,6 +86,7 @@ struct FieldDataTraits<ClipPlaneChunkPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
+#endif             // exclude from doc
 
 
 OSG_END_NAMESPACE

@@ -54,8 +54,6 @@
 #include <OSGFieldDataType.h>
 
 
-/*! The field types for the local types needed by the XWindow class */
-
 OSG_BEGIN_NAMESPACE
 
 
@@ -148,32 +146,32 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<GLXContext> :
 };
 
 //! SFDisplayP
-//! \ingroup SingleFields
+//! \ingroup GrpBaseFieldSingle
 
 typedef SField<DisplayP> SFDisplayP;
 
 //! MFDisplayP
-//! \ingroup MultiFields
+//! \ingroup GrpBaseFieldMulti
 
 typedef MField<DisplayP> MFDisplayP;
 
 //! SFX11Window
-//! \ingroup SingleFields
+//! \ingroup GrpBaseFieldSingle
 
 typedef SField<X11Window> SFX11Window;
 
 //! MFX11Window
-//! \ingroup MultiFields
+//! \ingroup GrpBaseFieldMulti
 
 typedef MField<X11Window> MFX11Window;
 
 //! SFGLXContext
-//! \ingroup SingleFields
+//! \ingroup GrpBaseFieldSingle
 
 typedef SField<GLXContext> SFGLXContext;
 
 //! MFGLXContext
-//! \ingroup MultiFields
+//! \ingroup GrpBaseFieldMulti
 
 typedef MField<GLXContext> MFGLXContext;
 

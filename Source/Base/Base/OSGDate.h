@@ -49,7 +49,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup BaseBase
+/*! \ingroup GrpBaseBase
  */
 
 class OSG_BASE_DLLMAPPING Date

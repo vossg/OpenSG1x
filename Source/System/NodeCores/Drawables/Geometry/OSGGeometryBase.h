@@ -145,7 +145,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public Drawable
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

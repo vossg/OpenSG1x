@@ -49,7 +49,7 @@
 OSG_BEGIN_NAMESPACE
 
 //! Brief
-//! \ingroup baselib
+//! \ingroup GrpBaseStringConversion
 
 class OSG_BASE_DLLMAPPING StringConversionStateBase
 {

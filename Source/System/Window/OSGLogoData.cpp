@@ -51,6 +51,8 @@ OSG_USING_NAMESPACE
  */
  
 /*! \var osg::LogoData
+    \ingroup GrpSystemWindow
+    
     Binary data for a "Powered by OpenSG" logo image. Use with 
     ImageFileType::restore to turn it into an Image.
  */

@@ -163,7 +163,6 @@ FieldDescription *LightBase::_desc[] =
                      (FieldAccessMethod) &LightBase::getSFQuadraticAttenuation)
 };
 
-//! Light type
 
 FieldContainerType LightBase::_type(
     "Light",
@@ -203,8 +202,6 @@ void LightBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -226,8 +223,6 @@ LightBase::LightBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 LightBase::LightBase(const LightBase &source) :
     _sfAmbient                (source._sfAmbient                ), 
     _sfDiffuse                (source._sfDiffuse                ), 
@@ -242,8 +237,6 @@ LightBase::LightBase(const LightBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 LightBase::~LightBase(void)
 {
@@ -432,7 +425,9 @@ void LightBase::executeSyncImpl(      LightBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<LightPtr>::_type("LightPtr", "NodeCorePtr");
+#endif
 
 
 OSG_END_NAMESPACE

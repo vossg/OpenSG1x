@@ -86,7 +86,6 @@ FieldDescription *SwitchBase::_desc[] =
                      (FieldAccessMethod) &SwitchBase::getSFChoice)
 };
 
-//! Switch type
 
 FieldContainerType SwitchBase::_type(
     "Switch",
@@ -135,8 +134,6 @@ void SwitchBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -151,8 +148,6 @@ SwitchBase::SwitchBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 SwitchBase::SwitchBase(const SwitchBase &source) :
     _sfChoice                 (source._sfChoice                 ), 
     Inherited                 (source)
@@ -160,8 +155,6 @@ SwitchBase::SwitchBase(const SwitchBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 SwitchBase::~SwitchBase(void)
 {
@@ -227,7 +220,9 @@ void SwitchBase::executeSyncImpl(      SwitchBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SwitchPtr>::_type("SwitchPtr", "GroupPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

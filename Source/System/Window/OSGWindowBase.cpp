@@ -152,7 +152,6 @@ FieldDescription *WindowBase::_desc[] =
                      (FieldAccessMethod) &WindowBase::getMFGlObjectLastReinitialize)
 };
 
-//! Window type
 
 FieldContainerType WindowBase::_type(
     "Window",
@@ -192,8 +191,6 @@ void WindowBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -214,8 +211,6 @@ WindowBase::WindowBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 WindowBase::WindowBase(const WindowBase &source) :
     _sfWidth                  (source._sfWidth                  ), 
     _sfHeight                 (source._sfHeight                 ), 
@@ -229,8 +224,6 @@ WindowBase::WindowBase(const WindowBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 WindowBase::~WindowBase(void)
 {
@@ -404,7 +397,9 @@ void WindowBase::executeSyncImpl(      WindowBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<WindowPtr>::_type("WindowPtr", "AttachmentContainerPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

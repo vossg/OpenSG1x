@@ -54,6 +54,11 @@
 
 OSG_USING_NAMESPACE
 
+/*! \class osg::ImageFileHandler 
+    \ingroup GrpSystemImage
+    
+*/
+
 /* enum VecBase::VectorSizeE
  * brief 
 */

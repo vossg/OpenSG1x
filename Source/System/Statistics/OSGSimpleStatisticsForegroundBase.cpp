@@ -108,7 +108,6 @@ FieldDescription *SimpleStatisticsForegroundBase::_desc[] =
                      (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFColor)
 };
 
-//! SimpleStatisticsForeground type
 
 FieldContainerType SimpleStatisticsForegroundBase::_type(
     "SimpleStatisticsForeground",
@@ -157,8 +156,6 @@ void SimpleStatisticsForegroundBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -175,8 +172,6 @@ SimpleStatisticsForegroundBase::SimpleStatisticsForegroundBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 SimpleStatisticsForegroundBase::SimpleStatisticsForegroundBase(const SimpleStatisticsForegroundBase &source) :
     _mfFormats                (source._mfFormats                ), 
     _sfSize                   (source._sfSize                   ), 
@@ -186,8 +181,6 @@ SimpleStatisticsForegroundBase::SimpleStatisticsForegroundBase(const SimpleStati
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 SimpleStatisticsForegroundBase::~SimpleStatisticsForegroundBase(void)
 {
@@ -289,7 +282,9 @@ void SimpleStatisticsForegroundBase::executeSyncImpl(      SimpleStatisticsForeg
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SimpleStatisticsForegroundPtr>::_type("SimpleStatisticsForegroundPtr", "StatisticsForegroundPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

@@ -120,7 +120,6 @@ FieldDescription *LineChunkBase::_desc[] =
                      (FieldAccessMethod) &LineChunkBase::getSFSmooth)
 };
 
-//! LineChunk type
 
 FieldContainerType LineChunkBase::_type(
     "LineChunk",
@@ -169,8 +168,6 @@ void LineChunkBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -188,8 +185,6 @@ LineChunkBase::LineChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 LineChunkBase::LineChunkBase(const LineChunkBase &source) :
     _sfWidth                  (source._sfWidth                  ), 
     _sfStippleRepeat          (source._sfStippleRepeat          ), 
@@ -200,8 +195,6 @@ LineChunkBase::LineChunkBase(const LineChunkBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 LineChunkBase::~LineChunkBase(void)
 {
@@ -318,7 +311,9 @@ void LineChunkBase::executeSyncImpl(      LineChunkBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<LineChunkPtr>::_type("LineChunkPtr", "StateChunkPtr");
+#endif
 
 
 OSG_END_NAMESPACE

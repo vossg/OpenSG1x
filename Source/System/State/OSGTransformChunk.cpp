@@ -57,50 +57,21 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::TransformChunk
-    \ingroup StateChunks
+    \ingroup GrpSystemState
 
-The transformation chunk class.
+See \ref PageSystemTransformChunk for details.
 
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char TransformChunk::cvsid[] = "@(#)$Id: $";
 
 StateChunkClass TransformChunk::_class("Transform");
 
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void TransformChunk::initMethod (void)
 {
@@ -112,48 +83,31 @@ void TransformChunk::initMethod (void)
 \***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
+ -  private                                                                 -
 \*-------------------------------------------------------------------------*/
-
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 TransformChunk::TransformChunk(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 TransformChunk::TransformChunk(const TransformChunk &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 TransformChunk::~TransformChunk(void)
 {
 }
 
-
-/** \brief react to field changes
- */
+/*------------------------------- Sync -----------------------------------*/
 
 void TransformChunk::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
-/*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
+/*------------------------------ Output ----------------------------------*/
 
 void TransformChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
                           const BitVector OSG_CHECK_ARG(bvFlags )) const
@@ -162,7 +116,7 @@ void TransformChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 }
 
 
-/*-------------------------- your_category---------------------------------*/
+/*------------------------------ State ------------------------------------*/
 
 void TransformChunk::activate ( DrawActionBase *,  UInt32 )
 {
@@ -187,23 +141,17 @@ void TransformChunk::deactivate ( DrawActionBase *,  UInt32 )
     glPopMatrix();
 }
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------- Comparison -----------------------------------*/
 
 Real32 TransformChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
 }
 
-/** \brief assignment
- */
-
 bool TransformChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
-
-/** \brief equal
- */
 
 bool TransformChunk::operator == (const StateChunk &other) const
 {
@@ -212,23 +160,39 @@ bool TransformChunk::operator == (const StateChunk &other) const
     if ( !tother )
         return false;
 
+    if(tother == this)
+        return true;
+
     return getMatrix().equals( tother->getMatrix(), Eps );
 }
-
-/** \brief unequal
- */
 
 bool TransformChunk::operator != (const StateChunk &other) const
 {
     return ! (*this == other);
 }
 
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGTRANSFORMCHUNK_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGTRANSFORMCHUNK_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGTRANSFORMCHUNKFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 

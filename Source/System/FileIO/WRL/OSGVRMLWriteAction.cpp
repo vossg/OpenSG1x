@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::DrawAction
-    \ingroup ActionLib
+    \ingroup GrpSystemAction
 
 The draw action class.
 
@@ -1107,7 +1107,7 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
     StatePtr st = pMat->makeState();
     
     StateChunkPtr sChunk =
-        st->getChunk(MaterialChunk::getChunkClass().getID());
+        st->getChunk(MaterialChunk::getStaticClassId());
     
     if(sChunk == NullFC)
         return;

@@ -60,22 +60,15 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::BlendChunk
-    \ingroup StateChunks
+    \ingroup GrpSystemState
 
-The blending chunk handles OpenGL blending, i.e. the definition how incoming
-pixel are combined with the pixel already in the frame buffer.
+See \ref PageSystemBlendChunk for details.
 
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.17 2002/06/13 03:16:18 vossg Exp $";
 
 StateChunkClass BlendChunk::_class("Blend");
 
@@ -92,31 +85,9 @@ UInt32 BlendChunk::_funcBlendEquationExt;
  *                           Class methods                                 *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
-
 void BlendChunk::initMethod (void)
 {
+    Inherited::initMethod();
 }
 
 /***************************************************************************\
@@ -124,14 +95,10 @@ void BlendChunk::initMethod (void)
 \***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
+ -  private                                                                 -
 \*-------------------------------------------------------------------------*/
 
-
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 BlendChunk::BlendChunk(void) :
     Inherited()
@@ -154,34 +121,23 @@ BlendChunk::BlendChunk(void) :
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBlendEquationEXT");
 }
 
-/** \brief Copy Constructor
- */
-
 BlendChunk::BlendChunk(const BlendChunk &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 BlendChunk::~BlendChunk(void)
 {
 }
 
-
-/** \brief react to field changes
- */
+/*------------------------------- Sync -----------------------------------*/
 
 void BlendChunk::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
-/*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
+/*------------------------------ Output ----------------------------------*/
 
 void BlendChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
                       const BitVector OSG_CHECK_ARG(bvFlags )) const
@@ -189,7 +145,7 @@ void BlendChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
     SLOG << "Dump BlendChunk NI" << std::endl;
 }
 
-/*-------------------------- your_category---------------------------------*/
+/*------------------------------ State ------------------------------------*/
 
 void BlendChunk::activate(DrawActionBase *action, UInt32)
 {
@@ -401,36 +357,38 @@ void BlendChunk::deactivate ( DrawActionBase *action, UInt32 )
     }
 }
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------- Comparison -----------------------------------*/
 
 Real32 BlendChunk::switchCost(StateChunk *)
 {
     return 0;
 }
 
-/** \brief assignment
- */
-
 bool BlendChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
 
-/** \brief equal
- */
-
 bool BlendChunk::operator == (const StateChunk &other) const
 {
     BlendChunk const *tother = dynamic_cast<BlendChunk const*>(&other);
 
-    if ( !tother )
+    if(!tother)
+        return false;
+
+    if(tother == this)
+        return true;
+
+    if(getSrcFactor()  != tother->getSrcFactor()  ||
+       getDestFactor() != tother->getDestFactor() ||
+       getEquation()   != tother->getEquation()   ||
+       getColor()      != tother->getColor()      ||
+       getAlphaFunc()  != tother->getAlphaFunc()  ||
+       getAlphaValue() != tother->getAlphaValue()   )
         return false;
 
     return true;
 }
-
-/** \brief unequal
- */
 
 bool BlendChunk::operator != (const StateChunk &other) const
 {
@@ -438,12 +396,28 @@ bool BlendChunk::operator != (const StateChunk &other) const
 }
 
 
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGBLENDCHUNK_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGBLENDCHUNK_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGBLENDCHUNKFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 

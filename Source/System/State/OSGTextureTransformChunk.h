@@ -48,9 +48,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
-
 class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformChunkBase
 {
   private:
@@ -61,10 +58,18 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name            Fieldcontainer Declaration                        */
+    /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *  getClass( void ) const;
+    virtual const  StateChunkClass * getClass    (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name              Static Chunk Class Access                       */
+    /*! \{                                                                 */
+
+    static        UInt32           getStaticClassId  (void);
+    static  const StateChunkClass *getStaticClass    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -87,7 +92,19 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
     virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
 
     /*! \}                                                                 */
-     /*---------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Comparison                                */
+    /*! \{                                                                 */
+
+    virtual Real32  switchCost    ( StateChunk * chunk );
+
+    virtual bool operator <  (const StateChunk &other) const;
+
+    virtual bool operator == (const StateChunk &other) const;
+    virtual bool operator != (const StateChunk &other) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
@@ -123,7 +140,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
     friend class TextureTransformChunkBase;
 
     static void initMethod(void);
-
+    
     // class. Used for indexing in State
     static StateChunkClass _class;
    

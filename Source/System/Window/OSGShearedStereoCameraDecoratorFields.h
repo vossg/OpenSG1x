@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class ShearedStereoCameraDecorator;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ShearedStereoCameraDecoratorPtr
 
 typedef FCPtr<StereoCameraDecoratorPtr, ShearedStereoCameraDecorator> ShearedStereoCameraDecoratorPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief ShearedStereoCameraDecoratorPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<ShearedStereoCameraDecoratorPtr> :
     static char     *getSName(void) { return "SFShearedStereoCameraDecoratorPtr"; }
     static char     *getMName(void) { return "MFShearedStereoCameraDecoratorPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFShearedStereoCameraDecoratorPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<ShearedStereoCameraDecoratorPtr> SFShearedStereoCameraDecoratorPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTM
 #endif
 
 //! MFShearedStereoCameraDecoratorPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<ShearedStereoCameraDecoratorPtr> MFShearedStereoCameraDecoratorPtr;
 

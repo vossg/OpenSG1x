@@ -170,42 +170,42 @@ struct OSG_WINDOWWIN32LIB_DLLMAPPING FieldDataTraits<PAINTSTRUCT> :
 };
 
 //! SFHWND
-//! \ingroup SingleFields
+//! \ingroup GrpBaseFieldSingle
 
 typedef SField<HWND> SFHWND;
 
 //! MFHWND
-//! \ingroup MultiFields
+//! \ingroup GrpBaseFieldMulti
 
 typedef MField<HWND> MFHWND;
 
 //! SFHDC
-//! \ingroup SingleFields
+//! \ingroup GrpBaseFieldSingle
 
 typedef SField<HDC> SFHDC;
 
 //! MFHDC
-//! \ingroup MultiFields
+//! \ingroup GrpBaseFieldMulti
 
 typedef MField<HDC> MFHDC;
 
 //! SFHGLRC
-//! \ingroup SingleFields
+//! \ingroup GrpBaseFieldSingle
 
 typedef SField<HGLRC> SFHGLRC;
 
 //! MFHGLRC
-//! \ingroup MultiFields
+//! \ingroup GrpBaseFieldMulti
 
 typedef MField<HGLRC> MFHGLRC;
 
 //! SFPAINTSTRUCT
-//! \ingroup SingleFields
+//! \ingroup GrpBaseFieldSingle
 
 typedef SField<PAINTSTRUCT> SFPAINTSTRUCT;
 
 //! MFPAINTSTRUCT
-//! \ingroup MultiFields
+//! \ingroup GrpBaseFieldMulti
 
 #ifndef OSG_MICROSOFT_COMPILER_HACKS
 typedef MField<PAINTSTRUCT> MFPAINTSTRUCT;

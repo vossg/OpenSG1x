@@ -81,7 +81,7 @@ void osg::drawVolume ( const DynamicVolume &volume )
 }
 
 /*! \brief draw box volume 
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
 void osg::drawVolume ( const BoxVolume &volume )
@@ -115,7 +115,7 @@ void osg::drawVolume ( const BoxVolume &volume )
 }
 
 /*! \brief draw sphere volume 
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
 void osg::drawVolume ( const SphereVolume &OSG_CHECK_ARG(volume) )
@@ -125,7 +125,7 @@ void osg::drawVolume ( const SphereVolume &OSG_CHECK_ARG(volume) )
 }
 
 /*! \brief draw frustum volume 
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  *  Draw the frustum, Calc the corners by intersecting near/far with the
  *  pairwise intersection of left/right and top/bottom.
  */
@@ -238,7 +238,7 @@ void osg::drawVolume ( const FrustumVolume &volume )
 }
 
 /*! \brief draw cylinder volume 
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
 void osg::drawVolume ( const CylinderVolume &OSG_CHECK_ARG(volume) )

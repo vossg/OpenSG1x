@@ -57,7 +57,7 @@ typedef void              (*InitContainerF)  (void);
 typedef FieldContainerPtr (*PrototypeCreateF)(void);
 
 //! FieldContainerType
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 {

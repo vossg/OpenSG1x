@@ -106,7 +106,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

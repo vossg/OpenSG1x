@@ -49,7 +49,7 @@
 OSG_BEGIN_NAMESPACE
 
 //! MFieldVector
-//! \ingroup FieldLib
+//! \ingroup GrpBaseField
 
 #if defined(__sgi) || defined(__linux) || defined(darwin) || defined(__hpux)
 

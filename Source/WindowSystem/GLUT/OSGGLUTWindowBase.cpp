@@ -86,7 +86,6 @@ FieldDescription *GLUTWindowBase::_desc[] =
                      (FieldAccessMethod) &GLUTWindowBase::getSFId)
 };
 
-//! GLUTWindow type
 
 FieldContainerType GLUTWindowBase::_type(
     "GLUTWindow",
@@ -135,8 +134,6 @@ void GLUTWindowBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -151,8 +148,6 @@ GLUTWindowBase::GLUTWindowBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 GLUTWindowBase::GLUTWindowBase(const GLUTWindowBase &source) :
     _sfId                     (source._sfId                     ), 
     Inherited                 (source)
@@ -160,8 +155,6 @@ GLUTWindowBase::GLUTWindowBase(const GLUTWindowBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 GLUTWindowBase::~GLUTWindowBase(void)
 {
@@ -227,7 +220,9 @@ void GLUTWindowBase::executeSyncImpl(      GLUTWindowBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<GLUTWindowPtr>::_type("GLUTWindowPtr", "WindowPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING);

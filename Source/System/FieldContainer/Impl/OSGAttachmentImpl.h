@@ -62,7 +62,7 @@ class FieldDescription;
 
 //! Attachment is the base class for sharable thread safe data stores,
 //! which could be attached to other fieldcontainers than Attachments.
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer 
 {
@@ -204,7 +204,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
 //---------------------------------------------------------------------------
 
 //! Template to build simple attachment classes which store only one field.
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 template <class AttachmentDescT>
 class SimpleAttachment : public Attachment
@@ -330,7 +330,7 @@ class SimpleAttachment : public Attachment
 //---------------------------------------------------------------------------
 
 //! Name attachment
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 struct NameAttachmentDesc
 {
@@ -398,7 +398,7 @@ OSG_FC_DLLEXPORT_DECL(SimpleAttachment,
 
 //! Template to build simple attachment classes which store an arbitrary
 //! number of fields.
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 template <class AttachmentDescT>
 class DynFieldAttachment : 

@@ -47,15 +47,15 @@
 #include <OSGAttachmentMapFieldDataType.h>
 
 /*! \file OSGSFAttachmentMap.h
-    \ingroup FieldLib
-    \ingroup SingleFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
     \brief OpenSG field container single fields
 */
 
 OSG_BEGIN_NAMESPACE
 
 /*! \brief SFAttachmentMap
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
  */
 
 typedef SField<AttachmentMap>     SFAttachmentMap;

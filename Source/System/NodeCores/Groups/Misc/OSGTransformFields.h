@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Transform;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! TransformPtr
 
 typedef FCPtr<GroupPtr, Transform> TransformPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief TransformPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<TransformPtr> :
     static char     *getSName(void) { return "SFTransformPtr"; }
     static char     *getMName(void) { return "MFTransformPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFTransformPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<TransformPtr> SFTransformPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFTransformPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<TransformPtr> MFTransformPtr;
 

@@ -106,10 +106,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
     // default registration. static, so it can be called during static init
     
     static void registerEnterDefault(   const FieldContainerType &type, 
-                                        const Functor            &func);
+                                        const Action::Functor    &func);
     
     static void registerLeaveDefault(   const FieldContainerType &type, 
-                                        const Functor            &func);
+                                        const Action::Functor    &func);
 
     /*------------------------- your_category -------------------------------*/
     

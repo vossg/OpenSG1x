@@ -49,16 +49,16 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \file OSGVecFieldDataType.h
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief OpenSG Vec Field Data Types  
 */
 
 /*! \brief VecStorage field traits recurse base
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template<class ValueTypeT>
@@ -117,9 +117,9 @@ const UInt32 FieldTraitsRecurseVecStoreBase<ValueTypeT>::uiTest;
 #endif
 
 /*! \brief VecStorage2 field traits recurse base
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template<class ValueTypeT>
@@ -130,9 +130,9 @@ struct FieldTraitsRecurseVecStore2Base :
 };
 
 /*! \brief VecStorage3 field traits recurse base
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template<class ValueTypeT>
@@ -143,9 +143,9 @@ struct FieldTraitsRecurseVecStore3Base :
 };
 
 /*! \brief VecStorage4 field traits recurse base
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template<class ValueTypeT>
@@ -156,9 +156,9 @@ struct FieldTraitsRecurseVecStore4Base :
 };
 
 /*! \brief Vec2f field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -201,9 +201,9 @@ struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
 
 
 /*! \brief Vec3f field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -248,9 +248,9 @@ struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore3Base<Vec3f>
 
 
 /*! \brief Vec4f field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -295,9 +295,9 @@ struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
 };
 
 /*! \brief Vec4ub field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields 
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti 
 */
 
 template <>
@@ -342,9 +342,9 @@ struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore4Base<Vec4ub>
 };
 
 /*! \brief Pnt2f field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -386,9 +386,9 @@ struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
 
 
 /*! \brief Pnt2d field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -430,9 +430,9 @@ struct FieldDataTraits<Pnt2d> : public FieldTraitsRecurseVecStore2Base<Pnt2d>
 
 
 /*! \brief Pnt3f field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -475,9 +475,9 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
 
 
 /*! \brief Pnt3d field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -519,9 +519,9 @@ struct FieldDataTraits<Pnt3d> : public FieldTraitsRecurseVecStore3Base<Pnt3d>
 };
 
 /*! \brief Pnt4f field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -566,9 +566,9 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
 };
 
 /*! \brief Pnt4d field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>

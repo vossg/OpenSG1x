@@ -48,7 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup BaseBaseVolume
+/*! \ingroup GrpBaseBaseVolume
   \brief 3D frustum defined by 6 planes.
 
   This box class is used by other classes in ase for data exchange

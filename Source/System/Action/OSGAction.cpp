@@ -48,15 +48,8 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup ActionLib
-
-The Action are the active components that traverse the tree of nodes and 
-perform function (or rather functors) on them. 
-
-*/
-
 /*! \class osg::Action
-    \ingroup ActionLib
+    \ingroup GrpSystemAction
 
 The action base class.
 

@@ -61,6 +61,12 @@ OSG_USING_NAMESPACE
     quadraticAttenuation attributes. 
 */
 
+
+/*----------------------------- class variables ---------------------------*/
+
+StatElemDesc<StatIntElem>  SpotLight::statNSpotLights(
+"NSpotLights", "number of spot light sources");
+
 /*-------------------------------------------------------------------------*/
 /*                             Changed                                     */
 
@@ -148,6 +154,8 @@ Action::ResultE SpotLight::drawEnter(Action *action)
 
     glPopMatrix();
 
+    da->getStatistics()->getElem(SpotLight::statNSpotLights)->inc();
+
     return Action::Continue;
 }
     
@@ -166,6 +174,9 @@ Action::ResultE SpotLight::renderEnter(Action *action)
 {
     if(getOn() == false)
         return Action::Continue;
+
+    DrawActionBase *da    = dynamic_cast<DrawActionBase *>(action);
+    da->getStatistics()->getElem(SpotLight::statNSpotLights)->inc();
 
     return PointLight::renderEnter(action);
 }

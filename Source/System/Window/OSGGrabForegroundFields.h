@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class GrabForeground;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! GrabForegroundPtr
 
 typedef FCPtr<ForegroundPtr, GrabForeground> GrabForegroundPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief GrabForegroundPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<GrabForegroundPtr> :
     static char     *getSName(void) { return "SFGrabForegroundPtr"; }
     static char     *getMName(void) { return "MFGrabForegroundPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFGrabForegroundPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<GrabForegroundPtr> SFGrabForegroundPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFGrabForegroundPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<GrabForegroundPtr> MFGrabForegroundPtr;
 

@@ -55,7 +55,7 @@
 OSG_USING_NAMESPACE
 
 /** \class osg::RemoteAspect
- *  \ingroup Cluster
+ *  \ingroup GrpSystemCluster
  *  \brief Remote aspect controll class
  *
  * The RemoteAspecet is used to synchronize changes of FieldContainers

@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class ClusterWindow;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ClusterWindowPtr
 
 typedef FCPtr<WindowPtr, ClusterWindow> ClusterWindowPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief ClusterWindowPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<ClusterWindowPtr> :
     static char     *getSName(void) { return "SFClusterWindowPtr"; }
     static char     *getMName(void) { return "MFClusterWindowPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFClusterWindowPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<ClusterWindowPtr> SFClusterWindowPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, ClusterWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFClusterWindowPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<ClusterWindowPtr> MFClusterWindowPtr;
 

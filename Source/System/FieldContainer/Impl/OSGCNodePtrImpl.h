@@ -64,7 +64,7 @@ class NodeCore;
 #endif
 
 //! Pointer to a node
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
 {

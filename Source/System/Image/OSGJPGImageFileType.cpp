@@ -67,6 +67,13 @@ extern "C" {
 
 OSG_USING_NAMESPACE
 #ifdef OSG_WITH_JPG
+
+
+/*! \class osg::JPGImageFileType 
+    \ingroup GrpSystemImage
+    
+*/
+
 struct
 {
     struct jpeg_destination_mgr dest;

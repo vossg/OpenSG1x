@@ -44,11 +44,24 @@ OSG_BEGIN_NAMESPACE
 
 
 inline
-const StateChunkClass *  TransformChunk::getClass( void ) const
+const StateChunkClass *TransformChunk::getClass( void ) const
 {
     return &_class;
 }
 
+inline
+UInt32 TransformChunk::getStaticClassId(void)
+{
+    return getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *TransformChunk::getStaticClass(void)
+{
+    return &TransformChunk::_class;
+}
 
 OSG_END_NAMESPACE
+
+#define OSGTRANSFORMCHUNK_INLINE_CVSID "@(#)$Id: FCTemplate_inl.h,v 1.7 2001/09/17 14:15:07 vossg Exp $"
 

@@ -50,6 +50,18 @@ const StateChunkClass *CubeTextureChunk::getClass( void ) const
 }
 
 inline
+UInt32 CubeTextureChunk::getStaticClassId(void)
+{
+    return getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *CubeTextureChunk::getStaticClass(void)
+{
+    return &CubeTextureChunk::_class;
+}
+
+inline
 void CubeTextureChunk::setPosZImage(ImageP &pImage)
 {
      addRefP(pImage);

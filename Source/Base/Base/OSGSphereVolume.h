@@ -46,7 +46,7 @@ OSG_BEGIN_NAMESPACE
 class Line;
 
 /*! Sphere in 3D space defined by center and radius.
-  \ingroup BaseBaseVolume  
+  \ingroup GrpBaseBaseVolume  
 */
 
 class OSG_BASE_DLLMAPPING SphereVolume : public Volume 

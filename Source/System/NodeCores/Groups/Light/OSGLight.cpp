@@ -49,11 +49,9 @@
 
 OSG_USING_NAMESPACE
 
-/*! \defgroup LightNodes OpenSG Light Node Cores
-    \ingroup NodesLib
- */
-
 /*! \class osg::Light
+    \ingroup GrpSystemNodeCoresLights
+    
     Light is the base class for all the light source nodes.
     It contains the field for the general light source attributes 
     (AmbientColor, DiffuseColor, SpecularColor, Beacon). The Beacon 

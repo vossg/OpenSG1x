@@ -52,21 +52,10 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup SimpleGeometry OpenSG Simple Geometry Functions
-    \ingroup GeometryLib
-
-SimpleGeometry combines a number of functions to create some specialized 
-geometry very easily. 
-
-*/
-
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
 #pragma warning (disable : 383)
 #endif
 
-
-/*! The default materials used forsimple geometries. 
- */
 
 static SimpleMaterialPtr _defaultMaterial;
 
@@ -108,11 +97,9 @@ OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultUnlitMaterial(void)
     return _defaultUnlitMaterial;
 }
 
-/*! \ingroup SimpleGeometry
-
-makePlane creates a plane in the x/y plane. It spans the [-\a xsize /2,\a xsize /2]x
-[-\a ysize /2,\a ysize/2] area and is subdivided into \a hor * \a vert quads.
-
+/*!  makePlane creates a plane in the x/y plane. It spans the [-\a xsize /2,\a
+     xsize /2]x [-\a ysize /2,\a ysize/2] area and is subdivided into \a hor * 
+     \a vert quads.
 */
 
 NodePtr OSG::makePlane(Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert)
@@ -226,12 +213,10 @@ GeometryPtr OSG::makePlaneGeo(Real32 xsize, Real32 ysize,
 }
 
 
-/*! \ingroup SimpleGeometry
+/*! makeCone creates a cone. It's center sits in the origin of the x/z plane. 
+    It's radius is \a radius and the base is subdivided into \a sides parts.
 
-makeCone creates a cone. It's center sits in the origin of the x/z plane. 
-It's radius is \a radius and the base is subdivided into \a sides parts.
-
-Each part of the cone (bottom cap, sides) can be enabled or disabled.
+    Each part of the cone (bottom cap, sides) can be enabled or disabled.
 
 */
 
@@ -265,30 +250,14 @@ NodePtr OSG::makeCone(Real32 height,
                               doBottom);
 }
 
-/*! \ingroup SimpleGeometry
+/*! makeCylinder creates a cylinder. It's center sits in the origin of the 
+    x/z plane. It's radius is \a radius and the base is subdivided into \a
+    sides parts.
 
-makeCylinder creates a cylinder. It's center sits in the origin of the x/z plane. 
-It's radius is \a radius and the base is subdivided into \a sides parts.
-
-Each part of the cylinder (top cap, bottom cap, sides) can be enabled or disabled.
+    Each part of the cylinder (top cap, bottom cap, sides) can be enabled or
+    disabled.
 
 */
-
-GeometryPtr OSG::makeCylinderGeo(Real32 height, 
-                                 Real32 radius,
-                                 UInt16 sides, 
-                                 bool   doSide, 
-                                 bool   doTop, 
-                                 bool   doBottom)
-{
-    return makeConicalFrustumGeo(height, 
-                                 radius, 
-                                 radius, 
-                                 sides, 
-                                 doSide, 
-                                 doTop, 
-                                 doBottom);
-}
 
 NodePtr OSG::makeCylinder(Real32 height, 
                           Real32 radius,
@@ -306,18 +275,62 @@ NodePtr OSG::makeCylinder(Real32 height,
                               doBottom);
 }
 
+GeometryPtr OSG::makeCylinderGeo(Real32 height, 
+                                 Real32 radius,
+                                 UInt16 sides, 
+                                 bool   doSide, 
+                                 bool   doTop, 
+                                 bool   doBottom)
+{
+    return makeConicalFrustumGeo(height, 
+                                 radius, 
+                                 radius, 
+                                 sides, 
+                                 doSide, 
+                                 doTop, 
+                                 doBottom);
+}
 
-/*! \ingroup SimpleGeometry
 
-makeConicalFrustum creates a conical frustum. It's center sits in the origin of
-the x/z plane.  It's height is \a height and the base is subdivided into
-\a sides parts. The top radius is \a topradius, the bottom radius \a
-botradius.
+/*! makeConicalFrustum creates a conical frustum. It's center sits in the
+    origin of the x/z plane.  It's height is \a height and the base is
+    subdivided into \a sides parts. The top radius is \a topradius, the bottom
+    radius \a botradius.
 
-Each part of the frustum (top cap, bottom cap, sides) can be enabled or disabled.
-Caps forradius 0 are automatically disabled.
+    Each part of the frustum (top cap, bottom cap, sides) can be enabled or
+    disabled. Caps forradius 0 are automatically disabled.
 
 */
+
+NodePtr OSG::makeConicalFrustum(Real32 height, 
+                                Real32 topradius, 
+                                Real32 botradius, 
+                                UInt16 sides, 
+                                bool   doSide, 
+                                bool   doTop, 
+                                bool   doBottom)
+{
+    GeometryPtr pGeo = makeConicalFrustumGeo(height, 
+                                             topradius, 
+                                             botradius,
+                                             sides, 
+                                             doSide, 
+                                             doTop, 
+                                             doBottom);
+
+    if(pGeo == NullFC)
+    {
+        return NullFC;
+    }
+    
+    NodePtr node = Node::create();
+
+    beginEditCP  (node);
+    node->setCore(pGeo);
+    endEditCP    (node);
+
+    return node;
+}
 
 GeometryPtr OSG::makeConicalFrustumGeo(Real32 height, 
                                        Real32 topradius, 
@@ -488,22 +501,16 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
     return geo;
 }
 
-NodePtr OSG::makeConicalFrustum(Real32 height, 
-                                Real32 topradius, 
-                                Real32 botradius, 
-                                UInt16 sides, 
-                                bool   doSide, 
-                                bool   doTop, 
-                                bool   doBottom)
-{
-    GeometryPtr pGeo = makeConicalFrustumGeo(height, 
-                                             topradius, 
-                                             botradius,
-                                             sides, 
-                                             doSide, 
-                                             doTop, 
-                                             doBottom);
+/*! makeTorus creates a torus in the x/y plane. Sides are the number of
+    subdivisions forthe inner radius, rings forthe outer.
 
+*/
+
+NodePtr OSG::makeTorus(Real32 innerRadius, Real32 outerRadius, UInt16 sides, 
+                        UInt16 rings)
+{
+    GeometryPtr pGeo = makeTorusGeo(innerRadius, outerRadius, sides, rings);
+ 
     if(pGeo == NullFC)
     {
         return NullFC;
@@ -517,13 +524,6 @@ NodePtr OSG::makeConicalFrustum(Real32 height,
 
     return node;
 }
-
-/*! \ingroup SimpleGeometry
-
-makeTorus creates a torus in the x/y plane. Sides are the number of
-subdivisions forthe inner radius, rings forthe outer.
-
-*/
 
 GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sides, 
                                UInt16 rings)
@@ -636,25 +636,7 @@ GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sid
     return geo;
 }
 
-
-NodePtr OSG::makeTorus(Real32 innerRadius, Real32 outerRadius, UInt16 sides, 
-                        UInt16 rings)
-{
-    GeometryPtr pGeo = makeTorusGeo(innerRadius, outerRadius, sides, rings);
- 
-    if(pGeo == NullFC)
-    {
-        return NullFC;
-    }
-    
-    NodePtr node = Node::create();
-
-    beginEditCP  (node);
-    node->setCore(pGeo);
-    endEditCP    (node);
-
-    return node;
-}
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 
 Real32 setVecLen(Vec3f &vec, Real32 length) 
 {
@@ -689,7 +671,6 @@ Real32 setVecLen(Vec3f &vec, Real32 length)
     norm *= radius;                                                       \
     p->push_back(norm.addToZero());                                       \
 }
-
     
 static void subdivideTriangle(UInt32 i1, 
                         UInt32 i2, 
@@ -736,12 +717,31 @@ static void subdivideTriangle(UInt32 i1,
     subdivideTriangle(i12, i23, i31, depth - 1, p,n,tx,i, z, radius);
 }
 
-/*! \ingroup SimpleGeometry
+#endif            // exclude from doc
 
-makeSphere creates a sphere centered in the origin. It is created by recursive 
-subdivision of an icosahedron, with \a depth giving the number of subdivisions.
+/*! makeSphere creates a sphere centered in the origin. It is created by
+    recursive  subdivision of an icosahedron, with \a depth giving the number
+    of subdivisions.
 
 */
+
+NodePtr OSG::makeSphere(UInt16 depth, Real32 radius)
+{   
+    GeometryPtr pGeo = makeSphereGeo(depth, radius);
+
+    if(pGeo == NullFC)
+    {
+        return NullFC;
+    }
+
+    NodePtr node = Node::create();
+
+    beginEditCP  (node);
+    node->setCore(pGeo);
+    endEditCP    (node);    
+        
+    return node;
+}
 
 GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
 {   
@@ -865,32 +865,29 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     return geo;
 }
 
+/*! makeLatLongSphere creates a sphere in the origin and divided in latitude
+    and longitude. \æ radius is the radius of the sphere, \a latres and \a
+    longres are the number of subdivisions along the latitudes and longitudes.
 
-NodePtr OSG::makeSphere(UInt16 depth, Real32 radius)
-{   
-    GeometryPtr pGeo = makeSphereGeo(depth, radius);
+*/
 
+NodePtr OSG::makeLatLongSphere(UInt16 latres, UInt16 longres, Real32 radius)
+{
+    GeometryPtr pGeo = makeLatLongSphereGeo(latres, longres, radius);
+ 
     if(pGeo == NullFC)
     {
         return NullFC;
     }
-
+    
     NodePtr node = Node::create();
 
     beginEditCP  (node);
     node->setCore(pGeo);
-    endEditCP    (node);    
-        
+    endEditCP    (node);
+
     return node;
 }
-
-/*! \ingroup SimpleGeometry
-
-makeLatLongSphere creates a sphere in the origin and divided in latitude and 
-longitude. radius is the radius of the sphere, latres and longres are the
-number of subdivisions along the latitudes and longitudes.
-
-*/
 
 GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
                                       Real32 radius)
@@ -1003,32 +1000,31 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
     return geo;
 }
 
+/*! makeBox creates a box around the origin. It spans the [-\a xsize /2,\a
+    xsize /2]x [-\a ysize /2,\a ysize/2]x[-\a zsize /2,\a zsize/2] volume and
+    is subdivided into  \a hor * \a vert * \a depth quads.
 
-NodePtr OSG::makeLatLongSphere(UInt16 latres, UInt16 longres, Real32 radius)
+*/
+
+OSG_SYSTEMLIB_DLLMAPPING
+NodePtr OSG::makeBox(Real32 xsize, Real32 ysize, Real32 zsize, 
+                     UInt16 hor  , UInt16 vert , UInt16 depth)
 {
-    GeometryPtr pGeo = makeLatLongSphereGeo(latres, longres, radius);
- 
+    GeometryPtr pGeo = makeBoxGeo(xsize, ysize, zsize, hor, vert, depth);
+
     if(pGeo == NullFC)
     {
         return NullFC;
     }
-    
+
     NodePtr node = Node::create();
 
     beginEditCP  (node);
     node->setCore(pGeo);
     endEditCP    (node);
-
+    
     return node;
 }
-
-/*! \ingroup SimpleGeometry
-
-makeBox creates a box around the origin. It spans the [-\a xsize /2,\a xsize /2]x
-[-\a ysize /2,\a ysize/2]x[-\a zsize /2,\a zsize/2] volume and is subdivided into 
-\a hor * \a vert * \a depth quads.
-
-*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize, 
@@ -1151,25 +1147,7 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
     return geo;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
-NodePtr OSG::makeBox(Real32 xsize, Real32 ysize, Real32 zsize, 
-                     UInt16 hor  , UInt16 vert , UInt16 depth)
-{
-    GeometryPtr pGeo = makeBoxGeo(xsize, ysize, zsize, hor, vert, depth);
-
-    if(pGeo == NullFC)
-    {
-        return NullFC;
-    }
-
-    NodePtr node = Node::create();
-
-    beginEditCP  (node);
-    node->setCore(pGeo);
-    endEditCP    (node);
-    
-    return node;
-}
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 
 OSG_SYSTEMLIB_DLLMAPPING GeoPositions3fPtr OSG::makeGeoPositions3fPtr(UInt32 uiSize)
 {
@@ -1207,3 +1185,4 @@ OSG_SYSTEMLIB_DLLMAPPING GeoPTypesPtr OSG::makeGeoPTypesPtr(UInt32 uiSize)
     return returnValue;
 }
 
+#endif            // exclude from doc

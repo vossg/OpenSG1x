@@ -1,0 +1,16 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \defgroup GrpSystemNodeCoresDrawablesMisc Miscellaneous Drawables
+    \ingroup GrpSystemNodeCoresDrawables
+*/
+
+/* \page PageSystemSlices Slices
+
+osg::Slices is a simple volume rendering node. It depends on the material
+setting up a 3D texture and just renders viewer-oriented slices through a
+rectangular volume, which is centered around the origin and specified using the
+size in the three dimensions.
+
+*/

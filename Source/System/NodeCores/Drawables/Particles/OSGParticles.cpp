@@ -57,86 +57,20 @@
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
 /*! \class osg::Particles
+    \ingroup GrpSystemNodeCoresDrawablesParticles
+    
+See \ref PageSystemSystemNodeCoresParticles for details.
 
-The main idea of particles is to give a way of easily rendering large numbers
-of simple geometric objects. Particles are mostly used together with partially
-transparent textures to simulate fuzzy objects, but other uses are possible,
-e.g. molecules as stick-and-sphere models, stars or arrows for flow-field
-visualisations.
-
-The Particles core can display different styles of particles and keeps all the
-data needed to do all of them. Not every style uses all the data, and using
-simpler setups can result in vastly improved performance (if it doesn't, add a
-fast path to Particles::findDrawer ;).
-
-The supported styles are:
-  - Points
-  - Lines
-  - ViewDirQuads
-  - Arrows
-
-The available attributes are:
-
-  - Positions
-  - secPositions
-  - Colors
-  - Normals
-  - Sizes
-  - textureZs
-  - Indices
-
-The first 4 are realized similarly to the Geometry Properties, to allow unified
-manipulation of data and sharing with geometry nodes. They can handle the same
-data formats the geometry can handle.
-
-The only attribute every paticle needs is the position. Some styles need other
-attributes, too, but most are optional. Colors, Normals, Sizes and textureZs
-can either be left empty, have a single element or have as many elements as
-there are positions. If only a single element is given, it is used by all
-particles, otherwise every particle has its own element. 
-
-Points are rendered as simple GL_POINTS. Points use the positions, colors and
-textureZs attributes. A single size can be given, but size per particle is not
-supported (yet).
-
-Lines are two-point lines between a position and the corresponding secPosition,
-i.e. there have to be as many positions as secPositions.
-
-XXXXX To be completed later XXXXX
-
-There is also a single material that is used to draw the particles, and
-an attribute to change the draw order of the particles.
-
-\b Extensions
 */
 
-/*----------------------- constructors & destructors ----------------------*/
-
-//! Constructor
-
-Particles::Particles(void) :
-    Inherited()
-{
-}
-
-//! Copy Constructor
-
-Particles::Particles(const Particles &source) :
-    Inherited(source)
-{
-}
-
-//! Destructor
-
-Particles::~Particles(void)
-{
-	subRefCP(_sfMaterial.getValue());
-}
-
-/*----------------------------- class specific ----------------------------*/
-
-//! initialize the static features of the class, e.g. action callbacks
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
 void Particles::initMethod (void)
 {
@@ -153,7 +87,30 @@ void Particles::initMethod (void)
                                           Action       *>(&Particles::render));
 }
 
-//! react to field changes
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                 -
+\*-------------------------------------------------------------------------*/
+
+Particles::Particles(void) :
+    Inherited()
+{
+}
+
+Particles::Particles(const Particles &source) :
+    Inherited(source)
+{
+}
+
+Particles::~Particles(void)
+{
+	subRefCP(_sfMaterial.getValue());
+}
+
+/*------------------------------- Sync -----------------------------------*/
 
 void Particles::changed(BitVector whichField, UInt32 origin)
 {
@@ -180,7 +137,7 @@ void Particles::changed(BitVector whichField, UInt32 origin)
     Inherited::changed(whichField, origin);
 }
 
-//! output the instance for debug purposes
+/*------------------------------ Output ----------------------------------*/
 
 void Particles::dump(      UInt32    ,
                          const BitVector ) const
@@ -188,7 +145,6 @@ void Particles::dump(      UInt32    ,
     SLOG << "Dump Particles NI" << std::endl;
 }
 
-//! Adjust the given volume to enclose the particles
 
 void Particles::adjustVolume( Volume & volume )
 {
@@ -280,15 +236,23 @@ void Particles::adjustVolume( Volume & volume )
     }
 }
 
+#if !defined(OSG_DO_DOC) || OSG_DOC_LEVEL > 1  // remove from user docu
 
 /*---------------------------- pumps -----------------------------------*/
 
-/*  The pumps use a trait system to create specialized code for important
+/*! \name Drawing Pumps                                                 */
+/*! \{                                                                  */
+
+/*! The pumps use a trait system to create specialized code for important
     cases. The general idea is to keep decision out of the inner loops
     and make special versions for the most common data types. Not for
     everything, as that creates big time code bloat.
- */
+*/
 
+/*! Base class for the particle rendering traits. Does nothing, just needed to 
+    have a common base class.
+*/
+ 
 class ParticleTraits
 {
 };
@@ -306,14 +270,20 @@ struct ColTraitBase : public ParticleTraits
     static pumpFunc ColorFuncs[numFormats][4]; 
 };
 
+/*! The smallest enum for data types, used as a base for the formatNames map. 
+*/
 const int ColTraitBase::formatBase = GL_BYTE;
 
+/*! A map from the OpenGL data type to the corresponding name 
+*/
 char *ColTraitBase::formatNames[] = 
 {   "GL_BYTE", "GL_UNSIGNED_BYTE", "GL_SHORT", "GL_UNSIGNED_SHORT", 
     "GL_INT", "GL_UNSIGNED_INT", "GL_FLOAT", "GL_2_BYTES", 
     "GL_3_BYTES", "GL_4_BYTES", "GL_DOUBLE"
 };
 
+/*! The pump functions for colors, indexed by data type and dimensionality 
+*/
 ColTraitBase::pumpFunc 
 ColTraitBase::ColorFuncs[ColTraitBase::numFormats][4] = {
     { NULL, NULL, 
@@ -1884,6 +1854,197 @@ struct drawObjects : public ParticlesDrawer
     }
 };
 
+
+/* Objects using the pos/secpos and viewer-directed coordinate system for 
+   rendering */
+
+template <class posTrait, class colTrait, class sizeTrait, 
+          class geoTrait>
+struct drawViewerObjects : public ParticlesDrawer 
+{
+    virtual void draw(Particles *part, DrawActionBase *action)
+    {
+        // get ModelView matrix to define the direction vectors
+        Matrix camera,toworld;
+        action->getCamera()->getBeacon()->getToWorld(camera);
+        action->getActNode()->getToWorld(toworld);
+        // normalize them, we don't want to neutralize scales in toworld
+        toworld[0].normalize();
+        toworld[1].normalize();
+        toworld[2].normalize();       
+        toworld.invert();
+        camera.multLeft(toworld);
+
+        // Viewer position & up
+        Pnt3f  vpos(camera[3]);
+
+        // some variables for faster access
+        GeoPositionsPtr pos = part->getPositions();
+
+        // init traits
+        typename geoTrait::dataType geoData;
+        geoTrait::init(part, action, geoData);
+
+        typename colTrait::dataType colData;
+        colTrait::init(part, action, colData);
+
+        typename sizeTrait::dataType sizeData;
+        sizeTrait::init(part, action, sizeData);
+
+        typename posTrait::dataType posData, secPosData;
+        posTrait::init(part, action, posData   , part->getPositions());
+        posTrait::init(part, action, secPosData, part->getSecPositions());
+
+        UInt32 length = pos->getSize();
+        
+        for(UInt32 i = 0; i < length; ++i)
+        {
+            if(geoTrait::particle (geoData,  i))
+                continue;
+
+            if(colTrait::particle (colData,  i))
+                continue;
+
+            if(sizeTrait::particle(sizeData, i))
+                continue;
+
+            if(posTrait::particle (posData,  i))
+                continue;
+
+            if(posTrait::particle (secPosData,  i))
+                continue;
+
+            // calc the coordinate system
+            
+            Pnt3f &p  = posTrait::position(posData   );
+            Pnt3f &sp = posTrait::position(secPosData);
+            Vec3f  n  = vpos - p;
+           
+            Vec3f dz(sp - p);
+            dz.normalize();
+
+            Vec3f dx(n.cross(dz));
+            if(dx.isZero())
+            {
+                dx=Vec3f(1,0,0).cross(dz);
+                if(dx.isZero())
+                {
+                    dx=Vec3f(0,1,0).cross(dz);
+                    if(dx.isZero())
+                    {
+                        dx=Vec3f(0,0,1).cross(dz);
+                    }
+                    else
+                    {
+                        dx.setValues(0,0,0);
+                    }
+                }
+            }
+            dx.normalize();
+
+            Vec3f dy(dx.cross(dz));
+
+            // now draw the geometry;
+            geoTrait::draw(geoData, p, dx, dy, dz, 
+                           sizeTrait::size(sizeData, i));
+        }
+    }
+    
+    virtual void drawIndexed(Particles *part, DrawActionBase *action, 
+                             Int32 *index, UInt32 length)
+    {
+        // get ModelView matrix to define the direction vectors
+        Matrix camera,toworld;
+        action->getCamera()->getBeacon()->getToWorld(camera);
+        action->getActNode()->getToWorld(toworld);
+        // normalize them, we don't want to neutralize scales in toworld
+        toworld[0].normalize();
+        toworld[1].normalize();
+        toworld[2].normalize();       
+        toworld.invert();
+        camera.multLeft(toworld);
+
+        // Viewer position & up
+        Pnt3f  vpos(camera[3]);
+
+        // some variables for faster access
+        GeoPositionsPtr pos = part->getPositions();
+
+        // init traits
+        typename geoTrait::dataType geoData;
+        geoTrait::init(part, action, geoData);
+
+        typename colTrait::dataType colData;
+        colTrait::init(part, action, colData);
+
+        typename sizeTrait::dataType sizeData;
+        sizeTrait::init(part, action, sizeData);
+
+        typename posTrait::dataType posData, secPosData;
+        posTrait::init(part, action, posData   , part->getPositions());
+        posTrait::init(part, action, secPosData, part->getSecPositions());
+
+        Int32 i;
+
+        for(UInt32 ii = 0; ii < length; ++ii)
+        {
+            i = index[ii];
+
+            if(i < 0 || i > pos->getSize())
+                continue;
+
+            if(geoTrait::particle (geoData,  i))
+                continue;
+
+            if(colTrait::particle (colData,  i))
+                continue;
+
+            if(sizeTrait::particle(sizeData, i))
+                continue;
+
+            if(posTrait::particle (posData,  i))
+                continue;
+
+            if(posTrait::particle (secPosData,  i))
+                continue;
+
+            // calc the coordinate system
+            
+            Pnt3f &p  = posTrait   ::position(posData   );
+            Pnt3f &sp = posTrait   ::position(secPosData);
+            Vec3f  n  = vpos - p;
+            
+            Vec3f dz(sp - p);
+            dz.normalize();
+
+            Vec3f dx(n.cross(dz));
+            if(dx.isZero())
+            {
+                dx=Vec3f(1,0,0).cross(dz);
+                if(dx.isZero())
+                {
+                    dx=Vec3f(0,1,0).cross(dz);
+                    if(dx.isZero())
+                    {
+                        dx=Vec3f(0,0,1).cross(dz);
+                    }
+                    else
+                    {
+                        dx.setValues(0,0,0);
+                    }
+                }
+            }
+            dx.normalize();
+
+            Vec3f dy(dx.cross(dz));
+
+            // now draw the geometry;
+            geoTrait::draw(geoData, p, dx, dy, dz, 
+                           sizeTrait::size(sizeData, i));
+        }
+    }
+};
+
 /* Sorting functions */
 
 
@@ -2063,6 +2224,9 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
     return index;    
 }
 
+/*! \} */
+
+#endif // remove from user docu
 
 /** \brief Actions
  */
@@ -2351,6 +2515,15 @@ ParticlesDrawer *Particles::findDrawer(void)
                     new drawObjects<PosTraitGeneric,ColTraitGeneric, 
                                     SizeTraitGeneric,NormalTraitGeneric,
                                     GeoTraitArrow>;
+        
+        return fallback;
+    }
+    
+    case ViewerArrows:
+    {
+        static ParticlesDrawer *fallback = 
+                    new drawViewerObjects<PosTraitGeneric,ColTraitGeneric, 
+                                          SizeTraitGeneric,GeoTraitArrow>;
         
         return fallback;
     }

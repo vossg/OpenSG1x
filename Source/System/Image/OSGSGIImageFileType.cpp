@@ -63,6 +63,11 @@
 
 OSG_USING_NAMESPACE
 
+/*! \class osg::SGIImageFileType 
+    \ingroup GrpSystemImage
+    
+*/
+
 
 /* the basic reader functions */
 
@@ -118,6 +123,7 @@ rgbtorgb(unsigned char *r,unsigned char *g,unsigned char *b,unsigned char *l,
     }
 }
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 typedef struct _ImageRec 
 {
     unsigned short imagic;
@@ -134,6 +140,7 @@ typedef struct _ImageRec
     unsigned int *rowStart;
     int *rowSize;
 } ImageRec;
+#endif
 
 static void
 ConvertShort(unsigned short *array, long length) 
@@ -246,6 +253,11 @@ static ImageRec *ImageOpen(const char *fileName)
             ConvertLong((unsigned *)image->rowSize, x/sizeof(int));
         }
     }
+    else
+    {
+        image->rowStart = NULL;
+        image->rowSize  = NULL;
+    }
     return image;
 }
 
@@ -257,6 +269,10 @@ ImageClose(ImageRec *image)
     free(image->tmpR);
     free(image->tmpG);
     free(image->tmpB);
+    if(image->rowStart)
+        free(image->rowStart);
+    if(image->rowSize)
+        free(image->rowSize);
     free(image);
 }
 

@@ -63,6 +63,12 @@ OSG_USING_NAMESPACE
 #pragma warning (disable : 383)
 #endif
 
+
+/*! \class osg::RAWSceneFileType 
+    \ingroup GrpSystemFileIO
+    
+ */
+
 /*****************************
  *   Types
  *****************************/

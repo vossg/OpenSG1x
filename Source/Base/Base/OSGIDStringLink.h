@@ -47,7 +47,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup BaseTypes
+/*! \ingroup GrpBaseTypes
  *  \brief IDStringLink
  *
  *  detailed

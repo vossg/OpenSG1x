@@ -57,6 +57,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::TileCameraDecorator
+    \ingroup GrpSystemWindowCameras
 
 The decorator to select a rectangular part of the image.
 

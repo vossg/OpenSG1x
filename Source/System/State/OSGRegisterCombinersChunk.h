@@ -51,9 +51,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
-
 #define OSG_NUM_COMBINERS 8
 
 class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunk : public RegisterCombinersChunkBase
@@ -66,12 +63,18 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunk : public RegisterCombiners
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                Instance Functions                            */
+    /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *getClass(void) const;
+    virtual const  StateChunkClass * getClass    (void) const;
 
-    virtual      bool              isTransparent(void) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name              Static Chunk Class Access                       */
+    /*! \{                                                                 */
+
+    static        UInt32           getStaticClassId  (void);
+    static  const StateChunkClass *getStaticClass    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -100,6 +103,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunk : public RegisterCombiners
                              UInt32 index = 0);
 
     virtual void deactivate (DrawActionBase * action, UInt32 index = 0);
+
+    virtual bool isTransparent (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -187,7 +192,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunk : public RegisterCombiners
     static UInt32 _nvRegisterCombiners;
     static UInt32 _nvRegisterCombiners2;
     
-    // extension indices for used fucntions;
+    // extension indices for used functions;
     static UInt32 _funcCombinerParameterfv;
     static UInt32 _funcCombinerStageParameterfv;
     static UInt32 _funcCombinerInput;

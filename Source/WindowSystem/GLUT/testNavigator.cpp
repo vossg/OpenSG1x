@@ -110,6 +110,12 @@ key(unsigned char key, int x, int y)
                 break;
     case 't':   mgr->setNavigationMode(Navigator::TRACKBALL);
                 break;
+    case 'x':   mgr->getNavigator()->set(
+                    Pnt3f(0,0,2),Pnt3f(0,0,0),Vec3f(0,1,0));
+                break;
+    case 'c':   mgr->getNavigator()->set(
+                    Pnt3f(0,0,2),Pnt3f(2,2,1),Vec3f(0,1,0));
+                break;
     }
     mgr->key(key,x,y);
     glutPostRedisplay();
@@ -143,7 +149,7 @@ int main (int argc, char **argv)
     
     if(argc < 2)
     {
-        scene = makeTorus(.5, 2, 16, 16);
+        scene = makeBox(2,2,1,1,1,1);
     }
     else
     {

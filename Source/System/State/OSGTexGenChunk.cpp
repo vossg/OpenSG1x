@@ -56,70 +56,61 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::TexGenChunk
-    \ingroup StateChunks
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-Chunk for texture coordinate generation functions.
+/*! \class osg::TexGenChunk
+    \ingroup GrpSystemState
+
+See \ref PageSystemTexGenChunk for details.
 
 */
 
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
 StateChunkClass TexGenChunk::_class("TexGen", osgMaxTextures);
 
-// this should go somewhere central...
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-#ifdef OSG_DEBUG
-#define glErr(text)                           \
-{                                   \
-        GLenum glerr;                           \
-        glerr=glGetError();                     \
-        if(glerr!=GL_NO_ERROR)                     \
-        {                               \
-                fprintf(stderr, "%s failed: %s (%#x)\n", (text),    \
-                                        gluErrorString(glerr), glerr);  \
-        }                               \
+void TexGenChunk::initMethod (void)
+{
 }
-#else
-#define glErr(text)
-#endif
 
-/*----------------------- constructors & destructors ----------------------*/
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
 
-//! Constructor
+/*-------------------------------------------------------------------------*\
+ -  private                                                                 -
+\*-------------------------------------------------------------------------*/
 
 TexGenChunk::TexGenChunk(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 TexGenChunk::TexGenChunk(const TexGenChunk &source) :
     Inherited(source)
 {
 }
 
-//! Destructor
-
 TexGenChunk::~TexGenChunk(void)
 {
 }
 
-/*----------------------------- class specific ----------------------------*/
-
-//! initialize the static features of the class, e.g. action callbacks
-
-void TexGenChunk::initMethod (void)
-{
-}
-
-//! react to field changes
+/*------------------------------- Sync -----------------------------------*/
 
 void TexGenChunk::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
-//! output the instance for debug purposes
+/*------------------------------ Output ----------------------------------*/
 
 void TexGenChunk::dump(      UInt32    , 
                          const BitVector ) const
@@ -128,7 +119,7 @@ void TexGenChunk::dump(      UInt32    ,
 }
 
 
-// little helper to activate genfuncs
+/*------------------------------ State ------------------------------------*/
 
 static inline void setGenFunc(GLenum coord, GLenum gen, GLenum func, 
                               Vec4f &plane)
@@ -239,23 +230,17 @@ void TexGenChunk::deactivate(DrawActionBase *action, UInt32 idx)
     glErr("TexGenChunk::deactivate");
 }
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------- Comparison -----------------------------------*/
 
 Real32 TexGenChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
 }
 
-/** \brief assignment
- */
-
 bool TexGenChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
-
-/** \brief equal
- */
 
 bool TexGenChunk::operator == (const StateChunk &other) const
 {
@@ -278,9 +263,6 @@ bool TexGenChunk::operator == (const StateChunk &other) const
             getGenFuncQPlane()  == tother->getGenFuncQPlane() ;
 }
 
-/** \brief unequal
- */
-
 bool TexGenChunk::operator != (const StateChunk &other) const
 {
     return ! (*this == other);
@@ -300,5 +282,11 @@ namespace
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
     static Char8 cvsid_hpp[] = OSGTEXGENCHUNK_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGTEXGENCHUNK_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGTEXGENCHUNKFIELDS_HEADER_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

@@ -60,7 +60,7 @@ OSG_USING_NAMESPACE
 using namespace std;
 
 /** \class osg::RenderNode
- *  \ingroup Cluster
+ *  \ingroup GrpSystemCluster
  *  \brief cluster node information
  **/
 

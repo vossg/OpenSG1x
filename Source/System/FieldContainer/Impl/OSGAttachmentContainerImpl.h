@@ -53,7 +53,7 @@ class BinaryDataHandler;
 
 //! AttachmentContainer provides the functionality to store
 //! attachments for derived FieldContainer classes.
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainer : public FieldContainer 
 {

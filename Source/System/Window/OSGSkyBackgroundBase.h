@@ -133,7 +133,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

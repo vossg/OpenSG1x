@@ -48,10 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
-
-class /* OSG_LIB_DLLMAPPING */ ClipPlaneChunk : public ClipPlaneChunkBase
+class OSG_SYSTEMLIB_DLLMAPPING ClipPlaneChunk : public ClipPlaneChunkBase
 {
   private:
 
@@ -61,12 +58,20 @@ class /* OSG_LIB_DLLMAPPING */ ClipPlaneChunk : public ClipPlaneChunkBase
   public:
     
     /*---------------------------------------------------------------------*/
-    /*! \name                Instance Functions                            */
+    /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
     virtual const StateChunkClass *getClass(void) const;
 
     /*! \{                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name              Static Chunk Class Access                       */
+    /*! \{                                                                 */
+
+    static        UInt32           getStaticClassId  (void);
+    static  const StateChunkClass *getStaticClass    (void);
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -136,8 +141,6 @@ class /* OSG_LIB_DLLMAPPING */ ClipPlaneChunk : public ClipPlaneChunkBase
 
     // class. Used for indexing in State
     static StateChunkClass _class;
-
-    static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
 

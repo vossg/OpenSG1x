@@ -109,7 +109,7 @@ class OSG_WINDOWXLIB_DLLMAPPING XWindowBase : public Window
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

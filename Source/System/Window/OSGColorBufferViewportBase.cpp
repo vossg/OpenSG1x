@@ -123,7 +123,6 @@ FieldDescription *ColorBufferViewportBase::_desc[] =
                      (FieldAccessMethod) &ColorBufferViewportBase::getSFAlpha)
 };
 
-//! ColorBufferViewport type
 
 FieldContainerType ColorBufferViewportBase::_type(
     "ColorBufferViewport",
@@ -172,8 +171,6 @@ void ColorBufferViewportBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -191,8 +188,6 @@ ColorBufferViewportBase::ColorBufferViewportBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 ColorBufferViewportBase::ColorBufferViewportBase(const ColorBufferViewportBase &source) :
     _sfRed                    (source._sfRed                    ), 
     _sfBlue                   (source._sfBlue                   ), 
@@ -203,8 +198,6 @@ ColorBufferViewportBase::ColorBufferViewportBase(const ColorBufferViewportBase &
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 ColorBufferViewportBase::~ColorBufferViewportBase(void)
 {
@@ -324,7 +317,9 @@ void ColorBufferViewportBase::executeSyncImpl(      ColorBufferViewportBase *pOt
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ColorBufferViewportPtr>::_type("ColorBufferViewportPtr", "ViewportPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ColorBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ColorBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

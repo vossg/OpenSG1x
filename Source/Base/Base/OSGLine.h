@@ -50,7 +50,7 @@ class SphereVolume;
 class CylinderVolume;
 class FrustumVolume;
 
-/*! \ingroup BaseBase
+/*! \ingroup GrpBaseBase
  */
 
 class OSG_BASE_DLLMAPPING Line

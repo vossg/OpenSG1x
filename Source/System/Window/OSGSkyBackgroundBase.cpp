@@ -196,7 +196,6 @@ FieldDescription *SkyBackgroundBase::_desc[] =
                      (FieldAccessMethod) &SkyBackgroundBase::getSFTopTexture)
 };
 
-//! SkyBackground type
 
 FieldContainerType SkyBackgroundBase::_type(
     "SkyBackground",
@@ -245,8 +244,6 @@ void SkyBackgroundBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -271,8 +268,6 @@ SkyBackgroundBase::SkyBackgroundBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 SkyBackgroundBase::SkyBackgroundBase(const SkyBackgroundBase &source) :
     _mfSkyColor               (source._mfSkyColor               ), 
     _mfSkyAngle               (source._mfSkyAngle               ), 
@@ -290,8 +285,6 @@ SkyBackgroundBase::SkyBackgroundBase(const SkyBackgroundBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 SkyBackgroundBase::~SkyBackgroundBase(void)
 {
@@ -536,7 +529,9 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SkyBackgroundPtr>::_type("SkyBackgroundPtr", "BackgroundPtr");
+#endif
 
 OSG_DLLEXPORT_MFIELD_DEF1(SkyBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 

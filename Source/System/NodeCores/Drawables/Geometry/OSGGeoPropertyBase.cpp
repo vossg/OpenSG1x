@@ -37,7 +37,7 @@
 \*---------------------------------------------------------------------------*/
 
 //---------------------------------------------------------------------------
-//  Includes
+ //  Includes
 //---------------------------------------------------------------------------
 
 #define OSG_COMPILEGEOPROPINST
@@ -54,17 +54,6 @@ OSG_USING_NAMESPACE
 OSG_GEO_PROP_TYPE_TMPL_DEF(AbstractGeoProperty, GeoPropertyDesc, PtrType)
 
 OSG_BEGIN_NAMESPACE
-
-/*! \defgroup GeoProperties OpenSG Geo Properties
-    \ingroup GeometryLib
-
-GeoProperties are the wrapper classes for the geometry's attributes.
-They encapsulate and abstract the specific types of the attributes and
-offer an interface that is targeted at glVertexArrays. To simplify usage
-tehy also have a generic interface, which is easy to use, but not as
-efficient as the specific one.
-
-*/
 
 OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(AbstractGeoProperty, 
                                 GeoPositionsPropertyDesc, 
@@ -98,7 +87,7 @@ OSG_END_NAMESPACE
 
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+//  FUNCTION: 
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------

@@ -49,10 +49,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief State base class
- *  \ingroup StateLib
- */
-
 class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
 {
     /*==========================  PUBLIC  =================================*/
@@ -82,7 +78,7 @@ class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      State                                   */
+    /*! \name               OpenGL State Management                        */
     /*! \{                                                                 */
 
     void activate   (DrawActionBase *action);
@@ -93,23 +89,27 @@ class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                    Enums                                     */
+    /*! \{                                                                 */
+
+    enum          { AutoSlot = -1, AutoSlotReplace = -2 };
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                    Access                                    */
     /*! \{                                                                 */
 
-    StateChunkPtr getChunk     ( UInt32 id );
+    StateChunkPtr getChunk     (UInt32 id);
 
-    bool          chunkPresent ( UInt32 id );
-    bool          chunkPresent ( StateChunkPtr chunk );
+    bool          chunkPresent (UInt32 id);
+    bool          chunkPresent (StateChunkPtr chunk);
+   
+    bool          addChunk     (StateChunkPtr chunk, 
+                                Int32         index = AutoSlotReplace);
 
-    enum          { AutoSlot = -1, AutoSlotReplace = -2 };
-    
-    void          addChunk     ( StateChunkPtr chunk, 
-                                 Int32         index = AutoSlotReplace );
+    bool          subChunk     (StateChunkPtr chunk);
 
-    void          subChunk     ( StateChunkPtr chunk, 
-                                 Int32         index = AutoSlotReplace );
-
-    void          subChunk     ( UInt32 classid, Int32 index = -1 );
+    bool          subChunk     (UInt32 classid, Int32 index);
 
     void          clearChunks  (void);
 
@@ -118,7 +118,7 @@ class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
     /*! \name                    Comparison                                */
     /*! \{                                                                 */
 
-    virtual Real32 switchCost  ( State * state );
+    virtual Real32 switchCost  (State * state);
 
     virtual bool   operator <  (const State &other) const;
 

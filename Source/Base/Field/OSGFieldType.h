@@ -53,7 +53,7 @@ OSG_BEGIN_NAMESPACE
 class Field;
 
 //! FieldType
-//! \ingroup FieldLib
+//! \ingroup GrpBaseField
 
 class OSG_BASE_DLLMAPPING FieldType : public DataType
 {

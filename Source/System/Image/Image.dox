@@ -1,0 +1,19 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \defgroup GrpSystemImage Image
+    \ingroup GrpSystem
+    
+    See \ref PageSystemSystemImage for details.
+*/
+
+/*! \page PageSystemImage Image
+
+Image: image reading/writing
+
+Formats:
+
+\subsection 
+
+*/

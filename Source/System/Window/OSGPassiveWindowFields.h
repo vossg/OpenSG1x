@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class PassiveWindow;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! PassiveWindowPtr
 
 typedef FCPtr<WindowPtr, PassiveWindow> PassiveWindowPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief PassiveWindowPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<PassiveWindowPtr> :
     static char     *getSName(void) { return "SFPassiveWindowPtr"; }
     static char     *getMName(void) { return "MFPassiveWindowPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFPassiveWindowPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<PassiveWindowPtr> SFPassiveWindowPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, PassiveWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFPassiveWindowPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<PassiveWindowPtr> MFPassiveWindowPtr;
 

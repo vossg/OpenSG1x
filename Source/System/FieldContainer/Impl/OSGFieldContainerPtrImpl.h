@@ -65,7 +65,7 @@ class NullFieldContainerPtr;
 //---------------------------------------------------------------------------
 
 //! FieldContainerPtrBase
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 #ifdef __sgi
 #pragma set woff 1424
@@ -287,7 +287,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 //---------------------------------------------------------------------------
 
 //! FieldContainerPtr
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 #ifdef __sgi
 #pragma set woff 1375
@@ -397,7 +397,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
 
 
 //! NullPtr Class
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 class OSG_SYSTEMLIB_DLLMAPPING NullFieldContainerPtr : 
     public FieldContainerPtr 
@@ -431,7 +431,7 @@ class OSG_SYSTEMLIB_DLLMAPPING NullFieldContainerPtr :
 
 //! ConstFieldContainerPtr, read FieldContainer const * pFieldContainer
 //! NOT FieldContainer * const pFieldContainer
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 class OSG_SYSTEMLIB_DLLMAPPING ConstFieldContainerPtr : 
     public FieldContainerPtrBase
@@ -513,7 +513,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFieldContainerPtr :
 //---------------------------------------------------------------------------
 
 //! Template to construct custom field container pointers
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 template <class BasePtrTypeT, class FieldContainerTypeT> 
 class FCPtr : public BasePtrTypeT
@@ -620,7 +620,7 @@ class FCPtr : public BasePtrTypeT
 //---------------------------------------------------------------------------
 
 //! Template to construct custom data store pointers
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 template <class BasePtrTypeT, class FieldContainerTypeT> 
 class ConstFCPtr : public BasePtrTypeT

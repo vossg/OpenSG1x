@@ -1,0 +1,215 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+//---------------------- Groups ---------------------
+
+/*! \defgroup GrpSystemWindow Window
+    \ingroup GrpSystem
+    
+windows etc.
+
+See \ref PageSystemSystemWindow for details.
+*/
+
+/*! \defgroup GrpSystemWindowForegrounds Foregrounds
+    \ingroup GrpSystemWindow
+    
+Foregrounds etc.
+
+See \ref PageSystemForegrounds for details.
+*/
+
+/*! \defgroup GrpSystemWindowBackgrounds Backgrounds
+    \ingroup GrpSystemWindow
+    
+Backgrounds etc.
+
+See \ref PageSystemBackgrounds for details.
+*/
+
+/*! \defgroup GrpSystemWindowCameras Cameras
+    \ingroup GrpSystemWindow
+    
+The Camera group includes all the Camera and camera enhancement objects.
+
+See \ref PageSystemCameras for details.
+*/
+
+/*! \defgroup GrpSystemWindowViewports Viewports
+    \ingroup GrpSystemWindow
+    
+viewports.
+
+See \ref PageSystemViewports for details.
+*/
+
+/*! \defgroup GrpSystemWindowNavigators Navigators
+    \ingroup GrpSystemWindow
+    
+navigators.
+
+See \ref PageSystemNavigators for details.
+*/
+
+
+//---------------------- Pages ---------------------
+
+
+/*! \page PageSystemWindow Window
+
+\latexonly Starter:NewChapter \endlatexonly
+
+Windows are the general connection between OpenSG and the windowing system
+used by the application/platform. OpenSG itself does not open its own windows,
+that has to be done by the application. Using GLUT it's pretty trivial, take a
+look at the tutorial examples on how to do that. For other window systems its
+a little more work, but the goal is to have wrapper classes for the usual GUI
+toolkits like QT, Motif etc. that simplify the task. We have one for QT,
+OSGQGLManagedWidget, and are interested in similar ones for other Window
+systems.
+
+\section PageSystemWindowWindow Window
+
+A Window is the connection between OpenSG and the window system used. There
+are variants for different supported window systems like X, WIN32, GLUT and
+QT. The OpenSG Window object handles OpenGL context creation and
+activation/deactivation, and needs to be informed about resizes. It manages
+OpenGL objects like display lists and texture objects and is also responsible
+for OpenGL extension detection and functions.
+
+It doesn't do any input event handling or similar things, it's only for output
+and keeping the Viewports that fill the window and keep all the rendering
+parameters. See sec. [sec:simplescenemanager] for an easy-to-use wrapper for
+setting these up. 
+
+\section PageSystemWindowViewport Viewport
+
+A Viewport is a part of the window that is being rendered into. It can cover
+the whole window, but doesn't have to. The size of the viewport is defined by
+its left, right, bottom and top coordinates, given in OpenGL conventions, i.e.
+the bottom of the screen has the vertical coordinate 0. 
+
+If the value is bigger than 1, it's a position in pixel. That's independent of
+the window size, if the window is smaller, parts of the viewport will be cut,
+if it's bigger parts of the window will not be covered. If they are between 0
+and 1 (inclusively) they are relative to the window and are rescaled when the
+window is resized. If they are -1 they use the extreme applicable value, i.e.
+0 for left and bottom, 1 for right and top. For relative sizes the actual
+value used for right and top is value * size - 1. This allows abutting
+viewports by using the same relative values for right and left of the
+viewports that should fit. See fig. for an example.
+
+\image html viewports.png "Viewports in differently sized windows"
+\image latex viewports.eps "Viewports in differently sized windows" width=8cm
+
+Figure: <fig:viewports>Viewports in differently sized windows
+
+To define what is being rendered a viewport stores the root node of the scene
+to be displayed, the camera to use and the background and foregrounds.
+
+\section PageSystemWindowCamera Camera
+
+A camera defines the parts of the scene that are actually being rendered. The
+definition can be split in two parts: location and direction, and internal
+parameters.
+
+Position and orientation of the camera are defined by a node in the
+scene-graph, a beacon, similarly to the definition used by light sources. The
+camera uses the OpenGL defaults for specifying the used coordinate system,
+i.e. the camera looks along the negative Z coordinate, X points to the right
+and Y is up. Thus, to use a camera you need a beacon node in the scene to
+define its position. This can be an object you want to attach the camera to,
+but in general you'll probably have a Transform node somewhere close to the
+root to handle it.
+
+This gives full flexibility to use a simple matrix to define camera position
+and orientation, but can be tedious to specify. Many systems use a from-at-up
+convention to define camera parameters, i.e. you specify a viewer position, a
+point that should be in the center of the screen and the direction that should
+be up on the screen. The MatrixLookAt functions from OSGMatrixUtility.h can
+convert these settings into a matrix that can directly be used to specify the
+camera.
+
+The internal parameters of the camera can vary between different kinds of
+cameras. The only constant thing that a camera for OpenGL needs are the near
+and far clip distances, which are defined in the general Camera class. The
+others are defined in the specific camera classes.
+
+\subsection PageSystemWindowCameraPerspective Perspective Camera
+
+The standard camera used for OpenGL rendering is a perspective camera. The
+only additional attribute it has is the vertical field of view, in radians.
+The horizontal field of view is automatically adjusted to the window size to
+create a square aspect ratio.
+
+\subsection PageSystemWindowCameraDecorators Camera Decorators
+
+Cameras can be decorated.
+
+\subsubsection PageSystemWindowCameraDecoratorsTile Tiled Rendering
+
+\subsubsection PageSystemWindowCameraDecoratorsSheared Sheared Stereo
+
+\subsubsection PageSystemWindowCameraDecoratorsProjection Projection Screen
+
+
+\section PageSystemWindowBackground Background
+
+A background defines how the window is cleared before anything is rendered.
+There are a couple of different backgrounds.There can be only one background
+per viewport.
+
+\subsection PageSystemWindowBackgroundSolid SolidBackground
+
+SolidBackground is the simplest variant, it just fills the background with a
+single color given in its color field.
+
+\subsection PageSystemWindowBackgroundGradient GradientBackground
+
+GradientBackground fills the background with a color gradient. To specify the
+gradient a color has to be associated with a vertical position in the window
+(0 being at the bottom, 1 being at the top). The addColor() method should be
+used for that.
+
+\section PageSystemWindowForeground Foreground
+
+A foreground can be used to render something on top of the scene-graph image.
+There can be an arbitrary number of active foregrounds. Right now the only
+foreground is ImageForeground.
+
+\subsection PageSystemWindowForegroundImage ImageForeground
+
+ImageForeground renders images on top of the scene-graph image. The typical
+use is adding a logo to the image. 
+
+Images have to be loaded as Images, their position has to be defined as a 2D
+position in the [0,1]x[0,1] range and given to the addImage() function.
+
+\section PageSystemWindowNavigators Navigators
+
+\section PageSystemWindowSimpleSceneManager SimpleSceneManager
+
+The SimpleSceneManager (SSM) is a utility class to simplify the creation of
+simple applications. It manages a single window with a single viewport and a
+minimal scene-graph with a beacon for the camera and a headlight. It keeps a
+Trackball to interactively manipulate the camera.
+
+It does not open a window itself, that is left to the user to keep the SSM
+useful for arbitrary window systems. The window has to be passed to the SSM by
+using setWindow(). That's one half of the necessary initialization. It can't
+handle input itself, the application has to pass it user input events. It's a
+lot simpler than it sounds, take a look at the tutorials to see how it works.
+
+The other half of the necessary initialization is telling SSM what to draw by
+calling setRoot(). That's it. It might be useful to call showAll() to position
+the camera at a reasonable position, but that's not mandatory.
+
+The SSM can be used in conjunction with any window system, it has been
+integrated into an easy-to-use QT widget called OSGQGLWidget. See
+testManagedWindowQT_qt.cpp for an example on how to use it.
+
+As a little bonus, the SSM can display the "Powered by OpenSG" logo. Just call
+useOpenSGLogo() and you're done. ;)
+
+*/

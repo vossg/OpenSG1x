@@ -86,7 +86,6 @@ FieldDescription *SolidBackgroundBase::_desc[] =
                      (FieldAccessMethod) &SolidBackgroundBase::getSFColor)
 };
 
-//! SolidBackground type
 
 FieldContainerType SolidBackgroundBase::_type(
     "SolidBackground",
@@ -135,8 +134,6 @@ void SolidBackgroundBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -151,8 +148,6 @@ SolidBackgroundBase::SolidBackgroundBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 SolidBackgroundBase::SolidBackgroundBase(const SolidBackgroundBase &source) :
     _sfColor                  (source._sfColor                  ), 
     Inherited                 (source)
@@ -160,8 +155,6 @@ SolidBackgroundBase::SolidBackgroundBase(const SolidBackgroundBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 SolidBackgroundBase::~SolidBackgroundBase(void)
 {
@@ -226,7 +219,9 @@ void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SolidBackgroundPtr>::_type("SolidBackgroundPtr", "BackgroundPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(SolidBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 

@@ -47,15 +47,15 @@
 #include <OSGNodeFieldDataType.h>
 
 /*! \file OSGMFNodePtr.h
-    \ingroup FieldLib
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldMulti
     \brief OpenSG field container multi fields
 */
 
 OSG_BEGIN_NAMESPACE
 
 /*! \brief MFNodePtr
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<NodePtr> MFNodePtr;

@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class PerspectiveCamera;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! PerspectiveCameraPtr
 
 typedef FCPtr<CameraPtr, PerspectiveCamera> PerspectiveCameraPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief PerspectiveCameraPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<PerspectiveCameraPtr> :
     static char     *getSName(void) { return "SFPerspectiveCameraPtr"; }
     static char     *getMName(void) { return "MFPerspectiveCameraPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFPerspectiveCameraPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<PerspectiveCameraPtr> SFPerspectiveCameraPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFPerspectiveCameraPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<PerspectiveCameraPtr> MFPerspectiveCameraPtr;
 

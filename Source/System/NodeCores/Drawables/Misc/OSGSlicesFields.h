@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Slices;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! SlicesPtr
 
 typedef FCPtr<MaterialDrawablePtr, Slices> SlicesPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief SlicesPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<SlicesPtr> :
     static char     *getSName(void) { return "SFSlicesPtr"; }
     static char     *getMName(void) { return "MFSlicesPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFSlicesPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<SlicesPtr> SFSlicesPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, SlicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFSlicesPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<SlicesPtr> MFSlicesPtr;
 
@@ -111,6 +115,6 @@ OSG_DLLEXPORT_DECL1(MField, SlicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSLICESFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.18 2002/08/21 07:05:49 vossg Exp $"
+#define OSGSLICESFIELDS_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSLICESFIELDS_H_ */

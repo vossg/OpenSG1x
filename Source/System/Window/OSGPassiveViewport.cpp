@@ -56,8 +56,16 @@
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
 /*! \class osg::PassiveViewport
-The PassiveViewport does nothing itself, but expects OpenGL to be properly configured when draw() or render() are called. 
+    \ingroup GrpSystemWindowViewports
+
+The PassiveViewport does nothing itself, but expects OpenGL to be properly
+configured when draw() or render() are called. 
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/

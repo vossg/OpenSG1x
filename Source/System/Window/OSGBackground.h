@@ -55,7 +55,6 @@ class Viewport;
 
 
 //! background base class
-
 class OSG_SYSTEMLIB_DLLMAPPING Background : public BackgroundBase
 {
 

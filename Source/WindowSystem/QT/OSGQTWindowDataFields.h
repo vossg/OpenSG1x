@@ -56,8 +56,6 @@
 #include "OSGQGLWidget_qt.h"
 
 
-/*! The field types for the local types needed by the QTWindow class */
-
 OSG_BEGIN_NAMESPACE
 
 
@@ -90,12 +88,12 @@ struct OSG_WINDOWQTLIB_DLLMAPPING FieldDataTraits<OSGQGLWidgetP> :
 };
 
 //! SFOSGQGLWidgetP
-//! \ingroup SingleFields
+//! \ingroup GrpBaseFieldSingle
 
 typedef SField<OSGQGLWidgetP> SFOSGQGLWidgetP;
 
 //! MFOSGQGLWidgetP
-//! \ingroup MultiFields
+//! \ingroup GrpBaseFieldMulti
 
 typedef MField<OSGQGLWidgetP> MFOSGQGLWidgetP;
 

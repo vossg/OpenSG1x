@@ -108,7 +108,6 @@ FieldDescription *CameraBase::_desc[] =
                      (FieldAccessMethod) &CameraBase::getSFFar)
 };
 
-//! Camera type
 
 FieldContainerType CameraBase::_type(
     "Camera",
@@ -148,8 +147,6 @@ void CameraBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -166,8 +163,6 @@ CameraBase::CameraBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 CameraBase::CameraBase(const CameraBase &source) :
     _sfBeacon                 (source._sfBeacon                 ), 
     _sfNear                   (source._sfNear                   ), 
@@ -177,8 +172,6 @@ CameraBase::CameraBase(const CameraBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 CameraBase::~CameraBase(void)
 {
@@ -356,7 +349,9 @@ void CameraBase::setFar(const Real32 &value)
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<CameraPtr>::_type("CameraPtr", "AttachmentContainerPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

@@ -112,7 +112,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorBufferViewportBase : public Viewport
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

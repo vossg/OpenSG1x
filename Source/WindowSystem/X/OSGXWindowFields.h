@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class XWindow;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! XWindowPtr
 
 typedef FCPtr<WindowPtr, XWindow> XWindowPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief XWindowPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<XWindowPtr> :
     static char     *getSName(void) { return "SFXWindowPtr"; }
     static char     *getMName(void) { return "MFXWindowPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFXWindowPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<XWindowPtr> SFXWindowPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, XWindowPtr, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFXWindowPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<XWindowPtr> MFXWindowPtr;
 

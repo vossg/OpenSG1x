@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class MatrixCamera;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! MatrixCameraPtr
 
 typedef FCPtr<CameraPtr, MatrixCamera> MatrixCameraPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief MatrixCameraPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<MatrixCameraPtr> :
     static char     *getSName(void) { return "SFMatrixCameraPtr"; }
     static char     *getMName(void) { return "MFMatrixCameraPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFMatrixCameraPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<MatrixCameraPtr> SFMatrixCameraPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFMatrixCameraPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<MatrixCameraPtr> MFMatrixCameraPtr;
 

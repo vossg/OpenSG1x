@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Drawable;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! DrawablePtr
 
 typedef FCPtr<NodeCorePtr, Drawable> DrawablePtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief DrawablePtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<DrawablePtr> :
     static char     *getSName(void) { return "SFDrawablePtr"; }
     static char     *getMName(void) { return "MFDrawablePtr"; }
 };
+#endif             // exclude from doc
 
 //! SFDrawablePtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<DrawablePtr> SFDrawablePtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, DrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFDrawablePtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<DrawablePtr> MFDrawablePtr;
 
@@ -111,6 +115,6 @@ OSG_DLLEXPORT_DECL1(MField, DrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGDRAWABLEFIELDS_HEADER_CVSID "@(#)$Id: OSGDrawableFields.h,v 1.1 2002/09/25 16:46:17 jbehr Exp $"
+#define OSGDRAWABLEFIELDS_HEADER_CVSID "@(#)$Id: OSGDrawableFields.h,v 1.2 2002/10/24 14:22:00 dirk Exp $"
 
 #endif /* _OSGDRAWABLEFIELDS_H_ */

@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class ImageForeground;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ImageForegroundPtr
 
 typedef FCPtr<ForegroundPtr, ImageForeground> ImageForegroundPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief ImageForegroundPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<ImageForegroundPtr> :
     static char     *getSName(void) { return "SFImageForegroundPtr"; }
     static char     *getMName(void) { return "MFImageForegroundPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFImageForegroundPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<ImageForegroundPtr> SFImageForegroundPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, ImageForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFImageForegroundPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<ImageForegroundPtr> MFImageForegroundPtr;
 

@@ -48,25 +48,24 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! chunk for glBlendFunc() attributes
-
 class OSG_SYSTEMLIB_DLLMAPPING BlendChunk : public BlendChunkBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
+    /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    static const char *getClassname(void) { return "BlendChunk"; };
+    virtual const  StateChunkClass * getClass    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name               Fieldcontainer declaration                     */
+    /*! \name              Static Chunk Class Access                       */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *  getClass( void ) const;
+    static        UInt32           getStaticClassId  (void);
+    static  const StateChunkClass *getStaticClass    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -92,7 +91,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunk : public BlendChunkBase
     virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
 
     virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
-                             UInt32 index = 0 );
+                              UInt32 index = 0 );
 
     virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
 
@@ -137,12 +136,12 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunk : public BlendChunkBase
     friend class FieldContainer;
     friend class BlendChunkBase;
 
-    static char cvsid[];
-
-    // class. Used for indexing in State
     static StateChunkClass _class;
 
-    // indices for used extensions and functions
+    /*---------------------------------------------------------------------*/
+    /*! \name            OpenGL Extension Handling                         */
+    /*! \{                                                                 */
+
     static UInt32 _extBlend;
     static UInt32 _extImaging;
     static UInt32 _extBlendSubtract;
@@ -151,6 +150,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunk : public BlendChunkBase
     static UInt32 _funcBlendColor;
     static UInt32 _funcBlendEquation;
     static UInt32 _funcBlendEquationExt;
+
+    /*! \}                                                                 */
 
     static void initMethod( void );
 
@@ -164,5 +165,7 @@ OSG_END_NAMESPACE
 
 #include <OSGBlendChunkBase.inl>
 #include <OSGBlendChunk.inl>
+
+#define OSGBLENDCHUNK_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGBLENDCHUNK_H_ */

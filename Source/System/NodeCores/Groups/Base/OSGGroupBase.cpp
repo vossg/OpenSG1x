@@ -66,7 +66,6 @@ OSG_USING_NAMESPACE
 
 
 
-//! Group type
 
 FieldContainerType GroupBase::_type(
     "Group",
@@ -115,8 +114,6 @@ void GroupBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -130,16 +127,12 @@ GroupBase::GroupBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 GroupBase::GroupBase(const GroupBase &source) :
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 GroupBase::~GroupBase(void)
 {
@@ -187,7 +180,9 @@ void GroupBase::executeSyncImpl(      GroupBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<GroupPtr>::_type("GroupPtr", "NodeCorePtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

@@ -72,7 +72,7 @@ typedef void *AnonSymbolHandle;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseLib
+/*! \ingroup GrpBaseLib
  *  \brief SharedLibrary
  */
 

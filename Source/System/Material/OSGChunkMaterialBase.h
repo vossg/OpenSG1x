@@ -103,7 +103,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

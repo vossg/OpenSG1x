@@ -43,9 +43,21 @@
 OSG_BEGIN_NAMESPACE
 
 inline
-const StateChunkClass *  TextureTransformChunk::getClass( void ) const
+const StateChunkClass *TextureTransformChunk::getClass( void ) const
 {
     return &_class;
+}
+
+inline
+UInt32 TextureTransformChunk::getStaticClassId(void)
+{
+    return getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *TextureTransformChunk::getStaticClass(void)
+{
+    return &TextureTransformChunk::_class;
 }
 
 OSG_END_NAMESPACE

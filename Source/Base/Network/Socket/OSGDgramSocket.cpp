@@ -68,8 +68,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \class DgramSocket
- *  \ingroup Network
+/** \class osg::DgramSocket
+ *  \ingroup GrpBaseNetwork
  *  \brief Datagramm socket handler
  *  \author Marcus Roth
  *

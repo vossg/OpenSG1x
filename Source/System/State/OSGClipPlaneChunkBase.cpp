@@ -79,13 +79,13 @@ const OSG::BitVector  ClipPlaneChunkBase::BeaconFieldMask =
 // Field descriptions
 
 /*! \var Vec4f           ClipPlaneChunkBase::_sfEquation
-    Defines the equation of the clip plane.
+    Defines the equation of the clip plane. Standard format, if (a,b,c,d) is         the plane a point (x,y,z) is visible if a*x+b*y+c*z+d &gt;= 0.
 */
 /*! \var bool            ClipPlaneChunkBase::_sfEnable
     Defines activation state of the clip plane.
 */
 /*! \var NodePtr         ClipPlaneChunkBase::_sfBeacon
-    The object that defines the clip planes's coordinate system. The clip plane is positioned relative to this system.
+    The object that defines the clip planes's coordinate system. The clip         plane is positioned relative to this system.
 */
 
 //! ClipPlaneChunk description
@@ -109,7 +109,6 @@ FieldDescription *ClipPlaneChunkBase::_desc[] =
                      (FieldAccessMethod) &ClipPlaneChunkBase::getSFBeacon)
 };
 
-//! ClipPlaneChunk type
 
 FieldContainerType ClipPlaneChunkBase::_type(
     "ClipPlaneChunk",
@@ -158,8 +157,6 @@ void ClipPlaneChunkBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -176,8 +173,6 @@ ClipPlaneChunkBase::ClipPlaneChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 ClipPlaneChunkBase::ClipPlaneChunkBase(const ClipPlaneChunkBase &source) :
     _sfEquation               (source._sfEquation               ), 
     _sfEnable                 (source._sfEnable                 ), 
@@ -187,8 +182,6 @@ ClipPlaneChunkBase::ClipPlaneChunkBase(const ClipPlaneChunkBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 ClipPlaneChunkBase::~ClipPlaneChunkBase(void)
 {
@@ -287,7 +280,9 @@ void ClipPlaneChunkBase::executeSyncImpl(      ClipPlaneChunkBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ClipPlaneChunkPtr>::_type("ClipPlaneChunkPtr", "StateChunkPtr");
+#endif
 
 
 OSG_END_NAMESPACE

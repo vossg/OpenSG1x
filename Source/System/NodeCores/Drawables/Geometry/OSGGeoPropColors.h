@@ -47,10 +47,10 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \brief GeoColors3fPropertyDesc
- *  \ingroup GeoProperties
+ *  \ingroup GrpSystemDrawablesGeometryProperties
  */
 
-struct GeoColors3fPropertyDesc
+struct GeoColors3fPropertyDesc : public GeoColorsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -92,7 +92,9 @@ struct GeoColors3fPropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoColors3fPropertyDesc> GeoColors3f;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPCOLORINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
@@ -102,10 +104,10 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 
 
 /*! \brief GeoColors4fPropertyDesc
- *  \ingroup GeoProperties
+ *  \ingroup GrpSystemDrawablesGeometryProperties
  */
 
-struct GeoColors4fPropertyDesc
+struct GeoColors4fPropertyDesc : public GeoColorsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -147,7 +149,9 @@ struct GeoColors4fPropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoColors4fPropertyDesc> GeoColors4f;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPCOLORINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
@@ -156,10 +160,10 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 #endif
 
 /*! \brief GeoColors3ubPropertyDesc
- *  \ingroup GeoProperties
+ *  \ingroup GrpSystemDrawablesGeometryProperties
  */
 
-struct GeoColors3ubPropertyDesc
+struct GeoColors3ubPropertyDesc : public GeoColorsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -201,7 +205,9 @@ struct GeoColors3ubPropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoColors3ubPropertyDesc> GeoColors3ub;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPCOLORINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
@@ -210,10 +216,10 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 #endif
 
 /*! \brief GeoColors4ubPropertyDesc
- *  \ingroup GeoProperties
+ *  \ingroup GrpSystemDrawablesGeometryProperties
  */
 
-struct GeoColors4ubPropertyDesc
+struct GeoColors4ubPropertyDesc : public GeoColorsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -255,7 +261,9 @@ struct GeoColors4ubPropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoColors4ubPropertyDesc> GeoColors4ub;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPCOLORINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,

@@ -66,13 +66,16 @@ OSG_BEGIN_NAMESPACE
 
 class SkyBackground;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! SkyBackgroundPtr
 
 typedef FCPtr<BackgroundPtr, SkyBackground> SkyBackgroundPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief SkyBackgroundPtr field traits 
-    \ingroup FieldLib
-    \ingroup MultiFields
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -88,10 +91,11 @@ struct FieldDataTraits<SkyBackgroundPtr> :
 
     static char     *getMName(void) { return "MFSkyBackgroundPtr"; }
 };
+#endif             // exclude from doc
 
 
 //! MFSkyBackgroundPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<SkyBackgroundPtr> MFSkyBackgroundPtr;
 

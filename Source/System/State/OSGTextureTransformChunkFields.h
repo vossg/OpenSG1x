@@ -66,12 +66,15 @@ OSG_BEGIN_NAMESPACE
 
 class TextureTransformChunk;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! TextureTransformChunkPtr
 
 typedef FCPtr<TransformChunkPtr, TextureTransformChunk> TextureTransformChunkPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief TextureTransformChunkPtr field traits 
-    \ingroup FieldLib
 */
 
 template <>
@@ -83,6 +86,7 @@ struct FieldDataTraits<TextureTransformChunkPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
+#endif             // exclude from doc
 
 
 OSG_END_NAMESPACE

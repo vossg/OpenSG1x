@@ -53,8 +53,17 @@
 #include "OSGGrabForeground.h"
 
 OSG_USING_NAMESPACE
+
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
 /*! \class osg::GrabForeground
-Background is the base class for all background clearing.  	 	
+    \ingroup GrpSystemWindowForegrounds
+    
+Foreground is the base class for all foreground rendering.  
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/

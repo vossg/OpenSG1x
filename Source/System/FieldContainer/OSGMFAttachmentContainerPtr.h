@@ -47,15 +47,15 @@
 #include <OSGAttachmentContainerFieldDataType.h>
 
 /*! \file OSGMFAttachmentContainerPtr.h
-    \ingroup FieldLib
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldMulti
     \brief OpenSG attachment container multi fields
 */
 
 OSG_BEGIN_NAMESPACE
 
 /*! \brief MFAttachmentContainerPtr
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
  */
 
 typedef MField<AttachmentContainerPtr> MFAttachmentContainerPtr;

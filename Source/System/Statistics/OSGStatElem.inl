@@ -38,22 +38,19 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*-------------------------------------------------------------------------*/
-inline  bool StatElem::getOn       (void)         
+inline  bool StatElem::isOn(void)         
 { 
-  return _on; 
+	return _on; 
 }
 
-/*-------------------------------------------------------------------------*/
-inline  void StatElem::setOn       (bool on)      
+inline  void StatElem::setOn(bool on)      
 { 
-  _on = on; 
+	_on = on; 
 }
 
-/*-------------------------------------------------------------------------*/
-inline  StatElemDescBase * StatElem::getDesc     (void)         
+inline  StatElemDescBase * StatElem::getDesc(void)         
 { 
-  return _desc; 
+	return _desc; 
 }
 
 OSG_END_NAMESPACE

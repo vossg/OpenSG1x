@@ -199,7 +199,7 @@ bool OSG::osgExit(void)
     return returnValue;
 }
 
-/*! \class InitFuncWrapper
+/*! \class osg::InitFuncWrapper
     InitFuncWrapper is a little wrapper class that allows calling an init 
     function without an associated class.
  */
@@ -210,7 +210,7 @@ InitFuncWrapper::InitFuncWrapper(const InitFuncF func)
 }
 
 
-/*! \class StaticInitFuncWrapper
+/*! \class osg::StaticInitFuncWrapper
     StaticInitFuncWrapper is a little wrapper class that allows calling a 
     static init function without an associated class.
  */

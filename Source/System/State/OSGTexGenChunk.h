@@ -49,9 +49,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
-
 class OSG_SYSTEMLIB_DLLMAPPING TexGenChunk : public TexGenChunkBase
 {
   private:
@@ -62,10 +59,18 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunk : public TexGenChunkBase
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                Instance Functions                            */
+    /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *getClass(void) const;
+    virtual const  StateChunkClass * getClass    (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name              Static Chunk Class Access                       */
+    /*! \{                                                                 */
+
+    static        UInt32           getStaticClassId  (void);
+    static  const StateChunkClass *getStaticClass    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -66,13 +66,16 @@ OSG_BEGIN_NAMESPACE
 
 class PassiveBackground;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! PassiveBackgroundPtr
 
 typedef FCPtr<BackgroundPtr, PassiveBackground> PassiveBackgroundPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief PassiveBackgroundPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
+    \ingroup BaseFieldSingle
 */
 
 template <>
@@ -88,9 +91,10 @@ struct FieldDataTraits<PassiveBackgroundPtr> :
 
     static char     *getSName(void) { return "SFPassiveBackgroundPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFPassiveBackgroundPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<PassiveBackgroundPtr> SFPassiveBackgroundPtr;
 

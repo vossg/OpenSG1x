@@ -48,7 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup BaseBaseColors
+/*! \ingroup GrpBaseBaseColors
  *  \brief Color3
  */
 
@@ -169,7 +169,7 @@ class Color3
     ValueType _rgb[3];
 };
 
-/*! \ingroup BaseBaseColors
+/*! \ingroup GrpBaseBaseColors
  *  \brief Color4
  */
 
@@ -284,28 +284,28 @@ std::ostream &operator <<(      std::ostream       &outStream,
                           const Color4<ValueTypeT> &color);
 
 /*! \var Color3<Real32> Color3f;
- *  \ingroup BaseColors
+ *  \ingroup GrpBaseColors
  *  \brief Color3f
  */
 
 typedef Color3<Real32> Color3f;
 
 /*! \var Color4<Real32> Color4f;
- *  \ingroup BaseColors
+ *  \ingroup GrpBaseColors
  *  \brief Color4f
  */
 
 typedef Color4<Real32> Color4f;
 
 /*! \var Color3<UInt8> Color3ub;
- *  \ingroup BaseColors
+ *  \ingroup GrpBaseColors
  *  \brief Color3ub
  */
 
 typedef Color3<UInt8> Color3ub;
 
 /*! \var Color4<UInt8> Color4ub;
- *  \ingroup BaseColors
+ *  \ingroup GrpBaseColors
  *  \brief Color4ub
  */
 

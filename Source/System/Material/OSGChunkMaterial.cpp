@@ -62,7 +62,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::ChunkMaterial
-    \ingroup MaterialLib
+    \ingroup GrpSystemMaterial
 
 The chunk material class.
 

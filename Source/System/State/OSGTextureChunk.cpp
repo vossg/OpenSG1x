@@ -61,15 +61,11 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::TextureChunk
-    \ingroup StateChunks
+    \ingroup GrpSystemState
 
-The texture chunk class.
+See \ref PageSystemMaterialChunk for details.
 
 */
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 /***************************************************************************\
  *                           Class variables                               *
@@ -96,49 +92,13 @@ UInt32 TextureChunk::_funcActiveTexture = Window::invalidFunctionID;
 #endif
 
 
-// this should go somewhere central...
-
-#ifdef OSG_DEBUG
-#define glErr(text)                           \
-{                                   \
-        GLenum glerr;                           \
-        glerr=glGetError();                     \
-        if(glerr!=GL_NO_ERROR)                     \
-        {                               \
-                fprintf(stderr, "%s failed: %s (%#x)\n", (text),    \
-                                        (char*)gluErrorString(glerr), glerr);  \
-        }                               \
-}
-#else
-#define glErr(text)
-#endif
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void TextureChunk::initMethod (void)
 {
@@ -149,14 +109,11 @@ void TextureChunk::initMethod (void)
 \***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
+ -  private                                                                 -
 \*-------------------------------------------------------------------------*/
 
 
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 TextureChunk::TextureChunk(void) :
     Inherited()
@@ -175,16 +132,10 @@ TextureChunk::TextureChunk(void) :
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glActiveTextureARB"  );
 }
 
-/** \brief Copy Constructor
- */
-
 TextureChunk::TextureChunk(const TextureChunk &source) :
     Inherited(source)
 {
 }
-
-/** \brief Destructor
- */
 
 TextureChunk::~TextureChunk(void)
 {
@@ -194,10 +145,12 @@ TextureChunk::~TextureChunk(void)
 }
 
 
-/** \brief react to field changes
+/*------------------------------- Sync -----------------------------------*/
+
+/*! React to field changes.
     Note: this function also handles CubeTexture changes, make sure to keep 
     it consistent with the cubeTexture specifics
- */
+*/
 
 void TextureChunk::changed(BitVector whichField, UInt32 origin)
 {
@@ -256,9 +209,6 @@ bool TextureChunk::isTransparent(void) const
 
 /*----------------------------- onCreate --------------------------------*/
 
-/** \brief instance initialization
- */
-
 void TextureChunk::onCreate(const TextureChunk *)
 {
     if(GlobalSystemState == Startup)
@@ -284,10 +234,7 @@ void TextureChunk::onCreate(const TextureChunk *)
 }
 
 
-/*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
+/*------------------------------ Output ----------------------------------*/
 
 void TextureChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
                         const BitVector OSG_CHECK_ARG(bvFlags )) const
@@ -296,10 +243,11 @@ void TextureChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 }
 
 
-/*-------------------------- your_category---------------------------------*/
+/*------------------------------ State ------------------------------------*/
 
-// Texture handler. Create/update a single texture.
-// Also used by derived CubeMap chunk.
+/*! Texture handler. Create/update a single texture.
+    Also used by derived CubeMap chunk.
+*/
 
 void TextureChunk::handleTexture(Window *win, UInt32 id, 
     GLenum bindtarget, 
@@ -324,8 +272,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
 			FINFO(("Cube textures not supported on Window %p!\n", win));
 			return;
 		}
-		
-        
+		     
         if(mode == Window::reinitialize)
         {
             GLuint tex = id;
@@ -790,8 +737,9 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
 }
 
 
-// GL object handler
-// create the texture and destroy it
+/*! GL object handler
+    create the texture and destroy it
+*/
 void TextureChunk::handleGL(Window *win, UInt32 idstatus)
 {
     Window::GLObjectStatusE mode;
@@ -855,8 +803,6 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         return;
 
     glErr("TextureChunk::activate precheck");
-
-
     
     if ( img->getDepth() > 1 )
     {
@@ -1030,23 +976,17 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
     glErr("TextureChunk::deactivate");
 }
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------- Comparison -----------------------------------*/
 
 Real32 TextureChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
 }
 
-/** \brief assignment
- */
-
 bool TextureChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
-
-/** \brief equal
- */
 
 bool TextureChunk::operator == (const StateChunk &other) const
 {
@@ -1058,7 +998,7 @@ bool TextureChunk::operator == (const StateChunk &other) const
     if(tother == this)
         return true;
 
-    return getImage()       == tother->getImage() &&
+    return  getImage()       == tother->getImage() &&
             getMinFilter()  == tother->getMinFilter() &&
             getMagFilter()  == tother->getMagFilter() &&
             getWrapS()      == tother->getWrapS() &&
@@ -1067,21 +1007,33 @@ bool TextureChunk::operator == (const StateChunk &other) const
             getEnvMode()    == tother->getEnvMode();
 }
 
-/** \brief unequal
- */
-
 bool TextureChunk::operator != (const StateChunk &other) const
 {
     return ! (*this == other);
 }
 
 
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGTEXTURECHUNK_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGTEXTURECHUNK_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGTEXTURECHUNKFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

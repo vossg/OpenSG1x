@@ -62,7 +62,7 @@ OSG_BEGIN_NAMESPACE
 //   Types
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 struct DefaultFunctorSizeTraits
@@ -81,7 +81,7 @@ struct DefaultFunctorSizeTraits
     };
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class Argument1T>
@@ -91,7 +91,7 @@ struct ArgsCollector
     typedef Argument1T Arg1T;
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class Argument1T, class Argument2T>
@@ -101,7 +101,7 @@ struct ArgsCollector2
     typedef Argument2T Arg2T;
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class ArgT>
@@ -113,7 +113,7 @@ struct ObjCallArg
     typedef ArgsCollector<ArgType> ArgsC;
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class ArgT>
@@ -128,7 +128,7 @@ struct RefCallArg
     }
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class ArgT>
@@ -145,7 +145,7 @@ struct PtrCallArg
     }
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class ArgT>
@@ -162,7 +162,7 @@ struct CPtrCallArg
     }
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class ArgT>
@@ -179,7 +179,7 @@ struct CPtrRefCallArg
     }
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class RetT, class ClassT>
@@ -188,7 +188,7 @@ struct ClassMemFunc
     typedef RetT (ClassT::*MemFunc)(void);
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class RetT, class ClassT, class ArgsT>
@@ -199,7 +199,7 @@ struct ClassMemFunc1
     typedef RetT (ClassT::*MemFunc)(Arg1T);
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class RetT, class ClassT, class ArgsT>
@@ -211,7 +211,7 @@ struct ClassMemFunc2
     typedef RetT (ClassT::*MemFunc)(Arg1T, Arg2T);
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class RetT, class CallArgT>
@@ -225,7 +225,7 @@ struct FunctorBuildFuncType1
     typedef RetT (*FuncFunctionType)(CallArgType);
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class RetT, class CallArgT, class ArgsT>
@@ -241,7 +241,7 @@ struct FunctorBuildObjFuncType1
                                    ArgColl>::MemFunc ObjFuncType;
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class RetT, class CallArgT, class ArgsT>
@@ -261,7 +261,7 @@ struct FunctorBuildFuncType2
     typedef RetT (*FuncFunctionType)(CallArgType, ArgType);
 };
 
-/*! \ingroup BaseFunctorsHelper
+/*! \ingroup GrpBaseFunctorsHelper
  */
 
 template <class RetT, class ObjCallArgT, class CallArgT, class ArgsT>
@@ -283,7 +283,7 @@ struct FunctorBuildObjFuncType2
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctors
+/*! \ingroup GrpBaseFunctors
  */
 
 template <class SizeTraitsT = DefaultFunctorSizeTraits>

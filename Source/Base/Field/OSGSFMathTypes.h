@@ -47,8 +47,8 @@
 #include <OSGMathFieldDataType.h>
 
 /*! \file OSGSFMathTypes.h
-    \ingroup FieldLib
-    \ingroup SingleFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
     \brief OpenSG math single fields
 */
 
@@ -56,7 +56,7 @@ OSG_BEGIN_NAMESPACE
 
 
 /*! \brief SFMatrix
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Matrix>     SFMatrix;
@@ -67,7 +67,7 @@ OSG_DLLEXPORT_DECL1(SField, Matrix, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFQuaternion
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Quaternion> SFQuaternion;

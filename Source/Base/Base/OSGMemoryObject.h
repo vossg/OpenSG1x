@@ -49,7 +49,7 @@ OSG_BEGIN_NAMESPACE
 
 /*! \brief Memory, simple reference counted memory object. Parent of
            everything that should be shared, but must not be thread safe.
-    \ingroup BaseBase
+    \ingroup GrpBaseBase
  */
 
 class OSG_BASE_DLLMAPPING MemoryObject

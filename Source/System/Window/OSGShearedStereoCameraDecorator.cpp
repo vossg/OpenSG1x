@@ -53,8 +53,14 @@
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
 /*! \class osg::ShearedStereoCameraDecorator
-The base class for stereo decorators. 	
+    \ingroup GrpSystemWindowCameras
+
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/

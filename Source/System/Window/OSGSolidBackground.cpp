@@ -65,7 +65,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::SolidBackground
-    \ingroup Backgrounds
+    \ingroup GrpSystemWindowBackgrounds
 
 A single colored background.    
 

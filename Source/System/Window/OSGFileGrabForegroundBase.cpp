@@ -119,7 +119,6 @@ FieldDescription *FileGrabForegroundBase::_desc[] =
                      (FieldAccessMethod) &FileGrabForegroundBase::getSFIncrement)
 };
 
-//! FileGrabForeground type
 
 FieldContainerType FileGrabForegroundBase::_type(
     "FileGrabForeground",
@@ -168,8 +167,6 @@ void FileGrabForegroundBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -187,8 +184,6 @@ FileGrabForegroundBase::FileGrabForegroundBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 FileGrabForegroundBase::FileGrabForegroundBase(const FileGrabForegroundBase &source) :
     _sfActive                 (source._sfActive                 ), 
     _sfName                   (source._sfName                   ), 
@@ -199,8 +194,6 @@ FileGrabForegroundBase::FileGrabForegroundBase(const FileGrabForegroundBase &sou
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 FileGrabForegroundBase::~FileGrabForegroundBase(void)
 {
@@ -320,7 +313,9 @@ void FileGrabForegroundBase::executeSyncImpl(      FileGrabForegroundBase *pOthe
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<FileGrabForegroundPtr>::_type("FileGrabForegroundPtr", "GrabForegroundPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

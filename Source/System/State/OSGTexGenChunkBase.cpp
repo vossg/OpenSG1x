@@ -167,7 +167,6 @@ FieldDescription *TexGenChunkBase::_desc[] =
                      (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncQPlane)
 };
 
-//! TexGenChunk type
 
 FieldContainerType TexGenChunkBase::_type(
     "TexGenChunk",
@@ -216,8 +215,6 @@ void TexGenChunkBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -239,8 +236,6 @@ TexGenChunkBase::TexGenChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 TexGenChunkBase::TexGenChunkBase(const TexGenChunkBase &source) :
     _sfGenFuncS               (source._sfGenFuncS               ), 
     _sfGenFuncT               (source._sfGenFuncT               ), 
@@ -255,8 +250,6 @@ TexGenChunkBase::TexGenChunkBase(const TexGenChunkBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 TexGenChunkBase::~TexGenChunkBase(void)
 {
@@ -448,7 +441,9 @@ void TexGenChunkBase::executeSyncImpl(      TexGenChunkBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<TexGenChunkPtr>::_type("TexGenChunkPtr", "StateChunkPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(TexGenChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TexGenChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

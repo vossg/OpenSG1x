@@ -40,17 +40,27 @@
 
 #include "OSGConfig.h"
 
-#include <iostream>
-
 OSG_BEGIN_NAMESPACE
 
-
 inline
-const StateChunkClass *  BlendChunk::getClass( void ) const
+const StateChunkClass *BlendChunk::getClass( void ) const
 {
     return &_class;
 }
 
+inline
+UInt32 BlendChunk::getStaticClassId(void)
+{
+    return getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *BlendChunk::getStaticClass(void)
+{
+    return &BlendChunk::_class;
+}
 
 OSG_END_NAMESPACE
+
+#define OSGBLENDCHUNK_INLINE_CVSID "@(#)$Id: FCTemplate_inl.h,v 1.7 2001/09/17 14:15:07 vossg Exp $"
 

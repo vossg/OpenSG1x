@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Material;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! MaterialPtr
 
 typedef FCPtr<AttachmentContainerPtr, Material> MaterialPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief MaterialPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<MaterialPtr> :
     static char     *getSName(void) { return "SFMaterialPtr"; }
     static char     *getMName(void) { return "MFMaterialPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFMaterialPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<MaterialPtr> SFMaterialPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFMaterialPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<MaterialPtr> MFMaterialPtr;
 

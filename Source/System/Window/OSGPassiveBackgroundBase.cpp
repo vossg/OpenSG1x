@@ -66,7 +66,6 @@ OSG_USING_NAMESPACE
 
 
 
-//! PassiveBackground type
 
 FieldContainerType PassiveBackgroundBase::_type(
     "PassiveBackground",
@@ -115,8 +114,6 @@ void PassiveBackgroundBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -130,16 +127,12 @@ PassiveBackgroundBase::PassiveBackgroundBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 PassiveBackgroundBase::PassiveBackgroundBase(const PassiveBackgroundBase &source) :
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 PassiveBackgroundBase::~PassiveBackgroundBase(void)
 {
@@ -186,7 +179,9 @@ void PassiveBackgroundBase::executeSyncImpl(      PassiveBackgroundBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<PassiveBackgroundPtr>::_type("PassiveBackgroundPtr", "BackgroundPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(PassiveBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 

@@ -99,6 +99,8 @@ static char cvsid[] = "@(#)$Id: $";
 #define NORMALS 1
 #define TEXTURE 2
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+
 struct grid
 {
   /*v parametrizes along the cross section, u along spine*/
@@ -114,6 +116,8 @@ struct grid
   UInt32 coords[3]; /* dimensions for the above vector fields */
 
 };
+
+#endif            // exclude from doc
 
 #ifdef OSG_DEBUG_PM
 

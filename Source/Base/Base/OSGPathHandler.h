@@ -58,7 +58,7 @@
 OSG_BEGIN_NAMESPACE
 
 //! Pathhandler
-//! \ingroup baselib
+//! \ingroup GrpBaseBase
 
 class OSG_BASE_DLLMAPPING PathHandler
 {

@@ -56,8 +56,17 @@
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
 /*! \class osg::SkyBackground
-A sky/ground and skybox background, inspired by the VRML Background node. See http://www.vrml.org/technicalinfo/specifications/vrml97/part1/nodesRef.html#Background for details on the parameter restrictions.
+    \ingroup GrpSystemWindowBackgrounds
+
+A sky/ground and skybox background, inspired by the VRML Background node. See
+http://www.vrml.org/technicalinfo/specifications/vrml97/part1/nodesRef.html#Background
+for details on the parameter restrictions. 
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/

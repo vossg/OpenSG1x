@@ -86,7 +86,6 @@ FieldDescription *DirectionalLightBase::_desc[] =
                      (FieldAccessMethod) &DirectionalLightBase::getSFDirection)
 };
 
-//! DirectionalLight type
 
 FieldContainerType DirectionalLightBase::_type(
     "DirectionalLight",
@@ -135,8 +134,6 @@ void DirectionalLightBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -151,8 +148,6 @@ DirectionalLightBase::DirectionalLightBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 DirectionalLightBase::DirectionalLightBase(const DirectionalLightBase &source) :
     _sfDirection              (source._sfDirection              ), 
     Inherited                 (source)
@@ -160,8 +155,6 @@ DirectionalLightBase::DirectionalLightBase(const DirectionalLightBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 DirectionalLightBase::~DirectionalLightBase(void)
 {
@@ -224,7 +217,9 @@ void DirectionalLightBase::executeSyncImpl(      DirectionalLightBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DirectionalLightPtr>::_type("DirectionalLightPtr", "LightPtr");
+#endif
 
 
 OSG_END_NAMESPACE

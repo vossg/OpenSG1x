@@ -97,7 +97,6 @@ FieldDescription *ImageForegroundBase::_desc[] =
                      (FieldAccessMethod) &ImageForegroundBase::getMFPositions)
 };
 
-//! ImageForeground type
 
 FieldContainerType ImageForegroundBase::_type(
     "ImageForeground",
@@ -146,8 +145,6 @@ void ImageForegroundBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -163,8 +160,6 @@ ImageForegroundBase::ImageForegroundBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 ImageForegroundBase::ImageForegroundBase(const ImageForegroundBase &source) :
     _mfImages                 (source._mfImages                 ), 
     _mfPositions              (source._mfPositions              ), 
@@ -173,8 +168,6 @@ ImageForegroundBase::ImageForegroundBase(const ImageForegroundBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 ImageForegroundBase::~ImageForegroundBase(void)
 {
@@ -258,7 +251,9 @@ void ImageForegroundBase::executeSyncImpl(      ImageForegroundBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ImageForegroundPtr>::_type("ImageForegroundPtr", "ForegroundPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ImageForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ImageForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

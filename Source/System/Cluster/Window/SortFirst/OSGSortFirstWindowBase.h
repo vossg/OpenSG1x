@@ -115,7 +115,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SortFirstWindowBase : public ClusterWindow
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

@@ -53,6 +53,9 @@
 #include <OSGStatElemTypes.h>
 #include <OSGStatCollector.h>
 #include <OSGDrawable.h>
+#include <OSGPointLight.h>
+#include <OSGSpotLight.h>
+#include <OSGDirectionalLight.h>
 
 #include "OSGSimpleSceneManager.h"
 
@@ -63,7 +66,13 @@
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
 /*! \class osg::SimpleSceneManager
+    \ingroup GrpSystemWindow
+    
     SimpleSceneManager manages the OpenSG components that are needed to do
     simple applications that just want to display some geometry. It takes the
     window to render into and the root node of the graph to display and takes
@@ -234,6 +243,13 @@ NodePtr SimpleSceneManager::getRoot(void)
 Navigator *SimpleSceneManager::getNavigator(void)
 {
     return &_navigator;
+}
+
+/*! get the headlight state
+ */
+bool SimpleSceneManager::getHeadlightState(void)
+{
+    return _headlight->getOn();
 }
 
 /*! set the window to be used for display
@@ -442,6 +458,14 @@ void SimpleSceneManager::initialize(void)
                            "%d Nodes drawn");
         sf->addElement(RenderAction::statNTransGeometries,
                            "%d transparent Nodes drawn");
+#if 0 // not ready for primetime yet
+        sf->addElement(PointLight::statNPointLights,
+                           "%d active point lights");
+        sf->addElement(DirectionalLight::statNDirectionalLights,
+                           "%d active directional lights");
+        sf->addElement(SpotLight::statNSpotLights,
+                           "%d active spot lights");
+#endif
         sf->addElement(Drawable::statNTriangles,    "%d triangles drawn");
         sf->addElement(Drawable::statNLines,        "%d lines drawn");
         sf->addElement(Drawable::statNPoints,       "%d points drawn");

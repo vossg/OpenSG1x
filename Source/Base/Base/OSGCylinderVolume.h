@@ -53,7 +53,7 @@ OSG_BEGIN_NAMESPACE
   cylinder is defined by the length of the axis, i.e. its apex is at
   _axisPos + _axisDir.
 
-  \ingroup BaseBaseVolume  
+  \ingroup GrpBaseBaseVolume  
 */
 
 class OSG_BASE_DLLMAPPING CylinderVolume : public Volume

@@ -54,15 +54,10 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \defgroup MultiFields MultiFields
-    \brief OpenSG Multi Fields
-*/
-
 class BinaryDataHandler;
 
 //! Base class for all multi field, for example ::MFMatrix
-//! \ingroup FieldLib
-//! \ingroup MultiFields
+//! \ingroup GrpBaseFieldMulti
 
 template <class FieldTypeT, Int32 fieldNameSpace = 0>
 class MField : public Field

@@ -55,7 +55,7 @@ class Geometry;
 class State;
 
 //! DrawTreeNode
-//! \ingroup RenderingBackendLib
+//! \ingroup GrpSystemRenderingBackend
 
 class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
 {

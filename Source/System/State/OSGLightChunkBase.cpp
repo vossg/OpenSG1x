@@ -185,7 +185,6 @@ FieldDescription *LightChunkBase::_desc[] =
                      (FieldAccessMethod) &LightChunkBase::getSFQuadraticAttenuation)
 };
 
-//! LightChunk type
 
 FieldContainerType LightChunkBase::_type(
     "LightChunk",
@@ -234,8 +233,6 @@ void LightChunkBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -259,8 +256,6 @@ LightChunkBase::LightChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 LightChunkBase::LightChunkBase(const LightChunkBase &source) :
     _sfDiffuse                (source._sfDiffuse                ), 
     _sfAmbient                (source._sfAmbient                ), 
@@ -277,8 +272,6 @@ LightChunkBase::LightChunkBase(const LightChunkBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 LightChunkBase::~LightChunkBase(void)
 {
@@ -503,7 +496,9 @@ void LightChunkBase::executeSyncImpl(      LightChunkBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<LightChunkPtr>::_type("LightChunkPtr", "StateChunkPtr");
+#endif
 
 
 OSG_END_NAMESPACE

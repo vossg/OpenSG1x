@@ -54,7 +54,7 @@ class Field;
 class FieldType;
 
 //! Factory for fields
-//! \ingroup FieldLib
+//! \ingroup GrpBaseField
 
 class OSG_BASE_DLLMAPPING FieldFactory 
 {

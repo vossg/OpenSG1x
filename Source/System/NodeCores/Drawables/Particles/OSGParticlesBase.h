@@ -139,7 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

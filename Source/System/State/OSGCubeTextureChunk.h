@@ -49,9 +49,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
- */
-
 class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
 {
   private:
@@ -62,10 +59,18 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                Instance Functions                            */
+    /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
     virtual const StateChunkClass *getClass(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name              Static Chunk Class Access                       */
+    /*! \{                                                                 */
+
+    static        UInt32           getStaticClassId  (void);
+    static  const StateChunkClass *getStaticClass    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -104,11 +109,11 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
     /*! \name                Texture specific                              */
     /*! \{                                                                 */
 
-    void imageContentChanged( void );
+    void imageContentChanged(void);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                  Image specific                              */
+    /*! \name               Cube Texture specific                          */
     /*! \{                                                                 */
 
      void setPosZImage(ImageP &value);
@@ -152,12 +157,6 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
     friend class FieldContainer;
     friend class CubeTextureChunkBase;
 
-    // class. Used for indexing in State
-    static StateChunkClass _class;
-
-    // extension indices for used extensions;
-
-    static void initMethod(void);
 
     /*---------------------------------------------------------------------*/
     /*! \name                         GL                                   */

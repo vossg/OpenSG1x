@@ -103,7 +103,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public Group
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

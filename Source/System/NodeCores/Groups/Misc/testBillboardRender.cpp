@@ -384,7 +384,7 @@ int main (int argc, char **argv)
 	cam->setBeacon( b1n );
 	cam->setFov( deg2rad( 60 ) );
 	cam->setNear( .1 );
-	cam->setFar( 10. );
+	cam->setFar( 20. );
 
 	// Background
 	GradientBackgroundPtr bkgnd = GradientBackground::create();

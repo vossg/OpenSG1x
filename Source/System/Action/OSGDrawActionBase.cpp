@@ -58,9 +58,17 @@
 
 OSG_USING_NAMESPACE
 
+
 /***************************************************************************\
- *                               Types                                     *
+ *                            Description                                  *
 \***************************************************************************/
+
+/*! \class osg::DrawActionBase
+    \ingroup GrpSystemAction
+
+The base class for all rendering-related actions.
+
+*/
 
 /***************************************************************************\
  *                           Class variables                               *
@@ -203,7 +211,7 @@ Action::ResultE DrawActionBase::start(void)
     return Action::Continue;
 }
 
-Action::ResultE DrawActionBase::stop(ResultE res)
+Action::ResultE DrawActionBase::stop(Action::ResultE res)
 {
     if ( getVolumeDrawing() )
         drawVolume( _frustum );  

@@ -45,9 +45,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
+/** \ingroup GrpBaseField
+ *  \ingroup GrpBaseFieldSingle
+ *  \ingroup GrpBaseFieldMulti
  *  \brief  base field traits 
  */
 

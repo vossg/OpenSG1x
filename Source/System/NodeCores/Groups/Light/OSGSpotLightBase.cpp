@@ -108,7 +108,6 @@ FieldDescription *SpotLightBase::_desc[] =
                      (FieldAccessMethod) &SpotLightBase::getSFSpotCutOff)
 };
 
-//! SpotLight type
 
 FieldContainerType SpotLightBase::_type(
     "SpotLight",
@@ -157,8 +156,6 @@ void SpotLightBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -175,8 +172,6 @@ SpotLightBase::SpotLightBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 SpotLightBase::SpotLightBase(const SpotLightBase &source) :
     _sfDirection              (source._sfDirection              ), 
     _sfSpotExponent           (source._sfSpotExponent           ), 
@@ -186,8 +181,6 @@ SpotLightBase::SpotLightBase(const SpotLightBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 SpotLightBase::~SpotLightBase(void)
 {
@@ -286,7 +279,9 @@ void SpotLightBase::executeSyncImpl(      SpotLightBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SpotLightPtr>::_type("SpotLightPtr", "PointLightPtr");
+#endif
 
 
 OSG_END_NAMESPACE

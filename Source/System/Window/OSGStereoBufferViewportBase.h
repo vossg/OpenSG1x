@@ -106,7 +106,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoBufferViewportBase : public Viewport
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

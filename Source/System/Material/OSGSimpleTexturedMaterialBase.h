@@ -115,7 +115,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

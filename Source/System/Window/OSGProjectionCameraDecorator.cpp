@@ -53,8 +53,15 @@
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
 /*! \class osg::ProjectionCameraDecorator
+    \ingroup GrpSystemWindowCameras
+
 The decorator for tracked projection screens. 	
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/

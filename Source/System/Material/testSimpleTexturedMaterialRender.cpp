@@ -24,6 +24,7 @@
 
 OSG_USING_NAMESPACE
 
+SimpleTexturedMaterialPtr pm, tm;
 
 DrawAction * dact;
 WindowPtr win;
@@ -67,6 +68,28 @@ display(void)
     glutSwapBuffers();
 }
 
+// react to keys
+void keyboard(unsigned char k, int, int)
+{
+    switch(k)
+    {
+    case 27:    exit(1);
+    case 'a':   {
+                UChar8 imgdata[] =
+                    {  255,255,255,128,  255,0,255,255,  255,255,255,0,
+                       255,0,0,128,  0,0,0,255,  0,255,255,0 };
+                Image *pImage = new Image( Image::OSG_RGBA_PF, 3, 2, 1, 1, 
+                                1, 0, imgdata );
+
+                beginEditCP(pm, SimpleTexturedMaterial::ImageFieldMask);
+                pm->setImage( pImage ); 
+                endEditCP(pm, SimpleTexturedMaterial::ImageFieldMask);
+                }
+                break;
+
+    }
+}
+
 int main (int argc, char **argv)
 {
     // GLUT init
@@ -76,7 +99,7 @@ int main (int argc, char **argv)
     glutInit(&argc, argv);
     glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
     glutCreateWindow("OpenSG");
-    // glutKeyboardFunc(key);
+    glutKeyboardFunc(keyboard);
     // glutReshapeFunc(resize);
     glutDisplayFunc(display);
     // glutMouseFunc(mouse);
@@ -103,8 +126,6 @@ int main (int argc, char **argv)
     plane_geo = GeometryPtr::dcast(plane->getCore());
     torus_geo = GeometryPtr::dcast(torus->getCore());
 
-
-    SimpleTexturedMaterialPtr pm, tm;
 
     pm = SimpleTexturedMaterial::create();
 

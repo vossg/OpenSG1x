@@ -50,7 +50,7 @@
 OSG_BEGIN_NAMESPACE
 
 //! Group is the basic NodeCore for inner nodes in the tree.
-//! \ingroup NodesLib
+//! \ingroup GrpSystemNodeCoresMisc
 
 class OSG_SYSTEMLIB_DLLMAPPING Group : public GroupBase
 {

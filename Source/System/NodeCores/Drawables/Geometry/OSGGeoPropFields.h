@@ -73,7 +73,9 @@ struct FieldDataTraits<GeoPositionsPtr> :
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef SField<GeoPositionsPtr> SFGeoPositionsPtr;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoPositionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
@@ -97,7 +99,9 @@ struct FieldDataTraits<GeoNormalsPtr> :
     static Char8    *getMName (void) { return "MFGeoNormalsPtr"; }
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef SField<GeoNormalsPtr> SFGeoNormalsPtr;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoNormalsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
@@ -120,7 +124,9 @@ struct FieldDataTraits<GeoColorsPtr> :
     static Char8    *getMName (void) { return "MFGeoColorsPtr";  }
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef SField<GeoColorsPtr> SFGeoColorsPtr;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoColorsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
@@ -144,7 +150,9 @@ struct FieldDataTraits<GeoTexCoordsPtr> :
     static Char8    *getMName (void) { return "MFGeoTexCoordsPtr"; }
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef SField<GeoTexCoordsPtr> SFGeoTexCoordsPtr;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
@@ -167,7 +175,9 @@ struct FieldDataTraits<GeoIndicesPtr> :
     static Char8    *getMName (void) { return "MFGeoIndicesPtr";  }
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef SField<GeoIndicesPtr> SFGeoIndicesPtr;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoIndicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
@@ -191,7 +201,9 @@ struct FieldDataTraits<GeoPTypesPtr> :
     static Char8    *getMName (void) { return "MFGeoPTypesPtr";  }
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef SField<GeoPTypesPtr> SFGeoPTypesPtr;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoPTypesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
@@ -214,7 +226,9 @@ struct FieldDataTraits<GeoPLengthsPtr> :
     static char     *getMName (void) { return "MFGeoPLengthsPtr"; }
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef SField<GeoPLengthsPtr> SFGeoPLengthsPtr;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 OSG_DLLEXPORT_DECL1(SField, GeoPLengthsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

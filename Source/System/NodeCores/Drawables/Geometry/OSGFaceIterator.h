@@ -53,10 +53,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! The FaceIterator allows iteration through faces, i.e. tris and/or quads.
-//! \ingroup GeoIterators
-
-class OSG_SYSTEMLIB_DLLMAPPING FaceIterator
+class OSG_SYSTEMLIB_DLLMAPPING FaceIterator : public PrimitiveIterator
 {
     /*==========================  PUBLIC  =================================*/    
   public:
@@ -69,13 +66,13 @@ class OSG_SYSTEMLIB_DLLMAPPING FaceIterator
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Construction                               */
+    /*! \name                   Constructors                               */
     /*! \{                                                                 */  
 
-    FaceIterator( void );
-    FaceIterator( const FaceIterator &source);
-    FaceIterator( const GeometryPtr& geo );
-    FaceIterator( const NodePtr& geo );
+    FaceIterator(void);
+    FaceIterator(const FaceIterator &source);
+    FaceIterator(const GeometryPtr& geo);
+    FaceIterator(const NodePtr& geo);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -89,25 +86,28 @@ class OSG_SYSTEMLIB_DLLMAPPING FaceIterator
     /*! \name                   Access                                     */
     /*! \{                                                                 */
     
-    inline Int32        getIndex            ( void        ) const;
-    inline UInt32       getType             ( void        ) const;
-    inline UInt32       getLength           ( void        ) const;
+    inline Int32        getIndex            (void       ) const;
+    inline UInt32       getLength           (void       ) const;
     
-    inline Int32        getPositionIndex    ( Int32 which ) const;
-    inline Pnt3f        getPosition         ( Int32 which ) const;
+    inline Int32        getPositionIndex    (Int32 which) const;
+    inline Pnt3f        getPosition         (Int32 which) const;
 
-    inline Int32        getNormalIndex      ( Int32 which ) const;
-    inline Vec3f        getNormal           ( Int32 which ) const;
+    inline Int32        getNormalIndex      (Int32 which) const;
+    inline Vec3f        getNormal           (Int32 which) const;
 
-    inline Int32        getColorIndex       ( Int32 which ) const;
-    inline Color3f      getColor            ( Int32 which ) const;
+    inline Int32        getColorIndex       (Int32 which) const;
+    inline Color3f      getColor            (Int32 which) const;
 
-    inline Int32        getTexCoordsIndex   ( Int32 which ) const;
-    inline Vec2f        getTexCoords        ( Int32 which ) const;
+    inline Int32        getTexCoordsIndex   (Int32 which) const;
+    inline Vec2f        getTexCoords        (Int32 which) const;
+    inline Int32        getTexCoordsIndex1  (Int32 which) const;
+    inline Vec2f        getTexCoords1       (Int32 which) const;
+    inline Int32        getTexCoordsIndex2  (Int32 which) const;
+    inline Vec2f        getTexCoords2       (Int32 which) const;
+    inline Int32        getTexCoordsIndex3  (Int32 which) const;
+    inline Vec2f        getTexCoords3       (Int32 which) const;
 
-    inline Int32        getIndexIndex       ( Int32 which ) const;
-
-           GeometryPtr  getGeometry         (void         ) const;
+    inline Int32        getIndexIndex       (Int32 which) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -126,8 +126,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FaceIterator
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    void setToBegin( void );
-    void setToEnd  ( void );
+    void setToBegin(void);
+    void setToEnd  (void);
 
     /*! \}                                                                 */
 
@@ -138,13 +138,11 @@ class OSG_SYSTEMLIB_DLLMAPPING FaceIterator
   private:
     static char cvsid[];
   
-    PrimitiveIterator _primIt;
-    GeometryPtr       _geo;
     Int32             _faceIndex;
     UInt32            _actPrimIndex;
     Int32             _facePntIndex[4];
     
-    void startPrim( void );
+    void startPrim(void);
 };
 
 typedef FaceIterator *FaceIteratorP;

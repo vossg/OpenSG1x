@@ -58,7 +58,7 @@ class TriangleIterator;
 class PrimitiveIterator;
 class FaceIterator;
 
-//! \ingroup GeometryLib
+//! \ingroup GrpSystemNodeCoresDrawablesGeometry
 //! Geometry base class
 
 class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase

@@ -51,7 +51,7 @@ OSG_BEGIN_NAMESPACE
 class AttachmentContainer;
 
 //! Pointer to an attachment container
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 #ifdef __sgi
 #pragma set woff 1375,1424

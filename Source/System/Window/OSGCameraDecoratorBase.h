@@ -102,7 +102,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

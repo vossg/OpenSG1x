@@ -61,6 +61,12 @@
 #endif
 OSG_USING_NAMESPACE
 
+
+/*! \class osg::PNMImageFileType 
+    \ingroup GrpSystemImage
+    
+*/
+
 /*****************************
  *   Types
  *****************************/

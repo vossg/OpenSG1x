@@ -51,8 +51,8 @@
 #include <OSGSysFieldDataType.h>
 
 /*! \file OSGMFSysTypes.h
-    \ingroup FieldLib
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldMulti
     \brief OpenSG system multi fields
 */
 
@@ -60,7 +60,7 @@ OSG_BEGIN_NAMESPACE
 
 
 /*! \brief MFBool
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
     \warning the getValue and operator[] functions may not return what
              you expect them to return. Descent STL implementation will 
              certainly not return 'bool &' nor 'const bool &'.
@@ -124,7 +124,7 @@ OSG_DLLEXPORT_DECL2(MField, bool, 2, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFInt8
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Int8>   MFInt8;
@@ -135,7 +135,7 @@ OSG_DLLEXPORT_DECL1(MField, Int8, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFUInt8
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<UInt8>  MFUInt8;
@@ -146,7 +146,7 @@ OSG_DLLEXPORT_DECL1(MField, UInt8, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFInt16
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Int16>  MFInt16;
@@ -157,7 +157,7 @@ OSG_DLLEXPORT_DECL1(MField, Int16, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFUInt16
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<UInt16> MFUInt16;
@@ -168,7 +168,7 @@ OSG_DLLEXPORT_DECL1(MField, UInt16, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFInt32
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Int32>  MFInt32;
@@ -179,7 +179,7 @@ OSG_DLLEXPORT_DECL1(MField, Int32, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFUInt32
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<UInt32> MFUInt32;
@@ -190,7 +190,7 @@ OSG_DLLEXPORT_DECL1(MField, UInt32, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFInt64
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Int64>  MFInt64;
@@ -201,7 +201,7 @@ OSG_DLLEXPORT_DECL1(MField, Int64, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFUInt64
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<UInt64> MFUInt64;
@@ -212,7 +212,7 @@ OSG_DLLEXPORT_DECL1(MField, UInt64, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFReal32
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Real32> MFReal32;
@@ -223,7 +223,7 @@ OSG_DLLEXPORT_DECL1(MField, Real32, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFReal64
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
  */
 
 typedef MField<Real64> MFReal64;

@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \ingroup GeoFunctions
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
 
 calcVertexNormals calculates the normals for the geometry's vertices. It
 does this simply by accumulating the face normals of all triangles that
@@ -327,7 +327,7 @@ faster; but not well tested code
 #pragma reset woff 1209
 #endif
 
-/*! \ingroup Geometry
+/*! \ingroup GrpSystemDrawablesGeometrymetry
     calcVertexNormals calculates the normals for the geometry's vertices. This
     version uses a creaseAngle to define which faces are averaged at the
     vertices. Only faces whose angle is smaller than the
@@ -337,6 +337,8 @@ faster; but not well tested code
     but if a stripe point needs to be split because it has two normals, that
     won't be done.
 */
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 
 template <class type>
 struct vecless
@@ -387,6 +389,7 @@ struct memless
     }
 };
 
+#endif  // remove from all but dev docs
 
 
 OSG_SYSTEMLIB_DLLMAPPING
@@ -742,7 +745,7 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
 
 }
 
-/*! \ingroup Geometry
+/*! \ingroup GrpSystemDrawablesGeometrymetry
     \param geo      the geometry to work on
     \param length   the length of the normal vectors
 
@@ -840,7 +843,7 @@ NodePtr osg::getNormals ( GeometryPtr geo,
 #endif
 
 /*! \brief create the geometry index form the given FaceSet (VRML style) data
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING
 Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
@@ -1315,7 +1318,7 @@ Int32 osg::setIndexFromVRMLData(     GeometryPtr    geoPtr,
 /*! \brief optimize the geo by creating strips and fans,
  *  creates new index values but does not touch the property values
  *  returns the number of points to be tranformed
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING
 Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
@@ -1569,7 +1572,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
 }
 
 /*! \brief creates new index to share vertex property data
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 
 OSG_SYSTEMLIB_DLLMAPPING
@@ -1778,7 +1781,7 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
 /*! \brief creates a single index geo from multi(interleave) geo.
  *  function will change (resort) the properties.
  *  returns the number of property values
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 
 OSG_SYSTEMLIB_DLLMAPPING
@@ -1878,7 +1881,7 @@ Int32 osg::createSingleIndex ( GeometryPtr geoPtr )
 }
 
 /*! \brief return the number of triangle/line/point elem
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
@@ -1906,12 +1909,9 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
     geoTypePtr = GeoPTypesUI8Ptr::dcast( geoPtr->getTypes() );
     tN = (geoTypePtr == osg::NullFC) ? 0 : geoTypePtr->getSize();
 
-    if ((tN == 0) || (lN != 0 && tN != lN) || (lN == 0 && tN != 1)) 
-    {
-      FWARNING (("calcPrimitiveCount: Invalid GeoPLengths and "
-                 "GeoPTypes data\n"));
-    }
-    else {
+    if ((tN == 0) || (lN != 0 && tN != lN) || (lN == 0 && tN != 1))  { return
+    0; }
+
       typeI = geoTypePtr->getField().begin();
       if(lN != 0)
         lenI = lensPtr->getField().begin();
@@ -1929,7 +1929,7 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
             if(pos == osg::NullFC)
             {
                 FWARNING (("calcPrimitiveCount: no Points!\n"));
-                return -1;
+                return 0;
             }
             
             len = pos->size();
@@ -1973,7 +1973,6 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
         ++lenI;
       }
     }
-  }
 
   return (triangle + line + point);
 }

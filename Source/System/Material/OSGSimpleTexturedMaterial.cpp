@@ -60,7 +60,7 @@
 OSG_USING_NAMESPACE
 
 /*! \class osg::SimpleTexturedMaterial
-    \ingroup SystemMaterial
+    \ingroup GrpSystemMaterial
 
 A SimpleMaterial with an added texture. It doesn't expose all features of the
 texture, just the ones needed most often.

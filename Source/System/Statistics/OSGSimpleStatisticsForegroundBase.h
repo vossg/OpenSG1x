@@ -109,7 +109,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

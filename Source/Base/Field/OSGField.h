@@ -73,7 +73,7 @@ struct ErrorFromToString
 };
 
 //! Base class for all fields
-//! \ingroup FieldLib
+//! \ingroup GrpBaseField
 
 class OSG_BASE_DLLMAPPING Field
 {

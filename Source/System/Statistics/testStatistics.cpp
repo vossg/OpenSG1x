@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 
 #include <OSGStatElem.h>
 #include <OSGStatCollector.h>
@@ -26,6 +27,7 @@ int main (int argc, char **argv)
     collector.getElem(barDesc)->set(2.0);
     collector.getElem(bazDesc)->set("HUGO");
 
+    sleep(2);
     collector.getElem(fpsDesc)->stop();
     
     std::cerr << "Time real: " << elem->getValue() << std::endl;

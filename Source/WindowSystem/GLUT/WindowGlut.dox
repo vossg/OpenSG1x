@@ -1,0 +1,15 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \defgroup GrpWindowGlut OpenSG GLUT Window System Library
+
+    \brief The System Library contains the main system-independent parts of OpenSG.
+
+    See \ref WindowGlut for details.
+*/
+
+/*! \page WindowGlut GLUT Window System Library
+
+
+*/

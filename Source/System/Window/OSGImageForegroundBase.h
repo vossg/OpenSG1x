@@ -106,7 +106,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

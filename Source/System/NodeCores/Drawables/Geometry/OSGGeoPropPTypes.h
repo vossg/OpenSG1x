@@ -47,7 +47,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-struct GeoPTypesUI8PropertyDesc
+struct GeoPTypesUI8PropertyDesc : public GeoPTypesPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -88,7 +88,9 @@ struct GeoPTypesUI8PropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoPTypesUI8PropertyDesc> GeoPTypesUI8;
+#endif
 
 
 #ifndef OSG_COMPILEGEOPROPPTYPEINST

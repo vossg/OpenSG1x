@@ -52,12 +52,6 @@ OSG_BEGIN_NAMESPACE
 
 class StatElemDescBase;
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
- */
-
 class OSG_SYSTEMLIB_DLLMAPPING StatElem
 {
     /*==========================  PUBLIC  =================================*/
@@ -74,17 +68,14 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
     /*! \name                     Instance                                 */
     /*! \{                                                                 */
 
-    inline  bool               getOn        (void);
-
+    inline  bool               isOn         (void);
     inline  void               setOn        (bool on);
 
     inline  StatElemDescBase * getDesc      (void);
 
     virtual void               putToString  (      std::string &str, 
                                              const char *format = NULL) = 0;
-
     virtual bool               getFromString(const Char8 *&inVal) = 0;
-
     virtual Real64             getValue     (void) = 0; 
 
     /*! \}                                                                 */
@@ -101,22 +92,15 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
 
      bool operator <  (const StatElem &other) const;
 
-    //OSGbool operator == (const StatElem &other) const;
-    //OSGbool operator != (const StatElem &other) const;
-
     /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-
     StatElem (StatElemDescBase *desc);
 
     /*==========================  PRIVATE  ================================*/
   private:
-
-
-    // typedef PARENTCLASS Inherited;
 
     static char cvsid[];
 

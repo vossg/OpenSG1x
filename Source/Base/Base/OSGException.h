@@ -55,7 +55,7 @@ OSG_BASE_DLLMAPPING
 std::ostream &operator <<(      std::ostream &os,
                           const Exception    &obj);
 
-/*! \ingroup BaseBase
+/*! \ingroup GrpBaseBase
  */
 
 class OSG_BASE_DLLMAPPING Exception : 

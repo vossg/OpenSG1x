@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class CubeTextureChunk;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! CubeTextureChunkPtr
 
 typedef FCPtr<TextureChunkPtr, CubeTextureChunk> CubeTextureChunkPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief CubeTextureChunkPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<CubeTextureChunkPtr> :
     static char     *getSName(void) { return "SFCubeTextureChunkPtr"; }
     static char     *getMName(void) { return "MFCubeTextureChunkPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFCubeTextureChunkPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<CubeTextureChunkPtr> SFCubeTextureChunkPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, CubeTextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFCubeTextureChunkPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<CubeTextureChunkPtr> MFCubeTextureChunkPtr;
 

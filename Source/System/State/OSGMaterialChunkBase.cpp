@@ -153,7 +153,6 @@ FieldDescription *MaterialChunkBase::_desc[] =
                      (FieldAccessMethod) &MaterialChunkBase::getSFColorMaterial)
 };
 
-//! MaterialChunk type
 
 FieldContainerType MaterialChunkBase::_type(
     "MaterialChunk",
@@ -202,8 +201,6 @@ void MaterialChunkBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -224,8 +221,6 @@ MaterialChunkBase::MaterialChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 MaterialChunkBase::MaterialChunkBase(const MaterialChunkBase &source) :
     _sfDiffuse                (source._sfDiffuse                ), 
     _sfAmbient                (source._sfAmbient                ), 
@@ -239,8 +234,6 @@ MaterialChunkBase::MaterialChunkBase(const MaterialChunkBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 MaterialChunkBase::~MaterialChunkBase(void)
 {
@@ -411,7 +404,9 @@ void MaterialChunkBase::executeSyncImpl(      MaterialChunkBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<MaterialChunkPtr>::_type("MaterialChunkPtr", "StateChunkPtr");
+#endif
 
 
 OSG_END_NAMESPACE

@@ -49,16 +49,16 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \file OSGFieldDataType.h
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief OpenSG Field Data Types  
 */
 
 
-/*! \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief  
 */
 
@@ -83,9 +83,9 @@ template<class FieldTypeT>
 struct FieldDataTraits2;
 
 
-/*! \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief  
 */
 
@@ -182,9 +182,9 @@ template <class FieldTypeT> inline
 const UInt32 FieldTraitsRecurseBase<FieldTypeT>::uiTest;
 #endif
 
-/*! \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief  
 */
 
@@ -231,9 +231,9 @@ struct FieldTraitsIntegralRecurseMapper :
 };
 
 
-/*! \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief  
 */
 
@@ -288,9 +288,9 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
 };
 
 
-/*! \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief  
 */
 
@@ -343,9 +343,9 @@ struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
 };
 
 
-/*! \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief  
 */
 
@@ -398,9 +398,9 @@ struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase<FieldTypeT>
 };
 
 
-/*! \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief  
 */
 
@@ -410,9 +410,9 @@ struct FieldDataTraits : public FieldTraitsRecurseMapper<FieldTypeT, false>
 };
 
 
-/*! \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief  
 */
 
@@ -422,9 +422,9 @@ struct FieldDataTraits1 : public FieldTraitsRecurseMapper1<FieldTypeT, false>
 };
 
 
-/*! \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief  
 */
 

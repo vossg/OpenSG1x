@@ -65,9 +65,11 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::GradientBackground
-    \ingroup Backgrounds
+    \ingroup GrpSystemWindowBackgrounds
 
-A background showing a vertical color gradient. The colors and positions correspond to each other, so both have to have the same number of elements.    
+A background showing a vertical color gradient. The colors and positions
+correspond to each other, so both have to have the same number of
+elements.    
 
 */
 

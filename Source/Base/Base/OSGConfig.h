@@ -87,43 +87,43 @@
 # ifdef __GNUC__
 
 /*! \brief compiler supports namespaces
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_NAMESPACE
 
 /*! \brief compiler supports std namespace
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_STD_NAMESPACE
 
 /*! \brief stream->rdbuf get the new buffer as a parameter
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_STREAM_RDBUF_HAS_PARAM
 
 /*! \brief stream->isopen is available
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_STREAM_HAS_ISOPEN
 
 /*! \brief vsnprintf is available
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_VSNPRINTF
 
 /*! \brief nilbuffer is defined in the stdlib
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_NILBUF
 
 /*! \brief LongLong constants have LL suffix
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_LONGLONG_HAS_LL
@@ -132,7 +132,7 @@
 #    define OSG_HASH_MAP_AS_EXT
 
      /*! \brief SGI's stl implementation is available
-      *  \ingroup BaseDefines
+      *  \ingroup GrpBaseDefines
       */
 
 #    define OSG_SGI_STL
@@ -166,13 +166,13 @@
 # endif
 
 /*! \brief compiler supports namespaces
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_NAMESPACE
 
 /*! \brief compiler supports std namespace
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_STD_NAMESPACE
@@ -180,7 +180,7 @@
 # if defined(_STANDARD_C_PLUS_PLUS)
 
      /*! \brief streams in std namespace
-      *  \ingroup BaseDefines
+      *  \ingroup GrpBaseDefines
       */
 
 #    define OSG_STREAM_IN_STD_NAMESPACE
@@ -188,49 +188,49 @@
 # endif  /* _STANDARD_C_PLUS_PLUS */
 
 /*! \brief stream->rdbuf get the new buffer as a parameter
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_STREAM_RDBUF_HAS_PARAM
 
 /*! \brief stream->isopen is available
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_STREAM_HAS_ISOPEN
 
 /*! \brief vsnprintf is available
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_VSNPRINTF
 
 /*! \brief nilbuffer is defined in the stdlib
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_NILBUF
 
 /*! \brief Use SGI internal types to define OpenSG base types
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_SGI_TYPES
 
 /*! \brief atan2f function available
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_ATANF2
 
 /*! \brief General float math
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_FLOATMATH
 
 /*! \brief SGI's stl implementation is available
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_SGI_STL
@@ -238,13 +238,13 @@
 # define OSG_STL_HAS_HASH_MAP
 
 /*! \brief Use GLX 
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_USE_GLX
 
 /*! \brief LongLong constants have LL suffix
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_LONGLONG_HAS_LL
@@ -268,7 +268,7 @@
 # if defined(__GNUC__) && defined(__linux)
 
 /*! \brief streams in std namespace
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_STREAM_IN_STD_NAMESPACE
@@ -428,7 +428,7 @@
 # if defined(darwin)
 
 /*! \brief streams in std namespace
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_STREAM_IN_STD_NAMESPACE
@@ -450,7 +450,7 @@
 
 #if defined(__hpux) && defined(__GNUC__)
 /*! \brief streams in std namespace
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HPUX_TYPES
@@ -468,13 +468,13 @@
 # if defined(__hpux) && !defined(__GNUC__)
 
 /*! \brief compiler supports namespaces
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_NAMESPACE
 
 /*! \brief compiler supports std namespace
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_STD_NAMESPACE
@@ -482,7 +482,7 @@
 # if defined(_STANDARD_C_PLUS_PLUS)
 
      /*! \brief streams in std namespace
-      *  \ingroup BaseDefines
+      *  \ingroup GrpBaseDefines
       */
 
 #    define OSG_STREAM_IN_STD_NAMESPACE
@@ -490,61 +490,61 @@
 # endif  /* _STANDARD_C_PLUS_PLUS */
 
 /*! \brief stream->rdbuf get the new buffer as a parameter
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_STREAM_RDBUF_HAS_PARAM
 
 /*! \brief stream->isopen is available
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_STREAM_HAS_ISOPEN
 
 /*! \brief vsnprintf is available
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_VSNPRINTF
 
 /*! \brief nilbuffer is defined in the stdlib
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_NILBUF
 
 /*! \brief Use SGI internal types to define OpenSG base types
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HPUX_TYPES
 
 /*! \brief atan2f function available
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_ATANF2
 
 /*! \brief General float math
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_HAS_FLOATMATH
 
 /*! \brief SGI's stl implementation is available
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 //# define OSG_SGI_STL
 
 /*! \brief Use GLX 
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_USE_GLX
 
 /*! \brief LongLong constants have LL suffix
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_LONGLONG_HAS_LL
@@ -584,26 +584,26 @@
 /*@{*/
 
 /** \brief Begin the osg namespace
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_BEGIN_NAMESPACE namespace osg { 
 
 /** \brief End the osg namespace
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_END_NAMESPACE }
 
 /** \brief osg namespace, use to reference a object within the namespace, like
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
     OSG::OSGUInt32.
 */
 
 # define OSG osg
 
 /** \brief Use the osg namespace throughout the following code.
- *  \ingroup BaseDefines
+ *  \ingroup GrpBaseDefines
  */
 
 # define OSG_USING_NAMESPACE namespace osg {} using namespace osg;

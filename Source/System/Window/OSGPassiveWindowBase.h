@@ -94,7 +94,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveWindowBase : public Window
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

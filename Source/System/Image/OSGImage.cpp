@@ -63,6 +63,8 @@
 OSG_USING_NAMESPACE 
 
 /*! \class osg::Image 
+    \ingroup GrpSystemImage
+    
  */
 
 

@@ -108,37 +108,37 @@ const OSG::BitVector  ParticlesBase::BspFieldMask =
 // Field descriptions
 
 /*! \var UInt32          ParticlesBase::_sfMode
-    The particle mode, see Particles::modeE for options.
+    The particle mode, see osg::Particles::modeE for options.
 */
 /*! \var GeoPositionsPtr ParticlesBase::_sfPositions
-    The positions of the particles. This is the primary defining information         for a particle.
+    The positions of the particles. This is the primary defining         information for a particle.
 */
 /*! \var Vec3f           ParticlesBase::_mfSizes
-    The particle sizes. If not set (1,1,1) will be used, if only one entry is         set, it will be used for all particles. If the number of sizes if equal         to the number of positions every particle will get its own size.         Most modes only use the X coordinate of the vector.
+    The particle sizes. If not set (1,1,1) will be used, if only one entry         is set, it will be used for all particles. If the number of sizes if         equal to the number of positions every particle will get its own size.         Most modes only use the X coordinate of the vector. Particles with size 0         are ignored.
 */
 /*! \var GeoPositionsPtr ParticlesBase::_sfSecPositions
-    The secondary position of the particle. This information is only used by         a few rendering modes, e.g. the streak mode. Usually it represents the          particle's last position.
+    The secondary position of the particle. This information is only used         by a few rendering modes, e.g. the streak mode. Usually it represents         the particle's last position.
 */
 /*! \var GeoColorsPtr    ParticlesBase::_sfColors
     The particle colors (optional).
 */
 /*! \var GeoNormalsPtr   ParticlesBase::_sfNormals
-    Most particles will be automatically aligned to the view direction.         If normals are set they will be used to define the direction the          particles are facing.
+    Most particles will be automatically aligned to the view         direction. If normals are set they will be used to define the         direction the particles are facing.
 */
 /*! \var Int32           ParticlesBase::_mfIndices
-    
+    Indices for the particles. Useful to select subsets of all particles for          rendering.
 */
 /*! \var Real32          ParticlesBase::_mfTextureZs
-    
+    The texture z coordinate of the particles. Useful in conjunction with 3D          textures to use different texture images on different particles.
 */
 /*! \var MaterialPtr     ParticlesBase::_sfMaterial
     The material used to render the particles.
 */
 /*! \var UInt32          ParticlesBase::_sfDrawOrder
-    
+    Define an optional sorting on the particles, see osg::Particles::DrawOrderE         for variants. Default is unordered.
 */
 /*! \var bool            ParticlesBase::_sfDynamic
-    
+    Hint to tell the system whether particles are expected to change position or         not. Is used to speed up sorting.
 */
 /*! \var UInt32          ParticlesBase::_sfPump
     
@@ -218,7 +218,6 @@ FieldDescription *ParticlesBase::_desc[] =
                      (FieldAccessMethod) &ParticlesBase::getSFBsp)
 };
 
-//! Particles type
 
 FieldContainerType ParticlesBase::_type(
     "Particles",
@@ -267,8 +266,6 @@ void ParticlesBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -295,8 +292,6 @@ ParticlesBase::ParticlesBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 ParticlesBase::ParticlesBase(const ParticlesBase &source) :
     _sfMode                   (source._sfMode                   ), 
     _sfPositions              (source._sfPositions              ), 
@@ -316,8 +311,6 @@ ParticlesBase::ParticlesBase(const ParticlesBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 ParticlesBase::~ParticlesBase(void)
 {
@@ -599,7 +592,9 @@ void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ParticlesPtr>::_type("ParticlesPtr", "NodeCorePtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

@@ -48,6 +48,18 @@ const StateChunkClass *LineChunk::getClass( void ) const
     return &_class;
 }
 
+inline
+UInt32 LineChunk::getStaticClassId(void)
+{
+    return getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *LineChunk::getStaticClass(void)
+{
+    return &LineChunk::_class;
+}
+
 OSG_END_NAMESPACE
 
 #define OSGLINECHUNK_INLINE_CVSID "@(#)$Id: $"

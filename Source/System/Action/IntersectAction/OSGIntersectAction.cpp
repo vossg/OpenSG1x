@@ -61,7 +61,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::IntersectAction
-    \ingroup ActionLib
+    \ingroup GrpSystemAction
 
 The intersect action class.
 

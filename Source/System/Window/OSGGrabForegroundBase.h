@@ -103,7 +103,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

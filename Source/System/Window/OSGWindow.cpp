@@ -83,24 +83,8 @@ OSG_BEGIN_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup WindowLib OpenSG Window Lib
-
-The WindowLib include all objects concerned with opening, managing and
-drawing into windows.
-
-*/
-
-
-/*! \defgroup Windows OpenSG Windows
-    \ingroup WindowLib
-
-The Windows group include all the general and window-system specific
-Window objects.
-
-*/
-
 /*! \class osg::Window
-    \ingroup Windows
+    \ingroup GrpSystemWindow
 
 The Window base class.
 

@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class TexGenChunk;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! TexGenChunkPtr
 
 typedef FCPtr<StateChunkPtr, TexGenChunk> TexGenChunkPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief TexGenChunkPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<TexGenChunkPtr> :
     static char     *getSName(void) { return "SFTexGenChunkPtr"; }
     static char     *getMName(void) { return "MFTexGenChunkPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFTexGenChunkPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<TexGenChunkPtr> SFTexGenChunkPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, TexGenChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFTexGenChunkPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<TexGenChunkPtr> MFTexGenChunkPtr;
 

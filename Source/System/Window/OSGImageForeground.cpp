@@ -65,6 +65,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::ImageForeground
+    \ingroup GrpSystemWindowForegrounds
 
 Background is the base class for all background clearing.       
 

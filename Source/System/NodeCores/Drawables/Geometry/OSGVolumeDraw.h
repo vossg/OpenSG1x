@@ -56,31 +56,31 @@ OSG_BEGIN_NAMESPACE
 /*! \{                                                                 */
 
 /*! \brief draw volume 
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
 void drawVolume ( const DynamicVolume &volume );
 
 /*! \brief draw volume 
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
 void drawVolume ( const BoxVolume &volume );
 
 /*! \brief draw volume 
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
 void drawVolume ( const SphereVolume &volume );
 
 /*! \brief draw frustum volume 
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
 void drawVolume ( const FrustumVolume &volume );
 
 /*! \brief draw cylinder volume 
- *  \ingroup Geometry
+ *  \ingroup GrpSystemDrawablesGeometrymetry
  */
 OSG_SYSTEMLIB_DLLMAPPING 
 void drawVolume ( const CylinderVolume &volume );

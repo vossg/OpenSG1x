@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class State;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! StatePtr
 
 typedef FCPtr<FieldContainerPtr, State> StatePtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief StatePtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<StatePtr> :
     static char     *getSName(void) { return "SFStatePtr"; }
     static char     *getMName(void) { return "MFStatePtr"; }
 };
+#endif             // exclude from doc
 
 //! SFStatePtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<StatePtr> SFStatePtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFStatePtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<StatePtr> MFStatePtr;
 

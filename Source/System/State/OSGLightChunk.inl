@@ -44,11 +44,26 @@ OSG_BEGIN_NAMESPACE
 
 
 inline
-const StateChunkClass *  LightChunk::getClass( void ) const
+const StateChunkClass *LightChunk::getClass( void ) const
 {
     return &_class;
 }
 
+inline
+UInt32 LightChunk::getStaticClassId(void)
+{
+    return getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *LightChunk::getStaticClass(void)
+{
+    return &LightChunk::_class;
+}
+
 
 OSG_END_NAMESPACE
+
+#define OSGLIGHTCHUNK_INLINE_CVSID "@(#)$Id: FCTemplate_inl.h,v 1.7 2001/09/17 14:15:07 vossg Exp $"
+
 

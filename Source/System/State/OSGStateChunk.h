@@ -51,41 +51,50 @@
 
 OSG_BEGIN_NAMESPACE
 
-
-// little helper class to wrap and create chunk ids
-// the id is a low int to index into the state's chunk vector
-// A static instance of this is part of every new chunk class
+/*! \brief The classification class for StateChunks */
 
 class OSG_SYSTEMLIB_DLLMAPPING StateChunkClass
 {
+    /*==========================  PUBLIC  =================================*/
   public:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructor                                */
+    /*! \{                                                                 */
 
     StateChunkClass( Char8 *name, UInt32 numslots = 1 );
 
-    // get name and id of this class
-          UInt32   getID       ( void ) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Instance Access                              */
+    /*! \{                                                                 */
+
+          UInt32   getId       ( void ) const;
     const Char8   *getName     ( void ) const;
           Int32    getNumSlots ( void ) const;
 
-    // get name and id of indicated class
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Class Access                                */
+    /*! \{                                                                 */
+
     static const Char8 * getName     ( UInt32 index ) ;
     static       Int32   getNumSlots ( UInt32 index ) ;
 
-    // access to the class name list
     typedef std::vector<std::string>::const_iterator iterator;
 
     static iterator begin();
     static iterator end();
+    /*! \}                                                                 */
 
+    /*==========================  PRIVATE  ================================*/
   private:
 
-           UInt32                    _classId;
-    static std::vector<std::string> *_classNames;
-    static std::vector<     UInt32> *_numslots;
+           UInt32               _classId;
+    static std::vector<std::string>* _classNames;
+    static std::vector<UInt32>* _numslots;
 };
 
-//! StateChunk base class
-//! \ingroup StateChunks
+/*! \brief The abstract base class for StateChunks */
 
 class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
 {
@@ -93,10 +102,19 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
+    /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    static const char *getClassname(void) { return "StateChunk"; };
+                   UInt32            getClassId      (void) const;
+    virtual const  StateChunkClass * getClass        (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name              Static Chunk Class Access                       */
+    /*! \{                                                                 */
+
+    static        UInt32           getStaticClassId  (void);
+    static  const StateChunkClass *getStaticClass    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -119,22 +137,14 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
     /*! \name                      State                                   */
     /*! \{                                                                 */
 
-    virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
+    virtual void activate      ( DrawActionBase * action, UInt32 index = 0 );
 
-    virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
-                             UInt32 index = 0 );
+    virtual void changeFrom    ( DrawActionBase * action, StateChunk * old,
+                                 UInt32 index = 0 );
 
-    virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
+    virtual void deactivate    ( DrawActionBase * action, UInt32 index = 0 );
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Access                                  */
-    /*! \{                                                                 */
-
-                   UInt32            getClassID  (void) const;
-    virtual const  StateChunkClass * getClass    (void) const;
-
-    virtual bool   isTransparent                 (void) const;
+    virtual bool isTransparent (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -169,6 +179,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
 
     /*! \}                                                                 */
 
+    static void initMethod( void );
+
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -178,8 +190,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
     friend class StateChunkBase;
 
     static char cvsid[];
-
-    static void initMethod( void );
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const StateChunk &source);

@@ -109,7 +109,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

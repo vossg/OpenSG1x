@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class ColorBufferViewport;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ColorBufferViewportPtr
 
 typedef FCPtr<ViewportPtr, ColorBufferViewport> ColorBufferViewportPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief ColorBufferViewportPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<ColorBufferViewportPtr> :
     static char     *getSName(void) { return "SFColorBufferViewportPtr"; }
     static char     *getMName(void) { return "MFColorBufferViewportPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFColorBufferViewportPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<ColorBufferViewportPtr> SFColorBufferViewportPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, ColorBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 #endif
 
 //! MFColorBufferViewportPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<ColorBufferViewportPtr> MFColorBufferViewportPtr;
 

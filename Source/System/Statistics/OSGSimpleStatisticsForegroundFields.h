@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class SimpleStatisticsForeground;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! SimpleStatisticsForegroundPtr
 
 typedef FCPtr<StatisticsForegroundPtr, SimpleStatisticsForeground> SimpleStatisticsForegroundPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief SimpleStatisticsForegroundPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<SimpleStatisticsForegroundPtr> :
     static char     *getSName(void) { return "SFSimpleStatisticsForegroundPtr"; }
     static char     *getMName(void) { return "MFSimpleStatisticsForegroundPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFSimpleStatisticsForegroundPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<SimpleStatisticsForegroundPtr> SFSimpleStatisticsForegroundPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPL
 #endif
 
 //! MFSimpleStatisticsForegroundPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<SimpleStatisticsForegroundPtr> MFSimpleStatisticsForegroundPtr;
 

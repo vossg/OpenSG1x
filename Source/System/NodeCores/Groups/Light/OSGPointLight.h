@@ -48,13 +48,20 @@
 OSG_BEGIN_NAMESPACE
 
 //! Pointlight
-//! \ingroup LightNodes
+//! \ingroup GrpSystemNodeCoresLights
 
 class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                  static stat elem                            */
+    /*! \{                                                                 */
+
+    static StatElemDesc<StatIntElem>  statNPointLights;
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Access Fields                            */
     /*! \{                                                                 */

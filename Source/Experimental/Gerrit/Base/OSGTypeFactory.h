@@ -71,7 +71,7 @@ class TypeBase;
 //---------------------------------------------------------------------------
 
 //! TypeFactory
-//! \ingroup BaseTypeLib
+//! \ingroup GrpBaseTypeLib
 
 class OSG_BASE_DLLMAPPING TypeFactory : public FactoryBase
 {

@@ -119,7 +119,6 @@ FieldDescription *WIN32WindowBase::_desc[] =
                      (FieldAccessMethod) &WIN32WindowBase::getSFPaintstruct)
 };
 
-//! WIN32Window type
 
 FieldContainerType WIN32WindowBase::_type(
     "WIN32Window",
@@ -168,8 +167,6 @@ void WIN32WindowBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -187,8 +184,6 @@ WIN32WindowBase::WIN32WindowBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 WIN32WindowBase::WIN32WindowBase(const WIN32WindowBase &source) :
     _sfHwnd                   (source._sfHwnd                   ), 
     _sfHdc                    (source._sfHdc                    ), 
@@ -199,8 +194,6 @@ WIN32WindowBase::WIN32WindowBase(const WIN32WindowBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 WIN32WindowBase::~WIN32WindowBase(void)
 {
@@ -320,7 +313,9 @@ void WIN32WindowBase::executeSyncImpl(      WIN32WindowBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<WIN32WindowPtr>::_type("WIN32WindowPtr", "WindowPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING);

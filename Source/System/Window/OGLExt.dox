@@ -1,0 +1,19 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_EXT)
+
+/*! \page PageSystemOGLObjects OpenGL Objects & Extension Handling
+
+\section PageSystemOGLObj OpenGL Objects
+
+register, validate
+
+\section PageSystemOGLExt OpenGL Extensions
+
+register ext, register func, access
+
+*/
+
+#endif

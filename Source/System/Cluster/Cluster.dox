@@ -1,0 +1,16 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \defgroup GrpSystemCluster Cluster
+    \ingroup GrpSystem
+    
+    See \ref PageSystemCluster for details.
+*/
+
+/*! \page PageSystemCluster Cluster
+
+The cluster part of OpenSG includes all objects concerning with 
+clustering and remote rendering
+
+*/

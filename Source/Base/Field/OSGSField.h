@@ -54,15 +54,10 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \defgroup SingleFields SingleFields
-    \brief OpenSG Single Fields
-*/
-
 class BinaryDataHandler;
 
 //! Base class for all single fields, for example ::SFMatrix.
-//! \ingroup FieldLib
-//! \ingroup SingleFields
+//! \ingroup GrpBaseFieldSingle
 
 template <class FieldTypeT, Int32 fieldNameSpace = 0>
 class SField : public Field 

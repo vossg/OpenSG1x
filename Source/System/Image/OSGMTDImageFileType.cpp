@@ -54,6 +54,12 @@
 
 OSG_USING_NAMESPACE
 
+
+/*! \class osg::MTDImageFileType 
+    \ingroup GrpSystemImage
+    
+*/
+
 /*****************************
  *   Types
  *****************************/

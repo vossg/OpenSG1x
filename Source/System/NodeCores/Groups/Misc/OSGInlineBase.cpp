@@ -97,7 +97,6 @@ FieldDescription *InlineBase::_desc[] =
                      (FieldAccessMethod) &InlineBase::getSFLoaded)
 };
 
-//! Inline type
 
 FieldContainerType InlineBase::_type(
     "Inline",
@@ -146,8 +145,6 @@ void InlineBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -163,8 +160,6 @@ InlineBase::InlineBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 InlineBase::InlineBase(const InlineBase &source) :
     _mfUrl                    (source._mfUrl                    ), 
     _sfLoaded                 (source._sfLoaded                 ), 
@@ -173,8 +168,6 @@ InlineBase::InlineBase(const InlineBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 InlineBase::~InlineBase(void)
 {
@@ -258,7 +251,9 @@ void InlineBase::executeSyncImpl(      InlineBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<InlinePtr>::_type("InlinePtr", "NodeCorePtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

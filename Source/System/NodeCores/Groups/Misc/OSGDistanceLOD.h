@@ -50,7 +50,7 @@
 OSG_BEGIN_NAMESPACE
 
 //! DistanceLOD
-//! \ingroup NodesLib
+//! \ingroup GrpSystemNodeCoresMisc
 
 class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
 {

@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Billboard;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! BillboardPtr
 
 typedef FCPtr<GroupPtr, Billboard> BillboardPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief BillboardPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<BillboardPtr> :
     static char     *getSName(void) { return "SFBillboardPtr"; }
     static char     *getMName(void) { return "MFBillboardPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFBillboardPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<BillboardPtr> SFBillboardPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFBillboardPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<BillboardPtr> MFBillboardPtr;
 

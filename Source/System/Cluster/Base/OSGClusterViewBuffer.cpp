@@ -56,7 +56,7 @@
 OSG_USING_NAMESPACE
 
 /** \class osg::ClusterViewBuffer
- *  \ingroup Cluster
+ *  \ingroup GrpSystemCluster
  *  \brief Viewbuffer functions
  *
  * This class provides an interface to an OpenGL view buffer.

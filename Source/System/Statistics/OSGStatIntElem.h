@@ -52,12 +52,6 @@ OSG_BEGIN_NAMESPACE
 
 class StatElemDescBase;
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
- */
-
 class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
 
      /*==========================  PUBLIC  =================================*/
@@ -109,9 +103,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
     /*! \{                                                                 */
  
     bool operator < (const StatIntElem &other) const;
-    
-    //OSGbool operator == (const StatIntElem &other) const;
-    //OSGbool operator != (const StatIntElem &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

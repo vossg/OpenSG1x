@@ -49,6 +49,9 @@
 
 #include <OSGBaseFunctions.h>
 
+// exclude the whole class from user docs
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+
 #include "OSGNodePtr.h"
 #include "OSGParticleBSP.h"
 
@@ -409,6 +412,9 @@ void ParticleBSPTree::build(Particles *core)
     // done
 }
 
+/*! \ingroup STLHelpers
+*/
+
 struct ParticleCompare : public std::binary_function<Int32, Int32, bool> 
 {
     ParticleCompare(GeoPositionsPtr pos, UInt8 axis) : _pos(pos), _axis(axis)
@@ -508,6 +514,8 @@ DataType FieldDataTraits<ParticleBSPTree>::_type("ParticleBSPTree",
 OSG_DLLEXPORT_SFIELD_DEF1(ParticleBSPTree, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
+
+#endif            // exclude from user doc
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

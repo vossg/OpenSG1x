@@ -50,7 +50,7 @@
 OSG_USING_NAMESPACE
 
 /** \class osg::BinaryMessage
- *  \ingroup Network
+ *  \ingroup GrpBaseNetwork
  *  \brief Little-, Big endian independent message buffer
  *  \author Marcus Roth
  *

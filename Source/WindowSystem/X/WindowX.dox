@@ -1,0 +1,15 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \defgroup GrpWindowX OpenSG X Window System Library
+
+    \brief The System Library contains the main system-independent parts of OpenSG.
+
+    See \ref WindowX for details.
+*/
+
+/*! \page WindowX X Window System Library
+
+
+*/

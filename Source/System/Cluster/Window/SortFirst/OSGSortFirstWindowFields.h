@@ -66,12 +66,15 @@ OSG_BEGIN_NAMESPACE
 
 class SortFirstWindow;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! SortFirstWindowPtr
 
 typedef FCPtr<ClusterWindowPtr, SortFirstWindow> SortFirstWindowPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief SortFirstWindowPtr field traits 
-    \ingroup FieldLib
 */
 
 template <>
@@ -83,6 +86,7 @@ struct FieldDataTraits<SortFirstWindowPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
+#endif             // exclude from doc
 
 
 OSG_END_NAMESPACE

@@ -47,15 +47,15 @@
 #include <OSGAttachmentContainerFieldDataType.h>
 
 /*! \file OSGSFAttachmentContainerPtr.h
-    \ingroup FieldLib
-    \ingroup SingleFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
     \brief OpenSG attachment container single fields
 */
 
 OSG_BEGIN_NAMESPACE
 
 /*! \brief SFAttachmentContainerPtr
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<AttachmentContainerPtr> SFAttachmentContainerPtr;

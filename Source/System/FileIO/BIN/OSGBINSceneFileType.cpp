@@ -61,6 +61,12 @@
 
 OSG_USING_NAMESPACE
 
+
+/*! \class osg::BINSceneFileType 
+    \ingroup GrpSystemFileIO
+    
+ */
+
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
 #pragma warning (disable : 383)
 #endif

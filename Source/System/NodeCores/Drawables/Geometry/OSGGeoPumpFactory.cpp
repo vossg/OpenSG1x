@@ -354,6 +354,8 @@ static char *formatNames[] =
 
 // little helper class for function init
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+
 class glextFuncInit
 {
     public:
@@ -533,6 +535,7 @@ static UInt32 TexCoords1IDs[numFormats][4];
 #define TexCoords2IDs TexCoords1IDs
 #define TexCoords3IDs TexCoords1IDs
 
+#endif      // remove from all but dev docs
 
 /*! MasterPump for empty geometry, does nothing
  */

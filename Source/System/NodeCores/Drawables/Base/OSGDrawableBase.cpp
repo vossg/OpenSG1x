@@ -66,7 +66,6 @@ OSG_USING_NAMESPACE
 
 
 
-//! Drawable type
 
 FieldContainerType DrawableBase::_type(
     "Drawable",
@@ -106,8 +105,6 @@ void DrawableBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -121,16 +118,12 @@ DrawableBase::DrawableBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 DrawableBase::DrawableBase(const DrawableBase &source) :
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 DrawableBase::~DrawableBase(void)
 {
@@ -178,7 +171,9 @@ void DrawableBase::executeSyncImpl(      DrawableBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DrawablePtr>::_type("DrawablePtr", "NodeCorePtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(DrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(DrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -199,7 +194,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawableBase.cpp,v 1.1 2002/09/25 16:46:17 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawableBase.cpp,v 1.2 2002/10/24 14:22:00 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDRAWABLEBASE_INLINE_CVSID;
 

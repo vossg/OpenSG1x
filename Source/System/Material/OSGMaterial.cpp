@@ -55,15 +55,8 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup MaterialLib OpenSG Material Lib
-
-The Material abstracts the surface characteristics that are used to render
-the renderable objects.
-
-*/
-
 /*! \class osg::Material
-    \ingroup MaterialLib
+    \ingroup GrpSystemMaterial
 
 The material base class.
 

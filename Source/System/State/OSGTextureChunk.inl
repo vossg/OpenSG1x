@@ -43,14 +43,22 @@
 
 OSG_BEGIN_NAMESPACE
 
-#ifndef GL_TEXTURE0_ARB
-#define GL_TEXTURE0_ARB 0x84C0
-#endif
-
 inline
 const StateChunkClass *TextureChunk::getClass( void ) const
 {
     return &_class;
+}
+
+inline
+UInt32 TextureChunk::getStaticClassId(void)
+{
+    return getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *TextureChunk::getStaticClass(void)
+{
+    return &TextureChunk::_class;
 }
 
 inline
@@ -63,6 +71,11 @@ void TextureChunk::setImage(ImageP &pImage)
     _sfImage.setValue(pImage);
 }
 
+/*! Utility function to be called whenever the contents of the image change. 
+    Forces efficient update of the texture. Should not be called when the 
+    size of the texture changes, in that case setImage() should be called to 
+    renew the texture.
+*/
 
 inline 
 void TextureChunk::imageContentChanged( void )
@@ -98,4 +111,6 @@ void TextureChunk::activateTexture(Window *win, UInt16 texture)
 }
 
 OSG_END_NAMESPACE
+
+#define OSGTEXTURECHUNK_INLINE_CVSID "@(#)$Id: FCTemplate_inl.h,v 1.7 2001/09/17 14:15:07 vossg Exp $"
 

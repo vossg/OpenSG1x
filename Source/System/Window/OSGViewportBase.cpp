@@ -174,7 +174,6 @@ FieldDescription *ViewportBase::_desc[] =
                      (FieldAccessMethod) &ViewportBase::getMFForegrounds)
 };
 
-//! Viewport type
 
 FieldContainerType ViewportBase::_type(
     "Viewport",
@@ -223,8 +222,6 @@ void ViewportBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -247,8 +244,6 @@ ViewportBase::ViewportBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 ViewportBase::ViewportBase(const ViewportBase &source) :
     _sfLeft                   (source._sfLeft                   ), 
     _sfRight                  (source._sfRight                  ), 
@@ -264,8 +259,6 @@ ViewportBase::ViewportBase(const ViewportBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 ViewportBase::~ViewportBase(void)
 {
@@ -475,7 +468,9 @@ void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ViewportPtr>::_type("ViewportPtr", "AttachmentContainerPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

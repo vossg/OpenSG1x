@@ -50,7 +50,8 @@
 OSG_USING_NAMESPACE
 
 /*! \class osg::FileGrabForeground
-Background is the base class for all background clearing.  	 	
+    \ingroup GrpSystemWindowForegrounds
+    
 */
 
 /*----------------------- constructors & destructors ----------------------*/

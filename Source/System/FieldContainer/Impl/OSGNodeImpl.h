@@ -61,7 +61,7 @@ class BinaryDataHandler;
 class FieldDescription;
 
 //! Node
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer 
 {

@@ -94,7 +94,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GroupBase : public NodeCore
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

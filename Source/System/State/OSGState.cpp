@@ -59,9 +59,12 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*! \class osg::State
+    \ingroup GrpSystemState
+    
+The state base class. See \ref PageSystemState for the conceptual background. 
+
+*/
 
 /***************************************************************************\
  *                           Class variables                               *
@@ -74,27 +77,8 @@ char State::cvsid[] = "@(#)$Id: $";
 \***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void State::initMethod (void)
 {
@@ -111,24 +95,15 @@ void State::initMethod (void)
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
-
 State::State(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 State::State(const State &source) :
     Inherited(source)
 {
 }
-
-/** \brief Destructor
- */
 
 State::~State(void)
 {
@@ -136,18 +111,12 @@ State::~State(void)
 }
 
 
-/** \brief react to field changes
- */
-
 void State::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
 /*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
 
 void State::dump(     UInt32    OSG_CHECK_ARG(uiIndent),
                  const BitVector OSG_CHECK_ARG(bvFlags)) const
@@ -167,170 +136,12 @@ void State::dump(     UInt32    OSG_CHECK_ARG(uiIndent),
     }
 }
 
+/*-------------------- OpenGL State Management --------------------------*/
 
-/*-------------------------- your_category---------------------------------*/
+/*! Activate (i.e. call all their OpenGL commands) the current set of
+    StateChunks. Activate will simply overwrite whatever was set before. 
+*/
 
-void State::addChunk(StateChunkPtr chunk, Int32 index)
-{
-    if(index > 0 && index > chunk->getClass()->getNumSlots())
-    {
-        SWARNING << "addChunk: index " 
-                 << index
-                 << " > Numslots "
-                 << chunk->getClass()->getNumSlots()
-                 << ",  ignored!" 
-                 << std::endl;
-        return;
-    }
-
-    UInt32 cindex =  chunk->getClassID();
-    UInt32 csize  = _mfChunks.size();
-
-    // special case: find empty slot automatically
-    if(index == AutoSlot || index == AutoSlotReplace)
-    {
-        UInt8 nslots = chunk->getClass()->getNumSlots();
-        UInt8 ci;
-
-        for(ci = cindex; ci < cindex + nslots && ci < csize; ++ci)
-        {
-            if(_mfChunks[ci] == NullFC)
-            {
-                break;
-            }
-        }
-
-        if(ci >= cindex + nslots)    // no free slot found
-        {
-            if(index == AutoSlot)
-            {
-                SWARNING << "addChunk: no free slot found for "
-                         << chunk->getClass()->getName() 
-                         << " class, ignored!" << std::endl;
-                return;
-            }
-            // use last slot
-            --ci;
-        }
-
-        cindex = ci;
-    }
-    else
-    {
-        cindex += index;
-    }
-
-    // add the chunk to the state at cindex
-    if(cindex >= csize)
-    {
-        UInt32 oldsize = csize;
-        UInt32 newsize = cindex + 1;
-
-        _mfChunks.resize(newsize);
-
-        for(UInt32 i = oldsize; i < newsize; i++)
-        {
-            _mfChunks[i] = NullFC;
-        }
-    }
-
-    if(_mfChunks[cindex] != chunk)
-    {
-        setRefdCP(_mfChunks[cindex], chunk);
-    }
-}
-
-
-void State::subChunk(StateChunkPtr chunk, Int32 index)
-{
-    if(index > 0 && index > chunk->getClass()->getNumSlots())
-    {
-        SWARNING << "subChunk: index "
-                 << index
-                 << " > Numslots "
-                 << chunk->getClass()->getNumSlots()
-                 << ",  ignored!" 
-                 << std::endl;
-        return;
-    }
-
-    UInt32 cindex =  chunk->getClassID();
-    UInt32 csize  = _mfChunks.size();
-
-    // special case: find it in the slots
-    if(index < 0)
-    {
-        UInt8 nslots = chunk->getClass()->getNumSlots();
-        UInt8 ci;
-
-        for(ci = cindex; ci < cindex + nslots && ci < csize; ci++)
-        {
-            if(_mfChunks[ci] == chunk)
-            {
-                break;
-            }
-        }
-
-        if(ci >= cindex + nslots)    // no free slot found
-        {
-            SWARNING << "subChunk: chunk " 
-                     << chunk
-                     << " of class "
-                     << chunk->getClass()->getName()
-                     << " not found!" 
-                     << std::endl;
-            return;
-        }
-
-        cindex = ci;
-    }
-
-    // remove the chunk from the state
-
-     subRefCP(_mfChunks[cindex]);
-
-    _mfChunks[cindex] = NullFC;
-}
-
-void State::subChunk(UInt32 classid, Int32 index)
-{
-    if(index > 0 && index > StateChunkClass::getNumSlots(classid))
-    {
-        SWARNING << "subChunk: index " << index << " > Numslots "
-                 << StateChunkClass::getNumSlots(classid)
-                 << ",  ignored!" << std::endl;
-        return;
-    }
-
-    // remove the chunk from the state
-
-    subRefCP(_mfChunks[classid + index]);
-
-    _mfChunks[classid + index] = NullFC;
-}
-
-struct ClearSlot : public std::unary_function<      StateChunkPtr         &, 
-                                              const NullFieldContainerPtr &>
-{
-    const NullFieldContainerPtr &operator() (StateChunkPtr &slotPtr) 
-    { 
-        subRefCP(slotPtr);
-        
-        return NullFC;
-    }
-};
-
-
-void State::clearChunks(void)
-{
-    std::transform(_mfChunks.begin(), 
-                   _mfChunks.end  (), 
-                   _mfChunks.begin(),
-                    ClearSlot());
-}
-
-
-// call the OpenGL commands to set my part of the state.
 void State::activate(DrawActionBase *action)
 {
     MFStateChunkPtr::iterator it;
@@ -349,7 +160,10 @@ void State::activate(DrawActionBase *action)
     }
 }
 
-// call commands to get from old to my state.
+
+/*! Switch to this state from the given old State. 
+*/
+
 void State::changeFrom(DrawActionBase *action, State *old)
 {
     MFStateChunkPtr::iterator it;
@@ -396,7 +210,10 @@ void State::changeFrom(DrawActionBase *action, State *old)
 }
 
 
-// reset my part of the state.
+/*! Deactivate the current set of StateChunks, i.e. switch everything back to
+    the default state for the OpenGL state covered by the given chunks.
+*/
+
 void State::deactivate(DrawActionBase *action)
 {
     MFStateChunkPtr::iterator it;
@@ -413,6 +230,200 @@ void State::deactivate(DrawActionBase *action)
     }
 }
 
+
+/*---------------------------- Access -----------------------------------*/
+
+/*! Add the given chunk to the State. The index defines the behaviour,
+    especially for multi-slot chunks. 
+
+    If it is set to AutoSlotReplace (the default), addChunk will try to find an
+    empty slot for the chunk class, if it doesn't find one the last one will be
+    replaced with the new entry. This is also useful for chunk classes with
+    only a single slot, as it will override an old instance of the chunk class,
+    which is usually the desired behaviour.
+    
+    If it is set to AutoSlot, the new chunk will only be added to the State if
+    there is a free slot. If there is no free slot true will be returned, in
+    all other cases it will be false.
+    
+    If the index is explicitly given (i.e. it is >=0) the chunk will be set
+    into the given slot, possibly overwriting an old entry. If the index is
+    larger than the number of slots for the given chunck class true will be
+    returned.
+*/
+
+bool State::addChunk(StateChunkPtr chunk, Int32 index)
+{
+    if(index > 0 && index > chunk->getClass()->getNumSlots())
+    {
+        SWARNING << "addChunk: index " 
+                 << index
+                 << " > Numslots "
+                 << chunk->getClass()->getNumSlots()
+                 << ",  ignored!" 
+                 << std::endl;
+        return true;
+    }
+
+    UInt32 cindex =  chunk->getClassId();
+    UInt32 csize  = _mfChunks.size();
+
+    // special case: find empty slot automatically
+    if(index == AutoSlot || index == AutoSlotReplace)
+    {
+        UInt8 nslots = chunk->getClass()->getNumSlots();
+        UInt8 ci;
+
+        for(ci = cindex; ci < cindex + nslots && ci < csize; ++ci)
+        {
+            if(_mfChunks[ci] == NullFC)
+            {
+                break;
+            }
+        }
+
+        if(ci >= cindex + nslots)    // no free slot found
+        {
+            if(index == AutoSlot)
+            {
+                SWARNING << "addChunk: no free slot found for "
+                         << chunk->getClass()->getName() 
+                         << " class, ignored!" << std::endl;
+                return true;
+            }
+            // use last slot
+            --ci;
+        }
+
+        cindex = ci;
+    }
+    else
+    {
+        cindex += index;
+    }
+
+    // add the chunk to the state at cindex
+    if(cindex >= csize)
+    {
+        UInt32 oldsize = csize;
+        UInt32 newsize = cindex + 1;
+
+        _mfChunks.resize(newsize);
+
+        for(UInt32 i = oldsize; i < newsize; i++)
+        {
+            _mfChunks[i] = NullFC;
+        }
+    }
+
+    if(_mfChunks[cindex] != chunk)
+    {
+        setRefdCP(_mfChunks[cindex], chunk);
+    }
+    
+    return false;
+}
+
+/*! Remove the given chunk from the State. Returns false if successful, true if
+    the chunk wasn't found.
+*/
+
+bool State::subChunk(StateChunkPtr chunk)
+{
+    if(chunk == NullFC)
+        return true;
+        
+    UInt32 cindex =  chunk->getClassId();
+    UInt32 csize  = _mfChunks.size();
+
+    // special case: find it in the slots
+    UInt8 nslots = chunk->getClass()->getNumSlots();
+    UInt8 ci;
+
+    for(ci = cindex; ci < cindex + nslots && ci < csize; ci++)
+    {
+        if(_mfChunks[ci] == chunk)
+        {
+            break;
+        }
+    }
+
+    if(ci >= cindex + nslots)    // chunk not found
+    {
+        SWARNING << "subChunk: chunk " 
+                 << chunk
+                 << " of class "
+                 << chunk->getClass()->getName()
+                 << " not found!" 
+                 << std::endl;
+        return true;
+    }
+
+    // remove the chunk from the state
+
+    subRefCP(_mfChunks[ci]);
+
+    _mfChunks[ci] = NullFC;
+    
+    return false;
+}
+
+
+/*! Remove the chunk defined by the class id and the slot index from the State. 
+    Returns false if successful, true if the chunk wasn't found.
+*/
+
+bool State::subChunk(UInt32 classid, Int32 index)
+{
+    if(index < 0 || index > StateChunkClass::getNumSlots(classid))
+    {
+        SWARNING << "subChunk: index " << index << " > Numslots "
+                 << StateChunkClass::getNumSlots(classid)
+                 << ",  ignored!" << std::endl;
+        return true;
+    }
+
+    if(_mfChunks[classid + index] == NullFC)
+        return true;
+
+    // remove the chunk from the state
+
+    subRefCP(_mfChunks[classid + index]);
+
+    _mfChunks[classid + index] = NullFC;
+    
+    return false;
+}
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+
+/*! \ingroup STLHelpers
+    Helper struct to remove chunks from a state.
+*/
+
+struct ClearSlot : public std::unary_function<      StateChunkPtr         &, 
+                                              const NullFieldContainerPtr &>
+{
+    const NullFieldContainerPtr &operator() (StateChunkPtr &slotPtr) 
+    { 
+        subRefCP(slotPtr);
+        
+        return NullFC;
+    }
+};
+#endif
+
+/*! Remove all chunks from the state
+*/
+
+void State::clearChunks(void)
+{
+    std::transform(_mfChunks.begin(), 
+                   _mfChunks.end  (), 
+                   _mfChunks.begin(),
+                    ClearSlot());
+}
+
 /*-------------------------- comparison -----------------------------------*/
 
 Real32 State::switchCost(State *OSG_CHECK_ARG(state))
@@ -420,36 +431,17 @@ Real32 State::switchCost(State *OSG_CHECK_ARG(state))
     return 0;
 }
 
-/** \brief assignment
- */
-
 bool State::operator < (const State &other) const
 {
     return this < &other;
 }
-
-/** \brief equal
- */
 
 bool State::operator == (const State &OSG_CHECK_ARG(other)) const
 {
     return false;
 }
 
-/** \brief unequal
- */
-
 bool State::operator != (const State &other) const
 {
     return ! (*this == other);
 }
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-

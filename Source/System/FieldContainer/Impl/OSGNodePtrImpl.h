@@ -58,7 +58,7 @@ class CNodePtr;
 //---------------------------------------------------------------------------
 
 //! Pointer to a node
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 #ifdef __sgi
 #pragma set woff 1375,1424

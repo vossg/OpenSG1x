@@ -48,25 +48,24 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! \brief class for light source chunks.
-
 class OSG_SYSTEMLIB_DLLMAPPING LightChunk : public LightChunkBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
+    /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    static const char *getClassname(void) { return "LightChunk"; };
+    virtual const  StateChunkClass * getClass    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name             Fieldcontainer decklaration                      */
+    /*! \name              Static Chunk Class Access                       */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *  getClass( void ) const;
+    static        UInt32           getStaticClassId  (void);
+    static  const StateChunkClass *getStaticClass    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -154,5 +153,7 @@ OSG_END_NAMESPACE
 
 #include <OSGLightChunkBase.inl>
 #include <OSGLightChunk.inl>
+
+#define OSGLIGHTCHUNK_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGLIGHTCHUNK_H_ */

@@ -97,7 +97,6 @@ FieldDescription *StereoCameraDecoratorBase::_desc[] =
                      (FieldAccessMethod) &StereoCameraDecoratorBase::getSFEyeSeparation)
 };
 
-//! StereoCameraDecorator type
 
 FieldContainerType StereoCameraDecoratorBase::_type(
     "StereoCameraDecorator",
@@ -137,8 +136,6 @@ void StereoCameraDecoratorBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -154,8 +151,6 @@ StereoCameraDecoratorBase::StereoCameraDecoratorBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 StereoCameraDecoratorBase::StereoCameraDecoratorBase(const StereoCameraDecoratorBase &source) :
     _sfLeftEye                (source._sfLeftEye                ), 
     _sfEyeSeparation          (source._sfEyeSeparation          ), 
@@ -164,8 +159,6 @@ StereoCameraDecoratorBase::StereoCameraDecoratorBase(const StereoCameraDecorator
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 StereoCameraDecoratorBase::~StereoCameraDecoratorBase(void)
 {
@@ -249,7 +242,9 @@ void StereoCameraDecoratorBase::executeSyncImpl(      StereoCameraDecoratorBase 
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<StereoCameraDecoratorPtr>::_type("StereoCameraDecoratorPtr", "CameraDecoratorPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(StereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

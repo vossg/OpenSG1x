@@ -51,6 +51,8 @@
 OSG_USING_NAMESPACE
 
 /*! \class osg::CameraDecorator
+    \ingroup GrpSystemWindowCameras
+    
 The base class for the camera. 	
 */
 

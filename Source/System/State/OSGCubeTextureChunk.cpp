@@ -55,50 +55,37 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::CubeTextureChunk
-    \ingroup StateChunks
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
 
-CubeTexture Chunk. Similar to TextureChunk, but has 5 more textures. The
-TextureChunk's texture is the negative z texture, the others are named
-accordingly. Note that all textures have to be square and have to have the
-same resolution.
+/*! \class osg::CubeTextureChunk
+    \ingroup GrpSystemState
+
+See \ref PageSystemCubeTextureChunk for details.
 
 */
 
-// this should go somewhere central...
 
-#ifdef OSG_DEBUG
-#define glErr(text)                           \
-{                                   \
-        GLenum glerr;                           \
-        glerr=glGetError();                     \
-        if(glerr!=GL_NO_ERROR)                     \
-        {                               \
-                fprintf(stderr, "%s failed: %s (%#x)\n", (text),    \
-                                        gluErrorString(glerr), glerr);  \
-        }                               \
-}
-#else
-#define glErr(text)
-#endif
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
 
-/*----------------------- constructors & destructors ----------------------*/
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
-//! Constructor
+/*------------- constructors & destructors --------------------------------*/
 
 CubeTextureChunk::CubeTextureChunk(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 CubeTextureChunk::CubeTextureChunk(const CubeTextureChunk &source) :
     Inherited(source)
 {
 }
-
-//! Destructor
 
 CubeTextureChunk::~CubeTextureChunk(void)
 {
@@ -109,18 +96,7 @@ CubeTextureChunk::~CubeTextureChunk(void)
     subRefP(_sfNegYImage.getValue());
 }
 
-/*----------------------------- class specific ----------------------------*/
-
-//! initialize the static features of the class, e.g. action callbacks
-
-void CubeTextureChunk::initMethod (void)
-{
-}
-
 /*----------------------------- onCreate --------------------------------*/
-
-/** \brief instance initialization
- */
 
 void CubeTextureChunk::onCreate(const CubeTextureChunk *)
 {
@@ -143,17 +119,17 @@ void CubeTextureChunk::onCreate(const CubeTextureChunk *)
     endEditCP(tmpPtr, CubeTextureChunk::GLIdFieldMask);
 }
 
-//! output the instance for debug purposes
+/*------------------------------ Output ----------------------------------*/
 
 void CubeTextureChunk::dump(      UInt32    , 
-                         const BitVector ) const
+                             const BitVector ) const
 {
     SLOG << "Dump CubeTextureChunk NI" << std::endl;
 }
 
 
-// GL object handler
-// create the texture and destroy it
+/*-------------------------------- GL ------------------------------------*/
+
 void CubeTextureChunk::handleGL(Window *win, UInt32 idstatus)
 {
     Window::GLObjectStatusE mode;
@@ -249,6 +225,8 @@ void CubeTextureChunk::handleGL(Window *win, UInt32 idstatus)
 }
 
 
+/*------------------------------ State ------------------------------------*/
+
 void CubeTextureChunk::activate( DrawActionBase *action, UInt32 idx )
 {   
     // does the window support cubemaps?
@@ -327,23 +305,17 @@ void CubeTextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
     glErr("CubeTextureChunk::deactivate");
 }
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------- Comparison -----------------------------------*/
 
 Real32 CubeTextureChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
 }
 
-/** \brief assignment
- */
-
 bool CubeTextureChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
-
-/** \brief equal
- */
 
 bool CubeTextureChunk::operator == (const StateChunk &other) const
 {
@@ -363,9 +335,6 @@ bool CubeTextureChunk::operator == (const StateChunk &other) const
             getPosXImage()  == tother->getPosXImage() &&
             getNegXImage()  == tother->getNegXImage();
 }
-
-/** \brief unequal
- */
 
 bool CubeTextureChunk::operator != (const StateChunk &other) const
 {

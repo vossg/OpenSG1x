@@ -130,7 +130,6 @@ FieldDescription *ClusterWindowBase::_desc[] =
                      (FieldAccessMethod) &ClusterWindowBase::getSFBroadcastAddress)
 };
 
-//! ClusterWindow type
 
 FieldContainerType ClusterWindowBase::_type(
     "ClusterWindow",
@@ -179,8 +178,6 @@ void ClusterWindowBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -199,8 +196,6 @@ ClusterWindowBase::ClusterWindowBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 ClusterWindowBase::ClusterWindowBase(const ClusterWindowBase &source) :
     _mfServers                (source._mfServers                ), 
     _sfConnectionType         (source._sfConnectionType         ), 
@@ -212,8 +207,6 @@ ClusterWindowBase::ClusterWindowBase(const ClusterWindowBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 ClusterWindowBase::~ClusterWindowBase(void)
 {
@@ -351,7 +344,9 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ClusterWindowPtr>::_type("ClusterWindowPtr", "WindowPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ClusterWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ClusterWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

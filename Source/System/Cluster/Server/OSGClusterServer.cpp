@@ -55,7 +55,7 @@
 OSG_USING_NAMESPACE
 
 /** \class osg::ClusterServer
- *  \ingroup Cluster
+ *  \ingroup GrpSystemCluster
  *  \brief Cluster rendering server
  *
  * A ClusterServer is responsible for syncronizing all client changes.

@@ -50,7 +50,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup BaseBaseMath
+/*! \ingroup GrpBaseBaseMath
     \brief Matrix utility functions to create and analyze special kinds 
            of matrices
  */

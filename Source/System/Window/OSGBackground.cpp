@@ -63,15 +63,8 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup Backgrounds OpenSG Backgrounds
-    \ingroup WindowLib
-
-The Background group includes all the objects that can clear a Viewport.
-
-*/
-
 /*! \class osg::Background
-    \ingroup Backgrounds
+    \ingroup GrpSystemWindowBackgrounds
 
 Background is the base class for all background clearing. 
 

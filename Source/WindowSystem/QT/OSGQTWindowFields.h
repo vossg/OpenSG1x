@@ -71,9 +71,9 @@ class QTWindow;
 typedef FCPtr<WindowPtr, QTWindow> QTWindowPtr;
 
 /*! \brief QTWindowPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -92,7 +92,7 @@ struct FieldDataTraits<QTWindowPtr> :
 };
 
 //! SFQTWindowPtr
-//! \ingroup SingleFields
+//! \ingroup GrpBaseFieldSingle
 
 typedef SField<QTWindowPtr> SFQTWindowPtr;
 
@@ -101,7 +101,7 @@ OSG_DLLEXPORT_DECL1(SField, QTWindowPtr, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFQTWindowPtr
-//! \ingroup MultiFields
+//! \ingroup GrpBaseFieldMulti
 
 typedef MField<QTWindowPtr> MFQTWindowPtr;
 

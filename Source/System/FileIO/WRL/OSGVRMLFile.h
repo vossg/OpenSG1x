@@ -73,7 +73,7 @@ VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
 #endif
 
 //! VRML97 Loader (Geometry only)
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
 {

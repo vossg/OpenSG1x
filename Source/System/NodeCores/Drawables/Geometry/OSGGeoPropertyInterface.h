@@ -49,7 +49,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GeometryLib
+/*! \ingroup GrpSystemNodeCoresDrawablesGeometry
  *  \brief GeoPropertyInterface defines the interface used by the geometry to 
  *  access its attributes. It's an abstract class and not to be instantiated.
  *  Properties are one implementation of this interface,
@@ -169,7 +169,14 @@ struct AttachmentPropertyDesc
     /*! \}                                                                 */ 
 };
 
-struct GeoPositionsPropertyDesc
+/*! \ingroup GrpSystemNodeCoresDrawablesGeometry
+ *  Abstract base class for all GeoProperty descriptors.
+ */
+struct GeoPropertyDesc
+{
+};
+
+struct GeoPositionsPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
@@ -205,7 +212,7 @@ struct GeoPositionsPropertyDesc
 typedef GeoPositionsPropertyDesc::Interface GeoPositionsInterface;
 #endif
 
-struct GeoNormalsPropertyDesc
+struct GeoNormalsPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
@@ -240,7 +247,7 @@ struct GeoNormalsPropertyDesc
 typedef GeoNormalsPropertyDesc::Interface GeoNormalsInterface;
 #endif
 
-struct GeoColorsPropertyDesc
+struct GeoColorsPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
@@ -275,7 +282,7 @@ struct GeoColorsPropertyDesc
 typedef GeoColorsPropertyDesc::Interface GeoColorsInterface;
 #endif
 
-struct GeoTexCoordsPropertyDesc
+struct GeoTexCoordsPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
@@ -310,7 +317,7 @@ struct GeoTexCoordsPropertyDesc
 typedef GeoTexCoordsPropertyDesc::Interface GeoTexCoordsInterface;
 #endif
 
-struct GeoIndicesPropertyDesc
+struct GeoIndicesPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
@@ -345,7 +352,7 @@ struct GeoIndicesPropertyDesc
 typedef GeoIndicesPropertyDesc::Interface GeoIndicesInterface;
 #endif
 
-struct GeoPTypesPropertyDesc
+struct GeoPTypesPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
@@ -381,7 +388,7 @@ struct GeoPTypesPropertyDesc
 typedef GeoPTypesPropertyDesc::Interface GeoPTypesInterface;
 #endif
 
-struct GeoPLengthsPropertyDesc
+struct GeoPLengthsPropertyDesc : public GeoPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */

@@ -86,7 +86,6 @@ FieldDescription *ChunkMaterialBase::_desc[] =
                      (FieldAccessMethod) &ChunkMaterialBase::getMFChunks)
 };
 
-//! ChunkMaterial type
 
 FieldContainerType ChunkMaterialBase::_type(
     "ChunkMaterial",
@@ -135,8 +134,6 @@ void ChunkMaterialBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -151,8 +148,6 @@ ChunkMaterialBase::ChunkMaterialBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 ChunkMaterialBase::ChunkMaterialBase(const ChunkMaterialBase &source) :
     _mfChunks                 (source._mfChunks                 ), 
     Inherited                 (source)
@@ -160,8 +155,6 @@ ChunkMaterialBase::ChunkMaterialBase(const ChunkMaterialBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 ChunkMaterialBase::~ChunkMaterialBase(void)
 {
@@ -227,7 +220,9 @@ void ChunkMaterialBase::executeSyncImpl(      ChunkMaterialBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ChunkMaterialPtr>::_type("ChunkMaterialPtr", "MaterialPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

@@ -48,8 +48,8 @@
 #include <OSGImageFieldDataType.h>
 
 /** \file OSGMFImageTypes.h
- *  \ingroup ImageLib
- *  \ingroup MultiFields
+ *  \ingroup GrpSystemImage
+ *  \ingroup GrpBaseFieldMulti
  *  \brief OpenSG image multi fields
  *
  *  <UL>

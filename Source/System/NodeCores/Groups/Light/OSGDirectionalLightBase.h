@@ -103,7 +103,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public Light
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

@@ -130,7 +130,6 @@ FieldDescription *CubeTextureChunkBase::_desc[] =
                      (FieldAccessMethod) &CubeTextureChunkBase::getSFNegYImage)
 };
 
-//! CubeTextureChunk type
 
 FieldContainerType CubeTextureChunkBase::_type(
     "CubeTextureChunk",
@@ -179,8 +178,6 @@ void CubeTextureChunkBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -199,8 +196,6 @@ CubeTextureChunkBase::CubeTextureChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 CubeTextureChunkBase::CubeTextureChunkBase(const CubeTextureChunkBase &source) :
     _sfPosZImage              (source._sfPosZImage              ), 
     _sfPosXImage              (source._sfPosXImage              ), 
@@ -212,8 +207,6 @@ CubeTextureChunkBase::CubeTextureChunkBase(const CubeTextureChunkBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 CubeTextureChunkBase::~CubeTextureChunkBase(void)
 {
@@ -351,7 +344,9 @@ void CubeTextureChunkBase::executeSyncImpl(      CubeTextureChunkBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<CubeTextureChunkPtr>::_type("CubeTextureChunkPtr", "TextureChunkPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(CubeTextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CubeTextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

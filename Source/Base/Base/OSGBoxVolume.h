@@ -60,7 +60,7 @@ bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
     and storage. It provides representation of the defining corners of a
     box in 3D space.
 
-  \ingroup BaseBaseVolume  
+  \ingroup GrpBaseBaseVolume  
 */
 
 class OSG_BASE_DLLMAPPING BoxVolume : public Volume

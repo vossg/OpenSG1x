@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright(C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -51,19 +51,9 @@ OSG_BEGIN_NAMESPACE
     number of faces in the geometry. Its main use is as an input to seek().
 */
 inline       
-Int32 FaceIterator::getIndex( void ) const
+Int32 FaceIterator::getIndex(void) const
 {
     return _faceIndex;
-}
-
-/*! Return the type of the current primitive. Mainly useful to be able
-    to treat e.g. polygons differently than other triangle-generating
-    primitives.
-*/
-inline       
-UInt32 FaceIterator::getType( void ) const
-{
-    return _primIt.getType();
 }
 
 
@@ -71,135 +61,162 @@ UInt32 FaceIterator::getType( void ) const
     primitive.
 */
 inline       
-UInt32 FaceIterator::getLength( void) const
+UInt32 FaceIterator::getLength(void) const
 {
     return _facePntIndex[3] == -1 ? 3 : 4;
 }
 
-
-/*! Return the position index of a point in the current face. 
-    \param which the point to access. Must be between 0 and getLength().
-*/
 inline       
-Int32 FaceIterator::getPositionIndex( Int32 which ) const
+Int32 FaceIterator::getPositionIndex(Int32 which) const
 {
-    if ( _facePntIndex[which] >= 0 )
-        return _primIt.getPositionIndex( _facePntIndex[which] );
+    if(_facePntIndex[which] >= 0)
+        return getPositionIndex(_facePntIndex[which]);
     else 
         return -1;
 }
 
-
-/*! Return the position of a point in the current face. 
-    \param which the point to access. Must be between 0 and getLength().
-*/
 inline       
-Pnt3f FaceIterator::getPosition( Int32 which ) const
+Pnt3f FaceIterator::getPosition(Int32 which) const
 {
-    Int32 ind = getPositionIndex( which );
+    Int32 ind = getPositionIndex(which);
     
-    if ( ind < 0 )
+    if(ind < 0)
         return Pnt3f::Null;
     
-    return _geo->getPositions()->getValue( ind );
+    return getGeometry()->getPositions()->getValue(ind);
 }
 
-/*! Return the normal index of a point in the current face. 
-    \param which the point to access. Must be between 0 and getLength().
-*/
 inline       
-Int32 FaceIterator::getNormalIndex( Int32 which ) const
+Int32 FaceIterator::getNormalIndex(Int32 which) const
 {
-    if ( _facePntIndex[which] >= 0 )
-        return _primIt.getNormalIndex( _facePntIndex[which] );
+    if(_facePntIndex[which] >= 0)
+        return getNormalIndex(_facePntIndex[which]);
     else 
         return -1;
 }
 
-/*! Return the normal of a point in the current face. 
-    \param which the point to access. Must be between 0 and getLength().
-*/
 inline 
-Vec3f FaceIterator::getNormal( Int32 which ) const
+Vec3f FaceIterator::getNormal(Int32 which) const
 {   
-    Int32 ind = getNormalIndex( which );
+    Int32 ind = getNormalIndex(which);
     
-    if ( ind < 0 )
+    if(ind < 0)
         return Vec3f::Null;
         
-    return _geo->getNormals()->getValue( ind );
+    return getGeometry()->getNormals()->getValue(ind);
 }
 
-/*! Return the color index of a point in the current face. 
-    \param which the point to access. Must be between 0 and getLength().
-*/
 inline       
-Int32 FaceIterator::getColorIndex( Int32 which ) const
+Int32 FaceIterator::getColorIndex(Int32 which) const
 {
-    if ( _facePntIndex[which] >= 0 )
-        return _primIt.getColorIndex( _facePntIndex[which] );
+    if(_facePntIndex[which] >= 0)
+        return getColorIndex(_facePntIndex[which]);
     else 
         return -1;
 }
 
-/*! Return the color of a point in the current face. 
-    \param which the point to access. Must be between 0 and getLength().
-*/
 inline 
-Color3f FaceIterator::getColor( Int32 which ) const
+Color3f FaceIterator::getColor(Int32 which) const
 {   
-    Int32 ind = getColorIndex( which );
+    Int32 ind = getColorIndex(which);
     
-    if ( ind < 0 )
+    if(ind < 0)
         return Color3f::Null;
         
-    return _geo->getColors()->getValue( ind );
+    return getGeometry()->getColors()->getValue(ind);
 }
 
 
-/*! Return the texture coordinate index of a point in the current face. 
-    \param which the point to access. Must be between 0 and getLength().
-*/
 inline       
-Int32 FaceIterator::getTexCoordsIndex( Int32 which ) const
+Int32 FaceIterator::getTexCoordsIndex(Int32 which) const
 {
-    if ( _facePntIndex[which] >= 0 )
-        return _primIt.getTexCoordsIndex( _facePntIndex[which] );
+    if(_facePntIndex[which] >= 0)
+        return getTexCoordsIndex(_facePntIndex[which]);
     else 
         return -1;
 }
 
-/*! Return the texture coordinate of a point in the current face. 
-    \param which the point to access. Must be between 0 and getLength().
-*/
 inline 
-Vec2f FaceIterator::getTexCoords( Int32 which ) const
+Vec2f FaceIterator::getTexCoords(Int32 which) const
 {   
-    Int32 ind = getTexCoordsIndex( which );
+    Int32 ind = getTexCoordsIndex(which);
     
-    if ( ind < 0 )
+    if(ind < 0)
         return Vec2f::Null;
         
-    return _geo->getTexCoords()->getValue( ind );
+    return getGeometry()->getTexCoords()->getValue(ind);
 }
 
 
-/*! Return the index index of a point in the current face. 
-    \param which the point to access. Must be between 0 and getLength().
-*/
 inline       
-Int32 FaceIterator::getIndexIndex( Int32 which ) const
+Int32 FaceIterator::getTexCoordsIndex1(Int32 which) const
 {
-    if ( _facePntIndex[which] >= 0 )
-        return _primIt.getIndexIndex( _facePntIndex[which] );
+    if(_facePntIndex[which] >= 0)
+        return getTexCoordsIndex1(_facePntIndex[which]);
     else 
         return -1;
 }
 
-inline
-GeometryPtr FaceIterator::getGeometry(void) const
+inline 
+Vec2f FaceIterator::getTexCoords1(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex1(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords1()->getValue(ind);
+}
+
+
+inline       
+Int32 FaceIterator::getTexCoordsIndex2(Int32 which) const
 {
-    return _geo;
+    if(_facePntIndex[which] >= 0)
+        return getTexCoordsIndex2(_facePntIndex[which]);
+    else 
+        return -1;
+}
+
+inline 
+Vec2f FaceIterator::getTexCoords2(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex2(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords2()->getValue(ind);
+}
+
+
+inline       
+Int32 FaceIterator::getTexCoordsIndex3(Int32 which) const
+{
+    if(_facePntIndex[which] >= 0)
+        return getTexCoordsIndex3(_facePntIndex[which]);
+    else 
+        return -1;
+}
+
+inline 
+Vec2f FaceIterator::getTexCoords3(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex3(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords3()->getValue(ind);
+}
+
+inline       
+Int32 FaceIterator::getIndexIndex(Int32 which) const
+{
+    if(_facePntIndex[which] >= 0)
+        return getIndexIndex(_facePntIndex[which]);
+    else 
+        return -1;
 }
 
 OSG_END_NAMESPACE

@@ -108,7 +108,6 @@ FieldDescription *ImageBackgroundBase::_desc[] =
                      (FieldAccessMethod) &ImageBackgroundBase::getSFScale)
 };
 
-//! ImageBackground type
 
 FieldContainerType ImageBackgroundBase::_type(
     "ImageBackground",
@@ -157,8 +156,6 @@ void ImageBackgroundBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -175,8 +172,6 @@ ImageBackgroundBase::ImageBackgroundBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 ImageBackgroundBase::ImageBackgroundBase(const ImageBackgroundBase &source) :
     _sfColor                  (source._sfColor                  ), 
     _sfImage                  (source._sfImage                  ), 
@@ -186,8 +181,6 @@ ImageBackgroundBase::ImageBackgroundBase(const ImageBackgroundBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 ImageBackgroundBase::~ImageBackgroundBase(void)
 {
@@ -288,7 +281,9 @@ void ImageBackgroundBase::executeSyncImpl(      ImageBackgroundBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ImageBackgroundPtr>::_type("ImageBackgroundPtr", "BackgroundPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ImageBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 

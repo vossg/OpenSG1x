@@ -61,6 +61,9 @@
 #include "OSGBlendChunkBase.h"
 #include "OSGBlendChunk.h"
 
+#include <OSGGL.h>                        // SrcFactor default header
+#include <OSGGL.h>                        // DestFactor default header
+#include <OSGGL.h>                        // Equation default header
 #include <OSGGL.h>                        // AlphaFunc default header
 
 OSG_USING_NAMESPACE
@@ -103,7 +106,7 @@ const OSG::BitVector  BlendChunkBase::AlphaValueFieldMask =
     The alphaFunc defines how fragments which do not fulfill a certain condition are handled. See glAlphaFunc() for details.
 */
 /*! \var Real32          BlendChunkBase::_sfAlphaValue
-    
+    The value used in alpha comparison.
 */
 
 //! BlendChunk description
@@ -142,7 +145,6 @@ FieldDescription *BlendChunkBase::_desc[] =
                      (FieldAccessMethod) &BlendChunkBase::getSFAlphaValue)
 };
 
-//! BlendChunk type
 
 FieldContainerType BlendChunkBase::_type(
     "BlendChunk",
@@ -191,15 +193,13 @@ void BlendChunkBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
 
 BlendChunkBase::BlendChunkBase(void) :
-    _sfSrcFactor              (), 
-    _sfDestFactor             (), 
+    _sfSrcFactor              (UInt32(GL_ONE)), 
+    _sfDestFactor             (UInt32(GL_ZERO)), 
     _sfEquation               (UInt32(GL_NONE)), 
     _sfColor                  (Color4f(0,0,0,0)), 
     _sfAlphaFunc              (UInt32(GL_NONE)), 
@@ -211,8 +211,6 @@ BlendChunkBase::BlendChunkBase(void) :
 #ifdef OSG_WIN32_ICL
 #pragma warning (default : 383)
 #endif
-
-//! Copy Constructor
 
 BlendChunkBase::BlendChunkBase(const BlendChunkBase &source) :
     _sfSrcFactor              (source._sfSrcFactor              ), 
@@ -226,8 +224,6 @@ BlendChunkBase::BlendChunkBase(const BlendChunkBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 BlendChunkBase::~BlendChunkBase(void)
 {
@@ -380,7 +376,9 @@ void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<BlendChunkPtr>::_type("BlendChunkPtr", "StateChunkPtr");
+#endif
 
 
 OSG_END_NAMESPACE

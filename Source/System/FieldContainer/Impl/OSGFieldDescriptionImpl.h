@@ -60,7 +60,7 @@ typedef Field * (FieldContainer::*FieldIndexAccessMethod)(UInt32);
 //---------------------------------------------------------------------------
 
 //! FieldDescription
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
 {
@@ -173,7 +173,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
 //---------------------------------------------------------------------------
 
 //! FieldDescription point less than
-//! \ingroup FieldContainerLib
+//! \ingroup GrpSystemFieldContainer
 
 struct FieldDescriptionPLT
 {

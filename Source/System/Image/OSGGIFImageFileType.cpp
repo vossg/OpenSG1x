@@ -64,6 +64,13 @@
 
 #ifdef OSG_WITH_GIF
 
+
+/*! \class osg::GIFImageFileType 
+    \ingroup GrpSystemImage
+    
+ */
+
+
 //--- GIF-INCLUDE START ----------------------------------------------------
 #define GIF_MAXCOLORS   256
 

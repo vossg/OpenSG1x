@@ -240,7 +240,6 @@ FieldDescription *GeometryBase::_desc[] =
                      (FieldAccessMethod) &GeometryBase::getSFGLId)
 };
 
-//! Geometry type
 
 FieldContainerType GeometryBase::_type(
     "Geometry",
@@ -289,8 +288,6 @@ void GeometryBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -319,8 +316,6 @@ GeometryBase::GeometryBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 GeometryBase::GeometryBase(const GeometryBase &source) :
     _sfTypes                  (source._sfTypes                  ), 
     _sfLengths                (source._sfLengths                ), 
@@ -342,8 +337,6 @@ GeometryBase::GeometryBase(const GeometryBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 GeometryBase::~GeometryBase(void)
 {
@@ -658,7 +651,9 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<GeometryPtr>::_type("GeometryPtr", "DrawablePtr");
+#endif
 
 
 OSG_END_NAMESPACE

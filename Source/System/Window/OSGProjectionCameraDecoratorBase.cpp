@@ -152,7 +152,6 @@ FieldDescription *ProjectionCameraDecoratorBase::_desc[] =
                      (FieldAccessMethod) &ProjectionCameraDecoratorBase::getSFHeight)
 };
 
-//! ProjectionCameraDecorator type
 
 FieldContainerType ProjectionCameraDecoratorBase::_type(
     "ProjectionCameraDecorator",
@@ -201,8 +200,6 @@ void ProjectionCameraDecoratorBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -223,8 +220,6 @@ ProjectionCameraDecoratorBase::ProjectionCameraDecoratorBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 ProjectionCameraDecoratorBase::ProjectionCameraDecoratorBase(const ProjectionCameraDecoratorBase &source) :
     _sfUser                   (source._sfUser                   ), 
     _mfSurface                (source._mfSurface                ), 
@@ -238,8 +233,6 @@ ProjectionCameraDecoratorBase::ProjectionCameraDecoratorBase(const ProjectionCam
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 ProjectionCameraDecoratorBase::~ProjectionCameraDecoratorBase(void)
 {
@@ -413,7 +406,9 @@ void ProjectionCameraDecoratorBase::executeSyncImpl(      ProjectionCameraDecora
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ProjectionCameraDecoratorPtr>::_type("ProjectionCameraDecoratorPtr", "StereoCameraDecoratorPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

@@ -46,18 +46,18 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \file OSGSysFieldDataType.h
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief OpenSG Sys Field Data Types  
 */
 
 
 
 /*! \brief bool field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -173,9 +173,9 @@ struct FieldDataTraits2<bool> :
 };
 
 /*! \brief Int8 field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -210,9 +210,9 @@ struct FieldDataTraits<Int8> : public FieldTraitsIntegralRecurseMapper<Int8>
 };
 
 /*! \brief UInt8 field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields 
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti 
 */
 
 template <>
@@ -248,9 +248,9 @@ struct FieldDataTraits<UInt8> : public FieldTraitsIntegralRecurseMapper<UInt8>
 
 
 /*! \brief Int16 field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields 
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti 
 */
 
 template <>
@@ -285,9 +285,9 @@ struct FieldDataTraits<Int16> : public FieldTraitsIntegralRecurseMapper<Int16>
 };
 
 /*! \brief UInt16 field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -324,9 +324,9 @@ struct FieldDataTraits<UInt16> :
 
 
 /*! \brief Int32 field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -362,9 +362,9 @@ struct FieldDataTraits<Int32> :
 };
 
 /*! \brief UInt32 field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -401,9 +401,9 @@ struct FieldDataTraits<UInt32> :
 
 
 /*! \brief Int64 field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -439,9 +439,9 @@ struct FieldDataTraits<Int64> :
 };
 
 /*! \brief UInt64 field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -478,9 +478,9 @@ struct FieldDataTraits<UInt64> :
 
 
 /*! \brief Real32 field traits
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 
@@ -518,9 +518,9 @@ struct FieldDataTraits<Real32> :
 
 
 /*! \brief Real64 field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>

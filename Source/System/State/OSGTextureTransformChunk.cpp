@@ -54,50 +54,61 @@
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
 /*! \class osg::TextureTransformChunk
+    \ingroup GrpSystemState
+
+See \ref PageSystemMaterialChunk for details.
 
 */
 
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
 StateChunkClass TextureTransformChunk::_class("TextureTransform", 4);
 
-/*----------------------- constructors & destructors ----------------------*/
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-//! Constructor
+void TextureTransformChunk::initMethod (void)
+{
+}
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                 -
+\*-------------------------------------------------------------------------*/
 
 TextureTransformChunk::TextureTransformChunk(void) :
     Inherited()
 {
 }
 
-//! Copy Constructor
-
 TextureTransformChunk::TextureTransformChunk(const TextureTransformChunk &source) :
     Inherited(source)
 {
 }
 
-//! Destructor
-
 TextureTransformChunk::~TextureTransformChunk(void)
 {
 }
 
-/*----------------------------- class specific ----------------------------*/
-
-//! initialize the static features of the class, e.g. action callbacks
-
-void TextureTransformChunk::initMethod (void)
-{
-}
-
-//! react to field changes
+/*------------------------------- Sync -----------------------------------*/
 
 void TextureTransformChunk::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
-//! output the instance for debug purposes
+/*------------------------------ Output ----------------------------------*/
 
 void TextureTransformChunk::dump(      UInt32    , 
                          const BitVector ) const
@@ -105,8 +116,7 @@ void TextureTransformChunk::dump(      UInt32    ,
     SLOG << "Dump TextureTransformChunk NI" << std::endl;
 }
 
-
-//! activate the matrix
+/*------------------------------ State ------------------------------------*/
 
 void TextureTransformChunk::activate ( DrawActionBase * action, UInt32 idx )
 {
@@ -138,6 +148,41 @@ void TextureTransformChunk::deactivate ( DrawActionBase * action, UInt32 idx )
     glMatrixMode(GL_TEXTURE);
     glLoadIdentity();
     glMatrixMode(GL_MODELVIEW);
+}
+
+
+/*-------------------------- Comparison -----------------------------------*/
+
+Real32 TextureTransformChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
+{
+    return 0;
+}
+
+bool TextureTransformChunk::operator <(const StateChunk &other) const
+{
+    return this < &other;
+}
+
+bool TextureTransformChunk::operator ==(const StateChunk &other) const
+{
+    TextureTransformChunk const *tother = 
+                dynamic_cast<TextureTransformChunk const*>(&other);
+
+    if(!tother)
+        return false;
+
+    if(tother == this)
+        return true;
+
+    if(getMatrix() != tother->getMatrix())
+        return false;
+
+    return true;
+}
+
+bool TextureTransformChunk::operator !=(const StateChunk &other) const
+{
+    return !(*this == other);
 }
 
 

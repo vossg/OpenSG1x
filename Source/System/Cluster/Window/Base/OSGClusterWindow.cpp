@@ -56,12 +56,6 @@
 
 OSG_USING_NAMESPACE
 
-/** \defgroup Cluster OpenSG Cluster support
- * 
- * The cluster part of OpenSG includes all objects concerning with 
- * clustering and remote rendering
- **/
-
 /** \class osg::ClusterWindow
  *  \ingroup Cluster
  *  \brief Abstract base class for cluster configurations

@@ -135,7 +135,7 @@ OSG_DLLEXPORT_DECL1(SField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 /*! MFGenericAttrPtr
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
  */
 
 typedef MField<GenericAttPtr>       MFGenericAttPtr;
@@ -149,7 +149,7 @@ OSG_DLLEXPORT_DECL1(MField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 //---------------------------------------------------------------------------
 
 //! General VRML Node Desc
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc 
 {
@@ -311,7 +311,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML Shape Desc
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc 
 {
@@ -401,7 +401,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML Gemometry Desc
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
 {
@@ -502,7 +502,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML Gemometry PointSet Desc
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPointSetDesc : public VRMLNodeDesc
 {
@@ -601,7 +601,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPointSetDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML Gemetry Part Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
 {
@@ -690,7 +690,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML Geometry Object Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryObjectDesc : public VRMLNodeDesc
 {
@@ -777,7 +777,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryObjectDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML Appearance Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
 {
@@ -876,7 +876,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML Material Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
 {
@@ -984,7 +984,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML ImageTexture Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLImageTextureDesc : public VRMLNodeDesc
 {
@@ -1081,7 +1081,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLImageTextureDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML PixelTexture Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLPixelTextureDesc : public VRMLNodeDesc
 {
@@ -1186,7 +1186,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLPixelTextureDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML LOD Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLLODDesc : public VRMLNodeDesc
 {
@@ -1268,7 +1268,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLLODDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML Switch Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLSwitchDesc : public VRMLNodeDesc
 {
@@ -1350,7 +1350,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSwitchDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML Group Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLGroupDesc : public VRMLNodeDesc
 {
@@ -1443,7 +1443,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGroupDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML Extrusion Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLExtrusionDesc : public VRMLNodeDesc
 {
@@ -1530,7 +1530,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLExtrusionDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML Inline Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLInlineDesc : public VRMLNodeDesc
 {
@@ -1622,7 +1622,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLInlineDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML Viewpoint Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLViewpointDesc : public VRMLNodeDesc
 {
@@ -1709,7 +1709,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLViewpointDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML DirectionalLight Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLDirectionalLightDesc : public VRMLNodeDesc
 {
@@ -1812,7 +1812,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLDirectionalLightDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML PointLight Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLPointLightDesc : public VRMLNodeDesc
 {
@@ -1914,7 +1914,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLPointLightDesc : public VRMLNodeDesc
 //---------------------------------------------------------------------------
 
 //! VRML DirectionalLight Desc 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLDirectionalLightDesc : public VRMLNodeDesc
 {

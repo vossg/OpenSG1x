@@ -97,7 +97,6 @@ FieldDescription *SlicesBase::_desc[] =
                      (FieldAccessMethod) &SlicesBase::getSFNumberOfSlices)
 };
 
-//! Slices type
 
 FieldContainerType SlicesBase::_type(
     "Slices",
@@ -146,8 +145,6 @@ void SlicesBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -163,8 +160,6 @@ SlicesBase::SlicesBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 SlicesBase::SlicesBase(const SlicesBase &source) :
     _sfSize                   (source._sfSize                   ), 
     _sfNumberOfSlices         (source._sfNumberOfSlices         ), 
@@ -173,8 +168,6 @@ SlicesBase::SlicesBase(const SlicesBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 SlicesBase::~SlicesBase(void)
 {
@@ -258,7 +251,9 @@ void SlicesBase::executeSyncImpl(      SlicesBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SlicesPtr>::_type("SlicesPtr", "MaterialDrawablePtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(SlicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SlicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -279,7 +274,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.35 2002/09/16 18:39:11 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
     static Char8 cvsid_hpp       [] = OSGSLICESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSLICESBASE_INLINE_CVSID;
 

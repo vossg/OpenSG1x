@@ -71,7 +71,7 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \brief addRef
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 //CHECKCHECK
@@ -85,7 +85,7 @@ void addRef(T &pObject)
 #endif
 
 /*! \brief addRef
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 template <class T> inline
@@ -97,7 +97,7 @@ void addRef(T *pObject)
 
 
 /*! \brief subRef
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 //CHECKCHECK
@@ -111,7 +111,7 @@ void subRef(T &pObject)
 #endif
 
 /*! \brief subRef
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 template <class T> inline

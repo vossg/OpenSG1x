@@ -53,7 +53,7 @@ class OSG_BASE_DLLMAPPING NetworkMessage
   public:
     
     /** \class Header
-     *  \ingroup Network
+     *  \ingroup GrpBaseNetwork
      *  \brief Header of socket messages
      **/
     struct Header

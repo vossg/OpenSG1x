@@ -47,8 +47,8 @@
 #include <OSGBaseFieldDataType.h>
 
 /*! \file OSGSFBaseTypes.h
-    \ingroup FieldLib
-    \ingroup SingleFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
     \brief OpenSG base single fields
 */
 
@@ -56,7 +56,7 @@ OSG_BEGIN_NAMESPACE
 
 
 /*! \brief SFString
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<std::string> SFString;
@@ -67,7 +67,7 @@ OSG_DLLEXPORT_DECL1(SField, std::string, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFTime
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Time, 1> SFTime;
@@ -78,7 +78,7 @@ OSG_DLLEXPORT_DECL2(SField,Time, 1, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFColor3f
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Color3f> SFColor3f;
@@ -89,7 +89,7 @@ OSG_DLLEXPORT_DECL1(SField, Color3f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFColor4f
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Color4f> SFColor4f;
@@ -100,7 +100,7 @@ OSG_DLLEXPORT_DECL1(SField, Color4f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFColor3ub
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Color3ub> SFColor3ub;
@@ -111,7 +111,7 @@ OSG_DLLEXPORT_DECL1(SField, Color3ub, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFColor4ub
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Color4ub> SFColor4ub;
@@ -122,7 +122,7 @@ OSG_DLLEXPORT_DECL1(SField, Color4ub, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFDynamicVolume
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<DynamicVolume> SFDynamicVolume;
@@ -133,7 +133,7 @@ OSG_DLLEXPORT_DECL1(SField, DynamicVolume, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFBitVector
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<BitVector, 1>  SFBitVector;
@@ -144,7 +144,7 @@ OSG_DLLEXPORT_DECL2(SField, BitVector, 1, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFPlane
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Plane> SFPlane;

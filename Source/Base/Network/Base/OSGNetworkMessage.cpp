@@ -49,7 +49,7 @@
 OSG_USING_NAMESPACE
 
 /** \class osg::NetworkMessage
- *  \ingroup Network
+ *  \ingroup GrpBaseNetwork
  *  \brief Abstract socket message buffer
  *  \author Marcus Roth
  *

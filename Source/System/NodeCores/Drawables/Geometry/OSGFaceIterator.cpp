@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright(C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -37,7 +37,7 @@
 \*---------------------------------------------------------------------------*/
 
 //---------------------------------------------------------------------------
-//  Includes
+ //  Includes
 //---------------------------------------------------------------------------
 
 #include <stdlib.h>
@@ -55,52 +55,37 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::FaceIterator
+    \ingroup GrpSystemDrawablesGeometryIterators
+        
+The FaceIterator iterates through the geometry one face at a
+time. See \ref PageSystemGeoIterators for details.
 
-The FaceIterator iterates through the geometry one face at a time. A
-face in this case is a triangle or quad. Larger primtitives like strips
-are automatically split into triangles and quads, non-polygonal
-primitives like lines and points are ignored.
-
-Only quad-based primitives (Quadstrips and Quads) are split into quads, 
-everything else is split into triangles. Testing if a polygon is a quad
-is just too expensive and rarely useful.
-
-\sa PrimitiveIterator TriangleIterator
+\sa PrimitiveIterator FaceIterator
 
 */
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*! \var osg::FaceIterator::_faceIndex
+
+*/
+
+/*! \var osg::FaceIterator::_actPrimIndex
+
+*/
+
+/*! \var osg::FaceIterator::_facePntIndex
+
+*/
+
+#endif // only include in dev docs
+
 
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
 char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.13 2001/11/01 09:03:28 vossg Exp $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -112,15 +97,13 @@ char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.13 2001/11/01 09:
 
 /*------------- constructors & destructors --------------------------------*/
 
-FaceIterator::FaceIterator(void) : 
-    _primIt(), _geo(),
+FaceIterator::FaceIterator(void) :  PrimitiveIterator(),
     _faceIndex(0), _actPrimIndex(), _facePntIndex()
 {
 }
 
 FaceIterator::FaceIterator(const FaceIterator &source) :
-    _primIt( source._primIt ), 
-    _geo( source._geo ),
+    PrimitiveIterator(source),
     _faceIndex(source._faceIndex),
     _actPrimIndex(source._actPrimIndex),
     _facePntIndex()
@@ -131,25 +114,26 @@ FaceIterator::FaceIterator(const FaceIterator &source) :
     _facePntIndex[3] = source._facePntIndex[3];
 }
 
-/*! 
-These constructors create an iterator for the given geometry/node.
-They are useful to create an iterator to be used to seek() to a specific
-indexed face. Otherwise, use Geometry::beginFaces() resp. Geometry::endFaces()
-to create an iterator.
+/*! This constructor creates an iterator for the given node. It is useful to
+    create an iterator to be used to seek() to a specific indexed face. 
+    Otherwise, use Geometry::beginFaces() resp. Geometry::endFaces() to create
+    an iterator.
 */
-
-FaceIterator::FaceIterator( const NodePtr& geo ) :
-    _primIt(), _geo( GeometryPtr::dcast(geo->getCore()) ),
+FaceIterator::FaceIterator(const NodePtr& geo) : PrimitiveIterator(),
     _faceIndex(0), _actPrimIndex(), _facePntIndex()
 {
-    _primIt.setGeo( geo );
+    setGeo(geo);
 }
 
-FaceIterator::FaceIterator( const GeometryPtr& geo ) :
-    _primIt(), _geo( geo ),
+/*! This constructor creates an iterator for the given geometry. It is useful
+    to create an iterator to be used to seek() to a specific indexed face. 
+    Otherwise, use Geometry::beginFaces() resp. Geometry::endFaces() to create
+    an iterator.
+*/
+FaceIterator::FaceIterator(const GeometryPtr& geo) : PrimitiveIterator(),
     _faceIndex(0), _actPrimIndex(), _facePntIndex()
 {
-    _primIt.setGeo( geo );
+    setGeo(geo);
 }
 
 
@@ -157,35 +141,30 @@ FaceIterator::~FaceIterator(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
+/*---------------------------- Operators -----------------------------------*/
 
 /*! The increment operator steps the iterator to the next face. If it is
-already beyond the last face it does not change.
+    already beyond the last face it does not change.
 */
-
-void FaceIterator::operator++ ()
+void FaceIterator::operator++()
 {
     // already at end?
-    if ( _primIt.isAtEnd() )
+    if(isAtEnd())
         return;
     
     ++_faceIndex;
 
     // at end of primitive?
-    if ( _actPrimIndex >= _primIt.getLength() )
+    if(_actPrimIndex >= getLength())
     {
-        ++_primIt;
+        ++(static_cast<PrimitiveIterator&>(*this));
         
         startPrim();
         
         return;
     }
 
-    switch ( _primIt.getType() )
+    switch(getType())
     {
     case GL_TRIANGLES:      _facePntIndex[0] = _actPrimIndex++;
                             _facePntIndex[1] = _actPrimIndex++;
@@ -197,7 +176,7 @@ void FaceIterator::operator++ ()
                             _facePntIndex[3] = _actPrimIndex++;
                             _facePntIndex[2] = _actPrimIndex++;
                             break;
-    case GL_TRIANGLE_STRIP: if ( _actPrimIndex & 1 )
+    case GL_TRIANGLE_STRIP: if(_actPrimIndex & 1)
                             {
                                 _facePntIndex[0] = _facePntIndex[2];
                             }
@@ -218,7 +197,7 @@ void FaceIterator::operator++ ()
                             break;
     default:                SWARNING << "FaceIterator::++: encountered " 
                                       << "unknown primitive type " 
-                                      << _primIt.getType()
+                                      << getType()
                                       << ", ignoring!" << std::endl;
                             startPrim();
                             break;
@@ -227,13 +206,12 @@ void FaceIterator::operator++ ()
 
 
 /*! Helper function to reset all state to the beginning of a new primitive.
-Also skips non-polygonal primitives (lines, points).
+    Also skips non-polygonal primitives(lines, points).
 */
-
-void FaceIterator::startPrim( void )
+void FaceIterator::startPrim(void)
 {
     // already at end?
-    if ( _primIt.isAtEnd() )
+    if(isAtEnd())
         return;
 
     _facePntIndex[0] = 0;
@@ -243,9 +221,9 @@ void FaceIterator::startPrim( void )
     _actPrimIndex = 3;
     
     // loop until you find a useful primitive or run out
-    while ( ! _primIt.isAtEnd() )
+    while(! isAtEnd())
     {
-        switch ( _primIt.getType() )
+        switch(getType())
         {
         case GL_POINTS:     // non-polygon types: ignored
         case GL_LINES:
@@ -255,10 +233,10 @@ void FaceIterator::startPrim( void )
         case GL_TRIANGLES: 
         case GL_TRIANGLE_STRIP:
         case GL_TRIANGLE_FAN:   
-                                if ( _primIt.getLength() >= 3 )
+                                if(getLength() >= 3)
                                     return;
                                 break;
-        case GL_POLYGON:        switch ( _primIt.getLength() )
+        case GL_POLYGON:        switch(getLength())
                                 {
                                 case 0: 
                                 case 1: 
@@ -271,13 +249,13 @@ void FaceIterator::startPrim( void )
                                             return;
                                 }
                                 break;
-        case GL_QUADS:          if ( _primIt.getLength() >= 4 )
+        case GL_QUADS:          if(getLength() >= 4)
                                 {
                                     _facePntIndex[3] = _actPrimIndex++;                         
                                     return;
                                 }
                                 break;
-        case GL_QUAD_STRIP:         if ( _primIt.getLength() >= 4 )
+        case GL_QUAD_STRIP:         if(getLength() >= 4)
                                 {
                                     _facePntIndex[3] = _facePntIndex[2];                        
                                     _facePntIndex[2] = _actPrimIndex++;                         
@@ -285,56 +263,52 @@ void FaceIterator::startPrim( void )
                                 }
                                 break;
         default:            SWARNING << "FaceIterator::startPrim: encountered " 
-                                      << "unknown primitive type " 
-                                      << _primIt.getType()
-                                      << ", ignoring!" << std::endl;
+                                     << "unknown primitive type " 
+                                     << getType()
+                                     << ", ignoring!" << std::endl;
                             break;
         }   
         
-        ++_primIt;
+        ++(*this);
     }       
 }
 
-void FaceIterator::seek( Int32 index )
+/*! Seek the iterator to a specific face indicated by its index. 
+
+    This is primarily used in conjunction with 
+    osg::FaceIterator::getIndex to record a position in the iteration and
+    later return to it.
+*/
+void FaceIterator::seek(Int32 index)
 {
-    _primIt.setToBegin();
-    _faceIndex = 0;
-    startPrim();
+    PrimitiveIterator::setToBegin();
     
-    while ( getIndex() != index )
+    while(getIndex() != index)
         ++(*this);
 }
 
-void FaceIterator::setToBegin( void )
+void FaceIterator::setToBegin(void)
 {
-    _primIt.setToBegin();
+    PrimitiveIterator::setToBegin();
     _faceIndex = 0;
     startPrim();
 }
 
-void FaceIterator::setToEnd( void )
+void FaceIterator::setToEnd(void)
 {
-    _primIt.setToEnd();
+    PrimitiveIterator::setToEnd();
     _actPrimIndex = 0;
 }
 
 /*-------------------------- assignment -----------------------------------*/
 
-FaceIterator& FaceIterator::operator = (const FaceIterator &source)
+FaceIterator& FaceIterator::operator =(const FaceIterator &source)
 {
-    if (this == &source)
+    if(this == &source)
         return *this;
-
-    // free mem alloced by members of 'this'
-
-    // alloc new mem for members
-
-    // copy 
     
-    this->_geo                  = source._geo;
-    this->_primIt           = source._primIt;
-    this->_faceIndex        = source._faceIndex;
-    this->_actPrimIndex     = source._actPrimIndex;
+    this->_faceIndex            = source._faceIndex;
+    this->_actPrimIndex         = source._actPrimIndex;
     this->_facePntIndex[0]      = source._facePntIndex[0];
     this->_facePntIndex[1]      = source._facePntIndex[1];
     this->_facePntIndex[2]      = source._facePntIndex[2];
@@ -345,34 +319,24 @@ FaceIterator& FaceIterator::operator = (const FaceIterator &source)
 
 /*-------------------------- comparison -----------------------------------*/
 
-bool FaceIterator::operator < (const FaceIterator &other) const
+bool FaceIterator::operator <(const FaceIterator &other) const
 {
-    return _primIt < other._primIt ||
-            ( _primIt == other._primIt &&
-              _actPrimIndex < other._actPrimIndex );
+    return this < &other ||
+           (this == &other &&
+              _actPrimIndex < other._actPrimIndex);
 }
 
-bool FaceIterator::operator == (const FaceIterator &other) const
+bool FaceIterator::operator ==(const FaceIterator &other) const
 {
-    if ( _primIt.isAtEnd() && other._primIt.isAtEnd() )
+    if(isAtEnd() && other.isAtEnd())
         return true;
-    if ( _primIt.isAtEnd() || other._primIt.isAtEnd() )
+    if(isAtEnd() || other.isAtEnd())
         return false;
-    return _primIt == other._primIt &&
+    return this == &other &&
             _actPrimIndex == other._actPrimIndex;
 }
 
-bool FaceIterator::operator != (const FaceIterator &other) const
+bool FaceIterator::operator !=(const FaceIterator &other) const
 {
-    return ! (*this == other);
+    return !(*this == other);
 }
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-

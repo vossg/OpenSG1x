@@ -51,7 +51,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-struct GeoPLengthsUI32PropertyDesc
+struct GeoPLengthsUI32PropertyDesc : public GeoPLengthsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -93,8 +93,9 @@ struct GeoPLengthsUI32PropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoPLengthsUI32PropertyDesc> GeoPLengthsUI32;
-
+#endif
 
 #ifndef OSG_COMPILEGEOPROPPLENGTHINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,

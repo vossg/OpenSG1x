@@ -42,12 +42,27 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*---------------------- Chunk Class Access -------------------------------*/
+
 inline
-UInt32 StateChunk::getClassID( void ) const
+UInt32 StateChunk::getClassId( void ) const
 {
-    return getClass()->getID();
+    return getClass()->getId();
 }
 
+/*-------------------- Static Chunk Class Access --------------------------*/
+
+inline
+UInt32 StateChunk::getStaticClassId(void)
+{
+    return StateChunk::getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *StateChunk::getStaticClass(void)
+{
+    return NULL;
+}
 
 OSG_END_NAMESPACE
 

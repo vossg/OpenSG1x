@@ -66,13 +66,16 @@ OSG_BEGIN_NAMESPACE
 
 class GradientBackground;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! GradientBackgroundPtr
 
 typedef FCPtr<BackgroundPtr, GradientBackground> GradientBackgroundPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief GradientBackgroundPtr field traits 
-    \ingroup FieldLib
-    \ingroup MultiFields
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -88,10 +91,11 @@ struct FieldDataTraits<GradientBackgroundPtr> :
 
     static char     *getMName(void) { return "MFGradientBackgroundPtr"; }
 };
+#endif             // exclude from doc
 
 
 //! MFGradientBackgroundPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<GradientBackgroundPtr> MFGradientBackgroundPtr;
 

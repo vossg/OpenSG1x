@@ -1,0 +1,177 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \defgroup GrpSystemState OpenGL State Handling
+    \ingroup GrpSystem
+    
+The OpenGL State Handling Group contains the wrapper classes for OpenGL
+state.
+
+See \ref PageSystemSystemState for details.
+*/
+
+/*! \page PageSystemState State Handling
+
+\latexonly Starter:NewChapter \endlatexonly
+
+One of the main tasks of a scene graph system is efficiently managing the OpenGL
+state. 
+
+Every primitive is rendered using the currently active OpenGL state, which
+includes things like material parameters, textures, transformation matrices
+etc. Changing OpenGL state can be very expensive and should be minimized as
+much as possible. Primitives using the same OpenGL state set should be grouped
+together, so that changing the state is not needed.
+
+But on top of that it is necessary to sort the different state sets so that the
+changed when changing from one to the other are minimized, too. For example all
+objects using the same texture should be rendered close together, as loading a
+texture into the graphics board can take a long time.
+
+Thus the different state sets used by the visible objects should be sorted
+into a sequence that minimizes the state changes necessary. Unfortuneately
+that problem is NP-complete (it's equivalent to the Traveling Salesman
+Problem). \anchor StateChunk To simplify it the rather large OpenGL state is
+divided into a small number of parts. Elements of the state that are usually
+changed together are grouped into a osg::StateChunk. 
+
+\anchor StateChunkClass Every type of osg::StateChunk has an associated
+osg::StateChunkClass, which can be accessed using osg::StateChunk::getClass()
+or osg::StateChunk::getStaticClass(). The osg::StateChunkClass is used to
+identify the osg::StateChunk and associate it with a name and a low integer
+numeric Id. Some types of chunks can be used simulatenously in multiple
+instances in OpenGL, e.g. light sources or textures (in a multi-texture
+environment). The maximum number of concurrently active slots of the
+osg::StateChunk type is also stored in the osg::StateChunkClass.
+
+\anchor State The complete OpenGL state wrapper is the osg::State. It
+primarily contains a vector of \ref PageSystemosg::StateChunk "osg::StateChunks". For
+every type of chunk there are as many slots as possibly concurrently active
+copies of the chunk. A chunk can be \ref PageSystemosg::StateChunk::activate
+"activated", which sets the OpenGL state it covers to its settings, if the
+settings differ from an internally defined default state. It is possible to
+\ref PageSystemosg::StateChunk::changeFrom "switch" from one instance of a state chunk
+to another instance of the same type. This tries to optimize and minimize the
+changes, to speed up switching. The cost of switching can be \ref
+osg::StateChunk::switchCost "estimated", currently that estimation will always
+be 0, though. Finally a chunk can be \ref PageSystemosg::StateChunk::deactivate
+"deactivated", which resets the OpenGL state it covers to the default value.
+All the chunks in a osg::State can be managed at the same time by using the
+equivalent methods of the osg::State.
+
+\ext To add new chunks you need to derive it from osg::StateChunk. It needs to
+keep  a static instance of osg::StateChunkClass and implement the public
+osg::StateChunk::getClass() method to allow access to it. The
+osg::StateChunkClass needs to define the name of the new chunk class and the
+number of possible concurrently active chunks for the new class. To implement
+the actual behaviour the osg::StateChunk::activate(),
+osg::StateChunk::changeFrom() and osg::StateChunk::deactivate() methods are
+needed. The osg::StateChunk::switchCost() method is in there already, but the
+semantics are not defined yet, and it is not used. Implement it, but leave it
+empty and always return 0. You will probably need to handle OpenGL extensions,
+see \ref PageSystemOGLExt for details on how to do that. \endext
+
+\dev The main motivation for osg::StateChunk::changeFrom() is to allow optimizations in terms of
+state changes. When switching between chunks that have similar settings, only
+the differences need to be passed to OpenGL. When and where it makes sense to
+pass it to OpenGL anyway instead of checking is still an open topic. \enddev
+
+The different types of state chunks are:
+
+<ul>
+
+<li>osg::BlendChunk</li>
+
+<li>osg::ClipPlaneChunk</li>
+
+<li>osg::CubeTextureChunk</li>
+
+<li>osg::LightChunk</li>
+
+<li>osg::MaterialChunk</li>
+
+<li>osg::PolygonChunk</li>
+
+<li>osg::RegisterCombinersChunk</li>
+
+<li>osg::TexGenChunk</li>
+
+<li>osg::TextureChunk</li>
+
+<li>osg::TextureTransformChunk</li>
+
+<li>osg::TransformChunk</li>
+
+<li>osg::LineChunk</li>
+
+</ul>
+
+\section PageSystemBlendChunk osg::BlendChunk
+
+The osg::BlendChunk handles OpenGL blending, i.e. the definition how incoming
+fragments are combined with the pixel already in the frame buffer, including
+alpha culling. 
+
+The wrapped OpenGL functions are glBlendFunc and glAlphaFunc,
+see their documentation for details. It also handles the common
+blending-related OpenGL extensions EXT_blend_color, ARB_imaging,
+EXT_blend_subtract, EXT_blend_minmax and EXT_blend_logic_op, when they are
+supported by the hardware.
+
+\section PageSystemClipPlaneChunk osg::ClipPlaneChunk
+
+The osg::ClipPlaneChunk controls user-defined clipping. It uses a beacon
+osg::Node reference to control the cordinate system where the clipping plane
+is defined, this allows attaching the ClipPlane to another object to move it
+around. The clipping plane itself is defined in the standard (a,b,c,d) form.
+
+\section PageSystemCubeTextureChunk osg::CubeTextureChunk
+
+Similar to TextureChunk and using the same class (i.e. can be usd instead of a
+osg::TextureChunk, but not both at the same time), but has 5 more texture
+images. The TextureChunk's texture is the negative z texture, the others are
+named accordingly. Note that all textures have to be square and have to have
+the same resolution. The textures are accessed using 3D texture coordinates,
+which are usually created using a osg::TexGenChunk. Cube textures are an
+extension that is not available everywhere.
+
+\section PageSystemLightChunk osg::LightChunk
+
+The light chunk contains the parameter set for a single light source. It's
+taken straight from the glLight() manpage. The maximum number of concurrently
+active lights is currently set to 8.
+
+\section PageSystemMaterialChunk osg::MaterialChunk
+
+The material chunk controls the material parameters, i.e. the parameetrs for
+phong lighting.
+
+\section PageSystemPolygonChunk osg::PolygonChunk
+
+The polygon chunk contains the parameter that is specific set for filled surfaces,
+i.e. polygons. This includes face culling and front face definition as well as
+front and back face rendering modes (point, line, filled), polygon
+antialiasing, offset and stippling.
+
+\section PageSystemRegisterCombinersChunk osg::RegisterCombinersChunk
+
+The register combiners chunk is a direct mapping of the nVidia
+RegisterCombiners.
+
+\section PageSystemTexGenChunk osg::TexGenChunk
+
+Chunk for texture coordinate generation functions.
+
+\section PageSystemTextureTransformChunk osg::TextureTransformChunk
+
+Chunk for texture coordinate generation transformations.
+
+\section PageSystemTransformChunk osg::TransformChunk
+
+\section PageSystemLineChunk osg::LineChunk
+
+The line chunk contains the parameters that are specific set for lines. This
+includes width, stippling and antialiasing.
+
+*/

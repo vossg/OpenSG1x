@@ -57,7 +57,6 @@
 #pragma once
 #endif
 
-#ifndef WIN32
 
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
@@ -149,7 +148,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 
@@ -355,7 +354,5 @@ typedef GraphicStatisticsForegroundBase *GraphicStatisticsForegroundBaseP;
 OSG_END_NAMESPACE
 
 #define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
-
-#endif
 
 #endif /* _OSGGRAPHICSTATISTICSFOREGROUNDBASE_H_ */

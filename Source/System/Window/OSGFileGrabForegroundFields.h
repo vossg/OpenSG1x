@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class FileGrabForeground;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! FileGrabForegroundPtr
 
 typedef FCPtr<GrabForegroundPtr, FileGrabForeground> FileGrabForegroundPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief FileGrabForegroundPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<FileGrabForegroundPtr> :
     static char     *getSName(void) { return "SFFileGrabForegroundPtr"; }
     static char     *getMName(void) { return "MFFileGrabForegroundPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFFileGrabForegroundPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<FileGrabForegroundPtr> SFFileGrabForegroundPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFFileGrabForegroundPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<FileGrabForegroundPtr> MFFileGrabForegroundPtr;
 

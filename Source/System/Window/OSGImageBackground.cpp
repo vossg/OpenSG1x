@@ -53,8 +53,15 @@
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
 /*! \class osg::ImageBackground
+    \ingroup GrpSystemWindowBackgrounds
+    
 A background showing an image.
+
 */
 
 /*----------------------- constructors & destructors ----------------------*/

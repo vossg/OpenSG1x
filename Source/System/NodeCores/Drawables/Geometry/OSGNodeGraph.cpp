@@ -19,6 +19,8 @@ using namespace std;
 OSG_USING_NAMESPACE
 
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+
 
 // Static Class Variable implementations: 
 
@@ -588,3 +590,6 @@ void NodeGraph::clear (void)
     _edgeMapVec.clear();
     _nodeVec.clear();
 }
+
+
+#endif  // remove from all but dev docs

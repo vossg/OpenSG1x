@@ -34,7 +34,7 @@
 //#include "OSGUniformBackground.h"
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
-#include "OSGRAWSceneFileType.h"
+#include "RAW/OSGRAWSceneFileType.h"
 #endif
 
 #include "OSGTrackball.h"
@@ -392,7 +392,10 @@ int main (int argc, char **argv)
 
     // Background
     SolidBackgroundPtr bkgnd = SolidBackground::create();
-
+    beginEditCP(bkgnd, SolidBackground::ColorFieldMask);
+    bkgnd->setColor(Color3f(1,1,1));
+    endEditCP(bkgnd, SolidBackground::ColorFieldMask);
+    
     // Viewport
 
     vp = Viewport::create();

@@ -58,7 +58,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GeometryWriterLib
+/*! \ingroup GrpSystemDrawablesGeometrymetryWriterLib
  *  \brief Brief OSGWriter
  */
 

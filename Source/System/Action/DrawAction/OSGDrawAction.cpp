@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::DrawAction
-    \ingroup ActionLib
+    \ingroup GrpSystemAction
 
 The draw action class.
 

@@ -18,6 +18,7 @@
 #include "OSGSimpleGeometry.h"
 #include <OSGMatrix.h>
 #include <OSGQuaternion.h>
+#include <OSGGLUTWindow.h>
 
 #include <OSGDirectionalLight.h>
 #include <OSGPointLight.h>
@@ -26,6 +27,7 @@
 
 OSG_USING_NAMESPACE
 
+using namespace std;
 
 DrawAction * dact;
 
@@ -40,10 +42,14 @@ SpotLightPtr sl;
 
 TransformPtr tr;
 
+WindowPtr win;
+
 void 
 display(void)
 {
     float a = glutGet( GLUT_ELAPSED_TIME );
+
+    win->frameInit();
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -58,13 +64,13 @@ display(void)
 
     dact->apply( root );
 
+    win->frameExit();
+
     glutSwapBuffers();
 }
 
 void key( unsigned char key, int, int )
 {
-    printf("Key: %d\n", key );
-
     switch (key )
     {
     case 27:    exit(1);    
@@ -75,6 +81,7 @@ void key( unsigned char key, int, int )
                 beginEditCP(dlight);
                 dlight->addChild( slight2 );
                 endEditCP(dlight);
+                cout << "Switch moving light to Directional" << endl;
                 // root->dump();
                 break;
     case 'x':   beginEditCP(root);
@@ -83,6 +90,7 @@ void key( unsigned char key, int, int )
                 beginEditCP(plight);
                 plight->addChild( slight2 );
                 endEditCP(plight);
+                cout << "Switch moving light to Point" << endl;
                 // root->dump();
                 break;
     case 'c':   beginEditCP(root);
@@ -91,21 +99,29 @@ void key( unsigned char key, int, int )
                 beginEditCP(slight);
                 slight->addChild( slight2 );
                 endEditCP(slight);
-                // root->dump();
+                cout << "Switch moving light to Spot" << endl;
+               // root->dump();
                 break;
     case 'a':   beginEditCP(dl);
                 dl->setOn( ! dl->getOn() );
                 endEditCP(dl);
+                cout << "Static Directional light is " << (dl->getOn()?"on":"off")
+                     << endl;
                 break;
     case 's':   beginEditCP(pl);
                 pl->setOn( ! pl->getOn() );
                 endEditCP(pl);
+                cout << "Static Point light is " << (pl->getOn()?"on":"off")
+                     << endl;
                 break;
     case 'd':   beginEditCP(sl);
                 sl->setOn( ! sl->getOn() );
                 endEditCP(sl);
-                break;
-                
+                cout << "Static Spot light is " << (sl->getOn()?"on":"off")
+                     << endl;
+                break;    
+    default:    cout << "Key:" << key << endl;
+                break;            
     }
 }
 
@@ -134,6 +150,15 @@ int main (int argc, char **argv)
     // glutMotionFunc(motion); 
     
     glutIdleFunc(display);
+
+    // the window is needed for the chunks that access GLObjects
+
+    win = GLUTWindow::create();
+    win->frameInit(); // test for preliminary calls not messing up GLexts
+    win->init();
+    
+    dact = DrawAction::create();
+    dact->setWindow( win.getCPtr() );
 
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
@@ -294,12 +319,7 @@ int main (int argc, char **argv)
     root->addChild( dlight );
     endEditCP(root);
     
-    
-    
-
-
-    dact = DrawAction::create();
-
+ 
     dact->setFrustumCulling(false);
     
     glutMainLoop();

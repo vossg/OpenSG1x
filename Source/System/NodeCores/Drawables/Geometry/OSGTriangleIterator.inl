@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright(C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -46,107 +46,145 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! Return the index of the current face. The index runs from 0 to the
+    number of triangles in the geometry. Its main use is as an input to 
+    osg::TriangleIterator::seek.
+*/
 inline       
-Int32 TriangleIterator::getIndex( void) const
+Int32 TriangleIterator::getIndex(void) const
 {
     return _triIndex;
 }
 
 inline       
-UInt32 TriangleIterator::getType( void ) const
+Int32 TriangleIterator::getPositionIndex(Int32 which) const
 {
-    return _primIt.getType();
+    return getPositionIndex(_triPntIndex[which]);
 }
 
 inline       
-Int32 TriangleIterator::getPositionIndex( Int32 which ) const
+Pnt3f TriangleIterator::getPosition(Int32 which) const
 {
-    return _primIt.getPositionIndex( _triPntIndex[which] );
-}
-
-inline       
-Pnt3f TriangleIterator::getPosition( Int32 which ) const
-{
-    Int32 ind = getPositionIndex( which );
+    Int32 ind = getPositionIndex(which);
     
-    return _geo->getPositions()->getValue( ind );
+    return getGeometry()->getPositions()->getValue(ind);
 }
 
 inline       
-Int32 TriangleIterator::getNormalIndex( Int32 which ) const
+Int32 TriangleIterator::getNormalIndex(Int32 which) const
 {
-    return _primIt.getNormalIndex( _triPntIndex[which] );
+    return getNormalIndex(_triPntIndex[which]);
 }
 
 inline 
-Vec3f TriangleIterator::getNormal( Int32 which ) const
+Vec3f TriangleIterator::getNormal(Int32 which) const
 {   
-    Int32 ind = getNormalIndex( which );
+    Int32 ind = getNormalIndex(which);
     
-    if ( ind < 0 )
+    if(ind < 0)
         return Vec3f::Null;
         
-    return _geo->getNormals()->getValue( ind );
+    return getGeometry()->getNormals()->getValue(ind);
 }
 
 inline       
-Int32 TriangleIterator::getColorIndex( Int32 which ) const
+Int32 TriangleIterator::getColorIndex(Int32 which) const
 {
-    return _primIt.getColorIndex( _triPntIndex[which] );
+    return getColorIndex(_triPntIndex[which]);
 }
 
 inline 
-Color3f TriangleIterator::getColor( Int32 which ) const
+Color3f TriangleIterator::getColor(Int32 which) const
 {   
-    Int32 ind = getColorIndex( which );
+    Int32 ind = getColorIndex(which);
     
-    if ( ind < 0 )
+    if(ind < 0)
         return Color3f::Null;
         
-    return _geo->getColors()->getValue( ind );
+    return getGeometry()->getColors()->getValue(ind);
 }
 
 
-/*! Return the texture coordinate index of a point in the current face. 
-    \param which the point to access. Must be between 0 and getLength().
-*/
 inline       
-Int32 TriangleIterator::getTexCoordsIndex( Int32 which ) const
+Int32 TriangleIterator::getTexCoordsIndex(Int32 which) const
 {
-    return _primIt.getTexCoordsIndex( _triPntIndex[which] );
+    return getTexCoordsIndex(_triPntIndex[which]);
 }
 
-/*! Return the texture coordinate of a point in the current face. 
-    \param which the point to access. Must be between 0 and getLength().
-*/
 inline 
-Vec2f TriangleIterator::getTexCoords( Int32 which ) const
+Vec2f TriangleIterator::getTexCoords(Int32 which) const
 {   
-    Int32 ind = getTexCoordsIndex( which );
+    Int32 ind = getTexCoordsIndex(which);
     
-    if ( ind < 0 )
+    if(ind < 0)
         return Vec2f::Null;
         
-    return _geo->getTexCoords()->getValue( ind );
+    return getGeometry()->getTexCoords()->getValue(ind);
 }
 
 
-/*! Return the index index of a point in the current face. 
-    \param which the point to access. Must be between 0 and getLength().
-*/
 inline       
-Int32 TriangleIterator::getIndexIndex( Int32 which ) const
+Int32 TriangleIterator::getTexCoordsIndex1(Int32 which) const
 {
-    if ( _triPntIndex[which] >= 0 )
-        return _primIt.getIndexIndex( _triPntIndex[which] );
+    return getTexCoordsIndex1(_triPntIndex[which]);
+}
+
+inline 
+Vec2f TriangleIterator::getTexCoords1(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex1(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords1()->getValue(ind);
+}
+
+
+inline       
+Int32 TriangleIterator::getTexCoordsIndex2(Int32 which) const
+{
+    return getTexCoordsIndex2(_triPntIndex[which]);
+}
+
+inline 
+Vec2f TriangleIterator::getTexCoords2(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex2(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords2()->getValue(ind);
+}
+
+
+inline       
+Int32 TriangleIterator::getTexCoordsIndex3(Int32 which) const
+{
+    return getTexCoordsIndex3(_triPntIndex[which]);
+}
+
+inline 
+Vec2f TriangleIterator::getTexCoords3(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex3(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords3()->getValue(ind);
+}
+
+
+inline       
+Int32 TriangleIterator::getIndexIndex(Int32 which) const
+{
+    if(_triPntIndex[which] >= 0)
+        return getIndexIndex(_triPntIndex[which]);
     else 
         return -1;
 }
 
-inline
-GeometryPtr TriangleIterator::getGeometry(void) const
-{
-    return _geo;
-}
 
 OSG_END_NAMESPACE

@@ -86,7 +86,6 @@ FieldDescription *TransformChunkBase::_desc[] =
                      (FieldAccessMethod) &TransformChunkBase::getSFMatrix)
 };
 
-//! TransformChunk type
 
 FieldContainerType TransformChunkBase::_type(
     "TransformChunk",
@@ -135,8 +134,6 @@ void TransformChunkBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -151,8 +148,6 @@ TransformChunkBase::TransformChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 TransformChunkBase::TransformChunkBase(const TransformChunkBase &source) :
     _sfMatrix                 (source._sfMatrix                 ), 
     Inherited                 (source)
@@ -160,8 +155,6 @@ TransformChunkBase::TransformChunkBase(const TransformChunkBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 TransformChunkBase::~TransformChunkBase(void)
 {
@@ -224,7 +217,9 @@ void TransformChunkBase::executeSyncImpl(      TransformChunkBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<TransformChunkPtr>::_type("TransformChunkPtr", "StateChunkPtr");
+#endif
 
 
 OSG_END_NAMESPACE

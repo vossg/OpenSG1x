@@ -47,7 +47,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-struct GeoPositions2fPropertyDesc
+struct GeoPositions2fPropertyDesc : public GeoPositionsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -89,7 +89,9 @@ struct GeoPositions2fPropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoPositions2fPropertyDesc> GeoPositions2f;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPPOSITIONINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
@@ -98,7 +100,7 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 #endif
 
 
-struct GeoPositions3fPropertyDesc
+struct GeoPositions3fPropertyDesc : public GeoPositionsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -140,7 +142,9 @@ struct GeoPositions3fPropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoPositions3fPropertyDesc> GeoPositions3f;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPPOSITIONINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
@@ -149,7 +153,7 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 #endif
 
 
-struct GeoPositions4fPropertyDesc
+struct GeoPositions4fPropertyDesc : public GeoPositionsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -191,7 +195,9 @@ struct GeoPositions4fPropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoPositions4fPropertyDesc> GeoPositions4f;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPPOSITIONINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
@@ -200,7 +206,7 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 #endif
 
 
-struct GeoPositions2dPropertyDesc
+struct GeoPositions2dPropertyDesc : public GeoPositionsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -242,7 +248,9 @@ struct GeoPositions2dPropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoPositions2dPropertyDesc> GeoPositions2d;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPPOSITIONINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
@@ -251,7 +259,7 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 #endif
 
 
-struct GeoPositions3dPropertyDesc
+struct GeoPositions3dPropertyDesc : public GeoPositionsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -293,7 +301,9 @@ struct GeoPositions3dPropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoPositions3dPropertyDesc> GeoPositions3d;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPPOSITIONINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
@@ -302,7 +312,7 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 #endif
 
 
-struct GeoPositions4dPropertyDesc
+struct GeoPositions4dPropertyDesc : public GeoPositionsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -344,7 +354,9 @@ struct GeoPositions4dPropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoPositions4dPropertyDesc> GeoPositions4d;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPPOSITIONINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,

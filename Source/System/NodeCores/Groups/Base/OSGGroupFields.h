@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Group;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! GroupPtr
 
 typedef FCPtr<NodeCorePtr, Group> GroupPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief GroupPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<GroupPtr> :
     static char     *getSName(void) { return "SFGroupPtr"; }
     static char     *getMName(void) { return "MFGroupPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFGroupPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<GroupPtr> SFGroupPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFGroupPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<GroupPtr> MFGroupPtr;
 

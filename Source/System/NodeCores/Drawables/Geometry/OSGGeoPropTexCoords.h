@@ -46,7 +46,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-struct GeoTexCoords2fPropertyDesc
+struct GeoTexCoords2fPropertyDesc : public GeoTexCoordsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -88,7 +88,9 @@ struct GeoTexCoords2fPropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoTexCoords2fPropertyDesc> GeoTexCoords2f;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPTEXCOORDSINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
@@ -97,7 +99,7 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 #endif
 
 
-struct GeoTexCoords3fPropertyDesc
+struct GeoTexCoords3fPropertyDesc : public GeoTexCoordsPropertyDesc
 {
     static FieldDescription *_desc[];
 
@@ -139,7 +141,9 @@ struct GeoTexCoords3fPropertyDesc
     /*! \}                                                                 */
 };
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 typedef GeoProperty<GeoTexCoords3fPropertyDesc> GeoTexCoords3f;
+#endif
 
 #ifndef OSG_COMPILEGEOPROPTEXCOORDSINST
 OSG_FC_DLLEXPORT_DECL(GeoProperty,

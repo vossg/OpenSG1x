@@ -57,6 +57,11 @@ OSG_USING_NAMESPACE
     quadraticAttenuation attributes.
 */
 
+/*----------------------------- class variables ---------------------------*/
+
+StatElemDesc<StatIntElem>  PointLight::statNPointLights(
+"NPointLights", "number of point light sources");
+
 /*-------------------------------------------------------------------------*/
 /*                                Set                                      */
 
@@ -150,6 +155,8 @@ Action::ResultE PointLight::drawEnter(Action *action)
 
     glPopMatrix();
 
+    da->getStatistics()->getElem(PointLight::statNPointLights)->inc();
+
     return Action::Continue;
 }
     
@@ -168,6 +175,9 @@ Action::ResultE PointLight::renderEnter(Action *action)
 {
     if(getOn() == false)
         return Action::Continue;
+
+    DrawActionBase *da    = dynamic_cast<DrawActionBase *>(action);
+    da->getStatistics()->getElem(PointLight::statNPointLights)->inc();
 
     return Light::renderEnter(action);
 }

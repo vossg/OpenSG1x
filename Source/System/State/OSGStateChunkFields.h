@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class StateChunk;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! StateChunkPtr
 
 typedef FCPtr<FieldContainerPtr, StateChunk> StateChunkPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief StateChunkPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<StateChunkPtr> :
     static char     *getSName(void) { return "SFStateChunkPtr"; }
     static char     *getMName(void) { return "MFStateChunkPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFStateChunkPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<StateChunkPtr> SFStateChunkPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFStateChunkPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<StateChunkPtr> MFStateChunkPtr;
 

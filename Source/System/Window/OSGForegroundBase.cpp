@@ -66,7 +66,6 @@ OSG_USING_NAMESPACE
 
 
 
-//! Foreground type
 
 FieldContainerType ForegroundBase::_type(
     "Foreground",
@@ -106,8 +105,6 @@ void ForegroundBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -121,16 +118,12 @@ ForegroundBase::ForegroundBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 ForegroundBase::ForegroundBase(const ForegroundBase &source) :
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 ForegroundBase::~ForegroundBase(void)
 {
@@ -178,7 +171,9 @@ void ForegroundBase::executeSyncImpl(      ForegroundBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ForegroundPtr>::_type("ForegroundPtr", "AttachmentContainerPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

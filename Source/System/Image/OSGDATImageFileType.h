@@ -136,7 +136,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
       FORMAT_KT,
       FILE_OFFSET_KT
     };
-           
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+          
     struct FormatDesc 
     {
       bool               needConversion;
@@ -144,6 +146,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
       UInt32             bpv;
       Image::PixelFormat pixelFormat;
     };
+    
+#endif
         
     static std::map<std::string, KeyType>    _keyStrMap;
     static std::map<std::string, FormatDesc> _formatStrMap;

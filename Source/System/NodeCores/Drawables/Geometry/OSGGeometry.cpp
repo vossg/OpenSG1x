@@ -37,7 +37,7 @@
 \*---------------------------------------------------------------------------*/
 
 //---------------------------------------------------------------------------
-//  Includes
+ //  Includes
 //---------------------------------------------------------------------------
 
 #include <stdlib.h>
@@ -69,15 +69,9 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup GeometryLib OpenSG Geometry Lib
-    \ingroup NodeCores
-
-The basic polygonal geometry library.
-
-*/
-
 /*! \class osg::Geometry
-
+    \ingroup GrpSystemNodeCoresDrawablesGeometry
+    
 The base class for all Geometry node types. Defines the common interface
 for all geometry, so for general tools use these interfaces. They are pretty general
 and minimal though, so don't expect them to be blindingly fast.
@@ -374,7 +368,7 @@ void Geometry::adjustVolume( Volume & volume )
     volume.setEmpty();
 
     if ( pos == NullFC )
-        return;                 // Node has no points, no volume
+        return;                  // Node has no points, no volume
 
     PrimitiveIterator it;
 
@@ -576,18 +570,15 @@ AbstractGeoPropertyInterface *Geometry::getProperty(Int32 mapID)
         case MapTexCoords:
             pP = (getTexCoords() == NullFC) ? 0 : &(*getTexCoords());
             break;
-            // TODO; multitexture stuff
-            /*
-              case MapTexCoords2:
-              pP = (getTexCoords2() == NullFC) ? 0 : &(*getTexCoords2());
-              break;
-              case MapTexCoords3:
-              pP = (getTexCoords3() == NullFC) ? 0 : &(*getTexCoords3());
-              break;
-              case MapTexCoords4:
-              pP = (getTexCoords4() == NullFC) ? 0 : &(*getTexCoords4());
-              break;
-            */
+        case MapTexCoords1:
+            pP = (getTexCoords1() == NullFC) ? 0 : &(*getTexCoords1());
+            break;
+        case MapTexCoords2:
+            pP = (getTexCoords2() == NullFC) ? 0 : &(*getTexCoords2());
+            break;
+        case MapTexCoords3:
+            pP = (getTexCoords3() == NullFC) ? 0 : &(*getTexCoords3());
+            break;
         default:
             FFATAL(("Invalid mapID (%d) in Geometry::getProperty()\n", 
                     mapID));
@@ -725,7 +716,7 @@ bool Geometry::merge( const GeometryPtr other )
             for ( i = 0; i < oind->getSize(); i++ )
                 ind->setValue( oind->getValue(i) + posBase, indBase + i );          
         }
-        else // multi-index
+        else  // multi-index
         {
             UInt32 * offsets = new UInt32 [ getIndexMapping().size() ];
             Int16 mind;
@@ -886,7 +877,7 @@ Action::ResultE Geometry::intersect(Action * action )
 
 Action::ResultE Geometry::render(Action *action)
 {
-//    fprintf(stderr, "Geometry::render\n");
+    // fprintf(stderr, "Geometry::render\n");
 
     RenderAction *pAction = dynamic_cast<RenderAction *>(action);
 
@@ -1264,6 +1255,23 @@ void Geometry::changed(BitVector whichField,
     // invalidate the dlist cache
     if(getDlistCache())
     {
+        if(getGLId() == 0)
+        {
+            GeometryPtr tmpPtr(*this);
+
+            beginEditCP( tmpPtr, Geometry::GLIdFieldMask );
+
+            setGLId(
+                Window::registerGLObject( 
+                    osgTypedMethodVoidFunctor2ObjCPtrPtr<GeometryPtr, 
+                                                         Window , 
+                                                         UInt32>(tmpPtr, 
+                                                                 &Geometry::handleGL),
+                    1));
+
+            endEditCP( tmpPtr, Geometry::GLIdFieldMask );
+        }
+        
         Window::refreshGLObject(getGLId());
     }
     else 
@@ -1352,7 +1360,7 @@ GeometryPtr Geometry::clone( void )
     GeometryPtr geo = Geometry::create();
 //  FieldContainerFactory * fcf = FieldContainerFactory::the();
     
-    // create copies of the attributes
+   //  create copies of the attributes
 
     beginEditCP(geo);
     {

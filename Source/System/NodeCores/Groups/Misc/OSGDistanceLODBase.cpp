@@ -97,7 +97,6 @@ FieldDescription *DistanceLODBase::_desc[] =
                      (FieldAccessMethod) &DistanceLODBase::getMFRange)
 };
 
-//! DistanceLOD type
 
 FieldContainerType DistanceLODBase::_type(
     "DistanceLOD",
@@ -146,8 +145,6 @@ void DistanceLODBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -163,8 +160,6 @@ DistanceLODBase::DistanceLODBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 DistanceLODBase::DistanceLODBase(const DistanceLODBase &source) :
     _sfCenter                 (source._sfCenter                 ), 
     _mfRange                  (source._mfRange                  ), 
@@ -173,8 +168,6 @@ DistanceLODBase::DistanceLODBase(const DistanceLODBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 DistanceLODBase::~DistanceLODBase(void)
 {
@@ -255,7 +248,9 @@ void DistanceLODBase::executeSyncImpl(      DistanceLODBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DistanceLODPtr>::_type("DistanceLODPtr", "GroupPtr");
+#endif
 
 
 OSG_END_NAMESPACE

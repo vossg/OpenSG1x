@@ -61,7 +61,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! \ingroup SystemLib
+//! \ingroup GrpSystemLib
 //! A helper class to simplify managing simple applications.
 
 class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
@@ -99,11 +99,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    virtual NodePtr             getRoot       ( void );
-    virtual WindowPtr           getWindow     ( void );
-    virtual NodePtr             getHighlight  ( void );
-    virtual DrawActionBase     *getAction     ( void );
-    virtual Navigator          *getNavigator  ( void );
+    virtual NodePtr             getRoot            ( void );
+    virtual WindowPtr           getWindow          ( void );
+    virtual NodePtr             getHighlight       ( void );
+    virtual DrawActionBase     *getAction          ( void );
+    virtual Navigator          *getNavigator       ( void );
+    virtual bool                getHeadlightState  ( void );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

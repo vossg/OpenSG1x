@@ -54,7 +54,7 @@
 OSG_BEGIN_NAMESPACE
 
 //! Data handler for fields copyToBin, copyFromBin 
-//! \ingroup FieldLib
+//! \ingroup GrpBaseField
 
 class OSG_BASE_DLLMAPPING BinaryDataHandler 
 {

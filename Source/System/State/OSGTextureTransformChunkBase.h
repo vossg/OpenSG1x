@@ -94,7 +94,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunkBase : public TransformChunk
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright(C) 2000,2001 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -37,7 +37,7 @@
 \*---------------------------------------------------------------------------*/
 
 //---------------------------------------------------------------------------
-//  Includes
+ //  Includes
 //---------------------------------------------------------------------------
 
 #include <stdlib.h>
@@ -55,46 +55,37 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::TriangleIterator
-
+    \ingroup GrpSystemDrawablesGeometryIterators
+    
 The TriangleIterator iterates through the geometry one triangle at a
-time.  Larger primtitives like strips are automatically split into
-triangles, non-polygonal primitives like lines and points are ignored.
+time. See \ref PageSystemGeoIterators for details.
 
 \sa PrimitiveIterator FaceIterator
 
 */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+
+/*! \var osg::FaceIterator::_triIndex
+
+*/
+
+/*! \var osg::FaceIterator::_actPrimIndex
+
+*/
+
+/*! \var osg::FaceIterator::_triPntIndex
+
+*/
+
+#endif // only include in dev docs
+
 
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
 char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.13 2001/10/15 04:52:16 vossg Exp $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -106,32 +97,13 @@ char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.13 2001/1
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
-
-TriangleIterator::TriangleIterator(void) : 
-    _primIt(), _geo(),
+TriangleIterator::TriangleIterator(void) : PrimitiveIterator(),
     _triIndex(0), _actPrimIndex(0), _triPntIndex()
 {
 }
 
-TriangleIterator::TriangleIterator( const GeometryPtr& geo ) :
-    _primIt(), _geo( geo ),
-    _triIndex(0), _actPrimIndex(0), _triPntIndex()
-{
-    _primIt.setGeo( geo );
-}
-
-TriangleIterator::TriangleIterator( const NodePtr& geo ) :
-    _primIt(), _geo( GeometryPtr::dcast(geo->getCore()) ),
-    _triIndex(0), _actPrimIndex(0), _triPntIndex()
-{
-    _primIt.setGeo( geo );
-}
-
-
-TriangleIterator::TriangleIterator(const TriangleIterator &source) :
-    _primIt( source._primIt ), _geo( source._geo ),
+TriangleIterator::TriangleIterator(const TriangleIterator &source) : 
+    PrimitiveIterator(source),
     _triIndex(source._triIndex), _actPrimIndex(source._actPrimIndex),
     _triPntIndex()
 {
@@ -140,47 +112,68 @@ TriangleIterator::TriangleIterator(const TriangleIterator &source) :
     _triPntIndex[2] = source._triPntIndex[2];
 }
 
-/** \brief Destructor
- */
+
+/*! This constructor creates an iterator for the given geometry. It is useful
+    to create an iterator to be used to seek() to a specific indexed face. 
+    Otherwise, use osg::Geometry::beginTriangles() resp. 
+    osg::Geometry::endTriangles() to create an iterator.
+*/
+TriangleIterator::TriangleIterator(const GeometryPtr& geo) :
+    PrimitiveIterator(),
+    _triIndex(0), _actPrimIndex(0), _triPntIndex()
+{
+    setGeo(geo);
+}
+
+
+/*! This constructor creates an iterator for the given node. It is useful to
+    create an iterator to be used to seek() to a specific indexed face. 
+    Otherwise, use osg::Geometry::beginTriangles() resp. 
+    osg::Geometry::endTriangles() to create an iterator.
+*/
+
+TriangleIterator::TriangleIterator(const NodePtr& geo) : 
+    PrimitiveIterator(),
+    _triIndex(0), _actPrimIndex(0), _triPntIndex()
+{
+    setGeo(geo);
+}
+
 
 TriangleIterator::~TriangleIterator(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
+/*--------------------------- Operators ----------------------------------*/
 
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/** \brief increment
- */
-
-void TriangleIterator::operator++ ()
+/*! The increment operator steps the iterator to the next triangle. If it is
+    already beyond the last triangle it does not change.
+*/
+void TriangleIterator::operator++()
 {
     // already at end?
-    if ( _primIt.isAtEnd() )
+    if(isAtEnd())
         return;
     
     ++_triIndex;
 
     // at end of primitive?
-    if ( _actPrimIndex >= _primIt.getLength() )
+    if(_actPrimIndex >= getLength())
     {
-        ++_primIt;      
+        ++(static_cast<PrimitiveIterator&>(*this));      
         startPrim();
         
         return;
     }
 
-    switch ( _primIt.getType() )
+    switch(getType())
     {
     case GL_TRIANGLES:      _triPntIndex[0] = _actPrimIndex++;
                             _triPntIndex[1] = _actPrimIndex++;
                             _triPntIndex[2] = _actPrimIndex++;
                             break;
     case GL_QUAD_STRIP:
-    case GL_TRIANGLE_STRIP: if ( _actPrimIndex & 1 )
+    case GL_TRIANGLE_STRIP: if(_actPrimIndex & 1)
                             {
                                 _triPntIndex[0] = _triPntIndex[2];
                             }
@@ -194,7 +187,7 @@ void TriangleIterator::operator++ ()
     case GL_TRIANGLE_FAN:   _triPntIndex[1] = _triPntIndex[2];
                             _triPntIndex[2] = _actPrimIndex++;
                             break;
-    case GL_QUADS:          if ( _actPrimIndex & 1 )
+    case GL_QUADS:          if(_actPrimIndex & 1)
                             {
                                 _triPntIndex[1] = _triPntIndex[2];
                                 _triPntIndex[2] = _actPrimIndex++;
@@ -208,17 +201,21 @@ void TriangleIterator::operator++ ()
                             break;
     default:                SWARNING << "TriangleIterator::++: encountered " 
                                       << "unknown primitive type " 
-                                      << _primIt.getType()
+                                      << getType()
                                       << ", ignoring!" << std::endl;
                             startPrim();
                             break;
     }           
 }
 
-void TriangleIterator::startPrim( void )
+
+/*! Helper function to reset all state to the beginning of a new primitive.
+    Also skips non-polygonal primitives(lines, points).
+*/
+void TriangleIterator::startPrim(void)
 {
     // already at end?
-    if ( _primIt.isAtEnd() )
+    if(isAtEnd())
         return;
         
     _triPntIndex[0] = 0;
@@ -227,9 +224,9 @@ void TriangleIterator::startPrim( void )
     _actPrimIndex = 3;
     
     // loop until you find a useful primitive or run out
-    while ( ! _primIt.isAtEnd() )
+    while(! isAtEnd())
     {
-        switch ( _primIt.getType() )
+        switch(getType())
         {
         case GL_POINTS:         // non-polygon types: ignored
         case GL_LINES:
@@ -241,62 +238,56 @@ void TriangleIterator::startPrim( void )
         case GL_TRIANGLE_FAN:
         case GL_QUADS:
         case GL_QUAD_STRIP:
-        case GL_POLYGON:        if ( _primIt.getLength() >= 3 )
+        case GL_POLYGON:        if(getLength() >= 3)
                                     return;
                                 break;
         default:                SWARNING << "TriangleIterator::startPrim: "
                                           << "encountered " 
                                           << "unknown primitive type " 
-                                          << _primIt.getType()
+                                          << getType()
                                           << ", ignoring!" << std::endl;
                                 break;
         }
         
-        ++_primIt;
+        ++(*this);
     }           
 }
 
-void TriangleIterator::seek( Int32 index )
+
+/*! Seek the iterator to a specific triangle indicated by its index. 
+
+    This is primarily used in conjunction with 
+    osg::TriangleIterator::getIndex to record a position in the iteration and
+    later return to it.
+*/
+void TriangleIterator::seek(Int32 index)
 {
-    _primIt.setToBegin();
-    _triIndex = 0;
-    startPrim();
+    setToBegin();
     
-    while ( getIndex() != index )
+    while(getIndex() != index)
         ++(*this);
 }
 
-void TriangleIterator::setToBegin( void )
+void TriangleIterator::setToBegin(void)
 {
-    _primIt.setToBegin();
+    PrimitiveIterator::setToBegin();
     _triIndex = 0;
     startPrim();
 }
 
-void TriangleIterator::setToEnd( void )
+void TriangleIterator::setToEnd(void)
 {
-    _primIt.setToEnd();
+    PrimitiveIterator::setToEnd();
     _actPrimIndex = 0;
 }
 
 /*-------------------------- assignment -----------------------------------*/
 
-/** \brief assignment
- */
-
-TriangleIterator& TriangleIterator::operator = (const TriangleIterator &source)
+TriangleIterator& TriangleIterator::operator =(const TriangleIterator &source)
 {
-    if (this == &source)
+    if(this == &source)
         return *this;
-
-    // free mem alloced by members of 'this'
-
-    // alloc new mem for members
-
-    // copy 
     
-    this->_geo                  = source._geo;
-    this->_primIt           = source._primIt;
     this->_triIndex         = source._triIndex;
     this->_actPrimIndex     = source._actPrimIndex;
     this->_triPntIndex[0]   = source._triPntIndex[0];
@@ -308,74 +299,24 @@ TriangleIterator& TriangleIterator::operator = (const TriangleIterator &source)
 
 /*-------------------------- comparison -----------------------------------*/
 
-/** \brief assignment
- */
-
-bool TriangleIterator::operator < (const TriangleIterator &other) const
+bool TriangleIterator::operator <(const TriangleIterator &other) const
 {
-    return _primIt < other._primIt ||
-            ( _primIt == other._primIt &&
-              _actPrimIndex < other._actPrimIndex );
+    return this < &other ||
+           (this == &other &&
+              _actPrimIndex < other._actPrimIndex);
 }
 
-/** \brief equal
- */
-
-bool TriangleIterator::operator == (const TriangleIterator &other) const
+bool TriangleIterator::operator ==(const TriangleIterator &other) const
 {
-    if ( _primIt.isAtEnd() && other._primIt.isAtEnd() )
+    if(isAtEnd() && other.isAtEnd())
         return true;
-    if ( _primIt.isAtEnd() || other._primIt.isAtEnd() )
+    if(isAtEnd() || other.isAtEnd())
         return false;
-    return _primIt == other._primIt &&
+    return this == &other &&
             _actPrimIndex == other._actPrimIndex;
 }
 
-/** \brief unequal
- */
-
-bool TriangleIterator::operator != (const TriangleIterator &other) const
+bool TriangleIterator::operator !=(const TriangleIterator &other) const
 {
-    return ! (*this == other);
+    return !(*this == other);
 }
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
-

@@ -23,7 +23,7 @@ int main( int argc, char *argv[] )
 
     TransformChunkPtr tchunk = TransformChunk::create();
 
-    std::cerr << "Transform chunk class: " << tchunk->getClassID() << std::endl;
+    std::cerr << "Transform chunk class: " << tchunk->getClassId() << std::endl;
 
     Matrix m;
 
@@ -35,7 +35,7 @@ int main( int argc, char *argv[] )
     for ( int i = 0; i < 9; i++ )
         lchunks[i] = LightChunk::create();
 
-    std::cerr << "Light chunk class: " << lchunks[0]->getClassID() << std::endl;
+    std::cerr << "Light chunk class: " << lchunks[0]->getClassId() << std::endl;
 
 
     // State
@@ -45,7 +45,7 @@ int main( int argc, char *argv[] )
     state->dump();
 
     std::cerr << "TransformChunk present? "
-         << (state->chunkPresent( tchunk->getClassID() )?"Yes":"No") << std::endl;
+         << (state->chunkPresent( tchunk->getClassId() )?"Yes":"No") << std::endl;
     std::cerr << "TransformChunk present (class)? "
          << (state->chunkPresent( tchunk )?"Yes":"No") << std::endl;
 
@@ -54,7 +54,7 @@ int main( int argc, char *argv[] )
     state->dump();
 
     std::cerr << "TransformChunk present? "
-         << (state->chunkPresent( tchunk->getClassID() )?"Yes":"No") << std::endl;
+         << (state->chunkPresent( tchunk->getClassId() )?"Yes":"No") << std::endl;
 
     std::cerr << "TransformChunk present (class)? "
          << (state->chunkPresent( tchunk )?"Yes":"No") << std::endl;
@@ -85,8 +85,8 @@ int main( int argc, char *argv[] )
 
     std::cerr << "Now try to get rid of them..." << std::endl;
 
-    std::cerr << "direct index (0)" << std::endl;
-    state->subChunk( lchunks[0], 0 );
+    std::cerr << "automatic find (0)" << std::endl;
+    state->subChunk( lchunks[0] );
     state->dump();
 
     std::cerr << "automatic find (last)" << std::endl;

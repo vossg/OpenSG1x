@@ -50,10 +50,8 @@
 
 OSG_USING_NAMESPACE
 
-/*! \defgroup RenderingBackendLib OpenSG Rendering Backend
- */
-
 /*! \class osg::DrawTreeNode
+    \ingroup GrpSystemRenderingBackend
  */
 
 /*-------------------------------------------------------------------------*/

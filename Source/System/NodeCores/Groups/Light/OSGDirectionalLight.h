@@ -48,13 +48,20 @@
 OSG_BEGIN_NAMESPACE
 
 //! Directional light
-//! \ingroup LightNodes
+//! \ingroup GrpSystemNodeCoresLights
 
 class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                  static stat elem                            */
+    /*! \{                                                                 */
+
+    static StatElemDesc<StatIntElem>  statNDirectionalLights;
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Set                                    */
     /*! \{                                                                 */

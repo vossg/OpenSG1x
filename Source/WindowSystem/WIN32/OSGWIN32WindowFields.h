@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class WIN32Window;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! WIN32WindowPtr
 
 typedef FCPtr<WindowPtr, WIN32Window> WIN32WindowPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief WIN32WindowPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<WIN32WindowPtr> :
     static char     *getSName(void) { return "SFWIN32WindowPtr"; }
     static char     *getMName(void) { return "MFWIN32WindowPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFWIN32WindowPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<WIN32WindowPtr> SFWIN32WindowPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 #endif
 
 //! MFWIN32WindowPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<WIN32WindowPtr> MFWIN32WindowPtr;
 

@@ -65,7 +65,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::SimpleMaterial
-    \ingroup MaterialLib
+    \ingroup GrpSystemMaterial
 
 The simple material class.
 

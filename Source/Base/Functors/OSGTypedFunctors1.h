@@ -62,7 +62,7 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctor1Helper
+/*! \ingroup GrpBaseFunctors1Helper
  */
 
 template <class RetT, 
@@ -98,7 +98,7 @@ struct TypedTraits1
 
 
 
-/*! \ingroup BaseFunctor1Helper
+/*! \ingroup GrpBaseFunctors1Helper
  */
 
 template <class RetT, 
@@ -154,7 +154,7 @@ struct TypedSOTraits1
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctors
+/*! \ingroup GrpBaseFunctors
  */
 
 template <class RetT,
@@ -227,7 +227,7 @@ class TypedFunctor1Base : public TypedFunctorBase<SizeTraitsT>
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctors
+/*! \ingroup GrpBaseFunctors
  */
 
 template <class CallArgT, class SizeTraitsT = DefaultFunctorSizeTraits>
@@ -299,7 +299,7 @@ class TypedVoidFunctor1Base : public TypedFunctorBase<SizeTraitsT>
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctors
+/*! \ingroup GrpBaseFunctors
  */
 
 template <class RetT, 
@@ -384,7 +384,7 @@ class TypedFunctionFunctor1 :
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctors
+/*! \ingroup GrpBaseFunctors
  */
 
 template <class CallArgT, 
@@ -467,7 +467,7 @@ class TypedFunctionVoidFunctor1 :
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseAnonFunctors
+/*! \ingroup GrpBaseAnonFunctors
  *  \brief Brief AnonObjectFunctor1
  */
 
@@ -558,7 +558,7 @@ class TypedObjectFunctor1 :
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctors
+/*! \ingroup GrpBaseFunctors
  */
 
 template <class CallArgT, 
@@ -645,7 +645,7 @@ class TypedObjectVoidFunctor1 :
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctors
+/*! \ingroup GrpBaseFunctors
  */
 
 template <class RetT, 
@@ -743,7 +743,7 @@ class TypedStoredObjectFunctor1 :
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctors
+/*! \ingroup GrpBaseFunctors
  */
 
 template <class StoredObjectT, 

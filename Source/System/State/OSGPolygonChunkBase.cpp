@@ -204,7 +204,6 @@ FieldDescription *PolygonChunkBase::_desc[] =
                      (FieldAccessMethod) &PolygonChunkBase::getMFStipple)
 };
 
-//! PolygonChunk type
 
 FieldContainerType PolygonChunkBase::_type(
     "PolygonChunk",
@@ -253,8 +252,6 @@ void PolygonChunkBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -279,8 +276,6 @@ PolygonChunkBase::PolygonChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 PolygonChunkBase::PolygonChunkBase(const PolygonChunkBase &source) :
     _sfCullFace               (source._sfCullFace               ), 
     _sfFrontFace              (source._sfFrontFace              ), 
@@ -298,8 +293,6 @@ PolygonChunkBase::PolygonChunkBase(const PolygonChunkBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 PolygonChunkBase::~PolygonChunkBase(void)
 {
@@ -542,7 +535,9 @@ void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<PolygonChunkPtr>::_type("PolygonChunkPtr", "StateChunkPtr");
+#endif
 
 
 OSG_END_NAMESPACE

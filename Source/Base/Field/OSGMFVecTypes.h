@@ -51,8 +51,8 @@
 #include <OSGVecFieldDataType.h>
 
 /*! \file OSGMFVecTypes.h
-    \ingroup FieldLib
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldMulti
     \brief OpenSG vector and point multi fields
  */
 
@@ -60,7 +60,7 @@ OSG_BEGIN_NAMESPACE
 
 
 /*! \brief MFVec2f
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Vec2f> MFVec2f;
@@ -71,7 +71,7 @@ OSG_DLLEXPORT_DECL1(MField, Vec2f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFVec3f
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Vec3f> MFVec3f;
@@ -82,7 +82,7 @@ OSG_DLLEXPORT_DECL1(MField, Vec3f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFVec4f
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Vec4f> MFVec4f;
@@ -93,7 +93,7 @@ OSG_DLLEXPORT_DECL1(MField, Vec4f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFVec4ub
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Vec4ub> MFVec4ub;
@@ -104,7 +104,7 @@ OSG_DLLEXPORT_DECL1(MField, Vec4ub, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFPnt2f
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Pnt2f> MFPnt2f;
@@ -115,7 +115,7 @@ OSG_DLLEXPORT_DECL1(MField, Pnt2f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFPnt2d
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Pnt2d> MFPnt2d;
@@ -126,7 +126,7 @@ OSG_DLLEXPORT_DECL1(MField, Pnt2d, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFPnt3f
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Pnt3f> MFPnt3f;
@@ -137,7 +137,7 @@ OSG_DLLEXPORT_DECL1(MField, Pnt3f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFPnt3d
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Pnt3d> MFPnt3d;
@@ -148,7 +148,7 @@ OSG_DLLEXPORT_DECL1(MField, Pnt3d, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFPnt4f
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Pnt4f> MFPnt4f;
@@ -159,7 +159,7 @@ OSG_DLLEXPORT_DECL1(MField, Pnt4f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFPnt4d
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Pnt4d> MFPnt4d;

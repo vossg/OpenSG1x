@@ -43,11 +43,22 @@
 OSG_BEGIN_NAMESPACE
 
 inline
-const StateChunkClass *  RegisterCombinersChunk::getClass( void ) const
+const StateChunkClass *RegisterCombinersChunk::getClass( void ) const
 {
     return &_class;
 }
 
+inline
+UInt32 RegisterCombinersChunk::getStaticClassId(void)
+{
+    return getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *RegisterCombinersChunk::getStaticClass(void)
+{
+    return &RegisterCombinersChunk::_class;
+}
 
 OSG_END_NAMESPACE
 

@@ -121,7 +121,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ProjectionCameraDecoratorBase : public StereoCame
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

@@ -58,7 +58,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GeometryLoaderLib
+/*! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
  *  \brief native osg loader (vrml syntax)
  */
 

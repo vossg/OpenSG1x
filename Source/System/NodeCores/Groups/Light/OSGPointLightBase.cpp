@@ -86,7 +86,6 @@ FieldDescription *PointLightBase::_desc[] =
                      (FieldAccessMethod) &PointLightBase::getSFPosition)
 };
 
-//! PointLight type
 
 FieldContainerType PointLightBase::_type(
     "PointLight",
@@ -135,8 +134,6 @@ void PointLightBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -151,8 +148,6 @@ PointLightBase::PointLightBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 PointLightBase::PointLightBase(const PointLightBase &source) :
     _sfPosition               (source._sfPosition               ), 
     Inherited                 (source)
@@ -160,8 +155,6 @@ PointLightBase::PointLightBase(const PointLightBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 PointLightBase::~PointLightBase(void)
 {
@@ -224,7 +217,9 @@ void PointLightBase::executeSyncImpl(      PointLightBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<PointLightPtr>::_type("PointLightPtr", "LightPtr");
+#endif
 
 
 OSG_END_NAMESPACE

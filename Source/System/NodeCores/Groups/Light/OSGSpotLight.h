@@ -48,13 +48,20 @@
 OSG_BEGIN_NAMESPACE
 
 //! Spotlight
-//! \ingroup LightNodes
+//! \ingroup GrpSystemNodeCoresLights
 
 class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                  static stat elem                            */
+    /*! \{                                                                 */
+
+    static StatElemDesc<StatIntElem>  statNSpotLights;
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Set                                   */
     /*! \{                                                                 */

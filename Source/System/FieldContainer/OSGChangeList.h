@@ -55,7 +55,7 @@ class Field;
 class FieldContainerPtr;
 
 //! ChangeList
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
 {

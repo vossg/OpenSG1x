@@ -51,15 +51,15 @@
 #include <OSGBaseFieldDataType.h>
 
 /*! \file OSGMFBaseTypes.h
-    \ingroup FieldLib
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldMulti
     \brief OpenSG base multi fields
 */
 
 OSG_BEGIN_NAMESPACE
 
 /*! \brief MFString
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<std::string> MFString;
@@ -70,7 +70,7 @@ OSG_DLLEXPORT_DECL1(MField, std::string, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFTime
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Time, 1> MFTime;
@@ -81,7 +81,7 @@ OSG_DLLEXPORT_DECL2(MField, Time, 1, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFColor3f
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Color3f> MFColor3f;
@@ -92,7 +92,7 @@ OSG_DLLEXPORT_DECL1(MField, Color3f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFColor4f
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Color4f> MFColor4f;
@@ -103,7 +103,7 @@ OSG_DLLEXPORT_DECL1(MField, Color4f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFColor3ub
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Color3ub> MFColor3ub;
@@ -114,7 +114,7 @@ OSG_DLLEXPORT_DECL1(MField, Color3ub, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFColor4ub
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Color4ub> MFColor4ub;
@@ -125,7 +125,7 @@ OSG_DLLEXPORT_DECL1(MField, Color4ub, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFVolume
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<DynamicVolume> MFVolume;
@@ -136,7 +136,7 @@ OSG_DLLEXPORT_DECL1(MField, DynamicVolume, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFBitVector
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<BitVector, 1>  MFBitVector;
@@ -147,7 +147,7 @@ OSG_DLLEXPORT_DECL2(MField, BitVector, 1, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief MFPlane
-    \ingroup MultiFields
+    \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Plane> MFPlane;

@@ -66,13 +66,16 @@ OSG_BEGIN_NAMESPACE
 
 class SolidBackground;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! SolidBackgroundPtr
 
 typedef FCPtr<BackgroundPtr, SolidBackground> SolidBackgroundPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief SolidBackgroundPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
+    \ingroup BaseFieldSingle
 */
 
 template <>
@@ -88,9 +91,10 @@ struct FieldDataTraits<SolidBackgroundPtr> :
 
     static char     *getSName(void) { return "SFSolidBackgroundPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFSolidBackgroundPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<SolidBackgroundPtr> SFSolidBackgroundPtr;
 

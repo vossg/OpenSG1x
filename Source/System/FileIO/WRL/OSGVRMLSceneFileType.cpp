@@ -45,7 +45,8 @@
 
 OSG_USING_NAMESPACE
 
-/*!\ class osg::VRMLSceneFileType
+/*! \class osg::VRMLSceneFileType
+    \ingroup GrpSystemFileIO
  */
 
 const Char8 *VRMLSceneFileType::_suffixA[] =  { "wrl" };

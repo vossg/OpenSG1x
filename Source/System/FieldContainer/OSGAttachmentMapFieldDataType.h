@@ -51,16 +51,16 @@ OSG_BEGIN_NAMESPACE
 typedef std::map<UInt32, AttachmentPtr>  AttachmentMap;
 
 /*! \file OSGAttachmentMapFieldDataType.h
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief OpenSG AttachmentContainer Field Data Types  
 */
 
 /*! \brief FieldContainerPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>

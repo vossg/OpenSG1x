@@ -57,7 +57,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::OSGQGLWidget
-    \ingroup Windows
+    \ingroup GrpWindows
 
 The OSGQGLWidget class.
 

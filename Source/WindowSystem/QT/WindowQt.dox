@@ -1,0 +1,15 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \defgroup GrpWindowQt OpenSG QT Window System Library
+
+    \brief The System Library contains the main system-independent parts of OpenSG.
+
+    See \ref WindowQt for details.
+*/
+
+/*! \page WindowQt QT Window System Library
+
+
+*/

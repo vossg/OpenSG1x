@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class PassiveViewport;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! PassiveViewportPtr
 
 typedef FCPtr<ViewportPtr, PassiveViewport> PassiveViewportPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief PassiveViewportPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<PassiveViewportPtr> :
     static char     *getSName(void) { return "SFPassiveViewportPtr"; }
     static char     *getMName(void) { return "MFPassiveViewportPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFPassiveViewportPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<PassiveViewportPtr> SFPassiveViewportPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, PassiveViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFPassiveViewportPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<PassiveViewportPtr> MFPassiveViewportPtr;
 

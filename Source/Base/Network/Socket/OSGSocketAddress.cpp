@@ -60,8 +60,8 @@
 
 OSG_USING_NAMESPACE
 
-/** \class SocketAddress
- *  \ingroup Network
+/** \class osg::SocketAddress
+ *  \ingroup GrpBaseNetwork
  *  \brief Network address
  *  \author Marcus Roth
  *

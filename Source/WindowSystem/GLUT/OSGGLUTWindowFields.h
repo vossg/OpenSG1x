@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class GLUTWindow;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! GLUTWindowPtr
 
 typedef FCPtr<WindowPtr, GLUTWindow> GLUTWindowPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief GLUTWindowPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<GLUTWindowPtr> :
     static char     *getSName(void) { return "SFGLUTWindowPtr"; }
     static char     *getMName(void) { return "MFGLUTWindowPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFGLUTWindowPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<GLUTWindowPtr> SFGLUTWindowPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFGLUTWindowPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<GLUTWindowPtr> MFGLUTWindowPtr;
 

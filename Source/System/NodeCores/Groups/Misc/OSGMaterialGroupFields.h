@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class MaterialGroup;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! MaterialGroupPtr
 
 typedef FCPtr<GroupPtr, MaterialGroup> MaterialGroupPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief MaterialGroupPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<MaterialGroupPtr> :
     static char     *getSName(void) { return "SFMaterialGroupPtr"; }
     static char     *getMName(void) { return "MFMaterialGroupPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFMaterialGroupPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<MaterialGroupPtr> SFMaterialGroupPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFMaterialGroupPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<MaterialGroupPtr> MFMaterialGroupPtr;
 

@@ -48,27 +48,24 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! chunk for glMaterial() attributes
-
 class OSG_SYSTEMLIB_DLLMAPPING MaterialChunk : public MaterialChunkBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
+    /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    static const char *getClassname(void) { return "MaterialChunk"; };
-
-    static const      StateChunkClass &getChunkClass(void);
+    virtual const  StateChunkClass * getClass    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name              Fieldcontainer declaration                      */
+    /*! \name              Static Chunk Class Access                       */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *  getClass( void ) const;
+    static        UInt32           getStaticClassId  (void);
+    static  const StateChunkClass *getStaticClass    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -91,26 +88,21 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunk : public MaterialChunkBase
     /*! \name                      State                                   */
     /*! \{                                                                 */
 
-    virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
+    virtual void activate      (DrawActionBase * action, UInt32 index = 0);
 
-    virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
-                            UInt32 index = 0 );
+    virtual void changeFrom    (DrawActionBase * action, StateChunk * old,
+                                UInt32 index = 0);
 
-    virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
+    virtual void deactivate    (DrawActionBase * action, UInt32 index = 0);
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Rendering                                  */
-    /*! \{                                                                 */
-
-    virtual Real32  switchCost    ( StateChunk * chunk );
-
-    virtual bool    isTransparent (void) const;
+    virtual bool isTransparent (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Comparison                                */
     /*! \{                                                                 */
+
+    virtual Real32  switchCost    ( StateChunk * chunk );
 
     virtual bool operator <  (const StateChunk &other) const;
 
@@ -163,5 +155,7 @@ OSG_END_NAMESPACE
 
 #include <OSGMaterialChunkBase.inl>
 #include <OSGMaterialChunk.inl>
+
+#define OSGMATERIALCHUNK_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGMATERIALCHUNK_H_ */

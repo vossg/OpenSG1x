@@ -48,25 +48,24 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! chunk for Polygon attributes
-
 class OSG_SYSTEMLIB_DLLMAPPING PolygonChunk : public PolygonChunkBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
+    /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    static const char *getClassname(void) { return "PolygonChunk"; };
+    virtual const  StateChunkClass * getClass    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name              Fieldcontainer declaration                      */
+    /*! \name              Static Chunk Class Access                       */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *  getClass( void ) const;
+    static        UInt32           getStaticClassId  (void);
+    static  const StateChunkClass *getStaticClass    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -154,5 +153,7 @@ OSG_END_NAMESPACE
 
 #include <OSGPolygonChunkBase.inl>
 #include <OSGPolygonChunk.inl>
+
+#define OSGPOLYGONCHUNK_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGPOLYGONCHUNK_H_ */

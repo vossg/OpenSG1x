@@ -51,8 +51,8 @@
 #include <OSGVecFieldDataType.h>
 
 /*! \file OSGSFVecTypes.h
-    \ingroup FieldLib
-    \ingroup SingleFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
     \brief OpenSG vector and point single fields
 */
 
@@ -60,7 +60,7 @@ OSG_BEGIN_NAMESPACE
 
 
 /*! \brief SFVec2f
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Vec2f> SFVec2f;
@@ -71,7 +71,7 @@ OSG_DLLEXPORT_DECL1(SField, Vec2f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFVec3f
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Vec3f> SFVec3f;
@@ -81,7 +81,7 @@ OSG_DLLEXPORT_DECL1(SField, Vec3f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 /*! \brief SFVec4f
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Vec4f> SFVec4f;
@@ -92,7 +92,7 @@ OSG_DLLEXPORT_DECL1(SField, Vec4f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFPnt2f
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Pnt2f> SFPnt2f;
@@ -103,7 +103,7 @@ OSG_DLLEXPORT_DECL1(SField, Pnt2f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFPnt2d
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Pnt2d> SFPnt2d;
@@ -114,7 +114,7 @@ OSG_DLLEXPORT_DECL1(SField, Pnt2d, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFPnt3f
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Pnt3f> SFPnt3f;
@@ -125,7 +125,7 @@ OSG_DLLEXPORT_DECL1(SField, Pnt3f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFPnt3d
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Pnt3d> SFPnt3d;
@@ -136,7 +136,7 @@ OSG_DLLEXPORT_DECL1(SField, Pnt3d, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFPnt4f
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Pnt4f> SFPnt4f;
@@ -147,7 +147,7 @@ OSG_DLLEXPORT_DECL1(SField, Pnt4f, OSG_BASE_DLLTMPLMAPPING)
 
 
 /*! \brief SFPnt4d
-    \ingroup SingleFields
+    \ingroup GrpBaseFieldSingle
 */
 
 typedef SField<Pnt4d> SFPnt4d;

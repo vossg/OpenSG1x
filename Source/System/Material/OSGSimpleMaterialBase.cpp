@@ -164,7 +164,6 @@ FieldDescription *SimpleMaterialBase::_desc[] =
                      (FieldAccessMethod) &SimpleMaterialBase::getSFColorMaterial)
 };
 
-//! SimpleMaterial type
 
 FieldContainerType SimpleMaterialBase::_type(
     "SimpleMaterial",
@@ -213,8 +212,6 @@ void SimpleMaterialBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -236,8 +233,6 @@ SimpleMaterialBase::SimpleMaterialBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 SimpleMaterialBase::SimpleMaterialBase(const SimpleMaterialBase &source) :
     _sfAmbient                (source._sfAmbient                ), 
     _sfDiffuse                (source._sfDiffuse                ), 
@@ -252,8 +247,6 @@ SimpleMaterialBase::SimpleMaterialBase(const SimpleMaterialBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 SimpleMaterialBase::~SimpleMaterialBase(void)
 {
@@ -442,7 +435,9 @@ void SimpleMaterialBase::executeSyncImpl(      SimpleMaterialBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SimpleMaterialPtr>::_type("SimpleMaterialPtr", "ChunkMaterialPtr");
+#endif
 
 
 OSG_END_NAMESPACE

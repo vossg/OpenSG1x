@@ -54,9 +54,19 @@
 
 OSG_USING_NAMESPACE
 
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
 /*! \class osg::RegisterCombinersChunk
 
+See \ref PageSystemRegisterCombinersChunk for details.
 */
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
 
 StateChunkClass RegisterCombinersChunk::_class("RegisterCombiners");
 
@@ -76,26 +86,21 @@ UInt32 RegisterCombinersChunk::_funcFinalCombinerInput
 // can't use GL_NONE as flag, as GL_ZERO is equal and valid
 static const UInt32 unused = 0xffff;
 
-// this should go somewhere central...
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-#ifdef OSG_DEBUG
-#define glErr(text)                           \
-{                                   \
-        GLenum glerr;                           \
-        glerr=glGetError();                     \
-        if(glerr!=GL_NO_ERROR)                     \
-        {                               \
-                fprintf(stderr, "%s failed: %s (%#x)\n", (text),    \
-                                        (char*)gluErrorString(glerr), glerr);  \
-        }                               \
+void RegisterCombinersChunk::initMethod (void)
+{
 }
-#else
-#define glErr(text)
-#endif
 
-/*----------------------- constructors & destructors ----------------------*/
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
 
-//! Constructor
+/*-------------------------------------------------------------------------*\
+ -  private                                                                 -
+\*-------------------------------------------------------------------------*/
 
 RegisterCombinersChunk::RegisterCombinersChunk(void) :
     Inherited()
@@ -118,29 +123,17 @@ RegisterCombinersChunk::RegisterCombinersChunk(void) :
     clearCombiners();
 }
 
-//! Copy Constructor
-
 RegisterCombinersChunk::RegisterCombinersChunk(const RegisterCombinersChunk &source) :
     Inherited(source)
 {
     clearCombiners();
 }
 
-//! Destructor
-
 RegisterCombinersChunk::~RegisterCombinersChunk(void)
 {
 }
 
-/*----------------------------- class specific ----------------------------*/
-
-//! initialize the static features of the class, e.g. action callbacks
-
-void RegisterCombinersChunk::initMethod (void)
-{
-}
-
-//! react to field changes
+/*------------------------------- Sync -----------------------------------*/
 
 void RegisterCombinersChunk::changed(BitVector whichField, UInt32 origin)
 {
@@ -150,12 +143,7 @@ void RegisterCombinersChunk::changed(BitVector whichField, UInt32 origin)
     Inherited::changed(whichField, origin);
 }
 
-bool RegisterCombinersChunk::isTransparent(void) const
-{
-    return false;
-}
-
-//! output the instance for debug purposes
+/*------------------------------ Output ----------------------------------*/
 
 void RegisterCombinersChunk::dump(      UInt32    , 
                          const BitVector ) const
@@ -163,201 +151,7 @@ void RegisterCombinersChunk::dump(      UInt32    ,
     SLOG << "Dump RegisterCombinersChunk NI" << std::endl;
 }
 
-
-void RegisterCombinersChunk::ensureSizes()
-{
-    getVariableArgb  ().resize(OSG_NUM_COMBINERS * 3 + 3);
-    getVariableBrgb  ().resize(OSG_NUM_COMBINERS * 3 + 3);
-    getVariableCrgb  ().resize(OSG_NUM_COMBINERS * 3 + 3);
-    getVariableDrgb  ().resize(OSG_NUM_COMBINERS * 3 + 3);
-    getVariableAalpha().resize(OSG_NUM_COMBINERS * 3 + 3);
-    getVariableBalpha().resize(OSG_NUM_COMBINERS * 3 + 3);
-    getVariableCalpha().resize(OSG_NUM_COMBINERS * 3 + 3);
-    getVariableDalpha().resize(OSG_NUM_COMBINERS * 3 + 3);
-    getOutputABrgb   ().resize(OSG_NUM_COMBINERS);
-    getOutputCDrgb   ().resize(OSG_NUM_COMBINERS);
-    getOutputSumrgb  ().resize(OSG_NUM_COMBINERS);
-    getScalergb      ().resize(OSG_NUM_COMBINERS);
-    getBiasrgb       ().resize(OSG_NUM_COMBINERS);
-    getDotABrgb      ().resize(OSG_NUM_COMBINERS);
-    getDotCDrgb      ().resize(OSG_NUM_COMBINERS);
-    getMuxSumrgb     ().resize(OSG_NUM_COMBINERS);
-    getScalealpha    ().resize(OSG_NUM_COMBINERS);
-    getBiasalpha     ().resize(OSG_NUM_COMBINERS);
-    getMuxSumalpha   ().resize(OSG_NUM_COMBINERS);
-    getCombinerColor0().resize(OSG_NUM_COMBINERS);
-    getCombinerColor1().resize(OSG_NUM_COMBINERS);
-    getVariableE     ().resize(3);
-    getVariableF     ().resize(3);
-    getVariableG     ().resize(3);
-}
-
-
-void RegisterCombinersChunk::clearCombiners(void)
-{
-    ensureSizes();
-    
-    for(UInt16 i = 0; i < OSG_NUM_COMBINERS * 3; i += 3)
-    {
-        getVariableArgb  ()[i] = unused;
-        getVariableAalpha()[i] = unused;
-    }
-    
-    setPerStageConstants(false);
-}
-
-void RegisterCombinersChunk::clearCombiner(UInt16 which)
-{
-    ensureSizes();
-    
-    getVariableArgb  ()[which * 3] = unused;
-    getVariableAalpha()[which * 3] = unused;
-}
-
-void RegisterCombinersChunk::setCombinerRGB(UInt16 which, 
-      GLenum ainput, GLenum amapping, GLenum acompusage, 
-      GLenum binput, GLenum bmapping, GLenum bcompusage, 
-      GLenum cinput, GLenum cmapping, GLenum ccompusage, 
-      GLenum dinput, GLenum dmapping, GLenum dcompusage, 
-      GLenum outputAB, GLenum outputCD, GLenum outputSum,
-      GLenum scale, GLenum bias, 
-      GLboolean dotAB, GLboolean dotCD, GLboolean muxSum)
-{
-    ensureSizes();
-    
-    const UInt16 ibase = which * 3;
-    
-    getVariableArgb()[ibase    ] = ainput;
-    getVariableArgb()[ibase + 1] = amapping;
-    getVariableArgb()[ibase + 2] = acompusage;
-    
-    getVariableBrgb()[ibase    ] = binput;
-    getVariableBrgb()[ibase + 1] = bmapping;
-    getVariableBrgb()[ibase + 2] = bcompusage;
-    
-    getVariableCrgb()[ibase    ] = cinput;
-    getVariableCrgb()[ibase + 1] = cmapping;
-    getVariableCrgb()[ibase + 2] = ccompusage;
-    
-    getVariableDrgb()[ibase    ] = dinput;
-    getVariableDrgb()[ibase + 1] = dmapping;
-    getVariableDrgb()[ibase + 2] = dcompusage;
-    
-    getOutputABrgb ()[which] = outputAB;
-    getOutputCDrgb ()[which] = outputCD;
-    getOutputSumrgb()[which] = outputSum;
-    getScalergb    ()[which] = scale;
-    getBiasrgb     ()[which] = bias;
-    getDotABrgb    ()[which] = dotAB;
-    getDotCDrgb    ()[which] = dotCD;
-    getMuxSumrgb   ()[which] = muxSum;
-}
-
-void RegisterCombinersChunk::setCombinerAlpha(UInt16 which, 
-      GLenum ainput, GLenum amapping, GLenum acompusage, 
-      GLenum binput, GLenum bmapping, GLenum bcompusage, 
-      GLenum cinput, GLenum cmapping, GLenum ccompusage, 
-      GLenum dinput, GLenum dmapping, GLenum dcompusage, 
-      GLenum outputAB, GLenum outputCD, GLenum outputSum,
-      GLenum scale, GLenum bias, 
-      GLboolean muxSum)
-{
-    ensureSizes();
-    
-    const UInt16 ibase = which * 3;
-    
-    getVariableAalpha()[ibase    ] = ainput;
-    getVariableAalpha()[ibase + 1] = amapping;
-    getVariableAalpha()[ibase + 2] = acompusage;
-    
-    getVariableBalpha()[ibase    ] = binput;
-    getVariableBalpha()[ibase + 1] = bmapping;
-    getVariableBalpha()[ibase + 2] = bcompusage;
-    
-    getVariableCalpha()[ibase    ] = cinput;
-    getVariableCalpha()[ibase + 1] = cmapping;
-    getVariableCalpha()[ibase + 2] = ccompusage;
-    
-    getVariableDalpha()[ibase    ] = dinput;
-    getVariableDalpha()[ibase + 1] = dmapping;
-    getVariableDalpha()[ibase + 2] = dcompusage;
-    
-    getOutputABalpha ()[which] = outputAB;
-    getOutputCDalpha ()[which] = outputCD;
-    getOutputSumalpha()[which] = outputSum;
-    getScalealpha    ()[which] = scale;
-    getBiasalpha     ()[which] = bias;
-    getMuxSumalpha   ()[which] = muxSum;
-}
-
-void RegisterCombinersChunk::setFinalCombiner(
-      GLenum ainput, GLenum amapping, GLenum acompusage, 
-      GLenum binput, GLenum bmapping, GLenum bcompusage, 
-      GLenum cinput, GLenum cmapping, GLenum ccompusage, 
-      GLenum dinput, GLenum dmapping, GLenum dcompusage, 
-      GLenum einput, GLenum emapping, GLenum ecompusage, 
-      GLenum finput, GLenum fmapping, GLenum fcompusage, 
-      GLenum ginput, GLenum gmapping, GLenum gcompusage)
-{    
-    UInt16 ibase = OSG_NUM_COMBINERS * 3;
-    
-    getVariableArgb()[ibase    ] = ainput;
-    getVariableArgb()[ibase + 1] = amapping;
-    getVariableArgb()[ibase + 2] = acompusage;
-    
-    getVariableBrgb()[ibase    ] = binput;
-    getVariableBrgb()[ibase + 1] = bmapping;
-    getVariableBrgb()[ibase + 2] = bcompusage;
-    
-    getVariableCrgb()[ibase    ] = cinput;
-    getVariableCrgb()[ibase + 1] = cmapping;
-    getVariableCrgb()[ibase + 2] = ccompusage;
-    
-    getVariableDrgb()[ibase    ] = dinput;
-    getVariableDrgb()[ibase + 1] = dmapping;
-    getVariableDrgb()[ibase + 2] = dcompusage;
-    
-    getVariableE()[0] = einput;
-    getVariableE()[1] = emapping;
-    getVariableE()[2] = ecompusage;
-    
-    getVariableF()[0] = finput;
-    getVariableF()[1] = fmapping;
-    getVariableF()[2] = fcompusage;
-    
-    getVariableG()[0] = ginput;
-    getVariableG()[1] = gmapping;
-    getVariableG()[2] = gcompusage;
-}
-
-void RegisterCombinersChunk::setConstantColors(
-    Color4f &color0, Color4f &color1)
-{
-    RegisterCombinersChunkPtr tmpPtr(*this);
-
-    beginEditCP(tmpPtr, PerStageConstantsFieldMask);
-    
-    getColor0() = color0;
-    getColor1() = color1;
-    
-    endEditCP(tmpPtr, PerStageConstantsFieldMask);
-}
-
-void RegisterCombinersChunk::setCombinerColors(UInt16 which, 
-          Color4f &color0, Color4f &color1)
-{
-    RegisterCombinersChunkPtr tmpPtr(*this);
-
-    beginEditCP(tmpPtr, PerStageConstantsFieldMask);
-
-    setPerStageConstants(true);
-    
-    getCombinerColor0()[which] = color0;
-    getCombinerColor1()[which] = color1;
-    
-    endEditCP(tmpPtr, PerStageConstantsFieldMask);
-}
-
+/*------------------------------ State ------------------------------------*/
 
 void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
 {
@@ -647,23 +441,220 @@ void RegisterCombinersChunk::deactivate ( DrawActionBase *, UInt32 )
     glErr("RegisterCombinersChunk::deactivate");
 }
 
-/*-------------------------- comparison -----------------------------------*/
+bool RegisterCombinersChunk::isTransparent(void) const
+{
+    return false;
+}
+
+/*--------------------- Register Combiner Specific ------------------------*/
+
+void RegisterCombinersChunk::ensureSizes()
+{
+    getVariableArgb  ().resize(OSG_NUM_COMBINERS * 3 + 3);
+    getVariableBrgb  ().resize(OSG_NUM_COMBINERS * 3 + 3);
+    getVariableCrgb  ().resize(OSG_NUM_COMBINERS * 3 + 3);
+    getVariableDrgb  ().resize(OSG_NUM_COMBINERS * 3 + 3);
+    getVariableAalpha().resize(OSG_NUM_COMBINERS * 3 + 3);
+    getVariableBalpha().resize(OSG_NUM_COMBINERS * 3 + 3);
+    getVariableCalpha().resize(OSG_NUM_COMBINERS * 3 + 3);
+    getVariableDalpha().resize(OSG_NUM_COMBINERS * 3 + 3);
+    getOutputABrgb   ().resize(OSG_NUM_COMBINERS);
+    getOutputCDrgb   ().resize(OSG_NUM_COMBINERS);
+    getOutputSumrgb  ().resize(OSG_NUM_COMBINERS);
+    getScalergb      ().resize(OSG_NUM_COMBINERS);
+    getBiasrgb       ().resize(OSG_NUM_COMBINERS);
+    getDotABrgb      ().resize(OSG_NUM_COMBINERS);
+    getDotCDrgb      ().resize(OSG_NUM_COMBINERS);
+    getMuxSumrgb     ().resize(OSG_NUM_COMBINERS);
+    getScalealpha    ().resize(OSG_NUM_COMBINERS);
+    getBiasalpha     ().resize(OSG_NUM_COMBINERS);
+    getMuxSumalpha   ().resize(OSG_NUM_COMBINERS);
+    getCombinerColor0().resize(OSG_NUM_COMBINERS);
+    getCombinerColor1().resize(OSG_NUM_COMBINERS);
+    getVariableE     ().resize(3);
+    getVariableF     ().resize(3);
+    getVariableG     ().resize(3);
+}
+
+/*! Set all combiners to unused.
+*/
+
+void RegisterCombinersChunk::clearCombiners(void)
+{
+    ensureSizes();
+    
+    for(UInt16 i = 0; i < OSG_NUM_COMBINERS * 3; i += 3)
+    {
+        getVariableArgb  ()[i] = unused;
+        getVariableAalpha()[i] = unused;
+    }
+    
+    setPerStageConstants(false);
+}
+
+void RegisterCombinersChunk::clearCombiner(UInt16 which)
+{
+    ensureSizes();
+    
+    getVariableArgb  ()[which * 3] = unused;
+    getVariableAalpha()[which * 3] = unused;
+}
+
+void RegisterCombinersChunk::setCombinerRGB(UInt16 which, 
+      GLenum ainput, GLenum amapping, GLenum acompusage, 
+      GLenum binput, GLenum bmapping, GLenum bcompusage, 
+      GLenum cinput, GLenum cmapping, GLenum ccompusage, 
+      GLenum dinput, GLenum dmapping, GLenum dcompusage, 
+      GLenum outputAB, GLenum outputCD, GLenum outputSum,
+      GLenum scale, GLenum bias, 
+      GLboolean dotAB, GLboolean dotCD, GLboolean muxSum)
+{
+    ensureSizes();
+    
+    const UInt16 ibase = which * 3;
+    
+    getVariableArgb()[ibase    ] = ainput;
+    getVariableArgb()[ibase + 1] = amapping;
+    getVariableArgb()[ibase + 2] = acompusage;
+    
+    getVariableBrgb()[ibase    ] = binput;
+    getVariableBrgb()[ibase + 1] = bmapping;
+    getVariableBrgb()[ibase + 2] = bcompusage;
+    
+    getVariableCrgb()[ibase    ] = cinput;
+    getVariableCrgb()[ibase + 1] = cmapping;
+    getVariableCrgb()[ibase + 2] = ccompusage;
+    
+    getVariableDrgb()[ibase    ] = dinput;
+    getVariableDrgb()[ibase + 1] = dmapping;
+    getVariableDrgb()[ibase + 2] = dcompusage;
+    
+    getOutputABrgb ()[which] = outputAB;
+    getOutputCDrgb ()[which] = outputCD;
+    getOutputSumrgb()[which] = outputSum;
+    getScalergb    ()[which] = scale;
+    getBiasrgb     ()[which] = bias;
+    getDotABrgb    ()[which] = dotAB;
+    getDotCDrgb    ()[which] = dotCD;
+    getMuxSumrgb   ()[which] = muxSum;
+}
+
+void RegisterCombinersChunk::setCombinerAlpha(UInt16 which, 
+      GLenum ainput, GLenum amapping, GLenum acompusage, 
+      GLenum binput, GLenum bmapping, GLenum bcompusage, 
+      GLenum cinput, GLenum cmapping, GLenum ccompusage, 
+      GLenum dinput, GLenum dmapping, GLenum dcompusage, 
+      GLenum outputAB, GLenum outputCD, GLenum outputSum,
+      GLenum scale, GLenum bias, 
+      GLboolean muxSum)
+{
+    ensureSizes();
+    
+    const UInt16 ibase = which * 3;
+    
+    getVariableAalpha()[ibase    ] = ainput;
+    getVariableAalpha()[ibase + 1] = amapping;
+    getVariableAalpha()[ibase + 2] = acompusage;
+    
+    getVariableBalpha()[ibase    ] = binput;
+    getVariableBalpha()[ibase + 1] = bmapping;
+    getVariableBalpha()[ibase + 2] = bcompusage;
+    
+    getVariableCalpha()[ibase    ] = cinput;
+    getVariableCalpha()[ibase + 1] = cmapping;
+    getVariableCalpha()[ibase + 2] = ccompusage;
+    
+    getVariableDalpha()[ibase    ] = dinput;
+    getVariableDalpha()[ibase + 1] = dmapping;
+    getVariableDalpha()[ibase + 2] = dcompusage;
+    
+    getOutputABalpha ()[which] = outputAB;
+    getOutputCDalpha ()[which] = outputCD;
+    getOutputSumalpha()[which] = outputSum;
+    getScalealpha    ()[which] = scale;
+    getBiasalpha     ()[which] = bias;
+    getMuxSumalpha   ()[which] = muxSum;
+}
+
+void RegisterCombinersChunk::setFinalCombiner(
+      GLenum ainput, GLenum amapping, GLenum acompusage, 
+      GLenum binput, GLenum bmapping, GLenum bcompusage, 
+      GLenum cinput, GLenum cmapping, GLenum ccompusage, 
+      GLenum dinput, GLenum dmapping, GLenum dcompusage, 
+      GLenum einput, GLenum emapping, GLenum ecompusage, 
+      GLenum finput, GLenum fmapping, GLenum fcompusage, 
+      GLenum ginput, GLenum gmapping, GLenum gcompusage)
+{    
+    UInt16 ibase = OSG_NUM_COMBINERS * 3;
+    
+    getVariableArgb()[ibase    ] = ainput;
+    getVariableArgb()[ibase + 1] = amapping;
+    getVariableArgb()[ibase + 2] = acompusage;
+    
+    getVariableBrgb()[ibase    ] = binput;
+    getVariableBrgb()[ibase + 1] = bmapping;
+    getVariableBrgb()[ibase + 2] = bcompusage;
+    
+    getVariableCrgb()[ibase    ] = cinput;
+    getVariableCrgb()[ibase + 1] = cmapping;
+    getVariableCrgb()[ibase + 2] = ccompusage;
+    
+    getVariableDrgb()[ibase    ] = dinput;
+    getVariableDrgb()[ibase + 1] = dmapping;
+    getVariableDrgb()[ibase + 2] = dcompusage;
+    
+    getVariableE()[0] = einput;
+    getVariableE()[1] = emapping;
+    getVariableE()[2] = ecompusage;
+    
+    getVariableF()[0] = finput;
+    getVariableF()[1] = fmapping;
+    getVariableF()[2] = fcompusage;
+    
+    getVariableG()[0] = ginput;
+    getVariableG()[1] = gmapping;
+    getVariableG()[2] = gcompusage;
+}
+
+void RegisterCombinersChunk::setConstantColors(
+    Color4f &color0, Color4f &color1)
+{
+    RegisterCombinersChunkPtr tmpPtr(*this);
+
+    beginEditCP(tmpPtr, PerStageConstantsFieldMask);
+    
+    getColor0() = color0;
+    getColor1() = color1;
+    
+    endEditCP(tmpPtr, PerStageConstantsFieldMask);
+}
+
+void RegisterCombinersChunk::setCombinerColors(UInt16 which, 
+          Color4f &color0, Color4f &color1)
+{
+    RegisterCombinersChunkPtr tmpPtr(*this);
+
+    beginEditCP(tmpPtr, PerStageConstantsFieldMask);
+
+    setPerStageConstants(true);
+    
+    getCombinerColor0()[which] = color0;
+    getCombinerColor1()[which] = color1;
+    
+    endEditCP(tmpPtr, PerStageConstantsFieldMask);
+}
+
+/*-------------------------- Comparison -----------------------------------*/
 
 Real32 RegisterCombinersChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
 }
 
-/** \brief assignment
- */
-
 bool RegisterCombinersChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
-
-/** \brief equal
- */
 
 bool RegisterCombinersChunk::operator == (const StateChunk &other) const
 {
@@ -678,9 +669,6 @@ bool RegisterCombinersChunk::operator == (const StateChunk &other) const
     // TODO compare reg comb
     return false;
 }
-
-/** \brief unequal
- */
 
 bool RegisterCombinersChunk::operator != (const StateChunk &other) const
 {
@@ -707,4 +695,7 @@ namespace
     static Char8 cvsid_inl[] = OSGREGISTERCOMBINERSCHUNK_INLINE_CVSID;
 }
 
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 

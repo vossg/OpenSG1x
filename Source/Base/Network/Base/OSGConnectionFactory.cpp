@@ -54,7 +54,7 @@ OSG_USING_NAMESPACE
 ConnectionFactory *ConnectionFactory::_the=NULL;
 
 /** \class osg::ConnectionFactory
- *  \ingroup Network
+ *  \ingroup GrpBaseNetwork
  *  \author Marcus Roth
  *
  * The ConnectionFactory knows all types of connections by name. 

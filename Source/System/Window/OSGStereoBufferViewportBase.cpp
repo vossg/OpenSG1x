@@ -97,7 +97,6 @@ FieldDescription *StereoBufferViewportBase::_desc[] =
                      (FieldAccessMethod) &StereoBufferViewportBase::getSFRightBuffer)
 };
 
-//! StereoBufferViewport type
 
 FieldContainerType StereoBufferViewportBase::_type(
     "StereoBufferViewport",
@@ -146,8 +145,6 @@ void StereoBufferViewportBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -163,8 +160,6 @@ StereoBufferViewportBase::StereoBufferViewportBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 StereoBufferViewportBase::StereoBufferViewportBase(const StereoBufferViewportBase &source) :
     _sfLeftBuffer             (source._sfLeftBuffer             ), 
     _sfRightBuffer            (source._sfRightBuffer            ), 
@@ -173,8 +168,6 @@ StereoBufferViewportBase::StereoBufferViewportBase(const StereoBufferViewportBas
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 StereoBufferViewportBase::~StereoBufferViewportBase(void)
 {
@@ -258,7 +251,9 @@ void StereoBufferViewportBase::executeSyncImpl(      StereoBufferViewportBase *p
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<StereoBufferViewportPtr>::_type("StereoBufferViewportPtr", "ViewportPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(StereoBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StereoBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

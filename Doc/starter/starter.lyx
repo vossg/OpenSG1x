@@ -2183,8 +2183,8 @@ The SpotLight adds a direction to the PointLight and a spotCutOff angle
 Geometry
 \layout Standard
 
-Geometries make up the leaves of the graph and ultimately define what's
- being rendered.
+Geometries make up most of the leaves of the graph and ultimately define
+ what's being rendered.
  Geometry has to be flexible, to accommodate the needs of the application.
  Different data types for the data that defines the geometry are useful,
  as well as different indexing capabilities to reuse data as much as possible.

@@ -48,6 +48,18 @@ const StateChunkClass *ClipPlaneChunk::getClass( void ) const
      return &_class;
 }
 
+inline
+UInt32 ClipPlaneChunk::getStaticClassId(void)
+{
+    return getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *ClipPlaneChunk::getStaticClass(void)
+{
+    return &ClipPlaneChunk::_class;
+}
+
 OSG_END_NAMESPACE
 
 #define OSGCLIPPLANECHUNK_INLINE_CVSID "@(#)$Id: FCTemplate_inl.h,v 1.7 2001/09/17 14:15:07 vossg Exp $"

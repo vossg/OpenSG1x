@@ -71,8 +71,8 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \class Socket
-    \ingroup Network
+/*! \class osg::Socket
+    \ingroup GrpBaseNetwork
     \brief Abstract network socket handler
     \author Marcus Roth
 

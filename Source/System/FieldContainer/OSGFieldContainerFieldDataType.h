@@ -47,16 +47,16 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \file OSGFieldContainerFieldDataType.h
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
     \brief OpenSG FieldContainer Field Data Types  
 */
 
 /*! \brief FieldContainerPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>
@@ -133,9 +133,9 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr, false> :
 };
 
 /*! \brief FieldContainerPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
 */
 
 template <>

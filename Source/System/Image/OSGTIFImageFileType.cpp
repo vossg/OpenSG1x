@@ -68,6 +68,12 @@
 
 OSG_USING_NAMESPACE
 
+
+/*! \class osg::TIFImageFileType 
+    \ingroup GrpSystemImage
+    
+*/
+
 // Static Class Varible implementations:
 static const Char8 *suffixArray[] = {
   "tif", "tiff"
@@ -156,7 +162,7 @@ bool TIFImageFileType::read(      Image &OSG_TIF_ARG(image),
             TIFFGetFieldDefaulted(in, TIFFTAG_EXTRASAMPLES, &extrasamples,
                                   &sampleinfo);
 
-            if(sampleinfo[0] == EXTRASAMPLE_UNSPECIFIED)
+            if(sampleinfo && sampleinfo[0] == EXTRASAMPLE_UNSPECIFIED)
             {
                 si = EXTRASAMPLE_ASSOCALPHA;
                 TIFFSetField(in, TIFFTAG_EXTRASAMPLES, 1, &si);

@@ -512,6 +512,11 @@ void keyboard(unsigned char k, int , int )
                 endEditCP  (particles, Particles::ModeFieldMask);
                 FLOG(("Particles switched to Arrows mode\n"));
                 break;
+    case '5':   beginEditCP(particles, Particles::ModeFieldMask);
+                particles->setMode(Particles::ViewerArrows);
+                endEditCP  (particles, Particles::ModeFieldMask);
+                FLOG(("Particles switched to ViewerArrows mode\n"));
+                break;
     case 'q':   beginEditCP(particles, Particles::DrawOrderFieldMask);
                 particles->setDrawOrder(Particles::BackToFront);
                 endEditCP  (particles, Particles::DrawOrderFieldMask);

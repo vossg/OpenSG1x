@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class ChunkMaterial;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ChunkMaterialPtr
 
 typedef FCPtr<MaterialPtr, ChunkMaterial> ChunkMaterialPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief ChunkMaterialPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<ChunkMaterialPtr> :
     static char     *getSName(void) { return "SFChunkMaterialPtr"; }
     static char     *getMName(void) { return "MFChunkMaterialPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFChunkMaterialPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<ChunkMaterialPtr> SFChunkMaterialPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFChunkMaterialPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<ChunkMaterialPtr> MFChunkMaterialPtr;
 

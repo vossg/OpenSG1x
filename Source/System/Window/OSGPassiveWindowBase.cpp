@@ -66,7 +66,6 @@ OSG_USING_NAMESPACE
 
 
 
-//! PassiveWindow type
 
 FieldContainerType PassiveWindowBase::_type(
     "PassiveWindow",
@@ -115,8 +114,6 @@ void PassiveWindowBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -130,16 +127,12 @@ PassiveWindowBase::PassiveWindowBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 PassiveWindowBase::PassiveWindowBase(const PassiveWindowBase &source) :
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 PassiveWindowBase::~PassiveWindowBase(void)
 {
@@ -187,7 +180,9 @@ void PassiveWindowBase::executeSyncImpl(      PassiveWindowBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<PassiveWindowPtr>::_type("PassiveWindowPtr", "WindowPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(PassiveWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PassiveWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

@@ -97,7 +97,6 @@ FieldDescription *MatrixCameraBase::_desc[] =
                      (FieldAccessMethod) &MatrixCameraBase::getSFModelviewMatrix)
 };
 
-//! MatrixCamera type
 
 FieldContainerType MatrixCameraBase::_type(
     "MatrixCamera",
@@ -146,8 +145,6 @@ void MatrixCameraBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -163,8 +160,6 @@ MatrixCameraBase::MatrixCameraBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 MatrixCameraBase::MatrixCameraBase(const MatrixCameraBase &source) :
     _sfProjectionMatrix       (source._sfProjectionMatrix       ), 
     _sfModelviewMatrix        (source._sfModelviewMatrix        ), 
@@ -173,8 +168,6 @@ MatrixCameraBase::MatrixCameraBase(const MatrixCameraBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 MatrixCameraBase::~MatrixCameraBase(void)
 {
@@ -258,7 +251,9 @@ void MatrixCameraBase::executeSyncImpl(      MatrixCameraBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<MatrixCameraPtr>::_type("MatrixCameraPtr", "CameraPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

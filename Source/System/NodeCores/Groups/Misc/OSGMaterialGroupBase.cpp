@@ -86,7 +86,6 @@ FieldDescription *MaterialGroupBase::_desc[] =
                      (FieldAccessMethod) &MaterialGroupBase::getSFMaterial)
 };
 
-//! MaterialGroup type
 
 FieldContainerType MaterialGroupBase::_type(
     "MaterialGroup",
@@ -135,8 +134,6 @@ void MaterialGroupBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -151,8 +148,6 @@ MaterialGroupBase::MaterialGroupBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 MaterialGroupBase::MaterialGroupBase(const MaterialGroupBase &source) :
     _sfMaterial               (source._sfMaterial               ), 
     Inherited                 (source)
@@ -160,8 +155,6 @@ MaterialGroupBase::MaterialGroupBase(const MaterialGroupBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 MaterialGroupBase::~MaterialGroupBase(void)
 {
@@ -227,7 +220,9 @@ void MaterialGroupBase::executeSyncImpl(      MaterialGroupBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<MaterialGroupPtr>::_type("MaterialGroupPtr", "GroupPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

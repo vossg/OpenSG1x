@@ -57,9 +57,10 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \class OSG::MatrixCamera
+/*! \class osg::MatrixCamera
+    \ingroup GrpSystemWindowCameras
 
-A perspective camera with a symmetric frustum.
+.
 
 */
 

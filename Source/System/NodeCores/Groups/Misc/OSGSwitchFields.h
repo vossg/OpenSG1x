@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Switch;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! SwitchPtr
 
 typedef FCPtr<GroupPtr, Switch> SwitchPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief SwitchPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<SwitchPtr> :
     static char     *getSName(void) { return "SFSwitchPtr"; }
     static char     *getMName(void) { return "MFSwitchPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFSwitchPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<SwitchPtr> SFSwitchPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFSwitchPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<SwitchPtr> MFSwitchPtr;
 

@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class CameraDecorator;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! CameraDecoratorPtr
 
 typedef FCPtr<CameraPtr, CameraDecorator> CameraDecoratorPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief CameraDecoratorPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<CameraDecoratorPtr> :
     static char     *getSName(void) { return "SFCameraDecoratorPtr"; }
     static char     *getMName(void) { return "MFCameraDecoratorPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFCameraDecoratorPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<CameraDecoratorPtr> SFCameraDecoratorPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFCameraDecoratorPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<CameraDecoratorPtr> MFCameraDecoratorPtr;
 

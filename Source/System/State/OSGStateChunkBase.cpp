@@ -66,7 +66,6 @@ OSG_USING_NAMESPACE
 
 
 
-//! StateChunk type
 
 FieldContainerType StateChunkBase::_type(
     "StateChunk",
@@ -106,8 +105,6 @@ void StateChunkBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -121,16 +118,12 @@ StateChunkBase::StateChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 StateChunkBase::StateChunkBase(const StateChunkBase &source) :
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 StateChunkBase::~StateChunkBase(void)
 {
@@ -178,7 +171,9 @@ void StateChunkBase::executeSyncImpl(      StateChunkBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<StateChunkPtr>::_type("StateChunkPtr", "FieldContainerPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

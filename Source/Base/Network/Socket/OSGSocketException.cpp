@@ -50,8 +50,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \class SocketException
- *  \ingroup Network
+/** \class osg::SocketException
+ *  \ingroup GrpBaseNetwork
  *  \brief Base class for socket exceptions
  *  \author Marcus Roth
  **/
@@ -64,8 +64,8 @@ SocketException::SocketException():
     _what+="SocketLib: ";
 }
 
-/** \class SocketError
- *  \ingroup Network
+/** \class osg::SocketError
+ *  \ingroup GrpBaseNetwork
  *  \brief Execption caused by socket error return codes
  *  \author Marcus Roth
  **/
@@ -80,8 +80,8 @@ SocketError::SocketError(const char *function):SocketException()
     _what=_what + function + " " + estr + " " + Socket::getErrorStr();
 }
 
-/** \class SocketHostError
- *  \ingroup Network
+/** \class osg::SocketHostError
+ *  \ingroup GrpBaseNetwork
  *  \brief Execption caused by host name resolution
  *  \author Marcus Roth
  **/
@@ -96,8 +96,8 @@ SocketHostError::SocketHostError(const char *function):SocketException()
     _what=_what + function + " " + estr + " " + Socket::getHostErrorStr(); 
 }
 
-/** \class SocketInUse
- *  \ingroup Network
+/** \class osg::SocketInUse
+ *  \ingroup GrpBaseNetwork
  *  \brief Execption caused by reusage of ports
  *  \author Marcus Roth
  **/
@@ -109,8 +109,8 @@ SocketInUse::SocketInUse(const char *function):
 {
 }
 
-/** \class SocketConnReset
- *  \ingroup Network
+/** \class osg::SocketConnReset
+ *  \ingroup GrpBaseNetwork
  *  \brief Execption caused by connection reset of remote endpoint
  *  \author Marcus Roth
  **/

@@ -185,7 +185,7 @@ struct FieldDataTraits<StatCollector> :
 */
 
 //! SFStatCollector
-//! \ingroup SingleFields
+//! \ingroup GrpBaseFieldSingle
 
 typedef SField<StatCollector> SFStatCollector;
 

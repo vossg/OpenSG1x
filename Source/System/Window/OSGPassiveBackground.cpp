@@ -65,9 +65,9 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::PassiveBackground
-    \ingroup Backgrounds
+    \ingroup GrpSystemWindowBackgrounds
 
-A passive background, does nothing withing the clear call, mainly used
+A passive background, does nothing within the clear call, mainly used
 to stack viewports on top of each other
 
 */

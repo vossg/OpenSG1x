@@ -62,7 +62,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 }
 
 /*! \brief osgsqrt
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -76,7 +76,7 @@ Real32 osgsqrt<Real32>(const Real32 rVal)
 }
 
 /*! \brief osgsqrt
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -99,7 +99,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 }
 
 /*! \brief osgcos
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -113,7 +113,7 @@ Real32 osgcos<Real32>(const Real32 rVal)
 }
 
 /*! \brief osgcos
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -146,7 +146,7 @@ Real32 osgsin<Real32>(const Real32 rVal)
 }
 
 /*! \brief osgsin
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -169,7 +169,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 }
 
 /*! \brief osgtan
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -183,7 +183,7 @@ Real32 osgtan<Real32>(const Real32 rVal)
 }
 
 /*! \brief osgtan
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -206,7 +206,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 }
 
 /*! \brief osgacos
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -220,7 +220,7 @@ Real32 osgacos<Real32>(const Real32 rVal)
 }
 
 /*! \brief osgacos
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -243,7 +243,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 }
 
 /*! \brief osgasin
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -258,7 +258,7 @@ Real32 osgasin<Real32>(const Real32 rVal)
 
 
 /*! \brief osgasin
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -281,7 +281,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 }
 
 /*! \brief osgatan
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -295,7 +295,7 @@ Real32 osgatan<Real32>(const Real32 rVal)
 }
 
 /*! \brief osgatan
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -319,7 +319,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 }
 
 /*! \brief osgatan2
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -337,7 +337,7 @@ Real32 osgatan2<Real32>(const Real32 rVal1, const Real32 rVal2)
 }
 
 /*! \brief osgatan2
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -351,7 +351,7 @@ Real64 osgatan2<Real64>(const Real64 rVal1, const Real64 rVal2)
 //---------------------------------------------------------------------------
 
 /*! \brief osgabs
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class TypeT> inline
@@ -361,7 +361,7 @@ TypeT osgabs(const TypeT rValue)
 }
 
 /*! \brief osgabs
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -375,7 +375,7 @@ Real32 osgabs<Real32>(const Real32 rValue)
 }
 
 /*! \brief osgabs
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -399,7 +399,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 }
 
 /*! \brief osgpow
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -413,7 +413,7 @@ Real32 osgpow<Real32>(const Real32 rValue, const Real32 rExp)
 }
 
 /*! \brief osgpow
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -436,7 +436,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 }
 
 /*! \brief osglog
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -450,7 +450,7 @@ Real32 osglog<Real32>(const Real32 rVal)
 }
 
 /*! \brief osglog
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -473,7 +473,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 }
 
 /*! \brief osgexp
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -487,7 +487,7 @@ Real32 osgexp<Real32>(const Real32 rVal)
 }
 
 /*! \brief osgexp
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -510,7 +510,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 }
 
 /*! \brief osgfloor
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -528,7 +528,7 @@ Real32 osgfloor<Real32>(const Real32 rValue)
 }
 
 /*! \brief osgfloor
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -560,7 +560,7 @@ UInt32 osgfinite(const FloatTypeT rVal)
 //---------------------------------------------------------------------------
 
 /*! \brief osgMin
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class TypeT> inline
@@ -574,7 +574,7 @@ TypeT osgMin(const TypeT lVal, const TypeT rVal)
 //---------------------------------------------------------------------------
 
 /*! \brief osgMax
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class TypeT> inline
@@ -588,7 +588,7 @@ TypeT osgMax(const TypeT lVal, const TypeT rVal)
 //---------------------------------------------------------------------------
 
 /*! \brief osgSwap
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class TypeT> inline
@@ -614,7 +614,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 }
 
 /*! \brief osgdegree2rad
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -624,7 +624,7 @@ Real32 osgdegree2rad<Real32>(const Real32 rValue)
 }
 
 /*! \brief osgdegree2rad
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -647,7 +647,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 }
 
 /*! \brief osgrad2degree
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -657,7 +657,7 @@ Real32 osgrad2degree<Real32>(const Real32 rValue)
 }
 
 /*! \brief osgrad2degree
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -671,7 +671,7 @@ Real64 osgrad2degree<Real64>(const Real64 rValue)
 //---------------------------------------------------------------------------
 
 /*! \brief deg2rad
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -686,7 +686,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 //---------------------------------------------------------------------------
 
 /*! \brief rad2deg
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -701,7 +701,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 //---------------------------------------------------------------------------
 
 /*! \brief osgispower2
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -724,7 +724,7 @@ bool osgispower2<UInt32>(UInt32 rValue)
 }
 
 /*! \brief osgispower2
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -751,7 +751,7 @@ bool osgispower2<Int32>(Int32 rValue)
 //---------------------------------------------------------------------------
 
 /*! \brief osgnextpower2
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -768,7 +768,7 @@ UInt32 osgnextpower2<UInt32>(UInt32 rValue)
 }
 
 /*! \brief osgnextpower2
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -787,7 +787,7 @@ Int32 osgnextpower2<Int32>(Int32 rValue)
 #ifdef SIZE_T_NEQ_UINT32
 
 /*! \brief osgnextpower2
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <> inline
@@ -810,7 +810,7 @@ size_t osgnextpower2<size_t>(size_t rValue)
 //---------------------------------------------------------------------------
 
 /*! \brief copy c strings, allocate new memory using new []
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 inline
@@ -829,7 +829,7 @@ void stringDup(const Char8 *szInput, Char8 *&szOutput)
 }
 
 /*! \brief limited string compare
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 inline
@@ -839,7 +839,7 @@ Int32 stringncmp(const Char8 *string1, const Char8 *string2, size_t count)
 }
 
 /*! \brief string length
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 inline
@@ -849,7 +849,7 @@ Int32 stringlen(const Char8 *string1)
 }
 
 /*! \brief string compare
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 inline
@@ -859,7 +859,7 @@ Int32 stringcmp(const Char8 *string1, const Char8 *string2)
 }
 
 /*! \brief string case compare
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 inline

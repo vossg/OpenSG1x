@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Background;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! BackgroundPtr
 
 typedef FCPtr<AttachmentContainerPtr, Background> BackgroundPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief BackgroundPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<BackgroundPtr> :
     static char     *getSName(void) { return "SFBackgroundPtr"; }
     static char     *getMName(void) { return "MFBackgroundPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFBackgroundPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<BackgroundPtr> SFBackgroundPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFBackgroundPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<BackgroundPtr> MFBackgroundPtr;
 

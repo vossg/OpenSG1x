@@ -124,7 +124,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public NodeCore
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

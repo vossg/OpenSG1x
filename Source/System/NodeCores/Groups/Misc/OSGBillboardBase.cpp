@@ -108,7 +108,6 @@ FieldDescription *BillboardBase::_desc[] =
                      (FieldAccessMethod) &BillboardBase::getSFAlignToScreen)
 };
 
-//! Billboard type
 
 FieldContainerType BillboardBase::_type(
     "Billboard",
@@ -157,8 +156,6 @@ void BillboardBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -175,8 +172,6 @@ BillboardBase::BillboardBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 BillboardBase::BillboardBase(const BillboardBase &source) :
     _sfAxisOfRotation         (source._sfAxisOfRotation         ), 
     _sfFocusOnCamera          (source._sfFocusOnCamera          ), 
@@ -186,8 +181,6 @@ BillboardBase::BillboardBase(const BillboardBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 BillboardBase::~BillboardBase(void)
 {
@@ -289,7 +282,9 @@ void BillboardBase::executeSyncImpl(      BillboardBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<BillboardPtr>::_type("BillboardPtr", "GroupPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

@@ -51,7 +51,7 @@
 OSG_USING_NAMESPACE
 
 /** \class osg::ConnectionType
- *  \ingroup Network
+ *  \ingroup GrpBaseNetwork
  *  \author Marcus Roth
  *
  * A connection type describes a network connection and provides an

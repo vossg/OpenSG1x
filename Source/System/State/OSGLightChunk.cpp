@@ -22,7 +22,7 @@
  * Library General Public License for more details.                          *
  *                                                                           *
  * You should have received a copy of the GNU Library General Public         *
- * License along with this library; if not, write to the Free Software       *
+ * License along with this library; ifnot, write to the Free Software       *
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
@@ -57,22 +57,15 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::LightChunk
-    \ingroup StateChunks
+    \ingroup GrpSystemState
 
-The light chunk contains the parameter set for a single light source.
-It's taken straight from the glLight() manpage.
+See \ref PageSystemLightChunk for details.
 
 */
 
 /***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char LightChunk::cvsid[] = "@(#)$Id: $";
 
 StateChunkClass LightChunk::_class("Light", 8);
 
@@ -81,27 +74,8 @@ StateChunkClass LightChunk::_class("Light", 8);
 \***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
 
 void LightChunk::initMethod (void)
 {
@@ -118,42 +92,28 @@ void LightChunk::initMethod (void)
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
-
 LightChunk::LightChunk(void) :
     Inherited()
 {
 }
-
-/** \brief Copy Constructor
- */
 
 LightChunk::LightChunk(const LightChunk &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
-
 LightChunk::~LightChunk(void)
 {
 }
 
-
-/** \brief react to field changes
- */
+/*------------------------------- Sync -----------------------------------*/
 
 void LightChunk::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
-/*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
+/*------------------------------ Output ----------------------------------*/
 
 void LightChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
                       const BitVector OSG_CHECK_ARG(bvFlags )) const
@@ -162,123 +122,141 @@ void LightChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 }
 
 
-/*-------------------------- your_category---------------------------------*/
+/*------------------------------ State ------------------------------------*/
 
-void LightChunk::activate( DrawActionBase *, UInt32 index )
+void LightChunk::activate(DrawActionBase *, UInt32 index)
 {
-    glLightfv( GL_LIGHT0 + index, GL_DIFFUSE,
-                            _sfDiffuse.getValue().getValuesRGBA() );
-    glLightfv( GL_LIGHT0 + index, GL_AMBIENT,
-                            _sfAmbient.getValue().getValuesRGBA() );
-    glLightfv( GL_LIGHT0 + index, GL_SPECULAR,
-                            _sfSpecular.getValue().getValuesRGBA() );
-    glLightfv( GL_LIGHT0 + index, GL_POSITION,
-                            _sfPosition.getValue().getValues() );
-    glLightf ( GL_LIGHT0 + index, GL_CONSTANT_ATTENUATION,
-                            _sfConstantAttenuation.getValue() );
-    glLightf ( GL_LIGHT0 + index, GL_LINEAR_ATTENUATION,
-                            _sfLinearAttenuation.getValue() );
-    glLightf ( GL_LIGHT0 + index, GL_QUADRATIC_ATTENUATION,
-                            _sfQuadraticAttenuation.getValue() );
+    glLightfv(GL_LIGHT0 + index, GL_DIFFUSE,
+                            _sfDiffuse.getValue().getValuesRGBA());
+    glLightfv(GL_LIGHT0 + index, GL_AMBIENT,
+                            _sfAmbient.getValue().getValuesRGBA());
+    glLightfv(GL_LIGHT0 + index, GL_SPECULAR,
+                            _sfSpecular.getValue().getValuesRGBA());
+    glLightfv(GL_LIGHT0 + index, GL_POSITION,
+                            _sfPosition.getValue().getValues());
+    glLightf (GL_LIGHT0 + index, GL_CONSTANT_ATTENUATION,
+                            _sfConstantAttenuation.getValue());
+    glLightf (GL_LIGHT0 + index, GL_LINEAR_ATTENUATION,
+                            _sfLinearAttenuation.getValue());
+    glLightf (GL_LIGHT0 + index, GL_QUADRATIC_ATTENUATION,
+                            _sfQuadraticAttenuation.getValue());
 
-    glLightf(  GL_LIGHT0 + index, GL_SPOT_CUTOFF, _sfCutoff.getValue() );
-    if ( _sfCutoff.getValue() < 180 )
+    glLightf( GL_LIGHT0 + index, GL_SPOT_CUTOFF, _sfCutoff.getValue());
+    if(_sfCutoff.getValue() < 180)
     {
-        glLightfv( GL_LIGHT0 + index, GL_SPOT_DIRECTION,
-                                        _sfDirection.getValue().getValues() );
-        glLightf(  GL_LIGHT0 + index, GL_SPOT_EXPONENT, _sfExponent.getValue() );
+        glLightfv(GL_LIGHT0 + index, GL_SPOT_DIRECTION,
+                                        _sfDirection.getValue().getValues());
+        glLightf( GL_LIGHT0 + index, GL_SPOT_EXPONENT, _sfExponent.getValue());
     }
-    glEnable( GL_LIGHT0 + index );
+    glEnable(GL_LIGHT0 + index);
 }
 
-void LightChunk::changeFrom( DrawActionBase *, StateChunk * old_chunk, UInt32 index )
+void LightChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32 index)
 {
     LightChunk const *old = dynamic_cast<LightChunk const*>(old_chunk);
 
     // change from me to me?
     // this assumes I haven't changed in the meantime. is that a valid assumption?
-    if ( old == this )
+    if(old == this)
         return;
 
     // it could theoretically be more efficient to turn the light off before
     // changing its parameters, have to try that sometime
-    glLightfv( GL_LIGHT0 + index, GL_DIFFUSE,
-                            _sfDiffuse.getValue().getValuesRGBA() );
-    glLightfv( GL_LIGHT0 + index, GL_AMBIENT,
-                            _sfAmbient.getValue().getValuesRGBA() );
-    glLightfv( GL_LIGHT0 + index, GL_SPECULAR,
-                            _sfSpecular.getValue().getValuesRGBA() );
-    glLightfv( GL_LIGHT0 + index, GL_POSITION,
-                            _sfPosition.getValue().getValues() );
-    glLightf ( GL_LIGHT0 + index, GL_CONSTANT_ATTENUATION,
-                            _sfConstantAttenuation.getValue() );
-    glLightf ( GL_LIGHT0 + index, GL_LINEAR_ATTENUATION,
-                            _sfLinearAttenuation.getValue() );
-    glLightf ( GL_LIGHT0 + index, GL_QUADRATIC_ATTENUATION,
-                            _sfQuadraticAttenuation.getValue() );
+    glLightfv(GL_LIGHT0 + index, GL_DIFFUSE,
+                            _sfDiffuse.getValue().getValuesRGBA());
+    glLightfv(GL_LIGHT0 + index, GL_AMBIENT,
+                            _sfAmbient.getValue().getValuesRGBA());
+    glLightfv(GL_LIGHT0 + index, GL_SPECULAR,
+                            _sfSpecular.getValue().getValuesRGBA());
+    glLightfv(GL_LIGHT0 + index, GL_POSITION,
+                            _sfPosition.getValue().getValues());
+    glLightf (GL_LIGHT0 + index, GL_CONSTANT_ATTENUATION,
+                            _sfConstantAttenuation.getValue());
+    glLightf (GL_LIGHT0 + index, GL_LINEAR_ATTENUATION,
+                            _sfLinearAttenuation.getValue());
+    glLightf (GL_LIGHT0 + index, GL_QUADRATIC_ATTENUATION,
+                            _sfQuadraticAttenuation.getValue());
 
-    glLightf(  GL_LIGHT0 + index, GL_SPOT_CUTOFF, _sfCutoff.getValue() );
-    if ( _sfCutoff.getValue() < 180 )
+    glLightf( GL_LIGHT0 + index, GL_SPOT_CUTOFF, _sfCutoff.getValue());
+    if(_sfCutoff.getValue() < 180)
     {
-        glLightfv( GL_LIGHT0 + index, GL_SPOT_DIRECTION,
-                                        _sfDirection.getValue().getValues() );
-        glLightf(  GL_LIGHT0 + index, GL_SPOT_EXPONENT, _sfExponent.getValue() );
+        glLightfv(GL_LIGHT0 + index, GL_SPOT_DIRECTION,
+                                        _sfDirection.getValue().getValues());
+        glLightf( GL_LIGHT0 + index, GL_SPOT_EXPONENT, _sfExponent.getValue());
     }
 }
 
-void LightChunk::deactivate( DrawActionBase *, UInt32 index )
+void LightChunk::deactivate(DrawActionBase *, UInt32 index)
 {
-    glDisable( GL_LIGHT0 + index );
+    glDisable(GL_LIGHT0 + index);
 }
 
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------- Comparison -----------------------------------*/
 
 Real32 LightChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
 }
 
-/** \brief assignment
- */
-
 bool LightChunk::operator < (const StateChunk &other) const
 {
     return this < &other;
 }
 
-/** \brief equal
- */
-
 bool LightChunk::operator == (const StateChunk &other) const
 {
     LightChunk const *tother = dynamic_cast<LightChunk const*>(&other);
 
-    if ( !tother )
+    if(!tother)
         return false;
 
-    if ( ! getDiffuse().equals( tother->getDiffuse(), Eps ) )
+    if(tother == this)
+        return true;
+
+    if(!getAmbient  ().equals(tother->getAmbient  (), Eps) ||
+       !getDiffuse  ().equals(tother->getDiffuse  (), Eps) ||
+       !getSpecular ().equals(tother->getSpecular (), Eps) ||
+       !getPosition ().equals(tother->getPosition (), Eps) ||
+       !getDirection().equals(tother->getDirection(), Eps) ||
+        getConstantAttenuation()  != tother->getConstantAttenuation()  ||
+        getLinearAttenuation()    != tother->getLinearAttenuation()    ||
+        getQuadraticAttenuation() != tother->getQuadraticAttenuation() ||
+        getCutoff()               != tother->getCutoff()               ||
+        getExponent()             != tother->getExponent()
+      )
         return false;
 
     return true;
 }
-
-/** \brief unequal
- */
 
 bool LightChunk::operator != (const StateChunk &other) const
 {
     return ! (*this == other);
 }
 
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
 
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.13 2002/06/01 10:37:25 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGLIGHTCHUNK_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGLIGHTCHUNK_INLINE_CVSID;
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+    static Char8 cvsid_fields_hpp[] = OSGLIGHTCHUNKFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 

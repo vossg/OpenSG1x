@@ -48,15 +48,8 @@
 
 OSG_USING_NAMESPACE
 
-/*! \defgroup Network OpenSG network support
-
-The network part of OpenSG contains all objects used for network 
-communication. This objects are mainly used by OpenSG-Cluster support
-
-*/
-
 /** \class osg::Connection
- *  \ingroup Network
+ *  \ingroup GrpBaseNetwork
  *  \brief Abstract 1 to n connection
  *  \author Marcus Roth
  *

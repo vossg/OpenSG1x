@@ -53,11 +53,11 @@ static const UInt32 JacobiRank = 3;
 template <class ValueTypeT> class QuaternionBase;
 
 //! TransformationMatrix, for details about the vector, point and
-//! matrix desing see \ref vecpointmat, nevertheless
+//! matrix desing see \ref PageBaseMath, nevertheless
 //! the following applies : M=(V0 V1 V2 V3), M[Column][Row], M[0] = V0
 //! M[0][0] = V0[0]
 //! M.getValues() returns M transposed (as it returns the raw storage)
-//! \ingroup BaseBaseMath
+//! \ingroup GrpBaseBaseMath
 
 template<class ValueTypeT>
 class TransformationMatrix
@@ -447,14 +447,14 @@ class TransformationMatrix
 
 /*! \var typedef TransformationMatrix<Real32> Matrix;
     \brief Matrix
-    \ingroup BaseBaseMath
+    \ingroup GrpBaseBaseMath
 */
 
 typedef TransformationMatrix<Real32> Matrix;
 
 /*! \var typedef TransformationMatrix<Real32> Matrix4f;
     \brief Matrix4f
-    \ingroup BaseBaseMath
+    \ingroup GrpBaseBaseMath
 */
 
 typedef TransformationMatrix<Real32> Matrix4f;

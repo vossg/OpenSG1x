@@ -44,11 +44,23 @@ OSG_BEGIN_NAMESPACE
 
 
 inline
-const StateChunkClass *  PolygonChunk::getClass( void ) const
+const StateChunkClass *PolygonChunk::getClass( void ) const
 {
     return &_class;
 }
 
+inline
+UInt32 PolygonChunk::getStaticClassId(void)
+{
+    return getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *PolygonChunk::getStaticClass(void)
+{
+    return &PolygonChunk::_class;
+}
 
 OSG_END_NAMESPACE
 
+#define OSGPOLYGONCHUNK_INLINE_CVSID "@(#)$Id: FCTemplate_inl.h,v 1.7 2001/09/17 14:15:07 vossg Exp $"

@@ -65,8 +65,8 @@
 
 OSG_USING_NAMESPACE
 
-/** \class SocketSelection
- *  \ingroup Network
+/** \class osg::SocketSelection
+ *  \ingroup GrpBaseNetwork
  *  \brief Wait or check one or more sockets for read/write blocking
  *  \author Marcus Roth
  *

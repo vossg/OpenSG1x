@@ -54,6 +54,8 @@
 OSG_BEGIN_NAMESPACE
 
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+
 class NodeGraph
 {
     /*==========================  PRIVATE  ================================*/
@@ -452,6 +454,8 @@ class NodeGraph
 };
 
 typedef NodeGraph* NodeGraphP;
+
+#endif  // remove from all but dev docs
 
 OSG_END_NAMESPACE
 

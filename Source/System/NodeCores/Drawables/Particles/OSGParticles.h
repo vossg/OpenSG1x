@@ -53,9 +53,6 @@ class DrawActionBase;
 
 struct ParticlesDrawer;
 
-/*! \brief Particles NodeCore 
- */
-
 class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
 {
   private:
@@ -70,7 +67,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
     /*! \{                                                                 */
     
     enum { Points=0, Lines, ViewDirQuads, ViewerQuads, Arrows, 
-           LastMode }
+           ViewerArrows, LastMode }
            ModeE;
     
     enum { Any=0, BackToFront, FrontToBack } DrawOrderE;

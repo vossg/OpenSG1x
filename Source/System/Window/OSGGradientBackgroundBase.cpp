@@ -97,7 +97,6 @@ FieldDescription *GradientBackgroundBase::_desc[] =
                      (FieldAccessMethod) &GradientBackgroundBase::getMFPosition)
 };
 
-//! GradientBackground type
 
 FieldContainerType GradientBackgroundBase::_type(
     "GradientBackground",
@@ -146,8 +145,6 @@ void GradientBackgroundBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -163,8 +160,6 @@ GradientBackgroundBase::GradientBackgroundBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 GradientBackgroundBase::GradientBackgroundBase(const GradientBackgroundBase &source) :
     _mfColor                  (source._mfColor                  ), 
     _mfPosition               (source._mfPosition               ), 
@@ -173,8 +168,6 @@ GradientBackgroundBase::GradientBackgroundBase(const GradientBackgroundBase &sou
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 GradientBackgroundBase::~GradientBackgroundBase(void)
 {
@@ -257,7 +250,9 @@ void GradientBackgroundBase::executeSyncImpl(      GradientBackgroundBase *pOthe
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<GradientBackgroundPtr>::_type("GradientBackgroundPtr", "BackgroundPtr");
+#endif
 
 OSG_DLLEXPORT_MFIELD_DEF1(GradientBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 

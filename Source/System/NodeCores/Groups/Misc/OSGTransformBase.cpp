@@ -86,7 +86,6 @@ FieldDescription *TransformBase::_desc[] =
                      (FieldAccessMethod) &TransformBase::getSFMatrix)
 };
 
-//! Transform type
 
 FieldContainerType TransformBase::_type(
     "Transform",
@@ -135,8 +134,6 @@ void TransformBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -151,8 +148,6 @@ TransformBase::TransformBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 TransformBase::TransformBase(const TransformBase &source) :
     _sfMatrix                 (source._sfMatrix                 ), 
     Inherited                 (source)
@@ -160,8 +155,6 @@ TransformBase::TransformBase(const TransformBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 TransformBase::~TransformBase(void)
 {
@@ -227,7 +220,9 @@ void TransformBase::executeSyncImpl(      TransformBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<TransformPtr>::_type("TransformPtr", "GroupPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

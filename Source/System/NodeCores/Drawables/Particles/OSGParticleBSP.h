@@ -42,6 +42,9 @@
 #pragma once
 #endif
 
+// exclude the whole class from user docs
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+
 #include <OSGConfig.h>
 
 #include <OSGNodeCore.h>
@@ -268,7 +271,7 @@ struct FieldDataTraits<ParticleBSPTree> :
 */
 
 //! SFParticleBSPTree
-//! \ingroup SingleFields
+//! \ingroup GrpBaseFieldSingle
 
 typedef SField<ParticleBSPTree> SFParticleBSPTree;
 
@@ -282,5 +285,7 @@ OSG_END_NAMESPACE
 #include <OSGParticleBSP.inl>
 
 #define OSGPARTICLEBSP_HEADER_CVSID "@(#)$Id: OSGParticleBSP.h,v 1.1 2002/01/10 21:14:10 dirk Exp $"
+
+#endif            // exclude from user doc
 
 #endif /* _OSGPARTICLES_H_ */

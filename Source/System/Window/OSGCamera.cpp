@@ -61,15 +61,8 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup Cameras OpenSG Cameras
-    \ingroup WindowLib
-
-The Camera group includes all the Camera and camera enhancement objects.
-
-*/
-
 /*! \class osg::Camera
-    \ingroup Cameras
+    \ingroup GrpSystemWindowCameras
 
 The Camera base class.
 
@@ -260,6 +253,18 @@ void Camera::getFrustum( FrustumVolume& result, const Viewport& p )
     pr.mult( mv  );
     
     result.setPlanes( pr );
+}
+
+void Camera::getWorldToScreen(Matrix &result, const Viewport& p)
+{
+    Matrix mv,prt,pr;
+    
+    getProjection           ( result, p.getPixelWidth(), p.getPixelHeight() );
+    getProjectionTranslation( prt   , p.getPixelWidth(), p.getPixelHeight() );
+    getViewing              ( mv    , p.getPixelWidth(), p.getPixelHeight() );
+
+    result.mult( prt );
+    result.mult( mv  );
 }
 
 bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)

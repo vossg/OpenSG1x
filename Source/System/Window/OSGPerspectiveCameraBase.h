@@ -103,7 +103,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

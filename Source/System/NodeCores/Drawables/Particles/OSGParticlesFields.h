@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Particles;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ParticlesPtr
 
 typedef FCPtr<NodeCorePtr, Particles> ParticlesPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief ParticlesPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<ParticlesPtr> :
     static char     *getSName(void) { return "SFParticlesPtr"; }
     static char     *getMName(void) { return "MFParticlesPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFParticlesPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<ParticlesPtr> SFParticlesPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFParticlesPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<ParticlesPtr> MFParticlesPtr;
 

@@ -50,7 +50,7 @@
 OSG_BEGIN_NAMESPACE
 
 //! Transform provides one matrix to transform objects.
-//! \ingroup NodesLib
+//! \ingroup GrpSystemNodeCoresMisc
 
 class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
 {

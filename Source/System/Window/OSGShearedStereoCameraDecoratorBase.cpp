@@ -97,7 +97,6 @@ FieldDescription *ShearedStereoCameraDecoratorBase::_desc[] =
                      (FieldAccessMethod) &ShearedStereoCameraDecoratorBase::getSFOverlap)
 };
 
-//! ShearedStereoCameraDecorator type
 
 FieldContainerType ShearedStereoCameraDecoratorBase::_type(
     "ShearedStereoCameraDecorator",
@@ -146,8 +145,6 @@ void ShearedStereoCameraDecoratorBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -163,8 +160,6 @@ ShearedStereoCameraDecoratorBase::ShearedStereoCameraDecoratorBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 ShearedStereoCameraDecoratorBase::ShearedStereoCameraDecoratorBase(const ShearedStereoCameraDecoratorBase &source) :
     _sfZeroParallaxDistance   (source._sfZeroParallaxDistance   ), 
     _sfOverlap                (source._sfOverlap                ), 
@@ -173,8 +168,6 @@ ShearedStereoCameraDecoratorBase::ShearedStereoCameraDecoratorBase(const Sheared
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 ShearedStereoCameraDecoratorBase::~ShearedStereoCameraDecoratorBase(void)
 {
@@ -258,7 +251,9 @@ void ShearedStereoCameraDecoratorBase::executeSyncImpl(      ShearedStereoCamera
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ShearedStereoCameraDecoratorPtr>::_type("ShearedStereoCameraDecoratorPtr", "StereoCameraDecoratorPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ShearedStereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

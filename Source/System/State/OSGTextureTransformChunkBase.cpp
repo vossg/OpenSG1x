@@ -66,7 +66,6 @@ OSG_USING_NAMESPACE
 
 
 
-//! TextureTransformChunk type
 
 FieldContainerType TextureTransformChunkBase::_type(
     "TextureTransformChunk",
@@ -115,8 +114,6 @@ void TextureTransformChunkBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -130,16 +127,12 @@ TextureTransformChunkBase::TextureTransformChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 TextureTransformChunkBase::TextureTransformChunkBase(const TextureTransformChunkBase &source) :
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 TextureTransformChunkBase::~TextureTransformChunkBase(void)
 {
@@ -184,7 +177,9 @@ void TextureTransformChunkBase::executeSyncImpl(      TextureTransformChunkBase 
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<TextureTransformChunkPtr>::_type("TextureTransformChunkPtr", "TransformChunkPtr");
+#endif
 
 
 OSG_END_NAMESPACE

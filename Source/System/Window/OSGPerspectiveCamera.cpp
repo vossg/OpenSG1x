@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::PerspectiveCamera
-    \ingroup Cameras
+    \ingroup GrpSystemWindowCameras
 
 A perspective camera with a symmetric frustum.      
 

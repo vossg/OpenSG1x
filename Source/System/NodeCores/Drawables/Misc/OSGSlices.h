@@ -131,6 +131,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Slices : public SlicesBase
     friend class FieldContainer;
     friend class SlicesBase;
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+
     struct Edge {
       
       // index in to corner points
@@ -159,6 +161,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Slices : public SlicesBase
       Vec3f  pointVec[6];
             
     };
+
+#endif // remove from all but dev docs
 
     std::vector<Pnt3f> _pointVec;
         

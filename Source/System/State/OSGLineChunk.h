@@ -48,9 +48,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief The LineChunk contains line-specific attributes.
- */
-
 class OSG_SYSTEMLIB_DLLMAPPING LineChunk : public LineChunkBase
 {
   private:
@@ -61,10 +58,18 @@ class OSG_SYSTEMLIB_DLLMAPPING LineChunk : public LineChunkBase
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name               Fieldcontainer declaration                     */
+    /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *  getClass( void ) const;
+    virtual const  StateChunkClass * getClass    (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name              Static Chunk Class Access                       */
+    /*! \{                                                                 */
+
+    static        UInt32           getStaticClassId  (void);
+    static  const StateChunkClass *getStaticClass    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

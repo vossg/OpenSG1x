@@ -1,0 +1,48 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \defgroup GrpSystemStatistics Statistics
+    \ingroup GrpSystem
+    
+Statistics contains general facilities for recording and collecting 
+statistical data like counts and times. It is mainly used for collecting 
+rendering statistics like the amount of time need for a frame or the number of 
+visible polygons, but it can be used for any kind of statistics.
+
+The statistics data is collected in the form of single StatElem structures 
+which are bundled in a StatCollector. Every StatElem element can have one of a 
+number of different types, the predefined ones are Int, Real32, Time and 
+String. Every StatElement also has a description in the form of a StatElemDesc 
+that describes the actual use of the element. The StatCollector can hold an 
+arbitrary subset of all known elements.
+
+The contents of the StatCollector can be accessed either for every StatElem 
+separately or can be output as a whole in the form of a string. For displaying 
+the contents of a StatCollector on screen the SimpleStatisticsForground and 
+GraphicsStatisticsForeground can be used. 
+
+*/
+
+/*! \page PageSystemStatistics Statistics 
+
+\latexonly Starter:NewChapter \endlatexonly
+
+The main idea of the Statistics structure lies in high flexibility. Thus the
+set of variables that are statistically relevant is not fixed, new ones can be
+added by the application if necessary.
+
+The \link osg::StatElem StatElem \endlink osg::StatElem is the basic unit that 
+keeps a single statistical
+variable.
+
+\ext
+To extend the Statistics you just need to create an instance of the 
+osg::StatElemDesc class. It is templated and parametrized by the osg::StatElem
+that the new variable should have.
+\endext
+
+\dev
+
+\enddev
+*/

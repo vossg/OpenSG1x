@@ -97,7 +97,6 @@ FieldDescription *StatisticsForegroundBase::_desc[] =
                      (FieldAccessMethod) &StatisticsForegroundBase::getSFCollector)
 };
 
-//! StatisticsForeground type
 
 FieldContainerType StatisticsForegroundBase::_type(
     "StatisticsForeground",
@@ -137,8 +136,6 @@ void StatisticsForegroundBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -154,8 +151,6 @@ StatisticsForegroundBase::StatisticsForegroundBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 StatisticsForegroundBase::StatisticsForegroundBase(const StatisticsForegroundBase &source) :
     _mfElementIDs             (source._mfElementIDs             ), 
     _sfCollector              (source._sfCollector              ), 
@@ -164,8 +159,6 @@ StatisticsForegroundBase::StatisticsForegroundBase(const StatisticsForegroundBas
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 StatisticsForegroundBase::~StatisticsForegroundBase(void)
 {
@@ -249,7 +242,9 @@ void StatisticsForegroundBase::executeSyncImpl(      StatisticsForegroundBase *p
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<StatisticsForegroundPtr>::_type("StatisticsForegroundPtr", "ForegroundPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

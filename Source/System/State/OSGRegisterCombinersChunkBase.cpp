@@ -416,7 +416,6 @@ FieldDescription *RegisterCombinersChunkBase::_desc[] =
                      (FieldAccessMethod) &RegisterCombinersChunkBase::getSFPerStageConstants)
 };
 
-//! RegisterCombinersChunk type
 
 FieldContainerType RegisterCombinersChunkBase::_type(
     "RegisterCombinersChunk",
@@ -465,8 +464,6 @@ void RegisterCombinersChunkBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -511,8 +508,6 @@ RegisterCombinersChunkBase::RegisterCombinersChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 RegisterCombinersChunkBase::RegisterCombinersChunkBase(const RegisterCombinersChunkBase &source) :
     _sfColor0                 (source._sfColor0                 ), 
     _sfColor1                 (source._sfColor1                 ), 
@@ -550,8 +545,6 @@ RegisterCombinersChunkBase::RegisterCombinersChunkBase(const RegisterCombinersCh
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 RegisterCombinersChunkBase::~RegisterCombinersChunkBase(void)
 {
@@ -1157,7 +1150,9 @@ void RegisterCombinersChunkBase::executeSyncImpl(      RegisterCombinersChunkBas
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<RegisterCombinersChunkPtr>::_type("RegisterCombinersChunkPtr", "StateChunkPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(RegisterCombinersChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(RegisterCombinersChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

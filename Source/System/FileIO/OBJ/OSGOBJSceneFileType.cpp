@@ -67,6 +67,12 @@
 
 OSG_USING_NAMESPACE
 
+
+/*! \class osg::OBJSceneFileType 
+    \ingroup GrpSystemFileIO
+    
+ */
+
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
 #pragma warning (disable : 383)
 #endif
@@ -260,18 +266,20 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
       endEditCP(normalPtr);
 
 #if 0
+      std::cerr << "------------------------------------------------" << std::endl;
       i = 0;
       for (meshI = meshList.begin(); meshI != meshList.end(); meshI++) {
         std::cerr << "Mesh " << i << " faceCount :" 
-             << meshI->faceList.size() << std::endl;
+                  << meshI->faceList.size() << std::endl;
         j = 0 ;
         for ( faceI = meshI->faceList.begin(); faceI != meshI->faceList.end();
               faceI++)
           std::cerr << "MESH " <<  i << "face: " << j++ << "tie num: " 
-               << faceI->tieVec.size() << std::endl;
+                    << faceI->tieVec.size() << std::endl;
         i++;
       }
-
+      std::cerr << "------------------------------------------------" << std::endl;
+=======
 #endif
       // create Geometry objects
       for (meshI = meshList.begin(); meshI != meshList.end(); meshI++)

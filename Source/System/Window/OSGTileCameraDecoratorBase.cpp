@@ -141,7 +141,6 @@ FieldDescription *TileCameraDecoratorBase::_desc[] =
                      (FieldAccessMethod) &TileCameraDecoratorBase::getSFFullHeight)
 };
 
-//! TileCameraDecorator type
 
 FieldContainerType TileCameraDecoratorBase::_type(
     "TileCameraDecorator",
@@ -190,8 +189,6 @@ void TileCameraDecoratorBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -211,8 +208,6 @@ TileCameraDecoratorBase::TileCameraDecoratorBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 TileCameraDecoratorBase::TileCameraDecoratorBase(const TileCameraDecoratorBase &source) :
     _sfLeft                   (source._sfLeft                   ), 
     _sfRight                  (source._sfRight                  ), 
@@ -225,8 +220,6 @@ TileCameraDecoratorBase::TileCameraDecoratorBase(const TileCameraDecoratorBase &
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 TileCameraDecoratorBase::~TileCameraDecoratorBase(void)
 {
@@ -382,7 +375,9 @@ void TileCameraDecoratorBase::executeSyncImpl(      TileCameraDecoratorBase *pOt
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<TileCameraDecoratorPtr>::_type("TileCameraDecoratorPtr", "CameraDecoratorPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(TileCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TileCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

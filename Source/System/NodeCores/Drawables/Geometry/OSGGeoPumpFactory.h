@@ -61,7 +61,7 @@ class GeoPLengthsInterface;
 class GeoIndicesInterface;
 #endif
 
-/*! \ingroup GeometryLib
+/*! \ingroup GrpSystemNodeCoresDrawablesGeometry
  *  \brief Pump factory. Selects a fitting pump for the given geometry.
  *
  *  It's not really a factory, as it doesn't create objects, but it's close.

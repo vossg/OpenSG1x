@@ -84,7 +84,6 @@ FieldDescription *CameraDecoratorBase::_desc[] =
                      (FieldAccessMethod) &CameraDecoratorBase::getSFDecoratee)
 };
 
-//! CameraDecorator type
 
 FieldContainerType CameraDecoratorBase::_type(
     "CameraDecorator",
@@ -124,8 +123,6 @@ void CameraDecoratorBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -140,8 +137,6 @@ CameraDecoratorBase::CameraDecoratorBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 CameraDecoratorBase::CameraDecoratorBase(const CameraDecoratorBase &source) :
     _sfDecoratee(source._sfDecoratee),
     Inherited                 (source)
@@ -149,8 +144,6 @@ CameraDecoratorBase::CameraDecoratorBase(const CameraDecoratorBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 CameraDecoratorBase::~CameraDecoratorBase(void)
 {
@@ -214,7 +207,9 @@ void CameraDecoratorBase::executeSyncImpl(      CameraDecoratorBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<CameraDecoratorPtr>::_type("CameraDecoratorPtr", "CameraPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

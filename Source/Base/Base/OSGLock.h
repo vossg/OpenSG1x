@@ -75,7 +75,7 @@ class MPFieldStore;
 //---------------------------------------------------------------------------
 
 //! LockCommonBase
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class OSG_BASE_DLLMAPPING LockCommonBase : public MPBase
 {
@@ -123,7 +123,7 @@ class OSG_BASE_DLLMAPPING LockCommonBase : public MPBase
 #if defined (OSG_USE_PTHREADS)
 
 //! PThreadLockBase
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class PThreadLockBase : public LockCommonBase
 {
@@ -200,7 +200,7 @@ typedef PThreadLockBase LockBase;
 #if defined (OSG_USE_SPROC)
 
 //! SprocLockBase
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class SprocLockBase : public LockCommonBase
 {
@@ -281,7 +281,7 @@ typedef SprocLockBase LockBase;
 #endif
 
 //! WinThreadLockBase
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class OSG_BASE_DLLMAPPING WinThreadLockBase : public LockCommonBase
 {
@@ -360,7 +360,7 @@ typedef WinThreadLockBase LockBase;
 //---------------------------------------------------------------------------
 
 //! Lock
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class OSG_BASE_DLLMAPPING Lock : public LockBase
 {
@@ -428,7 +428,7 @@ class OSG_BASE_DLLMAPPING Lock : public LockBase
 //---------------------------------------------------------------------------
 
 //! LockPool
-//! \ingroup BaseThreading
+//! \ingroup GrpBaseThreading
 
 class OSG_BASE_DLLMAPPING LockPool : public LockCommonBase
 {

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *             Copyright(C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -55,63 +55,76 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup GeoIterators OpenSG Geometry Iterators
-    \ingroup GeometryLib
-
-Access to Geometry is complicated by its flexibility and the fact that it is
-somewhat heavily OpenGL-centric.
-
-The GeoIterators simplify this access by putting an iterator interface on top 
-of the Geometry that provides access to single primitives, i.e. single
-stripes, polygons, lines etc. and allow access to the primitive's
-attributes independent of it's actual representation. Thus it is
-posssible to access the color of a specific vertex of a specific
-primitive no matter if it's indexed or not and what type it has.
-
-*/
-
 /*! \class osg::PrimitiveIterator
-
-The PrimitiveIterator is the highest level iterator and splits the
-primitives of the geometry into single primitives. It also abstracts
-away the indexing and types of the attributes.
-
-For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
+    \ingroup GrpSystemDrawablesGeometryIterators
+    
+Iterate the primitives. See \ref PageSystemPrimitiveIterator for details.
 
 */
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*! \var osg::PrimitiveIterator::_geo;
+
+    The geometry being iterated.
+*/
+
+/*! \var osg::PrimitiveIterator::_ended;
+
+    Flag whether the iterator has reached the end.
+*/
+
+/*! \var osg::PrimitiveIterator::_primIndex;
+*/
+
+/*! \var osg::PrimitiveIterator::_actPointIndex;
+*/
+
+/*! \var osg::PrimitiveIterator::_actPrimType;
+*/
+
+/*! \var osg::PrimitiveIterator::_actPrimLength;
+*/
+
+/*! \var osg::PrimitiveIterator::_types;
+*/
+
+/*! \var osg::PrimitiveIterator::_lengths;
+*/
+
+/*! \var osg::PrimitiveIterator::_indices;
+*/
+
+/*! \var osg::PrimitiveIterator::_nmappings;
+*/
+
+/*! \var osg::PrimitiveIterator::_positionIndex;
+*/
+
+/*! \var osg::PrimitiveIterator::_normalIndex;
+*/
+
+/*! \var osg::PrimitiveIterator::_colorIndex;
+*/
+
+/*! \var osg::PrimitiveIterator::_texcoordsIndex;
+*/
+
+/*! \var osg::PrimitiveIterator::_texcoordsIndex1;
+*/
+
+/*! \var osg::PrimitiveIterator::_texcoordsIndex2;
+*/
+
+/*! \var osg::PrimitiveIterator::_texcoordsIndex3;
+*/
+#endif // only include in dev docs
 
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
 char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.17 2001/11/01 05:55:06 vossg Exp $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -123,119 +136,140 @@ char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.17 2001
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
-
 PrimitiveIterator::PrimitiveIterator(void) :
-    _geo           (      ), 
-    _ended         (  true),
-    _primIndex     (     0), 
-    _actPointIndex (     0),
-    _actPrimType   (     0), 
-    _actPrimLength (     0),
-    _types         (NullFC), 
-    _lengths       (NullFC), 
-    _indices       (NullFC), 
-    _nmappings     (     0),
-    _positionIndex (    -1), 
-    _normalIndex   (    -1), 
-    _colorIndex    (    -1), 
-    _texcoordsIndex(    -1) 
+    _geo            (      ), 
+    _ended          (  true),
+    _primIndex      (     0), 
+    _actPointIndex  (     0),
+    _actPrimType    (     0), 
+    _actPrimLength  (     0),
+    _types          (NullFC), 
+    _lengths        (NullFC), 
+    _indices        (NullFC), 
+    _nmappings      (     0),
+    _positionIndex  (    -1), 
+    _normalIndex    (    -1), 
+    _colorIndex     (    -1), 
+    _texcoordsIndex (    -1),
+    _texcoordsIndex1(    -1),
+    _texcoordsIndex2(    -1),
+    _texcoordsIndex3(    -1)
 {
 }
 
-PrimitiveIterator::PrimitiveIterator( const GeometryPtr& geo ) :
-    _geo           (      ), 
-    _ended         (  true),
-    _primIndex     (     0), 
-    _actPointIndex (     0),
-    _actPrimType   (     0), 
-    _actPrimLength (     0),
-    _types         (NullFC), 
-    _lengths       (NullFC), 
-    _indices       (NullFC), 
-    _nmappings     (     0),
-    _positionIndex (    -1), 
-    _normalIndex   (    -1), 
-    _colorIndex    (    -1), 
-    _texcoordsIndex(    -1) 
+/*! This constructor creates an iterator for the given node. It is useful to
+    create an iterator to be used to seek() to a specific indexed face. 
+    Otherwise, use Geometry::beginPrimitives() resp. Geometry::endPrimitives()
+    to create an iterator.
+*/
+PrimitiveIterator::PrimitiveIterator(const GeometryPtr& geo) :
+    _geo            (      ), 
+    _ended          (  true),
+    _primIndex      (     0), 
+    _actPointIndex  (     0),
+    _actPrimType    (     0), 
+    _actPrimLength  (     0),
+    _types          (NullFC), 
+    _lengths        (NullFC), 
+    _indices        (NullFC), 
+    _nmappings      (     0),
+    _positionIndex  (    -1), 
+    _normalIndex    (    -1), 
+    _colorIndex     (    -1), 
+    _texcoordsIndex (    -1),
+    _texcoordsIndex1(    -1),
+    _texcoordsIndex2(    -1),
+    _texcoordsIndex3(    -1)
 {
     setGeo(geo);
 }
 
-PrimitiveIterator::PrimitiveIterator( const NodePtr& geo ) :
-    _geo           (      ), 
-    _ended         (  true),
-    _primIndex     (     0), 
-    _actPointIndex (     0),
-    _actPrimType   (     0), 
-    _actPrimLength (     0),
-    _types         (NullFC), 
-    _lengths       (NullFC), 
-    _indices       (NullFC), 
-    _nmappings     (     0),
-    _positionIndex (    -1), 
-    _normalIndex   (    -1), 
-    _colorIndex    (    -1), 
-    _texcoordsIndex(    -1) 
+/*! This constructor creates an iterator for the given geometry. It is useful
+    to create an iterator to be used to seek() to a specific indexed face. 
+    Otherwise, use Geometry::beginPrimitives() resp. Geometry::endPrimitives()
+    to create an iterator.
+*/
+PrimitiveIterator::PrimitiveIterator(const NodePtr& geo) :
+    _geo            (      ), 
+    _ended          (  true),
+    _primIndex      (     0), 
+    _actPointIndex  (     0),
+    _actPrimType    (     0), 
+    _actPrimLength  (     0),
+    _types          (NullFC), 
+    _lengths        (NullFC), 
+    _indices        (NullFC), 
+    _nmappings      (     0),
+    _positionIndex  (    -1), 
+    _normalIndex    (    -1), 
+    _colorIndex     (    -1), 
+    _texcoordsIndex (    -1),
+    _texcoordsIndex1(    -1),
+    _texcoordsIndex2(    -1),
+    _texcoordsIndex3(    -1)
 {
-    setGeo( geo );
+    setGeo(geo);
 }
 
 
 PrimitiveIterator::PrimitiveIterator(const PrimitiveIterator &source) :
-    _geo           (source._geo           ),
-    _ended         (source._ended         ),
-    _primIndex     (source._primIndex     ), 
-    _actPointIndex (source._actPointIndex ),
-    _actPrimType   (source._actPrimType   ), 
-    _actPrimLength (source._actPrimLength ),  
-    _types         (source._types         ), 
-    _lengths       (source._lengths       ), 
-    _indices       (source._indices       ), 
-    _nmappings     (source._nmappings     ),
-    _positionIndex (source._positionIndex ),
-    _normalIndex   (source._normalIndex   ),
-    _colorIndex    (source._colorIndex    ),
-    _texcoordsIndex(source._texcoordsIndex)
-    
+    _geo            (source._geo            ),
+    _ended          (source._ended          ),
+    _primIndex      (source._primIndex      ), 
+    _actPointIndex  (source._actPointIndex  ),
+    _actPrimType    (source._actPrimType    ), 
+    _actPrimLength  (source._actPrimLength  ),  
+    _types          (source._types          ), 
+    _lengths        (source._lengths        ), 
+    _indices        (source._indices        ), 
+    _nmappings      (source._nmappings      ),
+    _positionIndex  (source._positionIndex  ),
+    _normalIndex    (source._normalIndex    ),
+    _colorIndex     (source._colorIndex     ),
+    _texcoordsIndex (source._texcoordsIndex ),
+    _texcoordsIndex1(source._texcoordsIndex1),
+    _texcoordsIndex2(source._texcoordsIndex2),
+    _texcoordsIndex3(source._texcoordsIndex3)  
 {
 }
-
-/** \brief Destructor
- */
 
 PrimitiveIterator::~PrimitiveIterator(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
 
-/*---------------------------- properties ---------------------------------*/
+/*------------------------------- Set -----------------------------------*/
 
-/*-------------------------- your_category---------------------------------*/
-
-void PrimitiveIterator::setGeo( const GeometryPtr& geo )
+/*! Switch the iterator to a new geometry. Automatically sets it to the
+    beginning.
+*/
+void PrimitiveIterator::setGeo(const GeometryPtr& geo)
 {
-    _geo = geo;
-    _types = geo->getTypes();
+    _geo     = geo;
+    _types   = geo->getTypes();
     _lengths = geo->getLengths();
     _indices = geo->getIndices();
     
     setToBegin();
 }
 
-void PrimitiveIterator::setGeo( const NodePtr& geo )
+
+/*! Switch the iterator to a new geometry. Automatically sets it to the
+    beginning.
+*/
+void PrimitiveIterator::setGeo(const NodePtr& geo)
 {
     setGeo(GeometryPtr::dcast(geo->getCore()));
 }
 
-/** \brief increment
- */
+/*---------------------------- Operators ---------------------------------*/
 
-void PrimitiveIterator::operator++ ()
+/*! Increment the iterator and move it to the next primitive. It does not
+    change if it already is at the end.
+*/
+void PrimitiveIterator::operator++()
 {
-    if ( isAtEnd() )
+    if(isAtEnd())
     {
         return;
     }
@@ -244,16 +278,16 @@ void PrimitiveIterator::operator++ ()
     
     ++_primIndex;
 
-    if ( _primIndex >= _types->getSize() )
+    if(_primIndex >= _types->getSize())
     {
         _ended = true;
     }
     else
     {
-        _actPrimType = _types->getValue( _primIndex );
+        _actPrimType = _types->getValue(_primIndex);
         if(_lengths != NullFC)
         {
-            _actPrimLength = _lengths->getValue( _primIndex );
+            _actPrimLength = _lengths->getValue(_primIndex);
         }
         else if(_indices != NullFC)
         {
@@ -266,26 +300,30 @@ void PrimitiveIterator::operator++ ()
     }
 }
 
-void PrimitiveIterator::setToBegin( void )
-{
-    _primIndex = 0;
-    _actPointIndex = 0;
-    _ended = false;
-    _nmappings      = _geo->getIndexMapping().size();
-    _positionIndex  = _geo->calcMappingIndex( Geometry::MapPosition );
-    _normalIndex    = _geo->calcMappingIndex( Geometry::MapNormal );
-    _colorIndex     = _geo->calcMappingIndex( Geometry::MapColor );
-    _texcoordsIndex = _geo->calcMappingIndex( Geometry::MapTexCoords );
 
-    if ( _nmappings == 0 )
+void PrimitiveIterator::setToBegin(void)
+{
+    _primIndex       = 0;
+    _actPointIndex   = 0;
+    _ended           = false;
+    _nmappings       = _geo->getIndexMapping().size();
+    _positionIndex   = _geo->calcMappingIndex(Geometry::MapPosition);
+    _normalIndex     = _geo->calcMappingIndex(Geometry::MapNormal);
+    _colorIndex      = _geo->calcMappingIndex(Geometry::MapColor);
+    _texcoordsIndex  = _geo->calcMappingIndex(Geometry::MapTexCoords);
+    _texcoordsIndex1 = _geo->calcMappingIndex(Geometry::MapTexCoords1);
+    _texcoordsIndex2 = _geo->calcMappingIndex(Geometry::MapTexCoords2);
+    _texcoordsIndex3 = _geo->calcMappingIndex(Geometry::MapTexCoords3);
+
+    if(_nmappings == 0)
         _nmappings = 1;
                   
-    if ( _types != NullFC && _types->getSize() > 0 )
+    if(_types != NullFC && _types->getSize() > 0)
     {
-        _actPrimType = _types->getValue( _primIndex );
+        _actPrimType = _types->getValue(_primIndex);
         if(_lengths != NullFC)
         {
-            _actPrimLength = _lengths->getValue( _primIndex );
+            _actPrimLength = _lengths->getValue(_primIndex);
         }
         else if(_indices != NullFC)
         {
@@ -302,9 +340,9 @@ void PrimitiveIterator::setToBegin( void )
     }
 }
 
-void PrimitiveIterator::setToEnd( void )
+void PrimitiveIterator::setToEnd(void)
 {
-    if ( _types != NullFC )
+    if(_types != NullFC)
         _primIndex = _types->getSize();
     else
         _primIndex = 0;
@@ -312,12 +350,18 @@ void PrimitiveIterator::setToEnd( void )
     _ended = true;
 }
 
-void PrimitiveIterator::seek( Int32 index )
+/*! Seek the iterator to a specific primitive indicated by its index. 
+
+    This is primarily used in conjunction with 
+    osg::PrimitiveIterator::getIndex to record a position in the iteration and
+    later return to it.
+*/
+void PrimitiveIterator::seek(Int32 index)
 {   
     _actPointIndex = 0;
     _ended = false;
 
-    if ( index >= _types->getSize() )
+    if(index >= _types->getSize())
     {
         _primIndex = _types->getSize();
         _ended = true;
@@ -326,114 +370,58 @@ void PrimitiveIterator::seek( Int32 index )
     {
         _primIndex = osgMax(0, index);   
         
-        for ( UInt32 j = 0; j < _primIndex; j++ )
-            _actPointIndex += _lengths->getValue( j );
+        for(UInt32 j = 0; j < _primIndex; j++)
+            _actPointIndex += _lengths->getValue(j);
             
-        _actPrimType = _types->getValue( _primIndex );
-        _actPrimLength = _lengths->getValue( _primIndex );
+        _actPrimType = _types->getValue(_primIndex);
+        _actPrimLength = _lengths->getValue(_primIndex);
     }
 }
 
 /*-------------------------- assignment -----------------------------------*/
 
-/** \brief assignment
- */
-
-PrimitiveIterator& PrimitiveIterator::operator = (const PrimitiveIterator &source)
+PrimitiveIterator& PrimitiveIterator::operator =(const PrimitiveIterator &source)
 {
-    if (this == &source)
+    if(this == &source)
         return *this;
-
-    // free mem alloced by members of 'this'
-
-    // alloc new mem for members
-
-    // copy 
     
-    this->_geo                  = source._geo;
+    this->_geo              = source._geo;
     this->_primIndex        = source._primIndex;
-    this->_actPrimType          = source._actPrimType;
+    this->_actPrimType      = source._actPrimType;
     this->_actPrimLength    = source._actPrimLength;
     this->_actPointIndex    = source._actPointIndex;
     this->_types            = source._types;
-    this->_lengths              = source._lengths;
-    this->_indices              = source._indices;
+    this->_lengths          = source._lengths;
+    this->_indices          = source._indices;
     this->_ended            = source._ended;
     this->_nmappings        = source._nmappings;
-    this->_positionIndex        = source._positionIndex;
-    this->_normalIndex          = source._normalIndex;
+    this->_positionIndex    = source._positionIndex;
+    this->_normalIndex      = source._normalIndex;
     this->_colorIndex       = source._colorIndex;
-    this->_texcoordsIndex       = source._texcoordsIndex;
+    this->_texcoordsIndex   = source._texcoordsIndex;
+    this->_texcoordsIndex1  = source._texcoordsIndex1;
+    this->_texcoordsIndex2  = source._texcoordsIndex2;
+    this->_texcoordsIndex3  = source._texcoordsIndex3;
 
     return *this;
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
-/** \brief assignment
- */
-
-bool PrimitiveIterator::operator < (const PrimitiveIterator &other) const
+bool PrimitiveIterator::operator <(const PrimitiveIterator &other) const
 {
-    return _geo == other._geo &&
+    return _geo       == other._geo &&
            _primIndex <= other._primIndex;
 }
 
-/** \brief equal
- */
-
-bool PrimitiveIterator::operator == (const PrimitiveIterator &other) const
+bool PrimitiveIterator::operator ==(const PrimitiveIterator &other) const
 {
-    return _ended == other._ended &&
-            _geo == other._geo &&
-            _primIndex == other._primIndex;
+    return _ended     == other._ended &&
+           _geo       == other._geo &&
+           _primIndex == other._primIndex;
 }
 
-/** \brief unequal
- */
-
-bool PrimitiveIterator::operator != (const PrimitiveIterator &other) const
+bool PrimitiveIterator::operator !=(const PrimitiveIterator &other) const
 {
-    return ! (*this == other);
+    return !(*this == other);
 }
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
-

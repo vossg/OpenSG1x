@@ -15,6 +15,8 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 		type="UInt32"
 		cardinality="single"
 		visibility="external"
+		defaultHeader="<OSGGL.h>"
+		defaultValue="GL_ONE"
 		access="public"
 	>
 	The incoming pixel is multiplied by the source factor. Legal values are directly taken from the glBlendFunc() manpage.
@@ -24,6 +26,8 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 		type="UInt32"
 		cardinality="single"
 		visibility="external"
+		defaultHeader="<OSGGL.h>"
+		defaultValue="GL_ZERO"
 		access="public"
 	>
 	The frame buffer pixel is multiplied by the destination factor. Legal values are directly taken from the glBlendFunc() manpage.
@@ -33,6 +37,7 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 		type="UInt32"
 		cardinality="single"
 		visibility="external"
+		defaultHeader="<OSGGL.h>"
 		defaultValue="GL_NONE"
 		access="public"
 	>
@@ -67,5 +72,6 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 		defaultValue="0"
 		access="public"
 	>
+        The value used in alpha comparison.
 	</Field>
 </FieldContainer>

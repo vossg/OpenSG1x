@@ -66,7 +66,6 @@ OSG_USING_NAMESPACE
 
 
 
-//! PassiveViewport type
 
 FieldContainerType PassiveViewportBase::_type(
     "PassiveViewport",
@@ -115,8 +114,6 @@ void PassiveViewportBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -130,16 +127,12 @@ PassiveViewportBase::PassiveViewportBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 PassiveViewportBase::PassiveViewportBase(const PassiveViewportBase &source) :
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 PassiveViewportBase::~PassiveViewportBase(void)
 {
@@ -187,7 +180,9 @@ void PassiveViewportBase::executeSyncImpl(      PassiveViewportBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<PassiveViewportPtr>::_type("PassiveViewportPtr", "ViewportPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(PassiveViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PassiveViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

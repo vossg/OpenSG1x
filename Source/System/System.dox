@@ -1,0 +1,16 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \defgroup GrpSystem OpenSG System Library
+
+    \brief The System Library contains the main system-independent parts of OpenSG.
+
+    See \ref PageSystemPageSystem for details.
+*/
+
+/*! \page PageSystem System
+
+SystemLib: everything not base and winsys
+
+*/

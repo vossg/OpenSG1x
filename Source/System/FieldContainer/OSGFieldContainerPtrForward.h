@@ -46,6 +46,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifndef OSG_DO_DOC        // created as a dummy class, remove to prevent doubles
+
 class FieldContainerPtrBase;
 
 class FieldContainerPtr;
@@ -62,6 +64,8 @@ class NodeCore;
 typedef FCPtr<AttachmentContainerPtr, NodeCore> NodeCorePtr;
 
 class AttachmentPtr;
+
+#endif
 
 OSG_END_NAMESPACE
 

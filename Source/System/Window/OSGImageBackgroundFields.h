@@ -66,13 +66,16 @@ OSG_BEGIN_NAMESPACE
 
 class ImageBackground;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ImageBackgroundPtr
 
 typedef FCPtr<BackgroundPtr, ImageBackground> ImageBackgroundPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief ImageBackgroundPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
+    \ingroup BaseFieldSingle
 */
 
 template <>
@@ -88,9 +91,10 @@ struct FieldDataTraits<ImageBackgroundPtr> :
 
     static char     *getSName(void) { return "SFImageBackgroundPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFImageBackgroundPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<ImageBackgroundPtr> SFImageBackgroundPtr;
 

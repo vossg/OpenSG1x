@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Camera;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! CameraPtr
 
 typedef FCPtr<AttachmentContainerPtr, Camera> CameraPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief CameraPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<CameraPtr> :
     static char     *getSName(void) { return "SFCameraPtr"; }
     static char     *getMName(void) { return "MFCameraPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFCameraPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<CameraPtr> SFCameraPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFCameraPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<CameraPtr> MFCameraPtr;
 

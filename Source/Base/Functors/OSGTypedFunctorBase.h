@@ -64,7 +64,7 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctors
+/*! \ingroup GrpBaseFunctors
  */
 
 template <class SizeTraitsT = DefaultFunctorSizeTraits>
@@ -129,7 +129,7 @@ class TypedFunctorBase : public FunctorBase<SizeTraitsT>
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctors
+/*! \ingroup GrpBaseFunctors
  */
 
 template <class Parent, class Params>
@@ -200,7 +200,7 @@ class TypedFunctionFunctorBase : public Parent
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctors
+/*! \ingroup GrpBaseFunctors
  */
 
 template <class Parent, class Params>
@@ -273,7 +273,7 @@ class TypedObjectFunctorBase : public Parent
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup BaseFunctors
+/*! \ingroup GrpBaseFunctors
  */
 
 template <class Parent,

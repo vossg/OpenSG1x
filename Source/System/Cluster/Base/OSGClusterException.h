@@ -54,7 +54,7 @@
 OSG_BEGIN_NAMESPACE
 
 /** \class ClusterException
- *  \ingroup Cluster
+ *  \ingroup GrpSystemCluster
  *  \brief Indicate cluster exceptions
  **/
 
@@ -68,7 +68,7 @@ public:
 };
 
 /** \class ConnectionClosed
- *  \ingroup Cluster
+ *  \ingroup GrpSystemCluster
  *  \brief Indicate close of connecitons
  **/
 
@@ -82,7 +82,7 @@ public:
 };
 
 /** \class RemoteSyncError
- *  \ingroup Cluster
+ *  \ingroup GrpSystemCluster
  *  \brief Indicate error in sync data stream
  **/
 

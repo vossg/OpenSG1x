@@ -56,7 +56,7 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class OSG::Line
+/*! \class osg::Line
      A line starting at a point p and extending infinitely far into the 
      direction d. This will probably split up into multiple classes for 
      dual-inifinite and non-infinite lines
@@ -368,6 +368,7 @@ bool Line::intersect(const FrustumVolume &frustum) const
     based on Cyrus Beck Algorithm for clipping a line segment to a
     convex volume.
  */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 
 struct face
 {
@@ -376,6 +377,7 @@ struct face
     Vec3f inner_normal;
 };
 
+#endif
 
 bool Line::intersect(const FrustumVolume &frustum ,
                            Real32        &enter   ,

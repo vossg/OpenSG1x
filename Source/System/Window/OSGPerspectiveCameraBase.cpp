@@ -86,7 +86,6 @@ FieldDescription *PerspectiveCameraBase::_desc[] =
                      (FieldAccessMethod) &PerspectiveCameraBase::getSFFov)
 };
 
-//! PerspectiveCamera type
 
 FieldContainerType PerspectiveCameraBase::_type(
     "PerspectiveCamera",
@@ -135,8 +134,6 @@ void PerspectiveCameraBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -151,8 +148,6 @@ PerspectiveCameraBase::PerspectiveCameraBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 PerspectiveCameraBase::PerspectiveCameraBase(const PerspectiveCameraBase &source) :
     _sfFov                    (source._sfFov                    ), 
     Inherited                 (source)
@@ -160,8 +155,6 @@ PerspectiveCameraBase::PerspectiveCameraBase(const PerspectiveCameraBase &source
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 PerspectiveCameraBase::~PerspectiveCameraBase(void)
 {
@@ -227,7 +220,9 @@ void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<PerspectiveCameraPtr>::_type("PerspectiveCameraPtr", "CameraPtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

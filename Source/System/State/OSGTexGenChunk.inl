@@ -48,6 +48,18 @@ const StateChunkClass *TexGenChunk::getClass( void ) const
     return &_class;
 }
 
+inline
+UInt32 TexGenChunk::getStaticClassId(void)
+{
+    return getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *TexGenChunk::getStaticClass(void)
+{
+    return &TexGenChunk::_class;
+}
+
 OSG_END_NAMESPACE
 
 #define OSGTEXGENCHUNK_INLINE_CVSID "@(#)$Id: $"

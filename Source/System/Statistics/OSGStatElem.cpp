@@ -49,24 +49,49 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
 
 /***************************************************************************\
- *                               Types                                     *
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::StatElem
+    \ingroup Statistics
+
+The StatElem is the abstract base class for all the data types that can be 
+recorded statistically. See \ref PageSystemStatistics for an overview of the statistics 
+structure.
+
+It mainly provides the general interfaces for accessing the statistics data as 
+a Real64 value via getValue, if possible, and in ASCII via the putToString and 
+getFromString methods. Additionally every StatElem can be switched on or off, 
+to prevent collecting statistics that is not needed, via the setOn methods. 
+Finally, ever StatElem can give information about itself in the form of a 
+StatElemDesc*. 
+
+/ext 
+
+To add a new StatElem type the given interface has to be implemented. 
+There are no restrictions as to which types are possible, as long as they can 
+be converted to and from a string. See StatIntElem for a simple example.
+
+/endext
+
+*/
+
+/*! \fn StatElem::putToString
+
+The putToString method converts the value of the StatElem into a standard STL 
+string. 
+
+The conversion can be parameterized by the format string parameter. It is 
+modelled after the printf()-format string. It typically should contain a 
+single "%" value to format the contents of the StatElem.
+
+*/ 
+
+
+/***************************************************************************\ 
+*                               Types                                     * 
 \***************************************************************************/
 
 /***************************************************************************\
@@ -79,24 +104,6 @@ char StatElem::cvsid[] = "@(#)$Id: $";
  *                           Class methods                                 *
 \***************************************************************************/
 
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
@@ -107,7 +114,7 @@ char StatElem::cvsid[] = "@(#)$Id: $";
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
+/** Constructor. Per default every element is on. 
  */
 
 StatElem::StatElem (StatElemDescBase *desc) 
@@ -116,14 +123,7 @@ StatElem::StatElem (StatElemDescBase *desc)
   ;
 }
 
-
-//StatElem::StatElem(const StatElem &source) :
-//  Inherited(source),
-//    // TODO: initialize members
-//{
-//}
-
-/** \brief Destructor
+/** Destructor
  */
 
 StatElem::~StatElem(void)
@@ -138,29 +138,26 @@ StatElem::~StatElem(void)
 
 /*-------------------------- assignment -----------------------------------*/
 
-/** \brief assignment
+/** assignment
  */
 
 StatElem& StatElem::operator = (const StatElem &source)
 {
     if (this == &source)
         return *this;
-
-    // copy parts inherited from parent
-    //*(static_cast<Inherited *>(this)) = source;
-
-    // free mem alloced by members of 'this'
-
-    // alloc new mem for members
-
+        
     // copy 
 
-  return *this;
+	_on = source._on;
+	_desc = source._desc;
+	
+  	return *this;
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
-/** \brief assignment
+/** Comparison. This does not compare the actual values of the StatElem, as
+that may not be possible for all types. 
  */
 
 bool StatElem::operator < (const StatElem &other) const

@@ -53,6 +53,12 @@
 
 OSG_USING_NAMESPACE
 
+
+/*! \class osg::SceneFileType 
+    \ingroup GrpSystemFileIO
+    
+ */
+
 //---------------------------------------------------------
 
 SceneFileType::SceneFileType(const Char8  *suffixArray[],

@@ -67,7 +67,7 @@
 OSG_BEGIN_NAMESPACE
 
 //! VRML97 Loader prototype handler 
-//! \ingroup GeometryLoaderLib
+//! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
 template <class BaseT>
 class VRMLNodeFactory : public BaseT

@@ -69,7 +69,7 @@ OSG_BEGIN_NAMESPACE
 /*! \{                                                                 */
 
 /*! \brief osgsqrt
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -77,7 +77,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     osgsqrt(const FloatTypeT rVal);
 
 /*! \brief osgcos
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -85,7 +85,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     osgcos(const FloatTypeT rVal);
 
 /*! \brief osgsin
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -93,7 +93,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     osgsin(const FloatTypeT rVal);
 
 /*! \brief osgtan
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -101,7 +101,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     osgtan(const FloatTypeT rVal);
 
 /*! \brief osgacos
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -109,7 +109,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     osgacos(const FloatTypeT rVal);
 
 /*! \brief osgasin
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -117,7 +117,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     osgasin(const FloatTypeT rVal);
 
 /*! \brief osgatan
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -125,7 +125,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     osgatan(const FloatTypeT rVal);
 
 /*! \brief osgatan2
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -134,14 +134,14 @@ typename TypeConstants<FloatTypeT>::RealReturnType
              const FloatTypeT rVal2);
 
 /*! \brief osgabs
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
 FloatTypeT osgabs(const FloatTypeT rVal);
 
 /*! \brief osgpow
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -150,7 +150,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
            const FloatTypeT rExp);
 
 /*! \brief osglog
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -158,7 +158,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     osglog(const FloatTypeT rVal);
 
 /*! \brief osgexp
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -166,7 +166,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     osgexp(const FloatTypeT rVal);
 
 /*! \brief osgfloor
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -174,35 +174,35 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     osgfloor(const FloatTypeT rVal);
 
 /*! \brief osgfinite
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
 UInt32 osgfinite(const FloatTypeT rVal);
 
 /*! \brief osgMin
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class TypeT> inline
 TypeT osgMin(const TypeT lVal, const TypeT rVal);
 
 /*! \brief osgMax
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class TypeT> inline
 TypeT osgMax(const TypeT lVal, const TypeT rVal);
 
 /*! \brief osgSwap
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class TypeT> inline
 void osgSwap(TypeT & lVal, TypeT & rVal);
 
 /*! \brief osgdegree2rad
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -210,7 +210,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     osgdegree2rad(const FloatTypeT rVal);
 
 /*! \brief osgrad2degree
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -219,7 +219,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 
 
 /*! \brief deg2rad
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -227,7 +227,7 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     deg2rad(const FloatTypeT rVal);
 
 /*! \brief rad2deg
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class FloatTypeT> inline
@@ -235,14 +235,14 @@ typename TypeConstants<FloatTypeT>::RealReturnType
     rad2deg(const FloatTypeT rVal);
 
 /*! \brief osgispower2
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class TypeT> inline
 bool osgispower2(TypeT rVal);
 
 /*! \brief osgnextpower2
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <class TypeT> inline
@@ -255,7 +255,7 @@ TypeT osgnextpower2(TypeT rVal);
 /*! \{                                                                 */
 
 /*! \brief osgStaticMax
- *  \ingroup BaseMathFunctions
+ *  \ingroup GrpBaseMathFunctions
  */
 
 template <Int32 uiValue1, Int32 uiValue2>
@@ -263,6 +263,8 @@ struct OSG_BASE_DLLMAPPING osgStaticMax
 {
     enum _iMax { iMax = uiValue1 < uiValue2 ? uiValue2 : uiValue1 };
 };
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 
 #if defined(__sgi) || defined(__linux) || defined(__sun) || defined(darwin) ||\
     defined(__hpux)
@@ -295,7 +297,7 @@ struct osgIF
     typedef IElseT _IDummyRef;
 };
 
-/*! \ingroup BaseMathFunctions
+/*! \ingroup GrpBaseMathFunctions
  *  \brief osgIF<false, IThenT, IElseT>
  */
 
@@ -308,7 +310,7 @@ struct osgIF<false, IThenT, IElseT>
 
 #else
 
-/*! \ingroup BaseMathFunctions
+/*! \ingroup GrpBaseMathFunctions
  *  \brief osgIFGen
  */
 
@@ -323,7 +325,7 @@ struct osgIFGen
     };
 };
 
-/*! \ingroup BaseMathFunctions
+/*! \ingroup GrpBaseMathFunctions
  *  \brief osgIFGen<false>
  */
 
@@ -339,7 +341,7 @@ struct osgIFGen<false>
 };
 
 
-/*! \ingroup BaseMathFunctions
+/*! \ingroup GrpBaseMathFunctions
  *  \brief osgIF
  */
 
@@ -351,27 +353,29 @@ struct osgIF
 
 #endif
 
+#endif   // remove from all but dev doc
+
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 /*! \name                    String Functions                          */
 /*! \{                                                                 */
 
 /*! \brief copy c strings, allocate new memory using new []
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 inline
 void stringDup(const Char8 *szInput, Char8 *&szOutput);
 
 /*! \brief limited string compare
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 inline
 Int32 stringncmp(const Char8 *string1, const Char8 *string2, size_t count);
 
 /*! \brief string length
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 inline
@@ -379,14 +383,14 @@ Int32 stringlen(const Char8 *string1);
 
 
 /*! \brief string compare
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 inline
 Int32 stringcmp(const Char8 *string1, const Char8 *string2);
 
 /*! \brief string case compare
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 inline
@@ -394,7 +398,7 @@ Int32 stringcasecmp(const Char8 *string1,
                     const Char8 *string2);
 
 /*! \brief String less than compare functor used for a STL weak ordering
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 struct LTString
@@ -406,7 +410,7 @@ struct LTString
 };
 
 /*! \brief String equal compare functor
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 struct EQString
@@ -423,14 +427,14 @@ struct EQString
 /*! \{                                                                 */
 
 /*! \brief find the index that has the largest absolute value for a vec3
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 template<class VecPntT> inline
 UInt32 getMaxIndexAbs3(const VecPntT &v);
 
 /*! \brief set the value of an environment variable
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 inline
@@ -438,14 +442,14 @@ Int32 putenv(Char8 *string);
 
 
 /*! \brief sleep
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 inline
 void osgsleep(UInt32 millisecs);
 
 /*! \brief get a random value between 0 and 1
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 inline
@@ -457,7 +461,7 @@ Real32 osgrand(void);
 /*! \{                                                                 */
 
 /*! \brief setRefP
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 template <class T> inline
@@ -473,7 +477,7 @@ void setRefP(T *&pObject, T *&pNewObject)
 }
 
 /*! \brief addRefP
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 template <class T> inline
@@ -484,7 +488,7 @@ void addRefP(T *&pObject)
 }
 
 /*! \brief subRefP
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 template <class T> inline
@@ -495,7 +499,7 @@ void subRefP(T *&pObject)
 }
 
 /*! \brief clearRefP
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 template <class T> inline
@@ -508,7 +512,7 @@ void clearRefP(T *&pObject)
 }
 
 /*! \brief clearRefPVector
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 #if 1
@@ -522,7 +526,7 @@ void clearRefPVector(std::vector<T *> &gVector)
 }
 
 /*! \brief clearRefPVectorP
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 template <class T> inline
@@ -555,7 +559,7 @@ extern OSG_BASE_DLLMAPPING SystemState GlobalSystemState;
 
 /*! \var bool (*InitFuncF)(int argc, char **argv);
  *  \brief InitFuncF
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  *
  * order :
  * 
@@ -569,7 +573,7 @@ typedef bool (*InitFuncF)(void);
 
 /*! \var bool (*ExitFuncF)(void);
  *  \brief ExitFuncF
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  * order :
  * 
  * (Factory [GV])
@@ -612,7 +616,7 @@ class OSG_BASE_DLLMAPPING StaticInitFuncWrapper
 /*! \brief addInitFunction, function called by osgInit after the
  *         multithreading is initialized and after dynamically loading 
  *         a shared object
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 OSG_BASE_DLLMAPPING 
@@ -620,7 +624,7 @@ void addInitFunction      (InitFuncF initFunc);
 
 /*! \brief addSystemExitFunction, function called by osgExit before
  *         multithreading is termininated
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 OSG_BASE_DLLMAPPING 
@@ -628,7 +632,7 @@ void addSystemExitFunction(ExitFuncF exitFunc);
 
 /*! \brief addMPInitFunction, function called by osgInit before
            the multithreading is initialized.
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 OSG_BASE_DLLMAPPING 
@@ -636,21 +640,21 @@ void addPreMPInitFunction (InitFuncF initFunc);
 
 /*! \brief addPostMPExitFunction, function called by osgExit after
  *         multithreading is terminated
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 OSG_BASE_DLLMAPPING 
 void addPostMPExitFunction(ExitFuncF exitFunc);
 
 /*! \brief Init
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 OSG_BASE_DLLMAPPING 
 bool osgInit(Int32 argc, Char8 **argv);
 
 /*! \brief Exit
- *  \ingroup BaseFunctions
+ *  \ingroup GrpBaseFunctions
  */
 
 OSG_BASE_DLLMAPPING 
