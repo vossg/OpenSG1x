@@ -55,6 +55,7 @@
 #include "OSGLog.h"
 #include "OSGFieldContainerFactory.h"
 #include <OSGFieldContainerPtr.h>
+#include "OSGRemoteAspect.h"
 
 OSG_USING_NAMESPACE
 
@@ -175,7 +176,27 @@ void ChangeList::addChanged(const FieldContainerPtr &pFieldContainer,
 
     ChangeEntry tmpEntry     (uiContainerId, bvWhichField);
 
-    _vChangedFieldContainers.push_back(tmpEntry);
+    try
+    {
+        _vChangedFieldContainers.push_back(tmpEntry);
+    }
+    
+    // std::bad_alloc doesn't work.
+    catch(...)
+    {
+        // on windows the maximum vector size is 16777216 well
+        // vector.max_size() returns 268435455 ????
+        // to save some memory we recreate a more compact changelist.
+        std::vector<ChangeEntry>::size_type oldSize = _vChangedFieldContainers.size();
+        SWARNING << "Compacting ChangeList ..." << std::endl;
+        // should move store/restore in this class, better wait for release 1.5.0
+        RemoteAspect::storeChangeList(this);
+        clearAll();
+        RemoteAspect::restoreChangeList(this);
+        SWARNING << "Compacted ChangeList from " << oldSize
+                 << " to " << _vChangedFieldContainers.size() << " entries." << std::endl;
+        _vChangedFieldContainers.push_back(tmpEntry);
+    }
 }
 
 void ChangeList::addAddRefd(const FieldContainerPtr &pFieldContainer)
@@ -436,7 +457,7 @@ void ChangeList::dump(void)
 {
     UInt32 i;
 
-    fprintf(stderr, "CL: %d\n", _uiAspectId);
+    fprintf(stderr, "CL: %u\n", _uiAspectId);
     fprintf(stderr, "CLChanged:\n");
 
     for(i = 0; i < _vChangedFieldContainers.size(); i++)
