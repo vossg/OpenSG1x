@@ -76,6 +76,10 @@ VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
 {
+  protected:
+
+    typedef Parent Inherited;
+
     /*==========================  PUBLIC  =================================*/
   public:
 
@@ -148,8 +152,6 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
-
-    typedef Parent Inherited;
 
     typedef map<IDString, FieldContainerPtr> NameContainerMap;
     typedef map<IDString, VRMLNodeDesc    *> NameDescriptionMap;
