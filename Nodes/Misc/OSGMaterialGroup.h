@@ -36,8 +36,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDRAWACTION_H_
-#define _OSGDRAWACTION_H_
+
+#ifndef _OSGMATERIALGROUP_H_
+#define _OSGMATERIALGROUP_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -46,50 +47,16 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <vector>
+#include <OSGConfig.h>
 
-#include <OSGBaseTypes.h>
+#include <OSGMaterialGroupBase.h>
 #include <OSGAction.h>
-
-#if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEDRAWACTION
-#       define OSG_DRAWACTION_DLLMAPPING __declspec(dllexport)
-#   else
-#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEINTERSECTACTION)   || \
-                                     defined(OSG_COMPILEACTION)            || \
-                                     defined(OSG_COMPILEFIELD)             || \
-                                     defined(OSG_COMPILEFIELDCONTAINER)    || \
-                                     defined(OSG_COMPILEIMAGE)             || \
-                                     defined(OSG_COMPILELOADER)            || \
-                                     defined(OSG_COMPILEMATERIAL)          || \
-                                     defined(OSG_COMPILEMULTITHREADING)    || \
-                                     defined(OSG_COMPILEMISC)              || \
-                                     defined(OSG_COMPILELIGHT)             || \
-                                     defined(OSG_COMPILEGEOMETRY)          || \
-                                     defined(OSG_COMPILESTATE)             || \
-                                     defined(OSG_COMPILEWINDOW)            || \
-                                     defined(OSG_COMPILESYSTEMLIB))
-#           define OSG_DRAWACTION_DLLMAPPING __declspec(dllexport)
-#       else
-#           define OSG_DRAWACTION_DLLMAPPING __declspec(dllimport)
-#       endif
-#   endif
-#else
-#define OSG_DRAWACTION_DLLMAPPING
-#endif
 
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
 //  Forward References
 //---------------------------------------------------------------------------
-
-class Camera;
-class Background;
-class Window;
-class Node;
-class Action;
-class Material;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -99,13 +66,21 @@ class Material;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \brief DrawAction class
+/*! \brief *put brief class description here* 
  */
 
-class OSG_DRAWACTION_DLLMAPPING DrawAction : public Action
+class OSG_SYSTEM_DLLMAPPING MaterialGroup : public MaterialGroupBase
 {
+  private:
+
+    typedef MaterialGroupBase Inherited;
+
   public:
 
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -118,58 +93,19 @@ class OSG_DRAWACTION_DLLMAPPING DrawAction : public Action
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "DrawAction"; };
-
-	// create a new DrawAction by cloning the prototype
-	static DrawAction * create( void );
-	
-	// prototype access
-	// after setting the prototype all new DrawActions are clones of it
-	static void        setPrototype( DrawAction * proto );
-	static DrawAction *getPrototype( void );
+    static const char *getClassname(void) { return "MaterialGroup"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~DrawAction(void); 
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
+    /*------------------------------ dump -----------------------------------*/
 
-    /*------------------------- your_category -------------------------------*/
-    
-    // default registration. static, so it can be called during static init
-    
-    static void registerEnterDefault(   const FieldContainerType &type, 
-                                        const Functor            &func);
-    
-    static void registerLeaveDefault(   const FieldContainerType &type, 
-                                        const Functor            &func);
-
-    
-    // rendering state handling
-    
-    Camera     *getCamera( void ) const;    
-    void        setCamera( Camera * cam );
-    
-    Background *getBackground( void ) const;
-    void        setBackground( Background * background );
-    
-    Window     *getWindow( void ) const;
-    void        setWindow( Window * window );
-    
-    Material   *getMaterial(void) const;
-    void        setMaterial(Material *material);
-
-    /*------------------------- your_operators ------------------------------*/
-
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-
-    Bool operator < (const DrawAction &other) const;
-    
-    Bool operator == (const DrawAction &other) const;
-    Bool operator != (const DrawAction &other) const;
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector &bvFlags  = 0) const;
 
   protected:
 
@@ -193,15 +129,20 @@ class OSG_DRAWACTION_DLLMAPPING DrawAction : public Action
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
+    // They should all be in MaterialGroupBase.
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// access default functors
+    MaterialGroup(void);
+    MaterialGroup(const MaterialGroup &source);
+    virtual ~MaterialGroup(void); 
 
-	virtual vector<Functor>* getDefaultEnterFunctors( void );
-	virtual vector<Functor>* getDefaultLeaveFunctors( void );
-
+    //! DrawAction:  execute the OpenGL commands directly   
+    Action::ResultE drawEnter(Action * action );
+    Action::ResultE drawLeave(Action * action );
+     
   private:
 
     //-----------------------------------------------------------------------
@@ -212,11 +153,14 @@ class OSG_DRAWACTION_DLLMAPPING DrawAction : public Action
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef Action Inherited;
+    typedef MaterialGroupBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
+
+    friend class FieldContainer;
+    friend class MaterialGroupBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -228,50 +172,37 @@ class OSG_DRAWACTION_DLLMAPPING DrawAction : public Action
 
     static char cvsid[];
 
-	// the prototype which is copied to create new actions
-	static DrawAction * _prototype;
-
-    // default functors for instantiation
-    static vector<Functor> *_defaultEnterFunctors;
-    static vector<Functor> *_defaultLeaveFunctors;
-    
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
+
+    static void initMethod( void );
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    Camera * _camera;
-    
-    Background * _background;
-    
-    Window * _window;
-
-    Material *_material;
-    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
-    DrawAction(void);
-    DrawAction(const DrawAction &source);
-    DrawAction& operator =(const DrawAction &source);
+    void operator =(const MaterialGroup &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
 
-typedef DrawAction *DrawActionP;
+/** \brief class pointer
+ */
+typedef MaterialGroup *MaterialGroupP;
 
 OSG_END_NAMESPACE
 
-#include "OSGDrawAction.inl"
+#include <OSGMaterialGroup.inl>
+#include <OSGMaterialGroupBase.inl>
 
-#endif /* _OSGDRAWACTION_H_ */
+#endif /* _OSGMATERIALGROUP_H_ */

@@ -459,7 +459,7 @@ bool Field::getLine (char *line)
 	char * def;
 	def = new char [ (_defaultValue ? strlen( _defaultValue) : 0 ) + 
 	                  (_defaultHeader ? strlen( _defaultHeader) : 0 ) +
-					  3
+					  16 
 					];
 	if ( _defaultHeader && *_defaultHeader )
 	{

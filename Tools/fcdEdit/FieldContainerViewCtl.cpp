@@ -411,6 +411,7 @@ void FieldContainerViewCtl::partVisibilityChanged(int index)
  */
 void FieldContainerViewCtl::writeFieldContainerBaseSlot()
 {
+	char fldFile[256];
 	char decFile[256];
 	char inlFile[256];
 	char impFile[256];
@@ -418,12 +419,15 @@ void FieldContainerViewCtl::writeFieldContainerBaseSlot()
 	sync();
 
 	if (_fieldContainer.name()) {
+		 sprintf(fldFile,"%s%sFields.%s", _fieldContainer.filePrefix(), 
+						_fieldContainer.name(), _fieldContainer.decFileSuffix());
 		sprintf( decFile,"%s%sBase.%s", _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.decFileSuffix());
 		sprintf( inlFile,"%s%sBase.%s",  _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.inlFileSuffix());
 		sprintf( impFile,"%s%sBase.%s",  _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.impFileSuffix());
+		if (_fieldContainer.writeCodeFields(fldFile))
 		if (_fieldContainer.writeBaseCodeDec(decFile))
 			if (_fieldContainer.writeBaseCodeInl(inlFile))
 				if (_fieldContainer.writeBaseCodeImp(decFile,impFile))
@@ -438,6 +442,9 @@ void FieldContainerViewCtl::writeFieldContainerBaseSlot()
 		else
 			QMessageBox::warning ( this, "Write error",
 														 "Couldn't write the dec file ");
+		else
+			QMessageBox::warning ( this, "Write error",
+														 "Couldn't write the fields file ");
 	}
 	else
 		QMessageBox::warning ( this, "Write error",

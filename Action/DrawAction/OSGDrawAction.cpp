@@ -166,7 +166,13 @@ DrawAction *DrawAction::getPrototype( void )
 /** \brief Constructor
  */
 
-DrawAction::DrawAction(void)
+DrawAction::DrawAction(void) :
+     Inherited (),
+    _camera    (NULL),
+    _background(NULL),
+    _window    (NULL),
+    _material  (NULL)
+
 {
 	if ( _defaultEnterFunctors )
 		_enterFunctors = *_defaultEnterFunctors;
@@ -180,7 +186,11 @@ DrawAction::DrawAction(void)
  */
 
 DrawAction::DrawAction( const DrawAction & source ) :
-	Inherited( source )
+     Inherited( source ),
+    _camera    (source._camera),
+    _background(source._background),
+    _window    (source._window),
+    _material  (source._material)
 {
 }
 
@@ -226,6 +236,10 @@ void DrawAction::setWindow( Window * window )
 	_window = window;
 }
 
+void DrawAction::setMaterial(Material *material)
+{
+  _material = material;
+}
 
 /*-------------------------- your_category---------------------------------*/
 

@@ -44,7 +44,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -52,24 +52,45 @@
 #include <iostream.h>
 #endif
 
-#include <OSGAction.h>
+#define OSG_COMPILESYSTEM
 
-OSG_BEGIN_NAMESPACE
+#include "OSGMaterialGroup.h"
+#include "OSGDrawAction.h"
+
+OSG_USING_NAMESPACE
+
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::MaterialGroup
+
+
+
+*/
 
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
 
-
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
+char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.1 2001/04/23 16:25:15 jbehr Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
 
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -79,11 +100,26 @@ OSG_BEGIN_NAMESPACE
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
+
+void MaterialGroup::initMethod (void)
+{
+    DrawAction::registerEnterDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                MaterialGroupPtr, 
+                                Action *>(&MaterialGroup::drawEnter));
+    DrawAction::registerLeaveDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                MaterialGroupPtr, 
+                                Action *>(&MaterialGroup::drawLeave));
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -93,105 +129,83 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
+MaterialGroup::MaterialGroup(void) :
+    Inherited()
+{
+}
 
+/** \brief Copy Constructor
+ */
+
+MaterialGroup::MaterialGroup(const MaterialGroup &source) :
+    Inherited(source)
+{
+}
 
 /** \brief Destructor
  */
 
-
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-inline    
-Camera *DrawAction::getCamera( void ) const
+MaterialGroup::~MaterialGroup(void)
 {
-    return _camera;
 }
+
+
+/** \brief react to field changes
+ */
+
+void MaterialGroup::changed(BitVector, ChangeMode)
+{
+}
+
+/*------------------------------- dump ----------------------------------*/
+
+/** \brief output the instance for debug purposes
+ */
+
+void MaterialGroup::dump(      UInt32     uiIndent, 
+                         const BitVector &bvFlags) const
+{
+	SLOG << "Dump MaterialGroup NI" << endl;
+}
+
     
-inline
-Background *DrawAction::getBackground( void ) const
-{
-    return _background;
-}
-    
-inline
-Window *DrawAction::getWindow( void ) const
-{
-    return _window;
-}
-
-inline 
-Material *DrawAction::getMaterial(void) const
-{
-  return _material;
-}
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
-
-
-/*-------------------------- comparison -----------------------------------*/
-
-/** \brief assignment
- */
-
-
-/** \brief equal
- */
-
-
-/** \brief unequal
- */
-
-
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+//! DrawAction:  execute the OpenGL commands directly   
+Action::ResultE MaterialGroup::drawEnter(Action * action )
+{
+  DrawAction *da = dynamic_cast<DrawAction *>(action);
 
+  if(da != NULL && _material.getValue() != MaterialPtr::NullPtr)
+  {
+    da->setMaterial(&(*(_material.getValue())));
+  }
 
+  return Action::Continue;
+}
+
+Action::ResultE MaterialGroup::drawLeave(Action * action )
+{
+  DrawAction *da = dynamic_cast<DrawAction *>(action);
+
+  if(da != NULL)
+  {
+    da->setMaterial(NULL);
+  }
+
+  return Action::Continue;
+}
+ 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-OSG_END_NAMESPACE
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

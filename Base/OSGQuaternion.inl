@@ -356,7 +356,7 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const ValueTypeT x,
                                                     const ValueTypeT z, 
                                                     const ValueTypeT w)
 {
-  setValueAsAxisDeg(x,y,z,w*180.0);
+  setValueAsAxisDeg(x,y,z,osgrad2degree(w));
 }
 
 /** \brief Sets value of rotation from 4 individual components interpreted as
@@ -712,7 +712,7 @@ void QuaternionBase<ValueTypeT>::getValueAsAxisRad ( ValueTypeT &x,
                                                       ValueTypeT &w) const
 {
 	getValueAsAxisDeg(x,y,z,w);
-  w = w / 180.0;
+  w = osgdegree2rad(w);
 }
 
 /** \brief Returns 4 individual components of rotation quaternion as axis and

@@ -55,7 +55,7 @@ char *FCBaseTemplate_h[]={
 " **           regenerated, which can become necessary at any time.          **",
 " **                                                                         **",
 " **     Do not change this file, changes should be done in the derived      **",
-" **     class @!Classname!@!",
+" **     class @!Classname!@",
 " **                                                                         **",
 " *****************************************************************************",
 "\\*****************************************************************************/",
