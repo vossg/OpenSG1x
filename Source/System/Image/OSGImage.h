@@ -147,6 +147,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \name                    Convert dataType                          */
     /*! \{                                                                 */
 
+    void swapDataEndian(void);
     bool convertDataTypeTo ( Int32 destDataType = OSG_UINT8_IMAGEDATA );
 
     /*! \}                                                                 */

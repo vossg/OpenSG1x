@@ -134,6 +134,8 @@ bool DATImageFileType::read (      ImagePtr &image,
     Image::PixelFormat pixelFormat;
     char *dataBuffer = 0;
     bool needConversion;
+    // default endian type is big endian
+    bool big_endian = true;
 
     res[0] = res[1] = res[2] = 0;
     fileOffset = 0;
@@ -190,7 +192,12 @@ bool DATImageFileType::read (      ImagePtr &image,
                         pixelFormat = Image::OSG_INVALID_PF;
                         needConversion = false;
                     }
-                    image->setAttachmentField ( keyStr, value ); 
+                    image->setAttachmentField ( keyStr, value );
+                    break;
+                case ENDIAN_KT:
+                    if(!strcmp(value, "LITTLE"))
+                        big_endian = false;
+                    image->setAttachmentField ( keyStr, value );
                     break;
                 case FILE_OFFSET_KT:
                     sscanf ( value, "%d", &fileOffset );
@@ -286,6 +293,14 @@ bool DATImageFileType::read (      ImagePtr &image,
     // check/reformat vol data
     if (dataSize && dataBuffer)
     {
+        // check host endian type
+        UInt16 word = 0x0001;
+        UInt8 *byte = (char *) &word;
+        bool host_big_endian = byte[0] ? false : true;
+
+        if(big_endian != host_big_endian)
+            image->swapDataEndian();
+    
         if (needConversion) 
         {
             FLOG (("DAT-Data convert not impl. yet !\n"));
@@ -451,6 +466,7 @@ void DATImageFileType::initTypeMap(void)
       _keyStrMap["Resolution"]      = RESOLUTION_KT;
       _keyStrMap["SliceThickness"]  = SLICE_THICKNESS_KT;
       _keyStrMap["Format"]          = FORMAT_KT;
+      _keyStrMap["Endian"]          = ENDIAN_KT;
       _keyStrMap["FileOffset"]      = FILE_OFFSET_KT;
      }
 

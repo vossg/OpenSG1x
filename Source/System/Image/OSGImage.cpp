@@ -45,6 +45,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <algorithm>
+
 #include <OSGConfig.h>
 #include <OSGLog.h>
 #include <OSGImageGenericAtt.h>
@@ -1235,6 +1237,61 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
     }
 
     return (data ? true : false);
+}
+
+void Image::swapDataEndian(void)
+{
+    UChar8 *data = getData();
+
+    Int32 size = getSize() / getComponentSize();
+    UInt16 *dataUC16 = (UInt16*) data;
+    UInt32 *dataUC32 = (UInt32*) data;
+    Real32 *dataF32 = (Real32*) data;
+    
+
+    ImagePtr iPtr(this);
+    beginEditCP(iPtr, PixelFieldMask);
+    
+    switch (getDataType())
+    {
+        case OSG_UINT8_IMAGEDATA:
+            // do nothing
+        break;
+
+        case OSG_UINT16_IMAGEDATA:
+            for(UInt32 i=0;i<size;++i)
+            {
+                UInt16 p = dataUC16[i];
+                dataUC16[i] = (((p >> 8)) | (p << 8));
+            }
+        break;
+
+        case OSG_UINT32_IMAGEDATA:
+           for(UInt32 i=0;i<size;++i)
+            {
+                UInt32 p = dataUC32[i];
+                dataUC32[i] = (((p&0x000000FF)<<24) | ((p&0x0000FF00)<<8) |
+                               ((p&0x00FF0000)>>8)  | ((p&0xFF000000)>>24));
+            }
+        break;
+
+        case OSG_FLOAT32_IMAGEDATA:
+            for(UInt32 i=0;i<size;++i)
+            {
+                Real32 p = dataF32[i];
+                UInt8 *b = (UInt8 *) &p;
+                std::swap(b[0], b[3]);
+                std::swap(b[1], b[2]);
+                dataF32[i] = p;
+            }
+        break;
+
+        default:
+            FWARNING (( "invalid source data type \n"));
+        break;
+    }
+    
+    endEditCP(iPtr, PixelFieldMask);
 }
 
 /*! It is a simple method to convert the image dataType. Does not change the pixelFormat.
