@@ -32,12 +32,9 @@ int main( int argc, char ** argv )
   if (argc > 1)
     {
       root = osg::SceneFileHandler::the().read(argv[1]);
+
       if (root == osg::NullFC)
         {
-          FFATAL (( "Couldn't load %s", argv[1]));
-        }
-      else
-        {       
 osg::NodePtr scene = osg::makeTorus(.5, 1, 8, 8);
 osg::NodePtr scene2 = osg::makeTorus(.1, 2, 10, 12);
 
@@ -49,17 +46,23 @@ grn->setCore(gr);
 grn->addChild(scene);
 grn->addChild(scene2);
 osg::endEditCP  (grn, osg::Node::CoreFieldMask | osg::Node::ChildrenFieldMask );
-
 widget.getManager().setRoot(grn);
-widget.getManager().showAll();
-widget.show();
-retCode = qapp.exec();
+        }
+
+      else
+        {       
+
+widget.getManager().setRoot(root);
         }
     }
   else
     {
       FFATAL (( "%s usage: %s 'sceneFileName'\n", argv[0], argv[0] ));
     }
+
+  widget.getManager().showAll();
+  widget.show();
+  retCode = qapp.exec();
   
   osg::osgExit();
 
