@@ -95,31 +95,31 @@ inline DirectionalLightPtr DirectionalLightBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFVec3f *DirectionalLightBase::getSFDirection(void)
 {
-	return &_sfDirection;
+    return &_sfDirection;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 Vec3f &DirectionalLightBase::getDirection(void)
 {
-	return _sfDirection.getValue();
+    return _sfDirection.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Vec3f &DirectionalLightBase::getDirection(void) const
 {
-	return _sfDirection.getValue();
+    return _sfDirection.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void DirectionalLightBase::setDirection(const Vec3f &value)
 {
-	_sfDirection.setValue(value);
+    _sfDirection.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGDIRECTIONALLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGDirectionalLightBase.inl,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+#define OSGDIRECTIONALLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGDirectionalLightBase.inl,v 1.8 2001/10/03 20:37:35 dirk Exp $"
 

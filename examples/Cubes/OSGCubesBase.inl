@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OpenSG/OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &CubesBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 CubesBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline CubesPtr CubesBase::create(void) 
 {
     CubesPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = CubesPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline CubesPtr CubesBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline CubesPtr CubesBase::createEmpty(void) 
 { 
     CubesPtr returnValue; 
@@ -126,11 +90,7 @@ inline CubesPtr CubesBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_MYLIB_DLLMAPPING
 SFMaterialPtr *CubesBase::getSFMaterial(void)
@@ -170,45 +130,59 @@ const MaterialPtr &CubesBase::getMaterial(void) const
 }
 
 OSG_MYLIB_DLLMAPPING
-void CubesBase::setMaterial( MaterialPtr value )
+void CubesBase::setMaterial(const MaterialPtr &value)
 {
 	_sfMaterial.setValue(value);
 }
 
 
 OSG_MYLIB_DLLMAPPING
-Pnt3f &CubesBase::getPosition( UInt32 index)
+Pnt3f &CubesBase::getPosition(UInt32 index)
 {
 	return _mfPosition.getValue( index );
 }
 
+MFPnt3f &CubesBase::getPosition(void)
+{
+	return _mfPosition;
+}
+
+const MFPnt3f &CubesBase::getPosition(void) const
+{
+	return _mfPosition;
+}
+
 OSG_MYLIB_DLLMAPPING
-Real32 &CubesBase::getLength( UInt32 index)
+Real32 &CubesBase::getLength(UInt32 index)
 {
 	return _mfLength.getValue( index );
 }
 
+MFReal32 &CubesBase::getLength(void)
+{
+	return _mfLength;
+}
+
+const MFReal32 &CubesBase::getLength(void) const
+{
+	return _mfLength;
+}
+
 OSG_MYLIB_DLLMAPPING
-Color3f &CubesBase::getColor( UInt32 index)
+Color3f &CubesBase::getColor(UInt32 index)
 {
 	return _mfColor.getValue( index );
 }
 
+MFColor3f &CubesBase::getColor(void)
+{
+	return _mfColor;
+}
 
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+const MFColor3f &CubesBase::getColor(void) const
+{
+	return _mfColor;
+}
 
 
 OSG_END_NAMESPACE

@@ -127,9 +127,9 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
 
     typedef SceneFileType Inherited;
 
-	/*!\brief prohibit default function (move to 'public' if needed) */
+    /*!\brief prohibit default function (move to 'public' if needed) */
     OSGSceneFileType(const OSGSceneFileType &source);
-	/*!\brief prohibit default function (move to 'public' if needed) */
+    /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const OSGSceneFileType &source);
 };
 

@@ -29,12 +29,18 @@ public:
         }
     }
     void read(OSG::MemoryHandle mem,OSG::UInt32 size) {
-        fprintf(stderr,"dorect read %d bytes\n",size);
+        fprintf(stderr,"direct read %d bytes\n",size);
         fread(mem,size,1,_file);
+    }
+    void read(void) {
+        fprintf(stderr,"direct read\n");
     }
     void write(OSG::MemoryHandle mem,OSG::UInt32 size) {
         fprintf(stderr,"direct write %d bytes\n",size);
         fwrite(mem,size,1,_file);
+    }
+    void write(void) {
+        fprintf(stderr,"dorect write\n");
     }
 private:
     vector<vector<OSG::UInt8> > _memory;

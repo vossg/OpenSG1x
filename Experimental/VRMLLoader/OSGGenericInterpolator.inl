@@ -106,7 +106,7 @@ const string& InterpolatorBase::getTargetName(void)
 }
 
 inline
-void InterpolatorBase::setTargetTransform(VRMLTransformPtr pTransform)
+void InterpolatorBase::setTargetTransform(ComponentTransformPtr pTransform)
 {
     _pTransform = pTransform;
 }

@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.12 2001/10/02 06:16:12 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.13 2001/10/03 20:37:35 dirk Exp $";
     static char cvsid_hpp       [] = OSGGROUPBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGGROUPBASE_INLINE_CVSID;
 
@@ -158,14 +158,14 @@ void GroupBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 GroupBase::GroupBase(void) :
-	Inherited() 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 GroupBase::GroupBase(const GroupBase &source) :
-	Inherited                 (source)
+    Inherited                 (source)
 {
 }
 

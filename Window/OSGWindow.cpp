@@ -113,8 +113,8 @@ vector<UInt32>             Window::_glObjectDestroyList;
 
 // GL extension handling
 
-vector<StringLink>			   Window::_registeredExtensions;
-vector<StringLink>			   Window::_registeredFunctions;
+vector<IDStringLink>			   Window::_registeredExtensions;
+vector<IDStringLink>			   Window::_registeredFunctions;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -524,7 +524,7 @@ void Window::destroyGLObject ( UInt32 id, UInt32 num )
 
 void Window::dumpExtensions ( void )
 {	
-	vector<String>::iterator it;
+	vector<IDString>::iterator it;
 	cout << "GL Extensions: ";
 	for ( it = _extensions.begin(); it != _extensions.end(); it++ )
 	{
@@ -543,7 +543,7 @@ void Window::frameInit( void )
 		if ( _extensions.empty() )
 		{			
 			// if not, retrieve and split it
-			String s = String( (Char8 *)glGetString(GL_EXTENSIONS) );
+			IDString s = IDString( (Char8 *)glGetString(GL_EXTENSIONS) );
 			s.tokenize( _extensions );
 			sort( _extensions.begin(), _extensions.end() );
 		}
@@ -554,7 +554,7 @@ void Window::frameInit( void )
 		_availExtensions.push_back( binary_search( 
  					   _extensions.begin(),
 					   _extensions.end(),
-					   String(_registeredExtensions[_availExtensions.size()]) ) );
+					   IDString(_registeredExtensions[_availExtensions.size()]) ) );
 	}
 	
 	while ( _registeredFunctions.size() > _extFunctions.size() )

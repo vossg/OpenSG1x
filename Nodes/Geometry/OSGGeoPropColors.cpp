@@ -54,26 +54,26 @@ OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
 
-#pragma instantiate GeoProperty        <GeoColor3fPropertyDesc   >::_type
-#pragma instantiate GeoProperty        <GeoColor3fPropertyDesc   >::_desc
-#pragma instantiate GeoProperty        <GeoColor3ubPropertyDesc  >::_type
-#pragma instantiate GeoProperty        <GeoColor3ubPropertyDesc  >::_desc
-#pragma instantiate GeoProperty        <GeoColor4ubPropertyDesc  >::_type
-#pragma instantiate GeoProperty        <GeoColor4ubPropertyDesc  >::_desc
+#pragma instantiate GeoProperty        <GeoColors3fPropertyDesc   >::_type
+#pragma instantiate GeoProperty        <GeoColors3fPropertyDesc   >::_desc
+#pragma instantiate GeoProperty        <GeoColors3ubPropertyDesc  >::_type
+#pragma instantiate GeoProperty        <GeoColors3ubPropertyDesc  >::_desc
+#pragma instantiate GeoProperty        <GeoColors4ubPropertyDesc  >::_type
+#pragma instantiate GeoProperty        <GeoColors4ubPropertyDesc  >::_desc
 
 #else
 
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
-                           GeoColor3fPropertyDesc, 
+                           GeoColors3fPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
-                           GeoColor3ubPropertyDesc, 
+                           GeoColors3ubPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
-                           GeoColor4ubPropertyDesc, 
+                           GeoColors4ubPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

@@ -110,8 +110,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
                                           const Viewport& port);
     
    
-	/* calc a ray from the eye through the given pixel into the scene */
-	/* pixel are from top-left */
+    /* calc a ray from the eye through the given pixel into the scene */
+    /* pixel are from top-left */
     Bool calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port);
 
 

@@ -44,15 +44,15 @@
 
 #include <OSGConfig.h>
 
-#include <OSGVRMLTransformBase.h>
+#include <OSGComponentTransformBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! VRMLTransform provides a vrml style transformation.
+/*! ComponentTransform provides a vrml style transformation.
  *  \ingroup NodesLib
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING VRMLTransform : public VRMLTransformBase
+class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform : public ComponentTransformBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -61,7 +61,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransform : public VRMLTransformBase
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static const char *getClassname(void) { return "VRMLTransform"; };
+    static const char *getClassname(void) { return "ComponentTransform"; };
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -79,13 +79,13 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransform : public VRMLTransformBase
   protected:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                      VRMLTransform Draw                      */
+    /*! \name                      ComponentTransform Draw                      */
     /*! \{                                                                 */
 
 #ifdef OSG_NOFUNCTORS
-    static Action::ResultE VRMLTransformDrawEnter(CNodePtr &cnode,
+    static Action::ResultE ComponentTransformDrawEnter(CNodePtr &cnode,
                                                   Action   *pAction);
-    static Action::ResultE VRMLTransformDrawLeave(CNodePtr &cnode,
+    static Action::ResultE ComponentTransformDrawLeave(CNodePtr &cnode,
                                                   Action   *pAction);
 #endif
 
@@ -94,24 +94,24 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransform : public VRMLTransformBase
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    VRMLTransform(void);
-    VRMLTransform(const VRMLTransform &source);
+    ComponentTransform(void);
+    ComponentTransform(const ComponentTransform &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~VRMLTransform(void);
+    virtual ~ComponentTransform(void);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
-    typedef VRMLTransformBase Inherited;
+    typedef ComponentTransformBase Inherited;
 
     friend class FieldContainer;
-    friend class VRMLTransformBase;
+    friend class ComponentTransformBase;
 
     static char cvsid[];
 
@@ -120,16 +120,16 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransform : public VRMLTransformBase
     /*! \{                                                                 */
 
     static void initMethod( void );
-    void operator =(const VRMLTransform &source);
+    void operator =(const ComponentTransform &source);
 
     /*! \}                                                                 */
 };
 
-typedef VRMLTransform *VRMLTransformP;
+typedef ComponentTransform *ComponentTransformP;
 
 OSG_END_NAMESPACE
 
-#include <OSGVRMLTransform.inl>
-#include <OSGVRMLTransformBase.inl>
+#include <OSGComponentTransform.inl>
+#include <OSGComponentTransformBase.inl>
 
 #endif /* _OSGVRMLTRANSFORM_H_ */

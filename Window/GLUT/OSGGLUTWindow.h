@@ -112,31 +112,31 @@ class OSG_GLUTWINDOWLIB_DLLMAPPING GLUTWindow : public Window
 
     /*------------------------- your_category -------------------------------*/
 
-	/** GL implementation dependent function **/
-	
-	// query the system for a GL function
-	virtual void (*getFunctionByName( const Char8 *s ))();
-	
-	// Window-system dependent functions
-	
-	// init the window: create the context	
-	// Nothing to do here for GLUT
-	virtual void init( void );
-	
-	// activate the window: bind the OGL context	
-	// set the active window, if needed
-	virtual void activate( void );
-	
-	virtual void deactivate ( void ) {}
-	
-	// swap buffers	for this window
-	// does not set the active window!
-	virtual void swap( void );
+    /** GL implementation dependent function **/
+    
+    // query the system for a GL function
+    virtual void (*getFunctionByName( const Char8 *s ))();
+    
+    // Window-system dependent functions
+    
+    // init the window: create the context  
+    // Nothing to do here for GLUT
+    virtual void init( void );
+    
+    // activate the window: bind the OGL context    
+    // set the active window, if needed
+    virtual void activate( void );
+    
+    virtual void deactivate ( void ) {}
+    
+    // swap buffers     for this window
+    // does not set the active window!
+    virtual void swap( void );
 
     /*------------------------- your_operators ------------------------------*/
 
-	void     setWinID(int id) { _winid = id;   };
-	Int32 setWinID(void)   { return _winid; };
+    void     setWinID(int id) { _winid = id;   };
+    Int32 setWinID(void)   { return _winid; };
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -168,7 +168,7 @@ class OSG_GLUTWINDOWLIB_DLLMAPPING GLUTWindow : public Window
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -203,9 +203,9 @@ class OSG_GLUTWINDOWLIB_DLLMAPPING GLUTWindow : public Window
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
-	static FieldContainerType _type;
+    static FieldContainerType _type;
  
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -215,14 +215,14 @@ class OSG_GLUTWINDOWLIB_DLLMAPPING GLUTWindow : public Window
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	/// window id
-	Int32 _winid;
-	
+    /// window id
+    Int32 _winid;
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     GLUTWindow(const GLUTWindow &source);
     void operator =(const GLUTWindow &source);

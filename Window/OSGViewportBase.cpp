@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.17 2001/10/02 06:16:12 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.18 2001/10/03 20:37:36 dirk Exp $";
     static char cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 
@@ -100,31 +100,31 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	ViewportBase::LeftFieldMask = 
+const OSG::BitVector  ViewportBase::LeftFieldMask = 
     (1 << ViewportBase::LeftFieldId);
 
-const OSG::BitVector	ViewportBase::RightFieldMask = 
+const OSG::BitVector  ViewportBase::RightFieldMask = 
     (1 << ViewportBase::RightFieldId);
 
-const OSG::BitVector	ViewportBase::BottomFieldMask = 
+const OSG::BitVector  ViewportBase::BottomFieldMask = 
     (1 << ViewportBase::BottomFieldId);
 
-const OSG::BitVector	ViewportBase::TopFieldMask = 
+const OSG::BitVector  ViewportBase::TopFieldMask = 
     (1 << ViewportBase::TopFieldId);
 
-const OSG::BitVector	ViewportBase::ParentFieldMask = 
+const OSG::BitVector  ViewportBase::ParentFieldMask = 
     (1 << ViewportBase::ParentFieldId);
 
-const OSG::BitVector	ViewportBase::CameraFieldMask = 
+const OSG::BitVector  ViewportBase::CameraFieldMask = 
     (1 << ViewportBase::CameraFieldId);
 
-const OSG::BitVector	ViewportBase::RootFieldMask = 
+const OSG::BitVector  ViewportBase::RootFieldMask = 
     (1 << ViewportBase::RootFieldId);
 
-const OSG::BitVector	ViewportBase::BackgroundFieldMask = 
+const OSG::BitVector  ViewportBase::BackgroundFieldMask = 
     (1 << ViewportBase::BackgroundFieldId);
 
-const OSG::BitVector	ViewportBase::ForegroundsFieldMask = 
+const OSG::BitVector  ViewportBase::ForegroundsFieldMask = 
     (1 << ViewportBase::ForegroundsFieldId);
 
 
@@ -266,32 +266,32 @@ void ViewportBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 ViewportBase::ViewportBase(void) :
-	_sfLeft                   (), 
-	_sfRight                  (), 
-	_sfBottom                 (), 
-	_sfTop                    (), 
-	_sfParent                 (), 
-	_sfCamera                 (), 
-	_sfRoot                   (), 
-	_sfBackground             (), 
-	_mfForegrounds            (), 
-	Inherited() 
+    _sfLeft                   (), 
+    _sfRight                  (), 
+    _sfBottom                 (), 
+    _sfTop                    (), 
+    _sfParent                 (), 
+    _sfCamera                 (), 
+    _sfRoot                   (), 
+    _sfBackground             (), 
+    _mfForegrounds            (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 ViewportBase::ViewportBase(const ViewportBase &source) :
-	_sfLeft                   (source._sfLeft                   ), 
-	_sfRight                  (source._sfRight                  ), 
-	_sfBottom                 (source._sfBottom                 ), 
-	_sfTop                    (source._sfTop                    ), 
-	_sfParent                 (source._sfParent                 ), 
-	_sfCamera                 (source._sfCamera                 ), 
-	_sfRoot                   (source._sfRoot                   ), 
-	_sfBackground             (source._sfBackground             ), 
-	_mfForegrounds            (source._mfForegrounds            ), 
-	Inherited                 (source)
+    _sfLeft                   (source._sfLeft                   ), 
+    _sfRight                  (source._sfRight                  ), 
+    _sfBottom                 (source._sfBottom                 ), 
+    _sfTop                    (source._sfTop                    ), 
+    _sfParent                 (source._sfParent                 ), 
+    _sfCamera                 (source._sfCamera                 ), 
+    _sfRoot                   (source._sfRoot                   ), 
+    _sfBackground             (source._sfBackground             ), 
+    _mfForegrounds            (source._mfForegrounds            ), 
+    Inherited                 (source)
 {
 }
 

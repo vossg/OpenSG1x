@@ -188,7 +188,7 @@ Bool Animation::parse(const string& filename)
     return true;
 }
 
-/*! \brief Traverses the scenegraph and checks for VRMLTransforms.
+/*! \brief Traverses the scenegraph and checks for ComponentTransforms.
     
     If there are any transformations with viewpoint attachment these
     are stored in a global vector. These transformations act as camera 
@@ -220,7 +220,7 @@ Animation::InterpolatorVec Animation::findInterpolator(const Char8 *szName)
     return returnValue;
 }
 
-void Animation::resolveTransform(      VRMLTransformPtr  pTransform, 
+void Animation::resolveTransform(      ComponentTransformPtr  pTransform, 
                                  const Char8            *szName)
 {
     InterpolatorVec           vInterpol   = findInterpolator(szName);
@@ -236,12 +236,11 @@ void Animation::resolveTransform(      VRMLTransformPtr  pTransform,
 OSG::Action::ResultE animResolver(OSG::CNodePtr &, OSG::Action *action)
 {
     OSG::NodePtr            node        = action->getActNode();
-    OSG::VRMLTransformPtr   vrmlTrans   = OSG::NullFC;
+    OSG::ComponentTransformPtr   vrmlTrans   = OSG::NullFC;
     OSG::NamePtr            namePtr;
     string                  targetName;
-    OSG::String             ostring;
                     
-    vrmlTrans = OSG::VRMLTransformPtr::dcast(node->getCore());
+    vrmlTrans = OSG::ComponentTransformPtr::dcast(node->getCore());
         
     if(!vrmlTrans)
     {
@@ -275,7 +274,7 @@ void Animation::resolve(NodePtr pRoot)
     OSG::Action *act2;  
 
     act2 = OSG::Action::create (                                      );   
-    act2->registerEnterFunction(OSG::VRMLTransform::getClassType(),
+    act2->registerEnterFunction(OSG::ComponentTransform::getClassType(),
                                 OSG::osgFunctionFunctor2(animResolver));      
     act2->apply(pRoot);
 

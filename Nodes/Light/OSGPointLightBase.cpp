@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGPointLightBase.cpp,v 1.12 2001/09/19 14:36:40 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPointLightBase.cpp,v 1.13 2001/10/03 20:37:35 dirk Exp $";
     static char cvsid_hpp       [] = OSGPOINTLIGHTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGPOINTLIGHTBASE_INLINE_CVSID;
 
@@ -83,7 +83,7 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	PointLightBase::PositionFieldMask = 
+const OSG::BitVector  PointLightBase::PositionFieldMask = 
     (1 << PointLightBase::PositionFieldId);
 
 
@@ -161,16 +161,16 @@ void PointLightBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 PointLightBase::PointLightBase(void) :
-	_sfPosition               (), 
-	Inherited() 
+    _sfPosition               (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 PointLightBase::PointLightBase(const PointLightBase &source) :
-	_sfPosition               (source._sfPosition               ), 
-	Inherited                 (source)
+    _sfPosition               (source._sfPosition               ), 
+    Inherited                 (source)
 {
 }
 

@@ -95,31 +95,31 @@ inline MaterialGroupPtr MaterialGroupBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFMaterialPtr *MaterialGroupBase::getSFMaterial(void)
 {
-	return &_sfMaterial;
+    return &_sfMaterial;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 MaterialPtr &MaterialGroupBase::getMaterial(void)
 {
-	return _sfMaterial.getValue();
+    return _sfMaterial.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const MaterialPtr &MaterialGroupBase::getMaterial(void) const
 {
-	return _sfMaterial.getValue();
+    return _sfMaterial.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void MaterialGroupBase::setMaterial(const MaterialPtr &value)
 {
-	_sfMaterial.setValue(value);
+    _sfMaterial.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALGROUPBASE_INLINE_CVSID "@(#)$Id: OSGMaterialGroupBase.inl,v 1.6 2001/09/17 14:15:06 vossg Exp $"
+#define OSGMATERIALGROUPBASE_INLINE_CVSID "@(#)$Id: OSGMaterialGroupBase.inl,v 1.7 2001/10/03 20:37:35 dirk Exp $"
 

@@ -62,17 +62,17 @@
 #include "OSGTextureChunkBase.h"
 #include "OSGTextureChunk.h"
 
-#include <GL/gl.h>                     	// InternalFormat default header
-#include <GL/gl.h>                     	// MinFilter default header
-#include <GL/gl.h>                     	// MagFilter default header
-#include <GL/gl.h>                     	// WrapS default header
-#include <GL/gl.h>                     	// WrapT default header
-#include <GL/gl.h>                     	// WrapR default header
-#include <GL/gl.h>                     	// EnvMode default header
-#include <GL/gl.h>                     	// GenFuncS default header
-#include <GL/gl.h>                     	// GenFuncT default header
-#include <GL/gl.h>                     	// GenFuncR default header
-#include <GL/gl.h>                     	// GenFuncQ default header
+#include <GL/gl.h>                        // InternalFormat default header
+#include <GL/gl.h>                        // MinFilter default header
+#include <GL/gl.h>                        // MagFilter default header
+#include <GL/gl.h>                        // WrapS default header
+#include <GL/gl.h>                        // WrapT default header
+#include <GL/gl.h>                        // WrapR default header
+#include <GL/gl.h>                        // EnvMode default header
+#include <GL/gl.h>                        // GenFuncS default header
+#include <GL/gl.h>                        // GenFuncT default header
+#include <GL/gl.h>                        // GenFuncR default header
+#include <GL/gl.h>                        // GenFuncQ default header
 
 
 OSG_USING_NAMESPACE
@@ -83,7 +83,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.15 2001/09/19 14:36:41 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.16 2001/10/03 20:37:35 dirk Exp $";
     static char cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 
@@ -94,61 +94,61 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	TextureChunkBase::ImageFieldMask = 
+const OSG::BitVector  TextureChunkBase::ImageFieldMask = 
     (1 << TextureChunkBase::ImageFieldId);
 
-const OSG::BitVector	TextureChunkBase::InternalFormatFieldMask = 
+const OSG::BitVector  TextureChunkBase::InternalFormatFieldMask = 
     (1 << TextureChunkBase::InternalFormatFieldId);
 
-const OSG::BitVector	TextureChunkBase::ScaleFieldMask = 
+const OSG::BitVector  TextureChunkBase::ScaleFieldMask = 
     (1 << TextureChunkBase::ScaleFieldId);
 
-const OSG::BitVector	TextureChunkBase::FrameFieldMask = 
+const OSG::BitVector  TextureChunkBase::FrameFieldMask = 
     (1 << TextureChunkBase::FrameFieldId);
 
-const OSG::BitVector	TextureChunkBase::MinFilterFieldMask = 
+const OSG::BitVector  TextureChunkBase::MinFilterFieldMask = 
     (1 << TextureChunkBase::MinFilterFieldId);
 
-const OSG::BitVector	TextureChunkBase::MagFilterFieldMask = 
+const OSG::BitVector  TextureChunkBase::MagFilterFieldMask = 
     (1 << TextureChunkBase::MagFilterFieldId);
 
-const OSG::BitVector	TextureChunkBase::WrapSFieldMask = 
+const OSG::BitVector  TextureChunkBase::WrapSFieldMask = 
     (1 << TextureChunkBase::WrapSFieldId);
 
-const OSG::BitVector	TextureChunkBase::WrapTFieldMask = 
+const OSG::BitVector  TextureChunkBase::WrapTFieldMask = 
     (1 << TextureChunkBase::WrapTFieldId);
 
-const OSG::BitVector	TextureChunkBase::WrapRFieldMask = 
+const OSG::BitVector  TextureChunkBase::WrapRFieldMask = 
     (1 << TextureChunkBase::WrapRFieldId);
 
-const OSG::BitVector	TextureChunkBase::EnvModeFieldMask = 
+const OSG::BitVector  TextureChunkBase::EnvModeFieldMask = 
     (1 << TextureChunkBase::EnvModeFieldId);
 
-const OSG::BitVector	TextureChunkBase::GenFuncSFieldMask = 
+const OSG::BitVector  TextureChunkBase::GenFuncSFieldMask = 
     (1 << TextureChunkBase::GenFuncSFieldId);
 
-const OSG::BitVector	TextureChunkBase::GenFuncTFieldMask = 
+const OSG::BitVector  TextureChunkBase::GenFuncTFieldMask = 
     (1 << TextureChunkBase::GenFuncTFieldId);
 
-const OSG::BitVector	TextureChunkBase::GenFuncRFieldMask = 
+const OSG::BitVector  TextureChunkBase::GenFuncRFieldMask = 
     (1 << TextureChunkBase::GenFuncRFieldId);
 
-const OSG::BitVector	TextureChunkBase::GenFuncQFieldMask = 
+const OSG::BitVector  TextureChunkBase::GenFuncQFieldMask = 
     (1 << TextureChunkBase::GenFuncQFieldId);
 
-const OSG::BitVector	TextureChunkBase::GenFuncSPlaneFieldMask = 
+const OSG::BitVector  TextureChunkBase::GenFuncSPlaneFieldMask = 
     (1 << TextureChunkBase::GenFuncSPlaneFieldId);
 
-const OSG::BitVector	TextureChunkBase::GenFuncTPlaneFieldMask = 
+const OSG::BitVector  TextureChunkBase::GenFuncTPlaneFieldMask = 
     (1 << TextureChunkBase::GenFuncTPlaneFieldId);
 
-const OSG::BitVector	TextureChunkBase::GenFuncRPlaneFieldMask = 
+const OSG::BitVector  TextureChunkBase::GenFuncRPlaneFieldMask = 
     (1 << TextureChunkBase::GenFuncRPlaneFieldId);
 
-const OSG::BitVector	TextureChunkBase::GenFuncQPlaneFieldMask = 
+const OSG::BitVector  TextureChunkBase::GenFuncQPlaneFieldMask = 
     (1 << TextureChunkBase::GenFuncQPlaneFieldId);
 
-const OSG::BitVector	TextureChunkBase::GLIdFieldMask = 
+const OSG::BitVector  TextureChunkBase::GLIdFieldMask = 
     (1 << TextureChunkBase::GLIdFieldId);
 
 
@@ -370,52 +370,52 @@ void TextureChunkBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 TextureChunkBase::TextureChunkBase(void) :
-	_sfImage                  (), 
-	_sfInternalFormat         (UInt32(GL_NONE)), 
-	_sfScale                  (Bool(true)), 
-	_sfFrame                  (UInt32(0)), 
-	_sfMinFilter              (UInt32(GL_LINEAR_MIPMAP_LINEAR)), 
-	_sfMagFilter              (UInt32(GL_LINEAR)), 
-	_sfWrapS                  (UInt32(GL_REPEAT)), 
-	_sfWrapT                  (UInt32(GL_REPEAT)), 
-	_sfWrapR                  (UInt32(GL_REPEAT)), 
-	_sfEnvMode                (UInt32(GL_REPLACE)), 
-	_sfGenFuncS               (UInt32(GL_NONE)), 
-	_sfGenFuncT               (UInt32(GL_NONE)), 
-	_sfGenFuncR               (UInt32(GL_NONE)), 
-	_sfGenFuncQ               (UInt32(GL_NONE)), 
-	_sfGenFuncSPlane          (), 
-	_sfGenFuncTPlane          (), 
-	_sfGenFuncRPlane          (), 
-	_sfGenFuncQPlane          (), 
-	_sfGLId                   (), 
-	Inherited() 
+    _sfImage                  (), 
+    _sfInternalFormat         (UInt32(GL_NONE)), 
+    _sfScale                  (Bool(true)), 
+    _sfFrame                  (UInt32(0)), 
+    _sfMinFilter              (UInt32(GL_LINEAR_MIPMAP_LINEAR)), 
+    _sfMagFilter              (UInt32(GL_LINEAR)), 
+    _sfWrapS                  (UInt32(GL_REPEAT)), 
+    _sfWrapT                  (UInt32(GL_REPEAT)), 
+    _sfWrapR                  (UInt32(GL_REPEAT)), 
+    _sfEnvMode                (UInt32(GL_REPLACE)), 
+    _sfGenFuncS               (UInt32(GL_NONE)), 
+    _sfGenFuncT               (UInt32(GL_NONE)), 
+    _sfGenFuncR               (UInt32(GL_NONE)), 
+    _sfGenFuncQ               (UInt32(GL_NONE)), 
+    _sfGenFuncSPlane          (), 
+    _sfGenFuncTPlane          (), 
+    _sfGenFuncRPlane          (), 
+    _sfGenFuncQPlane          (), 
+    _sfGLId                   (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
-	_sfImage                  (source._sfImage                  ), 
-	_sfInternalFormat         (source._sfInternalFormat         ), 
-	_sfScale                  (source._sfScale                  ), 
-	_sfFrame                  (source._sfFrame                  ), 
-	_sfMinFilter              (source._sfMinFilter              ), 
-	_sfMagFilter              (source._sfMagFilter              ), 
-	_sfWrapS                  (source._sfWrapS                  ), 
-	_sfWrapT                  (source._sfWrapT                  ), 
-	_sfWrapR                  (source._sfWrapR                  ), 
-	_sfEnvMode                (source._sfEnvMode                ), 
-	_sfGenFuncS               (source._sfGenFuncS               ), 
-	_sfGenFuncT               (source._sfGenFuncT               ), 
-	_sfGenFuncR               (source._sfGenFuncR               ), 
-	_sfGenFuncQ               (source._sfGenFuncQ               ), 
-	_sfGenFuncSPlane          (source._sfGenFuncSPlane          ), 
-	_sfGenFuncTPlane          (source._sfGenFuncTPlane          ), 
-	_sfGenFuncRPlane          (source._sfGenFuncRPlane          ), 
-	_sfGenFuncQPlane          (source._sfGenFuncQPlane          ), 
-	_sfGLId                   (source._sfGLId                   ), 
-	Inherited                 (source)
+    _sfImage                  (source._sfImage                  ), 
+    _sfInternalFormat         (source._sfInternalFormat         ), 
+    _sfScale                  (source._sfScale                  ), 
+    _sfFrame                  (source._sfFrame                  ), 
+    _sfMinFilter              (source._sfMinFilter              ), 
+    _sfMagFilter              (source._sfMagFilter              ), 
+    _sfWrapS                  (source._sfWrapS                  ), 
+    _sfWrapT                  (source._sfWrapT                  ), 
+    _sfWrapR                  (source._sfWrapR                  ), 
+    _sfEnvMode                (source._sfEnvMode                ), 
+    _sfGenFuncS               (source._sfGenFuncS               ), 
+    _sfGenFuncT               (source._sfGenFuncT               ), 
+    _sfGenFuncR               (source._sfGenFuncR               ), 
+    _sfGenFuncQ               (source._sfGenFuncQ               ), 
+    _sfGenFuncSPlane          (source._sfGenFuncSPlane          ), 
+    _sfGenFuncTPlane          (source._sfGenFuncTPlane          ), 
+    _sfGenFuncRPlane          (source._sfGenFuncRPlane          ), 
+    _sfGenFuncQPlane          (source._sfGenFuncQPlane          ), 
+    _sfGLId                   (source._sfGLId                   ), 
+    Inherited                 (source)
 {
 }
 

@@ -74,9 +74,9 @@ i.e. polygons.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.5 2001/08/10 03:33:11 vossg Exp $";
+char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.6 2001/10/03 20:37:35 dirk Exp $";
 
-StateChunkClass PolygonChunk::_class(String("Polygon"));
+StateChunkClass PolygonChunk::_class("Polygon");
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -62,7 +62,7 @@
 #include "OSGMaterialChunkBase.h"
 #include "OSGMaterialChunk.h"
 
-#include <GL/gl.h>                     	// ColorMaterial default header
+#include <GL/gl.h>                        // ColorMaterial default header
 
 
 OSG_USING_NAMESPACE
@@ -73,7 +73,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.13 2001/09/19 14:36:41 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.14 2001/10/03 20:37:35 dirk Exp $";
     static char cvsid_hpp       [] = OSGMATERIALCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGMATERIALCHUNKBASE_INLINE_CVSID;
 
@@ -84,25 +84,25 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	MaterialChunkBase::DiffuseFieldMask = 
+const OSG::BitVector  MaterialChunkBase::DiffuseFieldMask = 
     (1 << MaterialChunkBase::DiffuseFieldId);
 
-const OSG::BitVector	MaterialChunkBase::AmbientFieldMask = 
+const OSG::BitVector  MaterialChunkBase::AmbientFieldMask = 
     (1 << MaterialChunkBase::AmbientFieldId);
 
-const OSG::BitVector	MaterialChunkBase::SpecularFieldMask = 
+const OSG::BitVector  MaterialChunkBase::SpecularFieldMask = 
     (1 << MaterialChunkBase::SpecularFieldId);
 
-const OSG::BitVector	MaterialChunkBase::EmissionFieldMask = 
+const OSG::BitVector  MaterialChunkBase::EmissionFieldMask = 
     (1 << MaterialChunkBase::EmissionFieldId);
 
-const OSG::BitVector	MaterialChunkBase::ShininessFieldMask = 
+const OSG::BitVector  MaterialChunkBase::ShininessFieldMask = 
     (1 << MaterialChunkBase::ShininessFieldId);
 
-const OSG::BitVector	MaterialChunkBase::LitFieldMask = 
+const OSG::BitVector  MaterialChunkBase::LitFieldMask = 
     (1 << MaterialChunkBase::LitFieldId);
 
-const OSG::BitVector	MaterialChunkBase::ColorMaterialFieldMask = 
+const OSG::BitVector  MaterialChunkBase::ColorMaterialFieldMask = 
     (1 << MaterialChunkBase::ColorMaterialFieldId);
 
 
@@ -228,28 +228,28 @@ void MaterialChunkBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 MaterialChunkBase::MaterialChunkBase(void) :
-	_sfDiffuse                (Color4f(1,1,1,0)), 
-	_sfAmbient                (Color4f(.2,.2,.2,0)), 
-	_sfSpecular               (Color4f(.5,.5,.5,0)), 
-	_sfEmission               (Color4f(0,0,0,0)), 
-	_sfShininess              (Real32(10)), 
-	_sfLit                    (Bool(true)), 
-	_sfColorMaterial          (UInt32(GL_DIFFUSE)), 
-	Inherited() 
+    _sfDiffuse                (Color4f(1,1,1,0)), 
+    _sfAmbient                (Color4f(.2,.2,.2,0)), 
+    _sfSpecular               (Color4f(.5,.5,.5,0)), 
+    _sfEmission               (Color4f(0,0,0,0)), 
+    _sfShininess              (Real32(10)), 
+    _sfLit                    (Bool(true)), 
+    _sfColorMaterial          (UInt32(GL_DIFFUSE)), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 MaterialChunkBase::MaterialChunkBase(const MaterialChunkBase &source) :
-	_sfDiffuse                (source._sfDiffuse                ), 
-	_sfAmbient                (source._sfAmbient                ), 
-	_sfSpecular               (source._sfSpecular               ), 
-	_sfEmission               (source._sfEmission               ), 
-	_sfShininess              (source._sfShininess              ), 
-	_sfLit                    (source._sfLit                    ), 
-	_sfColorMaterial          (source._sfColorMaterial          ), 
-	Inherited                 (source)
+    _sfDiffuse                (source._sfDiffuse                ), 
+    _sfAmbient                (source._sfAmbient                ), 
+    _sfSpecular               (source._sfSpecular               ), 
+    _sfEmission               (source._sfEmission               ), 
+    _sfShininess              (source._sfShininess              ), 
+    _sfLit                    (source._sfLit                    ), 
+    _sfColorMaterial          (source._sfColorMaterial          ), 
+    Inherited                 (source)
 {
 }
 

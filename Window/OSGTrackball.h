@@ -65,7 +65,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Trackball
         OSGCamera = 0x01,
         OSGObject = 0x02
     };
-		
+        
     enum TranslationMode
     {
         OSGFixedX,
@@ -74,12 +74,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Trackball
 
         OSGFree
     };
-		
+        
   public:
     const char *getClassname(void) { return "Trackball"; }
 
-	Trackball(Real32 rSize = 1.0);
-	~Trackball(void);
+    Trackball(Real32 rSize = 1.0);
+    ~Trackball(void);
 
     void setSum(Bool bVal);
 
@@ -94,9 +94,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Trackball
     void setAutoPositionIncrement(Real32 rVal);
     void setAutoPosition(Bool bVal);
     void setAutoPositionNeg(Bool bVal);
-	
+    
     void setMode            (Mode gMode);
-	void setTranslationMode (TranslationMode gMode            );
+    void setTranslationMode (TranslationMode gMode            );
     void setTranslationScale(Real32          rTranslationScale);
     void setTranslationGen  (TranslationGen  gMode            );
 
@@ -114,29 +114,29 @@ class OSG_SYSTEMLIB_DLLMAPPING Trackball
 
     void setRotationCenter(const Pnt3f &pRotationCenter);
 
-    Quaternion &getRotation  (void);		
+    Quaternion &getRotation  (void);        
 
     Matrix     &getFullExamineMatrix  (void);
     Matrix     &getFullTrackballMatrix(void);
 
-	void   setSize(Real32 s);
-	Real32 getSize(void    ) const;
-		
+    void   setSize(Real32 s);
+    Real32 getSize(void    ) const;
+        
   private:
 
     Bool   _bSum;
     Bool   _bAutoPosition;
 
     Mode            _gMode;
-	TranslationMode _gTransMode;
-    TranslationGen	_gTransGen;
+    TranslationMode _gTransMode;
+    TranslationGen  _gTransGen;
 
     Real32 _rAutoPositionStep;
     Real32 _rAutoPositionIncrement;
 
     Real32 _rTrackballSize;
-	Real32 _rTranslationScale;
-	
+    Real32 _rTranslationScale;
+    
     Quaternion _qVal;
     Vec3f      _pVal;
 
@@ -147,8 +147,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Trackball
 
     Matrix     _fullMatrix;
 
-	Trackball(const Trackball &org);
-	void operator =(const Trackball &org);
+    Trackball(const Trackball &org);
+    void operator =(const Trackball &org);
 
   protected:
 

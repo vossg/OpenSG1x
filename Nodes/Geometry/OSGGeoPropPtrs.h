@@ -57,21 +57,21 @@ OSG_BEGIN_NAMESPACE
 /*! \name                    Typedefs                                  */
 /*! \{                                                                 */    
 
-typedef GeoPosition3f::PtrType  GeoPosition3fPtr;
+typedef GeoPositions3f::PtrType  GeoPositions3fPtr;
 
-typedef GeoColor3f::PtrType     GeoColor3fPtr;
-typedef GeoColor3ub::PtrType    GeoColor3ubPtr;
-typedef GeoColor4ub::PtrType    GeoColor4ubPtr;
+typedef GeoColors3f::PtrType     GeoColors3fPtr;
+typedef GeoColors3ub::PtrType    GeoColors3ubPtr;
+typedef GeoColors4ub::PtrType    GeoColors4ubPtr;
 
-typedef GeoNormal3f::PtrType    GeoNormal3fPtr;
+typedef GeoNormals3f::PtrType    GeoNormals3fPtr;
 
 typedef GeoTexCoords2f::PtrType GeoTexCoords2fPtr;
 
-typedef GeoIndexUI32::PtrType   GeoIndexUI32Ptr;
+typedef GeoIndicesUI32::PtrType   GeoIndicesUI32Ptr;
 
-typedef GeoPTypeUI8::PtrType    GeoPTypeUI8Ptr;
+typedef GeoPTypesUI8::PtrType    GeoPTypesUI8Ptr;
 
-typedef GeoPLengthUI32::PtrType GeoPLengthUI32Ptr;
+typedef GeoPLengthsUI32::PtrType GeoPLengthsUI32Ptr;
 
 /*! \}                                                                 */
 

@@ -44,7 +44,7 @@
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
-#include <OSGString.h>
+#include <OSGIDStringLink.h>
 #include <OSGDataType.h>
 #include <OSGFieldContainerPtrForward.h>
 
@@ -72,7 +72,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 
     friend class FieldContainerFactory;
 
-	/*!\brief prohibit default function (move to 'public' if needed) */
+    /*!\brief prohibit default function (move to 'public' if needed) */
 
     void operator =(const FieldContainerType &source);
 
@@ -88,7 +88,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
     };
 
 
-    typedef map   <StringLink, FieldDescription *> DescMap;
+    typedef map   <IDStringLink, FieldDescription *> DescMap;
     typedef vector<            FieldDescription *> DescVec;
 
     typedef DescMap::iterator                      DescMapIt;
@@ -109,8 +109,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
     BaseType            _baseType;
 
     FieldContainerType *_pParent;
-    String              _szParentName;
-    String              _szGroupName;
+    IDString            _szParentName;
+    IDString            _szGroupName;
 
     FieldContainerPtr   _pPrototype;
     PrototypeCreateF    _fPrototypeCreate;
@@ -118,7 +118,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
     FieldDescription  **_pDesc;
     UInt32              _uiDescByteCounter;
 
-	DescMap             _mDescMap;
+    DescMap             _mDescMap;
     DescVec             _vDescVec;
 
     /*! \}                                                                 */
@@ -126,7 +126,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
     /*! \name                    Register                                  */
     /*! \{                                                                 */
 
-	void registerType(const Char8 *szGroupName);
+    void registerType(const Char8 *szGroupName);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -138,7 +138,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
     Bool initFields      (void);
     Bool initParentFields(void);
 
-	Bool initialize      (void);
+    Bool initialize      (void);
     void terminate       (void);
 
     /*! \}                                                                 */
@@ -208,7 +208,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 
     Bool isInitialized(void                           ) const;
 
-	Bool isAbstract   (void                           ) const;
+    Bool isAbstract   (void                           ) const;
 
     Bool isDerivedFrom(const TypeBase           &other) const;
     Bool isDerivedFrom(const FieldContainerType &other) const;    
@@ -224,8 +224,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 
     FieldContainerPtr createFieldContainer(void) const;
     NodePtr           createNode          (void) const;
-	NodeCorePtr       createNodeCore      (void) const;
-	AttachmentPtr     createAttachment    (void) const;
+    NodeCorePtr       createNodeCore      (void) const;
+    AttachmentPtr     createAttachment    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

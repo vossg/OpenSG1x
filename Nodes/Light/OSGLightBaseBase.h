@@ -208,14 +208,14 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFColor4f        	_sfAmbient;
-    SFColor4f        	_sfDiffuse;
-    SFColor4f        	_sfSpecular;
-    SFNodePtr        	_sfBeacon;
-    SFBool           	_sfOn;
-    SFReal32         	_sfConstantAttenuation;
-    SFReal32         	_sfLinearAttenuation;
-    SFReal32         	_sfQuadraticAttenuation;
+    SFColor4f           _sfAmbient;
+    SFColor4f           _sfDiffuse;
+    SFColor4f           _sfSpecular;
+    SFNodePtr           _sfBeacon;
+    SFBool              _sfOn;
+    SFReal32            _sfConstantAttenuation;
+    SFReal32            _sfLinearAttenuation;
+    SFReal32            _sfQuadraticAttenuation;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -264,6 +264,6 @@ typedef LightBaseBase *LightBaseBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.14 2001/09/19 14:36:40 mroth Exp $"
+#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.15 2001/10/03 20:37:35 dirk Exp $"
 
 #endif /* _OSGLIGHTBASEBASE_H_ */

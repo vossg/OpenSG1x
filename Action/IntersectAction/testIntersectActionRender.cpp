@@ -35,7 +35,7 @@ DrawAction * dact;
 
 NodePtr  root;
 NodePtr  iroot;
-GeoPosition3fPtr points;
+GeoPositions3fPtr points;
 
 void 
 display(void)
@@ -298,7 +298,7 @@ int main (int argc, char **argv)
    
 	// make the root and test objects
 
-	points = GeoPosition3f::create();
+	points = GeoPositions3f::create();
 	beginEditCP(points);
 	points->addValue( Pnt3f(0,0,0) );
 	points->addValue( Pnt3f(0,0,0) );
@@ -307,7 +307,7 @@ int main (int argc, char **argv)
 	points->addValue( Pnt3f(0,0,0) );
 	endEditCP(points);
 
-	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
+	GeoIndicesUI32Ptr index = GeoIndicesUI32::create();	
 	beginEditCP(index);
 	index->addValue( 0 );
 	index->addValue( 1 );
@@ -316,13 +316,13 @@ int main (int argc, char **argv)
 	index->addValue( 4 );
 	endEditCP(index);
 
-	GeoPLengthPtr lens = GeoPLengthUI32::create();	
+	GeoPLengthsPtr lens = GeoPLengthsUI32::create();	
 	beginEditCP(lens);
 	lens->addValue( 2 );
 	lens->addValue( 3 );
 	endEditCP(lens);
 	
-	GeoPTypePtr type = GeoPTypeUI8::create();	
+	GeoPTypesPtr type = GeoPTypesUI8::create();	
 	beginEditCP(type);
 	type->addValue( GL_LINES );
 	type->addValue( GL_TRIANGLES );
@@ -331,7 +331,7 @@ int main (int argc, char **argv)
 	GeometryPtr testgeocore = Geometry::create();
 	beginEditCP(testgeocore);
 	testgeocore->setPositions( points );
-	testgeocore->setIndex( index );
+	testgeocore->setIndices( index );
 	testgeocore->setLengths( lens );
 	testgeocore->setTypes( type );
 	testgeocore->setMaterial( red );

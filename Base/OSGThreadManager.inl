@@ -80,7 +80,7 @@ UInt32 MPFieldStore<MPFieldT>::registerMPType(MPFieldType *pType)
         return returnValue;
     }
 
-    _mFieldTypeMap[StringLink(pType->getCName())] = pType;
+    _mFieldTypeMap[IDStringLink(pType->getCName())] = pType;
 
     return returnValue;
 }
@@ -124,7 +124,7 @@ MPFieldT *MPFieldStore<MPFieldT>::getMPField(const Char8 *szName,
 
             if(returnValue != NULL)
             {
-                _mFieldMap[StringLink(returnValue->getCName())] = returnValue;
+                _mFieldMap[IDStringLink(returnValue->getCName())] = returnValue;
             }
         }
         else
@@ -146,7 +146,7 @@ MPFieldT *MPFieldStore<MPFieldT>::findMPField(const Char8 *szName)
     if(szName == NULL)
         return NULL;
 
-    gIt = _mFieldMap.find(StringLink(szName));
+    gIt = _mFieldMap.find(IDStringLink(szName));
 
     if(gIt != _mFieldMap.end())
         return (*gIt).second;
@@ -161,7 +161,7 @@ void MPFieldStore<MPFieldT>::removeMPField(MPFieldT *pField)
         return;
 
     MPFieldMapIt gIt = _mFieldMap.find(
-        StringLink(pField->getCName()));
+        IDStringLink(pField->getCName()));
 
     if(gIt != _mFieldMap.end())
     {
@@ -197,7 +197,7 @@ MPFieldStore<MPFieldT>::MPFieldType *
         return NULL;
     }
 
-    gIt = _mFieldTypeMap.find(StringLink(szName));
+    gIt = _mFieldTypeMap.find(IDStringLink(szName));
 
     if(gIt != _mFieldTypeMap.end())
     {

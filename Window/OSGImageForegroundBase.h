@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class LogoForeground
+ **     class ImageForeground
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGLOGOFOREGROUNDBASE_H_
-#define _OSGLOGOFOREGROUNDBASE_H_
+#ifndef _OSGIMAGEFOREGROUNDBASE_H_
+#define _OSGIMAGEFOREGROUNDBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -70,16 +70,16 @@
 #include <OSGImagePFields.h> // Images type
 #include <OSGPnt2fFields.h> // Positions type
 
-#include <OSGLogoForegroundFields.h>
+#include <OSGImageForegroundFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class LogoForeground;
+class ImageForeground;
 class BinaryDataHandler;
 
-/*! \brief LogoForeground Base Class. */
+/*! \brief ImageForeground Base Class. */
 
-class OSG_SYSTEMLIB_DLLMAPPING LogoForegroundBase : public Foreground
+class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
 {
   private:
 
@@ -163,8 +163,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LogoForegroundBase : public Foreground
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  LogoForegroundPtr    create          (void); 
-    static  LogoForegroundPtr    createEmpty     (void); 
+    static  ImageForegroundPtr    create          (void); 
+    static  ImageForegroundPtr    createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -182,30 +182,30 @@ class OSG_SYSTEMLIB_DLLMAPPING LogoForegroundBase : public Foreground
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFImageP         	_mfImages;
-    MFPnt2f          	_mfPositions;
+    MFImageP            _mfImages;
+    MFPnt2f             _mfPositions;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    LogoForegroundBase(void);
-    LogoForegroundBase(const LogoForegroundBase &source);
+    ImageForegroundBase(void);
+    ImageForegroundBase(const ImageForegroundBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~LogoForegroundBase(void); 
+    virtual ~ImageForegroundBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      LogoForegroundBase *pOther,
+    void executeSyncImpl(      ImageForegroundBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -220,7 +220,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LogoForegroundBase : public Foreground
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const LogoForeground &source);
+    void operator =(const ImageForeground &source);
 };
 
 //---------------------------------------------------------------------------
@@ -228,10 +228,10 @@ class OSG_SYSTEMLIB_DLLMAPPING LogoForegroundBase : public Foreground
 //---------------------------------------------------------------------------
 
 
-typedef LogoForegroundBase *LogoForegroundBaseP;
+typedef ImageForegroundBase *ImageForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLOGOFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageForegroundBase.h,v 1.1 2001/10/03 20:37:36 dirk Exp $"
 
-#endif /* _OSGLOGOFOREGROUNDBASE_H_ */
+#endif /* _OSGIMAGEFOREGROUNDBASE_H_ */

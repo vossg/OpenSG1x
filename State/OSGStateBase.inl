@@ -95,7 +95,7 @@ inline StatePtr StateBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 MFStateChunkPtr *StateBase::getMFChunks(void)
 {
-	return &_mfChunks;
+    return &_mfChunks;
 }
 
 
@@ -103,21 +103,21 @@ MFStateChunkPtr *StateBase::getMFChunks(void)
 OSG_SYSTEMLIB_DLLMAPPING
 StateChunkPtr &StateBase::getChunks(UInt32 index)
 {
-	return _mfChunks.getValue( index );
+    return _mfChunks.getValue( index );
 }
 
 MFStateChunkPtr &StateBase::getChunks(void)
 {
-	return _mfChunks;
+    return _mfChunks;
 }
 
 const MFStateChunkPtr &StateBase::getChunks(void) const
 {
-	return _mfChunks;
+    return _mfChunks;
 }
 
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEBASE_INLINE_CVSID "@(#)$Id: OSGStateBase.inl,v 1.7 2001/09/17 14:15:07 vossg Exp $"
+#define OSGSTATEBASE_INLINE_CVSID "@(#)$Id: OSGStateBase.inl,v 1.8 2001/10/03 20:37:35 dirk Exp $"
 

@@ -89,15 +89,15 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
 
     static const char *getClassname(void) { return "IntersectAction"; };
 
-	// create a new IntersectAction by cloning the prototype
-	static IntersectAction * create( void );
-	static IntersectAction * create( const Line &line, 
-									  const Real32 maxdist = Inf );
-	
-	// prototype access
-	// after setting the prototype all new IntersectActions are clones of it
-	static void 			setPrototype( IntersectAction * proto );
-	static IntersectAction *getPrototype( void );
+    // create a new IntersectAction by cloning the prototype
+    static IntersectAction * create( void );
+    static IntersectAction * create( const Line &line, 
+                                      const Real32 maxdist = Inf );
+    
+    // prototype access
+    // after setting the prototype all new IntersectActions are clones of it
+    static void             setPrototype( IntersectAction * proto );
+    static IntersectAction *getPrototype( void );
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -111,30 +111,30 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
 
     /*------------------------- access ------------------------------*/
 
-	// set input data
-	void setLine( const Line &line, const Real32 maxdist = Inf );
+    // set input data
+    void setLine( const Line &line, const Real32 maxdist = Inf );
 
-	// get input data
-	inline const Line& getLine( void ) const;
-	inline Real32 getMaxDist( void ) const;
-	
-	// get result data
-	inline bool didHit( void ) const;
-	
-	inline Real32 getHitT( void ) const;
-	
-	inline Pnt3f getHitPoint( void ) const;
-	
-	inline NodePtr getHitObject( void ) const;
-	
-	inline Int32 getHitTriangle( void ) const;
+    // get input data
+    inline const Line& getLine( void ) const;
+    inline Real32 getMaxDist( void ) const;
+    
+    // get result data
+    inline bool didHit( void ) const;
+    
+    inline Real32 getHitT( void ) const;
+    
+    inline Pnt3f getHitPoint( void ) const;
+    
+    inline NodePtr getHitObject( void ) const;
+    
+    inline Int32 getHitTriangle( void ) const;
 
 
-	// to be used by the traversed nodes
-	// set (temporary) results
-	Action::ResultE setEnterLeave( Real32 enter, Real32 leave );
-	void setHit( Real32 t, NodePtr obj, Int32 triIndex );
-	
+    // to be used by the traversed nodes
+    // set (temporary) results
+    Action::ResultE setEnterLeave( Real32 enter, Real32 leave );
+    void setHit( Real32 t, NodePtr obj, Int32 triIndex );
+    
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -148,7 +148,7 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
     Bool operator == (const IntersectAction &other) const;
     Bool operator != (const IntersectAction &other) const;
     
-	
+    
     // default registration. static, so it can be called during static init
     
     static void registerEnterDefault(   const FieldContainerType &type, 
@@ -186,12 +186,12 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
     IntersectAction(void);
     IntersectAction(const IntersectAction &source);
 
-	virtual Action::ResultE start( void );	
+    virtual Action::ResultE start( void );  
 
-	// access default functors
+    // access default functors
 
-	virtual vector<Functor>* getDefaultEnterFunctors( void );
-	virtual vector<Functor>* getDefaultLeaveFunctors( void );
+    virtual vector<Functor>* getDefaultEnterFunctors( void );
+    virtual vector<Functor>* getDefaultLeaveFunctors( void );
 
   private:
 
@@ -219,8 +219,8 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
 
     static char cvsid[];
 
-	// the prototype which is copied to create new actions
-	static IntersectAction * _prototype;
+    // the prototype which is copied to create new actions
+    static IntersectAction * _prototype;
 
     // default functors for instantiation
     static vector<Functor> *_defaultEnterFunctors;
@@ -234,28 +234,28 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
     //   instance variables                                                  
     //-----------------------------------------------------------------------
     
-	// Line definition
-	
-	// the line to be tested
-	Line _line;
-	
-	// the maximum distance along the line
-	Real32 _maxdist;
-	
-	// Results (also intermediate)
-	// hit at all (either bv or face)
-	Bool 	_hit;
-	// enter leave distance for bounding volume
-	Real32  _enterT;
-	Real32  _leaveT;
-	
-	// Hit distance
-	Real32  _hitT;
-	// Hit object	
-	NodePtr _hitObject;
-	// Index of the hit triangle ( from TriangleIterator::getIndex() )
-	Int32 	_hitTriangle;
-	
+    // Line definition
+    
+    // the line to be tested
+    Line _line;
+    
+    // the maximum distance along the line
+    Real32 _maxdist;
+    
+    // Results (also intermediate)
+    // hit at all (either bv or face)
+    Bool    _hit;
+    // enter leave distance for bounding volume
+    Real32  _enterT;
+    Real32  _leaveT;
+    
+    // Hit distance
+    Real32  _hitT;
+    // Hit object   
+    NodePtr _hitObject;
+    // Index of the hit triangle ( from TriangleIterator::getIndex() )
+    Int32   _hitTriangle;
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------

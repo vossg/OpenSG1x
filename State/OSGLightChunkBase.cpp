@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.12 2001/09/19 14:36:41 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.13 2001/10/03 20:37:35 dirk Exp $";
     static char cvsid_hpp       [] = OSGLIGHTCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGLIGHTCHUNKBASE_INLINE_CVSID;
 
@@ -83,34 +83,34 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	LightChunkBase::DiffuseFieldMask = 
+const OSG::BitVector  LightChunkBase::DiffuseFieldMask = 
     (1 << LightChunkBase::DiffuseFieldId);
 
-const OSG::BitVector	LightChunkBase::AmbientFieldMask = 
+const OSG::BitVector  LightChunkBase::AmbientFieldMask = 
     (1 << LightChunkBase::AmbientFieldId);
 
-const OSG::BitVector	LightChunkBase::SpecularFieldMask = 
+const OSG::BitVector  LightChunkBase::SpecularFieldMask = 
     (1 << LightChunkBase::SpecularFieldId);
 
-const OSG::BitVector	LightChunkBase::PositionFieldMask = 
+const OSG::BitVector  LightChunkBase::PositionFieldMask = 
     (1 << LightChunkBase::PositionFieldId);
 
-const OSG::BitVector	LightChunkBase::DirectionFieldMask = 
+const OSG::BitVector  LightChunkBase::DirectionFieldMask = 
     (1 << LightChunkBase::DirectionFieldId);
 
-const OSG::BitVector	LightChunkBase::ExponentFieldMask = 
+const OSG::BitVector  LightChunkBase::ExponentFieldMask = 
     (1 << LightChunkBase::ExponentFieldId);
 
-const OSG::BitVector	LightChunkBase::CutoffFieldMask = 
+const OSG::BitVector  LightChunkBase::CutoffFieldMask = 
     (1 << LightChunkBase::CutoffFieldId);
 
-const OSG::BitVector	LightChunkBase::ConstantAttenuationFieldMask = 
+const OSG::BitVector  LightChunkBase::ConstantAttenuationFieldMask = 
     (1 << LightChunkBase::ConstantAttenuationFieldId);
 
-const OSG::BitVector	LightChunkBase::LinearAttenuationFieldMask = 
+const OSG::BitVector  LightChunkBase::LinearAttenuationFieldMask = 
     (1 << LightChunkBase::LinearAttenuationFieldId);
 
-const OSG::BitVector	LightChunkBase::QuadraticAttenuationFieldMask = 
+const OSG::BitVector  LightChunkBase::QuadraticAttenuationFieldMask = 
     (1 << LightChunkBase::QuadraticAttenuationFieldId);
 
 
@@ -260,34 +260,34 @@ void LightChunkBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 LightChunkBase::LightChunkBase(void) :
-	_sfDiffuse                (Color4f(1,1,1,0)), 
-	_sfAmbient                (Color4f(.1,.1,.1,0)), 
-	_sfSpecular               (Color4f(1,1,1,0)), 
-	_sfPosition               (Vec4f(0,-1,0,0)), 
-	_sfDirection              (Vec3f(0,0,1)), 
-	_sfExponent               (Real32(2)), 
-	_sfCutoff                 (Real32(180)), 
-	_sfConstantAttenuation    (Real32(1)), 
-	_sfLinearAttenuation      (Real32(0)), 
-	_sfQuadraticAttenuation   (Real32(0)), 
-	Inherited() 
+    _sfDiffuse                (Color4f(1,1,1,0)), 
+    _sfAmbient                (Color4f(.1,.1,.1,0)), 
+    _sfSpecular               (Color4f(1,1,1,0)), 
+    _sfPosition               (Vec4f(0,-1,0,0)), 
+    _sfDirection              (Vec3f(0,0,1)), 
+    _sfExponent               (Real32(2)), 
+    _sfCutoff                 (Real32(180)), 
+    _sfConstantAttenuation    (Real32(1)), 
+    _sfLinearAttenuation      (Real32(0)), 
+    _sfQuadraticAttenuation   (Real32(0)), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 LightChunkBase::LightChunkBase(const LightChunkBase &source) :
-	_sfDiffuse                (source._sfDiffuse                ), 
-	_sfAmbient                (source._sfAmbient                ), 
-	_sfSpecular               (source._sfSpecular               ), 
-	_sfPosition               (source._sfPosition               ), 
-	_sfDirection              (source._sfDirection              ), 
-	_sfExponent               (source._sfExponent               ), 
-	_sfCutoff                 (source._sfCutoff                 ), 
-	_sfConstantAttenuation    (source._sfConstantAttenuation    ), 
-	_sfLinearAttenuation      (source._sfLinearAttenuation      ), 
-	_sfQuadraticAttenuation   (source._sfQuadraticAttenuation   ), 
-	Inherited                 (source)
+    _sfDiffuse                (source._sfDiffuse                ), 
+    _sfAmbient                (source._sfAmbient                ), 
+    _sfSpecular               (source._sfSpecular               ), 
+    _sfPosition               (source._sfPosition               ), 
+    _sfDirection              (source._sfDirection              ), 
+    _sfExponent               (source._sfExponent               ), 
+    _sfCutoff                 (source._sfCutoff                 ), 
+    _sfConstantAttenuation    (source._sfConstantAttenuation    ), 
+    _sfLinearAttenuation      (source._sfLinearAttenuation      ), 
+    _sfQuadraticAttenuation   (source._sfQuadraticAttenuation   ), 
+    Inherited                 (source)
 {
 }
 

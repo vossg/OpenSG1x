@@ -72,22 +72,22 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
         UInt32 primtype, UInt32 firstvert, UInt32 nvert );
 
     typedef void (*InterfacePump)( Window *win,
-        GeoPositionInterface *pos, GeoNormalInterface *norm,
-        GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+        GeoPositionsInterface *pos, GeoNormalsInterface *norm,
+        GeoColorsInterface *col, GeoTexCoordsInterface *texcoords,
         GeoTexCoordsInterface *texcoords2,
         GeoTexCoordsInterface *texcoords3,
         GeoTexCoordsInterface *texcoords4,
-        GeoPTypeInterface *type, GeoPLengthInterface *len,
-        GeoIndexInterface *ind, UInt16 *map, UInt16 nmap );
+        GeoPTypesInterface *type, GeoPLengthsInterface *len,
+        GeoIndicesInterface *ind, UInt16 *map, UInt16 nmap );
 
     typedef void (*PartialInterfacePump)( Window *win,
-        GeoPositionInterface *pos, GeoNormalInterface *norm,
-        GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+        GeoPositionsInterface *pos, GeoNormalsInterface *norm,
+        GeoColorsInterface *col, GeoTexCoordsInterface *texcoords,
         GeoTexCoordsInterface *texcoords2,
         GeoTexCoordsInterface *texcoords3,
         GeoTexCoordsInterface *texcoords4,
-        GeoPTypeInterface *type, GeoPLengthInterface *len,
-        GeoIndexInterface *ind, UInt16 *map, UInt16 nmap,
+        GeoPTypesInterface *type, GeoPLengthsInterface *len,
+        GeoIndicesInterface *ind, UInt16 *map, UInt16 nmap,
         UInt32 primtype, UInt32 firstvert, UInt32 nvert );
 
     /*! \}                                                                 */
@@ -158,22 +158,22 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
         UInt32 primtype, UInt32 firstvert, UInt32 nvert );
 
     static void masterInterfacePump( Window *win,
-        GeoPositionInterface *pos, GeoNormalInterface *norm,
-        GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+        GeoPositionsInterface *pos, GeoNormalsInterface *norm,
+        GeoColorsInterface *col, GeoTexCoordsInterface *texcoords,
         GeoTexCoordsInterface *texcoords2,
         GeoTexCoordsInterface *texcoords3,
         GeoTexCoordsInterface *texcoords4,
-        GeoPTypeInterface *type, GeoPLengthInterface*len,
-        GeoIndexInterface *ind, UInt16 *map, UInt16 nmap );
+        GeoPTypesInterface *type, GeoPLengthsInterface*len,
+        GeoIndicesInterface *ind, UInt16 *map, UInt16 nmap );
 
     static void masterPartialInterfacePump( Window *win,
-        GeoPositionInterface *pos, GeoNormalInterface *norm,
-        GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+        GeoPositionsInterface *pos, GeoNormalsInterface *norm,
+        GeoColorsInterface *col, GeoTexCoordsInterface *texcoords,
         GeoTexCoordsInterface *texcoords2,
         GeoTexCoordsInterface *texcoords3,
         GeoTexCoordsInterface *texcoords4,
-        GeoPTypeInterface *type, GeoPLengthInterface*len,
-        GeoIndexInterface *ind, UInt16 *map, UInt16 nmap,
+        GeoPTypesInterface *type, GeoPLengthsInterface*len,
+        GeoIndicesInterface *ind, UInt16 *map, UInt16 nmap,
         UInt32 primtype, UInt32 firstvert, UInt32 nvert );
 
     /*! \}                                                                 */

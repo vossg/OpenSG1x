@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.13 2001/10/02 06:16:12 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.14 2001/10/03 20:37:35 dirk Exp $";
     static char cvsid_hpp       [] = OSGSTATECHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSTATECHUNKBASE_INLINE_CVSID;
 
@@ -149,14 +149,14 @@ void StateChunkBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 StateChunkBase::StateChunkBase(void) :
-	Inherited() 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 StateChunkBase::StateChunkBase(const StateChunkBase &source) :
-	Inherited                 (source)
+    Inherited                 (source)
 {
 }
 

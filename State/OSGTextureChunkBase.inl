@@ -95,463 +95,463 @@ inline TextureChunkPtr TextureChunkBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFImageP *TextureChunkBase::getSFImage(void)
 {
-	return &_sfImage;
+    return &_sfImage;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFInternalFormat(void)
 {
-	return &_sfInternalFormat;
+    return &_sfInternalFormat;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFBool *TextureChunkBase::getSFScale(void)
 {
-	return &_sfScale;
+    return &_sfScale;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFFrame(void)
 {
-	return &_sfFrame;
+    return &_sfFrame;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFMinFilter(void)
 {
-	return &_sfMinFilter;
+    return &_sfMinFilter;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFMagFilter(void)
 {
-	return &_sfMagFilter;
+    return &_sfMagFilter;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFWrapS(void)
 {
-	return &_sfWrapS;
+    return &_sfWrapS;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFWrapT(void)
 {
-	return &_sfWrapT;
+    return &_sfWrapT;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFWrapR(void)
 {
-	return &_sfWrapR;
+    return &_sfWrapR;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFEnvMode(void)
 {
-	return &_sfEnvMode;
+    return &_sfEnvMode;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFGenFuncS(void)
 {
-	return &_sfGenFuncS;
+    return &_sfGenFuncS;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFGenFuncT(void)
 {
-	return &_sfGenFuncT;
+    return &_sfGenFuncT;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFGenFuncR(void)
 {
-	return &_sfGenFuncR;
+    return &_sfGenFuncR;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFGenFuncQ(void)
 {
-	return &_sfGenFuncQ;
+    return &_sfGenFuncQ;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFPlane *TextureChunkBase::getSFGenFuncSPlane(void)
 {
-	return &_sfGenFuncSPlane;
+    return &_sfGenFuncSPlane;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFPlane *TextureChunkBase::getSFGenFuncTPlane(void)
 {
-	return &_sfGenFuncTPlane;
+    return &_sfGenFuncTPlane;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFPlane *TextureChunkBase::getSFGenFuncRPlane(void)
 {
-	return &_sfGenFuncRPlane;
+    return &_sfGenFuncRPlane;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFPlane *TextureChunkBase::getSFGenFuncQPlane(void)
 {
-	return &_sfGenFuncQPlane;
+    return &_sfGenFuncQPlane;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *TextureChunkBase::getSFGLId(void)
 {
-	return &_sfGLId;
+    return &_sfGLId;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 ImageP &TextureChunkBase::getImage(void)
 {
-	return _sfImage.getValue();
+    return _sfImage.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const ImageP &TextureChunkBase::getImage(void) const
 {
-	return _sfImage.getValue();
+    return _sfImage.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setImage(const ImageP &value)
 {
-	_sfImage.setValue(value);
+    _sfImage.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &TextureChunkBase::getInternalFormat(void)
 {
-	return _sfInternalFormat.getValue();
+    return _sfInternalFormat.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &TextureChunkBase::getInternalFormat(void) const
 {
-	return _sfInternalFormat.getValue();
+    return _sfInternalFormat.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setInternalFormat(const UInt32 &value)
 {
-	_sfInternalFormat.setValue(value);
+    _sfInternalFormat.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Bool &TextureChunkBase::getScale(void)
 {
-	return _sfScale.getValue();
+    return _sfScale.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Bool &TextureChunkBase::getScale(void) const
 {
-	return _sfScale.getValue();
+    return _sfScale.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setScale(const Bool &value)
 {
-	_sfScale.setValue(value);
+    _sfScale.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &TextureChunkBase::getFrame(void)
 {
-	return _sfFrame.getValue();
+    return _sfFrame.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &TextureChunkBase::getFrame(void) const
 {
-	return _sfFrame.getValue();
+    return _sfFrame.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setFrame(const UInt32 &value)
 {
-	_sfFrame.setValue(value);
+    _sfFrame.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &TextureChunkBase::getMinFilter(void)
 {
-	return _sfMinFilter.getValue();
+    return _sfMinFilter.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &TextureChunkBase::getMinFilter(void) const
 {
-	return _sfMinFilter.getValue();
+    return _sfMinFilter.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setMinFilter(const UInt32 &value)
 {
-	_sfMinFilter.setValue(value);
+    _sfMinFilter.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &TextureChunkBase::getMagFilter(void)
 {
-	return _sfMagFilter.getValue();
+    return _sfMagFilter.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &TextureChunkBase::getMagFilter(void) const
 {
-	return _sfMagFilter.getValue();
+    return _sfMagFilter.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setMagFilter(const UInt32 &value)
 {
-	_sfMagFilter.setValue(value);
+    _sfMagFilter.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &TextureChunkBase::getWrapS(void)
 {
-	return _sfWrapS.getValue();
+    return _sfWrapS.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &TextureChunkBase::getWrapS(void) const
 {
-	return _sfWrapS.getValue();
+    return _sfWrapS.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setWrapS(const UInt32 &value)
 {
-	_sfWrapS.setValue(value);
+    _sfWrapS.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &TextureChunkBase::getWrapT(void)
 {
-	return _sfWrapT.getValue();
+    return _sfWrapT.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &TextureChunkBase::getWrapT(void) const
 {
-	return _sfWrapT.getValue();
+    return _sfWrapT.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setWrapT(const UInt32 &value)
 {
-	_sfWrapT.setValue(value);
+    _sfWrapT.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &TextureChunkBase::getWrapR(void)
 {
-	return _sfWrapR.getValue();
+    return _sfWrapR.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &TextureChunkBase::getWrapR(void) const
 {
-	return _sfWrapR.getValue();
+    return _sfWrapR.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setWrapR(const UInt32 &value)
 {
-	_sfWrapR.setValue(value);
+    _sfWrapR.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &TextureChunkBase::getEnvMode(void)
 {
-	return _sfEnvMode.getValue();
+    return _sfEnvMode.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &TextureChunkBase::getEnvMode(void) const
 {
-	return _sfEnvMode.getValue();
+    return _sfEnvMode.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setEnvMode(const UInt32 &value)
 {
-	_sfEnvMode.setValue(value);
+    _sfEnvMode.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &TextureChunkBase::getGenFuncS(void)
 {
-	return _sfGenFuncS.getValue();
+    return _sfGenFuncS.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &TextureChunkBase::getGenFuncS(void) const
 {
-	return _sfGenFuncS.getValue();
+    return _sfGenFuncS.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setGenFuncS(const UInt32 &value)
 {
-	_sfGenFuncS.setValue(value);
+    _sfGenFuncS.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &TextureChunkBase::getGenFuncT(void)
 {
-	return _sfGenFuncT.getValue();
+    return _sfGenFuncT.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &TextureChunkBase::getGenFuncT(void) const
 {
-	return _sfGenFuncT.getValue();
+    return _sfGenFuncT.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setGenFuncT(const UInt32 &value)
 {
-	_sfGenFuncT.setValue(value);
+    _sfGenFuncT.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &TextureChunkBase::getGenFuncR(void)
 {
-	return _sfGenFuncR.getValue();
+    return _sfGenFuncR.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &TextureChunkBase::getGenFuncR(void) const
 {
-	return _sfGenFuncR.getValue();
+    return _sfGenFuncR.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setGenFuncR(const UInt32 &value)
 {
-	_sfGenFuncR.setValue(value);
+    _sfGenFuncR.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &TextureChunkBase::getGenFuncQ(void)
 {
-	return _sfGenFuncQ.getValue();
+    return _sfGenFuncQ.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &TextureChunkBase::getGenFuncQ(void) const
 {
-	return _sfGenFuncQ.getValue();
+    return _sfGenFuncQ.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setGenFuncQ(const UInt32 &value)
 {
-	_sfGenFuncQ.setValue(value);
+    _sfGenFuncQ.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Plane &TextureChunkBase::getGenFuncSPlane(void)
 {
-	return _sfGenFuncSPlane.getValue();
+    return _sfGenFuncSPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Plane &TextureChunkBase::getGenFuncSPlane(void) const
 {
-	return _sfGenFuncSPlane.getValue();
+    return _sfGenFuncSPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setGenFuncSPlane(const Plane &value)
 {
-	_sfGenFuncSPlane.setValue(value);
+    _sfGenFuncSPlane.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Plane &TextureChunkBase::getGenFuncTPlane(void)
 {
-	return _sfGenFuncTPlane.getValue();
+    return _sfGenFuncTPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Plane &TextureChunkBase::getGenFuncTPlane(void) const
 {
-	return _sfGenFuncTPlane.getValue();
+    return _sfGenFuncTPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setGenFuncTPlane(const Plane &value)
 {
-	_sfGenFuncTPlane.setValue(value);
+    _sfGenFuncTPlane.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Plane &TextureChunkBase::getGenFuncRPlane(void)
 {
-	return _sfGenFuncRPlane.getValue();
+    return _sfGenFuncRPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Plane &TextureChunkBase::getGenFuncRPlane(void) const
 {
-	return _sfGenFuncRPlane.getValue();
+    return _sfGenFuncRPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setGenFuncRPlane(const Plane &value)
 {
-	_sfGenFuncRPlane.setValue(value);
+    _sfGenFuncRPlane.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Plane &TextureChunkBase::getGenFuncQPlane(void)
 {
-	return _sfGenFuncQPlane.getValue();
+    return _sfGenFuncQPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Plane &TextureChunkBase::getGenFuncQPlane(void) const
 {
-	return _sfGenFuncQPlane.getValue();
+    return _sfGenFuncQPlane.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setGenFuncQPlane(const Plane &value)
 {
-	_sfGenFuncQPlane.setValue(value);
+    _sfGenFuncQPlane.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &TextureChunkBase::getGLId(void)
 {
-	return _sfGLId.getValue();
+    return _sfGLId.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &TextureChunkBase::getGLId(void) const
 {
-	return _sfGLId.getValue();
+    return _sfGLId.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TextureChunkBase::setGLId(const UInt32 &value)
 {
-	_sfGLId.setValue(value);
+    _sfGLId.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureChunkBase.inl,v 1.8 2001/09/17 14:15:07 vossg Exp $"
+#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureChunkBase.inl,v 1.9 2001/10/03 20:37:35 dirk Exp $"
 

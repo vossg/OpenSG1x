@@ -58,7 +58,7 @@ NodePtr  iroot;
 
 NodePtr  file;
 
-GeoPosition3fPtr isect_points;
+GeoPositions3fPtr isect_points;
 
 PerspectiveCameraPtr cam;
 ViewportPtr vp;
@@ -340,7 +340,7 @@ int main (int argc, char **argv)
 	white->setEmission( Color3f( 1,1,1 ) );
 	red->setEmission( Color3f( 1,0,0 ) );	
 
-	isect_points = GeoPosition3f::create();
+	isect_points = GeoPositions3f::create();
 	beginEditCP(isect_points);
 	isect_points->addValue( Pnt3f(0,0,0) );
 	isect_points->addValue( Pnt3f(0,0,0) );
@@ -349,7 +349,7 @@ int main (int argc, char **argv)
 	isect_points->addValue( Pnt3f(0,0,0) );
 	endEditCP(isect_points);
 
-	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
+	GeoIndicesUI32Ptr index = GeoIndicesUI32::create();	
 	beginEditCP(index);
 	index->addValue( 0 );
 	index->addValue( 1 );
@@ -358,13 +358,13 @@ int main (int argc, char **argv)
 	index->addValue( 4 );
 	endEditCP(index);
 
-	GeoPLengthUI32Ptr lens = GeoPLengthUI32::create();	
+	GeoPLengthsUI32Ptr lens = GeoPLengthsUI32::create();	
 	beginEditCP(lens);
 	lens->addValue( 2 );
 	lens->addValue( 3 );
 	endEditCP(lens);
 	
-	GeoPTypeUI8Ptr type = GeoPTypeUI8::create();	
+	GeoPTypesUI8Ptr type = GeoPTypesUI8::create();	
 	beginEditCP(type);
 	type->addValue( GL_LINES );
 	type->addValue( GL_TRIANGLES );

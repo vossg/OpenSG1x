@@ -220,7 +220,7 @@ const Char8 *FieldDescription::getCName(void) const
     return _szName.str(); 
 }
 
-const String &FieldDescription::getName(void) const
+const IDString &FieldDescription::getName(void) const
 {
     return _szName;
 }

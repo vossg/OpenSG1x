@@ -96,21 +96,21 @@ int main (int argc, char **argv)
     // the geometry consists of several parts:
     
     // the types of the primitives to be rendered,
-    GeoPTypePtr type = GeoPTypeUI8::create();	   
+    GeoPTypesPtr type = GeoPTypesUI8::create();	   
     beginEditCP(type);
 	type->addValue( GL_POLYGON );
 	type->addValue( GL_TRIANGLES );
 	endEditCP(type);
 
     // the number of vertices per primitive,
-	GeoPLengthPtr lens = GeoPLengthUI32::create();	
+	GeoPLengthsPtr lens = GeoPLengthsUI32::create();	
 	beginEditCP(lens);
 	lens->addValue( 4 );
 	lens->addValue( 6 );
 	endEditCP(lens);
     
     // the vertices.
-	GeoPosition3fPtr pnts = GeoPosition3f::create();
+	GeoPositions3fPtr pnts = GeoPositions3f::create();
  	beginEditCP(pnts);
 	pnts->addValue( Pnt3f( -1, -1, -1) );
 	pnts->addValue( Pnt3f( -1, -1,  1) );

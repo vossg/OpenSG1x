@@ -59,77 +59,77 @@ Parametric description: l(t) = pos + t * dir
 
 class OSG_BASE_DLLMAPPING Line
 {
-	/*==========================  PUBLIC  =================================*/
+    /*==========================  PUBLIC  =================================*/
   public:
-	  
-	/*---------------------------------------------------------------------*/
+      
+    /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
-	Line(	  	void							);
-	Line(const 	Line 	&obj					);
-	Line(const 	Pnt3f 	&p0, 	const Pnt3f &p1	);
-	Line(const  Pnt3f 	&pos, 	const Vec3f &dir);
+    Line(       void                            );
+    Line(const      Line    &obj                    );
+    Line(const      Pnt3f   &p0,    const Pnt3f &p1     );
+    Line(const  Pnt3f   &pos,   const Vec3f &dir);
 
-	/*! \}                                                                 */
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Set	                                   */
+    /*! \name                    Set                                       */
     /*! \{                                                                 */
 
-	void setValue(const Pnt3f &p0, 	const Pnt3f &p1	);
-	void setValue(const Pnt3f &pos, const Vec3f &dir);
+    void setValue(const Pnt3f &p0,      const Pnt3f &p1     );
+    void setValue(const Pnt3f &pos, const Vec3f &dir);
 
-	/*! \}                                                                 */
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Specific	                           */
+    /*! \name                    Class Specific                                */
     /*! \{                                                                 */
 
-	Bool 	getClosestPoints(const Line 	&line2,
-	               				   Pnt3f 	&ptOnThis, Pnt3f &ptOnLine2	) const;
-	Pnt3f 	getClosestPoint	(const Pnt3f &point							) const;
-	Real32 	distance		(const Pnt3f &point							) const;
+    Bool    getClosestPoints(const Line     &line2,
+                                       Pnt3f    &ptOnThis, Pnt3f &ptOnLine2     ) const;
+    Pnt3f   getClosestPoint     (const Pnt3f &point                             ) const;
+    Real32      distance        (const Pnt3f &point                             ) const;
 
-	/*! \}                                                                 */
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Get                                       */
     /*! \{                                                                 */
 
-	inline const Pnt3f &getPosition	(void) const; 
-	inline const Vec3f &getDirection(void) const; 
+    inline const Pnt3f &getPosition     (void) const; 
+    inline const Vec3f &getDirection(void) const; 
 
-	/*! \}                                                                 */
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Intersection                              */
-    /*! \{																   */
+    /*! \{                                                                 */
 
-	Bool intersect(const 	SphereVolume 	&sphere						) const;
-	Bool intersect(const 	SphereVolume 	&sphere,  Real32 &enter,
-													  Real32 &exit		) const;
-	Bool intersect(const CylinderVolume 	&cyl						) const;
-	Bool intersect(const CylinderVolume 	&cyl,	  Real32 &enter,
-													  Real32 &exit		) const;
-	Bool intersect(const FrustumVolume 		&frustum					) const;
-	Bool intersect(const FrustumVolume 		&frustum, Real32 &enter,
-													  Real32 &exit		) const;
-	Bool intersect(const BoxVolume 			&box,     Real32 &enter,
-													  Real32 &exit		) const;
-	Bool intersect(		 float 				angle,
-				   const BoxVolume 			&box						) const;
-	Bool intersect(		 float 				angle,
-				   const Vec3f 				&point						) const;
-	Bool intersect(		 float				angle,
-				   const Vec3f 				&v0,
-				   const Vec3f 				&v1,
-						 Vec3f 				&pt							) const;
-	Bool intersect(const Pnt3f 				&v0,
-				   const Pnt3f 				&v1,
-	               const Pnt3f 				&v2,
-						 Real32 			&t 							) const;
+    Bool intersect(const    SphereVolume    &sphere                         ) const;
+    Bool intersect(const    SphereVolume    &sphere,  Real32 &enter,
+                                                      Real32 &exit      ) const;
+    Bool intersect(const CylinderVolume     &cyl                        ) const;
+    Bool intersect(const CylinderVolume     &cyl,     Real32 &enter,
+                                                      Real32 &exit      ) const;
+    Bool intersect(const FrustumVolume          &frustum                    ) const;
+    Bool intersect(const FrustumVolume          &frustum, Real32 &enter,
+                                                      Real32 &exit      ) const;
+    Bool intersect(const BoxVolume              &box,     Real32 &enter,
+                                                      Real32 &exit      ) const;
+    Bool intersect(          float                  angle,
+                   const BoxVolume              &box                        ) const;
+    Bool intersect(          float                  angle,
+                   const Vec3f                  &point                      ) const;
+    Bool intersect(          float              angle,
+                   const Vec3f                  &v0,
+                   const Vec3f                  &v1,
+                         Vec3f                  &pt                             ) const;
+    Bool intersect(const Pnt3f                  &v0,
+                   const Pnt3f                  &v1,
+                   const Pnt3f                  &v2,
+                         Real32             &t                              ) const;
     
-	/*==========================  PRIVATE  ================================*/
+    /*==========================  PRIVATE  ================================*/
   private:
 
-	Pnt3f	_pos;
-	Vec3f	_dir;
+    Pnt3f   _pos;
+    Vec3f   _dir;
 
 };
 

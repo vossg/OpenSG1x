@@ -281,11 +281,11 @@ int main (int argc, char **argv)
   //OBJECT3: Custom Single Indexed Geometry
   objects[3] = Node::create();
   GeometryPtr obj3Core= Geometry::create();
-  GeoIndexUI32Ptr obj3Index = GeoIndexUI32::create();
-  GeoPosition3f::PtrType obj3Pnts = GeoPosition3f::create();
-  GeoColor3f::PtrType obj3Colors = GeoColor3f::create();
-  GeoPTypePtr obj3Types = GeoPTypeUI8::create();
-  GeoPLengthPtr obj3Lengths = GeoPLengthUI32::create();
+  GeoIndicesUI32Ptr obj3Index = GeoIndicesUI32::create();
+  GeoPositions3f::PtrType obj3Pnts = GeoPositions3f::create();
+  GeoColors3f::PtrType obj3Colors = GeoColors3f::create();
+  GeoPTypesPtr obj3Types = GeoPTypesUI8::create();
+  GeoPLengthsPtr obj3Lengths = GeoPLengthsUI32::create();
  
   beginEditCP( obj3Pnts );
   obj3Pnts->addValue( Pnt3f(0, 0,0) );
@@ -338,7 +338,7 @@ int main (int argc, char **argv)
   endEditCP( obj3Index );
   
   beginEditCP( obj3Core );
-  obj3Core->setIndex( obj3Index );
+  obj3Core->setIndices( obj3Index );
   obj3Core->setPositions( obj3Pnts );
   obj3Core->setTypes( obj3Types );
   obj3Core->setLengths( obj3Lengths );

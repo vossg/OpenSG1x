@@ -71,7 +71,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecorator : public TileCameraDecoratorB
     /*---------------------------------------------------------------------*/
     /*! \name                     transformation                           */
     /*! \{                                                                 */
-	
+    
     virtual void changed(BitVector  whichField, 
                          ChangeMode from);
 

@@ -112,28 +112,28 @@ class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLWidget : public QGLWidget
     //-----------------------------------------------------------------------
 
     OSGQGLWidget( QWidget *parent, const char *name=0, 
-					const QGLWidget * shareWidget=0, WFlags f=0 );
-					
+                    const QGLWidget * shareWidget=0, WFlags f=0 );
+                    
     OSGQGLWidget( const QGLFormat & format= QGLFormat( DirectRendering | 
-						  							    DoubleBuffer | 
-						  							    DepthBuffer |
-						  							    Rgba),
-				  QWidget *parent=0, const char *name=0, 
-				  const QGLWidget * shareWidget=0, WFlags f=0	
-				);
+                                                        DoubleBuffer | 
+                                                        DepthBuffer |
+                                                        Rgba),
+                  QWidget *parent=0, const char *name=0, 
+                  const QGLWidget * shareWidget=0, WFlags f=0   
+                );
 
-	virtual ~OSGQGLWidget();
-	
+    virtual ~OSGQGLWidget();
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     /*------------------------- your_category -------------------------------*/
-	
-	// the main point of these is to prevent QT from interfering with OpenGL 
-	virtual void makeCurrent( void );
-	virtual void swapBuffers( void );
-	
+    
+    // the main point of these is to prevent QT from interfering with OpenGL 
+    virtual void makeCurrent( void );
+    virtual void swapBuffers( void );
+    
     /*------------------------- your_operators ------------------------------*/
 
     /*------------------------- assignment ----------------------------------*/
@@ -163,16 +163,16 @@ class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLWidget : public QGLWidget
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	virtual void initializeGL( void );
-	virtual void paintGL( void );
-	virtual void resizeGL( int w, int h );
+    virtual void initializeGL( void );
+    virtual void paintGL( void );
+    virtual void resizeGL( int w, int h );
 
-	private:
+    private:
 
     //-----------------------------------------------------------------------
     //   enums                                                               

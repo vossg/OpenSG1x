@@ -301,25 +301,25 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFImageP         	_sfImage;
-    SFUInt32         	_sfInternalFormat;
-    SFBool           	_sfScale;
-    SFUInt32         	_sfFrame;
-    SFUInt32         	_sfMinFilter;
-    SFUInt32         	_sfMagFilter;
-    SFUInt32         	_sfWrapS;
-    SFUInt32         	_sfWrapT;
-    SFUInt32         	_sfWrapR;
-    SFUInt32         	_sfEnvMode;
-    SFUInt32         	_sfGenFuncS;
-    SFUInt32         	_sfGenFuncT;
-    SFUInt32         	_sfGenFuncR;
-    SFUInt32         	_sfGenFuncQ;
-    SFPlane          	_sfGenFuncSPlane;
-    SFPlane          	_sfGenFuncTPlane;
-    SFPlane          	_sfGenFuncRPlane;
-    SFPlane          	_sfGenFuncQPlane;
-    SFUInt32         	_sfGLId;
+    SFImageP            _sfImage;
+    SFUInt32            _sfInternalFormat;
+    SFBool              _sfScale;
+    SFUInt32            _sfFrame;
+    SFUInt32            _sfMinFilter;
+    SFUInt32            _sfMagFilter;
+    SFUInt32            _sfWrapS;
+    SFUInt32            _sfWrapT;
+    SFUInt32            _sfWrapR;
+    SFUInt32            _sfEnvMode;
+    SFUInt32            _sfGenFuncS;
+    SFUInt32            _sfGenFuncT;
+    SFUInt32            _sfGenFuncR;
+    SFUInt32            _sfGenFuncQ;
+    SFPlane             _sfGenFuncSPlane;
+    SFPlane             _sfGenFuncTPlane;
+    SFPlane             _sfGenFuncRPlane;
+    SFPlane             _sfGenFuncQPlane;
+    SFUInt32            _sfGLId;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -368,6 +368,6 @@ typedef TextureChunkBase *TextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.14 2001/09/19 14:36:41 mroth Exp $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.15 2001/10/03 20:37:35 dirk Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */

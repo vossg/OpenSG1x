@@ -45,7 +45,7 @@
 #include <OSGSystemDef.h>
 #include <list>
 #include <OSGBaseTypes.h>
-#include <OSGString.h>
+#include <OSGIDString.h>
 #include <OSGNodePtr.h>
 
 OSG_BEGIN_NAMESPACE
@@ -81,10 +81,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    virtual list<String> &suffixList         (void);
+    virtual list<IDString> &suffixList         (void);
 
-            Bool          doOverride         (void);
-            UInt32        getOverridePriority(void);
+            Bool            doOverride         (void);
+            UInt32          getOverridePriority(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -131,7 +131,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     /*==========================  PRIVATE  ================================*/
   private:
 
-    list<String> _suffixList;
+    list<IDString> _suffixList;
     
     Bool         _override;
     UInt32       _overridePriority;

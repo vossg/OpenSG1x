@@ -89,13 +89,13 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
 
     static const char *getClassname(void) { return "DrawAction"; };
 
-	// create a new DrawAction by cloning the prototype
-	static DrawAction * create( void );
-	
-	// prototype access
-	// after setting the prototype all new DrawActions are clones of it
-	static void        setPrototype( DrawAction * proto );
-	static DrawAction *getPrototype( void );
+    // create a new DrawAction by cloning the prototype
+    static DrawAction * create( void );
+    
+    // prototype access
+    // after setting the prototype all new DrawActions are clones of it
+    static void        setPrototype( DrawAction * proto );
+    static DrawAction *getPrototype( void );
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -161,10 +161,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// access default functors
+    // access default functors
 
-	virtual vector<Functor>* getDefaultEnterFunctors(void);
-	virtual vector<Functor>* getDefaultLeaveFunctors(void);
+    virtual vector<Functor>* getDefaultEnterFunctors(void);
+    virtual vector<Functor>* getDefaultLeaveFunctors(void);
 
   private:
 
@@ -192,8 +192,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
 
     static char cvsid[];
 
-	// the prototype which is copied to create new actions
-	static DrawAction * _prototype;
+    // the prototype which is copied to create new actions
+    static DrawAction * _prototype;
 
     // default functors for instantiation
     static vector<Functor> *_defaultEnterFunctors;

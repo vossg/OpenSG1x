@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class LogoForeground!
+ **     class ComponentTransform!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -54,25 +54,25 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &LogoForegroundBase::getClassType(void)
+inline OSG::FieldContainerType &ComponentTransformBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 LogoForegroundBase::getClassTypeId(void) 
+inline OSG::UInt32 ComponentTransformBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline LogoForegroundPtr LogoForegroundBase::create(void) 
+inline ComponentTransformPtr ComponentTransformBase::create(void) 
 {
-    LogoForegroundPtr fc; 
+    ComponentTransformPtr fc; 
 
     if(getClassType().getPrototype() != osg::NullFC) 
     {
-        fc = LogoForegroundPtr::dcast(
+        fc = ComponentTransformPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -80,9 +80,9 @@ inline LogoForegroundPtr LogoForegroundBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline LogoForegroundPtr LogoForegroundBase::createEmpty(void) 
+inline ComponentTransformPtr ComponentTransformBase::createEmpty(void) 
 { 
-    LogoForegroundPtr returnValue; 
+    ComponentTransformPtr returnValue; 
     
     newPtr(returnValue); 
 
@@ -93,53 +93,129 @@ inline LogoForegroundPtr LogoForegroundBase::createEmpty(void)
 /*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
-MFImageP *LogoForegroundBase::getMFImages(void)
+SFVec3f *ComponentTransformBase::getSFCenter(void)
 {
-	return &_mfImages;
+    return &_sfCenter;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-MFPnt2f *LogoForegroundBase::getMFPositions(void)
+SFQuaternion *ComponentTransformBase::getSFRotation(void)
 {
-	return &_mfPositions;
-}
-
-
-
-OSG_SYSTEMLIB_DLLMAPPING
-ImageP &LogoForegroundBase::getImages(UInt32 index)
-{
-	return _mfImages.getValue( index );
-}
-
-MFImageP &LogoForegroundBase::getImages(void)
-{
-	return _mfImages;
-}
-
-const MFImageP &LogoForegroundBase::getImages(void) const
-{
-	return _mfImages;
+    return &_sfRotation;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Pnt2f &LogoForegroundBase::getPositions(UInt32 index)
+SFVec3f *ComponentTransformBase::getSFScale(void)
 {
-	return _mfPositions.getValue( index );
+    return &_sfScale;
 }
 
-MFPnt2f &LogoForegroundBase::getPositions(void)
+OSG_SYSTEMLIB_DLLMAPPING
+SFQuaternion *ComponentTransformBase::getSFScaleOrientation(void)
 {
-	return _mfPositions;
+    return &_sfScaleOrientation;
 }
 
-const MFPnt2f &LogoForegroundBase::getPositions(void) const
+OSG_SYSTEMLIB_DLLMAPPING
+SFVec3f *ComponentTransformBase::getSFTranslation(void)
 {
-	return _mfPositions;
+    return &_sfTranslation;
 }
+
+
+OSG_SYSTEMLIB_DLLMAPPING
+Vec3f &ComponentTransformBase::getCenter(void)
+{
+    return _sfCenter.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Vec3f &ComponentTransformBase::getCenter(void) const
+{
+    return _sfCenter.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void ComponentTransformBase::setCenter(const Vec3f &value)
+{
+    _sfCenter.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Quaternion &ComponentTransformBase::getRotation(void)
+{
+    return _sfRotation.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Quaternion &ComponentTransformBase::getRotation(void) const
+{
+    return _sfRotation.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void ComponentTransformBase::setRotation(const Quaternion &value)
+{
+    _sfRotation.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Vec3f &ComponentTransformBase::getScale(void)
+{
+    return _sfScale.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Vec3f &ComponentTransformBase::getScale(void) const
+{
+    return _sfScale.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void ComponentTransformBase::setScale(const Vec3f &value)
+{
+    _sfScale.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Quaternion &ComponentTransformBase::getScaleOrientation(void)
+{
+    return _sfScaleOrientation.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Quaternion &ComponentTransformBase::getScaleOrientation(void) const
+{
+    return _sfScaleOrientation.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void ComponentTransformBase::setScaleOrientation(const Quaternion &value)
+{
+    _sfScaleOrientation.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Vec3f &ComponentTransformBase::getTranslation(void)
+{
+    return _sfTranslation.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Vec3f &ComponentTransformBase::getTranslation(void) const
+{
+    return _sfTranslation.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void ComponentTransformBase::setTranslation(const Vec3f &value)
+{
+    _sfTranslation.setValue(value);
+}
+
 
 
 OSG_END_NAMESPACE
 
-#define OSGLOGOFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID "@(#)$Id: OSGComponentTransformBase.inl,v 1.1 2001/10/03 20:37:35 dirk Exp $"
 

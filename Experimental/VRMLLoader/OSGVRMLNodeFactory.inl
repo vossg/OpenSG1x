@@ -265,7 +265,7 @@ void VRMLNodeFactory<BaseT>::beginProtoInterface(
             
             _pCurrentNodeDesc = new VRMLGeometryPartDesc("point",
                                                          "positions",
-                                                         "GeoPosition3f");
+                                                         "GeoPositions3f");
             
             _pCurrentNodeDesc->init(szProtoname);
             
@@ -277,7 +277,7 @@ void VRMLNodeFactory<BaseT>::beginProtoInterface(
             
             _pCurrentNodeDesc = new VRMLGeometryPartDesc("vector",
                                                          "Normals",
-                                                         "GeoNormal3f");
+                                                         "GeoNormals3f");
             
             _pCurrentNodeDesc->init(szProtoname);
             
@@ -289,7 +289,7 @@ void VRMLNodeFactory<BaseT>::beginProtoInterface(
             
             _pCurrentNodeDesc = new VRMLGeometryPartDesc("color",
                                                          "Colors",
-                                                         "GeoColor3f");
+                                                         "GeoColors3f");
             
             _pCurrentNodeDesc->init(szProtoname);
             
@@ -556,7 +556,7 @@ OSG::NodePtr VRMLNodeFactory<BaseT>::getNode(const Char8 *szNodename)
     if(szNodename == NULL)
         return returnValue;
 
-    gIt = _mNodeProtos.find(StringLink(szNodename));
+    gIt = _mNodeProtos.find(IDStringLink(szNodename));
 
     if(gIt != _mNodeProtos.end())
     {

@@ -175,7 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFMaterialPtr    	_sfMaterial;
+    SFMaterialPtr       _sfMaterial;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,6 +224,6 @@ typedef MaterialGroupBase *MaterialGroupBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALGROUPBASE_HEADER_CVSID "@(#)$Id: OSGMaterialGroupBase.h,v 1.13 2001/09/19 14:36:41 mroth Exp $"
+#define OSGMATERIALGROUPBASE_HEADER_CVSID "@(#)$Id: OSGMaterialGroupBase.h,v 1.14 2001/10/03 20:37:35 dirk Exp $"
 
 #endif /* _OSGMATERIALGROUPBASE_H_ */

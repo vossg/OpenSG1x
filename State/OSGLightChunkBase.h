@@ -238,16 +238,16 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFColor4f        	_sfDiffuse;
-    SFColor4f        	_sfAmbient;
-    SFColor4f        	_sfSpecular;
-    SFVec4f          	_sfPosition;
-    SFVec3f          	_sfDirection;
-    SFReal32         	_sfExponent;
-    SFReal32         	_sfCutoff;
-    SFReal32         	_sfConstantAttenuation;
-    SFReal32         	_sfLinearAttenuation;
-    SFReal32         	_sfQuadraticAttenuation;
+    SFColor4f           _sfDiffuse;
+    SFColor4f           _sfAmbient;
+    SFColor4f           _sfSpecular;
+    SFVec4f             _sfPosition;
+    SFVec3f             _sfDirection;
+    SFReal32            _sfExponent;
+    SFReal32            _sfCutoff;
+    SFReal32            _sfConstantAttenuation;
+    SFReal32            _sfLinearAttenuation;
+    SFReal32            _sfQuadraticAttenuation;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -296,6 +296,6 @@ typedef LightChunkBase *LightChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.13 2001/09/19 14:36:41 mroth Exp $"
+#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.14 2001/10/03 20:37:35 dirk Exp $"
 
 #endif /* _OSGLIGHTCHUNKBASE_H_ */

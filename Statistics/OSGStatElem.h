@@ -46,7 +46,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGSystemDef.h>
 
-#include <OSGString.h>
+#include <OSGIDString.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -80,7 +80,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
 
     inline  StatElemDesc * getDesc     (void)         { return _desc; }
 
-    virtual String        &putToString ( String &str ) = 0;
+    virtual IDString      &putToString ( IDString &str ) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

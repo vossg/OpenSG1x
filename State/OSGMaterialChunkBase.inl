@@ -95,175 +95,175 @@ inline MaterialChunkPtr MaterialChunkBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFColor4f *MaterialChunkBase::getSFDiffuse(void)
 {
-	return &_sfDiffuse;
+    return &_sfDiffuse;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFColor4f *MaterialChunkBase::getSFAmbient(void)
 {
-	return &_sfAmbient;
+    return &_sfAmbient;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFColor4f *MaterialChunkBase::getSFSpecular(void)
 {
-	return &_sfSpecular;
+    return &_sfSpecular;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFColor4f *MaterialChunkBase::getSFEmission(void)
 {
-	return &_sfEmission;
+    return &_sfEmission;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *MaterialChunkBase::getSFShininess(void)
 {
-	return &_sfShininess;
+    return &_sfShininess;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFBool *MaterialChunkBase::getSFLit(void)
 {
-	return &_sfLit;
+    return &_sfLit;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *MaterialChunkBase::getSFColorMaterial(void)
 {
-	return &_sfColorMaterial;
+    return &_sfColorMaterial;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color4f &MaterialChunkBase::getDiffuse(void)
 {
-	return _sfDiffuse.getValue();
+    return _sfDiffuse.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Color4f &MaterialChunkBase::getDiffuse(void) const
 {
-	return _sfDiffuse.getValue();
+    return _sfDiffuse.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void MaterialChunkBase::setDiffuse(const Color4f &value)
 {
-	_sfDiffuse.setValue(value);
+    _sfDiffuse.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color4f &MaterialChunkBase::getAmbient(void)
 {
-	return _sfAmbient.getValue();
+    return _sfAmbient.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Color4f &MaterialChunkBase::getAmbient(void) const
 {
-	return _sfAmbient.getValue();
+    return _sfAmbient.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void MaterialChunkBase::setAmbient(const Color4f &value)
 {
-	_sfAmbient.setValue(value);
+    _sfAmbient.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color4f &MaterialChunkBase::getSpecular(void)
 {
-	return _sfSpecular.getValue();
+    return _sfSpecular.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Color4f &MaterialChunkBase::getSpecular(void) const
 {
-	return _sfSpecular.getValue();
+    return _sfSpecular.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void MaterialChunkBase::setSpecular(const Color4f &value)
 {
-	_sfSpecular.setValue(value);
+    _sfSpecular.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color4f &MaterialChunkBase::getEmission(void)
 {
-	return _sfEmission.getValue();
+    return _sfEmission.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Color4f &MaterialChunkBase::getEmission(void) const
 {
-	return _sfEmission.getValue();
+    return _sfEmission.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void MaterialChunkBase::setEmission(const Color4f &value)
 {
-	_sfEmission.setValue(value);
+    _sfEmission.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &MaterialChunkBase::getShininess(void)
 {
-	return _sfShininess.getValue();
+    return _sfShininess.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &MaterialChunkBase::getShininess(void) const
 {
-	return _sfShininess.getValue();
+    return _sfShininess.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void MaterialChunkBase::setShininess(const Real32 &value)
 {
-	_sfShininess.setValue(value);
+    _sfShininess.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Bool &MaterialChunkBase::getLit(void)
 {
-	return _sfLit.getValue();
+    return _sfLit.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Bool &MaterialChunkBase::getLit(void) const
 {
-	return _sfLit.getValue();
+    return _sfLit.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void MaterialChunkBase::setLit(const Bool &value)
 {
-	_sfLit.setValue(value);
+    _sfLit.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &MaterialChunkBase::getColorMaterial(void)
 {
-	return _sfColorMaterial.getValue();
+    return _sfColorMaterial.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &MaterialChunkBase::getColorMaterial(void) const
 {
-	return _sfColorMaterial.getValue();
+    return _sfColorMaterial.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void MaterialChunkBase::setColorMaterial(const UInt32 &value)
 {
-	_sfColorMaterial.setValue(value);
+    _sfColorMaterial.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGMaterialChunkBase.inl,v 1.8 2001/09/17 14:15:07 vossg Exp $"
+#define OSGMATERIALCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGMaterialChunkBase.inl,v 1.9 2001/10/03 20:37:35 dirk Exp $"
 

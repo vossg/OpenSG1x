@@ -114,7 +114,7 @@ int main (int argc, char **argv)
     	beginEditCP(g1);
 	cerr << "Geometry Node: " << hex << (Geometry*) g1.getCPtr() << endl;
 
-	GeoPosition3fPtr pnts = GeoPosition3f::create();
+	GeoPositions3fPtr pnts = GeoPositions3f::create();
 	g1->setPositions( pnts );
 	cerr << "Points property: " << hex << pnts << endl;
 
@@ -135,7 +135,7 @@ int main (int argc, char **argv)
 	endEditCP(pnts);
 
 
-	GeoColor4ubPtr cols = GeoColor4ub::create();
+	GeoColors4ubPtr cols = GeoColors4ub::create();
 	g1->setColors( cols );
 	beginEditCP(cols);
 	cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
@@ -162,8 +162,8 @@ int main (int argc, char **argv)
 	texs->addValue( Vec2f( 0, 2 ) );
 	endEditCP(texs);
 
-	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
-	g1->setIndex( index );
+	GeoIndicesUI32Ptr index = GeoIndicesUI32::create();	
+	g1->setIndices( index );
 	beginEditCP(index);
 	index->getFieldPtr()->addValue( 0 ); // PNT index
 //	index->getFieldPtr()->addValue( 0 ); // C index
@@ -189,7 +189,7 @@ int main (int argc, char **argv)
 //    g1->getIndexMapping().addValue( Geometry::MapColor );
 
 
-	GeoPLengthPtr lens = GeoPLengthUI32::create();	
+	GeoPLengthsPtr lens = GeoPLengthsUI32::create();	
 	g1->setLengths( lens );
 	beginEditCP(lens);
 	lens->addValue( 4 );
@@ -197,7 +197,7 @@ int main (int argc, char **argv)
 	endEditCP(lens);
 
 
-	GeoPTypePtr type = GeoPTypeUI8::create();	
+	GeoPTypesPtr type = GeoPTypesUI8::create();	
 	g1->setTypes( type );
 	beginEditCP(type);
 	type->addValue( GL_POLYGON );

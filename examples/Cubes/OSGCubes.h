@@ -107,9 +107,9 @@ class OSG_MYLIB_DLLMAPPING Cubes : public CubesBase
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
-	
-	// draw the object
-	Action::ResultE draw(Action * action );
+    
+    // draw the object
+    Action::ResultE draw(Action * action );
    
     // updates 
     

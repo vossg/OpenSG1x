@@ -136,7 +136,7 @@ UInt32 TypeFactory::findTypeStatic(const Char8 *szName)
 	TypeNameMapCnstIt  typeIt;
 	UInt32             uiTypeId = 0;
 
-    typeIt   = _mTypeNameMap.find(StringLink(szName));
+    typeIt   = _mTypeNameMap.find(IDStringLink(szName));
     uiTypeId = (typeIt == _mTypeNameMap.end()) ? 0 : (*typeIt).second;
 
 	return uiTypeId;
@@ -170,7 +170,7 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
 
     returnValue = _mTypeNameMap.size() + 1;
     
-    _mTypeNameMap[StringLink(pType->getCName())] = returnValue;
+    _mTypeNameMap[IDStringLink(pType->getCName())] = returnValue;
 
     FDEBUG (("Registered type %s | %d\n", pType->getCName(), returnValue));
 

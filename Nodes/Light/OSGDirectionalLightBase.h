@@ -175,7 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public LightBase
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFVec3f          	_sfDirection;
+    SFVec3f             _sfDirection;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,6 +224,6 @@ typedef DirectionalLightBase *DirectionalLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDIRECTIONALLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGDirectionalLightBase.h,v 1.13 2001/09/19 14:36:40 mroth Exp $"
+#define OSGDIRECTIONALLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGDirectionalLightBase.h,v 1.14 2001/10/03 20:37:34 dirk Exp $"
 
 #endif /* _OSGDIRECTIONALLIGHTBASE_H_ */

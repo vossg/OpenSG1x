@@ -155,8 +155,8 @@ void loadMesh(const char *szFilename, OSG::NodePtr dlight)
     OSG::NodePtr pTextTrNode1             = 
         OSG::Node::create();
     
-    OSG::VRMLTransformPtr pTextTransform1 = 
-        OSG::VRMLTransform::create();
+    OSG::ComponentTransformPtr pTextTransform1 = 
+        OSG::ComponentTransform::create();
     
     pTextTrNode1->setCore(pTextTransform1);
     
@@ -211,8 +211,8 @@ void loadMesh(const char *szFilename, OSG::NodePtr dlight)
     OSG::NodePtr pTextTrNode2             = 
         OSG::Node::create();
 
-    OSG::VRMLTransformPtr pTextTransform2 = 
-        OSG::VRMLTransform::create();
+    OSG::ComponentTransformPtr pTextTransform2 = 
+        OSG::ComponentTransform::create();
 
     pTextTrNode2->setCore(pTextTransform2);
 

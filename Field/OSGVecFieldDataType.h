@@ -162,8 +162,8 @@ struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
     static void   putToString(const Vec2f  &inVal,
                                     std::string &outVal)
     {
-		outVal.assign( TypeConstants<Vec2f::ValueType>::putToString((inVal.getValues())[0]) );
-	  outVal.append( "  " );
+        outVal.assign( TypeConstants<Vec2f::ValueType>::putToString((inVal.getValues())[0]) );
+      outVal.append( "  " );
       outVal.append( TypeConstants<Vec2f::ValueType>::putToString((inVal.getValues())[1]) );
     }
 };
@@ -203,9 +203,9 @@ struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore3Base<Vec3f>
     {
        outVal.assign( TypeConstants<Vec3f::ValueType>::putToString((inVal.getValues())[0]) );
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Vec3f::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( TypeConstants<Vec3f::ValueType>::putToString((inVal.getValues())[1]) );
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Vec3f::ValueType>::putToString((inVal.getValues())[2]) );
+      outVal.append( TypeConstants<Vec3f::ValueType>::putToString((inVal.getValues())[2]) );
     }
 };
 
@@ -246,11 +246,11 @@ struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
     {
       outVal.assign( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[0]) );
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[1]) );
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[2]) );
+      outVal.append( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[2]) );
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[3]) );
+      outVal.append( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[3]) );
     }
 };
 
@@ -288,11 +288,11 @@ struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore4Base<Vec4ub>
     {
         outVal.assign( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[0]) );
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[1]) );
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[2]) );
+      outVal.append( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[2]) );
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[3]) );
+      outVal.append( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[3]) );
     }
 };
 
@@ -332,7 +332,7 @@ struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
     {
         outVal.assign( TypeConstants<Pnt2f::ValueType>::putToString((inVal.getValues())[0]) ); 
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Pnt2f::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( TypeConstants<Pnt2f::ValueType>::putToString((inVal.getValues())[1]) );
     }
 };
 
@@ -371,9 +371,9 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
     {
         outVal.assign( TypeConstants<Pnt3f::ValueType>::putToString((inVal.getValues())[0]) );
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( TypeConstants<Pnt3f::ValueType>::putToString((inVal.getValues())[1]) );
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString((inVal.getValues())[2]) );
+      outVal.append( TypeConstants<Pnt3f::ValueType>::putToString((inVal.getValues())[2]) );
     }
 };
 
@@ -412,11 +412,11 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
     {
         outVal.assign( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[0]) );
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[1]) );
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[2]) );
+      outVal.append( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[2]) );
       outVal.append( "  " );
-	  outVal.append( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[3]) );
+      outVal.append( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[3]) );
     }
 };
 

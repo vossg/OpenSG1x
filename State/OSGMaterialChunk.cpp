@@ -75,7 +75,7 @@ The material chunk class.
 
 char MaterialChunk::cvsid[] = "@(#)$Id: $";
 
-StateChunkClass MaterialChunk::_class(String("Material"));
+StateChunkClass MaterialChunk::_class("Material");
 
 /***************************************************************************\
  *                           Class methods                                 *

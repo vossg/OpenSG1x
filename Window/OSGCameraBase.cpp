@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.16 2001/10/02 06:16:12 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.17 2001/10/03 20:37:36 dirk Exp $";
     static char cvsid_hpp       [] = OSGCAMERABASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGCAMERABASE_INLINE_CVSID;
 
@@ -100,13 +100,13 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	CameraBase::BeaconFieldMask = 
+const OSG::BitVector  CameraBase::BeaconFieldMask = 
     (1 << CameraBase::BeaconFieldId);
 
-const OSG::BitVector	CameraBase::NearFieldMask = 
+const OSG::BitVector  CameraBase::NearFieldMask = 
     (1 << CameraBase::NearFieldId);
 
-const OSG::BitVector	CameraBase::FarFieldMask = 
+const OSG::BitVector  CameraBase::FarFieldMask = 
     (1 << CameraBase::FarFieldId);
 
 
@@ -191,20 +191,20 @@ void CameraBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 CameraBase::CameraBase(void) :
-	_sfBeacon                 (), 
-	_sfNear                   (), 
-	_sfFar                    (), 
-	Inherited() 
+    _sfBeacon                 (), 
+    _sfNear                   (), 
+    _sfFar                    (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 CameraBase::CameraBase(const CameraBase &source) :
-	_sfBeacon                 (source._sfBeacon                 ), 
-	_sfNear                   (source._sfNear                   ), 
-	_sfFar                    (source._sfFar                    ), 
-	Inherited                 (source)
+    _sfBeacon                 (source._sfBeacon                 ), 
+    _sfNear                   (source._sfNear                   ), 
+    _sfFar                    (source._sfFar                    ), 
+    Inherited                 (source)
 {
 }
 

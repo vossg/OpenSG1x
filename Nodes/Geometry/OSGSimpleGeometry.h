@@ -168,10 +168,10 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr makeConicalFrustum(Real32 height,
                                                     Bool   doTop,
                                                     Bool   doBottom);
 
-OSG_SYSTEMLIB_DLLMAPPING GeoPosition3fPtr makeGeoPosition3fPtr(UInt32 uiSize);
-OSG_SYSTEMLIB_DLLMAPPING GeoIndexUI32Ptr  makeGeoIndexUI32Ptr (UInt32 uiSize);
-OSG_SYSTEMLIB_DLLMAPPING GeoPLengthPtr    makeGeoPLengthPtr   (UInt32 uiSize);
-OSG_SYSTEMLIB_DLLMAPPING GeoPTypePtr      makeGeoPTypePtr     (UInt32 uiSize);
+OSG_SYSTEMLIB_DLLMAPPING GeoPositions3fPtr makeGeoPositions3fPtr(UInt32 uiSize);
+OSG_SYSTEMLIB_DLLMAPPING GeoIndicesUI32Ptr  makeGeoIndicesUI32Ptr (UInt32 uiSize);
+OSG_SYSTEMLIB_DLLMAPPING GeoPLengthsPtr    makeGeoPLengthsPtr   (UInt32 uiSize);
+OSG_SYSTEMLIB_DLLMAPPING GeoPTypesPtr      makeGeoPTypesPtr     (UInt32 uiSize);
 
 /*! \brief access the default material
  *  \ingroup SimpleGeometry

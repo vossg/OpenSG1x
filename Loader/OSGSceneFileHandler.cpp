@@ -129,7 +129,7 @@ SceneFileType *SceneFileHandler::getFileType(const Char8 *fileName)
 {
 	      Int32                  i;
           Int32                  l;
-          String                 suffix;
+          IDString               suffix;
 	const Char8                  separator = '.';
 	      SceneFileType         *type = NULL;
 	      FileTypeMap::iterator  sI;
@@ -390,10 +390,10 @@ Bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
 {
 	Bool retCode = false;
 
-	list<String>::iterator sI;
-	FileTypeMap ::iterator smI;
+	list<IDString>::iterator sI;
+	FileTypeMap   ::iterator smI;
 
-	String suffix;
+	IDString suffix;
 
 	if(_the == NULL)
     {

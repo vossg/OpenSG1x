@@ -45,7 +45,7 @@
 
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
-#include <OSGString.h>
+#include <OSGIDStringLink.h>
 
 #include <map>
 
@@ -69,7 +69,7 @@ class OSG_BASE_DLLMAPPING TypeFactory
     /*! \name                      Types                                   */
     /*! \{                                                                 */
 
-    typedef std::map<StringLink, UInt32>     TypeNameMap;
+    typedef std::map<IDStringLink, UInt32>     TypeNameMap;
 
     typedef TypeNameMap::iterator            TypeNameMapIt;
     typedef TypeNameMap::const_iterator      TypeNameMapCnstIt;

@@ -74,19 +74,19 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*==========================  PUBLIC  =================================*/
   public:
 
-	enum 
-	{ 
-		VolumeFieldId      = Inherited::NextFieldId, 
-		ParentFieldId      = VolumeFieldId         + 1,
-		ChildrenFieldId    = ParentFieldId         + 1,
-		CoreFieldId        = ChildrenFieldId       + 1,
-		NextFieldId        = CoreFieldId           + 1
-	};
+    enum 
+    { 
+        VolumeFieldId      = Inherited::NextFieldId, 
+        ParentFieldId      = VolumeFieldId         + 1,
+        ChildrenFieldId    = ParentFieldId         + 1,
+        CoreFieldId        = ChildrenFieldId       + 1,
+        NextFieldId        = CoreFieldId           + 1
+    };
 
-	static const BitVector VolumeFieldMask;
-	static const BitVector ParentFieldMask;
-	static const BitVector ChildrenFieldMask;
-	static const BitVector CoreFieldMask;
+    static const BitVector VolumeFieldMask;
+    static const BitVector ParentFieldMask;
+    static const BitVector ChildrenFieldMask;
+    static const BitVector CoreFieldMask;
 
 
     typedef NodePtr Ptr;
@@ -146,7 +146,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \{                                                                 */
     /*--------------------------- access fields ----------------------------*/
 
-    SFDynamicVolume	*getSFVolume  (void);
+    SFDynamicVolume     *getSFVolume  (void);
 
     SFNodePtr       *getSFParent  (void);
     SFNodeCorePtr   *getSFCore    (void);
@@ -170,11 +170,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     
     const DynamicVolume &getVolume       (void                 ) const;
     
-          void			 getWorldVolume  (DynamicVolume &result);
+          void           getWorldVolume  (DynamicVolume &result);
     
-          void			 updateVolume    (void                 );
+          void           updateVolume    (void                 );
 
-          void			 invalidateVolume(void                 );
+          void           invalidateVolume(void                 );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -225,7 +225,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFDynamicVolume	_volume;
+    SFDynamicVolume     _volume;
 
     SFNodePtr       _parent;
     MFNodePtr       _children;

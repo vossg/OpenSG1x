@@ -50,14 +50,14 @@ int main (int argc, char **argv)
     NodePtr  p1 = Node::create();
     GeometryPtr g1 = Geometry::create();
 
-    GeoPosition3f::getClassType();
+    GeoPositions3f::getClassType();
 
 	p1->setCore( g1 );
 
 	cerr << "Geometry Node: " << hex << (Geometry*) g1.getCPtr() << endl;
 
-	GeoPosition3f::PtrType pnts = GeoPosition3f::create();
-	GeoPositionPtr pnt = pnts;
+	GeoPositions3f::PtrType pnts = GeoPositions3f::create();
+	GeoPositionsPtr pnt = pnts;
 
 	cerr << "Positions: " << endl;
 	cerr << "Dim:" << pnts->getDimension() << ", Format:" 

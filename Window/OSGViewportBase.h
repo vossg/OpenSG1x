@@ -231,15 +231,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFReal32         	_sfLeft;
-    SFReal32         	_sfRight;
-    SFReal32         	_sfBottom;
-    SFReal32         	_sfTop;
-    SFWindowPtr      	_sfParent;
-    SFCameraPtr      	_sfCamera;
-    SFNodePtr        	_sfRoot;
-    SFBackgroundPtr  	_sfBackground;
-    MFForegroundPtr  	_mfForegrounds;
+    SFReal32            _sfLeft;
+    SFReal32            _sfRight;
+    SFReal32            _sfBottom;
+    SFReal32            _sfTop;
+    SFWindowPtr         _sfParent;
+    SFCameraPtr         _sfCamera;
+    SFNodePtr           _sfRoot;
+    SFBackgroundPtr     _sfBackground;
+    MFForegroundPtr     _mfForegrounds;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -288,6 +288,6 @@ typedef ViewportBase *ViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.14 2001/09/19 14:36:41 mroth Exp $"
+#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.15 2001/10/03 20:37:36 dirk Exp $"
 
 #endif /* _OSGVIEWPORTBASE_H_ */

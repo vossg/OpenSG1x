@@ -59,14 +59,14 @@ inline Bool Window::isResizePending ( void )
 inline UInt32 Window::registerExtension( const Char8 *s )
 {
 	UInt32 r = _registeredExtensions.size();
-    _registeredExtensions.push_back( StringLink(s) );
+    _registeredExtensions.push_back( IDStringLink(s) );
     return ( r );
 }
 
 inline UInt32 Window::registerFunction( const Char8 *s )
 {
 	UInt32 r = _registeredFunctions.size();
-    _registeredFunctions.push_back( StringLink(s) );
+    _registeredFunctions.push_back( IDStringLink(s) );
     return ( r );
 }
 

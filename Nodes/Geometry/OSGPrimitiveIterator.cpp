@@ -90,7 +90,7 @@ For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.11 2001/08/02 14:07:55 dirk Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.12 2001/10/03 20:37:34 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -189,7 +189,7 @@ void PrimitiveIterator::setGeo( const GeometryPtr& geo )
 	_geo = geo;
 	_types = geo->getTypes();
 	_lengths = geo->getLengths();
-	_indices = geo->getIndex();
+	_indices = geo->getIndices();
 	
 	setToBegin();
 }
@@ -238,7 +238,7 @@ void PrimitiveIterator::setToBegin( void )
 	if ( _nmappings == 0 )
 		_nmappings = 1;
 				  
-	if ( _types != GeoPType::NullPtr && _types->getSize() > 0 )
+	if ( _types != GeoPTypes::NullPtr && _types->getSize() > 0 )
 	{
 		_actPrimType = _types->getValue( _primIndex );
 		_actPrimLength = _lengths->getValue( _primIndex );
@@ -251,7 +251,7 @@ void PrimitiveIterator::setToBegin( void )
 
 void PrimitiveIterator::setToEnd( void )
 {
-	if ( _types != GeoPType::NullPtr )
+	if ( _types != GeoPTypes::NullPtr )
 		_primIndex = _types->getSize();
 	else
 		_primIndex = 0;

@@ -45,37 +45,37 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class LogoForeground!
+ **     class ImageForeground!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
 #define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILELOGOFOREGROUNDINST
+#define OSG_COMPILEIMAGEFOREGROUNDINST
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
 
-#include "OSGLogoForegroundBase.h"
-#include "OSGLogoForeground.h"
+#include "OSGImageForegroundBase.h"
+#include "OSGImageForeground.h"
 
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<LogoForegroundPtr>::_type("LogoForegroundPtr", "ForegroundPtr", true);
+DataType FieldDataTraits<ImageForegroundPtr>::_type("ImageForegroundPtr", "ForegroundPtr", true);
 
 #if defined(__sgi)
 
-#pragma instantiate SField<LogoForegroundPtr>::_fieldType
-#pragma instantiate MField<LogoForegroundPtr>::_fieldType
+#pragma instantiate SField<ImageForegroundPtr>::_fieldType
+#pragma instantiate MField<ImageForegroundPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, LogoForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, LogoForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, ImageForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, ImageForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -89,118 +89,118 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: $";
-    static char cvsid_hpp       [] = OSGLOGOFOREGROUNDBASE_HEADER_CVSID;
-    static char cvsid_inl       [] = OSGLOGOFOREGROUNDBASE_INLINE_CVSID;
+    static char cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.1 2001/10/03 20:37:36 dirk Exp $";
+    static char cvsid_hpp       [] = OSGIMAGEFOREGROUNDBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGIMAGEFOREGROUNDBASE_INLINE_CVSID;
 
-    static char cvsid_fields_hpp[] = OSGLOGOFOREGROUNDFIELDS_HEADER_CVSID;
+    static char cvsid_fields_hpp[] = OSGIMAGEFOREGROUNDFIELDS_HEADER_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	LogoForegroundBase::ImagesFieldMask = 
-    (1 << LogoForegroundBase::ImagesFieldId);
+const OSG::BitVector  ImageForegroundBase::ImagesFieldMask = 
+    (1 << ImageForegroundBase::ImagesFieldId);
 
-const OSG::BitVector	LogoForegroundBase::PositionsFieldMask = 
-    (1 << LogoForegroundBase::PositionsFieldId);
+const OSG::BitVector  ImageForegroundBase::PositionsFieldMask = 
+    (1 << ImageForegroundBase::PositionsFieldId);
 
 
 
 // Field descriptions
 
-/*! \var ImageP          LogoForegroundBase::_mfImages
+/*! \var ImageP          ImageForegroundBase::_mfImages
     The images to display.
 */
-/*! \var Pnt2f           LogoForegroundBase::_mfPositions
+/*! \var Pnt2f           ImageForegroundBase::_mfPositions
     The positions of the images.
 */
-//! LogoForeground description
+//! ImageForeground description
 
-FieldDescription *LogoForegroundBase::_desc[] = 
+FieldDescription *ImageForegroundBase::_desc[] = 
 {
     new FieldDescription(MFImageP::getClassType(), 
                      "images", 
                      ImagesFieldId, ImagesFieldMask,
                      false,
-                     (FieldAccessMethod) &LogoForegroundBase::getMFImages),
+                     (FieldAccessMethod) &ImageForegroundBase::getMFImages),
     new FieldDescription(MFPnt2f::getClassType(), 
                      "positions", 
                      PositionsFieldId, PositionsFieldMask,
                      false,
-                     (FieldAccessMethod) &LogoForegroundBase::getMFPositions)
+                     (FieldAccessMethod) &ImageForegroundBase::getMFPositions)
 };
 
-//! LogoForeground type
+//! ImageForeground type
 
-FieldContainerType LogoForegroundBase::_type(
-    "LogoForeground",
+FieldContainerType ImageForegroundBase::_type(
+    "ImageForeground",
     "Foreground",
     NULL,
-    (PrototypeCreateF) &LogoForegroundBase::createEmpty,
-    LogoForeground::initMethod,
+    (PrototypeCreateF) &ImageForegroundBase::createEmpty,
+    ImageForeground::initMethod,
     _desc,
     sizeof(_desc));
 
-//OSG_FIELD_CONTAINER_DEF(LogoForegroundBase, LogoForegroundPtr)
+//OSG_FIELD_CONTAINER_DEF(ImageForegroundBase, ImageForegroundPtr)
 
 /*------------------------------ get -----------------------------------*/
 
 static const char *getClassname(void)
 {
-    return "LogoForeground"; 
+    return "ImageForeground"; 
 }
 
-FieldContainerType &LogoForegroundBase::getType(void) 
+FieldContainerType &ImageForegroundBase::getType(void) 
 {
     return _type; 
 } 
 
-const FieldContainerType &LogoForegroundBase::getType(void) const 
+const FieldContainerType &ImageForegroundBase::getType(void) const 
 {
     return _type;
 } 
 /*! \}                                                                 */
 
-FieldContainerPtr LogoForegroundBase::shallowCopy(void) const 
+FieldContainerPtr ImageForegroundBase::shallowCopy(void) const 
 { 
-    LogoForegroundPtr returnValue; 
+    ImageForegroundPtr returnValue; 
 
-    newPtr(returnValue, dynamic_cast<const LogoForeground *>(this)); 
+    newPtr(returnValue, dynamic_cast<const ImageForeground *>(this)); 
 
     return returnValue; 
 }
 
-UInt32 LogoForegroundBase::getContainerSize(void) const 
+UInt32 ImageForegroundBase::getContainerSize(void) const 
 { 
-    return sizeof(LogoForegroundBase); 
+    return sizeof(ImageForegroundBase); 
 }
 
 
-void LogoForegroundBase::executeSync(      FieldContainer &other,
+void ImageForegroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((LogoForegroundBase *) &other, whichField);
+    this->executeSyncImpl((ImageForegroundBase *) &other, whichField);
 }
 
 /*------------------------- constructors ----------------------------------*/
 
 //! Constructor
 
-LogoForegroundBase::LogoForegroundBase(void) :
-	_mfImages                 (), 
-	_mfPositions              (), 
-	Inherited() 
+ImageForegroundBase::ImageForegroundBase(void) :
+    _mfImages                 (), 
+    _mfPositions              (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
-LogoForegroundBase::LogoForegroundBase(const LogoForegroundBase &source) :
-	_mfImages                 (source._mfImages                 ), 
-	_mfPositions              (source._mfPositions              ), 
-	Inherited                 (source)
+ImageForegroundBase::ImageForegroundBase(const ImageForegroundBase &source) :
+    _mfImages                 (source._mfImages                 ), 
+    _mfPositions              (source._mfPositions              ), 
+    Inherited                 (source)
 {
 }
 
@@ -208,13 +208,13 @@ LogoForegroundBase::LogoForegroundBase(const LogoForegroundBase &source) :
 
 //! Destructor
 
-LogoForegroundBase::~LogoForegroundBase(void)
+ImageForegroundBase::~ImageForegroundBase(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 LogoForegroundBase::getBinSize(const BitVector &whichField)
+UInt32 ImageForegroundBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
@@ -232,7 +232,7 @@ UInt32 LogoForegroundBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-void LogoForegroundBase::copyToBin(      BinaryDataHandler &pMem,
+void ImageForegroundBase::copyToBin(      BinaryDataHandler &pMem,
                                   const BitVector         &whichField)
 {
     Inherited::copyToBin(pMem, whichField);
@@ -250,7 +250,7 @@ void LogoForegroundBase::copyToBin(      BinaryDataHandler &pMem,
 
 }
 
-void LogoForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
+void ImageForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
@@ -268,7 +268,7 @@ void LogoForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
-void LogoForegroundBase::executeSyncImpl(      LogoForegroundBase *pOther,
+void ImageForegroundBase::executeSyncImpl(      ImageForegroundBase *pOther,
                                         const BitVector         &whichField)
 {
 

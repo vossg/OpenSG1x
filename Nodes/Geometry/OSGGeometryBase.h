@@ -67,13 +67,13 @@
 
 #include <OSGNodeCore.h> // Parent
 
-#include <OSGGeoPTypeFields.h> // Types type
-#include <OSGGeoPLengthFields.h> // Lengths type
-#include <OSGGeoPositionFields.h> // Positions type
-#include <OSGGeoNormalFields.h> // Normals type
-#include <OSGGeoColorFields.h> // Colors type
+#include <OSGGeoPTypesFields.h> // Types type
+#include <OSGGeoPLengthsFields.h> // Lengths type
+#include <OSGGeoPositionsFields.h> // Positions type
+#include <OSGGeoNormalsFields.h> // Normals type
+#include <OSGGeoColorsFields.h> // Colors type
 #include <OSGGeoTexCoordsFields.h> // TexCoords type
-#include <OSGGeoIndexFields.h> // Index type
+#include <OSGGeoIndicesFields.h> // Indices type
 #include <OSGUInt16Fields.h> // IndexMapping type
 #include <OSGMaterialFields.h> // Material type
 #include <OSGBoolFields.h> // DlistCache type
@@ -105,8 +105,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
         NormalsFieldId      = PositionsFieldId    + 1,
         ColorsFieldId       = NormalsFieldId      + 1,
         TexCoordsFieldId    = ColorsFieldId       + 1,
-        IndexFieldId        = TexCoordsFieldId    + 1,
-        IndexMappingFieldId = IndexFieldId        + 1,
+        IndicesFieldId      = TexCoordsFieldId    + 1,
+        IndexMappingFieldId = IndicesFieldId      + 1,
         MaterialFieldId     = IndexMappingFieldId + 1,
         DlistCacheFieldId   = MaterialFieldId     + 1,
         GLIdFieldId         = DlistCacheFieldId   + 1,
@@ -119,7 +119,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     static const osg::BitVector NormalsFieldMask;
     static const osg::BitVector ColorsFieldMask;
     static const osg::BitVector TexCoordsFieldMask;
-    static const osg::BitVector IndexFieldMask;
+    static const osg::BitVector IndicesFieldMask;
     static const osg::BitVector IndexMappingFieldMask;
     static const osg::BitVector MaterialFieldMask;
     static const osg::BitVector DlistCacheFieldMask;
@@ -149,31 +149,31 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFGeoPTypePtr       *getSFTypes          (void);
-    inline       SFGeoPLengthPtr     *getSFLengths        (void);
-    inline       SFGeoPositionPtr    *getSFPositions      (void);
-    inline       SFGeoNormalPtr      *getSFNormals        (void);
-    inline       SFGeoColorPtr       *getSFColors         (void);
+    inline       SFGeoPTypesPtr      *getSFTypes          (void);
+    inline       SFGeoPLengthsPtr    *getSFLengths        (void);
+    inline       SFGeoPositionsPtr   *getSFPositions      (void);
+    inline       SFGeoNormalsPtr     *getSFNormals        (void);
+    inline       SFGeoColorsPtr      *getSFColors         (void);
     inline       SFGeoTexCoordsPtr   *getSFTexCoords      (void);
-    inline       SFGeoIndexPtr       *getSFIndex          (void);
+    inline       SFGeoIndicesPtr     *getSFIndices        (void);
     inline       MFUInt16            *getMFIndexMapping   (void);
     inline       SFMaterialPtr       *getSFMaterial       (void);
     inline       SFBool              *getSFDlistCache     (void);
 
-    inline       GeoPTypePtr         &getTypes          (void);
-    inline const GeoPTypePtr         &getTypes          (void) const;
-    inline       GeoPLengthPtr       &getLengths        (void);
-    inline const GeoPLengthPtr       &getLengths        (void) const;
-    inline       GeoPositionPtr      &getPositions      (void);
-    inline const GeoPositionPtr      &getPositions      (void) const;
-    inline       GeoNormalPtr        &getNormals        (void);
-    inline const GeoNormalPtr        &getNormals        (void) const;
-    inline       GeoColorPtr         &getColors         (void);
-    inline const GeoColorPtr         &getColors         (void) const;
+    inline       GeoPTypesPtr        &getTypes          (void);
+    inline const GeoPTypesPtr        &getTypes          (void) const;
+    inline       GeoPLengthsPtr      &getLengths        (void);
+    inline const GeoPLengthsPtr      &getLengths        (void) const;
+    inline       GeoPositionsPtr     &getPositions      (void);
+    inline const GeoPositionsPtr     &getPositions      (void) const;
+    inline       GeoNormalsPtr       &getNormals        (void);
+    inline const GeoNormalsPtr       &getNormals        (void) const;
+    inline       GeoColorsPtr        &getColors         (void);
+    inline const GeoColorsPtr        &getColors         (void) const;
     inline       GeoTexCoordsPtr     &getTexCoords      (void);
     inline const GeoTexCoordsPtr     &getTexCoords      (void) const;
-    inline       GeoIndexPtr         &getIndex          (void);
-    inline const GeoIndexPtr         &getIndex          (void) const;
+    inline       GeoIndicesPtr       &getIndices        (void);
+    inline const GeoIndicesPtr       &getIndices        (void) const;
     inline       MaterialPtr         &getMaterial       (void);
     inline const MaterialPtr         &getMaterial       (void) const;
     inline       Bool                &getDlistCache     (void);
@@ -187,13 +187,13 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setTypes          ( const GeoPTypePtr &value );
-    inline void setLengths        ( const GeoPLengthPtr &value );
-    inline void setPositions      ( const GeoPositionPtr &value );
-    inline void setNormals        ( const GeoNormalPtr &value );
-    inline void setColors         ( const GeoColorPtr &value );
+    inline void setTypes          ( const GeoPTypesPtr &value );
+    inline void setLengths        ( const GeoPLengthsPtr &value );
+    inline void setPositions      ( const GeoPositionsPtr &value );
+    inline void setNormals        ( const GeoNormalsPtr &value );
+    inline void setColors         ( const GeoColorsPtr &value );
     inline void setTexCoords      ( const GeoTexCoordsPtr &value );
-    inline void setIndex          ( const GeoIndexPtr &value );
+    inline void setIndices        ( const GeoIndicesPtr &value );
     inline void setMaterial       ( const MaterialPtr &value );
     inline void setDlistCache     ( const Bool &value );
 
@@ -241,17 +241,17 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFGeoPTypePtr    	_sfTypes;
-    SFGeoPLengthPtr  	_sfLengths;
-    SFGeoPositionPtr 	_sfPositions;
-    SFGeoNormalPtr   	_sfNormals;
-    SFGeoColorPtr    	_sfColors;
-    SFGeoTexCoordsPtr	_sfTexCoords;
-    SFGeoIndexPtr    	_sfIndex;
-    MFUInt16         	_mfIndexMapping;
-    SFMaterialPtr    	_sfMaterial;
-    SFBool           	_sfDlistCache;
-    SFInt32          	_sfGLId;
+    SFGeoPTypesPtr      _sfTypes;
+    SFGeoPLengthsPtr    _sfLengths;
+    SFGeoPositionsPtr   _sfPositions;
+    SFGeoNormalsPtr     _sfNormals;
+    SFGeoColorsPtr      _sfColors;
+    SFGeoTexCoordsPtr   _sfTexCoords;
+    SFGeoIndicesPtr     _sfIndices;
+    MFUInt16            _mfIndexMapping;
+    SFMaterialPtr       _sfMaterial;
+    SFBool              _sfDlistCache;
+    SFInt32             _sfGLId;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

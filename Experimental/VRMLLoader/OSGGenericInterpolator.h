@@ -48,7 +48,7 @@
 
 #include <OSGNode.h>
 #include <OSGQuaternion.h>
-#include <OSGVRMLTransform.h>
+#include <OSGComponentTransform.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -89,7 +89,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InterpolatorBase
     void            setTargetName     (const string& name         );
     const string   &getTargetName     (void                       );
 
-    void            setTargetTransform(VRMLTransformPtr pTransform);
+    void            setTargetTransform(ComponentTransformPtr pTransform);
 
     void            setName           (const string& name         );
     string         &getName           (void                       );
@@ -140,7 +140,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InterpolatorBase
     //-----------------------------------------------------------------------
 
     InterpolType     _type;
-    VRMLTransformPtr _pTransform;
+    ComponentTransformPtr _pTransform;
 
     string           _targetName;
     string           _name;

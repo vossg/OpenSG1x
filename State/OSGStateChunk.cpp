@@ -75,14 +75,14 @@ The state chunk base class.
 
 // StateChunkClass code
 
-vector<String>* StateChunkClass::_classNames = NULL;
+vector<string>* StateChunkClass::_classNames = NULL;
 vector<UInt32>* StateChunkClass::_numslots = NULL;
 
-StateChunkClass::StateChunkClass( String name, UInt32 numslots )
+StateChunkClass::StateChunkClass( Char8 *name, UInt32 numslots )
 {
 	if ( ! _classNames )
 	{
-		_classNames = new vector<String>(0);
+		_classNames = new vector<string>(0);
 		_numslots   = new vector<UInt32>(0);
 	}
 
@@ -117,9 +117,9 @@ Int32 StateChunkClass::getNumSlots( void ) const
 	return (*_numslots)[_classId];
 }
 
-const String StateChunkClass::getName( void ) const
+const Char8 *StateChunkClass::getName( void ) const
 {
-	return (*_classNames)[_classId];
+	return (*_classNames)[_classId].c_str();
 }
 
 // static access
@@ -132,12 +132,12 @@ Int32 StateChunkClass::getNumSlots( UInt32 index )
 	return (*_numslots)[index];
 }
 
-const String StateChunkClass::getName( UInt32 index ) 
+const Char8 *StateChunkClass::getName( UInt32 index ) 
 {
 	if ( index >= (*_classNames).size() )
-			return String();
+			return "<Unknown StatChunkClass!>";
 
-	return (*_classNames)[index];
+	return (*_classNames)[index].c_str();
 }
 
 

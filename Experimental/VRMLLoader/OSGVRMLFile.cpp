@@ -212,22 +212,22 @@ void VRMLFile::initIntExtFieldTypeMapper(void)
     setIntExtMapping(SFMaterialPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
     
-    setIntExtMapping(SFGeoPTypePtr::getClassType().getId(),
+    setIntExtMapping(SFGeoPTypesPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoIndexPtr::getClassType().getId(),
+    setIntExtMapping(SFGeoIndicesPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoPLengthPtr::getClassType().getId(),
+    setIntExtMapping(SFGeoPLengthsPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoColorPtr::getClassType().getId(),
+    setIntExtMapping(SFGeoColorsPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoPositionPtr::getClassType().getId(),
+    setIntExtMapping(SFGeoPositionsPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoNormalPtr::getClassType().getId(),
+    setIntExtMapping(SFGeoNormalsPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
     setIntExtMapping(SFGeoTexCoordsPtr::getClassType().getId(),
@@ -394,7 +394,7 @@ FieldContainerPtr VRMLFile::findReference(const Char8 *szName)
     FieldContainerPtr          returnValue = NullFC;
 
     NameContainerMap::iterator mIt         = 
-        _nameFCMap.find(StringLink(szName));
+        _nameFCMap.find(IDStringLink(szName));
 
     if(mIt != _nameFCMap.end())
     {
@@ -606,11 +606,11 @@ void VRMLFile::beginNode(
 
                 
                 NameContainerMap::iterator mIt = 
-                    _nameFCMap.find(StringLink(szNodename));
+                    _nameFCMap.find(IDStringLink(szNodename));
                 
                 if(mIt == _nameFCMap.end())
                 {
-                    _nameFCMap[String(szNodename)] = pNewNode;
+                    _nameFCMap[IDString(szNodename)] = pNewNode;
                     
                     indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
                     PNOTICE << "Fieldcontainer " << szNodename 
@@ -619,7 +619,7 @@ void VRMLFile::beginNode(
                 
             }
 
-            _nameDescMap[String(szNodename)] = _pCurrNodeDesc;
+            _nameDescMap[IDString(szNodename)] = _pCurrNodeDesc;
             
             indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
             PNOTICE << "Desc for " << szNodename << " added to map " << endl;
@@ -635,7 +635,7 @@ void VRMLFile::beginNode(
             if(_pCurrNodeDesc != NULL)
                 _pCurrNodeDesc->setOnEndSave(szNodename);
             
-            _nameDescMap[String(szNodename)] = _pCurrNodeDesc;
+            _nameDescMap[IDString(szNodename)] = _pCurrNodeDesc;
             
             indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
             PNOTICE << "Desc for " << szNodename << " added to map " << endl;
@@ -688,11 +688,11 @@ void VRMLFile::endNode(void)
              << " on end Save " << endl;
 
         NameContainerMap::iterator mIt = 
-            _nameFCMap.find(StringLink(_pCurrNodeDesc->getSavename()));
+            _nameFCMap.find(IDStringLink(_pCurrNodeDesc->getSavename()));
         
         if(mIt == _nameFCMap.end())
         {
-            _nameFCMap[String(_pCurrNodeDesc->getSavename())] = 
+            _nameFCMap[IDString(_pCurrNodeDesc->getSavename())] = 
                 _pCurrNodeDesc->getSaveFieldContainer();
             
             SLOG << "Fieldcontainer " << _pCurrNodeDesc->getSavename()
@@ -920,7 +920,7 @@ void VRMLFile::use(const Char8 *szName)
         VRMLNodeDesc *pDesc = NULL;
 
         NameDescriptionMap::iterator mIt         = 
-            _nameDescMap.find(StringLink(szName));
+            _nameDescMap.find(IDStringLink(szName));
 
         if(mIt != _nameDescMap.end())
         {

@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.26 2001/09/30 19:33:08 dirk Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.27 2001/10/03 20:37:34 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -92,8 +92,8 @@ faster; but not well tested code
 
 {
   //Vec3f vec0, vec1,vec2;
-  GeoPositionPtr positionPtr;
-  GeoNormalPtr   normalPtr;
+  GeoPositionsPtr positionPtr;
+  GeoNormalsPtr   normalPtr;
   Int32 i, ni, pi, pN, p0, p1, p2, skipN = 0;
   TriangleIterator tI;
   Real32 x,y,z;
@@ -148,7 +148,7 @@ faster; but not well tested code
       // get/create/resize the normal bag
       normalPtr = geo->getNormals();
       if (normalPtr == NullFC) {
-        normalPtr = GeoNormal3f::create();
+        normalPtr = GeoNormals3f::create();
         beginEditCP(geo);
         {
           geo->setNormals( normalPtr );
@@ -159,7 +159,7 @@ faster; but not well tested code
       // get/create/resize the normal bag
       normalPtr = geo->getNormals();
       if (normalPtr == NullFC) {
-        normalPtr = GeoNormal3f::create();
+        normalPtr = GeoNormals3f::create();
         beginEditCP(geo);
         {
           geo->setNormals( normalPtr );
@@ -219,12 +219,12 @@ faster; but not well tested code
 */
 
 {
-	GeoNormalPtr norms;
+	GeoNormalsPtr norms;
     int          i;
 
 	if ( geo->getNormals() == NullFC )
 	{
-		norms = GeoNormal3f::create();
+		norms = GeoNormals3f::create();
 	}
 	else
 		norms = geo->getNormals();
@@ -296,10 +296,10 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo,
 {
   NodePtr  p = Node::create();
   GeometryPtr g = Geometry::create();
-	GeoPosition3f::PtrType pnts = GeoPosition3f::create();
-	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
-	GeoPTypePtr type = GeoPTypeUI8::create();	
-	GeoPLengthPtr lens = GeoPLengthUI32::create();	
+	GeoPositions3f::PtrType pnts = GeoPositions3f::create();
+	GeoIndicesUI32Ptr index = GeoIndicesUI32::create();	
+	GeoPTypesPtr type = GeoPTypesUI8::create();	
+	GeoPLengthsPtr lens = GeoPLengthsUI32::create();	
 
 	// calculate
 	beginEditCP(pnts);
@@ -356,7 +356,7 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo,
 	beginEditCP(g);
 	g->setTypes( type );
 	g->setLengths( lens );
-	g->setIndex( index );
+	g->setIndices( index );
 	g->setPositions( pnts );
 	endEditCP(g);
 	
@@ -404,13 +404,13 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
     "PRIMTIVE_IT", "PRIMITIVE_INDEX_IT", "PRIMITIVE_CREATE_IT"
   };
   
-  osg::GeoPositionPtr posPtr;
-  osg::GeoNormalPtr normalPtr;
-  osg::GeoColorPtr colorPtr;
+  osg::GeoPositionsPtr posPtr;
+  osg::GeoNormalsPtr normalPtr;
+  osg::GeoColorsPtr colorPtr;
   osg::GeoTexCoordsPtr texCoordsPtr;
-  osg::GeoPLengthPtr lensPtr;
-  osg::GeoPTypePtr geoTypePtr;
-  osg::GeoIndexPtr indexPtr;
+  osg::GeoPLengthsPtr lensPtr;
+  osg::GeoPTypesPtr geoTypePtr;
+  osg::GeoIndicesPtr indexPtr;
   
   Int32 index, i, pi, typei, mapi, primitiveN = 0, vN = 0;
   Int32 pType = 0, localPType;
@@ -646,21 +646,21 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
   
     //----------------------------------------------------------------------
     // check/create the indexPtr/lengthsPtr/geoTypePtr
-    indexPtr = geoPtr->getIndex();
+    indexPtr = geoPtr->getIndices();
     if (indexPtr == osg::NullFC)
-        indexPtr = osg::GeoIndexUI32::create();
+        indexPtr = osg::GeoIndicesUI32::create();
     else
         indexPtr->clear();
   
     lensPtr = geoPtr->getLengths();
     if (lensPtr == osg::NullFC)
-        lensPtr = osg::GeoPLengthUI32::create();
+        lensPtr = osg::GeoPLengthsUI32::create();
     else
         lensPtr->clear();
   
     geoTypePtr = geoPtr->getTypes();
     if (geoTypePtr == osg::NullFC)
-        geoTypePtr = osg::GeoPTypeUI8::create();
+        geoTypePtr = osg::GeoPTypesUI8::create();
     else
         geoTypePtr->clear();
 
@@ -696,7 +696,7 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
     {
         geoPtr->setLengths(lensPtr);
         geoPtr->setTypes(geoTypePtr);
-        geoPtr->setIndex(indexPtr);
+        geoPtr->setIndices(indexPtr);
         geoPtr->getIndexMapping().clear();
         // check for multiindex mapping 
         if (indexMap[1]) 
@@ -836,14 +836,14 @@ Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
   NodeGraph graph;
 	vector<NodeGraph::Path> pathVec[2];	
   TriangleIterator tI;
-  GeoPositionPtr posPtr;
+  GeoPositionsPtr posPtr;
   Int32 cost = 0, bestCost = 0, worstCost = 0, best = 0; 
   Int32 i, j, n, pN, triCount;
 	Bool multiIndex;
 	vector<int> primitive;
-	GeoPLengthPtr lensPtr;
-  GeoPTypePtr geoTypePtr;
-  GeoIndexPtr indexPtr;
+	GeoPLengthsPtr lensPtr;
+  GeoPTypesPtr geoTypePtr;
+  GeoIndicesPtr indexPtr;
 	Time time, inputT, optimizeT, outputT;
   UInt32 triN, lineN, pointN;
   Int32 typeVec[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN };
@@ -914,21 +914,21 @@ Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
 
       //----------------------------------------------------------------------
       // check/create the indexPtr/lengthsPtr/geoTypePtr
-      indexPtr = geoPtr->getIndex();
+      indexPtr = geoPtr->getIndices();
       if (indexPtr == osg::NullFC)
-        indexPtr = osg::GeoIndexUI32::create();
+        indexPtr = osg::GeoIndicesUI32::create();
       else
         indexPtr->clear();
       
       lensPtr = geoPtr->getLengths();
       if (lensPtr == osg::NullFC)
-        lensPtr = osg::GeoPLengthUI32::create();
+        lensPtr = osg::GeoPLengthsUI32::create();
       else
         lensPtr->clear();
     
       geoTypePtr = geoPtr->getTypes();
       if (geoTypePtr == osg::NullFC)
-      geoTypePtr = osg::GeoPTypeUI8::create();
+      geoTypePtr = osg::GeoPTypesUI8::create();
       else
         geoTypePtr->clear();
       
@@ -938,7 +938,7 @@ Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
       {
         geoPtr->setLengths(lensPtr);
         geoPtr->setTypes(geoTypePtr);
-        geoPtr->setIndex(indexPtr);
+        geoPtr->setIndices(indexPtr);
       }
       osg::endEditCP(geoPtr);
       
@@ -1013,10 +1013,10 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
                                  UInt32 &line, 
                                  UInt32 &point)
 {	
-  GeoPTypeUI8Ptr geoTypePtr;
-  GeoPLengthUI32Ptr lensPtr;
-  GeoPTypeUI8Ptr::ObjectType::StoredFieldType::iterator typeI, endTypeI;
-  GeoPLengthUI32Ptr::ObjectType::StoredFieldType::iterator lenI;
+  GeoPTypesUI8Ptr geoTypePtr;
+  GeoPLengthsUI32Ptr lensPtr;
+  GeoPTypesUI8Ptr::ObjectType::StoredFieldType::iterator typeI, endTypeI;
+  GeoPLengthsUI32Ptr::ObjectType::StoredFieldType::iterator lenI;
   UInt32 lN, tN, len, type;
   // TODO; should we really reset the values ?
   triangle = line = point = 0;
@@ -1025,14 +1025,14 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
     FWARNING (("No geo in calcPrimitiveCount\n"));
   }
   else {
-    lensPtr = GeoPLengthUI32Ptr::dcast( geoPtr->getLengths() );
+    lensPtr = GeoPLengthsUI32Ptr::dcast( geoPtr->getLengths() );
     lN = (lensPtr == osg::NullFC) ? 0 : lensPtr->getSize();
 
-    geoTypePtr = GeoPTypeUI8Ptr::dcast( geoPtr->getTypes() );
+    geoTypePtr = GeoPTypesUI8Ptr::dcast( geoPtr->getTypes() );
     tN = (geoTypePtr == osg::NullFC) ? 0 : geoTypePtr->getSize();
 
     if ((tN == 0) || (tN != lN)) {
-      FWARNING (("Invalid GeoPLength and GeoPType data\n"));
+      FWARNING (("Invalid GeoPLengths and GeoPTypes data\n"));
     }
     else {
       typeI = geoTypePtr->getField().begin();
@@ -1090,12 +1090,12 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
 OSG_SYSTEMLIB_DLLMAPPING 
 void osg::calcFaceNormals( GeometryPtr geo )
 {
-  GeoIndexPtr newIndex = GeoIndexUI32::create();
-  GeoNormalPtr newNormals = GeoNormal3f::create();
+  GeoIndicesPtr newIndex = GeoIndicesUI32::create();
+  GeoNormalsPtr newNormals = GeoNormals3f::create();
   Vec3f normal;
   
   FaceIterator faceIter = geo->beginFaces();
-  GeoIndexPtr oldIndex = geo->getIndex();
+  GeoIndicesPtr oldIndex = geo->getIndices();
   
   if( oldIndex != NullFC )
     {
@@ -1172,7 +1172,7 @@ void osg::calcFaceNormals( GeometryPtr geo )
 	    }
       oldIndexMap.addValue( Geometry::MapNormal );
 	  geo->setNormals( newNormals );
-	  geo->setIndex( newIndex );
+	  geo->setIndices( newIndex );
 	  endEditCP(geo);
 	  return;
 	}
@@ -1232,10 +1232,10 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getFaceNormals(GeometryPtr geo, Real32 len
 {
   NodePtr  p = Node::create();
   GeometryPtr g = Geometry::create();
-  GeoPosition3f::PtrType pnts = GeoPosition3f::create();
-  GeoIndexUI32Ptr index = GeoIndexUI32::create();	
-  GeoPTypePtr type = GeoPTypeUI8::create();	
-  GeoPLengthPtr lens = GeoPLengthUI32::create();	
+  GeoPositions3f::PtrType pnts = GeoPositions3f::create();
+  GeoIndicesUI32Ptr index = GeoIndicesUI32::create();	
+  GeoPTypesPtr type = GeoPTypesUI8::create();	
+  GeoPLengthsPtr lens = GeoPLengthsUI32::create();	
 
   // calculate
   beginEditCP(pnts);
@@ -1290,7 +1290,7 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getFaceNormals(GeometryPtr geo, Real32 len
   beginEditCP(g);
   g->setTypes( type );
   g->setLengths( lens );
-  g->setIndex( index );
+  g->setIndices( index );
   g->setPositions( pnts );
   endEditCP(g);
 	

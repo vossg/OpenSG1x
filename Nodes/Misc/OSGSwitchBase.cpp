@@ -100,7 +100,7 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	SwitchBase::ChoiceFieldMask = 
+const OSG::BitVector  SwitchBase::ChoiceFieldMask = 
     (1 << SwitchBase::ChoiceFieldId);
 
 
@@ -178,16 +178,16 @@ void SwitchBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 SwitchBase::SwitchBase(void) :
-	_sfChoice                 (Int32(-1)), 
-	Inherited() 
+    _sfChoice                 (Int32(-1)), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 SwitchBase::SwitchBase(const SwitchBase &source) :
-	_sfChoice                 (source._sfChoice                 ), 
-	Inherited                 (source)
+    _sfChoice                 (source._sfChoice                 ), 
+    Inherited                 (source)
 {
 }
 

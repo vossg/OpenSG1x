@@ -47,7 +47,7 @@
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
-#include <OSGString.h>
+#include <OSGIDStringLink.h>
 
 #if defined(OSG_USE_SPROC)
 #include <ulocks.h>
@@ -84,12 +84,12 @@ class OSG_BASE_DLLMAPPING MPFieldStore
     /*! \name                      Types                                   */
     /*! \{                                                                 */
 
-    typedef map<StringLink, MPFieldType  *>         MPFieldTypeMap;
+    typedef map<IDStringLink, MPFieldType  *>         MPFieldTypeMap;
     typedef typename MPFieldTypeMap::iterator       MPFieldTypeMapIt;
 
     typedef typename MPFieldTypeMap::const_iterator MPFieldTypeMapCIt;
 
-    typedef map<StringLink, MPFieldT *>             MPFieldMap;
+    typedef map<IDStringLink, MPFieldT *>             MPFieldMap;
     typedef typename MPFieldMap::iterator           MPFieldMapIt;
 
     /*! \}                                                                 */

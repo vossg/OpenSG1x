@@ -127,26 +127,26 @@ class OSG_BASE_DLLMAPPING SField : public Field
     /*------------------------------ access ---------------------------------*/
 
           FieldTypeT &getValue(void);
-	const FieldTypeT &getValue(void) const;
+    const FieldTypeT &getValue(void) const;
 
     void setAbstrValue(const Field &obj);
 
     void setValue(const FieldTypeT &value);
-	void setValue(const Self       &obj  );
+    void setValue(const Self       &obj  );
 
     /*----------------------- field information -----------------------------*/
 
-	virtual FieldType::Cardinality getCardinality (void) const;
+    virtual FieldType::Cardinality getCardinality (void) const;
 
     virtual UInt32                 size           (void) const;
 
     /*-------------------------- field type ---------------------------------*/
 
-	virtual const FieldType  &getType        (void) const;
+    virtual const FieldType  &getType        (void) const;
 
     /*-------------------------- string io ----------------------------------*/
 
-	virtual void    pushValueByStr(const Char8  *str);
+    virtual void    pushValueByStr(const Char8  *str);
     virtual string &getValueByStr (      string &stringVal) const;
 
     /*------------------------------- sync ----------------------------------*/
@@ -222,13 +222,13 @@ class OSG_BASE_DLLMAPPING SField : public Field
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-	static Field *create(void);
+    static Field *create(void);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  

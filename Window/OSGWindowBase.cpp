@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.17 2001/10/02 06:16:12 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.18 2001/10/03 20:37:36 dirk Exp $";
     static char cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 
@@ -100,19 +100,19 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	WindowBase::WidthFieldMask = 
+const OSG::BitVector  WindowBase::WidthFieldMask = 
     (1 << WindowBase::WidthFieldId);
 
-const OSG::BitVector	WindowBase::HeightFieldMask = 
+const OSG::BitVector  WindowBase::HeightFieldMask = 
     (1 << WindowBase::HeightFieldId);
 
-const OSG::BitVector	WindowBase::PortFieldMask = 
+const OSG::BitVector  WindowBase::PortFieldMask = 
     (1 << WindowBase::PortFieldId);
 
-const OSG::BitVector	WindowBase::ResizePendingFieldMask = 
+const OSG::BitVector  WindowBase::ResizePendingFieldMask = 
     (1 << WindowBase::ResizePendingFieldId);
 
-const OSG::BitVector	WindowBase::GlObjectStatusFieldMask = 
+const OSG::BitVector  WindowBase::GlObjectStatusFieldMask = 
     (1 << WindowBase::GlObjectStatusFieldId);
 
 
@@ -213,24 +213,24 @@ void WindowBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 WindowBase::WindowBase(void) :
-	_sfWidth                  (), 
-	_sfHeight                 (), 
-	_mfPort                   (), 
-	_sfResizePending          (), 
-	_mfGlObjectStatus         (), 
-	Inherited() 
+    _sfWidth                  (), 
+    _sfHeight                 (), 
+    _mfPort                   (), 
+    _sfResizePending          (), 
+    _mfGlObjectStatus         (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 WindowBase::WindowBase(const WindowBase &source) :
-	_sfWidth                  (source._sfWidth                  ), 
-	_sfHeight                 (source._sfHeight                 ), 
-	_mfPort                   (source._mfPort                   ), 
-	_sfResizePending          (source._sfResizePending          ), 
-	_mfGlObjectStatus         (source._mfGlObjectStatus         ), 
-	Inherited                 (source)
+    _sfWidth                  (source._sfWidth                  ), 
+    _sfHeight                 (source._sfHeight                 ), 
+    _mfPort                   (source._mfPort                   ), 
+    _sfResizePending          (source._sfResizePending          ), 
+    _mfGlObjectStatus         (source._mfGlObjectStatus         ), 
+    Inherited                 (source)
 {
 }
 

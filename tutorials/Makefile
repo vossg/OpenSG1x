@@ -10,10 +10,15 @@ OSGPOOL := ..
 
 include common.$(shell uname)
 
+PROGS := 01hello 02move 03share 04geometry 05indexgeometry \
+         06multiindexgeometry 07loading 08parloading
+                        
+clean:
+	rm -fr $(PROGS) *.o ii_files
+	
 # program dependencies
 
-default:	01hello 02move 03share 04geometry 05indexgeometry 06multiindexgeometry \
-			07loading 08parloading
+default:	$(PROGS)
 
 01hello:				01hello.o 
 02move:					02move.o 

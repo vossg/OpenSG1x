@@ -1,5 +1,5 @@
 #LyX 1.1 created this file. For more info see http://www.lyx.org/
-\lyxformat 218
+\lyxformat 2.16
 \textclass book
 \language english
 \inputencoding auto
@@ -24,7 +24,7 @@
 
 \layout Title
 
-OpenSG starter guide
+OpenSG Starter Guide
 \layout Standard
 
 
@@ -38,11 +38,16 @@ OpenSG starter guide
 Introduction
 \layout Standard
 
-Welcome to the OpenSG starter.
+Welcome to the OpenSG starter guide.
  This document will help you understand the structure of the OpenSG system
  and the main classes that you need to know to write graphics programs using
  OpenSG.
  
+\layout Standard
+
+It is not meant to be an introduction to computer graphics or realtime rendering.
+ It would actually be useful to be somewhat familiar with another scenegraph
+ system, but that's not mandatory.
 \layout Standard
 
 It does not explain every single function and its parameters, take a look
@@ -62,7 +67,7 @@ opensg-developer@lists.sf.net
 info@opensg.org.
 \layout Section
 
-What is OpenSG
+What is OpenSG?
 \layout Standard
 
 OpenSG is a real-time rendering system based on a scenegraph metaphor.
@@ -86,7 +91,7 @@ It works on different Unix systems and Windows.
  using the Intel compiler, version 5.x, is recommended.
 \layout Section
 
-What is OpenSG not
+What is OpenSG not?
 \layout Standard
 
 OpenSG is not a complete VR system.
@@ -98,7 +103,7 @@ Where do get it
 \layout Standard
 
 If you read this you probably have it already, otherwise take a look at
- http://www.opensg.org/download_e.html for the latest released version.
+ http://www.opensg.org/ for the latest released version.
  You can also get it from SourceForge, which we use for project management,
  at http://www.sf.net/projects/showfiles.php?group_id=5283.
 \layout Standard
@@ -112,14 +117,7 @@ ailybuild_logs.
 Compilation
 \layout Standard
 
-
-\shape italic 
-(( Short version: 
-\family typewriter 
-./configure ; make
-\family default 
- should work.
- ))
+Short version: ./configure ; make should work.
 \layout Standard
 
 Long version: OpenSG uses a relatively standard configure script to adapt
@@ -136,15 +134,14 @@ Experimental/VS
  better off with cygwin.
 \layout Standard
 
-You need to set the 
-\family typewriter 
---with-compiler=
-\family default 
- option to specify the compiler you're going to use.
- All other options are optional.
+All options are optional.
  The most useful ones are 
 \family typewriter 
 --with-jpg[=<dir>]
+\family default 
+,
+\family typewriter 
+ --with-glut[=<dir>]
 \family default 
 , 
 \family typewriter 
@@ -160,6 +157,10 @@ You need to set the
 \family default 
  which specify the directories where the specific libraries/header can be
  found.
+ If you need to download these libraries, check http://www.opensg.org/prerequisite
+s.EN.html for locations.
+ All examples and tutorials use GLUT, so it's highly recommended to configure
+ it.
  There are some other options that are less often needed, run 
 \family typewriter 
 configure --help
@@ -169,7 +170,7 @@ configure --help
 
 So for a standard Linux distribution you should call 
 \family typewriter 
-./configure --with-compiler=g++ --with-jpg --with-tif --with-png --with-qt=$QTDIR
+./configure --with-jpg --with-tif --with-png --with-qt=$QTDIR
 \family default 
  to get a useful configuration.
 \layout Standard
@@ -241,7 +242,7 @@ $INSTALL_DIR/lib/opt
 , depending on the optimization used.
  For a local install it's useful to call 
 \family typewriter 
-make $INSTALL_DIR=`pwd` install
+make INSTALL_DIR=`pwd` install
 \family default 
 , which will put everything in the current directory.
 \layout Section
@@ -254,7 +255,11 @@ To build the test programs, go into the
 *Test
 \family default 
  directory and call make or make Tests.
- make list lists the available programs in the current directory.
+ 
+\family typewriter 
+make list
+\family default 
+ lists the available programs in the current directory.
  You can make a specific test program by running the listed command.
 \layout Standard
 
@@ -274,6 +279,23 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:../lib/dbg
 *Test
 \family default 
  directory.
+\layout Section
+
+Making and executing the tutorials
+\layout Standard
+
+There are a number of tutorial examples in the tutorials directory.
+ You need to make and install the libraries first, before making them.
+ To actually create them you'll probably have to adapt the 
+\family typewriter 
+common.*
+\family default 
+ files to your environment.
+ This will become easier when we have our 
+\family typewriter 
+opensg-config
+\family default 
+ script, but right you'll have to do it manually.
 \layout Section
 
 How to use it
@@ -304,7 +326,7 @@ opensg-config --libs
  to get the needed linker flags.
  See 
 \family typewriter 
-examples/*/Makefile
+tutorials/Makefile
 \family default 
  for examples how to do that.
 \layout Subsection
@@ -617,7 +639,7 @@ FDEBUG
  debug (default) mode.
 \layout Standard
 
-The user can activate/deactivate various elements per log message turing
+The user can activate/deactivate various elements per log message during
  runtime by changing the LogHeaderElem mask.
  The following elements are supported right know:
 \layout Description
@@ -641,7 +663,7 @@ LOG_FILE_HEADER writes the source file name
 LOG_LINE_HEADER writes the source line number 
 \layout Description
 
-LOG_EEND_NEWLINE_HEADER creates a extra newline at the end 
+LOG_END_NEWLINE_HEADER creates a extra newline at the end 
 \layout Standard
 
 When unchanged, the timestamp will be the time in seconds since the programm
@@ -1157,7 +1179,7 @@ on use.
 
 We decided to create our own specific string class since the std::string
  did not provide all features we needed (e.g.
- shared memory pointer, automatic perfered pointer comparision when comparing
+ shared memory pointer, automatic prefered pointer comparison when comparing
  objects)
 \layout Chapter
 
@@ -1489,7 +1511,7 @@ Node
 \family default 
  can not be shared, every node can only be at one place in the graph, thus
  a single parent pointer is enough.
- There is only one kind of node which kep sall the common information.
+ There is only one kind of node which keeps all the common information.
  Actions tht depend on the position in the graph, like accessing the accumulated
  matrix to the world coordinate system or the world bounding volume, have
  to be done on the node, as it uniquely defines and identifies the position
@@ -1523,7 +1545,7 @@ Node
 
 \begin_inset Figure size 238 304
 file node_core_share.eps
-width 4 80
+width 4 80.00
 flags 9
 
 \end_inset 
@@ -1619,25 +1641,79 @@ One of the primary design goals of OpenSG is supporting multi-threaded applicati
 ons.
  For asynchronous threads that means that every thread might need its private
  copy of the data.
- To combine that with easy usability and efficient access OpenSG...
+ To combine that with easy usability and efficient access we decided to
+ replicate at the flied container level.
+ 
 \layout Standard
 
-Duplicate Containers, shared MFIelds, Ptrs
+When a field container is created not only one instance is created but multiple,
+ per default 2.
+ These are called aspects, and every running thread is associated with one
+ of them.
+ Whenever data is changed in a thread, only the aspect that's associated
+ with it is changed, the rest is left as is.
+\layout Standard
+
+shared MFIelds, Ptrs, begin/endEdit, Changelist sync
 \layout Chapter
 
 Special Node Cores
+\layout Standard
+
+The NodeCores define the specific behaviour of the scenegraph nodes.
 \layout Section
 
 Group
+\layout Standard
+
+The Group is the simplest NodeCore, it doesn't do much.
+ If asked to do something it calls its children to do the same thing, if
+ asked for information it gathers it from the children.
+ Really basic.
 \layout Section
 
-Transformation
+Switch
+\layout Standard
+
+The Switch is not much more complicated than the Group, the only difference
+ being that it selects one of its children during traversals instead of
+ all of them.
 \layout Section
 
-Geometry
+Transform
+\layout Standard
+
+The Transform Core is that basic means of moving objects around the scene.
+ It keeps a single Matrix that is applied to all its children.
+\layout Section
+
+ComponentTransform
+\layout Standard
+
+The ComponentTransform is close to the Transform, but the transformation
+ is defined in an easier to use way, the same way it is done in systems
+ like OpenInventor or VRML.
+ It consists of a center and a rotation around that center, followed by
+ a scale relative to a given scaleOrientation, which is finally followed
+ by a translation.
 \layout Section
 
 DistanceLOD
+\layout Section
+
+Lights
+\layout Subsection
+
+DirectionalLight
+\layout Subsection
+
+PointLight
+\layout Subsection
+
+SpotLight
+\layout Section
+
+Geometry
 \layout Description
 
 Material chunk stuff
@@ -1647,9 +1723,40 @@ Geometry property stuff
 \layout Chapter
 
 Action and Traversals
+\layout Standard
+
+Creating the scenegraph is just the first step, and not really useful in
+ itself.
+ Something needs to be done with it.
+ Actions on the graph usually take the form of a traversal which goes through
+ the nodes one by one and calls an appropriate action for each one on the
+ way.
+\layout Standard
+
+These are called Actions in OpenSG, and there are a number of predefined
+ actions:
+\layout Itemize
+
+Draw
+\layout Itemize
+
+Render
+\layout Itemize
+
+Intersect
 \layout Section
 
 Usage
+\layout Standard
+
+Actions use the same syntax for creating nre actions that fieldcontainers
+ use, as they also use a prototype for that.
+ Thus you need to call ActionType::create to get a new one.
+ They are not fieldcontainers, though, so simple pointers are ok.
+\layout Standard
+
+To execute an action on a graph you apply it to the graph (action->apply(graph);
+)
 \layout Section
 
 Simple Traversal
@@ -1681,6 +1788,9 @@ Background
 \layout Section
 
 Foreground
+\layout Section
+
+SimpleSceneManager
 \layout Chapter
 
 Loader
@@ -1717,20 +1827,20 @@ Creating new FieldContainer classes
 
 \layout Standard
 
-Most developer which use OpenSG as scene graph library will probable never
- create own OpenSG FieldContainer classes.
- Simular to widget libs (e.g.
- qt,gtk) people just use inscances (the widgets) but never create new classes.
+Most developers who use OpenSG as a scenegraph library will probable never
+ create their own OpenSG FieldContainer classes.
+ Similar to widget libs (e.g.
+ qt,gtk) people just use instances (the widgets) but never create new classes.
  
 \layout Standard
 
 However, you can always extend the type system of OpenSG to integrate new
- core (e.g.
- a fandy LOD switch) or application specific fielcontainer.
+ cores (e.g.
+ a fancy LOD switch) or application specific fieldcontainers.
 \layout Standard
 
-Fieldcontainer are the system central mechanims to deal with any kind of
- thread save data (see section 
+Fieldcontainers are the system's central mechanims to deal with any kind
+ of thread safe data (see section 
 \begin_inset LatexCommand \ref{sec:Fields_and_FieldContainer}
 
 \end_inset 
@@ -1742,18 +1852,18 @@ Fieldcontainer are the system central mechanims to deal with any kind of
 \layout Standard
 
 In most systems (e.g.
- Inventor), you would properply start to write a new class or node by just
- 'copy and past' an existend implementation.
- However, since OpenSG needs all this extra meta data it is not a pleased
+ Inventor), you would probably start writing a new class or node by just
+ 'copy and paste'-ing an existing implementation.
+ However, since OpenSG needs all this extra meta data it is not a aimple
  but very error proning process to create the field container source by
  hand.
- Instatt, we provide a graphical tool to create and manage the fieldcontainer
+ Instead, we provide a graphical tool to create and manage the fieldcontainer
  description and implementation.
 \layout Standard
 
-The basic idea is that you use de 'field container description editor' ($OSGROOT
-/tools/fcdEdit) to create a XML file including the description of your fieldcont
-ainer fields and interfaces (see image 
+The basic idea is that you use the 'field container description editor'
+ ($OSGROOT/tools/fcdEdit) to create an XML file including the description
+ of your fieldcontainer fields and interfaces (see image 
 \begin_inset LatexCommand \ref{fcdEditFig}
 
 \end_inset 
@@ -1765,7 +1875,7 @@ ainer fields and interfaces (see image
 
 \begin_inset Figure size 267 177
 file fcd.eps
-width 4 90
+width 4 90.00
 flags 9
 
 \end_inset 
@@ -1781,14 +1891,14 @@ flags 9
 FcdEdit blabla
 \end_float 
  ).
- The tools is also apple to create all the necessary c++ source files.
- The fieldcontainer code is splitted in to classes (e.g.
+ The tools is also able to create all the necessary C++ source files.
+ The fieldcontainer code is split into classes (e.g.
  for a Foo fieldcontainer: FooBase and Foo).
  This strategy has various advantages:
 \layout Description
 
-Type_system_changes: If the OpenSG core team would decide to change the
- code interface for the fieldcontainter type management we can just recreate
+Type_system_changes: If the OpenSG core team decides to change the code
+ interface for the fieldcontainter type management we can just recreate
  the base classes from the XML description.
  No adaptions 'by hand' are needed.
 \layout Description
@@ -1797,7 +1907,7 @@ Interface_changes: If you would like to change the interface of you fieldcontain
 er (e.g.
  add another field) later on you can just reedit the xml file in fcdEdit
  and recreate the base classes.
- 
+ All necessary access methods are created automatically.
 \layout Section
 
 XML Description (Foo.fcd)
@@ -1805,7 +1915,7 @@ XML Description (Foo.fcd)
 
 Includes all field and meta descriptions for a sincle fieldcontainer.
  Can be read and writen by the fcdEdit tool.
- You should not change it by hand.
+ You should only change it by hand when you're sure of what you're doing.
  
 \layout Section
 
@@ -1813,7 +1923,7 @@ Field Types (FooFields.h)
 \layout Standard
 
 Include the field and pointer declarations the the fieldcontainer to be
- used in other fieldcontainers fields as reference.
+ used in other fieldcontainers as reference.
  You should not change the file by hand.
 \layout Section
 
@@ -1831,17 +1941,37 @@ Holds all the meta and field information.
 \layout Standard
 
 Holds the 'user code'.
- The fcdEdit is able to create a skeleton for you fieldcontainer implementation.
- The code does not include any meta information therefor it is not necessary
+ The fcdEdit is able to create a skeleton for your fieldcontainer implementation.
+ The code does not include any meta information therefore it is not necessary
  to create it anew whenever you change the interface.
  
 \layout Standard
 
-Include new action handler or whatever you need as functionality.
+Include new action handlers or whatever you need as functionality.
  
 \layout Section
 
-prototype replacement
+Prototype Replacement
+\layout Standard
+
+If you create a replacement for a system component, e.g.
+ a smarter DistanceLOD node that can handle predictive LOD selection, and
+ want the system to use your version of the DistanceLOD from now on you
+ can do that.
+ Internally all field container instances are created by cloning a prototype
+ instance.
+ You can access the prototype for a given fieldcontainer via its class type
+ which you can access using FC::getClassType().
+ The class type has a setPrototype() method to assign the prototype.
+ 
+\layout Standard
+
+Be careful to only replace the prototype with classes derived from the original
+ class 
+\shape italic 
+(is that checked automatically? Should it?)
+\shape default 
+, or the behaviour of the system is undefined.
 \layout Standard
 
 
@@ -1874,7 +2004,7 @@ fcdEdit description
 
 \begin_inset Figure size 595 484
 file fcdEdit-numbered.eps
-width 3 100
+width 3 100.00
 flags 11
 
 \end_inset 

@@ -123,9 +123,9 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
 
     typedef SceneFileType Inherited;
 
-	/*!\brief prohibit default function (move to 'public' if needed) */
+    /*!\brief prohibit default function (move to 'public' if needed) */
     VRMLSceneFileType(const VRMLSceneFileType &source);
-	/*!\brief prohibit default function (move to 'public' if needed) */
+    /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const VRMLSceneFileType &source);
 };
 

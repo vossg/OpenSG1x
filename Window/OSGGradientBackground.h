@@ -72,9 +72,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackground :
     /*! \name                    your_category                             */
     /*! \{                                                                 */
     
-	void clear( DrawActionBase * action, Viewport * port );
+    void clear( DrawActionBase * action, Viewport * port );
 
-	void addColor(Color3f color, Real32 position);
+    void addColor(Color3f color, Real32 position);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

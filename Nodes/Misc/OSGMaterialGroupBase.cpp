@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.14 2001/10/02 06:16:12 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.15 2001/10/03 20:37:35 dirk Exp $";
     static char cvsid_hpp       [] = OSGMATERIALGROUPBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGMATERIALGROUPBASE_INLINE_CVSID;
 
@@ -100,7 +100,7 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	MaterialGroupBase::MaterialFieldMask = 
+const OSG::BitVector  MaterialGroupBase::MaterialFieldMask = 
     (1 << MaterialGroupBase::MaterialFieldId);
 
 
@@ -178,16 +178,16 @@ void MaterialGroupBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 MaterialGroupBase::MaterialGroupBase(void) :
-	_sfMaterial               (), 
-	Inherited() 
+    _sfMaterial               (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 MaterialGroupBase::MaterialGroupBase(const MaterialGroupBase &source) :
-	_sfMaterial               (source._sfMaterial               ), 
-	Inherited                 (source)
+    _sfMaterial               (source._sfMaterial               ), 
+    Inherited                 (source)
 {
 }
 

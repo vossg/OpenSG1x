@@ -47,6 +47,8 @@
 #include <OSGDrawActionBase.h>
 #include <OSGStateChunkBase.h>
 
+#include <string>
+
 OSG_BEGIN_NAMESPACE
 
 
@@ -58,19 +60,19 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkClass
 {
   public:
 
-    StateChunkClass( String name, UInt32 numslots = 1 );
+    StateChunkClass( Char8 *name, UInt32 numslots = 1 );
 
     // get name and id of this class
-    UInt32       getID       ( void ) const;
-    const String  getName     ( void ) const;
-    Int32        getNumSlots ( void ) const;
+          UInt32   getID       ( void ) const;
+    const Char8   *getName     ( void ) const;
+          Int32    getNumSlots ( void ) const;
 
     // get name and id of indicated class
-    static const String getName     ( UInt32 index ) ;
-    static      Int32  getNumSlots ( UInt32 index ) ;
+    static const Char8 * getName     ( UInt32 index ) ;
+    static       Int32   getNumSlots ( UInt32 index ) ;
 
     // access to the class name list
-    typedef vector<String>::const_iterator iterator;
+    typedef vector<string>::const_iterator iterator;
 
     static iterator begin();
     static iterator end();
@@ -78,7 +80,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkClass
   private:
 
     UInt32 _classId;
-    static vector<String>* _classNames;
+    static vector<string>* _classNames;
     static vector<UInt32>* _numslots;
 };
 
@@ -131,7 +133,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
     /*! \{                                                                 */
 
     inline         UInt32            getClassID  (void) const;
-    virtual const   StateChunkClass * getClass    (void) const;
+    virtual const  StateChunkClass * getClass    (void) const;
 
     virtual Bool   isTransparent                 (void) const;
 

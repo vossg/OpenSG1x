@@ -194,7 +194,7 @@ class MFieldVector : public vector<_Tp, _Alloc>
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -298,14 +298,14 @@ class MField : public Field
     const FieldTypeT  &getValue (const UInt32 index) const;
 
           StorageType &getValues(void);
-	const StorageType &getValues(void) const;
+    const StorageType &getValues(void) const;
 
     void setAbstrValue(const Field &obj);
 
     void setValue (const FieldTypeT  &value,
                    const UInt32       index);
     void setValues(const StorageType &value);
-	void setValues(const Self        &obj  );
+    void setValues(const Self        &obj  );
 
     /*------------------------- container interface -------------------------*/
 
@@ -340,20 +340,20 @@ class MField : public Field
     
     FieldType::Cardinality getCardinality (void) const;
 
-	// MField has a vector<> interface and an OSG interface, so both are 
-	// sensible
+    // MField has a vector<> interface and an OSG interface, so both are 
+    // sensible
     virtual UInt32     size    (void) const;
             UInt32     getSize (void) const;
-	
+    
     virtual Bool       empty   (void) const;
 
     /*-------------------------- field type ---------------------------------*/
 
-	virtual const FieldType &getType (void) const;
+    virtual const FieldType &getType (void) const;
 
     /*-------------------------- string io ----------------------------------*/
 
-	virtual void    pushValueByStr(const Char8 *str);
+    virtual void    pushValueByStr(const Char8 *str);
     virtual std::string &getValueByStr (std::string &string) const;
 
     /*-------------------------- index operator------------------------------*/
@@ -390,7 +390,7 @@ class MField : public Field
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static const FieldType _fieldType;
+    static const FieldType _fieldType;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -432,13 +432,13 @@ class MField : public Field
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-	static Field *create(void);
+    static Field *create(void);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -448,7 +448,7 @@ class MField : public Field
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     void operator =(const MField &source);
 };

@@ -56,7 +56,6 @@
 
 #include <OSGXWindowDef.h>
 #include "OSGWindow.h"
-#include "OSGString.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -105,38 +104,38 @@ class OSG_XWINDOWLIB_DLLMAPPING XWindow : public Window
     OSG_FIELD_CONTAINER_DECL(XWindowPtr)
 
     /*------------------------- your_category -------------------------------*/
-	
-	/** GL implementation dependent function **/
-	
-	// query the system for a GL function
-	virtual void (*getFunctionByName( const Char8 *s ))();
-	
-	/** Window-system dependent functions **/
-	
-	// init the window: create the context	
-	virtual void init( void );
-	
-	// activate the window: bind the OGL context	
-	// set the active window, if needed
-	virtual void activate( void );
-	
-	virtual void deactivate ( void ) {}
-	
-	// swap buffers	for this window
-	// does not set the active window!
-	virtual void swap( void );
+    
+    /** GL implementation dependent function **/
+    
+    // query the system for a GL function
+    virtual void (*getFunctionByName( const Char8 *s ))();
+    
+    /** Window-system dependent functions **/
+    
+    // init the window: create the context  
+    virtual void init( void );
+    
+    // activate the window: bind the OGL context    
+    // set the active window, if needed
+    virtual void activate( void );
+    
+    virtual void deactivate ( void ) {}
+    
+    // swap buffers     for this window
+    // does not set the active window!
+    virtual void swap( void );
 
-	
+    
     /*------------------------- your_operators ------------------------------*/
 
-	void        setDisplay   (Display *dpy)    { _dpy = dpy; };
-	Display     *getDisplay  (void)            { return _dpy; };
+    void        setDisplay   (Display *dpy)    { _dpy = dpy; };
+    Display     *getDisplay  (void)            { return _dpy; };
 
-	void        setWindow    (::Window hwin)   { _hwin = hwin; };
-	::Window    getWindow    (void)            { return _hwin; };
+    void        setWindow    (::Window hwin)   { _hwin = hwin; };
+    ::Window    getWindow    (void)            { return _hwin; };
 
-	void        setGlContext (GLXContext glcx) { _glcx = glcx; };
-	GLXContext  getGlContext (void)            { return _glcx; };
+    void        setGlContext (GLXContext glcx) { _glcx = glcx; };
+    GLXContext  getGlContext (void)            { return _glcx; };
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -168,7 +167,7 @@ class OSG_XWINDOWLIB_DLLMAPPING XWindow : public Window
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -203,9 +202,9 @@ class OSG_XWINDOWLIB_DLLMAPPING XWindow : public Window
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
-	static FieldContainerType _type;
+    static FieldContainerType _type;
  
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -215,16 +214,16 @@ class OSG_XWINDOWLIB_DLLMAPPING XWindow : public Window
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	// GLX stuff
-	Display      *_dpy;
-	::Window     _hwin;
-	GLXContext   _glcx;
+    // GLX stuff
+    Display      *_dpy;
+    ::Window     _hwin;
+    GLXContext   _glcx;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     XWindow(const XWindow &source);
     void operator =(const XWindow &source);

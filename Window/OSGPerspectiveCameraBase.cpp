@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.15 2001/10/02 06:16:12 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.16 2001/10/03 20:37:36 dirk Exp $";
     static char cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
 
@@ -100,7 +100,7 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	PerspectiveCameraBase::FovFieldMask = 
+const OSG::BitVector  PerspectiveCameraBase::FovFieldMask = 
     (1 << PerspectiveCameraBase::FovFieldId);
 
 
@@ -178,16 +178,16 @@ void PerspectiveCameraBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 PerspectiveCameraBase::PerspectiveCameraBase(void) :
-	_sfFov                    (), 
-	Inherited() 
+    _sfFov                    (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 PerspectiveCameraBase::PerspectiveCameraBase(const PerspectiveCameraBase &source) :
-	_sfFov                    (source._sfFov                    ), 
-	Inherited                 (source)
+    _sfFov                    (source._sfFov                    ), 
+    Inherited                 (source)
 {
 }
 

@@ -97,7 +97,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Animation
 
     InterpolatorVec   findInterpolator   (const Char8 *szName);
     
-    void              resolveTransform   (      VRMLTransformPtr  pTransform, 
+    void              resolveTransform   (ComponentTransformPtr   pTransform, 
                                           const Char8            *szName    );
 
     void              resolve            (NodePtr pRoot             );

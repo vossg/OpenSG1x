@@ -45,11 +45,11 @@
 #include <OSGBaseFunctions.h>
 #include <OSGTrackball.h>
 #include <OSGVRMLFile.h>
-#include <OSGVRMLTransform.h>
+#include <OSGComponentTransform.h>
 #include <OSGMField.h>
 #include <OSGSceneFileHandler.h>
 #include <OSGAnimation.h>
-#include <OSGLogoForeground.h>
+#include <OSGImageForeground.h>
 
 #ifdef TUBS
 #include "OSGTubsMesh.h"
@@ -73,22 +73,22 @@ OSG::NodePtr            file;
 
 OSG::WindowPtr            win;
 
-OSG::VRMLTransformPtr     cam_trans;
+OSG::ComponentTransformPtr     cam_trans;
 
 OSG::Trackball            tball;
 
 OSG::PerspectiveCameraPtr cam;
 
 OSG::NodePtr            t1n;
-OSG::VRMLTransformPtr   t1;
+OSG::ComponentTransformPtr   t1;
 
 OSG::NodePtr            sceneTransNode;
-OSG::VRMLTransformPtr   sceneTransCore;
+OSG::ComponentTransformPtr   sceneTransCore;
 
 OSG::Animation         *animation = NULL;
 vector<string>          animTargetNames;
-map<const string, OSG::VRMLTransformPtr> animMap;
-typedef map<const string, OSG::VRMLTransformPtr>::iterator AnimIter;
+map<const string, OSG::ComponentTransformPtr> animMap;
+typedef map<const string, OSG::ComponentTransformPtr>::iterator AnimIter;
 bool                    doInterpolators = false;
 
 OSG::Time               startTime;
@@ -108,7 +108,7 @@ OSG::Vec3f                  startPoint, endPoint;
 OSG::Quaternion             startQuat, endQuat;
 OSG::Real32                 startFov, endFov;
 OSG::NodePtr                stdCamNode;
-OSG::VRMLTransformPtr       stdCamBeacon;
+OSG::ComponentTransformPtr       stdCamBeacon;
 
 OSG::Real32                 animDuration;
 OSG::Real32                 frameDuration = 0.0;
@@ -127,7 +127,7 @@ static OSG::Pnt2f           logoPos[2] = { OSG::Pnt2f(0.0, 0.0),
                                            OSG::Pnt2f(0.8, 0.0) };
 
 OSG::UInt32                 uiLogoCount = 0;
-OSG::LogoForegroundPtr      pLogo       = OSG::NullFC;
+OSG::ImageForegroundPtr     pLogo       = OSG::NullFC;
 
 // --- animation creation
 
@@ -212,8 +212,8 @@ void loadMesh(const char *szFilename, OSG::NodePtr dlight)
     OSG::NodePtr pTextTrNode1             = 
         OSG::Node::create();
     
-    OSG::VRMLTransformPtr pTextTransform1 = 
-        OSG::VRMLTransform::create();
+    OSG::ComponentTransformPtr pTextTransform1 = 
+        OSG::ComponentTransform::create();
     
     pTextTrNode1->setCore(pTextTransform1);
     
@@ -268,8 +268,8 @@ void loadMesh(const char *szFilename, OSG::NodePtr dlight)
     OSG::NodePtr pTextTrNode2             = 
         OSG::Node::create();
 
-    OSG::VRMLTransformPtr pTextTransform2 = 
-        OSG::VRMLTransform::create();
+    OSG::ComponentTransformPtr pTextTransform2 = 
+        OSG::ComponentTransform::create();
 
     pTextTrNode2->setCore(pTextTransform2);
 
@@ -440,7 +440,7 @@ void selectCamera(int cameraNr)
 {
     OSG::AttachmentPtr     foundAttach = OSG::NullFC;
     OSG::NodePtr           node        = OSG::NullFC;
-    OSG::VRMLTransformPtr  vrmlTrans;
+    OSG::ComponentTransformPtr  vrmlTrans;
     OSG::SFReal32         *fieldOfViewField;
     OSG::Real32            fieldOfView = .75;
     OSG::NamePtr           namePtr;
@@ -455,7 +455,7 @@ void selectCamera(int cameraNr)
     lastSelectedCam = cameraNr;
 
     node = cameraBeacons[cameraNr];
-    vrmlTrans = OSG::VRMLTransformPtr::dcast( node->getCore() );
+    vrmlTrans = OSG::ComponentTransformPtr::dcast( node->getCore() );
 
     // --- find the viewpoint attachment
     foundAttach = vrmlTrans->findAttachment(
@@ -748,7 +748,7 @@ void vis(int visible)
 /*-------------------------------------------------------------------------*/
 
 
-/*! \brief Traverses the scenegraph and checks for VRMLTransforms with
+/*! \brief Traverses the scenegraph and checks for ComponentTransforms with
     viewpoint attachment.
     
     If there are any transformations with viewpoint attachment these
@@ -762,10 +762,10 @@ void vis(int visible)
 OSG::Action::ResultE viewpointCheck(OSG::CNodePtr &, OSG::Action *action)
 {
     OSG::NodePtr            node        = action->getActNode();
-    OSG::VRMLTransformPtr   vrmlTrans   = OSG::NullFC;
+    OSG::ComponentTransformPtr   vrmlTrans   = OSG::NullFC;
     OSG::AttachmentPtr      foundAttach = OSG::NullFC;
                     
-    vrmlTrans = OSG::VRMLTransformPtr::dcast(node->getCore());
+    vrmlTrans = OSG::ComponentTransformPtr::dcast(node->getCore());
         
     if(!vrmlTrans)
     {
@@ -777,7 +777,7 @@ OSG::Action::ResultE viewpointCheck(OSG::CNodePtr &, OSG::Action *action)
         foundAttach = vrmlTrans->findAttachment(
             OSG::GenericAtt::getClassType().getGroupId());
 
-        // if one is present -> the VRMLTransformation is a camera beacon
+        // if one is present -> the ComponentTransformation is a camera beacon
         if(foundAttach != OSG::NullFC)
         {
             OSG::Field *pField = foundAttach->getField("isViewpoint");
@@ -1161,16 +1161,16 @@ void specialKey(int key, int x, int y)
     cerr << "Active " << selectedCam << " | " << lastSelectedCam << endl;
 }
 
-void addLogoForeground(const char *szFilename)
+void addImageForeground(const char *szFilename)
 {
     if(szFilename == NULL)
         return;
 
-    cerr << "Adding Logo " << szFilename << endl; 
+    cerr << "Adding Image " << szFilename << endl; 
 
     if(pLogo == OSG::NullFC)
     {
-        pLogo = OSG::LogoForeground::create();
+        pLogo = OSG::ImageForeground::create();
     }
 
     if(uiLogoCount < 2)
@@ -1179,7 +1179,7 @@ void addLogoForeground(const char *szFilename)
 
         pImage->read(szFilename);
 
-        pLogo->addLogo(pImage, logoPos[uiLogoCount]);
+        pLogo->addImage(pImage, logoPos[uiLogoCount]);
 
         uiLogoCount++;
     }
@@ -1305,7 +1305,7 @@ void checkOptions( int argc, char** argv )
                     setNear = atof( optarg );
                     break;
                 case 'b':
-                    addLogoForeground(optarg);
+                    addImageForeground(optarg);
                     break;
                 case 'B':
                     bkgndgcol.setValue(optarg);
@@ -1375,7 +1375,7 @@ int main (int argc, char **argv)
 
     // transformation
     t1n = OSG::Node::create();
-    t1  = OSG::VRMLTransform::create();
+    t1  = OSG::ComponentTransform::create();
 
     OSG::beginEditCP(t1n);
     {
@@ -1385,7 +1385,7 @@ int main (int argc, char **argv)
 
 
     sceneTransNode  = OSG::Node::create();
-    sceneTransCore  = OSG::VRMLTransform::create();
+    sceneTransCore  = OSG::ComponentTransform::create();
 
     OSG::beginEditCP(sceneTransNode);
     {
@@ -1537,7 +1537,7 @@ int main (int argc, char **argv)
 
     act1 = OSG::Action::create();   
 
-    act1->registerEnterFunction(OSG::VRMLTransform::getClassType(),
+    act1->registerEnterFunction(OSG::ComponentTransform::getClassType(),
                                 OSG::osgFunctionFunctor2(viewpointCheck));
     act1->apply(dlight);
     
@@ -1563,7 +1563,7 @@ int main (int argc, char **argv)
     if(cameraBeacons.size() == 0)
     {
         stdCamNode   = OSG::Node::create();      
-        stdCamBeacon = OSG::VRMLTransform::create();
+        stdCamBeacon = OSG::ComponentTransform::create();
         
         OSG::beginEditCP(stdCamNode);
         {
@@ -1628,8 +1628,8 @@ int main (int argc, char **argv)
         OSG::SFReal32 *fieldOfViewField = NULL;
         OSG::NamePtr   namePtr;
 
-        OSG::VRMLTransformPtr vrmlTrans = 
-            OSG::VRMLTransformPtr::dcast( node->getCore() );
+        OSG::ComponentTransformPtr vrmlTrans = 
+            OSG::ComponentTransformPtr::dcast( node->getCore() );
 
         // --- find the viewpoint attachment
         OSG::AttachmentPtr foundAttach = vrmlTrans->findAttachment(

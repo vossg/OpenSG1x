@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VRMLTransform
+ **     class ComponentTransform
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGVRMLTRANSFORMBASE_H_
-#define _OSGVRMLTRANSFORMBASE_H_
+#ifndef _OSGCOMPONENTTRANSFORMBASE_H_
+#define _OSGCOMPONENTTRANSFORMBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -73,16 +73,16 @@
 #include <OSGQuaternionFields.h> // ScaleOrientation type
 #include <OSGVec3fFields.h> // Translation type
 
-#include <OSGVRMLTransformFields.h>
+#include <OSGComponentTransformFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class VRMLTransform;
+class ComponentTransform;
 class BinaryDataHandler;
 
-/*! \brief VRMLTransform Base Class. */
+/*! \brief ComponentTransform Base Class. */
 
-class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
+class OSG_SYSTEMLIB_DLLMAPPING ComponentTransformBase : public Transform
 {
   private:
 
@@ -184,8 +184,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  VRMLTransformPtr    create          (void); 
-    static  VRMLTransformPtr    createEmpty     (void); 
+    static  ComponentTransformPtr    create          (void); 
+    static  ComponentTransformPtr    createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -203,33 +203,33 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFVec3f          	_sfCenter;
-    SFQuaternion     	_sfRotation;
-    SFVec3f          	_sfScale;
-    SFQuaternion     	_sfScaleOrientation;
-    SFVec3f          	_sfTranslation;
+    SFVec3f             _sfCenter;
+    SFQuaternion        _sfRotation;
+    SFVec3f             _sfScale;
+    SFQuaternion        _sfScaleOrientation;
+    SFVec3f             _sfTranslation;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    VRMLTransformBase(void);
-    VRMLTransformBase(const VRMLTransformBase &source);
+    ComponentTransformBase(void);
+    ComponentTransformBase(const ComponentTransformBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~VRMLTransformBase(void); 
+    virtual ~ComponentTransformBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      VRMLTransformBase *pOther,
+    void executeSyncImpl(      ComponentTransformBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -244,7 +244,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const VRMLTransform &source);
+    void operator =(const ComponentTransform &source);
 };
 
 //---------------------------------------------------------------------------
@@ -252,10 +252,10 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
 //---------------------------------------------------------------------------
 
 
-typedef VRMLTransformBase *VRMLTransformBaseP;
+typedef ComponentTransformBase *ComponentTransformBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGVRMLTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGVRMLTransformBase.h,v 1.13 2001/09/19 14:36:41 mroth Exp $"
+#define OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGComponentTransformBase.h,v 1.1 2001/10/03 20:37:35 dirk Exp $"
 
-#endif /* _OSGVRMLTRANSFORMBASE_H_ */
+#endif /* _OSGCOMPONENTTRANSFORMBASE_H_ */

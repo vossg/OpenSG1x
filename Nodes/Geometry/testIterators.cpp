@@ -43,7 +43,7 @@ int main (int argc, char **argv)
     g = Geometry::create();
 	n->setCore( g );
 
-	GeoPosition3f::PtrType pnts = GeoPosition3f::create();
+	GeoPositions3f::PtrType pnts = GeoPositions3f::create();
 	g->setPositions( pnts );
 
 	MFPnt3f* p = pnts->getFieldPtr();
@@ -60,7 +60,7 @@ int main (int argc, char **argv)
 	endEditCP(pnts);
 
 
-	GeoColor4ub::PtrType cols = GeoColor4ub::create();
+	GeoColors4ub::PtrType cols = GeoColors4ub::create();
 	g->setColors( cols );
  	g->getIndexMapping().addValue( Geometry::MapPosition | 
 	    	    	    	       Geometry::MapColor );
@@ -80,7 +80,7 @@ int main (int argc, char **argv)
 
 	// Make me one with everything...
 
-	GeoPTypeUI8Ptr type = GeoPTypeUI8::create();	
+	GeoPTypesUI8Ptr type = GeoPTypesUI8::create();	
 	g->setTypes( type );
 	beginEditCP(type);
 	type->getFieldPtr()->addValue( GL_POINTS );
@@ -98,7 +98,7 @@ int main (int argc, char **argv)
 	endEditCP(type);
 
 
-	GeoPLengthUI32Ptr lens = GeoPLengthUI32::create();	
+	GeoPLengthsUI32Ptr lens = GeoPLengthsUI32::create();	
 	g->setLengths( lens );
 	beginEditCP(lens);
 	{
@@ -109,8 +109,8 @@ int main (int argc, char **argv)
 	endEditCP(lens);
 
 	
-	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
-	g->setIndex( index );
+	GeoIndicesUI32Ptr index = GeoIndicesUI32::create();	
+	g->setIndices( index );
 	beginEditCP(index);
 	{
 	static Int32 i[] = { 0,1, 0,1,1,2, 4,5,6, 5,6,7, 0,1,2,1,2,3,2,3,4,
@@ -127,10 +127,10 @@ int main (int argc, char **argv)
 	{
 		cerr <<  g->getLengths()->getValue( j ) << " ";
 	}
-	cerr << " points" << endl << g->getIndex()->getSize() << " indices: ";
-	for ( j = 0; j < g->getIndex()->getSize(); j++ )
+	cerr << " points" << endl << g->getIndices()->getSize() << " indices: ";
+	for ( j = 0; j < g->getIndices()->getSize(); j++ )
 	{
-		cerr <<  g->getIndex()->getValue( j ) << " ";
+		cerr <<  g->getIndices()->getValue( j ) << " ";
 	}
 	
 	// Try the primitive iterator

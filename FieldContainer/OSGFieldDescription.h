@@ -45,7 +45,7 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 
-#include <OSGString.h>
+#include <OSGIDString.h>
 #include <OSGFieldContainer.h>
 #include <OSGTypeBase.h>
 
@@ -65,17 +65,17 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
     /*==========================  PRIVATE  ================================*/
   private:
 
-	friend class FieldContainer;
+    friend class FieldContainer;
     friend class FieldContainerPtr;
 
-	/*!\brief prohibit default function (move to 'public' if needed) */
+    /*!\brief prohibit default function (move to 'public' if needed) */
 
     void operator =(const FieldDescription &source);
 
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    String                   _szName;
+    IDString                 _szName;
 
     const TypeBase          &_fieldType;
 
@@ -87,7 +87,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
     FieldAccessMethod        _fAccessMethod;
     FieldIndexAccessMethod   _fIndexedAccessMethod;
 
-	String                   _defaultValue;
+    IDString                 _defaultValue;
 
     /*---------------------------------------------------------------------*/
     /*! \name                                                              */
@@ -133,8 +133,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-	const Char8     *getCName       (void                ) const;
-    const String    &getName        (void                ) const;
+    const Char8     *getCName       (void                ) const;
+    const IDString  &getName        (void                ) const;
 
           UInt32     getTypeId      (void                ) const;  
 
@@ -144,9 +144,9 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
           UInt32     getFieldId     (void                ) const;
           void       setFieldId     (UInt32 uiFieldId    );
 
-	      Bool       isInternal     (void                ) const;
+          Bool       isInternal     (void                ) const;
 
-	      Bool       isValid        (void                ) const;
+          Bool       isValid        (void                ) const;
 
     const Char8     *getDefaultValue(void) const;
 

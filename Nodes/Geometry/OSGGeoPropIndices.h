@@ -47,16 +47,16 @@
 
 OSG_BEGIN_NAMESPACE
 
-struct GeoIndexUI32PropertyDesc
+struct GeoIndicesUI32PropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
 
-    static const Char8 *getTypeName (void) { return "GeoIndexUI32";         }
-    static const Char8 *getClassName(void) { return "GeoIndexUI32Property"; }
+    static const Char8 *getTypeName (void) { return "GeoIndicesUI32";         }
+    static const Char8 *getClassName(void) { return "GeoIndicesUI32Property"; }
     static const Char8 *getFieldName(void) { return "Indices";              }
-    static const Char8 *getGroupName(void) { return "GeoIndex";             }
+    static const Char8 *getGroupName(void) { return "GeoIndices";             }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -70,30 +70,30 @@ struct GeoIndexUI32PropertyDesc
     /*! \name                    Typedefs                                  */
     /*! \{                                                                 */
 
-    typedef GeoIndex                 Inherit;
-    typedef GeoIndex::PtrType        InheritPtr;
-    typedef GeoIndexPropertyDesc     InheritDesc;
+    typedef GeoIndices                 Inherit;
+    typedef GeoIndices::PtrType        InheritPtr;
+    typedef GeoIndicesPropertyDesc     InheritDesc;
     typedef MFUInt32                 FieldType;
 
     typedef InheritDesc::GenericType GenericType;
 
-    typedef GeoPropertyInterface<GeoIndexPropertyDesc> Interface;
+    typedef GeoPropertyInterface<GeoIndicesPropertyDesc> Interface;
     /*! \}                                                                 */
 };
 
-typedef GeoProperty<GeoIndexUI32PropertyDesc> GeoIndexUI32;
+typedef GeoProperty<GeoIndicesUI32PropertyDesc> GeoIndicesUI32;
 
 
 #ifndef OSG_COMPILEGEOPROPINDEXINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate GeoProperty<GeoIndexUI32PropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoIndexUI32PropertyDesc>::_desc
+#pragma do_not_instantiate GeoProperty<GeoIndicesUI32PropertyDesc>::_type
+#pragma do_not_instantiate GeoProperty<GeoIndicesUI32PropertyDesc>::_desc
 
 #else
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
-                      GeoIndexUI32PropertyDesc,
+                      GeoIndicesUI32PropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

@@ -81,38 +81,38 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
     {
        outVal.assign( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[0]) );
       outVal.append( " " );
-	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[1]) );
       outVal.append( " " );
-	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[2]) );
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[2]) );
       outVal.append( " " );
-	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[3]) );
-	  outVal.append( " " );
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[3]) );
+      outVal.append( " " );
       
-	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[4]) );
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[4]) );
       outVal.append( " " );
-	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[5]) );
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[5]) );
       outVal.append( " " );
-	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[6]) );
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[6]) );
       outVal.append( " " );
-	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[7]) );
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[7]) );
       outVal.append( " " );
-	  
+      
       outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[8]) );
       outVal.append( " " );
-	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[9]) );
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[9]) );
       outVal.append( " " );
-	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[10]) );
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[10]) );
       outVal.append( " " );
-	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[11]) );
-	  outVal.append( " " );
-	  
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[11]) );
+      outVal.append( " " );
+      
       outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[12]) );
       outVal.append( " " );
-	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[13]) );
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[13]) );
       outVal.append( " " );
-	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[14]) );
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[14]) );
       outVal.append( " " );
-	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[15]) );
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[15]) );
     }
 };
 
@@ -152,17 +152,17 @@ struct FieldDataTraits<Quaternion> :
                                               std::string     &outVal)
     {
         Quaternion::VectorType::ValueType axisX;
-		Quaternion::VectorType::ValueType axisY;
-		Quaternion::VectorType::ValueType axisZ;
-		Quaternion::VectorType::ValueType angleRad;
-		inVal.getValueAsAxisRad( axisX, axisY, axisZ, angleRad );
-		outVal.assign( TypeConstants<Quaternion::VectorType::ValueType>::putToString(axisX) );
-		outVal.append( " " );
-		outVal.append( TypeConstants<Quaternion::VectorType::ValueType>::putToString(axisY) );
-		outVal.append( " " );
-		outVal.append( TypeConstants<Quaternion::VectorType::ValueType>::putToString(axisZ) );
-		outVal.append( " " );
-		outVal.append( TypeConstants<Quaternion::VectorType::ValueType>::putToString(angleRad) );
+        Quaternion::VectorType::ValueType axisY;
+        Quaternion::VectorType::ValueType axisZ;
+        Quaternion::VectorType::ValueType angleRad;
+        inVal.getValueAsAxisRad( axisX, axisY, axisZ, angleRad );
+        outVal.assign( TypeConstants<Quaternion::VectorType::ValueType>::putToString(axisX) );
+        outVal.append( " " );
+        outVal.append( TypeConstants<Quaternion::VectorType::ValueType>::putToString(axisY) );
+        outVal.append( " " );
+        outVal.append( TypeConstants<Quaternion::VectorType::ValueType>::putToString(axisZ) );
+        outVal.append( " " );
+        outVal.append( TypeConstants<Quaternion::VectorType::ValueType>::putToString(angleRad) );
     }
 };
 

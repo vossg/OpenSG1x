@@ -87,11 +87,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
     //-----------------------------------------------------------------------
 
     enum ResultE
-    {	
-        Continue,	// continue with my children
-	    Skip,		// skip my children
-	    // really needed? Cancel, // skip my brothers, go one step up
-	    Quit		// forget it, you're done
+    {   
+        Continue,   // continue with my children
+        Skip,       // skip my children
+        // really needed? Cancel, // skip my brothers, go one step up
+        Quit        // forget it, you're done
     };
 
 #ifdef OSG_NOFUNCTORS
@@ -118,7 +118,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
         return result;
     }
 #else
-	typedef Functor2Base<ResultE, CNodePtr &, Action *> Functor;
+    typedef Functor2Base<ResultE, CNodePtr &, Action *> Functor;
 #endif
 
     //-----------------------------------------------------------------------
@@ -131,14 +131,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
 
     static const char *getClassname(void) { return "Action"; }
 
-	// create a new action by cloning the prototype
-	static Action * create( void );
-	
-	// prototype access
-	// after setting the prototype all new actions are clones of it
-	static void    setPrototype( Action * proto );
-	static Action *getPrototype( void );
-	
+    // create a new action by cloning the prototype
+    static Action * create( void );
+    
+    // prototype access
+    // after setting the prototype all new actions are clones of it
+    static void    setPrototype( Action * proto );
+    static Action *getPrototype( void );
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -146,60 +146,60 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
     virtual ~Action(void);
 
     /*------------------------- your_category -------------------------------*/
-	
-	// default registration. static, so it can be called during static init
-	
-	static void registerEnterDefault(	const FieldContainerType &type, 
-										const Functor               &func);
-	
-	static void registerLeaveDefault(	const FieldContainerType &type, 
-										const Functor               &func);
+    
+    // default registration. static, so it can be called during static init
+    
+    static void registerEnterDefault(   const FieldContainerType &type, 
+                                        const Functor               &func);
+    
+    static void registerLeaveDefault(   const FieldContainerType &type, 
+                                        const Functor               &func);
 
-	// instance registration
-	
-	void registerEnterFunction(	const FieldContainerType &type, 
-								const Functor               &func);
-	
-	void registerLeaveFunction(	const FieldContainerType &type, 
-								const Functor               &func);
+    // instance registration
+    
+    void registerEnterFunction(     const FieldContainerType &type, 
+                                const Functor               &func);
+    
+    void registerLeaveFunction(     const FieldContainerType &type, 
+                                const Functor               &func);
 
-	// application
+    // application
 
-	virtual ResultE apply(vector<NodePtr>::iterator begin, 
+    virtual ResultE apply(vector<NodePtr>::iterator begin, 
                           vector<NodePtr>::iterator end);
 
-	virtual ResultE apply(NodePtr node);
+    virtual ResultE apply(NodePtr node);
 
-	
-	// the node being traversed. Might be needed by the traversed core
-	
-	inline NodePtr getActNode( void );
+    
+    // the node being traversed. Might be needed by the traversed core
+    
+    inline NodePtr getActNode( void );
 
 
-	// Node access: 
-	// the number of active nodes 
-	
-	UInt32 getNNodes( void ) const;
-	
-	// you can access a single node by getNode
-	
-	const NodePtr getNode( int index );
-	
-	// per default all child nodes are traversed. If addNode is called, only the 
-	// added nodes will be traversed.
-	
-	void addNode( NodePtr node );
+    // Node access: 
+    // the number of active nodes 
+    
+    UInt32 getNNodes( void ) const;
+    
+    // you can access a single node by getNode
+    
+    const NodePtr getNode( int index );
+    
+    // per default all child nodes are traversed. If addNode is called, only the 
+    // added nodes will be traversed.
+    
+    void addNode( NodePtr node );
 
-	// Common case: going through the children list and picking up some of them,
-	// but it's not clear if any at all. Call useNodeList() and then
-	// addNode() for every node to traverse, or not at all. 
+    // Common case: going through the children list and picking up some of them,
+    // but it's not clear if any at all. Call useNodeList() and then
+    // addNode() for every node to traverse, or not at all. 
 
-	void useNodeList( void ); 
+    void useNodeList( void ); 
 
-	// for debugging
-	
-	void printTable( void );
-	
+    // for debugging
+    
+    void printTable( void );
+    
     /*------------------------- your_operators ------------------------------*/
 
 
@@ -209,8 +209,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
 
     Bool operator < (const Action &other);
     
-	Bool operator == (const Action &other);
-	Bool operator != (const Action &other);
+    Bool operator == (const Action &other);
+    Bool operator != (const Action &other);
 
   protected:
 
@@ -238,46 +238,46 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// protected to allow derived access
+    // protected to allow derived access
     Action(void);
     Action(const Action &source);
 
-	// call the single node. used for cascading actions
-	
-	inline ResultE callEnter( NodePtr node );	
-	inline ResultE callLeave( NodePtr node );
+    // call the single node. used for cascading actions
+    
+    inline ResultE callEnter( NodePtr node );   
+    inline ResultE callLeave( NodePtr node );
 
-	// start/stop functions for the action.
-	// called at the very beginning/end, can return a list of nodes
-	// via addNode() which is traversed before/after the traversal is done
-	// main use: collecting actions use stop() to emit their collection
-	
-	virtual ResultE start( void );	
-	virtual ResultE stop( ResultE res ); // res is the exit code of the action
-	
-	// recurse through the node
-	
-	ResultE recurse( NodePtr node );
-	
-	// call the _newList list of nodes
-	
-	ResultE callNewList( void );
+    // start/stop functions for the action.
+    // called at the very beginning/end, can return a list of nodes
+    // via addNode() which is traversed before/after the traversal is done
+    // main use: collecting actions use stop() to emit their collection
+    
+    virtual ResultE start( void );  
+    virtual ResultE stop( ResultE res ); // res is the exit code of the action
+    
+    // recurse through the node
+    
+    ResultE recurse( NodePtr node );
+    
+    // call the _newList list of nodes
+    
+    ResultE callNewList( void );
 
-	// access default functors
+    // access default functors
 
-	virtual vector<Functor>* getDefaultEnterFunctors( void );
-	virtual vector<Functor>* getDefaultLeaveFunctors( void );
+    virtual vector<Functor>* getDefaultEnterFunctors( void );
+    virtual vector<Functor>* getDefaultLeaveFunctors( void );
 
-	// default function
-	
-	static ResultE _defaultEnterFunction( CNodePtr &node, Action *action);
-	static ResultE _defaultLeaveFunction( CNodePtr &node, Action *action);
+    // default function
+    
+    static ResultE _defaultEnterFunction( CNodePtr &node, Action *action);
+    static ResultE _defaultLeaveFunction( CNodePtr &node, Action *action);
 
-	// functors
-	// just protected, so that derived actions can access them
-	
-	vector<Functor> _enterFunctors;
-	vector<Functor> _leaveFunctors;
+    // functors
+    // just protected, so that derived actions can access them
+    
+    vector<Functor> _enterFunctors;
+    vector<Functor> _leaveFunctors;
 
   private:
 
@@ -301,39 +301,39 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
-	// the prototype which is copied to create new actions
-	static Action * _prototype;
-	
-	// default functors for instantiation
-	static vector<Functor> *_defaultEnterFunctors;
-	static vector<Functor> *_defaultLeaveFunctors;
-	
+    // the prototype which is copied to create new actions
+    static Action * _prototype;
+    
+    // default functors for instantiation
+    static vector<Functor> *_defaultEnterFunctors;
+    static vector<Functor> *_defaultLeaveFunctors;
+    
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
-	
+    
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	NodePtr _actNode;			// the node being traversed right now
-	
-	vector<NodePtr>* _actList;	// list of active objects for this level
-									// if empty, use the actNode's children
+    NodePtr _actNode;           // the node being traversed right now
+    
+    vector<NodePtr>* _actList;  // list of active objects for this level
+                                    // if empty, use the actNode's children
 
-	bool 			_useNewList;// set by clearNodeList
-	vector<NodePtr> _newList;	// list of active object for this level
-	
+    bool            _useNewList;// set by clearNodeList
+    vector<NodePtr> _newList;   // list of active object for this level
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-	
-	// helper functions for start/stop, that also call the results of start/stop
-	
-	ResultE callStart( void );
-	ResultE callStop( ResultE res );
+    
+    // helper functions for start/stop, that also call the results of start/stop
+    
+    ResultE callStart( void );
+    ResultE callStop( ResultE res );
 
     Action& operator =(const Action &source);
 };

@@ -47,7 +47,6 @@
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
-#include <OSGStringLink.h>
 #include <OSGSceneFileType.h>
 
 OSG_BEGIN_NAMESPACE
@@ -119,8 +118,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*==========================  PRIVATE  ================================*/
   private:
 
-    typedef list<        SceneFileType *> FileTypeList;
-    typedef map <String, FileTypeList  *> FileTypeMap;
+    typedef list<          SceneFileType *> FileTypeList;
+    typedef map <IDString, FileTypeList  *> FileTypeMap;
 
     struct FindOverride
     {

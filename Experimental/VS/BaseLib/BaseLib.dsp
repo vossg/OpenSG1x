@@ -182,11 +182,11 @@ SOURCE=..\..\..\Base\OSGSphereVolume.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Base\OSGString.cpp
+SOURCE=..\..\..\Base\OSGIDString.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Base\OSGStringLink.cpp
+SOURCE=..\..\..\Base\OSGIDStringLink.cpp
 # End Source File
 # Begin Source File
 
@@ -361,7 +361,7 @@ SOURCE=..\..\..\Field\OSGSFVecTypes.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Field\OSGStringFields.h
+SOURCE=..\..\..\Field\OSGIDStringFields.h
 # End Source File
 # Begin Source File
 
@@ -510,11 +510,11 @@ SOURCE=..\..\..\Base\OSGSphereVolume.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Base\OSGString.h
+SOURCE=..\..\..\Base\OSGIDString.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Base\OSGStringLink.h
+SOURCE=..\..\..\Base\OSGIDStringLink.h
 # End Source File
 # Begin Source File
 

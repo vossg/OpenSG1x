@@ -230,11 +230,11 @@ SOURCE=..\..\..\Nodes\Misc\OSGTransformBase.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Nodes\Misc\OSGVRMLTransform.cpp
+SOURCE=..\..\..\Nodes\Misc\OSGComponentTransform.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Nodes\Misc\OSGVRMLTransformBase.cpp
+SOURCE=..\..\..\Nodes\Misc\OSGComponentTransformBase.cpp
 # End Source File
 # End Group
 # Begin Group "Geometry_cpp"
@@ -790,15 +790,15 @@ SOURCE=..\..\..\Nodes\Misc\OSGTransformFields.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Nodes\Misc\OSGVRMLTransform.h
+SOURCE=..\..\..\Nodes\Misc\OSGComponentTransform.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Nodes\Misc\OSGVRMLTransformBase.h
+SOURCE=..\..\..\Nodes\Misc\OSGComponentTransformBase.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Nodes\Misc\OSGVRMLTransformFields.h
+SOURCE=..\..\..\Nodes\Misc\OSGComponentTransformFields.h
 # End Source File
 # End Group
 # Begin Group "Geometry_h"
@@ -810,7 +810,7 @@ SOURCE=..\..\..\Nodes\Geometry\OSGFaceIterator.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Nodes\Geometry\OSGGeoColorFields.h
+SOURCE=..\..\..\Nodes\Geometry\OSGGeoColorsFields.h
 # End Source File
 # Begin Source File
 
@@ -818,7 +818,7 @@ SOURCE=..\..\..\Nodes\Geometry\OSGGeoFunctions.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Nodes\Geometry\OSGGeoIndexFields.h
+SOURCE=..\..\..\Nodes\Geometry\OSGGeoIndicesFields.h
 # End Source File
 # Begin Source File
 
@@ -834,15 +834,15 @@ SOURCE=..\..\..\Nodes\Geometry\OSGGeometryFields.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Nodes\Geometry\OSGGeoNormalFields.h
+SOURCE=..\..\..\Nodes\Geometry\OSGGeoNormalsFields.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Nodes\Geometry\OSGGeoPLengthFields.h
+SOURCE=..\..\..\Nodes\Geometry\OSGGeoPLengthsFields.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Nodes\Geometry\OSGGeoPositionFields.h
+SOURCE=..\..\..\Nodes\Geometry\OSGGeoPositionsFields.h
 # End Source File
 # Begin Source File
 
@@ -882,7 +882,7 @@ SOURCE=..\..\..\Nodes\Geometry\OSGGeoPropTexCoords.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Nodes\Geometry\OSGGeoPTypeFields.h
+SOURCE=..\..\..\Nodes\Geometry\OSGGeoPTypesFields.h
 # End Source File
 # Begin Source File
 
@@ -1402,11 +1402,11 @@ SOURCE=..\..\..\Nodes\Misc\OSGTransformBase.inl
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Nodes\Misc\OSGVRMLTransform.inl
+SOURCE=..\..\..\Nodes\Misc\OSGComponentTransform.inl
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Nodes\Misc\OSGVRMLTransformBase.inl
+SOURCE=..\..\..\Nodes\Misc\OSGComponentTransformBase.inl
 # End Source File
 # End Group
 # Begin Group "Geometry_inl"

@@ -142,7 +142,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
 
     /*------------------------- assignment ----------------------------------*/
 
-	virtual Action::ResultE write(NodePtr node);
+    virtual Action::ResultE write(NodePtr node);
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -182,10 +182,10 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     virtual vector<Functor>* getDefaultEnterFunctors( void );
     virtual vector<Functor>* getDefaultLeaveFunctors( void );
 
-	virtual Action::ResultE apply(vector<NodePtr>::iterator begin, 
+    virtual Action::ResultE apply(vector<NodePtr>::iterator begin, 
                                   vector<NodePtr>::iterator end);
 
-	virtual Action::ResultE apply(NodePtr node);
+    virtual Action::ResultE apply(NodePtr node);
 
   private:
 
@@ -240,7 +240,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend struct ActionInitializer;
+    friend struct ActionInitializer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    

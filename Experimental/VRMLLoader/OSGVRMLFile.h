@@ -151,7 +151,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -165,7 +165,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLFile(const VRMLFile &source);
     void operator =(const VRMLFile &source);
@@ -180,8 +180,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef map<String, FieldContainerPtr> NameContainerMap;
-    typedef map<String, VRMLNodeDesc    *> NameDescriptionMap;
+    typedef map<IDString, FieldContainerPtr> NameContainerMap;
+    typedef map<IDString, VRMLNodeDesc    *> NameDescriptionMap;
  
     //-----------------------------------------------------------------------
     //   class variables                                                     

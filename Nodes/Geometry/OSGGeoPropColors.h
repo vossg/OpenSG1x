@@ -46,19 +46,19 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief GeoColor3fPropertyDesc
+/*! \brief GeoColors3fPropertyDesc
  *  \ingroup GeoProperties
  */
-struct GeoColor3fPropertyDesc
+struct GeoColors3fPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
     
-    static const Char8 *getTypeName (void) { return "GeoColor3f";         }
-    static const Char8 *getClassName(void) { return "GeoColor3fProperty"; }
+    static const Char8 *getTypeName (void) { return "GeoColors3f";         }
+    static const Char8 *getClassName(void) { return "GeoColors3fProperty"; }
     static const Char8 *getFieldName(void) { return "Colors";             }
-    static const Char8 *getGroupName(void) { return "GeoColor";           }
+    static const Char8 *getGroupName(void) { return "GeoColors";           }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -72,45 +72,45 @@ struct GeoColor3fPropertyDesc
     /*! \name                   Typedefs                                   */
     /*! \{                                                                 */
   
-    typedef GeoColor                 Inherit;
-    typedef GeoColor::PtrType        InheritPtr;
-    typedef GeoColorPropertyDesc     InheritDesc;
+    typedef GeoColors                 Inherit;
+    typedef GeoColors::PtrType        InheritPtr;
+    typedef GeoColorsPropertyDesc     InheritDesc;
     typedef MFColor3f                FieldType;
     typedef InheritDesc::GenericType GenericType;
     
     /*! \}                                                                 */    
 };
 
-typedef GeoProperty<GeoColor3fPropertyDesc> GeoColor3f;
+typedef GeoProperty<GeoColors3fPropertyDesc> GeoColors3f;
 
 #ifndef OSG_COMPILEGEOPROPCOLORINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate GeoProperty<GeoColor3fPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoColor3fPropertyDesc>::_desc
+#pragma do_not_instantiate GeoProperty<GeoColors3fPropertyDesc>::_type
+#pragma do_not_instantiate GeoProperty<GeoColors3fPropertyDesc>::_desc
 
 #else
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
-                      GeoColor3fPropertyDesc,
+                      GeoColors3fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
 
-/*! \brief GeoColor3ubPropertyDesc
+/*! \brief GeoColors3ubPropertyDesc
  *  \ingroup GeoProperties
  */
-struct GeoColor3ubPropertyDesc
+struct GeoColors3ubPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
     
-    static const Char8 *getTypeName (void) { return "GeoColor3ub";         }
-    static const Char8 *getClassName(void) { return "GeoColor3ubProperty"; }
+    static const Char8 *getTypeName (void) { return "GeoColors3ub";         }
+    static const Char8 *getClassName(void) { return "GeoColors3ubProperty"; }
     static const Char8 *getFieldName(void) { return "Colors";             }
-    static const Char8 *getGroupName(void) { return "GeoColor";           }
+    static const Char8 *getGroupName(void) { return "GeoColors";           }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -124,46 +124,46 @@ struct GeoColor3ubPropertyDesc
     /*! \name                   Typedefs                                   */
     /*! \{                                                                 */
 
-    typedef GeoColor                 Inherit;
-    typedef GeoColor::PtrType        InheritPtr;
-    typedef GeoColorPropertyDesc     InheritDesc;
+    typedef GeoColors                 Inherit;
+    typedef GeoColors::PtrType        InheritPtr;
+    typedef GeoColorsPropertyDesc     InheritDesc;
     typedef MFColor3ub               FieldType;
     typedef InheritDesc::GenericType GenericType;
 
-    typedef GeoPropertyInterface<GeoColorPropertyDesc> Interface;
+    typedef GeoPropertyInterface<GeoColorsPropertyDesc> Interface;
     /*! \}                                                                 */    
 };
 
-typedef GeoProperty<GeoColor3ubPropertyDesc> GeoColor3ub;
+typedef GeoProperty<GeoColors3ubPropertyDesc> GeoColors3ub;
 
 #ifndef OSG_COMPILEGEOPROPCOLORINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate GeoProperty<GeoColor3ubPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoColor3ubPropertyDesc>::_desc
+#pragma do_not_instantiate GeoProperty<GeoColors3ubPropertyDesc>::_type
+#pragma do_not_instantiate GeoProperty<GeoColors3ubPropertyDesc>::_desc
 
 #else
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
-                      GeoColor3ubPropertyDesc,
+                      GeoColors3ubPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
 
-/*! \brief GeoColor4ubPropertyDesc
+/*! \brief GeoColors4ubPropertyDesc
  *  \ingroup GeoProperties
  */
-struct GeoColor4ubPropertyDesc
+struct GeoColors4ubPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
     
-    static const Char8 *getTypeName  (void) { return "GeoColor4ub";         }
-    static const Char8 *getClassName (void) { return "GeoColor4ubProperty"; }
+    static const Char8 *getTypeName  (void) { return "GeoColors4ub";         }
+    static const Char8 *getClassName (void) { return "GeoColors4ubProperty"; }
     static const Char8 *getFieldName (void) { return "Colors";              }
-    static const Char8 *getGroupName (void) { return "GeoColor";            }
+    static const Char8 *getGroupName (void) { return "GeoColors";            }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -177,29 +177,29 @@ struct GeoColor4ubPropertyDesc
     /*! \name                   Typedefs                                   */
     /*! \{                                                                 */
     
-    typedef GeoColor                 Inherit;
-    typedef GeoColor::PtrType        InheritPtr;
-    typedef GeoColorPropertyDesc     InheritDesc;
+    typedef GeoColors                 Inherit;
+    typedef GeoColors::PtrType        InheritPtr;
+    typedef GeoColorsPropertyDesc     InheritDesc;
     typedef MFColor4ub               FieldType;
     typedef InheritDesc::GenericType GenericType;
 
-    typedef GeoPropertyInterface<GeoColorPropertyDesc> Interface;
+    typedef GeoPropertyInterface<GeoColorsPropertyDesc> Interface;
     
     /*! \}                                                                 */    
 };
 
-typedef GeoProperty<GeoColor4ubPropertyDesc> GeoColor4ub;
+typedef GeoProperty<GeoColors4ubPropertyDesc> GeoColors4ub;
 
 #ifndef OSG_COMPILEGEOPROPCOLORINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate GeoProperty<GeoColor4ubPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoColor4ubPropertyDesc>::_desc
+#pragma do_not_instantiate GeoProperty<GeoColors4ubPropertyDesc>::_type
+#pragma do_not_instantiate GeoProperty<GeoColors4ubPropertyDesc>::_desc
 
 #else
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
-                      GeoColor4ubPropertyDesc,
+                      GeoColors4ubPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

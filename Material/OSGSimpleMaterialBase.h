@@ -224,14 +224,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFColor3f        	_sfAmbient;
-    SFColor3f        	_sfDiffuse;
-    SFColor3f        	_sfSpecular;
-    SFReal32         	_sfShininess;
-    SFColor3f        	_sfEmission;
-    SFReal32         	_sfTransparency;
-    SFBool           	_sfLit;
-    SFUInt32         	_sfColorMaterial;
+    SFColor3f           _sfAmbient;
+    SFColor3f           _sfDiffuse;
+    SFColor3f           _sfSpecular;
+    SFReal32            _sfShininess;
+    SFColor3f           _sfEmission;
+    SFReal32            _sfTransparency;
+    SFBool              _sfLit;
+    SFUInt32            _sfColorMaterial;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -280,6 +280,6 @@ typedef SimpleMaterialBase *SimpleMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialBase.h,v 1.14 2001/09/19 14:36:40 mroth Exp $"
+#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialBase.h,v 1.15 2001/10/03 20:37:34 dirk Exp $"
 
 #endif /* _OSGSIMPLEMATERIALBASE_H_ */

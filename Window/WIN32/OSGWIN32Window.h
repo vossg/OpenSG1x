@@ -68,7 +68,6 @@
 #include <windows.h>
 
 #include "OSGWindow.h"
-#include "OSGString.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -118,44 +117,44 @@ class OSG_WIN32WINDOWLIB_DLLMAPPING WIN32Window : public Window
 
     /*------------------------- your_category -------------------------------*/
 
-	/** GL implementation dependent function **/
+    /** GL implementation dependent function **/
 
-	// query the system for a GL function
-	virtual void (*getFunctionByName( const Char8 *s ))();
-	
-	// Window-system dependent functions
-	
-	// init the window: create the context	
-	virtual void init( void );
-	
-	// activate the window: bind the OGL context	
-	// set the active window, if needed
-	virtual void activate( void );
-	
-	// deactivate the window: release the OGL context
-	// release the hardware device context
-	virtual void deactivate ( void );
-	
-	// swap buffers	for this window
-	// does not set the active window!
-	virtual void swap( void );
+    // query the system for a GL function
+    virtual void (*getFunctionByName( const Char8 *s ))();
+    
+    // Window-system dependent functions
+    
+    // init the window: create the context  
+    virtual void init( void );
+    
+    // activate the window: bind the OGL context    
+    // set the active window, if needed
+    virtual void activate( void );
+    
+    // deactivate the window: release the OGL context
+    // release the hardware device context
+    virtual void deactivate ( void );
+    
+    // swap buffers     for this window
+    // does not set the active window!
+    virtual void swap( void );
 
-	/*------------------------- your_operators ------------------------------*/
+    /*------------------------- your_operators ------------------------------*/
 
-	void  setWindow (HWND hwin)	    { _hwin = hwin; };
-	HWND  getWindow (void)		    { return _hwin; };
+    void  setWindow (HWND hwin)         { _hwin = hwin; };
+    HWND  getWindow (void)          { return _hwin; };
 
-	void  setHDC (HDC hdc)	        { _hdc = hdc; };
-	HDC	  getHDC (void)		        { return _hdc; };
-	
-	void  setPaintStruct (PAINTSTRUCT ps) { _ps = ps; };
-	PAINTSTRUCT getPaintStruct (void)    { return _ps; };
+    void  setHDC (HDC hdc)          { _hdc = hdc; };
+    HDC       getHDC (void)                 { return _hdc; };
+    
+    void  setPaintStruct (PAINTSTRUCT ps) { _ps = ps; };
+    PAINTSTRUCT getPaintStruct (void)    { return _ps; };
 
-	void  setGLContext (HGLRC glcx)	{ _glcx = glcx; };
-	HGLRC getGLContext (void)		{ return _glcx; };
+    void  setGLContext (HGLRC glcx)     { _glcx = glcx; };
+    HGLRC getGLContext (void)       { return _glcx; };
 
 
-	/*------------------------- assignment ----------------------------------*/
+    /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -185,14 +184,14 @@ class OSG_WIN32WINDOWLIB_DLLMAPPING WIN32Window : public Window
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     WIN32Window (void);
 
-	virtual ~WIN32Window (void); 		
+    virtual ~WIN32Window (void);        
 
   private:
 
@@ -221,31 +220,31 @@ class OSG_WIN32WINDOWLIB_DLLMAPPING WIN32Window : public Window
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
-	static FieldContainerType _type;
+    static FieldContainerType _type;
  
     //-----------------------------------------------------------------------
     //   class functions                                                     
-    //-----------------------------------------------------------------------	
+    //-----------------------------------------------------------------------   
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	// WIN32 stuff 
-	HWND   _hwin;
-	HDC	   _hdc;
-	HGLRC  _glcx;	
-	PAINTSTRUCT _ps;
+    // WIN32 stuff 
+    HWND   _hwin;
+    HDC        _hdc;
+    HGLRC  _glcx;   
+    PAINTSTRUCT _ps;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
-    //-----------------------------------------------------------------------	
+    //-----------------------------------------------------------------------   
 
-	// prohibit default functions (move to 'public' if you need one)	
+    // prohibit default functions (move to 'public' if you need one)    
     WIN32Window(const WIN32Window &source);
-	void operator =(const WIN32Window &source);
+    void operator =(const WIN32Window &source);
 };
 
 //---------------------------------------------------------------------------

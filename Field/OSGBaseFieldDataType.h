@@ -40,13 +40,13 @@
 #define _OSG_BASEFIELDDATATYPE_H_
 
 #include <OSGFieldDataType.h>
-#include <OSGString.h>
 #include <OSGTime.h>
 #include <OSGColor.h>
 #include <OSGDynamicVolume.h>
 #include <OSGSphereVolume.h>
 #include <OSGBoxVolume.h>
 #include <OSGPlane.h>
+#include <OSGString.h>
 
 #include <string>
 
@@ -123,11 +123,11 @@ struct FieldDataTraits<Color4f> : public FieldTraitsRecurseBase<Color4f>
                                               std::string  &outVal)
     {
         outVal.assign( TypeConstants<Color4f::ValueType>::putToString(inVal.red()) );
-	  outVal.append( "  " );
+      outVal.append( "  " );
       outVal.append( TypeConstants<Color4f::ValueType>::putToString(inVal.green()) );
-	  outVal.append( "  " );
+      outVal.append( "  " );
       outVal.append( TypeConstants<Color4f::ValueType>::putToString(inVal.blue()) );
-	  outVal.append( "  " );
+      outVal.append( "  " );
       outVal.append( TypeConstants<Color4f::ValueType>::putToString(inVal.alpha()) );
     }
 };
@@ -159,9 +159,9 @@ struct FieldDataTraits<Color3ub> : public FieldTraitsRecurseBase<Color3ub>
                                     std::string &outVal)
     {
        outVal.assign( TypeConstants<Color3ub::ValueType>::putToString(inVal.red()) );
-	  outVal.append( "  " );
+      outVal.append( "  " );
       outVal.append( TypeConstants<Color3ub::ValueType>::putToString(inVal.green()) );
-	  outVal.append( "  " );
+      outVal.append( "  " );
       outVal.append( TypeConstants<Color3ub::ValueType>::putToString(inVal.blue()) );
     }
 };
@@ -200,13 +200,17 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
     static void   putToString(const Color4ub &inVal,
                                     std::string &outVal )
     {
-       outVal.assign( TypeConstants<Color4ub::ValueType>::putToString(inVal.red()) );
-	  outVal.append( "  " );
-      outVal.append( TypeConstants<Color4ub::ValueType>::putToString(inVal.green()) );
-	  outVal.append( "  " );
-      outVal.append( TypeConstants<Color4ub::ValueType>::putToString(inVal.blue()) );
-	  outVal.append( "  " );
-      outVal.append( TypeConstants<Color4ub::ValueType>::putToString(inVal.alpha()) );
+        outVal.assign( TypeConstants<Color4ub::ValueType>::putToString(
+                        inVal.red()) );
+        outVal.append( "  " );
+        outVal.append( TypeConstants<Color4ub::ValueType>::putToString(
+                        inVal.green()) );
+        outVal.append( "  " );
+        outVal.append( TypeConstants<Color4ub::ValueType>::putToString(
+                        inVal.blue()) );
+        outVal.append( "  " );
+        outVal.append( TypeConstants<Color4ub::ValueType>::putToString(
+                        inVal.alpha()) );
     }
 };
 
@@ -243,9 +247,9 @@ struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
     static void             putToString(const String &inVal,
                                               std::string &outVal )
     {
-		outVal.assign( "\"" );
+        outVal.assign( "\"" );
         outVal.append( inVal.str() );
-		outVal.append( "\"" );
+        outVal.append( "\"" );
     }
 
     static UInt32 getBinSize(const String   &oObject)
@@ -253,8 +257,8 @@ struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
         return oObject.length() + 1 + sizeof(UInt32);
     }
 
-    static UInt32 getBinSize(const String   *pObjectStore,
-                                   UInt32    uiNumObjects)
+    static UInt32 getBinSize(const String     *pObjectStore,
+                                   UInt32      uiNumObjects)
     {
         UInt32 size=0;
 
@@ -266,8 +270,8 @@ struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
         return size;
     }
 
-    static void copyToBin(      BinaryDataHandler &pMem, 
-                          const String            &oObject)
+    static void copyToBin(      BinaryDataHandler   &pMem, 
+                          const String              &oObject)
     {
         UInt32 size = 0;
         if(oObject.empty())
@@ -377,105 +381,105 @@ struct FieldDataTraits<DynamicVolume> :
                                           const Char8         *&inVal)
     {
         Real32 valStore[6];
-		UInt32 length = strlen( inVal );
-		Char8 str[256];
-		Char8 *c = str;
-	
-		if( length > 256 )
-		{
-			cerr << "FieldDataTraits<DynamicVolume>::getFromString(): "
-				 << "Input too long" << endl;
-			return false;
-		}
-		strncpy( str, inVal, length );
-		while( *c != '\0' )
-		{
-			if( *c == '[' )
-				*c = ' ';
-			if( *c == ']' )
-				*c = ' ';
-			if( *c == ',' )
-				*c = ' ';
-			c++;
-		}
-		
-		Int16 count = sscanf( str, "%f %f %f %f %f %f",
-							&valStore[0], &valStore[1], &valStore[2],
-			 				&valStore[3], &valStore[4], &valStore[5] );
-		
-		if( count == 4 )
-		{
-			outVal.setVolumeType( DynamicVolume::SPHERE_VOLUME );
-			SphereVolume &sVol = dynamic_cast<SphereVolume&>(
-											outVal.getInstance() );
-			sVol.setCenter( Pnt3f(valStore[0], valStore[1], valStore[2]) );
-			sVol.setRadius( valStore[3] );
-			return true;
-		}
-		else if( count == 6 )
-		{
-			outVal.setVolumeType( DynamicVolume::BOX_VOLUME );
-			BoxVolume &bVol = dynamic_cast<BoxVolume&>( outVal.getInstance() );
-			bVol.setBounds( valStore[0], valStore[1], valStore[2],
-							valStore[3], valStore[4], valStore[5] );
-			return true;
-		}
-		else
-		{
-			outVal.setVolumeType( DynamicVolume::BOX_VOLUME );
-			BoxVolume &bVol = dynamic_cast<BoxVolume&>( outVal.getInstance() );
-			bVol.setBounds( 0,0,0, 0,0,0 );
-			return false;
-		}
+        UInt32 length = strlen( inVal );
+        Char8 str[256];
+        Char8 *c = str;
+    
+        if( length > 256 )
+        {
+            cerr << "FieldDataTraits<DynamicVolume>::getFromString(): "
+                 << "Input too long" << endl;
+            return false;
+        }
+        strncpy( str, inVal, length );
+        while( *c != '\0' )
+        {
+            if( *c == '[' )
+                *c = ' ';
+            if( *c == ']' )
+                *c = ' ';
+            if( *c == ',' )
+                *c = ' ';
+            c++;
+        }
+        
+        Int16 count = sscanf( str, "%f %f %f %f %f %f",
+                            &valStore[0], &valStore[1], &valStore[2],
+                            &valStore[3], &valStore[4], &valStore[5] );
+        
+        if( count == 4 )
+        {
+            outVal.setVolumeType( DynamicVolume::SPHERE_VOLUME );
+            SphereVolume &sVol = dynamic_cast<SphereVolume&>(
+                                            outVal.getInstance() );
+            sVol.setCenter( Pnt3f(valStore[0], valStore[1], valStore[2]) );
+            sVol.setRadius( valStore[3] );
+            return true;
+        }
+        else if( count == 6 )
+        {
+            outVal.setVolumeType( DynamicVolume::BOX_VOLUME );
+            BoxVolume &bVol = dynamic_cast<BoxVolume&>( outVal.getInstance() );
+            bVol.setBounds( valStore[0], valStore[1], valStore[2],
+                            valStore[3], valStore[4], valStore[5] );
+            return true;
+        }
+        else
+        {
+            outVal.setVolumeType( DynamicVolume::BOX_VOLUME );
+            BoxVolume &bVol = dynamic_cast<BoxVolume&>( outVal.getInstance() );
+            bVol.setBounds( 0,0,0, 0,0,0 );
+            return false;
+        }
     }
 
     static void             putToString(const DynamicVolume &inVal,
                                               std::string   &outVal)
     {
-		
-		Pnt3f min, max;
-		
-		outVal.assign( "[ " );
-		switch( inVal.getType() )
-		{
-		case DynamicVolume::BOX_VOLUME : 
-      		inVal.getBounds( min, max );
-		  	outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-													min.getValues()[0]) );
-	 		outVal.append( " " );
-	  		outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-													min.getValues()[1]) );
-	  		outVal.append( " " );
-	  		outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-													min.getValues()[2]) );
-	 		outVal.append( ", " );
-	  		outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-													max.getValues()[0]) );
-	  		outVal.append( " " );
-	  		outVal.append(TypeConstants<Pnt3f::ValueType>::putToString(
-													max.getValues()[1]) );
-	  		outVal.append( " " );
-	  		outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-													max.getValues()[2]) );
-			break;
-		case DynamicVolume::SPHERE_VOLUME :
-			const SphereVolume &sVol = dynamic_cast<const SphereVolume&>(
-												inVal.getInstance());
-			outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-													sVol.getCenter()[0]) );
-			outVal.append( " " );
-			outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-													sVol.getCenter()[1]) );
-			outVal.append( " " );
-			outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
-													sVol.getCenter()[2]) );
-			outVal.append( ", " );
-			outVal.append( TypeConstants<Real32>::putToString(
-													sVol.getRadius()) );
-			break;
-		}
-		outVal.append( " ]" );
-					
+        
+        Pnt3f min, max;
+        
+        outVal.assign( "[ " );
+        switch( inVal.getType() )
+        {
+        case DynamicVolume::BOX_VOLUME : 
+            inVal.getBounds( min, max );
+            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+                                                    min.getValues()[0]) );
+            outVal.append( " " );
+            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+                                                    min.getValues()[1]) );
+            outVal.append( " " );
+            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+                                                    min.getValues()[2]) );
+            outVal.append( ", " );
+            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+                                                    max.getValues()[0]) );
+            outVal.append( " " );
+            outVal.append(TypeConstants<Pnt3f::ValueType>::putToString(
+                                                    max.getValues()[1]) );
+            outVal.append( " " );
+            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+                                                    max.getValues()[2]) );
+            break;
+        case DynamicVolume::SPHERE_VOLUME :
+            const SphereVolume &sVol = dynamic_cast<const SphereVolume&>(
+                                                inVal.getInstance());
+            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+                                                    sVol.getCenter()[0]) );
+            outVal.append( " " );
+            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+                                                    sVol.getCenter()[1]) );
+            outVal.append( " " );
+            outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(
+                                                    sVol.getCenter()[2]) );
+            outVal.append( ", " );
+            outVal.append( TypeConstants<Real32>::putToString(
+                                                    sVol.getRadius()) );
+            break;
+        }
+        outVal.append( " ]" );
+                    
     }
 };
 
@@ -523,14 +527,14 @@ struct FieldDataTraits<Plane> : public FieldTraitsRecurseBase<Plane>
                                               std::string &outVal)
     {
         Vec3f normal = inVal.getNormal();
-		Real32 dist = inVal.getDistanceFromOrigin();
-		outVal.assign( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[0]) );
-		outVal.append( "  " );
-		outVal.append( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[1]) );
-		outVal.append( "  " );
-		outVal.append( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[2]) );
-		outVal.append( "  " );
-		outVal.append( TypeConstants<Real32>::putToString(dist) );
+        Real32 dist = inVal.getDistanceFromOrigin();
+        outVal.assign( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[0]) );
+        outVal.append( "  " );
+        outVal.append( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[1]) );
+        outVal.append( "  " );
+        outVal.append( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[2]) );
+        outVal.append( "  " );
+        outVal.append( TypeConstants<Real32>::putToString(dist) );
     }
 };
 

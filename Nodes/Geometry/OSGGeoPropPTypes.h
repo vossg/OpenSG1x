@@ -47,16 +47,16 @@
 
 OSG_BEGIN_NAMESPACE
 
-struct GeoPTypeUI8PropertyDesc
+struct GeoPTypesUI8PropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
         
-    static const Char8 *getTypeName (void) { return "GeoPTypeUI8";         }
-    static const Char8 *getClassName(void) { return "GeoPTypeUI8Property"; }
+    static const Char8 *getTypeName (void) { return "GeoPTypesUI8";         }
+    static const Char8 *getClassName(void) { return "GeoPTypesUI8Property"; }
     static const Char8 *getFieldName(void) { return "Types";               }
-    static const Char8 *getGroupName(void) { return "GeoPType";            }
+    static const Char8 *getGroupName(void) { return "GeoPTypes";            }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -70,29 +70,29 @@ struct GeoPTypeUI8PropertyDesc
     /*! \name                    Typedefs                                  */
     /*! \{                                                                 */    
     
-    typedef GeoPType                 Inherit;
-    typedef GeoPType::PtrType        InheritPtr;
-    typedef GeoPTypePropertyDesc     InheritDesc;
+    typedef GeoPTypes                 Inherit;
+    typedef GeoPTypes::PtrType        InheritPtr;
+    typedef GeoPTypesPropertyDesc     InheritDesc;
     typedef MFUInt8                  FieldType;
     typedef InheritDesc::GenericType GenericType;
 
-    typedef GeoPropertyInterface<GeoPTypePropertyDesc> Interface;
+    typedef GeoPropertyInterface<GeoPTypesPropertyDesc> Interface;
     /*! \}                                                                 */    
 };
 
-typedef GeoProperty<GeoPTypeUI8PropertyDesc> GeoPTypeUI8;
+typedef GeoProperty<GeoPTypesUI8PropertyDesc> GeoPTypesUI8;
 
 
 #ifndef OSG_COMPILEGEOPROPPTYPEINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate GeoProperty<GeoPTypeUI8PropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoPTypeUI8PropertyDesc>::_desc
+#pragma do_not_instantiate GeoProperty<GeoPTypesUI8PropertyDesc>::_type
+#pragma do_not_instantiate GeoProperty<GeoPTypesUI8PropertyDesc>::_desc
 
 #else
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
-                      GeoPTypeUI8PropertyDesc,
+                      GeoPTypesUI8PropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

@@ -141,8 +141,8 @@ class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
 
     Bool operator < (const CLASSNAME &other) const;
     
-	//Bool operator == (const CLASSNAME &other) const;
-	//Bool operator != (const CLASSNAME &other) const;
+    //Bool operator == (const CLASSNAME &other) const;
+    //Bool operator != (const CLASSNAME &other) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -189,7 +189,7 @@ class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
     typedef PARENTCLASS Inherited;
 
 
-	/*!\brief prohibit default function (move to 'public' if needed) */
+    /*!\brief prohibit default function (move to 'public' if needed) */
 
     CLASSNAME(const CLASSNAME &source);
     void operator =(const CLASSNAME &source);

@@ -42,7 +42,7 @@
 
 #include <OSGSystemDef.h>
 #include <OSGFieldContainerType.h>
-#include <OSGStringLink.h>
+#include <OSGIDStringLink.h>
 #include <OSGFieldContainerFactory.h>
 #include <OSGThreadManager.h>
 #include <OSGChangeList.h>
@@ -159,9 +159,9 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*==========================  PUBLIC  =================================*/
   public:
 
-	enum { NextFieldId = 1 };
+    enum { NextFieldId = 1 };
 
-	static const BitVector NextFieldMask;
+    static const BitVector NextFieldMask;
 
     enum ChangeMode
     {
@@ -467,7 +467,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     friend class FieldContainerPtrBase;
     friend class FieldContainerPtr;
 
-	/*!\brief prohibit default functions (move to 'public' if needed) */
+    /*!\brief prohibit default functions (move to 'public' if needed) */
 
     FieldContainer &operator = (const FieldContainer &other);
 };
@@ -812,7 +812,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
         OSG_CLASS_PTR fc;                                                     \
                                                                               \
         if(getClassType().getPrototype() != OSG::NullFC)                      \
-         fc = OSG_CLASS_PTR::dcast(getClassType().getPrototype()->			  \
+         fc = OSG_CLASS_PTR::dcast(getClassType().getPrototype()->            \
                   shallowCopy());                                             \
                                                                               \
         return fc;                                                            \
@@ -998,32 +998,32 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
 /*--------------experimental--------------*/
 /* macros for standard field access functions */
 
-#define OSG_SFIELD_ACCESS_FUNCTIONS_DECL( OSG_FIELDTYPE, OSG_TYPE,	 	\
-		OSG_NAME )														\
-	inline OSG_FIELDTYPE * getSF##OSG_NAME( void );						\
-	inline OSG_TYPE get##OSG_NAME( void ); 								\
-	inline OSG_TYPE get##OSG_NAME( void ) const; 						\
-	inline void set##OSG_NAME( const OSG_TYPE value );
+#define OSG_SFIELD_ACCESS_FUNCTIONS_DECL( OSG_FIELDTYPE, OSG_TYPE,      \
+        OSG_NAME )                                                      \
+    inline OSG_FIELDTYPE * getSF##OSG_NAME( void );                         \
+    inline OSG_TYPE get##OSG_NAME( void );                                  \
+    inline OSG_TYPE get##OSG_NAME( void ) const;                        \
+    inline void set##OSG_NAME( const OSG_TYPE value );
 
 
-#define OSG_SFIELD_ACCESS_FUNCTIONS_INL( OSG_CLASS, OSG_FIELDTYPE,  	\
-		OSG_TYPE, OSG_NAME )											\
-	inline OSG_FIELDTYPE * OSG_CLASS::getSF##OSG_NAME( void )			\
-	{																	\
-		return &_##OSG_NAME;											\
-	}																	\
-	inline OSG_TYPE OSG_CLASS::get##OSG_NAME(void)						\
-	{																	\
-		return _##OSG_NAME.getValue();									\
-	}																	\
-	inline OSG_TYPE OSG_CLASS::get##OSG_NAME(void) const				\
-	{																	\
-		return _##OSG_NAME.getValue();									\
-	}																	\
-	inline void OSG_CLASS::set##OSG_NAME( const OSG_TYPE val)			\
-	{																	\
-		_##OSG_NAME.setValue( val );									\
-	}																	
+#define OSG_SFIELD_ACCESS_FUNCTIONS_INL( OSG_CLASS, OSG_FIELDTYPE,      \
+        OSG_TYPE, OSG_NAME )                                            \
+    inline OSG_FIELDTYPE * OSG_CLASS::getSF##OSG_NAME( void )           \
+    {                                                                   \
+        return &_##OSG_NAME;                                            \
+    }                                                                   \
+    inline OSG_TYPE OSG_CLASS::get##OSG_NAME(void)                      \
+    {                                                                   \
+        return _##OSG_NAME.getValue();                                  \
+    }                                                                   \
+    inline OSG_TYPE OSG_CLASS::get##OSG_NAME(void) const                \
+    {                                                                   \
+        return _##OSG_NAME.getValue();                                  \
+    }                                                                   \
+    inline void OSG_CLASS::set##OSG_NAME( const OSG_TYPE val)           \
+    {                                                                   \
+        _##OSG_NAME.setValue( val );                                    \
+    }                                                                   
 
 
 //---------------------------------------------------------------------------

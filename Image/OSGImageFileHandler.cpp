@@ -122,9 +122,9 @@ ImageFileHandler * ImageFileHandler::_the = 0;
 ImageFileType * ImageFileHandler::getFileType ( const char *mimeType,
                                                 const char *fileName )
 {
-	String suffix;
+	IDString suffix;
 	ImageFileType *type = 0;
-	map <String, ImageFileType *>::iterator sI;
+	map <IDString, ImageFileType *>::iterator sI;
 	const char separator = '.';
 	int i, l;
 	ifstream fin;
@@ -186,8 +186,8 @@ ImageFileType * ImageFileHandler::getFileType ( const char *mimeType,
 //------------------------------
 ImageFileType * ImageFileHandler::getDefaultType (void)
 {
-  String dSuffix("opensg");
-  map <String, ImageFileType *>::iterator sI = _suffixTypeMap.find(dSuffix);
+  IDString dSuffix("opensg");
+  map <IDString, ImageFileType *>::iterator sI = _suffixTypeMap.find(dSuffix);
   ImageFileType *type =(sI == _suffixTypeMap.end()) ? 0 : sI->second;
 
   if (!type) {
@@ -430,7 +430,7 @@ UChar8* ImageFileHandler::store ( const Image &image,
 //------------------------------
 void ImageFileHandler::print (void )
 {
-	map <String, ImageFileType *>::iterator sI;
+	map <IDString, ImageFileType *>::iterator sI;
 
 	for (sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
 		cerr << "Image suffix: " << sI->first.str() 
@@ -471,9 +471,9 @@ void ImageFileHandler::print (void )
 bool ImageFileHandler::addImageFileType (ImageFileType &fileType )
 {
 	bool retCode = false;
-	list<String>::iterator sI;
-	map <String, ImageFileType *>::iterator smI;
-	String suffix;
+	list<IDString>::iterator sI;
+	map <IDString, ImageFileType *>::iterator smI;
+	IDString suffix;
 
 	if (!_the)
 		_the = new ImageFileHandler;

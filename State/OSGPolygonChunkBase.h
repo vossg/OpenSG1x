@@ -245,17 +245,17 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFInt32          	_sfCullFace;
-    SFInt32          	_sfFrontFace;
-    SFInt32          	_sfModeFace;
-    SFInt32          	_sfMode;
-    SFBool           	_sfSmooth;
-    SFReal32         	_sfOffsetFactor;
-    SFReal32         	_sfOffsetBias;
-    SFBool           	_sfOffsetPoint;
-    SFBool           	_sfOffsetLine;
-    SFBool           	_sfOffsetFill;
-    MFInt32          	_mfStipple;
+    SFInt32             _sfCullFace;
+    SFInt32             _sfFrontFace;
+    SFInt32             _sfModeFace;
+    SFInt32             _sfMode;
+    SFBool              _sfSmooth;
+    SFReal32            _sfOffsetFactor;
+    SFReal32            _sfOffsetBias;
+    SFBool              _sfOffsetPoint;
+    SFBool              _sfOffsetLine;
+    SFBool              _sfOffsetFill;
+    MFInt32             _mfStipple;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -304,6 +304,6 @@ typedef PolygonChunkBase *PolygonChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.13 2001/09/19 14:36:41 mroth Exp $"
+#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.14 2001/10/03 20:37:35 dirk Exp $"
 
 #endif /* _OSGPOLYGONCHUNKBASE_H_ */

@@ -43,7 +43,6 @@
 #endif
 
 #include <OSGBaseTypes.h>
-#include <OSGString.h>
 #include <OSGSystemDef.h>
 #include <OSGFieldContainerPtr.h>
 

@@ -50,7 +50,7 @@
 #include <OSGBaseTypes.h>
 
 #include <OSGFieldType.h>
-#include <OSGString.h>
+#include <OSGIDString.h>
 #include <OSGLog.h>
 #include <string>
 
@@ -120,19 +120,19 @@ class OSG_BASE_DLLMAPPING Field
 
     /*-------------------------- field type ---------------------------------*/
 
-	virtual const FieldType &getType       (void) const = 0;
+    virtual const FieldType &getType       (void) const = 0;
             const DataType  &getContentType(void) const;
 
     /*-------------------------- string io ----------------------------------*/
 
-	virtual void          pushValueByStr(const char *str        )       = 0;
-	virtual std::string  &getValueByStr (std::string     &string) const = 0;
+    virtual void          pushValueByStr(const char *str        )       = 0;
+    virtual std::string  &getValueByStr (std::string     &string) const = 0;
 
     /*----------------------- field information -----------------------------*/
 
-	virtual FieldType::Cardinality getCardinality (void) const = 0;
+    virtual FieldType::Cardinality getCardinality (void) const = 0;
 
-	virtual UInt32                 size (void)           const = 0;
+    virtual UInt32                 size (void)           const = 0;
 
     /*------------------------------ access ---------------------------------*/
 
@@ -194,7 +194,7 @@ class OSG_BASE_DLLMAPPING Field
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -208,7 +208,7 @@ class OSG_BASE_DLLMAPPING Field
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     void operator =(const Field &source);
 };

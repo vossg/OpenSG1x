@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.14 2001/10/02 06:16:12 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.15 2001/10/03 20:37:35 dirk Exp $";
     static char cvsid_hpp       [] = OSGTRANSFORMBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGTRANSFORMBASE_INLINE_CVSID;
 
@@ -100,7 +100,7 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	TransformBase::MatrixFieldMask = 
+const OSG::BitVector  TransformBase::MatrixFieldMask = 
     (1 << TransformBase::MatrixFieldId);
 
 
@@ -178,16 +178,16 @@ void TransformBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 TransformBase::TransformBase(void) :
-	_sfMatrix                 (), 
-	Inherited() 
+    _sfMatrix                 (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 TransformBase::TransformBase(const TransformBase &source) :
-	_sfMatrix                 (source._sfMatrix                 ), 
-	Inherited                 (source)
+    _sfMatrix                 (source._sfMatrix                 ), 
+    Inherited                 (source)
 {
 }
 

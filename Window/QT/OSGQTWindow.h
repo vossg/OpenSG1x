@@ -120,28 +120,28 @@ class OSG_QTWINDOWLIB_DLLMAPPING QTWindow : public XWindow
     OSG_FIELD_CONTAINER_DECL(QTWindowPtr)
 
     /*------------------------- your_category -------------------------------*/
-	
-	// Window-system dependent functions
-	
-	// init the window: create the context
-	virtual void init( void );
-	
-	/****** derived from WIN32Window / XWindow
-	
-	// activate the window: bind the OGL context	
-	// set the active window, if needed
-	virtual void activate( void );
-	
-	// swap buffers	for this window
-  	// does not set the active window!
-	virtual void swap( void );
+    
+    // Window-system dependent functions
+    
+    // init the window: create the context
+    virtual void init( void );
+    
+    /****** derived from WIN32Window / XWindow
+    
+    // activate the window: bind the OGL context    
+    // set the active window, if needed
+    virtual void activate( void );
+    
+    // swap buffers     for this window
+    // does not set the active window!
+    virtual void swap( void );
 
-	*/
+    */
 
     /*------------------------- your_operators ------------------------------*/
 
-	void         setGlWidget  (OSGQGLWidget *glWidget) { _glWidget = glWidget; };
-	OSGQGLWidget *getGlWidget (void)                   { return _glWidget; };
+    void         setGlWidget  (OSGQGLWidget *glWidget) { _glWidget = glWidget; };
+    OSGQGLWidget *getGlWidget (void)                   { return _glWidget; };
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -173,13 +173,13 @@ class OSG_QTWINDOWLIB_DLLMAPPING QTWindow : public XWindow
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	QTWindow(void);
-	virtual ~QTWindow(void); 
+    QTWindow(void);
+    virtual ~QTWindow(void); 
 
   private:
 
@@ -192,9 +192,9 @@ class OSG_QTWINDOWLIB_DLLMAPPING QTWindow : public XWindow
     //-----------------------------------------------------------------------
 
 #ifdef WIN32
-	typedef WIN32Window Inherited;
+    typedef WIN32Window Inherited;
 #else
-	typedef XWindow Inherited;
+    typedef XWindow Inherited;
 #endif
 
     //-----------------------------------------------------------------------
@@ -212,9 +212,9 @@ class OSG_QTWINDOWLIB_DLLMAPPING QTWindow : public XWindow
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
-	static FieldContainerType _type;
+    static FieldContainerType _type;
  
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -224,14 +224,14 @@ class OSG_QTWINDOWLIB_DLLMAPPING QTWindow : public XWindow
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	/// QT Widget
-	OSGQGLWidget* _glWidget;
-	
+    /// QT Widget
+    OSGQGLWidget* _glWidget;
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     QTWindow(const QTWindow &source);
     void operator =(const QTWindow &source);

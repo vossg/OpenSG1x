@@ -54,7 +54,7 @@
 #include <OSGNodeCore.h>
 #include <OSGGroup.h>
 #include <OSGGeometry.h>
-#include <OSGVRMLTransform.h>
+#include <OSGComponentTransform.h>
 #include <OSGGeoPropPtrs.h>
 #include <OSGSimpleMaterial.h>
 #include <OSGMaterialGroup.h>
@@ -425,8 +425,8 @@ Action::ResultE VRMLWriteAction::writeVTransformEnter(CNodePtr &pGroup,
 {
     VRMLWriteAction *pWriter = dynamic_cast<VRMLWriteAction *>(pAction);
 
-    VRMLTransformPtr pTrans = 
-        VRMLTransformPtr::dcast(pGroup.getNode()->getCore());
+    ComponentTransformPtr pTrans = 
+        ComponentTransformPtr::dcast(pGroup.getNode()->getCore());
 
     Real32 rQX;
     Real32 rQY;
@@ -560,12 +560,12 @@ void VRMLWriteAction::writePoints(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoPosition3fPtr pPos = GeoPosition3fPtr::dcast(pGeo->getPositions());
+    GeoPositions3fPtr pPos = GeoPositions3fPtr::dcast(pGeo->getPositions());
 
     if(pPos == NullFC)
         return;
 
-    GeoPosition3f::StoredFieldType *pPosField = pPos->getFieldPtr();
+    GeoPositions3f::StoredFieldType *pPosField = pPos->getFieldPtr();
 
     if(pPosField         == NULL ||
        pPosField->size() == 0)
@@ -620,12 +620,12 @@ void VRMLWriteAction::writeNormals(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoNormal3fPtr pNorm = GeoNormal3fPtr::dcast(pGeo->getNormals());
+    GeoNormals3fPtr pNorm = GeoNormals3fPtr::dcast(pGeo->getNormals());
 
     if(pNorm == NullFC)
         return;
 
-    GeoNormal3f::StoredFieldType *pNormField = pNorm->getFieldPtr();
+    GeoNormals3f::StoredFieldType *pNormField = pNorm->getFieldPtr();
 
     if(pNormField         == NULL ||
        pNormField->size() == 0)
@@ -740,9 +740,9 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoIndexUI32Ptr   pIndex  = GeoIndexUI32Ptr::dcast(pGeo->getIndex());
-    GeoPTypeUI8Ptr    pTypes  = GeoPTypeUI8Ptr::dcast(pGeo->getTypes());
-    GeoPLengthUI32Ptr pLength = GeoPLengthUI32Ptr::dcast(pGeo->getLengths());
+    GeoIndicesUI32Ptr   pIndex  = GeoIndicesUI32Ptr::dcast(pGeo->getIndices());
+    GeoPTypesUI8Ptr    pTypes  = GeoPTypesUI8Ptr::dcast(pGeo->getTypes());
+    GeoPLengthsUI32Ptr pLength = GeoPLengthsUI32Ptr::dcast(pGeo->getLengths());
 
     if((pIndex  == NullFC) ||
        (pTypes  == NullFC) ||
@@ -751,9 +751,9 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         return;
     }
 
-    GeoIndexUI32::StoredFieldType   *pIndexField  = pIndex->getFieldPtr();
-    GeoPTypeUI8::StoredFieldType    *pTypeField   = pTypes->getFieldPtr();
-    GeoPLengthUI32::StoredFieldType *pLengthField = pLength->getFieldPtr();
+    GeoIndicesUI32::StoredFieldType   *pIndexField  = pIndex->getFieldPtr();
+    GeoPTypesUI8::StoredFieldType    *pTypeField   = pTypes->getFieldPtr();
+    GeoPLengthsUI32::StoredFieldType *pLengthField = pLength->getFieldPtr();
 
     if(pIndexField          == NULL ||
        pIndexField->size()  == 0    ||
@@ -1087,7 +1087,7 @@ Bool VRMLWriteAction::initializeAction(int &, char **)
                             Action *>(VRMLWriteAction::writeGroupEnter));
 
     VRMLWriteAction::registerEnterDefault( 
-        VRMLTransform::getClassType(), 
+        ComponentTransform::getClassType(), 
         osgFunctionFunctor2<Action::ResultE,
                             CNodePtr &, 
                             Action *>(VRMLWriteAction::writeVTransformEnter));
@@ -1113,7 +1113,7 @@ Bool VRMLWriteAction::initializeAction(int &, char **)
                             Action *>(&VRMLWriteAction::writeGroupLeave));
 
     VRMLWriteAction::registerLeaveDefault(
-        VRMLTransform::getClassType(), 
+        ComponentTransform::getClassType(), 
         osgFunctionFunctor2<Action::ResultE,
                             CNodePtr &,
                             Action *>(&VRMLWriteAction::writeVTransformLeave));
@@ -1137,7 +1137,7 @@ Bool VRMLWriteAction::initializeAction(int &, char **)
         Action::osgFunctionFunctor2(VRMLWriteAction::writeGroupEnter));
 
     VRMLWriteAction::registerEnterDefault( 
-        VRMLTransform::getClassType(), 
+        ComponentTransform::getClassType(), 
         Action::osgFunctionFunctor2(VRMLWriteAction::writeVTransformEnter));
 
     VRMLWriteAction::registerEnterDefault( 
@@ -1151,7 +1151,7 @@ Bool VRMLWriteAction::initializeAction(int &, char **)
         Action::osgFunctionFunctor2(&VRMLWriteAction::writeGroupLeave));
 
     VRMLWriteAction::registerLeaveDefault(
-        VRMLTransform::getClassType(), 
+        ComponentTransform::getClassType(), 
         Action::osgFunctionFunctor2(&VRMLWriteAction::writeVTransformLeave));
 
     VRMLWriteAction::registerLeaveDefault(

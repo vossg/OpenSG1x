@@ -95,13 +95,13 @@ inline DynamicBackgroundPtr DynamicBackgroundBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 MFColor3f *DynamicBackgroundBase::getMFColor(void)
 {
-	return &_mfColor;
+    return &_mfColor;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 MFReal32 *DynamicBackgroundBase::getMFAngle(void)
 {
-	return &_mfAngle;
+    return &_mfAngle;
 }
 
 
@@ -109,37 +109,37 @@ MFReal32 *DynamicBackgroundBase::getMFAngle(void)
 OSG_SYSTEMLIB_DLLMAPPING
 Color3f &DynamicBackgroundBase::getColor(UInt32 index)
 {
-	return _mfColor.getValue( index );
+    return _mfColor.getValue( index );
 }
 
 MFColor3f &DynamicBackgroundBase::getColor(void)
 {
-	return _mfColor;
+    return _mfColor;
 }
 
 const MFColor3f &DynamicBackgroundBase::getColor(void) const
 {
-	return _mfColor;
+    return _mfColor;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &DynamicBackgroundBase::getAngle(UInt32 index)
 {
-	return _mfAngle.getValue( index );
+    return _mfAngle.getValue( index );
 }
 
 MFReal32 &DynamicBackgroundBase::getAngle(void)
 {
-	return _mfAngle;
+    return _mfAngle;
 }
 
 const MFReal32 &DynamicBackgroundBase::getAngle(void) const
 {
-	return _mfAngle;
+    return _mfAngle;
 }
 
 
 OSG_END_NAMESPACE
 
-#define OSGDYNAMICBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGDynamicBackgroundBase.inl,v 1.8 2001/09/17 14:15:07 vossg Exp $"
+#define OSGDYNAMICBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGDynamicBackgroundBase.inl,v 1.9 2001/10/03 20:37:36 dirk Exp $"
 

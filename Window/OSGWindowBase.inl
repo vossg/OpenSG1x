@@ -71,123 +71,123 @@ inline OSG::UInt32 WindowBase::getClassTypeId(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt16 *WindowBase::getSFWidth(void)
 {
-	return &_sfWidth;
+    return &_sfWidth;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt16 *WindowBase::getSFHeight(void)
 {
-	return &_sfHeight;
+    return &_sfHeight;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 MFViewportPtr *WindowBase::getMFPort(void)
 {
-	return &_mfPort;
+    return &_mfPort;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFBool *WindowBase::getSFResizePending(void)
 {
-	return &_sfResizePending;
+    return &_sfResizePending;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 MFUInt32 *WindowBase::getMFGlObjectStatus(void)
 {
-	return &_mfGlObjectStatus;
+    return &_mfGlObjectStatus;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt16 &WindowBase::getWidth(void)
 {
-	return _sfWidth.getValue();
+    return _sfWidth.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt16 &WindowBase::getWidth(void) const
 {
-	return _sfWidth.getValue();
+    return _sfWidth.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void WindowBase::setWidth(const UInt16 &value)
 {
-	_sfWidth.setValue(value);
+    _sfWidth.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt16 &WindowBase::getHeight(void)
 {
-	return _sfHeight.getValue();
+    return _sfHeight.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt16 &WindowBase::getHeight(void) const
 {
-	return _sfHeight.getValue();
+    return _sfHeight.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void WindowBase::setHeight(const UInt16 &value)
 {
-	_sfHeight.setValue(value);
+    _sfHeight.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Bool &WindowBase::getResizePending(void)
 {
-	return _sfResizePending.getValue();
+    return _sfResizePending.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Bool &WindowBase::getResizePending(void) const
 {
-	return _sfResizePending.getValue();
+    return _sfResizePending.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void WindowBase::setResizePending(const Bool &value)
 {
-	_sfResizePending.setValue(value);
+    _sfResizePending.setValue(value);
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 ViewportPtr &WindowBase::getPort(UInt32 index)
 {
-	return _mfPort.getValue( index );
+    return _mfPort.getValue( index );
 }
 
 MFViewportPtr &WindowBase::getPort(void)
 {
-	return _mfPort;
+    return _mfPort;
 }
 
 const MFViewportPtr &WindowBase::getPort(void) const
 {
-	return _mfPort;
+    return _mfPort;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &WindowBase::getGlObjectStatus(UInt32 index)
 {
-	return _mfGlObjectStatus.getValue( index );
+    return _mfGlObjectStatus.getValue( index );
 }
 
 MFUInt32 &WindowBase::getGlObjectStatus(void)
 {
-	return _mfGlObjectStatus;
+    return _mfGlObjectStatus;
 }
 
 const MFUInt32 &WindowBase::getGlObjectStatus(void) const
 {
-	return _mfGlObjectStatus;
+    return _mfGlObjectStatus;
 }
 
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWindowBase.inl,v 1.9 2001/09/17 14:15:08 vossg Exp $"
+#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWindowBase.inl,v 1.10 2001/10/03 20:37:36 dirk Exp $"
 

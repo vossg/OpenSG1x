@@ -91,9 +91,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem {
       const Time &start(void) 
       { return (_time = getSystemTime()); }
     
-		inline
-			const Time &stop(void)
-			{ return (_time = (getSystemTime() - _time)); }
+        inline
+            const Time &stop(void)
+            { return (_time = (getSystemTime() - _time)); }
 
     inline
       const Time & getTime(void)
@@ -110,8 +110,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem {
 
     Bool operator < (const StatTimeElem &other) const;
     
-	//OSGBool operator == (const StatTimeElem &other) const;
-	//OSGBool operator != (const StatTimeElem &other) const;
+    //OSGBool operator == (const StatTimeElem &other) const;
+    //OSGBool operator != (const StatTimeElem &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

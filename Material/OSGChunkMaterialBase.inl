@@ -95,7 +95,7 @@ inline ChunkMaterialPtr ChunkMaterialBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 MFStateChunkPtr *ChunkMaterialBase::getMFChunks(void)
 {
-	return &_mfChunks;
+    return &_mfChunks;
 }
 
 
@@ -103,21 +103,21 @@ MFStateChunkPtr *ChunkMaterialBase::getMFChunks(void)
 OSG_SYSTEMLIB_DLLMAPPING
 StateChunkPtr &ChunkMaterialBase::getChunks(UInt32 index)
 {
-	return _mfChunks.getValue( index );
+    return _mfChunks.getValue( index );
 }
 
 MFStateChunkPtr &ChunkMaterialBase::getChunks(void)
 {
-	return _mfChunks;
+    return _mfChunks;
 }
 
 const MFStateChunkPtr &ChunkMaterialBase::getChunks(void) const
 {
-	return _mfChunks;
+    return _mfChunks;
 }
 
 
 OSG_END_NAMESPACE
 
-#define OSGCHUNKMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGChunkMaterialBase.inl,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+#define OSGCHUNKMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGChunkMaterialBase.inl,v 1.8 2001/10/03 20:37:34 dirk Exp $"
 

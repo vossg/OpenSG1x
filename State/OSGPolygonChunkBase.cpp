@@ -62,14 +62,14 @@
 #include "OSGPolygonChunkBase.h"
 #include "OSGPolygonChunk.h"
 
-#include <GL/gl.h>                     	// CullFace default header
-#include <GL/gl.h>                     	// FrontFace default header
-#include <GL/gl.h>                     	// ModeFace default header
-#include <GL/gl.h>                     	// Mode default header
-#include <GL/gl.h>                     	// Smooth default header
-#include <GL/gl.h>                     	// OffsetPoint default header
-#include <GL/gl.h>                     	// OffsetLine default header
-#include <GL/gl.h>                     	// OffsetFill default header
+#include <GL/gl.h>                        // CullFace default header
+#include <GL/gl.h>                        // FrontFace default header
+#include <GL/gl.h>                        // ModeFace default header
+#include <GL/gl.h>                        // Mode default header
+#include <GL/gl.h>                        // Smooth default header
+#include <GL/gl.h>                        // OffsetPoint default header
+#include <GL/gl.h>                        // OffsetLine default header
+#include <GL/gl.h>                        // OffsetFill default header
 
 
 OSG_USING_NAMESPACE
@@ -80,7 +80,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.12 2001/09/19 14:36:41 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.13 2001/10/03 20:37:35 dirk Exp $";
     static char cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 
@@ -91,37 +91,37 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	PolygonChunkBase::CullFaceFieldMask = 
+const OSG::BitVector  PolygonChunkBase::CullFaceFieldMask = 
     (1 << PolygonChunkBase::CullFaceFieldId);
 
-const OSG::BitVector	PolygonChunkBase::FrontFaceFieldMask = 
+const OSG::BitVector  PolygonChunkBase::FrontFaceFieldMask = 
     (1 << PolygonChunkBase::FrontFaceFieldId);
 
-const OSG::BitVector	PolygonChunkBase::ModeFaceFieldMask = 
+const OSG::BitVector  PolygonChunkBase::ModeFaceFieldMask = 
     (1 << PolygonChunkBase::ModeFaceFieldId);
 
-const OSG::BitVector	PolygonChunkBase::ModeFieldMask = 
+const OSG::BitVector  PolygonChunkBase::ModeFieldMask = 
     (1 << PolygonChunkBase::ModeFieldId);
 
-const OSG::BitVector	PolygonChunkBase::SmoothFieldMask = 
+const OSG::BitVector  PolygonChunkBase::SmoothFieldMask = 
     (1 << PolygonChunkBase::SmoothFieldId);
 
-const OSG::BitVector	PolygonChunkBase::OffsetFactorFieldMask = 
+const OSG::BitVector  PolygonChunkBase::OffsetFactorFieldMask = 
     (1 << PolygonChunkBase::OffsetFactorFieldId);
 
-const OSG::BitVector	PolygonChunkBase::OffsetBiasFieldMask = 
+const OSG::BitVector  PolygonChunkBase::OffsetBiasFieldMask = 
     (1 << PolygonChunkBase::OffsetBiasFieldId);
 
-const OSG::BitVector	PolygonChunkBase::OffsetPointFieldMask = 
+const OSG::BitVector  PolygonChunkBase::OffsetPointFieldMask = 
     (1 << PolygonChunkBase::OffsetPointFieldId);
 
-const OSG::BitVector	PolygonChunkBase::OffsetLineFieldMask = 
+const OSG::BitVector  PolygonChunkBase::OffsetLineFieldMask = 
     (1 << PolygonChunkBase::OffsetLineFieldId);
 
-const OSG::BitVector	PolygonChunkBase::OffsetFillFieldMask = 
+const OSG::BitVector  PolygonChunkBase::OffsetFillFieldMask = 
     (1 << PolygonChunkBase::OffsetFillFieldId);
 
-const OSG::BitVector	PolygonChunkBase::StippleFieldMask = 
+const OSG::BitVector  PolygonChunkBase::StippleFieldMask = 
     (1 << PolygonChunkBase::StippleFieldId);
 
 
@@ -279,36 +279,36 @@ void PolygonChunkBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 PolygonChunkBase::PolygonChunkBase(void) :
-	_sfCullFace               (Int32(GL_FALSE)), 
-	_sfFrontFace              (Int32(GL_CCW)), 
-	_sfModeFace               (Int32(GL_FRONT)), 
-	_sfMode                   (Int32(GL_FILL)), 
-	_sfSmooth                 (Bool(GL_TRUE)), 
-	_sfOffsetFactor           (Real32(0)), 
-	_sfOffsetBias             (Real32(0)), 
-	_sfOffsetPoint            (Bool(GL_FALSE)), 
-	_sfOffsetLine             (Bool(GL_FALSE)), 
-	_sfOffsetFill             (Bool(GL_FALSE)), 
-	_mfStipple                (), 
-	Inherited() 
+    _sfCullFace               (Int32(GL_FALSE)), 
+    _sfFrontFace              (Int32(GL_CCW)), 
+    _sfModeFace               (Int32(GL_FRONT)), 
+    _sfMode                   (Int32(GL_FILL)), 
+    _sfSmooth                 (Bool(GL_TRUE)), 
+    _sfOffsetFactor           (Real32(0)), 
+    _sfOffsetBias             (Real32(0)), 
+    _sfOffsetPoint            (Bool(GL_FALSE)), 
+    _sfOffsetLine             (Bool(GL_FALSE)), 
+    _sfOffsetFill             (Bool(GL_FALSE)), 
+    _mfStipple                (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 PolygonChunkBase::PolygonChunkBase(const PolygonChunkBase &source) :
-	_sfCullFace               (source._sfCullFace               ), 
-	_sfFrontFace              (source._sfFrontFace              ), 
-	_sfModeFace               (source._sfModeFace               ), 
-	_sfMode                   (source._sfMode                   ), 
-	_sfSmooth                 (source._sfSmooth                 ), 
-	_sfOffsetFactor           (source._sfOffsetFactor           ), 
-	_sfOffsetBias             (source._sfOffsetBias             ), 
-	_sfOffsetPoint            (source._sfOffsetPoint            ), 
-	_sfOffsetLine             (source._sfOffsetLine             ), 
-	_sfOffsetFill             (source._sfOffsetFill             ), 
-	_mfStipple                (source._mfStipple                ), 
-	Inherited                 (source)
+    _sfCullFace               (source._sfCullFace               ), 
+    _sfFrontFace              (source._sfFrontFace              ), 
+    _sfModeFace               (source._sfModeFace               ), 
+    _sfMode                   (source._sfMode                   ), 
+    _sfSmooth                 (source._sfSmooth                 ), 
+    _sfOffsetFactor           (source._sfOffsetFactor           ), 
+    _sfOffsetBias             (source._sfOffsetBias             ), 
+    _sfOffsetPoint            (source._sfOffsetPoint            ), 
+    _sfOffsetLine             (source._sfOffsetLine             ), 
+    _sfOffsetFill             (source._sfOffsetFill             ), 
+    _mfStipple                (source._mfStipple                ), 
+    Inherited                 (source)
 {
 }
 

@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.3 2001/09/25 10:18:18 dirk Exp $";
+    char cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.4 2001/10/03 20:37:34 dirk Exp $";
     char cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -122,11 +122,11 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 	NodePtr root;
 	ifstream in(fileName);
 	GeometryPtr geo;
-	GeoPosition3f::PtrType points;
-	GeoNormal3f::PtrType   normals;
-	GeoIndexUI32Ptr index;
-	GeoPLengthUI32Ptr lens;
-	GeoPTypeUI8Ptr type;
+	GeoPositions3f::PtrType points;
+	GeoNormals3f::PtrType   normals;
+	GeoIndicesUI32Ptr index;
+	GeoPLengthsUI32Ptr lens;
+	GeoPTypesUI8Ptr type;
 	Vec3f vec[3];
 	Int32 i = 0, n, triCount = 0;
 	Real32 x,y,z;
@@ -143,9 +143,9 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 		root->setCore( geo );
         endEditCP(root, Node::CoreFieldMask);
 
-		points = GeoPosition3f::create();
+		points = GeoPositions3f::create();
   		geo->setPositions( points );
-		normals = GeoNormal3f::create();
+		normals = GeoNormals3f::create();
 		geo->setNormals ( normals );
 
 		triCount = i = 0;
@@ -184,8 +184,8 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 		if (triCount) 
 		{
 		
-			index = GeoIndexUI32::create();
-			geo->setIndex( index );
+			index = GeoIndicesUI32::create();
+			geo->setIndices( index );
 			beginEditCP(index, FieldBits::AllFields);
 			n = triCount * 3;
 			for (i = 0; i < n; i++) 
@@ -193,13 +193,13 @@ NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 			endEditCP(index, FieldBits::AllFields);
 			
 
-			lens = GeoPLengthUI32::create();
+			lens = GeoPLengthsUI32::create();
 			geo->setLengths( lens );
             beginEditCP(lens, FieldBits::AllFields);
 			lens->addValue( n );
 			endEditCP(lens, FieldBits::AllFields);
 
-			type = GeoPTypeUI8::create();
+			type = GeoPTypesUI8::create();
 			geo->setTypes( type );
 			beginEditCP(type, FieldBits::AllFields);
 			type->addValue( GL_TRIANGLES );

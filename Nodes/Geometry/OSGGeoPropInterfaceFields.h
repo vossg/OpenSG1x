@@ -46,11 +46,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-typedef GeoPositionInterface::PtrType GeoPositionInterfacePtr;
+typedef GeoPositionsInterface::PtrType GeoPositionsInterfacePtr;
 
 template <>
-struct FieldDataTraits<GeoPositionInterfacePtr> : 
-    public FieldTraitsRecurseMapper<GeoPositionInterfacePtr>
+struct FieldDataTraits<GeoPositionsInterfacePtr> : 
+    public FieldTraitsRecurseMapper<GeoPositionsInterfacePtr>
 {
     /*---------------------------------------------------------------------*/
     /*! \name                    Struct Specific                           */
@@ -63,23 +63,23 @@ struct FieldDataTraits<GeoPositionInterfacePtr> :
     /*! \name                       Get                                    */
     /*! \{                                                                 */
     
-    static Char8 *getSName (void)  { return "SFGeoPositionInterfacePtr"; }
-    static Char8 *getMName (void)  { return "MFGeoPositionInterfacePtr"; }
+    static Char8 *getSName (void)  { return "SFGeoPositionsInterfacePtr"; }
+    static Char8 *getMName (void)  { return "MFGeoPositionsInterfacePtr"; }
     
     /*! \}                                                                 */        
 };
 
 #if 0
-typedef SField<GeoPositionPtr> SFGeoPositionPtr;
+typedef SField<GeoPositionsPtr> SFGeoPositionsPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<GeoPositionPtr>::_fieldType
+#pragma do_not_instantiate SField<GeoPositionsPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoPositionPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoPositionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -87,11 +87,11 @@ OSG_DLLEXPORT_DECL1(SField, GeoPositionPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 
 
-typedef GeoNormalInterface::PtrType GeoNormalInterfacePtr;
+typedef GeoNormalsInterface::PtrType GeoNormalsInterfacePtr;
 
 template <>
-struct FieldDataTraits<GeoNormalInterfacePtr> :
-    public FieldTraitsRecurseMapper<GeoNormalInterfacePtr>
+struct FieldDataTraits<GeoNormalsInterfacePtr> :
+    public FieldTraitsRecurseMapper<GeoNormalsInterfacePtr>
 {
     /*---------------------------------------------------------------------*/
     /*! \name                    Struct Specific                           */
@@ -105,34 +105,34 @@ struct FieldDataTraits<GeoNormalInterfacePtr> :
     /*! \name                          Get                                 */
     /*! \{                                                                 */
     
-    static Char8  *getSName  (void) { return "SFGeoNormalInterfacePtr"; }
-    static Char8  *getMName  (void) { return "MFGeoNormalInterfacePtr"; }
+    static Char8  *getSName  (void) { return "SFGeoNormalsInterfacePtr"; }
+    static Char8  *getMName  (void) { return "MFGeoNormalsInterfacePtr"; }
     
     /*! \}                                                                 */    
 };
 
 #if 0
-typedef SField<GeoNormalPtr> SFGeoNormalPtr;
+typedef SField<GeoNormalsPtr> SFGeoNormalsPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<GeoNormalPtr>::_fieldType
+#pragma do_not_instantiate SField<GeoNormalsPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoNormalPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoNormalsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
 #endif
 
 
-typedef GeoColorInterface::PtrType GeoColorInterfacePtr;
+typedef GeoColorsInterface::PtrType GeoColorsInterfacePtr;
 
 template <>
-struct FieldDataTraits<GeoColorInterfacePtr> : 
-    public FieldTraitsRecurseMapper<GeoColorInterfacePtr>
+struct FieldDataTraits<GeoColorsInterfacePtr> : 
+    public FieldTraitsRecurseMapper<GeoColorsInterfacePtr>
 {
     /*---------------------------------------------------------------------*/
     /*! \name                    Struct Specific                           */
@@ -146,23 +146,23 @@ struct FieldDataTraits<GeoColorInterfacePtr> :
     /*! \name                          Get                                 */
     /*! \{                                                                 */
     
-    static Char8  *getSName  (void) { return "SFGeoColorInterfacePtr"; }
-    static Char8  *getMName  (void) { return "MFGeoColorInterfacePtr"; }
+    static Char8  *getSName  (void) { return "SFGeoColorsInterfacePtr"; }
+    static Char8  *getMName  (void) { return "MFGeoColorsInterfacePtr"; }
     
     /*! \}                                                                 */        
 };
 
 #if 0
-typedef SField<GeoColorPtr> SFGeoColorPtr;
+typedef SField<GeoColorsPtr> SFGeoColorsPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<GeoColorPtr>::_fieldType
+#pragma do_not_instantiate SField<GeoColorsPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoColorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoColorsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -211,11 +211,11 @@ OSG_DLLEXPORT_DECL1(SField, GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
-typedef GeoIndexInterface::PtrType GeoIndexInterfacePtr;
+typedef GeoIndicesInterface::PtrType GeoIndicesInterfacePtr;
 
 template <>
-struct FieldDataTraits<GeoIndexInterfacePtr> : 
-    public FieldTraitsRecurseMapper<GeoIndexInterfacePtr>
+struct FieldDataTraits<GeoIndicesInterfacePtr> : 
+    public FieldTraitsRecurseMapper<GeoIndicesInterfacePtr>
 {
     /*---------------------------------------------------------------------*/
     /*! \name                    Struct Specific                           */
@@ -229,23 +229,23 @@ struct FieldDataTraits<GeoIndexInterfacePtr> :
     /*! \name                          Get                                 */
     /*! \{                                                                 */
     
-    static Char8  *getSName  (void) { return "SFGeoIndexInterfacePtr"; }
-    static Char8  *getMName  (void) { return "MFGeoIndexInterfacePtr"; }
+    static Char8  *getSName  (void) { return "SFGeoIndicesInterfacePtr"; }
+    static Char8  *getMName  (void) { return "MFGeoIndicesInterfacePtr"; }
     
     /*! \}                                                                 */        
 };
 
 #if 0
-typedef SField<GeoIndexPtr> SFGeoIndexPtr;
+typedef SField<GeoIndicesPtr> SFGeoIndicesPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<GeoIndexPtr>::_fieldType
+#pragma do_not_instantiate SField<GeoIndicesPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoIndexPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoIndicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -253,11 +253,11 @@ OSG_DLLEXPORT_DECL1(SField, GeoIndexPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 
 
-typedef GeoPTypeInterface::PtrType GeoPTypeInterfacePtr;
+typedef GeoPTypesInterface::PtrType GeoPTypesInterfacePtr;
 
 template <>
-struct FieldDataTraits<GeoPTypeInterfacePtr> : 
-    public FieldTraitsRecurseMapper<GeoPTypeInterfacePtr>
+struct FieldDataTraits<GeoPTypesInterfacePtr> : 
+    public FieldTraitsRecurseMapper<GeoPTypesInterfacePtr>
 {
     /*---------------------------------------------------------------------*/
     /*! \name                    Struct Specific                           */
@@ -271,34 +271,34 @@ struct FieldDataTraits<GeoPTypeInterfacePtr> :
     /*! \name                          Get                                 */
     /*! \{                                                                 */
     
-    static Char8  *getSName  (void) { return "SFGeoPTypeInterfacePtr"; }
-    static Char8  *getMName  (void) { return "MFGeoPTypeInterfacePtr"; }
+    static Char8  *getSName  (void) { return "SFGeoPTypesInterfacePtr"; }
+    static Char8  *getMName  (void) { return "MFGeoPTypesInterfacePtr"; }
     
     /*! \}                                                                 */        
 };
 
 #if 0
-typedef SField<GeoPTypePtr> SFGeoPTypePtr;
+typedef SField<GeoPTypesPtr> SFGeoPTypesPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<GeoPTypePtr>::_fieldType
+#pragma do_not_instantiate SField<GeoPTypesPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoPTypePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoPTypesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
 #endif
 
 
-typedef GeoPLengthInterface::PtrType GeoPLengthInterfacePtr;
+typedef GeoPLengthsInterface::PtrType GeoPLengthsInterfacePtr;
 
 template <>
-struct FieldDataTraits<GeoPLengthInterfacePtr> :
-    public FieldTraitsRecurseMapper<GeoPLengthInterfacePtr>
+struct FieldDataTraits<GeoPLengthsInterfacePtr> :
+    public FieldTraitsRecurseMapper<GeoPLengthsInterfacePtr>
 {
     /*---------------------------------------------------------------------*/
     /*! \name                    Struct Specific                           */
@@ -312,23 +312,23 @@ struct FieldDataTraits<GeoPLengthInterfacePtr> :
     /*! \name                          Get                                 */
     /*! \{                                                                 */
     
-    static char   *getSName  (void) { return "SFGeoPLengthInterfacePtr"; }
-    static char   *getMName  (void) { return "MFGeoPLengthInterfacePtr"; }
+    static char   *getSName  (void) { return "SFGeoPLengthsInterfacePtr"; }
+    static char   *getMName  (void) { return "MFGeoPLengthsInterfacePtr"; }
     
     /*! \}                                                                 */        
 };
 
 #if 0
-typedef SField<GeoPLengthPtr> SFGeoPLengthPtr;
+typedef SField<GeoPLengthsPtr> SFGeoPLengthsPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<GeoPLengthPtr>::_fieldType
+#pragma do_not_instantiate SField<GeoPLengthsPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoPLengthPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoPLengthsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

@@ -95,31 +95,31 @@ inline SolidBackgroundPtr SolidBackgroundBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFColor3f *SolidBackgroundBase::getSFColor(void)
 {
-	return &_sfColor;
+    return &_sfColor;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color3f &SolidBackgroundBase::getColor(void)
 {
-	return _sfColor.getValue();
+    return _sfColor.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Color3f &SolidBackgroundBase::getColor(void) const
 {
-	return _sfColor.getValue();
+    return _sfColor.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void SolidBackgroundBase::setColor(const Color3f &value)
 {
-	_sfColor.setValue(value);
+    _sfColor.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGSOLIDBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSolidBackgroundBase.inl,v 1.7 2001/09/17 14:15:08 vossg Exp $"
+#define OSGSOLIDBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSolidBackgroundBase.inl,v 1.8 2001/10/03 20:37:36 dirk Exp $"
 

@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILEMYLIB
 #define OSG_COMPILECUBESINST
@@ -67,13 +63,9 @@
 #include "OSGCubes.h"
 
 
-OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
 OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<CubesPtr>::_type("CubesPtr", true);
 
 #if defined(__sgi)
 
@@ -89,9 +81,7 @@ OSG_DLLEXPORT_DEF1(MField, CubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+OSG_USING_NAMESPACE
 
 const OSG::BitVector	CubesBase::MaterialFieldMask = 
     (1 << CubesBase::MaterialFieldId);
@@ -107,37 +97,49 @@ const OSG::BitVector	CubesBase::ColorFieldMask =
 
 
 
-char CubesBase::cvsid[] = "@(#)$Id: OSGCubesBase.cpp,v 1.4 2001/07/10 14:01:50 dirk Exp $";
+char CubesBase::cvsid[] = "@(#)$Id: OSGCubesBase.cpp,v 1.5 2001/10/03 20:37:37 dirk Exp $";
 
-/** \brief Group field description
- */
+// Field descriptions
 
-FieldDescription CubesBase::_desc[] = 
+/*! \var MaterialPtr     CubesBase::_sfMaterial
+    The cubes' material.
+*/
+/*! \var Pnt3f           CubesBase::_mfPosition
+    The cubes' positions.
+*/
+/*! \var Real32          CubesBase::_mfLength
+    The cubes' sizes.
+*/
+/*! \var Color3f         CubesBase::_mfColor
+    The cubes' colors.
+*/
+//! Cubes description
+
+FieldDescription *CubesBase::_desc[] = 
 {
-    FieldDescription(SFMaterialPtr::getClassType(), 
+    new FieldDescription(SFMaterialPtr::getClassType(), 
                      "material", 
                      MaterialFieldId, MaterialFieldMask,
                      false,
                      (FieldAccessMethod) &CubesBase::getSFMaterial),
-    FieldDescription(MFPnt3f::getClassType(), 
+    new FieldDescription(MFPnt3f::getClassType(), 
                      "position", 
                      PositionFieldId, PositionFieldMask,
                      false,
                      (FieldAccessMethod) &CubesBase::getMFPosition),
-    FieldDescription(MFReal32::getClassType(), 
+    new FieldDescription(MFReal32::getClassType(), 
                      "length", 
                      LengthFieldId, LengthFieldMask,
                      false,
                      (FieldAccessMethod) &CubesBase::getMFLength),
-    FieldDescription(MFColor3f::getClassType(), 
+    new FieldDescription(MFColor3f::getClassType(), 
                      "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
                      (FieldAccessMethod) &CubesBase::getMFColor)
 };
 
-/** \brief Cubes type
- */
+//! Cubes type
 
 FieldContainerType CubesBase::_type(
     "Cubes",
@@ -148,32 +150,14 @@ FieldContainerType CubesBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(CubesBase, CubesPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "Cubes"; 
+}
 
 FieldContainerType &CubesBase::getType(void) 
 {
@@ -184,6 +168,7 @@ const FieldContainerType &CubesBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr CubesBase::shallowCopy(void) const 
 { 
@@ -194,7 +179,7 @@ FieldContainerPtr CubesBase::shallowCopy(void) const
     return returnValue; 
 }
 
-UInt32 CubesBase::getSize(void) const 
+UInt32 CubesBase::getContainerSize(void) const 
 { 
     return sizeof(CubesBase); 
 }
@@ -206,34 +191,33 @@ void CubesBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((CubesBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 CubesBase::CubesBase(void) :
-	_sfMaterial	(), 
-	_mfPosition	(), 
-	_mfLength	(), 
-	_mfColor	(), 
+	_sfMaterial               (), 
+	_mfPosition               (), 
+	_mfLength                 (), 
+	_mfColor                  (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 CubesBase::CubesBase(const CubesBase &source) :
-	_sfMaterial		(source._sfMaterial), 
-	_mfPosition		(source._mfPosition), 
-	_mfLength		(source._mfLength), 
-	_mfColor		(source._mfColor), 
-	Inherited        (source)
+	_sfMaterial               (source._sfMaterial               ), 
+	_mfPosition               (source._mfPosition               ), 
+	_mfLength                 (source._mfLength                 ), 
+	_mfColor                  (source._mfColor                  ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 CubesBase::~CubesBase(void)
 {
@@ -275,24 +259,16 @@ MemoryHandle CubesBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
         pMem = _sfMaterial.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-    {
         pMem = _mfPosition.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (LengthFieldMask & whichField))
-    {
         pMem = _mfLength.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         pMem = _mfColor.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -304,35 +280,20 @@ MemoryHandle CubesBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
         pMem = _sfMaterial.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-    {
         pMem = _mfPosition.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (LengthFieldMask & whichField))
-    {
         pMem = _mfLength.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         pMem = _mfColor.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void CubesBase::executeSyncImpl(      CubesBase *pOther,
                                         const BitVector         &whichField)
@@ -341,29 +302,17 @@ void CubesBase::executeSyncImpl(      CubesBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-    {
         _sfMaterial.syncWith(pOther->_sfMaterial);
-    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-    {
         _mfPosition.syncWith(pOther->_mfPosition);
-    }
 
     if(FieldBits::NoField != (LengthFieldMask & whichField))
-    {
         _mfLength.syncWith(pOther->_mfLength);
-    }
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-    {
         _mfColor.syncWith(pOther->_mfColor);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

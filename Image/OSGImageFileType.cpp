@@ -102,7 +102,7 @@ ImageFileType::ImageFileType ( const Char8 * suffixArray[],
 {
 	Int32 suffixCount = suffixByteCount / sizeof(const Char8 *);
   Int32 i = 0;
-	list<String>::iterator sI;
+	list<IDString>::iterator sI;
 
 	_suffixList.resize(suffixCount);
 	for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++) {
@@ -262,7 +262,7 @@ UInt64 ImageFileType::maxBufferSize(const Image &image )
 //----------------------------------------------------------------------
 void ImageFileType::print(void)
 {
-	list<String>::iterator sI;
+	list<IDString>::iterator sI;
 
 	SLOG << getMimeType();
 

@@ -47,16 +47,16 @@
 
 OSG_BEGIN_NAMESPACE
 
-struct GeoNormal3fPropertyDesc
+struct GeoNormals3fPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
 
-    static const Char8 *getTypeName  (void) { return "GeoNormal3f";         }
-    static const Char8 *getClassName (void) { return "GeoNormal3fProperty"; }
+    static const Char8 *getTypeName  (void) { return "GeoNormals3f";         }
+    static const Char8 *getClassName (void) { return "GeoNormals3fProperty"; }
     static const Char8 *getFieldName (void) { return "Normals";             }
-    static const Char8 *getGroupName (void) { return "GeoNormal";           }
+    static const Char8 *getGroupName (void) { return "GeoNormals";           }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -70,29 +70,29 @@ struct GeoNormal3fPropertyDesc
     /*! \name                    Typedefs                                  */
     /*! \{                                                                 */
 
-    typedef GeoNormal                Inherit;
-    typedef GeoNormal::PtrType       InheritPtr;
-    typedef GeoNormalPropertyDesc    InheritDesc;
+    typedef GeoNormals                Inherit;
+    typedef GeoNormals::PtrType       InheritPtr;
+    typedef GeoNormalsPropertyDesc    InheritDesc;
     typedef MFVec3f                  FieldType;
 
     typedef InheritDesc::GenericType GenericType;
 
-    typedef GeoPropertyInterface<GeoNormalPropertyDesc> Interface;
+    typedef GeoPropertyInterface<GeoNormalsPropertyDesc> Interface;
     /*! \}                                                                 */
 };
 
-typedef GeoProperty<GeoNormal3fPropertyDesc> GeoNormal3f;
+typedef GeoProperty<GeoNormals3fPropertyDesc> GeoNormals3f;
 
 #ifndef OSG_COMPILEGEOPROPNORMALINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate GeoProperty<GeoNormal3fPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoNormal3fPropertyDesc>::_desc
+#pragma do_not_instantiate GeoProperty<GeoNormals3fPropertyDesc>::_type
+#pragma do_not_instantiate GeoProperty<GeoNormals3fPropertyDesc>::_desc
 
 #else
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
-                      GeoNormal3fPropertyDesc,
+                      GeoNormals3fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

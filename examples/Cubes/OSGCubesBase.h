@@ -57,41 +57,28 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OpenSG/OSGConfig.h>
+#include <OSGMyDef.h>
 
 #include <OpenSG/OSGBaseTypes.h>
 #include <OpenSG/OSGFieldDescription.h>
 #include <OpenSG/OSGFieldContainer.h>
-#include <OSGMyDef.h>
-#include <OpenSG/OSGNodeCore.h>
-#include <OpenSG/OSGMaterialFields.h>	// Material type
-#include <OpenSG/OSGPnt3fFields.h>	// Position type
-#include <OpenSG/OSGReal32Fields.h>	// Length type
-#include <OpenSG/OSGColor3fFields.h>	// Color type
+
+#include <OpenSG/OSGNodeCore.h> // Parent
+
+#include <OpenSG/OSGMaterialFields.h> // Material type
+#include <OpenSG/OSGPnt3fFields.h> // Position type
+#include <OpenSG/OSGReal32Fields.h> // Length type
+#include <OpenSG/OSGColor3fFields.h> // Color type
 
 #include <OSGCubesFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class Cubes;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! Cubes Base Class. */
+/*! \brief Cubes Base Class. */
 
 class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
 {
@@ -99,18 +86,16 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
 
     typedef NodeCore Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
         MaterialFieldId = Inherited::NextFieldId,
         PositionFieldId = MaterialFieldId + 1,
-        LengthFieldId = PositionFieldId + 1,
-        ColorFieldId = LengthFieldId + 1
+        LengthFieldId   = PositionFieldId + 1,
+        ColorFieldId    = LengthFieldId   + 1,
+        NextFieldId     = ColorFieldId    + 1
     };
 
     static const osg::BitVector MaterialFieldMask;
@@ -118,40 +103,66 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
     static const osg::BitVector LengthFieldMask;
     static const osg::BitVector ColorFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "CubesBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType(void); 
-    virtual const OSG::FieldContainerType &getType(void) const; 
-    
-    static OSG::FieldContainerType &getClassType  (void); 
-    static OSG::UInt32              getClassTypeId(void); 
-    static CubesPtr         create        (void); 
-    static CubesPtr         createEmpty   (void); 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual OSG::FieldContainerPtr shallowCopy(void) const; 
-    virtual OSG::UInt32            getSize    (void) const;
+    inline       SFMaterialPtr       *getSFMaterial       (void);
+    inline       MFPnt3f             *getMFPosition       (void);
+    inline       MFReal32            *getMFLength         (void);
+    inline       MFColor3f           *getMFColor          (void);
 
-    virtual void                   executeSync(      FieldContainer &other,
-                                               const BitVector      &whichField);
+    inline       MaterialPtr         &getMaterial       (void);
+    inline const MaterialPtr         &getMaterial       (void) const;
+    inline       Pnt3f               &getPosition       (UInt32 index);
+    inline       MFPnt3f             &getPosition       (void);
+    inline const MFPnt3f             &getPosition       (void) const;
+    inline       Real32              &getLength         (UInt32 index);
+    inline       MFReal32            &getLength         (void);
+    inline const MFReal32            &getLength         (void) const;
+    inline       Color3f             &getColor          (UInt32 index);
+    inline       MFColor3f           &getColor          (void);
+    inline const MFColor3f           &getColor          (void) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setMaterial       ( const MaterialPtr &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -159,133 +170,70 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Construction                               */
+    /*! \{                                                                 */
 
-    inline SFMaterialPtr	*getSFMaterial(void);
-    inline MFPnt3f	*getMFPosition(void);
-    inline MFReal32	*getMFLength(void);
-    inline MFColor3f	*getMFColor(void);
+    static  CubesPtr    create          (void); 
+    static  CubesPtr    createEmpty     (void); 
 
-    /*----------------------------- access ----------------------------------*/
+    /*! \}                                                                 */
 
-    //!@{ Return the fields' values.
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Copy                                   */
+    /*! \{                                                                 */
 
-    inline       MaterialPtr	&getMaterial(void);
-    inline const MaterialPtr	&getMaterial(void) const;
-    inline       void	             setMaterial( MaterialPtr value );
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
-    inline       Pnt3f	               &getPosition( UInt32 index );
-    inline       MFPnt3f &getPosition(void);
-    inline const MFPnt3f &getPosition(void) const;
-    inline       Real32	               &getLength( UInt32 index );
-    inline       MFReal32 &getLength(void);
-    inline const MFReal32 &getLength(void) const;
-    inline       Color3f	               &getColor( UInt32 index );
-    inline       MFColor3f &getColor(void);
-    inline const MFColor3f &getColor(void) const;
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFMaterialPtr       _sfMaterial;
+    MFPnt3f             _mfPosition;
+    MFReal32            _mfLength;
+    MFColor3f           _mfColor;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! The cubes' material.
-     */
-    SFMaterialPtr	_sfMaterial;
-    /*! The cubes' positions.
-     */
-    MFPnt3f	_mfPosition;
-    /*! The cubes' sizes.
-     */
-    MFReal32	_mfLength;
-    /*! The cubes' colors.
-     */
-    MFColor3f	_mfColor;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     CubesBase(void);
     CubesBase(const CubesBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~CubesBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      CubesBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
 
     friend class FieldContainer;
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
     static char cvsid[];
 
-    static FieldDescription   _desc[];
+    static FieldDescription   *_desc[];
+    static FieldContainerType  _type;
 
-    static FieldContainerType _type;
-
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -297,8 +245,6 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef CubesBase *CubesBaseP;
 
 OSG_END_NAMESPACE

@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.11 2001/10/02 06:16:12 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.12 2001/10/03 20:37:36 dirk Exp $";
     static char cvsid_hpp       [] = OSGCAMERADECORATORBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGCAMERADECORATORBASE_INLINE_CVSID;
 
@@ -100,7 +100,7 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	CameraDecoratorBase::CameraFieldMask = 
+const OSG::BitVector  CameraDecoratorBase::CameraFieldMask = 
     (1 << CameraDecoratorBase::CameraFieldId);
 
 
@@ -169,16 +169,16 @@ void CameraDecoratorBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 CameraDecoratorBase::CameraDecoratorBase(void) :
-	_sfCamera                 (), 
-	Inherited() 
+    _sfCamera                 (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 CameraDecoratorBase::CameraDecoratorBase(const CameraDecoratorBase &source) :
-	_sfCamera                 (source._sfCamera                 ), 
-	Inherited                 (source)
+    _sfCamera                 (source._sfCamera                 ), 
+    Inherited                 (source)
 {
 }
 

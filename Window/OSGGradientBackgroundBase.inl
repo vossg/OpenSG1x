@@ -95,13 +95,13 @@ inline GradientBackgroundPtr GradientBackgroundBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 MFColor3f *GradientBackgroundBase::getMFColor(void)
 {
-	return &_mfColor;
+    return &_mfColor;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 MFReal32 *GradientBackgroundBase::getMFPosition(void)
 {
-	return &_mfPosition;
+    return &_mfPosition;
 }
 
 
@@ -109,37 +109,37 @@ MFReal32 *GradientBackgroundBase::getMFPosition(void)
 OSG_SYSTEMLIB_DLLMAPPING
 Color3f &GradientBackgroundBase::getColor(UInt32 index)
 {
-	return _mfColor.getValue( index );
+    return _mfColor.getValue( index );
 }
 
 MFColor3f &GradientBackgroundBase::getColor(void)
 {
-	return _mfColor;
+    return _mfColor;
 }
 
 const MFColor3f &GradientBackgroundBase::getColor(void) const
 {
-	return _mfColor;
+    return _mfColor;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &GradientBackgroundBase::getPosition(UInt32 index)
 {
-	return _mfPosition.getValue( index );
+    return _mfPosition.getValue( index );
 }
 
 MFReal32 &GradientBackgroundBase::getPosition(void)
 {
-	return _mfPosition;
+    return _mfPosition;
 }
 
 const MFReal32 &GradientBackgroundBase::getPosition(void) const
 {
-	return _mfPosition;
+    return _mfPosition;
 }
 
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGradientBackgroundBase.inl,v 1.7 2001/09/17 14:15:07 vossg Exp $"
+#define OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGradientBackgroundBase.inl,v 1.8 2001/10/03 20:37:36 dirk Exp $"
 

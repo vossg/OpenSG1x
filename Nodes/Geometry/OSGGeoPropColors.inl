@@ -45,7 +45,7 @@ OSG_BEGIN_NAMESPACE
 
 template<>
 inline Color3f
-GeoProperty<GeoColor3ubPropertyDesc>::getValue( const UInt32 index )
+GeoProperty<GeoColors3ubPropertyDesc>::getValue( const UInt32 index )
 {
     const Color3ub &val = _field.getValue( index );
     return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
@@ -53,7 +53,7 @@ GeoProperty<GeoColor3ubPropertyDesc>::getValue( const UInt32 index )
 
 template<>
 inline Color3f
-GeoProperty<GeoColor3ubPropertyDesc>::getValue( const UInt32 index ) const
+GeoProperty<GeoColors3ubPropertyDesc>::getValue( const UInt32 index ) const
 {
     const Color3ub &val = _field.getValue( index );
     return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
@@ -61,7 +61,7 @@ GeoProperty<GeoColor3ubPropertyDesc>::getValue( const UInt32 index ) const
 
 template<>
 inline void
-GeoProperty<GeoColor3ubPropertyDesc>::getValue(
+GeoProperty<GeoColors3ubPropertyDesc>::getValue(
     Color3f & res,
     const UInt32 index )
 {
@@ -73,7 +73,7 @@ GeoProperty<GeoColor3ubPropertyDesc>::getValue(
 
 template<>
 inline void
-GeoProperty<GeoColor3ubPropertyDesc>::getValue(
+GeoProperty<GeoColors3ubPropertyDesc>::getValue(
     Color3f & res,
     const UInt32 index ) const
 {
@@ -85,7 +85,7 @@ GeoProperty<GeoColor3ubPropertyDesc>::getValue(
 
 template<>
 inline void
-GeoProperty<GeoColor3ubPropertyDesc>::setValue( const Color3f & val,
+GeoProperty<GeoColors3ubPropertyDesc>::setValue( const Color3f & val,
     const UInt32 index )
 {
     _field.setValue(
@@ -97,7 +97,7 @@ GeoProperty<GeoColor3ubPropertyDesc>::setValue( const Color3f & val,
 
 template<>
 inline void
-GeoProperty<GeoColor3ubPropertyDesc>::addValue( const Color3f & val )
+GeoProperty<GeoColors3ubPropertyDesc>::addValue( const Color3f & val )
 {
     _field.addValue(
             Color3ub(   UInt8(val.red  () * 255.f),
@@ -111,7 +111,7 @@ GeoProperty<GeoColor3ubPropertyDesc>::addValue( const Color3f & val )
 
 template<>
 inline Color3f
-GeoProperty<GeoColor4ubPropertyDesc>::getValue( const UInt32 index )
+GeoProperty<GeoColors4ubPropertyDesc>::getValue( const UInt32 index )
 {
     const Color4ub &val = _field.getValue( index );
     return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
@@ -119,7 +119,7 @@ GeoProperty<GeoColor4ubPropertyDesc>::getValue( const UInt32 index )
 
 template<>
 inline Color3f
-GeoProperty<GeoColor4ubPropertyDesc>::getValue( const UInt32 index ) const
+GeoProperty<GeoColors4ubPropertyDesc>::getValue( const UInt32 index ) const
 {
     const Color4ub &val = _field.getValue( index );
     return Color3f( val.red()/255.f, val.green()/255.f, val.blue()/255.f );
@@ -127,7 +127,7 @@ GeoProperty<GeoColor4ubPropertyDesc>::getValue( const UInt32 index ) const
 
 template<>
 inline void
-GeoProperty<GeoColor4ubPropertyDesc>::getValue(
+GeoProperty<GeoColors4ubPropertyDesc>::getValue(
     Color3f & res,
     const UInt32 index )
 {
@@ -137,7 +137,7 @@ GeoProperty<GeoColor4ubPropertyDesc>::getValue(
 
 template<>
 inline void
-GeoProperty<GeoColor4ubPropertyDesc>::getValue(
+GeoProperty<GeoColors4ubPropertyDesc>::getValue(
     Color3f & res,
     const UInt32 index ) const
 {
@@ -147,7 +147,7 @@ GeoProperty<GeoColor4ubPropertyDesc>::getValue(
 
 template<>
 inline void
-GeoProperty<GeoColor4ubPropertyDesc>::setValue( const Color3f & val,
+GeoProperty<GeoColors4ubPropertyDesc>::setValue( const Color3f & val,
     const UInt32 index )
 {
     _field.setValue(
@@ -160,7 +160,7 @@ GeoProperty<GeoColor4ubPropertyDesc>::setValue( const Color3f & val,
 
 template<>
 inline void
-GeoProperty<GeoColor4ubPropertyDesc>::addValue( const Color3f & val )
+GeoProperty<GeoColors4ubPropertyDesc>::addValue( const Color3f & val )
 {
     _field.addValue(
             Color4ub(   UInt8(val.red  () * 255.f),

@@ -150,7 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
 
     // initialisation
     virtual Action::ResultE start(void);
- 	virtual Action::ResultE stop( Action::ResultE res );
+    virtual Action::ResultE stop( Action::ResultE res );
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -200,8 +200,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     DrawActionBase(const DrawActionBase &source);
     void operator =(const DrawActionBase &source);
 
-	virtual vector<Functor> *getDefaultEnterFunctors(void) = 0;
-	virtual vector<Functor> *getDefaultLeaveFunctors(void) = 0;
+    virtual vector<Functor> *getDefaultEnterFunctors(void) = 0;
+    virtual vector<Functor> *getDefaultLeaveFunctors(void) = 0;
 
   private:
 
@@ -227,7 +227,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -241,7 +241,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 };
 
 //---------------------------------------------------------------------------

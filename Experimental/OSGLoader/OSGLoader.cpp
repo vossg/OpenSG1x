@@ -225,22 +225,22 @@ void OSGLoader::initFieldTypeMapper(void)
     setIntExtMapping(SFNodeCorePtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoPTypePtr::getClassType().getId(),
+    setIntExtMapping(SFGeoPTypesPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoIndexPtr::getClassType().getId(),
+    setIntExtMapping(SFGeoIndicesPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoPLengthPtr::getClassType().getId(),
+    setIntExtMapping(SFGeoPLengthsPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoColorPtr::getClassType().getId(),
+    setIntExtMapping(SFGeoColorsPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoPositionPtr::getClassType().getId(),
+    setIntExtMapping(SFGeoPositionsPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
-	setIntExtMapping(SFGeoNormalPtr::getClassType().getId(),
+	setIntExtMapping(SFGeoNormalsPtr::getClassType().getId(),
 					 ScanParseSkel::OSGsfNode);
 	
 	setIntExtMapping(SFGeoTexCoordsPtr::getClassType().getId(),

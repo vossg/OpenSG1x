@@ -161,9 +161,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
     UInt32          _actPointIndex;
     UInt32          _actPrimType;
     UInt32          _actPrimLength;
-    GeoPTypePtr     _types;
-    GeoPLengthPtr   _lengths;
-    GeoIndexPtr     _indices;
+    GeoPTypesPtr     _types;
+    GeoPLengthsPtr   _lengths;
+    GeoIndicesPtr     _indices;
     UInt16 _nmappings;
     Int16  _positionIndex;
     Int16  _normalIndex;

@@ -189,9 +189,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFVec3f          	_sfDirection;
-    SFReal32         	_sfSpotExponent;
-    SFReal32         	_sfSpotCutOff;
+    SFVec3f             _sfDirection;
+    SFReal32            _sfSpotExponent;
+    SFReal32            _sfSpotCutOff;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -240,6 +240,6 @@ typedef SpotLightBase *SpotLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.14 2001/09/19 14:36:40 mroth Exp $"
+#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.15 2001/10/03 20:37:35 dirk Exp $"
 
 #endif /* _OSGSPOTLIGHTBASE_H_ */

@@ -76,7 +76,7 @@ It's taken straight from the glLight() manpage.
 
 char LightChunk::cvsid[] = "@(#)$Id: $";
 
-StateChunkClass LightChunk::_class(String("Light"), 8);
+StateChunkClass LightChunk::_class("Light", 8);
 
 /***************************************************************************\
  *                           Class methods                                 *

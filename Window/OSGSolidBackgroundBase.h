@@ -175,7 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFColor3f        	_sfColor;
+    SFColor3f           _sfColor;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,6 +224,6 @@ typedef SolidBackgroundBase *SolidBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSOLIDBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundBase.h,v 1.13 2001/09/19 14:36:41 mroth Exp $"
+#define OSGSOLIDBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundBase.h,v 1.14 2001/10/03 20:37:36 dirk Exp $"
 
 #endif /* _OSGSOLIDBACKGROUNDBASE_H_ */

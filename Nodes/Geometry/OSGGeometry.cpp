@@ -311,7 +311,7 @@ void Geometry::onCreate( const FieldContainer & )
 
 void Geometry::adjustVolume( Volume & volume )
 {
-    GeoPositionPtr pos = getPositions();
+    GeoPositionsPtr pos = getPositions();
 
 	if ( pos == NullFC )
 		return;				// Node has no points, no volume
@@ -476,17 +476,17 @@ Bool Geometry::merge( const GeometryPtr other )
 	endEditCP( NAME );									\
 }
 
-	copyAttrib( pos, GeoPositionPtr, getPositions );
-	copyAttrib( type, GeoPTypePtr, getTypes );
-	copyAttrib( length, GeoPLengthPtr, getLengths );
+	copyAttrib( pos, GeoPositionsPtr, getPositions );
+	copyAttrib( type, GeoPTypesPtr, getTypes );
+	copyAttrib( length, GeoPLengthsPtr, getLengths );
 	
 	// this is not perfect, I should test the index mapping if the property
 	// is used at all and not blindly copy it. later.
 	if ( getNormals() != NullFC )
-		copyAttrib( normal, GeoNormalPtr, getNormals );
+		copyAttrib( normal, GeoNormalsPtr, getNormals );
 	
 	if ( getColors() != NullFC )
-		copyAttrib( color, GeoColorPtr, getColors );
+		copyAttrib( color, GeoColorsPtr, getColors );
 	
 	if ( getTexCoords() != NullFC )
 		copyAttrib( texcoord, GeoTexCoordsPtr, getTexCoords );
@@ -496,11 +496,11 @@ Bool Geometry::merge( const GeometryPtr other )
 	// now the fun part: indices
 	
 	// do we have indices? if not, we're done
-	if ( getIndex() != NullFC )
+	if ( getIndices() != NullFC )
 	{
 		// indices
-		GeoIndexPtr ind  =        getIndex();
-		GeoIndexPtr oind = other->getIndex();
+		GeoIndicesPtr ind  =        getIndices();
+		GeoIndicesPtr oind = other->getIndices();
 	
 		beginEditCP( ind );
 		
@@ -739,7 +739,7 @@ GeometryPtr Geometry::clone( void )
 	geo->setNormals  ( getNormals  ()->clone() );
 	geo->setColors   ( getColors   ()->clone() );
 	geo->setTexCoords( getTexCoords()->clone() );
-	geo->setIndex    ( getIndex    ()->clone() );
+	geo->setIndices  ( getIndices  ()->clone() );
 	
 	geo->getMFIndexMapping()->setValues( *getMFIndexMapping() );
 

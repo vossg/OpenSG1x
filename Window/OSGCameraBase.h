@@ -173,9 +173,9 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public AttachmentContainer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFNodePtr        	_sfBeacon;
-    SFReal32         	_sfNear;
-    SFReal32         	_sfFar;
+    SFNodePtr           _sfBeacon;
+    SFReal32            _sfNear;
+    SFReal32            _sfFar;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,6 +224,6 @@ typedef CameraBase *CameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: OSGCameraBase.h,v 1.13 2001/09/19 14:36:41 mroth Exp $"
+#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: OSGCameraBase.h,v 1.14 2001/10/03 20:37:36 dirk Exp $"
 
 #endif /* _OSGCAMERABASE_H_ */

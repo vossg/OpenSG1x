@@ -62,7 +62,7 @@
 #include "OSGSimpleMaterialBase.h"
 #include "OSGSimpleMaterial.h"
 
-#include <GL/gl.h>                     	// ColorMaterial default header
+#include <GL/gl.h>                        // ColorMaterial default header
 
 
 OSG_USING_NAMESPACE
@@ -73,7 +73,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.13 2001/09/19 14:36:40 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.14 2001/10/03 20:37:34 dirk Exp $";
     static char cvsid_hpp       [] = OSGSIMPLEMATERIALBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSIMPLEMATERIALBASE_INLINE_CVSID;
 
@@ -84,28 +84,28 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	SimpleMaterialBase::AmbientFieldMask = 
+const OSG::BitVector  SimpleMaterialBase::AmbientFieldMask = 
     (1 << SimpleMaterialBase::AmbientFieldId);
 
-const OSG::BitVector	SimpleMaterialBase::DiffuseFieldMask = 
+const OSG::BitVector  SimpleMaterialBase::DiffuseFieldMask = 
     (1 << SimpleMaterialBase::DiffuseFieldId);
 
-const OSG::BitVector	SimpleMaterialBase::SpecularFieldMask = 
+const OSG::BitVector  SimpleMaterialBase::SpecularFieldMask = 
     (1 << SimpleMaterialBase::SpecularFieldId);
 
-const OSG::BitVector	SimpleMaterialBase::ShininessFieldMask = 
+const OSG::BitVector  SimpleMaterialBase::ShininessFieldMask = 
     (1 << SimpleMaterialBase::ShininessFieldId);
 
-const OSG::BitVector	SimpleMaterialBase::EmissionFieldMask = 
+const OSG::BitVector  SimpleMaterialBase::EmissionFieldMask = 
     (1 << SimpleMaterialBase::EmissionFieldId);
 
-const OSG::BitVector	SimpleMaterialBase::TransparencyFieldMask = 
+const OSG::BitVector  SimpleMaterialBase::TransparencyFieldMask = 
     (1 << SimpleMaterialBase::TransparencyFieldId);
 
-const OSG::BitVector	SimpleMaterialBase::LitFieldMask = 
+const OSG::BitVector  SimpleMaterialBase::LitFieldMask = 
     (1 << SimpleMaterialBase::LitFieldId);
 
-const OSG::BitVector	SimpleMaterialBase::ColorMaterialFieldMask = 
+const OSG::BitVector  SimpleMaterialBase::ColorMaterialFieldMask = 
     (1 << SimpleMaterialBase::ColorMaterialFieldId);
 
 
@@ -239,30 +239,30 @@ void SimpleMaterialBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 SimpleMaterialBase::SimpleMaterialBase(void) :
-	_sfAmbient                (Color3f(0,0,0)), 
-	_sfDiffuse                (Color3f(0,0,0)), 
-	_sfSpecular               (Color3f(0,0,0)), 
-	_sfShininess              (Real32(1)), 
-	_sfEmission               (Color3f(0,0,0)), 
-	_sfTransparency           (Real32(0)), 
-	_sfLit                    (Bool(true)), 
-	_sfColorMaterial          (UInt32(GL_DIFFUSE)), 
-	Inherited() 
+    _sfAmbient                (Color3f(0,0,0)), 
+    _sfDiffuse                (Color3f(0,0,0)), 
+    _sfSpecular               (Color3f(0,0,0)), 
+    _sfShininess              (Real32(1)), 
+    _sfEmission               (Color3f(0,0,0)), 
+    _sfTransparency           (Real32(0)), 
+    _sfLit                    (Bool(true)), 
+    _sfColorMaterial          (UInt32(GL_DIFFUSE)), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 SimpleMaterialBase::SimpleMaterialBase(const SimpleMaterialBase &source) :
-	_sfAmbient                (source._sfAmbient                ), 
-	_sfDiffuse                (source._sfDiffuse                ), 
-	_sfSpecular               (source._sfSpecular               ), 
-	_sfShininess              (source._sfShininess              ), 
-	_sfEmission               (source._sfEmission               ), 
-	_sfTransparency           (source._sfTransparency           ), 
-	_sfLit                    (source._sfLit                    ), 
-	_sfColorMaterial          (source._sfColorMaterial          ), 
-	Inherited                 (source)
+    _sfAmbient                (source._sfAmbient                ), 
+    _sfDiffuse                (source._sfDiffuse                ), 
+    _sfSpecular               (source._sfSpecular               ), 
+    _sfShininess              (source._sfShininess              ), 
+    _sfEmission               (source._sfEmission               ), 
+    _sfTransparency           (source._sfTransparency           ), 
+    _sfLit                    (source._sfLit                    ), 
+    _sfColorMaterial          (source._sfColorMaterial          ), 
+    Inherited                 (source)
 {
 }
 

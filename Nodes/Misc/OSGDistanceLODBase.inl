@@ -95,53 +95,53 @@ inline DistanceLODPtr DistanceLODBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFPnt3f *DistanceLODBase::getSFCenter(void)
 {
-	return &_sfCenter;
+    return &_sfCenter;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 MFReal32 *DistanceLODBase::getMFRange(void)
 {
-	return &_mfRange;
+    return &_mfRange;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 Pnt3f &DistanceLODBase::getCenter(void)
 {
-	return _sfCenter.getValue();
+    return _sfCenter.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Pnt3f &DistanceLODBase::getCenter(void) const
 {
-	return _sfCenter.getValue();
+    return _sfCenter.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void DistanceLODBase::setCenter(const Pnt3f &value)
 {
-	_sfCenter.setValue(value);
+    _sfCenter.setValue(value);
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &DistanceLODBase::getRange(UInt32 index)
 {
-	return _mfRange.getValue( index );
+    return _mfRange.getValue( index );
 }
 
 MFReal32 &DistanceLODBase::getRange(void)
 {
-	return _mfRange;
+    return _mfRange;
 }
 
 const MFReal32 &DistanceLODBase::getRange(void) const
 {
-	return _mfRange;
+    return _mfRange;
 }
 
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_INLINE_CVSID "@(#)$Id: OSGDistanceLODBase.inl,v 1.5 2001/09/17 14:15:06 vossg Exp $"
+#define OSGDISTANCELODBASE_INLINE_CVSID "@(#)$Id: OSGDistanceLODBase.inl,v 1.6 2001/10/03 20:37:35 dirk Exp $"
 

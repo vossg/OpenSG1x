@@ -87,7 +87,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.15 2001/10/02 06:16:12 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.16 2001/10/03 20:37:36 dirk Exp $";
     static char cvsid_hpp       [] = OSGSOLIDBACKGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSOLIDBACKGROUNDBASE_INLINE_CVSID;
 
@@ -98,7 +98,7 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	SolidBackgroundBase::ColorFieldMask = 
+const OSG::BitVector  SolidBackgroundBase::ColorFieldMask = 
     (1 << SolidBackgroundBase::ColorFieldId);
 
 
@@ -176,16 +176,16 @@ void SolidBackgroundBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 SolidBackgroundBase::SolidBackgroundBase(void) :
-	_sfColor                  (), 
-	Inherited() 
+    _sfColor                  (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 SolidBackgroundBase::SolidBackgroundBase(const SolidBackgroundBase &source) :
-	_sfColor                  (source._sfColor                  ), 
-	Inherited                 (source)
+    _sfColor                  (source._sfColor                  ), 
+    Inherited                 (source)
 {
 }
 

@@ -95,79 +95,79 @@ inline BlendChunkPtr BlendChunkBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *BlendChunkBase::getSFSrcFactor(void)
 {
-	return &_sfSrcFactor;
+    return &_sfSrcFactor;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *BlendChunkBase::getSFDestFactor(void)
 {
-	return &_sfDestFactor;
+    return &_sfDestFactor;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFColor4f *BlendChunkBase::getSFColor(void)
 {
-	return &_sfColor;
+    return &_sfColor;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &BlendChunkBase::getSrcFactor(void)
 {
-	return _sfSrcFactor.getValue();
+    return _sfSrcFactor.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &BlendChunkBase::getSrcFactor(void) const
 {
-	return _sfSrcFactor.getValue();
+    return _sfSrcFactor.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void BlendChunkBase::setSrcFactor(const UInt32 &value)
 {
-	_sfSrcFactor.setValue(value);
+    _sfSrcFactor.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &BlendChunkBase::getDestFactor(void)
 {
-	return _sfDestFactor.getValue();
+    return _sfDestFactor.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &BlendChunkBase::getDestFactor(void) const
 {
-	return _sfDestFactor.getValue();
+    return _sfDestFactor.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void BlendChunkBase::setDestFactor(const UInt32 &value)
 {
-	_sfDestFactor.setValue(value);
+    _sfDestFactor.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color4f &BlendChunkBase::getColor(void)
 {
-	return _sfColor.getValue();
+    return _sfColor.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Color4f &BlendChunkBase::getColor(void) const
 {
-	return _sfColor.getValue();
+    return _sfColor.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void BlendChunkBase::setColor(const Color4f &value)
 {
-	_sfColor.setValue(value);
+    _sfColor.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGBlendChunkBase.inl,v 1.8 2001/09/17 14:15:07 vossg Exp $"
+#define OSGBLENDCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGBlendChunkBase.inl,v 1.9 2001/10/03 20:37:35 dirk Exp $"
 

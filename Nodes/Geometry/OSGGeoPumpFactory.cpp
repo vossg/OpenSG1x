@@ -373,13 +373,13 @@ void GeoPumpFactory::masterGeoPump( Window *win, Geometry * geo )
 {
 	// Setup: get all the data
 	
-	pumpInternalSetup( Type, GeoPTypePtr, getTypes, true );
-	pumpInternalSetup( Length, GeoPLengthPtr, getLengths, true );
-	pumpInternalSetup( Index, GeoIndexPtr, getIndex, false );
+	pumpInternalSetup( Type, GeoPTypesPtr, getTypes, true );
+	pumpInternalSetup( Length, GeoPLengthsPtr, getLengths, true );
+	pumpInternalSetup( Index, GeoIndicesPtr, getIndices, false );
 
-	pumpGLSetup( Position, GeoPositionPtr, getPositions );
-	pumpGLSetup( Color, GeoColorPtr, getColors );
-	pumpGLSetup( Normal, GeoNormalPtr, getNormals );
+	pumpGLSetup( Position, GeoPositionsPtr, getPositions );
+	pumpGLSetup( Color, GeoColorsPtr, getColors );
+	pumpGLSetup( Normal, GeoNormalsPtr, getNormals );
 	pumpGLSetup( TexCoords, GeoTexCoordsPtr, getTexCoords );
 	
 	if ( ! PositionData )
@@ -494,25 +494,25 @@ void GeoPumpFactory::masterPartialGeoPump( Window *win, Geometry * geo,
 }
 	
 void GeoPumpFactory::masterInterfacePump( Window *win, 
-	    GeoPositionInterface *pos, GeoNormalInterface *norm,
-	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+	    GeoPositionsInterface *pos, GeoNormalsInterface *norm,
+	    GeoColorsInterface *col, GeoTexCoordsInterface *texcoords,
 	    GeoTexCoordsInterface *texcoords2,
 	    GeoTexCoordsInterface *texcoords3,
 	    GeoTexCoordsInterface *texcoords4,
-	    GeoPTypeInterface *type, GeoPLengthInterface*len,
-	    GeoIndexInterface *ind, UInt16 *pMap, UInt16 nmap )
+	    GeoPTypesInterface *type, GeoPLengthsInterface*len,
+	    GeoIndicesInterface *ind, UInt16 *pMap, UInt16 nmap )
 {
     	FWARNING(("GeoPumpFactory::masterInterfacePump: not implemented yet!\n"));
 }
 	
 void GeoPumpFactory::masterPartialInterfacePump( Window *win, 
-	    GeoPositionInterface *pos, GeoNormalInterface *norm,
-	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+	    GeoPositionsInterface *pos, GeoNormalsInterface *norm,
+	    GeoColorsInterface *col, GeoTexCoordsInterface *texcoords,
 	    GeoTexCoordsInterface *texcoords2,
 	    GeoTexCoordsInterface *texcoords3,
 	    GeoTexCoordsInterface *texcoords4,
-	    GeoPTypeInterface *type, GeoPLengthInterface*len,
-	    GeoIndexInterface *ind, UInt16 *pMap, UInt16 nmap,
+	    GeoPTypesInterface *type, GeoPLengthsInterface*len,
+	    GeoIndicesInterface *ind, UInt16 *pMap, UInt16 nmap,
 	    UInt32 primtype, UInt32 firstvert, UInt32 nvert )
 {
     	FWARNING(("GeoPumpFactory::masterPartialInterfacePump: not implemented yet!\n"));

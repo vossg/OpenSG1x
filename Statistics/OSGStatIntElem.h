@@ -111,8 +111,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
  
     Bool operator < (const StatIntElem &other) const;
     
-	//OSGBool operator == (const StatIntElem &other) const;
-	//OSGBool operator != (const StatIntElem &other) const;
+    //OSGBool operator == (const StatIntElem &other) const;
+    //OSGBool operator != (const StatIntElem &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

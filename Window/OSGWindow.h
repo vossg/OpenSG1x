@@ -223,7 +223,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*---------------------------------------------------------------------*/
     /*! \name           GL object handling helper class                    */
     /*! \{     
-	                                                            */
+                                                                */
     class GLObject {
 
       public:
@@ -337,8 +337,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name   Static GL Object / Extension variables                     */
     /*! \{                                                                 */
 
-    static vector<StringLink>         _registeredExtensions;
-    static vector<StringLink>         _registeredFunctions;
+    static vector<IDStringLink>         _registeredExtensions;
+    static vector<IDStringLink>         _registeredFunctions;
     static Lock                      *_GLObjectLock;
     static vector<GLObject*>          _glObjects;
     static vector<UInt32>             _glObjectDestroyList;
@@ -352,7 +352,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \{                                                                 */
 
     //! contains the split glGetString(GL_EXTENSIONS)
-    vector<String>                    _extensions;
+    vector<IDString>                  _extensions;
 
     /*! contains a boolean for every registered extension which
        indicates, whether an extensions is available for the Window's

@@ -100,7 +100,7 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	InlineBase::UrlFieldMask = 
+const OSG::BitVector  InlineBase::UrlFieldMask = 
     (1 << InlineBase::UrlFieldId);
 
 
@@ -178,16 +178,16 @@ void InlineBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 InlineBase::InlineBase(void) :
-	_mfUrl                    (), 
-	Inherited() 
+    _mfUrl                    (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 InlineBase::InlineBase(const InlineBase &source) :
-	_mfUrl                    (source._mfUrl                    ), 
-	Inherited                 (source)
+    _mfUrl                    (source._mfUrl                    ), 
+    Inherited                 (source)
 {
 }
 

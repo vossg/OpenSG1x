@@ -46,7 +46,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGSystemDef.h>
 
-#include <OSGString.h>
+#include <OSGIDString.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,11 +91,11 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc
 
     void print(void);
 
-    inline        Int32   getID          (void) { return _ID; }
+    inline        Int32   getID            (void) { return _ID; }
 
-    inline  const String &getName        (void) { return _name; }
+    inline  const IDString &getName        (void) { return _name; }
 
-    inline  const String &getDescription (void) { return _description; }
+    inline  const IDString &getDescription (void) { return _description; }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -140,9 +140,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc
 
     Int32                _ID;
 
-    String               _name;
+    IDString             _name;
 
-    String               _description;
+    IDString             _description;
 
     CreateStatElemMethod _createMethod;
 

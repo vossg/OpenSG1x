@@ -95,31 +95,31 @@ inline TransformPtr TransformBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFMatrix *TransformBase::getSFMatrix(void)
 {
-	return &_sfMatrix;
+    return &_sfMatrix;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 Matrix &TransformBase::getMatrix(void)
 {
-	return _sfMatrix.getValue();
+    return _sfMatrix.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Matrix &TransformBase::getMatrix(void) const
 {
-	return _sfMatrix.getValue();
+    return _sfMatrix.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TransformBase::setMatrix(const Matrix &value)
 {
-	_sfMatrix.setValue(value);
+    _sfMatrix.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMBASE_INLINE_CVSID "@(#)$Id: OSGTransformBase.inl,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+#define OSGTRANSFORMBASE_INLINE_CVSID "@(#)$Id: OSGTransformBase.inl,v 1.8 2001/10/03 20:37:35 dirk Exp $"
 

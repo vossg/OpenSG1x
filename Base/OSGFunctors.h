@@ -106,7 +106,7 @@ class FunctorBase
     /*==========================  PRIVATE  ================================*/
   private:
 
-	static char cvsid[];
+    static char cvsid[];
 
     /*==========================  PRIVATE  ================================*/
   protected:
@@ -160,7 +160,7 @@ class Functor1Base : public FunctorBase<SizeTraitsT>
 
     typedef FunctorBase<SizeTraitsT> Inherited;
 
-	static char cvsid[];
+    static char cvsid[];
     
     /*==========================  PUBLIC  =================================*/
   public :
@@ -210,7 +210,7 @@ class Functor1Base<void, Arg1T, SizeTraitsT> :
 
     typedef FunctorBase<SizeTraitsT> Inherited;
 
-	static char cvsid[];
+    static char cvsid[];
     
     /*==========================  PUBLIC  =================================*/
   public :
@@ -266,7 +266,7 @@ class FunctionFunctor1 :
 
     typedef Functor1Base<RetT, Arg1T, SizeTraitsT> Inherited;
 
-	static char cvsid[];
+    static char cvsid[];
     
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -331,7 +331,7 @@ class FunctionFunctor1<void, Arg1T, SizeTraitsT> :
 
     typedef Functor1Base<void, Arg1T, SizeTraitsT> Inherited;
 
-	static char cvsid[];
+    static char cvsid[];
 
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -974,7 +974,7 @@ class ObjectFunctor1 :
 
     typedef Functor1Base<RetT, Arg1T, SizeTraitsT> Inherited;
 
-	static char cvsid[];
+    static char cvsid[];
 
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -1060,7 +1060,7 @@ class ObjectFunctor1<void,
 
     typedef Functor1Base<void, Arg1T, SizeTraitsT> Inherited;
 
-	static char cvsid[];
+    static char cvsid[];
 
     /*=========================  PROTECTED  ===============================*/    
   protected:
@@ -1183,7 +1183,7 @@ class Functor2Base : public FunctorBase<SizeTraitsT>
 
     typedef FunctorBase<SizeTraitsT> Inherited;
 
-	static char cvsid[];
+    static char cvsid[];
     
     /*==========================  PUBLIC  =================================*/    
   public :
@@ -1234,7 +1234,7 @@ class Functor2Base<void, Arg1T, Arg2T, SizeTraitsT> :
 
     typedef FunctorBase<SizeTraitsT> Inherited;
 
-	static char cvsid[];
+    static char cvsid[];
     
     /*==========================  PUBLIC  =================================*/    
   public :
@@ -1294,7 +1294,7 @@ class FunctionFunctor2 :
                          Arg2T,
                          SizeTraitsT> Inherited;
 
-	static char cvsid[];
+    static char cvsid[];
 
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -1363,7 +1363,7 @@ class FunctionFunctor2<void, Arg1T, Arg2T, SizeTraitsT> :
                          Arg2T, 
                          SizeTraitsT> Inherited;
 
-	static char cvsid[];
+    static char cvsid[];
     
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -2140,7 +2140,7 @@ class ObjectFunctor2 :
                          Arg2T, 
                          SizeTraitsT> Inherited;
 
-	static char cvsid[];
+    static char cvsid[];
     
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -2233,7 +2233,7 @@ class ObjectFunctor2<void,
                          Arg2T, 
                          SizeTraitsT> Inherited;
 
-	static char cvsid[];
+    static char cvsid[];
     
     /*=========================  PROTECTED  ===============================*/
   protected:

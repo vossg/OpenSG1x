@@ -175,7 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFStateChunkPtr  	_mfChunks;
+    MFStateChunkPtr     _mfChunks;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,6 +224,6 @@ typedef StateBase *StateBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.12 2001/09/19 14:36:41 mroth Exp $"
+#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.13 2001/10/03 20:37:35 dirk Exp $"
 
 #endif /* _OSGSTATEBASE_H_ */

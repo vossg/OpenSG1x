@@ -87,7 +87,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.16 2001/10/02 06:16:12 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.17 2001/10/03 20:37:36 dirk Exp $";
     static char cvsid_hpp       [] = OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGDYNAMICBACKGROUNDBASE_INLINE_CVSID;
 
@@ -98,10 +98,10 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	DynamicBackgroundBase::ColorFieldMask = 
+const OSG::BitVector  DynamicBackgroundBase::ColorFieldMask = 
     (1 << DynamicBackgroundBase::ColorFieldId);
 
-const OSG::BitVector	DynamicBackgroundBase::AngleFieldMask = 
+const OSG::BitVector  DynamicBackgroundBase::AngleFieldMask = 
     (1 << DynamicBackgroundBase::AngleFieldId);
 
 
@@ -187,18 +187,18 @@ void DynamicBackgroundBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 DynamicBackgroundBase::DynamicBackgroundBase(void) :
-	_mfColor                  (), 
-	_mfAngle                  (), 
-	Inherited() 
+    _mfColor                  (), 
+    _mfAngle                  (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 DynamicBackgroundBase::DynamicBackgroundBase(const DynamicBackgroundBase &source) :
-	_mfColor                  (source._mfColor                  ), 
-	_mfAngle                  (source._mfAngle                  ), 
-	Inherited                 (source)
+    _mfColor                  (source._mfColor                  ), 
+    _mfAngle                  (source._mfAngle                  ), 
+    Inherited                 (source)
 {
 }
 

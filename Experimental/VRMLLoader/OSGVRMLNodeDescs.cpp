@@ -56,7 +56,7 @@
 #include <OSGNode.h>
 #include <OSGNodeCore.h>
 #include <OSGGroup.h>
-#include <OSGVRMLTransform.h>
+#include <OSGComponentTransform.h>
 #include <OSGGeometry.h>
 #include <OSGMaterialGroup.h>
 #include <OSGSimpleGeometry.h>
@@ -277,7 +277,7 @@ void VRMLNodeDesc::init(const Char8 *szName)
     }
     else if(stringcasecmp(szName, "Transform") == 0)
     {
-        _pNodeCoreProto = VRMLTransform::create();
+        _pNodeCoreProto = ComponentTransform::create();
     }
     else
     {
@@ -296,7 +296,7 @@ void VRMLNodeDesc::setOptions(UInt32 uiOptions)
 
 void VRMLNodeDesc::setOnEndSave(const Char8 *szName)
 {
-    _szCurrentName.set(szName);
+    _szCurrentName = szName; // does that make a copy? I expect it to...
     _bSaveOnEnd = true;
 }
 
@@ -312,7 +312,7 @@ Bool VRMLNodeDesc::getOnEndSave(void)
 
 const Char8 *VRMLNodeDesc::getSavename(void)
 {
-    return _szCurrentName.str();
+    return _szCurrentName.c_str();
 }
 
 FieldContainerPtr VRMLNodeDesc::getSaveFieldContainer(void)
@@ -4246,7 +4246,7 @@ void VRMLViewpointDesc::init(const Char8 *szName)
     fprintf(stderr, "Viewpoint init : %s \n", szName);
 
     _pNodeProto     = Node::create();
-    _pNodeCoreProto = VRMLTransform::create();
+    _pNodeCoreProto = ComponentTransform::create();
     _pGenAtt        = GenericAtt::create();    
 
     FieldDescription *pDesc = 
@@ -4266,14 +4266,14 @@ void VRMLViewpointDesc::reset(void)
  //   _pCamera = PerspectiveCamera::NullFC;
         
 //    _beaconNode = NullNode;
-///    _beaconCore = VRMLTransformPtr::NullPtr;
+///    _beaconCore = ComponentTransformPtr::NullPtr;
 //    _viewpointAttachment = ViewpointAttachmentPtr::NullPtr;
 //
 //    _defaultOrientation.setValue(_orientation);
 //    _defaultPosition   .setValue(_position);
 }
 
-VRMLTransformPtr VRMLViewpointDesc::getDefaultBeacon(void)
+ComponentTransformPtr VRMLViewpointDesc::getDefaultBeacon(void)
 {
     return NullFC;
 }
@@ -4351,7 +4351,7 @@ void VRMLViewpointDesc::getFieldAndDesc(
 
     NodeCorePtr pNodeCore = pNode->getCore();
 
-    VRMLTransformPtr pTransform = VRMLTransformPtr::dcast(pNodeCore);
+    ComponentTransformPtr pTransform = ComponentTransformPtr::dcast(pNodeCore);
 
     if(pTransform == NullFC)
     {

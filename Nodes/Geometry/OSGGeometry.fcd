@@ -11,7 +11,7 @@
 >
 	<Field
 		name="types"
-		type="GeoPTypePtr"
+		type="GeoPTypesPtr"
 		cardinality="single"
 		visibility="external"
 		access="public"
@@ -19,7 +19,7 @@
 	</Field>
 	<Field
 		name="lengths"
-		type="GeoPLengthPtr"
+		type="GeoPLengthsPtr"
 		cardinality="single"
 		visibility="external"
 		access="public"
@@ -27,7 +27,7 @@
 	</Field>
 	<Field
 		name="positions"
-		type="GeoPositionPtr"
+		type="GeoPositionsPtr"
 		cardinality="single"
 		visibility="external"
 		access="public"
@@ -35,7 +35,7 @@
 	</Field>
 	<Field
 		name="normals"
-		type="GeoNormalPtr"
+		type="GeoNormalsPtr"
 		cardinality="single"
 		visibility="external"
 		access="public"
@@ -43,7 +43,7 @@
 	</Field>
 	<Field
 		name="colors"
-		type="GeoColorPtr"
+		type="GeoColorsPtr"
 		cardinality="single"
 		visibility="external"
 		access="public"
@@ -58,8 +58,8 @@
 	>
 	</Field>
 	<Field
-		name="index"
-		type="GeoIndexPtr"
+		name="indices"
+		type="GeoIndicesPtr"
 		cardinality="single"
 		visibility="external"
 		access="public"

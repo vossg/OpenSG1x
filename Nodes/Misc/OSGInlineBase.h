@@ -175,7 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFString         	_mfUrl;
+    MFString            _mfUrl;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

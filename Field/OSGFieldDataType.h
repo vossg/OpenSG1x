@@ -43,7 +43,6 @@
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
-#include <OSGString.h>
 #include <OSGDataType.h>
 #include <OSGBinaryDataHandler.h>
 

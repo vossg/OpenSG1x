@@ -95,31 +95,31 @@ inline PerspectiveCameraPtr PerspectiveCameraBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *PerspectiveCameraBase::getSFFov(void)
 {
-	return &_sfFov;
+    return &_sfFov;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &PerspectiveCameraBase::getFov(void)
 {
-	return _sfFov.getValue();
+    return _sfFov.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &PerspectiveCameraBase::getFov(void) const
 {
-	return _sfFov.getValue();
+    return _sfFov.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void PerspectiveCameraBase::setFov(const Real32 &value)
 {
-	_sfFov.setValue(value);
+    _sfFov.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERABASE_INLINE_CVSID "@(#)$Id: OSGPerspectiveCameraBase.inl,v 1.7 2001/09/17 14:15:08 vossg Exp $"
+#define OSGPERSPECTIVECAMERABASE_INLINE_CVSID "@(#)$Id: OSGPerspectiveCameraBase.inl,v 1.8 2001/10/03 20:37:36 dirk Exp $"
 

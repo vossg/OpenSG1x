@@ -175,7 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformBase : public NodeCore
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFMatrix         	_sfMatrix;
+    SFMatrix            _sfMatrix;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,6 +224,6 @@ typedef TransformBase *TransformBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGTransformBase.h,v 1.13 2001/09/19 14:36:41 mroth Exp $"
+#define OSGTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGTransformBase.h,v 1.14 2001/10/03 20:37:35 dirk Exp $"
 
 #endif /* _OSGTRANSFORMBASE_H_ */

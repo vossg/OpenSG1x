@@ -98,22 +98,22 @@ class OSG_BASE_DLLMAPPING FieldFactory
     /*------------------------------ create ---------------------------------*/
 
     Field *createField(UInt32   typeId);
-	Field *createField(const char *szName);
+    Field *createField(const char *szName);
 
     /*------------------------------ type -----------------------------------*/
 
-	static UInt32     getNFieldTypes( void );
-	
-	static FieldType *getFieldType(UInt32   typeId);
-	static FieldType *getFieldType(const char *szName);
+    static UInt32     getNFieldTypes( void );
+    
+    static FieldType *getFieldType(UInt32   typeId);
+    static FieldType *getFieldType(const char *szName);
 
     /*------------------------------ name -----------------------------------*/
 
-	const char *getFieldTypeName(UInt32 typeId);
-	
+    const char *getFieldTypeName(UInt32 typeId);
+    
     /*------------------------------ instance -------------------------------*/
 
-	static FieldFactory &the(void);
+    static FieldFactory &the(void);
 
   protected:
 
@@ -157,7 +157,7 @@ class OSG_BASE_DLLMAPPING FieldFactory
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class FieldType;
+    friend class FieldType;
     friend class Field;
 
     //-----------------------------------------------------------------------
@@ -168,7 +168,7 @@ class OSG_BASE_DLLMAPPING FieldFactory
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
     
     static FieldFactory              _the;
     
@@ -188,7 +188,7 @@ class OSG_BASE_DLLMAPPING FieldFactory
 
     static void addType(FieldType *pType);
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     FieldFactory(const FieldFactory &source);
     void operator =(const FieldFactory &source);

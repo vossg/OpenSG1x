@@ -81,7 +81,7 @@ UInt32 PrimitiveIterator::getType( void ) const
 inline
 Int32 PrimitiveIterator::getPositionIndex( Int32 which ) const
 {
-    if ( _geo->getIndex() != NullFC )
+    if ( _geo->getIndices() != NullFC )
     {
         if ( _positionIndex != -1 )
             return _indices->getValue( ( _actPointIndex + which ) *
@@ -107,7 +107,7 @@ Int32 PrimitiveIterator::getNormalIndex( Int32 which ) const
     if ( _geo->getNormals() == NullFC )
         return -1;
 
-    if ( _geo->getIndex() != NullFC )
+    if ( _geo->getIndices() != NullFC )
     {
         if ( _normalIndex != -1 )
             return _indices->getValue( ( _actPointIndex + which ) *
@@ -136,7 +136,7 @@ Int32 PrimitiveIterator::getColorIndex( Int32 which ) const
     if ( _geo->getColors() == NullFC )
         return -1;
 
-    if ( _geo->getIndex() != NullFC )
+    if ( _geo->getIndices() != NullFC )
     {
         if ( _colorIndex != -1 )
             return _indices->getValue( ( _actPointIndex + which ) *
@@ -167,7 +167,7 @@ Int32 PrimitiveIterator::getTexCoordsIndex( Int32 which ) const
     if ( _geo->getTexCoords() == NullFC )
         return -1;
 
-    if ( _geo->getIndex() != NullFC )
+    if ( _geo->getIndices() != NullFC )
     {
         if ( _texcoordsIndex != -1 )
             return _indices->getValue( ( _actPointIndex + which ) *
@@ -193,7 +193,7 @@ Vec2f PrimitiveIterator::getTexCoords( Int32 which ) const
 inline
 Int32 PrimitiveIterator::getIndexIndex( Int32 which ) const
 {
-    if ( _geo->getIndex() != NullFC )
+    if ( _geo->getIndices() != NullFC )
     {
         return ( _actPointIndex + which ) * _nmappings;
     }

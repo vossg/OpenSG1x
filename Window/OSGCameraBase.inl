@@ -71,79 +71,79 @@ inline OSG::UInt32 CameraBase::getClassTypeId(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFNodePtr *CameraBase::getSFBeacon(void)
 {
-	return &_sfBeacon;
+    return &_sfBeacon;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *CameraBase::getSFNear(void)
 {
-	return &_sfNear;
+    return &_sfNear;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *CameraBase::getSFFar(void)
 {
-	return &_sfFar;
+    return &_sfFar;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 NodePtr &CameraBase::getBeacon(void)
 {
-	return _sfBeacon.getValue();
+    return _sfBeacon.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const NodePtr &CameraBase::getBeacon(void) const
 {
-	return _sfBeacon.getValue();
+    return _sfBeacon.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void CameraBase::setBeacon(const NodePtr &value)
 {
-	_sfBeacon.setValue(value);
+    _sfBeacon.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &CameraBase::getNear(void)
 {
-	return _sfNear.getValue();
+    return _sfNear.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &CameraBase::getNear(void) const
 {
-	return _sfNear.getValue();
+    return _sfNear.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void CameraBase::setNear(const Real32 &value)
 {
-	_sfNear.setValue(value);
+    _sfNear.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &CameraBase::getFar(void)
 {
-	return _sfFar.getValue();
+    return _sfFar.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &CameraBase::getFar(void) const
 {
-	return _sfFar.getValue();
+    return _sfFar.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void CameraBase::setFar(const Real32 &value)
 {
-	_sfFar.setValue(value);
+    _sfFar.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERABASE_INLINE_CVSID "@(#)$Id: OSGCameraBase.inl,v 1.7 2001/09/17 14:15:07 vossg Exp $"
+#define OSGCAMERABASE_INLINE_CVSID "@(#)$Id: OSGCameraBase.inl,v 1.8 2001/10/03 20:37:36 dirk Exp $"
 

@@ -187,11 +187,11 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFUInt16         	_sfWidth;
-    SFUInt16         	_sfHeight;
-    MFViewportPtr    	_mfPort;
-    SFBool           	_sfResizePending;
-    MFUInt32         	_mfGlObjectStatus;
+    SFUInt16            _sfWidth;
+    SFUInt16            _sfHeight;
+    MFViewportPtr       _mfPort;
+    SFBool              _sfResizePending;
+    MFUInt32            _mfGlObjectStatus;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

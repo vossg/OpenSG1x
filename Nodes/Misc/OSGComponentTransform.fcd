@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
 <FieldContainer
-	name="VRMLTransform"
+	name="ComponentTransform"
 	parent="Transform"
 	library="System"
 	structure="concrete"

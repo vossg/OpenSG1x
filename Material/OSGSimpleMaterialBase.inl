@@ -95,199 +95,199 @@ inline SimpleMaterialPtr SimpleMaterialBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFColor3f *SimpleMaterialBase::getSFAmbient(void)
 {
-	return &_sfAmbient;
+    return &_sfAmbient;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFColor3f *SimpleMaterialBase::getSFDiffuse(void)
 {
-	return &_sfDiffuse;
+    return &_sfDiffuse;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFColor3f *SimpleMaterialBase::getSFSpecular(void)
 {
-	return &_sfSpecular;
+    return &_sfSpecular;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *SimpleMaterialBase::getSFShininess(void)
 {
-	return &_sfShininess;
+    return &_sfShininess;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFColor3f *SimpleMaterialBase::getSFEmission(void)
 {
-	return &_sfEmission;
+    return &_sfEmission;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *SimpleMaterialBase::getSFTransparency(void)
 {
-	return &_sfTransparency;
+    return &_sfTransparency;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFBool *SimpleMaterialBase::getSFLit(void)
 {
-	return &_sfLit;
+    return &_sfLit;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFUInt32 *SimpleMaterialBase::getSFColorMaterial(void)
 {
-	return &_sfColorMaterial;
+    return &_sfColorMaterial;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color3f &SimpleMaterialBase::getAmbient(void)
 {
-	return _sfAmbient.getValue();
+    return _sfAmbient.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Color3f &SimpleMaterialBase::getAmbient(void) const
 {
-	return _sfAmbient.getValue();
+    return _sfAmbient.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void SimpleMaterialBase::setAmbient(const Color3f &value)
 {
-	_sfAmbient.setValue(value);
+    _sfAmbient.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color3f &SimpleMaterialBase::getDiffuse(void)
 {
-	return _sfDiffuse.getValue();
+    return _sfDiffuse.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Color3f &SimpleMaterialBase::getDiffuse(void) const
 {
-	return _sfDiffuse.getValue();
+    return _sfDiffuse.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void SimpleMaterialBase::setDiffuse(const Color3f &value)
 {
-	_sfDiffuse.setValue(value);
+    _sfDiffuse.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color3f &SimpleMaterialBase::getSpecular(void)
 {
-	return _sfSpecular.getValue();
+    return _sfSpecular.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Color3f &SimpleMaterialBase::getSpecular(void) const
 {
-	return _sfSpecular.getValue();
+    return _sfSpecular.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void SimpleMaterialBase::setSpecular(const Color3f &value)
 {
-	_sfSpecular.setValue(value);
+    _sfSpecular.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &SimpleMaterialBase::getShininess(void)
 {
-	return _sfShininess.getValue();
+    return _sfShininess.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &SimpleMaterialBase::getShininess(void) const
 {
-	return _sfShininess.getValue();
+    return _sfShininess.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void SimpleMaterialBase::setShininess(const Real32 &value)
 {
-	_sfShininess.setValue(value);
+    _sfShininess.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color3f &SimpleMaterialBase::getEmission(void)
 {
-	return _sfEmission.getValue();
+    return _sfEmission.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Color3f &SimpleMaterialBase::getEmission(void) const
 {
-	return _sfEmission.getValue();
+    return _sfEmission.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void SimpleMaterialBase::setEmission(const Color3f &value)
 {
-	_sfEmission.setValue(value);
+    _sfEmission.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &SimpleMaterialBase::getTransparency(void)
 {
-	return _sfTransparency.getValue();
+    return _sfTransparency.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &SimpleMaterialBase::getTransparency(void) const
 {
-	return _sfTransparency.getValue();
+    return _sfTransparency.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void SimpleMaterialBase::setTransparency(const Real32 &value)
 {
-	_sfTransparency.setValue(value);
+    _sfTransparency.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Bool &SimpleMaterialBase::getLit(void)
 {
-	return _sfLit.getValue();
+    return _sfLit.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Bool &SimpleMaterialBase::getLit(void) const
 {
-	return _sfLit.getValue();
+    return _sfLit.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void SimpleMaterialBase::setLit(const Bool &value)
 {
-	_sfLit.setValue(value);
+    _sfLit.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &SimpleMaterialBase::getColorMaterial(void)
 {
-	return _sfColorMaterial.getValue();
+    return _sfColorMaterial.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const UInt32 &SimpleMaterialBase::getColorMaterial(void) const
 {
-	return _sfColorMaterial.getValue();
+    return _sfColorMaterial.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void SimpleMaterialBase::setColorMaterial(const UInt32 &value)
 {
-	_sfColorMaterial.setValue(value);
+    _sfColorMaterial.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLEMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSimpleMaterialBase.inl,v 1.8 2001/09/17 14:15:06 vossg Exp $"
+#define OSGSIMPLEMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSimpleMaterialBase.inl,v 1.9 2001/10/03 20:37:34 dirk Exp $"
 

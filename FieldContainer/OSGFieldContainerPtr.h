@@ -112,7 +112,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     /*! \name             Intialization / Termination                      */
     /*! \{                                                                 */
 
-	static Bool initialize(int &argc, char **argv);
+    static Bool initialize(int &argc, char **argv);
     static Bool terminate(void);
 
     /*! \}                                                                 */
@@ -241,7 +241,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     Bool operator <  (const FieldContainerPtrBase &other) const;
     
     Bool operator == (const FieldContainerPtrBase &other) const;
-	Bool operator != (const FieldContainerPtrBase &other) const;
+    Bool operator != (const FieldContainerPtrBase &other) const;
 
     Bool operator !(void) const;
 
@@ -480,7 +480,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FCPtr : public BasePtrTypeT
 
 //    static const FCPtr NullPtr;
 
-	typedef FieldContainerTypeT ObjectType;
+    typedef FieldContainerTypeT ObjectType;
 
     typedef BasePtrTypeT        Inherited;
 
@@ -508,14 +508,14 @@ class OSG_SYSTEMLIB_DLLMAPPING FCPtr : public BasePtrTypeT
     /*! \name                      dcast                                   */
     /*! \{                                                                 */
 
-	template <class InTypeT> inline
-	static FCPtr dcast(const InTypeT oIn)
-	{
-		return FCPtr(
-			(dynamic_cast<const typename FCPtr::ObjectType *>(oIn.getCPtr())),
-			oIn.getContainerSize(),
-			oIn.getParentFieldPos());
-	}
+    template <class InTypeT> inline
+    static FCPtr dcast(const InTypeT oIn)
+    {
+        return FCPtr(
+            (dynamic_cast<const typename FCPtr::ObjectType *>(oIn.getCPtr())),
+            oIn.getContainerSize(),
+            oIn.getParentFieldPos());
+    }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -588,7 +588,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFCPtr : public BasePtrTypeT
 
 //    static const ConstFCPtr NullPtr;
 
-	typedef FieldContainerTypeT                                 ObjectType;
+    typedef FieldContainerTypeT                                 ObjectType;
 
     typedef BasePtrTypeT                                        Inherited;
 

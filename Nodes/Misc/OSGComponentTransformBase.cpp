@@ -45,37 +45,37 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VRMLTransform!
+ **     class ComponentTransform!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
 #define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILEVRMLTRANSFORMINST
+#define OSG_COMPILECOMPONENTTRANSFORMINST
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
 
-#include "OSGVRMLTransformBase.h"
-#include "OSGVRMLTransform.h"
+#include "OSGComponentTransformBase.h"
+#include "OSGComponentTransform.h"
 
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<VRMLTransformPtr>::_type("VRMLTransformPtr", "TransformPtr", true);
+DataType FieldDataTraits<ComponentTransformPtr>::_type("ComponentTransformPtr", "TransformPtr", true);
 
 #if defined(__sgi)
 
-#pragma instantiate SField<VRMLTransformPtr>::_fieldType
-#pragma instantiate MField<VRMLTransformPtr>::_fieldType
+#pragma instantiate SField<ComponentTransformPtr>::_fieldType
+#pragma instantiate MField<ComponentTransformPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, VRMLTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, VRMLTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 
@@ -89,157 +89,157 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.15 2001/10/02 06:16:12 vossg Exp $";
-    static char cvsid_hpp       [] = OSGVRMLTRANSFORMBASE_HEADER_CVSID;
-    static char cvsid_inl       [] = OSGVRMLTRANSFORMBASE_INLINE_CVSID;
+    static char cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.1 2001/10/03 20:37:35 dirk Exp $";
+    static char cvsid_hpp       [] = OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID;
 
-    static char cvsid_fields_hpp[] = OSGVRMLTRANSFORMFIELDS_HEADER_CVSID;
+    static char cvsid_fields_hpp[] = OSGCOMPONENTTRANSFORMFIELDS_HEADER_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	VRMLTransformBase::CenterFieldMask = 
-    (1 << VRMLTransformBase::CenterFieldId);
+const OSG::BitVector  ComponentTransformBase::CenterFieldMask = 
+    (1 << ComponentTransformBase::CenterFieldId);
 
-const OSG::BitVector	VRMLTransformBase::RotationFieldMask = 
-    (1 << VRMLTransformBase::RotationFieldId);
+const OSG::BitVector  ComponentTransformBase::RotationFieldMask = 
+    (1 << ComponentTransformBase::RotationFieldId);
 
-const OSG::BitVector	VRMLTransformBase::ScaleFieldMask = 
-    (1 << VRMLTransformBase::ScaleFieldId);
+const OSG::BitVector  ComponentTransformBase::ScaleFieldMask = 
+    (1 << ComponentTransformBase::ScaleFieldId);
 
-const OSG::BitVector	VRMLTransformBase::ScaleOrientationFieldMask = 
-    (1 << VRMLTransformBase::ScaleOrientationFieldId);
+const OSG::BitVector  ComponentTransformBase::ScaleOrientationFieldMask = 
+    (1 << ComponentTransformBase::ScaleOrientationFieldId);
 
-const OSG::BitVector	VRMLTransformBase::TranslationFieldMask = 
-    (1 << VRMLTransformBase::TranslationFieldId);
+const OSG::BitVector  ComponentTransformBase::TranslationFieldMask = 
+    (1 << ComponentTransformBase::TranslationFieldId);
 
 
 
 // Field descriptions
 
-/*! \var Vec3f           VRMLTransformBase::_sfCenter
+/*! \var Vec3f           ComponentTransformBase::_sfCenter
     
 */
-/*! \var Quaternion      VRMLTransformBase::_sfRotation
+/*! \var Quaternion      ComponentTransformBase::_sfRotation
     
 */
-/*! \var Vec3f           VRMLTransformBase::_sfScale
+/*! \var Vec3f           ComponentTransformBase::_sfScale
     
 */
-/*! \var Quaternion      VRMLTransformBase::_sfScaleOrientation
+/*! \var Quaternion      ComponentTransformBase::_sfScaleOrientation
     
 */
-/*! \var Vec3f           VRMLTransformBase::_sfTranslation
+/*! \var Vec3f           ComponentTransformBase::_sfTranslation
     
 */
-//! VRMLTransform description
+//! ComponentTransform description
 
-FieldDescription *VRMLTransformBase::_desc[] = 
+FieldDescription *ComponentTransformBase::_desc[] = 
 {
     new FieldDescription(SFVec3f::getClassType(), 
                      "center", 
                      CenterFieldId, CenterFieldMask,
                      false,
-                     (FieldAccessMethod) &VRMLTransformBase::getSFCenter),
+                     (FieldAccessMethod) &ComponentTransformBase::getSFCenter),
     new FieldDescription(SFQuaternion::getClassType(), 
                      "rotation", 
                      RotationFieldId, RotationFieldMask,
                      false,
-                     (FieldAccessMethod) &VRMLTransformBase::getSFRotation),
+                     (FieldAccessMethod) &ComponentTransformBase::getSFRotation),
     new FieldDescription(SFVec3f::getClassType(), 
                      "scale", 
                      ScaleFieldId, ScaleFieldMask,
                      false,
-                     (FieldAccessMethod) &VRMLTransformBase::getSFScale),
+                     (FieldAccessMethod) &ComponentTransformBase::getSFScale),
     new FieldDescription(SFQuaternion::getClassType(), 
                      "scaleOrientation", 
                      ScaleOrientationFieldId, ScaleOrientationFieldMask,
                      false,
-                     (FieldAccessMethod) &VRMLTransformBase::getSFScaleOrientation),
+                     (FieldAccessMethod) &ComponentTransformBase::getSFScaleOrientation),
     new FieldDescription(SFVec3f::getClassType(), 
                      "translation", 
                      TranslationFieldId, TranslationFieldMask,
                      false,
-                     (FieldAccessMethod) &VRMLTransformBase::getSFTranslation)
+                     (FieldAccessMethod) &ComponentTransformBase::getSFTranslation)
 };
 
-//! VRMLTransform type
+//! ComponentTransform type
 
-FieldContainerType VRMLTransformBase::_type(
-    "VRMLTransform",
+FieldContainerType ComponentTransformBase::_type(
+    "ComponentTransform",
     "Transform",
     NULL,
-    (PrototypeCreateF) &VRMLTransformBase::createEmpty,
-    VRMLTransform::initMethod,
+    (PrototypeCreateF) &ComponentTransformBase::createEmpty,
+    ComponentTransform::initMethod,
     _desc,
     sizeof(_desc));
 
-//OSG_FIELD_CONTAINER_DEF(VRMLTransformBase, VRMLTransformPtr)
+//OSG_FIELD_CONTAINER_DEF(ComponentTransformBase, ComponentTransformPtr)
 
 /*------------------------------ get -----------------------------------*/
 
 static const char *getClassname(void)
 {
-    return "VRMLTransform"; 
+    return "ComponentTransform"; 
 }
 
-FieldContainerType &VRMLTransformBase::getType(void) 
+FieldContainerType &ComponentTransformBase::getType(void) 
 {
     return _type; 
 } 
 
-const FieldContainerType &VRMLTransformBase::getType(void) const 
+const FieldContainerType &ComponentTransformBase::getType(void) const 
 {
     return _type;
 } 
 /*! \}                                                                 */
 
-FieldContainerPtr VRMLTransformBase::shallowCopy(void) const 
+FieldContainerPtr ComponentTransformBase::shallowCopy(void) const 
 { 
-    VRMLTransformPtr returnValue; 
+    ComponentTransformPtr returnValue; 
 
-    newPtr(returnValue, dynamic_cast<const VRMLTransform *>(this)); 
+    newPtr(returnValue, dynamic_cast<const ComponentTransform *>(this)); 
 
     return returnValue; 
 }
 
-UInt32 VRMLTransformBase::getContainerSize(void) const 
+UInt32 ComponentTransformBase::getContainerSize(void) const 
 { 
-    return sizeof(VRMLTransformBase); 
+    return sizeof(ComponentTransformBase); 
 }
 
 
-void VRMLTransformBase::executeSync(      FieldContainer &other,
+void ComponentTransformBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((VRMLTransformBase *) &other, whichField);
+    this->executeSyncImpl((ComponentTransformBase *) &other, whichField);
 }
 
 /*------------------------- constructors ----------------------------------*/
 
 //! Constructor
 
-VRMLTransformBase::VRMLTransformBase(void) :
-	_sfCenter                 (), 
-	_sfRotation               (), 
-	_sfScale                  (), 
-	_sfScaleOrientation       (), 
-	_sfTranslation            (), 
-	Inherited() 
+ComponentTransformBase::ComponentTransformBase(void) :
+    _sfCenter                 (), 
+    _sfRotation               (), 
+    _sfScale                  (), 
+    _sfScaleOrientation       (), 
+    _sfTranslation            (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
-VRMLTransformBase::VRMLTransformBase(const VRMLTransformBase &source) :
-	_sfCenter                 (source._sfCenter                 ), 
-	_sfRotation               (source._sfRotation               ), 
-	_sfScale                  (source._sfScale                  ), 
-	_sfScaleOrientation       (source._sfScaleOrientation       ), 
-	_sfTranslation            (source._sfTranslation            ), 
-	Inherited                 (source)
+ComponentTransformBase::ComponentTransformBase(const ComponentTransformBase &source) :
+    _sfCenter                 (source._sfCenter                 ), 
+    _sfRotation               (source._sfRotation               ), 
+    _sfScale                  (source._sfScale                  ), 
+    _sfScaleOrientation       (source._sfScaleOrientation       ), 
+    _sfTranslation            (source._sfTranslation            ), 
+    Inherited                 (source)
 {
 }
 
@@ -247,13 +247,13 @@ VRMLTransformBase::VRMLTransformBase(const VRMLTransformBase &source) :
 
 //! Destructor
 
-VRMLTransformBase::~VRMLTransformBase(void)
+ComponentTransformBase::~ComponentTransformBase(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 VRMLTransformBase::getBinSize(const BitVector &whichField)
+UInt32 ComponentTransformBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
@@ -286,7 +286,7 @@ UInt32 VRMLTransformBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-void VRMLTransformBase::copyToBin(      BinaryDataHandler &pMem,
+void ComponentTransformBase::copyToBin(      BinaryDataHandler &pMem,
                                   const BitVector         &whichField)
 {
     Inherited::copyToBin(pMem, whichField);
@@ -319,7 +319,7 @@ void VRMLTransformBase::copyToBin(      BinaryDataHandler &pMem,
 
 }
 
-void VRMLTransformBase::copyFromBin(      BinaryDataHandler &pMem,
+void ComponentTransformBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
@@ -352,7 +352,7 @@ void VRMLTransformBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
-void VRMLTransformBase::executeSyncImpl(      VRMLTransformBase *pOther,
+void ComponentTransformBase::executeSyncImpl(      ComponentTransformBase *pOther,
                                         const BitVector         &whichField)
 {
 

@@ -81,12 +81,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
   public:
 
     enum 
-	{ 
-		ParentsFieldId     = Inherited::NextFieldId, 
-		NextFieldId        = ParentsFieldId + 1
-	};
+    { 
+        ParentsFieldId     = Inherited::NextFieldId, 
+        NextFieldId        = ParentsFieldId + 1
+    };
 
-	static const BitVector ParentsFieldMask;
+    static const BitVector ParentsFieldMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name        General Fieldcontainer Declaration                    */
@@ -104,8 +104,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     
           MFFieldContainerPtr *getMFParents(void);
 
-	void                       addParent   (FieldContainerPtr parent);
-	void                       subParent   (FieldContainerPtr parent);
+    void                       addParent   (FieldContainerPtr parent);
+    void                       subParent   (FieldContainerPtr parent);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -136,8 +136,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     /*! \name                  Type information                            */
     /*! \{                                                                 */
 
-	static FieldDescription   *_desc[];
-	static FieldContainerType  _type;
+    static FieldDescription   *_desc[];
+    static FieldContainerType  _type;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -183,9 +183,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     /*==========================  PRIVATE  ================================*/
   private:
 
-	friend class FieldContainer;
+    friend class FieldContainer;
 
-	/*! \brief prohibit default functions (move to 'public' if needed) */
+    /*! \brief prohibit default functions (move to 'public' if needed) */
 
     void operator =(const Attachment &source);
 };
@@ -219,13 +219,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
 
 
     enum 
-	{ 
-		SimpleFieldId     = Inherited::NextFieldId, 
-		NextFieldId       = SimpleFieldId + 1
-	};
+    { 
+        SimpleFieldId     = Inherited::NextFieldId, 
+        NextFieldId       = SimpleFieldId + 1
+    };
 
 
-	static const BitVector SimpleFieldMask;
+    static const BitVector SimpleFieldMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name        General Fieldcontainer Declaration                    */
@@ -271,8 +271,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
     /*! \name                  Type information                            */
     /*! \{                                                                 */
 
-	static FieldDescription   *_desc[];
-	static FieldContainerType  _type;
+    static FieldDescription   *_desc[];
+    static FieldContainerType  _type;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -313,7 +313,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
 
     friend class FieldContainer;
 
-	/*! \brief prohibit default functions (move to 'public' if needed) */
+    /*! \brief prohibit default functions (move to 'public' if needed) */
 
     SimpleAttachment &operator =(const SimpleAttachment &source);
 };
@@ -418,7 +418,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DynFieldAttachment :
     /*! \name                  Type information                            */
     /*! \{                                                                 */
 
-	static FieldContainerType _type;
+    static FieldContainerType _type;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -453,8 +453,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DynFieldAttachment :
 
     friend class FieldContainer;
 
-	
-	/*!\brief prohibit default functions (move to 'public' if needed) */
+    
+    /*!\brief prohibit default functions (move to 'public' if needed) */
 
     void operator =(const DynFieldAttachment &source);
 };

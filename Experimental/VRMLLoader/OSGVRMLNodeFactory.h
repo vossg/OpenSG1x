@@ -49,7 +49,6 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
-#include <OSGString.h>
 
 #ifdef OSG_SGI_STL
 #ifdef OSG_HASH_MAP_AS_EXT
@@ -140,7 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeFactory : public BaseT
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -160,7 +159,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeFactory : public BaseT
     //   instance functions                                                  
     //-----------------------------------------------------------------------
    
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLNodeFactory(const VRMLNodeFactory &source);
     void operator =(const VRMLNodeFactory &source);

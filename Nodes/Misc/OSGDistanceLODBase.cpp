@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.6 2001/09/19 14:36:41 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.7 2001/10/03 20:37:35 dirk Exp $";
     static char cvsid_hpp       [] = OSGDISTANCELODBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGDISTANCELODBASE_INLINE_CVSID;
 
@@ -83,10 +83,10 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	DistanceLODBase::CenterFieldMask = 
+const OSG::BitVector  DistanceLODBase::CenterFieldMask = 
     (1 << DistanceLODBase::CenterFieldId);
 
-const OSG::BitVector	DistanceLODBase::RangeFieldMask = 
+const OSG::BitVector  DistanceLODBase::RangeFieldMask = 
     (1 << DistanceLODBase::RangeFieldId);
 
 
@@ -172,18 +172,18 @@ void DistanceLODBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 DistanceLODBase::DistanceLODBase(void) :
-	_sfCenter                 (), 
-	_mfRange                  (), 
-	Inherited() 
+    _sfCenter                 (), 
+    _mfRange                  (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 DistanceLODBase::DistanceLODBase(const DistanceLODBase &source) :
-	_sfCenter                 (source._sfCenter                 ), 
-	_mfRange                  (source._mfRange                  ), 
-	Inherited                 (source)
+    _sfCenter                 (source._sfCenter                 ), 
+    _mfRange                  (source._mfRange                  ), 
+    Inherited                 (source)
 {
 }
 

@@ -27,7 +27,7 @@
 #include <OSGSceneFileHandler.h>
 
 #include <OSGDirectionalLight.h>
-#include <OSGVRMLTransform.h>
+#include <OSGComponentTransform.h>
 #include <OSGSimpleMaterial.h>
 
 #include "OSGViewport.h"
@@ -315,7 +315,7 @@ int main (int argc, char **argv)
 
 		    // the transform to move it
 		    NodePtr tn = Node::create();
-		    VRMLTransformPtr t = VRMLTransform::create();
+		    ComponentTransformPtr t = ComponentTransform::create();
 
 		    beginEditCP(tn);
 		    tn->setCore( t );

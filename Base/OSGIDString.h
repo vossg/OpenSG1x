@@ -36,114 +36,161 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-#ifndef _OSGLOGOFOREGROUND_H_
-#define _OSGLOGOFOREGROUND_H_
+#ifndef _OSGIDSTRING_H_
+#define _OSGIDSTRING_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
-
-#include <OSGLogoForegroundBase.h>
+#include <OSGBase.h>
+#include <OSGBaseTypes.h>
+#include <string.h>
+#include <vector>
+#include <iostream>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief *put brief class description here* 
+
+class IDString;
+OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os,
+                                              const IDString       &obj);
+
+/*! \ingroup BaseTypes
+ *  \brief OSGIDString
+ *
+ *  detailed
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING LogoForeground : public LogoForegroundBase
+class OSG_BASE_DLLMAPPING IDString
 {
-    /*==========================  PRIVATE  ================================*/  
- private:
+    /*==========================  PUBLIC  =================================*/
+  public:
 
-    typedef LogoForegroundBase Inherited;
-
-    /*==========================  PUBLIC  =================================*/ 
- public:
+    enum MemType
+    {
+        COPY,
+        LINK
+    };
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
-   
-    static const char *getClassname(void) { return "LogoForeground"; };
+
+    static const char *getClassname(void) { return "OSGIDString"; }
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     transformation                           */
-    /*! \{                                                                 */
-
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
- 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     dump                                     */
-    /*! \{                                                                 */
-
-    virtual void dump(      UInt32     uiIndent = 0, 
-                      const BitVector &bvFlags  = 0) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    access fields                             */
-    /*! \{                                                                 */
-
-    inline void addLogo(ImageP logo, Pnt2f position);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    draw                                      */
-    /*! \{                                                                 */
-
-    virtual void draw( DrawActionBase * action, Viewport * port );
-
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
- protected:
-  
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    LogoForeground(void);
-    LogoForeground(const LogoForeground &source);
-    
+    explicit IDString(UInt32 size = 0);
+
+    explicit IDString(const Char8 *str,  MemType memType = COPY);
+             IDString(const IDString &obj, MemType memType = COPY);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
- 
-    virtual ~LogoForeground(void); 
- 
-    /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/  
- private:
 
-    friend class FieldContainer;
-    friend class LogoForegroundBase;
+    virtual ~IDString(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Your Category                               */
+    /*! \{                                                                 */
+
+    inline const Char8   *str  (void) const { return _str; }
+
+    inline Bool          empty (void) const { return (_str && *_str) ?
+                                                 false : true; }
+
+    void   set       (const Char8 *str, MemType memType = COPY);
+
+    void   toUpper   (void);
+    void   toLower   (void);
+
+    UInt32 length    (void) const;
+
+    void   setLength (UInt32 length);
+
+    void   tokenize  (std::vector <IDString> &v);
+    void   tokenize  (std::vector <IDString*> &v);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Assignment                                 */
+    /*! \{                                                                 */
+
+    inline const IDString & operator =(const IDString &obj)
+        {
+            set(obj._str);
+
+            return *this;
+        }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Comparison                                  */
+    /*! \{                                                                 */
+
+    inline Bool operator < (const IDString &obj) const
+    {
+        return (_str && obj._str && (::strcmp(_str, obj._str) < 0));
+    }
+
+    inline Bool operator ==(const IDString &o)   const
+    {
+        return ((_str == o._str) ?
+                1 : (_str && o._str && !::strcmp(_str, o._str)));
+    }
+
+    inline Bool operator !=(const IDString &o)   const
+    {
+        return ! (*this == o);
+    }
+
+    inline Bool operator > (const IDString &o)   const
+    {
+        return ! (*this < o) && ! (*this == o);
+    }
+
+    inline Bool operator >=(const IDString &o)   const
+    {
+        return ! (*this < o);
+    }
+
+    inline Bool operator <=(const IDString &o)   const
+    {
+        return (*this < o) || (*this == o);
+    }
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    /*==========================  PRIVATE  ================================*/
+    private:
+
+    friend OSG_BASE_DLLMAPPING
+    std::ostream &operator <<(      std::ostream &os,
+                              const IDString       &obj);
 
     static char cvsid[];
 
-    static void initMethod( void );
+    Char8   *_str;
+    MemType  _memType;
 
-    void operator =(const LogoForeground &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-
-/** \brief class pointer
- */
-typedef LogoForeground *LogoForegroundP;
+typedef IDString *IDStringP;
 
 OSG_END_NAMESPACE
 
-#include <OSGLogoForeground.inl>
-#include <OSGLogoForegroundBase.inl>
+#include <OSGIDStringLink.h>
 
-#endif /* _OSGLOGOFOREGROUND_H_ */
+#endif /* _OSGSTRING_H_ */
+
 
 

@@ -217,13 +217,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFColor4f        	_sfDiffuse;
-    SFColor4f        	_sfAmbient;
-    SFColor4f        	_sfSpecular;
-    SFColor4f        	_sfEmission;
-    SFReal32         	_sfShininess;
-    SFBool           	_sfLit;
-    SFUInt32         	_sfColorMaterial;
+    SFColor4f           _sfDiffuse;
+    SFColor4f           _sfAmbient;
+    SFColor4f           _sfSpecular;
+    SFColor4f           _sfEmission;
+    SFReal32            _sfShininess;
+    SFBool              _sfLit;
+    SFUInt32            _sfColorMaterial;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -272,6 +272,6 @@ typedef MaterialChunkBase *MaterialChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.14 2001/09/19 14:36:41 mroth Exp $"
+#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.15 2001/10/03 20:37:35 dirk Exp $"
 
 #endif /* _OSGMATERIALCHUNKBASE_H_ */

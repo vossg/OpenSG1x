@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.12 2001/09/19 14:36:40 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.13 2001/10/03 20:37:34 dirk Exp $";
     static char cvsid_hpp       [] = OSGCHUNKMATERIALBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGCHUNKMATERIALBASE_INLINE_CVSID;
 
@@ -83,7 +83,7 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	ChunkMaterialBase::ChunksFieldMask = 
+const OSG::BitVector  ChunkMaterialBase::ChunksFieldMask = 
     (1 << ChunkMaterialBase::ChunksFieldId);
 
 
@@ -161,16 +161,16 @@ void ChunkMaterialBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 ChunkMaterialBase::ChunkMaterialBase(void) :
-	_mfChunks                 (), 
-	Inherited() 
+    _mfChunks                 (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 ChunkMaterialBase::ChunkMaterialBase(const ChunkMaterialBase &source) :
-	_mfChunks                 (source._mfChunks                 ), 
-	Inherited                 (source)
+    _mfChunks                 (source._mfChunks                 ), 
+    Inherited                 (source)
 {
 }
 

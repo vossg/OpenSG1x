@@ -74,7 +74,7 @@ SceneFileType::SceneFileType(const Char8  *suffixArray[],
     FINFO(( "Init %s Scene File Type %d\n", suffixArray[0], this ));
 
 	int count = (suffixByteCount / sizeof(const Char8 *)), i = 0;
-	list<String>::iterator sI;
+	list<IDString>::iterator sI;
 
 	_suffixList.resize(count);
 	for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++)
@@ -101,7 +101,7 @@ SceneFileType::~SceneFileType(void)
 //---------------------------------------------------------
 void SceneFileType::print(void)
 {
-	list<String>::iterator sI;
+	list<IDString>::iterator sI;
 
 	osgLog() << getName();
 
@@ -116,7 +116,7 @@ void SceneFileType::print(void)
 
 //---------------------------------------------------------
 
-list<String> &SceneFileType::suffixList(void)
+list<IDString> &SceneFileType::suffixList(void)
 {
     return _suffixList;
 }

@@ -68,7 +68,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.3 2001/09/25 10:18:18 dirk Exp $";
+    char cvsid_cpp[] = "@(#)$Id: OSGOFFSceneFileType.cpp,v 1.4 2001/10/03 20:37:33 dirk Exp $";
     char cvsid_hpp[] = OSGOFFSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -128,10 +128,10 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
 	NodePtr root;
 	GeometryPtr geo;
   Vec3f point;
-  GeoPosition3fPtr points;
- 	GeoIndexUI32Ptr index;
-	GeoPLengthPtr lens;
-	GeoPTypePtr type;   
+  GeoPositions3fPtr points;
+ 	GeoIndicesUI32Ptr index;
+	GeoPLengthsPtr lens;
+	GeoPTypesPtr type;   
   SimpleMaterialPtr mat;
   Int32 i,j,k,n,vN,fN,pType;
   Int32 triCount = 0, vertexCount, faceCount, uk;
@@ -149,10 +149,10 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
       // create the OSG objects
       root = Node::create();
       geo = Geometry::create();
-      points = GeoPosition3f::create();
-      index = GeoIndexUI32::create();  
-      lens = GeoPLengthUI32::create();  
-      type = GeoPTypeUI8::create();
+      points = GeoPositions3f::create();
+      index = GeoIndicesUI32::create();  
+      lens = GeoPLengthsUI32::create();  
+      type = GeoPTypesUI8::create();
       mat = SimpleMaterial::create();
       
       beginEditCP(mat);
@@ -173,7 +173,7 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
       beginEditCP ( geo );
       {
         geo->setPositions ( points );
-        geo->setIndex     ( index );
+        geo->setIndices   ( index );
         geo->setLengths   ( lens );
         geo->setTypes     ( type );
         geo->setMaterial  ( mat ); 

@@ -95,7 +95,7 @@ inline InlinePtr InlineBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 MFString *InlineBase::getMFUrl(void)
 {
-	return &_mfUrl;
+    return &_mfUrl;
 }
 
 
@@ -103,17 +103,17 @@ MFString *InlineBase::getMFUrl(void)
 OSG_SYSTEMLIB_DLLMAPPING
 String &InlineBase::getUrl(UInt32 index)
 {
-	return _mfUrl.getValue( index );
+    return _mfUrl.getValue( index );
 }
 
 MFString &InlineBase::getUrl(void)
 {
-	return _mfUrl;
+    return _mfUrl;
 }
 
 const MFString &InlineBase::getUrl(void) const
 {
-	return _mfUrl;
+    return _mfUrl;
 }
 
 

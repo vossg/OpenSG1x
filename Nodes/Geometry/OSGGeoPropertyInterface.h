@@ -147,16 +147,16 @@ struct AttachmentPropertyDesc
     /*! \}                                                                 */    
 };
 
-struct GeoPositionPropertyDesc
+struct GeoPositionsPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
     
-    static const Char8 *getTypeName (void) { return "GeoPosition";         }
+    static const Char8 *getTypeName (void) { return "GeoPositions";         }
 
-    static const Char8 *getGroupName(void) { return "GeoPosition";         }
-    static const Char8 *getClassName(void) { return "GeoPositionProperty"; }
+    static const Char8 *getGroupName(void) { return "GeoPositions";         }
+    static const Char8 *getClassName(void) { return "GeoPositionsProperty"; }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -171,22 +171,22 @@ struct GeoPositionPropertyDesc
 
     typedef Pnt3f                  GenericType;
 
-    typedef GeoPropertyInterface<GeoPositionPropertyDesc>          Interface;
-    typedef GeoPropertyInterface<GeoPositionPropertyDesc>::PtrType InterfacePtr;
+    typedef GeoPropertyInterface<GeoPositionsPropertyDesc>          Interface;
+    typedef GeoPropertyInterface<GeoPositionsPropertyDesc>::PtrType InterfacePtr;
     /*! \}                                                                 */    
 };
 
-typedef GeoPropertyInterface<GeoPositionPropertyDesc> GeoPositionInterface;
+typedef GeoPropertyInterface<GeoPositionsPropertyDesc> GeoPositionsInterface;
 
-struct GeoNormalPropertyDesc
+struct GeoNormalsPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
     
-    static const Char8 *getTypeName (void) { return "GeoNormal";         }
-    static const Char8 *getGroupName(void) { return "GeoNormal";         }
-    static const Char8 *getClassName(void) { return "GeoNormalProperty"; }
+    static const Char8 *getTypeName (void) { return "GeoNormals";         }
+    static const Char8 *getGroupName(void) { return "GeoNormals";         }
+    static const Char8 *getClassName(void) { return "GeoNormalsProperty"; }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -201,22 +201,22 @@ struct GeoNormalPropertyDesc
 
     typedef Vec3f                  GenericType;
 
-    typedef GeoPropertyInterface<GeoNormalPropertyDesc>          Interface;
-    typedef GeoPropertyInterface<GeoNormalPropertyDesc>::PtrType InterfacePtr;
+    typedef GeoPropertyInterface<GeoNormalsPropertyDesc>          Interface;
+    typedef GeoPropertyInterface<GeoNormalsPropertyDesc>::PtrType InterfacePtr;
     /*! \}                                                                 */        
 };
 
-typedef GeoPropertyInterface<GeoNormalPropertyDesc> GeoNormalInterface;
+typedef GeoPropertyInterface<GeoNormalsPropertyDesc> GeoNormalsInterface;
 
-struct GeoColorPropertyDesc
+struct GeoColorsPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
     
-    static const Char8 *getTypeName (void) { return "GeoColor";         }
-    static const Char8 *getGroupName(void) { return "GeoColor";         }
-    static const Char8 *getClassName(void) { return "GeoColorProperty"; }
+    static const Char8 *getTypeName (void) { return "GeoColors";         }
+    static const Char8 *getGroupName(void) { return "GeoColors";         }
+    static const Char8 *getClassName(void) { return "GeoColorsProperty"; }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -231,12 +231,12 @@ struct GeoColorPropertyDesc
 
     typedef Color3f                GenericType;
 
-    typedef GeoPropertyInterface<GeoColorPropertyDesc>          Interface;
-    typedef GeoPropertyInterface<GeoColorPropertyDesc>::PtrType InterfacePtr;
+    typedef GeoPropertyInterface<GeoColorsPropertyDesc>          Interface;
+    typedef GeoPropertyInterface<GeoColorsPropertyDesc>::PtrType InterfacePtr;
     /*! \}                                                                 */        
 };
 
-typedef GeoPropertyInterface<GeoColorPropertyDesc> GeoColorInterface;
+typedef GeoPropertyInterface<GeoColorsPropertyDesc> GeoColorsInterface;
 
 struct GeoTexCoordsPropertyDesc
 {
@@ -270,15 +270,15 @@ struct GeoTexCoordsPropertyDesc
 
 typedef GeoPropertyInterface<GeoTexCoordsPropertyDesc> GeoTexCoordsInterface;
 
-struct GeoIndexPropertyDesc
+struct GeoIndicesPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
     
-    static const Char8 *getTypeName (void) { return "GeoIndex";         }
-    static const Char8 *getGroupName(void) { return "GeoIndex";         }
-    static const Char8 *getClassName(void) { return "GeoIndexProperty"; }
+    static const Char8 *getTypeName (void) { return "GeoIndices";         }
+    static const Char8 *getGroupName(void) { return "GeoIndices";         }
+    static const Char8 *getClassName(void) { return "GeoIndicesProperty"; }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -293,22 +293,22 @@ struct GeoIndexPropertyDesc
 
     typedef UInt32                 GenericType;
 
-    typedef GeoPropertyInterface<GeoIndexPropertyDesc>          Interface;
-    typedef GeoPropertyInterface<GeoIndexPropertyDesc>::PtrType InterfacePtr;
+    typedef GeoPropertyInterface<GeoIndicesPropertyDesc>          Interface;
+    typedef GeoPropertyInterface<GeoIndicesPropertyDesc>::PtrType InterfacePtr;
     /*! \}                                                                 */        
 };
 
-typedef GeoPropertyInterface<GeoIndexPropertyDesc> GeoIndexInterface;
+typedef GeoPropertyInterface<GeoIndicesPropertyDesc> GeoIndicesInterface;
 
-struct GeoPTypePropertyDesc
+struct GeoPTypesPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
     
-    static const Char8 *getTypeName (void) { return "GeoPType"; }
-    static const Char8 *getGroupName(void) { return "GeoPType"; }
-    static const Char8 *getClassName(void) { return "GeoPTypeProperty"; }
+    static const Char8 *getTypeName (void) { return "GeoPTypes"; }
+    static const Char8 *getGroupName(void) { return "GeoPTypes"; }
+    static const Char8 *getClassName(void) { return "GeoPTypesProperty"; }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -323,23 +323,23 @@ struct GeoPTypePropertyDesc
 
     typedef UInt8                  GenericType;
 
-    typedef GeoPropertyInterface<GeoPTypePropertyDesc>          Interface;
-    typedef GeoPropertyInterface<GeoPTypePropertyDesc>::PtrType InterfacePtr;
+    typedef GeoPropertyInterface<GeoPTypesPropertyDesc>          Interface;
+    typedef GeoPropertyInterface<GeoPTypesPropertyDesc>::PtrType InterfacePtr;
     /*! \}                                                                 */        
 };
 
 
-typedef GeoPropertyInterface<GeoPTypePropertyDesc> GeoPTypeInterface;
+typedef GeoPropertyInterface<GeoPTypesPropertyDesc> GeoPTypesInterface;
 
-struct GeoPLengthPropertyDesc
+struct GeoPLengthsPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
     
-    static const Char8 *getTypeName (void) { return "GeoPLength";         }
-    static const Char8 *getClassName(void) { return "GeoPLengthProperty"; }
-    static const Char8 *getGroupName(void) { return "GeoPLength";         }
+    static const Char8 *getTypeName (void) { return "GeoPLengths";         }
+    static const Char8 *getClassName(void) { return "GeoPLengthsProperty"; }
+    static const Char8 *getGroupName(void) { return "GeoPLengths";         }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -354,12 +354,12 @@ struct GeoPLengthPropertyDesc
 
     typedef UInt32                 GenericType;
 
-    typedef GeoPropertyInterface<GeoPLengthPropertyDesc>          Interface;
-    typedef GeoPropertyInterface<GeoPLengthPropertyDesc>::PtrType InterfacePtr;
+    typedef GeoPropertyInterface<GeoPLengthsPropertyDesc>          Interface;
+    typedef GeoPropertyInterface<GeoPLengthsPropertyDesc>::PtrType InterfacePtr;
     /*! \}                                                                 */        
 };
 
-typedef GeoPropertyInterface<GeoPLengthPropertyDesc> GeoPLengthInterface;
+typedef GeoPropertyInterface<GeoPLengthsPropertyDesc> GeoPLengthsInterface;
 
 OSG_END_NAMESPACE
 

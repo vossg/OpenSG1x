@@ -16,7 +16,7 @@ int main (int argc, char **argv)
 	osg::StatCollector collector;
 	osg::StatElem *elem;
 	osg::Int32 fpsID = fpsDesc.getID();
-	osg::String str;
+	osg::IDString str;
 
 	elem = collector.getElem(fpsID);
 

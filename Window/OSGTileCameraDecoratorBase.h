@@ -210,12 +210,12 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFReal32         	_sfLeft;
-    SFReal32         	_sfRight;
-    SFReal32         	_sfBottom;
-    SFReal32         	_sfTop;
-    SFUInt32         	_sfFullWidth;
-    SFUInt32         	_sfFullHeight;
+    SFReal32            _sfLeft;
+    SFReal32            _sfRight;
+    SFReal32            _sfBottom;
+    SFReal32            _sfTop;
+    SFUInt32            _sfFullWidth;
+    SFUInt32            _sfFullHeight;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -264,6 +264,6 @@ typedef TileCameraDecoratorBase *TileCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.10 2001/09/19 14:36:41 mroth Exp $"
+#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.11 2001/10/03 20:37:36 dirk Exp $"
 
 #endif /* _OSGTILECAMERADECORATORBASE_H_ */

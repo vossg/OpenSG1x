@@ -185,7 +185,7 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     void pullBuffer(void);
     void freeMem   (void);
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
     BinaryDataHandler(const BinaryDataHandler &source);
     void operator =(const BinaryDataHandler &source);
 

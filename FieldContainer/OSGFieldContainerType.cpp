@@ -166,11 +166,11 @@ Bool FieldContainerType::initFields(void)
     {
         if(_pDesc[i]->isValid()) 
         {
-            descIt = _mDescMap.find(StringLink(_pDesc[i]->getCName()));
+            descIt = _mDescMap.find(IDStringLink(_pDesc[i]->getCName()));
 
             if(descIt == _mDescMap.end())
             {
-                _mDescMap[StringLink(_pDesc[i]->getCName())] = _pDesc[i];
+                _mDescMap[IDStringLink(_pDesc[i]->getCName())] = _pDesc[i];
 
                 _vDescVec.push_back(_pDesc[i]); 
             }
@@ -443,7 +443,7 @@ const FieldDescription *FieldContainerType::getFieldDescription(
 FieldDescription *FieldContainerType::findFieldDescription(
     const Char8 *szFieldName)
 {
-    DescMapIt descIt = _mDescMap.find(StringLink(szFieldName));
+    DescMapIt descIt = _mDescMap.find(IDStringLink(szFieldName));
 
     return (descIt == _mDescMap.end()) ? NULL : (*descIt).second;
 }     
@@ -451,7 +451,7 @@ FieldDescription *FieldContainerType::findFieldDescription(
 const FieldDescription *FieldContainerType::findFieldDescription(
     const Char8 *szFieldName) const
 {
-    DescMapConstIt descIt = _mDescMap.find(StringLink(szFieldName));
+    DescMapConstIt descIt = _mDescMap.find(IDStringLink(szFieldName));
 
     return (descIt == _mDescMap.end()) ? NULL : (*descIt).second;
 }     
@@ -473,7 +473,7 @@ UInt32 FieldContainerType::addDescription(const FieldDescription &desc)
     if(_bDescsAddable == false)
         return returnValue;
 
-    descIt = _mDescMap.find(StringLink(desc.getCName()));
+    descIt = _mDescMap.find(IDStringLink(desc.getCName()));
 
     if(desc.isValid())
     {
@@ -481,7 +481,7 @@ UInt32 FieldContainerType::addDescription(const FieldDescription &desc)
         {
             pDesc = new FieldDescription(desc);
 
-            _mDescMap[StringLink(pDesc->getCName())] = pDesc;
+            _mDescMap[IDStringLink(pDesc->getCName())] = pDesc;
 
             descVIt = find(_vDescVec.begin(), 
                            _vDescVec.end(),
@@ -529,7 +529,7 @@ Bool FieldContainerType::subDescription(UInt32 uiFieldId)
     if(pDesc == NULL || _bDescsAddable == false)
         return false;
 
-    descMIt = _mDescMap.find(StringLink(pDesc->getCName()));
+    descMIt = _mDescMap.find(IDStringLink(pDesc->getCName()));
 
     if(descMIt != _mDescMap.end())
     {

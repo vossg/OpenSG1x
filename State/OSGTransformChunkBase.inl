@@ -95,31 +95,31 @@ inline TransformChunkPtr TransformChunkBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFMatrix *TransformChunkBase::getSFMatrix(void)
 {
-	return &_sfMatrix;
+    return &_sfMatrix;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 Matrix &TransformChunkBase::getMatrix(void)
 {
-	return _sfMatrix.getValue();
+    return _sfMatrix.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Matrix &TransformChunkBase::getMatrix(void) const
 {
-	return _sfMatrix.getValue();
+    return _sfMatrix.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void TransformChunkBase::setMatrix(const Matrix &value)
 {
-	_sfMatrix.setValue(value);
+    _sfMatrix.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTransformChunkBase.inl,v 1.7 2001/09/17 14:15:07 vossg Exp $"
+#define OSGTRANSFORMCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTransformChunkBase.inl,v 1.8 2001/10/03 20:37:35 dirk Exp $"
 

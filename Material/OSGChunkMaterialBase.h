@@ -175,7 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFStateChunkPtr  	_mfChunks;
+    MFStateChunkPtr     _mfChunks;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,6 +224,6 @@ typedef ChunkMaterialBase *ChunkMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCHUNKMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGChunkMaterialBase.h,v 1.12 2001/09/19 14:36:40 mroth Exp $"
+#define OSGCHUNKMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGChunkMaterialBase.h,v 1.13 2001/10/03 20:37:34 dirk Exp $"
 
 #endif /* _OSGCHUNKMATERIALBASE_H_ */

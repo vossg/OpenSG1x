@@ -147,7 +147,7 @@ UInt32 TypeBase::getId(void) const
 /** \brief Get method for attribute name 
  */
 
-const String &TypeBase::getName(void) const
+const IDString &TypeBase::getName(void) const
 {
     return _szName;
 }
@@ -163,7 +163,7 @@ const Char8 *TypeBase::getCName(void) const
 /** \brief Get method for attribute parent name 
  */
 
-const String &TypeBase::getParentName (void) const
+const IDString &TypeBase::getParentName (void) const
 {
     return _szParentName;
 }

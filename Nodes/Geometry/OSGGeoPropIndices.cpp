@@ -54,13 +54,13 @@ OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
 
-#pragma instantiate GeoProperty        <GeoIndexUI32PropertyDesc >::_type
-#pragma instantiate GeoProperty        <GeoIndexUI32PropertyDesc >::_desc
+#pragma instantiate GeoProperty        <GeoIndicesUI32PropertyDesc >::_type
+#pragma instantiate GeoProperty        <GeoIndicesUI32PropertyDesc >::_desc
 
 #else
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
-                           GeoIndexUI32PropertyDesc, 
+                           GeoIndicesUI32PropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

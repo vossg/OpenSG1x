@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.12 2001/09/19 14:36:40 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.13 2001/10/03 20:37:35 dirk Exp $";
     static char cvsid_hpp       [] = OSGSPOTLIGHTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSPOTLIGHTBASE_INLINE_CVSID;
 
@@ -83,13 +83,13 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	SpotLightBase::DirectionFieldMask = 
+const OSG::BitVector  SpotLightBase::DirectionFieldMask = 
     (1 << SpotLightBase::DirectionFieldId);
 
-const OSG::BitVector	SpotLightBase::SpotExponentFieldMask = 
+const OSG::BitVector  SpotLightBase::SpotExponentFieldMask = 
     (1 << SpotLightBase::SpotExponentFieldId);
 
-const OSG::BitVector	SpotLightBase::SpotCutOffFieldMask = 
+const OSG::BitVector  SpotLightBase::SpotCutOffFieldMask = 
     (1 << SpotLightBase::SpotCutOffFieldId);
 
 
@@ -183,20 +183,20 @@ void SpotLightBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 SpotLightBase::SpotLightBase(void) :
-	_sfDirection              (), 
-	_sfSpotExponent           (), 
-	_sfSpotCutOff             (), 
-	Inherited() 
+    _sfDirection              (), 
+    _sfSpotExponent           (), 
+    _sfSpotCutOff             (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 SpotLightBase::SpotLightBase(const SpotLightBase &source) :
-	_sfDirection              (source._sfDirection              ), 
-	_sfSpotExponent           (source._sfSpotExponent           ), 
-	_sfSpotCutOff             (source._sfSpotCutOff             ), 
-	Inherited                 (source)
+    _sfDirection              (source._sfDirection              ), 
+    _sfSpotExponent           (source._sfSpotExponent           ), 
+    _sfSpotCutOff             (source._sfSpotCutOff             ), 
+    Inherited                 (source)
 {
 }
 

@@ -71,10 +71,6 @@ OSG_USING_NAMESPACE
  * \brief Set value from string
  */
 
-/** \fn String &Field::getStrValue(String &string) const
- *  \brief Dump the field to a given string
- */
-
 /** \fn void Field::operator =(const Field &source)
  *  \brief Not implemented.
  */

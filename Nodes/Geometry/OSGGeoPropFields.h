@@ -46,11 +46,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-typedef GeoPosition::PtrType GeoPositionPtr;
+typedef GeoPositions::PtrType GeoPositionsPtr;
 
 template <>
-struct FieldDataTraits<GeoPositionPtr> :
-    public FieldTraitsRecurseMapper<GeoPositionPtr>
+struct FieldDataTraits<GeoPositionsPtr> :
+    public FieldTraitsRecurseMapper<GeoPositionsPtr>
 {
     /*---------------------------------------------------------------------*/
     /*! \name                    Struct Specific                                 */
@@ -67,22 +67,22 @@ struct FieldDataTraits<GeoPositionPtr> :
     /*! \{                                                                 */
 
     static DataType &getType  (void) { return _type;              }
-    static Char8    *getSName (void) { return "SFGeoPositionPtr"; }
-    static Char8    *getMName (void) { return "MFGeoPositionPtr"; }
+    static Char8    *getSName (void) { return "SFGeoPositionsPtr"; }
+    static Char8    *getMName (void) { return "MFGeoPositionsPtr"; }
 
     /*! \}                                                                 */
 };
 
-typedef SField<GeoPositionPtr> SFGeoPositionPtr;
+typedef SField<GeoPositionsPtr> SFGeoPositionsPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<GeoPositionPtr>::_fieldType
+#pragma do_not_instantiate SField<GeoPositionsPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoPositionPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoPositionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -90,62 +90,62 @@ OSG_DLLEXPORT_DECL1(SField, GeoPositionPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 
 
-typedef GeoNormal::PtrType GeoNormalPtr;
+typedef GeoNormals::PtrType GeoNormalsPtr;
 
 template <>
-struct FieldDataTraits<GeoNormalPtr> :
-    public FieldTraitsRecurseMapper<GeoNormalPtr>
+struct FieldDataTraits<GeoNormalsPtr> :
+    public FieldTraitsRecurseMapper<GeoNormalsPtr>
 {
     static DataType                  _type;
     enum                            { StringConvertable = 0x00  };
     enum                            { bHasParent        = 0x01  };
 
     static DataType &getType  (void) { return _type;            }
-    static Char8    *getSName (void) { return "SFGeoNormalPtr"; }
-    static Char8    *getMName (void) { return "MFGeoNormalPtr"; }
+    static Char8    *getSName (void) { return "SFGeoNormalsPtr"; }
+    static Char8    *getMName (void) { return "MFGeoNormalsPtr"; }
 };
 
-typedef SField<GeoNormalPtr> SFGeoNormalPtr;
+typedef SField<GeoNormalsPtr> SFGeoNormalsPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<GeoNormalPtr>::_fieldType
+#pragma do_not_instantiate SField<GeoNormalsPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoNormalPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoNormalsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
 
 
 
-typedef GeoColor::PtrType GeoColorPtr;
+typedef GeoColors::PtrType GeoColorsPtr;
 
 template <>
-struct FieldDataTraits<GeoColorPtr> :
-    public FieldTraitsRecurseMapper<GeoColorPtr>
+struct FieldDataTraits<GeoColorsPtr> :
+    public FieldTraitsRecurseMapper<GeoColorsPtr>
 {
     static DataType                  _type;
     enum                             { StringConvertable = 0x00 };
     enum                             { bHasParent        = 0x01 };
 
     static DataType &getType  (void) { return _type;            }
-    static Char8    *getSName (void) { return "SFGeoColorPtr";  }
-    static Char8    *getMName (void) { return "MFGeoColorPtr";  }
+    static Char8    *getSName (void) { return "SFGeoColorsPtr";  }
+    static Char8    *getMName (void) { return "MFGeoColorsPtr";  }
 };
 
-typedef SField<GeoColorPtr> SFGeoColorPtr;
+typedef SField<GeoColorsPtr> SFGeoColorsPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<GeoColorPtr>::_fieldType
+#pragma do_not_instantiate SField<GeoColorsPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoColorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoColorsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -184,31 +184,31 @@ OSG_DLLEXPORT_DECL1(SField, GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 
 
-typedef GeoIndex::PtrType GeoIndexPtr;
+typedef GeoIndices::PtrType GeoIndicesPtr;
 
 template <>
-struct FieldDataTraits<GeoIndexPtr> :
-    public FieldTraitsRecurseMapper<GeoIndexPtr>
+struct FieldDataTraits<GeoIndicesPtr> :
+    public FieldTraitsRecurseMapper<GeoIndicesPtr>
 {
     static DataType                  _type;
     enum                             { StringConvertable = 0x00 };
     enum                             { bHasParent        = 0x01 };
 
     static DataType &getType  (void) { return _type;            }
-    static Char8    *getSName (void) { return "SFGeoIndexPtr";  }
-    static Char8    *getMName (void) { return "MFGeoIndexPtr";  }
+    static Char8    *getSName (void) { return "SFGeoIndicesPtr";  }
+    static Char8    *getMName (void) { return "MFGeoIndicesPtr";  }
 };
 
-typedef SField<GeoIndexPtr> SFGeoIndexPtr;
+typedef SField<GeoIndicesPtr> SFGeoIndicesPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<GeoIndexPtr>::_fieldType
+#pragma do_not_instantiate SField<GeoIndicesPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoIndexPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoIndicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -216,62 +216,62 @@ OSG_DLLEXPORT_DECL1(SField, GeoIndexPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 
 
-typedef GeoPType::PtrType GeoPTypePtr;
+typedef GeoPTypes::PtrType GeoPTypesPtr;
 
 template <>
-struct FieldDataTraits<GeoPTypePtr> :
-    public FieldTraitsRecurseMapper<GeoPTypePtr>
+struct FieldDataTraits<GeoPTypesPtr> :
+    public FieldTraitsRecurseMapper<GeoPTypesPtr>
 {
     static DataType                  _type;
     enum                             { StringConvertable = 0x00 };
     enum                             { bHasParent        = 0x01 };
 
     static DataType &getType  (void) { return _type;            }
-    static Char8    *getSName (void) { return "SFGeoPTypePtr";  }
-    static Char8    *getMName (void) { return "MFGeoPTypePtr";  }
+    static Char8    *getSName (void) { return "SFGeoPTypesPtr";  }
+    static Char8    *getMName (void) { return "MFGeoPTypesPtr";  }
 };
 
-typedef SField<GeoPTypePtr> SFGeoPTypePtr;
+typedef SField<GeoPTypesPtr> SFGeoPTypesPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<GeoPTypePtr>::_fieldType
+#pragma do_not_instantiate SField<GeoPTypesPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoPTypePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoPTypesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
 
 
 
-typedef GeoPLength::PtrType GeoPLengthPtr;
+typedef GeoPLengths::PtrType GeoPLengthsPtr;
 
 template <>
-struct FieldDataTraits<GeoPLengthPtr> :
-    public FieldTraitsRecurseMapper<GeoPLengthPtr>
+struct FieldDataTraits<GeoPLengthsPtr> :
+    public FieldTraitsRecurseMapper<GeoPLengthsPtr>
 {
     static DataType                  _type;
     enum                             { StringConvertable = 0x00  };
     enum                             { bHasParent        = 0x01  };
 
     static DataType &getType  (void) { return _type;             }
-    static char     *getSName (void) { return "SFGeoPLengthPtr"; }
-    static char     *getMName (void) { return "MFGeoPLengthPtr"; }
+    static char     *getSName (void) { return "SFGeoPLengthsPtr"; }
+    static char     *getMName (void) { return "MFGeoPLengthsPtr"; }
 };
 
-typedef SField<GeoPLengthPtr> SFGeoPLengthPtr;
+typedef SField<GeoPLengthsPtr> SFGeoPLengthsPtr;
 
 #ifndef OSG_COMPILEGEOPROPFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate SField<GeoPLengthPtr>::_fieldType
+#pragma do_not_instantiate SField<GeoPLengthsPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, GeoPLengthPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, GeoPLengthsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

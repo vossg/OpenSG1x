@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.13 2001/09/19 14:36:41 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.14 2001/10/03 20:37:35 dirk Exp $";
     static char cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 
@@ -83,13 +83,13 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	BlendChunkBase::SrcFactorFieldMask = 
+const OSG::BitVector  BlendChunkBase::SrcFactorFieldMask = 
     (1 << BlendChunkBase::SrcFactorFieldId);
 
-const OSG::BitVector	BlendChunkBase::DestFactorFieldMask = 
+const OSG::BitVector  BlendChunkBase::DestFactorFieldMask = 
     (1 << BlendChunkBase::DestFactorFieldId);
 
-const OSG::BitVector	BlendChunkBase::ColorFieldMask = 
+const OSG::BitVector  BlendChunkBase::ColorFieldMask = 
     (1 << BlendChunkBase::ColorFieldId);
 
 
@@ -183,20 +183,20 @@ void BlendChunkBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 BlendChunkBase::BlendChunkBase(void) :
-	_sfSrcFactor              (), 
-	_sfDestFactor             (), 
-	_sfColor                  (Color4f(0,0,0,0)), 
-	Inherited() 
+    _sfSrcFactor              (), 
+    _sfDestFactor             (), 
+    _sfColor                  (Color4f(0,0,0,0)), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 BlendChunkBase::BlendChunkBase(const BlendChunkBase &source) :
-	_sfSrcFactor              (source._sfSrcFactor              ), 
-	_sfDestFactor             (source._sfDestFactor             ), 
-	_sfColor                  (source._sfColor                  ), 
-	Inherited                 (source)
+    _sfSrcFactor              (source._sfSrcFactor              ), 
+    _sfDestFactor             (source._sfDestFactor             ), 
+    _sfColor                  (source._sfColor                  ), 
+    Inherited                 (source)
 {
 }
 

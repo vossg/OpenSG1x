@@ -189,9 +189,9 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFUInt32         	_sfSrcFactor;
-    SFUInt32         	_sfDestFactor;
-    SFColor4f        	_sfColor;
+    SFUInt32            _sfSrcFactor;
+    SFUInt32            _sfDestFactor;
+    SFColor4f           _sfColor;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -240,6 +240,6 @@ typedef BlendChunkBase *BlendChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.14 2001/09/19 14:36:41 mroth Exp $"
+#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.15 2001/10/03 20:37:35 dirk Exp $"
 
 #endif /* _OSGBLENDCHUNKBASE_H_ */

@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.12 2001/09/19 14:36:40 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.13 2001/10/03 20:37:34 dirk Exp $";
     static char cvsid_hpp       [] = OSGDIRECTIONALLIGHTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGDIRECTIONALLIGHTBASE_INLINE_CVSID;
 
@@ -83,7 +83,7 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	DirectionalLightBase::DirectionFieldMask = 
+const OSG::BitVector  DirectionalLightBase::DirectionFieldMask = 
     (1 << DirectionalLightBase::DirectionFieldId);
 
 
@@ -161,16 +161,16 @@ void DirectionalLightBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 DirectionalLightBase::DirectionalLightBase(void) :
-	_sfDirection              (), 
-	Inherited() 
+    _sfDirection              (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 DirectionalLightBase::DirectionalLightBase(const DirectionalLightBase &source) :
-	_sfDirection              (source._sfDirection              ), 
-	Inherited                 (source)
+    _sfDirection              (source._sfDirection              ), 
+    Inherited                 (source)
 {
 }
 

@@ -70,38 +70,38 @@ OSG_BEGIN_NAMESPACE
 
 class OSGWriter
 {
-	public:
-	OSGWriter(ostream& stream, UInt32 indentStep=4);
-	~OSGWriter(void);
-	void write( NodePtr node );
-	void write( vector<NodePtr> nodes );
-	
-	private:
-	void indentLine(void);
-	void setIndentStep( UInt32 newStep );
-	void doListFC( FieldContainerPtr fieldConPtr );
-	void doPrintListedFC( FieldContainerPtr fieldConPtr );
-	
-	ostream& _outstream;
-	
-	struct SharedFCInfoHelper
-	{
-		Bool printed;
-		Bool named;
-		std::string name;
-		static std::string buildName(FieldContainerPtr fcptr,
-									 UInt32 num);
-		SharedFCInfoHelper(void) : printed(false), named(false) {}
-	};
-	
-	typedef map<FieldContainerPtr, SharedFCInfoHelper> SharedFCInfoMap;
-	
-	SharedFCInfoMap _fcmap;
-	UInt32 _sharedFCCount;
-	UInt32 _indention;
-	UInt32 _indentStep;
+    public:
+    OSGWriter(ostream& stream, UInt32 indentStep=4);
+    ~OSGWriter(void);
+    void write( NodePtr node );
+    void write( vector<NodePtr> nodes );
+    
+    private:
+    void indentLine(void);
+    void setIndentStep( UInt32 newStep );
+    void doListFC( FieldContainerPtr fieldConPtr );
+    void doPrintListedFC( FieldContainerPtr fieldConPtr );
+    
+    ostream& _outstream;
+    
+    struct SharedFCInfoHelper
+    {
+        Bool printed;
+        Bool named;
+        std::string name;
+        static std::string buildName(FieldContainerPtr fcptr,
+                                     UInt32 num);
+        SharedFCInfoHelper(void) : printed(false), named(false) {}
+    };
+    
+    typedef map<FieldContainerPtr, SharedFCInfoHelper> SharedFCInfoMap;
+    
+    SharedFCInfoMap _fcmap;
+    UInt32 _sharedFCCount;
+    UInt32 _indention;
+    UInt32 _indentStep;
 };
 
 OSG_END_NAMESPACE
-	
+    
 #endif /* _OSGOSGWRITER_H_ */

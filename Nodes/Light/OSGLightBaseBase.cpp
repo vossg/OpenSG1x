@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.13 2001/09/19 14:36:40 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.14 2001/10/03 20:37:35 dirk Exp $";
     static char cvsid_hpp       [] = OSGLIGHTBASEBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGLIGHTBASEBASE_INLINE_CVSID;
 
@@ -83,28 +83,28 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	LightBaseBase::AmbientFieldMask = 
+const OSG::BitVector  LightBaseBase::AmbientFieldMask = 
     (1 << LightBaseBase::AmbientFieldId);
 
-const OSG::BitVector	LightBaseBase::DiffuseFieldMask = 
+const OSG::BitVector  LightBaseBase::DiffuseFieldMask = 
     (1 << LightBaseBase::DiffuseFieldId);
 
-const OSG::BitVector	LightBaseBase::SpecularFieldMask = 
+const OSG::BitVector  LightBaseBase::SpecularFieldMask = 
     (1 << LightBaseBase::SpecularFieldId);
 
-const OSG::BitVector	LightBaseBase::BeaconFieldMask = 
+const OSG::BitVector  LightBaseBase::BeaconFieldMask = 
     (1 << LightBaseBase::BeaconFieldId);
 
-const OSG::BitVector	LightBaseBase::OnFieldMask = 
+const OSG::BitVector  LightBaseBase::OnFieldMask = 
     (1 << LightBaseBase::OnFieldId);
 
-const OSG::BitVector	LightBaseBase::ConstantAttenuationFieldMask = 
+const OSG::BitVector  LightBaseBase::ConstantAttenuationFieldMask = 
     (1 << LightBaseBase::ConstantAttenuationFieldId);
 
-const OSG::BitVector	LightBaseBase::LinearAttenuationFieldMask = 
+const OSG::BitVector  LightBaseBase::LinearAttenuationFieldMask = 
     (1 << LightBaseBase::LinearAttenuationFieldId);
 
-const OSG::BitVector	LightBaseBase::QuadraticAttenuationFieldMask = 
+const OSG::BitVector  LightBaseBase::QuadraticAttenuationFieldMask = 
     (1 << LightBaseBase::QuadraticAttenuationFieldId);
 
 
@@ -229,30 +229,30 @@ void LightBaseBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 LightBaseBase::LightBaseBase(void) :
-	_sfAmbient                (), 
-	_sfDiffuse                (), 
-	_sfSpecular               (), 
-	_sfBeacon                 (), 
-	_sfOn                     (Bool(true)), 
-	_sfConstantAttenuation    (Real32(1)), 
-	_sfLinearAttenuation      (Real32(0)), 
-	_sfQuadraticAttenuation   (Real32(0)), 
-	Inherited() 
+    _sfAmbient                (), 
+    _sfDiffuse                (), 
+    _sfSpecular               (), 
+    _sfBeacon                 (), 
+    _sfOn                     (Bool(true)), 
+    _sfConstantAttenuation    (Real32(1)), 
+    _sfLinearAttenuation      (Real32(0)), 
+    _sfQuadraticAttenuation   (Real32(0)), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 LightBaseBase::LightBaseBase(const LightBaseBase &source) :
-	_sfAmbient                (source._sfAmbient                ), 
-	_sfDiffuse                (source._sfDiffuse                ), 
-	_sfSpecular               (source._sfSpecular               ), 
-	_sfBeacon                 (source._sfBeacon                 ), 
-	_sfOn                     (source._sfOn                     ), 
-	_sfConstantAttenuation    (source._sfConstantAttenuation    ), 
-	_sfLinearAttenuation      (source._sfLinearAttenuation      ), 
-	_sfQuadraticAttenuation   (source._sfQuadraticAttenuation   ), 
-	Inherited                 (source)
+    _sfAmbient                (source._sfAmbient                ), 
+    _sfDiffuse                (source._sfDiffuse                ), 
+    _sfSpecular               (source._sfSpecular               ), 
+    _sfBeacon                 (source._sfBeacon                 ), 
+    _sfOn                     (source._sfOn                     ), 
+    _sfConstantAttenuation    (source._sfConstantAttenuation    ), 
+    _sfLinearAttenuation      (source._sfLinearAttenuation      ), 
+    _sfQuadraticAttenuation   (source._sfQuadraticAttenuation   ), 
+    Inherited                 (source)
 {
 }
 

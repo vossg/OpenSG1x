@@ -87,7 +87,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.15 2001/10/02 06:16:12 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.16 2001/10/03 20:37:36 dirk Exp $";
     static char cvsid_hpp       [] = OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID;
 
@@ -98,10 +98,10 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	GradientBackgroundBase::ColorFieldMask = 
+const OSG::BitVector  GradientBackgroundBase::ColorFieldMask = 
     (1 << GradientBackgroundBase::ColorFieldId);
 
-const OSG::BitVector	GradientBackgroundBase::PositionFieldMask = 
+const OSG::BitVector  GradientBackgroundBase::PositionFieldMask = 
     (1 << GradientBackgroundBase::PositionFieldId);
 
 
@@ -187,18 +187,18 @@ void GradientBackgroundBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 GradientBackgroundBase::GradientBackgroundBase(void) :
-	_mfColor                  (), 
-	_mfPosition               (), 
-	Inherited() 
+    _mfColor                  (), 
+    _mfPosition               (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 GradientBackgroundBase::GradientBackgroundBase(const GradientBackgroundBase &source) :
-	_mfColor                  (source._mfColor                  ), 
-	_mfPosition               (source._mfPosition               ), 
-	Inherited                 (source)
+    _mfColor                  (source._mfColor                  ), 
+    _mfPosition               (source._mfPosition               ), 
+    Inherited                 (source)
 {
 }
 

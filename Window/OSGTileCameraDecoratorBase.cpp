@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.12 2001/10/02 06:16:12 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.13 2001/10/03 20:37:36 dirk Exp $";
     static char cvsid_hpp       [] = OSGTILECAMERADECORATORBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGTILECAMERADECORATORBASE_INLINE_CVSID;
 
@@ -100,22 +100,22 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector	TileCameraDecoratorBase::LeftFieldMask = 
+const OSG::BitVector  TileCameraDecoratorBase::LeftFieldMask = 
     (1 << TileCameraDecoratorBase::LeftFieldId);
 
-const OSG::BitVector	TileCameraDecoratorBase::RightFieldMask = 
+const OSG::BitVector  TileCameraDecoratorBase::RightFieldMask = 
     (1 << TileCameraDecoratorBase::RightFieldId);
 
-const OSG::BitVector	TileCameraDecoratorBase::BottomFieldMask = 
+const OSG::BitVector  TileCameraDecoratorBase::BottomFieldMask = 
     (1 << TileCameraDecoratorBase::BottomFieldId);
 
-const OSG::BitVector	TileCameraDecoratorBase::TopFieldMask = 
+const OSG::BitVector  TileCameraDecoratorBase::TopFieldMask = 
     (1 << TileCameraDecoratorBase::TopFieldId);
 
-const OSG::BitVector	TileCameraDecoratorBase::FullWidthFieldMask = 
+const OSG::BitVector  TileCameraDecoratorBase::FullWidthFieldMask = 
     (1 << TileCameraDecoratorBase::FullWidthFieldId);
 
-const OSG::BitVector	TileCameraDecoratorBase::FullHeightFieldMask = 
+const OSG::BitVector  TileCameraDecoratorBase::FullHeightFieldMask = 
     (1 << TileCameraDecoratorBase::FullHeightFieldId);
 
 
@@ -233,26 +233,26 @@ void TileCameraDecoratorBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 TileCameraDecoratorBase::TileCameraDecoratorBase(void) :
-	_sfLeft                   (Real32(0)), 
-	_sfRight                  (Real32(1)), 
-	_sfBottom                 (Real32(0)), 
-	_sfTop                    (Real32(1)), 
-	_sfFullWidth              (UInt32(0)), 
-	_sfFullHeight             (UInt32(0)), 
-	Inherited() 
+    _sfLeft                   (Real32(0)), 
+    _sfRight                  (Real32(1)), 
+    _sfBottom                 (Real32(0)), 
+    _sfTop                    (Real32(1)), 
+    _sfFullWidth              (UInt32(0)), 
+    _sfFullHeight             (UInt32(0)), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 TileCameraDecoratorBase::TileCameraDecoratorBase(const TileCameraDecoratorBase &source) :
-	_sfLeft                   (source._sfLeft                   ), 
-	_sfRight                  (source._sfRight                  ), 
-	_sfBottom                 (source._sfBottom                 ), 
-	_sfTop                    (source._sfTop                    ), 
-	_sfFullWidth              (source._sfFullWidth              ), 
-	_sfFullHeight             (source._sfFullHeight             ), 
-	Inherited                 (source)
+    _sfLeft                   (source._sfLeft                   ), 
+    _sfRight                  (source._sfRight                  ), 
+    _sfBottom                 (source._sfBottom                 ), 
+    _sfTop                    (source._sfTop                    ), 
+    _sfFullWidth              (source._sfFullWidth              ), 
+    _sfFullHeight             (source._sfFullHeight             ), 
+    Inherited                 (source)
 {
 }
 

@@ -51,6 +51,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 #include <vector>
+#include <string>
 
 #ifdef OSG_SGI_STL
 #ifdef OSG_HASH_MAP_AS_EXT
@@ -72,7 +73,7 @@
 #include <OSGSFImageTypes.h>
 #include <OSGSFVecTypes.h>
 #include <OSGSFFieldContainerPtr.h>
-#include <OSGVRMLTransform.h>
+#include <OSGComponentTransform.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -210,7 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -224,7 +225,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLNodeDesc(const VRMLNodeDesc &source);
     void operator =(const VRMLNodeDesc &source);
@@ -270,7 +271,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
 
     Field            *_pCurrField;
 
-    String            _szCurrentName;
+    string            _szCurrentName;
     bool              _bSaveOnEnd;
 
     UInt32            _uiOptions;
@@ -407,7 +408,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -421,7 +422,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLShapeDesc(const VRMLShapeDesc &source);
     void operator =(const VRMLShapeDesc &source);
@@ -552,7 +553,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -566,7 +567,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLGeometryDesc(const VRMLGeometryDesc &source);
     void operator =(const VRMLGeometryDesc &source);
@@ -598,8 +599,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
     Bool          _bInIndex;
     UInt32        _uiNumVertices;
 
-    GeoPTypePtr   _pTypeField;
-    GeoPLengthPtr _pLengthField;
+    GeoPTypesPtr   _pTypeField;
+    GeoPLengthsPtr _pLengthField;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -706,7 +707,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -720,7 +721,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLGeometryPartDesc(const VRMLGeometryPartDesc &source);
     void operator =(const VRMLGeometryPartDesc &source);
@@ -852,7 +853,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryObjectDesc : public VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -866,7 +867,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryObjectDesc : public VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLGeometryObjectDesc(const VRMLGeometryObjectDesc &source);
     void operator =(const VRMLGeometryObjectDesc &source);
@@ -996,7 +997,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -1010,7 +1011,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLAppearanceDesc(const VRMLAppearanceDesc &source);
     void operator =(const VRMLAppearanceDesc &source);
@@ -1149,7 +1150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -1163,7 +1164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLMaterialDesc(const VRMLMaterialDesc &source);
     void operator =(const VRMLMaterialDesc &source);
@@ -1314,7 +1315,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLImageTextureDesc : public VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -1328,7 +1329,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLImageTextureDesc : public VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLImageTextureDesc(const VRMLImageTextureDesc &source);
     void operator =(const VRMLImageTextureDesc &source);
@@ -1467,7 +1468,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLPixelTextureDesc : public VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -1481,7 +1482,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLPixelTextureDesc : public VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLPixelTextureDesc(const VRMLPixelTextureDesc &source);
     void operator =(const VRMLPixelTextureDesc &source);
@@ -1625,7 +1626,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLLODDesc : public VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -1639,7 +1640,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLLODDesc : public VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLLODDesc(const VRMLLODDesc &source);
     void operator =(const VRMLLODDesc &source);
@@ -1769,7 +1770,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSwitchDesc : public VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -1783,7 +1784,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSwitchDesc : public VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLSwitchDesc(const VRMLSwitchDesc &source);
     void operator =(const VRMLSwitchDesc &source);
@@ -1915,7 +1916,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGroupDesc : public VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -1929,7 +1930,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGroupDesc : public VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLGroupDesc(const VRMLGroupDesc &source);
     void operator =(const VRMLGroupDesc &source);
@@ -2065,7 +2066,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLInlineDesc : public VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -2079,7 +2080,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLInlineDesc : public VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLInlineDesc(const VRMLInlineDesc &source);
     void operator =(const VRMLInlineDesc &source);
@@ -2214,7 +2215,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLViewpointDesc : public VRMLNodeDesc
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -2228,7 +2229,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLViewpointDesc : public VRMLNodeDesc
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     VRMLViewpointDesc(const VRMLViewpointDesc &source);
     void operator =(const VRMLViewpointDesc &source);
@@ -2279,8 +2280,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLViewpointDesc : public VRMLNodeDesc
 
     virtual void        reset(void);
 
-    virtual VRMLTransformPtr getDefaultBeacon(void);
-//	virtual FieldContainerPtr getSaveFieldContainer(void);
+    virtual ComponentTransformPtr getDefaultBeacon(void);
+//  virtual FieldContainerPtr getSaveFieldContainer(void);
 
     /*------------------------- your_category -------------------------------*/
 

@@ -137,7 +137,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -167,7 +167,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     ChangeList(const ChangeList &source);
     void operator =(const ChangeList &source);

@@ -182,8 +182,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFColor3f        	_mfColor;
-    MFReal32         	_mfAngle;
+    MFColor3f           _mfColor;
+    MFReal32            _mfAngle;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -232,6 +232,6 @@ typedef DynamicBackgroundBase *DynamicBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundBase.h,v 1.13 2001/09/19 14:36:41 mroth Exp $"
+#define OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundBase.h,v 1.14 2001/10/03 20:37:36 dirk Exp $"
 
 #endif /* _OSGDYNAMICBACKGROUNDBASE_H_ */

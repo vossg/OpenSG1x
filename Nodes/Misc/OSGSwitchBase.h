@@ -175,7 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public NodeCore
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFInt32          	_sfChoice;
+    SFInt32             _sfChoice;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

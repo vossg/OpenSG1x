@@ -95,31 +95,31 @@ inline PointLightPtr PointLightBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFPnt3f *PointLightBase::getSFPosition(void)
 {
-	return &_sfPosition;
+    return &_sfPosition;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 Pnt3f &PointLightBase::getPosition(void)
 {
-	return _sfPosition.getValue();
+    return _sfPosition.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Pnt3f &PointLightBase::getPosition(void) const
 {
-	return _sfPosition.getValue();
+    return _sfPosition.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void PointLightBase::setPosition(const Pnt3f &value)
 {
-	_sfPosition.setValue(value);
+    _sfPosition.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGPointLightBase.inl,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+#define OSGPOINTLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGPointLightBase.inl,v 1.8 2001/10/03 20:37:35 dirk Exp $"
 

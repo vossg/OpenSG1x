@@ -70,13 +70,13 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainer : public FieldContainer
 
     /*==========================  PUBLIC  =================================*/
 
-	enum 
-	{ 
-		AttachmentsFieldId = Inherited::NextFieldId, 
-		NextFieldId        = AttachmentsFieldId + 1
-	};
+    enum 
+    { 
+        AttachmentsFieldId = Inherited::NextFieldId, 
+        NextFieldId        = AttachmentsFieldId + 1
+    };
 
-	static const BitVector AttachmentsFieldMask;
+    static const BitVector AttachmentsFieldMask;
 
 
     /*---------------------------------------------------------------------*/
@@ -192,7 +192,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainer : public FieldContainer
     friend class FieldContainer;
     friend class FieldContainerType;
 
-	/*!\brief prohibit default functions (move to 'public' if needed) */
+    /*!\brief prohibit default functions (move to 'public' if needed) */
 
     void operator =(const AttachmentContainer &source);
 };

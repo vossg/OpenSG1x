@@ -44,7 +44,7 @@
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
-#include <OSGString.h>
+#include <OSGIDStringLink.h>
 #include <OSGFieldContainerPtrForward.h>
 #include <map>
 #include <vector>
@@ -82,8 +82,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
   private:
 
     typedef map<UInt32,     FieldContainerType *>  TypeIdMap;
-    typedef map<StringLink, FieldContainerType *>  TypeNameMap;
-    typedef map<StringLink, UInt16              >  GroupMap;
+    typedef map<IDStringLink, FieldContainerType *>  TypeNameMap;
+    typedef map<IDStringLink, UInt16              >  GroupMap;
 
     typedef vector<FieldContainerType          *>  UninitializedTypeStore;
     typedef vector<FieldContainerPtr            >  FieldContainerStore;
@@ -104,11 +104,11 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     friend class FieldContainerPtrBase;
 
 
-	/*!\brief prohibit default function (move to 'public' if needed) */
+    /*!\brief prohibit default function (move to 'public' if needed) */
 
     FieldContainerFactory(const FieldContainerFactory &source);
 
-	/*!\brief prohibit default function (move to 'public' if needed) */
+    /*!\brief prohibit default function (move to 'public' if needed) */
 
     void operator =(const FieldContainerFactory &source);
 
@@ -183,7 +183,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     /*! \name                 Write FCD From Type                          */
     /*! \{                                                                 */
 
-	void writeSingleTypeFCD(ostream &out, const FieldContainerType *type);
+    void writeSingleTypeFCD(ostream &out, const FieldContainerType *type);
 
     /*! \}                                                                 */
     /*==========================  PUBLIC  =================================*/
@@ -243,8 +243,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     /*! \name               Write FCD From Name                            */
     /*! \{                                                                 */
 
-	void writeFCD( char * name = NULL, ostream * out = NULL );
-	
+    void writeFCD( char * name = NULL, ostream * out = NULL );
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name               Get Containerstore                             */

@@ -51,7 +51,7 @@
 #include <string>
 
 #include "OSGFieldContainerFactory.h"
-#include "OSGString.h"
+#include "OSGIDStringLink.h"
 #include "OSGLog.h"
 #include "OSGThreadManager.h"
 #include "OSGLock.h"
@@ -210,7 +210,7 @@ Bool FieldContainerFactory::initializePendingTypes(void)
                 uninitIt = _pUnitTypesStore->erase(uninitIt);
 
                 (*_pTypeIdMap  )[pType->getId()               ] = pType;
-                (*_pTypeNameMap)[StringLink(pType->getCName())] = pType;
+                (*_pTypeNameMap)[IDStringLink(pType->getCName())] = pType;
             }
             else
             {
@@ -219,7 +219,7 @@ Bool FieldContainerFactory::initializePendingTypes(void)
                     uninitIt = _pUnitTypesStore->erase(uninitIt);
 
                     (*_pTypeIdMap  )[pType->getId()               ] = pType;
-                    (*_pTypeNameMap)[StringLink(pType->getCName())] = pType;
+                    (*_pTypeNameMap)[IDStringLink(pType->getCName())] = pType;
                 }
                 else
                 {
@@ -385,7 +385,7 @@ UInt16 FieldContainerFactory::registerGroup(const Char8 *szName)
 
         returnValue                       = _pGroupMap->size() + 1;
 
-		(*_pGroupMap)[StringLink(szName)] = returnValue;
+		(*_pGroupMap)[IDStringLink(szName)] = returnValue;
 
         if(_pMapLock != NULL)
             _pMapLock->release();
@@ -414,7 +414,7 @@ void  FieldContainerFactory::unregisterType(FieldContainerType *pType)
 
 	if(_pTypeNameMap) 
     {
-		typeNameIt = _pTypeNameMap->find(StringLink(pType->getCName()));
+		typeNameIt = _pTypeNameMap->find(IDStringLink(pType->getCName()));
 
 		if(typeNameIt != _pTypeNameMap->end())
         {
@@ -453,7 +453,7 @@ FieldContainerType *FieldContainerFactory::findType(const Char8 *szName) const
 
 	if(_pTypeNameMap) 
     {
-		typeIt = _pTypeNameMap->find(StringLink(szName));
+		typeIt = _pTypeNameMap->find(IDStringLink(szName));
 		pType  = (typeIt == _pTypeNameMap->end()) ? NULL : (*typeIt).second;
 	}
 
@@ -492,7 +492,7 @@ UInt16 FieldContainerFactory::findGroupId(const Char8 *szName) const
 
 	if (_pGroupMap) 
     {
-		gIt = _pGroupMap->find(StringLink(szName));
+		gIt = _pGroupMap->find(IDStringLink(szName));
 		return ((gIt == _pGroupMap->end()) ? 0 : (*gIt).second);
 	}
 

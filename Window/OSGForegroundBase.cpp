@@ -149,14 +149,14 @@ void ForegroundBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 ForegroundBase::ForegroundBase(void) :
-	Inherited() 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 ForegroundBase::ForegroundBase(const ForegroundBase &source) :
-	Inherited                 (source)
+    Inherited                 (source)
 {
 }
 

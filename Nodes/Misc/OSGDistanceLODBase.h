@@ -182,8 +182,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public NodeCore
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFPnt3f          	_sfCenter;
-    MFReal32         	_mfRange;
+    SFPnt3f             _sfCenter;
+    MFReal32            _mfRange;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -232,6 +232,6 @@ typedef DistanceLODBase *DistanceLODBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.8 2001/09/19 14:36:41 mroth Exp $"
+#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.9 2001/10/03 20:37:35 dirk Exp $"
 
 #endif /* _OSGDISTANCELODBASE_H_ */

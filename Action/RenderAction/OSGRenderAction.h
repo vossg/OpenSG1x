@@ -121,7 +121,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
     void        setMaterial  (Material *pMaterial);
     
     virtual Action::ResultE start(void       );
-	virtual Action::ResultE stop (ResultE res); 
+    virtual Action::ResultE stop (ResultE res); 
 
     /*------------------------- your_operators ------------------------------*/
 

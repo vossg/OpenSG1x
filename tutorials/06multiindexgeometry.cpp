@@ -96,7 +96,7 @@ int main (int argc, char **argv)
     // the geometry consists of several parts:
     
     // the types of the primitives to be rendered,
-    GeoPTypePtr type = GeoPTypeUI8::create();	   
+    GeoPTypesPtr type = GeoPTypesUI8::create();	   
     beginEditCP(type);
 	type->addValue( GL_POLYGON );
 	type->addValue( GL_TRIANGLES );
@@ -104,7 +104,7 @@ int main (int argc, char **argv)
 	endEditCP(type);
 
     // the number of vertices per primitive,
-	GeoPLengthPtr lens = GeoPLengthUI32::create();	
+	GeoPLengthsPtr lens = GeoPLengthsUI32::create();	
 	beginEditCP(lens);
 	lens->addValue( 4 );
 	lens->addValue( 6 );
@@ -115,7 +115,7 @@ int main (int argc, char **argv)
     // there are multiple indices per vertex which index into different
     // data fields. The mapping from index to field is defined below.
     
-	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
+	GeoIndicesUI32Ptr index = GeoIndicesUI32::create();	
 	beginEditCP(index);
 
     // indices for the polygon
@@ -166,7 +166,7 @@ int main (int argc, char **argv)
 	endEditCP(index);
 
     // the vertices,
-	GeoPosition3fPtr pnts = GeoPosition3f::create();
+	GeoPositions3fPtr pnts = GeoPositions3f::create();
  	beginEditCP(pnts);
 	pnts->addValue( Pnt3f( -1, -1, -1) );
 	pnts->addValue( Pnt3f( -1, -1,  1) );
@@ -183,7 +183,7 @@ int main (int argc, char **argv)
 	endEditCP(pnts);
 
     // the normals
-	GeoNormal3fPtr norm = GeoNormal3f::create();
+	GeoNormals3fPtr norm = GeoNormals3f::create();
  	beginEditCP(norm);
 	norm->addValue( Vec3f( -1,  0,  0) );
 	norm->addValue( Vec3f(  1,  0,  0) );

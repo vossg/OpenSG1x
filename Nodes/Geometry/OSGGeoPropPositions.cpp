@@ -54,13 +54,13 @@ OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
 
-#pragma instantiate GeoProperty        <GeoPosition3fPropertyDesc>::_type
-#pragma instantiate GeoProperty        <GeoPosition3fPropertyDesc>::_desc
+#pragma instantiate GeoProperty        <GeoPositions3fPropertyDesc>::_type
+#pragma instantiate GeoProperty        <GeoPositions3fPropertyDesc>::_desc
 
 #else
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        , 
-                           GeoPosition3fPropertyDesc, 
+                           GeoPositions3fPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

@@ -42,7 +42,7 @@
 #include <list>
 
 #include <OSGBaseTypes.h>
-#include <OSGString.h>
+#include <OSGIDString.h>
 #include <OSGImage.h>
 
 OSG_BEGIN_NAMESPACE
@@ -82,7 +82,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
 
     };
 
-    list<String> _suffixList;
+    list<IDString> _suffixList;
 
     /*! \}                                                                 */
 
@@ -131,7 +131,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
 
     virtual const Char8  *getMimeType (void) = 0;
 
-    virtual list<String> & suffixList (void) { return _suffixList; }
+    virtual list<IDString> & suffixList (void) { return _suffixList; }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

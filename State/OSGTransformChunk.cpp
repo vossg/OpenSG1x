@@ -75,7 +75,7 @@ The transformation chunk class.
 
 char TransformChunk::cvsid[] = "@(#)$Id: $";
 
-StateChunkClass TransformChunk::_class(String("Transform"));
+StateChunkClass TransformChunk::_class("Transform");
 
 /***************************************************************************\
  *                           Class methods                                 *

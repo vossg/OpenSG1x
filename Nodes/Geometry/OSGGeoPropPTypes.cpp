@@ -54,13 +54,13 @@ OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
 
-#pragma instantiate GeoProperty        <GeoPTypeUI8PropertyDesc >::_type
-#pragma instantiate GeoProperty        <GeoPTypeUI8PropertyDesc >::_desc
+#pragma instantiate GeoProperty        <GeoPTypesUI8PropertyDesc >::_type
+#pragma instantiate GeoProperty        <GeoPTypesUI8PropertyDesc >::_desc
 
 #else
 
 OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
-                           GeoPTypeUI8PropertyDesc, 
+                           GeoPTypesUI8PropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

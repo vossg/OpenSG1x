@@ -47,7 +47,7 @@
 
 #include "OSGConfig.h"
 
-#include "OSGVRMLTransform.h"
+#include "OSGComponentTransform.h"
 #include "OSGDrawAction.h"
 #include "OSGRenderAction.h"
 
@@ -57,7 +57,7 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \class osg::VRMLTransform
+/*! \class osg::ComponentTransform
 
 
 
@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char VRMLTransform::cvsid[] = "@(#)$Id: $";
+char ComponentTransform::cvsid[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.1 2001/10/03 20:37:35 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -101,11 +101,11 @@ char VRMLTransform::cvsid[] = "@(#)$Id: $";
  */
 
 #ifdef OSG_NOFUNCTORS
-OSG::Action::ResultE VRMLTransform::VRMLTransformDrawEnter(CNodePtr &cnode, 
+OSG::Action::ResultE ComponentTransform::ComponentTransformDrawEnter(CNodePtr &cnode, 
                                                            Action  *pAction)
 {
     NodeCore     *pNC = cnode.getCPtr();
-    VRMLTransform *pTr = dynamic_cast<VRMLTransform *>(pNC);
+    ComponentTransform *pTr = dynamic_cast<ComponentTransform *>(pNC);
 
     if(pTr == NULL)
     {
@@ -118,11 +118,11 @@ OSG::Action::ResultE VRMLTransform::VRMLTransformDrawEnter(CNodePtr &cnode,
     }
 }
 
-OSG::Action::ResultE VRMLTransform::VRMLTransformDrawLeave(CNodePtr &cnode, 
+OSG::Action::ResultE ComponentTransform::ComponentTransformDrawLeave(CNodePtr &cnode, 
                                                            Action  *pAction)
 {
     NodeCore     *pNC = cnode.getCPtr();
-    VRMLTransform *pTr = dynamic_cast<VRMLTransform *>(pNC);
+    ComponentTransform *pTr = dynamic_cast<ComponentTransform *>(pNC);
 
     if(pTr == NULL)
     {
@@ -136,41 +136,41 @@ OSG::Action::ResultE VRMLTransform::VRMLTransformDrawLeave(CNodePtr &cnode,
 }
 #endif
 
-void VRMLTransform::initMethod (void)
+void ComponentTransform::initMethod (void)
 {
 #ifndef OSG_NOFUNCTORS
     DrawAction::registerEnterDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
-                                VRMLTransformPtr, 
-                                Action *>(&VRMLTransform::drawEnter));
+                                ComponentTransformPtr, 
+                                Action *>(&ComponentTransform::drawEnter));
     DrawAction::registerLeaveDefault( getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
-                                VRMLTransformPtr, 
-                                Action *>(&VRMLTransform::drawLeave));
+                                ComponentTransformPtr, 
+                                Action *>(&ComponentTransform::drawLeave));
 
 
 
     RenderAction::registerEnterDefault(getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
-                                VRMLTransformPtr, 
-                                Action *>(&VRMLTransform::renderEnter));
+                                ComponentTransformPtr, 
+                                Action *>(&ComponentTransform::renderEnter));
     RenderAction::registerLeaveDefault(getClassType(), 
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
-                                VRMLTransformPtr, 
-                                Action *>(&VRMLTransform::renderLeave));
+                                ComponentTransformPtr, 
+                                Action *>(&ComponentTransform::renderLeave));
 
 #else
 
     DrawAction::registerEnterDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
-                                        VRMLTransform::VRMLTransformDrawEnter));
+                                        ComponentTransform::ComponentTransformDrawEnter));
     DrawAction::registerLeaveDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
-                                        VRMLTransform::VRMLTransformDrawLeave));
+                                        ComponentTransform::ComponentTransformDrawLeave));
 #endif
 }
 
@@ -188,7 +188,7 @@ void VRMLTransform::initMethod (void)
 /** \brief Constructor
  */
 
-VRMLTransform::VRMLTransform(void) :
+ComponentTransform::ComponentTransform(void) :
     Inherited()
 {
     _sfScale.getValue().setValues(1.f, 1.f, 1.f);         
@@ -197,7 +197,7 @@ VRMLTransform::VRMLTransform(void) :
 /** \brief Copy Constructor
  */
 
-VRMLTransform::VRMLTransform(const VRMLTransform &source) :
+ComponentTransform::ComponentTransform(const ComponentTransform &source) :
     Inherited(source)
 {
 }
@@ -205,7 +205,7 @@ VRMLTransform::VRMLTransform(const VRMLTransform &source) :
 /** \brief Destructor
  */
 
-VRMLTransform::~VRMLTransform(void)
+ComponentTransform::~ComponentTransform(void)
 {
 }
 
@@ -214,9 +214,9 @@ VRMLTransform::~VRMLTransform(void)
 /** \brief react to field changes
  */
 
-void VRMLTransform::changed(BitVector which, ChangeMode)
+void ComponentTransform::changed(BitVector which, ChangeMode)
 {
-    VRMLTransformPtr ptr(*this);
+    ComponentTransformPtr ptr(*this);
     if(which != MatrixFieldMask)
     {
         beginEditCP(ptr,MatrixFieldMask);
@@ -234,7 +234,7 @@ void VRMLTransform::changed(BitVector which, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void VRMLTransform::dump(      UInt32     uiIndent, 
+void ComponentTransform::dump(      UInt32     uiIndent, 
                          const BitVector &bvFlags) const
 {
     Inherited::dump(uiIndent, bvFlags);

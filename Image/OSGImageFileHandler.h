@@ -47,7 +47,7 @@
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
-#include <OSGStringLink.h>
+#include <OSGIDStringLink.h>
 #include <OSGImageFileType.h>
 
 
@@ -140,9 +140,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
     /*==========================  PRIVATE  ================================*/
 private:
 
-    static ImageFileHandler *          _the;
+    static ImageFileHandler            *_the;
 
-    map    < String, ImageFileType *>  _suffixTypeMap;
+    map    <IDString, ImageFileType *>  _suffixTypeMap;
 
     static bool addImageFileType (ImageFileType &fileType);
 

@@ -118,7 +118,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseFieldTypeMapper
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -132,7 +132,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseFieldTypeMapper
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     ScanParseFieldTypeMapper(const ScanParseFieldTypeMapper &source);
     void operator =(const ScanParseFieldTypeMapper &source);

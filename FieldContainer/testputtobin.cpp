@@ -25,12 +25,18 @@ public:
         }
     }
     void read(OSG::MemoryHandle mem,OSG::UInt32 size) {
-        fprintf(stderr,"dorect read %d bytes\n",size);
+        fprintf(stderr,"direct read %d bytes\n",size);
         fread(mem,size,1,_file);
+    }
+    void read(void) {
+        fprintf(stderr,"direct read\n");
     }
     void write(OSG::MemoryHandle mem,OSG::UInt32 size) {
         fprintf(stderr,"direct write %d bytes\n",size);
         fwrite(mem,size,1,_file);
+    }
+    void write(void) {
+        fprintf(stderr,"direct write\n");
     }
 private:
     vector<vector<OSG::UInt8> > _memory;
@@ -50,48 +56,48 @@ int main(int argc,char **argv)
     OSG::NodeCorePtr       pnc;
     OSG::AttachmentMap     am;
 
-    OSG::GeoPositionPtr    pp;
-    OSG::GeoNormalPtr      pno;
-    OSG::GeoColorPtr       pc;
+    OSG::GeoPositionsPtr    pp;
+    OSG::GeoNormalsPtr      pno;
+    OSG::GeoColorsPtr       pc;
     OSG::GeoTexCoordsPtr   ptc;
-    OSG::GeoIndexPtr       pi;
-    OSG::GeoPTypePtr       pt;
-    OSG::GeoPLengthPtr     pl;
+    OSG::GeoIndicesPtr       pi;
+    OSG::GeoPTypesPtr       pt;
+    OSG::GeoPLengthsPtr     pl;
 
     OSG::FieldDataTraits<OSG::FieldContainerPtr>::copyToBin(pMem, pfc);
     OSG::FieldDataTraits<OSG::NodePtr          >::copyToBin(pMem, pn);
     OSG::FieldDataTraits<OSG::NodeCorePtr      >::copyToBin(pMem, pnc);
-    OSG::FieldDataTraits<OSG::GeoPositionPtr   >::copyToBin(pMem, pp);
-    OSG::FieldDataTraits<OSG::GeoNormalPtr     >::copyToBin(pMem, pno);
-    OSG::FieldDataTraits<OSG::GeoColorPtr      >::copyToBin(pMem, pc);
+    OSG::FieldDataTraits<OSG::GeoPositionsPtr   >::copyToBin(pMem, pp);
+    OSG::FieldDataTraits<OSG::GeoNormalsPtr     >::copyToBin(pMem, pno);
+    OSG::FieldDataTraits<OSG::GeoColorsPtr      >::copyToBin(pMem, pc);
     OSG::FieldDataTraits<OSG::GeoTexCoordsPtr  >::copyToBin(pMem, ptc);
-    OSG::FieldDataTraits<OSG::GeoIndexPtr      >::copyToBin(pMem, pi);
-    OSG::FieldDataTraits<OSG::GeoPTypePtr      >::copyToBin(pMem, pt);
-    OSG::FieldDataTraits<OSG::GeoPLengthPtr    >::copyToBin(pMem, pl);
+    OSG::FieldDataTraits<OSG::GeoIndicesPtr      >::copyToBin(pMem, pi);
+    OSG::FieldDataTraits<OSG::GeoPTypesPtr      >::copyToBin(pMem, pt);
+    OSG::FieldDataTraits<OSG::GeoPLengthsPtr    >::copyToBin(pMem, pl);
     OSG::FieldDataTraits<OSG::AttachmentMap    >::copyToBin(pMem, am);
 
     OSG::FieldDataTraits<OSG::FieldContainerPtr>::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::NodePtr          >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::NodeCorePtr      >::copyToBin(pMem, NULL, 0);
-    OSG::FieldDataTraits<OSG::GeoPositionPtr   >::copyToBin(pMem, NULL, 0);
-    OSG::FieldDataTraits<OSG::GeoNormalPtr     >::copyToBin(pMem, NULL, 0);
-    OSG::FieldDataTraits<OSG::GeoColorPtr      >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::GeoPositionsPtr   >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::GeoNormalsPtr     >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::GeoColorsPtr      >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::GeoTexCoordsPtr  >::copyToBin(pMem, NULL, 0);
-    OSG::FieldDataTraits<OSG::GeoIndexPtr      >::copyToBin(pMem, NULL, 0);
-    OSG::FieldDataTraits<OSG::GeoPTypePtr      >::copyToBin(pMem, NULL, 0);
-    OSG::FieldDataTraits<OSG::GeoPLengthPtr    >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::GeoIndicesPtr      >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::GeoPTypesPtr      >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::GeoPLengthsPtr    >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::AttachmentMap    >::copyToBin(pMem, NULL, 0);
 
     OSG::FieldDataTraits<OSG::FieldContainerPtr>::getBinSize(&pfc, 1);
     OSG::FieldDataTraits<OSG::NodePtr          >::getBinSize(&pn, 1);
     OSG::FieldDataTraits<OSG::NodeCorePtr      >::getBinSize(&pnc, 1);
-    OSG::FieldDataTraits<OSG::GeoPositionPtr   >::getBinSize(&pp, 1);
-    OSG::FieldDataTraits<OSG::GeoNormalPtr     >::getBinSize(&pno, 1);
-    OSG::FieldDataTraits<OSG::GeoColorPtr      >::getBinSize(&pc, 1);
+    OSG::FieldDataTraits<OSG::GeoPositionsPtr   >::getBinSize(&pp, 1);
+    OSG::FieldDataTraits<OSG::GeoNormalsPtr     >::getBinSize(&pno, 1);
+    OSG::FieldDataTraits<OSG::GeoColorsPtr      >::getBinSize(&pc, 1);
     OSG::FieldDataTraits<OSG::GeoTexCoordsPtr  >::getBinSize(&ptc, 1);
-    OSG::FieldDataTraits<OSG::GeoIndexPtr      >::getBinSize(&pi, 1);
-    OSG::FieldDataTraits<OSG::GeoPTypePtr      >::getBinSize(&pt, 1);
-    OSG::FieldDataTraits<OSG::GeoPLengthPtr    >::getBinSize(&pl, 1);
+    OSG::FieldDataTraits<OSG::GeoIndicesPtr      >::getBinSize(&pi, 1);
+    OSG::FieldDataTraits<OSG::GeoPTypesPtr      >::getBinSize(&pt, 1);
+    OSG::FieldDataTraits<OSG::GeoPLengthsPtr    >::getBinSize(&pl, 1);
 
     fclose(wfile);
 

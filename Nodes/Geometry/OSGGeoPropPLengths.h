@@ -51,16 +51,16 @@
 
 OSG_BEGIN_NAMESPACE
 
-struct GeoPLengthUI32PropertyDesc
+struct GeoPLengthsUI32PropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */
     
-    static const Char8 *getTypeName (void) { return "GeoPLengthUI32";         }
-    static const Char8 *getClassName(void) { return "GeoPLengthUI32Property"; }
+    static const Char8 *getTypeName (void) { return "GeoPLengthsUI32";         }
+    static const Char8 *getClassName(void) { return "GeoPLengthsUI32Property"; }
     static const Char8 *getFieldName(void) { return "Indices";              }
-    static const Char8 *getGroupName(void) { return "GeoPLength";             }
+    static const Char8 *getGroupName(void) { return "GeoPLengths";             }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -74,31 +74,31 @@ struct GeoPLengthUI32PropertyDesc
     /*! \name                    Typedefs                                  */
     /*! \{                                                                 */    
 
-    typedef GeoPLength                 Inherit;
-    typedef GeoPLength::PtrType        InheritPtr;
-    typedef GeoPLengthPropertyDesc     InheritDesc;
+    typedef GeoPLengths                 Inherit;
+    typedef GeoPLengths::PtrType        InheritPtr;
+    typedef GeoPLengthsPropertyDesc     InheritDesc;
     typedef MFUInt32                 FieldType;
 
     typedef InheritDesc::GenericType GenericType;
 
-    typedef GeoPropertyInterface<GeoPLengthPropertyDesc> Interface;
+    typedef GeoPropertyInterface<GeoPLengthsPropertyDesc> Interface;
     
     /*! \}                                                                 */    
 };
 
-typedef GeoProperty<GeoPLengthUI32PropertyDesc> GeoPLengthUI32;
+typedef GeoProperty<GeoPLengthsUI32PropertyDesc> GeoPLengthsUI32;
 
 
 #ifndef OSG_COMPILEGEOPROPPLENGTHINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate GeoProperty<GeoPLengthUI32PropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoPLengthUI32PropertyDesc>::_desc
+#pragma do_not_instantiate GeoProperty<GeoPLengthsUI32PropertyDesc>::_type
+#pragma do_not_instantiate GeoProperty<GeoPLengthsUI32PropertyDesc>::_desc
 
 #else
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
-                      GeoPLengthUI32PropertyDesc,
+                      GeoPLengthsUI32PropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

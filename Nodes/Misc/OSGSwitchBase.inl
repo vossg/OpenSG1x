@@ -95,26 +95,26 @@ inline SwitchPtr SwitchBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFInt32 *SwitchBase::getSFChoice(void)
 {
-	return &_sfChoice;
+    return &_sfChoice;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 Int32 &SwitchBase::getChoice(void)
 {
-	return _sfChoice.getValue();
+    return _sfChoice.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Int32 &SwitchBase::getChoice(void) const
 {
-	return _sfChoice.getValue();
+    return _sfChoice.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void SwitchBase::setChoice(const Int32 &value)
 {
-	_sfChoice.setValue(value);
+    _sfChoice.setValue(value);
 }
 
 

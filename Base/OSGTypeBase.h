@@ -44,7 +44,7 @@
 
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
-#include <OSGString.h>
+#include <OSGIDString.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -73,8 +73,8 @@ class OSG_BASE_DLLMAPPING TypeBase
 
     TypeBase *_pParent;
 
-    String    _szName;
-    String    _szParentName;
+    IDString  _szName;
+    IDString  _szParentName;
 
     /*==========================  PUBLIC  =================================*/
   public :
@@ -99,13 +99,13 @@ class OSG_BASE_DLLMAPPING TypeBase
     /*! \name                       Id                                     */
     /*! \{                                                                 */
 
-          UInt32  getId         (void) const;
+          UInt32    getId         (void) const;
 
-    const String &getName       (void) const;
-    const Char8  *getCName      (void) const;
+    const IDString &getName       (void) const;
+    const Char8    *getCName      (void) const;
 
-    const String &getParentName (void) const;
-    const Char8  *getCParentName(void) const;
+    const IDString &getParentName (void) const;
+    const Char8    *getCParentName(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

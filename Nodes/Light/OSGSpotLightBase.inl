@@ -95,79 +95,79 @@ inline SpotLightPtr SpotLightBase::createEmpty(void)
 OSG_SYSTEMLIB_DLLMAPPING
 SFVec3f *SpotLightBase::getSFDirection(void)
 {
-	return &_sfDirection;
+    return &_sfDirection;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *SpotLightBase::getSFSpotExponent(void)
 {
-	return &_sfSpotExponent;
+    return &_sfSpotExponent;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFReal32 *SpotLightBase::getSFSpotCutOff(void)
 {
-	return &_sfSpotCutOff;
+    return &_sfSpotCutOff;
 }
 
 
 OSG_SYSTEMLIB_DLLMAPPING
 Vec3f &SpotLightBase::getDirection(void)
 {
-	return _sfDirection.getValue();
+    return _sfDirection.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Vec3f &SpotLightBase::getDirection(void) const
 {
-	return _sfDirection.getValue();
+    return _sfDirection.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void SpotLightBase::setDirection(const Vec3f &value)
 {
-	_sfDirection.setValue(value);
+    _sfDirection.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &SpotLightBase::getSpotExponent(void)
 {
-	return _sfSpotExponent.getValue();
+    return _sfSpotExponent.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &SpotLightBase::getSpotExponent(void) const
 {
-	return _sfSpotExponent.getValue();
+    return _sfSpotExponent.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void SpotLightBase::setSpotExponent(const Real32 &value)
 {
-	_sfSpotExponent.setValue(value);
+    _sfSpotExponent.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &SpotLightBase::getSpotCutOff(void)
 {
-	return _sfSpotCutOff.getValue();
+    return _sfSpotCutOff.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 const Real32 &SpotLightBase::getSpotCutOff(void) const
 {
-	return _sfSpotCutOff.getValue();
+    return _sfSpotCutOff.getValue();
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
 void SpotLightBase::setSpotCutOff(const Real32 &value)
 {
-	_sfSpotCutOff.setValue(value);
+    _sfSpotCutOff.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGSpotLightBase.inl,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+#define OSGSPOTLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGSpotLightBase.inl,v 1.8 2001/10/03 20:37:35 dirk Exp $"
 

@@ -54,8 +54,6 @@ extern "C" {
 
 #include <OSGSystemDef.h>
 #include <OSGTime.h>
-#include <OSGString.h>
-#include <OSGStringLink.h>
 #include <OSGBaseTypes.h>
 
 #if defined(GL_BGR) || defined(GL_BGR_EXT)

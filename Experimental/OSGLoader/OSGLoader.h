@@ -108,7 +108,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     //-----------------------------------------------------------------------
 
     typedef ScanParseFieldTypeMapper<ScanParseSkel> Inherited;
-	typedef map<std::string, FieldContainerPtr> NamedFCMap;
+    typedef map<std::string, FieldContainerPtr> NamedFCMap;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -122,7 +122,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -136,7 +136,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     OSGLoader(const OSGLoader &source);
     void operator =(const OSGLoader &source);
@@ -168,7 +168,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     NodePtr                  _pRootNode;
     Field                   *_pCurrentField;
     const FieldDescription  *_pCurrentFieldDesc;
-	NamedFCMap				 _defMap;
+    NamedFCMap               _defMap;
 
     stack<FieldContainerPtr > _fcStack;
     stack<Field            *> _fStack;
@@ -212,7 +212,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     virtual void    endField               (void);
 
     virtual NodePtr getRoot                (void);
-	virtual vector<FieldContainerPtr> getRoots       (void);
+    virtual vector<FieldContainerPtr> getRoots       (void);
 
     virtual FieldContainerPtr getReference(const Char8 *szName);
 

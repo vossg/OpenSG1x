@@ -316,49 +316,49 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     static FieldContainerType  _type;
 };
 
-typedef AbstractGeoProperty<GeoPositionPropertyDesc> GeoPosition;
+typedef AbstractGeoProperty<GeoPositionsPropertyDesc> GeoPositions;
 
 #ifndef OSG_COMPILEGEOPROPINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate AbstractGeoProperty<GeoPositionPropertyDesc>::_type
+#pragma do_not_instantiate AbstractGeoProperty<GeoPositionsPropertyDesc>::_type
 
 #else
 
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
-                            GeoPositionPropertyDesc,
+                            GeoPositionsPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
 
-typedef AbstractGeoProperty<GeoNormalPropertyDesc> GeoNormal;
+typedef AbstractGeoProperty<GeoNormalsPropertyDesc> GeoNormals;
 
 #ifndef OSG_COMPILEGEOPROPINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate AbstractGeoProperty<GeoNormalPropertyDesc>::_type
+#pragma do_not_instantiate AbstractGeoProperty<GeoNormalsPropertyDesc>::_type
 
 #else
 
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
-                            GeoNormalPropertyDesc,
+                            GeoNormalsPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
 
-typedef AbstractGeoProperty<GeoColorPropertyDesc> GeoColor;
+typedef AbstractGeoProperty<GeoColorsPropertyDesc> GeoColors;
 
 #ifndef OSG_COMPILEGEOPROPINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate AbstractGeoProperty<GeoColorPropertyDesc>::_type
+#pragma do_not_instantiate AbstractGeoProperty<GeoColorsPropertyDesc>::_type
 
 #else
 
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
-                            GeoColorPropertyDesc,
+                            GeoColorsPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
@@ -380,49 +380,49 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 #endif
 #endif
 
-typedef AbstractGeoProperty<GeoIndexPropertyDesc> GeoIndex;
+typedef AbstractGeoProperty<GeoIndicesPropertyDesc> GeoIndices;
 
 #ifndef OSG_COMPILEGEOPROPINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate AbstractGeoProperty<GeoIndexPropertyDesc>::_type
+#pragma do_not_instantiate AbstractGeoProperty<GeoIndicesPropertyDesc>::_type
 
 #else
 
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
-                            GeoIndexPropertyDesc,
+                            GeoIndicesPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
 
-typedef AbstractGeoProperty<GeoPTypePropertyDesc> GeoPType;
+typedef AbstractGeoProperty<GeoPTypesPropertyDesc> GeoPTypes;
 
 #ifndef OSG_COMPILEGEOPROPINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate AbstractGeoProperty<GeoPTypePropertyDesc>::_type
+#pragma do_not_instantiate AbstractGeoProperty<GeoPTypesPropertyDesc>::_type
 
 #else
 
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
-                            GeoPTypePropertyDesc,
+                            GeoPTypesPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
 
-typedef AbstractGeoProperty<GeoPLengthPropertyDesc> GeoPLength;
+typedef AbstractGeoProperty<GeoPLengthsPropertyDesc> GeoPLengths;
 
 #ifndef OSG_COMPILEGEOPROPINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate AbstractGeoProperty<GeoPLengthPropertyDesc>::_type
+#pragma do_not_instantiate AbstractGeoProperty<GeoPLengthsPropertyDesc>::_type
 
 #else
 
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
-                            GeoPLengthPropertyDesc,
+                            GeoPLengthsPropertyDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

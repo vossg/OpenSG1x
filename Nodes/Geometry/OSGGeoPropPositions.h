@@ -47,16 +47,16 @@
 
 OSG_BEGIN_NAMESPACE
 
-struct GeoPosition3fPropertyDesc
+struct GeoPositions3fPropertyDesc
 {
     /*---------------------------------------------------------------------*/
     /*! \name                          Get                                 */
     /*! \{                                                                 */        
     
-    static const Char8 *getTypeName (void) { return "GeoPosition3f";         }
-    static const Char8 *getClassName(void) { return "GeoPosition3fProperty"; }
+    static const Char8 *getTypeName (void) { return "GeoPositions3f";         }
+    static const Char8 *getClassName(void) { return "GeoPositions3fProperty"; }
     static const Char8 *getFieldName(void) { return "positions";             }
-    static const Char8 *getGroupName(void) { return "GeoPosition";           }
+    static const Char8 *getGroupName(void) { return "GeoPositions";           }
 
     static InitContainerF getInitMethod(void) { return NULL; }
 
@@ -70,28 +70,28 @@ struct GeoPosition3fPropertyDesc
     /*! \name                    Typedefs                                  */
     /*! \{                                                                 */    
     
-    typedef GeoPosition              Inherit;
-    typedef GeoPosition::PtrType     InheritPtr;
-    typedef GeoPositionPropertyDesc  InheritDesc;
+    typedef GeoPositions              Inherit;
+    typedef GeoPositions::PtrType     InheritPtr;
+    typedef GeoPositionsPropertyDesc  InheritDesc;
     typedef MFPnt3f                  FieldType;
     typedef InheritDesc::GenericType GenericType;
 
-    typedef GeoPropertyInterface<GeoPositionPropertyDesc> Interface;
+    typedef GeoPropertyInterface<GeoPositionsPropertyDesc> Interface;
     /*! \}                                                                 */        
 };
 
-typedef GeoProperty<GeoPosition3fPropertyDesc> GeoPosition3f;
+typedef GeoProperty<GeoPositions3fPropertyDesc> GeoPositions3f;
 
 #ifndef OSG_COMPILEGEOPROPPOSITIONINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate GeoProperty<GeoPosition3fPropertyDesc>::_type
-#pragma do_not_instantiate GeoProperty<GeoPosition3fPropertyDesc>::_desc
+#pragma do_not_instantiate GeoProperty<GeoPositions3fPropertyDesc>::_type
+#pragma do_not_instantiate GeoProperty<GeoPositions3fPropertyDesc>::_desc
 
 #else
 
 OSG_FC_DLLEXPORT_DECL(GeoProperty,
-                      GeoPosition3fPropertyDesc,
+                      GeoPositions3fPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif

@@ -2,7 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -42,180 +44,86 @@
  **          Any changes made to this file WILL be lost when it is          **
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
- **     Do not change this file, changes should be done in the derived      **
- **     class VRMLTransform!
- **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
+
+#ifndef _OSGCOMPONENTTRANSFORMFIELDS_H_
+#define _OSGCOMPONENTTRANSFORMFIELDS_H_
+#ifdef __sgi
+#pragma once
+#endif
+
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
 #include <OSGConfig.h>
+
+#include <OSGFieldContainerPtr.h>
+#include <OSGNodeCoreFieldDataType.h>
+#include <OSGSystemDef.h>
 
 OSG_BEGIN_NAMESPACE
 
+class ComponentTransform;
+//! ComponentTransformPtr
 
-//! access the type of the class
-inline OSG::FieldContainerType &VRMLTransformBase::getClassType(void)
+typedef FCPtr<TransformPtr, ComponentTransform> ComponentTransformPtr;
+
+/** \ingroup FieldLib ComponentTransform
+ *  ComponentTransformPtr field traits 
+ */
+
+template <>
+struct FieldDataTraits<ComponentTransformPtr> : 
+    public FieldTraitsRecurseMapper<ComponentTransformPtr>
 {
-    return _type; 
-} 
+    static DataType             _type;                       
 
-//! access the numerical type of the class
-inline OSG::UInt32 VRMLTransformBase::getClassTypeId(void) 
-{
-    return _type.getId(); 
-} 
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
 
-//! create a new instance of the class
-inline VRMLTransformPtr VRMLTransformBase::create(void) 
-{
-    VRMLTransformPtr fc; 
+    static DataType &getType (void) { return _type;        }
 
-    if(getClassType().getPrototype() != osg::NullFC) 
-    {
-        fc = VRMLTransformPtr::dcast(
-            getClassType().getPrototype()-> shallowCopy()); 
-    }
-    
-    return fc; 
-}
+    static char     *getSName(void) { return "SFComponentTransformPtr"; }
+    static char     *getMName(void) { return "MFComponentTransformPtr"; }
+};
 
-//! create an empty new instance of the class, do not copy the prototype
-inline VRMLTransformPtr VRMLTransformBase::createEmpty(void) 
-{ 
-    VRMLTransformPtr returnValue; 
-    
-    newPtr(returnValue); 
+//! SFComponentTransformPtr
 
-    return returnValue; 
-}
+typedef SField<ComponentTransformPtr> SFComponentTransformPtr;
 
+#ifndef OSG_COMPILECOMPONENTTRANSFORMINST
+#if defined(__sgi)
 
-/*------------------------------ get -----------------------------------*/
+#pragma do_not_instantiate SField<ComponentTransformPtr>::_fieldType
 
-OSG_SYSTEMLIB_DLLMAPPING
-SFVec3f *VRMLTransformBase::getSFCenter(void)
-{
-	return &_sfCenter;
-}
+#else
 
-OSG_SYSTEMLIB_DLLMAPPING
-SFQuaternion *VRMLTransformBase::getSFRotation(void)
-{
-	return &_sfRotation;
-}
+OSG_DLLEXPORT_DECL1(SField, ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
-OSG_SYSTEMLIB_DLLMAPPING
-SFVec3f *VRMLTransformBase::getSFScale(void)
-{
-	return &_sfScale;
-}
+#endif
+#endif
 
-OSG_SYSTEMLIB_DLLMAPPING
-SFQuaternion *VRMLTransformBase::getSFScaleOrientation(void)
-{
-	return &_sfScaleOrientation;
-}
+//! MFComponentTransformPtr
 
-OSG_SYSTEMLIB_DLLMAPPING
-SFVec3f *VRMLTransformBase::getSFTranslation(void)
-{
-	return &_sfTranslation;
-}
+typedef MField<ComponentTransformPtr> MFComponentTransformPtr;
 
+#ifndef OSG_COMPILECOMPONENTTRANSFORMINST
+#if defined(__sgi)
 
-OSG_SYSTEMLIB_DLLMAPPING
-Vec3f &VRMLTransformBase::getCenter(void)
-{
-	return _sfCenter.getValue();
-}
+#pragma do_not_instantiate MField<ComponentTransformPtr>::_fieldType
 
-OSG_SYSTEMLIB_DLLMAPPING
-const Vec3f &VRMLTransformBase::getCenter(void) const
-{
-	return _sfCenter.getValue();
-}
+#else
 
-OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setCenter(const Vec3f &value)
-{
-	_sfCenter.setValue(value);
-}
+OSG_DLLEXPORT_DECL1(MField, ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
-OSG_SYSTEMLIB_DLLMAPPING
-Quaternion &VRMLTransformBase::getRotation(void)
-{
-	return _sfRotation.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const Quaternion &VRMLTransformBase::getRotation(void) const
-{
-	return _sfRotation.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setRotation(const Quaternion &value)
-{
-	_sfRotation.setValue(value);
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-Vec3f &VRMLTransformBase::getScale(void)
-{
-	return _sfScale.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const Vec3f &VRMLTransformBase::getScale(void) const
-{
-	return _sfScale.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setScale(const Vec3f &value)
-{
-	_sfScale.setValue(value);
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-Quaternion &VRMLTransformBase::getScaleOrientation(void)
-{
-	return _sfScaleOrientation.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const Quaternion &VRMLTransformBase::getScaleOrientation(void) const
-{
-	return _sfScaleOrientation.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setScaleOrientation(const Quaternion &value)
-{
-	_sfScaleOrientation.setValue(value);
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-Vec3f &VRMLTransformBase::getTranslation(void)
-{
-	return _sfTranslation.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const Vec3f &VRMLTransformBase::getTranslation(void) const
-{
-	return _sfTranslation.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void VRMLTransformBase::setTranslation(const Vec3f &value)
-{
-	_sfTranslation.setValue(value);
-}
-
-
+#endif
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGVRMLTRANSFORMBASE_INLINE_CVSID "@(#)$Id: OSGVRMLTransformBase.inl,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+#define OSGCOMPONENTTRANSFORMFIELDS_HEADER_CVSID "@(#)$Id: OSGComponentTransformFields.h,v 1.1 2001/10/03 20:37:35 dirk Exp $"
 
+#endif /* _OSGCOMPONENTTRANSFORMFIELDS_H_ */

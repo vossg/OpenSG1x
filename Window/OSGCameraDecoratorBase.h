@@ -159,7 +159,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFCameraPtr      	_sfCamera;
+    SFCameraPtr         _sfCamera;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -208,6 +208,6 @@ typedef CameraDecoratorBase *CameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorBase.h,v 1.10 2001/09/19 14:36:41 mroth Exp $"
+#define OSGCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorBase.h,v 1.11 2001/10/03 20:37:36 dirk Exp $"
 
 #endif /* _OSGCAMERADECORATORBASE_H_ */

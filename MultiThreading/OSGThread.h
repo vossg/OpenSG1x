@@ -125,7 +125,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ThreadCommonBase : public BaseThread
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -139,7 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ThreadCommonBase : public BaseThread
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     ThreadCommonBase(const ThreadCommonBase &source);
     void operator =(const ThreadCommonBase &source);
@@ -175,7 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ThreadCommonBase : public BaseThread
     //-----------------------------------------------------------------------
 
     ThreadCommonBase(void);
-	ThreadCommonBase(const Char8 *szName, UInt32 uiId);
+    ThreadCommonBase(const Char8 *szName, UInt32 uiId);
     virtual ~ThreadCommonBase(void); 
 
     void setAspect    (UInt32      uiAspectId);
@@ -257,7 +257,7 @@ class PThreadBase : public ThreadCommonBase
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -271,7 +271,7 @@ class PThreadBase : public ThreadCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     PThreadBase(const PThreadBase &source);
     void operator =(const PThreadBase &source);
@@ -318,7 +318,7 @@ class PThreadBase : public ThreadCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	PThreadBase(const Char8 *szName, UInt32 uiId);
+    PThreadBase(const Char8 *szName, UInt32 uiId);
     virtual ~PThreadBase(void); 
 
     virtual void init    (void);
@@ -412,7 +412,7 @@ class SprocBase : public ThreadCommonBase
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -426,7 +426,7 @@ class SprocBase : public ThreadCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     SprocBase(const SprocBase &source);
     void operator =(const SprocBase &source);
@@ -466,7 +466,7 @@ class SprocBase : public ThreadCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	SprocBase(const Char8 *szName, UInt32 uiId);
+    SprocBase(const Char8 *szName, UInt32 uiId);
     virtual ~SprocBase(void); 
 
     virtual void init(void);
@@ -556,7 +556,7 @@ class OSG_SYSTEMLIB_DLLMAPPING WinThreadBase : public ThreadCommonBase
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -590,12 +590,12 @@ class OSG_SYSTEMLIB_DLLMAPPING WinThreadBase : public ThreadCommonBase
     //-----------------------------------------------------------------------
 
 #if defined(OSG_ASPECT_USE_LOCALSTORAGE)
-	static UInt32 _aspectKey;
-	static UInt32 _changeListKey;
+    static UInt32 _aspectKey;
+    static UInt32 _changeListKey;
 #endif
 #if defined(OSG_ASPECT_USE_DECLSPEC)
-	static __declspec (thread) UInt32      _uiAspectLocal;
-	static __declspec (thread) ChangeList *_pChangeListLocal;
+    static __declspec (thread) UInt32      _uiAspectLocal;
+    static __declspec (thread) ChangeList *_pChangeListLocal;
 #endif
 
     //-----------------------------------------------------------------------
@@ -615,7 +615,7 @@ class OSG_SYSTEMLIB_DLLMAPPING WinThreadBase : public ThreadCommonBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	WinThreadBase(const Char8 *szName, UInt32 uiId);
+    WinThreadBase(const Char8 *szName, UInt32 uiId);
     virtual ~WinThreadBase(void); 
 
     virtual void init     (void);
@@ -711,7 +711,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -725,7 +725,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Thread : public ThreadBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
     Thread(const Thread &source);
     void operator =(const Thread &source);

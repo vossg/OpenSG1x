@@ -36,7 +36,7 @@
 #include "OSGPerspectiveCamera.h"
 #include "OSGSolidBackground.h"
 
-#include "OSGLogoForeground.h"
+#include "OSGImageForeground.h"
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
 #include "RAW/OSGRAWSceneFileType.h"
@@ -326,7 +326,7 @@ int main (int argc, char **argv)
 	SolidBackgroundPtr bkgnd = SolidBackground::create();
 
 	// Foreground
-	LogoForegroundPtr fgnd = LogoForeground::create();
+	ImageForegroundPtr fgnd = ImageForeground::create();
 	
 	ImageP lo = new Image();
 	lo->read( argv[1] );
@@ -334,7 +334,7 @@ int main (int argc, char **argv)
 	FWARNING(( "%s: %d x %d, bpp %d\n", argv[1], lo->getWidth(),
 		lo->getHeight(), lo->getBpp() ));
 
-	fgnd->addLogo( lo, Pnt2f( 0,0 ) );
+	fgnd->addImage( lo, Pnt2f( 0,0 ) );
 	
 	if ( argc > 2 )
 	{
@@ -344,7 +344,7 @@ int main (int argc, char **argv)
 	FWARNING(( "%s: %d x %d, bpp %d\n", argv[2], lo2->getWidth(),
 		lo2->getHeight(), lo2->getBpp() ));
 
-	fgnd->addLogo( lo2, Pnt2f( .8,0 ) );
+	fgnd->addImage( lo2, Pnt2f( .8,0 ) );
 	}
 
 
