@@ -6,6 +6,8 @@
 	library="State"
 	structure="concrete"
 	pointerfieldtypes="none"
+	systemcomponent="true"
+	parentsystemcomponent="true"
 >
 The light chunk contains the parameter set for a single light source. It's taken
 straight from the glLight() manpage.

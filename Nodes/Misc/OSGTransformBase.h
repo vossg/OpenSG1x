@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class Transform!
+ **     class Transform
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -70,7 +70,7 @@
 #include <OSGNodeCore.h>
 #include <OSGMatrixFields.h>	// Matrix type
 
-#include "OSGTransformFields.h"
+#include <OSGTransformFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -187,7 +187,7 @@ class OSG_MISC_DLLMAPPING TransformBase : public NodeCore
 
     //! The fields storing the data.
 
-    /*! The transformation matrix. 	
+    /*! The transformation matrix.
      */
     SFMatrix	_matrix;
 

@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class State!
+ **     class State
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -70,7 +70,7 @@
 #include <OSGFieldContainer.h>
 #include <OSGStateChunkFields.h>	// Chunks type
 
-#include "OSGStateFields.h"
+#include <OSGStateFields.h>
 
 OSG_BEGIN_NAMESPACE
 

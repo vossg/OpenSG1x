@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class TextureChunk!
+ **     class TextureChunk
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -85,7 +85,7 @@
 #include <OSGPlaneFields.h>	// GenFuncQPlane type
 #include <OSGUInt32Fields.h>	// GLId type
 
-#include "OSGTextureChunkFields.h"
+#include <OSGTextureChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 

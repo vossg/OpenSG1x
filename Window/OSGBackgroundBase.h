@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class Background!
+ **     class Background
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -69,7 +69,7 @@
 #include <OSGWindowDef.h>
 #include <OSGFieldContainer.h>
 
-#include "OSGBackgroundFields.h"
+#include <OSGBackgroundFields.h>
 
 OSG_BEGIN_NAMESPACE
 

@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class SolidBackground!
+ **     class SolidBackground
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -70,7 +70,7 @@
 #include <OSGBackground.h>
 #include <OSGColor3fFields.h>	// Color type
 
-#include "OSGSolidBackgroundFields.h"
+#include <OSGSolidBackgroundFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -187,7 +187,7 @@ class OSG_WINDOW_DLLMAPPING SolidBackgroundBase : public Background
 
     //! The fields storing the data.
 
-    /*! The background color. 	
+    /*! The background color.
      */
     SFColor3f	_color;
 

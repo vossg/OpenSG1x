@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class GradientBackground!
+ **     class GradientBackground
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -71,7 +71,7 @@
 #include <OSGColor3fFields.h>	// Color type
 #include <OSGReal32Fields.h>	// Position type
 
-#include "OSGGradientBackgroundFields.h"
+#include <OSGGradientBackgroundFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -195,10 +195,10 @@ class OSG_WINDOW_DLLMAPPING GradientBackgroundBase : public Background
 
     //! The fields storing the data.
 
-    /*! The colors of the gradient. 	
+    /*! The colors of the gradient.
      */
     MFColor3f	_color;
-    /*! The positions of the gradient. 	
+    /*! The positions of the gradient.
      */
     MFReal32	_position;
 

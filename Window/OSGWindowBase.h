@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class Window!
+ **     class Window
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -74,7 +74,7 @@
 #include <OSGBoolFields.h>	// ResizePending type
 #include <OSGUInt32Fields.h>	// GlObjectFlags type
 
-#include "OSGWindowFields.h"
+#include <OSGWindowFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -227,7 +227,7 @@ class OSG_WINDOW_DLLMAPPING WindowBase : public FieldContainer
     /*! 
      */
     SFBool	_resizePending;
-    /*! This field will have to disappear...         
+    /*! This field will have to disappear...
      */
     MFUInt32	_glObjectFlags;
 

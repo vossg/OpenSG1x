@@ -61,7 +61,7 @@
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
-#include "OSGLightDef.h"
+#include <OSGLightDef.h>
 
 OSG_BEGIN_NAMESPACE
 

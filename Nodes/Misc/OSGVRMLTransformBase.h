@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VRMLTransform!
+ **     class VRMLTransform
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -74,7 +74,7 @@
 #include <OSGQuaternionFields.h>	// ScaleOrientation type
 #include <OSGVec3fFields.h>	// Translation type
 
-#include "OSGVRMLTransformFields.h"
+#include <OSGVRMLTransformFields.h>
 
 OSG_BEGIN_NAMESPACE
 

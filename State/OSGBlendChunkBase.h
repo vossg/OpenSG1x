@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class BlendChunk!
+ **     class BlendChunk
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -73,7 +73,7 @@
 #include <OSGColor4fFields.h>	// Color type
 #include <OSGUInt32Fields.h>	// GLId type
 
-#include "OSGBlendChunkFields.h"
+#include <OSGBlendChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -211,13 +211,13 @@ class OSG_STATE_DLLMAPPING BlendChunkBase : public StateChunk
 
     //! The fields storing the data.
 
-    /*! The incoming pixel is multiplied by the source factor. Legal values are directly 	taken from the glBlendFunc() manpage. 	
+    /*! The incoming pixel is multiplied by the source factor. Legal values are directly 	taken from the glBlendFunc() manpage.
      */
     SFUInt32	_SrcFactor;
-    /*! The frame buffer pixel is multiplied by the destination factor. Legal values are  	directly taken from the glBlendFunc() manpage. 	
+    /*! The frame buffer pixel is multiplied by the destination factor. Legal values are  	directly taken from the glBlendFunc() manpage.
      */
     SFUInt32	_DestFactor;
-    /*! This is the constant color used by blend modes *_CONSTANT_*.   	
+    /*! This is the constant color used by blend modes *_CONSTANT_*.
      */
     SFColor4f	_Color;
     /*! 

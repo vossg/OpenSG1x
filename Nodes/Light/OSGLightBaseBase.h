@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class LightBase!
+ **     class LightBase
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -73,7 +73,7 @@
 #include <OSGColor4fFields.h>	// Specular type
 #include <OSGNodeFields.h>	// Beacon type
 
-#include "OSGLightBaseFields.h"
+#include <OSGLightBaseFields.h>
 
 OSG_BEGIN_NAMESPACE
 

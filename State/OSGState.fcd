@@ -5,7 +5,9 @@
 	parent="FieldContainer"
 	library="State"
 	structure="concrete"
-	pointerfieldtypes="none"
+	pointerfieldtypes="both"
+	systemcomponent="true"
+	parentsystemcomponent="true"
 >
 	<Field
 		name="chunks"

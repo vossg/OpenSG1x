@@ -58,7 +58,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -72,8 +72,8 @@
 #include "OSGCameraBase.h"
 #include "OSGCamera.h"
 
-OSG_USING_NAMESPACE
 
+OSG_USING_NAMESPACE
 
 /***************************************************************************\
  *                               Types                                     *
@@ -113,7 +113,7 @@ const OSG::UInt32    	CameraBase::NextFieldId;
 const OSG::BitVector 	CameraBase::NextFieldMask;
 
 
-char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.2 2001/04/18 13:39:19 vossg Exp $";
+char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.3 2001/05/23 23:05:56 dirk Exp $";
 
 /** \brief Group field description
  */

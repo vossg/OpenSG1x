@@ -6,6 +6,8 @@
 	library="Window"
 	structure="concrete"
 	pointerfieldtypes="single"
+	systemcomponent="true"
+	parentsystemcomponent="true"
 >
 A single colored background.
 	<Field

@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class Camera!
+ **     class Camera
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -72,7 +72,7 @@
 #include <OSGReal32Fields.h>	// Near type
 #include <OSGReal32Fields.h>	// Far type
 
-#include "OSGCameraFields.h"
+#include <OSGCameraFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -199,13 +199,13 @@ class OSG_WINDOW_DLLMAPPING CameraBase : public FieldContainer
 
     //! The fields storing the data.
 
-    /*! The object that define's the camera's coordinate system. The camera is positioned 	at the origin of the system and looks doen the negative z-axis (OpenGL-style). 	
+    /*! The object that define's the camera's coordinate system. The camera is positioned 	at the origin of the system and looks doen the negative z-axis (OpenGL-style).
      */
     SFNodePtr	_beacon;
-    /*! The near distance of the camera. 	
+    /*! The near distance of the camera.
      */
     SFReal32	_near;
-    /*! The far distance of the camera. 	
+    /*! The far distance of the camera.
      */
     SFReal32	_far;
 

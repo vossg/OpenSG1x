@@ -6,6 +6,8 @@
 	library="Window"
 	structure="concrete"
 	pointerfieldtypes="multi"
+	systemcomponent="true"
+	parentsystemcomponent="true"
 >
 A sky-sphere background showing a color gradient. The colors and angles correspond to 
 each other, they should have the same number of elements.

@@ -58,7 +58,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -72,8 +72,8 @@
 #include "OSGTransformBase.h"
 #include "OSGTransform.h"
 
-OSG_USING_NAMESPACE
 
+OSG_USING_NAMESPACE
 
 /***************************************************************************\
  *                               Types                                     *
@@ -107,7 +107,7 @@ const OSG::UInt32    	TransformBase::NextFieldId;
 const OSG::BitVector 	TransformBase::NextFieldMask;
 
 
-char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.1 2001/04/15 02:10:16 dirk Exp $";
+char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
 
 /** \brief Group field description
  */

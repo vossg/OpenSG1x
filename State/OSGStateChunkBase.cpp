@@ -58,7 +58,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -72,8 +72,8 @@
 #include "OSGStateChunkBase.h"
 #include "OSGStateChunk.h"
 
-OSG_USING_NAMESPACE
 
+OSG_USING_NAMESPACE
 
 /***************************************************************************\
  *                               Types                                     *
@@ -100,7 +100,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char StateChunkBase::cvsid[] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.2 2001/04/18 13:39:19 vossg Exp $";
+char StateChunkBase::cvsid[] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.3 2001/05/23 23:05:56 dirk Exp $";
 
 /** \brief StateChunk type
  */

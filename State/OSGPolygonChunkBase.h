@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class PolygonChunk!
+ **     class PolygonChunk
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -80,7 +80,7 @@
 #include <OSGBoolFields.h>	// OffsetFill type
 #include <OSGInt32Fields.h>	// Stipple type
 
-#include "OSGPolygonChunkFields.h"
+#include <OSGPolygonChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -267,25 +267,25 @@ class OSG_STATE_DLLMAPPING PolygonChunkBase : public StateChunk
 
     //! The fields storing the data.
 
-    /*! Defines which side of the polygon is invisible. 	
+    /*! Defines which side of the polygon is invisible.
      */
     SFInt32	_cullFace;
-    /*! Defines which side of the polygon is considered the front side. 	
+    /*! Defines which side of the polygon is considered the front side.
      */
     SFInt32	_frontFace;
     /*! 
      */
     SFInt32	_modeFace;
-    /*! Defines if polygons are rendered filled, outlined or as points. 	
+    /*! Defines if polygons are rendered filled, outlined or as points.
      */
     SFInt32	_mode;
-    /*! Defines if gouraud or flat shading is used. 	
+    /*! Defines if gouraud or flat shading is used.
      */
     SFBool	_smooth;
-    /*! Defines the polygon offset factor. 	
+    /*! Defines the polygon offset factor.
      */
     SFReal32	_offsetFactor;
-    /*! Defines the polygon offset bias. 	
+    /*! Defines the polygon offset bias.
      */
     SFReal32	_offsetBias;
     /*! 
@@ -297,7 +297,7 @@ class OSG_STATE_DLLMAPPING PolygonChunkBase : public StateChunk
     /*! 
      */
     SFBool	_offsetFill;
-    /*! Defines the stipple pattern. Is only valid and used if it contains 32 elements. 	
+    /*! Defines the stipple pattern. Is only valid and used if it contains 32 elements.
      */
     MFInt32	_stipple;
 

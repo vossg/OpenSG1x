@@ -6,6 +6,8 @@
 	library="Window"
 	structure="abstract"
 	pointerfieldtypes="both"
+	systemcomponent="true"
+	parentsystemcomponent="true"
 >
 Background is the base class for all background clearing.
 </FieldContainer>

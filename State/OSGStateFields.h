@@ -61,7 +61,7 @@
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
-#include "OSGStateDef.h"
+#include <OSGStateDef.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -74,6 +74,50 @@ class State;
  */
 typedef FCPtr<FieldContainerPtr, State> StatePtr;
 
+/** \ingroup FieldLib State
+ *  \brief StatePtr field traits 
+ */
+
+template <>
+struct FieldDataTraits<StatePtr> : public Traits
+{
+    enum                        { StringConvertable = 0x00      };
+
+    static char *getSName(void) { return "SFStatePtr"; }
+    static char *getMName(void) { return "MFStatePtr"; }
+};
+
+/** \brief SFStatePtr
+ */
+typedef SField<StatePtr> SFStatePtr;
+
+#ifndef OSG_COMPILESTATEINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<StatePtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, StatePtr, OSG_STATE_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+/** \brief MFStatePtr
+ */
+typedef MField<StatePtr> MFStatePtr;
+
+#ifndef OSG_COMPILESTATEINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<StatePtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, StatePtr, OSG_STATE_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 

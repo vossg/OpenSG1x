@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class Group!
+ **     class Group
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -69,7 +69,7 @@
 #include <OSGMiscDef.h>
 #include <OSGNodeCore.h>
 
-#include "OSGGroupFields.h"
+#include <OSGGroupFields.h>
 
 OSG_BEGIN_NAMESPACE
 

@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class LightChunk!
+ **     class LightChunk
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -79,7 +79,7 @@
 #include <OSGReal32Fields.h>	// LinearAttenuation type
 #include <OSGReal32Fields.h>	// QuadraticAttenuation type
 
-#include "OSGLightChunkFields.h"
+#include <OSGLightChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -259,34 +259,34 @@ class OSG_STATE_DLLMAPPING LightChunkBase : public StateChunk
 
     //! The fields storing the data.
 
-    /*! The light's diffuse color. 	
+    /*! The light's diffuse color.
      */
     SFColor4f	_diffuse;
-    /*! The light's ambient color. 	
+    /*! The light's ambient color.
      */
     SFColor4f	_ambient;
-    /*! The light's specular color. 	
+    /*! The light's specular color.
      */
     SFColor4f	_specular;
-    /*! The light's position. 	
+    /*! The light's position.
      */
     SFVec4f	_position;
-    /*! The light's direction (only for spotlights). 	
+    /*! The light's direction (only for spotlights).
      */
     SFVec3f	_direction;
-    /*! The light's spotlight exponent. 	
+    /*! The light's spotlight exponent.
      */
     SFReal32	_exponent;
-    /*! The light's spotlight cutoff. 	
+    /*! The light's spotlight cutoff.
      */
     SFReal32	_cutoff;
-    /*! The light's constant attenuation. 	
+    /*! The light's constant attenuation.
      */
     SFReal32	_constantAttenuation;
-    /*! The light's linear attenuation. 	
+    /*! The light's linear attenuation.
      */
     SFReal32	_linearAttenuation;
-    /*! The light's quadratic attenuation. 	
+    /*! The light's quadratic attenuation.
      */
     SFReal32	_quadraticAttenuation;
 

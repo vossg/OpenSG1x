@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class MaterialChunk!
+ **     class MaterialChunk
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -74,7 +74,7 @@
 #include <OSGColor4fFields.h>	// Emission type
 #include <OSGReal32Fields.h>	// Shininess type
 
-#include "OSGMaterialChunkFields.h"
+#include <OSGMaterialChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 

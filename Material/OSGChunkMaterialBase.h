@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class ChunkMaterial!
+ **     class ChunkMaterial
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -70,7 +70,7 @@
 #include <OSGMaterial.h>
 #include <OSGStateChunkFields.h>	// Chunks type
 
-#include "OSGChunkMaterialFields.h"
+#include <OSGChunkMaterialFields.h>
 
 OSG_BEGIN_NAMESPACE
 

@@ -61,7 +61,7 @@
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
-#include "OSGMaterialDef.h"
+#include <OSGMaterialDef.h>
 
 OSG_BEGIN_NAMESPACE
 

@@ -58,7 +58,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -72,8 +72,8 @@
 #include "OSGMaterialChunkBase.h"
 #include "OSGMaterialChunk.h"
 
-OSG_USING_NAMESPACE
 
+OSG_USING_NAMESPACE
 
 /***************************************************************************\
  *                               Types                                     *
@@ -104,7 +104,7 @@ const OSG::UInt32    	MaterialChunkBase::NextFieldId;
 const OSG::BitVector 	MaterialChunkBase::NextFieldMask;
 
 
-char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.1 2001/04/15 02:12:53 dirk Exp $";
+char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
 
 /** \brief Group field description
  */

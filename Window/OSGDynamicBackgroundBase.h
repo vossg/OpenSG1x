@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class DynamicBackground!
+ **     class DynamicBackground
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -71,7 +71,7 @@
 #include <OSGColor3fFields.h>	// Color type
 #include <OSGReal32Fields.h>	// Angle type
 
-#include "OSGDynamicBackgroundFields.h"
+#include <OSGDynamicBackgroundFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -195,10 +195,10 @@ class OSG_WINDOW_DLLMAPPING DynamicBackgroundBase : public Background
 
     //! The fields storing the data.
 
-    /*! The colors of the sphere's rings. 	
+    /*! The colors of the sphere's rings.
      */
     MFColor3f	_color;
-    /*! The angles for the colors in degrees, from 0 (top) to 180 (bottom). 	
+    /*! The angles for the colors in degrees, from 0 (top) to 180 (bottom).
      */
     MFReal32	_angle;
 

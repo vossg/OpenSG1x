@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class PointLight!
+ **     class PointLight
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -73,7 +73,7 @@
 #include <OSGReal32Fields.h>	// LinearAttenuation type
 #include <OSGReal32Fields.h>	// QuadraticAttenuation type
 
-#include "OSGPointLightFields.h"
+#include <OSGPointLightFields.h>
 
 OSG_BEGIN_NAMESPACE
 

@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class PerspectiveCamera!
+ **     class PerspectiveCamera
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -70,7 +70,7 @@
 #include <OSGCamera.h>
 #include <OSGReal32Fields.h>	// Fov type
 
-#include "OSGPerspectiveCameraFields.h"
+#include <OSGPerspectiveCameraFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -187,7 +187,7 @@ class OSG_WINDOW_DLLMAPPING PerspectiveCameraBase : public Camera
 
     //! The fields storing the data.
 
-    /*! The vertical field of view, in degrees. 	
+    /*! The vertical field of view, in degrees.
      */
     SFReal32	_fov;
 

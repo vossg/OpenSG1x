@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class StateChunk!
+ **     class StateChunk
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -69,7 +69,7 @@
 #include <OSGStateDef.h>
 #include <OSGFieldContainer.h>
 
-#include "OSGStateChunkFields.h"
+#include <OSGStateChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 

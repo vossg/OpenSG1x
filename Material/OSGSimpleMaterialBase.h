@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class SimpleMaterial!
+ **     class SimpleMaterial
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -75,7 +75,7 @@
 #include <OSGColor3fFields.h>	// Emission type
 #include <OSGReal32Fields.h>	// Transparency type
 
-#include "OSGSimpleMaterialFields.h"
+#include <OSGSimpleMaterialFields.h>
 
 OSG_BEGIN_NAMESPACE
 

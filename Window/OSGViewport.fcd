@@ -6,6 +6,8 @@
 	library="Window"
 	structure="concrete"
 	pointerfieldtypes="both"
+	systemcomponent="true"
+	parentsystemcomponent="true"
 >
 A Viewport is a part of the Window it is attached to used for rendering. Every Window
 can hold an arbitrary number of viewports.

@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class Material!
+ **     class Material
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -69,7 +69,7 @@
 #include <OSGMaterialDef.h>
 #include <OSGFieldContainer.h>
 
-#include "OSGMaterialFields.h"
+#include <OSGMaterialFields.h>
 
 OSG_BEGIN_NAMESPACE
 

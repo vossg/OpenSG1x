@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class TransformChunk!
+ **     class TransformChunk
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -70,7 +70,7 @@
 #include <OSGStateChunk.h>
 #include <OSGMatrixFields.h>	// Matrix type
 
-#include "OSGTransformChunkFields.h"
+#include <OSGTransformChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 

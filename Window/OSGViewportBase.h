@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class Viewport!
+ **     class Viewport
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -77,7 +77,7 @@
 #include <OSGNodeFields.h>	// Root type
 #include <OSGBackgroundFields.h>	// Background type
 
-#include "OSGViewportFields.h"
+#include <OSGViewportFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -243,28 +243,28 @@ class OSG_WINDOW_DLLMAPPING ViewportBase : public FieldContainer
 
     //! The fields storing the data.
 
-    /*! The left edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	left border. All other values are illegal. 	
+    /*! The left edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	left border. All other values are illegal.
      */
     SFReal32	_left;
-    /*! The right edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	right border. All other values are illegal. 	
+    /*! The right edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	right border. All other values are illegal.
      */
     SFReal32	_right;
-    /*! The bottom edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	bottom border. All other values are illegal. 	
+    /*! The bottom edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	bottom border. All other values are illegal.
      */
     SFReal32	_bottom;
-    /*! The top edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	top border. All other values are illegal. 	
+    /*! The top edge of the viewport. Values between 0 and 1 are relative to the size of 	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the  	top border. All other values are illegal.
      */
     SFReal32	_top;
-    /*! The Window this viewport is contained in. 	
+    /*! The Window this viewport is contained in.
      */
     SFWindowPtr	_parent;
-    /*! The Camera used to render the viewport. 	
+    /*! The Camera used to render the viewport.
      */
     SFCameraPtr	_camera;
-    /*! The root of the tree that is displayed in this viewport. 	
+    /*! The root of the tree that is displayed in this viewport.
      */
     SFNodePtr	_root;
-    /*! The background used to clear this viewport. 	
+    /*! The background used to clear this viewport.
      */
     SFBackgroundPtr	_background;
 

@@ -61,7 +61,7 @@
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
-#include "OSGWindowDef.h"
+#include <OSGWindowDef.h>
 
 OSG_BEGIN_NAMESPACE
 

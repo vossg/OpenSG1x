@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class Geometry!
+ **     class Geometry
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -79,7 +79,7 @@
 #include <OSGGeoIndexFields.h>	// Index type
 #include <OSGMaterialFields.h>	// Material type
 
-#include "OSGGeometryFields.h"
+#include <OSGGeometryFields.h>
 
 OSG_BEGIN_NAMESPACE
 

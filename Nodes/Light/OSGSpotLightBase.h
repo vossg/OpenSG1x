@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class SpotLight!
+ **     class SpotLight
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -72,7 +72,7 @@
 #include <OSGReal32Fields.h>	// SpotExponent type
 #include <OSGReal32Fields.h>	// SpotCutOff type
 
-#include "OSGSpotLightFields.h"
+#include <OSGSpotLightFields.h>
 
 OSG_BEGIN_NAMESPACE
 

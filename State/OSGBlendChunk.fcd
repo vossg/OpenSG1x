@@ -5,6 +5,8 @@
 	parent="StateChunk"
 	library="State"
 	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
 	pointerfieldtypes="none"
 >
 The blending chunk handles OpenGL blending, i.e. the definition how incoming pixel

@@ -58,7 +58,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -72,16 +72,16 @@
 #include "OSGPolygonChunkBase.h"
 #include "OSGPolygonChunk.h"
 
-#include <GL/gl.h>	// CullFace defaults header
-#include <GL/gl.h>	// FrontFace defaults header
-#include <GL/gl.h>	// ModeFace defaults header
-#include <GL/gl.h>	// Mode defaults header
-#include <GL/gl.h>	// Smooth defaults header
-#include <GL/gl.h>	// OffsetPoint defaults header
-#include <GL/gl.h>	// OffsetLine defaults header
-#include <GL/gl.h>	// OffsetFill defaults header
-OSG_USING_NAMESPACE
+#include <GL/gl.h>	// CullFace default header
+#include <GL/gl.h>	// FrontFace default header
+#include <GL/gl.h>	// ModeFace default header
+#include <GL/gl.h>	// Mode default header
+#include <GL/gl.h>	// Smooth default header
+#include <GL/gl.h>	// OffsetPoint default header
+#include <GL/gl.h>	// OffsetLine default header
+#include <GL/gl.h>	// OffsetFill default header
 
+OSG_USING_NAMESPACE
 
 /***************************************************************************\
  *                               Types                                     *
@@ -130,7 +130,7 @@ const OSG::UInt32    	PolygonChunkBase::NextFieldId;
 const OSG::BitVector 	PolygonChunkBase::NextFieldMask;
 
 
-char PolygonChunkBase::cvsid[] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.1 2001/04/15 02:12:53 dirk Exp $";
+char PolygonChunkBase::cvsid[] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
 
 /** \brief Group field description
  */

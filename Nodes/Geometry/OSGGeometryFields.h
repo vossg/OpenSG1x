@@ -61,7 +61,7 @@
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
-#include "OSGGeometryDef.h"
+#include <OSGGeometryDef.h>
 
 OSG_BEGIN_NAMESPACE
 

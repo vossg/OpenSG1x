@@ -6,6 +6,8 @@
 	library="Light"
 	structure="abstract"
 	pointerfieldtypes="none"
+	systemcomponent="true"
+	parentsystemcomponent="true"
 >
 	<Field
 		name="ambient"

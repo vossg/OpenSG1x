@@ -58,7 +58,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -72,17 +72,17 @@
 #include "OSGTextureChunkBase.h"
 #include "OSGTextureChunk.h"
 
-#include <GL/gl.h>	// MinFilter defaults header
-#include <GL/gl.h>	// MagFilter defaults header
-#include <GL/gl.h>	// WrapS defaults header
-#include <GL/gl.h>	// WrapT defaults header
-#include <GL/gl.h>	// WrapR defaults header
-#include <GL/gl.h>	// GenFuncS defaults header
-#include <GL/gl.h>	// GenFuncT defaults header
-#include <GL/gl.h>	// GenFuncR defaults header
-#include <GL/gl.h>	// GenFuncQ defaults header
-OSG_USING_NAMESPACE
+#include <GL/gl.h>	// MinFilter default header
+#include <GL/gl.h>	// MagFilter default header
+#include <GL/gl.h>	// WrapS default header
+#include <GL/gl.h>	// WrapT default header
+#include <GL/gl.h>	// WrapR default header
+#include <GL/gl.h>	// GenFuncS default header
+#include <GL/gl.h>	// GenFuncT default header
+#include <GL/gl.h>	// GenFuncR default header
+#include <GL/gl.h>	// GenFuncQ default header
 
+OSG_USING_NAMESPACE
 
 /***************************************************************************\
  *                               Types                                     *
@@ -146,7 +146,7 @@ const OSG::UInt32    	TextureChunkBase::NextFieldId;
 const OSG::BitVector 	TextureChunkBase::NextFieldMask;
 
 
-char TextureChunkBase::cvsid[] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.1 2001/04/15 02:12:54 dirk Exp $";
+char TextureChunkBase::cvsid[] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.2 2001/05/23 23:05:56 dirk Exp $";
 
 /** \brief Group field description
  */

@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class DirectionalLight!
+ **     class DirectionalLight
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -70,7 +70,7 @@
 #include <OSGLightBase.h>
 #include <OSGVec3fFields.h>	// Direction type
 
-#include "OSGDirectionalLightFields.h"
+#include <OSGDirectionalLightFields.h>
 
 OSG_BEGIN_NAMESPACE
 

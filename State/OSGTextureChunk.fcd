@@ -6,6 +6,8 @@
 	library="State"
 	structure="concrete"
 	pointerfieldtypes="none"
+	systemcomponent="true"
+	parentsystemcomponent="true"
 >
 	<Field
 		name="image"

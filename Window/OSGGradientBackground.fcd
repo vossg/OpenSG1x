@@ -6,6 +6,8 @@
 	library="Window"
 	structure="concrete"
 	pointerfieldtypes="multi"
+	systemcomponent="true"
+	parentsystemcomponent="true"
 >
 A background showing a vertical color gradient. The colors and positions
 correspond to each other, so both have to have the same number of elements.

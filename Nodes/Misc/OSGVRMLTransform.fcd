@@ -6,6 +6,8 @@
 	library="Misc"
 	structure="concrete"
 	pointerfieldtypes="both"
+	systemcomponent="true"
+	parentsystemcomponent="true"
 >
 	<Field
 		name="center"

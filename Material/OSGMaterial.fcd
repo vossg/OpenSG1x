@@ -6,5 +6,7 @@
 	library="Material"
 	structure="abstract"
 	pointerfieldtypes="both"
+	systemcomponent="true"
+	parentsystemcomponent="true"
 >
 </FieldContainer>
