@@ -260,6 +260,8 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                     SWARNING <<
                         "Unknown TypeID: " <<
                         remoteTypeId <<
+                        " for remote id " <<
+                        remoteId <<
                         std::endl;
                 }
                 else
@@ -285,7 +287,7 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                     }
                     else
                     {
-                        FDEBUG(("FC already created %d",remoteId));
+                        FDEBUG(("FC already created %d\n",remoteId));
                     }
                 }
                 break;
@@ -302,12 +304,34 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                     {
                         callDestroyed(fcPtr);
 
-                        // first subref because if on the client side
-                        // the refcount gets zero, then no subref is
-                        // added to the changelist
-                        // then refcount is 0 or 1
-                        // 0 if addRef never was called for this fc
-                        // 1 if one or more times addRef was called
+                        // remove all references to avoid multiple
+                        // removes.
+                        // The changelist does not contain changes
+                        // if the container was removed in this frame.
+                        // So when a pointerfield is set to NullFC
+                        // the new value is not transfered to the
+                        // server.
+                        FieldContainerType &fcType = fcPtr->getType();
+                        for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
+                        {
+                            Field *fieldPtr = fcPtr->getField(i);
+                            const FieldType &fType = fieldPtr->getType();
+                            char *ptrStr = strstr(fType.getCName(), "Ptr");
+                            if(ptrStr && strlen(ptrStr) == 3)
+                            {
+                                if(fieldPtr->getCardinality() == FieldType::SINGLE_FIELD)
+                                {
+                                    ((SFFieldContainerPtr *)fieldPtr)->setValue(NullFC);
+                                }
+                                else 
+                                {
+                                    ((MFFieldContainerPtr *) fieldPtr)->clear();
+                                }
+                            }
+                        }
+
+                        // subref until the factory hat no 
+                        // knolage of the node
                         do
                         {
                             subRefCP(fcPtr);
@@ -366,12 +390,13 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                 else
                 {
                     char dummy;
-                    while(len--)
-                        connection.get(&dummy,1);
+
                     SWARNING <<
                         "Can't change unknown FC:" <<
-                        remoteId << 
+                        remoteId << " skip " << len << " bytes." <<
                         std::endl;
+                    while(len--)
+                        connection.get(&dummy,1);
                 }
                 break;
             }
@@ -976,7 +1001,7 @@ bool RemoteAspect::_defaultCreatedFunction(FieldContainerPtr &fcp, RemoteAspect 
 bool RemoteAspect::_defaultDestroyedFunction(FieldContainerPtr &fcp,
                                              RemoteAspect *)
 {
-    FDEBUG(("Destroyed:%s %d\n\n",
+    FDEBUG(("Destroyed:%s %d\n",
             fcp->getType().getName().str(),
             fcp.getFieldContainerId()))
     return true;
@@ -1008,7 +1033,7 @@ UInt32 RemoteAspectFieldContainerMapper::map(UInt32 uiId)
         _remoteAspect->getFullRemoteId(uiId));
     if(i == _remoteAspect->_localFC.end())
     {
-        SWARNING << "Can't find container id:\n" << uiId << std::endl;
+        SWARNING << "Can't find container id:" << uiId << std::endl;
         mappedId = 0;
     }
     else
