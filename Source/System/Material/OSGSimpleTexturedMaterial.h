@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGTEXTUREDSIMPLEMATERIAL_H_
-#define _OSGTEXTUREDSIMPLEMATERIAL_H_
+#ifndef _OSGSIMPLETEXTUREDMATERIAL_H_
+#define _OSGSIMPLETEXTUREDMATERIAL_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -147,6 +147,6 @@ OSG_END_NAMESPACE
 #include <OSGSimpleTexturedMaterialBase.inl>
 #include <OSGSimpleTexturedMaterial.inl>
 
-#define OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.5 2001/11/01 09:03:28 vossg Exp $"
+#define OSGSIMPLETEXTUREDMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.5 2001/11/01 09:03:28 vossg Exp $"
 
 #endif /* _OSGTEXTUREDSIMPLEMATERIAL_H_ */

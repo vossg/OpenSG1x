@@ -243,10 +243,10 @@ void SimpleTexturedMaterial::prepareLocalChunks(void)
 namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID;
+    static Char8 cvsid_hpp[] = OSGSIMPLETEXTUREDMATERIAL_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSIMPLETEXTUREDMATERIAL_INLINE_CVSID;
 
-    static Char8 cvsid_fields_hpp[] = OSGSIMPLEMATERIALFIELDS_HEADER_CVSID;
+    static Char8 cvsid_fields_hpp[] = OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID;
 }
 
 #ifdef __sgi
