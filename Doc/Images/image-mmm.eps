@@ -1,7 +1,7 @@
 %!PS-Adobe-2.0 EPSF-2.0
 %%Title: image-mmm.eps
 %%Creator: fig2dev Version 3.2 Patchlevel 3d
-%%CreationDate: Wed Mar 12 14:41:38 2003
+%%CreationDate: Thu Mar 13 13:06:52 2003
 %%For: jbehr@PC1041 (Johannes Behr)
 %%BoundingBox: 0 0 513 122
 %%Magnification: 1.0000
@@ -1981,24 +1981,27 @@ restore grestore
 % Polyline
 30.000 slw
 gs  clippath
-3510 4485 m 3330 4485 l 3330 4925 l 3420 4565 l 3510 4925 l cp
-eoclip
-n 3420 5670 m
- 3420 4500 l gs col0 s gr gr
-
-% arrowhead
-n 3510 4925 m 3420 4565 l 3330 4925 l 3510 4925 l  cp gs 0.00 setgray ef gr  col0 s
-% Polyline
-gs  clippath
 3615 5940 m 3615 5760 l 3175 5760 l 3535 5850 l 3175 5940 l cp
 eoclip
 n 2250 5850 m
- 3600 5850 l gs col0 s gr gr
+ 3600 5850 l gs col4 s gr gr
 
 % arrowhead
-n 3175 5940 m 3535 5850 l 3175 5760 l 3175 5940 l  cp gs 0.00 setgray ef gr  col0 s
+n 3175 5940 m 3535 5850 l 3175 5760 l 3175 5940 l  cp gs col4 1.00 shd ef gr  col4 s
+% Polyline
+7.500 slw
+gs  clippath
+5190 4305 m 5190 4245 l 5039 4245 l 5159 4275 l 5039 4305 l cp
+eoclip
+n 3825 5625 m 5175 5625 l 3825 5400 l 5175 5400 l 3825 5175 l 5175 5175 l
+ 3825 4950 l 5175 4950 l 3825 4725 l 5175 4725 l 3825 4500 l
+ 5175 4500 l 3825 4275 l
+ 5175 4275 l gs col4 s gr gr
+
+% arrowhead
+n 5039 4305 m 5159 4275 l 5039 4245 l 5039 4305 l  cp gs col4 1.00 shd ef gr  col4 s
 /Times-Roman ff 270.00 scf sf
-2250 5580 m
+2385 5760 m
 gs 1 -1 sc (Data ) col0 sh gr
 $F2psEnd
 rs

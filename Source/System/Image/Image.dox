@@ -18,13 +18,14 @@ supported to handle gray and RGB color images with or without alpha channel.
 
 An Image is only a container for the pixel data and image description. It does
 not create or handle any OpenGL state elements. However, image objects are
-utilized to handle the data for texture (e.g. SimpleTextureMaterial of TextureChunk) or bitmap objects (e.g. ImageForeground).
+utilized to handle the data for texture (e.g. SimpleTextureMaterial of TextureChunk) or 
+bitmap objects (e.g. ImageForeground).
 
 The image object holds some describing fields (e.g. width/height/depth),
 and a single block of memory for all the raster data. 
 
 \image html image-mmm.png "Mem layout for Multi-Frame mip-map image data"
-\image latex image-mmm.eps "Mem layout for Multi-Frame mip-map image data"
+\image latex image-mmm.eps "Mem layout for Multi-Frame mip-map image data" width=14cm
 
 The image data starts in the lower left (front) corner and all bytes for a
 single pixel (e.g. RGB) are stored sequentially in memory. They are not
@@ -32,7 +33,7 @@ organized in separate layers or channels.
 
 The optional mipmap-level are stored directly after the Image
 data. The dimensions (width/height/depth) are always reduced to 50%
-of the previous level but at least 1. The Image object can hold
+of the previous level but stay at least 1. The Image object can hold
 just a number of levels and must not be complete (end with a 1x1x1 level).
 
 If there are any additional mipmap-levels defined, OpenSG will use 
