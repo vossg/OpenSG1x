@@ -315,6 +315,15 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                         for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
                         {
                             Field *fieldPtr = fcPtr->getField(i);
+                            FieldDescription *desc = fcPtr->getType().getFieldDescription(i);
+                            // ignore beacon fields. I don't know any clean
+                            // solution. In CamearDecorator the acces method
+                            // to beacon is overloaded. As a result, if the
+                            // beacon field in the decorator is modified,
+                            // the decorated camera is modified. In most
+                            // cases this is OK, but not in this case.
+                            if(strcmp(desc->getName().str(),"beacon")==0)
+                                continue;
                             const FieldType &fType = fieldPtr->getType();
                             char *ptrStr = strstr(fType.getCName(), "Ptr");
                             if(ptrStr && strlen(ptrStr) == 3)
