@@ -131,6 +131,13 @@ SFImagePtr *CubeTextureChunkBase::getSFNegYImage(void)
     return &_sfNegYImage;
 }
 
+//! Get the CubeTextureChunk::_sfIsReflectionMap field.
+inline
+SFBool *CubeTextureChunkBase::getSFIsReflectionMap(void)
+{
+    return &_sfIsReflectionMap;
+}
+
 
 //! Get the value of the CubeTextureChunk::_sfPosZImage field.
 inline
@@ -235,6 +242,27 @@ inline
 void CubeTextureChunkBase::setNegYImage(const ImagePtr &value)
 {
     _sfNegYImage.setValue(value);
+}
+
+//! Get the value of the CubeTextureChunk::_sfIsReflectionMap field.
+inline
+bool &CubeTextureChunkBase::getIsReflectionMap(void)
+{
+    return _sfIsReflectionMap.getValue();
+}
+
+//! Get the value of the CubeTextureChunk::_sfIsReflectionMap field.
+inline
+const bool &CubeTextureChunkBase::getIsReflectionMap(void) const
+{
+    return _sfIsReflectionMap.getValue();
+}
+
+//! Set the value of the CubeTextureChunk::_sfIsReflectionMap field.
+inline
+void CubeTextureChunkBase::setIsReflectionMap(const bool &value)
+{
+    _sfIsReflectionMap.setValue(value);
 }
 
 
