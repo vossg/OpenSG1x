@@ -47,7 +47,7 @@
 #include "OSGBarrier.h"
 #include "OSGBaseFunctions.h"
 
-#include <OSGThreadManager.h>
+#include "OSGThreadManager.h"
 
 OSG_USING_NAMESPACE
 
@@ -60,8 +60,9 @@ OSG_USING_NAMESPACE
 
 BarrierCommonBase::BarrierCommonBase(const Char8  *szName,
                                            UInt32  uiId  ):
-     Inherited  (szName),
-    _uiBarrierId(uiId  )
+     Inherited   (szName),
+    _uiBarrierId (uiId  ),
+    _uiNumWaitFor(     1)
 {
 }
 
@@ -85,12 +86,11 @@ BarrierCommonBase::~BarrierCommonBase(void)
 PThreadBarrierBase::PThreadBarrierBase(const Char8  *szName,
                                              UInt32  uiId  ) :
      Inherited        (szName, 
-                       uiId),
+                       uiId  ),
 
-    _pLockOne         (),
-    _pLockTwo         (),
-    _pWakeupCondition (),
-    _uiCount          (0)
+    _pLockOne         (      ),
+    _uiCount          (0     ),
+    _uiCurrentCond    (0     )
 {
 }
 
@@ -104,11 +104,12 @@ PThreadBarrierBase::~PThreadBarrierBase(void)
 
 bool PThreadBarrierBase::init(void)
 {
-    pthread_cond_init (&(_pWakeupCondition), NULL);
-    pthread_mutex_init(&(_pLockOne),         NULL);
-    pthread_mutex_init(&(_pLockTwo),         NULL);
+    pthread_cond_init (&(_pWakeupCondition[0]), NULL);
+    pthread_cond_init (&(_pWakeupCondition[1]), NULL);
+    pthread_mutex_init(&(_pLockOne),            NULL);
 
-    _uiCount = 0;
+    _uiCount       = 0;
+    _uiCurrentCond = 0;
 
     return true;
 }
@@ -117,50 +118,9 @@ bool PThreadBarrierBase::init(void)
 
 void PThreadBarrierBase::shutdown(void)
 {
-    pthread_cond_destroy (&(_pWakeupCondition));
+    pthread_cond_destroy (&(_pWakeupCondition[0]));
+    pthread_cond_destroy (&(_pWakeupCondition[1]));
     pthread_mutex_destroy(&(_pLockOne));
-    pthread_mutex_destroy(&(_pLockTwo));
-}
-
-/*------------------------------- Enter -----------------------------------*/
-
-void PThreadBarrierBase::enter(UInt32 uiNumWaitFor)
-{
-    if(uiNumWaitFor <= 1)
-        return;
-
-    pthread_mutex_lock(&(_pLockOne));
-
-    _uiCount++;
-
-    if(_uiCount < uiNumWaitFor)
-    {
-        /* not enough threads are waiting => wait */
-
-        pthread_cond_wait(&(_pWakeupCondition), &(_pLockOne));
-    }
-    else
-    {
-        /* ok, enough threads are waiting
-           => wake up all waiting threads
-        */
-
-        pthread_cond_broadcast(&(_pWakeupCondition));
-
-    }
-
-    pthread_mutex_lock(&(_pLockTwo));
-
-    if(_uiCount == uiNumWaitFor)
-    {
-        _uiCount = 0;
-
-        pthread_cond_init(&(_pWakeupCondition), NULL);
-    }
-
-    pthread_mutex_unlock(&(_pLockTwo));
-
-    pthread_mutex_unlock(&(_pLockOne));
 }
 
 #endif /* OSG_USE_PTHREADS */
@@ -219,13 +179,6 @@ void SprocBarrierBase::shutdown(void)
         free_barrier(_pBarrier);
 }
 
-/*------------------------------ Enter ------------------------------------*/
-
-void SprocBarrierBase::enter(UInt32 uiNumWaitFor)
-{
-    if(_pBarrier != NULL)
-        barrier(_pBarrier, uiNumWaitFor);
-}
 
 
 #endif /* OSG_USE_SPROC */
@@ -305,39 +258,6 @@ void WinThreadBarrierBase::shutdown(void)
         CloseHandle(_pBarrierSema);
 }
 
-/*------------------------------ Enter ------------------------------------*/
-
-void WinThreadBarrierBase::enter(UInt32 uiNumWaitFor)
-{
-	WaitForSingleObject(_pMutex1, INFINITE);
-
-	++_uiNumWaiters;
-
-	if(_uiNumWaiters == uiNumWaitFor) 
-	{
-		--_uiNumWaiters;
-
-		ReleaseMutex(_pMutex1);
-
-		ReleaseSemaphore(_pBarrierSema, uiNumWaitFor - 1, NULL);
-
-		return;
-	}
-	else
-	{
-		ReleaseMutex(_pMutex1);
-
-		WaitForSingleObject(_pBarrierSema, INFINITE);
-		
-		WaitForSingleObject(_pMutex1, INFINITE);
-
-		--_uiNumWaiters;
-
-		ReleaseMutex(_pMutex1);
-	}
-}
-
-
 #endif /* OSG_USE_WINTHREADS */
 
 
@@ -349,35 +269,6 @@ void WinThreadBarrierBase::enter(UInt32 uiNumWaitFor)
 
 MPBarrierType Barrier::_type("OSGBarrier", "OSGMPBase", &Barrier::create);
 
-
-/*-------------------------------- Get ------------------------------------*/
-
-Barrier *Barrier::get(const Char8 *szName)
-{
-    return ThreadManager::the()->getBarrier(szName, "OSGBarrier");
-}
-
-Barrier *Barrier::find(const Char8 *szName)
-{
-    return ThreadManager::the()->findBarrier(szName);
-}
-
-Barrier *Barrier::create(void)
-{
-    return Barrier::get(NULL);
-}
-
-const MPBarrierType &Barrier::getClassType(void)
-{
-    return _type;
-}
-
-/*------------------------------- Enter -----------------------------------*/
-
-void Barrier::enter(UInt32 uiNumWaitFor)
-{
-    Inherited::enter(uiNumWaitFor);
-}
 
 /*--------------------------- Constructors --------------------------------*/
 
@@ -396,6 +287,19 @@ Barrier::~Barrier(void)
     shutdown();
 }
 
+/*-------------------------------- Get ------------------------------------*/
+
+Barrier *Barrier::get(const Char8 *szName)
+{
+    return ThreadManager::the()->getBarrier(szName, "OSGBarrier");
+}
+
+Barrier *Barrier::find(const Char8 *szName)
+{
+    return ThreadManager::the()->findBarrier(szName);
+}
+
+
 /*------------------------------ Create -----------------------------------*/
 
 Barrier *Barrier::create (const Char8  *szName,
@@ -409,7 +313,7 @@ Barrier *Barrier::create (const Char8  *szName,
     {
         delete returnValue;
         returnValue = NULL;
-    }
+   }
 
     return returnValue;
 }

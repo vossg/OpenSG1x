@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2003 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -42,17 +42,14 @@
 #pragma once
 #endif
 
-#include <OSGBase.h>
-#include <OSGConfig.h>
+#include "OSGBaseTypes.h"
+#include "OSGMPBase.h"
 
 #if ! defined (OSG_USE_PTHREADS)   && \
     ! defined (OSG_USE_SPROC)      && \
     ! defined (OSG_USE_WINTHREADS)
 #error "No threading model defined,  check your system/compiler combination"
 #endif
-
-#include <OSGBaseTypes.h>
-#include <OSGMPBase.h>
 
 #if defined (OSG_USE_PTHREADS)
 #include <pthread.h>
@@ -86,8 +83,8 @@ class OSG_BASE_DLLMAPPING BarrierCommonBase : public MPBase
 
     typedef MPBase Inherited;
 
-    UInt32  _uiBarrierId;
-    Int32   _iRefCount;
+             UInt32  _uiBarrierId;
+    volatile UInt32  _uiNumWaitFor;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -101,6 +98,13 @@ class OSG_BASE_DLLMAPPING BarrierCommonBase : public MPBase
     /*! \{                                                                 */
 
     virtual ~BarrierCommonBase(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Set                                     */
+    /*! \{                                                                 */
+
+    void setNumWaitFor(UInt32 uiNumWaitFor);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -168,6 +172,7 @@ class PThreadBarrierBase : public BarrierCommonBase
     /*! \name                     Enter                                    */
     /*! \{                                                                 */
 
+    void enter   (void               );
     void enter   (UInt32 uiNumWaitFor);
 
     /*! \}                                                                 */
@@ -176,9 +181,9 @@ class PThreadBarrierBase : public BarrierCommonBase
   private:
 
     pthread_mutex_t _pLockOne;
-    pthread_mutex_t _pLockTwo;
-    pthread_cond_t  _pWakeupCondition;
+    pthread_cond_t  _pWakeupCondition[2];
     UInt32          _uiCount;
+    UInt32          _uiCurrentCond;
 
     /*!\brief prohibit default function (move to 'public' if needed) */
     PThreadBarrierBase(const PThreadBarrierBase &source);
@@ -246,6 +251,7 @@ class SprocBarrierBase : public BarrierCommonBase
     /*! \name                      Enter                                   */
     /*! \{                                                                 */
 
+    void enter   (void               );
     void enter   (UInt32 uiNumWaitFor);
 
     /*! \}                                                                 */
@@ -319,6 +325,7 @@ class OSG_BASE_DLLMAPPING WinThreadBarrierBase : public BarrierCommonBase
     /*! \name                      Enter                                   */
     /*! \{                                                                 */
 
+    void enter   (void               );
     void enter   (UInt32 uiNumWaitFor);
 
     /*! \}                                                                 */
@@ -376,6 +383,7 @@ class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
     /*! \name                      Enter                                   */
     /*! \{                                                                 */
 
+    void enter(void               );
     void enter(UInt32 uiNumWaitFor);
 
     /*! \}                                                                 */
@@ -424,5 +432,7 @@ class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
 OSG_END_NAMESPACE
 
 #define OSGBARRIER_HEADER_CVSID "@(#)$Id: $"
+
+#include "OSGBarrier.inl"
 
 #endif /* _OSGBARRIER_H_ */
