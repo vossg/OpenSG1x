@@ -106,6 +106,14 @@ class OSG_SYSTEMLIB_DLLMAPPING PNGImageFileType : public ImageFileType
     static PNGImageFileType _the;
 
     /*! \}                                                                 */
+
+    /*---------------------------------------------------------------------*/
+    /*! \name               PNG LIB Helper                                 */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+
+
 };
 
 typedef PNGImageFileType* PNGImageFileTypeP;

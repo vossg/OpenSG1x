@@ -81,6 +81,21 @@ static const Char8 *suffixArray[] = {
   "png"
 };
 
+/*****************************
+ *  PNG lib helper
+ *****************************/
+static void errorOutput (png_structp png_ptr, const char *message)
+{
+  FFATAL   (("PNG: %s\n", message ));
+
+  longjmp(png_ptr->jmpbuf, 1);
+}
+
+static void warningOutput (png_structp png_ptr, const char *message)
+{
+  FWARNING (("PNG: %s\n", message )); 
+}
+
 PNGImageFileType PNGImageFileType:: _the(suffixArray, sizeof(suffixArray));
 
 /********************************
@@ -114,7 +129,9 @@ PNGImageFileType PNGImageFileType:: _the(suffixArray, sizeof(suffixArray));
 bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image), 
                             const Char8 *OSG_PNG_ARG(fileName))
 {
+
 #ifdef OSG_WITH_PNG
+
     bool                retCode;
     Image::PixelFormat  pixelFormat;
     png_structp         png_ptr;
@@ -132,6 +149,8 @@ bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image),
             fclose(fd);
             return false;
         }
+
+        png_set_error_fn(png_ptr, 0, &errorOutput, &warningOutput);
 
         info_ptr = png_create_info_struct(png_ptr);
         if(!info_ptr)
@@ -219,12 +238,15 @@ bool PNGImageFileType::read(      Image &OSG_PNG_ARG(image),
     return retCode;
 
 #else
+
     SWARNING <<
         getMimeType() <<
         " read is not compiled into the current binary " <<
         std::endl;
     return false;
+
 #endif
+
 }
 
 //----------------------------
