@@ -108,6 +108,9 @@ Erste Version des Shadowviewports für Shadowmapping
  *                           Class variables                               *
 \***************************************************************************/
 
+UInt32 ShadowMapViewport::_depth_texture_extension;
+UInt32 ShadowMapViewport::_shadow_extension;
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -129,7 +132,6 @@ void ShadowMapViewport::initMethod (void)
 
 ShadowMapViewport::ShadowMapViewport(void) :
     Inherited(),
-    _need_update(false),
     _mapRenderSize(128),
     _mapSizeChanged(false),
     _windowW(0),
@@ -147,13 +149,13 @@ ShadowMapViewport::ShadowMapViewport(void) :
     _lightCamBeacons(),
     _lightStates(),
     _shadowImages(),
-    _texChunks()
+    _texChunks(),
+    _trigger_update(false)
 {
 }
 
 ShadowMapViewport::ShadowMapViewport(const ShadowMapViewport &source) :
     Inherited(source),
-    _need_update(source._need_update),
     _mapRenderSize(source._mapRenderSize),
     _mapSizeChanged(source._mapSizeChanged),
     _windowW(source._windowW),
@@ -171,8 +173,11 @@ ShadowMapViewport::ShadowMapViewport(const ShadowMapViewport &source) :
     _lightCamBeacons(source._lightCamBeacons),
     _lightStates(source._lightStates),
     _shadowImages(source._shadowImages),
-    _texChunks(source._texChunks)
+    _texChunks(source._texChunks),
+    _trigger_update(source._trigger_update)
 {
+    _depth_texture_extension = Window::registerExtension("GL_ARB_depth_texture");
+    _shadow_extension = Window::registerExtension("GL_ARB_shadow");
 }
 
 ShadowMapViewport::~ShadowMapViewport(void)
@@ -211,9 +216,13 @@ void ShadowMapViewport::changed(BitVector whichField, UInt32 origin)
             _lights.push_back(LightPtr::dcast(getLightNodes()[i]->getCore()));
     }
 
+    if(whichField & MapAutoUpdateFieldMask)
+    {
+        _trigger_update = true;
+    }
+
     Inherited::changed(whichField, origin);
 }
-//------------------------------------------------
 
 
 void ShadowMapViewport::dump(      UInt32    ,
@@ -221,7 +230,13 @@ void ShadowMapViewport::dump(      UInt32    ,
 {
     FDEBUG(("Dump ShadowMapViewport NI\n"));
 }
-//------------------------------------------------
+
+void ShadowMapViewport::triggerMapUpdate(void)
+{
+    ShadowMapViewportPtr tmpPtr(*this);
+    beginEditCP(tmpPtr, MapAutoUpdateFieldMask);
+    endEditCP(tmpPtr, MapAutoUpdateFieldMask);
+}
 
 
 void ShadowMapViewport::onCreate(const ShadowMapViewport */*source*/)
@@ -229,8 +244,6 @@ void ShadowMapViewport::onCreate(const ShadowMapViewport */*source*/)
     // if we're in startup this is the prototype ...
     if(OSG::GlobalSystemState == OSG::Startup)
         return;
-
-    _need_update = true;
 
     _mapRenderSize = 128;
 
@@ -310,33 +323,41 @@ void ShadowMapViewport::render(RenderActionBase* action)
 
     GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
-        
-    //if (_need_update)// Is an update of Shadows necessary?
+
+    if(!extensionCheck())
     {
-        if(!extensionCheck())
+        SWARNING << "No Shadowmap-Extensions available!" << endLog;
+    }
+    else
+    {
+        if(getSceneRoot() == NullFC)
         {
-            SWARNING << "No Shadowmap-Extensions available!" << endLog;
+            beginEditCP(getPtr(), SceneRootFieldMask);
+                setSceneRoot(getRoot());
+            endEditCP(getPtr(), SceneRootFieldMask);
+        }
+
+        action->setCamera    (getCamera().getCPtr());
+        action->setBackground(_silentBack.getCPtr());
+        action->setViewport  (this);
+        action->setTravMask  (getTravMask());
+
+        checkMapResolution();
+        checkLights(action);
+        if(getMapAutoUpdate())
+        {
+            createShadowMaps(action);
         }
         else
         {
-            if(getSceneRoot() == NullFC)
+            if(_trigger_update)
             {
-                beginEditCP(getPtr(), SceneRootFieldMask);
-                    setSceneRoot(getRoot());
-                endEditCP(getPtr(), SceneRootFieldMask);
+                createShadowMaps(action);
+                _trigger_update = false;
             }
-    
-            action->setCamera    (getCamera().getCPtr());
-            action->setBackground(_silentBack.getCPtr());
-            action->setViewport  (this);
-            action->setTravMask  (getTravMask());
-
-            checkMapResolution();
-            checkLights(action);
-            createShadowMaps(action);
-            _need_update = false;
         }
     }
+    
 
     if(!_lights.empty() && !_lightCameras.empty())
     {
@@ -356,11 +377,11 @@ void ShadowMapViewport::render(RenderActionBase* action)
 //Checks if the needed OpenGL-Extensions are supported
 bool ShadowMapViewport::extensionCheck()
 {
-    if(!this->getParent()->hasExtension("GL_ARB_depth_texture"))
+    if(!this->getParent()->hasExtension(_depth_texture_extension))
     {
         SWARNING << "I need ARB_depth_texture-Extension!" << endLog;
     }
-    else if(!this->getParent()->hasExtension("GL_ARB_shadow"))
+    else if(!this->getParent()->hasExtension(_shadow_extension))
     {
         SWARNING << "I need ARB_shadow-Extension!" << endLog;
     }
@@ -754,10 +775,6 @@ void ShadowMapViewport::clearLights(UInt32 size)
     }
 }
 
-//------------------------------------------------
-
-
-// TODO: Gekacheltes REndern de Tiefentextur
 void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
 {
     Real32 vpTop,vpBottom,vpLeft,vpRight;
@@ -1012,7 +1029,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.8 2004/08/25 13:41:52 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.9 2004/08/30 17:49:38 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

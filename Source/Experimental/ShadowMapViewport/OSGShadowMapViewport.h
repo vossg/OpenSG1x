@@ -100,6 +100,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewport : public ShadowMapViewportBase
     virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector  bvFlags  = 0) const;
 
+    void triggerMapUpdate(void);
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -115,7 +117,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewport : public ShadowMapViewportBase
 
     Action::ResultE findLight(NodePtr& node);
 
-    bool                    _need_update;
     UInt32                  _mapRenderSize;
     bool                    _mapSizeChanged;
     UInt32                  _windowW;
@@ -136,6 +137,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewport : public ShadowMapViewportBase
     std::vector<UInt32>             _lightStates;
     std::vector<ImagePtr>           _shadowImages;
     std::vector<TextureChunkPtr>    _texChunks;
+
+    bool                            _trigger_update;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
@@ -162,6 +165,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewport : public ShadowMapViewportBase
     friend class FieldContainer;
     friend class ShadowMapViewportBase;
 
+    /*---------------------------------------------------------------------*/
+    /*! \name            OpenGL Extension Handling                         */
+    /*! \{                                                                 */
+
+    static UInt32 _depth_texture_extension;
+    static UInt32 _shadow_extension;
+
+    /*! \}                                                                 */
+
     static void initMethod(void);
 
     void Initialize();
@@ -178,6 +190,6 @@ OSG_END_NAMESPACE
 #include "OSGShadowMapViewportBase.inl"
 #include "OSGShadowMapViewport.inl"
 
-#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.4 2004/08/12 16:17:06 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.5 2004/08/30 17:49:38 a-m-z Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORT_H_ */

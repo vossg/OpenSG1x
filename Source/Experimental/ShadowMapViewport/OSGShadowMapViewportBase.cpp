@@ -85,6 +85,9 @@ const OSG::BitVector  ShadowMapViewportBase::LightNodesFieldMask =
 const OSG::BitVector  ShadowMapViewportBase::ShadowOnFieldMask = 
     (TypeTraits<BitVector>::One << ShadowMapViewportBase::ShadowOnFieldId);
 
+const OSG::BitVector  ShadowMapViewportBase::MapAutoUpdateFieldMask = 
+    (TypeTraits<BitVector>::One << ShadowMapViewportBase::MapAutoUpdateFieldId);
+
 const OSG::BitVector ShadowMapViewportBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -111,6 +114,9 @@ const OSG::BitVector ShadowMapViewportBase::MTInfluenceMask =
     
 */
 /*! \var bool            ShadowMapViewportBase::_sfShadowOn
+    
+*/
+/*! \var bool            ShadowMapViewportBase::_sfMapAutoUpdate
     
 */
 
@@ -152,7 +158,12 @@ FieldDescription *ShadowMapViewportBase::_desc[] =
                      "shadowOn", 
                      ShadowOnFieldId, ShadowOnFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowMapViewportBase::getSFShadowOn)
+                     (FieldAccessMethod) &ShadowMapViewportBase::getSFShadowOn),
+    new FieldDescription(SFBool::getClassType(), 
+                     "mapAutoUpdate", 
+                     MapAutoUpdateFieldId, MapAutoUpdateFieldMask,
+                     false,
+                     (FieldAccessMethod) &ShadowMapViewportBase::getSFMapAutoUpdate)
 };
 
 
@@ -215,6 +226,7 @@ ShadowMapViewportBase::ShadowMapViewportBase(void) :
     _sfMapSize                (UInt32(512)), 
     _mfLightNodes             (), 
     _sfShadowOn               (bool(true)), 
+    _sfMapAutoUpdate          (bool(true)), 
     Inherited() 
 {
 }
@@ -231,6 +243,7 @@ ShadowMapViewportBase::ShadowMapViewportBase(const ShadowMapViewportBase &source
     _sfMapSize                (source._sfMapSize                ), 
     _mfLightNodes             (source._mfLightNodes             ), 
     _sfShadowOn               (source._sfShadowOn               ), 
+    _sfMapAutoUpdate          (source._sfMapAutoUpdate          ), 
     Inherited                 (source)
 {
 }
@@ -282,6 +295,11 @@ UInt32 ShadowMapViewportBase::getBinSize(const BitVector &whichField)
         returnValue += _sfShadowOn.getBinSize();
     }
 
+    if(FieldBits::NoField != (MapAutoUpdateFieldMask & whichField))
+    {
+        returnValue += _sfMapAutoUpdate.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -324,6 +342,11 @@ void ShadowMapViewportBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ShadowOnFieldMask & whichField))
     {
         _sfShadowOn.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (MapAutoUpdateFieldMask & whichField))
+    {
+        _sfMapAutoUpdate.copyToBin(pMem);
     }
 
 
@@ -369,6 +392,11 @@ void ShadowMapViewportBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfShadowOn.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (MapAutoUpdateFieldMask & whichField))
+    {
+        _sfMapAutoUpdate.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -398,6 +426,9 @@ void ShadowMapViewportBase::executeSyncImpl(      ShadowMapViewportBase *pOther,
 
     if(FieldBits::NoField != (ShadowOnFieldMask & whichField))
         _sfShadowOn.syncWith(pOther->_sfShadowOn);
+
+    if(FieldBits::NoField != (MapAutoUpdateFieldMask & whichField))
+        _sfMapAutoUpdate.syncWith(pOther->_sfMapAutoUpdate);
 
 
 }
@@ -432,7 +463,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.3 2004/08/12 17:16:14 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.4 2004/08/30 17:49:38 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

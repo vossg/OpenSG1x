@@ -72,6 +72,7 @@
 #include <OSGUInt32Fields.h> // MapSize type
 #include <OSGNodeFields.h> // LightNodes type
 #include <OSGBoolFields.h> // ShadowOn type
+#include <OSGBoolFields.h> // MapAutoUpdate type
 
 #include <OSGShadowMapViewportFields.h>
 
@@ -95,14 +96,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
 
     enum
     {
-        OffBiasFieldId     = Inherited::NextFieldId,
-        OffFactorFieldId   = OffBiasFieldId     + 1,
-        SceneRootFieldId   = OffFactorFieldId   + 1,
-        ShadowColorFieldId = SceneRootFieldId   + 1,
-        MapSizeFieldId     = ShadowColorFieldId + 1,
-        LightNodesFieldId  = MapSizeFieldId     + 1,
-        ShadowOnFieldId    = LightNodesFieldId  + 1,
-        NextFieldId        = ShadowOnFieldId    + 1
+        OffBiasFieldId       = Inherited::NextFieldId,
+        OffFactorFieldId     = OffBiasFieldId       + 1,
+        SceneRootFieldId     = OffFactorFieldId     + 1,
+        ShadowColorFieldId   = SceneRootFieldId     + 1,
+        MapSizeFieldId       = ShadowColorFieldId   + 1,
+        LightNodesFieldId    = MapSizeFieldId       + 1,
+        ShadowOnFieldId      = LightNodesFieldId    + 1,
+        MapAutoUpdateFieldId = ShadowOnFieldId      + 1,
+        NextFieldId          = MapAutoUpdateFieldId + 1
     };
 
     static const OSG::BitVector OffBiasFieldMask;
@@ -112,6 +114,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
     static const OSG::BitVector MapSizeFieldMask;
     static const OSG::BitVector LightNodesFieldMask;
     static const OSG::BitVector ShadowOnFieldMask;
+    static const OSG::BitVector MapAutoUpdateFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -145,6 +148,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
            SFUInt32            *getSFMapSize        (void);
            MFNodePtr           *getMFLightNodes     (void);
            SFBool              *getSFShadowOn       (void);
+           SFBool              *getSFMapAutoUpdate  (void);
 
            UInt32              &getOffBias        (void);
      const UInt32              &getOffBias        (void) const;
@@ -158,6 +162,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
      const UInt32              &getMapSize        (void) const;
            bool                &getShadowOn       (void);
      const bool                &getShadowOn       (void) const;
+           bool                &getMapAutoUpdate  (void);
+     const bool                &getMapAutoUpdate  (void) const;
            NodePtr             &getLightNodes     (const UInt32 index);
            MFNodePtr           &getLightNodes     (void);
      const MFNodePtr           &getLightNodes     (void) const;
@@ -173,6 +179,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
      void setShadowColor    ( const Color4f &value );
      void setMapSize        ( const UInt32 &value );
      void setShadowOn       ( const bool &value );
+     void setMapAutoUpdate  ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -225,6 +232,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
     SFUInt32            _sfMapSize;
     MFNodePtr           _mfLightNodes;
     SFBool              _sfShadowOn;
+    SFBool              _sfMapAutoUpdate;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -272,6 +280,6 @@ typedef ShadowMapViewportBase *ShadowMapViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.3 2004/08/12 17:16:14 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.4 2004/08/30 17:49:38 a-m-z Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORTBASE_H_ */
