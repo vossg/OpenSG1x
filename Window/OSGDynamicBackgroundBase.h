@@ -213,8 +213,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -232,5 +230,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
 typedef DynamicBackgroundBase *DynamicBackgroundBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundBase.h,v 1.12 2001/09/17 14:15:07 vossg Exp $"
 
 #endif /* _OSGDYNAMICBACKGROUNDBASE_H_ */

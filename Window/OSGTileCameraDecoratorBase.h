@@ -245,8 +245,6 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -264,5 +262,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
 typedef TileCameraDecoratorBase *TileCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.9 2001/09/17 14:15:08 vossg Exp $"
 
 #endif /* _OSGTILECAMERADECORATORBASE_H_ */

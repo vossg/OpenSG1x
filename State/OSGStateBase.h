@@ -205,8 +205,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -224,5 +222,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
 typedef StateBase *StateBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.11 2001/09/17 14:15:07 vossg Exp $"
 
 #endif /* _OSGSTATEBASE_H_ */

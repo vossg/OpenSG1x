@@ -54,4 +54,6 @@ char *FCTemplate_inl[]={
 "",
 "OSG_END_NAMESPACE",
 "",
+"#define OSG@!CLASSNAME!@_INLINE_CVSID \"@(#)$Id: FCTemplate_inl.h,v 1.7 2001/09/17 14:15:07 vossg Exp $\"",
+"",
 NULL};

@@ -159,8 +159,6 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public FieldContainer
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldContainerType  _type;
 
 
@@ -177,5 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public FieldContainer
 typedef MaterialBase *MaterialBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.9 2001/09/17 14:15:06 vossg Exp $"
 
 #endif /* _OSGMATERIALBASE_H_ */

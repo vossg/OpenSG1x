@@ -205,8 +205,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -224,5 +222,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 typedef PerspectiveCameraBase *PerspectiveCameraBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraBase.h,v 1.13 2001/09/17 14:15:08 vossg Exp $"
 
 #endif /* _OSGPERSPECTIVECAMERABASE_H_ */

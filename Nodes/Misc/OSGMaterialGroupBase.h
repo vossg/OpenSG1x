@@ -205,8 +205,6 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -224,5 +222,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public NodeCore
 typedef MaterialGroupBase *MaterialGroupBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGMATERIALGROUPBASE_HEADER_CVSID "@(#)$Id: OSGMaterialGroupBase.h,v 1.12 2001/09/17 14:15:06 vossg Exp $"
 
 #endif /* _OSGMATERIALGROUPBASE_H_ */

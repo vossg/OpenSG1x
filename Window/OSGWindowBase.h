@@ -221,8 +221,6 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -240,5 +238,7 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
 typedef WindowBase *WindowBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGWINDOWBASE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGWINDOWBASE_H_ */

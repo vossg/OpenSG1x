@@ -269,8 +269,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -288,5 +286,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
 typedef ViewportBase *ViewportBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.13 2001/09/17 14:15:08 vossg Exp $"
 
 #endif /* _OSGVIEWPORTBASE_H_ */

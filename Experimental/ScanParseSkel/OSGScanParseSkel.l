@@ -169,9 +169,9 @@ header (#[^\n]*\n)
                 /* extended Field Types */ 
 
             case TOK_MFCOLOR4F: BEGIN mfcolor4fValue; break;
-			case TOK_MFCOLOR3F: BEGIN mfcolor3fValue; break;            
+            case TOK_MFCOLOR3F: BEGIN mfcolor3fValue; break;            
             case TOK_SFCOLOR4F: BEGIN sfcolor4fValue; break;            
-			case TOK_SFCOLOR3F: BEGIN sfcolor3fValue; break;
+            case TOK_SFCOLOR3F: BEGIN sfcolor3fValue; break;
             case TOK_MFMATRIX:  BEGIN mfmatrixValue;  break;
             case TOK_SFMATRIX:  BEGIN sfmatrixValue;  break;            
             case TOK_MFPNT2F:   BEGIN mfpnt2fValue;   break;            
@@ -182,8 +182,8 @@ header (#[^\n]*\n)
             case TOK_SFPNT4F:   BEGIN sfpnt4fValue;   break;            
             case TOK_MFVEC4F:   BEGIN mfvec4fValue;   break;            
             case TOK_SFVEC4F:   BEGIN sfvec4fValue;   break;
-			case TOK_MFPLANE:	BEGIN mfplaneValue;	  break;
-			case TOK_SFPLANE:	BEGIN sfplaneValue;	  break;            
+            case TOK_MFPLANE:   BEGIN mfplaneValue;   break;
+            case TOK_SFPLANE:   BEGIN sfplaneValue;   break;            
 
             default: 
                 fprintf(stderr, "ACK: Bad expectToken"); 
@@ -249,21 +249,21 @@ header (#[^\n]*\n)
     /* extended types */
 
 <NODE>MFColor4f     { return Tok_MFColor4f;  } 
-<NODE>MFColor3f		{ return Tok_MFColor3f;	 }
+<NODE>MFColor3f     { return Tok_MFColor3f;  }
 <NODE>MFMatrix      { return Tok_MFMatrix;   }
 <NODE>MFPnt2f       { return Tok_MFPnt2f;    } 
 <NODE>MFPnt3f       { return Tok_MFPnt3f;    } 
 <NODE>MFPnt4f       { return Tok_MFPnt4f;    } 
 <NODE>MFVec4f       { return Tok_MFVec4f;    } 
-<NODE>MFPlane		{ return Tok_MFPlane;	 }
+<NODE>MFPlane       { return Tok_MFPlane;    }
 <NODE>SFColor4f     { return Tok_SFColor4f;  } 
-<NODE>SFColor3f		{ return Tok_SFColor3f;  }
+<NODE>SFColor3f     { return Tok_SFColor3f;  }
 <NODE>SFMatrix      { return Tok_SFMatrix;   } 
 <NODE>SFPnt2f       { return Tok_SFPnt2f;    } 
 <NODE>SFPnt3f       { return Tok_SFPnt3f;    } 
 <NODE>SFPnt4f       { return Tok_SFPnt4f;    } 
 <NODE>SFVec4f       { return Tok_SFVec4f;    }
-<NODE>SFPlane		{ return Tok_SFPlane;	 } 
+<NODE>SFPlane       { return Tok_SFPlane;    } 
 
 
 <NODE>{IdFirstChar}{IdRestChar}* { //fprintf(stderr, "ID : %s\n", vrml97_text);

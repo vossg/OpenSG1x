@@ -213,8 +213,6 @@ class OSG_SYSTEMLIB_DLLMAPPING LogoForegroundBase : public Foreground
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -232,5 +230,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LogoForegroundBase : public Foreground
 typedef LogoForegroundBase *LogoForegroundBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGLOGOFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGLOGOFOREGROUNDBASE_H_ */

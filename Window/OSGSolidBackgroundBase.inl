@@ -121,3 +121,5 @@ void SolidBackgroundBase::setColor(const Color3f &value)
 
 OSG_END_NAMESPACE
 
+#define OSGSOLIDBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGSolidBackgroundBase.inl,v 1.7 2001/09/17 14:15:08 vossg Exp $"
+

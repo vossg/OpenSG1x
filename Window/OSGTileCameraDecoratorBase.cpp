@@ -83,6 +83,23 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.10 2001/09/17 14:15:08 vossg Exp $";
+    static char cvsid_hpp       [] = OSGTILECAMERADECORATORBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGTILECAMERADECORATORBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGTILECAMERADECORATORFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	TileCameraDecoratorBase::LeftFieldMask = 
     (1 << TileCameraDecoratorBase::LeftFieldId);
 
@@ -102,8 +119,6 @@ const OSG::BitVector	TileCameraDecoratorBase::FullHeightFieldMask =
     (1 << TileCameraDecoratorBase::FullHeightFieldId);
 
 
-
-char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.9 2001/09/13 16:21:04 dirk Exp $";
 
 // Field descriptions
 

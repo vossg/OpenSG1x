@@ -66,6 +66,23 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.5 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_hpp       [] = OSGDISTANCELODBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGDISTANCELODBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGDISTANCELODFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	DistanceLODBase::CenterFieldMask = 
     (1 << DistanceLODBase::CenterFieldId);
 
@@ -73,8 +90,6 @@ const OSG::BitVector	DistanceLODBase::RangeFieldMask =
     (1 << DistanceLODBase::RangeFieldId);
 
 
-
-char DistanceLODBase::cvsid[] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.4 2001/09/13 16:21:02 dirk Exp $";
 
 // Field descriptions
 

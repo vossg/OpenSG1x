@@ -278,8 +278,6 @@ char *FCBaseTemplate_h[]={
 "",
 "    friend class FieldContainer;",
 "",
-"    static char cvsid[];",
-"",
 "@@if hasFields", 
 "    static FieldDescription   *_desc[];",
 "@@endif", 
@@ -337,6 +335,8 @@ char *FCBaseTemplate_h[]={
 "typedef @!Classname!@Base *@!Classname!@BaseP;",
 "",
 "OSG_END_NAMESPACE",
+"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.14 2001/09/17 14:15:07 vossg Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };

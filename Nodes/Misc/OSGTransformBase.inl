@@ -121,3 +121,5 @@ void TransformBase::setMatrix(const Matrix &value)
 
 OSG_END_NAMESPACE
 
+#define OSGTRANSFORMBASE_INLINE_CVSID "@(#)$Id: OSGTransformBase.inl,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+

@@ -121,3 +121,5 @@ void PointLightBase::setPosition(const Pnt3f &value)
 
 OSG_END_NAMESPACE
 
+#define OSGPOINTLIGHTBASE_INLINE_CVSID "@(#)$Id: OSGPointLightBase.inl,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+

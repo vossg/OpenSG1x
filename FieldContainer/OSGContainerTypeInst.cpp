@@ -70,6 +70,10 @@
 #include "OSGSFAttachmentMap.h"
 #include "OSGMFAttachmentMap.h"
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
 namespace 
 {
     static char cvsid_cpp[] = "@(#)$Id: $";
@@ -92,6 +96,10 @@ namespace
     static char cvsid_sfattma_hpp[] = OSGSFATTACHMENTMAP_HEADER_CVSID;
     static char cvsid_mfattma_hpp[] = OSGMFATTACHMENTMAP_HEADER_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 OSG_BEGIN_NAMESPACE
 

@@ -298,8 +298,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -317,5 +315,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
 typedef GeometryBase *GeometryBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGGEOMETRYBASE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGGEOMETRYBASE_H_ */

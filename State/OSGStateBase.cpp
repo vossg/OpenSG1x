@@ -83,12 +83,27 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.12 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_hpp       [] = OSGSTATEBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGSTATEBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGSTATEFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	StateBase::ChunksFieldMask = 
     (1 << StateBase::ChunksFieldId);
 
 
-
-char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.11 2001/09/13 16:21:03 dirk Exp $";
 
 // Field descriptions
 

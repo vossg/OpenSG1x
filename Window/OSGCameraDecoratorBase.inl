@@ -97,3 +97,5 @@ void CameraDecoratorBase::setCamera(const CameraPtr &value)
 
 OSG_END_NAMESPACE
 
+#define OSGCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGCameraDecoratorBase.inl,v 1.5 2001/09/17 14:15:07 vossg Exp $"
+

@@ -261,8 +261,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -280,5 +278,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
 typedef SimpleMaterialBase *SimpleMaterialBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialBase.h,v 1.13 2001/09/17 14:15:06 vossg Exp $"
 
 #endif /* _OSGSIMPLEMATERIALBASE_H_ */

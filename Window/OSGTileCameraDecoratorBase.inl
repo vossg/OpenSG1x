@@ -241,3 +241,5 @@ void TileCameraDecoratorBase::setFullHeight(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
+#define OSGTILECAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.inl,v 1.5 2001/09/17 14:15:08 vossg Exp $"
+

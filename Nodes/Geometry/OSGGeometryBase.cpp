@@ -66,6 +66,23 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.15 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_hpp       [] = OSGGEOMETRYBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGGEOMETRYBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGGEOMETRYFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	GeometryBase::TypesFieldMask = 
     (1 << GeometryBase::TypesFieldId);
 
@@ -100,8 +117,6 @@ const OSG::BitVector	GeometryBase::GLIdFieldMask =
     (1 << GeometryBase::GLIdFieldId);
 
 
-
-char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.14 2001/09/13 16:21:01 dirk Exp $";
 
 // Field descriptions
 

@@ -159,8 +159,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldContainerType  _type;
 
 
@@ -177,5 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
 typedef ForegroundBase *ForegroundBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGFOREGROUNDBASE_H_ */

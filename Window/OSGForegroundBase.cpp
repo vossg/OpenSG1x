@@ -83,8 +83,23 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-char ForegroundBase::cvsid[] = "@(#)$Id: $";
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: $";
+    static char cvsid_hpp       [] = OSGFOREGROUNDBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGFOREGROUNDBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGFOREGROUNDFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 
 //! Foreground type
 

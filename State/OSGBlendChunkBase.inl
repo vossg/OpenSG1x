@@ -169,3 +169,5 @@ void BlendChunkBase::setColor(const Color4f &value)
 
 OSG_END_NAMESPACE
 
+#define OSGBLENDCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGBlendChunkBase.inl,v 1.8 2001/09/17 14:15:07 vossg Exp $"
+

@@ -158,4 +158,6 @@ char *FCBaseTemplate_inl[]={
 "",
 "OSG_END_NAMESPACE",
 "",
+"#define OSG@!CLASSNAME!@BASE_INLINE_CVSID \"@(#)$Id: FCBaseTemplate_inl.h,v 1.10 2001/09/17 14:15:07 vossg Exp $\"",
+"",
 NULL};

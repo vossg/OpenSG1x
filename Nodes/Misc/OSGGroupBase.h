@@ -175,8 +175,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GroupBase : public NodeCore
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldContainerType  _type;
 
 
@@ -193,5 +191,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GroupBase : public NodeCore
 typedef GroupBase *GroupBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGGroupBase.h,v 1.9 2001/09/17 14:15:06 vossg Exp $"
 
 #endif /* _OSGGROUPBASE_H_ */

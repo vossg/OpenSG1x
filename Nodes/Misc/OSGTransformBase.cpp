@@ -83,12 +83,27 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.12 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_hpp       [] = OSGTRANSFORMBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGTRANSFORMBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGTRANSFORMFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	TransformBase::MatrixFieldMask = 
     (1 << TransformBase::MatrixFieldId);
 
 
-
-char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.11 2001/09/13 16:21:02 dirk Exp $";
 
 // Field descriptions
 

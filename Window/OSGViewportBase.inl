@@ -311,3 +311,5 @@ const MFForegroundPtr &ViewportBase::getForegrounds(void) const
 
 OSG_END_NAMESPACE
 
+#define OSGVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGViewportBase.inl,v 1.8 2001/09/17 14:15:08 vossg Exp $"
+

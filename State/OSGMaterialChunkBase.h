@@ -253,8 +253,6 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -272,5 +270,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
 typedef MaterialChunkBase *MaterialChunkBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.13 2001/09/17 14:15:07 vossg Exp $"
 
 #endif /* _OSGMATERIALCHUNKBASE_H_ */

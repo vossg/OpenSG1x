@@ -67,6 +67,23 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.12 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_hpp       [] = OSGMATERIALCHUNKBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGMATERIALCHUNKBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGMATERIALCHUNKFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	MaterialChunkBase::DiffuseFieldMask = 
     (1 << MaterialChunkBase::DiffuseFieldId);
 
@@ -89,8 +106,6 @@ const OSG::BitVector	MaterialChunkBase::ColorMaterialFieldMask =
     (1 << MaterialChunkBase::ColorMaterialFieldId);
 
 
-
-char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.11 2001/09/13 16:21:03 dirk Exp $";
 
 // Field descriptions
 

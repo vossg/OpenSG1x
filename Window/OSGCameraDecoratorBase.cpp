@@ -83,12 +83,27 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.9 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_hpp       [] = OSGCAMERADECORATORBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGCAMERADECORATORBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGCAMERADECORATORFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	CameraDecoratorBase::CameraFieldMask = 
     (1 << CameraDecoratorBase::CameraFieldId);
 
 
-
-char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.8 2001/09/13 16:21:04 dirk Exp $";
 
 // Field descriptions
 

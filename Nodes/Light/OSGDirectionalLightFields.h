@@ -74,4 +74,6 @@ typedef FCPtr<LightBasePtr, DirectionalLight> DirectionalLightPtr;
 
 OSG_END_NAMESPACE
 
+#define OSGDIRECTIONALLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGDirectionalLightFields.h,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+
 #endif /* _OSGDIRECTIONALLIGHTFIELDS_H_ */

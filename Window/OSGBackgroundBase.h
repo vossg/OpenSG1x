@@ -159,8 +159,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BackgroundBase : public AttachmentContainer
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldContainerType  _type;
 
 
@@ -177,5 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BackgroundBase : public AttachmentContainer
 typedef BackgroundBase *BackgroundBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGBackgroundBase.h,v 1.10 2001/09/17 14:15:07 vossg Exp $"
 
 #endif /* _OSGBACKGROUNDBASE_H_ */

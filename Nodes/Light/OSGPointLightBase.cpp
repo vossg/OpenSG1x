@@ -66,12 +66,27 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPointLightBase.cpp,v 1.11 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_hpp       [] = OSGPOINTLIGHTBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGPOINTLIGHTBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGPOINTLIGHTFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	PointLightBase::PositionFieldMask = 
     (1 << PointLightBase::PositionFieldId);
 
 
-
-char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.10 2001/09/13 12:13:27 dirk Exp $";
 
 // Field descriptions
 

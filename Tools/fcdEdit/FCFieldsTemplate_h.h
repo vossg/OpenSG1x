@@ -143,6 +143,8 @@ char *FCPtrTemplate_h[]={
 "",
 "@@endif",
 "OSG_END_NAMESPACE",
+"",
+"#define OSG@!CLASSNAME!@FIELDS_HEADER_CVSID \"@(#)$Id: FCFieldsTemplate_h.h,v 1.10 2001/09/17 14:15:07 vossg Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@FIELDS_H_ */",
 NULL };

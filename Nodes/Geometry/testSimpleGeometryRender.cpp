@@ -29,7 +29,7 @@
 #include "OSGGeometry.h"
 #include "OSGSimpleGeometry.h"
 #include "OSGGeoFunctions.h"
-
+#include "OSGFaceIterator.h"
 
 OSG_USING_NAMESPACE
 
@@ -193,9 +193,29 @@ int main (int argc, char **argv)
 
 	// create the objects
 
-	objects[0] = makePlane( 2, 2, 2, 2 );
+	objects[0] = makePlane( 1, 1, 2, 2 );
 	GeometryPtr::dcast(objects[0]->getCore())->setMaterial( mat );
 	cerr << "Plane Node: " << hex << objects[0] << endl;
+ 
+    unsigned int ntris = 0;
+    unsigned int nquads = 0;
+    unsigned int ngons = 0;
+
+    for(osg::FaceIterator fi = 
+            GeometryPtr::dcast(objects[0]->getCore())->beginFaces();
+          fi != GeometryPtr::dcast(objects[0]->getCore())->endFaces(); ++ fi )
+    {
+        if ( fi.getLength() == 3 )
+            ntris ++ ;
+        else 
+            if ( fi.getLength() == 4 )
+				nquads ++ ;
+			else
+				ngons ++ ;
+    }
+
+    fprintf(stderr, "ntris %d nquads %d ngons %d\n", ntris, nquads, ngons);
+
 
 	objects[1] = makeCone( 2.5, 2, 20, true, true );
 	GeometryPtr::dcast(objects[1]->getCore())->setMaterial( mat );

@@ -67,12 +67,20 @@ OSG_FC_DLLEXPORT_DEF      (SimpleAttachment,
 
 OSG_END_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
 namespace 
 {
     static char cvsid_cpp[] = "@(#)$Id: $";
     static char cvsid_hpp[] = OSGATTACHMENT_HEADER_CVSID;
     static char cvsid_inl[] = OSGATTACHMENT_INLINE_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /** \var MFFieldContainerPtr Attachment::_parents
  *  \brief Parents multifield

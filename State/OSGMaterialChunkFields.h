@@ -74,4 +74,6 @@ typedef FCPtr<StateChunkPtr, MaterialChunk> MaterialChunkPtr;
 
 OSG_END_NAMESPACE
 
+#define OSGMATERIALCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialChunkFields.h,v 1.7 2001/09/17 14:15:07 vossg Exp $"
+
 #endif /* _OSGMATERIALCHUNKFIELDS_H_ */

@@ -277,8 +277,6 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -296,5 +294,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
 typedef LightChunkBase *LightChunkBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.12 2001/09/17 14:15:07 vossg Exp $"
 
 #endif /* _OSGLIGHTCHUNKBASE_H_ */

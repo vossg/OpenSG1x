@@ -141,3 +141,5 @@ const MFReal32 &DynamicBackgroundBase::getAngle(void) const
 
 OSG_END_NAMESPACE
 
+#define OSGDYNAMICBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGDynamicBackgroundBase.inl,v 1.8 2001/09/17 14:15:07 vossg Exp $"
+

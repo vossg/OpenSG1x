@@ -74,6 +74,23 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.11 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGPOLYGONCHUNKFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	PolygonChunkBase::CullFaceFieldMask = 
     (1 << PolygonChunkBase::CullFaceFieldId);
 
@@ -108,8 +125,6 @@ const OSG::BitVector	PolygonChunkBase::StippleFieldMask =
     (1 << PolygonChunkBase::StippleFieldId);
 
 
-
-char PolygonChunkBase::cvsid[] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.10 2001/09/13 16:21:03 dirk Exp $";
 
 // Field descriptions
 

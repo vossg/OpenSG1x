@@ -118,8 +118,6 @@ char *FCTemplate_h[]={
 "    friend class FieldContainer;",
 "    friend class @!Classname!@Base;",
 "",
-"    static char cvsid[];",
-"",
 "    static void initMethod(void);",
 "",
 "    // prohibit default functions (move to 'public' if you need one)",
@@ -133,6 +131,8 @@ char *FCTemplate_h[]={
 "",
 "#include <OSG@!Classname!@.inl>",
 "#include <OSG@!Classname!@Base.inl>",
+"",
+"#define OSG@!CLASSNAME!@_HEADER_CVSID \"@(#)$Id: FCTemplate_h.h,v 1.11 2001/09/17 14:15:07 vossg Exp $\"",
 "",
 "#endif /* _OSG@!CLASSNAME!@_H_ */",
 NULL };

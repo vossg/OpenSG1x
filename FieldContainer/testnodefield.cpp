@@ -38,7 +38,7 @@ int main (int argc, char **argv)
         cerr << "SField " << endl;
 
         if(pField->getContentType() == 
-           OSG::FieldDataTraits<OSG::NodePtr>::getType())
+           OSG::FieldDataTraits<OSG::FieldContainerPtr>::getType())
         {
             OSG::SFNodePtr *pSField    = static_cast<OSG::SFNodePtr *>(pField);
             

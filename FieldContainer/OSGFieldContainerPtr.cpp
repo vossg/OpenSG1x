@@ -60,12 +60,20 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
 namespace 
 {
     static char cvsid_cpp[] = "@(#)$Id: $";
     static char cvsid_hpp[] = OSGFIELDCONTAINERPTR_HEADER_CVSID;
     static char cvsid_inl[] = OSGFIELDCONTAINERPTR_INLINE_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 const NullFieldContainerPtr OSG::NullFC;
 

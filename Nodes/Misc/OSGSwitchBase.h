@@ -205,8 +205,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public NodeCore
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -224,5 +222,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public NodeCore
 typedef SwitchBase *SwitchBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGSWITCHBASE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSWITCHBASE_H_ */

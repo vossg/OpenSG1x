@@ -205,8 +205,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public LightBase
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -224,5 +222,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public LightBase
 typedef DirectionalLightBase *DirectionalLightBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGDIRECTIONALLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGDirectionalLightBase.h,v 1.12 2001/09/17 14:15:06 vossg Exp $"
 
 #endif /* _OSGDIRECTIONALLIGHTBASE_H_ */

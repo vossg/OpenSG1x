@@ -205,8 +205,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -224,5 +222,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
 typedef SolidBackgroundBase *SolidBackgroundBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGSOLIDBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundBase.h,v 1.12 2001/09/17 14:15:08 vossg Exp $"
 
 #endif /* _OSGSOLIDBACKGROUNDBASE_H_ */

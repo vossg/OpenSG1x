@@ -74,4 +74,6 @@ typedef FCPtr<NodeCorePtr, LightBase> LightBasePtr;
 
 OSG_END_NAMESPACE
 
+#define OSGLIGHTBASEFIELDS_HEADER_CVSID "@(#)$Id: OSGLightBaseFields.h,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+
 #endif /* _OSGLIGHTBASEFIELDS_H_ */

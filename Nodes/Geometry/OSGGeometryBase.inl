@@ -359,3 +359,5 @@ const MFUInt16 &GeometryBase::getIndexMapping(void) const
 
 OSG_END_NAMESPACE
 
+#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: OSGGeometryBase.inl,v 1.8 2001/09/17 14:15:06 vossg Exp $"
+

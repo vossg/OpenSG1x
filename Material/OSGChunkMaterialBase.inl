@@ -119,3 +119,5 @@ const MFStateChunkPtr &ChunkMaterialBase::getChunks(void) const
 
 OSG_END_NAMESPACE
 
+#define OSGCHUNKMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGChunkMaterialBase.inl,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+

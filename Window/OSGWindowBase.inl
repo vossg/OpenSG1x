@@ -189,3 +189,5 @@ const MFUInt32 &WindowBase::getGlObjectStatus(void) const
 
 OSG_END_NAMESPACE
 
+#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWindowBase.inl,v 1.9 2001/09/17 14:15:08 vossg Exp $"
+

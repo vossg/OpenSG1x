@@ -213,8 +213,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -232,5 +230,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
 typedef GradientBackgroundBase *GradientBackgroundBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundBase.h,v 1.11 2001/09/17 14:15:07 vossg Exp $"
 
 #endif /* _OSGGRADIENTBACKGROUNDBASE_H_ */

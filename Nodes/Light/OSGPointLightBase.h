@@ -205,8 +205,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLightBase : public LightBase
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -224,5 +222,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLightBase : public LightBase
 typedef PointLightBase *PointLightBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGPOINTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGPointLightBase.h,v 1.12 2001/09/17 14:15:06 vossg Exp $"
 
 #endif /* _OSGPOINTLIGHTBASE_H_ */

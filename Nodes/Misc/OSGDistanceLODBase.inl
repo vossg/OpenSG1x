@@ -143,3 +143,5 @@ const MFReal32 &DistanceLODBase::getRange(void) const
 
 OSG_END_NAMESPACE
 
+#define OSGDISTANCELODBASE_INLINE_CVSID "@(#)$Id: OSGDistanceLODBase.inl,v 1.5 2001/09/17 14:15:06 vossg Exp $"
+

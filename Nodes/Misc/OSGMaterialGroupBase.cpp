@@ -83,12 +83,27 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.12 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_hpp       [] = OSGMATERIALGROUPBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGMATERIALGROUPBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGMATERIALGROUPFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	MaterialGroupBase::MaterialFieldMask = 
     (1 << MaterialGroupBase::MaterialFieldId);
 
 
-
-char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.11 2001/09/13 16:21:02 dirk Exp $";
 
 // Field descriptions
 

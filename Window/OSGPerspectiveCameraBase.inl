@@ -121,3 +121,5 @@ void PerspectiveCameraBase::setFov(const Real32 &value)
 
 OSG_END_NAMESPACE
 
+#define OSGPERSPECTIVECAMERABASE_INLINE_CVSID "@(#)$Id: OSGPerspectiveCameraBase.inl,v 1.7 2001/09/17 14:15:08 vossg Exp $"
+

@@ -119,3 +119,5 @@ const MFString &InlineBase::getUrl(void) const
 
 OSG_END_NAMESPACE
 
+#define OSGINLINEBASE_INLINE_CVSID "@(#)$Id: $"
+

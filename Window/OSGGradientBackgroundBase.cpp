@@ -81,6 +81,23 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.13 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_hpp       [] = OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGGRADIENTBACKGROUNDFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	GradientBackgroundBase::ColorFieldMask = 
     (1 << GradientBackgroundBase::ColorFieldId);
 
@@ -88,8 +105,6 @@ const OSG::BitVector	GradientBackgroundBase::PositionFieldMask =
     (1 << GradientBackgroundBase::PositionFieldId);
 
 
-
-char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.12 2001/09/13 16:21:04 dirk Exp $";
 
 // Field descriptions
 

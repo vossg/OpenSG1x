@@ -83,6 +83,23 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: $";
+    static char cvsid_hpp       [] = OSGLOGOFOREGROUNDBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGLOGOFOREGROUNDBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGLOGOFOREGROUNDFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	LogoForegroundBase::ImagesFieldMask = 
     (1 << LogoForegroundBase::ImagesFieldId);
 
@@ -90,8 +107,6 @@ const OSG::BitVector	LogoForegroundBase::PositionsFieldMask =
     (1 << LogoForegroundBase::PositionsFieldId);
 
 
-
-char LogoForegroundBase::cvsid[] = "@(#)$Id: $";
 
 // Field descriptions
 

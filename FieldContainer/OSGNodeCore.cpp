@@ -50,12 +50,20 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
 namespace 
 {
     static char cvsid_cpp[] = "@(#)$Id: $";
     static char cvsid_hpp[] = OSGNODECORE_HEADER_CVSID;
     static char cvsid_inl[] = OSGNODECORE_INLINE_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 //const NodeCorePtr OSG::NullNodeCore;
 

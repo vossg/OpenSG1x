@@ -74,4 +74,6 @@ typedef FCPtr<NodeCorePtr, DistanceLOD> DistanceLODPtr;
 
 OSG_END_NAMESPACE
 
+#define OSGDISTANCELODFIELDS_HEADER_CVSID "@(#)$Id: OSGDistanceLODFields.h,v 1.4 2001/09/17 14:15:06 vossg Exp $"
+
 #endif /* _OSGDISTANCELODFIELDS_H_ */

@@ -159,8 +159,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldContainerType  _type;
 
 
@@ -177,5 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
 typedef StateChunkBase *StateChunkBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStateChunkBase.h,v 1.9 2001/09/17 14:15:07 vossg Exp $"
 
 #endif /* _OSGSTATECHUNKBASE_H_ */

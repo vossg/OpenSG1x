@@ -141,3 +141,5 @@ const MFPnt2f &LogoForegroundBase::getPositions(void) const
 
 OSG_END_NAMESPACE
 
+#define OSGLOGOFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: $"
+

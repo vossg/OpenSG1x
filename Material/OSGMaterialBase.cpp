@@ -83,8 +83,23 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-char MaterialBase::cvsid[] = "@(#)$Id: OSGMaterialBase.cpp,v 1.10 2001/09/13 16:21:01 dirk Exp $";
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.11 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_hpp       [] = OSGMATERIALBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGMATERIALBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGMATERIALFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 
 //! Material type
 

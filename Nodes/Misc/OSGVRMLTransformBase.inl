@@ -217,3 +217,5 @@ void VRMLTransformBase::setTranslation(const Vec3f &value)
 
 OSG_END_NAMESPACE
 
+#define OSGVRMLTRANSFORMBASE_INLINE_CVSID "@(#)$Id: OSGVRMLTransformBase.inl,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+

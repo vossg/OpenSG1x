@@ -83,8 +83,23 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.11 2001/09/13 16:21:04 dirk Exp $";
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.12 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_hpp       [] = OSGBACKGROUNDBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGBACKGROUNDBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGBACKGROUNDFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 
 //! Background type
 

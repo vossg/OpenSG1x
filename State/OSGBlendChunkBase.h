@@ -221,8 +221,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -240,5 +238,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
 typedef BlendChunkBase *BlendChunkBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.13 2001/09/17 14:15:07 vossg Exp $"
 
 #endif /* _OSGBLENDCHUNKBASE_H_ */

@@ -66,6 +66,23 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.11 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_hpp       [] = OSGSPOTLIGHTBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGSPOTLIGHTBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGSPOTLIGHTFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	SpotLightBase::DirectionFieldMask = 
     (1 << SpotLightBase::DirectionFieldId);
 
@@ -76,8 +93,6 @@ const OSG::BitVector	SpotLightBase::SpotCutOffFieldMask =
     (1 << SpotLightBase::SpotCutOffFieldId);
 
 
-
-char SpotLightBase::cvsid[] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.10 2001/09/13 16:21:02 dirk Exp $";
 
 // Field descriptions
 

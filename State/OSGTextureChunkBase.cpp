@@ -77,6 +77,23 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.14 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGTEXTURECHUNKFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	TextureChunkBase::ImageFieldMask = 
     (1 << TextureChunkBase::ImageFieldId);
 
@@ -135,8 +152,6 @@ const OSG::BitVector	TextureChunkBase::GLIdFieldMask =
     (1 << TextureChunkBase::GLIdFieldId);
 
 
-
-char TextureChunkBase::cvsid[] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.13 2001/09/13 16:21:03 dirk Exp $";
 
 // Field descriptions
 

@@ -74,4 +74,6 @@ typedef FCPtr<StateChunkPtr, PolygonChunk> PolygonChunkPtr;
 
 OSG_END_NAMESPACE
 
+#define OSGPOLYGONCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGPolygonChunkFields.h,v 1.7 2001/09/17 14:15:07 vossg Exp $"
+
 #endif /* _OSGPOLYGONCHUNKFIELDS_H_ */

@@ -205,8 +205,6 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -224,5 +222,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
 typedef InlineBase *InlineBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGINLINEBASE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGINLINEBASE_H_ */

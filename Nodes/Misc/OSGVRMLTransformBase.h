@@ -237,8 +237,6 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -256,5 +254,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
 typedef VRMLTransformBase *VRMLTransformBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGVRMLTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGVRMLTransformBase.h,v 1.12 2001/09/17 14:15:06 vossg Exp $"
 
 #endif /* _OSGVRMLTRANSFORMBASE_H_ */

@@ -74,4 +74,6 @@ typedef FCPtr<PointLightPtr, SpotLight> SpotLightPtr;
 
 OSG_END_NAMESPACE
 
+#define OSGSPOTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGSpotLightFields.h,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+
 #endif /* _OSGSPOTLIGHTFIELDS_H_ */

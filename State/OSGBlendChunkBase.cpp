@@ -66,6 +66,23 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.12 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGBLENDCHUNKFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 const OSG::BitVector	BlendChunkBase::SrcFactorFieldMask = 
     (1 << BlendChunkBase::SrcFactorFieldId);
 
@@ -76,8 +93,6 @@ const OSG::BitVector	BlendChunkBase::ColorFieldMask =
     (1 << BlendChunkBase::ColorFieldId);
 
 
-
-char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.11 2001/09/13 16:21:03 dirk Exp $";
 
 // Field descriptions
 

@@ -141,3 +141,5 @@ const MFReal32 &GradientBackgroundBase::getPosition(void) const
 
 OSG_END_NAMESPACE
 
+#define OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGradientBackgroundBase.inl,v 1.7 2001/09/17 14:15:07 vossg Exp $"
+
