@@ -64,7 +64,7 @@ OSG_USING_NAMESPACE
 /*! \class osg::Particles
     \ingroup GrpSystemNodeCoresDrawablesParticles
     
-See \ref PageSystemNodeCoresParticles for details.
+See \ref PageSystemParticles for details.
 
 */
 
