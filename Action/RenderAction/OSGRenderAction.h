@@ -186,6 +186,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
     UInt32               _uiNumGeometries;
     UInt32               _uiNumTransGeometries;
 
+    Bool                 _bSortTrans;
+
     vector<LightStore>   _vLights;
 
 //    Time                 _tMatSlot
@@ -208,6 +210,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
 
     void dump(DrawTreeNode *pRoot, UInt32 uiIndent);
     void draw(DrawTreeNode *pRoot);
+
+    void setSortTrans(Bool bVal);
 
   private:
 

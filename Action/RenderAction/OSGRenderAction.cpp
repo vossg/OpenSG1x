@@ -212,6 +212,8 @@ RenderAction::RenderAction(void) :
     _uiNumGeometries     (0),
     _uiNumTransGeometries(0),
 
+    _bSortTrans          (true),
+
     _vLights()
 {
     if(_vDefaultEnterFunctors != NULL)
@@ -247,6 +249,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _uiNumGeometries     (source._uiNumGeometries),
     _uiNumTransGeometries(source._uiNumTransGeometries),
 
+    _bSortTrans          (source._bSortTrans),
     _vLights             (source._vLights)
 {
 }
@@ -318,7 +321,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
 
     pState = pMat->getState().getCPtr();
 
-    if(pMat->isTransparent() == true)
+    if(_bSortTrans == true && pMat->isTransparent() == true)
     {
         DrawTreeNode *pNewElem = new DrawTreeNode;
         Pnt3f         objPos;
@@ -558,6 +561,11 @@ void RenderAction::draw(DrawTreeNode *pRoot)
     }
 }
 
+void RenderAction::setSortTrans(Bool bVal)
+{
+    _bTransSort = bVal;
+}
+
 // initialisation
 
 Action::ResultE RenderAction::start(void)
@@ -695,6 +703,12 @@ Action::ResultE RenderAction::stop(ResultE res)
             _uiNumMatrixChanges, 
             _uiNumGeometries,
             _uiNumTransGeometries));
+
+    fprintf(stderr, "Material %d Matrix %d Geometry %d Transparent %d\r",
+            _uiNumMaterialChanges, 
+            _uiNumMatrixChanges, 
+            _uiNumGeometries,
+            _uiNumTransGeometries);
 
     return res;
 }
