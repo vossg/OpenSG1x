@@ -17,7 +17,7 @@
  * by the Free Software Foundation, version 2.                               *
  *                                                                           *
  * This library is distributed in the hope that it will be useful, but       *
- * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * WITHOUT ANY WARRANTY; without even the impclied warranty of               *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
  * Library General Public License for more details.                          *
  *                                                                           *
@@ -124,9 +124,80 @@ OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box,
 OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box, 
 																		 const CylinderVolume &cylinder)
 {
-	// imp;
-	return false;
+
+  Bool retCode;
+  Real32 s1=0, s2=0, s3=0, s4=0, d=0, d1=0, d2=0;
+  Pnt3f c,p,p1,p2, apos ;
+  Vec3f adir, u, u1, u2;
+  
+  cylinder.getAxis(apos,adir);
+  
+  if (box.isEmpty() || cylinder.isEmpty())
+    retCode = false;
+
+  else
+    if (box.isInfinite() || cylinder.isInfinite())
+      retCode = true;
+
+    else {
+
+
+	s1 = (apos - box.getMin()).length();
+	s2 = (apos - box.getMax()).length();
+	s3 = (apos + adir - box.getMin()).length();
+	s4 = (apos + adir - box.getMax()).length();
+      
+      if (s1 <= s2) { 
+       d1 = s1;
+       p1 = box.getMin();
+      }
+
+      else {
+	d1 = s2;
+	p1 = box.getMax();
+      }
+
+      if (s3 <= s4) {
+       d2 = s3;
+       p2 = box.getMin();
+      }
+
+      else {
+	d2 = s4;
+	p2 = box.getMax();
+      }
+      
+      if (d1 <= d2) {
+	d = d1;
+	c = apos;
+	p = p1;
+      }
+
+      else {
+	d = d2;
+	c = apos + adir;
+	p = p2;
+      }
+
+      u = p-c;
+      u1 = (u[0]*adir[0] + u[1]*adir[1] +u[2]*adir[2]) 
+           / (adir.length()*adir.length())*adir;
+
+      u2 = u - u1;
+
+      if (u1.length()<=10e-6)
+	retCode = true;
+      else if (u2.length() <= 10e-6)
+	retCode = (d <= 10e-6);
+      else
+	retCode = (u2.length() <=cylinder.getRadius());
+
+    }
+
+  return retCode;
 }
+
+
 
 OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box, 
 																		 const FrustumVolume &frustum)
@@ -138,7 +209,7 @@ OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box,
 OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box, 
 																		 const Volume &vol)
 {
-	bool retCode = false;
+	Bool retCode = false;
 	const DynamicVolume *dv = dynamic_cast<const DynamicVolume *>(&vol);
 	const Volume *v = dv ? &(dv->getInstance()) : &vol;
 	const BoxVolume *bv;
@@ -149,13 +220,13 @@ OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box,
 	if ((bv = dynamic_cast<const BoxVolume*>(v)))
 		retCode = intersect(box,*bv);
 	else
-		if (sv = dynamic_cast<const SphereVolume*>(v))
+		if ((sv = dynamic_cast<const SphereVolume*>(v)))
 			retCode = intersect(box,*sv);
 		else
-			if (cv = dynamic_cast<const CylinderVolume*>(v))
+			if ((cv = dynamic_cast<const CylinderVolume*>(v)))
 				retCode = intersect(box,*cv);
 			else
-				if (fv = dynamic_cast<const FrustumVolume*>(v))
+				if ((fv = dynamic_cast<const FrustumVolume*>(v)))
 					retCode = intersect(box,*fv);
 			
 	return retCode;
@@ -182,12 +253,52 @@ OSG_BASE_DLLMAPPING Bool intersect ( const SphereVolume &sphere1,
 	return retCode;
 }
 
-OSG_BASE_DLLMAPPING Bool intersect ( const SphereVolume &sphere, 
+
+OSG_BASE_DLLMAPPING Bool intersect (const SphereVolume &sphere,
 																		 const CylinderVolume &cylinder)
 {
-	// imp;
-	return false;
+  Bool retCode;
+  Real32 d=0 ,s1=0, s2=0; 
+  Pnt3f apos,c;
+  Vec3f adir, u, u1, u2;
+
+  cylinder.getAxis(apos,adir);
+  if (sphere.isEmpty() || cylinder.isEmpty())
+    retCode = false;
+
+  else
+    if (sphere.isInfinite() || cylinder.isInfinite())
+      retCode = true;
+
+    else {
+      s1 = (apos - sphere.getCenter()).length();
+      s2 = (apos +adir - sphere.getCenter()).length();
+
+      if (s1<=s2) {
+	d = s1;
+	c = apos;
+      }
+      else {
+	d = s2;
+	c = apos + adir;
+      }
+      
+      
+      u = ((d-sphere.getRadius())/d)*(c-sphere.getCenter());
+      u1 = (u[0]*adir[0] + u[1]*adir[1] + u[2]*adir[2])/(adir.length()*adir.length())* adir;
+      u2 = (u-u1);
+      
+      if (u2.length()<=10e-6)
+	retCode = (d <=sphere.getRadius());
+
+      else
+	retCode = (u2.length() <= cylinder.getRadius());
+
+    }
+
+  return retCode;
 }
+
 
 OSG_BASE_DLLMAPPING Bool intersect ( const SphereVolume &sphere, 
 																		 const FrustumVolume &frustum)
@@ -196,11 +307,31 @@ OSG_BASE_DLLMAPPING Bool intersect ( const SphereVolume &sphere,
 	return false;
 }
 
+
 OSG_BASE_DLLMAPPING Bool intersect ( const SphereVolume &sphere, 
 																		 const Volume &vol)
 {
-	// imp;
-	return false;
+	Bool retCode = false;
+	const DynamicVolume *dv = dynamic_cast<const DynamicVolume *>(&vol);
+	const Volume *v = dv ? &(dv->getInstance()) : &vol;
+	const BoxVolume *bv;
+	const SphereVolume *sv;
+	const CylinderVolume *cv;
+	const FrustumVolume *fv;
+
+	if ((bv = dynamic_cast<const BoxVolume*>(v)))
+		retCode = intersect(sphere,*bv);
+	else
+		if ((sv = dynamic_cast<const SphereVolume*>(v)))
+			retCode = intersect(sphere,*sv);
+		else
+			if ((cv = dynamic_cast<const CylinderVolume*>(v)))
+				retCode = intersect(sphere,*cv);
+			else
+				if ((fv = dynamic_cast<const FrustumVolume*>(v)))
+					retCode = intersect(sphere,*fv);
+			
+	return retCode;
 }
 
 // # Cylinder ########################################################
@@ -213,7 +344,8 @@ OSG_BASE_DLLMAPPING Bool intersect ( const CylinderVolume &cylinder1,
 }
 
 OSG_BASE_DLLMAPPING Bool intersect ( const CylinderVolume &cylinder, 
-																		 const FrustumVolume &frustum)
+															
+			 const FrustumVolume &frustum)
 {
 	// imp;
 	return false;
@@ -327,7 +459,7 @@ OSG_BASE_DLLMAPPING void extend ( BoxVolume &srcVol,
 	if (dynamic)
 		v = &(dynamic->getInstance());
 	
-	if (box = dynamic_cast<const BoxVolume*>(v))
+	if ((box = dynamic_cast<const BoxVolume*>(v)))
 		osg::extend(srcVol,*box);
 	else {
 		BoxVolume localBox;

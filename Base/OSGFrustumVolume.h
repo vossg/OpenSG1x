@@ -25,6 +25,7 @@
  * License along with this library; if not, write to the Free Software       *
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
+ *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                Changes                                    *
@@ -36,48 +37,51 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGFRUSTUMVOLUME_H_
-#define _OSGFRUSTUMVOLUME_H_
-#ifdef __sgi
-#pragma once
-#endif
+
+#ifndef FRUSTUMVOLUME_CLASS_DECLARATION
+#define FRUSTUMVOLUME_CLASS_DECLARATION
 
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVolume.h>
+#include "OSGConfig.h"
+#include "OSGVolume.h"
+#include "OSGPlane.h"
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
+#ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
+class FrustumVolume;
+Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
+Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+ostream& operator<< (ostream & os, const FrustumVolume &obj);
+#endif
 
-class OSGLine;
+/** 
+@brief 3D frustum defined by 6 planes.
+@author jbehr
+
+This box class is used by other classes in ase for data exchange
+and storage. It provides representation of the defining corners of a
+box in 3D space.
+
+*/
 
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
+//  Forward References
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
+class OSG_BASE_DLLMAPPING FrustumVolume : public Volume {
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
- */
-
-class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
-{
-  public:
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
+public:
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -88,155 +92,134 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "FrustumVolume"; }
- 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+/*-------------------------- constructor ----------------------------------*/
 
-	FrustumVolume(void);
-	FrustumVolume(const FrustumVolume &obj);
+/*! Default constructor - leaves box totally empty
+*/
+  inline FrustumVolume(); 
 
-    virtual ~FrustumVolume(void);
+  /// Constructor obj from 6 planes
+  inline FrustumVolume ( const Plane &near, const Plane &far,
+												 const Plane &left, const Plane &right,
+												 const Plane &top,  const Plane &bottom );
 
-    /*------------------------- your_category -------------------------------*/
 
-	Pnt3f getCenter(void) const { return Pnt3f(0, 0, 0); }
+  /// Copy Constructor
+  inline FrustumVolume(const FrustumVolume &obj);
 
-    void getCenter(Pnt3f &center) const { center = Pnt3f(0, 0, 0);}
- 
-	virtual Bool intersect (const Pnt3f &point) const 
-		{ return false; }
 
-    virtual Bool intersect (const Volume &volume) const
-			{ return false; }
+  /// Destructor
+  inline ~FrustumVolume(); 
 
-	virtual Bool intersect (const Line &line) const 
-		{ return false; }
 
-	virtual Bool intersect (const Line &line, 
-                               Real32 &min, Real32 &max  ) const 
-    {
-        return false; 
-    }
+/*------------------------------ feature ----------------------------------*/
 
-    virtual void extendBy (const Pnt3f &pt)
-			{ return; }
+	/** return the near plane */
+	inline const Plane & getNear   (void) const;
 
-    virtual void extendBy (const Volume &volume)
-			{ return; }
+	/** return the far plane */
+	inline const Plane & getFar    (void) const;
 
-    virtual float getScalarVolume (void) const
-			{ return 0.0; }
+	/** return the left plane */
+	inline const Plane & getLeft   (void) const;
 
-    virtual void scale (float scaleValue)
-			{ return; }
+	/** return the right plane */
+	inline const Plane & getRight  (void) const;
 
-    virtual void transform (const Matrix &mat)
-			{ return; }
+	/** return the top plane */
+	inline const Plane & getTop    (void) const;
 
-    /*------------------------- your_operators ------------------------------*/
+	/** return the bottom plane */
+	inline const Plane & getBottom (void) const;
 
-    /*------------------------- assignment ----------------------------------*/
+	/** set method for all planes */
+	inline
+	void FrustumVolume::setPlanes( const Plane &near, const Plane &far,
+																 const Plane &left, const Plane &right,
+																 const Plane &top,  const Plane &bottom);
 
-    /*------------------------- comparison ----------------------------------*/
+ /** gives the center of the volume */
+  virtual void getCenter (Pnt3f &center) const;
 
-	/*-------------------------- output -------------------------------*/
+  /** gives the scalar volume of the volume */
+  virtual float getScalarVolume (void) const;
+
+  /** gives the boundaries of the volume */
+  virtual void getBounds( Pnt3f &minPnt, Pnt3f &maxPnt ) const;
+
+/*-------------------------- extending ------------------------------------*/
+
+  /** extends (if necessary) to contain the given 3D point */
+  virtual void extendBy (const Pnt3f &pt);
+
+  /** extend the volume by the given volume */
+	inline void extendBy (const Volume &volume);   
+
+  /// Extends Frustum3f (if necessary) to contain given Frustum3f
+  inline void extendBy ( const FrustumVolume &bb);
+
+/*-------------------------- intersection ---------------------------------*/
+
+  /// Returns true if intersection of given point and Frustum3f is not empty
+  Bool intersect(const Pnt3f &point) const;
+
+	/** Returns true if intersection of given Line with the box is not empty */  
+	Bool intersect (const Line &line) const;
+
+	/** intersect the box with the given Line */
+	Bool intersect ( const Line &line, 
+									 Real32 &minDist, Real32 &maxDist  ) const;
+
+  /// intersect the volume with another volume 
+	inline Bool intersect (const Volume &volume) const;
+
+  /// Returns true if intersection of given Frustum3f and Frustum3f is not empty
+	inline Bool intersect(const FrustumVolume &bb) const;
+
+  /** check if the point is on the volume's surface */
+  virtual Bool isOnSurface (const Pnt3f &point) const;
+
+
+/*-------------------------- transformation -------------------------------*/
+
+  /// Transforms Frustum3f by matrix
+  virtual void transform(const Matrix &m);
+
+	
+/*-------------------------- operation ------------------------------------*/
+
+  /// Equality comparisons
+  friend Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
+
+  /// Unequality comparisons
+  inline friend Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+
+  /// Assignment operator
+  const FrustumVolume &operator =(const FrustumVolume &b1);
+
+
+/*-------------------------- output -------------------------------*/
 
 	/** print the volume */
-	virtual void dump(	UInt32				uiIndent = 0, 
-						const BitVector &	bvFlags = 0) const 
-			{ return; };
+  virtual void dump(	UInt32				uiIndent = 0, 
+						const BitVector &	bvFlags = 0) const;
 
-  protected:
+private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+  /// holds the 6 planes (near,far,left,right,top,bottom)
+	Plane _planeVec[6];
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef Volume Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-	static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-	// prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const FrustumVolume &source);
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
-
-typedef FrustumVolume *FrustumVolumeP;
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGFRUSTUMVOLUME_H_ */
+#include <OSGFrustumVolume.inl>
 
-
-
-
-
-
-
-
-
+#endif // FRUSTUMVOLUME_CLASS_DECLARATION

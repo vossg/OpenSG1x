@@ -1,0 +1,206 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                         Copyright 2000 by OpenSG Forum                    *
+ *                                                                           *
+ *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
+
+#ifndef _OSGBOXVOLUME_INL_
+#define _OSGBOXVOLUME_INL_
+
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include "OSGConfig.h"
+#include "OSGVolume.h"
+
+OSG_BEGIN_NAMESPACE
+
+#ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
+class FrustumVolume;
+Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
+Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+ostream& operator<< (ostream & os, const FrustumVolume &obj);
+#endif
+
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+
+/*-------------------------- constructor ----------------------------------*/
+
+/*! Default constructor - leaves box totally empty
+*/
+
+inline
+FrustumVolume::FrustumVolume() : Volume() {;}
+
+/// Constructor given bounds 
+inline
+FrustumVolume::FrustumVolume (  const Plane &near, const Plane &far,
+																const Plane &left, const Plane &right,
+													      const Plane &top,  const Plane &bottom)
+	: Volume()
+{
+	_planeVec[0] = near;
+	_planeVec[1] = far;
+	_planeVec[2] = left;
+	_planeVec[3] = right;
+	_planeVec[4] = top;
+	_planeVec[5] = bottom;
+}
+
+/// Copy Constructor
+inline
+FrustumVolume::FrustumVolume(const FrustumVolume &obj)
+		: Volume(obj)
+{ 
+	_planeVec[0] = obj._planeVec[0];
+	_planeVec[1] = obj._planeVec[1];
+	_planeVec[2] = obj._planeVec[2];
+	_planeVec[3] = obj._planeVec[3];
+	_planeVec[4] = obj._planeVec[4];
+	_planeVec[5] = obj._planeVec[5];
+}
+
+/// Destructor
+inline
+FrustumVolume::~FrustumVolume() {;}
+
+/*------------------------------ feature ----------------------------------*/
+
+/// Returns the near plane
+inline
+const Plane & FrustumVolume::getNear   (void) const
+{ 
+	return _planeVec[0];
+}
+
+/// Returns the far plane
+inline
+const Plane & FrustumVolume::getFar   (void) const
+{ 
+	return _planeVec[1];
+}
+
+/// Returns the left plane
+inline
+const Plane & FrustumVolume::getLeft   (void) const
+{ 
+	return _planeVec[2];
+}
+
+/// Returns the right plane
+inline
+const Plane & FrustumVolume::getRight   (void) const
+{ 
+	return _planeVec[3];
+}
+
+/// Returns the top plane
+inline
+const Plane & FrustumVolume::getTop   (void) const
+{ 
+	return _planeVec[4];
+}
+
+/// Returns the bottom plane
+inline
+const Plane & FrustumVolume::getBottom   (void) const
+{ 
+	return _planeVec[5];
+}
+
+/// set method
+inline
+void FrustumVolume::setPlanes(  const Plane &near, const Plane &far,
+																const Plane &left, const Plane &right,
+													      const Plane &top,  const Plane &bottom)
+{
+	_planeVec[0] = near;
+	_planeVec[1] = far;
+	_planeVec[2] = left;
+	_planeVec[3] = right;
+	_planeVec[4] = top;
+	_planeVec[5] = bottom;
+}
+
+/*-------------------------- extending ------------------------------------*/
+
+inline
+void FrustumVolume::extendBy(const Volume &volume)
+{
+	osg::extend(*this,volume);
+}
+
+inline
+void FrustumVolume::extendBy(const FrustumVolume &volume)
+{
+	osg::extend(*this,volume);
+}
+
+/*-------------------------- intersection ---------------------------------*/
+
+inline
+Bool FrustumVolume::intersect (const Volume &volume) const
+{
+	return osg::intersect(*this,volume);
+}
+
+inline
+Bool FrustumVolume::intersect(const FrustumVolume &volume) const
+{
+	return osg::intersect(*this,volume);
+}
+
+/*-------------------------- operation ------------------------------------*/
+
+
+/// Inequality comparisons
+inline
+Bool operator != (const FrustumVolume &b1, const FrustumVolume &b2)
+{ 
+	return !(b1 == b2); 
+}
+
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+OSG_END_NAMESPACE
+
+#endif // BOX_CLASS_DECLARATION

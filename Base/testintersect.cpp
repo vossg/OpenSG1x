@@ -208,7 +208,9 @@ int main (int argc, char **argv) {
 	BoxVolume boxIn(0,0,0,2,2,2);
 	SphereVolume sphere(Pnt3f(0,0,0),1);
 	SphereVolume sphereOut(Pnt3f(5,0,0),1);
-	SphereVolume sphereIn(Pnt3f(1,0,0),2);
+	SphereVolume sphereIn(Pnt3f(1,0,0),1);
+	CylinderVolume cylinder(Pnt3f(0,2,0),Vec3f(0,3,0),1);
+ 	FrustumVolume  frustum();
 
 	cout << "Box/box outside test: " << flush;
 	cout << (box.intersect(boxOut) ? "**BAD**" : "ok") << endl;
@@ -220,13 +222,19 @@ int main (int argc, char **argv) {
 	cout << (box.intersect(sphereOut) ? "**BAD**" : "ok") << endl;
 
 	cout << "Box/sphere inside test: " << flush;
-	cout << (box.intersect(sphereIn) ? "ok" : "**BAD**") << endl;
+	cout << (box.intersect(sphereIn) ? "ok" : "**BAD**")<< endl;
 
 	cout << "Sphere/sphere outsice test: " << flush;
 	cout << (sphere.intersect(sphereOut) ? "**BAD**" : "ok") << endl;
 
 	cout << "Sphere/sphere inside test: " << flush;
 	cout << (sphere.intersect(sphereIn) ? "ok" : "**BAD**") << endl;
+
+	cout << "Box/cylinder test: " << flush;
+	cout << (box.intersect(cylinder) ? "ok" : "**BAD**") << endl;
+
+	cout << "Sphere/cylinder test: " << flush;
+	cout << (sphere.intersect(cylinder) ? "ok" : " **BAD**") << endl; 
 
   return 0;
 }

@@ -318,6 +318,23 @@ Bool Line::intersect(const CylinderVolume &cyl, Real32 &enter, Real32 &exit) con
 	return (enter < exit);
 }
 
+/**Intersect the line with a frustum
+*/
+Bool Line::intersect(const FrustumVolume &cyl) const
+{
+	Real32 ent, ex;
+	return this->intersect(cyl, ent, ex);
+}
+
+
+/**Intersect the line with a frustum, returns points of intersection
+  based on GGems IV
+*/
+Bool Line::intersect(const FrustumVolume &cyl, Real32 &enter, Real32 &exit) const
+{
+	// not implemented;
+	return false;
+}
 
 /**Intersect the line with a box, returns points of intersection
 */

@@ -52,7 +52,7 @@ OSG_BEGIN_NAMESPACE
 class OSG_BASE_DLLMAPPING BoxVolume;
 class OSG_BASE_DLLMAPPING SphereVolume;
 class OSG_BASE_DLLMAPPING CylinderVolume;
-
+class OSG_BASE_DLLMAPPING FrustumVolume;
 
 //---------------------------------------------------------------------------
 //  Class
@@ -160,6 +160,15 @@ public:
 	*/
 	Bool intersect(const CylinderVolume &cyl,
 			          Real32 &enter, Real32 &exit) const;
+
+	/** Intersect the line with a frustum.
+	*/
+	Bool intersect(const FrustumVolume &frustum) const;
+
+	/** Intersect the line with a frustum.
+	*/
+	Bool intersect ( const FrustumVolume &frustum,
+								   Real32 &enter, Real32 &exit) const;
 
 	/** Intersect the line with a box.
 	*/
