@@ -130,7 +130,7 @@ void Light::dump(      UInt32    uiIndent,
 
 Light::Light(void) :
      Inherited(),
-    _pChunk   ()
+    _pChunk   (NullFC)
 {
 }
 
@@ -145,6 +145,8 @@ Light::Light(const Light &source) :
 
 Light::~Light(void)
 {
+    if(_pChunk != NullFC)
+        subRefCP(_pChunk);
 }
 
 /*-------------------------------------------------------------------------*/
