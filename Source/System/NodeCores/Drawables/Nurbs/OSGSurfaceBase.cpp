@@ -245,12 +245,12 @@ FieldDescription *SurfaceBase::_desc[] =
     new FieldDescription(SFUInt32::getClassType(), 
                      "dirtyMask", 
                      DirtyMaskFieldId, DirtyMaskFieldMask,
-                     false,
+                     true,
                      (FieldAccessMethod) &SurfaceBase::getSFDirtyMask),
     new FieldDescription(SFInt32::getClassType(), 
                      "SurfaceGLId", 
                      SurfaceGLIdFieldId, SurfaceGLIdFieldMask,
-                     false,
+                     true,
                      (FieldAccessMethod) &SurfaceBase::getSFSurfaceGLId)
 };
 

@@ -147,7 +147,7 @@ This is the OpenSG NURBS surface node. It supports an arbitrary number of trimmi
 		name="dirtyMask"
 		type="UInt32"
 		cardinality="single"
-		visibility="external"
+		visibility="internal"
 		access="protected"
 	>
 	</Field>
@@ -155,7 +155,7 @@ This is the OpenSG NURBS surface node. It supports an arbitrary number of trimmi
 		name="SurfaceGLId"
 		type="Int32"
 		cardinality="single"
-		visibility="external"
+		visibility="internal"
 		access="protected"
 	>
 	Surface GL Id, internal use.
