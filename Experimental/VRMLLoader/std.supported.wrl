@@ -48,6 +48,12 @@ PROTO Group [
   field        SFVec3f bboxSize   -1 -1 -1
 ] { }
 
+PROTO ImageTexture [
+  exposedField MFString url     []
+  field        SFBool   repeatS TRUE
+  field        SFBool   repeatT TRUE
+] { }
+
 PROTO IndexedFaceSet [ 
   eventIn       MFInt32 set_colorIndex
   eventIn       MFInt32 set_coordIndex
@@ -109,6 +115,10 @@ PROTO PositionInterpolator [
 PROTO Shape [
   field SFNode appearance NULL
   field SFNode geometry   NULL
+] { }
+
+PROTO TextureCoordinate [
+  exposedField MFVec2f point []
 ] { }
 
 PROTO Transform [

@@ -840,3 +840,155 @@ dnl e8
     AC_OUTPUT($ac_gdz_common_gl_e4:$ac_gdz_common_gl_in_e4)
 ])
 
+AC_DEFUN(AC_GDZ_WRITE_COMMON_TIF,
+[
+dnl e9
+
+    ac_gdz_tif_lib_e9=
+    ac_gdz_tif_incdir_e9=
+    ac_gdz_tif_libdir_e9=
+
+    if [[ "$with_tif" = yes ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_tif_lib_e9='tif32.lib'
+        else
+           ac_gdz_tif_lib_e9='-ltiff'
+        fi
+    elif [[ -n "$ac_gdz_tif_dir" ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_tif_incdir_e9='"'`cygpath -w $ac_gdz_tif_dir/include`'"'
+           ac_gdz_tif_libdir_e9='"'`cygpath -w $ac_gdz_tif_dir/lib`'"'
+           ac_gdz_tif_lib_e9='tif32.lib'
+        else
+           ac_gdz_tif_incdir_e9=$ac_gdz_tif_dir/include
+           ac_gdz_tif_libdir_e9=$ac_gdz_tif_dir/lib
+           ac_gdz_tif_lib_e9='-ltiff'
+        fi
+    fi
+
+    ac_gdz_common_tif_in_e9=$ac_gdz_commonconf_dir/commonTIF.in
+    ac_gdz_common_tif_e9=$ac_gdz_commonpackage_dir/commonTIF.mk
+
+    AC_SUBST(ac_gdz_tif_incdir_e9)
+    AC_SUBST(ac_gdz_tif_libdir_e9)
+    AC_SUBST(ac_gdz_tif_lib_e9)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_tif_e9:$ac_gdz_common_tif_in_e9)
+])
+
+AC_DEFUN(AC_GDZ_WRITE_COMMON_JPG,
+[
+dnl e10
+
+    ac_gdz_jpg_lib_e10=
+    ac_gdz_jpg_incdir_e10=
+    ac_gdz_jpg_libdir_e10=
+
+    if [[ "$with_jpg" = yes ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_jpg_lib_e10='jpg32.lib'
+        else
+           ac_gdz_jpg_lib_e10='-ljpeg'
+        fi
+    elif [[ -n "$ac_gdz_jpg_dir" ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_jpg_incdir_e10='"'`cygpath -w $ac_gdz_jpg_dir/include`'"'
+           ac_gdz_jpg_libdir_e10='"'`cygpath -w $ac_gdz_jpg_dir/lib`'"'
+           ac_gdz_jpg_lib_e10='jpg32.lib'
+        else
+           ac_gdz_jpg_incdir_e10=$ac_gdz_jpg_dir/include
+           ac_gdz_jpg_libdir_e10=$ac_gdz_jpg_dir/lib
+           ac_gdz_jpg_lib_e10='-ljpeg'
+        fi
+    fi
+
+    ac_gdz_common_jpg_in_e10=$ac_gdz_commonconf_dir/commonJPG.in
+    ac_gdz_common_jpg_e10=$ac_gdz_commonpackage_dir/commonJPG.mk
+
+    AC_SUBST(ac_gdz_jpg_incdir_e10)
+    AC_SUBST(ac_gdz_jpg_libdir_e10)
+    AC_SUBST(ac_gdz_jpg_lib_e10)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_jpg_e10:$ac_gdz_common_jpg_in_e10)
+])
+
+AC_DEFUN(AC_GDZ_WRITE_COMMON_PNG,
+[
+dnl e11
+
+    ac_gdz_png_lib_e11=
+    ac_gdz_png_incdir_e11=
+    ac_gdz_png_libdir_e11=
+
+    if [[ "$with_png" = yes ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_png_lib_e11='png32.lib'
+        else
+           ac_gdz_png_lib_e11='-lpng'
+        fi
+    elif [[ -n "$ac_gdz_png_dir" ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_png_incdir_e11='"'`cygpath -w $ac_gdz_png_dir/include`'"'
+           ac_gdz_png_libdir_e11='"'`cygpath -w $ac_gdz_png_dir/lib`'"'
+           ac_gdz_png_lib_e11='png32.lib'
+        else
+           ac_gdz_png_incdir_e11=$ac_gdz_png_dir/include
+           ac_gdz_png_libdir_e11=$ac_gdz_png_dir/lib
+           ac_gdz_png_lib_e11='-lpng'
+        fi
+    fi
+
+    ac_gdz_common_png_in_e11=$ac_gdz_commonconf_dir/commonPNG.in
+    ac_gdz_common_png_e11=$ac_gdz_commonpackage_dir/commonPNG.mk
+
+    AC_SUBST(ac_gdz_png_incdir_e11)
+    AC_SUBST(ac_gdz_png_libdir_e11)
+    AC_SUBST(ac_gdz_png_lib_e11)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_png_e11:$ac_gdz_common_png_in_e11)
+])
+
+AC_DEFUN(AC_GDZ_WRITE_COMMON_MNG,
+[
+dnl e12
+
+    ac_gdz_mng_lib_e12=
+    ac_gdz_mng_incdir_e12=
+    ac_gdz_mng_libdir_e12=
+
+    if [[ "$with_mng" = yes ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_mng_lib_e12='mng32.lib'
+        else
+           ac_gdz_mng_lib_e12='-lmng'
+        fi
+    elif [[ -n "$ac_gdz_mng_dir" ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_mng_incdir_e12='"'`cygpath -w $ac_gdz_mng_dir/include`'"'
+           ac_gdz_mng_libdir_e12='"'`cygpath -w $ac_gdz_mng_dir/lib`'"'
+           ac_gdz_mng_lib_e12='mng32.lib'
+        else
+           ac_gdz_mng_incdir_e12=$ac_gdz_mng_dir/include
+           ac_gdz_mng_libdir_e12=$ac_gdz_mng_dir/lib
+           ac_gdz_mng_lib_e12='-lmng'
+        fi
+    fi
+
+    ac_gdz_common_mng_in_e12=$ac_gdz_commonconf_dir/commonMNG.in
+    ac_gdz_common_mng_e12=$ac_gdz_commonpackage_dir/commonMNG.mk
+
+    AC_SUBST(ac_gdz_mng_incdir_e12)
+    AC_SUBST(ac_gdz_mng_libdir_e12)
+    AC_SUBST(ac_gdz_mng_lib_e12)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_mng_e12:$ac_gdz_common_mng_in_e12)
+])
+

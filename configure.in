@@ -32,6 +32,14 @@ ac_gdz_conf_package_qt='0'
 ac_gdz_conf_package_qt_e1='0'
 ac_gdz_conf_package_glut='0'
 ac_gdz_conf_package_glut_e1='0'
+ac_gdz_conf_package_tif='0'
+ac_gdz_conf_package_tif_e1='0'
+ac_gdz_conf_package_jpg='0'
+ac_gdz_conf_package_jpg_e1='0'
+ac_gdz_conf_package_png='0'
+ac_gdz_conf_package_png_e1='0'
+ac_gdz_conf_package_mng='0'
+ac_gdz_conf_package_mng_e1='0'
 
 AC_CONFIG_AUX_DIR($ac_gdz_commonconf_dir) 
 
@@ -44,6 +52,21 @@ AC_ARG_WITH(compiler,[  --with-compiler=<compiler> choose one of the following\
         Linux   : g++],
         echo Compiler : $with_compiler;ac_gdz_compiler=$with_compiler;,
         echo ERROR --with-compiler option required; exit 1;) 
+
+dnl ############# SUFFIX Settings #####################
+
+AC_ARG_WITH(suffix,     [  --with-suffix=SUFFIX               add suffix to build dir],
+			,with_suffix=no) 
+
+if [[ "$with_suffix" = yes ]]; then
+	ac_gdz_suffix=
+elif [[ "$with_suffix" = no ]]; then
+	ac_gdz_suffix=
+elif [[ "X$with_suffix" = X ]]; then
+	ac_gdz_suffix=
+else
+	ac_gdz_suffix=-$with_suffix
+fi
 
 dnl ############# STL Settings #####################
 
@@ -60,7 +83,7 @@ fi
 
 dnl ############# GLUT Settings #####################
 
-AC_ARG_WITH(glut,     [  --with-glut=DIR                    Where to find the glut files to use],
+AC_ARG_WITH(glut,     [  --with-glut=DIR                    Use glut, if DIR is given use the file from the give directory],
 			,with_glut=no) 
 
 if [[ "$with_glut" = yes ]]; then
@@ -79,7 +102,7 @@ fi
 
 dnl ############# QT Settings #####################
 
-AC_ARG_WITH(qt,     [  --with-qt=DIR                      Where to find the qt files to use],
+AC_ARG_WITH(qt,     [  --with-qt=DIR                      Use qt, if DIR is given use the file from the give directory],
 			,with_qt=no) 
 
 if [[ "$with_qt" = yes ]]; then
@@ -94,6 +117,82 @@ else
 	ac_gdz_conf_package_qt='1'
 	ac_gdz_conf_package_qt_e1='1'
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_QT'
+fi
+
+dnl ############# TIF Settings #####################
+
+AC_ARG_WITH(tif,     [  --with-tif=DIR                     Use tif lib, if DIR is given use the file from the give directory],
+			,with_tif=no) 
+
+if [[ "$with_tif" = yes ]]; then
+	ac_gdz_tif_dir=
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_TIF'
+	ac_gdz_conf_package_tif='1'
+	ac_gdz_conf_package_tif_e1='1'
+elif [[ "$with_tif" = no ]]; then
+	ac_gdz_tif_dir=
+else
+	ac_gdz_tif_dir=$with_tif
+	ac_gdz_conf_package_tif='1'
+	ac_gdz_conf_package_tif_e1='1'
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_TIF'
+fi
+
+dnl ############# JPG Settings #####################
+
+AC_ARG_WITH(jpg,     [  --with-jpg=DIR                     Use jpg lib, if DIR is given use the file from the give directory],
+			,with_jpg=no) 
+
+if [[ "$with_jpg" = yes ]]; then
+	ac_gdz_jpg_dir=
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_JPG'
+	ac_gdz_conf_package_jpg='1'
+	ac_gdz_conf_package_jpg_e1='1'
+elif [[ "$with_jpg" = no ]]; then
+	ac_gdz_jpg_dir=
+else
+	ac_gdz_jpg_dir=$with_jpg
+	ac_gdz_conf_package_jpg='1'
+	ac_gdz_conf_package_jpg_e1='1'
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_JPG'
+fi
+
+dnl ############# PNG Settings #####################
+
+AC_ARG_WITH(png,     [  --with-png=DIR                     Use png lib, if DIR is given use the file from the give directory],
+			,with_png=no) 
+
+if [[ "$with_png" = yes ]]; then
+	ac_gdz_png_dir=
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_PNG'
+	ac_gdz_conf_package_png='1'
+	ac_gdz_conf_package_png_e1='1'
+elif [[ "$with_png" = no ]]; then
+	ac_gdz_png_dir=
+else
+	ac_gdz_png_dir=$with_png
+	ac_gdz_conf_package_png='1'
+	ac_gdz_conf_package_png_e1='1'
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_PNG'
+fi
+
+dnl ############# MNG Settings #####################
+
+AC_ARG_WITH(mng,     [  --with-mng=DIR                     Use mng lib, if DIR is given use the file from the give directory],
+			,with_mng=no) 
+
+if [[ "$with_mng" = yes ]]; then
+	ac_gdz_mng_dir=
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_MNG'
+	ac_gdz_conf_package_mng='1'
+	ac_gdz_conf_package_mng_e1='1'
+elif [[ "$with_mng" = no ]]; then
+	ac_gdz_mng_dir=
+else
+	ac_gdz_mng_dir=$with_mng
+	ac_gdz_conf_package_mng='1'
+	ac_gdz_conf_package_mng_e1='1'
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_MNG'
 fi
 
 dnl ############# TLS Settings #####################
@@ -112,20 +211,6 @@ AC_ARG_ENABLE(compiler-pedantic-errors,     [  --enable-compiler-pedantic-errors
 			,enable_compiler_pedantic_errors=no) 
 
 
-dnl ############# SUFFIX Settings #####################
-
-AC_ARG_WITH(suffix,     [  --with-suffix=SUFFIX          add suffix to build dir],
-			,with_suffix=no) 
-
-if [[ "$with_suffix" = yes ]]; then
-	ac_gdz_suffix=
-elif [[ "$with_suffix" = no ]]; then
-	ac_gdz_suffix=
-elif [[ "X$with_suffix" = X ]]; then
-	ac_gdz_suffix=
-else
-	ac_gdz_suffix=-$with_suffix
-fi
 
 dnl ############# Helper #####################
 
@@ -372,6 +457,10 @@ AC_SUBST(ac_gdz_gen_base_inc_e1)
 
 AC_SUBST(ac_gdz_conf_package_defs)
 AC_SUBST(ac_gdz_conf_package_qt_e1)
+AC_SUBST(ac_gdz_conf_package_tif_e1)
+AC_SUBST(ac_gdz_conf_package_jpg_e1)
+AC_SUBST(ac_gdz_conf_package_png_e1)
+AC_SUBST(ac_gdz_conf_package_mng_e1)
 AC_SUBST(ac_gdz_conf_package_glut_e1)
 
 AC_SUBST_FILE(ac_gdz_common_patterns)
@@ -421,6 +510,14 @@ AC_GDZ_WRITE_COMMON_STL()
 AC_GDZ_WRITE_COMMON_GLUT()
 
 AC_GDZ_WRITE_COMMON_QT()
+
+AC_GDZ_WRITE_COMMON_TIF()
+
+AC_GDZ_WRITE_COMMON_JPG()
+
+AC_GDZ_WRITE_COMMON_PNG()
+
+AC_GDZ_WRITE_COMMON_MNG()
 
 AC_GDZ_WRITE_COMMON_GL()
 

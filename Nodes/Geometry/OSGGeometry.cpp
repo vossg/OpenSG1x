@@ -292,18 +292,18 @@ Action::ResultE Geometry::doDraw(Action * action )
 {
 	DrawAction *a = dynamic_cast<DrawAction*>(action);
 
-  if(a->getMaterial() != NULL)
-  {
-    a->getMaterial()->draw(this, a);
-  }
-  else if ( getMaterial() != NullFC )
-  {
+    if(a->getMaterial() != NULL)
+    {
+        a->getMaterial()->draw(this, a);
+    }
+    else if ( getMaterial() != NullFC )
+    {
 		getMaterial()->draw( this, a );
-  }
+    }
 	else
-  {
+    {
 		draw( a );
-  }
+    }
 	return Action::Continue;
 }
 	

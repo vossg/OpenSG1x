@@ -286,6 +286,18 @@ void VRMLNodeFactory<BaseT>::beginProtoInterface(
             
             _mNodeDescHash[szName] = _pCurrentNodeDesc; 
         }
+        else if(stringcasecmp("TextureCoordinate", szProtoname) == 0)
+        {
+            stringDup(szProtoname, szName);
+            
+            _pCurrentNodeDesc = new VRMLGeometryPartDesc("point",
+                                                         "TexCoords",
+                                                         "GeoTexCoords2f");
+            
+            _pCurrentNodeDesc->init(szProtoname);
+            
+            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+        }
         else if(stringcasecmp("Appearance", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);

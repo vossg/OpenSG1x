@@ -51,7 +51,7 @@
 #include <limits>
 #endif
 
-#ifdef JPEG_LIB
+#ifdef OSG_WITH_JPG
 extern "C" {
 #include <setjmp.h>
 #include <jpeglib.h>
@@ -110,7 +110,7 @@ JPGImageFileType JPGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
 //------------------------------
 bool JPGImageFileType::read (Image &image, const char *fileName )
 {
-#ifdef JPEG_LIB
+#ifdef OSG_WITH_JPG
     bool retCode = false;
 
   struct my_error_mgr {
@@ -213,7 +213,7 @@ bool JPGImageFileType::read (Image &image, const char *fileName )
 //------------------------------
 bool JPGImageFileType::write (const Image &image, const char *fileName )
 {
-#ifdef JPEG_LIB
+#ifdef OSG_WITH_JPG
 
 	if ( ( image.getBpp() != 1 && image.getBpp() != 3 ) ||
 			image.getDepth() != 1

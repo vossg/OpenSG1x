@@ -49,7 +49,7 @@
 
 #include "OSGTIFImageFileType.h"
 
-#ifdef TIFF_LIB
+#ifdef OSG_WITH_TIF
 #include <tiffio.h>
 #endif
 
@@ -128,7 +128,7 @@ bool TIFImageFileType::read (Image &image, const char *fileName )
 {
 		bool valid = false;
 
-#ifdef TIFF_LIB
+#ifdef OSG_WITH_TIF
 
 	TIFF *in = TIFFOpen(fileName, "r");
 	UChar8 *data = 0, *line = 0, *dest;
@@ -255,7 +255,7 @@ bool TIFImageFileType::write (const Image &image, const char *fileName )
 {
 	bool retCode = false;
 
-#ifdef TIFF_LIB
+#ifdef OSG_WITH_TIF
 
 	TIFF *out = TIFFOpen(fileName, "w");
 	int lineSize = image.getWidth() * image.getBpp();

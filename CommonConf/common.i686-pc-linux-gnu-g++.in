@@ -24,8 +24,7 @@ II_FILESDIR          :=
 DEP_PLATTFORMDEF = -D__linux__ 
 
 SOURCE_DEFINES   = -D__linux -D_GNU_SOURCE -DQT_CLEAN_NAMESPACE \
-                   $(CONFIGURED_PACKAGE_DEFS)                   \
-                   -DJPEG_LIB -DTIFF_LIB 
+                   $(CONFIGURED_PACKAGE_DEFS)
 #-DMNG_LIB -DPNG_LIB
 #-D__STL_USE_NEW_IOSTREAMS
 
