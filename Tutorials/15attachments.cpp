@@ -402,7 +402,11 @@ void keyboard(unsigned char k, int x, int y)
 {
     switch(k)
     {
-    case 27:    exit(1);
+        case 27:
+        {
+            osgExit();
+            exit(1);
+        }
     }
 }
 
