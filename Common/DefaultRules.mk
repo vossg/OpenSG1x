@@ -524,8 +524,17 @@ endif
 
 endif
 
+ifeq ($(OS_BASE), cygwin)
+FLEXLEXER_H_DEP := ../Base/FlexLexer.h
+
+../Base/FlexLexer.h: /usr/include/FlexLexer.h
+	cp /usr/include/FlexLexer.h ../Base/
+else
+FLEXLEXER_H_DEP :=
+endif
+
 ifneq ($(LIB_FLEXPPTARGET_CPP),)
-$(OBJDIR)/%.lex.cpp: %.lpp
+$(OBJDIR)/%.lex.cpp: %.lpp $(FLEXLEXER_H_DEP)
 	$(FLEX) -+ -P$(call flex_int,$<) $<
 ifneq ($(OS_BASE),irix6.5)
 	cat lex.$(call flex_int,$<).cc | 								\
