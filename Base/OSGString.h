@@ -47,6 +47,7 @@
 //---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <string.h>
 #include <vector>
@@ -131,6 +132,7 @@ class OSG_BASE_DLLMAPPING String
 
 	void    setLength(UInt32 length);
 
+	void    tokenize( std::vector <String> &v);
 	void    tokenize( std::vector <String*> &v);
 
 
@@ -161,6 +163,21 @@ class OSG_BASE_DLLMAPPING String
 	inline Bool operator !=(const String &o) const
     {
         return ! (*this == o);
+    }
+
+	inline Bool operator >(const String &o) const
+  	{ 
+        return ! (*this < o) && ! (*this == o);
+    }
+
+	inline Bool operator >=(const String &o) const
+  	{ 
+        return ! (*this < o);
+    }
+
+	inline Bool operator <=(const String &o) const
+  	{ 
+        return (*this < o) || (*this == o);
     }
 
   protected:

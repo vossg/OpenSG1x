@@ -186,7 +186,7 @@ void String::set(const char *str, MemType memType)
 // Description:
 //         
 //----------------------------------------------------------------------
-void String::tokenize( vector <String*> &v)
+void String::tokenize( std::vector <String*> &v)
 {
 	int l        = length(),
 		oldpos   = 0,
@@ -276,6 +276,98 @@ void String::tokenize( vector <String*> &v)
 		free(buf);
 	}
 }
+
+void String::tokenize( std::vector <String> &v)
+{
+	int l        = length(),
+		oldpos   = 0,
+		pos      = 0,
+		inQuotes = 0,
+		inToken  = 0;
+
+	if ( l > 0 ) 
+	{
+
+		char *buf = (char *)malloc( (l+1) * sizeof(char) );
+	
+		for ( pos = 0; pos <= l; pos++) 	
+		{
+			
+			if ( !inQuotes )
+			{
+				if ( !inToken )
+				{
+					if ( _str[pos] == '"' )
+					{
+						inQuotes = 1;
+						oldpos = pos+1;				
+					}
+					else if ( _str[pos] != ' ' )
+					{
+						inToken = 1;
+						oldpos = pos;			
+					} 
+				}
+				else if ( inToken )
+				{			
+					if ( _str[pos] == '"' )
+					{
+						inToken = 0;
+
+						strncpy( buf, _str + oldpos, pos - oldpos );
+						buf [ pos - oldpos ] = '\0';						
+						v.push_back( String( buf ) );
+						
+						inQuotes = 1;
+						oldpos = pos;
+						
+					}
+					else if ( _str[pos] == ' ' )
+					{
+						inToken = 0;
+						
+						strncpy( buf, _str + oldpos, pos - oldpos );
+						buf [ pos - oldpos ] = '\0';						
+						v.push_back( String( buf ) );	
+					}
+					else if ( pos == l ) 
+					{
+						strncpy( buf, _str + oldpos, pos - oldpos );
+						buf [ pos - oldpos ] = '\0';						
+						v.push_back( String( buf ) );	
+					}
+					
+				}
+				
+			}
+			else if ( inQuotes ) 
+			{
+				if ( _str[pos] == '"' )
+				{
+					inQuotes = 0;
+						
+					if ( pos > oldpos )
+					{	
+						strncpy( buf, _str + oldpos, pos - oldpos );
+						buf [ pos - oldpos ] = '\0';						
+						v.push_back( String( buf ) );
+					}
+				}
+				else if ( pos == l )
+				{
+					if ( pos > oldpos )
+					{
+						strncpy( buf, _str + oldpos, pos - oldpos );
+						buf [ pos - oldpos ] = '\0';						
+						v.push_back( String( buf ) );
+					}
+				}
+			}		
+		}
+		free(buf);
+	}
+}
+
 
 //----------------------------------------------------------------------
 // Method: output stream operator
