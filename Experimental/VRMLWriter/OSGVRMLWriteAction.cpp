@@ -435,7 +435,7 @@ Action::ResultE VRMLWriteAction::writeVTransformEnter(CNodePtr &pGroup,
                 pTrans->getCenter()[1],
                 pTrans->getCenter()[2]);
 
-        pTrans->getRotation().getValueAsAxisDeg(rQX, rQY, rQZ, rQW);
+        pTrans->getRotation().getValueAsAxisRad(rQX, rQY, rQZ, rQW);
 
         pWriter->printIndent();
         fprintf(pFile, "rotation %f %f %f %f\n",
@@ -447,7 +447,7 @@ Action::ResultE VRMLWriteAction::writeVTransformEnter(CNodePtr &pGroup,
                 pTrans->getScale()[1],
                 pTrans->getScale()[2]);
 
-        pTrans->getScaleOrientation().getValueAsAxisDeg(rQX, rQY, rQZ, rQW);
+        pTrans->getScaleOrientation().getValueAsAxisRad(rQX, rQY, rQZ, rQW);
 
         pWriter->printIndent();
         fprintf(pFile, "scaleOrientation %f %f %f %f\n",
@@ -685,7 +685,7 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
                                  FILE            *pFile,
                                  VRMLWriteAction *pWriter)
 {
-    Int32 j;
+    UInt32 j;
 
     if(pGeo == NullFC)
         return;
