@@ -88,7 +88,7 @@ OSG_FC_LAST_FIELD_IDM_DEF (OSGNodeCore, OSGAttachmentsField)
 
 OSGFieldDescription OSGNodeCore::_desc[] = 
 {
-	OSGFieldDescription(OSGMFNodeCorePtr::getClassType(), 
+	OSGFieldDescription(OSGMFNodePtr::getClassType(), 
                         "parents", 
                         OSG_FC_FIELD_IDM_DESC(OSGParentsField),
                         false,

@@ -270,7 +270,7 @@ OSGBool OSGFieldContainerType::isDerivedFrom(
     {
         while(currTypeP != NULL && returnValue == false)
         {
-            if(_Id == currTypeP->_Id)
+            if(other._Id == currTypeP->_Id)
             {
                 returnValue = true;
             }
