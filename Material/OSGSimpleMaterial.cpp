@@ -96,7 +96,7 @@ OSG_FC_LAST_FIELD_IDM_DEF(SimpleMaterial, TransparencyField)
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.4 2001/01/23 15:23:43 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.5 2001/02/05 18:41:14 dirk Exp $";
 
 
 FieldDescription SimpleMaterial::_desc[] = 
@@ -383,6 +383,8 @@ void SimpleMaterial::draw( Geometry* geo, Action * action )
 	geo->draw( action );
 
 	state->deactivate();
+
+	osgSubRefCP( state );
 }
 
 /*-------------------------- assignment -----------------------------------*/
