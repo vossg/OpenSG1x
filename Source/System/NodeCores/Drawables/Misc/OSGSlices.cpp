@@ -54,14 +54,23 @@
 #include <OSGDrawAction.h>
 #include <OSGRenderAction.h>
 #include <OSGIntersectAction.h>
+#include <OSGWindow.h>
+#include <OSGGLEXT.h>
 
 #include "OSGSlices.h"
 
 OSG_USING_NAMESPACE
 
 /*! \class osg::Slices
-
 */
+
+UInt32 Slices::_arbMultitexture = Window::invalidFunctionID;
+UInt32 Slices::_funcMultiTexCoord3fARB = Window::invalidFunctionID;
+
+typedef void (OSG_APIENTRY * PFNGLMULTITEXCOORD3FARBPROC)(GLenum target,
+                                                          GLfloat s,
+                                                          GLfloat t,
+                                                          GLfloat r);
 
 /*----------------------- constructors & destructors ----------------------*/
 
@@ -70,6 +79,12 @@ OSG_USING_NAMESPACE
 Slices::Slices(void) :
     Inherited()
 {
+    _arbMultitexture = 
+       Window::registerExtension("GL_ARB_multitexture");
+
+    _funcMultiTexCoord3fARB =
+        Window::registerFunction(OSG_DLSYM_UNDERSCORE"glMultiTexCoord3fARB", 
+                                 _arbMultitexture);
 }
 
 //! Copy Constructor
@@ -92,19 +107,19 @@ Slices::~Slices(void)
 
 void Slices::initMethod (void)
 {
-  DrawAction::registerEnterDefault( getClassType(),
+    DrawAction::registerEnterDefault( getClassType(),
                                     osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           MaterialDrawablePtr  ,
                                     CNodePtr      ,
                                     Action       *>(&MaterialDrawable::drawActionHandler));
   
-  RenderAction::registerEnterDefault( getClassType(),
+    RenderAction::registerEnterDefault( getClassType(),
                                       osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                       MaterialDrawablePtr  ,
                                       CNodePtr      ,
                                       Action       *>(&MaterialDrawable::renderActionHandler));
   
-  IntersectAction::registerEnterDefault( getClassType(),
+    IntersectAction::registerEnterDefault( getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                          SlicesPtr  ,
                                          CNodePtr      ,
@@ -181,81 +196,81 @@ Action::ResultE Slices::intersect(Action * OSG_CHECK_ARG(action) )
 
 Action::ResultE Slices::drawPrimitives(DrawActionBase *action)
 {
-  Matrix camera,toworld;
-  UInt32 triCount, vertexCount;
-  Vec3f planeNormal;
-  StatCollector *coll = action->getStatistics();
-  StatIntElem   *el   = 0;
-
-  RenderAction *ra = dynamic_cast<RenderAction *>(action);
-
-  camera = action->getCameraToWorld();
-
-  if(ra != NULL)
-  {
-      toworld = ra->top_matrix();
-  }
-  else
-  {
-      action->getActNode()->getToWorld(toworld);
-  }
-
-  // normalize them, we don't want to neutralize scales in toworld
-  toworld[0].normalize();
-  toworld[1].normalize();
-  toworld[2].normalize();
-  toworld.invert();
-  camera.multLeft(toworld);
-  
-  // Viewer direction  
-  planeNormal.setValues(camera[3][0],camera[3][1],camera[3][2]);
-  planeNormal.normalize();
-
-  drawSlices (planeNormal,triCount,vertexCount);
-
-  if (coll) 
-  {
-    if ((el = coll->getElem(Drawable::statNTriangles,false)))
-      el->add(triCount);
-    if ((el = coll->getElem(Drawable::statNVertices,false)))
-      el->add(vertexCount);
-  }
-
-  /* TODO; bbox draw code; just for debuggging; drawBBox opt ?
-  glPushAttrib ( GL_ENABLE_BIT );
-  glDisable (GL_LIGHTING);
-  glDisable (GL_TEXTURE_1D);
-  glDisable (GL_TEXTURE_2D);
-  glDisable (GL_TEXTURE_3D);
-  
-  glBegin( GL_LINES );    
-  {
-    for (int i = 0; i < 12; i++) 
+    Matrix camera,toworld;
+    UInt32 triCount, vertexCount;
+    Vec3f planeNormal;
+    StatCollector *coll = action->getStatistics();
+    StatIntElem   *el   = 0;
+    
+    RenderAction *ra = dynamic_cast<RenderAction *>(action);
+    
+    camera = action->getCameraToWorld();
+    
+    if(ra != NULL)
     {
-      glVertex3fv (_pointVec[_edgeVec[i].pointIndexA].getValues());
-      glVertex3fv (_pointVec[_edgeVec[i].pointIndexB].getValues());
+      toworld = ra->top_matrix();
     }
-  }  
-  glEnd();
-  glPopAttrib();
-  */
+    else
+    {
+      action->getActNode()->getToWorld(toworld);
+    }
+
+    // normalize them, we don't want to neutralize scales in toworld
+    toworld[0].normalize();
+    toworld[1].normalize();
+    toworld[2].normalize();
+    toworld.invert();
+    camera.multLeft(toworld);
   
-  return Action::Continue;
+    // Viewer direction  
+    planeNormal.setValues(camera[3][0],camera[3][1],camera[3][2]);
+    planeNormal.normalize();
+
+    drawSlices(action->getWindow(), planeNormal,triCount,vertexCount);
+
+    if (coll) 
+    {
+        if((el = coll->getElem(Drawable::statNTriangles,false)))
+            el->add(triCount);
+        if((el = coll->getElem(Drawable::statNVertices,false)))
+            el->add(vertexCount);
+    }
+
+    /* TODO; bbox draw code; just for debuggging; drawBBox opt ?
+    glPushAttrib ( GL_ENABLE_BIT );
+    glDisable (GL_LIGHTING);
+    glDisable (GL_TEXTURE_1D);
+    glDisable (GL_TEXTURE_2D);
+    glDisable (GL_TEXTURE_3D);
+    
+    glBegin( GL_LINES );    
+    {
+        for (int i = 0; i < 12; i++) 
+        {
+            glVertex3fv (_pointVec[_edgeVec[i].pointIndexA].getValues());
+            glVertex3fv (_pointVec[_edgeVec[i].pointIndexB].getValues());
+        }
+    }  
+    glEnd();
+    glPopAttrib();
+    */
+
+    return Action::Continue;
 }
 
 void Slices::adjustVolume( Volume & volume )
 {   
-  Vec3f v(_sfSize.getValue());
-  Pnt3f p(v[0],v[1],v[2]);
-  
-  volume.setValid();
-  volume.setEmpty();
-  
-  p /= 2;
-  volume.extendBy ( p );
-  
-  p.negate();
-  volume.extendBy ( p );
+    Vec3f v(_sfSize.getValue());
+    Pnt3f p(v[0],v[1],v[2]);
+    
+    volume.setValid();
+    volume.setEmpty();
+    
+    p /= 2;
+    volume.extendBy ( p );
+    
+    p.negate();
+    volume.extendBy ( p );
 }
 
 /*-------------------------------------------------------------------------*\
@@ -268,276 +283,288 @@ void Slices::adjustVolume( Volume & volume )
 
 void Slices::initEdgeVec( void )
 {
-	// create the corner points
+    // create the corner points
+    
+    //     4--------5    
+    //    /|       /|   
+    //   / |      / |  
+    //  /  |     /  | 
+    // 7--------6   | 
+    // |   0----|---1 
+    // |  /     |  /  
+    // | /      | /   
+    // |/       |/   
+    // 3--------2 
 
-	//     4--------5    
-	//    /|       /|   
-	//   / |      / |  
-	//  /  |     /  | 
-	// 7--------6   | 
-	// |   0----|---1 
-	// |  /     |  /  
-	// | /      | /   
-	// |/       |/   
-	// 3--------2 
+    UInt32 i;
+    std::vector<Pnt3f> & p(_pointVec);
+    const Vec3f size(getSize());
+    
+    _pointVec.resize(8);
+    
+    p[0][0] = p[3][0] = p[4][0] = p[7][0] = -0.5f * size.x();
+    p[1][0] = p[2][0] = p[5][0] = p[6][0] =  0.5f * size.x();
+    p[0][1] = p[1][1] = p[2][1] = p[3][1] = -0.5f * size.y();
+    p[4][1] = p[5][1] = p[6][1] = p[7][1] =  0.5f * size.y();
+    p[0][2] = p[1][2] = p[4][2] = p[5][2] = -0.5f * size.z();
+    p[2][2] = p[3][2] = p[6][2] = p[7][2] =  0.5f * size.z();
 
-  UInt32 i;
-  std::vector<Pnt3f> & p(_pointVec);
-  const Vec3f size(getSize());
+    // create the edge description       
+    //     4--------5      *---4----*     0: - - - 
+    //    /|       /|     /|       /|     1: + - - 
+    //   / |      / |    7 |      5 |     2: + - + 
+    //  /  |     /  |   /  8     /  9     3: - - +
+    // 7--------6   |  *----6---*   |     4: - + -
+    // |   0----|---1  |   *---0|---*     5: + + -
+    // |  /     |  /   11 /     10 /      6: + + +
+    // | /      | /    | 3      | 1       7: - + + 
+    // |/       |/     |/       |/        
+    // 3--------2      *---2----*
+    //
+    // cubeCorners     edges
 
-  _pointVec.resize(8);
+    _edgeVec.resize(12);
 
-	p[0][0] = p[3][0] = p[4][0] = p[7][0] = -0.5f * size.x();
-	p[1][0] = p[2][0] = p[5][0] = p[6][0] =  0.5f * size.x();
-	p[0][1] = p[1][1] = p[2][1] = p[3][1] = -0.5f * size.y();
-	p[4][1] = p[5][1] = p[6][1] = p[7][1] =  0.5f * size.y();
-	p[0][2] = p[1][2] = p[4][2] = p[5][2] = -0.5f * size.z();
-  p[2][2] = p[3][2] = p[6][2] = p[7][2] =  0.5f * size.z();
+    _edgeVec[0].pointIndexA = 0;     // 1 : positiv   0: negativ   00: parallel
+    _edgeVec[0].pointIndexB = 1;     // xmax xmin ymax ymin zmax zmin
+    _edgeVec[0].edgeTag = 5;         //  0    0    0    1    0    1  
+    
+    _edgeVec[1].pointIndexA = 1;
+    _edgeVec[1].pointIndexB = 2;    // xmax xmin ymax ymin zmax zmin
+    _edgeVec[1].edgeTag = 36;       //  1    0    0    1    0    0   
+    
+    _edgeVec[2].pointIndexA = 2;
+    _edgeVec[2].pointIndexB = 3;    // xmax xmin ymax ymin zmax zmin
+    _edgeVec[2].edgeTag = 6;        //  0    0    0    1    1    0
+    
+    _edgeVec[3].pointIndexA = 3;
+    _edgeVec[3].pointIndexB = 0;    // xmax xmin ymax ymin zmax zmin
+    _edgeVec[3].edgeTag = 20;       //  0    1    0    1    0    0
+    
+    _edgeVec[4].pointIndexA = 4;
+    _edgeVec[4].pointIndexB = 5;    // xmax xmin ymax ymin zmax zmin
+    _edgeVec[4].edgeTag = 9;        //   0   0    1    0    0    1
+          
+    _edgeVec[5].pointIndexA = 5;
+    _edgeVec[5].pointIndexB = 6;    // xmax xmin ymax ymin zmax zmin
+    _edgeVec[5].edgeTag = 40;       //   1   0    1    0    0    0
+    
+    _edgeVec[6].pointIndexA = 6;
+    _edgeVec[6].pointIndexB = 7;    // xmax xmin ymax ymin zmax zmin
+    _edgeVec[6].edgeTag = 10;       //  0    0    1    0    1    0
+    
+    _edgeVec[7].pointIndexA = 7;
+    _edgeVec[7].pointIndexB = 4;    // xmax xmin ymax ymin zmax zmin
+    _edgeVec[7].edgeTag = 24;       //  0    1    1    0    0    0
+    
+    _edgeVec[8].pointIndexA = 0;
+    _edgeVec[8].pointIndexB = 4;    // xmax xmin ymax ymin zmax zmin
+    _edgeVec[8].edgeTag = 17;       //  0    1    0    0    0    1
+    
+    _edgeVec[9].pointIndexA = 1;
+    _edgeVec[9].pointIndexB = 5;    // xmax xmin ymax ymin zmax zmin
+    _edgeVec[9].edgeTag = 33;       //  1    0    0    0    0    1
+    
+    _edgeVec[10].pointIndexA = 2;
+    _edgeVec[10].pointIndexB = 6;   // xmax xmin ymax ymin zmax zmin
+    _edgeVec[10].edgeTag = 34;      //  1    0    0    0     1   0
+    
+    _edgeVec[11].pointIndexA = 3;
+    _edgeVec[11].pointIndexB = 7;   // xmax xmin ymax ymin zmax zmin
+    _edgeVec[11].edgeTag = 18;      //  0    1    0    0    1   0 
 
-	// create the edge description       
-	//     4--------5      *---4----*     0: - - - 
-	//    /|       /|     /|       /|     1: + - - 
-	//   / |      / |    7 |      5 |     2: + - + 
-	//  /  |     /  |   /  8     /  9     3: - - +
-	// 7--------6   |  *----6---*   |     4: - + -
-	// |   0----|---1  |   *---0|---*     5: + + -
-	// |  /     |  /   11 /     10 /      6: + + +
-	// | /      | /    | 3      | 1       7: - + + 
-	// |/       |/     |/       |/        
-	// 3--------2      *---2----*
-	//
-	// cubeCorners     edges
-
-  _edgeVec.resize(12);
-
-	_edgeVec[0].pointIndexA = 0;     // 1 : positiv   0: negativ   00: parallel
-	_edgeVec[0].pointIndexB = 1;     // xmax xmin ymax ymin zmax zmin
-	_edgeVec[0].edgeTag = 5;         //  0    0    0    1    0    1  
-
-	_edgeVec[1].pointIndexA = 1;
-	_edgeVec[1].pointIndexB = 2;    // xmax xmin ymax ymin zmax zmin
-	_edgeVec[1].edgeTag = 36;       //  1    0    0    1    0    0   
-
-	_edgeVec[2].pointIndexA = 2;
-	_edgeVec[2].pointIndexB = 3;    // xmax xmin ymax ymin zmax zmin
-	_edgeVec[2].edgeTag = 6;        //  0    0    0    1    1    0
-
-	_edgeVec[3].pointIndexA = 3;
-	_edgeVec[3].pointIndexB = 0;    // xmax xmin ymax ymin zmax zmin
-	_edgeVec[3].edgeTag = 20;       //  0    1    0    1    0    0
-
-	_edgeVec[4].pointIndexA = 4;
-	_edgeVec[4].pointIndexB = 5;    // xmax xmin ymax ymin zmax zmin
-	_edgeVec[4].edgeTag = 9;        //   0   0    1    0    0    1
-		  
-	_edgeVec[5].pointIndexA = 5;
-	_edgeVec[5].pointIndexB = 6;    // xmax xmin ymax ymin zmax zmin
-	_edgeVec[5].edgeTag = 40;       //   1   0    1    0    0    0
-
-	_edgeVec[6].pointIndexA = 6;
-	_edgeVec[6].pointIndexB = 7;    // xmax xmin ymax ymin zmax zmin
-	_edgeVec[6].edgeTag = 10;       //  0    0    1    0    1    0
-
-	_edgeVec[7].pointIndexA = 7;
-	_edgeVec[7].pointIndexB = 4;    // xmax xmin ymax ymin zmax zmin
-	_edgeVec[7].edgeTag = 24;       //  0    1    1    0    0    0
-
-	_edgeVec[8].pointIndexA = 0;
-	_edgeVec[8].pointIndexB = 4;    // xmax xmin ymax ymin zmax zmin
-	_edgeVec[8].edgeTag = 17;       //  0    1    0    0    0    1
-
-	_edgeVec[9].pointIndexA = 1;
-	_edgeVec[9].pointIndexB = 5;    // xmax xmin ymax ymin zmax zmin
-	_edgeVec[9].edgeTag = 33;       //  1    0    0    0    0    1
-
-	_edgeVec[10].pointIndexA = 2;
-	_edgeVec[10].pointIndexB = 6;   // xmax xmin ymax ymin zmax zmin
-	_edgeVec[10].edgeTag = 34;      //  1    0    0    0     1   0
-
-	_edgeVec[11].pointIndexA = 3;
-	_edgeVec[11].pointIndexB = 7;   // xmax xmin ymax ymin zmax zmin
-	_edgeVec[11].edgeTag = 18;      //  0    1    0    0    1   0 
-
-	// create one line for every edge
-	for (i = 0; i < 12; i++) 
-	  _edgeVec[i].line.setValue( _pointVec[_edgeVec[i].pointIndexA],
-                               _pointVec[_edgeVec[i].pointIndexB]);	
+    // create one line for every edge
+    for (i = 0; i < 12; i++) 
+      _edgeVec[i].line.setValue( _pointVec[_edgeVec[i].pointIndexA],
+                               _pointVec[_edgeVec[i].pointIndexB]);
 }
 
 UInt32 Slices::createSlice ( const OSG::Plane &plane, Slice &slice )
 {
-  UInt32 i,j,k, lastButOne;
-  Vec3f v1, v2, winding;
-  bool pointInHalfSpace[8];
-  unsigned swapCount = 0;
-
-  // clip the plane with the corner points
-  for (i = 0; i < 8; i++) 
-    pointInHalfSpace[i] = plane.isInHalfSpace(_pointVec[i]);
-  
-  // calculate the intersection points
-  for ( slice.numOfIntersection = i = 0; i < 12; i++) 
-    if ( (pointInHalfSpace[_edgeVec[i].pointIndexA] !=
-          pointInHalfSpace[_edgeVec[i].pointIndexB] )) 
-      {
-        plane.intersect( _edgeVec[i].line, 
-                         slice.pointVec[slice.numOfIntersection] );
-        slice.edgeVec[slice.numOfIntersection] = i;
-        slice.numOfIntersection++;
-      }
-
-  if (slice.numOfIntersection > 2) 
-  {
-      
-    lastButOne = slice.numOfIntersection - 2;
-    i=j=k=0;
+    UInt32 i,j,k, lastButOne;
+    Vec3f v1, v2, winding;
+    bool pointInHalfSpace[8];
+    unsigned swapCount = 0;
     
-    // edge sort
-    for (; j++ <= lastButOne; i++ )
+    // clip the plane with the corner points
+    for(i = 0; i < 8; i++) 
+        pointInHalfSpace[i] = plane.isInHalfSpace(_pointVec[i]);
+  
+    // calculate the intersection points
+    for(slice.numOfIntersection = i = 0; i < 12; i++)
     {
-      // find first invalid edgeTag -> j 
-      while ( (j <= lastButOne) && 
-              ((_edgeVec[slice.edgeVec[i]].edgeTag &
-                _edgeVec[slice.edgeVec[j]].edgeTag ) != 0)) 
-      {
-        i++;  
-        j++;
-      }
-      
-      // check whether edgeTags are disordered
-      if (j <= lastButOne) 
-      { 
-        // find first valid edgeTag -> k
-        k = j+1;        	   
-        while ((k <= lastButOne) &&
-               ((_edgeVec[slice.edgeVec[i]].edgeTag &
-                 _edgeVec[slice.edgeVec[k]].edgeTag ) == 0))
-          k++;
+        if((pointInHalfSpace[_edgeVec[i].pointIndexA] !=
+            pointInHalfSpace[_edgeVec[i].pointIndexB] )) 
+        {
+            plane.intersect(_edgeVec[i].line, 
+                            slice.pointVec[slice.numOfIntersection] );
+            slice.edgeVec[slice.numOfIntersection] = i;
+            slice.numOfIntersection++;
+        }
+    }
 
-        // swap edge (j,k)
-        osgSwap (slice.edgeVec[j],  slice.edgeVec[k]  );
-        osgSwap (slice.pointVec[j], slice.pointVec[k] );
-        swapCount++;
-      }
-    };
+    if (slice.numOfIntersection > 2) 
+    {
+        lastButOne = slice.numOfIntersection - 2;
+        i=j=k=0;
 
-    // TODO; find a better/faster way to check the winding
-    // check winding
-    v1 =  slice.pointVec[1];
-    v1 -= slice.pointVec[0];
-    v2 =  slice.pointVec[2];
-    v2 -= slice.pointVec[0];
-    winding = v1.cross(v2);
+        // edge sort
+        for (; j++ <= lastButOne; i++)
+        {
+            // find first invalid edgeTag -> j 
+            while((j <= lastButOne) && 
+                  ((_edgeVec[slice.edgeVec[i]].edgeTag &
+                  _edgeVec[slice.edgeVec[j]].edgeTag ) != 0)) 
+            {
+                i++;  
+                j++;
+            }
 
-    slice.ccw = ( fabs (winding.x() + plane.getNormal().x())
-                  >= fabs(plane.getNormal().x()) );
+            // check whether edgeTags are disordered
+            if (j <= lastButOne) 
+            { 
+                // find first valid edgeTag -> k
+                k = j+1;
+                while((k <= lastButOne) &&
+                      ((_edgeVec[slice.edgeVec[i]].edgeTag &
+                      _edgeVec[slice.edgeVec[k]].edgeTag ) == 0))
+                {
+                    k++;
+                }
 
-  }
+                // swap edge (j,k)
+                osgSwap (slice.edgeVec[j],  slice.edgeVec[k]);
+                osgSwap (slice.pointVec[j], slice.pointVec[k]);
+                swapCount++;
+            }
+        }
 
-  return slice.numOfIntersection;
+        // TODO; find a better/faster way to check the winding
+        // check winding
+        v1 =  slice.pointVec[1];
+        v1 -= slice.pointVec[0];
+        v2 =  slice.pointVec[2];
+        v2 -= slice.pointVec[0];
+        winding = v1.cross(v2);
+    
+        slice.ccw = ( fabs (winding.x() + plane.getNormal().x())
+                      >= fabs(plane.getNormal().x()) );
+    }
+
+    return slice.numOfIntersection;
 }
 
-void Slices::drawSlices ( const Vec3f &planeNormal, 
-                          UInt32 & triCount, UInt32 & vertexCount )
+void Slices::drawSlices(Window *win, const Vec3f &planeNormal,
+                        UInt32 & triCount, UInt32 & vertexCount)
 {
-  Real32 hsx = getSize().x()/2, hsy = getSize().y()/2, hsz = getSize().z()/2;
-  Real32 ssx = 1/getSize().x(), ssy = 1/getSize().y(), ssz = 1/getSize().z();
-	Slice slice;
-  Plane plane;
-  Real32 distance, sliceDistance, volumeDiagonal = getSize().length();
-  Int32 i, si, numOfSlices;
-	Vec3f texPos0, texPos1, texPos2, texOff, texSliceNormal;
-	
-  if (_edgeVec.empty())
-    initEdgeVec();
+    bool has_multitexture = win->hasExtension(_arbMultitexture);
 
-  sliceDistance = getSliceDistance();
-  numOfSlices = int (volumeDiagonal / sliceDistance) + 1;
-  distance = - volumeDiagonal / 2;
-  texOff = planeNormal;
-  texOff.normalize();
-  texOff *= sliceDistance * 0.5;
+    PFNGLMULTITEXCOORD3FARBPROC multiTexCoord3f = NULL;
+    if(has_multitexture)
+        multiTexCoord3f = (PFNGLMULTITEXCOORD3FARBPROC)
+                          win->getFunction(_funcMultiTexCoord3fARB);
 
-  texSliceNormal.setValues ( planeNormal.x() * sliceDistance * ssx,
+    Real32 hsx = getSize().x()/2, hsy = getSize().y()/2, hsz = getSize().z()/2;
+    Real32 ssx = 1/getSize().x(), ssy = 1/getSize().y(), ssz = 1/getSize().z();
+    Slice slice;
+    Plane plane;
+    Real32 distance, sliceDistance, volumeDiagonal = getSize().length();
+    Int32 i, si, numOfSlices;
+    Vec3f texPos0, texPos1, texPos2, texOff, texSliceNormal;
+    
+    if(_edgeVec.empty())
+        initEdgeVec();
+    
+    sliceDistance = getSliceDistance();
+    numOfSlices = int (volumeDiagonal / sliceDistance) + 1;
+    distance = - volumeDiagonal / 2;
+    texOff = planeNormal;
+    texOff.normalize();
+    texOff *= sliceDistance * 0.5;
+    
+    texSliceNormal.setValues(planeNormal.x() * sliceDistance * ssx,
                              planeNormal.y() * sliceDistance * ssy,
                              planeNormal.z() * sliceDistance * ssz );
-  
-  triCount = 0;
-  vertexCount = 0;
-
-	if (numOfSlices) 
-  {
-		glNormal3fv ( texSliceNormal.getValues() );
-
-		for (si = 0; si < numOfSlices; si++ ) 
+    
+    triCount = 0;
+    vertexCount = 0;
+    
+    if (numOfSlices) 
     {
-      plane.set   ( planeNormal, distance += sliceDistance );
-
-      if (createSlice(plane,slice) > 2) 
-      {			
-        triCount    += slice.numOfIntersection - 2;
-        vertexCount += slice.numOfIntersection;
+        glNormal3fv ( texSliceNormal.getValues() );
+    
+        for(si = 0; si < numOfSlices; si++) 
+        {
+            plane.set   ( planeNormal, distance += sliceDistance );
+    
+            if(createSlice(plane,slice) > 2) 
+            {
+                triCount    += slice.numOfIntersection - 2;
+                vertexCount += slice.numOfIntersection;
         
-        ::glBegin(GL_POLYGON);
-        if (slice.ccw)
-          for (i = 0; i < slice.numOfIntersection; i++) 
-            {
-              texPos0 = texPos1 = texPos2 = slice.pointVec[i];
-              texPos1 += texOff;
-              texPos2 -= texOff;
-							
-              texSliceNormal = texPos1;
-              texSliceNormal -= texPos2;
+                ::glBegin(GL_POLYGON);
+                if(slice.ccw)
+                {
+                    for(i = 0; i < slice.numOfIntersection; i++) 
+                    {
+                        texPos0 = texPos1 = texPos2 = slice.pointVec[i];
+                        texPos1 += texOff;
+                        texPos2 -= texOff;
+
+                        texSliceNormal = texPos1;
+                        texSliceNormal -= texPos2;
               
-              glTexCoord3f ( (hsx + texPos0.x()) * ssx,
-                             (hsy + texPos0.y()) * ssy,
-                             (hsz + texPos0.z()) * ssz );
+                        glTexCoord3f((hsx + texPos0.x()) * ssx,
+                                    (hsy + texPos0.y()) * ssy,
+                                    (hsz + texPos0.z()) * ssz );
 
-#if defined(GL_TEXTURE1) && defined (GL_TEXTURE2)
-              glMultiTexCoord3f ( GL_TEXTURE1,
-                                  (hsx + texPos1.x()) * ssx,
-                                  (hsy + texPos1.y()) * ssy,
-                                  (hsz + texPos1.z()) * ssz );
+                        if(has_multitexture)
+                        {
+                            multiTexCoord3f(GL_TEXTURE1_ARB,
+                                            (hsx + texPos1.x()) * ssx,
+                                            (hsy + texPos1.y()) * ssy,
+                                            (hsz + texPos1.z()) * ssz );
+    
+                            multiTexCoord3f(GL_TEXTURE2_ARB,
+                                            (hsx + texPos2.x()) * ssx,
+                                            (hsy + texPos2.y()) * ssy,
+                                            (hsz + texPos2.z()) * ssz );
+                        }
+                        glVertex3fv  ( slice.pointVec[i].getValues() );
+                    }
+                }
+                else
+                {
+                    for(i = slice.numOfIntersection - 1; i >= 0; i--) 
+                    {
+                        texPos0 = texPos1 = texPos2 = slice.pointVec[i];
+                        texPos1 += texOff;
+                        texPos2 -= texOff;
+                            
+                        glTexCoord3f ((hsx + texPos0.x()) * ssx,
+                                      (hsy + texPos0.y()) * ssy,
+                                      (hsz + texPos0.z()) * ssz );
 
-              glMultiTexCoord3f ( GL_TEXTURE2,
-                                  (hsx + texPos2.x()) * ssx,
-                                  (hsy + texPos2.y()) * ssy,
-                                  (hsz + texPos2.z()) * ssz );
-#endif
-
-              glVertex3fv  ( slice.pointVec[i].getValues() );
+                        if(has_multitexture)
+                        {
+                            multiTexCoord3f(GL_TEXTURE1_ARB,
+                                            (hsx + texPos1.x()) * ssx,
+                                            (hsy + texPos1.y()) * ssy,
+                                            (hsz + texPos1.z()) * ssz );
+    
+                            multiTexCoord3f(GL_TEXTURE2_ARB,
+                                            (hsx + texPos2.x()) * ssx,
+                                            (hsy + texPos2.y()) * ssy,
+                                            (hsz + texPos2.z()) * ssz );
+                        }
+                        glVertex3fv  ( slice.pointVec[i].getValues() );
+                    }
+                }
+                ::glEnd();
             }
-        else
-          for (i = slice.numOfIntersection - 1; i >= 0; i--) 
-            {
-              texPos0 = texPos1 = texPos2 = slice.pointVec[i];
-              texPos1 += texOff;
-              texPos2 -= texOff;
-							
-              glTexCoord3f ( (hsx + texPos0.x()) * ssx,
-                             (hsy + texPos0.y()) * ssy,
-                             (hsz + texPos0.z()) * ssz );
-              
-#if defined(GL_TEXTURE1) && defined (GL_TEXTURE2)
-              glMultiTexCoord3f ( GL_TEXTURE1,
-                                  (hsx + texPos1.x()) * ssx,
-                                  (hsy + texPos1.y()) * ssy,
-                                  (hsz + texPos1.z()) * ssz );
-
-              glMultiTexCoord3f ( GL_TEXTURE2,
-                                  (hsx + texPos2.x()) * ssx,
-                                  (hsy + texPos2.y()) * ssy,
-                                  (hsz + texPos2.z()) * ssz );
-#endif
-
-              glVertex3fv  ( slice.pointVec[i].getValues() );
-            }
-        ::glEnd();
-      }
-		}  
-	}
-
-}      
+        } 
+    }
+}
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */

@@ -62,6 +62,7 @@
 #include <OSGChunkMaterial.h>
 #include <OSGTextureChunk.h>
 #include <OSGBlendChunk.h>
+#include <OSGSceneFileHandler.h>
 
 #include <OSGDirectionalLight.h>
 
@@ -321,10 +322,16 @@ void key(unsigned char key, int x, int y)
       std::cerr << "PolygonMode: Fill." << std::endl;
       break;
     case 'r':   std::cerr << "Sending ray through " << x << "," << y << std::endl;
+    {
       Line l;
       cam->calcViewRay( l, x, y, *vp );
       std::cerr << "From " << l.getPosition() << ", dir " << l.getDirection() << std::endl;
+    }
       break;
+    case 'd':
+        if(SceneFileHandler::the().write(root, "volume.osb", true))
+            std::cerr << "Wrote volume.osb" << std::endl;
+        break;
     }
 }
 

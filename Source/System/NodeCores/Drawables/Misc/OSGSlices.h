@@ -173,13 +173,16 @@ class OSG_SYSTEMLIB_DLLMAPPING Slices : public SlicesBase
     std::vector<Pnt3f> _pointVec;
         
     std::vector<Edge>  _edgeVec;
+
+    static UInt32 _arbMultitexture;
+    static UInt32 _funcMultiTexCoord3fARB;
     
     void initEdgeVec     ( void );
     
     unsigned createSlice ( const OSG::Plane &plane, Slice &result );
     
-    void     drawSlices  ( const Vec3f &planeNormal, 
-                           UInt32 & triCount, UInt32 & vertexCount );
+    void     drawSlices  (Window *win, const Vec3f &planeNormal,
+                          UInt32 & triCount, UInt32 & vertexCount);
 
     static void initMethod(void);
     
