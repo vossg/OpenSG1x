@@ -340,6 +340,7 @@
 # define OSG_HASH_MAP_AS_EXT
 # define OSG_SGI_STL
 namespace __gnu_cxx {} using namespace __gnu_cxx;
+# define OSG_HAS_SSTREAM
 # endif
 
 // compiler supports namespaces

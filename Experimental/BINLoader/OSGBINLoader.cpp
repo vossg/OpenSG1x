@@ -66,8 +66,8 @@ BINLoader::BINLoader(FILE *file) :
 
 
 BINLoader::FCInfoStruct::FCInfoStruct() :
-            ptr   (NullFC),
             newId (0),
+            ptr   (NullFC),
             read  (false)
 {
 }

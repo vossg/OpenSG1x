@@ -51,15 +51,16 @@ OSG_USING_NAMESPACE
 /*! Constructor
  */
 
-Navigator::Navigator(): _currentState(IDLE),
-                        _currentMode(TRACKBALL),
-                        _rMotionFactor(0.04f),
-                        _vp(NullFC),
-                        _ip(0,0,0),
-                        _lastX(0),
-                        _lastY(0),
-                        _moved(false),
-                        _clickCenter(true)
+Navigator::Navigator(): 
+    _rMotionFactor(0.04f),
+    _currentState(IDLE),
+    _currentMode(TRACKBALL),
+    _vp(NullFC),
+    _moved(false),
+    _clickCenter(true),
+    _lastX(0),
+    _lastY(0),
+    _ip(0,0,0)
 {
 }
 
@@ -211,6 +212,8 @@ void Navigator::moveTo(Int16 x, Int16 y)
                                         100.f * osgpow(osgabs(toY-fromY),2.f);
                         _trackball.translateZ(distance * _rMotionFactor);
                     } break;
+                default : // IDLE, ZPLUS, ZMINUS
+                    break;
             }
         } break;
         
@@ -233,6 +236,8 @@ void Navigator::moveTo(Int16 x, Int16 y)
                 case ROTATING:           
                     {
                     } break;
+                default: //IDLE, Z, XY
+                    break;
             }
         } break;        
     }
@@ -504,7 +509,7 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.7 2002/06/13 12:33:11 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.8 2002/06/14 03:06:26 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
     //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
 

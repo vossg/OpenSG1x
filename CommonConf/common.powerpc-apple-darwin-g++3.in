@@ -53,7 +53,7 @@ WARNINGS_C_OFF		= # -woff 835
 # rubens
 # warning(3322): omission of explicit type is nonstandard ("int" assumed)
 
-WARNINGS_CPP_OFF 	= -Wno-unused -Wno-long-long
+WARNINGS_CPP_OFF 	= -Wno-unused -Wno-long-long -Wno-reorder
 
 ### Language #######################################################
 

@@ -739,8 +739,9 @@ void Node::dump(      UInt32    uiIndent,
 
 Node::Node(void) :
      Inherited  (),
-    _sfParent   (),
+    _sfVolume   (),
     _sfActive   (true),
+    _sfParent   (),
     _mfChildren (),
     _sfCore     ()
 {
@@ -748,8 +749,9 @@ Node::Node(void) :
 
 Node::Node(const Node &source) :
      Inherited  (source),
-    _sfParent   (),
+    _sfVolume   (source._sfVolume),
     _sfActive   (source._sfActive),
+    _sfParent   (),
     _mfChildren (),
     _sfCore     ()
 {

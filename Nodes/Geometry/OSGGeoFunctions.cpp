@@ -985,6 +985,8 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
         //case PRIMITIVE_CREATE_IT:
         indexMap[mapi++] = indexMapID[i];
         break;
+      default: //X_CREATE_IT
+        break;
       }
     }
 
@@ -1095,6 +1097,8 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
                         break;
                       case PRIMITIVE_INDEX_IT:
                         index = (*indexBag[typei])[primitiveN];
+                        break;
+                      default: //X_CREATE_IT
                         break;
                       }
                       indexPtr->push_back(index);

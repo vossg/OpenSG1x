@@ -416,6 +416,8 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                 data[destI++] = _data[srcI++];
               }
             break;
+          default:
+            break;
           }
           break;
         case OSG_LA_PF: // source pixelFormat == 2
@@ -447,6 +449,8 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                 data[destI++] = _data[srcI++];
               }
             break;
+          default:
+            break;
           }
           break;
         case OSG_RGB_PF: // source pixelFormat == 3
@@ -468,6 +472,8 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                   data[destI++] = sum / 3;
                 }
               break;
+            default:
+              break;
             }
           break;
         case OSG_RGBA_PF: // source pixelFormat == 4
@@ -479,6 +485,8 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
           case OSG_RGB_PF:
             break;
           case OSG_RGBA_PF:
+            break;
+          default:
             break;
           }
           break;

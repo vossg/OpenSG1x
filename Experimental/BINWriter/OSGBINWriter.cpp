@@ -76,8 +76,8 @@ BINWriter::BINWriter(FILE *file) :
 }
 
 BINWriter::FCInfo::FCInfo() :
-        ptr (NullFC),
         type(osg::IDString()),
+        ptr (NullFC),
         mask(FieldBits::NoField)
 {
 }

@@ -143,7 +143,7 @@ void SimpleStatisticsForeground::initText(void)
     // create the text needed
 #ifdef OSG_HAS_SSTREAM
     istringstream stream((char*)StatisticsDefaultFontData, 
-                         StatisticsDefaultFontDataSize);
+                         istringstream::in | istringstream::out);
 #else
     istrstream stream((char*)StatisticsDefaultFontData, 
                      StatisticsDefaultFontDataSize);
@@ -316,7 +316,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.8 2002/06/01 10:37:25 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.9 2002/06/14 03:06:23 vossg Exp $";
     static char cvsid_hpp[] = OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESTATISTICSFOREGROUND_INLINE_CVSID;
 }
