@@ -246,7 +246,7 @@ objlist: implist.mk
 	@cat < objlist.mk | \
 	tr '\n' ' ' | tr '\r' ' ' > q
 ifneq ($(findstring HP,$(OS)),HP)
-	@echo '\n' >> q
+	@echo >> q
 endif
 	@cat q | sed -e 's/\.cc/\.$(SYSDEP)\.o/g' | \
 	sed -e 's/\.cxx/\.$(SYSDEP)\.o/g' | \
