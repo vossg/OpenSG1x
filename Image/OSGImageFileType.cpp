@@ -216,7 +216,7 @@ UInt64 ImageFileType::store ( const Image &image, UChar8 *buffer,
                               Int32 memSize )
 {
   Head *head = (Head*)(buffer);
-  unsigned dataSize, headSize = sizeof(Head);
+  unsigned dataSize=0, headSize = sizeof(Head);
   UChar8 *dest = (UChar8*)(buffer ? (buffer + headSize) : 0);
   const UChar8 *src = image.getData();
 
@@ -231,7 +231,7 @@ UInt64 ImageFileType::store ( const Image &image, UChar8 *buffer,
 
   strcpy (head->mimeType, getMimeType());
 
-  if ( dataSize && src && dest )
+  if ( src && dest )
       dataSize=storeData(image,dest,memSize - headSize);
 
   return (headSize + dataSize);
