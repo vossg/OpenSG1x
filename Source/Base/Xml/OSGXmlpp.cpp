@@ -160,7 +160,7 @@ xmlnode::xmlnode( const xmlnode &node )
    attributes = node.attributes;
    cdata = node.cdata;
    nodelist = node.nodelist;
-};
+}
 
 xmlnode &xmlnode::operator =( const xmlnode &node )
 {
@@ -171,7 +171,7 @@ xmlnode &xmlnode::operator =( const xmlnode &node )
    cdata = node.cdata;
    nodelist = node.nodelist;
    return *this;
-};
+}
 
 xmlstring xmlnode::get_name()
 {
@@ -345,4 +345,4 @@ void xmldocument::save( std::ostream &outstream )
 }
 
 // namespace end
-};
+}

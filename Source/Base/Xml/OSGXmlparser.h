@@ -67,6 +67,6 @@ protected:
 };
 
 // namespace end
-};
+}
 
 #endif

@@ -171,6 +171,6 @@ protected:
 
 
 // namespace end
-};
+}
 
 #endif

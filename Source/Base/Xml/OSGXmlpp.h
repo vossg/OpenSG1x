@@ -383,6 +383,6 @@ inline void xmlcontext::set_eventhandler(xmleventhandlerptr ehptr)
 
 
 // namespace end
-};
+}
 
 #endif
