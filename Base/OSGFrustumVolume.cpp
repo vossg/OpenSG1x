@@ -347,17 +347,51 @@ const FrustumVolume &FrustumVolume::operator =(const FrustumVolume &b1)
 void FrustumVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                          const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
-    // not implemented !!!
-    /*
+#if 1
+fprintf(stderr,"Frustum:(%f %f %f:%f)(%f %f %f:%f)(%f %f %f:%f)"
+                "(%f %f %f:%f)(%f %f %f:%f)(%f %f %f:%f)\n",
+                _planeVec[0].getNormal()[0],
+                _planeVec[0].getNormal()[1],
+                _planeVec[0].getNormal()[2],
+                _planeVec[0].getDistanceFromOrigin(),
+                _planeVec[1].getNormal()[0],
+                _planeVec[1].getNormal()[1],
+                _planeVec[1].getNormal()[2],
+                _planeVec[1].getDistanceFromOrigin(),
+                _planeVec[2].getNormal()[0],
+                _planeVec[2].getNormal()[1],
+                _planeVec[2].getNormal()[2],
+                _planeVec[2].getDistanceFromOrigin(),
+                _planeVec[3].getNormal()[0],
+                _planeVec[3].getNormal()[1],
+                _planeVec[3].getNormal()[2],
+                _planeVec[3].getDistanceFromOrigin(),
+                _planeVec[4].getNormal()[0],
+                _planeVec[4].getNormal()[1],
+                _planeVec[4].getNormal()[2],
+                _planeVec[4].getDistanceFromOrigin(),
+                _planeVec[5].getNormal()[0],
+                _planeVec[5].getNormal()[1],
+                _planeVec[5].getNormal()[2],
+                _planeVec[5].getDistanceFromOrigin() );
+                
+
+#else 
     PLOG << "Frustum("
-             << _planeVec[0] << "|"
-             << _planeVec[1] << "|"
-             << _planeVec[2] << "|"
-             << _planeVec[3] << "|"
-             << _planeVec[4] << "|"
-             << _planeVec[5] <<
+             << _planeVec[0].getNormal() << ":" 
+             << _planeVec[0].getDistanceFromOrigin() << "|"
+             << _planeVec[1].getNormal() << ":" 
+             << _planeVec[1].getDistanceFromOrigin() << "|"
+             << _planeVec[2].getNormal() << ":" 
+             << _planeVec[2].getDistanceFromOrigin() << "|"
+             << _planeVec[3].getNormal() << ":" 
+             << _planeVec[3].getDistanceFromOrigin() << "|"
+             << _planeVec[4].getNormal() << ":" 
+             << _planeVec[4].getDistanceFromOrigin() << "|"
+             << _planeVec[5].getNormal() << ":" 
+             << _planeVec[5].getDistanceFromOrigin() << "|"
              << ")";
-    */
+#endif
 }
 
 
