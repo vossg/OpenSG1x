@@ -4,6 +4,8 @@ define([AC_CACHE_SAVE], )dnl
 
 AC_INIT(Base/OSGConfig.h)
 
+AC_PREREQ(1.3)
+
 dnl ############# Default Settings #####################
 
 if test $srcdir = .; then
