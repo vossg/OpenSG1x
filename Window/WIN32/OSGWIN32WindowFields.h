@@ -78,7 +78,7 @@ typedef FCPtr<WindowPtr, WIN32Window> WIN32WindowPtr;
 
 template <>
 struct FieldDataTraits<WIN32WindowPtr> : 
-    public FieldTraitsRecurseMapper<WIN32WindowPtr>
+    public FieldTraitsRecurseMapper<WIN32WindowPtr, true>
 {
     static DataType             _type;                       
 
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGWIN32WINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGWIN32WindowFields.h,v 1.2 2002/05/24 09:48:41 vossg Exp $"
+#define OSGWIN32WINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGWIN32WindowFields.h,v 1.3 2002/08/07 08:36:03 vossg Exp $"
 
 #endif /* _OSGWIN32WINDOWFIELDS_H_ */
