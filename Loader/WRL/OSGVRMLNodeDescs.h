@@ -52,6 +52,7 @@
 #ifdef OSG_SGI_STL
 #ifdef OSG_HASH_MAP_AS_EXT
 #include <ext/hash_map>
+using namespace __gnu_cxx;
 #else
 #include <hash_map>
 #endif
