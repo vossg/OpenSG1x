@@ -113,7 +113,7 @@ Color3f TriangleIterator::getColor( Int32 which ) const
 inline       
 Int32 TriangleIterator::getTexCoordsIndex( Int32 which ) const
 {
-    return _primIt.getColorIndex( _triPntIndex[which] );
+    return _primIt.getTexCoordsIndex( _triPntIndex[which] );
 }
 
 /*! Return the texture coordinate of a point in the current face. 
