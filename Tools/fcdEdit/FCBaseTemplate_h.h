@@ -79,8 +79,16 @@ char *FCBaseTemplate_h[]={
 "",
 "#include <@!HeaderPrefix!@OSGBaseTypes.h>",
 "",
+#if 0 // Not sure what's the right way here
+"@@if useLocalIncludes",
+"#include \"@!ParentHeaderPrefix!@OSG@!Parent!@.h\" // Parent",
+"@@else",
+"#include <@!ParentHeaderPrefix!@OSG@!Parent!@.h> // Parent",
+"@@endif",
+#else
 "#include <@!ParentHeaderPrefix!@OSG@!Parent!@.h> // Parent",
 "",
+#endif
 "@@if !Decorator",
 "@@BeginFieldLoop@@",
 "#include <@!FieldtypeInclude!@> // @!Fieldname!@ type",
@@ -391,7 +399,7 @@ char *FCBaseTemplate_h[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };

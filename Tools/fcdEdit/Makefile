@@ -259,8 +259,7 @@ help:
 	@echo "LIBTYPE=[opt|dbg]"
 	@echo "NOGUI=[true|false]     - compiles fcdCompile with no dependencies to the QT GUI library."
 
-# this doesn't work. Not sure why. :-?
-FieldContainer.o: FCBaseTemplate_cpp.h FCBaseTemplate_inl.h FCTemplate_cpp.h FCTemplate_inl.h FCBaseTemplate_h.h FCFieldsTemplate_h.h  FCTemplate_h.h
+FieldContainer.*.o: FCBaseTemplate_cpp.h FCBaseTemplate_inl.h FCTemplate_cpp.h FCTemplate_inl.h FCBaseTemplate_h.h FCFieldsTemplate_h.h  FCTemplate_h.h
 
 ######################################################################
 

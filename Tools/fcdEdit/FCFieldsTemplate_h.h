@@ -76,7 +76,15 @@ char *FCPtrTemplate_h[]={
 "@@endif",
 "@@endif",
 "",
-"#include <@!HeaderPrefix!@OSG@!Parent!@Fields.h>",
+#if 0
+"@@if useLocalIncludes",
+"#include \"@!ParentHeaderPrefix!@OSG@!Parent!@Fields.h\"",
+"@@else",
+"#include <@!ParentHeaderPrefix!@OSG@!Parent!@Fields.h>",
+"@@endif",
+#else
+"#include <@!ParentHeaderPrefix!@OSG@!Parent!@Fields.h>",
+#endif
 "", 
 "OSG_BEGIN_NAMESPACE",
 "",
@@ -162,7 +170,7 @@ char *FCPtrTemplate_h[]={
 "@@endif",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@FIELDS_HEADER_CVSID \"@(#)$Id: FCFieldsTemplate_h.h,v 1.24 2004/08/03 05:53:03 dirk Exp $\"",
+"#define OSG@!CLASSNAME!@FIELDS_HEADER_CVSID \"@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@FIELDS_H_ */",
 NULL };
