@@ -80,6 +80,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
       unsigned short _reserved1;
       unsigned short _reserved2;
       unsigned short _reserved3;
+      unsigned short _reserved4;
       unsigned short attachmentSize;
 
     bool netToHost (void);

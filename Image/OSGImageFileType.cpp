@@ -65,11 +65,11 @@ bool ImageFileType::Head::netToHost(void)
     mipmapCount    = ntohs(mipmapCount);
     frameCount     = ntohs(frameCount);
     frameDelay     = ntohs(frameDelay);
-    _reserved1     = ntohs(_reserved1);
-    _reserved2     = ntohs(_reserved2);
-    _reserved3     = ntohs(_reserved3);
+    _reserved1     = 0;
+    _reserved2     = 0;
+    _reserved3     = 0;
+    _reserved4     = 0;
     attachmentSize = ntohs(attachmentSize);
-
 
     return true;
 }
@@ -83,9 +83,10 @@ bool ImageFileType::Head::hostToNet(void)
     mipmapCount    = htons(mipmapCount);
     frameCount     = htons(frameCount);
     frameDelay     = htons(frameDelay);
-    _reserved1     = htons(_reserved1);
-    _reserved2     = htons(_reserved2);
-    _reserved3     = htons(_reserved3);
+    _reserved1     = 0;
+    _reserved2     = 0;
+    _reserved3     = 0;
+    _reserved4     = 0;
     attachmentSize = htons(attachmentSize);
 
     return true;
