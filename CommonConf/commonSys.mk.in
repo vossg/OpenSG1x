@@ -1,0 +1,4 @@
+
+OS_BASE=@ac_gdz_common_sys_mk_os_base_e7@
+
+PROJ=OSG
