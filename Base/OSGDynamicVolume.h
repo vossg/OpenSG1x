@@ -67,7 +67,7 @@ OSG_BEGIN_NAMESPACE
 /** 3D base volume.
 */
 
-class OSG_BASE_DLLMAPPING DynamicVolume {
+class OSG_BASE_DLLMAPPING DynamicVolume : public Volume {
 		
 public:
 
@@ -169,7 +169,7 @@ public:
 /*------------------------------ feature ----------------------------------*/
 
 	/** */
-	Volume & getVolume (void) const { return *((OSG::Volume*)(_volumeMem)); }
+	Volume & getBaseVolume (void) const { return *((OSG::Volume*)(_volumeMem)); }
 
 	/** */
 	Type getType (void) const { return _type; }
@@ -182,6 +182,52 @@ public:
 
 	/** */
 	DynamicVolume & operator = (const DynamicVolume &source);
+
+
+/*------------------------- get values -------------------------------*/
+
+  /** gives the center of the volume */
+  virtual void getCenter (Pnt3f &center) const ;
+
+  /** gives the scalar volume of the volume */
+  virtual float getVolume (void) const ;
+
+  /** gives the boundaries of the volume */
+  virtual void getBounds( Pnt3f &min, Pnt3f &max ) const ;
+
+
+/*-------------------------- extending ------------------------------------*/
+
+  /** extends (if necessary) to contain the given 3D point */
+  virtual void extendBy (const Pnt3f &pt) ;
+
+  /** extend the volume by the given volume */
+  virtual void extendBy (const Volume &volume) ;   
+
+/*-------------------------- intersection ---------------------------------*/
+
+  /** Returns true if intersection of given point and Volume is not empty */
+  virtual Bool intersect (const Pnt3f &point) const ;
+
+	/** intersect the volume with the given Line */
+	virtual Bool intersect (const Line &line ) const ;
+
+	/** intersect the volume with the given Line */
+	virtual Bool intersect ( const Line &line, 
+													 Real32 &enter, Real32 &exit  ) const ;
+
+  /** intersect the volume with another volume */
+  virtual Bool intersect (const Volume &volume) const ;
+
+  /** check if the point is on the volume's surface */
+  virtual Bool isOnSurface (const Pnt3f &point) const ;
+
+/*-------------------------- transformation -------------------------------*/
+
+
+	/** transform the volume bye the given matrix*/
+  virtual void transform (const Matrix &matrix);
+
 
 	//-----------------------------------------------------------------------
 	//   instance variables                                                  
@@ -200,5 +246,7 @@ ostream &operator <<(ostream &outStream,
 typedef DynamicVolume* DynamicVolumeP;
 
 OSG_END_NAMESPACE
+
+#include "OSGDynamicVolume.inl"
 
 #endif // OSGDYNAMICVOLUME_CLASS_DECLARATION
