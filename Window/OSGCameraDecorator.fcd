@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="CameraDecorator"
+	parent="Camera"
+	library="System"
+	pointerfieldtypes="both"
+	structure="abstract"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+The base class for the camera.
+	<Field
+		name="camera"
+		type="CameraPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The Camera that is being decorated.
+	</Field>
+</FieldContainer>
