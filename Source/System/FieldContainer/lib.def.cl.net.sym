@@ -158,6 +158,7 @@
 
     ??A?$MField@VNodePtr@osg@@$0A@@osg@@QAEAAVNodePtr@1@I@Z
     ?size@?$MField@VNodePtr@osg@@$0A@@osg@@QBEIXZ
+    ?clear@?$MField@VNodePtr@osg@@$0A@@osg@@QAEXXZ
 
     ??A?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAEAAVFieldContainerPtr@1@I@Z
     ?size@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QBEIXZ
