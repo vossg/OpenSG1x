@@ -218,6 +218,9 @@ void ClusterWindow::init( void )
         }
     }
 
+    Real32 progress = 0.0f;
+    Real32 progressStep = 1.0f / Real32(getServers().size());
+
     // connect to all servers
     for(s =getServers().begin();
         s!=getServers().end();
@@ -260,8 +263,18 @@ void ClusterWindow::init( void )
                     serviceSock.sendTo(
                         msg,SocketAddress(SocketAddress::BROADCAST,
                                           getServicePort()));
+
+                    if(_connectionFP != NULL)
+                    {
+                        if(!_connectionFP((*s), progress))
+                        {
+                            serviceSock.close();
+                            _connectionOk = false;
+                            return;
+                        }
+                    }
                 }
-                while(serviceSock.waitReadable(2)==false);
+                while(serviceSock.waitReadable(_connectionTimeout)==false);
                 serviceSock.recv(msg);
                 msg.getString(respServer);
                 msg.getString(respAddress);
@@ -279,6 +292,7 @@ void ClusterWindow::init( void )
             }
         }
         serviceSock.close();
+        progress += progressStep;
     }
     // determine byte order
     UInt8 serverLittleEndian;
@@ -307,6 +321,17 @@ void ClusterWindow::init( void )
     {
         SINFO << "Run clustering in network order mode" << std::endl;
     }
+}
+
+bool ClusterWindow::initAsync(connectioncbfp fp, Real32 timeout)
+{
+    _connectionFP = fp;
+    _connectionTimeout = timeout;
+    _connectionOk = true;
+    init();
+    _connectionFP = NULL;
+    _connectionTimeout = 2.0f;
+    return _connectionOk;
 }
 
 void ClusterWindow::render(RenderActionBase *action)
@@ -514,7 +539,10 @@ void ClusterWindow::serverSwap( WindowPtr window,
 ClusterWindow::ClusterWindow(void) :
      Inherited(),
     _firstFrame(true),
-     _statistics(NULL),
+    _statistics(NULL),
+    _connectionTimeout(2.0f),
+    _connectionOk(true),
+    _connectionFP(NULL),
     _network(NULL)
 {
 }
@@ -525,6 +553,9 @@ ClusterWindow::ClusterWindow(const ClusterWindow &source) :
     Inherited(source),
     _firstFrame(true),
     _statistics(NULL),
+    _connectionTimeout(2.0f),
+    _connectionOk(true),
+    _connectionFP(NULL),
     _network(NULL)
 {
 }

@@ -101,6 +101,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name            asynchronous initialization                       */
+    /*! \{                                                                 */
+
+    typedef bool (*connectioncbfp)(std::string server, Real32 progress);
+    bool initAsync(connectioncbfp fp, Real32 timeout = 0.5f);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name               connection pool                                */
     /*! \{                                                                 */
 
@@ -164,6 +172,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
     /*! \name               private members                                */
     /*! \{                                                                 */
 
+    Real32              _connectionTimeout;
+    bool                _connectionOk;
+    connectioncbfp     _connectionFP;
     ClusterNetwork    *_network;
 
     /*! \}                                                                 */
