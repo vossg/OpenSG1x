@@ -271,23 +271,33 @@
 
 #if defined(GL_FUNC_ADD_EXT) && ! defined(GL_FUNC_ADD)
 #define GL_FUNC_ADD GL_FUNC_ADD_EXT
+#else
+#define GL_FUNC_ADD 0x8006
 #endif
 #if defined(GL_FUNC_SUBTRACT_EXT) && ! defined(GL_FUNC_SUBTRACT)
 #define GL_FUNC_SUBTRACT GL_FUNC_SUBTRACT_EXT
+#else
+#define GL_FUNC_SUBTRACT 0x800A
 #endif
 #if defined(GL_FUNC_REVERSE_SUBTRACT_EXT) && ! defined(GL_FUNC_REVERSE_SUBTRACT)
 #define GL_FUNC_REVERSE_SUBTRACT GL_FUNC_REVERSE_SUBTRACT_EXT
+#else
+#define GL_FUNC_REVERSE_SUBTRACT 0x800B
 #endif
 #if defined(GL_FUNC_MIN_EXT) && ! defined(GL_FUNC_MIN)
 #define GL_FUNC_MIN GL_FUNC_MIN_EXT
+#else
+#define GL_FUNC_MIN 0x8007
 #endif
 #if defined(GL_FUNC_MAX_EXT) && ! defined(GL_FUNC_MAX)
 #define GL_FUNC_MAX GL_FUNC_MAX_EXT
+#else
+#define GL_FUNC_MAX 0x8008
 #endif
 
 
 
 
-#define OSGGLEXT_HEADER_CVSID "@(#)$Id: OSGGLEXT.h,v 1.6 2002/08/29 15:51:01 dirk Exp $"
+#define OSGGLEXT_HEADER_CVSID "@(#)$Id: OSGGLEXT.h,v 1.7 2002/08/31 11:12:13 dirk Exp $"
 
 #endif /* _OSGGL_H_ */
