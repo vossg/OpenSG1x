@@ -94,6 +94,16 @@ OSG_SYSTEMLIB_DLLMAPPING GeometryPtr OSG::NullGeo;
 
 char Geometry::cvsid[] = "@(#)$Id: $";
 
+    
+const UInt16 Geometry::MapPosition   = 1;
+const UInt16 Geometry::MapNormal     = Geometry::MapPosition << 1;
+const UInt16 Geometry::MapColor      = Geometry::MapNormal << 1;
+const UInt16 Geometry::MapTexcoords  = Geometry::MapColor << 1;
+const UInt16 Geometry::MapTexcoords2 = Geometry::MapTexcoords << 1;
+const UInt16 Geometry::MapTexcoords3 = Geometry::MapTexcoords2 << 1;
+const UInt16 Geometry::MapTexcoords4 = Geometry::MapTexcoords3 << 1;
+const UInt16 Geometry::MapEmpty      = Geometry::MapTexcoords4 << 1;
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -267,6 +277,54 @@ GeometryPtr Geometry::getPtr(void) const
 }
 
 
+// GL object handler
+// put the geometry into a display list
+void Geometry::handleGL( Window::GLObjectFlagE mode, UInt32 id )
+{
+	if ( mode == Window::destroy )
+	{
+		glDeleteLists( id, 1 );
+	}
+	else if ( mode == Window::finaldestroy )
+	{
+		//SWARNING << "Last geometry user destroyed" << endl;
+	}
+	else if ( mode == Window::initialize )
+	{		
+ 		SWARNING 	<< "Geometry(" << this << ")::handleGL: initialize: " 
+			 		<< "not implemented yet!" << endl;		
+#if 0 // need to find out how to call the actual drawing from here... :(
+   	    	glNewList( id, GL_COMPILE );
+		
+		GeoPumpFactory::Index ind = GeoPumpFactory::the().getIndex( this );
+		GeoPumpFactory::GeoPump p = 
+		    GeoPumpFactory::the().getGeoPump( action->getWindow(), ind );
+
+		// call the pump
+
+		if ( p )
+			p( action, this );
+		else
+		{
+			SWARNING << "Geometry::handleGL: no Pump found for geometry " << this << endl;
+		}
+		
+		glEndList();
+#endif
+	}
+	else if ( mode == Window::needrefresh )
+	{
+		SWARNING 	<< "Geometry(" << this << ")::handleGL: needrefresh: " 
+			 		<< "not implemented yet!" << endl;		
+	}
+	else
+	{
+		SWARNING << "Geometry(" << this << "::handleGL: Illegal mode: " 
+			 << mode << " for id " << id << endl;
+	}
+	
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /** \brief output the instance for debug purposes
@@ -276,6 +334,27 @@ void Geometry::dump(      UInt32     uiIndent,
                          const BitVector &bvFlags) const
 {
    Inherited::dump(uiIndent, bvFlags);
+}
+
+
+/*------------------------------- dump ----------------------------------*/
+
+/** \brief calc the indices into the index field for the given attributes
+ */
+
+Int16  Geometry::calcMappingIndex( UInt16 attrib ) const
+{
+    const UInt16 *mappings = &getIndexMapping().getValues()[0];
+    UInt16 nmappings = getIndexMapping().size();
+    
+    int i;
+    for ( i = nmappings-1; i >= 0; i-- )
+    {
+	if ( mappings[i] & attrib  ) 
+	    break;
+    }   
+    
+    return i;
 }
 
     
@@ -310,7 +389,8 @@ Action::ResultE Geometry::doDraw(Action * action )
 Action::ResultE Geometry::draw(DrawAction * action )
 {
 	GeoPumpFactory::Index ind = GeoPumpFactory::the().getIndex( this );
-	GeoPumpFactory::Pump p = GeoPumpFactory::the().getPump( action, ind );
+	GeoPumpFactory::GeoPump p = 
+	    GeoPumpFactory::the().getGeoPump( action->getWindow(), ind );
 
 	// call the pump
 

@@ -49,6 +49,7 @@
 
 #include <OSGConfig.h>
 #include <OSGAction.h>
+#include <OSGWindow.h>
 
 #include <OSGGeometryBase.h>
 
@@ -84,6 +85,18 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
+
+    // Mapping constants
+    
+    static const UInt16 MapPosition;
+    static const UInt16 MapNormal;
+    static const UInt16 MapColor;
+    static const UInt16 MapTexcoords;
+    static const UInt16 MapTexcoords2;	// not used yet
+    static const UInt16 MapTexcoords3;	// not used yet
+    static const UInt16 MapTexcoords4;	// not used yet
+    static const UInt16 MapEmpty;
+   
     
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -99,9 +112,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     static const char *getClassname(void) { return "Geometry"; };
 
-	// map the primitive type to a name
+    // map the primitive type to a name
     static const char *mapType( UInt8 type );
-
+     
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -109,7 +122,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     virtual void changed(BitVector  whichField, 
                          ChangeMode from);
-						 
+
     /** pointer */
 
     GeometryPtr getPtr(void) const;
@@ -135,10 +148,19 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 	FaceIterator beginFaces( void ) const;
 	FaceIterator endFaces  ( void ) const;
 
+    /** calc the inverse property mappings */
+    
+    Int16 calcMappingIndex( UInt16 attrib ) const;
+   
+
     /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
+
+    /*--------------------------- gl objects --------------------------------*/
+
+    void handleGL( Window::GLObjectFlagE mode, UInt32 id );
 
     /*------------------------------ Actions --------------------------------*/
 	

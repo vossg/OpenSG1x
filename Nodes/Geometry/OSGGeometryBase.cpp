@@ -90,14 +90,8 @@ const OSG::BitVector	GeometryBase::PositionsFieldMask =
 const OSG::BitVector	GeometryBase::NormalsFieldMask = 
     (1 << GeometryBase::NormalsFieldId);
 
-const OSG::BitVector	GeometryBase::NormalPerVertexFieldMask = 
-    (1 << GeometryBase::NormalPerVertexFieldId);
-
 const OSG::BitVector	GeometryBase::ColorsFieldMask = 
     (1 << GeometryBase::ColorsFieldId);
-
-const OSG::BitVector	GeometryBase::ColorPerVertexFieldMask = 
-    (1 << GeometryBase::ColorPerVertexFieldId);
 
 const OSG::BitVector	GeometryBase::TexCoordsFieldMask = 
     (1 << GeometryBase::TexCoordsFieldId);
@@ -105,12 +99,21 @@ const OSG::BitVector	GeometryBase::TexCoordsFieldMask =
 const OSG::BitVector	GeometryBase::IndexFieldMask = 
     (1 << GeometryBase::IndexFieldId);
 
+const OSG::BitVector	GeometryBase::IndexMappingFieldMask = 
+    (1 << GeometryBase::IndexMappingFieldId);
+
 const OSG::BitVector	GeometryBase::MaterialFieldMask = 
     (1 << GeometryBase::MaterialFieldId);
 
+const OSG::BitVector	GeometryBase::DlistCacheFieldMask = 
+    (1 << GeometryBase::DlistCacheFieldId);
+
+const OSG::BitVector	GeometryBase::GLIdFieldMask = 
+    (1 << GeometryBase::GLIdFieldId);
 
 
-char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
+
+char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.9 2001/07/23 11:18:03 dirk Exp $";
 
 /** \brief Group field description
  */
@@ -137,21 +140,11 @@ FieldDescription *GeometryBase::_desc[] =
                      NormalsFieldId, NormalsFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFNormals),
-    new FieldDescription(SFBool::getClassType(), 
-                     "normalPerVertex", 
-                     NormalPerVertexFieldId, NormalPerVertexFieldMask,
-                     false,
-                     (FieldAccessMethod) &GeometryBase::getSFNormalPerVertex),
     new FieldDescription(SFGeoColorPtr::getClassType(), 
                      "colors", 
                      ColorsFieldId, ColorsFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFColors),
-    new FieldDescription(SFBool::getClassType(), 
-                     "colorPerVertex", 
-                     ColorPerVertexFieldId, ColorPerVertexFieldMask,
-                     false,
-                     (FieldAccessMethod) &GeometryBase::getSFColorPerVertex),
     new FieldDescription(SFGeoTexCoordsPtr::getClassType(), 
                      "texCoords", 
                      TexCoordsFieldId, TexCoordsFieldMask,
@@ -162,11 +155,26 @@ FieldDescription *GeometryBase::_desc[] =
                      IndexFieldId, IndexFieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFIndex),
+    new FieldDescription(MFUInt16::getClassType(), 
+                     "indexMapping", 
+                     IndexMappingFieldId, IndexMappingFieldMask,
+                     false,
+                     (FieldAccessMethod) &GeometryBase::getMFIndexMapping),
     new FieldDescription(SFMaterialPtr::getClassType(), 
                      "material", 
                      MaterialFieldId, MaterialFieldMask,
                      false,
-                     (FieldAccessMethod) &GeometryBase::getSFMaterial)
+                     (FieldAccessMethod) &GeometryBase::getSFMaterial),
+    new FieldDescription(SFBool::getClassType(), 
+                     "dlistCache", 
+                     DlistCacheFieldId, DlistCacheFieldMask,
+                     false,
+                     (FieldAccessMethod) &GeometryBase::getSFDlistCache),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "GLId", 
+                     GLIdFieldId, GLIdFieldMask,
+                     true,
+                     (FieldAccessMethod) &GeometryBase::getSFGLId)
 };
 
 /** \brief Geometry type
@@ -249,12 +257,13 @@ GeometryBase::GeometryBase(void) :
 	_sfLengths	(), 
 	_sfPositions	(), 
 	_sfNormals	(), 
-	_sfNormalPerVertex	(), 
 	_sfColors	(), 
-	_sfColorPerVertex	(), 
 	_sfTexCoords	(), 
 	_sfIndex	(), 
+	_mfIndexMapping	(), 
 	_sfMaterial	(), 
+	_sfDlistCache	(Bool(false)), 
+	_sfGLId	(Int32(0)), 
 	Inherited() 
 {
 }
@@ -267,12 +276,13 @@ GeometryBase::GeometryBase(const GeometryBase &source) :
 	_sfLengths		(source._sfLengths), 
 	_sfPositions		(source._sfPositions), 
 	_sfNormals		(source._sfNormals), 
-	_sfNormalPerVertex		(source._sfNormalPerVertex), 
 	_sfColors		(source._sfColors), 
-	_sfColorPerVertex		(source._sfColorPerVertex), 
 	_sfTexCoords		(source._sfTexCoords), 
 	_sfIndex		(source._sfIndex), 
+	_mfIndexMapping		(source._mfIndexMapping), 
 	_sfMaterial		(source._sfMaterial), 
+	_sfDlistCache		(source._sfDlistCache), 
+	_sfGLId		(source._sfGLId), 
 	Inherited        (source)
 {
 }
@@ -310,19 +320,9 @@ UInt32 GeometryBase::getBinSize(const BitVector &whichField)
         returnValue += _sfNormals.getBinSize();
     }
 
-    if(FieldBits::NoField != (NormalPerVertexFieldMask & whichField))
-    {
-        returnValue += _sfNormalPerVertex.getBinSize();
-    }
-
     if(FieldBits::NoField != (ColorsFieldMask & whichField))
     {
         returnValue += _sfColors.getBinSize();
-    }
-
-    if(FieldBits::NoField != (ColorPerVertexFieldMask & whichField))
-    {
-        returnValue += _sfColorPerVertex.getBinSize();
     }
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
@@ -335,9 +335,24 @@ UInt32 GeometryBase::getBinSize(const BitVector &whichField)
         returnValue += _sfIndex.getBinSize();
     }
 
+    if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
+    {
+        returnValue += _mfIndexMapping.getBinSize();
+    }
+
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
     {
         returnValue += _sfMaterial.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
+    {
+        returnValue += _sfDlistCache.getBinSize();
+    }
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        returnValue += _sfGLId.getBinSize();
     }
 
 
@@ -369,19 +384,9 @@ MemoryHandle GeometryBase::copyToBin(      MemoryHandle  pMem,
         pMem = _sfNormals.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (NormalPerVertexFieldMask & whichField))
-    {
-        pMem = _sfNormalPerVertex.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (ColorsFieldMask & whichField))
     {
         pMem = _sfColors.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (ColorPerVertexFieldMask & whichField))
-    {
-        pMem = _sfColorPerVertex.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
@@ -394,9 +399,24 @@ MemoryHandle GeometryBase::copyToBin(      MemoryHandle  pMem,
         pMem = _sfIndex.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
+    {
+        pMem = _mfIndexMapping.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
     {
         pMem = _sfMaterial.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
+    {
+        pMem = _sfDlistCache.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        pMem = _sfGLId.copyToBin(pMem);
     }
 
 
@@ -428,19 +448,9 @@ MemoryHandle GeometryBase::copyFromBin(      MemoryHandle  pMem,
         pMem = _sfNormals.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (NormalPerVertexFieldMask & whichField))
-    {
-        pMem = _sfNormalPerVertex.copyFromBin(pMem);
-    }
-
     if(FieldBits::NoField != (ColorsFieldMask & whichField))
     {
         pMem = _sfColors.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (ColorPerVertexFieldMask & whichField))
-    {
-        pMem = _sfColorPerVertex.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
@@ -453,9 +463,24 @@ MemoryHandle GeometryBase::copyFromBin(      MemoryHandle  pMem,
         pMem = _sfIndex.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
+    {
+        pMem = _mfIndexMapping.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
     {
         pMem = _sfMaterial.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
+    {
+        pMem = _sfDlistCache.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        pMem = _sfGLId.copyFromBin(pMem);
     }
 
 
@@ -495,19 +520,9 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
         _sfNormals.syncWith(pOther->_sfNormals);
     }
 
-    if(FieldBits::NoField != (NormalPerVertexFieldMask & whichField))
-    {
-        _sfNormalPerVertex.syncWith(pOther->_sfNormalPerVertex);
-    }
-
     if(FieldBits::NoField != (ColorsFieldMask & whichField))
     {
         _sfColors.syncWith(pOther->_sfColors);
-    }
-
-    if(FieldBits::NoField != (ColorPerVertexFieldMask & whichField))
-    {
-        _sfColorPerVertex.syncWith(pOther->_sfColorPerVertex);
     }
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
@@ -520,9 +535,24 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
         _sfIndex.syncWith(pOther->_sfIndex);
     }
 
+    if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
+    {
+        _mfIndexMapping.syncWith(pOther->_mfIndexMapping);
+    }
+
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
     {
         _sfMaterial.syncWith(pOther->_sfMaterial);
+    }
+
+    if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
+    {
+        _sfDlistCache.syncWith(pOther->_sfDlistCache);
+    }
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        _sfGLId.syncWith(pOther->_sfGLId);
     }
 
 

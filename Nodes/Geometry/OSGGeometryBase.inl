@@ -157,21 +157,9 @@ SFGeoNormalPtr *GeometryBase::getSFNormals(void)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-SFBool *GeometryBase::getSFNormalPerVertex(void)
-{
-	return &_sfNormalPerVertex;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
 SFGeoColorPtr *GeometryBase::getSFColors(void)
 {
 	return &_sfColors;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-SFBool *GeometryBase::getSFColorPerVertex(void)
-{
-	return &_sfColorPerVertex;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
@@ -187,9 +175,27 @@ SFGeoIndexPtr *GeometryBase::getSFIndex(void)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
+MFUInt16 *GeometryBase::getMFIndexMapping(void)
+{
+	return &_mfIndexMapping;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
 SFMaterialPtr *GeometryBase::getSFMaterial(void)
 {
 	return &_sfMaterial;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFBool *GeometryBase::getSFDlistCache(void)
+{
+	return &_sfDlistCache;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFInt32 *GeometryBase::getSFGLId(void)
+{
+	return &_sfGLId;
 }
 
 
@@ -266,24 +272,6 @@ void GeometryBase::setNormals( GeoNormalPtr value )
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Bool &GeometryBase::getNormalPerVertex(void)
-{
-	return _sfNormalPerVertex.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const Bool &GeometryBase::getNormalPerVertex(void) const
-{
-	return _sfNormalPerVertex.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setNormalPerVertex( Bool value )
-{
-	_sfNormalPerVertex.setValue(value);
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
 GeoColorPtr &GeometryBase::getColors(void)
 {
 	return _sfColors.getValue();
@@ -299,24 +287,6 @@ OSG_SYSTEMLIB_DLLMAPPING
 void GeometryBase::setColors( GeoColorPtr value )
 {
 	_sfColors.setValue(value);
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-Bool &GeometryBase::getColorPerVertex(void)
-{
-	return _sfColorPerVertex.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const Bool &GeometryBase::getColorPerVertex(void) const
-{
-	return _sfColorPerVertex.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void GeometryBase::setColorPerVertex( Bool value )
-{
-	_sfColorPerVertex.setValue(value);
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
@@ -373,6 +343,58 @@ void GeometryBase::setMaterial( MaterialPtr value )
 	_sfMaterial.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+Bool &GeometryBase::getDlistCache(void)
+{
+	return _sfDlistCache.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Bool &GeometryBase::getDlistCache(void) const
+{
+	return _sfDlistCache.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void GeometryBase::setDlistCache( Bool value )
+{
+	_sfDlistCache.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Int32 &GeometryBase::getGLId(void)
+{
+	return _sfGLId.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Int32 &GeometryBase::getGLId(void) const
+{
+	return _sfGLId.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void GeometryBase::setGLId( Int32 value )
+{
+	_sfGLId.setValue(value);
+}
+
+
+OSG_SYSTEMLIB_DLLMAPPING
+UInt16 &GeometryBase::getIndexMapping( UInt32 index)
+{
+	return _mfIndexMapping.getValue( index );
+}
+
+MFUInt16 &GeometryBase::getIndexMapping(void)
+{
+	return _mfIndexMapping;
+}
+
+const MFUInt16 &GeometryBase::getIndexMapping(void) const
+{
+	return _mfIndexMapping;
+}
 
 
 /*------------------------------ access -----------------------------------*/

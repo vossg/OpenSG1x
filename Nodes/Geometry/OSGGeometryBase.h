@@ -72,12 +72,13 @@
 #include <OSGGeoPLengthFields.h>	// Lengths type
 #include <OSGGeoPositionFields.h>	// Positions type
 #include <OSGGeoNormalFields.h>	// Normals type
-#include <OSGBoolFields.h>	// NormalPerVertex type
 #include <OSGGeoColorFields.h>	// Colors type
-#include <OSGBoolFields.h>	// ColorPerVertex type
 #include <OSGGeoTexCoordsFields.h>	// TexCoords type
 #include <OSGGeoIndexFields.h>	// Index type
+#include <OSGUInt16Fields.h>	// IndexMapping type
 #include <OSGMaterialFields.h>	// Material type
+#include <OSGBoolFields.h>	// DlistCache type
+#include <OSGInt32Fields.h>	// GLId type
 
 #include <OSGGeometryFields.h>
 
@@ -117,24 +118,26 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
         LengthsFieldId = TypesFieldId + 1,
         PositionsFieldId = LengthsFieldId + 1,
         NormalsFieldId = PositionsFieldId + 1,
-        NormalPerVertexFieldId = NormalsFieldId + 1,
-        ColorsFieldId = NormalPerVertexFieldId + 1,
-        ColorPerVertexFieldId = ColorsFieldId + 1,
-        TexCoordsFieldId = ColorPerVertexFieldId + 1,
+        ColorsFieldId = NormalsFieldId + 1,
+        TexCoordsFieldId = ColorsFieldId + 1,
         IndexFieldId = TexCoordsFieldId + 1,
-        MaterialFieldId = IndexFieldId + 1
+        IndexMappingFieldId = IndexFieldId + 1,
+        MaterialFieldId = IndexMappingFieldId + 1,
+        DlistCacheFieldId = MaterialFieldId + 1,
+        GLIdFieldId = DlistCacheFieldId + 1
     };
 
     static const osg::BitVector TypesFieldMask;
     static const osg::BitVector LengthsFieldMask;
     static const osg::BitVector PositionsFieldMask;
     static const osg::BitVector NormalsFieldMask;
-    static const osg::BitVector NormalPerVertexFieldMask;
     static const osg::BitVector ColorsFieldMask;
-    static const osg::BitVector ColorPerVertexFieldMask;
     static const osg::BitVector TexCoordsFieldMask;
     static const osg::BitVector IndexFieldMask;
+    static const osg::BitVector IndexMappingFieldMask;
     static const osg::BitVector MaterialFieldMask;
+    static const osg::BitVector DlistCacheFieldMask;
+    static const osg::BitVector GLIdFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -185,12 +188,12 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     inline SFGeoPLengthPtr	*getSFLengths(void);
     inline SFGeoPositionPtr	*getSFPositions(void);
     inline SFGeoNormalPtr	*getSFNormals(void);
-    inline SFBool	*getSFNormalPerVertex(void);
     inline SFGeoColorPtr	*getSFColors(void);
-    inline SFBool	*getSFColorPerVertex(void);
     inline SFGeoTexCoordsPtr	*getSFTexCoords(void);
     inline SFGeoIndexPtr	*getSFIndex(void);
+    inline MFUInt16	*getMFIndexMapping(void);
     inline SFMaterialPtr	*getSFMaterial(void);
+    inline SFBool	*getSFDlistCache(void);
 
     /*----------------------------- access ----------------------------------*/
 
@@ -208,15 +211,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     inline       GeoNormalPtr	&getNormals(void);
     inline const GeoNormalPtr	&getNormals(void) const;
     inline       void	             setNormals( GeoNormalPtr value );
-    inline       Bool	&getNormalPerVertex(void);
-    inline const Bool	&getNormalPerVertex(void) const;
-    inline       void	             setNormalPerVertex( Bool value );
     inline       GeoColorPtr	&getColors(void);
     inline const GeoColorPtr	&getColors(void) const;
     inline       void	             setColors( GeoColorPtr value );
-    inline       Bool	&getColorPerVertex(void);
-    inline const Bool	&getColorPerVertex(void) const;
-    inline       void	             setColorPerVertex( Bool value );
     inline       GeoTexCoordsPtr	&getTexCoords(void);
     inline const GeoTexCoordsPtr	&getTexCoords(void) const;
     inline       void	             setTexCoords( GeoTexCoordsPtr value );
@@ -226,7 +223,13 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     inline       MaterialPtr	&getMaterial(void);
     inline const MaterialPtr	&getMaterial(void) const;
     inline       void	             setMaterial( MaterialPtr value );
+    inline       Bool	&getDlistCache(void);
+    inline const Bool	&getDlistCache(void) const;
+    inline       void	             setDlistCache( Bool value );
 
+    inline       UInt16	               &getIndexMapping( UInt32 index );
+    inline       MFUInt16 &getIndexMapping(void);
+    inline const MFUInt16 &getIndexMapping(void) const;
 
     //!@}
 
@@ -274,13 +277,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     SFGeoNormalPtr	_sfNormals;
     /*! 
      */
-    SFBool	_sfNormalPerVertex;
-    /*! 
-     */
     SFGeoColorPtr	_sfColors;
-    /*! 
-     */
-    SFBool	_sfColorPerVertex;
     /*! 
      */
     SFGeoTexCoordsPtr	_sfTexCoords;
@@ -289,7 +286,16 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     SFGeoIndexPtr	_sfIndex;
     /*! 
      */
+    MFUInt16	_mfIndexMapping;
+    /*! 
+     */
     SFMaterialPtr	_sfMaterial;
+    /*! (Not implemented yet) Flag to activate caching the geometry inside a display list.
+     */
+    SFBool	_sfDlistCache;
+    /*! (Not implemented yet) The dlist id, if used.
+     */
+    SFInt32	_sfGLId;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -299,6 +305,18 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     GeometryBase(const GeometryBase &source);
     virtual ~GeometryBase(void); 
     
+    //! Return the protected fields.
+
+    inline SFInt32	*getSFGLId(void);
+
+    //!@{ Return the fields' values.
+
+    inline       Int32	&getGLId(void);
+    inline const Int32	&getGLId(void) const;
+    inline       void	             setGLId( Int32 value );
+
+
+    //!@}
 
     void executeSyncImpl(      GeometryBase *pOther,
                          const BitVector         &whichField);

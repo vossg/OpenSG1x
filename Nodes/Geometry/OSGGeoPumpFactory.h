@@ -55,9 +55,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class Geometry;
-typedef FCPtr<NodeCorePtr, Geometry> GeometryPtr;
-class DrawAction;
+class Window;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -85,18 +83,48 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     //   types                                                               
     //-----------------------------------------------------------------------
 	
-	// It would be nicer and more flexible if the pump took the arrays separately,
-	// but that would a LOT of parameters, which is not a good idea for Intel
-	// systems, AFAIK.
-	
-	typedef void (*Pump)( DrawAction * act, Geometry * geo );	
-	
 	// The pump selection is a two-part process. In the first step the Geometry is 
 	// analyzed for its attribute bindings etc. In the second step the actual
 	// pump is returned, depending on the capabilities of the Window/Context and 
 	// the bindings as represented by a selection.
 	
 	typedef UInt32 Index;
+	
+	// The simple pump type. Draws the whole geometry. Useful as it uses
+	// the minimal number of parameters.
+	
+	typedef void (*GeoPump)( DrawAction * act, Geometry * geo );	
+	
+	// The partial pump type. Draws a part of the geometry. 
+	
+	typedef void (*PartialGeoPump)( DrawAction * act, Geometry * geo,
+	    UInt32 primtype, UInt32 firstvert, UInt32 nvert );	
+	
+	// The interface pump type. Draws the whole geometry. More flexible
+	// than the GeoPump, as the interfaces can originate in different 
+	// objects.
+	
+	typedef void (*InterfacePump)( DrawAction * act, 
+	    GeoPositionInterface *pos, GeoNormalInterface *norm,
+	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+	    GeoTexCoordsInterface *texcoords2,
+	    GeoTexCoordsInterface *texcoords3,
+	    GeoTexCoordsInterface *texcoords4,
+	    GeoPTypeInterface *type, GeoPLengthInterface*len,
+	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap );	
+	
+	// The partial pump type. Similar to the interface pump, but it
+	// can draw parts of the object.
+	
+	typedef void (*PartialInterfacePump)( DrawAction * act, 
+	    GeoPositionInterface *pos, GeoNormalInterface *norm,
+	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+	    GeoTexCoordsInterface *texcoords2,
+	    GeoTexCoordsInterface *texcoords3,
+	    GeoTexCoordsInterface *texcoords4,
+	    GeoPTypeInterface *type, GeoPLengthInterface*len,
+	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap,
+	    UInt32 primtype, UInt32 firstvert, UInt32 nvert );	
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -112,9 +140,16 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 
     /*------------------------- your_category -------------------------------*/
 
-	Index getIndex( Geometry * geo );	
+	Index                getIndex( Geometry * geo );	
 
-	Pump getPump( DrawAction * act, Index index );
+	GeoPump              getGeoPump      ( Window * win, Index index );
+
+	PartialGeoPump       getPartialGeoPump(Window * win, Index index );
+
+	InterfacePump        getInterfacePump( Window * win, Index index );
+
+	PartialInterfacePump getPartialInterfacePump( Window * win, 
+	                                                Index index );
 	
 
     /*------------------------- your_operators ------------------------------*/
@@ -195,7 +230,29 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 	// The pumps, in all their glory.
 	
 	// The master pump. Can render everything, but takes ages to do so.	
-	static void masterPump( DrawAction * act, Geometry * geo );
+	static void masterGeoPump( DrawAction * act, Geometry * geo );
+		
+	static void masterPartialGeoPump( DrawAction * act, Geometry * geo,
+	    UInt32 primtype, UInt32 firstvert, UInt32 nvert );	
+	
+	static void masterInterfacePump( DrawAction * act, 
+	    GeoPositionInterface *pos, GeoNormalInterface *norm,
+	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+	    GeoTexCoordsInterface *texcoords2,
+	    GeoTexCoordsInterface *texcoords3,
+	    GeoTexCoordsInterface *texcoords4,
+	    GeoPTypeInterface *type, GeoPLengthInterface*len,
+	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap );	
+	
+	static void masterPartialInterfacePump( DrawAction * act, 
+	    GeoPositionInterface *pos, GeoNormalInterface *norm,
+	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+	    GeoTexCoordsInterface *texcoords2,
+	    GeoTexCoordsInterface *texcoords3,
+	    GeoTexCoordsInterface *texcoords4,
+	    GeoPTypeInterface *type, GeoPLengthInterface*len,
+	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap,
+	    UInt32 primtype, UInt32 firstvert, UInt32 nvert );	
 	
     //-----------------------------------------------------------------------
     //   instance variables                                                  

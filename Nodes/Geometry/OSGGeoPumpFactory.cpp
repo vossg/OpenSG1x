@@ -149,11 +149,36 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex( Geometry * )
 }
 	
 
-GeoPumpFactory::Pump GeoPumpFactory::getPump( 
-				DrawAction * , 
+GeoPumpFactory::GeoPump GeoPumpFactory::getGeoPump( 
+				Window * , 
 				GeoPumpFactory::Index  )
 {
-	return &masterPump;
+	return &masterGeoPump;
+}
+
+GeoPumpFactory::PartialGeoPump GeoPumpFactory::getPartialGeoPump( 
+				Window * , 
+				GeoPumpFactory::Index  )
+{
+    	FWARNING(("GeoPumpFactory::getPartialGeoPump: not implemented yet!\n"));
+	return NULL;
+}
+
+GeoPumpFactory::InterfacePump GeoPumpFactory::getInterfacePump( 
+				Window * , 
+				GeoPumpFactory::Index  )
+{
+    	FWARNING(("GeoPumpFactory::getInterfacePump: not implemented yet!\n"));
+	return NULL;
+}
+
+GeoPumpFactory::PartialInterfacePump GeoPumpFactory::getPartialInterfacePump( 
+				Window * , 
+				GeoPumpFactory::Index  )
+{
+    	FWARNING(("GeoPumpFactory::getPartialInterfacePump: not "
+	    	    "implemented yet!\n"));
+	return NULL;
 }
 
 
@@ -344,7 +369,7 @@ static pumpFunc TexCoordsFuncs[numFormats][4] = {
 #pragma set woff 1174
 #endif
 
-void GeoPumpFactory::masterPump( 
+void GeoPumpFactory::masterGeoPump( 
 		DrawAction * act, 
 		Geometry * geo )
 {
@@ -365,12 +390,38 @@ void GeoPumpFactory::masterPump(
 				 << endl;
 		return;
 	}
-
-	// per face / per vertex bindings?
 	
-	Bool colorPerVertex = geo->getColorPerVertex();
-	Bool normalPerVertex = geo->getNormalPerVertex();
+	// find the mapping indices
+	UInt16 nmappings = geo->getIndexMapping().size();
+	Int16 PositionIndex = -1, 
+	      NormalIndex = -1, 
+	      ColorIndex = -1, 
+	      TexCoordsIndex = -1;
 
+    	if ( nmappings )
+	{
+	    PositionIndex  = geo->calcMappingIndex( Geometry::MapPosition );
+	    NormalIndex    = geo->calcMappingIndex( Geometry::MapNormal );
+	    ColorIndex     = geo->calcMappingIndex( Geometry::MapColor );
+	    TexCoordsIndex = geo->calcMappingIndex( Geometry::MapTexcoords );
+	    
+	    if ( ! PositionData )
+	    {
+		    SWARNING << "masterPump: Geometry " << geo << "has no position index!?!"
+				     << endl;
+		    return;
+	    }
+	    
+	}
+	else if ( IndexData )
+	{
+	    nmappings = 1;
+	    PositionIndex = 
+	    NormalIndex =
+	    ColorIndex =
+	    TexCoordsIndex = 0;
+	}
+	
 	// overall color?
 	if ( ColorData && ColorPtr->getSize() == 1 )
 		ColorFunc( ColorData );
@@ -379,16 +430,6 @@ void GeoPumpFactory::masterPump(
 
 	for ( LengthInd = 0; LengthInd < LengthSize; LengthInd++ )
 	{
-		if ( ColorData && ! colorPerVertex )
-		{
-			ColorFunc( ColorData + ColorStride * ColorInd++ );
-		}
-		
-		if ( NormalData && ! normalPerVertex )
-		{
-			NormalFunc( NormalData + NormalStride * NormalInd++ );
-		}
-		
 		glBegin( *(TypeData + TypeInd++ * TypeStride) );
 		
 		for ( UInt32 l = *(UInt32*)(LengthData + LengthInd * LengthStride); 
@@ -396,35 +437,36 @@ void GeoPumpFactory::masterPump(
 		{
 			if ( IndexData )
 			{
-				UInt32 vind;
+				UInt32 * vind;
 			
-				vind = *(UInt32*)(IndexData + IndexStride * IndexInd++);
-					
-				if ( ColorData && colorPerVertex )
+				vind = (UInt32*)(IndexData + IndexStride * IndexInd);
+				IndexInd += nmappings;
+				
+				if ( ColorData && ColorIndex >= 0 )
 				{
-					ColorFunc( ColorData + ColorStride * vind );
+					ColorFunc( ColorData + ColorStride * vind[ColorIndex] );
 				}		
 				
-				if ( NormalData && normalPerVertex )
+				if ( NormalData && NormalIndex >= 0 )
 				{
-					NormalFunc( NormalData + NormalStride * vind );
+					NormalFunc( NormalData + NormalStride * vind[NormalIndex] );
 				}		
 				
-				if ( TexCoordsData  )
+				if ( TexCoordsData && TexCoordsIndex >= 0  )
 				{
-					TexCoordsFunc( TexCoordsData + TexCoordsStride * vind );
+					TexCoordsFunc( TexCoordsData + TexCoordsStride * vind[TexCoordsIndex] );
 				}		
 					
-				PositionFunc( PositionData + PositionStride * vind );
+				PositionFunc( PositionData + PositionStride * vind[PositionIndex] );
 			}
 			else
 			{	
-				if ( ColorData && colorPerVertex )
+				if ( ColorData )
 				{
 					ColorFunc( ColorData + ColorStride * PositionInd );
 				}		
 				
-				if ( NormalData && normalPerVertex )
+				if ( NormalData )
 				{
 					NormalFunc( NormalData + NormalStride * PositionInd );
 				}		
@@ -444,6 +486,38 @@ void GeoPumpFactory::masterPump(
 		glEnd();
 	}
 
+}
+
+		
+void GeoPumpFactory::masterPartialGeoPump( DrawAction * act, Geometry * geo,
+	    UInt32 primtype, UInt32 firstvert, UInt32 nvert )	
+{
+    	FWARNING(("GeoPumpFactory::masterPartialGeoPump: not implemented yet!\n"));
+}
+	
+void GeoPumpFactory::masterInterfacePump( DrawAction * act, 
+	    GeoPositionInterface *pos, GeoNormalInterface *norm,
+	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+	    GeoTexCoordsInterface *texcoords2,
+	    GeoTexCoordsInterface *texcoords3,
+	    GeoTexCoordsInterface *texcoords4,
+	    GeoPTypeInterface *type, GeoPLengthInterface*len,
+	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap )
+{
+    	FWARNING(("GeoPumpFactory::masterInterfacePump: not implemented yet!\n"));
+}
+	
+void GeoPumpFactory::masterPartialInterfacePump( DrawAction * act, 
+	    GeoPositionInterface *pos, GeoNormalInterface *norm,
+	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
+	    GeoTexCoordsInterface *texcoords2,
+	    GeoTexCoordsInterface *texcoords3,
+	    GeoTexCoordsInterface *texcoords4,
+	    GeoPTypeInterface *type, GeoPLengthInterface*len,
+	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap,
+	    UInt32 primtype, UInt32 firstvert, UInt32 nvert )
+{
+    	FWARNING(("GeoPumpFactory::masterPartialInterfacePump: not implemented yet!\n"));
 }
 
 #ifdef __sgi

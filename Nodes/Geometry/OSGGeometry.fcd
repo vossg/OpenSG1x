@@ -1,11 +1,11 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 
 <FieldContainer
 	name="Geometry"
 	parent="NodeCore"
 	library="System"
-	structure="concrete"
 	pointerfieldtypes="none"
+	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
 >
@@ -14,6 +14,7 @@
 		type="GeoPTypePtr"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -21,6 +22,7 @@
 		type="GeoPLengthPtr"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -28,6 +30,7 @@
 		type="GeoPositionPtr"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -35,13 +38,7 @@
 		type="GeoNormalPtr"
 		cardinality="single"
 		visibility="external"
-	>
-	</Field>
-	<Field
-		name="normalPerVertex"
-		type="Bool"
-		cardinality="single"
-		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -49,13 +46,7 @@
 		type="GeoColorPtr"
 		cardinality="single"
 		visibility="external"
-	>
-	</Field>
-	<Field
-		name="colorPerVertex"
-		type="Bool"
-		cardinality="single"
-		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -63,6 +54,7 @@
 		type="GeoTexCoordsPtr"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -70,6 +62,15 @@
 		type="GeoIndexPtr"
 		cardinality="single"
 		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="indexMapping"
+		type="UInt16"
+		cardinality="multi"
+		visibility="external"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -77,6 +78,27 @@
 		type="MaterialPtr"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
+	</Field>
+	<Field
+		name="dlistCache"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+	(Not implemented yet) Flag to activate caching the geometry inside a display list.
+	</Field>
+	<Field
+		name="GLId"
+		type="Int32"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="0"
+		access="protected"
+	>
+	(Not implemented yet) The dlist id, if used.
 	</Field>
 </FieldContainer>
