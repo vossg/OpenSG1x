@@ -584,6 +584,8 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
             p1=`echo ${dir} | sed 's/\([^@]*\)@\(.*\)/\1/'`
             p2=`echo ${dir} | sed 's/\([^@]*\)@\(.*\)/\2/'`
             
+        	FK_GDZ_CREATE_PACKAGE_DIRS ${ac_gdz_package_dir_base}
+        
             if [[ -n $p2 ]]; then
                 if [[ $build_os = $p2 ]]; then
                     ac_gdz_vpath_out=$ac_gdz_vpath_out:'$('${ac_gdz_project_praefix}'POOL)'/$p1
@@ -629,8 +631,6 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
             fi
         done
 
-        FK_GDZ_CREATE_PACKAGE_DIRS ${ac_gdz_package_dir_base}
-        
         changequote([, ])dnl
 
         ac_gdz_win_pool_e2=
