@@ -136,6 +136,8 @@ endif
 
 ifneq ($(ADD_INCLUDE),)
 
+ADD_INCLUDE := $(subst :, ,$(ADD_INCLUDE))
+
 ADD_INCL_$(OS_BASE) := \
 	$(foreach dir,$(ADD_INCLUDE),$(call buildCIncPath,$(dir)))
 
@@ -145,6 +147,8 @@ endif
 
 ifneq ($(ADD_LINK),)
 
+ADD_LINK := $(subst :, ,$(ADD_LINK))
+
 ADD_LIBPATHS_$(OS_BASE) := \
 	$(foreach dir,$(ADD_LINK),$(call buildCLibPath,$(dir)))
 
@@ -153,6 +157,8 @@ LIBPATHS_$(OS_BASE) := $(LIBPATHS_$(OS_BASE)) $(ADD_LIBPATHS_$(OS_BASE))
 endif
 
 ifneq ($(ADD_LIBS),)
+
+ADD_LIBS := $(subst :, ,$(ADD_LIBS))
 
 ifeq ($(OS_BASE),cygwin)
 ADD_LIBS_$(OS_BASE) := $(foreach lib,$(ADD_LIBS),$(lib)$(LIB_SUFFIX))

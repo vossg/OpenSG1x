@@ -707,7 +707,7 @@ AC_ARG_ENABLE(win-bool-is-unsigned,     [  --enable-win-bool-is-unsigned      De
 
 dnl ############# Win Default Path Settings #####################
 
-AC_ARG_ENABLE(win-exclude-default-path,     [  --enable-win-exclude-default-path      Do not include the default compiler and include path's on the command line, use INCLUDE and LIB instead ],
+AC_ARG_ENABLE(win-exclude-default-path,     [  --enable-win-exclude-default-path  Do not include the default compiler and include path's on the command line, use INCLUDE and LIB instead ],
 			,enable_win_exclude_default_path=no) 
 
 dnl ############# TLS Settings #####################
@@ -739,7 +739,7 @@ fi
 
 dnl ############# Add Path Settings #####################
 
-AC_ARG_WITH(add-incdir,   [  --with-add-incdir=DIR{:DIR}*       use additional include directory, right now only one dir works],
+AC_ARG_WITH(add-incdir,   [  --with-add-incdir=DIR{:DIR}*       use additional include directories],
 			,with_add_incdir=no) 
 
 if test "$with_add_incdir" = yes; then
@@ -750,7 +750,7 @@ else
 	ac_gdz_with_add_incdirs=$with_add_incdir 
 fi
 
-AC_ARG_WITH(add-libdir,   [  --with-add-libdir=DIR{:DIR}*       use additional library directory, right now only one dir works],
+AC_ARG_WITH(add-libdir,   [  --with-add-libdir=DIR{:DIR}*       use additional library directories],
 			,with_add_libdir=no) 
 
 if test "$with_add_libdir" = yes; then
@@ -761,7 +761,7 @@ else
 	ac_gdz_with_add_libdirs=$with_add_libdir 
 fi
 
-AC_ARG_WITH(add-lib,   [  --with-add-lib=LIB{:LIB}*          use additional library (use foo not libfoo.so), right now only one lib works],
+AC_ARG_WITH(add-lib,   [  --with-add-lib=LIB{:LIB}*          use additional libraries (use foo not libfoo.so)],
 			,with_add_lib=no) 
 
 if test "$with_add_lib" = yes; then

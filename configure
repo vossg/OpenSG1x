@@ -102,7 +102,7 @@ ac_help="$ac_help
 ac_help="$ac_help
   --enable-win-bool-is-unsigned      Define Bool as unsigned, required to combine the software with Microsoft stuff, since preprocessors ignore namespaces "
 ac_help="$ac_help
-  --enable-win-exclude-default-path      Do not include the default compiler and include path's on the command line, use INCLUDE and LIB instead "
+  --enable-win-exclude-default-path  Do not include the default compiler and include path's on the command line, use INCLUDE and LIB instead "
 ac_help="$ac_help
   --enable-sgi-pthread               Use pthreads instead of sproc on sgi plattforms"
 ac_help="$ac_help
@@ -112,11 +112,11 @@ ac_help="$ac_help
 ac_help="$ac_help
   --enable-gv-beta                   enable gv beta"
 ac_help="$ac_help
-  --with-add-incdir=DIR{:DIR}*       use additional include directory, right now only one dir works"
+  --with-add-incdir=DIR{:DIR}*       use additional include directories"
 ac_help="$ac_help
-  --with-add-libdir=DIR{:DIR}*       use additional library directory, right now only one dir works"
+  --with-add-libdir=DIR{:DIR}*       use additional library directories"
 ac_help="$ac_help
-  --with-add-lib=LIB{:LIB}*          use additional library (use foo not libfoo.so), right now only one lib works"
+  --with-add-lib=LIB{:LIB}*          use additional libraries (use foo not libfoo.so)"
 
 # Initialize some variables set by options.
 # The variables have the same names as the options, with
