@@ -45,23 +45,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFlyNavigator.cpp,v 1.3 2002/05/24 14:45:11 istoynov Exp $";
-    static Char8 cvsid_hpp       [] = OSGFLYNAVIGATOR_HEADER_CVSID;
-    //static Char8 cvsid_inl       [] = OSGFLYNAVIGATOR_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGFLYNAVIGATOR_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*------------------------- constructors ----------------------------------*/
 
 /*! Constructor
@@ -226,3 +209,23 @@ void FlyNavigator::right(Real32 step)
     transl.multMatrixPnt(_rAt);
     transl.multMatrixPnt(_rFrom); 
 } 
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFlyNavigator.cpp,v 1.4 2002/06/13 12:33:11 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGFLYNAVIGATOR_HEADER_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGFLYNAVIGATOR_HEADER_CVSID;
+}

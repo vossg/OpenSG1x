@@ -46,23 +46,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.6 2002/05/24 14:45:11 istoynov Exp $";
-    static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
-    //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGNAVIGATOR_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*------------------------- constructors ----------------------------------*/
 
 /*! Constructor
@@ -482,8 +465,8 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
     Matrix cctowc;
     calcCCtoWCMatrix(cctowc, view, _vp);
     
-    Real32  rx = ( toX / (Real32) _vp->getPixelWidth() ) * 2. - 1.,
-            ry = 1.f - ( toY / (Real32) _vp->getPixelHeight() ) * 2.;
+    Real32  rx = ( toX / (Real32) _vp->getPixelWidth() ) * 2.f - 1.f,
+            ry = 1.f - ( toY / (Real32) _vp->getPixelHeight() ) * 2.f;
         
     Pnt3f at;
     cctowc.multFullMatrixPnt( Pnt3f( rx, ry, 1 ), at );    
@@ -505,4 +488,25 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
      
     distanceX=transl[0];
     distanceY=transl[1];    
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.7 2002/06/13 12:33:11 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
+    //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGNAVIGATOR_HEADER_CVSID;
 }

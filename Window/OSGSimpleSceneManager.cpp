@@ -401,9 +401,9 @@ void SimpleSceneManager::initialize(void)
     _camera = PerspectiveCamera::create();
     beginEditCP(_camera);
     _camera->setBeacon(cartN);
-    _camera->setFov   (deg2rad(60.));
-    _camera->setNear  (0.1);
-    _camera->setFar   (10000);
+    _camera->setFov   (deg2rad(60.f));
+    _camera->setNear  (0.1f);
+    _camera->setFar   (10000.f);
     endEditCP(_camera);
 
     // need a viewport?
@@ -808,7 +808,7 @@ bool SimpleSceneManager::operator < (const SimpleSceneManager &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.26 2002/06/11 08:59:23 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.27 2002/06/13 12:33:11 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }

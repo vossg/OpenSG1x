@@ -1029,7 +1029,7 @@ struct drawViewDirQuads : public ParticlesDrawer
             if(posTrait::particle(posData, i))
                 continue;
 
-            Real32 s = sizeTrait::size(sizeData, i)[0] / 2.;
+            Real32 s = sizeTrait::size(sizeData, i)[0] / 2.f;
 
             if(s == 0)
                 continue;
@@ -1109,7 +1109,7 @@ struct drawViewDirQuads : public ParticlesDrawer
             if(posTrait::particle(posData, i))
                 continue;
 
-            Real32 s = sizeTrait::size(sizeData, i)[0] / 2.;
+            Real32 s = sizeTrait::size(sizeData, i)[0] / 2.f;
 
             if(s == 0)
                 continue;
@@ -1203,7 +1203,7 @@ struct drawViewerQuads : public ParticlesDrawer
             if(posTrait::particle(posData, i))
                 continue;
 
-            Real32 s = sizeTrait::size(sizeData, i)[0] / 2.;
+            Real32 s = sizeTrait::size(sizeData, i)[0] / 2.f;
 
             if(s == 0)
                 continue;
@@ -1307,7 +1307,7 @@ struct drawViewerQuads : public ParticlesDrawer
             if(posTrait::particle(posData, i))
                 continue;
 
-            Real32 s = sizeTrait::size(sizeData, i)[0] / 2.;
+            Real32 s = sizeTrait::size(sizeData, i)[0] / 2.f;
 
             if(s == 0)
                 continue;
@@ -1623,21 +1623,21 @@ struct GeoTraitArrow : public ParticleTraits
                    p[1] + dz[1] * .5f + dx[1]      ,
                    p[2] + dz[2] * .5f + dx[2]      );
 
-        glVertex3f(p[0] + dz[0] * .5f + dx[0] * .5 ,
-                   p[1] + dz[1] * .5f + dx[1] * .5 ,
-                   p[2] + dz[2] * .5f + dx[2] * .5 );
+        glVertex3f(p[0] + dz[0] * .5f + dx[0] * .5f ,
+                   p[1] + dz[1] * .5f + dx[1] * .5f ,
+                   p[2] + dz[2] * .5f + dx[2] * .5f );
 
-        glVertex3f(p[0] + dz[0]       + dx[0] * .5 ,
-                   p[1] + dz[1]       + dx[1] * .5 ,
-                   p[2] + dz[2]       + dx[2] * .5 );
+        glVertex3f(p[0] + dz[0]       + dx[0] * .5f ,
+                   p[1] + dz[1]       + dx[1] * .5f ,
+                   p[2] + dz[2]       + dx[2] * .5f );
 
-        glVertex3f(p[0] + dz[0]       - dx[0] * .5 ,
-                   p[1] + dz[1]       - dx[1] * .5 ,
-                   p[2] + dz[2]       - dx[2] * .5 );
+        glVertex3f(p[0] + dz[0]       - dx[0] * .5f ,
+                   p[1] + dz[1]       - dx[1] * .5f ,
+                   p[2] + dz[2]       - dx[2] * .5f );
 
-        glVertex3f(p[0] + dz[0] * .5f - dx[0] * .5 ,
-                   p[1] + dz[1] * .5f - dx[1] * .5 ,
-                   p[2] + dz[2] * .5f - dx[2] * .5 );
+        glVertex3f(p[0] + dz[0] * .5f - dx[0] * .5f ,
+                   p[1] + dz[1] * .5f - dx[1] * .5f ,
+                   p[2] + dz[2] * .5f - dx[2] * .5f );
 
         glVertex3f(p[0] + dz[0] * .5f - dx[0]      ,
                    p[1] + dz[1] * .5f - dx[1]      ,
@@ -2288,7 +2288,7 @@ ParticlesDrawer *Particles::findDrawer(void)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.22 2002/06/13 11:02:51 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.23 2002/06/13 12:33:11 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }

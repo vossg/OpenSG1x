@@ -55,21 +55,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGCubeTextureChunk.cpp,v 1.1 2002/06/10 22:10:46 dirk Exp $";
-    static char cvsid_hpp[] = OSGCUBETEXTURECHUNK_HEADER_CVSID;
-    static char cvsid_inl[] = OSGCUBETEXTURECHUNK_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::CubeTextureChunk
     \ingroup StateChunks
 
@@ -382,3 +367,20 @@ bool CubeTextureChunk::operator != (const StateChunk &other) const
     return ! (*this == other);
 }
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGCubeTextureChunk.cpp,v 1.2 2002/06/13 12:33:11 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGCUBETEXTURECHUNK_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGCUBETEXTURECHUNK_INLINE_CVSID;
+}

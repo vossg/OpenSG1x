@@ -45,23 +45,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTrackballNavigator.cpp,v 1.3 2002/05/24 14:45:12 istoynov Exp $";
-    static Char8 cvsid_hpp       [] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
-    //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
-
-    static Char8 cvsid_fields_hpp[] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*------------------------- constructors ----------------------------------*/
 
 /*! Constructor
@@ -198,7 +181,7 @@ void TrackballNavigator::rotate(Real32 fromX, Real32 fromY, Real32 toX, Real32 t
         if (rTmp>1.0) rTmp=1.0;
         if (rTmp<-1.0) rTmp=-1.0;
         
-        rPhi=2.0*osgasin(rTmp);
+        rPhi=2.f * osgasin(rTmp);
         qCurrVal.setValueAsAxisRad(vAxis,rPhi);
         
         Matrix temp;
@@ -235,11 +218,11 @@ Real32 TrackballNavigator::projectToSphere(Real32 rRadius, Real32 rX, Real32 rY)
 {
     Real32 d, t, z;
 
-    d = sqrt(rX * rX + rY * rY);
+    d = osgsqrt(rX * rX + rY * rY);
 
     if (d < rRadius * 0.70710678118654752440f) 
     {    /* Inside sphere */
-        z = sqrt(rRadius * rRadius - d * d);
+        z = osgsqrt(rRadius * rRadius - d * d);
     } 
     else 
     {           /* On hyperbola */
@@ -248,4 +231,25 @@ Real32 TrackballNavigator::projectToSphere(Real32 rRadius, Real32 rX, Real32 rY)
     }
 
     return z;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTrackballNavigator.cpp,v 1.4 2002/06/13 12:33:11 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
+    //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGTRACKBALLNAVIGATOR_HEADER_CVSID;
 }

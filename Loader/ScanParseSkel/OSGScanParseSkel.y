@@ -48,6 +48,10 @@
 #include <OSGScanParseSkel.h>
 #include <stack>
 
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 193 810 177 )
+#endif
+
 OSG_USING_NAMESPACE
 
 ScanParseSkel *_pSkel = NULL;

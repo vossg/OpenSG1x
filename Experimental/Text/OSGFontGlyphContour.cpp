@@ -20,10 +20,10 @@ OSG_USING_NAMESPACE FontGlyphContour::FontGlyphContour(void) :
     _isClockwise(false),
     _orderingBuffer(0)
 {
-    _bb[0] = HUGE_VAL;
-    _bb[1] = -HUGE_VAL;
-    _bb[2] = HUGE_VAL;
-    _bb[3] = -HUGE_VAL;
+    _bb[0] = HUGE_VALF;
+    _bb[1] = -HUGE_VALF;
+    _bb[2] = HUGE_VALF;
+    _bb[3] = -HUGE_VALF;
     return;
 }
 

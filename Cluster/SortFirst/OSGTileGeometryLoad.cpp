@@ -51,20 +51,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id:$";
-    static Char8 cvsid_hpp[] = OSG_TILE_GEOMETRY_LOADHEADER_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /** \class osg::TileGeometryLoad
  *  \ingroup Cluster
  *  \brief TileGeometryLoad holds the load caused by geometry rendering
@@ -485,10 +471,19 @@ Real32 TileGeometryLoad::getFaceDistribution(Real32 cut)
 }
 
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
-
-
-
-
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id:$";
+    static Char8 cvsid_hpp[] = OSG_TILE_GEOMETRY_LOADHEADER_CVSID;
+}

@@ -69,6 +69,10 @@ extern ScanParseSkel *_pSkel;
 #pragma set woff 1174,1552,1110,1209
 #endif
 
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 193 810 177 279 111 )
+#endif
+
 static char *tmpChar = yy_full_match;
 
 %}

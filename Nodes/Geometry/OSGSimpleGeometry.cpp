@@ -345,7 +345,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
     GeoPTypesUI8Ptr     types = GeoPTypesUI8::create();     
     
     Int16  j;
-    Real32 delta = 2.0 * Pi / sides;
+    Real32 delta = 2.f * Pi / sides;
     Real32 beta, x, z;
     Real32 incl = (botradius - topradius) / height;
     Real32 nlen = 1.f / osgsqrt(1 + incl * incl);
@@ -379,8 +379,8 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
         for(j = 0; j <= sides; j++)
         {
             beta = j * delta;
-            x    =  sin(beta);
-            z    = -cos(beta);         
+            x    =  osgsin(beta);
+            z    = -osgcos(beta);         
 
             p->push_back(Pnt3f(x * topradius, height/2, z * topradius));
             n->push_back(Vec3f(x/nlen, incl/nlen, z/nlen));
@@ -390,8 +390,8 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
         for(j = 0; j <= sides; j++)
         {
             beta = j * delta;
-            x    =  sin(beta);
-            z    = -cos(beta);         
+            x    =  osgsin(beta);
+            z    = -osgcos(beta);         
 
             p->push_back(Pnt3f(x * botradius, -height/2, z * botradius));
             n->push_back(Vec3f(x/nlen, incl/nlen, z/nlen));
@@ -417,8 +417,8 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
         for(j = sides - 1; j >= 0; j--)
         {
             beta = j * delta;
-            x    =  topradius * sin(beta);
-            z    = -topradius * cos(beta);        
+            x    =  topradius * osgsin(beta);
+            z    = -topradius * osgcos(beta);        
 
             p->push_back(Pnt3f(x, height/2, z));
             n->push_back(Vec3f(0, 1, 0));
@@ -443,8 +443,8 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
         for(j = sides - 1; j >= 0; j--)
         {
             beta = j * delta;
-            x    =  botradius * sin(beta);
-            z    = -botradius * cos(beta);      
+            x    =  botradius * osgsin(beta);
+            z    = -botradius * osgcos(beta);      
 
             p->push_back(Pnt3f(x, -height/2, z));
             n->push_back(Vec3f(0, -1, 0));
@@ -560,20 +560,20 @@ GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sid
     beginEditCP(norms);
     beginEditCP(tex);
     
-    ringDelta = 2.0 * Pi / rings;
-    sideDelta = 2.0 * Pi / sides;
+    ringDelta = 2.f * Pi / rings;
+    sideDelta = 2.f * Pi / sides;
 
     for(a = 0, theta = 0.0; a <= rings; a++, theta += ringDelta) 
     {
-        cosTheta = cos(theta);
-        sinTheta = sin(theta);
+        cosTheta = osgcos(theta);
+        sinTheta = osgsin(theta);
 
         for(b = 0, phi = 0; b <= sides; b++, phi += sideDelta) 
         {
             GLfloat cosPhi, sinPhi, dist;
 
-            cosPhi = cos(phi);
-            sinPhi = sin(phi);
+            cosPhi = osgcos(phi);
+            sinPhi = osgsin(phi);
             dist   = outerRadius + innerRadius * cosPhi;
 
             n->push_back(Vec3f(cosTheta * cosPhi, 
@@ -926,19 +926,19 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
     beginEditCP(tex);
     
     latDelta  =       Pi / latres;
-    longDelta = 2.0 * Pi / longres;
+    longDelta = 2.f * Pi / longres;
 
     for(a = 0, theta = -Pi / 2; a <= latres; a++, theta += latDelta) 
     {
-        cosTheta = cos(theta);
-        sinTheta = sin(theta);
+        cosTheta = osgcos(theta);
+        sinTheta = osgsin(theta);
 
         for(b = 0, phi = -Pi; b <= longres; b++, phi += longDelta) 
         {
             GLfloat cosPhi, sinPhi;
 
-            cosPhi = cos(phi);
-            sinPhi = sin(phi);
+            cosPhi = osgcos(phi);
+            sinPhi = osgsin(phi);
  
             n->push_back(Vec3f( cosTheta * sinPhi, 
                                sinTheta,

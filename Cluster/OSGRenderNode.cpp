@@ -59,21 +59,6 @@
 OSG_USING_NAMESPACE
 using namespace std;
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id:$";
-    static Char8 cvsid_hpp[] = OSG_CLUSTERNODE_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSG_CLUSTERNODE_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /** \class osg::RenderNode
  *  \ingroup Cluster
  *  \brief cluster node information
@@ -387,17 +372,17 @@ void RenderNode::setGroup(const RenderNode *begin,const RenderNode *end)
 
     for(i=begin;i!=end;++i)
     {
-        invisibleFaces+=1.0/i->_invisibleFaceCost;
-        visibleFaces  +=1.0/i->_visibleFaceCost;
-        drawPixels    +=1.0/i->_drawPixelCost;
-        readPixels    +=1.0/i->_readPixelCost;
-        writePixels   +=1.0/i->_writePixelCost;
+        invisibleFaces+=1.f/i->_invisibleFaceCost;
+        visibleFaces  +=1.f/i->_visibleFaceCost;
+        drawPixels    +=1.f/i->_drawPixelCost;
+        readPixels    +=1.f/i->_readPixelCost;
+        writePixels   +=1.f/i->_writePixelCost;
     }
-    _invisibleFaceCost=(1.0/invisibleFaces);
-    _visibleFaceCost  =(1.0/visibleFaces);
-    _drawPixelCost    =(1.0/drawPixels);
-    _readPixelCost    =(1.0/readPixels);
-    _writePixelCost   =(1.0/writePixels);
+    _invisibleFaceCost=(1.f/invisibleFaces);
+    _visibleFaceCost  =(1.f/visibleFaces);
+    _drawPixelCost    =(1.f/drawPixels);
+    _readPixelCost    =(1.f/readPixels);
+    _writePixelCost   =(1.f/writePixels);
 }
 
 /** Dump class contents
@@ -440,7 +425,7 @@ double RenderNode::runFaceBench(UInt32 dlist,
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glLoadIdentity();
-    glScalef(1.0/visible,1.0,1.0);
+    glScalef(1.f/visible,1.f,1.f);
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
@@ -461,3 +446,21 @@ double RenderNode::runFaceBench(UInt32 dlist,
     return t;
 }
 
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id:$";
+    static Char8 cvsid_hpp[] = OSG_CLUSTERNODE_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSG_CLUSTERNODE_INLINE_CVSID;
+}

@@ -56,21 +56,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGCLUSTERWINDOW_HEADER_CVSID;
-    static char cvsid_inl[] = OSGCLUSTERWINDOW_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /** \defgroup Cluster OpenSG Cluster support
  * 
  * The cluster part of OpenSG includes all objects concerning with 
@@ -414,4 +399,23 @@ void ClusterWindow::serverSwap        ( WindowPtr window,
 {
     window->swap();
     window->frameExit();
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static char cvsid_cpp[] = "@(#)$Id: $";
+    static char cvsid_hpp[] = OSGCLUSTERWINDOW_HEADER_CVSID;
+    static char cvsid_inl[] = OSGCLUSTERWINDOW_INLINE_CVSID;
 }

@@ -118,11 +118,11 @@ void ShearedStereoCameraDecorator::getProjection( Matrix &result,
     
     Matrix trans;
     MatrixStereoPerspective(result, trans, cam->getFov(), 
-                            width / (float) height, 
+                            width / (Real32) height, 
                             cam->getNear(), cam->getFar(),
                             getZeroParallaxDistance(),
                             getEyeSeparation(),
-                            getLeftEye() ? 0 : 1,
+                            getLeftEye() ? 0.f : 1.f,
                             getOverlap());
     
     result.mult(trans);
@@ -142,7 +142,7 @@ void ShearedStereoCameraDecorator::getProjection( Matrix &result,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGShearedStereoCameraDecorator.cpp,v 1.3 2002/06/01 10:37:26 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGShearedStereoCameraDecorator.cpp,v 1.4 2002/06/13 12:33:11 vossg Exp $";
     static char cvsid_hpp[] = OSGSHEAREDSTEREOCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGSHEAREDSTEREOCAMERADECORATOR_INLINE_CVSID;
 }

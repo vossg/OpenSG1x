@@ -1326,15 +1326,16 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
 
     if(_bIsFaceSet == true)
     {
-        if(pCoordIndex      != NULL &&
-           pNormalIndex     != NULL &&
-           pColorIndex      != NULL &&
-           pTexCoordIndex   != NULL &&
-           pConvex          != NULL &&
-           pCcw             != NULL &&
-           pNormalPerVertex != NULL &&
-           pColorPerVertex  != NULL &&
-           pCreaseAngle     != NULL)
+        if(pCoordIndex         != NULL &&
+           pCoordIndex->size() >     2 &&
+           pNormalIndex        != NULL &&
+           pColorIndex         != NULL &&
+           pTexCoordIndex      != NULL &&
+           pConvex             != NULL &&
+           pCcw                != NULL &&
+           pNormalPerVertex    != NULL &&
+           pColorPerVertex     != NULL &&
+           pCreaseAngle        != NULL)
         {
 #ifdef OSG_DEBUG_VRML
             indentLog(getIndent(), PINFO);
@@ -1375,9 +1376,10 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
         vector<Int32> dummyVec;
         bool          dummybool = false;
 
-        if(pCoordIndex      != NULL &&
-           pColorIndex      != NULL &&
-           pColorPerVertex  != NULL)
+        if(pCoordIndex         != NULL &&
+           pCoordIndex->size() >     1 &&
+           pColorIndex         != NULL &&
+           pColorPerVertex     != NULL)
         {
 #ifdef OSG_DEBUG_VRML
             indentLog(getIndent(), PINFO);

@@ -178,7 +178,7 @@ void PerspectiveCamera::getProjection( Matrix& result,
         fov = osgdegree2rad( fov );
 
     MatrixPerspective( result, fov / 2, 
-            width / (float) height, 
+            width / (Real32) height, 
             getNear(), getFar() );
 }
     
