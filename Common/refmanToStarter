@@ -1,0 +1,114 @@
+#!/bin/ksh
+# need to start this with a ksh-compatible shell
+# we need the string replacement functions of ksh right now
+
+refman=$1
+output=$2
+
+verbose=0
+
+# script to extract the \pages from doxygen latex output
+
+# check for compact/non-compact latex
+
+fgrep -q documentclass $refman | fgrep book
+if [[ $? == 0 ]]
+then 
+    compact=1
+else
+    compact=0
+fi
+test $verbose == 0 || echo "Compact: $compact"
+
+# get the list of pages
+
+# at which line do they start?
+pagestartline=`fgrep -n "Page Documentation" $refman | sed -e s/:.*$//`
+test $verbose == 0 || echo "Pagestartline: $pagestartline"
+
+# get the input lines after that line
+npages=0
+pages[0]=0
+
+for i in `fgrep -n '\\in' $refman`
+do
+    test $verbose == 0 || echo -n $i " "
+    l=${i%%:*}
+    if [[ $l -gt $pagestartline ]]
+    then
+        j=${i#[0-9][0-9]*:}
+        k=${j#\\in*\{}
+        l=${k%\}}
+        test $verbose == 0 || echo 'accepted'
+        pages[$npages]=$l
+        (( npages=$npages + 1 ))
+    else
+        test $verbose == 0 || echo 'ignored'
+    fi
+done
+test $verbose == 0 || echo "Found $npages pages"
+
+# remove the middle part that we don't want
+(( indexline=`fgrep -n "input{index}" $refman | sed -e s/:.*$//` - 2 ))
+reflen=`cat $refman | wc -l`
+test $verbose == 0 || echo "Reflen: $reflen"
+
+head -$indexline $refman | \
+    sed -e "s/Reference Manual/Starter Guide/g" > $output
+
+# remove the now wrong page references/links and add the changed pages to the 
+# guide
+
+ind=0
+while (( $ind < $npages ))
+do
+    page=${pages[ind]}
+    outpage=${page}_s
+    
+    echo "\input{${outpage}}" >> $output
+
+    test $verbose == 0 || echo -n "Page: $page "
+    
+    fgrep -q "Starter:NewChapter" $page.tex
+   
+    if [[ $? == 0 ]]
+    then 
+        test $verbose == 0 || echo "new page"
+        if [[ $compact == 1 ]]
+        then
+            head -1 $page.tex | sed -e "s/subsection/section/g" > $outpage.tex
+
+            tail +2 $page.tex | sed -e "s/Starter:NewChapter//g" \
+                -e "s/{\\\\rm (p\.\\\\,\\\\pageref{[^}]*})}//g" \
+                -e "s/\\\\hyperlink{class[^}]*}//g" \
+                -e "s/\\\\subsection/\\\\section/g" \
+                -e "s/\\\\subsubsection/\\\\subsection/g" \
+                -e "s/\\\\paragraph/\\\\subsubsection/g" \
+                >> $outpage.tex
+        else
+            head -1 $page.tex | sed -e "s/section/chapter/g" > $outpage.tex
+
+            tail +2 $page.tex | sed -e "s/Starter:NewChapter//g" \
+                -e "s/{\\\\rm (p\.\\\\,\\\\pageref{[^}]*})}//g" \
+                -e "s/\\\\hyperlink{class[^}]*}//g" \
+                -e "s/\\\\subsection/\\\\section/g" \
+                -e "s/\\\\subsubsection/\\\\subsection/g" \
+                -e "s/\\\\paragraph/\\\\subsubsection/g" \
+                >> $outpage.tex        
+        fi
+    else
+        test $verbose == 0 || echo "new section"
+        sed -e "s/{\\\\rm (p\.\\\\,\\\\pageref{[^}]*})}//g" \
+            -e "s/\\\\hyperlink{class[^}]*}//g" \
+            < $page.tex > $outpage.tex   
+    fi
+    (( ind=$ind + 1 ))
+done
+
+# now add the tail of the refman
+
+(( taillines = $reflen - $pagestartline -$npages ))
+
+tail -$taillines $refman >> $output
+
+# done, clean up

@@ -11,7 +11,8 @@
 
 
 @simplelist = ( "TransformationMatrix",  "QuaternionBase", "VectorInterface", 
-				"PointInterface", "SimpleAttachment", );
+				"PointInterface", "SimpleAttachment", "Color3", "Color4",
+              );
 
 while (<>) 
 {
@@ -25,8 +26,7 @@ while (<>)
 		$fname =~ s/\s*//g ;
         
 		$line = join( "", 
-					  ("class ", $cname, ": private ", $ftype, "Field<", $fname, 
-					   "> { };")
+					  ("class ", $cname, ": public ", $ftype, "Field { };")
 					);
 
         if($cname ne "Self")
@@ -42,8 +42,7 @@ while (<>)
 
 		$fname =~ s/\s*//g ;
 		$line = join( "", 
-					  ("class ", $cname, ": private ", $ftype, "Field<", $fname, 
-					   "> { };")
+					  ("class ", $cname, ": public ", $ftype, "Field { };")
 					);
         if($cname ne "Self")
         {
@@ -58,8 +57,8 @@ while (<>)
 		$fname =~ s/\s*//g ;
 
 		$line = join( "", 
-					  ("class ", $fname, ": private AbstractGeoProperty<", $ftype ,
-					   "> { ", $ftype, " * _val; };")
+					  ("class ", $fname, ": public AbstractGeoProperty { ", 
+                      $ftype, " * _val; };")
 					);
 		push( @fout, $line );
 		
@@ -74,7 +73,7 @@ while (<>)
 		if ( $fname ne $cname )
 		{
 			$line = join( "", 
-						  ("class ", $fname, ": private ",  $cname, 
+						  ("class ", $fname, ": public ",  $cname, 
 						   " { ", $tname, " * _val; };")
 						);
 			push( @fout, $line );
@@ -109,7 +108,7 @@ while (<>)
 			if ( $n eq $tname )
 			{
 				$line = join( "", 
-						("class ", $cname, ": private ",  $tname, "<", $tparam, ">  { ".
+						("class ", $cname, ": public ",  $tname, "<", $tparam, ">  { ".
 						 $tparam, " * _val; };")
 							);
 				push( @fout, $line );				
@@ -131,7 +130,7 @@ while (<>)
 			if ( $n eq $tname )
 			{
 				$line = join( "", 
-						("class ", $cname, ": private ",  $tname, "<", $tparam1, 
+						("class ", $cname, ": public ",  $tname, "<", $tparam1, 
 							$tparam2, ">  {};")
 							);
 				push( @fout, $line );				
@@ -159,7 +158,7 @@ for $n ( @sfout )
 	if ( $n ne $last )
 	{
         printCommon();
-        print   " \\ingroup FieldLib\n";
+        print   " \\ingroup BaseField\n";
         print   " \\ingroup SingleFields\n";
 		print	" */\n";
 
@@ -174,7 +173,7 @@ for $n ( @mfout )
 	if ( $n ne $last )
 	{
         printCommon();
-        print   " \\ingroup FieldLib\n";
+        print   " \\ingroup BaseField\n";
         print   " \\ingroup MultiFields\n";
 		print	" */\n";
 
