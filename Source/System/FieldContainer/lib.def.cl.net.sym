@@ -132,3 +132,9 @@
     ?copyFromBin@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
     ?syncWith@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAEXAAV12@@Z
     ?copyToBin@?$SField@V?$FCPtr@VAttachmentContainerPtr@osg@@VImage@2@@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
+
+    ?rend@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$reverse_iterator@V?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@@std@@XZ
+    ?rbegin@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$reverse_iterator@V?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@@std@@XZ
+    ?getValue@?$SField@V?$map@IVAttachmentPtr@osg@@U?$less@I@std@@V?$allocator@U?$pair@$$CBIVAttachmentPtr@osg@@@std@@@4@@std@@$0A@@osg@@QAEAAV?$map@IVAttachmentPtr@osg@@U?$less@I@std@@V?$allocator@U?$pair@$$CBIVAttachmentPtr@osg@@@std@@@4@@std@@XZ
+    ?end@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@XZ
+    ?begin@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@XZ
