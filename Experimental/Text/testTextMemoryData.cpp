@@ -36,22 +36,31 @@ OSG_USING_NAMESPACE
 int main(int argc, char **argv)
 {
     int retCode = 0;
-
+    Real32 size = 1;
+    
     if(argc < 3)
     {
-        FFATAL(("Usage: %s <ttf-file> <outfile>\n", argv[0]));
+        FFATAL(("Usage: %s [-s size] <ttf-file> <outfile>\n", argv[0]));
         return -1;
     }
 
     // OSG init
     osgInit(argc, argv);
 
+    if(!strcmp(argv[1], "-s"))
+    {
+        size = atof(argv[2]);
+        argv += 2;
+        argc -= 2;
+    }
+    
     PathHandler paths;
     paths.push_backPath(".");
 
     // create the scene
     // build a standard txf-font
-    FontStyle   *fontStyle = FontStyleFactory::the().create(paths, argv[1], 1);
+    FontStyle   *fontStyle = FontStyleFactory::the().create(paths, argv[1],
+                                size);
     assert(fontStyle);
     ((TTFontStyle *) fontStyle)->createTXFMap();
 
@@ -66,7 +75,9 @@ int main(int argc, char **argv)
     {
         char    *data = target.str();
 
-        out << "static unsigned char fontData[" << target.pcount() << "] = {";
+        out << "UInt32 fontDataSize = " << target.pcount() << ";"
+            << endl;
+        out << "UChar8 fontData[" << target.pcount() << "] = {";
         for(UInt32 i = 0; i < target.pcount(); i++)
         {
             if((i % 20) == 0)
