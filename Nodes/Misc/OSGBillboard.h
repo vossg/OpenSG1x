@@ -99,6 +99,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Billboard : public BillboardBase
     virtual ~Billboard(void); 
 
     /*! \}                                                                 */
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      NodeCore Specific                       */
+    /*! \{                                                                 */
+
+    void            adjustVolume  (Volume & volume);
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name              Draw & Intersect & Render                       */
     /*! \{                                                                 */

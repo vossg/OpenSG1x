@@ -168,6 +168,31 @@ void Billboard::dump(      UInt32    ,
     SLOG << "Dump Billboard NI" << endl;
 }
 
+
+/*------------------------- volume update -------------------------------*/
+
+void Billboard::adjustVolume( Volume & volume )
+{
+    Inherited::adjustVolume(volume);
+    
+    // enlarge the volume to adjust for rotations
+    // keep the center, but make it a cube big enough to contain the 
+    // billboard in all orientations
+    
+    Pnt3f min, max;
+    
+    volume.getBounds(min, max);
+    
+    Vec3f  dia    = max - min;
+    Pnt3f  center = min + dia * .5;
+    Real32 extend = dia.maxValue();
+    
+    dia.setValues(extend * Sqrt2, extend * Sqrt2, extend * Sqrt2);
+    
+    volume.extendBy( center - dia );
+    volume.extendBy( center + dia );
+}
+
 void Billboard::calcMatrix(DrawActionBase *pAction, Matrix &mResult)
 {
     Pnt3f eyepos(0.f, 0.f, 0.f);
@@ -326,7 +351,8 @@ Action::ResultE Billboard::drawEnter(Action *action)
     glPushMatrix ();
     glMultMatrixf(mMat.getValues());
 
-    da->selectVisibles();
+// !!! can't use visibles, as ToWorld gives garbage leading to wrong culling
+//    da->selectVisibles();
 
     return Action::Continue;
 }
@@ -364,7 +390,8 @@ Action::ResultE Billboard::renderEnter(Action *action)
 
     pAction->push_matrix(mMat);
 
-    pAction->selectVisibles();
+// !!! can't use visibles, as ToWorld gives garbage leading to wrong culling
+//    pAction->selectVisibles();
 
     return Action::Continue;
 }
