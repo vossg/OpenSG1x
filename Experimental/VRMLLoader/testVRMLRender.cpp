@@ -35,8 +35,7 @@
 //#include "OSGPipe.h"
 #include "OSGCamera.h"
 #include "OSGPerspectiveCamera.h"
-#include "OSGBackground.h"
-//#include "OSGUniformBackground.h"
+#include "OSGSolidBackground.h"
 
 #include "OSGTrackball.h"
 
@@ -301,8 +300,8 @@ int main (int argc, char **argv)
 	OSG::endEditCP(dlight);
 	
 	OSG::beginEditCP(dl);
-	dl->setAmbientColor( .3, .3, .3, 1 );
-	dl->setDiffuseColor( 1, 1, 1, 1 );
+	dl->setAmbient( .3, .3, .3, 1 );
+	dl->setDiffuse( 1, 1, 1, 1 );
 	dl->setDirection(0,0,1);
 	dl->setBeacon( b1n);
 	OSG::endEditCP(dl);
@@ -355,14 +354,13 @@ int main (int argc, char **argv)
 	OSG::PerspectiveCameraPtr cam = OSG::PerspectiveCamera::create();
 
 	cam->setBeacon( b1n );
-	cam->setDegrees( 60 );
+	cam->setFov( 60 );
 	cam->setNear( 0.1 );
 	cam->setFar( 5000 );
 
-	// Background
-	OSG::BackgroundPtr bkgnd = OSG::Background::create();
-	
-	//bkgnd->setColor( 0,0,1 );
+	// Solid Background
+	OSG::SolidBackgroundPtr bkgnd = OSG::SolidBackground::create();
+	bkgnd->setColor( OSG::Color3f(0,0,1) );
 
 	// Viewport
 
