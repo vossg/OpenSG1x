@@ -179,7 +179,7 @@ inline UInt32 Window::getGLObjectId(UInt32 id)
     if(id < _ids.size())
         return _ids[id];
 
-    SWARNING << "Window::getGLObjectId: id (" << id << ") is not valid!" << std::endl;
+    //SWARNING << "Window::getGLObjectId: id (" << id << ") is not valid!" << std::endl;
     return 0;
 }
 
