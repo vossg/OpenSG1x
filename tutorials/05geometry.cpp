@@ -224,7 +224,7 @@ void display( void )
         number of variants.
         
         To simplify that, every kind of GeoProperty has a generic type, e.g.
-        the generic type for positions if Pnt3f, for colors it's Color3f.
+        the generic type for positions is Pnt3f, for colors it's Color3f.
         
         No matter the internal data representation looks like, all
         GeoProperties have the generic interface. As does the abstract parent
