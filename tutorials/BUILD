@@ -11,10 +11,6 @@ They all use GLUT, so you need to have it installed. It comes with most
 Linux distros, other system will need to download and make it, see
 http://www.opensg.org/prerequisites.EN.html for details.
 
-To compile them you will probably have to adjust the settings in
-Makefile for your system, mainly the directories where to find the GLUT
-library.
-
 The makefile expects an installed OpenSG. It tries to use the one
 installed in the Builds hierarchy, i.e. at ../Builds/*/include and
 ../Builds/*/lib respectively. In a dist it uses the one installed one

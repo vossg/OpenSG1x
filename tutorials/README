@@ -7,7 +7,7 @@ complete applications, they rather demonstrate separate aspects of the
 system and should be used as a starting point for your own tests and
 experiments using OpenSG.
 
-They are all based on the same framwork, so you can interact with all of
+They are all based on the same framework, so you can interact with all of
 them in the same way. The left mouse button rotates the scene, the
 middle button translates, the right button (or both buttons on
 two-button mice) zooms in or out.
