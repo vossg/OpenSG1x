@@ -142,8 +142,8 @@ inline OSG_LOG_DLLMAPPING void initLog(void)
     if(Log::_nilbufP == NULL)
         Log::_nilbufP = new Log::nilbuf();
 #else
-    if(Log::_nilStreamP == NULL)
-        Log::_nilStreamP = new fstream("/dev/null", ios::out);
+    if(Log::_nilstreamP == NULL)
+        Log::_nilstreamP = new fstream("/dev/null", ios::out);
 #endif
 
 	if(osgLogP == NULL)
