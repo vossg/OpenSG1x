@@ -16,6 +16,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+		defaultValue="NULL"
 	>
 	</Field>
 	<Field
@@ -24,6 +25,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+		defaultValue="NULL"
 	>
 	</Field>
 	<Field
@@ -32,6 +34,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+		defaultValue="NULL"
 	>
 	</Field>
 	<Field
@@ -40,6 +43,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+		defaultValue="NULL"
 	>
 	</Field>
 	<Field
@@ -48,6 +52,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+		defaultValue="NULL"
 	>
 	</Field>
 </FieldContainer>

@@ -186,11 +186,11 @@ void CubeTextureChunkBase::executeSync(      FieldContainer &other,
 #endif
 
 CubeTextureChunkBase::CubeTextureChunkBase(void) :
-    _sfPosZImage              (), 
-    _sfPosXImage              (), 
-    _sfNegXImage              (), 
-    _sfPosYImage              (), 
-    _sfNegYImage              (), 
+    _sfPosZImage              (NULL), 
+    _sfPosXImage              (NULL), 
+    _sfNegXImage              (NULL), 
+    _sfPosYImage              (NULL), 
+    _sfNegYImage              (NULL), 
     Inherited() 
 {
 }
