@@ -90,7 +90,7 @@ ifeq ($(DEBUG_VERSION), 0)
 	COMP_DEBUG       = 
 else
 	COMP_OPTIMIZE    =
-	COMP_DEBUG       = -g -INLINE:none 
+	COMP_DEBUG       = -g -INLINE:none -DOSG_DEBUG
 endif
 
 ### Compiler Flags ################################################
