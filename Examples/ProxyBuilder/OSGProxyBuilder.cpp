@@ -131,6 +131,7 @@ void ProxyBuilder::createProxyGroup(GeometryPtr proxyBuilder)
     // create geo core and copy from proxy builder
     GeometryPtr geo = Geometry::create();
     beginEditCP(geo);
+
     geo->setIndices(proxyBuilder->getIndices());
     (*geo->getMFIndexMapping()) = *(proxyBuilder->getMFIndexMapping());
     geo->setPositions(proxyBuilder->getPositions());
@@ -146,16 +147,16 @@ void ProxyBuilder::createProxyGroup(GeometryPtr proxyBuilder)
     geo->setDlistCache(proxyBuilder->getDlistCache());
     endEditCP(geo);
 
-    // stripe
-    osg::GraphOpSeq op;
-    op.addGraphOp(new StripeGraphOp);
-    op.run(node);
-
     node = Node::create();
     addRefCP(node);
     beginEditCP(node);
     node->setCore(geo);
     endEditCP(node);
+
+    // stripe
+    osg::GraphOpSeq op;
+    op.addGraphOp(new StripeGraphOp);
+    op.run(node);
 
     // statistics
     GeoIndicesPtr indicesPtr=geo->getIndices();
