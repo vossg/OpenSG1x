@@ -922,5 +922,11 @@ Real32 osgrand(void)
     return rand() / (Real32) RAND_MAX;
 }
 
+inline
+bool osgIsBigEndian(void)
+{
+    return (BYTE_ORDER) == (BIG_ENDIAN);   
+}
+
 OSG_END_NAMESPACE
 

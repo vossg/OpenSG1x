@@ -458,6 +458,9 @@ void osgsleep(UInt32 millisecs);
 inline
 Real32 osgrand(void);
 
+inline
+bool osgIsBigEndian(void);
+
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 /*! \name         MemoryObject Reference Count Functions               */
