@@ -611,6 +611,29 @@ void VRMLFile::addFieldValue(const Char8 *szFieldVal)
     }
 }
 
+void VRMLFile::beginFieldDecl(const Char8  *szFieldType,
+                              const UInt32  uiFieldTypeId,
+                              const Char8  *szFieldName)
+{
+    Inherited::beginFieldDecl(szFieldType, uiFieldTypeId, szFieldName);
+
+
+    if(_pCurrNodeDesc == 0)
+        return;
+
+    if(szFieldName == NULL)
+        return;
+
+    _pCurrentField     = NULL;
+    _pCurrentFieldDesc = NULL;
+
+    _pCurrNodeDesc->getFieldAndDesc(_pCurrentFC, 
+                                     szFieldName,
+                                    _pCurrentField,
+                                    _pCurrentFieldDesc);
+}
+
+
 UInt32 VRMLFile::getFieldType(const Char8 *szFieldname)
 {
     UInt32   returnValue = 0;

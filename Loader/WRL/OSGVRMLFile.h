@@ -114,28 +114,32 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     /*! \name                   Skel replacements                          */
     /*! \{                                                                 */
 
-    virtual void   scanFile     (const Char8  *szFilename, 
-                                       UInt32  uiReplaceOptions);
+    virtual void   scanFile      (const Char8  *szFilename, 
+                                        UInt32  uiReplaceOptions);
 
-    virtual void   scanFile     (const Char8  *szFilename, 
-                                       UInt32  uiAddOptions,
-                                       UInt32  uiSubOption);
+    virtual void   scanFile      (const Char8  *szFilename, 
+                                        UInt32  uiAddOptions,
+                                        UInt32  uiSubOption);
+
+    virtual void   beginFieldDecl(const Char8  *szFieldType,
+                                  const UInt32  uiFieldTypeId,
+                                  const Char8  *szFieldName); 
 
 
-    virtual void   beginNode    (const Char8 *szNodeTypename,
-                                 const Char8 *szNodename);
+    virtual void   beginNode     (const Char8 *szNodeTypename,
+                                  const Char8 *szNodename);
     
-    virtual void   endNode      (void);
+    virtual void   endNode       (void);
 
-    virtual void   beginScript  (const Char8 *szNodename);
+    virtual void   beginScript   (const Char8 *szNodename);
     
-    virtual void   endScript    (void);
+    virtual void   endScript     (void);
 
 
-    virtual void   beginField   (const Char8  *szFieldname,
-                                 const UInt32  uiFieldTypeId);
+    virtual void   beginField    (const Char8  *szFieldname,
+                                  const UInt32  uiFieldTypeId);
 
-    virtual void   endField     (void);
+    virtual void   endField      (void);
 
 
     virtual void   addFieldValue(const Char8 *szFieldVal);
