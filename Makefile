@@ -8,8 +8,9 @@ OSGPOOL         = $(shell pwd)
 
 OSGMAINMAKE    = 1
 
-SUBLIBS        = Base Field FieldContainer Action Action/DrawAction Nodes/Misc \
-		 Nodes/Geometry Nodes/Light Image Log Loader Window State
+SUBLIBS        = Base Field FieldContainer Action Action/DrawAction 	\
+				 Nodes/Misc Nodes/Geometry Nodes/Light Image Log Loader \
+				 Window State 
 
 include $(OSGPOOL)/$(OSGCOMMON)/common.mk
 
@@ -90,6 +91,39 @@ update:
 	cvs update
 
 #########################################################################
+# install
+#########################################################################
+
+install-includes:
+	@if [ -w include ]; 													\
+	 then																	\
+		cd include; 														\
+		rm -f *.hpp *.inl;													\
+		find $(OSGPOOL) \( -type d \( -name CVS -o -name Test \) -prune \)	\
+			-o -type f -name '*\.h' -print -exec ln -s {} . \; ;			\
+		find $(OSGPOOL) \( -type d \( -name CVS -o -name Test \) -prune \)	\
+			-o -type f -name '*\.inl' -print -exec ln -s {} . \; ;			\
+	fi;																		\
+	cd $(VSCPOOL);
+
+install-libs:
+	@BUILDLIBS=`find $(OSGPOOL) -name '$(OBJDIR)' 	 						\
+						-exec find {} -name '*\.a' -print \;` ;				\
+	if [ -w lib/$(OS)$(DBG) ];												\
+	 then																	\
+		cd lib/$(OS)$(DBG);													\
+		rm -f *.a;															\
+		for t in $$BUILDLIBS; 												\
+		do																	\
+			ln -s $$t .;													\
+			echo  $$t;														\
+		done																\
+	fi;																		\
+	cd $(OSGPOOL);
+
+install: install-includes install-libs
+
+#########################################################################
 # init
 #########################################################################
 
@@ -99,7 +133,9 @@ init: $(SUBLIBTARGETS) $(SUBTESTTARGETS)
 	@if [ ! -w bin ]; then mkdir bin; fi
 	@if [ ! -w bin/$(OS) ]; then mkdir bin/$(OS); fi
 	@if [ ! -w lib ]; then mkdir lib; fi
-	@if [ ! -w lib/$(OS) ]; then mkdir lib/$(OS); fi
+	@if [ ! -w lib/$(OS)DBG ]; then mkdir lib/$(OS)DBG; fi
+	@if [ ! -w lib/$(OS)OPT ]; then mkdir lib/$(OS)OPT; fi
+	@if [ ! -w include ]; then mkdir include; fi
 	@if [ -w $(DOCBASEDIR) ]; 	\
 	 then 						\
 	 	if [ ! -w $(DOCDIR) ]; 	\
