@@ -254,6 +254,26 @@ Real32 osgrad2degree(const Real32 &rValue)
    return (rValue/(2.f * 3.1415926535f)) * 360.f;
 }
 
+/*! \brief deg2rad
+ *  \ingroup BaseMathFunctions
+ */
+
+template <> inline 
+Real32 deg2rad(const Real32 &rValue)
+{
+   return osgdegree2rad( rValue );
+}
+
+/*! \brief rad2deg
+ *  \ingroup BaseMathFunctions
+ */
+
+template <> inline
+Real32 rad2deg(const Real32 &rValue)
+{
+   return osgrad2degree( rValue );
+}
+
 /*! \brief osgabs
  *  \ingroup BaseMathFunctions
  */
@@ -434,6 +454,26 @@ Real64 osgdegree2rad(const Real64 &rValue)
 template <> inline
 OSG_MS_BASE_DLLMAPPING 
 Real64 osgrad2degree(const Real64 &rValue)
+{
+   return (rValue/(2 * 3.1415926535)) * 360;
+}
+
+/*! \brief deg2rad
+ *  \ingroup BaseMathFunctions
+ */
+
+template <> inline 
+Real64 deg2rad(const Real64 &rValue)
+{
+   return (rValue/360) * 2 * 3.1415926535;
+}
+
+/*! \brief rad2deg
+ *  \ingroup BaseMathFunctions
+ */
+
+template <> inline
+Real64 rad2deg(const Real64 &rValue)
 {
    return (rValue/(2 * 3.1415926535)) * 360;
 }
