@@ -70,7 +70,7 @@ LINK32=xilink6.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP 
-# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe1125 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=501  -DOSG_SUPPORT_NO_GEO_INTERFACE=1 -DOSG_BUILD_DLL -DOSG_NEW_DLLS -Qvc6 -GX -Gi- -Qansi -GR -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd -DOSG_COMPILEWINDOWQTLIB -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_TIF -DOSG_WITH_GIF -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG -I.. -I.  -I../../../Action/DrawAction  -I../../../Action/IntersectAction  -I../../../Action/RenderAction  -I../../../Action  -I../../../Base  -I../../../BaseLib  -I../../../SystemLib  -I../../../WindowWIN32Lib  -I../../../Experimental/BINWriter  -I../../../Experimental/BINWriter  -I../../../Experimental/ChangeListViewer  -I../../../Experimental/Gerrit/Functors  -I../../../Experimental/OSGLoader  -I../../../Experimental/OSGWriter  -I../../../Experimental/StringConversionState  -I../../../Experimental/Text  -I../../../Experimental/VRMLWriter  -I../../../Field  -I../../../FieldContainer  -I../../../Image  -I../../../Loader/Fhs  -I../../../Loader/OBJ  -I../../../Loader/OFF  -I../../../Loader/OSG  -I../../../Loader/RAW  -I../../../Loader/ScanParseSkel  -I../../../Loader/WRL  -I../../../Loader  -I../../../Log  -I../../../Material  -I../../../MultiThreading  -I../../../Nodes/Geometry  -I../../../Nodes/Light  -I../../../Nodes/Misc  -I../../../Nodes/Particles  -I../../../RenderingBackend  -I../../../State  -I../../../Statistics  -I../../../Window/QT  -I../../../Window/WIN32  -I../../../Window  /FD /c
+# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe261 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=600  -DOSG_BUILD_DLL -Qvc6 -GX -Gi- -Qansi -GR -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd -DOSG_COMPILEWINDOWQTLIB -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_TIF -DOSG_WITH_JPG -DOSG_WITH_GIF -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG -I.. -I.  -I../../../Action/DrawAction  -I../../../Action/IntersectAction  -I../../../Action/RenderAction  -I../../../Action  -I../../../Base  -I../../../BaseLib  -I../../../SystemLib  -I../../../WindowWIN32Lib  -I../../../Cluster/MultiDisplay  -I../../../Cluster/SortFirst  -I../../../Cluster  -I../../../Experimental/BINWriter  -I../../../Experimental/BINWriter  -I../../../Experimental/OSGLoader  -I../../../Experimental/OSGWriter  -I../../../Experimental/StringConversionState  -I../../../Experimental/Text  -I../../../Experimental/VRMLLoader  -I../../../Experimental/VRMLWriter  -I../../../Field  -I../../../FieldContainer/Impl  -I../../../FieldContainer  -I../../../Functors  -I../../../Image  -I../../../Loader/Fhs  -I../../../Loader/OBJ  -I../../../Loader/OFF  -I../../../Loader/OSG  -I../../../Loader/RAW  -I../../../Loader/ScanParseSkel  -I../../../Loader/WRL  -I../../../Loader  -I../../../Log  -I../../../Material  -I../../../MultiThreading  -I../../../Network/Socket  -I../../../Network  -I../../../Nodes/Geometry  -I../../../Nodes/Light  -I../../../Nodes/Misc  -I../../../Nodes/Particles  -I../../../RenderingBackend  -I../../../State  -I../../../Statistics  -I../../../Window/QT  -I../../../Window/WIN32  -I../../../Window  /FD /c
 # SUBTRACT CPP 
 # ADD BASE MTL /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /D "_DEBUG" /mktyplib203 /win32
@@ -94,37 +94,6 @@ LINK32=xilink6.exe
 # Begin Group "Header Files"
 # PROP Default_Filter "h;hpp;hxx;hm"
 
-# Begin Group "ExperimentalChangeListViewer h"
-# PROP Default_Filter ""
-
-# Begin Source File
-SOURCE=../../../Experimental/ChangeListViewer/OSGChangeListViewer_qt.h
-
-!IF  "$(CFG)" == "WindowQTLib - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "WindowQTLib - Win32 Debug"
-
-# Begin Custom Build
-InputPath=../../../Experimental/ChangeListViewer/OSGChangeListViewer_qt.h
-
-BuildCmds= \
-moc.exe ../../../Experimental/ChangeListViewer/OSGChangeListViewer_qt.h -i -o OSGChangeListViewer_qt_moc.cpp
-
-"OSGChangeListViewer_qt_moc.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../../Experimental/ChangeListViewer/OSGChangeListViewer_qt.ui.h
-# End Source File
-
-# End Group
 # Begin Group "WindowQT h"
 # PROP Default_Filter ""
 
@@ -206,9 +175,6 @@ SOURCE=../../../Window/QT/OSGWindowQTDef.h
 # Begin Group "Inline Files"
 # PROP Default_Filter "inl"
 
-# Begin Group "ExperimentalChangeListViewer inl"
-# PROP Default_Filter ""
-# End Group
 # Begin Group "WindowQT inl"
 # PROP Default_Filter ""
 
@@ -234,14 +200,6 @@ SOURCE=../../../Window/QT/OSGQTWindowBase.inl
 # Begin Group "Source Files"
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 
-# Begin Group "ExperimentalChangeListViewer cpp"
-# PROP Default_Filter ""
-
-# Begin Source File
-SOURCE=../../../Experimental/ChangeListViewer/OSGChangeListViewer_qt.cpp
-# End Source File
-
-# End Group
 # Begin Group "WindowQT cpp"
 # PROP Default_Filter ""
 
@@ -270,9 +228,6 @@ SOURCE=../../../Window/QT/OSGQTWindowBase.cpp
 # Begin Group "Scan/Parse Files"
 # PROP Default_Filter "y;l"
 
-# Begin Group "ExperimentalChangeListViewer ly"
-# PROP Default_Filter ""
-# End Group
 # Begin Group "WindowQT ly"
 # PROP Default_Filter ""
 # End Group

@@ -51,7 +51,7 @@ OSG_BEGIN_NAMESPACE
 //! \ingroup GeometryLoaderLib 
 
 template <class BaseT>
-class OSG_SYSTEMLIB_DLLMAPPING ScanParseFieldTypeMapper : public BaseT 
+class ScanParseFieldTypeMapper : public BaseT 
 {
     /*=========================  PROTECTED  ===============================*/
   protected:

@@ -70,7 +70,7 @@ LINK32=xilink6.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP 
-# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe1125 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=501  -DOSG_SUPPORT_NO_GEO_INTERFACE=1 -DOSG_BUILD_DLL -DOSG_NEW_DLLS -Qvc6 -GX -Gi- -Qansi -GR -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd -DOSG_COMPILEBASELIB -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_TIF -DOSG_WITH_GIF -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG -I.. -I.  -I../../../Base  -I../../../Experimental/Gerrit/Functors  -I../../../Experimental/StringConversionState  -I../../../Field  -I../../../Log  /FD /c
+# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe261 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=600  -DOSG_BUILD_DLL -Qvc6 -GX -Gi- -Qansi -GR -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd -DOSG_COMPILEBASELIB -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_TIF -DOSG_WITH_JPG -DOSG_WITH_GIF -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG -I.. -I.  -I../../../Base  -I../../../Experimental/StringConversionState  -I../../../Field  -I../../../Functors  -I../../../Log  -I../../../Network/Socket  -I../../../Network  /FD /c
 # SUBTRACT CPP 
 # ADD BASE MTL /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /D "_DEBUG" /mktyplib203 /win32
@@ -114,6 +114,11 @@ SOURCE=../../../Base/OSGBaseFunctions.h
 
 # Begin Source File
 SOURCE=../../../Base/OSGBaseThread.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Base/OSGBaseTypeTraits.h
 # End Source File
 
 
@@ -168,6 +173,11 @@ SOURCE=../../../Base/OSGException.h
 
 
 # Begin Source File
+SOURCE=../../../Base/OSGExportDefines.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Base/OSGFileSystem.h
 # End Source File
 
@@ -179,6 +189,11 @@ SOURCE=../../../Base/OSGFrustumVolume.h
 
 # Begin Source File
 SOURCE=../../../Base/OSGGL.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Base/OSGGLEXT.h
 # End Source File
 
 
@@ -289,34 +304,6 @@ SOURCE=../../../Base/OSGVolume.h
 
 # Begin Source File
 SOURCE=../../../Base/OSGVolumeFunctions.h
-# End Source File
-
-# End Group
-# Begin Group "ExperimentalGerritFunctors h"
-# PROP Default_Filter ""
-
-# Begin Source File
-SOURCE=../../../Experimental/Gerrit/Functors/OSGFunctorBase.h
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../../Experimental/Gerrit/Functors/OSGTypedFunctorBase.h
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../../Experimental/Gerrit/Functors/OSGTypedFunctors.h
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../../Experimental/Gerrit/Functors/OSGTypedFunctors1.h
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../../Experimental/Gerrit/Functors/OSGTypedFunctors2.h
 # End Source File
 
 # End Group
@@ -586,11 +573,110 @@ SOURCE=../../../Field/OSGVecFieldDataType.h
 # End Source File
 
 # End Group
+# Begin Group "Functors h"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Functors/OSGFunctorBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Functors/OSGTypedFunctorBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Functors/OSGTypedFunctors.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Functors/OSGTypedFunctors1.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Functors/OSGTypedFunctors2.h
+# End Source File
+
+# End Group
 # Begin Group "Log h"
 # PROP Default_Filter ""
 
 # Begin Source File
 SOURCE=../../../Log/OSGLog.h
+# End Source File
+
+# End Group
+# Begin Group "Network h"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Network/OSGBinaryMessage.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/OSGConnection.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/OSGConnectionFactory.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/OSGConnectionType.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/OSGNetworkMessage.h
+# End Source File
+
+# End Group
+# Begin Group "NetworkSocket h"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGDgramSocket.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGMulticastConnection.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGSocket.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGSocketAddress.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGSocketException.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGSocketSelection.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGStreamSockConnection.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGStreamSocket.h
 # End Source File
 
 # End Group
@@ -694,34 +780,6 @@ SOURCE=../../../Base/OSGVolumeFunctions.inl
 # End Source File
 
 # End Group
-# Begin Group "ExperimentalGerritFunctors inl"
-# PROP Default_Filter ""
-
-# Begin Source File
-SOURCE=../../../Experimental/Gerrit/Functors/OSGFunctorBase.inl
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../../Experimental/Gerrit/Functors/OSGTypedFunctorBase.inl
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../../Experimental/Gerrit/Functors/OSGTypedFunctors.inl
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../../Experimental/Gerrit/Functors/OSGTypedFunctors1.inl
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../../Experimental/Gerrit/Functors/OSGTypedFunctors2.inl
-# End Source File
-
-# End Group
 # Begin Group "ExperimentalStringConversionState inl"
 # PROP Default_Filter ""
 
@@ -754,12 +812,50 @@ SOURCE=../../../Field/OSGMField.inl
 
 
 # Begin Source File
+SOURCE=../../../Field/OSGMFieldTypeDef.inl
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Field/OSGMFieldVector.inl
 # End Source File
 
 
 # Begin Source File
 SOURCE=../../../Field/OSGSField.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Field/OSGSFieldTypeDef.inl
+# End Source File
+
+# End Group
+# Begin Group "Functors inl"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Functors/OSGFunctorBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Functors/OSGTypedFunctorBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Functors/OSGTypedFunctors.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Functors/OSGTypedFunctors1.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Functors/OSGTypedFunctors2.inl
 # End Source File
 
 # End Group
@@ -770,6 +866,22 @@ SOURCE=../../../Field/OSGSField.inl
 SOURCE=../../../Log/OSGLog.inl
 # End Source File
 
+# End Group
+# Begin Group "Network inl"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Network/OSGBinaryMessage.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/OSGConnection.inl
+# End Source File
+
+# End Group
+# Begin Group "NetworkSocket inl"
+# PROP Default_Filter ""
 # End Group
 
 # End Group
@@ -926,9 +1038,6 @@ SOURCE=../../../Base/OSGVolumeFunctions.cpp
 # End Source File
 
 # End Group
-# Begin Group "ExperimentalGerritFunctors cpp"
-# PROP Default_Filter ""
-# End Group
 # Begin Group "ExperimentalStringConversionState cpp"
 # PROP Default_Filter ""
 
@@ -975,11 +1084,85 @@ SOURCE=../../../Field/OSGTypeInst.cpp
 # End Source File
 
 # End Group
+# Begin Group "Functors cpp"
+# PROP Default_Filter ""
+# End Group
 # Begin Group "Log cpp"
 # PROP Default_Filter ""
 
 # Begin Source File
 SOURCE=../../../Log/OSGLog.cpp
+# End Source File
+
+# End Group
+# Begin Group "Network cpp"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Network/OSGBinaryMessage.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/OSGConnection.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/OSGConnectionFactory.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/OSGConnectionType.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/OSGNetworkMessage.cpp
+# End Source File
+
+# End Group
+# Begin Group "NetworkSocket cpp"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGDgramSocket.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGMulticastConnection.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGSocket.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGSocketAddress.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGSocketException.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGSocketSelection.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGStreamSockConnection.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Network/Socket/OSGStreamSocket.cpp
 # End Source File
 
 # End Group
@@ -991,22 +1174,33 @@ SOURCE=../../../Log/OSGLog.cpp
 # Begin Group "Base ly"
 # PROP Default_Filter ""
 # End Group
-# Begin Group "ExperimentalGerritFunctors ly"
-# PROP Default_Filter ""
-# End Group
 # Begin Group "ExperimentalStringConversionState ly"
 # PROP Default_Filter ""
 # End Group
 # Begin Group "Field ly"
 # PROP Default_Filter ""
 # End Group
+# Begin Group "Functors ly"
+# PROP Default_Filter ""
+# End Group
 # Begin Group "Log ly"
+# PROP Default_Filter ""
+# End Group
+# Begin Group "Network ly"
+# PROP Default_Filter ""
+# End Group
+# Begin Group "NetworkSocket ly"
 # PROP Default_Filter ""
 # End Group
 
 # End Group
 # Begin Group "Resource Files"
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+
+
+# Begin Source File
+SOURCE=lib.dbg.def
+# End Source File
 
 
 # End Group
