@@ -70,7 +70,19 @@ osg::TextureChunk::_sfInternalFormat, osg::TextureChunk::_sfExternalFormat),
 glTexParameter (osg::TextureChunk::_sfMinFilter,
 osg::TextureChunk::_sfMagFilter, osg::TextureChunk::_sfWrapS, 
 osg::TextureChunk::_sfWrapT, osg::TextureChunk::_sfWrapR), glTexEnv 
-(osg::TextureChunk::_sfEnvMode, osg::TextureChunk::_sfEnvColor). The two
+(osg::TextureChunk::_sfEnvMode, osg::TextureChunk::_sfEnvColor). The ARB
+combine extension is also supported, where available
+(osg::TextureChunk::_sfEnvCombineRGB,  
+osg::TextureChunk::_sfEnvScaleRGB, osg::TextureChunk::_sfEnvSource0RGB,
+osg::TextureChunk::_sfEnvSource1RGB, osg::TextureChunk::_sfEnvSource2RGB,
+osg::TextureChunk::_sfEnvOperand0RGB,
+osg::TextureChunk::_sfEnvOperand1RGB, osg::TextureChunk::_sfEnvOperand2RGB, 
+osg::TextureChunk::_sfEnvCombineAlpha,  
+osg::TextureChunk::_sfEnvScaleAlpha, osg::TextureChunk::_sfEnvSource0Alpha,
+osg::TextureChunk::_sfEnvSource1Alpha, osg::TextureChunk::_sfEnvSource2Alpha,
+osg::TextureChunk::_sfEnvOperand0Alpha,
+osg::TextureChunk::_sfEnvOperand1Alpha, osg::TextureChunk::_sfEnvOperand2Alpha, 
+). The two
 parameters osg::TextureChunk::_sfScale and osg::TextureChunk::_sfFrame specify
 details about the texture.
 
@@ -874,17 +886,19 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     // is that a valid assumption?
     if(old == this)
         return;
-
-    TextureChunk *oldp      = dynamic_cast<TextureChunk *>(old);
     
     // If the old one is not a texture chunk, deactivate it and activate
     // ourselves
-    if(!oldp)
+    // Need to check for exact type, as derived chunks might change
+    // different state (e.g. CubeTexture)
+    if(getTypeId() != old->getTypeId())
     {
         old->deactivate(action, idx);
         activate(action, idx);
         return;
     }
+
+    TextureChunk *oldp      = dynamic_cast<TextureChunk *>(old);
     
     ImageP        img       = getImage();
     GLenum        target;

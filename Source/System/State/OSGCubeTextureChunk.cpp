@@ -274,17 +274,17 @@ void CubeTextureChunk::changeFrom(  DrawActionBase *action,
     // is that a valid assumption?
     if(old == this)
         return;
-
-    CubeTextureChunk *oldp      = dynamic_cast<CubeTextureChunk *>(old);
     
-    // If the old one is not a cube texture chunk, deactivate it and activate
-    // ourselves
-    if(!oldp)
+    // If the old one is not a cube texture chunk, deactivate it and
+    // activate ourselves
+    if(getTypeId() != old->getTypeId())
     {
         old->deactivate(action, idx);
         activate(action, idx);
         return;
     }
+
+    CubeTextureChunk *oldp      = dynamic_cast<CubeTextureChunk *>(old);
 
     glErr("CubeTextureChunk::changeFrom precheck");
  
