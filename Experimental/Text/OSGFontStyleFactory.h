@@ -1,0 +1,50 @@
+#ifndef FONTINSTANCEFACTORY_CLASS_DECLARATION
+#define FONTINSTANCEFACTORY_CLASS_DECLARATION
+
+#include <OSGConfig.h>
+#include <OSGPathHandler.h>
+
+OSG_BEGIN_NAMESPACE class FontStyle; OSG_END_NAMESPACE
+
+
+#include <list>
+
+
+OSG_BEGIN_NAMESPACE
+
+
+class FontStyleFactory {
+
+private:
+
+	static FontStyleFactory _the;
+
+	list<FontStyle*> _instances;
+
+	/** Default Constructor */
+	FontStyleFactory(void);
+
+	/** Copy Constructor */
+	FontStyleFactory(const FontStyleFactory &);
+
+	/** Copy Operator */
+	const FontStyleFactory &operator=(const FontStyleFactory &);
+
+public:
+
+	/** Destructor */
+	virtual ~FontStyleFactory();
+
+	FontStyle *create(PathHandler & paths, const char *fontName, float size);
+
+	bool  discard(FontStyle *fs) {return false;}
+
+	static inline FontStyleFactory &the(void) { return _the; }
+
+};
+
+
+OSG_END_NAMESPACE
+
+
+#endif // FONTINSTANCEFACTORY_CLASS_DECLARATION
