@@ -119,8 +119,8 @@ class OSG_BASE_DLLMAPPING Connection : public BinaryDataHandler
     /*! \name                   interface                                  */
     /*! \{                                                                 */
     
-    const std::string &getInterface(void                        );
-               void    setInterface(const std::string &interface);
+    const std::string &getInterface(void                     );
+               void    setInterface(const std::string &interf);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

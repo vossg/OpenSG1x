@@ -95,9 +95,9 @@ const std::string &Connection::getInterface(void)
 
 /*! set network interface
  */
-void Connection::setInterface(const std::string &interface)
+void Connection::setInterface(const std::string &interf)
 {
-    _interface = interface;
+    _interface = interf;
 }
 
 /*-------------------------------------------------------------------------*/
