@@ -61,9 +61,9 @@ OSG_USING_NAMESPACE
 #endif
 
 
-/*! \class osg::IVSceneFileType 
+/*! \class osg::IVSceneFileType
     \ingroup GrpSystemFileIO
-    
+
  */
 
 /*****************************
@@ -117,12 +117,12 @@ const Char8            *IVSceneFileType::_suffixA[] = {"iv"};
 #pragma set woff 1209
 #endif
 
-NodePtr IVSceneFileType::read(const Char8 *fileName, UInt32) const
+NodePtr IVSceneFileType::read(const Char8 *fileName) const
 {
     InventorLoader l;
-    
+
     l.setFile( fileName );
-    
+
     // Merge identical materials to one material core
     l.setMergeMaterials( true );
     l.setMergeTolerance( 0.0001 );
@@ -132,8 +132,8 @@ NodePtr IVSceneFileType::read(const Char8 *fileName, UInt32) const
     l.setNumIterations( 3 );
 
     // Convert the inventor file to OpenSG
-    osg::NodePtr root = l.convertToOSG(); 
-      
+    osg::NodePtr root = l.convertToOSG();
+
     return root;
 }
 
@@ -141,17 +141,8 @@ NodePtr IVSceneFileType::read(const Char8 *fileName, UInt32) const
 #pragma reset woff 1209
 #endif
 
-
-NodePtr IVSceneFileType::read(const Char8  *fileName,
-                                     UInt32  uiAddOptions,
-                                     UInt32  uiSubOption ) const
-{
-    return read(fileName, uiAddOptions & ~uiSubOption);
-}
-
-
-bool IVSceneFileType::write(const NodePtr  OSG_CHECK_ARG(node    ),
-                             const Char8   *OSG_CHECK_ARG(fileName)) const
+bool IVSceneFileType::write(const NodePtr  & OSG_CHECK_ARG(node    ),
+                             const Char8   * OSG_CHECK_ARG(fileName)) const
 {
     return false;
 }

@@ -49,7 +49,7 @@
 OSG_BEGIN_NAMESPACE
 
 /*!\brief OSGIVSceneFileType
-*/ 
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING IVSceneFileType : public SceneFileType
 {
@@ -81,19 +81,14 @@ class OSG_SYSTEMLIB_DLLMAPPING IVSceneFileType : public SceneFileType
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr read(const Char8  *fileName, 
-                               UInt32  uiReplaceOptions) const;
-
-    virtual NodePtr read(const Char8  *fileName, 
-                               UInt32  uiAddOptions,
-                               UInt32  uiSubOption ) const;
+    virtual NodePtr read(const Char8  *fileName) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual bool write(const NodePtr node, const Char8 *fileName) const;
+    virtual bool write(const NodePtr &node, const Char8 *fileName) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

@@ -226,19 +226,18 @@ MStatus OpenSG_exporter::export_all (const MString & filename) {
     //    MGlobal::displayError("Error exporting to " + filename);
     //    return MStatus::kFailure;
     //}
-    //ofstream os(filename.asChar());
-    //if (os) {
-    FILE * file = fopen(filename.asChar(), "wb");
-    if (file) {
+    std::ofstream os(filename.asChar(), std::ios::binary);
+    if(os)
+    {
         MGlobal::displayInfo("Writing file " + filename);
-        //osg::OSGWriter * osg_writer = new osg::OSGWriter(os);
-        osg::BINWriter * osg_writer = new osg::BINWriter(file);
+        osg::OSGWriter * osg_writer = new osg::OSGWriter(os);
         osg_writer->write(osg_root_node);
         delete osg_writer;
-        fclose(file);
+        os.close();
         return MStatus::kSuccess;
     }
-    else {
+    else
+    {
         MGlobal::displayError("Couldn't write to " + filename);
         return MStatus::kFailure;
     }
