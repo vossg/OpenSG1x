@@ -44,6 +44,7 @@
 #include <stdio.h>
 
 #include "OSGConfig.h"
+#include "OSGLog.h"
 
 #include "OSGNormalQuantifier.h"
 
@@ -55,7 +56,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGNormalQuantifier.cpp,v 1.4 2002/04/25 03:55:09 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGNormalQuantifier.cpp,v 1.5 2002/04/26 17:46:36 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSG_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSG_INLINE_CVSID;
 }
@@ -125,6 +126,16 @@ void NormalQuantifier::build (UInt32 numberSubdivisions)
           
           subdivide(point1, point2, point3, _numberSubdivisions+1, index);
         }
+
+      if (index != nN)
+        {
+          FFATAL (("NormalQuantifier::build() index missmatch!\n"));
+        }
+      else
+        {
+          FLOG (( "NormalQuantifier init: %d subdivision, %d normal\n",
+                  _numberSubdivisions, _normalTable.size() ));
+        }
     }  
 }
 
@@ -180,10 +191,9 @@ UInt32 NormalQuantifier::getSubIndex ( Vec3f point,
                                        UInt32 number ) const
 {
   Vec3f newPoint1, newPoint2, newPoint3;
-  Vec3f midPoint0, midPoint1, midPoint2, midPoint3;
-  Real32 dot0, dot1, dot2, dot3;
-  Real32 max01, max23;
-  UInt32 index = 0, gate, gate01, gate23;
+  Vec3f midPoint[4];
+  Real32 dot, max;
+  UInt32 i, index = 0, gate;
   
   number--;
   
@@ -202,60 +212,35 @@ UInt32 NormalQuantifier::getSubIndex ( Vec3f point,
   newPoint3 /= 2; 
   newPoint3.normalize();
   
-  midPoint0 = point1;
-  midPoint0 += newPoint1;
-  midPoint0 += newPoint2; 
-  midPoint0.normalize();
+  midPoint[0] = point1;
+  midPoint[0] += newPoint1;
+  midPoint[0] += newPoint2; 
+  midPoint[0].normalize();
 
-  midPoint1 = newPoint1;
-  midPoint1 += point2;
-  midPoint1 += newPoint3; 
-  midPoint1.normalize();
+  midPoint[1] = newPoint1;
+  midPoint[1] += point2;
+  midPoint[1] += newPoint3; 
+  midPoint[1].normalize();
 
-  midPoint2 = newPoint1;
-  midPoint2 += newPoint2;
-  midPoint2 += newPoint3; 
-  midPoint2.normalize();
+  midPoint[2] = newPoint1;
+  midPoint[2] += newPoint2;
+  midPoint[2] += newPoint3; 
+  midPoint[2].normalize();
 
-  midPoint3 = newPoint2;
-  midPoint3 += newPoint3;
-  midPoint3 += point3; 
-  midPoint3.normalize();
-  
-  dot0 = point.dot(midPoint0);
-  dot1 = point.dot(midPoint1);
-  dot2 = point.dot(midPoint2);
-  dot3 = point.dot(midPoint3);
-  
-  if (dot0 > dot1)
-    {
-      gate01 = 0;
-      max01  = dot0;
-    }
-  else
-    {
-      gate01 = 1;
-      max01  = dot1;
-    }
+  midPoint[3] = newPoint2;
+  midPoint[3] += newPoint3;
+  midPoint[3] += point3; 
+  midPoint[3].normalize();
 
-  if (dot2 > dot3)
+  max = 0;
+  for (i = 0; i < 4; i++)
     {
-      gate23 = 2;
-      max23  = dot2;
-    }
-  else
-    { 
-      gate23 = 3;
-      max23  = dot3;
-    }
-
-  if (max01 > max23)
-    {
-      gate = gate01;
-    }
-  else
-    {
-      gate = gate23;
+      dot = point.dot(midPoint[i]);
+      if (dot > max) 
+        {
+          max = dot;
+          gate = i;
+        }
     }
 
   if (number > 0)
@@ -277,6 +262,8 @@ UInt32 NormalQuantifier::getSubIndex ( Vec3f point,
         break;
       }
     }
+  else
+    index = gate;
   
   return index;
 }
@@ -286,14 +273,16 @@ UInt32 NormalQuantifier::getSubIndex ( Vec3f point,
 UInt32 NormalQuantifier::getIndex  ( Vec3f &normal, 
                                      UInt32 numberSubdivisions ) const
 {
-  UInt32 index, octant, xoctant, yoctant, zoctant;
+  UInt32 index, nS, octant, xoctant, yoctant, zoctant;
   Vec3f point1, point2, point3;
   
   if (numberSubdivisions == 0)
-    numberSubdivisions = _numberSubdivisions;
+    nS = _numberSubdivisions;
   else
     if (numberSubdivisions > _numberSubdivisions)
-      numberSubdivisions = _numberSubdivisions;
+      nS = _numberSubdivisions;
+    else
+      nS = numberSubdivisions;
   
   octant = 
     ((normal.x()>=0?0:1)<<2) | 
@@ -303,13 +292,13 @@ UInt32 NormalQuantifier::getIndex  ( Vec3f &normal,
   xoctant = (octant & 4)>0?-1:1;
   yoctant = (octant & 2)>0?-1:1;
   zoctant = (octant & 1)>0?-1:1;
-  
+ 
   point1.setValues(0 * xoctant, 0*yoctant, 1*zoctant);
   point2.setValues(1 * xoctant, 0*yoctant, 0*zoctant);
   point3.setValues(0 * xoctant, 1*yoctant, 0*zoctant);
-   index = getSubIndex(normal, point1, point2, point3, numberSubdivisions);
+  index = getSubIndex(normal, point1, point2, point3, nS);
   
-  index = (octant<<(2*numberSubdivisions)) + index;
+  index = (octant<<(2*nS)) + index;
   
   return index;
 }

@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <iostream>
 
@@ -13,27 +14,40 @@ int main (int argc, char **argv)
 {
 	int retCode = 0;
 
-	osg::UInt32 index, retIndex;
+	osg::UInt32 i, nCount, index, retIndex;
 	osg::NormalQuantifier nq;
-	osg::Vec3f vec(5,7,6);
+	osg::Vec3f vec, retVec;
+  osg::Real32 dot;
 
-	FLOG (("Build NormalQuantifier with 4 subdivisions\n"));
+  cout << "Build NormalQuantifier with 4 subdivisions" << endl;
 
 	nq.build(4);
 
-	FLOG (("Normal count: %d\n", nq.getNormalCount()));
+	nCount = nq.getNormalCount();
 
-	index = nq.getNormalCount() / 2;
+	cout << "Normal count: " << nCount << endl;
 
-	vec = nq.getNormal(index);
+	// Run some random tests
+	for (i = 0; i < 10; i++)
+	{
+    cout << "-----------------------------------------------\n";
 
-	cout << vec << endl;
+		index = osg::UInt32(double(nCount)*rand()/(RAND_MAX+1.0));
+		cout << "index:    " << index;
+		vec = nq.getNormal(index);
+		cout << ", vec: " << vec;
+    cout << endl;
 
-	retIndex = nq.getIndex(vec);
+		retIndex = nq.getIndex(vec);
+		cout << "retIndex: " << retIndex;
+		retVec = nq.getNormal(retIndex);
+		cout << ", retVec: " << retVec;
+		cout << endl;
 
-	cout << retIndex << endl;
-
-	FLOG (("Index: %d\n", retIndex ));
+    dot = vec.dot(retVec);
+		cout << "dot: " << dot;
+    cout << endl;
+	}
 
 	return retCode;
 }
