@@ -75,7 +75,7 @@ begin{center}
 % This breaks Postscript page numbers, include only when necessary
 \layout LaTeX
 
-
+%
 \backslash 
 includegraphics[height=3.5cm]{opensg_logo.eps} 
 \layout LaTeX
@@ -317,6 +317,54 @@ Experimental/VS
 , but it is not actively maintained and thus probably out of date.
  We're working on an automatic way to create it, but right now you're probably
  better off with cygwin.
+\layout Standard
+
+Note that there are some constraints.
+ You should install the Visual Studio and Intel compiler in their default
+ locations (
+\family typewriter 
+...:
+\backslash 
+Program Files
+\backslash 
+...
+\family default 
+), otherwise the configure script will not find them.
+ Mount the cygwin harddrive directly as 
+\family typewriter 
+/x
+\family default 
+, don't use 
+\family typewriter 
+/cygdrive/x
+\family default 
+.
+ Install the GLUT in UNIX-style directories, i.e.
+ 
+\family typewriter 
+.../include/GL/glut.h
+\family default 
+ and 
+\family typewriter 
+.../lib/*dll+*lib
+\family default 
+, otherwise it won't be found.
+ Note that you need to the directory where the libs are created to your
+ 
+\family typewriter 
+PATH
+\family default 
+ or 
+\family typewriter 
+WINPATH
+\family default 
+ (or to the Windows environment variable 
+\family typewriter 
+PATH
+\family default 
+), or copy all the dlls to the directory where your programs are.
+ Some of these will be lifted in the future, but that's the way it is right
+ now.
 \layout Standard
 
 All options are optional.
@@ -2980,7 +3028,7 @@ value * size - 1
 \layout Standard
 \align center 
 
-\begin_inset Figure size 238 120
+\begin_inset Figure size 238 308
 file viewports.eps
 width 4 80.00
 flags 9
@@ -3531,6 +3579,103 @@ methods to load/write your type
 configure/make opensg libs
 \layout Chapter
 
+Creating new Field Types
+\layout Standard
+
+All the data that is kept in FieldConatiners has to be in Fields.
+ Fields provide the interface for the reflecivity and generic access methods
+ to work.
+ They come in the two known variants single and multi field.
+ To simplify creating new field types, they do not have to created explicitly.
+ Instead there are templates SField and MField who take care of the implementati
+on.
+ All you need to provide is a Trait structure that defines the types needed
+ and some type-specific functions.
+\layout Standard
+
+Note that field types for new FieldContainers (actually pointers to FieldContain
+ers, as you can't instantiate them) can be created by fcdEdit automatically.
+ So if you need fields for pointers to your containers, you don't have to
+ follow the descriptions in this section.
+\layout Standard
+
+The trait has to be a concrete version 
+\shape italic 
+\color red
+(What's the right name for this?)
+\shape default 
+\color default
+ of FieldDataTrait<class type> and has to provide the following functions/types:
+\layout Itemize
+
+a DataType _type; which is used to uniquely identify the Field's type
+\layout Itemize
+
+an access method for the type: DataType &getType(void)
+\layout Itemize
+
+two methods to return the names of the field types: Char8 *getSName(void)
+ and Char8 *getMName(void).
+ The names are usually created by capitalizing the type name and prepending
+ SF or MF, e.g.
+ the matrix field names are SFMatrix and MFMatrix.
+\layout Itemize
+
+a method to get a default object to initialize the values: type getDefault(void).
+\layout Itemize
+
+two methods to convert a data element to and from a string: Bool getFromString(t
+ype &outVal, const Char8 *&inVal); and void putToString(const type &inVal,
+ string &outVal);.
+ Note that these are optional in the sense that the system will work without
+ them, but some important features will not work without them, so it's highly
+ recommended to implement them.
+\layout Itemize
+
+In any case, if they are implemented or not, this has to be announced by
+ adding an anonymous enum value for StringConvertable which can be a binary
+ combination of ToStringConvertable and FromStringConvertable.
+\layout Standard
+
+Note that all functions have to be static, as the Trait class is not instanced,
+ and that the Trait cannot have any virtual functions or data memebrs.
+ It is not used to create actual objects, it's just a convenience container
+ for the needed types/functions.
+\layout Standard
+
+The fields also need to be able to store themselves in a binary form.
+ If the data structures used are contiguous in memory and don't use pointers
+ this can easily be accomplished by deriving the FieldDataTrait<class type>
+ from FieldTraitsRecurseBase<type>.
+ It will copy the contents of the data types verbatim and back.
+\layout Standard
+
+This approach will not work as soon as there are pointers in the new structures,
+ even simple things like STL vectors will not work that way.
+\layout Standard
+
+In these cases you need to implement the binary interface in the trait.
+ It consists of three method, which exist for single and multiple elements
+ of the type:
+\layout Itemize
+
+a method to calculate the size of the packed object: UInt32 getBinSize(const
+ type &object); 
+\layout Itemize
+
+a method to put the object into a binary block: void copyToBin(BinaryDataHandler
+ &mem, const type &object);
+\layout Itemize
+
+a method to receive the object from a binary memory block: void copyFromBin(Bina
+ryDataHandler &mem, type &object);
+\layout Standard
+
+The last two methods work via a BinaryDataHandler, which abstracts a memory
+ block.
+ 
+\layout Chapter
+
 Creating new FieldContainer classes
 \begin_inset LatexCommand \label{sec:creating_new_fcs}
 
@@ -3686,6 +3831,69 @@ If you create a replacement for a system component, e.g.
 
 Be careful to only replace the prototype with classes derived from the original
  class, or the behavior of the system is undefined.
+\layout Section
+
+Initialization / Deinitalization
+\layout Standard
+
+
+\series bold 
+\size larger 
+\color red
+GV: please check if this is correct
+\layout Standard
+
+As OpenSG uses object replication for thread-safe data, constructors and
+ destructors are not always the right place for initialisation and deletion
+ anymore.
+ They are called for every aspect, which usually is more than once.
+ For initialisation that should be done only once per object, the onCreate()
+ method can be used.
+ Similarly, onDestroy() is called once, when the object is destroyed.
+\layout Standard
+
+There is also a difference between the constructors.
+ The copy constructor is called for every aspect of an object, the default
+ constructor is only called once, during the static init phase, to create
+ the initial prototype instance for the class.
+ As code running in the static init phase faces some restrictions (e.g.
+ the order of initializations is undefined, thus any other object might
+ not yet have been initialized) a saver way to do class-global initializations
+ was added.
+ The initMethod() method is called during osgInit(), which is after all
+ static inits are done.
+\layout Standard
+
+As a summary here's a list of when which method is called:
+\layout Itemize
+
+default constructor: once, during static init, to create the initial prototype
+\layout Itemize
+
+initMethod(): once, during osgInit()
+\layout Itemize
+
+copy constructor: during object instance creation, once for every aspect
+\layout Itemize
+
+onCreate(): during object instance creation, once
+\layout Itemize
+
+onDestroy(): during object instance deletion, once
+\layout Itemize
+
+destructor: during object instance deletion, once for every aspect
+\layout Standard
+
+onCreate() and on Destroy() are also called for the initial prototype creation.
+ Not all prototypes might need the resources a real instance needs, and
+ initial prototype creation is run during static init, where it might not
+ be safe to access other classes.
+ To allow a destinction between prototype creation and the standard running
+ state of the system there's a global variable GlobalSystemState, which
+ will be set to Startup during static init and Running after osgInit() is
+ finished.
+ During osgExit() it will be set to Shutdown.
 \layout Standard
 
 
