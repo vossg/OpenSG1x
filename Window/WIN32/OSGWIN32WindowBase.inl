@@ -93,9 +93,9 @@ inline WIN32WindowPtr WIN32WindowBase::createEmpty(void)
 /*------------------------------ get -----------------------------------*/
 
 OSG_WINDOWWIN32LIB_DLLMAPPING
-SFHWND *WIN32WindowBase::getSFHwin(void)
+SFHWND *WIN32WindowBase::getSFHwnd(void)
 {
-    return &_sfHwin;
+    return &_sfHwnd;
 }
 
 OSG_WINDOWWIN32LIB_DLLMAPPING
@@ -111,28 +111,28 @@ SFHGLRC *WIN32WindowBase::getSFHglrc(void)
 }
 
 OSG_WINDOWWIN32LIB_DLLMAPPING
-SFPAINTSTRUCT *WIN32WindowBase::getSFPs(void)
+SFPAINTSTRUCT *WIN32WindowBase::getSFPaintstruct(void)
 {
-    return &_sfPs;
+    return &_sfPaintstruct;
 }
 
 
 OSG_WINDOWWIN32LIB_DLLMAPPING
-HWND &WIN32WindowBase::getHwin(void)
+HWND &WIN32WindowBase::getHwnd(void)
 {
-    return _sfHwin.getValue();
+    return _sfHwnd.getValue();
 }
 
 OSG_WINDOWWIN32LIB_DLLMAPPING
-const HWND &WIN32WindowBase::getHwin(void) const
+const HWND &WIN32WindowBase::getHwnd(void) const
 {
-    return _sfHwin.getValue();
+    return _sfHwnd.getValue();
 }
 
 OSG_WINDOWWIN32LIB_DLLMAPPING
-void WIN32WindowBase::setHwin(const HWND &value)
+void WIN32WindowBase::setHwnd(const HWND &value)
 {
-    _sfHwin.setValue(value);
+    _sfHwnd.setValue(value);
 }
 
 OSG_WINDOWWIN32LIB_DLLMAPPING
@@ -172,26 +172,26 @@ void WIN32WindowBase::setHglrc(const HGLRC &value)
 }
 
 OSG_WINDOWWIN32LIB_DLLMAPPING
-PAINTSTRUCT &WIN32WindowBase::getPs(void)
+PAINTSTRUCT &WIN32WindowBase::getPaintstruct(void)
 {
-    return _sfPs.getValue();
+    return _sfPaintstruct.getValue();
 }
 
 OSG_WINDOWWIN32LIB_DLLMAPPING
-const PAINTSTRUCT &WIN32WindowBase::getPs(void) const
+const PAINTSTRUCT &WIN32WindowBase::getPaintstruct(void) const
 {
-    return _sfPs.getValue();
+    return _sfPaintstruct.getValue();
 }
 
 OSG_WINDOWWIN32LIB_DLLMAPPING
-void WIN32WindowBase::setPs(const PAINTSTRUCT &value)
+void WIN32WindowBase::setPaintstruct(const PAINTSTRUCT &value)
 {
-    _sfPs.setValue(value);
+    _sfPaintstruct.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGWIN32WINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWIN32WindowBase.inl,v 1.1 2002/02/05 20:39:35 dirk Exp $"
+#define OSGWIN32WINDOWBASE_INLINE_CVSID "@(#)$Id: OSGWIN32WindowBase.inl,v 1.2 2002/02/07 08:51:14 dirk Exp $"
 

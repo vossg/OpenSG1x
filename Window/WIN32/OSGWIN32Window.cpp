@@ -50,6 +50,40 @@
 
 #include "OSGWIN32Window.h"
 
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<HWND>       ::_type("HWND", NULL, true);
+DataType FieldDataTraits<HDC>        ::_type("HDC", NULL, true);
+DataType FieldDataTraits<HGLRC>      ::_type("HGLRC", NULL, true);
+DataType FieldDataTraits<PAINTSTRUCT>::_type("PAINTSTRUCT", NULL, true);
+
+#if defined(__sgi)
+
+#pragma instantiate SField<HWND>       ::_fieldType
+#pragma instantiate MField<HWND>       ::_fieldType
+#pragma instantiate SField<HDC>        ::_fieldType
+#pragma instantiate MField<HDC>        ::_fieldType
+#pragma instantiate SField<HGLRC>      ::_fieldType
+#pragma instantiate MField<HGLRC>      ::_fieldType
+#pragma instantiate SField<PAINTSTRUCT>::_fieldType
+#pragma instantiate MField<PAINTSTRUCT>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, HWND,        OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, HWND,        OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, HDC,         OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, HDC,         OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, HGLRC,       OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, HGLRC,       OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, PAINTSTRUCT, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, PAINTSTRUCT, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 OSG_USING_NAMESPACE
 
 #ifdef __sgi
@@ -125,7 +159,7 @@ void (*WIN32Window::getFunctionByName( const Char8 *s ))(void)
 // init the window: create the HDC and context
 void WIN32Window::init( void )
 {
-    setHdc(GetDC(getHwin()));
+    setHdc(GetDC(getHwnd()));
 
     if(getHglrc() == NULL )
     {
@@ -135,7 +169,7 @@ void WIN32Window::init( void )
             cout << "WIN32Window::init: failed: " << GetLastError() << endl;        
     }
 
-    ReleaseDC(getHwin(),getHdc());
+    ReleaseDC(getHwnd(),getHdc());
     activate();
     setupGL();
     deactivate();
@@ -144,7 +178,7 @@ void WIN32Window::init( void )
 // activate the window: bind the OGL context
 void WIN32Window::activate( void )
 {    
-    setHdc(GetDC(getHwin()));
+    setHdc(GetDC(getHwnd()));
 
     if(!wglMakeCurrent(getHdc(), getHglrc() ) )
     {
@@ -158,7 +192,7 @@ void WIN32Window::deactivate ( void )
     wglMakeCurrent(NULL, NULL);
 
     // release the hardware device context
-    ReleaseDC(getHwin(),getHdc());
+    ReleaseDC(getHwnd(),getHdc());
 }
 
 // swap front and back buffers

@@ -11,7 +11,7 @@
 >
 The class for WIN32 windows.
 	<Field
-		name="hwin"
+		name="hwnd"
 		type="HWND"
 		cardinality="single"
 		visibility="internal"
@@ -39,7 +39,7 @@ The class for WIN32 windows.
 	>
 	</Field>
 	<Field
-		name="ps"
+		name="paintstruct"
 		type="PAINTSTRUCT"
 		cardinality="single"
 		visibility="internal"

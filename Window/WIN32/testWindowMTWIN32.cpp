@@ -409,13 +409,12 @@ int main (int argc, char **argv)
     
         // init the OSG window  
         win[i] = WIN32Window::create();
-        win[i]->setHDC ( hDC );
-        win[i]->setWindow ( hwnd[i] );
+        win[i]->setHdc ( hDC );
+        win[i]->setHwnd ( hwnd[i] );
         
         // Viewport
         ViewportPtr vp = Viewport::create();
         vp->setCamera( cam[i] );
-        vp->setBackground( bkgnd );
         vp->setRoot( root );
         vp->setSize( 0,0, 1,1 );                
         win[i]->addPort( vp );

@@ -210,7 +210,7 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
             pfd.iLayerType = PFD_MAIN_PLANE;
             pfd.cDepthBits = 16;            
 
-            win->setWindow ( hwnd2 );
+            win->setHwnd ( hwnd2 );
 
 
             // init the OSG window  
