@@ -26,11 +26,11 @@ int main (int argc, char **argv)
 {
     osgLog().setLogLevel ( OSG::LOG_WARNING );
 
-    OSG::SLOG     << "log test" << OSG::endLog;
-    OSG::SFATAL   << "fatal test" << OSG::endLog;
-    OSG::SWARNING << "warning test" << OSG::endLog;
-    OSG::SNOTICE  << "notice test" << OSG::endLog;
-    OSG::SINFO    << "info test" << OSG::endLog;
+    SLOG     << "log test" << OSG::endLog;
+    SFATAL   << "fatal test" << OSG::endLog;
+    SWARNING << "warning test" << OSG::endLog;
+    SNOTICE  << "notice test" << OSG::endLog;
+    SINFO    << "info test" << OSG::endLog;
 
     // C-style log test
 
@@ -81,7 +81,7 @@ int main (int argc, char **argv)
     std::cerr << std::endl << "Callback test" << std::endl;
     OSG::osgLog().getLogBuf().setCallback(MyLogCallback, 0, true);
     OSG::osgLog().setLogType(OSG::LOG_BUFFER);
-    OSG::SLOG << "test" << OSG::endLog;
+    SLOG << "test" << OSG::endLog;
     OSG::osgLog().setLogType(OSG::LOG_STDERR);
     
     FASSERT ( 0, true );
