@@ -709,12 +709,14 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexNormals(GeometryPtr geo,
         }
         else
         {
-            /*
-            // keep normalIndex
+            // keep normal for degenerated triangle
+
+            normalIndex = norms->size();
+            norms->push_back(norm);
+            
             ip->setValue ( normalIndex, ti.getIndexIndex(0) + ni );
             ip->setValue ( normalIndex, ti.getIndexIndex(1) + ni );
             ip->setValue ( normalIndex, ti.getIndexIndex(2) + ni );
-          */
         }
     }
 
