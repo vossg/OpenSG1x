@@ -45,9 +45,9 @@
 #include <OSGAttachmentContainerPtrImpl.h>
 
 #include <OSGAttachmentContainerImpl.h>
+#include <OSGAttachmentContainerPtrDepImpl.inl>
 #include <OSGAttachmentContainerImpl.inl>
 
-#include <OSGAttachmentContainerPtrDepImpl.inl>
 
 #endif /* _OSGATTACHMENTCONTAINER_H_ */
 

@@ -45,8 +45,8 @@
 #include <OSGAttachmentPtrImpl.h>
 
 #include <OSGAttachmentImpl.h>
+#include <OSGAttachmentPtrDepImpl.inl>
 #include <OSGAttachmentImpl.inl>
 
-#include <OSGAttachmentPtrDepImpl.inl>
 
 #endif /* _OSGATTACHMENT_H_ */
