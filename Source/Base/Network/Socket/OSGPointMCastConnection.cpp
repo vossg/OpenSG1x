@@ -210,6 +210,11 @@ bool PointMCastConnection::wait(Time timeout) throw (ReadError)
         if(selectChannel(timeout) < 0)
             return false;
         getValue(tag);
+        if(tag != 314156)
+        {
+            FFATAL(("Stream out of sync in PointMCastConnection\n"));
+            throw ReadError("Stream out of sync");
+        }
     }
     catch(SocketError &e)
     {
@@ -382,9 +387,14 @@ bool PointMCastConnection::recvNextDgram(Dgram *dgram)
                                           dgram->getBufferCapacity(),
                                           from);
         dgram->setBufferSize(length);
+#if 0
+// ????
         // from sender
         if(from == _sender && !_combineAck.empty())
         {
+            exit(0);
+
+
             if(_maxAck == dgram->getId())
             {
                 // do we have all acks ?
@@ -405,6 +415,7 @@ bool PointMCastConnection::recvNextDgram(Dgram *dgram)
                 return true;
             }
         }
+#endif
         combineAck(dgram,from);
     } 
     if(selection.isSetRead(_mcastSocket))
@@ -438,7 +449,7 @@ void PointMCastConnection::combineAck(Dgram *dgram,SocketAddress from)
         // do we expect acks from different source
         if(_combineAck.count(from)==0)
         {
-            printf("no ack from other expected\n");
+            FFATAL(("no ack from other expected\n"));
             return;
         }
         // ack retransmission
@@ -459,7 +470,10 @@ void PointMCastConnection::combineAck(Dgram *dgram,SocketAddress from)
             maxAck = aI->second;
     }
 //    printf("New max %d old max %d\n",maxAck,_maxAck);
-    if( Dgram::less(_maxAck,maxAck) )
+
+    // when _max ack is now greate
+
+    if( Dgram::less(_maxAck,maxAck))
     {
         Dgram response;
 
@@ -522,7 +536,6 @@ bool PointMCastConnection::recvQueue(void)
                                 _queue.put(dgram);
                                 _lock->release();
                                 FLOG(("Connection lost\n"));
-                                printf(("Connection lost\n"));
                                 return false;
                             }
                         }
@@ -598,7 +611,8 @@ bool PointMCastConnection::recvQueue(void)
                     if(response.getResponseAck())
                     {
                         // send response if no ack combination
-                        if(_combineAck.empty())
+                        // or ack request 
+                        if(_combineAck.empty() || id == _maxAck)
                             _responseSocket.sendTo(response.getBuffer(),
                                                    response.getBufferSize(),
                                                    _ackDestination);

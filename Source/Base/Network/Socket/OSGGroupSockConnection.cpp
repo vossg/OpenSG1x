@@ -255,7 +255,7 @@ bool GroupSockConnection::wait(Time timeout) throw (ReadError)
 {
     UInt32 len;
     UInt32 index;
-    UInt32 tag=0;
+    UInt32 tag=314156;
     UInt32 missing = _sockets.size();
     SocketSelection selection,result;
 
@@ -277,7 +277,7 @@ bool GroupSockConnection::wait(Time timeout) throw (ReadError)
                         throw ReadError("Channel closed");
                     selection.clearRead(_sockets[index]);
                     missing--;
-                    if(tag)
+                    if(tag != 314156)
                     {
                         FFATAL(("Stream out of sync in SockConnection\n"));
                         throw ReadError("Stream out of sync");
@@ -297,7 +297,7 @@ bool GroupSockConnection::wait(Time timeout) throw (ReadError)
  */
 void GroupSockConnection::signal(void) throw (WriteError)
 {
-    UInt32 tag=0;
+    UInt32 tag=314156;
     UInt32 index;
 
     try

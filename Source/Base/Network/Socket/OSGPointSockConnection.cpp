@@ -242,6 +242,11 @@ bool PointSockConnection::wait(Time timeout) throw (ReadError)
             return false;
         if(!_socket.recv(&tag,sizeof(tag)))
             throw ReadError("Channel closed");
+        if(tag != 314156)
+        {
+            FFATAL(("Stream out of sync in SockConnection\n"));
+            throw ReadError("Stream out of sync");
+        }
     }
     catch(SocketError &e)
     {
@@ -256,7 +261,7 @@ bool PointSockConnection::wait(Time timeout) throw (ReadError)
  */
 void PointSockConnection::signal(void) throw (WriteError)
 {
-    UInt32 tag=0;
+    UInt32 tag=314156;
     try
     {
         _socket.send(&tag,sizeof(tag));

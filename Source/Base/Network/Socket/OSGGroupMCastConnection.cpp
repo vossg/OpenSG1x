@@ -168,7 +168,7 @@ bool GroupMCastConnection::wait(Time timeout) throw (ReadError)
  */
 void GroupMCastConnection::signal(void) throw (WriteError)
 {
-    UInt32 tag=0;
+    UInt32 tag=314156;
     putValue(tag);
     flush();
 }
@@ -379,16 +379,12 @@ bool GroupMCastConnection::sendQueue(void)
             if(!readable && !_mcastSocket.waitReadable(ackTimeout))
             {
 #if 0
-
                 printf("count %d\n",count);
+                printf("missing %d\n",missing[ack].size());
+
                 printf("readable %d\n",readable);
                 printf("send %d end %d\n",send,end);
                 printf("lastack %lf\n",getSystemTime() - lastAckTime);
-                std::set<UInt32>::iterator mI;
-                for(mI = missing[ack].begin() ; mI != missing [ack].end();mI++)
-                {
-                    printf("%d ",*mI);
-                }
 #endif
                 FDEBUG(("timeout count %d %d missing %d\n",count,sendId,missing[ack].size()))
 //                printf("%.10f timeout count %d %d missing %d\n",getSystemTime()-t1,count,sendId,missing[ack].size());
@@ -439,7 +435,7 @@ bool GroupMCastConnection::sendQueue(void)
                 // first ack for this dgram from this receiver
                 if(response.getResponseAck() == true)
                 {
-//                       printf("Ack %d from %s:%d\n",response.getId(),fromAddress.getHost().c_str(),fromAddress.getPort());
+//                    printf("Ack %d from %s:%d\n",response.getId(),fromAddress.getHost().c_str(),fromAddress.getPort());
                     for(m = ack ; 
                         dgram[m]->getId() != response.getId() ;
                         m=(m+1) % _windowSize)
@@ -454,7 +450,7 @@ bool GroupMCastConnection::sendQueue(void)
                     lastNak = response.getId();
                     lastNakTime = getSystemTime();
                     FDEBUG(("Nack %d from %s:%d\n",response.getId(),fromAddress.getHost().c_str(),fromAddress.getPort()));
-                    printf("Nack %d from %s:%d\n",response.getId(),fromAddress.getHost().c_str(),fromAddress.getPort());
+//                    printf("Nack %d from %s:%d\n",response.getId(),fromAddress.getHost().c_str(),fromAddress.getPort());
                     // retransmit
                     for(m = ack ; 
                         m != send && dgram[m]->getId() != response.getId() ; 
