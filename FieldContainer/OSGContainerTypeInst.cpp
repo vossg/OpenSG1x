@@ -72,8 +72,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-#if defined(__sgi)
-
 DataType FieldDataTraits<FieldContainerPtr     >::_type(
     "FieldContainerPtr",
     true);
@@ -97,6 +95,8 @@ DataType FieldDataTraits<AttachmentPtr         >::_type(
 DataType FieldDataTraits<AttachmentMap         >::_type(
     "AttachmentMap",
     true);
+
+#if defined(__sgi)
 
 #pragma instantiate SField<FieldContainerPtr     >::_fieldType
 #pragma instantiate SField<AttachmentContainerPtr>::_fieldType
