@@ -188,6 +188,9 @@ void TexGenChunk::activate(DrawActionBase *action, UInt32 idx )
       )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
+        // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
+        if(ntexcoords == Window::unknownConstant)
+            ntexcoords = 1.0f;
     }
 
     if(idx >= ntexcoords)
@@ -294,6 +297,9 @@ void TexGenChunk::changeFrom(   DrawActionBase *action,
       )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
+        // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
+        if(ntexcoords == Window::unknownConstant)
+            ntexcoords = 1.0f;
     }
 
     if(idx >= ntexcoords)
@@ -339,6 +345,9 @@ void TexGenChunk::deactivate(DrawActionBase *action, UInt32 idx)
       )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
+        // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
+        if(ntexcoords == Window::unknownConstant)
+            ntexcoords = 1.0f;
     }
 
     if(idx >= ntexcoords)
