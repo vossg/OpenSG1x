@@ -156,6 +156,8 @@ void FieldContainerViewCtl::loadFieldContainer(const char *fileName)
 
 	if (fileName) {
 		_fieldContainer.readDesc(fileName);
+        setCaption( trUtf8( QString("OpenSG Field Container Editor : " ) +
+                    fileName ) );
 		updateFieldContainerView();
 		if (_fieldContainer.fieldList().size()) {
 			partTypeCombo->clear();
@@ -635,7 +637,11 @@ void FieldContainerViewCtl::saveAsSlot()
 																						 "FieldContainer Description File (*.fcd)",
 																						 this ) );
 	if (!fN.isEmpty())
+    {
+        setCaption( trUtf8( QString("OpenSG Field Container Editor : " ) +
+                    fN ) );
 		_fieldContainer.writeDesc(fN);
+    }
 }
 
 /* 
@@ -691,6 +697,8 @@ void FieldContainerViewCtl::newSlot(void)
 {
 	QString emptyStr;
 	_fieldContainer.clear();
+
+    setCaption( trUtf8( "OpenSG Field Container Editor " ) );
 
 	nodeNameInput->setText(emptyStr);
 	nodeParentInput->setText(emptyStr);

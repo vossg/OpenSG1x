@@ -42,7 +42,7 @@ const char *Field::_defaultTypeName[] =
     "Matrix",
     "std::string",
     "Time",
-    "Image",
+    "ImagePtr",
     "FieldContainerPtr",
     "NodePtr"
 };
