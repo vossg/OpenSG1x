@@ -64,7 +64,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr :
   public:
 
     typedef AttachmentContainer    StoredObjectType;
-//    typedef AttachmentContainerPtr ObjectType;
+    typedef AttachmentContainerPtr ObjectType;
 
     typedef FieldContainerPtr   Inherited;
 

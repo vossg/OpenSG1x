@@ -46,7 +46,11 @@ template <class GeoPropertyDesc>
 FieldContainerType AbstractGeoProperty<GeoPropertyDesc>::_type = 
     FieldContainerType(
         GeoPropertyDesc::getTypeName(),
-        InheritDesc::getTypeName(),
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        LocalInheritedDesc::getTypeName(),
+#else
+        InheritedDesc::getTypeName(),
+#endif
         GeoPropertyDesc::getGroupName(),
         NULL,
         GeoPropertyDesc::getInitMethod(),
@@ -56,7 +60,11 @@ FieldContainerType AbstractGeoProperty<GeoPropertyDesc>::_type =
 template <class GeoPropertyDesc>
 FieldContainerType AbstractGeoProperty<GeoPropertyDesc>::_type(
         GeoPropertyDesc::getTypeName(),
-        InheritDesc::getTypeName(),
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        LocalInheritedDesc::getTypeName(),
+#else
+        InheritedDesc::getTypeName(),
+#endif
         GeoPropertyDesc::getGroupName(),
         NULL,
         GeoPropertyDesc::getInitMethod(),
@@ -72,9 +80,17 @@ OSG_ABSTR_FIELD_CONTAINER_INL_TMPL_DEF(AbstractGeoProperty,
 
 template <class GeoPropertyDesc> inline
 AbstractGeoProperty<GeoPropertyDesc>::AbstractGeoProperty(void) :
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+      LocalInherited()
+#else
       Inherited()
+#endif
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    , LocalInterface()
+#else
     , Interface()
+#endif
 #endif
 {
 }
@@ -84,9 +100,17 @@ template <class GeoPropertyDesc> inline
 AbstractGeoProperty<GeoPropertyDesc>::AbstractGeoProperty(
     const AbstractGeoProperty &source) :
 
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+      LocalInherited(source)
+#else
       Inherited(source)
+#endif
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    , LocalInterface(source)
+#else
     , Interface(source)
+#endif
 #endif
 {
 }
@@ -101,7 +125,11 @@ template <class GeoPropertyDesc> inline
 void AbstractGeoProperty<GeoPropertyDesc>::dump(      UInt32    uiIndent, 
                                                 const BitVector bvFlags) const
 {
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    LocalInherited::dump(uiIndent, bvFlags);
+#else
     Inherited::dump(uiIndent, bvFlags);
+#endif
 }
 
 template <class GeoPropertyDesc>
@@ -132,17 +160,25 @@ template <class GeoPropertyDesc>
 FieldContainerType GeoProperty<GeoPropertyDesc>::_type = 
     FieldContainerType(
         GeoPropertyDesc::getTypeName(),
-        InheritDesc::getTypeName(),
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        LocalInheritedDesc::getTypeName(),
+#else
+        InheritedDesc::getTypeName(),
+#endif
         GeoPropertyDesc::getGroupName(),
         (PrototypeCreateF) &GeoProperty<GeoPropertyDesc>::createEmpty,
         GeoPropertyDesc::getInitMethod(),
         _desc,
-        sizeof(_desc));
+        sizeof(FieldDescription *));
 #else
 template <class GeoPropertyDesc>
 FieldContainerType GeoProperty<GeoPropertyDesc>::_type(
     GeoPropertyDesc::getTypeName(),
-    InheritDesc    ::getTypeName(),
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    LocalInheritedDesc    ::getTypeName(),
+#else
+    InheritedDesc    ::getTypeName(),
+#endif
     GeoPropertyDesc::getGroupName(),
     (PrototypeCreateF) &GeoProperty<GeoPropertyDesc>::createEmpty,
     GeoPropertyDesc::getInitMethod(),
@@ -159,7 +195,11 @@ OSG_FIELD_CONTAINER_INL_TMPL_DEF(GeoProperty,
 
 template <class GeoPropertyDesc> 
 inline GeoProperty<GeoPropertyDesc>::GeoProperty(void) :
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    LocalInherited(),
+#else
     Inherited(),
+#endif
     _field()
 {
 }
@@ -171,7 +211,11 @@ inline GeoProperty<GeoPropertyDesc>::GeoProperty(void) :
 template <class GeoPropertyDesc> 
 inline GeoProperty<GeoPropertyDesc>::GeoProperty(
     const GeoProperty &source ) :
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+         LocalInherited(source),
+#else
          Inherited(source),
+#endif
         _field(source._field)
 {
 }
@@ -198,7 +242,11 @@ void GeoProperty<GeoPropertyDesc>::executeSyncImpl(
           GeoProperty *pOther,
     const BitVector   &whichField)
 {
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    LocalInherited::executeSyncImpl(pOther, whichField);
+#else
     Inherited::executeSyncImpl(pOther, whichField);
+#endif
 
     if(FieldBits::NoField != (GeoPropDataFieldMask & whichField))
     {
@@ -209,7 +257,11 @@ void GeoProperty<GeoPropertyDesc>::executeSyncImpl(
 template <class GeoPropertyDesc> inline 
 UInt32 GeoProperty<GeoPropertyDesc>::getBinSize(const BitVector &whichField)
 {
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    UInt32 returnValue = LocalInherited::getBinSize(whichField);
+#else
     UInt32 returnValue = Inherited::getBinSize(whichField);
+#endif
 
     if(FieldBits::NoField != (GeoPropDataFieldMask & whichField))
     {
@@ -224,7 +276,11 @@ void GeoProperty<GeoPropertyDesc>::copyToBin(
           BinaryDataHandler &pMem,
     const BitVector         &whichField)
 {
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    LocalInherited::copyToBin(pMem, whichField);
+#else
     Inherited::copyToBin(pMem, whichField);
+#endif
 
     if(FieldBits::NoField != (GeoPropDataFieldMask & whichField))
     {
@@ -237,7 +293,11 @@ void GeoProperty<GeoPropertyDesc>::copyFromBin(
           BinaryDataHandler &pMem,
     const BitVector         &whichField)
 {
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    LocalInherited::copyFromBin(pMem, whichField);
+#else
     Inherited::copyFromBin(pMem, whichField);
+#endif
 
     if(FieldBits::NoField != (GeoPropDataFieldMask & whichField))
     {
@@ -280,7 +340,11 @@ const typename GeoProperty<GeoPropertyDesc>::StoredFieldType &
  */
 
 template <class GeoPropertyDesc> 
-typename GeoPropertyDesc::InheritedPtr
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+GeoProperty<GeoPropertyDesc>::LocalInheritedPtr
+#else
+GeoProperty<GeoPropertyDesc>::InheritedPtr
+#endif
 GeoProperty<GeoPropertyDesc>::clone(void)
 {
     PtrType obj = GeoProperty<GeoPropertyDesc>::create();
@@ -397,7 +461,11 @@ template <class GeoPropertyDesc> inline
 void GeoProperty<GeoPropertyDesc>::dump(      UInt32    uiIndent, 
                                         const BitVector bvFlags) const
 {
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    LocalInherited::dump(uiIndent, bvFlags);
+#else
     Inherited::dump(uiIndent, bvFlags);
+#endif
 }
 
 OSG_END_NAMESPACE

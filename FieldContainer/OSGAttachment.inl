@@ -87,7 +87,7 @@ FieldContainerType SimpleAttachment<AttachmentDescT>::_type =
                                               AttachmentDescT>::createEmpty,
         AttachmentDescT::getInitMethod(),
         _desc,
-        sizeof(_desc));
+        sizeof(FieldDescription *));
 #else
 template <class AttachmentDescT> 
 FieldContainerType SimpleAttachment<AttachmentDescT>::_type(

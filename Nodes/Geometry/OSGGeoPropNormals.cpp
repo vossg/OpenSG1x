@@ -54,13 +54,17 @@ OSG_USING_NAMESPACE
 FieldDescription *GeoNormals3fPropertyDesc::_desc[] =
 {
     new FieldDescription(
-        FieldType::getClassType(), 
+        StoredFieldType::getClassType(), 
         getFieldName(), 
         OSG_FC_FIELD_IDM_DESC(GeoProperty<
                                   GeoNormals3fPropertyDesc>::GeoPropDataField),
         false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        (FieldAccessMethod) NULL)
+#else
         (FieldAccessMethod) &GeoProperty<
                                   GeoNormals3fPropertyDesc>::getFieldPtr)
+#endif
 };
 
 OSG_BEGIN_NAMESPACE

@@ -345,7 +345,7 @@ OSG_SYSTEMLIB_DLLMAPPING
 Action::ResultE traverse(NodePtr               root, 
                          TraverseEnterFunctor  func);
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE traverse(vector<NodePtr>      &list, 
+Action::ResultE traverse(vector<NodePtr>      &nodeList, 
                          TraverseEnterFunctor  func);
                             
 OSG_SYSTEMLIB_DLLMAPPING
@@ -353,7 +353,7 @@ Action::ResultE traverse(NodePtr               root,
                          TraverseEnterFunctor  enter, 
                          TraverseLeaveFunctor  leave);
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE traverse(vector<NodePtr>      &list, 
+Action::ResultE traverse(vector<NodePtr>      &nodeList, 
                          TraverseEnterFunctor  enter, 
                          TraverseLeaveFunctor  leave);
                             

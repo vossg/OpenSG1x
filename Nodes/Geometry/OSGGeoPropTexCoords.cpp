@@ -54,25 +54,33 @@ OSG_USING_NAMESPACE
 FieldDescription *GeoTexCoords2fPropertyDesc::_desc[] =
 {
     new FieldDescription(
-        FieldType::getClassType(), 
+        StoredFieldType::getClassType(), 
         getFieldName(), 
         OSG_FC_FIELD_IDM_DESC(GeoProperty<
                                 GeoTexCoords2fPropertyDesc>::GeoPropDataField),
         false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        (FieldAccessMethod) NULL)
+#else
         (FieldAccessMethod) &GeoProperty<
                                 GeoTexCoords2fPropertyDesc>::getFieldPtr)
+#endif
 };
 
 FieldDescription *GeoTexCoords3fPropertyDesc::_desc[] =
 {
     new FieldDescription(
-        FieldType::getClassType(), 
+        StoredFieldType::getClassType(), 
         getFieldName(), 
         OSG_FC_FIELD_IDM_DESC(GeoProperty<
                                 GeoTexCoords3fPropertyDesc>::GeoPropDataField),
         false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        (FieldAccessMethod) NULL)
+#else
         (FieldAccessMethod) &GeoProperty<
                                 GeoTexCoords3fPropertyDesc>::getFieldPtr)
+#endif
 };
 
 OSG_BEGIN_NAMESPACE

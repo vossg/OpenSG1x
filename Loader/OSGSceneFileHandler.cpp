@@ -535,9 +535,9 @@ bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
 
                 overrideFinder.uiRefPriority = fileType.getOverridePriority();
 
-                lIt = ::find_if(_the->_suffixTypeMap[suffix]->begin(),
-                                _the->_suffixTypeMap[suffix]->end(),
-                                 overrideFinder);
+                lIt = std::find_if(_the->_suffixTypeMap[suffix]->begin(),
+                                   _the->_suffixTypeMap[suffix]->end(),
+                                   overrideFinder);
 
                 _the->_suffixTypeMap[suffix]->insert(lIt, &fileType);
 

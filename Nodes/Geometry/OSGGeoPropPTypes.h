@@ -79,7 +79,7 @@ struct GeoPTypesUI8PropertyDesc
 
     typedef GeoPTypesPropertyDesc      InheritedDesc;
 
-    typedef MFUInt8                    FieldType;
+    typedef MFUInt8                    StoredFieldType;
     typedef InheritedDesc::GenericType GenericType;
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE

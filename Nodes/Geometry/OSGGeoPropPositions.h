@@ -79,7 +79,7 @@ struct GeoPositions3fPropertyDesc
 
     typedef GeoPositionsPropertyDesc   InheritedDesc;
 
-    typedef MFPnt3f                    FieldType;
+    typedef MFPnt3f                    StoredFieldType;
     typedef InheritedDesc::GenericType GenericType;
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
@@ -137,7 +137,7 @@ struct GeoPositions3dPropertyDesc
 
     typedef GeoPositionsPropertyDesc   InheritedDesc;
 
-    typedef MFPnt3d                    FieldType;
+    typedef MFPnt3d                    StoredFieldType;
     typedef InheritedDesc::GenericType GenericType;
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE

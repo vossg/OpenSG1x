@@ -54,13 +54,17 @@ OSG_USING_NAMESPACE
 FieldDescription *GeoPositions3fPropertyDesc::_desc[] =
 {
     new FieldDescription(
-        FieldType::getClassType(), 
+        StoredFieldType::getClassType(), 
         getFieldName(), 
         OSG_FC_FIELD_IDM_DESC(GeoProperty<
                                 GeoPositions3fPropertyDesc>::GeoPropDataField),
         false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        (FieldAccessMethod) NULL)
+#else
         (FieldAccessMethod) &GeoProperty<
                                 GeoPositions3fPropertyDesc>::getFieldPtr)
+#endif
 };
 
 
@@ -69,13 +73,17 @@ FieldDescription *GeoPositions3fPropertyDesc::_desc[] =
 FieldDescription *GeoPositions3dPropertyDesc::_desc[] =
 {
     new FieldDescription(
-        FieldType::getClassType(), 
+        StoredFieldType::getClassType(), 
         getFieldName(), 
         OSG_FC_FIELD_IDM_DESC(GeoProperty<
                                 GeoPositions3dPropertyDesc>::GeoPropDataField),
         false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        (FieldAccessMethod) NULL)
+#else
         (FieldAccessMethod) &GeoProperty<
                                 GeoPositions3dPropertyDesc>::getFieldPtr)
+#endif
 };
 
 OSG_BEGIN_NAMESPACE

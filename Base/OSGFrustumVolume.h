@@ -51,6 +51,7 @@ OSG_BEGIN_NAMESPACE
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class FrustumVolume;
+
 OSG_BASE_DLLMAPPING
 bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
 
@@ -105,6 +106,7 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
     inline  const   Plane & getTop          (void           ) const;
     inline  const   Plane & getBottom       (void           ) const;
     inline  const   Plane * getPlanes       (void           ); 
+    inline  const   Plane * getPlanes       (void           ) const; 
     virtual         void    getCenter       (Pnt3f &center  ) const;
     virtual         float   getScalarVolume (void           ) const;
     virtual         void    getBounds       ( Pnt3f &minPnt,
@@ -155,17 +157,6 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
   
     virtual void transform      (const Matrix           &m          );
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Comparison                                */
-    /*! \{
-                                                                           */
-    OSG_BASE_DLLMAPPING
-            friend bool operator ==(const FrustumVolume &b1,
-                                    const FrustumVolume &b2             );
-    OSG_BASE_DLLMAPPING
-    inline  friend bool operator !=(const FrustumVolume &b1,
-                                    const FrustumVolume &b2                 );
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Assignment                                 */

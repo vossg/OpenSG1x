@@ -120,11 +120,11 @@ class OSG_BASE_DLLMAPPING Volume {
     /*! \name                   Get Values                                 */
     /*! \{                                                                 */
 
-    virtual void  getCenter       (Pnt3f &center)            const = 0;
+    virtual void   getCenter       (Pnt3f &center)            const = 0;
 
-    virtual float getScalarVolume (void)                     const = 0;
+    virtual float  getScalarVolume (void)                     const = 0;
 
-    virtual void  getBounds       ( Pnt3f &min, Pnt3f &max ) const = 0;
+    virtual void   getBounds       ( Pnt3f &min, Pnt3f &max ) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -168,6 +168,8 @@ class OSG_BASE_DLLMAPPING Volume {
 
     /*! \}                                                                 */
 
+    bool operator ==(const Volume &other) const;
+    bool operator !=(const Volume &other) const;
 };
 
 typedef Volume* VolumeP;

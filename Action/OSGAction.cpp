@@ -529,12 +529,12 @@ OSG_END_NAMESPACE
 /*! Simple tree traversal function. Calls func for every node encountered
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE OSG::traverse(  vector<NodePtr>     &list, 
+Action::ResultE OSG::traverse(  vector<NodePtr>     &nodeList, 
                                 TraverseEnterFunctor func )
 {
     Action::ResultE res;
-    vector<NodePtr>::iterator it = list.begin(),
-                              en = list.end();
+    vector<NodePtr>::iterator it = nodeList.begin(),
+                              en = nodeList.end();
     
     for ( ; it != en; ++it )
     {
@@ -572,13 +572,13 @@ Action::ResultE OSG::traverse( NodePtr              node,
     leave after leaving.
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE OSG::traverse(   vector<NodePtr>      &list, 
+Action::ResultE OSG::traverse(   vector<NodePtr>      &nodeList, 
                                  TraverseEnterFunctor  enter, 
                                  TraverseLeaveFunctor  leave )
 {
     Action::ResultE res;
-    vector<NodePtr>::iterator it = list.begin(),
-                              en = list.end();
+    vector<NodePtr>::iterator it = nodeList.begin(),
+                              en = nodeList.end();
     
     for ( ; it != en; ++it )
     {

@@ -54,13 +54,17 @@ OSG_USING_NAMESPACE
 FieldDescription *GeoPTypesUI8PropertyDesc::_desc[] =
 {
     new FieldDescription(
-        FieldType::getClassType(), 
+        StoredFieldType::getClassType(), 
         getFieldName(), 
         OSG_FC_FIELD_IDM_DESC(GeoProperty<
                                   GeoPTypesUI8PropertyDesc>::GeoPropDataField),
         false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        (FieldAccessMethod) NULL)
+#else
         (FieldAccessMethod) &GeoProperty<
                                   GeoPTypesUI8PropertyDesc>::getFieldPtr)
+#endif
 };
 
 OSG_BEGIN_NAMESPACE

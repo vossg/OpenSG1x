@@ -82,7 +82,7 @@ struct GeoColors3fPropertyDesc
 
     typedef GeoColorsPropertyDesc      InheritedDesc;
 
-    typedef MFColor3f                  FieldType;
+    typedef MFColor3f                  StoredFieldType;
     typedef InheritedDesc::GenericType GenericType;
     
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
@@ -145,7 +145,7 @@ struct GeoColors4fPropertyDesc
 
     typedef GeoColorsPropertyDesc      InheritedDesc;
 
-    typedef MFColor4f                  FieldType;
+    typedef MFColor4f                  StoredFieldType;
     typedef InheritedDesc::GenericType GenericType;
     
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
@@ -207,7 +207,7 @@ struct GeoColors3ubPropertyDesc
 
     typedef GeoColorsPropertyDesc      InheritedDesc;
 
-    typedef MFColor3ub                 FieldType;
+    typedef MFColor3ub                 StoredFieldType;
     typedef InheritedDesc::GenericType GenericType;
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
@@ -269,7 +269,7 @@ struct GeoColors4ubPropertyDesc
 
     typedef GeoColorsPropertyDesc      InheritedDesc;
 
-    typedef MFColor4ub                 FieldType;
+    typedef MFColor4ub                 StoredFieldType;
     typedef InheritedDesc::GenericType GenericType;
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE

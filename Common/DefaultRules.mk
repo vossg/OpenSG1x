@@ -6,7 +6,6 @@
 .SUFFIXES:	.src $(OBJ_SUFFIX) .cpp .c .hpp .l .y .tab.cpp .tab.h .s 	\
 			$(SO_SUFFIX) _moc.o _moc.cpp _qt.hpp .inl _as.s _ias.s
 
-
 cnvUnix2Win = "$(shell cygpath -w $(1))"
 
 ifneq ($(IN_TEST_DIR),1)
@@ -394,7 +393,9 @@ $(OBJDIR)/%.lex.cpp: %.l
 
 $(LIB_FLEXTARGET_CPP) : $(LIB_FLEXSOURCES)
 
+ifneq ($(OSGNODEPS),1) 
 $(LIB_FLEXTARGET_DEPS): $(LIB_FLEXTARGET_CPP)
+endif
 
 endif
 
@@ -412,7 +413,9 @@ $(OBJDIR)/%.tab.cpp: %.y
 
 $(LIB_BISONTARGET_CPP) : $(LIB_BISONSOURCES)
 
+ifneq ($(OSGNODEPS),1) 
 $(LIB_BISONTARGET_DEPS): $(LIB_BISONTARGET_CPP)
+endif
 
 endif
 

@@ -126,9 +126,9 @@ class OSG_BASE_DLLMAPPING Plane {
     /*! \name                    Set Values                                */
     /*! \{                                                                 */
 
-    inline void set(const Vec3f &normal, Real32 distance);
-    inline void set(Real32 x, Real32 y, Real32 z, Real32 distance);
-    inline void set(const Vec4f &plane);
+    void set(const Vec3f &normal, Real32 distance);
+    void set(Real32 x, Real32 y, Real32 z, Real32 distance);
+    void set(const Vec4f &plane);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

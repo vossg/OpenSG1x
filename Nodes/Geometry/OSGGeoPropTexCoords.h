@@ -78,7 +78,7 @@ struct GeoTexCoords2fPropertyDesc
 
     typedef GeoTexCoordsPropertyDesc    InheritedDesc;
 
-    typedef MFVec2f                     FieldType;
+    typedef MFVec2f                     StoredFieldType;
     typedef InheritedDesc::GenericType  GenericType;
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
@@ -137,7 +137,7 @@ struct GeoTexCoords3fPropertyDesc
 
     typedef GeoTexCoordsPropertyDesc    InheritedDesc;
 
-    typedef MFVec3f                     FieldType;
+    typedef MFVec3f                     StoredFieldType;
     typedef InheritedDesc::GenericType  GenericType;
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE

@@ -82,7 +82,7 @@ struct GeoPLengthsUI32PropertyDesc
 
     typedef GeoPLengthsPropertyDesc    InheritedDesc;
 
-    typedef MFUInt32                   FieldType;
+    typedef MFUInt32                   StoredFieldType;
 
     typedef InheritedDesc::GenericType GenericType;
 

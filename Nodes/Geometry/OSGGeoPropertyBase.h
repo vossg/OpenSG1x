@@ -149,13 +149,22 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
-  private:
+  private:       
 
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    typedef typename GeoPropertyDesc::Inherited            LocalInherited;
+    typedef typename GeoPropertyDesc::InheritedDesc        LocalInheritedDesc;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef          GeoPropertyInterface<GeoPropertyDesc> LocalInterface;
+#endif
+#else
     typedef typename GeoPropertyDesc::Inherited            Inherited;
-    typedef typename GeoPropertyDesc::InheritedDesc        InheritDesc;
+    typedef typename GeoPropertyDesc::InheritedDesc        InheritedDesc;
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
     typedef          GeoPropertyInterface<GeoPropertyDesc> Interface;
+#endif
 #endif
 
     static FieldContainerType _type;
@@ -168,15 +177,26 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     /*==========================  PRIVATE  ================================*/
   private:
 
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    typedef typename GeoPropertyDesc::Inherited     LocalInherited;
+    typedef typename GeoPropertyDesc::InheritedDesc LocalInheritedDesc;
+    typedef typename GeoPropertyDesc::InheritedPtr  LocalInheritedPtr;
+#else
     typedef typename GeoPropertyDesc::Inherited     Inherited;
-    typedef typename GeoPropertyDesc::InheritedDesc InheritDesc;
+    typedef typename GeoPropertyDesc::InheritedDesc InheritedDesc;
+    typedef typename GeoPropertyDesc::InheritedPtr  InheritedPtr;
+#endif
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        GeoPropDataFieldId = LocalInherited::NextFieldId,
+#else
         GeoPropDataFieldId = Inherited::NextFieldId,
+#endif
         NextFieldId        = GeoPropDataFieldId + 1
     };
 
@@ -184,10 +204,15 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
 
     typedef GeoProperty<GeoPropertyDesc>                  PropertyType;
 
-    typedef FCPtr<typename GeoPropertyDesc::InheritedPtr,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    typedef FCPtr<typename LocalInheritedPtr,
                            PropertyType                 > PtrType;
+#else
+    typedef FCPtr<typename InheritedPtr,
+                           PropertyType                 > PtrType;
+#endif
 
-    typedef typename GeoPropertyDesc::FieldType           StoredFieldType;
+    typedef typename GeoPropertyDesc::StoredFieldType     StoredFieldType;
     typedef typename GeoPropertyDesc::GenericType         StoredGenericType;
 
     OSG_FIELD_CONTAINER_TMPL_DECL(PtrType)
@@ -202,7 +227,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     const StoredFieldType &getField(void) const;
 
 
-    virtual typename GeoPropertyDesc::InheritedPtr clone(void);
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    virtual LocalInheritedPtr clone(void);
+#else
+    virtual InheritedPtr clone(void);
+#endif
 
     virtual UInt32  getFormat    (void);
     virtual UInt32  getFormatSize(void);
@@ -211,7 +240,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     virtual UInt32  getSize      (void);
     virtual UInt8  *getData      (void);
 
-    typename GeoPropertyDesc::FieldType& operator->() { return _field; }
+    typename StoredFieldType &operator->() { return _field; }
 
     virtual StoredGenericType getValue(const UInt32 index);
 
@@ -253,11 +282,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     /*=========================  PROTECTED  ===============================*/    
   protected:
 
-    typedef typename GeoPropertyDesc::InheritedDesc InheritedDesc;
-
     friend class OSG_SYSTEMLIB_DLLMAPPING FieldContainer;
 
-    typename GeoPropertyDesc::FieldType _field;
+    typename StoredFieldType _field;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

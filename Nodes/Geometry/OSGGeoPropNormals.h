@@ -79,7 +79,7 @@ struct GeoNormals3fPropertyDesc
 
     typedef GeoNormalsPropertyDesc     InheritedDesc;
 
-    typedef MFVec3f                    FieldType;
+    typedef MFVec3f                    StoredFieldType;
     typedef InheritedDesc::GenericType GenericType;
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE

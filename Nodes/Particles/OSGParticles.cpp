@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.14 2002/02/16 03:48:42 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.15 2002/02/18 08:18:19 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -299,13 +299,15 @@ class ParticleTraits
 struct ColTraitBase : public ParticleTraits
 {
     typedef void (OSG_APIENTRY *pumpFunc)( GLubyte * data );
-    static const int formatBase = GL_BYTE;
-    static const int numFormats = GL_DOUBLE - GL_BYTE + 1;
+    static const int formatBase;
+    enum { numFormats = GL_DOUBLE - GL_BYTE + 1 };
 
     static char *formatNames[];
 
     static pumpFunc ColorFuncs[numFormats][4]; 
 };
+
+const int ColTraitBase::formatBase = GL_BYTE;
 
 char *ColTraitBase::formatNames[] = 
 {   "GL_BYTE", "GL_UNSIGNED_BYTE", "GL_SHORT", "GL_UNSIGNED_SHORT", 

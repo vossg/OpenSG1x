@@ -66,3 +66,14 @@ void  volDump( Volume * vol )
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
+
+bool Volume::operator ==(const Volume &other) const
+{
+    return _state == other._state;
+}
+
+bool Volume::operator !=(const Volume &other) const
+{
+    return !(*this == other);
+}
+

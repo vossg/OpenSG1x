@@ -54,13 +54,17 @@ OSG_USING_NAMESPACE
 FieldDescription *GeoIndicesUI32PropertyDesc::_desc[] =
 {
     new FieldDescription(
-        FieldType::getClassType(), 
+        StoredFieldType::getClassType(), 
         getFieldName(), 
         OSG_FC_FIELD_IDM_DESC(GeoProperty<
                                 GeoIndicesUI32PropertyDesc>::GeoPropDataField),
         false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        (FieldAccessMethod) NULL)
+#else
         (FieldAccessMethod) &GeoProperty<
                                 GeoIndicesUI32PropertyDesc>::getFieldPtr)
+#endif
 };
 
 

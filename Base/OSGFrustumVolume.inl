@@ -47,14 +47,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-#ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
-class FrustumVolume;
-       bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
-inline bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
-ostream& operator<< (ostream & os, const FrustumVolume &obj);
-#endif
-
-
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -161,6 +153,13 @@ const Plane *FrustumVolume::getPlanes(void)
     return _planeVec;
 }
 
+/// get method
+inline
+const Plane *FrustumVolume::getPlanes(void) const
+{
+    return _planeVec;
+}
+
 /*-------------------------- extending ------------------------------------*/
 
 inline
@@ -190,7 +189,6 @@ bool FrustumVolume::intersect(const FrustumVolume &volume) const
 }
 
 /*-------------------------- operation ------------------------------------*/
-
 
 /// Inequality comparisons
 inline

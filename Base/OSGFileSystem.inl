@@ -79,7 +79,11 @@ bool File::tstAttr(const Char8  *szFilename,
     bool  returnValue = false;
     Int32 rc          = 0;
 
-    struct stat statBuffer;
+#ifdef OSG_MICROSOFT_COMPILER_ALERT
+    struct _stat statBuffer;
+#else
+    struct  stat statBuffer;
+#endif
 
     if(szFilename != NULL)
     {
@@ -119,7 +123,11 @@ bool Directory::tstAttr(const Char8  *szFilename,
     bool  returnValue = false;
     Int32 rc          = 0;
 
-    struct stat statBuffer;
+#ifdef OSG_MICROSOFT_COMPILER_ALERT
+    struct _stat statBuffer;
+#else
+    struct  stat statBuffer;
+#endif
 
     if(szFilename != NULL)
     {

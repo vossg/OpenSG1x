@@ -46,6 +46,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+static const UInt32 JacobiRank = 3;
+#endif
+
 template <class ValueTypeT> class QuaternionBase;
 
 //! TransformationMatrix, for details about the vector, point and
@@ -418,7 +422,9 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
 #pragma set woff 1424
 #endif
 
+#ifndef OSG_MICROSOFT_COMPILER_HACKS
     static const UInt32 JacobiRank = 3;
+#endif
 
     bool jacobi(ValueTypeT    evalues [JacobiRank],
                 VectorType3f  evectors[JacobiRank],

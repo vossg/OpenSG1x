@@ -118,6 +118,34 @@ AC_MSG_RESULT($ac_cv_prog_cc_works)
 cross_compiling=$ac_cv_prog_cc_cross
 ])
 
+AC_DEFUN(AC_GDZ_FIND_STUDIO_DIR,
+[
+    ac_gdz_find_prog_dir_result=""
+
+    for drive in c d e f g; do
+     for progdir in "Program Files" "Programme"; do
+      if test -d "/cygdrive/$drive/$progdir/Microsoft Visual Studio"; then
+       ac_gdz_find_prog_dir_result="/cygdrive/$drive/$progdir/Microsoft Visual Studio"
+       break 2
+      fi
+     done
+    done
+])
+
+AC_DEFUN(AC_GDZ_FIND_STUDIONET_DIR,
+[
+    ac_gdz_find_prog_dir_result=""
+
+    for drive in c d e f g; do
+     for progdir in "Program Files" "Programme"; do
+      if test -d "/cygdrive/$drive/$progdir/Microsoft Visual Studio.NET"; then
+       ac_gdz_find_prog_dir_result="/cygdrive/$drive/$progdir/Microsoft Visual Studio.NET"
+       break 2
+      fi
+     done
+    done
+])
+
 AC_DEFUN(AC_GDZ_FIND_PROG_DIR,
 [
     ac_gdz_find_prog_dir_result=""
@@ -168,6 +196,32 @@ AC_DEFUN(AC_GDZ_SETUP_INTEL,
     ac_gdz_compiler_lib=$ac_gdz_compiler_dir/Lib
     ac_gdz_compiler_exe=icl.exe
     ac_gdz_linker_exe=xilink.exe
+    ac_gdz_check_compiler_available=yes
+])
+
+AC_DEFUN(AC_GDZ_SETUP_MSVC,
+[
+    AC_GDZ_FIND_STUDIO_DIR()
+
+    ac_gdz_compiler_dir=$ac_gdz_find_prog_dir_result/VC98
+    ac_gdz_compiler_path=$ac_gdz_compiler_dir/bin
+    ac_gdz_compiler_incl=$ac_gdz_compiler_dir/Include
+    ac_gdz_compiler_lib=$ac_gdz_compiler_dir/Lib
+    ac_gdz_compiler_exe=cl.exe
+    ac_gdz_linker_exe=link.exe
+    ac_gdz_check_compiler_available=yes
+])
+
+AC_DEFUN(AC_GDZ_SETUP_MSVCNET,
+[
+    AC_GDZ_FIND_STUDIONET_DIR()
+
+    ac_gdz_compiler_dir=$ac_gdz_find_prog_dir_result/Vc7
+    ac_gdz_compiler_path=$ac_gdz_compiler_dir/bin
+    ac_gdz_compiler_incl=$ac_gdz_compiler_dir/include
+    ac_gdz_compiler_lib=$ac_gdz_compiler_dir/lib
+    ac_gdz_compiler_exe=cl.exe
+    ac_gdz_linker_exe=link.exe
     ac_gdz_check_compiler_available=yes
 ])
 
@@ -227,6 +281,12 @@ AC_DEFUN(AC_GDZ_GUESS_COMPILER_DIR_AND_EXE,
         case "$ac_gdz_compiler" in
             icl*)
             AC_GDZ_SETUP_INTEL()
+            ;;
+            cl.net*)
+            AC_GDZ_SETUP_MSVCNET()
+            ;;
+            cl*)
+            AC_GDZ_SETUP_MSVC()
             ;;
             bcc*)
             AC_GDZ_SETUP_BORLAND()

@@ -102,19 +102,19 @@ const OSG::BitVector	MatrixCameraBase::ModelviewMatrixFieldMask =
 
 
 
-char MatrixCameraBase::cvsid[] = "@(#)$Id: OSGMatrixCameraBase.cpp,v 1.2 2002/02/11 03:46:28 vossg Exp $";
+char MatrixCameraBase::cvsid[] = "@(#)$Id: OSGMatrixCameraBase.cpp,v 1.3 2002/02/18 08:18:19 vossg Exp $";
 
 /** \brief Group field description
  */
 
 FieldDescription *MatrixCameraBase::_desc[] = 
 {
-    new FieldDescription(::SFMatrix::getClassType(), 
+    new FieldDescription(SFMatrix::getClassType(), 
                      "ProjectionMatrix", 
                      ProjectionMatrixFieldId, ProjectionMatrixFieldMask,
                      false,
                      (FieldAccessMethod) &MatrixCameraBase::getSFProjectionMatrix),
-    new FieldDescription(::SFMatrix::getClassType(), 
+    new FieldDescription(SFMatrix::getClassType(), 
                      "ModelviewMatrix", 
                      ModelviewMatrixFieldId, ModelviewMatrixFieldMask,
                      false,

@@ -36,6 +36,8 @@ OSG_BEGIN_NAMESPACE
 /*! Set the plane given the (x,y,z) normal and distance
     The normal needs to be normalized!
  */
+
+inline
 void Plane::set(Real32 x, Real32 y, Real32 z, Real32 distance )
 {
     _normalVec.setValues(x, y, z);
@@ -45,6 +47,8 @@ void Plane::set(Real32 x, Real32 y, Real32 z, Real32 distance )
 /*! Set the plane given the (x,y,z) normal and distance in a Vec4f
     The normal needs to be normalized!
  */
+
+inline
 void Plane::set(const Vec4f &plane)
 {
     _normalVec.setValues(plane[0], plane[1], plane[2]);
@@ -54,6 +58,8 @@ void Plane::set(const Vec4f &plane)
 /*! Set the plane given the normal and distance. 
     The normal needs to be normalized!
  */
+
+inline
 void Plane::set(const Vec3f &normal, Real32 distance )
 {
     _normalVec = normal;
@@ -62,6 +68,8 @@ void Plane::set(const Vec3f &normal, Real32 distance )
 
 /*! Get the normal vector.
  */
+
+inline
 const Vec3f &Plane::getNormal(void) const 
 { 
     return _normalVec; 
@@ -69,6 +77,8 @@ const Vec3f &Plane::getNormal(void) const
 
 /*! Get the distance from the origin.
  */
+
+inline
 Real32 Plane::getDistanceFromOrigin (void) const 
 { 
     return _distance; 

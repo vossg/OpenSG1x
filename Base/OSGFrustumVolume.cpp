@@ -314,13 +314,13 @@ OSG_BEGIN_NAMESPACE
 OSG_BASE_DLLMAPPING
 bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2)
 {
-    return ((b1._planeVec[0] == b2._planeVec[0]) &&
-            (b1._planeVec[1] == b2._planeVec[1]) &&
-            (b1._planeVec[2] == b2._planeVec[2]) &&
-            (b1._planeVec[3] == b2._planeVec[3]) &&
-            (b1._planeVec[4] == b2._planeVec[4]) &&
-            (b1._planeVec[5] == b2._planeVec[5]) &&
-            b1._state == b2._state );
+    return ((static_cast<const Volume &>(b1) == b2 ) &&
+            (b1.getPlanes()[0] == b2.getPlanes()[0]) &&
+            (b1.getPlanes()[1] == b2.getPlanes()[1]) &&
+            (b1.getPlanes()[2] == b2.getPlanes()[2]) &&
+            (b1.getPlanes()[3] == b2.getPlanes()[3]) &&
+            (b1.getPlanes()[4] == b2.getPlanes()[4]) &&
+            (b1.getPlanes()[5] == b2.getPlanes()[5]));
 }
 
 

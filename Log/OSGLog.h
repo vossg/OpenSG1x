@@ -176,7 +176,7 @@ public:
   /*---------------------------------------------------------------------*/
   /*! \name                   Callback handling                          */
   /*! \{                                                                 */    
-  void setCallback ( LogBuf::Callback cb, void *clientData = 0,
+  void setCallback ( Callback cb, void *clientData = 0,
                      bool flushData = false );
   void removeCallback ( void );
 
@@ -184,7 +184,7 @@ private:
 
   bool _enabled;
  
-  std::list<LogBuf::Chunk*> _chunkBag;
+  list<Chunk*> _chunkBag;
   
   Callback _callback;
   void* _clientData; 

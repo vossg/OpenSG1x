@@ -13,6 +13,12 @@ endif
 
 OBJ_SUFFIX := $(strip $(OBJ_SUFFIX))
 
+ifeq ($(OS_BASE), cygwin)
+ifeq ($(OS_CMPLR), cl)
+OSGNODEPS := 1
+endif
+endif
+
 #########################################################################
 # Get Source Files
 #########################################################################
@@ -261,7 +267,11 @@ LIB_FLEXTARGET_CPP      := $(notdir $(LIB_FLEXTARGET_CPP))
 
 LIB_FLEXTARGET_CPP      := $(addprefix $(OBJDIR)/,$(LIB_FLEXTARGET_CPP))
 
+ifneq ($($(PROJ)NODEPS),1)
 LIB_FLEXTARGET_DEPS     := $(patsubst %.cpp,%.d,$(LIB_FLEXTARGET_CPP))
+else
+LIB_FLEXTARGET_DEPS     :=
+endif
 
 flex_int = $(strip $(basename $(notdir $(1))))_
 flex_ext =  $(strip $(basename $(notdir $(1))))
@@ -273,7 +283,11 @@ LIB_BISONSOURCES_CPP := $(notdir $(patsubst %.y,%.cpp,$(LIB_BISONSOURCES)))
 LIB_BISONTARGET_CPP  := $(notdir $(patsubst %.y,%.tab.cpp,$(LIB_BISONSOURCES)))
 LIB_BISONTARGET_CPP  := $(addprefix $(OBJDIR)/,$(LIB_BISONTARGET_CPP))
 
+ifneq ($($(PROJ)NODEPS),1)
 LIB_BISONTARGET_DEPS := $(patsubst %.cpp,%.d,$(LIB_BISONTARGET_CPP))
+else
+LIB_BISONTARGET_DEPS := 
+endif
 
 bison_int = $(strip $(basename $(notdir $(1))))_
 bison_ext = $(strip $(basename $(notdir $(1))))

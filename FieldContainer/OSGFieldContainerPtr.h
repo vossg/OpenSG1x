@@ -267,7 +267,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
     OSG_PROPERTY_DECL(Pointer);
 
     typedef FieldContainer        StoredObjectType;
-//    typedef FieldContainerPtr     ObjectType;
+    typedef FieldContainerPtr     ObjectType;
 
     typedef FieldContainerPtrBase Inherited;
 
@@ -374,7 +374,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFieldContainerPtr :
     OSG_PROPERTY_DECL(ConstPointer);
 
     typedef FieldContainer        StoredObjectType;
-//    typedef FieldContainerPtr     ObjectType;
+    typedef FieldContainerPtr     ObjectType;
 
     typedef FieldContainerPtrBase Inherited;
 
@@ -454,7 +454,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FCPtr : public BasePtrTypeT
     OSG_PROPERTY_REQUIREMENT(BasePtrTypeT, Pointer);
 
     typedef FieldContainerTypeT StoredObjectType;
-//    typedef FCPtr               ObjectType;
+    typedef FCPtr               ObjectType;
 
     typedef BasePtrTypeT        Inherited;
 
@@ -558,7 +558,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFCPtr : public BasePtrTypeT
     OSG_PROPERTY_REQUIREMENT(BasePtrTypeT, ConstPointer);
 
     typedef FieldContainerTypeT                               StoredObjectType;
-//    typedef ConstFCPtr                                        ObjectType;
+    typedef ConstFCPtr                                        ObjectType;
 
     typedef BasePtrTypeT                                      Inherited;
 
