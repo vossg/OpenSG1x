@@ -135,7 +135,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
       MTL_LIB_DE, NEW_MTL_DE, 
       MTL_DIFFUSE_DE, MTL_AMBIENT_DE, MTL_SPECULAR_DE,
       FACE_DE, 
-      USE_MTL_DE, GROUP_DE, SMOOTHING_GROUP_DE
+      USE_MTL_DE, 
+      GROUP_DE, SMOOTHING_GROUP_DE, OBJECT_DE
     };
 
     static map<string, DataElem> _dataElemMap;
@@ -155,7 +156,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
 
     struct Mesh {
       string name;
-      vector<Face> faceVec;
+      std::list<Face> faceList;
       SimpleMaterialPtr mtlPtr;
     };
 
@@ -168,7 +169,7 @@ typedef OBJSceneFileType* OBJSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.6 2001/10/08 22:34:56 jbehr Exp $"
+#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.7 2001/10/12 21:24:52 jbehr Exp $"
 
 #endif // _OSGOBJSCENEFILETYPE_H_
 
