@@ -3761,7 +3761,7 @@ void VRMLInlineDesc::getFieldAndDesc(
         pField = &_boxCenter;
         pDesc  = NULL;
     }
-    else if(stringcasecmp("whichChoice", szFieldname) == 0)
+    else if(stringcasecmp("bboxSize", szFieldname) == 0)
     {
 #ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
