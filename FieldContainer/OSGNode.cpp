@@ -290,9 +290,15 @@ void Node::setCore(const NodeCorePtr &core)
 }
 
 void Node::addChild(const NodePtr &childP)
-{
+{	
     if(childP != NullFC)
     {
+		// already somebody else's child?
+		if ( childP->getParent() != NullNode )
+		{
+			childP->getParent()->subChild( childP );
+		}
+		
         _children.addValue(childP);
 
         beginEditCP(childP, Node::ParentFieldMask);
@@ -302,10 +308,10 @@ void Node::addChild(const NodePtr &childP)
         endEditCP  (childP, Node::ParentFieldMask);
 
         addRefCP(childP);
-    }
 
-    // TODO Check if required (GV)
-	invalidateVolume();
+		// TODO Check if required (GV)
+		invalidateVolume();
+    }
 }
 
 void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
@@ -314,6 +320,12 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
 
     if(childP != NullFC)
     {
+		// already somebody else's child?
+		if ( childP->getParent() != NullNode )
+		{
+			childP->getParent()->subChild( childP );
+		}
+		
         childIt   += childIndex;
 
         _children.insert(childIt, childP);
@@ -335,6 +347,12 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
 {
     if(childP != NullFC)
     {
+		// already somebody else's child?
+		if ( childP->getParent() != NullNode )
+		{
+			childP->getParent()->subChild( childP );
+		}
+		
         addRefCP(childP);
 
         beginEditCP(_children.getValue(childIndex), Node::ParentFieldMask);
@@ -360,7 +378,9 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
 	invalidateVolume();
 }
 
-void Node::replaceChildBy(const NodePtr &childP, 
+//! return true on success, false on child not found
+
+Bool Node::replaceChildBy(const NodePtr &childP, 
                           const NodePtr &newChildP)
 {
     MFNodePtr::iterator childIt = _children.find(childP);
@@ -369,6 +389,12 @@ void Node::replaceChildBy(const NodePtr &childP,
     {
         if(childIt != _children.end())
         {
+			// already somebody else's child?
+			if ( newChildP->getParent() != NullNode )
+			{
+				newChildP->getParent()->subChild( newChildP );
+			}
+		
             addRefCP(newChildP);
 
             beginEditCP(childP, Node::ParentFieldMask);
@@ -386,11 +412,15 @@ void Node::replaceChildBy(const NodePtr &childP,
                 newChildP->setParent(getPtr());
             }
             endEditCP  (newChildP, Node::ParentFieldMask);
+		
+			// TODO check if required (GV)
+			invalidateVolume();
+			
+			return true;
         }
     }
 
-    // TODO check if required (GV)
-	invalidateVolume();
+	return false;
 }
 
 Int32 Node::findChild(const NodePtr &childP) const

@@ -139,14 +139,6 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer
                                  UInt16 binding = 0);
 
     /*------------------------------ pointer -------------------------------*/
-
-    /*-------------------------- transformation ----------------------------*/
-
-    virtual void accumulateMatrix(Matrix &result);
-
-    /*------------------------------ volume -------------------------------*/
-
-    virtual void adjustVolume    (Volume &volume);
     
     /*--------------------------To / From Bin ------------------------------*/
 
@@ -202,11 +194,21 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer
 
     NodeCorePtr getPtr(void);
 
-    virtual void executeSync(      FieldContainer &other,
-                             const BitVector      &whichField);
+    virtual void executeSync(FieldContainer &other,
+                             const BitVector       &whichField);
 
-    void executeSyncImpl(      NodeCore  *pOther,
-                         const BitVector &whichField);
+    void executeSyncImpl(NodeCore  *pOther,
+                         const BitVector  &whichField);
+
+    /*-------------------------- transformation ----------------------------*/
+
+    virtual void accumulateMatrix(Matrix &result);
+
+    /*------------------------------ volume -------------------------------*/
+
+    virtual void adjustVolume    (Volume &volume);
+
+	virtual void invalidateVolume( void );
 
   private:
 

@@ -162,7 +162,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public FieldContainer
     void    replaceChild  (      UInt32   childIndex,    
                            const NodePtr &childP);
 
-    void    replaceChildBy(const NodePtr &childP, 
+    Bool    replaceChildBy(const NodePtr &childP, 
                            const NodePtr &newChildP);
 
     Int32   findChild     (const NodePtr &childP) const;
@@ -190,7 +190,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public FieldContainer
     
     /*------------------------------ volume -------------------------------*/
     
-    const DynamicVolume &getVolume       (void)             const;
+    const DynamicVolume &getVolume       ( bool update = true );
+    
+    const DynamicVolume &getVolume       (void) const;
     
           void			 getWorldVolume  (DynamicVolume &result);
     

@@ -88,8 +88,17 @@ OSG_FIELD_CONTAINER_INL_DEF(Node, NodePtr)
 /*------------------------------ access -----------------------------------*/
 
 inline
-const DynamicVolume &Node::getVolume(void) const
+const DynamicVolume &Node::getVolume( void ) const
 {
+	return _volume.getValue();
+}
+
+inline
+const DynamicVolume &Node::getVolume( bool update )
+{
+	if ( update )
+		updateVolume();
+
 	return _volume.getValue();
 }
 
