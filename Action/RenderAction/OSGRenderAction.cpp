@@ -582,7 +582,7 @@ void RenderAction::dropLight(LightBase *pLight)
         
 //        getActNode()->getToWorld(fromworld);
 
-        fromworld = _currMatrix.second;
+        fromworld = top_matrix();
         fromworld.invert();
 
         NodePtr beacon = pLight->getBeacon();
