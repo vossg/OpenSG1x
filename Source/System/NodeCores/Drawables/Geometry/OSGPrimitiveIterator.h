@@ -48,12 +48,12 @@
 #include <OSGNodeCore.h>
 #include <OSGSystemDef.h>
 #include <OSGGeoProperty.h>
-#include <OSGDrawable.h>
+#include <OSGMaterialDrawable.h>
 
 OSG_BEGIN_NAMESPACE
 
 class Geometry;
-typedef FCPtr<DrawablePtr, Geometry> GeometryPtr;
+typedef FCPtr<MaterialDrawablePtr, Geometry> GeometryPtr;
 
 /*! \brief Geometry Iterator for primitives. See \ref 
     PageSystemGeometryIterators for a description.
@@ -105,36 +105,39 @@ class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
     /*! \name                       Get                                    */
     /*! \{                                                                 */
 
-    inline bool         isAtEnd             (void       ) const;
+    inline bool         isAtEnd                (void       ) const;
 
-    inline Int32        getIndex            (void       ) const;
-    inline UInt32       getLength           (void       ) const;
-    inline UInt32       getType             (void       ) const;
+    inline Int32        getIndex               (void       ) const;
+    inline UInt32       getLength              (void       ) const;
+    inline UInt32       getType                (void       ) const;
 
-    inline Int32        getPositionIndex    (Int32 which) const;
-    inline Pnt3f        getPosition         (Int32 which) const;
+    inline Int32        getPositionIndex       (Int32 which) const;
+    inline Pnt3f        getPosition            (Int32 which) const;
 
-    inline Int32        getNormalIndex      (Int32 which) const;
-    inline Vec3f        getNormal           (Int32 which) const;
+    inline Int32        getNormalIndex         (Int32 which) const;
+    inline Vec3f        getNormal              (Int32 which) const;
 
-    inline Int32        getColorIndex       (Int32 which) const;
-    inline Color3f      getColor            (Int32 which) const;
+    inline Int32        getColorIndex          (Int32 which) const;
+    inline Color3f      getColor               (Int32 which) const;
 
-    inline Int32        getTexCoordsIndex   (Int32 which) const;
-    inline Vec2f        getTexCoords        (Int32 which) const;
+    inline Int32        getSecondaryColorIndex (Int32 which) const;
+    inline Color3f      getSecondaryColor      (Int32 which) const;
 
-    inline Int32        getTexCoordsIndex1  (Int32 which) const;
-    inline Vec2f        getTexCoords1       (Int32 which) const;
+    inline Int32        getTexCoordsIndex      (Int32 which) const;
+    inline Vec2f        getTexCoords           (Int32 which) const;
 
-    inline Int32        getTexCoordsIndex2  (Int32 which) const;
-    inline Vec2f        getTexCoords2       (Int32 which) const;
+    inline Int32        getTexCoordsIndex1     (Int32 which) const;
+    inline Vec2f        getTexCoords1          (Int32 which) const;
 
-    inline Int32        getTexCoordsIndex3  (Int32 which) const;
-    inline Vec2f        getTexCoords3       (Int32 which) const;
+    inline Int32        getTexCoordsIndex2     (Int32 which) const;
+    inline Vec2f        getTexCoords2          (Int32 which) const;
 
-    inline Int32        getIndexIndex       (Int32 which) const;
+    inline Int32        getTexCoordsIndex3     (Int32 which) const;
+    inline Vec2f        getTexCoords3          (Int32 which) const;
 
-    inline GeometryPtr  getGeometry         (void        ) const;
+    inline Int32        getIndexIndex          (Int32 which) const;
+
+    inline GeometryPtr  getGeometry            (void        ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -180,6 +183,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
     Int16           _positionIndex;
     Int16           _normalIndex;
     Int16           _colorIndex;
+    Int16           _secondaryColorIndex;
     Int16           _texcoordsIndex;
     Int16           _texcoordsIndex1;
     Int16           _texcoordsIndex2;

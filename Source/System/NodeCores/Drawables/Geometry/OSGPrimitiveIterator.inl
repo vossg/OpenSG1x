@@ -216,6 +216,53 @@ Color3f PrimitiveIterator::getColor(Int32 which) const
 }
 
 
+/*! Return the secondary color index (i.e. the number of the entry in the 
+    secondary color property which is used) of a point in the current
+    primitive. \a which is the point to access. Must be between 0 and
+    getLength().
+
+    If the geometry has no secondary colors, -1 is returned.
+*/
+inline
+Int32 PrimitiveIterator::getSecondaryColorIndex(Int32 which) const
+{
+    if(_geo->getSecondaryColors() == NullFC)
+        return -1;
+
+    if(_geo->getIndices() != NullFC)
+    {
+        if(_secondaryColorIndex != -1)
+        {
+            return _indices->getValue((_actPointIndex + which) *
+                                      _nmappings + _secondaryColorIndex);
+        }
+        else
+        {
+            return _indices->getValue(_actPointIndex * _nmappings + which );
+        }
+    }
+    else
+    {
+        return _actPointIndex + which;
+    }
+}
+
+/*! Return the secondary color of a point in the current primitive. 
+    \a which is the point to access. Must be between 0 and getLength().
+    
+    If the geometry has no secondary colors, Color3f::Null is returned.
+*/
+inline
+Color3f PrimitiveIterator::getSecondaryColor(Int32 which) const
+{
+    Int32 ind = getSecondaryColorIndex(which);
+
+    if(ind < 0)
+        return Color3f::Null;
+
+    return _geo->getSecondaryColors()->getValue(ind);
+}
+
 /*! Return the texture coordinates index (i.e. the number of the entry in the 
     texture coordinates property which is used) of a point in the current
     primitive.  \a which is the point to access. Must be between 0 and

@@ -123,6 +123,26 @@ Color3f FaceIterator::getColor(Int32 which) const
 }
 
 inline       
+Int32 FaceIterator::getSecondaryColorIndex(Int32 which) const
+{
+    if(_facePntIndex[which] >= 0)
+        return Inherited::getSecondaryColorIndex(_facePntIndex[which]);
+    else 
+        return -1;
+}
+
+inline 
+Color3f FaceIterator::getSecondaryColor(Int32 which) const
+{   
+    Int32 ind = getSecondaryColorIndex(which);
+    
+    if(ind < 0)
+        return Color3f::Null;
+        
+    return getGeometry()->getSecondaryColors()->getValue(ind);
+}
+
+inline       
 Int32 FaceIterator::getTexCoordsIndex(Int32 which) const
 {
     if(_facePntIndex[which] >= 0)

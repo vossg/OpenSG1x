@@ -137,6 +137,12 @@ OSG_USING_NAMESPACE
     the iterated osg::Geometry .
 */
 
+/*! \var osg::PrimitiveIterator::_secondaryColorIndex;
+
+    Cache variable for quick access to the mapping index of secondary 
+    colors for the iterated osg::Geometry .
+*/
+
 /*! \var osg::PrimitiveIterator::_texcoordsIndex;
 
     Cache variable for quick access to the mapping index of texture coordinates
@@ -180,23 +186,24 @@ char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.17 2001
 /*------------- constructors & destructors --------------------------------*/
 
 PrimitiveIterator::PrimitiveIterator(void) :
-    _geo            (      ), 
-    _ended          (  true),
-    _primIndex      (     0), 
-    _actPointIndex  (     0),
-    _actPrimType    (     0), 
-    _actPrimLength  (     0),
-    _types          (NullFC), 
-    _lengths        (NullFC), 
-    _indices        (NullFC), 
-    _nmappings      (     0),
-    _positionIndex  (    -1), 
-    _normalIndex    (    -1), 
-    _colorIndex     (    -1), 
-    _texcoordsIndex (    -1),
-    _texcoordsIndex1(    -1),
-    _texcoordsIndex2(    -1),
-    _texcoordsIndex3(    -1)
+    _geo                (      ), 
+    _ended              (  true),
+    _primIndex          (     0), 
+    _actPointIndex      (     0),
+    _actPrimType        (     0), 
+    _actPrimLength      (     0),
+    _types              (NullFC), 
+    _lengths            (NullFC), 
+    _indices            (NullFC), 
+    _nmappings          (     0),
+    _positionIndex      (    -1), 
+    _normalIndex        (    -1), 
+    _colorIndex         (    -1), 
+    _secondaryColorIndex(    -1), 
+    _texcoordsIndex     (    -1),
+    _texcoordsIndex1    (    -1),
+    _texcoordsIndex2    (    -1),
+    _texcoordsIndex3    (    -1)
 {
 }
 
@@ -206,23 +213,24 @@ PrimitiveIterator::PrimitiveIterator(void) :
     to create an iterator.
 */
 PrimitiveIterator::PrimitiveIterator(const GeometryPtr& geo) :
-    _geo            (      ), 
-    _ended          (  true),
-    _primIndex      (     0), 
-    _actPointIndex  (     0),
-    _actPrimType    (     0), 
-    _actPrimLength  (     0),
-    _types          (NullFC), 
-    _lengths        (NullFC), 
-    _indices        (NullFC), 
-    _nmappings      (     0),
-    _positionIndex  (    -1), 
-    _normalIndex    (    -1), 
-    _colorIndex     (    -1), 
-    _texcoordsIndex (    -1),
-    _texcoordsIndex1(    -1),
-    _texcoordsIndex2(    -1),
-    _texcoordsIndex3(    -1)
+    _geo                (      ), 
+    _ended              (  true),
+    _primIndex          (     0), 
+    _actPointIndex      (     0),
+    _actPrimType        (     0), 
+    _actPrimLength      (     0),
+    _types              (NullFC), 
+    _lengths            (NullFC), 
+    _indices            (NullFC), 
+    _nmappings          (     0),
+    _positionIndex      (    -1), 
+    _normalIndex        (    -1), 
+    _colorIndex         (    -1), 
+    _secondaryColorIndex(    -1), 
+    _texcoordsIndex     (    -1),
+    _texcoordsIndex1    (    -1),
+    _texcoordsIndex2    (    -1),
+    _texcoordsIndex3    (    -1)
 {
     setGeo(geo);
 }
@@ -233,46 +241,48 @@ PrimitiveIterator::PrimitiveIterator(const GeometryPtr& geo) :
     resp. Geometry::endPrimitives() to create an iterator.
 */
 PrimitiveIterator::PrimitiveIterator(const NodePtr& geo) :
-    _geo            (      ), 
-    _ended          (  true),
-    _primIndex      (     0), 
-    _actPointIndex  (     0),
-    _actPrimType    (     0), 
-    _actPrimLength  (     0),
-    _types          (NullFC), 
-    _lengths        (NullFC), 
-    _indices        (NullFC), 
-    _nmappings      (     0),
-    _positionIndex  (    -1), 
-    _normalIndex    (    -1), 
-    _colorIndex     (    -1), 
-    _texcoordsIndex (    -1),
-    _texcoordsIndex1(    -1),
-    _texcoordsIndex2(    -1),
-    _texcoordsIndex3(    -1)
+    _geo                (      ), 
+    _ended              (  true),
+    _primIndex          (     0), 
+    _actPointIndex      (     0),
+    _actPrimType        (     0), 
+    _actPrimLength      (     0),
+    _types              (NullFC), 
+    _lengths            (NullFC), 
+    _indices            (NullFC), 
+    _nmappings          (     0),
+    _positionIndex      (    -1), 
+    _normalIndex        (    -1), 
+    _colorIndex         (    -1), 
+    _secondaryColorIndex(    -1), 
+    _texcoordsIndex     (    -1),
+    _texcoordsIndex1    (    -1),
+    _texcoordsIndex2    (    -1),
+    _texcoordsIndex3    (    -1)
 {
     setGeo(geo);
 }
 
 
 PrimitiveIterator::PrimitiveIterator(const PrimitiveIterator &source) :
-    _geo            (source._geo            ),
-    _ended          (source._ended          ),
-    _primIndex      (source._primIndex      ), 
-    _actPointIndex  (source._actPointIndex  ),
-    _actPrimType    (source._actPrimType    ), 
-    _actPrimLength  (source._actPrimLength  ),  
-    _types          (source._types          ), 
-    _lengths        (source._lengths        ), 
-    _indices        (source._indices        ), 
-    _nmappings      (source._nmappings      ),
-    _positionIndex  (source._positionIndex  ),
-    _normalIndex    (source._normalIndex    ),
-    _colorIndex     (source._colorIndex     ),
-    _texcoordsIndex (source._texcoordsIndex ),
-    _texcoordsIndex1(source._texcoordsIndex1),
-    _texcoordsIndex2(source._texcoordsIndex2),
-    _texcoordsIndex3(source._texcoordsIndex3)  
+    _geo                (source._geo                ),
+    _ended              (source._ended              ),
+    _primIndex          (source._primIndex          ), 
+    _actPointIndex      (source._actPointIndex      ),
+    _actPrimType        (source._actPrimType        ), 
+    _actPrimLength      (source._actPrimLength      ),  
+    _types              (source._types              ), 
+    _lengths            (source._lengths            ), 
+    _indices            (source._indices            ), 
+    _nmappings          (source._nmappings          ),
+    _positionIndex      (source._positionIndex      ),
+    _normalIndex        (source._normalIndex        ),
+    _colorIndex         (source._colorIndex         ),
+    _secondaryColorIndex(source._secondaryColorIndex),
+    _texcoordsIndex     (source._texcoordsIndex     ),
+    _texcoordsIndex1    (source._texcoordsIndex1    ),
+    _texcoordsIndex2    (source._texcoordsIndex2    ),
+    _texcoordsIndex3    (source._texcoordsIndex3    )  
 {
 }
 
@@ -364,17 +374,18 @@ void PrimitiveIterator::operator++()
 */
 void PrimitiveIterator::setToBegin(void)
 {
-    _primIndex       = 0;
-    _actPointIndex   = 0;
-    _ended           = false;
-    _nmappings       = _geo->getIndexMapping().size();
-    _positionIndex   = _geo->calcMappingIndex(Geometry::MapPosition);
-    _normalIndex     = _geo->calcMappingIndex(Geometry::MapNormal);
-    _colorIndex      = _geo->calcMappingIndex(Geometry::MapColor);
-    _texcoordsIndex  = _geo->calcMappingIndex(Geometry::MapTexCoords);
-    _texcoordsIndex1 = _geo->calcMappingIndex(Geometry::MapTexCoords1);
-    _texcoordsIndex2 = _geo->calcMappingIndex(Geometry::MapTexCoords2);
-    _texcoordsIndex3 = _geo->calcMappingIndex(Geometry::MapTexCoords3);
+    _primIndex           = 0;
+    _actPointIndex       = 0;
+    _ended               = false;
+    _nmappings           = _geo->getIndexMapping().size();
+    _positionIndex       = _geo->calcMappingIndex(Geometry::MapPosition);
+    _normalIndex         = _geo->calcMappingIndex(Geometry::MapNormal);
+    _colorIndex          = _geo->calcMappingIndex(Geometry::MapColor);
+    _secondaryColorIndex = _geo->calcMappingIndex(Geometry::MapSecondaryColor);
+    _texcoordsIndex      = _geo->calcMappingIndex(Geometry::MapTexCoords);
+    _texcoordsIndex1     = _geo->calcMappingIndex(Geometry::MapTexCoords1);
+    _texcoordsIndex2     = _geo->calcMappingIndex(Geometry::MapTexCoords2);
+    _texcoordsIndex3     = _geo->calcMappingIndex(Geometry::MapTexCoords3);
 
     if(_nmappings == 0)
         _nmappings = 1;
@@ -450,23 +461,24 @@ PrimitiveIterator& PrimitiveIterator::operator =(const PrimitiveIterator &source
     if(this == &source)
         return *this;
     
-    this->_geo              = source._geo;
-    this->_primIndex        = source._primIndex;
-    this->_actPrimType      = source._actPrimType;
-    this->_actPrimLength    = source._actPrimLength;
-    this->_actPointIndex    = source._actPointIndex;
-    this->_types            = source._types;
-    this->_lengths          = source._lengths;
-    this->_indices          = source._indices;
-    this->_ended            = source._ended;
-    this->_nmappings        = source._nmappings;
-    this->_positionIndex    = source._positionIndex;
-    this->_normalIndex      = source._normalIndex;
-    this->_colorIndex       = source._colorIndex;
-    this->_texcoordsIndex   = source._texcoordsIndex;
-    this->_texcoordsIndex1  = source._texcoordsIndex1;
-    this->_texcoordsIndex2  = source._texcoordsIndex2;
-    this->_texcoordsIndex3  = source._texcoordsIndex3;
+    this->_geo                  = source._geo;
+    this->_primIndex            = source._primIndex;
+    this->_actPrimType          = source._actPrimType;
+    this->_actPrimLength        = source._actPrimLength;
+    this->_actPointIndex        = source._actPointIndex;
+    this->_types                = source._types;
+    this->_lengths              = source._lengths;
+    this->_indices              = source._indices;
+    this->_ended                = source._ended;
+    this->_nmappings            = source._nmappings;
+    this->_positionIndex        = source._positionIndex;
+    this->_normalIndex          = source._normalIndex;
+    this->_colorIndex           = source._colorIndex;
+    this->_secondaryColorIndex  = source._colorIndex;
+    this->_texcoordsIndex       = source._texcoordsIndex;
+    this->_texcoordsIndex1      = source._texcoordsIndex1;
+    this->_texcoordsIndex2      = source._texcoordsIndex2;
+    this->_texcoordsIndex3      = source._texcoordsIndex3;
 
     return *this;
 }

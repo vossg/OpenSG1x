@@ -104,6 +104,23 @@ Color3f TriangleIterator::getColor(Int32 which) const
     return getGeometry()->getColors()->getValue(ind);
 }
 
+inline       
+Int32 TriangleIterator::getSecondaryColorIndex(Int32 which) const
+{
+    return Inherited::getSecondaryColorIndex(_triPntIndex[which]);
+}
+
+inline 
+Color3f TriangleIterator::getSecondaryColor(Int32 which) const
+{   
+    Int32 ind = getSecondaryColorIndex(which);
+    
+    if(ind < 0)
+        return Color3f::Null;
+        
+    return getGeometry()->getSecondaryColors()->getValue(ind);
+}
+
 
 inline       
 Int32 TriangleIterator::getTexCoordsIndex(Int32 which) const
