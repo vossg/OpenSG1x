@@ -21,8 +21,39 @@ DOCS_BASE  := ../Source/Base/Base 				\
 			  ../Source/Base/StringConversion  
 
 DOCS_SYS   := ../Source/System/Action  										\
-			  ../Source/System/Statistics									\
-			  ../Source/System/Window
+              ../Source/System/Action/DrawAction                            \
+              ../Source/System/Action/IntersectAction                       \
+              ../Source/System/Action/RenderAction                          \
+              ../Source/System/Cluster/Base                                 \
+              ../Source/System/Cluster/Server                               \
+              ../Source/System/Cluster/Window                               \
+              ../Source/System/Cluster/Window/Base                          \
+              ../Source/System/Cluster/Window/MultiDisplay                  \
+              ../Source/System/Cluster/Window/SortFirst                     \
+              ../Source/System/FieldContainer                               \
+              ../Source/System/FieldContainer/Impl                          \
+              ../Source/System/FileIO                                       \
+              ../Source/System/FileIO/Base                                  \
+              ../Source/System/FileIO/BIN                                   \
+              ../Source/System/FileIO/OBJ                                   \
+              ../Source/System/FileIO/OFF                                   \
+              ../Source/System/FileIO/OSG                                   \
+              ../Source/System/FileIO/RAW                                   \
+              ../Source/System/FileIO/WRL                                   \
+              ../Source/System/FileIO/ScanParseSkel                         \
+              ../Source/System/Image                                        \
+              ../Source/System/Material                                     \
+              ../Source/System/NodeCores/Drawables/Base                     \
+              ../Source/System/NodeCores/Drawables/Geometry                 \
+              ../Source/System/NodeCores/Drawables/Misc                     \
+              ../Source/System/NodeCores/Drawables/Particles                \
+              ../Source/System/NodeCores/Groups/Base                        \
+              ../Source/System/NodeCores/Groups/Light                       \
+              ../Source/System/NodeCores/Groups/Misc                        \
+              ../Source/System/RenderingBackend                             \
+              ../Source/System/State                                        \
+              ../Source/System/Statistics									\
+              ../Source/System/Window
 
 DOCS_X     := ../Source/WindowSystem/X
 DOCS_W32   := ../Source/WindowSystem/WIN32
@@ -109,13 +140,11 @@ DOC_ENV += DOC_LEVEL_ENABLED="$(DOC_LEVEL_ENABLED)"
 DOC_ENV += DOC_IMAGE_PATHES="$(DOC_IMAGE_PATHES)"
 
 DOXYGEN := doxygen
-#DOXYGEN := /home/gerrit/SoftwareTest/doxygen/bin/doxygen
+#DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs/bin/doxygen
 #DOXYGEN := /net/pc1107/data/dirk/software/doxygen-1.2.18/bin/doxygen
 #DOXYGEN := /net/pc1107/data/dirk/software/doxygen-1.3-rc2/bin/doxygen
 #DOXYGEN := /data/dirk/software/doxygen_cvs_send/bin/doxygen
-#DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs/bin/doxygen
-#DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs_org/bin/doxygen
-#DOXYGEN := /home/gerrit/SoftwareTest/doxygen-1.3-rc1/bin/doxygen
+
 
 default: help
 
