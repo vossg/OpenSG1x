@@ -92,20 +92,31 @@ Switch::~Switch(void)
 
 Action::ResultE Switch::draw(Action *action)
 {
-    DrawActionBase *da = dynamic_cast<DrawActionBase *>(action);
+    Action::ResultE  returnValue = Action::Continue;
 
-    da->useNodeList();
+    DrawActionBase  *da          = dynamic_cast<DrawActionBase *>(action);
 
     if((getChoice() >= 0                 ) && 
        (getChoice() < action->getNNodes()))
     {
+        da->useNodeList();
+
         if(da->isVisible(action->getNode(getChoice()).getCPtr()))
         {
             da->addNode(action->getNode(getChoice()));
         }
     }
-    
-    return Action::Continue;
+    else if(getChoice() == -2)
+    {
+        if(da->selectVisibles() == 0)
+            returnValue = Action::Skip;
+    }
+    else
+    {
+        returnValue = Action::Skip;
+    }
+
+    return returnValue;
 }
  
 /*-------------------------------------------------------------------------*/

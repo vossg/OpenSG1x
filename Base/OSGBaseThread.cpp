@@ -233,12 +233,14 @@ bool BasePThreadBase::exists(void)
 
 void BasePThreadBase::terminate(void)
 {
-    pthread_cancel(*_pThreadDesc);
+    if(_pThreadDesc != NULL)
+        pthread_cancel(*_pThreadDesc);
 }
 
 void BasePThreadBase::kill(void)
 {
-    pthread_cancel(*_pThreadDesc);
+    if(_pThreadDesc != NULL) 
+        pthread_cancel(*_pThreadDesc);
 }
 
 /*-------------------------------------------------------------------------*/
