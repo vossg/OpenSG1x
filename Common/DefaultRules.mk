@@ -532,6 +532,7 @@ FLEXLEXER_H_DEP := ../Base/FlexLexer.h
 	sed -e 's/iostream.h/iostream/g'  								\
 		-e 's/istream\*/\std::istream\*/g'							\
 		-e 's/ostream\*/\std::ostream\*/g'							\
+		-e 's/std::std::/std::/g'							        \
 	> ../Base/FlexLexer.h
 else
 FLEXLEXER_H_DEP :=
@@ -546,6 +547,7 @@ define fix_lexer
 			-e 's/class istream;/#include <iosfwd>/g'					\
 			-e 's/istream\*/\std::istream\*/g'							\
 			-e 's/ostream\*/\std::ostream\*/g'							\
+			-e 's/std::std::/std::/g'							        \
 		> $(OBJDIR)/$(call flex_ext,$<).lex.cpp
 endef
 
@@ -588,6 +590,7 @@ ifeq ($(OSG_FIX_LEXER),1)
 			-e 's/class istream;/#include <iosfwd>/g'					\
 			-e 's/istream\*/\std::istream\*/g'							\
 			-e 's/ostream\*/\std::ostream\*/g'							\
+			-e 's/std::std::/std::/g'							        \
 		> $(OBJDIR)/$(call flex_ext,$<).lex.cpp
 else
 	cat lex.$(call flex_int,$<).cc | 								\

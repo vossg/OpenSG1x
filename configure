@@ -2398,7 +2398,7 @@ echo "configure:2247: checking "/ guessing compiler dir for $build-$ac_gdz_compi
       for vsnet in "Microsoft Visual Studio.NET" "Microsoft Visual Studio .NET"; do
        if test -d "/cygdrive/$drive/$progdir/$vsnet/"; then
         ac_gdz_find_prog_dir_result="/cygdrive/$drive/$progdir/$vsnet"
-        break 2
+        break 3
        fi
       done
      done

@@ -275,16 +275,20 @@ while test $# -gt 0; do
 	  echo @am_gdz_compiler_id@
 	  exit 0
 	 ;;
-	--moc)
+    --moc)
       echo "@ac_gdz_qt_moc_e15@"
 	  exit 0
 	  ;;
-	--uic)
+    --uic)
       echo "@ac_gdz_qt_uic_e15@"
 	  exit 0
 	  ;;
-	--exe-linker)
+    --exe-linker)
       echo @am_gdz_exe_linker@
+	  exit 0
+	  ;;
+    --exe-compiler-shared)
+      echo @am_gdz_compiler_exe_shared@
 	  exit 0
 	  ;;
     --cflags)

@@ -141,7 +141,7 @@ AC_DEFUN(AC_GDZ_FIND_STUDIONET_DIR,
       for vsnet in $1; do
        if test -d "/cygdrive/$drive/$progdir/$vsnet/"; then
         ac_gdz_find_prog_dir_result="/cygdrive/$drive/$progdir/$vsnet"
-        break 2
+        break 3
        fi
       done
      done

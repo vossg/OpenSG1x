@@ -338,14 +338,18 @@ endif
 	do									\
 		for d in dbg opt;						\
 		do								\
+			rm -f $(INSTALL_DIR)/lib/$(INSTALL_LIB_DIR)/*$$s;	\
+		done;								\
+		for d in dbg opt;						\
+		do								\
 			BUILDLIBS=`find $$CURRDIR -follow -name "lib-$$d"	\
                 		 -exec find {} -name "*$$s" -print \;` ;	\
 			cd $(INSTALL_DIR)/lib/$(INSTALL_LIB_DIR);		\
-			rm -f *$$s;                                             \
 			for t in $$BUILDLIBS;					\
 			do							\
 			    echo $$t;						\
 			    $(INSTLINK) $$t .;					\
+			    chmod 755 $$t ;					\
 			done;							\
 		done;								\
 	done;									\
@@ -374,6 +378,7 @@ fcdToBase:
 INSTALL_DIR_SED  := $(shell echo $(INSTALL_DIR)  | sed -e 's/\//\\\//g')
 LD_SED           := $(shell echo $(LD)           | sed -e 's/\//\\\//g')
 LD_FLAGS_EXT_SED := $(shell echo $(LD_FLAGS_EXT) | sed -e 's/\//\\\//g')
+LD_SHARED_SED    := $(shell echo $(LD_SHARED)    | sed -e 's/\//\\\//g')
 
 install-bin: install-test
 	@if [ ! -w $(INSTALL_DIR)/bin ]; then mkdir $(INSTALL_DIR)/bin; fi
@@ -396,6 +401,7 @@ install-bin: install-test
 	       -e "s/@am_gdz_version@/$$VERSION/g"                              \
 	       -e 's/@am_gdz_qt_cflags@/\"$(QT_PLATTFORMDEF_EXT)\"/g'           \
 	       -e 's/@am_gdz_exe_linker@/\"$(LD_SED)\"/g'                       \
+	       -e 's/@am_gdz_compiler_exe_shared@/\"$(LD_SHARED_SED)\"/g'       \
 	       -e "s/@am_gdz_compiler_id@/$(OS_CMPLR)/g"                        \
 		   -e "s/MSVCPRTD/MSVCPRT\$$\{dbg_char\}/g"							\
 		   -e "s/MSVCRTD/MSVCRT\$$\{dbg_char\}/g"							\
