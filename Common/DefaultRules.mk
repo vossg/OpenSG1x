@@ -137,6 +137,13 @@ else
 	@echo "# Skipping dependency $(@F) from $(<F) "
 endif
 
+$(OBJDIR)/%$(DEP_SUFFIX): $(OBJDIR)/%.cpp 
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(win_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+
 $(OBJDIR)/%$(DEP_SUFFIX): %.c 
 ifneq ($(OSGNODEPSREBUILD),1)
 	$(win_make_depend)
@@ -147,6 +154,13 @@ endif
 
 ifeq ($(OS_BASE), irix6.5)
 $(OBJDIR)/%$(DEP_SUFFIX): %.cpp
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(irix_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+
+$(OBJDIR)/%$(DEP_SUFFIX): $(OBJDIR)/%.cpp
 ifneq ($(OSGNODEPSREBUILD),1)
 	$(irix_make_depend)
 else
@@ -168,6 +182,14 @@ ifneq ($(OSGNODEPSREBUILD),1)
 else
 	@echo "# Skipping dependency $(@F) from $(<F) "
 endif
+
+$(OBJDIR)/%$(DEP_SUFFIX): $(OBJDIR)/%.cpp
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(linux_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+
 $(OBJDIR)/%$(DEP_SUFFIX): %.c
 ifneq ($(OSGNODEPSREBUILD),1)
 	$(linux_make_depend)
@@ -225,7 +247,8 @@ SO_DEF_FLAG=
 endif
 
 ifneq ($(SUB_SO),)
-SubLib: $(LIB_DEPS) $(SUB_SO) 
+
+SubLib: $(LIBS_DEP) $(SUB_SO) 
 	@echo "LASTDBG=$(DBG)" > .lastdbg
 
 $(SUB_SO): $(LIBS_DEP) $(LIB_QTTARGET_CPP) $(LIB_OBJECTS) 
@@ -284,6 +307,9 @@ $(OBJDIR)/%.lex.cpp: %.l
 	@-rm lex.$(call flex_int,$<).c
 
 $(LIB_FLEXTARGET_CPP) : $(LIB_FLEXSOURCES)
+
+$(LIB_FLEXTARGET_DEPS): $(LIB_FLEXTARGET_CPP)
+
 endif
 
 #########################################################################
@@ -298,7 +324,7 @@ $(OBJDIR)/%.tab.cpp: %.y
 	mv $(call bison_int,$<).tab.h            $(call bison_ext,$<).tab.h
 	mv $(call bison_int,$<).output $(OBJDIR)/$(call bison_ext,$<).output
 
-$(LIB_BISONTARGET_CPP): $(LIB_BISONSOURCES)
+$(LIB_BISONTARGET_CPP) : $(LIB_BISONSOURCES)
 
 $(LIB_BISONTARGET_DEPS): $(LIB_BISONTARGET_CPP)
 
@@ -329,7 +355,15 @@ endif
 # depend
 #########################################################################
 
-depend_i: $(LIB_DEPS)
+ifeq ($(IN_TEST_DIR),1)
+
+depend_i: $(TEST_DEPS)
+
+else
+
+depend_i: $(LIB_BISONTARGET_DEPS) $(LIB_FLEXTARGET_DEPS) $(LIB_QTTARGET_DEPS) $(LIB_DEPS)
+
+endif
 
 depend: DepClean depend_i
 
@@ -372,13 +406,15 @@ clean: commonclean
 .PHONY: commonClean
 
 commonClean : commonclean DepClean
-	-rm -f $(LIBDIR)/*$(SO_SUFFIX)  2>/dev/null
-	-rm -f $(LIBDIR)/*$(LIB_SUFFIX) 2>/dev/null
-	-rm -f $(LIBDIR)/*.exp          2>/dev/null
-	-rm -f $(LIBDIR)/*.ilk          2>/dev/null
-	-rm -f $(LIBDIR)/*.map          2>/dev/null
-	-rm -f $(LIBDIR)/*.pdb          2>/dev/null
-	-rm -f so_locations             2>/dev/null
+	-rm -f $(LIBDIR)/*$(SO_SUFFIX)  					2>/dev/null
+	-rm -f $(LIBDIR)/*$(LIB_SUFFIX) 					2>/dev/null
+	-rm -f $(LIBDIR)/*.exp          					2>/dev/null
+	-rm -f $(LIBDIR)/*.ilk          					2>/dev/null
+	-rm -f $(LIBDIR)/*.map          					2>/dev/null
+	-rm -f $(LIBDIR)/*.pdb          					2>/dev/null
+	-rm -f so_locations             					2>/dev/null
+	-rm -f $(EXEDIR)/*             						2>/dev/null
+	-find . -type l -name 'test*' -print -exec rm {} \; 2>/dev/null
 
 dbgClean: DBG := dbg
 dbgClean: OBJDIR := $(OBJDIR_BASE)-$(DBG)
@@ -430,7 +466,7 @@ ExeClean:
 
 ifeq ($(IN_TEST_DIR),0)
 ifeq ($(SUB_JOB), build)
--include $(LIB_DEPS)
+-include $(LIB_DEPS) $(LIB_QTTARGET_DEPS) $(LIB_FLEXTARGET_DEPS) $(LIB_BISONTARGET_DEPS)
 endif
 else
 ifeq ($(SUB_JOB), build)

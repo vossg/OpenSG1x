@@ -212,6 +212,8 @@ LIB_FLEXTARGET_CPP      := $(notdir $(LIB_FLEXTARGET_CPP))
 
 LIB_FLEXTARGET_CPP      := $(addprefix $(OBJDIR)/,$(LIB_FLEXTARGET_CPP))
 
+LIB_FLEXTARGET_DEPS     := $(patsubst %.cpp,%.d,$(LIB_FLEXTARGET_CPP))
+
 flex_int = $(strip $(basename $(notdir $(1))))_
 flex_ext =  $(strip $(basename $(notdir $(1))))
 endif
