@@ -43,26 +43,40 @@
 #endif
 
 #include <OSGConfig.h>
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 #include <OSGGL.h>
+#endif
 
 // Defines needed to support some OpenGL extensions
-// There's no way to get these from OpenGL. The system just has to make sure they 
+// There's no way to get these from OpenGL. 
+// The system just has to make sure they 
 // are only used when the extensions are supported.
 
 // All these are taken verbatim from the nVidia Linux glext.h
 
-// Secondary Color
+/*---------------------------------------------------------------------*/
+/*! \name GL_EXT_secondary_color                                       */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
 #ifndef GL_EXT_secondary_color
-#define GL_COLOR_SUM_EXT                  0x8458
-#define GL_CURRENT_SECONDARY_COLOR_EXT    0x8459
-#define GL_SECONDARY_COLOR_ARRAY_SIZE_EXT 0x845A
-#define GL_SECONDARY_COLOR_ARRAY_TYPE_EXT 0x845B
-#define GL_SECONDARY_COLOR_ARRAY_STRIDE_EXT 0x845C
+#define GL_EXT_secondary_color               1
+#define GL_COLOR_SUM_EXT                     0x8458
+#define GL_CURRENT_SECONDARY_COLOR_EXT       0x8459
+#define GL_SECONDARY_COLOR_ARRAY_SIZE_EXT    0x845A
+#define GL_SECONDARY_COLOR_ARRAY_TYPE_EXT    0x845B
+#define GL_SECONDARY_COLOR_ARRAY_STRIDE_EXT  0x845C
 #define GL_SECONDARY_COLOR_ARRAY_POINTER_EXT 0x845D
-#define GL_SECONDARY_COLOR_ARRAY_EXT      0x845E
+#define GL_SECONDARY_COLOR_ARRAY_EXT         0x845E
 #endif
 
-// Multitextures
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_ARB_multitexture                                          */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
 #ifndef GL_ARB_multitexture
 #define GL_ARB_multitexture               1
 #define GL_TEXTURE0_ARB                   0x84C0
@@ -102,41 +116,56 @@
 #define GL_MAX_TEXTURE_UNITS_ARB          0x84E2
 #endif
 
-// Cube Textures
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_ARB_texture_cube_map                                      */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
 #ifndef GL_ARB_texture_cube_map
-#define GL_ARB_texture_cube_map           1
-#define GL_NORMAL_MAP_ARB                 0x8511
-#define GL_REFLECTION_MAP_ARB             0x8512
-#define GL_TEXTURE_CUBE_MAP_ARB           0x8513
-#define GL_TEXTURE_BINDING_CUBE_MAP_ARB   0x8514
+#define GL_ARB_texture_cube_map            1
+#define GL_NORMAL_MAP_ARB                  0x8511
+#define GL_REFLECTION_MAP_ARB              0x8512
+#define GL_TEXTURE_CUBE_MAP_ARB            0x8513
+#define GL_TEXTURE_BINDING_CUBE_MAP_ARB    0x8514
 #define GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB 0x8515
 #define GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB 0x8516
 #define GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB 0x8517
 #define GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB 0x8518
 #define GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB 0x8519
 #define GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB 0x851A
-#define GL_PROXY_TEXTURE_CUBE_MAP_ARB     0x851B
-#define GL_MAX_CUBE_MAP_TEXTURE_SIZE_ARB  0x851C
+#define GL_PROXY_TEXTURE_CUBE_MAP_ARB      0x851B
+#define GL_MAX_CUBE_MAP_TEXTURE_SIZE_ARB   0x851C
 #endif
 
-// Compressed Textures
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_ARB_texture_compression                                   */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
 // This one is not really checked by the system, as it has no functions
 #ifndef GL_ARB_texture_compression
-#define GL_ARB_texture_compression        1
-#define GL_COMPRESSED_ALPHA_ARB           0x84E9
-#define GL_COMPRESSED_LUMINANCE_ARB       0x84EA
-#define GL_COMPRESSED_LUMINANCE_ALPHA_ARB 0x84EB
-#define GL_COMPRESSED_INTENSITY_ARB       0x84EC
-#define GL_COMPRESSED_RGB_ARB             0x84ED
-#define GL_COMPRESSED_RGBA_ARB            0x84EE
-#define GL_TEXTURE_COMPRESSION_HINT_ARB   0x84EF
-#define GL_TEXTURE_COMPRESSED_IMAGE_SIZE_ARB 0x86A0
-#define GL_TEXTURE_COMPRESSED_ARB         0x86A1
+#define GL_ARB_texture_compression            1
+#define GL_COMPRESSED_ALPHA_ARB               0x84E9
+#define GL_COMPRESSED_LUMINANCE_ARB           0x84EA
+#define GL_COMPRESSED_LUMINANCE_ALPHA_ARB     0x84EB
+#define GL_COMPRESSED_INTENSITY_ARB           0x84EC
+#define GL_COMPRESSED_RGB_ARB                 0x84ED
+#define GL_COMPRESSED_RGBA_ARB                0x84EE
+#define GL_TEXTURE_COMPRESSION_HINT_ARB       0x84EF
+#define GL_TEXTURE_COMPRESSED_IMAGE_SIZE_ARB  0x86A0
+#define GL_TEXTURE_COMPRESSED_ARB             0x86A1
 #define GL_NUM_COMPRESSED_TEXTURE_FORMATS_ARB 0x86A2
-#define GL_COMPRESSED_TEXTURE_FORMATS_ARB 0x86A3
+#define GL_COMPRESSED_TEXTURE_FORMATS_ARB     0x86A3
 #endif
 
-// 3D Textures
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_EXT_texture3D                                             */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
 #ifndef GL_EXT_texture3D
 #define GL_EXT_texture3D				  1
 #define GL_PACK_SKIP_IMAGES               0x806B
@@ -170,6 +199,12 @@
 #define GL_MAX_3D_TEXTURE_SIZE            0x8073
 #endif
 #endif
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_EXT_texture                                               */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
 
 #ifndef GL_EXT_texture
 #define GL_EXT_texture                    1
@@ -218,8 +253,12 @@
 #define GL_TEXTURE_TOO_LARGE_EXT          0x8065
 #endif
 
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_NV_register_combiners                                     */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
 
-// Register Combiners
 #ifndef GL_NV_register_combiners
 #define GL_NV_register_combiners          1
 #define GL_REGISTER_COMBINERS_NV          0x8522
@@ -275,12 +314,22 @@
 #define GL_COMBINER7_NV                   0x8557
 #endif
 
-// Register Combiners 2
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_NV_register_combiners2                                    */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
 #ifndef GL_NV_register_combiners2
 #define GL_NV_register_combiners2        1
 #define GL_PER_STAGE_CONSTANTS_NV        0x8535
 #endif
 
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_ARB_multitexture                                          */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
 
 #ifndef GL_EXT_paletted_texture
 #define GL_EXT_paletted_texture 1
@@ -304,13 +353,22 @@
 
 #endif
 
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_ARB_multitexture                                          */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
 
 #ifndef GL_EXT_shared_texture_palette
-#define GL_EXT_shared_texture_palette 1
-
+#define GL_EXT_shared_texture_palette           1
 #define GL_SHARED_TEXTURE_PALETTE_EXT           0x81FB
-
 #endif 
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name blend equation legacy handling                               */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
 
 // Some legacy extension handling
 
@@ -323,26 +381,37 @@
 #else
 #define GL_FUNC_ADD 0x8006
 #endif
+
 #if defined(GL_FUNC_SUBTRACT_EXT) && ! defined(GL_FUNC_SUBTRACT)
 #define GL_FUNC_SUBTRACT GL_FUNC_SUBTRACT_EXT
 #else
 #define GL_FUNC_SUBTRACT 0x800A
 #endif
-#if defined(GL_FUNC_REVERSE_SUBTRACT_EXT) && ! defined(GL_FUNC_REVERSE_SUBTRACT)
+
+#if   defined(GL_FUNC_REVERSE_SUBTRACT_EXT) && \
+    ! defined(GL_FUNC_REVERSE_SUBTRACT)
 #define GL_FUNC_REVERSE_SUBTRACT GL_FUNC_REVERSE_SUBTRACT_EXT
 #else
 #define GL_FUNC_REVERSE_SUBTRACT 0x800B
 #endif
+
 #if defined(GL_FUNC_MIN_EXT) && ! defined(GL_FUNC_MIN)
 #define GL_FUNC_MIN GL_FUNC_MIN_EXT
 #else
 #define GL_FUNC_MIN 0x8007
 #endif
+
 #if defined(GL_FUNC_MAX_EXT) && ! defined(GL_FUNC_MAX)
 #define GL_FUNC_MAX GL_FUNC_MAX_EXT
 #else
 #define GL_FUNC_MAX 0x8008
 #endif
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_EXT_texture_env_combine                                   */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
 
 #ifndef GL_EXT_texture_env_combine 
 #define GL_EXT_texture_env_combine        1
@@ -369,6 +438,8 @@
 #define GL_OPERAND2_ALPHA_EXT             0x859A
 #endif
 
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
 
 #define OSGGLEXT_HEADER_CVSID "@(#)$Id: $"
 

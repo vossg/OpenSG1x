@@ -65,197 +65,136 @@
 OSG_BEGIN_NAMESPACE
 
 /*---------------------------------------------------------------------*/
-/*! \name                    Base Math Functions                       */
-/*! \{                                                                 */
-
-/*! \brief osgsqrt
- *  \ingroup GrpBaseMathFunctions
- */
+/*                        Base Math Runtime Functions                  */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgsqrt(const FloatTypeT rVal);
 
-/*! \brief osgcos
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgcos(const FloatTypeT rVal);
 
-/*! \brief osgsin
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgsin(const FloatTypeT rVal);
 
-/*! \brief osgtan
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgtan(const FloatTypeT rVal);
 
-/*! \brief osgacos
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgacos(const FloatTypeT rVal);
 
-/*! \brief osgasin
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgasin(const FloatTypeT rVal);
 
-/*! \brief osgatan
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgatan(const FloatTypeT rVal);
 
-/*! \brief osgatan2
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgatan2(const FloatTypeT rVal1,
              const FloatTypeT rVal2);
 
-/*! \brief osgabs
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
 FloatTypeT osgabs(const FloatTypeT rVal);
 
-/*! \brief osgpow
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgpow(const FloatTypeT rVal,
            const FloatTypeT rExp);
 
-/*! \brief osglog
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osglog(const FloatTypeT rVal);
 
-/*! \brief osgexp
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgexp(const FloatTypeT rVal);
 
-/*! \brief osgfloor
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgfloor(const FloatTypeT rVal);
 
-/*! \brief osgfinite
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
 UInt32 osgfinite(const FloatTypeT rVal);
 
-/*! \brief osgMin
- *  \ingroup GrpBaseMathFunctions
- */
+/*---------------------------------------------------------------------*/
+/*                           Min / Max Functions                       */
 
 template <class TypeT> inline
 TypeT osgMin(const TypeT lVal, const TypeT rVal);
 
-/*! \brief osgMax
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class TypeT> inline
 TypeT osgMax(const TypeT lVal, const TypeT rVal);
 
-/*! \brief osgSwap
- *  \ingroup GrpBaseMathFunctions
- */
+/*---------------------------------------------------------------------*/
+/*                               Swap Functions                        */
 
 template <class TypeT> inline
 void osgSwap(TypeT & lVal, TypeT & rVal);
 
-/*! \brief osgdegree2rad
- *  \ingroup GrpBaseMathFunctions
- */
+/*---------------------------------------------------------------------*/
+/*                           Rad / Degree Functions                    */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgdegree2rad(const FloatTypeT rVal);
 
-/*! \brief osgrad2degree
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgrad2degree(const FloatTypeT rVal);
 
 
-/*! \brief deg2rad
- *  \ingroup GrpBaseMathFunctions
- */
-
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     deg2rad(const FloatTypeT rVal);
 
-/*! \brief rad2deg
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     rad2deg(const FloatTypeT rVal);
 
-/*! \brief osgispower2
- *  \ingroup GrpBaseMathFunctions
- */
+/*---------------------------------------------------------------------*/
+/*                             Power 2 Functions                       */
 
 template <class TypeT> inline
 bool osgispower2(TypeT rVal);
 
-/*! \brief osgnextpower2
- *  \ingroup GrpBaseMathFunctions
- */
 
 template <class TypeT> inline
 TypeT osgnextpower2(TypeT rVal);
 
 
-/*! \}                                                                 */
 /*---------------------------------------------------------------------*/
-/*! \name            Static (compile time) functions                   */
-/*! \{                                                                 */
+/*                   Ccompile Rime Functions                           */
 
-/*! \brief osgStaticMax
-    \ingroup GrpBaseMathFunctions
+/*---------------------------------------------------------------------*/
+/*! \defgroup GrpCMax compile time max
+    \ingroup GrpBaseBaseCmpTimeFn                                      
+ */
+
+/*! \ingroup GrpBaseBaseCmpTimeFn
+    \ingroup GrpCMax
     \hideinhierarchy
  */
 
@@ -265,13 +204,34 @@ struct OSG_BASE_DLLMAPPING osgStaticMax
     enum _iMax { iMax = uiValue1 < uiValue2 ? uiValue2 : uiValue1 };
 };
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 
 #if defined(__sgi) || defined(__linux) || defined(__sun) || defined(darwin) ||\
     defined(__hpux)
 
+/*---------------------------------------------------------------------*/
+/*! \defgroup GrpCIFTBased compile time if, type based
+    \ingroup GrpBaseBaseCmpTimeFn                                      
+ */
+
+/*! \ingroup GrpBaseBaseCmpTimeFn
+    \ingroup GrpCIFTBased
+    \hideinhierarchy
+ */
+
 struct TrueType  {};
+
+/*! \ingroup GrpBaseBaseCmpTimeFn
+    \ingroup GrpCIFTBased
+    \hideinhierarchy
+ */
+
 struct FalseType {};
+
+/*! Compile time if, true case, type based
+    \ingroup GrpBaseBaseCmpTimeFn
+    \ingroup GrpCIFTBased
+    \hideinhierarchy
+ */
 
 template<class IConditionV, class IThenT, class IElseT>
 struct osgTypeIF
@@ -280,6 +240,12 @@ struct osgTypeIF
     typedef IElseT _IDummyRef;
 };
 
+/*! Compile time if, false case, type based
+    \ingroup GrpBaseBaseCmpTimeFn
+    \ingroup GrpCIFTBased
+    \hideinhierarchy
+ */
+
 template<class IThenT, class IElseT>
 struct osgTypeIF<FalseType, IThenT, IElseT>
 {
@@ -287,8 +253,15 @@ struct osgTypeIF<FalseType, IThenT, IElseT>
     typedef IThenT _IDummyRef;
 };
 
-/*
- *  \brief osgIF
+/*---------------------------------------------------------------------*/
+/*! \defgroup GrpCIFBBased compile time if, bool based
+    \ingroup GrpBaseBaseCmpTimeFn                                      
+ */
+
+/*! Compile time if, true case, bool based
+    \ingroup GrpBaseBaseCmpTimeFn                  
+    \ingroup GrpCIFBBased                                      
+    \hideinhierarchy
  */
 
 template<bool IConditionV, class IThenT, class IElseT>
@@ -298,8 +271,10 @@ struct osgIF
     typedef IElseT _IDummyRef;
 };
 
-/*! \ingroup GrpBaseMathFunctions
- *  \brief osgIF<false, IThenT, IElseT>
+/*! Compile time if, false case, bool based
+    \ingroup GrpBaseBaseCmpTimeFn                  
+    \ingroup GrpCIFBBased
+    \hideinhierarchy
  */
 
 template<class IThenT, class IElseT>
@@ -309,10 +284,17 @@ struct osgIF<false, IThenT, IElseT>
     typedef IThenT _IDummyRef;
 };
 
+/*---------------------------------------------------------------------*/
+
 #else
 
-/*! \ingroup GrpBaseMathFunctions
- *  \brief osgIFGen
+/*---------------------------------------------------------------------*/
+/*! \defgroup GrpCIFBBased compile time if, bool based
+    \ingroup GrpBaseBaseCmpTimeFn                                      
+ */
+
+/*! \ingroup GrpBaseBaseCmpTimeFn
+    \ingroup GrpCIFBBased
  */
 
 template <bool IConditionV>
@@ -326,8 +308,8 @@ struct osgIFGen
     };
 };
 
-/*! \ingroup GrpBaseMathFunctions
- *  \brief osgIFGen<false>
+/*! \ingroup GrpBaseBaseCmpTimeFn
+    \ingroup GrpCIFBBased
  */
 
 template <>
@@ -341,9 +323,9 @@ struct osgIFGen<false>
     };
 };
 
-
-/*! \ingroup GrpBaseMathFunctions
- *  \brief osgIF
+/*! Compile time if, bool based
+    \ingroup GrpBaseBaseCmpTimeFn
+    \ingroup GrpCIFBBased
  */
 
 template<bool IConditionV, class IThenT, class IElseT>
@@ -354,52 +336,29 @@ struct osgIF
 
 #endif
 
-#endif   // remove from all but dev doc
-
-/*! \}                                                                 */
 /*---------------------------------------------------------------------*/
-/*! \name                    String Functions                          */
-/*! \{                                                                 */
-
-/*! \brief copy c strings, allocate new memory using new []
- *  \ingroup GrpBaseFunctions
- */
+/*                   Case String Runtime Functions                     */
 
 inline
 void stringDup(const Char8 *szInput, Char8 *&szOutput);
 
-/*! \brief limited string compare
- *  \ingroup GrpBaseFunctions
- */
-
 inline
 Int32 stringncmp(const Char8 *string1, const Char8 *string2, size_t count);
-
-/*! \brief string length
- *  \ingroup GrpBaseFunctions
- */
 
 inline
 Int32 stringlen(const Char8 *string1);
 
 
-/*! \brief string compare
- *  \ingroup GrpBaseFunctions
- */
-
 inline
 Int32 stringcmp(const Char8 *string1, const Char8 *string2);
-
-/*! \brief string case compare
- *  \ingroup GrpBaseFunctions
- */
 
 inline
 Int32 stringcasecmp(const Char8 *string1,
                     const Char8 *string2);
 
-/*! \brief String less than compare functor used for a STL weak ordering
-    \ingroup GrpBaseFunctions
+/*! String less than compare functor used for a STL weak ordering
+    \ingroup GrpBaseSTLHelpers
+    \ingroup GrpBaseBaseStringFn 
     \hideinhierarchy
  */
 
@@ -411,8 +370,9 @@ struct LTString
     }
 };
 
-/*! \brief String equal compare functor
-    \ingroup GrpBaseFunctions
+/*! String equal compare functor
+    \ingroup GrpBaseSTLHelpers
+    \ingroup GrpBaseBaseStringFn 
     \hideinhierarchy
  */
 
@@ -424,139 +384,50 @@ struct EQString
     }
 };
 
-/*! \}                                                                 */
 /*---------------------------------------------------------------------*/
-/*! \name                     Misc Functions                           */
-/*! \{                                                                 */
-
-/*! \brief find the index that has the largest absolute value for a vec3
- *  \ingroup GrpBaseFunctions
- */
+/*                    Miscellaneous Functions                          */
 
 template<class VecPntT> inline
 UInt32 getMaxIndexAbs3(const VecPntT &v);
 
-/*! \brief set the value of an environment variable
- *  \ingroup GrpBaseFunctions
- */
-
 inline
 Int32 putenv(Char8 *string);
-
-
-/*! \brief sleep
- *  \ingroup GrpBaseFunctions
- */
 
 inline
 void osgsleep(UInt32 millisecs);
 
-/*! \brief get a random value between 0 and 1
- *  \ingroup GrpBaseFunctions
- */
-
 inline
 Real32 osgrand(void);
-
-/*! \brief return true if the current system is big endian
- *  \ingroup GrpBaseFunctions
- */
 
 inline
 bool osgIsBigEndian(void);
 
-/*! \}                                                                 */
 /*---------------------------------------------------------------------*/
-/*! \name         MemoryObject Reference Count Functions               */
-/*! \{                                                                 */
-
-/*! \brief setRefP
- *  \ingroup GrpBaseFunctions
- */
+/*                MemoryObject Reference Count Functions               */
 
 template <class T> inline
-void setRefP(T *&pObject, T *&pNewObject)
-{
-    if(pObject != NULL)
-        pObject->subRef();
-
-    pObject = pNewObject;
-
-    if(pObject != NULL)
-        pObject->addRef();
-}
-
-/*! \brief addRefP
- *  \ingroup GrpBaseFunctions
- */
+void setRefP  (T *&pObject, T *&pNewObject);
 
 template <class T> inline
-void addRefP(T *&pObject)
-{
-    if(pObject != NULL)
-        pObject->addRef();
-}
-
-/*! \brief subRefP
- *  \ingroup GrpBaseFunctions
- */
+void addRefP  (T *&pObject);
 
 template <class T> inline
-void subRefP(T *&pObject)
-{
-    if(pObject != NULL)
-        pObject->subRef();
-}
-
-/*! \brief clearRefP
- *  \ingroup GrpBaseFunctions
- */
+void subRefP  (T *&pObject);
 
 template <class T> inline
-void clearRefP(T *&pObject)
-{
-    if(pObject != NULL)
-        pObject->subRef();
-
-    pObject = NULL;
-}
-
-/*! \brief clearRefPVector
- *  \ingroup GrpBaseFunctions
- */
-
-#if 1
-template <class T> inline
-void clearRefPVector(std::vector<T *> &gVector)
-{
-    for(UInt32 i = 0; i < gVector.size(); i++)
-        gVector[i]->subRef();
-
-    gVector.erase(gVector.begin(), gVector.end());
-}
-
-/*! \brief clearRefPVectorP
- *  \ingroup GrpBaseFunctions
- */
+void clearRefP(T *&pObject);
 
 template <class T> inline
-void clearRefPVectorP(std::vector<T *> *pVector)
-{
-    if(pVector != NULL)
-    {
-        for(UInt32 uiIndex = 0; uiIndex < pVector->size(); uiIndex++)
-            (*pVector)[uiIndex]->subRef();
+void clearRefPVector (std::vector<T *> &vVector);
 
-        pVector->erase(pVector->begin(), pVector->end());
-    }
-}
-#endif
+template <class T> inline
+void clearRefPVectorP(std::vector<T *> *pVector);
 
-
-/*! \}                                                                 */
 /*---------------------------------------------------------------------*/
-/*! \name                     Initialization                           */
-/*! \{                                                                 */
+/*                           Initialization                            */
+
+/*! \ingroup GrpBaseBaseInitExit
+ */
 
 enum SystemState
 {
@@ -567,42 +438,40 @@ enum SystemState
 
 extern OSG_BASE_DLLMAPPING SystemState GlobalSystemState;
 
-/*! \var bool (*InitFuncF)(int argc, char **argv);
- *  \brief InitFuncF
- *  \ingroup GrpBaseFunctions
- *
- * order :
- * 
- * PreMP
- * MP
- * (Factory [GV])
- * Init
+/*! init function prototype
+   \ingroup GrpBaseBaseInitExit
+ 
+   order :
+    
+       - PreMP
+       - MP
+       - (Factory [GV])
+       - Init
  */
 
 typedef bool (*InitFuncF)(void);
 
-/*! \var bool (*ExitFuncF)(void);
- *  \brief ExitFuncF
- *  \ingroup GrpBaseFunctions
- * order :
- * 
- * (Factory [GV])
- * SystemExit
- * MP
- * PostMP
+/*! exit function prototype
+    \ingroup GrpBaseBaseInitExit
+    order :
+  
+       - (Factory [GV])
+       - SystemExit
+       - MP
+       - PostMP
  */
 
 typedef bool (*ExitFuncF)(void);
 
 
-/*! \hideinhierarchy
+/*! \ingroup GrpBaseBaseInitExit
+    \hideinhierarchy
+    InitFuncWrapper is a little wrapper class that allows calling an init 
+    function without an associated class.
  */
 
-class OSG_BASE_DLLMAPPING InitFuncWrapper
+struct OSG_BASE_DLLMAPPING InitFuncWrapper
 {
-    /*==========================  PUBLIC  =================================*/
-  public:
-
     /*---------------------------------------------------------------------*/
     /*! \name                      Constructors                            */
     /*! \{                                                                 */
@@ -612,14 +481,14 @@ class OSG_BASE_DLLMAPPING InitFuncWrapper
     /*! \}                                                                 */
 };
 
-/*! \hideinhierarchy
+/*! \ingroup GrpBaseBaseInitExit
+    \hideinhierarchy
+    StaticInitFuncWrapper is a little wrapper class that allows calling a 
+    static init function without an associated class.
  */
 
-class OSG_BASE_DLLMAPPING StaticInitFuncWrapper
+struct OSG_BASE_DLLMAPPING StaticInitFuncWrapper
 {
-    /*==========================  PUBLIC  =================================*/
-  public:
-
     /*---------------------------------------------------------------------*/
     /*! \name                      Constructors                            */
     /*! \{                                                                 */
@@ -629,57 +498,30 @@ class OSG_BASE_DLLMAPPING StaticInitFuncWrapper
     /*! \}                                                                 */
 };
 
-/*! \brief addInitFunction, function called by osgInit after the
- *         multithreading is initialized and after dynamically loading 
- *         a shared object
- *  \ingroup GrpBaseFunctions
- */
 
 OSG_BASE_DLLMAPPING 
 void addInitFunction      (InitFuncF initFunc);
 
-/*! \brief addSystemExitFunction, function called by osgExit before
- *         multithreading is termininated
- *  \ingroup GrpBaseFunctions
- */
-
 OSG_BASE_DLLMAPPING 
 void addSystemExitFunction(ExitFuncF exitFunc);
-
-/*! \brief addMPInitFunction, function called by osgInit before
-           the multithreading is initialized.
- *  \ingroup GrpBaseFunctions
- */
 
 OSG_BASE_DLLMAPPING 
 void addPreMPInitFunction (InitFuncF initFunc);
 
-/*! \brief addPostMPExitFunction, function called by osgExit after
- *         multithreading is terminated
- *  \ingroup GrpBaseFunctions
- */
-
 OSG_BASE_DLLMAPPING 
 void addPostMPExitFunction(ExitFuncF exitFunc);
 
-/*! \brief Init
- *  \ingroup GrpBaseFunctions
- */
 
 OSG_BASE_DLLMAPPING 
 bool osgInit(Int32 argc, Char8 **argv);
 
-/*! \brief Exit
- *  \ingroup GrpBaseFunctions
- */
-
 OSG_BASE_DLLMAPPING 
 bool osgExit(void);
-
-/*! \}                                                                 */
 
 OSG_END_NAMESPACE
 
 #include "OSGBaseFunctions.inl"
+
+#define OSGBASEFUNCTIONS_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* OSGBASEFUNCTIONS_H */

@@ -47,9 +47,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! 3D dynamic volume.
-  \ingroup GrpBaseBaseVolume  
-*/
+/*! \ingroup GrpBaseBaseVolume  
+ */
 
 class OSG_BASE_DLLMAPPING DynamicVolume : public Volume
 {

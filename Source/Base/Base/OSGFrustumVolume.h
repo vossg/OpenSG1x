@@ -49,13 +49,7 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \ingroup GrpBaseBaseVolume
-  \brief 3D frustum defined by 6 planes.
-
-  This box class is used by other classes in ase for data exchange
-  and storage. It provides representation of the defining corners of a
-  box in 3D space.
-
-*/
+ */
 
 class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
 {

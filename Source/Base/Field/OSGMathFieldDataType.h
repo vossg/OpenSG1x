@@ -86,42 +86,42 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
     static void      putToString  (const      Matrix &inVal,
                                          std::string &outStr)
     {
-        typedef TypeConstants<Matrix::ValueType> TypeConst;
+        typedef TypeTraits<Matrix::ValueType> TypeTrait;
 
-        outStr.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[4]));
+        outStr.append(TypeTrait::putToString((inVal.getValues())[4]));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[8]));
+        outStr.append(TypeTrait::putToString((inVal.getValues())[8]));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[12]));
-
-        outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[1]));
-        outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[5]));
-        outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[9]));
-        outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[13]));
+        outStr.append(TypeTrait::putToString((inVal.getValues())[12]));
 
         outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[2]));
+        outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[6]));
+        outStr.append(TypeTrait::putToString((inVal.getValues())[5]));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[10]));
+        outStr.append(TypeTrait::putToString((inVal.getValues())[9]));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[14]));
+        outStr.append(TypeTrait::putToString((inVal.getValues())[13]));
 
         outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[3]));
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[7]));
+        outStr.append(TypeTrait::putToString((inVal.getValues())[6]));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[11]));
+        outStr.append(TypeTrait::putToString((inVal.getValues())[10]));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString((inVal.getValues())[15]));
+        outStr.append(TypeTrait::putToString((inVal.getValues())[14]));
+
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[7]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[11]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[15]));
     }
 
     static       UInt32    getBinSize (const Matrix &)
@@ -198,7 +198,7 @@ struct FieldDataTraits<Quaternion> :
                                            std::string     &outStr)
     {
         typedef Quaternion::VectorType::ValueType ValueType;
-        typedef TypeConstants<ValueType>          TypeConst;
+        typedef TypeTraits<ValueType>             TypeTrait;
 
         ValueType axisX;
         ValueType axisY;
@@ -207,16 +207,16 @@ struct FieldDataTraits<Quaternion> :
 
         inVal.getValueAsAxisRad(axisX, axisY, axisZ, angleRad);
 
-        outStr.assign(TypeConst::putToString(axisX));
+        outStr.assign(TypeTrait::putToString(axisX));
 
         outStr.append( " " );
-        outStr.append(TypeConst::putToString(axisY));
+        outStr.append(TypeTrait::putToString(axisY));
 
         outStr.append( " " );
-        outStr.append(TypeConst::putToString(axisZ) );
+        outStr.append(TypeTrait::putToString(axisZ) );
 
         outStr.append( " " );
-        outStr.append(TypeConst::putToString(angleRad) );
+        outStr.append(TypeTrait::putToString(angleRad) );
     }
 
     static       UInt32    getBinSize (const Quaternion &)

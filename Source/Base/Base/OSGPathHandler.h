@@ -57,12 +57,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Pathhandler
-//! \ingroup GrpBaseBase
+/*! \ingroup GrpBaseBase
+ */
 
 class OSG_BASE_DLLMAPPING PathHandler
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/
@@ -94,24 +95,24 @@ class OSG_BASE_DLLMAPPING PathHandler
     /*! \{                                                                 */
 
     void push_backPath       (const Char8 *pathList);
-    void push_backCurrentDir (void                 );
+    void push_backCurrentDir (      void           );
 
     void push_backUnixPath   (const Char8 *pathList);
     void push_backWin32Path  (const Char8 *pathList);
 
     void push_frontPath      (const Char8 *pathList);
-    void push_frontCurrentDir(void                 );
+    void push_frontCurrentDir(      void           );
 
     void push_frontUnixPath  (const Char8 *pathList);
     void push_frontWin32Path (const Char8 *pathList);
 
-    void subUnixPath  (const Char8 *pathList);
-    void subWin32Path (const Char8 *pathList);
+    void subUnixPath         (const Char8 *pathList);
+    void subWin32Path        (const Char8 *pathList);
 
-    void clearPathList(void);
+    void clearPathList       (      void           );
 
-    void setBaseFile  (const Char8 *fileName);
-    void clearBaseFile(void);
+    void setBaseFile         (const Char8 *fileName);
+    void clearBaseFile       (      void           );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -122,6 +123,7 @@ class OSG_BASE_DLLMAPPING PathHandler
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     enum PathType
@@ -139,59 +141,70 @@ class OSG_BASE_DLLMAPPING PathHandler
     typedef std::list<std::string>::iterator PathListIter;
 
     /*---------------------------------------------------------------------*/
+    /*! \name                    Static Constants                          */
+    /*! \{                                                                 */
+
+    static const Char8       _dirSepWin32;
+    static const Char8       _pathSepWin32;
+
+    static const Char8       _dirSepUnix;
+    static const Char8       _pathSepUnix;
+
+    static const Char8       _dirSep;
+    static const Char8       _pathSep;
+
+    static const Char8       _dirSepOther;
+    static const Char8       _pathSepOther;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    static Char8 _dirSepWin32;
-    static Char8 _pathSepWin32;
+    PathList    _pathList;
+    std::string _baseFilePath;
 
-    static Char8 _dirSepUnix;
-    static Char8 _pathSepUnix;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Helper                                  */
+    /*! \{                                                                 */
 
-    static Char8 _dirSep;
-    static Char8 _pathSep;
+    void        validateList        (void                         );
 
-    static Char8 _dirSepOther;
-    static Char8 _pathSepOther;
-
-
-    PathList      _pathList;
-    std::string   _baseFilePath;
-
-
-    void          validateList        (void                           );
-
-    std::string   extractPath         (const Char8         *szFilename);
+    std::string extractPath         (const Char8       *szFilename);
     
-    PathType      analysePathList     (const Char8         *pathList  );
-    PathType      analysePath         (const Char8         *path      );
+    PathType    analysePathList     (const Char8       *pathList  );
+    PathType    analysePath         (const Char8       *path      );
 
-    void          expandWin32Path     (      std::string   &path     );
-    void          expandUnixPath      (      std::string   &path     );
+    void        expandWin32Path     (      std::string &path      );
+    void        expandUnixPath      (      std::string &path      );
     
-    void          push_backPathList   (      PathList      &pathList );
-    void          push_frontPathList  (      PathList      &pathList );
+    void        push_backPathList   (      PathList    &pathList  );
+    void        push_frontPathList  (      PathList    &pathList  );
 
-    void          convertPath         (      std::string   &path     );
+    void        convertPath         (      std::string &path      );
 
-    void          convertWin32PathList(      PathList      &result   );
-    void          convertUnixPathList (      PathList      &result   );
+    void        convertWin32PathList(      PathList    &result    );
+    void        convertUnixPathList (      PathList    &result    );
 
-    void          splitPathList       (const Char8         *pathList, 
-                                       const Char8          pathSep,
-                                             PathList      &result   );
-    void          parsePathList       (const Char8         *pathList, 
-                                             PathList      &result   );
-    void          parseUnixPathList   (const Char8         *pathList, 
-                                             PathList      &result   );
-    void          parseWin32PathList  (const Char8         *pathList, 
-                                             PathList      &result   );
+    void        splitPathList       (const Char8       *pathList, 
+                                     const Char8        pathSep,
+                                           PathList    &result    );
+    void        parsePathList       (const Char8       *pathList, 
+                                           PathList    &result    );
+    void        parseUnixPathList   (const Char8       *pathList, 
+                                           PathList    &result    );
+    void        parseWin32PathList  (const Char8       *pathList, 
+                                           PathList    &result    );
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
+    /*!\brief prohibit default function (move to 'public' if needed) */
     PathHandler(const PathHandler &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const PathHandler &source);
 };
 
@@ -199,5 +212,5 @@ OSG_END_NAMESPACE
 
 #endif /* _OSGPATHHANDLER_H */
 
-#define OSGPATHHANDLER_HEADER_CVSID "@(#)$Id: OSGPathHandler.h,v 1.5 2002/02/11 03:46:26 vossg Exp $"
+#define OSGPATHHANDLER_HEADER_CVSID "@(#)$Id: $"
 

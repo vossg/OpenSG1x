@@ -59,7 +59,7 @@ inline bool Window::isResizePending ( void )
 inline UInt32 Window::registerExtension( const Char8 *s )
 {
     if(s == NULL)
-        return TypeConstants<UInt32>::getMax();
+        return TypeTraits<UInt32>::getMax();
     UInt32 r = _registeredExtensions.size();
     _registeredExtensions.push_back( IDStringLink(s) );
     return ( r );
@@ -68,7 +68,7 @@ inline UInt32 Window::registerExtension( const Char8 *s )
 inline UInt32 Window::registerFunction( const Char8 *s )
 {
     if(s == NULL)
-        return TypeConstants<UInt32>::getMax();
+        return TypeTraits<UInt32>::getMax();
     UInt32 r = _registeredFunctions.size();
     _registeredFunctions.push_back( IDStringLink(s) );
     return r;

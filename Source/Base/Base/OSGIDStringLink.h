@@ -48,7 +48,6 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \ingroup GrpBaseBase
-    \brief IDStringLink
  */
 
 class OSG_BASE_DLLMAPPING IDStringLink : public IDString

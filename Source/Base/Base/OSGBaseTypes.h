@@ -509,20 +509,17 @@ const Real32 Eps = 1E-6f;
 
 const Real32 Pi  = 3.141592653589793f;
 
-/*! sqrt(2)
- *  \ingroup GrpBaseBaseConstants
+/*! \ingroup GrpBaseBaseConstants
  */
 
 const Real32 Sqrt2  = 1.41421356237309504f;
 
-/*! positive infinity
- *  \ingroup GrpBaseBaseConstants
+/*! \ingroup GrpBaseBaseConstants
  */
 
 const Real32 Inf = 1E30;
 
-/*! negative infinity
- *  \ingroup GrpBaseBaseConstants
+/*! \ingroup GrpBaseBaseConstants
  */
 
 const Real32 NegInf = - 1E30;

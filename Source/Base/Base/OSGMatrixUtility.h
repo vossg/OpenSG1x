@@ -50,12 +50,12 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GrpBaseBaseMath
-    \brief Matrix utility functions to create and analyze special kinds 
-           of matrices
+/*! \ingroup GrpBaseBaseMatrixFn
+    Matrix utility functions to create and analyze special kinds 
+    of matrices
  */
 
-/*! \name Matrix utility functions */
+/*! \name Functions */
 /*! @{ */
 
 OSG_BASE_DLLMAPPING bool MatrixOrthogonal        (Matrix &result, 

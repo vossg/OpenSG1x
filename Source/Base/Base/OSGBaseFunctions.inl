@@ -48,21 +48,23 @@ OSG_BEGIN_NAMESPACE
 //   Base Math Functions
 //---------------------------------------------------------------------------
 
-//---------------------------------------------------------------------------
-// osgsqrt  
-//---------------------------------------------------------------------------
+/*---------------------------------------------------------------------*/
+/*! \name sqrt                                                         */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgsqrt(const FloatTypeT rVal)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osgsqrt(RealType(rVal));
 }
 
-/*! \brief osgsqrt
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -75,8 +77,7 @@ Real32 osgsqrt<Real32>(const Real32 rVal)
 #endif
 }
 
-/*! \brief osgsqrt
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -85,21 +86,24 @@ Real64 osgsqrt<Real64>(const Real64 rVal)
     return sqrt(rVal);
 }
 
-//---------------------------------------------------------------------------
-// osgcos   
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name cos                                                          */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgcos(const FloatTypeT rVal)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osgcos(RealType(rVal));
 }
 
-/*! \brief osgcos
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -112,8 +116,7 @@ Real32 osgcos<Real32>(const Real32 rVal)
 #endif
 }
 
-/*! \brief osgcos
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -122,18 +125,25 @@ Real64 osgcos<Real64>(const Real64 rVal)
     return cos(rVal);
 }
 
-//---------------------------------------------------------------------------
-// osgsin  
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name sin                                                          */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgsin(const FloatTypeT rVal)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osgsin(RealType(rVal));
 }
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <> inline
 Real32 osgsin<Real32>(const Real32 rVal)
@@ -145,8 +155,7 @@ Real32 osgsin<Real32>(const Real32 rVal)
 #endif
 }
 
-/*! \brief osgsin
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -155,21 +164,24 @@ Real64 osgsin<Real64>(const Real64 rVal)
     return sin(rVal);
 }
 
-//---------------------------------------------------------------------------
-//  osgtan   
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name tan                                                          */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgtan(const FloatTypeT rVal)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osgtan(RealType(rVal));
 }
 
-/*! \brief osgtan
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -182,8 +194,7 @@ Real32 osgtan<Real32>(const Real32 rVal)
 #endif
 }
 
-/*! \brief osgtan
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -192,21 +203,24 @@ Real64 osgtan<Real64>(const Real64 rVal)
     return tan(rVal);
 }
 
-//---------------------------------------------------------------------------
-// osgacos   
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name acos                                                         */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgacos(const FloatTypeT rVal)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osgacos(RealType(rVal));
 }
 
-/*! \brief osgacos
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -219,8 +233,7 @@ Real32 osgacos<Real32>(const Real32 rVal)
 #endif
 }
 
-/*! \brief osgacos
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -229,21 +242,24 @@ Real64 osgacos<Real64>(const Real64 rVal)
     return acos(rVal);
 }
 
-//---------------------------------------------------------------------------
-// osgasin   
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name asin                                                         */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgasin(const FloatTypeT rVal)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osgasin(RealType(rVal));
 }
 
-/*! \brief osgasin
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -257,8 +273,7 @@ Real32 osgasin<Real32>(const Real32 rVal)
 }
 
 
-/*! \brief osgasin
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -267,21 +282,24 @@ Real64 osgasin<Real64>(const Real64 rVal)
     return asin(rVal);
 }
 
-//---------------------------------------------------------------------------
-//  osgatan   
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name atan                                                         */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgatan(const FloatTypeT rVal)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osgatan(RealType(rVal));
 }
 
-/*! \brief osgatan
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -294,8 +312,7 @@ Real32 osgatan<Real32>(const Real32 rVal)
 #endif
 }
 
-/*! \brief osgatan
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -304,22 +321,25 @@ Real64 osgatan<Real64>(const Real64 rVal)
     return atan(rVal);
 }
 
-//---------------------------------------------------------------------------
-// osgatan2   
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name atan2                                                        */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgatan2(const FloatTypeT rVal1,
              const FloatTypeT rVal2)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osgatan2(RealType(rVal1), RealType(rVal2));
 }
 
-/*! \brief osgatan2
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -336,8 +356,7 @@ Real32 osgatan2<Real32>(const Real32 rVal1, const Real32 rVal2)
 #endif
 }
 
-/*! \brief osgatan2
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -346,12 +365,12 @@ Real64 osgatan2<Real64>(const Real64 rVal1, const Real64 rVal2)
     return atan2(rVal1, rVal2);
 }
 
-//---------------------------------------------------------------------------
-// osgabs  
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name abs                                                          */
+/*! \{                                                                 */
 
-/*! \brief osgabs
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <class TypeT> inline
@@ -360,8 +379,7 @@ TypeT osgabs(const TypeT rValue)
     return (rValue > 0) ? rValue : -rValue;
 }
 
-/*! \brief osgabs
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -374,8 +392,7 @@ Real32 osgabs<Real32>(const Real32 rValue)
 #endif
 }
 
-/*! \brief osgabs
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -384,22 +401,25 @@ Real64 osgabs<Real64>(const Real64 rValue)
     return fabs(rValue);
 }
 
-//---------------------------------------------------------------------------
-//  osgpow
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name pow                                                          */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgpow(const FloatTypeT rVal,
            const FloatTypeT rExp)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osgpow(RealType(rVal), RealType(rExp));
 }
 
-/*! \brief osgpow
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -412,8 +432,7 @@ Real32 osgpow<Real32>(const Real32 rValue, const Real32 rExp)
 #endif
 }
 
-/*! \brief osgpow
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -422,21 +441,24 @@ Real64 osgpow<Real64>(const Real64 rValue, const Real64 rExp)
     return pow(rValue, rExp);
 }
 
-//---------------------------------------------------------------------------
-// osglog  
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name log                                                          */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osglog(const FloatTypeT rVal)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osglog(RealType(rVal));
 }
 
-/*! \brief osglog
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -449,8 +471,7 @@ Real32 osglog<Real32>(const Real32 rVal)
 #endif
 }
 
-/*! \brief osglog
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -459,21 +480,24 @@ Real64 osglog<Real64>(const Real64 rVal)
     return log(rVal);
 }
 
-//---------------------------------------------------------------------------
-// osgexp   
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name exp                                                          */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgexp(const FloatTypeT rVal)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osgexp(RealType(rVal));
 }
 
-/*! \brief osgexp
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -486,8 +510,7 @@ Real32 osgexp<Real32>(const Real32 rVal)
 #endif
 }
 
-/*! \brief osgexp
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -496,21 +519,24 @@ Real64 osgexp<Real64>(const Real64 rVal)
     return exp(rVal);
 }
 
-//---------------------------------------------------------------------------
-// osgfloor  
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name floor                                                        */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgfloor(const FloatTypeT rVal)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osgfloor(RealType(rVal));
 }
 
-/*! \brief osgfloor
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -527,8 +553,7 @@ Real32 osgfloor<Real32>(const Real32 rValue)
 #endif
 }
 
-/*! \brief osgfloor
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -537,9 +562,13 @@ Real64 osgfloor<Real64>(const Real64 rValue)
     return floor(rValue);
 }
 
-//---------------------------------------------------------------------------
-// osgfinite  
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name finite                                                       */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
 UInt32 osgfinite(const FloatTypeT rVal)
@@ -555,12 +584,12 @@ UInt32 osgfinite(const FloatTypeT rVal)
 #endif
 }
 
-//---------------------------------------------------------------------------
-// osgMin  
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name min / max                                                    */
+/*! \{                                                                 */
 
-/*! \brief osgMin
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <class TypeT> inline
@@ -569,12 +598,7 @@ TypeT osgMin(const TypeT lVal, const TypeT rVal)
     return ((lVal < rVal) ? lVal : rVal);
 }
 
-//---------------------------------------------------------------------------
-// osgMax  
-//---------------------------------------------------------------------------
-
-/*! \brief osgMax
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <class TypeT> inline
@@ -583,12 +607,12 @@ TypeT osgMax(const TypeT lVal, const TypeT rVal)
     return ((lVal > rVal) ? lVal : rVal);
 }
 
-//---------------------------------------------------------------------------
-// osgSwap
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name swap                                                         */
+/*! \{                                                                 */
 
-/*! \brief osgSwap
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <class TypeT> inline
@@ -600,21 +624,24 @@ void osgSwap(TypeT & lVal, TypeT & rVal)
     rVal = val;
 }
 
-//---------------------------------------------------------------------------
-//  osgdegree2rad 
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name degree2rad                                                   */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     osgdegree2rad(const FloatTypeT rVal)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osgdegree2rad(RealType(rVal));
 }
 
-/*! \brief osgdegree2rad
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -623,8 +650,7 @@ Real32 osgdegree2rad<Real32>(const Real32 rValue)
    return (rValue/360.f) * 2.f * 3.1415926535f;
 }
 
-/*! \brief osgdegree2rad
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -633,21 +659,24 @@ Real64 osgdegree2rad<Real64>(const Real64 rValue)
    return (rValue/360) * 2 * 3.1415926535;
 }
 
-//---------------------------------------------------------------------------
-// osgrad2degree  
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name rad2degree                                                   */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgrad2degree(const FloatTypeT rVal)
 {
-    typedef typename TypeConstants<FloatTypeT>::RealReturnType RealType;
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
     return  osgrad2degree(RealType(rVal));
 }
 
-/*! \brief osgrad2degree
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -656,8 +685,7 @@ Real32 osgrad2degree<Real32>(const Real32 rValue)
     return (rValue/(2.f * 3.1415926535f)) * 360.f;
 }
 
-/*! \brief osgrad2degree
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -666,42 +694,37 @@ Real64 osgrad2degree<Real64>(const Real64 rValue)
     return (rValue/(2 * 3.1415926535)) * 360;
 }
 
-//---------------------------------------------------------------------------
-// deg2rad
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name deg2rad / rad2deg                                            */
+/*! \{                                                                 */
 
-/*! \brief deg2rad
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType
+typename TypeTraits<FloatTypeT>::RealReturnType
     deg2rad(const FloatTypeT rValue)
 {
     return osgdegree2rad(rValue);
 }
 
-//---------------------------------------------------------------------------
-// rad2deg
-//---------------------------------------------------------------------------
-
-/*! \brief rad2deg
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <class FloatTypeT> inline
-typename TypeConstants<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType 
     rad2deg(const FloatTypeT rValue)
 {
     return osgrad2degree(rValue);
 }
 
-//---------------------------------------------------------------------------
-// osgispower2
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name ispower2                                                     */
+/*! \{                                                                 */
 
-/*! \brief osgispower2
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -723,8 +746,7 @@ bool osgispower2<UInt32>(UInt32 rValue)
         return true;
 }
 
-/*! \brief osgispower2
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -746,12 +768,12 @@ bool osgispower2<Int32>(Int32 rValue)
         return true;
 }
 
-//---------------------------------------------------------------------------
-// osgnextpower2
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name nextpower2                                                   */
+/*! \{                                                                 */
 
-/*! \brief osgnextpower2
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -767,8 +789,7 @@ UInt32 osgnextpower2<UInt32>(UInt32 rValue)
     return result;
 }
 
-/*! \brief osgnextpower2
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -786,8 +807,7 @@ Int32 osgnextpower2<Int32>(Int32 rValue)
 
 #ifdef SIZE_T_NEQ_UINT32
 
-/*! \brief osgnextpower2
- *  \ingroup GrpBaseMathFunctions
+/*! \ingroup GrpBaseBaseMathFn
  */
 
 template <> inline
@@ -804,13 +824,13 @@ size_t osgnextpower2<size_t>(size_t rValue)
 }
 
 #endif
-
-//---------------------------------------------------------------------------
+/*! \}                                                                 */
+//-----------------------------------------------------------------------
 // String Functions
-//---------------------------------------------------------------------------
+//-----------------------------------------------------------------------
 
-/*! \brief copy c strings, allocate new memory using new []
- *  \ingroup GrpBaseFunctions
+/*! copy c strings, allocate new memory using new []
+    \ingroup GrpBaseBaseStringFn
  */
 
 inline
@@ -828,8 +848,8 @@ void stringDup(const Char8 *szInput, Char8 *&szOutput)
     }
 }
 
-/*! \brief limited string compare
- *  \ingroup GrpBaseFunctions
+/*! limited string compare
+    \ingroup GrpBaseBaseStringFn
  */
 
 inline
@@ -838,8 +858,8 @@ Int32 stringncmp(const Char8 *string1, const Char8 *string2, size_t count)
     return ::strncmp(string1, string2, count);
 }
 
-/*! \brief string length
- *  \ingroup GrpBaseFunctions
+/*! string length
+    \ingroup GrpBaseBaseStringFn 
  */
 
 inline
@@ -848,8 +868,8 @@ Int32 stringlen(const Char8 *string1)
     return ::strlen(string1);
 }
 
-/*! \brief string compare
- *  \ingroup GrpBaseFunctions
+/*! string compare
+    \ingroup GrpBaseBaseStringFn
  */
 
 inline
@@ -858,8 +878,8 @@ Int32 stringcmp(const Char8 *string1, const Char8 *string2)
     return ::strcmp(string1, string2);
 }
 
-/*! \brief string case compare
- *  \ingroup GrpBaseFunctions
+/*! string case compare
+    \ingroup GrpBaseBaseStringFn
  */
 
 inline
@@ -877,6 +897,11 @@ Int32 stringcasecmp(const Char8 *string1,
 // Misc Functions
 //---------------------------------------------------------------------------
 
+/*! find the index that has the largest absolute value for a vec3/pnt3
+    \ingroup GrpBaseBaseMiscFn
+ */
+
+
 template<class VecPntT> inline
 UInt32 getMaxIndexAbs3(const VecPntT &v)
 {
@@ -885,6 +910,10 @@ UInt32 getMaxIndexAbs3(const VecPntT &v)
             (osgabs(v[0]) > osgabs(v[2]) ? 0 : 2) : 
             (osgabs(v[1]) > osgabs(v[2]) ? 1 : 2);
 }
+
+/*! \ingroup GrpBaseBaseMiscFn
+ */
+
 
 inline
 Int32 putenv(Char8 *string)
@@ -895,6 +924,11 @@ Int32 putenv(Char8 *string)
     return ::_putenv(string);
 #endif
 }
+
+
+/*! \ingroup GrpBaseBaseMiscFn
+ */
+
 
 inline
 void osgsleep(UInt32 millisecs)
@@ -916,11 +950,20 @@ void osgsleep(UInt32 millisecs)
 #endif
 }
 
+/*! get a random value between 0 and 1
+    \ingroup GrpBaseBaseMiscFn
+ */
+
+
 inline
 Real32 osgrand(void)
 {
     return rand() / (Real32) RAND_MAX;
 }
+
+/*! return true if the current system is big endian
+    \ingroup GrpBaseBaseMiscFn
+ */
 
 inline
 bool osgIsBigEndian(void)
@@ -928,5 +971,85 @@ bool osgIsBigEndian(void)
     return (BYTE_ORDER) == (BIG_ENDIAN);   
 }
 
+
+//---------------------------------------------------------------------------
+// Reference Count Functions
+//---------------------------------------------------------------------------
+
+/*! \ingroup GrpBaseBaseRefCountFn
+ */
+
+template <class T> inline
+void setRefP(T *&pObject, T *&pNewObject)
+{
+    if(pObject != NULL)
+        pObject->subRef();
+
+    pObject = pNewObject;
+
+    if(pObject != NULL)
+        pObject->addRef();
+}
+
+/*! \ingroup GrpBaseBaseRefCountFn
+ */
+
+template <class T> inline
+void addRefP(T *&pObject)
+{
+    if(pObject != NULL)
+        pObject->addRef();
+}
+
+/*! \ingroup GrpBaseBaseRefCountFn
+ */
+
+template <class T> inline
+void subRefP(T *&pObject)
+{
+    if(pObject != NULL)
+        pObject->subRef();
+}
+
+/*! \ingroup GrpBaseBaseRefCountFn
+ */
+
+template <class T> inline
+void clearRefP(T *&pObject)
+{
+    if(pObject != NULL)
+        pObject->subRef();
+
+    pObject = NULL;
+}
+
+/*! \ingroup GrpBaseBaseRefCountFn
+ */
+
+template <class T> inline
+void clearRefPVector(std::vector<T *> &vVector)
+{
+    for(UInt32 i = 0; i < vVector.size(); i++)
+        vVector[i]->subRef();
+
+    vVector.erase(vVector.begin(), vVector.end());
+}
+
+/*! \ingroup GrpBaseBaseRefCountFn
+ */
+
+template <class T> inline
+void clearRefPVectorP(std::vector<T *> *pVector)
+{
+    if(pVector != NULL)
+    {
+        for(UInt32 uiIndex = 0; uiIndex < pVector->size(); uiIndex++)
+            (*pVector)[uiIndex]->subRef();
+
+        pVector->erase(pVector->begin(), pVector->end());
+    }
+}
+
 OSG_END_NAMESPACE
 
+#define OSGBASEFUNCTIONS_INLINE_CVSID "@(#)$Id: $"

@@ -50,7 +50,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GrpBaseBaseMath
+/*! \ingroup GrpBaseBaseMathObj
  */
 
 template <class ValueTypeT>
@@ -266,7 +266,7 @@ std::ostream &operator <<(      std::ostream               &os,
 
 /*! \var typedef QuaternionBase<Real32> Quaternion;
     \brief Quaternion
-    \ingroup GrpBaseBaseMath
+    \ingroup GrpBaseBaseMathObj
  */
 
 typedef QuaternionBase<Real32> Quaternion;

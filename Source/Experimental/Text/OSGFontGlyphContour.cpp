@@ -20,10 +20,10 @@ FontGlyphContour::FontGlyphContour(void) :
     _isClockwise(false),
     _orderingBuffer(0)
 {
-    _bb[0] = TypeConstants<Real32>::getMax();
-    _bb[1] = TypeConstants<Real32>::getMin();
-    _bb[2] = TypeConstants<Real32>::getMax();
-    _bb[3] = TypeConstants<Real32>::getMin();
+    _bb[0] = TypeTraits<Real32>::getMax();
+    _bb[1] = TypeTraits<Real32>::getMin();
+    _bb[2] = TypeTraits<Real32>::getMax();
+    _bb[3] = TypeTraits<Real32>::getMin();
     return;
 }
 

@@ -44,9 +44,6 @@ OSG_BEGIN_NAMESPACE
 //  VecStorage2
 //---------------------------------------------------------------------------
 
-/*! \class VecStorage2
- */
-
 /*! \var VecStorage2::VectorSizeE VecStorage2::_iSize
     \brief Storage size.
 */
@@ -66,7 +63,7 @@ VecStorage2<ValueTypeT>::VecStorage2(void)
 {
     for(UInt32 i = 0; i < _iSize; i++)
     {
-        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        _values[i] = TypeTraits<ValueTypeT>::getZeroElement();
     }
 }
 
@@ -115,9 +112,6 @@ ValueTypeT VecStorage2<ValueTypeT>::y(void) const
 //  VecStorage3
 //---------------------------------------------------------------------------
 
-/*! \class VecStorage3
- */
-
 /*! \var VecStorage3::VectorSizeE VecStorage3::_iSize
     \brief Storage size.
 */
@@ -137,7 +131,7 @@ VecStorage3<ValueTypeT>::VecStorage3(void)
 {
     for(UInt32 i = 0; i < _iSize; i++)
     {
-        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        _values[i] = TypeTraits<ValueTypeT>::getZeroElement();
     }
 }
 
@@ -197,9 +191,6 @@ ValueTypeT VecStorage3<ValueTypeT>::z(void) const
 //  VecStorage4
 //---------------------------------------------------------------------------
 
-/*! \class VecStorage4
- */
-
 /*! \var VecStorage4::VectorSizeE VecStorage4::_iSize
     \brief Storage size.
 */
@@ -219,7 +210,7 @@ VecStorage4<ValueTypeT>::VecStorage4(void)
 {
     for(UInt32 i = 0; i < _iSize; i++)
     {
-        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        _values[i] = TypeTraits<ValueTypeT>::getZeroElement();
     }
 }
 
@@ -289,9 +280,6 @@ ValueTypeT VecStorage4<ValueTypeT>::w(void) const
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \class PointInterface
- */
-
 /*! \typedef PointInterface::RealReturnType
     \brief Used type if the returnvalue must be a real value.
 */
@@ -338,7 +326,7 @@ PointInterface<ValueTypeT,
     {
         for(UInt32 i = 0; i < Self::_iSize; i++)
         {
-            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
         }
     }
     else
@@ -365,7 +353,7 @@ PointInterface<ValueTypeT,
     {
         for(UInt32 i = 0; i < Self::_iSize; i++)
         {
-            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
         }
     }
     else
@@ -426,7 +414,7 @@ PointInterface<ValueTypeT,
         }
         for(UInt32 i = VectorT::_iSize; i < Self::_iSize; i++)
         {
-            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
         }
     }
 }
@@ -464,7 +452,7 @@ PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
 
     for(i = 1; i < Self::_iSize; i++)
     {
-        _values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        _values[i] = TypeTraits<ValueTypeT>::getZeroElement();
     }
 }
 */
@@ -495,7 +483,7 @@ PointInterface<ValueTypeT,
 
         for(UInt32 i = 2; i < Self::_iSize; i++)
         {
-            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
         }
     }
 }
@@ -534,7 +522,7 @@ PointInterface<ValueTypeT,
 
         for(UInt32 i = 3; i < Self::_iSize; i++)
         {
-            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
         }
     }
 }
@@ -581,7 +569,7 @@ PointInterface<ValueTypeT,
 
         for(UInt32 i = 4; i < Self::_iSize; i++)
         {
-            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
         }
     }
 }
@@ -608,7 +596,7 @@ void PointInterface<ValueTypeT, StorageInterfaceT>::setNull(void)
 {
     for(UInt32 i = 0; i < Self::_iSize; i++)
     {
-        Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
     }
 }
 
@@ -726,7 +714,7 @@ void PointInterface<ValueTypeT,
     if(szString == NULL || (*szString) == '\0')
     {
         for(i = 0; i < Self::_iSize; i++)
-            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
 
         return;
     }
@@ -740,13 +728,13 @@ void PointInterface<ValueTypeT,
                 {
                     *tokenC = 0;
                     Self::_values[i++] =
-                        TypeConstants<ValueTypeT>::getFromString(token);
+                        TypeTraits<ValueTypeT>::getFromString(token);
                 }
 
                 while (i < numOfToken)
                 {
                     Self::_values[i++] =
-                        TypeConstants<ValueTypeT>::getZeroElement();
+                        TypeTraits<ValueTypeT>::getZeroElement();
                 }
                 break;
 
@@ -757,7 +745,7 @@ void PointInterface<ValueTypeT,
                 {
                     *tokenC = 0;
                     Self::_values[i++] =
-                        TypeConstants<ValueTypeT>::getFromString(token);
+                        TypeTraits<ValueTypeT>::getFromString(token);
                     tokenC = 0;
                 }
                 break;
@@ -928,7 +916,7 @@ typename PointInterface<ValueTypeT,
 PointInterface<ValueTypeT, StorageInterfaceT>::maxValue(void) 
     const
 {
-    RealReturnType returnValue = TypeConstants<RealReturnType>::getMin();
+    RealReturnType returnValue = TypeTraits<RealReturnType>::getMin();
 
     for(UInt32 i = 0; i < Self::_iSize; i++)
     {
@@ -1232,9 +1220,6 @@ std::ostream &operator <<(        std::ostream                 &os,
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \class VectorInterface
- */
-
 /*! \typedef VectorInterface::RealReturnType
     \brief Used type if the returnvalue must be a real value.
  */
@@ -1262,7 +1247,7 @@ VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(void) :
 {
     for(UInt32 i = 0; i < Self::_iSize; i++)
     {
-        Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
     }
 }
 
@@ -1341,7 +1326,7 @@ VectorInterface<ValueTypeT,
         }
         for(UInt32 i = VectorT::_iSize; i < Self::_iSize; i++)
         {
-            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+            Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
         }
     }
 }
@@ -1372,7 +1357,7 @@ VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(
 
     for(i = 1; i < Self::_iSize; i++)
     {
-        Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
     }
 }
 */
@@ -1468,11 +1453,11 @@ void VectorInterface<ValueTypeT, StorageInterfaceT>::normalize(void)
 
     if(osgabs(rLength) < Eps)
     {
-        rLength = TypeConstants<ValueTypeT>::getOneElement();
+        rLength = TypeTraits<ValueTypeT>::getOneElement();
     }
     else
     {
-        rLength = TypeConstants<ValueTypeT>::getOneElement() / rLength;
+        rLength = TypeTraits<ValueTypeT>::getOneElement() / rLength;
     }
 
     for(UInt32 i = 0; i < Self::_iSize; i++)
@@ -1625,7 +1610,7 @@ typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
 
     if(Self::isZero() || vec.isZero())
     {
-        returnValue = TypeConstants<RealReturnType>::getZeroElement();
+        returnValue = TypeTraits<RealReturnType>::getZeroElement();
     }
     else
     {
@@ -1638,7 +1623,7 @@ typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
         }
         else if((returnValue + Eps) > 1.)
         {
-            returnValue = TypeConstants<RealReturnType>::getZeroElement();
+            returnValue = TypeTraits<RealReturnType>::getZeroElement();
         }
         else
         {
@@ -1670,12 +1655,12 @@ typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
         else
         {
             this->setNull();
-            rDot = TypeConstants<RealReturnType>::getZeroElement();
+            rDot = TypeTraits<RealReturnType>::getZeroElement();
         }
     }
     else
     {
-        rDot = TypeConstants<RealReturnType>::getOneElement();
+        rDot = TypeTraits<RealReturnType>::getOneElement();
     }
 
     return rDot;

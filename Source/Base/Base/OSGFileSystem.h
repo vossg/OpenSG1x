@@ -63,19 +63,24 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief File AccessFlags
+/*! File AccessFlags
+    \ingroup GrpBaseBaseFileSystem
  */
 
 namespace AccessFlags
 {
+    /*! \name AccessFlags              */
+    /*! \ingroup GrpBaseBaseFileSystem */
+    /*! @{                             */
+    
     const UInt32 None        = 0x00;
     const UInt32 IsReadable  = 0x01;
     const UInt32 IsWriteable = 0x02;
+
+    /*! @}                             */
 }
 
-
-/*! \brief File Functions
- */
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 namespace File
 {
@@ -84,13 +89,10 @@ namespace File
                               UInt32  uiAccessFlags);
 }
 
-/*! \brief Directory Functions
- */
-
 namespace Directory
 {
     inline
-    static bool                  tstAttr   (const Char8  *szFilename,
+    static bool                  tstAttr   (const Char8  *szDirname,
                                                   UInt32  uiAccessFlags);
     inline
     static Char8                *getCurrent(void);
@@ -101,6 +103,8 @@ namespace Directory
     inline
     static std::vector<Char8 *> *getEntries(const Char8 *szDirname);
 }
+
+#endif
 
 OSG_END_NAMESPACE
 

@@ -13,74 +13,123 @@ using namespace OSG;
 /*! \defgroup GrpBaseBase Base
     \ingroup GrpBase
 
-    \brief ToDo
-*/
-
-/*! \defgroup GrpBaseBaseMath Math
-    \ingroup GrpBaseBase
-
-    \brief ToDo
-*/
-
-/*! \defgroup GrpBaseBaseColors Colors
-    \ingroup GrpBaseBase
-
-    \brief ToDo
-*/
-
-/*! \defgroup GrpBaseBaseHelper Helper
-    \ingroup GrpBaseBase
-
-    \brief ToDo
-*/
-
-/*! \defgroup GrpBaseBaseMultiThreading Multithreading
-    \ingroup GrpBaseBase
-
-    \brief ToDo
+    ToDo
 */
 
 /*! \defgroup GrpBaseBaseBaseTypes BaseTypes
     \ingroup GrpBaseBase
 
-    \brief ToDo
+    ToDo
 */
 
 /*! \defgroup GrpBaseBaseBaseTypeTraits BaseTypesTraits
     \ingroup GrpBaseBase
 
-    \brief ToDo
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseColors Colors
+    \ingroup GrpBaseBase
+
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseCmpTimeFn Compile Time Functions
+    \ingroup GrpBaseBase
+
+    ToDo
 */
 
 /*! \defgroup GrpBaseBaseConstants Constants
     \ingroup GrpBaseBase
 
-    \brief ToDo
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseFileSystem FileSystem
+    \ingroup GrpBaseBase
+
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseGLConstants GLConstants
+    \ingroup GrpBaseBase
+
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseHelper Helper
+    \ingroup GrpBaseBase
+
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseInitExit Initialization / Termination
+    \ingroup GrpBaseBase
+
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseMath Math
+    \ingroup GrpBaseBase
+
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseMathObj Objects
+    \ingroup GrpBaseBaseMath
+
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseMathFn Functions
+    \ingroup GrpBaseBaseMath
+
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseMatrixFn Matrix Utility Functions
+    \ingroup GrpBaseBaseMath
+
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseMiscFn Miscellaneous Functions
+    \ingroup GrpBaseBase
+
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseMultiThreading Multithreading
+    \ingroup GrpBaseBase
+
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseRefCountFn Reference Count Functions
+    \ingroup GrpBaseBase
+
+    ToDo
+*/
+
+/*! \defgroup GrpBaseBaseStringFn String Functions
+    \ingroup GrpBaseBase
+
+    ToDo
 */
 
 /*! \defgroup GrpBaseBaseTypeSystem TypeSystem
     \ingroup GrpBaseBase
 
-    \brief ToDo
+    ToDo
 */
 
 /*! \defgroup GrpBaseBaseVolume Volume
     \ingroup GrpBaseBase
 
-    \brief ToDo
+    ToDo
 */
 
-/*! \defgroup GrpBaseFieldSingle Single-Element Fields
-    \ingroup GrpBaseField
-
-    \brief ToDo
-*/
-
-/*! \defgroup GrpBaseFieldMulti Multi-Element Fields
-    \ingroup GrpBaseField
-
-    \brief ToDo
-*/
 
 /*! \defgroup GrpBaseNetwork Network
     \ingroup GrpBase
@@ -100,9 +149,8 @@ communication. This objects are mainly used by OpenSG-Cluster support
     \ingroup GrpBase
 
     STLHelpers are little structures and classes that are need to run STL
-    algorithms on internal data structures. They are usually not accessible
-    from the outside. 
-*/
+    algorithms or to use STL containers. 
+ */
 
 /*! \page PageBase Base
 
@@ -119,7 +167,7 @@ As one goal of OpenSG is the ability to run programs on a lot of different
 platforms, especially Unix and Windows, we have our own types which are
 guaranteed to have the same size on all platforms. 
 
-We have our own bool type Bool, and signed and unsigned integers in all useful
+We have our own signed and unsigned integers in all useful
 sizes: Int8, UInt8, Int16, UInt16, Int32, UInt32, Int64, UInt64 as well as the
 two usual float sizes Real32 and Real64. Some useful constant are available:
 Eps, Pi, Inf and NegInf. A useful construct for template programming is the

@@ -57,7 +57,6 @@ OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream  &os,
                                               const IDString      &obj);
 
 /*! \ingroup GrpBaseBase
-    \brief IDString
  */
 
 class OSG_BASE_DLLMAPPING IDString

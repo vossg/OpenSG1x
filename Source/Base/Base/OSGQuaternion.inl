@@ -99,9 +99,9 @@ QuaternionBase<ValueTypeT>::QuaternionBase(void)
 {
     _quat[0] =
         _quat[1] =
-        _quat[2] = TypeConstants<ValueTypeT>::getZeroElement();
+        _quat[2] = TypeTraits<ValueTypeT>::getZeroElement();
 
-    _quat[3] = TypeConstants<ValueTypeT>::getOneElement();
+    _quat[3] = TypeTraits<ValueTypeT>::getOneElement();
 }
 
 
@@ -156,9 +156,9 @@ void QuaternionBase<ValueTypeT>::setIdentity(void)
 {
     _quat[0] =
         _quat[1] =
-        _quat[2] = TypeConstants<ValueTypeT>::getZeroElement();
+        _quat[2] = TypeTraits<ValueTypeT>::getZeroElement();
 
-    _quat[3] = TypeConstants<ValueTypeT>::getOneElement();
+    _quat[3] = TypeTraits<ValueTypeT>::getOneElement();
 }
 
 /*! \brief Sets value of rotation from array interpreted as axis and angle
@@ -496,15 +496,15 @@ void QuaternionBase<ValueTypeT>::setValueAsQuat(const Char8 *str)
             case '\0':
                 if (tokenC)
                 {
-                    *tokenC = 0;
-                    vec[i++] =
-                        TypeConstants<ValueTypeT>::getFromString(token);
+                    *tokenC   = 0;
+                     vec[i++] = TypeTraits<ValueTypeT>::getFromString(token);
 
                 }
 
                 while (i < numOfToken)
-                    vec[i++] =
-                        TypeConstants<ValueTypeT>::getZeroElement();
+                {
+                    vec[i++] = TypeTraits<ValueTypeT>::getZeroElement();
+                }
 
                 break;
             case ' ' :
@@ -512,10 +512,9 @@ void QuaternionBase<ValueTypeT>::setValueAsQuat(const Char8 *str)
             case '\n':
                 if (tokenC)
                 {
-                    *tokenC = 0;
-                    vec[i++] =
-                        TypeConstants<ValueTypeT>::getFromString(token);
-                    tokenC = 0;
+                    *tokenC   = 0;
+                     vec[i++] = TypeTraits<ValueTypeT>::getFromString(token);
+                     tokenC   = 0;
                 }
                 break;
             default:
@@ -600,7 +599,7 @@ void QuaternionBase<ValueTypeT>::getValueAsAxisDeg(ValueTypeT &x,
 
     if(len > Eps)
     {
-        q *= (TypeConstants<ValueTypeT>::getOneElement() / len);
+        q *= (TypeTraits<ValueTypeT>::getOneElement() / len);
 
         x  = q[0];
         y  = q[1];
@@ -610,11 +609,11 @@ void QuaternionBase<ValueTypeT>::getValueAsAxisDeg(ValueTypeT &x,
     }
     else
     {
-        x = TypeConstants<ValueTypeT>::getZeroElement();
-        y = TypeConstants<ValueTypeT>::getZeroElement();
-        z = TypeConstants<ValueTypeT>::getOneElement();
+        x = TypeTraits<ValueTypeT>::getZeroElement();
+        y = TypeTraits<ValueTypeT>::getZeroElement();
+        z = TypeTraits<ValueTypeT>::getOneElement();
 
-        w = TypeConstants<ValueTypeT>::getZeroElement();
+        w = TypeTraits<ValueTypeT>::getZeroElement();
     }
 }
 
@@ -759,11 +758,11 @@ void QuaternionBase<ValueTypeT>::normalize(void)
 
     if(osgabs(rLength) < Eps)
     {
-        rLength =  TypeConstants<ValueTypeT>::getOneElement();
+        rLength =  TypeTraits<ValueTypeT>::getOneElement();
     }
     else
     {
-        rLength =  TypeConstants<ValueTypeT>::getOneElement() / rLength;
+        rLength =  TypeTraits<ValueTypeT>::getOneElement() / rLength;
     }
 
     for(UInt32 i = 0; i < 4; i++)

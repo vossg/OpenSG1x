@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *           Copyright (C) 2000-2002,2002 by the OpenSG Forum                *
+ *                Copyright (C) 2000-2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -50,284 +50,280 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::NormalQuantifier
-    NormalQuantifier documentation,
- */
 
+/*--------------------------- Constructors --------------------------------*/
 
-/*! \enum NormalQuantifier::ENUMNAME
-  
- */
-
-
-/*! \var VARTYPE NormalQuantifier::_VARNAME
-    variable documentation
- */
-
-
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
-/*! Constructor documentation
- */
 NormalQuantifier::NormalQuantifier(UInt32 numberSubdivisions)
 {
-  build(numberSubdivisions);
+    build(numberSubdivisions);
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
+/*---------------------------- Destructor ---------------------------------*/
 
-/*! Destructor documentation
- */
 NormalQuantifier::~NormalQuantifier(void)
 {
-  ;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             build                                       */
+/*---------------------------- get ----------------------------------------*/
+
+/*! get a index for the given normal
+ */
+
+UInt32 NormalQuantifier::getIndex(Vec3f  &normal, 
+                                  UInt32  numberSubdivisions) const
+{
+    UInt32 index;
+    UInt32 nS;
+    UInt32 octant;
+    UInt32 xoctant;
+    UInt32 yoctant;
+    UInt32 zoctant;
+
+    Vec3f point1;
+    Vec3f point2;
+    Vec3f point3;
+  
+    if(numberSubdivisions == 0)
+    {
+        nS = _numberSubdivisions;
+    }
+    else if(numberSubdivisions > _numberSubdivisions)
+    {
+        nS = _numberSubdivisions;
+    }
+    else
+    {
+        nS = numberSubdivisions;
+    }
+  
+    octant = 
+        ((normal.x() >= 0 ? 0 : 1) << 2) | 
+        ((normal.y() >= 0 ? 0 : 1) << 1) | 
+        ( normal.z() >= 0 ? 0 : 1);
+
+    xoctant = (octant & 4) > 0 ? -1 : 1;
+    yoctant = (octant & 2) > 0 ? -1 : 1;
+    zoctant = (octant & 1) > 0 ? -1 : 1;
+    
+    point1.setValues(0.f * xoctant, 0.f * yoctant, 1.f * zoctant);
+    point2.setValues(1.f * xoctant, 0.f * yoctant, 0.f * zoctant);
+    point3.setValues(0.f * xoctant, 1.f * yoctant, 0.f * zoctant);
+
+    index = getSubIndex(normal, point1, point2, point3, nS);
+  
+    index = (octant << (2 * nS)) + index;
+  
+    return index;
+}
+
+/*---------------------------- Build --------------------------------------*/
+
+/*! fills the normal table with 8*(2^(2*numberSubdivisions))
+ */
 
 void NormalQuantifier::build (UInt32 numberSubdivisions)
 {
-  Vec3f point1, point2, point3;
-  UInt32 octant, xoctant, yoctant, zoctant;
-  UInt32 index = 0, nN = ((1<<(2*numberSubdivisions))*8);
-  
-  _numberSubdivisions = numberSubdivisions;
-  _normalTable.resize(nN);
-  
-  if (_numberSubdivisions) 
-    {
-      for (octant = 0; octant<8; octant++) 
-        {
-          xoctant = (octant & 4)>0?-1:1;
-          yoctant = (octant & 2)>0?-1:1;
-          zoctant = (octant & 1)>0?-1:1;
-          
-          point1.setValues(0.f * xoctant, 0.f * yoctant, 1.f * zoctant);
-          point2.setValues(1.f * xoctant, 0.f * yoctant, 0.f * zoctant);
-          point3.setValues(0.f * xoctant, 1.f * yoctant, 0.f * zoctant);
-          
-          subdivide(point1, point2, point3, _numberSubdivisions+1, index);
-        }
+    UInt32 index = 0;
+    UInt32 nN    = ((1 << (2 * numberSubdivisions)) * 8);
+    
+    _numberSubdivisions = numberSubdivisions;
 
-      if (index != nN)
+    _normalTable.resize(nN);
+  
+    if(_numberSubdivisions != 0) 
+    {
+        for(UInt32 octant = 0; octant < 8; octant++) 
         {
-          FFATAL (("NormalQuantifier::build() index missmatch!\n"));
+            UInt32 xoctant = (octant & 4)>0?-1:1;
+            UInt32 yoctant = (octant & 2)>0?-1:1;
+            UInt32 zoctant = (octant & 1)>0?-1:1;
+            
+            Vec3f point1(0.f * xoctant, 0.f * yoctant, 1.f * zoctant);
+            Vec3f point2(1.f * xoctant, 0.f * yoctant, 0.f * zoctant);
+            Vec3f point3(0.f * xoctant, 1.f * yoctant, 0.f * zoctant);
+            
+            subdivide(point1, point2, point3, _numberSubdivisions+1, index);
         }
-      else
+        
+        if(index != nN)
         {
-          FLOG (( "NormalQuantifier init: %d subdivision, %d normal\n",
-                  _numberSubdivisions, _normalTable.size() ));
+            FFATAL(("NormalQuantifier::build() index missmatch!\n"));
+        }
+        else
+        {
+            FLOG(("NormalQuantifier init: %d subdivision, %d normal\n",
+                  _numberSubdivisions, _normalTable.size()));
         }
     }  
 }
 
+/*---------------------------- Helper -------------------------------------*/
 
-/*-------------------------------------------------------------------------*/
-/*                             helper                                      */
+/*! recursive function to fill the NormalsTable
+ */
 
-void NormalQuantifier::subdivide ( Vec3f point1, Vec3f point2, Vec3f point3, 
-                                   UInt32 number, UInt32 &index) 
+void NormalQuantifier::subdivide(Vec3f   point1, 
+                                 Vec3f   point2, 
+                                 Vec3f   point3, 
+                                 UInt32  number, 
+                                 UInt32 &index ) 
 {
-  Vec3f newPoint1, newPoint2, newPoint3;
-  Vec3f newPoint;
+    number--;
   
-  number--;
-  
-  if (number == 0) 
+    if(number == 0) 
     {
-      newPoint = point1;
-      newPoint += point2;
-      newPoint += point3;
-      newPoint /= 3;
-      
-      newPoint.normalize();
-      _normalTable[index] = newPoint;
-      ++index; 
+        Vec3f newPoint = point1;
+
+        newPoint += point2;
+        newPoint += point3;
+        newPoint /= 3;
+        
+        newPoint.normalize();
+
+        _normalTable[index] = newPoint;
+        ++index; 
     }
-  else 
+    else 
     {  
-      newPoint1 = point1;
-      newPoint1 += point2;
-      newPoint1 /= 2;
-      newPoint1.normalize();
+        Vec3f newPoint1 = point1;
 
-      newPoint2 = point1;
-      newPoint2 += point3;
-      newPoint2 /= 2; 
-      newPoint2.normalize();
+        newPoint1 += point2;
+        newPoint1 /= 2;
+        newPoint1.normalize();
+        
+        Vec3f newPoint2 = point1;
 
-      newPoint3 = point2;
-      newPoint3 += point3;
-      newPoint3 /= 2;
-      newPoint3.normalize();
-      
-      subdivide(point1, newPoint1, newPoint2, number, index);
-      subdivide(newPoint1, point2, newPoint3, number, index);
-      subdivide(newPoint1, newPoint2, newPoint3, number, index);
-      subdivide(newPoint2, newPoint3, point3, number, index);
+        newPoint2 += point3;
+        newPoint2 /= 2; 
+        newPoint2.normalize();
+        
+        Vec3f newPoint3 = point2;
+
+        newPoint3 += point3;
+        newPoint3 /= 2;
+        newPoint3.normalize();
+        
+        subdivide(point1   , newPoint1, newPoint2, number, index);
+        subdivide(newPoint1, point2   , newPoint3, number, index);
+        subdivide(newPoint1, newPoint2, newPoint3, number, index);
+        subdivide(newPoint2, newPoint3, point3   , number, index);
     }
 }
 
-UInt32 NormalQuantifier::getSubIndex ( Vec3f point, 
-                                       Vec3f point1, Vec3f point2, Vec3f point3, 
-                                       UInt32 number ) const
+/*! recursive function to get an index
+ */
+
+UInt32 NormalQuantifier::getSubIndex(Vec3f point, 
+                                     Vec3f point1, 
+                                     Vec3f point2, 
+                                     Vec3f point3, 
+                                     UInt32 number) const
 {
-  Vec3f newPoint1, newPoint2, newPoint3;
-  Vec3f midPoint[4];
-  Real32 dot, max;
-  UInt32 i, index = 0, gate;
+    Vec3f midPoint[4];
   
-  number--;
+    number--;
+    
+    Vec3f newPoint1 = point1;
+
+    newPoint1 += point2;
+    newPoint1 /= 2; 
+    newPoint1.normalize();
+
+    Vec3f newPoint2 = point1;
+
+    newPoint2 += point3;
+    newPoint2 /=2; 
+    newPoint2.normalize();
   
-  newPoint1 = point1;
-  newPoint1 += point2;
-  newPoint1 /= 2; 
-  newPoint1.normalize();
+    Vec3f newPoint3 = point2;
 
-  newPoint2 = point1;
-  newPoint2 += point3;
-  newPoint2 /=2; 
-  newPoint2.normalize();
+    newPoint3 += point3;
+    newPoint3 /= 2; 
+    newPoint3.normalize();
   
-  newPoint3 = point2;
-  newPoint3 += point3;
-  newPoint3 /= 2; 
-  newPoint3.normalize();
-  
-  midPoint[0] = point1;
-  midPoint[0] += newPoint1;
-  midPoint[0] += newPoint2; 
-  midPoint[0].normalize();
+    midPoint[0]  = point1;
+    midPoint[0] += newPoint1;
+    midPoint[0] += newPoint2; 
+    midPoint[0].normalize();
 
-  midPoint[1] = newPoint1;
-  midPoint[1] += point2;
-  midPoint[1] += newPoint3; 
-  midPoint[1].normalize();
+    midPoint[1]  = newPoint1;
+    midPoint[1] += point2;
+    midPoint[1] += newPoint3; 
+    midPoint[1].normalize();
 
-  midPoint[2] = newPoint1;
-  midPoint[2] += newPoint2;
-  midPoint[2] += newPoint3; 
-  midPoint[2].normalize();
+    midPoint[2]  = newPoint1;
+    midPoint[2] += newPoint2;
+    midPoint[2] += newPoint3; 
+    midPoint[2].normalize();
 
-  midPoint[3] = newPoint2;
-  midPoint[3] += newPoint3;
-  midPoint[3] += point3; 
-  midPoint[3].normalize();
+    midPoint[3]  = newPoint2;
+    midPoint[3] += newPoint3;
+    midPoint[3] += point3; 
+    midPoint[3].normalize();
 
-  max = 0;
-  for (i = 0; i < 4; i++)
+    Real32 dot  = 0.f;
+    Real32 rMax = 0.f;
+    UInt32 gate = 0;
+
+    for(UInt32 i = 0; i < 4; i++)
     {
-      dot = point.dot(midPoint[i]);
-      if (dot > max) 
+        dot = point.dot(midPoint[i]);
+
+        if(dot > rMax) 
         {
-          max = dot;
-          gate = i;
+            rMax = dot;
+            gate = i;
         }
     }
 
-  if (number > 0)
+    UInt32 index = 0;
+
+    if(number > 0)
     {
-      index = gate << (number*2);
+        index = gate << (number * 2);
   
-      switch (gate) {
-      case 0:
-        index += getSubIndex(point, point1, newPoint1, newPoint2, number);
-        break;
-      case 1:
-        index += getSubIndex(point, newPoint1, point2, newPoint3, number);
-        break;
-      case 2:
-        index += getSubIndex(point, newPoint1, newPoint2, newPoint3, number);
-        break;
-      case 3:
-        index += getSubIndex(point, newPoint2, newPoint3, point3, number);
-        break;
-      }
+        switch(gate) 
+        {
+            case 0:
+                index += getSubIndex(point, 
+                                     point1, 
+                                     newPoint1, 
+                                     newPoint2, 
+                                     number);
+                break;
+            case 1:
+                index += getSubIndex(point, 
+                                     newPoint1, 
+                                     point2, 
+                                     newPoint3, 
+                                     number);
+                break;
+            case 2:
+                index += getSubIndex(point, 
+                                     newPoint1, 
+                                     newPoint2, 
+                                     newPoint3, 
+                                     number);
+                break;
+            case 3:
+                index += getSubIndex(point, 
+                                     newPoint2, 
+                                     newPoint3, 
+                                     point3, 
+                                     number);
+                break;
+        }
     }
-  else
-    index = gate;
-  
-  return index;
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             get                                         */
-UInt32 NormalQuantifier::getIndex  ( Vec3f &normal, 
-                                     UInt32 numberSubdivisions ) const
-{
-  UInt32 index, nS, octant, xoctant, yoctant, zoctant;
-  Vec3f point1, point2, point3;
-  
-  if (numberSubdivisions == 0)
-    nS = _numberSubdivisions;
-  else
-    if (numberSubdivisions > _numberSubdivisions)
-      nS = _numberSubdivisions;
     else
-      nS = numberSubdivisions;
-  
-  octant = 
-    ((normal.x()>=0?0:1)<<2) | 
-    ((normal.y()>=0?0:1)<<1) | 
-    (normal.z()>=0?0:1);
+    {
+        index = gate;
+    }
 
-  xoctant = (octant & 4)>0?-1:1;
-  yoctant = (octant & 2)>0?-1:1;
-  zoctant = (octant & 1)>0?-1:1;
- 
-  point1.setValues(0.f * xoctant, 0.f * yoctant, 1.f * zoctant);
-  point2.setValues(1.f * xoctant, 0.f * yoctant, 0.f * zoctant);
-  point3.setValues(0.f * xoctant, 1.f * yoctant, 0.f * zoctant);
-  index = getSubIndex(normal, point1, point2, point3, nS);
-  
-  index = (octant<<(2*nS)) + index;
-  
-  return index;
+    return index;
 }
 
 
-/*-------------------------------------------------------------------------*/
-/*                             Assignment                                  */
 
-/*! assignment
- */
-NormalQuantifier& NormalQuantifier::operator = (const NormalQuantifier &source)
-{
-  _numberSubdivisions = source._numberSubdivisions;
-  _normalTable = source._normalTable;
-
-  return *this;
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Comparison                                  */
-
-/*! less
- */
-
-bool NormalQuantifier::operator < (const NormalQuantifier &other) const
-{
-    return (this->_numberSubdivisions < other._numberSubdivisions);
-}
-
-/*! equal
- */
-
-bool NormalQuantifier::operator == (const NormalQuantifier &other) const
-{
-  return (this->_numberSubdivisions == other._numberSubdivisions);
-}
-
-/*! unequal
- */
-
-bool NormalQuantifier::operator != (const NormalQuantifier &other) const
-{
-    return ! (*this == other);
-}
 
 
 /*-------------------------------------------------------------------------*/

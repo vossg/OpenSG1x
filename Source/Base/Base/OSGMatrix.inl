@@ -46,9 +46,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \class TransformationMatrix
- */
-
 /*! \typedef TransformationMatrix::ValueType
     \brief Value type, eg Real32
 */
@@ -103,7 +100,7 @@ TransformationMatrix<ValueTypeT>::TransformationMatrix(void)
 {
     for(UInt32 i = 0; i < 4; i++)
     {
-        _matrix[i][i] = TypeConstants<ValueType>::getOneElement();
+        _matrix[i][i] = TypeTraits<ValueType>::getOneElement();
     }
 }
 
@@ -186,7 +183,7 @@ void TransformationMatrix<ValueTypeT>::setIdentity(void)
     for(UInt32 i = 0; i < 4; i++)
     {
         _matrix[i].setNull();
-        _matrix[i][i] = TypeConstants<ValueType>::getOneElement();
+        _matrix[i][i] = TypeTraits<ValueType>::getOneElement();
     }
 }
 
@@ -364,15 +361,15 @@ void TransformationMatrix<ValueTypeT>::setValue(const Char8 *str,
             case '\0':
                 if (tokenC)
                 {
-                    *tokenC = 0;
-                    vec[i++] =
-                        TypeConstants<ValueTypeT>::getFromString(token);
+                    *tokenC   = 0;
+                     vec[i++] = TypeTraits<ValueTypeT>::getFromString(token);
 
                 }
 
                 while (i < numOfToken)
-                    vec[i++] =
-                        TypeConstants<ValueTypeT>::getZeroElement();
+                {
+                    vec[i++] = TypeTraits<ValueTypeT>::getZeroElement();
+                }
 
                 break;
             case ' ':
@@ -381,10 +378,9 @@ void TransformationMatrix<ValueTypeT>::setValue(const Char8 *str,
             case ',':
                 if (tokenC)
                 {
-                    *tokenC = 0;
-                    vec[i++] =
-                        TypeConstants<ValueTypeT>::getFromString(token);
-                    tokenC = 0;
+                    *tokenC   = 0;
+                     vec[i++] = TypeTraits<ValueTypeT>::getFromString(token);
+                     tokenC   = 0;
                 }
                 break;
             default:
@@ -1583,9 +1579,9 @@ bool TransformationMatrix<ValueTypeT>::inverse3(
 
     result[3][0] =
         result[3][1] =
-        result[3][2] = TypeConstants<ValueType>::getZeroElement();
+        result[3][2] = TypeTraits<ValueType>::getZeroElement();
 
-    result[3][3] = TypeConstants<ValueType>::getOneElement();
+    result[3][3] = TypeTraits<ValueType>::getOneElement();
 
     return true;
 }
@@ -1649,9 +1645,9 @@ bool TransformationMatrix<ValueTypeT>::invert3(void)
 
     result[3][0] =
         result[3][1] =
-        result[3][2] = TypeConstants<ValueType>::getZeroElement();
+        result[3][2] = TypeTraits<ValueType>::getZeroElement();
 
-    result[3][3] = TypeConstants<ValueType>::getOneElement();
+    result[3][3] = TypeTraits<ValueType>::getOneElement();
 
     *this = result;
 
@@ -1718,9 +1714,9 @@ bool TransformationMatrix<ValueTypeT>::invertFrom3(
 
     _matrix[3][0] =
         _matrix[3][1] =
-        _matrix[3][2] = TypeConstants<ValueType>::getZeroElement();
+        _matrix[3][2] = TypeTraits<ValueType>::getZeroElement();
 
-    _matrix[3][3] = TypeConstants<ValueType>::getOneElement();
+    _matrix[3][3] = TypeTraits<ValueType>::getOneElement();
 
     return true;
 }
@@ -2202,28 +2198,28 @@ bool TransformationMatrix<ValueTypeT>::log(TransformationMatrix &result) const
     // Take repeated square roots to reduce spectral radius
     Z.setValue(A);
 
-    Z[0][0] -= TypeConstants<ValueType>::getOneElement();
-    Z[1][1] -= TypeConstants<ValueType>::getOneElement();
-    Z[2][2] -= TypeConstants<ValueType>::getOneElement();
-    Z[3][3] -= TypeConstants<ValueType>::getOneElement();
+    Z[0][0] -= TypeTraits<ValueType>::getOneElement();
+    Z[1][1] -= TypeTraits<ValueType>::getOneElement();
+    Z[2][2] -= TypeTraits<ValueType>::getOneElement();
+    Z[3][3] -= TypeTraits<ValueType>::getOneElement();
 
     while(Z.normInfinity() > 0.5)
     {
         A.sqrt    ( );
         Z.setValue(A);
 
-        Z[0][0] -= TypeConstants<ValueType>::getOneElement();
-        Z[1][1] -= TypeConstants<ValueType>::getOneElement();
-        Z[2][2] -= TypeConstants<ValueType>::getOneElement();
-        Z[3][3] -= TypeConstants<ValueType>::getOneElement();
+        Z[0][0] -= TypeTraits<ValueType>::getOneElement();
+        Z[1][1] -= TypeTraits<ValueType>::getOneElement();
+        Z[2][2] -= TypeTraits<ValueType>::getOneElement();
+        Z[3][3] -= TypeTraits<ValueType>::getOneElement();
 
         k++;
     }
 
-    A[0][0] -= TypeConstants<ValueType>::getOneElement();
-    A[1][1] -= TypeConstants<ValueType>::getOneElement();
-    A[2][2] -= TypeConstants<ValueType>::getOneElement();
-    A[3][3] -= TypeConstants<ValueType>::getOneElement();
+    A[0][0] -= TypeTraits<ValueType>::getOneElement();
+    A[1][1] -= TypeTraits<ValueType>::getOneElement();
+    A[2][2] -= TypeTraits<ValueType>::getOneElement();
+    A[3][3] -= TypeTraits<ValueType>::getOneElement();
 
     A.negate();
 
@@ -2265,10 +2261,10 @@ bool TransformationMatrix<ValueTypeT>::logOf(
     // Take repeated square roots to reduce spectral radius
     Z.setValue(A);
 
-    Z[0][0] -= TypeConstants<ValueType>::getOneElement();
-    Z[1][1] -= TypeConstants<ValueType>::getOneElement();
-    Z[2][2] -= TypeConstants<ValueType>::getOneElement();
-    Z[3][3] -= TypeConstants<ValueType>::getOneElement();
+    Z[0][0] -= TypeTraits<ValueType>::getOneElement();
+    Z[1][1] -= TypeTraits<ValueType>::getOneElement();
+    Z[2][2] -= TypeTraits<ValueType>::getOneElement();
+    Z[3][3] -= TypeTraits<ValueType>::getOneElement();
 
     while(Z.normInfinity() > 0.5)
     {
@@ -2276,18 +2272,18 @@ bool TransformationMatrix<ValueTypeT>::logOf(
 
         Z.setValue(A);
 
-        Z[0][0] -= TypeConstants<ValueType>::getOneElement();
-        Z[1][1] -= TypeConstants<ValueType>::getOneElement();
-        Z[2][2] -= TypeConstants<ValueType>::getOneElement();
-        Z[3][3] -= TypeConstants<ValueType>::getOneElement();
+        Z[0][0] -= TypeTraits<ValueType>::getOneElement();
+        Z[1][1] -= TypeTraits<ValueType>::getOneElement();
+        Z[2][2] -= TypeTraits<ValueType>::getOneElement();
+        Z[3][3] -= TypeTraits<ValueType>::getOneElement();
 
         k++;
     }
 
-    A[0][0] -= TypeConstants<ValueType>::getOneElement();
-    A[1][1] -= TypeConstants<ValueType>::getOneElement();
-    A[2][2] -= TypeConstants<ValueType>::getOneElement();
-    A[3][3] -= TypeConstants<ValueType>::getOneElement();
+    A[0][0] -= TypeTraits<ValueType>::getOneElement();
+    A[1][1] -= TypeTraits<ValueType>::getOneElement();
+    A[2][2] -= TypeTraits<ValueType>::getOneElement();
+    A[3][3] -= TypeTraits<ValueType>::getOneElement();
 
     A.negate();
 

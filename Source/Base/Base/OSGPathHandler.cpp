@@ -51,29 +51,25 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::PathHandler
- */
+const Char8 PathHandler::_dirSepWin32  = '\\';
+const Char8 PathHandler::_pathSepWin32 = ';';
 
-Char8 PathHandler::_dirSepWin32  = '\\';
-Char8 PathHandler::_pathSepWin32 = ';';
-
-Char8 PathHandler::_dirSepUnix   = '/';
-Char8 PathHandler::_pathSepUnix  = ':';
+const Char8 PathHandler::_dirSepUnix   = '/';
+const Char8 PathHandler::_pathSepUnix  = ':';
 
 #ifdef WIN32
-Char8 PathHandler::_dirSep       = _dirSepWin32;
-Char8 PathHandler::_pathSep      = _pathSepWin32;
-Char8 PathHandler::_dirSepOther  = _dirSepUnix;
-Char8 PathHandler::_pathSepOther = _pathSepUnix;
+const Char8 PathHandler::_dirSep       = _dirSepWin32;
+const Char8 PathHandler::_pathSep      = _pathSepWin32;
+const Char8 PathHandler::_dirSepOther  = _dirSepUnix;
+const Char8 PathHandler::_pathSepOther = _pathSepUnix;
 #else
-Char8 PathHandler::_dirSep       = _dirSepUnix;
-Char8 PathHandler::_pathSep      = _pathSepUnix;
-Char8 PathHandler::_dirSepOther  = _dirSepWin32;
-Char8 PathHandler::_pathSepOther = _pathSepWin32;
+const Char8 PathHandler::_dirSep       = _dirSepUnix;
+const Char8 PathHandler::_pathSep      = _pathSepUnix;
+const Char8 PathHandler::_dirSepOther  = _dirSepWin32;
+const Char8 PathHandler::_pathSepOther = _pathSepWin32;
 #endif
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
+/*--------------------------- Constructors --------------------------------*/
 
 PathHandler::PathHandler(void) :
     _pathList    (),
@@ -86,15 +82,13 @@ PathHandler::PathHandler(const Char8 *initialPathList)
     push_backUnixPath(initialPathList);
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
+/*---------------------------- Destructor ---------------------------------*/
 
 PathHandler::~PathHandler(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                                Get                                      */
+/*------------------------------- Get -------------------------------------*/
 
 std::string PathHandler::findFile(const Char8 *fileName)
 {
@@ -177,8 +171,7 @@ const std::string &PathHandler::getBaseFile (void) const
   return _baseFilePath;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                                Set                                      */
+/*------------------------------- Set -------------------------------------*/
 
 void PathHandler::push_backPath(const Char8 *pathList)
 {
@@ -287,8 +280,7 @@ void PathHandler::clearBaseFile(void)
     _baseFilePath.erase();
 }
 
-/*-------------------------------------------------------------------------*/
-/*                                Dump                                     */
+/*------------------------------- Dump ------------------------------------*/
 
 void PathHandler::dump(void)
 {
@@ -309,8 +301,7 @@ void PathHandler::dump(void)
     }
 }
 
-/*-------------------------------------------------------------------------*/
-/*                               Helper                                    */
+/*------------------------------ Helper -----------------------------------*/
 
 void PathHandler::validateList(void)
 {
@@ -549,7 +540,7 @@ void PathHandler::expandUnixPath(std::string &path)
     std::string  userHome;
     bool         stop;
 #ifndef WIN32
-    passwd* userInfo;
+    passwd     *userInfo;
 #endif
     
     std::string::size_type currPos  = 0;
@@ -598,7 +589,7 @@ void PathHandler::expandUnixPath(std::string &path)
                 userName += path[currPos++];
             }
             
-            if( !userName.empty() )
+            if(!userName.empty())
             {
                 setpwent();     //prepare access to user db
                 stop = false;
@@ -792,7 +783,7 @@ void PathHandler::parseWin32PathList(const Char8 *pathList, PathList &result)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.12 2002/06/13 09:16:15 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
     static Char8 cvsid_hpp[] = OSGPATHHANDLER_HEADER_CVSID;
 }
 

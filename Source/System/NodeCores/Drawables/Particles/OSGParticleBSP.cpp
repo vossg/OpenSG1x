@@ -153,9 +153,7 @@ void ParticleBSPTree::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
     
 void ParticleBSPTree::putToString(std::string &outVal) const
 {
-    typedef TypeConstants<UInt32> TypeConst;
-    
-    outVal.assign(TypeConstants<UInt32>::putToString(_tree.size()));
+    outVal.assign(TypeTraits<UInt32>::putToString(_tree.size()));
     outVal.append(";");
     
     if(! _tree.empty())
@@ -163,17 +161,16 @@ void ParticleBSPTree::putToString(std::string &outVal) const
         for(std::vector<ParticleBSPNode>::const_iterator i = _tree.begin() + 1;
             i != _tree.end(); ++i )
         {
-            outVal.append(TypeConstants<UInt8>::putToString(i->getAxis()));
+            outVal.append(TypeTraits<UInt8>::putToString(i->getAxis()));
             outVal.append(":");
             if(i->isLeaf())
             {
-                outVal.append(TypeConstants<Int32>::putToString(i->getValue()));
+                outVal.append(TypeTraits<Int32>::putToString(i->getValue()));
             }
             else
             {
-                outVal.append(TypeConstants<Real32>::putToString(
-                                                        i->getSplitValue()
-                             )                                  );
+                outVal.append(TypeTraits<Real32>::putToString(
+                    i->getSplitValue()));
             }
             outVal.append(";");
         }   
@@ -182,7 +179,7 @@ void ParticleBSPTree::putToString(std::string &outVal) const
     
 bool ParticleBSPTree::getFromString(const Char8 *&inVal)
 {
-    UInt32 size = TypeConstants<UInt32>::getFromString(inVal);
+    UInt32 size = TypeTraits<UInt32>::getFromString(inVal);
  
     const Char8 *c = strchr(inVal, ';');
     
@@ -194,7 +191,7 @@ bool ParticleBSPTree::getFromString(const Char8 *&inVal)
     
     for(UInt32 i = 1; i < size; ++i)
     {
-        UInt8 axis = TypeConstants<UInt8>::getFromString(c);
+        UInt8 axis = TypeTraits<UInt8>::getFromString(c);
         c = strchr(c, ':');
         if(!c)
             return false;
@@ -202,12 +199,12 @@ bool ParticleBSPTree::getFromString(const Char8 *&inVal)
         
         if(axis == ParticleBSPNode::Leaf)
         {
-            Int32 value = TypeConstants<Int32>::getFromString(c);
+            Int32 value = TypeTraits<Int32>::getFromString(c);
             _tree[i].setValue(value);
         }
         else
         {
-            Real32 value = TypeConstants<Real32>::getFromString(c);
+            Real32 value = TypeTraits<Real32>::getFromString(c);
             _tree[i].setSplit(axis, value);           
         }
         c = strchr(c, ';');

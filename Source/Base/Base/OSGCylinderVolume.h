@@ -48,13 +48,8 @@ OSG_BEGIN_NAMESPACE
 
 /*! 3D cylinder in space defined by axis and radius.
 
-  This class is used within other classes in ase. It contains data to
-  represent a cylinder by an axis and a radius. The height of the
-  cylinder is defined by the length of the axis, i.e. its apex is at
-  _axisPos + _axisDir.
-
-  \ingroup GrpBaseBaseVolume  
-*/
+    \ingroup GrpBaseBaseVolume
+ */
 
 class OSG_BASE_DLLMAPPING CylinderVolume : public Volume
 {

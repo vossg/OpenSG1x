@@ -55,7 +55,6 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \ingroup GrpBaseLog
-    \brief Log types
  */
 
 enum LogType
@@ -68,7 +67,6 @@ enum LogType
 };
 
 /*! \ingroup GrpBaseLog
-    \brief Log Levels
  */
 
 enum LogLevel
@@ -82,7 +80,6 @@ enum LogLevel
 };
 
 /*! \ingroup GrpBaseLog
-    \brief Log Header Element
  */
 
 enum LogHeaderElem
@@ -112,8 +109,8 @@ enum LogModuleHandling
 };
 
 /*! \ingroup GrpBaseLog
-    \brief Logger ostream, required to fix some problems between the different
-           plattforms
+    Logger ostream, required to fix some problems between the different
+    plattforms
     \hideinhierarchy
  */
 
@@ -129,8 +126,8 @@ struct OSG_BASE_DLLMAPPING LogOStream : public std::ostream
 };
 
 /*! \ingroup GrpBaseLog
-    \brief stream buf helper class; creates a chunk buffer of all messages
-           which can ge fetched by a application (e.g. gui)
+    stream buf helper class; creates a chunk buffer of all messages
+    which can ge fetched by a application (e.g. gui)
  */
 
 class OSG_BASE_DLLMAPPING LogBuf : public std::streambuf
@@ -139,7 +136,7 @@ class OSG_BASE_DLLMAPPING LogBuf : public std::streambuf
 
   public:
 
-  /// only temporary until the functors work with all compiler
+  // only temporary until the functors work with all compiler
 
     typedef void (*Callback)(const Char8 *data, 
                                    Int32  size,
@@ -217,7 +214,7 @@ class OSG_BASE_DLLMAPPING LogBuf : public std::streambuf
 };
 
 /*! \ingroup GrpBaseLog
- *  \brief Message logger class, handles info,warning and error messages
+ *  Message logger class, handles info,warning and error messages
  */
 
 class OSG_BASE_DLLMAPPING Log : public std::ostream

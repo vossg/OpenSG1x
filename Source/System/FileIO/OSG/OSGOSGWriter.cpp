@@ -54,7 +54,7 @@ OSG_USING_NAMESPACE
 #endif
 #endif
 
-const UInt32 OSGWriter::DefaultSFWidth = TypeConstants<UInt32>::getMax();
+const UInt32 OSGWriter::DefaultSFWidth = TypeTraits<UInt32>::getMax();
 const UInt32 OSGWriter::DefaultMFWidth = 60;
 
 /*-------------------------------------------------------------------------*/
@@ -158,7 +158,7 @@ void OSGWriter::FCInfoHelper::setName(const FieldContainerPtr pFC)
 
     //no NameAttachment. Build name from Type and Id
     containerName = pFC->getTypeName() +
-        TypeConstants<UInt32>::putToString(pFC.getFieldContainerId());
+        TypeTraits<UInt32>::putToString(pFC.getFieldContainerId());
 }
 
 

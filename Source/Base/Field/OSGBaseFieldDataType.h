@@ -93,13 +93,13 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> :
     static       void      putToString  (const      Color3f &inVal,
                                                std::string  &outStr)
     {
-        typedef TypeConstants<Color3f::ValueType> TypeConst;
+        typedef TypeTraits<Color3f::ValueType> TypeTrait;
 
-        outStr.assign(TypeConst::putToString(inVal.red()  ));
+        outStr.assign(TypeTrait::putToString(inVal.red()  ));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString(inVal.green()));
+        outStr.append(TypeTrait::putToString(inVal.green()));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString(inVal.blue() ));
+        outStr.append(TypeTrait::putToString(inVal.blue() ));
     }
     
     static       UInt32    getBinSize (const Color3f &)
@@ -177,15 +177,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> :
     static       void      putToString  (const      Color4f &inVal,
                                                std::string  &outStr)
     {
-        typedef TypeConstants<Color4f::ValueType> TypeConst;
+        typedef TypeTraits<Color4f::ValueType> TypeTrait;
 
-        outStr.assign(TypeConst::putToString(inVal.red()  ));
+        outStr.assign(TypeTrait::putToString(inVal.red()  ));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString(inVal.green()));
+        outStr.append(TypeTrait::putToString(inVal.green()));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString(inVal.blue() ));
+        outStr.append(TypeTrait::putToString(inVal.blue() ));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString(inVal.alpha()));
+        outStr.append(TypeTrait::putToString(inVal.alpha()));
     }
     
     static       UInt32    getBinSize (const Color4f &)
@@ -265,13 +265,13 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> :
     static       void       putToString  (const      Color3ub &inVal,
                                                 std::string   &outStr)
     {
-        typedef TypeConstants<Color3ub::ValueType> TypeConst;
+        typedef TypeTraits<Color3ub::ValueType> TypeTrait;
 
-        outStr.assign(TypeConst::putToString(inVal.red()  ));
+        outStr.assign(TypeTrait::putToString(inVal.red()  ));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString(inVal.green()));
+        outStr.append(TypeTrait::putToString(inVal.green()));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString(inVal.blue() ));
+        outStr.append(TypeTrait::putToString(inVal.blue() ));
     }
 
     static       UInt32    getBinSize (const Color3ub &)
@@ -347,15 +347,15 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
     static       void      putToString  (const      Color4ub &inVal,
                                                std::string   &outStr)
     {
-        typedef TypeConstants<Color4ub::ValueType> TypeConst;
+        typedef TypeTraits<Color4ub::ValueType> TypeTrait;
 
-        outStr.assign(TypeConst::putToString(inVal.red()  ));
+        outStr.assign(TypeTrait::putToString(inVal.red()  ));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString(inVal.green()));
+        outStr.append(TypeTrait::putToString(inVal.green()));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString(inVal.blue() ));
+        outStr.append(TypeTrait::putToString(inVal.blue() ));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString(inVal.alpha()));
+        outStr.append(TypeTrait::putToString(inVal.alpha()));
     }
 
     static       UInt32    getBinSize (const Color4ub &)
@@ -527,7 +527,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> :
     static       bool      getFromString(      Time   &outVal,
                                          const Char8 *&inVal)
     {
-        outVal = TypeConstants<Time>::getFromString(inVal);
+        outVal = TypeTraits<Time>::getFromString(inVal);
 
         return true;
     }
@@ -535,7 +535,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> :
    static        void      putToString(const      Time   &inVal,
                                              std::string &outStr)
     {
-        outStr.assign(TypeConstants<Time>::putToString(inVal));
+        outStr.assign(TypeTraits<Time>::putToString(inVal));
     }
 
     static       UInt32    getBinSize (const Time &)
@@ -689,38 +689,38 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
 
             case DynamicVolume::BOX_VOLUME:
 
-                typedef TypeConstants<Pnt3f::ValueType> TypeConst;
+                typedef TypeTraits<Pnt3f::ValueType> TypeTrait;
 
                 inVal.getBounds(min, max);
-                outStr.append(TypeConst::putToString(min.getValues()[0]));
+                outStr.append(TypeTrait::putToString(min.getValues()[0]));
                 outStr.append(" ");
-                outStr.append(TypeConst::putToString(min.getValues()[1]));
+                outStr.append(TypeTrait::putToString(min.getValues()[1]));
                 outStr.append(" ");
-                outStr.append(TypeConst::putToString(min.getValues()[2]));
+                outStr.append(TypeTrait::putToString(min.getValues()[2]));
                 outStr.append(" ");
-                outStr.append(TypeConst::putToString(max.getValues()[0]));
+                outStr.append(TypeTrait::putToString(max.getValues()[0]));
                 outStr.append(" ");
-                outStr.append(TypeConst::putToString(max.getValues()[1]));
+                outStr.append(TypeTrait::putToString(max.getValues()[1]));
                 outStr.append(" ");
-                outStr.append(TypeConst::putToString(max.getValues()[2]));
+                outStr.append(TypeTrait::putToString(max.getValues()[2]));
                 break;
 
 
             case DynamicVolume::SPHERE_VOLUME:
 
-                typedef TypeConstants<Pnt3f::ValueType> TypeConst;
+                typedef TypeTraits<Pnt3f::ValueType> TypeTrait;
 
                 const SphereVolume &sVol = 
                     dynamic_cast<const SphereVolume&>(inVal.getInstance());
 
-                outStr.append(TypeConst::putToString(sVol.getCenter()[0]));
+                outStr.append(TypeTrait::putToString(sVol.getCenter()[0]));
                 outStr.append(" ");
-                outStr.append(TypeConst::putToString(sVol.getCenter()[1]));
+                outStr.append(TypeTrait::putToString(sVol.getCenter()[1]));
                 outStr.append(" ");
-                outStr.append(TypeConst::putToString(sVol.getCenter()[1]));
+                outStr.append(TypeTrait::putToString(sVol.getCenter()[1]));
                 outStr.append(" ");
-                outStr.append(TypeConstants<Real32>::
-                              putToString(sVol.getRadius()));
+                outStr.append(TypeTraits<
+                                  Real32>::putToString(sVol.getRadius()));
                 break;
         }
     }
@@ -965,7 +965,7 @@ struct FieldDataTraits1<GLenum> :
     static bool      getFromString(      GLenum  &outVal,
                                    const Char8  *&inVal)
     {
-        outVal = TypeConstants<GLenum>::getFromString(inVal);
+        outVal = TypeTraits<GLenum>::getFromString(inVal);
         
         return false;
     }
@@ -973,7 +973,7 @@ struct FieldDataTraits1<GLenum> :
     static void      putToString  (const      GLenum &inVal,
                                          std::string &outStr)
     {
-        outStr.assign(TypeConstants<GLenum>::putToString(inVal));
+        outStr.assign(TypeTraits<GLenum>::putToString(inVal));
     }
 };
 
@@ -1011,17 +1011,18 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> :
     static       void      putToString  (const      Plane  &inVal,
                                                std::string &outStr)
     {
-        typedef TypeConstants<Vec3f::ValueType> TypeConst;
+        typedef TypeTraits<Vec3f::ValueType> TypeTrait;
+
         Vec3f  normal = inVal.getNormal();
         Real32 dist   = inVal.getDistanceFromOrigin();
         
-        outStr.assign(TypeConst::putToString(normal.getValues()[0]));
+        outStr.assign(TypeTrait::putToString(normal.getValues()[0]));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString(normal.getValues()[1]));
+        outStr.append(TypeTrait::putToString(normal.getValues()[1]));
         outStr.append(" ");
-        outStr.append(TypeConst::putToString(normal.getValues()[2]));
+        outStr.append(TypeTrait::putToString(normal.getValues()[2]));
         outStr.append(", ");
-        outStr.append(TypeConstants<Real32>::putToString(dist));
+        outStr.append(TypeTraits<Real32>::putToString(dist));
     }
 
     static       UInt32    getBinSize (const Plane &)

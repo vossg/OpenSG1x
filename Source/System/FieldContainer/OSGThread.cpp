@@ -66,7 +66,7 @@ OSG_USING_NAMESPACE
  */
 
 const UInt32 ThreadCommonBase::InvalidAspect = 
-    TypeConstants<UInt32>::getAllSet();
+    TypeTraits<UInt32>::BitsSet;
 
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */

@@ -85,34 +85,34 @@ void Color3<ValueTypeT>::convertFromHSV(      ValueType *rgbP,
         switch (i)
         {
             case 0:
-                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(v);
-                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(t);
-                rgbP[2] = TypeConstants<ValueTypeT>::getPortion(p);
+                rgbP[0] = TypeTraits<ValueTypeT>::getPortion(v);
+                rgbP[1] = TypeTraits<ValueTypeT>::getPortion(t);
+                rgbP[2] = TypeTraits<ValueTypeT>::getPortion(p);
                 break;
             case 1:
-                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(q);
-                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(v);
-                rgbP[2] = TypeConstants<ValueTypeT>::getPortion(p);
+                rgbP[0] = TypeTraits<ValueTypeT>::getPortion(q);
+                rgbP[1] = TypeTraits<ValueTypeT>::getPortion(v);
+                rgbP[2] = TypeTraits<ValueTypeT>::getPortion(p);
                 break;
             case 2:
-                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(p);
-                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(v);
-                rgbP[2] = TypeConstants<ValueTypeT>::getPortion(t);
+                rgbP[0] = TypeTraits<ValueTypeT>::getPortion(p);
+                rgbP[1] = TypeTraits<ValueTypeT>::getPortion(v);
+                rgbP[2] = TypeTraits<ValueTypeT>::getPortion(t);
                 break;
             case 3:
-                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(p);
-                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(q);
-                rgbP[2] = TypeConstants<ValueTypeT>::getPortion(v);
+                rgbP[0] = TypeTraits<ValueTypeT>::getPortion(p);
+                rgbP[1] = TypeTraits<ValueTypeT>::getPortion(q);
+                rgbP[2] = TypeTraits<ValueTypeT>::getPortion(v);
                 break;
             case 4:
-                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(t);
-                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(p);
-                rgbP[2] = TypeConstants<ValueTypeT>::getPortion(v);
+                rgbP[0] = TypeTraits<ValueTypeT>::getPortion(t);
+                rgbP[1] = TypeTraits<ValueTypeT>::getPortion(p);
+                rgbP[2] = TypeTraits<ValueTypeT>::getPortion(v);
                 break;
             case 5:
-                rgbP[0] = TypeConstants<ValueTypeT>::getPortion(v);
-                rgbP[1] = TypeConstants<ValueTypeT>::getPortion(p);
-                rgbP[2] = TypeConstants<ValueTypeT>::getPortion(q);
+                rgbP[0] = TypeTraits<ValueTypeT>::getPortion(v);
+                rgbP[1] = TypeTraits<ValueTypeT>::getPortion(p);
+                rgbP[2] = TypeTraits<ValueTypeT>::getPortion(q);
                 break;
             default:
                 std::cerr << "ERROR i not in [0, 5] in Color::setHSV()!"
@@ -123,7 +123,7 @@ void Color3<ValueTypeT>::convertFromHSV(      ValueType *rgbP,
     else
     {
         rgbP[0] = rgbP[1] = rgbP[2] =
-            TypeConstants<ValueTypeT>::getPortion(v);
+            TypeTraits<ValueTypeT>::getPortion(v);
     }
 }
 
@@ -137,17 +137,17 @@ void Color3<ValueTypeT>::convertToHSV(const ValueType *rgbP,
     if(rgbP == NULL)
         return;
 
-    const Real32 r        = TypeConstants<ValueTypeT>::getFraction(rgbP[0]);
-    const Real32 g        = TypeConstants<ValueTypeT>::getFraction(rgbP[1]);
-    const Real32 b        = TypeConstants<ValueTypeT>::getFraction(rgbP[2]);
+    const Real32 r        = TypeTraits<ValueTypeT>::getFraction(rgbP[0]);
+    const Real32 g        = TypeTraits<ValueTypeT>::getFraction(rgbP[1]);
+    const Real32 b        = TypeTraits<ValueTypeT>::getFraction(rgbP[2]);
 
     const Int32  maxIndex = maxPart(rgbP);
     const Int32  minIndex = minPart(rgbP);
 
-    const Real32 max      = TypeConstants<ValueTypeT>::getFraction(
+    const Real32 max      = TypeTraits<ValueTypeT>::getFraction(
         rgbP[maxIndex]);
 
-    const Real32 min      = TypeConstants<ValueTypeT>::getFraction(
+    const Real32 min      = TypeTraits<ValueTypeT>::getFraction(
         rgbP[minIndex]);
 
     const Real32 delta    = max - min;
@@ -239,9 +239,9 @@ UInt32 Color3<ValueTypeT>::minPart(const ValueType *rgbP)
 template <class ValueTypeT> inline
 Color3<ValueTypeT>::Color3(void)
 {
-    _rgb[0] = TypeConstants<ValueTypeT>::getZeroElement();
-    _rgb[1] = TypeConstants<ValueTypeT>::getZeroElement();
-    _rgb[2] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgb[0] = TypeTraits<ValueTypeT>::getZeroElement();
+    _rgb[1] = TypeTraits<ValueTypeT>::getZeroElement();
+    _rgb[2] = TypeTraits<ValueTypeT>::getZeroElement();
 }
 
 
@@ -274,9 +274,9 @@ Color3<ValueTypeT>::~Color3(void)
 template <class ValueTypeT> inline
 void Color3<ValueTypeT>::clear(void)
 {
-    _rgb[0] = TypeConstants<ValueTypeT>::getZeroElement();
-    _rgb[1] = TypeConstants<ValueTypeT>::getZeroElement();
-    _rgb[2] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgb[0] = TypeTraits<ValueTypeT>::getZeroElement();
+    _rgb[1] = TypeTraits<ValueTypeT>::getZeroElement();
+    _rgb[2] = TypeTraits<ValueTypeT>::getZeroElement();
 }
 
 
@@ -305,9 +305,9 @@ void Color3<ValueTypeT>::setRandom(void)
 {
     Real32 rf = 1.0 / Real32(RAND_MAX);
 
-    setValuesRGB(TypeConstants<ValueTypeT>::getPortion(rf * rand()),
-                 TypeConstants<ValueTypeT>::getPortion(rf * rand()),
-                 TypeConstants<ValueTypeT>::getPortion(rf * rand()));
+    setValuesRGB(TypeTraits<ValueTypeT>::getPortion(rf * rand()),
+                 TypeTraits<ValueTypeT>::getPortion(rf * rand()),
+                 TypeTraits<ValueTypeT>::getPortion(rf * rand()));
 }
 
 /*! method to set the rgb values (BBGGRR)
@@ -320,7 +320,7 @@ void Color3<ValueTypeT>::setRGB(UInt32 rgbPack)
     {
         Real32 rTmp = Real32(rgbPack & 255) / 255.0f;
 
-        _rgb[i] = TypeConstants<ValueTypeT>::getPortion(rTmp);
+        _rgb[i] = TypeTraits<ValueTypeT>::getPortion(rTmp);
 
         rgbPack >>= 8;
     }
@@ -360,7 +360,7 @@ UInt32 Color3<ValueTypeT>::getRGB(void) const
     for(Int32 i = 2; i >= 0; --i)
     {
         pack = (pack << 8) | 
-            Int32(TypeConstants<ValueTypeT>::getFraction(_rgb[i]) *
+            Int32(TypeTraits<ValueTypeT>::getFraction(_rgb[i]) *
                   255.0f                                          +
                   0.5f                                            );
     }
@@ -517,10 +517,10 @@ const Color4<ValueTypeT> Color4<ValueTypeT>::Null;
 template <class ValueTypeT> inline
 Color4<ValueTypeT>::Color4(void)
 {
-    _rgba[0] = TypeConstants<ValueTypeT>::getZeroElement();
-    _rgba[1] = TypeConstants<ValueTypeT>::getZeroElement();
-    _rgba[2] = TypeConstants<ValueTypeT>::getZeroElement();
-    _rgba[3] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgba[0] = TypeTraits<ValueTypeT>::getZeroElement();
+    _rgba[1] = TypeTraits<ValueTypeT>::getZeroElement();
+    _rgba[2] = TypeTraits<ValueTypeT>::getZeroElement();
+    _rgba[3] = TypeTraits<ValueTypeT>::getZeroElement();
 }
 
 
@@ -556,10 +556,10 @@ Color4<ValueTypeT>::~Color4(void)
 template <class ValueTypeT> inline
 void Color4<ValueTypeT>::clear(void)
 {
-    _rgba[0] = TypeConstants<ValueTypeT>::getZeroElement();
-    _rgba[1] = TypeConstants<ValueTypeT>::getZeroElement();
-    _rgba[2] = TypeConstants<ValueTypeT>::getZeroElement();
-    _rgba[3] = TypeConstants<ValueTypeT>::getZeroElement();
+    _rgba[0] = TypeTraits<ValueTypeT>::getZeroElement();
+    _rgba[1] = TypeTraits<ValueTypeT>::getZeroElement();
+    _rgba[2] = TypeTraits<ValueTypeT>::getZeroElement();
+    _rgba[3] = TypeTraits<ValueTypeT>::getZeroElement();
 }
 
 
@@ -582,7 +582,7 @@ void Color4<ValueTypeT>::setValuesHSV(const Real32 h,
 {
     Color3<ValueType>::convertFromHSV(_rgba, h, s, v);
 
-    _rgba[3] = TypeConstants<ValueTypeT>::getOneElement();
+    _rgba[3] = TypeTraits<ValueTypeT>::getOneElement();
 }
 
 
@@ -591,10 +591,10 @@ void Color4<ValueTypeT>::setRandom(void)
 {
     Real32 rf = 1.0 / Real32(RAND_MAX);
 
-    setValuesRGBA(TypeConstants<ValueTypeT>::getPortion(rf * rand()),
-                  TypeConstants<ValueTypeT>::getPortion(rf * rand()),
-                  TypeConstants<ValueTypeT>::getPortion(rf * rand()),
-                  TypeConstants<ValueTypeT>::getPortion(rf * rand()));
+    setValuesRGBA(TypeTraits<ValueTypeT>::getPortion(rf * rand()),
+                  TypeTraits<ValueTypeT>::getPortion(rf * rand()),
+                  TypeTraits<ValueTypeT>::getPortion(rf * rand()),
+                  TypeTraits<ValueTypeT>::getPortion(rf * rand()));
 }
 
 /*! method to set the rgb values (ABGGRR)
@@ -607,7 +607,7 @@ void Color4<ValueTypeT>::setRGBA(UInt32 rgbPack)
     {
         Real32 rTmp = Real32(rgbPack & 255) / 255.0f;
 
-        _rgba[i] = TypeConstants<ValueTypeT>::getPortion(rTmp);
+        _rgba[i] = TypeTraits<ValueTypeT>::getPortion(rTmp);
 
         rgbPack >>= 8;
     }
@@ -646,9 +646,9 @@ UInt32 Color4<ValueTypeT>::getRGBA(void) const
     for(Int32 i = 3; i >= 0; --i)
     {
         pack = (pack << 8) | 
-            Int32(TypeConstants<ValueTypeT>::getFraction(_rgba[i]) *
-                  255.0f                                           +
-                  0.5f                                             );
+            Int32(TypeTraits<ValueTypeT>::getFraction(_rgba[i]) *
+                  255.0f                                        +
+                  0.5f                                           );
     }
 
     return pack;

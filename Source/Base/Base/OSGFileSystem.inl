@@ -70,241 +70,269 @@ const UInt32 OSGWRITEFLAG = _S_IWRITE;
 #error "Could not find your system, check your system/compiler combination"
 #endif
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+/*!  File Functions
+     \ingroup GrpBaseBaseFileSystem
+ */
 
-inline
-bool File::tstAttr(const Char8  *szFilename,
-                         UInt32  uiAccessFlags)
+namespace File
 {
-    bool  returnValue = false;
-    Int32 rc          = 0;
+    /*! \name File Functions           
+        \ingroup GrpBaseBaseFileSystem 
+        @{                             */
 
-#ifdef OSG_MICROSOFT_COMPILER_ALERT
-    struct _stat statBuffer;
-#else
-    struct  stat statBuffer;
-#endif
-
-    if(szFilename != NULL)
+    inline
+    bool tstAttr(const Char8  *szFilename,
+                       UInt32  uiAccessFlags)
     {
-#ifndef WIN32
-        rc = stat(szFilename, &statBuffer);
+        bool  returnValue = false;
+        Int32 rc          = 0;
+        
+#ifdef OSG_MICROSOFT_COMPILER_ALERT
+        struct _stat statBuffer;
 #else
-        rc = _stat(szFilename, &statBuffer);
+        struct  stat statBuffer;
 #endif
-        if(rc == 0 && ! (statBuffer.st_mode & OSGDIRFLAG))
+        
+        if(szFilename != NULL)
         {
-            if(uiAccessFlags & AccessFlags::IsReadable)
+#ifndef WIN32
+            rc = stat(szFilename, &statBuffer);
+#else
+            rc = _stat(szFilename, &statBuffer);
+#endif
+            if(rc == 0 && ! (statBuffer.st_mode & OSGDIRFLAG))
             {
-                if(statBuffer.st_mode & OSGREADFLAG)
+                if(uiAccessFlags & AccessFlags::IsReadable)
                 {
-                    returnValue = true;
+                    if(statBuffer.st_mode & OSGREADFLAG)
+                    {
+                        returnValue = true;
+                    }
                 }
-            }
-
-            if(uiAccessFlags & AccessFlags::IsWriteable)
-            {
-                if(statBuffer.st_mode & OSGWRITEFLAG)
+                
+                if(uiAccessFlags & AccessFlags::IsWriteable)
                 {
-                    returnValue = true;
+                    if(statBuffer.st_mode & OSGWRITEFLAG)
+                    {
+                        returnValue = true;
+                    }
                 }
             }
         }
+        
+        return returnValue;
     }
 
-    return returnValue;
+    /*! @} */
 }
 
+/*!  Directory Functions
+     \ingroup GrpBaseBaseFileSystem
+ */
 
-inline
-bool Directory::tstAttr(const Char8  *szFilename,
-                              UInt32  uiAccessFlags)
+namespace Directory
 {
-    bool  returnValue = false;
-    Int32 rc          = 0;
+    /*! \name Directory Functions      
+        \ingroup GrpBaseBaseFileSystem 
+        @{                             
+     */
 
-#ifdef OSG_MICROSOFT_COMPILER_ALERT
-    struct _stat statBuffer;
-#else
-    struct  stat statBuffer;
-#endif
-
-    if(szFilename != NULL)
+    inline
+    bool tstAttr(const Char8  *szDirname,
+                       UInt32  uiAccessFlags)
     {
-#ifndef WIN32
-        rc = stat(szFilename, &statBuffer);
+        bool  returnValue = false;
+        Int32 rc          = 0;
+        
+#ifdef OSG_MICROSOFT_COMPILER_ALERT
+        struct _stat statBuffer;
 #else
-        rc = _stat(szFilename, &statBuffer);
+        struct  stat statBuffer;
 #endif
-
-        if(rc == 0 && (statBuffer.st_mode & OSGDIRFLAG))
+        
+        if(szDirname != NULL)
         {
-            if(uiAccessFlags & AccessFlags::IsReadable)
+#ifndef WIN32
+            rc = stat(szDirname, &statBuffer);
+#else
+            rc = _stat(szDirname, &statBuffer);
+#endif
+            
+            if(rc == 0 && (statBuffer.st_mode & OSGDIRFLAG))
             {
-                if(statBuffer.st_mode & OSGREADFLAG)
+                if(uiAccessFlags & AccessFlags::IsReadable)
                 {
-                    returnValue = true;
+                    if(statBuffer.st_mode & OSGREADFLAG)
+                    {
+                        returnValue = true;
+                    }
+                    else
+                    {
+                        returnValue = false;
+                    }
                 }
-                else
+                
+                if(uiAccessFlags & AccessFlags::IsWriteable)
                 {
-                    returnValue = false;
-                }
-            }
-
-            if(uiAccessFlags & AccessFlags::IsWriteable)
-            {
-                if(statBuffer.st_mode & OSGWRITEFLAG)
-                {
-                    returnValue = true;
-                }
-                else
-                {
-                    returnValue = false;
+                    if(statBuffer.st_mode & OSGWRITEFLAG)
+                    {
+                        returnValue = true;
+                    }
+                    else
+                    {
+                        returnValue = false;
+                    }
                 }
             }
         }
+        
+        return returnValue;
     }
-
-    return returnValue;
-}
 
 #ifdef __sgi
 #pragma set woff 1209
 #endif
 
-inline
-Char8 *Directory::getCurrent(void)
-{
-    UInt32 uiCurrentNameSize = 256;
+    /*! \ingroup GrpBaseBaseFileSystem
+     */
 
-    Char8 *returnValue = new Char8[uiCurrentNameSize];
-    Char8 *szTmpBuf;
-
-    while(1)
+    inline
+    Char8 *getCurrent(void)
     {
+        UInt32 uiCurrentNameSize = 256;
+        
+        Char8 *returnValue = new Char8[uiCurrentNameSize];
+        Char8 *szTmpBuf;
+        
+        while(1)
+        {
 #ifndef WIN32
-        szTmpBuf = getcwd(returnValue, uiCurrentNameSize);
+            szTmpBuf = getcwd(returnValue, uiCurrentNameSize);
 #else
-        szTmpBuf = _getcwd(returnValue, uiCurrentNameSize);
+            szTmpBuf = _getcwd(returnValue, uiCurrentNameSize);
 #endif
-        if(szTmpBuf != NULL)
-            break;
-
-        uiCurrentNameSize *= 2;
-        delete [] returnValue;
-
-        returnValue = new Char8[uiCurrentNameSize];
+            if(szTmpBuf != NULL)
+                break;
+            
+            uiCurrentNameSize *= 2;
+            delete [] returnValue;
+            
+            returnValue = new Char8[uiCurrentNameSize];
+        }
+        
+        return returnValue;
     }
-
-    return returnValue;
-}
-
+    
 #ifdef __sgi
 #pragma reset woff 1209
 #endif
-
-inline
-bool Directory::setCurrent(const Char8 *szDirname)
-{
-    bool returnValue = false;
-
-    if(szDirname != NULL)
+    
+    inline
+    bool setCurrent(const Char8 *szDirname)
     {
+        bool returnValue = false;
+        
+        if(szDirname != NULL)
+        {
 #ifndef _WIN32_TARGET_
-        if(chdir(szDirname) == 0)
-            returnValue = true;
+            if(chdir(szDirname) == 0)
+                returnValue = true;
 #else
-        if(_chdir(szDirname) == 0)
-            returnValue = true;
+            if(_chdir(szDirname) == 0)
+                returnValue = true;
 #endif
+        }
+        
+        return returnValue;
     }
 
-    return returnValue;
-}
+    /*! \ingroup GrpBaseBaseFileSystem
+     */
 
-inline
-std::vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
-{
-    std::vector<Char8 *> *returnValue = NULL;
-
-    if(szDirname != NULL)
+    inline
+    std::vector<Char8 *> *getEntries(const Char8 *szDirname)
     {
-        if(tstAttr(szDirname, AccessFlags::IsReadable) == true)
+        std::vector<Char8 *> *returnValue = NULL;
+        
+        if(szDirname != NULL)
         {
-#ifndef WIN32
-            DIR    *pDir        = opendir(szDirname);
-            dirent *pDirEntry   = NULL;
-            Char8  *szEntryName = NULL;
-
-            if(pDir != NULL)
+            if(tstAttr(szDirname, AccessFlags::IsReadable) == true)
             {
-                returnValue = new std::vector<Char8 *>;
-
-                do
+#ifndef WIN32
+                DIR    *pDir        = opendir(szDirname);
+                dirent *pDirEntry   = NULL;
+                Char8  *szEntryName = NULL;
+                
+                if(pDir != NULL)
                 {
-                    pDirEntry = readdir(pDir);
+                    returnValue = new std::vector<Char8 *>;
 
-                    if(pDirEntry != NULL)
+                    do
                     {
-                        stringDup(pDirEntry->d_name, szEntryName);
-
-                        returnValue->push_back(szEntryName);
-                        szEntryName = NULL;
+                        pDirEntry = readdir(pDir);
+                        
+                        if(pDirEntry != NULL)
+                        {
+                            stringDup(pDirEntry->d_name, szEntryName);
+                            
+                            returnValue->push_back(szEntryName);
+                            szEntryName = NULL;
+                        }
                     }
+                    while(pDirEntry != NULL);
+                    
+                    closedir(pDir);
                 }
-                while(pDirEntry != NULL);
-
-                closedir(pDir);
-            }
 #else
-            Char8           *szTmpDirname = NULL;
-
-            bool             bVal;
-            WIN32_FIND_DATA  pDirEntry;
-            HANDLE           pDir;
-            Char8           *szEntryName = NULL;
-
-            szTmpDirname = new Char8[strlen(szDirname) + 5];
-
-            sprintf(szTmpDirname, "%s\\*", szDirname);
-
-            pDir = FindFirstFile(szTmpDirname, &pDirEntry);
-
+                Char8           *szTmpDirname = NULL;
+                
+                bool             bVal;
+                WIN32_FIND_DATA  pDirEntry;
+                HANDLE           pDir;
+                Char8           *szEntryName = NULL;
+                
+                szTmpDirname = new Char8[strlen(szDirname) + 5];
+                
+                sprintf(szTmpDirname, "%s\\*", szDirname);
+                
+                pDir = FindFirstFile(szTmpDirname, &pDirEntry);
+                
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 171)
 #endif
-
-            if(INVALID_HANDLE_VALUE != pDir)
-            {
-                returnValue = new std::vector<Char8 *>;
-
-                do
+                
+                if(INVALID_HANDLE_VALUE != pDir)
                 {
-                    stringDup(pDirEntry.cFileName, szEntryName);
-
-                    returnValue->push_back(szEntryName);
-                    szEntryName = NULL;
-
-                    bVal = FindNextFile(pDir, &pDirEntry);
+                    returnValue = new std::vector<Char8 *>;
+                    
+                    do
+                    {
+                        stringDup(pDirEntry.cFileName, szEntryName);
+                        
+                        returnValue->push_back(szEntryName);
+                        szEntryName = NULL;
+                        
+                        bVal = FindNextFile(pDir, &pDirEntry);
+                    }
+                    while(bVal == true);
+                    
+                    FindClose(pDir);
                 }
-                while(bVal == true);
-
-                FindClose(pDir);
-            }
-
+                
 #ifdef OSG_WIN32_ICL
 #pragma warning (error : 171)
 #endif
-
-            delete szTmpDirname;
+                
+                delete szTmpDirname;
 #endif
+            }
         }
+        
+        return returnValue;
     }
 
-    return returnValue;
+    /*! @} */
 }
-
-#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 #define OSGFILESYSTEM_INLINE_CVSID "@(#)$Id: $"
 

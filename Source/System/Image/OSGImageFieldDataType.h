@@ -108,7 +108,7 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
 
             fileName.assign("Image");
             fileName.append(
-                TypeConstants<UInt32>::putToString(counter++));
+                TypeTraits<UInt32>::putToString(counter++));
             
             if(inVal->getDepth() > 1)
             {

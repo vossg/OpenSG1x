@@ -200,8 +200,8 @@ SimpleSceneManager::SimpleSceneManager(void) :
     _camera         (NullFC),
     _navigator      (      ),
 
-    _lastx          (TypeConstants<Int16>::getMax()),
-    _lasty          (TypeConstants<Int16>::getMax()),
+    _lastx          (TypeTraits<Int16>::getMax()),
+    _lasty          (TypeTraits<Int16>::getMax()),
     _mousebuttons   (0                             )
 {
 }

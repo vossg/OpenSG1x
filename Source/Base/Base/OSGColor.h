@@ -49,7 +49,6 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \ingroup GrpBaseBaseColors
- *  \brief Color3
  */
 
 template <class ValueTypeT>
@@ -170,7 +169,6 @@ class Color3
 };
 
 /*! \ingroup GrpBaseBaseColors
- *  \brief Color4
  */
 
 template <class ValueTypeT>

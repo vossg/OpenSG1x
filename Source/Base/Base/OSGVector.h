@@ -66,9 +66,10 @@ class PointInterface;
 //  Class
 //---------------------------------------------------------------------------
 
-//! Vector storage holding 2 elements, for details about how vectors,
-//! points and matrices are actually build see \ref PageBaseMath.
-//! \ingroup GrpBaseBaseMath
+/*! Vector storage holding 2 elements, for details about how vectors,
+    points and matrices are actually build see \ref PageBaseMath.
+    \ingroup GrpBaseBaseMathObj
+ */
 
 template <class ValueTypeT>
 class VecStorage2
@@ -130,9 +131,10 @@ class VecStorage2
 //  Class
 //---------------------------------------------------------------------------
 
-//! Vector storage holding 3 elements, for details about how vectors,
-//! points and matrices are actually build see \ref PageBaseMath.
-//! \ingroup GrpBaseBaseMath
+/*! Vector storage holding 3 elements, for details about how vectors,
+    points and matrices are actually build see \ref PageBaseMath.
+    \ingroup GrpBaseBaseMathObj
+ */
 
 template <class ValueTypeT>
 class VecStorage3
@@ -197,9 +199,10 @@ class VecStorage3
 //  Class
 //---------------------------------------------------------------------------
 
-//! Vector storage holding 4 elements, for details about how vectors,
-//! points and matrices are actually build see \ref PageBaseMath.
-//! \ingroup GrpBaseBaseMath
+/*! Vector storage holding 4 elements, for details about how vectors,
+    points and matrices are actually build see \ref PageBaseMath.
+    \ingroup GrpBaseBaseMathObj
+ */
 
 template <class ValueTypeT>
 class VecStorage4
@@ -267,9 +270,10 @@ class VecStorage4
 //  Class
 //---------------------------------------------------------------------------
 
-//! Point Interface, for details about how vectors, points and matrices
-//! are actually build see \ref PageBaseMath.
-//! \ingroup GrpBaseBaseMath
+/*! Point Interface, for details about how vectors, points and matrices
+    are actually build see \ref PageBaseMath.
+    \ingroup GrpBaseBaseMathObj
+ */
 
 #ifdef __sgi
 #pragma set woff 1375
@@ -282,20 +286,20 @@ class PointInterface : public StorageInterfaceT
 
   public:
 
-    typedef          StorageInterfaceT                         Inherited;
+    typedef          StorageInterfaceT                      Inherited;
 
-    typedef typename TypeConstants<ValueTypeT>::RealReturnType RealReturnType;
+    typedef typename TypeTraits<ValueTypeT>::RealReturnType RealReturnType;
 
-    typedef          ValueTypeT                                ValueType;
+    typedef          ValueTypeT                             ValueType;
 
     typedef          VectorInterface<ValueTypeT, 
-                                     StorageInterfaceT>        VecInterface;
+                                     StorageInterfaceT>     VecInterface;
 
 
     typedef          PointInterface <ValueTypeT, 
-                                     StorageInterfaceT>        Self;
+                                     StorageInterfaceT>     Self;
 
-    static  const    PointInterface                            Null;
+    static  const    PointInterface                         Null;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -329,7 +333,7 @@ class PointInterface : public StorageInterfaceT
             }
             for(UInt32 i = VectorT::_iSize; i < Self::_iSize; i++)
             {
-                Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+                Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
             }
         }
     }
@@ -514,9 +518,10 @@ std::ostream &operator <<(        std::ostream                 &os,
 //  Class
 //---------------------------------------------------------------------------
 
-//! Vector Interface, for details about how vectors, points and matrices
-//! are actually build see \ref PageBaseMath.
-//! \ingroup GrpBaseBaseMath
+/*! Vector Interface, for details about how vectors, points and matrices
+    are actually build see \ref PageBaseMath.
+    \ingroup GrpBaseBaseMathObj
+ */
 
 template<class ValueTypeT, class StorageInterfaceT>
 class VectorInterface :
@@ -527,18 +532,18 @@ class VectorInterface :
   public:
 
     typedef          PointInterface<ValueTypeT,
-                                    StorageInterfaceT>         Inherited;
+                                    StorageInterfaceT>      Inherited;
 
-    typedef typename TypeConstants<ValueTypeT>::RealReturnType RealReturnType;
+    typedef typename TypeTraits<ValueTypeT>::RealReturnType RealReturnType;
 
-    typedef                        ValueTypeT                  ValueType;
+    typedef                        ValueTypeT               ValueType;
 
-    typedef          Inherited                                 PntInterface;
+    typedef          Inherited                              PntInterface;
 
     typedef          VectorInterface<ValueTypeT, 
-                                     StorageInterfaceT>        Self;
+                                     StorageInterfaceT>     Self;
 
-    static  const    VectorInterface                           Null;
+    static  const    VectorInterface                        Null;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -572,7 +577,7 @@ class VectorInterface :
             }
             for(UInt32 i = VectorT::_iSize; i < Self::_iSize; i++)
             {
-                Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+                Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
             }
         }
     }
@@ -697,197 +702,171 @@ std::ostream &operator <<(        std::ostream                  &os,
 
 
 
-/*! \var typedef VectorInterface<UInt8, VecStorage4<UInt8> > Vec4ub;
-    \brief Vec4ub
-    \ingroup GrpBaseBaseMath
-*/
+/*! \var typedef VectorInterface< UInt8, VecStorage4<UInt8> > Vec4ub;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-typedef VectorInterface<UInt8, VecStorage4<UInt8> > Vec4ub;
+typedef VectorInterface< UInt8, VecStorage4<UInt8> > Vec4ub;
 
 /*! \var typedef Vec4ub *Vec4ubP;
-    \brief Vec4ubP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
+
 typedef Vec4ub *Vec4ubP;
 
-/*! \var typedef VectorInterface<UInt16, VecStorage2<UInt16> > Vec2s;
-    \brief Vec2s
-    \ingroup GrpBaseBaseMath
-*/
+/*! \var typedef VectorInterface< UInt16, VecStorage2<UInt16> > Vec2s;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-typedef VectorInterface<UInt16, VecStorage2<UInt16> > Vec2s;
+typedef VectorInterface< UInt16, VecStorage2<UInt16> > Vec2s;
 
 /*! \var typedef Vec2s *Vec2sP;
-    \brief Vec2sP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
 
 typedef Vec2s *Vec2sP;
 
-/*! \var typedef VectorInterface<Real32, VecStorage2<Real32> > Vec2f;
-    \brief Vec2f
-    \ingroup GrpBaseBaseMath
-*/
+/*! \var typedef VectorInterface< Real32, VecStorage2<Real32> > Vec2f;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-typedef VectorInterface<Real32, VecStorage2<Real32> > Vec2f;
+typedef VectorInterface< Real32, VecStorage2<Real32> > Vec2f;
 
 /*! \var typedef Vec2f *Vec2fP;
-    \brief Vec2fP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
 
 typedef Vec2f *Vec2fP;
 
-/*! \var typedef VectorInterface<Real32, VecStorage3<Real32> > Vec3f;
-    \brief Vec3f
-    \ingroup GrpBaseBaseMath
-*/
+/*! \var typedef VectorInterface< Real32, VecStorage3<Real32> > Vec3f;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-typedef VectorInterface<Real32, VecStorage3<Real32> > Vec3f;
+typedef VectorInterface< Real32, VecStorage3<Real32> > Vec3f;
 
 /*! \var typedef Vec3f *Vec3fP;
-    \brief Vec3fP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
+
 typedef Vec3f *Vec3fP;
 
-/*! \var typedef VectorInterface<Real32, VecStorage4<Real32> > Vec4f;
-    \brief Vec4f
-    \ingroup GrpBaseBaseMath
-*/
+/*! \var typedef VectorInterface< Real32, VecStorage4<Real32> > Vec4f;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-typedef VectorInterface<Real32, VecStorage4<Real32> > Vec4f;
+typedef VectorInterface< Real32, VecStorage4<Real32> > Vec4f;
 
 /*! \var typedef Vec4f *Vec4fP;
-    \brief Vec4fP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
 
 typedef Vec4f *Vec4fP;
 
-/*! \var typedef VectorInterface<Real64, VecStorage3<Real64> > Vec3d;
-    \brief Vec3d
-    \ingroup GrpBaseBaseMath
-*/
+/*! \var typedef VectorInterface< Real64, VecStorage3<Real64> > Vec3d;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-typedef VectorInterface<Real64, VecStorage3<Real64> > Vec3d;
+typedef VectorInterface< Real64, VecStorage3<Real64> > Vec3d;
 
 /*! \var typedef Vec3d *Vec3dP;
-    \brief Vec3dP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
+
 typedef Vec3d *Vec3dP;
 
-/*! \var typedef VectorInterface<Real64, VecStorage4<Real64> > Vec4d;
-    \brief Vec4d
-    \ingroup GrpBaseBaseMath
-*/
+/*! \var typedef VectorInterface< Real64, VecStorage4<Real64> > Vec4d;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-typedef VectorInterface<Real64, VecStorage4<Real64> > Vec4d;
+typedef VectorInterface< Real64, VecStorage4<Real64> > Vec4d;
 
 /*! \var typedef Vec4d *Vec4dP;
-    \brief Vec4dP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
 
 typedef Vec4d *Vec4dP;
 
+/*! \var typedef PointInterface< UInt16, VecStorage2<UInt16> > Pnt2s;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-/*! \var typedef PointInterface<UInt16, VecStorage2<UInt16> > Pnt2s;
-    \brief Vec2s
-    \ingroup GrpBaseBaseMath
-*/
-
-typedef PointInterface<UInt16, VecStorage2<UInt16> > Pnt2s;
+typedef PointInterface< UInt16, VecStorage2<UInt16> > Pnt2s;
 
 /*! \var typedef Vec2s *Vec2sP;
-    \brief Vec2sP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
 
 typedef Vec2s *Vec2sP;
 
-/*! \var typedef PointInterface<Real32, VecStorage2<Real32> > Pnt2f;
-    \brief Vec2f
-    \ingroup GrpBaseBaseMath
-*/
+/*! \var typedef PointInterface< Real32, VecStorage2<Real32> > Pnt2f;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-typedef PointInterface<Real32, VecStorage2<Real32> > Pnt2f;
+typedef PointInterface< Real32, VecStorage2<Real32> > Pnt2f;
 
 /*! \var typedef Pnt2f *Pnt2fP;
-    \brief Vec2fP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
 
 typedef Pnt2f *Pnt2fP;
 
-/*! \var typedef PointInterface<Real32, VecStorage3<Real32> > Pnt3f;
-    \brief Vec3f
-    \ingroup GrpBaseBaseMath
-*/
+/*! \var typedef PointInterface< Real32, VecStorage3<Real32> > Pnt3f;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-typedef PointInterface<Real32, VecStorage3<Real32> > Pnt3f;
+typedef PointInterface< Real32, VecStorage3<Real32> > Pnt3f;
 
 /*! \var typedef Pnt3f *Pnt3fP;
-    \brief Vec3fP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
 
 typedef Pnt3f *Pnt3fP;
 
-/*! \var typedef PointInterface<Real32, VecStorage4<Real32> > Pnt4f;
-    \brief Vec4f
-    \ingroup GrpBaseBaseMath
-*/
+/*! \var typedef PointInterface< Real32, VecStorage4<Real32> > Pnt4f;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-typedef PointInterface<Real32, VecStorage4<Real32> > Pnt4f;
+typedef PointInterface< Real32, VecStorage4<Real32> > Pnt4f;
 
 /*! \var typedef Pnt4f *Pnt4fP;
-    \brief Vec4fP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
 
 typedef Pnt4f *Pnt4fP;
 
-/*! \var typedef PointInterface<Real64, VecStorage2<Real64> > Pnt2d;
-    \brief Pnt2d
-    \ingroup GrpBaseBaseMath
-*/
+/*! \var typedef PointInterface< Real64, VecStorage2<Real64> > Pnt2d;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-typedef PointInterface<Real64, VecStorage2<Real64> > Pnt2d;
+typedef PointInterface< Real64, VecStorage2<Real64> > Pnt2d;
 
 /*! \var typedef Pnt2d *Pnt2dP;
-    \brief Vec2dP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
 
 typedef Pnt2d *Pnt2dP;
 
-/*! \var typedef PointInterface<Real64, VecStorage3<Real64> > Pnt3d;
-    \brief Vec3d
-    \ingroup GrpBaseBaseMath
-*/
+/*! \var typedef PointInterface< Real64, VecStorage3<Real64> > Pnt3d;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-typedef PointInterface<Real64, VecStorage3<Real64> > Pnt3d;
+typedef PointInterface< Real64, VecStorage3<Real64> > Pnt3d;
 
 /*! \var typedef Pnt3d *Pnt3dP;
-    \brief Vec3dP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
 
 typedef Pnt3d *Pnt3dP;
 
-/*! \var typedef PointInterface<Real64, VecStorage4<Real64> > Pnt4d;
-    \brief Pnt4d
-    \ingroup GrpBaseBaseMath
-*/
+/*! \var typedef PointInterface< Real64, VecStorage4<Real64> > Pnt4d;
+    \ingroup GrpBaseBaseMathObj
+ */
 
-typedef PointInterface<Real64, VecStorage4<Real64> > Pnt4d;
+typedef PointInterface< Real64, VecStorage4<Real64> > Pnt4d;
 
 /*! \var typedef Pnt4d *Pnt4dP;
-    \brief Vec4dP
-    \ingroup GrpBaseBaseMath
-*/
+    \ingroup GrpBaseBaseMathObj
+ */
 
 typedef Pnt4d *Pnt4dP;
 

@@ -66,14 +66,23 @@ static std::vector<ExitFuncF> *osgSystemExitFunctions = NULL;
 static std::vector<InitFuncF> *osgPreMPInitFunctions  = NULL;
 static std::vector<ExitFuncF> *osgPostMPExitFunctions = NULL;
 
+/*! \ingroup GrpBaseBaseInitExit
+ */
+
 OSG_BASE_DLLMAPPING 
 SystemState GlobalSystemState = Startup;
 
-OSG_END_NAMESPACE
+/*---------------------------------------------------------------------*/
+/*! \name add init functions                                           */
+/*! \{                                                                 */
 
-OSG_USING_NAMESPACE
+/*! addInitFunction, function called by osgInit after the
+    multithreading is initialized and after dynamically loading 
+    a shared object
+    \ingroup GrpBaseBaseInitExit
+ */
 
-void OSG::addInitFunction(InitFuncF initFunc)
+void addInitFunction(InitFuncF initFunc)
 {
     if(osgInitFunctions == NULL)
     {
@@ -83,17 +92,12 @@ void OSG::addInitFunction(InitFuncF initFunc)
     osgInitFunctions->push_back(initFunc);
 }
 
-void OSG::addSystemExitFunction(ExitFuncF exitFunc)
-{
-    if(osgSystemExitFunctions == NULL)
-    {
-        osgSystemExitFunctions = new std::vector<ExitFuncF>(0);
-    }
-    
-    osgSystemExitFunctions->push_back(exitFunc);
-}
+/*! addMPInitFunction, function called by osgInit before
+    the multithreading is initialized.
+    \ingroup GrpBaseBaseInitExit
+ */
 
-void OSG::addPreMPInitFunction(InitFuncF initFunc)
+void addPreMPInitFunction(InitFuncF initFunc)
 {
     if(osgPreMPInitFunctions == NULL)
     {
@@ -103,7 +107,32 @@ void OSG::addPreMPInitFunction(InitFuncF initFunc)
     osgPreMPInitFunctions->push_back(initFunc);
 }
 
-void OSG::addPostMPExitFunction(ExitFuncF exitFunc)
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name add exit function                                            */
+/*! \{                                                                 */
+
+/*! addSystemExitFunction, function called by osgExit before
+    multithreading is termininated
+   \ingroup GrpBaseBaseInitExit
+ */
+
+void addSystemExitFunction(ExitFuncF exitFunc)
+{
+    if(osgSystemExitFunctions == NULL)
+    {
+        osgSystemExitFunctions = new std::vector<ExitFuncF>(0);
+    }
+    
+    osgSystemExitFunctions->push_back(exitFunc);
+}
+
+/*! addPostMPExitFunction, function called by osgExit after
+    multithreading is terminated
+    \ingroup GrpBaseBaseInitExit
+ */
+
+void addPostMPExitFunction(ExitFuncF exitFunc)
 {
     if(osgPostMPExitFunctions == NULL)
     {
@@ -113,7 +142,15 @@ void OSG::addPostMPExitFunction(ExitFuncF exitFunc)
     osgPostMPExitFunctions->push_back(exitFunc);
 }
 
-bool OSG::osgInit(Int32, Char8 **)
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name init / exit                                                  */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseInitExit
+ */
+
+bool osgInit(Int32, Char8 **)
 {
     UInt32 i;
     bool   returnValue = true;
@@ -162,7 +199,10 @@ bool OSG::osgInit(Int32, Char8 **)
     return returnValue;
 }
 
-bool OSG::osgExit(void)
+/*! \ingroup GrpBaseBaseInitExit
+ */
+
+bool osgExit(void)
 {
     bool returnValue = true;
 
@@ -199,23 +239,41 @@ bool OSG::osgExit(void)
     return returnValue;
 }
 
-/*! \class osg::InitFuncWrapper
-    InitFuncWrapper is a little wrapper class that allows calling an init 
-    function without an associated class.
- */
- 
+/*! \}                                                                 */
+
+OSG_END_NAMESPACE
+
+
+OSG_USING_NAMESPACE
+
+
 InitFuncWrapper::InitFuncWrapper(const InitFuncF func)
 {
     addInitFunction(func);
 }
 
 
-/*! \class osg::StaticInitFuncWrapper
-    StaticInitFuncWrapper is a little wrapper class that allows calling a 
-    static init function without an associated class.
- */
  
 StaticInitFuncWrapper::StaticInitFuncWrapper(const InitFuncF func)
 {
     func();
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGBASEFUNCTIONS_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGBASEFUNCTIONS_INLINE_CVSID;
 }

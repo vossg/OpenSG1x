@@ -878,8 +878,10 @@ struct TypeTraits<Real64> : public TypeTraitsBase
 
 OSG_END_NAMESPACE
 
+#ifndef OSG_DISABLE_DEPRECIATED
 #define TypeConstants TypeTraits
 #define getAllSet()   BitsSet
+#endif
 
 #define OSGBASETYPETRAITS_HEADER_CVSID "@(#)$Id: $"
 

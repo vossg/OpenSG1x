@@ -8,6 +8,18 @@ using namespace OSG;
     See \ref PageBaseField for details.
 */
 
+/*! \defgroup GrpBaseFieldSingle Single-Element Fields
+    \ingroup GrpBaseField
+
+    \brief ToDo
+*/
+
+/*! \defgroup GrpBaseFieldMulti Multi-Element Fields
+    \ingroup GrpBaseField
+
+    \brief ToDo
+*/
+
 /*! \page PageBaseField Fields
 
 All data in FieldContainers is organized in fields. There are two general

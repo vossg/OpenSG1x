@@ -47,9 +47,6 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::MemoryObject
- */
-
 /*! \var Int32 MemoryObject::_refCount
  *  \brief reference count
  */

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *           Copyright (C) 2000-2002,2002 by the OpenSG Forum                *
+ *                Copyright (C) 2000-2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _NormalQuantifier_H_
-#define _NormalQuantifier_H_
+#ifndef _OSGNORMALQUANTIFIER_H_
+#define _OSGNORMALQUANTIFIER_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -49,34 +49,20 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GrpBaseTypes
- *  \brief OSGNormalQuantifier
- *
- *  detailed
+/*! \ingroup GrpBaseBase
  */
 
 class OSG_BASE_DLLMAPPING NormalQuantifier 
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                      dcast                                   */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name        General Fieldcontainer Declaration                    */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    NormalQuantifier (UInt32 numberSubdivisions = 0 );
-
-    NormalQuantifier (const NormalQuantifier &source);
+    NormalQuantifier(UInt32 numberSubdivisions = 0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -87,88 +73,28 @@ class OSG_BASE_DLLMAPPING NormalQuantifier
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Helper                                    */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                      Get                                     */
     /*! \{                                                                 */
  
-    /// get a index for the given normal
-    UInt32 getIndex               ( Vec3f &normal, 
-                                    UInt32 numberSubdivisions = 0) const;
+          UInt32  getIndex      (Vec3f  &normal, 
+                                 UInt32  numberSubdivisions = 0) const;
 
-    /// get a single normal by index
-    inline const Vec3f &getNormal ( UInt32 index) const;
+    const Vec3f  &getNormal     (UInt32  index                 ) const;
 
-    /// get the Size of a normals table (number of indices)
-    inline UInt32 getNormalCount  ( void) const;
+          UInt32  getNormalCount(void                          ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Set                                     */
+    /*! \name                     Init                                     */
     /*! \{                                                                 */
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     init                                     */
-    /*! \{                                                                 */
-
-    // fills the normal table with 8*(2^(2*numberSubdivisions))
-    void build (UInt32 numberSubdivisions = 4);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Container Access                             */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Binary Access                              */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   your_operators                             */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Assignment                                */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Comparison                                */
-    /*! \{                                                                 */
-
-    bool operator < (const NormalQuantifier &other) const;
-
-    bool operator == (const NormalQuantifier &other) const;
-    bool operator != (const NormalQuantifier &other) const;
-
-    NormalQuantifier & operator =(const NormalQuantifier &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
-    /*! \{                                                                 */
+    void build(UInt32 numberSubdivisions = 4);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Type information                            */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Fields                                  */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
@@ -179,34 +105,30 @@ class OSG_BASE_DLLMAPPING NormalQuantifier
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      helper                                  */
+    /*! \name                      Helper                                  */
     /*! \{                                                                 */
 
-    /// recursive function to fill the NormalsTable
-    void subdivide     ( Vec3f point1, Vec3f point2, Vec3f point3, 
-                         UInt32 number, UInt32 &index );
+    void   subdivide  (Vec3f   point1, 
+                       Vec3f   point2, 
+                       Vec3f   point3, 
+                       UInt32  number, 
+                       UInt32 &index );
 
-    /// recursive function to get an index
-    UInt32 getSubIndex  ( Vec3f point, 
-                          Vec3f point1, Vec3f point2, Vec3f point3, 
-                          UInt32 number) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   MT Destruction                             */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                       Sync                                   */
-    /*! \{                                                                 */
+    UInt32 getSubIndex(Vec3f   point, 
+                       Vec3f   point1, 
+                       Vec3f   point2, 
+                       Vec3f   point3, 
+                       UInt32  number) const;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
 
  private:
     
-
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    NormalQuantifier(const NormalQuantifier &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    NormalQuantifier &operator =(const NormalQuantifier &source);
 };
 
 OSG_END_NAMESPACE
