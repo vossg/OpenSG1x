@@ -65,7 +65,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.5 2001/10/15 07:05:36 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.6 2001/10/16 10:56:55 jbehr Exp $";
     static char cvsid_hpp[] = OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID;
 }
@@ -179,7 +179,9 @@ void SimpleTexturedMaterial::rebuildState(void)
 Bool SimpleTexturedMaterial::isTransparent(void) const
 {
     return Inherited::isTransparent() ||
-           (getImage()->getBpp() > 3 && getEnvMode() != GL_DECAL);
+           ( getImage() &&
+             (getImage()->hasAlphaChannel() && getEnvMode() != GL_DECAL)
+           );
 }
 
 //! output the instance for debug purposes
