@@ -816,13 +816,14 @@ Action::ResultE RenderAction::stop(ResultE res)
 
     draw(_pMatRoot->getFirstChild());
 
-    glEnable   (GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+// GL stuff handled by chunks now
+//    glEnable   (GL_BLEND);
+//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 //    glDepthMask(false);
 
     draw(_pTransMatRoot->getFirstChild());
 
-    glDisable  (GL_BLEND);
+//    glDisable  (GL_BLEND);
 //    glDepthMask(true);
 
     if(_pActiveState != NULL)
