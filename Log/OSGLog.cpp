@@ -57,6 +57,156 @@
 
 OSG_USING_NAMESPACE
 
+//---------------------------------------------------------------------------
+//  Support Class
+//---------------------------------------------------------------------------
+
+void LogBuf::setCallback ( LogBuf::Callback cb, void *clientData, 
+                           Bool flushData )
+{
+  std::list<LogBuf::Chunk*>::iterator cI;
+  LogBuf::Chunk *chunk;
+
+  if (cb) {
+    if (flushData) {
+      for (cI = _chunkBag.begin(); cI != _chunkBag.end(); cI++) 
+        if ((chunk = *cI))
+          cb(chunk->data,chunk->size,clientData);
+    }
+
+    _callback = cb;
+    _clientData = clientData;
+  }
+}
+
+void LogBuf::removeCallback ( void )
+{
+  _callback = 0;
+}
+
+void LogBuf::write (const char *buffer, streamsize size)
+{
+  Chunk *chunk = 0;
+	Callback cb;
+
+  if (_enabled) {
+
+ 		chunk = new Chunk;
+    chunk->size = size;
+    chunk->data = new char [size];
+    memcpy (chunk->data, buffer, size);
+
+	  _chunkBag.push_back(chunk);
+
+		delete chunk;
+	}
+	
+  if ((cb = _callback))
+    cb(buffer,size,_clientData);
+}
+
+int LogBuf::overflow(int c)
+{
+  if (!pptr())
+    return EOF;
+    
+  if (c != EOF) {
+
+    // Put character into write buffer
+    *pptr() = c; 
+    pbump(1);
+
+    // Flush write buffer
+    streamsize size = pptr() -  pbase();
+    if (size > 0) {
+      write(pbase(), size);
+      pbump(-size);
+    }
+  }
+  
+  return 0;
+}
+
+int LogBuf::sync(void)
+{
+  if (!pptr())
+    return EOF;
+
+  // Flush write buffer
+  streamsize size = pptr() -  pbase();
+  if (size > 0) {
+    write(pbase(), size);
+    pbump(-size);
+  }
+
+  return 0;
+}
+
+streamsize LogBuf::xsputn(const char *buffer, streamsize size)
+{
+  if (size > 0) {
+
+    if (!pptr())
+      return 0;
+
+    streamsize s = epptr() - pptr();
+    if (s >= size) {
+      // Put it into the write buffer
+      memcpy(pptr(), buffer, size);
+      pbump(size);
+    }
+    else {
+      // Flush write buffer
+      s = pptr() - pbase();
+      if (s > 0) {
+        write(pbase(), s);
+        pbump(-s);
+      }
+
+      // Write data
+      write(buffer, size);
+    }
+  }
+
+  return size;
+}
+
+void LogBuf::clearChunkBag(void) 
+{
+  std::list<LogBuf::Chunk*>::iterator cI;
+
+  for (cI = _chunkBag.begin(); cI != _chunkBag.end(); ++cI)
+    delete *cI;
+
+  _chunkBag.clear();
+}
+
+LogBuf::LogBuf(unsigned int bufferSize)
+  : streambuf(), _enabled(true), _callback(0), _clientData(0)
+{
+  setg(0, 0, 0);
+
+  if (bufferSize > 0) {
+    char *buffer = new char[bufferSize];
+    setp(buffer, buffer + bufferSize - 1);
+  }
+  else
+    setp(0, 0);
+}
+
+LogBuf::LogBuf(const LogBuf &obj)
+  : streambuf(obj)
+{
+  cerr << "ERROR: Running LogBug copy constructor\n" << endl;
+  cerr << flush;
+}
+
+LogBuf::~LogBuf()
+{
+  delete [] pbase();
+  _callback = 0;
+}
+
 /** \var LogType Log::_logType;
  *  \brief  holds the log type
  */
@@ -187,47 +337,54 @@ Log::Log(const char *fileName, LogLevel logLevel) :
 
 Log::~Log(void)
 {
-	setLogFile(0);
+	setLogFile(0,true);
 }
 
 /*------------------------------ access -----------------------------------*/
 
 /*! \brief set method for attribute _headerElem
  */
-void Log::setHeaderElem(LogHeaderElem elem)
+void Log::setHeaderElem(UInt32 elemMask, Bool force )
 {
 	char *env;
 
-	if ((this == osgLogP) && (env = getenv( "OSG_LOG_HEADER" ) ) )
+	if (!force && (this == osgLogP) && (env = getenv( "OSG_LOG_HEADER" ) ) )
     {
       osgLog() << "Log::setHeaderElem: overriden by envvar OSG_LOG_HEADER '" 
                << env << "'." << endLog;	
-      elem = LogHeaderElem(atoi(env));
+      elemMask = LogHeaderElem(atoi(env));
     }
 
-	_headerElem = elem;
+	_headerElem = elemMask;
 }
 
 /*! \brief add method for attribute _headerElem
  */
-void Log::addHeaderElem(LogHeaderElem elem)
+void Log::addHeaderElem(LogHeaderElem elem, Bool force )
 {
-	_headerElem |= elem;
+	setHeaderElem((_headerElem | elem),force);
 }
 
 /*! \brief delete method for attribute _headerElem
  */
-void Log::delHeaderElem(LogHeaderElem elem)
+void Log::delHeaderElem(LogHeaderElem elem, Bool force )
 {
-	_headerElem &= ~elem;
+	setHeaderElem((_headerElem & ~elem),force);
 }
 
-void Log::addModuleHandling  (LogModuleHandling handling)
+/*! \brief check for a single headerElem
+ */
+Bool Log::hasHeaderElem(LogHeaderElem elem) 
+{
+	return (_headerElem & elem);
+}
+
+void Log::addModuleHandling  (LogModuleHandling handling, Bool force)
 {
 	_moduleHandling |= handling;
 }
 
-void Log::delModuleHandling  (LogModuleHandling handling)
+void Log::delModuleHandling  (LogModuleHandling handling, Bool force)
 {
 	_moduleHandling &= ~handling;
 }
@@ -302,7 +459,7 @@ Bool Log::checkModule(const Char8 *module)
 /*! \brief set method for attribute logType 
  */
 
-void Log::setLogType(LogType logType) 
+void Log::setLogType(LogType logType, Bool force) 
 {
 	char * et;
 	static char *typenames[]    = 
@@ -312,6 +469,7 @@ void Log::setLogType(LogType logType)
         "stdout", 
         "stderr", 
         "file",
+        "buffer",
         NULL
     };
 
@@ -321,13 +479,14 @@ void Log::setLogType(LogType logType)
         LOG_STDOUT, 
         LOG_STDOUT, 
         LOG_STDERR, 
-        LOG_FILE 
+        LOG_FILE,
+        LOG_BUFFER
     };
 
 	static int typeCount = sizeof(types)/sizeof(LogType);
 	int lt,i;				   				
 
-	if((this == osgLogP) && (et = getenv( "OSG_LOG_TYPE" ) ) )
+	if(!force && (this == osgLogP) && (et = getenv( "OSG_LOG_TYPE" ) ) )
 	{
 		osgLog() << "Log::setLogType: overriden by envvar OSG_LOG_TYPE '" 
                  << et << "'." << endl;	
@@ -384,7 +543,7 @@ LogType Log::getLogType(void)
 /*! \brief set method for attribute logLevel 
  */
 
-void Log::setLogLevel(LogLevel logLevel)
+void Log::setLogLevel(LogLevel logLevel, Bool force)
 { 
 	char * el;
 	static char *levelnames[] = { "log", "fatal", "warning", "notice", 
@@ -394,7 +553,7 @@ void Log::setLogLevel(LogLevel logLevel)
 	static int levelCount = sizeof(levels)/sizeof(LogLevel);
 	int ll,i;				   				
 
-	if((this == osgLogP) && (el = getenv( "OSG_LOG_LEVEL" ) ) )
+	if(!force && (this == osgLogP) && (el = getenv( "OSG_LOG_LEVEL" ) ) )
 	{
 		osgLog() << "OSGLog::setLogLevel: overriden by envvar OSG_LOG_LEVEL '" 
                  << el << "'." << endl;	
@@ -453,7 +612,7 @@ LogLevel Log::getLogLevel(void)
 /*! \brief method to set and activate the log file 
  */
 
-void Log::setLogFile(const Char8 *fileName)
+void Log::setLogFile(const Char8 *fileName, Bool force)
 {
 	const char *name;
 
@@ -466,7 +625,7 @@ void Log::setLogFile(const Char8 *fileName)
         _fileStream.close();
     }
 
-	if( (this == osgLogP) && (name = getenv( "OSG_LOG_FILE" ))) 
+	if( !force && (this == osgLogP) && (name = getenv( "OSG_LOG_FILE" ))) 
     {
 		osgLog() << "Log::setLogFile: overriden by envvar OSG_LOG_FILE '" 
                  << name << "'." << endl;					   				
@@ -510,6 +669,7 @@ void Log::doLog(char * format, ...)
 #endif
 
 	*this << buffer;
+	*this << std::flush;
 
 	va_end( args );
 }
@@ -529,43 +689,49 @@ void Log::doLog(char * format, ...)
 /*! \brief reconnects the streams for the current settings 
  */
 
-void Log::connect(void)
+void Log::connect(void)  
 {
 	int i;
 
 #ifndef OSG_STREAM_RDBUF_HAS_PARAM
 	switch(_logType) 
     {
-        case LOG_STDOUT:
-            this->bp = cout.rdbuf();
-						break;
-        case LOG_STDERR:
-            this->bp = cerr.rdbuf();
-            break;
-        case LOG_FILE:
-            this->bp = _fileStream.rdbuf();
-            break;
-        case LOG_NONE:
-        default:
-            this->bp = _nilStreamP->rdbuf();
-            break;
-	}
+    case LOG_STDOUT:
+      this->bp = cout.rdbuf();
+      break;
+    case LOG_STDERR:
+      this->bp = cerr.rdbuf();
+      break;
+    case LOG_FILE:
+      this->bp = _fileStream.rdbuf();
+      break;
+    case LOG_BUFFER:
+      this->bp = _logBuf;
+      break;
+    case LOG_NONE:
+    default:
+      this->bp = _nilStreamP->rdbuf();
+      break;
+    }
 #else
 	switch(_logType) 
     {
-        case LOG_STDOUT:
-            this->rdbuf(cout.rdbuf());
-            break;
-        case LOG_STDERR:
-            this->rdbuf(cerr.rdbuf());
-            break;
-        case LOG_FILE:
-            this->rdbuf(_fileStream.rdbuf());
-            break;
-        case LOG_NONE:
-        default:
-            this->rdbuf(_nilbufP);
-            break;
+    case LOG_STDOUT:
+      this->rdbuf(cout.rdbuf());
+      break;
+    case LOG_STDERR:
+      this->rdbuf(cerr.rdbuf());
+      break;
+    case LOG_FILE:
+      this->rdbuf(_fileStream.rdbuf());
+      break;
+    case LOG_BUFFER:
+      this->rdbuf(&_logBuf);
+      break;
+    case LOG_NONE:
+    default:
+      this->rdbuf(_nilbufP);
+      break;
 	}
 #endif
 
@@ -633,11 +799,12 @@ void OSG::initLog(void)
 
 	if(osgLogP == NULL)
     {
-		osgLogP = new Log();
+      osgLogP = new Log();
 
-        osgLogP->setLogLevel(LOG_NOTICE);
-        osgLogP->setLogFile (NULL);
-        osgLogP->setLogType (LOG_STDERR);
-        
+      osgLogP->setLogLevel(LOG_NOTICE);
+      osgLogP->setLogFile (NULL);
+
+      // TODO; find better way to specify the osgLog logType      
+      osgLogP->setLogType (LOG_STDERR);            
     }
 }

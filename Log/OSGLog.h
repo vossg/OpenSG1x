@@ -63,7 +63,8 @@ enum LogType
     LOG_NONE = 0,
     LOG_STDOUT,
     LOG_STDERR,
-    LOG_FILE
+    LOG_FILE,
+    LOG_BUFFER
 };
 
 /*! \ingroup LogLib
@@ -122,6 +123,87 @@ class OSG_BASE_DLLMAPPING LogOStream : public ostream
 };
 
 /*! \ingroup LogLib
+ *  \brief Logger ostream, required to fix some problems between the different
+ *         plattforms
+ */
+
+class OSG_BASE_DLLMAPPING LogBuf : public streambuf
+{
+
+public:
+
+  /// only temporary until the functors work with all compiler
+  typedef void (*Callback)( const char *data, int size,
+                            void *clientData );
+ 
+  /// output chunk
+  struct Chunk {
+    char *data;
+    int size;
+    Chunk (void) : data(0), size(0) {;}
+    ~Chunk (void) { delete data; }
+  };
+
+  /*! \}                                                                 */
+  /*---------------------------------------------------------------------*/
+  /*! \name                   Constructors                               */
+  /*! \{                                                                 */    
+  
+  LogBuf (unsigned int bufferSize = 1024);
+  LogBuf(const LogBuf &);
+    
+  /*! \}                                                                 */
+  /*---------------------------------------------------------------------*/
+  /*! \name                   Destructors                                */
+  /*! \{                                                                 */
+  virtual ~LogBuf();
+
+  /*! \}                                                                 */
+  /*---------------------------------------------------------------------*/
+  /*! \name                   Class Specific                             */
+  /*! \{                                                                 */    
+  /// clear the chunk bag
+  void clearChunkBag(void);
+    
+  /// get the enabled value  
+  inline
+    Bool getEnabled (void) { return _enabled; }
+
+  /// set the enabled value
+  inline
+    void setEnabled (Bool value = true) { _enabled = value; }
+    
+  /*! \}                                                                 */
+  /*---------------------------------------------------------------------*/
+  /*! \name                   Callback handling                          */
+  /*! \{                                                                 */    
+  void setCallback ( LogBuf::Callback cb, void *clientData = 0,
+                     Bool flushData = false );
+  void removeCallback ( void );
+
+private:
+
+  Bool _enabled;
+ 
+  std::list<LogBuf::Chunk*> _chunkBag;
+  
+  LogBuf::Callback _callback;
+  void* _clientData; 
+
+  const LogBuf &operator=(const LogBuf &);
+  void write (const char *buffer, std::streamsize size);
+
+  /*! \}                                                                 */
+  /*---------------------------------------------------------------------*/
+  /*! \name                   Callback handling                          */
+  /*! \{                                                                 */   
+  virtual int overflow(int c);
+  virtual int sync(void);
+  virtual std::streamsize xsputn(const char *buffer, std::streamsize size);
+
+};
+
+/*! \ingroup LogLib
  *  \brief Message logger class, handles info,warning and error messages
  */
 
@@ -162,12 +244,13 @@ class OSG_BASE_DLLMAPPING Log : public ostream
 
     void unlock(void) {;} // TODO: implement
 
-    virtual void setHeaderElem(LogHeaderElem elem);
-    virtual void addHeaderElem(LogHeaderElem elem);
-    virtual void delHeaderElem(LogHeaderElem elem);
+    virtual void setHeaderElem(UInt32 elemMask, Bool force = false);
+    virtual void addHeaderElem(LogHeaderElem elem, Bool force = false);
+    virtual void delHeaderElem(LogHeaderElem elem, Bool force = false);
+    virtual Bool hasHeaderElem(LogHeaderElem elem);
 
-    virtual void addModuleHandling(LogModuleHandling handling);
-    virtual void delModuleHandling(LogModuleHandling handling);
+    virtual void addModuleHandling(LogModuleHandling handling, Bool force = false);
+    virtual void delModuleHandling(LogModuleHandling handling, Bool force = false);
 
     virtual void addModuleName(const Char8 *module, Bool isStatic = false);
     virtual void delModuleName(const Char8 *module);
@@ -176,18 +259,19 @@ class OSG_BASE_DLLMAPPING Log : public ostream
     Bool checkModule(const Char8 *module);
 
     LogType getLogType(void);
-    void    setLogType(LogType logType);
+    void    setLogType(LogType logType, Bool force = false );
 
     LogLevel getLogLevel(void);
-    void     setLogLevel(LogLevel logLevel);
+    void     setLogLevel(LogLevel logLevel, Bool force = false );
     Bool     checkLevel (LogLevel logLevel);
 
-    void     setLogFile (const Char8 *fileName);
+    void     setLogFile (const Char8 *fileName, Bool force = false );
 
     inline Time getRefTime(void);
     inline void setRefTime(Time refTime);
-
     inline void resetRefTime(void);
+
+    inline LogBuf & getLogBuf(void);
 
     inline ostream &stream   (LogLevel level);
     inline ostream &nilstream(void);
@@ -233,6 +317,8 @@ class OSG_BASE_DLLMAPPING Log : public ostream
     LogLevel    _logLevel;
 
     fstream     _fileStream;
+
+    LogBuf      _logBuf;
 
     LogOStream *_streamVec[6];
 

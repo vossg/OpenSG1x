@@ -196,6 +196,12 @@ void Log::resetRefTime(void)
 }
 
 inline
+LogBuf & Log::getLogBuf(void)
+{
+  return _logBuf;
+}
+
+inline
 ostream &Log::stream(LogLevel level)
 {
 	return *(_streamVec[level]); 
