@@ -38,6 +38,9 @@
 
 #include "OSGQVec2bEditor_qt.h"
 
+// Not all compilers can handle the byte Pnts/Vecs...
+#ifndef OSG_NO_INT8_PNT
+
 #include <OSGVecFieldDataType.h>
 #include <OSGQOSGWidgetFactoryHelper.h>
 
@@ -146,7 +149,7 @@ QVec2bEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQVec2bEditor_qt.cpp,v 1.5 2004/12/20 11:09:54 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQVec2bEditor_qt.cpp,v 1.6 2005/02/20 19:48:06 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGQVEC2BEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQVEC2BEDITORQT_INLINE_CVSID;
 }
@@ -158,3 +161,5 @@ namespace
 #ifdef OSG_SGI_CC
 #pragma reset woff 1174
 #endif
+
+#endif // OSG_NO_INT8_PNT

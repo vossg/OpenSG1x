@@ -43,6 +43,10 @@
 #endif
 
 #include <OSGConfig.h>
+
+// Not all compilers can handle the byte Pnts/Vecs...
+#ifndef OSG_NO_INT8_PNT
+
 #include <OSGWindowQTDef.h>
 #include <OSGVector.h>
 
@@ -97,6 +101,8 @@ OSG_END_NAMESPACE
 
 //#include "OSGQVec2bEditor.inl"
 
-#define OSGQVEC2BEDITORQT_HEADER_CVSID "@(#)$Id: OSGQVec2bEditor_qt.h,v 1.3 2004/11/01 12:24:30 neumannc Exp $"
+#define OSGQVEC2BEDITORQT_HEADER_CVSID "@(#)$Id: OSGQVec2bEditor_qt.h,v 1.4 2005/02/20 19:48:06 dirk Exp $"
+
+#endif // OSG_NO_INT8_PNT
 
 #endif /* _OSGQVEC2BEDITOR_QT_H_ */

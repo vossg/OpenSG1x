@@ -59,13 +59,13 @@
     e.g. "1.3.0pre1"
  */
 
-#define OSG_VERSION_STRING      "1.4.0"
+#define OSG_VERSION_STRING      "1.9.0"
 
 /*! The numeric full version, with two digits per major/minor/release, e.g.
     010300
  */
 
-#define OSG_VERSION             010400
+#define OSG_VERSION             010900
 
 /*! The numeric major version number, e.g. 1
  */
@@ -75,7 +75,7 @@
 /*! The numeric minor version number, e.g. 4
  */
 
-#define OSG_MINOR_VERSION       4
+#define OSG_MINOR_VERSION       9
 
 /*! The numeric release version number, e.g. 0
  */
@@ -365,6 +365,10 @@
 #    define __ICL __INTEL_COMPILER
 # endif
 
+# ifndef __INTEL_COMPILER_VERSION
+#    define __INTEL_COMPILER_VERSION __INTEL_COMPILER
+# endif
+
 # define OSG_HAS_NAMESPACE
 
 # define OSG_HAS_STD_NAMESPACE
@@ -401,13 +405,10 @@
 
 # define OSG_FOUND_OS
 
-# define OSG_STDEXCEPTION_NAMESPACE std
-
-#ifdef OSG_STDEXTENSION_NAMESPACE
-#undef OSG_STDEXTENSION_NAMESPACE
-#endif
-
+// icc >=8.1 uses gnu headers anyway, use gnu defines set above
+#if __INTEL_COMPILER_VERSION < 810  
 # define OSG_STDEXTENSION_NAMESPACE std
+#endif
 
 # define OSG_STL_HAS_HASH_MAP
 
@@ -415,7 +416,7 @@
 
 # define OSG_HAS_VSNPRINTF
 
-# if __INTEL_COMPILER_VERSION >= 800
+# if __INTEL_COMPILER_VERSION >= 800 && __INTEL_COMPILER_VERSION < 810  
 # define OSG_USE_HASH_COMPARE
 # endif
 
