@@ -144,7 +144,7 @@ DVRSimpleLUTShader::DVRSimpleLUTShader(void) :
 
     _funcColorTableEXT        = 
        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glColorTableEXT",
-                                 _sgiTexColorTable);
+                                 _extPalettedTexture);
 
     _funcActiveTextureARB     = 
        Window::registerFunction(OSG_DLSYM_UNDERSCORE"glActiveTextureARB",
