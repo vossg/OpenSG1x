@@ -631,7 +631,7 @@ GIFImageFileType::~GIFImageFileType(void)
 #define ERROR(str)      do { RWSetMsg(str); longjmp(setjmp_buffer, 1); } while(0)
 #else
 #define INFO_MSG(fmt)   
-#define ERROR(str)      longjmp(setjmp_buffer, 1)
+#define GIF_ERROR(str)      longjmp(setjmp_buffer, 1)
 #endif
 #endif
 
@@ -683,21 +683,21 @@ GIFStream *GIFReadFP(FILE *fd)
 
     if(!ReadOK(fd, buf, 6))
     {
-        ERROR("error reading magic number");
+        GIF_ERROR("error reading magic number");
     }
 
     if(strncmp((char *) buf, "GIF", 3) != 0)
-        ERROR("not a GIF file");
+        GIF_ERROR("not a GIF file");
 
     if((strncmp(((char *) (buf)) + 3, "87a", 3) != 0) &&
        (strncmp(((char *) (buf)) + 3, "89a", 3) != 0))
     {
-        ERROR("bad version number, not '87a' or '89a'");
+        GIF_ERROR("bad version number, not '87a' or '89a'");
     }
 
     if(!ReadOK(fd, buf, 7))
     {
-        ERROR("failed to read screen descriptor");
+        GIF_ERROR("failed to read screen descriptor");
     }
 
     gifStream = NEW(GIFStream);
@@ -722,7 +722,7 @@ GIFStream *GIFReadFP(FILE *fd)
     {
         if(readColorMap(fd, gifStream->cmapSize, gifStream->cmapData))
         {
-            ERROR("unable to get global colormap");
+            GIF_ERROR("unable to get global colormap");
         }
     }
     else
@@ -753,7 +753,7 @@ GIFStream *GIFReadFP(FILE *fd)
         {           /* Extension */
             if(!ReadOK(fd, &c, 1))
             {
-                ERROR("EOF / read error on extention function code");
+                GIF_ERROR("EOF / read error on extention function code");
             }
 
             if(c == 0xf9)
@@ -839,7 +839,7 @@ GIFStream *GIFReadFP(FILE *fd)
         {
             if(!ReadOK(fd, buf, 9))
             {
-                ERROR("couldn't read left/top/width/height");
+                GIF_ERROR("couldn't read left/top/width/height");
             }
 
             cur = NEW(GIFData);
@@ -856,7 +856,7 @@ GIFStream *GIFReadFP(FILE *fd)
                 if(readColorMap(fd, cur->data.image.cmapSize,
                                          cur->data.image.cmapData))
                 {
-                    ERROR("unable to get local colormap");
+                    GIF_ERROR("unable to get local colormap");
                 }
             }
             else
@@ -885,7 +885,7 @@ GIFStream *GIFReadFP(FILE *fd)
     }
 
     if(c != ';')
-        ERROR("EOF / data stream");
+        GIF_ERROR("EOF / data stream");
 
 out:
     return gifStream;
@@ -1093,7 +1093,7 @@ static int nextCode(FILE *fd, int code_size)
         {
             if(curbit >= lastbit)
             {
-                ERROR("ran off the end of my bits");
+                GIF_ERROR("ran off the end of my bits");
             }
 
             return -1;
@@ -1197,7 +1197,7 @@ static int nextLWZ(FILE *fd)
             *sp++ = table[1][code];
             if(code == table[0][code])
             {
-                ERROR("circular table entry BIG ERROR");
+                GIF_ERROR("circular table entry BIG ERROR");
             }
 
             code = table[0][code];
@@ -1241,7 +1241,7 @@ static void readImage(FILE *fd, int interlace, int width, int height,
     */
     if(!ReadOK(fd, &c, 1))
     {
-        ERROR("EOF / read error on image data");
+        GIF_ERROR("EOF / read error on image data");
     }
 
     initLWZ(c);

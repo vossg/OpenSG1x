@@ -1079,7 +1079,7 @@ dnl e10
 
     if test "$with_jpg" = yes; then
         if test $build_os = cygwin; then
-           ac_gdz_jpg_lib_e10='jpg32.lib'
+           ac_gdz_jpg_lib_e10='libjpeg.lib'
         else
            ac_gdz_jpg_lib_e10='-ljpeg'
         fi
@@ -1087,7 +1087,7 @@ dnl e10
         if test $build_os = cygwin; then
            ac_gdz_jpg_incdir_e10='"'`cygpath -w $ac_gdz_jpg_dir/include`'"'
            ac_gdz_jpg_libdir_e10='"'`cygpath -w $ac_gdz_jpg_dir/lib`'"'
-           ac_gdz_jpg_lib_e10='jpg32.lib'
+           ac_gdz_jpg_lib_e10='libjpeg.lib'
         else
            ac_gdz_jpg_incdir_e10=$ac_gdz_jpg_dir/include
            ac_gdz_jpg_libdir_e10=$ac_gdz_jpg_dir/lib
@@ -1378,7 +1378,7 @@ dnl e15
         ac_gdz_have_jpg_e15=yes
 
         if test $build_os = cygwin; then
-           ac_gdz_jpg_lib_e15='"jpg32.lib"'
+           ac_gdz_jpg_lib_e15='"libjpeg.lib"'
         else
            ac_gdz_jpg_lib_e15='"-ljpeg"'
         fi
@@ -1390,7 +1390,7 @@ dnl e15
         if test $build_os = cygwin; then
            ac_gdz_jpg_incdir_e15='"'`cygpath -w $ac_gdz_jpg_dir/include`'"'
            ac_gdz_jpg_libdir_e15='"'`cygpath -w $ac_gdz_jpg_dir/lib`'"'
-           ac_gdz_jpg_lib_e15='"jpg32.lib"'
+           ac_gdz_jpg_lib_e15='"libjpeg.lib"'
         else
            ac_gdz_jpg_incdir_e15=$ac_gdz_jpg_dir/include
            ac_gdz_jpg_libdir_e15=$ac_gdz_jpg_dir/lib

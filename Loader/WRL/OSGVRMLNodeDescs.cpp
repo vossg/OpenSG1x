@@ -525,7 +525,11 @@ FieldContainerPtr VRMLNodeDesc::beginNode(const Char8      *,
             pNode = NodePtr    ::dcast(returnValue);
             pCore = NodeCorePtr::dcast(pCoreClone );
 
-            pNode->setCore(pCore);
+            beginEditCP(pNode, Node::CoreFieldMask);
+            {
+                pNode->setCore(pCore);
+            }
+            endEditCP  (pNode, Node::CoreFieldMask);
         }
 
         if(_pGenAtt != NullFC)
@@ -900,7 +904,11 @@ FieldContainerPtr VRMLShapeDesc::beginNode(const Char8            *,
         {
             pNodeCore = NodeCorePtr::dcast(_pNodeCoreProto->shallowCopy());
 
-            pNode->setCore(pNodeCore);
+            beginEditCP(pNode, Node::CoreFieldMask);
+            {
+                pNode->setCore(pNodeCore);
+            }
+            endEditCP  (pNode, Node::CoreFieldMask);
         }
     }
 
@@ -932,11 +940,11 @@ void VRMLShapeDesc::endNode(FieldContainerPtr pFC)
             }
             endEditCP(pMatGroup);
 
-            beginEditCP(pNode);
+            beginEditCP(pNode, Node::CoreFieldMask);
             {
                 pNode->setCore(pMatGroup);
             }
-            endEditCP(pNode);
+            endEditCP  (pNode, Node::CoreFieldMask);
         }
         else
         {
@@ -1195,8 +1203,12 @@ FieldContainerPtr VRMLGeometryDesc::beginNode(
 
         pNodeCore = NodeCorePtr::dcast(pFC);
        
-        pNode    ->setCore      (pNodeCore);
-        pNodeCore->addAttachment(pAtt);
+        beginEditCP(pNode);
+        {
+            pNode    ->setCore      (pNodeCore);
+            pNodeCore->addAttachment(pAtt);
+        }
+        endEditCP  (pNode);
     }
 
 #ifdef OSG_DEBUG_VRML
@@ -1338,6 +1350,8 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
         pCreaseAngle = static_cast<SFReal32 *>(pField);
     }
 
+    beginEditCP(pGeo);
+
     if(_bIsFaceSet == true)
     {
         if(pCoordIndex      != NULL &&
@@ -1411,6 +1425,8 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                                  false);
         }
     }
+
+    endEditCP(pGeo);
 
 #ifdef OSG_DEBUG_VRML
     decIndent();
@@ -1778,7 +1794,11 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
                                           pVec->getValue()[2],
                                           2, 2, 2);
 
-            pNode->setCore(pGeo);
+            beginEditCP(pNode, Node::CoreFieldMask);
+            {
+                pNode->setCore(pGeo);
+            }
+            endEditCP  (pNode, Node::CoreFieldMask);
         }
     }
     else if(stringcasecmp("Cone",     _szVRMLObjectname) == 0)
@@ -1845,7 +1865,11 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
                                            pHeight->getValue(),
                                            pBottom->getValue());
 
-            pNode->setCore(pGeo);
+            beginEditCP(pNode, Node::CoreFieldMask);
+            {
+                pNode->setCore(pGeo);
+            }
+            endEditCP  (pNode, Node::CoreFieldMask);
         }
     }
     else if(stringcasecmp("Cylinder", _szVRMLObjectname) == 0)
@@ -1926,7 +1950,11 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
                                                pTop   ->getValue(),
                                                pBottom->getValue());
 
-            pNode->setCore(pGeo);
+            beginEditCP(pNode, Node::CoreFieldMask);
+            {
+                pNode->setCore(pGeo);
+            }
+            endEditCP  (pNode, Node::CoreFieldMask);
         }
     }
     else if(stringcasecmp("Sphere",   _szVRMLObjectname) == 0)
@@ -1948,7 +1976,11 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
 
             GeometryPtr pGeo = makeSphereGeo(3, pValue->getValue());
 
-            pNode->setCore(pGeo);
+            beginEditCP(pNode, Node::CoreFieldMask);
+            {
+                pNode->setCore(pGeo);
+            }
+            endEditCP  (pNode, Node::CoreFieldMask);
         }
         
     }
@@ -3147,8 +3179,12 @@ FieldContainerPtr VRMLLODDesc::beginNode(
 
         pNodeCore = NodeCorePtr::dcast(pFC);
        
-        pNode    ->setCore      (pNodeCore);
-        pNodeCore->addAttachment(pAtt);
+        beginEditCP(pNode);
+        {
+            pNode    ->setCore      (pNodeCore);
+            pNodeCore->addAttachment(pAtt);
+        }
+        endEditCP  (pNode, Node::CoreFieldMask);
     }
 
 #ifdef OSG_DEBUG_VRML
@@ -3603,8 +3639,12 @@ FieldContainerPtr VRMLGroupDesc::beginNode(
 
         pNodeCore = NodeCorePtr::dcast(pFC);
        
-        pNode    ->setCore      (pNodeCore);
-        pNodeCore->addAttachment(pAtt);
+        beginEditCP(pNode);
+        {
+            pNode    ->setCore      (pNodeCore);
+            pNodeCore->addAttachment(pAtt);
+        }
+        endEditCP   (pNode);
     }
 
 #ifdef OSG_DEBUG_VRML
@@ -3826,8 +3866,12 @@ FieldContainerPtr VRMLInlineDesc::beginNode(
 
         pNodeCore = NodeCorePtr::dcast(pFC);
        
-        pNode    ->setCore      (pNodeCore);
-        pNodeCore->addAttachment(pAtt);
+        beginEditCP(pNode);
+        {
+            pNode    ->setCore      (pNodeCore);
+            pNodeCore->addAttachment(pAtt);
+        }
+        endEditCP  (pNode);
     }
 
 #ifdef OSG_DEBUG_VRML
@@ -4070,8 +4114,12 @@ FieldContainerPtr VRMLViewpointDesc::beginNode(
 
         pNodeCore = NodeCorePtr::dcast(pFC);
        
-        pNode    ->setCore      (pNodeCore);
-        pNodeCore->addAttachment(pAtt);
+        beginEditCP(pNode);
+        {
+            pNode    ->setCore      (pNodeCore);
+            pNodeCore->addAttachment(pAtt);
+        }
+        endEditCP  (pNode);
     }
 
 #ifdef OSG_DEBUG_VRML
