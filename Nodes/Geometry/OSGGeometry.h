@@ -127,7 +127,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     Action::ResultE draw                 (DrawActionBase *action);
     Action::ResultE render               (Action *action);
 
-    inline void     invalidateDlistCache (void);
+    void            invalidateDlistCache (void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

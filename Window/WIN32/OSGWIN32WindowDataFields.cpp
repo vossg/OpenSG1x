@@ -40,7 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEWINDOWWIN32INST
+#define OSG_COMPILEWIN32WINDOWINST
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -51,15 +51,13 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
 namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
     static Char8 cvsid_hpp[] = OSGWINDOWWIN32DATAFIELDS_HEADER_CVSID;
 }
+
+OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<HWND>::_type("HWND",
                                       NULL);
@@ -81,11 +79,9 @@ OSG_DLLEXPORT_DEF1(SField, PAINTSTRUCT, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, HWND,        OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, HDC,         OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, HGLRC,       OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+
+#ifndef OSG_MICROSOFT_COMPILER_HACKS
 OSG_DLLEXPORT_DEF1(MField, PAINTSTRUCT, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
+#endif
 
-
-
-
-
-
-
+OSG_END_NAMESPACE

@@ -138,45 +138,45 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFUInt16            *getSFWidth          (void);
-    inline       SFUInt16            *getSFHeight         (void);
-    inline       MFViewportPtr       *getMFPort           (void);
-    inline       SFBool              *getSFResizePending  (void);
-    inline       MFUInt32            *getMFGlObjectStatus (void);
-    inline       SFUInt32            *getSFGlObjectInvalidateCounter(void);
-    inline       MFUInt32            *getMFGlObjectLastRefresh(void);
-    inline       MFUInt32            *getMFGlObjectLastReinitialize(void);
+          SFUInt16            *getSFWidth          (void);
+          SFUInt16            *getSFHeight         (void);
+          MFViewportPtr       *getMFPort           (void);
+          SFBool              *getSFResizePending  (void);
+          MFUInt32            *getMFGlObjectStatus (void);
+          SFUInt32            *getSFGlObjectInvalidateCounter(void);
+          MFUInt32            *getMFGlObjectLastRefresh(void);
+          MFUInt32            *getMFGlObjectLastReinitialize(void);
 
-    inline       UInt16              &getWidth          (void);
-    inline const UInt16              &getWidth          (void) const;
-    inline       UInt16              &getHeight         (void);
-    inline const UInt16              &getHeight         (void) const;
-    inline       bool                &getResizePending  (void);
-    inline const bool                &getResizePending  (void) const;
-    inline       UInt32              &getGlObjectInvalidateCounter(void);
-    inline const UInt32              &getGlObjectInvalidateCounter(void) const;
-    inline       ViewportPtr         &getPort           (UInt32 index);
-    inline       MFViewportPtr       &getPort           (void);
-    inline const MFViewportPtr       &getPort           (void) const;
-    inline       UInt32              &getGlObjectStatus (UInt32 index);
-    inline       MFUInt32            &getGlObjectStatus (void);
-    inline const MFUInt32            &getGlObjectStatus (void) const;
-    inline       UInt32              &getGlObjectLastRefresh(UInt32 index);
-    inline       MFUInt32            &getGlObjectLastRefresh(void);
-    inline const MFUInt32            &getGlObjectLastRefresh(void) const;
-    inline       UInt32              &getGlObjectLastReinitialize(UInt32 index);
-    inline       MFUInt32            &getGlObjectLastReinitialize(void);
-    inline const MFUInt32            &getGlObjectLastReinitialize(void) const;
+          UInt16              &getWidth          (void);
+    const UInt16              &getWidth          (void) const;
+          UInt16              &getHeight         (void);
+    const UInt16              &getHeight         (void) const;
+          bool                &getResizePending  (void);
+    const bool                &getResizePending  (void) const;
+          UInt32              &getGlObjectInvalidateCounter(void);
+    const UInt32              &getGlObjectInvalidateCounter(void) const;
+          ViewportPtr         &getPort           (UInt32 index);
+          MFViewportPtr       &getPort           (void);
+    const MFViewportPtr       &getPort           (void) const;
+          UInt32              &getGlObjectStatus (UInt32 index);
+          MFUInt32            &getGlObjectStatus (void);
+    const MFUInt32            &getGlObjectStatus (void) const;
+          UInt32              &getGlObjectLastRefresh(UInt32 index);
+          MFUInt32            &getGlObjectLastRefresh(void);
+    const MFUInt32            &getGlObjectLastRefresh(void) const;
+          UInt32              &getGlObjectLastReinitialize(UInt32 index);
+          MFUInt32            &getGlObjectLastReinitialize(void);
+    const MFUInt32            &getGlObjectLastReinitialize(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setWidth          ( const UInt16 &value );
-    inline void setHeight         ( const UInt16 &value );
-    inline void setResizePending  ( const bool &value );
-    inline void setGlObjectInvalidateCounter( const UInt32 &value );
+    void setWidth          ( const UInt16 &value );
+    void setHeight         ( const UInt16 &value );
+    void setResizePending  ( const bool &value );
+    void setGlObjectInvalidateCounter( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

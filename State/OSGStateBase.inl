@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &StateBase::getClassType(void)
+inline 
+OSG::FieldContainerType &StateBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 StateBase::getClassTypeId(void) 
+inline 
+OSG::UInt32 StateBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline StatePtr StateBase::create(void) 
+inline 
+StatePtr StateBase::create(void) 
 {
     StatePtr fc; 
 
@@ -80,7 +83,8 @@ inline StatePtr StateBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline StatePtr StateBase::createEmpty(void) 
+inline 
+StatePtr StateBase::createEmpty(void) 
 { 
     StatePtr returnValue; 
     
@@ -92,7 +96,7 @@ inline StatePtr StateBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFStateChunkPtr *StateBase::getMFChunks(void)
 {
     return &_mfChunks;
@@ -100,17 +104,19 @@ MFStateChunkPtr *StateBase::getMFChunks(void)
 
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 StateChunkPtr &StateBase::getChunks(UInt32 index)
 {
     return _mfChunks.getValue( index );
 }
 
+inline
 MFStateChunkPtr &StateBase::getChunks(void)
 {
     return _mfChunks;
 }
 
+inline
 const MFStateChunkPtr &StateBase::getChunks(void) const
 {
     return _mfChunks;
@@ -119,5 +125,5 @@ const MFStateChunkPtr &StateBase::getChunks(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEBASE_INLINE_CVSID "@(#)$Id: OSGStateBase.inl,v 1.8 2001/10/03 20:37:35 dirk Exp $"
+#define OSGSTATEBASE_INLINE_CVSID "@(#)$Id: OSGStateBase.inl,v 1.9 2002/02/27 09:34:18 vossg Exp $"
 

@@ -260,7 +260,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
     /*! \name                  Type information                            */
     /*! \{                                                                 */
 
+#if defined(OSG_MICROSOFT_COMPILER_ALERT)
     static FieldDescription   *_desc[];
+#endif
+
     static FieldContainerType  _type;
 
     /*! \}                                                                 */

@@ -131,7 +131,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
     /*! \name                      Access                                  */
     /*! \{                                                                 */
 
-    inline         UInt32            getClassID  (void) const;
+                   UInt32            getClassID  (void) const;
     virtual const  StateChunkClass * getClass    (void) const;
 
     virtual bool   isTransparent                 (void) const;

@@ -150,7 +150,7 @@ void endEditNotChangedCP(
 //! FieldContainer
 //! \ingroup FieldContainerLib
 
-class OSG_SYSTEMLIB_DLLMAPPING FieldContainer 
+class FieldContainer 
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -170,21 +170,33 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*! \name             Get Class Type Information                       */
     /*! \{                                                                 */
 
-    static       FieldContainerType &getClassType  (void);
-    static       UInt32              getClassTypeId(void);
-    static       UInt16              getClassGroupId(void);
+    OSG_SYSTEMLIB_DLLMAPPING 
+    static FieldContainerType &getClassType   (void);
+
+    OSG_SYSTEMLIB_DLLMAPPING 
+    static UInt32              getClassTypeId (void);
+
+    OSG_SYSTEMLIB_DLLMAPPING 
+    static UInt16              getClassGroupId(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name             Get Instance Type Information                    */
     /*! \{                                                                 */
     
+    OSG_SYSTEMLIB_DLLMAPPING 
     virtual       FieldContainerType &getType    (void);
+
+    OSG_SYSTEMLIB_DLLMAPPING 
     virtual const FieldContainerType &getType    (void) const;
 
+                  OSG_SYSTEMLIB_DLLMAPPING 
                   UInt32              getTypeId  (void) const;
+
+                  OSG_SYSTEMLIB_DLLMAPPING 
                   UInt16              getGroupId (void) const;
 
+            OSG_SYSTEMLIB_DLLMAPPING 
             const Char8              *getTypeName(void) const;
 
     /*! \}                                                                 */
@@ -192,6 +204,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*! \name                    Container Size                            */
     /*! \{                                                                 */
 
+    OSG_SYSTEMLIB_DLLMAPPING 
     virtual UInt32  getContainerSize(void                  ) const = 0;
 
     /*! \}                                                                 */
@@ -199,7 +212,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*! \name                                                              */
     /*! \{                    Generic Field Access                         */
 
+            OSG_SYSTEMLIB_DLLMAPPING 
             Field  *getField        (      UInt32 fieldId  );
+
+            OSG_SYSTEMLIB_DLLMAPPING 
             Field  *getField        (const Char8 *fieldName);
 
     /*! \}                                                                 */
@@ -214,9 +230,14 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
+    OSG_SYSTEMLIB_DLLMAPPING 
     virtual UInt32  getBinSize (const BitVector         &whichField);
+
+    OSG_SYSTEMLIB_DLLMAPPING 
     virtual void    copyToBin  (      BinaryDataHandler &pMem, 
                                 const BitVector         &whichField);
+
+    OSG_SYSTEMLIB_DLLMAPPING 
     virtual void    copyFromBin(      BinaryDataHandler &pMem, 
                                 const BitVector         &whichField);
 
@@ -225,6 +246,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
+    OSG_SYSTEMLIB_DLLMAPPING 
     virtual void dump(      UInt32    uiIndent = 0, 
                       const BitVector bvFlags  = 0) const = 0;
     
@@ -250,7 +272,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
+    OSG_SYSTEMLIB_DLLMAPPING 
     FieldContainer(void);
+
+    OSG_SYSTEMLIB_DLLMAPPING 
     FieldContainer(const FieldContainer &obj);
 
     /*! \}                                                                 */
@@ -258,6 +283,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
+    OSG_SYSTEMLIB_DLLMAPPING 
     virtual ~FieldContainer (void);
 
     /*! \}                                                                 */
@@ -427,6 +453,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*! \name                        Changed                               */
     /*! \{                                                                 */
 
+    OSG_SYSTEMLIB_DLLMAPPING 
     virtual void changed        (BitVector whichField, ChangeMode from);
 
     /*! \}                                                                 */
@@ -434,7 +461,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*! \name                MT Construction                               */
     /*! \{                                                                 */
 
+            OSG_SYSTEMLIB_DLLMAPPING 
             void onCreate       (void);
+
+            OSG_SYSTEMLIB_DLLMAPPING 
             void onCreate       (const FieldContainer &source);
 
     /*! \}                                                                 */
@@ -442,6 +472,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*! \name                MT Destruction                                */
     /*! \{                                                                 */
 
+    OSG_SYSTEMLIB_DLLMAPPING 
     virtual void onDestroy      (void);
 
     /*! \}                                                                 */
@@ -449,9 +480,11 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
     /*! \name                     Sync                                     */
     /*! \{                                                                 */
 
+    OSG_SYSTEMLIB_DLLMAPPING 
     virtual void executeSync    (      FieldContainer &other,
                                  const BitVector      &whichField) = 0;
 
+            OSG_SYSTEMLIB_DLLMAPPING 
             void executeSyncImpl(      FieldContainer *pOther,
                                  const BitVector      &whichField);
 

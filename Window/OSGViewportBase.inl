@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &ViewportBase::getClassType(void)
+inline 
+OSG::FieldContainerType &ViewportBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 ViewportBase::getClassTypeId(void) 
+inline 
+OSG::UInt32 ViewportBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline ViewportPtr ViewportBase::create(void) 
+inline 
+ViewportPtr ViewportBase::create(void) 
 {
     ViewportPtr fc; 
 
@@ -80,7 +83,8 @@ inline ViewportPtr ViewportBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline ViewportPtr ViewportBase::createEmpty(void) 
+inline 
+ViewportPtr ViewportBase::createEmpty(void) 
 { 
     ViewportPtr returnValue; 
     
@@ -92,224 +96,225 @@ inline ViewportPtr ViewportBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *ViewportBase::getSFLeft(void)
 {
     return &_sfLeft;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *ViewportBase::getSFRight(void)
 {
     return &_sfRight;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *ViewportBase::getSFBottom(void)
 {
     return &_sfBottom;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFReal32 *ViewportBase::getSFTop(void)
 {
     return &_sfTop;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFWindowPtr *ViewportBase::getSFParent(void)
 {
     return &_sfParent;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFCameraPtr *ViewportBase::getSFCamera(void)
 {
     return &_sfCamera;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFNodePtr *ViewportBase::getSFRoot(void)
 {
     return &_sfRoot;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFBackgroundPtr *ViewportBase::getSFBackground(void)
 {
     return &_sfBackground;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFForegroundPtr *ViewportBase::getMFForegrounds(void)
 {
     return &_mfForegrounds;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &ViewportBase::getLeft(void)
 {
     return _sfLeft.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &ViewportBase::getLeft(void) const
 {
     return _sfLeft.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ViewportBase::setLeft(const Real32 &value)
 {
     _sfLeft.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &ViewportBase::getRight(void)
 {
     return _sfRight.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &ViewportBase::getRight(void) const
 {
     return _sfRight.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ViewportBase::setRight(const Real32 &value)
 {
     _sfRight.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &ViewportBase::getBottom(void)
 {
     return _sfBottom.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &ViewportBase::getBottom(void) const
 {
     return _sfBottom.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ViewportBase::setBottom(const Real32 &value)
 {
     _sfBottom.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 &ViewportBase::getTop(void)
 {
     return _sfTop.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Real32 &ViewportBase::getTop(void) const
 {
     return _sfTop.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ViewportBase::setTop(const Real32 &value)
 {
     _sfTop.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 WindowPtr &ViewportBase::getParent(void)
 {
     return _sfParent.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const WindowPtr &ViewportBase::getParent(void) const
 {
     return _sfParent.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ViewportBase::setParent(const WindowPtr &value)
 {
     _sfParent.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 CameraPtr &ViewportBase::getCamera(void)
 {
     return _sfCamera.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const CameraPtr &ViewportBase::getCamera(void) const
 {
     return _sfCamera.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ViewportBase::setCamera(const CameraPtr &value)
 {
     _sfCamera.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 NodePtr &ViewportBase::getRoot(void)
 {
     return _sfRoot.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const NodePtr &ViewportBase::getRoot(void) const
 {
     return _sfRoot.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ViewportBase::setRoot(const NodePtr &value)
 {
     _sfRoot.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 BackgroundPtr &ViewportBase::getBackground(void)
 {
     return _sfBackground.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const BackgroundPtr &ViewportBase::getBackground(void) const
 {
     return _sfBackground.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void ViewportBase::setBackground(const BackgroundPtr &value)
 {
     _sfBackground.setValue(value);
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 ForegroundPtr &ViewportBase::getForegrounds(UInt32 index)
 {
     return _mfForegrounds.getValue( index );
 }
 
+inline
 MFForegroundPtr &ViewportBase::getForegrounds(void)
 {
     return _mfForegrounds;
 }
 
+inline
 const MFForegroundPtr &ViewportBase::getForegrounds(void) const
 {
     return _mfForegrounds;
 }
 
-
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGViewportBase.inl,v 1.9 2001/10/03 20:37:36 dirk Exp $"
+#define OSGVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGViewportBase.inl,v 1.10 2002/02/27 09:34:18 vossg Exp $"
 

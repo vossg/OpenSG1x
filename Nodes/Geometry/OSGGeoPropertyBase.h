@@ -329,6 +329,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
 
     static const PtrType NullPtr;
 
+#if defined(OSG_MICROSOFT_COMPILER_ALERT)
+    static FieldDescription   *_desc[];
+#endif
     static FieldContainerType  _type;
 };
 

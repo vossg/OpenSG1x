@@ -42,7 +42,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-
+inline
 UInt32 StateChunk::getClassID( void ) const
 {
     return getClass()->getID();

@@ -54,19 +54,22 @@ OSG_BEGIN_NAMESPACE
 
 
 //! access the type of the class
-inline OSG::FieldContainerType &GeometryBase::getClassType(void)
+inline 
+OSG::FieldContainerType &GeometryBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
-inline OSG::UInt32 GeometryBase::getClassTypeId(void) 
+inline 
+OSG::UInt32 GeometryBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
-inline GeometryPtr GeometryBase::create(void) 
+inline 
+GeometryPtr GeometryBase::create(void) 
 {
     GeometryPtr fc; 
 
@@ -80,7 +83,8 @@ inline GeometryPtr GeometryBase::create(void)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-inline GeometryPtr GeometryBase::createEmpty(void) 
+inline 
+GeometryPtr GeometryBase::createEmpty(void) 
 { 
     GeometryPtr returnValue; 
     
@@ -92,265 +96,266 @@ inline GeometryPtr GeometryBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFGeoPTypesPtr *GeometryBase::getSFTypes(void)
 {
     return &_sfTypes;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFGeoPLengthsPtr *GeometryBase::getSFLengths(void)
 {
     return &_sfLengths;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFGeoPositionsPtr *GeometryBase::getSFPositions(void)
 {
     return &_sfPositions;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFGeoNormalsPtr *GeometryBase::getSFNormals(void)
 {
     return &_sfNormals;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFGeoColorsPtr *GeometryBase::getSFColors(void)
 {
     return &_sfColors;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords(void)
 {
     return &_sfTexCoords;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFGeoIndicesPtr *GeometryBase::getSFIndices(void)
 {
     return &_sfIndices;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MFUInt16 *GeometryBase::getMFIndexMapping(void)
 {
     return &_mfIndexMapping;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFMaterialPtr *GeometryBase::getSFMaterial(void)
 {
     return &_sfMaterial;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFBool *GeometryBase::getSFDlistCache(void)
 {
     return &_sfDlistCache;
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 SFInt32 *GeometryBase::getSFGLId(void)
 {
     return &_sfGLId;
 }
 
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 GeoPTypesPtr &GeometryBase::getTypes(void)
 {
     return _sfTypes.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const GeoPTypesPtr &GeometryBase::getTypes(void) const
 {
     return _sfTypes.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void GeometryBase::setTypes(const GeoPTypesPtr &value)
 {
     _sfTypes.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 GeoPLengthsPtr &GeometryBase::getLengths(void)
 {
     return _sfLengths.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const GeoPLengthsPtr &GeometryBase::getLengths(void) const
 {
     return _sfLengths.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void GeometryBase::setLengths(const GeoPLengthsPtr &value)
 {
     _sfLengths.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 GeoPositionsPtr &GeometryBase::getPositions(void)
 {
     return _sfPositions.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const GeoPositionsPtr &GeometryBase::getPositions(void) const
 {
     return _sfPositions.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void GeometryBase::setPositions(const GeoPositionsPtr &value)
 {
     _sfPositions.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 GeoNormalsPtr &GeometryBase::getNormals(void)
 {
     return _sfNormals.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const GeoNormalsPtr &GeometryBase::getNormals(void) const
 {
     return _sfNormals.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void GeometryBase::setNormals(const GeoNormalsPtr &value)
 {
     _sfNormals.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 GeoColorsPtr &GeometryBase::getColors(void)
 {
     return _sfColors.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const GeoColorsPtr &GeometryBase::getColors(void) const
 {
     return _sfColors.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void GeometryBase::setColors(const GeoColorsPtr &value)
 {
     _sfColors.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 GeoTexCoordsPtr &GeometryBase::getTexCoords(void)
 {
     return _sfTexCoords.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const GeoTexCoordsPtr &GeometryBase::getTexCoords(void) const
 {
     return _sfTexCoords.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void GeometryBase::setTexCoords(const GeoTexCoordsPtr &value)
 {
     _sfTexCoords.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 GeoIndicesPtr &GeometryBase::getIndices(void)
 {
     return _sfIndices.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const GeoIndicesPtr &GeometryBase::getIndices(void) const
 {
     return _sfIndices.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void GeometryBase::setIndices(const GeoIndicesPtr &value)
 {
     _sfIndices.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 MaterialPtr &GeometryBase::getMaterial(void)
 {
     return _sfMaterial.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const MaterialPtr &GeometryBase::getMaterial(void) const
 {
     return _sfMaterial.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void GeometryBase::setMaterial(const MaterialPtr &value)
 {
     _sfMaterial.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 bool &GeometryBase::getDlistCache(void)
 {
     return _sfDlistCache.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const bool &GeometryBase::getDlistCache(void) const
 {
     return _sfDlistCache.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void GeometryBase::setDlistCache(const bool &value)
 {
     _sfDlistCache.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Int32 &GeometryBase::getGLId(void)
 {
     return _sfGLId.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 const Int32 &GeometryBase::getGLId(void) const
 {
     return _sfGLId.getValue();
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void GeometryBase::setGLId(const Int32 &value)
 {
     _sfGLId.setValue(value);
 }
 
-
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 UInt16 &GeometryBase::getIndexMapping(UInt32 index)
 {
     return _mfIndexMapping.getValue( index );
 }
 
+inline
 MFUInt16 &GeometryBase::getIndexMapping(void)
 {
     return _mfIndexMapping;
 }
 
+inline
 const MFUInt16 &GeometryBase::getIndexMapping(void) const
 {
     return _mfIndexMapping;
@@ -359,5 +364,5 @@ const MFUInt16 &GeometryBase::getIndexMapping(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: OSGGeometryBase.inl,v 1.10 2002/02/04 20:14:09 dirk Exp $"
+#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: OSGGeometryBase.inl,v 1.11 2002/02/27 09:34:18 vossg Exp $"
 

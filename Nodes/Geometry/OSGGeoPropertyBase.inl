@@ -139,7 +139,7 @@ const BitVector GeoProperty<GeoPropertyDesc>::GeoPropDataFieldMask =
 /** \brief Property field description
  */
 
-#if 0
+#if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class GeoPropertyDesc>
 FieldDescription *GeoProperty<GeoPropertyDesc>::_desc[] =
 {
@@ -148,7 +148,8 @@ FieldDescription *GeoProperty<GeoPropertyDesc>::_desc[] =
         GeoPropertyDesc::getFieldName(), 
         OSG_FC_FIELD_IDM_DESC(GeoPropDataField),
         false,
-        (FieldAccessMethod) &GeoProperty::getFieldPtr)
+//        (FieldAccessMethod) &GeoProperty<GeoPropertyDesc>::getFieldPtr)
+        (FieldAccessMethod) NULL)
 };
 #endif
 
