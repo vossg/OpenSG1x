@@ -45,8 +45,8 @@
 #include <OSGConfig.h>
 
 // Defines needed to support some OpenGL extensions
-// There's no way to get these from OpenGL. The system just has to make sure they are only 
-// used when the extensions are supported.
+// There's no way to get these from OpenGL. The system just has to make sure they 
+// are only used when the extensions are supported.
 
 // All these are taken verbatim from the nVidia Linux glext.h
 
@@ -263,7 +263,31 @@
 
 #endif 
 
+// Some legacy extension handling
 
-#define OSGGLEXT_HEADER_CVSID "@(#)$Id: OSGGLEXT.h,v 1.5 2002/08/06 05:06:51 vossg Exp $"
+// blend equation
+// map the _EXT defines to the ARB_imaging defines, if necessary.
+// Thus Apps can always use the ARB defines. 
+
+#if defined(GL_FUNC_ADD_EXT) && ! defined(GL_FUNC_ADD)
+#define GL_FUNC_ADD GL_FUNC_ADD_EXT
+#endif
+#if defined(GL_FUNC_SUBTRACT_EXT) && ! defined(GL_FUNC_SUBTRACT)
+#define GL_FUNC_SUBTRACT GL_FUNC_SUBTRACT_EXT
+#endif
+#if defined(GL_FUNC_REVERSE_SUBTRACT_EXT) && ! defined(GL_FUNC_REVERSE_SUBTRACT)
+#define GL_FUNC_REVERSE_SUBTRACT GL_FUNC_REVERSE_SUBTRACT_EXT
+#endif
+#if defined(GL_FUNC_MIN_EXT) && ! defined(GL_FUNC_MIN)
+#define GL_FUNC_MIN GL_FUNC_MIN_EXT
+#endif
+#if defined(GL_FUNC_MAX_EXT) && ! defined(GL_FUNC_MAX)
+#define GL_FUNC_MAX GL_FUNC_MAX_EXT
+#endif
+
+
+
+
+#define OSGGLEXT_HEADER_CVSID "@(#)$Id: OSGGLEXT.h,v 1.6 2002/08/29 15:51:01 dirk Exp $"
 
 #endif /* _OSGGL_H_ */
