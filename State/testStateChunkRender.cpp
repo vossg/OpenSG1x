@@ -10,6 +10,7 @@
 #include "OSGTransformChunk.h"
 #include "OSGMaterialChunk.h"
 #include "OSGTextureChunk.h"
+#include "OSGTextureTransformChunk.h"
 #include "OSGBlendChunk.h"
 #include "OSGPolygonChunk.h"
 
@@ -20,6 +21,7 @@ MaterialChunkPtr mchunk1, mchunk2;
 TextureChunkPtr xchunk1;
 BlendChunkPtr blchunk;
 PolygonChunkPtr pchunk;
+TextureTransformChunkPtr txchunk;
 
 Image image;
 
@@ -67,10 +69,12 @@ display(void)
     blchunk->deactivate( dact );
 
     xchunk1->activate( dact );
+    txchunk->activate( dact );
 
     glCallList( dlid2 );
 
     xchunk1->deactivate( dact );
+    txchunk->deactivate( dact );
 
     win->frameExit();
 
@@ -218,6 +222,13 @@ int main( int argc, char *argv[] )
     blchunk->setDestFactor( GL_ONE_MINUS_CONSTANT_ALPHA );
 #endif
     blchunk->setColor( Color4f( 1,1,1,0.1 ) );
+
+    // texture transform chunk
+
+    txchunk = TextureTransformChunk::create();
+    beginEditCP(txchunk);
+    txchunk->setMatrix( Matrix(4,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1) );
+    endEditCP(txchunk);
 
     // polygon chunk
 
