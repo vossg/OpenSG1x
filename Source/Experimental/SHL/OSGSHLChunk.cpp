@@ -279,19 +279,29 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
             updateProgram(win);
         }
 
-        // get "glUniform4fvARB" function pointer
-        void (OSG_APIENTRY* uniform4fv)(GLint location, GLsizei count, GLfloat *value) =
-        (void (OSG_APIENTRY*)(GLint location, GLsizei count, GLfloat *value))
-        win->getFunction(_funcUniform4fv);
-
-        //location = glGetUniformLocation(_program, name);
-        
-        // HACK need to add all parameter types.
-        // set params
-        for(UInt16 i = 0; i < getParamValues().size(); ++i)
+        if(_program != 0)
         {
-            Vec4f &val = getParamValues()[i];
-            uniform4fv(i, 1, val.getValues());
+            // get "glUseProgramObjectARB" function pointer
+            void (OSG_APIENTRY* useProgramObject)(GLuint programObj) =
+            (void (OSG_APIENTRY*)(GLuint programObj))
+            win->getFunction(_funcUseProgramObject);
+            
+            useProgramObject(_program);
+            
+            // get "glUniform4fvARB" function pointer
+            void (OSG_APIENTRY* uniform4fv)(GLint location, GLsizei count, GLfloat *value) =
+            (void (OSG_APIENTRY*)(GLint location, GLsizei count, GLfloat *value))
+            win->getFunction(_funcUniform4fv);
+    
+            //location = glGetUniformLocation(_program, name);
+            
+            // HACK need to add all parameter types.
+            // set params
+            for(UInt16 i = 0; i < getParamValues().size(); ++i)
+            {
+                Vec4f &val = getParamValues()[i];
+                uniform4fv(i, 1, val.getValues());
+            }
         }
     }
     else
@@ -691,7 +701,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.1 2004/05/07 16:04:31 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.2 2004/05/07 16:21:02 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
