@@ -521,7 +521,9 @@ VRMLFile::VRMLFile(void) :
     _fdStack  (),
 
     _nameFCMap  (),
-    _nameDescMap()
+    _nameDescMap(),
+
+    _pathHandler()
 {
     setReferenceHeader("#VRML V2.0 ");
 
@@ -530,6 +532,8 @@ VRMLFile::VRMLFile(void) :
 
     initIntExtFieldTypeMapper();
     initExtIntFieldTypeMapper();
+
+    _pathHandler.push_frontCurrentDir();
 }
 
 /** \brief Destructor
@@ -547,7 +551,20 @@ void VRMLFile::scanFile(const Char8 *szFilename, UInt32 uiOptions)
 
     VRMLNodeDesc::resetIndent();
 
-    Inherited::scanFile(szFilename, uiOptions);
+    if(szFilename != NULL)
+    {
+        string tmpName;
+
+        _pathHandler.setBaseFile(szFilename);
+
+        tmpName = _pathHandler.findFile(szFilename);
+
+        if(tmpName.size() != 0)
+        {
+            Inherited::scanFile(tmpName.c_str(), 
+                                uiOptions);
+        }
+    }
 }
 
 void VRMLFile::scanFile(const Char8  *szFilename, 
@@ -558,7 +575,21 @@ void VRMLFile::scanFile(const Char8  *szFilename,
 
     VRMLNodeDesc::resetIndent();
 
-    Inherited::scanFile(szFilename, uiAddOptions, uiSubOptions);
+    if(szFilename != NULL)
+    {
+        string tmpName;
+
+        _pathHandler.setBaseFile(szFilename);
+
+        tmpName = _pathHandler.findFile(szFilename);
+
+        if(tmpName.size() != 0)
+        {
+            Inherited::scanFile(tmpName.c_str(),
+                                uiAddOptions, 
+                                uiSubOptions);
+        }
+    }
 }
 
 void VRMLFile::beginNode(
@@ -572,7 +603,8 @@ void VRMLFile::beginNode(
     if(_pCurrNodeDesc == NULL)
         return;
     
-    _pCurrNodeDesc->setOptions(_uiCurrOptions);
+    _pCurrNodeDesc->setOptions    ( _uiCurrOptions);
+    _pCurrNodeDesc->setPathHandler(&_pathHandler);
 
     _sNodeDescs.push(_pCurrNodeDesc);
 

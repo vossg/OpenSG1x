@@ -70,6 +70,7 @@
 #include <OSGSFVecTypes.h>
 #include <OSGSFFieldContainerPtr.h>
 #include <OSGComponentTransform.h>
+#include <OSGPathHandler.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -196,7 +197,6 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     /*! \{                                                                 */
 
     virtual       void              init                 (const Char8 *szName);
-                  void              setOptions           (      UInt32 uiOpt );
 
     virtual       void              reset                (void);
 
@@ -205,6 +205,10 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     virtual       Bool              getOnEndSave         (void);
     virtual const Char8            *getSavename          (void);
     virtual       FieldContainerPtr getSaveFieldContainer(void);
+
+
+                  void              setOptions    (      UInt32 uiOpt );
+                  void              setPathHandler(PathHandler *pPathHandler);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -291,6 +295,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
            Bool               _bSaveOnEnd;
 
            UInt32             _uiOptions;
+           PathHandler       *_pPathHandler;
 
 
     Field *getField(      FieldContainerPtr  pFC1, 

@@ -49,11 +49,19 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.4 2001/10/03 13:33:19 vossg Exp $";
-    char cvsid_hpp[] = OSGPATHHANDLER_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPathHandler.cpp,v 1.5 2001/10/09 10:01:14 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGPATHHANDLER_HEADER_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 Char8 PathHandler::_dirSepWin32  = '\\';
 Char8 PathHandler::_pathSepWin32 = ';';
@@ -91,41 +99,73 @@ PathHandler::~PathHandler(void)
 string PathHandler::findFile(const Char8 *fileName)
 {
     string returnValue;
+    Bool   bFound      = false;
+
+    PathList     tmpList;
 
     PathListIter iter    = _pathList.begin();
     PathListIter listEnd = _pathList.end();
 
-    if(_baseFilePath.empty() == false)
+    PathType     pType   = analysePath(fileName);
+
+    parsePathList(fileName, tmpList);
+
+    if(tmpList.size() != 0)
     {
-        returnValue.assign(_baseFilePath);
-
-        returnValue.append(fileName);
-
-        if(File::tstAttr(returnValue.c_str(), 
-                         AccessFlags::IsReadable) == false)
+        if((pType & TypeMask) == AbsPath)
         {
-            returnValue.erase();
-        }
-    }
-    else
-    {
-        while(iter != listEnd)
-        {
-            returnValue.assign(*iter);
-            returnValue.append(fileName);
+            PNOTICE << "Check abs : " << tmpList.front() << endl;
 
-            if(File::tstAttr(returnValue.c_str(), 
-                             AccessFlags::IsReadable) == true)
+            if(File::tstAttr(tmpList.front().c_str(), 
+                             AccessFlags::IsReadable))
             {
-                break;
+                returnValue.assign(fileName);
             }
-            
-            ++iter;
         }
-
-        if(iter == listEnd)
+        else
         {
-            returnValue.erase();
+            if(_baseFilePath.empty() == false)
+            {
+                returnValue.assign(_baseFilePath);
+                
+                returnValue.append(tmpList.front());
+
+                PNOTICE << "Check base : " << returnValue << endl;
+                
+                if(File::tstAttr(returnValue.c_str(), 
+                                 AccessFlags::IsReadable) == false)
+                {
+                    returnValue.erase();
+                }
+                else
+                {
+                    bFound = true;
+                }
+            }
+
+            if(bFound == false)
+            {
+                while(iter != listEnd)
+                {
+                    returnValue.assign(*iter);
+                    returnValue.append(tmpList.front());
+
+                    PNOTICE << "Check from pl : " << returnValue << endl;
+                    
+                    if(File::tstAttr(returnValue.c_str(), 
+                                     AccessFlags::IsReadable) == true)
+                    {
+                        break;
+                    }
+                    
+                    ++iter;
+                }
+                
+                if(iter == listEnd)
+                {
+                    returnValue.erase();
+                }
+            }
         }
     }
 
@@ -146,6 +186,8 @@ void PathHandler::push_backCurrentDir(void)
     Char8 *pCurrentDir = Directory::getCurrent();
 
     _pathList.push_back(pCurrentDir);
+
+    validateList();
 
     delete [] pCurrentDir;
 }
@@ -183,6 +225,8 @@ void PathHandler::push_frontCurrentDir(void)
     Char8 *pCurrentDir = Directory::getCurrent();
 
     _pathList.push_front(pCurrentDir);
+
+    validateList();
 
     delete [] pCurrentDir;
 }
@@ -272,7 +316,7 @@ string PathHandler::extractPath(const Char8 *szFilename)
 
     PathType pType = analysePathList(returnValue.c_str());
 
-    if(pType == Win32Path)
+    if((pType & PlatformMask) == Win32Path)
     {
 #ifndef WIN32
         convertPath(returnValue);
@@ -554,11 +598,80 @@ PathHandler::PathType PathHandler::analysePathList(const Char8 *pathList)
     return returnValue;
 }
 
+PathHandler::PathType PathHandler::analysePath(const Char8 *path)
+{
+          PathType  returnValue = UnixPath;
+          UInt32    uiSize      = 0;
+    const Char8    *pCurr       = path;
+          
+    if(path == NULL)
+        return returnValue;
+
+    while(*pCurr != '\0')
+    {
+        if(*pCurr == '\\')
+        {
+            returnValue = Win32Path;
+            break;
+        }
+        else if(*pCurr == ';')
+        {
+            returnValue = Win32Path;
+            break;
+        }
+        else if(*pCurr == '%')
+        {
+            returnValue = Win32Path;
+            break;
+        }
+        else if(*pCurr == '/')
+        {
+            returnValue = UnixPath;
+            break;
+        }
+        else if(*pCurr == '$')
+        {
+            returnValue = UnixPath;
+            break;
+        }
+        else if(*pCurr == ':')
+        {
+            if(*(pCurr + 1) == '\\')
+            {
+                returnValue = Win32Path;
+                uiSize++;
+                break;
+            }
+        }
+        
+        pCurr++;
+        uiSize++;
+    }
+
+    if(returnValue == Win32Path)
+    {
+        fprintf(stderr, "xx%d\n", uiSize);
+
+        if(uiSize >= 2)
+        {
+            if(path[1] == ':')
+                returnValue = (PathType) (returnValue | AbsPath);
+        }
+    }
+    else
+    {
+        if(path[0] == '/')
+            returnValue = (PathType) (returnValue | AbsPath);
+    }
+
+    return returnValue;
+}
+
 void PathHandler::parsePathList(const Char8 *pathList, PathList &result)
 {
     PathType pType = analysePathList(pathList);
 
-    if(pType == Win32Path)
+    if((pType & PlatformMask) == Win32Path)
     {
         parseWin32PathList(pathList, result);
     }
@@ -587,7 +700,6 @@ void PathHandler::parseWin32PathList(const Char8 *pathList, PathList &result)
 
     convertWin32PathList(result);
 }
-
 
 
 

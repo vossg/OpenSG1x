@@ -121,8 +121,13 @@ class OSG_BASE_DLLMAPPING PathHandler
 
     enum PathType
     {
-        Win32Path,
-        UnixPath
+        Win32Path     = 0x0001,
+        UnixPath      = 0x0002,
+
+        AbsPath       = 0x0100,
+
+        PlatformMask  = 0x00FF,
+        TypeMask      = 0xFF00
     };
     
     typedef list<string>           PathList;
@@ -153,6 +158,7 @@ class OSG_BASE_DLLMAPPING PathHandler
     string   extractPath         (const Char8   *szFilename);
     
     PathType analysePathList     (const Char8   *pathList  );
+    PathType analysePath         (const Char8   *path      );
 
     void     expandWin32Path     (      string   &path     );
     void     expandUnixPath      (      string   &path     );
@@ -195,5 +201,5 @@ OSG_END_NAMESPACE
 
 #endif /* _OSGPATHHANDLER_H */
 
-#define OSGPATHHANDLER_HEADER_CVSID "@(#)$Id: OSGPathHandler.h,v 1.2 2001/10/03 12:05:24 vossg Exp $"
+#define OSGPATHHANDLER_HEADER_CVSID "@(#)$Id: OSGPathHandler.h,v 1.3 2001/10/09 10:01:15 vossg Exp $"
 

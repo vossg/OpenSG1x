@@ -1,5 +1,5 @@
 
-SUB_DIR     := Experimental/ScanParseSkel
+SUB_DIR     := Loader/ScanParseSkel
 PACKAGENAME := ScanParseSkel
 
 INCL_DIR    := $($(PROJ)POOL)/$(SUB_DIR)

@@ -55,6 +55,7 @@
 #include <OSGFieldContainerPtr.h>
 #include <OSGField.h>
 #include <OSGFieldContainer.h>
+#include <OSGPathHandler.h>
 
 #include <OSGVRMLNodeFactory.h>
 
@@ -180,6 +181,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
          NameContainerMap            _nameFCMap;
          NameDescriptionMap          _nameDescMap;
 
+         PathHandler                 _pathHandler;
 
     void              initIntExtFieldTypeMapper(void);
     void              initExtIntFieldTypeMapper(void);

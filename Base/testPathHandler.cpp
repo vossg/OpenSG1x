@@ -8,9 +8,9 @@ int main( int argc, char** argv )
 {
     PathHandler ph;
 
-    ph.push_backPath("a/b:b/c/d/:c/d/e/f:/d/f/g/h/i/");
-    ph.push_backPath("e");
-    ph.push_backPath("");
+//    ph.push_backPath("a/b:b/c/d/:c/d/e/f:/d/f/g/h/i/");
+//    ph.push_backPath("e");
+//    ph.push_backPath("");
 
 //    ph.addPath("/x:/x/y/z/");
 
@@ -28,7 +28,7 @@ int main( int argc, char** argv )
 
 //  ph.addUnixPath();
 
-  ph.dump();
+//  ph.dump();
 /*
   ph.setBaseFile("../foo/test.ppm");
   ph.dump();
@@ -52,11 +52,23 @@ int main( int argc, char** argv )
   ph.dump();
 */
   
-  SLOG << "Looking for OSGPathHandler.h: "
-       << ph.findFile( "~/OSGPathHandler.h" ) << endl;
+    ph.setBaseFile("../../../Experimental/VRMLLoader/tie.wrl");
+    ph.push_frontCurrentDir();
 
-  SLOG << "Looking for testCalcFaceNormals.cpp: "
-       << ph.findFile( "testCalcFaceNormals.cpp" ) << endl;
+    ph.dump();
+    
+    SLOG << "Looking for tie.wrl: "
+         << endl
+         << ph.findFile("../../../Experimental/VRMLLoader/tie.wrl")
+         << endl;
+
+    SLOG << "Looking for std.wrl: "
+         << endl
+         << ph.findFile("std.wrl")
+         << endl;
+
+//  SLOG << "Looking for testCalcFaceNormals.cpp: "
+//       << ph.findFile( "testCalcFaceNormals.cpp" ) << endl;
 
 //  ph.subPath( "~/Develop/OpenSG/Base" );
   

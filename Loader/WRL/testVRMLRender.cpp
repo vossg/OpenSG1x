@@ -510,6 +510,7 @@ int main (int argc, char **argv)
 	glEnable( GL_DEPTH_TEST );
 	glEnable( GL_LIGHTING );
 	glEnable( GL_LIGHT0 );
+	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
 //    glEnable( GL_NORMALIZE );
 	// OSG
 

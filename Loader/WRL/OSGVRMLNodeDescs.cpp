@@ -260,15 +260,20 @@ void VRMLNodeDesc::reset(void)
  */
 
 VRMLNodeDesc::VRMLNodeDesc(void) :
-    _mFieldTypes(),
+    _mFieldTypes   (),
 
-    _pGenAtt    (),
+    _pGenAtt       (NullFC),
 
-    _pNodeProto (NullFC),
-    _pCurrField (NULL),
+    _pNodeProto    (NullFC),
+    _pNodeCoreProto(NullFC),
+
+    _pCurrField    (NULL),
 
     _szCurrentName (),
-    _bSaveOnEnd    (false)
+    _bSaveOnEnd    (false),
+    
+    _uiOptions     (0),
+    _pPathHandler  (NULL)
 {
 }
 
@@ -304,6 +309,11 @@ void VRMLNodeDesc::init(const Char8 *szName)
 void VRMLNodeDesc::setOptions(UInt32 uiOptions)
 {
     _uiOptions = uiOptions;
+}
+
+void VRMLNodeDesc::setPathHandler(PathHandler *pPathHandler)
+{
+    _pPathHandler = pPathHandler;
 }
 
 void VRMLNodeDesc::setOnEndSave(const Char8 *szName)
@@ -2226,7 +2236,7 @@ void VRMLAppearanceDesc::getFieldAndDesc(
     }
     else
     {
-        Inherited::getFieldAndDesc(pFC, 
+        Inherited::getFieldAndDesc(_pGenAtt, 
                                    szFieldname, 
                                    pField,
                                    pDesc);
@@ -2242,12 +2252,9 @@ FieldContainerPtr VRMLAppearanceDesc::beginNode(
     const Char8       *szName,
     FieldContainerPtr  pCurrentFC)
 {
-    FieldContainerPtr returnValue;
+    FieldContainerPtr returnValue = NullFC;
 
-    if(_pNodeProto != NullFC)
-    {
-        returnValue = _pNodeProto->shallowCopy();
-    }    
+    returnValue = _pNodeProto->shallowCopy();
 
     indentLog(getIndent(), PINFO);
     PINFO << "Begin Appearance " << &(*returnValue) << endl;
@@ -2856,40 +2863,61 @@ FieldContainerPtr VRMLImageTextureDesc::beginNode(
 
 void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
 {    
+    string           tmpName;  
     TextureChunkPtr  pTexture = NullFC;
 
     Image           *pImage   = new Image();
 
     pTexture = TextureChunkPtr::dcast(pFC);
 
+
     if(pTexture != NullFC)
     {
-        PINFO << "VRMLImageTextureDesc::endNode : Reading texture " 
-              << _url.getValue(0).str() << endl;
-        
-        if(pImage->read(_url.getValue(0).str()))
-        {
-            beginEditCP(pTexture);
-            pTexture->setImage(pImage);
-            
-            if(_repeatS.getValue() == true)
-            {
-                pTexture->setWrapS(GL_REPEAT);
-            }
-            else
-            {
-                pTexture->setWrapS(GL_CLAMP);
-            }
+        PNOTICE << "VRMLImageTextureDesc::endNode : Reading texture " 
+                << _url.getValue(0).str() << endl;
 
-            if(_repeatT.getValue() == true)
+        if(_pPathHandler          != NULL && 
+           _url.getValue(0).str() != NULL)
+        {
+            tmpName = _pPathHandler->findFile(_url.getValue(0).str());
+        }
+
+        if(tmpName.size() != 0 || _pPathHandler == NULL)
+        {
+            if(pImage->read(tmpName.c_str()))
             {
-                pTexture->setWrapT(GL_REPEAT);
+                beginEditCP(pTexture);
+                pTexture->setImage(pImage);
+                
+                if(_repeatS.getValue() == true)
+                {
+                    pTexture->setWrapS(GL_REPEAT);
+                }
+                else
+                {
+                    pTexture->setWrapS(GL_CLAMP);
+                }
+                
+                if(_repeatT.getValue() == true)
+                {
+                    pTexture->setWrapT(GL_REPEAT);
+                }
+                else
+                {
+                    pTexture->setWrapS(GL_CLAMP);
+                }
+                endEditCP(pTexture);
             }
             else
             {
-                 pTexture->setWrapS(GL_CLAMP);
+                PWARNING << "VRMLImageTextureDesc::endNode : "
+                         << "Couldn't read texture " 
+                         << _url.getValue(0).str()  
+                         << " !!!" 
+                         << endl;
+                
+                delete pImage;
             }
-            endEditCP(pTexture);
         }
         else
         {

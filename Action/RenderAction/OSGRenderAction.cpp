@@ -682,12 +682,17 @@ Action::ResultE RenderAction::stop(ResultE res)
     glDisable  (GL_BLEND);
 //    glDepthMask(true);
 
+    if(_pActiveState != NULL)
+    {
+        _pActiveState->deactivate(this);
+    }
+
     for(i = 0; i < _vLights.size(); i++)
     {
         _vLights[i].first->deactivate(this, i);
     }
 
-    FINFO(("Material %d Matrix %d Geometry %d Transparent %d\r",
+    FNOTICE(("Material %d Matrix %d Geometry %d Transparent %d\r",
             _uiNumMaterialChanges, 
             _uiNumMatrixChanges, 
             _uiNumGeometries,

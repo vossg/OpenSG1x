@@ -200,7 +200,7 @@ void ScanParseSkel::scanFile(const Char8  *szFilename,
     uiOptions |=  uiAddOptions;
     uiOptions &= ~uiSubOptions;
 
-    scanFile(szFilename, uiOptions);
+    ScanParseSkel::scanFile(szFilename, uiOptions);
 }
 
 void ScanParseSkel::setDefaultOptions(UInt32 uiOptions)
