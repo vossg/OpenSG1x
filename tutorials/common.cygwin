@@ -1,0 +1,18 @@
+
+COMPILE :=  "//f/Program Files/Intel/compiler50/ia32/bin/icl.exe" \
+			-W4 -Qwd985 -Qwd530 -Qwe698 -DOSG_WITH_GLUT -DOSG_WITH_QT \
+			-DWIN32 -D_WINDOWS -DWINVER=0x0400 \
+			-D_WIN32_WINDOWS=0x0410 -D_OSG_HAVE_CONFIGURED_H_ \
+			-D__INTEL_COMPILER_VERSION=500 -DOSG_BUILD_DLL -DOSG_NEW_DLLS \
+			-Qvc6 -GX -Gi- -FD -Qansi -GR -MDd -ZI -Od -GZ -D_DEBUG -c \
+			-I"f:\Program Files\Microsoft Visual Studio\VC98\Include" \
+			-I".". -I"../include"
+			
+LINK := "//f/Program Files/Intel/compiler50/ia32/bin/xilink.exe" -NODEFAULTLIB \
+		-LIBPATH:"f:\Program Files\Intel\compiler50\ia32\Lib" \
+		-LIBPATH:"f:\Program Files\Microsoft Visual Studio\VC98\Lib" \
+		-LIBPATH:"..\lib" \
+		-LIBPATH:"..\lib\glut_3.7\lib" \
+		OSGWindowGLUT$(LIBTYPE).lib glut32.lib opengl32.lib glu32.lib gdi32.lib \
+		OSGSystem$(LIBTYPE).lib OSGBase$(LIBTYPE).lib user32.lib kernel32.lib \
+		MSVCPRTD.lib MSVCRTD.lib libmmd.lib winmm.lib wsock32.lib

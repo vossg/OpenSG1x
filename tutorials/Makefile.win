@@ -1,0 +1,72 @@
+# trivial makefile for OpenSG tutorials
+# Windows version for cygwin
+
+# set the path to the OpenSG install root directory here
+OSGROOT := ..
+
+# the path where GLUT is found
+GLUTPATH := ../lib/glut_3.7/
+
+# use debug or opt libs?
+LIBTYPE := -dbg
+
+# you need to copy the options from compiling the library right now
+# we'll have an 'opensg-config' similiar to 'glib-config', but it's not here yet 
+# and picking the options out of the OpenSG makefiles is hairy :(
+# You need to make the libs and 'make install' before trying to compile this
+
+include common.cygwin
+
+
+# all tutorials in this directory
+
+TUTS :=  $(wildcard [0-9][0-9]*.cpp) 
+PROGS := $(TUTS:.cpp=$(LIBTYPE).exe) 
+DSPS := $(TUTS:.cpp=.dsp) 
+
+# program dependencies
+
+default:	$(PROGS)
+
+# make rules
+
+.PHONY: clean Clean
+                  
+clean:
+	rm -fr *.o ii_files
+                        
+Clean: clean
+	rm -fr $(PROGS) $(DSPS) Debug Tutorials.dsp Tutorials.dsw Tutorials.ncb \
+	       Tutorials.opt Tutorials.plg *.idb
+
+%.obj: %.cpp
+	$(COMPILE) $<
+
+%.exe: %.obj
+	$(LINK) $< /out:$@
+
+
+# create the windows .dsp/.dsw files
+
+dsw: $(DSPS)
+	dsps="";\
+	deps="";\
+	for i in $(DSPS:.dsp=) ;\
+	do\
+		dsps="$$dsps `sed -e \"s|##NAME##|$$i|g\" < template.dswp`"\
+		deps="$$deps%@Begin Project Dependency%@Project_Dep_Name $$i%@End Project Dependency%@";\
+	done;\
+	sed -e "s|##DSPS##|$$dsps|g" -e "s|##DEPS##|$$deps|g" < template.dsw | \
+	tr '@' '\012' | tr '%' '\015' > Tutorials.dsw
+	tr '@' '\012' < Tutorials.dsp.raw | tr '%' '\015' > Tutorials.dsp
+	
+
+%.dsp:
+	deps="";\
+	for i in $(@:.dsp=) ;\
+	do\
+		deps="$$deps%@# Begin Source File%@%@SOURCE=$$i.cpp%@# End Source File%@";\
+	done;\
+	sed -e "s|##NAME##|$(@:.dsp=)|g" -e "s|##DEPS##|$$deps|g" < template.dsp | \
+	tr '@' '\012' | tr '%' '\015' > $@
+

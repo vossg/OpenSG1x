@@ -1,6 +1,6 @@
 
 # the path where OpenSG is found
-OPENSGPATH := ../Builds/i686-pc-linux-gnu-g++
+OPENSGPATH := $(OSGPOOL)/Builds/i686-pc-linux-gnu-g++
 
 CC := gcc
 

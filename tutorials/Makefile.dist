@@ -10,7 +10,7 @@ OSGROOT := ..
 GLUTPATH := /igd/a4/software/$(SYSTEM)
 
 # use debug or opt libs?
-LIBTYPE := dbg
+LIBTYPE := ##DBG##
 
 # you need to copy the options from compiling the library right now
 # we'll have an 'opensg-config' similiar to 'glib-config', but it's not here yet 
@@ -48,29 +48,3 @@ Clean: clean
 %: %.cpp
 	$(CC) $(CCFLAGS) $< $(LD_FLAGS) -o $@ 
 
-
-# create the windows .dsp/.dsw files
-
-DSPS := $(TUTS:.cpp=.dsp) 
-dsw: $(DSPS)
-	dsps="";\
-	deps="";\
-	for i in $(DSPS:.dsp=) ;\
-	do\
-		dsps="$$dsps `sed -e \"s|##NAME##|$$i|g\" < template.dswp`"\
-		deps="$$deps@Begin Project Dependency@Project_Dep_Name $$i@End Project Dependency@";\
-	done;\
-	echo $$dsps > dsps; echo $$deps > deps; \
-	sed -e "s|##DSPS##|$$dsps|g" -e "s|##DEPS##|$$deps|g" < template.dsw | \
-	tr '@' '\012' > Tutorials.dsw
-	
-
-%.dsp: %
-	deps="";\
-	for i in $< ;\
-	do\
-		deps="$$deps@# Begin Source File@@SOURCE=\\$$i.cpp@# End Source File@";\
-	done;\
-	sed -e "s|##NAME##|$(@:.dsp=)|g" -e "s|##DEPS##|$$deps|g" < template.dsp | \
-	tr '@' '\012' > $@
-	

@@ -1,0 +1,30 @@
+
+  OpenSG Tutorial Examples
+  ========================
+
+These programs show you how to do things in OpenSG. They are not meant to be
+complete applications, they rather demonstrate separate aspects of the
+system and should be used as a starting point for your own tests and
+experiments using OpenSG.
+
+They are all based on the same framwork, so you can interact with all of
+them in the same way. The left mouse button rotates the scene, the
+middle button translates, the right button (or both buttons on
+two-button mice) zooms in or out.
+
+The available examples are:
+
+hello:                  The simplest OpenSG program. Just creates a torus.
+
+move:                   How to use transformations.
+
+share:                  Sharing the cores between different nodes.
+
+geometry:               Simple non-indexed geometry node construction.
+
+indexgeometry:          Using single indices for geometry.
+
+multiindexgeometry:     Using multiple indices for different attributes.
+
+loading:                Loading models
+

@@ -6,6 +6,7 @@ SYSTEM := $(shell uname)
 OSGROOT := $(wildcard ../Builds/$(shell ../CommonConf/config.guess)-*)
 
 # the path where GLUT is found
+# you can ignore this on Linux, it's in the system libs
 GLUTPATH := /igd/a4/software/$(SYSTEM)
 
 # use debug or opt libs?
@@ -33,7 +34,7 @@ default:	$(PROGS)
 .PHONY: clean Clean
                   
 clean:
-	rm -fr *.o ii_files $(TUTS:.cpp=.dsp) 
+	rm -fr *.o ii_files
                         
 Clean: clean
 	rm -fr $(PROGS) 
@@ -46,30 +47,3 @@ Clean: clean
 
 %: %.cpp
 	$(CC) $(CCFLAGS) $< $(LD_FLAGS) -o $@ 
-
-
-# create the windows .dsp/.dsw files
-
-DSPS := $(TUTS:.cpp=.dsp) 
-dsw: $(DSPS)
-	dsps="";\
-	deps="";\
-	for i in $(DSPS:.dsp=) ;\
-	do\
-		dsps="$$dsps `sed -e \"s|##NAME##|$$i|g\" < template.dswp`"\
-		deps="$$deps@Begin Project Dependency@Project_Dep_Name $$i@End Project Dependency@";\
-	done;\
-	echo $$dsps > dsps; echo $$deps > deps; \
-	sed -e "s|##DSPS##|$$dsps|g" -e "s|##DEPS##|$$deps|g" < template.dsw | \
-	tr '@' '\012' > Tutorials.dsw
-	
-
-%.dsp: %
-	deps="";\
-	for i in $< ;\
-	do\
-		deps="$$deps@# Begin Source File@@SOURCE=\\$$i.cpp@# End Source File@";\
-	done;\
-	sed -e "s|##NAME##|$(@:.dsp=)|g" -e "s|##DEPS##|$$deps|g" < template.dsp | \
-	tr '@' '\012' > $@
-	
