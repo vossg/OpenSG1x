@@ -1,4 +1,7 @@
 
+#include "OSGSFVecTypes.h"
+#include "OSGMFVecTypes.h"
+
 #include "OSGQPointFieldValueLabel.h"
 #include "OSGQFieldLabelFactory.h"
 
@@ -10,7 +13,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQPointFieldValueLabel.cpp,v 1.1 2003/05/07 14:03:40 neumannc Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQPointFieldValueLabel.cpp,v 1.2 2003/05/10 05:28:28 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGQPOINTFIELDVALUELABEL_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGQPOINTFIELDVALUELABEL_INLINE_CVSID;
 }
@@ -21,7 +24,7 @@ namespace
 
 namespace
 {
-    QLabelRegisterWrapper<QPointFieldValueLabel<Pnt2s> > dummyPnt2s("Pnt2s");
+//    QLabelRegisterWrapper<QPointFieldValueLabel<Pnt2s> > dummyPnt2s("Pnt2s");
     QLabelRegisterWrapper<QPointFieldValueLabel<Pnt2f> > dummyPnt2f("Pnt2f");
     QLabelRegisterWrapper<QPointFieldValueLabel<Pnt2d> > dummyPnt2d("Pnt2d");
 

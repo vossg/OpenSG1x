@@ -26,7 +26,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQSceneGraphView_qt.cpp,v 1.1 2003/05/07 14:03:40 neumannc Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQSceneGraphView_qt.cpp,v 1.2 2003/05/10 05:28:28 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGQSCENEGRAPHVIEW_HEADER_CVSID;
 //    static Char8 cvsid_inl[] = OSGQSCENEGRAPHVIEW_INLINE_CVSID;
 }
@@ -266,7 +266,7 @@ QSceneGraphView::onFieldDoubleClicked(FieldContainerPtr pFC,
             MFFieldContainerPtr *pMFFCPtr =
                 reinterpret_cast<MFFieldContainerPtr *>(pField);
 
-            _pTreeView[_uiAspect]->setSelectedFC(pMFFCPtr->getValue(uiIndex));
+            _pTreeView[_uiAspect]->setSelectedFC((*pMFFCPtr)[uiIndex]);
         }
         
         }

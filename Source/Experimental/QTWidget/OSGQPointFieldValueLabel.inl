@@ -155,7 +155,7 @@ QPointFieldValueLabel<PointTypeT>::updateCache(void)
         {
             _strCachedValues[i] =
                 TTraits::putToString(
-                    pMF->getValue(getIndex()).getValues()[i]).c_str();
+                    (*pMF)[getIndex()].getValues()[i]).c_str();
 
             _cachedSize.setWidth(_cachedSize.width() + 
                                  getFieldView()->fontMetrics().width(
@@ -168,4 +168,4 @@ QPointFieldValueLabel<PointTypeT>::updateCache(void)
 
 OSG_END_NAMESPACE
 
-#define OSGQPOINTFIELDVALUELABEL_INLINE_CVSID "@(#)$Id: OSGQPointFieldValueLabel.inl,v 1.1 2003/05/07 14:03:40 neumannc Exp $"
+#define OSGQPOINTFIELDVALUELABEL_INLINE_CVSID "@(#)$Id: OSGQPointFieldValueLabel.inl,v 1.2 2003/05/10 05:28:28 vossg Exp $"
