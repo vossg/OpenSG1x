@@ -27,8 +27,16 @@ OSGROOT ?= $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
 # use debug or opt libs?
 LIBTYPE ?= dbg
 
+# compile fcdCompile
+NOGUI ?= false
+
 ### PROJECT ##########################################################
+ifeq ($(NOGUI),true)
+TARGET = fcdCompile
+else
 TARGET = fcdEdit
+endif
+
 ######################################################################
 
 ### System dependences ###############################################
@@ -83,14 +91,23 @@ OSG_CONFIG := $(OSGROOT)/bin/osg-config
 MOC        :=  $(shell $(OSG_CONFIG) --moc)
 UIC        :=  $(shell $(OSG_CONFIG) --uic)
 CXX        := "$(shell $(OSG_CONFIG) --compiler --$(LIBTYPE) )"
-CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base System QT )
+ifeq ($(NOGUI),true)
+CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base ) -DFCD_TERM
+else
+CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base QT )
+endif
+
 ifeq ($(findstring WIN,$(OS)),WIN)
 LD         := "$(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )"
 else
 LD         := $(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )
 endif
 LDFLAGS    :=
-LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System QT )
+ifeq ($(NOGUI),true)
+LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base )
+else
+LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base QT )
+endif
 CMPLR_ID   :=  $(shell $(OSG_CONFIG) --compiler-id)
 
 SYSDEP     := $(OS)-$(CMPLR_ID)
@@ -115,7 +132,8 @@ endif
 
 ### Object and source files ##########################################
 
-# all ui files that need moc 
+# all ui files that need moc
+ifeq ($(NOGUI),false)
 UI_IN   := $(wildcard *.ui)
 UI_CPP  := $(addsuffix .cpp, $(basename $(addprefix uic_,$(UI_IN)))) 
 UI_HPP  := $(addsuffix .h,   $(basename $(addprefix uic_,$(UI_IN)))) 
@@ -130,7 +148,12 @@ HEADERS  := $(filter-out $(UI_HPP),$(wildcard *.h *.H *.hh *.hxx *.ui))
 BINOBJS  := $(addsuffix .$(SYSDEP).o,$(basename $(UI_CPP) $(MOC_CPP) $(SOURCES)))
 # all object files without main object
 LIBOBJS  := $(filter-out main.$(SYSDEP).o ,$(BINOBJS))
-
+else
+SOURCES := main.cpp FieldContainer.cpp Field.cpp
+HEADERS := ActionType.h FieldContainer.h Field.h
+BINOBJS := main.$(SYSDEP).o FieldContainer.$(SYSDEP).o Field.$(SYSDEP).o
+LIBOBJS := FieldContainer.$(SYSDEP).o Field.$(SYSDEP).o
+endif
 ######################################################################
 ### TARGET build rules ###############################################
 
@@ -206,11 +229,19 @@ all: $(TARGET)$(BINSUF)
 clean:
 	-rm -f *.$(SYSDEP).o *.$(SYSDEP)*_pure_* *.bak *.swp *~ *% \#*\# 
 	-rm -f $(TARGET)$(BINSUF) $(SYSTARGET)
-	-rm $(shell grep -l "generated from reading ui file" *.h *.cpp)
-	-rm $(shell grep -l "This file was generated using the moc" *.h *.cpp)
+	-rm -f $(shell grep -l "generated from reading ui file" *.h *.cpp)
+	-rm -f $(shell grep -l "This file was generated using the moc" *.h *.cpp)
 
 Clean: clean
 	-rm -rf *.o *.mk OOBR* *.dep TAGS tags *.bin
+
+help:
+	@echo "fcdEdit make options"
+	@echo "===================="
+	@echo ""
+	@echo "OSGROOT=[osg root dir] - e.g. .../OpenSG/Builds/i686-pc-cygwin-icl60"
+	@echo "LIBTYPE=[opt|dbg]"
+	@echo "NOGUI=[true|false]     - compiles fcdCompile with no dependencies to the QT GUI library."
 
 # this doesn't work. Not sure why. :-?
 FieldContainer.o: $(wildcard FC*Template*.h)
