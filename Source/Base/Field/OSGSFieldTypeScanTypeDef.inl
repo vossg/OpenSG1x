@@ -51,7 +51,7 @@ const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
     SFieldTraits::getType (),
     SField<FieldTypeT, fieldNameSpace>::create,
     FieldType   ::SINGLE_FIELD,
-    MFieldTraits::getScanAsTypeSF());
+    SFieldTraits::getScanAsTypeSF());
 #else
 template <class FieldTypeT, Int32 fieldNameSpace>
 const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType(
