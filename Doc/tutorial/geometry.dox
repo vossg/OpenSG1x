@@ -9,8 +9,8 @@ OSG_USING_NAMESPACE;
 Chapter Overview
 <HR>
     \ref GeometryBackground <BR>
-	\ref GeometryLearningByDoing <BR>
-	\ref GeometryEfficientManipulation <BR>
+    \ref GeometryLearningByDoing <BR>
+    \ref GeometryEfficientManipulation <BR>
 <HR>
 
 Geometry is actually a usual core like the others from the last chapter too. However, the geometry core is of course the most important one and there
@@ -46,16 +46,14 @@ the formula by another.
 
 Now take our framework again as a starting point. Then add some global variables and include files.
 
-<PRE>
-	#include <OpenSG/OSGGeometry.h>
-</PRE>
-
 \code
+#include <OpenSG/OSGGeometry.h>
+
 // this will specify the resolution of the mesh
 #define N   100
 
 //the two dimensional array that will store all height values
-Real16[N][N] wMesh;
+Real32 wMesh[N][N];
 
 //the origin of the water mesh
 Pnt3f wOrigin = Pnt3f(0,0,0);
@@ -71,48 +69,48 @@ Before we start to create the geometry we should first initialize the wMesh arra
 we simply set all height values to zero.
 
 \code
-	for (int i = 0; i < N; i++)
-		for (int j = 0; j < N; j++)
-			wMesh[i][j] = 0;
+    for (int i = 0; i < N; i++)
+        for (int j = 0; j < N; j++)
+            wMesh[i][j] = 0;
 \endcode
 
 Now we can begin to build the geometry step by step. The first thing to to is to define the type of primitives we want to use. Quads would be
 sufficent for us. It is possible to use more than one primitive. I will discuss that here : Chapter (xxx).
 
 \code
-	// GeoPTypes will define the types of primitives to be used
-	GeoPTypesPtr type = GeoPTypesUI8::create();
-	beginEditCP(type, GeoPTypesUI8::GeoPropDataFieldMask);
-		// we want to use quads ONLY 
-		type->addValue(GL_QUADS);
-	endEditCP(type, GeoPTypesUI8::GeoPropDataFieldMask);
+    // GeoPTypes will define the types of primitives to be used
+    GeoPTypesPtr type = GeoPTypesUI8::create();
+    beginEditCP(type, GeoPTypesUI8::GeoPropDataFieldMask);
+	// we want to use quads ONLY 
+	type->addValue(GL_QUADS);
+    endEditCP(type, GeoPTypesUI8::GeoPropDataFieldMask);
 \endcode
 
 The next thing is not so exciting in this example: we have to tell our geometry how long (how many vertices) the primitives are. As we are 
 using quads only, the length is reasonably four!
 
 \code
-	// GeoPLength will define the number of vertices of
-	// the used primitives
-	GeoPLengthsPtr length = GeoPLengthsUI32::create();
-	beginEditCP(length, GeoPLengthsUI32::GeoPropDataFieldMask);
-		// the length of our quads is four ;-)
-		length->addValue(4);
-	endEditCP(length, GeoPLengthsUI32::GeoPropDataFieldMask);
+    // GeoPLength will define the number of vertices of
+    // the used primitives
+    GeoPLengthsPtr length = GeoPLengthsUI32::create();
+    beginEditCP(length, GeoPLengthsUI32::GeoPropDataFieldMask);
+	// the length of our quads is four ;-)
+	length->addValue(4);
+    endEditCP(length, GeoPLengthsUI32::GeoPropDataFieldMask);
 \endcode
 
 Now we will provide the positions of our vertices. We use the data of the 'wMesh' array we initialized previously.
 
 \code
-	// GeoPositions3f stores the positions of all vertices used in 
-	// this specific geometry core
-	GeoPositions3fPtr pos = GeoPositions3f::create();
-	beginEditCP(pos, GeoPositions3f::GeoPropDataFieldMask);
-		// here they all come
-		for (int x = 0; x < N; x++)
-			for (int z = 0; z < N; z++)
-				pos->addValue(Pnt3f(x, wMesh[x][z], z));
-	endEditCP(pos, GeoPositions3f::GeoPropDataFieldMask);
+    // GeoPositions3f stores the positions of all vertices used in 
+    // this specific geometry core
+    GeoPositions3fPtr pos = GeoPositions3f::create();
+    beginEditCP(pos, GeoPositions3f::GeoPropDataFieldMask);
+	// here they all come
+	for (int x = 0; x < N; x++)
+            for (int z = 0; z < N; z++)
+		pos->addValue(Pnt3f(x, wMesh[x][z], z));
+    endEditCP(pos, GeoPositions3f::GeoPropDataFieldMask);
 \endcode
 
 <I>
@@ -131,27 +129,37 @@ vertices that know a new quad will be specified.
 Now we assign colors to the geometry, actually just one color this time, to be specific.
 
 \code
-	//GeoColors3f stores all color values that will be used
-	GeoColors3fPtr colors = GeoColors3f::create();
-	beginEditCP(colors, GeoColors3f::GeoPropDataFieldMask);
-		for (int x = 0; x < mWater->getXWidth(); x++)
-			for (int z = 0; z < mWater->getZWidth(); z++)
-				colors->addValue(Color3f(0,0,(x+1)/(z+1)));
-	endEditCP(colors, GeoColors3f::GeoPropDataFieldMask);
+    //GeoColors3f stores all color values that will be used
+    GeoColors3fPtr colors = GeoColors3f::create();
+    beginEditCP(colors, GeoColors3f::GeoPropDataFieldMask);
+        for (int x = 0; x < N; x++)
+            for (int z = 0; z < N; z++)
+		colors->addValue(Color3f(0,0,(x+1)/(z+1)));
+    endEditCP(colors, GeoColors3f::GeoPropDataFieldMask);
 \endcode
 
 Normals are still missing. We add them similar to all other properties:
 
 \code
-	GeoNormals3fPtr norms = GeoNormals3f::create();
-	beginEditCP(norms, GeoNormals3f::GeoPropDataFieldMask);
-		for (int x = 0; x < N; x++)
-			for (int z = 0; z < N; z++)
-				// As initially all heights are set to zero thus yielding a plane,
-				// we set all normals to (0,1,0) parallel to the y-axis
-				norms->addValue(Vec3f(0,1,0);
-	endEditCP(norms, GeoNormals3f::GeoPropDataFieldMask);
+    GeoNormals3fPtr norms = GeoNormals3f::create();
+    beginEditCP(norms, GeoNormals3f::GeoPropDataFieldMask);
+        for (int x = 0; x < N; x++)
+            for (int z = 0; z < N; z++)
+		// As initially all heights are set to zero thus yielding a plane,
+		// we set all normals to (0,1,0) parallel to the y-axis
+		norms->addValue(Vec3f(0,1,0));
+    endEditCP(norms, GeoNormals3f::GeoPropDataFieldMask);
 \endcode
+
+And some material...
+
+\code
+    SimpleMaterialPtr mat = SimpleMaterial::create();
+\endcode
+<I>
+Well, this material is not doing anything spectacular except for it's existence. But if no material is assigned the renderer stops doing his
+job leaving you with a black screen. So we assign an "empty" material.
+</I>
 
 Something still missing? Yes of course! If you think about what we have done so far you might notice that something is quite not correct. We have
 not considered yet that a quad uses four vertices and thus most quads, except for these at borders, uses vertices already used by four other quads.
@@ -169,20 +177,20 @@ vertices are used by a quad. The vertices are only referenced, but not copied, i
 </I>
 
 \code
-	// GeoIndicesUI32 points to all relevant data used by the 
-	// provided primitives
-	GeoIndicesUI32Ptr indices = GeoIndicesUI32::create();
-	beginEditCP(indices, GeoIndicesUI32::GeoPropDataFieldMask);
-		for (int x = 0; x < N-1; x++)
-			for (int z = 0; z < N-1; z++){
-				// points to four vertices that will
-				// define a single quad
-				indices->addValue(z*N+x);	
-				indices->addValue((z+1)*N+x);
-				indices->addValue((z+1)*N+x+1);
-				indices->addValue(z*N+x+1);
-			}
-	endEditCP(indices, GeoIndicesUI32::GeoPropDataFieldMask);
+    // GeoIndicesUI32 points to all relevant data used by the 
+    // provided primitives
+    GeoIndicesUI32Ptr indices = GeoIndicesUI32::create();
+    beginEditCP(indices, GeoIndicesUI32::GeoPropDataFieldMask);
+        for (int x = 0; x < N-1; x++)
+            for (int z = 0; z < N-1; z++){
+		// points to four vertices that will
+		// define a single quad
+		indices->addValue(z*N+x);	
+		indices->addValue((z+1)*N+x);
+		indices->addValue((z+1)*N+x+1);
+		indices->addValue(z*N+x+1);
+            }
+    endEditCP(indices, GeoIndicesUI32::GeoPropDataFieldMask);
 \endcode
 
 <I>
@@ -192,31 +200,31 @@ There are different possibilities on how to index the data. That will be discuss
 Now that we have created all data we need we can create the geometry object that will hold all the pices together
 
 \code
-	GeometryPtr geo = Geometry::create();
-	beginEditCP(geo,
-		Geometry::TypesFieldMask		|
-		Geometry::LengthsFieldMask		|
-		Geometry::IndicesFieldMask		|
-		Geometry::PositionsFieldMask	|
-		Geometry::NormalsFieldMask		|
-		Geometry::ColorsFieldMask		|
-		);
+    GeometryPtr geo = Geometry::create();
+    beginEditCP(geo,
+        Geometry::TypesFieldMask	|
+	Geometry::LengthsFieldMask	|
+	Geometry::IndicesFieldMask	|
+	Geometry::PositionsFieldMask	|
+	Geometry::NormalsFieldMask      |
+	Geometry::ColorsFieldMask	
+	);
 	
-		geo->setTypes(type);
-		geo->setLengths(length);
-		geo->setIndices(indices);
-		geo->setPositions(pos);
-		geo->setNormals(norms);
-		geo->setColors(colors);
+	geo->setTypes(type);
+	geo->setLengths(length);
+	geo->setIndices(indices);
+	geo->setPositions(pos);
+	geo->setNormals(norms);
+	geo->setColors(colors);
 
-	endEditCP(geo,
-		Geometry::TypesFieldMask		|
-		Geometry::LengthsFieldMask		|
-		Geometry::IndicesFieldMask		|
-		Geometry::PositionsFieldMask	|
-		Geometry::NormalsFieldMask		|
-		Geometry::ColorsFieldMask		|
-		);
+    endEditCP(geo,
+        Geometry::TypesFieldMask	|
+	Geometry::LengthsFieldMask	|
+	Geometry::IndicesFieldMask	|
+	Geometry::PositionsFieldMask	|
+	Geometry::NormalsFieldMask	|
+	Geometry::ColorsFieldMask	
+	);
 \endcode
 
 <I>
@@ -229,18 +237,97 @@ you wait for the system to start up
 Finally we put the newly created core into a node and return it.
 
 \code
-	NodePtr root = Node::create();
-	beginEditCP(root);
-		root->setCore(geo);
-	endEditCP(root);
+    NodePtr root = Node::create();
+    beginEditCP(root);
+        root->setCore(geo);
+    endEditCP(root);
 	
-	return root;
+    return root;
 \endcode
 
-Your water simulation version 0.1 is done. Compile and execute and watch the beautiful result!
+Your water simulation version 0.1 is done. Compile and execute and watch the beautiful result! Please notice that you need to ratate the view in
+order to see anything. This is because wa are initially located at y=0 just the same as the plane. We can fix this if we add some value to the
+camera position during setup. You can add the code directly BEFORE the glutMainLoop is called in the main method:
+
+\code
+    Navigator * nav = mgr->getNavigator();
+    nav->setFrom(nav->getFrom()+Vec3f(0,2,0));
+\endcode
+
+<I>
+    This will get the navigator helper object from the simple scene manager. The setFrom() method allows to specify a point (osg::Pnt3f) where
+    the camera shall be located. In the case we get the current position via getFrom() and add two to the y-axis. this ensures that the camera 
+    is above our mesh and not at the same height.
+</I>
 
 What? A plane? That whole effort for a simple plane? Of course the result is a plane as we set all height values to zero previously. We need to
 modify the values during the display function. But first we have a deeper look at what we have done so far!
+
+\section GeometryIndexing Indexing
+
+Indexing is a very important topic if you an to use geometry efficiently. In the example above we added each vertex only a single time and this
+vertex was reused by all other primitives. On the one hand this is smarter than providing such a vertex four times, on the other hand we 
+added the same color object N*N times anyhow adding it once would have been sufficient. All these problems can be addressed by choosing the 
+right kind of indexing. 
+
+\subsection GeometryIndexingNoIndexing No Indexing
+First of all there is the possibility to not use indexing at all. The following figure shows how the data would be organized in memory
+
+\image html no_indexing.png "Geometry data which is not indexed"
+\image latex no_indexing.eps "Geometry data which is not indexed" width = 10cm
+
+<I>
+I guess this figure could need some explanation. At the top you have 3 colored circles representing a vertex. The yellow vertex, for example is
+used by both quads and the triangle, whereas the blue vertex is used by the right quad and the triangle. Below you find a sample data set. The 
+first row contains the data of a GeoPTypes object. In this case we have two quads, a triangle, a polygon, another quad followed by two triangles
+and finally another polygon. This row may continue with even more types. The next row defines the length of these types. The quads have a length of
+four and the triangles have three that easy, but polygons can have any number of vertices. The last three rows represent the data that define the 
+geometry. In this case we have position-, normal- and color information given. This could be extended by some more data (i.e. texture coordiantes 
+etc.). A column is one dataset for one vertex.
+</I>
+
+You know can see that the yellow vertex appears three times in our data. With no indexing the vertex data is copied for every time it is used! Of
+course this is not very efficient. You will learn more efficent methods next.
+
+\subsection GeometryIndexingSimpleIndexing Simple Indexing
+
+This is the most often used type of geometry and this is also very close to OpenGL when using striping. Indexing is easy and efficient, but it 
+does not handle all cases, tough. This is the kind of geometry storage we used in the water mesh example above. The following figure shows 
+how indexing work.
+
+\image html indexing.png "Indexed geometry data"
+\image latex indexing.eps "Indexed geometry data" width = 10cm
+
+<I>
+As you can see, every vertex is stored exactly one time. The data of the yellow vertex is referenced three times.
+</I>
+
+Indexed geometry in general is a lot better than non indexed geometry, but still we have some issues that are not solved optimally. 
+In our water mesh example every vertex has exactly the same color. With indexed geometry we need to have as many entries in positions as
+there are in the normals and colors array - so we need to store the same color a lot too often. This issue is adressed by multi indexed
+geometry.
+
+Another issue is that some vertex need additional different data even though the position is the same. For example a textured cube has
+different texture coordiantes at the edges where the position is the same. To handle such cases the vertex data need to be replicated.
+This too can be handeled with multi indexed geometry.
+
+\subsection GeometryIndexingMultiIndexed Multi Indexed Geometry
+
+In order to face the issues encountered with single indexing you need to use multiple indices. However using a seperate index field for
+every property would increase memory consuption considerably and working with several different index fields would not be fun at all. 
+That is why OpenSG uses another approach: interleaving indeces. 
+
+The idea is quite simple. You define a mask of which indices you are going to use, let's say we want to use indices for positions,
+normals and colors in this order. Now you have to provide every vertex with three indices, that is a triangle would have nine indices
+assigned to it. The first index is used for the positions, the second for the second field provided in the mask field etc.
+
+Again the following figure shows how it works
+
+\image html multi_indexing.png "Multi indexed geometry"
+\image latex multi_indexing.eps "Multi indexed geometry" width = 10cm
+
+If using multi indexing the property arrays need not to be eaually long any more. In our case this means that our colors array could
+be one entry long only and every color index would point to this one and only entry.
 
 \section GeometryEfficientManipulation Efficient Manipulation
 
@@ -255,8 +342,8 @@ Add this block of code somewhere at the beginning of the file (at least before t
 
 \code
 void updateMesh(UInt32 time){
-	for (int x = 0; x < N; x++)
-		for (int z = 0; z < N)
+    for (int x = 0; x < N; x++)
+        for (int z = 0; z < N)
 }
 \endcode
 */
