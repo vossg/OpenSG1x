@@ -667,5 +667,12 @@ Now compile and execute the application. As this is a clustered application you 
 </PRE>
 
 As you can see, you can use the same servers as we used for the example. In nearly every case you can use these servers - it does not matter if you run a stereo
-or some other cluster application!
+or some other cluster application! 
+
+If you are running the application on a single machine it might be hard to notice the difference between the two viewports - in this case you can increase the
+eye separtion, to increase the offset of both "eyes".
+
+Of course this topic is a very huge one, and only a small part was covered here, but maybe this chapter will grow still a bit in the future.
+
+Next Chapter : \ref Modelling
 */

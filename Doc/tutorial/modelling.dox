@@ -107,39 +107,39 @@ If loading was successfull and was read from a VRML file a appropiate BIN file i
 bool appendFileAtNode(string file, NodePtr node, string name){
 	// at first we try to load an BIN File
 
-    //let's assume there is an binary version
+	//let's assume there is an binary version
 	bool binaryVersionPresent = true;
 
 	ifstream stream((file+".bin").c_str());
 	string str = file+".bin";
 	if (!stream){
 		//There was no file "filename.bin"
-	  	binaryVersionPresent = false;
-        cerr << "> no binary version of " << file << " found. Try to load VRML!" << endl;
+		binaryVersionPresent = false;
+		cerr << "> no binary version of " << file << " found. Try to load VRML!" << endl;
 		ifstream stream((file+".wrl").c_str());
 		str = file+".wrl";
 		if (!stream){
-		  	cerr << "No VRML file found for " << file << ". Maybe full name given? I'll try.. " << endl;
-		   	//this is the case if the full filename was given (i.e. with extension)
-		    ifstream stream(file.c_str());
-		    str = file;
-		    if(!stream){
-			  	cerr << "No file found for " << file << ". Quitting! " << endl;
-			   	return false;
-		    }
+			cerr << "No VRML file found for " << file << ". Maybe full name given? I'll try.. " << endl;
+			//this is the case if the full filename was given (i.e. with extension)
+			ifstream stream(file.c_str());
+			str = file;
+			if(!stream){
+				cerr << "No file found for " << file << ". Quitting! " << endl;
+				return false;
+			}
 		}
 	}
 
 	NodePtr fileNode;
 	beginEditCP(node, Node::ChildrenFieldMask);
-    	fileNode = SceneFileHandler::the().read(str.c_str());
-     	if (fileNode != NullFC)
-      		node->addChild(fileNode);
-        else{
-        	cerr << "File " << file << " could not be loaded correctly" << endl;
-         	return false;
-        }
-        node->invalidateVolume();
+		fileNode = SceneFileHandler::the().read(str.c_str());
+		if (fileNode != NullFC)
+			node->addChild(fileNode);
+		else{
+			cerr << "File " << file << " could not be loaded correctly" << endl;
+			return false;
+		}
+	node->invalidateVolume();
 	endEditCP(node, Node::ChildrenFieldMask);
 
 	// also set a resonable name
@@ -147,27 +147,27 @@ bool appendFileAtNode(string file, NodePtr node, string name){
 
 	cout << "> " << file << " is now loaded" << endl;
 
-    // here you could apply some graphOps if loaded from VRML
+	// here you could apply some graphOps if loaded from VRML
       
 	if (!binaryVersionPresent){
-	  	// if there was no binary version write such a file now
-	   	#ifndef _WIN32
-    		FILE *outFile = fopen((file+".bin").c_str(), "w");
-    	#else
-    		FILE *outFile = fopen((file+".bin").c_str(), "wb");
-    	#endif
+		// if there was no binary version write such a file now
+		#ifndef _WIN32
+			FILE *outFile = fopen((file+".bin").c_str(), "w");
+		#else
+			FILE *outFile = fopen((file+".bin").c_str(), "wb");
+		#endif
 
-    	if(outFile == NULL){
-        	cerr << "ERROR: Cannot create file " << file+".bin" << endl;
-        	return false;
-    	}else{
-     		// go on : write
-	   		BINWriter writer(outFile);
+		if(outFile == NULL){
+			cerr << "ERROR: Cannot create file " << file+".bin" << endl;
+			return false;
+		}else{
+			// go on : write
+			BINWriter writer(outFile);
 
 			writer.write(node);
      		
 			cout << "An binary file with the content of " << file << " has been created" << endl;
-    	}
+		}
 	}
 
 	return true;  	

@@ -232,6 +232,9 @@ than placing several cameras side by side to achieve the same effect.
 In Darmstadt, Germany there is a wall of screens, called HEye Wall, with 6 * 4 screens which is capable of stereo rendering. An 48 + 1 cluster running 
 OpenSG is driving the HEye Wall. Instead of using 48 cameras it is sufficient to use only one single camera and let the decorators do the rest!
 
+\image html heye_wall.png "The Heye Wall in Darmstadt, Germany"
+\image latex heye_wall.eps "The Heye Wall in Darmstadt, Germany" width=6cm
+
 \section TutorialWindowsBackground Backgrounds
 
 Well the background does simply what a background is suppposed to do. Any region that was not covered by some object that was just rendered is filled with
