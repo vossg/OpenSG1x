@@ -36,7 +36,7 @@ INCL_$(OS_BASE) += $(call buildIncPathPlain,$(INCL_DIR))
 endif
 
 ifndef NO_INCL_EXP
-INCL_EXP_$(OS_BASE) += $(call buildIncPathPlain,../../../$(SUB_DIR))
+INCL_EXP_$(OS_BASE) += $(call buildIncPathPlain,../../../Source/$(SUB_DIR))
 endif
 
 endif

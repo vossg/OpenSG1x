@@ -32,10 +32,10 @@ for $i (0..$#ARGV)
     }
 }
 
-#print "$#out_packages\n";
-#print "$#out_h\n";
-#print "$#out_cpp\n";
-#print "$#out_inl\n";
+#print "$#out_packages\r\n";
+#print "$#out_h\r\n";
+#print "$#out_cpp\r\n";
+#print "$#out_inl\r\n";
 
 printTargets();
 
@@ -52,7 +52,7 @@ sub processPack
     local @l_in_l   = ();
     local @l_in_y   = ();
 
-    open(IN, "cat $in_name |") || die "Could not open $in_name\n";
+    open(IN, "cat $in_name |") || die "Could not open $in_name\r\n";
 
     while(<IN>)
     {
@@ -63,7 +63,7 @@ sub processPack
    
     if($#l_input < 1)
     {
-        print "Input to short\n";
+        print "Input to short\r\n";
         exit;
     }
     
@@ -121,14 +121,14 @@ sub printHeader
 
     local $i;
 
-    print "# Begin Group \"$pack h\"\n";
-    print "# PROP Default_Filter \"\"\n";
+    print "# Begin Group \"$pack h\"\r\n";
+    print "# PROP Default_Filter \"\"\r\n";
     
     for $i (0..$#$hdr)
     {
-        print "\n";
-        print "# Begin Source File\n";
-        print "SOURCE=$rel_path/$$hdr[$i]\n";
+        print "\r\n";
+        print "# Begin Source File\r\n";
+        print "SOURCE=$rel_path/$$hdr[$i]\r\n";
 
         $_ = $$hdr[$i];
         if(m/_qt\.h/)
@@ -138,28 +138,28 @@ sub printHeader
             $qifile =~ s/(.*\/)//g;
             $qifile =~ s/\.h/_moc\.cpp/;
 
-            print "\n";
-            print "!IF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Release\"\n";
-            print "\n";
-            print "!ELSEIF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Debug\"\n";
-            print "\n";
-            print "# Begin Custom Build\n";
-            print "InputPath=../../../$qtfile\n";
-            print "\n";
-            print "BuildCmds= \\\n";
-            print "\moc.exe ../../../$qtfile -i -o $qifile\n";
-            print "\n";
-            print "\"$qifile\" : \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"\n";
-            print "   \$(BuildCmds)\n";
-            print "\n";
-            print "# End Custom Build\n";
-            print "\n";
-            print "!ENDIF\n";
-            print "\n";
+            print "\r\n";
+            print "!IF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Release\"\r\n";
+            print "\r\n";
+            print "!ELSEIF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Debug\"\r\n";
+            print "\r\n";
+            print "# Begin Custom Build\r\n";
+            print "InputPath=../../../$qtfile\r\n";
+            print "\r\n";
+            print "BuildCmds= \\\r\n";
+            print "\moc.exe ../../../$qtfile -i -o $qifile\r\n";
+            print "\r\n";
+            print "\"$qifile\" : \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"\r\n";
+            print "   \$(BuildCmds)\r\n";
+            print "\r\n";
+            print "# End Custom Build\r\n";
+            print "\r\n";
+            print "!ENDIF\r\n";
+            print "\r\n";
         }
 
-        print "# End Source File\n";
-        print "\n";
+        print "# End Source File\r\n";
+        print "\r\n";
     }
 
     for $i (0..$#$ysrc)
@@ -170,14 +170,14 @@ sub printHeader
         $hfile =~ s/(.*\/)//g;
         $hfile =~ s/\.y/\.tab.h/;
 
-        print "\n";
-        print "# Begin Source File\n";
-        print "SOURCE=$hfile\n";
-        print "# End Source File\n";
-        print "\n";
+        print "\r\n";
+        print "# Begin Source File\r\n";
+        print "SOURCE=$hfile\r\n";
+        print "# End Source File\r\n";
+        print "\r\n";
     }
     
-    print "# End Group\n";
+    print "# End Group\r\n";
 }
 
 sub printInline
@@ -186,19 +186,19 @@ sub printInline
     local $inl  = shift(@_);
     local $i;
 
-    print "# Begin Group \"$pack inl\"\n";
-    print "# PROP Default_Filter \"\"\n";
+    print "# Begin Group \"$pack inl\"\r\n";
+    print "# PROP Default_Filter \"\"\r\n";
     
     for $i (0..$#$inl)
     {
-        print "\n";
-        print "# Begin Source File\n";
-        print "SOURCE=$rel_path/$$inl[$i]\n";
-        print "# End Source File\n";
-        print "\n";
+        print "\r\n";
+        print "# Begin Source File\r\n";
+        print "SOURCE=$rel_path/$$inl[$i]\r\n";
+        print "# End Source File\r\n";
+        print "\r\n";
     }
     
-    print "# End Group\n";
+    print "# End Group\r\n";
 }
 
 sub printSource
@@ -209,16 +209,16 @@ sub printSource
     local $lsrc = shift(@_);
     local $i;
 
-    print "# Begin Group \"$pack cpp\"\n";
-    print "# PROP Default_Filter \"\"\n";
+    print "# Begin Group \"$pack cpp\"\r\n";
+    print "# PROP Default_Filter \"\"\r\n";
     
     for $i (0..$#$src)
     {
-        print "\n";
-        print "# Begin Source File\n";
-        print "SOURCE=$rel_path/$$src[$i]\n";
-        print "# End Source File\n";
-        print "\n";
+        print "\r\n";
+        print "# Begin Source File\r\n";
+        print "SOURCE=$rel_path/$$src[$i]\r\n";
+        print "# End Source File\r\n";
+        print "\r\n";
     }
     
     for $i (0..$#$ysrc)
@@ -229,11 +229,11 @@ sub printSource
         $cfile =~ s/(.*\/)//g;
         $cfile =~ s/\.y/\.tab.cpp/;
 
-        print "\n";
-        print "# Begin Source File\n";
-        print "SOURCE=$cfile\n";
-        print "# End Source File\n";
-        print "\n";
+        print "\r\n";
+        print "# Begin Source File\r\n";
+        print "SOURCE=$cfile\r\n";
+        print "# End Source File\r\n";
+        print "\r\n";
     }
 
     for $i (0..$#$lsrc)
@@ -244,14 +244,14 @@ sub printSource
         $cfile =~ s/(.*\/)//g;
         $cfile =~ s/\.l/\.lex.cpp/;
 
-        print "\n";
-        print "# Begin Source File\n";
-        print "SOURCE=$cfile\n";
-        print "# End Source File\n";
-        print "\n";
+        print "\r\n";
+        print "# Begin Source File\r\n";
+        print "SOURCE=$cfile\r\n";
+        print "# End Source File\r\n";
+        print "\r\n";
     }
 
-    print "# End Group\n";
+    print "# End Group\r\n";
 }
 
 sub printScanParse
@@ -261,8 +261,8 @@ sub printScanParse
     local $lsrc = shift(@_);
     local $i;
 
-    print "# Begin Group \"$pack ly\"\n";
-    print "# PROP Default_Filter \"\"\n";
+    print "# Begin Group \"$pack ly\"\r\n";
+    print "# PROP Default_Filter \"\"\r\n";
     
     for $i (0..$#$ysrc)
     {
@@ -274,34 +274,34 @@ sub printScanParse
         $fbase = $yfile;
         $fbase =~ s/\.y//;
 
-        print "\n";
-        print "# Begin Source File\n";
-        print "SOURCE=../../../$yfp\n";
-        print "\n";
-        print "!IF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Release\"\n";
-        print "\n";
-        print "!ELSEIF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Debug\"\n";
-        print "\n";
-        print "# Begin Custom Build\n";
-        print "InputPath=../../../$yfp\n";
-        print "\n";
-        print "BuildCmds= \\\n";
-        print "\tbison.exe -d -v -p${fbase}_  -b${fbase}_ ../../../$yfp \\\n";
-        print "\tmove ${fbase}_.tab.c ${fbase}.tab.cpp \\\n";
-        print "\tmove ${fbase}_.tab.h ${fbase}.tab.h \\\n";
-        print "\tmove ${fbase}_.output ${fbase}.tab.output \\\n";
-        print "\n";
-        print "\"$fbase.tab.cpp\" : \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"\n";
-        print "   \$(BuildCmds)\n";
-        print "\n";
-        print "\"$fbase.tab.h\" : \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"\n";
-        print "   \$(BuildCmds)\n";
-        print "# End Custom Build\n";
-        print "\n";
-        print "!ENDIF\n";
-        print "\n";
-        print "# End Source File\n";
-        print "\n";
+        print "\r\n";
+        print "# Begin Source File\r\n";
+        print "SOURCE=../../../$yfp\r\n";
+        print "\r\n";
+        print "!IF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Release\"\r\n";
+        print "\r\n";
+        print "!ELSEIF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Debug\"\r\n";
+        print "\r\n";
+        print "# Begin Custom Build\r\n";
+        print "InputPath=../../../$yfp\r\n";
+        print "\r\n";
+        print "BuildCmds= \\\r\n";
+        print "\tbison.exe -d -v -p${fbase}_  -b${fbase}_ ../../../$yfp \\\r\n";
+        print "\tmove ${fbase}_.tab.c ${fbase}.tab.cpp \\\r\n";
+        print "\tmove ${fbase}_.tab.h ${fbase}.tab.h \\\r\n";
+        print "\tmove ${fbase}_.output ${fbase}.tab.output \\\r\n";
+        print "\r\n";
+        print "\"$fbase.tab.cpp\" : \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"\r\n";
+        print "   \$(BuildCmds)\r\n";
+        print "\r\n";
+        print "\"$fbase.tab.h\" : \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"\r\n";
+        print "   \$(BuildCmds)\r\n";
+        print "# End Custom Build\r\n";
+        print "\r\n";
+        print "!ENDIF\r\n";
+        print "\r\n";
+        print "# End Source File\r\n";
+        print "\r\n";
     }
 
     for $i (0..$#$lsrc)
@@ -315,33 +315,33 @@ sub printScanParse
         $fbase =~ s/(.*\/)//g;
         $fbase =~ s/\.l//;
 
-        print "\n";
-        print "# Begin Source File\n";
-        print "SOURCE=../../../$lfile\n";
-        print "\n";
-        print "!IF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Release\"\n";
-        print "\n";
-        print "!ELSEIF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Debug\"\n";
-        print "\n";
-        print "# Begin Custom Build\n";
-        print "InputPath=../../../$lfile\n";
-        print "\n";
-        print "BuildCmds= \\\n";
-        print "\tflex.exe -l -P${fbase}_ ../../../$lfile \\\n";
-        print "\tmove lex.${fbase}_.c ${fbase}.lex.cpp \\\n";
-        print "\n";
-        print "\"$fbase.lex.cpp\" : \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"\n";
-        print "   \$(BuildCmds)\n";
-        print "\n";
-        print "# End Custom Build\n";
-        print "\n";
-        print "!ENDIF\n";
-        print "\n";
-        print "# End Source File\n";
-        print "\n";
+        print "\r\n";
+        print "# Begin Source File\r\n";
+        print "SOURCE=../../../$lfile\r\n";
+        print "\r\n";
+        print "!IF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Release\"\r\n";
+        print "\r\n";
+        print "!ELSEIF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Debug\"\r\n";
+        print "\r\n";
+        print "# Begin Custom Build\r\n";
+        print "InputPath=../../../$lfile\r\n";
+        print "\r\n";
+        print "BuildCmds= \\\r\n";
+        print "\tflex.exe -l -P${fbase}_ ../../../$lfile \\\r\n";
+        print "\tmove lex.${fbase}_.c ${fbase}.lex.cpp \\\r\n";
+        print "\r\n";
+        print "\"$fbase.lex.cpp\" : \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"\r\n";
+        print "   \$(BuildCmds)\r\n";
+        print "\r\n";
+        print "# End Custom Build\r\n";
+        print "\r\n";
+        print "!ENDIF\r\n";
+        print "\r\n";
+        print "# End Source File\r\n";
+        print "\r\n";
     }
 
-    print "# End Group\n";
+    print "# End Group\r\n";
 }
 
 sub printResourse
@@ -350,11 +350,11 @@ sub printResourse
 
     for $i (0..$#$files)
     {
-        print "\n";
-        print "# Begin Source File\n";
-        print "SOURCE=$$files[$i]\n";
-        print "# End Source File\n";
-        print "\n";
+        print "\r\n";
+        print "# Begin Source File\r\n";
+        print "SOURCE=$$files[$i]\r\n";
+        print "# End Source File\r\n";
+        print "\r\n";
     }
 }
 
@@ -362,70 +362,70 @@ sub printTargets
 {
     local $i;
 
-    print "# Begin Target\n";
-    print "\n";
-    print "# Name \"${out_libname}Lib - Win32 Release\"\n";
-    print "# Name \"${out_libname}Lib - Win32 Debug\"\n";
-    print "\n";
+    print "# Begin Target\r\n";
+    print "\r\n";
+    print "# Name \"${out_libname}Lib - Win32 Release\"\r\n";
+    print "# Name \"${out_libname}Lib - Win32 Debug\"\r\n";
+    print "\r\n";
 
-    print "# Begin Group \"Header Files\"\n";
-    print "# PROP Default_Filter \"h;hpp;hxx;hm\"\n";
-    print "\n";
+    print "# Begin Group \"Header Files\"\r\n";
+    print "# PROP Default_Filter \"h;hpp;hxx;hm\"\r\n";
+    print "\r\n";
     for $i (0..$#out_packages)
     {
         printHeader($out_packages[$i], $out_h[$i], $out_y[$i]);
     }
-    print "\n";
-    print "# End Group\n";
+    print "\r\n";
+    print "# End Group\r\n";
 
-    print "\n";
-    print "\n";
+    print "\r\n";
+    print "\r\n";
 
-    print "# Begin Group \"Inline Files\"\n";
-    print "# PROP Default_Filter \"inl\"\n";
-    print "\n";
+    print "# Begin Group \"Inline Files\"\r\n";
+    print "# PROP Default_Filter \"inl\"\r\n";
+    print "\r\n";
     for $i (0..$#out_packages)
     {
         printInline($out_packages[$i], $out_inl[$i]);
     }
-    print "\n";
-    print "# End Group\n";
+    print "\r\n";
+    print "# End Group\r\n";
 
-    print "\n";
-    print "\n";
+    print "\r\n";
+    print "\r\n";
 
-    print "# Begin Group \"Source Files\"\n";
-    print "# PROP Default_Filter \"cpp;c;cxx;rc;def;r;odl;idl;hpj;bat\"\n";
-    print "\n";
+    print "# Begin Group \"Source Files\"\r\n";
+    print "# PROP Default_Filter \"cpp;c;cxx;rc;def;r;odl;idl;hpj;bat\"\r\n";
+    print "\r\n";
     for $i (0..$#out_packages)
     {
         printSource($out_packages[$i], $out_cpp[$i], $out_y[$i], $out_l[$i]);
     }
-    print "\n";
-    print "# End Group\n";
+    print "\r\n";
+    print "# End Group\r\n";
 
-    print "# Begin Group \"Scan/Parse Files\"\n";
-    print "# PROP Default_Filter \"y;l\"\n";
-    print "\n";
+    print "# Begin Group \"Scan/Parse Files\"\r\n";
+    print "# PROP Default_Filter \"y;l\"\r\n";
+    print "\r\n";
     for $i (0..$#out_packages)
     {
         printScanParse($out_packages[$i], $out_y[$i], $out_l[$i]);
     }
-    print "\n";
-    print "# End Group\n";
+    print "\r\n";
+    print "# End Group\r\n";
 
-    print "# Begin Group \"Resource Files\"\n";
-    print "# PROP Default_Filter \"ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe\"\n";
-    print "\n";
+    print "# Begin Group \"Resource Files\"\r\n";
+    print "# PROP Default_Filter \"ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe\"\r\n";
+    print "\r\n";
     
     printResourse([@out_def]);
 
-    print "\n";
-    print "# End Group\n";
+    print "\r\n";
+    print "# End Group\r\n";
 
-    print "\n";
-    print "# End Target\n";
-    print "# End Project\n";
+    print "\r\n";
+    print "# End Target\r\n";
+    print "# End Project\r\n";
 }
 
 
