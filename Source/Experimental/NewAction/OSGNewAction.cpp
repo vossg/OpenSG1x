@@ -1,4 +1,3 @@
-
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     * 
  *                                                                           * 
@@ -632,7 +631,7 @@ NewAction::configureSub(ActorBase *pActor)
 
 namespace
 {
-    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGNewAction.cpp,v 1.1 2003/10/10 13:51:06 neumannc Exp $";
+    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGNewAction.cpp,v 1.2 2003/10/10 14:27:44 neumannc Exp $";
     static Char8 cvsid_hpp     [] = OSGNEWACTION_HEADER_CVSID;
     static Char8 cvsid_inl     [] = OSGNEWACTION_INLINE_CVSID;
 }
