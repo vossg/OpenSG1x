@@ -83,6 +83,7 @@ void ShaderParameterMatrix::initMethod (void)
 ShaderParameterMatrix::ShaderParameterMatrix(void) :
     Inherited()
 {
+    setTypeId(ShaderParameter::SHPTypeMatrix);
 }
 
 ShaderParameterMatrix::ShaderParameterMatrix(const ShaderParameterMatrix &source) :
@@ -92,15 +93,6 @@ ShaderParameterMatrix::ShaderParameterMatrix(const ShaderParameterMatrix &source
 
 ShaderParameterMatrix::~ShaderParameterMatrix(void)
 {
-}
-
-void ShaderParameterMatrix::onCreate(const ShaderParameterMatrix */*source*/)
-{
-    // ignore prototypes.
-    if(GlobalSystemState == Startup)
-        return;
-
-    setTypeId(ShaderParameter::SHPTypeMatrix);
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -133,7 +125,7 @@ void ShaderParameterMatrix::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterMatrix.cpp,v 1.2 2004/09/02 13:43:54 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterMatrix.cpp,v 1.3 2005/02/24 17:29:15 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERMATRIXBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERMATRIXBASE_INLINE_CVSID;
 

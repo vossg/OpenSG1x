@@ -83,6 +83,7 @@ void ShaderParameterReal::initMethod (void)
 ShaderParameterReal::ShaderParameterReal(void) :
     Inherited()
 {
+    setTypeId(ShaderParameter::SHPTypeReal);
 }
 
 ShaderParameterReal::ShaderParameterReal(const ShaderParameterReal &source) :
@@ -92,15 +93,6 @@ ShaderParameterReal::ShaderParameterReal(const ShaderParameterReal &source) :
 
 ShaderParameterReal::~ShaderParameterReal(void)
 {
-}
-
-void ShaderParameterReal::onCreate(const ShaderParameterReal */*source*/)
-{
-    // ignore prototypes.
-    if(GlobalSystemState == Startup)
-        return;
-
-    setTypeId(ShaderParameter::SHPTypeReal);
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -133,7 +125,7 @@ void ShaderParameterReal::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterReal.cpp,v 1.2 2004/09/02 13:43:54 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterReal.cpp,v 1.3 2005/02/24 17:29:15 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERREALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERREALBASE_INLINE_CVSID;
 

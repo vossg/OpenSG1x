@@ -80,9 +80,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterVec3f : public ShaderParameterVec3
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    // Variables should all be in ShaderParameterVec3fBase.
-    void onCreate(const ShaderParameterVec3f *source = NULL);
-
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
@@ -119,6 +116,6 @@ OSG_END_NAMESPACE
 #include <OSGShaderParameterVec3fBase.inl>
 #include <OSGShaderParameterVec3f.inl>
 
-#define OSGSHADERPARAMETERVEC3F_HEADER_CVSID "@(#)$Id: OSGShaderParameterVec3f.h,v 1.1 2004/06/05 18:16:44 a-m-z Exp $"
+#define OSGSHADERPARAMETERVEC3F_HEADER_CVSID "@(#)$Id: OSGShaderParameterVec3f.h,v 1.2 2005/02/24 17:29:15 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETERVEC3F_H_ */

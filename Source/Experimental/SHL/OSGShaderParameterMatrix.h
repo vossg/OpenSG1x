@@ -80,9 +80,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterMatrix : public ShaderParameterMat
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    // Variables should all be in ShaderParameterMatrixBase.
-    void onCreate(const ShaderParameterMatrix *source = NULL);
-
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
@@ -119,6 +116,6 @@ OSG_END_NAMESPACE
 #include <OSGShaderParameterMatrixBase.inl>
 #include <OSGShaderParameterMatrix.inl>
 
-#define OSGSHADERPARAMETERMATRIX_HEADER_CVSID "@(#)$Id: OSGShaderParameterMatrix.h,v 1.1 2004/06/05 18:16:43 a-m-z Exp $"
+#define OSGSHADERPARAMETERMATRIX_HEADER_CVSID "@(#)$Id: OSGShaderParameterMatrix.h,v 1.2 2005/02/24 17:29:15 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETERMATRIX_H_ */

@@ -80,10 +80,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterInt : public ShaderParameterIntBas
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    // Variables should all be in ShaderParameterIntBase.
-
-    void onCreate(const ShaderParameterInt *source = NULL);
-
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
@@ -120,6 +116,6 @@ OSG_END_NAMESPACE
 #include <OSGShaderParameterIntBase.inl>
 #include <OSGShaderParameterInt.inl>
 
-#define OSGSHADERPARAMETERINT_HEADER_CVSID "@(#)$Id: OSGShaderParameterInt.h,v 1.1 2004/06/05 18:16:43 a-m-z Exp $"
+#define OSGSHADERPARAMETERINT_HEADER_CVSID "@(#)$Id: OSGShaderParameterInt.h,v 1.2 2005/02/24 17:29:15 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETERINT_H_ */

@@ -80,10 +80,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBool : public ShaderParameterBoolB
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    // Variables should all be in ShaderParameterBoolBase.
-
-    void onCreate(const ShaderParameterBool *source = NULL);
-
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
@@ -120,6 +116,6 @@ OSG_END_NAMESPACE
 #include <OSGShaderParameterBoolBase.inl>
 #include <OSGShaderParameterBool.inl>
 
-#define OSGSHADERPARAMETERBOOL_HEADER_CVSID "@(#)$Id: OSGShaderParameterBool.h,v 1.1 2004/07/01 11:26:56 a-m-z Exp $"
+#define OSGSHADERPARAMETERBOOL_HEADER_CVSID "@(#)$Id: OSGShaderParameterBool.h,v 1.2 2005/02/24 17:29:15 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETERBOOL_H_ */

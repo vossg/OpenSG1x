@@ -83,6 +83,7 @@ void ShaderParameterVec4f::initMethod (void)
 ShaderParameterVec4f::ShaderParameterVec4f(void) :
     Inherited()
 {
+    setTypeId(ShaderParameter::SHPTypeVec4f);
 }
 
 ShaderParameterVec4f::ShaderParameterVec4f(const ShaderParameterVec4f &source) :
@@ -92,15 +93,6 @@ ShaderParameterVec4f::ShaderParameterVec4f(const ShaderParameterVec4f &source) :
 
 ShaderParameterVec4f::~ShaderParameterVec4f(void)
 {
-}
-
-void ShaderParameterVec4f::onCreate(const ShaderParameterVec4f */*source*/)
-{
-    // ignore prototypes.
-    if(GlobalSystemState == Startup)
-        return;
-
-    setTypeId(ShaderParameter::SHPTypeVec4f);
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -133,7 +125,7 @@ void ShaderParameterVec4f::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterVec4f.cpp,v 1.2 2004/09/02 13:43:54 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterVec4f.cpp,v 1.3 2005/02/24 17:29:15 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERVEC4FBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERVEC4FBASE_INLINE_CVSID;
 

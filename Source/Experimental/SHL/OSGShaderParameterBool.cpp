@@ -83,6 +83,7 @@ void ShaderParameterBool::initMethod (void)
 ShaderParameterBool::ShaderParameterBool(void) :
     Inherited()
 {
+    setTypeId(ShaderParameter::SHPTypeBool);
 }
 
 ShaderParameterBool::ShaderParameterBool(const ShaderParameterBool &source) :
@@ -92,15 +93,6 @@ ShaderParameterBool::ShaderParameterBool(const ShaderParameterBool &source) :
 
 ShaderParameterBool::~ShaderParameterBool(void)
 {
-}
-
-void ShaderParameterBool::onCreate(const ShaderParameterBool */*source*/)
-{
-    // ignore prototypes.
-    if(GlobalSystemState == Startup)
-        return;
-
-    setTypeId(ShaderParameter::SHPTypeBool);
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -133,7 +125,7 @@ void ShaderParameterBool::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBool.cpp,v 1.2 2004/09/02 13:43:54 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBool.cpp,v 1.3 2005/02/24 17:29:15 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERBOOLBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERBOOLBASE_INLINE_CVSID;
 
