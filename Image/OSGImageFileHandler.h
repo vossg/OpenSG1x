@@ -146,8 +146,12 @@ private:
     map    <IDString, ImageFileType *>  _suffixTypeMap;
 
     static bool addImageFileType (ImageFileType &fileType);
-    
+
     PathHandler* _pPathHandler;
+
+    static const string _fileNameKey;
+
+    static const string _fullFilePathKey;
 
     /* prohibit default function (move to 'public' if needed) */
     ImageFileHandler(const ImageFileHandler &obj);

@@ -72,6 +72,8 @@ OSG_USING_NAMESPACE
  *   Classvariables
  *****************************/
 ImageFileHandler *ImageFileHandler::_the = 0;
+const string ImageFileHandler::_fileNameKey("fileName");
+const string ImageFileHandler::_fullFilePathKey("fullFilePath");
 
 /********************************
  *   Class methodes
@@ -264,6 +266,8 @@ bool ImageFileHandler::read(Image &image, const char *fileName,
         {
             SINFO << "image: " << image.getWidth() << "x" 
                   << image.getHeight() << endl;
+            image.setAttachment(_fileNameKey, fileName);
+            image.setAttachment(_fullFilePathKey, fullFilePath);
         }
         else
         {
@@ -303,9 +307,13 @@ bool ImageFileHandler::write(const Image &image, const char *fileName,
                              const char *mimeType)
 {
     bool            retCode = false;
-    ImageFileType   *type = getFileType(mimeType, fileName);
+    ImageFileType   *type;
+    const std::string     *fNAttachment;
+    
+    if (!fileName && (fNAttachment = image.findAttachment(_fileNameKey)))
+      fileName = fNAttachment->c_str();
 
-    if(type)
+    if ((type = getFileType(mimeType, fileName)))
     {
         SINFO << "try to write " << fileName << " as "
               << type->getMimeType() << endl;

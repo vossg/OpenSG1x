@@ -276,11 +276,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 
     inline UInt32 attachmentCount (void) const;
 
-    inline  void setAttachment ( const std::string &key, 
-                                 const std::string &data);
-
-    inline std::string * findAttachment ( const std::string &key);
-
+    inline void setAttachment ( const std::string &key, 
+                                const std::string &data);
+    
+    inline const std::string * findAttachment ( const std::string &key) const;
+    
     inline void eraseAttachment ( const std::string &key);
 
     /*! \}                                                                 */

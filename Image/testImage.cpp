@@ -27,6 +27,7 @@ int main (int argc, char **argv)
     if (argc > 1)
     {
         image.read(argv[1]);
+        image.dump();
         image.write( (argc > 2) ? argv[2] : defaultOutImage);
     }
     else

@@ -138,10 +138,12 @@ inline void Image::setAttachment ( const std::string &key,
 }
 
 /*-------------------------------------------------------------------------*/
-inline std::string * Image::findAttachment ( const std::string &key) 
+inline const 
+std::string * Image::findAttachment ( const std::string &key) const
 { 
-  std::map<std::string,std::string>::iterator ssI;
+  std::map<std::string,std::string>::const_iterator ssI;
   ssI = _attachmentMap.find(key);
+
   return (ssI == _attachmentMap.end() ? 0 : &(ssI->second));
 }
 

@@ -578,16 +578,16 @@ void Image::dump(void)
         break;
     };
 
-    FINFO(("ImageDump: %s; %d/%d/%d; #mm: %d, #frame: %d, frameDelay %g\n",
+    FLOG (("ImageDump: %s; %d/%d/%d; #mm: %d, #frame: %d, frameDelay %g\n",
          pfStr, _width, _height, _depth, _mipmapCount, _frameCount, _frameDelay
          ));
 
     if (!_attachmentMap.empty()) {
-      FDEBUG(("ImageDump: Attachments:\n"));
+      FLOG (("ImageDump: Attachments:\n"));
       for (std::map<std::string,std::string>::iterator iter = _attachmentMap.begin();
 	 iter != _attachmentMap.end();
 	 iter++) {
-	FDEBUG(("%s \t\t >%s<\n", iter->first.c_str(), iter->second.c_str()));
+        FLOG (("%s \t\t >%s<\n", iter->first.c_str(), iter->second.c_str()));
       }
     }
 }
