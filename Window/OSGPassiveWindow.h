@@ -59,8 +59,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveWindow : public PassiveWindowBase
 
     /*==========================  PUBLIC  =================================*/
   public:
-    typedef void (*PassiveWindowExtFunc)(void);
-
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -81,8 +79,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveWindow : public PassiveWindowBase
     /*---------------------------------------------------------------------*/
     /*! \name                      Redefined                               */
     /*! \{                                                                 */
-    
-    virtual PassiveWindowExtFunc getFunctionByName(const Char8 *s);
     
     virtual void init( void );
     
@@ -136,6 +132,6 @@ OSG_END_NAMESPACE
 #include <OSGPassiveWindowBase.inl>
 #include <OSGPassiveWindow.inl>
 
-#define OSGPASSIVEWINDOW_HEADER_CVSID "@(#)$Id: OSGPassiveWindow.h,v 1.3 2002/06/01 10:37:26 vossg Exp $"
+#define OSGPASSIVEWINDOW_HEADER_CVSID "@(#)$Id: OSGPassiveWindow.h,v 1.4 2002/08/29 16:24:44 dirk Exp $"
 
 #endif /* _OSGPASSIVEWINDOW_H_ */
