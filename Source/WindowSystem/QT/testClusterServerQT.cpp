@@ -32,7 +32,6 @@
 #include "OSGBaseFunctions.h"
 #include "OSGNode.h"
 #include <OSGLog.h>
-#include <OSGStreamSockConnection.h>
 #include <OSGClusterServer.h>
 #include <OSGRenderAction.h>
 #include <OSGOSGWriter.h>
