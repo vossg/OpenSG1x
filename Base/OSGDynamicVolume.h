@@ -103,7 +103,7 @@ private:
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	//-----------------------------------------------------------------------
+  	//-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
@@ -169,7 +169,13 @@ public:
 /*------------------------------ feature ----------------------------------*/
 
 	/** */
-	Volume & getInstance (void) const { return *((OSG::Volume*)(_volumeMem)); }
+	const Volume & getInstance (void) const
+		// { return *((OSG::Volume*)(_volumeMem)); }
+		{ return *(reinterpret_cast<const OSG::Volume*>(_volumeMem)); }
+
+	Volume & getInstance (void)
+		// { return *((OSG::Volume*)(_volumeMem)); }
+		{ return *(reinterpret_cast<OSG::Volume*>(_volumeMem)); }
 
 	/** */
 	Type getType (void) const { return _type; }

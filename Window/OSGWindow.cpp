@@ -595,7 +595,7 @@ Window& Window::operator = (const Window &source)
 void Window::dump(      UInt32     uiIndent, 
                   const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump Window NI" << endl;
+	SLOG << "Dump Window NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

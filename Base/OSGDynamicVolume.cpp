@@ -86,7 +86,8 @@ DynamicVolume::DynamicVolume ( Type type)
 	setVolumeType(type);
 }
 
-DynamicVolume::DynamicVolume(const DynamicVolume &obj) :
+DynamicVolume::DynamicVolume(const DynamicVolume &obj) 
+	: Volume(obj),
     _type(obj._type)
 {
 	switch ( _type ) {

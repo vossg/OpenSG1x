@@ -160,6 +160,7 @@ inline OSG_LOG_DLLMAPPING void initLog(void)
 inline OSG_LOG_DLLMAPPING Log &osgLog() 
 {
 	initLog();
+
 	return *osgLogP;
 }
 
@@ -171,4 +172,91 @@ inline OSG_LOG_DLLMAPPING void indentLog(UInt32 indent, ostream &stream)
     }
 }
 
+inline OSG_LOG_DLLMAPPING 
+ostream & osgStartLog ( bool logHeader,
+												LogLevel level, const char *module,
+												const char *file, int line)
+{
+	initLog();
+
+	osgLogP->lock();
+
+	if (osgLogP->checkModule(module)) {
+		if (logHeader)
+	    osgLogP->doHeader(level,module,file,line);
+		return osgLogP->stream(level);
+	}
+	else
+		return osgLogP->nilstream();
+}
+
+inline 
+bool Log::checkLevel(LogLevel level)
+{
+	return (_logLevel >= level) ? true : false;
+}
+
+inline
+ostream & Log::stream(LogLevel level)
+{
+	return *(_streamVec[level]); 
+}
+
+inline
+ostream & Log::nilstream(void)
+{
+	return *_nilstreamP;
+}
+
+inline 
+ostream & Log::doHeader ( LogLevel level, const char *module, 
+								      	  const char *file, int line )
+{
+	LogOStream & sout = *(_streamVec[level]);
+	double timestamp = 0.0;
+
+	if (_headerElem) {
+		if (_headerElem & LOG_BEGIN_NEWLINE_HEADER)
+			sout << endl;	
+		
+		if (_headerElem & LOG_TYPE_HEADER)
+			sout << _levelName[level] << ": ";
+
+		if (_headerElem & LOG_TIMESTAMP_HEADER) 
+			// TODO: get current time
+			sout << " ts: " << timestamp;
+
+		if (module && *module && (_headerElem & LOG_MODULE_HEADER))
+			sout << " mod: " << module;
+
+		if ( file && *file && (_headerElem & LOG_FILE_HEADER)) {
+			sout << " file: " << file;
+			if (_headerElem & LOG_LINE_HEADER)
+				sout << ':' << line;
+		}
+		else
+			if (_headerElem & LOG_LINE_HEADER)
+				sout << " line: " << line;
+
+		if (_headerElem & LOG_END_NEWLINE_HEADER)
+			sout << endl;	
+	}
+
+	return sout;
+}
+
 OSG_END_NAMESPACE
+
+// shout this be inside of the osg name space ?
+inline OSG_LOG_DLLMAPPING 
+ostream &endLog(ostream &strm)
+{
+	osg::initLog();
+
+	osg::osgLogP->unlock();
+	
+	strm << endl;
+	return strm;
+}
+
+

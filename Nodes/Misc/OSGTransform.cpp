@@ -248,7 +248,7 @@ void Transform::adjustVolume( Volume & volume )
 void Transform::dump(      UInt32     uiIndent, 
                      const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump Transform NI" << endl;
+	SLOG << "Dump Transform NI" << endl;
 }
 
     

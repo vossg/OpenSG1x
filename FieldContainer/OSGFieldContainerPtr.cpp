@@ -456,21 +456,21 @@ void FieldContainerPtrBase::dump(      UInt32     uiIndent,
 {
     if(_storeP != NULL)
     {
-        indentLog(uiIndent, PDEBUG);
-        PDEBUG << "FCPtr Dump :" << endl;
+        indentLog(uiIndent, PLOG);
+        PLOG << "FCPtr Dump :" << endl;
 
         uiIndent += 4;
 
-        indentLog(uiIndent, PDEBUG);
-        PDEBUG << "Id       : " << (*(getIdP()))   << endl;
+        indentLog(uiIndent, PLOG);
+        PLOG << "Id       : " << (*(getIdP()))   << endl;
 
-        indentLog(uiIndent, PDEBUG);
-        PDEBUG << "Storage  : " << UInt32(getFirstElemP()) << endl;
+        indentLog(uiIndent, PLOG);
+        PLOG << "Storage  : " << UInt32(getFirstElemP()) << endl;
 
         if(bvFlags & FCDumpFlags::RefCount)
         {
-             indentLog(uiIndent, PDEBUG);
-             PDEBUG << "RefCount : " << *(getRefCountP()) << endl;
+             indentLog(uiIndent, PLOG);
+             PLOG << "RefCount : " << *(getRefCountP()) << endl;
         }
         
 
@@ -479,7 +479,7 @@ void FieldContainerPtrBase::dump(      UInt32     uiIndent,
     }
     else
     {
-        PDEBUG << "FCPtr Dump : (NULL)" << endl;
+        PLOG << "FCPtr Dump : (NULL)" << endl;
     }
 }
 

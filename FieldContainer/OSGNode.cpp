@@ -407,7 +407,7 @@ void Node::replaceChildBy(const NodePtr &childP,
 
 Int32 Node::findChild(const NodePtr &childP) const
 {
-	Int32 index;
+	UInt32 index;
 
 	for(index = 0; index < _children.size(); index++)
     {

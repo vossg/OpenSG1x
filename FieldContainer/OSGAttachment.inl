@@ -466,13 +466,13 @@ template <class AttachmentDescT> inline
 void DynFieldAttachment<AttachmentDescT>::dump(      UInt32     , 
                                                const BitVector &) const
 {
-    SDEBUG << "Dump DynFieldAttachment<> NI" << endl;
+	SLOG << "Dump DynFieldAttachment<> NI" << endl;
 
     _localType.dump();
 
     for(UInt32 i = 0; i < _dynFieldsV.size(); i++)
     {
-        fprintf(stderr, "%d\n", _dynFieldsV[i]);
+      	FLOG(("%d\n", _dynFieldsV[i]));
     }
 }
 

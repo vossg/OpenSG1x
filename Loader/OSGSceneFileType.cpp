@@ -218,7 +218,7 @@ void SceneFileType::print(void)
 {
 	list<String>::iterator sI;
 
-	SDEBUG << getName();
+	osgLog() << getName();
 
 	if (_suffixList.empty())
 		osgLog() << "NONE";

@@ -101,7 +101,7 @@ StateChunkClass::StateChunkClass( String name, UInt32 numslots )
 
 	_classId = _classNames->size();
 	
-	for ( int i = 0; i < numslots; i++ )
+	for ( unsigned i = 0; i < numslots; i++ )
 	{
 		_classNames->push_back( name );
 		_numslots->push_back( numslots );
@@ -244,7 +244,7 @@ void StateChunk::deactivate ( DrawAction * action, UInt32 index )
 void StateChunk::dump(      UInt32     uiIndent, 
                       const BitVector &bvFlags) const
 {  
-    SDEBUG << "Dump StateChunk NI" << endl;
+	SLOG << "Dump StateChunk NI" << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/

@@ -86,7 +86,7 @@ OSG_FC_LAST_FIELD_IDM_DEF(ChunkMaterial, StateChunksField)
 
 
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.6 2001/02/13 15:47:40 dirk Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.7 2001/04/06 16:28:58 jbehr Exp $";
 
 
 FieldDescription ChunkMaterial::_desc[] = 
@@ -225,13 +225,12 @@ void ChunkMaterial::draw( Geometry* geo, DrawAction * action )
 void ChunkMaterial::dump(      UInt32     uiIndent, 
                          const BitVector &bvFlags) const
 {
-    SDEBUG << "ChunkMaterial at " << this << endl;
-    SDEBUG << "Chunks: " << endl;
+    SLOG << "ChunkMaterial at " << this << endl;
+    SLOG << "Chunks: " << endl;
 	
 	for ( MFStateChunkPtr::const_iterator i = _chunks.begin(); 
 			i != _chunks.end(); i++ )
-		SDEBUG << *i << endl;
-	
+		SLOG << *i << endl;	
 }
 
 /*-------------------------- comparison -----------------------------------*/

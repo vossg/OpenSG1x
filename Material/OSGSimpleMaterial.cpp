@@ -108,7 +108,7 @@ OSG_FC_LAST_FIELD_IDM_DEF(SimpleMaterial, TransparencyField)
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.8 2001/02/13 15:47:40 dirk Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.9 2001/04/06 16:28:58 jbehr Exp $";
 
 
 FieldDescription SimpleMaterial::_desc[] = 
@@ -406,18 +406,18 @@ void SimpleMaterial::draw( Geometry* geo, DrawAction * action )
 void SimpleMaterial::dump(      UInt32     uiIndent, 
                           const BitVector &bvFlags) const
 {
-    SDEBUG << "SimpleMaterial at " << this << endl;
-	PDEBUG << "\tambient: " << getAmbient() << endl;
-	PDEBUG << "\tdiffuse: " << getDiffuse()  << endl;
-	PDEBUG << "\tspecular: " << getSpecular()  << endl;
-	PDEBUG << "\tshininess: " << getShininess()  << endl;
-	PDEBUG << "\temission: " << getEmission()  << endl;
-	PDEBUG << "\ttransparency: " << getTransparency()  << endl;
-    PDEBUG << "\tChunks: " << endl;
+    SLOG << "SimpleMaterial at " << this << endl;
+	PLOG << "\tambient: " << getAmbient() << endl;
+	PLOG << "\tdiffuse: " << getDiffuse()  << endl;
+	PLOG << "\tspecular: " << getSpecular()  << endl;
+	PLOG << "\tshininess: " << getShininess()  << endl;
+	PLOG << "\temission: " << getEmission()  << endl;
+	PLOG << "\ttransparency: " << getTransparency()  << endl;
+    PLOG << "\tChunks: " << endl;
 	
 	for ( MFStateChunkPtr::const_iterator i = _chunks.begin(); 
 			i != _chunks.end(); i++ )
-		PDEBUG << "\t" << *i << endl;
+		PLOG << "\t" << *i << endl;
 	
 }
 

@@ -130,8 +130,8 @@ FieldContainerFactory::FieldContainerFactory(void) :
     _bInitialized    (false),
     _pTypeIdMap     (NULL ),
     _pTypeNameMap   (NULL),
-    _pUnitTypesStore(NULL),
     _pGroupMap      (NULL),
+    _pUnitTypesStore(NULL),
     _pFieldContainerStore(NULL),
     _pStoreLock     (NULL),
     _pMapLock       (NULL)
@@ -244,8 +244,8 @@ Bool FieldContainerFactory::initialize(int &argc, char **argv)
 
     addRefP(_pMapLock);
 
-    SDEBUG << "Got store lock " << _pStoreLock << endl;    
-    SDEBUG << "Got map   lock " << _pMapLock   << endl;    
+		FDEBUG( ("Got shore lock %d, Got map %d",
+						int (_pStoreLock), int(_pMapLock)) );
 
     _bInitialized = true;
 

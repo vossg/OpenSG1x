@@ -543,7 +543,7 @@ void LightChunk::deactivate( DrawAction *, UInt32 index )
 void LightChunk::dump(      UInt32     uiIndent, 
                       const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump LightChunk NI" << endl;
+	SLOG << "Dump LightChunk NI" << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/

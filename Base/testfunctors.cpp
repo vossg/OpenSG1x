@@ -779,7 +779,7 @@ void testpointer3(void)
 
 
 
-void main(void)
+int main(void)
 {
 //    testfunctor1();
 //    testfunctor1a();

@@ -205,7 +205,7 @@ void GLUTWindow::swap( void )
 void GLUTWindow::dump(      UInt32     uiIndent, 
                       const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump GLUTWindow NI" << endl;
+	SLOG << "Dump GLUTWindow NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

@@ -88,18 +88,17 @@ OSG_USING_NAMESPACE
 
 OSG_LOG_DLLMAPPING LogP OSG::osgLogP = NULL;
 
-#ifdef OSG_HAS_NILBUF
-
 /*! \brief holds the nil buffer 
  */
-
-
 Log::nilbuf *Log::_nilbufP    = NULL;
-#else
-fstream        *Log::_nilStreamP = NULL;
-#endif
+ostream        *Log::_nilstreamP = NULL;
 
 char Log::cvsid[] = "@(#)$Id: $";
+
+const char *Log::_levelName[] = {
+	"LOG", "FATAL", "WARNING", "NOTICE", "INFO", "DEBUG", 0
+};
+
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -131,15 +130,17 @@ char Log::cvsid[] = "@(#)$Id: $";
  */
 
 Log::Log(LogType logType, LogLevel logLevel) :
-#ifdef OSG_HAS_NILBUF
-	ostream(_nilbufP), 
-#else
-	ostream(_nilStreamP->rdbuf()), 
-#endif
+	ostream( _nilbufP == NULL ? _nilbufP = new Log::nilbuf() : _nilbufP), 
     _logType   (logType), 
     _logLevel  (logLevel), 
-    _fileStream()
+    _fileStream(),
+		_headerElem(LOG_TYPE_HEADER),
+		_moduleHandling(LOG_MODULE_ALL)
 {	
+
+	if(_nilstreamP == NULL)
+		_nilstreamP = new ostream(_nilbufP);
+
 	for(UInt32 i = 0; i < sizeof(_streamVec)/sizeof(LogOStream *); i++)
     {
 #ifdef OSG_HAS_NILBUF
@@ -156,15 +157,17 @@ Log::Log(LogType logType, LogLevel logLevel) :
  */
 
 Log::Log(const char *fileName, LogLevel logLevel) :
-#ifdef OSG_HAS_NILBUF
-	ostream(_nilbufP), 
-#else
-	ostream(_nilStreamP->rdbuf()), 
-#endif
+	ostream( _nilbufP == NULL ? _nilbufP = new Log::nilbuf() : _nilbufP), 
     _logType   (LOG_FILE), 
     _logLevel  (logLevel), 
-    _fileStream()
+    _fileStream(),
+		_headerElem(LOG_TYPE_HEADER),
+		_moduleHandling(LOG_MODULE_ALL)
 {
+
+	if(_nilstreamP == NULL)
+		_nilstreamP = new ostream(_nilbufP);
+
 	for(UInt32 i = 0; i < sizeof(_streamVec)/sizeof(LogOStream *); i++)
     {
 #ifdef OSG_HAS_NILBUF
@@ -187,6 +190,98 @@ Log::~Log(void)
 }
 
 /*------------------------------ access -----------------------------------*/
+
+/*! \brief add method for attribute _headerElem
+ */
+void Log::addHeaderElem(LogHeaderElem elem)
+{
+	_headerElem |= elem;
+}
+
+/*! \brief delete method for attribute _headerElem
+ */
+void Log::delHeaderElem(LogHeaderElem elem)
+{
+	_headerElem &= ~elem;
+}
+
+void Log::addModuleHandling  (LogModuleHandling handling)
+{
+	_moduleHandling |= handling;
+}
+
+void Log::delModuleHandling  (LogModuleHandling handling)
+{
+	_moduleHandling &= ~handling;
+}
+
+void Log::addModuleName(const char *module, bool isStatic)
+{
+	Module m;
+	int len;
+
+	if (module && *module) {
+		_moduleList.push_back(m);
+
+		if (isStatic) {
+			_moduleList.back().name = module;
+			_moduleList.back().isStatic = true;
+		}
+		else {
+			len = strlen(module);
+			_moduleList.back().name = new char[len+1];
+			strcpy(const_cast<char*>(_moduleList.back().name),module);
+			_moduleList.back().isStatic = false;			
+		}
+	}
+}
+
+void Log::delModuleName(const char *module)
+{
+	;
+}
+
+bool Log::hasModule(const char *module)
+{
+	bool retCode = false;
+	list<Module>::iterator mI;
+
+	if (module && *module) {
+		for (mI = _moduleList.begin();retCode || (mI != _moduleList.end()); ++mI) 
+			retCode = (mI->isStatic) ? 
+				(module == mI->name) : (!strcmp(module,mI->name));
+	}
+
+	return retCode;
+}
+
+bool Log::checkModule(const char *module)
+{
+	bool retCode = false;
+	list<Module>::iterator mI;
+
+	if (_moduleHandling != LOG_MODULE_NONE) {
+		if (_moduleHandling == LOG_MODULE_ALL) 
+			retCode = true;
+		else
+			if (module && &module) {
+				if (hasModule(module)) {
+					if (_moduleHandling & LOG_MODULE_KNOWN)
+						retCode = true;
+				}
+				else {
+					if (_moduleHandling & LOG_MODULE_UNKNOWN)
+						retCode = true;
+				}
+			}
+			else
+				if (_moduleHandling & LOG_MODULE_UNDEFINED)
+					retCode = true;
+	}
+
+	return retCode;
+}
+
 
 /*! \brief set method for attribute logType 
  */
@@ -381,13 +476,6 @@ void Log::setLogFile(const Char8 *fileName)
 	}
 }
 
-/*! \brief returns the error stream 
- */
-
-ostream &Log::stream(LogLevel level)
-{
-    return *(_streamVec[level]); 
-}
 
 /*! \brief print for C-interface helper method 
  */
@@ -434,7 +522,7 @@ void Log::connect(void)
     {
         case LOG_STDOUT:
             this->bp = cout.rdbuf();
-            break;
+						break;
         case LOG_STDERR:
             this->bp = cerr.rdbuf();
             break;

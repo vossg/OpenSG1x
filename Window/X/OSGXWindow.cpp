@@ -222,7 +222,7 @@ void XWindow::swap( void )
 void XWindow::dump(      UInt32     uiIndent, 
                    const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump XWindow NI" << endl;
+	SLOG << "Dump XWindow NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

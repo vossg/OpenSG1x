@@ -95,7 +95,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.5 2001/02/13 15:47:40 dirk Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.6 2001/04/06 16:28:58 jbehr Exp $";
 
 // FieldDescription Material::_desc[] = {};
 
@@ -173,7 +173,7 @@ Material::~Material(void)
 void Material::dump(      UInt32     uiIndent, 
                     const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump Material NI" << endl;
+	SLOG << "Dump Material NI" << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/

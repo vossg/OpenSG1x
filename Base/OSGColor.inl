@@ -449,9 +449,9 @@ void Color3<ValueTypeT>::setValue( const char *szString )
 	Vec3f v;
 	v.setValue( szString );
 
-	_rgb[0] = v[0];
-	_rgb[1] = v[1];
-	_rgb[2] = v[2];
+	_rgb[0] = ValueTypeT(v[0]+0.5);
+	_rgb[1] = ValueTypeT(v[1]+0.5);
+	_rgb[2] = ValueTypeT(v[2]+0.5);
 }
 
 template <class ValueTypeT> inline
@@ -468,10 +468,10 @@ void Color4<ValueTypeT>::setValue( const char *szString )
 	Vec4f v;
 	v.setValue( szString );
 
-	_rgba[0] = v[0];
-	_rgba[1] = v[1];
-	_rgba[2] = v[2];
-	_rgba[3] = v[3];
+	_rgba[0] = ValueTypeT(v[0]+0.5);
+	_rgba[1] = ValueTypeT(v[1]+0.5);
+	_rgba[2] = ValueTypeT(v[2]+0.5);
+	_rgba[3] = ValueTypeT(v[3]+0.5);
 }
 
 template <class ValueTypeT> inline

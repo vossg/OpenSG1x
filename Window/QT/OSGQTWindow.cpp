@@ -219,7 +219,7 @@ void QTWindow::init( void )
 void QTWindow::dump(      UInt32     uiIndent, 
                     const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump QTWindow NI" << endl;
+	SLOG << "Dump QTWindow NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

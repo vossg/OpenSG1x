@@ -117,13 +117,13 @@ void ImageFileType::print(void)
 {
 	list<String>::iterator sI;
 
-	SDEBUG << getName() 
+	SLOG << getName() 
 				 << ": Magic: " << _majorMagic << ", " << _minorMagic
 				 << ": Suffix: ";
 
 	if (_suffixList.empty())
     {
-			SDEBUG << "NONE";
+			SLOG << "NONE";
     }
 	else
     {

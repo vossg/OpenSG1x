@@ -327,7 +327,7 @@ void VRMLTransform::changed(BitVector,
 void VRMLTransform::dump(      UInt32     uiIndent, 
                          const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump VRMLTransform NI" << endl;
+	SLOG << "Dump VRMLTransform NI" << endl;
 }
 
     

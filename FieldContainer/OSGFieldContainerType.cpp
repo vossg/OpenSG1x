@@ -271,8 +271,8 @@ Bool FieldContainerType::initialize(void)
 
     _bInitialized = initBaseType    ();
     
-    PDEBUG << "init FieldContainerType " << _szName.str() 
-              << " (" << _bInitialized << ")" << endl;
+    FDEBUG ( ( "init FieldContainerType %d (%d)",
+							 _szName.str(), int(_bInitialized) ));
 
     return _bInitialized;
 }
@@ -665,13 +665,13 @@ Bool FieldContainerType::isAttachment(void) const
 void FieldContainerType::dump(      UInt32     uiIndent, 
                               const BitVector &bvFlags) const
 {
-    SDEBUG << "FieldContainerType: " << getCName() 
-           << ", Id: "       << getId() 
-           << ", parentP: "  << (_pParent ? _pParent->getCName() : "NONE")
-           << ", groupId: "  << _uiGroupId 
-           << ", abstract: " 
-           << ((_pPrototype != NullFC) ? "false" : "true")
-           << endl;
+    SLOG << "FieldContainerType: " << getCName() 
+				 << ", Id: "       << getId() 
+				 << ", parentP: "  << (_pParent ? _pParent->getCName() : "NONE")
+				 << ", groupId: "  << _uiGroupId 
+				 << ", abstract: " 
+				 << ((_pPrototype != NullFC) ? "false" : "true")
+				 << endl;
 }
 
 /*-------------------------- assignment -----------------------------------*/

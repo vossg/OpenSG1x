@@ -211,7 +211,7 @@ void PerspectiveCamera::getProjection( Matrix& result,
 void PerspectiveCamera::dump(      UInt32     uiIndent, 
                              const BitVector &bvFlags) const
 {
-    SDEBUG << "Dump PerspectiveCamera NI" << endl;
+	SLOG << "Dump PerspectiveCamera NI" << endl;
 }
 
 /*-------------------------------------------------------------------------*\

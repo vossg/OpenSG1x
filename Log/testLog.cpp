@@ -12,6 +12,8 @@
 #include <fstream.h>
 #endif
 
+#define OSG_LOG_MODULE "LOG-TEST"
+
 #include "OSGLog.h"
 
 using OSG::osgLogP;
@@ -22,12 +24,11 @@ int main (int argc, char **argv)
 {
 	osgLog().setLogLevel ( OSG::LOG_WARNING );
 
-	SLOG     << "log test" << endl;
-	SFATAL   << "fatal test" << endl;
-	SWARNING << "warning test" << endl;
-	SNOTICE  << "notice test" << endl;
-	SINFO    << "info test" << endl;
-	SDEBUG   << "debug test" << endl;
+	SLOG     << "log test" << endLog;
+	SFATAL   << "fatal test" << endLog;
+	SWARNING << "warning test" << endLog;
+	SNOTICE  << "notice test" << endLog;
+	SINFO    << "info test" << endLog;
 
 	// C-style log test
 
@@ -41,7 +42,7 @@ int main (int argc, char **argv)
 	// Envvar test:
 
 	cerr << endl << "OSG_LOG_LEVEL=3 test" << endl;
-	_putenv("OSG_LOG_LEVEL=3");
+	putenv("OSG_LOG_LEVEL=3");
 	osgLog().setLogLevel ( OSG::LOG_FATAL );
 
 	FLOG(( "C-log test: %d\n", OSG::LOG_LOG ));
@@ -52,7 +53,7 @@ int main (int argc, char **argv)
 	FDEBUG(( "C-debug test: %d\n", OSG::LOG_DEBUG ));
 
 	cerr << endl << "OSG_LOG_LEVEL=info test" << endl;
-	_putenv("OSG_LOG_LEVEL=info");
+	putenv("OSG_LOG_LEVEL=info");
 	osgLog().setLogLevel ( OSG::LOG_WARNING );
 
 	FLOG(( "C-log test: %d\n", OSG::LOG_LOG ));
@@ -63,7 +64,7 @@ int main (int argc, char **argv)
 	FDEBUG(( "C-debug test: %d\n", OSG::LOG_DEBUG ));
 
 	cerr << endl << "OSG_LOG_LEVEL=gargl test" << endl;
-	_putenv("OSG_LOG_LEVEL=gargl");
+	putenv("OSG_LOG_LEVEL=gargl");
 	osgLog().setLogLevel ( OSG::LOG_WARNING );
 
 	FLOG(( "C-log test: %d\n", OSG::LOG_LOG ));

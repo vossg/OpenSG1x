@@ -172,9 +172,7 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
     
     _mTypeNameMap[StringLink(pType->getCName())] = returnValue;
 
-    PDEBUG << "Registered type " << pType->getCName() 
-           << " | "              << returnValue 
-           << endl;
+		FDEBUG (("Registered type %s | %d", pType->getCName(), returnValue));
 
     return returnValue;
 }
