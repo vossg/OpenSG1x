@@ -260,7 +260,6 @@ void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
     glFinish();
 
     connection=getNetwork()->getMainConnection();
-    
     if(!getInterleave())
     {
         // tell client that we are finish
@@ -274,36 +273,66 @@ void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
 /*----------------------------- client methods ----------------------------*/
 
 /*! init client window
- *
+ *  
+ *  If manageClientViewports is set, then all viewports from the
+ *  cluster window are duplcated to the client window. 
  */
 void MultiDisplayWindow::clientInit( void )
 {
-    ViewportPtr cvp;
-    if(getClientWindow() == NullFC ||
-       getPort().size()==0)
+    int              v;
+    bool             changed = false;
+    ViewportPtr      vp,cvp;
+
+    if(getManageClientViewports() == false ||
+       getClientWindow() == NullFC)
         return;
-    cvp=getPort()[0];
 
-    // duplucate viewport for client window
-    ViewportPtr vp;
-    vp = Viewport::create();
-    beginEditCP(vp);
-    vp->setCamera( cvp->getCamera() );
-    vp->setBackground( cvp->getBackground() );
-    vp->setRoot( cvp->getRoot() );
-    vp->setSize( 0,0, 1,1 );
-    beginEditCP(getClientWindow());
-    getClientWindow()->addPort(vp);
-    endEditCP(getClientWindow());
-    endEditCP(vp);
+    // check if something changed
+    if(getPort().size() == getClientWindow()->getPort().size())
+    {
+        for(v = 0 ; v < getPort().size() && !changed ; v++)
+        {
+            vp  = getPort(v);
+            cvp = getClientWindow()->getPort(v);
+            if( vp->getRoot() != cvp->getRoot() ||
+                vp->getLeft() != cvp->getLeft() ||
+                vp->getRight() != cvp->getRight() ||
+                vp->getBottom() != cvp->getBottom() ||
+                vp->getTop() != cvp->getTop() ||
+                vp->getBackground() != cvp->getBackground() ||
+                vp->getForegrounds().size() != cvp->getForegrounds().size() )
+                changed = true;
+        }
+    }
+    else
+    {
+        changed = true;
+    }
+
+    if(changed)
+    {
+        beginEditCP(getClientWindow());
+        // remove all viewports
+        while(getClientWindow()->getPort().size())
+        {
+            vp = getClientWindow()->getPort(0);
+            getClientWindow()->subPort(0);
+            subRefCP(vp);
+        }
+        // duplicate viewports
+        for(v=0 ; v<getPort().size() ;v++)
+        {
+            getClientWindow()->addPort(ViewportPtr::dcast(getPort(v)->shallowCopy()));
+        }
+        endEditCP(getClientWindow());
+    }
 }
-
+    
 /*! render client window
  */
 void MultiDisplayWindow::clientSwap( void )
 {
     Connection *connection=getNetwork()->getMainConnection();
-
     if(!getInterleave())
     {
         // wait for all servers to finish

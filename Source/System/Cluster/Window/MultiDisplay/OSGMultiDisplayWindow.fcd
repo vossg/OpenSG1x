@@ -8,6 +8,8 @@
 	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
 >
 Cluster rendering configuration for multible displays
 	<Field
@@ -27,5 +29,15 @@ Cluster rendering configuration for multible displays
 		access="public"
 	>
 	Number of vertical servers
+	</Field>
+	<Field
+		name="manageClientViewports"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	If true, duplicate all viewports into the client window
 	</Field>
 </FieldContainer>

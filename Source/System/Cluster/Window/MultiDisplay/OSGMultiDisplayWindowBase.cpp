@@ -65,11 +65,17 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  MultiDisplayWindowBase::HServersFieldMask = 
-    (1 << MultiDisplayWindowBase::HServersFieldId);
+    (TypeTraits<BitVector>::One << MultiDisplayWindowBase::HServersFieldId);
 
 const OSG::BitVector  MultiDisplayWindowBase::VServersFieldMask = 
-    (1 << MultiDisplayWindowBase::VServersFieldId);
+    (TypeTraits<BitVector>::One << MultiDisplayWindowBase::VServersFieldId);
 
+const OSG::BitVector  MultiDisplayWindowBase::ManageClientViewportsFieldMask = 
+    (TypeTraits<BitVector>::One << MultiDisplayWindowBase::ManageClientViewportsFieldId);
+
+const OSG::BitVector MultiDisplayWindowBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -79,6 +85,9 @@ const OSG::BitVector  MultiDisplayWindowBase::VServersFieldMask =
 */
 /*! \var UInt32          MultiDisplayWindowBase::_sfVServers
     Number of vertical servers
+*/
+/*! \var bool            MultiDisplayWindowBase::_sfManageClientViewports
+    If true, duplicate all viewports into the client window
 */
 
 //! MultiDisplayWindow description
@@ -94,7 +103,12 @@ FieldDescription *MultiDisplayWindowBase::_desc[] =
                      "vServers", 
                      VServersFieldId, VServersFieldMask,
                      false,
-                     (FieldAccessMethod) &MultiDisplayWindowBase::getSFVServers)
+                     (FieldAccessMethod) &MultiDisplayWindowBase::getSFVServers),
+    new FieldDescription(SFBool::getClassType(), 
+                     "manageClientViewports", 
+                     ManageClientViewportsFieldId, ManageClientViewportsFieldMask,
+                     false,
+                     (FieldAccessMethod) &MultiDisplayWindowBase::getSFManageClientViewports)
 };
 
 
@@ -152,6 +166,7 @@ void MultiDisplayWindowBase::executeSync(      FieldContainer &other,
 MultiDisplayWindowBase::MultiDisplayWindowBase(void) :
     _sfHServers               (), 
     _sfVServers               (), 
+    _sfManageClientViewports  (bool(true)), 
     Inherited() 
 {
 }
@@ -163,6 +178,7 @@ MultiDisplayWindowBase::MultiDisplayWindowBase(void) :
 MultiDisplayWindowBase::MultiDisplayWindowBase(const MultiDisplayWindowBase &source) :
     _sfHServers               (source._sfHServers               ), 
     _sfVServers               (source._sfVServers               ), 
+    _sfManageClientViewports  (source._sfManageClientViewports  ), 
     Inherited                 (source)
 {
 }
@@ -189,6 +205,11 @@ UInt32 MultiDisplayWindowBase::getBinSize(const BitVector &whichField)
         returnValue += _sfVServers.getBinSize();
     }
 
+    if(FieldBits::NoField != (ManageClientViewportsFieldMask & whichField))
+    {
+        returnValue += _sfManageClientViewports.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -206,6 +227,11 @@ void MultiDisplayWindowBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (VServersFieldMask & whichField))
     {
         _sfVServers.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ManageClientViewportsFieldMask & whichField))
+    {
+        _sfManageClientViewports.copyToBin(pMem);
     }
 
 
@@ -226,6 +252,11 @@ void MultiDisplayWindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfVServers.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ManageClientViewportsFieldMask & whichField))
+    {
+        _sfManageClientViewports.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -240,6 +271,9 @@ void MultiDisplayWindowBase::executeSyncImpl(      MultiDisplayWindowBase *pOthe
 
     if(FieldBits::NoField != (VServersFieldMask & whichField))
         _sfVServers.syncWith(pOther->_sfVServers);
+
+    if(FieldBits::NoField != (ManageClientViewportsFieldMask & whichField))
+        _sfManageClientViewports.syncWith(pOther->_sfManageClientViewports);
 
 
 }

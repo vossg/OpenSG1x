@@ -110,6 +110,13 @@ SFUInt32 *MultiDisplayWindowBase::getSFVServers(void)
     return &_sfVServers;
 }
 
+//! Get the MultiDisplayWindow::_sfManageClientViewports field.
+inline
+SFBool *MultiDisplayWindowBase::getSFManageClientViewports(void)
+{
+    return &_sfManageClientViewports;
+}
+
 
 //! Get the value of the MultiDisplayWindow::_sfHServers field.
 inline
@@ -151,6 +158,27 @@ inline
 void MultiDisplayWindowBase::setVServers(const UInt32 &value)
 {
     _sfVServers.setValue(value);
+}
+
+//! Get the value of the MultiDisplayWindow::_sfManageClientViewports field.
+inline
+bool &MultiDisplayWindowBase::getManageClientViewports(void)
+{
+    return _sfManageClientViewports.getValue();
+}
+
+//! Get the value of the MultiDisplayWindow::_sfManageClientViewports field.
+inline
+const bool &MultiDisplayWindowBase::getManageClientViewports(void) const
+{
+    return _sfManageClientViewports.getValue();
+}
+
+//! Set the value of the MultiDisplayWindow::_sfManageClientViewports field.
+inline
+void MultiDisplayWindowBase::setManageClientViewports(const bool &value)
+{
+    _sfManageClientViewports.setValue(value);
 }
 
 
