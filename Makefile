@@ -105,9 +105,9 @@ doc:
 		find $$i -name '*.h' -print  >> Common/dummyClasses.list; 	\
 	done
 
-	@perl Common/makeDummyClasses 			  					\
-		`cat Common/dummyClasses.list` 		  					\
-                 > Common/dummyClasses.doxygen
+	@rm -f Common/dummyClasses.doxygen
+	@cat Common/dummyClasses.list | xargs perl Common/makeDummyClasses  \
+				>> Common/dummyClasses.doxygen
 
 	@rm -f Common/dummyClasses.list       						
 
