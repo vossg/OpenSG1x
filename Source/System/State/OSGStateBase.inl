@@ -107,7 +107,7 @@ MFStateChunkPtr *StateBase::getMFChunks(void)
 
 //! Get the value of the  index element the State::_mfChunks field.
 inline
-StateChunkPtr &State::getChunks(const UInt32 index)
+StateChunkPtr &StateBase::getChunks(const UInt32 index)
 {
     return _mfChunks[index];
 }

@@ -73,7 +73,7 @@ bool State::chunkPresent(UInt32 id)
 inline
 bool State::chunkPresent(StateChunkPtr chunk)
 {
-    StateChunkClass * cls = chunk->getClass();
+    const StateChunkClass * cls = chunk->getClass();
     
     for(UInt16 i = 0; i < cls->getNumSlots(); ++i)
     {
