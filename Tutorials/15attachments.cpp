@@ -123,6 +123,11 @@ FieldDescription *MyAttachmentDesc::_desc[] =
 
 };
 
+#ifdef WIN32
+OSG_FC_TYPE_FUNCTIONS_INL_TMPL_DEF(MyAttachmentDesc,
+                                   SimpleAttachment);
+#endif
+
 // Instantiate some necessary helper functions/classes.
 OSG_FC_DLLEXPORT_DEF(SimpleAttachment, MyAttachmentDesc, );
 
@@ -332,7 +337,7 @@ int main(int argc, char **argv)
         VoidPAttachmentPtr m = VoidPAttachmentPtr::dcast(a);
         
         SLOG << "Node voidp value: " 
-             << reinterpret_cast<UInt32>(m->getField().getValue())
+             << *(reinterpret_cast<UInt32 *>(&(m->getField().getValue())))
              << endLog;
     }
     else

@@ -87,6 +87,10 @@ freetype1_libs=@ac_gdz_freetype1_lib_e15@
 lib_freetype1_path=@ac_gdz_freetype1_libdir_e15@
 inc_freetype1_path=@ac_gdz_freetype1_incdir_e15@
 
+stlport_libs=@ac_gdz_stlport_lib_e15@
+lib_stlport_path=@ac_gdz_stlport_libdir_e15@
+inc_stlport_path=@ac_gdz_stlport_incdir_e15@
+
 image_libs=
 image_libs_path=
 image_incs_path=
@@ -108,6 +112,17 @@ if test "$system_win" = "yes"; then
 else
     sys_libs=$unix_sys_libs
 fi;
+
+if test "$stlport_libs"X != X; then
+    stl_libs=$stlport_libs
+
+    if test "yes$lib_stlport_path" != "yes"; then
+        lib_stl_path="$linkdir_pre$lib_stlport_path$linkdir_suf"
+    fi
+    if test "yes$inc_stlport_path" != "yes"; then
+        inc_stl_path="$incdir_pre$inc_stlport_path$incdir_suf"
+    fi
+fi
 
 if test "$have_tif" = "yes"; then
     image_libs="$image_libs $tif_libs"
@@ -445,7 +460,7 @@ if test "$echo_lflags" = "yes"; then
 
     opensg_lib_path=${linkdir_pre}${exec_prefix}/lib/${lib_suf}${linkdir_suf}
 
-    echo $link_flags $img_libs_path $system_libs_path $opensg_lib_path $lib_add_path
+    echo $link_flags $img_libs_path $system_libs_path $lib_stl_path $opensg_lib_path $lib_add_path
 
 fi      
 
@@ -453,7 +468,7 @@ if test "$echo_llibs" = "yes"; then
 
     opensg_lib_path=${linkdir_pre}${exec_prefix}/lib/${lib_suf}${linkdir_suf}
 
-    echo $opensg_libs $img_libs $system_libs
+    echo $opensg_libs $img_libs $system_libs $stl_libs
 
 fi      
 
@@ -461,7 +476,7 @@ if test "$echo_libs" = "yes"; then
 
     opensg_lib_path=${linkdir_pre}${exec_prefix}/lib/${lib_suf}${linkdir_suf}
 
-    echo $link_flags $img_libs_path $system_libs_path $opensg_lib_path $lib_add_path $opensg_libs $img_libs $system_libs
+    echo $link_flags $img_libs_path $system_libs_path $lib_stl_path $opensg_lib_path $lib_add_path $opensg_libs $img_libs $system_libs $stl_libs
 
 fi      
 
@@ -469,7 +484,7 @@ if test "$echo_cflags" = "yes"; then
 
     opensg_inc_path=${incdir_pre}${prefix}/include${incdir_suf}
 
-    echo $sys_cflags $sys_defs $img_defs $img_incs_path $system_incs_path $opensg_inc_path $inc_add_path
+    echo $sys_cflags $sys_defs $stl_inc_path $img_defs $img_incs_path $system_incs_path $opensg_inc_path $inc_add_path
 
 fi
 

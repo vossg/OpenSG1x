@@ -33,6 +33,15 @@ ifneq ($(OSGINSTALLPREFIX),notset)
     OSGCONFIG := $(OSGINSTALLPREFIX)/bin/osg-config
 endif
 
+ifneq ($(OSGROOT),)
+	OSGCONF := $(wildcard $(OSGROOT)/bin/osg-config)
+
+    ifneq ($(OSGCONF),)
+		OSGCONFIG := $(OSGCONF)
+	endif
+
+endif
+
 # if configure info wasn't found, maybe a Builds/* install?
 ifeq ($(OSGCONFIG),notset)
     INSTALLROOT := $(wildcard ../Builds/$(shell ../CommonConf/config.guess)-*)

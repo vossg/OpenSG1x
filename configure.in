@@ -67,6 +67,8 @@ ac_gdz_test_debug_libs=
 
 ac_gdz_wrote_stl="no"
 
+ac_gdz_stl_suffix=
+
 AC_CONFIG_AUX_DIR($ac_gdz_commonconf_dir) 
 
 dnl ############# Compiler Settings #####################
@@ -990,6 +992,8 @@ ac_gdz_compiler_base=$ac_gdz_compiler
 
 AC_GDZ_SET_COMPILER_DEFAULTS()
 
+ac_gdz_compiler_base_def=${ac_gdz_compiler}${ac_gdz_stl_suffix}
+
 AC_GDZ_EXEEXT()
 AC_GDZ_OBJEXT()
 AC_GDZ_LIBEXT()
@@ -1011,7 +1015,9 @@ if test $build_os = cygwin; then
 					ac_gdz_compiler_exe_lnk='"$(CC_PATH)/xilink" -lib -NODEFAULTLIB'
 					ac_gdz_compiler_exe_exe='"$(CC_PATH)/'$ac_gdz_linker_exe'"'
 
-					ac_gdz_base_system_libs='user32.lib kernel32.lib MSVCPRT$(DEBUG_CHAR).lib MSVCRT$(DEBUG_CHAR).lib libmmd$(DEBUG_CHAR).lib'
+#					ac_gdz_base_system_libs='user32.lib kernel32.lib MSVCPRT$(DEBUG_CHAR).lib MSVCRT$(DEBUG_CHAR).lib libmmd$(DEBUG_CHAR).lib'
+					ac_gdz_base_system_libs='user32.lib kernel32.lib MSVCPRT$(DEBUG_CHAR).lib MSVCRT$(DEBUG_CHAR).lib libmmd.lib'
+
 					ac_gdz_base_system_libs="$ac_gdz_base_system_libs winmm.lib wsock32.lib"
 			    ;;
 			    cl*)
@@ -1277,6 +1283,7 @@ AC_SUBST(ac_gdz_obj_suffix)
 AC_SUBST(ac_gdz_exe_suffix)
 AC_SUBST(ac_gdz_os_base)
 AC_SUBST(ac_gdz_compiler_base)
+AC_SUBST(ac_gdz_compiler_base_def)
 
 AC_SUBST(ac_gdz_compiler_path)
 AC_SUBST(ac_gdz_compiler_exe)

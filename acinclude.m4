@@ -323,9 +323,21 @@ AC_DEFUN(AC_GDZ_GUESS_COMPILER_DIR_AND_EXE,
             ;;
             cl.net*)
             AC_GDZ_SETUP_MSVCNET()
+
+            if test "$enable_stlport" = yes; then
+                ac_gdz_stl_suffix=.stlport
+            else
+                ac_gdz_stl_suffix=.ms_stl
+            fi
+
             ;;
             cl*)
             AC_GDZ_SETUP_MSVC()
+            if test "$enable_stlport" = yes; then
+                ac_gdz_stl_suffix=.stlport
+            else
+                ac_gdz_stl_suffix=.ms_stl
+            fi
             ;;
             bcc*)
             AC_GDZ_SETUP_BORLAND()
@@ -1808,6 +1820,62 @@ dnl e15
         ac_gdz_have_freetype1_e15=no
     fi
 
+    ac_gdz_stlport_lib_e15=
+    ac_gdz_stlport_incdir_e15=
+    ac_gdz_stlport_libdir_e15=
+
+    if test "$enable_stlport" = yes; then
+
+        ac_gdz_wrote_stl=yes
+
+        case $build_os in
+            cygwin*)
+
+                case "$ac_gdz_compiler" in
+                    cl.net*)
+                    ac_gdz_stlport_lib_e15='stlport_vc7.lib'
+                    ;;
+                    icl*)
+                    echo "ERROR stlport support only on windows vs7 right now"
+                    ;;
+                    cl*)
+                    echo "ERROR stlport support only on windows vs7 right now"
+                    ;;
+                    bcc*)
+                    echo "ERROR stlport support only on windows vs7 right now"
+                    ;;
+                    esac
+            ;;
+            *)
+                echo "ERROR stlport support only on windows right now"
+                exit;
+            ;;
+        esac
+
+        if test -n "$ac_gdz_stlport_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_stlport_incdir_e15='"'`cygpath -w $ac_gdz_stlport_incdir`'"'
+                ;;
+                *)
+                    ac_gdz_stlport_incdir_e15=$ac_gdz_stlport_incdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_stlport_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_stlport_libdir_e15='"'`cygpath -w $ac_gdz_stlport_libdir`'"'
+                ;;
+                *)
+                    ac_gdz_stlport_libdir_e15=$ac_gdz_stlport_libdir
+                ;;
+            esac
+        fi
+
+    fi
+
 
     ac_gdz_gif_lib_e15=
     ac_gdz_gif_incdir_e15=
@@ -1888,6 +1956,10 @@ dnl e15
     AC_SUBST(ac_gdz_freetype1_libdir_e15)
     AC_SUBST(ac_gdz_freetype1_lib_e15)
     AC_SUBST(ac_gdz_have_freetype1_e15)
+
+    AC_SUBST(ac_gdz_stlport_lib_e15)
+    AC_SUBST(ac_gdz_stlport_incdir_e15)
+    AC_SUBST(ac_gdz_stlport_libdir_e15)
 
     AC_SUBST(ac_gdz_system_win_e15)
     AC_SUBST(ac_gdz_system_unix_e15)

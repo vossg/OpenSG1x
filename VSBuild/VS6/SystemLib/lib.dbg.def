@@ -1,4 +1,4 @@
-LIBRARY   OSGSystem
+LIBRARY   OSGSystemD
 DESCRIPTION "System lib"
 EXPORTS
 

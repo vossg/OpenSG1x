@@ -559,6 +559,8 @@ ifneq ($(LIB_DEF_SRC),)
 
 ifneq ($(LIB_HEADER_SRC),)
 
+$(warning $(LIB_HEADER_SRC) $(LIB_DEF_SRC))
+
 lib.$(DBG).def: $(LIB_DEF_SRC) $(LIB_HEADER_SRC)
 	cp  $(LIB_HEADER_SRC) ./lib.$(DBG).def
 	cat $(LIB_DEF_SRC) >> ./lib.$(DBG).def
@@ -736,7 +738,8 @@ dsp:
 			perl -pi -e 's/\n/\r\n/;' 					\
 		> $(PACKAGE_NAME)Lib.dsp
 	@$(OSGPOOL)/$(OSGCOMMON)/createDSPSourcePart.pl $(DSP_PACKS) $(DSP_DEFS) >> $(PACKAGE_NAME)Lib.dsp
-	@rm -f $(DSP_PACKS)
+#	@rm -f $(DSP_PACKS)
+	@unix2dos $(PACKAGE_NAME)Lib.dsp
 	@mv $(PACKAGE_NAME)Lib.dsp $(OSGPOOL)/VSBuild/VS6/$(PACKAGE_NAME)Lib
 ifneq ($(DSP_DEFS),)
 	@cp lib.$(DBG).def $(OSGPOOL)/VSBuild/VS6/$(PACKAGE_NAME)Lib
@@ -783,6 +786,7 @@ dsp7:
 		> $(PACKAGE_NAME)Lib.dsp
 	@$(OSGPOOL)/$(OSGCOMMON)/createDSPSourcePart.pl $(DSP_PACKS) $(DSP_DEFS) >> $(PACKAGE_NAME)Lib.dsp
 	@rm -f $(DSP_PACKS)
+	@unix2dos $(PACKAGE_NAME)Lib.dsp
 	@mv $(PACKAGE_NAME)Lib.dsp $(OSGPOOL)/VSBuild/VS7/$(PACKAGE_NAME)Lib
 ifneq ($(DSP_DEFS),)
 	@cp lib.$(DBG).def $(OSGPOOL)/VSBuild/VS7/$(PACKAGE_NAME)Lib

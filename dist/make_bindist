@@ -18,6 +18,20 @@ echo "Making binary dist in" $OSGPOOL
 
 build_make=gmake
 
+if ! test -z $OSG_DIST_FORCE_FULL_REBUILD
+then
+    unset OSG_DIST_NO_DISTASSEMBLY
+    unset OSG_DIST_NO_EXAMPLEBUILD
+    unset OSG_DIST_NO_REBUILD
+    unset OSG_DIST_NO_RECONFIGURE
+    unset OSG_DIST_NO_REINSTALL
+    unset OSG_DIST_NO_TUTORIALBUILD
+
+    OSG_DIST_REMOVE_BUILDDIR=1
+
+    echo "Full rebuild forced\n";
+fi
+
 # does the OSGPOOL exist? If not, check it out.
 
 if test ! -d $OSGPOOL
@@ -166,8 +180,11 @@ echo "Dist" $distname
 
 # configure it
 
-##rm -rf Builds/$system-$compiler
-
+if ! test -z $OSG_DIST_REMOVE_BUILDDIR
+then
+    echo "OSG_DIST_REMOVE_BUILDDIR set, remove build dir " Builds/$system-$compiler$suffix
+    rm -rf Builds/$system-$compiler$suffix
+fi
 
 if test x$OSG_DIST_NO_RECONFIGURE = x
 then
@@ -176,12 +193,13 @@ then
        $freetype_args $add_inc_dirs $add_lib_dirs $platform_args $config_args \
        $compiler_args
 else
-    echo "OSG_DIST_NO_RECONFIGURE  set, skipping configure"
+    echo "OSG_DIST_NO_RECONFIGURE   set, skipping configure"
 fi
 
 # Build the libs
 
-cd Builds/$system-$compiler
+cd Builds/$system-$compiler$suffix
+
 export OSGSUBPARJOBS=$par_jobs
 
 if test x$OSG_DIST_NO_REBUILD = x
@@ -189,29 +207,36 @@ then
     $build_make opt 
     $build_make dbg 
 else
-    echo "OSG_DIST_NO_REBUILD      set, skipping build"
+    echo "OSG_DIST_NO_REBUILD       set, skipping build"
 fi
 
 if test x$OSG_DIST_NO_REINSTALL = x
 then
     $build_make install
 else
-    echo "OSG_DIST_NO_REINSTALL    set, skipping install"
+    echo "OSG_DIST_NO_REINSTALL     set, skipping install"
 fi
 
-if test x$OSG_DIST_NO_EXAMPLEBUILD = x
-then
+case $system in
+    # Windows is very different from the Unices. No, really. :)
+    *-pc-cygwin )           
+    ;;
+    *)
+        if test x$OSG_DIST_NO_EXAMPLEBUILD = x
+        then
 
-    # make the sceneviewer
+            # make the sceneviewer
 
-    cd ../../Examples/SceneViewer
+            cd ../../Examples/SceneViewer
 
-    $build_make QTDIR=$qt_dir OSGROOT=../../Builds/$system-$compiler
+            $build_make QTDIR=$qt_dir OSGROOT=../../Builds/$system-$compiler$suffix
 
-    cd $olddir
-else
-    echo "OSG_DIST_NO_EXAMPLEBUILD set, skipping example build"
-fi
+            cd $olddir
+        else
+            echo "OSG_DIST_NO_EXAMPLEBUILD  set, skipping example build"
+        fi
+    ;;
+esac
 
 # create the distribution(s)
 
@@ -224,9 +249,9 @@ case $system in
     if test x$OSG_DIST_NO_DISTASSEMBLY = x
     then
     
-        rm -rf OpenSG-$OSGVERSION-$distname-$compiler
-        mkdir OpenSG-$OSGVERSION-$distname-$compiler
-        cd OpenSG-$OSGVERSION-$distname-$compiler
+        rm -rf OpenSG-$OSGVERSION-$distname-$compiler$suffix
+        mkdir OpenSG-$OSGVERSION-$distname-$compiler$suffix
+        cd OpenSG-$OSGVERSION-$distname-$compiler$suffix
 
         # support libs
     
@@ -251,21 +276,19 @@ case $system in
         cp    $OSGPOOL/dist/win/README.bindist README.txt
 
         # copy the QT lib, as Qt 3.0 is not everywhere yet
+
         if test x$qt_lib != x
         then
             cp ${qt_dir}/lib/${qt_lib} lib
         fi
         
-        # copy the SceneViewer
-        cp $OSGPOOL/Examples/SceneViewer/osgSceneViewer.exe .
-   
         # copy OpenSG stuff
-        cp -r $OSGPOOL/Builds/$system-$compiler/include/OpenSG ./include
-        cp -r $OSGPOOL/Builds/$system-$compiler/lib/opt/* lib
-        cp -r $OSGPOOL/Builds/$system-$compiler/lib/dbg/* lib
+        cp -r $OSGPOOL/Builds/$system-$compiler$suffix/include/OpenSG ./include
+        cp -r $OSGPOOL/Builds/$system-$compiler$suffix/lib/opt/* lib
+        cp -r $OSGPOOL/Builds/$system-$compiler$suffix/lib/dbg/* lib
     
 #  doesn't work. Libname is written in lib :(
-#    for i in $OSGPOOL/Builds/$system-$compiler/lib/dbg/*.dll ;
+#    for i in $OSGPOOL/Builds/$system-$compiler$suffix/lib/dbg/*.dll ;
 #    do
 #        l=`basename $i .dll`
 #        d=`dirname $i`
@@ -273,23 +296,59 @@ case $system in
 #        cp $d/$l.lib lib/${l}-dbg.lib 
 #    done
     
-        # do the tutorials
-        cp -r $OSGPOOL/Tutorials .
     else
-        echo "OSG_DIST_NO_DISTASSEMBLY set, skipping assembly"
+        echo "OSG_DIST_NO_DISTASSEMBLY  set, skipping assembly"
 
-        cd OpenSG-$OSGVERSION-$distname-$compiler
+        cd OpenSG-$OSGVERSION-$distname-$compiler$suffix
     fi
 
-    cd Tutorials
-    $build_make OSGPOOL=$OSGPOOL -f Makefile
+    if test x$OSG_DIST_NO_EXAMPLEBUILD = x
+    then
 
-    exit
+        # make the sceneviewer
 
-    $build_make -f Makefile.win dsw
-    
+        mkdir Examples
+
+        cp -r $OSGPOOL/Examples/SceneViewer Examples
+
+        cd Examples/SceneViewer
+
+#LIBTYPE=opt
+        $build_make  QTDIR=$qt_dir OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix
+
+        cd ../..
+ 
+        # copy the SceneViewer
+        cp Examples/SceneViewer/osgSceneViewer.exe .
+ 
+        rm -rf Examples
+
+    else
+        echo "OSG_DIST_NO_EXAMPLEBUILD  set, skipping example build"
+
+        # copy the SceneViewer
+        cp Examples/SceneViewer/osgSceneViewer.exe .
+    fi
+ 
+    if test x$OSG_DIST_NO_TUTORIALBUILD = x
+    then
+        # do the tutorials
+       
+        cp -r $OSGPOOL/Tutorials .
+
+        cd Tutorials
+
+#LIBTYPE=opt
+        $build_make OSGPOOL=$OSGPOOL OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix -f Makefile
+    else
+        echo "OSG_DIST_NO_TUTORIALBUILD set, skipping tutorial build"
+    fi
+
+#    $build_make -f Makefile.win dsw
+
     # cleanup the garbage
-    rm -rf CVS Makefile* common.* template.* Tutorials.dsp.raw README BUILD vc60.idb
+    rm -rf CVS Makefile* common.* template.* Tutorials.dsp.raw README BUILD \
+           vc60.idb vc70.idb *.obj *.pdb *.ilk
     
     cp $OSGPOOL/dist/win/BUILD.tutorials BUILD.txt
     cp $OSGPOOL/dist/win/README.tutorials README.txt

@@ -6,7 +6,7 @@ if($#ARGV < 0)
     exit;
 }
 
-$rel_path = "../../../Source";
+$rel_path = "../../..";
 
 @out_packages = ();
 @out_h        = ();

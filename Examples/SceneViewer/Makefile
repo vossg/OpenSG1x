@@ -96,7 +96,11 @@ MOC        :=  $(shell $(OSG_CONFIG) --moc)
 UIC        :=  $(shell $(OSG_CONFIG) --uic)
 CXX        := "$(shell $(OSG_CONFIG) --compiler --$(LIBTYPE) )"
 CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base System QT )
+ifeq ($(findstring WIN,$(OS)),WIN)
+LD         := "$(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )"
+else
 LD         := $(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )
+endif
 LDFLAGS    :=
 LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System QT )
 CMPLR_ID   :=  $(shell $(OSG_CONFIG) --compiler-id)
@@ -127,7 +131,6 @@ HEADERS := $(shell cat declist.mk 2> /dev/null)
 SOURCES := $(shell cat implist.mk 2> /dev/null)
 BINOBJS := $(shell cat objlist.$(SYSDEP).mk 2> /dev/null ) 
 LIBOBJS := $(shell sed -e 2> /dev/null < objlist.$(SYSDEP).mk 's/main\.[a-zA-Z_0-9]*\.o//g' )
-
 
 #ifeq ($(strip $(HEADERS)),)
 #$(warning HEADERS empty, be sure your lists are up to date use $(MAKE) lists to rebuild them) 
@@ -242,7 +245,9 @@ objlist: implist.mk
 	@cat implist.mk >> objlist.mk
 	@cat < objlist.mk | \
 	tr '\n' ' ' | tr '\r' ' ' > q
+ifneq ($(findstring WIN,$(OS)),WIN)
 	@echo '\n' >> q
+endif
 	@cat q | sed -e 's/\.cc/\.$(SYSDEP)\.o/g' | \
 	sed -e 's/\.cxx/\.$(SYSDEP)\.o/g' | \
 	sed -e 's/\.cpp/\.$(SYSDEP)\.o/g' | \

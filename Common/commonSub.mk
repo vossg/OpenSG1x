@@ -61,7 +61,7 @@ getPrTestQTSourceFiles = $(foreach dir,$(1),$(call getTestQTSourceFiles,$(dir)))
 getLibDefHdrFiles      = $(wildcard $(1)/lib.$(DBG).def.hdr) 
 getProjLibDefHeader    = $(foreach dir,$(1),$(call getLibDefHdrFiles,$(dir)))
 
-getLibDefFiles         = $(wildcard $(1)/lib.def.$(OS_CMPLR).sym) 
+getLibDefFiles         = $(wildcard $(1)/lib.def.$(OS_CMPLR_DEF).sym) 
 getProjLibDefFiles     = $(foreach dir,$(1),$(call getLibDefFiles,$(dir)))
 
 getMacHackFiles        = $(shell fgrep -l instantiate $(1)/OSG*.cpp)
