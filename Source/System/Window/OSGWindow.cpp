@@ -376,7 +376,12 @@ void OSG::Window::addPort(const ViewportPtr &portP)
         _mfPort.push_back(portP);
 // CHECK CHECK
 //        _mfPort.back()->setParent(FieldContainer::getPtr<WindowPtr>(*this));
-        _mfPort.back()->setParent(WindowPtr(*this));
+
+        beginEditCP(portP, Viewport::ParentFieldMask);
+        {
+            _mfPort.back()->setParent(WindowPtr(*this));
+        }
+        endEditCP  (portP, Viewport::ParentFieldMask);
     }
 }
 
@@ -391,8 +396,14 @@ void OSG::Window::insertPort(UInt32 portIndex, const ViewportPtr &portP)
 // CHECK CHECK      
 //        (*(_mfPort.insert(portIt, portP)))->setParent(
 //            FieldContainer::getPtr<WindowPtr>(*this));
-        (*(_mfPort.insert(portIt, portP)))->setParent(
-            WindowPtr(*this));
+
+        beginEditCP(portP, Viewport::ParentFieldMask);
+        {
+            (*(_mfPort.insert(portIt, portP)))->setParent(
+                WindowPtr(*this));
+        }
+        endEditCP  (portP, Viewport::ParentFieldMask);
+
     }
 }
 
