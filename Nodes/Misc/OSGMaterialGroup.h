@@ -153,8 +153,6 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroup : public MaterialGroupBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef MaterialGroupBase Inherited;
-
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------

@@ -248,6 +248,8 @@ class OSG_VRMLWRITER_DLLMAPPING VRMLWriteAction : public Action
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
+	friend class ActionInitializer;
+
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------

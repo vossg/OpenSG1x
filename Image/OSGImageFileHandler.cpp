@@ -163,7 +163,7 @@ ImageFileType * ImageFileHandler::getFileType ( const char *fileName,
 			}
 			if (i >= 0) {
 				suffix.set(&(fileName[i+1]));
-				suffix.tolower();
+				suffix.toLower();
 				sI = _suffixTypeMap.find(suffix);
 				type = (sI == _suffixTypeMap.end()) ? 0 : sI->second;
 			}
@@ -363,7 +363,7 @@ bool ImageFileHandler::addImageFileType (ImageFileType &fileType )
 		for ( sI = fileType.suffixList().begin();
 					sI != fileType.suffixList().end(); ++sI) {
 			suffix.set(sI->str());
-			suffix.tolower();
+			suffix.toLower();
 			smI = _the->_suffixTypeMap.find(suffix);
 			if (smI != _the->_suffixTypeMap.end()) {
 				SWARNING << "Can't add an image file type with suffix "
