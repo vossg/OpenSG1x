@@ -97,6 +97,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainer : public FieldContainer
                                        UInt16         binding        = 0);
 
 
+    inline
     AttachmentPtr findAttachment(const FieldContainerType &type,
                                        UInt16              binding   = 0);
     /*! \}                                                                 */
