@@ -103,4 +103,12 @@ The base class for all windows.
 		access="public"
 	>
 	</Field>
+	<Field
+		name="autostart"
+		type="std::string"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	</Field>
 </FieldContainer>

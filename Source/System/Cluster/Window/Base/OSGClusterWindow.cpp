@@ -43,6 +43,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <sstream>
+
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
 #include "OSGClusterWindow.h"
@@ -99,7 +101,7 @@ void ClusterWindow::init( void )
 {
     GroupConnection    *connection;
     RemoteAspect       *remoteAspect;
-    int                 i;
+    int                 c,i,id;
     MFString::iterator  s;
     Connection::Channel channel;
 
@@ -128,6 +130,89 @@ void ClusterWindow::init( void )
     getNetwork()->setAspect(remoteAspect);
     if(_statistics)
         remoteAspect->setStatistics(_statistics);
+
+    // autostart servers
+    std::string server;
+    std::string autostart;
+    std::string env;
+
+    if(getAutostart().size())
+    {
+        std::vector<FILE*>           pipes;
+        std::vector<FILE*>::iterator pipesI;
+
+        for(id=0 ; id<getServers().size() ; ++id)
+        {
+            std::ostringstream command;
+
+            server    = getServers()[id];
+            autostart = getAutostart()[id % getAutostart().size()];
+
+            for(c = 0 ; c < autostart.length() ; ++c)
+            {
+                if(autostart[c] == '%' && c+1 < autostart.length())  
+                    switch(autostart[++c])
+                    {
+                        case 's': 
+                            command << server;
+                            break;
+                        case 'i':
+                            command << id;
+                            break;
+                        case '{':
+                            env = "" ;
+                            while(+c < autostart.length() &&
+                                  autostart[c] != '}')
+                                env += autostart[c];
+                            if(getenv(env.c_str()))
+                                command << getenv(env.c_str());
+                            break;
+                        case '%':
+                            command << '%';
+                            break;
+                        default:
+                            command << '%' << autostart[c];
+                    }
+                else
+                    command << autostart[c];
+            } 
+            SINFO << command.str() << std::endl;
+#ifdef WIN32
+            FILE *pipe = _popen(command.str().c_str(),"r");
+#else
+            FILE *pipe = popen(command.str().c_str(),"r");
+#endif
+            if(!pipe)
+                SFATAL << "Error starting: " << command << std::endl;
+            pipes.push_back(pipe);
+        }
+        for(id=0 ; id<getServers().size() ; ++id)
+        {
+            if(pipes[id]) 
+            {
+                SLOG << "Waiting for " << getServers()[id] << " to start." << std::endl;
+                char result;
+                std::string line;
+                while((result=fgetc(pipes[id])) != EOF)
+                {
+                    line += result;
+                    if(result == '\n')
+                    {
+                        SLOG << line;
+                        line = "";
+                    }
+                }
+                if(!line.empty())
+                    SLOG << line << std::endl;
+#ifdef WIN32
+                _pclose(pipes[id]);
+#else
+                pclose(pipes[id]);
+#endif
+                SLOG << getServers()[id] << " started." << std::endl;
+            }
+        }
+    }
 
     // connect to all servers
     for(s =getServers().begin();

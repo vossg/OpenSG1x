@@ -166,6 +166,13 @@ SFImageComposerPtr *ClusterWindowBase::getSFComposer(void)
     return &_sfComposer;
 }
 
+//! Get the ClusterWindow::_mfAutostart field.
+inline
+MFString *ClusterWindowBase::getMFAutostart(void)
+{
+    return &_mfAutostart;
+}
+
 
 //! Get the value of the ClusterWindow::_sfConnectionType field.
 inline
@@ -376,6 +383,27 @@ inline
 const MFString &ClusterWindowBase::getServers(void) const
 {
     return _mfServers;
+}
+
+//! Get the value of the \a index element the ClusterWindow::_mfAutostart field.
+inline
+std::string &ClusterWindowBase::getAutostart(const UInt32 index)
+{
+    return _mfAutostart[index];
+}
+
+//! Get the ClusterWindow::_mfAutostart field.
+inline
+MFString &ClusterWindowBase::getAutostart(void)
+{
+    return _mfAutostart;
+}
+
+//! Get the ClusterWindow::_mfAutostart field.
+inline
+const MFString &ClusterWindowBase::getAutostart(void) const
+{
+    return _mfAutostart;
 }
 
 OSG_END_NAMESPACE

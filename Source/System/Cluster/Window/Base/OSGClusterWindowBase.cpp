@@ -94,6 +94,9 @@ const OSG::BitVector  ClusterWindowBase::FrameCountFieldMask =
 const OSG::BitVector  ClusterWindowBase::ComposerFieldMask = 
     (TypeTraits<BitVector>::One << ClusterWindowBase::ComposerFieldId);
 
+const OSG::BitVector  ClusterWindowBase::AutostartFieldMask = 
+    (TypeTraits<BitVector>::One << ClusterWindowBase::AutostartFieldId);
+
 const OSG::BitVector ClusterWindowBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -129,6 +132,9 @@ const OSG::BitVector ClusterWindowBase::MTInfluenceMask =
     
 */
 /*! \var ImageComposerPtr ClusterWindowBase::_sfComposer
+    
+*/
+/*! \var std::string     ClusterWindowBase::_mfAutostart
     
 */
 
@@ -185,7 +191,12 @@ FieldDescription *ClusterWindowBase::_desc[] =
                      "composer", 
                      ComposerFieldId, ComposerFieldMask,
                      false,
-                     (FieldAccessMethod) &ClusterWindowBase::getSFComposer)
+                     (FieldAccessMethod) &ClusterWindowBase::getSFComposer),
+    new FieldDescription(MFString::getClassType(), 
+                     "autostart", 
+                     AutostartFieldId, AutostartFieldMask,
+                     false,
+                     (FieldAccessMethod) &ClusterWindowBase::getMFAutostart)
 };
 
 
@@ -251,6 +262,7 @@ ClusterWindowBase::ClusterWindowBase(void) :
     _sfInterleave             (UInt32(0)), 
     _sfFrameCount             (UInt32(0)), 
     _sfComposer               (), 
+    _mfAutostart              (), 
     Inherited() 
 {
 }
@@ -270,6 +282,7 @@ ClusterWindowBase::ClusterWindowBase(const ClusterWindowBase &source) :
     _sfInterleave             (source._sfInterleave             ), 
     _sfFrameCount             (source._sfFrameCount             ), 
     _sfComposer               (source._sfComposer               ), 
+    _mfAutostart              (source._mfAutostart              ), 
     Inherited                 (source)
 {
 }
@@ -336,6 +349,11 @@ UInt32 ClusterWindowBase::getBinSize(const BitVector &whichField)
         returnValue += _sfComposer.getBinSize();
     }
 
+    if(FieldBits::NoField != (AutostartFieldMask & whichField))
+    {
+        returnValue += _mfAutostart.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -393,6 +411,11 @@ void ClusterWindowBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ComposerFieldMask & whichField))
     {
         _sfComposer.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AutostartFieldMask & whichField))
+    {
+        _mfAutostart.copyToBin(pMem);
     }
 
 
@@ -453,6 +476,11 @@ void ClusterWindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfComposer.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (AutostartFieldMask & whichField))
+    {
+        _mfAutostart.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -491,6 +519,9 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
 
     if(FieldBits::NoField != (ComposerFieldMask & whichField))
         _sfComposer.syncWith(pOther->_sfComposer);
+
+    if(FieldBits::NoField != (AutostartFieldMask & whichField))
+        _mfAutostart.syncWith(pOther->_mfAutostart);
 
 
 }
