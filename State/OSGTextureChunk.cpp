@@ -74,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.30 2002/02/04 20:14:10 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.31 2002/02/11 18:30:47 dirk Exp $";
 
 StateChunkClass TextureChunk::_class("Texture");
 
@@ -186,13 +186,13 @@ TextureChunk::~TextureChunk(void)
 
 void TextureChunk::changed(BitVector fields, ChangeMode)
 {
-    if(fields & ImageFieldMask)
+    if((fields & ~(FrameFieldMask | EnvModeFieldMask)) == 0)
     {
-        Window::reinitializeGLObject(getGLId());
+        Window::refreshGLObject(getGLId());
     }
     else
     {
-        Window::refreshGLObject(getGLId());
+        Window::reinitializeGLObject(getGLId());
     }
 }
 
