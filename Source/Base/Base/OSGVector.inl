@@ -779,7 +779,7 @@ void PointInterface<ValueTypeT,
 template <class ValueTypeT,
           class StorageInterfaceT> inline
 void PointInterface<ValueTypeT, 
-                    StorageInterfaceT>::setValueFrom(const Char8 *szString)
+                    StorageInterfaceT>::setValue(const Char8 *szString)
 {
     setValueFromCString(szString);
 }
@@ -787,7 +787,7 @@ void PointInterface<ValueTypeT,
 template <class ValueTypeT,
           class StorageInterfaceT> inline
 void PointInterface<ValueTypeT, 
-                    StorageInterfaceT>::setValueFrom(Char8 *szString)
+                    StorageInterfaceT>::setValue(Char8 *szString)
 {
     setValueFromCString(szString);
 }
