@@ -74,9 +74,7 @@ int main(int argc, char **argv)
     GLUTWindowPtr gwin= GLUTWindow::create();
     gwin->setId(winid);
     gwin->init();
-    // Choose a window size divisible by 16.
-    glutReshapeWindow(352, 288);
-
+    
     if ( argc >= 2  && argv[2] )
     {
       filename=std::string(argv[2]);
@@ -106,7 +104,8 @@ int main(int argc, char **argv)
     beginEditCP(avfground);
     avfground->setName(filename.c_str());
     avfground->setKbit(1400);
-    avfground->setCodecid(38); // FFV1
+    //avfground->setCodecid(38 /*CODEC_ID_FFV1*/);
+    avfground->setCodecid(0 /*CODEC_ID_NONE*/); // auto detect the output format from the filename
     endEditCP(avfground);
 
     beginEditCP(gwin->getPort(0));
@@ -188,7 +187,7 @@ int setupGLUT(int* argc, char* argv[])
     // The window HAS to have a size that's dividible by 8 or 16, depending
     // on the codec. Use 16 to be safe.
     
-    glutInitWindowSize(304,304);
+    glutInitWindowSize(352, 288);
 
     int winid = glutCreateWindow("OpenSG");
     
