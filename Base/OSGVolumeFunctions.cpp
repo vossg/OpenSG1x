@@ -343,7 +343,7 @@ OSG_BASE_DLLMAPPING void extend ( BoxVolume &srcVol,
 		v = &(dynamic->getInstance());
 	
 	if (box = dynamic_cast<const BoxVolume*>(v))
-		osg::extend(srcVol,vol);
+		osg::extend(srcVol,*box);
 	else {
 		BoxVolume localBox;
 		Pnt3f min,max;
