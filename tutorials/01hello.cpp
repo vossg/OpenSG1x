@@ -10,7 +10,7 @@
 //
 
 // GLUT is used for window handling
-#include <GL/glut.h>
+#include <OpenSG/OSGGLUT.h>
 
 // General OpenSG configuration, needed everywhere
 #include <OpenSG/OSGConfig.h>

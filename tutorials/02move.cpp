@@ -4,7 +4,7 @@
 //
 
 // Headers
-#include <GL/glut.h>
+#include <OpenSG/OSGGLUT.h>
 #include <OpenSG/OSGConfig.h>
 #include <OpenSG/OSGSimpleGeometry.h>
 #include <OpenSG/OSGGLUTWindow.h>
