@@ -515,8 +515,42 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
 	        externalFormat = getExternalFormat();
 
 	    if(internalFormat == GL_NONE)
-            internalFormat = externalFormat;
-	
+        {
+            switch(externalFormat)
+            {
+#if defined(GL_BGR) && defined(GL_BGR_EXT)
+            case GL_BGR:
+#else
+#  if defined(GL_BGR)
+            case GL_BGR:
+#  endif
+#  if defined(GL_BGR_EXT)
+            case GL_BGR_EXT:
+#  endif
+#endif
+#if defined(GL_BGR) || defined(GL_BGR_EXT)
+                            internalFormat = GL_RGB;
+                            break;
+#endif
+#if defined(GL_BGRA) && defined(GL_BGRA_EXT)
+            case GL_BGRA:
+#else
+#  if defined(GL_BGRA)
+            case GL_BGR:
+#  endif
+#  if defined(GL_BGRA_EXT)
+            case GL_BGR_EXT:
+#  endif
+#endif
+#if defined(GL_BGRA) || defined(GL_BGRA_EXT)
+                            internalFormat = GL_RGBA;
+                            break;
+#endif
+            default:    internalFormat = externalFormat;
+                        break;
+	        }
+        }
+        
         // do we need mipmaps?
         if(needMipmaps)
         {

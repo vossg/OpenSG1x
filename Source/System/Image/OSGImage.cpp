@@ -115,12 +115,12 @@ void Image::dump(UInt32    ,
     case OSG_LA_PF:
         pfStr = "LUMINANCE_ALPHA";
         break;
-#ifdef OSG_HAS_BGR_PF
+#if defined(GL_BGR) || defined(GL_BGR_EXT)
     case OSG_BGR_PF:
         pfStr = "BGR";
         break;
 #endif
-#ifdef OSG_HAS_BGRA_PF
+#if defined(GL_BGRA) || defined(GL_BGRA_EXT)
     case OSG_BGRA_PF:
         pfStr = "BGRA";
         break;
