@@ -59,14 +59,14 @@
 OSG_BEGIN_NAMESPACE
 
 
-/*! \brief MFbool
+/*! \brief MFBool
     \ingroup MultiFields
     \warning the getValue and operator[] functions may not return what
              you expect them to return. Descent STL implementation will 
              certainly not return 'bool &' nor 'const bool &'.
  */
 
-typedef MField<bool, 2>   MFbool;
+typedef MField<bool, 2>   MFBool;
 
 #ifndef OSG_COMPILEFIELDINST
 #if defined(__sgi)
