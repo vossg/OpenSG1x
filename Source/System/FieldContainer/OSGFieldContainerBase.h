@@ -57,7 +57,12 @@ OSG_BEGIN_NAMESPACE
 
 namespace FieldBits
 {
-    const BitVector AllFields = 0xFFFFFFFF;
+#ifdef OSG_LONGLONG_HAS_LL
+    const BitVector AllFields = 0xffffffffffffffffLL;
+#else
+    const BitVector AllFields = 0xffffffffffffffff;
+#endif
+
     const BitVector NoField   = 0x00000000;
 
 
