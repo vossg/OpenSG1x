@@ -61,7 +61,7 @@ OSG_BEGIN_NAMESPACE
 #endif
 
 template <>
-struct FieldDataTraits<AttachmentContainerPtr> : 
+struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<AttachmentContainerPtr> : 
     public FieldTraitsRecurseMapper<AttachmentContainerPtr, true>
 {
     typedef FieldDataTraits<AttachmentContainerPtr> Self;

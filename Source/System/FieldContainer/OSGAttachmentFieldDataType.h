@@ -61,7 +61,7 @@ OSG_BEGIN_NAMESPACE
 #endif
 
 template <>
-struct FieldDataTraits<AttachmentPtr> : 
+struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<AttachmentPtr> : 
     public FieldTraitsRecurseMapper<AttachmentPtr, true>
 {
     static DataType                  _type;

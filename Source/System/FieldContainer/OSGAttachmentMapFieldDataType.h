@@ -203,7 +203,7 @@ struct FieldTraitsRecurseMapper<AttachmentMap, false> :
 #endif
 
 template <>
-struct FieldDataTraits<AttachmentMap> : 
+struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<AttachmentMap> : 
     public FieldTraitsRecurseMapper<AttachmentMap, false>
 {
     static DataType                  _type;
