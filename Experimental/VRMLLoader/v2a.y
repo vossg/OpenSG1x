@@ -2,6 +2,7 @@
 
 #define OSG_COMPILESYSTEMLIB
 
+#include <malloc.h>
 #include <stdio.h>
 //#include "vrml2anim.h"
 #include "OSGAnimTest.h"
