@@ -32,23 +32,24 @@ i.e. polygons.
 	Defines which side of the polygon is considered the front side.
 	</Field>
 	<Field
-		name="modeFace"
-		type="Int32"
-		cardinality="single"
-		visibility="external"
-		defaultValue="GL_FRONT"
-		defaultHeader="<OSGGL.h>"
-	>
-	</Field>
-	<Field
-		name="mode"
+		name="frontMode"
 		type="Int32"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FILL"
 		defaultHeader="<OSGGL.h>"
 	>
-	Defines if polygons are rendered filled, outlined or as points.
+	Defines if polygon front sides are rendered filled, outlined or as points.
+	</Field>
+	<Field
+		name="backMode"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_FILL"
+		defaultHeader="<OSGGL.h>"
+	>
+	Defines if polygon front sides are rendered filled, outlined or as points.
 	</Field>
 	<Field
 		name="smooth"

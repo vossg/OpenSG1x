@@ -15,6 +15,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+		defaultValue="0"
 	>
 	</Field>
 	<Field

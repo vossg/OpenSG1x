@@ -63,8 +63,8 @@
 
 #include <OSGGL.h>                        // CullFace default header
 #include <OSGGL.h>                        // FrontFace default header
-#include <OSGGL.h>                        // ModeFace default header
-#include <OSGGL.h>                        // Mode default header
+#include <OSGGL.h>                        // FrontMode default header
+#include <OSGGL.h>                        // BackMode default header
 #include <OSGGL.h>                        // Smooth default header
 #include <OSGGL.h>                        // OffsetPoint default header
 #include <OSGGL.h>                        // OffsetLine default header
@@ -78,11 +78,11 @@ const OSG::BitVector  PolygonChunkBase::CullFaceFieldMask =
 const OSG::BitVector  PolygonChunkBase::FrontFaceFieldMask = 
     (1 << PolygonChunkBase::FrontFaceFieldId);
 
-const OSG::BitVector  PolygonChunkBase::ModeFaceFieldMask = 
-    (1 << PolygonChunkBase::ModeFaceFieldId);
+const OSG::BitVector  PolygonChunkBase::FrontModeFieldMask = 
+    (1 << PolygonChunkBase::FrontModeFieldId);
 
-const OSG::BitVector  PolygonChunkBase::ModeFieldMask = 
-    (1 << PolygonChunkBase::ModeFieldId);
+const OSG::BitVector  PolygonChunkBase::BackModeFieldMask = 
+    (1 << PolygonChunkBase::BackModeFieldId);
 
 const OSG::BitVector  PolygonChunkBase::SmoothFieldMask = 
     (1 << PolygonChunkBase::SmoothFieldId);
@@ -115,11 +115,11 @@ const OSG::BitVector  PolygonChunkBase::StippleFieldMask =
 /*! \var Int32           PolygonChunkBase::_sfFrontFace
     Defines which side of the polygon is considered the front side.
 */
-/*! \var Int32           PolygonChunkBase::_sfModeFace
-    
+/*! \var Int32           PolygonChunkBase::_sfFrontMode
+    Defines if polygon front sides are rendered filled, outlined or as points.
 */
-/*! \var Int32           PolygonChunkBase::_sfMode
-    Defines if polygons are rendered filled, outlined or as points.
+/*! \var Int32           PolygonChunkBase::_sfBackMode
+    Defines if polygon front sides are rendered filled, outlined or as points.
 */
 /*! \var bool            PolygonChunkBase::_sfSmooth
     Defines if polygon antialiasing is used.
@@ -158,15 +158,15 @@ FieldDescription *PolygonChunkBase::_desc[] =
                      false,
                      (FieldAccessMethod) &PolygonChunkBase::getSFFrontFace),
     new FieldDescription(SFInt32::getClassType(), 
-                     "modeFace", 
-                     ModeFaceFieldId, ModeFaceFieldMask,
+                     "frontMode", 
+                     FrontModeFieldId, FrontModeFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonChunkBase::getSFModeFace),
+                     (FieldAccessMethod) &PolygonChunkBase::getSFFrontMode),
     new FieldDescription(SFInt32::getClassType(), 
-                     "mode", 
-                     ModeFieldId, ModeFieldMask,
+                     "backMode", 
+                     BackModeFieldId, BackModeFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonChunkBase::getSFMode),
+                     (FieldAccessMethod) &PolygonChunkBase::getSFBackMode),
     new FieldDescription(SFBool::getClassType(), 
                      "smooth", 
                      SmoothFieldId, SmoothFieldMask,
@@ -262,8 +262,8 @@ void PolygonChunkBase::executeSync(      FieldContainer &other,
 PolygonChunkBase::PolygonChunkBase(void) :
     _sfCullFace               (Int32(GL_NONE)), 
     _sfFrontFace              (Int32(GL_CCW)), 
-    _sfModeFace               (Int32(GL_FRONT)), 
-    _sfMode                   (Int32(GL_FILL)), 
+    _sfFrontMode              (Int32(GL_FILL)), 
+    _sfBackMode               (Int32(GL_FILL)), 
     _sfSmooth                 (bool(GL_FALSE)), 
     _sfOffsetFactor           (Real32(0)), 
     _sfOffsetBias             (Real32(0)), 
@@ -284,8 +284,8 @@ PolygonChunkBase::PolygonChunkBase(void) :
 PolygonChunkBase::PolygonChunkBase(const PolygonChunkBase &source) :
     _sfCullFace               (source._sfCullFace               ), 
     _sfFrontFace              (source._sfFrontFace              ), 
-    _sfModeFace               (source._sfModeFace               ), 
-    _sfMode                   (source._sfMode                   ), 
+    _sfFrontMode              (source._sfFrontMode              ), 
+    _sfBackMode               (source._sfBackMode               ), 
     _sfSmooth                 (source._sfSmooth                 ), 
     _sfOffsetFactor           (source._sfOffsetFactor           ), 
     _sfOffsetBias             (source._sfOffsetBias             ), 
@@ -321,14 +321,14 @@ UInt32 PolygonChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfFrontFace.getBinSize();
     }
 
-    if(FieldBits::NoField != (ModeFaceFieldMask & whichField))
+    if(FieldBits::NoField != (FrontModeFieldMask & whichField))
     {
-        returnValue += _sfModeFace.getBinSize();
+        returnValue += _sfFrontMode.getBinSize();
     }
 
-    if(FieldBits::NoField != (ModeFieldMask & whichField))
+    if(FieldBits::NoField != (BackModeFieldMask & whichField))
     {
-        returnValue += _sfMode.getBinSize();
+        returnValue += _sfBackMode.getBinSize();
     }
 
     if(FieldBits::NoField != (SmoothFieldMask & whichField))
@@ -385,14 +385,14 @@ void PolygonChunkBase::copyToBin(      BinaryDataHandler &pMem,
         _sfFrontFace.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (ModeFaceFieldMask & whichField))
+    if(FieldBits::NoField != (FrontModeFieldMask & whichField))
     {
-        _sfModeFace.copyToBin(pMem);
+        _sfFrontMode.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (ModeFieldMask & whichField))
+    if(FieldBits::NoField != (BackModeFieldMask & whichField))
     {
-        _sfMode.copyToBin(pMem);
+        _sfBackMode.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (SmoothFieldMask & whichField))
@@ -448,14 +448,14 @@ void PolygonChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfFrontFace.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (ModeFaceFieldMask & whichField))
+    if(FieldBits::NoField != (FrontModeFieldMask & whichField))
     {
-        _sfModeFace.copyFromBin(pMem);
+        _sfFrontMode.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (ModeFieldMask & whichField))
+    if(FieldBits::NoField != (BackModeFieldMask & whichField))
     {
-        _sfMode.copyFromBin(pMem);
+        _sfBackMode.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (SmoothFieldMask & whichField))
@@ -508,11 +508,11 @@ void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,
     if(FieldBits::NoField != (FrontFaceFieldMask & whichField))
         _sfFrontFace.syncWith(pOther->_sfFrontFace);
 
-    if(FieldBits::NoField != (ModeFaceFieldMask & whichField))
-        _sfModeFace.syncWith(pOther->_sfModeFace);
+    if(FieldBits::NoField != (FrontModeFieldMask & whichField))
+        _sfFrontMode.syncWith(pOther->_sfFrontMode);
 
-    if(FieldBits::NoField != (ModeFieldMask & whichField))
-        _sfMode.syncWith(pOther->_sfMode);
+    if(FieldBits::NoField != (BackModeFieldMask & whichField))
+        _sfBackMode.syncWith(pOther->_sfBackMode);
 
     if(FieldBits::NoField != (SmoothFieldMask & whichField))
         _sfSmooth.syncWith(pOther->_sfSmooth);
@@ -554,7 +554,7 @@ void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.26 2002/05/16 04:10:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.27 2002/07/02 15:00:53 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 

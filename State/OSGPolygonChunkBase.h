@@ -62,13 +62,15 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGFieldDescription.h>
+#include <OSGFieldContainer.h>
 
 #include <OSGStateChunk.h> // Parent
 
 #include <OSGInt32Fields.h> // CullFace type
 #include <OSGInt32Fields.h> // FrontFace type
-#include <OSGInt32Fields.h> // ModeFace type
-#include <OSGInt32Fields.h> // Mode type
+#include <OSGInt32Fields.h> // FrontMode type
+#include <OSGInt32Fields.h> // BackMode type
 #include <OSGBoolFields.h> // Smooth type
 #include <OSGReal32Fields.h> // OffsetFactor type
 #include <OSGReal32Fields.h> // OffsetBias type
@@ -99,9 +101,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     {
         CullFaceFieldId     = Inherited::NextFieldId,
         FrontFaceFieldId    = CullFaceFieldId     + 1,
-        ModeFaceFieldId     = FrontFaceFieldId    + 1,
-        ModeFieldId         = ModeFaceFieldId     + 1,
-        SmoothFieldId       = ModeFieldId         + 1,
+        FrontModeFieldId    = FrontFaceFieldId    + 1,
+        BackModeFieldId     = FrontModeFieldId    + 1,
+        SmoothFieldId       = BackModeFieldId     + 1,
         OffsetFactorFieldId = SmoothFieldId       + 1,
         OffsetBiasFieldId   = OffsetFactorFieldId + 1,
         OffsetPointFieldId  = OffsetBiasFieldId   + 1,
@@ -113,8 +115,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
 
     static const osg::BitVector CullFaceFieldMask;
     static const osg::BitVector FrontFaceFieldMask;
-    static const osg::BitVector ModeFaceFieldMask;
-    static const osg::BitVector ModeFieldMask;
+    static const osg::BitVector FrontModeFieldMask;
+    static const osg::BitVector BackModeFieldMask;
     static const osg::BitVector SmoothFieldMask;
     static const osg::BitVector OffsetFactorFieldMask;
     static const osg::BitVector OffsetBiasFieldMask;
@@ -148,8 +150,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
 
            SFInt32             *getSFCullFace       (void);
            SFInt32             *getSFFrontFace      (void);
-           SFInt32             *getSFModeFace       (void);
-           SFInt32             *getSFMode           (void);
+           SFInt32             *getSFFrontMode      (void);
+           SFInt32             *getSFBackMode       (void);
            SFBool              *getSFSmooth         (void);
            SFReal32            *getSFOffsetFactor   (void);
            SFReal32            *getSFOffsetBias     (void);
@@ -162,10 +164,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
      const Int32               &getCullFace       (void) const;
            Int32               &getFrontFace      (void);
      const Int32               &getFrontFace      (void) const;
-           Int32               &getModeFace       (void);
-     const Int32               &getModeFace       (void) const;
-           Int32               &getMode           (void);
-     const Int32               &getMode           (void) const;
+           Int32               &getFrontMode      (void);
+     const Int32               &getFrontMode      (void) const;
+           Int32               &getBackMode       (void);
+     const Int32               &getBackMode       (void) const;
            bool                &getSmooth         (void);
      const bool                &getSmooth         (void) const;
            Real32              &getOffsetFactor   (void);
@@ -189,8 +191,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
 
      void setCullFace       ( const Int32 &value );
      void setFrontFace      ( const Int32 &value );
-     void setModeFace       ( const Int32 &value );
-     void setMode           ( const Int32 &value );
+     void setFrontMode      ( const Int32 &value );
+     void setBackMode       ( const Int32 &value );
      void setSmooth         ( const bool &value );
      void setOffsetFactor   ( const Real32 &value );
      void setOffsetBias     ( const Real32 &value );
@@ -244,8 +246,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
 
     SFInt32             _sfCullFace;
     SFInt32             _sfFrontFace;
-    SFInt32             _sfModeFace;
-    SFInt32             _sfMode;
+    SFInt32             _sfFrontMode;
+    SFInt32             _sfBackMode;
     SFBool              _sfSmooth;
     SFReal32            _sfOffsetFactor;
     SFReal32            _sfOffsetBias;
@@ -300,6 +302,6 @@ typedef PolygonChunkBase *PolygonChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.22 2002/06/18 08:17:54 vossg Exp $"
+#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.23 2002/07/02 15:00:53 dirk Exp $"
 
 #endif /* _OSGPOLYGONCHUNKBASE_H_ */

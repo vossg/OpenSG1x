@@ -386,7 +386,8 @@ void TextureChunkBase::setGLId(const UInt32 &value)
 }
 
 
+
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureChunkBase.inl,v 1.16 2002/06/20 13:02:20 vossg Exp $"
+#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureChunkBase.inl,v 1.17 2002/07/02 15:00:53 dirk Exp $"
 

@@ -271,7 +271,7 @@ void TextureChunkBase::executeSync(      FieldContainer &other,
 #endif
 
 TextureChunkBase::TextureChunkBase(void) :
-    _sfImage                  (), 
+    _sfImage                  (ImageP(0)), 
     _sfInternalFormat         (UInt32(GL_NONE)), 
     _sfExternalFormat         (UInt32(GL_NONE)), 
     _sfScale                  (bool(true)), 
@@ -598,7 +598,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.38 2002/06/18 08:17:54 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.39 2002/07/02 15:00:53 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 

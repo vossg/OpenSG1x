@@ -109,15 +109,15 @@ SFInt32 *PolygonChunkBase::getSFFrontFace(void)
 }
 
 inline
-SFInt32 *PolygonChunkBase::getSFModeFace(void)
+SFInt32 *PolygonChunkBase::getSFFrontMode(void)
 {
-    return &_sfModeFace;
+    return &_sfFrontMode;
 }
 
 inline
-SFInt32 *PolygonChunkBase::getSFMode(void)
+SFInt32 *PolygonChunkBase::getSFBackMode(void)
 {
-    return &_sfMode;
+    return &_sfBackMode;
 }
 
 inline
@@ -200,39 +200,39 @@ void PolygonChunkBase::setFrontFace(const Int32 &value)
 }
 
 inline
-Int32 &PolygonChunkBase::getModeFace(void)
+Int32 &PolygonChunkBase::getFrontMode(void)
 {
-    return _sfModeFace.getValue();
+    return _sfFrontMode.getValue();
 }
 
 inline
-const Int32 &PolygonChunkBase::getModeFace(void) const
+const Int32 &PolygonChunkBase::getFrontMode(void) const
 {
-    return _sfModeFace.getValue();
+    return _sfFrontMode.getValue();
 }
 
 inline
-void PolygonChunkBase::setModeFace(const Int32 &value)
+void PolygonChunkBase::setFrontMode(const Int32 &value)
 {
-    _sfModeFace.setValue(value);
+    _sfFrontMode.setValue(value);
 }
 
 inline
-Int32 &PolygonChunkBase::getMode(void)
+Int32 &PolygonChunkBase::getBackMode(void)
 {
-    return _sfMode.getValue();
+    return _sfBackMode.getValue();
 }
 
 inline
-const Int32 &PolygonChunkBase::getMode(void) const
+const Int32 &PolygonChunkBase::getBackMode(void) const
 {
-    return _sfMode.getValue();
+    return _sfBackMode.getValue();
 }
 
 inline
-void PolygonChunkBase::setMode(const Int32 &value)
+void PolygonChunkBase::setBackMode(const Int32 &value)
 {
-    _sfMode.setValue(value);
+    _sfBackMode.setValue(value);
 }
 
 inline
@@ -362,7 +362,8 @@ const MFInt32 &PolygonChunkBase::getStipple(void) const
     return _mfStipple;
 }
 
+
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGPolygonChunkBase.inl,v 1.14 2002/06/20 13:02:19 vossg Exp $"
+#define OSGPOLYGONCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGPolygonChunkBase.inl,v 1.15 2002/07/02 15:00:53 dirk Exp $"
 

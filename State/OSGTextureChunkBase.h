@@ -62,6 +62,8 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGFieldDescription.h>
+#include <OSGFieldContainer.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -308,6 +310,6 @@ typedef TextureChunkBase *TextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.25 2002/06/18 08:17:54 vossg Exp $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.26 2002/07/02 15:00:53 dirk Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */

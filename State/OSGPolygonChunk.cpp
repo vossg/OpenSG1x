@@ -72,7 +72,7 @@ i.e. polygons.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.15 2002/06/30 05:04:22 vossg Exp $";
+char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.16 2002/07/02 15:00:53 dirk Exp $";
 
 StateChunkClass PolygonChunk::_class("Polygon");
 
@@ -187,8 +187,11 @@ void PolygonChunk::activate ( DrawActionBase *, UInt32 )
 
 // mode
 
-    if ( _sfModeFace.getValue() != GL_FRONT || _sfMode.getValue() != GL_FILL )
-        glPolygonMode( _sfModeFace.getValue(), _sfMode.getValue() );
+    if ( _sfFrontMode.getValue() != GL_FILL )
+        glPolygonMode(GL_FRONT, _sfFrontMode.getValue());
+
+    if ( _sfBackMode.getValue() != GL_FILL )
+        glPolygonMode(GL_BACK, _sfBackMode.getValue());
 
 // offset
    
@@ -261,11 +264,11 @@ void PolygonChunk::changeFrom( DrawActionBase *, StateChunk * old_chunk, UInt32 
 
 // mode
 
-    if ( _sfModeFace.getValue() !=  old->_sfModeFace.getValue()
-        || _sfMode.getValue() != old->_sfMode.getValue() )
-    {
-        glPolygonMode( _sfModeFace.getValue(), _sfMode.getValue() );
-    }
+    if ( _sfFrontMode.getValue() !=  old->_sfFrontMode.getValue() )
+        glPolygonMode( GL_FRONT, _sfFrontMode.getValue());
+
+    if ( _sfBackMode.getValue() !=  old->_sfBackMode.getValue() )
+        glPolygonMode( GL_BACK, _sfBackMode.getValue());
 
 // offset
 
@@ -345,8 +348,11 @@ void PolygonChunk::deactivate ( DrawActionBase *, UInt32 )
 
 // mode
 
-    if ( _sfModeFace.getValue() != GL_FRONT || _sfMode.getValue() != GL_FILL )
+    if ( _sfFrontMode.getValue() != GL_FILL )
         glPolygonMode( GL_FRONT, GL_FILL );
+
+    if ( _sfBackMode.getValue() != GL_FILL )
+        glPolygonMode( GL_BACK, GL_FILL );
 
 // offset
 
@@ -401,10 +407,10 @@ bool PolygonChunk::operator == (const StateChunk &other) const
     if ( _sfSmooth.getValue() != tother->_sfSmooth.getValue() )
         return false;
 
-    if ( _sfModeFace.getValue() != tother->_sfModeFace.getValue() )
+    if ( _sfFrontMode.getValue() != tother->_sfFrontMode.getValue() )
         return false;
 
-    if ( _sfMode.getValue() != tother->_sfMode.getValue() )
+    if ( _sfBackMode.getValue() != tother->_sfBackMode.getValue() )
         return false;
 
     if ( _sfOffsetPoint.getValue() != tother->_sfOffsetPoint.getValue() )
