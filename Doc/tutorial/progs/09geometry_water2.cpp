@@ -189,13 +189,6 @@ void display(void)
 		pos->setValue(Pnt3f(x, wMesh[x][z], z), N*x+z);
     endEditCP(pos, GeoPositions3f::GeoPropDataFieldMask);
     
-    //[TODO: remove later]
-    if (counter == 500){
-        OSG::osgExit();
-        exit(0);
-    }
-    counter++;
-    
     mgr->redraw();
 }
 

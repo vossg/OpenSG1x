@@ -6,6 +6,9 @@
 #include <OpenSG/OSGSimpleSceneManager.h>
 #include <OpenSG/OSGGeometry.h>
 
+#include <OpenSG/OSGPointLight.h>
+#include <OpenSG/OSGSpotLight.h>
+
 OSG_USING_NAMESPACE
 
 // this will specify the resolution of the mesh
@@ -84,6 +87,9 @@ NodePtr createScenegraph(){
     endEditCP(norms, GeoNormals3f::GeoPropDataFieldMask);
     
     SimpleMaterialPtr mat = SimpleMaterial::create();
+    beginEditCP(mat);
+        mat->setDiffuse(Color3f(0,0,1));
+    endEditCP(mat);
     
     // GeoIndicesUI32 points to all relevant data used by the 
     // provided primitives
@@ -118,7 +124,7 @@ NodePtr createScenegraph(){
 	geo->setPositions(pos);
 	geo->setNormals(norms);
         geo->setMaterial(mat);
-	geo->setColors(colors);
+	//geo->setColors(colors);
         geo->setDlistCache(false);
 
     endEditCP(geo,
@@ -131,12 +137,84 @@ NodePtr createScenegraph(){
 	Geometry::ColorsFieldMask	|
         Geometry::DlistCacheFieldMask
 	);
-        
+    
+    PointLightPtr pLight = PointLight::create();
     NodePtr root = Node::create();
+    NodePtr water = Node::create();
+    NodePtr pLightTransformNode = Node::create();
+    TransformPtr pLightTransform = Transform::create();
+    NodePtr pLightNode = Node::create();
+    
+    beginEditCP(pLightNode);
+        pLightNode->setCore(Group::create());
+    endEditCP(pLightNode);
+    
+    Matrix m;
+    m.setIdentity();
+    m.setTranslate(50,25,50);
+    
+    beginEditCP(pLightTransform);
+        pLightTransform->setMatrix(m);
+    endEditCP(pLightTransform);
+    
+    //we add a little spehere that will represent the light source
+    GeometryPtr sphere = makeSphereGeo(2,2);
+
+    SimpleMaterialPtr sm = SimpleMaterial::create();
+
+    beginEditCP(sm, SimpleMaterial::DiffuseFieldMask |
+                    SimpleMaterial::LitFieldMask);
+    {
+        sm->setLit(false);
+        sm->setDiffuse(Color3f(1,1,1));
+    }
+    endEditCP  (sm, SimpleMaterial::DiffuseFieldMask |
+                    SimpleMaterial::LitFieldMask);
+
+    beginEditCP(sphere, Geometry::MaterialFieldMask);
+    {
+        sphere->setMaterial(sm);
+    }
+    endEditCP  (sphere, Geometry::MaterialFieldMask);
+    
+    NodePtr sphereNode = Node::create();
+    beginEditCP(sphereNode);
+        sphereNode->setCore(sphere);
+    endEditCP(sphereNode);
+
+    beginEditCP(pLightTransformNode);
+        pLightTransformNode->setCore(pLightTransform);
+        pLightTransformNode->addChild(pLightNode);
+        pLightTransformNode->addChild(sphereNode);
+    endEditCP(pLightTransformNode);
+
+    beginEditCP(pLight);
+        pLight->setPosition(Pnt3f(0,0,0));
+    
+        //Attenuation parameters
+        pLight->setConstantAttenuation(1);
+        pLight->setLinearAttenuation(0);
+        pLight->setQuadraticAttenuation(0);
+        
+        //color information
+        pLight->setDiffuse(Color4f(1,1,1,1));
+        pLight->setAmbient(Color4f(0.2,0.2,0.2,1));
+        pLight->setSpecular(Color4f(1,1,1,1));
+        
+        //set the beacon
+        pLight->setBeacon(pLightNode);
+    endEditCP  (pLight);
+
+    
+    beginEditCP(water);
+        water->setCore(geo);
+    endEditCP(water);
+    
     beginEditCP(root);
-        root->setCore(geo);
-    endEditCP(root);
-	
+        root->setCore(pLight);
+        root->addChild(water);
+        root->addChild(pLightTransformNode);
+    endEditCP(root);    
     return root;
 }
 
@@ -155,6 +233,7 @@ int main(int argc, char **argv)
     mgr->setWindow(gwin );
     mgr->setRoot  (scene);
     mgr->showAll();
+    mgr->setHeadlight(false);
     
     Navigator * nav = mgr->getNavigator();
     nav->setFrom(nav->getFrom()+Vec3f(0,50,0));
@@ -177,7 +256,7 @@ void display(void)
     
     // we extract the core out of the root node
     // as we now this is a geometry node
-    GeometryPtr geo = GeometryPtr::dcast(scene->getCore());
+    GeometryPtr geo = GeometryPtr::dcast(scene->getChild(0)->getCore());
     
     //now modify it's content
     
@@ -232,6 +311,7 @@ int setupGLUT(int *argc, char *argv[])
     glutMotionFunc(motion);
     glutReshapeFunc(reshape);
     glutIdleFunc(display);
+    //glEnable(GL_LIGHT1);
     return winid;
 }
 

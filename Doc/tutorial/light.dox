@@ -13,28 +13,140 @@ Chapter Overview
 
 This chapter is dedicated to another very important aspect of computer graphics: light sources. Well, most scenes have at least one, but
 often more, lighsources to simulate a realistic environment. OpenSG features the common OpenGL lightsourses : spot, directional and point
-lights. The actual usage is easy and should be simiar to OpenGL. At the end of this chapter there will be a tutorial which will add some
+lights. The actual usage is easy and should be simiar to OpenGL. At the end of this chapter there will be a tutorial in which will add some
 light sources to the water mesh from the last chapter.
+
+\section TutorialLightPointLight Point Light
+
+The most common type of light source is the point light. The lightsource is emitting light in all directions equally. You have to define
+a position and some attenuation parameters which will affect the intensity of light depending on the distance to the lit object. Additionally
+you have to provide information about the light's color, of course. This little code fragment shows how a point light could be created
+
+\code
+
+PointLightPtr pLight = PointLight::create();
+
+beginEditCP(pLight, PointLight::PositionFieldMask             |
+                    PointLight::ConstantAttenuationFieldMask  |
+                    PointLight::LinearAttenuationFieldMask    |
+                    PointLight::QuadraticAttenuationFieldMask |
+                    PointLight::DiffuseFieldMask              |
+                    PointLight::AmbientFieldMask              |
+                    PointLight::SpecularFieldMask             |
+                    PointLight::BeaconFieldMask);
+    pLight->setPosition(Pnt3f(0,0,0));
+    
+    //Attenuation parameters
+    pLight->setConstantAttenuation(1);
+    pLight->setLinearAttenuation(0);
+    pLight->setQuadraticAttenuation(2);
+    
+    //color information
+    pLight->setDiffuse(Color4f(1,1,1,1));
+    pLight->setAmbient(Color4f(0.2,0.2,0.2,1));
+    pLight->setSpecular(Color4f(1,1,1,1));
+    
+    //set the beacon
+    pLight->setBeacon(someNodePtr);
+    
+endEditCP  (pLight, PointLight::PositionFieldMask             |
+                    PointLight::ConstantAttenuationFieldMask  |
+                    PointLight::LinearAttenuationFieldMask    |
+                    PointLight::QuadraticAttenuationFieldMask |
+                    PointLight::DiffuseFieldMask              |
+                    PointLight::AmbientFieldMask              |
+                    PointLight::SpecularFieldMask             |
+                    PointLight::BeaconFieldMask);
+
+\endcode
+
+<I>
+Please note that the position is not global. The light source will of course be translated by all relevant transformation nodes if present.
+</I>
+
+\section TutorialLightDirectionalLight Directional Light
+
+Directional light sources are faster to compute than point light sources but often they look less realistic. Light is not emitted from
+a specific point in the world but from infinity so light is coming in parallel. In real world light from sun in nearly parallel too, but do 
+not think that parallel are looking any better. A directional light source only
+needs a direction, where the light is coming from, beside of the color information thus the code is even shorter.
+
+\code
+
+DirectionalLightPtr dLight = DirectionalLight::create();
+
+beginEditCP(pLight);
+    
+    dLight->setDirection(Vec3f(0,-1,2));
+    
+    //color information
+    dLight->setDiffuse(Color4f(1,1,1,1));
+    dLight->setAmbient(Color4f(0.2,0.2,0.2,1));
+    dLight->setSpecular(Color4f(1,1,1,1));
+    
+    //set the beacon
+    dLight->setBeacon(someNodePtr);
+    
+endEditCP  (dLight);
+
+\endcode
+
+\section TutorialLightSpotLight Spot Light
+
+The spot light is the most expensive light source to compute. It is similar to a point light but additionally spot lights have an additional
+direction and angle which will define the area that is lit. Another value is needed to specify how fast intensity drops as light reaches the
+border of the lit are. I suggest that you play around with the paramates to see what happens.
+
+\code
+
+SpotLightPtr sLight = SpotLight::create();
+
+beginEditCP(sLight);
+    
+    sLight->setPosition(Pnt3f(0,0,0));
+    sLight->setDirection(Vec3f(0,-1,2));
+    l->setSpotExponent(2);
+    l->setSpotCutOff(deg2rad(30));
+    
+    //color information
+    sLight->setDiffuse(Color4f(1,1,1,1));
+    sLight->setAmbient(Color4f(0.2,0.2,0.2,1));
+    sLight->setSpecular(Color4f(1,1,1,1));
+    
+    //set the beacon
+    sLight->setBeacon(someNodePtr);
+    
+endEditCP  (sLight);
+
+\endcode
+
+<I>
+deg2rad is a little usefull function that allows you to convert degree values into radians. As you might guess there is also a rad2deg 
+function.
+</I>
+
+As mentioned above, spot lights are really expensive and should be used with caution!
 
 \section TutorialLightGeneral General Things About Light in OpenSG
 
 There is one big difference compared to OpenGL, which might be a bit uncomfortable right at the beginning, but actually it is no big deal 
 at all. Beacons is what I am talking about. Every light source must be assigned to a beacon, which can be any node in the scenegraph. 
-This beacon acts like a cointainer where the light source is located in. All transformations that apply to this beacon will also be
+This beacon acts like a cointainer where the light source is located in. All transformations that are applied to this beacon will also be
 applied to the light source.
 
 <I>
-Just to mention it: The camera is located in a beacon the same way. We habe not seen that so far, as the simple scene manager takes
+Just to mention it: The camera is located in a beacon the same way. We have not seen that so far, as the simple scene manager takes
 care about that automatically. The simple scene manager also provides one point light per default. That is the reason why we had not
 a black sceen in the tutorials, altough we had not defined a single light source.
 </I>
 
 Furthermore as all light sources are derived from node core they need to be inserted into a core of a node just like every other core too.
-I suppose you wonder why you neet to set is as a core and define a beacon. Well, the beacon defines the position in the world, where as
+I suppose you wonder why you need both, to set is as a core and to define a beacon. Well, the beacon defines the 
+position in the world, where as
 the position of the core in the graph should define which objects will be lit. Yes, I said should, as this feature is not implemented in
 version 1.2 and as far as I know it will not be in 1.3 as well. For know simply all objects are lit by the lighsources thus the position
-of the core does not matter right know. Anyway, keep that in mind, as it may change in a future release of OpenSG. The following picture
-shows two variants on how to set up a light source.
+of the core does not matter right know. Anyway, keep that in mind, as it may change in a future release of OpenSG. The following pictures
+are showing two variants on how to set up a light source.
 
 \image html light_source_easy.png "Easy setup"
 \image latex light_source_easy.eps "Easy setup" width = 8cm
@@ -43,6 +155,7 @@ shows two variants on how to set up a light source.
 In this example we have a root node which has several children. One is a transformation node with the light source attachted to it. The other
 nodes represent the rest of the entire scenegraph. The light source node has no further children. 
 </I>
+
 This setup is very easy to handle. You can modifiy the transformation node to alter the position of the light source. The beacon of the
 light source is the node of the lightsource itself. Please note, that this setup will not work anymore, in that moment when the "correct" 
 method of handling light sources, as mentioned above, is implemented. If you want to be sure your application will work correctly with future
@@ -52,14 +165,261 @@ versions of OpenSG the following setup is recommended!
 \image latex light_source_setup.eps "Recommended setup" width = 8cm
 <I>
 There is still a transformation node with a single child attached to the root, but this time it is only a group node. Usually this
-construction would be useless if there won't be added any further children to that node. However the other child of the root is the
-point lightsource which sets the "useless" group node as it's beacon. Some other children have been added to the light source node.
+node would be useless, because it would have no function if there won't be added any further children to that node. However the other 
+child of the root is the
+point lightsource which sets the "useless" group node as it's beacon. Some other children have been added to the light source node as well.
 </I>
 
 Now we can still alter the light source's position by modifing the transformation matrix, but now only the children of the point 
-lightsource node should be lit. Again, please remember, that this functionality is not implemented yes, but may follow in the
-near future. If you now add children to the root directly, these should not be lit (but they are still).
+lightsource node should be lit. Again, please remember, that this functionality is not implemented yet, but may follow in the
+near future. If you now add children to the root directly, these should not be lit (but still they are).
 
 So these two setup variants are very different, but actually it makes no difference at all with the current version of OpenSG.
 
+\subsection TutorialLightGeneralAttenuation Attenuation Paramaters
+
+To avoid confiusion, I want to say some words about attenuation parameters. All light sources, except for the directional light, have 
+attenuation parameters which specify how fast light intensity will decrease as the distance to an object increases. There are three values
+constant- , linear- and quadric attenuation. The default value for constant attenuation is one and zero for the others. The following
+image shows results for some different attenuation values. 
+
+\image html attenuation.png "Attenuation parameters"
+\image latex attenuation.eps "Attenuation parameters" width = 8cm
+
+<I>
+    The image to the very left has only a very small factor for constant attenuation (0.1). Attenuation of the intensity is not really
+    visible as the plane seems equally lit. The image in the middle has some reasonable values where as the right image has a quadric 
+    attenuation value of one resulting in a much too dark image.
+</I>
+
+You see that some caution is advised, else you might start up with a blank screen. After hours of search for the error you might begin to
+dislike these parameters... so keep it in mind ;-)
+
+\section TutorialLightTutorial Tutorial - Light it up
+
+As promised we are going to extend the last tutorial with some light sources, which will hopefully enhance the visual apperance of our
+water simulation ;-). Please take <a href="progs/09geometry_water3.cpp">progs/09geometry_water3.cpp</a> as a starting point. The first thing
+we need to to is to shut off the default head light, which the simple scene manger creates automatically. This is very easy indedd, just 
+add that line in the main method somewhere after we created the simple scene manager and before we enter the glutMainLoop!
+
+\code
+    mgr->setHeadlight(false);
+\endcode
+
+If you execute the application you will notice that nothing has really changed. That is because of the material we defined previously. If you
+look what we have done before: We simply created a SimpleMaterial and assigned it to the geometry without providing any additional 
+information. The material we created in that way is completly unaffected by light sources. It is equally lit from every direction. So
+first thing we to is to assign a correct material:
+
+in the createScenegraph() function locate the line that says
+<PRE>
+    SimpleMaterialPtr mat = SimpleMaterial::create();
+</PRE>
+
+and add the following code right below that line
+
+\code
+beginEditCP(mat);
+    mat->setDiffuse(Color3f(1,0,0));
+endEditCP(mat);
+\endcode
+
+When executing we see, as expected, nothing, because our only geometry is rendered black, as there is no light source left to do the job!
+If you turn the headlight back on, you will see that the water mesh is blue and not red as the material's diffuse color we just set. Why 
+that? If you look a few lines upwards you might remember that we provided every single vertex with a specific color - blue. Remove the
+block where the GeoColor3f property is created as well as the line that says
+<PRE>
+    geo->setColors(colors);
+</PRE>
+during the creation of the geometry core. That will reomve the "hand-made" color values and will no longer overwrite the attributes of our
+red material. If you compile and execute the application now you will see red water. Notice, that the color will change if you move the
+camera. Remember that we alredy provided normals which where all parallel to the y axis. If you want to you can change the material's color
+from red back to blue as this was only to demonstrate the conflict between assigned vertex colors and the color of a material.
+
+If you saw nothing but a black sceen, you fergot to turn the headlight back on. Anyway, turn the headlight off, as we want to add our own 
+light sources now. We start with the most common a point light.
+
+At first add two new headers
+
+\code
+    #include <OpenSG/OSGPointLight.h>
+    #include <OpenSG/OSGSpotLight.h>
+\endcode
+
+Locate the following block of code right at the very end of the createScenegraph() function
+
+\code
+    NodePtr root = Node::create();
+    beginEditCP(root);
+        root->setCore(geo);
+    endEditCP(root);
+\endcode
+
+and replace the entire block with the following code
+
+\code
+    
+    PointLightPtr pLight = PointLight::create();
+    NodePtr root = Node::create();
+    NodePtr water = Node::create();
+    NodePtr pLightTransformNode = Node::create();
+    TransformPtr pLightTransform = Transform::create();
+    NodePtr pLightNode = Node::create();
+    
+    beginEditCP(pLightNode);
+        pLightNode->setCore(Group::create());
+    endEditCP(pLightNode);
+    
+    Matrix m;
+    m.setIdentity();
+    m.setTranslate(50,25,50);
+    
+    beginEditCP(pLightTransform);
+        pLightTransform->setMatrix(m);
+    endEditCP(pLightTransform);
+    
+    //we add a little spehere that will represent the light source
+    GeometryPtr sphere = makeSphereGeo(2,2);
+
+    SimpleMaterialPtr sm = SimpleMaterial::create();
+
+    beginEditCP(sm, SimpleMaterial::DiffuseFieldMask |
+                    SimpleMaterial::LitFieldMask);
+    {
+        sm->setLit(false);
+        sm->setDiffuse(Color3f(1,1,1));
+    }
+    endEditCP  (sm, SimpleMaterial::DiffuseFieldMask |
+                    SimpleMaterial::LitFieldMask);
+
+    beginEditCP(sphere, Geometry::MaterialFieldMask);
+    {
+        sphere->setMaterial(sm);
+    }
+    endEditCP  (sphere, Geometry::MaterialFieldMask);
+    
+    NodePtr sphereNode = Node::create();
+    beginEditCP(sphereNode);
+        sphereNode->setCore(sphere);
+    endEditCP(sphereNode);
+
+    beginEditCP(pLightTransformNode);
+        pLightTransformNode->setCore(pLightTransform);
+        pLightTransformNode->addChild(pLightNode);
+        pLightTransformNode->addChild(sphereNode);
+    endEditCP(pLightTransformNode);
+
+    beginEditCP(pLight);
+        pLight->setPosition(Pnt3f(0,0,0));
+    
+        //Attenuation parameters
+        pLight->setConstantAttenuation(1);
+        pLight->setLinearAttenuation(0);
+        pLight->setQuadraticAttenuation(0);
+        
+        //color information
+        pLight->setDiffuse(Color4f(1,1,1,1));
+        pLight->setAmbient(Color4f(0.2,0.2,0.2,1));
+        pLight->setSpecular(Color4f(1,1,1,1));
+        
+        //set the beacon
+        pLight->setBeacon(pLightNode);
+    endEditCP  (pLight);
+
+    
+    beginEditCP(water);
+        water->setCore(geo);
+    endEditCP(water);
+    
+    beginEditCP(root);
+        root->setCore(pLight);
+        root->addChild(water);
+        root->addChild(pLightTransformNode);
+    endEditCP(root);
+\endcode
+
+If you run the application it will crash and the terminal tells you something about a "segmentation fault". I personally do not like this error, because
+the only thing you are told by this error is that something really does not work! So what can it be? When you have a look at the display function you see 
+right at the beginning that we are acessing the geometry core of the scene node. That exacly is our problem! We need the geometry pointer to modify the 
+geometry and we assumed that the core of the root node holds the geometry core. Well that was correct, until we changed the design of the scenegraph. Now 
+it is the one and only child of the root node which holds the geometry. Change the line that says
+
+<PRE>
+    GeometryPtr geo = GeometryPtr::dcast(scene->getCore());
+</PRE>
+
+to 
+
+\code
+    GeometryPtr geo = GeometryPtr::dcast(scene->getChild(0)->getCore());
+\endcode
+
+Now you should see blue and lit water. The blue is now not constant any more, you can see that the borders are in a darker blue that the center. This is 
+because the light source is floating right above the center and there the distance is the shortest of course. Now we would have to calculate corect normals
+in order to render a more realistic result. 
+
+\image html lit_water.png "Water correct lit with incorrect normals"
+\image latex lit_water.eps "Water correct lit with incorrect normals" width=4cm
+
+The normals need to be computed every frame as they change steadily. This is a problem because computation of normals is quite expensive. However this is not
+our concern for now. If you like to you can try to compute the normals. you could also use the calcVertexNormals() utility function I introduced in the last
+chapter, but I warned you that this will slow down the simulation significantly! My Linux Box with 1400 Mhz can't do the job in real time!
+
+The code so far can be found in the file <a href = "progs/10water_lit.cpp">progs/10water_lit.cpp</a>. We will now replace the point light with a directional 
+light. If you have not completed the last part of the tutorial you can take the file mentioned above as a starting point!
+
+Replace the line
+<PRE>
+    PointLightPtr pLight = PointLight::create();
+</PRE>
+with
+\code
+    DirectionalLightPtr pLight = DirectionalLight::create();
+\endcode
+
+<I>
+Just to mention it: We need not to include another header file for the directional light. We have used the simple scene manager which comes along with 
+a default light source.
+</I>
+
+Next locate and remove the following lines
+
+\code
+    pLight->setPosition(Pnt3f(0,0,0));
+     
+    //Attenuation parameters
+    pLight->setConstantAttenuation(1);
+    pLight->setLinearAttenuation(0);
+    pLight->setQuadraticAttenuation(0);
+\endcode
+
+and add that line, but make sure it is within the begin-/ endEditCP(pLight) block!
+
+\code
+    pLight->setDirection (Vec3f(0,1,0));
+\endcode
+
+<I>
+    I hope you wonder why the direction of the light is straight "up" into the sky and not the other way round, because I still wonder, too. Maybe I overseen
+    or missunderstood something, but to me it seems that the direction of a directional light is always inverse. So i am not quite sure if it is a bug or
+    a feature ;-) Anyway if you have a hint for me, fell free to send me a <a href="mailto:mail@oliver-abert.de">mail</a>!
+</I>
+
+\image html water_directional_light.png "Water lit by directional light with wrong normals"
+\image latex water_directional_light.eps "Water lit by directional light with wrong normals" width=4cm
+
+<I>
+If you now compare this result with the last one where we used a point light you will notice the difference in shading. This one here is again uniformly 
+shaded whereas the point light result looked better. Well, you can now think about what happend... this question can be found again in the exercises part ;-)
+</I>
+
+\section TutorialLightExercises Exercises
+
+\subsection TutoralLightExercises1 Ex. Different Light Sources - Different results
+
+I few lines up ahead we realized that the results from directional and point light sources differ in shading. Explain the cause for that phenomena.
+
+\subsection TutoralLightExercises2 Ex. Spot Light
+
+Now replace the light source with a spot light. You may take 10water_lit.cpp or 10water_lit2.cpp as a starting point.
 */
