@@ -16,14 +16,21 @@ int main (int argc, char *argv[])
     OSG::osgInit(argc, argv);
 
     FILE *outFile;
-    char *inFileName  = "tie.wrl";
-    char *outFileName = "tie.bin";
+    const char *inFileName  = "tie.wrl";
+    const char *outFileName = "tie.bin";
+    string s;
+    
     if( argc > 1 )
         inFileName  = argv[1];
 
 	if (argc > 2)
 			outFileName = argv[2];
-    
+    else
+    {
+        s = argv[1];
+        s.replace( s.rfind("."), s.size(), ".bin");
+        outFileName = s.c_str();
+    }
     
 	if(fopen(inFileName, "rb")!=NULL)
 	{
@@ -33,11 +40,12 @@ int main (int argc, char *argv[])
 			cerr<<"ERROR: Cannot create file """<<outFileName<<""""<<endl;
 		else
 		{
+    		cout << "reading " << inFileName << "..." << endl;
 			OSG::NodePtr root = OSG::SceneFileHandler::the().read(inFileName,0);
-    		cout << "#starting binary conversion for "<<inFileName<<endl;
+    		cout << "writing " << outFileName << "..." << endl;
 			OSG::BINWriter writer(outFile);
     		writer.write( root );
-			cout<<"#finished!"<<endl;
+			cout<<"done"<<endl;
 //            root->dump();
 		}
 
