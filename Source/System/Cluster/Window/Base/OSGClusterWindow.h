@@ -125,6 +125,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   Calibration                                */
+    /*! \{                                                                 */
+
+    bool loadCalibration(std::istream &in);
+    bool saveCalibration(std::ostream &out);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Exceptions                                 */
     /*! \{                                                                 */
     class AsyncCancel : public Exception 

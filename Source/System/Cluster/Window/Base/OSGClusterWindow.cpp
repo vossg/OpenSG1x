@@ -56,6 +56,8 @@
 #include "OSGRemoteAspect.h"
 #include "OSGConnectionFactory.h"
 #include "OSGClusterNetwork.h"
+#include "OSGXmlpp.h"
+#include "OSGDisplayCalibration.h"
 
 OSG_USING_NAMESPACE
 
@@ -499,6 +501,197 @@ void ClusterWindow::setStatistics(StatCollector *statistics)
 }
 
 /*-------------------------------------------------------------------------*/
+/*                          calibration                                    */
+
+/*! load color and projection calibration file from xml
+ */
+bool ClusterWindow::loadCalibration(std::istream &in)
+{
+    ClusterWindowPtr ptr(this);
+    DisplayCalibrationPtr calibPtr;
+    xmlpp::xmlcontextptr ctxptr(new xmlpp::xmlcontext());
+    xmlpp::xmldocument doc(ctxptr);
+    xmlpp::xmlnodelist servers;
+    xmlpp::xmlnodelist colors;
+    xmlpp::xmlnodelist points;
+    xmlpp::xmlnodelist rows;
+    xmlpp::xmlnodelist::const_iterator sI;
+    xmlpp::xmlnodelist::const_iterator nI;
+    xmlpp::xmlnodelist::const_iterator cI;
+    xmlpp::xmlnodelist::const_iterator rI;
+    xmlpp::xmlnodelist::const_iterator pI;
+    xmlpp::xmlstring serverTag("server");
+    xmlpp::xmlstring colorTag("color");
+    xmlpp::xmlstring rowTag("row");
+    xmlpp::xmlstring pointTag("point");
+    Matrix colorMatrix;
+    Real32 gamma;
+    xmlpp::xmlnodeptr nP;
+
+    getCalibration().clear();
+    try
+    {
+        doc.load(in,ctxptr);
+        servers = doc.select_nodes(serverTag);
+        // loop through servers
+        for(sI = servers.begin() ; sI != servers.end(); ++sI)
+        {
+            // create new calibration structure
+            calibPtr = DisplayCalibration::create();
+            beginEditCP(calibPtr);
+            addRefCP(calibPtr);
+            beginEditCP(ptr,CalibrationFieldMask);
+            getCalibration().push_back(calibPtr);
+            endEditCP(ptr,CalibrationFieldMask);
+
+            // server name
+            if((*sI)->get_attrmap().count("name"))
+                calibPtr->setServer((*sI)->get_attrmap()["name"]);
+            
+            // loop over childs
+            for(nI  = (*sI)->get_nodelist().begin();
+                nI != (*sI)->get_nodelist().end(); 
+                ++nI) 
+            {
+                if((*nI)->get_name() == "colormatrix")
+                {
+                    nP = (*nI);
+                    do
+                        nP = nP->get_nodelist().front();
+                    while (nP->get_nodelist().size() == 1);
+                    if(nP->get_type() == xmlpp::xml_nt_cdata) 
+                        calibPtr->getColorMatrix().setValue(nP->get_cdata().c_str());
+                }
+
+                if((*nI)->get_name() == "scaledown")
+                {
+                    nP = (*nI);
+                    do
+                        nP = nP->get_nodelist().front();
+                    while (nP->get_nodelist().size() == 1);
+                    if(nP->get_type() == xmlpp::xml_nt_cdata) 
+                        sscanf(nP->get_cdata().c_str(),"%f",&calibPtr->getScaleDown());
+                }
+
+                if((*nI)->get_name() == "gamma")
+                {
+                    nP = (*nI);
+                    do
+                        nP = nP->get_nodelist().front();
+                    while (nP->get_nodelist().size() == 1);
+                    if(nP->get_type() == xmlpp::xml_nt_cdata) 
+                        sscanf(nP->get_cdata().c_str(),"%f",&calibPtr->getGamma());
+                }
+
+                if((*nI)->get_name() == "gammaramp")
+                {
+                    colors = (*nI)->select_nodes(colorTag);
+                    for(cI = colors.begin() ; cI != colors.end(); ++cI)
+                    {   
+                        nP = (*cI);
+                        do
+                            nP = nP->get_nodelist().front();
+                        while (nP->get_nodelist().size() == 1);
+                        if(nP->get_type() == xmlpp::xml_nt_cdata) 
+                        {
+                            Color3f col;
+                            col.setValue(nP->get_cdata().c_str());
+                            calibPtr->getGammaRamp().push_back(col);
+                        }
+                    }
+                }
+                if((*nI)->get_name() == "grid")
+                {
+                    rows = (*nI)->select_nodes(rowTag);
+                    calibPtr->getGridHeight() = 0;
+                    for(rI = rows.begin() ; rI != rows.end(); ++rI)
+                    {   
+                        calibPtr->getGridHeight()++;
+                        calibPtr->getGridWidth() = 0;
+                        points = (*rI)->select_nodes(pointTag);
+                        for(pI = points.begin() ; pI != points.end(); ++pI)
+                        {   
+                            nP = (*pI);
+                            do
+                                nP = nP->get_nodelist().front();
+                            while (nP->get_nodelist().size() == 1);
+                            if(nP->get_type() == xmlpp::xml_nt_cdata) 
+                            {
+                                Vec2f pos;
+                                calibPtr->getGridWidth()++;
+                                pos.setValueFromCString(nP->get_cdata().c_str());
+                                calibPtr->getGrid().push_back(pos);
+                            }
+                        }
+                    }
+                }
+                endEditCP(calibPtr);
+            }
+        }
+    }
+    catch (xmlpp::xmlerror e)
+    {
+        // parser error
+        xmlpp::xmllocation where( ctxptr->get_location() );
+        xmlpp::xmlstring errmsg( e.get_strerror() );
+        SFATAL << "XML error line " << where.get_line() << " "
+               << "at position " << where.get_pos()
+               << ": error: " << errmsg.c_str()
+               << std::endl;
+        return false;
+    }
+    return true;
+}
+
+/*! save color and projection calibration file to xml
+ */
+bool ClusterWindow::saveCalibration(std::ostream &out)
+{
+    DisplayCalibrationPtr calibPtr;
+    UInt32 c;
+    UInt32 color,row,col,pos;
+
+    out << "<?xml version=\"1.0\"?>\n"
+        << "<displaycalibration>\n";
+    for(c=0 ; c<getCalibration().size() ; ++c)
+    {
+        calibPtr = getCalibration()[0];
+        out << "<server name=\"" << calibPtr->getServer() << "\">\n";
+        out << "<gamma>" << calibPtr->getGamma() << "</gamma>\n";
+        out << "<scaledown>" << calibPtr->getScaleDown() << "</scaledown>\n";
+        out << "<colormatrix>\n"
+            << calibPtr->getColorMatrix()
+            << "</colormatrix>\n";
+        out << "<gammaramp>\n";
+        for(color=0 ; color< calibPtr->getGammaRamp().size() ; ++color)
+            out << "<color>" 
+                << calibPtr->getGammaRamp()[color] 
+                << "</color>\n";
+        out << "</gammaramp>\n";
+        out << "<grid>\n";
+        for(row=0 ; row< calibPtr->getGridHeight() ; ++row)
+        {
+            out << "<row>\n";
+            for(col=0 ; col< calibPtr->getGridWidth() ; ++col)
+            {
+                pos = row*calibPtr->getGridHeight()+col;
+                out << "<point>";
+                if(pos < calibPtr->getGrid().size())
+                    out << calibPtr->getGrid()[pos][0] << " "
+                        << calibPtr->getGrid()[pos][1];
+                else
+                    out << col << " " << row;
+                out << "</point>\n";
+            }
+            out << "</row>\n";
+        }
+        out << "</grid>\n";
+        out << "</server>\n";
+    }
+    out << "</displaycalibration>\n";
+}
+
+/*-------------------------------------------------------------------------*/
 /*                          exceptions                                     */
 
 ClusterWindow::AsyncCancel::AsyncCancel()
@@ -590,12 +783,25 @@ void ClusterWindow::serverInit( WindowPtr ,
  **/
 
 void ClusterWindow::serverRender( WindowPtr window,
-                                  UInt32 ,
+                                  UInt32 id,
                                   RenderActionBase *action )
 {
     window->activate();
     window->frameInit();
     window->renderAllViewports( action );
+    // do calibration
+    UInt32 c;
+    DisplayCalibrationPtr calibPtr=NullFC;
+    for(c=0 ; c<getCalibration().size() ; ++c)
+    {
+        if(getCalibration()[c]->getServer() == getServers()[id])
+        {
+            calibPtr = getCalibration()[c];
+            break;
+        }
+    }
+    if(calibPtr != NullFC)
+        calibPtr->calibrate(window,action);
 }
 
 /** swap server window
@@ -608,7 +814,7 @@ void ClusterWindow::serverRender( WindowPtr window,
  * !param connection connection to client
  **/
 void ClusterWindow::serverSwap( WindowPtr window,
-                                UInt32 )
+                                UInt32)
 {
     window->swap();
     window->frameExit();

@@ -120,4 +120,12 @@ The base class for all windows.
 		access="public"
 	>
 	</Field>
+	<Field
+		name="calibration"
+		type="DisplayCalibrationPtr"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	</Field>
 </FieldContainer>

@@ -180,6 +180,13 @@ MFString *ClusterWindowBase::getMFAutostart(void)
     return &_mfAutostart;
 }
 
+//! Get the ClusterWindow::_mfCalibration field.
+inline
+MFDisplayCalibrationPtr *ClusterWindowBase::getMFCalibration(void)
+{
+    return &_mfCalibration;
+}
+
 
 //! Get the value of the ClusterWindow::_sfConnectionType field.
 inline
@@ -434,7 +441,28 @@ const MFString &ClusterWindowBase::getAutostart(void) const
     return _mfAutostart;
 }
 
+//! Get the value of the \a index element the ClusterWindow::_mfCalibration field.
+inline
+DisplayCalibrationPtr &ClusterWindowBase::getCalibration(const UInt32 index)
+{
+    return _mfCalibration[index];
+}
+
+//! Get the ClusterWindow::_mfCalibration field.
+inline
+MFDisplayCalibrationPtr &ClusterWindowBase::getCalibration(void)
+{
+    return _mfCalibration;
+}
+
+//! Get the ClusterWindow::_mfCalibration field.
+inline
+const MFDisplayCalibrationPtr &ClusterWindowBase::getCalibration(void) const
+{
+    return _mfCalibration;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGCLUSTERWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGCLUSTERWINDOWBASE_INLINE_CVSID "@(#)$Id: $"
 

@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class ClusterWindow
+ **     class DisplayCalibration
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGCLUSTERWINDOWBASE_H_
-#define _OSGCLUSTERWINDOWBASE_H_
+#ifndef _OSGDISPLAYCALIBRATIONBASE_H_
+#define _OSGDISPLAYCALIBRATIONBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -63,73 +63,61 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGWindow.h> // Parent
+#include <OSGAttachmentContainer.h> // Parent
 
-#include <OSGStringFields.h> // Servers type
-#include <OSGStringFields.h> // ConnectionType type
-#include <OSGStringFields.h> // ConnectionInterface type
-#include <OSGStringFields.h> // ConnectionDestination type
-#include <OSGStringFields.h> // ConnectionParams type
-#include <OSGUInt32Fields.h> // ServicePort type
-#include <OSGStringFields.h> // ServiceAddress type
-#include <OSGWindowFields.h> // ClientWindow type
-#include <OSGUInt32Fields.h> // Interleave type
-#include <OSGUInt32Fields.h> // FrameCount type
-#include <OSGImageComposerFields.h> // Composer type
-#include <OSGStringFields.h> // Autostart type
-#include <OSGDisplayCalibrationFields.h> // Calibration type
+#include <OSGBoolFields.h> // Enabled type
+#include <OSGStringFields.h> // Server type
+#include <OSGMatrixFields.h> // ColorMatrix type
+#include <OSGReal32Fields.h> // Gamma type
+#include <OSGColor3fFields.h> // GammaRamp type
+#include <OSGUInt32Fields.h> // GridWidth type
+#include <OSGUInt32Fields.h> // GridHeight type
+#include <OSGVec2fFields.h> // Grid type
+#include <OSGReal32Fields.h> // ScaleDown type
 
-#include <OSGClusterWindowFields.h>
+#include <OSGDisplayCalibrationFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class ClusterWindow;
+class DisplayCalibration;
 class BinaryDataHandler;
 
-//! \brief ClusterWindow Base Class.
+//! \brief DisplayCalibration Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
+class OSG_SYSTEMLIB_DLLMAPPING DisplayCalibrationBase : public AttachmentContainer
 {
   private:
 
-    typedef Window    Inherited;
+    typedef AttachmentContainer    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef ClusterWindowPtr  Ptr;
+    typedef DisplayCalibrationPtr  Ptr;
 
     enum
     {
-        ServersFieldId               = Inherited::NextFieldId,
-        ConnectionTypeFieldId        = ServersFieldId               + 1,
-        ConnectionInterfaceFieldId   = ConnectionTypeFieldId        + 1,
-        ConnectionDestinationFieldId = ConnectionInterfaceFieldId   + 1,
-        ConnectionParamsFieldId      = ConnectionDestinationFieldId + 1,
-        ServicePortFieldId           = ConnectionParamsFieldId      + 1,
-        ServiceAddressFieldId        = ServicePortFieldId           + 1,
-        ClientWindowFieldId          = ServiceAddressFieldId        + 1,
-        InterleaveFieldId            = ClientWindowFieldId          + 1,
-        FrameCountFieldId            = InterleaveFieldId            + 1,
-        ComposerFieldId              = FrameCountFieldId            + 1,
-        AutostartFieldId             = ComposerFieldId              + 1,
-        CalibrationFieldId           = AutostartFieldId             + 1,
-        NextFieldId                  = CalibrationFieldId           + 1
+        EnabledFieldId     = Inherited::NextFieldId,
+        ServerFieldId      = EnabledFieldId     + 1,
+        ColorMatrixFieldId = ServerFieldId      + 1,
+        GammaFieldId       = ColorMatrixFieldId + 1,
+        GammaRampFieldId   = GammaFieldId       + 1,
+        GridWidthFieldId   = GammaRampFieldId   + 1,
+        GridHeightFieldId  = GridWidthFieldId   + 1,
+        GridFieldId        = GridHeightFieldId  + 1,
+        ScaleDownFieldId   = GridFieldId        + 1,
+        NextFieldId        = ScaleDownFieldId   + 1
     };
 
-    static const OSG::BitVector ServersFieldMask;
-    static const OSG::BitVector ConnectionTypeFieldMask;
-    static const OSG::BitVector ConnectionInterfaceFieldMask;
-    static const OSG::BitVector ConnectionDestinationFieldMask;
-    static const OSG::BitVector ConnectionParamsFieldMask;
-    static const OSG::BitVector ServicePortFieldMask;
-    static const OSG::BitVector ServiceAddressFieldMask;
-    static const OSG::BitVector ClientWindowFieldMask;
-    static const OSG::BitVector InterleaveFieldMask;
-    static const OSG::BitVector FrameCountFieldMask;
-    static const OSG::BitVector ComposerFieldMask;
-    static const OSG::BitVector AutostartFieldMask;
-    static const OSG::BitVector CalibrationFieldMask;
+    static const OSG::BitVector EnabledFieldMask;
+    static const OSG::BitVector ServerFieldMask;
+    static const OSG::BitVector ColorMatrixFieldMask;
+    static const OSG::BitVector GammaFieldMask;
+    static const OSG::BitVector GammaRampFieldMask;
+    static const OSG::BitVector GridWidthFieldMask;
+    static const OSG::BitVector GridHeightFieldMask;
+    static const OSG::BitVector GridFieldMask;
+    static const OSG::BitVector ScaleDownFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -156,65 +144,49 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFString            *getMFServers        (void);
-           SFString            *getSFConnectionType (void);
-           SFString            *getSFConnectionInterface(void);
-           SFString            *getSFConnectionDestination(void);
-           SFString            *getSFConnectionParams(void);
-           SFUInt32            *getSFServicePort    (void);
-           SFString            *getSFServiceAddress (void);
-           SFWindowPtr         *getSFClientWindow   (void);
-           SFUInt32            *getSFInterleave     (void);
-           SFUInt32            *getSFFrameCount     (void);
-           SFImageComposerPtr  *getSFComposer       (void);
-           MFString            *getMFAutostart      (void);
-           MFDisplayCalibrationPtr *getMFCalibration    (void);
+           SFBool              *getSFEnabled        (void);
+           SFString            *getSFServer         (void);
+           SFMatrix            *getSFColorMatrix    (void);
+           SFReal32            *getSFGamma          (void);
+           MFColor3f           *getMFGammaRamp      (void);
+           SFUInt32            *getSFGridWidth      (void);
+           SFUInt32            *getSFGridHeight     (void);
+           MFVec2f             *getMFGrid           (void);
+           SFReal32            *getSFScaleDown      (void);
 
-           std::string         &getConnectionType (void);
-     const std::string         &getConnectionType (void) const;
-           std::string         &getConnectionInterface(void);
-     const std::string         &getConnectionInterface(void) const;
-           std::string         &getConnectionDestination(void);
-     const std::string         &getConnectionDestination(void) const;
-           std::string         &getConnectionParams(void);
-     const std::string         &getConnectionParams(void) const;
-           UInt32              &getServicePort    (void);
-     const UInt32              &getServicePort    (void) const;
-           std::string         &getServiceAddress (void);
-     const std::string         &getServiceAddress (void) const;
-           WindowPtr           &getClientWindow   (void);
-     const WindowPtr           &getClientWindow   (void) const;
-           UInt32              &getInterleave     (void);
-     const UInt32              &getInterleave     (void) const;
-           UInt32              &getFrameCount     (void);
-     const UInt32              &getFrameCount     (void) const;
-           ImageComposerPtr    &getComposer       (void);
-     const ImageComposerPtr    &getComposer       (void) const;
-           std::string         &getServers        (const UInt32 index);
-           MFString            &getServers        (void);
-     const MFString            &getServers        (void) const;
-           std::string         &getAutostart      (const UInt32 index);
-           MFString            &getAutostart      (void);
-     const MFString            &getAutostart      (void) const;
-           DisplayCalibrationPtr &getCalibration    (const UInt32 index);
-           MFDisplayCalibrationPtr &getCalibration    (void);
-     const MFDisplayCalibrationPtr &getCalibration    (void) const;
+           bool                &getEnabled        (void);
+     const bool                &getEnabled        (void) const;
+           std::string         &getServer         (void);
+     const std::string         &getServer         (void) const;
+           Matrix              &getColorMatrix    (void);
+     const Matrix              &getColorMatrix    (void) const;
+           Real32              &getGamma          (void);
+     const Real32              &getGamma          (void) const;
+           UInt32              &getGridWidth      (void);
+     const UInt32              &getGridWidth      (void) const;
+           UInt32              &getGridHeight     (void);
+     const UInt32              &getGridHeight     (void) const;
+           Real32              &getScaleDown      (void);
+     const Real32              &getScaleDown      (void) const;
+           Color3f             &getGammaRamp      (const UInt32 index);
+           MFColor3f           &getGammaRamp      (void);
+     const MFColor3f           &getGammaRamp      (void) const;
+           Vec2f               &getGrid           (const UInt32 index);
+           MFVec2f             &getGrid           (void);
+     const MFVec2f             &getGrid           (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setConnectionType ( const std::string &value );
-     void setConnectionInterface( const std::string &value );
-     void setConnectionDestination( const std::string &value );
-     void setConnectionParams( const std::string &value );
-     void setServicePort    ( const UInt32 &value );
-     void setServiceAddress ( const std::string &value );
-     void setClientWindow   ( const WindowPtr &value );
-     void setInterleave     ( const UInt32 &value );
-     void setFrameCount     ( const UInt32 &value );
-     void setComposer       ( const ImageComposerPtr &value );
+     void setEnabled        ( const bool &value );
+     void setServer         ( const std::string &value );
+     void setColorMatrix    ( const Matrix &value );
+     void setGamma          ( const Real32 &value );
+     void setGridWidth      ( const UInt32 &value );
+     void setGridHeight     ( const UInt32 &value );
+     void setScaleDown      ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -241,8 +213,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  ClusterWindowPtr      create          (void); 
-    static  ClusterWindowPtr      createEmpty     (void); 
+    static  DisplayCalibrationPtr      create          (void); 
+    static  DisplayCalibrationPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -260,41 +232,37 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFString            _mfServers;
-    SFString            _sfConnectionType;
-    SFString            _sfConnectionInterface;
-    SFString            _sfConnectionDestination;
-    SFString            _sfConnectionParams;
-    SFUInt32            _sfServicePort;
-    SFString            _sfServiceAddress;
-    SFWindowPtr         _sfClientWindow;
-    SFUInt32            _sfInterleave;
-    SFUInt32            _sfFrameCount;
-    SFImageComposerPtr   _sfComposer;
-    MFString            _mfAutostart;
-    MFDisplayCalibrationPtr   _mfCalibration;
+    SFBool              _sfEnabled;
+    SFString            _sfServer;
+    SFMatrix            _sfColorMatrix;
+    SFReal32            _sfGamma;
+    MFColor3f           _mfGammaRamp;
+    SFUInt32            _sfGridWidth;
+    SFUInt32            _sfGridHeight;
+    MFVec2f             _mfGrid;
+    SFReal32            _sfScaleDown;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    ClusterWindowBase(void);
-    ClusterWindowBase(const ClusterWindowBase &source);
+    DisplayCalibrationBase(void);
+    DisplayCalibrationBase(const DisplayCalibrationBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~ClusterWindowBase(void); 
+    virtual ~DisplayCalibrationBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      ClusterWindowBase *pOther,
+    void executeSyncImpl(      DisplayCalibrationBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -308,7 +276,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const ClusterWindowBase &source);
+    void operator =(const DisplayCalibrationBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -316,10 +284,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
 //---------------------------------------------------------------------------
 
 
-typedef ClusterWindowBase *ClusterWindowBaseP;
+typedef DisplayCalibrationBase *DisplayCalibrationBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGDISPLAYCALIBRATIONBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
 
-#endif /* _OSGCLUSTERWINDOWBASE_H_ */
+#endif /* _OSGDISPLAYCALIBRATIONBASE_H_ */

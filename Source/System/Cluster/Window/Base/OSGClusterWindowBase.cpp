@@ -100,6 +100,9 @@ const OSG::BitVector  ClusterWindowBase::ComposerFieldMask =
 const OSG::BitVector  ClusterWindowBase::AutostartFieldMask = 
     (TypeTraits<BitVector>::One << ClusterWindowBase::AutostartFieldId);
 
+const OSG::BitVector  ClusterWindowBase::CalibrationFieldMask = 
+    (TypeTraits<BitVector>::One << ClusterWindowBase::CalibrationFieldId);
+
 const OSG::BitVector ClusterWindowBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -141,6 +144,9 @@ const OSG::BitVector ClusterWindowBase::MTInfluenceMask =
     
 */
 /*! \var std::string     ClusterWindowBase::_mfAutostart
+    
+*/
+/*! \var DisplayCalibrationPtr ClusterWindowBase::_mfCalibration
     
 */
 
@@ -207,7 +213,12 @@ FieldDescription *ClusterWindowBase::_desc[] =
                      "autostart", 
                      AutostartFieldId, AutostartFieldMask,
                      false,
-                     (FieldAccessMethod) &ClusterWindowBase::getMFAutostart)
+                     (FieldAccessMethod) &ClusterWindowBase::getMFAutostart),
+    new FieldDescription(MFDisplayCalibrationPtr::getClassType(), 
+                     "calibration", 
+                     CalibrationFieldId, CalibrationFieldMask,
+                     false,
+                     (FieldAccessMethod) &ClusterWindowBase::getMFCalibration)
 };
 
 
@@ -275,6 +286,7 @@ ClusterWindowBase::ClusterWindowBase(void) :
     _sfFrameCount             (UInt32(0)), 
     _sfComposer               (), 
     _mfAutostart              (), 
+    _mfCalibration            (), 
     Inherited() 
 {
 }
@@ -296,6 +308,7 @@ ClusterWindowBase::ClusterWindowBase(const ClusterWindowBase &source) :
     _sfFrameCount             (source._sfFrameCount             ), 
     _sfComposer               (source._sfComposer               ), 
     _mfAutostart              (source._mfAutostart              ), 
+    _mfCalibration            (source._mfCalibration            ), 
     Inherited                 (source)
 {
 }
@@ -372,6 +385,11 @@ UInt32 ClusterWindowBase::getBinSize(const BitVector &whichField)
         returnValue += _mfAutostart.getBinSize();
     }
 
+    if(FieldBits::NoField != (CalibrationFieldMask & whichField))
+    {
+        returnValue += _mfCalibration.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -439,6 +457,11 @@ void ClusterWindowBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (AutostartFieldMask & whichField))
     {
         _mfAutostart.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CalibrationFieldMask & whichField))
+    {
+        _mfCalibration.copyToBin(pMem);
     }
 
 
@@ -509,6 +532,11 @@ void ClusterWindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfAutostart.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (CalibrationFieldMask & whichField))
+    {
+        _mfCalibration.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -553,6 +581,9 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
 
     if(FieldBits::NoField != (AutostartFieldMask & whichField))
         _mfAutostart.syncWith(pOther->_mfAutostart);
+
+    if(FieldBits::NoField != (CalibrationFieldMask & whichField))
+        _mfCalibration.syncWith(pOther->_mfCalibration);
 
 
 }

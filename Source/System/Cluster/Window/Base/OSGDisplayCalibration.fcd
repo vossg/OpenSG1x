@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="DisplayCalibration"
+	parent="AttachmentContainer"
+	library="System"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
+>
+The DisplayCalibration is responsible to calibrate multiple Display in a multi display environment.
+	<Field
+		name="enabled"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Do calibration if true
+	</Field>
+	<Field
+		name="server"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Server to be calibrated
+	</Field>
+	<Field
+		name="colorMatrix"
+		type="Matrix"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	color matrix
+	</Field>
+	<Field
+		name="gamma"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+		access="public"
+	>
+	gamma value
+	</Field>
+	<Field
+		name="gammaRamp"
+		type="Color3f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="gridWidth"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="gridHeight"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="grid"
+		type="Vec2f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="scaleDown"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1.0"
+		access="public"
+	>
+	simulate lower resolutions
+	</Field>
+</FieldContainer>
