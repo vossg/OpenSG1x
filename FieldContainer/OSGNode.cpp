@@ -237,7 +237,8 @@ void Node::setCore(const NodeCorePtr &core)
 	if(_core.getValue() != NullFC) 
     {
         _core.getValue()->addParent(thisP);
-	}
+	}	
+	invalidateVolume();
 }
 
 void Node::addChild(const NodePtr &childP)
@@ -251,6 +252,7 @@ void Node::addChild(const NodePtr &childP)
 
         endEdit(ChildrenFieldMask, _children);
     }
+	invalidateVolume();
 }
 
 void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
@@ -261,9 +263,9 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
     {
         childIt += childIndex;
         
-        (*(_children.insert(childIt, childP)))->setParent(getPtr());
-        
+        (*(_children.insert(childIt, childP)))->setParent(getPtr());       
     }
+	invalidateVolume();
 }
 
 void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
@@ -274,6 +276,7 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
         _children.getValue(childIndex) = childP;
         _children.getValue(childIndex)->setParent(getPtr());
     }
+	invalidateVolume();
 }
 
 void Node::replaceChildBy(const NodePtr &childP, 
@@ -290,6 +293,7 @@ void Node::replaceChildBy(const NodePtr &childP,
             (*childIt)->setParent(getPtr());
         }
     }
+	invalidateVolume();
 }
 
 Int32 Node::findChild(const NodePtr &childP) const
@@ -316,7 +320,7 @@ void Node::subChild(const NodePtr &childP)
 
         _children.erase(childIt);
     }
-
+	invalidateVolume();
 }
 
 void Node::subChild(UInt32  childIndex)
@@ -331,6 +335,7 @@ void Node::subChild(UInt32  childIndex)
 
         _children.erase(childIt);
     }
+	invalidateVolume();
 }
 
 NodePtr Node::getChild(UInt32  childIndex)
@@ -421,6 +426,8 @@ void Node::updateVolume(void)
 
 	MFNodePtr::iterator it;
 
+    beginEdit(VolumeFieldMask, _volume);
+
 	vol.setEmpty();
 
 	for(it = _children.begin(); it != _children.end(); it++)
@@ -430,11 +437,8 @@ void Node::updateVolume(void)
 	}
 	
 	getCore()->adjustVolume(vol);
-	
-	// notify the change
-	
-	// !!!! the change has to be added to the change list
-	// don't know how to do that yet
+
+    endEdit(VolumeFieldMask, _volume);
 }
 
 void Node::invalidateVolume(void)
