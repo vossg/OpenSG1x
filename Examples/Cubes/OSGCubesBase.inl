@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ CubesPtr CubesBase::create(void)
 {
     CubesPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = CubesPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,18 +96,21 @@ CubesPtr CubesBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the Cubes::_mfPosition field.
 inline
 MFPnt3f *CubesBase::getMFPosition(void)
 {
     return &_mfPosition;
 }
 
+//! Get the Cubes::_mfLength field.
 inline
 MFReal32 *CubesBase::getMFLength(void)
 {
     return &_mfLength;
 }
 
+//! Get the Cubes::_mfColor field.
 inline
 MFColor3f *CubesBase::getMFColor(void)
 {
@@ -116,54 +119,63 @@ MFColor3f *CubesBase::getMFColor(void)
 
 
 
+//! Get the value of the \a index element the Cubes::_mfPosition field.
 inline
 Pnt3f &CubesBase::getPosition(const UInt32 index)
 {
     return _mfPosition[index];
 }
 
+//! Get the Cubes::_mfPosition field.
 inline
 MFPnt3f &CubesBase::getPosition(void)
 {
     return _mfPosition;
 }
 
+//! Get the Cubes::_mfPosition field.
 inline
 const MFPnt3f &CubesBase::getPosition(void) const
 {
     return _mfPosition;
 }
 
+//! Get the value of the \a index element the Cubes::_mfLength field.
 inline
 Real32 &CubesBase::getLength(const UInt32 index)
 {
     return _mfLength[index];
 }
 
+//! Get the Cubes::_mfLength field.
 inline
 MFReal32 &CubesBase::getLength(void)
 {
     return _mfLength;
 }
 
+//! Get the Cubes::_mfLength field.
 inline
 const MFReal32 &CubesBase::getLength(void) const
 {
     return _mfLength;
 }
 
+//! Get the value of the \a index element the Cubes::_mfColor field.
 inline
 Color3f &CubesBase::getColor(const UInt32 index)
 {
     return _mfColor[index];
 }
 
+//! Get the Cubes::_mfColor field.
 inline
 MFColor3f &CubesBase::getColor(void)
 {
     return _mfColor;
 }
 
+//! Get the Cubes::_mfColor field.
 inline
 const MFColor3f &CubesBase::getColor(void) const
 {

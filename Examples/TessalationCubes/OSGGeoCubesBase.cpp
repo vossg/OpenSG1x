@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -108,7 +108,6 @@ FieldDescription *GeoCubesBase::_desc[] =
                      (FieldAccessMethod) &GeoCubesBase::getMFColor)
 };
 
-//! GeoCubes type
 
 FieldContainerType GeoCubesBase::_type(
     "GeoCubes",
@@ -157,8 +156,6 @@ void GeoCubesBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -175,8 +172,6 @@ GeoCubesBase::GeoCubesBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 GeoCubesBase::GeoCubesBase(const GeoCubesBase &source) :
     _mfPosition               (source._mfPosition               ), 
     _mfLength                 (source._mfLength                 ), 
@@ -186,8 +181,6 @@ GeoCubesBase::GeoCubesBase(const GeoCubesBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 GeoCubesBase::~GeoCubesBase(void)
 {
@@ -289,8 +282,9 @@ void GeoCubesBase::executeSyncImpl(      GeoCubesBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<GeoCubesPtr>::_type("GeoCubesPtr", "GeometryPtr");
-
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(GeoCubesPtr, OSG_MYLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(GeoCubesPtr, OSG_MYLIB_DLLTMPLMAPPING);

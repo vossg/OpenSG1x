@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -62,8 +62,6 @@
 #include <OSGMyDef.h>
 
 #include <OpenSG/OSGBaseTypes.h>
-#include <OpenSG/OSGFieldDescription.h>
-#include <OpenSG/OSGFieldContainer.h>
 
 #include <OpenSG/OSGGeometry.h> // Parent
 
@@ -97,9 +95,9 @@ class OSG_MYLIB_DLLMAPPING GeoCubesBase : public Geometry
         NextFieldId     = ColorFieldId    + 1
     };
 
-    static const osg::BitVector PositionFieldMask;
-    static const osg::BitVector LengthFieldMask;
-    static const osg::BitVector ColorFieldMask;
+    static const OSG::BitVector PositionFieldMask;
+    static const OSG::BitVector LengthFieldMask;
+    static const OSG::BitVector ColorFieldMask;
 
 
     /*---------------------------------------------------------------------*/
@@ -111,7 +109,7 @@ class OSG_MYLIB_DLLMAPPING GeoCubesBase : public Geometry
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Get                                    */
+    /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType  (void); 

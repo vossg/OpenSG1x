@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -108,7 +108,6 @@ FieldDescription *CubesBase::_desc[] =
                      (FieldAccessMethod) &CubesBase::getMFColor)
 };
 
-//! Cubes type
 
 FieldContainerType CubesBase::_type(
     "Cubes",
@@ -157,8 +156,6 @@ void CubesBase::executeSync(      FieldContainer &other,
 
 /*------------------------- constructors ----------------------------------*/
 
-//! Constructor
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
@@ -175,8 +172,6 @@ CubesBase::CubesBase(void) :
 #pragma warning (default : 383)
 #endif
 
-//! Copy Constructor
-
 CubesBase::CubesBase(const CubesBase &source) :
     _mfPosition               (source._mfPosition               ), 
     _mfLength                 (source._mfLength                 ), 
@@ -186,8 +181,6 @@ CubesBase::CubesBase(const CubesBase &source) :
 }
 
 /*-------------------------- destructors ----------------------------------*/
-
-//! Destructor
 
 CubesBase::~CubesBase(void)
 {
@@ -289,7 +282,9 @@ void CubesBase::executeSyncImpl(      CubesBase *pOther,
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<CubesPtr>::_type("CubesPtr", "MaterialDrawablePtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(CubesPtr, OSG_MYLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CubesPtr, OSG_MYLIB_DLLTMPLMAPPING);

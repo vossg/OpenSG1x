@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,15 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class Cubes;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! CubesPtr
 
 typedef FCPtr<MaterialDrawablePtr, Cubes> CubesPtr;
 
+#endif
+
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief CubesPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -94,7 +96,7 @@ struct FieldDataTraits<CubesPtr> :
 #endif             // exclude from doc
 
 //! SFCubesPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<CubesPtr> SFCubesPtr;
 
@@ -103,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, CubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFCubesPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<CubesPtr> MFCubesPtr;
 

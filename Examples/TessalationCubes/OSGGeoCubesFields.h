@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -66,14 +66,17 @@ OSG_BEGIN_NAMESPACE
 
 class GeoCubes;
 
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! GeoCubesPtr
 
 typedef FCPtr<GeometryPtr, GeoCubes> GeoCubesPtr;
 
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 /*! \brief GeoCubesPtr field traits 
-    \ingroup FieldLib
-    \ingroup SingleFields
-    \ingroup MultiFields
+    \ingroup BaseFieldSingle
+    \ingroup BaseFieldMulti
 */
 
 template <>
@@ -90,9 +93,10 @@ struct FieldDataTraits<GeoCubesPtr> :
     static char     *getSName(void) { return "SFGeoCubesPtr"; }
     static char     *getMName(void) { return "MFGeoCubesPtr"; }
 };
+#endif             // exclude from doc
 
 //! SFGeoCubesPtr
-//! \ingroup SingleFields
+//! \ingroup BaseFieldSingle
 
 typedef SField<GeoCubesPtr> SFGeoCubesPtr;
 
@@ -101,7 +105,7 @@ OSG_DLLEXPORT_DECL1(SField, GeoCubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFGeoCubesPtr
-//! \ingroup MultiFields
+//! \ingroup BaseFieldMulti
 
 typedef MField<GeoCubesPtr> MFGeoCubesPtr;
 

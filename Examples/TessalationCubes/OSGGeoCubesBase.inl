@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ GeoCubesPtr GeoCubesBase::create(void)
 {
     GeoCubesPtr fc; 
 
-    if(getClassType().getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != OSG::NullFC) 
     {
         fc = GeoCubesPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -96,18 +96,21 @@ GeoCubesPtr GeoCubesBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the GeoCubes::_mfPosition field.
 inline
 MFPnt3f *GeoCubesBase::getMFPosition(void)
 {
     return &_mfPosition;
 }
 
+//! Get the GeoCubes::_mfLength field.
 inline
 MFReal32 *GeoCubesBase::getMFLength(void)
 {
     return &_mfLength;
 }
 
+//! Get the GeoCubes::_mfColor field.
 inline
 MFColor3f *GeoCubesBase::getMFColor(void)
 {
@@ -116,60 +119,68 @@ MFColor3f *GeoCubesBase::getMFColor(void)
 
 
 
+//! Get the value of the \a index element the GeoCubes::_mfPosition field.
 inline
 Pnt3f &GeoCubesBase::getPosition(const UInt32 index)
 {
     return _mfPosition[index];
 }
 
+//! Get the GeoCubes::_mfPosition field.
 inline
 MFPnt3f &GeoCubesBase::getPosition(void)
 {
     return _mfPosition;
 }
 
+//! Get the GeoCubes::_mfPosition field.
 inline
 const MFPnt3f &GeoCubesBase::getPosition(void) const
 {
     return _mfPosition;
 }
 
+//! Get the value of the \a index element the GeoCubes::_mfLength field.
 inline
 Real32 &GeoCubesBase::getLength(const UInt32 index)
 {
     return _mfLength[index];
 }
 
+//! Get the GeoCubes::_mfLength field.
 inline
 MFReal32 &GeoCubesBase::getLength(void)
 {
     return _mfLength;
 }
 
+//! Get the GeoCubes::_mfLength field.
 inline
 const MFReal32 &GeoCubesBase::getLength(void) const
 {
     return _mfLength;
 }
 
+//! Get the value of the \a index element the GeoCubes::_mfColor field.
 inline
 Color3f &GeoCubesBase::getColor(const UInt32 index)
 {
     return _mfColor[index];
 }
 
+//! Get the GeoCubes::_mfColor field.
 inline
 MFColor3f &GeoCubesBase::getColor(void)
 {
     return _mfColor;
 }
 
+//! Get the GeoCubes::_mfColor field.
 inline
 const MFColor3f &GeoCubesBase::getColor(void) const
 {
     return _mfColor;
 }
-
 
 OSG_END_NAMESPACE
 
