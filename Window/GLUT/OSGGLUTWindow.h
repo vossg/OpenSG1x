@@ -111,6 +111,11 @@ class OSG_GLUTWINDOW_DLLMAPPING GLUTWindow : public Window
     OSG_FIELD_CONTAINER_DECL(GLUTWindowPtr)
 
     /*------------------------- your_category -------------------------------*/
+
+	/** GL implementation dependent function **/
+	
+	// query the system for a GL function
+	virtual void (*getFunctionByName( const String &s ))();
 	
 	// Window-system dependent functions
 	
@@ -121,6 +126,8 @@ class OSG_GLUTWINDOW_DLLMAPPING GLUTWindow : public Window
 	// activate the window: bind the OGL context	
 	// set the active window, if needed
 	virtual void activate( void );
+	
+	virtual void deactivate ( void ) {}
 	
 	// swap buffers	for this window
 	// does not set the active window!

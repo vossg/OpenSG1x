@@ -55,6 +55,10 @@
 #include <iostream.h>
 #endif
 
+#ifdef sgi
+#include <dlfcn.h>
+#endif
+
 #define OSG_COMPILEGLUTWINDOW
 #define OSG_COMPILEGLUTWINDOWINST
 
@@ -195,6 +199,21 @@ void GLUTWindow::swap( void )
 	glutSwapBuffers();
 }
 
+
+// Query for a GL extension function
+inline void (*GLUTWindow::getFunctionByName( const String &s ))()
+{
+#ifdef sgi
+	static void *libHandle = NULL;
+	if ( ! libHandle ) 
+		libHandle = dlopen("libgl.so", RTLD_LAZY);
+	return (void (*)(void)) dlsym( libHandle, (Char8*)s.str());
+#elif defined( WIN32 )
+	return (  wglGetProcAddress( (UChar8*)s.str() )  );
+#else
+	return (  glXGetProcAddressARB( (UChar8 *)s.str() )  );
+#endif
+}
 
 /*-------------------------- assignment -----------------------------------*/
 

@@ -84,7 +84,6 @@ OSG_BEGIN_NAMESPACE
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
@@ -98,6 +97,13 @@ OSG_BEGIN_NAMESPACE
 \*-------------------------------------------------------------------------*/
 
 OSG_FIELD_CONTAINER_INL_DEF(WIN32Window, WIN32WindowPtr)
+
+// Query for a GL function
+inline void (*WIN32Window::getFunctionByName( const String &s ))()
+{
+	return (  wglGetProcAddress( (UChar8*)s.str() )  );
+}
+
 
 /*------------- constructors & destructors --------------------------------*/
 

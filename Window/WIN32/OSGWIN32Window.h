@@ -58,6 +58,7 @@
 #include <windows.h>
 
 #include "OSGWindow.h"
+#include "OSGString.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -106,6 +107,11 @@ class OSG_WIN32WINDOW_DLLMAPPING WIN32Window : public Window
     OSG_FIELD_CONTAINER_DECL(WIN32WindowPtr)
 
     /*------------------------- your_category -------------------------------*/
+
+	/** GL implementation dependent function **/
+
+	// query the system for a GL function
+	virtual void (*getFunctionByName( const String &s ))();
 	
 	// Window-system dependent functions
 	
@@ -115,6 +121,10 @@ class OSG_WIN32WINDOW_DLLMAPPING WIN32Window : public Window
 	// activate the window: bind the OGL context	
 	// set the active window, if needed
 	virtual void activate( void );
+	
+	// deactivate the window: release the OGL context
+	// release the hardware device context
+	virtual void deactivate ( void );
 	
 	// swap buffers	for this window
 	// does not set the active window!
@@ -127,6 +137,9 @@ class OSG_WIN32WINDOW_DLLMAPPING WIN32Window : public Window
 
 	void  setHDC (HDC hdc)	        { _hdc = hdc; };
 	HDC	  getHDC (void)		        { return _hdc; };
+	
+	void  setPaintStruct (PAINTSTRUCT ps) { _ps = ps; };
+	PAINTSTRUCT getPaintStruct (void)    { return _ps; };
 
 	void  setGLContext (HGLRC glcx)	{ _glcx = glcx; };
 	HGLRC getGLContext (void)		{ return _glcx; };
@@ -214,6 +227,7 @@ class OSG_WIN32WINDOW_DLLMAPPING WIN32Window : public Window
 	HWND   _hwin;
 	HDC	   _hdc;
 	HGLRC  _glcx;	
+	PAINTSTRUCT _ps;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

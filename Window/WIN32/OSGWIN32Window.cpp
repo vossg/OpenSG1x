@@ -167,17 +167,28 @@ void WIN32Window::init( void )
     {
 		cout << "WIN32Window::init: failed: " << GetLastError() << endl;   	
     }
+    ReleaseDC(_hwin,_hdc);
     activate();
 	setupGL();
+	deactivate();
 }
 
 // activate the window: bind the OGL context
 void WIN32Window::activate( void )
-{   
+{    
+	_hdc = BeginPaint( _hwin, &_ps );	
     if ( ! wglMakeCurrent( _hdc, _glcx ) )
     {
     	cout << "WIN32Window::activate: failed: " << GetLastError() << endl;   	
     }
+}
+
+void WIN32Window::deactivate ( void )
+{
+	// unbind the context
+	wglMakeCurrent(NULL, NULL);
+	// release the hardware device context
+	EndPaint( _hwin, &_ps );	
 }
 
 // swap front and back buffers
