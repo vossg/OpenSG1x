@@ -428,7 +428,7 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
 #define FFATAL( par )											\
 {																	\
   osg::initLog(); \
-  if (osgLogP->checkLevel(osg::LOG_FATAL)) { \
+  if (osg::osgLogP->checkLevel(osg::LOG_FATAL)) { \
     osgStartLog(true,osg::LOG_FATAL,OSG_LOG_MODULE,__FILE__,__LINE__); \
     osg::osgLogP->doLog par;	\
     osg::osgLogP->unlock(); \
@@ -438,7 +438,7 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
 #define FWARNING( par )											\
 {																	\
   osg::initLog(); \
-  if (osgLogP->checkLevel(osg::LOG_WARNING)) { \
+  if (osg::osgLogP->checkLevel(osg::LOG_WARNING)) { \
     osgStartLog(true,osg::LOG_WARNING,OSG_LOG_MODULE,__FILE__,__LINE__); \
     osg::osgLogP->doLog par;	\
     osg::osgLogP->unlock(); \
@@ -448,7 +448,7 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
 #define FNOTICE( par )											\
 {																	\
   osg::initLog(); \
-  if (osgLogP->checkLevel(osg::LOG_NOTICE)) { \
+  if (osg::osgLogP->checkLevel(osg::LOG_NOTICE)) { \
     osgStartLog(true,osg::LOG_NOTICE,OSG_LOG_MODULE,__FILE__,__LINE__); \
     osg::osgLogP->doLog par;	\
     osg::osgLogP->unlock(); \
@@ -458,7 +458,7 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
 #define FINFO( par )												\
 {																	\
   osg::initLog(); \
-  if (osgLogP->checkLevel(osg::LOG_INFO)) { \
+  if (osg::osgLogP->checkLevel(osg::LOG_INFO)) { \
     osgStartLog(true,osg::LOG_INFO,OSG_LOG_MODULE,__FILE__,__LINE__); \
     osg::osgLogP->doLog par;	\
     osg::osgLogP->unlock(); \
@@ -469,14 +469,14 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
 #define FDEBUG( par )											\
 {																	\
   osg::initLog(); \
-  if (osgLogP->checkLevel(osg::LOG_DEBUG)) { \
+  if (osg::osgLogP->checkLevel(osg::LOG_DEBUG)) { \
     osgStartLog(true,osg::LOG_DEBUG,OSG_LOG_MODUL,__FILE__,__LINE__) \
     osg::osgLogP->doLog par;	\
     osg::osgLogP->unlock(); \
   } \
 }
 #else
-#define FDEBUG( par )
+#define FDEBUG( par ) ;
 #endif
 
 #define FASSERT( condition, doExit )   \

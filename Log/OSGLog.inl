@@ -220,7 +220,7 @@ ostream & Log::doHeader ( LogLevel level, const char *module,
 			sout << endl;	
 		
 		if (_headerElem & LOG_TYPE_HEADER)
-			sout << _levelName[level] << ": ";
+			sout << _levelName[level] << ":";
 
 		if (_headerElem & LOG_TIMESTAMP_HEADER) 
 			// TODO: get current time
@@ -236,10 +236,12 @@ ostream & Log::doHeader ( LogLevel level, const char *module,
 		}
 		else
 			if (_headerElem & LOG_LINE_HEADER)
-				sout << " line: " << line;
+				sout << " line:" << line;
 
 		if (_headerElem & LOG_END_NEWLINE_HEADER)
 			sout << endl;	
+		else
+			sout << ' ';
 	}
 
 	return sout;

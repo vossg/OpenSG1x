@@ -90,15 +90,15 @@ install-includes:
 	@CURRDIR=`pwd`;                                                     \
 	cd $(INSTALL_DIR)/include;											\
 	rm -f *.h *.inl *.h;												\
-	find $($(PROJ)POOL)							\
+	find $($(PROJ)POOL) -follow							\
 		\( -type d \( -name CVS -o -name Test -o -name include -o 		\
 		   -name Tools \) -prune \) 									\
 		-o -type f -name '*\.hpp' -print -exec $(INSTLINK) {} . \; ;	\
-	find $($(PROJ)POOL)							\
+	find $($(PROJ)POOL)	-follow						\
 		\( -type d \( -name CVS -o -name Test -o -name include  -o 		\
 		   -name Tools \) -prune \) 									\
 		-o -type f -name '*\.h' -print -exec $(INSTLINK) {} . \; ;		\
-	find $($(PROJ)POOL)            				\
+	find $($(PROJ)POOL) -follow           				\
 		\( -type d \( -name CVS -o -name Test -o -name include \)		\
 		   -prune \)													\
 		-o -type f -name '*\.inl' -print -exec $(INSTLINK) {} . \; ;	\
