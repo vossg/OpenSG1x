@@ -151,7 +151,7 @@ default: help
 doc: userdoc
 
 qdoc:
-	make userdoc | egrep -v '^Preprocessing' | egrep -v '^Parsing' | \
+	$(MAKE) userdoc | egrep -v '^Preprocessing' | egrep -v '^Parsing' | \
 			egrep -v '^Generating'
 
 alldocs: userstarter devdoc
@@ -174,7 +174,7 @@ dodoc:
 #   @rm -f ../Common/dummyClasses.list       						
 
 #   find all images and convert them (if necessary)
-	make DOC_IMAGE_TYPE=html images
+	$(MAKE) DOC_IMAGE_TYPE=html images
 
 #   do doxygen
 	$(DOC_ENV) $(DOXYGEN) ../Common/Doxygen_$(BUILD_ENV).cfg -d
@@ -182,29 +182,29 @@ dodoc:
 #	@rm -f ../Common/dummyClasses.dox 
 
 userdoc:
-	make DOC_LEVEL=1 DOC_LEVEL_NAME=user DOC_LEVEL_NAME=user \
+	$(MAKE) DOC_LEVEL=1 DOC_LEVEL_NAME=user DOC_LEVEL_NAME=user \
 	    DOC_LEVEL_PREDEF= \
 		DOC_LEVEL_ENABLED= dodoc
 
 extdoc:
-	make DOC_LEVEL=2 DOC_LEVEL_NAME=ext DOC_LEVEL_NAME=ext \
+	$(MAKE) DOC_LEVEL=2 DOC_LEVEL_NAME=ext DOC_LEVEL_NAME=ext \
 	    DOC_LEVEL_PREDEF="OSG_DOC_EXT" \
 		DOC_LEVEL_ENABLED="ext" dodoc
 
 devdoc:
-	make DOC_LEVEL=3 DOC_LEVEL_NAME=dev DOC_LEVEL_NAME=dev \
+	$(MAKE) DOC_LEVEL=3 DOC_LEVEL_NAME=dev DOC_LEVEL_NAME=dev \
 	    DOC_LEVEL_PREDEF="OSG_DOC_EXT OSG_DOC_DEV" \
 	    DOC_LEVEL_ENABLED="ext dev"  dodoc
 
 devtrdoc:
-	make DOC_LEVEL=4 DOC_LEVEL_NAME=dev_traits DOC_LEVEL_NAME=dev \
+	$(MAKE) DOC_LEVEL=4 DOC_LEVEL_NAME=dev_traits DOC_LEVEL_NAME=dev \
 	    DOC_LEVEL_PREDEF="OSG_DOC_EXT OSG_DOC_DEV OSG_DOC_DEV_TRAITS" \
 	    DOC_LEVEL_ENABLED="ext dev dev_traits"  dodoc
 
 # Starter targets
 
 dostarter:
-	make DOC_LATEX="YES" DOC_DOT="NO" DOC_INTRO="starter.dox" $(DOC_STARTER)doc
+	$(MAKE) DOC_LATEX="YES" DOC_DOT="NO" DOC_INTRO="starter.dox" $(DOC_STARTER)doc
 	# link the images
 	cd $(DOCDIR)/$(DOC_STARTER)/latex/ ; \
 	../../../../Common/refmanToStarter refman.tex StarterGuide.tex ;  \
@@ -212,16 +212,16 @@ dostarter:
 		ps2pdf StarterGuide.ps
 
 userstarter:
-	make DOC_IMAGE_TYPE=latex images
-	make DOC_STARTER="user" dostarter
+	$(MAKE) DOC_IMAGE_TYPE=latex images
+	$(MAKE) DOC_STARTER="user" dostarter
 
 extstarter:
-	make DOC_IMAGE_TYPE=latex images
-	make DOC_STARTER="ext" dostarter
+	$(MAKE) DOC_IMAGE_TYPE=latex images
+	$(MAKE) DOC_STARTER="ext" dostarter
 
 devstarter:
-	make DOC_IMAGE_TYPE=latex images
-	make DOC_STARTER="dev" dostarter
+	$(MAKE) DOC_IMAGE_TYPE=latex images
+	$(MAKE) DOC_STARTER="dev" dostarter
 
 
 # Image conversion rules
@@ -235,7 +235,7 @@ images:
 		sed -e 's|^|Images/|' >> imagelist; 	\
 	done
 
-	make `cat imagelist`
+	$(MAKE) `cat imagelist`
 
 
 Images/%.eps: Images/%.gif

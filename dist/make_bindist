@@ -6,6 +6,20 @@
 # This is an extremely optimistic script, it does no 
 # error checking whatever. Use with care!
 
+# Little function to expand variables in text files
+
+var_expand()
+{
+    src=$1
+    dest=$2
+    
+    sed -e "s/%VERSION%/$OSGVERSION/g"  \
+        -e "s/%SYSTEM%/$system/g"       \
+        -e "s/%DISTNAME%/$distname/g"   \
+        -e "s/%COMPILER%/$compiler/g"   \
+        -e "s/%SUFFIX%/$suffix/g"           < $src > $dest
+}
+
 if test ${#*} -lt 1
 then
     OSGPOOL=`pwd`/OpenSG
@@ -132,7 +146,7 @@ case $system in
 
         . $config_in
     else
-        glut_dir="`pwd`/../packages/glut_3.7"
+        glut_dir="`pwd`/../supportlibs"
         glut_lib="glut32.dll"
         glut_args="--with-glut=$glut_dir"
         qt_dir="`pwd`/../packages/qt-3.0"
@@ -143,6 +157,8 @@ case $system in
         compiler=${compiler:=icl50}
         config_shell=bash
         distname=win
+        innosetup="/cygdrive/c/Programme/Inno Setup 3/ISCC.exe"
+        build_make=make
     fi
     ;;
 
@@ -249,6 +265,7 @@ case $system in
     if test x$OSG_DIST_NO_DISTASSEMBLY = x
     then
     
+        echo "Copying support"
         rm -rf OpenSG-$OSGVERSION-$distname-$compiler$suffix
         mkdir OpenSG-$OSGVERSION-$distname-$compiler$suffix
         cd OpenSG-$OSGVERSION-$distname-$compiler$suffix
@@ -273,7 +290,7 @@ case $system in
         # copies GLUT lib automatically
 
         cp -r $OSGPOOL/dist/win/dist/* .
-        cp    $OSGPOOL/dist/win/README.bindist README.txt
+        var_expand $OSGPOOL/dist/win/README.bindist README.txt
 
         # copy the QT lib, as Qt 3.0 is not everywhere yet
 
@@ -286,16 +303,7 @@ case $system in
         cp -r $OSGPOOL/Builds/$system-$compiler$suffix/include/OpenSG ./include
         cp -r $OSGPOOL/Builds/$system-$compiler$suffix/lib/opt/* lib
         cp -r $OSGPOOL/Builds/$system-$compiler$suffix/lib/dbg/* lib
-    
-#  doesn't work. Libname is written in lib :(
-#    for i in $OSGPOOL/Builds/$system-$compiler$suffix/lib/dbg/*.dll ;
-#    do
-#        l=`basename $i .dll`
-#        d=`dirname $i`
-#        cp $i lib/${l}-dbg.dll
-#        cp $d/$l.lib lib/${l}-dbg.lib 
-#    done
-    
+        
     else
         echo "OSG_DIST_NO_DISTASSEMBLY  set, skipping assembly"
 
@@ -313,6 +321,7 @@ case $system in
 
         cd Examples/SceneViewer
 
+        echo "Building SceneViewer"
 
         $build_make LIBTYPE=opt QTDIR=$qt_dir OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix
 
@@ -347,19 +356,36 @@ case $system in
 
         cd Tutorials
 
+        echo "Building Tutorials"
+
         $build_make LIBTYPE=opt OSGPOOL=$OSGPOOL OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix -f Makefile
     else
         echo "OSG_DIST_NO_TUTORIALBUILD set, skipping tutorial build"
+        
+        cd Tutorials
     fi
 
     $build_make COMP=$compiler$suffix -f Makefile.win dsw
 
+    echo "Cleaning up"
+
     # cleanup the garbage
     rm -rf CVS Makefile* common.* template.* Tutorials.dsp.raw README BUILD \
-           vc60.idb vc70.idb *.obj *.pdb *.ilk
+           vc60.idb vc70.idb *.obj *.pdb *.ilk .prefix*
     
-    cp $OSGPOOL/dist/win/BUILD.tutorials BUILD.txt
-    cp $OSGPOOL/dist/win/README.tutorials README.txt
+    var_expand $OSGPOOL/dist/win/BUILD.tutorials BUILD.txt
+    var_expand $OSGPOOL/dist/README.tutorials README.txt
+    
+    # Build the installer
+
+    echo "Building Installer"
+    cd ../..
+    
+    echo `pwd`
+    var_expand $OSGPOOL/dist/win/opensg_bindist.iss opensg_bindist.iss.raw
+    perl -pi -e 's/\n/\r\n/;' < opensg_bindist.iss.raw > opensg_bindist.iss
+    
+    "$innosetup" opensg_bindist.iss
     
     exit
     ;;
@@ -376,7 +402,7 @@ rm -rf OpenSG-$OSGVERSION-$distname-opt
 mkdir OpenSG-$OSGVERSION-$distname-opt
 
 cd OpenSG-$OSGVERSION-$distname-opt
-cp $OSGPOOL/dist/README.bindist README
+var_expand $OSGPOOL/dist/README.bindist README
 
 # copy the libs/includes
 
@@ -405,14 +431,16 @@ cp -r $OSGPOOL/Tutorials .
 
 cd Tutorials
 rm -rf CVS
+var_expand $OSGPOOL/dist/README.tutorials README
+var_expand $OSGPOOL/dist/BUILD.tutorials BUILD
 sed -e 's|##DBG##|opt|g' < Makefile.dist > Makefile
-sed -e 's|##DBG##|opt|g' < $OSGPOOL/dist/README.tutorials > README
-sed -e 's|##DBG##|opt|g' < $OSGPOOL/dist/BUILD.tutorials > BUILD
 sed -e 's|##DBG##|opt|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneViewer
 chmod 755 ../run_osgSceneViewer
 
 #remove the stuff we don't need here
 rm -f Makefile.dist Makefile.win template.*  Tutorials.dsp.raw common.cygwin .prefix.*
+
+var_expand $OSGPOOL/dist/README.tutorials README
 
 $build_make
 $build_make clean
@@ -420,7 +448,7 @@ $build_make clean
 cd ..
 
 # copy the SceneViewer
-cp $OSGPOOL/Examples/SceneViewer/osgSceneViewer .
+var_expand $OSGPOOL/Examples/SceneViewer/osgSceneViewer .
 
 # do system-specific stuff
 
@@ -504,9 +532,9 @@ echo "tuts..."
 cd Tutorials
 $build_make Clean
 
+var_expand $OSGPOOL/dist/README.tutorials README
+var_expand $OSGPOOL/dist/BUILD.tutorials BUILD
 sed -e 's|##DBG##|dbg|g' < $OSGPOOL/Tutorials/Makefile.dist > Makefile
-sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/README.tutorials > README
-sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/BUILD.tutorials > BUILD
 sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneViewer
 chmod 755 ../run_osgSceneViewer
 

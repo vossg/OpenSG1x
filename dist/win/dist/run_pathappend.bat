@@ -1,1 +1,0 @@
-wscript.exe pathappend.vbs

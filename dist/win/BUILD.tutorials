@@ -1,7 +1,17 @@
 
-  OpenSG Binary Distribution Readme
-  =================================
-  
-This is a binary distribution of OpenSG. It contains tutorial examples for
-OpenSG and the includes and libs to remake them.
+  OpenSG Tutorial Build Instructions
+  ==================================
 
+These tutorials are included in binary form in the Windows distributions. If
+you want to rebuild them, just use the enclosed Visual Studio Workspace File.
+Note that even for Visual Studio.NET we only supply a workspace file. It will
+be converted on the first usage to a VS7 Solution file, and it will work
+directly even in VS7.
+
+If you want to add a new program or start a new project, we strongly encourage
+you to copy one of the existing tutorial projects and start from there, as
+OpenSG needs a bunch of project settings to work correctly. If you miss one of
+them, the result might be a non-working or, even worse, unstably working OpenSG
+system.
+
+See README on what the tutorials do and how to use them.

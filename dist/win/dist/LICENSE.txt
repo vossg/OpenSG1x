@@ -1,8 +1,8 @@
 
-   OpenSG 1.1.0
+   OpenSG %VERSION%
    ============
   
-Welcome to the OpenSG 1.1.0 Distribution.
+Welcome to the OpenSG %VERSION% Distribution.
 
 OpenSG is a scenegraph rendering system, distributed under the GNU Lesser Public License, better known as LGPL.
 
