@@ -36,7 +36,12 @@ struct tms t_struct;
 // return current time 
 #define now()	( times( &t_struct), t_struct.tms_utime )
 // time difference in seconds
+
+#ifdef __linux
+#define delta(a,b)	( ( a - b ) / float(sysconf(_SC_CLK_TCK)) )
+#else
 #define delta(a,b)	( ( a - b ) / float(CLK_TCK) )
+#endif
 
 #else /* use system time. Not a good idea, but better than nothing */
 
