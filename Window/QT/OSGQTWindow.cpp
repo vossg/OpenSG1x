@@ -195,7 +195,7 @@ void QTWindow::init( void )
     }    
 
     // create the new context
-    setGlContext(  glXCreateContext( getDisplay(), vi, None, GL_TRUE )  );
+    setContext(  glXCreateContext( getDisplay(), vi, None, GL_TRUE )  );
 #endif
     
     activate();
