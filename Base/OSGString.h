@@ -46,7 +46,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGConfig.h>
 #include <OSGBaseTypes.h>
+#include <vector.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -123,6 +125,8 @@ class OSG_BASE_DLLMAPPING String
 
 	void    setLength(UInt32 length);
 
+	void    tokenize( vector <String*> &v);
+
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -172,7 +176,7 @@ class OSG_BASE_DLLMAPPING String
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-  private:
+	private:
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -220,7 +224,6 @@ class OSG_BASE_DLLMAPPING String
 //---------------------------------------------------------------------------
 
 // class pointer
-
 typedef String *StringP;
 
 OSG_END_NAMESPACE

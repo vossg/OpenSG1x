@@ -174,6 +174,103 @@ void String::set(const Char8 *str, MemType memType)
 }
 
 //----------------------------------------------------------------------
+// Method: tokenize
+// Author: cholzhae
+// Date:   Mo Oct 09 13:00:00 2000
+// Description:
+//         
+//----------------------------------------------------------------------
+void String::tokenize( vector <String*> &v)
+{
+	int l        = length(),
+		oldpos   = 0,
+		pos      = 0,
+		inQuotes = 0,
+		inToken  = 0;
+		
+	if ( l > 0 ) {
+		
+		char *buf = (char *)malloc( (l+1) * sizeof(char) );
+	
+		for ( pos = 0; pos <= l; pos++) 	
+		{
+			
+			if ( !inQuotes )
+			{
+				if ( !inToken )
+				{
+					if ( _str[pos] == '"' )
+					{
+						inQuotes = 1;
+						oldpos = pos+1;				
+					}
+					else if ( _str[pos] != ' ' )
+					{
+						inToken = 1;
+						oldpos = pos;			
+					}
+				}
+				else if ( inToken )
+				{			
+					if ( _str[pos] == '"' )
+					{
+						inToken = 0;
+						
+						strncpy( buf, _str + oldpos, pos - oldpos );
+						buf [ pos - oldpos ] = '\0';						
+						v.push_back( new String( buf ) );
+						
+						inQuotes = 1;
+						oldpos = pos;
+						
+					}
+					else if ( _str[pos] == ' ' )
+					{
+						inToken = 0;
+						
+						strncpy( buf, _str + oldpos, pos - oldpos );
+						buf [ pos - oldpos ] = '\0';						
+						v.push_back( new String( buf ) );	
+					}
+					else if ( pos == l ) 
+					{
+						strncpy( buf, _str + oldpos, pos - oldpos );
+						buf [ pos - oldpos ] = '\0';						
+						v.push_back( new String( buf ) );	
+					}
+					
+				}
+				
+			}
+			else if ( inQuotes ) 
+			{
+				if ( _str[pos] == '"' )
+				{
+					inQuotes = 0;
+						
+					if ( pos > oldpos )
+					{	
+						strncpy( buf, _str + oldpos, pos - oldpos );
+						buf [ pos - oldpos ] = '\0';						
+						v.push_back( new String( buf ) );
+					}
+				}
+				else if ( pos == l )
+				{
+					if ( pos > oldpos )
+					{
+						strncpy( buf, _str + oldpos, pos - oldpos );
+						buf [ pos - oldpos ] = '\0';						
+						v.push_back( new String( buf ) );
+					}
+				}
+			}		
+		}
+		free(buf);
+	}
+}
+
+//----------------------------------------------------------------------
 // Method: output stream operator
 // Author: jbehr
 // Date:   Mon Dec 22 14:20:20 1997
