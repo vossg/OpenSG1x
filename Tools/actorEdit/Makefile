@@ -38,22 +38,22 @@ OS_TYPE := $(shell echo `uname`_`uname -r`)
 
 ifeq ($(OS),IRIX)
 
-	CCOUT := -o 
-	LDOUT := -o 
+	CCOUT := -o
+	LDOUT := -o
 	BINSUF:=
 
 endif
 ifeq ($(OS),IRIX64)
 
-	CCOUT := -o 
-	LDOUT := -o 
+	CCOUT := -o
+	LDOUT := -o
 	BINSUF:=
 
 endif
 ifeq ($(OS),Linux)
 
-	CCOUT := -o 
-	LDOUT := -o 
+	CCOUT := -o
+	LDOUT := -o
 	BINSUF:=
 
 endif
@@ -67,15 +67,15 @@ ifeq ($(findstring WIN,$(OS)),WIN)
 endif
 ifeq ($(OS),HP-UX)
 
-	CCOUT := -o 
-	LDOUT := -o 
+	CCOUT := -o
+	LDOUT := -o
 	BINSUF:=
 
 endif
 
 ### Retrieve osg-info ##########################################
 
-OSG_CONFIG := $(OSGROOT)/bin/osg-config 
+OSG_CONFIG := $(OSGROOT)/bin/osg-config
 
 MOC           :=  $(shell $(OSG_CONFIG) --moc)
 UIC           :=  $(shell $(OSG_CONFIG) --uic)

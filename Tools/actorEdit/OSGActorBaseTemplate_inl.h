@@ -92,7 +92,7 @@ char *ActorBaseTemplate_inl[] =
 "      _state@!StateElemName!@(@!StateElemDefaultValue!@),",
 "@@endif",
 "@@EndStateLoop@@",
-"      Inherited::StateType()",
+"      ParentStateType()",
 "{",
 "}",
 "",
@@ -107,7 +107,7 @@ char *ActorBaseTemplate_inl[] =
 "      _state@!StateElemName!@(source._state@!StateElemName!@),",
 "@@endif",
 "@@EndStateLoop@@",
-"      Inherited::StateType(source)",
+"      ParentStateType(source)",
 "{",
 "}",
 "",
@@ -217,6 +217,6 @@ char *ActorBaseTemplate_inl[] =
 "",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_INLINE_CVSID \"@(#)$Id: OSGActorBaseTemplate_inl.h,v 1.1 2004/04/20 13:06:50 neumannc Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_INLINE_CVSID \"@(#)$Id: OSGActorBaseTemplate_inl.h,v 1.2 2004/04/21 12:12:36 neumannc Exp $\"",
 NULL
 };

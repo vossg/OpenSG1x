@@ -243,12 +243,14 @@ class @!Classname!@Base : public @!ParentName!@
     /*=========================  PROTECTED  ================================*/
   protected:
     /*----------------------------------------------------------------------*/
-    /*! \name    Types                                                      */
+    /*! \name    Types & Friends                                            */
     /*! \{                                                                  */
 
     class   @!Classname!@BaseState;
+    friend  class OSG::@!Classname!@Base::@!Classname!@BaseState;
 
     typedef @!Classname!@BaseState     StateType;
+    typedef @!ParentName!@::StateType  ParentStateType;
     typedef @!EnterStore!@FunctorStore EnterStoreType;
     typedef @!LeaveStore!@FunctorStore LeaveStoreType;
 
@@ -258,9 +260,9 @@ class @!Classname!@Base : public @!ParentName!@
     /*! \{                                                                  */
 
 @@if Library
-    class OSG_@!LIBNAME!@LIB_DLLMAPPING @!Classname!@BaseState : public @!ParentName!@::StateType
+    class OSG_@!LIBNAME!@LIB_DLLMAPPING @!Classname!@BaseState : public ParentStateType
 @@else
-    class @!Classname!@BaseState : public @!ParentName!@::StateType
+    class @!Classname!@BaseState : public ParentStateType
 @@endif
     {
       public:
