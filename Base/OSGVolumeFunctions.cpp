@@ -164,7 +164,7 @@ OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box,
 
 // # Sphere ###########################################################
 
-OSG_BASE_DLLMAPPING Bool OSG::intersect ( const SphereVolume &sphere1, 
+OSG_BASE_DLLMAPPING Bool intersect ( const SphereVolume &sphere1, 
 																		      const SphereVolume &sphere2)
 {
 	Bool retCode = false;
@@ -247,9 +247,8 @@ OSG_BASE_DLLMAPPING Bool intersect ( const FrustumVolume &frustum,
 // # Volume Extend Functions #########################################
 // ###################################################################
 
-inline
 OSG_BASE_DLLMAPPING void extend ( Volume &srcVol, 
-																	const Volume &vol)
+                                  const Volume &vol)
 {
 	// imp;
 	return;
@@ -327,6 +326,10 @@ OSG_BASE_DLLMAPPING void extend ( BoxVolume &srcVol,
 	return;
 }
 
+#ifdef __sgi
+#pragma set woff 1174,1552
+#endif
+
 OSG_BASE_DLLMAPPING void extend ( BoxVolume &srcVol, 
 																	const Volume &vol)
 {
@@ -349,6 +352,10 @@ OSG_BASE_DLLMAPPING void extend ( BoxVolume &srcVol,
 		osg::extend(srcVol,localBox);
 	}
 }
+
+#ifdef __sgi
+#pragma reset woff 1174,1552
+#endif
 
 // # Sphere ###########################################################
 OSG_BASE_DLLMAPPING void extend ( SphereVolume &srcVol, 
