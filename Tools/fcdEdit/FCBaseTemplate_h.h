@@ -76,7 +76,7 @@ char *FCBaseTemplate_h[]={
 "#include <OSGBaseTypes.h>",
 "#include <OSGFieldDescription.h>",
 "#include <OSGFieldContainer.h>",
-"#include <OSG@!Libname!@Def.h>",
+"#include \"OSG@!Libname!@Def.h\"",
 "#include <OSG@!Parent!@.h>",
 "@@BeginFieldLoop@@",
 "#include <@!FieldtypeInclude!@>	// @!Fieldname!@ type",

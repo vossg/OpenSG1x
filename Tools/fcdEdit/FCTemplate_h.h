@@ -59,7 +59,7 @@ char *FCTemplate_h[]={
 "",
 "#include <OSGConfig.h>",
 "",
-"#include <OSG@!Classname!@Base.h>",
+"#include \"OSG@!Classname!@Base.h\"",
 "",
 "OSG_BEGIN_NAMESPACE",
 "",
