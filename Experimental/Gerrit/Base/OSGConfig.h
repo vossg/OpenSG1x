@@ -299,6 +299,47 @@
 /*                              Windows icc                                */
 
 # if defined(__INTEL_COMPILER) && !defined(__linux)
+
+# ifndef __ICL
+#    define __ICL __INTEL_COMPILER
+# endif
+
+// Use windows internal types to define OpenSG base types
+# define OSG_WIN_TYPES
+
+// Use windows threads
+# define OSG_USE_WINTHREADS
+
+// compiler supports namespaces
+# define OSG_HAS_NAMESPACE
+
+// compiler supports std namespace
+# define OSG_HAS_STD_NAMESPACE
+
+// streams in std namespace
+# define OSG_STREAM_IN_STD_NAMESPACE
+
+// general float math
+# define OSG_HAS_FLOATMATH
+
+// Use WGL 
+# define OSG_USE_WGL
+
+# define OSG_STREAM_HAS_ISOPEN
+
+//# define OSG_HAS_VSNPRINTF
+
+# define OSG_HAS_NILBUF
+# define OSG_STREAM_RDBUF_HAS_PARAM
+
+# define OSG_LONGLONG_HAS_LL
+
+# define OSG_THROW_NOTHING()
+
+# define OSG_WIN32_ICL
+
+# define OSG_FOUND_OS
+
 # endif // defined(__INTEL_COMPILER) && !defined(__linux)
 
 /*-------------------------------------------------------------------------*/
