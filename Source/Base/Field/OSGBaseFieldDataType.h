@@ -46,6 +46,7 @@
 #include <OSGSphereVolume.h>
 #include <OSGBoxVolume.h>
 #include <OSGPlane.h>
+#include <OSGGL.h>
 
 #include <string>
 
@@ -935,6 +936,45 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> :
         }
     }
 
+};
+
+
+/*! \brief GLenum field traits
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+    \ingroup GrpBaseFieldMulti
+*/
+
+template <>
+struct FieldDataTraits1<GLenum> : 
+    public FieldTraitsIntegralRecurseMapper<GLenum>
+{
+    static  DataType                 _type;
+    typedef FieldDataTraits1<GLenum>  Self;
+
+    enum             { StringConvertable = Self::ToStringConvertable   | 
+                                           Self::FromStringConvertable };
+
+    static DataType &getType      (void) { return _type;               }
+
+    static Char8    *getSName     (void) { return "SFGLenum";          }
+    static Char8    *getMName     (void) { return "MFGLenum";          }
+
+    static GLenum    getDefault   (void) { return 0;                   }
+
+    static bool      getFromString(      GLenum  &outVal,
+                                   const Char8  *&inVal)
+    {
+        outVal = TypeConstants<GLenum>::getFromString(inVal);
+        
+        return false;
+    }
+
+    static void      putToString  (const      GLenum &inVal,
+                                         std::string &outStr)
+    {
+        outStr.assign(TypeConstants<GLenum>::putToString(inVal));
+    }
 };
 
 

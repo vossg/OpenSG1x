@@ -183,7 +183,7 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
 /*! \var UInt32          TextureChunkBase::_sfInternalFormat
     The internal texture format.
 */
-/*! \var UInt32          TextureChunkBase::_sfExternalFormat
+/*! \var GLenum          TextureChunkBase::_sfExternalFormat
     The external texture format - overwrites          external format of image when set to a value not equal to          GL_NONE (which is the default).
 */
 /*! \var bool            TextureChunkBase::_sfScale
@@ -192,31 +192,31 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
 /*! \var UInt32          TextureChunkBase::_sfFrame
     Select the frame of the image to be used. See osg::Image about details         concerning multi-frame images.         \hint For fast update use GL_LINEAR or GL_NEAREST filters, as mipmap         creation is slow right now. \endhint
 */
-/*! \var UInt32          TextureChunkBase::_sfMinFilter
+/*! \var GLenum          TextureChunkBase::_sfMinFilter
     The minimisation filter, default GL_LINEAR_MIPMAP_LINEAR.
 */
-/*! \var UInt32          TextureChunkBase::_sfMagFilter
+/*! \var GLenum          TextureChunkBase::_sfMagFilter
     The magnification filter, default GL_LINEAR.
 */
-/*! \var UInt32          TextureChunkBase::_sfWrapS
+/*! \var GLenum          TextureChunkBase::_sfWrapS
     Texture coordinate S wrapping, default GL_REPEAT.
 */
-/*! \var UInt32          TextureChunkBase::_sfWrapT
+/*! \var GLenum          TextureChunkBase::_sfWrapT
     Texture coordinate T wrapping, default GL_REPEAT.
 */
-/*! \var UInt32          TextureChunkBase::_sfWrapR
+/*! \var GLenum          TextureChunkBase::_sfWrapR
     Texture coordinate R wrapping, default GL_REPEAT.
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvMode
+/*! \var GLenum          TextureChunkBase::_sfEnvMode
     Texture environment mode, default GL_REPLACE
 */
 /*! \var Color4f         TextureChunkBase::_sfEnvColor
     Texture environment color default transparent black.
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvCombineRGB
+/*! \var GLenum          TextureChunkBase::_sfEnvCombineRGB
     Texture environment rgb combine mode, default GL_MODULATE
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvCombineAlpha
+/*! \var GLenum          TextureChunkBase::_sfEnvCombineAlpha
     Texture environment alpha combine mode, default GL_MODULATE
 */
 /*! \var Real32          TextureChunkBase::_sfEnvScaleRGB
@@ -225,43 +225,43 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
 /*! \var Real32          TextureChunkBase::_sfEnvScaleAlpha
     Texture environment combine alpha scale factor, default 1.f
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvSource0RGB
+/*! \var GLenum          TextureChunkBase::_sfEnvSource0RGB
     Texture environment combine source 0 rgb, default GL_TEXTURE
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvSource1RGB
+/*! \var GLenum          TextureChunkBase::_sfEnvSource1RGB
     Texture environment combine source 1 rgb, default GL_PREVIOUS_EXT
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvSource2RGB
+/*! \var GLenum          TextureChunkBase::_sfEnvSource2RGB
     Texture environment combine source 2 rgb, default GL_CONSTANT_EXT
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvSource0Alpha
+/*! \var GLenum          TextureChunkBase::_sfEnvSource0Alpha
     Texture environment combine source 0 alpha, default GL_TEXTURE
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvSource1Alpha
+/*! \var GLenum          TextureChunkBase::_sfEnvSource1Alpha
     Texture environment combine source 1 alpha, default GL_PREVIOUS_EXT
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvSource2Alpha
+/*! \var GLenum          TextureChunkBase::_sfEnvSource2Alpha
     Texture environment combine source 2 alpha, default GL_CONSTANT_EXT
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvOperand0RGB
+/*! \var GLenum          TextureChunkBase::_sfEnvOperand0RGB
     Texture environment combine operand 0 rgb, default GL_SRC_COLOR
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvOperand1RGB
+/*! \var GLenum          TextureChunkBase::_sfEnvOperand1RGB
     Texture environment combine operand 1 rgb, default GL_SRC_COLOR
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvOperand2RGB
+/*! \var GLenum          TextureChunkBase::_sfEnvOperand2RGB
     Texture environment combine operand 2 rgb, default GL_SRC_ALPHA
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvOperand0Alpha
+/*! \var GLenum          TextureChunkBase::_sfEnvOperand0Alpha
     Texture environment combine operand 0 alpha, default GL_SRC_ALPHA
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvOperand1Alpha
+/*! \var GLenum          TextureChunkBase::_sfEnvOperand1Alpha
     Texture environment combine operand 1 alpha, default GL_SRC_ALPHA
 */
-/*! \var UInt32          TextureChunkBase::_sfEnvOperand2Alpha
+/*! \var GLenum          TextureChunkBase::_sfEnvOperand2Alpha
     Texture environment combine operand 2 alpha, default GL_SRC_ALPHA
 */
-/*! \var UInt32          TextureChunkBase::_sfGLId
+/*! \var GLenum          TextureChunkBase::_sfGLId
     The OpenGL texture id for this texture.
 */
 
@@ -279,7 +279,7 @@ FieldDescription *TextureChunkBase::_desc[] =
                      InternalFormatFieldId, InternalFormatFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFInternalFormat),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "externalFormat", 
                      ExternalFormatFieldId, ExternalFormatFieldMask,
                      false,
@@ -294,32 +294,32 @@ FieldDescription *TextureChunkBase::_desc[] =
                      FrameFieldId, FrameFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFFrame),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "minFilter", 
                      MinFilterFieldId, MinFilterFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFMinFilter),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "magFilter", 
                      MagFilterFieldId, MagFilterFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFMagFilter),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "wrapS", 
                      WrapSFieldId, WrapSFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFWrapS),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "wrapT", 
                      WrapTFieldId, WrapTFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFWrapT),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "wrapR", 
                      WrapRFieldId, WrapRFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFWrapR),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envMode", 
                      EnvModeFieldId, EnvModeFieldMask,
                      false,
@@ -329,12 +329,12 @@ FieldDescription *TextureChunkBase::_desc[] =
                      EnvColorFieldId, EnvColorFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvColor),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envCombineRGB", 
                      EnvCombineRGBFieldId, EnvCombineRGBFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvCombineRGB),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envCombineAlpha", 
                      EnvCombineAlphaFieldId, EnvCombineAlphaFieldMask,
                      false,
@@ -349,67 +349,67 @@ FieldDescription *TextureChunkBase::_desc[] =
                      EnvScaleAlphaFieldId, EnvScaleAlphaFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvScaleAlpha),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envSource0RGB", 
                      EnvSource0RGBFieldId, EnvSource0RGBFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvSource0RGB),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envSource1RGB", 
                      EnvSource1RGBFieldId, EnvSource1RGBFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvSource1RGB),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envSource2RGB", 
                      EnvSource2RGBFieldId, EnvSource2RGBFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvSource2RGB),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envSource0Alpha", 
                      EnvSource0AlphaFieldId, EnvSource0AlphaFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvSource0Alpha),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envSource1Alpha", 
                      EnvSource1AlphaFieldId, EnvSource1AlphaFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvSource1Alpha),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envSource2Alpha", 
                      EnvSource2AlphaFieldId, EnvSource2AlphaFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvSource2Alpha),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envOperand0RGB", 
                      EnvOperand0RGBFieldId, EnvOperand0RGBFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvOperand0RGB),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envOperand1RGB", 
                      EnvOperand1RGBFieldId, EnvOperand1RGBFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvOperand1RGB),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envOperand2RGB", 
                      EnvOperand2RGBFieldId, EnvOperand2RGBFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvOperand2RGB),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envOperand0Alpha", 
                      EnvOperand0AlphaFieldId, EnvOperand0AlphaFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvOperand0Alpha),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envOperand1Alpha", 
                      EnvOperand1AlphaFieldId, EnvOperand1AlphaFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvOperand1Alpha),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envOperand2Alpha", 
                      EnvOperand2AlphaFieldId, EnvOperand2AlphaFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvOperand2Alpha),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
@@ -471,33 +471,33 @@ void TextureChunkBase::executeSync(      FieldContainer &other,
 TextureChunkBase::TextureChunkBase(void) :
     _sfImage                  (ImageP(0)), 
     _sfInternalFormat         (UInt32(GL_NONE)), 
-    _sfExternalFormat         (UInt32(GL_NONE)), 
+    _sfExternalFormat         (GLenum(GL_NONE)), 
     _sfScale                  (bool(true)), 
     _sfFrame                  (UInt32(0)), 
-    _sfMinFilter              (UInt32(GL_LINEAR_MIPMAP_LINEAR)), 
-    _sfMagFilter              (UInt32(GL_LINEAR)), 
-    _sfWrapS                  (UInt32(GL_REPEAT)), 
-    _sfWrapT                  (UInt32(GL_REPEAT)), 
-    _sfWrapR                  (UInt32(GL_REPEAT)), 
-    _sfEnvMode                (UInt32(GL_REPLACE)), 
+    _sfMinFilter              (GLenum(GL_LINEAR_MIPMAP_LINEAR)), 
+    _sfMagFilter              (GLenum(GL_LINEAR)), 
+    _sfWrapS                  (GLenum(GL_REPEAT)), 
+    _sfWrapT                  (GLenum(GL_REPEAT)), 
+    _sfWrapR                  (GLenum(GL_REPEAT)), 
+    _sfEnvMode                (GLenum(GL_REPLACE)), 
     _sfEnvColor               (Color4f(0,0,0,0)), 
-    _sfEnvCombineRGB          (UInt32(GL_MODULATE)), 
-    _sfEnvCombineAlpha        (UInt32(GL_MODULATE)), 
+    _sfEnvCombineRGB          (GLenum(GL_MODULATE)), 
+    _sfEnvCombineAlpha        (GLenum(GL_MODULATE)), 
     _sfEnvScaleRGB            (Real32(1.0f)), 
     _sfEnvScaleAlpha          (Real32(1.0f)), 
-    _sfEnvSource0RGB          (UInt32(GL_TEXTURE)), 
-    _sfEnvSource1RGB          (UInt32(GL_PREVIOUS_EXT)), 
-    _sfEnvSource2RGB          (UInt32(GL_CONSTANT_EXT)), 
-    _sfEnvSource0Alpha        (UInt32(GL_TEXTURE)), 
-    _sfEnvSource1Alpha        (UInt32(GL_PREVIOUS_EXT)), 
-    _sfEnvSource2Alpha        (UInt32(GL_CONSTANT_EXT)), 
-    _sfEnvOperand0RGB         (UInt32(GL_SRC_COLOR)), 
-    _sfEnvOperand1RGB         (UInt32(GL_SRC_COLOR)), 
-    _sfEnvOperand2RGB         (UInt32(GL_SRC_ALPHA)), 
-    _sfEnvOperand0Alpha       (UInt32(GL_SRC_ALPHA)), 
-    _sfEnvOperand1Alpha       (UInt32(GL_SRC_ALPHA)), 
-    _sfEnvOperand2Alpha       (UInt32(GL_SRC_ALPHA)), 
-    _sfGLId                   (UInt32(0)), 
+    _sfEnvSource0RGB          (GLenum(GL_TEXTURE)), 
+    _sfEnvSource1RGB          (GLenum(GL_PREVIOUS_EXT)), 
+    _sfEnvSource2RGB          (GLenum(GL_CONSTANT_EXT)), 
+    _sfEnvSource0Alpha        (GLenum(GL_TEXTURE)), 
+    _sfEnvSource1Alpha        (GLenum(GL_PREVIOUS_EXT)), 
+    _sfEnvSource2Alpha        (GLenum(GL_CONSTANT_EXT)), 
+    _sfEnvOperand0RGB         (GLenum(GL_SRC_COLOR)), 
+    _sfEnvOperand1RGB         (GLenum(GL_SRC_COLOR)), 
+    _sfEnvOperand2RGB         (GLenum(GL_SRC_ALPHA)), 
+    _sfEnvOperand0Alpha       (GLenum(GL_SRC_ALPHA)), 
+    _sfEnvOperand1Alpha       (GLenum(GL_SRC_ALPHA)), 
+    _sfEnvOperand2Alpha       (GLenum(GL_SRC_ALPHA)), 
+    _sfGLId                   (GLenum(0)), 
     Inherited() 
 {
 }

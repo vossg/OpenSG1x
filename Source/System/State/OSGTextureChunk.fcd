@@ -31,7 +31,7 @@
 	</Field>
 	<Field
 		name="externalFormat"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
@@ -71,7 +71,7 @@
 	</Field>
 	<Field
 		name="minFilter"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_LINEAR_MIPMAP_LINEAR"
@@ -82,7 +82,7 @@
 	</Field>
 	<Field
 		name="magFilter"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_LINEAR"
@@ -93,7 +93,7 @@
 	</Field>
 	<Field
 		name="wrapS"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_REPEAT"
@@ -104,7 +104,7 @@
 	</Field>
 	<Field
 		name="wrapT"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_REPEAT"
@@ -115,7 +115,7 @@
 	</Field>
 	<Field
 		name="wrapR"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_REPEAT"
@@ -126,7 +126,7 @@
 	</Field>
 	<Field
 		name="envMode"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_REPLACE"
@@ -147,7 +147,7 @@
 	</Field>
 	<Field
 		name="envCombineRGB"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_MODULATE"
@@ -158,7 +158,7 @@
 	</Field>
 	<Field
 		name="envCombineAlpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_MODULATE"
@@ -189,7 +189,7 @@
 	</Field>
 	<Field
 		name="envSource0RGB"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_TEXTURE"
@@ -200,7 +200,7 @@
 	</Field>
 	<Field
 		name="envSource1RGB"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_PREVIOUS_EXT"
@@ -211,7 +211,7 @@
 	</Field>
 	<Field
 		name="envSource2RGB"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_CONSTANT_EXT"
@@ -222,7 +222,7 @@
 	</Field>
 	<Field
 		name="envSource0Alpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_TEXTURE"
@@ -233,7 +233,7 @@
 	</Field>
 	<Field
 		name="envSource1Alpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_PREVIOUS_EXT"
@@ -244,7 +244,7 @@
 	</Field>
 	<Field
 		name="envSource2Alpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_CONSTANT_EXT"
@@ -255,7 +255,7 @@
 	</Field>
 	<Field
 		name="envOperand0RGB"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_SRC_COLOR"
@@ -266,7 +266,7 @@
 	</Field>
 	<Field
 		name="envOperand1RGB"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_SRC_COLOR"
@@ -277,7 +277,7 @@
 	</Field>
 	<Field
 		name="envOperand2RGB"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_SRC_ALPHA"
@@ -288,7 +288,7 @@
 	</Field>
 	<Field
 		name="envOperand0Alpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_SRC_ALPHA"
@@ -299,7 +299,7 @@
 	</Field>
 	<Field
 		name="envOperand1Alpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_SRC_ALPHA"
@@ -310,7 +310,7 @@
 	</Field>
 	<Field
 		name="envOperand2Alpha"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_SRC_ALPHA"
@@ -321,7 +321,7 @@
 	</Field>
 	<Field
 		name="GLId"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="internal"
 		access="public"

@@ -182,6 +182,9 @@ void VRMLLoader::initFieldTypeMapper(void)
     setIntExtMapping(SFInt32::getClassType().getId(),
                      ScanParseSkel::OSGsfInt32);
 
+    setIntExtMapping(SFGLenum::getClassType().getId(),
+                     ScanParseSkel::OSGsfInt32);
+
     setIntExtMapping(SFPnt3f::getClassType().getId(),
                      ScanParseSkel::OSGsfVec3f);
 
@@ -218,6 +221,9 @@ void VRMLLoader::initFieldTypeMapper(void)
                      ScanParseSkel::OSGmfColor);
 
     setIntExtMapping(MFInt32::getClassType().getId(),
+                     ScanParseSkel::OSGmfInt32);
+
+    setIntExtMapping(MFGLenum::getClassType().getId(),
                      ScanParseSkel::OSGmfInt32);
 
     setIntExtMapping(MFPnt3f::getClassType().getId(),

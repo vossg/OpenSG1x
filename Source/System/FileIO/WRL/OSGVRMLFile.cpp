@@ -2614,6 +2614,10 @@ void VRMLFile::initIntExtFieldTypeMapper(void)
     Self::setIntExtMapping(SFInt32::getClassType().getId(),
                            ScanParseSkel::OSGsfInt32);
 
+    Self::setIntExtMapping(SFGLenum::getClassType().getId(),
+                           ScanParseSkel::OSGsfInt32);
+
+
     Self::setIntExtMapping(SFQuaternion::getClassType().getId(),
                            ScanParseSkel::OSGsfRotation);
 
@@ -2638,6 +2642,9 @@ void VRMLFile::initIntExtFieldTypeMapper(void)
                            ScanParseSkel::OSGmfFloat);
 
     Self::setIntExtMapping(MFInt32::getClassType().getId(),
+                           ScanParseSkel::OSGmfInt32);
+
+    Self::setIntExtMapping(MFGLenum::getClassType().getId(),
                            ScanParseSkel::OSGmfInt32);
 
     Self::setIntExtMapping(MFQuaternion::getClassType().getId(),

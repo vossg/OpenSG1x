@@ -52,7 +52,7 @@
 #include <OSGNodeCore.h>
 #include <OSGGroup.h>
 #include <OSGGeometry.h>
-#include <OSGFaceIterator.h>
+#include <OSGTriangleIterator.h>
 #include <OSGComponentTransform.h>
 #include <OSGGeoPropPtrs.h>
 #include <OSGSimpleMaterial.h>
@@ -813,8 +813,8 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         return;
     }
 
-    GeoIndicesUI32::StoredFieldType  *pIndexField  = pIndex->getFieldPtr();
-    GeoPTypesUI8::StoredFieldType    *pTypeField   = pTypes->getFieldPtr();
+    GeoIndicesUI32::StoredFieldType  *pIndexField  = pIndex ->getFieldPtr();
+    GeoPTypesUI8::StoredFieldType    *pTypeField   = pTypes ->getFieldPtr();
     GeoPLengthsUI32::StoredFieldType *pLengthField = pLength->getFieldPtr();
 
     if(pIndexField          == NULL ||
@@ -831,17 +831,16 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
     fprintf(pFile, "coordIndex [\n");
     pWriter->incIndent(4);
 
-    FaceIterator it;
+    TriangleIterator it;
 
-    for(it = pGeo->beginFaces(); it != pGeo->endFaces(); ++it)
+    for(it = pGeo->beginTriangles(); it != pGeo->endTriangles(); ++it)
     {
         pWriter->printIndent();
 
-        for(UInt32 i = 0; i < it.getLength(); ++i)
+        for(UInt32 i = 0; i < 3; ++i)
         {
             fprintf(pFile, "%d, ", it.getPositionIndex(i));
         }
-
 /*
         fprintf(pFile, "%d,%d,%d,", it.getPositionIndex(0), 
                                     it.getPositionIndex(1), 
@@ -865,13 +864,13 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         fprintf(pFile, "normalIndex [\n");
         pWriter->incIndent(4);
 
-        FaceIterator it;
+        TriangleIterator it;
 
-        for(it = pGeo->beginFaces(); it != pGeo->endFaces(); ++it)
+        for(it = pGeo->beginTriangles(); it != pGeo->endTriangles(); ++it)
         {
             pWriter->printIndent();
 
-            for(UInt32 i = 0; i < it.getLength(); ++i)
+            for(UInt32 i = 0; i < 3; ++i)
             {
                 fprintf(pFile, "%d, ", it.getNormalIndex(i));
             }
@@ -898,13 +897,13 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         fprintf(pFile, "colorIndex [\n");
         pWriter->incIndent(4);
 
-        FaceIterator it;
+        TriangleIterator it;
 
-        for(it = pGeo->beginFaces(); it != pGeo->endFaces(); ++it)
+        for(it = pGeo->beginTriangles(); it != pGeo->endTriangles(); ++it)
         {
             pWriter->printIndent();
 
-            for(UInt32 i = 0; i < it.getLength(); ++i)
+            for(UInt32 i = 0; i < 3; ++i)
             {
                 fprintf(pFile, " %d,", it.getColorIndex(i));
             }
@@ -930,13 +929,13 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         fprintf(pFile, "texCoordIndex [\n");
         pWriter->incIndent(4);
 
-        FaceIterator it;
+        TriangleIterator it;
 
-        for(it = pGeo->beginFaces(); it != pGeo->endFaces(); ++it)
+        for(it = pGeo->beginTriangles(); it != pGeo->endTriangles(); ++it)
         {
             pWriter->printIndent();
 
-            for(UInt32 i = 0; i < it.getLength(); ++i)
+            for(UInt32 i = 0; i < 3; ++i)
             {
                 fprintf(pFile, "%d,", it.getTexCoordsIndex(i));
             }

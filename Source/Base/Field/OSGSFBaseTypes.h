@@ -143,6 +143,17 @@ OSG_DLLEXPORT_DECL2(SField, BitVector, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
+/*! \brief SFGLenum
+    \ingroup GrpBaseFieldSingle
+*/
+
+typedef SField<GLenum, 1>  SFGLenum;
+
+#ifndef OSG_COMPILEFIELDINST
+OSG_DLLEXPORT_DECL2(SField, GLenum, 1, OSG_BASE_DLLTMPLMAPPING)
+#endif
+
+
 /*! \brief SFPlane
     \ingroup GrpBaseFieldSingle
 */

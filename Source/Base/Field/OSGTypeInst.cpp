@@ -90,6 +90,8 @@ DataType FieldDataTraits<DynamicVolume>::_type("DynamicVolume",
                                                "BaseType");
 DataType FieldDataTraits1<BitVector   >::_type("BitVector",
                                                "BaseType");
+DataType FieldDataTraits1<GLenum      >::_type("GLenum",
+                                               "BaseType");
 
 DataType FieldDataTraits<Vec2f>::_type("Vec2f", "BaseType");
 DataType FieldDataTraits<Vec3f>::_type("Vec3f", "BaseType");
@@ -140,6 +142,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(Color3ub,      OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(Color4ub,      OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(DynamicVolume, OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF2(BitVector, 1,  OSG_BASE_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF2(GLenum,    1,  OSG_BASE_DLLTMPLMAPPING);
 
 OSG_DLLEXPORT_MFIELD_DEF1(std::string,   OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF2(Time, 1,       OSG_BASE_DLLTMPLMAPPING);
@@ -149,6 +152,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(Color3ub,      OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(Color4ub,      OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(DynamicVolume, OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF2(BitVector, 1,  OSG_BASE_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF2(GLenum,    1,  OSG_BASE_DLLTMPLMAPPING);
 
 OSG_DLLEXPORT_SFIELD_DEF1(Vec2f, OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(Vec3f, OSG_BASE_DLLTMPLMAPPING);

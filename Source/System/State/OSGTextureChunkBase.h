@@ -67,33 +67,33 @@
 
 #include <OSGImagePFields.h> // Image type
 #include <OSGUInt32Fields.h> // InternalFormat type
-#include <OSGUInt32Fields.h> // ExternalFormat type
+#include <OSGGLenumFields.h> // ExternalFormat type
 #include <OSGBoolFields.h> // Scale type
 #include <OSGUInt32Fields.h> // Frame type
-#include <OSGUInt32Fields.h> // MinFilter type
-#include <OSGUInt32Fields.h> // MagFilter type
-#include <OSGUInt32Fields.h> // WrapS type
-#include <OSGUInt32Fields.h> // WrapT type
-#include <OSGUInt32Fields.h> // WrapR type
-#include <OSGUInt32Fields.h> // EnvMode type
+#include <OSGGLenumFields.h> // MinFilter type
+#include <OSGGLenumFields.h> // MagFilter type
+#include <OSGGLenumFields.h> // WrapS type
+#include <OSGGLenumFields.h> // WrapT type
+#include <OSGGLenumFields.h> // WrapR type
+#include <OSGGLenumFields.h> // EnvMode type
 #include <OSGColor4fFields.h> // EnvColor type
-#include <OSGUInt32Fields.h> // EnvCombineRGB type
-#include <OSGUInt32Fields.h> // EnvCombineAlpha type
+#include <OSGGLenumFields.h> // EnvCombineRGB type
+#include <OSGGLenumFields.h> // EnvCombineAlpha type
 #include <OSGReal32Fields.h> // EnvScaleRGB type
 #include <OSGReal32Fields.h> // EnvScaleAlpha type
-#include <OSGUInt32Fields.h> // EnvSource0RGB type
-#include <OSGUInt32Fields.h> // EnvSource1RGB type
-#include <OSGUInt32Fields.h> // EnvSource2RGB type
-#include <OSGUInt32Fields.h> // EnvSource0Alpha type
-#include <OSGUInt32Fields.h> // EnvSource1Alpha type
-#include <OSGUInt32Fields.h> // EnvSource2Alpha type
-#include <OSGUInt32Fields.h> // EnvOperand0RGB type
-#include <OSGUInt32Fields.h> // EnvOperand1RGB type
-#include <OSGUInt32Fields.h> // EnvOperand2RGB type
-#include <OSGUInt32Fields.h> // EnvOperand0Alpha type
-#include <OSGUInt32Fields.h> // EnvOperand1Alpha type
-#include <OSGUInt32Fields.h> // EnvOperand2Alpha type
-#include <OSGUInt32Fields.h> // GLId type
+#include <OSGGLenumFields.h> // EnvSource0RGB type
+#include <OSGGLenumFields.h> // EnvSource1RGB type
+#include <OSGGLenumFields.h> // EnvSource2RGB type
+#include <OSGGLenumFields.h> // EnvSource0Alpha type
+#include <OSGGLenumFields.h> // EnvSource1Alpha type
+#include <OSGGLenumFields.h> // EnvSource2Alpha type
+#include <OSGGLenumFields.h> // EnvOperand0RGB type
+#include <OSGGLenumFields.h> // EnvOperand1RGB type
+#include <OSGGLenumFields.h> // EnvOperand2RGB type
+#include <OSGGLenumFields.h> // EnvOperand0Alpha type
+#include <OSGGLenumFields.h> // EnvOperand1Alpha type
+#include <OSGGLenumFields.h> // EnvOperand2Alpha type
+#include <OSGGLenumFields.h> // GLId type
 
 #include <OSGTextureChunkFields.h>
 
@@ -202,92 +202,92 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
            SFImageP            *getSFImage          (void);
            SFUInt32            *getSFInternalFormat (void);
-           SFUInt32            *getSFExternalFormat (void);
+           SFGLenum            *getSFExternalFormat (void);
            SFBool              *getSFScale          (void);
            SFUInt32            *getSFFrame          (void);
-           SFUInt32            *getSFMinFilter      (void);
-           SFUInt32            *getSFMagFilter      (void);
-           SFUInt32            *getSFWrapS          (void);
-           SFUInt32            *getSFWrapT          (void);
-           SFUInt32            *getSFWrapR          (void);
-           SFUInt32            *getSFEnvMode        (void);
+           SFGLenum            *getSFMinFilter      (void);
+           SFGLenum            *getSFMagFilter      (void);
+           SFGLenum            *getSFWrapS          (void);
+           SFGLenum            *getSFWrapT          (void);
+           SFGLenum            *getSFWrapR          (void);
+           SFGLenum            *getSFEnvMode        (void);
            SFColor4f           *getSFEnvColor       (void);
-           SFUInt32            *getSFEnvCombineRGB  (void);
-           SFUInt32            *getSFEnvCombineAlpha(void);
+           SFGLenum            *getSFEnvCombineRGB  (void);
+           SFGLenum            *getSFEnvCombineAlpha(void);
            SFReal32            *getSFEnvScaleRGB    (void);
            SFReal32            *getSFEnvScaleAlpha  (void);
-           SFUInt32            *getSFEnvSource0RGB  (void);
-           SFUInt32            *getSFEnvSource1RGB  (void);
-           SFUInt32            *getSFEnvSource2RGB  (void);
-           SFUInt32            *getSFEnvSource0Alpha(void);
-           SFUInt32            *getSFEnvSource1Alpha(void);
-           SFUInt32            *getSFEnvSource2Alpha(void);
-           SFUInt32            *getSFEnvOperand0RGB (void);
-           SFUInt32            *getSFEnvOperand1RGB (void);
-           SFUInt32            *getSFEnvOperand2RGB (void);
-           SFUInt32            *getSFEnvOperand0Alpha(void);
-           SFUInt32            *getSFEnvOperand1Alpha(void);
-           SFUInt32            *getSFEnvOperand2Alpha(void);
-           SFUInt32            *getSFGLId           (void);
+           SFGLenum            *getSFEnvSource0RGB  (void);
+           SFGLenum            *getSFEnvSource1RGB  (void);
+           SFGLenum            *getSFEnvSource2RGB  (void);
+           SFGLenum            *getSFEnvSource0Alpha(void);
+           SFGLenum            *getSFEnvSource1Alpha(void);
+           SFGLenum            *getSFEnvSource2Alpha(void);
+           SFGLenum            *getSFEnvOperand0RGB (void);
+           SFGLenum            *getSFEnvOperand1RGB (void);
+           SFGLenum            *getSFEnvOperand2RGB (void);
+           SFGLenum            *getSFEnvOperand0Alpha(void);
+           SFGLenum            *getSFEnvOperand1Alpha(void);
+           SFGLenum            *getSFEnvOperand2Alpha(void);
+           SFGLenum            *getSFGLId           (void);
 
            ImageP              &getImage          (void);
      const ImageP              &getImage          (void) const;
            UInt32              &getInternalFormat (void);
      const UInt32              &getInternalFormat (void) const;
-           UInt32              &getExternalFormat (void);
-     const UInt32              &getExternalFormat (void) const;
+           GLenum              &getExternalFormat (void);
+     const GLenum              &getExternalFormat (void) const;
            bool                &getScale          (void);
      const bool                &getScale          (void) const;
            UInt32              &getFrame          (void);
      const UInt32              &getFrame          (void) const;
-           UInt32              &getMinFilter      (void);
-     const UInt32              &getMinFilter      (void) const;
-           UInt32              &getMagFilter      (void);
-     const UInt32              &getMagFilter      (void) const;
-           UInt32              &getWrapS          (void);
-     const UInt32              &getWrapS          (void) const;
-           UInt32              &getWrapT          (void);
-     const UInt32              &getWrapT          (void) const;
-           UInt32              &getWrapR          (void);
-     const UInt32              &getWrapR          (void) const;
-           UInt32              &getEnvMode        (void);
-     const UInt32              &getEnvMode        (void) const;
+           GLenum              &getMinFilter      (void);
+     const GLenum              &getMinFilter      (void) const;
+           GLenum              &getMagFilter      (void);
+     const GLenum              &getMagFilter      (void) const;
+           GLenum              &getWrapS          (void);
+     const GLenum              &getWrapS          (void) const;
+           GLenum              &getWrapT          (void);
+     const GLenum              &getWrapT          (void) const;
+           GLenum              &getWrapR          (void);
+     const GLenum              &getWrapR          (void) const;
+           GLenum              &getEnvMode        (void);
+     const GLenum              &getEnvMode        (void) const;
            Color4f             &getEnvColor       (void);
      const Color4f             &getEnvColor       (void) const;
-           UInt32              &getEnvCombineRGB  (void);
-     const UInt32              &getEnvCombineRGB  (void) const;
-           UInt32              &getEnvCombineAlpha(void);
-     const UInt32              &getEnvCombineAlpha(void) const;
+           GLenum              &getEnvCombineRGB  (void);
+     const GLenum              &getEnvCombineRGB  (void) const;
+           GLenum              &getEnvCombineAlpha(void);
+     const GLenum              &getEnvCombineAlpha(void) const;
            Real32              &getEnvScaleRGB    (void);
      const Real32              &getEnvScaleRGB    (void) const;
            Real32              &getEnvScaleAlpha  (void);
      const Real32              &getEnvScaleAlpha  (void) const;
-           UInt32              &getEnvSource0RGB  (void);
-     const UInt32              &getEnvSource0RGB  (void) const;
-           UInt32              &getEnvSource1RGB  (void);
-     const UInt32              &getEnvSource1RGB  (void) const;
-           UInt32              &getEnvSource2RGB  (void);
-     const UInt32              &getEnvSource2RGB  (void) const;
-           UInt32              &getEnvSource0Alpha(void);
-     const UInt32              &getEnvSource0Alpha(void) const;
-           UInt32              &getEnvSource1Alpha(void);
-     const UInt32              &getEnvSource1Alpha(void) const;
-           UInt32              &getEnvSource2Alpha(void);
-     const UInt32              &getEnvSource2Alpha(void) const;
-           UInt32              &getEnvOperand0RGB (void);
-     const UInt32              &getEnvOperand0RGB (void) const;
-           UInt32              &getEnvOperand1RGB (void);
-     const UInt32              &getEnvOperand1RGB (void) const;
-           UInt32              &getEnvOperand2RGB (void);
-     const UInt32              &getEnvOperand2RGB (void) const;
-           UInt32              &getEnvOperand0Alpha(void);
-     const UInt32              &getEnvOperand0Alpha(void) const;
-           UInt32              &getEnvOperand1Alpha(void);
-     const UInt32              &getEnvOperand1Alpha(void) const;
-           UInt32              &getEnvOperand2Alpha(void);
-     const UInt32              &getEnvOperand2Alpha(void) const;
-           UInt32              &getGLId           (void);
-     const UInt32              &getGLId           (void) const;
+           GLenum              &getEnvSource0RGB  (void);
+     const GLenum              &getEnvSource0RGB  (void) const;
+           GLenum              &getEnvSource1RGB  (void);
+     const GLenum              &getEnvSource1RGB  (void) const;
+           GLenum              &getEnvSource2RGB  (void);
+     const GLenum              &getEnvSource2RGB  (void) const;
+           GLenum              &getEnvSource0Alpha(void);
+     const GLenum              &getEnvSource0Alpha(void) const;
+           GLenum              &getEnvSource1Alpha(void);
+     const GLenum              &getEnvSource1Alpha(void) const;
+           GLenum              &getEnvSource2Alpha(void);
+     const GLenum              &getEnvSource2Alpha(void) const;
+           GLenum              &getEnvOperand0RGB (void);
+     const GLenum              &getEnvOperand0RGB (void) const;
+           GLenum              &getEnvOperand1RGB (void);
+     const GLenum              &getEnvOperand1RGB (void) const;
+           GLenum              &getEnvOperand2RGB (void);
+     const GLenum              &getEnvOperand2RGB (void) const;
+           GLenum              &getEnvOperand0Alpha(void);
+     const GLenum              &getEnvOperand0Alpha(void) const;
+           GLenum              &getEnvOperand1Alpha(void);
+     const GLenum              &getEnvOperand1Alpha(void) const;
+           GLenum              &getEnvOperand2Alpha(void);
+     const GLenum              &getEnvOperand2Alpha(void) const;
+           GLenum              &getGLId           (void);
+     const GLenum              &getGLId           (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -296,33 +296,33 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
      void setImage          ( const ImageP &value );
      void setInternalFormat ( const UInt32 &value );
-     void setExternalFormat ( const UInt32 &value );
+     void setExternalFormat ( const GLenum &value );
      void setScale          ( const bool &value );
      void setFrame          ( const UInt32 &value );
-     void setMinFilter      ( const UInt32 &value );
-     void setMagFilter      ( const UInt32 &value );
-     void setWrapS          ( const UInt32 &value );
-     void setWrapT          ( const UInt32 &value );
-     void setWrapR          ( const UInt32 &value );
-     void setEnvMode        ( const UInt32 &value );
+     void setMinFilter      ( const GLenum &value );
+     void setMagFilter      ( const GLenum &value );
+     void setWrapS          ( const GLenum &value );
+     void setWrapT          ( const GLenum &value );
+     void setWrapR          ( const GLenum &value );
+     void setEnvMode        ( const GLenum &value );
      void setEnvColor       ( const Color4f &value );
-     void setEnvCombineRGB  ( const UInt32 &value );
-     void setEnvCombineAlpha( const UInt32 &value );
+     void setEnvCombineRGB  ( const GLenum &value );
+     void setEnvCombineAlpha( const GLenum &value );
      void setEnvScaleRGB    ( const Real32 &value );
      void setEnvScaleAlpha  ( const Real32 &value );
-     void setEnvSource0RGB  ( const UInt32 &value );
-     void setEnvSource1RGB  ( const UInt32 &value );
-     void setEnvSource2RGB  ( const UInt32 &value );
-     void setEnvSource0Alpha( const UInt32 &value );
-     void setEnvSource1Alpha( const UInt32 &value );
-     void setEnvSource2Alpha( const UInt32 &value );
-     void setEnvOperand0RGB ( const UInt32 &value );
-     void setEnvOperand1RGB ( const UInt32 &value );
-     void setEnvOperand2RGB ( const UInt32 &value );
-     void setEnvOperand0Alpha( const UInt32 &value );
-     void setEnvOperand1Alpha( const UInt32 &value );
-     void setEnvOperand2Alpha( const UInt32 &value );
-     void setGLId           ( const UInt32 &value );
+     void setEnvSource0RGB  ( const GLenum &value );
+     void setEnvSource1RGB  ( const GLenum &value );
+     void setEnvSource2RGB  ( const GLenum &value );
+     void setEnvSource0Alpha( const GLenum &value );
+     void setEnvSource1Alpha( const GLenum &value );
+     void setEnvSource2Alpha( const GLenum &value );
+     void setEnvOperand0RGB ( const GLenum &value );
+     void setEnvOperand1RGB ( const GLenum &value );
+     void setEnvOperand2RGB ( const GLenum &value );
+     void setEnvOperand0Alpha( const GLenum &value );
+     void setEnvOperand1Alpha( const GLenum &value );
+     void setEnvOperand2Alpha( const GLenum &value );
+     void setGLId           ( const GLenum &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -370,33 +370,33 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
     SFImageP            _sfImage;
     SFUInt32            _sfInternalFormat;
-    SFUInt32            _sfExternalFormat;
+    SFGLenum            _sfExternalFormat;
     SFBool              _sfScale;
     SFUInt32            _sfFrame;
-    SFUInt32            _sfMinFilter;
-    SFUInt32            _sfMagFilter;
-    SFUInt32            _sfWrapS;
-    SFUInt32            _sfWrapT;
-    SFUInt32            _sfWrapR;
-    SFUInt32            _sfEnvMode;
+    SFGLenum            _sfMinFilter;
+    SFGLenum            _sfMagFilter;
+    SFGLenum            _sfWrapS;
+    SFGLenum            _sfWrapT;
+    SFGLenum            _sfWrapR;
+    SFGLenum            _sfEnvMode;
     SFColor4f           _sfEnvColor;
-    SFUInt32            _sfEnvCombineRGB;
-    SFUInt32            _sfEnvCombineAlpha;
+    SFGLenum            _sfEnvCombineRGB;
+    SFGLenum            _sfEnvCombineAlpha;
     SFReal32            _sfEnvScaleRGB;
     SFReal32            _sfEnvScaleAlpha;
-    SFUInt32            _sfEnvSource0RGB;
-    SFUInt32            _sfEnvSource1RGB;
-    SFUInt32            _sfEnvSource2RGB;
-    SFUInt32            _sfEnvSource0Alpha;
-    SFUInt32            _sfEnvSource1Alpha;
-    SFUInt32            _sfEnvSource2Alpha;
-    SFUInt32            _sfEnvOperand0RGB;
-    SFUInt32            _sfEnvOperand1RGB;
-    SFUInt32            _sfEnvOperand2RGB;
-    SFUInt32            _sfEnvOperand0Alpha;
-    SFUInt32            _sfEnvOperand1Alpha;
-    SFUInt32            _sfEnvOperand2Alpha;
-    SFUInt32            _sfGLId;
+    SFGLenum            _sfEnvSource0RGB;
+    SFGLenum            _sfEnvSource1RGB;
+    SFGLenum            _sfEnvSource2RGB;
+    SFGLenum            _sfEnvSource0Alpha;
+    SFGLenum            _sfEnvSource1Alpha;
+    SFGLenum            _sfEnvSource2Alpha;
+    SFGLenum            _sfEnvOperand0RGB;
+    SFGLenum            _sfEnvOperand1RGB;
+    SFGLenum            _sfEnvOperand2RGB;
+    SFGLenum            _sfEnvOperand0Alpha;
+    SFGLenum            _sfEnvOperand1Alpha;
+    SFGLenum            _sfEnvOperand2Alpha;
+    SFGLenum            _sfGLId;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

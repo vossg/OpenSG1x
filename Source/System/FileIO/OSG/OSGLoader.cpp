@@ -244,6 +244,11 @@ void OSGLoader::initFieldTypeMapper(void)
     setIntExtMapping(MFUInt32::getClassType().getId(),
                      ScanParseSkel::OSGmfInt32);
 
+    setIntExtMapping(SFGLenum::getClassType().getId(),
+                     ScanParseSkel::OSGsfInt32);
+    setIntExtMapping(SFGLenum::getClassType().getId(),
+                     ScanParseSkel::OSGmfInt32);
+
 
     /* To Node Mappings */
 
