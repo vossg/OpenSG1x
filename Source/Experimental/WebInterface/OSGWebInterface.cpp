@@ -87,9 +87,9 @@ void WebInterface::handleRequests()
             "Content-Type: text/html\r\n"
             "\r\n";
         // find handler
-        hI = _handler.find(path);
+        hI = _handler.find(IDString(path.c_str()));
         if(hI != _handler.end())
-            (this->*hI->second)(_body,path,param);
+            (this->*hI->second)(_body,path.c_str(),param);
         else
             _body << "<html>Invalid path</html>";
         _body.flush();
@@ -130,7 +130,7 @@ void WebInterface::setRoot(NodePtr root)
  */
 void WebInterface::addHandler(char *path,MethodT method)
 {
-    _handler[path] = method;
+    _handler[IDString(path)] = method;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -153,12 +153,12 @@ std::string WebInterface::encodeUrl(const std::string &path,
     {
         if(pI != param.begin())
             result += '&';
-        result += pI->first;
-        if(!pI->second.empty())
+        result += pI->first.str();
+        if(!pI->second.isEmpty())
             result += '=';
-        for(c = 0 ; c < pI->second.size() ; ++c)
+        for(c = 0 ; c < pI->second.getLength() ; ++c)
         {
-            ch = pI->second[c];
+            ch = pI->second.str()[c];
             switch(ch)
             {
                 case ' ':
@@ -240,7 +240,7 @@ void WebInterface::decodeUrl(const std::string &url,
                     }
                 }
             }
-            param[name]=value;
+            setParam(param,name.c_str(),value.c_str());
         } while(*sI == '&');
     }
 }
@@ -274,6 +274,30 @@ std::string WebInterface::createFCViewReference(FieldContainerPtr fcPtr,
     return result.str();
 }
 
+/*! get parameter. If the parameter is not set, NULL
+    is returned.
+ */
+const char *WebInterface::getParam(ParameterT &param,const char *name)
+{
+    ParameterT::iterator pI = param.find(IDString(name));
+    if(pI == param.end())
+        return NULL;
+    else
+        return pI->second.str();
+}
+
+/*! set parameter to the given value. If value is NULL, the
+    parameter is removed.
+ */
+void WebInterface::setParam(ParameterT &param,
+                            const char *name,
+                            const char *value)
+{
+    if(!value)
+        param.erase(IDString(name));
+    else
+        param[IDString(name)] = IDString(value);
+}
 
 /*! Handle pending http requests. The requested url is return in
   url. If no request is pending, false is returned.
@@ -318,18 +342,18 @@ void WebInterface::treeViewNode(std::ostream &os,NodePtr node,
         return;
     }
     sprintf(idstr,"%d",node.getFieldContainerId());
-    if(param.count(idstr))
+    if(param.count(IDString(idstr)))
     {
-        param["close"] = idstr;
+        setParam(param,"close",idstr);
         folder = encodeUrl("treeview",param);
-        param.erase("close");
+        setParam(param,"close",NULL);
         os << "<li><a href=\"" << folder << "\">&nbsp - &nbsp</a>";
     }
     else
     {
-        param["open"] = idstr;
+        setParam(param,"open",idstr);
         folder = encodeUrl("treeview",param);
-        param.erase("open");
+        setParam(param,"open",NULL);
         os << "<li><a href=\"" << folder << "\">&nbsp + &nbsp</a>";
     }
     os << "&nbsp &nbsp &nbsp "
@@ -341,7 +365,7 @@ void WebInterface::treeViewNode(std::ostream &os,NodePtr node,
     }
     os << "</li>";
 
-    if(param.count(idstr))
+    if(param.count(IDString(idstr)))
     {
         os << "<ul>\n";
         for(MFNodePtr::iterator nI=node->getMFChildren()->begin();
@@ -360,7 +384,7 @@ void WebInterface::treeViewNode(std::ostream &os,NodePtr node,
 /*! main page
  */
 void WebInterface::rootHandler(std::ostream &os,
-                               std::string &,
+                               const char *,
                                ParameterT &)
 {
     os <<
@@ -376,7 +400,7 @@ void WebInterface::rootHandler(std::ostream &os,
 /*! View the current changelist
  */
 void WebInterface::changelistHandler(std::ostream &os,
-                                     std::string &,
+                                     const char *,
                                      ParameterT &)
 {
     ChangeList::idrefd_const_iterator   createdI;
@@ -488,23 +512,22 @@ void WebInterface::changelistHandler(std::ostream &os,
 /*! FieldContainer view handler
  */
 void WebInterface::fcViewHandler(std::ostream &os,
-                                 std::string &,
+                                 const char *,
                                  ParameterT &param)
 {
     FieldContainerPtr                   fcPtr,childFcPtr;
     std::string                         type,value;
     UInt32                              id;
-    ParameterT::const_iterator          pI=param.find("id");
     FieldDescription                   *desc;
     Field                              *field;
     MFFieldContainerPtr                *mfFCPtr;
 
-    if(pI == param.end())
+    if(!getParam(param,"id"))
     {
         os << "<html>id missing</html>";
         return;
     }
-    id=atoi(pI->second.c_str());
+    id=atoi(getParam(param,"id"));
 
     os << "<html>";
     fcPtr = FieldContainerFactory::the()->getContainer(id);
@@ -589,7 +612,7 @@ void WebInterface::fcViewHandler(std::ostream &os,
 /*! Edit field value
  */
 void WebInterface::fcEditHandler(std::ostream &os,
-                                 std::string &,
+                                 const char *,
                                  ParameterT &param)
 {
     FieldContainerPtr fcPtr=NullFC;
@@ -599,14 +622,14 @@ void WebInterface::fcEditHandler(std::ostream &os,
     Field            *field;
     FieldDescription *desc=NULL;
 
-    if(param.count("id"))
+    if(getParam(param,"id"))
     {
-        cid = atoi(param["id"].c_str());
+        cid = atoi(getParam(param,"id"));
         fcPtr = FieldContainerFactory::the()->getContainer(cid);
     }
-    if(param.count("field"))
+    if(getParam(param,"field"))
     {
-        fid = atoi(param["field"].c_str());
+        fid = atoi(getParam(param,"field"));
     }
     if(fcPtr == NullFC)
     {
@@ -620,10 +643,10 @@ void WebInterface::fcEditHandler(std::ostream &os,
         return;
     }
     desc=fcPtr->getType().getFieldDescription(fid+1);
-    if(param.count("value"))
+    if(getParam(param,"value"))
     {
         beginEditCP(fcPtr,desc->getFieldMask());
-        field->pushValueByStr(param["value"].c_str());
+        field->pushValueByStr(getParam(param,"value"));
         endEditCP(fcPtr,desc->getFieldMask());
     }
     field->getValueByStr(value);
@@ -651,29 +674,24 @@ void WebInterface::fcEditHandler(std::ostream &os,
   are used to open or close folders.
 */
 void WebInterface::treeViewHandler(std::ostream &os,
-                                   std::string &,
+                                   const char *,
                                    ParameterT &param)
 {
     ParameterT::iterator pI;
     UInt32               id;
 
     // open folder
-    pI = param.find("open");
-    if(pI != param.end() && !pI->second.empty())
+    if(getParam(param,"open"))
     {
-        param[pI->second]="";
-        param.erase(pI);
+        setParam(param,getParam(param,"open"),"");
+        setParam(param,"open",NULL);
     }        
     // close folder
-    pI = param.find("close");
-    if(pI != param.end())
+    if(getParam(param,"close"))
     {
-        pI = param.find(pI->second);
-        if(pI != param.end())
-            param.erase(pI);
-        param.erase("close");
+        setParam(param,getParam(param,"close"),NULL);
+        setParam(param,"close",NULL);
     }        
-  
     // Changed 
     os << "<html>"
        << "<h1>Scenegraph</h1>\n"

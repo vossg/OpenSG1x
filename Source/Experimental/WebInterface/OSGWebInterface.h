@@ -9,15 +9,16 @@
 #include <OSGStreamSocket.h>
 #include <OSGBaseTypes.h>
 #include <OSGNode.h>
+#include <OSGIDString.h>
 
 using namespace osg;
 
 class OSG_SYSTEMLIB_DLLMAPPING WebInterface {
     /*==========================  PUBLIC  =================================*/
 public:
-    typedef std::map<std::string,std::string> ParameterT;
-    typedef void (WebInterface::*MethodT)(std::ostream &,std::string &,ParameterT &);
-    typedef std::map<std::string,MethodT> HandlerT;
+    typedef std::map<IDString,IDString> ParameterT;
+    typedef void (WebInterface::*MethodT)(std::ostream &,const char*,ParameterT &);
+    typedef std::map<IDString,MethodT> HandlerT;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -72,8 +73,15 @@ protected:
     /*! \name                    Helper                                    */
     /*! \{                                                                 */
 
-    std::string createFCViewReference(FieldContainerPtr fcPtr,
-                                      UInt32            id=0  );
+    std::string createFCViewReference(      FieldContainerPtr fcPtr,
+                                            UInt32            id=0  );
+
+    const char *getParam             (      ParameterT       &param,
+                                      const char             *name  );
+
+    void        setParam             (      ParameterT       &param,
+                                      const char             *name ,
+                                      const char             *value );
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -93,15 +101,15 @@ private:
     /*! \{                                                                 */
 
     void rootHandler      (std::ostream &os,
-                           std::string  &path,ParameterT &param);
+                           const char   *path,ParameterT &param);
     void changelistHandler(std::ostream &os,
-                           std::string  &path,ParameterT &param);
+                           const char   *path,ParameterT &param);
     void fcViewHandler    (std::ostream &os,
-                           std::string  &path,ParameterT &param);
+                           const char   *path,ParameterT &param);
     void fcEditHandler    (std::ostream &os,
-                           std::string  &path,ParameterT &param);
+                           const char   *path,ParameterT &param);
     void treeViewHandler  (std::ostream &os,
-                           std::string  &path,ParameterT &param);
+                           const char   *path,ParameterT &param);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
