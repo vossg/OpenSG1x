@@ -115,7 +115,21 @@ void Image::changed(BitVector whichField, UInt32 origin)
                                 ChangedOrigin::Child);
         ++parentsIt;
     }
+    
+    // Update internals
+    Int32 mapSizeType = sizeof(_typeDic) / sizeof(UInt32[2]);
+    UInt32 typeFormat  = 0;
+    Int32 i;
+    for(i = 0; i < mapSizeType; i++)
+    {
+        if(_typeDic[i][0] == getDataType())
+            typeFormat = _typeDic[i][1];
+    }
 
+    setComponentSize( typeFormat );
+    setSideSize ( calcMipmapSumSize(getMipMapCount()) );
+    setFrameSize( getSideSize() * getSideCount() );
+   
     Inherited::changed(whichField, origin);
 }
 
