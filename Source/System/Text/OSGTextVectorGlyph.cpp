@@ -277,7 +277,7 @@ static void OSG_APIENTRY gluTessVertexDataCB(void *vertexData, void *polygonData
 {
     TextVectorGlyph::PolygonOutline *outline = reinterpret_cast<TextVectorGlyph::PolygonOutline*>(polygonData);
 #ifdef __sgi
-    UInt32 coordIndex = (UInt32) vertexData;
+    UInt32 coordIndex = static_cast<UInt32>(vertexData);
 #else    
     UInt32 coordIndex = reinterpret_cast<UInt32>(vertexData);
 #endif    
@@ -628,7 +628,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextVectorGlyph.cpp,v 1.4 2005/03/08 10:51:08 a-m-z Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextVectorGlyph.cpp,v 1.5 2005/03/11 09:16:15 dirk Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTVECTORGLYPH_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTVECTORGLYPH_INLINE_CVSID;
 }
