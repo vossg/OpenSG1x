@@ -64,7 +64,7 @@ LIB32=xilink6.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /Gi- /vd1 /GR /GX- /ZI /Od /I "." /I "..\\" /I "..\..\Base" /I "..\..\Log" /I "..\..\FieldContainer" /I "..\..\Field" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GR /ZI /Od /I "." /I "..\\" /I "..\..\Base" /I "..\..\Log" /I "..\..\FieldContainer" /I "..\..\Field" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -72,7 +72,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LIB32=xilink6.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# SUBTRACT LIB32 /nologo
 
 !ENDIF 
 
