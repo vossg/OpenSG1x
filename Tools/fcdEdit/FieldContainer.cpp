@@ -493,10 +493,11 @@ bool FieldContainer::writeDesc (const char *fN)
     putField(out, nprefix, PARENT_FIELD, _parentFieldContainer);
     putField(out, nprefix, LIBRARY_FIELD, _library);
     putField(out, nprefix, POINTERFIELDTYPES_FIELD, 
-						 _pointerFieldTypesName[_pointerFieldTypes]);
+			 _pointerFieldTypesName[_pointerFieldTypes]);
     putField(out, nprefix, STRUCTURE_FIELD, _abstractName[_abstract]);
     out << ">" << endl;
-    out << _description << endl;
+		if (_description && *_description)
+	    out << _description << endl;
  
     for (npI = _fieldList.begin(); npI != _fieldList.end(); npI++) {
       out << nprefix << "<Field" << endl;
@@ -509,7 +510,8 @@ bool FieldContainer::writeDesc (const char *fN)
       putField(out, pprefix, HEADER_FIELD, npI->header());
       putField(out, pprefix, ACCESS_FIELD, npI->accessStr());
       out << nprefix << ">" << endl;
-      out << nprefix << npI->description() << endl;
+			if (npI->description() && *npI->description())
+	      out << nprefix << npI->description() << endl;
       out << nprefix << "</Field>" << endl;
     }
  
