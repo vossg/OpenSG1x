@@ -65,6 +65,7 @@
 
 #include <OSGShaderChunk.h> // Parent
 
+#include <OSGBoolFields.h> // CgFrontEnd type
 #include <OSGUInt32Fields.h> // GLId type
 
 #include <OSGSHLChunkFields.h>
@@ -89,10 +90,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
 
     enum
     {
-        GLIdFieldId = Inherited::NextFieldId,
-        NextFieldId = GLIdFieldId + 1
+        CgFrontEndFieldId = Inherited::NextFieldId,
+        GLIdFieldId       = CgFrontEndFieldId + 1,
+        NextFieldId       = GLIdFieldId       + 1
     };
 
+    static const OSG::BitVector CgFrontEndFieldMask;
     static const OSG::BitVector GLIdFieldMask;
 
 
@@ -120,8 +123,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFBool              *getSFCgFrontEnd     (void);
            SFUInt32            *getSFGLId           (void);
 
+           bool                &getCgFrontEnd     (void);
+     const bool                &getCgFrontEnd     (void) const;
            UInt32              &getGLId           (void);
      const UInt32              &getGLId           (void) const;
 
@@ -130,6 +136,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
+     void setCgFrontEnd     ( const bool &value );
      void setGLId           ( const UInt32 &value );
 
     /*! \}                                                                 */
@@ -176,6 +183,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
+    SFBool              _sfCgFrontEnd;
     SFUInt32            _sfGLId;
 
     /*! \}                                                                 */
@@ -224,6 +232,6 @@ typedef SHLChunkBase *SHLChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.5 2004/08/27 12:50:51 a-m-z Exp $"
+#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.6 2004/10/03 16:42:57 a-m-z Exp $"
 
 #endif /* _OSGSHLCHUNKBASE_H_ */

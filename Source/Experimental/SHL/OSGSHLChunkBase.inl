@@ -96,6 +96,13 @@ SHLChunkPtr SHLChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the SHLChunk::_sfCgFrontEnd field.
+inline
+SFBool *SHLChunkBase::getSFCgFrontEnd(void)
+{
+    return &_sfCgFrontEnd;
+}
+
 //! Get the SHLChunk::_sfGLId field.
 inline
 SFUInt32 *SHLChunkBase::getSFGLId(void)
@@ -103,6 +110,27 @@ SFUInt32 *SHLChunkBase::getSFGLId(void)
     return &_sfGLId;
 }
 
+
+//! Get the value of the SHLChunk::_sfCgFrontEnd field.
+inline
+bool &SHLChunkBase::getCgFrontEnd(void)
+{
+    return _sfCgFrontEnd.getValue();
+}
+
+//! Get the value of the SHLChunk::_sfCgFrontEnd field.
+inline
+const bool &SHLChunkBase::getCgFrontEnd(void) const
+{
+    return _sfCgFrontEnd.getValue();
+}
+
+//! Set the value of the SHLChunk::_sfCgFrontEnd field.
+inline
+void SHLChunkBase::setCgFrontEnd(const bool &value)
+{
+    _sfCgFrontEnd.setValue(value);
+}
 
 //! Get the value of the SHLChunk::_sfGLId field.
 inline
@@ -128,5 +156,5 @@ void SHLChunkBase::setGLId(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.5 2004/08/27 12:50:51 a-m-z Exp $"
+#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.6 2004/10/03 16:42:57 a-m-z Exp $"
 

@@ -12,6 +12,15 @@
 	useLocalIncludes="false"
 >
 	<Field
+		name="cgFrontEnd"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+	</Field>
+	<Field
 		name="GLId"
 		type="UInt32"
 		cardinality="single"

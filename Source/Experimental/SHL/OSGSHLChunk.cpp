@@ -75,6 +75,7 @@ OSG_USING_NAMESPACE
 StateChunkClass SHLChunk::_class("SHL");
 
 UInt32 SHLChunk::_shl_extension;
+UInt32 SHLChunk::_cg_extension;
 
 UInt32 SHLChunk::_funcCreateProgramObject = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcCreateShaderObject = Window::invalidFunctionID;
@@ -169,7 +170,8 @@ SHLChunk::SHLChunk(const SHLChunk &source) :
     _oldParameterSize(source._oldParameterSize)
 {
     _shl_extension = Window::registerExtension("GL_ARB_shading_language_100");
-    
+    _cg_extension = Window::registerExtension("EXT_Cg_shader");
+
     _funcCreateProgramObject =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCreateProgramObjectARB", 
                                   _shl_extension);
@@ -316,7 +318,8 @@ const StateChunkClass *SHLChunk::getClass(void) const
 void SHLChunk::changed(BitVector whichField, UInt32 origin)
 {
     if((whichField & VertexProgramFieldMask) ||
-       (whichField & FragmentProgramFieldMask))
+       (whichField & FragmentProgramFieldMask) ||
+       (whichField & CgFrontEndFieldMask))
     {
         Window::reinitializeGLObject(getGLId());
     }
@@ -444,7 +447,16 @@ void SHLChunk::updateProgram(Window *win)
     // reload programs
     if(!getVertexProgram().empty())
     {
-        vShader = createShaderObject(GL_VERTEX_SHADER_ARB);
+        GLenum shader_type = GL_VERTEX_SHADER_ARB;
+        if(getCgFrontEnd())
+        {
+            if(win->hasExtension(_cg_extension))
+                shader_type = GL_CG_VERTEX_SHADER_EXT;
+            else
+                FWARNING(("EXT_Cg_shader extension not supported, using GLSL front end!\n"));
+        }
+
+        vShader = createShaderObject(shader_type);
         const char *source = getVertexProgram().c_str();
         shaderSource(vShader, 1, (const char **) &source, 0);
 
@@ -471,7 +483,16 @@ void SHLChunk::updateProgram(Window *win)
     GLint has_fragment = 0;
     if(!getFragmentProgram().empty())
     {
-        fShader = createShaderObject(GL_FRAGMENT_SHADER_ARB);
+        GLenum shader_type = GL_FRAGMENT_SHADER_ARB;
+        if(getCgFrontEnd())
+        {
+            if(win->hasExtension(_cg_extension))
+                shader_type = GL_CG_FRAGMENT_SHADER_EXT;
+            else
+                FWARNING(("EXT_Cg_shader extension not supported, using GLSL front end!\n"));
+        }
+
+        fShader = createShaderObject(shader_type);
         const char *source = getFragmentProgram().c_str();
         shaderSource(fShader, 1, (const char **) &source, 0);
 
@@ -946,7 +967,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.27 2004/09/10 11:44:27 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.28 2004/10/03 16:42:57 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

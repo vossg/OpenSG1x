@@ -155,6 +155,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     /*! \{                                                                 */
 
     static UInt32 _shl_extension;
+    static UInt32 _cg_extension;
 
     static UInt32 _funcCreateProgramObject;
     static UInt32 _funcCreateShaderObject;
@@ -229,6 +230,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.14 2004/09/09 15:04:04 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.15 2004/10/03 16:42:57 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
