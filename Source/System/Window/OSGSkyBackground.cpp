@@ -109,10 +109,13 @@ void SkyBackground::dump(     UInt32    ,
 
 /*-------------------------- drawing ---------------------------------*/
 
-void SkyBackground::drawFace(DrawActionBase *action, 
-                             TextureChunkPtr tex, StateChunk* &oldtex, 
-                             const Pnt3f &p1, const Pnt3f &p2, 
-                             const Pnt3f &p3, const Pnt3f &p4)
+void SkyBackground::drawFace(      DrawActionBase  * action, 
+                                   TextureChunkPtr   tex, 
+                                   StateChunk      *&oldtex, 
+                             const Pnt3f            &p1, 
+                             const Pnt3f            &p2, 
+                             const Pnt3f            &p3, 
+                             const Pnt3f            &p4)
 {
     
     if(tex != NullFC)
