@@ -161,20 +161,6 @@ const Plane *FrustumVolume::getPlanes(void)
 	return _planeVec;
 }
 
-/// set method
-inline
-void FrustumVolume::setPlanes(  const Plane &pnear, const Plane &pfar,
-																const Plane &left, const Plane &right,
-													      const Plane &top,  const Plane &bottom)
-{
-	_planeVec[0] = pnear;
-	_planeVec[1] = pfar;
-	_planeVec[2] = left;
-	_planeVec[3] = right;
-	_planeVec[4] = top;
-	_planeVec[5] = bottom;
-}
-
 /*-------------------------- extending ------------------------------------*/
 
 inline

@@ -189,16 +189,14 @@ OSG_BASE_DLLMAPPING FloatTypeT osgfloor(const FloatTypeT &rVal);
  */
 
 template <class TypeT> 
-OSG_BASE_DLLMAPPING TypeT osgMin ( const TypeT &lVal,
-																	 const TypeT &rVal);
+TypeT osgMin(const TypeT &lVal, const TypeT &rVal);
 
 /*! \brief osgMax
  *  \ingroup BaseMathFunctions
  */
 
 template <class TypeT> 
-OSG_BASE_DLLMAPPING TypeT osgMax ( const TypeT &lVal,
-																	 const TypeT &rVal);
+TypeT osgMax(const TypeT &lVal, const TypeT &rVal);
 
 /*! \brief osgMax
  *  \ingroup BaseMathFunctions

@@ -49,7 +49,7 @@
 
 #include "OSGConfig.h"
 
-#define OSG_COMPILEBASE
+#define OSG_COMPILEBASELIB
 
 #include <OSGLog.h>  
 
@@ -94,34 +94,47 @@ OSG_USING_NAMESPACE
 /*------------------------------ feature ----------------------------------*/
 
 
-void FrustumVolume::setPlanes (  const Pnt3f &nlt, const Pnt3f &nlb,
-				 const Pnt3f &nrt, const Pnt3f &nrb,
-				 const Pnt3f &flt, const Pnt3f &flb,
-       				 const Pnt3f &frt, const Pnt3f &frb )
+/// set method
+void FrustumVolume::setPlanes(const Plane &pnear, const Plane &pfar,
+                              const Plane &left,  const Plane &right,
+                              const Plane &top,   const Plane &bottom)
 {
-   
-Plane near(nlb,nlt,nrb);
-Plane far(frb,frt,flb);
-Plane left(flb,flt,nlb);
-Plane right(nrb,nrt,frb);
-Plane top(frt,nrt,flt);
-Plane bottom(nlb,nrb,flb);
-
-
-	_planeVec[0] = near;
-	_planeVec[1] = far;
+	_planeVec[0] = pnear;
+	_planeVec[1] = pfar;
 	_planeVec[2] = left;
 	_planeVec[3] = right;
 	_planeVec[4] = top;
 	_planeVec[5] = bottom;
+}
+
+void FrustumVolume::setPlanes(const Pnt3f &nlt, const Pnt3f &nlb,
+                              const Pnt3f &nrt, const Pnt3f &nrb,
+                              const Pnt3f &flt, const Pnt3f &flb,
+                              const Pnt3f &frt, const Pnt3f &frb)
+{
+   
+    Plane pnear  (nlb,nlt,nrb);
+    Plane pfar   (frb,frt,flb);
+    Plane pleft  (flb,flt,nlb);
+    Plane pright (nrb,nrt,frb);
+    Plane ptop   (frt,nrt,flt);
+    Plane pbottom(nlb,nrb,flb);
+
+
+	_planeVec[0] = pnear;
+	_planeVec[1] = pfar;
+	_planeVec[2] = pleft;
+	_planeVec[3] = pright;
+	_planeVec[4] = ptop;
+	_planeVec[5] = pbottom;
 	
 }
 
-void FrustumVolume::setPlanes ( const Matrix &objectClipMat )
+void FrustumVolume::setPlanes(const Matrix &objectClipMat)
 {
 	Real32 planeEquation[6][4]; 
 	Real32 vectorLength;
-  Int32 i;
+    Int32 i;
 	Vec3f normal;
 
 	planeEquation[0][0] = objectClipMat[0][3]-objectClipMat[0][0];
@@ -316,6 +329,7 @@ void FrustumVolume::dump( UInt32 uiIndent, const BitVector &bvFlags) const
 OSG_BEGIN_NAMESPACE
 
 /// Equality comparisons
+OSG_BASE_DLLMAPPING
 Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2)
 {
 	return ((b1._planeVec[0] == b2._planeVec[0]) &&

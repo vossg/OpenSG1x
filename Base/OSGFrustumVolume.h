@@ -46,6 +46,7 @@
 //---------------------------------------------------------------------------
 
 #include "OSGConfig.h"
+#include "OSGBase.h"
 #include "OSGVolume.h"
 #include "OSGPlane.h"
 #include "OSGMatrix.h"
@@ -54,7 +55,10 @@ OSG_BEGIN_NAMESPACE
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class FrustumVolume;
+OSG_BASE_DLLMAPPING
 Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
+
+OSG_BASE_DLLMAPPING
 Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
 ostream& operator<< (ostream & os, const FrustumVolume &obj);
 #endif
@@ -145,17 +149,16 @@ public:
 	const Plane *getPlanes(void); 
 
 	/** set method for all planes */
-	inline
-	void setPlanes( const Plane &pnear, const Plane &pfar,
-								 const Plane &left, const Plane &right,
-								 const Plane &top,  const Plane &bottom);
+	void setPlanes(const Plane &pnear, const Plane &pfar,
+                   const Plane &left, const Plane &right,
+                   const Plane &top,  const Plane &bottom);
+    
+	void setPlanes(const Pnt3f &nlt, const Pnt3f &nlb,
+                   const Pnt3f &nrt, const Pnt3f &nrb,
+                   const Pnt3f &flt, const Pnt3f &flb,
+                   const Pnt3f &frt, const Pnt3f &frb);
 
-	void setPlanes (  const Pnt3f &nlt, const Pnt3f &nlb,
-										const Pnt3f &nrt, const Pnt3f &nrb,
-										const Pnt3f &flt, const Pnt3f &flb,
-										const Pnt3f &frt, const Pnt3f &frb );
-
-	void setPlanes ( const Matrix &matrix );
+	void setPlanes(const Matrix &matrix);
 									
  /** gives the center of the volume */
   virtual void getCenter (Pnt3f &center) const;
@@ -207,11 +210,13 @@ public:
 	
 /*-------------------------- operation ------------------------------------*/
 
-  /// Equality comparisons
-  friend Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
+    /// Equality comparisons
+    OSG_BASE_DLLMAPPING
+    friend Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
 
-  /// Unequality comparisons
-  friend Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+    /// Unequality comparisons
+    OSG_BASE_DLLMAPPING
+    friend Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
 
   /// Assignment operator
   const FrustumVolume &operator =(const FrustumVolume &b1);

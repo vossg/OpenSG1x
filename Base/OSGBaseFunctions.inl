@@ -336,8 +336,7 @@ Real32 osgfloor(const Real32 &rValue)
  */
 
 template <class TypeT> inline
-OSG_MS_BASE_DLLMAPPING TypeT osgMin ( const TypeT &lVal,
-																	 const TypeT &rVal)
+TypeT osgMin(const TypeT &lVal, const TypeT &rVal)
 {
 	return ((lVal < rVal) ? lVal : rVal);
 }
@@ -347,8 +346,7 @@ OSG_MS_BASE_DLLMAPPING TypeT osgMin ( const TypeT &lVal,
  */
 
 template <class TypeT> inline
-OSG_MS_BASE_DLLMAPPING TypeT osgMax ( const TypeT &lVal,
-																	 const TypeT &rVal)
+TypeT osgMax(const TypeT &lVal, const TypeT &rVal)
 {
 	return ((lVal > rVal) ? lVal : rVal);
 }
