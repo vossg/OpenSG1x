@@ -18,6 +18,7 @@ bool            running=false;
 bool            exitOnError=false;
 UInt32          servicePort=8437;
 std::string     serviceGroup="224.245.211.234";
+int             winWidth=0,winHeight=0;
 
 void display()
 {
@@ -27,6 +28,9 @@ void display()
         running=true;
         glutShowWindow();
     }
+    /*! ignore rendering in zero sized windows */
+    if(!winWidth || !winHeight)
+        return;
     try
     {
         server->render(ract);
@@ -67,6 +71,8 @@ void display()
 
 void reshape( int width, int height )
 {
+    winWidth  = width;
+    winHeight = height;
     std::cout << "reshape " << width << " " << height << std::endl;
 	window->resize( width, height );
 }
