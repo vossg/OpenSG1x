@@ -1,3 +1,12 @@
+/* This is a template file for fcdEdit.
+ * To create it from sample source,  cut'n'paste the source and apply the following
+ * substitutions:
+ * s|\|\\|g 
+ * s|"|\"|g 
+ * s|^|"| 
+ * s|$|",|
+ */
+
 char *FCTemplate_h[]={
 "/*---------------------------------------------------------------------------*\\",
 " *                                OpenSG                                     *",
@@ -71,10 +80,6 @@ char *FCTemplate_h[]={
 "",
 "class OSG_MISC_DLLMAPPING @!Classname!@ : public @!Classname!@Base",
 "{",
-"  private:",
-"",
-"    typedef @!Classname!@Base Inherited;",
-"",
 "  public:",
 "",
 "    //-----------------------------------------------------------------------",
@@ -161,6 +166,8 @@ char *FCTemplate_h[]={
 "    //   types                                                               ",
 "    //-----------------------------------------------------------------------",
 "",
+"    typedef @!Classname!@Base Inherited;",
+"",
 "    //-----------------------------------------------------------------------",
 "    //   friend classes                                                      ",
 "    //-----------------------------------------------------------------------",
@@ -205,8 +212,8 @@ char *FCTemplate_h[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#include <OSG@!Classname!@.inl>",
 "#include <OSG@!Classname!@Base.inl>",
+"#include <OSG@!Classname!@.inl>",
 "",
 "#endif /* _OSG@!CLASSNAME!@_H_ */",
 NULL };

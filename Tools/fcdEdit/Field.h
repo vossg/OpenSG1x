@@ -24,6 +24,9 @@ private:
 	static const char* _visibilityName[];
 
 	///
+	static const char *_accessName[];
+
+	///
 	static std::vector<std::string> _typeName;
 
   /// 
@@ -43,6 +46,12 @@ private:
 
   /// 
   char* _description;
+
+	///
+	char* _header;
+
+	///
+	int _access;
 
 protected:
 
@@ -72,6 +81,9 @@ public:
 	/// get the visibility string for the given index
 	static const char *visibilityStr (int index);
 
+	/// get the visibility string for the given index
+	static const char *accessStr (int index);
+
 	/// get the datatype string
 	const char *typeStr(void);
 
@@ -80,6 +92,9 @@ public:
 
 	/// get the visibility string
 	const char *visibilityStr (void);
+
+	/// get the visibility string
+	const char *accessStr (void);
 
   /// get method for attribute name
   virtual char* name (void) const { return _name; }
@@ -127,6 +142,22 @@ public:
 
   /// set method for attribute description
   virtual void setDescription ( const char* description);
+
+  /// get method for attribute header
+  virtual char* header (void) { return _header; }
+
+  /// set method for attribute header
+  virtual void setHeader ( const char* header);
+
+  /// get method for attribute access
+  virtual int access (void) const { return _access; }
+
+  /// set method for attribute access
+  virtual void setAccess (int access) 
+		{ _access = access; }
+
+	/// set method for attribute visibility
+	virtual void setAccess (const char *accessStr);
 
   /// 
   virtual bool getLine (char *name);

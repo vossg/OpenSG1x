@@ -1,3 +1,12 @@
+/* This is a template file for fcdEdit.
+ * To create it from sample source,  cut'n'paste the source and apply the following
+ * substitutions:
+ * s|\|\\|g 
+ * s|"|\"|g 
+ * s|^|"| 
+ * s|$|",|
+ */
+
 char *FCTemplate_cpp[]={
 "/*---------------------------------------------------------------------------*\\",
 " *                                OpenSG                                     *",
@@ -61,18 +70,24 @@ char *FCTemplate_cpp[]={
 "",
 "",
 "/***************************************************************************\\",
-" *                               Types                                     *",
+" *                            Description                                  *",
 "\\***************************************************************************/",
 "",
-"OSG_BEGIN_NAMESPACE",
+"/*! \\class @!Classname!@",
 "",
-"OSG_END_NAMESPACE",
+"@!Description!@",
+"",
+"*/",
+"",
+"/***************************************************************************\\",
+" *                               Types                                     *",
+"\\***************************************************************************/",
 "",
 "/***************************************************************************\\",
 " *                           Class variables                               *",
 "\\***************************************************************************/",
 "",
-"char @!Classname!@::cvsid[] = \"@(#)$Id: FCTemplate_cpp.h,v 1.1 2001/03/29 04:16:44 dirk Exp $\";",
+"char @!Classname!@::cvsid[] = \"@(#)$Id: FCTemplate_cpp.h,v 1.2 2001/04/03 13:06:39 dirk Exp $\";",
 "",
 "/***************************************************************************\\",
 " *                           Class methods                                 *",
@@ -157,7 +172,7 @@ char *FCTemplate_cpp[]={
 "void @!Classname!@::dump(      UInt32     uiIndent, ",
 "                         const BitVector &bvFlags) const",
 "{",
-"    SDEBUG << \"Dump @!Classname!@ NI\" << endl;",
+"   Inherited::dump(uiIndent, bvFlags);",
 "}",
 "",
 "    ",

@@ -26,7 +26,8 @@ private:
 	enum FieldKey { NAME_FIELD, PARENT_FIELD,
 									LIBRARY_FIELD, POINTERFIELDTYPES_FIELD,
 									TYPE_FIELD, CARDINALITY_FIELD, VISIBILITY_FIELD, 
-									DEFAULTVALUE_FIELD,
+									DEFAULTVALUE_FIELD, ABSTRACT_FIELD, HEADER_FIELD, 
+									ACCESS_FIELD, 
 									UNKNOWN_FIELD
 	};
 
@@ -59,6 +60,9 @@ private:
 	///
 	static const char *_pointerFieldTypesName[];
 
+	///
+	static const char *_abstractName[];
+
   /// 
   char* _name;
 
@@ -73,6 +77,9 @@ private:
 
 	///
 	int _pointerFieldTypes;
+
+	///
+	int _abstract;
 
   ///
 	list<Field> _fieldList;
@@ -99,6 +106,9 @@ public:
 
 	/// get the pointerFieldTypes string for the given index
 	static const char *pointerFieldTypesStr(int index);
+
+	/// get the abstract string for the given index
+	static const char *abstractStr(int index);
 
 	/// clear the attributes
 	virtual void clear(void);
@@ -129,13 +139,23 @@ public:
 	
   /// get method for attribute pointerFieldTypes
   virtual int pointerFieldTypes (void) { return _pointerFieldTypes; }
+	
+  /// get method for attribute abstract
+  virtual int abstract (void) { return _abstract; }
 
   /// set method for attribute pointerFieldTypes
   virtual void setPointerFieldTypes (int pointerFieldTypes) 
 		{ _pointerFieldTypes = pointerFieldTypes; }
 
+  /// set method for attribute abstract
+  virtual void setAbstract (int abstract) 
+		{ _abstract = abstract; }
+
   /// set method for attribute pointerFieldTypes
 	virtual void setPointerFieldTypes (const char *str);
+
+  /// set method for attribute pointerFieldTypes
+	virtual void setAbstract (const char *str);
 
   ///
   list<Field> &fieldList(void) { return _fieldList; }

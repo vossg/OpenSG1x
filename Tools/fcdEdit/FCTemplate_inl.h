@@ -1,3 +1,12 @@
+/* This is a template file for fcdEdit.
+ * To create it from sample source,  cut'n'paste the source and apply the following
+ * substitutions:
+ * s|\|\\|g 
+ * s|"|\"|g 
+ * s|^|"| 
+ * s|$|",|
+ */
+
 char *FCTemplate_inl[]={
 "/*---------------------------------------------------------------------------*\\",
 " *                                OpenSG                                     *",

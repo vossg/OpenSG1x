@@ -3,7 +3,8 @@
 <FieldContainer
 	name="VRMLTransform"
 	parent="Transform"
-	library="MISC"
+	library="Misc"
+	abstract="false"
 	pointerfieldtypes="both"
 >
 This is the documentation for the VRMLTransform class.  	
@@ -12,14 +13,17 @@ This is the documentation for the VRMLTransform class.
 		type="Vec3f"
 		cardinality="single"
 		visibility="external"
+		access="private"
+		header="OSGQQQ.h"
 	>
 	The Center is ... 	
 	</Field>
 	<Field
 		name="rotation"
-		type="Quaternion"
+		type="QuaternionPtr"
 		cardinality="single"
 		visibility="external"
+		access="protected"
 	>
 	The Rotation is ... 	
 	</Field>

@@ -43,11 +43,18 @@ FieldContainer::KeyDic FieldContainer::_keyDic[] = {
 	{ FieldContainer::CARDINALITY_FIELD,  "cardinality" },
 	{ FieldContainer::VISIBILITY_FIELD,   "visibility" },
 	{ FieldContainer::DEFAULTVALUE_FIELD, "defaultValue" },
+	{ FieldContainer::ABSTRACT_FIELD,  "abstract" },
+	{ FieldContainer::HEADER_FIELD,  "header" },
+	{ FieldContainer::ACCESS_FIELD,  "access" },
 	{ FieldContainer::UNKNOWN_FIELD,      0 }
 };
 
 const char *FieldContainer::_pointerFieldTypesName[] = {
 	"none", "single", "multi", "both"
+};
+
+const char *FieldContainer::_abstractName[] = {
+	"false", "true"
 };
 
 //----------------------------------------------------------------------
@@ -59,7 +66,7 @@ const char *FieldContainer::_pointerFieldTypesName[] = {
 //----------------------------------------------------------------------
 FieldContainer::FieldContainer (void )
 : _name(0), _parentFieldContainer(0), _description(0),
-	_library(0), _pointerFieldTypes(0)
+	_library(0), _pointerFieldTypes(0), _abstract(0)
 {
 	return;
 }
@@ -73,7 +80,7 @@ FieldContainer::FieldContainer (void )
 //----------------------------------------------------------------------
 FieldContainer::FieldContainer (FieldContainer &obj )
 : _name(0), _parentFieldContainer(0), _description(0),
-	_library(0), _pointerFieldTypes(0)
+	_library(0), _pointerFieldTypes(0), _abstract(0)
 {
 	return;
 }
@@ -104,6 +111,7 @@ void FieldContainer::clear (void)
 	setLibrary(0);
 	setDescription(0);
 	_pointerFieldTypes = 0;
+	_abstract = 0;
 	
 	_fieldList.clear();
 
@@ -167,6 +175,18 @@ const char *FieldContainer::pointerFieldTypesStr(int i)
 	int vecSize = sizeof(_pointerFieldTypesName )/ sizeof(char*);
 
 	return (i >= 0 && i < vecSize) ? _pointerFieldTypesName[i] : 0;
+}
+
+//----------------------------------------------------------------------
+// Method: abstractStr
+// Author: jbehr
+// Date:   Thu Jan  8 19:53:04 1998
+// Description:
+//         
+//----------------------------------------------------------------------
+const char *FieldContainer::abstractStr(int i)
+{
+	return i ? "abstract" : "concrete";
 }
 
 //----------------------------------------------------------------------
@@ -258,7 +278,41 @@ void FieldContainer::setPointerFieldTypes (const char* str )
 
 	for (i = 0; i < n; ++i) 
 		if (!strcasecmp(str, _pointerFieldTypesName[i]))
+		{
 			_pointerFieldTypes = i;
+			break;
+		}
+
+	if ( i == n )
+	{
+		cerr << "FieldContainer::setPointerFieldTypes: string " << str 
+			 << " not recognized!" << endl;
+	}
+}
+
+//----------------------------------------------------------------------
+// Method: setAbstract
+// Author: jbehr
+// Date:   Thu Jan  8 19:53:04 1998
+// Description:
+//         set method for attribute abstract
+//----------------------------------------------------------------------
+void FieldContainer::setAbstract (const char* str )
+{
+	int i, n = sizeof(_abstractName)/sizeof(const char *);
+
+	for (i = 0; i < n; ++i) 
+		if (!strcasecmp(str, _abstractName[i]))
+		{
+			_abstract = i;
+			break;
+		}
+
+	if ( i == n )
+	{
+		cerr << "FieldContainer::setAbstract: string " << str << " not recognized!"
+			 << endl;
+	}
 }
 
 //----------------------------------------------------------------------
@@ -304,6 +358,9 @@ bool FieldContainer::readDesc (const char *fn)
 					case POINTERFIELDTYPES_FIELD:
 						setPointerFieldTypes(aI->second.c_str());
 						break;
+					case ABSTRACT_FIELD:
+						setAbstract(aI->second.c_str());
+						break;
 					default:
 						break;
 					}
@@ -337,6 +394,12 @@ bool FieldContainer::readDesc (const char *fn)
 							case DEFAULTVALUE_FIELD:
 								npI->setDefaultValue(aI->second.c_str());
 								break;
+							case ACCESS_FIELD:
+								npI->setAccess(aI->second.c_str());
+								break;
+							case HEADER_FIELD:
+								npI->setHeader(aI->second.c_str());
+								break;
 							default:
 							case UNKNOWN_FIELD:
 								break;	
@@ -351,7 +414,7 @@ bool FieldContainer::readDesc (const char *fn)
 								}
 							}
 							else {
-								cerr << "ERROR: Field can't have children nodes" << endl;
+								cerr << "ERROR: Fields can't have children nodes" << endl;
 							}
 						}
 					}
@@ -424,6 +487,8 @@ bool FieldContainer::writeDesc (const char *fN)
     putField(out, nprefix, LIBRARY_FIELD, _library);
     putField(out, nprefix, POINTERFIELDTYPES_FIELD, 
 						 _pointerFieldTypesName[_pointerFieldTypes]);
+    putField(out, nprefix, ABSTRACT_FIELD, 
+						 _abstractName[_abstract]);
     out << ">" << endl;
     out << _description << endl;
  
@@ -434,6 +499,8 @@ bool FieldContainer::writeDesc (const char *fN)
       putField(out, pprefix, CARDINALITY_FIELD, npI->cardinalityStr());
       putField(out, pprefix, VISIBILITY_FIELD, npI->visibilityStr());
       putField(out, pprefix, DEFAULTVALUE_FIELD, npI->defaultValue());
+      putField(out, pprefix, HEADER_FIELD, npI->header());
+      putField(out, pprefix, ACCESS_FIELD, npI->accessStr());
       out << nprefix << ">" << endl;
       out << nprefix << npI->description() << endl;
       out << nprefix << "</Field>" << endl;
@@ -525,6 +592,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 	char *fcnameUpper = strdup( _name );
 	char *parentname = _parentFieldContainer;
 	char *parentnameUpper = strdup( _parentFieldContainer );
+	char *description = _description ? _description : "";
 
 	for ( char *s = libnameUpper; s && *s; *s = toupper(*s), s++ ) {}
 	for ( char *s = fcnameUpper; s && *s; *s = toupper(*s), s++ ) {}
@@ -532,15 +600,19 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 
 	// field loop
 	// useful strings
-	const char	*fieldname = NULL,
-				*fieldtype = NULL, *fieldcardinality = NULL;
-	char 		*fieldnameCaps = NULL, *fieldnameUpper = NULL;
+	const char	*fieldname        = NULL,
+				*fieldtype        = NULL, 
+				*fieldcardinality = NULL, 
+				*fielddescription = NULL;
+	char 		*fieldnameCaps = NULL, 
+				*fieldnameUpper = NULL;
 	
 	// state
 	char ** flStart;
 	list<Field>::iterator fieldIt;
 	bool inFieldLoop = false;
 	bool skipFieldLoop = false;
+	int skipIf = 0;	// count of open if or else clauses
 	
 	bool retCode = true;
 
@@ -548,6 +620,24 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 	{
 		char *s = *templ;
 
+		// just skipping to else of endif?
+		if ( skipIf > 0 )
+		{
+			if ( strncmp( s, "@@", 2 ) )
+				continue;
+				
+			if ( ! strncmp( s, "@@if", 4 ) )
+				skipIf ++;
+			else if ( ! strcmp( s, "@@endif" ) )
+				skipIf --;
+			else if ( ! strcmp( s, "@@else" ) )
+			{
+				if ( skipIf == 1) 
+					skipIf = 0;
+			}
+			continue;
+		}
+		
 		// if in field loop, prepare the strings
 		if ( inFieldLoop && ! skipFieldLoop)
 		{
@@ -556,6 +646,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 			fieldname = fieldIt->name();
 			fieldtype = fieldIt->typeStr();
 			fieldcardinality = cardnames[ fieldIt->cardinality() ];
+			fielddescription = fieldIt->description() ? fieldIt->description() : "" ;
 			
 			if ( fieldnameCaps ) free( fieldnameCaps );
 			fieldnameCaps = strdup( fieldname );
@@ -575,6 +666,10 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 			if ( ! strcmp( s, "@@FieldIdsAndMasksDecl@@" ) )
 			{
 				fieldIt = _fieldList.begin();
+				if ( fieldIt == _fieldList.end() )
+				{
+					continue;
+				}
 				const char *name, *prevname;
 				name = fieldIt->name();
 				// first field: refer to parent's last field
@@ -606,109 +701,24 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				    << (char)toupper( name[0] ) << name + 1 << "FieldMask << 1;" 
 					<< endl << endl;
 			}		
-			// Pointer Fields
-			else if ( ! strcmp( s, "@@PointerFieldDecl@@" ) )
-			{
-				if ( pointerFieldTypes() == 0 )
-					continue;
-				
-				out << "/** \\ingroup FieldLib " 
-				    << fcname << endl;
-				out << " *  \\brief " << fcname << "Ptr field traits" << endl;
-				out << " */" << endl << endl;
-				
-				out << "template <>" << endl;
-				out << "struct FieldDataTraits<" << fcname << "Ptr> : "
-				    << "public Traits" << endl;
-				out << "{" << endl;
-				out << "	enum                         { StringConvertable "
-					<< " = 0x00      };" << endl << endl;
-				out << "    static char *getSName(void) { return \"SF"
-					<< fcname << "Ptr\"; }" << endl;
-				out << "    static char *getMName(void) { return \"MF"
-					<< fcname << "Ptr\"; }" << endl;
-				out << "};" << endl << endl;
-				
-				if ( pointerFieldTypes() & 1 )
-				{
-					out << "/**  \\brief SF" << fcname << "Ptr" << endl;
-					out << " */" << endl << endl;
-					out << "typedef SField<" << fcname << "Ptr> SF" 
-						<< fcname << "Ptr;" << endl;
-					out << "" << endl;
-					out << "#ifndef OSG_COMPILE" << fcnameUpper << "INST" 
-						<< endl;
-					out << "#if defined(__sgi)" << endl << endl;
-					out << "#pragma do_not_instantiate SField<" << fcname 
-						<< "Ptr>::_fieldType" << endl << endl;
-					out << "#else" << endl << endl;
-					out << "OSG_DLLEXPORT_DECL1(SField, " << fcname 
-						<< "Ptr, OSG_MISC_DLLTMPLMAPPING)" << endl << endl;
-					out << "#endif" << endl;
-					out << "#endif" << endl << endl;
-				}
-				
-				if ( pointerFieldTypes() & 2 )
-				{
-					out << "/**  \\brief MF" << fcname << "Ptr" << endl;
-					out << " */" << endl << endl;
-					out << "typedef MField<" << fcname << "Ptr> MF" 
-						<< fcname << "Ptr;" << endl;
-					out << "" << endl;
-					out << "#ifndef OSG_COMPILE" << fcnameUpper << "INST" 
-						<< endl;
-					out << "#if defined(__sgi)" << endl << endl;
-					out << "#pragma do_not_instantiate MField<" << fcname 
-						<< "Ptr>::_fieldType" << endl << endl;
-					out << "#else" << endl << endl;
-					out << "OSG_DLLEXPORT_DECL1(MField, " << fcname 
-						<< "Ptr, OSG_MISC_DLLTMPLMAPPING)" << endl << endl;
-					out << "#endif" << endl;
-					out << "#endif" << endl << endl;
-				}
-			}			
-			else if ( ! strcmp( s, "@@PointerFieldDef@@" ) )
-			{
-				if ( pointerFieldTypes() == 0 )
-					continue;
-				out << "OSG_BEGIN_NAMESPACE" << endl;
-				out << "" << endl;
-				out << "#if defined(__sgi)" << endl;
-				out << "" << endl;
-				
-				if ( pointerFieldTypes() & 1 )
-					out << "#pragma instantiate SField<" << fcname 
-						<< "Ptr>::_fieldType" << endl;
-				
-				if ( pointerFieldTypes() & 2 )
-					out << "#pragma instantiate MField<" << fcname 
-						<< "Ptr>::_fieldType" << endl;
-
-				out << "" << endl;
-				out << "#else" << endl;
-				out << "" << endl;
-				
-				if ( pointerFieldTypes() & 1 )
-					out << "OSG_DLLEXPORT_DEF1(SField, " << fcname 
-						<< "Ptr, OSG_MISC_DLLTMPLMAPPING)" << endl;
-							
-				if ( pointerFieldTypes() & 2 )
-					out << "OSG_DLLEXPORT_DEF1(MField, " << fcname 
-						<< "Ptr, OSG_MISC_DLLTMPLMAPPING)" << endl;
-
-				out << "" << endl;
-				out << "#endif" << endl;
-				out << "OSG_END_NAMESPACE" << endl;
-			}			
 			// loop specials 
 			else if ( ! strcmp( s, "@@BeginFieldLoop@@" ) )
 			{
 				inFieldLoop = true;
 				flStart = templ;
 				fieldIt = _fieldList.begin();
+				if ( fieldIt == _fieldList.end() ) 
+					skipFieldLoop = true;
 			}
 			else if ( ! strcmp( s, "@@EndFieldLoop@@" ) )
 			{
+				if ( skipFieldLoop )
+				{
+					inFieldLoop = false;
+					skipFieldLoop = false;
+					continue;					
+				}
+				
 				fieldIt++;
 				if ( fieldIt != _fieldList.end() ) 
 				{
@@ -792,6 +802,143 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 					inFieldLoop = false;
 				}
 			}
+			else if ( skipFieldLoop )	// skip if processing
+				continue;
+			// if else endif handling
+			else if ( ! strncmp( s, "@@if", 4 ) )
+			{
+				static char * keys[] = {
+					"Pointerfield", "SFPointerfield", "MFPointerfield",
+					"Abstract", "hasFields", 
+					"hasPrivateFields", "hasProtectedFields", "hasPublicFields", 
+					"isPrivate", "isProtected", "isPublic",
+					NULL };
+				
+				char *key = s + strcspn( s, " \t");
+				key += strspn( key, " \t");
+				
+				bool not = false;				
+				if ( *key == '!' )
+				{
+					key++;
+					key += strspn( key, " \t");
+					not = true;
+				}
+				
+				int i;
+				for ( i = 0; keys[i]; i++ )
+					if ( ! strcasecmp( key, keys[i] ) )
+						break;
+						
+				skipIf = 0;
+				
+				switch( i )
+				{
+				case 0:		// Pointerfield
+				 			if ( ! pointerFieldTypes() )
+								skipIf = 1;
+							break;
+				case 1:		// SFPointerfield
+						 	if ( ( pointerFieldTypes() & 1 ) == 0 )
+								skipIf = 1;
+							break;
+				case 2:		// MFPointerfield
+						 	if ( ( pointerFieldTypes() & 2 ) == 0 )
+								skipIf = 1;
+							break;
+				case 3:		// Abstract
+						 	if ( ! abstract() )
+								skipIf = 1;
+							break;
+				case 4:		// hasFields
+						 	if ( _fieldList.begin() == _fieldList.end() )
+								skipIf = 1;
+							break;
+
+				case 5:		// hasPrivateFields
+							{		
+							list<Field>::iterator fieldIt;
+		
+							if ( _fieldList.begin() == _fieldList.end() )
+							{
+								skipIf = 1;
+								break;
+							}
+								
+							for ( 	fieldIt = _fieldList.begin();
+									fieldIt != _fieldList.end() && 
+									fieldIt->access() != 2;
+									fieldIt++ ) {}
+							if ( fieldIt == _fieldList.end() )
+								skipIf = 1;
+							}
+							break;
+				case 6:		// hasProtectedFields
+							{		
+							list<Field>::iterator fieldIt;
+		
+							if ( _fieldList.begin() == _fieldList.end() )
+							{
+								skipIf = 1;
+								break;
+							}
+		
+							for ( 	fieldIt = _fieldList.begin();
+									fieldIt != _fieldList.end() && 
+									fieldIt->access() != 1;
+									fieldIt++ ) {}
+							if ( fieldIt == _fieldList.end() )
+								skipIf = 1;
+							}
+							break;
+				case 7:		// hasPublicFields
+							{		
+							list<Field>::iterator fieldIt;
+		
+							if ( _fieldList.begin() == _fieldList.end() )
+							{
+								skipIf = 1;
+								break;
+							}
+		
+							for ( 	fieldIt = _fieldList.begin();
+									fieldIt != _fieldList.end() && 
+									fieldIt->access() != 0;
+									fieldIt++ ) {}
+							if ( fieldIt == _fieldList.end() )
+								skipIf = 1;
+							}
+							break;
+							
+				case 8:		// isPrivate
+							if ( fieldIt->access() != 2 )
+								skipIf = 1;
+							break;
+				case 9:		// isProtected
+							if ( fieldIt->access() != 1 )
+								skipIf = 1;
+							break;
+				case 10:	// isPublic
+							if ( fieldIt->access() != 0 )
+								skipIf = 1;
+							break;
+							
+				default:
+							cerr << "Unknown if clause \"" << s + 5 << "\"" 
+								 << endl;
+							break;
+				}			
+				if ( not )
+					skipIf = 1 - skipIf;	
+			}
+			else if ( ! strcmp( s, "@@else" ) )
+			{
+				skipIf = 1;
+			}
+			else if ( ! strcmp( s, "@@endif" ) )
+			{
+				skipIf = 0;
+			}
 			// unknown special??
 			else if ( ! strncmp( s, "@@", 2 ) ) 
 			{
@@ -808,16 +955,15 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 		{
 			// replace @!classname!@ etc. with the names
 			static char *keys[] = { 
-				"@!Classname!@", 	"@!CLASSNAME!@", 
-				"@!Libname!@",  	"@!LIBNAME!@",
-				"@!Parent!@", 		"@!PARENT!@",
-				"@!CARDINALITY!@", 	"@!Fieldtype!@",
-				"@!fieldname!@", 	"@!Fieldname!@", 
-				"@!FIELDNAME!@", 	"@!fieldvisibility!@",
-				"@!FieldTypedDefault!@",
+				"@!Classname!@", 		"@!CLASSNAME!@", 
+				"@!Libname!@",  		"@!LIBNAME!@",
+				"@!Parent!@", 			"@!PARENT!@",
+				"@!CARDINALITY!@",		"@!Fieldtype!@",
+				"@!fieldname!@", 		"@!Fieldname!@", 
+				"@!FIELDNAME!@", 		"@!fieldvisibility!@",
+				"@!FieldTypedDefault!@","@!FieldtypeInclude!@",
+				"@!Description!@",		"@!Fielddescription!@", 
 				NULL };
-			static int keylen[] = { 13,13, 11,11, 10,10, 
-				15,13, 13,13, 13,19,  21, -1 };
 			const char *values[ sizeof(keys) / sizeof( char * ) ];
 			
 			values[0] = fcname;
@@ -826,9 +972,12 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 			values[3] = libnameUpper;
 			values[4] = parentname;
 			values[5] = parentnameUpper;
+			values[14] = description;
 
 			if ( inFieldLoop )
 			{
+				char * s;
+
 				values[6] = fieldcardinality;
 				values[7] = fieldtype;
 				values[8] = fieldname;
@@ -837,7 +986,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				values[11] = fieldIt->visibility() ? "false" : "true";
 				if ( fieldIt->defaultValue() )
 				{
-					char * s = new char [ strlen(fieldtype) + 
+					s = new char [ strlen(fieldtype) + 
 										   1 + 
 										   strlen( fieldIt->defaultValue() ) +
 										   1 + 1];
@@ -849,15 +998,37 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				}
 				else
 				{
-					char *s = new char [1];
+					s = new char [1];
 					*s = 0;
 					values[12] = s;	
 				}
+				
+				// FieldtypeInclude
+				if ( ! fieldIt->header() || ! strcmp( fieldIt->header(), "auto" ) )
+				{
+					s = new char [ strlen(fieldtype) + 13];
+					strcpy( s, "OSG" );
+					strcat( s, fieldtype );
+					if ( ! strcmp( &s[strlen(s) - 3], "Ptr" ) )
+						s[strlen(s) - 3] = 0;
+					else
+						strcat( s, "Fields" );
+					strcat( s, ".h" );
+				}
+				else
+				{
+					s = new char [ strlen(fieldIt->header()) + 1];
+					strcpy( s, fieldIt->header() );					
+				}
+				values[13] = s;
+				
+				values[15] = fielddescription;			
 			}
 			else
 			{
 				values[6] = values[7] = values[8] = values[9] = 
-				values[10] = values[11] = values[12] = NULL;
+				values[10] = values[11] = values[12] = values[13] = 
+				values[15] = NULL;
 			}
 
 
@@ -873,7 +1044,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				
 				int i;
 				for ( i = 0; keys[i] ; i++ )
-					if ( ! strncmp( ce, keys[i], keylen[i] ) )
+					if ( ! strncmp( ce, keys[i], strlen( keys[i] ) ) )
 					{
 						if ( ! values[i] ) 
 						{
@@ -887,7 +1058,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 							out << cs << values[i];
 							*ce = tmp;
 						}
-						ce += keylen[i];	// get behind the !@-string
+						ce += strlen( keys[i] );	// get behind the !@-string
 						cs = ce;
 						break;
 					}
@@ -902,8 +1073,8 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				ce = strchr( ce, '@' );
 			}
 			
-			if ( values[12] )
-				delete [] values[12];
+			if ( values[12] )	delete [] values[12];		
+			if ( values[13] )	delete [] values[13];
 
 			out << cs << endl;
 		}

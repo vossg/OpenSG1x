@@ -44,6 +44,10 @@ const char *Field::_visibilityName[] = {
 	"internal", "external"
 };
 
+const char *Field::_accessName[] = {
+	"public", "protected", "private"
+};
+
 std::vector<std::string> Field::_typeName;
 
 //----------------------------------------------------------------------
@@ -54,11 +58,12 @@ std::vector<std::string> Field::_typeName;
 //         Class Constructor
 //----------------------------------------------------------------------
 Field::Field (void )
-	: _name(0), _defaultValue(0), _description(0)
+	: _name(0), _defaultValue(0), _description(0), _header(0)
 {
 	_type = 0;
 	_cardinality = 0;
 	_visibility = 0;
+	_access = 0;
 
 	return;
 }
@@ -71,7 +76,7 @@ Field::Field (void )
 //         Class Copy Constructor
 //----------------------------------------------------------------------
 Field::Field (const Field &obj )
-: _name(0), _defaultValue(0), _description(0)
+: _name(0), _defaultValue(0), _description(0), _header(0)
 {
 	*this = obj;
 }
@@ -88,6 +93,7 @@ Field::~Field (void )
 	setName(0);
 	setDescription(0);
 	setDefaultValue(0);
+	setHeader(0);
 }
 
 //----------------------------------------------------------------------
@@ -177,6 +183,20 @@ const char *Field::visibilityStr(int i)
 }
 
 //----------------------------------------------------------------------
+// Method: access
+// Author: jbehr
+// Date:   Thu Jan  8 19:53:04 1998
+// Description:
+//         
+//----------------------------------------------------------------------
+const char *Field::accessStr(int i)
+{
+	int vecSize = sizeof(_accessName )/ sizeof(char*);
+
+	return (i >= 0 && i < vecSize) ? _accessName[i] : 0;
+}
+
+//----------------------------------------------------------------------
 // Method: type
 // Author: jbehr
 // Date:   Thu Jan  8 19:53:04 1998
@@ -210,6 +230,18 @@ const char *Field::cardinalityStr(void)
 const char *Field::visibilityStr(void)
 {
 	return visibilityStr(_visibility);
+}
+
+//----------------------------------------------------------------------
+// Method: access
+// Author: jbehr
+// Date:   Thu Jan  8 19:53:04 1998
+// Description:
+//         
+//----------------------------------------------------------------------
+const char *Field::accessStr(void)
+{
+	return accessStr(_access);
 }
 
 //----------------------------------------------------------------------
@@ -270,6 +302,27 @@ void Field::setDescription ( const char* description )
 }
 
 //----------------------------------------------------------------------
+// Method: setHeader
+// Author: jbehr
+// Date:   Thu Jan  8 19:53:04 1998
+// header:
+//         set method for attribute header
+//----------------------------------------------------------------------
+void Field::setHeader ( const char* header )
+{
+	delete _header;
+	
+	if (header && *header && strcmp(header,FieldContainer::_nil) &&
+		strcmp(header,"auto") ) 
+	{
+		_header = new char [strlen(header)+1];
+		strcpy(_header,header);
+	}
+	else
+		_header = 0;
+}
+
+//----------------------------------------------------------------------
 // Method: setType
 // Author: jbehr
 // Date:   Thu Jan  8 19:53:04 1998
@@ -308,7 +361,17 @@ void Field::setCardinality ( const char* cardinalityStr )
 
 	for (i = 0; i < n; ++i) 
 		if (!strcasecmp(cardinalityStr, _cardinalityName[i]))
+		{
 			_cardinality = i;
+			break;
+		}
+
+	if ( i == n )
+	{
+		cerr << "Field::setCardinality: string '" << cardinalityStr << "' is unknown!" 
+		     << endl;
+		_cardinality = 0;
+	}
 }
 
 //----------------------------------------------------------------------
@@ -324,7 +387,42 @@ void Field::setVisibility ( const char* visibilityStr )
 
 	for (i = 0; i < n; ++i) 
 		if (!strcasecmp(visibilityStr, _visibilityName[i]))
+		{
 			_visibility = i;
+			break;
+		}
+
+	if ( i == n )
+	{
+		cerr << "Field::setVisibility: string '" << visibilityStr << "' is unknown!" 
+		     << endl;
+		_visibility = 0;
+	}
+}
+
+//----------------------------------------------------------------------
+// Method: setAccess
+// Author: jbehr
+// Date:   Thu Jan  8 19:53:04 1998
+// Description:
+//         set method for attribute cardinality
+//----------------------------------------------------------------------
+void Field::setAccess ( const char* accessStr ) 
+{
+	int i, n = sizeof(_accessName)/sizeof(char*);
+
+	for (i = 0; i < n; ++i) 
+		if (!strcasecmp(accessStr, _accessName[i]))
+		{
+			_access = i;
+			break;
+		}
+
+	if ( i == n )
+	{
+		cerr << "Field::setAccess: string '" << accessStr << "' is unknown!" << endl;
+		_access = 0;
+	}
 }
 
 //----------------------------------------------------------------------
@@ -336,9 +434,11 @@ void Field::setVisibility ( const char* visibilityStr )
 //----------------------------------------------------------------------
 bool Field::getLine (char *line)
 {
-	sprintf ( line, "%s %s %s %s %s, %s" , 
+	sprintf ( line, "%s %s %s %s %s %s %s, %s" , 
 						(_name && *_name) ? _name : "None",
-						typeStr(), cardinalityStr(), visibilityStr(),
+						cardinalityStr(), typeStr(), 
+						visibilityStr(), accessStr(), 
+						(_header && *_header) ? _header : "auto", 
 						(_defaultValue && *_defaultValue) ? _defaultValue : "None", 
 						(_description	&& *_description) ? _description : "None");
 
@@ -358,7 +458,10 @@ Field &Field::operator= (const Field &obj)
 	_type = obj._type;
 	setDescription(obj._description);
 	setDefaultValue(obj._defaultValue);
-
+	setHeader(obj._header);
+	_access = obj._access;
+	_cardinality = obj._cardinality;
+	
 	return *this;
 }
 
@@ -374,6 +477,9 @@ bool Field::operator== (const Field &obj)
 	return 	(	!strcmp(_name, obj._name) &&
 						!strcmp(_description, obj._description) &&
 						!strcmp(_defaultValue, obj._defaultValue) &&
-						_type == obj._type
+						_type == obj._type &&
+						_cardinality == obj._cardinality &&
+						_access == obj._access &&
+						!strcmp(_header, obj._header)
 					);
 }
