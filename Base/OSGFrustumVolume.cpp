@@ -103,10 +103,11 @@ void FrustumVolume::setPlanes (  const Pnt3f &nlt, const Pnt3f &nlb,
 
 void FrustumVolume::setPlane ( const Matrix &matrix )
 {
+/*
 	Real32 planeEquation[4][4], objectClipMat[4][4];
 	Real32 vectorLength;
 	Int32 i;
-
+*/
 /*
 	matrix.getValue(objectClipMat);	
 	

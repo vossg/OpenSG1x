@@ -265,8 +265,8 @@ int main (int argc, char **argv)
 	endEditCP(dlight);
 	
 	beginEditCP(dl);
-	dl->setAmbientColor( .3, .3, .3, 1 );
-	dl->setDiffuseColor( 1, 1, 1, 1 );
+	dl->setAmbient( .3, .3, .3, 1 );
+	dl->setDiffuse( 1, 1, 1, 1 );
 	dl->setDirection(0,0,1);
 	dl->setBeacon( b1n);
 	endEditCP(dl);
@@ -311,7 +311,7 @@ int main (int argc, char **argv)
 	
 	cam = PerspectiveCamera::create();
 	cam->setBeacon( b1n );
-	cam->setDegrees( 90 );
+	cam->setFov( 90 );
 	cam->setNear( 0.1 );
 	cam->setFar( 10000 );
 

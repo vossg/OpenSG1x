@@ -113,6 +113,8 @@ void MyOSGQGLWidget::paintGL ( void )
 	Matrix m1, m2, m3;
     Quaternion q1;
 
+	osgWin->frameInit();	// frame-cleanup
+
 	tball.getRotation().getValue(m3);
     q1.setValue(m3);
     m1.setRotate(q1);
@@ -123,7 +125,7 @@ void MyOSGQGLWidget::paintGL ( void )
 	osgWin->drawAllViewports( ract );	// draw the viewports     
     osgWin->swap(); 
 			
-	osgWin->frame();	// frame-cleanup
+	osgWin->frameExit();	// frame-cleanup
 }
 
 void MyOSGQGLWidget::resizeGL ( int w, int h )
@@ -246,8 +248,8 @@ int main( int argc, char **argv )
 	endEditCP(dlight);
 	
 	beginEditCP(dl);
-	dl->setAmbientColor( .3, .3, .3, 1 );
-	dl->setDiffuseColor( 1, 1, 1, 1 );
+	dl->setAmbient( .3, .3, .3, 1 );
+	dl->setDiffuse( 1, 1, 1, 1 );
 	dl->setDirection(0,0,1);
 	dl->setBeacon( b1n);
 	endEditCP(dl);
@@ -292,7 +294,7 @@ int main( int argc, char **argv )
 	PerspectiveCameraPtr cam = PerspectiveCamera::create();
 
 	cam->setBeacon( b1n );
-	cam->setDegrees( 60 );
+	cam->setFov( 60 );
 	cam->setNear( 0.1 );
 	cam->setFar( 10000 );
 

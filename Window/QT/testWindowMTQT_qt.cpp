@@ -237,12 +237,14 @@ void *drawThreadProc (void *arg)
 	
 	while ( ! my_widget->_stop )
 	{
+        my_win->frameInit();
+
 		my_win->resizeGL();
 
 		my_win->drawAllViewports( ract );
 
 		my_win->swap();
-		my_win->frame();
+		my_win->frameExit();
 	  
 	  	if ( predraw-- < 0 )
 			drawBarrier->enter( NUM_THREADS + 1 );
@@ -295,8 +297,8 @@ int main( int argc, char **argv )
 	endEditCP(dlight);
 	
 	beginEditCP(dl);
-	dl->setAmbientColor( .3, .3, .3, 1 );
-	dl->setDiffuseColor( 1, 1, 1, 1 );
+	dl->setAmbient( .3, .3, .3, 1 );
+	dl->setDiffuse( 1, 1, 1, 1 );
 	dl->setDirection(0,0,1);
 	dl->setBeacon( b1n);
 	endEditCP(dl);
@@ -341,7 +343,7 @@ int main( int argc, char **argv )
 	PerspectiveCameraPtr cam = PerspectiveCamera::create();
 
 	cam->setBeacon( b1n );
-	cam->setDegrees( 60 );
+	cam->setFov( 60 );
 	cam->setNear( 0.1 );
 	cam->setFar( 10000 );
 
@@ -402,7 +404,9 @@ int main( int argc, char **argv )
 	
     for (i = 0; i < NUM_THREADS; i++)
     {	  
-		drawThread[i] = gThreadManager->getThread(NULL);
+		drawThread[i] = 
+            dynamic_cast<Thread *>(gThreadManager->getThread(NULL));
+
 		if ( drawThread[i] != NULL )
       	{	   
 			drawThreadID[i] = i;
