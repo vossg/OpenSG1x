@@ -764,7 +764,14 @@ Action::ResultE Geometry::draw(DrawActionBase * action)
             
             if(getIndices() == NullFC)
             {
+              if (getPositions() != NullFC) 
+              {
                 is = getPositions()->getSize();
+              }
+              else
+              {
+                is = 0;
+              }
             }
             else
             {
