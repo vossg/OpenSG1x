@@ -117,10 +117,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
                                    Int32       mipmapCount = 1,
                                    Int32       frameCount = 1,
                                    Time        frameDelay = 0.0,
-                             const UInt8     *data = 0,
-                            Int32 type = OSG_UINT8_IMAGEDATA   );
+                             const UInt8       *data = 0,
+                            Int32 type = OSG_UINT8_IMAGEDATA,
+                                   bool        allocMem = true );
     bool set                (      ImagePtr   image            );
     bool setData            (const UInt8     *data = 0         );
+    void clearData          (void                              );
     bool setSubData ( Int32 offX, Int32 offY, Int32 offZ,
                       Int32 srcW, Int32 srcH, Int32 srcD,
                       const UInt8 *data );
@@ -315,7 +317,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \name                   Image Data                                 */
     /*! \{                                                                 */
 
-    bool createData ( const UInt8 *data );
+    bool createData ( const UInt8 *data, bool allocMem = true );
     bool scaleData  ( UInt8* srcData,
                       Int32 srcW, Int32 srcH, Int32 srcD,
                       UInt8* destData,

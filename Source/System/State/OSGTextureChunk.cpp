@@ -808,7 +808,9 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                 else
                     data = img->getData(0, frame);
 
-                if(data)
+                // A image without data is quite handy if you need the
+                // texture only on the graphics card.
+                //if(data)
                 {
                     switch (imgtarget)
                     {

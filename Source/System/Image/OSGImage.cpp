@@ -188,7 +188,7 @@ void Image::dump(UInt32    ,
 bool Image::set(UInt32 pF,
                 Int32 w, Int32 h,
                 Int32 d, Int32 mmS, Int32 fS,
-                Time fD, const UChar8 *da, Int32 t )
+                Time fD, const UChar8 *da, Int32 t, bool allocMem)
 {
     ImagePtr iPtr(this);
 
@@ -225,7 +225,7 @@ bool Image::set(UInt32 pF,
               FrameDelayFieldMask |
               DataTypeFieldMask);
 
-    return createData(da);
+    return createData(da, allocMem);
 }
 
 /*! method to set the image from another image object.
@@ -261,6 +261,11 @@ bool Image::setData(const UChar8 *da)
     }
 
     return (da ? true : false);
+}
+
+void Image::clearData(void)
+{
+    getPixel().clear();
 }
 
 /*! method to update just a subregion of the image data
@@ -2417,7 +2422,7 @@ UInt32 Image::calcMipmapSumSize (UInt32 mipmapNum) const
 
 /*! Internal method to set the data and update related properties.
  */
-bool Image::createData(const UInt8 *data)
+bool Image::createData(const UInt8 *data, bool allocMem)
 {
     Int32 i;
     Int32 mapSizeFormat = sizeof(_formatDic) / sizeof(UInt32[2]);
@@ -2472,7 +2477,7 @@ bool Image::createData(const UInt8 *data)
     FINFO(("FrameSize: %d\n", getFrameSize()));
 
     // copy the data
-    if((byteCount = getSize()))
+    if(allocMem && (byteCount = getSize()))
     {
         if(getPixel().getSize() != byteCount)
             getPixel().resize(byteCount);

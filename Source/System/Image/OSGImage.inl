@@ -66,6 +66,8 @@ inline unsigned long Image::getSize ( bool withMipmap,
 inline UInt8 *Image::getData( UInt32 mipmapNum, 
                               UInt32 frameNum)
 {
+    if(getPixel().empty())
+        return NULL;
     UInt8 *data = (&getPixel()[0]) + 
         (frameNum * getFrameSize() * getBpp());
     
@@ -82,6 +84,8 @@ inline UInt8 *Image::getData( UInt32 mipmapNum,
 inline const UInt8 *Image::getData( UInt32 mipmapNum, 
                                     UInt32 frameNum) const
 {
+    if(getPixel().empty())
+        return NULL;
     const UInt8 *data = (&getPixel()[0]) + 
         (frameNum * getFrameSize() * getBpp());
     
