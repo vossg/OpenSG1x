@@ -180,11 +180,11 @@ OSG_BASE_DLLMAPPING Bool MatrixStereoPerspective(Matrix &projection,
         rZeroparallax = 1;
     }
 
-    rTop = osgtan( rFovy ) * rNear; /* Calculate upper and lower clipping planes */
+    rTop = osgtan( rFovy/2.0 ) * rNear; /* Calculate upper and lower clipping planes */
     rBottom = -rTop;
 
 
-    gltan = osgtan( rFovy * rAspect );  /* Calculate left and right clipping planes */
+    gltan = osgtan( rFovy/2.0 ) * rAspect;  /* Calculate left and right clipping planes */
     rLeft =  ( -gltan + rEye / rZeroparallax ) * rNear;
     rRight = (  gltan + rEye / rZeroparallax ) * rNear;
 
