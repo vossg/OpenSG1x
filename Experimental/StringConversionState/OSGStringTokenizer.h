@@ -42,6 +42,7 @@
 #pragma once
 #endif
 
+#include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <string>
 
@@ -50,7 +51,7 @@ OSG_BEGIN_NAMESPACE
 //! Brief
 //! \ingroup baselib
 
-class StringTokenizer
+class OSG_BASE_DLLMAPPING StringTokenizer
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -116,7 +117,7 @@ class StringTokenizer
 
 OSG_END_NAMESPACE
 
-#define OSGSTRINGTOKENIZER_HEADER_CVSID "@(#)$Id: OSGStringTokenizer.h,v 1.2 2002/02/23 01:02:08 dirk Exp $"
+#define OSGSTRINGTOKENIZER_HEADER_CVSID "@(#)$Id: OSGStringTokenizer.h,v 1.3 2002/02/26 10:34:56 dirk Exp $"
 
 #include "OSGStringTokenizer.inl"
 

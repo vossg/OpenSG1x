@@ -42,6 +42,7 @@
 #pragma once
 #endif
 
+#include <OSGBase.h>
 #include <OSGBaseTypes.h>
 
 OSG_BEGIN_NAMESPACE
@@ -49,7 +50,7 @@ OSG_BEGIN_NAMESPACE
 //! Brief
 //! \ingroup baselib
 
-class Indenter 
+class OSG_BASE_DLLMAPPING Indenter 
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -197,7 +198,7 @@ inline ostream& operator<<(ostream& stream, const Indenter& indent);
 
 OSG_END_NAMESPACE
 
-#define OSGINDENTER_HEADER_CVSID "@(#)$Id: OSGIndenter.h,v 1.2 2002/02/23 01:02:08 dirk Exp $"
+#define OSGINDENTER_HEADER_CVSID "@(#)$Id: OSGIndenter.h,v 1.3 2002/02/26 10:34:56 dirk Exp $"
 
 #include "OSGIndenter.inl"
 

@@ -42,6 +42,7 @@
 #pragma once
 #endif
 
+#include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGField.h>
 
@@ -50,7 +51,7 @@ OSG_BEGIN_NAMESPACE
 //! Brief
 //! \ingroup baselib
 
-class /*OSG_DLLEXPORT*/ StringConversionStateBase
+class OSG_BASE_DLLMAPPING StringConversionStateBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -108,6 +109,6 @@ class /*OSG_DLLEXPORT*/ StringConversionStateBase
 
 OSG_END_NAMESPACE
 
-#define OSGSTRINGCONVERSIONSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStringConversionStateBase.h,v 1.2 2002/02/23 01:02:08 dirk Exp $"
+#define OSGSTRINGCONVERSIONSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStringConversionStateBase.h,v 1.3 2002/02/26 10:34:56 dirk Exp $"
 
 #endif /* _StringConversionStateBase_H_ */
