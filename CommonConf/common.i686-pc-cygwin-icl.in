@@ -97,7 +97,11 @@ WARNINGS_CPP_OFF 	:= -Qwd985 -Qwd530 -Qwd981 -Qwd193
 
 WARNINGS_CPP_OFF 	:= $(WARNINGS_CPP_OFF) -Qwd444 -Qwd279
 
-WARN_ERR_CPP        := -Qwe698  -Qwe47 -Qwe373 -Qwe1125 -Qwe171 -Qwe373
+WARN_ERR_CPP        := -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373
+
+ifeq ($(COMPILERVERSION),501)
+WARN_ERR_CPP        := $(WARN_ERR_CPP) -Qwe1125
+endif
 
 #-Qwe383
 
