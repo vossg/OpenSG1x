@@ -120,6 +120,13 @@ fi
 cp Doc/Code/user/latex/StarterGuide.pdf ../OpenSG-$VERSION-UserStarter.pdf
 cp Doc/Code/dev/latex/StarterGuide.pdf ../OpenSG-$VERSION-DevStarter.pdf
 
+cp Doc/Code/user/latex/StarterGuide.pdf Doc/Code/user/UserStarter.pdf
+cp Doc/Code/dev/latex/StarterGuide.pdf Doc/Code/dev/DevStarter.pdf
+
+# get rid of the LaTeX temps
+
+rm -rf Doc/Code/user/latex Doc/Code/dev/latex
+
 # make the design document
 
 cp Doc/design/opensg_design.html ../OpenSG-$VERSION-Design.html

@@ -4,8 +4,8 @@ cd /igd/a4/www/opensg/dailybuild_logs/
 
 # copy zulli logs, still don't work automatically... :(
 
-cp /net/zulli/disk_f/user/reiners/opensg_dailybuild/opensg_dailybuild* .
-sleep 30
+#cp /net/zulli/disk_f/user/reiners/opensg_dailybuild/opensg_dailybuild* .
+#sleep 30
 
 # remove the old snapshots/data
 

@@ -20,7 +20,26 @@ var_expand()
         -e "s/%SUFFIX%/$suffix/g"           < $src > $dest
 }
 
-if test ${#*} -lt 1
+
+while test ${#*} -gt 0 
+do
+	case $1 in
+                --compiler)
+	                compiler=$2
+	                shift
+	                shift
+	                ;;
+                --qt)
+	                qt_dir=$2
+	                shift
+	                shift
+	                ;;
+		*)	break 2
+			;;
+	esac
+done
+
+if test $# -lt 1
 then
     OSGPOOL=`pwd`/OpenSG
 else
@@ -93,7 +112,7 @@ case $system in
     glut_dir="/igd/a4/software/IRIX"
     glut_lib="libglut.a"
     glut_args="--with-glut=$glut_dir"
-    qt_dir="/igd/a4/software/IRIX/packages/qt-3.0"
+    qt_dir=${qt_dir:="/igd/a4/software/IRIX/packages/qt-3.0"}
     qt_lib=libqt.so
     qt_args="--with-qt=$qt_dir"
     tif_args="--with-tif"
@@ -110,8 +129,8 @@ case $system in
     glut_dir="/usr"
     glut_lib="libglut.so.3"
     glut_args="--with-glut=$glut_dir"
-    qt_dir="/usr/lib/qt3"
-    qt_lib=libqt.so
+    qt_dir=${qt_dir:="/usr/lib/qt3"}
+    qt_lib=libqt-mt.so.3
     qt_args="--with-qt=$qt_dir"
     tif_args="--with-tif"
     jpeg_args="--with-jpeg"
@@ -119,7 +138,6 @@ case $system in
     par_jobs=4
     compiler=${compiler:=g++}
     config_shell=bash
-    mail=/usr/bin/Mail
     export PATH=/igd/a4/software/Linux/bin/:$PATH
     if test -r /etc/SuSE-release 
     then
@@ -149,7 +167,7 @@ case $system in
         glut_dir="`pwd`/../supportlibs"
         glut_lib="glut32.dll"
         glut_args="--with-glut=$glut_dir"
-        qt_dir="`pwd`/../packages/qt-3.0"
+        qt_dir=${qt_dir:="`pwd`/../packages/qt-3.0"}
         qt_lib=qt-mt300.dll
         qt_args="--with-qt=$qt_dir"
         tif_args=""
@@ -167,7 +185,7 @@ case $system in
        
         build_make=make
 	qt_args="--with-qt=/igd/a4/software/HP-UX"
-        qt_dir="/igd/a4/software/HP-UX"
+        qt_dir=${qt_dir:="/igd/a4/software/HP-UX"}
         qt_lib=libqt.3
 	glut_args="--with-glut --with-glutincludedir=/opt/graphics/OpenGL/contrib/libglut --with-glutlibdir=/opt/graphics/OpenGL/contrib/libglut"
  	glut_lib=        
@@ -448,7 +466,7 @@ $build_make clean
 cd ..
 
 # copy the SceneViewer
-var_expand $OSGPOOL/Examples/SceneViewer/osgSceneViewer .
+cp $OSGPOOL/Examples/SceneViewer/osgSceneViewer .
 
 # do system-specific stuff
 
@@ -484,7 +502,7 @@ then
     ln -s ../opt/${qt_lib} lib/dbg
 fi
 
-# copy the GLUT lib, as it is not everywhere yet
+# copy the GLUT lib, as it is not everywhere yet either
 ln -s ../opt/${glut_lib} lib/dbg
 
 # do system-specific stuff

@@ -20,7 +20,9 @@ cleanup ()
     gzip -9f $out_html*.html
     
     # LOCAL: copy the HTML logs to the destination location
+    echo $do_copy
     eval $do_copy 
+    echo Copy done
     
     rm -f $log_configure $log_make $log_errors
 }
@@ -71,7 +73,7 @@ write_html_head ()
 `date +%H:%M`: Start<br><br>
 System: $system<br>
 Compiler: $compiler <br>
-Configuration: --with-compiler=$compiler $stl_args $glut_args $qt_args $tif_args $jpeg_args $png_args<br>
+Configuration: --with-compiler=$compiler $stl_args $glut_args $qt_args $tif_args $jpeg_args $png_args $extra_args<br>
 EOF
 }
 
@@ -328,7 +330,8 @@ extra_args=""
 par_jobs=1
 config_shell=sh
 mail=echo
-do_copy='cp $out_html* $log_destination'
+# Only some machines can write the Web files, scp via one of them
+do_copy='cd $basedir; tar cf - $link_html* | ssh pc1107 tar xf - -C $log_destination'
 grep=grep
 
 loginfo=""
@@ -351,6 +354,7 @@ do
                         ;;
                 --with-qt)
                         qt_args="--with-qt=$2"
+                        qt_dir=$2
                         shift
                         shift
                         ;;
@@ -394,6 +398,7 @@ log_test=$tmpdir/opensg.test
 log_errors=$tmpdir/opensg.errors
 log_warnings=$tmpdir/opensg.warnings
 log_install=$tmpdir/opensg.install
+log_dist=$tmpdir/opensg.dist
 log_doc=$tmpdir/opensg.doc
 out_mail=$tmpdir/opensg.mail
 doc_flag=$tmpdir/opensg.doc_done
@@ -416,12 +421,19 @@ fi
 rm -rf OpenSG
 
 # cvs needs to be in the path!
-cvs -z9 -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co -P OpenSG > $log_cvs 2>&1
+# Lately SourceForge's CVS servers have been somewhat unreliable...
+rm -f $log_cvs
+until cvs -z9 -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
+do
+    echo "CVS problem, sleeping and retrying!" >> $log_cvs
+    sleep 10
+done
 
 # find the right parameters for this system
 
 cd OpenSG
-system=`CommonConf/config.guess`
+guess=`CommonConf/config.guess`
+system=`CommonConf/config.sub $guess`
 
 # LOCAL: set the system specific params. 
 # PATH needs to include doxygen and dot for doc to work
@@ -430,14 +442,15 @@ case $system in
 
     mips-sgi-irix6* )	
     	
-	qt_args=${qt_args:="--with-qt=/igd/a4/software/IRIX/packages/qt-3.0"}
-	glut_args=${glut_args:="--with-glut=/igd/a4/software/IRIX/packages/glut-3.7"}
+	qt_dir="/igd/a4/software/IRIX/packages/qt-3.0"
+	qt_args=${qt_args:="--with-qt=${qt_dir}"}
+        glut_args=${glut_args:="--with-glut=/igd/a4/software/IRIX/packages/glut-3.7"}
 	tif_args=${tif_args:="--with-tif=/igd/a4/software/IRIX/"}
 	jpeg_args=${jpeg_args:="--with-jpeg=/igd/a4/software/IRIX/"}
  	png_args=${png_args:="--with-png=/igd/a4/software/IRIX/"}
    	par_jobs=${par_jobs:=6}
 	compiler=${compiler:=CC}
-        do_copy='cp $out_html* $basedir/opensg_dailybuild.$today.source.tgz $log_destination'
+        do_copy='cd $basedir; tar cf - $opensg_dailybuild* | ssh -i /igd/a4/home/reiners/.ssh/id.ssh1 pc1107 tar xf - -C $log_destination'
 	mail=/usr/sbin/Mail
         make=/sgi/bin/gmake
 	export PATH=/igd/a4/software/IRIX/bin/:$PATH
@@ -447,7 +460,8 @@ case $system in
 
     hppa2.0w-hp* )	
         	
-	qt_args=${qt_args:="--with-qt=/igd/a4/software/HP-UX"}
+	qt_dir="/igd/a4/software/HP-UX"
+	qt_args=${qt_args:="--with-qt=${qt_dir}"}
 	glut_args=${glut_args:="--with-glut --with-glutincludedir=/opt/graphics/OpenGL/contrib/libglut --with-glutlibdir=/opt/graphics/OpenGL/contrib/libglut"}
 	tif_args=${tif_args:="--with-tif=/igd/a4/software/HP-UX/"}
 	jpeg_args=${jpeg_args:="--with-jpeg=/igd/a4/software/HP-UX/"}
@@ -466,7 +480,8 @@ case $system in
 	
     *-pc-linux-gnu )	
     	
-	qt_args=${qt_args:="--with-qt=/igd/a4/software/Linux/packages/qt-3.0"}
+	qt_dir="/usr/lib/qt3"
+	qt_args=${qt_args:="--with-qt=${qt_dir}"}
     	glut_args=${glut_args:="--with-glut"}
 	tif_args=${tif_args:="--with-tif"}
 	jpeg_args=${jpeg_args:="--with-jpeg"}
@@ -483,18 +498,38 @@ case $system in
 
     *-pc-cygwin )	
     	
-    	glut_args=${glut_args:="--with-glut=`pwd`/../packages/glut_3.7"}
-	tif_args=${tif_args:="--with-tif=`pwd`/../packages/tiff-3.5.4"}
+        # Unpack the Supportlibs and use them
+        mkdir ${basedir}/supportlibs
+        pushd ${basedir}/supportlibs
+        unzip ../OpenSG/dist/win/supportlibs.zip > $log_cvs 2>&1
+        popd
+        
+    	glut_args=${glut_args:="--with-glut=`pwd`/../supportlibs"}
+	tif_args=${tif_args:="--with-tif=`pwd`/../supportlibs"}
+	jpeg_args=${jpeg_args:="--with-jpeg=`pwd`/../supportlibs"}
+	png_args=${png_args:="--with-png=`pwd`/../supportlibs"}
     	par_jobs=${par_jobs:=2}
 	compiler=${compiler:=icl50}
+        do_copy='cd $basedir; tar cf - $opensg_dailybuild* | ssh -i /home/reiners/.ssh/id_dsa pc1107 tar xf - -C $log_destination'
 	config_shell=bash
 	mail=`pwd`/../do_send_mail
-	# LOCAL: for the cygwins that don't have full NFS access
-	# note: rcp is a Windows command and thus can't handle /cygdrive pathes
-        # and it can't handle <drive>:<file> pathes either, mistaking them for hosts :(
-	do_copy='cd $basedir ; rcp -b $link_html* tizian:$log_destination'
-	export PATH=$PATH
         loginfo="OS: `uname -a` <br>"
+	;;
+	
+    ia64-unknown-linux-gnu )	
+    	
+    	glut_args=${glut_args:="--with-glut"}
+	tif_args=${tif_args:="--with-tif"}
+	jpeg_args=${jpeg_args:="--with-jpeg"}
+ 	png_args=${png_args:="--with-png"}
+    	par_jobs=${par_jobs:=2}
+	compiler=${compiler:=g++}
+	config_shell=bash
+	mail=/usr/bin/Mail
+        do_copy='cd $basedir; tar cf - $opensg_dailybuild* | ssh -i /home/osgdb/.ssh/id_dsa reiners@pc1107 tar xf - -C $log_destination'
+        loginfo="OS: `uname -a` <br>"
+        loginfo="$loginfo    `cat /proc/version` <br>"
+        loginfo="$loginfo Compiler Version: `$compiler -v 2>&1` <br>"
 	;;
 
     *-apple-darwin* )	
@@ -504,8 +539,6 @@ case $system in
 	compiler=${compiler:=cc}
 	config_shell=sh
 	mail=/usr/bin/Mail
-	# LOCAL: for the cygwins that don't have full NFS access
-        do_copy='rcp $out_html* tizian:$log_destination'
 	export PATH=$PATH
         loginfo="OS: `uname -a` <br>"
         # get rid of version number
@@ -639,13 +672,32 @@ do
     
 done
 
+# make the binary dist
+
+# no need to do these, done already
+export OSG_DIST_NO_RECONFIGURE=yes
+export OSG_DIST_NO_REBUILD=yes
+export OSG_DIST_NO_REINSTALL=yes
+
+case $system in
+
+    *cygwin* )	
+        export OSG_DIST_NO_EXAMPLEBUILD=yes
+        ;;
+esac
+
+cd $basedir
+OpenSG/dist/make_bindist --compiler $compiler --qt $qt_dir > $log_dist 2>&1
+
+checkerror "Dist" $log_dist
+
+
+# Wait for the docs to finish
 if expr $has_doxygen > /dev/null 2>&1 = 1 ;
 then
      
-    # wait for the doc to finish
     while ! test -r $doc_flag ; do sleep 30; done
 
-    # check the doc
     checkerror "Doc" $log_doc
 fi
 

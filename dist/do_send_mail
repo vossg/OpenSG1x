@@ -8,4 +8,4 @@ do
 	(( ind=$ind + 1 ))
 done
 
-rsh tizian /usr/sbin/Mail ${args[*]}
+ssh pc1107 /usr/bin/Mail ${args[*]}
