@@ -494,10 +494,7 @@ void PathHandler::expandWin32Path(std::string &path)
     std::string::size_type currPos  = 0;
     std::string::size_type startPos = 0;
 
-    if(path.size() == 0)
-        return;
-
-    while(path[currPos] != '\0')
+    while(currPos < path.size())
     {
         if(path[currPos] == '%')
         {
@@ -505,12 +502,12 @@ void PathHandler::expandWin32Path(std::string &path)
             startPos = currPos++;
 
             while(path[currPos] != '%' &&
-                  path[currPos] != '\0')
+                  currPos < path.size())
             {
                 envVar += path[currPos++];
             }
 
-            if(path[currPos] != '\0')
+            if(currPos < path.size())
             {
                 currPos++;
             }
@@ -542,14 +539,11 @@ void PathHandler::expandUnixPath(std::string &path)
 #ifndef WIN32
     passwd     *userInfo;
 #endif
-    
+
     std::string::size_type currPos  = 0;
     std::string::size_type startPos = 0;
 
-    if(path.size() == 0)
-        return;
-
-    while(path[currPos] != '\0')
+    while(currPos < path.size())
     {
         if(path[currPos] == '$')
         {
@@ -559,7 +553,7 @@ void PathHandler::expandUnixPath(std::string &path)
             while(path[currPos] != ':' &&
                   path[currPos] != '/' &&
                   path[currPos] != '$' &&
-                  path[currPos] != '\0')
+                  currPos < path.size())
             {
                 envVar += path[currPos++];
             }
@@ -584,7 +578,7 @@ void PathHandler::expandUnixPath(std::string &path)
             while(path[currPos] != ':' &&
                   path[currPos] != '/' &&
                   path[currPos] != '$' &&
-                  path[currPos] != '\0')
+                  currPos < path.size())
             {
                 userName += path[currPos++];
             }
@@ -618,7 +612,7 @@ void PathHandler::expandUnixPath(std::string &path)
                     userHome = userInfo->pw_dir;
                 }
             }
-            
+
             if(userHome.empty() == false)
             {
                 path.replace(startPos, currPos - startPos, userHome);
