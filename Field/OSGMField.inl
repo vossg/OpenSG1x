@@ -687,7 +687,7 @@ void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-String &MField<FieldTypeT, fieldNameSpace>::getValueByStr(String &string) const
+std::string &MField<FieldTypeT, fieldNameSpace>::getValueByStr(std::string &string) const
 {
     SWARNING << "getStrValue: not implemented yet!" << endl;
 

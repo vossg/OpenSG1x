@@ -52,6 +52,7 @@
 #include <OSGFieldType.h>
 #include <OSGString.h>
 #include <OSGLog.h>
+#include <string>
 
 OSG_BEGIN_NAMESPACE
 
@@ -83,7 +84,7 @@ struct ErrorFromToString
     }
 
     static void             putToString(const T      &,
-                                              String &)
+                                              std::string &)
     {
         SLOG << "Error To String Conversion not available for " << endl;
     }
@@ -124,7 +125,7 @@ class OSG_BASE_DLLMAPPING Field
     /*-------------------------- string io ----------------------------------*/
 
 	virtual void     pushValueByStr(const char *str   )       = 0;
-	virtual String  &getValueByStr (String     &string) const = 0;
+	virtual std::string  &getValueByStr (std::string     &string) const = 0;
 
     /*----------------------- field information -----------------------------*/
 

@@ -52,6 +52,7 @@
 #include <OSGField.h>
 
 #include <vector>
+#include <string>
 
 OSG_BEGIN_NAMESPACE
 
@@ -352,7 +353,7 @@ class MField : public Field
     /*-------------------------- string io ----------------------------------*/
 
 	virtual void    pushValueByStr(const Char8 *str);
-    virtual String &getValueByStr (String &string) const;
+    virtual std::string &getValueByStr (std::string &string) const;
 
     /*-------------------------- index operator------------------------------*/
 

@@ -44,6 +44,8 @@
 #include <OSGMatrix.h>
 #include <OSGQuaternion.h>
 
+#include <string>
+
 OSG_BEGIN_NAMESPACE
 
 /** \ingroup FieldLib
@@ -74,10 +76,43 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
         return false;
     }
 
-    static void             putToString(const Matrix &,
-                                              String &)
+    static void             putToString(const Matrix &inVal,
+                                              std::string &outVal)
     {
-        // TO_BE_DONE
+       outVal.assign( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[0]) );
+      outVal.append( " " );
+	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( " " );
+	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[2]) );
+      outVal.append( " " );
+	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[3]) );
+	  outVal.append( " " );
+      
+	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[4]) );
+      outVal.append( " " );
+	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[5]) );
+      outVal.append( " " );
+	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[6]) );
+      outVal.append( " " );
+	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[7]) );
+      outVal.append( " " );
+	  
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[8]) );
+      outVal.append( " " );
+	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[9]) );
+      outVal.append( " " );
+	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[10]) );
+      outVal.append( " " );
+	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[11]) );
+	  outVal.append( " " );
+	  
+      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[12]) );
+      outVal.append( " " );
+	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[13]) );
+      outVal.append( " " );
+	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[14]) );
+      outVal.append( " " );
+	  outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[15]) );
     }
 };
 
@@ -113,10 +148,21 @@ struct FieldDataTraits<Quaternion> :
         return true;
     }
 
-    static void             putToString(const Quaternion &,
-                                              String     &)
+    static void             putToString(const Quaternion &inVal,
+                                              std::string     &outVal)
     {
-        // TO_BE_DONE
+        Quaternion::VectorType::ValueType axisX;
+		Quaternion::VectorType::ValueType axisY;
+		Quaternion::VectorType::ValueType axisZ;
+		Quaternion::VectorType::ValueType angleRad;
+		inVal.getValueAsAxisRad( axisX, axisY, axisZ, angleRad );
+		outVal.assign( TypeConstants<Quaternion::VectorType::ValueType>::putToString(axisX) );
+		outVal.append( " " );
+		outVal.append( TypeConstants<Quaternion::VectorType::ValueType>::putToString(axisY) );
+		outVal.append( " " );
+		outVal.append( TypeConstants<Quaternion::VectorType::ValueType>::putToString(axisZ) );
+		outVal.append( " " );
+		outVal.append( TypeConstants<Quaternion::VectorType::ValueType>::putToString(angleRad) );
     }
 };
 

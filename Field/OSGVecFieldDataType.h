@@ -44,6 +44,8 @@
 #include <OSGFieldDataType.h>
 #include <OSGVector.h>
 
+#include <string>
+
 OSG_BEGIN_NAMESPACE
 
 template<class ValueTypeT>
@@ -179,10 +181,12 @@ struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
         return true;
     }
 
-    static void   putToString(const Vec2f  &,
-                                    String &)
+    static void   putToString(const Vec2f  &inVal,
+                                    std::string &outVal)
     {
-        // TO_BE_DONE
+		outVal.assign( TypeConstants<Vec2f::ValueType>::putToString((inVal.getValues())[0]) );
+	  outVal.append( "  " );
+      outVal.append( TypeConstants<Vec2f::ValueType>::putToString((inVal.getValues())[1]) );
     }
 };
 
@@ -216,10 +220,14 @@ struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore3Base<Vec3f>
         return true;
     }
 
-    static void   putToString(const Vec3f  &,
-                                    String &)
+    static void   putToString(const Vec3f  &inVal,
+                                    std::string &outVal)
     {
-        // TO_BE_DONE
+       outVal.assign( TypeConstants<Vec3f::ValueType>::putToString((inVal.getValues())[0]) );
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Vec3f::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Vec3f::ValueType>::putToString((inVal.getValues())[2]) );
     }
 };
 
@@ -255,10 +263,16 @@ struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
         return true;
     }
 
-    static void   putToString(const Vec4f  &,
-                                    String &)
+    static void   putToString(const Vec4f  &inVal,
+                                    std::string &outVal)
     {
-        // TO_BE_DONE
+      outVal.assign( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[0]) );
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[2]) );
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[3]) );
     }
 };
 
@@ -291,10 +305,16 @@ struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore4Base<Vec4ub>
         return true;
     }
 
-    static void   putToString(const Vec4ub &,
-                                    String &)
+    static void   putToString(const Vec4ub &inVal,
+                                    std::string &outVal)
     {
-        // TO_BE_DONE
+        outVal.assign( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[0]) );
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[2]) );
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[3]) );
     }
 };
 
@@ -329,10 +349,12 @@ struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
         return true;
     }
 
-    static void   putToString(const Pnt2f  &,
-                                    String &)
+    static void   putToString(const Pnt2f  &inVal,
+                                    std::string &outVal)
     {
-        // TO_BE_DONE
+        outVal.assign( TypeConstants<Pnt2f::ValueType>::putToString((inVal.getValues())[0]) ); 
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Pnt2f::ValueType>::putToString((inVal.getValues())[1]) );
     }
 };
 
@@ -366,10 +388,14 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
         return false;
     }
 
-    static void   putToString(const Pnt3f  &,
-                                    String &)
+    static void   putToString(const Pnt3f  &inVal,
+                                    std::string &outVal)
     {
-        // TO_BE_DONE
+        outVal.assign( TypeConstants<Pnt3f::ValueType>::putToString((inVal.getValues())[0]) );
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString((inVal.getValues())[2]) );
     }
 };
 
@@ -403,10 +429,16 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
         return false;
     }
 
-    static void   putToString(const Pnt4f  &,
-                                    String &)
+    static void   putToString(const Pnt4f  &inVal,
+                                    std::string &outVal)
     {
-        // TO_BE_DONE
+        outVal.assign( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[0]) );
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[1]) );
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[2]) );
+      outVal.append( "  " );
+	  outVal.append( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[3]) );
     }
 };
 

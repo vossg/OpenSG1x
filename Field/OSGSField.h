@@ -52,6 +52,7 @@
 #include <OSGBaseFunctions.h>
 
 #include <vector>
+#include <string>
 
 #include <OSGField.h>
 
@@ -145,7 +146,7 @@ class OSG_BASE_DLLMAPPING SField : public Field
     /*-------------------------- string io ----------------------------------*/
 
 	virtual void    pushValueByStr(const Char8 *str);
-    virtual String &getValueByStr (String &string) const;
+    virtual std::string &getValueByStr (std::string &string) const;
 
     /*------------------------------- sync ----------------------------------*/
 

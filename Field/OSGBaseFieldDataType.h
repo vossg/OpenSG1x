@@ -46,6 +46,8 @@
 #include <OSGDynamicVolume.h>
 #include <OSGPlane.h>
 
+#include <string>
+
 OSG_BEGIN_NAMESPACE
 
 /** \ingroup FieldLib
@@ -78,10 +80,14 @@ struct FieldDataTraits<Color3f> : public FieldTraitsRecurseBase<Color3f>
         return true;
     }
 
-    static void             putToString(const Color3f &,
-                                              String  &)
+    static void             putToString(const Color3f &inVal,
+                                              std::string &outVal)
     {
-        // TO_BE_DONE
+       outVal.assign( TypeConstants<Color3f::ValueType>::putToString(inVal.red()) );
+	  outVal.append( "  " );
+      outVal.append( TypeConstants<Color3f::ValueType>::putToString(inVal.green()) );
+	  outVal.append( "  " );
+      outVal.append( TypeConstants<Color3f::ValueType>::putToString(inVal.blue()) );
     }
 };
 
@@ -109,10 +115,16 @@ struct FieldDataTraits<Color4f> : public FieldTraitsRecurseBase<Color4f>
         return true;
     }
 
-    static void             putToString(const Color4f &,
-                                              String  &)
+    static void             putToString(const Color4f &inVal,
+                                              std::string  &outVal)
     {
-        // TO_BE_DONE
+        outVal.assign( TypeConstants<Color4f::ValueType>::putToString(inVal.red()) );
+	  outVal.append( "  " );
+      outVal.append( TypeConstants<Color4f::ValueType>::putToString(inVal.green()) );
+	  outVal.append( "  " );
+      outVal.append( TypeConstants<Color4f::ValueType>::putToString(inVal.blue()) );
+	  outVal.append( "  " );
+      outVal.append( TypeConstants<Color4f::ValueType>::putToString(inVal.alpha()) );
     }
 };
 
@@ -139,10 +151,14 @@ struct FieldDataTraits<Color3ub> : public FieldTraitsRecurseBase<Color3ub>
         return true;
     }
 
-    static void   putToString(const Color3ub  &,
-                                    String &)
+    static void   putToString(const Color3ub &inVal,
+                                    std::string &outVal)
     {
-        // TO_BE_DONE
+       outVal.assign( TypeConstants<Color3ub::ValueType>::putToString(inVal.red()) );
+	  outVal.append( "  " );
+      outVal.append( TypeConstants<Color3ub::ValueType>::putToString(inVal.green()) );
+	  outVal.append( "  " );
+      outVal.append( TypeConstants<Color3ub::ValueType>::putToString(inVal.blue()) );
     }
 };
 
@@ -177,10 +193,16 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
         return true;
     }
 
-    static void   putToString(const Color4ub  &,
-                                    String &)
+    static void   putToString(const Color4ub &inVal,
+                                    std::string &outVal )
     {
-        // TO_BE_DONE
+       outVal.assign( TypeConstants<Color4ub::ValueType>::putToString(inVal.red()) );
+	  outVal.append( "  " );
+      outVal.append( TypeConstants<Color4ub::ValueType>::putToString(inVal.green()) );
+	  outVal.append( "  " );
+      outVal.append( TypeConstants<Color4ub::ValueType>::putToString(inVal.blue()) );
+	  outVal.append( "  " );
+      outVal.append( TypeConstants<Color4ub::ValueType>::putToString(inVal.alpha()) );
     }
 };
 
@@ -214,10 +236,10 @@ struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
         return true;
     }
 
-    static void             putToString(const String &source,
-                                              String &target)
+    static void             putToString(const String &inVal,
+                                              std::string &outVal )
     {
-        target = source;
+        outVal.assign( inVal.str() );
     }
 
     static UInt32 getBinSize(const String   &oObject)
@@ -312,10 +334,10 @@ struct FieldDataTraits1<Time> : public FieldTraitsRecurseBase<Time>
         return true;
     }
 
-    static void             putToString(const Time   &,
-                                              String &)
+    static void             putToString(const Time &inVal,
+                                              std::string &outVal)
     {
-        // TO_BE_DONE
+        outVal.assign( TypeConstants<Real64>::putToString( inVal ) );
     }
 };
 
@@ -343,10 +365,22 @@ struct FieldDataTraits<DynamicVolume> :
         return false;
     }
 
-    static void             putToString(const DynamicVolume &,
-                                              String        &)
+    static void             putToString(const DynamicVolume &inVal,
+                                              std::string   &outVal)
     {
-        // TO_BE_DONE
+      Pnt3f min, max;
+      inVal.getBounds( min, max );
+      outVal.assign( TypeConstants<Pnt3f::ValueType>::putToString(min.getValues()[0]) );
+	  outVal.append( "  " );
+	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(min.getValues()[1]) );
+	  outVal.append( "  " );
+	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(min.getValues()[2]) );
+	  outVal.append( ",\n" );
+	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(max.getValues()[0]) );
+	  outVal.append( "  " );
+	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(max.getValues()[1]) );
+	  outVal.append( "  " );
+	  outVal.append( TypeConstants<Pnt3f::ValueType>::putToString(max.getValues()[2]) );
     }
 };
 
@@ -390,10 +424,18 @@ struct FieldDataTraits<Plane> : public FieldTraitsRecurseBase<Plane>
         return false;
     }
 
-    static void             putToString(const Plane &,
-                                              String        &)
+    static void             putToString(const Plane &inVal,
+                                              std::string &outVal)
     {
-        // TO_BE_DONE
+        Vec3f normal = inVal.getNormal();
+		Real32 dist = inVal.getDistanceFromOrigin();
+		outVal.assign( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[0]) );
+		outVal.append( "  " );
+		outVal.append( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[1]) );
+		outVal.append( "  " );
+		outVal.append( TypeConstants<Vec3f::ValueType>::putToString( normal.getValues()[2]) );
+		outVal.append( "  ,  " );
+		outVal.append( TypeConstants<Real32>::putToString(dist) );
     }
 };
 

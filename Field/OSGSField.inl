@@ -277,7 +277,7 @@ void SField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
  */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-String &SField<FieldTypeT, fieldNameSpace>::getValueByStr(String &string) const
+std::string &SField<FieldTypeT, fieldNameSpace>::getValueByStr(std::string &string) const
 {
     typedef osgIF< (SFieldTraits::StringConvertable &
                     Traits::ToStringConvertable), 
