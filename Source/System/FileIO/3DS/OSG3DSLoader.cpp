@@ -12,8 +12,6 @@
 // generic stuff
 //-------------------------------------------------------
 
-typedef unsigned long ulong;
-
 #define SEEK_START           1900
 #define SEEK_CURSOR          1901
 
