@@ -237,14 +237,16 @@ char MField<FieldTypeT, fieldNameSpace>::cvsid[] = "@(#)$Id: $";
 template <class FieldTypeT, Int32 fieldNameSpace>
 const FieldType MField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
     MFieldTraits::getMName(), 
-    MFieldTraits::getType(),
+    MFieldTraits::getPName(),
+    MFieldTraits::getType (),
     create,
     FieldType::MULTI_FIELD);
 #else
 template <class FieldTypeT, Int32 fieldNameSpace>
 const FieldType MField<FieldTypeT, fieldNameSpace>::_fieldType(
     MFieldTraits::getMName(), 
-    MFieldTraits::getType(),
+    MFieldTraits::getPName(),
+    MFieldTraits::getType (),
     create,
     FieldType::MULTI_FIELD);
 #endif

@@ -105,26 +105,32 @@ OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<FieldContainerPtr     >::_type(
     "FieldContainerPtr",
+    NULL,
     true);
 
 DataType FieldDataTraits<AttachmentContainerPtr>::_type(
     "AttachmenContainertPtr", 
+    "FieldContainerPtr",
     true);
 
 DataType FieldDataTraits<NodePtr               >::_type(
     "NodePtr",
+    "AttachmentContainerPtr",
     true);
 
 DataType FieldDataTraits<NodeCorePtr           >::_type(
     "NodeCorePtr",
+    "AttachmentContainerPtr",
     true);
 
 DataType FieldDataTraits<AttachmentPtr         >::_type(
     "AttachmentPtr",
+    "FieldContainerPtr",
     true);
 
 DataType FieldDataTraits<AttachmentMap         >::_type(
     "AttachmentMap",
+    NULL,
     true);
 
 #if defined(__sgi)

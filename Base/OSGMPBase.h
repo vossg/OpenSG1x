@@ -78,8 +78,6 @@ class OSG_BASE_DLLMAPPING MPType : public TypeBase
 
     typedef TypeBase Inherited;
 
-	static char cvsid[];
-
 	/*---------------------------------------------------------------------*/
     /*! \name                   Constructor                                */
     /*! \{                                                                 */
@@ -113,7 +111,6 @@ class OSG_BASE_DLLMAPPING MPType : public TypeBase
     virtual ~MPType(void); 
  	
 	/*! \}                                                                 */
-
 };
 
 
@@ -123,13 +120,10 @@ class OSG_BASE_DLLMAPPING MPType : public TypeBase
 
 class OSG_BASE_DLLMAPPING MPThreadType : public MPType
 {
-
 	/*==========================  PRIVATE  ================================*/
   private:
 
     typedef MPType Inherited;
-
-	static char cvsid[];
 
 	/*---------------------------------------------------------------------*/
     /*! \name                   Constructor                                */
@@ -183,7 +177,6 @@ class OSG_BASE_DLLMAPPING MPThreadType : public MPType
     BaseThread *create(const Char8 *szName);
  	
 	/*! \}                                                                 */
-
 };
 
 /*! \ingroup FieldContainerLib
@@ -196,8 +189,6 @@ class OSG_BASE_DLLMAPPING MPBarrierType : public MPType
   private:
 
     typedef MPType Inherited;
-
-	static char cvsid[];
 
 	/*---------------------------------------------------------------------*/
     /*! \name                   Constructor                                */
@@ -249,7 +240,7 @@ class OSG_BASE_DLLMAPPING MPBarrierType : public MPType
 
     Barrier *create(const Char8 *szName);
 
-	/*! \}                                                                 */   
+/*! \}                                                                 */   
 };
 
 /*! \ingroup FieldContainerLib
@@ -258,13 +249,10 @@ class OSG_BASE_DLLMAPPING MPBarrierType : public MPType
 
 class OSG_BASE_DLLMAPPING MPLockType : public MPType
 {
-
 	/*==========================  PRIVATE  ================================*/
   private:
 
     typedef MPType Inherited;
-
-	static char cvsid[];
 
 	/*---------------------------------------------------------------------*/
     /*! \name                   Constructor                                */
@@ -317,7 +305,6 @@ class OSG_BASE_DLLMAPPING MPLockType : public MPType
     Lock *create(const Char8 *szName);
 
 	/*! \}                                                                 */
-
 };
 
 /*! \ingroup FieldContainerLib
@@ -326,13 +313,10 @@ class OSG_BASE_DLLMAPPING MPLockType : public MPType
 
 class OSG_BASE_DLLMAPPING MPLockPoolType : public MPType
 {
-
 	/*==========================  PRIVATE  ================================*/
   private:
 
     typedef MPType Inherited;
-
-	static char cvsid[];
 
 	/*---------------------------------------------------------------------*/
     /*! \name                   Constructor                                */
@@ -385,7 +369,6 @@ class OSG_BASE_DLLMAPPING MPLockPoolType : public MPType
     LockPool *create(const Char8 *szName);
 	
 	/*! \}                                                                 */
-
 };
 
 /*! \ingroup 
@@ -396,13 +379,10 @@ class OSG_BASE_DLLMAPPING MPLockPoolType : public MPType
 
 class OSG_BASE_DLLMAPPING MPBase : public MemoryObject
 {
-
 	/*==========================  PRIVATE  ================================*/
   private:
 
     typedef MemoryObject Inherited;
-
-	static char cvsid[];
 
 	/*---------------------------------------------------------------------*/
     /*! \name                   Constructor                                */
@@ -468,5 +448,7 @@ class OSG_BASE_DLLMAPPING MPBase : public MemoryObject
 };
 
 OSG_END_NAMESPACE
+
+#define OSGMPBASE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGMPBASE_H_ */

@@ -330,7 +330,7 @@ FieldContainerType::FieldContainerType(const Char8        *szName,
                                    FieldDescription      **pDesc,
                                    UInt32                  uiDescByteCounter,
                                    Bool                    bDescsAddable) :
-    Inherited(szName),
+    Inherited(szName, szParentName),
     _uiGroupId(0),
 
     _bInitialized(false),
@@ -360,7 +360,7 @@ FieldContainerType::FieldContainerType(const Char8        *szName,
 
 FieldContainerType::FieldContainerType(const FieldContainerType &obj) :
 
-    Inherited   (obj.getCName()), 
+    Inherited   (obj.getCName(), obj.getCParentName()), 
     _uiGroupId  (obj._uiGroupId),
 
     _bInitialized(false),

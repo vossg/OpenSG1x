@@ -65,7 +65,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<InlinePtr>::_type("InlinePtr", true);
+DataType FieldDataTraits<InlinePtr>::_type("InlinePtr", "NodeCorePtr", true);
 
 #if defined(__sgi)
 

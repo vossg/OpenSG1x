@@ -60,10 +60,6 @@ class OSG_BASE_DLLMAPPING TypeBase
     /*==========================  PRIVATE  ================================*/
   private:
 
-
-    static char cvsid[];
-
-
     // prohibit default functions (move to 'public' if you need one)
 
     TypeBase       (const TypeBase &source);
@@ -72,11 +68,13 @@ class OSG_BASE_DLLMAPPING TypeBase
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    UInt32    _uiTypeId;
+    UInt32    _uiTypeRootId;
 
-    UInt32            _uiTypeId;
-    UInt32            _uiTypeRootId;
+    TypeBase *_pParent;
 
-    String            _szName;
+    String    _szName;
+    String    _szParentName;
 
     /*==========================  PUBLIC  =================================*/
   public :
@@ -85,7 +83,9 @@ class OSG_BASE_DLLMAPPING TypeBase
     /*! \name                   Constructor                                */
     /*! \{                                                                 */
 
-    TypeBase(const Char8 *szName, Bool   bRegister = false);
+    TypeBase(const Char8  *szName, 
+             const Char8  *szParentName,
+                   Bool    bRegister   = false);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -99,10 +99,13 @@ class OSG_BASE_DLLMAPPING TypeBase
     /*! \name                       Id                                     */
     /*! \{                                                                 */
 
+          UInt32  getId         (void) const;
 
-          UInt32  getId     (void) const;
-    const String &getName   (void) const;
-    const Char8  *getCName  (void) const;
+    const String &getName       (void) const;
+    const Char8  *getCName      (void) const;
+
+    const String &getParentName (void) const;
+    const Char8  *getCParentName(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -120,12 +123,16 @@ class OSG_BASE_DLLMAPPING TypeBase
     Bool operator !=(const TypeBase &other) const;
 
     /*! \}                                                                 */
-
 };
 
 typedef TypeBase *TypeBaseP;
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGDATALEMENTTYPE_H_ */
+#define OSGTYPEBASE_HEADER_CVSID "@(#)$Id: $"
+
+#endif /* _OSGTYPEBASE_H_ */
+
+
+
 

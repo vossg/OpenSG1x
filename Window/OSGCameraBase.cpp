@@ -65,7 +65,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<CameraPtr>::_type("CameraPtr", true);
+DataType FieldDataTraits<CameraPtr>::_type("CameraPtr", "AttachmentContainerPtr", true);
 
 #if defined(__sgi)
 
@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.15 2001/09/19 14:36:41 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.16 2001/10/02 06:16:12 vossg Exp $";
     static char cvsid_hpp       [] = OSGCAMERABASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGCAMERABASE_INLINE_CVSID;
 

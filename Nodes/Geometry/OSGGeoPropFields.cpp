@@ -48,13 +48,27 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<GeoPositionPtr >::_type("GeoPositionPtr"  , true);
-DataType FieldDataTraits<GeoNormalPtr   >::_type("GeoNormalPtr"    , true);
-DataType FieldDataTraits<GeoColorPtr    >::_type("GeoColorPtr"     , true);
-DataType FieldDataTraits<GeoTexCoordsPtr>::_type("GeoTexCoordsPtr" , true);
-DataType FieldDataTraits<GeoIndexPtr    >::_type("GeoIndexPtr"     , true);
-DataType FieldDataTraits<GeoPTypePtr    >::_type("GeoPTypePtr"     , true);
-DataType FieldDataTraits<GeoPLengthPtr  >::_type("GeoPLengthPtr"   , true);
+DataType FieldDataTraits<GeoPositionPtr >::_type("GeoPositionPtr",
+                                                 "GeoPositionInterfacePtr",
+                                                 true);
+DataType FieldDataTraits<GeoNormalPtr   >::_type("GeoNormalPtr",
+                                                 "GeoNormalInterfacePtr",
+                                                 true);
+DataType FieldDataTraits<GeoColorPtr    >::_type("GeoColorPtr",
+                                                 "GeoColorInterfacePtr",
+                                                 true);
+DataType FieldDataTraits<GeoTexCoordsPtr>::_type("GeoTexCoordsPtr",
+                                                 "GeoTexCoordsInterfacePtr",
+                                                 true);
+DataType FieldDataTraits<GeoIndexPtr    >::_type("GeoIndexPtr",
+                                                 "GeoIndexInterfacePtr",
+                                                 true);
+DataType FieldDataTraits<GeoPTypePtr    >::_type("GeoPTypePtr",
+                                                 "GeoPTypeInterfacePtr",
+                                                 true);
+DataType FieldDataTraits<GeoPLengthPtr  >::_type("GeoPLengthPtr",
+                                                 "GeoPLengthInterfacePtr",
+                                                 true);
 
 #if defined(__sgi)
 

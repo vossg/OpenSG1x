@@ -56,6 +56,12 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGMPBASE_HEADER_CVSID;
+}
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -67,8 +73,6 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char MPType::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -108,9 +112,9 @@ char MPType::cvsid[] = "@(#)$Id: $";
  */
 
 MPType::MPType(const Char8 *szName, 
-                     const Char8 *szParentName,
-                           Bool   bRegister) :
-    Inherited(szName, bRegister)
+               const Char8 *szParentName,
+                     Bool   bRegister) :
+    Inherited(szName, szParentName, bRegister)
 {
 }
 
@@ -145,8 +149,6 @@ MPType::~MPType(void)
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char      MPThreadType::cvsid[]        = "@(#)$Id: $";
 
 UInt32 MPThreadType::_uiThreadCount = 0;
 
@@ -188,7 +190,7 @@ UInt32 MPThreadType::_uiThreadCount = 0;
  */
 
 MPThreadType::MPThreadType(const Char8          *szName, 
-                                 const Char8    *szParentName,
+                           const Char8          *szParentName,
                                  CreateThreadF   fCreateThread,
                                  InitThreadingF  fInitThreading) :
     Inherited(szName, szParentName),
@@ -255,8 +257,6 @@ BaseThread *MPThreadType::create(const Char8 *szName)
  *                           Class variables                               *
 \***************************************************************************/
 
-char MPBarrierType::cvsid[] = "@(#)$Id: $";
-
 UInt32 MPBarrierType::_uiBarrierCount = 0;
 
 /***************************************************************************\
@@ -297,8 +297,8 @@ UInt32 MPBarrierType::_uiBarrierCount = 0;
  */
 
 MPBarrierType::MPBarrierType(const Char8          *szName, 
-                                   const Char8          *szParentName,
-                                         CreateBarrierF  fCreateBarrier) :
+                             const Char8          *szParentName,
+                                   CreateBarrierF  fCreateBarrier) :
     Inherited(szName, szParentName),
     _fCreateBarrier(fCreateBarrier)
 {
@@ -349,8 +349,6 @@ Barrier *MPBarrierType::create(const Char8 *szName)
  *                           Class variables                               *
 \***************************************************************************/
 
-char MPLockType::cvsid[] = "@(#)$Id: $";
-
 UInt32 MPLockType::_uiLockCount = 0;
 
 /***************************************************************************\
@@ -391,8 +389,8 @@ UInt32 MPLockType::_uiLockCount = 0;
  */
 
 MPLockType::MPLockType(const Char8       *szName, 
-                             const Char8       *szParentName,
-                                   CreateLockF  fCreateLock) :
+                       const Char8       *szParentName,
+                             CreateLockF  fCreateLock) :
     Inherited(szName, szParentName),
     _fCreateLock(fCreateLock)
 {
@@ -444,8 +442,6 @@ Lock *MPLockType::create(const Char8 *szName)
  *                           Class variables                               *
 \***************************************************************************/
 
-char MPLockPoolType::cvsid[] = "@(#)$Id: $";
-
 UInt32 MPLockPoolType::_uiLockPoolCount = 0;
 
 /***************************************************************************\
@@ -486,9 +482,9 @@ UInt32 MPLockPoolType::_uiLockPoolCount = 0;
  */
 
 MPLockPoolType::MPLockPoolType(
-    const Char8          *szName, 
-    const Char8          *szParentName,
-    CreateLockPoolF  fCreateLockPool) :
+    const Char8           *szName, 
+    const Char8           *szParentName,
+          CreateLockPoolF  fCreateLockPool) :
 
     Inherited(szName, szParentName),
     _fCreateLockPool(fCreateLockPool)
@@ -542,9 +538,6 @@ LockPool *MPLockPoolType::create(const Char8 *szName)
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-
-char      MPBase::cvsid[] = "@(#)$Id: $";
 
 MPType MPBase::_type("OSGMPBase", NULL, true);
 

@@ -497,12 +497,20 @@ int main (int argc, char **argv)
 	
 	glutIdleFunc(display);	
 
+    cerr << "Got : " << endl 
+         << glutGet(GLUT_WINDOW_DEPTH_SIZE) << endl
+         << glutGet(GLUT_WINDOW_RED_SIZE) << endl
+         << glutGet(GLUT_WINDOW_GREEN_SIZE) << endl
+         << glutGet(GLUT_WINDOW_BLUE_SIZE) << endl
+         << glutGet(GLUT_WINDOW_DOUBLEBUFFER) << endl
+         << endl;
+
 	// glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 	
 	glEnable( GL_DEPTH_TEST );
 	glEnable( GL_LIGHTING );
 	glEnable( GL_LIGHT0 );
-    glEnable( GL_NORMALIZE );
+//    glEnable( GL_NORMALIZE );
 	// OSG
 
 	// create the graph

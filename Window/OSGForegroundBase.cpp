@@ -65,7 +65,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<ForegroundPtr>::_type("ForegroundPtr", true);
+DataType FieldDataTraits<ForegroundPtr>::_type("ForegroundPtr", "AttachmentContainerPtr", true);
 
 #if defined(__sgi)
 

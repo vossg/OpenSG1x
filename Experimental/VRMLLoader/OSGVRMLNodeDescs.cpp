@@ -76,7 +76,9 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<GenericAttPtr>::_type("GenericAttPtr"  , true);
+DataType FieldDataTraits<GenericAttPtr>::_type("GenericAttPtr",
+                                               "AttachmentPtr",
+                                               true);
 
 #if defined(__sgi)
 
@@ -611,6 +613,41 @@ void VRMLNodeDesc::addFieldValue(      Field *pField,
 /** \brief assignment
  */
 
+void VRMLNodeDesc::dump(const Char8 *szNodeName)
+{
+    fprintf(stderr, "\tDefault %s\n", szNodeName);
+
+    fprintf(stderr, "\t\tGenAtt        %p\n", &(*_pGenAtt));
+    fprintf(stderr, "\t\tNodeProto     %p\n", &(*_pNodeProto));
+    fprintf(stderr, "\t\tNodeCoreProto %p\n", &(*_pNodeCoreProto));
+
+    string stringVal;
+
+    if(_pGenAtt != NullFC)
+    {
+        fprintf(stderr, "\t\t%d Desc\n",
+                _pGenAtt->getType().getNumFieldDescs());
+
+        for(UInt32 i = 2; i <= _pGenAtt->getType().getNumFieldDescs(); i++)
+        {
+            FieldDescription *pFieldDesc = 
+                _pGenAtt->getType().getFieldDescription(i);
+            Field            *pField     =
+                _pGenAtt->getDynamicField(i);
+
+            stringVal.erase(stringVal.begin(),
+                            stringVal.end());
+
+            pField->getValueByStr(stringVal);
+
+            fprintf(stderr, "\t\t%s %s %s\n", 
+                    pFieldDesc->getCName(),
+                    pFieldDesc->getFieldType().getCName(),
+                    stringVal.c_str());
+        }
+    }
+}
+
 /*-------------------------- comparison -----------------------------------*/
 
 /** \brief assignment
@@ -879,6 +916,10 @@ void VRMLShapeDesc::endNode(FieldContainerPtr pFC)
 
 /** \brief assignment
  */
+
+void VRMLShapeDesc::dump(const Char8 *szNodeName)
+{
+}
 
 /*-------------------------- comparison -----------------------------------*/
 
@@ -1359,6 +1400,10 @@ void VRMLGeometryDesc::addFieldValue(      Field *pField,
 /** \brief assignment
  */
 
+void VRMLGeometryDesc::dump(const Char8 *szNodeName)
+{
+}
+
 /*-------------------------- comparison -----------------------------------*/
 
 /** \brief assignment
@@ -1577,6 +1622,10 @@ FieldContainerPtr VRMLGeometryPartDesc::beginNode(
 
 /** \brief assignment
  */
+
+void VRMLGeometryPartDesc::dump(const Char8 *szNodeName)
+{
+}
 
 /*-------------------------- comparison -----------------------------------*/
 
@@ -1955,6 +2004,10 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
+void VRMLGeometryObjectDesc::dump(const Char8 *szNodeName)
+{
+}
+
 /*-------------------------- comparison -----------------------------------*/
 
 /** \brief assignment
@@ -2257,6 +2310,10 @@ Bool VRMLAppearanceDesc::use(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
+void VRMLAppearanceDesc::dump(const Char8 *szNodeName)
+{
+}
+
 /*-------------------------- comparison -----------------------------------*/
 
 /** \brief assignment
@@ -2533,6 +2590,10 @@ void VRMLMaterialDesc::endNode(FieldContainerPtr)
 /** \brief assignment
  */
 
+void VRMLMaterialDesc::dump(const Char8 *szNodeName)
+{
+}
+
 /*-------------------------- comparison -----------------------------------*/
 
 /** \brief assignment
@@ -2792,6 +2853,10 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
+void VRMLImageTextureDesc::dump(const Char8 *szNodeName)
+{
+}
+
 /*-------------------------- comparison -----------------------------------*/
 
 /** \brief assignment
@@ -3039,6 +3104,10 @@ void VRMLPixelTextureDesc::addFieldValue(      Field *,
 
 /** \brief assignment
  */
+
+void VRMLPixelTextureDesc::dump(const Char8 *szNodeName)
+{
+}
 
 /*-------------------------- comparison -----------------------------------*/
 
@@ -3304,6 +3373,10 @@ void VRMLLODDesc::endNode(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
+void VRMLLODDesc::dump(const Char8 *szNodeName)
+{
+}
+
 /*-------------------------- comparison -----------------------------------*/
 
 /** \brief assignment
@@ -3552,6 +3625,10 @@ void VRMLSwitchDesc::endNode(FieldContainerPtr pFC)
 
 /** \brief assignment
  */
+
+void VRMLSwitchDesc::dump(const Char8 *szNodeName)
+{
+}
 
 /*-------------------------- comparison -----------------------------------*/
 
@@ -3821,6 +3898,10 @@ void VRMLGroupDesc::endNode(FieldContainerPtr pFC)
 /** \brief assignment
  */
 
+void VRMLGroupDesc::dump(const Char8 *szNodeName)
+{
+}
+
 /*-------------------------- comparison -----------------------------------*/
 
 /** \brief assignment
@@ -4077,6 +4158,10 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
 
 /** \brief assignment
  */
+
+void VRMLInlineDesc::dump(const Char8 *szNodeName)
+{
+}
 
 /*-------------------------- comparison -----------------------------------*/
 
@@ -4355,6 +4440,10 @@ void VRMLViewpointDesc::endNode(FieldContainerPtr pFC)
 
 /** \brief assignment
  */
+
+void VRMLViewpointDesc::dump(const Char8 *szNodeName)
+{
+}
 
 /*-------------------------- comparison -----------------------------------*/
 

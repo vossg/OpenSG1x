@@ -54,6 +54,12 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGFIELDTYPE_HEADER_CVSID;
+}
+
 /** \fn const char *FieldType::getClassname(void)
  *  \brief Classname
  */
@@ -90,8 +96,6 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char FieldType::cvsid[] = "@(#)$Id: $";
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -122,13 +126,14 @@ char FieldType::cvsid[] = "@(#)$Id: $";
  */
 
 FieldType::FieldType(const Char8             *szName,
+                     const Char8             *szParentName,
                      const DataType          &contentType,
                            CreateFieldMethod  createMethod,
                            Cardinality        cardinality) :
-    Inherited    (szName, true),
-    _contentType (contentType),
-    _cardinality (cardinality),
-    _createMethod(createMethod)
+     Inherited   (szName, szParentName, true),
+    _contentType (contentType               ),
+    _createMethod(createMethod              ),
+    _cardinality (cardinality               )
 {	
     FieldFactory::addType(this);
     FDEBUG (("Initialized FieldType : %s\n", getCName()));

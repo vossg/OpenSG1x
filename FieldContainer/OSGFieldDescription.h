@@ -150,6 +150,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
 
     const Char8     *getDefaultValue(void) const;
 
+    const TypeBase  &getFieldType   (void) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */

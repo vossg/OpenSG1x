@@ -65,7 +65,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<LogoForegroundPtr>::_type("LogoForegroundPtr", true);
+DataType FieldDataTraits<LogoForegroundPtr>::_type("LogoForegroundPtr", "ForegroundPtr", true);
 
 #if defined(__sgi)
 

@@ -54,6 +54,12 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGTYPEBASE_HEADER_CVSID;
+}
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -65,8 +71,6 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char TypeBase::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -106,10 +110,13 @@ char TypeBase::cvsid[] = "@(#)$Id: $";
  */
 
 TypeBase::TypeBase(const Char8 *szName,
+                   const Char8 *szParentName,
                          Bool   bRegister) :
     _uiTypeId    (0),
     _uiTypeRootId(0),
-    _szName      (szName)
+    _pParent     (NULL),
+    _szName      (szName),
+    _szParentName(szParentName)
 {
     if(bRegister == true)
         _uiTypeId = TypeFactory::the()->registerType(this);
@@ -151,6 +158,22 @@ const String &TypeBase::getName(void) const
 const Char8 *TypeBase::getCName(void) const 
 {
     return _szName.str(); 
+}
+
+/** \brief Get method for attribute parent name 
+ */
+
+const String &TypeBase::getParentName (void) const
+{
+    return _szParentName;
+}
+
+/** \brief Get method for name as c string
+ */
+
+const Char8  *TypeBase::getCParentName(void) const
+{
+    return _szParentName.str();
 }
 
 /*-------------------------- inheriteance ---------------------------------*/

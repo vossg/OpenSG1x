@@ -1251,7 +1251,7 @@ Bool Image::operator < (const Image &image )
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<ImageP>::_type("ImageP"  , true);
+DataType FieldDataTraits<ImageP>::_type("ImageP", NULL, true);
 
 #if defined(__sgi)
 

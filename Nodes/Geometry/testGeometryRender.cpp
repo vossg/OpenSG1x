@@ -166,27 +166,28 @@ int main (int argc, char **argv)
 	g1->setIndex( index );
 	beginEditCP(index);
 	index->getFieldPtr()->addValue( 0 ); // PNT index
-	index->getFieldPtr()->addValue( 0 ); // C index
+//	index->getFieldPtr()->addValue( 0 ); // C index
 	index->getFieldPtr()->addValue( 1 ); // PNT index
-	index->getFieldPtr()->addValue( 0 ); // C index
+//	index->getFieldPtr()->addValue( 0 ); // C index
 	index->getFieldPtr()->addValue( 2 ); // PNT index
-	index->getFieldPtr()->addValue( 1 ); // C index
+//	index->getFieldPtr()->addValue( 1 ); // C index
 	index->getFieldPtr()->addValue( 3 ); // PNT index
-	index->getFieldPtr()->addValue( 1 ); // C index
+//	index->getFieldPtr()->addValue( 1 ); // C index
 	index->getFieldPtr()->addValue( 4 ); // PNT index
-	index->getFieldPtr()->addValue( 2 ); // C index
+//	index->getFieldPtr()->addValue( 2 ); // C index
 	index->getFieldPtr()->addValue( 5 ); // PNT index
-	index->getFieldPtr()->addValue( 3 ); // C index
+//	index->getFieldPtr()->addValue( 3 ); // C index
 	index->getFieldPtr()->addValue( 6 ); // PNT index
-	index->getFieldPtr()->addValue( 4 ); // C index
+//	index->getFieldPtr()->addValue( 4 ); // C index
 	index->getFieldPtr()->addValue( 7 ); // PNT index
-	index->getFieldPtr()->addValue( 5 ); // C index
+//	index->getFieldPtr()->addValue( 5 ); // C index
 	endEditCP(index);
 
-    	g1->getIndexMapping().addValue( 
-	    Geometry::MapPosition | Geometry::MapNormal |
-	    Geometry::MapTexcoords );
-    	g1->getIndexMapping().addValue( Geometry::MapColor );
+//    g1->getIndexMapping().addValue( 
+//	    Geometry::MapPosition | Geometry::MapNormal |
+//	    Geometry::MapTexcoords );
+//    g1->getIndexMapping().addValue( Geometry::MapColor );
+
 
 	GeoPLengthPtr lens = GeoPLengthUI32::create();	
 	g1->setLengths( lens );

@@ -263,14 +263,16 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
 
     /*------------------------- comparison ----------------------------------*/
 
-    virtual void    use                   (const Char8 *szName);
+    virtual void    use                     (const Char8 *szName);
     
-            void    scanStandardPrototypes(const Char8  *szFilename, 
-                                                 UInt32  uiOptions);
+            void    scanStandardPrototypes  (const Char8  *szFilename, 
+                                                   UInt32  uiOptions);
+    
+            void    createStandardPrototypes(void);
 
-            NodePtr getRoot               (void);
+            NodePtr getRoot                 (void);
 
-            NodePtr cloneTree             (NodePtr pRootNode);
+            NodePtr cloneTree               (NodePtr pRootNode);
 };
 
 //---------------------------------------------------------------------------

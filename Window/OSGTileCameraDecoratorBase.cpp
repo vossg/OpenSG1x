@@ -65,7 +65,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<TileCameraDecoratorPtr>::_type("TileCameraDecoratorPtr", true);
+DataType FieldDataTraits<TileCameraDecoratorPtr>::_type("TileCameraDecoratorPtr", "CameraDecoratorPtr", true);
 
 #if defined(__sgi)
 
@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.11 2001/09/19 14:36:41 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.12 2001/10/02 06:16:12 vossg Exp $";
     static char cvsid_hpp       [] = OSGTILECAMERADECORATORBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGTILECAMERADECORATORBASE_INLINE_CVSID;
 

@@ -65,7 +65,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<GradientBackgroundPtr>::_type("GradientBackgroundPtr", true);
+DataType FieldDataTraits<GradientBackgroundPtr>::_type("GradientBackgroundPtr", "BackgroundPtr", true);
 
 #if defined(__sgi)
 
@@ -87,7 +87,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.14 2001/09/19 14:36:41 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.15 2001/10/02 06:16:12 vossg Exp $";
     static char cvsid_hpp       [] = OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID;
 

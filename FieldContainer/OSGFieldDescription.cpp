@@ -279,6 +279,11 @@ const Char8 *FieldDescription::getDefaultValue(void) const
     return _defaultValue.str(); 
 }
 
+const TypeBase &FieldDescription::getFieldType(void) const
+{
+    return _fieldType;
+}
+
 /*-------------------------- comparison -----------------------------------*/
 
 ///---------------------------------------------------------------------------

@@ -79,14 +79,16 @@ char SField<FieldTypeT, fieldNameSpace>::cvsid[] = "@(#)$Id: $";
 template <class FieldTypeT, Int32 fieldNameSpace>
 const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
     SFieldTraits::getSName(), 
-    SFieldTraits::getType(),
+    SFieldTraits::getPName(),
+    SFieldTraits::getType (),
     create,
     FieldType::SINGLE_FIELD);
 #else
 template <class FieldTypeT, Int32 fieldNameSpace>
 const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType(
     SFieldTraits::getSName(), 
-    SFieldTraits::getType(),
+    SFieldTraits::getPName(),
+    SFieldTraits::getType (),
     create,
     FieldType::SINGLE_FIELD);
 #endif
@@ -277,16 +279,17 @@ void SField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
  */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-std::string &SField<FieldTypeT, fieldNameSpace>::getValueByStr(std::string &string) const
+string &SField<FieldTypeT, fieldNameSpace>::getValueByStr(
+    string &stringVal) const
 {
     typedef osgIF< (SFieldTraits::StringConvertable &
                     Traits::ToStringConvertable), 
                   SFieldTraits, 
                   ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
-    Converter::putToString(_value, string);
+    Converter::putToString(_value, stringVal);
     
-    return string;
+    return stringVal;
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline

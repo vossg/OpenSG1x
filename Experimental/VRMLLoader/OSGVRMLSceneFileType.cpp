@@ -122,7 +122,8 @@ NodePtr VRMLSceneFileType::read(const Char8 *fileName, UInt32 uiOptions) const
     {
         _pVRMLLoader = new VRMLFile();
 
-        _pVRMLLoader->scanStandardPrototypes("std.wrl", 0);
+//        _pVRMLLoader->scanStandardPrototypes("std.wrl", 0);
+        _pVRMLLoader->createStandardPrototypes();
     }
 
     _pVRMLLoader->scanFile(fileName, uiOptions);

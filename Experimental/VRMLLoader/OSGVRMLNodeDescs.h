@@ -352,6 +352,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     virtual Bool              use          (FieldContainerPtr);
    
     /*------------------------- comparison ----------------------------------*/
+
+    virtual void dump(const Char8 *szNodeName);
 };
 
 
@@ -493,6 +495,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc
     virtual void              endNode  (FieldContainerPtr pFC);
 
     /*------------------------- assignment ----------------------------------*/
+
+    virtual void dump(const Char8 *szNodeName);
 
     /*------------------------- comparison ----------------------------------*/
 };
@@ -644,6 +648,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
 
     /*------------------------- your_operators ------------------------------*/
 
+    virtual void dump(const Char8 *szNodeName);
+
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
@@ -788,6 +794,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
 
     /*------------------------- your_operators ------------------------------*/
 
+    virtual void dump(const Char8 *szNodeName);
+
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
@@ -929,6 +937,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryObjectDesc : public VRMLNodeDesc
     virtual void              endNode  (FieldContainerPtr);
 
     /*------------------------- your_operators ------------------------------*/
+
+    virtual void dump(const Char8 *szNodeName);
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -1080,6 +1090,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
     virtual Bool              use      (FieldContainerPtr pFC);
 
     /*------------------------- your_operators ------------------------------*/
+
+    virtual void dump(const Char8 *szNodeName);
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -1244,6 +1256,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
 
     /*------------------------- your_operators ------------------------------*/
 
+    virtual void dump(const Char8 *szNodeName);
+
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
@@ -1395,6 +1409,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLImageTextureDesc : public VRMLNodeDesc
     virtual void              endNode  (FieldContainerPtr);
 
     /*------------------------- your_operators ------------------------------*/
+
+    virtual void dump(const Char8 *szNodeName);
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -1550,6 +1566,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLPixelTextureDesc : public VRMLNodeDesc
 
     /*------------------------- your_operators ------------------------------*/
 
+    virtual void dump(const Char8 *szNodeName);
+
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
@@ -1693,6 +1711,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLLODDesc : public VRMLNodeDesc
 
     /*------------------------- your_operators ------------------------------*/
 
+    virtual void dump(const Char8 *szNodeName);
+
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
@@ -1834,6 +1854,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSwitchDesc : public VRMLNodeDesc
     virtual void              endNode  (FieldContainerPtr);
 
     /*------------------------- your_operators ------------------------------*/
+
+    virtual void dump(const Char8 *szNodeName);
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -1985,6 +2007,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGroupDesc : public VRMLNodeDesc
 
     /*------------------------- your_operators ------------------------------*/
 
+    virtual void dump(const Char8 *szNodeName);
+
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
@@ -2133,6 +2157,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLInlineDesc : public VRMLNodeDesc
 
     /*------------------------- your_operators ------------------------------*/
 
+    virtual void dump(const Char8 *szNodeName);
+
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
@@ -2278,6 +2304,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLViewpointDesc : public VRMLNodeDesc
     virtual void              endNode      (FieldContainerPtr);
 
     /*------------------------- your_operators ------------------------------*/
+
+    virtual void dump(const Char8 *szNodeName);
 
     /*------------------------- assignment ----------------------------------*/
 

@@ -45,7 +45,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGString.h>
 #include <OSGSystemDef.h>
-#include <OSGFieldContainerPtr.h>
+#include <OSGAttachmentContainerPtr.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -66,16 +66,16 @@ class CNodePtr;
 #pragma set woff 1375,1424
 #endif
 
-class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public FieldContainerPtr
+class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public AttachmentContainerPtr
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
 //    static const NodePtr NullPtr;
 
-    typedef Node              ObjectType;
+    typedef Node                   ObjectType;
 
-    typedef FieldContainerPtr Inherited;
+    typedef AttachmentContainerPtr Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      dcast                                   */
@@ -175,14 +175,14 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public FieldContainerPtr
  *  \brief Pointer to a node
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public FieldContainerPtr
+class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef Node ObjectType;
+    typedef Node                   ObjectType;
 
-    typedef FieldContainerPtr Inherited;
+    typedef AttachmentContainerPtr Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

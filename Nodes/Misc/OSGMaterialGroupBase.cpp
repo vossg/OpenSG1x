@@ -65,7 +65,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<MaterialGroupPtr>::_type("MaterialGroupPtr", true);
+DataType FieldDataTraits<MaterialGroupPtr>::_type("MaterialGroupPtr", "NodeCorePtr", true);
 
 #if defined(__sgi)
 
@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.13 2001/09/19 14:36:41 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.14 2001/10/02 06:16:12 vossg Exp $";
     static char cvsid_hpp       [] = OSGMATERIALGROUPBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGMATERIALGROUPBASE_INLINE_CVSID;
 

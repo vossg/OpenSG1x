@@ -69,6 +69,8 @@ struct Traits
         ToStringConvertable   = 0x01,
         FromStringConvertable = 0x02
     };
+
+    static const Char8 *getPName(void) { return "Field"; }
 };
 
 template<class FieldTypeT>

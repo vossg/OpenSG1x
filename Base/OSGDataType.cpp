@@ -54,6 +54,13 @@
 
 OSG_USING_NAMESPACE
 
+namespace 
+{
+    char cvsid_cpp[] = "@(#)$Id: $";
+    char cvsid_hpp[] = OSGDATATYPE_HEADER_CVSID;
+}
+
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -65,8 +72,6 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char DataType::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -106,8 +111,9 @@ char DataType::cvsid[] = "@(#)$Id: $";
  */
 
 DataType::DataType(const Char8 *szName,
+                   const Char8 *szParentName,
                          Bool   bRegister) :
-    Inherited(szName, bRegister)
+    Inherited(szName, szParentName, bRegister)
 {
 }
 

@@ -75,7 +75,7 @@ struct FieldDataTraits<Color3f> : public FieldTraitsRecurseBase<Color3f>
     static Color3f           getDefault(void)    { return Color3f();      }
 
     static Bool              getFromString(      Color3f  &outVal,
-                                           const Char8   *&inVal)
+                                           const Char8    *&inVal)
     {
         outVal.setValue(inVal);
         
@@ -85,11 +85,13 @@ struct FieldDataTraits<Color3f> : public FieldTraitsRecurseBase<Color3f>
     static void             putToString(const Color3f &inVal,
                                               std::string &outVal)
     {
-       outVal.assign( TypeConstants<Color3f::ValueType>::putToString(inVal.red()) );
-	  outVal.append( "  " );
-      outVal.append( TypeConstants<Color3f::ValueType>::putToString(inVal.green()) );
-	  outVal.append( "  " );
-      outVal.append( TypeConstants<Color3f::ValueType>::putToString(inVal.blue()) );
+        typedef TypeConstants<Color3f::ValueType> TypeConst;
+
+        outVal.assign(TypeConst::putToString(inVal.red()));
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString(inVal.green()));
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString(inVal.blue()));
     }
 };
 

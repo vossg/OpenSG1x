@@ -65,7 +65,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<StateChunkPtr>::_type("StateChunkPtr", true);
+DataType FieldDataTraits<StateChunkPtr>::_type("StateChunkPtr", "FieldContainerPtr", true);
 
 #if defined(__sgi)
 
@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.12 2001/09/19 14:36:41 mroth Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.13 2001/10/02 06:16:12 vossg Exp $";
     static char cvsid_hpp       [] = OSGSTATECHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSTATECHUNKBASE_INLINE_CVSID;
 

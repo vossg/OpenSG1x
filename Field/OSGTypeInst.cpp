@@ -65,40 +65,56 @@
 OSG_BEGIN_NAMESPACE
 
 
-DataType FieldDataTraits2<Bool >::_type("Bool"  , true);
-DataType FieldDataTraits< Int8 >::_type("Int8"  , true);
-DataType FieldDataTraits<UInt8 >::_type("UInt8" , true);
-DataType FieldDataTraits< Int16>::_type("Int16" , true);
-DataType FieldDataTraits<UInt16>::_type("UInt16", true);
-DataType FieldDataTraits< Int32>::_type("Int32" , true);
-DataType FieldDataTraits<UInt32>::_type("UInt32", true);
-DataType FieldDataTraits< Int64>::_type("Int64" , true);
-DataType FieldDataTraits<UInt64>::_type("UInt64", true);
-DataType FieldDataTraits<Real32>::_type("Real32", true);
-DataType FieldDataTraits<Real64>::_type("Real64", true);
+DataType FieldDataTraits2<Bool >::_type("Bool"  , "IntegralType", true);
+DataType FieldDataTraits< Int8 >::_type("Int8"  , "IntegralType", true);
+DataType FieldDataTraits<UInt8 >::_type("UInt8" , "IntegralType", true);
+DataType FieldDataTraits< Int16>::_type("Int16" , "IntegralType", true);
+DataType FieldDataTraits<UInt16>::_type("UInt16", "IntegralType", true);
+DataType FieldDataTraits< Int32>::_type("Int32" , "IntegralType", true);
+DataType FieldDataTraits<UInt32>::_type("UInt32", "IntegralType", true);
+DataType FieldDataTraits< Int64>::_type("Int64" , "IntegralType", true);
+DataType FieldDataTraits<UInt64>::_type("UInt64", "IntegralType", true);
+DataType FieldDataTraits<Real32>::_type("Real32", "IntegralType", true);
+DataType FieldDataTraits<Real64>::_type("Real64", "IntegralType", true);
 
-DataType FieldDataTraits<String       >::_type("String"       , true);
-DataType FieldDataTraits1<Time        >::_type("Time"         , true);
-DataType FieldDataTraits<Color3f      >::_type("Color3f"      , true);
-DataType FieldDataTraits<Color4f      >::_type("Color4f"      , true);
-DataType FieldDataTraits<Color3ub     >::_type("Color3ub"     , true);
-DataType FieldDataTraits<Color4ub     >::_type("Color4ub"     , true);
-DataType FieldDataTraits<DynamicVolume>::_type("DynamicVolume", true);
-DataType FieldDataTraits1<BitVector   >::_type("BitVector"    , true);
+DataType FieldDataTraits<String       >::_type("String", 
+                                               "BaseType",
+                                               true);
+DataType FieldDataTraits1<Time        >::_type("Time",
+                                               "BaseType",
+                                               true);
+DataType FieldDataTraits<Color3f      >::_type("Color3f",
+                                               "BaseType",
+                                               true);
+DataType FieldDataTraits<Color4f      >::_type("Color4f",
+                                               "BaseType",
+                                               true);
+DataType FieldDataTraits<Color3ub     >::_type("Color3ub",
+                                               "BaseType",
+                                               true);
+DataType FieldDataTraits<Color4ub     >::_type("Color4ub",
+                                               "BaseType",
+                                               true);
+DataType FieldDataTraits<DynamicVolume>::_type("DynamicVolume",
+                                               "BaseType",
+                                               true);
+DataType FieldDataTraits1<BitVector   >::_type("BitVector",
+                                               "BaseType",
+                                               true);
 
-DataType FieldDataTraits<Vec2f>::_type("Vec2f", true);
-DataType FieldDataTraits<Vec3f>::_type("Vec3f", true);
-DataType FieldDataTraits<Vec4f>::_type("Vec4f", true);
-DataType FieldDataTraits<Pnt2f>::_type("Pnt2f", true);
-DataType FieldDataTraits<Pnt3f>::_type("Pnt3f", true);
-DataType FieldDataTraits<Pnt4f>::_type("Pnt4f", true);
+DataType FieldDataTraits<Vec2f>::_type("Vec2f", "BaseType", true);
+DataType FieldDataTraits<Vec3f>::_type("Vec3f", "BaseType", true);
+DataType FieldDataTraits<Vec4f>::_type("Vec4f", "BaseType", true);
+DataType FieldDataTraits<Pnt2f>::_type("Pnt2f", "BaseType", true);
+DataType FieldDataTraits<Pnt3f>::_type("Pnt3f", "BaseType", true);
+DataType FieldDataTraits<Pnt4f>::_type("Pnt4f", "BaseType", true);
 
-DataType FieldDataTraits<Vec4ub>::_type("Vec4ub", true);
+DataType FieldDataTraits<Vec4ub>::_type("Vec4ub", "BaseType", true);
 
-DataType FieldDataTraits<Matrix    >::_type("Matrix"    , true);
-DataType FieldDataTraits<Quaternion>::_type("Quaternion", true);
+DataType FieldDataTraits<Matrix    >::_type("Matrix"    , "BaseType", true);
+DataType FieldDataTraits<Quaternion>::_type("Quaternion", "BaseType", true);
 
-DataType FieldDataTraits<Plane>::_type("Plane", true);
+DataType FieldDataTraits<Plane>::_type("Plane", "BaseType", true);
 
 #if defined(__sgi)
 

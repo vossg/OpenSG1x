@@ -54,9 +54,8 @@ class OSG_BASE_DLLMAPPING DataType : public TypeBase
 {
     /*==========================  PRIVATE  ================================*/
   private:
-    typedef TypeBase Inherited;
 
-    static char cvsid[];
+    typedef TypeBase Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -79,8 +78,10 @@ class OSG_BASE_DLLMAPPING DataType : public TypeBase
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    DataType(const Char8 *szName, Bool bRegister = false);
-
+    DataType(const Char8 *szName, 
+             const Char8 *szParentName,
+                   Bool   bRegister = false);
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
@@ -102,5 +103,7 @@ class OSG_BASE_DLLMAPPING DataType : public TypeBase
 typedef DataType *DataTypeP;
 
 OSG_END_NAMESPACE
+
+#define OSGDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGDATATYPE_H_ */
