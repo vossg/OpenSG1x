@@ -84,6 +84,15 @@ Real32 Plane::getDistanceFromOrigin (void) const
     return _distance; 
 }
 
+/*! Get the distance of the point from the plane.
+ */
+
+inline
+Real32 Plane::distance(const Pnt3f &pnt) const 
+{ 
+    return _normalVec.dot(pnt) - _distance; 
+}
+
 /*! != operator, based on ==.
  */
 inline OSG_BASE_DLLMAPPING

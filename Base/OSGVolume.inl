@@ -133,6 +133,16 @@ bool Volume::isInfinite (void) const
 }
 
 
+/**  Checks if the volume is intouchable, i.e. it's values should not be 
+     changed. Mainly used internally to speed up early outs in extendBy(). */
+OSG_BASE_DLLMAPPING
+bool Volume::isUntouchable (void) const
+{
+    // return ! isValid() || isInfinite() || isStatic();
+    return (_state & (OSGINFINITE | OSGVALID | OSGSTATIC)) != OSGVALID;
+}
+
+
 OSG_END_NAMESPACE
 
 #endif // VOLUME_CLASS_DECLARATION

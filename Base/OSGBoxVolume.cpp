@@ -126,7 +126,7 @@ void BoxVolume::setBoundsByCenterAndSize(const Pnt3f &center,
 /// Extends Box3f (if necessary) to contain given 3D point
 void BoxVolume::extendBy(const Pnt3f &pt)
 {
-    if ( ! isValid() || isInfinite() || isStatic() )
+    if ( isUntouchable() )
         return;
 
     if ( isEmpty() )

@@ -103,6 +103,18 @@ void SphereVolume::getBounds( Pnt3f &min, Pnt3f &max ) const
 
 void SphereVolume::extendBy (const Pnt3f &pt)
 {
+    if ( isUntouchable() )
+        return;
+
+    if ( isEmpty() )
+    {
+        _center = pt;
+        _radius = 0;
+        
+        setEmpty( false );
+        return;
+    }
+
     Real32 d = ( _center - pt ).length();
 
     if ( d > _radius)

@@ -45,6 +45,7 @@
 #include <OSGConfig.h>
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
+#include <OSGBaseFunctions.h>
 
 #include <iostream>
 

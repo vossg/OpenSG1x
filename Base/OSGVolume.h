@@ -99,21 +99,23 @@ class OSG_BASE_DLLMAPPING Volume {
     /*! \name                     State                                    */
     /*! \{                                                                 */
 
-    inline void setValid    (const bool value = true);
+    inline void setValid      (const bool value = true);
 
-    inline bool isValid     (void)                  const;
+    inline bool isValid       (void)                  const;
 
-    inline void setEmpty    (const bool value = true);
+    inline void setEmpty      (const bool value = true);
 
-    inline bool isEmpty     (void)                  const;
+    inline bool isEmpty       (void)                  const;
 
-    inline void setStatic   (const bool value = true);
+    inline void setStatic     (const bool value = true);
 
-    inline bool isStatic    (void)                  const;
+    inline bool isStatic      (void)                  const;
 
-    inline void setInfinite (const bool value = true);
+    inline void setInfinite   (const bool value = true);
 
-    inline bool isInfinite  (void)                  const;
+    inline bool isInfinite    (void)                  const;
+
+    inline bool isUntouchable (void)                  const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

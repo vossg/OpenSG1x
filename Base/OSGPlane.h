@@ -115,11 +115,13 @@ class OSG_BASE_DLLMAPPING Plane {
     bool intersectInfinite (const Line &l, Pnt3f &intersection)  const;
 
 
-    void transform         (const Matrix &matrix);
+    void   transform       (const Matrix &matrix);
 
-    bool isInHalfSpace     (const Pnt3f &point)                  const;
+    bool   isInHalfSpace   (const Pnt3f &point)                  const;
 
-    bool isOnPlane         (const Pnt3f &point)                  const;
+    bool   isOnPlane       (const Pnt3f &point)                  const;
+
+    Real32 distance        (const Pnt3f &point)                  const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
