@@ -450,7 +450,7 @@ case $system in
 
         cd Tools/fcdEdit
 
-        build_make clean
+        $build_make LIBTYPE=opt NOGUI=true OSGROOT=$OSGPOOL/Builds/$system-$compiler$suffix clean
 
         echo "Building fcdEdit"
 

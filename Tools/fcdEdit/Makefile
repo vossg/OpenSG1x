@@ -101,7 +101,7 @@ endif
 UIC        :=  $(shell $(OSG_CONFIG) --uic)
 CXX        := "$(shell $(OSG_CONFIG) --compiler --$(LIBTYPE) )"
 ifeq ($(NOGUI),true)
-CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base ) -DFCD_TERM
+CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base System ) -DFCD_TERM
 else
 CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base QT )
 endif
