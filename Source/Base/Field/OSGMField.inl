@@ -518,11 +518,8 @@ void MField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 UInt32 MField<FieldTypeT, fieldNameSpace>::getBinSize(void) const
 {
-/*
     return sizeof(UInt32) + // num elements
            MFieldTraits::getBinSize(&(_values[0]), _values.size());
-*/
-    return 0;
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
