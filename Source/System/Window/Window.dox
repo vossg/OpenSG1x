@@ -352,63 +352,73 @@ associate with the projection screen or monitor, and the distance should be
 accurate, as far as possible, to create the most realistic result. It is
 defined in model units, just like the eye separation.
 
-\paragraph PageSystemWindowCameraDecoratorsStereoProjection Projection Screen
+\paragraph PageSystemWindowCameraDecoratorsStereoProjection
+Projection Screen
 
-The osg::ProjectionStereoCameraDecorator is used to calculate the viewing and
-projection matrices needed for head-tracked stereo setups like some power-walls
-or, mostly, CAVEs.
+The osg::ProjectionStereoCameraDecorator is used to calculate the
+viewing and projection matrices needed for head-tracked stereo
+setups like some power-walls or, mostly, CAVEs.
 
-The main difference to standard stereo stems from the fact that the user can
-now move in front of the screen. Thus the projection matrix needs to be created
-so that the center of projection is at the user's eye position and the frustum
-encloses the projection screen. As OpenGL viewports can only be rectangular,
-this only works right for rectangular projection screens conceptually. This
-rectangular projection screen is defined by its four corners, which have to be
-given to the osg::ProjectionStereoCameraDecorator. The order for the four
-corners is lower-left, lower-right, upper-right and finally upper-left.
+The main difference to standard stereo stems from the fact that
+the user can now move in front of the screen. Thus the projection
+matrix needs to be created so that the center of projection is at
+the user's eye position and the frustum encloses the projection
+screen. As OpenGL viewports can only be rectangular, this only
+works right for rectangular projection screens conceptually. This
+rectangular projection screen is defined by its four corners,
+which have to be given to the
+osg::ProjectionStereoCameraDecorator. The order for the four
+corners is lower-left, lower-right, upper-right and finally
+upper-left.
 
 \dev
 
-Internally the corners are used to calculate a local coordinate system of the
-screen, defined by a left, bottom and normal vector. In addition the width and
-height of the projection screen are calculated. All of these are used to
-quickly calculate the projection matrix. When looking at the parameters for
-glWindow that is actually pretty simple and left as an exercise for the
+Internally the corners are used to calculate a local coordinate
+system of the screen, defined by a left, bottom and normal vector.
+In addition the width and height of the projection screen are
+calculated. All of these are used to quickly calculate the
+projection matrix. When looking at the parameters for glWindow
+that is actually pretty simple and left as an exercise for the
 reader. ;)
 
 \enddev
 
-The other information needed to calculate the matrices is the position of the
-user's head. This is usually delivered by a mechanical/magnetic/optical
-tracking system, which has its own coordinate system. This is coordinate system
-to be used for the user's head position as well as the corners of the projection
+The other information needed to calculate the matrices is the
+position of the user's head. This is usually delivered by a
+mechanical/magnetic/optical tracking system, which has its own
+coordinate system. This is coordinate system to be used for the
+user's head position as well as the corners of the projection
 screen.
 
-The is an additional coordinate system that needs to be taken into account,
-that's the relation between the projection system and the world. As most
-projection system setups are smaller than the scenes they depict there is a way
-to move the whole system in the world, in addition to the user moving inside
-the projection system. This is conceptually equivalent to the standard user
+The is an additional coordinate system that needs to be taken into
+account, that's the relation between the projection system and the
+world. As most projection system setups are smaller than the
+scenes they depict there is a way to move the whole system in the
+world, in addition to the user moving inside the projection
+system. This is conceptually equivalent to the standard user
 navigation in a scene.  To hide the specifics of the
-osg::ProjectionStereoCameraDecorator from an application that should also be
-sued for standard screens, those two coordinate systems are defined by the
-coordinate systems of two osg::Node instances.
+osg::ProjectionStereoCameraDecorator from an application that
+should also be used for standard screens, those two coordinate
+systems are defined by the coordinate systems of two osg::Node
+instances.
 
-One of them is the osg::Camera's beacon Node. This is used to move the
-projection system in the scene, just as if it was a simple user. 
+One of them is the osg::Camera's beacon Node. This is used to move
+the projection system in the scene, just as if it was a simple
+user. 
 
-The other is the osg::ProjectionStereoCameraDecorator's user Node, which should
-define the world position of the user's head. As the tracker generates relative
-coordinates, this node should be a descendant of the beacon node.
+The other is the osg::ProjectionStereoCameraDecorator's user Node,
+which should define the world position of the user's head. As the
+tracker generates relative coordinates, this node should be a
+descendant of the beacon node.
 
-Thus the sub-graph for a head-tracked projected stereo should best look like
-this:
+Thus the sub-graph for a head-tracked projected stereo should best
+look like this:
 
 beacon->user (need a real picture here)
 
-This allows simple switching between standard and head-tracked mode, in which
-the eye position in standard mode is the origin of the coordinate system in
-head-tracked mode. 
+This allows simple switching between standard and head-tracked
+mode, in which the eye position in standard mode is the origin of
+the coordinate system in head-tracked mode. 
 
 \section PageSystemWindowBackground Background
 
@@ -444,6 +454,14 @@ osg::PassiveBackground does nothing within the clear call, thus it also has no
 Fields at all. It is mainly used to stack viewports on top of each other, i.e.
 it makes it possible to have two viewports on top of each other to generate a
 single combined image.
+
+\subsection PageSystemWindowBackgroundDepthClear Depth Clear Background
+
+osg::DepthClearBackground only clears the depth buffer, leaving the color
+buffer untouched. It is mainly used to stack viewports on top of each other,
+i.e. it makes it possible to have two viewports on top of each other to
+generate a single combined image, where the second image lies on top of
+everything in the first image.
 
 \subsection PageSystemWindowBackgroundSky Sky Background
 

@@ -671,6 +671,24 @@ void OSG::Window::validateGLObject(UInt32 id)
     }
 }
 
+
+/*! Validate all existing GL objects. Use with care, and only if the correct
+    OpenGL context is active.
+
+    See \ref PageSystemOGLObjects for a description of the OpenGL object
+    concept. 
+*/
+void OSG::Window::validateAllGLObjects(void)
+{
+    activate();
+    frameInit();
+
+    for (UInt32 i = 1; i < _glObjects.size(); ++i)
+        validateGLObject(i);
+    
+    frameExit();
+}   
+
 /*! Mark the given object for refresh. The next time it is validated the
     registered callback function will be called for a refresh action.
 
@@ -1084,6 +1102,8 @@ void OSG::Window::frameInit(void)
     if(_registeredExtensions.size() > _availExtensions.size())
     {
         staticAcquire();
+        FDEBUG(("Window %p: exts: ", this));
+
         while(_registeredExtensions.size() > _availExtensions.size())
         {                          
             UInt32 s = _availExtensions.size();
@@ -1097,16 +1117,19 @@ void OSG::Window::frameInit(void)
                                 _registeredExtensions[s]);
 
             _availExtensions.push_back(supported);
-
+            FPDEBUG(("%s:", _registeredExtensions[s].c_str()));
             if(_commonExtensions.size() <= s)
             {
                 _commonExtensions.push_back(supported);
+                FPDEBUG(("ok "));
             }
             else if (!supported)
             {
                 _commonExtensions[s] = false;
+                FPDEBUG(("NF "));
             }
         }
+        FPDEBUG(("\n"));
         staticRelease();
     }
     
@@ -1250,6 +1273,11 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
             FWARNING(("Error in dlopen: %s\n",dlerror())); 
             abort(); 
         } 
+        else
+        {
+            FDEBUG(("Opened lib %s for GL extension handling.\n", 
+                    (_glLibraryName==NULL)?"(executable)":_glLibraryName));
+        }
     } 
 
     if(__GetProcAddress == NULL) 
@@ -1268,7 +1296,15 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
                 _availExtensions.clear();
                 _availExtensions.resize(_registeredExtensions.size(), false);
             } 
+            else
+            {
+                FDEBUG(("Using glXGetProcAddressARB for GL extension handling.\n"));
+            }
         } 
+        else
+        {
+            FDEBUG(("Using glXGetProcAddress for GL extension handling.\n"));
+        }
     } 
 
     if(__GetProcAddress != NULL) 

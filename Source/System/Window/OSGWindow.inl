@@ -113,6 +113,15 @@ inline Real32 Window::getConstantValue(GLenum id)
     return getConstantValuev(id)[0];
 }
 
+/*! Set the library name where to find OpenGL extension functions. This has
+    to be called before the first extension function is accessed, and it's
+    safe to call it before osgInit().
+*/
+inline void Window::setGLLibraryName(const Char8  *s)
+{
+    _glLibraryName = s;
+}
+
 /*! Find the id of a registered extension. Return -1 if extension not
     registered.
 */

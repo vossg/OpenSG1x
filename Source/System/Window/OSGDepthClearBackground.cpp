@@ -43,115 +43,90 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <OSGConfig.h>
-#include <OSGImage.h>
+#include "OSGConfig.h"
 
-#include "OSGFileGrabForeground.h"
+#include <OSGGL.h>
+
+#include <OSGFieldContainer.h>
+#include <OSGNode.h>
+#include <OSGAction.h>
+#include <OSGDrawAction.h>
+#include "OSGViewport.h"
+#include "OSGCamera.h"
+#include "OSGWindow.h"
+#include "OSGBackground.h"
+#include "OSGDepthClearBackground.h"
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::FileGrabForeground
-    \ingroup GrpSystemWindowForegrounds
-    
-The FileGrabForeground is used for grabbing a frame or sequence of frames to
-disk.  See \ref
-PageSystemWindowForegroundGrabFile for a description.
 
-The name of the file(s) grabbed to are defined by the _sfName Field, the
-current frame number by _sfFrame. _sfIncrement can be used to automatically
-increment the frame number after each image is written. The whole grabber can
-be activated/deactivated using _sfActive.
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::DepthClearBackground
+    \ingroup GrpSystemWindowBackgrounds
+
+A depth-clear background, see \ref PageSystemWindowBackgroundDepthClear for a
+description.
 
 */
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-/*----------------------- constructors & destructors ----------------------*/
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
 
-FileGrabForeground::FileGrabForeground(void) :
+void DepthClearBackground::initMethod (void)
+{
+}
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+DepthClearBackground::DepthClearBackground(void) :
     Inherited()
 {
 }
 
-FileGrabForeground::FileGrabForeground(const FileGrabForeground &source) :
+DepthClearBackground::DepthClearBackground(const DepthClearBackground &source) :
     Inherited(source)
 {
 }
 
-FileGrabForeground::~FileGrabForeground(void)
+DepthClearBackground::~DepthClearBackground(void)
 {
 }
 
-/*----------------------------- class specific ----------------------------*/
-
-void FileGrabForeground::initMethod (void)
-{
-}
-
-void FileGrabForeground::changed(BitVector whichField, UInt32 origin)
+void DepthClearBackground::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
 
-void FileGrabForeground::dump(      UInt32    , 
-                         const BitVector ) const
+/*-------------------------- your_category---------------------------------*/
+
+void DepthClearBackground::clear(DrawActionBase *, Viewport *)
 {
-    SLOG << "Dump FileGrabForeground NI" << std::endl;
+    glClear(GL_DEPTH_BUFFER_BIT);
+}
+
+/*------------------------------- dump ----------------------------------*/
+
+void DepthClearBackground::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                             const BitVector OSG_CHECK_ARG(bvFlags )) const
+{
+    SLOG << "Dump DepthClearBackground NI" << std::endl;
 }
 
 
-/*! Grab the image and write it to the file. The name needs to be set.
-*/
-    
-void FileGrabForeground::draw(DrawActionBase *action, Viewport *port)
-{
-    if(getActive() == false)
-        return;
-    
-    if(getName().empty())
-    {
-        FWARNING(("FileGrabForeground::draw: no name ?!?\n"));
-        return;
-    }
-    
-    // do we have an image yet? If not, create one.
-    if(getImage() == NullFC)
-    {
-        beginEditCP(this->getPtr(), FileGrabForeground::ImageFieldMask);
-        {
-            ImagePtr iPtr=Image::create();
-            iPtr->set(Image::OSG_RGB_PF, 1);
-            setImage(iPtr);
-        }
-        endEditCP  (this->getPtr(), FileGrabForeground::ImageFieldMask);
-    }
-    
-    Inherited::draw(action,port);
-    
-    Char8 *name = new Char8 [ getName().size() + 32 ]; // this is really 
-                                                       // arbitrary... :(
 
-    sprintf(name, getName().c_str(), getFrame());
-        
-    ImagePtr i = getImage();
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
 
-    i->write(name);
-    
-    delete [] name;
-    
-    if(getIncrement() != false)
-    {
-        beginEditCP(this->getPtr(), FileGrabForeground::FrameFieldMask);
-        {
-            setFrame(getFrame() + 1);
-        }
-        endEditCP  (this->getPtr(), FileGrabForeground::FrameFieldMask);
-    }   
-}
-
-
-/*-------------------------------------------------------------------------*/
-/*                              cvs id's                                   */
-
-#ifdef __sgi
+#ifdef OSG_SGI_CC
 #pragma set woff 1174
 #endif
 
@@ -161,7 +136,15 @@ void FileGrabForeground::draw(DrawActionBase *action, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: $";
-    static char cvsid_hpp[] = OSGFILEGRABFOREGROUND_HEADER_CVSID;
-    static char cvsid_inl[] = OSGFILEGRABFOREGROUND_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthClearBackground.cpp,v 1.1 2005/01/18 00:31:17 dirk Exp $";
+    static Char8 cvsid_hpp       [] = OSGDEPTHCLEARBACKGROUND_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGDEPTHCLEARBACKGROUND_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGDEPTHCLEARBACKGROUNDFIELDS_HEADER_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
+
