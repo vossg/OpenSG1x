@@ -200,7 +200,7 @@ void NFIOImage::writeCompressedPixel(const ImagePtr &img)
     _out->putValue(std::string("MFUInt8"));
     
     std::vector<UInt8> buffer;
-    buffer.resize(img->getSize(false, false, false));
+    buffer.resize(OSG::ImageFileHandler::the().getDefaultType()->maxBufferSize(img));
     JPGImageFileType::the().setQuality(getOptions().texturesCompressionQuality());
     UInt64 msize = img->store("jpeg", &buffer[0]);
 
@@ -241,6 +241,6 @@ bool NFIOImage::isJPEGSupported(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.3 2004/11/05 16:57:11 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.4 2005/02/05 12:23:40 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOIMAGE_HEADER_CVSID;
 }
