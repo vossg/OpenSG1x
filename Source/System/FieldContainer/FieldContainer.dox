@@ -123,7 +123,7 @@ aspect that's associated with it is changed, the rest is left as is.
 
 #if defined(OSG_DO_DOC) || OSG_DOC_LEVEL > 1
 
-/*!page PageSystemFieldContainerExt Creating New FieldContainer Classes
+/*! \page PageSystemFieldContainerExt Creating New FieldContainer Classes
 
 Most developers who use OpenSG as a scene-graph library will probable never
 create their own OpenSG FieldContainer classes. Similar to widget libs (e.g.
