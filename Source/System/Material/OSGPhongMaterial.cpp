@@ -367,6 +367,8 @@ void PhongMaterial::rebuildState(void)
 
 ChunkMaterialPtr PhongMaterial::createChunkMaterial(void)
 {
+    _arbFragmentProgram = Window::registerExtension("GL_ARB_fragment_program");
+
     ChunkMaterialPtr cmat = ChunkMaterial::create();
     
     MaterialChunkPtr matc = MaterialChunk::create();
@@ -416,7 +418,7 @@ ChunkMaterialPtr PhongMaterial::createChunkMaterial(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhongMaterial.cpp,v 1.3 2003/10/09 09:36:12 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhongMaterial.cpp,v 1.4 2003/10/10 15:38:50 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGPHONGMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHONGMATERIAL_INLINE_CVSID;
 
