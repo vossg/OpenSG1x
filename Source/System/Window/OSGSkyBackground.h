@@ -117,7 +117,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackground : public SkyBackgroundBase
                   const Pnt3f            &p1, 
                   const Pnt3f            &p2, 
                   const Pnt3f            &p3, 
-                  const Pnt3f            &p4);
+                  const Pnt3f            &p4,  
+                  const Vec2f          * texCoord);
 
     /*! \}                                                                 */
     

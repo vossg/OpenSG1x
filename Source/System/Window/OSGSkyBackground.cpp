@@ -115,7 +115,8 @@ void SkyBackground::drawFace(      DrawActionBase  * action,
                              const Pnt3f            &p1, 
                              const Pnt3f            &p2, 
                              const Pnt3f            &p3, 
-                             const Pnt3f            &p4)
+                             const Pnt3f            &p4, 
+                             const Vec2f           * texCoord)
 {
     
     if(tex != NullFC)
@@ -134,18 +135,21 @@ void SkyBackground::drawFace(      DrawActionBase  * action,
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             glEnable(GL_BLEND);
         }
-        
-        glBegin(GL_QUADS);
-        glTexCoord2f(0, 0);
-        glVertex3fv((GLfloat*) p1.getValues());
-        glTexCoord2f(1, 0);
-        glVertex3fv((GLfloat*) p2.getValues());
-        glTexCoord2f(1, 1);
-        glVertex3fv((GLfloat*) p3.getValues());
-        glTexCoord2f(0, 1);
-        glVertex3fv((GLfloat*) p4.getValues());
-        glEnd();
-        
+
+       // ENRICO: this part holds the informations about
+       // custom texture coordinates
+       // Mess with the best, die like the rest
+       glBegin(GL_QUADS);
+       glTexCoord2fv((GLfloat*) texCoord[0].getValues());
+       glVertex3fv((GLfloat*) p1.getValues());
+       glTexCoord2fv((GLfloat*) texCoord[1].getValues());
+       glVertex3fv((GLfloat*) p2.getValues());
+       glTexCoord2fv((GLfloat*) texCoord[2].getValues());
+       glVertex3fv((GLfloat*) p3.getValues());
+       glTexCoord2fv((GLfloat*) texCoord[3].getValues());
+       glVertex3fv((GLfloat*) p4.getValues());
+       glEnd();
+
         if(tex->isTransparent())
         {
             glDisable(GL_BLEND);
@@ -332,42 +336,62 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     
     // now draw the textures, if set
     StateChunk *tchunk = NULL;
-    
+    static Vec2f defaulttc[4] = { Vec2f(0,0), Vec2f(1,0), 
+                                  Vec2f(1,1), Vec2f(0,1) };
+                                   
     drawFace(action, getBackTexture(),   tchunk,
                                          Pnt3f(0.5, -0.5,  0.5),
                                          Pnt3f(-0.5, -0.5,  0.5),
                                          Pnt3f(-0.5,  0.5,  0.5),
-                                         Pnt3f(0.5,  0.5,  0.5));
+                                         Pnt3f(0.5,  0.5,  0.5),
+                                         getBackTexCoord().size()?
+                                         &getBackTexCoord()[0]:
+                                         defaulttc);
     
     drawFace(action, getFrontTexture(),  tchunk,
                                          Pnt3f(-0.5, -0.5, -0.5),
                                          Pnt3f(0.5, -0.5, -0.5),
                                          Pnt3f(0.5,  0.5, -0.5),
-                                         Pnt3f(-0.5,  0.5, -0.5));
+                                         Pnt3f(-0.5,  0.5, -0.5),
+                                         getFrontTexCoord().size()?
+                                         &getFrontTexCoord()[0]:
+                                         defaulttc);
     
     drawFace(action, getBottomTexture(), tchunk,
                                          Pnt3f(-0.5, -0.5,  0.5),
                                          Pnt3f(0.5, -0.5,  0.5),
                                          Pnt3f(0.5, -0.5, -0.5),
-                                         Pnt3f(-0.5, -0.5, -0.5));
+                                         Pnt3f(-0.5, -0.5, -0.5),
+                                         getBottomTexCoord().size()?
+                                         &getBottomTexCoord()[0]:
+                                         defaulttc);
     
     drawFace(action, getTopTexture(),    tchunk,
                                          Pnt3f(-0.5,  0.5, -0.5),
                                          Pnt3f(0.5,  0.5, -0.5),
                                          Pnt3f(0.5,  0.5,  0.5),
-                                         Pnt3f(-0.5,  0.5,  0.5));
+                                         Pnt3f(-0.5,  0.5,  0.5),
+                                         getTopTexCoord().size()?
+                                         &getTopTexCoord()[0]:
+                                         defaulttc);
     
     drawFace(action, getLeftTexture(),   tchunk,
                                          Pnt3f(-0.5, -0.5,  0.5),
                                          Pnt3f(-0.5, -0.5, -0.5),
                                          Pnt3f(-0.5,  0.5, -0.5),
-                                         Pnt3f(-0.5,  0.5,  0.5));
+                                         Pnt3f(-0.5,  0.5,  0.5),
+                                         getLeftTexCoord().size()?
+                                         &getLeftTexCoord()[0]:
+                                         defaulttc);
     
     drawFace(action, getRightTexture(),  tchunk,
                                          Pnt3f(0.5, -0.5, -0.5),
                                          Pnt3f(0.5, -0.5,  0.5),
                                          Pnt3f(0.5,  0.5,  0.5),
-                                         Pnt3f(0.5,  0.5, -0.5));
+                                         Pnt3f(0.5,  0.5, -0.5),
+                                         getRightTexCoord().size()?
+                                         &getRightTexCoord()[0]:
+                                         defaulttc);
     
     if(tchunk != NULL)
         tchunk->deactivate(action);
