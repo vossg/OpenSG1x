@@ -18,38 +18,39 @@ Chapter Overview
 	\ref ClusteringTutorial
 <HR>
 
-At the very beginning I told you that OpenSG is really powerful when it comes to clustering. Now it is time we have a deeper look at that topic. Altough 
+At the very beginning I told you that OpenSG is really powerful when it comes to clustering. Now it is time we have a deeper look at that. Although 
 clustering with OpenSG is easy and safe compared to other sytems, it is still a bit more advanced than the other tutorials I presented so far.
 
 \section TutorialClusteringGeneral Clustering in General and with OpenSG
 
-The demand of computational power an application can have is near endless - either it is because of bad programming or of high quality and many features. Cutting
+The demand of computational power an application can have is near endless - either it is because of bad programming or of high quality of the data and many 
+power intensive features. Cutting
 edge applications need often the power of a supercomputer or a cluster of machines. Because supercomputers are in general a lot more expensive, clusters have
 become more and more interesting in the past years for industry as well as for universities. 
 
 <I>
-You may have noticed that I like computer manufractured by a company with an apple as it's logo. Here is one interesting thing about them and clusters: The
-fastest computer on earth is a supercomputer from NEC with a performance peak of 40 tera flops whereas the third fastest machiene is a cluster of 1000
+You may have noticed that I like computer manufractured by a company hving an apple as it's logo. Here is one interesting thing about them and clusters: The
+fastest computer on earth is a supercomputer from NEC with a performance peak of 40 tera flops whereas the third fastest machine is a cluster of 1000
 Apple G5's that score a peak of about 17 tera flops. Well, you might say that the NEC is more than twice as fast... yes, but it is also more than 10 times
 more expansive! That is why clusters get more and more interesting!
 </I>
 
-The following image shows an usual setup for a passive stero application.
+The following image shows an usual setup for a passive stereo application.
 
 \image html stereo_cluster.png "A simple cluster of three machines"
 \image latex stereo_cluster.eps "A simple cluster of three machines" width = 6cm
 
 <I>
-If you want to drive a passive stereo applcation for example, you need three machines: the client is running the application (i.e. modifies the scenegraph, 
-loading of files, handels user input, performs simulation etc.) and the two server will render only. Each server would have a slightly different position of
+If you want to drive a passive stereo application for example, you need three machines: the client is running the application (i.e. modifying the scenegraph, 
+loading of files, handling user input, performing simulation etc.) and the two server will render only. Each server would have a slightly different position of
 the camera to simulate human eyes and thus each server would render a differnt, yet similar, image. 
 </I>
 
 The words "Client" and "Server" might be a bit misleading, so keep in mind, that the server does only rendering! One could say he serves the screen... or so. 
-However, the X windowing system uses these word in a similar way. 
+However, the X windowing system uses these words analog. 
 
 Of course this example was just one out of several possibilities on how to use a cluster with OpenSG. Another possibility is to drive a wall of screens (I 
-mentioned the HEyeWall earlier) or to render just on output image, but by doing it with 48 machines for example. 
+mentioned the HEyeWall earlier) or to render just an output image, but by doing it with 48 machines for example. 
 
 We will start with a more simple example at the beginning - and don't worry if your cluster at home is out of order for the moment, all cluster-able applications
 can also be run on a single machine. In fact, OpenSG doesn't matter about where the servers run, as long as they can be found in the local network.
@@ -58,17 +59,17 @@ can also be run on a single machine. In fact, OpenSG doesn't matter about where 
 \image latex dual_window.eps "One scene rendered in two independant windows" width=6cm
 
 This image shows three windows: the small one is only for navigation interaction (i.e mouse movement) and is not necesarily required. Both other windows display
-one scene as if it were rendered into one window only. In this case both windows run on the same computer, but this must not be the case as we can see very 
+one scene as if it were rendered into one window only. In this case, both windows run on the same computer, but this must not be the case as we can see very 
 soon.
 
 \section TutorialClusteringeExample Example - A Multi Window Application
 
-As you might have guessed we need two differnet programs (client & server) and therefore we will need two .cpp files, too.  This time I will present the whole
-program at once, because most of the code is quite not new at all. Here is the full code for the client application - I tried to make it as short as possible
+You might have guessed we need two differnet programs (client & server) and therefore we will need two .cpp files, too.  This time I will present the whole
+program at once, because most of the code is quite not new at all. Here is the complete code for the client application - I tried to make it as short as possible
 
 \subsection TutorialClusteringeExampleClient The Client
 
-Here is the full code fot the client application
+Here is the full code for the client application
 
 \code
 // all needed include files
@@ -189,14 +190,16 @@ Instead of an osg::GLUTWindow we now have a osg::MultiDisplayWindow which enable
 	endEditCP(multiWindow);
 \endcode
 
-A multiwindow needs to know about how it should connect to the servers (have a look at Chapter(xxx)) and it needs to know the "name" of every server that should
-be used. Servers are simply identiefied by a string. Not very creative at all, but I choose the names "Server1" and "Server2" for the example. 
+A multiwindow needs to know about how it should connect to the servers and it needs to know the "name" of every server that should
+be used. Servers are simply identified by a string. Not very creative at all, but I chose the names "Server1" and "Server2". Of course you can exchange these
+with the names of your dogs or children... ;-) 
 
 That's all? Yes, at least for the client. Of course the servers are still missing. If you would run this application you won't see any window, because it will be
 waiting for a connenction to the servers that will never come...
 
-One word about the display() function. Maybe you wonder why we have to clear the change list. We encountered change list last chaper when I was talking about 
-multithreading. The data exchange between the client and the servers works pretty much the same way as with multithreading. However, synchronizazion is handeled
+One word about the display() function: maybe you wonder why we have to clear the change list. We encountered change list last chaper when I was talking about 
+multithreading. The data exchange between the client and the servers works pretty much the same way, as clustering is some sort of multithreading on an arbitary
+number of machines over a network. However, synchronisation is handeled
 automatically, but you still have to tell the system when to clear the change list. 
 
 \subsection TutorialClusteringeExampleServer The Server
@@ -275,8 +278,8 @@ void reshape( int width, int height )
 The server is also quite similar to previous applications, although there are more differences compared to the client. First of all, it is very short - there 
 are only three functions: main(), display() and reshape(). Well, the last one is obvious and the same as always, whereas the display() function differs 
 slightly. Instead of calling the redraw() function of the simple scene manager we call the render command and passing a render action as argument. The reason
-for that is also very simple: there is no simple scene manager! Why should there. As the name suggest it's task is to manager a (simple) scene, but that is
-already done by the client application. As the servers job is to render we only need a simple render call.
+for that is also very simple: there is no simple scene manager! Why should there. As the name suggest, it's task is to manage a (simple) scene, but that is
+already done by the client application. As the servers job is to render, we only need a render call.
 
 Finally the main() function now features the registrtion of the callbacks and most important the creation of the server object
 
@@ -287,7 +290,7 @@ Finally the main() function now features the registrtion of the callbacks and mo
 
 These two lines will start the server, which will take care of the connection to the client application. Multicast again is the connection type and argv[1] is
 the first argument from the command line that should specify the name of the server. The client is looking for "Server1" and "Server2" so these should be used as
-names
+names.
 
 \subsection TutorialClusteringExampleLaunching  Launching
 
@@ -300,7 +303,7 @@ This time the application is not started by a single executable, but by three. O
 
 If you are using Windows you have to open three command line shells and start one of the three programs in each shell. The order is not important.
 
-After a very short connection time, you should see three overlapping windows - you have to rearrange them to see anything. If all windows are black then you have
+After a very short connection time, you should see three overlapping windows - you have to rearrange them to see anything. If all windows are black, then you have
 to move the camera a bit, because the servers might have not started rendering.
 
 <I>
@@ -312,36 +315,37 @@ your application will not start at all. Before you try to find any error deep wi
 
 \section TutorialClusteringConnection Connection Type
 
-There are two different ways how servers can connect to the client, wether via multicast or via a point to point connection. In the example above I used multicast
-as connection type. Have a look at these lines in the client
+There are two different ways, how servers can connect to the client, wether via multicast or via a point to point connection. In the example above I used 
+multicast as connection type. Have a look at these lines in the client
 
 \code
 	multiWindow->setConnectionType("Multicast");
 \endcode
 
-an in the server
+and in the server
 
 \code
 	server = new ClusterServer(window,argv[1],"Multicast","");
 \endcode
 
-which are responsible for setting up the connection. Multicast is straight forward to use, but if used in a lage network (such as universties have, fo example)
+which are responsible for setting up the connection. Multicast is straight forward to use, but if used in a large network (such as universties have, for example)
 you might get an administrator out of his cave, because network connection speed may suffer. In this case it is better to use StreamSock, which will establish
 a point to point connection, rather than scanning the whole network for potential servers.
 
 <I>
-When we developed the VR application, I mentioned previously, we had several people testing modells and developing simultaneously and thus often started a client 
+When we developed the VR application, I mentioned previously, we had several people testing modells and developing simultaneously and thus often started a client 
 and two servers - but when more than one person started the client and servers at about the same time, it happend that one sever connected to the correct client,
 but the other to some other client... well, needless to say, that the immersion of the simulation was not that good ;) 
 
-After an angry administrator visted us (he finally found out why the network was so slow...) we finally switched from multicast to a point to point conection.
+After an angry administrator visted us (he finally found out why the network was so slow...) we finally had to switched from multicast to a point to point 
+connection.
 </I>
 
 \section TutorialClusteringRemoteAspects Remote Aspects
 
-From the last chapter you now roughly what aspects are. Remote aspects work in a very similar way. In a cluster environment remote aspects are used to propagate
+From the last chapter you roughly know what aspects are. Remote aspects work in a very similar way. In a cluster environment remote aspects are used to propagate
 changes of field containers. The synconization can take place automatically, but it can also be done manually with sendSync() and receiveSync(). Wether the
-synconization is manually or automatically driven, it is important not to apply changes twice, so the change list has to be cleared always and also always
+synconization is manually or automatically driven, it is important not to apply changes twice, so the change list has to be cleared always and also
 manually (like in the example). Under certain circumstances it is good to know when a field container is created or destroyed - the problem is that the change
 list carries only changes of existing field containers by default. When a new container is created, there is a bit of extra work to do. In this case it might come
 in very practical to have the possibility to define some callbacks for these events: registerCreated(), registerChanged() and registerDestroyed() will do
@@ -349,7 +353,7 @@ what you are looking for.
 
 \section TutorialClusteringClusterWindow Cluster Window
 
-Before we begin with a more advanced tutorial, some more words about the clustering window.  You have a window for rendering with GLUT, you have von for X and QT
+Before we begin with a more advanced tutorial, some more words about the clustering window.  You have a window for rendering with GLUT, you have one for X and QT
 and so you also have a cluster window to render in a cluster. However, the cluster window is usually not used for rendering at all. You have to define a list
 of named servers, which will finally render - this is similar to the example
 
@@ -366,9 +370,9 @@ multi window from the example above. These two are special implementations which
 
 \section ClusteringTutorial Tutorial - A stereo application
 
-As many users who want to use clustering have some sort of sterero application in mind, we will have a little tutorial here, which in the end, will be a fully
-functional stereo application. If you have two beamer and a screen as well as at least three machines you can see the result in 3D - if you are not that lucky,
-you can still run the application on a single machine, but then you have to imagine the third dimension.
+As many users who want to use clustering have some sort of stereo application in mind, we will have a little tutorial here, which in the end, will be a fully
+functional stereo application. If you have two beamer and a screen around as well as at least three machines you can see the result in 3D - if you are not that 
+lucky, you can still run the application on a single machine, but then you will miss the 3D effect
 
 The code comes in a few slices here... just paste them each below the previous one. We start right of with some includes and global variables
 
@@ -498,8 +502,8 @@ NodePtr createScenegraph(char** argv){
 }
 \endcode
 
-That is quite similar to the code from the last example - this time however, we have only on camera. That sounds not very smart as we intend to create a 
-stereo application and two cameras would make more sense. Yes, but that we have the cedorator for. Watch the next section, the main() function
+That is quite similar to the code from the last example - this time however, we have only oen camera. That sounds not very smart as we intend to create a 
+stereo application and two cameras would make more sense. Well, but that we have the decorators for. Watch the next section, the main() function
 
 \code
 int main(int argc, char **argv)
@@ -594,7 +598,7 @@ int main(int argc, char **argv)
 }
 \endcode
 
-Now have a closer look at the part concerning with the decorators. Each on decorates the same (and only) camera and they have both the same values for eye
+Now have a closer look at the part concerning with the decorators. Each one decorates the same (and only) camera and they have both the same values for eye
 separation and distance to the zero parallax plane, but they set different values for the left eye field, indicating one is the left and one the right eye.
 Each decorator is assigned to it's own viewport instead of the camera which we would have assigned normally. That is the reason why we only need a single camera -
 the decorators are translating two virtual cameras according to the given parameters of eye separation and distance to the zero parallax. The values
@@ -666,13 +670,13 @@ Now compile and execute the application. As this is a clustered application you 
 	./14clustering_Server Server1 & ./14clustering_Server Server2 & ./15_stereo_client
 </PRE>
 
-As you can see, you can use the same servers as we used for the example. In nearly every case you can use these servers - it does not matter if you run a stereo
-or some other cluster application! 
+As you can see, you can use the same servers as we used for the example. In nearly every case you can use this server application - it does not matter if you 
+run a stereo or some other cluster application! 
 
 If you are running the application on a single machine it might be hard to notice the difference between the two viewports - in this case you can increase the
 eye separtion, to increase the offset of both "eyes".
 
-Of course this topic is a very huge one, and only a small part was covered here, but maybe this chapter will grow still a bit in the future.
+Of course this topic is a very huge one, and only a small part was covered here, but maybe this chapter will grow still a bit more in the future.
 
 Next Chapter : \ref Modelling
 */
