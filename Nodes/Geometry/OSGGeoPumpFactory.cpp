@@ -169,7 +169,7 @@ OSGGeoPumpFactory::Index OSGGeoPumpFactory::numIndices( void )
 
 // The real pumping functions
 
-typedef void (APIENTRY *pumpFunc)( GLubyte * data );
+typedef void (OSG_APIENTRY *pumpFunc)( GLubyte * data );
 
 // Some helper arrays for function selection
 // indexed by data type and dimension
