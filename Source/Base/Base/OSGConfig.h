@@ -390,6 +390,8 @@
 
 # define OSG_HAS_SSTREAM
 
+# define OSG_HAS_VSNPRINTF
+
 # endif // defined(__INTEL_COMPILER) && defined(__linux)
 
 /*-------------------------------------------------------------------------*/

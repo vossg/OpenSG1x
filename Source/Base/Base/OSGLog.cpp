@@ -680,7 +680,7 @@ void Log::setLogFile(const Char8 *fileName, bool force)
 
 void Log::doLog(const Char8 * format, ...)
 {
-    Char8   buffer[1000];
+    Char8   buffer[4096];
     va_list args;
     
     va_start( args, format );
