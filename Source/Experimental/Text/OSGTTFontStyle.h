@@ -6,15 +6,16 @@
 
 #ifdef OSG_WITH_FREETYPE1
 
-#include "OSGFontStyle.h"
-
 #ifndef WIN32
-#include "freetype1/freetype/freetype.h"
-#else
 #include "freetype/freetype.h"
+#else
+#include "freetype.h"
 #endif
 
-OSG_BEGIN_NAMESPACE 
+#include <OSGFontStyle.h>
+
+OSG_BEGIN_NAMESPACE
+
 
 class OSG_SYSTEMLIB_DLLMAPPING TTFontStyle : public FontStyle
 {

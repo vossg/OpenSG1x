@@ -6,9 +6,9 @@
 #include "OSGFontGlyphContour.h"
 
 #ifndef WIN32
-#include "freetype1/freetype/freetype.h"
-#else
 #include "freetype/freetype.h"
+#else
+#include "freetype.h"
 #endif
 
 OSG_BEGIN_NAMESPACE 

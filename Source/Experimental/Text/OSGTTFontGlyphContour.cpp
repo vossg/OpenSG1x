@@ -5,7 +5,6 @@
 
 #ifdef OSG_WITH_FREETYPE1
 
-
 #include "OSGTTFontGlyphContour.h"
 
 OSG_USING_NAMESPACE 
