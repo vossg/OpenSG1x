@@ -17,7 +17,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQFieldContainerView_qt.cpp,v 1.1 2003/05/07 14:03:40 neumannc Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQFieldContainerView_qt.cpp,v 1.2 2003/05/11 10:33:26 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGQFIELDCONTAINERVIEW_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGQFIELDCONTAINERVIEW_INLINE_CVSID;
 }
@@ -269,10 +269,11 @@ QFieldContainerView::QWidgetTableItem::~QWidgetTableItem(void)
 }
 
 void
-QFieldContainerView::QWidgetTableItem::paint(      QPainter    *pPainter,
-                                             const QColorGroup &cg,
-                                             const QRect       &cr,
-                                                   bool         selected)
+QFieldContainerView::QWidgetTableItem::paint(
+                           QPainter    *OSG_CHECK_ARG(pPainter),
+                     const QColorGroup &OSG_CHECK_ARG(cg),
+                     const QRect       &OSG_CHECK_ARG(cr),
+                           bool         OSG_CHECK_ARG(selected))
 {
     QWidget *pWidget = table()->cellWidget(row(), col());
 

@@ -10,16 +10,16 @@
 
 OSG_BEGIN_NAMESPACE
 
-Field *getParentsField      (FieldContainerPtr  pFC,   UInt32 uiAspect);
+inline Field *getParentsField      (FieldContainerPtr  pFC,   UInt32 uiAspect);
 
-bool   isSFFieldContainerPtr(Field             *pField                );
+inline bool   isSFFieldContainerPtr(Field             *pField                );
 
-bool   isMFFieldContainerPtr(Field             *pField                );
+inline bool   isMFFieldContainerPtr(Field             *pField                );
 
 
 OSG_END_NAMESPACE
 
-#define OSGQWIDGETFUNCTIONS_HEADER_CVSID "@(#)$Id: OSGQWidgetFunctions.h,v 1.1 2003/05/07 14:03:40 neumannc Exp $"
+#define OSGQWIDGETFUNCTIONS_HEADER_CVSID "@(#)$Id: OSGQWidgetFunctions.h,v 1.2 2003/05/11 10:33:26 dirk Exp $"
 
 #include "OSGQWidgetFunctions.inl"
 

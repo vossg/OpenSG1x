@@ -22,7 +22,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQFieldView_qt.cpp,v 1.1 2003/05/07 14:03:40 neumannc Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQFieldView_qt.cpp,v 1.2 2003/05/11 10:33:26 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGQFIELDVIEWBASE_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGQFIELDVIEWBASE_INLINE_CVSID;
 }
@@ -221,7 +221,7 @@ QSFieldView::onEditorDone(void)
 }
 
 void
-QSFieldView::onFieldUpdated(UInt32 uiIndex)
+QSFieldView::onFieldUpdated(UInt32 OSG_CHECK_ARG(uiIndex))
 {
     _pLabel->valueChanged();
 }
@@ -461,7 +461,7 @@ QMFieldView::paintEvent(QPaintEvent *pEvent)
 }
 
 void
-QMFieldView::resizeEvent(QResizeEvent *pEvent)
+QMFieldView::resizeEvent(QResizeEvent *OSG_CHECK_ARG(pEvent))
 {
 //    SNOTICE << "QMFieldView::resizeEvent()" << endLog;
 
@@ -527,7 +527,7 @@ QMFieldView::onFieldUpdated(UInt32 uiIndex)
 }
 
 void
-QMFieldView::onSBValueChanged(int value)
+QMFieldView::onSBValueChanged(int OSG_CHECK_ARG(value))
 {
     _bContentsChanged = true;
     

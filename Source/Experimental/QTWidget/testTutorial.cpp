@@ -122,7 +122,7 @@ void motion(int x, int y)
 }
 
 // react to keys
-void keyboard(unsigned char k, int x, int y)
+void keyboard(unsigned char k, int OSG_CHECK_ARG(x), int OSG_CHECK_ARG(y))
 {
     switch(k)
     {

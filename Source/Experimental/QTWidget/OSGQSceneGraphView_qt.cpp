@@ -26,7 +26,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQSceneGraphView_qt.cpp,v 1.2 2003/05/10 05:28:28 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQSceneGraphView_qt.cpp,v 1.3 2003/05/11 10:33:26 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGQSCENEGRAPHVIEW_HEADER_CVSID;
 //    static Char8 cvsid_inl[] = OSGQSCENEGRAPHVIEW_INLINE_CVSID;
 }
@@ -235,10 +235,10 @@ QSceneGraphView::onRawAddressEntered(void)
 
 
 void
-QSceneGraphView::onFieldClicked(FieldContainerPtr pFC,
-                                UInt32            uiFieldId,
-                                UInt32            uiIndex,  
-                                ButtonState       button    )
+QSceneGraphView::onFieldClicked(FieldContainerPtr OSG_CHECK_ARG(pFC),
+                                UInt32            OSG_CHECK_ARG(uiFieldId),
+                                UInt32            OSG_CHECK_ARG(uiIndex),  
+                                ButtonState       OSG_CHECK_ARG(button)    )
 {
 }
 
