@@ -1,0 +1,421 @@
+#include <OpenSG/OSGConfig.h>
+
+using namespace OSG;
+
+/*! \page TutorialBasics Basics
+
+If you have read this online tutorial right from the beginning, you are able to install OpenSG, you know a few things about GLUT, the 
+Simple Scene Manager und you have compiled and executed your first program. Well that is good, but you need to know a bit more
+before you write your first real application for yourself. In this chapter I will show you the basic things of OpenSG, that is: 
+<UL>
+    <LI>math using OpenSG classes</LI>
+    <LI>creating new nodes and cores</LI>
+    <LI>Fieldcontainer</LI>
+    <LI>Images</LI>
+    <LI>Loading and saving</LI>
+</UL>
+
+\section Datatypes Datatypes
+
+OpenSG has it's own base types for integers and floats. In many cases you can get along by using int, float etc. as you normally
+would, but if you want to develop a cross platform application it might be safer to use the OpenSG wrapper base types. 
+
+These types can be easily identified by their names
+<TABLE>
+  <TR>
+    <TD>[U]Int<I>N</I></TD><TD><I>N</I> defines how many bits to use.8, 16, 32 or 64 is allowed. The optinal U stands for unsigned </TD>
+  </TR>
+  <TR>  
+    <TD>Real32, Real64, Real128</TD><TD>Floating point with either 32, 64 or 128 bytes</TD>
+  </TR>
+</TABLE>
+
+An unsigned 32 bit integer is therefor <I>UInt32</I>. The reason for using these wrapper is, that the usual "int" variable is 32 bits
+long for most systems... but not for every system. By using Int32 you do not have to care, you can be sure that this type is always
+that long.
+
+\section BasicMath The Math Stuff
+
+OpenSG comes together with it's own classes for calculating with Vectores, Matrices etc. We all know that there are approximately a 
+thousand other math libraries which are more or less equal powerful. If you are in need of lots of mathematical computations and high
+performance is very critical to you have not to use the internal classes of OpenSG, but for every other purpose you should do so as 
+all methods of OpenSG are working with their own types of course.
+
+As you might expect we have types for all you need related to computer graphics: Vectors with different precision and with two up
+to four components, as well as the same for matrices.
+
+There are 21 different vector type which I will not list individually, but the construction rules are similar to the base types.
+
+<PRE>Vec<I>N</I>{b, ub, s, us, f, d, ld}</PRE>
+
+<I>N</I> again is the dimension which must be chosen between two and four. From the list of letters you also must choose one, which 
+defines the type used for storing the values.
+
+<UL>
+<LI>
+    b is Int8
+</LI>
+<LI>
+    ub is UInt8
+</LI>
+<LI>
+    s is Int16
+</LI>
+<LI>
+    us is UInt16
+</LI>
+<LI>
+    f is Real32
+</LI>
+<LI>
+    d is Real64
+</LI>
+<LI>
+    ld is Real128
+</LI>
+</UL>
+
+The one you need in most circumstances is most likely to be Vec3f, a three dimensional vector with float values.
+
+\subsection BasicMathWorkinfWithVectors Working with vectors
+
+The OpenSG vector classes can do verything you expect from them and probably even more ;-). Here is an overview of the most important
+operations. Have a look at osg::Vec3f (or any other vector) for a full list of their methods
+
+\code
+// two nice 3d vectors
+Vec3f v = Vec3f(1,2,3);
+Vec3f w = Vec3f(0.5,2.5,5);
+
+// get the length of a vector 
+Real32 l = v.length();
+// float or double is possible, too
+float l = v.length();
+
+// if you only want to figure out which vector is longer you do not
+// need the exact euclidian length. (You can spare the square root)
+Real32 lq = v.squareLength();
+
+// normalize a vector (length will become 1)
+v.normalize();
+
+// the cross product of two vectors
+Vec3f e = v.cross(w);
+// ATTENTION: cross product is only implemented for 3 dimensional vectors
+
+// dot product
+Real32 d = v.dot(w);
+
+// access to individual components
+Real32 c1 = v[0];
+Real32 c2 = v[1];
+Real32 c3 = v[2];
+
+// you can use mathematical operations the same way as with integers and floats
+
+Vec3f s = v+w;
+
+if (v==w)
+    cout << "these vectors are equal" << endl;
+
+ 
+\endcode
+
+\subsection Basicpoints Points
+
+Points are quite similar to vectors. They come in all the same variants like them, only replace "Vec"
+by "Pnt" and you have it. The difference compared to vectors is that Points mark a definite location
+within the spacial domain, where vectors are not bound to a specific point as they represent a 
+direction or power (you remember ;-)...)
+
+Let us say points are vectors with some fewer possibilities. Of course points cannot be normalized and
+there is no dor product between to points. Please notice that two Points can be added neither! If you
+need to convert between vectors and points, there are two useful methods to do that
+
+\code
+
+// conversion point to vector (let p be some point and v some vector)
+v = p.subZero
+
+//or vice versa
+p = v.addToZero();
+
+\endcode
+
+\subsection BasicColor Colors
+
+Colors, too, are similar to vectors. They are available in three or four dimensions, where the fouth
+dimension represents the alpha channel, whereas the first the are RGB color channels. The color
+classes support also the HSV color modell. They have named access methods (red, green and blue)
+with which you can access the values in a more reasonable way than with color[1]. Furthermore
+scalar multiplication is possible but most other operations known from vectors are missing as they
+are not needed.
+
+Detailed information about the methods for colors can be found at osg::Color3f
+
+\subsection BasicMathWorkWithMarices Working with matrices
+
+Matrices behave quite similar to vectors. As there is no default type for vectors, there is one
+for matrices: Like in OpenGL it is 4x4 with Real32 components. The multiplication convention is 
+just the same as in OpenGL:
+<PRE>v'=M*v</PRE>
+
+In OpenSG matrices are stored column major like shown in the next picture
+
+\image html matrix_storage.png ""
+\image latex matrix_storage.eps "" width=8cm
+
+The first column vector can be retrieved with a simple matrix[0]. Storing the values in this manner 
+has a little advantage compared to row major storage as you can easy access the matrix coordiante
+space, especially matrix[3] deliver you automatically the translation from the origin.
+
+There are several ways to construct a matrix that matches your needs. It is possible to create a 
+matrix by providing all components one by one or by passing the base vectors or you can use
+some methods of the matrix class to create a matrix with certain properties.
+
+\code
+
+// we want to create a matrix that scales the world at the y axis by factor 2 and also translates
+// by (2,2,3). As we all know from old days in school the corresponding matrix is 
+
+// | 1 0 0 2 |
+// | 0 2 0 2 |
+// | 0 0 1 3 |
+// | 0 0 0 1 |
+
+// first we create the matrix by passing all values directly
+
+Matrix m;
+
+m = Matrix(1,0,0,2,0,2,0,2,0,0,1,3,0,0,0,1);
+// ATTENTION : noticed something? The arguments are passed row major! This applies to
+// this specific constructor only!
+
+// if we had base vectors like this...
+Vec4f v1 = (1,0,0,0);
+Vec4f v2 = (0,2,0,0);
+Vec4f v3 = (0,0,1,0);
+Vec4f v4 = (2,2,3,1);
+
+// ... we can also make our matrix by ...
+
+m = Matrix (v1,v2,v3,v4);
+// of course column major, as expected
+
+// But really practical are these variants
+
+// this one resets the matrix to identity
+m.setIdentity();
+
+// we set the scale factor
+m.setScale(1,2,1);
+// and the translation
+m.setTranslation(2,2,3);
+
+// ... and here we go
+
+// now we want to multiply a matrix and a vector
+
+Vec3f a = Vec3f(1,2,3);
+Vec3f result;
+
+m.mult(a, result);
+
+// ATTENTION: remember matrix multiplication when you did it manually? We are 
+// multiplying a 4x4 matrix with a 3x1 vector. Actually that should not work... 
+// but in OpenSG it does, not because of a false implementationm, but with 
+// respect to the fact that the fourth row is rarely used as it is (0,0,0,1)
+// in most cases. This is why OpenSG assumes that you actually multiply a 4x3 
+// matrix with a 3x1 vector... and that is ok!
+
+// as you might have guessed the result of the mutiplication is assigned to the 
+// vector "result"
+
+// multiplication of two matrices work in exactly the same way
+
+\endcode
+
+Please notice the following, when using the setter methods for matrices. These methods overwrite
+only the components they need to, leaving all others untouched, i.e if you have a matrix and want
+to change the translation you have to be sure that the other values are correct, too. The method
+setIdentity overwrite all values of course!
+
+Have a look at osg::Matrix for a complete list of all setter methods available.
+
+\subsection BasicQuaternion Quaternions
+
+The last topic for this OpenSG-math-quick-tour are quaternions. The background of quaternions is quite
+not simple to understand, but do not worry, you can use them without knowing how they work - I can
+stand proof for that ;)
+
+So what are quaternions about? You might know that interpolating between rotation matrices does not
+work that well. That is if you have a matrix describing a 30 degree rotation around the y axis and 
+another matrix doing the same with 60 degree you just cannot interpolate between these to for an 
+animation. 
+
+Quaternions are an execellent solution to this problem. They are described by an angle and a vector.
+The angle is the amount that you want to rotate around the vector you provided. As you might expect 
+know it is possible to interpolate between two quaternions and as these can be easily transformed 
+into a matrix we now can realize custom rotations around any axis. The following example solves 
+the situation described above
+
+\code
+
+// well this is a bit theroetical... we will have more real-world examples 
+// within the next tutorial
+
+// we need a quaternion and a matrix
+Quaternion q;
+Matrix m;
+
+// reset our matrix
+m.setIdentity();
+
+for (int t = 0; t < 30; t++){
+    // the given angle is in radians per default
+    q = Quaternion(Vec3f(0,1,0), (30+t/180)*PI );
+    m.setRotation(q);
+    
+    // draw the scene here ... 
+}
+
+\endcode
+
+If you do not like radians you can also use degree by invoking 
+<PRE>q.setValueAsAxisDeg(Vec3f(...), 90)</PRE>
+
+Furthermore standard operations like length(), normalize(), inverse(), multiplication, slerp and
+others are possible. Detailed information are here : osg::Quaternion
+
+\section BasicNode Nodes
+
+Nodes are in some way the most important object in a scenegraph. In OpenSG the nodes descibe the 
+hierarchy of the graph only! Here is a simple graph we want to build:
+
+\image html simple_graph.png ""
+\image latex simple_graph.eps "" width=4cm
+
+\code
+
+//First, we create all the nodes we need
+osg::NodePtr grandpa = osg::Node::create();
+osg::NodePtr aunt = osg::Node::create();
+osg::NodePtr mother = osg::Node::create();
+osg::NodePtr me = osg::Node::create();
+
+// uh, what is happening here???
+// I guess you expected somthing like
+// Node n = Node();
+// do not worry, explanation will follow hereafter...
+
+// now we create the hierarchy
+beginEditCP(grandpa);
+    grandpa->addChild(aunt);
+    grandpa->addChild(mother);
+endEditCP(root);
+
+beginEditCP(mother);
+    mother->addChild(me);
+endEditCP(mother);
+
+// beginEditCP()??? That, too, will be discussed in Detail later
+
+\endcode
+
+This little piece of code would generate a graph that would look like in the picture above. 
+Would you be able to render that graph? You can try out what will happen: Have a look at the 
+code from our \ref FirstAppTutorial and replace the following line
+
+\code
+    NodePtr scene = makeTorus(.5, 2, 16, 16);
+\endcode
+
+with the example code from above. But be carful, with grandpa it will not work, you have to rename him
+to "scene", because the Simple Scene Manager is told to use scene as root.
+
+And? Did it work? We will come back later to this little example.
+
+\subsection BasicNodeCreate Creating new nodes and other objects with ::create()
+
+You might wonder why objects are instantiated this unsual way. Actually the "normal" way will not work
+for most OpenSG objects.
+In fact calling
+<PRE> Node n = Node() </PRE>
+will get you an error during compiling like this one
+<PRE> osg::Node::Node() is protected withhin this context </PRE>
+Well, that is looking bad. What to do, if the constructor is obviously not public thus it cannot be called.
+I remember still when I faced this probem, looking like a cow at the screen... 
+
+Actually every class that is derived from FieldContainer has protected constructors whereas other classes, 
+like the math classes we just saw, have their constructors declared public as usual. So if you are unsure 
+wether you can use the constructor as usual, just have a look at the inheritance diagramm and if none of
+the parents is of type FieldContainer then it will work.
+
+If that is not the case, you must invoke the static create() method as you saw above. This static method
+wrapps the constructor. It is done this way to ensure multithread safty, but we will discuss that in
+an own chapter.
+
+\subsection BasicNodePtr Smart Pointer
+
+Alright, we now understand when we have to use create, but another strange things is the fact, that the
+variable which represents a node is not of type "Node", but "NodePtr". take it as a rule of thumb:
+For every <I>object</I> created with ::create() the returning type is a corresponding <I>objectPtr</I>.
+
+Here are some examples
+\code
+NodePtr n = Node::create();
+TransformPtr t = Transform::create();
+GeometryPtr geo = Geometry::create()
+ShearedStereoCameraDecoratorPtr sscd = ShearedStereoCameraDecorator::create();
+\endcode
+
+I think you get the picture. These Ptr classes are smart pointer. That means if you pass them around to
+other methods you copy only a pointer (i.e a pointerclass) and not the actual object. This is very 
+important to know. Let us imagine you have a GeometryPtr which points to model of a tree which is as large
+as 5 MB. It actually does make a big difference if you pass the whole 5 MB or just the tiny pointer 
+to another method. As I assume that you are familiar with the concept of pointers you might say, that this
+is not very special as that is what a pointer does. The smart thing with these pointers from OpenSG is, 
+that they are multithread safe and that you don not need to manually delete them in most cases as these
+are reference counted. If you create an object it has an reference count of zero. Some operations like adding
+it as a child to another node increses the reference count by one, whereas others decrease it by one 
+(this is for example deleting a child). Whenever the reference count goes down to zero the object is deleted
+auomatically. This is very nice to work with, but there are also some aspects to look after.
+
+This little example demonstrates what can go wrong with smart pointers
+
+\code
+    Node a = Node::create();
+    Node b = Node::create();
+    Node c = Node::create();
+    
+    // we add a as a child to b
+    beginEditCP(b);
+        b->addChild(a);
+    endEditCP(b);
+    
+    //no, we want a to be a child of c
+    beginEditCP(b);
+        // this removes a as a child of b
+        b->subChild(a);
+    endEditCP(b);
+    
+    //and now add it to c
+    beginEditCP(c);
+        c->addChild(a);
+    endeditCP(c);
+\endcode
+
+Well, looks good, does it not? Actually your compiler will take it as it is correct in it's syntax, but if
+you run an application with this piece of code it will crash! If you do not not why you should think 
+about it before reading ahead...
+
+Okay, no big deal? The explanation stands right above the code... when we call subChild on a the reference
+count is reduced from one to zero and is then immediatly deleted from memory. When we want add a to c we 
+are operating on a non existent object - and that is never good.
+
+So if you want to change parents of a node you got to make sure that it's reference count stays above zero.
+You can manually increase or decrease the reference count of any object by calling
+<PRE>addRefCP(objectPtr)</PRE>
+<PRE>subRefCP(objectPtr)</PRE>
+
+*/

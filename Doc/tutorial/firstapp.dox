@@ -1,8 +1,8 @@
-#include <OSGConfig.h>
-#include <OSGNavigator.h>
+#include <OpenSG/OSGConfig.h>
+#include <OpenSG/OSGNavigator.h>
 #include <OpenSG/OSGPerspectiveCamera.h>
 
-using namespace OSG;
+OSG_USING_NAMESPACE;
 
 /*! 
 \page FirstApp First Application
@@ -362,7 +362,7 @@ All modern scenegraph systems are using multi parents only the way it is impleme
 A very common way is to use nodes only which are storing all relevant information. 
 
 \image html car_graph_general.png "This graph shows the concept how scenegraphs work"
-\image latex car_graph_general.eps "" width=8cm
+\image latex car_graph_general.eps "This graph shows the concept how scenegraphs work" width=8cm
 
 In OpenSG nodes are only used to define the hierarchy of the graph. They store their children (if any) and a core. The core is
 the place where all the important information is stored, i.e. geometry, transformations etc. Import to know is, that every node
@@ -371,7 +371,7 @@ former parent will be replaced by the new one (Actually not the node itslef, but
 by as many nodes as desired. 
 
 \image html car_graph.png "A simple graph demonstrating how node and cores a used in OpenSG"
-\image latex car_graph.eps "" width=8cm
+\image latex car_graph.eps "A simple graph demonstrating how node and cores a used in OpenSG" width=8cm
 
 <I>The yellow circles are standing for the nodes where the ornage rectangles are cores. As you can see every node has one parent, but
 the wheel geometry core has four. There are four different transform cores and every one of them stores a unique transform matrix.</I>
