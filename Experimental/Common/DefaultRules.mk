@@ -137,6 +137,8 @@ $(SUB_SO): $(LIBS_DEP) $(LIB_QTTARGET_CPP) $(LIB_OBJECTS)
 		$(SO_INIT_FLAGS) $(LD_FLAGS)
 
 $(LIB_QT_TARGET)
+$(LIB_QTTARGET_DEPS): $(LIB_QTTARGET_CPP)
+
 endif
 
 #########################################################################
@@ -157,14 +159,23 @@ Test: $(TEST_TARGETS_IN)
 
 $(LIB_TESTQT_TARGET)
 
+ifeq ($(IN_TEST_DIR),1)
+$(LIB_TESTQTTARGET_DEPS): $(LIB_TESTQTTARGET_CPP)
+endif
+
 #########################################################################
 # Automatic Targets Flex
 #########################################################################
 
 ifneq ($(LIB_FLEXTARGET_CPP),)
+$(OBJDIR)/%.lex.cpp: %.l
+	$(FLEX) -l -P$(call flex_int,$<) $<
+	@cat lex.$(call flex_int,$<).c | 								\
+		sed -e 's/\(yy\)\(text_ptr\)/$(call flex_int,$<)\2/g'		\
+		> $(OBJDIR)/$(call flex_ext,$<).lex.cpp
+	@-rm lex.$(call flex_int,$<).c
+
 $(LIB_FLEXTARGET_CPP) : $(LIB_FLEXSOURCES)
-	$(FLEX) -l -P$(FLEX_INTERNAL) $<
-	mv lex.$(FLEX_INTERNAL).c $(FLEX_EXTERNAL)
 endif
 
 #########################################################################
@@ -172,12 +183,19 @@ endif
 #########################################################################
 
 ifneq ($(LIB_BISONTARGET_CPP),)
+
+$(OBJDIR)/%.tab.cpp: %.y
+	$(BISON) -d -v -p$(call bison_int,$<) -b$(call bison_int,$<) $<
+	mv $(call bison_int,$<).tab.c  $(OBJDIR)/$(call bison_ext,$<).tab.cpp
+	mv $(call bison_int,$<).tab.h            $(call bison_ext,$<).tab.h
+	mv $(call bison_int,$<).output $(OBJDIR)/$(call bison_ext,$<).output
+
 $(LIB_BISONTARGET_CPP): $(LIB_BISONSOURCES)
-	$(BISON) -d -v -p$(BISON_INTERNAL) -b$(BISON_INTERNAL) $<
-	mv $(BISON_INTERNAL).tab.c  $(OBJDIR)/$(BISON_EXTERNAL).tab.cpp
-	mv $(BISON_INTERNAL).tab.h            $(BISON_EXTERNAL).tab.h
-	mv $(BISON_INTERNAL).output $(OBJDIR)/$(BISON_EXTERNAL).output
+
+$(LIB_BISONTARGET_DEPS): $(LIB_BISONTARGET_CPP)
+
 endif
+
 
 #########################################################################
 # Normal lib Targets

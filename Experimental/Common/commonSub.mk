@@ -194,20 +194,22 @@ LIB_FLEXSOURCES_CPP     := $(notdir $(patsubst %.l,%.cpp,$(LIB_FLEXSOURCES)))
 LIB_FLEXTARGET_CPP      := $(patsubst %.l,%.lex.cpp,$(LIB_FLEXSOURCES)) 
 LIB_FLEXTARGET_CPP      := $(notdir $(LIB_FLEXTARGET_CPP))
 
-LIB_FLEXTARGET_CPP      := $(OBJDIR)/$(LIB_FLEXTARGET_CPP) 
+LIB_FLEXTARGET_CPP      := $(addprefix $(OBJDIR)/,$(LIB_FLEXTARGET_CPP))
 
-FLEX_INTERNAL := $(strip $(basename $(LIB_FLEXSOURCES_CPP)))_
-FLEX_EXTERNAL := $(LIB_FLEXTARGET_CPP)
+flex_int = $(strip $(basename $(notdir $(1))))_
+flex_ext =  $(strip $(basename $(notdir $(1))))
 endif
 
 
 ifneq ($(LIB_BISONSOURCES),)
 LIB_BISONSOURCES_CPP := $(notdir $(patsubst %.y,%.cpp,$(LIB_BISONSOURCES)))
 LIB_BISONTARGET_CPP  := $(notdir $(patsubst %.y,%.tab.cpp,$(LIB_BISONSOURCES)))
-LIB_BISONTARGET_CPP  := $(OBJDIR)/$(LIB_BISONTARGET_CPP)
+LIB_BISONTARGET_CPP  := $(addprefix $(OBJDIR)/,$(LIB_BISONTARGET_CPP))
 
-BISON_INTERNAL := $(strip $(basename $(LIB_BISONSOURCES_CPP)))_
-BISON_EXTERNAL := $(strip $(basename $(LIB_BISONSOURCES_CPP)))
+LIB_BISONTARGET_DEPS := $(patsubst %.cpp,%.d,$(LIB_BISONTARGET_CPP))
+
+bison_int = $(strip $(basename $(notdir $(1))))_
+bison_ext = $(strip $(basename $(notdir $(1))))
 endif
 
 ifneq ($(LIB_FLEXSOURCES),)
@@ -225,16 +227,18 @@ endif
 #########################################################################
 
 ifeq ($(CONFIGURED_QT),1)
-LIB_QT_SOURCES   := $(call getProjQTSourceFiles,$(LIB_ABSSOURCEDIRS))
+LIB_QT_SOURCES    := $(call getProjQTSourceFiles,$(LIB_ABSSOURCEDIRS))
 
 ifneq ($(LIB_QT_SOURCES),)
-LIB_QT_SOURCES   := $(notdir $(LIB_QT_SOURCES))
+LIB_QT_SOURCES    := $(notdir $(LIB_QT_SOURCES))
 
-LIB_QTTARGET_CPP := $(subst _qt,_qt_moc,$(LIB_QT_SOURCES))
+LIB_QTTARGET_CPP  := $(subst _qt,_qt_moc,$(LIB_QT_SOURCES))
 
-LIB_QTTARGET_CPP := $(addprefix $(OBJDIR)/,$(LIB_QTTARGET_CPP))
+LIB_QTTARGET_CPP  := $(addprefix $(OBJDIR)/,$(LIB_QTTARGET_CPP))
 
-LIB_QT_TARGET    := $(LIB_QTTARGET_CPP) : $(LIB_QT_SOURCES)
+LIB_QTTARGET_DEPS := $(patsubst %.cpp,%.d,$(LIB_QTTARGET_CPP))
+
+LIB_QT_TARGET     := $(LIB_QTTARGET_CPP) : $(LIB_QT_SOURCES)
 endif
 endif
 
@@ -265,13 +269,15 @@ ifeq ($(CONFIGURED_QT),1)
 LIB_TESTQT_SOURCES := $(call getPrTestQTSourceFiles,$(LIB_ABSSOURCEDIRS))
 
 ifneq ($(LIB_TESTQT_SOURCES),)
-LIB_TESTQT_SOURCES   := $(notdir $(LIB_TESTQT_SOURCES))
+LIB_TESTQT_SOURCES    := $(notdir $(LIB_TESTQT_SOURCES))
 
-LIB_TESTQTTARGET_CPP := $(subst _qt,_qt_moc,$(LIB_TESTQT_SOURCES))
+LIB_TESTQTTARGET_CPP  := $(subst _qt,_qt_moc,$(LIB_TESTQT_SOURCES))
 
-LIB_TESTQTTARGET_CPP := $(addprefix $(OBJDIR)/,$(LIB_TESTQTTARGET_CPP))
+LIB_TESTQTTARGET_CPP  := $(addprefix $(OBJDIR)/,$(LIB_TESTQTTARGET_CPP))
 
-LIB_TESTQT_TARGET    := $(LIB_TESTQTTARGET_CPP) : $(LIB_TESTQT_SOURCES)
+LIB_TESTQTTARGET_DEPS := $(patsubst %.cpp,%.d,$(LIB_TESTQTTARGET_CPP))
+
+LIB_TESTQT_TARGET     := $(LIB_TESTQTTARGET_CPP) : $(LIB_TESTQT_SOURCES)
 endif
 
 endif
