@@ -484,7 +484,7 @@ class PlatformOptions:
 
         # add common options
         opts.Add(EnumOption('type', 'Compile dbg, opt or both', 'opt',
-                            allowed_values=('dbg', 'opt', 'both')))
+                            allowed_values=('dbg', 'opt', 'both', 'dbgopt')))
 
         opts.Add(BoolOption('gv_beta', 'enable gv beta', 0))
         
@@ -499,6 +499,9 @@ class PlatformOptions:
 
     def getPackageOptions(self):
         return self.package_options
+
+    def buildDbgOpt(self):
+        return (self.getOption('type') == 'dbgopt')
 
     def buildDbg(self):
         return (self.getOption('type') == 'dbg' or self.getOption('type') == 'both')
@@ -778,6 +781,16 @@ class win32_icl_base(win32):
             dbg['OSG_PROGSUF'] = 'D'
             envs.append(dbg)
 
+        if _po.buildDbgOpt():
+            dbg = env.Copy()
+            dbg.Append(CXXFLAGS=['/MD', '/Od', '/RTC1', '/Z7'],
+                       LINKFLAGS=['/DEBUG'],
+                       CPPDEFINES=['_DEBUG'])
+            dbg['OSG_OBJDIR']  = 'dbg'
+            dbg['OSG_LIBSUF']  = ''
+            dbg['OSG_PROGSUF'] = ''
+            envs.append(dbg)
+
         if _po.buildOpt():
             opt = env.Copy()
             opt.Append(CXXFLAGS=['/MD', '/O2'],
@@ -813,12 +826,22 @@ class win32_msvc_base(win32):
 
         if _po.buildDbg():
             dbg = env.Copy()
-            dbg.Append(CXXFLAGS=['/MDd', '/Od', '/ZI' '/GZ'],
+            dbg.Append(CXXFLAGS=['/MDd', '/Od', '/ZI', '/GZ'],
                        LINKFLAGS=['/DEBUG'],
                        CPPDEFINES=['_DEBUG'])
             dbg['OSG_OBJDIR']  = 'dbg'
             dbg['OSG_LIBSUF']  = 'D'
             dbg['OSG_PROGSUF'] = 'D'
+            envs.append(dbg)
+
+        if _po.buildDbgOpt():
+            dbg = env.Copy()
+            dbg.Append(CXXFLAGS=['/MD', '/Od', '/ZI', '/GZ'],
+                       LINKFLAGS=['/DEBUG'],
+                       CPPDEFINES=['_DEBUG'])
+            dbg['OSG_OBJDIR']  = 'dbg'
+            dbg['OSG_LIBSUF']  = ''
+            dbg['OSG_PROGSUF'] = ''
             envs.append(dbg)
 
         if _po.buildOpt():
