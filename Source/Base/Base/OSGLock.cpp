@@ -118,7 +118,7 @@ bool PThreadLockBase::init(void)
 
     pthread_mutexattr_init(&lockAttr);
 
-    pthread_mutexattr_settype(&lockAttr, PTHREAD_MUTEX_RECURSIVE_NP);
+    pthread_mutexattr_settype(&lockAttr, PTHREAD_MUTEX_RECURSIVE);
         
     pthread_mutex_init(&(_pLowLevelLock), &lockAttr);
 
