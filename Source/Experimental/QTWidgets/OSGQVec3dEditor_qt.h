@@ -46,12 +46,13 @@
 #include <OSGWindowQTDef.h>
 #include <OSGVector.h>
 
-#include "OSGQVectorPointEditor.h"
+#include "OSGQAbstractValueEditor_qt.h"
+#include "OSGQVectorPointEditorHelper.h"
 
 OSG_BEGIN_NAMESPACE
 
 class OSG_WINDOWQTLIB_DLLMAPPING QVec3dEditor :
-    public QVectorPointEditor<Vec3d>
+    public QAbstractValueEditor
 {
     Q_OBJECT
 
@@ -85,15 +86,17 @@ class OSG_WINDOWQTLIB_DLLMAPPING QVec3dEditor :
     virtual void slotSpinBoxChanged(void);
 
   private:
-    typedef QVectorPointEditor<Vec3d> Inherited;
+    typedef QAbstractValueEditor Inherited;
 
     void initSelf(void);
+    
+    QVectorPointEditorHelper<Vec3d> _editHelper;
 };
 
 OSG_END_NAMESPACE
 
 //#include "OSGQVec3dEditor.inl"
 
-#define OSGQVEC3DEDITORQT_HEADER_CVSID "@(#)$Id: OSGQVec3dEditor_qt.h,v 1.2 2004/08/06 16:16:03 neumannc Exp $"
+#define OSGQVEC3DEDITORQT_HEADER_CVSID "@(#)$Id: OSGQVec3dEditor_qt.h,v 1.3 2004/11/01 12:24:30 neumannc Exp $"
 
 #endif /* _OSGQVEC3DEDITOR_QT_H_ */

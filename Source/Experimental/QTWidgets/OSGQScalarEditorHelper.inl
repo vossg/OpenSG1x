@@ -47,44 +47,41 @@
 OSG_BEGIN_NAMESPACE
 
 template <class ScalarTypeT>
-QScalarTypeEditor<ScalarTypeT>::QScalarTypeEditor(
-    QWidget *pParent, const char *name)
+QScalarEditorHelper<ScalarTypeT>::QScalarEditorHelper(
+    QAbstractValueEditor *pParent)
 
-    : Inherited(pParent, name),
-      _pHBox   (NULL         ),
-      _pLabel  (NULL         ),
-      _pSpinBox(NULL         )
+    : _pHBox   (NULL),
+      _pLabel  (NULL),
+      _pSpinBox(NULL)
 {
-    createChildWidgets();
-    layoutChildWidgets();
-    initSelf          ();
+    createChildWidgets(pParent);
+    layoutChildWidgets(pParent);
+    initSelf          (pParent);
 }
 
 template <class ScalarTypeT>
-QScalarTypeEditor<ScalarTypeT>::~QScalarTypeEditor(void)
+QScalarEditorHelper<ScalarTypeT>::~QScalarEditorHelper(void)
 {
 }
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::getValue(ScalarType &value) const
+QScalarEditorHelper<ScalarTypeT>::getValue(ScalarType &value) const
 {
     value = _pSpinBox->getValue();
 }
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::setValue(const ScalarType &value)
+QScalarEditorHelper<ScalarTypeT>::setValue(const ScalarType &value)
 {
     _pSpinBox->setValue(value);
 }
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::setLabelsVisibleImpl(bool bLabels)
+QScalarEditorHelper<ScalarTypeT>::setLabelsVisible(bool bLabels)
 {
-    Inherited::setLabelsVisible(bLabels);
-
     if(bLabels == true)
     {
         _pLabel->show();
@@ -97,14 +94,14 @@ QScalarTypeEditor<ScalarTypeT>::setLabelsVisibleImpl(bool bLabels)
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::setReadOnlyImpl(bool bReadOnly)
+QScalarEditorHelper<ScalarTypeT>::setReadOnly(bool bReadOnly)
 {
     _pSpinBox->setReadOnly(bReadOnly);
 }
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::readFieldImpl(
+QScalarEditorHelper<ScalarTypeT>::readField(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex, UInt32 uiAspect  )
 {
@@ -132,17 +129,17 @@ QScalarTypeEditor<ScalarTypeT>::readFieldImpl(
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::readFieldImpl(
+QScalarEditorHelper<ScalarTypeT>::readField(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex                   )
 {
-    readFieldImpl(pFC, uiFieldId, uiValueIndex,
+    readField(pFC, uiFieldId, uiValueIndex,
                   Thread::getCurrent()->getAspect());
 }
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::writeFieldImpl(
+QScalarEditorHelper<ScalarTypeT>::writeField(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex                   )
 {
@@ -164,13 +161,13 @@ QScalarTypeEditor<ScalarTypeT>::writeFieldImpl(
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::addFieldElemImpl(
+QScalarEditorHelper<ScalarTypeT>::addFieldElem(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex                   )
 {
     if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
     {
-        SWARNING << "QScalarTypeEditor::addFieldElem: can no add to SField."
+        SWARNING << "QScalarEditorHelper::addFieldElem: can no add to SField."
                  << endLog;
     }
     else
@@ -185,13 +182,13 @@ QScalarTypeEditor<ScalarTypeT>::addFieldElemImpl(
 
 template <class ScalarTypeT>
 inline void
-QScalarTypeEditor<ScalarTypeT>::removeFieldElemImpl(
+QScalarEditorHelper<ScalarTypeT>::removeFieldElem(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex                   )
 {
     if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
     {
-        SWARNING << "QScalarTypeEditor::addFieldElem: can no remove "
+        SWARNING << "QScalarEditorHelper::addFieldElem: can no remove "
                  << "from SField."
                  << endLog;
     }
@@ -207,56 +204,59 @@ QScalarTypeEditor<ScalarTypeT>::removeFieldElemImpl(
 }
 
 template <class ScalarTypeT>
-inline const typename QScalarTypeEditor<ScalarTypeT>::SpinBoxType *
-QScalarTypeEditor<ScalarTypeT>::getSpinBox(void) const
+inline const typename QScalarEditorHelper<ScalarTypeT>::SpinBoxType *
+QScalarEditorHelper<ScalarTypeT>::getSpinBox(void) const
 {
     return _pSpinBox;
 }
 
 template <class ScalarTypeT>
-inline typename QScalarTypeEditor<ScalarTypeT>::SpinBoxType *
-QScalarTypeEditor<ScalarTypeT>::getSpinBox(void)
+inline typename QScalarEditorHelper<ScalarTypeT>::SpinBoxType *
+QScalarEditorHelper<ScalarTypeT>::getSpinBox(void)
 {
     return _pSpinBox;
 }
 
 template <class ScalarTypeT>
 inline const QLabel *
-QScalarTypeEditor<ScalarTypeT>::getLabel(void) const
+QScalarEditorHelper<ScalarTypeT>::getLabel(void) const
 {
     return _pLabel;
 }
 
 template <class ScalarTypeT>
 inline QLabel *
-QScalarTypeEditor<ScalarTypeT>::getLabel(void)
+QScalarEditorHelper<ScalarTypeT>::getLabel(void)
 {
     return _pLabel;
 }
 
 template <class ScalarTypeT>
 void
-QScalarTypeEditor<ScalarTypeT>::createChildWidgets(void)
+QScalarEditorHelper<ScalarTypeT>::createChildWidgets(
+    QAbstractValueEditor *pParent)
 {
-    _pHBox    = new QHBoxLayout(this, 0, 1, "QScalarTypeEditor::_pHBox"   );
+    _pHBox    = new QHBoxLayout(pParent, 0, 1, "QScalarEditorHelper::_pHBox");
 
-    _pLabel   = new QLabel     (this,       "QScalarTypeEditor::_pLabel"  );
-    _pSpinBox = new SpinBoxType(this,       "QScalarTypeEditor::_pSpinBox");
+    _pLabel   = new QLabel     (pParent,    "QScalarEditorHelper::_pLabel"  );
+    _pSpinBox = new SpinBoxType(pParent,    "QScalarEditorHelper::_pSpinBox");
 }
 
 template <class ScalarTypeT>
 void
-QScalarTypeEditor<ScalarTypeT>::layoutChildWidgets(void)
+QScalarEditorHelper<ScalarTypeT>::layoutChildWidgets(
+    QAbstractValueEditor *pParent)
 {
-    _pHBox->addWidget(_pLabel,                  0);
-    _pHBox->addWidget(_pSpinBox,               10);
+    _pHBox->addWidget(_pLabel,                     0);
+    _pHBox->addWidget(_pSpinBox,                  10);
 
-    _pHBox->addWidget(this->getActionButton(), 10);
+    _pHBox->addWidget(pParent->getActionButton(), 10);
 }
 
 template <class ScalarTypeT>
 void
-QScalarTypeEditor<ScalarTypeT>::initSelf(void)
+QScalarEditorHelper<ScalarTypeT>::initSelf(
+    QAbstractValueEditor *pParent)
 {
     _pLabel->setText("Scalar value");
 }
@@ -264,4 +264,4 @@ QScalarTypeEditor<ScalarTypeT>::initSelf(void)
 
 OSG_END_NAMESPACE
 
-#define OSGQSCALARTYPEEDITOR_INLINE_CVSID "@(#)$Id: OSGQScalarTypeEditor.inl,v 1.2 2004/08/06 16:16:03 neumannc Exp $"
+#define OSGQSCALAREDITORHELPER_INLINE_CVSID "@(#)$Id: OSGQScalarEditorHelper.inl,v 1.1 2004/11/01 12:24:30 neumannc Exp $"

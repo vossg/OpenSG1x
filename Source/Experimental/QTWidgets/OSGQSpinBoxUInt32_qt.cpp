@@ -156,6 +156,10 @@ void
 QSpinBoxUInt32::slotTextChanged(void)
 {
     _bTextChanged = true;
+    
+    _spinHelper.setValueByStr(getLineEdit()->text().latin1());
+       
+    emit valueChanged();
 }
 
 void
@@ -242,10 +246,10 @@ QSpinBoxUInt32::eventFilter(QObject *pObj, QEvent *pEvent)
     if(pEvent->type() == QEvent::KeyPress)
     {
         QKeyEvent *pKeyEvent = static_cast<QKeyEvent *>(pEvent);
-
+     
         switch(pKeyEvent->key())
         {
-
+            
         case Qt::Key_Tab:
         case Qt::Key_BackTab:
         {
@@ -253,9 +257,10 @@ QSpinBoxUInt32::eventFilter(QObject *pObj, QEvent *pEvent)
             {
                 this->slotReturnPressed();
             }
-
+            
             qApp->sendEvent(this, pEvent);
             retValue = true;
+            
             break;
         }
 
@@ -265,9 +270,10 @@ QSpinBoxUInt32::eventFilter(QObject *pObj, QEvent *pEvent)
             {
                 this->slotReturnPressed();
             }
-
+            
             this->stepUp();
             retValue = true;
+            
             break;
         }
 
@@ -277,9 +283,10 @@ QSpinBoxUInt32::eventFilter(QObject *pObj, QEvent *pEvent)
             {
                 this->slotReturnPressed();
             }
-
+            
             this->stepDown();
             retValue = true;
+            
             break;
         }
 
@@ -289,9 +296,10 @@ QSpinBoxUInt32::eventFilter(QObject *pObj, QEvent *pEvent)
             {
                 this->slotReturnPressed();
             }
-
+            
             this->stepPageUp();
             retValue = true;
+            
             break;
         }
 
@@ -301,9 +309,10 @@ QSpinBoxUInt32::eventFilter(QObject *pObj, QEvent *pEvent)
             {
                 this->slotReturnPressed();
             }
-
+            
             this->stepPageDown();
             retValue = true;
+            
             break;
         }
 
@@ -311,6 +320,7 @@ QSpinBoxUInt32::eventFilter(QObject *pObj, QEvent *pEvent)
         case Qt::Key_Enter:
         {
             this->slotReturnPressed();
+
             break;
         }
 
@@ -344,7 +354,7 @@ QSpinBoxUInt32::eventFilter(QObject *pObj, QEvent *pEvent)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSpinBoxUInt32_qt.cpp,v 1.3 2004/08/14 18:17:01 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSpinBoxUInt32_qt.cpp,v 1.4 2004/11/01 12:24:30 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQSPINBOXUINT32QT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQSPINBOXUINT32QT_INLINE_CVSID;
 }

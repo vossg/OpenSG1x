@@ -46,12 +46,13 @@
 #include <OSGWindowQTDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGQScalarTypeEditor.h>
+#include <OSGQAbstractValueEditor_qt.h>
+#include <OSGQScalarEditorHelper.h>
 
 OSG_BEGIN_NAMESPACE
 
 class OSG_WINDOWQTLIB_DLLMAPPING QInt8Editor :
-    public QScalarTypeEditor<Int8>
+    public QAbstractValueEditor
 {
     Q_OBJECT
 
@@ -85,15 +86,17 @@ class OSG_WINDOWQTLIB_DLLMAPPING QInt8Editor :
     virtual void slotSpinBoxChanged(void);
 
   private:
-    typedef QScalarTypeEditor<Int8> Inherited;
+    typedef QAbstractValueEditor Inherited;
 
     void initSelf(void);
+    
+    QScalarEditorHelper<Int8> _editHelper;
 };
 
 OSG_END_NAMESPACE
 
 //#include "OSGQInt8Editor.inl"
 
-#define OSGQINT8EDITORQT_HEADER_CVSID "@(#)$Id: OSGQInt8Editor_qt.h,v 1.2 2004/08/06 16:16:02 neumannc Exp $"
+#define OSGQINT8EDITORQT_HEADER_CVSID "@(#)$Id: OSGQInt8Editor_qt.h,v 1.3 2004/11/01 12:24:29 neumannc Exp $"
 
 #endif /* _OSGQINT8EDITOR_QT_H_ */

@@ -53,7 +53,8 @@ QVec4bEditor::create(QWidget *pParent, const char *name)
 }
 
 QVec4bEditor::QVec4bEditor(QWidget *pParent, const char *name)
-    : Inherited(pParent, name)
+    : Inherited  (pParent, name),
+      _editHelper(this         )
 {
     initSelf();
 }
@@ -65,27 +66,31 @@ QVec4bEditor::~QVec4bEditor(void)
 void
 QVec4bEditor::setLabelsVisible(bool bLabels)
 {
-    Inherited::setLabelsVisibleImpl(bLabels);
+    Inherited::setLabelsVisible(bLabels);
+    
+    _editHelper.setLabelsVisible(bLabels);
 }
 
 void
 QVec4bEditor::setReadOnly(bool bReadOnly)
 {
-    Inherited::setReadOnlyImpl(bReadOnly);
+    Inherited::setReadOnly(bReadOnly);
+    
+    _editHelper.setReadOnly(bReadOnly);
 }
 
 void
 QVec4bEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                         UInt32            uiValueIndex, UInt32 uiAspect  )
 {
-    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex, uiAspect);
+    _editHelper.readField(pFC, uiFieldId, uiValueIndex, uiAspect);
 }
 
 void
 QVec4bEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                         UInt32            uiValueIndex                   )
 {
-    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex,
+    _editHelper.readField(pFC, uiFieldId, uiValueIndex,
                              Thread::getCurrent()->getAspect());
 }
 
@@ -93,21 +98,21 @@ void
 QVec4bEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                          UInt32            uiValueIndex                   )
 {
-    Inherited::writeFieldImpl(pFC, uiFieldId, uiValueIndex);
+    _editHelper.writeField(pFC, uiFieldId, uiValueIndex);
 }
 
 void
 QVec4bEditor::addFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
                            UInt32            uiValueIndex                   )
 {
-    Inherited::addFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+    _editHelper.addFieldElem(pFC, uiFieldId, uiValueIndex);
 }
 
 void
 QVec4bEditor::removeFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
                               UInt32            uiValueIndex                   )
 {
-    Inherited::removeFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+    _editHelper.removeFieldElem(pFC, uiFieldId, uiValueIndex);
 }
 
 void
@@ -119,14 +124,14 @@ QVec4bEditor::slotSpinBoxChanged(void)
 void
 QVec4bEditor::initSelf(void)
 {
-    connect(getSpinBox(0), SIGNAL(valueChanged      (void)),
-            this,          SLOT  (slotSpinBoxChanged(void)) );
-    connect(getSpinBox(1), SIGNAL(valueChanged      (void)),
-            this,          SLOT  (slotSpinBoxChanged(void)) );
-    connect(getSpinBox(2), SIGNAL(valueChanged      (void)),
-            this,          SLOT  (slotSpinBoxChanged(void)) );
-    connect(getSpinBox(3), SIGNAL(valueChanged      (void)),
-            this,          SLOT  (slotSpinBoxChanged(void)) );
+    connect(_editHelper.getSpinBox(0), SIGNAL(valueChanged      (void)),
+            this,                      SLOT  (slotSpinBoxChanged(void)) );
+    connect(_editHelper.getSpinBox(1), SIGNAL(valueChanged      (void)),
+            this,                      SLOT  (slotSpinBoxChanged(void)) );
+    connect(_editHelper.getSpinBox(2), SIGNAL(valueChanged      (void)),
+            this,                      SLOT  (slotSpinBoxChanged(void)) );
+    connect(_editHelper.getSpinBox(3), SIGNAL(valueChanged      (void)),
+            this,                      SLOT  (slotSpinBoxChanged(void)) );
 }
 
 // include generated files
@@ -145,7 +150,7 @@ QVec4bEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQVec4bEditor_qt.cpp,v 1.3 2004/08/13 12:33:06 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQVec4bEditor_qt.cpp,v 1.4 2004/11/01 12:24:30 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQVEC4BEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQVEC4BEDITORQT_INLINE_CVSID;
 }

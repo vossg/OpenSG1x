@@ -157,6 +157,10 @@ void
 QSpinBoxReal32::slotTextChanged(void)
 {
     _bTextChanged = true;
+    
+    _spinHelper.setValueByStr(getLineEdit()->text().latin1());
+    
+    emit valueChanged();
 }
 
 void
@@ -178,14 +182,13 @@ QSpinBoxReal32::updateDisplay(void)
     getLineEdit()->setUpdatesEnabled(false                              );
     
     QString                    value(_spinHelper.getValueByStr().c_str());
+    
     value.setNum                    (value.toFloat()                    );
     getLineEdit()->setText          (value                              );
-    getLineEdit()->home             (false                              );
-
     getLineEdit()->setEnabled       (isEnabled() && !getReadOnly()      );
     getLineEdit()->setUpdatesEnabled(true                               );
 
-    getLineEdit()->repaint(false);
+    getLineEdit()->repaint          (false                              );
 
     bool bUpEnabled   =
         (isEnabled  ()                == true                       ) &&
@@ -248,77 +251,85 @@ QSpinBoxReal32::eventFilter(QObject *pObj, QEvent *pEvent)
     if(pEvent->type() == QEvent::KeyPress)
     {
         QKeyEvent *pKeyEvent = static_cast<QKeyEvent *>(pEvent);
-
+     
         switch(pKeyEvent->key())
         {
-            case Qt::Key_Tab:
-            case Qt::Key_BackTab:
-            {
-                if(_bTextChanged == true)
-                {
-                    this->slotReturnPressed();
-                }
-    
-                qApp->sendEvent(this, pEvent);
-                retValue = true;
-                break;
-            }
-    
-            case Qt::Key_Up:
-            {
-                if(_bTextChanged == true)
-                {
-                    this->slotReturnPressed();
-                }
-    
-                this->stepUp();
-                retValue = true;
-                break;
-            }
-    
-            case Qt::Key_Down:
-            {
-                if(_bTextChanged == true)
-                {
-                    this->slotReturnPressed();
-                }
-    
-                this->stepDown();
-                retValue = true;
-                break;
-            }
-    
-            case Qt::Key_PageUp:
-            {
-                if(_bTextChanged == true)
-                {
-                    this->slotReturnPressed();
-                }
-    
-                this->stepPageUp();
-                retValue = true;
-                break;
-            }
-    
-            case Qt::Key_PageDown:
-            {
-                if(_bTextChanged == true)
-                {
-                    this->slotReturnPressed();
-                }
-    
-                this->stepPageDown();
-                retValue = true;
-                break;
-            }
-    
-            case Qt::Key_Return:
-            case Qt::Key_Enter:
+            
+        case Qt::Key_Tab:
+        case Qt::Key_BackTab:
+        {
+            if(_bTextChanged == true)
             {
                 this->slotReturnPressed();
-                break;
             }
+            
+            qApp->sendEvent(this, pEvent);
+            retValue = true;
+            
+            break;
         }
+
+        case Qt::Key_Up:
+        {
+            if(_bTextChanged == true)
+            {
+                this->slotReturnPressed();
+            }
+            
+            this->stepUp();
+            retValue = true;
+            
+            break;
+        }
+
+        case Qt::Key_Down:
+        {
+            if(_bTextChanged == true)
+            {
+                this->slotReturnPressed();
+            }
+            
+            this->stepDown();
+            retValue = true;
+            
+            break;
+        }
+
+        case Qt::Key_PageUp:
+        {
+            if(_bTextChanged == true)
+            {
+                this->slotReturnPressed();
+            }
+            
+            this->stepPageUp();
+            retValue = true;
+            
+            break;
+        }
+
+        case Qt::Key_PageDown:
+        {
+            if(_bTextChanged == true)
+            {
+                this->slotReturnPressed();
+            }
+            
+            this->stepPageDown();
+            retValue = true;
+            
+            break;
+        }
+
+        case Qt::Key_Return:
+        case Qt::Key_Enter:
+        {
+            this->slotReturnPressed();
+
+            break;
+        }
+
+        };
     }
     else if((pEvent->type() == QEvent::FocusOut) ||
             (pEvent->type() == QEvent::Hide    )   )
@@ -328,6 +339,7 @@ QSpinBoxReal32::eventFilter(QObject *pObj, QEvent *pEvent)
             this->slotReturnPressed();
         }
     }
+
     return retValue;
 }
 
@@ -347,7 +359,7 @@ QSpinBoxReal32::eventFilter(QObject *pObj, QEvent *pEvent)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSpinBoxReal32_qt.cpp,v 1.4 2004/08/15 15:07:19 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSpinBoxReal32_qt.cpp,v 1.5 2004/11/01 12:24:30 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQSPINBOXREAL32QT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQSPINBOXREAL32QT_INLINE_CVSID;
 }

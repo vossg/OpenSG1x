@@ -53,7 +53,8 @@ QPnt2dEditor::create(QWidget *pParent, const char *name)
 }
 
 QPnt2dEditor::QPnt2dEditor(QWidget *pParent, const char *name)
-    : Inherited(pParent, name)
+    : Inherited  (pParent, name),
+      _editHelper(this         )
 {
     initSelf();
 }
@@ -65,27 +66,31 @@ QPnt2dEditor::~QPnt2dEditor(void)
 void
 QPnt2dEditor::setLabelsVisible(bool bLabels)
 {
-    Inherited::setLabelsVisibleImpl(bLabels);
+    Inherited::setLabelsVisible(bLabels);
+    
+    _editHelper.setLabelsVisible(bLabels);
 }
 
 void
 QPnt2dEditor::setReadOnly(bool bReadOnly)
 {
-    Inherited::setReadOnlyImpl(bReadOnly);
+    Inherited::setReadOnly(bReadOnly);
+    
+    _editHelper.setReadOnly(bReadOnly);
 }
 
 void
 QPnt2dEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                         UInt32            uiValueIndex, UInt32 uiAspect  )
 {
-    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex, uiAspect);
+    _editHelper.readField(pFC, uiFieldId, uiValueIndex, uiAspect);
 }
 
 void
 QPnt2dEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                         UInt32            uiValueIndex                   )
 {
-    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex,
+    _editHelper.readField(pFC, uiFieldId, uiValueIndex,
                             Thread::getCurrent()->getAspect());
 }
 
@@ -93,21 +98,21 @@ void
 QPnt2dEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                          UInt32            uiValueIndex                   )
 {
-    Inherited::writeFieldImpl(pFC, uiFieldId, uiValueIndex);
+    _editHelper.writeField(pFC, uiFieldId, uiValueIndex);
 }
 
 void
 QPnt2dEditor::addFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
                            UInt32            uiValueIndex                   )
 {
-    Inherited::addFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+    _editHelper.addFieldElem(pFC, uiFieldId, uiValueIndex);
 }
 
 void
 QPnt2dEditor::removeFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
                               UInt32            uiValueIndex                   )
 {
-    Inherited::removeFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+    _editHelper.removeFieldElem(pFC, uiFieldId, uiValueIndex);
 }
 
 void
@@ -119,10 +124,10 @@ QPnt2dEditor::slotSpinBoxChanged(void)
 void
 QPnt2dEditor::initSelf(void)
 {
-    connect(getSpinBox(0), SIGNAL(valueChanged      (void)),
-            this,          SLOT  (slotSpinBoxChanged(void)) );
-    connect(getSpinBox(1), SIGNAL(valueChanged      (void)),
-            this,          SLOT  (slotSpinBoxChanged(void)) );
+    connect(_editHelper.getSpinBox(0), SIGNAL(valueChanged      (void)),
+            this,                      SLOT  (slotSpinBoxChanged(void)) );
+    connect(_editHelper.getSpinBox(1), SIGNAL(valueChanged      (void)),
+            this,                      SLOT  (slotSpinBoxChanged(void)) );
 }
 
 // include generated files
@@ -141,7 +146,7 @@ QPnt2dEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQPnt2dEditor_qt.cpp,v 1.3 2004/08/13 12:33:06 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQPnt2dEditor_qt.cpp,v 1.4 2004/11/01 12:24:29 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQPNT2DEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQPNT2DEDITORQT_INLINE_CVSID;
 }

@@ -53,7 +53,8 @@ QInt16Editor::create(QWidget *pParent, const char *name)
 }
 
 QInt16Editor::QInt16Editor(QWidget *pParent, const char *name)
-    : Inherited(pParent, name)
+    : Inherited  (pParent, name),
+      _editHelper(this         )
 {
     initSelf();
 }
@@ -65,48 +66,52 @@ QInt16Editor::~QInt16Editor(void)
 void
 QInt16Editor::setLabelsVisible(bool bLabels)
 {
-    Inherited::setLabelsVisibleImpl(bLabels);
+    Inherited::setLabelsVisible(bLabels);
+    
+    _editHelper.setLabelsVisible(bLabels);
 }
 
 void
 QInt16Editor::setReadOnly(bool bReadOnly)
 {
-    Inherited::setReadOnlyImpl(bReadOnly);
+    Inherited::setReadOnly(bReadOnly);
+    
+    _editHelper.setReadOnly(bReadOnly);
 }
 
 void
 QInt16Editor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                         UInt32            uiValueIndex, UInt32 uiAspect  )
 {
-    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex, uiAspect);
+    _editHelper.readField(pFC, uiFieldId, uiValueIndex, uiAspect);
 }
 
 void
 QInt16Editor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                         UInt32            uiValueIndex                   )
 {
-    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex);
+    _editHelper.readField(pFC, uiFieldId, uiValueIndex);
 }
 
 void
 QInt16Editor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                          UInt32            uiValueIndex                   )
 {
-    Inherited::writeFieldImpl(pFC, uiFieldId, uiValueIndex);
+    _editHelper.writeField(pFC, uiFieldId, uiValueIndex);
 }
 
 void
 QInt16Editor::addFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
                            UInt32            uiValueIndex                   )
 {
-    Inherited::addFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+    _editHelper.addFieldElem(pFC, uiFieldId, uiValueIndex);
 }
 
 void
 QInt16Editor::removeFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
                               UInt32            uiValueIndex                   )
 {
-    Inherited::removeFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+    _editHelper.removeFieldElem(pFC, uiFieldId, uiValueIndex);
 }
 
 void
@@ -118,8 +123,8 @@ QInt16Editor::slotSpinBoxChanged(void)
 void
 QInt16Editor::initSelf(void)
 {
-    connect(getSpinBox(), SIGNAL(valueChanged      (void)),
-            this,         SLOT  (slotSpinBoxChanged(void)) );
+    connect(_editHelper.getSpinBox(), SIGNAL(valueChanged      (void)),
+            this,                     SLOT  (slotSpinBoxChanged(void)) );
 }
 
 // include generated files
@@ -138,7 +143,7 @@ QInt16Editor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQInt16Editor_qt.cpp,v 1.2 2004/08/06 16:16:02 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQInt16Editor_qt.cpp,v 1.3 2004/11/01 12:24:28 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQINT16EDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQINT16EDITORQT_INLINE_CVSID;
 }

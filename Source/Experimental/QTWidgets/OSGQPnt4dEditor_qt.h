@@ -46,12 +46,13 @@
 #include <OSGWindowQTDef.h>
 #include <OSGVector.h>
 
-#include "OSGQVectorPointEditor.h"
+#include "OSGQAbstractValueEditor_qt.h"
+#include "OSGQVectorPointEditorHelper.h"
 
 OSG_BEGIN_NAMESPACE
 
 class OSG_WINDOWQTLIB_DLLMAPPING QPnt4dEditor :
-    public QVectorPointEditor<Pnt4d>
+    public QAbstractValueEditor
 {
     Q_OBJECT
 
@@ -85,15 +86,17 @@ class OSG_WINDOWQTLIB_DLLMAPPING QPnt4dEditor :
     virtual void slotSpinBoxChanged(void);
 
   private:
-    typedef QVectorPointEditor<Pnt4d> Inherited;
+    typedef QAbstractValueEditor Inherited;
 
     void initSelf(void);
+    
+    QVectorPointEditorHelper<Pnt4d> _editHelper;
 };
 
 OSG_END_NAMESPACE
 
 //#include "OSGQPnt4dEditor.inl"
 
-#define OSGQPNT4DEDITORQT_HEADER_CVSID "@(#)$Id: OSGQPnt4dEditor_qt.h,v 1.2 2004/08/06 16:16:03 neumannc Exp $"
+#define OSGQPNT4DEDITORQT_HEADER_CVSID "@(#)$Id: OSGQPnt4dEditor_qt.h,v 1.3 2004/11/01 12:24:29 neumannc Exp $"
 
 #endif /* _OSGQPNT4DEDITOR_QT_H_ */

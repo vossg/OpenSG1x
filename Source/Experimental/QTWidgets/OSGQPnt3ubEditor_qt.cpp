@@ -53,7 +53,8 @@ QPnt3ubEditor::create(QWidget *pParent, const char *name)
 }
 
 QPnt3ubEditor::QPnt3ubEditor(QWidget *pParent, const char *name)
-    : Inherited(pParent, name)
+    : Inherited  (pParent, name),
+      _editHelper(this         )
 {
     initSelf();
 }
@@ -65,49 +66,53 @@ QPnt3ubEditor::~QPnt3ubEditor(void)
 void
 QPnt3ubEditor::setLabelsVisible(bool bLabels)
 {
-    Inherited::setLabelsVisibleImpl(bLabels);
+    Inherited::setLabelsVisible(bLabels);
+    
+    _editHelper.setLabelsVisible(bLabels);
 }
 
 void
 QPnt3ubEditor::setReadOnly(bool bReadOnly)
 {
-    Inherited::setReadOnlyImpl(bReadOnly);
+    Inherited::setReadOnly(bReadOnly);
+    
+    _editHelper.setReadOnly(bReadOnly);
 }
 
 void
 QPnt3ubEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                        UInt32            uiValueIndex, UInt32 uiAspect  )
+                         UInt32            uiValueIndex, UInt32 uiAspect  )
 {
-    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex, uiAspect);
+    _editHelper.readField(pFC, uiFieldId, uiValueIndex, uiAspect);
 }
 
 void
 QPnt3ubEditor::readField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                        UInt32            uiValueIndex                   )
+                         UInt32            uiValueIndex                   )
 {
-    Inherited::readFieldImpl(pFC, uiFieldId, uiValueIndex,
-                             Thread::getCurrent()->getAspect());
+    _editHelper.readField(pFC, uiFieldId, uiValueIndex,
+                          Thread::getCurrent()->getAspect());
 }
 
 void
 QPnt3ubEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                         UInt32            uiValueIndex                   )
+                          UInt32            uiValueIndex                   )
 {
-    Inherited::writeFieldImpl(pFC, uiFieldId, uiValueIndex);
+    _editHelper.writeField(pFC, uiFieldId, uiValueIndex);
 }
 
 void
 QPnt3ubEditor::addFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                           UInt32            uiValueIndex                   )
+                            UInt32            uiValueIndex                   )
 {
-    Inherited::addFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+    _editHelper.addFieldElem(pFC, uiFieldId, uiValueIndex);
 }
 
 void
 QPnt3ubEditor::removeFieldElem(FieldContainerPtr pFC,          UInt32 uiFieldId,
-                              UInt32            uiValueIndex                   )
+                               UInt32            uiValueIndex                   )
 {
-    Inherited::removeFieldElemImpl(pFC, uiFieldId, uiValueIndex);
+    _editHelper.removeFieldElem(pFC, uiFieldId, uiValueIndex);
 }
 
 void
@@ -119,12 +124,12 @@ QPnt3ubEditor::slotSpinBoxChanged(void)
 void
 QPnt3ubEditor::initSelf(void)
 {
-    connect(getSpinBox(0), SIGNAL(valueChanged      (void)),
-            this,          SLOT  (slotSpinBoxChanged(void)) );
-    connect(getSpinBox(1), SIGNAL(valueChanged      (void)),
-            this,          SLOT  (slotSpinBoxChanged(void)) );
-    connect(getSpinBox(2), SIGNAL(valueChanged      (void)),
-            this,          SLOT  (slotSpinBoxChanged(void)) );
+    connect(_editHelper.getSpinBox(0), SIGNAL(valueChanged      (void)),
+            this,                      SLOT  (slotSpinBoxChanged(void)) );
+    connect(_editHelper.getSpinBox(1), SIGNAL(valueChanged      (void)),
+            this,                      SLOT  (slotSpinBoxChanged(void)) );
+    connect(_editHelper.getSpinBox(2), SIGNAL(valueChanged      (void)),
+            this,                      SLOT  (slotSpinBoxChanged(void)) );
 }
 
 // include generated files
@@ -143,7 +148,7 @@ QPnt3ubEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQPnt3ubEditor_qt.cpp,v 1.3 2004/08/13 12:33:06 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQPnt3ubEditor_qt.cpp,v 1.4 2004/11/01 12:24:29 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGQPNT3UBEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQPNT3UBEDITORQT_INLINE_CVSID;
 }

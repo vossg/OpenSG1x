@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGQSCALARTYPEEDITOR_QT_H_
-#define _OSGQSCALARTYPEEDITOR_QT_H_
+#ifndef _OSGQVECTORPOINTEDITORHELPER_H_
+#define _OSGQVECTORPOINTEDITORHELPER_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -53,66 +53,65 @@ class QLabel;
 class QHBoxLayout;
 
 OSG_BEGIN_NAMESPACE
-
-template <class ScalarTypeT>
-class OSG_WINDOWQTLIB_DLLMAPPING QScalarTypeEditor : public QAbstractValueEditor
+    
+template <class        VectorPointTypeT, 
+          unsigned int SizeArgT         = VectorPointTypeT::_iSize>
+class OSG_WINDOWQTLIB_DLLMAPPING QVectorPointEditorHelper
 {
   public:
-    typedef          ScalarTypeT                            ScalarType;
-    typedef typename SpinBoxMapper<ScalarType>::SpinBoxType SpinBoxType;
+    typedef          VectorPointTypeT                      VectorPointType;
+    typedef typename VectorPointTypeT::ValueType           ValueType;
+    typedef typename SpinBoxMapper<ValueType>::SpinBoxType SpinBoxType;
+  
+            QVectorPointEditorHelper(QAbstractValueEditor *pParent);
+    inline ~QVectorPointEditorHelper(void                         );
+    
+    inline void getValue(      VectorPointType &value) const;
+    inline void setValue(const VectorPointType &value);    
+    
+    inline void setLabelsVisible(bool              bLabels      );
+    inline void setReadOnly     (bool              bReadOnly    );
 
-    QScalarTypeEditor(QWidget *pParent, const char *name);
+    inline void readField       (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex,
+                                 UInt32            uiAspect     );
+    inline void readField       (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
 
-    virtual ~QScalarTypeEditor(void);
+    inline void writeField      (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
 
-    inline void getValue(      ScalarType &value) const;
-    inline void setValue(const ScalarType &value);
+    inline void addFieldElem    (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
+    inline void removeFieldElem (FieldContainerPtr pFC,
+                                 UInt32            uiFieldId,
+                                 UInt32            uiValueIndex );
 
-  protected:
-    inline void setLabelsVisibleImpl(bool bLabels  );
-    inline void setReadOnlyImpl     (bool bReadOnly);
+    inline const SpinBoxType *getSpinBox(UInt32 uiIndex) const;
+    inline       SpinBoxType *getSpinBox(UInt32 uiIndex);
 
-    inline void readFieldImpl      (FieldContainerPtr pFC,
-                                    UInt32            uiFieldId,
-                                    UInt32            uiValueIndex,
-                                    UInt32            uiAspect     );
-    inline void readFieldImpl      (FieldContainerPtr pFC,
-                                    UInt32            uiFieldId,
-                                    UInt32            uiValueIndex );
-
-    inline void writeFieldImpl     (FieldContainerPtr pFC,
-                                    UInt32            uiFieldId,
-                                    UInt32            uiValueIndex );
-
-    inline void addFieldElemImpl   (FieldContainerPtr pFC,
-                                    UInt32            uiFieldId,
-                                    UInt32            uiValueIndex );
-    inline void removeFieldElemImpl(FieldContainerPtr pFC,
-                                    UInt32            uiFieldId,
-                                    UInt32            uiValueIndex );
-
-    inline const SpinBoxType *getSpinBox(void) const;
-    inline       SpinBoxType *getSpinBox(void);
-
-    inline const QLabel      *getLabel  (void) const;
-    inline       QLabel      *getLabel  (void);
-
+    inline const QLabel      *getLabel  (UInt32 uiIndex) const;
+    inline       QLabel      *getLabel  (UInt32 uiIndex);
+    
   private:
-    typedef QAbstractValueEditor Inherited;
-
-    void createChildWidgets(void);
-    void layoutChildWidgets(void);
-    void initSelf          (void);
-
+    void createChildWidgets(QAbstractValueEditor *pParent);
+    void layoutChildWidgets(QAbstractValueEditor *pParent);
+    void initSelf          (QAbstractValueEditor *pParent);
+      
     QHBoxLayout *_pHBox;
-    QLabel      *_pLabel;
-    SpinBoxType *_pSpinBox;
+    SpinBoxType *_pSpinBoxes[SizeArgT];
+    QLabel      *_pLabels   [SizeArgT];
 };
 
 OSG_END_NAMESPACE
 
-#include "OSGQScalarTypeEditor.inl"
+#include "OSGQVectorPointEditorHelper.inl"
 
-#define OSGQSCALARTYPEEDITOR_HEADER_CVSID "@(#)$Id: OSGQScalarTypeEditor.h,v 1.2 2004/08/06 16:16:03 neumannc Exp $"
+#define OSGQVECTORPOINTEDITORHELPER_HEADER_CVSID "@(#)$Id: OSGQVectorPointEditorHelper.h,v 1.1 2004/11/01 12:24:30 neumannc Exp $"
 
-#endif /* _OSGQSCALARTYPEEDITOR_H_ */
+#endif /* _OSGQVECTORPOINTEDITORHELPER_H_ */
+
