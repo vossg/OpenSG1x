@@ -653,7 +653,11 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 
     VectorInterface<ValueTypeT, StorageInterfaceT> operator - (
         const PointInterface &vec) const;
+
     PointInterface operator + (
+        const VectorInterface<ValueTypeT, StorageInterfaceT> &vec) const;	
+
+    PointInterface operator - (
         const VectorInterface<ValueTypeT, StorageInterfaceT> &vec) const;	
 
     PointInterface operator * (const ValueTypeT rVal) const;

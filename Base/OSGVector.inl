@@ -1075,6 +1075,26 @@ PointInterface <ValueTypeT, StorageInterfaceT>
 	return returnValue;
 }
 
+/** \brief Component wise binary vector addition operator
+ */
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+PointInterface <ValueTypeT, StorageInterfaceT>
+    PointInterface<ValueTypeT, StorageInterfaceT>::operator - (
+        const VectorInterface<ValueTypeT, StorageInterfaceT> &vec) const
+{
+	PointInterface<ValueTypeT, StorageInterfaceT> returnValue;
+
+    UInt32 i;
+
+    for(i = 0; i < StorageInterfaceT::_iSize; i++)
+    {
+		returnValue[i] = _values[i] - vec[i];
+	}
+
+	return returnValue;
+}
+
 /** \brief Component wise binary scalar multiplication
  */
 template <class    ValueTypeT, 
