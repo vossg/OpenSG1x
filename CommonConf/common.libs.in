@@ -29,7 +29,7 @@ ac_gdz_package_inc_dep_WindowX="Action Action/DrawAction Action/RenderAction Bas
 ac_gdz_package_link_dep_WindowX="SystemLib BaseLib" 
 ac_gdz_package_testinc_dep_WindowX="" 
 ac_gdz_package_testlink_dep_WindowX="GL TIF JPG PNG MNG" 
-ac_gdz_package_def_WindowX="OSG_COMPILEXWINDOWLIB" 
+ac_gdz_package_def_WindowX="OSG_COMPILEWINDOWXLIB" 
 
 ac_gdz_package_name_WindowWIN32="WindowWIN32" 
 ac_gdz_package_fact_init_WindowWIN32="1" 
@@ -38,7 +38,7 @@ ac_gdz_package_inc_dep_WindowWIN32="Action Action/DrawAction Base Field FieldCon
 ac_gdz_package_link_dep_WindowWIN32="SystemLib BaseLib" 
 ac_gdz_package_testinc_dep_WindowWIN32="" 
 ac_gdz_package_testlink_dep_WindowWIN32="QT GLUT GL TIF JPG PNG MNG" 
-ac_gdz_package_def_WindowWIN32="OSG_COMPILEWIN32WINDOWLIB" 
+ac_gdz_package_def_WindowWIN32="OSG_COMPILEWINDOWWIN32LIB" 
 
 ac_gdz_package_name_WindowQT="WindowQT" 
 ac_gdz_package_fact_init_WindowQT="1" 
@@ -47,7 +47,7 @@ ac_gdz_package_inc_dep_WindowQT="Action Action/DrawAction Action/RenderAction Ac
 ac_gdz_package_link_dep_WindowQT="Window@WINDOWSYSTEM@Lib  SystemLib BaseLib" 
 ac_gdz_package_testinc_dep_WindowQT="" 
 ac_gdz_package_testlink_dep_WindowQT="QT GL TIF JPG PNG MNG" 
-ac_gdz_package_def_WindowQT="OSG_COMPILEQTWINDOWLIB" 
+ac_gdz_package_def_WindowQT="OSG_COMPILEWINDOWQTLIB" 
 
 ac_gdz_package_name_WindowGLUT="WindowGLUT" 
 ac_gdz_package_fact_init_WindowGLUT="1" 
@@ -56,7 +56,7 @@ ac_gdz_package_inc_dep_WindowGLUT="Action Action/DrawAction Action/RenderAction 
 ac_gdz_package_link_dep_WindowGLUT="SystemLib BaseLib" 
 ac_gdz_package_testinc_dep_WindowGLUT="" 
 ac_gdz_package_testlink_dep_WindowGLUT="GLUT GL TIF JPG PNG MNG" 
-ac_gdz_package_def_WindowGLUT="OSG_COMPILEGLUTWINDOWLIB" 
+ac_gdz_package_def_WindowGLUT="OSG_COMPILEWINDOWGLUTLIB" 
 
 
 

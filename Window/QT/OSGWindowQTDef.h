@@ -48,7 +48,7 @@
 //---------------------------------------------------------------------------
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEQTWINDOWLIB
+#   ifdef OSG_COMPILEWINDOWQTLIB
 #       define OSG_WINDOWQTLIB_DLLMAPPING     __declspec(dllexport)
 #       define OSG_WINDOWQTLIB_DLLTMPLMAPPING __declspec(dllexport)
 #   else

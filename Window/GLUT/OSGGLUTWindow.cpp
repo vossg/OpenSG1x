@@ -167,8 +167,7 @@ void (*GLUTWindow::getFunctionByName(const Char8 *s))(void)
         libHandle = dlopen("libgl.so", RTLD_LAZY);
     return (void (*)(void)) dlsym( libHandle, s);
 #elif defined( WIN32 )
-    return NULL;
-    //GLExtensionFunc(wglGetProcAddress(s));
+    return (void (*)(void)) wglGetProcAddress(s);
 #elif defined(darwin)
     return NULL;
 #else

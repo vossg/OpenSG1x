@@ -117,9 +117,9 @@ void WIN32Window::dump(      UInt32    ,
 
 /*-------------------------- your_category---------------------------------*/
 
-void (*WIN32Window::getFunctionByName( const Char8 *s ))()
+void (*WIN32Window::getFunctionByName( const Char8 *s ))(void)
 {
-    return NULL;
+    return (void(*)(void))wglGetProcAddress(s);
 }
 
 // init the window: create the HDC and context
