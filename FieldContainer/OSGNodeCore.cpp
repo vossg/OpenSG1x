@@ -275,7 +275,7 @@ void NodeCore::invalidateVolume(void)
 /*                              cvs id's                                   */
 
 #ifdef __sgi
-#pragdma set woff 1174
+#pragma set woff 1174
 #endif
 
 #ifdef OSG_LINUX_ICC
