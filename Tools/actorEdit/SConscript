@@ -24,7 +24,7 @@ else:
     dep_LIBS = ['OSGWindowX']
 
 
-BuildProgram(tc, 'actorEdit', sources, tools=['qt'],
-             updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
-             CPPPATH=[Dir('.'), Dir('$OSG_OBJDIR'), env['PREFIX'].Dir('include')],
-             CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])
+#BuildProgram(tc, 'actorEdit', sources, tools=['qt'],
+#             updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
+#             CPPPATH=[Dir('.'), Dir('$OSG_OBJDIR'), env['PREFIX'].Dir('include')],
+#             CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])
