@@ -73,10 +73,12 @@ AC_DEFUN(AC_GDZ_FIND_PROG_DIR,
 [
     ac_gdz_find_prog_dir_result=""
 
+    test_path=$1
+
     for drive in c d e f g; do
-        for progdir in "Program Files" "Programme"; do
-            if test -d "//$drive/$progdir/$1"; then
-                ac_gdz_find_prog_dir_result="//$drive/$progdir/$1"
+        for progdir in "Program Files/" "Programme/" ""; do
+            if test -d "//$drive/${progdir}${test_path}"; then
+                ac_gdz_find_prog_dir_result="//$drive/${progdir}${test_path}"
                 break 2
             fi
         done
@@ -116,15 +118,42 @@ AC_DEFUN(AC_GDZ_SETUP_INTEL,
     ac_gdz_compiler_incl=$ac_gdz_compiler_dir/Include
     ac_gdz_compiler_lib=$ac_gdz_compiler_dir/Lib
     ac_gdz_compiler_exe=icl.exe
+    ac_gdz_linker_exe=xilink.exe
     ac_gdz_check_compiler_available=yes
 ])
 
 AC_DEFUN(AC_GDZ_SETUP_BORLAND,
 [
-#build_os=`echo $build | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
-    
-    set ac_gdz_compiler_path=$ac_gdz_compiler_dir/bin
-    set ac_gdz_compiler_exe=bcc32
+    changequote(<<, >>)dnl
+
+    ac_gdz_compiler_version=`echo $ac_gdz_compiler | sed 's/^\(bcc\)\([0-9]*\)$/\2/'`
+    ac_gdz_compiler_base=bcc
+
+    changequote([, ])dnl
+
+    if test $ac_gdz_compiler_version"set" = set; then
+        ac_gdz_compiler_version=55
+    fi
+
+    case $ac_gdz_compiler_version in
+
+        55)
+        ac_gdz_borlandsearchdir=Borland/BCC$ac_gdz_compiler_version
+        ;;
+        *)
+        ac_gdz_borlandsearchdir=Borland/BCC$ac_gdz_compiler_version
+        ;;
+    esac    
+
+    AC_GDZ_FIND_PROG_DIR($ac_gdz_borlandsearchdir)
+
+    ac_gdz_compiler_dir=$ac_gdz_find_prog_dir_result
+    ac_gdz_compiler_path=$ac_gdz_compiler_dir/bin
+    ac_gdz_compiler_incl=$ac_gdz_compiler_dir/Include
+    ac_gdz_compiler_lib=$ac_gdz_compiler_dir/Lib
+    ac_gdz_compiler_exe=bcc32.exe
+    ac_gdz_linker_exe=bcc32.exe
+    ac_gdz_check_compiler_available=yes
 ])
 
 AC_DEFUN(AC_GDZ_GET_MSVS_PATH,
@@ -304,12 +333,21 @@ AC_DEFUN(AC_GDZ_SET_SYSTEM_DIRS,
     AC_MSG_CHECKING(system dir)
 
     case "$build_os" in
+        cygwin*)
+            case "$ac_gdz_compiler" in
+                icl*)
+                    AC_GDZ_FIND_STUDIO_DIR()
 
-    cygwin*)
-        AC_GDZ_FIND_STUDIO_DIR()
+                    ac_gdz_studio_dir=$ac_gdz_find_prog_dir_result
 
-        ac_gdz_studio_dir=$ac_gdz_find_prog_dir_result
-
+                    ac_gdz_system_incl_dir=$ac_gdz_studio_dir/VC98/Include
+                    ac_gdz_system_lib_dir=$ac_gdz_studio_dir/VC98/Lib
+                ;;
+                *)
+                    ac_gdz_system_incl_dir=$ac_gdz_compiler_incl
+                    ac_gdz_system_lib_dir=$ac_gdz_compiler_lib
+                ;;
+            esac
         ;;
 
         *)
@@ -318,9 +356,6 @@ AC_DEFUN(AC_GDZ_SET_SYSTEM_DIRS,
     esac
 
     AC_MSG_RESULT($ac_gdz_studio_dir)
-
-    ac_gdz_studio_incl_dir=$ac_gdz_studio_dir/VC98/Include
-    ac_gdz_studio_lib_dir=$ac_gdz_studio_dir/VC98/Lib
 ])
 
 AC_DEFUN(AC_GDZ_SCAN_PACKET_DESC,

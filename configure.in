@@ -187,11 +187,28 @@ then
 
 	AC_GDZ_SET_SYSTEM_DIRS()
 
-	ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'" -nologo'
+        case "$ac_gdz_compiler" in
+            icl*)
+				ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'" -nologo'
 
-	ac_gdz_compiler_exe_shared='"$(CC_PATH)/xilink" -dll -map -NODEFAULTLIB'
+				ac_gdz_compiler_exe_shared='"$(CC_PATH)/'$ac_gdz_linker_exe'" -dll -map -NODEFAULTLIB'
 
-	ac_gdz_compiler_exe_exe='"$(CC_PATH)/xilink" -NODEFAULTLIB'
+				ac_gdz_compiler_exe_exe='"$(CC_PATH)/'$ac_gdz_linker_exe'" -NODEFAULTLIB'
+
+				ac_gdz_base_system_libs='user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib'
+				ac_gdz_base_system_libs="$ac_gdz_base_system_libs winmm.lib wsock32.lib"
+            ;;
+            bcc*)
+				ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'"'
+
+				ac_gdz_compiler_exe_shared='"$(CC_PATH)/'$ac_gdz_linker_exe'" -WD'
+
+				ac_gdz_compiler_exe_exe='"$(CC_PATH)/'$ac_gdz_linker_exe'"'
+
+				ac_gdz_base_system_libs=
+            ;;
+        esac
+
 
 	ac_gdz_flex_exe=flex.exe
 	ac_gdz_bison_exe=bison.exe
@@ -202,11 +219,11 @@ then
 
 	ac_gdz_sed_exe=sed
 
-	ac_gdz_system_incl_dir=`cygpath -w "$ac_gdz_studio_incl_dir"`
-	ac_gdz_system_lib_dir=`cygpath -w "$ac_gdz_studio_lib_dir"`
+	ac_gdz_system_incl_dir_e1=`cygpath -w "$ac_gdz_system_incl_dir"`
+	ac_gdz_system_lib_dir_e1=`cygpath -w "$ac_gdz_system_lib_dir"`
 
-	ac_gdz_system_incl_dir='"'$ac_gdz_system_incl_dir'"'
-	ac_gdz_system_lib_dir='"'$ac_gdz_system_lib_dir'"'
+	ac_gdz_system_incl_dir_e1='"'$ac_gdz_system_incl_dir_e1'"'
+	ac_gdz_system_lib_dir_e1='"'$ac_gdz_system_lib_dir_e1'"'
 
 	ac_gdz_compiler_incl=`cygpath -w "$ac_gdz_compiler_incl"`
 	ac_gdz_compiler_lib=`cygpath -w "$ac_gdz_compiler_lib"`
@@ -214,8 +231,6 @@ then
 	ac_gdz_compiler_incl='"'$ac_gdz_compiler_incl'"'
 	ac_gdz_compiler_lib='"'$ac_gdz_compiler_lib'"'
 
-	ac_gdz_base_system_libs='user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib'
-	ac_gdz_base_system_libs="$ac_gdz_base_system_libs winmm.lib wsock32.lib"
 else 
 	ac_gdz_compiler_exe_shared='$(CC) -shared'
 
@@ -296,6 +311,7 @@ AC_SUBST(ac_gdz_lib_suffix)
 AC_SUBST(ac_gdz_obj_suffix)
 AC_SUBST(ac_gdz_exe_suffix)
 AC_SUBST(ac_gdz_os_base)
+AC_SUBST(ac_gdz_compiler_base)
 
 AC_SUBST(ac_gdz_compiler_path)
 AC_SUBST(ac_gdz_compiler_exe)
@@ -307,7 +323,7 @@ AC_SUBST(ac_gdz_gmake_exe)
 AC_SUBST(ac_gdz_ln_exe)
 AC_SUBST(ac_gdz_sed_exe)
 
-AC_SUBST(ac_gdz_system_incl_dir)
+AC_SUBST(ac_gdz_system_incl_dir_e1)
 AC_SUBST(ac_gdz_system_lib_dir)
 
 AC_SUBST(ac_gdz_compiler_incl)
