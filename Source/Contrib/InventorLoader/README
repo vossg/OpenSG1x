@@ -1,0 +1,29 @@
+
+README for InventorLoader
+=========================
+
+Name:                   InventorLoader
+License:                LGPL
+Maintainer:             ???
+Initial Author:         Erik Ferner <erik.ferner@vrcom.de>
+Additional Libraries:   Inventor
+Added:                  2003/07/02
+Last modified:          2003/07/02
+Last tested:            2003/07/02
+
+Description:
+
+This is an early version of an Open Inventor loader. It uses the Open Source
+OpenInventor libraries (available at http://oss.sgi.com/projects/inventor/) to
+load the file and converts the nodes it knows about to the corresponding
+OpenSG nodes afterwards. Currently the supported Inventor nodes are Material,
+Coordinate3, NormalBinding, Normal, Transform, IndexedFaceSet, Separator and
+Group. The support is probably not complete, but it's good enough to load a 
+variety of Inventor files.
+
+You might be able to run it using the GPL Coin lib (www.coin3d.org), but we 
+haven't tried that yet.
+
+It's rather simple to extend this loader to become more complete, just add 
+the cases you need to the type dispatcher. We would be happy to accept any extensions
+you can come up with.
