@@ -66,13 +66,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class LightBase;
-/** \brief LightBasePtr
- */
+//! LightBasePtr
+
 typedef FCPtr<NodeCorePtr, LightBase> LightBasePtr;
 
 

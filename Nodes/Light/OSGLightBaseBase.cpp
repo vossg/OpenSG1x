@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILELIGHTBASEINST
@@ -67,16 +63,8 @@
 #include "OSGLightBase.h"
 
 
+
 OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 const OSG::BitVector	LightBaseBase::AmbientFieldMask = 
     (1 << LightBaseBase::AmbientFieldId);
@@ -93,12 +81,46 @@ const OSG::BitVector	LightBaseBase::BeaconFieldMask =
 const OSG::BitVector	LightBaseBase::OnFieldMask = 
     (1 << LightBaseBase::OnFieldId);
 
+const OSG::BitVector	LightBaseBase::ConstantAttenuationFieldMask = 
+    (1 << LightBaseBase::ConstantAttenuationFieldId);
+
+const OSG::BitVector	LightBaseBase::LinearAttenuationFieldMask = 
+    (1 << LightBaseBase::LinearAttenuationFieldId);
+
+const OSG::BitVector	LightBaseBase::QuadraticAttenuationFieldMask = 
+    (1 << LightBaseBase::QuadraticAttenuationFieldId);
 
 
-char LightBaseBase::cvsid[] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.10 2001/07/31 13:39:04 vossg Exp $";
 
-/** \brief Group field description
- */
+char LightBaseBase::cvsid[] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.11 2001/09/13 12:13:27 dirk Exp $";
+
+// Field descriptions
+
+/*! \var Color4f         LightBaseBase::_sfAmbient
+    
+*/
+/*! \var Color4f         LightBaseBase::_sfDiffuse
+    
+*/
+/*! \var Color4f         LightBaseBase::_sfSpecular
+    
+*/
+/*! \var NodePtr         LightBaseBase::_sfBeacon
+    
+*/
+/*! \var Bool            LightBaseBase::_sfOn
+    
+*/
+/*! \var Real32          LightBaseBase::_sfConstantAttenuation
+    The light's constant attenuation.
+*/
+/*! \var Real32          LightBaseBase::_sfLinearAttenuation
+    The light's linear attenuation.
+*/
+/*! \var Real32          LightBaseBase::_sfQuadraticAttenuation
+    The light's quadratic attenuation.
+*/
+//! LightBase description
 
 FieldDescription *LightBaseBase::_desc[] = 
 {
@@ -126,11 +148,25 @@ FieldDescription *LightBaseBase::_desc[] =
                      "on", 
                      OnFieldId, OnFieldMask,
                      false,
-                     (FieldAccessMethod) &LightBaseBase::getSFOn)
+                     (FieldAccessMethod) &LightBaseBase::getSFOn),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "constantAttenuation", 
+                     ConstantAttenuationFieldId, ConstantAttenuationFieldMask,
+                     false,
+                     (FieldAccessMethod) &LightBaseBase::getSFConstantAttenuation),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "linearAttenuation", 
+                     LinearAttenuationFieldId, LinearAttenuationFieldMask,
+                     false,
+                     (FieldAccessMethod) &LightBaseBase::getSFLinearAttenuation),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "quadraticAttenuation", 
+                     QuadraticAttenuationFieldId, QuadraticAttenuationFieldMask,
+                     false,
+                     (FieldAccessMethod) &LightBaseBase::getSFQuadraticAttenuation)
 };
 
-/** \brief LightBase type
- */
+//! LightBase type
 
 FieldContainerType LightBaseBase::_type(
     "LightBase",
@@ -141,32 +177,14 @@ FieldContainerType LightBaseBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(LightBaseBase, LightBasePtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "LightBase"; 
+}
 
 FieldContainerType &LightBaseBase::getType(void) 
 {
@@ -177,6 +195,7 @@ const FieldContainerType &LightBaseBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 UInt32 LightBaseBase::getContainerSize(void) const 
 { 
@@ -190,36 +209,41 @@ void LightBaseBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((LightBaseBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 LightBaseBase::LightBaseBase(void) :
-	_sfAmbient	(), 
-	_sfDiffuse	(), 
-	_sfSpecular	(), 
-	_sfBeacon	(), 
-	_sfOn	(Bool(true)), 
+	_sfAmbient                (), 
+	_sfDiffuse                (), 
+	_sfSpecular               (), 
+	_sfBeacon                 (), 
+	_sfOn                     (Bool(true)), 
+	_sfConstantAttenuation    (Real32(1)), 
+	_sfLinearAttenuation      (Real32(0)), 
+	_sfQuadraticAttenuation   (Real32(0)), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 LightBaseBase::LightBaseBase(const LightBaseBase &source) :
-	_sfAmbient		(source._sfAmbient), 
-	_sfDiffuse		(source._sfDiffuse), 
-	_sfSpecular		(source._sfSpecular), 
-	_sfBeacon		(source._sfBeacon), 
-	_sfOn		(source._sfOn), 
-	Inherited        (source)
+	_sfAmbient                (source._sfAmbient                ), 
+	_sfDiffuse                (source._sfDiffuse                ), 
+	_sfSpecular               (source._sfSpecular               ), 
+	_sfBeacon                 (source._sfBeacon                 ), 
+	_sfOn                     (source._sfOn                     ), 
+	_sfConstantAttenuation    (source._sfConstantAttenuation    ), 
+	_sfLinearAttenuation      (source._sfLinearAttenuation      ), 
+	_sfQuadraticAttenuation   (source._sfQuadraticAttenuation   ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 LightBaseBase::~LightBaseBase(void)
 {
@@ -256,6 +280,21 @@ UInt32 LightBaseBase::getBinSize(const BitVector &whichField)
         returnValue += _sfOn.getBinSize();
     }
 
+    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
+    {
+        returnValue += _sfConstantAttenuation.getBinSize();
+    }
+
+    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
+    {
+        returnValue += _sfLinearAttenuation.getBinSize();
+    }
+
+    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
+    {
+        returnValue += _sfQuadraticAttenuation.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -266,29 +305,28 @@ MemoryHandle LightBaseBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-    {
         pMem = _sfAmbient.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-    {
         pMem = _sfDiffuse.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-    {
         pMem = _sfSpecular.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
-    {
         pMem = _sfBeacon.copyToBin(pMem);
-    }
 
     if(FieldBits::NoField != (OnFieldMask & whichField))
-    {
         pMem = _sfOn.copyToBin(pMem);
-    }
+
+    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
+        pMem = _sfConstantAttenuation.copyToBin(pMem);
+
+    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
+        pMem = _sfLinearAttenuation.copyToBin(pMem);
+
+    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
+        pMem = _sfQuadraticAttenuation.copyToBin(pMem);
 
 
     return pMem;
@@ -300,40 +338,32 @@ MemoryHandle LightBaseBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-    {
         pMem = _sfAmbient.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-    {
         pMem = _sfDiffuse.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-    {
         pMem = _sfSpecular.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
-    {
         pMem = _sfBeacon.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (OnFieldMask & whichField))
-    {
         pMem = _sfOn.copyFromBin(pMem);
-    }
+
+    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
+        pMem = _sfConstantAttenuation.copyFromBin(pMem);
+
+    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
+        pMem = _sfLinearAttenuation.copyFromBin(pMem);
+
+    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
+        pMem = _sfQuadraticAttenuation.copyFromBin(pMem);
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void LightBaseBase::executeSyncImpl(      LightBaseBase *pOther,
                                         const BitVector         &whichField)
@@ -342,34 +372,29 @@ void LightBaseBase::executeSyncImpl(      LightBaseBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-    {
         _sfAmbient.syncWith(pOther->_sfAmbient);
-    }
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-    {
         _sfDiffuse.syncWith(pOther->_sfDiffuse);
-    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-    {
         _sfSpecular.syncWith(pOther->_sfSpecular);
-    }
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
-    {
         _sfBeacon.syncWith(pOther->_sfBeacon);
-    }
 
     if(FieldBits::NoField != (OnFieldMask & whichField))
-    {
         _sfOn.syncWith(pOther->_sfOn);
-    }
+
+    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
+        _sfConstantAttenuation.syncWith(pOther->_sfConstantAttenuation);
+
+    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
+        _sfLinearAttenuation.syncWith(pOther->_sfLinearAttenuation);
+
+    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
+        _sfQuadraticAttenuation.syncWith(pOther->_sfQuadraticAttenuation);
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

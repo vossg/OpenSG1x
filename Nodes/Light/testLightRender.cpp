@@ -53,7 +53,7 @@ display(void)
 
 	Matrix m;
 
-	m.setTranslate( sin(a/1500), cos(a/1500), 1 );
+	m.setTranslate( sin(a/1500), cos(a/1500), sin(a/1000) + 1 );
 
 	beginEditCP(tr);
 	tr->getSFMatrix()->setValue( m );
@@ -79,7 +79,7 @@ void key( unsigned char key, int x, int y )
 				beginEditCP(dlight);
 				dlight->addChild( slight2 );
 				endEditCP(dlight);
-				root->dump();
+				// root->dump();
 				break;
 	case 'x':	beginEditCP(root);
 				root->replaceChild( 1, plight );
@@ -87,7 +87,7 @@ void key( unsigned char key, int x, int y )
 				beginEditCP(plight);
 				plight->addChild( slight2 );
 				endEditCP(plight);
-				root->dump();
+				// root->dump();
 				break;
 	case 'c':	beginEditCP(root);
 				root->replaceChild( 1, slight );
@@ -95,7 +95,7 @@ void key( unsigned char key, int x, int y )
 				beginEditCP(slight);
 				slight->addChild( slight2 );
 				endEditCP(slight);
-				root->dump();
+				// root->dump();
 				break;
 	case 'a':	beginEditCP(dl);
 				dl->setOn( ! dl->getOn() );
@@ -199,6 +199,9 @@ int main (int argc, char **argv)
 	beginEditCP(pl);
 	pl->setAmbient( .2, .2, .2, .2 );
 	pl->setDiffuse( 0, 1, 0, 1 );
+	pl->setConstantAttenuation(.5);
+	pl->setLinearAttenuation(.5);
+	pl->setQuadraticAttenuation(2);	
 	pl->setPosition(0,0,0);
 	pl->setBeacon( tnode );
 	endEditCP(pl);
@@ -239,6 +242,7 @@ int main (int argc, char **argv)
 	dl->setDiffuse( .5, .5, 0, 1 );
 	dl->setDirection(0,0,1);
 	dl->setBeacon( root );
+	dl->setOn( false );
 	endEditCP(dl);
 
 
@@ -256,6 +260,7 @@ int main (int argc, char **argv)
 	pl->setDiffuse( 0, .5, .5, 1 );
 	pl->setPosition(1,1,1);
 	pl->setBeacon( root );
+	pl->setOn( false );
 	endEditCP(pl);
 
 
@@ -276,6 +281,7 @@ int main (int argc, char **argv)
 	sl->setSpotExponent(10);
 	sl->setSpotCutOffDeg(45);
 	sl->setBeacon( root );
+	sl->setOn( false );
 	endEditCP(sl);
 
 

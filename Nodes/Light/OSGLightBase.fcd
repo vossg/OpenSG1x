@@ -45,4 +45,31 @@
 		defaultValue="true"
 	>
 	</Field>
+	<Field
+			name="constantAttenuation"
+			type="Real32"
+			cardinality="single"
+			visibility="external"
+			defaultValue="1"
+	>
+	The light's constant attenuation.
+	</Field>
+	<Field
+			name="linearAttenuation"
+			type="Real32"
+			cardinality="single"
+			visibility="external"
+			defaultValue="0"
+	>
+	The light's linear attenuation.
+	</Field>
+	<Field
+			name="quadraticAttenuation"
+			type="Real32"
+			cardinality="single"
+			visibility="external"
+			defaultValue="0"
+	>
+	The light's quadratic attenuation.
+	</Field>
 </FieldContainer>

@@ -48,67 +48,25 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &LightBaseBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 LightBaseBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFColor4f *LightBaseBase::getSFAmbient(void)
@@ -140,6 +98,24 @@ SFBool *LightBaseBase::getSFOn(void)
 	return &_sfOn;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+SFReal32 *LightBaseBase::getSFConstantAttenuation(void)
+{
+	return &_sfConstantAttenuation;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFReal32 *LightBaseBase::getSFLinearAttenuation(void)
+{
+	return &_sfLinearAttenuation;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFReal32 *LightBaseBase::getSFQuadraticAttenuation(void)
+{
+	return &_sfQuadraticAttenuation;
+}
+
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color4f &LightBaseBase::getAmbient(void)
@@ -154,7 +130,7 @@ const Color4f &LightBaseBase::getAmbient(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void LightBaseBase::setAmbient( const Color4f &value )
+void LightBaseBase::setAmbient(const Color4f &value)
 {
 	_sfAmbient.setValue(value);
 }
@@ -172,7 +148,7 @@ const Color4f &LightBaseBase::getDiffuse(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void LightBaseBase::setDiffuse( const Color4f &value )
+void LightBaseBase::setDiffuse(const Color4f &value)
 {
 	_sfDiffuse.setValue(value);
 }
@@ -190,7 +166,7 @@ const Color4f &LightBaseBase::getSpecular(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void LightBaseBase::setSpecular( const Color4f &value )
+void LightBaseBase::setSpecular(const Color4f &value)
 {
 	_sfSpecular.setValue(value);
 }
@@ -208,7 +184,7 @@ const NodePtr &LightBaseBase::getBeacon(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void LightBaseBase::setBeacon( const NodePtr &value )
+void LightBaseBase::setBeacon(const NodePtr &value)
 {
 	_sfBeacon.setValue(value);
 }
@@ -226,27 +202,65 @@ const Bool &LightBaseBase::getOn(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void LightBaseBase::setOn( const Bool &value )
+void LightBaseBase::setOn(const Bool &value)
 {
 	_sfOn.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+Real32 &LightBaseBase::getConstantAttenuation(void)
+{
+	return _sfConstantAttenuation.getValue();
+}
 
+OSG_SYSTEMLIB_DLLMAPPING
+const Real32 &LightBaseBase::getConstantAttenuation(void) const
+{
+	return _sfConstantAttenuation.getValue();
+}
 
-/*------------------------------ access -----------------------------------*/
+OSG_SYSTEMLIB_DLLMAPPING
+void LightBaseBase::setConstantAttenuation(const Real32 &value)
+{
+	_sfConstantAttenuation.setValue(value);
+}
 
-/*------------------------------- size ----------------------------------*/
+OSG_SYSTEMLIB_DLLMAPPING
+Real32 &LightBaseBase::getLinearAttenuation(void)
+{
+	return _sfLinearAttenuation.getValue();
+}
 
-/*------------------------------- dump ----------------------------------*/
+OSG_SYSTEMLIB_DLLMAPPING
+const Real32 &LightBaseBase::getLinearAttenuation(void) const
+{
+	return _sfLinearAttenuation.getValue();
+}
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+OSG_SYSTEMLIB_DLLMAPPING
+void LightBaseBase::setLinearAttenuation(const Real32 &value)
+{
+	_sfLinearAttenuation.setValue(value);
+}
 
+OSG_SYSTEMLIB_DLLMAPPING
+Real32 &LightBaseBase::getQuadraticAttenuation(void)
+{
+	return _sfQuadraticAttenuation.getValue();
+}
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+OSG_SYSTEMLIB_DLLMAPPING
+const Real32 &LightBaseBase::getQuadraticAttenuation(void) const
+{
+	return _sfQuadraticAttenuation.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void LightBaseBase::setQuadraticAttenuation(const Real32 &value)
+{
+	_sfQuadraticAttenuation.setValue(value);
+}
+
 
 
 OSG_END_NAMESPACE

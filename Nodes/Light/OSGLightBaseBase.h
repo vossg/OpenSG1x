@@ -57,42 +57,32 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
-#include <OSGSystemDef.h>
-#include <OSGNodeCore.h>
-#include <OSGColor4fFields.h>	// Ambient type
-#include <OSGColor4fFields.h>	// Diffuse type
-#include <OSGColor4fFields.h>	// Specular type
-#include <OSGNodeFields.h>	// Beacon type
-#include <OSGBoolFields.h>	// On type
+
+#include <OSGNodeCore.h> // Parent
+
+#include <OSGColor4fFields.h> // Ambient type
+#include <OSGColor4fFields.h> // Diffuse type
+#include <OSGColor4fFields.h> // Specular type
+#include <OSGNodeFields.h> // Beacon type
+#include <OSGBoolFields.h> // On type
+#include <OSGReal32Fields.h> // ConstantAttenuation type
+#include <OSGReal32Fields.h> // LinearAttenuation type
+#include <OSGReal32Fields.h> // QuadraticAttenuation type
 
 #include <OSGLightBaseFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class LightBase;
 
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! LightBase Base Class. */
+/*! \brief LightBase Base Class. */
 
 class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
 {
@@ -100,21 +90,20 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
 
     typedef NodeCore Inherited;
 
+    /*==========================  PUBLIC  =================================*/
   public:
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-    
     enum
     {
-        AmbientFieldId = Inherited::NextFieldId,
-        DiffuseFieldId = AmbientFieldId + 1,
-        SpecularFieldId = DiffuseFieldId + 1,
-        BeaconFieldId = SpecularFieldId + 1,
-        OnFieldId = BeaconFieldId + 1,
-        NextFieldId = OnFieldId + 1
-
+        AmbientFieldId              = Inherited::NextFieldId,
+        DiffuseFieldId              = AmbientFieldId              + 1,
+        SpecularFieldId             = DiffuseFieldId              + 1,
+        BeaconFieldId               = SpecularFieldId             + 1,
+        OnFieldId                   = BeaconFieldId               + 1,
+        ConstantAttenuationFieldId  = OnFieldId                   + 1,
+        LinearAttenuationFieldId    = ConstantAttenuationFieldId  + 1,
+        QuadraticAttenuationFieldId = LinearAttenuationFieldId    + 1,
+        NextFieldId                 = QuadraticAttenuationFieldId + 1
     };
 
     static const osg::BitVector AmbientFieldMask;
@@ -122,37 +111,86 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     static const osg::BitVector SpecularFieldMask;
     static const osg::BitVector BeaconFieldMask;
     static const osg::BitVector OnFieldMask;
+    static const osg::BitVector ConstantAttenuationFieldMask;
+    static const osg::BitVector LinearAttenuationFieldMask;
+    static const osg::BitVector QuadraticAttenuationFieldMask;
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    static const  char               *getClassname(void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
-    static const char *getClassname(void) { return "LightBaseBase"; };
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Get                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
-    /*-------------- general fieldcontainer declaration --------------------*/
+    virtual       UInt32              getContainerSize(void) const;
 
-    virtual       OSG::FieldContainerType &getType  (void); 
-    virtual const OSG::FieldContainerType &getType  (void) const; 
-    
-    static OSG::FieldContainerType &getClassType    (void); 
-    static OSG::UInt32              getClassTypeId  (void); 
-    virtual OSG::UInt32             getContainerSize(void) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
 
-    virtual void                    executeSync(      FieldContainer &other,
-                                                const BitVector      &whichField);
+    inline       SFColor4f           *getSFAmbient        (void);
+    inline       SFColor4f           *getSFDiffuse        (void);
+    inline       SFColor4f           *getSFSpecular       (void);
+    inline       SFNodePtr           *getSFBeacon         (void);
+    inline       SFBool              *getSFOn             (void);
+    inline       SFReal32            *getSFConstantAttenuation(void);
+    inline       SFReal32            *getSFLinearAttenuation(void);
+    inline       SFReal32            *getSFQuadraticAttenuation(void);
 
+    inline       Color4f             &getAmbient        (void);
+    inline const Color4f             &getAmbient        (void) const;
+    inline       Color4f             &getDiffuse        (void);
+    inline const Color4f             &getDiffuse        (void) const;
+    inline       Color4f             &getSpecular       (void);
+    inline const Color4f             &getSpecular       (void) const;
+    inline       NodePtr             &getBeacon         (void);
+    inline const NodePtr             &getBeacon         (void) const;
+    inline       Bool                &getOn             (void);
+    inline const Bool                &getOn             (void) const;
+    inline       Real32              &getConstantAttenuation(void);
+    inline const Real32              &getConstantAttenuation(void) const;
+    inline       Real32              &getLinearAttenuation(void);
+    inline const Real32              &getLinearAttenuation(void) const;
+    inline       Real32              &getQuadraticAttenuation(void);
+    inline const Real32              &getQuadraticAttenuation(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    inline void setAmbient        ( const Color4f &value );
+    inline void setDiffuse        ( const Color4f &value );
+    inline void setSpecular       ( const Color4f &value );
+    inline void setBeacon         ( const NodePtr &value );
+    inline void setOn             ( const Bool &value );
+    inline void setConstantAttenuation( const Real32 &value );
+    inline void setLinearAttenuation( const Real32 &value );
+    inline void setQuadraticAttenuation( const Real32 &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
+
+    virtual void         executeSync(      FieldContainer &other,
+                                     const BitVector      &whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
     virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
@@ -160,140 +198,58 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
                                      const BitVector    &whichField);
 
-    /*--------------------------- access fields ----------------------------*/
 
-    //! Return the fields.
-
-    inline SFColor4f	*getSFAmbient(void);
-    inline SFColor4f	*getSFDiffuse(void);
-    inline SFColor4f	*getSFSpecular(void);
-    inline SFNodePtr	*getSFBeacon(void);
-    inline SFBool	*getSFOn(void);
-
-    /*----------------------------- access ----------------------------------*/
-
-    //!@{ Return the fields' values.
-
-    inline       Color4f	&getAmbient(void);
-    inline const Color4f	&getAmbient(void) const;
-    inline       void	         setAmbient( const Color4f &value );
-    inline       Color4f	&getDiffuse(void);
-    inline const Color4f	&getDiffuse(void) const;
-    inline       void	         setDiffuse( const Color4f &value );
-    inline       Color4f	&getSpecular(void);
-    inline const Color4f	&getSpecular(void) const;
-    inline       void	         setSpecular( const Color4f &value );
-    inline       NodePtr	&getBeacon(void);
-    inline const NodePtr	&getBeacon(void) const;
-    inline       void	         setBeacon( const NodePtr &value );
-    inline       Bool	&getOn(void);
-    inline const Bool	&getOn(void) const;
-    inline       void	         setOn( const Bool &value );
-
-
-    //!@}
-
-    /*-------------------------- transformation ----------------------------*/
-
-    /*------------------------------ volume -------------------------------*/
-
-    /*------------------------------ dump -----------------------------------*/
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    SFColor4f        	_sfAmbient;
+    SFColor4f        	_sfDiffuse;
+    SFColor4f        	_sfSpecular;
+    SFNodePtr        	_sfBeacon;
+    SFBool           	_sfOn;
+    SFReal32         	_sfConstantAttenuation;
+    SFReal32         	_sfLinearAttenuation;
+    SFReal32         	_sfQuadraticAttenuation;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //! The fields storing the data.
-
-    /*! 
-     */
-    SFColor4f	_sfAmbient;
-    /*! 
-     */
-    SFColor4f	_sfDiffuse;
-    /*! 
-     */
-    SFColor4f	_sfSpecular;
-    /*! 
-     */
-    SFNodePtr	_sfBeacon;
-    /*! 
-     */
-    SFBool	_sfOn;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     LightBaseBase(void);
     LightBaseBase(const LightBaseBase &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~LightBaseBase(void); 
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Sync                                   */
+    /*! \{                                                                 */
 
     void executeSyncImpl(      LightBaseBase *pOther,
                          const BitVector         &whichField);
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
   private:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
     friend class FieldContainer;
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
     static char cvsid[];
 
     static FieldDescription   *_desc[];
-
     static FieldContainerType  _type;
 
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -305,8 +261,6 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
 //---------------------------------------------------------------------------
 
 
-/** \brief class pointer
- */
 typedef LightBaseBase *LightBaseBaseP;
 
 OSG_END_NAMESPACE

@@ -50,10 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 
 #define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEPOINTLIGHTINST
@@ -67,35 +63,22 @@
 #include "OSGPointLight.h"
 
 
+
 OSG_USING_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 const OSG::BitVector	PointLightBase::PositionFieldMask = 
     (1 << PointLightBase::PositionFieldId);
 
-const OSG::BitVector	PointLightBase::ConstantAttenuationFieldMask = 
-    (1 << PointLightBase::ConstantAttenuationFieldId);
-
-const OSG::BitVector	PointLightBase::LinearAttenuationFieldMask = 
-    (1 << PointLightBase::LinearAttenuationFieldId);
-
-const OSG::BitVector	PointLightBase::QuadraticAttenuationFieldMask = 
-    (1 << PointLightBase::QuadraticAttenuationFieldId);
 
 
+char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.10 2001/09/13 12:13:27 dirk Exp $";
 
-char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
+// Field descriptions
 
-/** \brief Group field description
- */
+/*! \var Pnt3f           PointLightBase::_sfPosition
+    
+*/
+//! PointLight description
 
 FieldDescription *PointLightBase::_desc[] = 
 {
@@ -103,26 +86,10 @@ FieldDescription *PointLightBase::_desc[] =
                      "position", 
                      PositionFieldId, PositionFieldMask,
                      false,
-                     (FieldAccessMethod) &PointLightBase::getSFPosition),
-    new FieldDescription(SFReal32::getClassType(), 
-                     "constantAttenuation", 
-                     ConstantAttenuationFieldId, ConstantAttenuationFieldMask,
-                     false,
-                     (FieldAccessMethod) &PointLightBase::getSFConstantAttenuation),
-    new FieldDescription(SFReal32::getClassType(), 
-                     "linearAttenuation", 
-                     LinearAttenuationFieldId, LinearAttenuationFieldMask,
-                     false,
-                     (FieldAccessMethod) &PointLightBase::getSFLinearAttenuation),
-    new FieldDescription(SFReal32::getClassType(), 
-                     "quadraticAttenuation", 
-                     QuadraticAttenuationFieldId, QuadraticAttenuationFieldMask,
-                     false,
-                     (FieldAccessMethod) &PointLightBase::getSFQuadraticAttenuation)
+                     (FieldAccessMethod) &PointLightBase::getSFPosition)
 };
 
-/** \brief PointLight type
- */
+//! PointLight type
 
 FieldContainerType PointLightBase::_type(
     "PointLight",
@@ -133,32 +100,14 @@ FieldContainerType PointLightBase::_type(
     _desc,
     sizeof(_desc));
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 //OSG_FIELD_CONTAINER_DEF(PointLightBase, PointLightPtr)
+
+/*------------------------------ get -----------------------------------*/
+
+static const char *getClassname(void)
+{
+    return "PointLight"; 
+}
 
 FieldContainerType &PointLightBase::getType(void) 
 {
@@ -169,6 +118,7 @@ const FieldContainerType &PointLightBase::getType(void) const
 {
     return _type;
 } 
+/*! \}                                                                 */
 
 FieldContainerPtr PointLightBase::shallowCopy(void) const 
 { 
@@ -191,34 +141,27 @@ void PointLightBase::executeSync(      FieldContainer &other,
     this->executeSyncImpl((PointLightBase *) &other, whichField);
 }
 
-/*------------- constructors & destructors --------------------------------*/
+/*------------------------- constructors ----------------------------------*/
 
-/** \brief Constructor
- */
+//! Constructor
 
 PointLightBase::PointLightBase(void) :
-	_sfPosition	(), 
-	_sfConstantAttenuation	(), 
-	_sfLinearAttenuation	(), 
-	_sfQuadraticAttenuation	(), 
+	_sfPosition               (), 
 	Inherited() 
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 PointLightBase::PointLightBase(const PointLightBase &source) :
-	_sfPosition		(source._sfPosition), 
-	_sfConstantAttenuation		(source._sfConstantAttenuation), 
-	_sfLinearAttenuation		(source._sfLinearAttenuation), 
-	_sfQuadraticAttenuation		(source._sfQuadraticAttenuation), 
-	Inherited        (source)
+	_sfPosition               (source._sfPosition               ), 
+	Inherited                 (source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------- destructors ----------------------------------*/
+
+//! Destructor
 
 PointLightBase::~PointLightBase(void)
 {
@@ -235,21 +178,6 @@ UInt32 PointLightBase::getBinSize(const BitVector &whichField)
         returnValue += _sfPosition.getBinSize();
     }
 
-    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
-    {
-        returnValue += _sfConstantAttenuation.getBinSize();
-    }
-
-    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
-    {
-        returnValue += _sfLinearAttenuation.getBinSize();
-    }
-
-    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
-    {
-        returnValue += _sfQuadraticAttenuation.getBinSize();
-    }
-
 
     return returnValue;
 }
@@ -260,24 +188,7 @@ MemoryHandle PointLightBase::copyToBin(      MemoryHandle  pMem,
     pMem = Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-    {
         pMem = _sfPosition.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
-    {
-        pMem = _sfConstantAttenuation.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
-    {
-        pMem = _sfLinearAttenuation.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
-    {
-        pMem = _sfQuadraticAttenuation.copyToBin(pMem);
-    }
 
 
     return pMem;
@@ -289,35 +200,11 @@ MemoryHandle PointLightBase::copyFromBin(      MemoryHandle  pMem,
     pMem = Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-    {
         pMem = _sfPosition.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
-    {
-        pMem = _sfConstantAttenuation.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
-    {
-        pMem = _sfLinearAttenuation.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
-    {
-        pMem = _sfQuadraticAttenuation.copyFromBin(pMem);
-    }
 
 
     return pMem;
 }
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 void PointLightBase::executeSyncImpl(      PointLightBase *pOther,
                                         const BitVector         &whichField)
@@ -326,29 +213,8 @@ void PointLightBase::executeSyncImpl(      PointLightBase *pOther,
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-    {
         _sfPosition.syncWith(pOther->_sfPosition);
-    }
-
-    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
-    {
-        _sfConstantAttenuation.syncWith(pOther->_sfConstantAttenuation);
-    }
-
-    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
-    {
-        _sfLinearAttenuation.syncWith(pOther->_sfLinearAttenuation);
-    }
-
-    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
-    {
-        _sfQuadraticAttenuation.syncWith(pOther->_sfQuadraticAttenuation);
-    }
 
 
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

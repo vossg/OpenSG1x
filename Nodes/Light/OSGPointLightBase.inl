@@ -48,66 +48,29 @@
  *****************************************************************************
 \*****************************************************************************/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
+//! access the type of the class
 inline OSG::FieldContainerType &PointLightBase::getClassType(void)
 {
     return _type; 
 } 
 
+//! access the numerical type of the class
 inline OSG::UInt32 PointLightBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
+//! create a new instance of the class
 inline PointLightPtr PointLightBase::create(void) 
 {
     PointLightPtr fc; 
 
-    if(getClassType(). getPrototype() != osg::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = PointLightPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -116,6 +79,7 @@ inline PointLightPtr PointLightBase::create(void)
     return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline PointLightPtr PointLightBase::createEmpty(void) 
 { 
     PointLightPtr returnValue; 
@@ -126,34 +90,12 @@ inline PointLightPtr PointLightBase::createEmpty(void)
 }
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
+/*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 SFPnt3f *PointLightBase::getSFPosition(void)
 {
 	return &_sfPosition;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-SFReal32 *PointLightBase::getSFConstantAttenuation(void)
-{
-	return &_sfConstantAttenuation;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-SFReal32 *PointLightBase::getSFLinearAttenuation(void)
-{
-	return &_sfLinearAttenuation;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-SFReal32 *PointLightBase::getSFQuadraticAttenuation(void)
-{
-	return &_sfQuadraticAttenuation;
 }
 
 
@@ -170,81 +112,11 @@ const Pnt3f &PointLightBase::getPosition(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void PointLightBase::setPosition( const Pnt3f &value )
+void PointLightBase::setPosition(const Pnt3f &value)
 {
 	_sfPosition.setValue(value);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
-Real32 &PointLightBase::getConstantAttenuation(void)
-{
-	return _sfConstantAttenuation.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const Real32 &PointLightBase::getConstantAttenuation(void) const
-{
-	return _sfConstantAttenuation.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void PointLightBase::setConstantAttenuation( const Real32 &value )
-{
-	_sfConstantAttenuation.setValue(value);
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-Real32 &PointLightBase::getLinearAttenuation(void)
-{
-	return _sfLinearAttenuation.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const Real32 &PointLightBase::getLinearAttenuation(void) const
-{
-	return _sfLinearAttenuation.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void PointLightBase::setLinearAttenuation( const Real32 &value )
-{
-	_sfLinearAttenuation.setValue(value);
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-Real32 &PointLightBase::getQuadraticAttenuation(void)
-{
-	return _sfQuadraticAttenuation.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const Real32 &PointLightBase::getQuadraticAttenuation(void) const
-{
-	return _sfQuadraticAttenuation.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void PointLightBase::setQuadraticAttenuation( const Real32 &value )
-{
-	_sfQuadraticAttenuation.setValue(value);
-}
-
-
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 
 OSG_END_NAMESPACE

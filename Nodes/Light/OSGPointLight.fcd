@@ -16,25 +16,4 @@
 		visibility="external"
 	>
 	</Field>
-	<Field
-		name="constantAttenuation"
-		type="Real32"
-		cardinality="single"
-		visibility="external"
-	>
-	</Field>
-	<Field
-		name="linearAttenuation"
-		type="Real32"
-		cardinality="single"
-		visibility="external"
-	>
-	</Field>
-	<Field
-		name="quadraticAttenuation"
-		type="Real32"
-		cardinality="single"
-		visibility="external"
-	>
-	</Field>
 </FieldContainer>

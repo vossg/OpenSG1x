@@ -237,6 +237,12 @@ Action::ResultE LightBase::drawEnter(Action * action )
     glLightfv( light, GL_SPECULAR,   
                                     _sfSpecular.getValue().getValueRef() );
 
+    glLightf ( light, GL_CONSTANT_ATTENUATION,   
+                             _sfConstantAttenuation.getValue() );
+    glLightf ( light, GL_LINEAR_ATTENUATION,   
+                             _sfLinearAttenuation.getValue() );
+    glLightf ( light, GL_QUADRATIC_ATTENUATION,   
+                             _sfQuadraticAttenuation.getValue() );
 
     // add the matrix to get into the beacon's coordinate system onto the stack
 
