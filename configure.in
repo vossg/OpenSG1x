@@ -1020,6 +1020,7 @@ esac
 AC_GDZ_GUESS_COMPILER_DEFAULTS()
 
 ac_gdz_os_base=$build_os
+ac_gdz_os_buildbase=$build
 ac_gdz_compiler_base=$ac_gdz_compiler
 
 AC_GDZ_SET_COMPILER_DEFAULTS()
@@ -1322,6 +1323,7 @@ AC_SUBST(ac_gdz_lib_suffix)
 AC_SUBST(ac_gdz_obj_suffix)
 AC_SUBST(ac_gdz_exe_suffix)
 AC_SUBST(ac_gdz_os_base)
+AC_SUBST(ac_gdz_os_buildbase)
 AC_SUBST(ac_gdz_compiler_base)
 AC_SUBST(ac_gdz_compiler_base_def)
 

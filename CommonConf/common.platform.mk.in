@@ -50,6 +50,7 @@ EXE_SUFFIX           := @ac_gdz_exe_suffix@
 
 
 OS_BASE              := @ac_gdz_os_base@
+OS_BUILD_BASE        := @ac_gdz_os_buildbase@
 OS_CMPLR             := @ac_gdz_compiler_base@
 OS_CMPLR_DEF         := @ac_gdz_compiler_base_def@
 
