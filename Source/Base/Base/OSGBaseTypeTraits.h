@@ -207,7 +207,7 @@ struct TypeTraits<UInt8> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-            return atoi(szString);
+            return UInt8(strtoul(szString, NULL, 0));
         }
         else
         {
@@ -278,7 +278,7 @@ struct TypeTraits<Int8> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-            return atoi(szString);
+            return Int8(strtol(szString, NULL, 0));
         }
         else
         {
@@ -349,7 +349,7 @@ struct TypeTraits<UInt16> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-            return atoi(szString);
+            return UInt16(strtoul(szString, NULL, 0));
         }
         else
         {
@@ -425,7 +425,7 @@ struct TypeTraits<Int16> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-            return atoi(szString);
+            return Int16(strtol(szString, NULL, 0));
         }
         else
         {
@@ -496,7 +496,7 @@ struct TypeTraits<UInt32> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-            return atol(szString);
+            return UInt32(strtoul(szString, NULL, 0));
         }
         else
         {
@@ -567,7 +567,7 @@ struct TypeTraits<Int32> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-            return atol(szString);
+            return Int32(strtol(szString, NULL, 0));
         }
         else
         {
@@ -649,17 +649,18 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
 
     static UInt64      getFromString(const Char8 *szString)
     {
-#if !defined(__sun) && !defined(__linux) && !defined(darwin) &&  \
-    !defined(__hpux)
         if(szString != NULL)
+        {
 #ifndef WIN32
-            return atoll(szString);
+            return UInt64(strtoull(szString, NULL, 0));
 #else
             return _atoi64(szString);
 #endif
+        }
         else
-#endif
+        {
             return getZeroElement();
+        }
     }
 
     static std::string putToString  (const UInt64 val)
@@ -728,17 +729,18 @@ struct TypeTraits<Int64> : public TypeTraitsBase
 
     static Int64       getFromString(const Char8 *szString)
     {
-#if !defined(__sun) && !defined(__linux) && !defined(darwin) &&  \
-    !defined(__hpux)
         if(szString != NULL)
+        {
 #ifndef WIN32
-            return  atoll (szString);
+            return  Int64(strtoll(szString, NULL, 0));
 #else
             return _atoi64(szString);
 #endif
+        }
         else
-#endif
+        {
             return getZeroElement();
+        }
     }
 
     static std::string putToString  (const Int64 val)
@@ -792,7 +794,7 @@ struct TypeTraits<Real32> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-            return Real32(atof(szString));
+            return Real32(strtof(szString, NULL));
         }
         else
         {
@@ -853,7 +855,7 @@ struct TypeTraits<Real64> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-            return atof(szString);
+            return Real64(strtod(szString, NULL));
         }
         else
         {
@@ -913,7 +915,7 @@ struct TypeTraits<Real128> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-            return atof(szString);
+            return Real128(strtold(szString, NULL));
         }
         else
         {
@@ -975,7 +977,7 @@ struct TypeTraits<GLenum> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-            return atol(szString);
+            return GLenum(strtoul(szString, NULL, 0));
         }
         else
         {
