@@ -71,4 +71,23 @@ inline  StatElem  *StatCollector::getElem  (StatElemDesc &desc,
   return getElem(desc.getID(),create); 
 }
 
+/*-------------------------------------------------------------------------*/
+
+// This is a little hacky, but the SGI compiler won't take it any other 
+// way.
+
+template<class T> inline 
+T *StatCollector::getElem(Int32 id, T *q)
+{
+    q = reinterpret_cast<T*>(getElem(id));
+    return q;
+}
+
+template<class T> inline 
+T *StatCollector::getElem(StatElemDesc &desc, T *q)
+{
+    q = reinterpret_cast<T*>(getElem(desc));
+    return q;
+}
+
 OSG_END_NAMESPACE

@@ -82,8 +82,14 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
 
     inline  StatElem *getElem      (Int32 ID, Bool create = true);
 
-    inline  StatElem  *getElem     (StatElemDesc &desc, Bool create = true );
+    inline  StatElem *getElem      (StatElemDesc &desc, Bool create = true );
 
+
+    template <class T> 
+    inline  T        *getElem      (Int32 id, T *q=0);
+
+    template <class T> 
+    inline  T        *getElem      (StatElemDesc &desc, T *q=0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -131,6 +137,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
 };
 
 typedef StatCollector *StatCollectorP;
+
 
 OSG_END_NAMESPACE
 

@@ -16,11 +16,11 @@ osg::StatElemDesc barDesc ("bar","bar desc", osg::StatRealElem::create);
 int main (int argc, char **argv)
 {
     osg::StatCollector collector;
-    osg::StatElem *elem;
+    // osg::StatElem *elem;
     osg::Int32 fpsID = fpsDesc.getID();
     std::string str;
 
-    elem = collector.getElem(fpsID);
+    // elem = collector.getElem(fpsID);
 
     collector.getElem<osg::StatTimeElem> (fpsDesc)->start();
     collector.getElem<osg::StatIntElem>  (fooDesc)->inc();
@@ -28,6 +28,7 @@ int main (int argc, char **argv)
 
     collector.getElem<osg::StatTimeElem> (fpsDesc)->stop();
     collector.getElem ( fpsDesc )->putToString ( str );
+
     cerr << "Time out: " << str << endl;
 
     collector.getElem ( fooDesc )->putToString ( str );
