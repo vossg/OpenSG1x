@@ -72,7 +72,8 @@ class FieldContainer
 
     enum { NextFieldId = 1 };
 
-    static const BitVector NextFieldMask   = (1 << NextFieldId);
+    static const BitVector NextFieldMask   = 
+                    (TypeTraits<BitVector>::One << NextFieldId);
     static const BitVector MTInfluenceMask = 0x00;
 
     /*---------------------------------------------------------------------*/
@@ -450,19 +451,20 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
  
 #define OSG_FC_FIRST_FIELD_IDM_DEF(OSG_CLASS, OSG_ELEMNAME)                   \
   const OSG::BitVector OSG_CLASS::OSG_ELEMNAME##Mask =                        \
-      (1 << OSG_CLASS::OSG_ELEMNAME##Id);
+      (TypeTraits<BitVector>::One << OSG_CLASS::OSG_ELEMNAME##Id);
 
 #define OSG_FC_FIRST_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                        \
                                             OSG_TMPL_PARAM,                   \
                                             OSG_ELEMNAME)                     \
   template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                         \
   const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##Mask =        \
-    (1 << OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##Id);
+    (TypeTraits<BitVector>::One <<                                \
+        OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##Id);
 
 
 #define OSG_FC_FIELD_IDM_DEF(OSG_CLASS, OSG_ELEMNAME, OSG_PREV_ELEMNAME)      \
   const OSG::BitVector OSG_CLASS::OSG_ELEMNAME##Mask =                        \
-    (1 << OSG_CLASS::OSG_ELEMNAME##Id);
+    (TypeTraits<BitVector>::One << OSG_CLASS::OSG_ELEMNAME##Id);
 
 #define OSG_FC_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                              \
                                       OSG_TMPL_PARAM,                         \
@@ -470,7 +472,8 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
                                       OSG_PREV_ELEMNAME)                      \
   template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                         \
   const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##Mask =        \
-    (1 << OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##);
+    (TypeTraits<BitVector>::One <<                                \
+        OSG_CLASS<OSG_TMPL_PARAM>::OSG_ELEMNAME##);
 
 #define OSG_FC_LAST_FIELD_IDM_DEF(OSG_CLASS, OSG_PREV_ELEMNAME)
 

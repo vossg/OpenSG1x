@@ -314,7 +314,8 @@ UInt32 DynFieldAttachment<AttachmentDescT>::addField(
         if(descP != NULL)
         {
             descP->setFieldId  (returnValue);
-            descP->setFieldMask(1 << returnValue);
+            descP->setFieldMask(
+                        TypeTraits<BitVector>::One << returnValue);
 
             fieldP = FieldFactory::the().createField(fieldDesc.getTypeId());
 
