@@ -139,8 +139,8 @@ case $system in
                 jpg_args="--with-jpg"
                 png_args=""
                 par_jobs=6
-                build_make=/sgi/bin/gmake
-                export PATH=/igd/a4/software/IRIX/bin/:$PATH
+                build_make=gmake
+                export PATH=/igd/a4/software/IRIX/bin/:/sgi/bin:$PATH
                 ;;
             
             CC64)
@@ -318,7 +318,7 @@ fi
 
 if test x$OSG_DIST_NO_REINSTALL = x
 then
-    if $build_make dbg
+    if $build_make install
     then
         echo "Install succeeded"
     else
