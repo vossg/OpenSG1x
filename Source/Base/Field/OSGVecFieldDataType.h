@@ -66,12 +66,19 @@ struct FieldTraitsRecurseVecStoreBase : public Traits
 {
     enum                     { bHasParent = 0x00 };
 
+#ifndef __hpux
     static const UInt32 uiTest = TypeTraits<ValueTypeT>::IsPOD == false;
 
     typedef typename 
     osgIF<uiTest == 1, 
           const ValueTypeT  , 
           const ValueTypeT & >::_IRet  ArgumentType;
+#else
+    typedef typename 
+    osgIF<!TypeTraits<ValueTypeT>::IsPOD, 
+          const ValueTypeT  , 
+          const ValueTypeT & >::_IRet  ArgumentType;
+#endif
 
     static UInt32 getBinSize (const ValueTypeT &)
     {
@@ -111,7 +118,7 @@ struct FieldTraitsRecurseVecStoreBase : public Traits
     }
 };
 
-#if defined(__hpux)
+#if defined(__hpuxX)
 template<class ValueTypeT> 
 const UInt32 FieldTraitsRecurseVecStoreBase<ValueTypeT>::uiTest;
 #endif
