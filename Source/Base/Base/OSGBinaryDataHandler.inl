@@ -193,6 +193,14 @@ void BinaryDataHandler::putValue(const Int64 &value)
 }
 
 inline 
+void BinaryDataHandler::putValue(const Real16 &value)
+{
+    UInt16 v = htons(value.bits());
+
+    put(&v, sizeof(Real16));
+}
+
+inline 
 void BinaryDataHandler::putValue(const Real32 &value)
 {
     UInt32 v = htonl( *((const UInt32 *)(&value)) );
@@ -377,6 +385,24 @@ void BinaryDataHandler::putValues(const Int64 *value, UInt32 size)
 }
 
 inline 
+void BinaryDataHandler::putValues(const Real16 *value, UInt32 size)
+{
+#if BYTE_ORDER == LITTLE_ENDIAN
+    if(_networkOrder == true)
+    {
+        for(UInt32 i = 0; i < size; ++i)
+        {
+            putValue(value[i]);
+        }
+    }
+    else
+#endif
+    {
+        put(value, size * sizeof(Real16));
+    }
+}
+
+inline 
 void BinaryDataHandler::putValues(const Real32 *value, UInt32 size)
 {
 #if BYTE_ORDER == LITTLE_ENDIAN
@@ -503,6 +529,17 @@ void BinaryDataHandler::getValue(Int64 &value)
     get(&value, sizeof(Int64));
 
     value = ntohl64(value);
+}
+
+inline 
+void BinaryDataHandler::getValue(Real16 &value)
+{
+    UInt16 v;
+
+    get(&v, sizeof(Real16));
+
+    v     = ntohs(v);
+    value.setBits(v);
 }
 
 inline 
@@ -678,6 +715,24 @@ void BinaryDataHandler::getValues(Int64 *value, UInt32 size)
         for(UInt32 i = 0; i < size; ++i)
         {
             value[i] = ntohl64(value[i]);
+        }
+    }
+#endif
+}
+
+inline 
+void BinaryDataHandler::getValues(Real16 *value, UInt32 size)
+{
+    get(value, size * sizeof(Real16));
+
+#if BYTE_ORDER == LITTLE_ENDIAN
+    if(_networkOrder == true)
+    {
+        UInt16 *intValue = reinterpret_cast<UInt16 *>(value);
+
+        for(UInt32 i = 0; i < size; ++i)
+        {
+            value[i].setBits(ntohs(intValue[i]));
         }
     }
 #endif

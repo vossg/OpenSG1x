@@ -806,11 +806,11 @@ struct TypeTraits<Real16> : public TypeTraitsBase
         }
     }
 
-    static std::string putToString(const Real32 val)
+    static std::string putToString(const Real16 val)
     {
         Char8 buffer[20];
 
-        sprintf(buffer, "%e", val);
+        sprintf(buffer, "%e", (Real32) val);
 
         return std::string(buffer);
     }

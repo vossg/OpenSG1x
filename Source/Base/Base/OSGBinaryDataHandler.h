@@ -108,6 +108,7 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     void putValue  (const Int16        &value              );
     void putValue  (const Int32        &value              );
     void putValue  (const Int64        &value              );
+    void putValue  (const Real16       &value              );
     void putValue  (const Real32       &value              );
     void putValue  (const Real64       &value              );
     void putValue  (const Real128      &value              );
@@ -122,6 +123,7 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     void putValues (const Int16        *value, UInt32 size);
     void putValues (const Int32        *value, UInt32 size);
     void putValues (const Int64        *value, UInt32 size);
+    void putValues (const Real16       *value, UInt32 size);
     void putValues (const Real32       *value, UInt32 size);
     void putValues (const Real64       *value, UInt32 size);
     void putValues (const Real128      *value, UInt32 size);
@@ -144,6 +146,7 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     void getValue   (Int16        &value             );
     void getValue   (Int32        &value             );
     void getValue   (Int64        &value             );
+    void getValue   (Real16       &value             );
     void getValue   (Real32       &value             );
     void getValue   (Real64       &value             );
     void getValue   (Real128      &value             );
@@ -158,6 +161,7 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     void getValues  (Int16        *value, UInt32 size);
     void getValues  (Int32        *value, UInt32 size);
     void getValues  (Int64        *value, UInt32 size);
+    void getValues  (Real16       *value, UInt32 size);
     void getValues  (Real32       *value, UInt32 size);
     void getValues  (Real64       *value, UInt32 size);
     void getValues  (Real128      *value, UInt32 size);
