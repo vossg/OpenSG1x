@@ -8,6 +8,8 @@
 	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
 >
 	<Field
 		name="active"
@@ -37,6 +39,36 @@
 		access="public"
 	>
 	The data rate to use in kbit.
+	</Field>
+	<Field
+		name="fps"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="25"
+		access="public"
+	>
+	The frame rate to use in fps.
+	</Field>
+	<Field
+		name="codecid"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	The codecid to use. See avcodec.h fore options.
+	</Field>
+	<Field
+		name="flip"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Flag to flip frames before encode them.
 	</Field>
 	<Field
 		name="autoWrite"

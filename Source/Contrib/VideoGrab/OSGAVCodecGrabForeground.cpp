@@ -98,11 +98,11 @@ void AVCodecGrabForeground::initMethod (void)
 
 void AVCodecGrabForeground::changed(BitVector whichField, UInt32 origin)
 {
-    if(whichField & KbitFieldMask)
+    if(whichField & ActiveFieldMask)
     {
-        if(encoder)
+        if(encoder && !getActive())
         {
-            encoder->setBitrate(getKbit());
+            delete encoder; encoder= 0;
         }
     }
 
@@ -152,12 +152,7 @@ void AVCodecGrabForeground::draw(DrawActionBase *action, Viewport *port)
     // do we have an encoder
     if( !encoder )
     {
-        encoder= new AVCodecEncoder(getName().c_str(), // name
-            w, h,                                      // dimension
-            getKbit(),                                 // kbit/s
-            25,                                        // frames per second
-            CODEC_ID_RAWVIDEO,                         // codecid, if not given its guessed from the filename
-            true);                                     // flip before encode? if speed is an issue -> false
+      encoder= new AVCodecEncoder(getName().c_str(), w, h, getKbit(), getFps(), getCodecid(), getFlip());
     }
 
     encoder->setRgb(i->getData());

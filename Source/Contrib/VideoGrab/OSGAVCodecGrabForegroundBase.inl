@@ -117,6 +117,27 @@ SFUInt32 *AVCodecGrabForegroundBase::getSFKbit(void)
     return &_sfKbit;
 }
 
+//! Get the AVCodecGrabForeground::_sfFps field.
+inline
+SFUInt32 *AVCodecGrabForegroundBase::getSFFps(void)
+{
+    return &_sfFps;
+}
+
+//! Get the AVCodecGrabForeground::_sfCodecid field.
+inline
+SFUInt32 *AVCodecGrabForegroundBase::getSFCodecid(void)
+{
+    return &_sfCodecid;
+}
+
+//! Get the AVCodecGrabForeground::_sfFlip field.
+inline
+SFBool *AVCodecGrabForegroundBase::getSFFlip(void)
+{
+    return &_sfFlip;
+}
+
 //! Get the AVCodecGrabForeground::_sfAutoWrite field.
 inline
 SFBool *AVCodecGrabForegroundBase::getSFAutoWrite(void)
@@ -186,6 +207,69 @@ inline
 void AVCodecGrabForegroundBase::setKbit(const UInt32 &value)
 {
     _sfKbit.setValue(value);
+}
+
+//! Get the value of the AVCodecGrabForeground::_sfFps field.
+inline
+UInt32 &AVCodecGrabForegroundBase::getFps(void)
+{
+    return _sfFps.getValue();
+}
+
+//! Get the value of the AVCodecGrabForeground::_sfFps field.
+inline
+const UInt32 &AVCodecGrabForegroundBase::getFps(void) const
+{
+    return _sfFps.getValue();
+}
+
+//! Set the value of the AVCodecGrabForeground::_sfFps field.
+inline
+void AVCodecGrabForegroundBase::setFps(const UInt32 &value)
+{
+    _sfFps.setValue(value);
+}
+
+//! Get the value of the AVCodecGrabForeground::_sfCodecid field.
+inline
+UInt32 &AVCodecGrabForegroundBase::getCodecid(void)
+{
+    return _sfCodecid.getValue();
+}
+
+//! Get the value of the AVCodecGrabForeground::_sfCodecid field.
+inline
+const UInt32 &AVCodecGrabForegroundBase::getCodecid(void) const
+{
+    return _sfCodecid.getValue();
+}
+
+//! Set the value of the AVCodecGrabForeground::_sfCodecid field.
+inline
+void AVCodecGrabForegroundBase::setCodecid(const UInt32 &value)
+{
+    _sfCodecid.setValue(value);
+}
+
+//! Get the value of the AVCodecGrabForeground::_sfFlip field.
+inline
+bool &AVCodecGrabForegroundBase::getFlip(void)
+{
+    return _sfFlip.getValue();
+}
+
+//! Get the value of the AVCodecGrabForeground::_sfFlip field.
+inline
+const bool &AVCodecGrabForegroundBase::getFlip(void) const
+{
+    return _sfFlip.getValue();
+}
+
+//! Set the value of the AVCodecGrabForeground::_sfFlip field.
+inline
+void AVCodecGrabForegroundBase::setFlip(const bool &value)
+{
+    _sfFlip.setValue(value);
 }
 
 //! Get the value of the AVCodecGrabForeground::_sfAutoWrite field.

@@ -73,6 +73,15 @@ const OSG::BitVector  AVCodecGrabForegroundBase::NameFieldMask =
 const OSG::BitVector  AVCodecGrabForegroundBase::KbitFieldMask = 
     (TypeTraits<BitVector>::One << AVCodecGrabForegroundBase::KbitFieldId);
 
+const OSG::BitVector  AVCodecGrabForegroundBase::FpsFieldMask = 
+    (TypeTraits<BitVector>::One << AVCodecGrabForegroundBase::FpsFieldId);
+
+const OSG::BitVector  AVCodecGrabForegroundBase::CodecidFieldMask = 
+    (TypeTraits<BitVector>::One << AVCodecGrabForegroundBase::CodecidFieldId);
+
+const OSG::BitVector  AVCodecGrabForegroundBase::FlipFieldMask = 
+    (TypeTraits<BitVector>::One << AVCodecGrabForegroundBase::FlipFieldId);
+
 const OSG::BitVector  AVCodecGrabForegroundBase::AutoWriteFieldMask = 
     (TypeTraits<BitVector>::One << AVCodecGrabForegroundBase::AutoWriteFieldId);
 
@@ -91,6 +100,15 @@ const OSG::BitVector AVCodecGrabForegroundBase::MTInfluenceMask =
 */
 /*! \var UInt32          AVCodecGrabForegroundBase::_sfKbit
     The data rate to use in kbit.
+*/
+/*! \var UInt32          AVCodecGrabForegroundBase::_sfFps
+    The frame rate to use in fps.
+*/
+/*! \var UInt32          AVCodecGrabForegroundBase::_sfCodecid
+    The codecid to use. See avcodec.h fore options.
+*/
+/*! \var bool            AVCodecGrabForegroundBase::_sfFlip
+    Flag to flip frames before encode them.
 */
 /*! \var bool            AVCodecGrabForegroundBase::_sfAutoWrite
     Flag to start/stop automatic writing after each grab.
@@ -115,6 +133,21 @@ FieldDescription *AVCodecGrabForegroundBase::_desc[] =
                      KbitFieldId, KbitFieldMask,
                      false,
                      (FieldAccessMethod) &AVCodecGrabForegroundBase::getSFKbit),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "fps", 
+                     FpsFieldId, FpsFieldMask,
+                     false,
+                     (FieldAccessMethod) &AVCodecGrabForegroundBase::getSFFps),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "codecid", 
+                     CodecidFieldId, CodecidFieldMask,
+                     false,
+                     (FieldAccessMethod) &AVCodecGrabForegroundBase::getSFCodecid),
+    new FieldDescription(SFBool::getClassType(), 
+                     "flip", 
+                     FlipFieldId, FlipFieldMask,
+                     false,
+                     (FieldAccessMethod) &AVCodecGrabForegroundBase::getSFFlip),
     new FieldDescription(SFBool::getClassType(), 
                      "autoWrite", 
                      AutoWriteFieldId, AutoWriteFieldMask,
@@ -178,6 +211,9 @@ AVCodecGrabForegroundBase::AVCodecGrabForegroundBase(void) :
     _sfActive                 (bool(false)), 
     _sfName                   (), 
     _sfKbit                   (UInt32(1400)), 
+    _sfFps                    (UInt32(25)), 
+    _sfCodecid                (UInt32(0)), 
+    _sfFlip                   (bool(true)), 
     _sfAutoWrite              (bool(true)), 
     Inherited() 
 {
@@ -191,6 +227,9 @@ AVCodecGrabForegroundBase::AVCodecGrabForegroundBase(const AVCodecGrabForeground
     _sfActive                 (source._sfActive                 ), 
     _sfName                   (source._sfName                   ), 
     _sfKbit                   (source._sfKbit                   ), 
+    _sfFps                    (source._sfFps                    ), 
+    _sfCodecid                (source._sfCodecid                ), 
+    _sfFlip                   (source._sfFlip                   ), 
     _sfAutoWrite              (source._sfAutoWrite              ), 
     Inherited                 (source)
 {
@@ -223,6 +262,21 @@ UInt32 AVCodecGrabForegroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfKbit.getBinSize();
     }
 
+    if(FieldBits::NoField != (FpsFieldMask & whichField))
+    {
+        returnValue += _sfFps.getBinSize();
+    }
+
+    if(FieldBits::NoField != (CodecidFieldMask & whichField))
+    {
+        returnValue += _sfCodecid.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FlipFieldMask & whichField))
+    {
+        returnValue += _sfFlip.getBinSize();
+    }
+
     if(FieldBits::NoField != (AutoWriteFieldMask & whichField))
     {
         returnValue += _sfAutoWrite.getBinSize();
@@ -250,6 +304,21 @@ void AVCodecGrabForegroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (KbitFieldMask & whichField))
     {
         _sfKbit.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FpsFieldMask & whichField))
+    {
+        _sfFps.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CodecidFieldMask & whichField))
+    {
+        _sfCodecid.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FlipFieldMask & whichField))
+    {
+        _sfFlip.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (AutoWriteFieldMask & whichField))
@@ -280,6 +349,21 @@ void AVCodecGrabForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfKbit.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (FpsFieldMask & whichField))
+    {
+        _sfFps.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CodecidFieldMask & whichField))
+    {
+        _sfCodecid.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FlipFieldMask & whichField))
+    {
+        _sfFlip.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (AutoWriteFieldMask & whichField))
     {
         _sfAutoWrite.copyFromBin(pMem);
@@ -302,6 +386,15 @@ void AVCodecGrabForegroundBase::executeSyncImpl(      AVCodecGrabForegroundBase 
 
     if(FieldBits::NoField != (KbitFieldMask & whichField))
         _sfKbit.syncWith(pOther->_sfKbit);
+
+    if(FieldBits::NoField != (FpsFieldMask & whichField))
+        _sfFps.syncWith(pOther->_sfFps);
+
+    if(FieldBits::NoField != (CodecidFieldMask & whichField))
+        _sfCodecid.syncWith(pOther->_sfCodecid);
+
+    if(FieldBits::NoField != (FlipFieldMask & whichField))
+        _sfFlip.syncWith(pOther->_sfFlip);
 
     if(FieldBits::NoField != (AutoWriteFieldMask & whichField))
         _sfAutoWrite.syncWith(pOther->_sfAutoWrite);

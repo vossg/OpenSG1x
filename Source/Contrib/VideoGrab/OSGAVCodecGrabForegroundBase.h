@@ -68,6 +68,9 @@
 #include <OSGBoolFields.h> // Active type
 #include <OSGStringFields.h> // Name type
 #include <OSGUInt32Fields.h> // Kbit type
+#include <OSGUInt32Fields.h> // Fps type
+#include <OSGUInt32Fields.h> // Codecid type
+#include <OSGBoolFields.h> // Flip type
 #include <OSGBoolFields.h> // AutoWrite type
 
 #include <OSGAVCodecGrabForegroundFields.h>
@@ -93,13 +96,19 @@ class OSG_CONTRIBLIB_DLLMAPPING AVCodecGrabForegroundBase : public GrabForegroun
         ActiveFieldId    = Inherited::NextFieldId,
         NameFieldId      = ActiveFieldId    + 1,
         KbitFieldId      = NameFieldId      + 1,
-        AutoWriteFieldId = KbitFieldId      + 1,
+        FpsFieldId       = KbitFieldId      + 1,
+        CodecidFieldId   = FpsFieldId       + 1,
+        FlipFieldId      = CodecidFieldId   + 1,
+        AutoWriteFieldId = FlipFieldId      + 1,
         NextFieldId      = AutoWriteFieldId + 1
     };
 
     static const OSG::BitVector ActiveFieldMask;
     static const OSG::BitVector NameFieldMask;
     static const OSG::BitVector KbitFieldMask;
+    static const OSG::BitVector FpsFieldMask;
+    static const OSG::BitVector CodecidFieldMask;
+    static const OSG::BitVector FlipFieldMask;
     static const OSG::BitVector AutoWriteFieldMask;
 
 
@@ -130,6 +139,9 @@ class OSG_CONTRIBLIB_DLLMAPPING AVCodecGrabForegroundBase : public GrabForegroun
            SFBool              *getSFActive         (void);
            SFString            *getSFName           (void);
            SFUInt32            *getSFKbit           (void);
+           SFUInt32            *getSFFps            (void);
+           SFUInt32            *getSFCodecid        (void);
+           SFBool              *getSFFlip           (void);
            SFBool              *getSFAutoWrite      (void);
 
            bool                &getActive         (void);
@@ -138,6 +150,12 @@ class OSG_CONTRIBLIB_DLLMAPPING AVCodecGrabForegroundBase : public GrabForegroun
      const std::string         &getName           (void) const;
            UInt32              &getKbit           (void);
      const UInt32              &getKbit           (void) const;
+           UInt32              &getFps            (void);
+     const UInt32              &getFps            (void) const;
+           UInt32              &getCodecid        (void);
+     const UInt32              &getCodecid        (void) const;
+           bool                &getFlip           (void);
+     const bool                &getFlip           (void) const;
            bool                &getAutoWrite      (void);
      const bool                &getAutoWrite      (void) const;
 
@@ -149,6 +167,9 @@ class OSG_CONTRIBLIB_DLLMAPPING AVCodecGrabForegroundBase : public GrabForegroun
      void setActive         ( const bool &value );
      void setName           ( const std::string &value );
      void setKbit           ( const UInt32 &value );
+     void setFps            ( const UInt32 &value );
+     void setCodecid        ( const UInt32 &value );
+     void setFlip           ( const bool &value );
      void setAutoWrite      ( const bool &value );
 
     /*! \}                                                                 */
@@ -198,6 +219,9 @@ class OSG_CONTRIBLIB_DLLMAPPING AVCodecGrabForegroundBase : public GrabForegroun
     SFBool              _sfActive;
     SFString            _sfName;
     SFUInt32            _sfKbit;
+    SFUInt32            _sfFps;
+    SFUInt32            _sfCodecid;
+    SFBool              _sfFlip;
     SFBool              _sfAutoWrite;
 
     /*! \}                                                                 */

@@ -106,6 +106,7 @@ int main(int argc, char **argv)
     beginEditCP(avfground);
     avfground->setName(filename.c_str());
     avfground->setKbit(1400);
+    avfground->setCodecid(38); // FFV1
     endEditCP(avfground);
 
     beginEditCP(gwin->getPort(0));
@@ -122,8 +123,7 @@ int main(int argc, char **argv)
     {
         // GLUT main loop
         glutMainLoop();
-    }
-    
+    }   
     catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
     {
         SFATAL << e.what() << std::endl;
