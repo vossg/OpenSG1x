@@ -122,7 +122,7 @@ typedef ChangeListFactoryMixin    <VOCS                 > VOCL;
 
 #else
 
-#ifndef __hpux
+#if !defined(__hpux) && !defined(OSG_LINUX_ICC)
 extern template class OSG_VRML_DLLMAPPING 
     ContainerFactoryMixin<VRMLObjectFactoryDesc>;
 

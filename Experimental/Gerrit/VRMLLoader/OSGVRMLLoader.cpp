@@ -206,6 +206,9 @@ void VRMLLoader::initFieldTypeMapper(void)
     setIntExtMapping(SFVec3f::getClassType().getId(),
                      ScanParseSkel::OSGsfVec3f);
 
+    setIntExtMapping(SFVec4f::getClassType().getId(),
+                     ScanParseSkel::OSGsfVec4f);
+
     setIntExtMapping(SFVRMLNode::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
@@ -240,6 +243,9 @@ void VRMLLoader::initFieldTypeMapper(void)
 
     setIntExtMapping(MFVec3f::getClassType().getId(),
                      ScanParseSkel::OSGmfVec3f);
+
+    setIntExtMapping(MFVec4f::getClassType().getId(),
+                     ScanParseSkel::OSGmfVec4f);
 
     setIntExtMapping(MFVRMLNode::getClassType().getId(),
                      ScanParseSkel::OSGmfNode);
@@ -320,7 +326,8 @@ VRMLLoader::VRMLLoader(void) :
 
     _pNameNodeMap     (NULL)
 {
-    setReferenceHeader("#VRML V2.0");
+    Self::setReferenceHeader("#VRML V2.0");
+    
     initFieldTypeMapper();
 }
 

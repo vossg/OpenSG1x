@@ -88,6 +88,8 @@ class OSG_VRML_DLLMAPPING VRMLLoader :
 
     typedef ScanParseFieldTypeMapper<ScanParseSkel> Inherited;
 
+    typedef VRMLLoader                              Self;
+
   public:
 
     //-----------------------------------------------------------------------

@@ -128,6 +128,30 @@ DepClean: $(SUB_LIBTARGETS)
 distclean: SUB_TARGET := distclean
 distclean: $(SUB_LIBTARGETS)
 
+testsclean: SUB_TARGET := clean
+testsclean: SUB_JOB := build
+testsclean: $(SUB_TESTTARGETS)
+
+testsoptclean: SUB_TARGET := optclean
+testsoptclean: SUB_JOB := build
+testsoptclean: $(SUB_TESTTARGETS)
+
+testsdbgclean: SUB_TARGET := dbgclean
+testsdbgclean: SUB_JOB := build
+testsdbgclean: $(SUB_TESTTARGETS)
+
+testsClean: SUB_TARGET := Clean
+testsClean: SUB_JOB := build
+testsClean: $(SUB_TESTTARGETS)
+
+testsoptClean: SUB_TARGET := optClean
+testsoptClean: SUB_JOB := build
+testsoptClean: $(SUB_TESTTARGETS)
+
+testsdbgClean: SUB_TARGET := dbgClean
+testsdbgClean: SUB_JOB := build
+testsdbgClean: $(SUB_TESTTARGETS)
+
 #########################################################################
 # depend
 #########################################################################
