@@ -418,10 +418,6 @@ void VRMLNodeDesc::getFieldAndDesc(
         pTmpFC = pNodeCore->findAttachment(
             GenericAtt::getClassType().getGroupId());
 
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "Got this from nodecore attachment : " 
-                << pField << endl;
-
         if(pTmpFC != NullFC)
         {
             pField = pTmpFC->getField(szFieldname);
@@ -431,6 +427,11 @@ void VRMLNodeDesc::getFieldAndDesc(
         {
             pDesc = pTmpFC->getType().findFieldDescription(szFieldname);
         }        
+
+        indentLog(getIndent(), PNOTICE);
+        PNOTICE << "Got this from nodecore attachment : " 
+                << pField << endl;
+
     }
 
     decIndent();
@@ -4102,22 +4103,7 @@ char VRMLViewpointDesc::cvsid[] = "@(#)$Id: $";
  */
 
 VRMLViewpointDesc::VRMLViewpointDesc(void) :
-    Inherited(),
-
-    _defaultFieldOfView(),
-    _defaultJump		(),
-    _defaultOrientation(),
-    _defaultPosition	(),
-
-    _fieldOfView(),
-    _jump		 (),
-    _orientation(),
-    _position	 (),
-
-    
-    _defBeaconCore                  (),
-    _beaconCore                 (),
-	_viewpointAttachment		()
+    Inherited()
 {
 }
 
@@ -4134,33 +4120,43 @@ void VRMLViewpointDesc::init(const Char8 *szName)
 {
     fprintf(stderr, "Viewpoint init : %s \n", szName);
 
-	_defBeaconCore 		= VRMLTransform::create();
-	_defViewAttachment 	= ViewpointAttachment::create();	
+    _pNodeProto     = Node::create();
+    _pNodeCoreProto = VRMLTransform::create();
+    _pGenAtt        = GenericAtt::create();    
+
+    FieldDescription *pDesc = 
+        new FieldDescription(SFBool::getClassType(), 
+                             "isViewpoint", 
+                             0, 0,
+                             false,
+                             (FieldIndexAccessMethod) 
+                             &GenericAtt::getDynamicField);
+        
+
+    _pGenAtt->addField(*pDesc);
 }
 
 void VRMLViewpointDesc::reset(void)
 {
  //   _pCamera = PerspectiveCamera::NullFC;
-    	
-    _beaconNode = NullNode;
-    _beaconCore = VRMLTransformPtr::NullPtr;
-	_viewpointAttachment = ViewpointAttachmentPtr::NullPtr;
-
-    _defaultFieldOfView.setValue(_fieldOfView);
-    _defaultJump       .setValue(_jump);
-    _defaultOrientation.setValue(_orientation);
-    _defaultPosition   .setValue(_position);
+        
+//    _beaconNode = NullNode;
+///    _beaconCore = VRMLTransformPtr::NullPtr;
+//    _viewpointAttachment = ViewpointAttachmentPtr::NullPtr;
+//
+//    _defaultOrientation.setValue(_orientation);
+//    _defaultPosition   .setValue(_position);
 }
 
 VRMLTransformPtr VRMLViewpointDesc::getDefaultBeacon(void)
 {
-    return _defBeaconCore;
+    return VRMLTransformPtr::NullPtr;
 }
 
 /*
 FieldContainerPtr VRMLViewpointDesc::getSaveFieldContainer(void)
 {
-	return getDefaultBeacon();
+    return getDefaultBeacon();
 }
 */
 
@@ -4170,52 +4166,37 @@ Bool VRMLViewpointDesc::prototypeAddField(const Char8  *szFieldType,
                                          const UInt32  uiFieldTypeId,
                                          const Char8  *szFieldname)
 {
-    Bool bFound;
+    Bool bFound = false;
 
     _pCurrField = NULL;
 
-    if(stringcasecmp("fieldOfView", szFieldname) == 0)
+    if(stringcasecmp("orientation", szFieldname) == 0)
     {
-        _pCurrField = &_defaultFieldOfView;
-
-        bFound = true;
-    }
-    else if(stringcasecmp("jump", szFieldname) == 0)
-    {
-        _pCurrField = &_defaultJump;
-
-        bFound = true;
-    }
-    else if(stringcasecmp("orientation", szFieldname) == 0)
-    {
-        _pCurrField = &_defaultOrientation;
+        _pCurrField = _pNodeCoreProto->getField("rotation");
 
         bFound = true;
     }
     else if(stringcasecmp("position", szFieldname) == 0)
     {
-        _pCurrField = &_defaultPosition;
+        _pCurrField = _pNodeCoreProto->getField("translation");
 
         bFound = true;
     }
- 
+
     if(bFound == true)
     {
-        fprintf(stderr, "Add ViewpointPart : %s\n", szFieldname);
         return true;
     }
     else
     {
-        return false;
+        return Inherited::prototypeAddField(szFieldType,
+                                            uiFieldTypeId,
+                                            szFieldname); 
     }
 }
 
 void VRMLViewpointDesc::endProtoInterface(void)
 {
-//    _defBeaconCore = VRMLTransform::create();
-
-    // use beacon to set position
-    //_viewpointAttachment->setFieldOfView     (_defaultFieldOfView.getValue() );
 }
 
 void VRMLViewpointDesc::getFieldAndDesc(      
@@ -4224,34 +4205,64 @@ void VRMLViewpointDesc::getFieldAndDesc(
           Field            *&pField,
     const FieldDescription *&pDesc)
 {
-	cerr << "VRMLViewpointDesc::getFieldAndDesc()\tszFieldname=" << szFieldname
-		 << endl;
+    indentLog(getIndent(), PNOTICE);
+    PNOTICE << "ViewpointDesc::getFieldAndDesc : request " 
+            << szFieldname 
+            << endl;
 
-    if(stringcasecmp("fieldOfView", szFieldname) == 0)
+    if(szFieldname == NULL)
+        return;
+
+    if(pFC == NullFC)
+        return;
+
+    NodePtr pNode = NodePtr::dcast(pFC);
+
+    if(pNode == NullFC)
     {
-		pField = _viewpointAttachment->getField(szFieldname);
-//        pField = &_fieldOfView;
+        PWARNING << "ViewpointDesc::getFieldAndDesc : No Node" << endl;
+        return;
     }
-    else if(stringcasecmp("jump", szFieldname) == 0)
+
+    NodeCorePtr pNodeCore = pNode->getCore();
+
+    VRMLTransformPtr pTransform = VRMLTransformPtr::dcast(pNodeCore);
+
+    if(pTransform == NullFC)
     {
-        pField = &_jump;
+        PWARNING << "ViewpointDesc::getFieldAndDesc : No Geo" << endl;
+        return;
     }
-    else if(stringcasecmp("orientation", szFieldname) == 0)
+
+    if(stringcasecmp("orientation", szFieldname) == 0)
     {
-        //pField = &_orientation;
-		pField = _beaconCore->getSFRotation();
+        indentLog(getIndent(), PNOTICE);
+        PNOTICE << "ViewpointDesc::getFieldAndDesc : internal " 
+                << szFieldname << endl;
+
+        pField = pTransform->getField("rotation");
+        
+        if(pField != NULL)
+            pDesc = pTransform->getType().findFieldDescription("rotation");
     }
     else if(stringcasecmp("position", szFieldname) == 0)
     {
-        //pField = &_position;
-		szFieldname = "translation";
-		pField = _beaconCore->getSFTranslation();
+        indentLog(getIndent(), PNOTICE);
+        PNOTICE << "ViewpointDesc::getFieldAndDesc : internal " 
+                << szFieldname << endl;
+
+        pField = pTransform->getField("translation");
+        
+        if(pField != NULL)
+            pDesc = pTransform->getType().findFieldDescription("translation");
     }
- 
-	if(pField != NULL)
-        pDesc = pFC->getType().findFieldDescription(szFieldname);
- 	else
-    	pDesc = NULL;
+    else
+    {
+        VRMLNodeDesc::getFieldAndDesc(pTransform, 
+                                      szFieldname, 
+                                      pField,
+                                      pDesc);
+    }
 }
 
 /*-------------------------- your_category---------------------------------*/
@@ -4261,28 +4272,43 @@ FieldContainerPtr VRMLViewpointDesc::beginNode(
     const Char8       *,
     FieldContainerPtr  pCurrentFC)
 {
-	cerr << "Viewpoint beginNode" << endl;
-	_beaconNode = Node::create();
-    _beaconCore = VRMLTransform::create();
-	
-	_beaconNode->setCore( _beaconCore );
-	_viewpointAttachment = ViewpointAttachment::create();	
+    FieldContainerPtr pFC         = NullFC;
+    NodePtr           pNode       = NullNode;
+    NodeCorePtr       pNodeCore   = NullNodeCore;
+    GenericAttPtr     pAtt        = GenericAttPtr::NullPtr;
 
-	_beaconNode->addAttachment( _viewpointAttachment );  
+    if(_pNodeProto != NullNode)
+    {
+        FieldContainerPtr pAttClone = _pGenAtt->clone();
+        
+        pAtt = GenericAttPtr::dcast(pAttClone);
 
-    return _beaconNode;
+        pFC = _pNodeProto->shallowCopy();
+
+        pNode = NodePtr::dcast(pFC);
+
+        pFC = _pNodeCoreProto->shallowCopy();
+
+        pNodeCore = NodeCorePtr::dcast(pFC);
+       
+        pNode    ->setCore      (pNodeCore);
+        pNodeCore->addAttachment(pAtt);
+    }
+
+    indentLog(getIndent(), PNOTICE);
+    PNOTICE << "Begin Viewpoint " << &(*pNode) << endl;
+
+    incIndent();
+    
+    return pNode;
 }
 
-void VRMLViewpointDesc::endNode(FieldContainerPtr)
+void VRMLViewpointDesc::endNode(FieldContainerPtr pFC)
 { 
-	/*   
-    if(_beaconCore != NullFC)
-    {
-		_beaconNode->addAttachment( _viewpointAttachment );  
-	}
-	*/
-	
-	cerr << "Viewpoint end node.\n";
+    decIndent();
+
+    indentLog(getIndent(), PNOTICE);
+    PNOTICE << "End Viewpoint " << &(*pFC) << endl;
 }
 
 /*-------------------------- assignment -----------------------------------*/

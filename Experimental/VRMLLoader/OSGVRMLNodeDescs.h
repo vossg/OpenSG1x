@@ -72,7 +72,6 @@
 #include <OSGSFImageTypes.h>
 #include <OSGSFVecTypes.h>
 #include <OSGVRMLTransform.h>
-#include <OSGViewpointAttachment.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -2226,29 +2225,6 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLViewpointDesc : public VRMLNodeDesc
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-
-    SFReal32          _defaultFieldOfView;
-    SFBool         	  _defaultJump;
-    SFQuaternion      _defaultOrientation;
-    SFVec3f           _defaultPosition;
-
-    SFReal32          _fieldOfView;
-    SFBool         	  _jump;
-    SFQuaternion      _orientation;
-    SFVec3f           _position;
-
-	//NodePtr			  _beaconNode;
-	NodePtr			  _beaconNode;
-	VRMLTransformPtr  _defBeaconCore;
-	VRMLTransformPtr  _beaconCore;
-	
-	ViewpointAttachmentPtr	_viewpointAttachment;
-	ViewpointAttachmentPtr	_defViewAttachment;
-	
-	/*
-    PerspectiveCameraPtr _pDefCamera;
-    PerspectiveCameraPtr _pCamera;
-	*/
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

@@ -1,4 +1,4 @@
-#include <OpenSG/OSGConfig.h>
+#include <OSGConfig.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -42,12 +42,12 @@
 #include <OSGCamera.h>
 #include <OSGPerspectiveCamera.h>
 #include <OSGSolidBackground.h>
+#include <OSGBaseFunctions.h>
 
 #include <OSGTrackball.h>
 
 #include <OSGVRMLFile.h>
 
-#include "OSGViewpointAttachment.h"
 #include <OSGVRMLTransform.h>
 #include <OSGMField.h>
 
@@ -136,62 +136,78 @@ OSG::Real32	fps( OSG::Real32 frameTime )
 
 /*-------------------------------------------------------------------------*/
 
-void selectCamera( uint cameraNr )
+void selectCamera(uint cameraNr)
 {
-	OSG::ViewpointAttachmentPtr foundAttach = 
-				OSG::ViewpointAttachmentPtr::NullPtr;
-	OSG::NodePtr			node = OSG::NullNode;
-	OSG::VRMLTransformPtr	vrmlTrans;
-	OSG::Real32				fieldOfView;
-	OSG::NamePtr			namePtr;
+    OSG::AttachmentPtr     foundAttach = OSG::AttachmentPtr::NullPtr;
+    OSG::NodePtr           node        = OSG::NullNode;
+    OSG::VRMLTransformPtr  vrmlTrans;
+    OSG::SFReal32         *fieldOfViewField;
+    OSG::Real32            fieldOfView = 60.;
+    OSG::NamePtr           namePtr;
 
-	if( cameraNr>cameraBeacons.size() )
-	{
-		cameraNr=cameraBeacons.size();
-		cerr << "Only " << cameraBeacons.size() << " cameras available.\n"; 
-	}
+    if(cameraNr>cameraBeacons.size())
+    {
+        cameraNr=cameraBeacons.size();
+        cerr << "Only " << cameraBeacons.size() << " cameras available.\n"; 
+    }
 
-	node = cameraBeacons[cameraNr-1];
-	vrmlTrans = OSG::VRMLTransformPtr::dcast( node->getCore() );
+    node = cameraBeacons[cameraNr-1];
+    vrmlTrans = OSG::VRMLTransformPtr::dcast( node->getCore() );
 
-	// --- find the viewpoint attachment
-	foundAttach =
-	OSG::ViewpointAttachmentPtr::dcast( node->findAttachment
-			(OSG::ViewpointAttachment::getClassType().getGroupId()) );						
+    // --- find the viewpoint attachment
+    foundAttach = vrmlTrans->findAttachment(
+        OSG::GenericAtt::getClassType().getGroupId());
 
-	if( foundAttach == OSG::ViewpointAttachmentPtr::NullPtr )
-		fieldOfView = 60.0;
-	else
-		fieldOfView = foundAttach->getFieldOfView();
-	
-	
-	// --- find the name attachment
-	namePtr = OSG::NamePtr::dcast( 
-		node->findAttachment(OSG::Name::getClassType().getGroupId()) );
-	
-	cerr << "Activating viewpoint: " << namePtr->getFieldPtr()->getValue() << endl
-		<< "Position:    " << vrmlTrans->getSFTranslation()->getValue() << endl
-		<< "Orientation: " << vrmlTrans->getSFRotation()->getValue() << endl
-		<< "Fov:         " << fieldOfView << endl << endl;
+      
+    if(foundAttach != OSG::NullFC)
+    {
+        OSG::Field *pField = foundAttach->getField("fieldOfView");
 
-	cam_trans  = vrmlTrans;	
-	startPoint = tball.getPosition();
-	endPoint   = vrmlTrans->getSFTranslation()->getValue();
-	startQuat  = tball.getRotation();
-	endQuat    = vrmlTrans->getSFRotation()->getValue();
-	startFov   = cam->getFov();
-	endFov     = fieldOfView;
-	doAnim = true;
-	tball.setStartPosition( endPoint, true );
-	tball.setStartRotation( endQuat, true );
+        fieldOfViewField = static_cast<OSG::SFReal32 *>(pField);
 
-	tball.reset();		
+        if(fieldOfViewField != NULL)
+        {
+            fieldOfView = OSG::osgrad2degree(fieldOfViewField->getValue());
+        }
+        else
+        {
+            fieldOfView = 60.f;
+        }
+    }
 
-	// --- set the new beacon as the cams core		
-	OSG::beginEditCP(cam);						
-		cam->setFov( fieldOfView );
-		cam->setBeacon( node );						
-	OSG::endEditCP(cam);		
+    // --- find the name attachment
+    namePtr = OSG::NamePtr::dcast( 
+        node->findAttachment(OSG::Name::getClassType().getGroupId()) );
+    
+    cerr << "Activating viewpoint: " << namePtr->getFieldPtr()->getValue() << endl
+         << "Position:    " 
+         << vrmlTrans->getSFTranslation()->getValue() 
+         << endl
+         << "Orientation: " 
+         << vrmlTrans->getSFRotation()->getValue() 
+         << endl
+         << "Fov:         " 
+         << fieldOfView
+         << endl << endl;
+
+    cam_trans  = vrmlTrans; 
+    startPoint = tball.getPosition();
+    endPoint   = vrmlTrans->getSFTranslation()->getValue();
+    startQuat  = tball.getRotation();
+    endQuat    = vrmlTrans->getSFRotation()->getValue();
+    startFov   = cam->getFov();
+    endFov     = fieldOfView;
+    doAnim = true;
+    tball.setStartPosition( endPoint, true );
+    tball.setStartRotation( endQuat, true );
+
+    tball.reset();      
+
+    // --- set the new beacon as the cams core      
+    OSG::beginEditCP(cam);                      
+    cam->setFov(fieldOfView);
+    cam->setBeacon( node );                     
+    OSG::endEditCP(cam);        
 }
 
 /*-------------------------------------------------------------------------*/
@@ -368,31 +384,37 @@ vis(int visible)
 	
 OSG::Action::ResultE viewpointCheck( OSG::CNodePtr &, OSG::Action * action )
 {
-	OSG::NodePtr			node 	  = action->getActNode();
-	OSG::VRMLTransformPtr   vrmlTrans = OSG::VRMLTransformPtr::NullPtr;				
-	OSG::ViewpointAttachmentPtr foundAttach = 
-				OSG::ViewpointAttachmentPtr::NullPtr;
+	OSG::NodePtr			node 	    = action->getActNode();
+	OSG::VRMLTransformPtr   vrmlTrans   = OSG::VRMLTransformPtr::NullPtr;
+	OSG::AttachmentPtr      foundAttach = OSG::AttachmentPtr::NullPtr;
 					
-	vrmlTrans = OSG::VRMLTransformPtr::dcast( node->getCore() );
+
+	vrmlTrans = OSG::VRMLTransformPtr::dcast(node->getCore());
 		
-	if( !vrmlTrans )
+	if(!vrmlTrans)
 	{
 		cerr << "ERROR! The Node " << node << " does not have a core.\n";
 	}
 	else
 	{
 		// test for a viewpoint attachment
-		foundAttach =
-			OSG::ViewpointAttachmentPtr::dcast( node->findAttachment
-					(OSG::ViewpointAttachment::getClassType().getGroupId()));
+		foundAttach = vrmlTrans->findAttachment(
+            OSG::GenericAtt::getClassType().getGroupId());
 
 		// if one is present -> the VRMLTransformation is a camera beacon
-		if( foundAttach != OSG::ViewpointAttachmentPtr::NullPtr )
+		if(foundAttach != OSG::GenericAttPtr::NullPtr)
 		{
-			cameraBeacons.push_back( node );
+            OSG::Field *pField = foundAttach->getField("isViewpoint");
+
+            if(pField != NULL)
+            {
+                cameraBeacons.push_back(node);
+            }
 		}	
 		else
+        {
 			cerr << "viewpoint has NO Viewpoint attachment.\n";
+        }
 	}
 	
    return OSG::Action::Continue;
@@ -510,7 +532,7 @@ void key(unsigned char key, int x, int y)
 
 void specialKey(int key, int x, int y)
 {
-	int cameraNr;
+//	int cameraNr;
 
 	switch ( key )
 	{				
@@ -746,13 +768,13 @@ int main (int argc, char **argv)
 		stdCamNode 	= OSG::Node::create();		
 		stdCamBeacon= OSG::VRMLTransform::create();
 		
-		beginEditCP( stdCamNode );
+		OSG::beginEditCP( stdCamNode );
 			stdCamNode->setCore( stdCamBeacon );
-		endEditCP( stdCamNode );
+		OSG::endEditCP( stdCamNode );
 		
-		beginEditCP( stdCamBeacon );
+		OSG::beginEditCP( stdCamBeacon );
 			stdCamBeacon->setTranslation( pos );
-		endEditCP( stdCamBeacon );
+		OSG::endEditCP( stdCamBeacon );
 		
 		cameraBeacons.push_back( stdCamNode );
 	}
