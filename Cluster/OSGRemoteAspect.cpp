@@ -230,8 +230,9 @@ void RemoteAspect::receiveSync(Connection &connection)
                 receivedFCI=_receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
-                    SWARNING << "Can't change unknown FC:" << remoteId 
-                             << endl; 
+                    SFATAL << "Can't change unknown FC:" << remoteId 
+                           << endl; 
+                    throw RemoteSyncError();
                 }
                 else
                 {
@@ -262,8 +263,7 @@ void RemoteAspect::receiveSync(Connection &connection)
                 receivedFCI=_receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
-                    SWARNING << "Can't addref unknown FC:" << remoteId 
-                             << endl; 
+                    FDEBUG (( "Can't addref unknown FC:%d\n", remoteId )); 
                 }
                 else
                 {
@@ -281,8 +281,7 @@ void RemoteAspect::receiveSync(Connection &connection)
                 receivedFCI=_receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
-                    SWARNING << "Can't subref unknown FC:" << remoteId 
-                             << endl; 
+                    FDEBUG (( "Can't subref unknown FC:%d\n", remoteId )); 
                 }
                 else
                 {
@@ -297,6 +296,7 @@ void RemoteAspect::receiveSync(Connection &connection)
             default:
             {
                 SFATAL << "Unknown tag:" << (int)cmd << endl;
+                throw RemoteSyncError();
             }
         }
     } while(!finish);

@@ -67,7 +67,7 @@ public:
     }
 };
 
-/** \class ClusterException
+/** \class ConnectionClosed
  *  \ingroup Cluster
  *  \brief Indicate close of connecitons
  **/
@@ -78,6 +78,20 @@ public:
     ConnectionClosed():ClusterException()
     {
         _what += "Connection closed by endpoint. ";
+    }
+};
+
+/** \class RemoteSyncError
+ *  \ingroup Cluster
+ *  \brief Indicate error in sync data stream
+ **/
+
+class OSG_SYSTEMLIB_DLLMAPPING RemoteSyncError : public ClusterException
+{
+public:
+    RemoteSyncError():ClusterException()
+    {
+        _what += "Error in synchronisation data stream. ";
     }
 };
 

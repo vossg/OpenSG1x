@@ -195,8 +195,10 @@ void ClusterServer::start()
         _connection->getValue(forceNetworkOrder);
         _connection->setNetworkOrder(forceNetworkOrder);
         _serviceAvailable=false;
+        SINFO << "Connection accepted " << _address << endl;
         Thread::join(serviceThread);
-    } catch(...)
+    } 
+    catch(...)
     {
         _serviceAvailable=false;
         throw;
@@ -319,6 +321,7 @@ void *ClusterServer::serviceProc(void *arg)
     SocketAddress    addr;
     string           service;
     string           connectionType;
+    int              readable;
 
     SINFO << "Waiting for request of " << server->_serviceName << " "
           << server->_connection->getType()->getName() << endl;
@@ -328,28 +331,32 @@ void *ClusterServer::serviceProc(void *arg)
         serviceSock.setReusePort(true);
         serviceSock.bind(SocketAddress(SocketAddress::ANY,
                                        server->_servicePort));
-        for(;;)
+        while(server->_serviceAvailable)
         {        
             try
             {
-                if(!serviceSock.waitReadable(.1))
+                do
                 {
-                    if(server->_serviceAvailable==false)
-                        break;
+                    readable=serviceSock.waitReadable(.1);
                 }
-                serviceSock.recvFrom(msg,addr);
-                service       =msg.getString();
-                connectionType=msg.getString();
-                SINFO << "Request for " << service << " " 
-                      << connectionType << endl;
-                if(service        == server->_serviceName &&
-                   connectionType == server->_connection->getType()->getName())
+                while( (!readable) &&
+                       (server->_serviceAvailable) );
+                if(readable)
                 {
-                    msg.clear();
-                    msg.putString(service);
-                    msg.putString(server->_address);
-                    serviceSock.sendTo(msg,addr);
-                    SINFO << "Response " << server->_address << endl;
+                    serviceSock.recvFrom(msg,addr);
+                    service       =msg.getString();
+                    connectionType=msg.getString();
+                    SINFO << "Request for " << service << " " 
+                          << connectionType << endl;
+                    if(service        == server->_serviceName &&
+                       connectionType == server->_connection->getType()->getName())
+                    {
+                        msg.clear();
+                        msg.putString(service);
+                        msg.putString(server->_address);
+                        serviceSock.sendTo(msg,addr);
+                        SINFO << "Response " << server->_address << endl;
+                    }
                 }
             }
             catch(exception &e)

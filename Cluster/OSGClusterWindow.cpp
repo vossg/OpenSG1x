@@ -111,11 +111,19 @@ ClusterWindow::~ClusterWindow(void)
         map<UInt32,Connection*>::iterator cI=
             _connection.find( ptr.getFieldContainerId() );
         if(cI!=_connection.end())
+        {
+            if(cI->second)
+                delete cI->second;
             _connection.erase(cI);
+        }
         map<UInt32,RemoteAspect*>::iterator aI=
             _remoteAspect.find( ptr.getFieldContainerId() );
         if(aI!=_remoteAspect.end())
+        {
+            if(aI->second)
+                delete aI->second;
             _remoteAspect.erase(aI);
+        }
     }
 }
 
