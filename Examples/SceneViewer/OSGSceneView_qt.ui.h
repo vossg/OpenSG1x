@@ -115,7 +115,7 @@ void OSGSceneView::init()
   infoTable->setColumnStretchable (0 , true );
 
   // create filter for import/export dialog
-  osg::SceneFileHandler::the().getSuffixList(suffixList);
+  osg::SceneFileHandler::the().getSuffixList(suffixList, 1 /*SceneFileType::OSG_READ_SUPPORTED*/);
   filter = "Scene File";
   filter += " (";
   for (sI = suffixList.begin(); sI != suffixList.end(); sI++) 
@@ -461,7 +461,7 @@ void OSGSceneView::exportToFile( osg::NodePtr node )
   osg::BINWriter *writer;
   std::ofstream outStream;
   // shout we use the global filer ?!?
-  QString filter = "OpenSG Binary Scene file (*.bin)";
+  QString filter = "OpenSG Binary Scene file (*.bin *.osb)";
   QString fName = QFileDialog::getSaveFileName ( QString::null,
                                                  filter,
                                                  this,
