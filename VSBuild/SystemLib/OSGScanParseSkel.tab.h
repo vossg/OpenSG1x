@@ -1,5 +1,5 @@
-#ifndef OSGSCANPARSESKEL__TAB_H
-# define OSGSCANPARSESKEL__TAB_H
+#ifndef BISON_OSGSCANPARSESKEL__TAB_H
+# define BISON_OSGSCANPARSESKEL__TAB_H
 
 # ifndef YYSTYPE
 #  define YYSTYPE int
@@ -79,24 +79,26 @@
 # define	TOK_SFPNT4F	329
 # define	TOK_SFVEC4F	330
 # define	TOK_SFPLANE	331
-# define	Tok_MFColor4f	332
-# define	Tok_MFColor3f	333
-# define	Tok_MFMatrix	334
-# define	Tok_MFPnt2f	335
-# define	Tok_MFPnt3f	336
-# define	Tok_MFPnt4f	337
-# define	Tok_MFVec4f	338
-# define	Tok_MFPlane	339
-# define	Tok_SFColor4f	340
-# define	Tok_SFColor3f	341
-# define	Tok_SFMatrix	342
-# define	Tok_SFPnt2f	343
-# define	Tok_SFPnt3f	344
-# define	Tok_SFPnt4f	345
-# define	Tok_SFVec4f	346
-# define	Tok_SFPlane	347
+# define	TOK_SFVOLUME	332
+# define	Tok_MFColor4f	333
+# define	Tok_MFColor3f	334
+# define	Tok_MFMatrix	335
+# define	Tok_MFPnt2f	336
+# define	Tok_MFPnt3f	337
+# define	Tok_MFPnt4f	338
+# define	Tok_MFVec4f	339
+# define	Tok_MFPlane	340
+# define	Tok_SFColor4f	341
+# define	Tok_SFColor3f	342
+# define	Tok_SFMatrix	343
+# define	Tok_SFPnt2f	344
+# define	Tok_SFPnt3f	345
+# define	Tok_SFPnt4f	346
+# define	Tok_SFVec4f	347
+# define	Tok_SFPlane	348
+# define	Tok_SFVolume	349
 
 
 extern YYSTYPE OSGScanParseSkel_lval;
 
-#endif /* not OSGSCANPARSESKEL__TAB_H */
+#endif /* not BISON_OSGSCANPARSESKEL__TAB_H */

@@ -70,7 +70,7 @@ LINK32=xilink6.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP 
-# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe1125 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=501  -DOSG_SUPPORT_NO_GEO_INTERFACE=1 -DOSG_BUILD_DLL -DOSG_NEW_DLLS -Qvc6 -GX -Gi- -Qansi -GR -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd -DOSG_COMPILESYSTEMLIB -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_TIF -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG -I.. -I.  -I../../Action/DrawAction  -I../../Action/IntersectAction  -I../../Action/RenderAction  -I../../Action  -I../../Base  -I../../BaseLib  -I../../Experimental/BINWriter  -I../../Experimental/BINWriter  -I../../Experimental/Gerrit/Functors  -I../../Experimental/OSGLoader  -I../../Experimental/OSGWriter  -I../../Experimental/StringConversionState  -I../../Experimental/Text  -I../../Experimental/VRMLWriter  -I../../Field  -I../../FieldContainer  -I../../Image  -I../../Loader/OBJ  -I../../Loader/OFF  -I../../Loader/OSG  -I../../Loader/RAW  -I../../Loader/ScanParseSkel  -I../../Loader/WRL  -I../../Loader  -I../../Log  -I../../Material  -I../../MultiThreading  -I../../Nodes/Geometry  -I../../Nodes/Light  -I../../Nodes/Misc  -I../../Nodes/Particles  -I../../RenderingBackend  -I../../State  -I../../Statistics  -I../../Window  /FD /c
+# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe1125 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=501  -DOSG_SUPPORT_NO_GEO_INTERFACE=1 -DOSG_BUILD_DLL -DOSG_NEW_DLLS -Qvc6 -GX -Gi- -Qansi -GR -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd -DOSG_COMPILESYSTEMLIB -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_TIF -DOSG_WITH_JPG -DOSG_WITH_GIF -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG -I.. -I.  -I../../Action/DrawAction  -I../../Action/IntersectAction  -I../../Action/RenderAction  -I../../Action  -I../../Base  -I../../BaseLib  -I../../Experimental/BINWriter  -I../../Experimental/BINWriter  -I../../Experimental/Gerrit/Functors  -I../../Experimental/OSGLoader  -I../../Experimental/OSGWriter  -I../../Experimental/StringConversionState  -I../../Experimental/Text  -I../../Experimental/VRMLWriter  -I../../Field  -I../../FieldContainer  -I../../Image  -I../../Loader/OBJ  -I../../Loader/OFF  -I../../Loader/OSG  -I../../Loader/RAW  -I../../Loader/ScanParseSkel  -I../../Loader/WRL  -I../../Loader  -I../../Log  -I../../Material  -I../../MultiThreading  -I../../Nodes/Geometry  -I../../Nodes/Light  -I../../Nodes/Misc  -I../../Nodes/Particles  -I../../RenderingBackend  -I../../State  -I../../Statistics  -I../../Window  /FD /c
 # SUBTRACT CPP 
 # ADD BASE MTL /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /D "_DEBUG" /mktyplib203 /win32
@@ -170,29 +170,6 @@ SOURCE=../../Experimental/OSGLoader/OSGOSGSceneFileType.h
 
 # Begin Source File
 SOURCE=../../Experimental/OSGWriter/OSGOSGWriter.h
-# End Source File
-
-# End Group
-# Begin Group "ExperimentalStringConversionState h"
-# PROP Default_Filter ""
-
-# Begin Source File
-SOURCE=../../Experimental/StringConversionState/OSGIndenter.h
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../Experimental/StringConversionState/OSGStandardStringConversionState.h
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../Experimental/StringConversionState/OSGStringConversionStateBase.h
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../Experimental/StringConversionState/OSGStringTokenizer.h
 # End Source File
 
 # End Group
@@ -1126,6 +1103,11 @@ SOURCE=../../Nodes/Particles/OSGParticlesFields.h
 # PROP Default_Filter ""
 
 # Begin Source File
+SOURCE=../../RenderingBackend/OSGDrawTreeFactory.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../RenderingBackend/OSGDrawTreeNode.h
 # End Source File
 
@@ -1287,7 +1269,27 @@ SOURCE=../../State/OSGTransformChunkFields.h
 # PROP Default_Filter ""
 
 # Begin Source File
+SOURCE=../../Statistics/OSGSimpleStatisticsForeground.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGSimpleStatisticsForegroundBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGSimpleStatisticsForegroundFields.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../Statistics/OSGStatCollector.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGStatCollectorFields.h
 # End Source File
 
 
@@ -1302,6 +1304,11 @@ SOURCE=../../Statistics/OSGStatElemDesc.h
 
 
 # Begin Source File
+SOURCE=../../Statistics/OSGStatElemTypes.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../Statistics/OSGStatIntElem.h
 # End Source File
 
@@ -1312,7 +1319,32 @@ SOURCE=../../Statistics/OSGStatRealElem.h
 
 
 # Begin Source File
+SOURCE=../../Statistics/OSGStatStringElem.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../Statistics/OSGStatTimeElem.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGStatisticsDefaultFont.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGStatisticsForeground.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGStatisticsForegroundBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGStatisticsForegroundFields.h
 # End Source File
 
 # End Group
@@ -1481,6 +1513,21 @@ SOURCE=../../Window/OSGMatrixCameraFields.h
 
 # Begin Source File
 SOURCE=../../Window/OSGNavigator.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Window/OSGPassiveBackground.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Window/OSGPassiveBackgroundBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Window/OSGPassiveBackgroundFields.h
 # End Source File
 
 
@@ -1734,24 +1781,6 @@ SOURCE=../../Action/RenderAction/OSGRenderAction.inl
 # End Group
 # Begin Group "ExperimentalOSGWriter inl"
 # PROP Default_Filter ""
-# End Group
-# Begin Group "ExperimentalStringConversionState inl"
-# PROP Default_Filter ""
-
-# Begin Source File
-SOURCE=../../Experimental/StringConversionState/OSGIndenter.inl
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../Experimental/StringConversionState/OSGStandardStringConversionState.inl
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../Experimental/StringConversionState/OSGStringTokenizer.inl
-# End Source File
-
 # End Group
 # Begin Group "ExperimentalText inl"
 # PROP Default_Filter ""
@@ -2194,6 +2223,16 @@ SOURCE=../../State/OSGTransformChunkBase.inl
 # PROP Default_Filter ""
 
 # Begin Source File
+SOURCE=../../Statistics/OSGSimpleStatisticsForeground.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGSimpleStatisticsForegroundBase.inl
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../Statistics/OSGStatCollector.inl
 # End Source File
 
@@ -2219,7 +2258,22 @@ SOURCE=../../Statistics/OSGStatRealElem.inl
 
 
 # Begin Source File
+SOURCE=../../Statistics/OSGStatStringElem.inl
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../Statistics/OSGStatTimeElem.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGStatisticsForeground.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGStatisticsForegroundBase.inl
 # End Source File
 
 # End Group
@@ -2323,6 +2377,16 @@ SOURCE=../../Window/OSGMatrixCamera.inl
 
 # Begin Source File
 SOURCE=../../Window/OSGMatrixCameraBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Window/OSGPassiveBackground.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Window/OSGPassiveBackgroundBase.inl
 # End Source File
 
 
@@ -2534,24 +2598,6 @@ SOURCE=../../Experimental/OSGLoader/OSGOSGSceneFileType.cpp
 
 # Begin Source File
 SOURCE=../../Experimental/OSGWriter/OSGOSGWriter.cpp
-# End Source File
-
-# End Group
-# Begin Group "ExperimentalStringConversionState cpp"
-# PROP Default_Filter ""
-
-# Begin Source File
-SOURCE=../../Experimental/StringConversionState/OSGIndenter.cpp
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../Experimental/StringConversionState/OSGStandardStringConversionState.cpp
-# End Source File
-
-
-# Begin Source File
-SOURCE=../../Experimental/StringConversionState/OSGStringTokenizer.cpp
 # End Source File
 
 # End Group
@@ -3180,6 +3226,11 @@ SOURCE=../../Nodes/Particles/OSGParticlesBase.cpp
 # PROP Default_Filter ""
 
 # Begin Source File
+SOURCE=../../RenderingBackend/OSGDrawTreeFactory.cpp
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../RenderingBackend/OSGDrawTreeNode.cpp
 # End Source File
 
@@ -3291,6 +3342,16 @@ SOURCE=../../State/OSGTransformChunkBase.cpp
 # PROP Default_Filter ""
 
 # Begin Source File
+SOURCE=../../Statistics/OSGSimpleStatisticsForeground.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGSimpleStatisticsForegroundBase.cpp
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../Statistics/OSGStatCollector.cpp
 # End Source File
 
@@ -3316,7 +3377,27 @@ SOURCE=../../Statistics/OSGStatRealElem.cpp
 
 
 # Begin Source File
+SOURCE=../../Statistics/OSGStatStringElem.cpp
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../Statistics/OSGStatTimeElem.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGStatisticsDefaultFont.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGStatisticsForeground.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Statistics/OSGStatisticsForegroundBase.cpp
 # End Source File
 
 # End Group
@@ -3435,6 +3516,16 @@ SOURCE=../../Window/OSGMatrixCameraBase.cpp
 
 # Begin Source File
 SOURCE=../../Window/OSGNavigator.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Window/OSGPassiveBackground.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../Window/OSGPassiveBackgroundBase.cpp
 # End Source File
 
 
@@ -3600,9 +3691,6 @@ SOURCE=../../Window/OSGWindowBase.cpp
 # PROP Default_Filter ""
 # End Group
 # Begin Group "ExperimentalOSGWriter ly"
-# PROP Default_Filter ""
-# End Group
-# Begin Group "ExperimentalStringConversionState ly"
 # PROP Default_Filter ""
 # End Group
 # Begin Group "ExperimentalText ly"
