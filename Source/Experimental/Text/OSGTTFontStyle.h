@@ -6,11 +6,7 @@
 
 #ifdef OSG_WITH_FREETYPE1
 
-#ifndef WIN32
-#include "freetype1/freetype/freetype.h"
-#else
-#include "freetype/freetype.h"
-#endif
+#include "freetype.h"
 
 #include <OSGFontStyle.h>
 
