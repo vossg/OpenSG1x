@@ -1,12 +1,8 @@
 #include <OSGConfig.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 
 #include <OSGBaseFunctions.h>
 #include <OSGSFSysTypes.h>
@@ -56,7 +52,7 @@ display(void)
     pm->draw(pfunc, dact);
     
     glPushMatrix();
-    glTranslatef( 0,0,fabs(sinf(a/3000 * Pi))*2 );
+    glTranslatef( 0,0,fabs(osgsin(a/3000 * Pi))*2 );
     glRotatef( (a/3000) * 360 / 2, 1,0,0 );
 
     tmat->draw(tfunc, dact);

@@ -7,7 +7,7 @@
 #include <fstream>
 #include <strstream>
 #include <string>
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 #include <OSGConfig.h>
 #include "OSGLog.h"
 

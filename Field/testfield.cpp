@@ -21,6 +21,8 @@ OSG_USING_NAMESPACE
 
 int main (int argc, char **argv)
 {
+    osgInit(argc, argv);
+
     Field *fieldP;
     SFVec3f vec3f, *vec3fP;
 
@@ -35,8 +37,6 @@ int main (int argc, char **argv)
 
 //    MFTime *timem;
 //    SFTime *times;
-
-    osgInit(argc, argv);
 
     fieldP = FieldFactory::the().createField("SFVec3f");
 //  vec3fP = dynamic_cast<OSGSFVec3f*>(fieldP);

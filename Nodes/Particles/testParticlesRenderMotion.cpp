@@ -1,7 +1,7 @@
 
 #include <algorithm>
 #include <string.h>
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 #include <OSGConfig.h>
 #include <OSGTime.h>
 #include <OSGGLUTWindow.h>

@@ -1,6 +1,6 @@
 
 #include <string.h>
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 #include <OSGConfig.h>
 #include <OSGGLUTWindow.h>
 #include <OSGSimpleSceneManager.h>

@@ -71,9 +71,13 @@ opt_internalLnk: $(SUB_LIBTARGETS)
 # test
 #########################################################################
 
-tests: SUB_TARGET := Tests
+tests: SUB_TARGET := Test
 tests: SUB_JOB := build
 tests: $(SUB_TESTTARGETS)
+
+testsLnk: SUB_TARGET := TestLnk
+testsLnk: SUB_JOB := build
+testsLnk: $(SUB_TESTTARGETS)
 
 #########################################################################
 # clean

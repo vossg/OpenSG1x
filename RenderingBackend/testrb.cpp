@@ -6,7 +6,7 @@
 #include <iostream.h>
 #endif
 
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 
 #include <OSGFieldContainerFactory.h>
 #include <OSGSFSysTypes.h>
@@ -68,6 +68,7 @@ OSG::DirectionalLightPtr dl;
 void 
 display(void)
 {
+/*
     OSG::Matrix m1, m2;
 
     m1.setRotate( tball.getRotation() );
@@ -75,6 +76,9 @@ display(void)
     
     m1.mult( m2 );
     cam_trans->getSFMatrix()->setValue( m1 );
+    */
+
+    cam_trans->getSFMatrix()->setValue(tball.getFullTrackballMatrix());
 
 #ifndef INTERACTIVE
     fprintf(stderr, "Frame %d\n", iNumFrames);
@@ -142,6 +146,23 @@ motion(int x, int y)
 void
 mouse(int button, int state, int x, int y)
 {
+#ifdef darwin
+    int iMod = glutGetModifiers();
+
+    if(iMod == GLUT_ACTIVE_SHIFT)
+    {
+        fprintf(stderr, "S Active\n");
+
+        button = 1;
+    }
+    else if(iMod == GLUT_ACTIVE_CTRL)
+    {
+        fprintf(stderr, "C Active\n");
+
+        button = 2;
+    }
+#endif
+
     if ( state == 0 )
     {
         switch ( button )
@@ -166,6 +187,7 @@ mouse(int button, int state, int x, int y)
         }       
         mouseb &= ~(1 << button);
     }
+
     lastx = x;
     lasty = y;
 }
@@ -499,12 +521,17 @@ int main (int argc, char **argv)
                    min[1] + ((max[1] - min[1]) * 0.5), 
                    max[2] + ( max[2] - min[2] ) * 1.5 );
 
+    OSG::Vec3f cpos(min[0] + ((max[0] - min[0]) * 0.5), 
+                    min[1] + ((max[1] - min[1]) * 0.5), 
+                    min[2] + ((max[2] - min[2]) * 0.5) );
+
     float scale = (max[2] - min[2] + max[1] - min[1] + max[0] - min[0]) / 6;
 
     tball.setMode( OSG::Trackball::OSGObject );
     tball.setStartPosition( pos, true );
     tball.setSum( true );
     tball.setTranslationMode( OSG::Trackball::OSGFree );
+    tball.setRotationCenter  (cpos);
     tball.setTranslationScale(scale);
 
     cam->setFar(fabs(max[2] + ( max[2] - min[2] ) * 3));

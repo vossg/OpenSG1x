@@ -1,5 +1,5 @@
 #include <iostream>
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 #include <OSGVector.h>
 #include <OSGQuaternion.h>
 #include <OSGMatrix.h>

@@ -1,5 +1,5 @@
 
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 #include <OSGLog.h>
 
 #include <OSGDrawAction.h>

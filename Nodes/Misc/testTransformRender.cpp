@@ -42,13 +42,9 @@
 
 #include <OSGConfig.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 
 #include <OSGBaseFunctions.h>
 #include <OSGSFSysTypes.h>

@@ -10,13 +10,13 @@ endif
 OPT_TARGETS=opt optLnk optClean optclean optCleanLnk optcleanLnk
 
 LNK_TARGETS=dbgLnk optLnk dbgCleanLnk dbgCleanLnk optCleanLnk optcleanLnk \
-			cleanLnk CleanLnk
+			cleanLnk CleanLnk testsLnk TestLnk
 
 NONBUILDTARGETS    = depend commonclean dbgclean optclean clean commonClean	\
 					 dbgClean optClean Clean commonDepClean dbgDepClean		\
 					 optDepClean DepClean LibClean dbkLnk cleanLnk
 
-TESTBUILDTARGETS   = Test Tests dbg opt
+TESTBUILDTARGETS   = Test TestLnk dbg opt dbgLnk optLnk
 
 ifeq ($(MAKECMDGOALS),)
 SUB_JOB := build

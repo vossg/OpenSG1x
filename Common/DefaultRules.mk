@@ -354,6 +354,9 @@ endif
 Test: $(TEST_TARGETS_IN)
 	@echo Tests done  
 
+TestLnk: $(TEST_TARGETS_IN)
+	@echo Tests done  
+
 $(TEST_TARGETS_IN):  $(LIB_TESTQTTARGET_CPP) $(TEST_TARGETS) 
 	@for file in $@; do                \
 		echo $$file;                   \
@@ -447,10 +450,10 @@ dbg: Test
 opt: Test
 	@echo "LASTDBG=dbg" > .lastdbg
 
-dbgLnk: Test
+dbgLnk: TestLnk
 	@echo "LASTDBG=dbg" > .lastdbg
 
-optLnk: Test
+optLnk: TestLnk
 	@echo "LASTDBG=dbg" > .lastdbg
 
 endif

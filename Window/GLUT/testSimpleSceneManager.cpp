@@ -2,7 +2,7 @@
 // Minimalistic OpenSG program
 
 // GLUT is used for window handling
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 
 // General OpenSG configuration, needed everywhere
 #include <OSGConfig.h>
