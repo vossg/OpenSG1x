@@ -121,6 +121,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     
     static void restoreChangeList   (ChangeList *tocl);
     static void storeChangeList     (ChangeList *cl  );
+    static UInt32 getStoreSize      (void            );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -777,8 +777,11 @@ void RemoteAspect::storeChangeList(ChangeList *cl)
         if(ci != _clStore.end())
             _clStore.erase(ci);
     }
-    
-    //printf("clStore size: %u\n", _clStore.size());
+}
+
+UInt32 RemoteAspect::getStoreSize(void)
+{
+    return _clStore.size();
 }
 
 /*-------------------------------------------------------------------------*/
