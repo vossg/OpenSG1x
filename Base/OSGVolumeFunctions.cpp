@@ -807,9 +807,7 @@ OSG_BASE_DLLMAPPING void extend ( SphereVolume &srcVol,
 																	const Volume &vol )
 {
 	const Volume *v = &vol;
-	const BoxVolume *box;
 	const SphereVolume *sphere;
-	const CylinderVolume *cylinder;
 	const DynamicVolume *dynamic = dynamic_cast<const DynamicVolume*>(v);
 
 	if (dynamic)
@@ -984,8 +982,6 @@ OSG_BASE_DLLMAPPING void extend ( CylinderVolume &srcVol,
 																	const Volume &vol)
 {
 	const Volume *v = &vol;
-	const BoxVolume *box;
-	const SphereVolume *sphere;
 	const CylinderVolume *cylinder;
 	const DynamicVolume *dynamic = dynamic_cast<const DynamicVolume*>(v);
 

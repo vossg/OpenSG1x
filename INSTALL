@@ -19,7 +19,10 @@ Plattform :
     -----
 
         Compiler : System compiler + 
-                    patch gcc/RHBA-2000-132 and glibc/RHBA-2000-079.
+                   patch gcc/RHBA-2000-132 and glibc/RHBA-2000-079 (RH 7.0).
+
+                   gcc >= 3.0 not yet
+
         Make     : > gmake 3.78.1
         glut     : 3.7
 
@@ -55,6 +58,104 @@ experimental.
 
 See using_configure on how to use it. Feedback on success
 (or failure) welcome!
+
+
+How to use configure is quite straight forward. But be warned it is still
+considered to be experimental. See ./configure --help for available options.
+
+
+IMPORTANT NOTE
+If you created the links required by previous versions of the configure method
+delete them and update again.
+
+!! MORE IMPORTANT NOTE !!
+
+As they changed the internal macros from 2.13 to 2.52 and cygwin starts
+to ship 2.52 : right now you must not use 2.52, download 2.13, configure it,
+install it and use it. 
+
+!!!! MOST IMPORTANT NOTE !!!!
+
+As this file might be slightly out of date, PLEASE refer to ./configure --help
+for the lates information.
+
+!!!!!! UNBELIEVABLE IMPORTANT NOTE !!!!!!
+
+The bash command in front of ./configure (CYGWIN) is intended and does not
+denote a prompt, include it otherwise it will definitively not work.
+
+
+All platforms
+
+cd <..../OpenSG>
+autoconf
+
+IRIX :
+
+./configure --with-compiler=CC --with-stl=<stl-dir>
+		    --with-qt=<qt-dir> --with-glut=<glut-dir>
+			--prefix=<install-dir>
+cd Builds/mips-sgi-irix6.5-CC
+gmake
+
+
+CYGWIN (ICL4.5, including patch P000223C, P000421C, p000512c, P000616C)
+       (ICL5.0)
+       (not yet ICL5.0.1)
+
+bash ./configure --with-compiler=icl45 --with-qt=<qtdir> --with-glut=<glut-dir>
+                 --prefix=<install-dir>
+
+cd Build/i686-pc-cygwin-icl45
+make
+
+
+Linux (RH 7.0, including patch gcc/RHBA-2000-132, glibc/RHBA-2000-079) 
+	  (RH 7.1 out of the box)
+      (SuSe 7.1, out of the box)
+
+./configure --with-compiler=g++ --with-glut --with-qt=<qtdir>
+			--prefix=<install-dir>
+cd Build/i686-pc-linux-g++
+make
+
+----
+General parameters : 
+
+	--prefix=<install-dir>
+
+		sets the install directory where OpenSG will be installed. If set
+		to BUILD the Builds/<system> directory will be used. Defaults to
+		/usr/local
+
+On unix system :
+
+	--with-tif[=<dir>]
+	--with-gif[=<dir>]
+	--with-jpg[=<dir>]
+	--with-png[=<dir>]
+
+		enable the named image format and optinally give its location
+
+To make the system:
+
+cd Builds/<system>
+gmake
+(build BaseLib and SystemLib)
+you need to add BaseLib/lib-dbg and SystemLib/lib-dbg to your library path
+as an alternative you can do gmake install and add lib/dbg to your path.
+
+to make a test program
+cd SystemTest
+make testWindowGLUT
+./testWindowGLUT ../../../Loader/dino.raw
+
+
+To make the VRML Loader test program you need to be in SystemTest and
+ln -s ../../../Experimental/VRMLLoader/std.wrl .
+make testVRMLRender
+./testVRMLRender ../../../Experimental/VRMLLoader/tie.wrl
+Used keys: a s z x c w ESC
 
 
 Documentation :

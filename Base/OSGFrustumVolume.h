@@ -59,7 +59,9 @@ OSG_BASE_DLLMAPPING
 Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
 
 OSG_BASE_DLLMAPPING
+inline
 Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+
 ostream& operator<< (ostream & os, const FrustumVolume &obj);
 #endif
 
@@ -216,6 +218,7 @@ public:
 
     /// Unequality comparisons
     OSG_BASE_DLLMAPPING
+    inline
     friend Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
 
   /// Assignment operator

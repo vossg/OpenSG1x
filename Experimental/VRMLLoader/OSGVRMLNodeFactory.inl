@@ -107,9 +107,11 @@ VRMLNodeDesc *
         _mNodeDescHash.find(szNodeTypename);
 
     if(mNodeDescIt != _mNodeDescHash.end())
-    {
-        fprintf(stderr, "Found Node %s (%s)\n", 
-                mNodeDescIt->first, szNodeTypename);
+    {    
+        indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
+        PNOTICE << "Found Node "
+                << mNodeDescIt->first << " ("
+                << szNodeTypename     << ")" << endl;
 
         returnValue = mNodeDescIt->second;
     }
@@ -145,7 +147,6 @@ void VRMLNodeFactory<BaseT>::postStandardProtos(void)
     VRMLShapeDesc        *pShapeDesc        = NULL;
     VRMLAppearanceDesc   *pAppearanceDesc   = NULL;
     VRMLMaterialDesc     *pMaterialDesc     = NULL;
-	VRMLViewpointDesc    *pViewpointDesc    = NULL;	
 
     pNodeDesc = findNodeDesc("Shape");
 
@@ -177,15 +178,6 @@ void VRMLNodeFactory<BaseT>::postStandardProtos(void)
     {
         pAppearanceDesc->setMaterialDesc(pMaterialDesc);
     }
-	
-	pNodeDesc = findNodeDesc("Viewpoint");
-	
-    if(pNodeDesc != NULL)
-    {
-        pViewpointDesc = dynamic_cast<VRMLViewpointDesc *>(pNodeDesc);
-    }
-	
-	
 }
 
 
@@ -504,7 +496,7 @@ void VRMLNodeFactory<BaseT>::addProtoEventOut(
         return;
 
     indentLog(VRMLNodeDesc::getIndent(), PNOTICE);
-    PNOTICE << "\tAddEventOut " << szEventType << " " << szEventName << endl;
+    PNOTICE << "AddEventOut " << szEventType << " " << szEventName << endl;
 }
 
 template <class BaseT> inline
@@ -615,7 +607,7 @@ void VRMLNodeFactory<BaseT>::dumpTable(void)
 
         while(mFieldHashIt != mNodeDescIt->second->_mFieldTypes.end())
         {
-            PLOG << "\tField : " << mFieldHashIt->first << " "
+            PLOG << "Field : " << mFieldHashIt->first << " "
                     << mFieldHashIt->second << endl;
 
              mFieldHashIt++;
