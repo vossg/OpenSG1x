@@ -369,6 +369,7 @@ bool TIFImageFileType::write(const ImagePtr &OSG_TIF_ARG(image),
         }
 
         TIFFClose(out);
+        retCode = true;
     }
 
 #else
