@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef WIN32
+#define strcasecmp stricmp
+#endif
+
 // Application declarations
 
 using namespace std;
@@ -318,6 +322,11 @@ void Field::setDescription ( const char* description )
 	if (description && *description && strcmp(description,FieldContainer::_nil)) {
 		_description = new char [strlen(description)+1];
 		strcpy(_description,description);
+		// On Win32 some garbage is added to the end
+		for ( char *p = strchr( _description, 0 ) - 1; 
+			  p >= _description && ( *p == 0x09 || *p == 0x20 );
+			  p-- )
+			*p = 0;
 	}
 	else
 		_description = 0;

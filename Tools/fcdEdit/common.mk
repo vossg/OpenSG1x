@@ -5,6 +5,7 @@
 ### System dependences ###############################################
 OS := $(shell echo `uname`)
 OS_TYPE := $(shell echo `uname`_`uname -r`_`uname -p`)
+
 #-- SUNOS ------------------------------------------------------------
 ifeq ($(OS),SunOS)
 	GCCHOME = /hgdv/software/gcc/SunOS_5.7_sparc
@@ -575,6 +576,8 @@ ifeq ($(OS),Linux)
 endif
 #-- NT --------------------------------------------------------------
 ifeq ($(findstring WIN,$(OS)),WIN)
+	
+	QTDIR := Q:\\Win\NT\VC6\qt-2.23
 	OS		= WIN32
 	GCC 		= gcc
 	GCXX 		= g++
@@ -585,9 +588,10 @@ ifeq ($(findstring WIN,$(OS)),WIN)
 	NCXX 		= cl
 	NCFLAGS	= /c /Fd"c:\tmp\test.pdb" /Fo"$@" /D "ANSI_STL" /D "NT_OS" /D "NATIVE_CC" \
 						/D "__i386__"  /D "WIN32" /D "_WIN32" /D "_MBCS" \
-						/D "_WINDOWS" /D "__ANSI_CPP__" /nologo 
+						/D "_WINDOWS" /D "__ANSI_CPP__" /nologo \
+						/D XMLPP_NOEXPORTS
 
-	NLD	= link /DEBUG /libpath:"V:/lib/NT" /NODEFAULTLIB:LIBC 
+	NLD	= link /DEBUG /libpath:"V:/lib/NT" /libpath:"f:\Program Files\Microsoft Visual Studio\VC98\Lib" /NODEFAULTLIB:LIBC 
 
 	STRIP   = upx
 	LINK    = cp
@@ -612,7 +616,7 @@ ifeq ($(findstring WIN,$(OS)),WIN)
 	OBJSUF  = obj
 	BINSUF  = .exe
 
-	EXINC 	= -I "V:\include" -I "V:\include\NT" -I "V:\include"
+	EXINC 	= -I "V:\include" -I "V:\include\NT" -I "V:\include" -I"f:\Program Files\Microsoft Visual Studio\VC98\Include"
 	EXLIB 	= /libpath:"V:\lib\NT"
 	SYSINC  = 
 	SYSLIB  = kernel32.lib user32.lib gdi32.lib winspool.lib \
@@ -695,8 +699,8 @@ ifeq ($(findstring WIN,$(OS)),WIN)
 	ZLIB     = zlib.lib
 	A3DINC  = -I "V:\include\a3d" -D A3D_LIB
 	A3DLIB  = ia3dutil.lib
-	QTINC		=	-I "d:\qt-1.42\include"
-	QTLIB		= /libpath:"D:\qt-1.42\lib" qt.lib 
+	QTINC		=	-I "$(QTDIR)\include"
+	QTLIB		= /libpath:"$(QTDIR)\lib"  qt223.lib
 	GLTTINC = -I "V:\include\gltt" /D GLTT_LIB
 	GLTTLIB = gltt.lib 
 	OGLINC	= /D OPENGL_LIB

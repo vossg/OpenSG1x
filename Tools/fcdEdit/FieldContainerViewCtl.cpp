@@ -484,6 +484,39 @@ void FieldContainerViewCtl::writeFieldContainerSlot()
 						 _fieldContainer.name(), _fieldContainer.inlFileSuffix());
 		sprintf( impFile,"%s/%s%s.%s", s.ascii(),  _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.impFileSuffix());
+				
+		// Check if the files already exist and don't overwrite them
+		QString ex;		 
+		QFile f( decFile );
+		if ( f.exists() )
+		{
+			ex += decFile;
+			ex += "\n";
+		}
+		f.setName( inlFile );
+		if ( f.exists() )
+		{
+			ex += inlFile;
+			ex += "\n";
+		}
+		f.setName( impFile );
+		if ( f.exists() )
+		{
+			ex += impFile;
+			ex += "\n";
+		}
+		if ( ex.length() )
+		{
+			QString mes("Some files already exist:\n");
+			mes += ex;
+			mes += "\nAre you sure you want to overwrite them?";
+			
+			if ( QMessageBox::warning ( this, "Overwrite Warning", mes, 
+					"Yes", "No", NULL, 0, 1) )
+				return;
+		}
+		
+		
 		if (_fieldContainer.writeCodeDec(decFile))
 			if (_fieldContainer.writeCodeInl(inlFile))
 				if (_fieldContainer.writeCodeImp(decFile,impFile))

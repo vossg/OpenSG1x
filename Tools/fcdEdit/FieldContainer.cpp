@@ -13,6 +13,9 @@ using namespace xmlpp;
 
 // Application declarations
 
+#ifdef WIN32
+#define strcasecmp stricmp
+#endif
 
 // Class declarations
 #include "FieldContainer.h"
@@ -627,17 +630,18 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 	char *fcnameUpper = strdup( _name );
 	char *parentname = _parentFieldContainer;
 	char *parentnameUpper = strdup( _parentFieldContainer );
-	const char *description = _description ? _description : "";
+	char *description = _description ? _description : "";
 
-	for ( char *s = libnameUpper; s && *s; *s = toupper(*s), s++ ) {}
-	for ( char *s = fcnameUpper; s && *s; *s = toupper(*s), s++ ) {}
-	for ( char *s = parentnameUpper; s && *s; *s = toupper(*s), s++ ) {}
+	char *s;
+	for (  s = libnameUpper; s && *s; *s = toupper(*s), s++ ) {}
+	for (  s = fcnameUpper; s && *s; *s = toupper(*s), s++ ) {}
+	for (  s = parentnameUpper; s && *s; *s = toupper(*s), s++ ) {}
 
 	// field loop
 	// useful strings
 	const char	*fieldname        = NULL,
-				*fieldtype        = NULL, 
-				*fieldcardinality = NULL, 
+				*fieldtype        = NULL;
+	char		*fieldcardinality = NULL, 
 				*fielddescription = NULL;
 	char 		*fieldnameCaps = NULL, 
 				*fieldnameUpper = NULL;
@@ -1006,7 +1010,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				"@!Description!@",		"@!Fielddescription!@", 
 				"@!FieldSeparator!@",	"@!FieldDefaultHeader!@",
 				NULL };
-			const char *values[ sizeof(keys) / sizeof( char * ) ];
+			char *values[ sizeof(keys) / sizeof( char * ) ];
 			
 			values[0] = fcname;
 			values[1] = fcnameUpper;
@@ -1021,8 +1025,8 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				char * s;
 
 				values[6] = fieldcardinality;
-				values[7] = fieldtype;
-				values[8] = fieldname;
+				values[7] = strdup(fieldtype);
+				values[8] = strdup(fieldname);
 				values[9] = fieldnameCaps;
 				values[10] = fieldnameUpper;
 				values[11] = fieldIt->visibility() ? "false" : "true";
@@ -1105,10 +1109,10 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 						}
 						else
 						{
-							char tmp = *ce;
-							*ce = 0;
-							out << cs << values[i];
-							*ce = tmp;
+							char *p;
+							for ( p = cs; p < ce; p++ )
+								out << *p;
+							out << values[i];
 						}
 						ce += strlen( keys[i] );	// get behind the !@-string
 						cs = ce;
@@ -1127,6 +1131,8 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 			
 			if ( values[12] )	delete [] values[12];		
 			if ( values[13] )	delete [] values[13];
+			if ( values[7] )	free( values[7] );
+			if ( values[8] )	free( values[8] );
 
 			out << cs << endl;
 		}
