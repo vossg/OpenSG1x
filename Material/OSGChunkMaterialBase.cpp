@@ -62,6 +62,23 @@
 #include "OSGChunkMaterial.h"
 
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<ChunkMaterialPtr>::_type("ChunkMaterialPtr", "MaterialPtr");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<ChunkMaterialPtr>::_fieldType
+#pragma instantiate MField<ChunkMaterialPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
@@ -71,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.18 2001/11/09 08:17:10 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.19 2002/02/28 10:18:28 mroth Exp $";
     static Char8 cvsid_hpp       [] = OSGCHUNKMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHUNKMATERIALBASE_INLINE_CVSID;
 
@@ -92,6 +109,7 @@ const OSG::BitVector  ChunkMaterialBase::ChunksFieldMask =
 /*! \var StateChunkPtr   ChunkMaterialBase::_mfChunks
     
 */
+
 //! ChunkMaterial description
 
 FieldDescription *ChunkMaterialBase::_desc[] = 
@@ -236,4 +254,5 @@ void ChunkMaterialBase::executeSyncImpl(      ChunkMaterialBase *pOther,
 
 
 }
+
 

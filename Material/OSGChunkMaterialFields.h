@@ -70,9 +70,63 @@ class ChunkMaterial;
 
 typedef FCPtr<MaterialPtr, ChunkMaterial> ChunkMaterialPtr;
 
+/*! \brief ChunkMaterialPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
+
+template <>
+struct FieldDataTraits<ChunkMaterialPtr> : 
+    public FieldTraitsRecurseMapper<ChunkMaterialPtr>
+{
+    static DataType             _type;                       
+
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFChunkMaterialPtr"; }
+    static char     *getMName(void) { return "MFChunkMaterialPtr"; }
+};
+
+//! SFChunkMaterialPtr
+//! \ingroup SingleFields
+
+typedef SField<ChunkMaterialPtr> SFChunkMaterialPtr;
+
+#ifndef OSG_COMPILECHUNKMATERIALINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<ChunkMaterialPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+//! MFChunkMaterialPtr
+//! \ingroup MultiFields
+
+typedef MField<ChunkMaterialPtr> MFChunkMaterialPtr;
+
+#ifndef OSG_COMPILECHUNKMATERIALINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<ChunkMaterialPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGCHUNKMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGChunkMaterialFields.h,v 1.9 2001/11/30 11:48:19 vossg Exp $"
+#define OSGCHUNKMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGChunkMaterialFields.h,v 1.10 2002/02/28 10:18:28 mroth Exp $"
 
 #endif /* _OSGCHUNKMATERIALFIELDS_H_ */
