@@ -118,6 +118,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     virtual bool   operator != (const StateChunk &other) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Cluster                                   */
+    /*! \{                                                                 */
+
+    static void setClusterId(Int32 id);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -192,6 +199,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     static UInt32 _funcGetUniformiv;
     static UInt32 _funcGetUniformfv;
 
+    static Int32 _clusterId;
+
     /*! \}                                                                 */
 
     static void initMethod(void);
@@ -216,6 +225,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
                                          DrawActionBase *action, GLuint program);
     static void updateInvViewMatrix     (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
+    static void updateStereoBufferLeftEye(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
+    static void updateClusterId         (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
 
     typedef void (*paramtercbfp) (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                   DrawActionBase *action, GLuint program);
@@ -231,6 +244,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.16 2005/03/28 21:23:43 dirk Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.17 2005/04/01 15:20:58 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

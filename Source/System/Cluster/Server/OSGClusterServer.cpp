@@ -49,6 +49,7 @@
 #include "OSGClusterWindow.h"
 #include "OSGBinaryMessage.h"
 #include "OSGClusterNetwork.h"
+#include "OSGSHLChunk.h"
 
 OSG_USING_NAMESPACE
 
@@ -273,6 +274,7 @@ void ClusterServer::doSync(bool applyToChangelist)
         _clusterWindow->getNetwork()->setAspect        (_aspect);
         _connection=NULL;
         _aspect=NULL;
+        SHLChunk::setClusterId(Int32(_serverId));
         _clusterWindow->serverInit(_window,_serverId);
     }
 

@@ -111,6 +111,8 @@ UInt32 SHLChunk::_funcUniformMatrix4fv = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcGetUniformiv = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcGetUniformfv = Window::invalidFunctionID;
 
+Int32 SHLChunk::_clusterId = -1;
+
 // prototypes
 
 typedef GLuint  (OSG_APIENTRY * PFNGLCREATEPROGRAMOBJECTARBPROC) (void);
@@ -772,6 +774,16 @@ void SHLChunk::checkOSGParameters(void)
                 paramtercbfp fp = updateInvViewMatrix;
                 _osgParametersCallbacks.push_back(fp);
             }
+            else if(parameter->getName() == "OSGStereoBufferLeftEye")
+            {
+                paramtercbfp fp = updateStereoBufferLeftEye;
+                _osgParametersCallbacks.push_back(fp);
+            }
+            else if(parameter->getName() == "OSGClusterId")
+            {
+                paramtercbfp fp = updateClusterId;
+                _osgParametersCallbacks.push_back(fp);
+            }
             else
             {
                 FWARNING(("SHLChunk::checkOSGParameters : unknown osg paramter '%s'\n",
@@ -851,6 +863,46 @@ void SHLChunk::updateInvViewMatrix(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLoca
     GLint location = getUniformLocation(program, "OSGInvViewMatrix");
     if(location != -1)
         uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
+}
+
+void SHLChunk::updateStereoBufferLeftEye(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program)
+{
+    GLint leftEye = 0;
+    GLint draw = GL_NONE;
+
+    glGetIntegerv(GL_DRAW_BUFFER, &draw);
+
+    if(draw == GL_BACK_LEFT ||
+       draw == GL_FRONT_LEFT)
+    {
+        leftEye = 1;
+    }
+
+    // get "glUniform1iARB" function pointer
+    PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
+        action->getWindow()->getFunction(_funcUniform1i);
+
+    GLint location = getUniformLocation(program, "OSGStereoBufferLeftEye");
+    if(location != -1)
+        uniform1i(location, leftEye);
+}
+
+void SHLChunk::setClusterId(Int32 id)
+{
+    _clusterId = id;
+}
+
+void SHLChunk::updateClusterId(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                               DrawActionBase *action, GLuint program)
+{
+    // get "glUniform1iARB" function pointer
+    PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
+        action->getWindow()->getFunction(_funcUniform1i);
+
+    GLint location = getUniformLocation(program, "OSGClusterId");
+    if(location != -1)
+        uniform1i(location, (GLint) _clusterId);
 }
 
 /*------------------------------ State ------------------------------------*/
@@ -968,7 +1020,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.31 2005/03/28 21:23:31 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.32 2005/04/01 15:20:58 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
