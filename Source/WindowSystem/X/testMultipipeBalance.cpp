@@ -514,7 +514,8 @@ void syncThreadProc (void *OSG_CHECK_ARG(arg))
     while(doRun)
     {
         syncBarrier->enter( syncCount );
-        mainThread->getChangeList()->applyToCurrent();
+
+        mainThread->getChangeList()->applyAndClear();
         syncBarrier->enter( syncCount );
     }
 }

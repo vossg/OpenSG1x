@@ -156,7 +156,7 @@ void drawThreadProc (void *arg)
 
         FLOG(( "display::merge\n"));
         // merge the changes into our aspect
-        mainThread->getChangeList()->applyToCurrent();
+        mainThread->getChangeList()->applyAndClear();
     }
     
     return;
@@ -387,8 +387,12 @@ int main (int argc, char **argv)
     syncBarrier = Barrier::get(NULL);
 
     // Populate the drawers' aspect
-    Thread::getCurrent()->getChangeList()->applyTo(1);
-    Thread::getCurrent()->getChangeList()->clearAll();
+
+    fprintf(stderr, "WARNING WARNING WARNING\n");
+    fprintf(stderr, "Must be fixed, does not run (GV)\n");
+
+    //Thread::getCurrent()->getChangeList()->applyTo(1);
+    //Thread::getCurrent()->getChangeList()->clearAll();
      
     for (i = 0; i < usedThreads; i++)
     {               
