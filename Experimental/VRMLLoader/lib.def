@@ -14,6 +14,6 @@
     ?beginProtoExposedField@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBDI0@Z
     ?endProtoExposedField@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXXZ
 
-    ?mapExtIntFieldType@?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@UAEHH@Z
+    ?mapExtIntFieldType@?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@UAEHPBDH@Z
     ?preStandardProtos@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@MAEXXZ
     ?postStandardProtos@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@MAEXXZ
