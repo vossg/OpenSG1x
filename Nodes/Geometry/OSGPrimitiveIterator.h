@@ -124,7 +124,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
 
 	// get the primitive information
 	inline Int32    	getIndex		( void 	      ) const;
-	inline Int32    	getLength		( void 	      ) const;
+	inline UInt32    	getLength		( void 	      ) const;
 	inline UInt32    	getType			( void 	      ) const;
 
 	// get the data indices/values. Indices < 0 indicate data not present

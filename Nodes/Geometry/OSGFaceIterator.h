@@ -127,7 +127,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FaceIterator
 	inline UInt32 getType				( void ) const;
 
 	//! get the length, i.e. number of points of the face
-	inline Int32    	getLength		( void 	      ) const;
+	inline UInt32    	getLength		( void 	      ) const;
 
 
 	//! @name face point attribute access

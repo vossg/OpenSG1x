@@ -116,7 +116,7 @@ UInt32 FaceIterator::getType( void ) const
 	primitive.
 */
 inline		 
-Int32 FaceIterator::getLength( void) const
+UInt32 FaceIterator::getLength( void) const
 {
 	return _facePntIndex[3] == -1 ? 3 : 4;
 }

@@ -113,7 +113,7 @@ Int32 PrimitiveIterator::getIndex( void ) const
 }
 
 inline         
-Int32 PrimitiveIterator::getLength( void ) const
+UInt32 PrimitiveIterator::getLength( void ) const
 {
     return _actPrimLength;
 }
