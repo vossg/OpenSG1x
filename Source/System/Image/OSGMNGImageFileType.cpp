@@ -103,12 +103,22 @@ static const Char8 *suffixArray[] = {
   "mng"
 };
 
-MNGImageFileType MNGImageFileType::_the ( suffixArray, sizeof(suffixArray) );
+MNGImageFileType MNGImageFileType::_the ( "mng",
+                                          suffixArray, sizeof(suffixArray) );
 
 /********************************
  *    Class methodes
  *******************************/
 
+
+//-------------------------------------------------------------------------
+/*!
+Class method to get the singleton Object
+*/
+MNGImageFileType& MNGImageFileType::the (void)
+{
+  return _the;
+}
 
 /*******************************
 *public
@@ -255,9 +265,10 @@ bool MNGImageFileType::write(const Image &OSG_MNG_ARG(image   ),
 /*!
 Constructor used for the singleton object
 */
-MNGImageFileType::MNGImageFileType ( const Char8 *suffixArray[],
-                                                                                     UInt16 suffixByteCount)
-  : ImageFileType ( suffixArray, suffixByteCount )
+MNGImageFileType::MNGImageFileType ( const Char8 *mimeType,
+                                     const Char8 *suffixArray[],
+                                     UInt16 suffixByteCount)
+  : ImageFileType ( mimeType, suffixArray, suffixByteCount )
 {
     return;
 }

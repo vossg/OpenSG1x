@@ -69,9 +69,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MTDImageFileType : public ImageFileType
     /*! \name                  Get Methods                                 */
     /*! \{                                                                 */
 
-    virtual MTDImageFileType & the        (void) { return _the; }
-
-    virtual const Char8      *getMimeType (void) { return "MTD"; }
+    static MTDImageFileType & the (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -91,7 +89,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MTDImageFileType : public ImageFileType
     /*! \name               Default Constructor                            */
     /*! \{                                                                 */
 
-    MTDImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
+    MTDImageFileType ( const Char8 *mimeType,
+                       const Char8 *suffixArray[], UInt16 suffixByteCount );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -133,7 +133,7 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
     {
         ImageFileType *type;
 
-        type = ImageFileHandler::the().getFileType("MTD");
+        type = ImageFileHandler::the().getDefaultType();
         if(oObject)
         {
             return type->maxBufferSize(*oObject) + 
@@ -162,7 +162,7 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
         UInt32 imgSize=0;
         ImageFileType *type;
 
-        type = ImageFileHandler::the().getFileType("MTD");
+        type = ImageFileHandler::the().getDefaultType();
         if(oObject)
         {
             imgSize=(UInt32)type->maxBufferSize(*oObject);
@@ -193,7 +193,7 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
         ImageFileType *type;
         UInt32 imgSize=0;
 
-        type = ImageFileHandler::the().getFileType("MTD");
+        type = ImageFileHandler::the().getDefaultType();
 
         if(oObject)
         {

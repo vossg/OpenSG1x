@@ -76,7 +76,8 @@ static const Char8 *suffixArray[] =
     "mtd","opensg","opensgImage"
 };
 
-MTDImageFileType MTDImageFileType::_the(suffixArray, sizeof(suffixArray) );
+MTDImageFileType MTDImageFileType::_the("mtd",
+                                        suffixArray, sizeof(suffixArray) );
 
 /*****************************
  *    Classvariables
@@ -87,6 +88,15 @@ MTDImageFileType MTDImageFileType::_the(suffixArray, sizeof(suffixArray) );
  *    Class methodes
  *******************************/
 
+
+//-------------------------------------------------------------------------
+/*!
+Class method to get the singleton Object
+*/
+MTDImageFileType& MTDImageFileType::the (void)
+{
+  return _the;
+}
 
 /*******************************
 *public
@@ -193,9 +203,10 @@ UInt64 MTDImageFileType::storeData(const Image  &image,
 /*!
 Constructor used for the singleton object
 */
-MTDImageFileType::MTDImageFileType ( const Char8 *suffixArray[], 
+MTDImageFileType::MTDImageFileType ( const Char8 *mimeType,
+                                     const Char8 *suffixArray[], 
                                      UInt16 suffixByteCount )
-    : ImageFileType ( suffixArray, suffixByteCount )
+    : ImageFileType ( mimeType, suffixArray, suffixByteCount )
 {
     return;
 }

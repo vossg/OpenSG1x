@@ -107,9 +107,18 @@ bool ImageFileType::Head::hostToNet(void)
 
 //-------------------------------------------------------------------------
 /*!
+Get method for the mime type
+*/
+const Char8 *ImageFileType::getMimeType(void) const
+{
+  return _mimeType.str();
+}
+
+//-------------------------------------------------------------------------
+/*!
 Get method for the suffix list container
 */
-const std::list<IDString> &ImageFileType::getSuffixList(void)
+const std::list<IDString> &ImageFileType::getSuffixList(void) const
 {
   return _suffixList; 
 }
@@ -119,12 +128,18 @@ const std::list<IDString> &ImageFileType::getSuffixList(void)
 Constructor which takes a suffix array and size to add the
 ImageFileType to the Singleton ImageFileHandler
 */
-ImageFileType::ImageFileType( const Char8 *suffixArray[], 
+ImageFileType::ImageFileType( const char *mimeType,
+                              const Char8 *suffixArray[], 
                               UInt16 suffixByteCount)
 {
     Int32 suffixCount = suffixByteCount / sizeof(const Char8 *);
     Int32 i = 0;
     std::list<IDString>::iterator sI;
+
+    if (!mimeType) {
+      FFATAL (("ImageFileType without valid mimeType\n"));
+    }
+    _mimeType.set(mimeType);
 
     _suffixList.resize(suffixCount);
     for(sI = _suffixList.begin(); sI != _suffixList.end(); sI++)

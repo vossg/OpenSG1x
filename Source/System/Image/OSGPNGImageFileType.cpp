@@ -112,11 +112,17 @@ static void warningOutput (png_structp OSG_CHECK_ARG(png_ptr),
 
 #endif
 
-PNGImageFileType PNGImageFileType:: _the(suffixArray, sizeof(suffixArray));
+PNGImageFileType PNGImageFileType:: _the("png",
+                                         suffixArray, sizeof(suffixArray));
 
 /********************************
  *  Class methodes
  *******************************/
+
+PNGImageFileType& PNGImageFileType::the (void)
+{
+  return _the;
+}
 
 /*******************************
 *public
@@ -274,9 +280,10 @@ bool PNGImageFileType::write(const Image &OSG_CHECK_ARG(image   ),
 /*!
 Constructor used for the singleton object
 */
-PNGImageFileType::PNGImageFileType(const Char8 *suffixArray[],
-                                   UInt16 suffixByteCount) :
-    ImageFileType(suffixArray, suffixByteCount)
+PNGImageFileType::PNGImageFileType ( const Char8 *mimeType,
+                                     const Char8 *suffixArray[],
+                                     UInt16 suffixByteCount) :
+    ImageFileType(mimeType, suffixArray, suffixByteCount)
 {
     return;
 }

@@ -68,10 +68,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
     /*---------------------------------------------------------------------*/
     /*! \name                    Get  Methods                              */
     /*! \{                                                                 */
+    
+    const Char8  *getMimeType (void) const;
 
-    virtual const Char8  *getMimeType (void) = 0;
-
-    const std::list<IDString> &getSuffixList(void);
+    const std::list<IDString> &getSuffixList(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -140,7 +140,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
     /*! \name                Default Constructor                           */
     /*! \{                                                                 */
 
-    ImageFileType ( const Char8 * suffixArray[], UInt16 suffixByteCount );
+    ImageFileType ( const Char8 *mimeType,
+                    const Char8 * suffixArray[], UInt16 suffixByteCount );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -167,6 +168,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
 
     std::list<IDString> _suffixList;
 
+    IDString _mimeType;
 };
 
 typedef ImageFileType* ImageFileTypeP;

@@ -65,13 +65,6 @@ class OSG_SYSTEMLIB_DLLMAPPING MNGImageFileType : public ImageFileType
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                  Get Method                                  */
-    /*! \{                                                                 */
-
-    virtual const Char8 *getMimeType (void) { return "MNG"; }
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
@@ -85,7 +78,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MNGImageFileType : public ImageFileType
     /*! \name                  Get Method                                  */
     /*! \{                                                                 */
 
-    MNGImageFileType & the (void) { return _the; }
+    static MNGImageFileType & the (void);
 
     /*! \}                                                                 */
 
@@ -96,7 +89,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MNGImageFileType : public ImageFileType
     /*! \name               Default Constructor                            */
     /*! \{                                                                 */
 
-    MNGImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
+    MNGImageFileType ( const Char8 *mimeType,
+                       const Char8 *suffixArray[], UInt16 suffixByteCount );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

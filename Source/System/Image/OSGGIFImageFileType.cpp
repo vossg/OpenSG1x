@@ -178,7 +178,18 @@ static const Char8 *suffixArray[] = {
     "gif"
 };
 
-GIFImageFileType GIFImageFileType::_the ( suffixArray, sizeof(suffixArray) );
+GIFImageFileType GIFImageFileType::_the ( "gif",
+                                          suffixArray, sizeof(suffixArray) );
+
+
+//-------------------------------------------------------------------------
+/*!
+Class method to get the singleton Object
+*/
+GIFImageFileType& GIFImageFileType::the (void)
+{
+  return _the;
+}
 
 //-------------------------------------------------------------------------
 /*!
@@ -452,9 +463,10 @@ bool GIFImageFileType::write(const Image &OSG_CHECK_ARG(image   ),
 /*!
 Constructor used for the singleton object
 */
-GIFImageFileType::GIFImageFileType(const Char8 *suffixArray[],
+GIFImageFileType::GIFImageFileType(const Char8 *mimeType,
+                                   const Char8 *suffixArray[],
                                    UInt16 suffixByteCount) :
-    ImageFileType(suffixArray, suffixByteCount)
+    ImageFileType(mimeType,suffixArray, suffixByteCount)
 {
     return;
 }

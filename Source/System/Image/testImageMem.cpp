@@ -45,7 +45,7 @@ bool writeMemDump (OSG::Image &image, const char *fileName)
   OSG::ImageFileType *fType;
   OSG::UChar8 * data;
   
-  fType = OSG::ImageFileHandler::the().getFileType("MTD");
+  fType = OSG::ImageFileHandler::the().getDefaultType();
 
   if (fType && outs) {
     maxSize = fType->maxBufferSize(image);

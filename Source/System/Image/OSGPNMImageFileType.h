@@ -68,9 +68,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PNMImageFileType : public ImageFileType
     /*! \name                  Get Methods                                 */
     /*! \{                                                                 */
 
-    virtual PNMImageFileType & the        (void) { return _the; }
-
-    virtual const Char8      *getMimeType (void) { return "PNM"; }
+    static PNMImageFileType & the (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -90,7 +88,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PNMImageFileType : public ImageFileType
     /*! \name               Default Constructor                            */
     /*! \{                                                                 */
 
-    PNMImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
+    PNMImageFileType ( const Char8 *mimeType,
+                       const Char8 *suffixArray[], UInt16 suffixByteCount );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -69,9 +69,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SGIImageFileType : public ImageFileType
     /*! \name                  Get Method                                  */
     /*! \{                                                                 */
 
-    virtual SGIImageFileType & the        (void) { return _the; }
-
-    virtual const char       *getMimeType (void) { return "SGI"; }
+    static SGIImageFileType & the (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -91,7 +89,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SGIImageFileType : public ImageFileType
     /*! \name               Default Constructor                            */
     /*! \{                                                                 */
 
-    SGIImageFileType ( const char *suffixArray[], UInt16 suffixByteCount );
+    SGIImageFileType ( const Char8 *mimeType,
+                       const Char8 *suffixArray[], UInt16 suffixByteCount );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

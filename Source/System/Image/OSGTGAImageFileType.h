@@ -68,9 +68,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TGAImageFileType : public ImageFileType
     /*! \name                  Get Method                                  */
     /*! \{                                                                 */
 
-    virtual TGAImageFileType the          (void) { return _the; }
-
-    virtual const Char8      *getMimeType (void) { return "TGA"; }
+    static TGAImageFileType & the (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -90,7 +88,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TGAImageFileType : public ImageFileType
     /*! \name               Default Constructor                            */
     /*! \{                                                                 */
 
-    TGAImageFileType (const Char8 *suffixArray[], UInt16 suffixByteCount );
+    TGAImageFileType (const Char8 *mimeType,
+                      const Char8 *suffixArray[], UInt16 suffixByteCount );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -68,8 +68,6 @@ class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
     /*! \name                  Get Method                                  */
     /*! \{                                                                 */
 
-    virtual const Char8 *getMimeType (void) { return "JPEG"; }
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Read/Write                                 */
@@ -84,7 +82,7 @@ class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
     /*! \name                  Get Method                                  */
     /*! \{                                                                 */
 
-    JPGImageFileType & the (void) { return _the; }
+    static JPGImageFileType & the (void);
 
     /*! \}                                                                 */
 
@@ -105,7 +103,8 @@ class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
     /*! \name               Default Constructor                            */
     /*! \{                                                                 */
 
-    JPGImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
+    JPGImageFileType ( const Char8 *mimeType,
+                       const Char8 *suffixArray[], UInt16 suffixByteCount );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

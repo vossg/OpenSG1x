@@ -80,9 +80,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
     /*! \name                  Get Methods                                 */
     /*! \{                                                                 */
 
-    virtual DATImageFileType & the        (void) { return _the; }
-
-    virtual const Char8      *getMimeType (void) { return "DAT"; }
+    static DATImageFileType& the (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -102,7 +100,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
     /*! \name               Default Constructor                            */
     /*! \{                                                                 */
 
-    DATImageFileType ( const Char8 *suffixArray[], UInt16 suffixByteCount );
+    DATImageFileType ( const Char8 *mimeType,
+                       const Char8 *suffixArray[], UInt16 suffixByteCount );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

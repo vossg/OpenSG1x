@@ -111,10 +111,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
     /*! \name                   Get Types                                  */
     /*! \{                                                                 */
 
-    virtual ImageFileType * getFileType    ( const char *mimeType,
-                                             const char *fileName = 0 );
+    ImageFileType * getFileType    ( const char *mimeType,
+                                     const char *fileName = 0 );
 
-    virtual ImageFileType * getDefaultType (void);
+    ImageFileType * getDefaultType (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

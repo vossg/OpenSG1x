@@ -75,7 +75,8 @@ static const Char8 *suffixArray[] =
     "dat"
 };
 
-DATImageFileType DATImageFileType::_the(suffixArray, sizeof(suffixArray) );
+DATImageFileType DATImageFileType::_the( "dat",
+                                         suffixArray, sizeof(suffixArray) );
 
 std::map<std::string, 
          DATImageFileType::KeyType   > DATImageFileType::_keyStrMap;
@@ -92,11 +93,18 @@ std::map<std::string,
  *    Class methodes
  *******************************/
 
+//-------------------------------------------------------------------------
+/*!
+Class method to get the singleton Object
+*/
+DATImageFileType& DATImageFileType::the (void)
+{
+  return _the;
+}
 
 /*******************************
 *public
 *******************************/
-
 
 //-------------------------------------------------------------------------
 /*!
@@ -367,9 +375,10 @@ UInt64 DATImageFileType::storeData(const Image  &image,
 /*!
 Constructor used for the singleton object
 */
-DATImageFileType::DATImageFileType ( const Char8 *suffixArray[], 
+DATImageFileType::DATImageFileType ( const Char8 *mimeType,
+                                     const Char8 *suffixArray[], 
                                      UInt16 suffixByteCount )
-    : ImageFileType ( suffixArray, suffixByteCount )
+    : ImageFileType ( mimeType, suffixArray, suffixByteCount )
 {
     return;
 }

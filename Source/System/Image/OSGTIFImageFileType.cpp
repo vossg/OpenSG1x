@@ -89,7 +89,8 @@ static const Char8 *suffixArray[] = {
   "tif", "tiff"
 };
 
-TIFImageFileType TIFImageFileType:: _the(suffixArray, sizeof(suffixArray));
+TIFImageFileType TIFImageFileType:: _the("tiff",
+                                         suffixArray, sizeof(suffixArray));
 
 /* enum VecBase::VectorSizeE
  * brief 
@@ -118,6 +119,16 @@ TIFImageFileType TIFImageFileType:: _the(suffixArray, sizeof(suffixArray));
 /********************************
  *  Class methodes
  *******************************/
+
+//-------------------------------------------------------------------------
+/*!
+Class method to get the singleton Object
+*/
+TIFImageFileType& TIFImageFileType::the (void)
+{
+  return _the;
+}
+
 
 /*******************************
 *public
@@ -348,9 +359,10 @@ bool TIFImageFileType::write(const Image &OSG_TIF_ARG(image),
 /*!
 Constructor used for the singleton object
 */
-TIFImageFileType::TIFImageFileType(const Char8 *suffixArray[],
+TIFImageFileType::TIFImageFileType(const Char8 *mimeType,
+                                   const Char8 *suffixArray[],
                                    UInt16 suffixByteCount) :
-    ImageFileType(suffixArray, suffixByteCount)
+    ImageFileType(mimeType,suffixArray, suffixByteCount)
 {
     return;
 }

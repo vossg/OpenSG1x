@@ -28,7 +28,7 @@ int main (int argc, char **argv)
     }
     else 
     {
-        fileType = OSG::ImageFileHandler::the().getFileType("MTD");
+        fileType = OSG::ImageFileHandler::the().getDefaultType();
     }
     
     if (argc > 2)

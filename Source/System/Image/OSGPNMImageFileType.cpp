@@ -88,7 +88,8 @@ static const Char8 *suffixArray[] =
 };
 
 
-PNMImageFileType PNMImageFileType::_the(suffixArray, sizeof(suffixArray));
+PNMImageFileType PNMImageFileType::_the("pnm",
+                                        suffixArray, sizeof(suffixArray));
 
 /*****************************
  *    Classvariables
@@ -97,6 +98,15 @@ PNMImageFileType PNMImageFileType::_the(suffixArray, sizeof(suffixArray));
 /********************************
  *    Class methodes
  *******************************/
+
+//-------------------------------------------------------------------------
+/*!
+Class method to get the singleton Object
+*/
+PNMImageFileType& PNMImageFileType::the (void)
+{
+  return _the;
+}
 
 /*******************************
 *public
@@ -312,9 +322,10 @@ bool PNMImageFileType::write(const Image &image, const Char8 *fileName)
 /*!
 Constructor used for the singleton object
 */
-PNMImageFileType::PNMImageFileType(const Char8 *suffixArray[],
+PNMImageFileType::PNMImageFileType(const Char8 *mimeType,
+                                   const Char8 *suffixArray[],
                                    UInt16 suffixByteCount) :
-    ImageFileType(suffixArray, suffixByteCount)
+    ImageFileType(mimeType,suffixArray, suffixByteCount)
 {
     return;
 }

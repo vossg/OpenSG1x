@@ -64,13 +64,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GIFImageFileType : public ImageFileType
     virtual ~GIFImageFileType (void);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Get Method                                  */
-    /*! \{                                                                 */
 
-    virtual const Char8 *getMimeType (void) { return "GIF"; }
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
@@ -85,7 +79,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GIFImageFileType : public ImageFileType
     /*! \name                  Get Method                                  */
     /*! \{                                                                 */
 
-    GIFImageFileType & the (void) { return _the; }
+    static GIFImageFileType & the (void);
 
     /*! \}                                                                 */
 
@@ -96,7 +90,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GIFImageFileType : public ImageFileType
     /*! \name               Default Constructor                            */
     /*! \{                                                                 */
 
-    GIFImageFileType ( const Char8 *suffixArray[],
+    GIFImageFileType ( const Char8 *mimeType,
+                       const Char8 *suffixArray[],
                        UInt16 suffixByteCount );
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -50,8 +50,6 @@
 
 #include "OSGImageFileHandler.h"
 
-#include "OSGMTDImageFileType.h"
-
 OSG_USING_NAMESPACE
 
 /*! \class osg::ImageFileHandler 
@@ -144,21 +142,21 @@ Returns the default OpenSG ImageFileType
 */
 ImageFileType *ImageFileHandler::getDefaultType(void)
 {
-    IDString        dSuffix("opensg");
-
-    std::map<IDString, 
-              ImageFileType *>::iterator sI = _suffixTypeMap.find(dSuffix);
-
-
-    ImageFileType *type = (sI == _suffixTypeMap.end()) ? 0 : sI->second;
-
-    if(!type)
+  IDString        dSuffix("opensg");
+  
+  std::map<IDString, 
+    ImageFileType *>::iterator sI = _suffixTypeMap.find(dSuffix);
+  
+  
+  ImageFileType *type = (sI == _suffixTypeMap.end()) ? 0 : sI->second;
+  
+  if(!type)
     {
-        FFATAL(("Can not find any default (suffix:%s) image handler\n",
-               dSuffix.str()));
+      FFATAL(("Can not find any default (suffix:%s) image handler\n",
+              dSuffix.str()));
     }
-
-    return type;
+  
+  return type;
 }
 
 //-------------------------------------------------------------------------

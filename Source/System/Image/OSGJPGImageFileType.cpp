@@ -183,11 +183,22 @@ static void jpeg_memory_src(struct jpeg_decompress_struct *cinfo,
 // Static Class Varible implementations:
 static const Char8                  *suffixArray[] = { "jpg", "jpeg" };
 
-JPGImageFileType JPGImageFileType:: _the(suffixArray, sizeof(suffixArray));
+JPGImageFileType JPGImageFileType:: _the("jpeg",
+                                         suffixArray, sizeof(suffixArray));
 
 /********************************
  *  Class methodes
  *******************************/
+
+
+//-------------------------------------------------------------------------
+/*!
+Class method to get the singleton Object
+*/
+JPGImageFileType& JPGImageFileType::the (void)
+{
+  return _the;
+}
 
 /*******************************
 *public
@@ -534,9 +545,10 @@ UInt64 JPGImageFileType::storeData(const Image  &OSG_JPG_ARG(image  ),
 /*!
 Constructor used for the singleton object
 */
-JPGImageFileType::JPGImageFileType(const Char8 *suffixArray[],
-                                   UInt16 suffixByteCount) :
-    ImageFileType(suffixArray, suffixByteCount)
+JPGImageFileType::JPGImageFileType( const Char8 *mimeType,
+                                    const Char8 *suffixArray[],
+                                    UInt16 suffixByteCount) :
+    ImageFileType(mimeType, suffixArray, suffixByteCount)
 {
     return;
 }

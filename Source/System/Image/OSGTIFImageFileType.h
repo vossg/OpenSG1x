@@ -68,9 +68,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TIFImageFileType : public ImageFileType
     /*! \name                  Get Method                                  */
     /*! \{                                                                 */
 
-    virtual TIFImageFileType the          (void) { return _the; }
-
-    virtual const Char8      *getMimeType (void) { return "TIFF"; }
+    static TIFImageFileType & the (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -90,7 +88,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TIFImageFileType : public ImageFileType
     /*! \name               Default Constructor                            */
     /*! \{                                                                 */
 
-    TIFImageFileType (const Char8 *suffixArray[], UInt16 suffixByteCount );
+    TIFImageFileType (const Char8 *mimeType,
+                      const Char8 *suffixArray[], UInt16 suffixByteCount );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

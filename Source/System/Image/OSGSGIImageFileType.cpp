@@ -321,13 +321,14 @@ ImageGetRow(ImageRec *image, unsigned char *buf, int y, int z)
  *****************************/
  
 // Static Class Varible implementations: 
-static const char *suffixArray[] = 
+static const Char8 *suffixArray[] = 
 {
     "rgb", "rgba", "sgi", "bw"
 };
 
-SGIImageFileType SGIImageFileType::_the ( suffixArray,
-                      sizeof(suffixArray) );
+SGIImageFileType SGIImageFileType::_the ( "sgi",
+                                          suffixArray,
+                                          sizeof(suffixArray) );
 
 
 /*****************************
@@ -339,6 +340,14 @@ SGIImageFileType SGIImageFileType::_the ( suffixArray,
  *    Class methodes
  *******************************/
 
+//-------------------------------------------------------------------------
+/*!
+Class method to get the singleton Object
+*/
+SGIImageFileType& SGIImageFileType::the (void)
+{
+  return _the;
+}
 
 /*******************************
 *public
@@ -466,9 +475,10 @@ bool SGIImageFileType::write(const Image &OSG_CHECK_ARG(image   ),
 /*!
 Constructor used for the singleton object
 */
-SGIImageFileType::SGIImageFileType ( const char *suffixArray[], 
-                                                                                     UInt16 suffixByteCount )
-    : ImageFileType ( suffixArray, suffixByteCount )
+SGIImageFileType::SGIImageFileType ( const Char8 *mimeType,
+                                     const Char8 *suffixArray[], 
+                                     UInt16 suffixByteCount )
+    : ImageFileType ( mimeType, suffixArray, suffixByteCount )
 {
     return;
 }

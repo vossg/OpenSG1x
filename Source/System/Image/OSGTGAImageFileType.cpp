@@ -77,6 +77,14 @@ static const Char8 *suffixArray[] = {
   "tga"
 };
 
+//-------------------------------------------------------------------------
+/*!
+Class method to get the singleton Object
+*/
+TGAImageFileType& TGAImageFileType::the (void)
+{
+  return _the;
+}
 
 void TGAImageFileType::readHeader(std::istream &in, TGAHeader &header)
 {
@@ -179,7 +187,8 @@ bool TGAImageFileType::readCompressedImageData(std::istream &in, Image &image)
 }
 
 
-TGAImageFileType TGAImageFileType::_the(suffixArray, sizeof(suffixArray));
+TGAImageFileType TGAImageFileType::_the("tga",
+                                        suffixArray, sizeof(suffixArray));
 
 
 //-------------------------------------------------------------------------
@@ -321,9 +330,10 @@ bool TGAImageFileType::write(const Image &OSG_CHECK_ARG(image),
 /*!
 Constructor used for the singleton object
 */
-TGAImageFileType::TGAImageFileType(const Char8 *suffixArray[],
+TGAImageFileType::TGAImageFileType(const Char8 *mimeType,
+                                   const Char8 *suffixArray[],
                                    UInt16 suffixByteCount) :
-    ImageFileType(suffixArray, suffixByteCount)
+    ImageFileType(mimeType,suffixArray, suffixByteCount)
 {
     return;
 }
