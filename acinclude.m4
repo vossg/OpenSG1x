@@ -177,8 +177,14 @@ AC_DEFUN(AC_GDZ_SETUP_INTEL,
         ac_gdz_compiler_version=50
     fi
 
+    ac_gdz_compiler_bin_dir=bin
+
     case $ac_gdz_compiler_version in
 
+        70)
+        ac_gdz_intelsearchdir=Intel/Compiler$ac_gdz_compiler_version/IA32
+        ac_gdz_compiler_bin_dir=Bin
+        ;;
         60)
         ac_gdz_intelsearchdir=Intel/compiler$ac_gdz_compiler_version/ia32
         ;;
@@ -196,7 +202,7 @@ AC_DEFUN(AC_GDZ_SETUP_INTEL,
     AC_GDZ_FIND_PROG_DIR($ac_gdz_intelsearchdir)
 
     ac_gdz_compiler_dir=$ac_gdz_find_prog_dir_result
-    ac_gdz_compiler_path=$ac_gdz_compiler_dir/bin
+    ac_gdz_compiler_path=$ac_gdz_compiler_dir/$ac_gdz_compiler_bin_dir
     ac_gdz_compiler_incl=$ac_gdz_compiler_dir/Include
     ac_gdz_compiler_lib=$ac_gdz_compiler_dir/Lib
     ac_gdz_compiler_exe=icl.exe
@@ -209,7 +215,7 @@ AC_DEFUN(AC_GDZ_SETUP_INTEL,
 
         for drive in c d e f g; do
             for progdir in "Program Files" "Programme"; do
-                echo "    /cygdrive/$drive/$progdir/$ac_gdz_intelsearchdir"
+        \        echo "    /cygdrive/$drive/$progdir/$ac_gdz_intelsearchdir"
             done
         done
 
