@@ -71,7 +71,7 @@ class VecStorage2
     /*==========================  PUBLIC  =================================*/
   public:
 
-    enum VectorSizeE { _iSize = 2 };
+    static const UInt32 _iSize = 2;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructor                                */
@@ -132,7 +132,7 @@ class VecStorage3
     /*==========================  PUBLIC  =================================*/
   public:
 
-    enum VectorSizeE { _iSize = 3 };
+    static const UInt32 _iSize = 3;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructor                                */
@@ -196,7 +196,7 @@ class VecStorage4
     /*==========================  PUBLIC  =================================*/
   public:
 
-    enum VectorSizeE { _iSize = 4 };
+    static const UInt32 _iSize = 4;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructor                                */
