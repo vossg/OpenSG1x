@@ -1,29 +1,32 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Sat Aug 17 23:48:36 2002
-**      by:  The User Interface Compiler (uic)
+** Created: Mo 18. Aug 17:03:38 2003
+**      by: The User Interface Compiler ($Id: qt/main.cpp   3.2.0   edited May 19 14:22 $)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
+
 #ifndef OSGMAINVIEW_H
 #define OSGMAINVIEW_H
 
 #include <qvariant.h>
+#include <qpixmap.h>
 #include <qmainwindow.h>
 #include "OSGSceneView_qt.h"
-class QVBoxLayout; 
-class QHBoxLayout; 
-class QGridLayout; 
+
+class QVBoxLayout;
+class QHBoxLayout;
+class QGridLayout;
 class QAction;
 class QActionGroup;
 class QToolBar;
 class QPopupMenu;
-class QCheckBox;
 class QTabWidget;
+class QCheckBox;
 
 class OSGMainView : public QMainWindow
-{ 
+{
     Q_OBJECT
 
 public:
@@ -49,7 +52,6 @@ public:
     QAction* createViewAction;
     QAction* fileInsertAction;
 
-
 public slots:
     virtual void init();
     virtual void destroyMainView();
@@ -67,10 +69,22 @@ public slots:
     virtual void setStatistics( bool val );
 
 protected:
-    QHBoxLayout* OSGMainViewLayout;
-
     OSGSceneView *sceneView;
     osg::NodePtr root;
+
+    QHBoxLayout* OSGMainViewLayout;
+
+protected slots:
+    virtual void languageChange();
+
+private:
+    QPixmap image0;
+    QPixmap image1;
+    QPixmap image2;
+    QPixmap image3;
+    QPixmap image4;
+    QPixmap image5;
+
 };
 
 #endif // OSGMAINVIEW_H
