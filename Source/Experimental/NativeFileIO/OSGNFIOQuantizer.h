@@ -75,10 +75,10 @@ public:
     /*! \name                    Constants                                 */
     /*! \{                                                                 */
 
-    static const UInt8 QRES_OFF = 0;
-    static const UInt8 QRES_8BIT = 1;
-    static const UInt8 QRES_16BIT = 2;
-    static const UInt8 QRES_24BIT = 3;
+    static const UInt8 QRES_OFF;
+    static const UInt8 QRES_8BIT;
+    static const UInt8 QRES_16BIT;
+    static const UInt8 QRES_24BIT;
 
     /*! \}                                                                 */ 
     /*==========================  PRIVATE  ================================*/
@@ -96,6 +96,6 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGNFIOQUANTIZER_HEADER_CVSID "@(#)$Id: OSGNFIOQuantizer.h,v 1.1 2004/01/08 18:00:04 a-m-z Exp $"
+#define OSGNFIOQUANTIZER_HEADER_CVSID "@(#)$Id: OSGNFIOQuantizer.h,v 1.2 2004/01/09 09:09:31 a-m-z Exp $"
 
 #endif /* _OSGNFIOQUANTIZER_H_ */

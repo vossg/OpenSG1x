@@ -248,57 +248,51 @@ void NFIOGeometry::readQuantizedVectors(const GeoPropType &prop)
     beginEditCP(prop);
     VecType t;
     
-    switch(res)
+    if(res == Quantizer::QRES_8BIT)
     {
-        case Quantizer::QRES_8BIT:
+        Quantizer quantizer(min, max, res);
+        UInt8 qv;
+        for(UInt32 i=0;i<noe;++i)
         {
-            Quantizer quantizer(min, max, res);
-            UInt8 qv;
-            for(UInt32 i=0;i<noe;++i)
+            for(UInt32 j=0;j<d;++j)
             {
-                for(UInt32 j=0;j<d;++j)
-                {
-                    _in->getValue(qv);
-                    t[j] = quantizer.decode(qv);
-                }
-                prop->addValue(t);
+                _in->getValue(qv);
+                t[j] = quantizer.decode(qv);
             }
+            prop->addValue(t);
         }
-        break;
-        case Quantizer::QRES_16BIT:
+    }
+    else if(res == Quantizer::QRES_16BIT)
+    {
+        Quantizer quantizer(min, max, res);
+        UInt16 qv;
+        for(UInt32 i=0;i<noe;++i)
         {
-            Quantizer quantizer(min, max, res);
-            UInt16 qv;
-            for(UInt32 i=0;i<noe;++i)
+            for(UInt32 j=0;j<d;++j)
             {
-                for(UInt32 j=0;j<d;++j)
-                {
-                    _in->getValue(qv);
-                    t[j] = quantizer.decode(qv);
-                }
-                prop->addValue(t);
+                _in->getValue(qv);
+                t[j] = quantizer.decode(qv);
             }
+            prop->addValue(t);
         }
-        break;
-        case Quantizer::QRES_24BIT:
+    }
+    else if (res == Quantizer::QRES_24BIT)
+    {
+        Quantizer quantizer(min, max, res);
+        UInt32 qv;
+        UInt16 qvl;
+        UInt8  qvh;
+        for(UInt32 i=0;i<noe;++i)
         {
-            Quantizer quantizer(min, max, res);
-            UInt32 qv;
-            UInt16 qvl;
-            UInt8  qvh;
-            for(UInt32 i=0;i<noe;++i)
+            for(UInt32 j=0;j<d;++j)
             {
-                for(UInt32 j=0;j<d;++j)
-                {
-                    _in->getValue(qvl);
-                    _in->getValue(qvh);
-                    qv = ((qvl | (qvh << 16)) & 0x00ffffff);
-                    t[j] = quantizer.decode(qv);
-                }
-                prop->addValue(t);
+                _in->getValue(qvl);
+                _in->getValue(qvh);
+                qv = ((qvl | (qvh << 16)) & 0x00ffffff);
+                t[j] = quantizer.decode(qv);
             }
+            prop->addValue(t);
         }
-        break;
     }
     endEditCP(prop);
 }
@@ -441,21 +435,20 @@ void NFIOGeometry::writeQuantizedVectors(const GeoPropType &prop,
         _out->putValue(fieldType);
         
         UInt32 size;
-        switch(res)
+        if(res == Quantizer::QRES_8BIT)
         {
-            case Quantizer::QRES_8BIT:
-                size = sizeof(UInt8) * d * noe + sizeof(UInt8) +
-                       sizeof(Real32) + sizeof(Real32) + sizeof(UInt32);
-            break;
-            case Quantizer::QRES_16BIT:
-                size = sizeof(UInt16) * d * noe + sizeof(UInt8) +
-                       sizeof(Real32) + sizeof(Real32) + sizeof(UInt32);
-            break;
-            case Quantizer::QRES_24BIT:
-                size = (sizeof(UInt16) + sizeof(UInt8)) * d * noe +
-                       sizeof(UInt8) + sizeof(Real32) +
-                       sizeof(Real32) + sizeof(UInt32);
-            break;
+            size = sizeof(UInt8) * d * noe + sizeof(UInt8) +
+                   sizeof(Real32) + sizeof(Real32) + sizeof(UInt32);
+        }
+        else if(res == Quantizer::QRES_16BIT)
+        {
+            size = sizeof(UInt16) * d * noe + sizeof(UInt8) +
+                   sizeof(Real32) + sizeof(Real32) + sizeof(UInt32);
+        }
+        else if(res == Quantizer::QRES_24BIT)
+        {
+            size = (sizeof(UInt16) + sizeof(UInt8)) * d * noe + sizeof(UInt8) +
+                    sizeof(Real32) + sizeof(Real32) + sizeof(UInt32);
         }
         
         _out->putValue(size); // size
@@ -464,58 +457,52 @@ void NFIOGeometry::writeQuantizedVectors(const GeoPropType &prop,
         _out->putValue(max);
         _out->putValue(noe);
         
-        switch(res)
+        if(res == Quantizer::QRES_8BIT)
         {
-            case Quantizer::QRES_8BIT:
+            Quantizer quantizer(min, max, res);
+            UInt8 qv;
+            for(UInt32 i=0;i<noe;++i)
             {
-                Quantizer quantizer(min, max, res);
-                UInt8 qv;
-                for(UInt32 i=0;i<noe;++i)
+                v = prop->getValue(i);
+                for(UInt32 j=0;j<d;++j)
                 {
-                    v = prop->getValue(i);
-                    for(UInt32 j=0;j<d;++j)
-                    {
-                        qv = quantizer.encode(v[j]);
-                        _out->putValue(qv);
-                    }
+                    qv = quantizer.encode(v[j]);
+                    _out->putValue(qv);
                 }
             }
-            break;
-            case Quantizer::QRES_16BIT:
+        }
+        else if(res == Quantizer::QRES_16BIT)
+        {
+            Quantizer quantizer(min, max, res);
+            UInt16 qv;
+            for(UInt32 i=0;i<noe;++i)
             {
-                Quantizer quantizer(min, max, res);
-                UInt16 qv;
-                for(UInt32 i=0;i<noe;++i)
+                v = prop->getValue(i);
+                for(UInt32 j=0;j<d;++j)
                 {
-                    v = prop->getValue(i);
-                    for(UInt32 j=0;j<d;++j)
-                    {
-                        qv = quantizer.encode(v[j]);
-                        _out->putValue(qv);
-                    }
+                    qv = quantizer.encode(v[j]);
+                    _out->putValue(qv);
                 }
             }
-            break;
-            case Quantizer::QRES_24BIT:
+        }
+        else if(res == Quantizer::QRES_24BIT)
+        {
+            Quantizer quantizer(min, max, res);
+            UInt32 qv;
+            UInt16 qvl;
+            UInt8  qvh;
+            for(UInt32 i=0;i<noe;++i)
             {
-                Quantizer quantizer(min, max, res);
-                UInt32 qv;
-                UInt16 qvl;
-                UInt8  qvh;
-                for(UInt32 i=0;i<noe;++i)
+                v = prop->getValue(i);
+                for(UInt32 j=0;j<d;++j)
                 {
-                    v = prop->getValue(i);
-                    for(UInt32 j=0;j<d;++j)
-                    {
-                        qv = quantizer.encode(v[j]);
-                        qvl = (qv & 0x0000ffff);
-                        qvh = ((qv >> 16) & 0x000000ff);
-                        _out->putValue(qvl);
-                        _out->putValue(qvh);
-                    }
+                    qv = quantizer.encode(v[j]);
+                    qvl = (qv & 0x0000ffff);
+                    qvh = ((qv >> 16) & 0x000000ff);
+                    _out->putValue(qvl);
+                    _out->putValue(qvh);
                 }
             }
-            break;
         }
     }
 }
@@ -533,6 +520,6 @@ void NFIOGeometry::writeQuantizedVectors(const GeoPropType &prop,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGeometry.cpp,v 1.1 2004/01/08 18:00:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGeometry.cpp,v 1.2 2004/01/09 09:09:31 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOGEOMETRY_HEADER_CVSID;
 }

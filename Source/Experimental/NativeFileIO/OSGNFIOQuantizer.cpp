@@ -54,10 +54,10 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-const UInt8 Quantizer::QRES_OFF;
-const UInt8 Quantizer::QRES_8BIT;
-const UInt8 Quantizer::QRES_16BIT;
-const UInt8 Quantizer::QRES_24BIT;
+const UInt8 Quantizer::QRES_OFF = 0;
+const UInt8 Quantizer::QRES_8BIT = 1;
+const UInt8 Quantizer::QRES_16BIT = 2;
+const UInt8 Quantizer::QRES_24BIT = 3;
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -153,6 +153,6 @@ Real32 Quantizer::normalize_input(Real32 input, Real32 input_min, Real32 input_s
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOQuantizer.cpp,v 1.1 2004/01/08 18:00:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOQuantizer.cpp,v 1.2 2004/01/09 09:09:31 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOQUANTIZER_HEADER_CVSID;
 }
