@@ -1,6 +1,6 @@
 
-SUB_DIR     := System/FileIO/BINWriter
-PACKAGENAME := SystemBINWriter
+SUB_DIR     := System/FileIO/BIN
+PACKAGENAME := SystemBIN
 
 INCL_DIR    := $($(PROJ)POOL)/$(SUB_DIR)
 
