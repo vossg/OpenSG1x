@@ -467,7 +467,8 @@ Bool Image::createMipmap ( Int32 level, Image *destination)
 	Image  *destImage = destination ? destination : new Image;
 	Int32  w = _width, h = _height, d = _depth;
 	Int32  wm, hm, dm, wi, hi, di;
-	UChar8 *src,*dest,*pixel;
+	UChar8 *src,*dest;
+    /* ,*pixel; */
 	Int32  value, i, elem, dim, frame, size, mipmap;
 	Int32  channel, lineSize, sliceSize;
 	
@@ -692,7 +693,7 @@ Bool Image::scaleData ( UChar8* srcData,
 	Real32 sy = Real32(srcH) / Real32(destH);
 	Real32 sz = Real32(srcD) / Real32(destD);
 	Int32 srcSize = srcW * srcH * srcD;
-	Int32 destDize = destW * destH * destD;
+//	Int32 destDize = destW * destH * destD;
 	Int32 x,y,z,p;
 	UChar8 *slice,*line,*pixel;
 
