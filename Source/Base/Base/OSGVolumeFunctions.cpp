@@ -536,8 +536,8 @@ OSG_BASE_DLLMAPPING
 bool intersect(const CylinderVolume &cylinder1, 
                const CylinderVolume &cylinder2)
 {
-    Vec3f   adir1, adir2, n;
-    Pnt3f   apos1, apos2, p;
+    Vec3f   adir1, adir2, n, p;
+    Pnt3f   apos1, apos2;
     double  d;
     bool    retCode = false;
 
@@ -550,7 +550,7 @@ bool intersect(const CylinderVolume &cylinder1,
     n.normalize();
 
     p = apos1 - apos2;
-    d = fabs(n.dot(p));
+    d = fabs(n.dot(p.addToZero()));
 
     if(cylinder1.isEmpty() == true || cylinder2.isEmpty() == true)
     {

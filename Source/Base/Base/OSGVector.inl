@@ -1130,6 +1130,15 @@ PointInterface<ValueTypeT, StorageInterfaceT> &
     return *this;
 }
 
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+PointInterface<ValueTypeT, StorageInterfaceT> &
+    PointInterface<ValueTypeT, 
+                   StorageInterfaceT>::operator =(const VecInterface   &source)
+{
+    PointInterface::error_cannot_assign_vector;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                             Comparison                                  */
 
@@ -1690,6 +1699,22 @@ typename VectorInterface<ValueTypeT,
     return *(static_cast<PntInterface *>(this));
 }
 
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT> &
+VectorInterface<ValueTypeT, StorageInterfaceT>::subZero(void)
+{
+    return *this;
+}
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+const VectorInterface<ValueTypeT, StorageInterfaceT> &
+VectorInterface<ValueTypeT, StorageInterfaceT>::subZero(void) const
+{
+    return (*this);
+}
+
 /*-------------------------------------------------------------------------*/
 /*                                Math                                     */
 
@@ -1777,7 +1802,8 @@ VectorInterface<ValueTypeT, StorageInterfaceT> &
     if(this == &source)
         return *this;
 
-    *(static_cast<Inherited *>(this)) = source;
+    *(static_cast<Inherited *>(this)) = 
+        static_cast<const Inherited &>(source);
 
     return *this;
 }

@@ -476,6 +476,7 @@ class PointInterface : public StorageInterfaceT
     /*! \{                                                                 */
 
     PointInterface &operator =(const PointInterface &source);
+    PointInterface &operator =(const VecInterface   &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -641,8 +642,11 @@ class VectorInterface :
     /*! \name                      Conv                                    */
     /*! \{                                                                 */
 
-          PntInterface   &addToZero (void);
-    const PntInterface   &addToZero (void) const;
+          PntInterface    &addToZero (void);
+    const PntInterface    &addToZero (void) const;
+
+          VectorInterface &subZero   (void);
+    const VectorInterface &subZero   (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
