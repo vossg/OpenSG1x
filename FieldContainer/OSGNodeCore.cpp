@@ -76,7 +76,7 @@ FieldDescription *NodeCore::_desc[] =
 };
 
 FieldContainerType NodeCore::_type("NodeCore",
-                                   "FieldContainer",
+                                   "AttachmentContainer",
                                    NULL,
                                    NULL,
                                    NULL,
