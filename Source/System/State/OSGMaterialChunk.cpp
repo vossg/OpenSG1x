@@ -167,7 +167,13 @@ void MaterialChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
     // change from me to me?
     // this assumes I haven't changed in the meantime. is that a valid assumption?
     if(old == this)
+    {
+        // Reset it, as Geometry colors might have changed it
+        if(getColorMaterial() != GL_NONE)
+            glColor4fv(_sfDiffuse.getValue().getValuesRGBA());
+
         return;
+    }
 
     if(getLit() && ! old->getLit())
         glEnable(GL_LIGHTING);
@@ -181,8 +187,9 @@ void MaterialChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
         glColorMaterial(GL_FRONT_AND_BACK, getColorMaterial());
         glEnable(GL_COLOR_MATERIAL);
     }
-
-    glColor4fv(_sfDiffuse.getValue().getValuesRGBA());
+    
+    if(getColorMaterial() != GL_NONE)
+        glColor4fv(_sfDiffuse.getValue().getValuesRGBA());
 
     if(getLit())
     {
