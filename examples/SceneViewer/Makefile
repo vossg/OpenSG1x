@@ -1,5 +1,6 @@
 
-OSGROOT=../../Builds/*/
+GCCHOME = /usr
+GCCPATH = ${GCCHOME}
 
 ### PROJECT ##########################################################
 TARGET = osgSceneViewer
