@@ -438,21 +438,21 @@ OSG_BASE_DLLMAPPING Int32 osgstrcasecmp(const char *string1, const char *string2
 /*@{*/
 
 inline
-OSG_BASE_DLLMAPPING void osgsleep(UInt32 usecs)
+OSG_BASE_DLLMAPPING void osgsleep(UInt32 millisecs)
 {
 #ifdef WIN32
-    Sleep(usecs);
+    Sleep(millisecs);
 #else
     
     // Rough aproximation, have to find a better way soon (GV)
 
-    if( (usecs * 1000) > 1000000)
+    if( (millisecs * 1000) > 1000000)
     {
-        sleep(usecs / 1000);
+        sleep(millisecs / 1000);
     }
     else
     {
-        usleep(usecs * 1000);
+        usleep(millisecs * 1000);
     }
 #endif
 }

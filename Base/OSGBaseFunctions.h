@@ -276,7 +276,7 @@ OSG_BASE_DLLMAPPING struct EQString
 /*@{*/
 
 inline
-OSG_BASE_DLLMAPPING void osgsleep(UInt32 usecs);
+OSG_BASE_DLLMAPPING void osgsleep(UInt32 millisecs);
 
 /*@}*/
 
