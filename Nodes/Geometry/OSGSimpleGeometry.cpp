@@ -81,7 +81,7 @@ OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultMaterial(void)
 	{
 		_defaultMaterial = SimpleMaterial::create();
 		beginEditCP(_defaultMaterial);
-		_defaultMaterial->setDiffuse( Color3f( 1,1,.5 ) );
+		_defaultMaterial->setDiffuse( Color3f( .7,.7,.5 ) );
 		_defaultMaterial->setAmbient( Color3f( 0.1,0.1,0.1 ) );
 		_defaultMaterial->setSpecular( Color3f( 1,1,1 ) );
 		_defaultMaterial->setShininess( 20 );
