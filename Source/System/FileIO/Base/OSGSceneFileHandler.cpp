@@ -730,11 +730,6 @@ bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
 
     IDString suffix;
 
-    if(_the == NULL)
-    {
-        _the = new SceneFileHandler;
-    }
-
     for(  sI  = fileType.suffixList().begin();
           sI != fileType.suffixList().end();
         ++sI)
@@ -742,9 +737,9 @@ bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
         suffix.set(sI->str());
         suffix.toLower();
 
-        smI = _the->_suffixTypeMap.find(suffix);
+        smI = the()._suffixTypeMap.find(suffix);
 
-        if (smI != _the->_suffixTypeMap.end())
+        if (smI != the()._suffixTypeMap.end())
         {
             if(fileType.doOverride() == true)
             {
@@ -753,11 +748,11 @@ bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
 
                 overrideFinder.uiRefPriority = fileType.getOverridePriority();
 
-                lIt = std::find_if(_the->_suffixTypeMap[suffix]->begin(),
-                                   _the->_suffixTypeMap[suffix]->end(),
+                lIt = std::find_if(the()._suffixTypeMap[suffix]->begin(),
+                                   the()._suffixTypeMap[suffix]->end(),
                                    overrideFinder);
 
-                _the->_suffixTypeMap[suffix]->insert(lIt, &fileType);
+                the()._suffixTypeMap[suffix]->insert(lIt, &fileType);
 
                 SWARNING << "Added an file type with suffix "
                          << suffix
@@ -766,7 +761,7 @@ bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
             }
             else
             {
-                _the->_suffixTypeMap[suffix]->push_back(&fileType);
+                the()._suffixTypeMap[suffix]->push_back(&fileType);
 
                 SWARNING << "Added an file type with suffix "
                          << suffix
@@ -780,7 +775,7 @@ bool SceneFileHandler::addSceneFileType(SceneFileType &fileType)
 
             pTmpList->push_back(&fileType);
 
-            _the->_suffixTypeMap[suffix] = pTmpList;
+            the()._suffixTypeMap[suffix] = pTmpList;
 
             retCode = true;
         }
@@ -798,11 +793,6 @@ bool SceneFileHandler::subSceneFileType(SceneFileType &fileType)
 
     IDString suffix;
 
-    if(_the == NULL)
-    {
-        _the = new SceneFileHandler;
-    }
-
     for(  sI  = fileType.suffixList().begin();
           sI != fileType.suffixList().end();
         ++sI)
@@ -810,10 +800,10 @@ bool SceneFileHandler::subSceneFileType(SceneFileType &fileType)
         suffix.set(sI->str());
         suffix.toLower();
 
-        smI = _the->_suffixTypeMap.find(suffix);
-		if (smI != _the->_suffixTypeMap.end())
+        smI = the()._suffixTypeMap.find(suffix);
+		if (smI != the()._suffixTypeMap.end())
         {
-            _the->_suffixTypeMap.erase(smI);
+            the()._suffixTypeMap.erase(smI);
             retCode = true;
         }
     }
@@ -922,6 +912,11 @@ SceneFileHandler::SceneFileHandler (const SceneFileHandler & )
 
 SceneFileHandler &SceneFileHandler::the(void)
 {
+    if(_the == NULL)
+    {
+        _the = new SceneFileHandler;
+    }
+
     return *_the;
 }
 
