@@ -816,6 +816,40 @@ void PointInterface<ValueTypeT,
     }
 }
 
+
+//! Component wise vector addition
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+void PointInterface<ValueTypeT, StorageInterfaceT>::operator +=(
+    const typename PointInterface<ValueTypeT, 
+                                  StorageInterfaceT>::VecInterface &vec)
+{
+    UInt32 i;
+
+    for(i = 0; i < _iSize; i++)
+    {
+        _values[i] += vec._values[i];
+    }
+}
+
+//! Component wise vector substraction
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+void PointInterface<ValueTypeT, StorageInterfaceT>::operator -=(
+    const typename PointInterface<ValueTypeT, 
+                                  StorageInterfaceT>::VecInterface &vec)
+{
+    UInt32 i;
+
+    for(i = 0; i < _iSize; i++)
+    {
+        _values[i] -= vec._values[i];
+    }
+}
+
+
 //! Point substraction, returns a new vector
 
 template <class ValueTypeT,
@@ -1448,36 +1482,6 @@ typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
 
 /*-------------------------------------------------------------------------*/
 /*                                Math                                     */
-
-//! Component wise vector addition
-
-template <class ValueTypeT,
-          class StorageInterfaceT> inline
-void VectorInterface<ValueTypeT, StorageInterfaceT>::operator +=(
-    const VectorInterface &vec)
-{
-    UInt32 i;
-
-    for(i = 0; i < _iSize; i++)
-    {
-        _values[i] += vec._values[i];
-    }
-}
-
-//! Component wise vector substraction
-
-template <class ValueTypeT,
-          class StorageInterfaceT> inline
-void VectorInterface<ValueTypeT, StorageInterfaceT>::operator -=(
-    const VectorInterface &vec)
-{
-    UInt32 i;
-
-    for(i = 0; i < _iSize; i++)
-    {
-        _values[i] -= vec._values[i];
-    }
-}
 
 //! Component wise binary vector subtraction operator
 

@@ -473,18 +473,22 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
     /*! \name                      Math                                    */
     /*! \{                                                                 */
 
-    void           operator *=(const ValueTypeT      val);
-    void           operator /=(const ValueTypeT      val);
+    void            operator *=(const ValueTypeT      val);
+    void            operator /=(const ValueTypeT      val);
 
-    VecInterface   operator - (const PointInterface &vec ) const;
+    VecInterface    operator - (const PointInterface &vec ) const;
 
-    PointInterface operator + (const VecInterface   &vec ) const;
+    PointInterface  operator + (const VecInterface   &vec ) const;
 
-    PointInterface operator - (const VecInterface   &vec ) const;
+    PointInterface  operator - (const VecInterface   &vec ) const;
 
-    PointInterface operator * (const ValueTypeT      rVal) const;
+    PointInterface  operator * (const ValueTypeT      rVal) const;
 
-    PointInterface operator - (void);
+    PointInterface  operator - (void);
+
+
+    void            operator +=(const VecInterface   &vec );
+    void            operator -=(const VecInterface   &vec );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -691,9 +695,6 @@ class OSG_BASE_DLLMAPPING VectorInterface :
     /*---------------------------------------------------------------------*/
     /*! \name                      Math                                    */
     /*! \{                                                                 */
-
-    void            operator +=(const VectorInterface &vec );
-    void            operator -=(const VectorInterface &vec );
 
     VectorInterface operator - (const VectorInterface &vec ) const;
     VectorInterface operator + (const VectorInterface &vec ) const;
