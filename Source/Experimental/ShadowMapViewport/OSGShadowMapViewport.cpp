@@ -694,9 +694,11 @@ void ShadowMapViewport::initializeLights(RenderActionBase *action)
 
         _shadowImages.push_back(Image::create());
 
+        // creates a image without allocating main memory.
         beginEditCP(_shadowImages[i]);
             _shadowImages[i]->set(Image::OSG_L_PF,getMapSize(), getMapSize(),
-                                    1,1,1,0,NULL);
+                                  1, 1, 1, 0, NULL,
+                                  Image::OSG_UINT8_IMAGEDATA, false);
         endEditCP(_shadowImages[i]);
 
         _texChunks.push_back(TextureChunk::create());
@@ -1010,7 +1012,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.6 2004/08/13 02:26:13 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.7 2004/08/13 16:07:27 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 
