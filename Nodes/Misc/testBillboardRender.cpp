@@ -89,9 +89,9 @@ display(void)
     float t = glutGet(GLUT_ELAPSED_TIME);
     Quaternion q;
     
-    q.setValueAsAxisDeg(0, 1, 0, t / 1000);
+    q.setValueAsAxisDeg(0, 1, 0, t / 5000);
     
-    m1.setTransform(Vec3f(osgsin(t / 100.), 0, osgcos(t / 100)), q);
+    m1.setTransform(Vec3f(osgsin(t / 500.), 0, osgcos(t / 500)), q);
                     
     tr->setMatrix(m1);
     
@@ -359,11 +359,18 @@ int main (int argc, char **argv)
     endEditCP(tnode);
   
     // a geometry to billboard
-    NodePtr geo = makeTorus( .5, 2, 16, 16);
+    NodePtr geo = makeTorus( .2, 1, 16, 16);
 
     beginEditCP(bnode);
     bnode->addChild( geo );
     endEditCP(bnode);
+ 
+    // a geometry to lead the render action somewhere else
+    geo = makePlane( 2, 2, 2, 2 );
+
+    beginEditCP(sroot);
+    sroot->addChild( geo );
+    endEditCP(sroot);
 
     dlight->updateVolume();
         
