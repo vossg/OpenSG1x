@@ -317,7 +317,6 @@ void ShadowMapViewport::render(RenderActionBase* action)
         {
             SWARNING << "No Shadowmap-Extensions available!" << endLog;
         }
-
         else
         {
             if(getSceneRoot() == NullFC)
@@ -339,9 +338,10 @@ void ShadowMapViewport::render(RenderActionBase* action)
         }
     }
 
-    if(_lights.size() > 0)
+    if(!_lights.empty() && !_lightCameras.empty())
+    {
         projectShadowMaps(action);
-     
+    }
     else
     {
         FDEBUG(("Rendering without Shadows\n"));
@@ -1012,7 +1012,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.7 2004/08/13 16:07:27 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.8 2004/08/25 13:41:52 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 
