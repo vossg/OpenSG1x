@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="AVCodecGrabForeground"
+	parent="GrabForeground"
+	library="Contrib"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+	<Field
+		name="active"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+	Activate the grabber.
+	</Field>
+	<Field
+		name="name"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The filename template. %d is replaced by the frame number.
+	</Field>
+	<Field
+		name="kbit"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1400"
+		access="public"
+	>
+	The data rate to use in kbit.
+	</Field>
+	<Field
+		name="autoWrite"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Flag to start/stop automatic writing after each grab.
+	</Field>
+</FieldContainer>

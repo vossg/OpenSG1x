@@ -1,0 +1,29 @@
+
+README for VideoGrab
+====================
+
+Name:                   VideoGrab
+License:                LGPL
+Maintainer:             Mathias Gumz <gumz@cs.uni-magdeburg.de>
+Initial Author:         Mathias Gumz <gumz@cs.uni-magdeburg.de>
+Additional Libraries:   avcodec:avformat (ffmpeg.sf.net, version >= 0.47)
+Added:                  2003/09/05
+Last modified:          2003/09/05
+Last tested:            2003/09/05
+
+Description:
+
+VideoGrab adds a new foreground that can create a movie file of the running
+application. It uses the avcodec lib (see link) to encode the grabbed images
+into different movie formats, derived fro the used extension. See
+testAVCodecForeground.cpp for an example on how to use it.
+
+If you're new to video encoding, take a look at 
+http://www.mplayerhq.hu/DOCS/tech/encoding-tips.txt for some hints on sensible
+parameter values.
+
+This is a first version, comments and fixes welcome. ;)
+
+Have fun
+
+    Mathias
