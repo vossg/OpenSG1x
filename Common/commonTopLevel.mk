@@ -159,7 +159,7 @@ endif
 
 ifeq ($(CONFIGURED_GVBETA),0)
 GV_EXCLUDE  := -o -name Gerrit 
-GV_ADD_PATH := $($(PROJ)POOL)/Experimental/Gerrit/Functors
+GV_ADD_PATH := 
 else
 GV_EXCLUDE := -o -name tmp_gv
 GV_ADD_PATH :=
