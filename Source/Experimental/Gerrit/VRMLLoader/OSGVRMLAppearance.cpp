@@ -342,7 +342,7 @@ void VRMLAppearanceBinder::finish(VRMLToOSGAction *)
     ChunkMaterialPtr pChunkMat = 
         ChunkMaterialPtr::dcast(_pFieldContainer);
 
-    if(pChunkMat != NullFC)
+    if(pChunkMat != NullFC && pChunkMat->isTransparent() == true)
     {
         BlendChunkPtr pBlendChunk = OSG::BlendChunk::create();
 

@@ -38,6 +38,7 @@
 %{
 
 #define YYLTYPE_IS_TRIVIAL 1
+#define YYSTYPE_IS_TRIVIAL 1
 
 #ifdef WIN32
 #include <malloc.h>
