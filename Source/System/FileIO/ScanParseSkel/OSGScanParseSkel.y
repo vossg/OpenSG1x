@@ -208,55 +208,65 @@ void freeName(char *&szName);
 %%
 
 vrmlScene : profileStatement
-            componentStatements
-            metaStatements
-            statements
 ;
 
 profileStatement : PROFILE 
-                    ID
-                    {
-                        if(SKEL != NULL)
-                        {
-                            SKEL->profileElement(SKELTEXT);
-                        }
-                    }
-          |empty 
+                   ID
+                   {
+                       if(SKEL != NULL)
+                       {
+                           SKEL->profileElement(SKELTEXT);
+                       }
+                   }
+                   componentStatements
+                 | componentStatements
 ;
 
-componentStatements : componentStatements componentStatement
-                    |                     componentStatement
-                    | empty
+
+componentStatements : componentStatementsRec metaStatements
+                    |                        metaStatements
+;
+
+componentStatementsRec : componentStatementsRec componentStatement
+                       |                        componentStatement
 ;
 
 componentStatement : COMPONENT
                      ID
-                    {
-                        if(SKEL != NULL)
-                        {
-                            SKEL->componentElement(SKELTEXT);
-                        }
-                    }
+                     {
+                         if(SKEL != NULL)
+                         {
+                             SKEL->componentElement(SKELTEXT);
+                         }
+                     }
+;
 
-metaStatements : metaStatements metaStatement
-                    |                     metaStatement
-                    | empty
+metaStatements : metaStatementsRec statementsORempty
+               |                   statementsORempty
+;
+
+metaStatementsRec : metaStatementsRec metaStatement
+               |                      metaStatement
 ;
 
 metaStatement : META
-                     ID { setName(szName1, SKELTEXT); }
-                     ID
+                ID { setName(szName1, SKELTEXT); }
+                ID
+                {
+                    if(SKEL != NULL)
                     {
-                        if(SKEL != NULL)
-                        {
-                            SKEL->metaElement(szName1, SKELTEXT);
-                        }
-                        freeName(szName1);
+                        SKEL->metaElement(szName1, SKELTEXT);
                     }
+                    freeName(szName1);
+                }        
+;
 
+statementsORempty : statements
+                  | empty
+;
+           
 statements : statements statement 
            |            statement  
-           | empty 
 ;
 
 statement : nodeStatement 
@@ -315,7 +325,7 @@ protoBodyORempty : protoBody
                  | empty
 ;
 
-protoBody : protoStatementsORempty rootNodeStatement statements
+protoBody : protoStatementsORempty rootNodeStatement statementsORempty
 ;
 
 interfaceDeclarationsORempty : interfaceDeclarations
@@ -834,7 +844,7 @@ extern void clearSkel  (void);
 
 void OSGScanParseSkel_error (char *s)  /* Called by fhs_parse on error */
 {
-  FWARNING(("-----> %s in Line %d\n", s, iLineNum));
+  FWARNING(("-----> %s in Line %d\n", s, iLineNum + 1));
 }
 
 
