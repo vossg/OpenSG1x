@@ -42,6 +42,10 @@
 #pragma once
 #endif
 
+//----------------------------------------------------------------------------
+//    Includes
+//----------------------------------------------------------------------------
+
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
 
@@ -145,6 +149,6 @@ OSG_END_NAMESPACE
 
 #include "OSGBasicActorBase.inl"
 
-#define OSGBASICACTORBASE_HEADER_CVSID "@(#)$Id: OSGBasicActorBase.h,v 1.1 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGBASICACTORBASE_HEADER_CVSID "@(#)$Id: OSGBasicActorBase.h,v 1.2 2004/09/11 11:10:03 neumannc Exp $"
 
 #endif /* _OSGBASICACTORBASE_H_ */

@@ -42,6 +42,10 @@
 #pragma once
 #endif
 
+//----------------------------------------------------------------------------
+//    Includes
+//----------------------------------------------------------------------------
+
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
 
@@ -51,16 +55,34 @@ OSG_BEGIN_NAMESPACE
 
 class OSG_SYSTEMLIB_DLLMAPPING ExtendActorBase : public ActorBase
 {
+    /*==== PUBLIC ===========================================================*/
   public:
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Destructor                                                  */
+    /*! \{                                                                   */
 
     virtual ~ExtendActorBase(void);
+
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Start/Stop                                                  */
+    /*! \{                                                                   */
 
     virtual ResultE start    (      void          ) = 0;
     virtual ResultE stop     (      void          ) = 0;
 
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Enter/Leave                                                 */
+    /*! \{                                                                   */
+
     virtual ResultE enterNode(const NodePtr &pNode) = 0;
     virtual ResultE leaveNode(const NodePtr &pNode) = 0;
 
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Children Managment                                          */
+    /*! \{                                                                   */
 
     inline bool getChildrenListEnabled(void        ) const;
     inline void setChildrenListEnabled(bool enabled);
@@ -78,6 +100,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ExtendActorBase : public ActorBase
     inline void         setChildPriority(UInt32       childIndex,
                                          PriorityType prio       );
 
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Extra Children Managment                                    */
+    /*! \{                                                                   */
+
     inline UInt32 addExtraChild(const NodePtr &pNode                   );
     inline UInt32 addExtraChild(const NodePtr &pNode, PriorityType prio);
 
@@ -92,21 +119,39 @@ class OSG_SYSTEMLIB_DLLMAPPING ExtendActorBase : public ActorBase
     inline void         setExtraChildPriority(UInt32       childIndex,
                                               PriorityType prio       );
 
+    /*! \}                                                                   */
+    /*==== PROTECTED ========================================================*/
   protected:
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Types                                                       */
+    /*! \{                                                                   */
+
     typedef ActorBase            Inherited;
     typedef Inherited::StateType StateType;
 
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Constructor                                                 */
+    /*! \{                                                                   */
+
     ExtendActorBase(void);
+
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Add, Sub and Find Helper                                    */
+    /*! \{                                                                   */
 
     virtual UInt32 addHelper (      NewActionBase *pAction);
     virtual void   subHelper (      NewActionBase *pAction);
     virtual UInt32 findHelper(const NewActionBase *pAction);
+    
+    /*! \}                                                                   */
 };
 
 OSG_END_NAMESPACE
 
 #include "OSGExtendActorBase.inl"
 
-#define OSGEXTENDACTORBASE_HEADER_CVSID "@(#)$Id: OSGExtendActorBase.h,v 1.1 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGEXTENDACTORBASE_HEADER_CVSID "@(#)$Id: OSGExtendActorBase.h,v 1.2 2004/09/11 11:10:03 neumannc Exp $"
 
 #endif /* _OSGEXTENDACTORBASE_H_ */

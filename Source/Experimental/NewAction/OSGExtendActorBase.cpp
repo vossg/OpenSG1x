@@ -36,9 +36,25 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+//----------------------------------------------------------------------------
+//    Includes
+//----------------------------------------------------------------------------
+
 #include "OSGExtendActorBase.h"
 
 OSG_USING_NAMESPACE
+
+//----------------------------------------------------------------------------
+//    Destructor
+//----------------------------------------------------------------------------
+
+ExtendActorBase::~ExtendActorBase(void)
+{
+}
+
+//----------------------------------------------------------------------------
+//    Start/Stop
+//----------------------------------------------------------------------------
 
 ExtendActorBase::ResultE
 ExtendActorBase::start(void)
@@ -52,6 +68,10 @@ ExtendActorBase::stop(void)
     return Inherited::stop();
 }
 
+//----------------------------------------------------------------------------
+//    Enter/Leave
+//----------------------------------------------------------------------------
+
 ExtendActorBase::ResultE
 ExtendActorBase::enterNode(const NodePtr &pNode)
 {
@@ -63,6 +83,22 @@ ExtendActorBase::leaveNode(const NodePtr &pNode)
 {
     return NewActionTypes::Continue;
 }
+
+//----------------------------------------------------------------------------
+//    Constructors
+//----------------------------------------------------------------------------
+
+/*! Default constructor
+ */
+
+ExtendActorBase::ExtendActorBase(void)
+    : Inherited()
+{
+}
+
+//----------------------------------------------------------------------------
+//    Add, Sub and Find helper
+//----------------------------------------------------------------------------
 
 UInt32
 ExtendActorBase::addHelper(NewActionBase *pAction)
@@ -105,7 +141,7 @@ ExtendActorBase::findHelper(const NewActionBase *pAction)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGExtendActorBase.cpp,v 1.1 2004/09/10 15:00:46 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGExtendActorBase.cpp,v 1.2 2004/09/11 11:10:03 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGEXTENDACTORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGEXTENDACTORBASE_INLINE_CVSID;
 }

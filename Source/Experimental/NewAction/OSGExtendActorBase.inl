@@ -38,6 +38,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+//----------------------------------------------------------------------------
+//    Children Managment
+//----------------------------------------------------------------------------
+
 /*! Return if the children list is enabled.
  */
 
@@ -219,4 +223,4 @@ ExtendActorBase::setExtraChildPriority(UInt32 childIndex, PriorityType prio)
 
 OSG_END_NAMESPACE
 
-#define OSGEXTENDACTORBASE_INLINE_CVSID "@(#)$Id: OSGExtendActorBase.inl,v 1.1 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGEXTENDACTORBASE_INLINE_CVSID "@(#)$Id: OSGExtendActorBase.inl,v 1.2 2004/09/11 11:10:03 neumannc Exp $"
