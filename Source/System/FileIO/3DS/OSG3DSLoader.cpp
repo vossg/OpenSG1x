@@ -104,25 +104,6 @@ typedef unsigned long ulong;
 
 // the error reporting routine
 
-struct LChunk
-{
-    unsigned short id;
-    uint start;
-    uint end;
-};
-
-struct LTri
-{
-    unsigned short a;
-    unsigned short b;
-    unsigned short c;
-    ulong smoothingGroups;
-    LVector3 normal;
-    LVector3 tangent;
-    LVector3 binormal;
-    uint materialId;
-};
-
 // globals
 
 LColor3 black = {0, 0, 0};

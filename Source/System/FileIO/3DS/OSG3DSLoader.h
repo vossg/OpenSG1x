@@ -18,9 +18,10 @@ enum LShading {sWireframe, sFlat, sGouraud, sPhong, sMetal};
 
 enum LOptimizationLevel {oNone, oSimple, oFull};
 
-// for internal use
-struct LChunk;
-struct LTri;
+// for internal use 
+// forward declaration breaks decent STL implemtations
+//struct LChunk;
+//struct LTri;
 
 //------------------------------------------------
 
@@ -53,6 +54,27 @@ struct LColor3
 };
 
 //------------------------------------------------
+
+// LChunk, LTri internal, but as the are used in a
+// vector<LTri> declaration they cannot be incomplete
+struct LChunk
+{
+    unsigned short id;
+    uint start;
+    uint end;
+};
+
+struct LTri
+{
+    unsigned short a;
+    unsigned short b;
+    unsigned short c;
+    ulong smoothingGroups;
+    LVector3 normal;
+    LVector3 tangent;
+    LVector3 binormal;
+    uint materialId;
+};
 
 struct LTriangle
 {
