@@ -188,12 +188,6 @@
 
 # if defined(_STANDARD_C_PLUS_PLUS)
 
-     /*! \brief streams in std namespace
-      *  \ingroup GrpBaseDefines
-      */
-
-#    define OSG_STREAM_IN_STD_NAMESPACE
-
 # endif  /* _STANDARD_C_PLUS_PLUS */
 
 /*! \brief stream->rdbuf get the new buffer as a parameter
@@ -280,8 +274,6 @@
  *  \ingroup GrpBaseDefines
  */
 
-# define OSG_STREAM_IN_STD_NAMESPACE
-
 # define OSG_LINUX_TYPES
 
 # define OSG_HAS_ATANF2
@@ -310,8 +302,6 @@
 # define OSG_HAS_NAMESPACE
 
 # define OSG_HAS_STD_NAMESPACE
-
-# define OSG_STREAM_IN_STD_NAMESPACE
 
 # define OSG_STREAM_RDBUF_HAS_PARAM
 
@@ -364,9 +354,6 @@
 // compiler supports std namespace
 # define OSG_HAS_STD_NAMESPACE
 
-// streams in std namespace
-# define OSG_STREAM_IN_STD_NAMESPACE
-
 // general float math
 # define OSG_HAS_FLOATMATH
 
@@ -404,8 +391,6 @@
 # define OSG_USE_WINTHREADS
 // compiler supports std namespace
 # define OSG_HAS_STD_NAMESPACE
-// streams in std namespace
-# define OSG_STREAM_IN_STD_NAMESPACE
 // general float math
 # define OSG_HAS_FLOATMATH
 
@@ -436,12 +421,6 @@
 
 # if defined(darwin)
 
-/*! \brief streams in std namespace
- *  \ingroup GrpBaseDefines
- */
-
-# define OSG_STREAM_IN_STD_NAMESPACE
-
 # define OSG_LINUX_TYPES
 # define OSG_NO_CONCEPT_CHECKS 
 # define SIZE_T_NEQ_UINT32
@@ -467,7 +446,6 @@
 
 # define OSG_HPUX_TYPES
 
-# define OSG_STREAM_IN_STD_NAMESPACE
 # define OSG_USE_PTHREADS
 
 # define OSG_FOUND_OS
@@ -492,12 +470,6 @@
 # define OSG_HAS_STD_NAMESPACE
 
 # if defined(_STANDARD_C_PLUS_PLUS)
-
-     /*! \brief streams in std namespace
-      *  \ingroup GrpBaseDefines
-      */
-
-#    define OSG_STREAM_IN_STD_NAMESPACE
 
 # endif  /* _STANDARD_C_PLUS_PLUS */
 
