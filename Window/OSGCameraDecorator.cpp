@@ -41,8 +41,6 @@
 //---------------------------------------------------------------------------
 
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -71,7 +69,7 @@ The base class for the camera.
  *                           Class variables                               *
 \***************************************************************************/
 
-char CameraDecorator::cvsid[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.2 2001/08/07 17:22:17 dirk Exp $";
+char CameraDecorator::cvsid[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.3 2001/10/10 10:42:57 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

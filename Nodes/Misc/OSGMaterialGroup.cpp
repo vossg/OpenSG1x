@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -72,7 +70,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.11 2001/09/17 04:02:52 vossg Exp $";
+char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.12 2001/10/10 10:42:56 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

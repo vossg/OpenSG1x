@@ -41,8 +41,6 @@
 //---------------------------------------------------------------------------
 
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -76,7 +74,7 @@ for definition, which doesn't change.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.3 2001/08/07 17:23:58 dirk Exp $";
+char TileCameraDecorator::cvsid[] = "@(#)$Id: OSGTileCameraDecorator.cpp,v 1.4 2001/10/10 10:42:57 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

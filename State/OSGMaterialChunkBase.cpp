@@ -51,7 +51,6 @@
 \*****************************************************************************/
 
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEMATERIALCHUNKINST
 
 #include <stdlib.h>
@@ -73,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.14 2001/10/03 20:37:35 dirk Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.15 2001/10/10 10:42:57 vossg Exp $";
     static char cvsid_hpp       [] = OSGMATERIALCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGMATERIALCHUNKBASE_INLINE_CVSID;
 

@@ -38,8 +38,6 @@
 
 #include <stdio.h>
 
-#define OSG_COMPILESYSTEMLIB
-
 #include "OSGTrackball.h"
 
 OSG_USING_NAMESPACE

@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -77,7 +75,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.13 2001/08/10 03:33:11 vossg Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.14 2001/10/10 10:42:55 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -36,8 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#define OSG_COMPILESYSTEMLIB
-
 // System declarations
 #include <OSGConfig.h>
 #include <iostream>

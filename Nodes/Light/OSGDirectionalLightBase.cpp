@@ -51,7 +51,6 @@
 \*****************************************************************************/
 
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEDIRECTIONALLIGHTINST
 
 #include <stdlib.h>
@@ -72,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.13 2001/10/03 20:37:34 dirk Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.14 2001/10/10 10:42:56 vossg Exp $";
     static char cvsid_hpp       [] = OSGDIRECTIONALLIGHTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGDIRECTIONALLIGHTBASE_INLINE_CVSID;
 

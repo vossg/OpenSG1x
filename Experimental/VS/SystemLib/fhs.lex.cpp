@@ -1379,7 +1379,6 @@ char *fhs_text_ptr;
 /************************************************************************/
 #line 7 "/e/user/gerrit/Projects/OpenSG/OpenSG/Loader/Fhs/fhs.l"
 #define YY_NEVER_INTERACTIVE 1
-#define OSG_COMPILESYSTEMLIB
 
 #ifdef WIN32                        
 #include <io.h>                     /* For open, close */

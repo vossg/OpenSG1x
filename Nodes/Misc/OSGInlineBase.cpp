@@ -51,7 +51,6 @@
 \*****************************************************************************/
 
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEINLINEINST
 
 #include <stdlib.h>
@@ -107,7 +106,7 @@ const OSG::BitVector  InlineBase::UrlFieldMask =
 
 // Field descriptions
 
-/*! \var String          InlineBase::_mfUrl
+/*! \var string          InlineBase::_mfUrl
     
 */
 //! Inline description

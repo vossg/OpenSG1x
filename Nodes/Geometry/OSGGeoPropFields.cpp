@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEGEOPROPFIELDINST
 
 #include <stdlib.h>

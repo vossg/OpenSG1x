@@ -51,7 +51,6 @@
 \*****************************************************************************/
 
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEVIEWPORTINST
 
 #include <stdlib.h>
@@ -89,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.18 2001/10/03 20:37:36 dirk Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.19 2001/10/10 10:42:57 vossg Exp $";
     static char cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 

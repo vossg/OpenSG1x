@@ -40,8 +40,6 @@
 // 	Includes 					 			    
 //-------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -71,7 +69,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.7 2001/10/08 05:54:16 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.8 2001/10/10 10:42:55 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
 }
 

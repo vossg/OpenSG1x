@@ -51,8 +51,7 @@
 \*****************************************************************************/
 
 
-#define OSG_COMPILESYSTEMLIB
-#define OSG_COMPILETEXTUREDSIMPLEMATERIALINST
+#define OSG_COMPILESIMPLETEXTUREDMATERIALINST
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -92,11 +91,11 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.1 2001/10/06 18:01:26 dirk Exp $";
-    static char cvsid_hpp       [] = OSGTEXTUREDSIMPLEMATERIALBASE_HEADER_CVSID;
-    static char cvsid_inl       [] = OSGTEXTUREDSIMPLEMATERIALBASE_INLINE_CVSID;
+    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.2 2001/10/10 10:42:55 vossg Exp $";
+    static char cvsid_hpp       [] = OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID;
 
-    static char cvsid_fields_hpp[] = OSGTEXTUREDSIMPLEMATERIALFIELDS_HEADER_CVSID;
+    static char cvsid_fields_hpp[] = OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID;
 }
 
 #ifdef __sgi

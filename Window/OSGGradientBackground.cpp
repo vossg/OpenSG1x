@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -81,7 +79,7 @@ A background showing a vertical color gradient. The colors and positions corresp
  *                           Class variables                               *
 \***************************************************************************/
 
-char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.9 2001/10/05 04:17:43 vossg Exp $";
+char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.10 2001/10/10 10:42:57 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

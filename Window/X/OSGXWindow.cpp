@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEXWINDOWLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 

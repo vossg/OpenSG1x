@@ -1,6 +1,4 @@
 
-#define OSG_COMPILESYSTEMLIB
-
 #include "OSGAnimTest.h"
 
 #include "OSGGenericInterpolator.h"

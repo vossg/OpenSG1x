@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -77,7 +75,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
  *                           Class variables                               *
 \***************************************************************************/
 
-char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.7 2001/10/05 04:17:43 vossg Exp $";
+char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.8 2001/10/10 10:42:57 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

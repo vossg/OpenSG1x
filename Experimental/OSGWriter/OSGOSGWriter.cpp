@@ -38,8 +38,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include "OSGOSGWriter.h"
 
 OSG_USING_NAMESPACE
@@ -50,7 +48,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.3 2001/10/07 09:32:36 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.4 2001/10/10 10:42:53 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOSGWRITER_HEADER_CVSID;
 }
 

@@ -41,8 +41,6 @@
 //---------------------------------------------------------------------------
 
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -80,7 +78,7 @@ This Node manages the different levels of detail available for a Geometry and de
  *                           Class variables                               *
 \***************************************************************************/
 
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.12 2001/09/30 19:34:51 dirk Exp $";
+char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.13 2001/10/10 10:42:56 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

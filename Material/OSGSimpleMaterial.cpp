@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -81,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.16 2001/09/04 10:56:39 dirk Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.17 2001/10/10 10:42:55 vossg Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 

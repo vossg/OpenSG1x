@@ -40,7 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEGEOPROPTEXCOORDSINST
 
 #include <stdlib.h>

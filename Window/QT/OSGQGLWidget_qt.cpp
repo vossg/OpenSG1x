@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEQTWINDOWLIB
-
 #ifdef OSG_WITH_QT
 
 #include <stdlib.h>

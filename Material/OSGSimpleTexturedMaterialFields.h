@@ -48,8 +48,8 @@
 \*****************************************************************************/
 
 
-#ifndef _OSGTEXTUREDSIMPLEMATERIALFIELDS_H_
-#define _OSGTEXTUREDSIMPLEMATERIALFIELDS_H_
+#ifndef _OSGSIMPLETEXTUREDMATERIALFIELDS_H_
+#define _OSGSIMPLETEXTUREDMATERIALFIELDS_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -94,7 +94,7 @@ struct FieldDataTraits<SimpleTexturedMaterialPtr> :
 
 typedef SField<SimpleTexturedMaterialPtr> SFSimpleTexturedMaterialPtr;
 
-#ifndef OSG_COMPILETEXTUREDSIMPLEMATERIALINST
+#ifndef OSG_COMPILESIMPLETEXTUREDMATERIALINST
 #if defined(__sgi)
 
 #pragma do_not_instantiate SField<SimpleTexturedMaterialPtr>::_fieldType
@@ -110,7 +110,7 @@ OSG_DLLEXPORT_DECL1(SField, SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPP
 
 typedef MField<SimpleTexturedMaterialPtr> MFSimpleTexturedMaterialPtr;
 
-#ifndef OSG_COMPILETEXTUREDSIMPLEMATERIALINST
+#ifndef OSG_COMPILESIMPLETEXTUREDMATERIALINST
 #if defined(__sgi)
 
 #pragma do_not_instantiate MField<SimpleTexturedMaterialPtr>::_fieldType
@@ -124,6 +124,6 @@ OSG_DLLEXPORT_DECL1(MField, SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPP
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREDSIMPLEMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialFields.h,v 1.1 2001/10/06 18:01:26 dirk Exp $"
+#define OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialFields.h,v 1.2 2001/10/10 10:42:55 vossg Exp $"
 
-#endif /* _OSGTEXTUREDSIMPLEMATERIALFIELDS_H_ */
+#endif /* _OSGSIMPLETEXTUREDMATERIALFIELDS_H_ */

@@ -40,9 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -81,7 +78,7 @@ Background is the base class for all background clearing.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ImageForeground::cvsid[] = "@(#)$Id: OSGImageForeground.cpp,v 1.2 2001/10/05 04:17:43 vossg Exp $";
+char ImageForeground::cvsid[] = "@(#)$Id: OSGImageForeground.cpp,v 1.3 2001/10/10 10:42:57 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

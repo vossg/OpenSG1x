@@ -38,8 +38,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -67,7 +65,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.28 2001/10/05 04:17:42 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.29 2001/10/10 10:42:55 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174

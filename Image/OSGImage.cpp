@@ -41,7 +41,6 @@
 // 	Includes 					 			    
 //-------------------------------
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEIMAGEINST
 
 #include "OSGConfig.h"

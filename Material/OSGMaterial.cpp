@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -79,7 +77,7 @@ The material base class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.10 2001/08/10 03:33:11 vossg Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.11 2001/10/10 10:42:55 vossg Exp $";
 
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::NullMaterial;
 

@@ -40,7 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEQTWINDOWLIB
 #define OSG_COMPILEQTWINDOWINST
 
 #ifdef OSG_WITH_QT

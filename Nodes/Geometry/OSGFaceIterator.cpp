@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -80,7 +78,7 @@ is just too expensive and rarely useful.
  *                           Class variables                               *
 \***************************************************************************/
 
-char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.10 2001/09/14 14:01:16 vossg Exp $";
+char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.11 2001/10/10 10:42:55 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -37,8 +37,6 @@
 \*---------------------------------------------------------------------------*/
 %{
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <malloc.h>
 #include <OSGScanParseSkel.tab.h>
 #include <OSGConfig.h>

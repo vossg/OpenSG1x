@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -74,7 +72,7 @@ i.e. polygons.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.6 2001/10/03 20:37:35 dirk Exp $";
+char PolygonChunk::cvsid[] = "@(#)$Id: OSGPolygonChunk.cpp,v 1.7 2001/10/10 10:42:57 vossg Exp $";
 
 StateChunkClass PolygonChunk::_class("Polygon");
 

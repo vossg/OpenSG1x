@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -90,7 +88,7 @@ For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.12 2001/10/03 20:37:34 dirk Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.13 2001/10/10 10:42:56 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

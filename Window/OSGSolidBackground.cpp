@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -81,7 +79,7 @@ A single colored background.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.7 2001/08/10 03:33:11 vossg Exp $";
+char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.8 2001/10/10 10:42:57 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

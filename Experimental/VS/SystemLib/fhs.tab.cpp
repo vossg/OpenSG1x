@@ -188,8 +188,6 @@
 #include <stdio.h>
 #include <math.h>
 
-#define OSG_COMPILESYSTEMLIB
-
 #include "OSGFhsComm.h"
 
 #ifdef __sgi

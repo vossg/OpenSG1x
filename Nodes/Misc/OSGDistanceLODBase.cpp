@@ -51,7 +51,6 @@
 \*****************************************************************************/
 
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEDISTANCELODINST
 
 #include <stdlib.h>
@@ -72,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.7 2001/10/03 20:37:35 dirk Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.8 2001/10/10 10:42:56 vossg Exp $";
     static char cvsid_hpp       [] = OSGDISTANCELODBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGDISTANCELODBASE_INLINE_CVSID;
 

@@ -51,7 +51,6 @@
 \*****************************************************************************/
 
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEGEOMETRYINST
 
 #include <stdlib.h>
@@ -72,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.17 2001/10/03 20:37:34 dirk Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.18 2001/10/10 10:42:56 vossg Exp $";
     static char cvsid_hpp       [] = OSGGEOMETRYBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGGEOMETRYBASE_INLINE_CVSID;
 

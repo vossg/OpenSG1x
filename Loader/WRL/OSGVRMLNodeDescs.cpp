@@ -41,7 +41,6 @@
 //---------------------------------------------------------------------------
 
 #define OSG_COMPILEVRMLNODEDESCINST
-#define OSG_COMPILESYSTEMLIB
         
 #include <stdlib.h>
 #include <stdio.h>

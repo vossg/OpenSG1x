@@ -67,7 +67,7 @@
 
 #include <OSGNodeCore.h> // Parent
 
-#include <OSGStringFields.h> // Url type
+#include <OSGstringFields.h> // Url type
 
 #include <OSGInlineFields.h>
 
@@ -119,7 +119,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       MFString            *getMFUrl          (void);
+    inline       MFString            *getMFUrl            (void);
 
     inline       string              &getUrl            (UInt32 index);
     inline       MFString            &getUrl            (void);

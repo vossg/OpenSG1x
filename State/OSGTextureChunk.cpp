@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -76,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.19 2001/10/03 20:37:35 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.20 2001/10/10 10:42:57 vossg Exp $";
 
 StateChunkClass TextureChunk::_class("Texture");
 

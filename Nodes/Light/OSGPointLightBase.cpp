@@ -51,7 +51,6 @@
 \*****************************************************************************/
 
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEPOINTLIGHTINST
 
 #include <stdlib.h>
@@ -72,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGPointLightBase.cpp,v 1.13 2001/10/03 20:37:35 dirk Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPointLightBase.cpp,v 1.14 2001/10/10 10:42:56 vossg Exp $";
     static char cvsid_hpp       [] = OSGPOINTLIGHTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGPOINTLIGHTBASE_INLINE_CVSID;
 

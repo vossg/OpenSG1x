@@ -101,6 +101,11 @@ class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
@@ -188,10 +193,9 @@ class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
 
     typedef PARENTCLASS Inherited;
 
-
     /*!\brief prohibit default function (move to 'public' if needed) */
-
     CLASSNAME(const CLASSNAME &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const CLASSNAME &source);
 };
 

@@ -51,7 +51,6 @@
 \*****************************************************************************/
 
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILETRANSFORMINST
 
 #include <stdlib.h>
@@ -89,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.15 2001/10/03 20:37:35 dirk Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.16 2001/10/10 10:42:56 vossg Exp $";
     static char cvsid_hpp       [] = OSGTRANSFORMBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGTRANSFORMBASE_INLINE_CVSID;
 

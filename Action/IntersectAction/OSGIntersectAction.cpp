@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -77,7 +75,7 @@ The intersect action class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.7 2001/09/17 04:02:48 vossg Exp $";
+char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.8 2001/10/10 10:42:53 vossg Exp $";
 
 IntersectAction * IntersectAction::_prototype = NULL;
 

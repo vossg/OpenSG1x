@@ -40,8 +40,6 @@
 // 	Includes 					 			    
 //-------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -73,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.9 2001/10/08 22:34:56 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.10 2001/10/10 10:42:55 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 

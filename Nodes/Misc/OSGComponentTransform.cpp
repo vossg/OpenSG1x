@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -71,7 +69,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char ComponentTransform::cvsid[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.1 2001/10/03 20:37:35 dirk Exp $";
+char ComponentTransform::cvsid[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.2 2001/10/10 10:42:56 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

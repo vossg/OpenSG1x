@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -77,7 +75,7 @@ pixel are combined with the pixel already in the frame buffer.
  *                           Class variables                               *
 \***************************************************************************/
 
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.6 2001/10/03 20:37:35 dirk Exp $";
+char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.7 2001/10/10 10:42:57 vossg Exp $";
 
 StateChunkClass BlendChunk::_class("Blend");
 

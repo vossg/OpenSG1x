@@ -38,7 +38,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEATTACHMENTINST
 
 #include <stdlib.h>

@@ -1,6 +1,4 @@
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <windows.h>
 
 #include <OSGLog.h>

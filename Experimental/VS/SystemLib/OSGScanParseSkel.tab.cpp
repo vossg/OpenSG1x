@@ -98,8 +98,6 @@
 #line 38 "/e/user/gerrit/Projects/OpenSG/OpenSG/Experimental/ScanParseSkel/OSGScanParseSkel.y"
 
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <malloc.h>
 #include <OSGScanParseSkel.tab.h>
 #include <OSGConfig.h>

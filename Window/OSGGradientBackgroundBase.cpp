@@ -51,7 +51,6 @@
 \*****************************************************************************/
 
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEGRADIENTBACKGROUNDINST
 
 #include <stdlib.h>
@@ -87,7 +86,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.16 2001/10/03 20:37:36 dirk Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.17 2001/10/10 10:42:57 vossg Exp $";
     static char cvsid_hpp       [] = OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID;
 

@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include "OSGGenericInterpolator.h"
 
 OSG_USING_NAMESPACE

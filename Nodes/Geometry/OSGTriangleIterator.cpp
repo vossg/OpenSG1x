@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -73,7 +71,7 @@ triangles, non-polygonal primitives like lines and points are ignored.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.11 2001/07/30 22:17:45 vossg Exp $";
+char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.12 2001/10/10 10:42:56 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

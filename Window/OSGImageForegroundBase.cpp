@@ -51,7 +51,6 @@
 \*****************************************************************************/
 
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEIMAGEFOREGROUNDINST
 
 #include <stdlib.h>
@@ -89,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.2 2001/10/04 03:02:03 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGImageForegroundBase.cpp,v 1.3 2001/10/10 10:42:57 vossg Exp $";
     static char cvsid_hpp       [] = OSGIMAGEFOREGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGIMAGEFOREGROUNDBASE_INLINE_CVSID;
 

@@ -51,7 +51,6 @@
 \*****************************************************************************/
 
 
-#define OSG_COMPILESYSTEMLIB
 #define OSG_COMPILEDYNAMICBACKGROUNDINST
 
 #include <stdlib.h>
@@ -87,7 +86,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.17 2001/10/03 20:37:36 dirk Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.18 2001/10/10 10:42:57 vossg Exp $";
     static char cvsid_hpp       [] = OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGDYNAMICBACKGROUNDBASE_INLINE_CVSID;
 

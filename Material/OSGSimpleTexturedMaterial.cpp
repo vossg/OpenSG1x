@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -67,7 +65,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.1 2001/10/06 18:01:26 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.2 2001/10/10 10:42:55 vossg Exp $";
     static char cvsid_hpp[] = OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID;
 }
