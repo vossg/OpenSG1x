@@ -43,7 +43,7 @@
 OSG_BEGIN_NAMESPACE
 
 template<class ParameterType, class ValueType> inline
-bool ShaderParameterAccess::setParameter(const char *name, ValueType value)
+bool ShaderParameterAccess::setParameter(const char *name, const ValueType &value)
 {
     if(name == NULL)
         return false;
@@ -116,4 +116,4 @@ bool ShaderParameterAccess::getParameter(const char *name, ValueType &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.6 2004/07/01 11:26:56 a-m-z Exp $"
+#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.7 2004/07/02 22:19:10 a-m-z Exp $"
