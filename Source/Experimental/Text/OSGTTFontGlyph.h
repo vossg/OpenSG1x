@@ -1,77 +1,64 @@
 #ifndef TTGLYPH_CLASS_DECLARATION
 #define TTGLYPH_CLASS_DECLARATION
 
-#ifndef WIN32
 #ifdef OSG_WITH_FREETYPE1
+
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 
 #include "OSGFontGlyph.h"
 
+#ifndef WIN32
 #include "freetype1/freetype/freetype.h"
+#else
+#include "freetype/freetype.h"
+#endif
 
-OSG_BEGIN_NAMESPACE class TTFontGlyph :
-    public virtual FontGlyph
+OSG_BEGIN_NAMESPACE 
+
+class TTFontGlyph : public virtual FontGlyph
 {
-    typedef FontGlyph   ParentClass;
-private:
+    typedef FontGlyph Inherited;
 
-    TT_Error            _ttError;
+  private:
 
-    TT_Glyph            _ttGlyph;
-
-    TT_Glyph_Metrics    _ttGlyphMetrics;
-
-    TT_Face             *_ttFace;
-
-    TT_Instance         *_ttInstance;
-
-    static Real64       _ttScale;
-protected:
-public:
-
-    /** Default Constructor */
-    TTFontGlyph(void);
-
-    /** Copy Constructor */
     TTFontGlyph(const TTFontGlyph &obj);
+    void operator =(const TTFontGlyph &obj);
 
-    /** Constructor */
+  protected:
+
+//    static Real64            _ttScale;
+
+           TT_Error          _ttError;
+           TT_Glyph          _ttGlyph;
+           TT_Glyph_Metrics  _ttGlyphMetrics;
+           TT_Face          *_ttFace;
+           TT_Instance      *_ttInstance;
+
+  public:
+    
+    TTFontGlyph(void);
     TTFontGlyph(Int32 ascii, Int32 unicode);
 
-    /** Destructor */
-    virtual             ~TTFontGlyph(void);
+    virtual ~TTFontGlyph(void);
 
-    /** Constructor */
-    void                setupGlyph(Int32 ascii, Int32 unicode);
-
-    /** stores needed FreeType definitions */
-    virtual void setFontDefs(TT_Face *ttFacte, TT_Instance *ttInstance)
-    {
-        _ttFace = ttFacte;
-        _ttInstance = ttInstance;
-    }
-
-    /** creates desired representation */
-    virtual bool    createGlyph(void);
-
-    virtual bool    getOutline(TT_Outline &ttOutline);
-
-    virtual bool    setSizes(Real32 *_boundingBox, Real32 &_advance);
-
-    virtual bool    setSizes(Int32 *_boundingBox, Int32 &_advance);
-
-    virtual void glyphDone(void)
-    {
-        TT_Done_Glyph(_ttGlyph);
-    }
-
-    virtual bool    renderGlyph(TT_Raster_Map map, Int32 xOff, Int32 yOff);
+            void setupGlyph (Int32          ascii, 
+                             Int32          unicode     );
+    virtual void setFontDefs(TT_Face       *ttFacte, 
+                             TT_Instance   *ttInstance  );
+    virtual bool createGlyph(void                       );
+    virtual bool getOutline (TT_Outline    &ttOutline   );
+    virtual bool setSizes   (Real32        *_boundingBox, 
+                             Real32        &_advance    );
+    virtual bool setSizes   (Int32         *_boundingBox, 
+                             Int32         &_advance    );
+    virtual void glyphDone  (void                       );
+    virtual bool renderGlyph(TT_Raster_Map   map, 
+                             Int32           xOff, 
+                             Int32           yOff       );
 };
 
-typedef TTFontGlyph *TTFontGlyphP;
-
 OSG_END_NAMESPACE
+
 #endif // OSG_WITH_FREETYPE1
-#endif
 #endif // TTGLYPH_CLASS_DECLARATION

@@ -1,45 +1,36 @@
 #ifndef TXFGLYPH_CLASS_DECLARATION
 #define TXFGLYPH_CLASS_DECLARATION
 
-#ifndef WIN32
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 
 #include "OSGFontGlyph.h"
 
-OSG_BEGIN_NAMESPACE class TXFFontGlyph :
-    public virtual FontGlyph
+OSG_BEGIN_NAMESPACE 
+
+class TXFFontGlyph : public virtual FontGlyph
 {
-    typedef FontGlyph   ParentClass;
-private:
-protected:
-public:
+    typedef FontGlyph Inherited;
 
-    /** Default Constructor */
-    TXFFontGlyph(void);
+  private:
 
-    /** Copy Constructor */
     TXFFontGlyph(const TXFFontGlyph &obj);
+    void operator =(const TXFFontGlyph &obj);
 
-    /** Constructor */
+  protected:
+  public:
+    
+    TXFFontGlyph(void);
     TXFFontGlyph(Int32 ascii, Int32 unicode);
 
-    /** Destructor */
-    virtual             ~TXFFontGlyph(void);
+    virtual ~TXFFontGlyph(void);
 
-    /** Constructor */
-    void                setupGlyph(Int32 ascii, Int32 unicode);
-
-    /** creates desired representation */
-    virtual bool        createGlyph(void);
-
-    virtual bool        setSizes(Real32 *_boundingBox, Real32 &_advance);
-
-    virtual bool        setSizes(Int32 *_boundingBox, Int32 &_advance);
+            void setupGlyph (Int32    ascii,       Int32    unicode);
+    virtual bool createGlyph(void                                  );
+    virtual bool setSizes   (Real32 *_boundingBox, Real32 &_advance);
+    virtual bool setSizes   (Int32  *_boundingBox, Int32  &_advance);
 };
 
-typedef TXFFontGlyph    *TXFFontGlyphP;
-
 OSG_END_NAMESPACE
-#endif
+
 #endif // TXFGLYPH_CLASS_DECLARATION

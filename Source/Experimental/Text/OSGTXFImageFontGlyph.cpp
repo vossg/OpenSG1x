@@ -1,6 +1,6 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGConfig.h>
+
 #ifdef __sgi
 #include <stdlib.h>
 #include <stdio.h>
@@ -11,46 +11,49 @@
 #include <cstdio>
 #include <cstring>
 #endif
+
 #include <iostream>
 
-// Class declarations
 #include "OSGTXFImageFontGlyph.h"
 
-/* */
-OSG_USING_NAMESPACE TXFImageFontGlyph::TXFImageFontGlyph(void) :
-    ImageFontGlyph(),
-    TXFFontGlyph()
+OSG_USING_NAMESPACE 
+
+TXFImageFontGlyph::TXFImageFontGlyph(void) :
+     ImageFontGlyph(    ),
+     TXFFontGlyph  (    ),
+    _srcImage      (NULL),
+    _srcWidth      (0   ),
+    _srcHeight     (0   ),
+    _xOff          (0   ),
+    _yOff          (0   )
 {
-    return;
 }
 
-/*
-TXFImageFontGlyph::TXFImageFontGlyph (const TXFImageFontGlyph &obj )
+TXFImageFontGlyph::TXFImageFontGlyph(IGlyphType type, 
+                                     Int32      ascii, 
+                                     Int32      unicode) :
+     ImageFontGlyph(type   ),
+     TXFFontGlyph  (ascii, 
+                    unicode),
+    _srcImage      (NULL   ),
+    _srcWidth      (0      ),
+    _srcHeight     (0      ),
+    _xOff          (0      ),
+    _yOff          (0      )
+
 {
-	return;
-}
-*/
-TXFImageFontGlyph::TXFImageFontGlyph(IGlyphType type, Int32 ascii, Int32 unicode) :
-        ImageFontGlyph(type),
-        TXFFontGlyph(ascii, unicode)
-{
-    return;
 }
 
-/* */
 TXFImageFontGlyph::~TXFImageFontGlyph(void)
 {
-    return;
 }
 
-/* */
 void TXFImageFontGlyph::setup(IGlyphType type, Int32 ascii, Int32 unicode)
 {
     setupGlyph(ascii, unicode);
     setType(type);
 }
 
-/* */
 void TXFImageFontGlyph::setFontDefs(Int16 x, Int16 y, Int8 *dimensions)
 {
     _xOff = x;
@@ -68,15 +71,15 @@ void TXFImageFontGlyph::setFontDefs(Int16 x, Int16 y, Int8 *dimensions)
     _advance = dimensions[4];
 }
 
-/* */
-void TXFImageFontGlyph::setFontSource(UChar8 *srcImage, Int32 width, Int32 height)
+void TXFImageFontGlyph::setFontSource(UChar8 *srcImage, 
+                                      Int32   width, 
+                                      Int32   height)
 {
     _srcImage = srcImage;
     _srcWidth = width;
     _srcHeight = height;
 }
 
-/* */
 bool TXFImageFontGlyph::create(void)
 {
     if(_pixmapBuffer)
@@ -97,4 +100,3 @@ bool TXFImageFontGlyph::create(void)
 
     return true;
 }
-#endif

@@ -1,50 +1,67 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGConfig.h>
+
 #include <iostream>
 
-// Class declarations
 #include "OSGImageFontGlyph.h"
 
-// Static Class Variable implementations:
 OSG_USING_NAMESPACE ImageFontGlyph::ImageFontGlyph(void) :
-    _type(IGLYPH_NONE),
-    _bitmapBuffer(0),
-    _pixmapBuffer(0)
+     Inherited   (           ),
+    _type        (IGLYPH_NONE),
+    _bitmapBuffer(NULL       ),
+    _pixmapBuffer(NULL       )
 {
-    return;
 }
 
-/*
-ImageFontGlyph::ImageFontGlyph (const ImageFontGlyph &obj )
-{
-	return;
-}
-*/
 ImageFontGlyph::ImageFontGlyph(IGlyphType type) :
-    _type(type),
-    _bitmapBuffer(0),
-    _pixmapBuffer(0)
+     Inherited   (    ),
+    _type        (type),
+    _bitmapBuffer(NULL),
+    _pixmapBuffer(NULL)
 {
-    return;
 }
 
-/* */
 ImageFontGlyph::~ImageFontGlyph(void)
 {
     clear();
 
-    if(_bitmapBuffer)
-        delete _bitmapBuffer;
-    if(_pixmapBuffer)
-        delete _pixmapBuffer;
-
-    return;
+    delete _bitmapBuffer;
+    delete _pixmapBuffer;
 }
 
-/* */
 bool ImageFontGlyph::clear(void)
 {
     return true;
 }
-#endif
+
+const Int32 *ImageFontGlyph::getBoundingBox(void)
+{
+    return _boundingBox;
+}
+
+const Int32 *ImageFontGlyph::getImageSize(void)
+{
+    return _imageSize;
+}
+
+Int32 ImageFontGlyph::getAdvance(void)
+{
+    return _advance;
+}
+
+UChar8 *ImageFontGlyph::getImage(void)
+{
+    return _type == IGLYPH_BIAP ? _bitmapBuffer : _pixmapBuffer;
+}
+
+IGlyphType ImageFontGlyph::getType(void)
+{
+    return _type;
+}
+
+void ImageFontGlyph::setType(IGlyphType type)
+{
+    _type = type;
+}
+
+

@@ -1,6 +1,6 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGConfig.h>
+
 #ifdef OSG_WITH_FREETYPE1
 #ifdef __sgi
 #include <math.h>
@@ -13,59 +13,64 @@
 #include <string.h>
 
 #include <OSGLog.h>
+#include <OSGBasefunctions.h>
 
-// Application declarations
 #include "OSGTTVectorFontGlyph.h"
 #include "OSGTTImageFontGlyph.h"
 #include "OSGTXFGlyphInfo.h"
 
-// Class declarations
 #include "OSGTTFontStyle.h"
+
 #include <assert.h>
 
-/* */
 OSG_USING_NAMESPACE
 
-// Static Class Variable implementations:
+
+bool TTFontStyle::processChange(void)
+{
+    return false;
+}
+
 TTFontStyle::TTFontStyle(void) :
-    FontStyle(),
-    _ttInstance(0)
+     Inherited (    ),
+    _ttInstance(NULL),
+    _ttFace    (NULL),
+    _ttError   (0L  )
 {
-    return;
 }
 
-/* */
-TTFontStyle::TTFontStyle(const TTFontStyle &OSG_CHECK_ARG(obj)) :
-    _ttInstance(0)
-{
-    assert(false);
-}
-
-/* */
 TTFontStyle::~TTFontStyle(void)
 {
-    return;
 }
 
-/* */
 VectorFontGlyph *TTFontStyle::getVectorGlyph(UInt8 ascii)
 {
     return _vectorGlyphs[ascii];
 }
 
-/* */
 ImageFontGlyph *TTFontStyle::getImageGlyph(UInt8 ascii)
 {
     return _imageGlyphs[ascii];
 }
 
-/* */
-bool TTFontStyle::processChange(void)
+TXFGlyphInfo *TTFontStyle::getTXFGlyphInfo(UInt8 which)
 {
-    return 0;
+    if(!_txfImageMap)
+        createTXFMap();
+
+    if(which >= _txfGlyphInfos.size())
+    {
+        return _txfGlyphInfos[_txfGlyphInfos[0]->remapped()];
+    }
+
+    if(_txfGlyphInfos[which]->remapped())
+    {
+        return _txfGlyphInfos[_txfGlyphInfos[which]->remapped()];
+    }
+
+    return _txfGlyphInfos[which];
 }
 
-/* */
 bool TTFontStyle::set_ttInstance(TT_Instance *ttInstance, TT_Face *ttFace)
 {
     TT_UShort           ttPlatformID = 0, ttEncodingID = 0;
@@ -79,7 +84,9 @@ bool TTFontStyle::set_ttInstance(TT_Instance *ttInstance, TT_Face *ttFace)
 
     if(_ttError)
     {
-        FWARNING(("Create TT_New_Instance failed with TT_Error= %d", _ttError));
+        FWARNING(("Create TT_New_Instance failed with TT_Error= %d", 
+                  _ttError));
+
         return false;
     }
 
@@ -87,17 +94,20 @@ bool TTFontStyle::set_ttInstance(TT_Instance *ttInstance, TT_Face *ttFace)
     if(_ttError)
     {
         FWARNING((
-                                 "Create TT_Set_Instance_Resolutions failed with TT_Error= %d",
-                             _ttError));
+            "Create TT_Set_Instance_Resolutions failed with TT_Error= %d",
+            _ttError));
+
         return false;
     }
 
-    _ttError = TT_Set_Instance_PointSize(*ttInstance, (Int32) rint(64 * getSize()));
+    _ttError = TT_Set_Instance_PointSize(*ttInstance, 
+                                         (Int32) osgfloor(64 * getSize()));
     if(_ttError)
     {
         FWARNING((
-                                 "Create Create TT_Set_Instance_PointSize failed with TT_Error= %d",
-                     _ttError));
+            "Create Create TT_Set_Instance_PointSize failed with TT_Error= %d",
+            _ttError));
+
         return false;
     }
 
@@ -114,6 +124,7 @@ bool TTFontStyle::set_ttInstance(TT_Instance *ttInstance, TT_Face *ttFace)
     //     setBaselineSkip(getMaxAscent() - getMaxDescent() +
     // 		    (Real32)ttFaceProps.os2->sTypoLineGap/4096);
     //     scaling = getBaselineSkip()*getYRes();
+
     setBaselineSkip(getSize());
 
     scaling = getBaselineSkip();
@@ -158,17 +169,16 @@ bool TTFontStyle::set_ttInstance(TT_Instance *ttInstance, TT_Face *ttFace)
     return true;
 }
 
-// txf-stuff
-
-// compare glyph height
 Int32 cmpIGlyphs(void *g1, void *g2)
 {
-    return ((ImageFontGlyph *) g2)->getImageSize()[1] - ((ImageFontGlyph *) g1)->getImageSize()[1];
+    return 
+        ((ImageFontGlyph *) g2)->getImageSize()[1] - 
+        ((ImageFontGlyph *) g1)->getImageSize()[1];
 }
 
-/* */
-void qsortIGlyphs(Int32 numGlyphs, UChar8 *indices,
-                  std::vector<ImageFontGlyph *> iGlyphs)
+void qsortIGlyphs(Int32                          numGlyphs, 
+                  UChar8                        *indices,
+                  std::vector<ImageFontGlyph *>  iGlyphs)
 {
     UChar8  split, *upper, *lower, up = 1;
 
@@ -210,7 +220,6 @@ void qsortIGlyphs(Int32 numGlyphs, UChar8 *indices,
     qsortIGlyphs(indices + numGlyphs - upper, upper, iGlyphs);
 }
 
-/* */
 bool TTFontStyle::createTXFMap(UChar8 *characters, Int32 gap)
 {
     Int32           i, j, k, numChars, numCreated = 0, width, height, x, y;
@@ -240,9 +249,11 @@ bool TTFontStyle::createTXFMap(UChar8 *characters, Int32 gap)
     for(i = start; i < numChars; i++)
     {
         retVal = _imageGlyphs[characters ? characters[i] : i]->create();
+
         if(retVal)
         {
-            createdIndices[numCreated++] = (UChar8) (characters ? characters[i] : i);
+            createdIndices[numCreated++] = 
+                (UChar8) (characters ? characters[i] : i);
         }
     }
 
@@ -395,7 +406,8 @@ bool TTFontStyle::createTXFMap(UChar8 *characters, Int32 gap)
         x_f = (Real32) bb[0] / scale;
         glyph->setVertexCoords(3, x_f, y_f);
 
-        glyph->setAdvance((Real32) _imageGlyphs[current]->getAdvance() / scale);
+        glyph->setAdvance((Real32) _imageGlyphs[current]->getAdvance() / 
+                          scale);
 
         x += res[0] + gap;
     }
@@ -410,7 +422,6 @@ bool TTFontStyle::createTXFMap(UChar8 *characters, Int32 gap)
     return retVal;
 }
 
-/* */
 UChar8 *TTFontStyle::getTXFImageMap(void)
 {
     if(!_txfImageMap)
@@ -419,26 +430,6 @@ UChar8 *TTFontStyle::getTXFImageMap(void)
     return _txfImageMap;
 }
 
-/* */
-TXFGlyphInfo *TTFontStyle::getTXFGlyphInfo(UInt8 which)
-{
-    if(!_txfImageMap)
-        createTXFMap();
-
-    if(which >= _txfGlyphInfos.size())
-    {
-        return _txfGlyphInfos[_txfGlyphInfos[0]->remapped()];
-    }
-
-    if(_txfGlyphInfos[which]->remapped())
-    {
-        return _txfGlyphInfos[_txfGlyphInfos[which]->remapped()];
-    }
-
-    return _txfGlyphInfos[which];
-}
-
-/* */
 bool TTFontStyle::dump(std::ostream &out)
 {
     const Int32 *bb;
@@ -452,9 +443,9 @@ bool TTFontStyle::dump(std::ostream &out)
     out.write(reinterpret_cast < char * > (&zero), 4);
     out.write(reinterpret_cast < char * > (&_txfFontWidth), 4);
     out.write(reinterpret_cast < char * > (&_txfFontHeight), 4);
-    buffer = (Int32) rint(getMaxAscent() * 72);
+    buffer = (Int32) osgfloor(getMaxAscent() * 72);
     out.write(reinterpret_cast < char * > (&buffer), 4);
-    buffer = (Int32) rint(getMaxDescent() * 72);
+    buffer = (Int32) osgfloor(getMaxDescent() * 72);
     out.write(reinterpret_cast < char * > (&buffer), 4);
 
     for(Int16 i = 0; i < _txfGlyphInfos.size(); i++)
@@ -494,4 +485,3 @@ bool TTFontStyle::dump(std::ostream &out)
     return true;
 }
 #endif // OSG_WITH_FREETYPE1
-#endif

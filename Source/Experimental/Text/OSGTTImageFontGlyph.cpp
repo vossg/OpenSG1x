@@ -1,6 +1,6 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGConfig.h>
+
 #ifdef OSG_WITH_FREETYPE1
 #ifdef __sgi
 #include <stdlib.h>
@@ -12,55 +12,40 @@
 #include <cstdio>
 #include <cstring>
 #endif
+
 #include <iostream>
 
 #include <assert.h>
 
-// Application declarations
-#include "freetype1/freetype/freetype.h"
-
-// Class declarations
 #include "OSGTTImageFontGlyph.h"
 
-/* */
 OSG_USING_NAMESPACE
 
-// Static Class Variable implementations:
 TTImageFontGlyph::TTImageFontGlyph(void) :
     ImageFontGlyph(),
-    TTFontGlyph()
+    TTFontGlyph   ()
 {
-    return;
 }
 
-/* */
-TTImageFontGlyph::TTImageFontGlyph(const TTImageFontGlyph &OSG_CHECK_ARG(obj))
-{
-    assert(false);
-}
-
-/* */
-TTImageFontGlyph::TTImageFontGlyph(IGlyphType type, Int32 ascii, Int32 unicode) :
+TTImageFontGlyph::TTImageFontGlyph(IGlyphType type, 
+                                   Int32      ascii, 
+                                   Int32      unicode) :
         ImageFontGlyph(type),
-        TTFontGlyph(ascii, unicode)
+        TTFontGlyph   (ascii, 
+                       unicode)
 {
-    return;
 }
 
-/* */
 TTImageFontGlyph::~TTImageFontGlyph(void)
 {
-    return;
 }
 
-/* */
 void TTImageFontGlyph::setup(IGlyphType type, Int32 ascii, Int32 unicode)
 {
     setupGlyph(ascii, unicode);
-    setType(type);
+    setType   (type);
 }
 
-/* */
 bool TTImageFontGlyph::create(void)
 {
     Int32           size;
@@ -104,4 +89,3 @@ bool TTImageFontGlyph::create(void)
     return retVal;
 }
 #endif // OSG_WITH_FREETYPE1
-#endif

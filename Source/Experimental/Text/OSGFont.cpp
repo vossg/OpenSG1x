@@ -1,50 +1,35 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGConfig.h>
 #include <iostream>
 
-// Application declarations
-// Class declarations
 #include "OSGFont.h"
 
-/* */
 OSG_USING_NAMESPACE
 
-// Static Class Variable implementations:
 Font::Font(void) :
-    _fontPath(NULL),
-    _fontName(NULL),
-    _valid(false)
+    _fontPath     (NULL ),
+    _fontName     (NULL ),
+    _valid        (false),
+    _fontInstances(     )
 {
-    return;
 }
 
-/*
-Font::Font (const Font &obj)
-: _fontPath(obj.__fontPath), _fontName(obj._fontName), _valid(false)
-{
-	return;
-}
-*/
 Font::Font(const Char8 *name) :
-    _fontName(name),
-    _valid(false)
+    _fontPath     (NULL ),
+    _fontName     (name ),
+    _valid        (false),
+    _fontInstances(     )
 {
-    return;
 }
 
-/* */
 Font::Font(const Char8 *name, std::string path) :
-    _fontPath(path),
-    _fontName(name),
-    _valid(false)
+    _fontPath     (path ),
+    _fontName     (name ),
+    _valid        (false),
+    _fontInstances(     )
 {
-    return;
 }
 
-/* */
 Font::~Font(void)
 {
-    return;
 }
-#endif

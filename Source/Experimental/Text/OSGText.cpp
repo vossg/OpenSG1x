@@ -1,6 +1,6 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGConfig.h>
+
 #include <iostream>
 #ifdef __sgi
 #include <math.h>
@@ -15,7 +15,6 @@
 
 #include <OSGLog.h>
 
-// Application declarations
 #include <OSGConfig.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGBaseFunctions.h>
@@ -25,46 +24,134 @@
 
 #include <OSGSimpleTexturedMaterial.h>
 
-// Class declarations
 #include "OSGText.h"
 #include "OSGFontStyle.h"
 #include "OSGVectorFontGlyph.h"
 #include "OSGImageFontGlyph.h"
 #include "OSGTXFGlyphInfo.h"
 
-/* */
 OSG_USING_NAMESPACE
 
-// Static Class Variable implementations:
 Text::Text(void) :
-    _horizontal(true),
+    _horizontal  (true    ),
     _justifyMajor(BEGIN_JT),
     _justifyMinor(FIRST_JT),
-    _leftToRight(true),
-    _size(1),
-    _precision(1.f),
-    _spacing(1),
-    _style(PLAIN_ST),
-    _topToBottom(true),
-    _fontInstance(0),
-    _smoothing(false)
+    _leftToRight (true    ),
+    _language    (        ),
+    _size        (1.f     ),
+    _precision   (1.f     ),
+    _spacing     (1.f     ),
+    _style       (PLAIN_ST),
+    _topToBottom (true    ),
+    _fontInstance(NULL    ),
+    _smoothing   (false   )
 {
-    return;
 }
 
-/* */
-Text::Text(const Text &OSG_CHECK_ARG(obj))
-{
-    assert(false);
-}
-
-/* */
 Text::~Text(void)
 {
-    return;
 }
 
-/* */
+bool Text::horizontal(void)
+{
+    return _horizontal;
+}
+
+void Text::setHorizontal(bool horizontal)
+{
+    _horizontal = horizontal;
+}
+
+TEXT_JUSTIFY_TYPE Text::justifyMajor(void)
+{
+    return _justifyMajor;
+}
+
+void Text::setJustifyMajor(TEXT_JUSTIFY_TYPE justify)
+{
+    _justifyMajor = justify;
+}
+
+TEXT_JUSTIFY_TYPE Text::justifyMinor(void)
+{
+    return _justifyMinor;
+}
+
+void Text::setJustifyMinor(TEXT_JUSTIFY_TYPE justify)
+{
+    _justifyMinor = justify;
+}
+
+bool Text::leftToRight(void)
+{
+    return _leftToRight;
+}
+
+void Text::setLeftToRight(bool leftToRight)
+{
+    _leftToRight = leftToRight;
+}
+
+std::string &Text::language(void)
+{
+    return _language;
+}
+
+void Text::setLanguage(std::string language)
+{
+    _language = std::string(language);
+}
+
+Real32 Text::size(void)
+{
+    return _size;
+}
+
+void Text::setSize(Real32 size)
+{
+    _size = size;
+}
+
+Real32 Text::spacing(void)
+{
+    return _spacing;
+}
+
+void Text::setSpacing(Real32 spacing)
+{
+    _spacing = spacing;
+}
+
+FONT_STYLE_TYPE Text::style(void)
+{
+    return _style;
+}
+
+void Text::setStyle(FONT_STYLE_TYPE style)
+{
+    _style = style;
+}
+
+bool Text::topToBottom(void)
+{
+    return _topToBottom;
+}
+
+void Text::setTopToBottom(bool topToBottom)
+{
+    _topToBottom = topToBottom;
+}
+
+void Text::setFontStyle(FontStyle *fi)
+{
+    _fontInstance = fi;
+}
+
+FontStyle *Text::getFontStyle(void)
+{
+    return _fontInstance;
+}
+
 bool Text::fillTXFImage(Image &image)
 {
     Int32   width, height;
@@ -83,7 +170,6 @@ bool Text::fillTXFImage(Image &image)
     return true;
 }
 
-/* */
 bool Text::fillTXFGeo(Geometry &mesh, bool isNew, 
                       std::vector<std::string> &lineVec)
 {
@@ -124,7 +210,6 @@ bool Text::fillTXFGeo(Geometry &mesh, bool isNew,
 }
 
 
-/* */
 UInt32 Text::getTXFNVertices(std::vector<std::string> &lineVec)
 {
     UInt32 numChars = 0;
@@ -137,7 +222,6 @@ UInt32 Text::getTXFNVertices(std::vector<std::string> &lineVec)
     return numChars * 4;
 }
 
-/* */
 bool Text::fillTXFArrays(std::vector<std::string> &lineVec, 
                          Pnt3f *points, Vec2f *texcoords)
 {
@@ -257,7 +341,6 @@ bool Text::fillTXFArrays(std::vector<std::string> &lineVec,
     return true;
 }
 
-/* */
 bool Text::fillImage(Image & image, 
                      std::vector<std::string> &lineVec, 
                      Color4ub *fg,
@@ -323,12 +406,13 @@ bool Text::fillImage(Image & image,
 
             if(!tmpMinY && !tmpMaxY)
             {   // TXF-character not present -> all blanks..
-                tmpMaxY = (Int32)rint((Real32)_fontInstance->getBaselineSkip());
+                tmpMaxY = 
+                    (Int32)osgfloor((Real32)_fontInstance->getBaselineSkip());
             }
 
             overallHeight += ( line + 1 == lineVec.size() ? 
-                    (Int32) rint((abs(tmpMaxY) + abs(tmpMinY)) * _spacing) : 
-                    (Int32) rint((Real32) _fontInstance->getBaselineSkip() *
+                   (Int32) osgfloor((abs(tmpMaxY) + abs(tmpMinY)) * _spacing) :
+                   (Int32) osgfloor((Real32) _fontInstance->getBaselineSkip() *
                         (Real32) _fontInstance->getYRes() * _spacing));
             width = 0;
         }
@@ -471,7 +555,8 @@ bool Text::fillImage(Image & image,
                     for(i = 0; i != (Int32) strlen(lineVec[line + 1].c_str());
                                             i++)
                     {
-                        tmpWidth += (Int32) rint(g[line + 1][i]->getAdvance());
+                        tmpWidth += 
+                            (Int32) osgfloor(g[line + 1][i]->getAdvance());
                     }
                 }
 
@@ -495,9 +580,10 @@ bool Text::fillImage(Image & image,
                 }
                 else
                 {
-                    yoff += (_topToBottom ? -1 : 1) * (Int32) rint((Real32) _fontInstance->getBaselineSkip() *
-                                                                                       _fontInstance->getYRes() *
-                                                                                       _spacing);
+                    yoff += (_topToBottom ? -1 : 1) * 
+                        (Int32) osgfloor(
+                            (Real32) _fontInstance->getBaselineSkip()*
+                            _fontInstance->getYRes() * _spacing);
                 }
             }
         }
@@ -513,7 +599,6 @@ bool Text::fillImage(Image & image,
     return false;
 }
 
-/* */
 bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
                    Real32 precision, Real32 extFac,
                    Real32 OSG_CHECK_ARG(maxExtend),
@@ -913,4 +998,3 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
 
     return false;
 }
-#endif

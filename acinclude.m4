@@ -1412,7 +1412,7 @@ dnl e14
 
         case $build_os in
             cygwin*)
-                ac_gdz_freetype1_lib_e14='ttf.lib'
+                ac_gdz_freetype1_lib_e14='freetype.lib'
             ;;
             *)
                 ac_gdz_freetype1_lib_e14='-lttf'

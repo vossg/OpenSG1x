@@ -1,71 +1,25 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGCOnfig.h>
+
 #ifdef __sgi
 #include <math.h>
 #else
 #include <cmath>
 #endif
+
 #include <iostream>
 
-// Application declarations
 #include "OSGTXFImageFontGlyph.h"
-
-// Class declarations
+#include "OSGTXFGlyphInfo.h"
 #include "OSGTXFFontStyle.h"
 
-/* */
 OSG_USING_NAMESPACE
 
-// Static Class Variable implementations:
-TXFFontStyle::TXFFontStyle(void) :
-    FontStyle()
-{
-    return;
-}
-
-/* */
-TXFFontStyle::TXFFontStyle(const TXFFontStyle &obj) :
-    FontStyle(obj)
-{
-    return;
-}
-
-/* */
-TXFFontStyle::~TXFFontStyle(void)
-{
-    return;
-}
-
-/* */
-ImageFontGlyph *TXFFontStyle::getImageGlyph(UInt8 ascii)
-{
-    return _imageGlyphs[ascii];
-}
-
-/* */
-TXFGlyphInfo *TXFFontStyle::getTXFGlyphInfo(UInt8 which)
-{
-    if(which >= _txfGlyphInfos.size())
-    {
-        return _txfGlyphInfos[_txfGlyphInfos[0]->remapped()];
-    }
-
-    if(_txfGlyphInfos[which]->remapped())
-    {
-        return _txfGlyphInfos[_txfGlyphInfos[which]->remapped()];
-    }
-
-    return _txfGlyphInfos[which];
-}
-
-/* */
 bool TXFFontStyle::processChange(void)
 {
     return false;
 }
 
-/* */
 bool TXFFontStyle::buildGlyphInfos(TXFFont::txfChar *txfGlyphs)
 {
     Real32          x, y, xstep, ystep;
@@ -121,16 +75,35 @@ bool TXFFontStyle::buildGlyphInfos(TXFFont::txfChar *txfGlyphs)
     return true;
 }
 
-/* */
-bool TXFFontStyle::setTXFInstance(Int32 width, Int32 height,
-                                  TXFFont::txfChar *glyphList, UChar8 *imageMap)
+TXFFontStyle::TXFFontStyle(void) :
+    Inherited()
+{
+}
+
+#ifdef DELETE_ME
+TXFFontStyle::TXFFontStyle(const TXFFontStyle &obj) :
+    FontStyle(obj)
+{
+    return;
+}
+#endif
+
+TXFFontStyle::~TXFFontStyle(void)
+{
+}
+
+bool TXFFontStyle::setTXFInstance(Int32             width, 
+                                  Int32             height,
+                                  TXFFont::txfChar *glyphList, 
+                                  UChar8           *imageMap)
 {
     TXFFont::txfChar * current;
 
     TXFImageFontGlyph   *iGlyphs = new TXFImageFontGlyph[256];
     for(Int32 i = 0; i < 256; i++)
     {
-        current = glyphList[i].remapped ? &(glyphList[glyphList[i].remapped]) : &(glyphList[i]);
+        current = glyphList[i].remapped ? 
+            &(glyphList[glyphList[i].remapped]) : &(glyphList[i]);
 
         iGlyphs[i].setup(IGLYPH_PIXMAP, i, i);
         iGlyphs[i].setFontDefs(current->x, current->y, current->dimensions);
@@ -148,4 +121,28 @@ bool TXFFontStyle::setTXFInstance(Int32 width, Int32 height,
 
     return true;
 }
-#endif
+
+TXFGlyphInfo *TXFFontStyle::getTXFGlyphInfo(UInt8 which)
+{
+    if(which >= _txfGlyphInfos.size())
+    {
+        return _txfGlyphInfos[_txfGlyphInfos[0]->remapped()];
+    }
+
+    if(_txfGlyphInfos[which]->remapped())
+    {
+        return _txfGlyphInfos[_txfGlyphInfos[which]->remapped()];
+    }
+
+    return _txfGlyphInfos[which];
+}
+
+VectorFontGlyph *TXFFontStyle::getVectorGlyph(UInt8)
+{
+    return NULL;
+}
+
+ImageFontGlyph *TXFFontStyle::getImageGlyph(UInt8 ascii)
+{
+    return _imageGlyphs[ascii];
+}

@@ -1,25 +1,22 @@
 #ifndef TESSELATION_HANDLER_H
 #define TESSELATION_HANDLER_H
 
-#ifndef WIN32
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
 
 /** TesselationCallbacks  **/
-OSG_BEGIN_NAMESPACE class               VectorFontGlyph;
+OSG_BEGIN_NAMESPACE 
 
-extern VectorFontGlyph                  *tmTesselator;
+class VectorFontGlyph;
 
-extern OSG_SYSTEMLIB_DLLMAPPING void    tessBegin(GLenum);
+extern VectorFontGlyph *tmTesselator;
 
-extern OSG_SYSTEMLIB_DLLMAPPING void    tessEdgeFlag(GLboolean);
-
-extern OSG_SYSTEMLIB_DLLMAPPING void    tessVertex(void *);
-
-extern OSG_SYSTEMLIB_DLLMAPPING void    tessEnd(void);
-
-extern OSG_SYSTEMLIB_DLLMAPPING void    tessError(GLenum);
+void OSG_APIENTRY tessBegin   (GLenum   );
+void OSG_APIENTRY tessEdgeFlag(GLboolean);
+void OSG_APIENTRY tessVertex  (void    *);
+void OSG_APIENTRY tessEnd     (void     );
+void OSG_APIENTRY tessError   (GLenum   );
 
 OSG_END_NAMESPACE
-#endif
+
 #endif

@@ -1,6 +1,6 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGConfig.h>
+
 #ifdef __sgi
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,23 +10,25 @@
 #include <cstdlib>
 #include <cstring>
 #endif
+
 #include <iostream>
 
 #include <OSGLog.h>
 
-// Application declarations
 #include "OSGTXFFontStyle.h"
 #include "OSGText.h"
 #include "OSGTXFGlyphInfo.h"
 
-// Class declarations
 #include "OSGTXFFont.h"
 
-/* */
-OSG_USING_NAMESPACE bool sRead(std::istream &file, void *value, Int32 size,
-                               bool swapit)
+OSG_USING_NAMESPACE 
+
+bool sRead(std::istream &file, 
+           void         *value, 
+           Int32         size,
+           bool          swapit)
 {
-    Char8   buffer[4];
+    Char8 buffer[4];
 
     if(size > 4)
         return false;
@@ -48,47 +50,55 @@ OSG_USING_NAMESPACE bool sRead(std::istream &file, void *value, Int32 size,
     return !file.fail();
 }
 
-// Static Class Variable implementations:
 TXFFont::TXFFont(void) :
-    Font()
+     Inherited        (    ),
+    _txfIsBitmap      (   0),
+    _txfFontMaxAscent (   0),
+    _txfFontMaxDescent(   0),
+    _txfFontWidth     (   0),
+    _txfFontHeight    (   0),
+    _txfNumGlyphs     (   0),
+    _txfGlyphs        (NULL),
+    _txfImageMap      (NULL)
+
 {
-    return;
 }
 
-/*
-TXFFont::TXFFont (const TXFFont &obj )
-{
-    return;
-}
-*/
 TXFFont::TXFFont(const Char8 *name, std::string path) :
-    Font(name, path)
+     Inherited        (name, 
+                       path),
+    _txfIsBitmap      (   0),
+    _txfFontMaxAscent (   0),
+    _txfFontMaxDescent(   0),
+    _txfFontWidth     (   0),
+    _txfFontHeight    (   0),
+    _txfNumGlyphs     (   0),
+    _txfGlyphs        (NULL),
+    _txfImageMap      (NULL)
 {
-    return;
 }
 
-/* */
 TXFFont::TXFFont(const Char8 *name, std::istream &source) :
-    Font(name)
+     Inherited        (name),
+    _txfIsBitmap      (   0),
+    _txfFontMaxAscent (   0),
+    _txfFontMaxDescent(   0),
+    _txfFontWidth     (   0),
+    _txfFontHeight    (   0),
+    _txfNumGlyphs     (   0),
+    _txfGlyphs        (NULL),
+    _txfImageMap      (NULL)
 {
     _valid = true;
     initFromStream(source);
-    return;
 }
 
-/* */
 TXFFont::~TXFFont(void)
 {
-    if(_valid)
-    {
-        delete _txfGlyphs;
-        delete _txfImageMap;
-    }
-
-    return;
+    delete [] _txfGlyphs;
+    delete [] _txfImageMap;
 }
 
-/* */
 void TXFFont::initFromStream(std::istream &source)
 {
     bool    swapit;
@@ -100,10 +110,12 @@ void TXFFont::initFromStream(std::istream &source)
 
     // checking filetype
     source >> u_magic;
+
     if(!(u_magic == 0xff))
         _valid = false;
 
     source.read(c_magic, 3);
+
     if(strncmp(c_magic, "txf", 3))
         _valid = false;
 
@@ -122,13 +134,15 @@ void TXFFont::initFromStream(std::istream &source)
 
     _valid &= !(_txfIsBitmap > 1);
 
-    _txfFontMaxDescent = _txfFontMaxDescent > 0 ? _txfFontMaxDescent * -1 : _txfFontMaxDescent;
+    _txfFontMaxDescent = 
+        _txfFontMaxDescent > 0 ? _txfFontMaxDescent * -1 : _txfFontMaxDescent;
 
     if(!_valid)
         return;
 
     // read content: glyph info
     _txfGlyphs = new txfChar[256];
+
     for(i = 0; i < _txfNumGlyphs; i++)
     {
         _valid &= sRead(source, &sbuff, 2, swapit);
@@ -139,7 +153,10 @@ void TXFFont::initFromStream(std::istream &source)
 
         if(!_valid)
         {
-            delete _txfGlyphs;
+            delete [] _txfGlyphs;
+
+            _txfGlyphs = NULL;
+
             return;
         }
     }
@@ -162,21 +179,28 @@ void TXFFont::initFromStream(std::istream &source)
 
     if(!_valid)
     {
-        delete _txfGlyphs;
-        delete imageBuffer;
+        delete [] _txfGlyphs;
+        delete [] imageBuffer;
+
+        _txfGlyphs   = NULL;
+         imageBuffer = NULL;
+
         return;
     }
 
     _txfImageMap = new UChar8[_txfFontWidth * _txfFontHeight * 2];
 
     stride = 0;
+
     if(_txfIsBitmap)
     {
         for(i = 0; i < _txfFontHeight; i++)
         {
             for(j = 0; j < _txfFontWidth; j++, stride += 2)
             {
-                _txfImageMap[stride] = _txfImageMap[stride + 1] = imageBuffer[i * bitWidth + (j >> 3)] & (1 << (j & 7)) ? 255 : 0;
+                _txfImageMap[stride] = _txfImageMap[stride + 1] = 
+                    imageBuffer[i * bitWidth + (j >> 3)] & 
+                    (1 << (j & 7)) ? 255 : 0;
             }
         }
     }
@@ -186,15 +210,15 @@ void TXFFont::initFromStream(std::istream &source)
         {
             for(j = 0; j < _txfFontWidth; j++, stride += 2)
             {
-                _txfImageMap[stride] = _txfImageMap[stride + 1] = imageBuffer[stride >> 1];
+                _txfImageMap[stride] = 
+                    _txfImageMap[stride + 1] = imageBuffer[stride >> 1];
             }
         }
     }
 
-    delete imageBuffer;
+    delete [] imageBuffer;
 }
 
-/* */
 bool TXFFont::initFont(void)
 {
     std::ifstream    source;
@@ -217,50 +241,58 @@ bool TXFFont::initFont(void)
     return _valid;
 }
 
-/* */
 bool TXFFont::createInstance(Text *fs)
 {
-    bool            retVal = false;
-    TXFFontStyle    *fInst = new TXFFontStyle;
+    bool           retVal = false;
+    TXFFontStyle *fInst   = new TXFFontStyle;
 
-    fInst->setFontName(_fontName);
-    fInst->setMaxAscent(_txfFontMaxAscent);
-    fInst->setMaxDescent(_txfFontMaxDescent);
-    fInst->setBaselineSkip(((Real32) (_txfFontMaxAscent - _txfFontMaxDescent)) /
-                               fInst->getYRes());
+    fInst->setFontName    (_fontName         );
+    fInst->setMaxAscent   (_txfFontMaxAscent );
+    fInst->setMaxDescent  (_txfFontMaxDescent);
+    fInst->setBaselineSkip(
+        ((Real32)(_txfFontMaxAscent - _txfFontMaxDescent)) / fInst->getYRes());
+
     fInst->setSize(fs->size());
 
-    retVal = fInst->setTXFInstance(_txfFontWidth, _txfFontHeight, _txfGlyphs,
-                                       _txfImageMap);
+    retVal = fInst->setTXFInstance(_txfFontWidth, 
+                                   _txfFontHeight, 
+                                   _txfGlyphs,
+                                   _txfImageMap);
     if(!retVal)
     {
         delete fInst;
-        fInst = 0;
+        fInst = NULL;
     }
     else
+    {
         fs->setFontStyle(fInst);
+    }
 
     return retVal;
 }
 
-OSG::FontStyle * TXFFont::createInstance(Real32 size)
+OSG::FontStyle *TXFFont::createInstance(Real32 size)
 {
-    bool            retVal = false;
-    TXFFontStyle    *fInst = new TXFFontStyle;
+    bool          retVal = false;
+    TXFFontStyle *fInst  = new TXFFontStyle;
 
-    fInst->setFontName(_fontName);
-    fInst->setSize(size);
-    fInst->setMaxAscent(_txfFontMaxAscent);
-    fInst->setMaxDescent(_txfFontMaxDescent);
-    fInst->setBaselineSkip(((Real32) (_txfFontMaxAscent - _txfFontMaxDescent)) / fInst->getYRes());
+    fInst->setFontName    (_fontName         );
+    fInst->setSize        ( size             );
+    fInst->setMaxAscent   (_txfFontMaxAscent );
+    fInst->setMaxDescent  (_txfFontMaxDescent);
+    fInst->setBaselineSkip(
+        ((Real32)(_txfFontMaxAscent - _txfFontMaxDescent)) / fInst->getYRes());
 
-    retVal = fInst->setTXFInstance(_txfFontWidth, _txfFontHeight, _txfGlyphs, _txfImageMap);
+    retVal = fInst->setTXFInstance(_txfFontWidth, 
+                                   _txfFontHeight, 
+                                   _txfGlyphs, 
+                                   _txfImageMap);
 
     if(!retVal)
     {
         delete fInst;
-        fInst = 0;
+        fInst = NULL;
     }
+
     return fInst;
 }
-#endif

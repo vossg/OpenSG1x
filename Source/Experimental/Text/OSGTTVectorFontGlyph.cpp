@@ -1,80 +1,60 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGConfig.h>
+#include <OSGBaseFunctions.h>
+
 #ifdef OSG_WITH_FREETYPE1
 #ifdef __sgi
 #include <math.h>
 #else
 #include <cmath>
 #endif
+
 #include <iostream>
 
 #include "OSGBaseTypes.h"
 
-// Application declarations
-#include "freetype1/freetype/freetype.h"
 #include "OSGTTFontGlyphContour.h"
 
-// Class declarations
 #include "OSGTTVectorFontGlyph.h"
+
 #include <assert.h>
 
 OSG_USING_NAMESPACE
 
-// Static Class Variable implementations:
-Real64 TTVectorFontGlyph::  _ttScale = 1.f / 64;
+static Real32  endSeg[2], s1[2], s2[2];
 
-/* */
-TTVectorFontGlyph::TTVectorFontGlyph(void) :
-    VectorFontGlyph(),
-    TTFontGlyph(),
-    _ttScaleToVRML(1.f)
+Real64 TTVectorFontGlyph::_ttScale = 1.f / 64.f;
+
+Int32 TTVectorFontGlyph::processArc(FontGlyphContour  *glyphContour,
+                                    TT_Outline         outline, 
+                                    Int32              start,
+                                    Int32              contour, 
+                                    Real32           **normalStack,
+                                    Int32             &numOnStack, 
+                                    Int32             &counter,
+                                    Int32              step, 
+                                    bool               dryRun      )
 {
-    return;
-}
-
-/* */
-TTVectorFontGlyph::TTVectorFontGlyph(const TTVectorFontGlyph &OSG_CHECK_ARG(obj))
-{
-    assert(false);
-}
-
-/* */
-TTVectorFontGlyph::TTVectorFontGlyph(VGlyphType type, Int32 ascii, Int32 unicode) :
-        VectorFontGlyph(type),
-        TTFontGlyph(ascii, unicode)
-{
-    return;
-}
-
-/* */
-TTVectorFontGlyph::~TTVectorFontGlyph(void)
-{
-    return;
-}
-
-/* */
-void TTVectorFontGlyph::setup(VGlyphType type, Int32 ascii, Int32 unicode)
-{
-    setupGlyph(ascii, unicode);
-    setType(type);
-}
-
-Real32  endSeg[2], s1[2], s2[2];
-
-/* */
-Int32 TTVectorFontGlyph::processArc(FontGlyphContour *glyphContour,
-                                    TT_Outline outline, Int32 start,
-                                    Int32 contour, Real32 **normalStack,
-                                    Int32 &numOnStack, Int32 &counter,
-                                    Int32 step, bool dryRun)
-{
-    Int32   numOffPoints = 1, s, f, result = 0, steps, end, step2 = 2 * step;
-    Real32  a, *point = 0, *last, *normal = 0;
+    Int32   numOffPoints = 1;
+    Int32   s;
+    Int32   f;
+    Int32   result = 0;
+    Int32   steps;
+    Int32   end;
+    Int32   step2 = 2 * step;
+    Real32  a;
+    Real32  *point = 0;
+    Real32  *last;
+    Real32  *normal = 0;
     Real64  dt;
-    Real64  tt, t1, t2, t3, x, y, t;
+    Real64  tt;
+    Real64  t1;
+    Real64  t2;
+    Real64  t3;
+    Real64  x;
+    Real64  y;
+    Real64  t;
     bool    doFirst = false;
-
     if(step > 0)
     {
         f = (contour ? outline.contours[contour - 1] + 1 : 0);
@@ -222,8 +202,16 @@ Int32 TTVectorFontGlyph::processArc(FontGlyphContour *glyphContour,
             s2[1] = outline.points[s + step].y * _ttScale;
         }
 
-        a = max(fabs(max(max(s1[0], s2[0]), endSeg[0]) - min(min(s1[0], s2[0]),
-                        endSeg[0])), fabs(max(max(s1[1], s2[1]), endSeg[1]) - min(min(s1[1], s2[1]), endSeg[1]))) / _precision;
+        a = 
+            osgMax(
+                fabs(osgMax(osgMax(s1[0], 
+                                   s2[0]), 
+                            endSeg[0]) - 
+                     osgMin(osgMin(s1[0], s2[0]),
+                            endSeg[0])), 
+                fabs(osgMax(osgMax(s1[1], s2[1]), endSeg[1]) - 
+                     osgMin(osgMin(s1[1], s2[1]), endSeg[1]))) / _precision;
+
         steps = (Int32) ceil(a);
         result += steps;
 
@@ -296,17 +284,381 @@ Int32 TTVectorFontGlyph::processArc(FontGlyphContour *glyphContour,
         return s - start;
 }
 
+Int32 TTVectorFontGlyph::sortContours(TT_Outline outline)
+{
+    Int32                            i;
+    Int32                            j;
+    Int32                            largestIsClockwise = -1;
+    Real32                           bb[4];
+    Real32                           order;
+    Real32                           last[2];
+    bool                             clockwise = false;
+    std::vector<FontGlyphContour *>  contourList;
+    std::vector<FontGlyphContour *>  contourLeftList;
+    FontGlyphContour                *doThis = NULL;
+    FontGlyphContour                *cIter  = NULL;
+    Int32                            ret = 1;
+
+    j = 0;
+    for(i = 0; i < outline.n_contours; i++)
+    {
+        order = 0.0;
+        bb[0] = bb[1] = HUGE_VAL;
+        bb[2] = bb[3] = -HUGE_VAL;
+        clockwise = false;
+
+        for(; j <= outline.contours[i]; j++)
+        {
+            Real32  x = static_cast<Real32>(outline.points[j].x);
+            Real32  y = static_cast<Real32>(outline.points[j].y);
+            if(x < bb[0])
+                bb[0] = x;
+            if(x > bb[2])
+                bb[2] = x;
+            if(y < bb[1])
+                bb[1] = y;
+            if(y > bb[3])
+                bb[3] = y;
+
+            if(j != (i ? outline.contours[i - 1] + 1 : 0))
+            {
+                order += (x * last[1] - y * last[0]);
+                clockwise = order < 0.f;
+            }
+
+            last[0] = x;
+            last[1] = y;
+        }
+
+        order +=
+            (
+                static_cast<Real32>(
+                    outline.points[i ? outline.contours[i -1] +1 : 0].x) *
+                last[1] -
+
+                static_cast<Real32>(
+                    outline.points[i ? outline.contours[i -1] +1 : 0].y) *
+                last[0]
+            );
+
+        clockwise = order < 0.f;
+
+        if(clockwise)
+        {
+            _contours[i]->setIsClockwise();
+        }
+
+        _contours[i]->setWhichTTContour(i);;
+        _contours[i]->setBB(bb);
+        _contours[i]->setOrdering(order);
+    }
+
+    contourList.resize(_contours.size());
+    contourLeftList.resize(_contours.size());
+
+    if(_contours.size() != 1)
+    {
+        Int32   total, left = _contours.size();
+        Real32  area = 0.0;
+        for(i = 0; i < (Int32) _contours.size(); i++)
+        {
+            contourLeftList[i] = _contours[i];
+            contourList[i] = 0;
+        }
+
+        while(left)
+        {
+            total = left;
+            for(i = 0; i < (Int32) _contours.size(); i++)
+            {
+                cIter = contourLeftList[i];
+                if(cIter == 0)
+                    continue;
+                if(fabs(cIter->getArea()) > area)
+                {
+                    if(largestIsClockwise == -1 ||
+                       (Int32) cIter->isClockwise() == largestIsClockwise)
+                    {
+                        doThis = contourList[_contours.size() - total];
+                        contourList[_contours.size() - total] = 
+                            contourLeftList[i];
+                        if(area != 0.0)
+                            contourLeftList[i] = doThis;
+                        else
+                            contourLeftList[i] = 0;
+                        left = total - 1;
+                        area = fabs(cIter->getArea());
+                        doThis = contourList[_contours.size() - total];
+                    }
+                }
+            }
+
+            if(largestIsClockwise == -1)
+            {
+                largestIsClockwise = doThis->isClockwise();
+            }
+
+            for(i = 0; i < (Int32) _contours.size(); i++)
+            {
+                cIter = contourLeftList[i];
+                if(cIter == 0)
+                    continue;
+                if(((Int32) cIter->isClockwise() == largestIsClockwise) &&
+                                   fabs(cIter->getArea()) < area)
+                {
+                    doThis = contourList[_contours.size() - total];
+                    contourList[_contours.size() - total] = contourLeftList[i];
+                    contourLeftList[i] = doThis;
+                    area = fabs(cIter->getArea());
+                    doThis = contourList[_contours.size() - total];
+                }
+            }
+
+            for(i = 0; i < (Int32) _contours.size(); i++)
+            {
+                cIter = contourLeftList[i];
+                if(!cIter)
+                    continue;
+                if(cIter->isClockwise() != doThis->isClockwise() &&
+                   ((TTFontGlyphContour *) cIter)->inside(doThis, outline))
+                {
+                    contourList[_contours.size() - left] = contourLeftList[i];
+                    contourLeftList[i] = 0;
+                    left--;
+                }
+            }
+
+            if(left == total)
+            {
+                for(i = 0; i < (Int32) _contours.size(); i++)
+                {
+                    cIter = contourLeftList[i];
+                    if(!cIter)
+                        continue;
+                    contourList[_contours.size() - left] = contourLeftList[i];
+                    contourLeftList[i] = 0;
+                    left--;
+                }
+            }
+
+            area = 0;
+        }
+    }
+    else
+        contourList[0] = _contours[0];
+
+    for(i = 0; i < outline.n_contours; i++)
+    {
+        _contours[i] = contourList[i];
+
+        if(!_contours[0]->isClockwise())
+        {
+            _contours[i]->setStart(
+                outline.contours[_contours[i]->getWhichTTContour()]);
+            ret = -1;
+        }
+        else
+        {
+            _contours[i]->setStart(
+                _contours[i]->getWhichTTContour() ? 
+                outline.contours[_contours[i]->getWhichTTContour()- 1] + 1 : 
+                0);
+        }
+    }
+
+    contourList.resize(0);
+    contourLeftList.resize(0);
+
+    return ret;
+}
+
 /* */
+void TTVectorFontGlyph::cleanup(void)
+{
+    std::vector<Int32 *>  offsets;
+    Int32                *offset      = NULL;
+    Int32                 totalOffset = 0;
+    Int32                 i;
+    Int32                 current     = 0;
+    Int32                 index;
+    Int32                 inSize; 
+    Int32                 num;
+
+    _indices.resize(_numIndices);
+    _normalIndices.resize(_indices.size());
+
+    memcpy(&(_normalIndices[0]),
+           &(_indices[0]),
+           (_indices.size()) * sizeof(Int32));
+
+    _numNormals = _numPoints;
+
+    offset = new Int32[2];
+    offset[0] = 0;
+    offset[1] = 0;
+    offsets.push_back(offset);
+
+    for(i = 1; i < (Int32) _points.size(); i++)
+    {
+        if(_points[i][0] == _points[i - 1][0] &&
+                   _points[i][1] == _points[i - 1][1] &&
+                   _points[i][2] == _points[i - 1][2])
+        {
+            offset = new Int32[2];
+            totalOffset++;
+            offset[0] = i;
+            offset[1] = totalOffset;
+            offsets.push_back(offset);
+        }
+    }
+
+    totalOffset = 0;
+    for(i = 0; i < (Int32) _points.size(); i++)
+    {
+        if(i == offsets[current][0])
+        {
+            totalOffset = offsets[current][1];
+            if(current + 1 < (Int32) offsets.size())
+                current++;
+            continue;
+        }
+
+        if(!totalOffset)
+            continue;
+        _points[i - totalOffset] = _points[i];
+    }
+
+    inSize = offsets.size();
+
+    for(i = 0; i < inSize; i++)
+    {
+        offset = new Int32[2];
+        offset[0] = offsets[i][0] + _numPoints;
+        offset[1] = totalOffset + offsets[i][1];
+        offsets.push_back(offset);
+    }
+
+    _numPoints -= totalOffset;
+    _points.resize(_numPoints);
+
+    totalOffset = 0;
+    for(i = 0; i < (Int32) _indices.size(); i++)
+    {
+        current = 0;
+        index = _indices[i];
+        while
+        (
+            index > offsets[current][0] &&
+            current != (Int32) offsets.size() - 1
+        ) current++;
+        if(current == (Int32) offsets.size())
+            current--;
+        if(index < offsets[current][0])
+            current--;
+        _indices[i] = index - offsets[current][1];
+    }
+
+    for(i = 0; i < (Int32) _indices.size(); i += 3)
+    {
+        num = 0;
+        if(_indices[i] == _indices[i + 1])
+            num++;;
+        if(_indices[i + 1] == _indices[i + 2])
+            num++;;
+        if(_indices[i] == _indices[i + 2])
+            num++;;
+        if(num)
+        {
+            _indices[i] = -1;
+        }
+    }
+
+    num = 0;
+    for(i = 0; i < (Int32) _indices.size(); i += 3)
+    {
+        if(_indices[i] == -1)
+            num += 3;
+        else if(num)
+        {
+            _indices[i - num] = _indices[i];
+            _indices[i - num + 1] = _indices[i + 1];
+            _indices[i - num + 2] = _indices[i + 2];
+            _normalIndices[i - num] = _normalIndices[i];
+            _normalIndices[i - num + 1] = _normalIndices[i + 1];
+            _normalIndices[i - num + 2] = _normalIndices[i + 2];
+        }
+    }
+
+    _numIndices -= num;
+    _indices.resize(_numIndices);
+    _normalIndices.resize(_numIndices);
+
+    for(i = 0; i < (Int32) offsets.size(); i++)
+    {
+        delete[] offsets[i];
+        offsets[i] = 0;
+    }
+
+    offsets.resize(0);
+}
+
+TTVectorFontGlyph::TTVectorFontGlyph(void) :
+     VectorFontGlyph(   ),
+     TTFontGlyph    (   ),
+    _ttScaleToVRML  (1.f),
+    _tmpNormalBuffer(NULL)
+{
+}
+
+
+TTVectorFontGlyph::TTVectorFontGlyph(VGlyphType type, 
+                                     Int32      ascii, 
+                                     Int32      unicode) :
+     VectorFontGlyph(type   ),
+     TTFontGlyph    (ascii, 
+                     unicode),
+    _ttScaleToVRML  (1.f    ),
+    _tmpNormalBuffer(NULL   )
+{
+}
+
+TTVectorFontGlyph::~TTVectorFontGlyph(void)
+{
+}
+
+void TTVectorFontGlyph::setup(VGlyphType type, Int32 ascii, Int32 unicode)
+{
+    setupGlyph(ascii, unicode);
+    setType(type);
+}
+
+void TTVectorFontGlyph::setScaleFactor(Real32 scaleFactor)
+{
+    _ttScaleToVRML = (scaleFactor * 64.0) / _size;
+}
+
 bool TTVectorFontGlyph::create(void)
 {
-    FontGlyphContour                        *glyphContour = 0;
-    TT_Outline                              ttOutline;
-    Int32                                   i = 0, j, k, numOnStack = 0,
-        numPoints = 0, step;
-    Real32                                  *point = 0, *last, *first = 0,
-        firstX, firstY, *normal = 0, **normalStack, length, lastN[3];
-    bool                                    retVal, dontAddFirst = false;
-    std::vector<FontGlyphContour *>::iterator    gIter;
+    FontGlyphContour                           *glyphContour = NULL;
+    TT_Outline                                  ttOutline;
+    Int32                                       i = 0;
+    Int32                                       j;
+    Int32                                       k;
+    Int32                                       numOnStack = 0;
+    Int32                                       numPoints  = 0;
+    Int32                                       step;
+    Real32                                     *point = NULL;
+    Real32                                     *last  = NULL;
+    Real32                                     *first = NULL;
+    Real32                                      firstX;
+    Real32                                      firstY;
+    Real32                                     *normal = NULL;
+    Real32                                    **normalStack;
+    Real32                                      length;
+    Real32                                      lastN[3];
+    bool                                        retVal;
+    bool                                        dontAddFirst = false;
+    std::vector<FontGlyphContour *>::iterator   gIter;
 
     if(_numPoints)
         return true;
@@ -332,7 +684,7 @@ bool TTVectorFontGlyph::create(void)
             {
                 numPoints += 2;
                 i += processArc(glyphContour, ttOutline, i, j, normalStack,
-                                                numOnStack, numPoints, 1, true);
+                                numOnStack, numPoints, 1, true);
                 if(i == ttOutline.contours[j] && (ttOutline.flags[i] & 1))
                     numPoints++;
             }
@@ -371,22 +723,25 @@ bool TTVectorFontGlyph::create(void)
             i >= (j ? ttOutline.contours[j - 1] + 1 : 0)
         )
         {
-            if((
-                               step < 0 && i == glyphContour->getStart() && !
-                               (ttOutline.flags[i] & 1)
-                   ))
+            if((step < 0 && i == glyphContour->getStart() && !
+                (ttOutline.flags[i] & 1)
+                ))
             {
                 point = _vertexBuffer.allocFloat(3);
                 if(step < 0)
                 {
                     point[0] =
                         (
-                            ttOutline.points[(j ? ttOutline.contours[j - 1] + 1 : 0)].x *
+                            ttOutline.points[(j ? 
+                                              ttOutline.contours[j - 1] + 1 : 
+                                              0)].x *
                             _ttScale
                         );
                     point[1] =
                         (
-                            ttOutline.points[(j ? ttOutline.contours[j - 1] + 1 : 0)].y *
+                            ttOutline.points[(j ? 
+                                              ttOutline.contours[j - 1] + 1 : 
+                                              0)].y *
                             _ttScale
                         );
                 }
@@ -611,7 +966,8 @@ bool TTVectorFontGlyph::create(void)
                 normal[0] /= length;
                 normal[1] /= length;
                 glyphContour->getNormals()[0] = normal;
-                glyphContour->getNormals()[glyphContour->getNumNormals() - 1] = normal;
+                glyphContour->getNormals()[glyphContour->getNumNormals()-1] = 
+                    normal;
             }
         }
 
@@ -658,304 +1014,9 @@ bool TTVectorFontGlyph::create(void)
     return retVal;
 }
 
-/* */
-Int32 TTVectorFontGlyph::sortContours(TT_Outline outline)
-{
-    Int32                       i, j, largestIsClockwise = -1;
-    Real32                      bb[4], order;
-    Real32                      last[2];
-    bool                        clockwise = false;
-    std::vector<FontGlyphContour *>  contourList, contourLeftList;
-    FontGlyphContour            *doThis = NULL, *cIter = NULL;
-    Int32                       ret = 1;
-
-    j = 0;
-    for(i = 0; i < outline.n_contours; i++)
-    {
-        order = 0.0;
-        bb[0] = bb[1] = HUGE_VAL;
-        bb[2] = bb[3] = -HUGE_VAL;
-        clockwise = false;
-
-        for(; j <= outline.contours[i]; j++)
-        {
-            Real32  x = static_cast<Real32>(outline.points[j].x);
-            Real32  y = static_cast<Real32>(outline.points[j].y);
-            if(x < bb[0])
-                bb[0] = x;
-            if(x > bb[2])
-                bb[2] = x;
-            if(y < bb[1])
-                bb[1] = y;
-            if(y > bb[3])
-                bb[3] = y;
-
-            if(j != (i ? outline.contours[i - 1] + 1 : 0))
-            {
-                order += (x * last[1] - y * last[0]);
-                clockwise = order < 0.f;
-            }
-
-            last[0] = x;
-            last[1] = y;
-        }
-
-        order +=
-            (
-                static_cast<Real32>
-                    (outline.points[i ? outline.contours[i -1] +1 : 0].x) *last[1] -static_cast<Real32>
-                        (outline.points[i ? outline.contours[i -1] +1 : 0].y) *last[0]
-            );
-        clockwise = order < 0.f;
-
-        if(clockwise)
-        {
-            _contours[i]->setIsClockwise();
-        }
-
-        _contours[i]->setWhichTTContour(i);;
-        _contours[i]->setBB(bb);
-        _contours[i]->setOrdering(order);
-    }
-
-    contourList.resize(_contours.size());
-    contourLeftList.resize(_contours.size());
-
-    if(_contours.size() != 1)
-    {
-        Int32   total, left = _contours.size();
-        Real32  area = 0.0;
-        for(i = 0; i < (Int32) _contours.size(); i++)
-        {
-            contourLeftList[i] = _contours[i];
-            contourList[i] = 0;
-        }
-
-        while(left)
-        {
-            total = left;
-            for(i = 0; i < (Int32) _contours.size(); i++)
-            {
-                cIter = contourLeftList[i];
-                if(cIter == 0)
-                    continue;
-                if(fabs(cIter->getArea()) > area)
-                {
-                    if(largestIsClockwise == -1 ||
-                                           (Int32) cIter->isClockwise() == largestIsClockwise)
-                    {
-                        doThis = contourList[_contours.size() - total];
-                        contourList[_contours.size() - total] = contourLeftList[i];
-                        if(area != 0.0)
-                            contourLeftList[i] = doThis;
-                        else
-                            contourLeftList[i] = 0;
-                        left = total - 1;
-                        area = fabs(cIter->getArea());
-                        doThis = contourList[_contours.size() - total];
-                    }
-                }
-            }
-
-            if(largestIsClockwise == -1)
-            {
-                largestIsClockwise = doThis->isClockwise();
-            }
-
-            for(i = 0; i < (Int32) _contours.size(); i++)
-            {
-                cIter = contourLeftList[i];
-                if(cIter == 0)
-                    continue;
-                if(((Int32) cIter->isClockwise() == largestIsClockwise) &&
-                                   fabs(cIter->getArea()) < area)
-                {
-                    doThis = contourList[_contours.size() - total];
-                    contourList[_contours.size() - total] = contourLeftList[i];
-                    contourLeftList[i] = doThis;
-                    area = fabs(cIter->getArea());
-                    doThis = contourList[_contours.size() - total];
-                }
-            }
-
-            for(i = 0; i < (Int32) _contours.size(); i++)
-            {
-                cIter = contourLeftList[i];
-                if(!cIter)
-                    continue;
-                if(cIter->isClockwise() != doThis->isClockwise() &&
-                                   ((TTFontGlyphContour *) cIter)->inside(doThis, outline))
-                {
-                    contourList[_contours.size() - left] = contourLeftList[i];
-                    contourLeftList[i] = 0;
-                    left--;
-                }
-            }
-
-            if(left == total)
-            {
-                for(i = 0; i < (Int32) _contours.size(); i++)
-                {
-                    cIter = contourLeftList[i];
-                    if(!cIter)
-                        continue;
-                    contourList[_contours.size() - left] = contourLeftList[i];
-                    contourLeftList[i] = 0;
-                    left--;
-                }
-            }
-
-            area = 0;
-        }
-    }
-    else
-        contourList[0] = _contours[0];
-
-    for(i = 0; i < outline.n_contours; i++)
-    {
-        _contours[i] = contourList[i];
-
-        if(!_contours[0]->isClockwise())
-        {
-            _contours[i]->setStart(outline.contours[_contours[i]->getWhichTTContour()]);
-            ret = -1;
-        }
-        else
-        {
-            _contours[i]->setStart(_contours[i]->getWhichTTContour()
-                                                   ? outline.contours[_contours[i]->getWhichTTContour()
-                                                   - 1] + 1 : 0);
-        }
-    }
-
-    contourList.resize(0);
-    contourLeftList.resize(0);
-
-    return ret;
-}
-
-/* */
-void TTVectorFontGlyph::cleanup(void)
-{
-    std::vector<Int32 *> offsets;
-    Int32           *offset = 0, totalOffset = 0, i, current = 0, index,
-        inSize, num;
-
-    _indices.resize(_numIndices);
-    _normalIndices.resize(_indices.size());
-    memcpy(&(_normalIndices[0]),
-           &(_indices[0]),
-               (_indices.size()) * sizeof(Int32));
-
-    _numNormals = _numPoints;
-
-    offset = new Int32[2];
-    offset[0] = 0;
-    offset[1] = 0;
-    offsets.push_back(offset);
-
-    for(i = 1; i < (Int32) _points.size(); i++)
-    {
-        if(_points[i][0] == _points[i - 1][0] &&
-                   _points[i][1] == _points[i - 1][1] &&
-                   _points[i][2] == _points[i - 1][2])
-        {
-            offset = new Int32[2];
-            totalOffset++;
-            offset[0] = i;
-            offset[1] = totalOffset;
-            offsets.push_back(offset);
-        }
-    }
-
-    totalOffset = 0;
-    for(i = 0; i < (Int32) _points.size(); i++)
-    {
-        if(i == offsets[current][0])
-        {
-            totalOffset = offsets[current][1];
-            if(current + 1 < (Int32) offsets.size())
-                current++;
-            continue;
-        }
-
-        if(!totalOffset)
-            continue;
-        _points[i - totalOffset] = _points[i];
-    }
-
-    inSize = offsets.size();
-
-    for(i = 0; i < inSize; i++)
-    {
-        offset = new Int32[2];
-        offset[0] = offsets[i][0] + _numPoints;
-        offset[1] = totalOffset + offsets[i][1];
-        offsets.push_back(offset);
-    }
-
-    _numPoints -= totalOffset;
-    _points.resize(_numPoints);
-
-    totalOffset = 0;
-    for(i = 0; i < (Int32) _indices.size(); i++)
-    {
-        current = 0;
-        index = _indices[i];
-        while
-        (
-            index > offsets[current][0] &&
-            current != (Int32) offsets.size() - 1
-        ) current++;
-        if(current == (Int32) offsets.size())
-            current--;
-        if(index < offsets[current][0])
-            current--;
-        _indices[i] = index - offsets[current][1];
-    }
-
-    for(i = 0; i < (Int32) _indices.size(); i += 3)
-    {
-        num = 0;
-        if(_indices[i] == _indices[i + 1])
-            num++;;
-        if(_indices[i + 1] == _indices[i + 2])
-            num++;;
-        if(_indices[i] == _indices[i + 2])
-            num++;;
-        if(num)
-        {
-            _indices[i] = -1;
-        }
-    }
-
-    num = 0;
-    for(i = 0; i < (Int32) _indices.size(); i += 3)
-    {
-        if(_indices[i] == -1)
-            num += 3;
-        else if(num)
-        {
-            _indices[i - num] = _indices[i];
-            _indices[i - num + 1] = _indices[i + 1];
-            _indices[i - num + 2] = _indices[i + 2];
-            _normalIndices[i - num] = _normalIndices[i];
-            _normalIndices[i - num + 1] = _normalIndices[i + 1];
-            _normalIndices[i - num + 2] = _normalIndices[i + 2];
-        }
-    }
-
-    _numIndices -= num;
-    _indices.resize(_numIndices);
-    _normalIndices.resize(_numIndices);
-
-    for(i = 0; i < (Int32) offsets.size(); i++)
-    {
-        delete[] offsets[i];
-        offsets[i] = 0;
-    }
-
-    offsets.resize(0);
-}
 #endif // OSG_WITH_FREETYPE1
-#endif
+
+
+
+
+

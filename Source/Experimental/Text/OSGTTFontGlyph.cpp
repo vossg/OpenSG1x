@@ -1,67 +1,68 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGConfig.h>
+
 #ifdef OSG_WITH_FREETYPE1
 #ifdef __sgi
 #include <math.h>
 #else
 #include <cmath>
 #endif
+
 #include <iostream>
 
 #include <OSGBaseTypes.h>
 #include <OSGLog.h>
 
-// Application declarations
-#include "freetype1/freetype/freetype.h"
-
-// Class declarations
 #include "OSGTTFontGlyph.h"
+
 #include <assert.h>
 
-/* */
 OSG_USING_NAMESPACE
 
-// Static Class Variable implementations:
 TTFontGlyph::TTFontGlyph(void) :
-    FontGlyph()
+     Inherited     (    ),
+    _ttError       (0L  ),
+    _ttGlyphMetrics(    ),
+    _ttFace        (NULL),
+    _ttInstance    (NULL)
 {
-    return;
+    _ttGlyph.z        = NULL;
 }
 
-/* */
-TTFontGlyph::TTFontGlyph(const TTFontGlyph &OSG_CHECK_ARG(obj))
-{
-    assert(false);
-}
-
-/* */
 TTFontGlyph::TTFontGlyph(Int32 ascii, Int32 unicode) :
-    FontGlyph(ascii, unicode)
+     Inherited     (ascii, 
+                    unicode),
+    _ttError       (0L     ),
+    _ttGlyphMetrics(    ),
+    _ttFace        (NULL   ),
+    _ttInstance    (NULL   )
 {
-    return;
+    _ttGlyph.z        = NULL;
 }
 
-/* */
 TTFontGlyph::~TTFontGlyph(void)
 {
-    return;
 }
 
-/* */
 void TTFontGlyph::setupGlyph(Int32 ascii, Int32 unicode)
 {
     setAsciiCode(ascii);
     setUniCode(unicode);
 }
 
-/* */
+void TTFontGlyph::setFontDefs(TT_Face *ttFacte, TT_Instance *ttInstance)
+{
+    _ttFace     = ttFacte;
+    _ttInstance = ttInstance;
+}
+
 bool TTFontGlyph::createGlyph(void)
 {
     if(!isValid())
         return false;
 
     _ttError = TT_New_Glyph(*_ttFace, &_ttGlyph);
+
     if(_ttError)
     {
         FWARNING(("Create TT_New_Glyph failed with TT_Error= %d", _ttError));
@@ -81,7 +82,6 @@ bool TTFontGlyph::createGlyph(void)
     return true;
 }
 
-/* */
 bool TTFontGlyph::getOutline(TT_Outline &ttOutline)
 {
     _ttError = TT_Get_Glyph_Outline(_ttGlyph, &ttOutline);
@@ -96,7 +96,6 @@ bool TTFontGlyph::getOutline(TT_Outline &ttOutline)
     return true;
 }
 
-/* */
 bool TTFontGlyph::setSizes(float *_boundingBox, float &_advance)
 {
     TT_Get_Glyph_Metrics(_ttGlyph, &_ttGlyphMetrics);
@@ -111,7 +110,6 @@ bool TTFontGlyph::setSizes(float *_boundingBox, float &_advance)
     return true;
 }
 
-/* */
 bool TTFontGlyph::setSizes(Int32 *_boundingBox, Int32 &_advance)
 {
     TT_Get_Glyph_Metrics(_ttGlyph, &_ttGlyphMetrics);
@@ -133,7 +131,11 @@ bool TTFontGlyph::setSizes(Int32 *_boundingBox, Int32 &_advance)
     return true;
 }
 
-/* */
+void TTFontGlyph::glyphDone(void)
+{
+    TT_Done_Glyph(_ttGlyph);
+}
+
 bool TTFontGlyph::renderGlyph(TT_Raster_Map map, Int32 xOff, Int32 yOff)
 {
     _ttError = TT_Get_Glyph_Pixmap(_ttGlyph, &map, xOff * 64, yOff * 64);
@@ -149,4 +151,3 @@ bool TTFontGlyph::renderGlyph(TT_Raster_Map map, Int32 xOff, Int32 yOff)
     return true;
 }
 #endif // OSG_WITH_FREETYPE1
-#endif

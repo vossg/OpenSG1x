@@ -1,50 +1,43 @@
 #ifndef FONTINSTANCEFACTORY_CLASS_DECLARATION
 #define FONTINSTANCEFACTORY_CLASS_DECLARATION
 
-#ifndef WIN32
 #include <OSGConfig.h>
 #include <OSGPathHandler.h>
 
-OSG_BEGIN_NAMESPACE class   FontStyle;
-OSG_END_NAMESPACE
 #include <list>
 
-OSG_BEGIN_NAMESPACE class FontStyleFactory
+OSG_BEGIN_NAMESPACE 
+
+class FontStyle;
+
+class FontStyleFactory
 {
-private:
+  private:
 
-    static FontStyleFactory             _the;
-
-    std::list<FontStyle *>              _instances;
-
-    /** Default Constructor */
-    FontStyleFactory(void);
-
-    /** Copy Constructor */
     FontStyleFactory(const FontStyleFactory &);
+    void operator =(const FontStyleFactory &);
 
-    /** Copy Operator */
-    const FontStyleFactory &operator    =(const FontStyleFactory &);
-public:
+  protected:
 
-    /** Destructor */
-    virtual                             ~FontStyleFactory(void);
+    static FontStyleFactory       _the;
 
-    FontStyle                           *create(PathHandler &paths,
-                                                    const Char8 *fontName,
-                                                    Real32 size);
+           std::list<FontStyle *> _instances;
 
-    bool discard(FontStyle *OSG_CHECK_ARG(fs))
-    {
-        return false;
-    }
+    FontStyleFactory(void);
+  
+  public:
 
-    static inline FontStyleFactory &the(void)
-    {
-        return _the;
-    }
+    static FontStyleFactory &the(void);
+
+    virtual ~FontStyleFactory(void);
+
+    FontStyle *create (      PathHandler &paths,
+                       const Char8       *fontName,
+                             Real32       size    );
+    
+    bool       discard(      FontStyle   *        );
 };
 
 OSG_END_NAMESPACE
-#endif
+
 #endif // FONTINSTANCEFACTORY_CLASS_DECLARATION

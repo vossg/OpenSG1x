@@ -1,62 +1,60 @@
 #ifndef TTFONTINSTANCE_CLASS_DECLARATION
 #define TTFONTINSTANCE_CLASS_DECLARATION
 
-#ifndef WIN32
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 
 #ifdef OSG_WITH_FREETYPE1
+
 #include "OSGFontStyle.h"
+
+#ifndef WIN32
 #include "freetype1/freetype/freetype.h"
+#else
+#include "freetype/freetype.h"
+#endif
 
-OSG_BEGIN_NAMESPACE class TTFontStyle :
-    public FontStyle
+OSG_BEGIN_NAMESPACE 
+
+class TTFontStyle : public FontStyle
 {
-    typedef FontStyle       ParentClass;
-private:
+    typedef FontStyle Inherited;
 
-    /** The FreeType instance of given font */
-    TT_Instance             *_ttInstance;
+  private:
 
-    /** The given font */
-    TT_Face                 *_ttFace;
+    TTFontStyle(const TTFontStyle &obj);
+    void operator =(const TTFontStyle &obj);
 
-    /** Error container */
-    TT_Error                _ttError;
-protected:
+  protected:
 
-    /** rerenders stored glyphs in case of resize */
-    virtual bool            processChange(void);
-public:
+            TT_Instance *_ttInstance;
+            TT_Face     *_ttFace;
+            TT_Error     _ttError;
 
-    /** Default Constructor */
+    virtual bool          processChange(void);
+  
+  public:
+
     TTFontStyle(void);
 
-    /** Copy Constructor */
-    TTFontStyle(const TTFontStyle &obj);
+    virtual ~TTFontStyle(void);
 
-    /** Destructor */
-    virtual                 ~TTFontStyle(void);
+    virtual bool             set_ttInstance (TT_Instance *ttInstance,
+                                             TT_Face     *ttFace      );
 
-    /** set method for attribute _ttInstance */
-    virtual bool            set_ttInstance(TT_Instance *ttInstance,
-                                               TT_Face *ttFace);
+    virtual VectorFontGlyph *getVectorGlyph (UInt8 which              );
+    virtual ImageFontGlyph  *getImageGlyph  (UInt8 which              );
+    virtual TXFGlyphInfo    *getTXFGlyphInfo(UInt8 ascii              );
 
-    /** return specified (ASCII-) Glyph */
-    virtual VectorFontGlyph *getVectorGlyph(UInt8 which);
+    virtual bool             createTXFMap   (UChar8 *characters = NULL, 
+                                             Int32   gap        = 1   );
 
-    virtual ImageFontGlyph  *getImageGlyph(UInt8 which);
+    virtual UChar8          *getTXFImageMap (void                     );
 
-    virtual bool            createTXFMap(UChar8 *characters = NULL, Int32 gap = 1);
-
-    virtual unsigned char   *getTXFImageMap(void);
-
-    virtual TXFGlyphInfo    *getTXFGlyphInfo(UInt8 ascii);
-
-    virtual bool            dump(std::ostream &out);
+    virtual bool             dump           (std::ostream &out        );
 };
 
-OSG_END_NAMESPACE typedef OSG::TTFontStyle * TTFontStyleP;
+OSG_END_NAMESPACE 
+
 #endif // OSG_WITH_FREETYPE1
-#endif
 #endif // TTFONTINSTANCE_CLASS_DECLARATION

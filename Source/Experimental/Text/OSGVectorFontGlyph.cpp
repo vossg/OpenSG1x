@@ -1,11 +1,12 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGConfig.h>
+
 #ifdef __sgi
 #include <math.h>
 #else
 #include <cmath>
 #endif
+
 #include <iostream>
 #include <fstream>
 
@@ -14,76 +15,189 @@
 
 #include <OSGLog.h>
 
-// Class declarations
 #include "OSGVectorFontGlyph.h"
+
 #define _BLOCK_ALLOC    300
 
-// Application declarations
 #include "OSGFontGlyphContour.h"
 #include "OSGTesselationHandler.h"
 
-/* */
 OSG_USING_NAMESPACE
 
-// Static Class Variable implementations:
-VectorFontGlyph::VectorFontGlyph(void) :
-    _type(VGLYPH_NONE),
-    _depth(1),
-    _precision(30.f),
-    _points(),
-    _numPoints(0),
-    _indices(),
-    _numIndices(0),
-    _numBad(0),
-    _bad(false),
-    _vertexBuffer()
+void VectorFontGlyph::FloatBuffer::fBuffAlloc(Int32 OSG_CHECK_ARG(size))
 {
-    return;
+    Real32  *nBuf     = new Real32  [_BLOCK_ALLOC     ];
+    Real32  **buffers = new Real32 *[_fWhichBuffer + 2];
+
+    _fWhichBuffer++;
+
+    if(_fBuffer)
+    {
+        for(Int32 i = 0; i < _fWhichBuffer; i++)
+        {
+            buffers[i] = _fBuffer[i];
+        }
+
+        delete[] _fBuffer;
+    }
+
+    _fBuffer = buffers;
+
+    _fBuffer[_fWhichBuffer] = nBuf;
+    _fBuffNext = 0;
 }
 
-/*
-VectorFontGlyph::VectorFontGlyph (const VectorFontGlyph &obj )
+VectorFontGlyph::FloatBuffer::FloatBuffer(void) :
+    _fBuffer     (NULL),
+    _fBuffSize   (0   ),
+    _fBuffNext   (0   ),
+    _fWhichBuffer(-1  )
 {
-	return;
-}
-*/
-VectorFontGlyph::VectorFontGlyph(VGlyphType type) :
-    _type(type),
-    _depth(1.f),
-    _precision(30.f),
-    _points(),
-    _numPoints(0),
-    _indices(),
-    _numIndices(0),
-    _numBad(0),
-    _bad(false),
-    _vertexBuffer()
-{
-    return;
 }
 
-/* */
-VectorFontGlyph::~VectorFontGlyph(void)
+VectorFontGlyph::FloatBuffer::~FloatBuffer(void)
 {
-    clear();
-    return;
 }
 
-/* */
-bool VectorFontGlyph::clear(void)
+Real32 *VectorFontGlyph::FloatBuffer::allocFloat(Int32 num)
 {
-    if(!_points.empty())
-        _points.clear();
-    if(!_indices.empty())
-        _points.clear();
+    Real32  *retPtr;
 
-    return true;
+    if(_fWhichBuffer < 0 || num + _fBuffNext > _BLOCK_ALLOC)
+    {
+        fBuffAlloc(_BLOCK_ALLOC);
+    }
+
+    retPtr = (_fBuffer[_fWhichBuffer]) + _fBuffNext;
+
+    _fBuffNext += num;
+
+    return retPtr;
 }
 
-/* */
+Int32 VectorFontGlyph::FloatBuffer::getBufferForPointer(Real32 *pointer)
+{
+    Int32   tmp = 0;
+
+    while
+    (
+        tmp <= _fWhichBuffer &&
+        !(
+            (pointer >= _fBuffer[tmp]) &&
+            (pointer < _fBuffer[tmp] + (_BLOCK_ALLOC * sizeof(Real32)))
+        )
+    ) 
+    {
+        tmp++;
+    }
+
+    if(tmp > _fWhichBuffer)
+        return -1;
+
+    return tmp;
+}
+
+Real32 *VectorFontGlyph::FloatBuffer::getBuffer(Int32 which)
+{
+    return which <= _fWhichBuffer ? _fBuffer[which] : 0;
+}
+
+
+
+
+void VectorFontGlyph::addPoint(Real32 *point, bool OSG_CHECK_ARG(lower))
+{
+    Int32   pointIndex = -1;
+    Int32   tmp        = 0;
+    Int32   begin      = 0;
+    Int32   end        = 0;
+    Int32   bad        = 0;
+
+    if(!point != NULL || _numBad)
+    {
+        _bad = true;
+
+        if(!_numBad)
+        {
+            bad = _numIndices % 3;
+            _numBad = 3 - bad;
+            _numIndices -= bad;
+        }
+
+        _numBad--;
+
+        return;
+    }
+
+    tmp = _vertexBuffer.getBufferForPointer(point);
+    begin = tmp * (_BLOCK_ALLOC / 3);
+    end =
+        (
+            begin +
+            (_BLOCK_ALLOC / 3) >= (Int32) _points.size() ? _points.size() -
+            1 : begin +
+            (_BLOCK_ALLOC / 3) -
+            1
+        );
+
+    if(tmp < 0 || (pointIndex = findPoint(point, begin, end)) < 0)
+    {
+        FWARNING((
+            "failed finding point (%f,%f,%f) within point-list of %d points.",
+            point[0], point[1], point[2], _numPoints));
+
+        return;
+    }
+
+    _numIndices++;
+
+    if(_numIndices > (Int32) _indices.size())
+    {
+        _indices.resize(_indices.capacity() + _BLOCK_ALLOC);
+    }
+
+    _indices[_numIndices - 1] = pointIndex;
+}
+
+Int32 VectorFontGlyph::findPoint(Real32 *point, Int32 lower, Int32 upper)
+{
+    Int32 l =  lower;
+    Int32 u =  upper;
+    Int32 m =  0;
+    Int32 f = -1;
+
+    while(!(l > u))
+    {
+        m = (u + l) / 2;
+        if(point < _points[m])
+        {
+            u = m - 1;
+            continue;
+        }
+        else if(point > _points[m])
+        {
+            l = m + 1;
+            continue;
+        }
+
+        return m;
+    }
+
+    for(Int32 i = _numPoints - 1; i >= 0; i--)
+    {
+        if(point[0] == _points[i][0] && point[1] == _points[i][1])
+        {
+            return i;
+        }
+    }
+
+    return f;
+}
+
 void VectorFontGlyph::extrude(void)
 {
-    Int32   *indices, tmp;
+    Int32 *indices = NULL;
+    Int32  tmp     = 0;
 
     if(_numIndices * 2 > (Int32) _indices.capacity())
     {
@@ -104,37 +218,44 @@ void VectorFontGlyph::extrude(void)
     _numIndices *= 2;
 }
 
-/* */
 bool VectorFontGlyph::createTriangles(void)
 {
-    std::vector<FontGlyphContour *>::iterator cIter;
-    FontGlyphContour                        *doThis;
-    GLUtriangulatorObj                      *triangulator = gluNewTess();
-    GLdouble                                vertex[3];
-    Real32                                  *point, tmpDepth;
-    Int32                                   totalPoints = 0, last, tmp, i, j,
-        k;
-    bool                                    lastOrdering = false;
+    std::vector<FontGlyphContour *>::iterator  cIter;
+    FontGlyphContour                          *doThis;
+    GLUtriangulatorObj                        *triangulator = gluNewTess();
+    GLdouble                                   vertex[3];
+    Real32                                    *point;
+    Real32                                     tmpDepth;
+    Int32                                      totalPoints = 0;
+    Int32                                      last;
+    Int32                                      tmp;
+    Int32                                      i;
+    Int32                                      j;
+    Int32                                      k;
+    bool                                       lastOrdering = false;
 
     tmTesselator = this;
+
     gluTessCallback(triangulator, (GLenum) GLU_BEGIN,
-                        (void(OSG_SYSTEMLIB_DLLMAPPING *) ()) tessBegin);
+                    (void (OSG_APIENTRY *) (void)) tessBegin);
     gluTessCallback(triangulator, (GLenum) GLU_VERTEX,
-                        (void(OSG_SYSTEMLIB_DLLMAPPING *) ()) tessVertex);
+                    (void (OSG_APIENTRY *) (void)) tessVertex);
     gluTessCallback(triangulator, (GLenum) GLU_EDGE_FLAG,
-                        (void(OSG_SYSTEMLIB_DLLMAPPING *) ()) tessEdgeFlag);
+                    (void (OSG_APIENTRY *) (void)) tessEdgeFlag);
     gluTessCallback(triangulator, (GLenum) GLU_END,
-                        (void(OSG_SYSTEMLIB_DLLMAPPING *) ()) tessEnd);
+                    (void (OSG_APIENTRY *) (void)) tessEnd);
 
     //     gluTessCallback(triangulator, (GLenum)GLU_ERROR,
     // 		     (void (OSG_SYSTEMLIB_DLLMAPPING *)()) tessError );
     totalPoints = 0;
+
     for(cIter = _contours.begin(); cIter != _contours.end(); cIter++)
     {
         last = totalPoints;
         totalPoints += (*cIter)->getNumPoints();
         _points.resize(totalPoints);
         _normals.resize(totalPoints);
+
         memcpy(&(_points[0])+last, &((*cIter)->getPoints()[0]),
                        (totalPoints - last) * sizeof(Real32 *));
         memcpy(&(_normals[0])+last, &((*cIter)->getNormals()[0]),
@@ -142,11 +263,14 @@ bool VectorFontGlyph::createTriangles(void)
     }
 
     _depth /= 10;
+
     if(_depth == -0.0)
         _depth *= -1;
+
     totalPoints = 0;
 
     tmpDepth = _depth;
+
     for(k = 0; k < (Int32) _contours.size(); k++)
     {
         doThis = _contours[k];
@@ -283,152 +407,7 @@ bool VectorFontGlyph::createTriangles(void)
 
     return true;
 }
-
-/* */
-Int32 VectorFontGlyph::findPoint(Real32 *point, Int32 lower, Int32 upper)
-{
-    Int32   l = lower, u = upper, m, f = -1;
-
-    while(!(l > u))
-    {
-        m = (u + l) / 2;
-        if(point < _points[m])
-        {
-            u = m - 1;
-            continue;
-        }
-        else if(point > _points[m])
-        {
-            l = m + 1;
-            continue;
-        }
-
-        return m;
-    }
-
-    for(Int32 i = _numPoints - 1; i >= 0; i--)
-    {
-        if(point[0] == _points[i][0] && point[1] == _points[i][1])
-            return i;
-    }
-
-    return f;
-}
-
-/* */
-void VectorFontGlyph::addPoint(Real32 * point, bool OSG_CHECK_ARG(lower))
-{
-    Int32   pointIndex = -1, tmp, begin, end, bad = 0;
-
-    if(!point || _numBad)
-    {
-        _bad = true;
-        if(!_numBad)
-        {
-            bad = _numIndices % 3;
-            _numBad = 3 - bad;
-            _numIndices -= bad;
-        }
-
-        _numBad--;
-
-        return;
-    }
-
-    tmp = _vertexBuffer.getBufferForPointer(point);
-    begin = tmp * (_BLOCK_ALLOC / 3);
-    end =
-        (
-            begin +
-            (_BLOCK_ALLOC / 3) >= (Int32) _points.size() ? _points.size() -
-            1 : begin +
-            (_BLOCK_ALLOC / 3) -
-            1
-        );
-
-    if(tmp < 0 || (pointIndex = findPoint(point, begin, end)) < 0)
-    {
-        FWARNING((
-                                 "failed in finding point (%f, %f, %f) within point-list of %d points.",
-                     point[0], point[1], point[2], _numPoints));
-
-        return;
-    }
-
-    _numIndices++;
-    if(_numIndices > (Int32) _indices.size())
-    {
-        _indices.resize(_indices.capacity() + _BLOCK_ALLOC);
-    }
-
-    _indices[_numIndices - 1] = pointIndex;
-}
-
-/* */
-VectorFontGlyph::FloatBuffer::FloatBuffer(void) :
-    _fBuffer(NULL),
-    _fBuffSize(0),
-    _fBuffNext(0),
-    _fWhichBuffer(-1)
-{
-    return;
-}
-
-/* */
-Real32 *VectorFontGlyph::FloatBuffer::allocFloat(Int32 num)
-{
-    Real32  *retPtr;
-    if(_fWhichBuffer < 0 || num + _fBuffNext > _BLOCK_ALLOC)
-        fBuffAlloc(_BLOCK_ALLOC);
-
-    retPtr = (_fBuffer[_fWhichBuffer]) + _fBuffNext;
-    _fBuffNext += num;
-
-    return retPtr;
-}
-
-/* */
-void VectorFontGlyph::FloatBuffer::fBuffAlloc(Int32 OSG_CHECK_ARG(size))
-{
-    Real32  *nBuf = new Real32[_BLOCK_ALLOC];
-    Real32  **buffers = new Real32 *[_fWhichBuffer + 2];
-
-    _fWhichBuffer++;
-    if(_fBuffer)
-    {
-        for(Int32 i = 0; i < _fWhichBuffer; i++)
-            buffers[i] = _fBuffer[i];
-        delete[] _fBuffer;
-    }
-
-    _fBuffer = buffers;
-
-    _fBuffer[_fWhichBuffer] = nBuf;
-    _fBuffNext = 0;
-}
-
-/* */
-Int32 VectorFontGlyph::FloatBuffer::getBufferForPointer(Real32 *pointer)
-{
-    Int32   tmp = 0;
-
-    while
-    (
-        tmp <= _fWhichBuffer &&
-        !(
-            (pointer >= _fBuffer[tmp]) &&
-            (pointer < _fBuffer[tmp] + (_BLOCK_ALLOC * sizeof(Real32)))
-        )
-    ) tmp++;
-
-    if(tmp > _fWhichBuffer)
-        return -1;
-
-    return tmp;
-}
-
-/* */
-void VectorFontGlyph::pushIt(Real32 ** &stack, Int32 &num, Real32 * &elem)
+void VectorFontGlyph::pushIt(Real32 **&stack, Int32 &num, Real32 * &elem)
 {
     if(num == 3)
     {
@@ -440,8 +419,7 @@ void VectorFontGlyph::pushIt(Real32 ** &stack, Int32 &num, Real32 * &elem)
     stack[num - 1] = elem;
 }
 
-/* */
-void VectorFontGlyph::calcNormal(Real32 ** &stack, Int32 num, Real32 *result)
+void VectorFontGlyph::calcNormal(Real32 **&stack, Int32 num, Real32 *result)
 {
     Real32  length;
 
@@ -463,7 +441,6 @@ void VectorFontGlyph::calcNormal(Real32 ** &stack, Int32 num, Real32 *result)
     result[2] = 0;
 }
 
-/* */
 bool VectorFontGlyph::checkAngle(Real32 **joint)
 {
     Real32  v1[3], v2[3], angle, l;
@@ -481,4 +458,164 @@ bool VectorFontGlyph::checkAngle(Real32 **joint)
 
     return angle / l > -0.86;
 }
-#endif
+
+
+VectorFontGlyph::VectorFontGlyph(void) :
+    _type           (VGLYPH_NONE),
+    _depth          (1.f        ),
+    _precision      (30.f       ),
+
+    _points         (           ),
+    _normals        (           ),
+
+    _numPoints      (0          ),
+    _numNormals     (0          ),
+    _pointBufferSize(0          ),
+
+    _indices        (           ),
+    _normalIndices  (           ),
+
+    _numIndices     (0          ),
+    _numBad         (0          ),
+    _bad            (false      ),
+    _numFrontFaces  (0          ),
+    _indexBufferSize(0          ),
+    _contourStart   (0          ),
+
+    _contours       (           ),
+
+    _vertexBuffer   (           ),
+    _normalBuffer   (           ),
+
+    _advance        (  0.f      )
+{
+    for(UInt32 i = 0; i < 6; ++i)
+    {
+        _boundingBox[i] = 0.f;
+    }
+}
+
+VectorFontGlyph::VectorFontGlyph(VGlyphType type) :
+    _type           (type ),
+    _depth          (1.f  ),
+    _precision      (30.f ),
+
+    _points         (     ),
+    _normals        (     ),
+
+    _numPoints      (0    ),
+    _numNormals     (0    ),
+    _pointBufferSize(0    ),
+
+    _indices        (     ),
+    _normalIndices  (     ),
+
+    _numIndices     (0    ),
+    _numBad         (0    ),
+    _bad            (false),
+    _numFrontFaces  (0    ),
+    _indexBufferSize(0    ),
+    _contourStart   (0    ),
+
+    _contours       (     ),
+
+    _vertexBuffer   (     ),
+    _normalBuffer   (     ),
+
+    _advance        (  0.f)
+{
+    for(UInt32 i = 0; i < 6; ++i)
+    {
+        _boundingBox[i] = 0.f;
+    }
+}
+
+VectorFontGlyph::~VectorFontGlyph(void)
+{
+    clear();
+}
+
+
+std::vector<Real32 *> &VectorFontGlyph::getPoints(void)
+{
+    return _points;
+}
+
+std::vector<Real32 *> &VectorFontGlyph::getNormals(void)
+{
+    return _normals;
+}
+
+std::vector<Int32> &VectorFontGlyph::getIndices(void)
+{
+    return _indices;
+}
+
+std::vector<Int32> &VectorFontGlyph::getNormalIndices(void)
+{
+    return _normalIndices;
+}
+
+Int32 VectorFontGlyph::getNumPoints(void)
+{
+    return _numPoints;
+}
+
+Int32 VectorFontGlyph::getNumNormals(void)
+{
+    return _numNormals;
+}
+
+Int32 VectorFontGlyph::getNumIndices(void)
+{
+    return _numIndices;
+}
+
+Int32 VectorFontGlyph::getNumFrontFaces(void)
+{
+    return _numFrontFaces;
+}
+
+bool VectorFontGlyph::clear(void)
+{
+    _points.clear();
+    _points.clear();
+
+    return true;
+}
+
+const Real32 *VectorFontGlyph::getBoundingBox(void)
+{
+    return _boundingBox;
+}
+
+Real32 VectorFontGlyph::getAdvance(void)
+{
+    return _advance;
+}
+
+void VectorFontGlyph::setDepth(Real32 size)
+{
+    _depth = size;
+}
+
+Real32 VectorFontGlyph::getDepth(void)
+{
+    return _depth;
+}
+
+void VectorFontGlyph::setPrecision(Real32 precision)
+{
+    _precision = precision;
+}
+
+VGlyphType VectorFontGlyph::getType(void)
+{
+    return _type;
+}
+
+void VectorFontGlyph::setType(VGlyphType type)
+{
+    _type = type;
+}
+

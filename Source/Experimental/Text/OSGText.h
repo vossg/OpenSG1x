@@ -1,7 +1,6 @@
 #ifndef FONTSTYLE_CLASS_DECLARATION
 #define FONTSTYLE_CLASS_DECLARATION
 
-#ifndef WIN32
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 #include <OSGGeometry.h>
@@ -12,236 +11,150 @@
 
 OSG_BEGIN_NAMESPACE 
 
-class   FontStyle;
+class FontStyle;
 
 enum TEXT_JUSTIFY_TYPE
 {
-    FIRST_JT    = 0,
-    BEGIN_JT,
-    MIDDLE_JT,
-    END_JT
+    FIRST_JT  = 0x0000,
+    BEGIN_JT  = 0x0001,
+    MIDDLE_JT = 0x0002,
+    END_JT    = 0x0003
 };
+
 enum FONT_STYLE_TYPE
 {
-    PLAIN_ST,
-    BOLD_ST,
-    ITALIC_ST,
-    BOLDITALIC_ST
+    PLAIN_ST      = 0x0000,
+    BOLD_ST       = 0x0001,
+    ITALIC_ST     = 0x0002,
+    BOLDITALIC_ST = 0x0003
 };
 
 enum MergeMode
 {
-    UNKNOWN_MM      = 0,
-    CLEAR_ADD_MM,
-    CLEAR_CUT_MM,
-    ADD_MM,
-    CUT_MM
+    UNKNOWN_MM   = 0x0000,
+    CLEAR_ADD_MM = 0x0001,
+    CLEAR_CUT_MM = 0x0002,
+    ADD_MM       = 0x0003,
+    CUT_MM       = 0x0004
 };
 
 enum ImageCreationMode
 {
-    UNKNOWN_TCM     = 0,
-    FILL_TCM,
-    SET_TCM,
-    SET_TEX_TCM
+    UNKNOWN_TCM = 0x0000,
+    FILL_TCM    = 0x0001,
+    SET_TCM     = 0x0002,
+    SET_TEX_TCM = 0x0003
 };
 
 enum MeshCreationMode
 {
-    UNKNOWN_MCM         = 0,
-    OUTLINE_MCM,
-    FILL_MCM,
-    FILL_TEX_CHAR_MCM,
-    FILL_TEX_ALL_MCM
+    UNKNOWN_MCM       = 0x0000,
+    OUTLINE_MCM       = 0x0001,
+    FILL_MCM          = 0x0002,
+    FILL_TEX_CHAR_MCM = 0x0003,
+    FILL_TEX_ALL_MCM  = 0x0004
 };
 
-class   Text
+class Text
 {
-    friend class        FontStyleFactory;
-private:
+  
+  private:
 
-    bool                _horizontal;
+    friend class FontStyleFactory;
 
-    TEXT_JUSTIFY_TYPE   _justifyMajor;
-
-    TEXT_JUSTIFY_TYPE   _justifyMinor;
-
-    bool                _leftToRight;
-
-    std::string         _language;
-
-    Real32              _size;
-
-    /** For Bezier-Interpolation */
-    Real32              _precision;
-
-    Real32              _spacing;
-
-    FONT_STYLE_TYPE     _style;
-
-    bool                _topToBottom;
-
-    FontStyle           *_fontInstance;
-
-    bool                _smoothing;
-protected:
-
-    /** Copy Constructor */
     Text(const Text &obj);
-public:
+    void operator =(const Text &obj);
 
-    /** Default Constructor */
+  protected:
+
+    bool               _horizontal;
+    TEXT_JUSTIFY_TYPE  _justifyMajor;
+    TEXT_JUSTIFY_TYPE  _justifyMinor;
+    bool               _leftToRight;
+    std::string        _language;
+    Real32             _size;
+
+    Real32             _precision;
+    Real32             _spacing;
+
+    FONT_STYLE_TYPE    _style;
+
+    bool               _topToBottom;
+
+    FontStyle         *_fontInstance;
+    bool               _smoothing;
+
+  public:
+
     Text(void);
 
-    /** Destructor */
-    virtual             ~Text(void);
+    virtual ~Text(void);
 
-    /** get method for attribute horizontal */
-    virtual bool horizontal(void)
-    {
-        return _horizontal;
-    }
+    virtual bool               horizontal     (void                         );
+    virtual void               setHorizontal  (bool              horizontal );
 
-    /** set method for attribute horizontal */
-    virtual void setHorizontal(bool horizontal)
-    {
-        _horizontal = horizontal;
-    }
+    virtual TEXT_JUSTIFY_TYPE  justifyMajor   (void);
+    virtual void               setJustifyMajor(TEXT_JUSTIFY_TYPE justify    );
 
-    /** get method for attribute justify */
-    virtual TEXT_JUSTIFY_TYPE justifyMajor(void)
-    {
-        return _justifyMajor;
-    }
+    virtual TEXT_JUSTIFY_TYPE  justifyMinor   (void                         );
+    virtual void               setJustifyMinor(TEXT_JUSTIFY_TYPE justify    );
 
-    /** set method for attribute justify */
-    virtual void setJustifyMajor(TEXT_JUSTIFY_TYPE justify)
-    {
-        _justifyMajor = justify;
-    }
+    virtual bool               leftToRight    (void                         );
+    virtual void               setLeftToRight (bool              leftToRight);
 
-    /** get method for attribute justify */
-    virtual TEXT_JUSTIFY_TYPE justifyMinor(void)
-    {
-        return _justifyMinor;
-    }
+    virtual std::string       &language       (void                         );
+    virtual void               setLanguage    (std::string       language   );
 
-    /** set method for attribute justify */
-    virtual void setJustifyMinor(TEXT_JUSTIFY_TYPE justify)
-    {
-        _justifyMinor = justify;
-    }
+    virtual Real32             size           (void                         );
+    virtual void               setSize        (Real32            size       );
 
-    /** get method for attribute leftToRight */
-    virtual bool leftToRight(void)
-    {
-        return _leftToRight;
-    }
+    virtual Real32             spacing        (void                         );
+    virtual void               setSpacing     (Real32            spacing    );
 
-    /** set method for attribute leftToRight */
-    virtual void setLeftToRight(bool leftToRight)
-    {
-        _leftToRight = leftToRight;
-    }
+    virtual FONT_STYLE_TYPE    style          (void                         );
+    virtual void               setStyle       (FONT_STYLE_TYPE   style      );
 
-    /** get method for attribute language */
-    virtual std::string &language(void)
-    {
-        return _language;
-    }
+    virtual bool               topToBottom    (void                         );
+    virtual void               setTopToBottom (bool              topToBottom);
 
-    /** set method for attribute language */
-    virtual void setLanguage(std::string language)
-    {
-        _language = std::string(language);
-    }
+            void               setFontStyle   (FontStyle        *fi         );
+            FontStyle         *getFontStyle   (void                         );
 
-    /** get method for attribute size */
-    virtual Real32 size(void)
-    {
-        return _size;
-    }
 
-    /** set method for attribute size */
-    virtual void setSize(Real32 size)
-    {
-        _size = size;
-    }
 
-    /** get method for attribute spacing */
-    virtual Real32 spacing(void)
-    {
-        return _spacing;
-    }
+    virtual bool   fillTXFImage   (Image                     &image   );
+    virtual bool   fillTXFGeo     (Geometry                  &mesh, 
+                                   bool                      isNew,
+                                   std::vector<std::string> &lineVec  );
+    
+    virtual UInt32 getTXFNVertices(std::vector<std::string> &lineVec  );
 
-    /** set method for attribute spacing */
-    virtual void setSpacing(Real32 spacing)
-    {
-        _spacing = spacing;
-    }
+    virtual bool   fillTXFArrays  (std::vector<std::string> &lineVec, 
+                                   Pnt3f                    *points, 
+                                   Vec2f                    *texcoords);
 
-    /** get method for attribute style */
-    virtual FONT_STYLE_TYPE style(void)
-    {
-        return _style;
-    }
+    virtual bool   fillImage      (Image                    &image, 
+                                   std::vector<std::string> &lineVec,
+                                   Color4ub         *fg          = 0, 
+                                   Color4ub         *bg          = 0,
+                                   bool              forcePower2 = false, 
+                                   Real32           *maxX        = 0,
+                                   Real32           *maxY        = 0,
+                                   ImageCreationMode creationMode=SET_TEX_TCM,
+                                   MergeMode         mergeMode   =CLEAR_ADD_MM,
+                                   Int32             pixelDepth  = 3) const;
 
-    /** set method for attribute style */
-    virtual void setStyle(FONT_STYLE_TYPE style)
-    {
-        _style = style;
-    }
-
-    /** get method for attribute topToBottom */
-    virtual bool topToBottom(void)
-    {
-        return _topToBottom;
-    }
-
-    /** set method for attribute topToBottom */
-    virtual void setTopToBottom(bool topToBottom)
-    {
-        _topToBottom = topToBottom;
-    }
-
-    /** set method for attribute fontInstance */
-    void setFontStyle(FontStyle *fi)
-    {
-        _fontInstance = fi;
-    }
-
-    FontStyle *getFontStyle(void)
-    {
-        return _fontInstance;
-    }
-
-    virtual bool    fillTXFImage(Image &image);
-
-    virtual bool    fillTXFGeo(Geometry &mesh, bool isNew,
-                               std::vector<std::string> &lineVec);
-
-    virtual UInt32  getTXFNVertices(std::vector<std::string> &lineVec);
-
-    virtual bool    fillTXFArrays(std::vector<std::string> &lineVec, 
-                                  Pnt3f *points, Vec2f *texcoords);
-
-    virtual bool    fillImage(Image &image, std::vector<std::string> &lineVec,
-                                  Color4ub *fg = 0, Color4ub *bg = 0,
-                                  bool forcePower2 = false, Real32 *maxX = 0,
-                                  Real32 *maxY = 0,
-                                  ImageCreationMode creationMode = SET_TEX_TCM,
-                                  MergeMode mergeMode = CLEAR_ADD_MM,
-                                  Int32 pixelDepth = 3) const;
-
-    virtual bool    fillGeo(Geometry &mesh, std::vector<std::string> &lineVec,
-                                Real32 precision = 1.f, Real32 extFac = 0.f,
-                                Real32 maxExtend = 0.f,
-                                MeshCreationMode creationMode = FILL_MCM,
-                                MergeMode mergeMode = CLEAR_ADD_MM);
+    virtual bool   fillGeo        (Geometry                 &mesh, 
+                                   std::vector<std::string> &lineVec,
+                                   Real32           precision   = 1.f, 
+                                   Real32           extFac      = 0.f,
+                                   Real32           maxExtend   = 0.f,
+                                   MeshCreationMode creationMode=FILL_MCM,
+                                   MergeMode        mergeMode   =CLEAR_ADD_MM);
 };
 
-typedef Text    *TextP;
+typedef Text *TextP;
 
 OSG_END_NAMESPACE
-#endif
+
 #endif // FONTSTYLE_CLASS_DECLARATION

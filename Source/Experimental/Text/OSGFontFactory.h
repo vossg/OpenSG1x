@@ -1,50 +1,43 @@
 #ifndef FONTFACTORY_CLASS_DECLARATION
 #define FONTFACTORY_CLASS_DECLARATION
 
-#ifndef WIN32
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 #include <OSGPathHandler.h>
 
 #include <list>
 
-OSG_BEGIN_NAMESPACE class                   Font;
-OSG_END_NAMESPACE OSG_BEGIN_NAMESPACE class FontFactory
+OSG_BEGIN_NAMESPACE 
+
+class Font;
+
+class FontFactory
 {
-private:
+  private:
 
-    static FontFactory  _the;
+    FontFactory(const FontFactory &obj);
+    void operator =(const FontFactory &obj);
 
-    /** list of known fonts */
-    std::list<Font *>        _knownFonts;
+  protected:
 
-protected:
-public:
+    static FontFactory       _the;
 
-    /** Default Constructor */
+           std::list<Font *> _knownFonts;
+  public:
+    
+    static FontFactory &the(void);
+
     FontFactory(void);
 
-    /** Copy Constructor */
-    FontFactory(const FontFactory &obj);
+    virtual ~FontFactory(void);
 
-    /** Destructor */
-    virtual             ~FontFactory(void);
+    virtual Font *queryFont  (PathHandler &paths, const Char8 *fontName);
 
-    /** Queries a Font */
-    virtual Font        *queryFont(PathHandler &paths, const Char8 *fontName);
-
-    /** returns the number of fonts found within path list */
-    virtual Int32 getNumFonts(void)
-    {
-        return _knownFonts.size();
-    }
-
-    static FontFactory &the(void)
-    {
-        return _the;
-    }
+            Int32 getNumFonts(void                                     );
 };
 
-OSG_END_NAMESPACE typedef OSG::FontFactory * FontFactoryP;
-#endif
+OSG_END_NAMESPACE
+
+#include <OSGFontFactory.inl>
+
 #endif // FONTFACTORY_CLASS_DECLARATION

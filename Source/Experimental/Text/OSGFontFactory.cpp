@@ -1,40 +1,28 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGConfig.h>
 #include <iostream>
 
-// Application declarations
 #ifdef OSG_WITH_FREETYPE1
 #include "OSGTTFont.h"
 #endif
+
 #include "OSGTXFFont.h"
 
-// Class declarations
 #include "OSGFontFactory.h"
 
 OSG_USING_NAMESPACE
 
-// Static Class Variable implementations:
 OSG::FontFactory OSG::FontFactory:: _the;
 
-/* */
-FontFactory::FontFactory(void)
+FontFactory::FontFactory(void) :
+    _knownFonts()
 {
-    return;
 }
 
-/*
-FontFactory::FontFactory (const FontFactory &obj )
-{
-	return;
-}
-*/
 FontFactory::~FontFactory(void)
 {
-    return;
 }
 
-/* */
 Font *FontFactory::queryFont(PathHandler &paths, const Char8 *fontName)
 {
     std::list<Font *>::iterator  fIter;
@@ -75,4 +63,4 @@ Font *FontFactory::queryFont(PathHandler &paths, const Char8 *fontName)
 
     return tmpFont;
 }
-#endif
+

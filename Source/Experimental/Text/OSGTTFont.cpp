@@ -1,6 +1,6 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGConfig.h>
+
 #ifdef __sgi
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,51 +16,45 @@
 
 #ifdef OSG_WITH_FREETYPE1
 
-// Application declarations
 #include "OSGTTFontStyle.h"
 #include "OSGText.h"
 
-// Class declarations
 #include "OSGTTFont.h"
 
-/* */
 OSG_USING_NAMESPACE
 
-// Static Class Variable implementations:
 TTFont::TTFont(void) :
-    Font()
+     Inherited(    ),
+    _ttEngine (    ),
+    _ttFace   (    ),
+    _ttError  (0L  )
 {
-    return;
+    _ttEngine.z = NULL;
+    _ttFace  .z = NULL;
 }
 
-/* */
-TTFont::TTFont(const TTFont &OSG_CHECK_ARG(obj))
-{
-    assert(false);
-}
-
-/* */
 TTFont::TTFont(const Char8 *name, std::string path) :
-    Font(name, path)
+     Inherited(name, 
+               path),
+    _ttEngine (    ),
+    _ttFace   (    ),
+    _ttError  (0L  )
 {
+    _ttFace.z = NULL;
+
     _ttError = TT_Init_FreeType(&_ttEngine);
 
     if(_ttError)
     {
         FWARNING(("Create TT_Engine failed with TT_Error=%d.", _ttError));
     }
-
-    return;
 }
 
-/* */
 TTFont::~TTFont(void)
 {
     TT_Done_FreeType(_ttEngine);
-    return;
 }
 
-/* */
 bool TTFont::initFont(void)
 {
     if(_valid)
@@ -75,6 +69,7 @@ bool TTFont::initFont(void)
     _valid = true;
 
     _ttError = TT_Open_Face(_ttEngine, _fontPath.data(), &_ttFace);
+
     if(_ttError)
     {
         FWARNING(("Create TT_Face failed for font %s with TT_Error=%d.",
@@ -85,15 +80,15 @@ bool TTFont::initFont(void)
     return _valid;
 }
 
-/* */
 bool TTFont::createInstance(Text *fs)
 {
-    bool        retVal = false;
-    TT_Instance *inst = new TT_Instance;
-    TTFontStyle *fInst = new TTFontStyle;
+    bool         retVal = false;
+    TT_Instance *inst   = new TT_Instance;
+    TTFontStyle *fInst  = new TTFontStyle;
 
-    fInst->setFontName(_fontName);
-    fInst->setSize(fs->size());
+    fInst->setFontName(_fontName );
+    fInst->setSize    (fs->size());
+
     retVal = fInst->set_ttInstance(inst, &_ttFace);
 
     if(!retVal)
@@ -102,28 +97,32 @@ bool TTFont::createInstance(Text *fs)
         delete fInst;
     }
     else
+    {
         fs->setFontStyle(fInst);
+    }
 
     return retVal;
 }
 
-OSG::FontStyle * TTFont::createInstance (float size)
+OSG::FontStyle *TTFont::createInstance(Real32 size)
 {
-    bool        retVal = false;
-    TT_Instance *inst = new TT_Instance;
-    TTFontStyle *fInst = new TTFontStyle;
+    bool         retVal = false;
+    TT_Instance *inst   = new TT_Instance;
+    TTFontStyle *fInst  = new TTFontStyle;
 
     fInst->setFontName(_fontName);
-    fInst->setSize(size);
+    fInst->setSize    (size     );
+
     retVal = fInst->set_ttInstance(inst, &_ttFace);
 
     if(!retVal)
     {
         delete inst;
         delete fInst;
-        fInst = 0;
+
+        fInst = NULL;
     }
     return fInst;
 }
+
 #endif // OSG_WITH_FREETYPE1
-#endif

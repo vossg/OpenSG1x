@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#ifndef WIN32
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -1420,4 +1418,3 @@ namespace
 #pragma reset woff 1174
 #endif
 
-#endif

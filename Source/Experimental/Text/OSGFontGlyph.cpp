@@ -1,39 +1,70 @@
-#ifndef WIN32
 
-// System declarations
+#include <OSGConfig.h>
+
 #include <iostream>
 
-// Application declarations
-// Class declarations
 #include "OSGFontGlyph.h"
 
-// Static Class Variable implementations:
-OSG_USING_NAMESPACE FontGlyph::FontGlyph(void) :
-    _valid(true),
-    _asciiCode(-1),
-    _uniCode(-1)
+OSG_USING_NAMESPACE 
+
+FontGlyph::FontGlyph(void) :
+    _valid    (true),
+    _asciiCode(-1  ),
+    _uniCode  (-1  ),
+    _size     (1.f )
 {
-    return;
 }
 
-/*
-FontGlyph::FontGlyph (const FontGlyph &obj )
-: _valid(true), _asciiCode(-1), _uniCode(-1)
-{
-	return;
-}
-*/
 FontGlyph::FontGlyph(Int32 ascii, Int32 unicode) :
-    _valid(true),
-    _asciiCode(ascii),
-    _uniCode(unicode)
+    _valid    (true   ),
+    _asciiCode(ascii  ),
+    _uniCode  (unicode),
+    _size     (1.f    ) 
 {
-    return;
 }
 
-/* */
 FontGlyph::~FontGlyph(void)
 {
-    return;
 }
-#endif
+
+bool FontGlyph::isValid(void)
+{
+    return _valid;
+}
+
+void FontGlyph::setInvalid(void)
+{
+    _valid = false;
+}
+
+Int32 FontGlyph::getAsciiCode(void)
+{
+    return _asciiCode;
+}
+
+void FontGlyph::setAsciiCode(Int32 asciiCode)
+{
+    _asciiCode = asciiCode;
+}
+
+Int32 FontGlyph::getUniCode(void)
+{
+    return _uniCode;
+}
+
+void FontGlyph::setUniCode(Int32 uniCode)
+{
+    _uniCode = uniCode;
+}
+
+void FontGlyph::setSize(Real32 size)
+{
+    _size = size;
+}
+
+Real32 FontGlyph::getSize(void)
+{
+    return _size;
+}
+
+

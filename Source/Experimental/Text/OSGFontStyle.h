@@ -1,177 +1,89 @@
 #ifndef FONTINSTANCE_CLASS_DECLARATION
 #define FONTINSTANCE_CLASS_DECLARATION
 
-#ifndef WIN32
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 
 #include <vector>
 #include <iostream>
 
-/** Abstract instance of a font at an given size.
-*
-*
-* @author elmi, Sat Mar 11 19:24:13 2000
-*/
-OSG_BEGIN_NAMESPACE class   FontGlyph;
-class                       VectorFontGlyph;
-class                       ImageFontGlyph;
-class                       TXFGlyphInfo;
+OSG_BEGIN_NAMESPACE 
 
-class                       FontStyle
+class   FontGlyph;
+class   VectorFontGlyph;
+class   ImageFontGlyph;
+class   TXFGlyphInfo;
+
+class   FontStyle
 {
-private:
+  private:
 
-    /** x Resolution of device */
-    Int32                       _xRes;
+    FontStyle(const FontStyle &obj);
+    void operator =(const FontStyle &obj);
 
-    /** x Resolution of device */
-    Int32                       _yRes;
+  protected:
 
-    /** desired 'Point-Size' of font */
-    Real32                      _size;
+            Int32                   _xRes;
+            Int32                   _yRes;
+            Real32                  _size;
+            Real32                  _depth;
 
-    /** desired z-dpeth of font */
-    Real32                      _depth;
+            Real32                  _maxDescent;
+            Real32                  _maxAscent;
+            Real32                  _baselineSkip;
 
-    Real32                      _maxDescent;
+    const   Char8                  *_fontName;
 
-    Real32                      _maxAscent;
+    std::vector<VectorFontGlyph *>  _vectorGlyphs;
+    std::vector<ImageFontGlyph  *>  _imageGlyphs;
+    std::vector<TXFGlyphInfo    *>  _txfGlyphInfos;
 
-    Real32                      _baselineSkip;
+            UChar8                 *_txfImageMap;
 
-    const char                  *_fontName;
-protected:
+            Int32                   _txfFontWidth;
+            Int32                   _txfFontHeight;
 
-    /** list fo created glyphs */
-    std::vector<VectorFontGlyph *> _vectorGlyphs;
-    std::vector<ImageFontGlyph  *> _imageGlyphs;
-    std::vector<TXFGlyphInfo    *> _txfGlyphInfos;
+    virtual bool processChange(void);
 
-    UChar8                      *_txfImageMap;
+  public:
 
-    Int32                       _txfFontWidth;
-    Int32                       _txfFontHeight;
-
-    /** rerenders stored glyphs in case of resize */
-    virtual bool                processChange(void);
-public:
-
-    /** Default Constructor */
     FontStyle(void);
 
-    /** Copy Constructor */
-    FontStyle(const FontStyle &obj);
+    virtual ~FontStyle(void);
 
-    /** Destructor */
-    virtual                     ~FontStyle(void);
+    virtual VectorFontGlyph *getVectorGlyph (UInt8 ascii) = 0;
+    virtual ImageFontGlyph  *getImageGlyph  (UInt8 ascii) = 0;
+    virtual TXFGlyphInfo    *getTXFGlyphInfo(UInt8 ascii) = 0;
 
-    /** get method for attribute glyphs */
-    virtual VectorFontGlyph     *getVectorGlyph(UInt8 ascii) = 0;
+    virtual       void    setTXFImageMap  (      UChar8 *image       );
+    virtual       UChar8 *getTXFImageMap  (      void                );
 
-    /** get method for attribute glyphs */
-    virtual ImageFontGlyph      *getImageGlyph(UInt8 ascii) = 0;
+    virtual       bool    getTXFImageSizes(      Int32  &width, 
+                                                 Int32  &height      );
+    virtual       Int32   getXRes         (      void                );
+    virtual       void    setXRes         (      Int32   xRes        );
 
-    /** get method for attribute glyphs */
-    virtual TXFGlyphInfo        *getTXFGlyphInfo(UInt8 ascii) = 0;
+    virtual       Int32   getYRes         (      void                );
+    virtual       void    setYRes         (      Int32   yRes        );
 
-    /** set method for image map */
-    virtual void setTXFImageMap(unsigned char *image)
-    {
-        _txfImageMap = image;
-    }
+    virtual       Real32  getSize         (      void                );
+    virtual       void    setSize         (      Real32  size        );
 
-    /** et method for image map */
-    virtual unsigned char *getTXFImageMap(void)
-    {
-        return _txfImageMap;
-    }
+    virtual       void    setMaxDescent   (      Real32  maxDescent  );
+    virtual       Real32  getMaxDescent   (      void                );
 
-    /** get method for image map dimmensions */
-    virtual bool    getTXFImageSizes(Int32 &width, Int32 &height);
+    virtual       void    setMaxAscent    (      Real32  maxAscent   );
+    virtual       Real32  getMaxAscent    (      void                );
 
-    virtual bool dump(std::ostream &OSG_CHECK_ARG(out))
-    {
-        return false;
-    }
+    virtual       void    setBaselineSkip (      Real32  baselineSkip);
+    virtual       Real32  getBaselineSkip (      void                );
 
-    /** get method for attribute _xRes */
-    virtual inline Int32 getXRes(void)
-    {
-        return _xRes;
-    }
+    virtual const Char8  *getFontName     (      void                );
+    virtual       void    setFontName     (const Char8  *name        );
 
-    /** set method for attribute _xRes */
-    virtual void setXRes(Int32 xRes)
-    {
-        _xRes = xRes;
-    }
-
-    /** get method for attribute _yRes */
-    virtual inline Int32 getYRes(void)
-    {
-        return _yRes;
-    }
-
-    /** set method for attribute _yRes */
-    virtual void setYRes(Int32 yRes)
-    {
-        _yRes = yRes;
-    }
-
-    /** get method for attribute _size */
-    virtual inline Real32 getSize(void)
-    {
-        return _size;
-    }
-
-    /** set method for attribute _size */
-    virtual void setSize(Real32 size)
-    {
-        _size = size;
-    }
-
-    virtual void setMaxDescent(Real32 maxDescent)
-    {
-        _maxDescent = maxDescent;
-    }
-
-    virtual inline Real32 getMaxDescent(void)
-    {
-        return _maxDescent;
-    }
-
-    virtual void setMaxAscent(Real32 maxAscent)
-    {
-        _maxAscent = maxAscent;
-    }
-
-    virtual inline Real32 getMaxAscent(void)
-    {
-        return _maxAscent;
-    }
-
-    virtual void setBaselineSkip(Real32 baselineSkip)
-    {
-        _baselineSkip = baselineSkip;
-    }
-
-    virtual inline Real32 getBaselineSkip(void)
-    {
-        return _baselineSkip;
-    }
-
-    virtual const Char8 *getFontName(void)
-    {
-        return _fontName;
-    }
-
-    virtual void setFontName(const Char8 *name)
-    {
-        _fontName = name;
-    }
+    virtual bool dump(std::ostream &out);
 };
 
-OSG_END_NAMESPACE typedef OSG::FontStyle * FontStyleP;
-#endif
+OSG_END_NAMESPACE 
+
 #endif // FONTINSTANCE_CLASS_DECLARATION

@@ -50,8 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-#ifndef WIN32
-
 #define OSG_COMPILEGRAPHICSTATISTICSFOREGROUNDINST
 
 #include <stdlib.h>
@@ -715,6 +713,4 @@ namespace
 
     static Char8 cvsid_fields_hpp[] = OSGGRAPHICSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID;
 }
-
-#endif
 
