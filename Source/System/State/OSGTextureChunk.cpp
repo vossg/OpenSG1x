@@ -539,7 +539,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
             case GL_BGRA:
 #  endif
 #  if defined(GL_BGRA_EXT)
-            case GL_BGR_EXT:
+            case GL_BGRA_EXT:
 #  endif
 #endif
 #if defined(GL_BGRA) || defined(GL_BGRA_EXT)
