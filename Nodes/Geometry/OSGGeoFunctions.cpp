@@ -1484,23 +1484,42 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
   if (geoPtr == osg::NullFC) {
     FWARNING (("No geo in calcPrimitiveCount\n"));
   }
-  else {
+  else 
+  {
     lensPtr = GeoPLengthsUI32Ptr::dcast( geoPtr->getLengths() );
     lN = (lensPtr == osg::NullFC) ? 0 : lensPtr->getSize();
 
     geoTypePtr = GeoPTypesUI8Ptr::dcast( geoPtr->getTypes() );
     tN = (geoTypePtr == osg::NullFC) ? 0 : geoTypePtr->getSize();
 
-    if ((tN == 0) || (tN != lN)) {
-      FWARNING (("Invalid GeoPLengths and GeoPTypes data\n"));
+    if ((tN == 0) || (lN != 0 && tN != lN) || (lN == 0 && tN != 1)) 
+    {
+      FWARNING (("calcPrimitiveCount: Invalid GeoPLengths and "
+                 "GeoPTypes data\n"));
     }
     else {
       typeI = geoTypePtr->getField().begin();
-      lenI = lensPtr->getField().begin();
+      if(lN != 0)
+        lenI = lensPtr->getField().begin();
       endTypeI = geoTypePtr->getField().end();
       while ( typeI != endTypeI  ) {
         type = *typeI;
-        len = *lenI;
+        if(lN != 0)
+        {
+            len = *lenI;
+        }
+        else
+        {
+            GeoPositionsPtr pos = geoPtr->getPositions();
+            
+            if(pos == osg::NullFC)
+            {
+                FWARNING (("calcPrimitiveCount: no Points!\n"));
+                return -1;
+            }
+            
+            len = pos->size();
+        }
         switch (type) {
         case GL_POINTS:
           point += len;
