@@ -313,7 +313,7 @@ int main (int argc, char **argv)
     cam->setBeacon( b1n );
     cam->setFov( deg2rad( 90 ) );
     cam->setNear( 0.1 );
-    cam->setFar( 10000 );
+    cam->setFar( 100000 );
 
     // Background
     SolidBackgroundPtr bkgnd = SolidBackground::create();

@@ -48,7 +48,7 @@
 //---------------------------------------------------------------------------
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
-#   ifdef OSG_COMPILEWINDOWGLUTLIB
+#   ifdef OSG_COMPILEGLUTWINDOWLIB
 #       define OSG_WINDOWGLUTLIB_DLLMAPPING     __declspec(dllexport)
 #       define OSG_WINDOWGLUTLIB_DLLTMPLMAPPING __declspec(dllexport)
 #   else

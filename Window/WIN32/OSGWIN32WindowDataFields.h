@@ -51,6 +51,9 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDataType.h>
+#include <OSGSField.h>
+#include <OSGMField.h>
+#include <OSGWindowWIN32Def.h>
 
 #include <windows.h>
 
@@ -180,20 +183,7 @@ typedef MField<PAINTSTRUCT> MFPAINTSTRUCT;
 
 // Instantiations
 
-#ifndef OSG_COMPILEWINDOWXINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<HWND>       ::_fieldType
-#pragma do_not_instantiate SField<HDC>        ::_fieldType
-#pragma do_not_instantiate SField<HGLRC>      ::_fieldType
-#pragma do_not_instantiate SField<PAINTSTRUCT>::_fieldType
-
-#pragma do_not_instantiate MField<HWND>       ::_fieldType
-#pragma do_not_instantiate MField<HDC>        ::_fieldType
-#pragma do_not_instantiate MField<HGLRC>      ::_fieldType
-#pragma do_not_instantiate MField<PAINTSTRUCT>::_fieldType
-
-#else
+#ifndef OSG_COMPILEWINDOWWIN32INST
 
 OSG_DLLEXPORT_DECL1(SField, HWND,        OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DECL1(SField, HDC,         OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
@@ -206,11 +196,10 @@ OSG_DLLEXPORT_DECL1(MField, HGLRC,       OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DECL1(MField, PAINTSTRUCT, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 
 #endif
-#endif
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWWIN32DATAFIELDS_HEADER_CVSID "@(#)$Id: OSGWIN32WindowDataFields.h,v 1.1 2002/02/05 20:39:35 dirk Exp $"
+#define OSGWINDOWWIN32DATAFIELDS_HEADER_CVSID "@(#)$Id: OSGWIN32WindowDataFields.h,v 1.2 2002/02/06 02:42:41 vossg Exp $"
 
 #endif /* WIN32 */
 
