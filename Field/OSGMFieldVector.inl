@@ -99,6 +99,44 @@ MFieldVector<Tp, Alloc>::~MFieldVector()
 {
 }
 
+#elif defined(WIN32)
+
+template<class Ty, class A> inline
+MFieldVector<Ty, A>::MFieldVector(const A &_Al) : 
+    Inherited(_Al) 
+{
+}
+
+template<class Ty, class A> inline
+MFieldVector<Ty, A>::MFieldVector(      size_type  _N, 
+                                  const Ty        &_V,
+                                  const A         &_Al) : 
+    Inherited(_N, _V, _Al)
+{
+}
+
+template<class Ty, class A> inline
+MFieldVector<Ty, A>::MFieldVector(const vector<Ty, A> &_X) :
+    Inherited(_X)
+{
+}
+
+
+template<class Ty, class A> inline
+MFieldVector<Ty, A>::MFieldVector(      It  _F, 
+                                        It  _L, 
+                                  const A  &_Al) :
+    Inherited(_F, _L, _Al)
+{
+}
+
+template<class Ty, class A> inline
+MFieldVector<Ty, A>::~MFieldVector()
+{
+}
+
+#endif
+
 OSG_END_NAMESPACE
 
 #define OSGMFIELDVECTOR_INLINE_CVSID "@(#)$Id: $"

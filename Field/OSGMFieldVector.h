@@ -101,12 +101,38 @@ class MFieldVector : public vector<Tp, Alloc>
 
 #elif defined(WIN32)
 
+template<class Ty, class A = allocator<Ty> >
+class MFieldVector : public vector<Ty, A>
+{
+  private :
+
+    typedef          vector<Ty, A>             Inherited;
+	typedef typename Inherited::const_iterator It;
+
+  public :	
+
+    explicit MFieldVector(const A& _Al = A());
+
+	explicit MFieldVector(      size_type  _N, 
+                          const Ty        &_V  = Ty(),
+                          const A         &_Al = A ());
+
+	MFieldVector(const vector<Ty, A> &_X);
+
+
+	MFieldVector(      It  _F, 
+                       It  _L, 
+                 const A  &_Al = A());
+
+	~MFieldVector(void);
+};
+
 #endif
 
 OSG_END_NAMESPACE
 
 #define OSGMFIELDVECTOR_HEADER_CVSID "@(#)$Id: $"
 
-//#include "OSGMFieldVector.inl"
+#include "OSGMFieldVector.inl"
 
 #endif /* _OSGMFIELDVECTOR_H_ */
