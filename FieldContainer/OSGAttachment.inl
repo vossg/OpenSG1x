@@ -143,7 +143,7 @@ template <class AttachmentDescT> inline
 UInt32 SimpleAttachment<AttachmentDescT>::getBinSize(
     const BitVector &whichField)
 {
-    UInt32 returnValue = 0;
+    UInt32 returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (SimpleFieldMask & whichField))
     {
@@ -158,6 +158,8 @@ void SimpleAttachment<AttachmentDescT>::copyToBin(
           BinaryDataHandler &pMem,
     const BitVector         &whichField)
 {
+    Inherited::copyToBin(pMem, whichField);
+
     if(FieldBits::NoField != (SimpleFieldMask & whichField))
     {
         _field.copyToBin(pMem);
@@ -169,6 +171,8 @@ void SimpleAttachment<AttachmentDescT>::copyFromBin(
           BinaryDataHandler &pMem,
     const BitVector         &whichField)
 {
+    Inherited::copyFromBin(pMem, whichField);
+
     if(FieldBits::NoField != (SimpleFieldMask & whichField))
     {
         _field.copyFromBin(pMem);
