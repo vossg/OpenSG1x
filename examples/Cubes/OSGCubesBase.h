@@ -77,6 +77,7 @@
 OSG_BEGIN_NAMESPACE
 
 class Cubes;
+class BinaryDataHandler;
 
 /*! \brief Cubes Base Class. */
 
@@ -165,10 +166,10 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -229,8 +230,6 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
 
     friend class FieldContainer;
 
-    static char cvsid[];
-
     static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
@@ -248,5 +247,7 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public NodeCore
 typedef CubesBase *CubesBaseP;
 
 OSG_END_NAMESPACE
+
+#define OSGCUBESBASE_HEADER_CVSID "@(#)$Id: OSGCubesBase.h,v 1.6 2001/10/11 21:17:06 dirk Exp $"
 
 #endif /* _OSGCUBESBASE_H_ */

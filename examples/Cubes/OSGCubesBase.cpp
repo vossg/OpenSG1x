@@ -65,7 +65,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<CubesPtr>::_type("CubesPtr", true);
+DataType FieldDataTraits<CubesPtr>::_type("CubesPtr", "NodeCorePtr", true);
 
 #if defined(__sgi)
 
@@ -83,21 +83,36 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
-const OSG::BitVector	CubesBase::MaterialFieldMask = 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static char cvsid_cpp       [] = "@(#)$Id: OSGCubesBase.cpp,v 1.6 2001/10/11 21:17:06 dirk Exp $";
+    static char cvsid_hpp       [] = OSGCUBESBASE_HEADER_CVSID;
+    static char cvsid_inl       [] = OSGCUBESBASE_INLINE_CVSID;
+
+    static char cvsid_fields_hpp[] = OSGCUBESFIELDS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
+const OSG::BitVector  CubesBase::MaterialFieldMask = 
     (1 << CubesBase::MaterialFieldId);
 
-const OSG::BitVector	CubesBase::PositionFieldMask = 
+const OSG::BitVector  CubesBase::PositionFieldMask = 
     (1 << CubesBase::PositionFieldId);
 
-const OSG::BitVector	CubesBase::LengthFieldMask = 
+const OSG::BitVector  CubesBase::LengthFieldMask = 
     (1 << CubesBase::LengthFieldId);
 
-const OSG::BitVector	CubesBase::ColorFieldMask = 
+const OSG::BitVector  CubesBase::ColorFieldMask = 
     (1 << CubesBase::ColorFieldId);
 
 
-
-char CubesBase::cvsid[] = "@(#)$Id: OSGCubesBase.cpp,v 1.5 2001/10/03 20:37:37 dirk Exp $";
 
 // Field descriptions
 
@@ -196,22 +211,22 @@ void CubesBase::executeSync(      FieldContainer &other,
 //! Constructor
 
 CubesBase::CubesBase(void) :
-	_sfMaterial               (), 
-	_mfPosition               (), 
-	_mfLength                 (), 
-	_mfColor                  (), 
-	Inherited() 
+    _sfMaterial               (), 
+    _mfPosition               (), 
+    _mfLength                 (), 
+    _mfColor                  (), 
+    Inherited() 
 {
 }
 
 //! Copy Constructor
 
 CubesBase::CubesBase(const CubesBase &source) :
-	_sfMaterial               (source._sfMaterial               ), 
-	_mfPosition               (source._mfPosition               ), 
-	_mfLength                 (source._mfLength                 ), 
-	_mfColor                  (source._mfColor                  ), 
-	Inherited                 (source)
+    _sfMaterial               (source._sfMaterial               ), 
+    _mfPosition               (source._mfPosition               ), 
+    _mfLength                 (source._mfLength                 ), 
+    _mfColor                  (source._mfColor                  ), 
+    Inherited                 (source)
 {
 }
 
@@ -253,46 +268,60 @@ UInt32 CubesBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle CubesBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void CubesBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-        pMem = _sfMaterial.copyToBin(pMem);
+    {
+        _sfMaterial.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-        pMem = _mfPosition.copyToBin(pMem);
+    {
+        _mfPosition.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (LengthFieldMask & whichField))
-        pMem = _mfLength.copyToBin(pMem);
+    {
+        _mfLength.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-        pMem = _mfColor.copyToBin(pMem);
+    {
+        _mfColor.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle CubesBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void CubesBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-        pMem = _sfMaterial.copyFromBin(pMem);
+    {
+        _sfMaterial.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-        pMem = _mfPosition.copyFromBin(pMem);
+    {
+        _mfPosition.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (LengthFieldMask & whichField))
-        pMem = _mfLength.copyFromBin(pMem);
+    {
+        _mfLength.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-        pMem = _mfColor.copyFromBin(pMem);
+    {
+        _mfColor.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void CubesBase::executeSyncImpl(      CubesBase *pOther,

@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGMYLIBDEF_H_
-#define _OSGMYLIBDEF_H_
+#ifndef _OSGMYDEF_H_
+#define _OSGMYDEF_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -52,30 +52,12 @@
 #       define OSG_MYLIB_DLLMAPPING     __declspec(dllexport)
 #       define OSG_MYLIB_DLLTMPLMAPPING __declspec(dllexport)
 #   else
-#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
-                                     defined(OSG_COMPILEINTERSECTACTION)   || \
-                                     defined(OSG_COMPILEFIELD)             || \
-                                     defined(OSG_COMPILEFIELDCONTAINER)    || \
-                                     defined(OSG_COMPILEIMAGE)             || \
-                                     defined(OSG_COMPILELOADER)            || \
-                                     defined(OSG_COMPILEMULTITHREADING)    || \
-                                     defined(OSG_COMPILEMATERIAL)          || \
-                                     defined(OSG_COMPILEMISC)              || \
-                                     defined(OSG_COMPILELIGHT)             || \
-                                     defined(OSG_COMPILEACTION)            || \
-                                     defined(OSG_COMPILESTATE)             || \
-                                     defined(OSG_COMPILEWINDOW)            || \
-                                     defined(OSG_COMPILESYSTEMLIB))
-#           define OSG_MYLIB_DLLMAPPING     __declspec(dllexport)
-#           define OSG_MYLIB_DLLTMPLMAPPING __declspec(dllexport)
-#       else
-#           define OSG_MYLIB_DLLMAPPING     __declspec(dllimport)
-#           define OSG_MYLIB_DLLTMPLMAPPING __declspec(dllimport)
-#       endif
+#       define OSG_MYLIB_DLLMAPPING     __declspec(dllimport)
+#       define OSG_MYLIB_DLLTMPLMAPPING __declspec(dllimport)
 #   endif
 #else
 #define OSG_MYLIB_DLLMAPPING
 #define OSG_MYLIB_DLLTMPLMAPPING
 #endif
 
-#endif /* _OSGMYLIBDEF_H_ */
+#endif /* _OSGMYDEF_H_ */

@@ -95,95 +95,97 @@ inline CubesPtr CubesBase::createEmpty(void)
 OSG_MYLIB_DLLMAPPING
 SFMaterialPtr *CubesBase::getSFMaterial(void)
 {
-	return &_sfMaterial;
+    return &_sfMaterial;
 }
 
 OSG_MYLIB_DLLMAPPING
 MFPnt3f *CubesBase::getMFPosition(void)
 {
-	return &_mfPosition;
+    return &_mfPosition;
 }
 
 OSG_MYLIB_DLLMAPPING
 MFReal32 *CubesBase::getMFLength(void)
 {
-	return &_mfLength;
+    return &_mfLength;
 }
 
 OSG_MYLIB_DLLMAPPING
 MFColor3f *CubesBase::getMFColor(void)
 {
-	return &_mfColor;
+    return &_mfColor;
 }
 
 
 OSG_MYLIB_DLLMAPPING
 MaterialPtr &CubesBase::getMaterial(void)
 {
-	return _sfMaterial.getValue();
+    return _sfMaterial.getValue();
 }
 
 OSG_MYLIB_DLLMAPPING
 const MaterialPtr &CubesBase::getMaterial(void) const
 {
-	return _sfMaterial.getValue();
+    return _sfMaterial.getValue();
 }
 
 OSG_MYLIB_DLLMAPPING
 void CubesBase::setMaterial(const MaterialPtr &value)
 {
-	_sfMaterial.setValue(value);
+    _sfMaterial.setValue(value);
 }
 
 
 OSG_MYLIB_DLLMAPPING
 Pnt3f &CubesBase::getPosition(UInt32 index)
 {
-	return _mfPosition.getValue( index );
+    return _mfPosition.getValue( index );
 }
 
 MFPnt3f &CubesBase::getPosition(void)
 {
-	return _mfPosition;
+    return _mfPosition;
 }
 
 const MFPnt3f &CubesBase::getPosition(void) const
 {
-	return _mfPosition;
+    return _mfPosition;
 }
 
 OSG_MYLIB_DLLMAPPING
 Real32 &CubesBase::getLength(UInt32 index)
 {
-	return _mfLength.getValue( index );
+    return _mfLength.getValue( index );
 }
 
 MFReal32 &CubesBase::getLength(void)
 {
-	return _mfLength;
+    return _mfLength;
 }
 
 const MFReal32 &CubesBase::getLength(void) const
 {
-	return _mfLength;
+    return _mfLength;
 }
 
 OSG_MYLIB_DLLMAPPING
 Color3f &CubesBase::getColor(UInt32 index)
 {
-	return _mfColor.getValue( index );
+    return _mfColor.getValue( index );
 }
 
 MFColor3f &CubesBase::getColor(void)
 {
-	return _mfColor;
+    return _mfColor;
 }
 
 const MFColor3f &CubesBase::getColor(void) const
 {
-	return _mfColor;
+    return _mfColor;
 }
 
 
 OSG_END_NAMESPACE
+
+#define OSGCUBESBASE_INLINE_CVSID "@(#)$Id: OSGCubesBase.inl,v 1.6 2001/10/11 21:17:06 dirk Exp $"
 
