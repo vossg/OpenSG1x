@@ -830,7 +830,7 @@ class linux_gcc(ToolChain):
                    CPPDEFINES=['_GNU_SOURCE', '_OSG_HAVE_CONFIGURED_H_'],
                    LINKFLAGS = ['-Wl,-s'])
 
-        env['OSG_BASE_LIBS'] = ['pthread']
+        env['OSG_BASE_LIBS'] = ['pthread', 'dl']
         env['OSG_SYSTEM_LIBS'] = ['GLU', 'GL'] + slibs
         env['OSG_WINDOW_GLUT_LIBS'] = ['glut', 'GL']
         #env['OSG_WINDOW_QT_LIBS'] = []
