@@ -373,7 +373,7 @@ void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win),
     // Setup: get all the data
     
     pumpInternalSetup( Type, GeoPTypesPtr, getTypes, true );
-    pumpInternalSetup( Length, GeoPLengthsPtr, getLengths, true );
+    pumpInternalSetup( Length, GeoPLengthsPtr, getLengths, false );
     pumpInternalSetup( Index, GeoIndicesPtr, getIndices, false );
 
     pumpGLSetup( Position, GeoPositionsPtr, getPositions );
@@ -395,11 +395,11 @@ void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win),
           ColorIndex = -1, 
           TexCoordsIndex = -1;
 
-        if ( nmappings )
+    if ( nmappings )
     {
-        PositionIndex  = geo->calcMappingIndex( Geometry::MapPosition );
-        NormalIndex    = geo->calcMappingIndex( Geometry::MapNormal );
-        ColorIndex     = geo->calcMappingIndex( Geometry::MapColor );
+        PositionIndex  = geo->calcMappingIndex( Geometry::MapPosition  );
+        NormalIndex    = geo->calcMappingIndex( Geometry::MapNormal    );
+        ColorIndex     = geo->calcMappingIndex( Geometry::MapColor     );
         TexCoordsIndex = geo->calcMappingIndex( Geometry::MapTexcoords );
         
         if ( ! PositionData )
@@ -423,7 +423,22 @@ void GeoPumpFactory::masterGeoPump(Window   *OSG_CHECK_ARG(win),
     if ( ColorData && ColorPtr->getSize() == 1 )
         ColorFunc( ColorData );
 
-    UInt32 LengthSize = LengthPtr->getSize();
+    // Length handling. Special case: no length given
+    
+    UInt32 lendummy;
+    UInt32 LengthSize;
+
+    // no lengths? use all available data for the first type
+    if ( ! LengthData )
+    {
+        LengthSize = 1;
+        LengthData = (UChar8*) &lendummy;
+        lendummy = PositionPtr->getSize();
+    }
+    else
+    {
+        LengthSize = LengthPtr->getSize();
+    }
 
     for ( LengthInd = 0; LengthInd < LengthSize; LengthInd++ )
     {
