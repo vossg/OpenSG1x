@@ -80,7 +80,7 @@ triangles, non-polygonal primitives like lines and points are ignored.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.6 2001/02/13 15:54:16 dirk Exp $";
+char TriangleIterator::cvsid[] = "@(#)$Id: OSGTriangleIterator.cpp,v 1.7 2001/05/21 10:37:34 jbehr Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -140,7 +140,8 @@ TriangleIterator::TriangleIterator( const NodePtr& geo ) :
 
 TriangleIterator::TriangleIterator(const TriangleIterator &source) :
 	_primIt( source._primIt ), _geo( source._geo ),
-	_triIndex(source._triIndex), _triPntIndex()
+	_triIndex(source._triIndex), _actPrimIndex(source._actPrimIndex),
+	_triPntIndex()
 {
 	_triPntIndex[0] = source._triPntIndex[0];
 	_triPntIndex[1] = source._triPntIndex[1];
