@@ -95,7 +95,7 @@ static void   APIENTRY FTGLFontDeleteLists   (GLuint list, GLsizei range);
 
 FTGLFont::FTGLFont(void) :
     Inherited(),
-    _font(NULL)
+    _fonts()
 {
     // Set up FTGL
     
@@ -107,14 +107,19 @@ FTGLFont::FTGLFont(void) :
 
 FTGLFont::FTGLFont(const FTGLFont &source) :
     Inherited(source),
-    _font(NULL)
+    _fonts()
 {
 }
 
 FTGLFont::~FTGLFont(void)
 {
-    if(_font)
-        delete _font;
+    for(std::map<Window *, FTFont *>::iterator it = _fonts.begin();
+        it != _fonts.end();
+        ++it)
+    {
+        if(it->second)
+            delete it->second;
+    }
 }
 
 
@@ -175,45 +180,47 @@ void FTGLFont::handleGL(Window *win, UInt32 idstatus)
 
     Window::unpackIdStatus(idstatus, id, mode);
 
+    FTFont *font = _fonts[win];    
+    
     if(mode == Window::initialize || mode == Window::reinitialize)
     {
-        if(_font != NULL)
-            delete _font;
+        if(font != NULL)
+            delete font;
         
         switch(getDrawType())
         {
-        case Extrude:   _font = new FTGLExtrdFont  ( getName().c_str() );
+        case Extrude:   font = new FTGLExtrdFont  ( getName().c_str() );
                         break;
-        case Outline:   _font = new FTGLOutlineFont( getName().c_str() );
+        case Outline:   font = new FTGLOutlineFont( getName().c_str() );
                         break;
-        case Polygon:   _font = new FTGLPolygonFont( getName().c_str() );
+        case Polygon:   font = new FTGLPolygonFont( getName().c_str() );
                         break;
-        case Texture:   _font = new FTGLTextureFont( getName().c_str() );
+        case Texture:   font = new FTGLTextureFont( getName().c_str() );
                         break;
-        case Pixmap:    _font = new FTGLPixmapFont ( getName().c_str() );
+        case Pixmap:    font = new FTGLPixmapFont ( getName().c_str() );
                         break;
-        case Bitmap:    _font = new FTGLBitmapFont ( getName().c_str() );
+        case Bitmap:    font = new FTGLBitmapFont ( getName().c_str() );
                         break;
         }
         
-        if(_font->Error())
+        if(font->Error())
         {
             FWARNING(("FTGLFont::handleGL: Couldn't open font '%s'!\n",
                 getName().c_str() ));
         }
-        _font->FaceSize(getSize(), getRes());
-        _font->Depth(getDepth());
-        _font->CharMap(ft_encoding_unicode);
+        font->FaceSize(getSize(), getRes());
+        font->Depth(getDepth());
+        font->CharMap(ft_encoding_unicode);
     }
     else if(mode == Window::needrefresh)
     {
-        _font->FaceSize(getSize());
-        _font->Depth(getDepth());
+        font->FaceSize(getSize());
+        font->Depth(getDepth());
     }
     else if(mode == Window::destroy)
     {
-        delete _font;
-        _font = NULL;
+        delete font;
+        font = NULL;
     }
     else if(mode == Window::finaldestroy)
     {
@@ -223,6 +230,8 @@ void FTGLFont::handleGL(Window *win, UInt32 idstatus)
         SWARNING << "FTGLFont(" << this << ")::handleGL: Illegal mode: "
                  << mode << " for id " << id << std::endl;
     }
+    
+    _fonts[win] = font;  
 }
 
 /*! Helper functions to let FTGL use OpenSG GL object handling
@@ -273,7 +282,7 @@ void APIENTRY FTGLFontDeleteLists(GLuint list, GLsizei range)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFont.cpp,v 1.2 2004/08/27 14:06:02 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFont.cpp,v 1.3 2004/09/07 00:05:42 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLFONTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLFONTBASE_INLINE_CVSID;
 

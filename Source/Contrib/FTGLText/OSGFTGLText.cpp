@@ -118,6 +118,8 @@ Action::ResultE FTGLText::drawPrimitives(DrawActionBase *action )
     
     action->getWindow()->validateGLObject(font->getGLId());
     
+    FTFont *ftf = font->_fonts[action->getWindow()];
+    
     switch(font->getDrawType())
     {
     case FTGLFont::Texture:   
@@ -136,7 +138,7 @@ Action::ResultE FTGLText::drawPrimitives(DrawActionBase *action )
                             break;
     }
    
-    font->_font->Render(getText().c_str());
+    ftf->Render(getText().c_str());
     
     switch(font->getDrawType())
     {
@@ -162,11 +164,11 @@ void FTGLText::adjustVolume(Volume & volume)
         return;
     }
 
-    FTFont *f = font->_font;
+    FTFont *f = font->_fonts[NULL];
     if(f == NULL)
     {
         font->handleGL(NULL, Window::reinitialize);
-        f = font->_font;
+        f = font->_fonts[NULL];
     }
     
     volume.setValid();
@@ -218,7 +220,7 @@ void FTGLText::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLText.cpp,v 1.1 2004/08/05 05:22:50 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLText.cpp,v 1.2 2004/09/07 00:05:43 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLTEXTBASE_INLINE_CVSID;
 

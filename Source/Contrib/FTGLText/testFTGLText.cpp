@@ -31,6 +31,7 @@ OSG_USING_NAMESPACE
 
 // The SimpleSceneManager to manage simple applications
 SimpleSceneManager *mgr;
+GLUTWindowPtr gwin2;
 
 // forward declaration so we can have the interesting stuff upfront
 int setupGLUT( int *argc, char *argv[] );
@@ -41,8 +42,8 @@ int setupGLUT( int *argc, char *argv[] );
 int main(int argc, char **argv)
 {
     // OSG init
-    osgInit(argc,argv);
-
+    glutInit(&argc, argv);
+    osgInit(argc, argv);
 
     std::string fontfile("testfont.ttf");
     std::string testtext("Test Text");
@@ -55,14 +56,13 @@ int main(int argc, char **argv)
     if(argc < 4 || sscanf(argv[3], "%d", &drawmode) != 1 )
         drawmode = FTGLFont::Outline;
         
-    // GLUT init
+    // GLUT 
     int winid = setupGLUT(&argc, argv);
-                            
-    // the connection between GLUT and OpenSG
     GLUTWindowPtr gwin= GLUTWindow::create();
     gwin->setId(winid);
     gwin->init();
    
+    
     // Create the Cubes node
 
     NodePtr scene = makeCoredNode<Group>();
@@ -111,6 +111,31 @@ int main(int argc, char **argv)
 
     // show the whole scene
     mgr->showAll();
+        
+    // copy to second window 
+    int winid2 = setupGLUT(&argc, argv);
+    gwin2= GLUTWindow::create();
+    gwin2->setId(winid2);
+    gwin2->init();
+    
+    ViewportPtr ovp = gwin->getPort()[0];
+    
+    ViewportPtr vp = Viewport::create();
+    
+    beginEditCP(vp);
+    vp->setLeft(0);
+    vp->setRight(400);
+    vp->setBottom(0);
+    vp->setTop(400);
+    vp->setCamera(ovp->getCamera());
+    vp->setRoot(ovp->getRoot());
+    vp->setBackground(ovp->getBackground());
+    vp->setParent(gwin2);
+    endEditCP(vp);
+    
+    beginEditCP(gwin2);
+    gwin2->getPort().push_back(vp);
+    endEditCP(gwin2);
     
     // GLUT main loop
     glutMainLoop();
@@ -126,6 +151,8 @@ int main(int argc, char **argv)
 void display(void)
 {
     mgr->redraw();
+    
+    gwin2->render(dynamic_cast<RenderAction*>(mgr->getAction()));
 }
 
 // react to size changes
@@ -165,7 +192,6 @@ void keyboard(unsigned char k, int x, int y)
 // setup the GLUT library which handles the windows for us
 int setupGLUT(int *argc, char *argv[])
 {
-    glutInit(argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
     
     int winid = glutCreateWindow("OpenSG");

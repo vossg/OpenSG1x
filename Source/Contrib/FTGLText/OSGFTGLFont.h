@@ -125,9 +125,8 @@ class OSG_CONTRIBLIB_DLLMAPPING FTGLFont : public FTGLFontBase
 
     static void initMethod(void);
 
-    // local variable. Not nice, but should work ok.
-    
-    FTFont *_font;
+    // local variable. Not nice, but should work ok. Use WindowPtr as index 
+    std::map<Window *, FTFont *> _fonts;
 
     /*---------------------------------------------------------------------*/
     /*! \name                 GL helper functions                          */
@@ -151,6 +150,6 @@ OSG_END_NAMESPACE
 #include <OSGFTGLFontBase.inl>
 #include <OSGFTGLFont.inl>
 
-#define OSGFTGLFONT_HEADER_CVSID "@(#)$Id: OSGFTGLFont.h,v 1.2 2004/08/27 14:06:02 dirk Exp $"
+#define OSGFTGLFONT_HEADER_CVSID "@(#)$Id: OSGFTGLFont.h,v 1.3 2004/09/07 00:05:43 dirk Exp $"
 
 #endif /* _OSGFTGLFONT_H_ */
