@@ -324,7 +324,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
 
         if(size == 0)
         {
-            oObject.assign(NULL);
+            oObject.erase();
         }
         else
         {
