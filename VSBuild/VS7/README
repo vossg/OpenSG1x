@@ -1,0 +1,40 @@
+
+This directory contains the first version of out VStudio.NET support.
+As I have not figured out if it is possible to reconfigure parts
+on the fly you currently have to set up your VStudion the way that
+all external used stuff is found as only local references are
+used within these projects (see Requirements below). If not explicitly
+stated the versions required by OpenSG are the ones you should use here
+also.
+
+WARNING WARNING WARNING
+
+The dsp files are created by scripts, so if you intent to change/fix stuff
+PLEASE do not only check in these changes/fixes, mail me 
+(vossg@camtech.ntu.edu.sg) the original dsp file, the changed one and
+a short hint what changed. Otherwise your changes/fixes might get LOST.
+
+Current Requirements :
+
+    You need to configure your VStudio to 
+
+        find the glut headers and libs
+        find the qt headers and libs (qt-mt301.lib) and the moc executable
+             there is a good chance that you have to patch the qt headers
+             in order to get it working, just move the function definition
+             into the class definition, worked for me
+
+    If you want to edit any .l or .y file your VStudio additionally has to
+
+        find a flex executable  (> version 2.5.4)
+        find a bison executable (> version 1.30)
+
+What works :
+
+    Currently only the debug and opt Libs could be build.
+
+Further ahead :
+
+    Add test cases
+
+Gerrit
