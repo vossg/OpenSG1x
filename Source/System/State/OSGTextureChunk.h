@@ -123,7 +123,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     /*! \name                Texture specific                              */
     /*! \{                                                                 */
 
-    void imageContentChanged(void          );
+    void imageContentChanged(Int32 minx = -1, Int32 maxx = -1, 
+                             Int32 miny = -1, Int32 maxy = -1,
+                             Int32 minz = -1, Int32 maxz = -1 );
 
     void setImage           (ImagePtr &pImage);
 

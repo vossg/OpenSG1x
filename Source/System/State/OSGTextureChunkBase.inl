@@ -383,6 +383,55 @@ SFGLenum *TextureChunkBase::getSFTarget(void)
     return &_sfTarget;
 }
 
+//! Get the TextureChunk::_sfDirtyLeft field.
+inline
+SFInt32 *TextureChunkBase::getSFDirtyLeft(void)
+{
+    return &_sfDirtyLeft;
+}
+
+//! Get the TextureChunk::_sfDirtyMinX field.
+inline
+SFInt32 *TextureChunkBase::getSFDirtyMinX(void)
+{
+    return &_sfDirtyMinX;
+}
+
+//! Get the TextureChunk::_sfDirtyMaxX field.
+inline
+SFInt32 *TextureChunkBase::getSFDirtyMaxX(void)
+{
+    return &_sfDirtyMaxX;
+}
+
+//! Get the TextureChunk::_sfDirtyMinY field.
+inline
+SFInt32 *TextureChunkBase::getSFDirtyMinY(void)
+{
+    return &_sfDirtyMinY;
+}
+
+//! Get the TextureChunk::_sfDirtyMaxY field.
+inline
+SFInt32 *TextureChunkBase::getSFDirtyMaxY(void)
+{
+    return &_sfDirtyMaxY;
+}
+
+//! Get the TextureChunk::_sfDirtyMinZ field.
+inline
+SFInt32 *TextureChunkBase::getSFDirtyMinZ(void)
+{
+    return &_sfDirtyMinZ;
+}
+
+//! Get the TextureChunk::_sfDirtyMaxZ field.
+inline
+SFInt32 *TextureChunkBase::getSFDirtyMaxZ(void)
+{
+    return &_sfDirtyMaxZ;
+}
+
 
 //! Get the value of the TextureChunk::_sfImage field.
 inline
@@ -1222,6 +1271,153 @@ inline
 void TextureChunkBase::setTarget(const GLenum &value)
 {
     _sfTarget.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfDirtyLeft field.
+inline
+Int32 &TextureChunkBase::getDirtyLeft(void)
+{
+    return _sfDirtyLeft.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfDirtyLeft field.
+inline
+const Int32 &TextureChunkBase::getDirtyLeft(void) const
+{
+    return _sfDirtyLeft.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfDirtyLeft field.
+inline
+void TextureChunkBase::setDirtyLeft(const Int32 &value)
+{
+    _sfDirtyLeft.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfDirtyMinX field.
+inline
+Int32 &TextureChunkBase::getDirtyMinX(void)
+{
+    return _sfDirtyMinX.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfDirtyMinX field.
+inline
+const Int32 &TextureChunkBase::getDirtyMinX(void) const
+{
+    return _sfDirtyMinX.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfDirtyMinX field.
+inline
+void TextureChunkBase::setDirtyMinX(const Int32 &value)
+{
+    _sfDirtyMinX.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfDirtyMaxX field.
+inline
+Int32 &TextureChunkBase::getDirtyMaxX(void)
+{
+    return _sfDirtyMaxX.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfDirtyMaxX field.
+inline
+const Int32 &TextureChunkBase::getDirtyMaxX(void) const
+{
+    return _sfDirtyMaxX.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfDirtyMaxX field.
+inline
+void TextureChunkBase::setDirtyMaxX(const Int32 &value)
+{
+    _sfDirtyMaxX.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfDirtyMinY field.
+inline
+Int32 &TextureChunkBase::getDirtyMinY(void)
+{
+    return _sfDirtyMinY.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfDirtyMinY field.
+inline
+const Int32 &TextureChunkBase::getDirtyMinY(void) const
+{
+    return _sfDirtyMinY.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfDirtyMinY field.
+inline
+void TextureChunkBase::setDirtyMinY(const Int32 &value)
+{
+    _sfDirtyMinY.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfDirtyMaxY field.
+inline
+Int32 &TextureChunkBase::getDirtyMaxY(void)
+{
+    return _sfDirtyMaxY.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfDirtyMaxY field.
+inline
+const Int32 &TextureChunkBase::getDirtyMaxY(void) const
+{
+    return _sfDirtyMaxY.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfDirtyMaxY field.
+inline
+void TextureChunkBase::setDirtyMaxY(const Int32 &value)
+{
+    _sfDirtyMaxY.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfDirtyMinZ field.
+inline
+Int32 &TextureChunkBase::getDirtyMinZ(void)
+{
+    return _sfDirtyMinZ.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfDirtyMinZ field.
+inline
+const Int32 &TextureChunkBase::getDirtyMinZ(void) const
+{
+    return _sfDirtyMinZ.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfDirtyMinZ field.
+inline
+void TextureChunkBase::setDirtyMinZ(const Int32 &value)
+{
+    _sfDirtyMinZ.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfDirtyMaxZ field.
+inline
+Int32 &TextureChunkBase::getDirtyMaxZ(void)
+{
+    return _sfDirtyMaxZ.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfDirtyMaxZ field.
+inline
+const Int32 &TextureChunkBase::getDirtyMaxZ(void) const
+{
+    return _sfDirtyMaxZ.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfDirtyMaxZ field.
+inline
+void TextureChunkBase::setDirtyMaxZ(const Int32 &value)
+{
+    _sfDirtyMaxZ.setValue(value);
 }
 
 

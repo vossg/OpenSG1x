@@ -140,7 +140,7 @@ int main(int argc, char **argv)
     beginEditCP(mat);
     mat->setDiffuse(Color3f(1,1,1));
     mat->setLit(false);
-    //mat->addChunk(tx1);
+    mat->addChunk(tx1);
     mat->addChunk(fp);
     endEditCP(mat);
     
@@ -202,6 +202,8 @@ int main(int argc, char **argv)
     
     endEditCP(g1);
 
+    SceneFileHandler::the().write(scene, "fragmenttest.osg");
+    
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
 

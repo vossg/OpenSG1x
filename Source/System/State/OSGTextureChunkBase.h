@@ -106,6 +106,13 @@
 #include <OSGVec3fFields.h> // ShaderConstEye type
 #include <OSGReal32Fields.h> // LodBias type
 #include <OSGGLenumFields.h> // Target type
+#include <OSGInt32Fields.h> // DirtyLeft type
+#include <OSGInt32Fields.h> // DirtyMinX type
+#include <OSGInt32Fields.h> // DirtyMaxX type
+#include <OSGInt32Fields.h> // DirtyMinY type
+#include <OSGInt32Fields.h> // DirtyMaxY type
+#include <OSGInt32Fields.h> // DirtyMinZ type
+#include <OSGInt32Fields.h> // DirtyMaxZ type
 
 #include <OSGTextureChunkFields.h>
 
@@ -170,7 +177,14 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
         ShaderConstEyeFieldId       = ShaderCullModesFieldId      + 1,
         LodBiasFieldId              = ShaderConstEyeFieldId       + 1,
         TargetFieldId               = LodBiasFieldId              + 1,
-        NextFieldId                 = TargetFieldId               + 1
+        DirtyLeftFieldId            = TargetFieldId               + 1,
+        DirtyMinXFieldId            = DirtyLeftFieldId            + 1,
+        DirtyMaxXFieldId            = DirtyMinXFieldId            + 1,
+        DirtyMinYFieldId            = DirtyMaxXFieldId            + 1,
+        DirtyMaxYFieldId            = DirtyMinYFieldId            + 1,
+        DirtyMinZFieldId            = DirtyMaxYFieldId            + 1,
+        DirtyMaxZFieldId            = DirtyMinZFieldId            + 1,
+        NextFieldId                 = DirtyMaxZFieldId            + 1
     };
 
     static const OSG::BitVector ImageFieldMask;
@@ -214,6 +228,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     static const OSG::BitVector ShaderConstEyeFieldMask;
     static const OSG::BitVector LodBiasFieldMask;
     static const OSG::BitVector TargetFieldMask;
+    static const OSG::BitVector DirtyLeftFieldMask;
+    static const OSG::BitVector DirtyMinXFieldMask;
+    static const OSG::BitVector DirtyMaxXFieldMask;
+    static const OSG::BitVector DirtyMinYFieldMask;
+    static const OSG::BitVector DirtyMaxYFieldMask;
+    static const OSG::BitVector DirtyMinZFieldMask;
+    static const OSG::BitVector DirtyMaxZFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -281,6 +302,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
            SFVec3f             *getSFShaderConstEye (void);
            SFReal32            *getSFLodBias        (void);
            SFGLenum            *getSFTarget         (void);
+           SFInt32             *getSFDirtyLeft      (void);
+           SFInt32             *getSFDirtyMinX      (void);
+           SFInt32             *getSFDirtyMaxX      (void);
+           SFInt32             *getSFDirtyMinY      (void);
+           SFInt32             *getSFDirtyMaxY      (void);
+           SFInt32             *getSFDirtyMinZ      (void);
+           SFInt32             *getSFDirtyMaxZ      (void);
 
            ImagePtr            &getImage          (void);
      const ImagePtr            &getImage          (void) const;
@@ -362,6 +390,20 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      const Real32              &getLodBias        (void) const;
            GLenum              &getTarget         (void);
      const GLenum              &getTarget         (void) const;
+           Int32               &getDirtyLeft      (void);
+     const Int32               &getDirtyLeft      (void) const;
+           Int32               &getDirtyMinX      (void);
+     const Int32               &getDirtyMinX      (void) const;
+           Int32               &getDirtyMaxX      (void);
+     const Int32               &getDirtyMaxX      (void) const;
+           Int32               &getDirtyMinY      (void);
+     const Int32               &getDirtyMinY      (void) const;
+           Int32               &getDirtyMaxY      (void);
+     const Int32               &getDirtyMaxY      (void) const;
+           Int32               &getDirtyMinZ      (void);
+     const Int32               &getDirtyMinZ      (void) const;
+           Int32               &getDirtyMaxZ      (void);
+     const Int32               &getDirtyMaxZ      (void) const;
            Real32              &getShaderOffsetMatrix(const UInt32 index);
            MFReal32            &getShaderOffsetMatrix(void);
      const MFReal32            &getShaderOffsetMatrix(void) const;
@@ -411,6 +453,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      void setShaderConstEye ( const Vec3f &value );
      void setLodBias        ( const Real32 &value );
      void setTarget         ( const GLenum &value );
+     void setDirtyLeft      ( const Int32 &value );
+     void setDirtyMinX      ( const Int32 &value );
+     void setDirtyMaxX      ( const Int32 &value );
+     void setDirtyMinY      ( const Int32 &value );
+     void setDirtyMaxY      ( const Int32 &value );
+     void setDirtyMinZ      ( const Int32 &value );
+     void setDirtyMaxZ      ( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -497,6 +546,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     SFVec3f             _sfShaderConstEye;
     SFReal32            _sfLodBias;
     SFGLenum            _sfTarget;
+    SFInt32             _sfDirtyLeft;
+    SFInt32             _sfDirtyMinX;
+    SFInt32             _sfDirtyMaxX;
+    SFInt32             _sfDirtyMinY;
+    SFInt32             _sfDirtyMaxY;
+    SFInt32             _sfDirtyMinZ;
+    SFInt32             _sfDirtyMaxZ;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

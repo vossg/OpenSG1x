@@ -469,4 +469,88 @@
         else than GL_NONE. Used for nVidia's rectangle textures. Be careful
         when using it!
         </Field>
+        <Field
+                name="dirtyLeft"
+                type="Int32"
+                cardinality="single"
+                visibility="external"
+                defaultValue="-1"
+                access="public"
+        >
+        Left coordinate of the dirty rectangle to use for 
+        imageContentChanged(). This doesn't make sense to be stored in files, 
+        it does make sense on a cluster, though, that's why it's external.
+        </Field>
+        <Field
+                name="dirtyMinX"
+                type="Int32"
+                cardinality="single"
+                visibility="external"
+                defaultValue="-1"
+                access="public"
+        >
+        Minimum X coordinate of the dirty rectangle to use for 
+        imageContentChanged(). This doesn't make sense to be stored in files, 
+        it does make sense on a cluster, though, that's why it's external.
+        </Field>
+        <Field
+                name="dirtyMaxX"
+                type="Int32"
+                cardinality="single"
+                visibility="external"
+                defaultValue="-1"
+                access="public"
+        >
+        Maximum X coordinate of the dirty rectangle to use for 
+        imageContentChanged(). This doesn't make sense to be stored in files, 
+        it does make sense on a cluster, though, that's why it's external.
+        </Field>
+        <Field
+                name="dirtyMinY"
+                type="Int32"
+                cardinality="single"
+                visibility="external"
+                defaultValue="-1"
+                access="public"
+        >
+        Minimum Y coordinate of the dirty rectangle to use for 
+        imageContentChanged(). This doesn't make sense to be stored in files, 
+        it does make sense on a cluster, though, that's why it's external.
+        </Field>
+        <Field
+                name="dirtyMaxY"
+                type="Int32"
+                cardinality="single"
+                visibility="external"
+                defaultValue="-1"
+                access="public"
+        >
+        Maximum Y coordinate of the dirty rectangle to use for 
+        imageContentChanged(). This doesn't make sense to be stored in files, 
+        it does make sense on a cluster, though, that's why it's external.
+        </Field>
+        <Field
+                name="dirtyMinZ"
+                type="Int32"
+                cardinality="single"
+                visibility="external"
+                defaultValue="-1"
+                access="public"
+        >
+        Minimum Z coordinate of the dirty rectangle to use for 
+        imageContentChanged(). This doesn't make sense to be stored in files, 
+        it does make sense on a cluster, though, that's why it's external.
+        </Field>
+        <Field
+                name="dirtyMaxZ"
+                type="Int32"
+                cardinality="single"
+                visibility="external"
+                defaultValue="-1"
+                access="public"
+        >
+        Maximum Z coordinate of the dirty rectangle to use for 
+        imageContentChanged(). This doesn't make sense to be stored in files, 
+        it does make sense on a cluster, though, that's why it's external.
+        </Field>
 </FieldContainer>

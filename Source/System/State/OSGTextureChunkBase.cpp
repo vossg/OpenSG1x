@@ -214,6 +214,27 @@ const OSG::BitVector  TextureChunkBase::LodBiasFieldMask =
 const OSG::BitVector  TextureChunkBase::TargetFieldMask = 
     (TypeTraits<BitVector>::One << TextureChunkBase::TargetFieldId);
 
+const OSG::BitVector  TextureChunkBase::DirtyLeftFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::DirtyLeftFieldId);
+
+const OSG::BitVector  TextureChunkBase::DirtyMinXFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::DirtyMinXFieldId);
+
+const OSG::BitVector  TextureChunkBase::DirtyMaxXFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::DirtyMaxXFieldId);
+
+const OSG::BitVector  TextureChunkBase::DirtyMinYFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::DirtyMinYFieldId);
+
+const OSG::BitVector  TextureChunkBase::DirtyMaxYFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::DirtyMaxYFieldId);
+
+const OSG::BitVector  TextureChunkBase::DirtyMinZFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::DirtyMinZFieldId);
+
+const OSG::BitVector  TextureChunkBase::DirtyMaxZFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::DirtyMaxZFieldId);
+
 const OSG::BitVector TextureChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -343,6 +364,27 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
 */
 /*! \var GLenum          TextureChunkBase::_sfTarget
     Texture target. Overwrite automatically determined texture target         based on the parameters of the assigned image if set to anything          else than GL_NONE. Used for nVidia's rectangle textures. Be careful         when using it!
+*/
+/*! \var Int32           TextureChunkBase::_sfDirtyLeft
+    Left coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+*/
+/*! \var Int32           TextureChunkBase::_sfDirtyMinX
+    Minimum X coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+*/
+/*! \var Int32           TextureChunkBase::_sfDirtyMaxX
+    Maximum X coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+*/
+/*! \var Int32           TextureChunkBase::_sfDirtyMinY
+    Minimum Y coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+*/
+/*! \var Int32           TextureChunkBase::_sfDirtyMaxY
+    Maximum Y coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+*/
+/*! \var Int32           TextureChunkBase::_sfDirtyMinZ
+    Minimum Z coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+*/
+/*! \var Int32           TextureChunkBase::_sfDirtyMaxZ
+    Maximum Z coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
 */
 
 //! TextureChunk description
@@ -553,7 +595,42 @@ FieldDescription *TextureChunkBase::_desc[] =
                      "target", 
                      TargetFieldId, TargetFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureChunkBase::getSFTarget)
+                     (FieldAccessMethod) &TextureChunkBase::getSFTarget),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "dirtyLeft", 
+                     DirtyLeftFieldId, DirtyLeftFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFDirtyLeft),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "dirtyMinX", 
+                     DirtyMinXFieldId, DirtyMinXFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFDirtyMinX),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "dirtyMaxX", 
+                     DirtyMaxXFieldId, DirtyMaxXFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFDirtyMaxX),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "dirtyMinY", 
+                     DirtyMinYFieldId, DirtyMinYFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFDirtyMinY),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "dirtyMaxY", 
+                     DirtyMaxYFieldId, DirtyMaxYFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFDirtyMaxY),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "dirtyMinZ", 
+                     DirtyMinZFieldId, DirtyMinZFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFDirtyMinZ),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "dirtyMaxZ", 
+                     DirtyMaxZFieldId, DirtyMaxZFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFDirtyMaxZ)
 };
 
 
@@ -650,6 +727,13 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfShaderConstEye         (), 
     _sfLodBias                (Real32(0.0)), 
     _sfTarget                 (GLenum(GL_NONE)), 
+    _sfDirtyLeft              (Int32(-1)), 
+    _sfDirtyMinX              (Int32(-1)), 
+    _sfDirtyMaxX              (Int32(-1)), 
+    _sfDirtyMinY              (Int32(-1)), 
+    _sfDirtyMaxY              (Int32(-1)), 
+    _sfDirtyMinZ              (Int32(-1)), 
+    _sfDirtyMaxZ              (Int32(-1)), 
     Inherited() 
 {
 }
@@ -700,6 +784,13 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfShaderConstEye         (source._sfShaderConstEye         ), 
     _sfLodBias                (source._sfLodBias                ), 
     _sfTarget                 (source._sfTarget                 ), 
+    _sfDirtyLeft              (source._sfDirtyLeft              ), 
+    _sfDirtyMinX              (source._sfDirtyMinX              ), 
+    _sfDirtyMaxX              (source._sfDirtyMaxX              ), 
+    _sfDirtyMinY              (source._sfDirtyMinY              ), 
+    _sfDirtyMaxY              (source._sfDirtyMaxY              ), 
+    _sfDirtyMinZ              (source._sfDirtyMinZ              ), 
+    _sfDirtyMaxZ              (source._sfDirtyMaxZ              ), 
     Inherited                 (source)
 {
 }
@@ -921,6 +1012,41 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfTarget.getBinSize();
     }
 
+    if(FieldBits::NoField != (DirtyLeftFieldMask & whichField))
+    {
+        returnValue += _sfDirtyLeft.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DirtyMinXFieldMask & whichField))
+    {
+        returnValue += _sfDirtyMinX.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DirtyMaxXFieldMask & whichField))
+    {
+        returnValue += _sfDirtyMaxX.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DirtyMinYFieldMask & whichField))
+    {
+        returnValue += _sfDirtyMinY.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DirtyMaxYFieldMask & whichField))
+    {
+        returnValue += _sfDirtyMaxY.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DirtyMinZFieldMask & whichField))
+    {
+        returnValue += _sfDirtyMinZ.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DirtyMaxZFieldMask & whichField))
+    {
+        returnValue += _sfDirtyMaxZ.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -1133,6 +1259,41 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (TargetFieldMask & whichField))
     {
         _sfTarget.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyLeftFieldMask & whichField))
+    {
+        _sfDirtyLeft.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyMinXFieldMask & whichField))
+    {
+        _sfDirtyMinX.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyMaxXFieldMask & whichField))
+    {
+        _sfDirtyMaxX.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyMinYFieldMask & whichField))
+    {
+        _sfDirtyMinY.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyMaxYFieldMask & whichField))
+    {
+        _sfDirtyMaxY.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyMinZFieldMask & whichField))
+    {
+        _sfDirtyMinZ.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyMaxZFieldMask & whichField))
+    {
+        _sfDirtyMaxZ.copyToBin(pMem);
     }
 
 
@@ -1348,6 +1509,41 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfTarget.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (DirtyLeftFieldMask & whichField))
+    {
+        _sfDirtyLeft.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyMinXFieldMask & whichField))
+    {
+        _sfDirtyMinX.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyMaxXFieldMask & whichField))
+    {
+        _sfDirtyMaxX.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyMinYFieldMask & whichField))
+    {
+        _sfDirtyMinY.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyMaxYFieldMask & whichField))
+    {
+        _sfDirtyMaxY.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyMinZFieldMask & whichField))
+    {
+        _sfDirtyMinZ.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyMaxZFieldMask & whichField))
+    {
+        _sfDirtyMaxZ.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -1480,6 +1676,27 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (TargetFieldMask & whichField))
         _sfTarget.syncWith(pOther->_sfTarget);
 
+    if(FieldBits::NoField != (DirtyLeftFieldMask & whichField))
+        _sfDirtyLeft.syncWith(pOther->_sfDirtyLeft);
+
+    if(FieldBits::NoField != (DirtyMinXFieldMask & whichField))
+        _sfDirtyMinX.syncWith(pOther->_sfDirtyMinX);
+
+    if(FieldBits::NoField != (DirtyMaxXFieldMask & whichField))
+        _sfDirtyMaxX.syncWith(pOther->_sfDirtyMaxX);
+
+    if(FieldBits::NoField != (DirtyMinYFieldMask & whichField))
+        _sfDirtyMinY.syncWith(pOther->_sfDirtyMinY);
+
+    if(FieldBits::NoField != (DirtyMaxYFieldMask & whichField))
+        _sfDirtyMaxY.syncWith(pOther->_sfDirtyMaxY);
+
+    if(FieldBits::NoField != (DirtyMinZFieldMask & whichField))
+        _sfDirtyMinZ.syncWith(pOther->_sfDirtyMinZ);
+
+    if(FieldBits::NoField != (DirtyMaxZFieldMask & whichField))
+        _sfDirtyMaxZ.syncWith(pOther->_sfDirtyMaxZ);
+
 
 }
 
@@ -1513,7 +1730,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 

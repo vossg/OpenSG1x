@@ -72,9 +72,26 @@ void TextureChunk::setImage(ImagePtr &pImage)
 */
 
 inline 
-void TextureChunk::imageContentChanged(void)
+void TextureChunk::imageContentChanged( Int32 minx, Int32 maxx, 
+                                        Int32 miny, Int32 maxy,
+                                        Int32 minz, Int32 maxz)
 {
-    Window::refreshGLObject(getGLId());
+    TextureChunkPtr tc(*this);
+    
+    beginEditCP(tc, DirtyMinXFieldMask | DirtyMaxXFieldMask |
+                    DirtyMinYFieldMask | DirtyMaxYFieldMask |
+                    DirtyMinZFieldMask | DirtyMaxZFieldMask);
+    
+    tc->setDirtyMinX(minx);
+    tc->setDirtyMaxX(maxx);
+    tc->setDirtyMinY(miny);
+    tc->setDirtyMaxY(maxy);
+    tc->setDirtyMinZ(minz);
+    tc->setDirtyMaxZ(maxz);
+    
+    endEditCP(  tc, DirtyMinXFieldMask | DirtyMaxXFieldMask |
+                    DirtyMinYFieldMask | DirtyMaxYFieldMask |
+                    DirtyMinZFieldMask | DirtyMaxZFieldMask);
 }
 
 

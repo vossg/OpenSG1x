@@ -143,6 +143,14 @@ void key(unsigned char key, int , int)
                 endEditCP( xchunk1 );
                 }
                 break;
+    case 'e':   {
+                UChar8 imgdata[16];
+                for ( int i = 0; i < 16; i++ )
+                    imgdata[i] = (UChar8) rand();
+                pImage->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
+                xchunk1->imageContentChanged(0,0,0,0);
+                }
+                break;
     }
 }
 
