@@ -560,7 +560,7 @@
 
 # define OSG_FOUND_OS 
 
-# define OSG_NOGLUTSUBDIR
+// # define OSG_NOGLUTSUBDIR
 
 # define OSG_STDEXCEPTION_NAMESPACE std
 
