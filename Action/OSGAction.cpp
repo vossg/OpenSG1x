@@ -495,12 +495,22 @@ Action::ResultE Action::_defaultLeaveFunction(CNodePtr& node, Action * action)
 
 /*************** Functions ******************/
 
+OSG_BEGIN_NAMESPACE
+
+inline
+Action::ResultE doCall(NodePtr          node, 
+                       TraverseFunctor &func)
+{
+    return func.call(node);
+}
+
+OSG_END_NAMESPACE
 
 /*! Simple tree traversal function. Calls func for every node encountered
  */
 OSG_SYSTEMLIB_DLLMAPPING
 Action::ResultE OSG::traverse(  vector<NodePtr> &list, 
-                                TraverseFunctor &func )
+                                TraverseFunctor func )
 {
     Action::ResultE res;
     vector<NodePtr>::iterator it = list.begin(),
@@ -508,7 +518,7 @@ Action::ResultE OSG::traverse(  vector<NodePtr> &list,
     
     for ( ; it != en; ++it )
     {
-        res = func.call( (*it) );
+        res = doCall((*it), func);
         
         if(res == Action::Quit)
             break;
@@ -521,11 +531,11 @@ Action::ResultE OSG::traverse(  vector<NodePtr> &list,
  */
 OSG_SYSTEMLIB_DLLMAPPING
 Action::ResultE OSG::traverse(  NodePtr node, 
-                                TraverseFunctor &func )
+                               TraverseFunctor func )
 {
     Action::ResultE res;
     
-    res = func.call( node );
+    res = doCall(node, func);
     
     switch(res)
     {
@@ -543,8 +553,8 @@ Action::ResultE OSG::traverse(  NodePtr node,
  */
 OSG_SYSTEMLIB_DLLMAPPING
 Action::ResultE OSG::traverse(   vector<NodePtr> &list, 
-                                 TraverseFunctor &enter, 
-                                 TraverseFunctor &leave )
+                                 TraverseFunctor  enter, 
+                                 TraverseFunctor  leave )
 {
     return Action::Quit;
 }
@@ -555,8 +565,8 @@ Action::ResultE OSG::traverse(   vector<NodePtr> &list,
  */
 OSG_SYSTEMLIB_DLLMAPPING
 Action::ResultE OSG::traverse(   NodePtr root, 
-                                 TraverseFunctor &enter, 
-                                 TraverseFunctor &leave )
+                                 TraverseFunctor enter, 
+                                 TraverseFunctor leave )
 {
     return Action::Quit;
 }

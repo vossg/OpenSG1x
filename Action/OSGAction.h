@@ -355,20 +355,20 @@ typedef Action *ActionP;
 typedef Functor1Base<Action::ResultE, NodePtr &> TraverseFunctor;
 
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE traverse(   NodePtr root, 
-                            TraverseFunctor &func );
+Action::ResultE traverse(NodePtr         root, 
+                         TraverseFunctor func);
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE traverse(   vector<NodePtr> &list, 
-                            TraverseFunctor &func );
+Action::ResultE traverse(vector<NodePtr> &list, 
+                         TraverseFunctor  func);
                             
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE traverse(   NodePtr root, 
-                            TraverseFunctor &enter, 
-                            TraverseFunctor &leave );
+Action::ResultE traverse(NodePtr         root, 
+                         TraverseFunctor enter, 
+                         TraverseFunctor leave);
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE traverse(   vector<NodePtr> &list, 
-                            TraverseFunctor &enter, 
-                            TraverseFunctor &leave );
+Action::ResultE traverse(vector<NodePtr> &list, 
+                         TraverseFunctor  enter, 
+                         TraverseFunctor  leave);
 #endif
                             
 /*! \}                                                                 */

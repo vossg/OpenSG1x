@@ -323,11 +323,11 @@ int main( int argc, char *argv[] )
 	act1->apply( g1->getMFChildren()->begin(), g1->getMFChildren()->end() );
 
 
-#if 0 // !!! what the &%$^&# is going on here?
     // traversal function test
-    
 	cerr << "Traverse(node,enter):" << endl;
-    traverse(g1, osgFunctionFunctor1(traventer) );
+    traverse(g1,  osgFunctionFunctor1(traventer));
+    
+#if 1 // !!! what the &%$^&# is going on here?
     
 	cerr << "Traverse(list,enter):" << endl;
     traverse(g1->getMFChildren()->getValues(), osgFunctionFunctor1(traventer) );
