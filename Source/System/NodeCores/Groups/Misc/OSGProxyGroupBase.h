@@ -73,6 +73,8 @@
 #include <OSGDynamicVolumeFields.h> // Volume type
 #include <OSGUInt32Fields.h> // Indices type
 #include <OSGUInt32Fields.h> // Triangles type
+#include <OSGUInt32Fields.h> // Positions type
+#include <OSGUInt32Fields.h> // Geometries type
 
 #include <OSGProxyGroupFields.h>
 
@@ -104,7 +106,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
         VolumeFieldId         = ConcurrentLoadFieldId + 1,
         IndicesFieldId        = VolumeFieldId         + 1,
         TrianglesFieldId      = IndicesFieldId        + 1,
-        NextFieldId           = TrianglesFieldId      + 1
+        PositionsFieldId      = TrianglesFieldId      + 1,
+        GeometriesFieldId     = PositionsFieldId      + 1,
+        NextFieldId           = GeometriesFieldId     + 1
     };
 
     static const OSG::BitVector EnabledFieldMask;
@@ -115,6 +119,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
     static const OSG::BitVector VolumeFieldMask;
     static const OSG::BitVector IndicesFieldMask;
     static const OSG::BitVector TrianglesFieldMask;
+    static const OSG::BitVector PositionsFieldMask;
+    static const OSG::BitVector GeometriesFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -149,6 +155,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
            SFDynamicVolume     *getSFVolume         (void);
            SFUInt32            *getSFIndices        (void);
            SFUInt32            *getSFTriangles      (void);
+           SFUInt32            *getSFPositions      (void);
+           SFUInt32            *getSFGeometries     (void);
 
            bool                &getEnabled        (void);
      const bool                &getEnabled        (void) const;
@@ -166,6 +174,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
      const UInt32              &getIndices        (void) const;
            UInt32              &getTriangles      (void);
      const UInt32              &getTriangles      (void) const;
+           UInt32              &getPositions      (void);
+     const UInt32              &getPositions      (void) const;
+           UInt32              &getGeometries     (void);
+     const UInt32              &getGeometries     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -180,6 +192,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
      void setVolume         ( const DynamicVolume &value );
      void setIndices        ( const UInt32 &value );
      void setTriangles      ( const UInt32 &value );
+     void setPositions      ( const UInt32 &value );
+     void setGeometries     ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -233,6 +247,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
     SFDynamicVolume     _sfVolume;
     SFUInt32            _sfIndices;
     SFUInt32            _sfTriangles;
+    SFUInt32            _sfPositions;
+    SFUInt32            _sfGeometries;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

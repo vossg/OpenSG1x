@@ -81,4 +81,20 @@
 		access="public"
 	>
 	</Field>
+	<Field
+		name="positions"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="geometries"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
 </FieldContainer>

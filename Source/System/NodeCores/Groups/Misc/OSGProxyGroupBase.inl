@@ -152,6 +152,20 @@ SFUInt32 *ProxyGroupBase::getSFTriangles(void)
     return &_sfTriangles;
 }
 
+//! Get the ProxyGroup::_sfPositions field.
+inline
+SFUInt32 *ProxyGroupBase::getSFPositions(void)
+{
+    return &_sfPositions;
+}
+
+//! Get the ProxyGroup::_sfGeometries field.
+inline
+SFUInt32 *ProxyGroupBase::getSFGeometries(void)
+{
+    return &_sfGeometries;
+}
+
 
 //! Get the value of the ProxyGroup::_sfEnabled field.
 inline
@@ -319,6 +333,48 @@ inline
 void ProxyGroupBase::setTriangles(const UInt32 &value)
 {
     _sfTriangles.setValue(value);
+}
+
+//! Get the value of the ProxyGroup::_sfPositions field.
+inline
+UInt32 &ProxyGroupBase::getPositions(void)
+{
+    return _sfPositions.getValue();
+}
+
+//! Get the value of the ProxyGroup::_sfPositions field.
+inline
+const UInt32 &ProxyGroupBase::getPositions(void) const
+{
+    return _sfPositions.getValue();
+}
+
+//! Set the value of the ProxyGroup::_sfPositions field.
+inline
+void ProxyGroupBase::setPositions(const UInt32 &value)
+{
+    _sfPositions.setValue(value);
+}
+
+//! Get the value of the ProxyGroup::_sfGeometries field.
+inline
+UInt32 &ProxyGroupBase::getGeometries(void)
+{
+    return _sfGeometries.getValue();
+}
+
+//! Get the value of the ProxyGroup::_sfGeometries field.
+inline
+const UInt32 &ProxyGroupBase::getGeometries(void) const
+{
+    return _sfGeometries.getValue();
+}
+
+//! Set the value of the ProxyGroup::_sfGeometries field.
+inline
+void ProxyGroupBase::setGeometries(const UInt32 &value)
+{
+    _sfGeometries.setValue(value);
 }
 
 

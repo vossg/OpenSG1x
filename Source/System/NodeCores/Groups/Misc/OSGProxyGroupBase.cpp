@@ -88,6 +88,12 @@ const OSG::BitVector  ProxyGroupBase::IndicesFieldMask =
 const OSG::BitVector  ProxyGroupBase::TrianglesFieldMask = 
     (TypeTraits<BitVector>::One << ProxyGroupBase::TrianglesFieldId);
 
+const OSG::BitVector  ProxyGroupBase::PositionsFieldMask = 
+    (TypeTraits<BitVector>::One << ProxyGroupBase::PositionsFieldId);
+
+const OSG::BitVector  ProxyGroupBase::GeometriesFieldMask = 
+    (TypeTraits<BitVector>::One << ProxyGroupBase::GeometriesFieldId);
+
 const OSG::BitVector ProxyGroupBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -117,6 +123,12 @@ const OSG::BitVector ProxyGroupBase::MTInfluenceMask =
     
 */
 /*! \var UInt32          ProxyGroupBase::_sfTriangles
+    
+*/
+/*! \var UInt32          ProxyGroupBase::_sfPositions
+    
+*/
+/*! \var UInt32          ProxyGroupBase::_sfGeometries
     
 */
 
@@ -163,7 +175,17 @@ FieldDescription *ProxyGroupBase::_desc[] =
                      "triangles", 
                      TrianglesFieldId, TrianglesFieldMask,
                      false,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFTriangles)
+                     (FieldAccessMethod) &ProxyGroupBase::getSFTriangles),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "positions", 
+                     PositionsFieldId, PositionsFieldMask,
+                     false,
+                     (FieldAccessMethod) &ProxyGroupBase::getSFPositions),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "geometries", 
+                     GeometriesFieldId, GeometriesFieldMask,
+                     false,
+                     (FieldAccessMethod) &ProxyGroupBase::getSFGeometries)
 };
 
 
@@ -227,6 +249,8 @@ ProxyGroupBase::ProxyGroupBase(void) :
     _sfVolume                 (), 
     _sfIndices                (UInt32(0)), 
     _sfTriangles              (UInt32(0)), 
+    _sfPositions              (), 
+    _sfGeometries             (), 
     Inherited() 
 {
 }
@@ -244,6 +268,8 @@ ProxyGroupBase::ProxyGroupBase(const ProxyGroupBase &source) :
     _sfVolume                 (source._sfVolume                 ), 
     _sfIndices                (source._sfIndices                ), 
     _sfTriangles              (source._sfTriangles              ), 
+    _sfPositions              (source._sfPositions              ), 
+    _sfGeometries             (source._sfGeometries             ), 
     Inherited                 (source)
 {
 }
@@ -300,6 +326,16 @@ UInt32 ProxyGroupBase::getBinSize(const BitVector &whichField)
         returnValue += _sfTriangles.getBinSize();
     }
 
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+    {
+        returnValue += _sfPositions.getBinSize();
+    }
+
+    if(FieldBits::NoField != (GeometriesFieldMask & whichField))
+    {
+        returnValue += _sfGeometries.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -347,6 +383,16 @@ void ProxyGroupBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (TrianglesFieldMask & whichField))
     {
         _sfTriangles.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+    {
+        _sfPositions.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GeometriesFieldMask & whichField))
+    {
+        _sfGeometries.copyToBin(pMem);
     }
 
 
@@ -397,6 +443,16 @@ void ProxyGroupBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfTriangles.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+    {
+        _sfPositions.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GeometriesFieldMask & whichField))
+    {
+        _sfGeometries.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -429,6 +485,12 @@ void ProxyGroupBase::executeSyncImpl(      ProxyGroupBase *pOther,
 
     if(FieldBits::NoField != (TrianglesFieldMask & whichField))
         _sfTriangles.syncWith(pOther->_sfTriangles);
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+        _sfPositions.syncWith(pOther->_sfPositions);
+
+    if(FieldBits::NoField != (GeometriesFieldMask & whichField))
+        _sfGeometries.syncWith(pOther->_sfGeometries);
 
 
 }
