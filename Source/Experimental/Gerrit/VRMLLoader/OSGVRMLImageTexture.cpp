@@ -52,6 +52,7 @@
 #include <OSGDataElementDesc.h>
 #include <OSGVRMLToOSGAction.h>
 #include <OSGTextureChunk.h>
+#include <OSGImage.h>
 
 OSG_USING_NAMESPACE
 
@@ -260,7 +261,7 @@ void VRMLImageTextureBinder::init(VRMLToOSGAction *)
 
     TextureChunkPtr  pTexture = TextureChunk::create();
 
-    Image           *pImage   = new Image();
+    ImagePtr         pImage   = Image::create();
 
 
     if(pImage->read((*(pNode->getMFUrl()))[0].c_str()))
@@ -291,7 +292,7 @@ void VRMLImageTextureBinder::init(VRMLToOSGAction *)
     }
     else
     {
-        subRefP(pImage);
+        subRefCP(pImage);
     }
 
     _pFieldContainer = pTexture;

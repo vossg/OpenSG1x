@@ -258,7 +258,7 @@ void DataElementDesc::dump(      UInt32     uiIndent,
             << " ("      
             << _uiElementId 
             << " | "
-            << _vElementMask 
+//            << _vElementMask 
             << ") ["
             << _elementType.getCName() 
             << " | "
