@@ -77,7 +77,11 @@ DOC_TUTORIAL_PAGES  := 	        tutorial/main.dox \
 				tutorial/introduction.dox \
 				tutorial/firstapp.dox \
 				tutorial/basics.dox \
-				tutorial/nodecores.dox
+				tutorial/nodecores.dox \
+				tutorial/geometry.dox \
+				tutorial/light.dox \
+				tutorial/windows.dox \
+				tutorial/solutions.dox
                                 
 DOC_OLD_PAGES  := 	        Code/mainpage.dox \
 				$(DOC_INTRO) \
