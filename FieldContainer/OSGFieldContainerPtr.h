@@ -457,10 +457,13 @@ class FCPtr : public BasePtrTypeT
 
     OSG_PROPERTY_REQUIREMENT(BasePtrTypeT, Pointer);
 
-    typedef FieldContainerTypeT StoredObjectType;
-    typedef FCPtr               ObjectType;
+    typedef FieldContainerTypeT        StoredObjectType;
+    typedef FCPtr                      ObjectType;
 
-    typedef BasePtrTypeT        Inherited;
+    typedef BasePtrTypeT               Inherited;
+
+    typedef FCPtr<BasePtrTypeT,
+                  FieldContainerTypeT> Self;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      dcast                                   */
@@ -568,6 +571,9 @@ class ConstFCPtr : public BasePtrTypeT
 
     typedef FCPtr<typename FieldContainerTypeT::Ptr::Inherited,
                   FieldContainerTypeT                         > NCFCPtr;
+
+    typedef ConstFCPtr<BasePtrTypeT,
+                       FieldContainerTypeT>                     Self;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

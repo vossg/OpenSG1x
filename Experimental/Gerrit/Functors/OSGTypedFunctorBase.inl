@@ -240,9 +240,9 @@ TypedFunctionFunctorBase<Parent, Params>::~TypedFunctionFunctorBase(void)
 template <class Parent, class Params> inline
 void TypedFunctionFunctorBase<Parent, Params>::setMethod(FunctionF pFunc)
 {
-    _flags |=  FuncPtrValid;
+    Self::_flags |=  Self::FuncPtrValid;
 
-    *((FunctionF *) _data2) = pFunc; 
+    *((FunctionF *) Self::_data2) = pFunc; 
 }
 
 
@@ -335,9 +335,9 @@ TypedObjectFunctorBase<Parent, Params>::~TypedObjectFunctorBase(void)
 template <class Parent, class Params> inline
 void TypedObjectFunctorBase<Parent, Params>::setMethod(ObjMethodF pFunc)
 {
-    _flags |=  FuncPtrValid;
+    Self::_flags |=  Self::FuncPtrValid;
 
-    *((ObjMethodF *) _data2) = pFunc; 
+    *((ObjMethodF *) Self::_data2) = pFunc; 
 }
 
 
@@ -430,18 +430,18 @@ TypedStoredObjectFunctorBase<Parent, Params>::~TypedStoredObjectFunctorBase(
 template <class Parent, class Params> inline
 void TypedStoredObjectFunctorBase<Parent, Params>::setMethod(ObjMethodF pFunc)
 {
-    _flags |=  FuncPtrValid;
+    Self::_flags |=  Self::FuncPtrValid;
 
-    *((ObjMethodF *) _data2) = pFunc; 
+    *((ObjMethodF *) Self::_data2) = pFunc; 
 }
 
 template <class Parent, class Params> inline
 void TypedStoredObjectFunctorBase<Parent, Params>::setCalledObject(
     SetObjectT pObj)
 {
-    _flags |= ObjectValid;
+    Self::_flags |= Self::ObjectValid;
 
-    Params::setCalledObject(reinterpret_cast<Char8 *>(_data1), pObj);
+    Params::setCalledObject(reinterpret_cast<Char8 *>(Self::_data1), pObj);
 }
 
 template <class Parent, class Params> inline
@@ -449,12 +449,12 @@ void TypedStoredObjectFunctorBase<Parent, Params>::setObjectAndMethod(
     SetObjectT pObj, 
     ObjMethodF pFunc)
 {
-    _flags |=  FuncPtrValid;
-    _flags |=  ObjectValid;
+    Self::_flags |=  Self::FuncPtrValid;
+    Self::_flags |=  Self::ObjectValid;
      
-    Params::setCalledObject(reinterpret_cast<Char8 *>(_data1), pObj);
+    Params::setCalledObject(reinterpret_cast<Char8 *>(Self::_data1), pObj);
 
-    *((ObjMethodF *) _data2) = pFunc; 
+    *((ObjMethodF *) Self::_data2) = pFunc; 
 }
 
 OSG_END_NAMESPACE

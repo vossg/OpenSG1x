@@ -196,7 +196,9 @@ class TypedFunctor2Base : public TypedFunctorBase<SizeTraitsT>
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef TypedFunctorBase<SizeTraitsT> Inherited;
+    typedef TypedFunctorBase <                       SizeTraitsT> Inherited;
+
+    typedef TypedFunctor2Base<RetT, CallArgT, ArgsT, SizeTraitsT> Self;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -312,8 +314,10 @@ class TypedVoidFunctor2Base : public TypedFunctorBase<SizeTraitsT>
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef TypedFunctorBase<SizeTraitsT> Inherited;
-
+    typedef TypedFunctorBase     <                 SizeTraitsT> Inherited;
+    
+    typedef TypedVoidFunctor2Base<CallArgT, ArgsT, SizeTraitsT> Self;
+    
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
@@ -444,6 +448,12 @@ class TypedFunctionFunctor2 :
                                                    CallArgT,
                                                    ArgsT>     > Inherited;
 
+    typedef 
+        TypedFunctionFunctor2   <RetT,
+                                 CallArgT,
+                                 ArgsT,
+                                 SizeTraitsT                  > Self;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
@@ -566,12 +576,17 @@ class TypedFunctionVoidFunctor2 :
     typedef TypedTraits2<void, CallArgT, ArgsT> TypeTraits;
 
     typedef 
-        TypedFunctionFunctorBase<TypedVoidFunctor2Base<CallArgT,
-                                                       ArgsT,
-                                                       SizeTraitsT>,
-                                 TypedTraits2         <void, 
-                                                       CallArgT,
-                                                       ArgsT> > Inherited;
+        TypedFunctionFunctorBase <TypedVoidFunctor2Base<CallArgT,
+                                                        ArgsT,
+                                                        SizeTraitsT>,
+                                  TypedTraits2         <void, 
+                                                        CallArgT,
+                                                        ArgsT>     > Inherited;
+
+    typedef
+        TypedFunctionVoidFunctor2<CallArgT,
+                                  ArgsT,
+                                  SizeTraitsT                      > Self;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -701,7 +716,13 @@ class TypedObjectFunctor2 :
                               SizeTraitsT>,
             TypedTraits2     <RetT, 
                               CallArgT,
-                              ArgsT> > Inherited;
+                              ArgsT>   > Inherited;
+
+    typedef
+        TypedObjectFunctor2<RetT,
+                            CallArgT,
+                            ArgsT,
+                            SizeTraitsT> Self;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -831,7 +852,12 @@ class TypedObjectVoidFunctor2 :
                                   SizeTraitsT>,
             TypedTraits2         <void, 
                                   CallArgT,
-                                  ArgsT> > Inherited;
+                                  ArgsT>     > Inherited;
+
+    typedef
+        TypedObjectVoidFunctor2  <CallArgT,
+                                  ArgsT,
+                                  SizeTraitsT> Self;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -969,7 +995,14 @@ class TypedStoredObjectFunctor2 :
             TypedSOTraits2   <RetT, 
                               StoredObjectT,
                               typename ArgObjectT::ArgsC,
-                              ArgsT            > >Inherited;
+                              ArgsT            >        > Inherited;
+
+    typedef
+        TypedStoredObjectFunctor2<RetT, 
+                                  StoredObjectT,
+                                  ArgObjectT,
+                                  ArgsT,
+                                  SizeTraitsT           > Self;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -1104,7 +1137,13 @@ class TypedStoredObjectVoidFunctor2 :
             TypedSOTraits2       <void, 
                                   StoredObjectT,
                                   typename ArgObjectT::ArgsC,
-                                  ArgsT                     > >Inherited;
+                                  ArgsT                     > > Inherited;
+
+    typedef 
+        TypedStoredObjectVoidFunctor2<StoredObjectT, 
+                                      ArgObjectT,
+                                      ArgsT,
+                                      SizeTraitsT             > Self;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

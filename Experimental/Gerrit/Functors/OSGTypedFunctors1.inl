@@ -394,11 +394,12 @@ RetT TypedFunctionFunctor1<RetT,
                            CallArgT,
                            SizeTraitsT>::call(CallArgType pObj) 
 { 
+    typedef typename Self::FunctionF FuncF;
     RetT returnValue;
 
-    if(_flags & FuncPtrValid)
+    if(Self::_flags & Self::FuncPtrValid)
     {
-        FunctionF pFunc = *((FunctionF *) _data2);
+        FuncF pFunc = *((FuncF *) Self::_data2);
         
         return pFunc(pObj);
     }
@@ -505,9 +506,11 @@ template <class CallArgT,
 void TypedFunctionVoidFunctor1<CallArgT,
                                SizeTraitsT>::call(CallArgType pObj) 
 { 
-    if(_flags & FuncPtrValid)
+    typedef typename Self::FunctionF FuncF;
+
+    if(Self::_flags & Self::FuncPtrValid)
     {
-        FunctionF pFunc = *((FunctionF *) _data2);
+        FuncF pFunc = *((FuncF *) Self::_data2);
         
         pFunc(pObj);
     }
@@ -622,9 +625,9 @@ RetT TypedObjectFunctor1<RetT,
 { 
     RetT returnValue;
 
-    if(_flags & FuncPtrValid)
+    if(Self::_flags & Self::FuncPtrValid)
     {
-        return TypeTraits::callObjectMethod(_data2, obj);
+        return TypeTraits::callObjectMethod(Self::_data2, obj);
     }
     
 
@@ -728,9 +731,9 @@ template <class CallArgT,
 void TypedObjectVoidFunctor1<CallArgT,
                              SizeTraitsT>::call(CallArgType obj) 
 { 
-    if(_flags & FuncPtrValid)
+    if(Self::_flags & Self::FuncPtrValid)
     {
-        TypeTraits::callObjectMethodVoid(_data2, obj);
+        TypeTraits::callObjectMethodVoid(Self::_data2, obj);
     }
 }
 
@@ -850,10 +853,10 @@ RetT TypedStoredObjectFunctor1<RetT,
 { 
     RetT returnValue;
 
-    if(_flags & FuncPtrValid &&
-       _flags & ObjectValid)
+    if(Self::_flags & Self::FuncPtrValid &&
+       Self::_flags & Self::ObjectValid)
     {
-        return TypeTraits::callObjectMethod(_data1, _data2, obj);
+        return TypeTraits::callObjectMethod(Self::_data1, Self::_data2, obj);
     }
 
     return returnValue;
@@ -969,10 +972,10 @@ void TypedStoredObjectVoidFunctor1<StoredObjectT,
                                    ArgsT,
                                    SizeTraitsT>::call(CallArgType obj) 
 { 
-    if(_flags & FuncPtrValid &&
-       _flags & ObjectValid)
+    if(Self::_flags & Self::FuncPtrValid &&
+       Self::_flags & Self::ObjectValid)
     {
-        TypeTraits::callObjectMethodVoid(_data1, _data2, obj);
+        TypeTraits::callObjectMethodVoid(Self::_data1, Self::_data2, obj);
     }
 }
 

@@ -416,11 +416,13 @@ RetT TypedFunctionFunctor2<RetT,
                            SizeTraitsT>::call(CallArgType obj,
                                               Arg1        oArg1) 
 { 
+    typedef typename Self::FunctionF FuncF;
+
     RetT returnValue;
 
-    if(_flags & FuncPtrValid)
+    if(Self::_flags & Self::FuncPtrValid)
     {
-        FunctionF pFunc = *((FunctionF *) _data2);
+        FuncF pFunc = *((FuncF *) Self::_data2);
         
         return pFunc(obj, oArg1);
     }
@@ -533,9 +535,11 @@ void TypedFunctionVoidFunctor2<CallArgT,
                                SizeTraitsT>::call(CallArgType obj,
                                                   Arg1        oArg1) 
 { 
-    if(_flags & FuncPtrValid)
+    typedef typename Self::FunctionF FuncF;
+
+    if(Self::_flags & Self::FuncPtrValid)
     {
-        FunctionF pFunc = *((FunctionF *) _data2);
+        FuncF pFunc = *((FuncF *) Self::_data2);
         
         pFunc(obj, oArg1);
     }
@@ -658,9 +662,9 @@ RetT TypedObjectFunctor2<RetT,
 { 
     RetT returnValue;
 
-    if(_flags & FuncPtrValid)
+    if(Self::_flags & Self::FuncPtrValid)
     {
-        return TypeTraits::callObjectMethod(_data2, obj, oArg1);
+        return TypeTraits::callObjectMethod(Self::_data2, obj, oArg1);
     }
     
 
@@ -775,9 +779,9 @@ void TypedObjectVoidFunctor2<CallArgT,
                              SizeTraitsT>::call(CallArgType obj,
                                                 Arg1        oArg1) 
 { 
-    if(_flags & FuncPtrValid)
+    if(Self::_flags & Self::FuncPtrValid)
     {
-        TypeTraits::callObjectMethodVoid(_data2, obj, oArg1);
+        TypeTraits::callObjectMethodVoid(Self::_data2, obj, oArg1);
     }
 }
 
@@ -907,11 +911,11 @@ RetT TypedStoredObjectFunctor2<RetT,
 { 
     RetT returnValue;
 
-    if(_flags & FuncPtrValid &&
-       _flags & ObjectValid)
+    if(Self::_flags & Self::FuncPtrValid &&
+       Self::_flags & Self::ObjectValid)
     {
-        return TypeSOTraits::callObjectMethod(_data1, 
-                                              _data2, 
+        return TypeSOTraits::callObjectMethod(Self::_data1, 
+                                              Self::_data2, 
                                                obj,
                                                oArg1);
     }
@@ -1038,13 +1042,13 @@ void TypedStoredObjectVoidFunctor2<StoredObjectT,
                                    SizeTraitsT>::call(CallArgType obj,
                                                       Arg1        oArg1) 
 { 
-    if(_flags & FuncPtrValid &&
-       _flags & ObjectValid)
+    if(Self::_flags & Self::FuncPtrValid &&
+       Self::_flags & Self::ObjectValid)
     {
-        TypeSOTraits::callObjectMethodVoid(_data1, 
-                                           _data2, 
-                                            obj,
-                                            oArg1);
+        TypeSOTraits::callObjectMethodVoid(Self::_data1, 
+                                           Self::_data2, 
+                                           obj,
+                                           oArg1);
     }
 }
 

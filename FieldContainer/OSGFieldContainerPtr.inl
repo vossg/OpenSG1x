@@ -92,28 +92,28 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT *FCPtr<BasePtrTypeT, 
                            FieldContainerTypeT>::operator ->(void)
 {
-    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT *FCPtr<BasePtrTypeT,
                             FieldContainerTypeT>::operator ->(void) const
 {
-    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT &FCPtr<BasePtrTypeT, 
                            FieldContainerTypeT>::operator *(void)
 {
-    return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
+    return *((FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT &FCPtr<BasePtrTypeT,
                             FieldContainerTypeT>::operator *(void) const
 {
-    return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
+    return *((FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
 }
 
 
@@ -121,14 +121,14 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT *FCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void)
 
 {
-    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT *
     FCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void) const
 {
-    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
 }
 
 /*-------------------------------------------------------------------------*/
@@ -238,7 +238,7 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::operator ->(void)
 {
-    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
@@ -246,14 +246,14 @@ const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::operator ->(
                                            void) const
 {
-    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::operator *(void)
 {
-    return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
+    return *((FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
@@ -261,7 +261,7 @@ const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::operator *(
                                            void) const
 {
-    return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
+    return *((FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
 }
 
 
@@ -270,14 +270,14 @@ const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::getCPtr(void)
 
 {
-    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 const FieldContainerTypeT *
     ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void) const
 {
-    return (FieldContainerTypeT *) getElemP(Thread::getAspect());
+    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
 }
 
 /*-------------------------------------------------------------------------*/

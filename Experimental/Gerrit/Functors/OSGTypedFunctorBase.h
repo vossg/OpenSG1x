@@ -96,7 +96,9 @@ class TypedFunctorBase : public FunctorBase<SizeTraitsT>
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef FunctorBase<SizeTraitsT> Inherited;
+    typedef FunctorBase     <SizeTraitsT> Inherited;
+
+    typedef TypedFunctorBase<SizeTraitsT> Self;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -209,7 +211,9 @@ class TypedFunctionFunctorBase : public Parent
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef Parent Inherited;
+    typedef Parent                                   Inherited;
+
+    typedef TypedFunctionFunctorBase<Parent, Params> Self;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -318,7 +322,9 @@ class TypedObjectFunctorBase : public Parent
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef Parent Inherited;
+    typedef Parent                                 Inherited;
+
+    typedef TypedObjectFunctorBase<Parent, Params> Self;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -429,7 +435,9 @@ class TypedStoredObjectFunctorBase : public Parent
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef Parent Inherited;
+    typedef Parent                                       Inherited;
+
+    typedef TypedStoredObjectFunctorBase<Parent, Params> Self;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

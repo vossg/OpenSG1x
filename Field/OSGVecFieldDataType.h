@@ -161,18 +161,21 @@ struct FieldTraitsRecurseVecStore4Base :
 template <>
 struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
 {
-    static DataType _type;
+    static  DataType               _type;
+    typedef FieldDataTraits<Vec2f>  Self;
 
-    enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
-    enum             { bHasParent        = 0x01                  };
 
-    static DataType &getType      (void) { return _type;         }
+    enum             { StringConvertable = Self::ToStringConvertable   | 
+                                           Self::FromStringConvertable };
 
-    static Char8    *getSName     (void) { return "SFVec2f";     }
-    static Char8    *getMName     (void) { return "MFVec2f";     }
+    enum             { bHasParent        = 0x01                        };
 
-    static Vec2f     getDefault   (void) { return Vec2f();       }
+    static DataType &getType      (void) { return _type;               }
+
+    static Char8    *getSName     (void) { return "SFVec2f";           }
+    static Char8    *getMName     (void) { return "MFVec2f";           }
+
+    static Vec2f     getDefault   (void) { return Vec2f();             }
 
     static bool      getFromString(      Vec2f  &outVal,
                                    const Char8 *&inVal)
@@ -203,18 +206,21 @@ struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
 template <>
 struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore3Base<Vec3f>
 {
-    static DataType _type;
+    static  DataType               _type;
+    typedef FieldDataTraits<Vec3f>  Self;
 
-    enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
-    enum             { bHasParent        = 0x01                  };
 
-    static DataType &getType      (void) { return _type;         }
+    enum             { StringConvertable = Self::ToStringConvertable   | 
+                                           Self::FromStringConvertable };
 
-    static Char8    *getSName     (void) { return "SFVec3f";     }
-    static Char8    *getMName     (void) { return "MFVec3f";     }
+    enum             { bHasParent        = 0x01                        };
 
-    static Vec3f     getDefault   (void) { return Vec3f();       }
+    static DataType &getType      (void) { return _type;               }
+
+    static Char8    *getSName     (void) { return "SFVec3f";           }
+    static Char8    *getMName     (void) { return "MFVec3f";           }
+
+    static Vec3f     getDefault   (void) { return Vec3f();             }
 
     static bool      getFromString(      Vec3f  &outVal,
                                    const Char8 *&inVal)
@@ -247,18 +253,20 @@ struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore3Base<Vec3f>
 template <>
 struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
 {
-    static DataType _type;
+    static  DataType               _type;
+    typedef FieldDataTraits<Vec4f>  Self;
 
-    enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
-    enum             { bHasParent        = 0x01                  };
+    enum             { StringConvertable = Self::ToStringConvertable   | 
+                                           Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;         }
+    enum             { bHasParent        = 0x01                        };
 
-    static Char8    *getSName     (void) { return "SFVec4f";     }
-    static Char8    *getMName     (void) { return "MFVec4f";     }
+    static DataType &getType      (void) { return _type;               }
 
-    static Vec4f     getDefault   (void) { return Vec4f();       }
+    static Char8    *getSName     (void) { return "SFVec4f";           }
+    static Char8    *getMName     (void) { return "MFVec4f";           }
+
+    static Vec4f     getDefault   (void) { return Vec4f();             }
 
     static bool      getFromString(      Vec4f  &outVal,
                                    const Char8 *&inVal)
@@ -292,18 +300,20 @@ struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
 template <>
 struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore4Base<Vec4ub>
 {
-    static DataType _type;
+    static  DataType                _type;
+    typedef FieldDataTraits<Vec4ub>  Self;
 
-    enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
-    enum             { bHasParent        = 0x01                  };
+    enum             { StringConvertable = Self::ToStringConvertable   | 
+                                           Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;         }
+    enum             { bHasParent        = 0x01                        };
 
-    static Char8    *getSName     (void) { return "SFVec4ub";    }
-    static Char8    *getMName     (void) { return "MFVec4ub";    }
+    static DataType &getType      (void) { return _type;               }
 
-    static Vec4ub    getDefault   (void) { return Vec4ub();      }
+    static Char8    *getSName     (void) { return "SFVec4ub";          }
+    static Char8    *getMName     (void) { return "MFVec4ub";          }
+
+    static Vec4ub    getDefault   (void) { return Vec4ub();            }
 
     static bool      getFromString(      Vec4ub  &outVal,
                                    const Char8  *&inVal)
@@ -337,18 +347,20 @@ struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore4Base<Vec4ub>
 template <>
 struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
 {
-    static DataType _type;
+    static  DataType               _type;
+    typedef FieldDataTraits<Pnt2f>  Self;
 
-    enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
-    enum             { bHasParent        = 0x01                  };
+    enum             { StringConvertable = Self::ToStringConvertable   | 
+                                           Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;         }
+    enum             { bHasParent        = 0x01                        };
 
-    static Char8    *getSName     (void) { return "SFPnt2f";     }
-    static Char8    *getMName     (void) { return "MFPnt2f";     }
+    static DataType &getType      (void) { return _type;               }
 
-    static Pnt2f     getDefault   (void) { return Pnt2f();       }
+    static Char8    *getSName     (void) { return "SFPnt2f";           }
+    static Char8    *getMName     (void) { return "MFPnt2f";           }
+
+    static Pnt2f     getDefault   (void) { return Pnt2f();             }
 
     static bool      getFromString(      Pnt2f  &outVal,
                                    const Char8 *&inVal)
@@ -379,18 +391,20 @@ struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
 template <>
 struct FieldDataTraits<Pnt2d> : public FieldTraitsRecurseVecStore2Base<Pnt2d>
 {
-    static DataType _type;
+    static  DataType               _type;
+    typedef FieldDataTraits<Pnt2d>  Self;
 
-    enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
-    enum             { bHasParent        = 0x01                  };
+    enum             { StringConvertable = Self::ToStringConvertable   | 
+                                           Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;         }
+    enum             { bHasParent        = 0x01                        };
 
-    static Char8    *getSName     (void) { return "SFPnt2d";     }
-    static Char8    *getMName     (void) { return "MFPnt2d";     }
+    static DataType &getType      (void) { return _type;               }
 
-    static Pnt2d     getDefault   (void) { return Pnt2d();       }
+    static Char8    *getSName     (void) { return "SFPnt2d";           }
+    static Char8    *getMName     (void) { return "MFPnt2d";           }
+
+    static Pnt2d     getDefault   (void) { return Pnt2d();             }
 
     static bool      getFromString(      Pnt2d  &outVal,
                                    const Char8 *&inVal)
@@ -421,18 +435,20 @@ struct FieldDataTraits<Pnt2d> : public FieldTraitsRecurseVecStore2Base<Pnt2d>
 template <>
 struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
 {
-    static DataType _type;
+    static  DataType               _type;
+    typedef FieldDataTraits<Pnt3f>  Self;
 
-    enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
-    enum             { bHasParent        = 0x01                  };
+    enum             { StringConvertable = Self::ToStringConvertable   | 
+                                           Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;         }
+    enum             { bHasParent        = 0x01                        };
 
-    static Char8    *getSName     (void) { return "SFPnt3f";     }
-    static Char8    *getMName     (void) { return "MFPnt3f";     }
+    static DataType &getType      (void) { return _type;               }
 
-    static Pnt3f     getDefault   (void) { return Pnt3f();       }
+    static Char8    *getSName     (void) { return "SFPnt3f";           }
+    static Char8    *getMName     (void) { return "MFPnt3f";           }
+
+    static Pnt3f     getDefault   (void) { return Pnt3f();             }
 
     static bool      getFromString(      Pnt3f  &outVal,
                                    const Char8 *&inVal)
@@ -464,18 +480,20 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
 template <>
 struct FieldDataTraits<Pnt3d> : public FieldTraitsRecurseVecStore3Base<Pnt3d>
 {
-    static DataType _type;
+    static  DataType               _type;
+    typedef FieldDataTraits<Pnt3d>  Self;
 
-    enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
-    enum             { bHasParent        = 0x01                  };
+    enum             { StringConvertable = Self::ToStringConvertable   | 
+                                           Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;         }
+    enum             { bHasParent        = 0x01                        };
 
-    static Char8    *getSName     (void) { return "SFPnt3d";     }
-    static Char8    *getMName     (void) { return "MFPnt3d";     }
+    static DataType &getType      (void) { return _type;               }
 
-    static Pnt3d     getDefault   (void) { return Pnt3d();       }
+    static Char8    *getSName     (void) { return "SFPnt3d";           }
+    static Char8    *getMName     (void) { return "MFPnt3d";           }
+
+    static Pnt3d     getDefault   (void) { return Pnt3d();             }
 
     static bool      getFromString(      Pnt3d  &outVal,
                                    const Char8 *&inVal)
@@ -506,19 +524,21 @@ struct FieldDataTraits<Pnt3d> : public FieldTraitsRecurseVecStore3Base<Pnt3d>
 template <>
 struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
 {
-    static DataType _type;
+    static  DataType               _type;
+    typedef FieldDataTraits<Pnt4f>  Self;
 
-    enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
-    enum             { bHasParent        = 0x01                  };
+    enum             { StringConvertable = Self::ToStringConvertable   | 
+                                           Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;         }
+    enum             { bHasParent        = 0x01                        };
 
-    static Char8    *getSName     (void) { return "SFPnt4f";     }
+    static DataType &getType      (void) { return _type;               }
 
-    static Char8    *getMName     (void) { return "MFPnt4f";     }
+    static Char8    *getSName     (void) { return "SFPnt4f";           }
 
-    static Pnt4f     getDefault   (void) { return Pnt4f();       }
+    static Char8    *getMName     (void) { return "MFPnt4f";           }
+
+    static Pnt4f     getDefault   (void) { return Pnt4f();             }
 
     static bool      getFromString(      Pnt4f  &outVal,
                                    const Char8 *&inVal)
@@ -551,19 +571,21 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
 template <>
 struct FieldDataTraits<Pnt4d> : public FieldTraitsRecurseVecStore4Base<Pnt4d>
 {
-    static DataType _type;
+    static  DataType               _type;
+    typedef FieldDataTraits<Pnt4d>  Self;
 
-    enum             { StringConvertable = ToStringConvertable   | 
-                                           FromStringConvertable };
-    enum             { bHasParent        = 0x01                  };
+    enum             { StringConvertable = Self::ToStringConvertable   | 
+                                           Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;         }
+    enum             { bHasParent        = 0x01                        };
 
-    static Char8    *getSName     (void) { return "SFPnt4d";     }
+    static DataType &getType      (void) { return _type;               }
 
-    static Char8    *getMName     (void) { return "MFPnt4d";     }
+    static Char8    *getSName     (void) { return "SFPnt4d";           }
 
-    static Pnt4d     getDefault   (void) { return Pnt4d();       }
+    static Char8    *getMName     (void) { return "MFPnt4d";           }
+
+    static Pnt4d     getDefault   (void) { return Pnt4d();             }
 
     static bool      getFromString(      Pnt4d  &outVal,
                                    const Char8 *&inVal)
