@@ -695,11 +695,11 @@ bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
     UChar8  *src  = getData();
     UChar8  *dest = destImage->getData();
 
-    FDEBUG(("Image::subImage (%d %d %d) - (%d %d %d)\n",
-	    offX, offY, offZ, destW, destH, destD));
+    FDEBUG(("Image::subImage (%d %d %d) - (%d %d %d) - destPtr %p\n",
+	    offX, offY, offZ, destW, destH, destD, dest));
     
     // ensure destination data is zero
-    memset(dest, 0, _bpp);
+    memset(dest, 0, destImage->getSize());
 
     // determine the area to actually copy
     UInt32 xMin = offX;
@@ -722,12 +722,112 @@ bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
 	    destIdx++;
 	  }
 	}
-	destIdx += destW - (xMax - xMin) * _bpp;
+	destIdx += (destW - (xMax - xMin)) * _bpp;
       }
       destIdx += (destH - (yMax - yMin)) * destW * _bpp;
     }
 
     
+    // rip the data from the local destImage if necessary
+    if(!destination)
+    {
+        delete[] _data;
+        _data = destImage->_data;
+        destImage->_data = 0;
+        delete destImage;
+    }
+
+    return retCode;
+}
+
+
+//----------------------------
+// Function name: slice
+//----------------------------
+//
+//Parameters:
+//p: Int32 offX = -1, Int32 offY = -1, Int32 offZ = -1, Image *destination = 0
+//GlobalVars:
+//g:
+//Returns:
+//r:bool
+// Caution
+//c:
+//Assumations:
+//a:
+//Describtions:
+//d: extracts a single slice from the image, the slice normal is given by the
+//   ONLY non negative offset
+//SeeAlso:
+//s:
+//
+//------------------------------
+bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
+		    Image *destination)
+{
+    Image   *destImage = destination ? destination : new Image;
+    bool    retCode = true;
+    UInt32  counter = 0;
+    
+    FDEBUG(("Image::slice (%d %d %d)\n",
+	    offX, offY, offZ));
+
+    if (offX >= 0) counter++;
+    if (offY >= 0) counter++;
+    if (offZ >= 0) counter++;
+    if (counter != 1) {
+        FWARNING(("Image::slice - more/less than one non negative value\n"));
+	return false;
+    }
+    
+	
+    if (offZ >= 0) {
+        // XY slice
+        retCode = subImage( 0, 0, offZ, _width, _height, 1, destImage );
+    }
+
+
+    if (offY >= 0) {
+        // XZ slice
+        destImage->set(_pixelFormat, _width, _depth, 1);
+    
+        UChar8  *src  = getData();
+	UChar8  *dest = destImage->getData();
+
+	// ensure destination data is zero
+	memset(dest, 0, destImage->getSize());
+
+	for(UInt32 z = 0; z < _depth; z++) { 
+	  for(UInt32 x = 0; x < _width; x++) { 
+	    for(UInt32 i = 0; i < _bpp; i++) { 
+	        dest[(z * _width + x) * _bpp + i] = src[((z * _height + offY) * _width + x) * _bpp + i]; 
+	    }
+	  }
+	} 
+
+    } 
+
+    
+    if (offX >= 0) {
+        // YZ slice
+        destImage->set(_pixelFormat, _height, _depth, 1);
+      
+        UChar8  *src  = getData();
+	UChar8  *dest = destImage->getData();
+
+	// ensure destination data is zero
+	memset(dest, 0, destImage->getSize());
+
+	for(UInt32 z = 0; z < _depth; z++) { 
+	  for(UInt32 y = 0; y < _height; y++) { 
+	    for(UInt32 i = 0; i < _bpp; i++) { 
+	      dest[(z * _height + y) * _bpp + i] = src[((z * _height + y) * _width + offX) * _bpp + i]; 
+	    } 
+	  } 
+	}
+    }
+  
+
     // rip the data from the local destImage if necessary
     if(!destination)
     {
