@@ -190,6 +190,10 @@ class OSG_MISC_DLLMAPPING Transform : public NodeCore
     //! DrawAction:  execute the OpenGL commands directly   
     Action::ResultE drawEnter(Action * action );
     Action::ResultE drawLeave(Action * action );
+    
+    //! IntersectAction:  test a ray against the scene   
+    Action::ResultE intersectEnter(Action * action );
+    Action::ResultE intersectLeave(Action * action );
 
   private:
 

@@ -55,8 +55,10 @@
 #define OSG_COMPILEMISC
 #define OSG_COMPILETRANSFORMINST
 
+#include <OSGDrawAction.h>
+#include <OSGIntersectAction.h>
+
 #include "OSGTransform.h"
-#include "OSGDrawAction.h"
 
 OSG_USING_NAMESPACE
 
@@ -173,6 +175,17 @@ void Transform::initMethod (void)
                                 CNodePtr,  
                                 TransformPtr, 
                                 Action *>(&Transform::drawLeave));
+
+    IntersectAction::registerEnterDefault( getStaticType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                TransformPtr, 
+                                Action *>(&Transform::intersectEnter));
+    IntersectAction::registerLeaveDefault( getStaticType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                TransformPtr, 
+                                Action *>(&Transform::intersectLeave));
 }
 
 /***************************************************************************\
@@ -272,6 +285,39 @@ Action::ResultE Transform::drawEnter(Action *  )
 Action::ResultE Transform::drawLeave(Action *  )
 {
     glPopMatrix();
+
+    return Action::Continue;
+}
+
+// test the ray 
+// transform it into the local coordinate space
+Action::ResultE Transform::intersectEnter( Action *action )
+{
+	IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
+	Matrix m = this->getMatrix();
+	m.invert();
+	
+	Pnt3f pos;
+	Vec3f dir;
+	m.multFullMatrixPnt( ia->getLine().getPosition(), pos );
+	m.multMatrixVec( ia->getLine().getDirection(), dir );
+	
+	ia->setLine( Line( pos, dir ), ia->getMaxDist() );
+
+	return Action::Continue; 
+}
+
+Action::ResultE Transform::intersectLeave( Action *action )
+{
+	IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
+	Matrix m = this->getMatrix();
+	
+	Pnt3f pos;
+	Vec3f dir;
+	m.multFullMatrixPnt( ia->getLine().getPosition(), pos );
+	m.multMatrixVec( ia->getLine().getDirection(), dir );
+	
+	ia->setLine( Line( pos, dir ), ia->getMaxDist() );
 
     return Action::Continue;
 }
