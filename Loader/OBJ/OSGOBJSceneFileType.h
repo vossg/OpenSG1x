@@ -146,16 +146,24 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     map<string, DataElem> _dataElemMap;
     void initDataElemMap(void);
 
-    struct TiePoint {
-      Int32 index[3];
-      TiePoint( Int32 v = -1, Int32 vt = -1, Int32 vn = -1 )
-        { index[0] = v; index[1] = vt; index[2] = vn; }
-      inline void set ( Int32 v = -1, Int32 vt = -1, Int32 vn = -1 )
-        { index[0] = v; index[1] = vt; index[2] = vn; }
+    class Mesh;
+    friend class Mesh;
+
+    class Face;
+    friend class Face;
+
+    struct TiePoint 
+    {
+        Int32 index[3];
+        TiePoint( Int32 v = -1, Int32 vt = -1, Int32 vn = -1 )
+            { index[0] = v; index[1] = vt; index[2] = vn; }
+        inline void set ( Int32 v = -1, Int32 vt = -1, Int32 vn = -1 )
+            { index[0] = v; index[1] = vt; index[2] = vn; }
     };
-    
-    struct Face {
-      vector<TiePoint> tieVec;
+
+    struct Face 
+    {       
+        vector<TiePoint> tieVec;
     };
 
     struct Mesh {
@@ -163,6 +171,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
       std::list<Face> faceList;
       SimpleMaterialPtr mtlPtr;
     };
+
 
     Int32 readMTL ( const Char8 *fileName, 
                     PathHandler &pathhandler,
@@ -176,7 +185,7 @@ typedef OBJSceneFileType* OBJSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.14 2002/02/11 03:46:27 vossg Exp $"
+#define OSGOBJSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGOBJSceneFileType.h,v 1.15 2002/06/20 01:51:16 vossg Exp $"
 
 #endif // _OSGOBJSCENEFILETYPE_H_
 
