@@ -521,12 +521,12 @@ case $system in
     ;;
 esac
 
-echo "pack..."
+echo "pack (disabled)..."
+
 cd ..
 
-tar cf - OpenSG-$OSGVERSION-${distname}-opt+dbg | \
-            gzip -9 > OpenSG-$OSGVERSION-${distname}-opt+dbg.tgz
-
+#tar cf - OpenSG-$OSGVERSION-${distname}-opt+dbg | \
+#            gzip -9 > OpenSG-$OSGVERSION-${distname}-opt+dbg.tgz
 
 # ... get rid of the opt libs ...
 
