@@ -61,6 +61,10 @@ LIBS_$(OS_BASE) := @ac_gdz_base_system_libs@
 INCLUDE_SYSTEM  := @ac_gdz_system_incl_dir_e1@
 LINK_SYSTEM     := @ac_gdz_system_lib_dir_e1@
 
+ADD_INCLUDE     := @ac_gdz_additional_inc_dirs_e1@
+ADD_LINK        := @ac_gdz_additional_lib_dirs_e1@
+ADD_LIBS        := @ac_gdz_additional_libs_e1@
+
 include @ac_gdz_commonpackage_dir_e1@/commonSTL.mk
 
 
@@ -78,5 +82,26 @@ ifneq ($(LINK_COMPILER),)
 LIBPATHS_$(OS_BASE) := $(LIBPATH_OPTION)$(LINK_COMPILER) $(LIBPATHS_$(OS_BASE))
 endif
 
+ifneq ($(ADD_INCLUDE),)
 
+ADD_INCL_$(OS_BASE) := $(foreach dir,$(ADD_INCLUDE),$(INC_OPTION)$(dir))
+
+INCL_$(OS_BASE) := $(INCL_$(OS_BASE)) $(ADD_INCL_$(OS_BASE))
+
+endif
+
+ifneq ($(ADD_LINK),)
+
+ADD_LIBPATHS_$(OS_BASE) := $(foreach dir,$(ADD_LINK),$(LIBPATH_OPTION)$(dir))
+
+LIBPATHS_$(OS_BASE) := $(LIBPATHS_$(OS_BASE)) $(ADD_LIBPATHS_$(OS_BASE))
+
+endif
                    
+ifneq ($(ADD_LIBS),)
+
+ADD_LIBS_$(OS_BASE) := $(foreach lib,$(ADD_LIBS),$(LIBLNK_OPTION)$(lib))
+
+LIBS_$(OS_BASE) := $(ADD_LIBS_$(OS_BASE)) $(LIBS_$(OS_BASE))
+
+endif

@@ -315,6 +315,41 @@ dnl ############# CP Settings #####################
 AC_ARG_ENABLE(compiler-path,     [  --enable-compiler-path             Reference compiler with path],
 			,enable_compiler_path=no) 
 
+dnl ############# Add Path Settings #####################
+
+AC_ARG_WITH(add-incdir,   [  --with-add-incdir=DIR{:DIR}*       use additional include directory, right now only one dir works],
+			,with_add_incdir=no) 
+
+if test "$with_add_incdir" = yes; then
+	ac_gdz_with_add_incdirs =
+elif test "$with_add_incdir" = no; then
+	ac_gdz_with_add_incdirs =
+else
+	ac_gdz_with_add_incdirs=$with_add_incdir 
+fi
+
+AC_ARG_WITH(add-libdir,   [  --with-add-libdir=DIR{:DIR}*       use additional library directory, right now only one dir works],
+			,with_add_libdir=no) 
+
+if test "$with_add_libdir" = yes; then
+	ac_gdz_with_add_libdirs =
+elif test "$with_add_libdir" = no; then
+	ac_gdz_with_add_libdirs =
+else
+	ac_gdz_with_add_libdirs=$with_add_libdir 
+fi
+
+AC_ARG_WITH(add-lib,   [  --with-add-lib=LIB{:LIB}*          use additional library (use foo not libfoo.so), right now only one lib works],
+			,with_add_lib=no) 
+
+if test "$with_add_lib" = yes; then
+	ac_gdz_with_add_libs =
+elif test "$with_add_lib" = no; then
+	ac_gdz_with_add_libs =
+else
+	ac_gdz_with_add_libs=$with_add_lib 
+fi
+
 dnl ############# Helper #####################
 
 sinclude(./acinclude.m4)
@@ -627,6 +662,10 @@ else
     ac_gdz_gen_base_inc_e1="../Base"
 fi
 
+ac_gdz_additional_inc_dirs_e1=$ac_gdz_with_add_incdirs
+ac_gdz_additional_lib_dirs_e1=$ac_gdz_with_add_libdirs
+ac_gdz_additional_libs_e1=$ac_gdz_with_add_libs
+
 AC_GDZ_SCAN_PACKET_DESC()
 
 AC_SUBST(ac_gdz_so_praefix)
@@ -651,6 +690,10 @@ AC_SUBST(ac_gdz_sed_exe)
 
 AC_SUBST(ac_gdz_system_incl_dir_e1)
 AC_SUBST(ac_gdz_system_lib_dir_e1)
+
+AC_SUBST(ac_gdz_additional_inc_dirs_e1)
+AC_SUBST(ac_gdz_additional_lib_dirs_e1)
+AC_SUBST(ac_gdz_additional_libs_e1)
 
 AC_SUBST(ac_gdz_compiler_incl)
 AC_SUBST(ac_gdz_compiler_lib)

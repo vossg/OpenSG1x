@@ -44,7 +44,11 @@ link_flags=@am_gdz_link_flags@
 link_flags_opt=@am_gdz_link_flags_opt@
 link_flags_dbg=@am_gdz_link_flags_dbg@
 
-base_libs=@ac_gdz_base_system_libs_e15@
+inc_add_path=@am_gdz_add_inc@
+lib_add_path=@am_gdz_add_link@
+
+base_libs=@am_gdz_base_libs@
+#@ac_gdz_base_system_libs_e15@
 
 win_sys_libs="opengl32.lib glu32.lib gdi32.lib"
 unix_sys_libs="-lGLU -lGL -lXmu -lXi -lXt -lX11"
@@ -401,7 +405,7 @@ if test "$echo_lflags" = "yes"; then
 
     opensg_lib_path=${linkdir_pre}${exec_prefix}/lib/${lib_suf}${linkdir_suf}
 
-    echo $link_flags $img_libs_path $system_libs_path $opensg_lib_path
+    echo $link_flags $img_libs_path $system_libs_path $opensg_lib_path $lib_add_path
 
 fi      
 
@@ -425,7 +429,7 @@ if test "$echo_cflags" = "yes"; then
 
     opensg_inc_path=${incdir_pre}${prefix}/include${incdir_suf}
 
-    echo $sys_cflags $sys_defs $img_defs $img_incs_path $system_incs_path $opensg_inc_path
+    echo $sys_cflags $sys_defs $img_defs $img_incs_path $system_incs_path $opensg_inc_path $inc_add_path
 
 fi
 
