@@ -2398,6 +2398,22 @@ else
 	exit
 fi
 
+
+echo $ac_n "checking additional package configs""... $ac_c" 1>&6
+echo "configure:2404: checking additional package configs" >&5
+
+for i in `find . -name common.libs.in | sed -e 's|^./||'` ;
+do
+    if test "$i" != "$ac_gdz_commonconf_dir/common.libs.in"
+    then
+        dir=`echo "$i" | sed -e 's|/common.libs.in$||'`
+        echo -n " $dir"
+        . "$i"
+    fi
+done
+echo "$ac_t""""" 1>&6
+
+
 ac_gdz_package_sub_dir_out=Builds/$build-$ac_gdz_compiler$ac_gdz_suffix
 
 
@@ -2421,48 +2437,19 @@ fi
     
     for ac_gdz_package_name in ${ac_gdz_packages} ; do
 
-        eval ac_gdz_package=\${ac_gdz_package_${ac_gdz_package_name}}
-
-        p1=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\1/'`
-        p1=`echo $p1 | sed 's/://g'`
-
-        p2=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\2/'`
-        p2=`echo $p2 | sed 's/://g'`
-
-        p3=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\3/'`
-        p3=`echo $p3 | sed 's/://g'`
-
-        p4=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\4/'`
-        p4=`echo $p4 | sed 's/://g'`
-
-        p5=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\5/'`
-        p5=`echo $p5 | sed 's/://g'`
-
-        p6=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\6/'`
-        p6=`echo $p6 | sed 's/://g'`
-
-        p7=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\7/'`
-        p7=`echo $p7 | sed 's/://g'`
-
-        p8=`echo ${ac_gdz_package} | sed 's/\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\):\([^:]*\)/\8/'`
-        p8=`echo $p8 | sed 's/://g'`
+        eval inc_dep=\${ac_gdz_package_inc_dep_${ac_gdz_package_name}}
+        eval link_dep=\${ac_gdz_package_link_dep_${ac_gdz_package_name}}
     
         if test ${build_os} = "cygwin"; then
-            p4=`echo $p4 | sed 's/@WINDOWSYSTEM@/WIN32/g'`
-            p5=`echo $p5 | sed 's/@WINDOWSYSTEM@/WIN32/g'`
+            inc_dep=` echo $inc_dep  | sed 's/@WINDOWSYSTEM@/WIN32/g'`
+            link_dep=`echo $link_dep | sed 's/@WINDOWSYSTEM@/WIN32/g'`
         else
-            p4=`echo $p4 | sed 's/@WINDOWSYSTEM@/X/g'`
-            p5=`echo $p5 | sed 's/@WINDOWSYSTEM@/X/g'`
+            inc_dep=` echo $inc_dep  | sed 's/@WINDOWSYSTEM@/X/g'`
+            link_dep=`echo $link_dep | sed 's/@WINDOWSYSTEM@/X/g'`
         fi
 
-        eval ac_gdz_package_name_${ac_gdz_package_name}=\$p1;
-        eval ac_gdz_package_fact_init_${ac_gdz_package_name}=\$p2
-        eval ac_gdz_package_dirs_${ac_gdz_package_name}=\$p3;
-        eval ac_gdz_package_inc_dep_${ac_gdz_package_name}=\$p4;
-        eval ac_gdz_package_link_dep_${ac_gdz_package_name}=\$p5;
-        eval ac_gdz_package_testinc_dep_${ac_gdz_package_name}=\$p6;
-        eval ac_gdz_package_testlink_dep_${ac_gdz_package_name}=\$p7;
-        eval ac_gdz_package_def_${ac_gdz_package_name}=\$p8;
+        eval ac_gdz_package_inc_dep_${ac_gdz_package_name}=\$inc_dep;
+        eval ac_gdz_package_link_dep_${ac_gdz_package_name}=\$link_dep;
     done
 
     

@@ -570,6 +570,21 @@ else
 	exit
 fi
 
+
+AC_MSG_CHECKING([additional package configs])
+
+for i in `find . -name common.libs.in | sed -e 's|^./||'` ;
+do
+    if test "$i" != "$ac_gdz_commonconf_dir/common.libs.in"
+    then
+        dir=`echo "$i" | sed -e 's|/common.libs.in$||'`
+        echo -n " $dir"
+        . "$i"
+    fi
+done
+AC_MSG_RESULT("")
+
+
 ac_gdz_package_sub_dir_out=Builds/$build-$ac_gdz_compiler$ac_gdz_suffix
 
 AC_CONFIG_HEADER($ac_gdz_package_sub_dir_out/Base/OSGConfigured.h:CommonConf/OSGConfigured.h.in)
