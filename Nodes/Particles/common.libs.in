@@ -1,4 +1,5 @@
 # Add our directory to the System Lib
 
-ac_gdz_package_dirs_System="${ac_gdz_package_dirs_System} Nodes/Particles@ " 
+ac_gdz_package_dirs_WindowGLUT="${ac_gdz_package_dirs_WindowGLUT} Nodes/Particles@ " 
+ac_gdz_package_testinc_dep_WindowGLUT="${ac_gdz_package_testinc_dep_WindowGLUT} Experimental/OSGWriter" 
 

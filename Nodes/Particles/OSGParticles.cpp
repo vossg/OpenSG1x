@@ -61,7 +61,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.4 2002/01/10 04:51:31 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.5 2002/01/10 21:14:10 dirk Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -130,6 +130,7 @@ void Particles::changed(BitVector whichField, ChangeMode OSG_CHECK_ARG(from))
         {
             _parents[i]->invalidateVolume();
         }
+        getBsp().destroy();
     }
 }
 
@@ -368,13 +369,14 @@ static void drawViewDirQuads(Particles *part, DrawActionBase *action)
 }
 
 static void drawViewDirQuadsIndexed(Particles *part, DrawActionBase *action,
-    Int32 *index)
+    Int32 *index, UInt32 length)
 {
 
     // some variables for faster access
     GeoPositionsPtr  pos  = part->getPositions();
     GeoColorsPtr     col  = part->getColors();
     MFVec3f         *size = part->getMFSizes();
+    MFReal32        *texzs= part->getMFTextureZs();
 
     // get ModelView matrix to define the direction vectors
     Matrix modelview;
@@ -395,7 +397,8 @@ static void drawViewDirQuadsIndexed(Particles *part, DrawActionBase *action,
     Pnt3f   p;
     Real32  s;
     Color3f c;   // !!! TODO Colors with alpha are not handled yet
-
+    Real32  z;
+    
     if(size->getSize() == 0)
     {
         s = 0.5f;
@@ -403,6 +406,15 @@ static void drawViewDirQuadsIndexed(Particles *part, DrawActionBase *action,
     else if(size->getSize() == 1)
     {
         s = size->getValue(0)[0]/2.f;
+    }
+    
+    if(texzs->getSize() == 0)
+    {
+        z = 0.f;
+    }
+    else if(texzs->getSize() == 1)
+    {
+        z = texzs->getValue(0);
     }
 
     if(col != NullFC && col->getSize() == 1)
@@ -413,7 +425,7 @@ static void drawViewDirQuadsIndexed(Particles *part, DrawActionBase *action,
     glBegin(GL_QUADS);
 
     Int32 i;
-    for(UInt32 ii = 0; ii < pos->getSize(); ++ii)
+    for(UInt32 ii = 0; ii < length; ++ii)
     {
         i = index[ii];
         
@@ -429,18 +441,21 @@ static void drawViewDirQuadsIndexed(Particles *part, DrawActionBase *action,
         if(size->getSize() == pos->getSize())
             s = size->getValue(i)[0]/2.f;
 
+        if(texzs->getSize() == pos->getSize())
+            z = texzs->getValue(i);
+
         pos->getValue(p, i);
 
-        glTexCoord2f(0,0);
+        glTexCoord3f(0, 0, z);
         glVertex3f( p[0] + d1[0]*s, p[1] + d1[1]*s, p[2] + d1[2]*s);
 
-        glTexCoord2f(1,0);
+        glTexCoord3f(1, 0, z);
         glVertex3f( p[0] + d2[0]*s, p[1] + d2[1]*s, p[2] + d2[2]*s);
 
-        glTexCoord2f(1,1);
+        glTexCoord3f(1, 1, z);
         glVertex3f( p[0] + d3[0]*s, p[1] + d3[1]*s, p[2] + d3[2]*s);
 
-        glTexCoord2f(0,1);
+        glTexCoord3f(0, 1, z);
         glVertex3f( p[0] + d4[0]*s, p[1] + d4[1]*s, p[2] + d4[2]*s);
     }
 
@@ -591,14 +606,13 @@ struct sorter
     Int32  _index;
 };
 
-Int32 *Particles::calcIndex(DrawActionBase *action, NodePtr )
+Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len, 
+                            Int32 *index)
 { 
-    UInt32 i = 0;
     // some variables for faster access
-    GeoPositionsPtr  pos  = getPositions();
-    
-    vector<sorter> list(pos->getSize());
-
+    GeoPositionsPtr  pos     = getPositions();
+    MFInt32         *indices = getMFIndices();
+ 
     // get ModelView matrix to define the direction vectors
     Matrix modelview;
     action->getCamera()->getBeacon()->getToWorld(modelview);
@@ -607,22 +621,52 @@ Int32 *Particles::calcIndex(DrawActionBase *action, NodePtr )
     //modelview.transpose();
     
     Pnt3f p,q;
-
-    for(i=0; i<pos->getSize(); i++)
+    UInt32 size;
+    
+    if(indices->getSize() > 0)
     {
+        size = indices->getSize();
+    }
+    else
+    {
+        size = pos->getSize();
+    }
+   
+    vector<sorter> list(size);
+    
+    len = 0;
+    for(UInt32 i = 0; i<size; i++)
+    {
+        if(indices->getSize() > 0)
+        {
+            if(indices->getValue(i) < 0 || 
+               indices->getValue(i) > pos->getSize())
+                continue;
+                
+            list[len]._index = indices->getValue(i);
+        }
+        else
+        {
+            list[len]._index = i;         
+        }
+        
         pos->getValue(p,i);
         
-        modelview.mult(p);
+        modelview.mult(p);      // !!! optimize me. transform the viewer into
+                                // the local coord system instead. 
         
-        list[i]._value=p[2];
-        list[i]._index=i;
+        list[len]._value = p[2];
+        
+        len++;
     }
     
+    list.resize(len);
     sort(list.begin(),list.end());
     
-    Int32 *index=new Int32[pos->getSize()];
+    if(index == NULL)
+        index=new Int32[len];
     
-    for(i=0; i<pos->getSize(); i++)
+    for(UInt32 i=0; i<len; i++)
     {
         index[i]=list[i]._index;
     }
@@ -663,8 +707,8 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
     GeoColorsPtr     col  = getColors();
     GeoNormalsPtr    norm = getNormals();
     MFVec3f         *size = getMFSizes();
-
-    if((size->getSize() > 1 && size->getSize() != pos->getSize())  ||
+ 
+    if((size   ->getSize() > 1 && size   ->getSize() != pos->getSize())  ||
        (col  != NullFC && col->getSize()  != 1 &&
                           col->getSize()  != pos->getSize())       ||
        (norm != NullFC && norm->getSize() != 1 &&
@@ -672,7 +716,7 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
       )
     {
         FWARNING(("Particles::draw: inconsistent attributes (%d %d %d)!",
-                    pos->getSize(), size->getSize(), 
+                    pos->getSize(), size->getSize(),
                     (col != NullFC)? col->getSize() : -1));
         return Action::Continue;
     }
@@ -683,12 +727,53 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
                         break;
     case ViewDirQuads:  if(_sfDrawOrder.getValue()!=Particles::Any)
                         {
-                            Int32 *index=calcIndex(action,NullFC);
-                            drawViewDirQuadsIndexed(this, action, index);
+                            Int32 *index;
+                            UInt32 length = pos->getSize();
+                            
+                            if(getDynamic())
+                            {
+                                index=calcIndex(action,length);
+                            }
+                            else
+                            {
+                                if(! getBsp().created())
+                                {
+                                    getBsp().build(this);
+                                    
+                                    static Bool dodump=false;
+                                    if(dodump)
+                                        getBsp().dump();
+                                }
+                                Matrix modelview,toworld;
+                                action->getCamera()->getBeacon()->getToWorld(
+                                                                    modelview);
+                                action->getActNode()->getToWorld(toworld);
+                                
+                                toworld.invert();
+                                modelview.mult(toworld);
+                                
+                                Pnt3f ref(modelview[3][0],modelview[3][1],
+                                          modelview[3][2]);
+                                Vec3f refvec(  modelview[2][0],modelview[2][1],
+                                          modelview[2][2]);  
+                                            
+                                index = getBsp().traverse(ref,length);
+                            }
+                            drawViewDirQuadsIndexed(this, action, index, length);
                             delete [] index;
                         }
+                        else if (getIndices().getSize() > 0)
+                        {
+                            Int32 *index;
+                            UInt32 length = pos->getSize();
+                            
+                            index=calcIndex(action,length);
+                            drawViewDirQuadsIndexed(this, action, index, length);
+                        }
                         else
+                        {
                             drawViewDirQuads(this, action);
+                        }
                         break;
     case Arrows:        drawArrows(this, action);
                         break;

@@ -42,8 +42,6 @@ int main(int argc, char **argv)
     {
         count = atoi(argv[1]);
     }
- 
-    srand48(0);
     
     beginEditCP(particles);
 
@@ -55,7 +53,7 @@ int main(int argc, char **argv)
     beginEditCP(pnts);
     for(UInt32 i = 0; i < count; ++i)
     {
-        Pnt3f pnt(drand48(),drand48(),drand48());
+        Pnt3f pnt(osgrand(),osgrand(),osgrand());
         p->addValue(pnt);        
     }
     endEditCP(pnts);
@@ -66,14 +64,14 @@ int main(int argc, char **argv)
     beginEditCP(cols);
     for(UInt32 i = 0; i < count; ++i)
     {
-        cols->getFieldPtr()->addValue( Color3f(drand48(),drand48(),drand48()) );
+        cols->getFieldPtr()->addValue( Color3f(osgrand(),osgrand(),osgrand()) );
     }
     endEditCP(cols);
 
     MFVec3f *size = particles->getMFSizes();
     for(UInt32 i = 0; i < count; ++i)
     {
-        Real32 s=drand48()/10.f;
+        Real32 s=osgrand()/10.f;
         size->addValue(Vec3f(s,0,0));
     }
      

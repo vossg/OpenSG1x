@@ -67,16 +67,19 @@
 
 #include <OSGNodeCore.h> // Parent
 
+#include <OSGUInt32Fields.h> // Mode type
 #include <OSGGeoPositionsFields.h> // Positions type
 #include <OSGVec3fFields.h> // Sizes type
 #include <OSGGeoPositionsFields.h> // SecPositions type
 #include <OSGGeoColorsFields.h> // Colors type
 #include <OSGGeoNormalsFields.h> // Normals type
+#include <OSGInt32Fields.h> // Indices type
+#include <OSGReal32Fields.h> // TextureZs type
 #include <OSGMaterialFields.h> // Material type
-#include <OSGUInt32Fields.h> // Pump type
-#include <OSGUInt32Fields.h> // Mode type
 #include <OSGUInt32Fields.h> // DrawOrder type
 #include <OSGBoolFields.h> // Dynamic type
+#include <OSGUInt32Fields.h> // Pump type
+#include <OSGParticleBSP.h> // Bsp type
 
 #include <OSGParticlesFields.h>
 
@@ -98,29 +101,35 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
 
     enum
     {
-        PositionsFieldId    = Inherited::NextFieldId,
+        ModeFieldId         = Inherited::NextFieldId,
+        PositionsFieldId    = ModeFieldId         + 1,
         SizesFieldId        = PositionsFieldId    + 1,
         SecPositionsFieldId = SizesFieldId        + 1,
         ColorsFieldId       = SecPositionsFieldId + 1,
         NormalsFieldId      = ColorsFieldId       + 1,
-        MaterialFieldId     = NormalsFieldId      + 1,
-        PumpFieldId         = MaterialFieldId     + 1,
-        ModeFieldId         = PumpFieldId         + 1,
-        DrawOrderFieldId    = ModeFieldId         + 1,
+        IndicesFieldId      = NormalsFieldId      + 1,
+        TextureZsFieldId    = IndicesFieldId      + 1,
+        MaterialFieldId     = TextureZsFieldId    + 1,
+        DrawOrderFieldId    = MaterialFieldId     + 1,
         DynamicFieldId      = DrawOrderFieldId    + 1,
-        NextFieldId         = DynamicFieldId      + 1
+        PumpFieldId         = DynamicFieldId      + 1,
+        BspFieldId          = PumpFieldId         + 1,
+        NextFieldId         = BspFieldId          + 1
     };
 
+    static const osg::BitVector ModeFieldMask;
     static const osg::BitVector PositionsFieldMask;
     static const osg::BitVector SizesFieldMask;
     static const osg::BitVector SecPositionsFieldMask;
     static const osg::BitVector ColorsFieldMask;
     static const osg::BitVector NormalsFieldMask;
+    static const osg::BitVector IndicesFieldMask;
+    static const osg::BitVector TextureZsFieldMask;
     static const osg::BitVector MaterialFieldMask;
-    static const osg::BitVector PumpFieldMask;
-    static const osg::BitVector ModeFieldMask;
     static const osg::BitVector DrawOrderFieldMask;
     static const osg::BitVector DynamicFieldMask;
+    static const osg::BitVector PumpFieldMask;
+    static const osg::BitVector BspFieldMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -144,16 +153,21 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+    inline       SFUInt32            *getSFMode           (void);
     inline       SFGeoPositionsPtr   *getSFPositions      (void);
     inline       MFVec3f             *getMFSizes          (void);
     inline       SFGeoPositionsPtr   *getSFSecPositions   (void);
     inline       SFGeoColorsPtr      *getSFColors         (void);
     inline       SFGeoNormalsPtr     *getSFNormals        (void);
+    inline       MFInt32             *getMFIndices        (void);
+    inline       MFReal32            *getMFTextureZs      (void);
     inline       SFMaterialPtr       *getSFMaterial       (void);
-    inline       SFUInt32            *getSFMode           (void);
     inline       SFUInt32            *getSFDrawOrder      (void);
     inline       SFBool              *getSFDynamic        (void);
+    inline       SFParticleBSPTree   *getSFBsp            (void);
 
+    inline       UInt32              &getMode           (void);
+    inline const UInt32              &getMode           (void) const;
     inline       GeoPositionsPtr     &getPositions      (void);
     inline const GeoPositionsPtr     &getPositions      (void) const;
     inline       GeoPositionsPtr     &getSecPositions   (void);
@@ -164,29 +178,36 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     inline const GeoNormalsPtr       &getNormals        (void) const;
     inline       MaterialPtr         &getMaterial       (void);
     inline const MaterialPtr         &getMaterial       (void) const;
-    inline       UInt32              &getMode           (void);
-    inline const UInt32              &getMode           (void) const;
     inline       UInt32              &getDrawOrder      (void);
     inline const UInt32              &getDrawOrder      (void) const;
     inline       Bool                &getDynamic        (void);
     inline const Bool                &getDynamic        (void) const;
+    inline       ParticleBSPTree     &getBsp            (void);
+    inline const ParticleBSPTree     &getBsp            (void) const;
     inline       Vec3f               &getSizes          (UInt32 index);
     inline       MFVec3f             &getSizes          (void);
     inline const MFVec3f             &getSizes          (void) const;
+    inline       Int32               &getIndices        (UInt32 index);
+    inline       MFInt32             &getIndices        (void);
+    inline const MFInt32             &getIndices        (void) const;
+    inline       Real32              &getTextureZs      (UInt32 index);
+    inline       MFReal32            &getTextureZs      (void);
+    inline const MFReal32            &getTextureZs      (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
+    inline void setMode           ( const UInt32 &value );
     inline void setPositions      ( const GeoPositionsPtr &value );
     inline void setSecPositions   ( const GeoPositionsPtr &value );
     inline void setColors         ( const GeoColorsPtr &value );
     inline void setNormals        ( const GeoNormalsPtr &value );
     inline void setMaterial       ( const MaterialPtr &value );
-    inline void setMode           ( const UInt32 &value );
     inline void setDrawOrder      ( const UInt32 &value );
     inline void setDynamic        ( const Bool &value );
+    inline void setBsp            ( const ParticleBSPTree &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -232,15 +253,18 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public NodeCore
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
+    SFUInt32            _sfMode;
     SFGeoPositionsPtr   _sfPositions;
     MFVec3f             _mfSizes;
     SFGeoPositionsPtr   _sfSecPositions;
     SFGeoColorsPtr      _sfColors;
     SFGeoNormalsPtr     _sfNormals;
+    MFInt32             _mfIndices;
+    MFReal32            _mfTextureZs;
     SFMaterialPtr       _sfMaterial;
-    SFUInt32            _sfMode;
     SFUInt32            _sfDrawOrder;
     SFBool              _sfDynamic;
+    SFParticleBSPTree   _sfBsp;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -312,6 +336,6 @@ typedef ParticlesBase *ParticlesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.2 2002/01/09 10:41:59 dirk Exp $"
+#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.3 2002/01/10 21:14:10 dirk Exp $"
 
 #endif /* _OSGPARTICLESBASE_H_ */

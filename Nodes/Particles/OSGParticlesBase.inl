@@ -93,6 +93,12 @@ inline ParticlesPtr ParticlesBase::createEmpty(void)
 /*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
+SFUInt32 *ParticlesBase::getSFMode(void)
+{
+    return &_sfMode;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
 SFGeoPositionsPtr *ParticlesBase::getSFPositions(void)
 {
     return &_sfPositions;
@@ -123,21 +129,21 @@ SFGeoNormalsPtr *ParticlesBase::getSFNormals(void)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
+MFInt32 *ParticlesBase::getMFIndices(void)
+{
+    return &_mfIndices;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+MFReal32 *ParticlesBase::getMFTextureZs(void)
+{
+    return &_mfTextureZs;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
 SFMaterialPtr *ParticlesBase::getSFMaterial(void)
 {
     return &_sfMaterial;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-SFUInt32 *ParticlesBase::getSFPump(void)
-{
-    return &_sfPump;
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-SFUInt32 *ParticlesBase::getSFMode(void)
-{
-    return &_sfMode;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
@@ -152,6 +158,36 @@ SFBool *ParticlesBase::getSFDynamic(void)
     return &_sfDynamic;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+SFUInt32 *ParticlesBase::getSFPump(void)
+{
+    return &_sfPump;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFParticleBSPTree *ParticlesBase::getSFBsp(void)
+{
+    return &_sfBsp;
+}
+
+
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &ParticlesBase::getMode(void)
+{
+    return _sfMode.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const UInt32 &ParticlesBase::getMode(void) const
+{
+    return _sfMode.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void ParticlesBase::setMode(const UInt32 &value)
+{
+    _sfMode.setValue(value);
+}
 
 OSG_SYSTEMLIB_DLLMAPPING
 GeoPositionsPtr &ParticlesBase::getPositions(void)
@@ -244,42 +280,6 @@ void ParticlesBase::setMaterial(const MaterialPtr &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-UInt32 &ParticlesBase::getPump(void)
-{
-    return _sfPump.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const UInt32 &ParticlesBase::getPump(void) const
-{
-    return _sfPump.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void ParticlesBase::setPump(const UInt32 &value)
-{
-    _sfPump.setValue(value);
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-UInt32 &ParticlesBase::getMode(void)
-{
-    return _sfMode.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-const UInt32 &ParticlesBase::getMode(void) const
-{
-    return _sfMode.getValue();
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
-void ParticlesBase::setMode(const UInt32 &value)
-{
-    _sfMode.setValue(value);
-}
-
-OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &ParticlesBase::getDrawOrder(void)
 {
     return _sfDrawOrder.getValue();
@@ -315,6 +315,42 @@ void ParticlesBase::setDynamic(const Bool &value)
     _sfDynamic.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &ParticlesBase::getPump(void)
+{
+    return _sfPump.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const UInt32 &ParticlesBase::getPump(void) const
+{
+    return _sfPump.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void ParticlesBase::setPump(const UInt32 &value)
+{
+    _sfPump.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+ParticleBSPTree &ParticlesBase::getBsp(void)
+{
+    return _sfBsp.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const ParticleBSPTree &ParticlesBase::getBsp(void) const
+{
+    return _sfBsp.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void ParticlesBase::setBsp(const ParticleBSPTree &value)
+{
+    _sfBsp.setValue(value);
+}
+
 
 OSG_SYSTEMLIB_DLLMAPPING
 Vec3f &ParticlesBase::getSizes(UInt32 index)
@@ -332,8 +368,40 @@ const MFVec3f &ParticlesBase::getSizes(void) const
     return _mfSizes;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+Int32 &ParticlesBase::getIndices(UInt32 index)
+{
+    return _mfIndices.getValue( index );
+}
+
+MFInt32 &ParticlesBase::getIndices(void)
+{
+    return _mfIndices;
+}
+
+const MFInt32 &ParticlesBase::getIndices(void) const
+{
+    return _mfIndices;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Real32 &ParticlesBase::getTextureZs(UInt32 index)
+{
+    return _mfTextureZs.getValue( index );
+}
+
+MFReal32 &ParticlesBase::getTextureZs(void)
+{
+    return _mfTextureZs;
+}
+
+const MFReal32 &ParticlesBase::getTextureZs(void) const
+{
+    return _mfTextureZs;
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.2 2002/01/09 10:41:59 dirk Exp $"
+#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: OSGParticlesBase.inl,v 1.3 2002/01/10 21:14:10 dirk Exp $"
 

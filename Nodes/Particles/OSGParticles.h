@@ -129,7 +129,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
     /*! \name                Particles Specific                            */
     /*! \{                                                                 */
 
-    Int32 *calcIndex(DrawActionBase *action, NodePtr actnode);
+    Int32 *calcIndex(DrawActionBase *action, UInt32 &len, 
+                     Int32 *index = NULL);
 
     /*! \}                                                                 */
    
@@ -153,6 +154,6 @@ OSG_END_NAMESPACE
 #include <OSGParticles.inl>
 #include <OSGParticlesBase.inl>
 
-#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.2 2002/01/09 10:41:59 dirk Exp $"
+#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.3 2002/01/10 21:14:10 dirk Exp $"
 
 #endif /* _OSGPARTICLES_H_ */
