@@ -169,7 +169,7 @@ SceneFileType * SceneFileHandler::getFileType ( const char *fileName )
 //s:
 //
 //------------------------------
-NodePtr SceneFileHandler::read (const char *fileName )
+NodePtr SceneFileHandler::read(const char *fileName,  UInt32 uiOptions)
 {
 	SceneFileType *type = getFileType(fileName);
 	NodePtr node = NullNode;
