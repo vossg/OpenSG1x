@@ -6,8 +6,6 @@
 #include <iostream.h>
 #endif
 
-#include<ctype.h>
-
 #include <GL/glut.h>
 
 #include <OSGFieldContainerFactory.h>
@@ -32,16 +30,13 @@
 
 #include "OSGViewport.h"
 #include "OSGCamera.h"
-#include "OSGTileCameraDecorator.h"
 #include "OSGWindow.h"
 #include "OSGGLUTWindow.h"
 #include "OSGCamera.h"
 #include "OSGPerspectiveCamera.h"
-#include "OSGBackground.h"
-#include "OSGSkyBackground.h"
 #include "OSGSolidBackground.h"
 
-#include <OSGOSGWriter.h>
+#include "OSGGrabForeground.h"
 
 #include "OSGTrackball.h"
 
@@ -53,10 +48,10 @@ NodePtr  root;
 
 NodePtr  file;
 
+Image *image;
+
 PerspectiveCameraPtr cam;
-int nhviewports = 2, nvviewports = 2;
-ViewportPtr *vp;
-TileCameraDecoratorPtr *deco;
+ViewportPtr vp;
 WindowPtr win;
 
 TransformPtr cam_trans;
@@ -66,7 +61,7 @@ Trackball tball;
 int mouseb = 0;
 int lastx=0, lasty=0;
 
-void 
+void
 display(void)
 {
     Matrix m1, m2, m3;
@@ -77,7 +72,7 @@ display(void)
     q1.setValue(m3);
 
     m1.setRotate(q1);
-    
+
 //    cout << "TBROT" << endl << tball.getRotation() << endl;
 //    cout << "M3" << endl << m3 << endl;
 //    cout << "Q1" << endl << q1 << endl;
@@ -85,8 +80,9 @@ display(void)
 
 //  m1.setRotate( tball.getRotation() );
     m2.setTranslate( tball.getPosition() );
-    
-//cout << "Pos: " << tball.getPosition() << ", Rot: " << tball.getRotation() << endl;
+
+//cout << "Pos: " << tball.getPosition() << ", Rot: "
+// << tball.getRotation() << endl;
 
 //    cout << tball.getRotation() << endl;
 
@@ -114,9 +110,9 @@ animate(void)
 
 void
 motion(int x, int y)
-{   
+{
     Real32 w = win->getWidth(), h = win->getHeight();
-    
+
 
     Real32  a = -2. * ( lastx / w - .5 ),
                 b = -2. * ( .5 - lasty / h ),
@@ -125,15 +121,15 @@ motion(int x, int y)
 
     if ( mouseb & ( 1 << GLUT_LEFT_BUTTON ) )
     {
-        tball.updateRotation( a, b, c, d );     
+        tball.updateRotation( a, b, c, d );
     }
     else if ( mouseb & ( 1 << GLUT_MIDDLE_BUTTON ) )
     {
-        tball.updatePosition( a, b, c, d );     
+        tball.updatePosition( a, b, c, d );
     }
     else if ( mouseb & ( 1 << GLUT_RIGHT_BUTTON ) )
     {
-        tball.updatePositionNeg( a, b, c, d );  
+        tball.updatePositionNeg( a, b, c, d );
     }
     lastx = x;
     lasty = y;
@@ -149,7 +145,7 @@ mouse(int button, int state, int x, int y)
         case GLUT_LEFT_BUTTON:  break;
         case GLUT_MIDDLE_BUTTON:tball.setAutoPosition(true);
                                 break;
-        case GLUT_RIGHT_BUTTON:     tball.setAutoPositionNeg(true);
+        case GLUT_RIGHT_BUTTON: tball.setAutoPositionNeg(true);
                                 break;
         }
         mouseb |= 1 << button;
@@ -161,9 +157,9 @@ mouse(int button, int state, int x, int y)
         case GLUT_LEFT_BUTTON:  break;
         case GLUT_MIDDLE_BUTTON:tball.setAutoPosition(false);
                                 break;
-        case GLUT_RIGHT_BUTTON:     tball.setAutoPositionNeg(false);
+        case GLUT_RIGHT_BUTTON: tball.setAutoPositionNeg(false);
                                 break;
-        }       
+        }
         mouseb &= ~(1 << button);
     }
     lastx = x;
@@ -173,36 +169,48 @@ mouse(int button, int state, int x, int y)
 void
 vis(int visible)
 {
-    if (visible == GLUT_VISIBLE) 
+    if (visible == GLUT_VISIBLE)
     {
         glutIdleFunc(animate);
-    } 
-    else 
+    }
+    else
     {
         glutIdleFunc(NULL);
     }
 }
 
-void key(unsigned char key, int , int )
+void key(unsigned char key, int x, int y)
 {
     switch ( key )
     {
-    case 27:    osgExit(); exit(0);
-    case 'a':   glDisable( GL_LIGHTING );
-                cerr << "Lighting disabled." << endl;
-                break;
-    case 's':   glEnable( GL_LIGHTING );
-                cerr << "Lighting enabled." << endl;
-                break;
-    case 'z':   glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-                cerr << "PolygonMode: Point." << endl;
-                break;
-    case 'x':   glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-                cerr << "PolygonMode: Line." << endl;
-                break;
-    case 'c':   glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-                cerr << "PolygonMode: Fill." << endl;
-                break;
+        case 27:    osgExit(); exit(0);
+        case 'a':   glDisable( GL_LIGHTING );
+            cerr << "Lighting disabled." << endl;
+            break;
+        case 's':   glEnable( GL_LIGHTING );
+            cerr << "Lighting enabled." << endl;
+            break;
+        case 'z':   glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
+            cerr << "PolygonMode: Point." << endl;
+            break;
+        case 'x':   glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
+            cerr << "PolygonMode: Line." << endl;
+            break;
+        case 'c':   glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+            cerr << "PolygonMode: Fill." << endl;
+            break;
+        case 'r':   
+            {
+            cerr << "Sending ray through " << x << "," << y << endl;
+            Line l;
+            cam->calcViewRay( l, x, y, *vp );
+            cerr << "From " << l.getPosition() << ", dir " 
+                 << l.getDirection() << endl;
+            }
+            break;
+        case 'S':   cerr << "Saving Image" << endl;
+            image->write("test.ppm");
+            break;
     }
 }
 
@@ -219,30 +227,14 @@ int main (int argc, char **argv)
     glutKeyboardFunc(key);
     glutVisibilityFunc(vis);
     glutReshapeFunc(reshape);
-    glutDisplayFunc(display);       
-    glutMouseFunc(mouse);   
-    glutMotionFunc(motion); 
-    
-    glutIdleFunc(display);  
+    glutDisplayFunc(display);
+    glutMouseFunc(mouse);
+    glutMotionFunc(motion);
 
+    glutIdleFunc(display);
 
-    if ( argc > 1 && isdigit(argv[1][0]) )
-    {
-        nhviewports = atoi( argv[1] );
-        argv++;
-        argc--;
-    }
-    if ( argc > 1 && isdigit(argv[1][0]) )
-    {
-        nvviewports = atoi( argv[1] );
-        argv++;
-        argc--;
-    }
-    else
-        nvviewports = nhviewports;
-        
     // glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-    
+
     glEnable( GL_DEPTH_TEST );
     glEnable( GL_LIGHTING );
     glEnable( GL_LIGHT0 );
@@ -253,7 +245,7 @@ int main (int argc, char **argv)
 
     // create the graph
 
-    // beacon for camera and light  
+    // beacon for camera and light
     NodePtr b1n = Node::create();
     GroupPtr b1 = Group::create();
     beginEditCP(b1n);
@@ -271,14 +263,14 @@ int main (int argc, char **argv)
     cam_trans = t1;
 
     // light
-    
+
     NodePtr dlight = Node::create();
     DirectionalLightPtr dl = DirectionalLight::create();
 
     beginEditCP(dlight);
     dlight->setCore( dl );
     endEditCP(dlight);
-    
+
     beginEditCP(dl);
     dl->setAmbient( .3, .3, .3, 1 );
     dl->setDiffuse( 1, 1, 1, 1 );
@@ -298,22 +290,21 @@ int main (int argc, char **argv)
     // Load the file
 
     NodePtr file = NullFC;
-    
+
     if ( argc > 1 )
         file = SceneFileHandler::the().read(argv[1]);
-    
+
     if ( file == NullFC )
     {
         cerr << "Couldn't load file, ignoring" << endl;
         file = makeTorus( .5, 2, 16, 16 );
-        file = makeBox( 1,1,1, 1,1,1 );
     }
-    
+
     file->updateVolume();
 
     Vec3f min,max;
     file->getVolume().getBounds( min, max );
-    
+
     cout << "Volume: from " << min << " to " << max << endl;
 
     beginEditCP(dlight);
@@ -321,32 +312,35 @@ int main (int argc, char **argv)
     endEditCP(dlight);
 
     cerr << "Tree: " << endl;
-    root->dump();
+//  root->dump();
 
     // Camera
-    
+
     cam = PerspectiveCamera::create();
     cam->setBeacon( b1n );
     cam->setFov( deg2rad( 90 ) );
     cam->setNear( 0.1 );
-    cam->setFar( 100 );
+    cam->setFar( 10000 );
 
     // Background
-#if 1 // doesn't work right now
-    SkyBackgroundPtr sbkgnd = SkyBackground::create();
+    SolidBackgroundPtr bkgnd = SolidBackground::create();
 
+    // Foreground
+    GrabForegroundPtr fgnd = GrabForeground::create();
 
-    sbkgnd->getMFSkyColor()->addValue(Color3f(1, 0, 0));
-    sbkgnd->getMFSkyAngle()->addValue(Pi / 2);
-    sbkgnd->getMFSkyColor()->addValue(Color3f(0, 1, 0));
-    sbkgnd->getMFSkyAngle()->addValue(Pi);
-    sbkgnd->getMFSkyColor()->addValue(Color3f(0, 0, 1)); 
+    image = new Image(Image::OSG_RGB_PF,1);
 
-#else
-    SolidBackgroundPtr sbkgnd = SolidBackground::create();
-    sbkgnd->setColor( Color3f(.5, .5, 1) );
-#endif
-    
+    fgnd->setImage(image);
+
+    // Viewport
+
+    vp = Viewport::create();
+    vp->setCamera( cam );
+    vp->setBackground( bkgnd );
+    vp->getForegrounds().addValue( fgnd );
+    vp->setRoot( root );
+    vp->setSize( 0,0, 1,1 );
+
     // Window
     cout << "GLUT winid: " << winid << endl;
 
@@ -361,59 +355,14 @@ int main (int argc, char **argv)
 
     win = gwin;
 
-    // Viewports & Decorators
-
-    vp = new ViewportPtr [ nhviewports * nvviewports ];
-    deco = new TileCameraDecoratorPtr [ nhviewports * nvviewports ];
-    
-    for ( int i = 0; i < nhviewports; i++ )
-    {
-        for ( int j = 0; j < nvviewports; j++ )
-        {
-            int ind = i * nvviewports + j;
-            vp[ind] = Viewport::create();
-            vp[ind]->setBackground( sbkgnd );
-            vp[ind]->setRoot( root );
-            vp[ind]->setSize(   1./nhviewports * i,1./nvviewports * j, 
-                                1./nhviewports * (i+1),1./nvviewports * (j+1) );
-
-            deco[ind] = TileCameraDecorator::create();
-            deco[ind]->setCamera( cam );
-            deco[ind]->setSize( 1./nhviewports * i,1./nvviewports * j, 
-                                1./nhviewports * (i+1),1./nvviewports * (j+1) );
-
-            deco[ind]->setFullSize( 800, 800 );
-
-            vp[ind]->setCamera( deco[ind] );
-            // for debugging: vp[ind]->setCamera( cam );
-
-            win->addPort( vp[ind] );
-        }
-    }
+    win->addPort( vp );
 
     win->init();
 
-#if 0
-    // Test write, to check generic access
-    
-    ofstream outFileStream( "test.osg" );
-    if( !outFileStream )
-    {
-        cerr << "Can not open output stream to file" << endl;
-        return -1;
-    }
-
-    OSGWriter writer( outFileStream, 4 );
-    writer.write( win );
- 
-    
-#endif
-    
     // Action
-    
+
     ract = DrawAction::create();
-    ract->setFrustumCulling( false );
-    
+
     // tball
 
     Vec3f pos( 0, 0, max[2] + ( max[2] - min[2] ) * 1.5 );
@@ -424,9 +373,12 @@ int main (int argc, char **argv)
     tball.setTranslationMode( Trackball::OSGFree );
 
     // run...
-    
+
     glutMainLoop();
-    
+
     return 0;
 }
+
+
+
 
