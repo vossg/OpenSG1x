@@ -2,7 +2,16 @@
 ChangeLog for OpenSG
 ====================
 
-1.1.0 - 2002/07/01
+1.2.0 - 2002/xx/xx
+
+ADDED:
+
+CHANGED:
+
+REMOVED:
+
+
+1.1.0 - 2002/07/03
 
 ADDED: (a lot, only highlights given here)
     Support for: MS .NET (yeah!), icc6 (including workspaces for VS6/7), 
