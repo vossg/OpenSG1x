@@ -150,6 +150,14 @@ void addPostMPExitFunction(ExitFuncF exitFunc)
 /*! \ingroup GrpBaseBaseInitExit
  */
 
+static void osgExitWrapper(void)
+{
+    osgExit();
+}
+
+/*! \ingroup GrpBaseBaseInitExit
+ */
+
 bool osgInit(Int32, Char8 **)
 {
     UInt32 i;
@@ -198,6 +206,8 @@ bool osgInit(Int32, Char8 **)
 
     GlobalSystemState = Running;
 
+    atexit(osgExitWrapper);
+    
     return returnValue;
 }
 
@@ -208,6 +218,9 @@ bool osgExit(void)
 {
     bool returnValue = true;
 
+    if(GlobalSystemState != Running)
+        return true;
+        
     GlobalSystemState = Shutdown;
 
 #ifdef OSG_GV_BETA
