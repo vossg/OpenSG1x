@@ -715,7 +715,7 @@ dnl e2
             ac_gdz_package_check_dir_e2=$ac_gdz_src_dir/$dir            
 
             if test -d $ac_gdz_package_check_dir_e2; then
-                ac_gdz_package_inc_dep_out_files=$ac_gdz_package_inc_dep_out_files' $('${ac_gdz_project_praefix}'POOL)'/$dir/common.mk
+                ac_gdz_package_inc_dep_out_files=$ac_gdz_package_inc_dep_out_files' $('${ac_gdz_project_praefix}'POOL)'/Source/$dir/common.mk
             else
                 ac_gdz_package_check_file_e2=$ac_gdz_commonpackage_dir/common$dir.mk
 
@@ -726,7 +726,7 @@ dnl e2
                         ac_gdz_package_link_dep_out="$ac_gdz_package_link_dep_out $dir"
                     fi
                 else
-                    ac_gdz_package_inc_dep_out_files=$ac_gdz_package_inc_dep_out_files' $('${ac_gdz_project_praefix}'POOL)'/$dir/common.mk
+                    ac_gdz_package_inc_dep_out_files=$ac_gdz_package_inc_dep_out_files' $('${ac_gdz_project_praefix}'POOL)'/Source/$dir/common.mk
                 fi
             fi
         done
@@ -791,48 +791,6 @@ dnl e2
         ac_gdz_common_packet_make=${ac_gdz_package_dir}/Makefile
         ac_gdz_common_packet_testmake=${ac_gdz_package_test_dir}/Makefile
 
-        eval ac_gdz_package_fact_init=\${ac_gdz_package_fact_init_${ac_gdz_package_name}}
-
-        if test ${ac_gdz_package_fact_init} = "1"; then
-
-            case $build_os in
-
-                cygwin*)
-                    ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGDllInit.cpp.in
-                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGDllInit.cpp
-                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
-                    ac_gdz_package_so_needs_init_e2=1
-                ;;
-                linux-gnu*)
-                    ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
-                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
-                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
-                    ac_gdz_package_so_needs_init_e2=0
-                ;;
-                darwin*)
-                    ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
-                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
-                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
-                    ac_gdz_package_so_needs_init_e2=0
-                ;;
-                solaris*)
-                    ac_gdz_common_init_code_i_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
-                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
-                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
-                    ac_gdz_package_so_needs_init_e2=0
-                ;;
-                *)
-                    ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
-                    ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
-                    ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
-                    ac_gdz_package_so_needs_init_e2=1
-                ;;
-            esac
-        else
-            ac_gdz_common_init_code_files_e2=
-            ac_gdz_package_so_needs_init_e2=0
-        fi
-
         ac_gdz_common_mk_in_e2=${ac_gdz_commonconf_dir}/common.mk.in
         ac_gdz_common_mk_out_e2=${ac_gdz_package_dir}/common.mk
         ac_gdz_common_mk_files_e2="$ac_gdz_common_mk_out_e2:$ac_gdz_common_mk_in_e2"
@@ -853,10 +811,10 @@ dnl e2
         
             if test -n "$p2"; then
                 if test $build_os = $p2; then
-                    ac_gdz_vpath_out=$ac_gdz_vpath_out:'$('${ac_gdz_project_praefix}'POOL)'/$p1
+                    ac_gdz_vpath_out=$ac_gdz_vpath_out:'$('${ac_gdz_project_praefix}'POOL)'/Source/$p1
                 fi
             else
-                ac_gdz_vpath_out=$ac_gdz_vpath_out:'$('${ac_gdz_project_praefix}'POOL)'/$p1
+                ac_gdz_vpath_out=$ac_gdz_vpath_out:'$('${ac_gdz_project_praefix}'POOL)'/Source/$p1
             fi
 
         done
@@ -897,8 +855,6 @@ dnl e2
         AC_SUBST(ac_gdz_vpath_out)
         AC_SUBST(ac_gdz_project_praefix)
 
-        AC_SUBST(ac_gdz_package_so_needs_init_e2)
-
         AC_SUBST(ac_gdz_package_def_e2)
 
         AC_SUBST(ac_gdz_package_test_debug_libs_e2)        
@@ -907,7 +863,6 @@ dnl e2
 
         AC_OUTPUT([$ac_gdz_common_packet_make:$ac_gdz_common_packetmake_in
                    $ac_gdz_common_packet_testmake:$ac_gdz_common_testmake_in
-                   $ac_gdz_common_init_code_files_e2 
                    $ac_gdz_common_mk_files_e2])
 
     done

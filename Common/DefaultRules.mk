@@ -22,12 +22,12 @@ endif
 
 ifeq ($(OS_BASE), cygwin)
 ifeq ($(OS_CMPLR),g++)
-BD := $(OSGPOOL)
+BD := $(OSGPOOL)/Source
 else
-BD := $(shell cygpath -w $(OSGPOOL))
+BD := $(shell cygpath -w $(OSGPOOL)/Source)
 endif
 else
-BD := $(OSGPOOL)
+BD := $(OSGPOOL)/Source
 endif
 
 export BD

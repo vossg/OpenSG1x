@@ -34,8 +34,6 @@ IN_TEST_DIR := 0
 
 PACKAGE_NAME := @ac_gdz_package_name_out@
 
-SO_NEEDS_INIT := @ac_gdz_package_so_needs_init_e2@
-
 include $(@ac_gdz_project_praefix@POOL)/$(@ac_gdz_project_praefix@COMMON)/commonBuildDetect.mk
 include $(@ac_gdz_project_praefix@POOL)/$(@ac_gdz_project_praefix@COMMON)/@ac_gdz_package_sys_common_out@
 include $(@ac_gdz_project_praefix@POOL)/$(@ac_gdz_project_praefix@COMMON)/commonSub.mk

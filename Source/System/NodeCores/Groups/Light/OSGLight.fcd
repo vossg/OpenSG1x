@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="Light"
+	parent="NodeCore"
+	library="System"
+	pointerfieldtypes="none"
+	structure="abstract"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+	<Field
+		name="ambient"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,0,1"
+		access="public"
+	>
+	The light's ambient component.
+	</Field>
+	<Field
+		name="diffuse"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1,1,1,1"
+		access="public"
+	>
+	The light's diffuse color.
+	</Field>
+	<Field
+		name="specular"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1,1,1,1"
+		access="public"
+	>
+	The light's specular color.
+	</Field>
+	<Field
+		name="beacon"
+		type="NodePtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="on"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="constantAttenuation"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+		access="public"
+	>
+	The light's constant attenuation.
+	</Field>
+	<Field
+		name="linearAttenuation"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	The light's linear attenuation.
+	</Field>
+	<Field
+		name="quadraticAttenuation"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	The light's quadratic attenuation.
+	</Field>
+</FieldContainer>

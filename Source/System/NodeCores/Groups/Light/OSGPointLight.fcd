@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="PointLight"
+	parent="Light"
+	library="System"
+	structure="concrete"
+	pointerfieldtypes="none"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+	<Field
+		name="position"
+		type="Pnt3f"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+</FieldContainer>
