@@ -1,0 +1,201 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
+#ifndef _BINARYDATAHANDLER_H_
+#define _BINARYDATAHANDLER_H_
+#ifdef __sgi
+#pragma once
+#endif
+
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <OSGBase.h>
+#include <OSGBaseTypes.h>
+#include <OSGException.h>
+
+#include <vector>
+#include <list>
+#include <string>
+
+OSG_BEGIN_NAMESPACE
+
+/* Data handler for copyToBin, copyFromBin implemented in SField and SField
+ *
+ * @author Marcus Roth, jbehr, Fri Sep 14 09:53:26 CEST 2001
+ */
+
+class OSG_BASE_DLLMAPPING BinaryDataHandler 
+{
+    /*==========================  PUBLIC  =================================*/
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Exceptions                                 */
+    /*! \{                                                                 */
+
+    struct ReadError : public Exception 
+    {
+        ReadError(const string &reson);
+    };
+    
+    struct WriteError : public Exception 
+    {
+        WriteError(const string &reson);
+    };
+ 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    BinaryDataHandler(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~BinaryDataHandler(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Class Specific                             */
+    /*! \{                                                                 */
+
+    void put       (      void const   *src, UInt32 size);
+    void putAndFree(      MemoryHandle  src, UInt32 size);
+
+    void putUInt8  (const UInt8        &value);
+    void putUInt32 (const UInt32       &value);
+    void putString (const string       &value);
+
+    void get        (     void         *dst, UInt32 size);
+    void getAndAlloc(     MemoryHandle &src, UInt32 size);
+
+    void getUInt8   (     UInt8        &value);
+    void getUInt32  (     UInt32       &value);
+    void getString  (     string       &value);
+
+    void flush      (     void               );
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    struct MemoryBlock 
+    {
+        MemoryBlock(MemoryHandle m, UInt32 s);
+
+        MemoryHandle  mem;
+        UInt32        size;
+        UInt32        dataSize;
+    };
+
+    typedef vector<MemoryBlock>  BuffersT;
+
+    typedef list  <MemoryHandle> FreeMemT;
+    
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Instance Variables                         */
+    /*! \{                                                                 */
+
+    BuffersT _buffers;
+    BuffersT _zeroCopyBuffers;
+    UInt32   _zeroCopyThreshold;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Class Specific                             */
+    /*! \{                                                                 */
+
+            void               reset(void                                   );
+    virtual void               read (MemoryHandle       mem     , Int32 size);
+    virtual BuffersT::iterator read (void                                   );
+    virtual void               write(MemoryHandle       mem     , Int32 size);
+    virtual void               write(BuffersT::iterator writeEnd            );
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Class Specific                             */
+    /*! \{                                                                 */
+
+    FreeMemT           _freeMem;
+    BuffersT::iterator _currentReadBuffer;
+    UInt32             _currentReadBufferPos;
+    BuffersT::iterator _currentWriteBuffer;
+    BuffersT::iterator _readBufferEnd;
+
+    void pushBuffer(void);
+    void pullBuffer(void);
+    void freeMem   (void);
+
+	// prohibit default functions (move to 'public' if you need one)
+    BinaryDataHandler(const BinaryDataHandler &source);
+    void operator =(const BinaryDataHandler &source);
+
+    /*! \}                                                                 */
+};
+
+//---------------------------------------------------------------------------
+//   Exported Types
+//---------------------------------------------------------------------------
+
+// class pointer
+
+typedef BinaryDataHandler *BinaryDataHandlerP;
+
+OSG_END_NAMESPACE
+
+#include "OSGBinaryDataHandler.inl"
+
+#define OSGBINARYDATAHANDLER_HEADER_CVSID "@(#)$Id: $"
+
+#endif /* _BINARYDATAHANDLER_H_ */
