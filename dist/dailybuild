@@ -146,7 +146,7 @@ EOF
     # This used to be done in the shell, but it just took too long,
     # especially on Windows.
     
-    $tmpdir/analyze_log.pl $log $errfile $warnfile > $file
+    perl $tmpdir/analyze_log.pl $log $errfile $warnfile >> $file
  
     cat << EOF >> $file
 </table>
@@ -175,6 +175,8 @@ checkerror ()
     $grep -v \
     	-e "WIN32Window::init: failed" \
     	-e "WIN32Window::activate: failed" \
+    	-e "inling failed in" \
+    	-e "failed in call to" \
 	>> $log_errors || true
     
     # remove the expected warnings
@@ -225,9 +227,9 @@ tmpdir=/tmp
 basedir=`pwd`
 
 # Init perl script for log analysis
-# Need this in this script, as it might be needed before CVS worked
+# Need it in this script, as it might be needed before CVS worked
 
-cat << EOF > $tmpdir/analyze_log.pl
+cat > ${tmpdir}/analyze_log.pl << \EOF
 #!/bin/perl
 
 $logfile=$ARGV[0];
@@ -461,11 +463,12 @@ case $system in
 	export PATH=/igd/a4/software/IRIX/bin/:$PATH
         loginfo="OS: `/bin/uname -aR` <br>"
         loginfo="$loginfo Compiler Version: `CC -version 2>&1` <br>"
-	;;
+	has_doxygen=0
+        ;;
 
     hppa2.0w-hp* )	
         	
-	qt_dir="/igd/a4/software/HP-UX"
+	qt_dir="/igd/a4/software/HP-UX/packages/qt-x11-free-3.2.0b1"
 	qt_args=${qt_args:="--with-qt=${qt_dir}"}
 	glut_args=${glut_args:="--with-glut --with-glutincludedir=/opt/graphics/OpenGL/contrib/libglut --with-glutlibdir=/opt/graphics/OpenGL/contrib/libglut"}
 	tif_args=${tif_args:="--with-tif=/igd/a4/software/HP-UX/"}
@@ -529,6 +532,8 @@ case $system in
     	glut_args=${glut_args:="--with-glut"}
 	tif_args=${tif_args:="--with-tif"}
 	jpeg_args=${jpeg_args:="--with-jpeg"}
+	qt_dir="/opt"
+	qt_args=${qt_args:="--with-qt=${qt_dir}"}
  	png_args=${png_args:="--with-png"}
     	par_jobs=${par_jobs:=2}
 	compiler=${compiler:=g++}
@@ -569,6 +574,10 @@ jpeg_args=${jpeg_args:=""}
 png_args=${png_args:=""}
 par_jobs=${par_jobs:=1}
 
+# Add QT dir to PATH & LD_LIBRARY_PATH
+export PATH="${qt_dir}/bin:$PATH"
+export LD_LIBRARY_PATH="${qt_dir}/lib:$LD_LIBRARY_PATH"
+
 # Start output
 # do it here so that $compiler and $system are set
 
@@ -608,13 +617,17 @@ checkerror "Configure" $log_configure
 
 # start making the doc
 # takes forever, do it in parallel
-
 if type doxygen > /dev/null 2>&1
 then
-	has_doxygen=1
+    if type latex > /dev/null 2>&1
+    then
+	    has_doxygen=${has_doxygen:=1}
+    fi
+fi
+
+if test $has_doxygen = 1;
+then
 	( rm -f $doc_flag ; $make alldocs 1>$log_doc 2>&1 ; touch $doc_flag ) &
-else
-	has_doxygen=0
 fi
 
 # make the libs
@@ -631,12 +644,23 @@ checkerror "OptLibs" $log_make
 # locally install the libs
 
 $make install > $log_install 2>&1
-export LD_LIBRARY_PATH=`pwd`/lib/dbg:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="`pwd`/lib/dbg:$LD_LIBRARY_PATH"
 
 checkerror "Install" $log_install
 
 # create the snapshot
-tar cf - lib include | gzip -9f > $out_html.snapshot.tgz
+case $system in
+
+    *-pc-cygwin )	
+                        make dsp
+                        make dsp7
+                        tar cf - lib include -C ../.. VSBuild | gzip -9f > $out_html.snapshot.tgz                       
+                        ;;
+
+    * )	
+                        tar cf - lib include | gzip -9f > $out_html.snapshot.tgz
+                        ;;
+esac
 
 
 # make and run the tests that have gold test results
