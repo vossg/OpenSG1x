@@ -208,7 +208,7 @@ void ShadowMapViewport::changed(BitVector whichField, UInt32 origin)
         FDEBUG(("ShadowMapViewport::changed : light nodes changed.\n"));
         _lights.clear();
         for(UInt32 i=0;i<getLightNodes().getSize();++i)
-            _lights.push_back(LightPtr::dcast(getLightNodes().getValue(i)->getCore()));
+            _lights.push_back(LightPtr::dcast(getLightNodes()[i]->getCore()));
     }
 
     Inherited::changed(whichField, origin);
@@ -495,7 +495,7 @@ void ShadowMapViewport::updateLights(void)
                 isSpot = true;
                 isDirect = false;
 
-                Vec3f lightpos = tmpSpot->getPosition();
+                Pnt3f lightpos = tmpSpot->getPosition();
                 Vec3f lightdir = tmpSpot->getDirection();
                 if(tmpSpot->getBeacon() != NullFC)
                 {
@@ -1010,7 +1010,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.5 2004/08/12 17:16:14 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.6 2004/08/13 02:26:13 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 
