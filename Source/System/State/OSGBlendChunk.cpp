@@ -126,7 +126,7 @@ BlendChunk::BlendChunk(void) :
     _funcBlendColor       = Window::registerFunction(
           OSG_DLSYM_UNDERSCORE"glBlendColorEXT",        _extBlend);
     _funcBlendEquation    = Window::registerFunction(
-          OSG_DLSYM_UNDERSCORE"glBlendEquation");
+          OSG_DLSYM_UNDERSCORE"glBlendEquation",        _extImaging);
     _funcBlendEquationExt = Window::registerFunction(
           OSG_DLSYM_UNDERSCORE"glBlendEquationEXT",     _extBlendLogicOp);
     _funcBlendFuncSeparateExt = Window::registerFunction(
