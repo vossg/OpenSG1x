@@ -942,9 +942,9 @@ ActorWriter::strcompare(const std::string            &string1,
                               std::string::size_type  n,
                         const char                   *string2)
 {
-#if defined(__linux) && defined(__GNUC__) && __GNUC__ >= 3
-    return string1.compare(pos, n, string2);
-#else
+#if defined(__linux) && defined(__GNUC__) && __GNUC__ < 3
     return string1.compare(string2, pos, n);
+#else
+    return string1.compare(pos, n, string2);
 #endif
 }
