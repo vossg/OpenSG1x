@@ -98,9 +98,15 @@ ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
     const char                                     separator = '.';
     int                                            i, l;
     std::ifstream                                  fin;
+    const char                                     *mtPrefix = "image/";
+    int                                            mtLen = strlen(mtPrefix);
 
     if(mimeType && *mimeType)
     {
+        if ( (strlen(mimeType) > mtLen) && 
+             !strncmp (mimeType, mtPrefix, mtLen) )
+            mimeType += mtLen;
+
         // check mime type
         for(sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); ++sI)
         {
