@@ -18,7 +18,13 @@ hello:                  The simplest OpenSG program. Just creates a torus.
 
 move:                   How to use transformations.
 
+refcount:               How to destroy objects, and how to prevent them from 
+                        being destroyed.
+
 share:                  Sharing the cores between different nodes.
+
+hiertransform:          Demonstrates the hierarchical accumulative effects of
+                        multiple transformations.
 
 geometry:               Simple non-indexed geometry node construction.
 
@@ -26,5 +32,27 @@ indexgeometry:          Using single indices for geometry.
 
 multiindexgeometry:     Using multiple indices for different attributes.
 
-loading:                Loading models
+materials:              Creating materials to specify the surface properties
+                        of the objects.
 
+traverse:               How to traverse the scenegraph and work on the nodes.
+
+loading:                Loading models.
+
+picking:                Using a ray test to select objects/faces.
+
+
+The directory contains a test image that can be passed to materials to be used
+as a texture: osg_power_trans.tif, which is the "Powered by OpenSG" logo
+image. 
+
+It also contains two little test models: a set of dolphins in OBJ
+format and a TIE fighter in VRML97 format. loading and picking can load them.
+
+The TIE fighter model was taken from the AC3D website (www.ac3d.org),
+which lists its origin as 'found on the web as VRML'. As it's been
+distributed as part of AC3D for quite a while now, we think that it's ok
+to use it as a simple test model.
+
+The dolphins were downloaded from 3D Cafe (www.3dcafe.com) and converted to
+OBJ offline. Visit them for a lot of other nice models.

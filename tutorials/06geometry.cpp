@@ -1,6 +1,9 @@
 // OpenSG Tutorial Example: Simple Geometry
 //
-// This example shows how to built a simple Geometry NodeCore
+// This example shows how to built a simple Geometry NodeCore.
+//
+// It also shows how to manipulate the geometry and what to watch out for. This
+// is done in the display() function.
 //
 
 // Headers
@@ -24,32 +27,15 @@ OSG_USING_NAMESPACE
 // The pointer to the transformation
 TransformPtr trans;
 
+// The pointer to the geometry core
+GeometryPtr geo;
+
 
 // The SimpleSceneManager to manage simple applications
 SimpleSceneManager *mgr;
 
 // forward declaration so we can have the interesting stuff upfront
 int setupGLUT( int *argc, char *argv[] );
-
-// redraw the window
-void display( void )
-{
-    // create the matrix
-    Matrix m;
-    Real32 t = glutGet(GLUT_ELAPSED_TIME );
-    
-    m.setTransform(Quaternion( Vec3f(0,1,0), 
-                               t / 1000.f));
-    
-    // set the transform's matrix
-    beginEditCP(trans, Transform::MatrixFieldMask);
-    {
-        trans->setMatrix(m);
-    }   
-    endEditCP  (trans, Transform::MatrixFieldMask);
-   
-    mgr->redraw();
-}
 
 // Initialize GLUT & OpenSG and set up the scene
 int main(int argc, char **argv)
@@ -153,7 +139,7 @@ int main(int argc, char **argv)
     /*
        Put it all together into a Geometry NodeCore.
     */
-    GeometryPtr geo=Geometry::create();
+    geo=Geometry::create();
     beginEditCP(geo, Geometry::TypesFieldMask     |
                      Geometry::LengthsFieldMask   |
                      Geometry::PositionsFieldMask |
@@ -210,6 +196,67 @@ int main(int argc, char **argv)
 //
 // GLUT callback functions
 //
+
+// redraw the window
+void display( void )
+{
+    // create the matrix
+    Matrix m;
+    Real32 t = glutGet(GLUT_ELAPSED_TIME );
+    
+    m.setTransform(Quaternion( Vec3f(0,1,0), 
+                               t / 1000.f));
+    
+    // set the transform's matrix
+    beginEditCP(trans, Transform::MatrixFieldMask);
+    {
+        trans->setMatrix(m);
+    }   
+    endEditCP  (trans, Transform::MatrixFieldMask);
+   
+    /*
+        Manipulate the geometry.
+        
+        The OpenSG geometry structure is pretty flexible.
+        
+        The disadvantage of all this flexibility is that it can be hard to
+        write generic tools, as pretty much all the used types can be one of a
+        number of variants.
+        
+        To simplify that, every kind of GeoProperty has a generic type, e.g.
+        the generic type for positions if Pnt3f, for colors it's Color3f.
+        
+        No matter the internal data representation looks like, all
+        GeoProperties have the generic interface. As does the abstract parent
+        class of every kind of property. Thus it's possible to access the data
+        of an arbitrary geometry using the generic interface.
+    */
+    
+    // note that this is the abstract parent class, it doesn't have a specific
+    // type
+    GeoPositionsPtr pos = geo->getPositions();
+    
+    beginEditCP(pos);
+    for(UInt32 i = 0; i < pos->getSize(); i++)
+    {
+        Pnt3f p;      
+        pos->getValue(p, i);
+        
+        p[0] += osgsin(t / 300) * p[1] / 100;
+        p[1] += osgsin(t / 300) * p[2] / 100;
+        p[2] += osgsin(t / 300) * p[0] / 100;
+        
+        pos->setValue(p, i);
+    }
+    endEditCP  (pos);
+    
+    // right now the geometry doesn't notice changes to the properties, it has
+    // to be notified explicitly
+    beginEditCP(geo, Geometry::PositionsFieldMask);
+    endEditCP  (geo, Geometry::PositionsFieldMask);
+    
+    mgr->redraw();
+}
 
 // react to size changes
 void reshape(int w, int h)
