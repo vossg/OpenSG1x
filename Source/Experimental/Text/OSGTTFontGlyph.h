@@ -8,7 +8,7 @@
 
 #include "OSGFontGlyph.h"
 
-#include "freetype/freetype.h"
+#include "freetype.h"
 
 OSG_BEGIN_NAMESPACE 
 
