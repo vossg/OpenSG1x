@@ -1,5 +1,9 @@
 #include <OSGGLUT.h>
 #include <OSGConfig.h>
+#include <OSGLog.h>
+
+#ifndef WIN32
+
 #include <OSGSimpleGeometry.h>
 #include <OSGPassiveWindow.h>
 #include <OSGSimpleSceneManager.h>
@@ -254,3 +258,13 @@ int main(int argc, char **argv)
 
     return 0;
 }
+#else
+
+/* */
+int main(int argc, char **argv)
+{
+    FFATAL(("Text doesn't work on Windows yet\n"));
+
+    return -1;
+}
+#endif
