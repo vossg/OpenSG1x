@@ -262,7 +262,7 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
             void (OSG_APIENTRY* deleteObject)(GLuint obj) =
             (void (OSG_APIENTRY*)(GLuint obj))
             win->getFunction(_funcDeleteObject);
-            
+
             deleteObject(_program);
         }
 
@@ -307,6 +307,7 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
                 Vec4f &val = getParamValues()[i];
                 uniform4fv(location, 1, val.getValues());
             }
+            useProgramObject(0);
         }
     }
     else
@@ -402,6 +403,8 @@ void SHLChunk::updateProgram(Window *win)
         
             FWARNING(("Couldn't compile vertex program!\n%s\n", debug));
             delete [] debug;
+            deleteObject(_vShader);
+            _vShader = 0;
         }
     }
 
@@ -426,6 +429,8 @@ void SHLChunk::updateProgram(Window *win)
         
             FWARNING(("Couldn't compile fragment program!\n%s\n", debug));
             delete [] debug;
+            deleteObject(_fShader);
+            _fShader = 0;
         }
     }
 
@@ -436,6 +441,7 @@ void SHLChunk::updateProgram(Window *win)
             attachObject(_program, _vShader);
             // just flagged for deletion
             deleteObject(_vShader);
+            _vShader = 0;
         }
 
         if(has_fragment)
@@ -443,6 +449,7 @@ void SHLChunk::updateProgram(Window *win)
             attachObject(_program, _fShader);
             // just flagged for deletion
             deleteObject(_fShader);
+            _fShader = 0;
         }
 
         linkProgram(_program);
@@ -455,7 +462,6 @@ void SHLChunk::updateProgram(Window *win)
             _program = 0;
             FWARNING(("Couldn't link vertex and fragment program!\n"));
         }
-        useProgramObject(_program);
     }
     else
     {
@@ -720,7 +726,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.4 2004/05/21 10:26:05 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.5 2004/05/21 13:47:50 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
