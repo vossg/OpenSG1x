@@ -56,31 +56,6 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \class osg::NullFieldContainerPtr
- */
-
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
-inline
-NullFieldContainerPtr::NullFieldContainerPtr(void) : 
-    Inherited()
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-inline
-NullFieldContainerPtr::~NullFieldContainerPtr(void)
-{
-}
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
 
 /*-------------------------------------------------------------------------*/
 /*                         Get Memory Locations                            */
@@ -721,6 +696,32 @@ ConstFieldContainerPtr::ConstFieldContainerPtr(
     Inherited(source, uiSize, uiParentEPos)
 {
 }
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \class osg::NullFieldContainerPtr
+ */
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+inline
+NullFieldContainerPtr::NullFieldContainerPtr(void) : 
+    Inherited()
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+inline
+NullFieldContainerPtr::~NullFieldContainerPtr(void)
+{
+}
+
 
 
 //---------------------------------------------------------------------------
