@@ -129,6 +129,11 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
     return returnValue;
 }
 
+UInt32 TypeFactory::getNumTypes(void)
+{
+    return _mTypeNameMap.size() + 1;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 

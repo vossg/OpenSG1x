@@ -71,8 +71,10 @@ class OSG_BASE_DLLMAPPING TypeFactory
     /*! \name                  Type Info                                   */
     /*! \{                                                                 */
 
-    UInt32 registerType  (      TypeBase *pType);
+    UInt32 registerType  (      TypeBase *pType );
     UInt32 findTypeStatic(const Char8    *szName);
+
+    UInt32 getNumTypes   (      void            );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
