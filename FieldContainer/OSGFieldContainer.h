@@ -288,12 +288,12 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
         
         pTmp += sizeof(Int32);
 
+        result._storeP = (pTmp + sizeof(UInt32));
+
         *((UInt32 *) pTmp) = 
             FieldContainerFactory::the()->registerFieldContainer(result);
 
         pTmp += sizeof(UInt32);
-
-        result._storeP = pTmp;
 
         for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
         {
@@ -327,13 +327,13 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
         
         pTmp  += sizeof(Int32);
 
+        result._storeP = (pTmp + sizeof(UInt32));
+
         *((UInt32 *) pTmp) = 
             FieldContainerFactory::the()->registerFieldContainer(result);
 
         pTmp += sizeof(UInt32);
         
-        result._storeP = pTmp;
-
         for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
         {
             pTmp = (UInt8 *) new (pTmp) ObjectType();
