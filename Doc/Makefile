@@ -126,7 +126,7 @@ DOC_FILES := $(DOC_LIBS) $(DOC_PAGES)
 #			 ../Source/Base/StringConversion/StringConversion.dox	\
 #			 ../Source/Base/StringConversion
 
-DOC_FILES := $(DOC_PAGES) 
+#DOC_FILES := $(DOC_PAGES) 
 
 # level-dependent defines
 DOC_LEVEL ?= 1
@@ -179,7 +179,7 @@ dodoc:
 #   @rm -f ../Common/dummyClasses.list       						
 
 #   find all images and convert them (if necessary)
-	$(MAKE) DOC_IMAGE_TYPE=html images
+	$(MAKE) DOC_IMAGE_TYPE=html images2
 
 #   do doxygen
 	-$(DOC_ENV) $(DOXYGEN) ../Common/Doxygen_$(BUILD_ENV).cfg -d
@@ -217,23 +217,24 @@ dostarter:
 		ps2pdf StarterGuide.ps
 
 userstarter:
-	$(MAKE) DOC_IMAGE_TYPE=latex images
+	$(MAKE) DOC_IMAGE_TYPE=latex images2
 	$(MAKE) DOC_STARTER="user" dostarter
 
 extstarter:
-	$(MAKE) DOC_IMAGE_TYPE=latex images
+	$(MAKE) DOC_IMAGE_TYPE=latex images2
 	$(MAKE) DOC_STARTER="ext" dostarter
 
 devstarter:
-	$(MAKE) DOC_IMAGE_TYPE=latex images
+	$(MAKE) DOC_IMAGE_TYPE=latex images2
 	$(MAKE) DOC_STARTER="dev" dostarter
 
 
 # Image conversion rules
 
-images:
+# amz I renamed this rule to images2. On windows filenames a case insensitive
+# so it is not possible to distinguish between Images (the directory) and images the rule.
+images2:
 #   find all used images and convert them (if necessary)
-
 	rm -f imagelist
 	-for i in $(DOC_PAGES) ; do \
 		fgrep "\image $(DOC_IMAGE_TYPE)" $$i  | cut -d' ' -f3-3 | \
