@@ -22,7 +22,6 @@ char connectionType[256];
 
 void findPoints(std::set<std::string> &address,int count)
 {
-    char request;
     char response[256];
     DgramSocket sock;
     SocketAddress server;
@@ -31,7 +30,6 @@ void findPoints(std::set<std::string> &address,int count)
     sock.bind();
     while(address.size()<count)
     {
-        request = 'r';
         sock.sendTo(&connectionType[0],255,SocketAddress("230.12.32.50",23344));
         if(!sock.waitReadable(.5))
             if(address.size() < count)
