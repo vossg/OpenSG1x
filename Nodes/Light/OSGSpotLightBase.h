@@ -172,13 +172,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
 
     inline       Vec3f	&getDirection(void);
     inline const Vec3f	&getDirection(void) const;
-    inline       void	             setDirection( Vec3f value );
+    inline       void	         setDirection( const Vec3f &value );
     inline       Real32	&getSpotExponent(void);
     inline const Real32	&getSpotExponent(void) const;
-    inline       void	             setSpotExponent( Real32 value );
+    inline       void	         setSpotExponent( const Real32 &value );
     inline       Real32	&getSpotCutOff(void);
     inline const Real32	&getSpotCutOff(void) const;
-    inline       void	             setSpotCutOff( Real32 value );
+    inline       void	         setSpotCutOff( const Real32 &value );
 
 
     //!@}

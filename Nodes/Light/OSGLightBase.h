@@ -117,9 +117,12 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public LightBaseBase
 
     //@{ 
     //! set the light's attributes
-    void setAmbient(Real32 rRed, Real32 rGreen, Real32 rBlue, Real32 rAlpha);
-    void setDiffuse(Real32 rRed, Real32 rGreen, Real32 rBlue, Real32 rAlpha);
+    void setAmbient (Real32 rRed, Real32 rGreen, Real32 rBlue, Real32 rAlpha);
+    void setDiffuse (Real32 rRed, Real32 rGreen, Real32 rBlue, Real32 rAlpha);
     void setSpecular(Real32 rRed, Real32 rGreen, Real32 rBlue, Real32 rAlpha);
+    inline void setAmbient (const Color4f &col);
+    inline void setDiffuse (const Color4f &col);
+    inline void setSpecular(const Color4f &col);
 	//@}
 	
     /*------------------------------ dump -----------------------------------*/

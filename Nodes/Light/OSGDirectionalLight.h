@@ -106,7 +106,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
     //@{ 
     //! set the light's attribute
     void setDirection(Real32 rX, Real32 rY, Real32 rZ);
-    void setDirection(const Vec3f &gDirection);
+    inline void setDirection( const Vec3f &direction);
     //@}
 
     virtual void changed(BitVector  whichField, 

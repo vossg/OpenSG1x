@@ -164,7 +164,7 @@ const Vec3f &SpotLightBase::getDirection(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SpotLightBase::setDirection( Vec3f value )
+void SpotLightBase::setDirection( const Vec3f &value )
 {
 	_sfDirection.setValue(value);
 }
@@ -182,7 +182,7 @@ const Real32 &SpotLightBase::getSpotExponent(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SpotLightBase::setSpotExponent( Real32 value )
+void SpotLightBase::setSpotExponent( const Real32 &value )
 {
 	_sfSpotExponent.setValue(value);
 }
@@ -200,7 +200,7 @@ const Real32 &SpotLightBase::getSpotCutOff(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void SpotLightBase::setSpotCutOff( Real32 value )
+void SpotLightBase::setSpotCutOff( const Real32 &value )
 {
 	_sfSpotCutOff.setValue(value);
 }

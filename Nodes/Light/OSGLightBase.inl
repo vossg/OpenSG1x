@@ -84,6 +84,21 @@ OSG_BEGIN_NAMESPACE
 
 /*------------------------------ access -----------------------------------*/
 
+void LightBase::setAmbient( const Color4f &col )
+{
+	Inherited::setAmbient( col );
+}
+
+void LightBase::setDiffuse( const Color4f &col )
+{
+	Inherited::setDiffuse( col );
+}
+
+void LightBase::setSpecular( const Color4f &col )
+{
+	Inherited::setSpecular( col );
+}
+
 /*------------------------------ access -----------------------------------*/
 
 /*------------------------------- size ----------------------------------*/

@@ -84,6 +84,12 @@ OSG_BEGIN_NAMESPACE
 
 /*------------------------------ access -----------------------------------*/
 
+OSG_SYSTEMLIB_DLLMAPPING
+void DirectionalLight::setDirection( const Vec3f &value )
+{
+    Inherited::setDirection( value );
+}
+
 /*------------------------------ access -----------------------------------*/
 
 /*------------------------------- size ----------------------------------*/
