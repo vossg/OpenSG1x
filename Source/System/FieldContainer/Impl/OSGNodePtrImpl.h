@@ -190,12 +190,6 @@ std::ostream &operator <<(      std::ostream &os,
 /*! \ingroup GrpSystemFieldContainerFuncs
  */
 
-template <class Core> 
-inline NodePtr makeCoredNode(typename Core::Ptr *coreP = NULL);
-
-/*! \ingroup GrpSystemFieldContainerFuncs
- */
-
 OSG_SYSTEMLIB_DLLMAPPING
 NodePtr makeNodeFor(NodeCorePtr core);
 

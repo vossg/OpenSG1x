@@ -50,4 +50,30 @@
 #include <OSGNodePtrImpl.inl>
 #include <OSGCNodePtrImpl.inl>
 
+OSG_BEGIN_NAMESPACE
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+ */
+
+template <class Core> inline 
+NodePtr makeCoredNode(typename Core::Ptr *coreP = NULL);
+
+template <class Core> inline 
+NodePtr makeCoredNode(typename Core::Ptr *coreP)
+{
+    NodePtr            n = Node::create();
+    typename Core::Ptr c = Core::create();
+
+    beginEditCP(n, Node::CoreFieldMask);
+    n->setCore(c);
+    endEditCP(n, Node::CoreFieldMask);
+
+    if(coreP != NULL)
+        *coreP = c;
+        
+    return n;
+}
+
+OSG_END_NAMESPACE
+
 #endif /* _OSGNODEPTR_H_ */
