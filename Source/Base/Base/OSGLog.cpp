@@ -146,8 +146,6 @@ void LogBuf::write(const Char8 *buffer, std::streamsize size)
         memcpy(chunk->data, buffer, size);
 
         _chunkBag.push_back(chunk);
-
-        delete chunk;
     }
     
     if ((cb = _callback))
