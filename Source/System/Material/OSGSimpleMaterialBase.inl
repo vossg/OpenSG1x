@@ -147,7 +147,7 @@ SFBool *SimpleMaterialBase::getSFLit(void)
 
 //! Get the SimpleMaterial::_sfColorMaterial field.
 inline
-SFUInt32 *SimpleMaterialBase::getSFColorMaterial(void)
+SFGLenum *SimpleMaterialBase::getSFColorMaterial(void)
 {
     return &_sfColorMaterial;
 }
@@ -302,21 +302,21 @@ void SimpleMaterialBase::setLit(const bool &value)
 
 //! Get the value of the SimpleMaterial::_sfColorMaterial field.
 inline
-UInt32 &SimpleMaterialBase::getColorMaterial(void)
+GLenum &SimpleMaterialBase::getColorMaterial(void)
 {
     return _sfColorMaterial.getValue();
 }
 
 //! Get the value of the SimpleMaterial::_sfColorMaterial field.
 inline
-const UInt32 &SimpleMaterialBase::getColorMaterial(void) const
+const GLenum &SimpleMaterialBase::getColorMaterial(void) const
 {
     return _sfColorMaterial.getValue();
 }
 
 //! Set the value of the SimpleMaterial::_sfColorMaterial field.
 inline
-void SimpleMaterialBase::setColorMaterial(const UInt32 &value)
+void SimpleMaterialBase::setColorMaterial(const GLenum &value)
 {
     _sfColorMaterial.setValue(value);
 }

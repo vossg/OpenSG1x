@@ -114,7 +114,7 @@ const OSG::BitVector  SimpleMaterialBase::ColorMaterialFieldMask =
 /*! \var bool            SimpleMaterialBase::_sfLit
     
 */
-/*! \var UInt32          SimpleMaterialBase::_sfColorMaterial
+/*! \var GLenum          SimpleMaterialBase::_sfColorMaterial
     
 */
 
@@ -157,7 +157,7 @@ FieldDescription *SimpleMaterialBase::_desc[] =
                      LitFieldId, LitFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFLit),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "colorMaterial", 
                      ColorMaterialFieldId, ColorMaterialFieldMask,
                      false,
@@ -224,7 +224,7 @@ SimpleMaterialBase::SimpleMaterialBase(void) :
     _sfEmission               (Color3f(0,0,0)), 
     _sfTransparency           (Real32(0)), 
     _sfLit                    (bool(true)), 
-    _sfColorMaterial          (UInt32(GL_DIFFUSE)), 
+    _sfColorMaterial          (GLenum(GL_DIFFUSE)), 
     Inherited() 
 {
 }

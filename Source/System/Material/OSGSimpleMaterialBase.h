@@ -72,7 +72,7 @@
 #include <OSGColor3fFields.h> // Emission type
 #include <OSGReal32Fields.h> // Transparency type
 #include <OSGBoolFields.h> // Lit type
-#include <OSGUInt32Fields.h> // ColorMaterial type
+#include <OSGGLenumFields.h> // ColorMaterial type
 
 #include <OSGSimpleMaterialFields.h>
 
@@ -144,7 +144,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
            SFColor3f           *getSFEmission       (void);
            SFReal32            *getSFTransparency   (void);
            SFBool              *getSFLit            (void);
-           SFUInt32            *getSFColorMaterial  (void);
+           SFGLenum            *getSFColorMaterial  (void);
 
            Color3f             &getAmbient        (void);
      const Color3f             &getAmbient        (void) const;
@@ -160,8 +160,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
      const Real32              &getTransparency   (void) const;
            bool                &getLit            (void);
      const bool                &getLit            (void) const;
-           UInt32              &getColorMaterial  (void);
-     const UInt32              &getColorMaterial  (void) const;
+           GLenum              &getColorMaterial  (void);
+     const GLenum              &getColorMaterial  (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -175,7 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
      void setEmission       ( const Color3f &value );
      void setTransparency   ( const Real32 &value );
      void setLit            ( const bool &value );
-     void setColorMaterial  ( const UInt32 &value );
+     void setColorMaterial  ( const GLenum &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -228,7 +228,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     SFColor3f           _sfEmission;
     SFReal32            _sfTransparency;
     SFBool              _sfLit;
-    SFUInt32            _sfColorMaterial;
+    SFGLenum            _sfColorMaterial;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

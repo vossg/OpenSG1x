@@ -89,13 +89,13 @@ const OSG::BitVector  SimpleTexturedMaterialBase::EnvMapFieldMask =
 /*! \var ImageP          SimpleTexturedMaterialBase::_sfImage
     Defines the texture image.
 */
-/*! \var UInt32          SimpleTexturedMaterialBase::_sfMinFilter
+/*! \var GLenum          SimpleTexturedMaterialBase::_sfMinFilter
     Defines the minification filter, see glTexParameter for details.          Default: GL_LINEAR_MIPMAP_LINEAR.
 */
-/*! \var UInt32          SimpleTexturedMaterialBase::_sfMagFilter
+/*! \var GLenum          SimpleTexturedMaterialBase::_sfMagFilter
     Defines the magnification filter, see glTexParameter for details.          Default: GL_LINEAR
 */
-/*! \var UInt32          SimpleTexturedMaterialBase::_sfEnvMode
+/*! \var GLenum          SimpleTexturedMaterialBase::_sfEnvMode
     Sets the environment mode, defining how texture and lighting color interact.         Default: GL_REPLACE.
 */
 /*! \var bool            SimpleTexturedMaterialBase::_sfEnvMap
@@ -111,17 +111,17 @@ FieldDescription *SimpleTexturedMaterialBase::_desc[] =
                      ImageFieldId, ImageFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleTexturedMaterialBase::getSFImage),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "minFilter", 
                      MinFilterFieldId, MinFilterFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleTexturedMaterialBase::getSFMinFilter),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "magFilter", 
                      MagFilterFieldId, MagFilterFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleTexturedMaterialBase::getSFMagFilter),
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "envMode", 
                      EnvModeFieldId, EnvModeFieldMask,
                      false,
@@ -187,9 +187,9 @@ void SimpleTexturedMaterialBase::executeSync(      FieldContainer &other,
 
 SimpleTexturedMaterialBase::SimpleTexturedMaterialBase(void) :
     _sfImage                  (ImageP(0)), 
-    _sfMinFilter              (UInt32(GL_LINEAR_MIPMAP_LINEAR)), 
-    _sfMagFilter              (UInt32(GL_LINEAR)), 
-    _sfEnvMode                (UInt32(GL_REPLACE)), 
+    _sfMinFilter              (GLenum(GL_LINEAR_MIPMAP_LINEAR)), 
+    _sfMagFilter              (GLenum(GL_LINEAR)), 
+    _sfEnvMode                (GLenum(GL_REPLACE)), 
     _sfEnvMap                 (bool(false)), 
     Inherited() 
 {

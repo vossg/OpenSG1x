@@ -22,7 +22,7 @@ A SimpleMaterial with an added texture. It doesn't expose all features of the te
 	</Field>
 	<Field
 		name="minFilter"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_LINEAR_MIPMAP_LINEAR"
@@ -34,7 +34,7 @@ A SimpleMaterial with an added texture. It doesn't expose all features of the te
 	</Field>
 	<Field
 		name="magFilter"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_LINEAR"
@@ -46,7 +46,7 @@ A SimpleMaterial with an added texture. It doesn't expose all features of the te
 	</Field>
 	<Field
 		name="envMode"
-		type="UInt32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_REPLACE"

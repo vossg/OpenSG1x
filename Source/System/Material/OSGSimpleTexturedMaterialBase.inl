@@ -105,21 +105,21 @@ SFImageP *SimpleTexturedMaterialBase::getSFImage(void)
 
 //! Get the SimpleTexturedMaterial::_sfMinFilter field.
 inline
-SFUInt32 *SimpleTexturedMaterialBase::getSFMinFilter(void)
+SFGLenum *SimpleTexturedMaterialBase::getSFMinFilter(void)
 {
     return &_sfMinFilter;
 }
 
 //! Get the SimpleTexturedMaterial::_sfMagFilter field.
 inline
-SFUInt32 *SimpleTexturedMaterialBase::getSFMagFilter(void)
+SFGLenum *SimpleTexturedMaterialBase::getSFMagFilter(void)
 {
     return &_sfMagFilter;
 }
 
 //! Get the SimpleTexturedMaterial::_sfEnvMode field.
 inline
-SFUInt32 *SimpleTexturedMaterialBase::getSFEnvMode(void)
+SFGLenum *SimpleTexturedMaterialBase::getSFEnvMode(void)
 {
     return &_sfEnvMode;
 }
@@ -155,63 +155,63 @@ void SimpleTexturedMaterialBase::setImage(const ImageP &value)
 
 //! Get the value of the SimpleTexturedMaterial::_sfMinFilter field.
 inline
-UInt32 &SimpleTexturedMaterialBase::getMinFilter(void)
+GLenum &SimpleTexturedMaterialBase::getMinFilter(void)
 {
     return _sfMinFilter.getValue();
 }
 
 //! Get the value of the SimpleTexturedMaterial::_sfMinFilter field.
 inline
-const UInt32 &SimpleTexturedMaterialBase::getMinFilter(void) const
+const GLenum &SimpleTexturedMaterialBase::getMinFilter(void) const
 {
     return _sfMinFilter.getValue();
 }
 
 //! Set the value of the SimpleTexturedMaterial::_sfMinFilter field.
 inline
-void SimpleTexturedMaterialBase::setMinFilter(const UInt32 &value)
+void SimpleTexturedMaterialBase::setMinFilter(const GLenum &value)
 {
     _sfMinFilter.setValue(value);
 }
 
 //! Get the value of the SimpleTexturedMaterial::_sfMagFilter field.
 inline
-UInt32 &SimpleTexturedMaterialBase::getMagFilter(void)
+GLenum &SimpleTexturedMaterialBase::getMagFilter(void)
 {
     return _sfMagFilter.getValue();
 }
 
 //! Get the value of the SimpleTexturedMaterial::_sfMagFilter field.
 inline
-const UInt32 &SimpleTexturedMaterialBase::getMagFilter(void) const
+const GLenum &SimpleTexturedMaterialBase::getMagFilter(void) const
 {
     return _sfMagFilter.getValue();
 }
 
 //! Set the value of the SimpleTexturedMaterial::_sfMagFilter field.
 inline
-void SimpleTexturedMaterialBase::setMagFilter(const UInt32 &value)
+void SimpleTexturedMaterialBase::setMagFilter(const GLenum &value)
 {
     _sfMagFilter.setValue(value);
 }
 
 //! Get the value of the SimpleTexturedMaterial::_sfEnvMode field.
 inline
-UInt32 &SimpleTexturedMaterialBase::getEnvMode(void)
+GLenum &SimpleTexturedMaterialBase::getEnvMode(void)
 {
     return _sfEnvMode.getValue();
 }
 
 //! Get the value of the SimpleTexturedMaterial::_sfEnvMode field.
 inline
-const UInt32 &SimpleTexturedMaterialBase::getEnvMode(void) const
+const GLenum &SimpleTexturedMaterialBase::getEnvMode(void) const
 {
     return _sfEnvMode.getValue();
 }
 
 //! Set the value of the SimpleTexturedMaterial::_sfEnvMode field.
 inline
-void SimpleTexturedMaterialBase::setEnvMode(const UInt32 &value)
+void SimpleTexturedMaterialBase::setEnvMode(const GLenum &value)
 {
     _sfEnvMode.setValue(value);
 }

@@ -66,9 +66,9 @@
 #include <OSGSimpleMaterial.h> // Parent
 
 #include <OSGImagePFields.h> // Image type
-#include <OSGUInt32Fields.h> // MinFilter type
-#include <OSGUInt32Fields.h> // MagFilter type
-#include <OSGUInt32Fields.h> // EnvMode type
+#include <OSGGLenumFields.h> // MinFilter type
+#include <OSGGLenumFields.h> // MagFilter type
+#include <OSGGLenumFields.h> // EnvMode type
 #include <OSGBoolFields.h> // EnvMap type
 
 #include <OSGSimpleTexturedMaterialFields.h>
@@ -129,19 +129,19 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     /*! \{                                                                 */
 
            SFImageP            *getSFImage          (void);
-           SFUInt32            *getSFMinFilter      (void);
-           SFUInt32            *getSFMagFilter      (void);
-           SFUInt32            *getSFEnvMode        (void);
+           SFGLenum            *getSFMinFilter      (void);
+           SFGLenum            *getSFMagFilter      (void);
+           SFGLenum            *getSFEnvMode        (void);
            SFBool              *getSFEnvMap         (void);
 
            ImageP              &getImage          (void);
      const ImageP              &getImage          (void) const;
-           UInt32              &getMinFilter      (void);
-     const UInt32              &getMinFilter      (void) const;
-           UInt32              &getMagFilter      (void);
-     const UInt32              &getMagFilter      (void) const;
-           UInt32              &getEnvMode        (void);
-     const UInt32              &getEnvMode        (void) const;
+           GLenum              &getMinFilter      (void);
+     const GLenum              &getMinFilter      (void) const;
+           GLenum              &getMagFilter      (void);
+     const GLenum              &getMagFilter      (void) const;
+           GLenum              &getEnvMode        (void);
+     const GLenum              &getEnvMode        (void) const;
            bool                &getEnvMap         (void);
      const bool                &getEnvMap         (void) const;
 
@@ -151,9 +151,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     /*! \{                                                                 */
 
      void setImage          ( const ImageP &value );
-     void setMinFilter      ( const UInt32 &value );
-     void setMagFilter      ( const UInt32 &value );
-     void setEnvMode        ( const UInt32 &value );
+     void setMinFilter      ( const GLenum &value );
+     void setMagFilter      ( const GLenum &value );
+     void setEnvMode        ( const GLenum &value );
      void setEnvMap         ( const bool &value );
 
     /*! \}                                                                 */
@@ -201,9 +201,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     /*! \{                                                                 */
 
     SFImageP            _sfImage;
-    SFUInt32            _sfMinFilter;
-    SFUInt32            _sfMagFilter;
-    SFUInt32            _sfEnvMode;
+    SFGLenum            _sfMinFilter;
+    SFGLenum            _sfMagFilter;
+    SFGLenum            _sfEnvMode;
     SFBool              _sfEnvMap;
 
     /*! \}                                                                 */
