@@ -49,7 +49,7 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainer.h>
-#include <OSGWindowBase.h>
+#include "OSGWindowBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -265,7 +265,7 @@ OSG_DLLEXPORT_DECL1(MField, BackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#include <OSGBackground.inl>
+#include "OSGBackground.inl"
 
 #endif /* _OSGBACKGROUND_H_ */
 
