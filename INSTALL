@@ -80,7 +80,10 @@ osg-config script, which can be used to simplify OpenSG makefiles, goes into
 prefix/bin.
 
 One useful variant is to install into the system-dependent directory in
-Builds by calling make INSTALL_DIR=`pwd` install.
+Builds by using BUILD as the prefix (i.e. call configure with --prefix=BUILD).
+When running make install everything will be installed in 
+Builds/<system>/{include,lib,bin}, allowing parallel development of multiple
+platforms.
 
 To run OpenSG programs, make sure that the directory where the libraries are
 installed is in your LD_LIBRARY_PATH. 
@@ -225,7 +228,7 @@ you an overview and browse through the structure but nothing more (currently).
     make doc
 
 This uses doxygen to create documentation in Doc/Code/html. We use
-version 1.2.11, which is pretty new, but 1.2.X should be ok, too. The
+version 1.2.16, which is pretty new, but 1.2.X should be ok, too. The
 default configuration uses dot, so you need that, too, or you have turn
 off the HAVE_DOT option.
 
