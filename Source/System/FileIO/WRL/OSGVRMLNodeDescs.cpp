@@ -62,12 +62,15 @@
 #include <OSGSwitch.h>
 #include <OSGInline.h>
 #include <OSGImage.h>
+#include <OSGSceneFileHandler.h>
 
 #include <OSGVRMLFile.h>
 
 #ifndef OSG_LOG_MODULE
 #define OSG_LOG_MODULE "VRMLLoader"
 #endif
+
+//#define OSG_DEBUG_VRML
 
 #ifndef OSG_DO_DOC
 #    ifdef OSG_DEBUG_VRML
@@ -4855,8 +4858,40 @@ FieldContainerPtr VRMLInlineDesc::beginNode(
     return pNode;
 }
 
-void VRMLInlineDesc::endNode(FieldContainerPtr OSG_VRML_ARG(pFC))
+void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
 {    
+          Field            *pField;
+    const FieldDescription *pFieldDesc;
+
+    NodePtr pNode = NodePtr::dcast(pFC);
+
+    VRMLNodeDesc::getFieldAndDesc(pFC, 
+                                  "url", 
+                                  pField,
+                                  pFieldDesc);
+
+    MFString *pUrl = dynamic_cast<MFString *>(pField);
+
+    fprintf(stderr, "Inline : %s\n",  (*pUrl)[0].c_str());
+
+    VRMLFile *pVRMLLoader = new VRMLFile();
+
+    pVRMLLoader->createStandardPrototypes();
+
+    pVRMLLoader->scanFile((*pUrl)[0].c_str(), 0, 0);
+
+    NodePtr pFile = pVRMLLoader->getRoot();
+
+//    NodePtr pFile = SceneFileHandler::the().read((*pUrl)[0].c_str());
+
+    beginEditCP(pNode, Node::ChildrenFieldMask);
+    {
+        pNode->addChild(pFile);
+    }
+    endEditCP  (pNode, Node::ChildrenFieldMask);
+
+    delete pVRMLLoader;
+
 #ifdef OSG_DEBUG_VRML
     decIndent();
 

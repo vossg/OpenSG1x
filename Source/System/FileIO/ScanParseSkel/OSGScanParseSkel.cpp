@@ -55,19 +55,24 @@
 #include "OSGBaseFunctions.h"
 #include "OSGLog.h"
 
+#define yyFlexLexer OSGScanParseSkel_l_FlexLexer
+#include <FlexLexer.h>
+#undef yyFlexLexer
+
 OSG_USING_NAMESPACE
 
-extern int  OSGScanParseSkel_char;
+//extern int  OSGScanParseSkel_l_char;
 extern void resetScanner(void);
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 ScanParseSkel::ScanParseSkel(void) :
-    _uiCurrOptions    (0),
-    _uiDefOptions     (0),
+    _uiCurrOptions    (    0),
+    _uiDefOptions     (    0),
     _bMapTypeIds      (false),
-    _szReferenceHeader(NULL )
+    _szReferenceHeader(NULL ),
+    _pLexer           (NULL )
 {
 }
 
@@ -81,15 +86,16 @@ ScanParseSkel::~ScanParseSkel(void)
 /*-------------------------------------------------------------------------*/
 /*                                Scan                                     */
 
-extern int           OSGScanParseSkel_parse(void);
-#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
-extern std::istream *OSGScanParseSkel_is;
-#else
-extern FILE         *OSGScanParseSkel_in;
-#endif
+extern int OSGScanParseSkel_parse(void *);
 
-extern void setSkel    (ScanParseSkel *pSkel);
-extern void clearSkel  (void);
+//#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
+//extern std::istream *OSGScanParseSkel_is;
+//#else
+//extern FILE         *OSGScanParseSkel_in;
+//#endif
+
+//extern void setSkel    (ScanParseSkel *pSkel);
+//extern void clearSkel  (void);
 extern void abortParser(void);
 
 #ifdef OSG_FLEX_USE_IOSTREAM_INPUT
@@ -98,17 +104,21 @@ void ScanParseSkel::scanStream(std::istream &is,
 {
     if(is.good())
     {
-        setSkel(this);
+//        setSkel(this);
 
-        OSGScanParseSkel_is = &is;
+//        OSGScanParseSkel_is = &is;
+
+        delete _pLexer;
+
+        _pLexer = new OSGScanParseSkel_l_FlexLexer(&is);
 
         _uiCurrOptions = uiOptions;
 
-        OSGScanParseSkel_parse();
+        OSGScanParseSkel_parse(this);
 
         reset();
 
-        clearSkel();
+//        clearSkel();
     }
 }
 
@@ -136,7 +146,7 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
 
     if(is.good())
     {
-        PNOTICE << "Loading : " << szFilename << std::endl;
+        PNOTICE << "Loading Stream: " << szFilename << std::endl;
 
         scanStream(is, uiOptions);
 
@@ -147,21 +157,21 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
 
     if(pInFile != NULL)
     {
-        setSkel(this);
+//        setSkel(this);
 
-        PNOTICE << "Loading : " << szFilename << std::endl;
+        PNOTICE << "Loading File : " << szFilename << std::endl;
 
         OSGScanParseSkel_in = pInFile;
 
         _uiCurrOptions = uiOptions;
 
-        OSGScanParseSkel_parse();
+        OSGScanParseSkel_parse(this);
 
         reset();
 
         fclose(pInFile);
 
-        clearSkel();
+//        clearSkel();
     }
 #endif
 }
@@ -178,7 +188,7 @@ void ScanParseSkel::scanFile(const Char8  *szFilename,
 
     if(is.good())
     {
-        PNOTICE << "Loading : " << szFilename << std::endl;
+        PNOTICE << "Loading Stream : " << szFilename << std::endl;
 
         scanStream(is, uiAddOptions, uiSubOptions);
 
@@ -197,6 +207,26 @@ void ScanParseSkel::scanFile(const Char8  *szFilename,
 void ScanParseSkel::setDefaultOptions(UInt32 uiOptions)
 {
     _uiDefOptions = uiOptions;
+}
+
+Int32 ScanParseSkel::lex(void)
+{
+    Int32 returnValue = -1;
+
+    if(_pLexer != NULL)
+        returnValue = _pLexer->yylex();
+
+    return returnValue;
+}
+
+const Char8 *ScanParseSkel::getText(void)
+{
+    const Char8 *returnValue = NULL;
+
+    if(_pLexer != NULL)
+        returnValue = _pLexer->YYText();
+
+    return returnValue;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -393,7 +423,7 @@ UInt32 ScanParseSkel::getFieldType(const Char8 *)
 
 void ScanParseSkel::reset(void)
 {
-    OSGScanParseSkel_char = -2;
+//    OSGScanParseSkel_l_char = -2;
     resetScanner();
 }
 

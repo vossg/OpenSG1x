@@ -71,6 +71,8 @@
 
 #include <OSGSimpleAttachments.h>
 
+//#define OSG_DEBUG_VRML
+
 OSG_USING_NAMESPACE
 
 /*! \class osg::VRMLFile
@@ -3026,7 +3028,7 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
                   << &(*_pCurrentFC)
                   << " "
                   << &(*pFC)
-                  << endl;
+                  << std::endl;
 #endif
             NodePtr pNode      = NodePtr::dcast(_pCurrentFC);
             NodePtr pChildNode = NodePtr::dcast(pFC);
@@ -3042,7 +3044,7 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
                   << &(*_pCurrentFC)
                   << " "
                   << &(*pFC)
-                  << endl;
+                  << std::endl;
 #endif
 
             NodePtr     pNode = NodePtr    ::dcast(_pCurrentFC);

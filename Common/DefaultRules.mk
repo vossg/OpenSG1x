@@ -510,11 +510,11 @@ endif
 
 ifneq ($(LIB_FLEXTARGET_CPP),)
 $(OBJDIR)/%.lex.cpp: %.l
-	$(FLEX) -l -P$(call flex_int,$<) $<
-	@cat lex.$(call flex_int,$<).c | 								\
+	$(FLEX) -+ -P$(call flex_int,$<) $<
+	cat lex.$(call flex_int,$<).cc | 								\
 		sed -e 's/\(yy\)\(text_ptr\)/$(call flex_int,$<)\2/g'		\
 		> $(OBJDIR)/$(call flex_ext,$<).lex.cpp
-	@-rm lex.$(call flex_int,$<).c
+	-rm lex.$(call flex_int,$<).cc
 
 $(LIB_FLEXTARGET_CPP) : $(LIB_FLEXSOURCES)
 

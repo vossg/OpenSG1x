@@ -37,6 +37,9 @@
 \*---------------------------------------------------------------------------*/
 %{
 
+#define YYPARSE_PARAM pSkel
+#define YYLEX_PARAM   pSkel
+
 #define YYLTYPE_IS_TRIVIAL 1
 #define YYSTYPE_IS_TRIVIAL 1
 
@@ -57,14 +60,14 @@
 
 OSG_USING_NAMESPACE
 
-ScanParseSkel *_pSkel = NULL;
-
-
-
 extern int  iLineNum;
-extern char OSGScanParseSkel_text[];
+//extern char OSGScanParseSkel_l_text[];
 
-extern int  yylex     (void);
+//extern int OSGScanParseSkel_l_lex(void);
+//       int OSGScanParseSkel_lex  (void);
+
+       int OSGScanParseSkel_lex  (YYSTYPE *lvalp, void *);
+
 extern void expectType(int iType);
 
 int nextType;
@@ -77,6 +80,9 @@ char *szName3    = NULL;
 
 void setName (char *&szName, const char *szVal);
 void freeName(char *&szName);
+
+#define SKEL ((ScanParseSkel *) pSkel)
+#define SKELTEXT (SKEL->getText())
 
 %}
 
@@ -190,6 +196,8 @@ void freeName(char *&szName);
 %token Tok_SFPlane
 %token Tok_SFVolume
 
+%pure_parser
+
 %%
 
 vrmlScene : statementsORempty
@@ -210,16 +218,16 @@ statement : nodeStatement
 
 nodeStatement : node 
               | DEF 
-                nodeNameId  { setName(szName1, OSGScanParseSkel_text); }
+                nodeNameId  { setName(szName1, SKELTEXT); }
                 node 
               | USE 
-                nodeNameId  { if(_pSkel != NULL)
-                                  _pSkel->use(OSGScanParseSkel_text); }
+                nodeNameId  { if(SKEL != NULL)
+                                  SKEL->use(SKELTEXT); }
 ;
 
 rootNodeStatement : node 
                   | DEF 
-                    nodeNameId { setName(szName1, OSGScanParseSkel_text); }
+                    nodeNameId { setName(szName1, SKELTEXT); }
                     node 
 ;
 
@@ -236,10 +244,10 @@ protoStatements : protoStatements protoStatement
                 |                 protoStatement
 ;
 
-protoId : nodeTypeId { if(_pSkel != NULL) 
-                        _pSkel->beginProto(OSGScanParseSkel_text); }
-        | SCRIPT     { if(_pSkel != NULL) 
-                        _pSkel->beginProto(OSGScanParseSkel_text); }
+protoId : nodeTypeId { if(SKEL != NULL) 
+                        SKEL->beginProto(SKELTEXT); }
+        | SCRIPT     { if(SKEL != NULL) 
+                        SKEL->beginProto(SKELTEXT); }
 ;
 
 proto : PROTO 
@@ -249,8 +257,8 @@ proto : PROTO
         CLOSEBRACKET 
         OPENBRACE 
         protoBodyORempty
-        CLOSEBRACE { if(_pSkel != NULL) 
-			_pSkel->endProto(); }
+        CLOSEBRACE { if(SKEL != NULL) 
+			SKEL->endProto(); }
 ;
 
 protoBodyORempty : protoBody
@@ -271,78 +279,78 @@ interfaceDeclarations : interfaceDeclarations interfaceDeclaration
 
 restrictedInterfaceDeclaration : EVENTIN  
                                  fieldType  { setName(szName1, 
-                                                      OSGScanParseSkel_text); }
-                                 eventInId  { if(_pSkel != NULL)
+                                                      SKELTEXT);}
+                                 eventInId  { if(SKEL != NULL)
                                               {
-                                               _pSkel->beginEventInDecl(
+                                               SKEL->beginEventInDecl(
                                                 szName1,
                                                 nextType,
-                                                OSGScanParseSkel_text); 
+                                                SKELTEXT); 
 
-                                               _pSkel->endEventDecl();
+                                               SKEL->endEventDecl();
                                               }
                                               freeName(szName1); }
                                | EVENTOUT 
                                  fieldType  { setName(szName1, 
-                                                      OSGScanParseSkel_text); }
-                                 eventOutId { if(_pSkel != NULL)
+                                                      SKELTEXT);}
+                                 eventOutId { if(SKEL != NULL)
                                               {
-                                               _pSkel->beginEventOutDecl(
+                                               SKEL->beginEventOutDecl(
                                                 szName1,
                                                 nextType,
-                                                OSGScanParseSkel_text); 
+                                                SKELTEXT); 
 
-                                               _pSkel->endEventDecl();
+                                               SKEL->endEventDecl();
                                               }
                                               freeName(szName1); }
                                | FIELD    
                                  fieldType  { setName(szName1, 
-                                                      OSGScanParseSkel_text); }
+                                                      SKELTEXT);}
                                  fieldId    { expectType(nextType); 
-                                              if(_pSkel != NULL)
-                                               _pSkel->beginFieldDecl(
+                                              if(SKEL != NULL)
+                                               SKEL->beginFieldDecl(
                                                 szName1,
                                                 nextType,
-                                                OSGScanParseSkel_text); 
+                                                SKELTEXT); 
                                               freeName(szName1); } 
                                  fieldValue { nextType = 0; 
-                                              if(_pSkel != NULL)
-                                               _pSkel->endFieldDecl();
+                                              if(SKEL != NULL)
+                                               SKEL->endFieldDecl();
                                              }
 ;
 
 interfaceDeclaration : restrictedInterfaceDeclaration
                      | EXPOSEDFIELD 
                        fieldType    { setName(szName1, 
-                                              OSGScanParseSkel_text); }
+                                              SKELTEXT); }
                        fieldId      { expectType(nextType);  
-                                      if(_pSkel != NULL)
-                                       _pSkel->beginExposedFieldDecl(
+                                      if(SKEL != NULL)
+                                       SKEL->beginExposedFieldDecl(
                                         szName1,
                                         nextType,
-                                        OSGScanParseSkel_text); 
+                                        SKELTEXT); 
                                        freeName(szName1); }
                        fieldValue   { nextType = 0; 
-                                      if(_pSkel != NULL)
-                                       _pSkel->endExposedFieldDecl(); }
+                                      if(SKEL != NULL)
+                                       SKEL->endExposedFieldDecl(); }
 ;
 
 externproto : EXTERNPROTO 
-              nodeTypeId { if(_pSkel != NULL) 
-                             _pSkel->beginExternProto(OSGScanParseSkel_text); }
+              nodeTypeId { if(SKEL != NULL) 
+                             SKEL->beginExternProto(SKELTEXT); }
               OPENBRACKET 
               externInterfaceDeclarationsORempty
               CLOSEBRACKET 
               {
-                 if(_pSkel != NULL) 
-                     _pSkel->endExternProtoInterface(); 
+                 if(SKEL != NULL) 
+                     SKEL->endExternProtoInterface(); 
 
                  expectType(TOK_MFSTRING); 
               }
               URLList 
               {
-                 if(_pSkel != NULL) 
-                     _pSkel->endExternProto(); 
+                 if(SKEL != NULL) 
+                     SKEL->endExternProto(); 
               }
 ;
 
@@ -357,54 +365,54 @@ externInterfaceDeclarations :
 
 externInterfaceDeclaration : EVENTIN      
                              fieldType { setName(szName1, 
-                                                 OSGScanParseSkel_text); }
-                             eventInId { if(_pSkel != NULL)
-                                               _pSkel->addExternEventInDecl(
+                                                 SKELTEXT); }
+                             eventInId { if(SKEL != NULL)
+                                               SKEL->addExternEventInDecl(
                                                 szName1,
                                                 nextType,
-                                                OSGScanParseSkel_text); 
+                                                SKELTEXT); 
                                          freeName(szName1); }
                            | EVENTOUT     
                              fieldType { setName(szName1, 
-                                                 OSGScanParseSkel_text); }
-                             eventOutId { if(_pSkel != NULL)
-                                               _pSkel->addExternEventOutDecl(
+                                                 SKELTEXT); }
+                             eventOutId { if(SKEL != NULL)
+                                               SKEL->addExternEventOutDecl(
                                                 szName1,
                                                 nextType,
-                                                OSGScanParseSkel_text); 
+                                                SKELTEXT); 
                                           freeName(szName1); }
                            | FIELD        
                              fieldType { setName(szName1, 
-                                                 OSGScanParseSkel_text); }
-                             fieldId   { if(_pSkel != NULL)
-                                               _pSkel->addExternFieldDecl(
+                                                 SKELTEXT); }
+                             fieldId   { if(SKEL != NULL)
+                                               SKEL->addExternFieldDecl(
                                                 szName1,
                                                 nextType,
-                                                OSGScanParseSkel_text); 
+                                                SKELTEXT); 
                                          freeName(szName1); } 
                            | EXPOSEDFIELD 
                              fieldType { setName(szName1, 
-                                                 OSGScanParseSkel_text); }
-                             fieldId { if(_pSkel != NULL)
-                                             _pSkel->addExternExposedFieldDecl(
+                                                 SKELTEXT); }
+                             fieldId { if(SKEL != NULL)
+                                             SKEL->addExternExposedFieldDecl(
                                                  szName1,
                                                  nextType,
-                                                 OSGScanParseSkel_text); 
+                                                 SKELTEXT); 
                                        freeName(szName1); }
 ;
 
 routeStatement : ROUTE 
-                 nodeNameId { setName(szName1, OSGScanParseSkel_text); }
+                 nodeNameId { setName(szName1, SKELTEXT); }
                  PERIOD     
-                 eventOutId { setName(szName2, OSGScanParseSkel_text); }
+                 eventOutId { setName(szName2, SKELTEXT); }
                  TO 
-                 nodeNameId { setName(szName3, OSGScanParseSkel_text); }
+                 nodeNameId { setName(szName3, SKELTEXT); }
                  PERIOD 
-                 eventInId  { if(_pSkel != NULL)
-                                _pSkel->addRoute(szName1, 
+                 eventInId  { if(SKEL != NULL)
+                                SKEL->addRoute(szName1, 
                                                  szName2,
                                                  szName3,
-                                                 OSGScanParseSkel_text);
+                                                 SKELTEXT);
                               freeName(szName1);
                               freeName(szName2);
                               freeName(szName3);
@@ -417,24 +425,24 @@ URLList : fieldValue
 empty :
 ;
 
-node : nodeTypeId { if(_pSkel != NULL)
-                     _pSkel->beginNode(OSGScanParseSkel_text, szName1); 
+node : nodeTypeId { if(SKEL != NULL)
+                     SKEL->beginNode(SKELTEXT, szName1); 
 
                     freeName(szName1);
                   }
        OPENBRACE 
        nodeBodyORempty   
-       CLOSEBRACE { if(_pSkel != NULL)
-                     _pSkel->endNode(); }
-     | SCRIPT     { if(_pSkel != NULL)
-                     _pSkel->beginNode(OSGScanParseSkel_text, szName1); 
+       CLOSEBRACE { if(SKEL != NULL)
+                     SKEL->endNode(); }
+     | SCRIPT     { if(SKEL != NULL)
+                     SKEL->beginNode(SKELTEXT, szName1); 
 
                     freeName(szName1);
                   }
        OPENBRACE
        scriptBodyORempty 
-       CLOSEBRACE { if(_pSkel != NULL)
-                     _pSkel->endNode(); }
+       CLOSEBRACE { if(SKEL != NULL)
+                     SKEL->endNode(); }
 ;
 
 nodeBodyORempty : nodeBody
@@ -455,54 +463,54 @@ scriptBody : scriptBody scriptBodyElement
 
 resInterfaceDeclarationScriptEvent : EVENTIN  
                                      fieldType  { setName(szName1, 
-                                                     OSGScanParseSkel_text); } 
-                                     eventInId  { if(_pSkel != NULL)
-                                                     _pSkel->beginEventInDecl(
+                                                          SKELTEXT); } 
+                                     eventInId  { if(SKEL != NULL)
+                                                     SKEL->beginEventInDecl(
                                                        szName1,
                                                        nextType,
-                                                       OSGScanParseSkel_text); 
+                                                       SKELTEXT); 
 
                                                  freeName(szName1); }
                                    | EVENTOUT 
                                      fieldType  { setName(szName1, 
-                                                      OSGScanParseSkel_text); }
-                                     eventOutId { if(_pSkel != NULL)
-                                                     _pSkel->beginEventOutDecl(
+                                                          SKELTEXT); }
+                                     eventOutId { if(SKEL != NULL)
+                                                     SKEL->beginEventOutDecl(
                                                        szName1,
                                                        nextType,
-                                                       OSGScanParseSkel_text); 
+                                                       SKELTEXT); 
 
                                                   freeName(szName1); }
 ;
 
 resInterfaceDeclarationScriptEventEnd : IS eventId 
                                         { 
-                                          if(_pSkel != NULL)
+                                          if(SKEL != NULL)
                                           {
-                                             _pSkel->is(OSGScanParseSkel_text);
-                                             _pSkel->endEventDecl(); 
+                                             SKEL->is(SKELTEXT);
+                                             SKEL->endEventDecl(); 
                                           }
                                         }
                                       |
                                         { 
-                                            if(_pSkel != NULL)
+                                            if(SKEL != NULL)
                                             {
-                                                _pSkel->endEventDecl(); 
+                                                SKEL->endEventDecl(); 
                                             }
                                         }
 ;
 
 resInterfaceDeclarationScriptField : FIELD     
                                      fieldType { setName(szName1, 
-                                                        OSGScanParseSkel_text);
+                                                         SKELTEXT);
                                                }
                                      fieldId   { expectType(nextType); 
                                               
-                                                 if(_pSkel != NULL)
-                                                     _pSkel->beginFieldDecl(
+                                                 if(SKEL != NULL)
+                                                     SKEL->beginFieldDecl(
                                                        szName1,
                                                        nextType,
-                                                       OSGScanParseSkel_text); 
+                                                       SKELTEXT); 
                                               
                                                  freeName(szName1);
                                                }
@@ -510,18 +518,17 @@ resInterfaceDeclarationScriptField : FIELD
 
 resInterafceDeclarationScriptFieldEnd : IS fieldId { nextType = 0; 
 
-                                                     if(_pSkel != NULL)
+                                                     if(SKEL != NULL)
                                                      {
-                                                       _pSkel->is(
-                                                        OSGScanParseSkel_text);
+                                                       SKEL->is(SKELTEXT);
 
-                                                       _pSkel->endFieldDecl();
+                                                       SKEL->endFieldDecl();
                                                      }
                                                    } 
                                       | fieldValue { nextType = 0; 
 
-                                                     if(_pSkel != NULL)
-                                                       _pSkel->endFieldDecl();
+                                                     if(SKEL != NULL)
+                                                       SKEL->endFieldDecl();
 
                                                    }
 ;
@@ -544,23 +551,22 @@ scriptBodyElement : nodeBodyElement
 
 
 nodeBodyElement : fieldId 
-                  { if(_pSkel != NULL)
+                  { if(SKEL != NULL)
                     {
                      Int32 iFieldTypeId;
 
-                     iFieldTypeId = _pSkel->getFieldType(
-                                        OSGScanParseSkel_text);
+                     iFieldTypeId = SKEL->getFieldType(SKELTEXT);
 
-                     if(_pSkel->getMapFieldTypes() == true)
+                     if(SKEL->getMapFieldTypes() == true)
                      {
-                      iFieldTypeId = _pSkel->mapExtIntFieldType(    
-                                        OSGScanParseSkel_text,
+                      iFieldTypeId = SKEL->mapExtIntFieldType(    
+                                        SKELTEXT,
                                         iFieldTypeId);
                      }
     
                      expectType(iFieldTypeId); 
 
-                     _pSkel->beginField(OSGScanParseSkel_text, 
+                     SKEL->beginField(SKELTEXT, 
                                         iFieldTypeId);
                                         
                     } 
@@ -572,14 +578,14 @@ nodeBodyElement : fieldId
 
 //                | generalId IS generalId 
 
-fieldEnd : IS generalId { if(_pSkel != NULL)
+fieldEnd : IS generalId { if(SKEL != NULL)
                           {
-                            _pSkel->is(OSGScanParseSkel_text);
-                            _pSkel->endField();
+                            SKEL->is(SKELTEXT);
+                            SKEL->endField();
                           }
                         } 
-         | fieldValue   { if(_pSkel != NULL)
-                            _pSkel->endField();
+         | fieldValue   { if(SKEL != NULL)
+                            SKEL->endField();
                         }
 ;
 
@@ -692,9 +698,9 @@ fieldValue : TOK_SFBOOL
 sfnodeValue : nodeStatement 
             | IS generalId
               {
-                  if(_pSkel != NULL)
+                  if(SKEL != NULL)
                   {
-                      _pSkel->is(OSGScanParseSkel_text);
+                      SKEL->is(SKELTEXT);
                   }
               }
             | SFN_NULL
@@ -703,9 +709,9 @@ sfnodeValue : nodeStatement
 mfnodeValue : nodeStatement   
             | IS generalId          
               {
-                  if(_pSkel != NULL)
+                  if(SKEL != NULL)
                   {
-                      _pSkel->is(OSGScanParseSkel_text);
+                      SKEL->is(SKELTEXT);
                   }
               }
             | OPENBRACKET nodeStatementsORempty CLOSEBRACKET
@@ -722,21 +728,16 @@ nodeStatements : nodeStatements nodeStatement
 
 %%
 
+extern void setSkel    (ScanParseSkel *pSkel);
+extern void clearSkel  (void);
+
 void OSGScanParseSkel_error (char *s)  /* Called by fhs_parse on error */
 {
-  printf ("-----> %s in Line %d, read %s\n", s, iLineNum, 
-          OSGScanParseSkel_text);
+  printf ("-----> %s in Line %d, read %s\n", s, iLineNum);
+//, 
+//          SKELTEXT);
 }
 
-void setSkel(ScanParseSkel *pSkel)
-{
-    _pSkel = pSkel;
-}
-
-void clearSkel(void)
-{
-    _pSkel = NULL;
-}
 
 void setName (char *&szName, const char *szVal)
 {
@@ -751,3 +752,13 @@ void freeName(char *&szName)
 }
 
 
+int OSGScanParseSkel_lex(YYSTYPE *lvalp, void *pSkel)
+{
+    setSkel(SKEL);
+
+    int returnValue = SKEL->lex();
+
+    clearSkel();
+ 
+    return returnValue;
+}

@@ -47,6 +47,8 @@
 
 #include <iostream>
 
+//#define OSG_DEBUG_VRML
+
 #ifndef OSG_DO_DOC
 #    ifdef OSG_DEBUG_VRML
 #        define OSG_VRML_ARG(ARG) ARG
@@ -96,7 +98,7 @@ void VRMLNodeFactory<BaseT>::beginProto(
 {
 #ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
-    PINFO << "Begin Proto " << szProtoname << endl;
+    PINFO << "Begin Proto " << szProtoname << std::endl;
 #endif
 
     Char8 *szName = NULL;
@@ -354,7 +356,7 @@ void VRMLNodeFactory<BaseT>::beginProto(
         indentLog(VRMLNodeDesc::getIndent(), PINFO);
         PINFO << "Could not add second proto named "
               << szProtoname
-              << endl;
+              << std::endl;
 #endif
 
         _bIgnoreProto = true;
@@ -387,7 +389,7 @@ void VRMLNodeFactory<BaseT>::beginEventInDecl(
 
 #ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
-    PINFO << "AddEventIn " << szEventType << " " << szEventName << endl;
+    PINFO << "AddEventIn " << szEventType << " " << szEventName << std::endl;
 #endif
 }
 
@@ -402,7 +404,7 @@ void VRMLNodeFactory<BaseT>::beginEventOutDecl(
 
 #ifdef OSG_DEBUG_VRML
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
-    PINFO << "AddEventOut " << szEventType << " " << szEventName << endl;
+    PINFO << "AddEventOut " << szEventType << " " << szEventName << std::endl;
 #endif
 }
 
@@ -485,7 +487,7 @@ void VRMLNodeFactory<BaseT>::addFieldValue(const Char8 *szFieldVal)
 #ifdef OSG_DEBUG_VRML
         indentLog(VRMLNodeDesc::getIndent(), PINFO);
 
-        PINFO << "Add proto field value : " << szFieldVal << endl;
+        PINFO << "Add proto field value : " << szFieldVal << std::endl;
 #endif
     }
 
@@ -530,7 +532,7 @@ VRMLNodeDesc *VRMLNodeFactory<BaseT>::findNodeDesc(const Char8 *szNodeTypename)
         indentLog(VRMLNodeDesc::getIndent(), PINFO);
         PINFO << "Found Node "
               << mNodeDescIt->first << " ("
-              << szNodeTypename     << ")" << endl;
+              << szNodeTypename     << ")" << std::endl;
 #endif
 
         returnValue = mNodeDescIt->second;

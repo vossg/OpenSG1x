@@ -273,7 +273,7 @@ else
 LIB_FLEXTARGET_DEPS     :=
 endif
 
-flex_int = $(strip $(basename $(notdir $(1))))_
+flex_int = $(strip $(basename $(notdir $(1))))_l_
 flex_ext =  $(strip $(basename $(notdir $(1))))
 endif
 

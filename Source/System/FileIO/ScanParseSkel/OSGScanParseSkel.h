@@ -51,6 +51,8 @@
 #include <iosfwd>
 #endif
 
+class OSGScanParseSkel_l_FlexLexer;
+
 OSG_BEGIN_NAMESPACE
 
 //! Parser / Scanner Skeleton for VRML97 syntax based file formats 
@@ -129,22 +131,25 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \{                                                                 */
 
 #ifdef OSG_FLEX_USE_IOSTREAM_INPUT
-    virtual void scanStream       (std::istream &is,
-                                         UInt32  uiReplaceOptions);
+    virtual void         scanStream       (std::istream &is,
+                                                UInt32  uiReplaceOptions);
 
-    virtual void scanStream       (std::istream &is,
-                                         UInt32  uiAddOptions, 
-                                         UInt32  uiSubOptions);
+    virtual void         scanStream       (std::istream &is,
+                                                UInt32  uiAddOptions, 
+                                                UInt32  uiSubOptions);
 #endif
 
-    virtual void scanFile         (const Char8  *szFilename, 
-                                         UInt32  uiReplaceOptions);
+    virtual void         scanFile         (const Char8  *szFilename, 
+                                                 UInt32  uiReplaceOptions);
 
-    virtual void scanFile         (const Char8  *szFilename, 
-                                         UInt32  uiAddOptions, 
-                                         UInt32  uiSubOptions);
+    virtual void         scanFile         (const Char8  *szFilename, 
+                                                 UInt32  uiAddOptions, 
+                                                 UInt32  uiSubOptions);
 
-    virtual void setDefaultOptions(      UInt32  uiOptions   );
+    virtual void         setDefaultOptions(      UInt32  uiOptions   );
+
+    virtual Int32        lex              (      void                );
+    virtual const Char8 *getText          (      void                );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -257,11 +262,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    UInt32  _uiCurrOptions;
-    UInt32  _uiDefOptions;
-    bool    _bMapTypeIds;
-    Char8  *_szReferenceHeader;
-
+    UInt32                        _uiCurrOptions;
+    UInt32                        _uiDefOptions;
+    bool                          _bMapTypeIds;
+    Char8                        *_szReferenceHeader;
+    OSGScanParseSkel_l_FlexLexer *_pLexer;
 
     void reset             (      void);
 
