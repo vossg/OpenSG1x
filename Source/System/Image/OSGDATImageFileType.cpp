@@ -252,6 +252,7 @@ bool DATImageFileType::read (      ImagePtr &image,
                     }
                     
                     image->set ( pixelFormat, res[0], res[1], res[2], 1, 1, 0.0, 0, formatType);
+                    image->clear();
 
                     if (needConversion)
                         dataBuffer = new char [ dataSize ];
