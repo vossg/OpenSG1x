@@ -74,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.27 2002/01/09 10:27:56 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.28 2002/01/16 16:12:05 dirk Exp $";
 
 StateChunkClass TextureChunk::_class("Texture");
 
@@ -160,6 +160,9 @@ void TextureChunk::initMethod (void)
 TextureChunk::TextureChunk(void) :
     Inherited()
 {
+    _extTex3D          = Window::registerExtension( "GL_EXT_texture3D" );
+    _funcTexImage3D    = Window::registerFunction ( GL_FUNC_TEXIMAGE3D );
+    _funcTexSubImage3D = Window::registerFunction ( GL_FUNC_TEXSUBIMAGE3D );
 }
 
 /** \brief Copy Constructor
@@ -183,13 +186,13 @@ TextureChunk::~TextureChunk(void)
 
 void TextureChunk::changed(BitVector fields, ChangeMode)
 {
-    if ( fields & FrameFieldMask )
+    if ( fields & ImageFieldMask )
     {
-        Window::refreshGLObject( getGLId() );
+        Window::reinitializeGLObject( getGLId() );
     }
     else
     {
-        Window::reinitializeGLObject( getGLId() );
+        Window::refreshGLObject( getGLId() );
     }
 }
 
@@ -233,10 +236,6 @@ void TextureChunk::onCreate( const FieldContainer & )
                                                 &TextureChunk::handleGL), 1));
 #endif
     endEditCP( tmpPtr, TextureChunk::GLIdFieldMask );
-
-    _extTex3D          = Window::registerExtension( "GL_EXT_texture3D" );
-    _funcTexImage3D    = Window::registerFunction ( GL_FUNC_TEXIMAGE3D );
-    _funcTexSubImage3D = Window::registerFunction ( GL_FUNC_TEXSUBIMAGE3D );
 }
 
 
@@ -271,6 +270,12 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
     }
     else if ( mode == Window::initialize || mode == Window::reinitialize )
     {
+        if(mode == Window::reinitialize)
+        {
+            GLuint tex = id;
+            glDeleteTextures( 1, &tex );
+        }
+        
         // 3D texture functions
         void (*TexImage3D)(GLenum target, GLint level, GLenum internalformat, 
                            GLsizei width, GLsizei height, GLsizei depth, 
@@ -316,12 +321,12 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                   target = GL_TEXTURE_3D;
             else
             {
-                FWARNING(( "TextureChunk::refresh: 3D textures not "
+                FWARNING(( "TextureChunk::initialize: 3D textures not "
                             "supported for this window!\n" ));
                 return;
             }
 #else
-            FWARNING(( "TextureChunk::refresh: 3D textures not "
+            FWARNING(( "TextureChunk::initialize: 3D textures not "
                             "supported for this executable!\n" ));
             return;
 #endif
