@@ -217,6 +217,7 @@ private:
                                         UInt32 id                   );
     static void chargeFieldPtr         (const fcInfo &info          );
 
+    static Action::ResultE clearAttachmentParent(NodePtr &node      );
     static Action::ResultE addAttachmentParent  (NodePtr &node      );
     static void            fillAttachmentParents(const NodePtr &node);
 
@@ -243,6 +244,6 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.3 2004/10/21 12:22:55 a-m-z Exp $"
+#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.4 2004/10/23 21:20:53 a-m-z Exp $"
 
 #endif /* _OSGNFIOBASE_H_ */

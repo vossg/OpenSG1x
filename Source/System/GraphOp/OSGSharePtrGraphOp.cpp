@@ -254,7 +254,7 @@ FieldContainerPtr SharePtrGraphOp::compareFCs(const FieldContainerPtr &fc)
                         fcb.setParentFieldPos(fdesc->getFieldId());
                         beginEditCP(attachment, Attachment::ParentsFieldMask);
                             attachment->addParent(fc);
-                            //((MFFieldContainerPtr *) attachment->getField("parents"))->clear();
+                            //attachment->getParents().clear();
                         endEditCP(attachment, Attachment::ParentsFieldMask);
                     }
 #endif
@@ -551,7 +551,7 @@ Action::ResultE SharePtrGraphOp::clearAttachmentParent(NodePtr &node)
                 {
                     fc.setParentFieldPos(fDesc->getFieldId());
                     beginEditCP(attachment, Attachment::ParentsFieldMask);
-                        ((MFFieldContainerPtr *) attachment->getField("parents"))->clear();
+                        attachment->getParents().clear();
                     endEditCP(attachment, Attachment::ParentsFieldMask);
                 }
             }
@@ -567,7 +567,7 @@ Action::ResultE SharePtrGraphOp::clearAttachmentParent(NodePtr &node)
                     {
                         fc.setParentFieldPos(fDesc->getFieldId());
                         beginEditCP(attachment, Attachment::ParentsFieldMask);
-                            ((MFFieldContainerPtr *) attachment->getField("parents"))->clear();
+                            attachment->getParents().clear();
                         endEditCP(attachment, Attachment::ParentsFieldMask);
                     }
                 }

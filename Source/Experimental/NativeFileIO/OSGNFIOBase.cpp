@@ -642,6 +642,76 @@ void NFIOBase::skipFCFields(void)
     }
 }
 
+Action::ResultE NFIOBase::clearAttachmentParent(NodePtr &node)
+{
+    if(node == NullFC)
+        return Action::Continue;
+
+    FieldContainerPtr fc = node->getCore();
+
+    if(fc == NullFC)
+        return Action::Continue;
+
+    // the core could be shared this would lead to duplicated parent entries.
+    if(_added_cores.count(fc) == 1)
+        return Action::Continue;
+
+    _added_cores.insert(fc);
+
+    FieldContainerType  &fcType = fc->getType();
+
+    //go through all fields
+    for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
+    {
+        FieldDescription    *fDesc = fcType.getFieldDescription(i);
+        Field               *fieldPtr = fc->getField(i);
+        const FieldType     &fType = fieldPtr->getType();
+        std::string         fieldType = fType.getCName();
+        BitVector           mask = fDesc->getFieldMask();
+
+        if(fDesc->isInternal())
+        {
+            continue;
+        }
+
+        if(strstr(fieldType.c_str(), "Ptr") != NULL)
+        {
+            if(fieldType[0] == 'S' && fieldType[1] == 'F') // single field
+            {
+                AttachmentPtr attachment =
+                    AttachmentPtr::dcast(((SFFieldContainerPtr *) fieldPtr)
+                    ->getValue());
+                if(attachment != NullFC)
+                {
+                    fc.setParentFieldPos(fDesc->getFieldId());
+                    beginEditCP(attachment, Attachment::ParentsFieldMask);
+                        attachment->getParents().clear();
+                    endEditCP(attachment, Attachment::ParentsFieldMask);
+                }
+            }
+            else if(fieldType[0] == 'M' && fieldType[1] == 'F') // multi field
+            {
+                MFFieldContainerPtr *mfield = (MFFieldContainerPtr *) fieldPtr;
+                UInt32 noe = mfield->size();
+                for(UInt32 j = 0; j < noe; ++j)
+                {
+                    AttachmentPtr attachment =
+                        AttachmentPtr::dcast((*(mfield))[j]);
+                    if(attachment != NullFC)
+                    {
+                        fc.setParentFieldPos(fDesc->getFieldId());
+                        beginEditCP(attachment, Attachment::ParentsFieldMask);
+                            attachment->getParents().clear();
+                        endEditCP(attachment, Attachment::ParentsFieldMask);
+                    }
+                }
+            }
+        }
+    }
+
+    return Action::Continue;
+}
+
 Action::ResultE NFIOBase::addAttachmentParent(NodePtr &node)
 {
     if(node == NullFC)
@@ -717,6 +787,10 @@ void NFIOBase::fillAttachmentParents(const NodePtr &node)
     if(node == NullFC)
         return;
 
+    _added_cores.clear();
+    // for some reason the geometry indices parents field is not empty.
+    traverse(node, osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
+             NodePtr>(clearAttachmentParent));
     _added_cores.clear();
     traverse(node, osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
              NodePtr>(addAttachmentParent));
@@ -830,6 +904,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.5 2004/10/23 18:03:50 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.6 2004/10/23 21:20:53 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }
