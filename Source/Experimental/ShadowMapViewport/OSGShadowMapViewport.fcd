@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="ShadowMapViewport"
+	parent="Viewport"
+	library="System"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
+>
+First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lights and produces ambient Shadows -Viewport uses On-Screen-rendering, so Window must not be occulled
+	<Field
+		name="offBias"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="4"
+		access="public"
+	>
+	Offset-Bias for Polygon-Offset. Needs to be used with Polygon-Chunk
+	</Field>
+	<Field
+		name="offFactor"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="10"
+		access="public"
+	>
+	Offset-Factor for Polygon-Offset. Needs to be used with Polygon-Chunk
+	</Field>
+	<Field
+		name="sceneRoot"
+		type="NodePtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Scene root node.
+	</Field>
+	<Field
+		name="shadowColor"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,0,1"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="mapSize"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="128"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="lightNodes"
+		type="NodePtr"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+</FieldContainer>
