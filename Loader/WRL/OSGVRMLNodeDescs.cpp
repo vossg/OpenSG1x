@@ -2998,12 +2998,19 @@ void VRMLPixelTextureDesc::endNode(FieldContainerPtr pFC)
 /*-------------------------------------------------------------------------*/
 /*                              Field Value                                */
 
-void VRMLPixelTextureDesc::addFieldValue(      Field *,
+void VRMLPixelTextureDesc::addFieldValue(      Field *pField,
                                          const Char8 *szFieldVal)
 {
-    if(_image.getValue() != NULL)
+    if(pField != NULL)
     {
-        _image.getValue()->addValue(szFieldVal);
+        if( (pField == &_image) && (_image.getValue() != NULL) )
+        {
+            _image.getValue()->addValue(szFieldVal);
+        }
+        else
+        {
+            pField->pushValueByStr(szFieldVal);
+        }
     }
 }
 
