@@ -3289,7 +3289,6 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
             {
                 pTexture->setWrapS(GL_CLAMP);
             }
-
             if(_repeatT.getValue() == true)
             {
                 pTexture->setWrapT(GL_REPEAT);
@@ -3298,7 +3297,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
             {
                 pTexture->setWrapT(GL_CLAMP);
             }
-            pTexture->setEnvMode(GL_REPLACE);
+            pTexture->setEnvMode(GL_MODULATE);
             endEditCP(pTexture);
         }
         else
@@ -4829,14 +4828,14 @@ FieldContainerPtr VRMLInlineDesc::beginNode(
 }
 
 void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
-{
+{    
           Field            *pField;
     const FieldDescription *pFieldDesc;
 
     NodePtr pNode = NodePtr::dcast(pFC);
 
-    VRMLNodeDesc::getFieldAndDesc(pFC,
-                                  "url",
+    VRMLNodeDesc::getFieldAndDesc(pFC, 
+                                  "url", 
                                   pField,
                                   pFieldDesc);
 
@@ -4848,7 +4847,7 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
 
     pVRMLLoader->createStandardPrototypes();
 
-    pVRMLLoader->scanFile((*pUrl)[0].c_str());
+    pVRMLLoader->scanFile((*pUrl)[0].c_str(), 0, 0);
 
     NodePtr pFile = pVRMLLoader->getRoot();
 
