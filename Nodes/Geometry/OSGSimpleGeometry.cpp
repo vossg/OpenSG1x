@@ -244,7 +244,7 @@ NodePtr OSG::makeCylinder( Real32 height, Real32 radius,
 	\param doTop		create the geometry for the top cap
 	\param doBottom		create the geometry for the bottmo cap
 
-makeFrusutm creates a conical frustum. It's center sits in the origin of
+makeConicalFrustum creates a conical frustum. It's center sits in the origin of
 the x/z plane.  It's height is \a height and the base is subdivided into
 \a sides parts. The top radius is \a topradius, the bottom radius \a
 botradius.
@@ -732,6 +732,145 @@ NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
 	node->setCore( geo );
 	endEditCP(node);	
 		
+	return node;
+}
+
+
+
+/*! \ingroup SimpleGeometry
+	\return NodePtr the created box
+	\param xsize	the box's size in the x direction
+	\param ysize	the box's size in the y direction
+	\param zsize	the box's size in the z direction
+	\param hor		number of subdivisons in the x direction
+	\param vert		number of subdivisons in the y direction
+	\param depth	number of subdivisons in the z direction
+
+makeBox creates a box around the origin. It spans the [-\a xsize /2,\a xsize /2]x
+[-\a ysize /2,\a ysize/2]x[-\a zsize /2,\a zsize/2] volume and is subdivided into 
+\a hor * \a vert * \a depth quads.
+
+*/
+
+OSG_GEOMETRY_DLLMAPPING
+NodePtr OSG::makeBox( Real32 xsize, Real32 ysize, Real32 zsize, 
+	UInt16 hor, UInt16 vert, UInt16 depth )
+{
+	if ( ! hor || ! vert || ! depth)
+	{
+		SWARNING << "makeBox: illegal parameters hor=" << hor << ", vert="
+				 << vert << ", depth=" << depth << endl;
+		return NullNode;
+	}
+	
+	GeoPosition3fPtr    pnts  = GeoPosition3f::create();
+	GeoNormal3fPtr		norms = GeoNormal3f::create();
+	GeoTexCoords2fPtr	tex   = GeoTexCoords2f::create();
+	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
+	GeoPLengthPtr		lens  = GeoPLength::create();	
+	GeoPTypePtr			types = GeoPType::create();	
+	
+	UInt16 x,y,pl;
+	Vec3f size( xsize,  ysize,  zsize );
+	Vec3f step( xsize / hor, ysize / vert, zsize / depth );
+	Vec3f res( hor,  vert,  depth );
+
+	// calc the vertices
+
+	GeoPosition3f::FieldType  * p = pnts->getFieldPtr();
+	GeoNormal3f::FieldType    * n = norms->getFieldPtr();
+	GeoTexCoords2f::FieldType * tx = tex->getFieldPtr();
+
+	beginEditCP(pnts);
+	beginEditCP(norms);
+	beginEditCP(tex);
+	
+	static int inds[6][2] =  { {0,1}, {0,1}, {1,2}, {1,2}, {2,0}, {2,0} };
+	static int signs[6][2] = { {1,1}, {-1,1}, {1,1}, {-1,1}, {1,1}, {-1,1} };
+	static int asigns[6] = { 1, -1, 1, -1, 1, -1 };
+	
+	for ( pl = 0; pl < 6; pl++ )
+	{
+		UInt16 axis = 3 - inds[pl][0] - inds[pl][1];
+		
+		for ( y = 0; y <= res[inds[pl][1]] ; y++ )
+		{
+			for ( x = 0; x <= res[inds[pl][0]]; x++ )
+			{						
+				Pnt3f pnt;
+				pnt[ inds[pl][0] ] = ( x * step[inds[pl][0]] - size[inds[pl][0]] / 2 ) * 
+										signs[pl][0];
+				pnt[ inds[pl][1] ] = ( y * step[inds[pl][1]] - size[inds[pl][1]] / 2 ) * 
+										signs[pl][1];
+				pnt[ axis ] = size[ axis ] * asigns[ pl ] / 2;
+				p->addValue( pnt );
+				
+				Vec3f norm( 0, 0, 0 );
+				norm[ axis ] = asigns[ pl ];
+				n->addValue( norm );
+				tx->addValue( Vec2f( x / (Real32) res[inds[pl][0]], 
+									 y / (Real32) res[inds[pl][1]]) );
+			}
+		}
+	}
+	
+	endEditCP(pnts);
+	endEditCP(norms);
+	endEditCP(tex);
+
+	// create the faces
+	
+	GeoIndexUI32::FieldType * i = index->getFieldPtr();
+	GeoPLength::FieldType   * l = lens->getFieldPtr();
+	GeoPType::FieldType     * t = types->getFieldPtr();
+
+	beginEditCP(index);
+	beginEditCP(lens);
+	beginEditCP(types);
+
+	UInt32 basepoint = 0;
+	
+	for ( pl = 0; pl < 6; pl++ )
+	{
+		for ( y = 0; y < res[inds[pl][1]]; y++ )
+		{
+			UInt16 h = res[inds[pl][0]];
+			
+			t->addValue( GL_TRIANGLE_STRIP );
+			l->addValue( 2 * ( h + 1 ) );
+			
+			for ( x = 0; x <= h; x++ )
+			{
+				i->addValue( basepoint + ( y + 1) * ( h + 1 ) + x );
+				i->addValue( basepoint +   y      * ( h + 1 ) + x );
+			}
+		}
+		basepoint += ( res[inds[pl][0]] + 1 ) * ( res[inds[pl][1]] + 1 );
+	}
+	
+	endEditCP(index);
+	endEditCP(lens);
+	endEditCP(types);
+	
+	// create the geometry
+	
+    GeometryPtr geo = Geometry::create();
+
+ 	beginEditCP(geo);
+	geo->setPositions( pnts );
+	geo->setNormals( norms );
+	geo->setNormalPerVertex( true );
+	geo->setTexCoords( tex );
+	geo->setIndex( index );
+	geo->setTypes( types );
+	geo->setLengths( lens );
+	endEditCP(geo);
+		
+    NodePtr node = Node::create();
+	beginEditCP(node);
+	node->setCore( geo );
+	endEditCP(node);
+	
 	return node;
 }
 

@@ -35,7 +35,7 @@ OSG_USING_NAMESPACE
 
 DrawAction * dact;
 
-const int nobjects = 6;
+const int nobjects = 7;
 NodePtr  objects[nobjects];
 NodePtr  normalobjects[nobjects];
 
@@ -58,7 +58,7 @@ display(void)
 		obj = (int) ( a / 5000 ) % nobjects ;  
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
+	
 	glPushMatrix();
 	glRotatef( a / 36, 0,0,1 );
 
@@ -83,6 +83,11 @@ void key( unsigned char key, int x, int y )
 	case 's':	obj = ( -- obj + nobjects ) % nobjects;
 				cerr << "object now " << obj << endl;
 				break;
+
+	case 'c':	if ( glIsEnabled( GL_CULL_FACE ) )
+					glDisable( GL_CULL_FACE );
+				else
+					glEnable( GL_CULL_FACE );
 	}
 }
 
@@ -124,6 +129,7 @@ int main (int argc, char **argv)
 	glEnable( GL_DEPTH_TEST );
 	glEnable( GL_LIGHTING );
 	glEnable( GL_LIGHT0 );
+	glClearColor( .3, .3, .8, 1 );
 
 	// OSG
 	
@@ -185,6 +191,10 @@ int main (int argc, char **argv)
 	objects[5] = makeConicalFrustum( 3, 2, 1, 20, true, true, true );
 	dcast<GeometryPtr>(objects[5]->getCore())->setMaterial( mat );
 	cerr << "Frustum Node: " << hex << objects[5] << endl;
+
+	objects[6] = makeBox( 4, 3, 2, 4, 3, 2 );
+	dcast<GeometryPtr>(objects[6]->getCore())->setMaterial( mat );
+	cerr << "Box Node: " << hex << objects[0] << endl;
 	
 	// try the vertex normal calc
     //OSG::GeometryPtr pGeo = dcast<GeometryPtr>(objects[3]->getCore());

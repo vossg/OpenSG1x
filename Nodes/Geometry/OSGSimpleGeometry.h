@@ -65,6 +65,13 @@ OSG_GEOMETRY_DLLMAPPING NodePtr makePlane(Real32 xsize, Real32 ysize,
                                 		  UInt16 hor,   UInt16 vert);
 
 
+/*! \brief create a box
+ *  \ingroup SimpleGeometry
+ */
+OSG_GEOMETRY_DLLMAPPING NodePtr makeBox( Real32 xsize, Real32 ysize, Real32 zsize, 
+										 UInt16 hor,   UInt16 vert,  UInt16 depth);
+
+
 /*! \brief create a cone
  *  \ingroup SimpleGeometry
  */
