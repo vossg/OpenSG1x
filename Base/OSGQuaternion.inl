@@ -794,7 +794,7 @@ template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::getValueAsAxisRad(VectorType &axis, 
                                                    ValueTypeT &radians) const
 {
-  Real32 x,y,z,w;
+  ValueTypeT x,y,z,w;
 
   getValueAsAxisRad(x,y,z,w);
   
@@ -807,7 +807,7 @@ template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::getValueAsAxisDeg(VectorType &axis, 
                                                    ValueTypeT &radians) const
 {
-  Real32 x,y,z,w;
+  ValueTypeT x,y,z,w;
 
   getValueAsAxisDeg(x,y,z,w);
   
