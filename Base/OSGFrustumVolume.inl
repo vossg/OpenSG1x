@@ -26,9 +26,6 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGBOXVOLUME_INL_
-#define _OSGBOXVOLUME_INL_
-
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
@@ -70,13 +67,13 @@ FrustumVolume::FrustumVolume() : Volume() {;}
 
 /// Constructor given bounds 
 inline
-FrustumVolume::FrustumVolume (  const Plane &near, const Plane &far,
+FrustumVolume::FrustumVolume (  const Plane &pnear, const Plane &pfar,
 																const Plane &left, const Plane &right,
 													      const Plane &top,  const Plane &bottom)
 	: Volume()
 {
-	_planeVec[0] = near;
-	_planeVec[1] = far;
+	_planeVec[0] = pnear;
+	_planeVec[1] = pfar;
 	_planeVec[2] = left;
 	_planeVec[3] = right;
 	_planeVec[4] = top;
@@ -146,12 +143,12 @@ const Plane & FrustumVolume::getBottom   (void) const
 
 /// set method
 inline
-void FrustumVolume::setPlanes(  const Plane &near, const Plane &far,
+void FrustumVolume::setPlanes(  const Plane &pnear, const Plane &pfar,
 																const Plane &left, const Plane &right,
 													      const Plane &top,  const Plane &bottom)
 {
-	_planeVec[0] = near;
-	_planeVec[1] = far;
+	_planeVec[0] = pnear;
+	_planeVec[1] = pfar;
 	_planeVec[2] = left;
 	_planeVec[3] = right;
 	_planeVec[4] = top;
@@ -203,4 +200,3 @@ Bool operator != (const FrustumVolume &b1, const FrustumVolume &b2)
 
 OSG_END_NAMESPACE
 
-#endif // BOX_CLASS_DECLARATION

@@ -106,7 +106,7 @@ public:
   inline FrustumVolume(); 
 
   /// Constructor obj from 6 planes
-  inline FrustumVolume ( const Plane &near, const Plane &far,
+  inline FrustumVolume ( const Plane &pnear, const Plane &pfar,
 												 const Plane &left, const Plane &right,
 												 const Plane &top,  const Plane &bottom );
 
@@ -141,7 +141,7 @@ public:
 
 	/** set method for all planes */
 	inline
-	void FrustumVolume::setPlanes( const Plane &near, const Plane &far,
+	void FrustumVolume::setPlanes( const Plane &pnear, const Plane &pfar,
 																 const Plane &left, const Plane &right,
 																 const Plane &top,  const Plane &bottom);
 
