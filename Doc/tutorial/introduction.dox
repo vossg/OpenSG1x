@@ -174,31 +174,25 @@ all to the folder where your executable is, but a more clever way is to adjust y
 \subsection TutorialInstallationMacintosh Installation on a Macintosh PowerPC
 
 Installing OpenSG on a Macintosh was, and still is, not a very easy task at all. Until today I have not succeeded in getting it work on Mac OS X.
-I had it running on 10.2, but a lot of things, like textures and the loaders , did not work - so it was not very useful. On 10.3 I can compile
-it, but applications will crash with a segementation fault. If anybody of you succeeds in executing OpenSG powered applications, please tell me!
+I had it running on 10.2, but a lot of things, like textures and the loaders, did not work - so it was not very useful at all. On 10.3 Compilation on 10.3 is
+possible, but applications will crash with a segementation fault. If anybody of you succeeds in executing OpenSG powered applications on Mac OS,
+please tell me!
 
-But there is good news for all of you who want to run it on a Mac: Since just a few days I have OpenSG running on my Powerbook by using linux
-as the operating system. It is fully functional and very performant as you are used to it on linux based systems. I only tried Yellow Dog Linux,
+However there is good news for you, if you want to run it on a Mac and are not scared by Linux:  Finally I have succeeded running OpenSG on my Powerbook
+by using Linux
+as the operating system. It is fully functional and very performant as you are used to it on Linux based systems. I only tried Yellow Dog Linux,
 which I would suggest to you anyway, if you have not already a linux distribution on your Mac. Yellow Dog Linux is actually a port of Red Hat, but
 YDL is available for the PowerPC architecture only. I would recommend it, because it has very excellent hardware support, which you would not have
 with Gentoo or even Debian linux. You can find Yellow Dog Linux here : <A HREF = "http://www.yellowdoglinux.com">http://www.yellowdoglinux.com</A>
 
-Regardless of which linux you actually use, you will of course need OpenGL (i.e. Mesa) development packages installed, as well as the GLUT package,
-if you would like to use it. Furthermore the appropiate packages for the image libraries are needed.
+Regardless of which Linux you actually use, you will of course need OpenGL (i.e. Mesa) development packages installed, as well as the GLUT package,
+if you would like to use it. Furthermore the appropiate packages for the image libraries are needed. You can simply install image-magick, for example, because
+all image libraries needed by OpenSG are also installed with image-magick and furthermore, if you want to build the decomentation yourself from source you need
+it anyway.
 
-If you have all the stuff you need, it will not work anyway, because your system will be identified as powerpc-unknown-linux-gnu. 
+However there is still one thing to do before you start compiling, because your system will be identified as powerpc-unknown-linux-gnu. 
 
-There are two steps you need to do:
-
-1.\n
-At the moment I am writing these lines there are no appropriate configuration files for this type of os. I provide these needed files here:
-<A HREF="progs/common.powerpc-unknown-linux-gnu-g++.in">progs/common.powerpc-unknown-linux-gnu-g++.in</A>
-<A HREF="progs/conf.powerpc-unknown-linux-gnu-g++.in">progs/conf.powerpc-unknown-linux-gnu-g++.in</A>
-Maybe these files are now added to the offical distribution by now, but if they were not, just take these files and copy them in your "CommonConf" 
-Folder.
-
-2.\n
-Well, this one is a bit quick and dirty but it works well, so open the "OSGConfig.h" which can be found in <I>your_openg_folder/Source/Base/Base</I>.
+Well, this is a bit quick and dirty but it works well, so open the "OSGConfig.h" which can be found in <I>your_openg_folder/Source/Base/Base</I>.
 \code
 
 // locate the following lines that say 
@@ -213,13 +207,37 @@ Well, this one is a bit quick and dirty but it works well, so open the "OSGConfi
 
 \endcode
 
-These two steps should make it possible for you to compile and execute OpenSG. Just run the configure and make command as you would normally on 
-linux. If you are encountering any problems during compilation make sure you have all the needed libraries (and the appropriate devel packages)
-installed. 
+<I>Note on Gentoo
+There is an additional step to take if compiling on a Gentoo based systems. For some reasons, I do not understand, OpenSG will complain about an unknown
+GNU major version - which is not correct, as this version is 3.80 as expected by OpenSG. You can check this by running
+</I>
+<PRE>
+  make --version
+</PRE>
+<I>
+Anyway, we will simply trick OpenSG again by opening "commonBuildDetect.mk" found in <I>your_opensg_folder/Common</I>. At the end of that file locate the
+lines that say
+</I>
+\code
+  MAKEMAJOR := $(strip $(MAKEMAJOR))
+  MAKEMINOR := $(strip $(MAKEMINOR))
+\endcode
+<I>
+and replace them with
+</I>
+\code
+  MAKEMAJOR := 3
+  MAKEMINOR := 80
+\endcode
+<I>
+this will tell OpenSG the correct version of GNU make. You can now continue as normal
+</I>
 
-GENTOO:
-I recently tried to install OpenSG on Gentoo/PPC, but encountered a lot of problems. As mentioned previously mentioned, I really recommend using Yellow
-Dog Linux!
+Your system will now be identified as linux throught OpenSG. Now, just run the configure and make command as you would normally on 
+Linux. If you are encountering any problems during compilation make sure you have all the needed libraries (and the appropriate devel packages)
+installed.
+
+ If you want to run applications, don't forget do edit your .profile file as explained above for Linux on a PC. 
 
 NOTE:
 If you have just installed a new linux on your Mac, the hardware acceleration of your graphic cards is most likely not activated. I can not explain
@@ -227,8 +245,10 @@ how to activate it as this is not our concern here, but if you need help, the di
 off: <A HREF = "dri.sf.net">dri.sf.net</A>
 
 NOTE ON G5 PowerMac:
-At this time, there is no functional linux available for the PowerMac G5. The YellowDog Linux for the G5 is not available to the public yet,
-and Gentoo does not work that well as it is in beta status. So at the moment there is no way to get it run on this machine :-(
+Good news for G5 owners! Yellow Dog Linux is not yet available for the G5, but Gentoo Linux works now (Version 2004.1). Installation, though,
+is not very easy. But if you succeed, you also can run OpenSG! However, there is still bad news for owners of the GeForce FX 5600 Ultra, shipped with
+both "lower cost" models: There still is no driver available for the ppc architecture that enables 3d acceleration - the nv driver only enables 2d acceleration.
+Until that changes (if it does at all), you have to use an Ati graphics card...
 
 \subsection TutorialInstallationWindows Installation on Windows
 
