@@ -168,36 +168,41 @@ void DisplayCalibration::calibrate(WindowPtr window,RenderActionBase *ract)
                 break;
             }
         for(y=0 ; y<getGridHeight()-1 ; ++y)
+        {
             for(x=0 ; x<getGridWidth()-1 ; ++x)
             {
+                // calculate texture coordinates
                 Vec2f tex[4];
-                tex[0] = getGrid()[y*getGridWidth()+x];
-                tex[1] = getGrid()[y*getGridWidth()+x+1];
-                tex[2] = getGrid()[(y+1)*getGridWidth()+x+1];
-                tex[3] = getGrid()[(y+1)*getGridWidth()+x];
-                Pnt3f pos[4];
-                pos[0] = Pnt3f(  x,  y);
-                pos[1] = Pnt3f(x+1,  y);
-                pos[2] = Pnt3f(x+1,y+1);
-                pos[3] = Pnt3f(  x,y+1);
+                tex[0] = Vec2f(  x,  y);
+                tex[1] = Vec2f(x+1,  y);
+                tex[2] = Vec2f(x+1,y+1);
+                tex[3] = Vec2f(  x,y+1);
+
+                // get position
+                Vec2f pos[4];
+                pos[0] = getGrid()[y*getGridWidth()+x];
+                pos[1] = getGrid()[y*getGridWidth()+x+1];
+                pos[2] = getGrid()[(y+1)*getGridWidth()+x+1];
+                pos[3] = getGrid()[(y+1)*getGridWidth()+x];
                 for(i=0 ; i<4 ; ++i)
                 {
-                    if(absolute)
+                    // scale to 0 - 1
+                    tex[i][0] /= getGridWidth() - 1;
+                    tex[i][1] /= getGridHeight() - 1;
+                    // scale to ^2 texture size
+                    tex[i][0] *= w/(float)tw;
+                    tex[i][1] *= h/(float)th;
+                    if(absolute) 
                     {
-                        tex[i][0] /= tw;
-                        tex[i][1] /= th;
-                    }
-                    else
-                    {
-                        tex[i][0] *= w/(float)tw;
-                        tex[i][1] *= h/(float)th;
+                        pos[i][0] /= (w-1);
+                        pos[i][1] /= (h-1);
                     }
                     _texcoords->addValue(tex[i]);
-                    pos[i][0] /= getGridWidth() - 1;
-                    pos[i][1] /= getGridHeight() - 1;
-                    _positions->addValue(pos[i]*2-Vec3f(1,1,1));
+                    Pnt3f p(pos[i][0],pos[i][1],0);
+                    _positions->addValue(p*2-Vec3f(1,1,1));
                 }
             }
+        }
     }
     endEditCP(_texcoords);
     beginEditCP(_positions);
@@ -632,7 +637,7 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
     
     beginEditCP(tg);
         tg->setTexture(tex);
-        tg->setColor(Color3f(0,0,1));
+        tg->setColor(Color3f(0,0,0));
     endEditCP(tg);
     
     ViewportPtr vp = Viewport::create();
