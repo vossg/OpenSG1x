@@ -69,39 +69,6 @@ void loadAnim()
     fclose(file);
 }
 
-void showText(int x, int y, char *string)
-{
-  int len, i;
-#ifdef WIN32
-#ifdef OSG_WIN32_CL
-  void *font = (void *) 6;
-#else
-  void *font = 6;
-#endif
-#else
-  void *font = GLUT_BITMAP_TIMES_ROMAN_24;
-#endif
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
-  glEnable(GL_COLOR_MATERIAL);
-  glPushMatrix();
-  glLoadIdentity();
-  glMatrixMode(GL_PROJECTION);
-  glPushMatrix();
-  glLoadIdentity();
-  gluOrtho2D(0,clientWindow->getWidth(),0,clientWindow->getHeight());
-  glDisable(GL_DEPTH_TEST);  
-  glColor3f(1.0, 1.0, 0.0);
-  glRasterPos2f(x, y);
-  len = (int) strlen(string);
-  for (i = 0; i < len; i++) {
-    glutBitmapCharacter(font, string[i]);
-  }
-  glPopMatrix();
-  glMatrixMode(GL_MODELVIEW);
-  glPopMatrix();
-  glPopAttrib();
-}
-
 void display(void)
 {
     Time t;
@@ -267,7 +234,7 @@ void key(unsigned char key, int /*x*/, int /*y*/)
                 (*qit).getValueAsAxisRad(ax,ay,az,r);
                 
                 fprintf(file, "%f %f %f %f", ax, ay, az, r );
-                if(qit < animPos.size() - 1)
+                if(qit < animOri.end() - 1)
                     fprintf(file,", ");
             }
             fprintf(file,"]\n}\n\n");
