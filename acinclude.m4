@@ -181,7 +181,8 @@ AC_DEFUN(AC_GDZ_SETUP_INTEL,
 
     case $ac_gdz_compiler_version in
 
-        70)
+        7*)
+        ac_gdz_compiler_version=70
         ac_gdz_intelsearchdir=Intel/Compiler$ac_gdz_compiler_version/IA32
         ac_gdz_compiler_bin_dir=Bin
         ;;

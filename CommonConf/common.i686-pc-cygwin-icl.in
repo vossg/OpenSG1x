@@ -23,7 +23,12 @@ II_FILESDIR          :=
 COMPILER5x := $(shell $(CC) 2>&1 | head -1 | cut -d' ' -f 8)
 COMPILER4x := $(shell $(CC) 2>&1 | head -1 | cut -d' ' -f 5)
 
+COMPILERMAJOR := 
+
 ifneq ($(COMPILER5x),)
+
+COMPILER5x-0 := $(shell echo $(COMPILER5x) | cut -d'.' -f 1)
+
 COMPILER5x-1 := $(subst .,,$(COMPILER5x))
 
 COMPILER5x-2 := $(strip $(COMPILER5x-1))
@@ -31,8 +36,10 @@ COMPILER5x-2 := $(strip $(COMPILER5x-1))
 COMPILER5x-3 := $(shell if test $(COMPILER5x-2) -lt 100 ; then echo 1; fi)
 
 COMPILERVERSION5x := $(if $(COMPILER5x-3),$(COMPILER5x-2)0,$(COMPILER5x-2))
+COMPILERMAJOR     := $(COMPILER5x-0)
 else
 COMPILERVERSION5x :=
+COMPILERMAJOR     := 
 endif
 
 ifneq ($(COMPILER4x),)
@@ -118,7 +125,7 @@ endif
 
 LANG_FLAGS          = 
 
-ifeq ($(COMPILERVERSION),700)
+ifeq ($(COMPILERMAJOR),7)
 COMPILER    		= -Qvc6 -GX -Gi- -Qansi_alias -Qoption,cpp,--new_for_init -GR
 else
 COMPILER    		= -Qvc6 -GX -Gi- -Qansi -Qoption,cpp,--new_for_init -GR
