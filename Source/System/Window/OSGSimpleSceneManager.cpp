@@ -284,7 +284,7 @@ DrawActionBase *SimpleSceneManager::getAction(void)
 
 /*! set the action used to render the scene
  */
-void SimpleSceneManager::setAction(DrawActionBase *action)
+void SimpleSceneManager::setAction(RenderAction *action)
 {
     bool statstate = _statstate;
 
