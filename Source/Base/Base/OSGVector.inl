@@ -1137,8 +1137,10 @@ PointInterface<ValueTypeT, StorageInterfaceT> &
     PointInterface<ValueTypeT, 
                    StorageInterfaceT>::operator =(const VecInterface   &source)
 {
+    static PointInterface<ValueTypeT, StorageInterfaceT> dummy;
     PointInterface<ValueTypeT, 
                    StorageInterfaceT>::error_cannot_assign_vector;
+    return dummy;
 }
 
 /*-------------------------------------------------------------------------*/
