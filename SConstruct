@@ -469,7 +469,9 @@ class PlatformOptions:
                 un = unzip()
                 un.extract(os.path.join(current_dir , 'dist', 'win', 'supportlibs.zip'),
                            os.path.join(current_dir , 'supportlibs'))
-            
+                if os.path.exists(os.path.join(current_dir , 'supportlibs', 'include', 'png.h')):
+                    supportlibs = 'yes'
+
             for option in self.package_options:
                 opts.Add(PackageOption(option, 'Enable ' + option + ' support', supportlibs))
         else:
