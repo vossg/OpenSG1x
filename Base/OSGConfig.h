@@ -753,6 +753,7 @@ OSG_USING_STD_NAMESPACE
     OSG_FC_EXPORT_GETTYPE_DECL(CLASSNAME, T1, DLLMAPPING)     
 #endif
 
+#ifdef WIN32
 #define  OSG_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING)         \
 template<>                                                       \
 FieldContainerType CLASSNAME< T1 >::_type =                      \
@@ -823,7 +824,46 @@ template DLLMAPPING                                            \
 FieldContainerType &CLASSNAME< T1 >::getType(void);            \
 template DLLMAPPING                                            \
 const FieldContainerType &CLASSNAME< T1 >::getType(void) const
+#else
+#define  OSG_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING)         \
+template<>                                                       \
+FieldContainerType CLASSNAME< T1 >::_type =                      \
+    FieldContainerType(                                          \
+        T1::getTypeName(),                                       \
+        T1::getParentTypeName(),                                 \
+        T1::getGroupName(),                                      \
+        (PrototypeCreateF) &CLASSNAME< T1 >::createEmpty,        \
+        T1::getInitMethod(),                                     \
+        T1::getDesc(),                                           \
+        sizeof(FieldDescription *))
 
+#define  OSG_ABSTR_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING) \
+template<>                                                     \
+FieldContainerType CLASSNAME< T1 >::_type =                    \
+    FieldContainerType(                                        \
+        T1::getTypeName(),                                     \
+        T1::getParentTypeName(),                               \
+        T1::getGroupName(),                                    \
+        (PrototypeCreateF) &CLASSNAME< T1 >::createEmpty,      \
+        T1::getInitMethod(),                                   \
+        T1::getDesc(),                                         \
+        sizeof(FieldDescription *))
+
+#define  OSG_DYNFIELD_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING) \
+template<>                                                     \
+FieldContainerType CLASSNAME< T1 >::_type =                    \
+    FieldContainerType(                                        \
+        T1::getTypeName(),                                     \
+        T1::getParentTypeName(),                               \
+        T1::getGroupName(),                                    \
+        (PrototypeCreateF) &CLASSNAME< T1 >::createEmpty,      \
+        T1::getInitMethod(),                                   \
+        NULL,                                                  \
+        0,                                                     \
+        true)
+#endif
+
+#ifdef WIN32
 #define  OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING) \
 template <>                                                         \
 FieldContainerType AbstractGeoProperty< T1 >::_type(                \
@@ -868,6 +908,29 @@ template DLLMAPPING                                           \
 FieldContainerType &GeoProperty< T1 >::getType(void);         \
 template DLLMAPPING                                           \
 const FieldContainerType &GeoProperty< T1 >::getType(void) const
+#else
+#define  OSG_ABSTR_GEOPROP_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING) \
+template <>                                                         \
+FieldContainerType AbstractGeoProperty< T1 >::_type(                \
+        T1                ::getTypeName  (),                        \
+        LocalInheritedDesc::getTypeName  (),                        \
+        T1                ::getGroupName (),                        \
+        NULL,                                                       \
+        T1                ::getInitMethod(),                        \
+        NULL,                                                       \
+        0)
+
+#define  OSG_GEOPROP_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING) \
+template <>                                                   \
+FieldContainerType GeoProperty< T1 >::_type(                  \
+    T1                ::getTypeName(),                        \
+    LocalInheritedDesc::getTypeName(),                        \
+    T1                ::getGroupName(),                       \
+    (PrototypeCreateF) &GeoProperty< T1 >::createEmpty,       \
+    T1                ::getInitMethod(),                      \
+    T1                ::getDesc(),                            \
+    sizeof(FieldDescription *))
+#endif
 
 #define OSG_DLLEXPORT_SFIELD_TYPE_DEF1(T1,     DLLMAPPING) \
 template <>                                                \
@@ -981,6 +1044,19 @@ const FieldType &MField< T1, T2 >::getType(void) const
 
 #define OSG_DLLEXPORT_MFIELD_DEF2(T1, T2, DLLMAPPING)      \
     OSG_DLLEXPORT_MFIELD_TYPE_DEF2(T1, T2, DLLMAPPING)
+
+
+#define OSG_ABSTR_GEO_PROP_INL_TMPL_DEF(OSG_CLASS,            \
+                                        OSG_TMPL_PARAM,       \
+                                        OSG_CLASS_PTR)
+
+#define OSG_GEO_PROP_INL_TMPL_DEF(OSG_CLASS,                         \
+                                  OSG_TMPL_PARAM,                    \
+                                  OSG_CLASS_PTR)
+
+#define OSG_GEO_PROP_TYPE_TMPL_DEF(OSG_CLASS,                         \
+                                   OSG_TMPL_PARAM,                    \
+                                   OSG_CLASS_PTR)
 #endif
 
 #ifdef _OSG_HAVE_CONFIGURED_H_
