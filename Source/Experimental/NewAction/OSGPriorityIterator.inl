@@ -59,128 +59,26 @@ PriorityIterator::setResult(ResultE res)
 \*****************************************************************************/
 
 inline
-PriorityIterator::PIBase::PIBase(PriorityIterator &refPI)
-    : _refPI(refPI)
+PriorityIterator::PIBase::PIBase(PriorityIterator *pPQIter)
+    : _pPQIter(pPQIter)
 {
 }
 
-inline PriorityIterator &
+inline PriorityIterator *
 PriorityIterator::PIBase::getIter(void)
 {
-    return _refPI;
+    return _pPQIter;
 }
-
-// inline PriorityIterator::ResultE
-// PriorityIterator::PIBase::getResult(void) const
-// {
-//     return _refPI.getResult();
-// }
-
-// inline void
-// PriorityIterator::PIBase::setResult(ResultE res)
-// {
-//     _refPI.setResult(res);
-// }
-
-// inline void
-// PriorityIterator::PIBase::resetNodeList(void)
-// {
-//     _refPI.resetNodeList();
-// }
-
-// inline void
-// PriorityIterator::PIBase::setUseNodeList(void)
-// {
-//     _refPI.setUseNodeList();
-// }
-
-// inline bool
-// PriorityIterator::PIBase::getUseNodeList(void) const
-// {
-//     return _refPI.getUseNodeList();
-// }
-
-// inline ActiveNodeListIt
-// PriorityIterator::PIBase::beginNodes(void)
-// {
-//     return _refPI.beginNodes();
-// }
-
-// inline ActiveNodeListIt
-// PriorityIterator::PIBase::endNodes(void)
-// {
-//     return _refPI.endNodes();
-// }
-
-// inline ActiveNodeListConstIt
-// PriorityIterator::PIBase::beginNodes(void) const
-// {
-//     return _refPI.beginNodes();
-// }
-
-// inline ActiveNodeListConstIt
-// PriorityIterator::PIBase::endNodes(void) const
-// {
-//     return _refPI.endNodes();
-// }
-
-// inline ActiveNodeList &
-// PriorityIterator::PIBase::getNodeList(void)
-// {
-//     return _refPI.getNodeList();
-// }
-
-// inline const ActiveNodeList &
-// PriorityIterator::PIBase::getNodeList(void) const
-// {
-//     return _refPI.getNodeList();
-// }
-
-// inline void
-// PriorityIterator::PIBase::setCurrentNode(NodePtr pCurrNode)
-// {
-//     _refPI.setCurrentNode(pCurrNode);
-// }
-
-// inline NodePtr
-// PriorityIterator::PIBase::getCurrentNode(void)
-// {
-//     return _refPI.getCurrentNode();
-// }
-
-// inline NewActionIterInterface &
-// PriorityIterator::PIBase::getActionInterface(void)
-// {
-//     return _refPI.getActionInterface();
-// }
-
-// inline PriorityIterator::ResultE
-// PriorityIterator::PIBase::callEnter(NodePtr pNode)
-// {
-//     return _refPI.callEnter(pNode);
-// }
-
-// inline PriorityIterator::ResultE
-// PriorityIterator::PIBase::callLeave(NodePtr pNode)
-// {
-//     return _refPI.callLeave(pNode);
-// }
-
-// inline PriorityIterator::ResultE
-// PriorityIterator::PIBase::startActors(void)
-// {
-//     return _refPI.startActors();
-// }
-
-// inline PriorityIterator::ResultE
-// PriorityIterator::PIBase::stopActors(void)
-// {
-//     return _refPI.stopActors();
-// }
 
 /*****************************************************************************\
  * PriorityIterator::PIBase::LeaveEntryBase                                  *
 \*****************************************************************************/
+
+inline
+PriorityIterator::PIBase::LeaveEntryBase::LeaveEntryBase(void)
+    : _uiPending(0)
+{
+}
 
 inline
 PriorityIterator::PIBase::LeaveEntryBase::LeaveEntryBase(UInt32 uiPending)
@@ -208,6 +106,13 @@ PriorityIterator::PIBase::LeaveEntryBase::decPending(void)
 /*****************************************************************************\
  * PriorityIterator::PIBase::PQEntryBase                                     *
 \*****************************************************************************/
+
+inline
+PriorityIterator::PIBase::PQEntryBase::PQEntryBase(void)
+    : _pNode   (NullFC),
+      _priority(      )
+{
+}
 
 inline
 PriorityIterator::PIBase::PQEntryBase::PQEntryBase(NodePtr      pNode, 
@@ -250,9 +155,9 @@ PriorityIterator::PIBase::PQEntryLessCompare::operator()(
 \*****************************************************************************/
 
 inline
-PriorityIterator::PIEnter::PIEnter(PriorityIterator &refPI)
-    : Inherited(refPI),
-      _pqueue  (     )
+PriorityIterator::PIEnter::PIEnter(PriorityIterator *pPQIter)
+    : Inherited(pPQIter),
+      _pqueue  (       )
 {
 }
 
@@ -261,16 +166,23 @@ PriorityIterator::PIEnter::PIEnter(PriorityIterator &refPI)
 \*****************************************************************************/
 
 inline
-PriorityIterator::PILeave::PILeave(PriorityIterator &refPI)
-    : Inherited (refPI),
-      _pqueue   (     ),
-      _leaveList(     )
+PriorityIterator::PILeave::PILeave(PriorityIterator *pPQIter)
+    : Inherited (pPQIter),
+      _pqueue   (       ),
+      _leaveList(       )
 {
 }
 
 /*****************************************************************************\
  * PriorityIterator::PILeave::LeaveEntry                                     *
 \*****************************************************************************/
+
+inline
+PriorityIterator::PILeave::LeaveEntry::LeaveEntry(void)
+    : Inherited(),
+      _itParent()
+{
+}
 
 inline
 PriorityIterator::PILeave::LeaveEntry::LeaveEntry(UInt32      uiPending,
@@ -294,6 +206,13 @@ PriorityIterator::PILeave::LeaveEntry::getParent(void) const
 /*****************************************************************************\
  * PriorityIterator::PILeave::PQEntry                                        *
 \*****************************************************************************/
+
+inline
+PriorityIterator::PILeave::PQEntry::PQEntry(void)
+    : Inherited          (),
+      _itParentLeaveEntry()
+{
+}
 
 inline
 PriorityIterator::PILeave::PQEntry::PQEntry(NodePtr      pNode,
@@ -320,8 +239,8 @@ PriorityIterator::PILeave::PQEntry::getParentLeaveEntry(void) const
 \*****************************************************************************/
 
 inline
-PriorityIterator::PIEnterOrd::PIEnterOrd(PriorityIterator &refPI)
-    : Inherited   (refPI           ),
+PriorityIterator::PIEnterOrd::PIEnterOrd(PriorityIterator *pPQIter)
+    : Inherited   (pPQIter         ),
       _bStateValid(true            ),
       _bStateSaved(false           ),
       _pqueue     (                ),
@@ -333,6 +252,13 @@ PriorityIterator::PIEnterOrd::PIEnterOrd(PriorityIterator &refPI)
 /*****************************************************************************\
  * PriorityIterator::PIEnterOrd::PQEntry                                     *
 \*****************************************************************************/
+
+inline
+PriorityIterator::PIEnterOrd::PQEntry::PQEntry(void)
+    : Inherited     (),
+      _itParentState()
+{
+}
 
 inline
 PriorityIterator::PIEnterOrd::PQEntry::PQEntry(NodePtr      pNode,
@@ -359,10 +285,10 @@ PriorityIterator::PIEnterOrd::PQEntry::getParentState(void) const
 \*****************************************************************************/
 
 inline
-PriorityIterator::PILeaveOrd::PILeaveOrd(PriorityIterator &refPI)
-    : Inherited   (refPI           ),
+PriorityIterator::PILeaveOrd::PILeaveOrd(PriorityIterator *pPQIter)
+    : Inherited   (pPQIter         ),
       _bStateValid(true            ),
-      _bStateSaved(true            ),
+      _bStateSaved(false           ),
       _pqueue     (                ),
       _leaveList  (                ),
       _stateList  (                ),
@@ -373,6 +299,14 @@ PriorityIterator::PILeaveOrd::PILeaveOrd(PriorityIterator &refPI)
 /*****************************************************************************\
  * PriorityIterator::PILeaveOrd::LeaveEntry                                  *
 \*****************************************************************************/
+
+inline
+PriorityIterator::PILeaveOrd::LeaveEntry::LeaveEntry(void)
+    : Inherited(),
+      _itParent(),
+      _itState ()
+{
+}
 
 inline
 PriorityIterator::PILeaveOrd::LeaveEntry::LeaveEntry(UInt32      uiPending,
@@ -406,6 +340,14 @@ PriorityIterator::PILeaveOrd::LeaveEntry::getState(void) const
 \*****************************************************************************/
 
 inline
+PriorityIterator::PILeaveOrd::PQEntry::PQEntry(void)
+    : Inherited          (),
+      _itParentLeaveEntry(),
+      _itState           ()
+{
+}
+
+inline
 PriorityIterator::PILeaveOrd::PQEntry::PQEntry(NodePtr pNode,
                                                PriorityType prio,
                                                LeaveListIt itParentLeaveEntry,
@@ -435,4 +377,4 @@ PriorityIterator::PILeaveOrd::PQEntry::getParentState(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPRIORITYITERATOR_INLINE_CVSID "@(#)$Id: OSGPriorityIterator.inl,v 1.1 2003/10/10 13:51:06 neumannc Exp $"
+#define OSGPRIORITYITERATOR_INLINE_CVSID "@(#)$Id: OSGPriorityIterator.inl,v 1.2 2003/10/10 14:27:44 neumannc Exp $"

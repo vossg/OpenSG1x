@@ -128,11 +128,17 @@ protected:
     class PILeaveOrd;
     friend class PILeaveOrd;
 
+    /*====================================================================*\
+     * PIBase                                                             *
+    \*====================================================================*/
+
     class PIBase
     {
     public:
-        inline   PIBase(PriorityIterator &refPI);
-        virtual ~PIBase(void                   ) = 0;
+        typedef PriorityIterator::PriorityType PriorityType;
+
+        inline   PIBase(PriorityIterator *pPQIter);
+        virtual ~PIBase(void                     ) = 0;
 
         virtual void    preTraversal    (void             ) = 0;
         virtual void    postTraversal   (void             ) = 0;
@@ -144,14 +150,17 @@ protected:
 
     protected:
 
-        struct PQEntryLessCompare;
-        friend struct PQEntryLessCompare;
+//        struct PQEntryLessCompare;
+//        friend struct PQEntryLessCompare;
 
-        friend class PILeave;
+//        friend class PILeave;
+
+        /*====================== LeaveEntryBase ==========================*/
 
         class LeaveEntryBase
         {
         public:
+            inline  LeaveEntryBase(void            );
             inline  LeaveEntryBase(UInt32 uiPending);
             inline ~LeaveEntryBase(void            );
 
@@ -162,9 +171,14 @@ protected:
             UInt32      _uiPending;
         };
 
+        /*======================= PQEntryBase ============================*/
+
         class PQEntryBase
         {
         public:
+            typedef PIBase::PriorityType PriorityType;
+
+            inline  PQEntryBase(void                            );
             inline  PQEntryBase(NodePtr pNode, PriorityType prio);
             inline ~PQEntryBase(void                            );
 
@@ -176,50 +190,29 @@ protected:
             PriorityType _priority;
         };
 
+        /*====================== PQEntryLessCompare ======================*/
+
         struct PQEntryLessCompare
         {
             inline bool operator()(const PQEntryBase &refLHS,
                                    const PQEntryBase &refRHS );
         };
 
-        inline PriorityIterator &getIter(void);
-
-//         inline ResultE                getResult     (void       ) const;
-//         inline void                   setResult     (ResultE res);
-
-//         inline void                   resetNodeList (void       );
-//         inline void                   setUseNodeList(void       );
-//         inline bool                   getUseNodeList(void       ) const;
-
-//         inline ActiveNodeListIt       beginNodes    (void       );
-//         inline ActiveNodeListIt       endNodes      (void       );
-        
-//         inline ActiveNodeListConstIt  beginNodes    (void       ) const;
-//         inline ActiveNodeListConstIt  endNodes      (void       ) const;
-        
-//         inline       ActiveNodeList  &getNodeList   (void       );
-//         inline const ActiveNodeList  &getNodeList   (void       ) const;
-
-
-//         inline void    setCurrentNode    (NodePtr pCurrNode);
-//         inline NodePtr getCurrentNode    (void             );
-        
-
-//         inline ResultE callEnter         (NodePtr pNode    );
-//         inline ResultE callLeave         (NodePtr pNode    );
-
-//         inline ResultE startActors       (void             );
-//         inline ResultE stopActors        (void             );
+        inline PriorityIterator *getIter(void);
 
     private:
-        PriorityIterator &_refPI;
+        PriorityIterator *_pPQIter;
     };
 
+    /*====================================================================*\
+     * PIEnter                                                            *
+    \*====================================================================*/
+    
     class PIEnter : public PIBase
     {
     public:
-        inline   PIEnter(PriorityIterator &refPI);
-        virtual ~PIEnter(void                   );
+        inline   PIEnter(PriorityIterator *pPQIter);
+        virtual ~PIEnter(void                     );
 
         virtual void    preTraversal    (void             );
         virtual void    postTraversal   (void             );
@@ -244,11 +237,15 @@ protected:
         PrioQueueType _pqueue;
     };
 
+    /*====================================================================*\
+     * PILeave                                                            *
+    \*====================================================================*/
+
     class PILeave : public PIBase
     {
     public:
-        inline   PILeave(PriorityIterator &refPI);
-        virtual ~PILeave(void                   );
+        inline   PILeave(PriorityIterator *pPQIter);
+        virtual ~PILeave(void                     );
 
         virtual void    preTraversal    (void             );
         virtual void    postTraversal   (void             );
@@ -265,14 +262,19 @@ protected:
         class PQEntry;
         friend class PQEntry;
 
-        friend class PriorityIterator;
+//        friend class PriorityIterator;
 
         typedef std::list<LeaveEntry> LeaveList;
         typedef LeaveList::iterator   LeaveListIt;
 
+        /*==================== LeaveEntry ================================*/
+
         class LeaveEntry : public PIBase::LeaveEntryBase
         {
         public:
+            typedef PILeave::PriorityType PriorityType;
+
+            inline  LeaveEntry(void                                  );
             inline  LeaveEntry(UInt32 uiPending, LeaveListIt itParent);
             inline ~LeaveEntry(void                                  );
 
@@ -284,9 +286,14 @@ protected:
             LeaveListIt _itParent;
         };
 
+        /*====================== PQEntry =================================*/
+
         class PQEntry : public PIBase::PQEntryBase
         {
         public:
+            typedef PILeave::PriorityType PriorityType;
+
+            inline  PQEntry(void                                             );
             inline  PQEntry(NodePtr     pNode,             PriorityType prio,
                             LeaveListIt itParentLeaveEntry                   );
 
@@ -314,14 +321,18 @@ protected:
         LeaveList     _leaveList;
     };
 
-    friend class PILeave::LeaveEntry;
-    friend class PILeave::PQEntry;
+//    friend class PILeave::LeaveEntry;
+//    friend class PILeave::PQEntry;
+
+    /*====================================================================*\
+     * PIEnterOrd                                                         *
+    \*====================================================================*/
 
     class PIEnterOrd : public PIEnter
     {
     public:
-        inline   PIEnterOrd(PriorityIterator &refPI);
-        virtual ~PIEnterOrd(void                   );
+        inline   PIEnterOrd(PriorityIterator *pPQIter);
+        virtual ~PIEnterOrd(void                     );
 
         virtual void    preTraversal    (void             );
         virtual void    postTraversal   (void             );
@@ -332,18 +343,22 @@ protected:
         virtual void    receiveStateWrite(UInt32  uiActorId);
 
     protected:
-
         class PQEntry;
         friend class PQEntry;
 
-        friend class PriorityIterator;
+//        friend class PriorityIterator;
 
         typedef std::list<ActorStateChunk> StateList;
         typedef StateList::iterator        StateListIt;
+        
+        /*====================== PQEntry =================================*/
 
         class PQEntry : public PIEnter::PQEntry
         {
           public:
+            typedef PIEnterOrd::PriorityType PriorityType;
+
+            inline  PQEntry(void                                        );
             inline  PQEntry(NodePtr     pNode,        PriorityType prio, 
                             StateListIt itParentState                   );
             inline ~PQEntry(void                                        );
@@ -376,13 +391,17 @@ protected:
         StateListIt   _currState;
     };
 
-    friend class PIEnterOrd::PQEntry;
+//    friend class PIEnterOrd::PQEntry;
+
+    /*====================================================================*\
+     * PILeaveOrd                                                         *
+    \*====================================================================*/
 
     class PILeaveOrd : public PILeave
     {
     public:
-        inline   PILeaveOrd(PriorityIterator &refPI);
-        virtual ~PILeaveOrd(void                   );
+        inline   PILeaveOrd(PriorityIterator *pPQIter);
+        virtual ~PILeaveOrd(void                     );
         
         virtual void    preTraversal    (void             );
         virtual void    postTraversal   (void             );
@@ -399,7 +418,7 @@ protected:
         class PQEntry;
         friend class PQEntry;
 
-        friend class PriorityIterator;
+//        friend class PriorityIterator;
 
         typedef std::list<LeaveEntry>      LeaveList;
         typedef LeaveList::iterator        LeaveListIt;
@@ -407,9 +426,14 @@ protected:
         typedef std::list<ActorStateChunk> StateList;
         typedef StateList::iterator        StateListIt;
 
+        /*======================= LeaveEntry =============================*/
+
         class LeaveEntry : public PIBase::LeaveEntryBase
         {
         public:
+            typedef PILeaveOrd::PriorityType PriorityType;
+            
+            inline  LeaveEntry(void                                        );
             inline  LeaveEntry(UInt32      uiPending, LeaveListIt itParent,
                                StateListIt itState                         );
             inline ~LeaveEntry(void                                        );
@@ -424,9 +448,14 @@ protected:
             StateListIt _itState;
         };
 
+        /*========================= PQEntry ==============================*/
+
         class PQEntry : public PIBase::PQEntryBase
         {
         public:
+            typedef PILeaveOrd::PriorityType PriorityType;
+
+            inline  PQEntry(void                            );
             inline  PQEntry(NodePtr      pNode,              
                             PriorityType prio,
                             LeaveListIt  itParentLeaveEntry,
@@ -465,8 +494,8 @@ protected:
         StateListIt   _currState;
     };
 
-    friend class PILeaveOrd::LeaveEntry;
-    friend class PILeaveOrd::PQEntry;
+//    friend class PILeaveOrd::LeaveEntry;
+//    friend class PILeaveOrd::PQEntry;
 
     PriorityIterator(void);
 
@@ -487,6 +516,6 @@ OSG_END_NAMESPACE
 
 #include "OSGPriorityIterator.inl"
 
-#define OSGPRIORITYITERATOR_HEADER_CVSID "@(#)$Id: OSGPriorityIterator.h,v 1.1 2003/10/10 13:51:06 neumannc Exp $"
+#define OSGPRIORITYITERATOR_HEADER_CVSID "@(#)$Id: OSGPriorityIterator.h,v 1.4 2003/10/15 09:31:29 vossg Exp $"
 
 #endif /* _OSGPRIORITYITERATOR_H_ */
