@@ -1,0 +1,16 @@
+GeoCubes
+--------
+
+
+This is a simple example of how to create "high level" nodes derived from
+the Geometry node. If - for whatever reason - you want to create a
+sophisticated high level Geometry nodecore, take a look at this source and
+you should be able to base your own code on this.
+
+The functionality is the same as the `Cubes' example, but instead of drawing
+the cubes via direct OpenGL commands, this one "tessellates" them into an
+(unoptimized) OpenSG Geometry, and uses Geometry's Render/Draw/Intersect
+actions to automatically render them.
+
+
+Ákos Balázs (edhellon@cs.uni-bonn.de)

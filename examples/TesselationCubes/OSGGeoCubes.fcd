@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="GeoCubes"
+	parent="Geometry"
+	library="My"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="false"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+	<Field
+		name="position"
+		type="Pnt3f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	The cubes' positions.
+	</Field>
+	<Field
+		name="length"
+		type="Real32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	The cubes' sizes.
+	</Field>
+	<Field
+		name="color"
+		type="Color3f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	The cubes' colors.
+	</Field>
+</FieldContainer>
