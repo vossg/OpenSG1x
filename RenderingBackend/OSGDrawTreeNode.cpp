@@ -82,6 +82,8 @@ DrawTreeNode::DrawTreeNode(void) :
     _pBrother    (NULL),
     _pState      (NULL),
     _pGeo        (NULL),
+    _functor     (),
+    _hasFunctor  (false),
     _oMatrixStore(),
     _rScalarVal  (0.f)
 {
@@ -176,6 +178,22 @@ void DrawTreeNode::setGeometry(Geometry *pGeo)
 Geometry *DrawTreeNode::getGeometry(void)
 {
     return _pGeo;
+}
+
+void DrawTreeNode::setFunctor(Material::DrawFunctor &func)
+{
+    _functor=func;
+    _hasFunctor=true;
+}
+
+Material::DrawFunctor &DrawTreeNode::getFunctor(void)
+{
+    return _functor;
+}
+
+Bool DrawTreeNode::hasFunctor(void)
+{
+    return _hasFunctor;
 }
 
 void DrawTreeNode::setState(State *pState)

@@ -47,6 +47,7 @@
 #include <OSGSystemDef.h>
 #include <OSGMemoryObject.h>
 #include <OSGRenderAction.h>
+#include <OSGMaterial.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -101,6 +102,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     void          setGeometry     (Geometry *pGeo                 );
     Geometry     *getGeometry     (void                           );
 
+    void          setFunctor      (Material::DrawFunctor &func    );
+    Material::DrawFunctor &getFunctor(void                        );
+    Bool          hasFunctor      (void                           );
+    
     void          setState        (State    *pState               );
     State        *getState        (void                           );
 
@@ -120,17 +125,19 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    DrawTreeNode *_pFirstChild;
-    DrawTreeNode *_pLastChild;
+    DrawTreeNode              *_pFirstChild;
+    DrawTreeNode              *_pLastChild;
 
-    DrawTreeNode *_pBrother;
+    DrawTreeNode              *_pBrother;
 
-    State        *_pState;
-    Geometry     *_pGeo;
+    State                     *_pState;
+    Geometry                  *_pGeo;
+    Material::DrawFunctor      _functor;
+    Bool                       _hasFunctor;
+    
+    MatrixStore                _oMatrixStore;        
 
-    MatrixStore   _oMatrixStore;        
-
-    Real32        _rScalarVal;
+    Real32                     _rScalarVal;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
