@@ -122,7 +122,7 @@ COMPILER_RUNTIME_OPT    = -MD
 endif
 
 CCFLAGS_EXT_OPT  := -O2 -Ob1 -MD
-CCFLAGS_EXT_DBG  := -ZI -Od -GZ -D_DEBUG -MDd
+CCFLAGS_EXT_DBG  := -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd
 
 ### Optimize / Debug ###############################################
 
@@ -136,7 +136,7 @@ ifeq ($(DEBUG_VERSION), 0)
     COMPILER_RUNTIME = $(COMPILER_RUNTIME_OPT)
 else
 	COMP_OPTIMIZE    =
-	COMP_DEBUG       =  -ZI -Od -GZ -D_DEBUG
+	COMP_DEBUG       =  -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG
     COMPILER_RUNTIME = $(COMPILER_RUNTIME_DBG)
 endif
 

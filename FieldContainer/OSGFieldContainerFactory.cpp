@@ -497,8 +497,8 @@ Bool FieldContainerFactory::initialize(int   &OSG_CHECK_ARG(argc),
 
     addRefP(_pMapLock);
 
-    FDEBUG( ("Got shore lock %d, Got map %d",
-             int (_pStoreLock), int(_pMapLock)) );
+    FDEBUG( ("Got shore lock %p, Got map %p",
+             _pStoreLock, _pMapLock) );
 
     _bInitialized = true;
 

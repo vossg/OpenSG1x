@@ -130,7 +130,7 @@ else
 buildLibName      = $(LIBLNK_OPTION)$(PROJ)$(1)
 endif
 
-buildLnkLibName   = $(LIBLNK_OPTION)$(PROJ)$(1)$(LNK_SUFFIX)
+buildLnkLibName   = $(LIBLNK_OPTION)$(PROJ)$(1)$(LNK_SUFFIX)$(LIB_SUFFIX)
 
 ifeq ($(OS_BASE), cygwin)
 buildDepLibName   = $(SO_PRAEFIX)$(PROJ)$(1)$(LIB_SUFFIX)
