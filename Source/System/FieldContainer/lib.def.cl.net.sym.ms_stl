@@ -11,6 +11,7 @@
     ?create@?$GeoProperty@UGeoIndicesUI32PropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoIndicesPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoIndicesUI32PropertyDesc@osg@@@2@@2@XZ
     ?create@?$GeoProperty@UGeoPositions3fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPositionsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPositions3fPropertyDesc@osg@@@2@@2@XZ
     ?create@?$GeoProperty@UGeoTexCoords2fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoTexCoordsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoTexCoords2fPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoTexCoords1fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoTexCoordsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoTexCoords1fPropertyDesc@osg@@@2@@2@XZ
     ?create@?$GeoProperty@UGeoNormals3fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoNormalsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoNormals3fPropertyDesc@osg@@@2@@2@XZ
     ?create@?$GeoProperty@UGeoColors3fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoColorsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoColors3fPropertyDesc@osg@@@2@@2@XZ
     ?create@?$GeoProperty@UGeoColors4fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoColorsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoColors4fPropertyDesc@osg@@@2@@2@XZ
