@@ -122,7 +122,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
       RESOLUTION_KT,
       SLICE_THICKNESS_KT,
       FORMAT_KT,
-      FILE_OFFSET_KT,
+      FILE_OFFSET_KT
     };
            
     enum FormatType

@@ -151,7 +151,7 @@ ConvertShort(unsigned short *array, long length)
 }
 
 static void
-ConvertLong(unsigned *array, long length) 
+ConvertLong(unsigned *array, unsigned long length) 
 {
     unsigned long b1, b2, b3, b4;
     unsigned char *ptr;
@@ -260,7 +260,7 @@ ImageGetRow(ImageRec *image, unsigned char *buf, int y, int z)
 
     if ((image->type & 0xFF00) == 0x0100) 
     {
-        fseek(image->file, image->rowStart[y+z*image->ysize], SEEK_SET);
+        fseek(image->file, (long)image->rowStart[y+z*image->ysize], SEEK_SET);
         fread(image->tmp, 1, (unsigned int)image->rowSize[y+z*image->ysize],
               image->file);
 

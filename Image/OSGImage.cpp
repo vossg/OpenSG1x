@@ -372,8 +372,8 @@ Bool Image::reformat ( const Image::PixelFormat pixelFormat,
                        Image *destination )
 {  
   UChar8 *data = 0;
-  int srcI, destI, destSize = 0;
-  int sum;
+  UInt32 srcI, destI, destSize = 0;
+  UInt32 sum;
   Image *dest = destination ? destination : new Image;
 
   FINFO (( "Try to reformat image from pixelDepth %d to %d\n",

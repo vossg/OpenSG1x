@@ -99,16 +99,16 @@ inline Image::PixelFormat Image::getPixelFormat (void) const
 }
 
 /*-------------------------------------------------------------------------*/
-inline unsigned long Image::getSize ( Bool withMipmap = true,
-                                      Bool withFrames = true) const
+inline unsigned long Image::getSize ( Bool withMipmap,
+                                      Bool withFrames) const
 { 
   return  ( calcMipmapSumSize((withMipmap ? (_mipmapCount-1) : 0)) *
             (withFrames ? _frameCount : 1) * _bpp);
 }
 
 /*-------------------------------------------------------------------------*/
-inline UChar8 *Image::getData ( UInt32 mipmapNum = 0, 
-                                UInt32 frameNum = 0) const
+inline UChar8 *Image::getData ( UInt32 mipmapNum, 
+                                UInt32 frameNum) const
 {
   UChar8 *data = _data + (frameNum * _frameSize * _bpp);
   
