@@ -73,8 +73,8 @@ StatElemDesc<StatTimeElem> RemoteAspect::statSyncTime
 
 /*! Constructor
  */
-RemoteAspect::RemoteAspect(UInt32 /*aspectId*/) :
-    _aspectId(),
+RemoteAspect::RemoteAspect(UInt32 aspectId) :
+    _aspectId(aspectId),
 
     _localFC(),
     _remoteFC(),
