@@ -157,15 +157,18 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     struct UDPBuffer
     {
         UDPHeader  header;
+        
+        typedef struct 
+        {
+            UInt32 size;
+            UInt32 missing[MULTICASTCONNECTION_MAX_WINDOW_SIZE];
+        } nackT;
+
         union 
         {
             UInt8 data[1];
             UInt32 member;
-            struct 
-            {
-                UInt32 size;
-                UInt32 missing[MULTICASTCONNECTION_MAX_WINDOW_SIZE];
-            } nack;
+            nackT nack;
         };
     };
 
