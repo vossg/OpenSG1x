@@ -2,7 +2,7 @@
 
 using namespace OSG;
 
-/*! 
+/*!
 \page TutorialIntroduction Introduction
 \latexonly Starter:NewChapter \endlatexonly
 
