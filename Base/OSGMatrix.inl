@@ -1540,6 +1540,7 @@ Bool TransformationMatrix<ValueTypeT>::transposed(
 						(*this)[0][1], (*this)[1][1], (*this)[2][1], (*this)[3][1], 
 						(*this)[0][2], (*this)[1][2], (*this)[2][2], (*this)[3][2], 
 						(*this)[0][3], (*this)[1][3], (*this)[2][3], (*this)[3][3] );
+	return true;
 }
 
 template<class ValueTypeT> inline
@@ -1552,6 +1553,7 @@ Bool TransformationMatrix<ValueTypeT>::transpose(void)
 	tmp = (*this)[2][1]; (*this)[2][1] = (*this)[1][2]; (*this)[1][2] = tmp;
 	tmp = (*this)[3][1]; (*this)[3][1] = (*this)[1][3]; (*this)[1][3] = tmp;
 	tmp = (*this)[3][2]; (*this)[3][2] = (*this)[2][3]; (*this)[2][3] = tmp;
+	return true;
 }
 
 template<class ValueTypeT> inline
@@ -1562,6 +1564,7 @@ Bool TransformationMatrix<ValueTypeT>::transposeFrom(
 						result[0][1], result[1][1], result[2][1], result[3][1], 
 						result[0][2], result[1][2], result[2][2], result[3][2], 
 						result[0][3], result[1][3], result[2][3], result[3][3] );
+	return true;
 }
 
 template<class ValueTypeT> inline
