@@ -93,6 +93,12 @@ inline const UInt8 *Image::getData( UInt32 mipmapNum,
     return data;
 }
 
+inline void SFImagePtr::pushValueByStr(const char *str)
+{
+    if(getValue() != NullFC)
+        getValue()->addValue(str);
+}
+
 OSG_END_NAMESPACE
 
 #define OSGIMAGE_INLINE_CVSID "@(#)$Id: $"
