@@ -14,6 +14,8 @@ if _po.getOption('contrib_drawfunctorcore'):
     ContribDirs.append(Dir('DrawFunctorCore'))
 
 headers, sources, tests, generated = ProcessDirs(ContribDirs)
+# don't forget the OSGContribDef.h file.
+headers += Glob('OSG*.h')
 InstallHeaders(env, headers)
 
 def custom(env):
