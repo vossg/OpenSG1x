@@ -75,90 +75,94 @@
      CLOSEBRACKET = 268,
      EXTERNPROTO = 269,
      IS = 270,
-     EVENTIN = 271,
-     EVENTOUT = 272,
-     EXPOSEDFIELD = 273,
-     FIELD = 274,
-     SCRIPT = 275,
-     SFN_NULL = 276,
-     TOK_SFBOOL = 277,
-     TOK_SFCOLOR = 278,
-     TOK_SFFLOAT = 279,
-     TOK_SFIMAGE = 280,
-     TOK_SFINT32 = 281,
-     TOK_SFNODE = 282,
-     TOK_SFROTATION = 283,
-     TOK_SFSTRING = 284,
-     TOK_SFTIME = 285,
-     TOK_SFVEC2F = 286,
-     TOK_SFVEC3F = 287,
-     TOK_MFCOLOR = 288,
-     TOK_MFFLOAT = 289,
-     TOK_MFINT32 = 290,
-     TOK_MFNODE = 291,
-     TOK_MFROTATION = 292,
-     TOK_MFSTRING = 293,
-     TOK_MFTIME = 294,
-     TOK_MFVEC2F = 295,
-     TOK_MFVEC3F = 296,
-     Tok_MFColor = 297,
-     Tok_MFFloat = 298,
-     Tok_MFInt32 = 299,
-     Tok_MFNode = 300,
-     Tok_MFRotation = 301,
-     Tok_MFString = 302,
-     Tok_MFTime = 303,
-     Tok_MFVec2f = 304,
-     Tok_MFVec3f = 305,
-     Tok_SFBool = 306,
-     Tok_SFColor = 307,
-     Tok_SFFloat = 308,
-     Tok_SFImage = 309,
-     Tok_SFInt32 = 310,
-     Tok_SFNode = 311,
-     Tok_SFRotation = 312,
-     Tok_SFString = 313,
-     Tok_SFTime = 314,
-     Tok_SFVec2f = 315,
-     Tok_SFVec3f = 316,
-     TOK_MFCOLOR4F = 317,
-     TOK_MFCOLOR4I = 318,
-     TOK_MFCOLOR3F = 319,
-     TOK_MFMATRIX = 320,
-     TOK_MFPNT2F = 321,
-     TOK_MFPNT3F = 322,
-     TOK_MFPNT4F = 323,
-     TOK_MFVEC4F = 324,
-     TOK_MFPLANE = 325,
-     TOK_SFCOLOR4F = 326,
-     TOK_SFCOLOR4I = 327,
-     TOK_SFCOLOR3F = 328,
-     TOK_SFMATRIX = 329,
-     TOK_SFPNT2F = 330,
-     TOK_SFPNT3F = 331,
-     TOK_SFPNT4F = 332,
-     TOK_SFVEC4F = 333,
-     TOK_SFPLANE = 334,
-     TOK_SFVOLUME = 335,
-     Tok_MFColor4f = 336,
-     Tok_MFColor4i = 337,
-     Tok_MFColor3f = 338,
-     Tok_MFMatrix = 339,
-     Tok_MFPnt2f = 340,
-     Tok_MFPnt3f = 341,
-     Tok_MFPnt4f = 342,
-     Tok_MFVec4f = 343,
-     Tok_MFPlane = 344,
-     Tok_SFColor4f = 345,
-     Tok_SFColor4i = 346,
-     Tok_SFColor3f = 347,
-     Tok_SFMatrix = 348,
-     Tok_SFPnt2f = 349,
-     Tok_SFPnt3f = 350,
-     Tok_SFPnt4f = 351,
-     Tok_SFVec4f = 352,
-     Tok_SFPlane = 353,
-     Tok_SFVolume = 354
+     EXPORT = 271,
+     IMPORT = 272,
+     PROFILE = 273,
+     AS = 274,
+     EVENTIN = 275,
+     EVENTOUT = 276,
+     EXPOSEDFIELD = 277,
+     FIELD = 278,
+     SCRIPT = 279,
+     SFN_NULL = 280,
+     TOK_SFBOOL = 281,
+     TOK_SFCOLOR = 282,
+     TOK_SFFLOAT = 283,
+     TOK_SFIMAGE = 284,
+     TOK_SFINT32 = 285,
+     TOK_SFNODE = 286,
+     TOK_SFROTATION = 287,
+     TOK_SFSTRING = 288,
+     TOK_SFTIME = 289,
+     TOK_SFVEC2F = 290,
+     TOK_SFVEC3F = 291,
+     TOK_MFCOLOR = 292,
+     TOK_MFFLOAT = 293,
+     TOK_MFINT32 = 294,
+     TOK_MFNODE = 295,
+     TOK_MFROTATION = 296,
+     TOK_MFSTRING = 297,
+     TOK_MFTIME = 298,
+     TOK_MFVEC2F = 299,
+     TOK_MFVEC3F = 300,
+     Tok_MFColor = 301,
+     Tok_MFFloat = 302,
+     Tok_MFInt32 = 303,
+     Tok_MFNode = 304,
+     Tok_MFRotation = 305,
+     Tok_MFString = 306,
+     Tok_MFTime = 307,
+     Tok_MFVec2f = 308,
+     Tok_MFVec3f = 309,
+     Tok_SFBool = 310,
+     Tok_SFColor = 311,
+     Tok_SFFloat = 312,
+     Tok_SFImage = 313,
+     Tok_SFInt32 = 314,
+     Tok_SFNode = 315,
+     Tok_SFRotation = 316,
+     Tok_SFString = 317,
+     Tok_SFTime = 318,
+     Tok_SFVec2f = 319,
+     Tok_SFVec3f = 320,
+     TOK_MFCOLOR4F = 321,
+     TOK_MFCOLOR4I = 322,
+     TOK_MFCOLOR3F = 323,
+     TOK_MFMATRIX = 324,
+     TOK_MFPNT2F = 325,
+     TOK_MFPNT3F = 326,
+     TOK_MFPNT4F = 327,
+     TOK_MFVEC4F = 328,
+     TOK_MFPLANE = 329,
+     TOK_SFCOLOR4F = 330,
+     TOK_SFCOLOR4I = 331,
+     TOK_SFCOLOR3F = 332,
+     TOK_SFMATRIX = 333,
+     TOK_SFPNT2F = 334,
+     TOK_SFPNT3F = 335,
+     TOK_SFPNT4F = 336,
+     TOK_SFVEC4F = 337,
+     TOK_SFPLANE = 338,
+     TOK_SFVOLUME = 339,
+     Tok_MFColor4f = 340,
+     Tok_MFColor4i = 341,
+     Tok_MFColor3f = 342,
+     Tok_MFMatrix = 343,
+     Tok_MFPnt2f = 344,
+     Tok_MFPnt3f = 345,
+     Tok_MFPnt4f = 346,
+     Tok_MFVec4f = 347,
+     Tok_MFPlane = 348,
+     Tok_SFColor4f = 349,
+     Tok_SFColor4i = 350,
+     Tok_SFColor3f = 351,
+     Tok_SFMatrix = 352,
+     Tok_SFPnt2f = 353,
+     Tok_SFPnt3f = 354,
+     Tok_SFPnt4f = 355,
+     Tok_SFVec4f = 356,
+     Tok_SFPlane = 357,
+     Tok_SFVolume = 358
    };
 #endif
 #define DEF 258
@@ -174,90 +178,94 @@
 #define CLOSEBRACKET 268
 #define EXTERNPROTO 269
 #define IS 270
-#define EVENTIN 271
-#define EVENTOUT 272
-#define EXPOSEDFIELD 273
-#define FIELD 274
-#define SCRIPT 275
-#define SFN_NULL 276
-#define TOK_SFBOOL 277
-#define TOK_SFCOLOR 278
-#define TOK_SFFLOAT 279
-#define TOK_SFIMAGE 280
-#define TOK_SFINT32 281
-#define TOK_SFNODE 282
-#define TOK_SFROTATION 283
-#define TOK_SFSTRING 284
-#define TOK_SFTIME 285
-#define TOK_SFVEC2F 286
-#define TOK_SFVEC3F 287
-#define TOK_MFCOLOR 288
-#define TOK_MFFLOAT 289
-#define TOK_MFINT32 290
-#define TOK_MFNODE 291
-#define TOK_MFROTATION 292
-#define TOK_MFSTRING 293
-#define TOK_MFTIME 294
-#define TOK_MFVEC2F 295
-#define TOK_MFVEC3F 296
-#define Tok_MFColor 297
-#define Tok_MFFloat 298
-#define Tok_MFInt32 299
-#define Tok_MFNode 300
-#define Tok_MFRotation 301
-#define Tok_MFString 302
-#define Tok_MFTime 303
-#define Tok_MFVec2f 304
-#define Tok_MFVec3f 305
-#define Tok_SFBool 306
-#define Tok_SFColor 307
-#define Tok_SFFloat 308
-#define Tok_SFImage 309
-#define Tok_SFInt32 310
-#define Tok_SFNode 311
-#define Tok_SFRotation 312
-#define Tok_SFString 313
-#define Tok_SFTime 314
-#define Tok_SFVec2f 315
-#define Tok_SFVec3f 316
-#define TOK_MFCOLOR4F 317
-#define TOK_MFCOLOR4I 318
-#define TOK_MFCOLOR3F 319
-#define TOK_MFMATRIX 320
-#define TOK_MFPNT2F 321
-#define TOK_MFPNT3F 322
-#define TOK_MFPNT4F 323
-#define TOK_MFVEC4F 324
-#define TOK_MFPLANE 325
-#define TOK_SFCOLOR4F 326
-#define TOK_SFCOLOR4I 327
-#define TOK_SFCOLOR3F 328
-#define TOK_SFMATRIX 329
-#define TOK_SFPNT2F 330
-#define TOK_SFPNT3F 331
-#define TOK_SFPNT4F 332
-#define TOK_SFVEC4F 333
-#define TOK_SFPLANE 334
-#define TOK_SFVOLUME 335
-#define Tok_MFColor4f 336
-#define Tok_MFColor4i 337
-#define Tok_MFColor3f 338
-#define Tok_MFMatrix 339
-#define Tok_MFPnt2f 340
-#define Tok_MFPnt3f 341
-#define Tok_MFPnt4f 342
-#define Tok_MFVec4f 343
-#define Tok_MFPlane 344
-#define Tok_SFColor4f 345
-#define Tok_SFColor4i 346
-#define Tok_SFColor3f 347
-#define Tok_SFMatrix 348
-#define Tok_SFPnt2f 349
-#define Tok_SFPnt3f 350
-#define Tok_SFPnt4f 351
-#define Tok_SFVec4f 352
-#define Tok_SFPlane 353
-#define Tok_SFVolume 354
+#define EXPORT 271
+#define IMPORT 272
+#define PROFILE 273
+#define AS 274
+#define EVENTIN 275
+#define EVENTOUT 276
+#define EXPOSEDFIELD 277
+#define FIELD 278
+#define SCRIPT 279
+#define SFN_NULL 280
+#define TOK_SFBOOL 281
+#define TOK_SFCOLOR 282
+#define TOK_SFFLOAT 283
+#define TOK_SFIMAGE 284
+#define TOK_SFINT32 285
+#define TOK_SFNODE 286
+#define TOK_SFROTATION 287
+#define TOK_SFSTRING 288
+#define TOK_SFTIME 289
+#define TOK_SFVEC2F 290
+#define TOK_SFVEC3F 291
+#define TOK_MFCOLOR 292
+#define TOK_MFFLOAT 293
+#define TOK_MFINT32 294
+#define TOK_MFNODE 295
+#define TOK_MFROTATION 296
+#define TOK_MFSTRING 297
+#define TOK_MFTIME 298
+#define TOK_MFVEC2F 299
+#define TOK_MFVEC3F 300
+#define Tok_MFColor 301
+#define Tok_MFFloat 302
+#define Tok_MFInt32 303
+#define Tok_MFNode 304
+#define Tok_MFRotation 305
+#define Tok_MFString 306
+#define Tok_MFTime 307
+#define Tok_MFVec2f 308
+#define Tok_MFVec3f 309
+#define Tok_SFBool 310
+#define Tok_SFColor 311
+#define Tok_SFFloat 312
+#define Tok_SFImage 313
+#define Tok_SFInt32 314
+#define Tok_SFNode 315
+#define Tok_SFRotation 316
+#define Tok_SFString 317
+#define Tok_SFTime 318
+#define Tok_SFVec2f 319
+#define Tok_SFVec3f 320
+#define TOK_MFCOLOR4F 321
+#define TOK_MFCOLOR4I 322
+#define TOK_MFCOLOR3F 323
+#define TOK_MFMATRIX 324
+#define TOK_MFPNT2F 325
+#define TOK_MFPNT3F 326
+#define TOK_MFPNT4F 327
+#define TOK_MFVEC4F 328
+#define TOK_MFPLANE 329
+#define TOK_SFCOLOR4F 330
+#define TOK_SFCOLOR4I 331
+#define TOK_SFCOLOR3F 332
+#define TOK_SFMATRIX 333
+#define TOK_SFPNT2F 334
+#define TOK_SFPNT3F 335
+#define TOK_SFPNT4F 336
+#define TOK_SFVEC4F 337
+#define TOK_SFPLANE 338
+#define TOK_SFVOLUME 339
+#define Tok_MFColor4f 340
+#define Tok_MFColor4i 341
+#define Tok_MFColor3f 342
+#define Tok_MFMatrix 343
+#define Tok_MFPnt2f 344
+#define Tok_MFPnt3f 345
+#define Tok_MFPnt4f 346
+#define Tok_MFVec4f 347
+#define Tok_MFPlane 348
+#define Tok_SFColor4f 349
+#define Tok_SFColor4i 350
+#define Tok_SFColor3f 351
+#define Tok_SFMatrix 352
+#define Tok_SFPnt2f 353
+#define Tok_SFPnt3f 354
+#define Tok_SFPnt4f 355
+#define Tok_SFVec4f 356
+#define Tok_SFPlane 357
+#define Tok_SFVolume 358
 
 
 
@@ -278,6 +286,7 @@
 #endif
 #include <OSGScanParseSkel.tab.h>
 #include <OSGConfig.h>
+#include <OSGLog.h>
 
 #include <OSGBaseFunctions.h>
 #include <OSGScanParseSkel.h>
@@ -341,7 +350,7 @@ typedef int YYSTYPE;
 
 
 /* Line 214 of yacc.c.  */
-#line 345 "OSGScanParseSkel_.tab.c"
+#line 354 "OSGScanParseSkel_.tab.c"
 
 #if ! defined (yyoverflow) || YYERROR_VERBOSE
 
@@ -438,22 +447,22 @@ union yyalloc
 #endif
 
 /* YYFINAL -- State number of the termination state. */
-#define YYFINAL  29
+#define YYFINAL  37
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   421
+#define YYLAST   382
 
 /* YYNTOKENS -- Number of terminals. */
-#define YYNTOKENS  100
+#define YYNTOKENS  104
 /* YYNNTS -- Number of nonterminals. */
-#define YYNNTS  73
+#define YYNNTS  77
 /* YYNRULES -- Number of rules. */
-#define YYNRULES  190
+#define YYNRULES  196
 /* YYNRULES -- Number of states. */
-#define YYNSTATES  257
+#define YYNSTATES  269
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   354
+#define YYMAXUTOK   358
 
 #define YYTRANSLATE(YYX) 						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -496,7 +505,7 @@ static const unsigned char yytranslate[] =
       65,    66,    67,    68,    69,    70,    71,    72,    73,    74,
       75,    76,    77,    78,    79,    80,    81,    82,    83,    84,
       85,    86,    87,    88,    89,    90,    91,    92,    93,    94,
-      95,    96,    97,    98,    99
+      95,    96,    97,    98,    99,   100,   101,   102,   103
 };
 
 #if YYDEBUG
@@ -504,102 +513,103 @@ static const unsigned char yytranslate[] =
    YYRHS.  */
 static const unsigned short yyprhs[] =
 {
-       0,     0,     3,     5,     7,     9,    12,    14,    16,    18,
-      20,    22,    23,    28,    31,    33,    34,    39,    41,    43,
-      45,    46,    49,    51,    53,    55,    64,    66,    68,    72,
-      74,    76,    79,    81,    82,    87,    88,    93,    94,    95,
-     102,   104,   105,   106,   113,   114,   115,   124,   126,   128,
-     131,   133,   134,   139,   140,   145,   146,   151,   152,   157,
-     158,   159,   160,   172,   174,   175,   176,   182,   183,   189,
-     191,   193,   196,   198,   200,   202,   205,   207,   208,   213,
-     214,   219,   222,   223,   224,   229,   232,   234,   236,   239,
-     242,   243,   247,   249,   251,   254,   256,   258,   260,   262,
-     264,   266,   268,   270,   272,   274,   276,   278,   280,   282,
-     284,   286,   288,   290,   292,   294,   296,   298,   300,   302,
-     304,   306,   308,   310,   312,   314,   316,   318,   320,   322,
-     324,   326,   328,   330,   332,   334,   336,   338,   340,   342,
-     344,   346,   348,   350,   352,   354,   356,   358,   361,   363,
-     365,   367,   369,   371,   373,   375,   377,   380,   382,   384,
-     386,   388,   390,   392,   394,   396,   398,   400,   402,   404,
-     406,   408,   410,   412,   414,   416,   418,   420,   422,   424,
-     426,   428,   430,   433,   435,   437,   440,   444,   446,   448,
-     451
+       0,     0,     3,     5,     6,    11,    13,    15,    18,    20,
+      22,    24,    26,    28,    30,    32,    33,    38,    41,    43,
+      44,    49,    51,    53,    55,    56,    59,    61,    63,    65,
+      74,    76,    78,    82,    84,    86,    89,    91,    92,    97,
+      98,   103,   104,   105,   112,   114,   115,   116,   123,   124,
+     125,   134,   136,   138,   141,   143,   144,   149,   150,   155,
+     156,   161,   162,   167,   168,   169,   170,   182,   183,   188,
+     189,   194,   197,   198,   200,   201,   202,   208,   209,   215,
+     217,   219,   222,   224,   225,   230,   231,   236,   239,   240,
+     241,   246,   249,   251,   253,   256,   259,   260,   264,   266,
+     268,   271,   273,   275,   277,   279,   281,   283,   285,   287,
+     289,   291,   293,   295,   297,   299,   301,   303,   305,   307,
+     309,   311,   313,   315,   317,   319,   321,   323,   325,   327,
+     329,   331,   333,   335,   337,   339,   341,   343,   345,   347,
+     349,   351,   353,   355,   357,   359,   361,   363,   365,   367,
+     369,   371,   373,   375,   378,   380,   382,   384,   386,   388,
+     390,   392,   394,   397,   399,   401,   403,   405,   407,   409,
+     411,   413,   415,   417,   419,   421,   423,   425,   427,   429,
+     431,   433,   435,   437,   439,   441,   443,   445,   447,   450,
+     452,   454,   457,   461,   463,   465,   468
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
 static const short yyrhs[] =
 {
-     101,     0,    -1,   102,    -1,   103,    -1,   141,    -1,   103,
-     104,    -1,   104,    -1,   105,    -1,   109,    -1,   136,    -1,
-     142,    -1,    -1,     3,   161,   106,   142,    -1,     4,   161,
-      -1,   142,    -1,    -1,     3,   161,   108,   142,    -1,   113,
-      -1,   126,    -1,   111,    -1,    -1,   111,   109,    -1,   109,
-      -1,   162,    -1,    20,    -1,    11,   112,    12,   116,    13,
-       8,   114,     9,    -1,   115,    -1,   141,    -1,   110,   107,
-     102,    -1,   117,    -1,   141,    -1,   117,   123,    -1,   123,
-      -1,    -1,    16,   167,   119,   165,    -1,    -1,    17,   167,
-     120,   166,    -1,    -1,    -1,    19,   167,   121,   163,   122,
-     168,    -1,   118,    -1,    -1,    -1,    18,   167,   124,   163,
-     125,   168,    -1,    -1,    -1,    14,   162,   127,    12,   129,
-      13,   128,   140,    -1,   130,    -1,   141,    -1,   130,   131,
-      -1,   131,    -1,    -1,    16,   167,   132,   165,    -1,    -1,
-      17,   167,   133,   166,    -1,    -1,    19,   167,   134,   163,
-      -1,    -1,    18,   167,   135,   163,    -1,    -1,    -1,    -1,
-       5,   161,   137,     6,   166,   138,     7,   161,   139,     6,
-     165,    -1,   168,    -1,    -1,    -1,   162,   143,     8,   145,
-       9,    -1,    -1,    20,   144,     8,   147,     9,    -1,   146,
-      -1,   141,    -1,   146,   157,    -1,   157,    -1,   148,    -1,
-     141,    -1,   148,   156,    -1,   156,    -1,    -1,    16,   167,
-     150,   165,    -1,    -1,    17,   167,   151,   166,    -1,    15,
-     164,    -1,    -1,    -1,    19,   167,   154,   163,    -1,    15,
-     163,    -1,   168,    -1,   157,    -1,   149,   152,    -1,   153,
-     155,    -1,    -1,   163,   158,   159,    -1,   136,    -1,   109,
-      -1,    15,   160,    -1,   168,    -1,    10,    -1,    10,    -1,
-      10,    -1,    10,    -1,    10,    -1,    10,    -1,    10,    -1,
-      42,    -1,    43,    -1,    44,    -1,    45,    -1,    46,    -1,
-      47,    -1,    48,    -1,    49,    -1,    50,    -1,    51,    -1,
-      52,    -1,    53,    -1,    54,    -1,    55,    -1,    56,    -1,
-      57,    -1,    58,    -1,    59,    -1,    60,    -1,    61,    -1,
-      81,    -1,    82,    -1,    83,    -1,    84,    -1,    85,    -1,
-      86,    -1,    87,    -1,    88,    -1,    89,    -1,    90,    -1,
-      91,    -1,    92,    -1,    93,    -1,    94,    -1,    95,    -1,
-      96,    -1,    97,    -1,    98,    -1,    99,    -1,    22,    -1,
-      23,    -1,    24,    -1,    25,    -1,    26,    -1,    27,   169,
-      -1,    28,    -1,    29,    -1,    30,    -1,    31,    -1,    32,
-      -1,    33,    -1,    34,    -1,    35,    -1,    36,   170,    -1,
-      37,    -1,    38,    -1,    39,    -1,    40,    -1,    41,    -1,
-      62,    -1,    63,    -1,    64,    -1,    65,    -1,    66,    -1,
-      67,    -1,    68,    -1,    70,    -1,    69,    -1,    71,    -1,
-      72,    -1,    73,    -1,    74,    -1,    75,    -1,    76,    -1,
-      77,    -1,    79,    -1,    80,    -1,    78,    -1,   105,    -1,
-      15,   160,    -1,    21,    -1,   105,    -1,    15,   160,    -1,
-      12,   171,    13,    -1,   172,    -1,   141,    -1,   172,   105,
-      -1,   105,    -1
+     105,     0,    -1,   106,    -1,    -1,    18,    10,   107,   108,
+      -1,   108,    -1,   151,    -1,   108,   109,    -1,   109,    -1,
+     110,    -1,   114,    -1,   141,    -1,   147,    -1,   145,    -1,
+     152,    -1,    -1,     3,   169,   111,   152,    -1,     4,   169,
+      -1,   152,    -1,    -1,     3,   169,   113,   152,    -1,   118,
+      -1,   131,    -1,   116,    -1,    -1,   116,   114,    -1,   114,
+      -1,   170,    -1,    24,    -1,    11,   117,    12,   121,    13,
+       8,   119,     9,    -1,   120,    -1,   151,    -1,   115,   112,
+     106,    -1,   122,    -1,   151,    -1,   122,   128,    -1,   128,
+      -1,    -1,    20,   175,   124,   173,    -1,    -1,    21,   175,
+     125,   174,    -1,    -1,    -1,    23,   175,   126,   171,   127,
+     176,    -1,   123,    -1,    -1,    -1,    22,   175,   129,   171,
+     130,   176,    -1,    -1,    -1,    14,   170,   132,    12,   134,
+      13,   133,   150,    -1,   135,    -1,   151,    -1,   135,   136,
+      -1,   136,    -1,    -1,    20,   175,   137,   173,    -1,    -1,
+      21,   175,   138,   174,    -1,    -1,    23,   175,   139,   171,
+      -1,    -1,    22,   175,   140,   171,    -1,    -1,    -1,    -1,
+       5,   169,   142,     6,   174,   143,     7,   169,   144,     6,
+     173,    -1,    -1,    16,    10,   146,   149,    -1,    -1,    17,
+      10,   148,   149,    -1,    19,    10,    -1,    -1,   176,    -1,
+      -1,    -1,   170,   153,     8,   155,     9,    -1,    -1,    24,
+     154,     8,   155,     9,    -1,   156,    -1,   151,    -1,   156,
+     164,    -1,   164,    -1,    -1,    20,   175,   158,   173,    -1,
+      -1,    21,   175,   159,   174,    -1,    15,   172,    -1,    -1,
+      -1,    23,   175,   162,   171,    -1,    15,   171,    -1,   176,
+      -1,   165,    -1,   157,   160,    -1,   161,   163,    -1,    -1,
+     171,   166,   167,    -1,   141,    -1,   114,    -1,    15,   168,
+      -1,   176,    -1,    10,    -1,    10,    -1,    10,    -1,    10,
+      -1,    10,    -1,    10,    -1,    10,    -1,    46,    -1,    47,
+      -1,    48,    -1,    49,    -1,    50,    -1,    51,    -1,    52,
+      -1,    53,    -1,    54,    -1,    55,    -1,    56,    -1,    57,
+      -1,    58,    -1,    59,    -1,    60,    -1,    61,    -1,    62,
+      -1,    63,    -1,    64,    -1,    65,    -1,    85,    -1,    86,
+      -1,    87,    -1,    88,    -1,    89,    -1,    90,    -1,    91,
+      -1,    92,    -1,    93,    -1,    94,    -1,    95,    -1,    96,
+      -1,    97,    -1,    98,    -1,    99,    -1,   100,    -1,   101,
+      -1,   102,    -1,   103,    -1,    26,    -1,    27,    -1,    28,
+      -1,    29,    -1,    30,    -1,    31,   177,    -1,    32,    -1,
+      33,    -1,    34,    -1,    35,    -1,    36,    -1,    37,    -1,
+      38,    -1,    39,    -1,    40,   178,    -1,    41,    -1,    42,
+      -1,    43,    -1,    44,    -1,    45,    -1,    66,    -1,    67,
+      -1,    68,    -1,    69,    -1,    70,    -1,    71,    -1,    72,
+      -1,    74,    -1,    73,    -1,    75,    -1,    76,    -1,    77,
+      -1,    78,    -1,    79,    -1,    80,    -1,    81,    -1,    83,
+      -1,    84,    -1,    82,    -1,   110,    -1,    15,   168,    -1,
+      25,    -1,   110,    -1,    15,   168,    -1,    12,   179,    13,
+      -1,   180,    -1,   151,    -1,   180,   110,    -1,   110,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const unsigned short yyrline[] =
 {
-       0,   203,   203,   206,   207,   210,   211,   214,   215,   216,
-     219,   221,   220,   223,   228,   230,   229,   234,   235,   239,
-     240,   243,   244,   247,   249,   253,   264,   265,   268,   271,
-     272,   275,   276,   281,   280,   294,   293,   307,   309,   306,
-     322,   324,   326,   323,   339,   344,   338,   357,   358,   362,
-     363,   367,   366,   376,   375,   385,   384,   394,   393,   405,
-     407,   409,   404,   422,   425,   428,   428,   437,   437,   448,
-     449,   452,   453,   456,   457,   460,   461,   465,   464,   475,
-     474,   486,   495,   504,   503,   519,   528,   545,   546,   548,
-     554,   553,   575,   576,   581,   587,   593,   596,   599,   602,
-     605,   608,   611,   614,   615,   616,   617,   618,   619,   620,
-     621,   622,   623,   624,   625,   626,   627,   628,   629,   630,
-     631,   632,   633,   634,   635,   636,   637,   638,   639,   640,
-     641,   642,   643,   644,   645,   646,   647,   648,   649,   650,
-     651,   652,   656,   657,   658,   659,   660,   661,   662,   663,
-     664,   665,   666,   667,   668,   669,   670,   671,   672,   673,
-     674,   675,   676,   677,   678,   679,   680,   681,   682,   683,
-     684,   685,   686,   687,   688,   689,   690,   691,   692,   693,
-     694,   698,   699,   706,   709,   710,   717,   720,   721,   724,
-     725
+       0,   208,   208,   213,   211,   220,   221,   224,   225,   228,
+     229,   230,   231,   232,   235,   237,   236,   239,   244,   246,
+     245,   250,   251,   255,   256,   259,   260,   263,   265,   269,
+     280,   281,   284,   287,   288,   291,   292,   297,   296,   310,
+     309,   323,   325,   322,   338,   340,   342,   339,   355,   360,
+     354,   373,   374,   378,   379,   383,   382,   392,   391,   401,
+     400,   410,   409,   421,   423,   425,   420,   440,   438,   457,
+     455,   472,   476,   479,   482,   485,   485,   497,   497,   516,
+     517,   520,   521,   525,   524,   535,   534,   546,   555,   564,
+     563,   579,   588,   605,   606,   608,   614,   613,   635,   636,
+     641,   647,   654,   657,   660,   663,   666,   669,   672,   675,
+     676,   677,   678,   679,   680,   681,   682,   683,   684,   685,
+     686,   687,   688,   689,   690,   691,   692,   693,   694,   695,
+     696,   697,   698,   699,   700,   701,   702,   703,   704,   705,
+     706,   707,   708,   709,   710,   711,   712,   713,   717,   718,
+     719,   720,   721,   722,   723,   724,   725,   726,   727,   728,
+     729,   730,   731,   732,   733,   734,   735,   736,   737,   738,
+     739,   740,   741,   742,   743,   744,   745,   746,   747,   748,
+     749,   750,   751,   752,   753,   754,   755,   759,   760,   767,
+     770,   771,   778,   781,   782,   785,   786
 };
 #endif
 
@@ -610,42 +620,44 @@ static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "DEF", "USE", "ROUTE", "PERIOD", "TO", 
   "OPENBRACE", "CLOSEBRACE", "ID", "PROTO", "OPENBRACKET", "CLOSEBRACKET", 
-  "EXTERNPROTO", "IS", "EVENTIN", "EVENTOUT", "EXPOSEDFIELD", "FIELD", 
-  "SCRIPT", "SFN_NULL", "TOK_SFBOOL", "TOK_SFCOLOR", "TOK_SFFLOAT", 
-  "TOK_SFIMAGE", "TOK_SFINT32", "TOK_SFNODE", "TOK_SFROTATION", 
-  "TOK_SFSTRING", "TOK_SFTIME", "TOK_SFVEC2F", "TOK_SFVEC3F", 
-  "TOK_MFCOLOR", "TOK_MFFLOAT", "TOK_MFINT32", "TOK_MFNODE", 
-  "TOK_MFROTATION", "TOK_MFSTRING", "TOK_MFTIME", "TOK_MFVEC2F", 
-  "TOK_MFVEC3F", "Tok_MFColor", "Tok_MFFloat", "Tok_MFInt32", 
-  "Tok_MFNode", "Tok_MFRotation", "Tok_MFString", "Tok_MFTime", 
-  "Tok_MFVec2f", "Tok_MFVec3f", "Tok_SFBool", "Tok_SFColor", 
-  "Tok_SFFloat", "Tok_SFImage", "Tok_SFInt32", "Tok_SFNode", 
-  "Tok_SFRotation", "Tok_SFString", "Tok_SFTime", "Tok_SFVec2f", 
-  "Tok_SFVec3f", "TOK_MFCOLOR4F", "TOK_MFCOLOR4I", "TOK_MFCOLOR3F", 
-  "TOK_MFMATRIX", "TOK_MFPNT2F", "TOK_MFPNT3F", "TOK_MFPNT4F", 
-  "TOK_MFVEC4F", "TOK_MFPLANE", "TOK_SFCOLOR4F", "TOK_SFCOLOR4I", 
-  "TOK_SFCOLOR3F", "TOK_SFMATRIX", "TOK_SFPNT2F", "TOK_SFPNT3F", 
-  "TOK_SFPNT4F", "TOK_SFVEC4F", "TOK_SFPLANE", "TOK_SFVOLUME", 
-  "Tok_MFColor4f", "Tok_MFColor4i", "Tok_MFColor3f", "Tok_MFMatrix", 
-  "Tok_MFPnt2f", "Tok_MFPnt3f", "Tok_MFPnt4f", "Tok_MFVec4f", 
-  "Tok_MFPlane", "Tok_SFColor4f", "Tok_SFColor4i", "Tok_SFColor3f", 
-  "Tok_SFMatrix", "Tok_SFPnt2f", "Tok_SFPnt3f", "Tok_SFPnt4f", 
-  "Tok_SFVec4f", "Tok_SFPlane", "Tok_SFVolume", "$accept", "vrmlScene", 
-  "statementsORempty", "statements", "statement", "nodeStatement", "@1", 
-  "rootNodeStatement", "@2", "protoStatement", "protoStatementsORempty", 
-  "protoStatements", "protoId", "proto", "protoBodyORempty", "protoBody", 
+  "EXTERNPROTO", "IS", "EXPORT", "IMPORT", "PROFILE", "AS", "EVENTIN", 
+  "EVENTOUT", "EXPOSEDFIELD", "FIELD", "SCRIPT", "SFN_NULL", "TOK_SFBOOL", 
+  "TOK_SFCOLOR", "TOK_SFFLOAT", "TOK_SFIMAGE", "TOK_SFINT32", 
+  "TOK_SFNODE", "TOK_SFROTATION", "TOK_SFSTRING", "TOK_SFTIME", 
+  "TOK_SFVEC2F", "TOK_SFVEC3F", "TOK_MFCOLOR", "TOK_MFFLOAT", 
+  "TOK_MFINT32", "TOK_MFNODE", "TOK_MFROTATION", "TOK_MFSTRING", 
+  "TOK_MFTIME", "TOK_MFVEC2F", "TOK_MFVEC3F", "Tok_MFColor", 
+  "Tok_MFFloat", "Tok_MFInt32", "Tok_MFNode", "Tok_MFRotation", 
+  "Tok_MFString", "Tok_MFTime", "Tok_MFVec2f", "Tok_MFVec3f", 
+  "Tok_SFBool", "Tok_SFColor", "Tok_SFFloat", "Tok_SFImage", 
+  "Tok_SFInt32", "Tok_SFNode", "Tok_SFRotation", "Tok_SFString", 
+  "Tok_SFTime", "Tok_SFVec2f", "Tok_SFVec3f", "TOK_MFCOLOR4F", 
+  "TOK_MFCOLOR4I", "TOK_MFCOLOR3F", "TOK_MFMATRIX", "TOK_MFPNT2F", 
+  "TOK_MFPNT3F", "TOK_MFPNT4F", "TOK_MFVEC4F", "TOK_MFPLANE", 
+  "TOK_SFCOLOR4F", "TOK_SFCOLOR4I", "TOK_SFCOLOR3F", "TOK_SFMATRIX", 
+  "TOK_SFPNT2F", "TOK_SFPNT3F", "TOK_SFPNT4F", "TOK_SFVEC4F", 
+  "TOK_SFPLANE", "TOK_SFVOLUME", "Tok_MFColor4f", "Tok_MFColor4i", 
+  "Tok_MFColor3f", "Tok_MFMatrix", "Tok_MFPnt2f", "Tok_MFPnt3f", 
+  "Tok_MFPnt4f", "Tok_MFVec4f", "Tok_MFPlane", "Tok_SFColor4f", 
+  "Tok_SFColor4i", "Tok_SFColor3f", "Tok_SFMatrix", "Tok_SFPnt2f", 
+  "Tok_SFPnt3f", "Tok_SFPnt4f", "Tok_SFVec4f", "Tok_SFPlane", 
+  "Tok_SFVolume", "$accept", "vrmlScene", "statementsORempty", "@1", 
+  "statements", "statement", "nodeStatement", "@2", "rootNodeStatement", 
+  "@3", "protoStatement", "protoStatementsORempty", "protoStatements", 
+  "protoId", "proto", "protoBodyORempty", "protoBody", 
   "interfaceDeclarationsORempty", "interfaceDeclarations", 
-  "restrictedInterfaceDeclaration", "@3", "@4", "@5", "@6", 
-  "interfaceDeclaration", "@7", "@8", "externproto", "@9", "@10", 
+  "restrictedInterfaceDeclaration", "@4", "@5", "@6", "@7", 
+  "interfaceDeclaration", "@8", "@9", "externproto", "@10", "@11", 
   "externInterfaceDeclarationsORempty", "externInterfaceDeclarations", 
-  "externInterfaceDeclaration", "@11", "@12", "@13", "@14", 
-  "routeStatement", "@15", "@16", "@17", "URLList", "empty", "node", 
-  "@18", "@19", "nodeBodyORempty", "nodeBody", "scriptBodyORempty", 
-  "scriptBody", "resInterfaceDeclarationScriptEvent", "@20", "@21", 
+  "externInterfaceDeclaration", "@12", "@13", "@14", "@15", 
+  "routeStatement", "@16", "@17", "@18", "exportStatement", "@19", 
+  "importStatement", "@20", "importExportEnd", "URLList", "empty", "node", 
+  "@21", "@22", "scriptBodyORempty", "scriptBody", 
+  "resInterfaceDeclarationScriptEvent", "@23", "@24", 
   "resInterfaceDeclarationScriptEventEnd", 
-  "resInterfaceDeclarationScriptField", "@22", 
+  "resInterfaceDeclarationScriptField", "@25", 
   "resInterafceDeclarationScriptFieldEnd", "scriptBodyElement", 
-  "nodeBodyElement", "@23", "fieldEnd", "generalId", "nodeNameId", 
+  "nodeBodyElement", "@26", "fieldEnd", "generalId", "nodeNameId", 
   "nodeTypeId", "fieldId", "eventId", "eventInId", "eventOutId", 
   "fieldType", "fieldValue", "sfnodeValue", "mfnodeValue", 
   "nodeStatementsORempty", "nodeStatements", 0
@@ -666,58 +678,59 @@ static const unsigned short yytoknum[] =
      315,   316,   317,   318,   319,   320,   321,   322,   323,   324,
      325,   326,   327,   328,   329,   330,   331,   332,   333,   334,
      335,   336,   337,   338,   339,   340,   341,   342,   343,   344,
-     345,   346,   347,   348,   349,   350,   351,   352,   353,   354
+     345,   346,   347,   348,   349,   350,   351,   352,   353,   354,
+     355,   356,   357,   358
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const unsigned char yyr1[] =
 {
-       0,   100,   101,   102,   102,   103,   103,   104,   104,   104,
-     105,   106,   105,   105,   107,   108,   107,   109,   109,   110,
-     110,   111,   111,   112,   112,   113,   114,   114,   115,   116,
-     116,   117,   117,   119,   118,   120,   118,   121,   122,   118,
-     123,   124,   125,   123,   127,   128,   126,   129,   129,   130,
-     130,   132,   131,   133,   131,   134,   131,   135,   131,   137,
-     138,   139,   136,   140,   141,   143,   142,   144,   142,   145,
-     145,   146,   146,   147,   147,   148,   148,   150,   149,   151,
-     149,   152,   152,   154,   153,   155,   155,   156,   156,   156,
-     158,   157,   157,   157,   159,   159,   160,   161,   162,   163,
-     164,   165,   166,   167,   167,   167,   167,   167,   167,   167,
-     167,   167,   167,   167,   167,   167,   167,   167,   167,   167,
-     167,   167,   167,   167,   167,   167,   167,   167,   167,   167,
-     167,   167,   167,   167,   167,   167,   167,   167,   167,   167,
-     167,   167,   168,   168,   168,   168,   168,   168,   168,   168,
-     168,   168,   168,   168,   168,   168,   168,   168,   168,   168,
-     168,   168,   168,   168,   168,   168,   168,   168,   168,   168,
-     168,   168,   168,   168,   168,   168,   168,   168,   168,   168,
-     168,   169,   169,   169,   170,   170,   170,   171,   171,   172,
-     172
+       0,   104,   105,   107,   106,   106,   106,   108,   108,   109,
+     109,   109,   109,   109,   110,   111,   110,   110,   112,   113,
+     112,   114,   114,   115,   115,   116,   116,   117,   117,   118,
+     119,   119,   120,   121,   121,   122,   122,   124,   123,   125,
+     123,   126,   127,   123,   128,   129,   130,   128,   132,   133,
+     131,   134,   134,   135,   135,   137,   136,   138,   136,   139,
+     136,   140,   136,   142,   143,   144,   141,   146,   145,   148,
+     147,   149,   149,   150,   151,   153,   152,   154,   152,   155,
+     155,   156,   156,   158,   157,   159,   157,   160,   160,   162,
+     161,   163,   163,   164,   164,   164,   166,   165,   165,   165,
+     167,   167,   168,   169,   170,   171,   172,   173,   174,   175,
+     175,   175,   175,   175,   175,   175,   175,   175,   175,   175,
+     175,   175,   175,   175,   175,   175,   175,   175,   175,   175,
+     175,   175,   175,   175,   175,   175,   175,   175,   175,   175,
+     175,   175,   175,   175,   175,   175,   175,   175,   176,   176,
+     176,   176,   176,   176,   176,   176,   176,   176,   176,   176,
+     176,   176,   176,   176,   176,   176,   176,   176,   176,   176,
+     176,   176,   176,   176,   176,   176,   176,   176,   176,   176,
+     176,   176,   176,   176,   176,   176,   176,   177,   177,   177,
+     178,   178,   178,   179,   179,   180,   180
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const unsigned char yyr2[] =
 {
-       0,     2,     1,     1,     1,     2,     1,     1,     1,     1,
-       1,     0,     4,     2,     1,     0,     4,     1,     1,     1,
-       0,     2,     1,     1,     1,     8,     1,     1,     3,     1,
-       1,     2,     1,     0,     4,     0,     4,     0,     0,     6,
-       1,     0,     0,     6,     0,     0,     8,     1,     1,     2,
-       1,     0,     4,     0,     4,     0,     4,     0,     4,     0,
-       0,     0,    11,     1,     0,     0,     5,     0,     5,     1,
-       1,     2,     1,     1,     1,     2,     1,     0,     4,     0,
-       4,     2,     0,     0,     4,     2,     1,     1,     2,     2,
-       0,     3,     1,     1,     2,     1,     1,     1,     1,     1,
+       0,     2,     1,     0,     4,     1,     1,     2,     1,     1,
+       1,     1,     1,     1,     1,     0,     4,     2,     1,     0,
+       4,     1,     1,     1,     0,     2,     1,     1,     1,     8,
+       1,     1,     3,     1,     1,     2,     1,     0,     4,     0,
+       4,     0,     0,     6,     1,     0,     0,     6,     0,     0,
+       8,     1,     1,     2,     1,     0,     4,     0,     4,     0,
+       4,     0,     4,     0,     0,     0,    11,     0,     4,     0,
+       4,     2,     0,     1,     0,     0,     5,     0,     5,     1,
+       1,     2,     1,     0,     4,     0,     4,     2,     0,     0,
+       4,     2,     1,     1,     2,     2,     0,     3,     1,     1,
+       2,     1,     1,     1,     1,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     2,     1,     1,
-       1,     1,     1,     1,     1,     1,     2,     1,     1,     1,
+       1,     1,     1,     2,     1,     1,     1,     1,     1,     1,
+       1,     1,     2,     1,     1,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     2,     1,     1,     2,     3,     1,     1,     2,
-       1
+       1,     1,     1,     1,     1,     1,     1,     1,     2,     1,
+       1,     2,     3,     1,     1,     2,     1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -725,222 +738,217 @@ static const unsigned char yyr2[] =
    means the default is an error.  */
 static const unsigned char yydefact[] =
 {
-      64,     0,     0,     0,    98,     0,     0,    67,     0,     2,
-       3,     6,     7,     8,    17,    18,     9,     4,    10,    65,
-      97,    11,    13,    59,    24,     0,    23,    44,     0,     1,
-       5,     0,     0,     0,    64,     0,    64,    64,    12,     0,
-       0,     0,     0,     0,     0,    29,    40,    32,    30,    64,
-      99,     0,     0,     0,    93,    92,    74,     0,    73,    82,
-       0,    76,    87,    90,    70,     0,    69,    72,   102,    60,
-     103,   104,   105,   106,   107,   108,   109,   110,   111,   112,
-     113,   114,   115,   116,   117,   118,   119,   120,   121,   122,
-     123,   124,   125,   126,   127,   128,   129,   130,   131,   132,
-     133,   134,   135,   136,   137,   138,   139,   140,   141,    33,
-      35,    41,    37,     0,    31,     0,     0,     0,     0,     0,
-      47,    50,    48,    77,    79,    83,    68,    75,     0,    88,
-       0,   142,   143,   144,   145,   146,     0,   148,   149,   150,
-     151,   152,   153,   154,   155,     0,   157,   158,   159,   160,
-     161,   162,   163,   164,   165,   166,   167,   168,   170,   169,
-     171,   172,   173,   174,   175,   176,   177,   180,   178,   179,
-      89,    86,     0,    66,    71,     0,     0,     0,     0,     0,
-      20,    51,    53,    57,    55,    45,    49,     0,     0,     0,
-     100,    81,    85,     0,   183,   181,   147,    64,     0,   184,
-     156,     0,    91,    95,     0,   101,    34,    36,    42,    38,
-      22,     0,    19,     0,    26,    27,     0,     0,     0,     0,
-       0,    78,    80,    84,    96,   182,   190,   188,     0,   187,
-     185,    94,    61,     0,     0,     0,    64,    14,    21,    25,
-      52,    54,    58,    56,    46,    63,   186,   189,     0,    43,
-      39,    15,    28,     0,     0,    62,    16
+      74,     0,     0,     0,   104,     0,     0,     0,     0,     0,
+      77,     0,     2,     5,     8,     9,    10,    21,    22,    11,
+      13,    12,     6,    14,    75,   103,    15,    17,    63,    28,
+       0,    27,    48,    67,    69,     3,     0,     1,     7,     0,
+       0,     0,    74,     0,    72,    72,     0,    74,    74,    16,
+       0,     0,     0,     0,     0,     0,    33,    44,    36,    34,
+      74,     0,    68,    70,     4,   105,     0,     0,     0,    99,
+      98,    80,     0,    79,    88,     0,    82,    93,    96,     0,
+     108,    64,   109,   110,   111,   112,   113,   114,   115,   116,
+     117,   118,   119,   120,   121,   122,   123,   124,   125,   126,
+     127,   128,   129,   130,   131,   132,   133,   134,   135,   136,
+     137,   138,   139,   140,   141,   142,   143,   144,   145,   146,
+     147,    37,    39,    45,    41,     0,    35,     0,     0,     0,
+       0,     0,    51,    54,    52,    71,    83,    85,    89,    78,
+      81,     0,    94,     0,   148,   149,   150,   151,   152,     0,
+     154,   155,   156,   157,   158,   159,   160,   161,     0,   163,
+     164,   165,   166,   167,   168,   169,   170,   171,   172,   173,
+     174,   176,   175,   177,   178,   179,   180,   181,   182,   183,
+     186,   184,   185,    95,    92,     0,    76,     0,     0,     0,
+       0,     0,    24,    55,    57,    61,    59,    49,    53,     0,
+       0,     0,   106,    87,    91,     0,   189,   187,   153,    74,
+       0,   190,   162,     0,    97,   101,     0,   107,    38,    40,
+      46,    42,    26,     0,    23,     0,    30,    31,     0,     0,
+       0,     0,     0,    84,    86,    90,   102,   188,   196,   194,
+       0,   193,   191,   100,    65,     0,     0,     0,    74,    18,
+      25,    29,    56,    58,    62,    60,    50,    73,   192,   195,
+       0,    47,    43,    19,    32,     0,     0,    66,    20
 };
 
 /* YYDEFGOTO[NTERM-NUM]. */
 static const short yydefgoto[] =
 {
-      -1,     8,     9,    10,    11,    12,    32,   236,   254,    54,
-     211,   212,    25,    14,   213,   214,    44,    45,    46,   176,
-     177,   179,   234,    47,   178,   233,    15,    35,   220,   119,
-     120,   121,   216,   217,   219,   218,    55,    33,   175,   248,
-     244,    17,    18,    31,    28,    65,    66,    57,    58,    59,
-     187,   188,   129,    60,   189,   170,    61,    62,   172,   202,
-     225,    21,    19,    63,   191,   206,    69,   109,   171,   196,
-     200,   228,   229
+      -1,    11,    12,    46,    13,    14,    15,    40,   248,   266,
+      16,   223,   224,    30,    17,   225,   226,    55,    56,    57,
+     188,   189,   191,   246,    58,   190,   245,    18,    43,   232,
+     131,   132,   133,   228,   229,   231,   230,    19,    41,   187,
+     260,    20,    44,    21,    45,    62,   256,    22,    23,    39,
+      36,    72,    73,    74,   199,   200,   142,    75,   201,   183,
+      76,    77,   185,   214,   237,    26,    24,    78,   203,   218,
+      81,   121,   184,   208,   212,   240,   241
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -168
+#define YYPACT_NINF -182
 static const short yypact[] =
 {
-      34,    18,    18,    18,  -168,    12,    19,  -168,    35,  -168,
-      34,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,
-    -168,  -168,  -168,  -168,  -168,    45,  -168,  -168,    48,  -168,
-    -168,    53,    20,    63,    77,    62,   113,   123,  -168,    65,
-     322,   322,   322,   322,    67,    77,  -168,  -168,  -168,   103,
-    -168,   322,   322,   322,  -168,  -168,  -168,    78,   113,    75,
-     217,  -168,  -168,  -168,  -168,   116,   123,  -168,  -168,  -168,
-    -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,
-    -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,
-    -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,
-    -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,
-    -168,  -168,  -168,   118,  -168,   322,   322,   322,   322,   122,
-     103,  -168,  -168,  -168,  -168,  -168,  -168,  -168,   121,  -168,
-     126,  -168,  -168,  -168,  -168,  -168,    21,  -168,  -168,  -168,
-    -168,  -168,  -168,  -168,  -168,    56,  -168,  -168,  -168,  -168,
-    -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,
-    -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,
-    -168,  -168,   283,  -168,  -168,   150,   149,    65,   126,   126,
-      44,  -168,  -168,  -168,  -168,  -168,  -168,   149,    65,   126,
-    -168,  -168,  -168,   151,  -168,  -168,  -168,    69,   151,  -168,
-    -168,   151,  -168,  -168,    18,  -168,  -168,  -168,  -168,  -168,
-    -168,    23,    74,   153,  -168,  -168,   149,    65,   126,   126,
-      76,  -168,  -168,  -168,  -168,  -168,  -168,  -168,   147,    69,
-    -168,  -168,  -168,    76,    76,    18,    34,  -168,  -168,  -168,
-    -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,   157,  -168,
-    -168,  -168,  -168,   149,    20,  -168,  -168
+     123,     8,     8,     8,  -182,    10,    12,    47,    48,    52,
+    -182,    51,  -182,   140,  -182,  -182,  -182,  -182,  -182,  -182,
+    -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,
+      80,  -182,  -182,  -182,  -182,  -182,    55,  -182,  -182,    85,
+      11,    95,   109,    94,   117,   117,   140,   148,   148,  -182,
+     132,   279,   279,   279,   279,   133,   109,  -182,  -182,  -182,
+     153,   139,  -182,  -182,   140,  -182,   279,   279,   279,  -182,
+    -182,  -182,   143,   148,   145,    41,  -182,  -182,  -182,   152,
+    -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,
+    -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,
+    -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,
+    -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,
+    -182,  -182,  -182,  -182,  -182,   155,  -182,   279,   279,   279,
+     279,   154,   153,  -182,  -182,  -182,  -182,  -182,  -182,  -182,
+    -182,   156,  -182,   160,  -182,  -182,  -182,  -182,  -182,    21,
+    -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,    37,  -182,
+    -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,
+    -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,
+    -182,  -182,  -182,  -182,  -182,   220,  -182,   158,   167,   132,
+     160,   160,    88,  -182,  -182,  -182,  -182,  -182,  -182,   167,
+     132,   160,  -182,  -182,  -182,   168,  -182,  -182,  -182,    29,
+     168,  -182,  -182,   168,  -182,  -182,     8,  -182,  -182,  -182,
+    -182,  -182,  -182,    40,    89,   170,  -182,  -182,   167,   132,
+     160,   160,   240,  -182,  -182,  -182,  -182,  -182,  -182,  -182,
+     169,    29,  -182,  -182,  -182,   240,   240,     8,   123,  -182,
+    -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,
+     175,  -182,  -182,  -182,  -182,   167,    11,  -182,  -182
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const short yypgoto[] =
 {
-    -168,  -168,   -72,  -168,   155,  -132,  -168,  -168,  -168,     0,
-    -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,  -168,
-    -168,  -168,  -168,   124,  -168,  -168,  -168,  -168,  -168,  -168,
-    -168,    46,  -168,  -168,  -168,  -168,     1,  -168,  -168,  -168,
-    -168,   -22,   -30,  -168,  -168,  -168,  -168,  -168,  -168,  -168,
-    -168,  -168,  -168,  -168,  -168,  -168,   109,   -16,  -168,  -168,
-    -131,     3,    41,  -127,  -168,  -167,  -154,   -34,  -156,  -168,
-    -168,  -168,  -168
+    -182,  -182,   -65,  -182,   138,    -4,  -143,  -182,  -182,  -182,
+     -44,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,
+    -182,  -182,  -182,  -182,   130,  -182,  -182,  -182,  -182,  -182,
+    -182,  -182,    56,  -182,  -182,  -182,  -182,   -31,  -182,  -182,
+    -182,  -182,  -182,  -182,  -182,   142,  -182,   -37,   -38,  -182,
+    -182,   141,  -182,  -182,  -182,  -182,  -182,  -182,  -182,  -182,
+     118,  -182,  -182,  -182,   -75,    -2,    32,  -136,  -182,  -169,
+    -181,   -40,  -141,  -182,  -182,  -182,  -182
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.
    If YYTABLE_NINF, syntax error.  */
-#define YYTABLE_NINF -65
+#define YYTABLE_NINF -75
 static const short yytable[] =
 {
-      13,    16,    38,   192,   195,    22,    23,   110,   111,   112,
-      13,    16,    48,   199,    56,    64,   203,   123,   124,   125,
-     221,    67,     4,   207,     1,     2,   235,   122,    20,     4,
-       4,     4,    24,     4,   222,    29,   193,     1,     2,     3,
-       7,     7,   194,     7,     4,     5,    26,    27,     6,   240,
-     174,   208,   209,   -64,     7,     5,    36,    34,     6,     1,
-       2,    37,   223,   241,   245,   226,     4,   230,   197,    39,
-     231,   198,     1,     2,    49,    68,     7,   249,   250,     4,
-     113,   181,   182,   183,   184,     5,   255,   126,     6,     7,
-     128,   242,   243,    40,    41,    42,    43,   247,   131,   132,
-     133,   134,   135,   136,   137,   138,   139,   140,   141,   142,
-     143,   144,   145,   146,   147,   148,   149,   150,     3,   115,
-     116,   117,   118,    50,     5,   173,   180,     6,     3,    51,
-      52,   190,    53,    50,     5,   185,    50,     6,   151,   152,
-     153,   154,   155,   156,   157,   158,   159,   160,   161,   162,
-     163,   164,   165,   166,   167,   168,   169,   204,   215,   205,
-     246,   224,   239,   253,   252,    30,   186,   127,     0,   114,
-       0,     0,     0,     0,     0,   227,     0,     0,     0,     0,
-     210,   237,     0,     0,     0,     0,     0,     0,     0,     0,
+      27,    28,    49,    69,    69,    59,   207,   204,   219,    38,
+      71,    71,   122,   123,   124,   211,    70,    70,    25,   234,
+       4,     4,     4,   134,     1,     2,   136,   137,   138,    69,
+     233,     4,     1,     2,    29,    10,   205,    31,    32,     4,
+       1,     2,    70,   247,   215,    10,   206,     4,   253,   209,
+       4,    37,   210,    10,   220,   221,   143,    33,    34,   252,
+      38,    10,    35,    47,    10,   235,   238,   144,   145,   146,
+     147,   148,   149,   150,   151,   152,   153,   154,   155,   156,
+     157,   158,   159,   160,   161,   162,   163,   193,   194,   195,
+     196,   257,    42,    48,   254,   255,   267,   -74,   259,     5,
+       5,    50,     6,     6,   261,   262,    60,   164,   165,   166,
+     167,   168,   169,   170,   171,   172,   173,   174,   175,   176,
+     177,   178,   179,   180,   181,   182,     1,     2,     3,    51,
+      52,    53,    54,     4,     5,   242,    61,     6,   243,     7,
+       8,     9,    80,     1,     2,     3,   125,    10,   222,   135,
+       4,     5,   139,     3,     6,   227,     7,     8,    65,     5,
+     141,   186,     6,   192,    10,   216,   202,   197,    66,    67,
+      65,    68,   239,   127,   128,   129,   130,   217,   236,   251,
+     250,   265,   258,   264,    64,   249,   126,    63,   198,    79,
+       0,   140,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,   232,     0,     0,
-       0,     0,   238,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,   256,     0,     0,     0,     0,     0,
-       0,     0,   130,     0,     0,     0,    13,    16,   251,   131,
-     132,   133,   134,   135,   136,   137,   138,   139,   140,   141,
-     142,   143,   144,   145,   146,   147,   148,   149,   150,     0,
+       0,     0,     0,     0,   244,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,   268,     0,
+       0,     0,     0,     0,     0,   213,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,   263,   144,   145,   146,   147,
+     148,   149,   150,   151,   152,   153,   154,   155,   156,   157,
+     158,   159,   160,   161,   162,   163,   144,   145,   146,   147,
+     148,   149,   150,   151,   152,   153,   154,   155,   156,   157,
+     158,   159,   160,   161,   162,   163,   164,   165,   166,   167,
+     168,   169,   170,   171,   172,   173,   174,   175,   176,   177,
+     178,   179,   180,   181,   182,     0,   164,   165,   166,   167,
+     168,   169,   170,   171,   172,   173,   174,   175,   176,   177,
+     178,   179,   180,   181,   182,    82,    83,    84,    85,    86,
+      87,    88,    89,    90,    91,    92,    93,    94,    95,    96,
+      97,    98,    99,   100,   101,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,   151,
-     152,   153,   154,   155,   156,   157,   158,   159,   160,   161,
-     162,   163,   164,   165,   166,   167,   168,   169,   201,     0,
-       0,     0,     0,     0,     0,   131,   132,   133,   134,   135,
-     136,   137,   138,   139,   140,   141,   142,   143,   144,   145,
-     146,   147,   148,   149,   150,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,   151,   152,   153,   154,   155,
-     156,   157,   158,   159,   160,   161,   162,   163,   164,   165,
-     166,   167,   168,   169,    70,    71,    72,    73,    74,    75,
-      76,    77,    78,    79,    80,    81,    82,    83,    84,    85,
-      86,    87,    88,    89,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    90,    91,    92,    93,    94,    95,    96,
-      97,    98,    99,   100,   101,   102,   103,   104,   105,   106,
-     107,   108
+       0,     0,     0,     0,   102,   103,   104,   105,   106,   107,
+     108,   109,   110,   111,   112,   113,   114,   115,   116,   117,
+     118,   119,   120
 };
 
 static const short yycheck[] =
 {
-       0,     0,    32,   130,   136,     2,     3,    41,    42,    43,
-      10,    10,    34,   145,    36,    37,   172,    51,    52,    53,
-     187,    37,    10,   177,     3,     4,     3,    49,    10,    10,
-      10,    10,    20,    10,   188,     0,    15,     3,     4,     5,
-      20,    20,    21,    20,    10,    11,     5,     6,    14,   216,
-      66,   178,   179,     9,    20,    11,     8,    12,    14,     3,
-       4,     8,   189,   217,   220,   197,    10,   198,    12,     6,
-     201,    15,     3,     4,    12,    10,    20,   233,   234,    10,
-      13,   115,   116,   117,   118,    11,   253,     9,    14,    20,
-      15,   218,   219,    16,    17,    18,    19,   229,    22,    23,
-      24,    25,    26,    27,    28,    29,    30,    31,    32,    33,
-      34,    35,    36,    37,    38,    39,    40,    41,     5,    16,
-      17,    18,    19,    10,    11,     9,     8,    14,     5,    16,
-      17,    10,    19,    10,    11,    13,    10,    14,    62,    63,
-      64,    65,    66,    67,    68,    69,    70,    71,    72,    73,
-      74,    75,    76,    77,    78,    79,    80,     7,   180,    10,
-      13,    10,     9,     6,   236,    10,   120,    58,    -1,    45,
-      -1,    -1,    -1,    -1,    -1,   197,    -1,    -1,    -1,    -1,
-     180,   211,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+       2,     3,    40,    47,    48,    42,   149,   143,   189,    13,
+      47,    48,    52,    53,    54,   158,    47,    48,    10,   200,
+      10,    10,    10,    60,     3,     4,    66,    67,    68,    73,
+     199,    10,     3,     4,    24,    24,    15,     5,     6,    10,
+       3,     4,    73,     3,   185,    24,    25,    10,   229,    12,
+      10,     0,    15,    24,   190,   191,    15,    10,    10,   228,
+      64,    24,    10,     8,    24,   201,   209,    26,    27,    28,
+      29,    30,    31,    32,    33,    34,    35,    36,    37,    38,
+      39,    40,    41,    42,    43,    44,    45,   127,   128,   129,
+     130,   232,    12,     8,   230,   231,   265,     9,   241,    11,
+      11,     6,    14,    14,   245,   246,    12,    66,    67,    68,
+      69,    70,    71,    72,    73,    74,    75,    76,    77,    78,
+      79,    80,    81,    82,    83,    84,     3,     4,     5,    20,
+      21,    22,    23,    10,    11,   210,    19,    14,   213,    16,
+      17,    18,    10,     3,     4,     5,    13,    24,   192,    10,
+      10,    11,     9,     5,    14,   192,    16,    17,    10,    11,
+      15,     9,    14,     8,    24,     7,    10,    13,    20,    21,
+      10,    23,   209,    20,    21,    22,    23,    10,    10,     9,
+     224,     6,    13,   248,    46,   223,    56,    45,   132,    48,
+      -1,    73,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,   204,    -1,    -1,
-      -1,    -1,   212,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,   254,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    15,    -1,    -1,    -1,   236,   236,   235,    22,
-      23,    24,    25,    26,    27,    28,    29,    30,    31,    32,
-      33,    34,    35,    36,    37,    38,    39,    40,    41,    -1,
+      -1,    -1,    -1,    -1,   216,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,   266,    -1,
+      -1,    -1,    -1,    -1,    -1,    15,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,   247,    26,    27,    28,    29,
+      30,    31,    32,    33,    34,    35,    36,    37,    38,    39,
+      40,    41,    42,    43,    44,    45,    26,    27,    28,    29,
+      30,    31,    32,    33,    34,    35,    36,    37,    38,    39,
+      40,    41,    42,    43,    44,    45,    66,    67,    68,    69,
+      70,    71,    72,    73,    74,    75,    76,    77,    78,    79,
+      80,    81,    82,    83,    84,    -1,    66,    67,    68,    69,
+      70,    71,    72,    73,    74,    75,    76,    77,    78,    79,
+      80,    81,    82,    83,    84,    46,    47,    48,    49,    50,
+      51,    52,    53,    54,    55,    56,    57,    58,    59,    60,
+      61,    62,    63,    64,    65,    -1,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    62,
-      63,    64,    65,    66,    67,    68,    69,    70,    71,    72,
-      73,    74,    75,    76,    77,    78,    79,    80,    15,    -1,
-      -1,    -1,    -1,    -1,    -1,    22,    23,    24,    25,    26,
-      27,    28,    29,    30,    31,    32,    33,    34,    35,    36,
-      37,    38,    39,    40,    41,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    62,    63,    64,    65,    66,
-      67,    68,    69,    70,    71,    72,    73,    74,    75,    76,
-      77,    78,    79,    80,    42,    43,    44,    45,    46,    47,
-      48,    49,    50,    51,    52,    53,    54,    55,    56,    57,
-      58,    59,    60,    61,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    81,    82,    83,    84,    85,    86,    87,
-      88,    89,    90,    91,    92,    93,    94,    95,    96,    97,
-      98,    99
+      -1,    -1,    -1,    -1,    85,    86,    87,    88,    89,    90,
+      91,    92,    93,    94,    95,    96,    97,    98,    99,   100,
+     101,   102,   103
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const unsigned char yystos[] =
 {
-       0,     3,     4,     5,    10,    11,    14,    20,   101,   102,
-     103,   104,   105,   109,   113,   126,   136,   141,   142,   162,
-      10,   161,   161,   161,    20,   112,   162,   162,   144,     0,
-     104,   143,   106,   137,    12,   127,     8,     8,   142,     6,
-      16,    17,    18,    19,   116,   117,   118,   123,   141,    12,
-      10,    16,    17,    19,   109,   136,   141,   147,   148,   149,
-     153,   156,   157,   163,   141,   145,   146,   157,    10,   166,
-      42,    43,    44,    45,    46,    47,    48,    49,    50,    51,
-      52,    53,    54,    55,    56,    57,    58,    59,    60,    61,
-      81,    82,    83,    84,    85,    86,    87,    88,    89,    90,
-      91,    92,    93,    94,    95,    96,    97,    98,    99,   167,
-     167,   167,   167,    13,   123,    16,    17,    18,    19,   129,
-     130,   131,   141,   167,   167,   167,     9,   156,    15,   152,
-      15,    22,    23,    24,    25,    26,    27,    28,    29,    30,
-      31,    32,    33,    34,    35,    36,    37,    38,    39,    40,
-      41,    62,    63,    64,    65,    66,    67,    68,    69,    70,
-      71,    72,    73,    74,    75,    76,    77,    78,    79,    80,
-     155,   168,   158,     9,   157,   138,   119,   120,   124,   121,
-       8,   167,   167,   167,   167,    13,   131,   150,   151,   154,
-      10,   164,   163,    15,    21,   105,   169,    12,    15,   105,
-     170,    15,   159,   168,     7,    10,   165,   166,   163,   163,
-     109,   110,   111,   114,   115,   141,   132,   133,   135,   134,
-     128,   165,   166,   163,    10,   160,   105,   141,   171,   172,
-     160,   160,   161,   125,   122,     3,   107,   142,   109,     9,
-     165,   166,   163,   163,   140,   168,    13,   105,   139,   168,
-     168,   161,   102,     6,   108,   165,   142
+       0,     3,     4,     5,    10,    11,    14,    16,    17,    18,
+      24,   105,   106,   108,   109,   110,   114,   118,   131,   141,
+     145,   147,   151,   152,   170,    10,   169,   169,   169,    24,
+     117,   170,   170,    10,    10,    10,   154,     0,   109,   153,
+     111,   142,    12,   132,   146,   148,   107,     8,     8,   152,
+       6,    20,    21,    22,    23,   121,   122,   123,   128,   151,
+      12,    19,   149,   149,   108,    10,    20,    21,    23,   114,
+     141,   151,   155,   156,   157,   161,   164,   165,   171,   155,
+      10,   174,    46,    47,    48,    49,    50,    51,    52,    53,
+      54,    55,    56,    57,    58,    59,    60,    61,    62,    63,
+      64,    65,    85,    86,    87,    88,    89,    90,    91,    92,
+      93,    94,    95,    96,    97,    98,    99,   100,   101,   102,
+     103,   175,   175,   175,   175,    13,   128,    20,    21,    22,
+      23,   134,   135,   136,   151,    10,   175,   175,   175,     9,
+     164,    15,   160,    15,    26,    27,    28,    29,    30,    31,
+      32,    33,    34,    35,    36,    37,    38,    39,    40,    41,
+      42,    43,    44,    45,    66,    67,    68,    69,    70,    71,
+      72,    73,    74,    75,    76,    77,    78,    79,    80,    81,
+      82,    83,    84,   163,   176,   166,     9,   143,   124,   125,
+     129,   126,     8,   175,   175,   175,   175,    13,   136,   158,
+     159,   162,    10,   172,   171,    15,    25,   110,   177,    12,
+      15,   110,   178,    15,   167,   176,     7,    10,   173,   174,
+     171,   171,   114,   115,   116,   119,   120,   151,   137,   138,
+     140,   139,   133,   173,   174,   171,    10,   168,   110,   151,
+     179,   180,   168,   168,   169,   130,   127,     3,   112,   152,
+     114,     9,   173,   174,   171,   171,   150,   176,    13,   110,
+     144,   176,   176,   169,   106,     6,   113,   173,   152
 };
 
 #if ! defined (YYSIZE_T) && defined (__SIZE_TYPE__)
@@ -1550,48 +1558,58 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 11:
-#line 221 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+        case 3:
+#line 213 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+    {
+                        if(SKEL != NULL)
+                        {
+                            SKEL->profile(SKELTEXT);
+                        }
+                    ;}
+    break;
+
+  case 15:
+#line 237 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, SKELTEXT); ;}
     break;
 
-  case 13:
-#line 224 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 17:
+#line 240 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                                   SKEL->use(SKELTEXT); ;}
     break;
 
-  case 15:
-#line 230 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 19:
+#line 246 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, SKELTEXT); ;}
     break;
 
-  case 23:
-#line 247 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 27:
+#line 263 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL) 
                         SKEL->beginProto(SKELTEXT); ;}
     break;
 
-  case 24:
-#line 249 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 28:
+#line 265 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL) 
                         SKEL->beginProto(SKELTEXT); ;}
     break;
 
-  case 25:
-#line 260 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 29:
+#line 276 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL) 
 			SKEL->endProto(); ;}
     break;
 
-  case 33:
-#line 281 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 37:
+#line 297 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, 
                                                       SKELTEXT);;}
     break;
 
-  case 34:
-#line 283 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 38:
+#line 299 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                                               {
                                                SKEL->beginEventInDecl(
@@ -1604,14 +1622,14 @@ yyreduce:
                                               freeName(szName1); ;}
     break;
 
-  case 35:
-#line 294 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 39:
+#line 310 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, 
                                                       SKELTEXT);;}
     break;
 
-  case 36:
-#line 296 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 40:
+#line 312 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                                               {
                                                SKEL->beginEventOutDecl(
@@ -1624,14 +1642,14 @@ yyreduce:
                                               freeName(szName1); ;}
     break;
 
-  case 37:
-#line 307 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 41:
+#line 323 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, 
                                                       SKELTEXT);;}
     break;
 
-  case 38:
-#line 309 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 42:
+#line 325 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { expectType(nextType); 
                                               if(SKEL != NULL)
                                                SKEL->beginFieldDecl(
@@ -1641,22 +1659,22 @@ yyreduce:
                                               freeName(szName1); ;}
     break;
 
-  case 39:
-#line 316 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 43:
+#line 332 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = 0; 
                                               if(SKEL != NULL)
                                                SKEL->endFieldDecl();
                                              ;}
     break;
 
-  case 41:
-#line 324 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 45:
+#line 340 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, 
                                               SKELTEXT); ;}
     break;
 
-  case 42:
-#line 326 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 46:
+#line 342 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { expectType(nextType);  
                                       if(SKEL != NULL)
                                        SKEL->beginExposedFieldDecl(
@@ -1666,21 +1684,21 @@ yyreduce:
                                        freeName(szName1); ;}
     break;
 
-  case 43:
-#line 333 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 47:
+#line 349 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = 0; 
                                       if(SKEL != NULL)
                                        SKEL->endExposedFieldDecl(); ;}
     break;
 
-  case 44:
-#line 339 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 48:
+#line 355 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL) 
                              SKEL->beginExternProto(SKELTEXT); ;}
     break;
 
-  case 45:
-#line 344 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 49:
+#line 360 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     {
                  if(SKEL != NULL) 
                      SKEL->endExternProtoInterface(); 
@@ -1689,22 +1707,22 @@ yyreduce:
               ;}
     break;
 
-  case 46:
-#line 351 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 50:
+#line 367 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     {
                  if(SKEL != NULL) 
                      SKEL->endExternProto(); 
               ;}
     break;
 
-  case 51:
-#line 367 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 55:
+#line 383 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, 
                                                  SKELTEXT); ;}
     break;
 
-  case 52:
-#line 369 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 56:
+#line 385 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                                                SKEL->addExternEventInDecl(
                                                 szName1,
@@ -1713,14 +1731,14 @@ yyreduce:
                                          freeName(szName1); ;}
     break;
 
-  case 53:
-#line 376 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 57:
+#line 392 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, 
                                                  SKELTEXT); ;}
     break;
 
-  case 54:
-#line 378 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 58:
+#line 394 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                                                SKEL->addExternEventOutDecl(
                                                 szName1,
@@ -1729,14 +1747,14 @@ yyreduce:
                                           freeName(szName1); ;}
     break;
 
-  case 55:
-#line 385 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 59:
+#line 401 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, 
                                                  SKELTEXT); ;}
     break;
 
-  case 56:
-#line 387 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 60:
+#line 403 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                                                SKEL->addExternFieldDecl(
                                                 szName1,
@@ -1745,14 +1763,14 @@ yyreduce:
                                          freeName(szName1); ;}
     break;
 
-  case 57:
-#line 394 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 61:
+#line 410 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, 
                                                  SKELTEXT); ;}
     break;
 
-  case 58:
-#line 396 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 62:
+#line 412 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                                              SKEL->addExternExposedFieldDecl(
                                                  szName1,
@@ -1761,72 +1779,121 @@ yyreduce:
                                        freeName(szName1); ;}
     break;
 
-  case 59:
-#line 405 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 63:
+#line 421 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, SKELTEXT); ;}
     break;
 
-  case 60:
-#line 407 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 64:
+#line 423 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName2, SKELTEXT); ;}
     break;
 
-  case 61:
-#line 409 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 65:
+#line 425 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName3, SKELTEXT); ;}
     break;
 
-  case 62:
-#line 411 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 66:
+#line 427 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                                 SKEL->addRoute(szName1, 
-                                                 szName2,
-                                                 szName3,
-                                                 SKELTEXT);
+                                               szName2,
+                                               szName3,
+                                               SKELTEXT);
                               freeName(szName1);
                               freeName(szName2);
                               freeName(szName3);
                             ;}
     break;
 
-  case 65:
-#line 428 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
-    { if(SKEL != NULL)
-                     SKEL->beginNode(SKELTEXT, szName1); 
-
-                    freeName(szName1);
-                  ;}
-    break;
-
-  case 66:
-#line 435 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
-    { if(SKEL != NULL)
-                     SKEL->endNode(); ;}
-    break;
-
   case 67:
-#line 437 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
-    { if(SKEL != NULL)
-                     SKEL->beginNode(SKELTEXT, szName1); 
-
-                    freeName(szName1);
+#line 440 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+    {
+                      setName(szName1, SKELTEXT);
                   ;}
     break;
 
   case 68:
 #line 444 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+    {
+                      if(SKEL != NULL)
+                      {
+                          SKEL->exportElement(szName1, szName2);
+                      }
+
+                      freeName(szName1);
+                      freeName(szName2);
+                  ;}
+    break;
+
+  case 69:
+#line 457 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+    {
+                      setName(szName1, SKELTEXT);
+                  ;}
+    break;
+
+  case 70:
+#line 461 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+    {
+                      if(SKEL != NULL)
+                      {
+                          SKEL->importElement(szName1, szName2);
+                      }
+                    
+                      freeName(szName1);
+                      freeName(szName2);
+                  ;}
+    break;
+
+  case 71:
+#line 473 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+    {
+                        setName(szName2, SKELTEXT);
+                  ;}
+    break;
+
+  case 75:
+#line 485 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+    { if(SKEL != NULL)
+                    {
+                        SKEL->beginNode(SKELTEXT, szName1); 
+                    }
+
+                    freeName(szName1);
+                  ;}
+    break;
+
+  case 76:
+#line 495 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                      SKEL->endNode(); ;}
     break;
 
   case 77:
-#line 465 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+#line 497 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+    { if(SKEL != NULL)
+                     SKEL->beginNode(SKELTEXT, szName1); 
+
+                    freeName(szName1);
+                  ;}
+    break;
+
+  case 78:
+#line 504 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+    { if(SKEL != NULL)
+                     SKEL->endNode(); ;}
+    break;
+
+  case 83:
+#line 525 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, 
                                                           SKELTEXT); ;}
     break;
 
-  case 78:
-#line 467 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 84:
+#line 527 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                                                      SKEL->beginEventInDecl(
                                                        szName1,
@@ -1836,14 +1903,14 @@ yyreduce:
                                                  freeName(szName1); ;}
     break;
 
-  case 79:
-#line 475 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 85:
+#line 535 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, 
                                                           SKELTEXT); ;}
     break;
 
-  case 80:
-#line 477 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 86:
+#line 537 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                                                      SKEL->beginEventOutDecl(
                                                        szName1,
@@ -1853,8 +1920,8 @@ yyreduce:
                                                   freeName(szName1); ;}
     break;
 
-  case 81:
-#line 487 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 87:
+#line 547 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { 
                                           if(SKEL != NULL)
                                           {
@@ -1864,8 +1931,8 @@ yyreduce:
                                         ;}
     break;
 
-  case 82:
-#line 495 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 88:
+#line 555 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { 
                                             if(SKEL != NULL)
                                             {
@@ -1874,15 +1941,15 @@ yyreduce:
                                         ;}
     break;
 
-  case 83:
-#line 504 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 89:
+#line 564 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { setName(szName1, 
                                                          SKELTEXT);
                                                ;}
     break;
 
-  case 84:
-#line 507 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 90:
+#line 567 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { expectType(nextType); 
                                               
                                                  if(SKEL != NULL)
@@ -1895,8 +1962,8 @@ yyreduce:
                                                ;}
     break;
 
-  case 85:
-#line 519 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 91:
+#line 579 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = 0; 
 
                                                      if(SKEL != NULL)
@@ -1908,8 +1975,8 @@ yyreduce:
                                                    ;}
     break;
 
-  case 86:
-#line 528 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 92:
+#line 588 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = 0; 
 
                                                      if(SKEL != NULL)
@@ -1918,8 +1985,8 @@ yyreduce:
                                                    ;}
     break;
 
-  case 90:
-#line 554 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 96:
+#line 614 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                     {
                      Int32 iFieldTypeId;
@@ -1942,8 +2009,8 @@ yyreduce:
                    ;}
     break;
 
-  case 94:
-#line 581 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 100:
+#line 641 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                           {
                             SKEL->is(SKELTEXT);
@@ -1952,210 +2019,210 @@ yyreduce:
                         ;}
     break;
 
-  case 95:
-#line 587 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 101:
+#line 647 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { if(SKEL != NULL)
                             SKEL->endField();
                         ;}
     break;
 
-  case 103:
-#line 614 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 109:
+#line 675 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFCOLOR;    ;}
     break;
 
-  case 104:
-#line 615 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 110:
+#line 676 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFFLOAT;    ;}
     break;
 
-  case 105:
-#line 616 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 111:
+#line 677 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFINT32;    ;}
     break;
 
-  case 106:
-#line 617 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 112:
+#line 678 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFNODE;     ;}
     break;
 
-  case 107:
-#line 618 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 113:
+#line 679 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFROTATION; ;}
     break;
 
-  case 108:
-#line 619 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 114:
+#line 680 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFSTRING;   ;}
     break;
 
-  case 109:
-#line 620 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 115:
+#line 681 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFTIME;     ;}
     break;
 
-  case 110:
-#line 621 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 116:
+#line 682 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFVEC2F;    ;}
     break;
 
-  case 111:
-#line 622 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 117:
+#line 683 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFVEC3F;    ;}
     break;
 
-  case 112:
-#line 623 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 118:
+#line 684 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFBOOL;     ;}
     break;
 
-  case 113:
-#line 624 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 119:
+#line 685 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFCOLOR;    ;}
     break;
 
-  case 114:
-#line 625 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 120:
+#line 686 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFFLOAT;    ;}
     break;
 
-  case 115:
-#line 626 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 121:
+#line 687 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFIMAGE;    ;}
     break;
 
-  case 116:
-#line 627 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 122:
+#line 688 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFINT32;    ;}
     break;
 
-  case 117:
-#line 628 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 123:
+#line 689 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFNODE;     ;}
     break;
 
-  case 118:
-#line 629 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 124:
+#line 690 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFROTATION; ;}
     break;
 
-  case 119:
-#line 630 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 125:
+#line 691 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFSTRING;   ;}
     break;
 
-  case 120:
-#line 631 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 126:
+#line 692 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFTIME;     ;}
     break;
 
-  case 121:
-#line 632 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 127:
+#line 693 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFVEC2F;    ;}
     break;
 
-  case 122:
-#line 633 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 128:
+#line 694 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFVEC3F;    ;}
     break;
 
-  case 123:
-#line 634 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 129:
+#line 695 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFCOLOR4F;  ;}
     break;
 
-  case 124:
-#line 635 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 130:
+#line 696 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFCOLOR4I;  ;}
     break;
 
-  case 125:
-#line 636 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 131:
+#line 697 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFCOLOR3F;  ;}
     break;
 
-  case 126:
-#line 637 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 132:
+#line 698 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFMATRIX;   ;}
     break;
 
-  case 127:
-#line 638 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 133:
+#line 699 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFPNT2F;    ;}
     break;
 
-  case 128:
-#line 639 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 134:
+#line 700 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFPNT3F;    ;}
     break;
 
-  case 129:
-#line 640 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 135:
+#line 701 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFPNT4F;    ;}
     break;
 
-  case 130:
-#line 641 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 136:
+#line 702 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFVEC4F;    ;}
     break;
 
-  case 131:
-#line 642 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 137:
+#line 703 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_MFPLANE;    ;}
     break;
 
-  case 132:
-#line 643 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 138:
+#line 704 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFCOLOR4F;  ;}
     break;
 
-  case 133:
-#line 644 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 139:
+#line 705 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFCOLOR4I;  ;}
     break;
 
-  case 134:
-#line 645 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 140:
+#line 706 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFCOLOR3F;  ;}
     break;
 
-  case 135:
-#line 646 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 141:
+#line 707 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFMATRIX;   ;}
     break;
 
-  case 136:
-#line 647 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 142:
+#line 708 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFPNT2F;    ;}
     break;
 
-  case 137:
-#line 648 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 143:
+#line 709 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFPNT3F;    ;}
     break;
 
-  case 138:
-#line 649 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 144:
+#line 710 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFPNT4F;    ;}
     break;
 
-  case 139:
-#line 650 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 145:
+#line 711 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFVEC4F;    ;}
     break;
 
-  case 140:
-#line 651 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 146:
+#line 712 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFPLANE;    ;}
     break;
 
-  case 141:
-#line 652 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 147:
+#line 713 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     { nextType = TOK_SFVOLUME;   ;}
     break;
 
-  case 182:
-#line 700 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 188:
+#line 761 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     {
                   if(SKEL != NULL)
                   {
@@ -2164,8 +2231,8 @@ yyreduce:
               ;}
     break;
 
-  case 185:
-#line 711 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+  case 191:
+#line 772 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
     {
                   if(SKEL != NULL)
                   {
@@ -2178,7 +2245,7 @@ yyreduce:
     }
 
 /* Line 999 of yacc.c.  */
-#line 2182 "OSGScanParseSkel_.tab.c"
+#line 2249 "OSGScanParseSkel_.tab.c"
 
   yyvsp -= yylen;
   yyssp -= yylen;
@@ -2384,7 +2451,7 @@ yyreturn:
 }
 
 
-#line 729 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
+#line 790 "../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.y"
 
 
 extern void setSkel    (ScanParseSkel *pSkel);
@@ -2392,9 +2459,7 @@ extern void clearSkel  (void);
 
 void OSGScanParseSkel_error (char *s)  /* Called by fhs_parse on error */
 {
-  printf ("-----> %s in Line %d\n", s, iLineNum);
-//, 
-//          SKELTEXT);
+  FWARNING(("-----> %s in Line %d\n", s, iLineNum));
 }
 
 

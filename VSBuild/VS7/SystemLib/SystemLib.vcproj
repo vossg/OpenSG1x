@@ -19,7 +19,7 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-w44049 -w44065 -w44251 -w44275 -w44099 -w44250 -w44231 -Zm1060 -I../../../Source/BaseLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml -I../../../Source/Experimental/NativeFileIO -I../../../Source/Experimental/NewAction/ActorCodeGen -I../../../Source/Experimental/NewAction/Actors -I../../../Source/Experimental/NewAction -I../../../Source/Experimental/Text -I../../../Source/Experimental/WebInterface -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/Cluster/Window/SortLast -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/3DS -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/Fhs -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/GraphOp -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Window "
+				AdditionalOptions="-w44049 -w44065 -w44251 -w44275 -w44099 -w44250 -w44231 -w44290 -Zm1060 -I../../../Source/BaseLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml -I../../../Source/Experimental/NativeFileIO -I../../../Source/Experimental/NewAction/Actors -I../../../Source/Experimental/NewAction -I../../../Source/Experimental/SHL -I../../../Source/Experimental/Text -I../../../Source/Experimental/WebInterface -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/Cluster/Window/SortLast -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/3DS -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/DXF -I../../../Source/System/FileIO/Fhs -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/SLP -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/GraphOp -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal -I../../../Source/System/NodeCores/Drawables/Nurbs -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Drawables/VolRen -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Window "
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..,."
@@ -83,7 +83,7 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-w44049 -w44065 -w44251 -w44275 -w44099 -w44250 -w44231 -Zm1060 -I../../../Source/BaseLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml -I../../../Source/Experimental/NativeFileIO -I../../../Source/Experimental/NewAction/ActorCodeGen -I../../../Source/Experimental/NewAction/Actors -I../../../Source/Experimental/NewAction -I../../../Source/Experimental/Text -I../../../Source/Experimental/WebInterface -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/Cluster/Window/SortLast -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/3DS -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/Fhs -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/GraphOp -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Window "
+				AdditionalOptions="-w44049 -w44065 -w44251 -w44275 -w44099 -w44250 -w44231 -w44290 -Zm1060 -I../../../Source/BaseLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml -I../../../Source/Experimental/NativeFileIO -I../../../Source/Experimental/NewAction/Actors -I../../../Source/Experimental/NewAction -I../../../Source/Experimental/SHL -I../../../Source/Experimental/Text -I../../../Source/Experimental/WebInterface -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/Cluster/Window/SortLast -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/3DS -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/DXF -I../../../Source/System/FileIO/Fhs -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/SLP -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/GraphOp -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal -I../../../Source/System/NodeCores/Drawables/Nurbs -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Drawables/VolRen -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Window "
 				Optimization="0"
 				AdditionalIncludeDirectories="..,."
 				PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG"
@@ -160,6 +160,9 @@
 					RelativePath="..\..\..\Source\Experimental\NativeFileIO\OSGNFIOGeneric.h">
 				</File>
 				<File
+					RelativePath="..\..\..\Source\Experimental\NativeFileIO\OSGNFIOGenericAtt.h">
+				</File>
+				<File
 					RelativePath="..\..\..\Source\Experimental\NativeFileIO\OSGNFIOGeometry.h">
 				</File>
 				<File
@@ -179,25 +182,16 @@
 				Name="SourceExperimentalNewAction h"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGActiveNodeList.h">
+					RelativePath="..\..\..\Source\Experimental\NewAction\OSGActiveChildrenList.h">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGActorBase.h">
 				</File>
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGActorStateChunk.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGDepthFirstIterator.h">
+					RelativePath="..\..\..\Source\Experimental\NewAction\OSGDepthFirstAction.h">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGEmptyFunctorStore.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGFunctorStoreTags.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGIteratorBase.h">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGMultiFunctorStore.h">
@@ -206,56 +200,16 @@
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGNewAction.h">
 				</File>
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGNewActionBase.h">
+					RelativePath="..\..\..\Source\Experimental\NewAction\OSGNewActionTypes.h">
 				</File>
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGPriorityIterator.h">
+					RelativePath="..\..\..\Source\Experimental\NewAction\OSGPriorityAction.h">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGSimpleFunctorStore.h">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGSingleFunctorStore.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGStateAwareIterator.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGStateUnawareIterator.h">
-				</File>
-			</Filter>
-			<Filter
-				Name="SourceExperimentalNewActionActorCodeGen h"
-				Filter="">
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorBaseTemplate_cpp.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorBaseTemplate_h.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorBaseTemplate_inl.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorDescReader.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorInfo.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorTemplate_cpp.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorTemplate_h.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorTemplate_inl.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorWriter.h">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGStateElemInfo.h">
 				</File>
 			</Filter>
 			<Filter
@@ -267,11 +221,18 @@
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\Actors\OSGIntersectActorBase.h">
 				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalSHL h"
+				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\Actors\OSGPrintNameActor.h">
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGSHLChunk.h">
 				</File>
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\Actors\OSGPrintNameActorBase.h">
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGSHLChunkBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGSHLChunkFields.h">
 				</File>
 			</Filter>
 			<Filter
@@ -754,6 +715,58 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceSystemFileIODXF h"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFBlocks.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFEntities.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFEntitiesEntry.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFEntityBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFFile.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFHeader.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFInsert.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFLayer.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFLine.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFLtype.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFPolyline.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFRecord.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFSceneFileType.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFTableEntry.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFTables.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFVertex.h">
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceSystemFileIOOBJ h"
 				Filter="">
 				<File
@@ -785,6 +798,13 @@
 				Filter="">
 				<File
 					RelativePath="..\..\..\Source\System\FileIO\RAW\OSGRAWSceneFileType.h">
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemFileIOSLP h"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\SLP\OSGSLPSceneFileType.h">
 				</File>
 			</Filter>
 			<Filter
@@ -832,7 +852,16 @@
 					RelativePath="..\..\..\Source\System\GraphOp\OSGGraphOpSeq.h">
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\GraphOp\OSGMaterialMergeGraphOp.h">
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\GraphOp\OSGMergeGraphOp.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\GraphOp\OSGPruneGraphOp.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\GraphOp\OSGSharePtrGraphOp.h">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\GraphOp\OSGSingleTypeGraphOp.h">
@@ -1106,6 +1135,157 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\NodeCores\Drawables\Particles\OSGParticlesFields.h">
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemNodeCoresDrawablesVolRen h"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGBrick.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRAppearance.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRAppearanceBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRAppearanceFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipGeometry.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipGeometryBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipGeometryFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipObjects.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipObjectsBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipObjectsFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipper.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRGeometry.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRGeometryBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRGeometryFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoShader.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoShaderBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoShaderFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoSurface.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoSurfaceBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoSurfaceFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRLookupTable.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRLookupTableBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRLookupTableFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRMtexLUTShader.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRMtexLUTShaderBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRMtexLUTShaderFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRRenderSlice.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRShader.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRShaderBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRShaderFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleLUTShader.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleLUTShaderBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleLUTShaderFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleShader.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleShaderBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleShaderFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSlice.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRTriangle.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVertex.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolume.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolumeBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolumeFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolumeTexture.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolumeTextureBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolumeTextureFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGQBit.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGSlicer.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGTextureManager.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGVolRenDef.h">
 				</File>
 			</Filter>
 			<Filter
@@ -1774,22 +1954,16 @@
 				Name="SourceExperimentalNewAction inl"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGActiveNodeList.inl">
+					RelativePath="..\..\..\Source\Experimental\NewAction\OSGActiveChildrenList.inl">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGActorBase.inl">
 				</File>
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGActorStateChunk.inl">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGDepthFirstIterator.inl">
+					RelativePath="..\..\..\Source\Experimental\NewAction\OSGDepthFirstAction.inl">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGEmptyFunctorStore.inl">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGIteratorBase.inl">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGMultiFunctorStore.inl">
@@ -1798,35 +1972,16 @@
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGNewAction.inl">
 				</File>
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGPriorityIterator.inl">
+					RelativePath="..\..\..\Source\Experimental\NewAction\OSGNewActionTypes.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\NewAction\OSGPriorityAction.inl">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGSimpleFunctorStore.inl">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGSingleFunctorStore.inl">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGStateAwareIterator.inl">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGStateUnawareIterator.inl">
-				</File>
-			</Filter>
-			<Filter
-				Name="SourceExperimentalNewActionActorCodeGen inl"
-				Filter="">
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorDescReader.inl">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorInfo.inl">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorWriter.inl">
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGStateElemInfo.inl">
 				</File>
 			</Filter>
 			<Filter
@@ -1838,11 +1993,15 @@
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\Actors\OSGIntersectActorBase.inl">
 				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalSHL inl"
+				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\Actors\OSGPrintNameActor.inl">
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGSHLChunk.inl">
 				</File>
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\Actors\OSGPrintNameActorBase.inl">
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGSHLChunkBase.inl">
 				</File>
 			</Filter>
 			<Filter
@@ -2051,6 +2210,13 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceSystemFileIODXF inl"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFTables.inl">
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceSystemFileIOScanParseSkel inl"
 				Filter="">
 				<File
@@ -2194,6 +2360,35 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceSystemNodeCoresDrawablesNurbs inl"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\Nurbs\OSGEnvironmentShaderChunk.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\Nurbs\OSGEnvironmentShaderChunkBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\Nurbs\OSGFatBorderChunk.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\Nurbs\OSGFatBorderChunkBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\Nurbs\OSGSurface.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\Nurbs\OSGSurfaceBase.inl">
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemNodeCoresDrawablesNurbsInternal inl"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\Nurbs\Internal\OSGDirectedGraph.inl">
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceSystemNodeCoresDrawablesParticles inl"
 				Filter="">
 				<File
@@ -2204,6 +2399,91 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\NodeCores\Drawables\Particles\OSGParticlesBase.inl">
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemNodeCoresDrawablesVolRen inl"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGBrick.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRAppearance.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRAppearanceBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipGeometry.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipGeometryBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipObjects.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipObjectsBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRGeometry.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRGeometryBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoShader.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoShaderBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoSurface.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoSurfaceBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRLookupTable.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRLookupTableBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRMtexLUTShader.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRMtexLUTShaderBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRShader.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRShaderBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleLUTShader.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleLUTShaderBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleShader.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleShaderBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolume.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolumeBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolumeTexture.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolumeTextureBase.inl">
 				</File>
 			</Filter>
 			<Filter
@@ -2730,6 +3010,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\Experimental\NativeFileIO\OSGNFIOGenericAtt.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\Experimental\NativeFileIO\OSGNFIOGeometry.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
@@ -2834,7 +3134,7 @@
 				Name="SourceExperimentalNewAction cpp"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGActiveNodeList.cpp">
+					RelativePath="..\..\..\Source\Experimental\NewAction\OSGActiveChildrenList.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -2874,27 +3174,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGActorStateChunk.cpp">
-					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
-							BasicRuntimeChecks="3"/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGDepthFirstIterator.cpp">
+					RelativePath="..\..\..\Source\Experimental\NewAction\OSGDepthFirstAction.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -2915,26 +3195,6 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGEmptyFunctorStore.cpp">
-					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
-							BasicRuntimeChecks="3"/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGIteratorBase.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -2994,7 +3254,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGPriorityIterator.cpp">
+					RelativePath="..\..\..\Source\Experimental\NewAction\OSGPriorityAction.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -3035,130 +3295,6 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\NewAction\OSGSingleFunctorStore.cpp">
-					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
-							BasicRuntimeChecks="3"/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGStateAwareIterator.cpp">
-					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
-							BasicRuntimeChecks="3"/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\OSGStateUnawareIterator.cpp">
-					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
-							BasicRuntimeChecks="3"/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-			<Filter
-				Name="SourceExperimentalNewActionActorCodeGen cpp"
-				Filter="">
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorDescReader.cpp">
-					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
-							BasicRuntimeChecks="3"/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorInfo.cpp">
-					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
-							BasicRuntimeChecks="3"/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGActorWriter.cpp">
-					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
-							BasicRuntimeChecks="3"/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\ActorCodeGen\OSGStateElemInfo.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -3221,8 +3357,12 @@
 							BasicRuntimeChecks="3"/>
 					</FileConfiguration>
 				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalSHL cpp"
+				Filter="">
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\Actors\OSGPrintNameActor.cpp">
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGSHLChunk.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -3242,7 +3382,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\..\Source\Experimental\NewAction\Actors\OSGPrintNameActorBase.cpp">
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGSHLChunkBase.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -4887,6 +5027,330 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceSystemFileIODXF cpp"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFBlocks.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFEntities.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFEntitiesEntry.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFEntityBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFFile.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFHeader.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFInsert.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFLayer.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFLine.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFLtype.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFPolyline.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFRecord.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFSceneFileType.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFTableEntry.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFTables.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\DXF\OSGDXFVertex.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceSystemFileIOOBJ cpp"
 				Filter="">
 				<File
@@ -5003,6 +5467,30 @@
 				Filter="">
 				<File
 					RelativePath="..\..\..\Source\System\FileIO\RAW\OSGRAWSceneFileType.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemFileIOSLP cpp"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\SLP\OSGSLPSceneFileType.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -5234,7 +5722,67 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\GraphOp\OSGMaterialMergeGraphOp.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\GraphOp\OSGMergeGraphOp.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\GraphOp\OSGPruneGraphOp.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\GraphOp\OSGSharePtrGraphOp.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -6459,6 +7007,770 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\NodeCores\Drawables\Particles\OSGParticlesBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemNodeCoresDrawablesVolRen cpp"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGBrick.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRAppearance.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRAppearanceBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipGeometry.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipGeometryBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipObjects.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipObjectsBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRClipper.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRGeometry.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRGeometryBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoShader.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoShaderARBFragmentProgram.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoShaderBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoShaderColorMatrix.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoShaderNVRegisterCombiners.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoSurface.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRIsoSurfaceBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRLookupTable.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRLookupTableBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRMtexLUTShader.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRMtexLUTShaderBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRRenderSlice.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRShader.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRShaderBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleLUTShader.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleLUTShaderBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleShader.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSimpleShaderBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRSlice.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRTriangle.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVertex.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolume.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolumeBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolumeTexture.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGDVRVolumeTextureBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGQBit.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGSlicer.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Drawables\VolRen\OSGTextureManager.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
