@@ -70,7 +70,7 @@ write_html_head ()
 `date +%H:%M`: Start<br><br>
 System: $system<br>
 Compiler: $compiler <br>
-Configuration: --with-compiler=$compiler $stl_args $glut_args $qt_args $tif_args $jpeg_args $png_args $extra_args<br>
+Configuration: --with-compiler=$compiler $stl_args $glut_args $qt_args $tif_args $jpg_args $png_args $extra_args<br>
 EOF
 }
 
@@ -453,11 +453,11 @@ case $system in
 	qt_args=${qt_args:="--with-qt=${qt_dir}"}
         glut_args=${glut_args:="--with-glut=/igd/a4/software/IRIX/packages/glut-3.7"}
 	tif_args=${tif_args:="--with-tif=/igd/a4/software/IRIX/"}
-	jpeg_args=${jpeg_args:="--with-jpeg=/igd/a4/software/IRIX/"}
+	jpg_args=${jpg_args:="--with-jpg=/igd/a4/software/IRIX/"}
  	png_args=${png_args:="--with-png=/igd/a4/software/IRIX/"}
    	par_jobs=${par_jobs:=6}
 	compiler=${compiler:=CC}
-        do_copy='cd $basedir; tar cf - $opensg_dailybuild* | ssh -i /igd/a4/home/reiners/.ssh/id.ssh1 pc1107 tar xf - -C $log_destination'
+        do_copy='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /igd/a4/home/reiners/.ssh/id.ssh1 pc1107 tar xf - -C $log_destination'
 	mail=/usr/sbin/Mail
         make=/sgi/bin/gmake
 	export PATH=/igd/a4/software/IRIX/bin/:$PATH
@@ -472,7 +472,7 @@ case $system in
 	qt_args=${qt_args:="--with-qt=${qt_dir}"}
 	glut_args=${glut_args:="--with-glut --with-glutincludedir=/opt/graphics/OpenGL/contrib/libglut --with-glutlibdir=/opt/graphics/OpenGL/contrib/libglut"}
 	tif_args=${tif_args:="--with-tif=/igd/a4/software/HP-UX/"}
-	jpeg_args=${jpeg_args:="--with-jpeg=/igd/a4/software/HP-UX/"}
+	jpg_args=${jpg_args:="--with-jpg=/igd/a4/software/HP-UX/"}
  	png_args=${png_args:="--with-png=/igd/a4/software/HP-UX/"}
    	par_jobs=${par_jobs:=2}
 	compiler=${compiler:=aCC}
@@ -492,7 +492,7 @@ case $system in
 	qt_args=${qt_args:="--with-qt=${qt_dir}"}
     	glut_args=${glut_args:="--with-glut"}
 	tif_args=${tif_args:="--with-tif"}
-	jpeg_args=${jpeg_args:="--with-jpeg"}
+	jpg_args=${jpg_args:="--with-jpg"}
  	png_args=${png_args:="--with-png"}
     	par_jobs=${par_jobs:=2}
 	compiler=${compiler:=g++}
@@ -515,7 +515,7 @@ case $system in
         
     	glut_args=${glut_args:="--with-glut=`pwd`/../supportlibs"}
 	tif_args=${tif_args:="--with-tif=`pwd`/../supportlibs"}
-	jpeg_args=${jpeg_args:="--with-jpeg=`pwd`/../supportlibs"}
+	jpg_args=${jpg_args:="--with-jpg=`pwd`/../supportlibs"}
 	png_args=${png_args:="--with-png=`pwd`/../supportlibs"}
 	qt_dir="`pwd`/../packages/qt-3.12"
 	qt_args=${qt_args:="--with-qt=${qt_dir}"}
@@ -531,7 +531,7 @@ case $system in
     	
     	glut_args=${glut_args:="--with-glut"}
 	tif_args=${tif_args:="--with-tif"}
-	jpeg_args=${jpeg_args:="--with-jpeg"}
+	jpg_args=${jpg_args:="--with-jpg"}
 	qt_dir="/opt"
 	qt_args=${qt_args:="--with-qt=${qt_dir}"}
  	png_args=${png_args:="--with-png"}
@@ -539,7 +539,7 @@ case $system in
 	compiler=${compiler:=g++}
 	config_shell=bash
 	mail=/usr/bin/Mail
-        do_copy='cd $basedir; tar cf - $opensg_dailybuild* | ssh -i /home/osgdb/.ssh/id_dsa reiners@pc1107 tar xf - -C $log_destination'
+        do_copy='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /home/osgdb/.ssh/id_dsa reiners@pc1107 tar xf - -C $log_destination'
         loginfo="OS: `uname -a` <br>"
         loginfo="$loginfo    `cat /proc/version` <br>"
         loginfo="$loginfo Compiler Version: `$compiler -v 2>&1` <br>"
@@ -570,7 +570,7 @@ esac
 qt_args=${qt_args:=""}
 glut_args=${glut_args:=""}
 tif_args=${tif_args:=""}
-jpeg_args=${jpeg_args:=""}
+jpg_args=${jpg_args:=""}
 png_args=${png_args:=""}
 par_jobs=${par_jobs:=1}
 
@@ -612,7 +612,7 @@ esac
 
 ## autoconf    removed for now, version problems
 $config_shell ./configure --prefix=BUILD --with-compiler=$compiler $stl_args \
-    $glut_args $qt_args $tif_args $jpeg_args $png_args $extra_args 1>$log_configure 2>&1
+    $glut_args $qt_args $tif_args $jpg_args $png_args $extra_args 1>$log_configure 2>&1
 checkerror "Configure" $log_configure
 
 # start making the doc
