@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="ImageBackground"
+	parent="Background"
+	library="System"
+	pointerfieldtypes="single"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+A single colored background. 	
+	<Field
+		name="image"
+		type="ImageP"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The image to put in the background.
+	</Field>
+	<Field
+		name="scale"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Define whether the image is scaled to fill the viewport or not (non-functional right now).
+	</Field>
+</FieldContainer>
