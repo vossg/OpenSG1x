@@ -299,7 +299,7 @@ void OSGSceneView::insertFromFile( osg::NodePtr parent )
       if (node != osg::NullFC) 
         {
           parent->addChild(node);
-          parentItem = (node == rootNode) ? rootTreeItem : activeTreeItem;
+          parentItem = (parent == rootNode) ? rootTreeItem : activeTreeItem;
           addListItem(node,parentItem);
         }
     }
@@ -310,6 +310,10 @@ void OSGSceneView::insertFromFile( osg::NodePtr parent )
 //////////////////////////////////////////////////////////////////
 void OSGSceneView::exportToFile( osg::NodePtr node )
 {
+  osg::OSGWriter *writer;
+  ofstream outStream;
+  // shout we use the global filer ?!?
+  QString filter = "OpenSG Scene file (*.osg)";
   QString fName = QFileDialog::getSaveFileName ( QString::null,
                                                  filter,
                                                  this,
@@ -317,7 +321,13 @@ void OSGSceneView::exportToFile( osg::NodePtr node )
                                                  "Choose/Create a scene" );
   if (!fName.isEmpty())
     {
-      ; // TODO; write the scene
+      outStream.open(fName);
+      if (outStream)
+        {
+          writer = new osg::OSGWriter( outStream, 4);
+          writer->write(node);
+          delete writer;
+        }
     }
 }
 

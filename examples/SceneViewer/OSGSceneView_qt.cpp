@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Sat Oct 6 16:11:52 2001
+** Created: Mon Oct 8 13:10:32 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -14,6 +14,7 @@
 #include <OpenSG/OSGMFFieldContainerPtr.h>
 #include <OpenSG/OSGNode.h>
 #include <OpenSG/OSGNodeCore.h>
+#include <OpenSG/OSGOSGWriter.h>
 #include <OpenSG/OSGSFFieldContainerPtr.h>
 #include <OpenSG/OSGSceneFileHandler.h>
 #include <qfiledialog.h>
@@ -28,9 +29,6 @@
 #include <qtooltip.h>
 #include <qwhatsthis.h>
 #include "OSGSceneView_qt.ui.h"
-#include <qimage.h>
-#include <qpixmap.h>
-
 
 /* 
  *  Constructs a OSGSceneView which is a child of 'parent', with the 
@@ -41,7 +39,7 @@ OSGSceneView::OSGSceneView( QWidget* parent,  const char* name, WFlags fl )
 {
     if ( !name )
 	setName( "OSGSceneView" );
-    resize( 781, 744 ); 
+    resize( 779, 744 ); 
     setCaption( trUtf8( "Form1", "" ) );
     OSGSceneViewLayout = new QHBoxLayout( this ); 
     OSGSceneViewLayout->setSpacing( 6 );

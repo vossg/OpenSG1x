@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>781</width>
+            <width>779</width>
             <height>744</height>
         </rect>
     </property>
@@ -135,32 +135,20 @@
                                 <property name="text">
                                     <string>Value</string>
                                 </property>
-                                <property name="pixmap">
-                                    <pixmap></pixmap>
-                                </property>
                             </column>
                             <row>
                                 <property name="text">
                                     <string>Node Type Name</string>
-                                </property>
-                                <property name="pixmap">
-                                    <pixmap></pixmap>
                                 </property>
                             </row>
                             <row>
                                 <property name="text">
                                     <string>Core Type Name</string>
                                 </property>
-                                <property name="pixmap">
-                                    <pixmap></pixmap>
-                                </property>
                             </row>
                             <row>
                                 <property name="text">
                                     <string>Core USEed count</string>
-                                </property>
-                                <property name="pixmap">
-                                    <pixmap></pixmap>
                                 </property>
                             </row>
                             <property name="name">
@@ -256,15 +244,16 @@
 <includes>
     <include location="global" impldecl="in declaration">qpopupmenu.h</include>
     <include location="global" impldecl="in declaration">OpenSG/OSGNode.h</include>
-    <include location="global" impldecl="in implementation">qfiledialog.h</include>
-    <include location="global" impldecl="in implementation">OpenSG/OSGSceneFileHandler.h</include>
-    <include location="global" impldecl="in implementation">qpopupmenu.h</include>
-    <include location="global" impldecl="in implementation">OSGQGLManagedWidget_qt.h</include>
-    <include location="global" impldecl="in implementation">OpenSG/OSGSFFieldContainerPtr.h</include>
-    <include location="global" impldecl="in implementation">OpenSG/OSGMFFieldContainerPtr.h</include>
-    <include location="global" impldecl="in implementation">OpenSG/OSGNodeCore.h</include>
-    <include location="global" impldecl="in implementation">OpenSG/OSGNode.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGOSGWriter.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGLog.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGNode.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGNodeCore.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGMFFieldContainerPtr.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGSFFieldContainerPtr.h</include>
+    <include location="global" impldecl="in implementation">OSGQGLManagedWidget_qt.h</include>
+    <include location="global" impldecl="in implementation">qpopupmenu.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGSceneFileHandler.h</include>
+    <include location="global" impldecl="in implementation">qfiledialog.h</include>
     <include location="local" impldecl="in implementation">OSGSceneView_qt.ui.h</include>
 </includes>
 <variables>
@@ -276,17 +265,17 @@
     <variable>osg::NodePtr rootNode;</variable>
 </variables>
 <slots>
-    <slot>addListItem(osg::NodePtr node, QListViewItem * parentItem)</slot>
+    <slot>addListItem( osg::NodePtr node, QListViewItem * parentItem )</slot>
     <slot>init()</slot>
     <slot>destroy()</slot>
-    <slot>setRootNode(osg::NodePtr root)</slot>
-    <slot>setActiveNode(osg::NodePtr node)</slot>
-    <slot>setActiveNodeFromListItem(QListViewItem * item)</slot>
-    <slot>createView(osg::NodePtr node)</slot>
-    <slot>popupTreeMenu(QListViewItem * parentItem)</slot>
-    <slot>menuHandler(int id)</slot>
-    <slot>insertFromFile(osg::NodePtr parent)</slot>
-    <slot>exportToFile(osg::NodePtr node)</slot>
+    <slot>setRootNode( osg::NodePtr root )</slot>
+    <slot>setActiveNode( osg::NodePtr node )</slot>
+    <slot>setActiveNodeFromListItem( QListViewItem * item )</slot>
+    <slot>createView( osg::NodePtr node )</slot>
+    <slot>popupTreeMenu( QListViewItem * parentItem )</slot>
+    <slot>menuHandler( int id )</slot>
+    <slot>insertFromFile( osg::NodePtr parent )</slot>
+    <slot>exportToFile( osg::NodePtr node )</slot>
     <slot>rebuild()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
