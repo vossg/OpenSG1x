@@ -325,6 +325,10 @@ endEditCP(mother);
 
 \endcode
 
+Please do not wonder about that strange begin- and endEditCP thing. Let us say for now, that we need
+these whenever we want to modify an OpenSG object. We will learn more about it in section \ref TutorialBasicEditingFieldContainers.
+But for now we will be fine with the way it is.
+
 This little piece of code would generate a graph that would look like in the picture above. 
 Would you be able to render that graph? You can try out what will happen: Have a look at the 
 code from our \ref FirstAppTutorial and replace the following line
@@ -611,7 +615,7 @@ The first thing you have to do,is to add a global variable we will need for the 
 \code
 // add this line below the declaration of the SimpleSceneManager
 // or anywhere else where it will be global
-TrannsformPtr transCore;
+TransformPtr transCore;
 \endcode
 
 This node will contain our transformation matrix, which will be altered every frame. Of course we do not need to make it global, but it is
@@ -831,4 +835,271 @@ for (it = v.begin(); it < v.end();){
     it++;
 }
 \endcode
+
+The standard access methods setValue and getValue are also available with multifields, you need only to supply an additional index.
+<PRE>myfield->setValue(Vec3f(0,1,0),3)</PRE>
+The line above would set the given Vector at the 4th position of the field (of course we are starting to count at zero)
+
+\section TutorialBasicEditingFieldContainers Editing Field Containers
+
+Now it is time to solve another mystery you have encountered until now: the "begin- /endEditCP() Mystery". As I mentioned before at the 
+beginning of this chapter, we need these begin- endEditCP brackets every time we want to modify an OpenSG specific object. That is a from
+FieldContainer derived object, to be exact - that is what the CP stands for: ContainerPointer (at least the author thinks so).
+
+Alright, so as we saw before we need to start with a beginEditCP(<I>object</I>), where object is the one we want to edit, of course. Then
+one or more modifications should follow and finally we are ending up with beginEditCP(<I>object</I>). Here is another example how to do it right:
+
+\code
+NodePtr n = Node::create();
+
+beginEditCP(n);
+{
+    GroupPtr g = Group::create();
+    NodePtr c1 = Node::create();
+    NodePtr c2 = Node::create();
+    
+    GeometryPtr g1 = generateSomeGeometry();
+    GeometyrPtr g2 = generateSomeOtherGeometry();
+    
+    beginEditCP(c1);
+    beginEditCP(c2);
+        c1->setCore(g1);
+        c2->setCore(g2);
+    endEditCP(c2);
+    endEditCP(c1);
+    
+    n->setCore(g);
+    n->addChild(c1);
+    n->addChild(c2);
+}
+endEditCP(n);
+\endcode
+
+Noticed something? I did some things different than before. Your begin/end block can span more lines of code than these that actually modify
+the object and these blocks must not be seperate. As you can see I have two blocks (editing c1 & c2) "overlapping" while these are inside the
+block which modifies n. The additional {}-brackets are used for optical orientation only, they are not neccessary, but they can be extremly
+useful if you have more complex graphs.
+
+Maybe you wonder, what they are for anyway. Well and again it is multithread safety... by using begin- and endEditCP you tell the system
+when something is going to be changed. Normally every thread would need a full copy of the data, but that would result in very high memory
+consumption, so in OpenSG much of the data is shared. The multifields I just introduced are shared for example. Only when data is changed
+it will be copied to the current thread. The changes are recorded in a change list which will be used to syncronize the threads again at a
+given time. Have a look at Chapter (xxx) for more details about multithreading. This is roughly why the system needs to be informed when
+something is going to be changed.
+
+So what happens, if you forget a begin- endEditCP block? If you are running a single threaded application on a single machine it will work in
+most cases, but you should not treat this as an excuse to leave them all out. I said in most cases, but you have no garantee that it will
+work at all as this is not the way OpenSg is meant to be used! I know that it is sometimes a bit annonying to write half a mile of code, but
+please make the editCPs your friends ;-) You will be rewarded whenever you want to drive your application with multiple threads and/or in stero.
+
+But even more important: what happens if you skip the editCP blocks if you are using mutiple threads or are running a cluster? Depending on
+how violently you skipped the editCP blocks, your modifications will occur in one thread only and that is most likely not what you want. No matter
+what actually happens to your data, you have a good chance crashing your application. So if you are using multiple threads you have to pay
+special attaention to your editCP blocks! If you applications are crashing for some strange reason you should first check if you have missed such
+a block. 
+
+\subsection TutorialBasicEditFieldContainersParameters Extended begin- endEditCP
+
+By invoking beginEditCP(object) you tell the system that you want to change everything. You can specify explicitly which attributes you want
+to modify. This will save some computing power, altough it is often not necessary when initializing the graph. In performance critical sections
+this will be much more important. For example, lets say we have a geometry node representing water, which we need to update every frame. I need
+to update the positions and maybe the nomals too, but color, texture coordinates and other geometry attributes stay untouched. Now wether to
+define the changing attributes or not can make a speed difference of up to 10% in this case!
+
+Here is the same example from above, but this time with correct specification of the changing attributes
+
+\code
+NodePtr n = Node::create();
+
+beginEditCP(n, Node::ChildrenFieldMask | Node::CoreFieldMask);
+{
+    GroupPtr g = Group::create();
+    NodePtr c1 = Node::create();
+    NodePtr c2 = Node::create();
+    
+    GeometryPtr g1 = generateSomeGeometry();
+    GeometyrPtr g2 = generateSomeOtherGeometry();
+    
+    beginEditCP(c1, Node::CoreFieldMask);
+    beginEditCP(c2, Node::CoreFieldMask);
+        c1->setCore(g1);
+        c2->setCore(g2);
+    endEditCP(c2, Node::CoreFieldMask);
+    endEditCP(c1, Node::CoreFieldMask);
+    
+    n->setCore(g);
+    n->addChild(c1);
+    n->addChild(c2);
+}
+endEditCP(n, Node::ChildrenFieldMask | Node::CoreFieldMask);
+\endcode
+
+NOTICE:\n
+If you want to modify more then one field at once you can use the binary or operator ( "|" ) to join the field masks.
+
+With that the code becomes even a bit longer, but that should not scare you to use it in performance critical parts of your application!
+
+If you want to specify the fields to be changed you need to know the appropriate field mask. That is not as hard as it sounds, because the
+names are very easy to "guess", here are a few examples
+
+<TABLE>
+    <TR>
+        <TD>
+            Set the core of a node
+        </TD>
+        <TD>
+            Node::CoreFieldMask
+        </TD>
+    </TR>
+    <TR>
+        <TD>
+            Add or sub a child
+        </TD>
+        <TD>
+            Node::ChildrenFieldMask
+        </TD>
+    </TR>
+    <TR>
+        <TD>
+            Set the matrix of a transform core
+        </TD>
+        <TD>
+            Transform::MatrixFieldMask
+        </TD>
+    </TR>
+    <TR>
+        <TD>
+            Set the choice field of a switch
+        </TD>
+        <TD>
+            Switch::ChoiceFieldMask
+        </TD>
+    </TR>
+</TABLE>
+
+You see it is very easy in most cases. In gerneral it is 
+<PRE>
+    <I>ClassToBeEdited</I>::<I>FieldToBeEdited</I>FieldMask
+</PRE>
+If you are unsure about a certain field mask then have a look at the tutorials if that what you want to do was used before. If not you have to
+look it up in the doxygen class documentation. You can find the available masks at the "Static Public Attributes" section.
+
+\subsection TutorialBasicStandardGeometry Standard Geometry
+
+OpenSG comes along with some build-in functionality to generate standard geometries. On of these was already used in the first tutorial: a torus.
+As these geometires are very easy to generate and use for testing purposes I will list them here for reference
+
+\code
+makePlane(xsize, ysize, resHor, resVer);
+makeBox(xsize,ysize,zsize, resHor, resVer, resDepth);
+makeCone(height, bottomRadius, resSides, doSide, doBottom);
+makeCylinder(height, radius, resSides, doSide, doTop, doBottom);
+makeTorus(innerRadius, outerRadius, resSides, resRings);
+makeSphere(resDepth, radius);
+makeLatLongSphere(resLat, resLong, radius);
+makeConicalFrustum(height, topRadius, bottomRadius, doSide, doTop, doBottom);
+\endcode
+
+The methods themself should be selfexplaining - they do that what they are supposed to do. All sizes and radii are of type Real32, where as all
+resolution parameters (beginning with <I>res</I>) are Int16. Paramters beginning with <I>do</I> are of type bool, they enable or disable the
+rendering of the appropriate parts. The following example would generate a 10 unit height cone with 32 edges but without a bottom
+<PRE>
+    NodePtr n = makeCone(10, 5, 32, true, false);
+</PRE>
+Always be careful with the resulution paramters. Big values can lead to really huge geometry data. Especially the sphere resolution depth should be
+used moderatly, because this one is recursive, meaning a value of four is already a smooth sphere and a value of 64 may kill your machine!\n 
+<I>(A word from the author: I just tried what I said, just to make sure... and yes, 64 definitely kills your machine unless you are equipped with 
+a G5 full of memory (8 GB)... and i am not)</I>
+
+All of these geometry generating methods return a NodePtr. Often you have already existing nodes and are only in need of the geometry. In this case
+you do not need to throw you node away as there are the same functions that return a GeometryPtr. You only need to append a "geo" to the above 
+functions.
+
+\code
+//Another way to generate the cone
+NodePtr n = Node::create();
+
+GeometryPtr g = makeConeGeo(10, 5, 32, true, false);
+beginEditCP(n, Node::CoreFieldMask);
+endEditCP(n, Node)
+
+\endcode
+
+Please notice that in this special case it is not very useful to use the makeConeGeo Version, as this does the same as the example before and
+is much longer in code, but in other circumstances it can be just the other way round.
+
+\section TutorialBasicTutorial2 Tutorial - More than a torus
+
+This time we are capable of doing some more intersting stuff than displaying and rotating a torus. In this tutorial we will build a complete house
+with roof and chimney. And maybe you can build even more things into it ;-). Okay so let us think about it, before we begin to write code...
+
+\image html house_wire.png "'Wireframe' of our house"
+\image latex house_wire.eps "'Wireframe' of our house" width=4cm
+
+<I>
+This is a frontal wireframe view of the house we want to build. Because we are lazy we are cheating a bit when it comes to building the roof. We
+have no appropriate standard geometry so we use a box with the correct length and rotate it by 45 degrees. So the diagonal length of the box must
+be as long as the top side of our house is: The diagonal length must therefor be twenty and our old friend Pythagoras tells us that the edge length
+have to be approximately 14.14. The chimney will be a cylinder with height 10 and radius 1 just stuck into the roof. Please notice that I am not
+claiming to do excellent modelling work here.
+</I>
+
+We will use a very similar framework than we did before, but this time we write a method which will create a scenegraph and return a NodePtr. Of
+course that is not really necessary, but it is easer to read. In bigger procjets it could even be useful to put this method into an own file.
+
+Like we did in the last tutorial, exchange the line that says
+<PRE>
+    NodePtr scene = makeTorus(.5, 2, 16, 16);
+</PRE>
+with
+<PRE>
+    NodePtr scene = createScenegraph();
+</PRE>
+
+Now add this function at the beginning of your file.
+
+\code
+//File : 03house.cpp
+
+//This function will create our scenegraph
+NodePtr n = createScenegraph(){
+    // First we will create all needed geometry
+    // the body of the house
+    NodePtr houseMain = makeBox(20,20,20,1,1,1);
+    
+    // now the roof
+    NodePtr roof = makeBox(14.14, 14.14, 20, 1, 1, 1);
+    
+    // and the chimney - we have the top and sides generated
+    // but we have no need for the bottom (it is inside the house)
+    NodePtr chimney = makeCylinder(10,1,8,true,true,false);
+
+    // Now we create the root node and attach the geometry nodes to it
+    NodePtr n = Node::create();
+    beginEditCP(n, Node::CoreFieldMask | Node::ChildrenFieldMask);
+        n->setCore(Group::create());
+        n->addChild(houseMain);
+        n->addChild(roof);
+        n->addChild(chimney);
+    endEditCP(n, Node::CoreFieldMask | Node::ChildrenFieldMask);
+}
+
+\endcode
+
+Compile and execute the application - and while doing so, think about what we will see! 
+
+[TO DO] weiterschreiben
+
+\section TutorialBasicImages Images
+
+Every realtime rendering system can of course load images and use these as a texture for your models. OpenSG would be not a real scenegraph
+system if it were not able to load several image formats. Please notice that you need to enable support for the image formats you want to use 
+during configure (Compilation is dicussed here : \ref TutorialInstallationLinux). If you are using a precompiled package, all available image
+formats are enabled.
+
+The supported image formats are png, jpeg, tiff, gif and sgi. Others may follow in future versions, but actually you can do all you need with
+the provided formats. Images in OpenSG are stored in a field container class called "Image"
+
+
+
 */

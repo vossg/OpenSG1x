@@ -161,6 +161,61 @@ This is the default location for important windows header files like windows.h w
 Like with the installation on Linux you need to tell your system where to find the dll and lib files. You can simply copy them
 all to the folder where your executable is, but a more clever way is to adjust your PATH variable
 
+\subsection Installation on a Macintosh PowerPC
+
+Installing OpenSG on a Macintosh was, and still is, not a very easy task at all. Until today I have not succeeded in getting it work on Mac OS X.
+I had it running on 10.2, but a lot of things, like textures and the loaders , did not work - so it was not very useful. On 10.3 I can compile
+it, but applications will crash with a segementation fault. If anybody of you succeeds in executing OpenSG powered applications, please tell me!
+
+But there is good news for all of you who want to run it on a Mac: Since just a few days I have OpenSG running on my Powerbook by using linux
+as the operating system. It is fully functional and very performant as you are used to it on linux based systems. I only tried Yellow Dog Linux,
+which I would suggest to you anyway, if you have not already a linux distribution on your Mac. Yellow Dog Linux is actually a port of Red Hat, but
+YDL is available for the PowerPC architecture only. I would recommend it, because it has very excellent hardware support, which you would not have
+with Gentoo or even Debian linux. You can find Yellow Dog Linux here : <A HREF = "http://www.yellowdoglinux.com">http://www.yellowdoglinux.com</A>
+
+Regardless of which linux you actually use, you will of course need OpenGL (i.e. Mesa) development packages installed, as well as the GLUT package,
+if you would like to use it. Furthermore the appropiate packages for the image libraries are needed.
+
+If you have all the stuff you need, it will not work anyway, because your system will be identified as powerpc-unknown-linux-gnu. 
+
+There are two steps you need to do:
+
+1.\n
+At the moment I am writing these lines there are no appropriate configuration files for this type of os. I provide these needed files here:
+<A HREF="progs/common.powerpc-unknown-linux-gnu-g++.in">progs/common.powerpc-unknown-linux-gnu-g++.in</A>
+<A HREF="progs/conf.powerpc-unknown-linux-gnu-g++.in">progs/conf.powerpc-unknown-linux-gnu-g++.in</A>
+Maybe these files are now added to the offical distribution by now, but if they were not, just take these files and copy them in your "CommonConf" 
+Folder.
+
+2.\n
+Well, this one is a bit quick and dirty but it works well, so open the "OSGConfig.h" which can be found in <I>your_openg_folder/Source/Base/Base</I>.
+\code
+
+// locate the following lines that say 
+// (the are located after the first comment block)
+
+#ifndef _OSGCONFIG_H
+#define _OSGCONFIG_H
+
+// and add the following line here
+
+#define __linux
+
+\endcode
+
+These two steps should make it possible for you to compile and execute OpenSG. Just run the configure and make command as you would normally on 
+linux. If you are encounterng any problems during compilation make sure you have all the needed libraries (and the appropriate devel packages)
+installed. 
+
+NOTE:
+If you have just installed a new linux on your Mac, the hardware acceleration of your graphic cards is most likely not activated. I can not explain
+how to activate it as this is not our concern here, but if you need help, the direct rendering infrastructure page would be a good point to start
+off: <A HREF = "dri.sf.net">dri.sf.net</A>
+
+NOTE ON G5 PowerMac:
+At this time, there is no functional linux available for the PowerMac G5. The YellowDog Linux for the G5 is not available to the public yet,
+and Gentoo does not work that well as it is in beta status. So at the moment there is no way to get it run on this machine :-(
+
 \subsection TutorialInstallationWindows Installation on Windows
 
 In Order to use OpenSG on a Windows Platform you need either the Intel Compiler for Visual Studio 6 or you need Visual Studio 7. 
@@ -190,6 +245,14 @@ make
 // and so on
 
 \endcode
+
+The following picture shows what you should see if you type (assuming you are still in the Tutorials folder):
+<PRE>
+    ./10loading Data/tie.wrl
+</PRE>
+
+\image html tutorial_tie.png "The legendary Tie Fighter loaded from VRML by OpenSG!"
+\image latex tutorial_tie.eps "The legendary Tie Fighter loaded from VRML by OpenSG!" width = 4cm
 
 If you get an Error when you are executing one of the tutorials you should check if you have correctly specified the LD_LIBRARY_PATH
 or the PATH variable, depending on your Platform
