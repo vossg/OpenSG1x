@@ -24,6 +24,8 @@ FLEX       = /igd/a4/software/bin/flex
 BISON      = /igd/a4/software/bin/bison
 STRIP      = strip
 LINK       = ln -s
+TAGS       = /igd/a4/software/vim/bin/ctags
+
 MAKEDEPEND = -M
 INCPRE     = -I
 
@@ -69,6 +71,8 @@ WARN_ERR_CPP        = -diag_error 1548,1116,1681,1552,3303,1682,1551,1197	\
 
 
 ### Language #######################################################
+
+TAGS_OPTIONS        = -R --langmap=c++:+.inl --c-types=+C --totals
 
 LANG_FLAGS          = -LANG:ansi-for-init-scope=off -LANG:restrict			\
 					  -LANG:exceptions=off

@@ -1,4 +1,6 @@
 
+.PHONY: tags
+
 #########################################################################
 # Normal lib Targets
 #########################################################################
@@ -210,3 +212,9 @@ endif
 	@cd $*; \
 		$(SUB_MAKE) -f $(SUB_MAKEFILE) $(SUB_TARGET); cd ..;
 
+TAGS_SUBDIRS := $(filter-out $(TAGS_EXCLUDEDIRS), $(SUBLIBS) )
+
+tags:
+	@echo Creating common tags file for directories
+	@echo " $(TAGS_SUBDIRS) .."
+	@$(TAGS) $(TAGS_OPTIONS) $(TAGS_SUBDIRS)
