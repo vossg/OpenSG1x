@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="ClusterWindow"
+	parent="Window"
+	library="System"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+The base class for all windows.
+	<Field
+		name="servers"
+		type="string"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	List of all symbolic server names
+	</Field>
+	<Field
+		name="connectionType"
+		type="string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	How to connect to the servers
+	</Field>
+	<Field
+		name="clientWindow"
+		type="WindowPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Window for client rendering
+	</Field>
+	<Field
+		name="servicePort"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="8437"
+		access="public"
+	>
+	Broadcastport used for server search
+	</Field>
+</FieldContainer>

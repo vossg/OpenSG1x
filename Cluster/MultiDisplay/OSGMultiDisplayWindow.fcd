@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="MultiDisplayWindow"
+	parent="ClusterWindow"
+	library="System"
+	pointerfieldtypes="none"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+Cluster rendering configuration for multible displays
+	<Field
+		name="hServers"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Number of horizontal servers
+	</Field>
+	<Field
+		name="vServers"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Number of vertical servers
+	</Field>
+</FieldContainer>
