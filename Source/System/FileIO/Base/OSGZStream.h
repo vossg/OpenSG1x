@@ -40,14 +40,40 @@ Altered by: Andreas Zieringer 2003
 #define OSG_ZSTREAM_SUPPORTED
 #endif
 
-#ifdef OSG_ZSTREAM_SUPPORTED
-
 #include <vector>
 #include <string>
 #include <streambuf>
 #include <sstream>
 #include <iostream>
 #include <algorithm>
+
+//! Helper function to check whether stream is compressed or not.
+inline bool isGZip(std::istream &is)
+{
+    const int gz_magic[2] = {0x1f, 0x8b};
+    
+    int c1 = (int) is.get();
+    if(c1 != gz_magic[0])
+    {
+        is.putback(c1);
+        return false;
+    }
+    
+    int c2 = (int) is.get();
+    if(c2 != gz_magic[1])
+    {
+        is.putback(c2);
+        is.putback(c1);
+        return false;
+    }
+    
+    is.putback(c2);
+    is.putback(c1);
+    return true;
+}
+
+#ifdef OSG_ZSTREAM_SUPPORTED
+
 #include <zlib.h>
 
 #ifdef WIN32 /* Window 95 & Windows NT */
@@ -65,6 +91,7 @@ Altered by: Andreas Zieringer 2003
 #endif
 
 OSG_BEGIN_NAMESPACE
+
 
 namespace detail
 {

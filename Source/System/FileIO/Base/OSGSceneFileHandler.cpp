@@ -192,30 +192,6 @@ Int32 SceneFileHandler::getSuffixList(std::list<const Char8 *> & suffixList,
     return count;
 }
 
-bool SceneFileHandler::isGZip(std::istream &is)
-{
-    const int gz_magic[2] = {0x1f, 0x8b};
-    
-    int c1 = (int) is.get();
-    if(c1 != gz_magic[0])
-    {
-        is.putback(c1);
-        return false;
-    }
-    
-    int c2 = (int) is.get();
-    if(c2 != gz_magic[1])
-    {
-        is.putback(c2);
-        is.putback(c1);
-        return false;
-    }
-    
-    is.putback(c2);
-    is.putback(c1);
-    return true;
-}
-
 #ifdef OSG_WIN32_ICL
 #pragma warning (default : 383)
 #endif

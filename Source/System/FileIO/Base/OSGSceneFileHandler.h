@@ -156,13 +156,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     void print (void);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Helper                                     */
-    /*! \{                                                                 */
-
-    bool isGZip(std::istream &is);
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
