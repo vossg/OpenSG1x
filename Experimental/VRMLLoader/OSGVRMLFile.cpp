@@ -430,11 +430,11 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
             }
         }
 */
-        else if(_pCurrentField->getCardinality() == Field::SINGLE_FIELD)
+        else if(_pCurrentField->getCardinality() == FieldType::SINGLE_FIELD)
         {
             ((SFFieldContainerPtr *) _pCurrentField)->setValue(pFC);
         }
-        else if(_pCurrentField->getCardinality() == Field::MULTI_FIELD)
+        else if(_pCurrentField->getCardinality() == FieldType::MULTI_FIELD)
         {
             ((MFFieldContainerPtr *) _pCurrentField)->push_back(pFC);
         }
