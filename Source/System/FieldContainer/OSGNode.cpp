@@ -42,6 +42,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
+
+#include <functional>
+#include <algorithm>
 
 #include "OSGConfig.h"
 #include "OSGFieldContainerPtr.h"
@@ -49,6 +53,8 @@
 #include "OSGNode.h"
 #include "OSGNodeCore.h"
 #include "OSGBinaryDataHandler.h"
+#include "OSGSFFieldContainerPtr.h"
+#include "OSGMFFieldContainerPtr.h"
 
 OSG_USING_NAMESPACE
 
@@ -651,7 +657,7 @@ Node::~Node(void)
     }
 }
 
-NodePtr OSG::cloneTree(NodePtr pRootNode)
+NodePtr OSG::cloneTree(const NodePtr &pRootNode)
 {
     NodePtr returnValue = NullFC;
 
@@ -677,6 +683,313 @@ NodePtr OSG::cloneTree(NodePtr pRootNode)
     }
 
     return returnValue;
+}
+
+// deep clone of a fieldcontainer.
+// we should move this into OSGFieldContainer.cpp?
+FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
+                                 const std::vector<std::string> &share)
+{
+    if(src == NullFC)
+        return NullFC;
+    
+    const FieldContainerType &type = src->getType();
+    UInt32 fcount = type.getNumFieldDescs();
+    
+    FieldContainerPtr dst = FieldContainerFactory::the()->createFieldContainer(type.getName().str());
+    
+    for(UInt32 i=1;i <= fcount;++i)
+    {
+        const FieldDescription* fdesc = type.getFieldDescription(i);
+    
+        if(fdesc->isInternal())
+            continue;
+    
+        BitVector mask = fdesc->getFieldMask();
+
+        Field *src_field = src->getField(i);
+        Field *dst_field = dst->getField(i);
+    
+        const FieldType &ftype = src_field->getType();
+    
+        std::string fieldType = ftype.getName().str();
+  
+        // attachements
+        if(strcmp(fdesc->getCName(), "attachments") == 0)
+        {
+            SFAttachmentMap *amap = (SFAttachmentMap *) src_field;
+            
+            AttachmentMap::const_iterator   mapIt = amap->getValue().begin();
+            AttachmentMap::const_iterator   mapEnd = amap->getValue().end();
+
+            beginEditCP(dst, mask);
+            for(; mapIt != mapEnd; ++mapIt)
+            {
+                FieldContainerPtr fc = mapIt->second;
+
+                bool shareit = false;
+                for(UInt32 k=0;k<share.size();++k)
+                {
+                    if(fc != NullFC &&
+                       fc->getType().isDerivedFrom(*FieldContainerFactory::the()
+                                                   ->findType(share[k].c_str())))
+                    {
+                        shareit = true;
+                        break;
+                    }
+                }
+                
+                if(!shareit)
+                    fc = OSG::deepClone(fc, share);
+                
+                if(fc != NullFC)
+                    AttachmentContainerPtr::dcast(dst)->addAttachment(AttachmentPtr::dcast(fc));
+            }
+            endEditCP(dst, mask);
+            continue;
+        }
+        
+        // field
+        if(strstr(ftype.getCName(), "Ptr") == NULL)
+        {
+            beginEditCP(dst, mask);
+                dst_field->setAbstrValue(*src_field);
+            endEditCP(dst, mask);
+        }
+        else // field with pointer
+        {
+            if(src_field->getCardinality() == FieldType::SINGLE_FIELD)
+            {
+                FieldContainerPtr fc = ((SFFieldContainerPtr *) src_field)->getValue();
+                
+                bool shareit = false;
+                for(UInt32 k=0;k<share.size();++k)
+                {
+                    if(fc != NullFC &&
+                       fc->getType().isDerivedFrom(*FieldContainerFactory::the()
+                                                   ->findType(share[k].c_str())))
+                    {
+                        shareit = true;
+                        break;
+                    }
+                }
+                
+                if(!shareit)
+                    fc = OSG::deepClone(fc, share);
+                
+                if(fc != NullFC)
+                {
+                    // increment reference counter!
+                    addRefCP(fc);
+                    beginEditCP(dst);
+                        ((SFFieldContainerPtr *) dst_field)->setValue(fc);
+                    endEditCP(dst);
+                }
+            }
+            else if(src_field->getCardinality() == FieldType::MULTI_FIELD)
+            {
+                beginEditCP(dst, mask);
+                    for(UInt32 j=0;j < ((MFFieldContainerPtr*)src_field)->size();++j)
+                    {
+                        FieldContainerPtr fc = (*(((MFFieldContainerPtr *)src_field)))[j];
+                        
+                        bool shareit = false;
+                        for(UInt32 k=0;k<share.size();++k)
+                        {
+                            if(fc != NullFC &&
+                               fc->getType().isDerivedFrom(*FieldContainerFactory::the()
+                                                           ->findType(share[k].c_str())))
+                            {
+                                shareit = true;
+                                break;
+                            }
+                        }
+                        
+                        if(!shareit)
+                            fc = OSG::deepClone(fc, share);
+                        
+                        if(fc != NullFC)
+                        {
+                            // increment reference counter!
+                            addRefCP(fc);
+                            ((MFFieldContainerPtr *) dst_field)->push_back(fc);
+                        }
+                    }
+                endEditCP(dst, mask);
+            }
+        }
+    }
+    return dst;
+}
+
+FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
+                                 const std::vector<UInt16> &shareGroupIds)
+{
+    std::vector<std::string> share;
+    share.reserve(shareGroupIds.size());
+    for(UInt32 i=0;i<shareGroupIds.size();++i)
+    {
+        const char *name = FieldContainerFactory::the()->findGroupName(shareGroupIds[i]);
+        if(name != NULL)
+            share.push_back(name);
+    }
+    return OSG::deepClone(src, share);
+}
+
+// shareString is a comma separated FieldContainer type list
+// e.g. "Material, Geometry"
+FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
+                                 const std::string &shareString)
+{
+    std::vector<std::string> share;
+    
+    // parse comma separated names.
+    std::string::const_iterator nextComma;
+    std::string::const_iterator curPos = shareString.begin();
+    while(curPos < shareString.end())
+    {
+        nextComma = std::find(curPos, shareString.end(), ',');
+        // strip leading spaces
+        curPos = std::find_if(curPos, nextComma, std::not1(std::ptr_fun(isspace)));
+        share.push_back(std::string(curPos, nextComma));
+        curPos = ++nextComma;
+    }
+    
+    return OSG::deepClone(src, share);
+}
+
+// deep clone of attachements.
+void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
+                               const std::vector<std::string> &share)
+{
+    SFAttachmentMap *amap = (SFAttachmentMap *) src->getSFAttachments();
+            
+    AttachmentMap::const_iterator   mapIt = amap->getValue().begin();
+    AttachmentMap::const_iterator   mapEnd = amap->getValue().end();
+
+    beginEditCP(dst, Node::AttachmentsFieldMask);
+    for(; mapIt != mapEnd; ++mapIt)
+    {
+        FieldContainerPtr fc = mapIt->second;
+
+        bool shareit = false;
+        for(UInt32 k=0;k<share.size();++k)
+        {
+            if(fc != NullFC &&
+               fc->getType().isDerivedFrom(*FieldContainerFactory::the()
+                                           ->findType(share[k].c_str())))
+            {
+                shareit = true;
+                break;
+            }
+        }
+        
+        if(!shareit)
+            fc = OSG::deepClone(fc, share);
+        
+        if(fc != NullFC)
+            dst->addAttachment(AttachmentPtr::dcast(fc));
+    }
+    endEditCP(dst, Node::AttachmentsFieldMask);
+}
+
+void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
+                               const std::vector<UInt16> &shareGroupIds)
+{
+    std::vector<std::string> share;
+    share.reserve(shareGroupIds.size());
+    for(UInt32 i=0;i<shareGroupIds.size();++i)
+    {
+        const char *name = FieldContainerFactory::the()
+                           ->findGroupName(shareGroupIds[i]);
+        if(name != NULL)
+            share.push_back(name);
+    }
+    return OSG::deepCloneAttachments(src, dst, share);
+}
+
+// shareString is a comma separated FieldContainer type list
+// e.g. "Material, Geometry"
+void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
+                               const std::string &shareString)
+{
+    std::vector<std::string> share;
+    
+    // parse comma separated names.
+    std::string::const_iterator nextComma;
+    std::string::const_iterator curPos = shareString.begin();
+    while(curPos < shareString.end())
+    {
+        nextComma = std::find(curPos, shareString.end(), ',');
+        // strip leading spaces
+        curPos = std::find_if(curPos, nextComma, std::not1(std::ptr_fun(isspace)));
+        share.push_back(std::string(curPos, nextComma));
+        curPos = ++nextComma;
+    }
+    
+    return OSG::deepCloneAttachments(src, dst, share);
+}
+
+// deep clone of nodes.
+NodePtr OSG::deepCloneTree(const NodePtr &src,
+                           const std::vector<std::string> &share)
+{
+    NodePtr dst = NullFC;
+
+    if(src != NullFC)
+    {
+        dst = Node::create();
+        deepCloneAttachments(src, dst, share);
+        
+        beginEditCP(dst);
+        {
+            dst->setActive(src->getActive());
+            dst->setTravMask(src->getTravMask());
+            dst->setCore(NodeCorePtr::dcast(OSG::deepClone(src->getCore(), share)));
+            
+            for(UInt32 i = 0; i < src->getNChildren(); i++)
+                dst->addChild(deepCloneTree(src->getChild(i), share));
+        }
+        endEditCP  (dst);
+    }
+
+    return dst;
+}
+
+NodePtr OSG::deepCloneTree(const NodePtr &src,
+                           const std::vector<UInt16> &shareGroupIds)
+{
+    std::vector<std::string> share;
+    share.reserve(shareGroupIds.size());
+    for(UInt32 i=0;i<shareGroupIds.size();++i)
+    {
+        const char *name = FieldContainerFactory::the()->findGroupName(shareGroupIds[i]);
+        if(name != NULL)
+            share.push_back(name);
+    }
+    return OSG::deepCloneTree(src, share);
+}
+
+// shareString is a comma separated FieldContainer type list
+// e.g. "Material, Geometry"
+NodePtr OSG::deepCloneTree(const NodePtr &src,
+                           const std::string &shareString)
+{
+    std::vector<std::string> share;
+    
+    // parse comma separated names.
+    std::string::const_iterator nextComma;
+    std::string::const_iterator curPos = shareString.begin();
+    while(curPos < shareString.end())
+    {
+        nextComma = std::find(curPos, shareString.end(), ',');
+        // strip leading spaces
+        curPos = std::find_if(curPos, nextComma, std::not1(std::ptr_fun(isspace)));
+        share.push_back(std::string(curPos, nextComma));
+        curPos = ++nextComma;
+    }
+    
+    return OSG::deepCloneTree(src, share);
 }
 
 

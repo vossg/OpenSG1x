@@ -46,6 +46,9 @@
  */
 #endif
 
+#include <string>
+#include <vector>
+
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGMatrix.h>
@@ -316,7 +319,43 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
  */
 
 OSG_SYSTEMLIB_DLLMAPPING
-NodePtr cloneTree(NodePtr pRootNode);
+NodePtr cloneTree(const NodePtr &pRootNode);
+
+OSG_SYSTEMLIB_DLLMAPPING
+FieldContainerPtr deepClone(const FieldContainerPtr &src,
+                            const std::vector<std::string> &share);
+
+OSG_SYSTEMLIB_DLLMAPPING
+FieldContainerPtr deepClone(const FieldContainerPtr &src,
+                            const std::vector<UInt16> &shareGroupIds);
+
+OSG_SYSTEMLIB_DLLMAPPING
+FieldContainerPtr deepClone(const FieldContainerPtr &src,
+                            const std::string &shareString = "");
+
+OSG_SYSTEMLIB_DLLMAPPING
+void deepCloneAttachments(const NodePtr &src, NodePtr &dst,
+                          const std::vector<std::string> &share);
+
+OSG_SYSTEMLIB_DLLMAPPING
+void deepCloneAttachments(const NodePtr &src, NodePtr &dst,
+                          const std::vector<UInt16> &shareGroupIds);
+
+OSG_SYSTEMLIB_DLLMAPPING
+void deepCloneAttachments(const NodePtr &src, NodePtr &dst,
+                          const std::string &shareString = "");
+                      
+OSG_SYSTEMLIB_DLLMAPPING
+NodePtr deepCloneTree(const NodePtr &src,
+                      const std::vector<std::string> &share);
+
+OSG_SYSTEMLIB_DLLMAPPING
+NodePtr deepCloneTree(const NodePtr &src,
+                      const std::vector<UInt16> &shareGroupIds);
+
+OSG_SYSTEMLIB_DLLMAPPING
+NodePtr deepCloneTree(const NodePtr &src,
+                      const std::string &shareString = "");
 
 OSG_END_NAMESPACE
 
