@@ -8915,5 +8915,8 @@ case "$build_os" in
     ;;
 esac
 
+which gmake
+gmake -v
 
-
+which make
+make -v
