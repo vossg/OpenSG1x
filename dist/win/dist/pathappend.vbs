@@ -15,9 +15,5 @@ Path = Path & ";" & osgpath
 WSHShell.Environment("USER").Item("PATH") = Path
 
 public Function GetEnv(Var) 
-'On Error GoTo CheckError
-    GetEnv = WSHShell.Environment("USER").Item(Var)
-    Exit Function
-'CheckError:
-GetEnv=""
+GetEnv = WSHShell.Environment("USER").Item(Var)
 End Function
