@@ -20,7 +20,7 @@ build_make=gmake
 
 # does the OSGPOOL exist? If not, check it out.
 
-if ! test -d $OSGPOOL
+if test ! -d $OSGPOOL
 then
     # Check out the sources
     
@@ -45,9 +45,9 @@ then
     fi
 fi
 
-# get the version
+# get the OSGVERSION
 
-VERSION=`cat $OSGPOOL/VERSION | sed -e "/\n/d"`
+OSGVERSION=`cat $OSGPOOL/VERSION | sed -e "/\n/d"`
 
 # make the libs
 
@@ -66,7 +66,7 @@ case $system in
     glut_lib="libglut.a"
     glut_args="--with-glut=$glut_dir"
     qt_dir="/igd/a4/software/IRIX/packages/qt-3.0"
-    qt_lib=libqt.so.3.0.0
+    qt_lib=libqt.so
     qt_args="--with-qt=$qt_dir"
     tif_args="--with-tif"
     jpeg_args="--with-jpeg"
@@ -82,22 +82,27 @@ case $system in
     glut_dir="/usr"
     glut_lib="libglut.so.3"
     glut_args="--with-glut=$glut_dir"
-    qt_dir="/igd/a4/software/Linux/packages/qt-3.0"
-    qt_lib=libqt.so.3.0.0
+    qt_dir="/usr/lib/qt3"
+    qt_lib=libqt.so
     qt_args="--with-qt=$qt_dir"
     tif_args="--with-tif"
     jpeg_args="--with-jpeg"
     png_args="--with-png"
-    par_jobs=2
+    par_jobs=4
     compiler=${compiler:=g++}
     config_shell=bash
     mail=/usr/bin/Mail
     export PATH=/igd/a4/software/Linux/bin/:$PATH
-    if test -d /etc/SuSEconfig 
+    if test -r /etc/SuSE-release 
     then
-        distname=suse
+        VERSION=`tail -1 /etc/SuSE-release | sed -e 's/^[^0-9]*//'`
+        distname=suse$VERSION
+    elif test -r /etc/redhat-release 
+    then
+        VERSION=`sed -e 's/^[^0-9]*//' -e 's/[^0-9]*$//' < /etc/redhat-release`
+        distname=redhat$VERSION
     else
-        distname=redhat    
+        distname=linux    
     fi
     ;;
 
@@ -126,6 +131,26 @@ case $system in
         distname=win
     fi
     ;;
+
+
+    hppa2.0w-hp* )	
+       
+        build_make=make
+	qt_args="--with-qt=/igd/a4/software/HP-UX"
+        qt_dir="/igd/a4/software/HP-UX"
+        qt_lib=libqt.3
+	glut_args="--with-glut --with-glutincludedir=/opt/graphics/OpenGL/contrib/libglut --with-glutlibdir=/opt/graphics/OpenGL/contrib/libglut"
+ 	glut_lib=        
+        tif_args="--with-tif=/igd/a4/software/HP-UX/"
+	jpeg_args="--with-jpeg=/igd/a4/software/HP-UX/"
+ 	png_args=""
+   	par_jobs=${par_jobs:=4}
+	compiler=${compiler:=aCC}
+        distname=hpux
+	export PATH=/igd/a4/software/HP-UX/bin/:$PATH
+        # Move HP-toxic stuff out of the way
+        Common/prep_hp
+	;;
     
    *)
     
@@ -135,8 +160,8 @@ case $system in
     
 esac
 
-#echo "System" $system
-#echo "Dist" $distname
+echo "System" $system
+echo "Dist" $distname
 
 
 # configure it
@@ -144,7 +169,7 @@ esac
 ##rm -rf Builds/$system-$compiler
 
 
-if test -z $OSG_DIST_NO_RECONFIGURE
+if test x$OSG_DIST_NO_RECONFIGURE = x
 then
     $config_shell ./configure --prefix=BUILD --with-compiler=$compiler        \
        $stl_args $glut_args $qt_args $tif_args $jpeg_args $png_args $gif_args \
@@ -159,7 +184,7 @@ fi
 cd Builds/$system-$compiler
 export OSGSUBPARJOBS=$par_jobs
 
-if test -z $OSG_DIST_NO_REBUILD
+if test x$OSG_DIST_NO_REBUILD = x
 then
     $build_make opt 
     $build_make dbg 
@@ -167,19 +192,19 @@ else
     echo "OSG_DIST_NO_REBUILD      set, skipping build"
 fi
 
-if test -z $OSG_DIST_NO_REINSTALL
+if test x$OSG_DIST_NO_REINSTALL = x
 then
     $build_make install
 else
     echo "OSG_DIST_NO_REINSTALL    set, skipping install"
 fi
 
-if test -z $OSG_DIST_NO_EXAMPLEBUILD
+if test x$OSG_DIST_NO_EXAMPLEBUILD = x
 then
 
     # make the sceneviewer
 
-    cd ../../examples/SceneViewer
+    cd ../../Examples/SceneViewer
 
     $build_make QTDIR=$qt_dir OSGROOT=../../Builds/$system-$compiler
 
@@ -196,12 +221,12 @@ case $system in
 
     cd $olddir
 
-    if test -z $OSG_DIST_NO_DISTASSEMBLY
+    if test x$OSG_DIST_NO_DISTASSEMBLY = x
     then
     
-        rm -rf OpenSG-$VERSION-$distname-$compiler
-        mkdir OpenSG-$VERSION-$distname-$compiler
-        cd OpenSG-$VERSION-$distname-$compiler
+        rm -rf OpenSG-$OSGVERSION-$distname-$compiler
+        mkdir OpenSG-$OSGVERSION-$distname-$compiler
+        cd OpenSG-$OSGVERSION-$distname-$compiler
 
         # support libs
     
@@ -226,10 +251,13 @@ case $system in
         cp    $OSGPOOL/dist/win/README.bindist README.txt
 
         # copy the QT lib, as Qt 3.0 is not everywhere yet
-        cp ${qt_dir}/lib/${qt_lib} lib
- 
+        if test x$qt_lib != x
+        then
+            cp ${qt_dir}/lib/${qt_lib} lib
+        fi
+        
         # copy the SceneViewer
-        cp $OSGPOOL/examples/SceneViewer/osgSceneViewer.exe .
+        cp $OSGPOOL/Examples/SceneViewer/osgSceneViewer.exe .
    
         # copy OpenSG stuff
         cp -r $OSGPOOL/Builds/$system-$compiler/include/OpenSG ./include
@@ -250,17 +278,15 @@ case $system in
     else
         echo "OSG_DIST_NO_DISTASSEMBLY set, skipping assembly"
 
-        cd OpenSG-$VERSION-$distname-$compiler
+        cd OpenSG-$OSGVERSION-$distname-$compiler
     fi
 
-    cd tutorials
-
-
+    cd Tutorials
     $build_make OSGPOOL=$OSGPOOL -f Makefile
 
     exit
 
-    gmake -f Makefile.win dsw
+    $build_make -f Makefile.win dsw
     
     # cleanup the garbage
     rm -rf CVS Makefile* common.* template.* Tutorials.dsp.raw README BUILD vc60.idb
@@ -274,12 +300,15 @@ esac
 
 # from here on it's Unix
 
-# make the opt version
+echo "Making Opt dist"
 
-rm -rf OpenSG-$VERSION-$distname-opt
-mkdir OpenSG-$VERSION-$distname-opt
+# make the opt OSGVERSION
 
-cd OpenSG-$VERSION-$distname-opt
+echo "dir..."
+rm -rf OpenSG-$OSGVERSION-$distname-opt
+mkdir OpenSG-$OSGVERSION-$distname-opt
+
+cd OpenSG-$OSGVERSION-$distname-opt
 cp $OSGPOOL/dist/README.bindist README
 
 # copy the libs/includes
@@ -291,19 +320,23 @@ mkdir lib
 cp -r $OSGPOOL/Builds/$system-$compiler/lib/opt lib
 
 # copy the QT lib, as Qt 3.0 is not everywhere yet
-cp ${qt_dir}/lib/${qt_lib} lib/opt
-ln -s ${qt_lib} lib/opt/libqt.so.3.0
-ln -s ${qt_lib} lib/opt/libqt.so.3
-ln -s ${qt_lib} lib/opt/libqt.so
+if test x$qt_lib != x
+then
+    cp ${qt_dir}/lib/${qt_lib} lib/opt
+fi
 
 # copy the GLUT lib, as it is not everywhere yet
-cp ${glut_dir}/lib/${glut_lib} lib/opt
+if test x$glut_lib != x
+then
+    cp ${glut_dir}/lib/${glut_lib} lib/opt
+fi
 
 # make the tutorial examples
 
-cp -r $OSGPOOL/tutorials .
+echo "tuts..."
+cp -r $OSGPOOL/Tutorials .
 
-cd tutorials
+cd Tutorials
 rm -rf CVS
 sed -e 's|##DBG##|opt|g' < Makefile.dist > Makefile
 sed -e 's|##DBG##|opt|g' < $OSGPOOL/dist/README.tutorials > README
@@ -312,15 +345,15 @@ sed -e 's|##DBG##|opt|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneVie
 chmod 755 ../run_osgSceneViewer
 
 #remove the stuff we don't need here
-rm Makefile.dist Makefile.win template.*  Tutorials.dsp.raw common.cygwin .prefix.*
+rm -f Makefile.dist Makefile.win template.*  Tutorials.dsp.raw common.cygwin .prefix.*
 
-gmake
-gmake clean
+$build_make
+$build_make clean
 
 cd ..
 
 # copy the SceneViewer
-cp $OSGPOOL/examples/SceneViewer/osgSceneViewer .
+cp $OSGPOOL/Examples/SceneViewer/osgSceneViewer .
 
 # do system-specific stuff
 
@@ -333,23 +366,27 @@ esac
 
 # and pack it up
 
+echo "pack..."
 cd ..
 
-tar cf - OpenSG-$VERSION-$distname-opt | \
-            gzip -9 > OpenSG-$VERSION-$distname-opt.tgz
+tar cf - OpenSG-$OSGVERSION-$distname-opt | \
+            gzip -9 > OpenSG-$OSGVERSION-$distname-opt.tgz
 
 # now add the debug libs...
 
-mv OpenSG-$VERSION-$distname-opt OpenSG-$VERSION-$distname-opt+dbg
+echo "Making Opt+Dbg dist"
 
-cd OpenSG-$VERSION-$distname-opt+dbg
+echo "dir..."
+mv OpenSG-$OSGVERSION-$distname-opt OpenSG-$OSGVERSION-$distname-opt+dbg
+
+cd OpenSG-$OSGVERSION-$distname-opt+dbg
 
 cp -r ${OSGPOOL}/Builds/$system-$compiler/lib/dbg lib
 #needed by SceneViewer, and not everywhere yet
-ln -s ../opt/${qt_lib} lib/dbg
-ln -s ${qt_lib} lib/dbg/libqt.so.3.0
-ln -s ${qt_lib} lib/dbg/libqt.so.3
-ln -s ${qt_lib} lib/dbg/libqt.so
+if test x$qt_lib != x
+then
+    ln -s ../opt/${qt_lib} lib/dbg
+fi
 
 # copy the GLUT lib, as it is not everywhere yet
 ln -s ../opt/${glut_lib} lib/dbg
@@ -363,37 +400,49 @@ case $system in
     ;;
 esac
 
+echo "pack..."
 cd ..
 
-tar cf - OpenSG-$VERSION-${distname}-opt+dbg | \
-            gzip -9 > OpenSG-$VERSION-${distname}-opt+dbg.tgz
+tar cf - OpenSG-$OSGVERSION-${distname}-opt+dbg | \
+            gzip -9 > OpenSG-$OSGVERSION-${distname}-opt+dbg.tgz
 
 
 # ... get rid of the opt libs ...
 
-mv OpenSG-$VERSION-$distname-opt+dbg OpenSG-$VERSION-$distname-dbg
+echo "Making Dbg dist"
+echo "dir..."
 
-cd OpenSG-$VERSION-$distname-dbg
+mv OpenSG-$OSGVERSION-$distname-opt+dbg OpenSG-$OSGVERSION-$distname-dbg
+
+cd OpenSG-$OSGVERSION-$distname-dbg
 #needed by SceneViewer, and not everywhere yet
-rm -rf lib/dbg/${qt_lib}
-cp ${qt_dir}/lib/${qt_lib} lib/dbg
-rm -rf lib/dbg/${glut_lib}
-cp ${glut_dir}/lib/${glut_lib} lib/dbg
+if test x$qt_lib != x
+then
+    rm -rf lib/dbg/${qt_lib}
+    cp ${qt_dir}/lib/${qt_lib} lib/dbg
+fi
+if test x$glut_lib != x
+then
+    rm -rf lib/dbg/${glut_lib}
+    cp ${glut_dir}/lib/${glut_lib} lib/dbg
+fi
 rm -rf lib/opt
 
 # Build the dbg-tutorials again
 
-cd tutorials
-gmake Clean
+echo "tuts..."
 
-sed -e 's|##DBG##|dbg|g' < $OSGPOOL/tutorials/Makefile.dist > Makefile
+cd Tutorials
+$build_make Clean
+
+sed -e 's|##DBG##|dbg|g' < $OSGPOOL/Tutorials/Makefile.dist > Makefile
 sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/README.tutorials > README
 sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/BUILD.tutorials > BUILD
 sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneViewer
 chmod 755 ../run_osgSceneViewer
 
-gmake
-gmake clean
+$build_make
+$build_make clean
 
 cd ..
 
@@ -406,12 +455,14 @@ case $system in
     ;;
 esac
 
+echo "pack..."
 cd ..
 
-tar cf - OpenSG-$VERSION-${distname}-dbg | \
-            gzip -9 > OpenSG-$VERSION-${distname}-dbg.tgz
+tar cf - OpenSG-$OSGVERSION-${distname}-dbg | \
+            gzip -9 > OpenSG-$OSGVERSION-${distname}-dbg.tgz
 
 # that's it!
+echo "All done. Enjoy!"
 
 
 
