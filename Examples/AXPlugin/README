@@ -1,0 +1,30 @@
+OpenSG NSPlugins
+----------------
+
+This is a OpenSG ActiveX render plugin for Internet Explorer.
+It depends on the Qt GUI library.
+You can also use it with mozilla (only on windows ;-)
+Go to http://www.iol.ie/~locka/mozilla/plugin.htm and install the plugin.
+
+INSTALL
+-------
+
+make
+
+if this doesn't work call
+
+make LIBTYPE=[dbg | opt] OSGROOT=<osg root path>
+
+e.g. make LIBTYPE=opt OSGROOT=/home/amz/src/OpenSG/Builds/i686-pc-cygwin-icl71
+
+call OpenSGax.exe -regserver for registering it.
+
+set the PATH (on windows) or LD_LIBRARY_PATH (on unix) environment variable
+to find the OSGBase, OSGSystem and the qt shared library.
+
+OpenSGax.exe ActiveX options
+
+-regserver                      Registers the server in the system registry
+-unregserver                    Unregisters the server from the system registry
+-activex                        Starts the application as an ActiveX server
+-dumpidl <file> -version x.y}   Writes the server's IDL
