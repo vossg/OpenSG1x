@@ -526,7 +526,7 @@ void SimpleSceneManager::showAll(void)
     Vec3f up(0,1,0);
     Pnt3f at((min[0] + max[0]) * .5,(min[1] + max[1]) * .5,(min[2] + max[2]) * .5);
     Pnt3f from=at;
-    from[2]-=(dist+fabs(max[2]-min[2])*0.5); 
+    from[2]+=(dist+fabs(max[2]-min[2])*0.5); 
 
     _navigator.set(from,at,up);
 
