@@ -72,7 +72,7 @@ static char cvsid[] = "@(#)$Id: $";
 #pragma reset woff 1174
 #endif
 
-/*! The default material used for simple geometries. 
+/*! The default materials used for simple geometries. 
  */
 
 static SimpleMaterialPtr _defaultMaterial;
@@ -93,20 +93,49 @@ OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultMaterial(void)
 	return _defaultMaterial;
 }
 
+static SimpleMaterialPtr _defaultUnlitMaterial;
+
+OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultUnlitMaterial(void)
+{
+	if(_defaultUnlitMaterial == NullFC)
+	{
+		_defaultUnlitMaterial = SimpleMaterial::create();
+		beginEditCP(_defaultUnlitMaterial);
+		_defaultUnlitMaterial->setDiffuse( Color3f( 1,1,.5 ) );
+		_defaultUnlitMaterial->setLit( false );
+		endEditCP(_defaultUnlitMaterial);
+	}
+	
+	return _defaultUnlitMaterial;
+}
+
 /*! \ingroup SimpleGeometry
-	\return NodePtr the created plane
-	\param xsize	the plane's size in the x direction
-	\param ysize	the plane's size in the y direction
-	\param hor		number of subdivisons in the x direction
-	\param vert		number of subdivisons in the y direction
 
 makePlane creates a plane in the x/y plane. It spans the [-\a xsize /2,\a xsize /2]x
 [-\a ysize /2,\a ysize/2] area and is subdivided into \a hor * \a vert quads.
 
 */
 
-OSG_SYSTEMLIB_DLLMAPPING
 NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
+{
+    GeometryPtr pGeo = makePlaneGeo(xsize, ysize, hor, vert );
+ 
+    if(pGeo == NullFC)
+    {
+        return NullFC;
+    }
+    
+    NodePtr node = Node::create();
+
+    beginEditCP  (node);
+    node->setCore(pGeo);
+    endEditCP    (node);
+
+	return node;
+}
+
+GeometryPtr OSG::makePlaneGeo( Real32 xsize, Real32 ysize, 
+                               UInt16 hor,   UInt16 vert )
 {
 	if ( ! hor || ! vert )
 	{
@@ -193,13 +222,8 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 	geo->setTypes( types );
 	geo->setLengths( lens );
 	endEditCP(geo);
-		
-    NodePtr node = Node::create();
-	beginEditCP(node);
-	node->setCore( geo );
-	endEditCP(node);
 	
-	return node;
+	return geo;
 }
 
 

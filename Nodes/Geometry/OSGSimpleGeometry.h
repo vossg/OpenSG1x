@@ -56,11 +56,18 @@ OSG_BEGIN_NAMESPACE
 /*! \name                   Construction functions                     */
 /*! \{                                                                 */
 
+/*! \brief create a plane geometry
+ *  \ingroup SimpleGeometry
+ */
+OSG_SYSTEMLIB_DLLMAPPING GeometryPtr makePlaneGeo(Real32 xsize, Real32 ysize,
+                                                  UInt16 hor,   UInt16 vert);
+
+
 /*! \brief create a plane
  *  \ingroup SimpleGeometry
  */
 OSG_SYSTEMLIB_DLLMAPPING NodePtr makePlane(Real32 xsize, Real32 ysize,
-                                          UInt16 hor,   UInt16 vert);
+                                           UInt16 hor,   UInt16 vert);
 
 /*! \brief create a box geometry
  *  \ingroup SimpleGeometry
@@ -169,14 +176,16 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr makeConicalFrustum(Real32 height,
                                                     Bool   doBottom);
 
 OSG_SYSTEMLIB_DLLMAPPING GeoPositions3fPtr makeGeoPositions3fPtr(UInt32 uiSize);
-OSG_SYSTEMLIB_DLLMAPPING GeoIndicesUI32Ptr  makeGeoIndicesUI32Ptr (UInt32 uiSize);
+OSG_SYSTEMLIB_DLLMAPPING GeoIndicesUI32Ptr makeGeoIndicesUI32Ptr(UInt32 uiSize);
 OSG_SYSTEMLIB_DLLMAPPING GeoPLengthsPtr    makeGeoPLengthsPtr   (UInt32 uiSize);
 OSG_SYSTEMLIB_DLLMAPPING GeoPTypesPtr      makeGeoPTypesPtr     (UInt32 uiSize);
 
-/*! \brief access the default material
+/*! \brief access the default materials
  *  \ingroup SimpleGeometry
  */
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr getDefaultMaterial(void);
+
+OSG_SYSTEMLIB_DLLMAPPING MaterialPtr getDefaultUnlitMaterial(void);
 
 
 /*! \}                                                                 */
