@@ -69,7 +69,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char ComponentTransform::cvsid[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.3 2001/10/15 03:10:23 vossg Exp $";
+char ComponentTransform::cvsid[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.4 2001/10/21 17:19:04 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -212,7 +212,7 @@ ComponentTransform::~ComponentTransform(void)
 /** \brief react to field changes
  */
 
-void ComponentTransform::changed(BitVector which, ChangeMode)
+void ComponentTransform::changed(BitVector which, ChangeMode mode)
 {
     ComponentTransformPtr ptr(*this);
     if(which != MatrixFieldMask)
@@ -224,6 +224,10 @@ void ComponentTransform::changed(BitVector which, ChangeMode)
                                  getScaleOrientation(),
                                  getCenter          ());
         endEditCP(ptr,MatrixFieldMask);
+    }
+    else
+    {
+        this->Transform::changed(which, mode);
     }
 }
 
