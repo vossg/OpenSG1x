@@ -10,7 +10,7 @@
 cnvUnix2Win = "$(shell cygpath -w $(1))"
 
 ifeq ($(OS_BASE), cygwin)
-ifeq ($(OS_CMPLR), bcc)
+ifeq ($(OS_CMPLR),bcc)
 $(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."					\
@@ -20,6 +20,16 @@ $(OBJDIR)/%$(OBJ_SUFFIX): %.c
 	$(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."					\
 	 $(OBJ_OPTION) $(call cnvUnix2Win,$@) $(call cnvUnix2Win,$<)
 else
+ifeq ($(OS_CMPLR),g++)
+$(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
+	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
+	 $(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
+$(OBJDIR)/%$(OBJ_SUFFIX): %.c
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
+	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
+	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
+else
 $(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."					\
@@ -28,6 +38,7 @@ $(OBJDIR)/%$(OBJ_SUFFIX): %.c
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."					\
 	 $(OBJ_OPTION)"$(OBJDIR)\\" $(call cnvUnix2Win,$<)
+endif
 endif
 else
 $(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
@@ -41,11 +52,17 @@ $(OBJDIR)/%$(OBJ_SUFFIX): %.c
 endif
 
 ifeq ($(OS_BASE), cygwin)
+ifeq ($(OS_CMPLR),g++)
+$(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.cpp
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
+	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
+	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
+else
 $(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."					\
 	$(OBJ_OPTION)"$(OBJDIR)\\" $<
-
+endif
 else
 $(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \

@@ -540,7 +540,7 @@ OSG_USING_STD_NAMESPACE
 //#define OSG_RUNTIME_NUM_ASPECTS
 //#define OSG_MTHREADED_FCS
 
-#define OSG_NUM_ASPECTS 1
+#define OSG_NUM_ASPECTS 2
 
 #ifdef OSG_WIN_TYPES
 #include <windows.h>

@@ -114,7 +114,11 @@ cnvSourceToDep        = \
 #########################################################################
 
 ifeq ($(OS_BASE), cygwin)
+ifeq ($(OS_CMPLR),g++)
+buildIncPath      = $(INC_OPTION)$(1) 
+else
 buildIncPath      = $(INC_OPTION)"$(shell cygpath -w $(1))"
+endif
 else
 buildIncPath      = $(INC_OPTION)$(1) 
 endif
@@ -124,8 +128,13 @@ $
 #########################################################################
 
 ifeq ($(OS_BASE), cygwin)
+ifeq ($(OS_CMPLR),g++)
+cnvSubDirUnix2Win  = $1
+cnvSubDirsUnix2Win = $1
+else
 cnvSubDirUnix2Win = $(subst /,\,$(1))
 cnvSubDirsUnix2Win = $(foreach dir,$(1),"$(call cnvSubDirUnix2Win,$(dir))")
+endif
 else
 cnvSubDirUnix2Win  = $1
 cnvSubDirsUnix2Win = $1
