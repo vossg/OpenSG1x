@@ -229,7 +229,6 @@ Bool Line::intersect(const CylinderVolume &cyl, Real32 &enter, Real32 &exit) con
 {
 	Real32 radius = cyl.getRadius();
 
-	Real32 l_adir;
 	Vec3f adir, o_adir;
 	Pnt3f apos;
 	cyl.getAxis(apos, adir);
@@ -237,12 +236,10 @@ Bool Line::intersect(const CylinderVolume &cyl, Real32 &enter, Real32 &exit) con
 	o_adir = adir;
 	adir.normalize();
 
-	l_adir = o_adir.length();;
-	Bool isect, planeisect = 0, erg = 0;
+	Bool isect;
 	
 	Real32 ln, dl;
 	Vec3f RC, n, D;
-	Real32 in, out;
 	
 	RC = _pos - apos;
 
