@@ -74,11 +74,14 @@ DOC_LIBS   ?= $(DOCS_BASE) $(DOCS_SYS) 										\
 
 # defines for starter guide generation
 DOC_LATEX ?= "NO"
+DOC_DOT   ?= "NO"
+# DOC_DOT   ?= "YES"
 DOC_INTRO ?= "Code/intro.dox"
 
 # The separate documentation pages
+                
 DOC_PAGES  := 	../Common/dummyClasses.dox \
-				Code/mainpage.dox \
+                Code/mainpage.dox \
 				$(DOC_INTRO) \
 				../Source/Base/Base/Base.dox \
 				../Source/System/System.dox \
@@ -133,13 +136,14 @@ DOC_LEVEL_ENABLED ?= ""
 
 DOC_ENV := DOC_PROJECT_NAME="$(DOC_PROJECT_NAME)" DOCDIR=$(DOCDIR) 
 DOC_ENV += DOC_PROJECT_NUMBER=$(DOC_PROJECT_NUMBER) DOC_FILES="$(DOC_FILES)"
-DOC_ENV += OSGPOOL="$(OSGPOOL)"  DOC_LATEX="$(DOC_LATEX)"
+DOC_ENV += OSGPOOL="$(OSGPOOL)"  DOC_LATEX="$(DOC_LATEX)" DOC_DOT="$(DOC_DOT)"
 DOC_ENV += OSG_DOC_LEVEL="$(DOC_LEVEL)" DOC_LEVEL_PREDEF="$(DOC_LEVEL_PREDEF)"
 DOC_ENV += DOC_LEVEL_ENABLED="$(DOC_LEVEL_ENABLED)" 
 DOC_ENV += DOC_IMAGE_PATHES="$(DOC_IMAGE_PATHES)"
 
 DOXYGEN := doxygen
 #DOXYGEN := /home/gerrit/SoftwareTest/doxygen/bin/doxygen
+#DOXYGEN := /data/dirk/software/doxygen-1.2.18/bin/doxygen
 
 default: help
 
@@ -149,7 +153,7 @@ qdoc:
 	make userdoc | egrep -v '^Preprocessing' | egrep -v '^Parsing' | \
 			egrep -v '^Generating'
 
-alldocs: userstarter extdoc devdoc
+alldocs: userstarter devdoc
 
 # Doc targets
 
@@ -194,8 +198,8 @@ devdoc:
 # Starter targets
 
 dostarter:
-	make DOC_LATEX="YES" DOC_INTRO="starter.dox" $(DOC_STARTER)doc
-#   link the images
+	make DOC_LATEX="YES" DOC_DOT="NO" DOC_INTRO="starter.dox" $(DOC_STARTER)doc
+	# link the images
 	cd $(DOCDIR)/$(DOC_STARTER)/latex/ ; \
 	../../../../Common/refmanToStarter refman.tex StarterGuide.tex ;  \
 	latex StarterGuide && latex StarterGuide && dvips StarterGuide && \
@@ -274,8 +278,6 @@ help:
 	@echo 
 	@echo "userdoc      create the HMTL version of the user-level docs"
 	@echo "userstarter  create the PS/PDF version of the user-level docs"
-	@echo "extdoc       create the HMTL version of the extender-level docs"
-	@echo "extstarter   create the PS/PDF version of the extender-level docs"
 	@echo "devdoc       create the HMTL version of the developer-level docs"
 	@echo "devstarter   create the PS/PDF version of the developer-level docs"
 	@echo "alldocs      all of the above"
