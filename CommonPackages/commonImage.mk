@@ -5,7 +5,7 @@ INCL_DIR                 := $(OSGPOOL)/$(SUB_DIR)
 
 PROJLIBS_FILE_$(SUB_DIR) := $(OSGPOOL)/$(SUB_DIR)/lib$(SUB_DIR).$(OS).$(LIBEXT)
 
-ifeq ($(OS_BASE), NT40)
+ifeq ($(OS_BASE), NT)
 REQUIRED_SYSTEM_LIBS$(OS) := $(LIBCIO)
 else
 REQUIRED_SYSTEM_LIBS$(OS) := -ltiff -ljpeg $(LIBCIO) -lm

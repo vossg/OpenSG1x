@@ -62,7 +62,7 @@ WARNINGS_CPP_OFF 	=
 ### Language #######################################################
 
 LANG_FLAGS          = 
-COMPILER    		= -Qvc6 /MTd /W3 /GX- /Gi- /ZI /Od /FD /GZ 
+COMPILER    		= -Qvc6 /MTd /W3 /GX- /Gi- /ZI /Od /FD /GZ /GR
 
 ### Optimize / Debug ###############################################
 
@@ -153,8 +153,8 @@ ifneq ($(INCLUDE_SYSTEM_CC),)
 INCL$(OS) += /I$(INCLUDE_SYSTEM_CC)
 endif
 
-ifneq ($(INCLUDE_XDR),)
-INCL$(OS) += /I$(INCLUDE_XDR)
+ifneq ($(INCLUDE_GLUT),)
+INCL$(OS) += /I$(INCLUDE_GLUT)
 endif
 
 POST_LINK_LIBS$(OS) := \
@@ -174,6 +174,11 @@ POST_LINK_LIBS$(OS) := \
 	odbccp32.lib				\
 								\
 	wsock32.lib
+
+
+ifneq ($(LINK_GLUT),)
+POST_LINK_LIBS$(OS) := $(POST_LINK_LIBS$(OS)) /LIBPATH:$(LINK_GLUT)
+endif
 
 # Jo
 #-D$(OS)_OS -DNATIVE_CC -DSTL_HSUFFIX

@@ -1,2 +1,2 @@
 
-include $(VSCPOOL)/$(VSCCOMMON)/commonNT40_ICL.mk
+include $(OSGPOOL)/$(OSGCOMMON)/commonNT40_ICL.mk

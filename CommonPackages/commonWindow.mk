@@ -7,7 +7,7 @@ PROJLIBS_FILE_$(SUB_DIR) := \
 	$(OSGPOOL)/$(SUB_DIR)/lib$(SUB_DIR).$(OS).$(LIBEXT)
 
 
-ifeq ($(OS_BASE), NT40)
+ifeq ($(OS_BASE), NT)
 REQUIRED_SYSTEM_LIBS$(OS) := glut32.lib opengl32.lib glu32.lib $(LIBCIO)
 else
 REQUIRED_SYSTEM_LIBS$(OS) := -lglut -lGLU -lGL -lXmu -lXi -lXt -lX11    \

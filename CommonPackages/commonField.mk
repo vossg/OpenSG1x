@@ -18,7 +18,7 @@ ifeq ($(OS_BASE), SunOS)
 REQUIRED_SYSTEM_LIBS$(OS) += -lpthread
 endif
 
-ifeq ($(OS_BASE), NT40)
+ifeq ($(OS_BASE), NT)
 REQUIRED_SYSTEM_LIBS$(OS) := libCio.lib
 else
 REQUIRED_SYSTEM_LIBS$(OS) += -lCio -lm

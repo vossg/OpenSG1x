@@ -134,7 +134,10 @@ REQUIRED_PACKAGES := $(sort $(REQUIRED_PACKAGES))
 
 ifneq ($(REQUIRED_PACKAGES),)
 
+ifneq ($(OSGPOOL),$($(PROJECTPSD)POOL))
 PACKAGE_INCLUDE := $(call includePackagesProj,$(REQUIRED_PACKAGES))
+endif
+
 PACKAGE_INCLUDE += $(call includePackages,$(REQUIRED_PACKAGES))
 
 PACKAGE_INCLUDE := $(call verifyIncPackages,$(PACKAGE_INCLUDE))
