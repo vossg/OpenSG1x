@@ -58,7 +58,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OpenSG/OSGConfig.h"
+#include <OpenSG/OSGConfig.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -116,7 +116,7 @@ const OSG::UInt32    	CubesBase::NextFieldId;
 const OSG::BitVector 	CubesBase::NextFieldMask;
 
 
-char CubesBase::cvsid[] = "@(#)$Id: OSGCubesBase.cpp,v 1.2 2001/05/22 19:57:58 vossg Exp $";
+char CubesBase::cvsid[] = "@(#)$Id: OSGCubesBase.cpp,v 1.3 2001/05/23 23:03:20 dirk Exp $";
 
 /** \brief Group field description
  */

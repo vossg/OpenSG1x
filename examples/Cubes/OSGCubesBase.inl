@@ -56,7 +56,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OpenSG/OSGConfig.h"
+#include <OpenSG/OSGConfig.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>

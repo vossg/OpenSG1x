@@ -2,7 +2,7 @@
 
 OPENSG_DIR=../../Builds/i686-pc-linux-gnu-g++
 
-OPENSG_INCLUDE = -I$(OPENSG_DIR)/include
+OPENSG_INCLUDE = -I$(OPENSG_DIR)/include  -I.
 OPENSG_LIB     = -L$(OPENSG_DIR)/lib/dbg
 
 OPENSG_WARNINGS = -Wall -W   -Wpointer-arith -Wcast-qual -Wcast-align	\

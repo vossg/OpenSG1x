@@ -49,7 +49,7 @@
 
 #include <OpenSG/OSGConfig.h>
 
-#include "OSGCubesBase.h"
+#include <OSGCubesBase.h>
 
 #include <OpenSG/OSGAction.h>
 
@@ -157,8 +157,6 @@ class OSG_MYLIB_DLLMAPPING Cubes : public CubesBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef CubesBase Inherited;
-
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
@@ -206,7 +204,7 @@ typedef Cubes *CubesP;
 
 OSG_END_NAMESPACE
 
-#include "OSGCubes.inl"
-#include "OSGCubesBase.inl"
+#include <OSGCubes.inl>
+#include <OSGCubesBase.inl>
 
 #endif /* _OSGCUBES_H_ */

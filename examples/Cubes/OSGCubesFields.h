@@ -61,7 +61,7 @@
 #include <OpenSG/OSGConfig.h>
 
 #include <OpenSG/OSGFieldContainerPtr.h>
-#include "OSGMyLibDef.h"
+#include <OSGMyLibDef.h>
 
 OSG_BEGIN_NAMESPACE
 

@@ -66,14 +66,14 @@
 #include <OpenSG/OSGBaseTypes.h>
 #include <OpenSG/OSGFieldDescription.h>
 #include <OpenSG/OSGFieldContainer.h>
-#include "OSGMyLibDef.h"
+#include <OSGMyLibDef.h>
 #include <OpenSG/OSGNodeCore.h>
 #include <OpenSG/OSGMaterialFields.h>	// Material type
 #include <OpenSG/OSGPnt3fFields.h>	// Position type
 #include <OpenSG/OSGReal32Fields.h>	// Length type
 #include <OpenSG/OSGColor3fFields.h>	// Color type
 
-#include "OSGCubesFields.h"
+#include <OSGCubesFields.h>
 
 OSG_BEGIN_NAMESPACE
 

@@ -5,6 +5,8 @@
 	parent="NodeCore"
 	library="MyLib"
 	pointerfieldtypes="both"
+	systemcomponent="false"
+	parentsystemcomponent="true"
 	structure="concrete"
 >
 
