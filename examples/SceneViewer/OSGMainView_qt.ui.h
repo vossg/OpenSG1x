@@ -18,11 +18,11 @@ void OSGMainView::init()
   root = osg::Node::create();
   core = osg::Group::create();
 
-  beginEditCP(root);
+  osg::beginEditCP(root);
   {
     root->setCore(core);
   }
-  endEditCP(root);
+  osg::endEditCP(root);
 
   sceneView->setRootNode(root);
 }
