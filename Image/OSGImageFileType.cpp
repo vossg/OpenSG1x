@@ -246,7 +246,11 @@ UInt64 ImageFileType::store ( const Image &image, UChar8 *buffer,
 //----------------------------------------------------------------------
 UInt64 ImageFileType::maxBufferSize(const Image &image )
 {
-    return (sizeof(Head) + image.getSize());
+  UInt64 size = sizeof(Head) + image.getSize();
+
+  FDEBUG (( "ImageFileType::maxBufferSize(): %d\n", size ));
+
+  return size;
 }
 
 //----------------------------------------------------------------------
