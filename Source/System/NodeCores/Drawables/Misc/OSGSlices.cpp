@@ -425,7 +425,7 @@ void Slices::drawSlices ( const Vec3f &planeNormal,
 	Slice slice;
   Plane plane;
   Real32 distance, sliceDistance, volumeDiagonal = getSize().length();
-  UInt32 i, si, numOfSlices = getNumberOfSlices();
+  Int32 i, si, numOfSlices = getNumberOfSlices();
 
   if (_edgeVec.empty())
     initEdgeVec();
