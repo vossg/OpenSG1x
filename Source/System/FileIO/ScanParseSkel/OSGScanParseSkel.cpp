@@ -46,7 +46,10 @@
 #include "OSGConfig.h"
 
 #include <iostream>
+
+#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
 #include <fstream>
+#endif
 
 #include "OSGScanParseSkel.h"
 #include "OSGBaseFunctions.h"
@@ -79,14 +82,19 @@ ScanParseSkel::~ScanParseSkel(void)
 /*                                Scan                                     */
 
 extern int           OSGScanParseSkel_parse(void);
+#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
 extern std::istream *OSGScanParseSkel_is;
+#else
+extern FILE         *OSGScanParseSkel_in;
+#endif
 
 extern void setSkel    (ScanParseSkel *pSkel);
 extern void clearSkel  (void);
 extern void abortParser(void);
 
+#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
 void ScanParseSkel::scanStream(std::istream &is,
-                                     UInt32  uiOptions)
+                                    UInt32   uiOptions)
 {
     if(is.good())
     {
@@ -115,6 +123,7 @@ void ScanParseSkel::scanStream(std::istream &is,
 
     ScanParseSkel::scanStream(is, uiOptions);
 }
+#endif
 
 void ScanParseSkel::scanFile(const Char8 *szFilename, 
                                    UInt32 uiOptions)
@@ -122,6 +131,7 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
     if(szFilename == NULL)
         return;
 
+#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
     std::ifstream is(szFilename);
 
     if(is.good())
@@ -132,6 +142,28 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
 
         is.close();
     }
+#else
+    FILE *pInFile = fopen(szFilename, "r");
+
+    if(pInFile != NULL)
+    {
+        setSkel(this);
+
+        PNOTICE << "Loading : " << szFilename << std::endl;
+
+        OSGScanParseSkel_in = pInFile;
+
+        _uiCurrOptions = uiOptions;
+
+        OSGScanParseSkel_parse();
+
+        reset();
+
+        fclose(pInFile);
+
+        clearSkel();
+    }
+#endif
 }
 
 void ScanParseSkel::scanFile(const Char8  *szFilename, 
@@ -141,6 +173,7 @@ void ScanParseSkel::scanFile(const Char8  *szFilename,
     if(szFilename == NULL)
         return;
 
+#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
     std::ifstream is(szFilename);
 
     if(is.good())
@@ -151,6 +184,14 @@ void ScanParseSkel::scanFile(const Char8  *szFilename,
 
         is.close();
     }
+#else
+   UInt32 uiOptions = _uiDefOptions;
+
+    uiOptions |=  uiAddOptions;
+    uiOptions &= ~uiSubOptions;
+
+    ScanParseSkel::scanFile(szFilename, uiOptions);
+#endif
 }
 
 void ScanParseSkel::setDefaultOptions(UInt32 uiOptions)

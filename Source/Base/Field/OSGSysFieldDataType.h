@@ -611,7 +611,8 @@ struct FieldDataTraits<Real64> :
 #endif
 
 template <>
-struct FieldDataTraits<void *> : public FieldTraits
+struct FieldDataTraits<void *> : 
+    public FieldTraitsRecurseBase<void *>
 {
     static  DataType                 _type;
     typedef FieldDataTraits<void *>  Self;
@@ -627,19 +628,18 @@ struct FieldDataTraits<void *> : public FieldTraits
 
     static void     *getDefault   (void) { return NULL;                }
 
-    static UInt32 getBinSize (const FieldTypeT &)
+    static bool      getFromString(      FieldTypeT &voidP,
+                                   const Char8      *)
     {
-        return 0;
+        voidP = NULL;
+
+        return true;
     }
 
-    static void   copyToBin  (      BinaryDataHandler   &, 
-                              const FieldTypeT          &)
+    static void      putToString  (const FieldTypeT  &,
+                                         std::string &outStr)
     {
-    }
-
-    static void   copyFromBin(      BinaryDataHandler   &, 
-                                    FieldTypeT          &)
-    {
+        outStr.assign("void *");
     }
 };
 

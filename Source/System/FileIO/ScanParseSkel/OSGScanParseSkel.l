@@ -47,6 +47,7 @@
 #include <OSGScanParseSkel.tab.h>
 #include <OSGScanParseSkel.h>
 
+#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
 #include <iostream>
 std::istream *OSGScanParseSkel_is;
 #define YY_INPUT(buf, result, max_size) \
@@ -56,6 +57,7 @@ std::istream *OSGScanParseSkel_is;
         if (OSGScanParseSkel_is->bad()) \
             YY_FATAL_ERROR("input in flex scanner failed"); \
     }
+#endif
 
 int iLineNum = 1;
 

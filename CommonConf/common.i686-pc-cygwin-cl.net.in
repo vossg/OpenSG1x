@@ -29,7 +29,8 @@ SOURCE_DEFINES   := $(CONFIGURED_PACKAGE_DEFS)
 SYSTEM_DEFINES   := -DWIN32 -D_WINDOWS 				                 \
 				    -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 	     \
                     -D_WIN32_WINNT=0x0400                            \
-                    -D_OSG_HAVE_CONFIGURED_H_
+                    -D_OSG_HAVE_CONFIGURED_H_ 
+#-D_HAS_EXCEPTIONS=0
 
 #ifeq ($(COMPILERVERSION),501)
 #SYSTEM_DEFINES   := $(SYSTEM_DEFINES) -DOSG_SUPPORT_NO_GEO_INTERFACE=1
@@ -69,7 +70,8 @@ WARN_ERR_CPP        := #-Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373
 LANG_FLAGS          = 
 
 #-Qvc6 -Qansi
-COMPILER    		= -GX -Gi- -FD -GR -Zm1200
+#-GX
+COMPILER    		=  -GX -Gi- -FD -GR -Zm1200
 
 ifeq ($(LNK),lnk)
 COMPILER_RUNTIME_DBG    = -MTd

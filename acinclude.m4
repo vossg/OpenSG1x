@@ -1770,7 +1770,7 @@ dnl e15
 
         case $build_os in
             cygwin*)
-                ac_gdz_freetype1_lib_e15='ttf.lib'
+                ac_gdz_freetype1_lib_e15='freetype.lib'
             ;;
             *)
                 ac_gdz_freetype1_lib_e15='-lttf'
@@ -1967,6 +1967,73 @@ dnl e17
 ])
 
 
+AC_DEFUN(AC_GDZ_WRITE_COMMON_STLPORT,
+[
+dnl e18
 
+    ac_gdz_stlport_lib_e18=
+    ac_gdz_stlport_incdir_e18=
+    ac_gdz_stlport_libdir_e18=
 
+    if test "$enable_stlport" = yes; then
+
+        case $build_os in
+            cygwin*)
+
+                case "$ac_gdz_compiler" in
+                    cl.net*)
+                    ac_gdz_stlport_lib_e18='stlport_vc7$(STL_PORTDEBUG).lib'
+                    ;;
+                    icl*)
+                    echo "ERROR stlport support only on windows vs7 right now"
+                    ;;
+                    cl*)
+                    echo "ERROR stlport support only on windows vs7 right now"
+                    ;;
+                    bcc*)
+                    echo "ERROR stlport support only on windows vs7 right now"
+                    ;;
+                    esac
+            ;;
+            *)
+                echo "ERROR stlport support only on windows right now"
+                exit;
+            ;;
+        esac
+
+        if test -n "$ac_gdz_stlport_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_stlport_incdir_e18='"'`cygpath -w $ac_gdz_stlport_incdir`'"'
+                ;;
+                *)
+                    ac_gdz_stlport_incdir_e18=$ac_gdz_stlport_incdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_stlport_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_stlport_libdir_e18='"'`cygpath -w $ac_gdz_stlport_libdir`'"'
+                ;;
+                *)
+                    ac_gdz_stlport_libdir_e18=$ac_gdz_stlport_libdir
+                ;;
+            esac
+        fi
+
+    fi
+
+    ac_gdz_common_stlport_in_e18=$ac_gdz_commonconf_dir/commonSTLPort.in
+    ac_gdz_common_stlport_e18=$ac_gdz_commonpackage_dir/commonSTL.mk
+
+    AC_SUBST(ac_gdz_stlport_incdir_e18)
+    AC_SUBST(ac_gdz_stlport_libdir_e18)
+    AC_SUBST(ac_gdz_stlport_lib_e18)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_stlport_e18:$ac_gdz_common_stlport_in_e18)
+])
 

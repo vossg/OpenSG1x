@@ -73,12 +73,16 @@ void NodeGraph::init ( int vertexNum, int nodeNum, int reserveEdges )
 {
   int i;
 
-    _nodeVec.resize(nodeNum); 
+    _nodeVec   .resize(nodeNum  ); 
     _edgeMapVec.resize(vertexNum); 
 
-  if (reserveEdges > 0) 
-    for (i = 0; i < vertexNum; i++) 
-      _edgeMapVec[i].reserve(reserveEdges);
+  if(reserveEdges > 0) 
+  {
+      for(i = 0; i < vertexNum; i++) 
+      {
+          _edgeMapVec[i].reserve(reserveEdges);
+      }
+  }
 }
 
 

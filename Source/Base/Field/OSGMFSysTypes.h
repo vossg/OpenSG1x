@@ -68,16 +68,16 @@ OSG_BEGIN_NAMESPACE
 typedef MField<bool, 2>   MFBool;
 #endif
 
-#ifndef OSG_WIN32_CL
+#if ! defined(OSG_WIN32_CL) || defined(OSG_WITH_STLPORT)
 template <> inline
-UInt32 MField<bool, 2>::getBinSize(void)
+UInt32 MField<bool, 2>::getBinSize(void) const
 {
     return sizeof(UInt32) + // num elements
            sizeof(UInt8) * _values.size();
 }
 
 template <> inline
-void MField<bool, 2>::copyToBin(BinaryDataHandler &pMem)
+void MField<bool, 2>::copyToBin(BinaryDataHandler &pMem) const
 {
     UInt32 n = _values.size();
 

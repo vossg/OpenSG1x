@@ -705,4 +705,6 @@
 #    define OSG_DOC_LEVEL 0
 #endif
 
+#define OSG_FLEX_USE_IOSTREAM_INPUT 1
+
 #endif /* _OSGCONFIG_H_ */

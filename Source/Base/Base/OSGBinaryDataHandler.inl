@@ -110,7 +110,6 @@ UInt64 ntohl64(const UInt64 &src)
 } 
 #endif
 
-
 inline
 BinaryDataHandler::ReadError::ReadError(const Char8 *reson) : 
     Exception() 

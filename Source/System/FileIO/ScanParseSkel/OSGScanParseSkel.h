@@ -42,7 +42,10 @@
 #pragma once
 #endif
 
+#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
 #include <iosfwd>
+#endif
+
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGScanParseSkel.tab.h>
@@ -124,12 +127,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     /*! \name                      Scan                                    */
     /*! \{                                                                 */
 
+#ifdef OSG_FLEX_USE_IOSTREAM_INPUT
     virtual void scanStream       (std::istream &is,
                                          UInt32  uiReplaceOptions);
 
     virtual void scanStream       (std::istream &is,
                                          UInt32  uiAddOptions, 
                                          UInt32  uiSubOptions);
+#endif
 
     virtual void scanFile         (const Char8  *szFilename, 
                                          UInt32  uiReplaceOptions);

@@ -226,9 +226,9 @@ class MField : public Field
     /*! \name                   Binary Interface                           */
     /*! \{                                                                 */
 
-    UInt32 getBinSize (void                   );
+    UInt32 getBinSize (void                   ) const;
     
-    void   copyToBin  (BinaryDataHandler &pMem);
+    void   copyToBin  (BinaryDataHandler &pMem) const;
     void   copyFromBin(BinaryDataHandler &pMem);
 
     /*! \}                                                                 */

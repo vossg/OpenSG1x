@@ -455,14 +455,18 @@ void MField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
 /*                         Binary Interface                                */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-UInt32 MField<FieldTypeT, fieldNameSpace>::getBinSize(void)
+UInt32 MField<FieldTypeT, fieldNameSpace>::getBinSize(void) const
 {
+/*
     return sizeof(UInt32) + // num elements
            MFieldTraits::getBinSize(&(_values[0]), _values.size());
+*/
+    return 0;
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-void MField<FieldTypeT, fieldNameSpace>::copyToBin(BinaryDataHandler &pMem)
+void MField<FieldTypeT, 
+            fieldNameSpace>::copyToBin(BinaryDataHandler &pMem) const
 {
     UInt32 n = _values.size();
 
@@ -492,7 +496,6 @@ void MField<FieldTypeT, fieldNameSpace>::copyFromBin(BinaryDataHandler &pMem)
                               &(_values[0]),
                               n);
 }
-
 
 /*-------------------------------------------------------------------------*/
 /*                               Dump                                      */

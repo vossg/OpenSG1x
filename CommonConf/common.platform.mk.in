@@ -56,6 +56,8 @@ OS_CMPLR             := @ac_gdz_compiler_base@
 
 CONFIGURED_QT           :=@ac_gdz_conf_package_qt_e1@
 CONFIGURED_GLUT         :=@ac_gdz_conf_package_glut_e1@
+CONFIGURED_STLPORT      :=@ac_gdz_conf_package_stlport_e1@
+CONFIGURED_GLUT         :=@ac_gdz_conf_package_glut_e1@
 CONFIGURED_JPG          :=@ac_gdz_conf_package_tif_e1@
 CONFIGURED_TIF          :=@ac_gdz_conf_package_jpg_e1@
 CONFIGURED_PNG          :=@ac_gdz_conf_package_png_e1@
