@@ -54,21 +54,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.1 2002/06/10 22:10:46 dirk Exp $";
-    static char cvsid_hpp[] = OSGREGISTERCOMBINERSCHUNK_HEADER_CVSID;
-    static char cvsid_inl[] = OSGREGISTERCOMBINERSCHUNK_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::RegisterCombinersChunk
 
 */
@@ -200,8 +185,8 @@ void RegisterCombinersChunk::clearCombiners(void)
     
     for(UInt16 i = 0; i < OSG_NUM_COMBINERS * 3; i += 3)
     {
-        getVariableArgb  ().setValue(GL_NONE, i);
-        getVariableAalpha().setValue(GL_NONE, i);
+        getVariableArgb  ()[i] = GL_NONE;
+        getVariableAalpha()[i] = GL_NONE;
     }
 }
 
@@ -209,8 +194,8 @@ void RegisterCombinersChunk::clearCombiner(UInt16 which)
 {
     ensureSizes();
     
-    getVariableArgb  ().setValue(GL_NONE, which * 3);
-    getVariableAalpha().setValue(GL_NONE, which * 3);
+    getVariableArgb  ()[which * 3] = GL_NONE;
+    getVariableAalpha()[which * 3] = GL_NONE;
 }
 
 void RegisterCombinersChunk::setCombinerRGB(UInt16 which, 
@@ -226,30 +211,30 @@ void RegisterCombinersChunk::setCombinerRGB(UInt16 which,
     
     const UInt16 ibase = which * 3;
     
-    getVariableArgb().setValue(ainput,     ibase);
-    getVariableArgb().setValue(amapping,   ibase + 1);
-    getVariableArgb().setValue(acompusage, ibase + 2);
+    getVariableArgb()[ibase    ] = ainput;
+    getVariableArgb()[ibase + 1] = amapping;
+    getVariableArgb()[ibase + 2] = acompusage;
     
-    getVariableBrgb().setValue(binput,     ibase);
-    getVariableBrgb().setValue(bmapping,   ibase + 1);
-    getVariableBrgb().setValue(bcompusage, ibase + 2);
+    getVariableBrgb()[ibase    ] = binput;
+    getVariableBrgb()[ibase + 1] = bmapping;
+    getVariableBrgb()[ibase + 2] = bcompusage;
     
-    getVariableCrgb().setValue(cinput,     ibase);
-    getVariableCrgb().setValue(cmapping,   ibase + 1);
-    getVariableCrgb().setValue(ccompusage, ibase + 2);
+    getVariableCrgb()[ibase    ] = cinput;
+    getVariableCrgb()[ibase + 1] = cmapping;
+    getVariableCrgb()[ibase + 2] = ccompusage;
     
-    getVariableDrgb().setValue(dinput,     ibase);
-    getVariableDrgb().setValue(dmapping,   ibase + 1);
-    getVariableDrgb().setValue(dcompusage, ibase + 2);
+    getVariableDrgb()[ibase    ] = dinput;
+    getVariableDrgb()[ibase + 1] = dmapping;
+    getVariableDrgb()[ibase + 2] = dcompusage;
     
-    getOutputABrgb ().setValue(outputAB,   which);
-    getOutputCDrgb ().setValue(outputCD,   which);
-    getOutputSumrgb().setValue(outputSum,  which);
-    getScalergb    ().setValue(scale,      which);
-    getBiasrgb     ().setValue(bias,       which);
-    getDotABrgb    ().setValue(dotAB,      which);
-    getDotCDrgb    ().setValue(dotCD,      which);
-    getMuxSumrgb   ().setValue(muxSum,     which);
+    getOutputABrgb ()[which] = outputAB;
+    getOutputCDrgb ()[which] = outputCD;
+    getOutputSumrgb()[which] = outputSum;
+    getScalergb    ()[which] = scale;
+    getBiasrgb     ()[which] = bias;
+    getDotABrgb    ()[which] = dotAB;
+    getDotCDrgb    ()[which] = dotCD;
+    getMuxSumrgb   ()[which] = muxSum;
 }
 
 void RegisterCombinersChunk::setCombinerAlpha(UInt16 which, 
@@ -265,28 +250,28 @@ void RegisterCombinersChunk::setCombinerAlpha(UInt16 which,
     
     const UInt16 ibase = which * 3;
     
-    getVariableAalpha().setValue(ainput,     ibase);
-    getVariableAalpha().setValue(amapping,   ibase + 1);
-    getVariableAalpha().setValue(acompusage, ibase + 2);
+    getVariableAalpha()[ibase    ] = ainput;
+    getVariableAalpha()[ibase + 1] = amapping;
+    getVariableAalpha()[ibase + 2] = acompusage;
     
-    getVariableBalpha().setValue(binput,     ibase);
-    getVariableBalpha().setValue(bmapping,   ibase + 1);
-    getVariableBalpha().setValue(bcompusage, ibase + 2);
+    getVariableBalpha()[ibase    ] = binput;
+    getVariableBalpha()[ibase + 1] = bmapping;
+    getVariableBalpha()[ibase + 2] = bcompusage;
     
-    getVariableCalpha().setValue(cinput,     ibase);
-    getVariableCalpha().setValue(cmapping,   ibase + 1);
-    getVariableCalpha().setValue(ccompusage, ibase + 2);
+    getVariableCalpha()[ibase    ] = cinput;
+    getVariableCalpha()[ibase + 1] = cmapping;
+    getVariableCalpha()[ibase + 2] = ccompusage;
     
-    getVariableDalpha().setValue(dinput,     ibase);
-    getVariableDalpha().setValue(dmapping,   ibase + 1);
-    getVariableDalpha().setValue(dcompusage, ibase + 2);
+    getVariableDalpha()[ibase    ] = dinput;
+    getVariableDalpha()[ibase + 1] = dmapping;
+    getVariableDalpha()[ibase + 2] = dcompusage;
     
-    getOutputABalpha ().setValue(outputAB,   which);
-    getOutputCDalpha ().setValue(outputCD,   which);
-    getOutputSumalpha().setValue(outputSum,  which);
-    getScalealpha    ().setValue(scale,      which);
-    getBiasalpha     ().setValue(bias,       which);
-    getMuxSumalpha   ().setValue(muxSum,     which);
+    getOutputABalpha ()[which] = outputAB;
+    getOutputCDalpha ()[which] = outputCD;
+    getOutputSumalpha()[which] = outputSum;
+    getScalealpha    ()[which] = scale;
+    getBiasalpha     ()[which] = bias;
+    getMuxSumalpha   ()[which] = muxSum;
 }
 
 void RegisterCombinersChunk::setFinalCombiner(
@@ -300,33 +285,33 @@ void RegisterCombinersChunk::setFinalCombiner(
 {    
     UInt16 ibase = OSG_NUM_COMBINERS * 3;
     
-    getVariableArgb().setValue(ainput,     ibase);
-    getVariableArgb().setValue(amapping,   ibase + 1);
-    getVariableArgb().setValue(acompusage, ibase + 2);
+    getVariableArgb()[ibase    ] = ainput;
+    getVariableArgb()[ibase + 1] = amapping;
+    getVariableArgb()[ibase + 2] = acompusage;
     
-    getVariableBrgb().setValue(binput,     ibase);
-    getVariableBrgb().setValue(bmapping,   ibase + 1);
-    getVariableBrgb().setValue(bcompusage, ibase + 2);
+    getVariableBrgb()[ibase    ] = binput;
+    getVariableBrgb()[ibase + 1] = bmapping;
+    getVariableBrgb()[ibase + 2] = bcompusage;
     
-    getVariableCrgb().setValue(cinput,     ibase);
-    getVariableCrgb().setValue(cmapping,   ibase + 1);
-    getVariableCrgb().setValue(ccompusage, ibase + 2);
+    getVariableCrgb()[ibase    ] = cinput;
+    getVariableCrgb()[ibase + 1] = cmapping;
+    getVariableCrgb()[ibase + 2] = ccompusage;
     
-    getVariableDrgb().setValue(dinput,     ibase);
-    getVariableDrgb().setValue(dmapping,   ibase + 1);
-    getVariableDrgb().setValue(dcompusage, ibase + 2);
+    getVariableDrgb()[ibase    ] = dinput;
+    getVariableDrgb()[ibase + 1] = dmapping;
+    getVariableDrgb()[ibase + 2] = dcompusage;
     
-    getVariableE().setValue(einput,     0);
-    getVariableE().setValue(emapping,   1);
-    getVariableE().setValue(ecompusage, 2);
+    getVariableE()[0] = einput;
+    getVariableE()[1] = emapping;
+    getVariableE()[2] = ecompusage;
     
-    getVariableF().setValue(finput,     0);
-    getVariableF().setValue(fmapping,   1);
-    getVariableF().setValue(fcompusage, 2);
+    getVariableF()[0] = finput;
+    getVariableF()[1] = fmapping;
+    getVariableF()[2] = fcompusage;
     
-    getVariableG().setValue(ginput,     0);
-    getVariableG().setValue(gmapping,   1);
-    getVariableG().setValue(gcompusage, 2);    
+    getVariableG()[0] = ginput;
+    getVariableG()[1] = gmapping;
+    getVariableG()[2] = gcompusage;
 }
 
 
@@ -382,7 +367,7 @@ void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
  
     for(ncomb = OSG_NUM_COMBINERS - 1; ncomb >= 0; ncomb--)
     {
-        if(getVariableArgb().getValue(ncomb * 3) != GL_NONE)
+        if(getVariableArgb()[ncomb * 3] != GL_NONE)
             break;
     }
 
@@ -403,36 +388,36 @@ void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
  
     for(UInt16 i = 0; i < ncomb; i++)
     {
-        if(getVariableArgb().getValue(i * 3) != GL_NONE)
+        if(getVariableArgb()[i * 3] != GL_NONE)
         {
             // RGB inputs
             CombinerInput(GL_COMBINER0_NV + i, GL_RGB, GL_VARIABLE_A_NV,
-                          getVariableArgb().getValue(i * 3),
-                          getVariableArgb().getValue(i * 3 + 1),
-                          getVariableArgb().getValue(i * 3 + 2) );
+                          getVariableArgb()[i * 3],
+                          getVariableArgb()[i * 3 + 1],
+                          getVariableArgb()[i * 3 + 2] );
             CombinerInput(GL_COMBINER0_NV + i, GL_RGB, GL_VARIABLE_B_NV,
-                          getVariableBrgb().getValue(i * 3),
-                          getVariableBrgb().getValue(i * 3 + 1),
-                          getVariableBrgb().getValue(i * 3 + 2) );
+                          getVariableBrgb()[i * 3],
+                          getVariableBrgb()[i * 3 + 1],
+                          getVariableBrgb()[i * 3 + 2] );
             CombinerInput(GL_COMBINER0_NV + i, GL_RGB, GL_VARIABLE_C_NV,
-                          getVariableCrgb().getValue(i * 3),
-                          getVariableCrgb().getValue(i * 3 + 1),
-                          getVariableCrgb().getValue(i * 3 + 2) );
+                          getVariableCrgb()[i * 3],
+                          getVariableCrgb()[i * 3 + 1],
+                          getVariableCrgb()[i * 3 + 2] );
             CombinerInput(GL_COMBINER0_NV + i, GL_RGB, GL_VARIABLE_D_NV,
-                          getVariableDrgb().getValue(i * 3),
-                          getVariableDrgb().getValue(i * 3 + 1),
-                          getVariableDrgb().getValue(i * 3 + 2) );
+                          getVariableDrgb()[i * 3],
+                          getVariableDrgb()[i * 3 + 1],
+                          getVariableDrgb()[i * 3 + 2] );
 
             // RGB output
             CombinerOutput(GL_COMBINER0_NV + i, GL_RGB, 
-                                getOutputABrgb    ().getValue(i),
-                                getOutputCDrgb    ().getValue(i),
-                                getOutputSumrgb   ().getValue(i),
-                                getScalergb       ().getValue(i),
-                                getBiasrgb        ().getValue(i),
-                                getDotABrgb       ().getValue(i),
-                                getDotCDrgb       ().getValue(i),
-                                getMuxSumrgb      ().getValue(i) );
+                                getOutputABrgb    ()[i],
+                                getOutputCDrgb    ()[i],
+                                getOutputSumrgb   ()[i],
+                                getScalergb       ()[i],
+                                getBiasrgb        ()[i],
+                                getDotABrgb       ()[i],
+                                getDotCDrgb       ()[i],
+                                getMuxSumrgb      ()[i] );
 
         }
         else
@@ -453,36 +438,36 @@ void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
                             
         }
         
-        if(getVariableAalpha().getValue(i * 3) != GL_NONE)
+        if(getVariableAalpha()[i * 3] != GL_NONE)
         {
             // Alpha inputs
             CombinerInput(GL_COMBINER0_NV + i, GL_ALPHA, GL_VARIABLE_A_NV,
-                          getVariableAalpha().getValue(i * 3),
-                          getVariableAalpha().getValue(i * 3 + 1),
-                          getVariableAalpha().getValue(i * 3 + 2) );
+                          getVariableAalpha()[i * 3],
+                          getVariableAalpha()[i * 3 + 1],
+                          getVariableAalpha()[i * 3 + 2] );
             CombinerInput(GL_COMBINER0_NV + i, GL_ALPHA, GL_VARIABLE_B_NV,
-                          getVariableBalpha().getValue(i * 3),
-                          getVariableBalpha().getValue(i * 3 + 1),
-                          getVariableBalpha().getValue(i * 3 + 2) );
+                          getVariableBalpha()[i * 3],
+                          getVariableBalpha()[i * 3 + 1],
+                          getVariableBalpha()[i * 3 + 2] );
             CombinerInput(GL_COMBINER0_NV + i, GL_ALPHA, GL_VARIABLE_C_NV,
-                          getVariableCalpha().getValue(i * 3),
-                          getVariableCalpha().getValue(i * 3 + 1),
-                          getVariableCalpha().getValue(i * 3 + 2) );
+                          getVariableCalpha()[i * 3],
+                          getVariableCalpha()[i * 3 + 1],
+                          getVariableCalpha()[i * 3 + 2] );
             CombinerInput(GL_COMBINER0_NV + i, GL_ALPHA, GL_VARIABLE_D_NV,
-                          getVariableDalpha().getValue(i * 3),
-                          getVariableDalpha().getValue(i * 3 + 1),
-                          getVariableDalpha().getValue(i * 3 + 2) );
+                          getVariableDalpha()[i * 3],
+                          getVariableDalpha()[i * 3 + 1],
+                          getVariableDalpha()[i * 3 + 2] );
 
             // ALPHA output
             CombinerOutput(GL_COMBINER0_NV + i, GL_ALPHA, 
-                                getOutputABalpha    ().getValue(i),
-                                getOutputCDalpha    ().getValue(i),
-                                getOutputSumalpha   ().getValue(i),
-                                getScalealpha       ().getValue(i),
-                                getBiasalpha        ().getValue(i),
+                                getOutputABalpha    ()[i],
+                                getOutputCDalpha    ()[i],
+                                getOutputSumalpha   ()[i],
+                                getScalealpha       ()[i],
+                                getBiasalpha        ()[i],
                                 GL_FALSE,
                                 GL_FALSE,
-                                getMuxSumalpha      ().getValue(i) );
+                                getMuxSumalpha      ()[i] );
             }
         else
         {
@@ -506,51 +491,51 @@ void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
     // setup the final combiner
      
     FinalCombinerInput(GL_VARIABLE_A_NV,
-                        getVariableArgb().getValue(OSG_NUM_COMBINERS * 3),
-                        getVariableArgb().getValue(OSG_NUM_COMBINERS * 3 + 1),
-                        getVariableArgb().getValue(OSG_NUM_COMBINERS * 3 + 2));
+                        getVariableArgb()[OSG_NUM_COMBINERS * 3],
+                        getVariableArgb()[OSG_NUM_COMBINERS * 3 + 1],
+                        getVariableArgb()[OSG_NUM_COMBINERS * 3 + 2]);
     
     glErr("RegisterCombinersChunk::final combiner var a setup");
  
     FinalCombinerInput(GL_VARIABLE_B_NV,
-                        getVariableBrgb().getValue(OSG_NUM_COMBINERS * 3),
-                        getVariableBrgb().getValue(OSG_NUM_COMBINERS * 3 + 1),
-                        getVariableBrgb().getValue(OSG_NUM_COMBINERS * 3 + 2));
+                        getVariableBrgb()[OSG_NUM_COMBINERS * 3],
+                        getVariableBrgb()[OSG_NUM_COMBINERS * 3 + 1],
+                        getVariableBrgb()[OSG_NUM_COMBINERS * 3 + 2]);
  
     glErr("RegisterCombinersChunk::final combiner var b setup");
  
     FinalCombinerInput(GL_VARIABLE_C_NV,
-                        getVariableCrgb().getValue(OSG_NUM_COMBINERS * 3),
-                        getVariableCrgb().getValue(OSG_NUM_COMBINERS * 3 + 1),
-                        getVariableCrgb().getValue(OSG_NUM_COMBINERS * 3 + 2));
+                        getVariableCrgb()[OSG_NUM_COMBINERS * 3],
+                        getVariableCrgb()[OSG_NUM_COMBINERS * 3 + 1],
+                        getVariableCrgb()[OSG_NUM_COMBINERS * 3 + 2]);
  
     glErr("RegisterCombinersChunk::final combiner var c setup");
  
     FinalCombinerInput(GL_VARIABLE_D_NV,
-                        getVariableDrgb().getValue(OSG_NUM_COMBINERS * 3),
-                        getVariableDrgb().getValue(OSG_NUM_COMBINERS * 3 + 1),
-                        getVariableDrgb().getValue(OSG_NUM_COMBINERS * 3 + 2));
+                        getVariableDrgb()[OSG_NUM_COMBINERS * 3],
+                        getVariableDrgb()[OSG_NUM_COMBINERS * 3 + 1],
+                        getVariableDrgb()[OSG_NUM_COMBINERS * 3 + 2]);
  
     glErr("RegisterCombinersChunk::final combiner var d setup");
  
     FinalCombinerInput(GL_VARIABLE_E_NV,
-                        getVariableE().getValue(0),
-                        getVariableE().getValue(1),
-                        getVariableE().getValue(2));
+                        getVariableE()[0],
+                        getVariableE()[1],
+                        getVariableE()[2]);
  
     glErr("RegisterCombinersChunk::final combiner var e setup");
  
     FinalCombinerInput(GL_VARIABLE_F_NV,
-                        getVariableF().getValue(0),
-                        getVariableF().getValue(1),
-                        getVariableF().getValue(2));
+                        getVariableF()[0],
+                        getVariableF()[1],
+                        getVariableF()[2]);
  
     glErr("RegisterCombinersChunk::final combiner var f setup");
  
     FinalCombinerInput(GL_VARIABLE_G_NV,
-                        getVariableG().getValue(0),
-                        getVariableG().getValue(1),
-                        getVariableG().getValue(2));
+                        getVariableG()[0],
+                        getVariableG()[1],
+                        getVariableG()[2]);
     
     glErr("RegisterCombinersChunk::final combiner setup");
     // and activate everything
@@ -621,4 +606,25 @@ bool RegisterCombinersChunk::operator != (const StateChunk &other) const
 {
     return ! (*this == other);
 }
+
+
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRegisterCombinersChunk.cpp,v 1.2 2002/06/11 08:59:23 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGREGISTERCOMBINERSCHUNK_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGREGISTERCOMBINERSCHUNK_INLINE_CVSID;
+}
+
 

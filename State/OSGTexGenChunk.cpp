@@ -56,21 +56,6 @@
 
 OSG_USING_NAMESPACE
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-namespace
-{
-    static char cvsid_cpp[] = "@(#)$Id: OSGTexGenChunk.cpp,v 1.1 2002/06/10 22:10:47 dirk Exp $";
-    static char cvsid_hpp[] = OSGTEXGENCHUNK_HEADER_CVSID;
-    static char cvsid_inl[] = OSGTEXGENCHUNK_INLINE_CVSID;
-}
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-
 /*! \class osg::TexGenChunk
     \ingroup StateChunks
 
@@ -300,4 +285,19 @@ bool TexGenChunk::operator != (const StateChunk &other) const
     return ! (*this == other);
 }
 
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGTexGenChunk.cpp,v 1.2 2002/06/11 08:59:23 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGTEXGENCHUNK_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGTEXGENCHUNK_INLINE_CVSID;
+}
 

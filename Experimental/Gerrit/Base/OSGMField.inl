@@ -162,6 +162,15 @@ bool MField<FieldTypeT, fieldNameSpace>::isEmpty(void) const
     return empty();
 }
 
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void MField<FieldTypeT, fieldNameSpace>::operator =(const MField &source)
+{
+    if(this == &source)
+       return;
+
+    _values = source._values;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                                Set                                      */
 

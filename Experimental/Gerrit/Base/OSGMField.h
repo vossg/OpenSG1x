@@ -179,6 +179,13 @@ class MField : public Field
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                  Assignment                                  */
+    /*! \{                                                                 */
+
+    void operator =(const MField &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   String IO                                  */
     /*! \{                                                                 */
 
@@ -233,9 +240,6 @@ class MField : public Field
   private:
 
     friend class FieldContainer;
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const MField &source);
 };
 
 OSG_END_NAMESPACE

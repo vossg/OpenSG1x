@@ -343,7 +343,7 @@ void SimpleSceneManager::setStatistics(bool on)
 {
     if(_statforeground != NullFC && on != _statstate) 
     {
-        ViewportPtr vp = _win->getPort().getValue(0);
+        ViewportPtr vp = _win->getPort()[0];
         
         if(on)
         {
@@ -808,7 +808,7 @@ bool SimpleSceneManager::operator < (const SimpleSceneManager &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.25 2002/06/10 19:10:06 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.26 2002/06/11 08:59:23 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
