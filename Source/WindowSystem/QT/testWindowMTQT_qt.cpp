@@ -54,7 +54,7 @@
 #include "OSGGradientBackground.h"
 
 #if defined(__linux)
-#include "RAW/OSGRAWSceneFileType.h"
+#include "OSGRAWSceneFileType.h"
 #endif
 
 #include "OSGTrackball.h"
