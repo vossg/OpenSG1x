@@ -87,11 +87,13 @@ COMPILER    		= -$(ABI) -$(ISA) -xansi  -use_readonly_const 			\
 
 ### Optimize / Debug ###############################################
 
+COMP_INLINE := -INLINE:=on
+
 ifeq ($(PRINT_INLINE), 1)
 COMP_INLINE := $(COMP_INLINE) -INLINE:list=ON
 endif
 
-ifeq ($(DEBUG_VERSION), 0)
+ifeq ($(DBG), OPT)
 	COMP_OPTIMIZE    = -OPT:Olimit=8192 -O3 $(COMP_INLINE)
 	COMP_DEBUG       = 
 else
@@ -130,7 +132,7 @@ ifeq ($(PRINT_INLINE), 1)
 LINK_INLINE := $(LINK_INLINE) -INLINE:list=ON
 endif
 
-ifeq ($(DEBUG_VERSION), 0)
+ifeq ($(DBG), OPT)
 	LINK_OPTIMIZE    = -O3 -OPT:Olimit=8192 $(LINK_INLINE)
 	AR_FLAGS         = -O3 -OPT:Olimit=8192 $(LINK_INLINE) 
 	LINK_DEBUG       = 

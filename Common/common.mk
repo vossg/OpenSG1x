@@ -60,6 +60,17 @@ SYSTEMDIRECTORIES  = directories
 
 SYSTEMDIRECTORIES := $(COMMONPATH)/$(SYSTEMDIRECTORIES)$(OS).mk
 
+MAKEOPTCMDGOAL    := $(findstring opt,$(MAKECMDGOALS))
+MAKEDBGCMDGOAL    := $(findstring dbg,$(MAKECMDGOALS))
+
+ifeq ($(MAKEOPTCMDGOAL),opt)
+DBG := OPT
+endif
+
+ifeq ($(MAKEDBGCMDGOAL),dbg)
+DBG := DBG
+endif
+
 DBG           ?= DBG
 
 SUB_MAKE      := gmake -r -k
