@@ -138,7 +138,7 @@ int main (int argc, char **argv)
 	endEditCP(cols);
 
 
-	// Note: the object has texcoords, but no texture, so don't be suprised to 
+	// Note: the object has texCoords, but no texture, so don't be suprised to 
 	// not see the texture. ;)
 	GeoTexCoords2f::PtrType texs = GeoTexCoords2f::create();
 	g1->setTexCoords( texs );
