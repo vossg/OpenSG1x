@@ -6,6 +6,12 @@
     ??0?$MField@VNodePtr@osg@@$0A@@osg@@QAE@XZ
     ??1?$MField@VNodePtr@osg@@$0A@@osg@@UAE@XZ
 
+    ?getValue@?$SField@V?$map@IVAttachmentPtr@osg@@U?$less@I@std@@V?$allocator@U?$pair@$$CBIVAttachmentPtr@osg@@@std@@@4@@std@@$0A@@osg@@QAEAAV?$map@IVAttachmentPtr@osg@@U?$less@I@std@@V?$allocator@U?$pair@$$CBIVAttachmentPtr@osg@@@std@@@4@@std@@XZ
+    ?rbegin@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$reverse_iterator@V?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@@std@@XZ
+    ?rend@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$reverse_iterator@V?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@@std@@XZ
+    ?begin@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@XZ
+    ?end@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@XZ
+
     ?create@?$GeoProperty@UGeoColors3fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoColorsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoColors3fPropertyDesc@osg@@@2@@2@XZ
     ?create@?$GeoProperty@UGeoColors3ubPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoColorsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoColors3ubPropertyDesc@osg@@@2@@2@XZ
     ?create@?$GeoProperty@UGeoColors4fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoColorsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoColors4fPropertyDesc@osg@@@2@@2@XZ
