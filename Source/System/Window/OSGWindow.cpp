@@ -1211,6 +1211,23 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
     return retval;
 }
 
+
+/*! Return the value of the registered constant, (Inf, Inf) if not
+    registered or no value received yet.
+*/
+const Vec2f& OSG::Window::getConstantValuev(GLenum id)
+{
+    static Vec2f inf(Inf, Inf);
+
+    ConstHash::iterator it = _availConstants.find(id);
+
+    if(it != _availConstants.end())
+        return _availConstants[id];
+
+    return inf;
+}
+
+
 /*! Initialize the OpenGL state OpenSG expects. This should be called once
     whenever a new Window is opened.
     

@@ -157,7 +157,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
            void                 dumpExtensions    (      void        );
            GLExtensionFunction  getFunctionByName (const Char8  *s   );
     inline Real32               getConstantValue  (      GLenum  val );
-    inline const  Vec2f        &getConstantValuev (      GLenum  val );    
+           const  Vec2f        &getConstantValuev (      GLenum  val );    
     
     static  
     inline const std::vector<std::string> &getRegisteredExtensions(void);   

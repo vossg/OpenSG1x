@@ -105,21 +105,6 @@ inline void* Window::getFunctionNoCheck(UInt32 id)
     return _extFunctions[ id ];
 }
 
-/*! Return the value of the registered constant, (Inf, Inf) if not
-    registered or no value received yet.
-*/
-inline const Vec2f& Window::getConstantValuev(GLenum id)
-{
-    static Vec2f inf(Inf, Inf);
-
-    ConstHash::iterator it = _availConstants.find(id);
-
-    if(it != _availConstants.end())
-        return _availConstants[id];
-
-    return inf;
-}
-
 /*! Return the value of the registered constant, Inf if not registered 
     or no value received yet.
 */
