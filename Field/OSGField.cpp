@@ -58,43 +58,43 @@
 
 OSG_USING_NAMESPACE
 
-/** \fn const char *OSGField::getClassname(void)
+/** \fn const char *Field::getClassname(void)
  *  \brief Classname
  */
 
-/** \var OSGField::OSGCardinality
+/** \var Field::Cardinality
  *  \brief Cardinality of the field
  */
 
-/** \var OSGField::Cardinality OSGField::OSGSINGLE_FIELD
+/** \var Field::Cardinality Field::SINGLE_FIELD
  *  \brief Single field
  */
 
-/** \var OSGField::Cardinality OSGField::OSGMULTI_FIELD
+/** \var Field::Cardinality Field::MULTI_FIELD
  *  \brief Mulit field
  */
 
-/** \fn void OSGField::setValueByStr(char *str)
+/** \fn void Field::setValueByStr(char *str)
  * \brief Set value from string
  */
 
-/** \fn OSGString &OSGField::getStrValue(OSGString &string) const
+/** \fn String &Field::getStrValue(String &string) const
  *  \brief Dump the field to a given string
  */
 
-/** \fn void OSGField::operator =(const OSGField &source)
+/** \fn void Field::operator =(const Field &source)
  *  \brief Not implemented.
  */
 
-/** \fn const OSGFieldType &OSGField::getType(void) const
+/** \fn const FieldType &Field::getType(void) const
  *  \brief Get field type
  */
 
-/** \fn OSGUInt32 OSGField::size(void) const
+/** \fn UInt32 Field::size(void) const
  *  \brief Returns the size of the field, allway 1 for single fields.
  */
 
-/** \fn Cardinality OSGField::getCardinality(void) const
+/** \fn Cardinality Field::getCardinality(void) const
  *  \brief Returns the cardinality of the field
  */
 
