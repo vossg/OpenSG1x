@@ -101,6 +101,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public AttachmentContainer
     static const osg::BitVector NearFieldMask;
     static const osg::BitVector FarFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -221,6 +222,6 @@ typedef CameraBase *CameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: OSGCameraBase.h,v 1.18 2002/01/18 03:09:20 dirk Exp $"
+#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: OSGCameraBase.h,v 1.19 2002/02/18 06:29:20 dirk Exp $"
 
 #endif /* _OSGCAMERABASE_H_ */

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.18 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.19 2002/02/18 06:29:20 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCAMERADECORATORBASE_INLINE_CVSID;
 
@@ -99,25 +99,24 @@ namespace
 #pragma reset woff 1174
 #endif
 
-const OSG::BitVector  CameraDecoratorBase::CameraFieldMask = 
-    (1 << CameraDecoratorBase::CameraFieldId);
-
-
+const OSG::BitVector  CameraDecoratorBase::DecorateeFieldMask = 
+    (1 << CameraDecoratorBase::DecorateeFieldId);
 
 // Field descriptions
 
-/*! \var CameraPtr       CameraDecoratorBase::_sfCamera
-    The Camera that is being decorated.
+/*! \var CameraPtr CameraDecoratorBase::_sfDecoratee
+    The object being decorated
 */
+
 //! CameraDecorator description
 
 FieldDescription *CameraDecoratorBase::_desc[] = 
 {
     new FieldDescription(SFCameraPtr::getClassType(), 
-                     "camera", 
-                     CameraFieldId, CameraFieldMask,
-                     false,
-                     (FieldAccessMethod) &CameraDecoratorBase::getSFCamera)
+                     "decoratee", 
+                     DecorateeFieldId, DecorateeFieldMask,
+                     true,
+                     (FieldAccessMethod) &CameraDecoratorBase::getSFDecoratee)
 };
 
 //! CameraDecorator type
@@ -167,7 +166,7 @@ void CameraDecoratorBase::executeSync(      FieldContainer &other,
 #endif
 
 CameraDecoratorBase::CameraDecoratorBase(void) :
-    _sfCamera                 (), 
+    _sfDecoratee(),
     Inherited() 
 {
 }
@@ -179,7 +178,7 @@ CameraDecoratorBase::CameraDecoratorBase(void) :
 //! Copy Constructor
 
 CameraDecoratorBase::CameraDecoratorBase(const CameraDecoratorBase &source) :
-    _sfCamera                 (source._sfCamera                 ), 
+    _sfDecoratee(source._sfDecoratee),
     Inherited                 (source)
 {
 }
@@ -198,11 +197,10 @@ UInt32 CameraDecoratorBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (CameraFieldMask & whichField))
+    if(FieldBits::NoField != (DecorateeFieldMask & whichField))
     {
-        returnValue += _sfCamera.getBinSize();
+        returnValue += _sfDecoratee.getBinSize();
     }
-
 
     return returnValue;
 }
@@ -212,11 +210,10 @@ void CameraDecoratorBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (CameraFieldMask & whichField))
+    if(FieldBits::NoField != (DecorateeFieldMask & whichField))
     {
-        _sfCamera.copyToBin(pMem);
+        _sfDecoratee.copyToBin(pMem);
     }
-
 
 }
 
@@ -225,11 +222,10 @@ void CameraDecoratorBase::copyFromBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyFromBin(pMem, whichField);
 
-    if(FieldBits::NoField != (CameraFieldMask & whichField))
+    if(FieldBits::NoField != (DecorateeFieldMask & whichField))
     {
-        _sfCamera.copyFromBin(pMem);
+        _sfDecoratee.copyFromBin(pMem);
     }
-
 
 }
 
@@ -239,9 +235,11 @@ void CameraDecoratorBase::executeSyncImpl(      CameraDecoratorBase *pOther,
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (CameraFieldMask & whichField))
-        _sfCamera.syncWith(pOther->_sfCamera);
-
+    if(FieldBits::NoField != (DecorateeFieldMask & whichField))
+    {
+        _sfDecoratee.syncWith(pOther->_sfDecoratee);
+    }
 
 }
+
 

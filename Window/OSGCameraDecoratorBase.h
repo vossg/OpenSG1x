@@ -67,7 +67,7 @@
 
 #include <OSGCamera.h> // Parent
 
-#include <OSGCameraFields.h> // Camera type
+#include <OSGCameraFields.h> // Decoratee type
 
 #include <OSGCameraDecoratorFields.h>
 
@@ -89,11 +89,11 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
 
     enum
     {
-        CameraFieldId = Inherited::NextFieldId,
-        NextFieldId   = CameraFieldId + 1
+        DecorateeFieldId        = Inherited::NextFieldId,
+        NextFieldId             = DecorateeFieldId          + 1
     };
 
-    static const osg::BitVector CameraFieldMask;
+    static const osg::BitVector DecorateeFieldMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -117,17 +117,29 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       SFCameraPtr         *getSFCamera         (void);
+    inline       SFCameraPtr *getSFDecoratee(void);
+    inline       SFNodePtr           *getSFBeacon         (void);
+    inline       SFReal32            *getSFNear           (void);
+    inline       SFReal32            *getSFFar            (void);
 
-    inline       CameraPtr           &getCamera         (void);
-    inline const CameraPtr           &getCamera         (void) const;
+    inline       CameraPtr &getDecoratee(void);
+    inline const CameraPtr &getDecoratee(void) const;
+    inline       NodePtr             &getBeacon         (void);
+    inline const NodePtr             &getBeacon         (void) const;
+    inline       Real32              &getNear           (void);
+    inline const Real32              &getNear           (void) const;
+    inline       Real32              &getFar            (void);
+    inline const Real32              &getFar            (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    inline void setCamera         ( const CameraPtr &value );
+    inline void setDecoratee      ( const CameraPtr &value );
+    inline void setBeacon         ( const NodePtr &value );
+    inline void setNear           ( const Real32 &value );
+    inline void setFar            ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -157,7 +169,10 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFCameraPtr         _sfCamera;
+    SFCameraPtr   _sfDecoratee;
+    SFNodePtr           _sfBeacon;
+    SFReal32            _sfNear;
+    SFReal32            _sfFar;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -205,6 +220,6 @@ typedef CameraDecoratorBase *CameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorBase.h,v 1.14 2001/11/09 08:17:07 vossg Exp $"
+#define OSGCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorBase.h,v 1.15 2002/02/18 06:29:20 dirk Exp $"
 
 #endif /* _OSGCAMERADECORATORBASE_H_ */

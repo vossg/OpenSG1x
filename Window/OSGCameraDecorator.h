@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGCAMERADECORATOR_H_
 #define _OSGCAMERADECORATOR_H_
 #ifdef __sgi
@@ -49,121 +48,75 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! *put brief class description here* 
+/*! \brief *put brief class description here* 
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING CameraDecorator : public CameraDecoratorBase
 {
-    /*==========================  PRIVATE =================================*/
   private:
 
     typedef CameraDecoratorBase Inherited;
 
     /*==========================  PUBLIC  =================================*/
- public:
+  public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                  Class Get                                   */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "CameraDecorator"; };
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   transformation                             */
+    /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField, 
                          ChangeMode from);
- 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   your_category                              */
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    /** get the separate elements needed for rendering */
-
-    virtual void getProjection           (Matrix        &result, 
-                                          UInt32 width, UInt32 height );
-
-    virtual void getProjectionTranslation(Matrix        &result, 
-                                          UInt32 width, UInt32 height);
-
-    virtual void getViewing              (Matrix        &result, 
-                                          UInt32 width, UInt32 height);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     decoration                               */
-    /*! \{                                                                 */
-
-    virtual       SFNodePtr      *getSFBeacon   (void);
-    virtual       SFReal32       *getSFNear     (void);
-    virtual       SFReal32       *getSFFar      (void);
-
-    virtual       NodePtr        &getBeacon     (void);
-    virtual const NodePtr        &getBeacon     (void) const;
-    virtual       Real32         &getNear       (void);
-    virtual const Real32         &getNear       (void) const;
-    virtual       Real32         &getFar        (void);
-    virtual const Real32         &getFar        (void) const;
-
-    virtual       void            setBeacon     ( const NodePtr &value );
-    virtual       void            setNear       ( const Real32  &value );
-    virtual       void            setFar        ( const Real32  &value );
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                  dump                                        */
-    /*! \{                                                                 */
-
-    virtual void dump(      UInt32    uiIndent = 0, 
-                      const BitVector bvFlags  = 0) const;
-
-    /*! \}                                                                 */
-    /*==========================  PROTECTED ===============================*/
+    /*=========================  PROTECTED  ===============================*/
   protected:
-   
+
+    // Variables should all be in CameraDecoratorBase.
+
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
     CameraDecorator(void);
     CameraDecorator(const CameraDecorator &source);
-   
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
     virtual ~CameraDecorator(void); 
-    
+
     /*! \}                                                                 */
+    
     /*==========================  PRIVATE  ================================*/
- private:
+  private:
 
     friend class FieldContainer;
     friend class CameraDecoratorBase;
- 
-    static char cvsid[];
 
-    static void initMethod( void );
+    static void initMethod(void);
+
+    // prohibit default functions (move to 'public' if you need one)
 
     void operator =(const CameraDecorator &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-
-/** \brief class pointer
- */
 typedef CameraDecorator *CameraDecoratorP;
 
 OSG_END_NAMESPACE
 
 #include <OSGCameraDecorator.inl>
 #include <OSGCameraDecoratorBase.inl>
+
+#define OSGCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGCameraDecorator.h,v 1.7 2002/02/18 06:29:20 dirk Exp $"
 
 #endif /* _OSGCAMERADECORATOR_H_ */

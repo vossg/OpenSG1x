@@ -40,7 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -50,207 +49,66 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
-
-/*! \class osg::CameraDecorator
-
-The base class for the camera.
-
-*/
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char CameraDecorator::cvsid[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.6 2002/01/18 03:09:20 dirk Exp $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
-
-void CameraDecorator::initMethod (void)
+namespace
 {
+    static char cvsid_cpp[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.7 2002/02/18 06:29:20 dirk Exp $";
+    static char cvsid_hpp[] = OSGCAMERADECORATOR_HEADER_CVSID;
+    static char cvsid_inl[] = OSGCAMERADECORATOR_INLINE_CVSID;
 }
 
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+/*! \class osg::CameraDecorator
+The base class for the camera. 	
+*/
 
+/*----------------------- constructors & destructors ----------------------*/
 
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+//! Constructor
 
 CameraDecorator::CameraDecorator(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
+//! Copy Constructor
 
 CameraDecorator::CameraDecorator(const CameraDecorator &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+//! Destructor
 
 CameraDecorator::~CameraDecorator(void)
 {
 }
 
+/*----------------------------- class specific ----------------------------*/
 
-/** \brief react to field changes
- */
+//! initialize the static features of the class, e.g. action callbacks
+
+void CameraDecorator::initMethod (void)
+{
+}
+
+//! react to field changes
 
 void CameraDecorator::changed(BitVector, ChangeMode)
 {
 }
 
+//! output the instance for debug purposes
 
-/** get the separate elements needed for rendering */
-// this is simple, just copying data
-
-void CameraDecorator::getProjection( Matrix& result, UInt32 width, 
-                                    UInt32 height )
-{
-    getCamera()->getProjection( result, width, height );
-}
-
-void CameraDecorator::getProjectionTranslation( Matrix& result, UInt32 width, 
-                                    UInt32 height )
-{
-    getCamera()->getProjectionTranslation( result, width, height );
-}
-
-void CameraDecorator::getViewing( Matrix& result, UInt32 width, UInt32 height )
-{
-    getCamera()->getViewing( result, width, height );
-}
-
-
-/*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
-
-void CameraDecorator::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
-                           const BitVector OSG_CHECK_ARG(bvFlags )) const
+void CameraDecorator::dump(      UInt32    , 
+                         const BitVector ) const
 {
     SLOG << "Dump CameraDecorator NI" << endl;
 }
-
-
-/*--------------------------- decoration --------------------------------*/
-
-
-
-SFNodePtr *CameraDecorator::getSFBeacon(void)
-{
-    return getCamera()->getSFBeacon();
-}
-
-SFReal32 *CameraDecorator::getSFNear(void)
-{
-    return getCamera()->getSFNear();
-}
-
-SFReal32 *CameraDecorator::getSFFar(void)
-{
-    return getCamera()->getSFFar();
-}
-
-
-NodePtr &CameraDecorator::getBeacon(void)
-{
-    return getCamera()->getBeacon();
-}
-
-const NodePtr &CameraDecorator::getBeacon(void) const
-{
-    return getCamera()->getBeacon();
-}
-
-Real32 &CameraDecorator::getNear(void)
-{
-    return getCamera()->getNear();
-}
-
-const Real32 &CameraDecorator::getNear(void) const
-{
-    return getCamera()->getNear();
-}
-
-Real32 &CameraDecorator::getFar(void)
-{
-    return getCamera()->getFar();
-}
-
-const Real32 &CameraDecorator::getFar(void) const
-{
-    return getCamera()->getFar();
-}
-
-
-void CameraDecorator::setBeacon( const NodePtr &value )
-{
-    getCamera()->setBeacon(value);
-}
-
-void CameraDecorator::setNear( const Real32 &value )
-{
-    getCamera()->setNear(value);
-}
-
-void CameraDecorator::setFar( const Real32 &value )
-{
-    getCamera()->setFar(value);
-}
-
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

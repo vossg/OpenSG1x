@@ -34,14 +34,15 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-#include <stdlib.h>
-#include <stdio.h>
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-
 OSG_END_NAMESPACE
+
+#define OSGCAMERADECORATOR_INLINE_CVSID "@(#)$Id: OSGCameraDecorator.inl,v 1.3 2002/02/18 06:29:20 dirk Exp $"
 

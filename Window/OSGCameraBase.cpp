@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.25 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.26 2002/02/18 06:29:20 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCAMERABASE_INLINE_CVSID;
 
@@ -121,6 +121,7 @@ const OSG::BitVector  CameraBase::FarFieldMask =
 /*! \var Real32          CameraBase::_sfFar
     The far distance of the camera.
 */
+
 //! Camera description
 
 FieldDescription *CameraBase::_desc[] = 
@@ -307,7 +308,6 @@ void CameraBase::executeSyncImpl(      CameraBase *pOther,
 
 }
 
-
 /*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
@@ -382,4 +382,6 @@ void CameraBase::setFar(const Real32 &value)
 {
     _sfFar.setValue(value);
 }
+
+
 

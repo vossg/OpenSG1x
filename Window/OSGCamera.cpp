@@ -51,6 +51,7 @@
 #include "OSGNode.h"
 #include "OSGFieldContainerPtr.h"
 #include "OSGViewport.h"
+#include "OSGWindow.h"
 #include "OSGCamera.h"
 
 OSG_USING_NAMESPACE
@@ -276,9 +277,12 @@ bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)
 
     Matrix cctowc;
     cctowc.invertFrom( wctocc );
-    
-    Real32  rx = ( x / (Real32) port.getPixelWidth() ) * 2. - 1.,
-            ry = 1.f - ( y / (Real32) port.getPixelHeight() ) * 2.;
+       
+    Real32  rx = ( x - port.getPixelLeft()) / (Real32) port.getPixelWidth()
+                    * 2. - 1.,
+            ry = 1.f - ( (y - ( port.getParent()->getHeight() - 
+                                port.getPixelTop())) / 
+                         (Real32) port.getPixelHeight() ) * 2.;
     
     view.invert();
     Pnt3f from( view[3][0], view[3][1], view[3][2] );
