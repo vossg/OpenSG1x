@@ -1213,7 +1213,19 @@ template <class    ValueTypeT,
 Bool PointInterface<ValueTypeT, StorageInterfaceT>::operator < (
     const PointInterface &other) const
 {
-    missing;
+    UInt32 i;
+	Bool ret = true;
+
+    for(i = 0; i < _iSize; i++)
+    {
+        if ( _values[i] >= other._values[i] )
+		{
+			ret = false;
+			break;
+		}
+    }
+
+	return ret;
 }
 
 /** \brief Equal operator, using Eps as the tolerance
@@ -1694,7 +1706,7 @@ VectorInterface<ValueTypeT, StorageInterfaceT>::projectTo(
         }
         else
         { 
-            this->setValues(0., 0., 0.);
+            this->setNull();
             rDot = TypeConstants<RealReturnType>::getZeroElement();
         }
     }
@@ -1793,7 +1805,7 @@ VectorInterface <ValueTypeT, StorageInterfaceT>
 	VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
     UInt32 i;
-
+	
     for(i = 0; i < StorageInterfaceT::_iSize; i++)
     {
 		returnValue[i] = _values[i] * rVal;
@@ -1852,7 +1864,19 @@ template <class    ValueTypeT,
 Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator < (
     const VectorInterface &other) const
 {
-    missing;
+    UInt32 i;
+	Bool ret = true;
+
+    for(i = 0; i < _iSize; i++)
+    {
+        if ( _values[i] >= other._values[i] )
+		{
+			ret = false;
+			break;
+		}
+    }
+
+	return ret;
 }
 
 /** \brief Equal operator, using Eps as the tolerance
@@ -1893,7 +1917,6 @@ Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator != (
  */
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
-OSG_MS_BASE_DLLMAPPING
 VectorInterface<ValueTypeT, StorageInterfaceT>
     operator *(const ValueTypeT                             val, 
                const VectorInterface<ValueTypeT, 
