@@ -149,6 +149,9 @@ typedef DXFTable<tableVportName>		DXFTableVport;
  */
 DXFTables *DXFTables::_the = new DXFTables();
 
+// HACK the irix doesn't like this need to fix it!
+#if !defined(__sgi)
+
 //DXFTableAppid		 *DXFTableAppid::_the		 = new DXFTableAppid();
 //DXFTableBlock_record *DXFTableBlock_record::_the = new DXFTableBlock_record();
 //DXFTableDimstyle 	 *DXFTableDimstyle::_the	 = new DXFTableDimstyle();
@@ -160,6 +163,8 @@ DXFTableLtype 		 *DXFTableLtype::_the		 = new DXFTableLtype();
 //DXFTableUcs 		 *DXFTableUcs::_the			 = new DXFTableUcs();
 //DXFTableView 		 *DXFTableView::_the		 = new DXFTableView();
 //DXFTableVport 		 *DXFTableVport::_the		 = new DXFTableVport();
+
+#endif
 
 /* \var VARTYPE DXFTables::_VARNAME
     variable documentation
@@ -241,7 +246,7 @@ DXFTables::~DXFTables(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFTables.cpp,v 1.1 2004/02/19 16:45:40 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFTables.cpp,v 1.2 2004/02/20 12:58:56 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGDXFTABLES_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGDXFTABLES_INLINE_CVSID;
 }
