@@ -1431,7 +1431,7 @@ bool FieldContainer::writeTempl(
 
                     s = new char [ strlen(fieldtype) + 20];
                     
-                    if(strncasecmp(valueStart, "std::", 5) == 0)
+                    if(strncmp(valueStart, "std::", 5) == 0)
                     {
                         valueStart += 5;
                         *valueStart = toupper(*valueStart);
