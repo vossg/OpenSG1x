@@ -407,9 +407,9 @@ void RemoteAspect::sendSync(Connection &connection,
     UInt32 maskUInt32;
     UInt8 cmd;
     std::string typeName;
-    FieldMaskMapT::iterator sentFCI;
+    typename FieldMaskMapT::iterator sentFCI;
     FieldMaskMapT changedMap;
-    FieldMaskMapT::iterator changedMapI;
+    typename FieldMaskMapT::iterator changedMapI;
 
     if(_statistics)
         _statistics->getElem(statSyncTime)->start();
@@ -482,7 +482,7 @@ void RemoteAspect::sendSync(Connection &connection,
         else
             changedMapI->second|=changedI->second;
     }
-    for(FieldMaskMapT::iterator condensedI=changedMap.begin();
+    for(typename FieldMaskMapT::iterator condensedI=changedMap.begin();
         condensedI != changedMap.end();
         ++condensedI)
     {

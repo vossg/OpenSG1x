@@ -90,6 +90,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     typedef std::map<UInt32,UInt32>    ReceivedTypeT;
     /** Field filter map **/
     typedef std::map<UInt32,BitVector> FieldFilterT;
+    typedef std::map<UInt32,BitVector> FieldMaskMapT;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
