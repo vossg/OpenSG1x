@@ -563,7 +563,7 @@ void RenderAction::draw(DrawTreeNode *pRoot)
 
 void RenderAction::setSortTrans(Bool bVal)
 {
-    _bTransSort = bVal;
+    _bSortTrans = bVal;
 }
 
 // initialisation
