@@ -348,6 +348,8 @@ void SimpleSceneManager::setStatistics(bool on)
         if(on)
         {
             vp->getForegrounds().push_back(_statforeground);
+
+            _action->setStatistics(&_statforeground->getCollector());
         }
         else
         {
@@ -355,6 +357,8 @@ void SimpleSceneManager::setStatistics(bool on)
 
             it = vp->getForegrounds().find(_statforeground);
             vp->getForegrounds().erase(it);
+
+            _action->setStatistics(NULL);
         }
 
         _statstate = on;
@@ -449,8 +453,6 @@ void SimpleSceneManager::initialize(void)
 
         // add optional elements
         collector->getElem(Geometry::statNTriangles);
-
-        _action->setStatistics(collector);
 
         _statforeground = sf;
 
@@ -821,7 +823,7 @@ bool SimpleSceneManager::operator < (const SimpleSceneManager &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.29 2002/06/29 15:23:03 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.30 2002/07/12 15:07:21 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
