@@ -19,7 +19,7 @@ Chapter Overview
     \ref TutorialBasicTutorial<br>
     \ref BasicFieldContainer<br>
     \ref TutorialBasicEditingFieldContainers<br>
-    \ref TutorialBasicFieldContainerCoredPtr<br>
+	\ref TutorialBasicFieldContainerCoredPtr<br>
     \ref TutorialBasicStandardGeometry<br>
     \ref TutorialBasicTutorial2<br>
     \ref TutorialBasicImages<br>
@@ -411,7 +411,7 @@ In fact calling
 
 <PRE>Node n = Node()</PRE>
 will get you an error during compiling like this one
-<PRE>osg::Node::Node() is protected within this context</PRE>.
+<PRE>osg::Node::Node() is protected within this context</PRE>
 
 Well, that is looking bad. What to do, if the constructor is obviously not public thus it cannot be called.
 I still remember when I faced this probem and wondered about it. 
@@ -419,14 +419,14 @@ I still remember when I faced this probem and wondered about it.
 Actually every class that is derived from osg::FieldContainer has protected constructors. This includes pretty much all high-level objects like Nodes for the graph, Materials, Textures, Images etc. Other, lower-level, classes, 
 like the math classes we just saw, have their constructors declared public as usual. So if you are unsure 
 whether you can use the constructor directly, just have a look at the inheritance diagramm and if none of
-the parents is of type FieldContainer then it will work. In [TODO] Chapter(xxx) I'll explain how you
+the parents is of type FieldContainer then it will work. In section \ref TutorialAppendixCDoxy I'll explain how you
 can find the inheritance diagramm in the doxygen documentation.
 
 If that is not the case, you must invoke the static create() method as you saw above. This static method
 wraps the constructor. It is done this way for different reasons, the most important being able to ensure multithread safety, but we will discuss that in
 a separate chapter (\ref Multithreading).
 
-One consequence of the constructor not being public is not you can't create arrys 
+One consequence of the constructor not being public is you can't create arrays 
 of OpenSG objects, so code like 
 
 \code
@@ -455,27 +455,43 @@ ShearedStereoCameraDecoratorPtr sscd = ShearedStereoCameraDecorator::create();
 
 I think you get the picture. The Ptr classes act as pointers in pretty much any  way. You
 can dereference them using <pre>*</pre> and call member functions on them using 
-<pre>-></pre>. The limitation is that you can't do pointer arithmetic on them and they
-can't be used to represent arrays of objects, every Ptr always points to one object. But that is not a real limitation, you can (and should) use arrays of Ptrs just like arrys of pointers quite easily.
+<pre>-></pre> The limitation is that you can't do pointer arithmetic on them and they
+can't be used to represent arrays of objects, every Ptr always points to one object. But that is not a real limitation, you can (and should) use arrays of 
+Ptrs just like arrays of pointers quite easily.
 
-Standard pointers have a defined value to indicate they are unset or invalid, the NULL constant. Given that the Ptrs are actualt classes, you can't compaer them to NULL. Instead there is a special value NullFC (for NULL FieldContainer), that can be used instead. It is recommended to check FieldContainerPtr against this value before dereferencing them, just like you should check normal pointers for NULL before using them.
+Standard pointers have a defined value to indicate they are unset or invalid, the NULL constant. Given that the Ptrs are actual classes, you can't compare them to 
+NULL. Instead there is a special value NullFC (for NULL FieldContainer), that can be used instead. It is recommended to check FieldContainerPtr against this 
+value before dereferencing them, just like you should check normal pointers for NULL before using them.
 
 \subsection BasicRefCounting Cleaning up after yourself - Reference Counting
 
 One of the problems of the C++ language is keeping track of and deallocating memory.
-Other languages like Java solve by garbage collection, i.e. the Java runtime environment keeps track of all objects and object references in a program. Every now and then it goes through all the references and finds the objects that no reference any more, which means that the program has no way to access that object any more. These objects' memory is freed.
-The problem with this approach lies in the time the garbage collector takes every now and then, which for large or long-running programs can lead to annoying pause periods while the garbage collector is running, which is a serious problem for interactive or real-time programs.
+Other languages like Java solve by garbage collection, i.e. the Java runtime environment keeps track of all objects and object references in a program. Every 
+now and then it goes through all the references and finds the objects that are not referenced any more, which means that the program has no way to access that 
+object any more. These objects' memory is freed.
+The problem with this approach lies in the time the garbage collector takes every now and then, which for large or long-running programs can lead to annoying 
+pause periods while the garbage collector is running, which is a serious problem for interactive or real-time programs.
 
-C++ doesn't have garbage collection, and is designed for explicit memory managament using new and delete. It's the program's resposibility to know when an object is not used anymore and call delete on it. This can become pretty tedious, espcially in a system where objects point to each other from different directions, which is a pretty nice characterisation of a scenegraph. Nodes point at their children, Geometries point at their Materials etc. For an application it would very hard to keep track of all these references to know when to delete the memory of an object.
+C++ doesn't have garbage collection, and is designed for explicit memory managament using new and delete. It's the program's resposibility to know when an 
+object is not used anymore and call delete on it. This can become pretty tedious, espcially in a system where objects point to each other from different 
+directions, which is a pretty nice characterisation of a scenegraph. Nodes point at their children, Geometries point at their Materials etc. For an 
+application it would very hard to keep track of all these references to know when to delete the memory of an object.
 
-Therefore OpenSG implements an approach known as reference counting. Each object derived from FieldContainer has a counter for all the references (i.e. pointers, or, more exact Ptrs) to it. If this counter goes to zero, the program can't access the object anymore, and the object's memory can be freed. This relieves the program from all responsibility of memory management.
+Therefore OpenSG implements an approach known as reference counting. Each object derived from FieldContainer has a counter for all the references 
+(i.e. pointers, or, more exact Ptrs) to it. If this counter goes to zero, the program can't access the object anymore, and the object's memory can be freed. 
+This relieves the program from all responsibility of memory management.
 
-Not quite. Reference counting is not free. The reference count needs to be kept consistent to be useful, and in a multi-threading environment that means locking. Locking can get pretty expensive, especially for a common operation like setting eh value of a pointer. This happens a lot, especially for passing objects around as parameters to functions. if OpenSG had to lock the reference count of all parameter objects for every function call, the cost would be prohibitive.
+Not quite. Reference counting is not free. The reference count needs to be kept consistent to be useful, and in a multi-threading environment that means locking. 
+Locking can get pretty expensive, especially for a common operation like setting the value of a pointer. This happens a lot, especially for passing objects 
+around as parameters to functions. If OpenSG had to lock the reference count of all parameter objects for every function call, the cost would be prohibitive.
 
 Therefore this responsibility rests on the shoulders of the application writer, i.e. you.
-The two functions <pre>addRefCP()</pre> and <pre>subRefCP()</pre> increment and decrement the reference count of an object. When it goes to or below zero the object is destroyed. Objects are created with a reference count of zero. 
+The two functions <pre>addRefCP()</pre> and <pre>subRefCP()</pre> increment and decrement the reference count of an object. When it goes to or below zero the 
+object is destroyed. Objects are created with a reference count of zero. 
 
-The system helps where it can, in places like setting attributes of scene graph objects (e.g. setting the Material of a Geometry) or adding or subbing Nodes to/from other Nodes it automatically changes the reference count. This takes care of most cases, but can have some unexpected consequences, like the following pice of code demonstrates:
+The system helps where it can, in places like setting attributes of scene graph objects (e.g. setting the Material of a Geometry) or adding or subbing 
+Nodes to/from other Nodes it automatically changes the reference count. This takes care of most cases, but can have some unexpected consequences, 
+like the following pice of code demonstrates:
 
 \code
     Node a = Node::create();
@@ -552,9 +568,15 @@ the correct code
 
 \subsubsection BasicRefPtr RefPtr - as smart as it gets
 
-This can become tedious and lead to unexpected failures, therefore versions after 1.2 add a helper class that automates refcounting a little more (told ya using a newer version was better!). These are known as Smart Pointers, in OpenSG the class is called <pre>RefPtr<></pre>.
+This can become tedious and lead to unexpected failures, therefore versions after 1.2 add a helper class that automates refcounting a little more
+(told ya using a newer version was better!). These are known as Smart Pointers, in OpenSG the class is called 
+\code
+	RefPtr<>
+\code
 
-A RefPtr is just like any other pointer, except that it automatically increments and decrements the reference count of an object assigned to it. So when you set a RefPtr, its current object's refcount in decremeneted, and the new objects refcount is incremented. When the RefPtr object is destroyed, the object's refcount is also decremented.
+A RefPtr is just like any other pointer, except that it automatically increments and decrements the reference count of an object assigned to it. So when you 
+set a RefPtr, its current object's refcount in decremeneted, and the new objects refcount is incremented. When the RefPtr object is destroyed, the object's 
+refcount is also decremented.
 
 An example:
 
@@ -990,7 +1012,7 @@ Data in OpenSG FieldContainers is not stored as simple variables, but as instanc
 
 Access to a FieldContainer's Fields is possible through its getField() method, which can take an index or a name to identify a Field. But how do you know which Fields the FieldContainer has, and what their names are?
 
-Every FieldContainer can give you a descriptive structure that contains information about the Fields contained in the Container, called the osg::FieldContainerType. The FieldContainerType keeps an osg::FieldDescription for each Field in the FieldContainer. The FieldContainerType knows the number of Fields (and tells it via <pre>getNumFieldDescs()</pre>), and returns FieldDescriptions either per index (getFieldDescription()) or per name (findFieldDescription()).
+Every FieldContainer can give you a descriptive structure that contains information about the Fields contained in the Container, called the osg::FieldContainerType. The FieldContainerType keeps an osg::FieldDescription for each Field in the FieldContainer. The FieldContainerType knows the number of Fields (and tells it via <I>getNumFieldDescs()</I>), and returns FieldDescriptions either per index (getFieldDescription()) or per name (findFieldDescription()).
 
 These methods allow you totally generic access to any kind of FieldContainer known to the system only knowing its naming or having a pointer to an instance. This allows you to write programs that can handle any kind of FieldContainer, even the ones that have been added after the program was written. This can be used for generic input/output operations, and for generic user interfaces, among other things.
 
@@ -1210,7 +1232,7 @@ look it up in the doxygen class documentation. You can find the available masks 
 
 \section TutorialBasicNewFCHandling More Convenient FieldContainer handling
 
-People new to OpenSG see a lot of the described specifics as pretty tedious. You get used to it pretty quickly, but it does make code pretty long. To simplify and shorten it a couple new featres were added after the 1.2 release, that simplify storing and changing FieldContainers and Nodes.
+People new to OpenSG see a lot of the described specifics as pretty tedious. You get used to it pretty quickly, but it does make code pretty long. To simplify and shorten it a couple new features were added after the 1.2 release, that simplify storing and changing FieldContainers and Nodes.
 
 \subsection TutorialBasicFCEdits FCEditor and FCEdit
 
@@ -1243,7 +1265,8 @@ osg::FCEditor is a simple helper object that wraps beginEditCP and endEditCP in 
 
 \endcode
 
-Looks a bit more friendly, doesn't it? The only slight snnoyance is that you have to come up with a name for the CPEditor object. Don't despair, CPEdit relieves you frm even that littel chore:
+Looks a bit more friendly, doesn't it? The only slight annoyance is that you have to come up with a name for the CPEditor object. Don't despair, 
+CPEdit relieves you from even that littel chore:
 
 
 \code
@@ -1678,7 +1701,7 @@ The following code describes the createScenegraph() function, which will create 
 \endcode
 
 Just zoom out a bit and turn the camera around and you will see a wonderful textured cube!  Of course there are a lot more properties that can
-be set in the SimpleTexturedMaterial object, but we will have a closer look at that in Chapter [TODO]. 
+be set in the SimpleTexturedMaterial object, but we will have a closer look at that in Chapter \ref TutorialNodeCoresMaterial. 
 
 <I>Notice:</I>\n
 If you create your own geometry (not the OpenSG standard geometry) then you have to supply all texture coordinates - these are generated 

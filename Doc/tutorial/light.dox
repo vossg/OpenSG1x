@@ -120,13 +120,15 @@ As mentioned above, spot lights are really expensive and should be used with cau
 
 \section TutorialLightGeneral Light Position, Direction and Influence Area
 
-If you read the above sections carefully you have noticed that I talked about positions and directions, but never set them on the lights. Instead I set something I haven't talked about: the beacon.
-
-The problem with light source nodes in scenegraphs is that their position in the graph can be used to define two things: their position and orientation (via the transformations defined by their ancestors), and their area of influence (via their descendants). It generally makes sense to control both indepedently, for example to have a light source attached to a moving object like a car, but influence the local surroundings like a street, and not the whole scene, like the mountains in the distance.
-
-But a single node can only be in one place in a graph at any single time. Therefore in OpenSG a second node is employed, the beacon. The location of the light source in the scene graph defines its area of influence: only the descendants of the light source are lit. This generally means that light sources are located at the top of the graph, to influence a large part of it. The position and orientation of the light source is defined by the Node references by the beacon. Light sources are located at the origin of the beacon's coordinate system, the direction is along the positive z-axis. The following picture shows a simple graph with a light source.
-
-[DR: kannst Du hier bitte ein Bild machen ohne Group? Die Transformation tut als beacon]
+If you read the above sections carefully you have noticed that I talked about positions and directions, but never set them on the lights. Instead I set
+something I haven't talked about: the beacon. The problem with light source nodes in scenegraphs is that their position in the graph can be used to define 
+two things: their position and orientation (via the transformations defined by their ancestors), and their area of influence (via their descendants). 
+It generally makes sense to control both indepedently, for example to have a light source attached to a moving object like a car, but influence the local 
+surroundings like a street, and not the whole scene, like the mountains in the distance. But a single node can only be in one place in a graph at any single 
+time. Therefore in OpenSG a second node is employed, the beacon. The location of the light source in the scene graph defines its area of influence: only the 
+descendants of the light source are lit. This generally means that light sources are located at the top of the graph, to influence a large part of it. The 
+position and orientation of the light source is defined by the Node references by the beacon. Light sources are located at the origin of the beacon's coordinate 
+system, the direction is along the positive z-axis. The following picture shows a simple graph with a light source.
 
 \image html light_source_setup.png "Light setup"
 \image latex light_source_setup.eps "Light setup" width = 8cm

@@ -225,8 +225,7 @@ The following code creates a decorator for the right eye and a corresponding vie
 </I>
 
 OSG::ProjectionStereoCameraDecorators are mainly used for head-tracked stereo applications like a CAVE. I will not discuss this decorator here unless there
-is a public demand for it. ;-) [DR: Wenn noch Zeit ist... aber da das nur wenige Leute haben ist es nicht dringend]
-
+is a public demand for it. ;-)
 
 \subsubsection TutorialWindowsCameraDecoratorsTile Tile Camera Decorator
 
@@ -265,8 +264,13 @@ osg::GradientBackground enables you to fill the background with a color gradient
 OpenSG are always vertical. Every color key needs a value between 0 (bottom) and 1 (top). If no color key is given the background will be black, if only one
 key is given the background will be identical to a solid background with the same color. Regions which are not filled will be drawn in black, too.
 
+Here is a little example that will set up a gradient background, which fades from black to white.
 \code
-	[TODO: Gradient Example]
+	GradientBackgroundPtr gb = GradienBackground::create();
+	beginEditCP(gb);
+		gb->addLine(Color3f(0,0,0),0.0);
+		gb->addLine(Color3f(1,1,1),0.0);
+	endEditCP(gb);
 \endcode
 
 \subsection TutorialWindowsBackgroundImage Image Background

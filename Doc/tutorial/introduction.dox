@@ -80,7 +80,8 @@ Note that the latest release has been quite a while ago, so a number of features
 It is therefore recommended to use a more current version. The most current version is the CVS source, 
 but only slightly older versions are available as source, compiled snapshot and binary installer. OpenSG 
 has a daily build system that checks out the current CVS every night on a number of different platforms,
-automatically compiles them and creates a binary installer. These can be accessed on the <a href="http://www.opensg.org/dailybuild_logs">Dailybuild Page</a>.
+automatically compiles them and creates a binary installer. These can be accessed on the 
+<A HREF="http://www.opensg.org/dailybuild_logs">Dailybuild Page</A>.
 
 If you want to change the code and still stay up-to-date, using the CVS source is the best way to do
 that. Here is how:
@@ -148,8 +149,9 @@ The compilation of OpenSG may take quite some time - the author recommends watch
 
 <I>
 Warning:
-Be very careful when writing the --enable-... options! There is no typo checking done on these, so don't be surprised if nothing happens after typing <PRE>--enable-tiff --enable-jpeg</PRE>!
-</I>
+Be very careful when writing the --enable-... options! There is no typo checking done on these, so don't be surprised if nothing happens 
+after typing
+</I><PRE>--enable-tiff --enable-jpeg</PRE>
 
 Hopefully you finished the compilation without errors. If you had errors during compilation, the reason is a missing library in 
 most cases. Check if you correctly have installed glut and the image libraries. If you have all required libraries already 
@@ -247,7 +249,8 @@ export  LIB="C:\Program Files\Microsoft Visual Studio
 		.NET\Vc7\PlatformSDK\Lib"
 \endcode
 
-<I>Note:\n
+<I>Note:
+
 Depending on your language version of Windows and also depending on your version of Visual Studio .NET you might have to adjust the path!
 </I>
 
@@ -437,7 +440,6 @@ folder. Of course all those settings can be done by hand, but you should only do
 OpenSG Functionality)
 
 [TODO: List all the entries that have to be done...]
-
 [TODO : MFC Example]
 
 \subsection TutorialCompilationLinux Projects on Linux
@@ -490,7 +492,7 @@ Linker Flags (LDFLAGS)
 <I>
 I used default paths (i.e. -I/ust/qt/3/include) - you possibly have to adjust some values.
 
-These settings are for the current version of OpenSG. To get them for the version you find the command \c osg-config and call it as <pre>osg-config --cflags --dbg Base System GLUT QT</pre> for the preprocessor flags and as <pre>osg-config --libs --dbg Base System GLUT QT</pre> for the linker flags. Leave out the QT if you didn't configure it.
+These settings are for the current version of OpenSG. To get them for the version you find the command osg-config and call it as <pre>osg-config --cflags --dbg Base System GLUT QT</pre> for the preprocessor flags and as <pre>osg-config --libs --dbg Base System GLUT QT</pre> for the linker flags. Leave out the QT if you didn't configure it.
 </I>
 
 \section TutorialExercises Exercises

@@ -503,7 +503,9 @@ Of course that is not as easy as it sounds, unfortunately sorting all primitives
 not familiar with complexity-therory: NP-complete problems are really, really bad). To simplify the problem OpenGL states that are usually changed
 together have been grouped in larger pices: osg::StateChunks
 
-[TODO: continue][DR: vielleicht woanders, als eigenen Block. Chunks sind doch ein etwas laenegeres Thema]
+<I>
+Unfortunately I was not able to complete this section in time. This part might be added in the future.
+</I>
 
 \section TutorialNodeCoresSwitch Switch
 
@@ -572,7 +574,8 @@ to figure out the correct values for the distance when models will swap as this 
 Now it is finally time for a more exiting tutorial as we now have a basic knowledge of all the really most important aspects of OpenSG. What shall
 we do this time? 
 
-The fist thing we do is to setup a little LOD node containing three different levels of detail of a woman. [DR: da haette ich gerne ein anderes Beispiel... Ich hab's ja nichts gegen nackte Frauen (ganz sicher nicht ;), aber als generelles Beispiel habe ich damit doch ein Problem.] These files are provided as VRML files
+The fist thing we do is to setup a little LOD node containing three different levels of detail of a woman. 
+These files are provided as VRML files
 and can be found in the prog/data folder. As always, we choose <A HREF = "progrs/00framework.cpp">progs/00framework.cpp</A> as our starting point.
 
 First of all add two new header files
@@ -665,10 +668,12 @@ with
 \endcode
 
 The compiler needs to know two more include files:
+
 \code
     #include <OpenSG/OSGSwitch.h>
     #include <OpenSG/OSGSimpleAttachments.h>
 \endcode
+
 The first should be obvious, the second is later needed to read names which were eventually assigned to nodes.
 
 Now, if executed, everything looks like it did before. Now we want to add another copy of our highres model to our switch node. We could use

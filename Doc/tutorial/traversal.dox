@@ -277,9 +277,8 @@ This one simply stripes geometry. The result is the same as if you were using QU
 
 \subsection TutorialTraversalGraphOpsSharePtr SharePtr
 
-The osg::SharePtrGraphOp tries to share field containers which have the same values regardless of what type they are. You should stripe a geometry fist, before
-you share field containers and not the other way around, else you might encounter some problems. The reason is, that OpenSG has to know where "double instances" 
-of vertices are in order to stripe the mesh, but exactly these double occurences are removed from this operator. [DR: das stimmt nicht, der Op verglcieht nur ganze Fields, nicht Elemente. Hast Du damit Probleme gehabt oder warum sagst Du das?]
+The osg::SharePtrGraphOp tries to share field containers which are identical. Geometry exported from a modelling package may often contain redundant information.
+The share pointer operator helps you to delete the field containers that are useless.
 
 \subsection TutorialTraversalGraphOpsVerify Verify
 
@@ -296,7 +295,7 @@ nodes with 50 polygons each won't be speedy at all... As a rule of thumb I'd rec
 
 In this tutorial we are going to load a VRML file from disk (you already know that from \ref TutorialBasicTutorial4) containing a simple scene with just three
 objects - a torus, a sphere and a cone. This file was created using a 3D modeling package. All three objects are named after what they are. No additional 
-features, like textures or geometry modifieres from the modeling package were used. I will use some different approaches on how to use traverse() and
+features, like textures or geometry modifieres from a modeling package were used. I will use some different approaches on how to use traverse() and
 osg::GraphOps
 
 Again we take 00framework.cpp as a starting point. First we need to add some include files we already know from other tutorials
@@ -459,7 +458,7 @@ now we need to pass the sequence object to the loader. Once again change the lin
 	NodePtr n = SceneFileHandler::the().read(filename, graphOperator);
 \endcode
 
-Now, after loading, the resulting graph will be modified by the graph operator sequence. In this sepcifc case the geometry will first be verified, then the
+After loading, the resulting graph will be modified by the graph operator sequence. In this sepcific case the geometry will first be verified, then the
 geometry will be optimized by merging reusable parts, as well as applying transformations to the vertices directly, where possible. Next all field containers
 with identical content are shared and finally the the geometry is verified again.
 	
@@ -472,21 +471,40 @@ identified as the nodes storing the geometry cores. All other nodes have not sur
 into the vertex positions. Well, that's 11 nodes have been reduced to 4 nodes, which is more than 50%! 
 	
 As next we want to apply another graph operator manually during runtime. This time we will use the split graph operator. In order to have some feedback we
-will create another traversal action that counts nodes beforehand. This is now business as usual: The function that will act as a functor 
-(add it just below the others)
+will create another traversal action that counts nodes beforehand. However I mentioned before, that you can use an object instead of a function for traversal.
+This is especially useful if you need to store data during traversal (like the number of encountered nodes) which could only be stored globally if you would
+use a function.
 
-[DR: das Beispiel sollte besser eine Klasse verwenden, um um den globalen counter herumzukommen. Das hast Du oben angedeutet, aber scheinbar noch nicht gemacht.]
-	
+First we need the class that will store the number of nodes we found so far.
+
 \code
-//This one will count how many nodes are stored in the graph
-Action::ResultE countNodes(NodePtr& node)
-{
-	counter++;
-	return Action::Continue;
-}
-\endcode
+// A simple class that counts the number of entered nodes
+class counter{
+	public:
+		//constructor 
+		counter(void){
+			mCount = 0;
+		}
+		
+		//method that will be called when entering
+		//a new node
+		Action::ResultE enter(NodePtr& node){
+			mCount++;
+			return Action::Continue;
+		}
+		
+		UInt16 getCount(void){
+			return mCount;
+		}
+		
+		void reset(){
+			mCount = 0;
+		}
 	
-We will use it later on.
+	private:
+		UInt16 mCount;
+};
+\endcode
 
 So what next? We want to split the graph into many small nodes with 50 polygons each when the user presses the 's' key. So edit your keyboard callback function
 and add the following code
@@ -495,13 +513,13 @@ and add the following code
 	case 's':
 			cout << "Splitting Graph now...";
 			
-			counter=0;
+			counter c;
 			
 			traverse(scene,
-					osgTypedFunctionFunctor1CPtrRef
-					<Action::ResultE, NodePtr>(countNodes));
+					osgTypedMethodFunctor1ObjPtrCPtrRef
+					<Action::ResultE, counter, NodePtr>(&c, &counter::enter));
 					
-			cout << "Number of nodes before splitting: " << counter << endl;
+			cout << "Number of nodes before splitting: " << c.getCount() << endl;
 			
 			SplitGraphOp* spo = new SplitGraphOp;
 			spo->setMaxPolygons(50);
@@ -510,20 +528,24 @@ and add the following code
 			
 			cout << "done" << endl;
 			
-			counter=0;
+			c.reset();
 			
 			traverse(scene,
-					osgTypedFunctionFunctor1CPtrRef
-					<Action::ResultE, NodePtr>(countNodes));
-					
-			cout << "Number of nodes after splitting: " << counter << endl;
+					osgTypedMethodFunctor1ObjPtrCPtrRef
+					<Action::ResultE, counter, NodePtr>(&c, &counter::enter));
+										
+			cout << "Number of nodes after splitting: " << c.getCount() << endl;
 			
 		break;
+
 \endcode
 
 <B>
 If you have less than 512 MB of memory, you should choose more than 50 polygons as max polygon value - maybe 400 or 1000.
 </B>
+
+If you have a look at the traverse function call, you will notice that it is quite similar. <I>osgTypedFunctionFunctor1CPtrRef</I> changed to 
+<I>osgTypedMethodFunctor1ObjPtrCPtrRef</I> and aditionally you also specifiy the class type that will be used.
 
 After compiling execute the application with
 <PRE>

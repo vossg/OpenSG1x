@@ -209,7 +209,7 @@ and finally the "usual" compiler command
 	-DOSG_WITH_PNG -DOSG_WITH_JPG -I$QTDIR/include -I/usr/local/include -ansi
 	-f-template-depth-100 mainwindow.cpp main.cpp moc_mainwindow.cpp -L/usr/local/lib/dbg
 	-L/usr/X11R6/lib -L$QTDIR/lib -lOSGWindowGLUT -lOSGWindowQT -lOSGSystem -lOSGBase -lGLU
-	-lGL -lglut -lqt -lXmu -lXi -lXT -lpthread -ldl -o OpenSGViewer
+	-lGL -lglut -lqt -lXmu -lXi -lXt -lpthread -ldl -o OpenSGViewer
 </PRE>
 
 Yes, really that is one single command! However, you might have to adjust some things. First, if you build the optimized OpenSG library you have to use
