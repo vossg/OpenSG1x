@@ -2,6 +2,7 @@
 #include <OSGConfig.h>
 #include <OSGBaseFunctions.h>
 #include <OSGBaseTypes.h>
+#include <OSGLog.h>
 #include "OSGStringTokenizer.h"
 #include <string>
 
@@ -29,12 +30,12 @@ int main(int argc, char** argv)
         //       StringTokenizer* tokens = new StringTokenizer(testStrings[i]);
 
         tokens.setString(testStrings[i]);
-        cout << "teststring: |" << testStrings[i] << "|" << endl;
-        cout << tokens.countTokens() << " in string" << endl;
+        SLOG << "teststring: |" << testStrings[i] << "|" << endl;
+        SLOG << tokens.countTokens() << " in string" << endl;
 
         for(UInt32 tokenCount = 0; tokens.hasNext(); tokenCount++)
         {
-            cout << tokenCount+1 << "/" << tokens.countTokens()
+            SLOG << tokenCount+1 << "/" << tokens.countTokens()
                  << "  |" << tokens.getNext() << "|  " << endl;
        }
     }
