@@ -771,6 +771,8 @@ class OSG_MULTITHREADING_DLLMAPPING Thread : public ThreadBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+    static Thread  *getCurrent(void);
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
