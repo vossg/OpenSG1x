@@ -53,36 +53,45 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::Plane
 
-  Oriented plane in 3D space defined by normal and distance.
+    Oriented plane in 3D space defined by normal and distance.
 
-  The plane is defined by a plane normal and a distance from the
-  origin along that normal. Planes may be used to represent either 
-  planes or half-spaces. In the latter case (as for the isInHalfSpace() 
-  method), the half-space is defined to be all points on the plane or on
-  the side of the plane in the direction of the plane normal.
+    The plane is defined by a plane normal and a distance from the
+    origin along that normal. Planes may be used to represent either 
+    planes or half-spaces. In the latter case (as for the isInHalfSpace() 
+    method), the half-space is defined to be all points on the plane or on
+    the side of the plane in the direction of the plane normal.
 
-  The 4 coefficients of the plane equation of an Plane can be
-  obtained easily as the 3 coordinates of the plane normal and the
-  distance, in that order. The normal is normalized.
-  
-  node: Plane is all p such that normalVec . p - distance = 0
+    The 4 coefficients of the plane equation of an Plane can be
+    obtained easily as the 3 coordinates of the plane normal and the
+    distance, in that order. The normal is normalized.
 
- */
+    Note: Plane is all p such that normalVec . p - distance = 0
+
+    \dev 
+
+    Internally the plane keeps an additional osg::Plane::_index, which is used
+    to speed up volume checks.
+
+    \enddev
+*/
 
 
 /*-------------------------- constructor ----------------------------------*/
 
 Plane::Plane(void) : 
-    _normalVec(0.f, 0.f, 0.f), 
-    _distance (0.f          )
+    _normalVec      (0.f, 0.f, 0.f), 
+    _distance       (0.f          ),
+    _directionIndex (0)
 {
 }
 
 
 Plane::Plane(const Plane &obj) : 
-    _normalVec(obj._normalVec), 
-    _distance (obj._distance )
+    _normalVec      (obj._normalVec     ), 
+    _distance       (obj._distance      ),
+    _directionIndex (obj._directionIndex)
 {
+    updateDirectionIndex();
 }
 
 
@@ -101,6 +110,8 @@ Plane::Plane(const Pnt3f &p0, const Pnt3f &p1, const Pnt3f &p2)
     _normalVec.normalize();
     
     _distance = _normalVec.dot(p0);
+
+    updateDirectionIndex();
 }
 
 
@@ -109,6 +120,8 @@ Plane::Plane(const Vec3f &normal, Real32 distance) :
     _distance (distance)
 {
     _normalVec.normalize();
+
+    updateDirectionIndex();
 }
 
 
@@ -118,6 +131,8 @@ Plane::Plane(const Vec3f &normal, const Pnt3f &point) :
     _normalVec.normalize();
 
     _distance = _normalVec.dot(point);
+
+    updateDirectionIndex();
 }
 
 /*--------------------------- destructor ----------------------------------*/
@@ -330,25 +345,25 @@ void Plane::transform(const Matrix &matrix)
         {
             _distance += trans.length();
         }
-
     }
+
+    updateDirectionIndex();
 }
 
-
-bool Plane::isInHalfSpace(const Pnt3f &point) const
+void Plane::updateDirectionIndex(void)
 {
-    Real32 scalar = _normalVec.dot(point) - _distance;
-
-    return scalar <= 0 ? true : false;
+    UInt8 ind = 0;
+    
+    if(_normalVec[0] > 0)
+        ind |= 0x1;
+    if(_normalVec[1] > 0)
+        ind |= 0x2;
+    if(_normalVec[2] > 0)
+        ind |= 0x4; 
+    
+    _directionIndex = ind;
 }
 
-
-bool Plane::isOnPlane(const Pnt3f &point) const
-{
-    Real32 scalar = _normalVec.dot(point) - _distance;
-
-    return osgabs(scalar) < Eps ? true : false;
-}
 
 OSG_BEGIN_NAMESPACE
 

@@ -140,6 +140,12 @@ typedef float     Real32;
 
 typedef double    Real64;
 
+/*! \var typedef long double Real128;
+ *  \ingroup GrpBaseBaseBaseTypes
+ */
+
+typedef long double Real128;
+
 #elif defined(OSG_LINUX_TYPES)
 
 /*! \var typedef char Char8;
@@ -220,6 +226,12 @@ typedef float      Real32;
 
 typedef double     Real64;
 
+/*! \var typedef long double Real128;
+ *  \ingroup GrpBaseBaseBaseTypes
+ */
+
+typedef long double Real128;
+
 #elif defined(OSG_HPUX_TYPES)
 
 /*! \var typedef char Char8;
@@ -299,6 +311,12 @@ typedef float      Real32;
  */
 
 typedef double     Real64;
+
+/*! \var typedef long double Real128;
+ *  \ingroup GrpBaseBaseBaseTypes
+ */
+
+typedef long double Real128;
 
 #elif defined(OSG_WIN_TYPES)
 
@@ -402,6 +420,12 @@ typedef float     Real32;
 
 typedef double    Real64;
 
+/*! \var typedef long double Real128;
+ *  \ingroup GrpBaseBaseBaseTypes
+ */
+
+typedef long double Real128;
+
 #elif defined(OSG_SUN_TYPES)
 
 /*! \var typedef char Char8;
@@ -481,6 +505,12 @@ typedef float      Real32;
  */
 
 typedef double     Real64;
+
+/*! \var typedef long double Real128;
+ *  \ingroup GrpBaseBaseBaseTypes
+ */
+
+typedef long double Real128;
 
 #else
 #error "Could not define base types, check your system/compiler combination"

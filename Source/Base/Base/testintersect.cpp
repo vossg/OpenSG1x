@@ -139,7 +139,6 @@ int main (int argc, char **argv) {
         std::cout << std::endl;
     }
 
-    /*
 //  Intersect the line with a cylinder.
 
 
@@ -198,7 +197,6 @@ int main (int argc, char **argv) {
 
         std::cout << std::endl;
     }
-    */
 
     //### volume intersection ##############################################
 

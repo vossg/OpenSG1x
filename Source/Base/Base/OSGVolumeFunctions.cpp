@@ -342,7 +342,6 @@ bool intersect(const BoxVolume &box, const FrustumVolume &frustum)
     return true;
 }
 
-
 OSG_BASE_DLLMAPPING 
 bool intersect(const BoxVolume &box, const Volume &vol)
 {

@@ -48,6 +48,45 @@
 #endif
 
 /*-------------------------------------------------------------------------*/
+/*                                Versioning                               */
+
+/*! @name Version Defines
+ */
+
+/*!{*/
+
+/*! The printable Version string. Includes the full version with specifiers,
+    e.g. "1.3.0pre1"
+ */
+
+#define OSG_VERSION_STRING      "1.3.0pre1"
+
+/*! The numeric full version, with two digits per major/minor/release, e.g.
+    010300
+ */
+
+#define OSG_VERSION             010300
+
+/*! The numeric major version number, e.g. 1
+ */
+
+#define OSG_MAJOR_VERSION       1
+
+/*! The numeric minor version number, e.g. 3
+ */
+
+#define OSG_MINOR_VERSION       3
+
+/*! The numeric release version number, e.g. 0
+ */
+
+#define OSG_RELEASE_VERSION     0
+
+
+/*!}*/
+
+
+/*-------------------------------------------------------------------------*/
 /*                              endian general                             */
 
 #if defined(__sgi)

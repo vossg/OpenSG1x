@@ -36,38 +36,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGGL_H_
-#define _OSGGL_H_
-#ifdef __sgi
-#pragma once
-#endif
+/*
+  This is a dummy header to allow automatic inference from the type to the 
+  field type header. 
+*/
 
-#include <OSGConfig.h>
-
-#ifdef OSG_NOGLSUBDIR
-#include <gl.h>
-#else
-#include <GL/gl.h>
-#endif
-
-#ifdef OSG_DEBUG
-#define glErr(text)                                 \
-{                                                   \
-    GLenum glerr;                                   \
-                                                    \
-    while((glerr = glGetError()) != GL_NO_ERROR)    \
-    {                                               \
-        FWARNING(("%s failed: %s (%#x)\n",          \
-                (text),                             \
-                gluErrorString(glerr),              \
-                glerr));                            \
-    }                                               \
-}
-#else
-#define glErr(text)
-#endif
-
-
-#define OSGGL_HEADER_CVSID "@(#)$Id: $"
-
-#endif /* _OSGGL_H_ */
+#include "OSGSFVecTypes.h"
+#include "OSGMFVecTypes.h"

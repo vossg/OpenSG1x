@@ -96,32 +96,39 @@ class OSG_BASE_DLLMAPPING Plane
 
     void   transform        (const Matrix &matrix                  );
 
-    bool   isInHalfSpace    (const Pnt3f  &point                   ) const;
-    bool   isOnPlane        (const Pnt3f  &point                   ) const;
+    inline bool   isOnPlane     (const Pnt3f  &point               ) const;
+    inline bool   isInHalfSpace (const Pnt3f  &point               ) const;
+    inline Real32 distance      (const Pnt3f  &point               ) const;
 
-    Real32 distance         (const Pnt3f  &point                   ) const;
+    inline bool   isInHalfSpace  (const Pnt3f  &min, const Pnt3f  &max) const;
+    inline bool   isOutHalfSpace (const Pnt3f  &min, const Pnt3f  &max) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Set Values                                */
     /*! \{                                                                 */
 
-    void set(const Vec3f  &normal, 
-                   Real32  distance);
-    void set(      Real32  x, 
-                   Real32  y, 
-                   Real32  z, 
-                   Real32  distance);
-    void set(const Vec4f  &plane   );
+    inline void set(const Vec3f  &normal, 
+                          Real32  distance);
+    inline void set(      Real32  x, 
+                          Real32  y, 
+                          Real32  z, 
+                          Real32  distance);
+    inline void set(const Vec4f  &plane   );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Access                                  */
     /*! \{                                                                 */
 
-    const Vec3f  &getNormal            (void) const;
-          Real32  getDistanceFromOrigin(void) const;
+    inline const Vec3f  &getNormal            (void) const;
+    inline       Real32  getDistanceFromOrigin(void) const;
 
+
+    inline void  setDirectionIndexPoint(
+                        const Pnt3f &min, const Pnt3f & max,
+                        const UInt8 index,      Pnt3f & pnt) const;
+ 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Comparison                                */
@@ -137,11 +144,12 @@ class OSG_BASE_DLLMAPPING Plane
     /*==========================  PRIVATE  ================================*/
 
   private:
+   
+    void updateDirectionIndex(void);
 
     Vec3f  _normalVec;
-
     Real32 _distance;
-
+    UInt8  _directionIndex;
 };
 
 OSG_BASE_DLLMAPPING 

@@ -738,6 +738,45 @@
 
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
+/*! \name GL_NV_texture_shader2                                        */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
+#ifndef GL_NV_texture_shader2
+#define GL_NV_texture_shader2 1
+
+#define DOT_PRODUCT_TEXTURE_3D_NV                           0x86EF
+#endif
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_NV_texture_shader3                                        */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
+#ifndef GL_NV_texture_shader3
+#define GL_NV_texture_shader3 1
+
+#define OFFSET_PROJECTIVE_TEXTURE_2D_NV                     0x8850
+#define OFFSET_PROJECTIVE_TEXTURE_2D_SCALE_NV               0x8851
+#define OFFSET_PROJECTIVE_TEXTURE_RECTANGLE_NV              0x8852
+#define OFFSET_PROJECTIVE_TEXTURE_RECTANGLE_SCALE_NV        0x8853
+#define OFFSET_HILO_TEXTURE_2D_NV                           0x8854
+#define OFFSET_HILO_TEXTURE_RECTANGLE_NV                    0x8855
+#define OFFSET_HILO_PROJECTIVE_TEXTURE_2D_NV                0x8856
+#define OFFSET_HILO_PROJECTIVE_TEXTURE_RECTANGLE_NV         0x8857
+#define DEPENDENT_HILO_TEXTURE_2D_NV                        0x8858
+#define DEPENDENT_RGB_TEXTURE_3D_NV                         0x8859
+#define DEPENDENT_RGB_TEXTURE_CUBE_MAP_NV                   0x885A
+#define DOT_PRODUCT_PASS_THROUGH_NV                         0x885B
+#define DOT_PRODUCT_TEXTURE_1D_NV                           0x885C
+#define DOT_PRODUCT_AFFINE_DEPTH_REPLACE_NV                 0x885D
+#define FORCE_BLUE_TO_ONE_NV                                0x8860
+
+#endif
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
 
 #define OSGGLEXT_HEADER_CVSID "@(#)$Id: $"
 

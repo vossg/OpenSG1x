@@ -31,6 +31,7 @@ using OSG::Int32;
 
 using OSG::Real32;
 using OSG::Real64;
+using OSG::Real128;
 
 using OSG::osgcos;
 using OSG::osgsin;
@@ -1579,7 +1580,7 @@ void testfactor(void)
 {
     Matrix m;
 
-    Vec3f      t1;
+    Vec3f      t1(0,0,0);
     Vec3f      s1;
     Quaternion r1;
 
@@ -1587,7 +1588,7 @@ void testfactor(void)
     Vec3f      tR;
     Quaternion rR;
     Quaternion rsR;
-
+ 
     r1.setValueAsAxisDeg(1.f, 0.2f, 0.4f, 34.f);
     s1.setValues(1.1f, 1.5f, 1.7f);
     t1.setValues(10.f, 11.f, 12.f);
@@ -1621,6 +1622,18 @@ void testfactor(void)
     std::cerr << rsR << std::endl;
 
     m.getTransform(tR, rR, sR, rsR, t1);
+
+    std::cerr << "tR" << std::endl;
+    std::cerr << tR << std::endl;
+
+    std::cerr << "rR" << std::endl;
+    std::cerr << rR << std::endl;
+
+    std::cerr << "sR" << std::endl;
+    std::cerr << sR << std::endl;
+
+    std::cerr << "rsR" << std::endl;
+    std::cerr << rsR << std::endl;
 }
 
 int main(void)

@@ -209,6 +209,21 @@ void BinaryDataHandler::putValue(const Real64 &value)
 }
 
 inline 
+void BinaryDataHandler::putValue(const Real128 &value)
+{
+    UInt64 v = htonl64( *((UInt64*)(&value)) );
+    UInt64 w = htonl64( *(((UInt64*)(&value)) + 1) );
+
+#if BYTE_ORDER == LITTLE_ENDIAN
+    put(&w, sizeof(UInt64));
+    put(&v, sizeof(UInt64));
+#else
+    put(&v, sizeof(UInt64));
+    put(&w, sizeof(UInt64));
+#endif
+}
+
+inline 
 void BinaryDataHandler::putValue(const std::string &value)
 {
     UInt32 len = stringlen(value.c_str()) + 1;
@@ -398,6 +413,24 @@ void BinaryDataHandler::putValues(const Real64 *value, UInt32 size)
 }
 
 inline 
+void BinaryDataHandler::putValues(const Real128 *value, UInt32 size)
+{
+#if BYTE_ORDER == LITTLE_ENDIAN
+    if(_networkOrder == true)
+    {
+        for(UInt32 i = 0; i < size; ++i)
+        {
+            putValue(value[i]);
+        }
+    }
+    else
+#endif
+    {
+        put(value, size * sizeof(Real128));
+    }
+}
+
+inline 
 void BinaryDataHandler::putValues(const std::string *value, UInt32 size)
 {
     for(UInt32 i = 0; i<size; ++i)
@@ -492,6 +525,24 @@ void BinaryDataHandler::getValue(Real64 &value)
 
     v     = ntohl64(v);
     value = *(reinterpret_cast<Real64 *>(&v));
+}
+
+inline 
+void BinaryDataHandler::getValue(Real128 &value)
+{
+    UInt64 v[2];
+
+#if BYTE_ORDER == LITTLE_ENDIAN
+    get(&v[1], sizeof(UInt64));
+    get(&v[0], sizeof(UInt64));
+#else
+    get(&v[0], sizeof(UInt64));
+    get(&v[1], sizeof(UInt64));
+#endif
+
+    v[0]     = ntohl64(v[0]);
+    v[1]     = ntohl64(v[1]);
+    value = *(reinterpret_cast<Real128 *>(&v));
 }
 
 inline 
@@ -663,6 +714,26 @@ void BinaryDataHandler::getValues(Real64 *value, UInt32 size)
         for(UInt32 i = 0; i < size; ++i)
         {
             longValue[i] = ntohl64(longValue[i]);
+        }
+    }
+#endif
+}
+
+inline 
+void BinaryDataHandler::getValues(Real128 *value, UInt32 size)
+{
+    get(value, size * sizeof(UInt64) * 2);
+
+#if BYTE_ORDER == LITTLE_ENDIAN
+    if(_networkOrder == true)
+    {
+        UInt64 *longValue = reinterpret_cast<UInt64 *>(value);
+
+        for(UInt32 i = 0; i < size; i += 2)
+        {
+            UInt64 l = longValue[i];
+            longValue[i]     = ntohl64(longValue[i + 1]);
+            longValue[i + 1] = ntohl64(longValue[l    ]);
         }
     }
 #endif

@@ -148,14 +148,6 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name              Restricted Intersection                         */
-    /*! \{                                                                 */
-
-    bool intersect(const Volume &vol  , PlaneSet &planes) const;
-    bool intersect(const Pnt3f  &point, PlaneSet &planes) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                    Transformation                            */
     /*! \{                                                                 */
   
@@ -194,6 +186,10 @@ bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
 
 inline
 bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+
+OSG_BASE_DLLMAPPING 
+bool intersect(const FrustumVolume &frustum, const Volume &vol, 
+               FrustumVolume::PlaneSet &inplanes);
 
 OSG_END_NAMESPACE
 

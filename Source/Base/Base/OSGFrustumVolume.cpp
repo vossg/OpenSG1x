@@ -61,6 +61,13 @@
 #include "OSGFrustumVolume.h"
 #include "OSGPlane.h"
 
+
+/*! \class osg::FrustumVolume
+
+    
+*/
+
+
 OSG_USING_NAMESPACE
 
 /*-------------------------------- get ------------------------------------*/
@@ -243,10 +250,10 @@ void FrustumVolume::setPlanes(const Matrix &objectClipMat)
                     planeEquation[i][1] * planeEquation[i][1] +
                     planeEquation[i][2] * planeEquation[i][2]);
  
-        planeEquation[i][0] /= -vectorLength;
-        planeEquation[i][1] /= -vectorLength;
-        planeEquation[i][2] /= -vectorLength;
-        planeEquation[i][3] /=  vectorLength;
+        planeEquation[i][0] /=  vectorLength;
+        planeEquation[i][1] /=  vectorLength;
+        planeEquation[i][2] /=  vectorLength;
+        planeEquation[i][3] /= -vectorLength;
     }
 
   // right
@@ -312,28 +319,6 @@ bool FrustumVolume::intersect(const Pnt3f &point) const
     return retCode;
 }
 
-bool FrustumVolume::intersect(const Pnt3f &point, PlaneSet &planes) const
-{
-    bool retCode = true;
-    PlaneSet mask = 1;
-    
-    for(Int32 i = 0; i < 6; i++, mask = mask << 1) 
-    {
-        if((planes & mask) &&
-           (_planeVec[i].getNormal().x() * point.x() +
-            _planeVec[i].getNormal().y() * point.y() +
-            _planeVec[i].getNormal().z() * point.z() +
-            _planeVec[i].getDistanceFromOrigin()     ) < 0.f) 
-        {
-            planes &= ~mask;
-            retCode = false;
-            break;
-        }
-    }
-    
-    return retCode;
-}
-
 
 bool FrustumVolume::intersect(const Line &line) const
 {
@@ -361,16 +346,18 @@ bool FrustumVolume::intersect(const Volume &volume) const
 
 bool FrustumVolume::isOnSurface(const Pnt3f &OSG_CHECK_ARG(point)) const
 {
+    FWARNING(("FrustumVolume::isOnSurface: NYI!\n"));
     return false;
 }
 
-/*! 
-  \warning NOT IMPLEMENTED 
-  \brief   NOT IMPLEMENTED 
- */
-
-void FrustumVolume::transform(const Matrix &OSG_CHECK_ARG(m))
+void FrustumVolume::transform(const Matrix &m)
 {
+    _planeVec[0].transform(m);
+    _planeVec[1].transform(m);
+    _planeVec[2].transform(m);
+    _planeVec[3].transform(m);
+    _planeVec[4].transform(m);
+    _planeVec[5].transform(m); 
 }
 
 const FrustumVolume &FrustumVolume::operator =(const FrustumVolume &b1)
@@ -448,6 +435,46 @@ bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2)
             (b1.getPlanes()[3] == b2.getPlanes()[3]) &&
             (b1.getPlanes()[4] == b2.getPlanes()[4]) &&
             (b1.getPlanes()[5] == b2.getPlanes()[5]));
+}
+
+/*! Check the volume against the frustum, but only against the given planes.
+
+    If in inplanes the bit relating to the P_* enums is set, the volume is
+    known to be fully in the halfspace of the given plane and is not checked.
+
+    For the other planes the volume is checked if it is in the halfspace at 
+    all, and if it is fully in the halfspace, for which the inplanes are
+    adjusted.
+*/
+
+OSG_BASE_DLLMAPPING 
+bool intersect(const FrustumVolume &frustum, const Volume &vol, 
+               FrustumVolume::PlaneSet &inplanes)
+{
+    Pnt3f min, max;
+    vol.getBounds(min, max);
+    
+    Pnt3f p;
+    
+    const Plane             *frust = frustum.getPlanes();
+    FrustumVolume::PlaneSet  mask  = 0x1;
+   
+    // check the box against the 6 planes, adjust the inplanes set
+    // accordingly
+
+    for(Int32 i = 0; i < 6; i++, mask <<= 1)
+    {
+        if((inplanes & mask) != 0)
+            continue;
+        
+        if(frust[i].isOutHalfSpace(min, max))
+            return false;
+        
+        if(frust[i].isInHalfSpace(min, max))
+            inplanes |= mask;
+    }
+
+    return true;
 }
 
 OSG_END_NAMESPACE

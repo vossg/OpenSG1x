@@ -268,7 +268,6 @@ bool intersect(const Volume &srcVol, const CylinderVolume &vol);
 inline
 bool intersect(const Volume &srcVol, const FrustumVolume  &vol);
 
-
 // ###################################################################
 // # Volume Extend Functions #########################################
 // ###################################################################

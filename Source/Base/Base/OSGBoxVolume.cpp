@@ -52,6 +52,15 @@
 
 #include "OSGBoxVolume.h"
 
+
+/*! \class osg::BoxVolume
+
+    A volume encompassing an axis-aligned box. The box is defined by the 
+    point with the smallest coordinates (osg::BoxVolume::_min) and the point
+    with the largest coordinates (osg::BoxVolume::_max).
+*/
+
+
 OSG_USING_NAMESPACE
 
 

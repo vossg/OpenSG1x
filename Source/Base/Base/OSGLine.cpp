@@ -328,7 +328,7 @@ bool Line::intersect(const CylinderVolume &cyl,
 
     if(bottom.intersect(*this, t))
     {
-        if(bottom.isInHalfSpace(_pos ))
+        if(bottom.isInHalfSpace(_pos))
         {
             if(t > enter) 
                 enter = t;
@@ -339,7 +339,12 @@ bool Line::intersect(const CylinderVolume &cyl,
                 exit = t;
         }
     }
-
+    else
+    {
+        if(bottom.isInHalfSpace(_pos))
+            return false;
+    }
+    
     Plane top(adir, apos + o_adir);
 
     if(top.intersect(*this, t))
@@ -354,6 +359,11 @@ bool Line::intersect(const CylinderVolume &cyl,
             if(t < exit)
                 exit = t;
         }
+    }
+    else
+    {
+        if(top.isInHalfSpace(_pos))
+            return false;
     }
 
     return (enter < exit);

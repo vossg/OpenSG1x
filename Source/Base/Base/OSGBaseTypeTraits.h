@@ -885,6 +885,66 @@ struct TypeTraits<Real64> : public TypeTraitsBase
 };
 
 
+/*! \ingroup GrpBaseBaseBaseTypeTraits
+ */
+
+template <>
+struct TypeTraits<Real128> : public TypeTraitsBase
+{
+    typedef       Real128             RealReturnType;
+
+
+    static const  bool               IsPOD       = true;
+    static const  MathTypeProperties MathProp    = RealValue;
+
+    static        Real128             getZeroElement(void)
+    {
+        return 0.0;
+    }
+
+    static        Real128             getOneElement (void)
+    {
+        return 1.0;
+    }
+
+    static        Real128             getMax        (void)
+    {
+        return DBL_MAX;
+    }
+
+    static        Real128             getMin        (void)
+    {
+        return DBL_MIN;
+    }
+
+
+    static Real128 getFraction     (Real128 rVal) { return rVal; };
+    static Real128 getPortion      (Real128 rVal) { return rVal; };
+
+
+    static Real128 getFromString   (const Char8 *szString)
+    {
+        if(szString != NULL)
+        {
+            return atof(szString);
+        }
+        else
+        {
+            return getZeroElement();
+        }
+    }
+
+    static std::string putToString(const Real128 val)
+    {
+        Char8 buffer[25];
+
+        sprintf(buffer, "%Le", val);
+
+        return std::string(buffer);
+    }
+};
+
+
 #ifdef OSG_GLENUM_NEQ_UINT32
 
 /*! \ingroup GrpBaseBaseBaseTypeTraits
