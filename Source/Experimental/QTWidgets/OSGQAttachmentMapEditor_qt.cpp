@@ -137,6 +137,8 @@ QAttachmentMapEditor::writeField(FieldContainerPtr pFC,
                                  UInt32            uiFieldId,
                                  UInt32            uiValueIndex)
 {
+    BitVector mask = pFC->getType().getFieldDescription(uiFieldId)->getFieldMask();
+    beginEditCP(pFC, mask);
     if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
     {
         SFAttachmentMap *pSF = 
@@ -151,6 +153,7 @@ QAttachmentMapEditor::writeField(FieldContainerPtr pFC,
         
         updateData((*pMF)[uiValueIndex]);
     }
+    endEditCP(pFC, mask);
 }
 
 void
@@ -341,7 +344,7 @@ QAttachmentMapEditor::updateData(AttachmentMap &attMap) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAttachmentMapEditor_qt.cpp,v 1.1 2004/12/20 11:09:52 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAttachmentMapEditor_qt.cpp,v 1.2 2005/03/18 13:04:26 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQATTACHMENTMAPEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQATTACHMENTMAPEDITORQT_INLINE_CVSID;
 }

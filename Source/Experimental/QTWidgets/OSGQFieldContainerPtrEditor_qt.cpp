@@ -162,6 +162,8 @@ QFieldContainerPtrEditor::writeField(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex                   )
 {
+    BitVector mask = pFC->getType().getFieldDescription(uiFieldId)->getFieldMask();
+    beginEditCP(pFC, mask);
     if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
     {
         SFFieldContainerPtr *pSF =
@@ -178,6 +180,7 @@ QFieldContainerPtrEditor::writeField(
 
         updateData((*pMF)[uiValueIndex]);
     }
+    endEditCP(pFC, mask);
 }
 
 void
@@ -413,7 +416,7 @@ QFieldContainerPtrEditor::updateData(FieldContainerPtr &fcPtr) const
 
 namespace
 {
-    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.7 2005/01/03 15:51:44 a-m-z Exp $";
+    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.8 2005/03/18 13:04:27 a-m-z Exp $";
     static Char8 cvsid_hpp     [] = OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl     [] = OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID;
 }

@@ -133,6 +133,8 @@ QGenericValueEditor::writeField(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex                   )
 {
+    BitVector mask = pFC->getType().getFieldDescription(uiFieldId)->getFieldMask();
+    beginEditCP(pFC, mask);
     if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
     {
         pFC->getField(uiFieldId)->pushValueByStr(_pLineEdit->text());
@@ -143,6 +145,7 @@ QGenericValueEditor::writeField(
                  << "writing to MField is not supported. data not written."
                  << endLog;
     }
+    endEditCP(pFC, mask);
 }
 
 void
@@ -213,7 +216,7 @@ QGenericValueEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQGenericValueEditor_qt.cpp,v 1.4 2004/12/20 11:09:53 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQGenericValueEditor_qt.cpp,v 1.5 2005/03/18 13:04:27 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQGENERICVALUEEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQGENERICVALUEEDITORQT_INLINE_CVSID;
 }

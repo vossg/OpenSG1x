@@ -143,6 +143,8 @@ QScalarEditorHelper<ScalarTypeT>::writeField(
     FieldContainerPtr pFC,          UInt32 uiFieldId,
     UInt32            uiValueIndex                   )
 {
+    BitVector mask = pFC->getType().getFieldDescription(uiFieldId)->getFieldMask();
+    beginEditCP(pFC, mask);
     if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
     {
         SField<ScalarType> *pSF =
@@ -157,6 +159,7 @@ QScalarEditorHelper<ScalarTypeT>::writeField(
 
         (*pMF)[uiValueIndex] = _pSpinBox->getValue();
     }
+    endEditCP(pFC, mask);
 }
 
 template <class ScalarTypeT>
@@ -262,4 +265,4 @@ QScalarEditorHelper<ScalarTypeT>::initSelf(
 
 OSG_END_NAMESPACE
 
-#define OSGQSCALAREDITORHELPER_INLINE_CVSID "@(#)$Id: OSGQScalarEditorHelper.inl,v 1.2 2004/12/20 11:09:54 neumannc Exp $"
+#define OSGQSCALAREDITORHELPER_INLINE_CVSID "@(#)$Id: OSGQScalarEditorHelper.inl,v 1.3 2005/03/18 13:04:28 a-m-z Exp $"

@@ -144,6 +144,8 @@ void
 QMatrixEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                           UInt32            uiValueIndex                   )
 {
+    BitVector mask = pFC->getType().getFieldDescription(uiFieldId)->getFieldMask();
+    beginEditCP(pFC, mask);
     if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
     {
         SFMatrix *pSF = dynamic_cast<SFMatrix *>(pFC->getField(uiFieldId));
@@ -162,6 +164,7 @@ QMatrixEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
             (*pMF)[uiValueIndex].getValues()[i] = _pSpinBoxes[i]->getValue();
         }
     }
+    endEditCP(pFC, mask);
 }
 
 void
@@ -327,7 +330,7 @@ void QMatrixEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMatrixEditor_qt.cpp,v 1.3 2004/12/20 11:09:53 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQMatrixEditor_qt.cpp,v 1.4 2005/03/18 13:04:28 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQMATRIXEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQMATRIXEDITORQT_INLINE_CVSID;
 }

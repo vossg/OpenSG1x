@@ -152,6 +152,8 @@ void
 QColor4fEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
                            UInt32            uiValueIndex                   )
 {
+    BitVector mask = pFC->getType().getFieldDescription(uiFieldId)->getFieldMask();
+    beginEditCP(pFC, mask);
     if(pFC->getField(uiFieldId)->getCardinality() == FieldType::SINGLE_FIELD)
     {
         SFColor4f *pSF =
@@ -172,6 +174,7 @@ QColor4fEditor::writeField(FieldContainerPtr pFC,          UInt32 uiFieldId,
         (*pMF)[uiValueIndex][2] = _pSpinBoxes[2]->getValue();
         (*pMF)[uiValueIndex][3] = _pSpinBoxes[3]->getValue();
     }
+    endEditCP(pFC, mask);
 }
 
 void
@@ -341,7 +344,7 @@ QColor4fEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4fEditor_qt.cpp,v 1.5 2004/12/20 11:09:52 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4fEditor_qt.cpp,v 1.6 2005/03/18 13:04:27 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQCOLOR4FEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQCOLOR4FEDITORQT_INLINE_CVSID;
 }
