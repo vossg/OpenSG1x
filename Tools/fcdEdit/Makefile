@@ -34,7 +34,7 @@ TARGET = fcdEdit
 ### System dependences ###############################################
 
 OS      := $(shell echo `uname`)
-OS_TYPE := $(shell echo `uname`_`uname -r`_`uname -p`)
+OS_TYPE := $(shell echo `uname`_`uname -r`)
 
 # be very careful with these lines. There needs to be a space after the Unix
 # lines and nothing after the win lines!!
