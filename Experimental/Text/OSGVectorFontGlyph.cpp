@@ -43,15 +43,13 @@ VectorFontGlyph::VectorFontGlyph (const VectorFontGlyph &obj )
 }
 */
 
-/*
 VectorFontGlyph::VectorFontGlyph (VGlyphType type )
-: _type(VGLYPH_NONE),  _depth(1.f),
+: _type(type),  _depth(1.f),
   _precision(30.f), _points(), _numPoints(0), _indices(), _numIndices(0),
   _numBad(0), _bad(false), _vertexBuffer()
 {
     return;
 }
-*/
 
 VectorFontGlyph::~VectorFontGlyph (void )
 {

@@ -14,6 +14,7 @@
 #endif
 #include <iostream>
 
+#include <assert.h>
 
 // Application declarations
 #include "freetype1/freetype/freetype.h"
