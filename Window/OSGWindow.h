@@ -127,11 +127,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name               Extension handling                             */
     /*! \{                                                                 */
 
-    bool            hasExtension      ( UInt32 id );
-    void           *getFunction       ( UInt32 id );
-    void           *getFunctionNoCheck( UInt32 id );
-    void            dumpExtensions    ( void );
-
+    bool            hasExtension      (UInt32 id);
+    void           *getFunction       (UInt32 id);
+    void           *getFunctionNoCheck(UInt32 id);
+    void            dumpExtensions    (void);
+    void          (*getFunctionByName (const Char8 *s))(void);
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name             GL object registration                           */
@@ -177,13 +178,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
     virtual void    frameInit        (void);
     virtual void    frameExit        (void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name            GL implementation functions                       */
-    /*! \{                                                                 */
-
-    void (*getFunctionByName (const Char8 *s))(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -47,6 +47,14 @@
 
 #include <OSGGL.h>
 
+#if !defined(WIN32) && !defined(darwin)
+#include <GL/glx.h>
+#endif
+
+#if defined(__sgi) || defined(darwin) || defined(__hpux)
+#include <dlfcn.h>
+#endif
+
 #include <OSGDrawAction.h>
 #include <OSGRenderAction.h>
 
@@ -106,20 +114,24 @@ The Window base class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Window::cvsid[] = "@(#)$Id: $";
+char OSG::Window::cvsid[] = "@(#)$Id: $";
 
 /** global window list, need by static refreshGLObject */
+/* I've had trouble with interferences with the X Window type, thus I'm using
+   the fully qualified name here. */
+   
+std::vector<WindowPtr         >  OSG::Window::_allWindows;
 
-std::vector<WindowPtr         >  Window::_allWindows;
+// GLobject handling
 
-Lock                            *Window::_GLObjectLock;
-std::vector<Window::GLObject *>  Window::_glObjects;
-std::vector<UInt32            >  Window::_glObjectDestroyList;
+Lock                            *OSG::Window::_GLObjectLock;
+std::vector<Window::GLObject *>  OSG::Window::_glObjects;
+std::vector<UInt32            >  OSG::Window::_glObjectDestroyList;
 
 // GL extension handling
 
-std::vector<IDStringLink      >  Window::_registeredExtensions;
-std::vector<IDStringLink      >  Window::_registeredFunctions;
+std::vector<IDStringLink      >  OSG::Window::_registeredExtensions;
+std::vector<IDStringLink      >  OSG::Window::_registeredFunctions;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -140,7 +152,7 @@ std::vector<IDStringLink      >  Window::_registeredFunctions;
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
-void Window::initMethod (void)
+void OSG::Window::initMethod (void)
 {
 }
 
@@ -158,7 +170,7 @@ void Window::initMethod (void)
 /** \brief Constructor
  */
 
-Window::Window(void) :
+OSG::Window::Window(void) :
     Inherited()
 {
     // only called for prototypes, no need to init them
@@ -167,7 +179,7 @@ Window::Window(void) :
 /** \brief Copy Constructor
  */
 
-Window::Window(const Window &source) :
+OSG::Window::Window(const Window &source) :
     Inherited(source), 
     _lastValidate(source._lastValidate.size(),0),
     _extensions(),
@@ -181,7 +193,7 @@ Window::Window(const Window &source) :
 /** \brief Destructor
  */
 
-Window::~Window(void)
+OSG::Window::~Window(void)
 {
     // delete the ports and the context
 }
@@ -190,7 +202,7 @@ Window::~Window(void)
 /** \brief instance initialisation
  */
 
-void Window::onCreate( const Window * )
+void OSG::Window::onCreate( const Window * )
 {
     // Don't add the prototype instances to the list
     if (GlobalSystemState != Running)
@@ -202,7 +214,7 @@ void Window::onCreate( const Window * )
 /** \brief instance deletion
  */
 
-void Window::onDestroy(void)
+void OSG::Window::onDestroy(void)
 {
     std::vector<WindowPtr>::iterator it;
 
@@ -216,7 +228,7 @@ void Window::onDestroy(void)
 /** \brief react to field changes
  */
 
-void Window::changed(BitVector whichField, UInt32 origin)
+void OSG::Window::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
 }
@@ -224,7 +236,7 @@ void Window::changed(BitVector whichField, UInt32 origin)
 /*------------------------------ access -----------------------------------*/
 
 
-void Window::addPort(const ViewportPtr &portP)
+void OSG::Window::addPort(const ViewportPtr &portP)
 {
     if(portP != NullFC)
     {
@@ -235,7 +247,7 @@ void Window::addPort(const ViewportPtr &portP)
     }
 }
 
-void Window::insertPort(UInt32 portIndex, const ViewportPtr &portP)
+void OSG::Window::insertPort(UInt32 portIndex, const ViewportPtr &portP)
 {    
     MFViewportPtr::iterator portIt = _mfPort.begin();
 
@@ -252,7 +264,7 @@ void Window::insertPort(UInt32 portIndex, const ViewportPtr &portP)
 }
 
 
-void Window::replacePort(UInt32 portIndex, const ViewportPtr &portP)
+void OSG::Window::replacePort(UInt32 portIndex, const ViewportPtr &portP)
 {
     if(portP != NullFC)
     {
@@ -266,7 +278,7 @@ void Window::replacePort(UInt32 portIndex, const ViewportPtr &portP)
     }
 }
 
-void Window::replacePortBy(const ViewportPtr &portP, 
+void OSG::Window::replacePortBy(const ViewportPtr &portP, 
                              const ViewportPtr &newportP)
 {
     MFViewportPtr::iterator portIt = _mfPort.find(portP);
@@ -286,7 +298,7 @@ void Window::replacePortBy(const ViewportPtr &portP,
     }
 }
 
-void Window::subPort(const ViewportPtr &portP)
+void OSG::Window::subPort(const ViewportPtr &portP)
 {
     MFViewportPtr::iterator portIt = _mfPort.find(portP);
 
@@ -299,7 +311,7 @@ void Window::subPort(const ViewportPtr &portP)
 
 }
 
-void Window::subPort(UInt32  portIndex)
+void OSG::Window::subPort(UInt32  portIndex)
 {
     MFViewportPtr::iterator portIt = _mfPort.begin();
 
@@ -316,7 +328,7 @@ void Window::subPort(UInt32  portIndex)
 
 // GL object handling
 
-UInt32 Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
+UInt32 OSG::Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
 {
     UInt32    id, i; 
     GLObject *pGLObject;
@@ -397,7 +409,7 @@ UInt32 Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
     return id;
 }
 
-void Window::validateGLObject ( UInt32 id )
+void OSG::Window::validateGLObject ( UInt32 id )
 {
     if ( id == 0 )
     {
@@ -422,10 +434,10 @@ void Window::validateGLObject ( UInt32 id )
             _mfGlObjectLastRefresh.size(),
             id, 
             (_mfGlObjectLastReinitialize.size() > id)?
-                _mfGlObjectLastReinitialize[id]:-1,
+                _mfGlObjectLastReinitialize[id]:0xffffffff,
             _lastValidate[id],
             (_mfGlObjectLastRefresh.size() > id)?
-                _mfGlObjectLastRefresh[id]:-1,
+                _mfGlObjectLastRefresh[id]:0xffffffff,
             (_mfGlObjectLastReinitialize[id] == 0)?"init":
             ((_mfGlObjectLastReinitialize[id] > _lastValidate[id])?"reinit":
             ((_mfGlObjectLastRefresh[id] > _lastValidate[id])?"refresh":
@@ -451,7 +463,7 @@ void Window::validateGLObject ( UInt32 id )
     }
 }
 
-void Window::refreshGLObject( UInt32 id )
+void OSG::Window::refreshGLObject( UInt32 id )
 {
     if ( id == 0 )
     {
@@ -478,7 +490,7 @@ void Window::refreshGLObject( UInt32 id )
     }
 }
 
-void Window::reinitializeGLObject(UInt32 id)
+void OSG::Window::reinitializeGLObject(UInt32 id)
 {
     if ( id == 0 )
     {
@@ -506,7 +518,7 @@ void Window::reinitializeGLObject(UInt32 id)
 }
 
 
-void Window::initRegisterGLObject(UInt32 id, UInt32 num)
+void OSG::Window::initRegisterGLObject(UInt32 id, UInt32 num)
 {
     if ( id == 0 )
     {
@@ -522,7 +534,7 @@ void Window::initRegisterGLObject(UInt32 id, UInt32 num)
     }
 }
 
-void Window::doInitRegisterGLObject(UInt32 id, UInt32 num)
+void OSG::Window::doInitRegisterGLObject(UInt32 id, UInt32 num)
 {
     WindowPtr win(this);
     
@@ -547,13 +559,13 @@ void Window::doInitRegisterGLObject(UInt32 id, UInt32 num)
                      GlObjectLastRefreshFieldMask);
 }
 
-void Window::destroyGLObject(UInt32 id, UInt32 num)
+void OSG::Window::destroyGLObject(UInt32 id, UInt32 num)
 {
     _glObjectDestroyList.push_back( id );
     _glObjectDestroyList.push_back( num );
 }
 
-void Window::dumpExtensions ( void )
+void OSG::Window::dumpExtensions ( void )
 {   
     std::vector<IDString>::iterator it;
     std::cout << "GL Extensions: ";
@@ -564,7 +576,7 @@ void Window::dumpExtensions ( void )
     std::cout << std::endl;       
 }
 
-void Window::frameInit( void )
+void OSG::Window::frameInit( void )
 {
     // get extensions and split them
     if(_extensions.empty())
@@ -604,7 +616,7 @@ void Window::frameInit( void )
 // NOTE: this is not quite threadsafe and doesn't work in a cluster environment
 // FIXME!!!
 
-void Window::frameExit(void)
+void OSG::Window::frameExit(void)
 {   
     if(_glObjectDestroyList.size() > 0)
     {
@@ -641,7 +653,60 @@ void Window::frameExit(void)
     }
 }
 
-void Window::setupGL( void )
+
+// Query for a GL extension function
+// Yes, this is system dependent, but the system dependent parts are 
+// #ifdefed anyway, and very similar code would show up in a number of places,
+// making maintaining it unnecessarily hard
+
+void (*Window::getFunctionByName(const Char8 *s))(void)
+{
+#if defined(GLX_VERSION_1_4)
+
+    return glXGetProcAddress((const GLubyte *) s);
+
+// UGLY HACK: SGI/NVidia header don't define GLX_ARB_get_proc_address,
+// but they use __GLX_glx_h__ instead of GLX_H as an include guard.
+#elif defined(GLX_ARB_get_proc_address) // || defined(__GLX_glx_h__)
+
+    return glXGetProcAddressARB((const GLubyte *) s);
+
+#elif defined(__hpux) || defined (__sgi)
+
+    static void *libHandle = NULL;
+
+    if(libHandle == NULL)
+    {
+        // HACK, but if we get here we link against libGL anyway
+        libHandle = dlopen(NULL, RTLD_GLOBAL);
+    }
+
+    return (void (*)(void)) dlsym(libHandle, s);
+
+#elif defined(darwin)
+
+    static void *libHandle = NULL;
+
+    if(libHandle == NULL)
+    {
+        libHandle = dlopen("libGL.dylib", RTLD_NOW);
+    }
+
+    return (void (*)(void)) dlsym(libHandle, s);
+
+#elif defined(WIN32)
+
+    return (void(__cdecl*)(void)) wglGetProcAddress(s);
+
+#else
+
+    return NULL;
+
+#endif
+}
+
+
+void OSG::Window::setupGL( void )
 {   
     glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
     glPixelStorei( GL_PACK_ALIGNMENT, 1 );
@@ -655,7 +720,7 @@ void Window::setupGL( void )
 /*-------------------------- your_category---------------------------------*/
 
     
-void Window::draw( DrawAction * action )
+void OSG::Window::draw( DrawAction * action )
 {
     activate();
     frameInit();    // query recently registered GL extensions
@@ -668,7 +733,7 @@ void Window::draw( DrawAction * action )
     frameExit();    // after frame cleanup: delete GL objects, if needed
 }
 
-void Window::drawAllViewports( DrawAction * action )
+void OSG::Window::drawAllViewports( DrawAction * action )
 {
     MFViewportPtr::iterator       portIt  = _mfPort.begin();
     MFViewportPtr::const_iterator portEnd = _mfPort.end();
@@ -690,7 +755,7 @@ void Window::drawAllViewports( DrawAction * action )
     }
 }
     
-void Window::render( RenderAction * action )
+void OSG::Window::render( RenderAction * action )
 {
     activate();
     frameInit();    // query recently registered GL extensions
@@ -703,7 +768,7 @@ void Window::render( RenderAction * action )
     frameExit();    // after frame cleanup: delete GL objects, if needed
 }
     
-void Window::renderAllViewports( RenderAction * action )
+void OSG::Window::renderAllViewports( RenderAction * action )
 {
     MFViewportPtr::iterator       portIt  = _mfPort.begin();
     MFViewportPtr::const_iterator portEnd = _mfPort.end();
@@ -724,7 +789,7 @@ void Window::renderAllViewports( RenderAction * action )
     }
 }
     
-void Window::resize( int width, int height )
+void OSG::Window::resize( int width, int height )
 {
     WindowPtr win(*this);
     beginEditCP(win, WidthFieldMask|HeightFieldMask|ResizePendingFieldMask);
@@ -734,7 +799,7 @@ void Window::resize( int width, int height )
     endEditCP  (win, WidthFieldMask|HeightFieldMask|ResizePendingFieldMask);
 }
     
-void Window::resizeGL( void )
+void OSG::Window::resizeGL( void )
 {
     if ( isResizePending () )
     {
@@ -769,57 +834,12 @@ OSG::Window& Window::operator = (const Window &source)
 }
 
 
-// Query for a GL extension function   
-void (*Window::getFunctionByName(const Char8 *s))(void) 
-{   
-#ifdef sgi       
-    static void *libHandle = NULL;       
-    
-    if ( ! libHandle )           
-        libHandle = dlopen("libgl.so", RTLD_LAZY);       
-    return (void (*)(void)) dlsym( libHandle, s);   
-#elif defined( WIN32 )       
-    return (void (*)(void)) wglGetProcAddress(s);   
-#elif defined(__hpux)       
-    static void *libHandle = NULL;          
-    if(libHandle == NULL) 
-    {           
-        // HACK, but we link against libGL anyway           
-        
-        libHandle = dlopen(NULL, RTLD_GLOBAL);       
-    }
-    return (void (*)(void)) dlsym(libHandle, s);   
-#elif defined(darwin)
-    static void *libHandle = NULL;
-    
-    if(libHandle == NULL)
-    {           
-        libHandle = dlopen("libGL.dylib", RTLD_NOW);
-    }          
-    return (void (*)(void)) dlsym(libHandle, s);
-#else
-    // UGLY HACK: SGI/NVidia header don't define GLX_ARB_get_proc_address,
-    // but they use __GLX_glx_h__ instead of GLX_H as an include guard.   
-
-#   if defined(GLX_ARB_get_proc_address) || defined(__GLX_glx_h__)
-    
-    return glXGetProcAddressARB((const GLubyte *) s);   
-
-#   else       
-
-    return NULL;
-
-#   endif
-
-#endif
-}
-
 /*------------------------------- dump ----------------------------------*/
 
 /** \brief output the instance for debug purposes
  */
 
-void Window::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+void OSG::Window::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                   const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
     SLOG << "Dump Window NI" << std::endl;
