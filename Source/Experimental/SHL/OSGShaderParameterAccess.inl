@@ -52,7 +52,8 @@ void ShaderParameterAccess::setParameter(const char *name, ValueType value)
     
     if(it != _parametermap.end())
     {
-        ParameterType::Ptr p = ParameterType::Ptr::dcast(_parameters[(*it).second]);
+        //ParameterType::Ptr p = ParameterType::Ptr::dcast(_parameters[(*it).second]);
+        FCPtr<ShaderParameterPtr, ParameterType> p = ParameterType::Ptr::dcast(_parameters[(*it).second]);
         if(p == NullFC)
         {
             FWARNING(("Parameter '%s' has wrong type!\n", name));
@@ -63,7 +64,8 @@ void ShaderParameterAccess::setParameter(const char *name, ValueType value)
     }
     else
     {
-        ParameterType::Ptr p = ParameterType::create();
+        //ParameterType::Ptr p = ParameterType::create();
+        FCPtr<ShaderParameterPtr, ParameterType> p = ParameterType::create();
         if(p != NullFC)
         {
             p->setName(name);
@@ -77,5 +79,4 @@ void ShaderParameterAccess::setParameter(const char *name, ValueType value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETER_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.1 2004/06/05 18:16:43 a-m-z Exp $"
-
+#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.2 2004/06/06 09:54:35 a-m-z Exp $"
