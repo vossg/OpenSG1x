@@ -2,9 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
- *                                                                           *
- *                            www.opensg.org                                 *
+ *                     Copyright 2000,2001 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -36,18 +34,34 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#include <OSGConfig.h>
+
 OSG_BEGIN_NAMESPACE
 
-
-/*! function comment
- *
- */
-inline 
-Real32 TileGeometryLoad::getFaceDistribution(UInt32 ,Real32 )
+inline Real32 TileGeometryLoad::getFaceDistribution(UInt32 dir,Real32 cut)
 {
-    return 0.f;
+    if(cut<=0)
+    {
+        return 0.0;
+    }
+    if(cut >=1.0)
+    {
+        return 1.0;
+    }
+    cut*=FACE_DISTRIBUTION_SAMPLING_COUNT-1;
+    
+    UInt32 a=(UInt32)(floor(cut));
+    Real32 f=cut-a;
+
+    return _faceDistribution[dir][a] +
+        (_faceDistribution[dir][a+1] - _faceDistribution[dir][a]) * f;
 }
 
 OSG_END_NAMESPACE
 
-#define OSGTILEGEOMETRYLOAD_INLINE_CVSID "@(#)$Id:$"
+#define OSGTILEGEOMETRYLOAD_NLINE_CVSID "@(#)$Id:$"
+
+
+
+
+
