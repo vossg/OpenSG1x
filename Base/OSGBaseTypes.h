@@ -804,7 +804,7 @@ struct TypeConstants<UInt64> : public TypeConstantsBase
 
     static inline UInt64 getFromString (const Char8 *szString)
     {
-#ifndef __sun
+#if !defined(__sun) && !defined(__linux)
         if(szString != NULL)
 #ifndef WIN32
             return atoll(szString);
@@ -859,7 +859,7 @@ struct TypeConstants<Int64> : public TypeConstantsBase
 
     static inline Int64 getFromString (const Char8 *szString)
     {
-#ifndef __sun
+#if !defined(__sun) && !defined(__linux)
         if(szString != NULL)
 #ifndef WIN32
             return atoll(szString);

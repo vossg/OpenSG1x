@@ -108,21 +108,21 @@ String::~String()
 
 /*------------------------------ access -----------------------------------*/
 
-void String::toupper(void) 
+void String::toUpper(void) 
 {
 	int i, l = length();
 
 	for (i = 0; i < l; i++) 
-		_str[i] = ::toupper(_str[i]);
+		_str[i] = toupper(_str[i]);
 
 }
 
-void String::tolower(void) 
+void String::toLower(void) 
 {
 	int i, l = length();
 
 	for (i = 0; i < l; i++) 
-		_str[i] = ::tolower(_str[i]);
+		_str[i] = tolower(_str[i]);
 
 }
 

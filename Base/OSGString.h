@@ -125,8 +125,8 @@ class OSG_BASE_DLLMAPPING String
 	
 	void   set       (const Char8 *str, MemType memType = COPY);
 
-	void   toupper   (void);
-	void   tolower   (void);
+	void   toUpper   (void);
+	void   toLower   (void);
 
 	UInt32 length    (void) const;
 

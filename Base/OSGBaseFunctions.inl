@@ -25,6 +25,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#include <unistd.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -523,11 +524,11 @@ OSG_BASE_DLLMAPPING void osgsleep(UInt32 millisecs)
 
     if( (millisecs * 1000) > 1000000)
     {
-        sleep(millisecs / 1000);
+        ::sleep(millisecs / 1000);
     }
     else
     {
-        usleep(millisecs * 1000);
+        ::usleep(millisecs * 1000);
     }
 #endif
 }
