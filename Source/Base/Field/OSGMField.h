@@ -75,15 +75,22 @@ class MField : public Field
 
   public:
 
-    typedef          MFieldVector<FieldTypeT>     StorageType;
-    typedef typename StorageType::Inherited       StorageTypeParent;
+    typedef          MFieldVector<FieldTypeT>           StorageType;
+    typedef typename StorageType::Inherited             StorageTypeParent;
 
-    typedef typename StorageType::iterator        iterator;
-    typedef typename StorageType::const_iterator  const_iterator;
+    typedef typename StorageType::iterator              iterator;
+    typedef typename StorageType::const_iterator        const_iterator;
 
-    typedef typename StorageType::reference       reference;
-    typedef typename StorageType::const_reference const_reference;
+    typedef typename 
+                    StorageType::reverse_iterator       reverse_iterator;
+    typedef typename 
+                    StorageType::const_reverse_iterator const_reverse_iterator;
+
+
+    typedef typename StorageType::reference             reference;
+    typedef typename StorageType::const_reference       const_reference;
     
+
     typedef typename osgIF<fieldNameSpace == 0,
                            FieldDataTraits <FieldTypeT>,
                            InvalidTrait                >::_IRet MF0Trait;
@@ -167,33 +174,43 @@ class MField : public Field
     /*! \name                   STL Interface                              */
     /*! \{                                                                 */
 
-    iterator        begin    (void);
-    iterator        end      (void);
+    iterator               begin    (void                              );
+    iterator               end      (void                              );
+
+    reverse_iterator       rbegin   (void                              );
+    reverse_iterator       rend     (void                              );
+
     
-    const_iterator  begin    (void) const;
-    const_iterator  end      (void) const;
+    const_iterator         begin    (void                              ) const;
+    const_iterator         end      (void                              ) const;
     
-    reference       front    (void);
-    const_reference front    (void) const;
+    const_reverse_iterator rbegin   (void                              ) const;
+    const_reverse_iterator rend     (void                              ) const;
+
+
+    reference              front    (void                              );
+    const_reference        front    (void                              ) const;
     
-    reference       back     (void);
-    const_reference back     (void) const;
+    reference              back     (void                              );
+    const_reference        back     (void                              ) const;
     
-    void            clear    (void);
+    void                   clear    (void                              );
     
-    iterator        insert   (iterator pos, ArgumentType value);
-    iterator        erase    (iterator pos                    );
+    iterator               insert   (iterator     pos, 
+                                     ArgumentType value                );
+    iterator               erase    (iterator     pos                  );
     
-    iterator        find     (ArgumentType value);
-    const_iterator  find     (ArgumentType value) const;
+    iterator               find     (ArgumentType value                );
+    const_iterator         find     (ArgumentType value                ) const;
     
-    void            push_back(ArgumentType value);
+    void                   push_back(ArgumentType value                );
     
-    void            resize   (size_t newsize, FieldTypeT t = FieldTypeT());
-    void            reserve  (size_t newsize);
+    void                   resize   (size_t       newsize, 
+                                     FieldTypeT   t      = FieldTypeT());
+    void                   reserve  (size_t       newsize              );
     
-    UInt32          size     (void          ) const;
-    bool            empty    (void          ) const;
+    UInt32                 size     (void                              ) const;
+    bool                   empty    (void                              ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -219,6 +236,8 @@ class MField : public Field
     virtual std::string &getValueByStr (      std::string        &str  ) const;
     virtual std::string &getValueByStr (      std::string        &str,
                                        StringConversionStateBase &state) const;
+    virtual std::string &getValueByStr (      std::string        &str,
+                                              UInt32              index) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -206,6 +206,26 @@ std::string &SField<FieldTypeT,
     return str;
 }
 
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+std::string &SField<FieldTypeT,
+                    fieldNameSpace>::getValueByStr(std::string &str,
+                                                   UInt32       index) const
+{
+    typedef typename osgIF< (SFieldTraits::StringConvertable &
+                             FieldTraits ::ToStringConvertable), 
+                            SFieldTraits, 
+                            ErrorFromToString<FieldTypeT> >::_IRet Converter;
+
+    if(index > 0)
+    {
+        return str;
+    }
+
+    Converter::putToString(_value, str);
+    
+    return str;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                              MT Sync                                    */
 

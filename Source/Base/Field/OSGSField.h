@@ -153,6 +153,8 @@ class SField : public Field
     virtual std::string &getValueByStr (      std::string       &str  ) const;
     virtual std::string &getValueByStr (      std::string       &str,
                                       StringConversionStateBase &state) const;
+    virtual std::string &getValueByStr (      std::string       &str,
+                                              UInt32             index) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

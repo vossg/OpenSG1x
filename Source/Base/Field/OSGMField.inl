@@ -196,6 +196,24 @@ typename MField<FieldTypeT,
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 typename MField<FieldTypeT, 
+                fieldNameSpace>::reverse_iterator 
+    MField<FieldTypeT, 
+           fieldNameSpace>::rbegin(void)
+{
+    return _values.rbegin();
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+typename MField<FieldTypeT, 
+                fieldNameSpace>::reverse_iterator 
+    MField<FieldTypeT, 
+           fieldNameSpace>::rend(void)
+{
+    return _values.rend();
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+typename MField<FieldTypeT, 
                 fieldNameSpace>::const_iterator MField<FieldTypeT, 
                                                        fieldNameSpace>::begin(
                                                            void) const
@@ -210,6 +228,24 @@ typename MField<FieldTypeT,
                                                            void) const
 {
     return _values.end();
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+typename MField<FieldTypeT,
+                fieldNameSpace>::const_reverse_iterator 
+    MField<FieldTypeT, 
+           fieldNameSpace>::rbegin(void) const
+{
+    return _values.rbegin();
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+typename MField<FieldTypeT, 
+                fieldNameSpace>::const_reverse_iterator 
+    MField<FieldTypeT, 
+           fieldNameSpace>::rend(void) const
+{
+    return _values.rend();
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
@@ -343,7 +379,7 @@ std::string &MField<FieldTypeT,
     std::string tmpString;
 
     typedef typename osgIF< (MFieldTraits::StringConvertable &
-                             FieldTraits ::FromStringConvertable),
+                             FieldTraits ::ToStringConvertable),
                             MFieldTraits,
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
 
@@ -371,7 +407,7 @@ std::string &MField<FieldTypeT,
     std::string valStr;
 
     typedef typename osgIF< (MFieldTraits::StringConvertable &
-                             FieldTraits ::FromStringConvertable),
+                             FieldTraits ::ToStringConvertable),
                             MFieldTraits,
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
 
@@ -388,6 +424,31 @@ std::string &MField<FieldTypeT,
     state.endField(this, outStr);
     
     return outStr;
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+std::string &MField<FieldTypeT,
+                    fieldNameSpace>::getValueByStr(
+                        std::string &str, 
+                        UInt32       index) const
+{
+    if(index >= size())
+    {
+        return str;
+    }
+
+    std::string tmpString;
+
+    typedef typename osgIF< (MFieldTraits::StringConvertable &
+                             FieldTraits::ToStringConvertable),
+                            MFieldTraits,
+                            ErrorFromToString<FieldTypeT> >::_IRet Converter;
+
+    Converter::putToString(_values[index], tmpString);
+
+    str.append(tmpString);
+
+    return str;
 }
 
 /*-------------------------------------------------------------------------*/

@@ -124,6 +124,9 @@ class OSG_BASE_DLLMAPPING Field
     virtual std::string  &getValueByStr (      std::string &str,
                                  StringConversionStateBase &state) const = 0;
 
+    virtual std::string  &getValueByStr (      std::string &str,
+                                               UInt32       index) const = 0;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */
