@@ -164,6 +164,8 @@ class OSG_BASE_DLLMAPPING Color3
 
     /*------------------------- comparison ----------------------------------*/
 
+	Bool equals (const Color3 &other, ValueType tolerance) const;
+	
 	Bool operator == (const Color3 &other) const;
 	Bool operator != (const Color3 &other) const;
 
@@ -330,6 +332,8 @@ class OSG_BASE_DLLMAPPING Color4
     Color4 &operator =(const Color4 &source);
 
     /*------------------------- comparison ----------------------------------*/
+
+	Bool equals (const Color4 &other, ValueType tolerance) const;
     
 	Bool operator == (const Color4 &other) const;
 	Bool operator != (const Color4 &other) const;

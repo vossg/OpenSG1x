@@ -550,6 +550,23 @@ Bool Color3<ValueTypeT>::operator == (const Color3 &other) const
     return returnValue;
 }
 
+/** \brief equal within tolerance
+ */
+
+template <class ValueTypeT> inline
+Bool Color3<ValueTypeT>::equals (const Color3 &other, ValueTypeT tolerance) const
+{
+    Bool returnValue = true;
+
+    for(UInt32 i = 0; i < 3; i++)
+    {
+        returnValue &= ( (      _rgb[i] - other._rgb[i] <= tolerance) && 
+                         (other._rgb[i] -       _rgb[i] <= tolerance));
+    }
+
+    return returnValue;
+}
+
 /** \brief unequal
  */
 
@@ -871,6 +888,23 @@ Bool Color4<ValueTypeT>::operator == (const Color4 &other) const
     {
         returnValue &= ( (      _rgba[i] - other._rgba[i] <= Eps) && 
                          (other._rgba[i] -       _rgba[i] <= Eps));
+    }
+
+    return returnValue;
+}
+
+/** \brief equal within tolerance
+ */
+
+template <class ValueTypeT> inline
+Bool Color4<ValueTypeT>::equals (const Color4 &other, ValueTypeT tolerance) const
+{
+    Bool returnValue = true;
+
+    for(UInt32 i = 0; i < 4; i++)
+    {
+        returnValue &= ( (      _rgba[i] - other._rgba[i] <= tolerance) && 
+                         (other._rgba[i] -       _rgba[i] <= tolerance));
     }
 
     return returnValue;
