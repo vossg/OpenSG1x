@@ -461,6 +461,16 @@ bool SharePtrGraphOp::isEqual(const osg::FieldContainerPtr &a,
                     if(!compareMField<Pnt3f>(a_field, b_field))
                         return false;
                 }
+                else if(dynamic_cast<MField<Color3f> *>(a_field) != NULL)
+                {
+                    if(!compareMField<Color3f>(a_field, b_field))
+                        return false;
+                }
+                else if(dynamic_cast<MField<Color4f> *>(a_field) != NULL)
+                {
+                    if(!compareMField<Color4f>(a_field, b_field))
+                        return false;
+                }
                 else
                 {
                     FLOG(("Slow multi field string compare for '%s'!\n",
