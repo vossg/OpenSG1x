@@ -178,8 +178,12 @@ void addPort(Pnt3f *vpproj,
         BlendChunkPtr bl = BlendChunk::create();
         beginEditCP(bl);        
         bl->setSrcFactor(GL_ONE);
+#if GL_EXT_blend_color
         bl->setDestFactor(GL_CONSTANT_ALPHA);
         bl->setColor(Color4f(0,0,0,.5));
+#else
+        bl->setDestFactor(GL_ONE);
+#endif
         endEditCP(bl);
         
         SimpleMaterialPtr mat = SimpleMaterial::create();
