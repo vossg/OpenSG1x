@@ -183,18 +183,21 @@ void Plane::transform(const Matrix &matrix)
 {
 	// TODO
 //	assert(false);
-    
+
     matrix.transform(_normalVec);
     _normalVec.normalize();
 
-    Vec3f trans   ( matrix[3]);
+    Vec3f trans;
+    
+    trans[0] = matrix[3][0];
+    trans[1] = matrix[3][1];
+    trans[2] = matrix[3][2];
 
     trans.projectTo(_normalVec);
 
-
     UInt32 uiValNorm  = getMaxIndexAbs3(_normalVec);
     UInt32 uiValPoint = getMaxIndexAbs3( trans);
-
+   
     if(trans[uiValPoint] >  Eps ||
        trans[uiValPoint] < -Eps)
     {
@@ -209,6 +212,7 @@ void Plane::transform(const Matrix &matrix)
         {
             _distance += trans.length();
         }
+        
     }
 }
 
