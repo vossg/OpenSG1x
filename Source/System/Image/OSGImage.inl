@@ -93,7 +93,9 @@ inline const UInt8 *Image::getData( UInt32 mipmapNum,
     return data;
 }
 
-inline void SFImagePtr::pushValueByStr(const char *str)
+// Specialization for Image we need this to support VRML PixelTextures.
+template <> inline
+void SFImagePtr::pushValueByStr(const Char8 *str)
 {
     if(getValue() != NullFC)
         getValue()->addValue(str);
