@@ -61,7 +61,7 @@ cd $OSGPOOL
 VERSION=`cat VERSION`
 
 # remove the internal stuff
-rm -rf dist Stuff Tools/newClass examples/DeriveFCExample
+rm -rf dist
 
 # remove the CVS stuff
 find . -name CVS | xargs rm -rf
@@ -69,52 +69,84 @@ find . -name CVS | xargs rm -rf
 # pack it up
 cd ..
 
+# move existing docs out of the way
+if test -d OpenSG/Doc/Code/user
+then
+    mv OpenSG/Doc/Code/user .
+fi
+if test -d OpenSG/Doc/Code/ext
+then
+    mv OpenSG/Doc/Code/ext .
+fi
+if test -d OpenSG/Doc/Code/dev
+then
+    mv OpenSG/Doc/Code/dev .
+fi
+
 mv $OSGPOOL OpenSG-$VERSION
 
+echo "Pack sources..."
 tar cf - OpenSG-$VERSION | gzip -9 > OpenSG-$VERSION-src.tgz
+
+# move existing docs back
+if test -d user
+then
+    mv user OpenSG-$VERSION/Doc/Code
+fi
+if test -d ext
+then
+    mv ext OpenSG-$VERSION/Doc/Code
+fi
+if test -d dev
+then
+    mv dev OpenSG-$VERSION/Doc/Code
+fi
 
 # go back and make the docs
 cd OpenSG-$VERSION
 
 ./configure
 
-make doc
+if test x$OSG_DIST_NO_MAKEDOC = x
+then
+    echo "Make docs..."
+    make alldocs
+else
+    echo "OSG_DIST_NO_MAKEDOC set, skipping doc make"
+fi
 
-# make the starter guide
+# copy the starter guides
 
-cd Doc/starter
-
-gmake
-
-gzip -9c starter.ps > ../../../OpenSG-$VERSION-StarterGuide.ps.gz
+cp Doc/Code/user/latex/StarterGuide.pdf ../OpenSG-$VERSION-UserStarter.pdf
+cp Doc/Code/dev/latex/StarterGuide.pdf ../OpenSG-$VERSION-DevStarter.pdf
 
 # make the design document
 
-cd ../design
+cp Doc/design/opensg_design.html ../OpenSG-$VERSION-Design.html
 
-cp opensg_design.html ../../../OpenSG-$VERSION-Design.html
-
-cd ../../..
+cd ..
 
 # pack it all up 
 
+echo "Pack sources & docs..."
 tar cf - OpenSG-$VERSION | gzip -9 > OpenSG-$VERSION-src+doc.tgz
 
 # pack just the docs
 
 cd OpenSG-$VERSION/Doc/Code
 
-mv html OpenSG-$VERSION-srcdoc
+mkdir OpenSG-$VERSION-srcdoc
+mv user dev OpenSG-$VERSION-srcdoc
 
+echo "Pack docs..."
 tar cf - OpenSG-$VERSION-srcdoc | gzip -9 > ../../../OpenSG-$VERSION-srcdoc.tgz
 
-zip -9r OpenSG-$VERSION-srcdoc.zip OpenSG-$VERSION-srcdoc && mv OpenSG-$VERSION-srcdoc.zip ../../..
+mv OpenSG-$VERSION-srcdoc/* .
+rm -rf OpenSG-$VERSION-srcdoc
 
 # that's it!
 
 cd ../../..
 
-
-
-
+mv OpenSG-$VERSION OpenSG
 

@@ -38,12 +38,22 @@ loading:                Loading models.
 
 picking:                Using a ray test to select objects/faces.
 
+ClusterServer/ClusterClient: How to display the results of an OpenSG application
+                        on another machine.
+
+switch:                 How to use the switch node to seectively displa/hide nodes
+
+attachments:            How to attach additional data like names to Nodes and other 
+                        structures
+
+lights:                 How to define and use additional light sources in a scene
+
 
 The directory contains a test image that can be passed to materials to be used
 as a texture: osg_power_trans.rgb, which is the "Powered by OpenSG" logo
 image. 
 
-It also contains two little test models: a set of dolphins in OBJ
+It also contains (in Data) two little test models: a set of dolphins in OBJ
 format and a TIE fighter in VRML97 format. loading and picking can load them.
 
 The TIE fighter model was taken from the AC3D website (www.ac3d.org),

@@ -445,6 +445,7 @@ tar cf - OpenSG-$OSGVERSION-$distname-opt | \
 echo "Making Opt+Dbg dist"
 
 echo "dir..."
+rm -rf OpenSG-$OSGVERSION-$distname-opt+dbg
 mv OpenSG-$OSGVERSION-$distname-opt OpenSG-$OSGVERSION-$distname-opt+dbg
 
 cd OpenSG-$OSGVERSION-$distname-opt+dbg
@@ -480,6 +481,7 @@ tar cf - OpenSG-$OSGVERSION-${distname}-opt+dbg | \
 echo "Making Dbg dist"
 echo "dir..."
 
+rm -rf OpenSG-$OSGVERSION-$distname-dbg
 mv OpenSG-$OSGVERSION-$distname-opt+dbg OpenSG-$OSGVERSION-$distname-dbg
 
 cd OpenSG-$OSGVERSION-$distname-dbg

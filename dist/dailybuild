@@ -447,7 +447,7 @@ case $system in
 
     hppa2.0w-hp* )	
         	
-	qt_args=""
+	qt_args=${qt_args:="--with-qt=/igd/a4/software/HP-UX"}
 	glut_args=${glut_args:="--with-glut --with-glutincludedir=/opt/graphics/OpenGL/contrib/libglut --with-glutlibdir=/opt/graphics/OpenGL/contrib/libglut"}
 	tif_args=${tif_args:="--with-tif=/igd/a4/software/HP-UX/"}
 	jpeg_args=${jpeg_args:="--with-jpeg=/igd/a4/software/HP-UX/"}
