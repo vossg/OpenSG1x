@@ -114,7 +114,8 @@ OSGVERSION=`cat $OSGPOOL/VERSION | sed -e "/\n/d"`
 olddir=`pwd`
 cd $OSGPOOL
 
-system=`CommonConf/config.guess`
+host=`CommonConf/config.guess`
+system=`CommonConf/config.sub $host`
 
 # find the configure options for the dist
 
