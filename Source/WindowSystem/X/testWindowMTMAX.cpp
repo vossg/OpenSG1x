@@ -118,7 +118,7 @@ void doCamTrans (UInt32 )
 
 void drawThreadProc (void *arg) 
 {               
-    UInt64            my_id = static_cast<UInt64>(arg);
+    UInt32            my_id = *static_cast<UInt32*>(arg);
     XWindowPtr my_win = win[my_id];
     
     // give the window some time to open and X to settle down
@@ -389,15 +389,18 @@ int main (int argc, char **argv)
 
     //Thread::getCurrent()->getChangeList()->applyTo(1);
     //Thread::getCurrent()->getChangeList()->clearAll();
+    
+    UInt32 *ids = new UInt32 [usedThreads];
      
     for (i = 0; i < usedThreads; i++)
     {               
+        ids[i] = i;
         // get new thread
         drawThread[i] = 
             dynamic_cast<Thread *>(gThreadManager->getThread(NULL));
         if ( drawThread[i] != NULL )   // and spin it ...
         {      
-            drawThread[i]->runFunction( drawThreadProc, 1, (void *)i );
+            drawThread[i]->runFunction( drawThreadProc, 1, (void *)&ids[i] );
         }
     }
 
