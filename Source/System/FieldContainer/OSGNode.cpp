@@ -696,6 +696,8 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
     const FieldContainerType &type = src->getType();
     UInt32 fcount = type.getNumFieldDescs();
     
+    //FDEBUG(("deepClone: fieldcontainertype = %s\n", type.getCName()));
+
     FieldContainerPtr dst = FieldContainerFactory::the()->createFieldContainer(type.getName().str());
     
     for(UInt32 i=1;i <= fcount;++i)
@@ -730,9 +732,10 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
                 bool shareit = false;
                 for(UInt32 k=0;k<share.size();++k)
                 {
-                    if(fc != NullFC &&
-                       fc->getType().isDerivedFrom(*FieldContainerFactory::the()
-                                                   ->findType(share[k].c_str())))
+                    FieldContainerType *fct = FieldContainerFactory::the()
+                                            ->findType(share[k].c_str());
+                    if(fc != NullFC && fct != NULL &&
+                       fc->getType().isDerivedFrom(*fct))
                     {
                         shareit = true;
                         break;
@@ -752,6 +755,7 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
         // field
         if(strstr(ftype.getCName(), "Ptr") == NULL)
         {
+            //FDEBUG(("deepClone: fieldname = %s fieldType = %s\n", fdesc->getCName(), fieldType.c_str()));
             beginEditCP(dst, mask);
                 dst_field->setAbstrValue(*src_field);
             endEditCP(dst, mask);
@@ -765,9 +769,10 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
                 bool shareit = false;
                 for(UInt32 k=0;k<share.size();++k)
                 {
-                    if(fc != NullFC &&
-                       fc->getType().isDerivedFrom(*FieldContainerFactory::the()
-                                                   ->findType(share[k].c_str())))
+                    FieldContainerType *fct = FieldContainerFactory::the()
+                                            ->findType(share[k].c_str());
+                    if(fc != NullFC && fct != NULL &&
+                       fc->getType().isDerivedFrom(*fct))
                     {
                         shareit = true;
                         break;
@@ -796,9 +801,10 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
                         bool shareit = false;
                         for(UInt32 k=0;k<share.size();++k)
                         {
-                            if(fc != NullFC &&
-                               fc->getType().isDerivedFrom(*FieldContainerFactory::the()
-                                                           ->findType(share[k].c_str())))
+                            FieldContainerType *fct = FieldContainerFactory::the()
+                                            ->findType(share[k].c_str());
+                            if(fc != NullFC && fct != NULL &&
+                               fc->getType().isDerivedFrom(*fct))
                             {
                                 shareit = true;
                                 break;
@@ -875,9 +881,10 @@ void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
         bool shareit = false;
         for(UInt32 k=0;k<share.size();++k)
         {
-            if(fc != NullFC &&
-               fc->getType().isDerivedFrom(*FieldContainerFactory::the()
-                                           ->findType(share[k].c_str())))
+            FieldContainerType *fct = FieldContainerFactory::the()
+                                      ->findType(share[k].c_str());
+            if(fc != NullFC && fct != NULL &&
+               fc->getType().isDerivedFrom(*fct))
             {
                 shareit = true;
                 break;
