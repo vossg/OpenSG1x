@@ -68,7 +68,7 @@ inline StatElem *StatCollector::getElem(Int32 id, bool create)
     {
         // This only happens when dynamically adding StatElems
         // but it's really nasty if it happens.
-        if(id >= _elemVec.size()) 
+        if(id >= int(_elemVec.size())) 
             refitElemNum();
         
         StatElem *elem = _elemVec[id];
