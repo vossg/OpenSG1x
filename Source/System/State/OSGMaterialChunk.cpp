@@ -131,23 +131,14 @@ void MaterialChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 void MaterialChunk::activate(DrawActionBase *, UInt32)
 {
     GLenum target;
-    
-    if(getLit())
-    {
-        glEnable(GL_LIGHTING);
-    }
-    else
-    {
-        glDisable(GL_LIGHTING);
-    }
 
     if(getBackMaterial())
     {
-        target = GL_FRONT_AND_BACK;
+        target = GL_FRONT;
     }
     else
     {
-        target = GL_FRONT;
+        target = GL_FRONT_AND_BACK;
     }
         
     if(getColorMaterial() == GL_NONE)
@@ -190,6 +181,12 @@ void MaterialChunk::activate(DrawActionBase *, UInt32)
                           _sfBackEmission.getValue().getValuesRGBA());
             glMaterialf (GL_BACK, GL_SHININESS, _sfBackShininess.getValue());
         }
+        
+        glEnable(GL_LIGHTING);
+    }
+    else
+    {
+        glDisable(GL_LIGHTING);
     }
 }
 

@@ -300,7 +300,7 @@ MaterialChunkBase::MaterialChunkBase(void) :
     _sfBackSpecular           (Color4f(.5,.5,.5,0)), 
     _sfBackEmission           (Color4f(0,0,0,0)), 
     _sfBackShininess          (Real32(10)), 
-    _sfBackColorMaterial      (GLenum(GL_NONE)), 
+    _sfBackColorMaterial      (GLenum(GL_DIFFUSE)), 
     Inherited() 
 {
 }
