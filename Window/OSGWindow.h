@@ -309,8 +309,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name                GL object handling                            */
     /*! \{                                                                 */
 
-    void doRefreshGLObject     ( UInt32 id );
-    void doReinitializeGLObject( UInt32 id );
+    static void initRegisterGLObject  (UInt32 id);
+
+           void doRefreshGLObject     (UInt32 id);
+           void doReinitializeGLObject(UInt32 id);
+           void doInitRegisterGLObject(UInt32 id);
 
     /*! \}                                                                 */
 
