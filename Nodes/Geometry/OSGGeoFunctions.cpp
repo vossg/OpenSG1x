@@ -64,7 +64,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.9 2001/07/30 09:33:11 jbehr Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.10 2001/07/30 20:32:54 jbehr Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -463,7 +463,7 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
         textureIT = EMPTY_IT;
 
     if (faceSet) {
-        FLOG (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d 4/%d poly/%d\n",
+        FINFO (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d 4/%d poly/%d\n",
                 primitiveN,
                 primitiveTypeCount[0], 
                 primitiveTypeCount[1], 
@@ -473,7 +473,7 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
                 primitiveTypeCount[5] ));
     }
     else {
-        FLOG (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d\n",
+        FINFO (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d\n",
                 primitiveN,
                 primitiveTypeCount[0], 
                 primitiveTypeCount[1], 
@@ -481,8 +481,7 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
                 primitiveTypeCount[3] ));
     }
 
-
-    FLOG (( "IndexType: color: %s, normal: %s, texture: %s \n", 
+    FINFO (( "IndexType: color: %s, normal: %s, texture: %s \n", 
             indexTypeStr[colorIT], indexTypeStr[normalIT],
             indexTypeStr[textureIT] ));
 
