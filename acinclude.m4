@@ -1147,11 +1147,11 @@ dnl e14
         if test $build_os = cygwin; then
            ac_gdz_freetype1_incdir_e14='"'`cygpath -w $ac_gdz_freetype1_dir/include`'"'
            ac_gdz_freetype1_libdir_e14='"'`cygpath -w $ac_gdz_freetype1_dir/lib`'"'
-           ac_gdz_freetype1_lib_e14='freetype.lib'
+           ac_gdz_freetype1_lib_e14='ttf.lib'
         else
            ac_gdz_freetype1_incdir_e14=$ac_gdz_freetype1_dir/include
            ac_gdz_freetype1_libdir_e14=$ac_gdz_freetype1_dir/lib
-           ac_gdz_freetype1_lib_e14='-lfreetype'
+           ac_gdz_freetype1_lib_e14='-lttf'
         fi
     fi
 
