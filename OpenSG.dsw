@@ -143,6 +143,45 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name Action
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Base
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name DrawAction
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Field
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name FieldContainer
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Geometry
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Light
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Loader
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Log
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Material
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Misc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name State
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Window
+    End Project Dependency
 }}}
 
 ###############################################################################
