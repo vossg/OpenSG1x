@@ -555,6 +555,7 @@ node : nodeTypeId { if(SKEL != NULL)
                      SKEL->endNode(); }
 ;
 
+/*
 nodeBodyORempty : nodeBody
                 | empty
 ;
@@ -562,6 +563,7 @@ nodeBodyORempty : nodeBody
 nodeBody : nodeBody nodeBodyElement 
          |          nodeBodyElement
 ;
+*/
 
 scriptBodyORempty : scriptBody
                   | empty
@@ -643,6 +645,41 @@ resInterafceDeclarationScriptFieldEnd : IS fieldId { nextType = 0;
                                                    }
 ;
 
+resInterfaceDeclarationScriptExpField : EXPOSEDFIELD     
+                                        fieldType { setName(szName1, 
+                                                            SKELTEXT);
+                                                  }
+                                        fieldId   { expectType(nextType); 
+                                                
+                                                    if(SKEL != NULL)
+                                                        SKEL->
+                                                         beginExposedFieldDecl(
+                                                           szName1,
+                                                           nextType,
+                                                           SKELTEXT); 
+                                              
+                                                    freeName(szName1);
+                                                  }
+;
+
+resInterafceDeclarationScriptExpFieldEnd : IS fieldId { nextType = 0; 
+
+                                                        if(SKEL != NULL)
+                                                        {
+                                                         SKEL->is(SKELTEXT);
+
+                                                         SKEL->
+                                                         endExposedFieldDecl();
+                                                        }
+                                                      } 
+                                         | fieldValue { nextType = 0; 
+   
+                                                        if(SKEL != NULL)
+                                                         SKEL->
+                                                         endExposedFieldDecl();
+                                                      }
+;
+
 /*
 scriptBodyElement : nodeBodyElement 
                   | restrictedInterfaceDeclaration 
@@ -657,6 +694,8 @@ scriptBodyElement : nodeBodyElement
                     resInterfaceDeclarationScriptEventEnd
                   | resInterfaceDeclarationScriptField 
                     resInterafceDeclarationScriptFieldEnd
+                  | resInterfaceDeclarationScriptExpField 
+                    resInterafceDeclarationScriptExpFieldEnd
 ;
 
 
