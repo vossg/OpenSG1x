@@ -104,18 +104,18 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
 
     /*------------------------- your_category -------------------------------*/
 
-	const Vec3f &getCenter(void) const { return Vec3f(0, 0, 0); }
+	const Pnt3f &getCenter(void) const { return Pnt3f(0, 0, 0); }
 
-    void getCenter(Vec3f &center) const { center = Vec3f(0, 0, 0);}
+    void getCenter(Pnt3f &center) const { center = Pnt3f(0, 0, 0);}
  
-	virtual Bool intersect (const Vec3f &point) const;
+	virtual Bool intersect (const Pnt3f &point) const;
 
     virtual Bool intersect (const Volume &volume) const;
 
 	virtual Bool intersect (const Line &line) const { return false; }
 
 	virtual Bool intersect (const Line &line, 
-                               Vec3f &min, Vec3f &max  ) const 
+                               Real32 &min, Real32 &max  ) const 
     {
         return false; 
     }
