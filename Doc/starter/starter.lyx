@@ -1,5 +1,5 @@
 #LyX 1.1 created this file. For more info see http://www.lyx.org/
-\lyxformat 218
+\lyxformat 2.16
 \textclass book
 \begin_preamble
 \usepackage[T1]{fontenc}
@@ -37,34 +37,24 @@
 
 \layout LaTeX
 
-
-\lang american
 % Create Title Page 
 \layout LaTeX
 
-
-\lang american
 
 \backslash 
 singlespacing
 \layout LaTeX
 
 
-\lang american
-
 \backslash 
 begin{titlepage}
 \layout LaTeX
 
 
-\lang american
-
 \backslash 
 thispagestyle{empty}
 \layout LaTeX
 
-
-\lang american
 
 \backslash 
 vspace*{
@@ -73,61 +63,43 @@ fill}
 \layout LaTeX
 
 
-\lang american
-
 \backslash 
 begin{figure*}[htb] 
 \layout LaTeX
 
 
-\lang american
-
 \backslash 
 begin{center} 
 \layout LaTeX
 
-
-\lang american
 % This breaks Postscript page numbers, include only when necessary
 \layout LaTeX
 
-
-\lang american
 
 \backslash 
 includegraphics[height=3.5cm]{opensg_logo.eps} 
 \layout LaTeX
 
 
-\lang american
-
 \backslash 
 end{center}
 \layout LaTeX
 
-
-\lang american
 
 \backslash 
 end{figure*}
 \layout LaTeX
 
 
-\lang american
-
 \backslash 
 begin{center} 
 \layout LaTeX
 
 
-\lang american
-
 \backslash 
 vspace*{2cm}
 \layout LaTeX
 
-
-\lang american
 
 \backslash 
 textbf{
@@ -142,8 +114,6 @@ baselineskip]
 \layout LaTeX
 
 
-\lang american
-
 \backslash 
 textbf{
 \backslash 
@@ -157,8 +127,6 @@ baselineskip]
 \layout LaTeX
 
 
-\lang american
-
 \backslash 
 textbf{
 \backslash 
@@ -171,8 +139,6 @@ Large Version 1.0}
 baselineskip] 
 \layout LaTeX
 
-
-\lang american
 Written by 
 \backslash 
 
@@ -182,8 +148,6 @@ Written by
 baselineskip] 
 \layout LaTeX
 
-
-\lang american
 
 \backslash 
 textbf{
@@ -200,14 +164,10 @@ large Dirk Reiners
 \layout LaTeX
 
 
-\lang american
-
 \backslash 
 end{center}
 \layout LaTeX
 
-
-\lang american
 
 \backslash 
 vspace*{
@@ -216,21 +176,15 @@ fill}
 \layout LaTeX
 
 
-\lang american
-
 \backslash 
 end{titlepage}
 \layout LaTeX
 
 
-\lang american
-
 \backslash 
 setcounter{page}{1}
 \layout LaTeX
 
-
-\lang american
 
 \backslash 
 onehalfspacing
@@ -291,6 +245,11 @@ opensg-developer@lists.sf.net
 ) or to us directly at 
 \family typewriter 
 feedback@opensg.org.
+\layout Standard
+
+This starter guide was written by the core team, but it wouldn't be what
+ it is without the helpful reviews and comments by Marc Alexa and Patrick
+ Dähne.
 \layout Section
 
 What is OpenSG?
@@ -331,7 +290,7 @@ Where to get it
 If you read this you probably have it already, otherwise take a look at
  http://www.opensg.org/ for the latest released version.
  You can also get it from SourceForge, which we use for project management,
- at http://www.sf.net/projects/showfiles.php?group_id=5283.
+ at http://www.sf.net/project/showfiles.php?group_id=5283.
 \layout Standard
 
 If you want to get access to the current development version you can get
@@ -421,6 +380,44 @@ make help
 \family default 
  in any directory with a makefile to get a list of supported targets in
  this directory.
+\layout Standard
+
+Not that OpenSG needs the GNU version of make.
+ This is the default on Linux and Cygwin systems, so a simple 
+\family typewriter 
+make
+\family default 
+ is fine.
+ On IRIX it's usually called gmake, if you don't have it you need to install
+ it yourself.
+ 
+\layout Section
+
+System Structure
+\layout Standard
+
+The full OpenSG system consistes of several libraries.
+ 
+\layout Standard
+
+The Base library contains the low-level functions and basic classes like
+ vectors and volumes.
+ It also contains the operating system abstractions and the basic multi-threadin
+g wrappers.
+\layout Standard
+
+The System library is the main library.
+ It contains all the higher-level objects starting at the FieldContainer
+ level.
+ That includes all the scenegraph nodes and the actions to work on them.
+ It includes the loaders for images and scene files, and the general window
+ handling classes.
+ In general, it includes everything the other libraries don't.
+\layout Standard
+
+For each window system that is supported there's a separate little library
+ which contains the interface objects for that window system.
+ Right now we have interfaces to X, WIN32, GLUT and QT.
 \layout Section
 
 Installation
@@ -442,7 +439,7 @@ configure
  You can change the installation directory at install time by specifying
  it as 
 \family typewriter 
-gmake INSTALL_DIR=<dir> install
+make INSTALL_DIR=<dir> install
 \family default 
 .
  
@@ -478,9 +475,22 @@ Making and executing the test programs
 
 To build the test programs, go into the 
 \family typewriter 
-*Test
+BaseTest
 \family default 
- directory and call make or make Tests.
+, 
+\family typewriter 
+SystemTest
+\family default 
+ etc.
+ directories and call 
+\family typewriter 
+make
+\family default 
+ or 
+\family typewriter 
+make Tests
+\family default 
+.
  
 \family typewriter 
 make list
@@ -489,9 +499,10 @@ make list
  You can make a specific test program by running the listed command.
 \layout Standard
 
-To execute the test programs you need to have the library in your path.
- For that it's easiest to locally install them as described before and (csh/tcsh
-) 
+To execute the test programs you need to have the OpenSG dynamic libraries
+ in your library search path.
+ For that it's easiest to locally install them as described before and call
+ (csh/tcsh) 
 \family typewriter 
 setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:../lib/dbg
 \family default 
@@ -511,17 +522,18 @@ Making and executing the tutorials
 \layout Standard
 
 There are a number of tutorial examples in the tutorials directory.
- You need to make and install the libraries first, before making them.
- To actually create them you'll probably have to adapt the 
+ They are available in compiled form as a part of the binary distributions,
+ but it is possible and probably the best way to start using OpenSG to change
+ and recompile them.
+\layout Standard
+
+You need to make and install the libraries first.
+ To actually create the tutorials on Unix just call 
 \family typewriter 
-common.*
+make
 \family default 
- files to your environment.
- This will become easier when we have our 
-\family typewriter 
-opensg-config
-\family default 
- script, but right you'll have to do it manually.
+.
+ For Windows there's a Visual Studio Workspace file in the binary distribution.
 \layout Section
 
 How to use it
@@ -531,30 +543,43 @@ Own projects
 \layout Standard
 
 OpenSG is just a library, so use it like any other library.
- It has an 
+ 
+\layout Standard
+
+It has an 
 \family typewriter 
-opensg-config
+osg-config
 \family default 
- script that emits the needed compiler options 
+ script that emits the needed compiler options
 \shape italic 
-(I hope it will...
- ;).
+.
  
 \shape default 
 So you can call 
 \family typewriter 
-opensg-config --cflags
+osg-config --cflags
 \family default 
  to get the needed compiler options and 
 \family typewriter 
-opensg-config --libs
+osg-config --libs
 \family default 
  to get the needed linker flags.
+ You also need to tell it which of the available parts you want to use,
+ so that it can include the needed flags for these, too.
  See 
 \family typewriter 
 tutorials/Makefile
 \family default 
  for examples how to do that.
+ 
+\layout Standard
+
+
+\family typewriter 
+osg-config
+\family default 
+ actually has some more options to support platofrm independence better,
+ but these are the most important ones.
 \layout Subsection
 
 Extending OpenSG
@@ -697,10 +722,6 @@ OSGLog.h
 Every log message has one specific level.
  Available levels are 
 \family typewriter 
-LOG
-\family default 
-, 
-\family typewriter 
 FATAL
 \family default 
 , 
@@ -741,10 +762,6 @@ The system log has two different interfaces.
 
 The stream interface can be used by using 
 \family typewriter 
-SLOG
-\family default 
-, 
-\family typewriter 
 SFATAL
 \family default 
 , 
@@ -773,10 +790,6 @@ FDEBUG
  For multi-line outputs you'll only want that on the first line, for the
  other lines use 
 \family typewriter 
-PLOG
-\family default 
-, 
-\family typewriter 
 PFATAL
 \family default 
 , 
@@ -797,8 +810,14 @@ PINFO
 
 To synchronize multiple outputs from various threads all S* commands lock
  the stream.
- You have to use 'osg::endLog' (e.g.
- SFATAL << 
+ You have to use '
+\family typewriter 
+osg::endLog
+\family default 
+' (e.g.
+ 
+\family typewriter 
+SFATAL << 
 \begin_inset Quotes eld
 \end_inset 
 
@@ -806,16 +825,45 @@ Message
 \begin_inset Quotes erd
 \end_inset 
 
- << endLog) to unlock the stream output.
+ << endLog;
+\family default 
+) to unlock the stream output.
  
+\layout Standard
+
+Example: 
+\family typewriter 
+SINFO << 
+\begin_inset Quotes eld
+\end_inset 
+
+Line 1 of message 1
+\begin_inset Quotes erd
+\end_inset 
+
+ << endl; PINFO << 
+\begin_inset Quotes eld
+\end_inset 
+
+line2 of message 1
+\begin_inset Quotes erd
+\end_inset 
+
+ << endLog; SINFO << 
+\begin_inset Quotes eld
+\end_inset 
+
+Message 2
+\begin_inset Quotes erd
+\end_inset 
+
+ << endLog;
+\family default 
+.
 \layout Standard
 
 The C interface tries to mimic the printf semantics.
  The following functions can be used for that: 
-\family typewriter 
-FLOG
-\family default 
-, 
 \family typewriter 
 FFATAL
 \family default 
@@ -873,8 +921,8 @@ OSG_DEBUG
  mode.
 \layout Standard
 
-The user can activate/deactivate various elements per log message during
- runtime by changing the 
+The user can activate/deactivate various elements per log message at runtime
+ by changing the 
 \family typewriter 
 LogHeaderElem
 \family default 
@@ -978,35 +1026,17 @@ matrix[0]
  This is also true for the vector-based constructor.
  However, the constructor taking 16 single elements expects its parameters
  row-major like the matrix is written on paper.
- 
-\emph on 
-(Guys, this is weird!)
 \layout Standard
 
 The positive side effect of this setup is the ability to access the base
- vectors of the matrix' coordinate space 
-\emph on 
-(what should that be?)
-\emph default 
- by accessing the vectors, i.e.
+ vectors of the matrix' coordinate space by accessing the vectors, i.e.
  
 \family typewriter 
 matrix[3]
 \family default 
- is the translation to the origin of the local coordinate space 
-\emph on 
-(assuming w = 1...
- generally the column vectors describe what's being done to the components
- of the vector to be transformed, the row vectors the results per component.
- Neither access is necessarily preferable)
-\emph default 
-.
+ is the translation to the origin of the local coordinate space.
  This is useful if you want to create your matrices from vectors, if you
  don't want to do that, don't worry about it.
- 
-\emph on 
-(I would tend to recommend to waive this little discussion; it's more confusing
- then helping)
 \layout Standard
 
 Setting the contents of a matrix is done by the 
@@ -1035,25 +1065,6 @@ If you need to create a matrix for a specific transformation, use the
 setTransform()
 \family default 
  methods, which create a matrix that executes the given transformation.
- There are also 
-\family typewriter 
-setScale()
-\family default 
-, 
-\family typewriter 
-setTranslate()
-\family default 
-, 
-\family typewriter 
-setRotate(),
-\family default 
- etc.
- methods, but these only set the respective parts of the matrix and don't
- clear the rest, so be careful when using these 
-\emph on 
-(so what happens to the scale if I set a rotation?)
-\emph default 
-.
 \layout Standard
 
 Matrices also supply the standard set of matrix operations like 
@@ -1085,17 +1096,15 @@ multLeft()
  in a different matrix or get their source data from a different matrix,
  see the class docs for details.
  
-\shape italic 
-What's the point of having both?
 \layout Standard
 
 The default vector/point multiplication methods 
 \family typewriter 
-multMatrixPnt()
+multMatrixVec()
 \family default 
  and 
 \family typewriter 
-multMatrixVec()
+multMatrixPnt()
 \family default 
  assume that the matrix only uses the standard 3x4 elements.
  To use the full 4x4 matrix use 
@@ -1107,7 +1116,11 @@ multFullMatrixPnt()
 \begin_inset Formula \( w \)
 \end_inset 
 
- coordinate of 0 they don't need a full transform.
+ coordinate of 0, compared to points which have 
+\begin_inset Formula \( w=1 \)
+\end_inset 
+
+, they don't need a full transform.
 \layout Subsection
 
 Vectors/Points/Colors
@@ -1178,12 +1191,7 @@ Pnt4f
 Vector &osg::Point.toVector()
 \family default 
  to cast the point to a vector.
-
-\shape italic 
- should we do that? It would ease the pain, but undermine the distinction.
- 
-\shape default 
-When multiplied with a matrix, the w coordinate is set as 1 for 3 element
+ When multiplied with a matrix, the w coordinate is set as 1 for 3 element
  points.
  
 \layout Standard
@@ -1192,8 +1200,6 @@ Colors are RGB vectors, which also have access functions to the named components
  They also allow access via the HSV color model and scalar multiplication,
  but no other operations.
  
-\shape italic 
-should we change that? Derive them from vector?
 \layout Subsection
 
 Quaternions
@@ -1415,7 +1421,8 @@ An Image is only a container for the pixel data and image description.
  
 \layout Standard
 
-The system provides loader and writer for various formats (see section 
+The system provides loaders and writers for various formats (see section
+ 
 \begin_inset LatexCommand \ref{imageLoaderSection}
 
 \end_inset 
@@ -1592,10 +1599,6 @@ subRefCP()
  removed later on (decreasing it to 0), it will be destroyed.
  Increasing the reference count before removing it is needed to prevent
  the destruction.
- 
-\shape italic 
-(we should fill the destroyed fcs with 0xdeadbeef or something similar.
- Does the recursive tree removal work right now?)
 \layout Section
 
 Manipulation
@@ -1618,7 +1621,8 @@ ed by calling
 \family typewriter 
 endEditCP(fcPtr, fieldMask);
 \family default 
-.Here,
+.
+ Here,
 \family typewriter 
  fcPtr
 \family default 
@@ -1627,7 +1631,26 @@ endEditCP(fcPtr, fieldMask);
 fieldMask
 \family default 
  is a bit mask describing the fields that are changed.
- Every FieldContainer defines 
+ 
+\layout Standard
+
+Every FieldContainer defines constants for all its fields that can be used
+ to set up this mask.
+ The naming convention is 
+\family typewriter 
+<FieldContainer>::<FieldName>FieldMask
+\family default 
+, e.g.
+ 
+\family typewriter 
+Geometry::PositionsFieldMask
+\family default 
+.
+ These masks can be 
+\family typewriter 
+or
+\family default 
+-ed together to create the full mask of fields that are changed.
 \layout Section
 
 Fields
@@ -1799,13 +1822,13 @@ Node
 NodeCore
 \family default 
  (s.
- 
+ fig 
 \begin_inset LatexCommand \ref{singleParentFig}
 
 \end_inset 
 
-).
- 
+), both of which are FieldContainers, so all that has been said before applies
+ to them.
 \layout Standard
 
 A 
@@ -1857,7 +1880,7 @@ Node
 
 \begin_inset Figure size 238 304
 file node_core_share.eps
-width 4 80
+width 4 80.00
 flags 9
 
 \end_inset 
@@ -1935,10 +1958,6 @@ AttachmentContainer
  attachment of every group attached to an AC.
  Most attachments are a group, but if needed new ones can be used as replacement
 s for their parents.
- 
-\shape italic 
-Is that true? The grouping is somewhat vague.
- 
 \layout Section
 
 Data separation & Thread safety
@@ -1964,9 +1983,6 @@ When a field container is created not only one instance is created but multiple,
  of them.
  Whenever data is changed in a thread, only the aspect that's associated
  with it is changed, the rest is left as is.
-\layout Standard
-
-shared MFields, Ptrs, begin/endEdit, Changelist sync
 \layout Chapter
 
 Special Node Cores
@@ -2031,8 +2047,8 @@ Lights
 \layout Standard
 
 A Light defines a source of light in the scene.
- Generally, two types of information are of interested: The position of
- the light source (geometry), and what elements of the scene are lit (semantics).
+ Generally, two types of information are of interest: The position of the
+ light source (geometry), and what elements of the scene are lit (semantics).
  Since the graph structure essentially describes the semantics of the scene,
  the node containing the Light describes what is lit: The subgraph attached
  to the Light.
@@ -2119,9 +2135,39 @@ OpenSG geometry is modeled closely following OpenGL.
  containers, so called GeoProperties.
  There are separate GeoProperties for different attributes, and variants
  for different data types for each kind of GeoProperty.
- The most prominent types are probably GeoPositions3f for Pnt3f positions,
- GeoNormals3f for Vec3f normals, GeoColors3f for Color3f colors and GeoTexCoords
-2f for Vec2f texture coordinates, but all other variants are possible.
+ The most prominent types are probably 
+\family typewriter 
+GeoPositions3f
+\family default 
+ for 
+\family typewriter 
+Pnt3f
+\family default 
+ positions, 
+\family typewriter 
+GeoNormals3f
+\family default 
+ for 
+\family typewriter 
+Vec3f
+\family default 
+ normals, 
+\family typewriter 
+GeoColors3f
+\family default 
+ for 
+\family typewriter 
+Color3f
+\family default 
+ colors and 
+\family typewriter 
+GeoTexCoords2f
+\family default 
+ for 
+\family typewriter 
+Vec2f
+\family default 
+ texture coordinates, but all other variants are possible.
  
 \layout Standard
 
@@ -2163,6 +2209,10 @@ Using these properties it is possible to define geometry (see fig.
 \end_inset 
 
 ).
+ Note that OpenSG inherits the constraints and specifications that concern
+ geometry from OpenGL.
+ Vertex orientation is counterclockwise when seen from the outside, and
+ concave polygons are not supported.
 \layout Standard
 
 \begin_float fig 
@@ -2171,7 +2221,7 @@ Using these properties it is possible to define geometry (see fig.
 
 \begin_inset Figure size 476 225
 file geo_nonindexed.eps
-width 3 80
+width 3 80.00
 flags 9
 
 \end_inset 
@@ -2218,7 +2268,7 @@ Indices are stored in the GeoIndices property, which only exists in the
 
 \begin_inset Figure size 476 225
 file geo_indexed.eps
-width 3 80
+width 3 80.00
 flags 9
 
 \end_inset 
@@ -2265,7 +2315,7 @@ To get around that you need multiple indices per vertex to index the different
 
 \begin_inset Figure size 476 212
 file geo_multiindexed.eps
-width 3 80
+width 3 80.00
 flags 9
 
 \end_inset 
@@ -2645,9 +2695,6 @@ These are called Actions in OpenSG, and there are a number of predefined
  actions:
 \layout Itemize
 
-Draw
-\layout Itemize
-
 Render
 \layout Itemize
 
@@ -2679,17 +2726,6 @@ action->apply(vector<NodePtr>::iterator begin, vector<NodePtr>::iterator
 ).
 \layout Section
 
-DrawAction
-\layout Standard
-
-DrawAction is a simple traversal that directly calls OpenGL.
- It was the first attempt at rendering and has been superseded by 
-\family typewriter 
-RenderAction
-\family default 
-, so use that instead.
-\layout Section
-
 RenderAction
 \layout Standard
 
@@ -2702,7 +2738,11 @@ RenderAction is the primary means of transforming the scene-graph into an
  
 \layout Standard
 
-To use it just create one and pass it to the Window (see sec.
+To use it just create one and pass it to the OpenSG 
+\family typewriter 
+Window
+\family default 
+ object (see sec.
  
 \begin_inset LatexCommand \ref{sec:window}
 
@@ -2876,11 +2916,19 @@ OSGQGLManagedWidget
 Window
 \layout Standard
 
-A Window is the connection to the window system used.
+A 
+\family typewriter 
+Window
+\family default 
+ is the connection between OpenSG and the window system used.
  There are variants for different supported window systems like X, WIN32,
  GLUT and QT.
- The OpenSG object handles OpenGL context creation and activation/deactivation,
- and needs to be informed about resizes.
+ The OpenSG 
+\family typewriter 
+Window
+\family default 
+ object handles OpenGL context creation and activation/deactivation, and
+ needs to be informed about resizes.
  It manages OpenGL objects like display lists and texture objects and is
  also responsible for OpenGL extension detection and functions.
 \layout Standard
@@ -2924,6 +2972,31 @@ value * size - 1
 .
  This allows abutting viewports by using the same relative values for right
  and left of the viewports that should fit.
+ See fig.
+ for an example.
+\layout Standard
+
+\begin_float fig 
+\layout Standard
+\align center 
+
+\begin_inset Figure size 238 120
+file viewports.eps
+width 4 80.00
+flags 9
+
+\end_inset 
+
+
+\layout Caption
+
+
+\begin_inset LatexCommand \label{fig:viewports}
+
+\end_inset 
+
+Viewports in differently sized windows
+\end_float 
 \layout Standard
 
 To define what is being rendered a viewport stores the root node of the
@@ -3079,8 +3152,8 @@ SimpleSceneManager
 
 \layout Standard
 
-SimpleSceneManager is a utility class to simplify the creation of simple
- applications.
+The SimpleSceneManager (SSM) is a utility class to simplify the creation
+ of simple applications.
  It manages a single window with a single viewport and a minimal scene-graph
  with a beacon for the camera and a headlight.
  It keeps a Trackball to interactively manipulate the camera.
@@ -3120,7 +3193,7 @@ d into an easy-to-use QT widget called
 OSGQGLWidget
 \family default 
 .
- See XXXX.cpp for an example on how to use it.
+ See testManagedWindowQT_qt.cpp for an example on how to use it.
 \layout Standard
 
 As a little bonus, SSM can display the 
@@ -3159,7 +3232,7 @@ SceneFileHandler
 ImageFileHandler
 \family default 
 ), which handle all abstract requests.
- The concrete loaders are coded in mime/file type handler (e.g.
+ The concrete loaders are coded in mime/file type handlers (e.g.
  
 \family typewriter 
 OSGTIFImageFileType.h/OSGTIFImageFileType.cpp
@@ -3206,11 +3279,11 @@ If you would like to get a loader for a specific type or suffix you can
  just ask the handler to find it (e.g.
  
 \family typewriter 
-OSGSceneFileHandler::the().getFileType(
+SceneFileHandler::the().getFileType(
 \begin_inset Quotes eld
 \end_inset 
 
-foo
+wrl
 \begin_inset Quotes erd
 \end_inset 
 
@@ -3241,7 +3314,7 @@ readTopNodes
 Just use the Handler to find and use the correct type for the given suffix:
  
 \family typewriter 
-osg::NodePtr rootPtr = osg::SceneFileType::the().read(
+osg::NodePtr rootPtr = osg::SceneFileTypeSceneFileHandler::the().read(
 \begin_inset Quotes eld
 \end_inset 
 
@@ -3275,7 +3348,7 @@ The image loader works more or less the same way as the scene loader.
  Let the singleton handler pick the mime type and just check the return
  value: 
 \family typewriter 
-osg::ImageFileType::the().read(
+osg::ImageFileHandler::the().read(
 \begin_inset Quotes eld
 \end_inset 
 
@@ -3344,14 +3417,14 @@ ImageFileType
 Scene
 \layout Standard
 
-Since scene loader are usually more complex and require sometimes some extra
- library they are stored in extra directories (e.g.
+Since scene loaders are usually more complex and require sometimes some
+ extra library they have extra directories for their sources (e.g.
  
 \family typewriter 
-OpenSG/Loader/OBJ
+OpenSG/Loader/WRL
 \family default 
 ).
- To write you own scene handler perform the following steps:
+ To write your own scene handler perform the following steps:
 \layout Enumerate
 
 Create a new directory for your mime type (e.g.
@@ -3402,8 +3475,8 @@ Image
 \layout Standard
 
 Image loaders are usually not too complex.
- They just use some kind of extra lib (e.g.
- tiflib) to load the image data.
+ They usually just use some external library (e.g.
+ tifflib) to load the image data.
  Since the extra lib is usually not included in the opensg source tree we
  do not store the code in an extra, mime type specific directory.
  They are all stored in 
@@ -3469,7 +3542,7 @@ Creating new FieldContainer classes
 Most developers who use OpenSG as a scene-graph library will probable never
  create their own OpenSG FieldContainer classes.
  Similar to widget libs (e.g.
- qt,gtk) people just use instances (the widgets) but never create new classes.
+ qt, gtk) people just use instances (the widgets) but never create new classes.
  
 \layout Standard
 
@@ -3513,7 +3586,7 @@ The basic idea is that you use the 'field container description editor'
 
 \begin_inset Figure size 267 177
 file fcd.eps
-width 4 90
+width 4 90.00
 flags 9
 
 \end_inset 
@@ -3535,14 +3608,21 @@ FcdEdit
  This strategy has various advantages:
 \layout Description
 
-Type_system_changes: If the OpenSG core team decides to change the code
- interface for the FieldContainer type management we can just recreate the
- base classes from the XML description.
+Type 
+\series bold 
+system changes
+\series default 
+: If the OpenSG core team decides to change the code interface for the FieldCont
+ainer type management we can just recreate the base classes from the XML
+ description.
  No adaptations 'by hand' are needed.
 \layout Description
 
-Interface_changes: If you would like to change the interface of your FieldContai
-ner (e.g.
+Interface 
+\series bold 
+changes
+\series default 
+: If you would like to change the interface of your FieldContainer (e.g.
  add another field) later on you can just re-edit the XML file in fcdEdit
  and recreate the base classes.
  All necessary access methods are created automatically.
@@ -3605,19 +3685,7 @@ If you create a replacement for a system component, e.g.
 \layout Standard
 
 Be careful to only replace the prototype with classes derived from the original
- class 
-\shape italic 
-(is that checked automatically? Should it?)
-\shape default 
-, or the behavior of the system is undefined.
-\layout Standard
-
-
-\begin_inset LatexCommand \listoffigures{}
-
-\end_inset 
-
-
+ class, or the behavior of the system is undefined.
 \layout Standard
 
 
@@ -3640,7 +3708,7 @@ We have a pretty tightly specified code style.
 But we're not religious about all the details.
  There are some basic rules that we would like code to be integrated into
  OpenSG to follow.
- See the TWiki for all the details.
+ See the OpenSG TWiki at http://opensg.sf.net/twiki/ for all the details.
 \layout Section
 
 Classes & Methods
@@ -3804,7 +3872,7 @@ That's about it.
  It isn't really that painful, is it?
 \layout Chapter
 
-fcdEdit description
+fcdEdit Interface Components
 \layout Standard
 
 \begin_float fig 
@@ -3813,7 +3881,7 @@ fcdEdit description
 
 \begin_inset Figure size 595 482
 file fcdEdit-numbered.eps
-width 3 100
+width 3 100.00
 flags 11
 
 \end_inset 
@@ -3836,13 +3904,23 @@ Is Parent a System Component: needed to define include convention.
  Has to be set when deriving from a system component.
 \layout Enumerate
 
-Library: 
+Library: Needed to distinguish between creating and using a DLL.
+ For applications just set it to 
+\family typewriter 
+My
+\family default 
+ and copy the 
+\family typewriter 
+OSGMyDef.h
+\family default 
+ from examples/Cubes.
 \layout Enumerate
 
-PFTypes: 
+PFTypes: choose the kinds of pointer fields that should be created.
+ 
 \layout Enumerate
 
-Structure: 
+Structure: choose between an abstract and a concrete class.
 \layout Enumerate
 
 Field list, shows all field description in a vertical list
@@ -3852,27 +3930,39 @@ Name of the Field
 \layout Enumerate
 
 Type of the Field, can be changed/extended with the 'Load Field Types/Reset
- Field Types' mechanisms
+ Field Types' mechanisms, or just typed into the line
 \layout Enumerate
 
 Cardinality: defines the field to be a single or MultiField (can hold one
  value or any number (0-n))
 \layout Enumerate
 
-Access: private/protected/public c++ sty;e access definition
+Access: private/protected/public c++ style access definition
 \layout Enumerate
 
 Visibility: internal/external; will be used to create various styles of
- documentation
+ documentation and to decide what is written to a file or not.
 \layout Enumerate
 
-Header: defines the type header, if unset ...
+Header: the header needed to define the type.
+ If unset the system tries to guess.
+ For internal types it's usually right, for your own types or external types
+ you can directly enter the header here.
 \layout Enumerate
 
-DefaultValue: The default field value, prototype ?
+DefaultValue: The default field value.
+ Copied into the initialisation list of the constructor.
+ Example: 
+\family typewriter 
+GL_POINT
+\family default 
+.
 \layout Enumerate
 
-DefaultHeader: ?
+DefaultHeader: The header that is needed to find the default value.
+ Example: 
+\family typewriter 
+<GL/gl.h>
 \layout Enumerate
 
 Description: Text description of the Field
@@ -3884,7 +3974,7 @@ New Field: creates a new field
 Delete Field: deletes the current field
 \layout Enumerate
 
-Clone Field: creates a new field description as clone of the current field
+Clone Field: creates a new field description as a clone of the current field
 \layout Enumerate
 
 Up: Moves the current field one position up
@@ -3896,30 +3986,55 @@ Down: Movies the current field one position down
 New: Restarts the process 
 \layout Enumerate
 
-Load:
+Load: load an fcd file and replace the current settings
 \layout Enumerate
 
-Load Parent:
+Load Parent: non-functional right now.
+ We don't know how to find the parent yet.
 \layout Enumerate
 
-ResetFieldTypes:
+ResetFieldTypes: Clear all the field types.
 \layout Enumerate
 
-LoadFieldTypes;
+LoadFieldTypes: Load your specific set of field types.
 \layout Enumerate
 
-Save:
+Save: Save the settings to the fcd file they came from.
 \layout Enumerate
 
-Save as:
+Save as: Save the settings to an fcd file they came from.
 \layout Enumerate
 
-Write Field Container Base Code: Writes the current description as FooBase.h,
- FooBase.inl and FooBase.cpp
+Write Field Container Base Code: Writes the current description as 
+\family typewriter 
+OSGFooBase.h
+\family default 
+, 
+\family typewriter 
+OSGFooBase.inl
+\family default 
+, 
+\family typewriter 
+OSGFooBase.cpp
+\family default 
+ and 
+\family typewriter 
+OSGFooFields.h
+\family default 
+.
 \layout Enumerate
 
-Write Field Container Code: Writes the current description as Foo.h Foo.inl
- and Foo.cpp
+Write Field Container Code: Writes the current description as 
+\family typewriter 
+OSGFoo.h
+\family default 
+ 
+\family typewriter 
+OSGFoo.inl 
+\family default 
+and 
+\family typewriter 
+OSGFoo.cpp
 \layout Enumerate
 
 About
@@ -3928,7 +4043,8 @@ About
 Exit
 \layout Enumerate
 
-Node Description: HTML ?
+Node Description: Description of the node that copied verbatim into the
+ doxygen documentation
 \layout Standard
 
 
