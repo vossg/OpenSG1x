@@ -162,10 +162,11 @@ void BlendChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 void BlendChunk::activate(DrawActionBase *action, UInt32)
 {
-    if(_sfSrcFactor.getValue() != GL_NONE)
+    GLenum src  = _sfSrcFactor.getValue();
+    GLenum dest = _sfDestFactor.getValue();
+
+    if(src != GL_ONE || dest != GL_ZERO)
     {
-        GLenum src  = _sfSrcFactor.getValue();
-        GLenum dest = _sfDestFactor.getValue();
         
         glBlendFunc(src, dest);
 
@@ -238,14 +239,16 @@ void BlendChunk::changeFrom(DrawActionBase *action,
                             UInt32 )
 {
     BlendChunk *old = dynamic_cast<BlendChunk *>(old_chunk);
-    
-    if(_sfSrcFactor.getValue() != GL_NONE)
+
+    GLenum src  = _sfSrcFactor.getValue();
+    GLenum dest = _sfDestFactor.getValue();
+    GLenum osrc  = old->_sfSrcFactor.getValue();
+    GLenum odest = old->_sfDestFactor.getValue();
+
+    if(src != GL_ONE || dest != GL_ZERO)
     {
-        GLenum src  = _sfSrcFactor.getValue();
-        GLenum dest = _sfDestFactor.getValue();
         
-        if(old->_sfSrcFactor.getValue()  != src ||
-           old->_sfDestFactor.getValue() != dest)
+        if(osrc != src || odest != dest)
             glBlendFunc(src, dest);
 
 #if GL_EXT_blend_color
@@ -273,12 +276,12 @@ void BlendChunk::changeFrom(DrawActionBase *action,
             }
         }
 #endif
-        if(old->_sfSrcFactor.getValue() == GL_NONE)
+        if(osrc == GL_ONE && odest == GL_ZERO)
             glEnable(GL_BLEND);
     }
     else
     {
-        if(old->_sfSrcFactor.getValue() != GL_NONE)
+        if(osrc != GL_ONE || odest != GL_ZERO)
             glDisable(GL_BLEND);
     }
 
@@ -330,7 +333,8 @@ void BlendChunk::changeFrom(DrawActionBase *action,
 
 void BlendChunk::deactivate(DrawActionBase *action, UInt32 )
 {
-    if(_sfSrcFactor.getValue() != GL_NONE)
+    if(_sfSrcFactor.getValue()  != GL_ONE ||
+       _sfDestFactor.getValue() != GL_ZERO  )
     {
         glDisable(GL_BLEND);
     }
