@@ -419,10 +419,7 @@ void FieldContainerViewCtl::partVisibilityChanged(int index)
  */
 void FieldContainerViewCtl::writeFieldContainerBaseSlot()
 {
-	char fldFile[256];
-	char decFile[256];
-	char inlFile[256];
-	char impFile[256];
+	char file[1024];
 
 	sync();
 
@@ -433,32 +430,79 @@ void FieldContainerViewCtl::writeFieldContainerBaseSlot()
 		if ( s.isEmpty() )
 			return;
 
-		 sprintf(fldFile,"%s/%s%sFields.%s", s.ascii(), _fieldContainer.filePrefix(), 
-						_fieldContainer.name(), _fieldContainer.decFileSuffix());
-		sprintf( decFile,"%s/%s%sBase.%s", s.ascii(), _fieldContainer.filePrefix(),
-						 _fieldContainer.name(), _fieldContainer.decFileSuffix());
-		sprintf( inlFile,"%s/%s%sBase.%s", s.ascii(),  _fieldContainer.filePrefix(),
-						 _fieldContainer.name(), _fieldContainer.inlFileSuffix());
-		sprintf( impFile,"%s/%s%sBase.%s", s.ascii(),  _fieldContainer.filePrefix(),
-						 _fieldContainer.name(), _fieldContainer.impFileSuffix());
-		if (_fieldContainer.writeCodeFields(fldFile))
-		if (_fieldContainer.writeBaseCodeDec(decFile))
-			if (_fieldContainer.writeBaseCodeInl(inlFile))
-				if (_fieldContainer.writeBaseCodeImp(decFile,impFile))
-					QMessageBox::information ( this, "Write OK",
-																	 "Wrote dec, inl and imp file" );
-				else
-					QMessageBox::warning ( this, "Write error",
-															 "Couldn't write the imp file ");
-			else
-				QMessageBox::warning ( this, "Write error",
-															 "Couldn't write the inl file ");
-		else
-			QMessageBox::warning ( this, "Write error",
-														 "Couldn't write the dec file ");
-		else
-			QMessageBox::warning ( this, "Write error",
+		sprintf( file,"%s/%s%sFields.%s", s.ascii(), 
+                    _fieldContainer.filePrefix(), 
+						        _fieldContainer.name(), 
+                    _fieldContainer.decFileSuffix());
+                    
+		if (!_fieldContainer.writeCodeFields(file))
+    {
+            QMessageBox::warning ( this, "Write error",
 														 "Couldn't write the fields file ");
+            return;
+    }
+
+		sprintf( file,"%s/%s%sBase.%s", s.ascii(), 
+                _fieldContainer.filePrefix(),
+						    _fieldContainer.name(), 
+                _fieldContainer.decFileSuffix());
+                    
+		if (!_fieldContainer.writeBaseCodeDec(file))
+    {
+            QMessageBox::warning ( this, "Write error",
+														 "Couldn't write the dec file ");
+            return;
+    }
+
+		sprintf( file,"%s/%s%sBase.%s", s.ascii(),  
+                _fieldContainer.filePrefix(),
+						    _fieldContainer.name(), 
+                _fieldContainer.inlFileSuffix());
+                    
+		if (!_fieldContainer.writeBaseCodeInl(file))
+    {
+            QMessageBox::warning ( this, "Write error",
+														 "Couldn't write the inl file ");
+            return;
+    }
+
+		sprintf( file,"%s/%s%sBase.%s", s.ascii(),  
+                _fieldContainer.filePrefix(),
+						    _fieldContainer.name(), 
+                _fieldContainer.impFileSuffix());
+                    
+		if (!_fieldContainer.writeBaseCodeImp(file))
+    {
+            QMessageBox::warning ( this, "Write error",
+														 "Couldn't write the imp file ");
+            return;
+    }
+
+	  char bdec[1024],binl[1024],bimp[1024],fields[1024];
+
+		sprintf( fields,"%s/%s%sDecoratorFields.%s", s.ascii(), 
+                    _fieldContainer.filePrefix(), 
+						        _fieldContainer.name(), 
+                    _fieldContainer.decFileSuffix());
+		sprintf( bdec,"%s/%s%sDecoratorBase.%s", s.ascii(), 
+                _fieldContainer.filePrefix(),
+						    _fieldContainer.name(), 
+                _fieldContainer.decFileSuffix());
+		sprintf( binl,"%s/%s%sDecoratorBase.%s", s.ascii(),  
+                _fieldContainer.filePrefix(),
+						    _fieldContainer.name(), 
+                _fieldContainer.inlFileSuffix());
+		sprintf( bimp,"%s/%s%sDecoratorBase.%s", s.ascii(),  
+                _fieldContainer.filePrefix(),
+						    _fieldContainer.name(), 
+                _fieldContainer.impFileSuffix());
+                    
+		if (!_fieldContainer.writeDecoratorBase(bdec,binl,bimp,fields))
+    {
+            QMessageBox::warning ( this, "Write error",
+														 "Couldn't write the decorator files ");
+            return;
+    }
 	}
 	else
 		QMessageBox::warning ( this, "Write error",
@@ -472,76 +516,103 @@ void FieldContainerViewCtl::writeFieldContainerBaseSlot()
  */
 void FieldContainerViewCtl::writeFieldContainerSlot()
 {
-	char decFile[256];
-	char inlFile[256];
-	char impFile[256];
+	char file[6][1024];
 
 	sync();
 
 	if (_fieldContainer.name()) {
 		QString s( QFileDialog::getExistingDirectory( QString::null, NULL,
-			"name", QString("Choose directory to save code files to"), true ) );
+			"name", QString("Choose directory to save files to"), true ) );
 
 		if ( s.isEmpty() )
 			return;
 
-		sprintf( decFile,"%s/%s%s.%s", s.ascii(),  _fieldContainer.filePrefix(),
-						 _fieldContainer.name(), _fieldContainer.decFileSuffix());
-		sprintf( inlFile,"%s/%s%s.%s", s.ascii(),  _fieldContainer.filePrefix(),
-						 _fieldContainer.name(), _fieldContainer.inlFileSuffix());
-		sprintf( impFile,"%s/%s%s.%s", s.ascii(),  _fieldContainer.filePrefix(),
-						 _fieldContainer.name(), _fieldContainer.impFileSuffix());
+		sprintf( file[0],"%s/%s%s.%s", s.ascii(), 
+                _fieldContainer.filePrefix(),
+						    _fieldContainer.name(), 
+                _fieldContainer.decFileSuffix());
+
+		sprintf( file[1],"%s/%s%s.%s", s.ascii(),  
+                _fieldContainer.filePrefix(),
+						    _fieldContainer.name(), 
+                _fieldContainer.inlFileSuffix());
+
+		sprintf( file[2],"%s/%s%s.%s", s.ascii(),  
+                _fieldContainer.filePrefix(),
+						    _fieldContainer.name(), 
+                _fieldContainer.impFileSuffix());
+
+		sprintf( file[3],"%s/%s%sDecorator.%s", s.ascii(), 
+                _fieldContainer.filePrefix(),
+						    _fieldContainer.name(), 
+                _fieldContainer.decFileSuffix());
+		sprintf( file[4],"%s/%s%sDecorator.%s", s.ascii(),  
+                _fieldContainer.filePrefix(),
+						    _fieldContainer.name(), 
+                _fieldContainer.inlFileSuffix());
+		sprintf( file[5],"%s/%s%sDecorator.%s", s.ascii(),  
+                _fieldContainer.filePrefix(),
+						    _fieldContainer.name(), 
+                _fieldContainer.impFileSuffix());
+
 				
 		// Check if the files already exist and don't overwrite them
 		QString ex;		 
-		QFile f( decFile );
-		if ( f.exists() )
-		{
-			ex += decFile;
-			ex += "\n";
-		}
-		f.setName( inlFile );
-		if ( f.exists() )
-		{
-			ex += inlFile;
-			ex += "\n";
-		}
-		f.setName( impFile );
-		if ( f.exists() )
-		{
-			ex += impFile;
-			ex += "\n";
-		}
+    for(int i = 0; i < 6; i++)
+    {
+		    QFile f( file[i] );
+		    if ( f.exists() )
+		    {
+			    ex += file[i];
+			    ex += "\n";
+		    }
+    } 
+
 		if ( ex.length() )
 		{
 			QString mes("Some files already exist:\n");
 			mes += ex;
-			mes += "\nAre you sure you want to overwrite them?";
+			mes += "Are you sure you want to overwrite them?";
 			
 			if ( QMessageBox::warning ( this, "Overwrite Warning", mes, 
 					"Yes", "No", NULL, 0, 1) )
 				return;
 		}
 		
-		
-		if (_fieldContainer.writeCodeDec(decFile))
-			if (_fieldContainer.writeCodeInl(inlFile))
-				if (_fieldContainer.writeCodeImp(decFile,impFile))
-					QMessageBox::information ( this, "Write OK",
-																		 "Wrote dec, inl and imp file" );
-				else
-					QMessageBox::warning ( this, "Write error",
-																 "Couldn't write the imp file ");
-			else
-				QMessageBox::warning ( this, "Write error",
-															 "Couldn't write the inl file ");
-		else
-			QMessageBox::warning ( this, "Write error",
+                     
+		if (!_fieldContainer.writeCodeDec(file[0]))
+    {
+            QMessageBox::warning ( this, "Write error",
 														 "Couldn't write the dec file ");
+            return;
+    }
+                    
+		if (!_fieldContainer.writeCodeInl(file[1]))
+    {
+            QMessageBox::warning ( this, "Write error",
+														 "Couldn't write the inl file ");
+            return;
+    }
+                    
+		if (!_fieldContainer.writeCodeImp(file[2]))
+    {
+            QMessageBox::warning ( this, "Write error",
+														 "Couldn't write the imp file ");
+            return;
+    }
+                   
+		if (!_fieldContainer.writeDecoratorCode(file[3],file[4],file[5]))
+    {
+            QMessageBox::warning ( this, "Write error",
+														 "Couldn't write the decorator files ");
+            return;
+    }
 	}
 	else
 		QMessageBox::warning ( this, "Write error",
 													 "No node name");
+
+						
 }
 
 /* 
@@ -663,9 +734,18 @@ void FieldContainerViewCtl::sysCompChanged(int index)
 
 void FieldContainerViewCtl::parentSysCompChanged(int index)
 {
-	cerr << "set parent system component: " << index << endl;
-
 	_fieldContainer.setParentSystemComponent(index);
+}
+
+void FieldContainerViewCtl::decoratableSwitch_stateChanged(int index)
+{
+	_fieldContainer.setDecoratable(index);
+	
+	if ( index && _fieldContainer.pointerFieldTypes() == 0)
+	{
+    _fieldContainer.setPointerFieldTypes(1);
+    pointerFieldTypesCombo->setCurrentItem(1);
+	}
 }
 
 void FieldContainerViewCtl::partAccessChanged(int index)

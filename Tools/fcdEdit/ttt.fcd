@@ -1,14 +1,15 @@
 <?xml version="1.0"?>
 
 <FieldContainer
-	name="VRMLTransform"
+	name="VRMLTransformQ"
 	parent="Transform"
 	library="Hugo"
 	pointerfieldtypes="both"
 	structure="abstract"
 	systemcomponent="false"
+	parentsystemcomponent="true"
 >
-This is the documentation for the VRMLTransform class. 	
+This is the documentation for the VRMLTransform class.
 	<Field
 		name="center"
 		type="Vec3f"
@@ -51,7 +52,7 @@ This is the documentation for the VRMLTransform class.
 	</Field>
 	<Field
 		name="translation"
-		type="Vec3f"
+		type="bool"
 		cardinality="single"
 		visibility="external"
 		access="public"

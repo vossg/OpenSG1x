@@ -51,6 +51,7 @@ public slots:
     virtual void newSlot();
     virtual void parentSysCompChanged(int);
     virtual void sysCompChanged(int);
+    virtual void decoratableSwitch_stateChanged(int);
     virtual void partIncludeChanged(const QString &);
     virtual void parentChanged(const QString &);
     virtual void partAccessChanged(int);

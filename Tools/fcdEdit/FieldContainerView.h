@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'FieldContainerView.ui'
 **
-** Created: Mon Oct 15 14:03:58 2001
+** Created: Sat Feb 16 18:32:33 2002
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -34,8 +34,9 @@ public:
     ~FieldContainerView();
 
     QGroupBox* GroupBox1;
+    QGroupBox* GroupBox7;
+    QMultiLineEdit* nodeDescriptionInput;
     QGroupBox* GroupBox17;
-    QCheckBox* parentSysComp;
     QLabel* TextLabel2;
     QLabel* TextLabel3;
     QLabel* TextLabel1;
@@ -46,9 +47,9 @@ public:
     QComboBox* pointerFieldTypesCombo;
     QComboBox* structureCombo;
     QLabel* TextLabel1_5;
+    QCheckBox* parentSysComp;
     QCheckBox* sysComp;
-    QGroupBox* GroupBox7;
-    QMultiLineEdit* nodeDescriptionInput;
+    QCheckBox* decoratableSwitch;
     QGroupBox* GroupBox3;
     QListBox* partListBox;
     QFrame* partFrame;
@@ -87,46 +88,47 @@ public:
     QPushButton* about;
     QPushButton* exit;
 
+
 public slots:
     virtual void aboutSlot();
-    virtual void activePartChanged(int);
+    virtual void activePartChanged( int );
     virtual void clonePartSlot();
     virtual void deletePartSlot();
     virtual void downPartSlot();
     virtual void exitSlot();
-    virtual void libraryChanged(const QString &);
+    virtual void libraryChanged( const QString & );
     virtual void loadFieldTypesSlot();
     virtual void loadParentSlot();
     virtual void loadSlot();
-    virtual void nameChanged(const QString &);
+    virtual void nameChanged( const QString & );
     virtual void newPartSlot();
     virtual void newSlot();
-    virtual void parentChanged(const QString &);
-    virtual void parentSysCompChanged(int);
-    virtual void partAccessChanged(int);
-    virtual void partCardinalityChanged(int);
-    virtual void partDefaultHeaderChanged(const QString &);
-    virtual void partDefaultValueChanged(const QString &);
-    virtual void partDescriptionChanged(const QString &);
-    virtual void partIncludeChanged(const QString &);
-    virtual void partNameChanged(const QString &);
-    virtual void partTypeChanged(const QString &);
-    virtual void partVisibilityChanged(int);
-    virtual void pointerFieldTypesChanged(int);
+    virtual void parentChanged( const QString & );
+    virtual void parentSysCompChanged( int );
+    virtual void partAccessChanged( int );
+    virtual void partCardinalityChanged( int );
+    virtual void partDefaultHeaderChanged( const QString & );
+    virtual void partDefaultValueChanged( const QString & );
+    virtual void partDescriptionChanged( const QString & );
+    virtual void partIncludeChanged( const QString & );
+    virtual void partNameChanged( const QString & );
+    virtual void partTypeChanged( const QString & );
+    virtual void partVisibilityChanged( int );
+    virtual void pointerFieldTypesChanged( int );
     virtual void resetFieldTypesSlot();
     virtual void saveAsSlot();
     virtual void saveSlot();
-    virtual void structureChanged(int);
-    virtual void sysCompChanged(int);
+    virtual void structureChanged( int );
+    virtual void sysCompChanged( int );
     virtual void upPartSlot();
     virtual void writeFieldContainerBaseSlot();
-    virtual void writeFieldContainerSlot();
+    virtual void qqqw_stateChanged( int );
+    virtual void decoratableSwitch_stateChanged( int );
+    virtual void writeFieldContainerSlot( int );
 
 protected:
     QVBoxLayout* FieldContainerViewLayout;
     QHBoxLayout* Layout6;
-    QVBoxLayout* GroupBox1Layout;
-    QGridLayout* GroupBox17Layout;
     QVBoxLayout* GroupBox7Layout;
     QVBoxLayout* GroupBox3Layout;
     QGridLayout* partFrameLayout;

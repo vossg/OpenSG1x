@@ -53,6 +53,7 @@ FieldContainer::KeyDic FieldContainer::_keyDic[] = {
 	{ FieldContainer::ACCESS_FIELD,            "access" },
 	{ FieldContainer::SYSTEMCOMPONENT_FIELD,   "systemcomponent" },
 	{ FieldContainer::PARENTSYSTEMCOMPONENT_FIELD,   "parentsystemcomponent" },
+	{ FieldContainer::DECORATABLE_FIELD,       "decoratable" },
 	{ FieldContainer::UNKNOWN_FIELD, 0}
 };
 
@@ -75,7 +76,7 @@ FieldContainer::FieldContainer (void )
 : _name(0), _parentFieldContainer(0), _description(0),
 	_library(0), _pointerFieldTypes(0), _abstract(0),
 	_systemComponent(false), _parentSystemComponent(true),
-    _fcdFileName(0)
+    _fcdFileName(0), _decoratable(false)
 {
 	return;
 }
@@ -91,7 +92,7 @@ FieldContainer::FieldContainer (FieldContainer &obj )
 : _name(0), _parentFieldContainer(0), _description(0),
 	_library(0), _pointerFieldTypes(0), _abstract(0),
 	_systemComponent(false), _parentSystemComponent(true),
-    _fcdFileName(0)
+    _fcdFileName(0), _decoratable(false)
 {
 	return;
 }
@@ -125,6 +126,7 @@ void FieldContainer::clear (void)
 	_abstract = 0;
 	_systemComponent = false;
 	_parentSystemComponent = true;
+	_decoratable = false;
 	
 	_fieldList.clear();
 
@@ -354,6 +356,26 @@ void FieldContainer::setSystemComponent (const char* str )
 }
 
 //----------------------------------------------------------------------
+// Method: setDecoratable
+// Author: dr
+// Date:   Thu Jan  8 19:53:04 1998
+// Description:
+//         set method for attribute decoratable
+//----------------------------------------------------------------------
+void FieldContainer::setDecoratable (const char* str )
+{
+	if ( ! strcasecmp(str, "true" ) )
+		_decoratable = true;
+	else if ( ! strcasecmp(str, "false" ) )
+		_decoratable = false;
+	else
+	{
+		cerr << "FieldContainer::setDecoratable: string " << str 
+			 << " not recognized!" << endl;
+	}
+}
+
+//----------------------------------------------------------------------
 // Method: setParentSystemComponent
 // Author: dr
 // Date:   Thu Jan  8 19:53:04 1998
@@ -424,6 +446,9 @@ bool FieldContainer::readDesc (const char *fn)
 						break;
 					case PARENTSYSTEMCOMPONENT_FIELD:
 						setParentSystemComponent(aI->second.c_str());
+						break;
+					case DECORATABLE_FIELD:
+						setDecoratable(aI->second.c_str());
 						break;
 					default:
 						break;
@@ -576,6 +601,8 @@ bool FieldContainer::writeDesc (const char *fN)
 			 _systemComponent?"true":"false");
     putField(out, nprefix, PARENTSYSTEMCOMPONENT_FIELD, 
 			 _parentSystemComponent?"true":"false");
+    putField(out, nprefix, DECORATABLE_FIELD, 
+			 _decoratable?"true":"false");
     out << ">" << endl;
 		if (_description && *_description)
 	    out << _description << endl;
@@ -640,8 +667,22 @@ bool FieldContainer::writeCode (bool base, bool fc)
 			retCode &= writeCodeFields(fldFile);
 			retCode &= writeBaseCodeDec(decFile);
 			retCode &= writeBaseCodeInl(inlFile);
-			retCode &= writeBaseCodeImp(decFile,impFile);
+			retCode &= writeBaseCodeImp(impFile);
 
+            if (decoratable())
+            {
+			    sprintf(fldFile,"%s%sDecoratorFields.%s", filePrefix(), name(), 
+											    decFileSuffix());
+			    sprintf(decFile,"%s%sDecoratorBase.%s", filePrefix(), name(), 
+											    decFileSuffix());
+			    sprintf(inlFile,"%s%sDecoratorBase.%s", filePrefix(), name(), 
+											    inlFileSuffix());
+			    sprintf(impFile,"%s%sDecoratorBase.%s", filePrefix(), name(), 
+											    impFileSuffix());
+
+			    retCode &= writeDecoratorBase(decFile,inlFile,impFile,fldFile);
+            }
+            
 			if (retCode)
 				cerr << "Write OK, Wrote base fields,dec,inl and imp file" << endl;
 			else
@@ -678,8 +719,21 @@ bool FieldContainer::writeCode (bool base, bool fc)
 				
 			retCode &= writeCodeDec(decFile);
 			retCode &= writeCodeInl(inlFile);
-			retCode &= writeCodeImp(decFile,impFile);
+			retCode &= writeCodeImp(impFile);
 
+
+            if (decoratable())
+            {
+			    sprintf(decFile,"%s%sDecorator.%s", filePrefix(), name(), 
+											    decFileSuffix());
+			    sprintf(inlFile,"%s%sDecorator.%s", filePrefix(), name(), 
+											    inlFileSuffix());
+			    sprintf(impFile,"%s%sDecorator.%s", filePrefix(), name(), 
+											    impFileSuffix());
+
+			    retCode &= writeDecoratorCode(decFile,inlFile,impFile);
+            }
+ 
 			if (retCode)
 				cerr << "Write OK, Wrote dec,inl and imp file" << endl;
 			else
@@ -702,16 +756,19 @@ bool FieldContainer::writeCode (bool base, bool fc)
 // Description:
 //         
 //----------------------------------------------------------------------
-bool FieldContainer::writeTempl( ofstream & out, char ** templ )
+bool FieldContainer::writeTempl( 
+    ofstream & out, 
+    char *fcname, 
+    char *parentname,
+    bool decorator,
+    char ** templ )
 {
 	// file loop
 	// some useful strings
 	char *libname = _library;
 	char *libnameUpper = strdup( _library );
-	char *fcname = _name;
-	char *fcnameUpper = strdup( _name );
-	char *parentname = _parentFieldContainer;
-	char *parentnameUpper = strdup( _parentFieldContainer );
+	char *fcnameUpper = strdup( fcname );
+	char *parentnameUpper = strdup( parentname );
 	const char *description = _description ? _description : "";
 	const char *headerPrefix = _systemComponent ? "" : "OpenSG/";
 	const char *parentHeaderPrefix = 
@@ -871,37 +928,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				    	<< (char)toupper( name[0] ) << name + 1 << "FieldMask;" << endl;
 				}
 
-                cout << endl;
-
-#if 0                
-				out << "\tstatic const osg::UInt32    " 
-				    << (char)toupper( name[0] ) << name + 1 << "FieldId"
-					<< "\t= Inherited::NextFieldId;" << endl;
-				out << "\tstatic const osg::BitVector " 
-				    << (char)toupper( name[0] ) << name + 1 << "FieldMask"
-					<< "\t= Inherited::NextFieldMask;" << endl << endl;
-				// loop: refer to previous field
-				for ( fieldIt++; fieldIt != _fieldList.end(); fieldIt++ )
-				{
-					prevname = name;
-					name = fieldIt->name();
-					out << "\tstatic const osg::UInt32    " 
-				    	<< (char)toupper( name[0] ) << name + 1 << "FieldId"
-						<< "   = " << (char)toupper( prevname[0] ) 
-						<< prevname + 1 << "FieldId + 1;" << endl;
-					out << "\tstatic const osg::BitVector " 
-				    	<< (char)toupper( name[0] ) << name + 1 << "FieldMask"
-						<< " = " << (char)toupper( prevname[0] ) 
-						<< prevname + 1 << "FieldMask << 1;" << endl << endl;
-				}
-				// Last field: prepare for use by inherited types
-				out << "\tstatic const osg::UInt32\tNextFieldId   = " 
-				    << (char)toupper( name[0] ) << name + 1 << "FieldId + 1;" 
-					<< endl;
-				out << "\tstatic const osg::BitVector\tNextFieldMask = " 
-				    << (char)toupper( name[0] ) << name + 1 << "FieldMask << 1;" 
-					<< endl << endl;
-#endif
+                out << endl;
 			}		
 			// loop specials 
 			else if ( ! strcmp( s, "@@BeginFieldLoop@@" ) )
@@ -1015,6 +1042,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 					"hasPrivateFields", "hasProtectedFields", "hasPublicFields", 
 					"isPrivate", "isProtected", "isPublic",
 					"hasDefaultHeader", "SystemComponent",
+                    "isDecoratable", "Decorator",
 					NULL };
 				
 				char *key = s + strcspn( s, " \t");
@@ -1054,7 +1082,8 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 								skipIf = 1;
 							break;
 				case 4:		// hasFields
-						 	if ( _fieldList.begin() == _fieldList.end() )
+						 	if ( _fieldList.begin() == _fieldList.end() &&
+                                ! decorator )
 								skipIf = 1;
 							break;
 
@@ -1108,7 +1137,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 									fieldIt != _fieldList.end() && 
 									fieldIt->access() != 0;
 									fieldIt++ ) {}
-							if ( fieldIt == _fieldList.end() )
+							if ( fieldIt == _fieldList.end() && ! decorator)
 								skipIf = 1;
 							}
 							break;
@@ -1132,6 +1161,14 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 							break;
 				case 12:	// SystemComponent
                             if ( ! _systemComponent )
+							    skipIf = 1;
+							break;
+				case 13:	// isDecoratable
+                            if ( ! _decoratable || decorator )
+							    skipIf = 1;
+							break;
+				case 14:	// Decorator
+                            if ( ! decorator )
 							    skipIf = 1;
 							break;
 							
@@ -1180,7 +1217,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				"@!FIELDNAME", 			"@!fieldvisibility",
 				"@!Description",		"@!Fielddescription", 
 				"@!FieldSeparator",		"@!FieldDefaultHeader",
-				"@!HeaderPrefix", 		
+				"@!HeaderPrefix", 		"@!FieldMethodType",
 				NULL };
 			typedef enum {  
 					ClassnameE = 0,		CLASSNAMEE, 
@@ -1196,7 +1233,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 					FIELDNAMEE, 		fieldvisibilityE,
 					DescriptionE,		FielddescriptionE, 
 					FieldSeparatorE,	FieldDefaultHeaderE,
-					HeaderPrefixE 		
+					HeaderPrefixE, 		FieldMethodTypeE
 					} varE;
 			char *values[ sizeof(keys) / sizeof( char * ) ];
 					
@@ -1209,6 +1246,8 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 			values[DescriptionE] = (char*)(description);
 			values[HeaderPrefixE] = (char*)(headerPrefix);
 			values[ParentHeaderPrefixE] = (char*)(parentHeaderPrefix);
+			values[FieldMethodTypeE] = (_decoratable && ! decorator) ? 
+                                       "virtual" : "inline";
 
 			if ( inFieldLoop )
 			{
@@ -1387,7 +1426,8 @@ bool FieldContainer::writeCodeFields (const char *decFile)
  
 	if (out) 
 	{
-		retCode = writeTempl( out, FCPtrTemplate_h );
+		retCode = writeTempl( out, _name, _parentFieldContainer, false, 
+                                FCPtrTemplate_h );
  	}
  
 	return retCode;
@@ -1411,7 +1451,8 @@ bool FieldContainer::writeBaseCodeDec (const char *decFile)
  
 	if (out) 
 	{
-		retCode = writeTempl( out, FCBaseTemplate_h );
+		retCode = writeTempl( out, _name, _parentFieldContainer, false, 
+                                FCBaseTemplate_h );
  	}
  
 	return retCode;
@@ -1435,7 +1476,8 @@ bool FieldContainer::writeBaseCodeInl (const char *InlFile)
  
 	if (out) 
 	{
-		retCode = writeTempl( out, FCBaseTemplate_inl );
+		retCode = writeTempl( out, _name, _parentFieldContainer, false, 
+                                FCBaseTemplate_inl );
  	}
  
 	return retCode;
@@ -1449,8 +1491,7 @@ bool FieldContainer::writeBaseCodeInl (const char *InlFile)
 // Description:
 //         
 //----------------------------------------------------------------------
-bool FieldContainer::writeBaseCodeImp ( const char *decFile, 
-										const char *impFile)
+bool FieldContainer::writeBaseCodeImp ( const char *impFile)
 {
 	bool retCode = false;
 
@@ -1461,7 +1502,8 @@ bool FieldContainer::writeBaseCodeImp ( const char *decFile,
  
 	if (out) 
 	{
-		retCode = writeTempl( out, FCBaseTemplate_cpp );
+		retCode = writeTempl( out, _name, _parentFieldContainer, false, 
+                                FCBaseTemplate_cpp );
  	}
  
 	return retCode;
@@ -1486,7 +1528,8 @@ bool FieldContainer::writeCodeDec (const char *decFile)
  
 	if (out) 
 	{
-		retCode = writeTempl( out, FCTemplate_h );
+		retCode = writeTempl( out, _name, _parentFieldContainer, false, 
+                                FCTemplate_h );
  	}
  
 	return retCode;
@@ -1510,7 +1553,8 @@ bool FieldContainer::writeCodeInl (const char *decFile)
  
 	if (out) 
 	{
-		retCode = writeTempl( out, FCTemplate_inl );
+		retCode = writeTempl( out, _name, _parentFieldContainer, false, 
+                                FCTemplate_inl );
  	}
  
 	return retCode;
@@ -1523,8 +1567,7 @@ bool FieldContainer::writeCodeInl (const char *decFile)
 // Description:
 //         
 //----------------------------------------------------------------------
-bool FieldContainer::writeCodeImp ( const char *decFile, 
-																		const char *impFile)
+bool FieldContainer::writeCodeImp ( const char *impFile)
 {
 	bool retCode = false;
 
@@ -1535,9 +1578,156 @@ bool FieldContainer::writeCodeImp ( const char *decFile,
  
 	if (out) 
 	{
-		retCode = writeTempl( out, FCTemplate_cpp );
+		retCode = writeTempl( out, _name, _parentFieldContainer, false, 
+                                FCTemplate_cpp );
  	}
  
+	return retCode;
+}
+	
+//----------------------------------------------------------------------
+// Method: writeDecorator
+// Author: jbehr
+// Date:   Thu Jan  8 19:53:04 1998
+// Description:
+//         
+//----------------------------------------------------------------------
+bool FieldContainer::writeDecoratorBase ( const char *bdecFile, 
+									      const char *binlFile, 
+									      const char *bimpFile,
+                                          const char *fldFile)
+{
+	bool retCode = false;
+
+    if(!_decoratable)
+        return true;
+
+    char *name = new char [strlen(_name) + 10];
+    sprintf(name,"%sDecorator", _name);
+
+	ofstream out;
+
+	if (bdecFile)
+    {
+		out.open(bdecFile);
+ 
+	    if (out) 
+	    {
+	    	retCode = writeTempl( out, name, _name, true, 
+                                    FCBaseTemplate_h );
+ 	    }
+ 
+        out.close();
+    }
+
+	if (binlFile)
+    {
+		out.open(binlFile);
+ 
+	    if (out) 
+	    {
+	    	retCode = writeTempl( out, name, _name, true, 
+                                    FCBaseTemplate_inl );
+ 	    }
+ 
+        out.close();
+    }
+ 
+	if (bimpFile)
+    {
+		out.open(bimpFile);
+ 
+	    if (out) 
+	    {
+	    	retCode = writeTempl( out, name, _name, true, 
+                                    FCBaseTemplate_cpp );
+ 	    }
+ 
+        out.close();
+    }
+ 
+	if (fldFile)
+    {
+		out.open(fldFile);
+ 
+	    if (out) 
+	    {
+	    	retCode = writeTempl( out, name, _name, true, 
+                                    FCPtrTemplate_h );
+ 	    }
+ 
+        out.close();
+    }
+   
+    
+ 
+    delete [] name;
+
+	return retCode;
+}
+	
+//----------------------------------------------------------------------
+// Method: writeDecorator
+// Author: jbehr
+// Date:   Thu Jan  8 19:53:04 1998
+// Description:
+//         
+//----------------------------------------------------------------------
+bool FieldContainer::writeDecoratorCode ( const char *decFile, 
+									      const char *inlFile, 
+									      const char *impFile)
+{
+	bool retCode = false;
+
+    if(!_decoratable)
+        return true;
+
+    char *name = new char [strlen(_name) + 10];
+    sprintf(name,"%sDecorator", _name);
+
+	ofstream out;
+
+	if (decFile)
+    {
+		out.open(decFile);
+ 
+	    if (out) 
+	    {
+	    	retCode = writeTempl( out, name, _name, true, 
+                                    FCTemplate_h );
+ 	    }
+ 
+        out.close();
+    }
+
+	if (inlFile)
+    {
+		out.open(inlFile);
+ 
+	    if (out) 
+	    {
+	    	retCode = writeTempl( out, name, _name, true, 
+                                    FCTemplate_inl );
+ 	    }
+ 
+        out.close();
+    }
+ 
+	if (impFile)
+    {
+		out.open(impFile);
+ 
+	    if (out) 
+	    {
+	    	retCode = writeTempl( out, name, _name, true, 
+                                    FCTemplate_cpp );
+ 	    }
+ 
+        out.close();
+    }
+  
+    delete [] name;
+
 	return retCode;
 }
 

@@ -30,6 +30,7 @@ private:
 									DEFAULTVALUE_FIELD, ACCESS_FIELD, HEADER_FIELD, 
 									DEFAULTHEADER_FIELD, SYSTEMCOMPONENT_FIELD,
 									PARENTSYSTEMCOMPONENT_FIELD,
+                                    DECORATABLE_FIELD,
 									UNKNOWN_FIELD
 	};
 
@@ -85,6 +86,9 @@ private:
 
 	///
 	bool _systemComponent;
+
+	///
+	bool _decoratable;
 
 	///
 	bool _parentSystemComponent;
@@ -178,6 +182,17 @@ public:
   virtual void setSystemComponent (bool systemComponent) 
 		{ _systemComponent = systemComponent; }
 	
+	
+  /// get method for attribute systemComponent
+  virtual bool decoratable (void) { return _decoratable; }
+
+  /// set method for attribute systemComponent
+	virtual void setDecoratable (const char *str);
+
+  /// set method for attribute systemComponent
+  virtual void setDecoratable (bool val) 
+		{ _decoratable = val; }
+	
   /// get method for attribute parentSystemComponent
   virtual bool parentSystemComponent (void) { return _parentSystemComponent; }
 
@@ -198,7 +213,9 @@ public:
   virtual bool readDesc (const char *fileName = 0);
 
 	///
-	virtual bool writeTempl ( ofstream & out, char ** templ );
+	virtual bool writeTempl ( ofstream & out, char *fcname, 
+                                char *parentname, bool decorator,
+                                char ** templ  );
 
 	///
 	virtual bool writeDesc (const char *fileName = 0);
@@ -216,18 +233,23 @@ public:
 	virtual bool writeBaseCodeInl (const char *InlFile);
 
 	///
-	virtual bool writeBaseCodeImp ( const char *decFile, 
-																	const char *impFile);
+	virtual bool writeBaseCodeImp ( const char *impFile);
 
 	///
 	virtual bool writeCodeDec ( const char *decFile );																		
 	///
 	virtual bool writeCodeInl ( const char *InlFile );																		
 	///
-	virtual bool writeCodeImp ( const char *decFile, 
-															const char *impFile );
+	virtual bool writeCodeImp ( const char *impFile );
 
+    virtual bool writeDecoratorBase ( const char *bdecFile, 
+									  const char *binlFile, 
+									  const char *bimpFile,
+                                      const char *fldFile);
 
+    virtual bool writeDecoratorCode ( const char *decFile, 
+									  const char *inlFile, 
+									  const char *impFile);
 	/// 
 	static const char *filePrefix(void) { return _filePrefix; }
 

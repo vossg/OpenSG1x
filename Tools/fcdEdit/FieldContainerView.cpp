@@ -1,13 +1,14 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'FieldContainerView.ui'
 **
-** Created: Mon Oct 15 14:04:21 2001
+** Created: Sat Feb 16 18:32:33 2002
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
 #include "FieldContainerView.h"
 
+#include <qvariant.h>   // first for gcc 2.7.2
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qframe.h>
@@ -18,13 +19,13 @@
 #include <qmultilineedit.h>
 #include <qpushbutton.h>
 #include <qlayout.h>
-#include <qvariant.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
+#include "FieldContainerView.ui.h"
 
 /* 
  *  Constructs a FieldContainerView which is a child of 'parent', with the 
- *  name 'name' and widget flags set to 'f' 
+ *  name 'name' and widget flags set to 'f'.
  *
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
@@ -35,119 +36,89 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     if ( !name )
 	setName( "FieldContainerView" );
     resize( 856, 671 ); 
-    setCaption( tr( "OpenSG Field Container editor" ) );
-    FieldContainerViewLayout = new QVBoxLayout( this ); 
-    FieldContainerViewLayout->setSpacing( 6 );
-    FieldContainerViewLayout->setMargin( 11 );
+    setCaption( trUtf8( "OpenSG Field Container editor" ) );
+    FieldContainerViewLayout = new QVBoxLayout( this, 11, 6, "FieldContainerViewLayout"); 
 
-    Layout6 = new QHBoxLayout; 
-    Layout6->setSpacing( 6 );
-    Layout6->setMargin( 0 );
+    Layout6 = new QHBoxLayout( 0, 0, 6, "Layout6"); 
 
     GroupBox1 = new QGroupBox( this, "GroupBox1" );
-    GroupBox1->setTitle( tr( "Field Container" ) );
-    QWhatsThis::add(  GroupBox1, tr( "Pointer Field Types" ) );
-    GroupBox1->setColumnLayout(0, Qt::Vertical );
-    GroupBox1->layout()->setSpacing( 0 );
-    GroupBox1->layout()->setMargin( 0 );
-    GroupBox1Layout = new QVBoxLayout( GroupBox1->layout() );
-    GroupBox1Layout->setAlignment( Qt::AlignTop );
-    GroupBox1Layout->setSpacing( 6 );
-    GroupBox1Layout->setMargin( 11 );
-
-    GroupBox17 = new QGroupBox( GroupBox1, "GroupBox17" );
-    GroupBox17->setTitle( tr( "Type" ) );
-    GroupBox17->setColumnLayout(0, Qt::Vertical );
-    GroupBox17->layout()->setSpacing( 0 );
-    GroupBox17->layout()->setMargin( 0 );
-    GroupBox17Layout = new QGridLayout( GroupBox17->layout() );
-    GroupBox17Layout->setAlignment( Qt::AlignTop );
-    GroupBox17Layout->setSpacing( 6 );
-    GroupBox17Layout->setMargin( 11 );
-
-    parentSysComp = new QCheckBox( GroupBox17, "parentSysComp" );
-    parentSysComp->setText( tr( "Is Parent a System Component?" ) );
-    parentSysComp->setChecked( TRUE );
-
-    GroupBox17Layout->addMultiCellWidget( parentSysComp, 3, 3, 0, 1 );
-
-    TextLabel2 = new QLabel( GroupBox17, "TextLabel2" );
-    TextLabel2->setText( tr( "Name:" ) );
-
-    GroupBox17Layout->addWidget( TextLabel2, 0, 0 );
-
-    TextLabel3 = new QLabel( GroupBox17, "TextLabel3" );
-    TextLabel3->setText( tr( "Parent:" ) );
-
-    GroupBox17Layout->addWidget( TextLabel3, 2, 0 );
-
-    TextLabel1 = new QLabel( GroupBox17, "TextLabel1" );
-    TextLabel1->setText( tr( "Library:" ) );
-
-    GroupBox17Layout->addWidget( TextLabel1, 4, 0 );
-
-    nodeParentInput = new QLineEdit( GroupBox17, "nodeParentInput" );
-
-    GroupBox17Layout->addWidget( nodeParentInput, 2, 1 );
-
-    nodeNameInput = new QLineEdit( GroupBox17, "nodeNameInput" );
-
-    GroupBox17Layout->addWidget( nodeNameInput, 0, 1 );
-
-    nodeLibraryInput = new QLineEdit( GroupBox17, "nodeLibraryInput" );
-
-    GroupBox17Layout->addWidget( nodeLibraryInput, 4, 1 );
-
-    TextLabel1_4 = new QLabel( GroupBox17, "TextLabel1_4" );
-    TextLabel1_4->setText( tr( "PFTypes:" ) );
-
-    GroupBox17Layout->addWidget( TextLabel1_4, 5, 0 );
-
-    pointerFieldTypesCombo = new QComboBox( FALSE, GroupBox17, "pointerFieldTypesCombo" );
-    QToolTip::add(  pointerFieldTypesCombo, tr( "Pointer Field Types" ) );
-
-    GroupBox17Layout->addWidget( pointerFieldTypesCombo, 5, 1 );
-
-    structureCombo = new QComboBox( FALSE, GroupBox17, "structureCombo" );
-
-    GroupBox17Layout->addWidget( structureCombo, 6, 1 );
-
-    TextLabel1_5 = new QLabel( GroupBox17, "TextLabel1_5" );
-    TextLabel1_5->setText( tr( "Structure:" ) );
-
-    GroupBox17Layout->addWidget( TextLabel1_5, 6, 0 );
-
-    sysComp = new QCheckBox( GroupBox17, "sysComp" );
-    sysComp->setText( tr( "System Component?" ) );
-
-    GroupBox17Layout->addMultiCellWidget( sysComp, 1, 1, 0, 1 );
-    GroupBox1Layout->addWidget( GroupBox17 );
+    GroupBox1->setTitle( trUtf8( "Field Container" ) );
+    QWhatsThis::add( GroupBox1, trUtf8( "Pointer Field Types" ) );
 
     GroupBox7 = new QGroupBox( GroupBox1, "GroupBox7" );
-    GroupBox7->setTitle( tr( "Description" ) );
+    GroupBox7->setGeometry( QRect( 11, 274, 356, 272 ) ); 
+    GroupBox7->setTitle( trUtf8( "Description" ) );
     GroupBox7->setColumnLayout(0, Qt::Vertical );
-    GroupBox7->layout()->setSpacing( 0 );
-    GroupBox7->layout()->setMargin( 0 );
+    GroupBox7->layout()->setSpacing( 6 );
+    GroupBox7->layout()->setMargin( 11 );
     GroupBox7Layout = new QVBoxLayout( GroupBox7->layout() );
     GroupBox7Layout->setAlignment( Qt::AlignTop );
-    GroupBox7Layout->setSpacing( 6 );
-    GroupBox7Layout->setMargin( 11 );
 
     nodeDescriptionInput = new QMultiLineEdit( GroupBox7, "nodeDescriptionInput" );
     nodeDescriptionInput->setWordWrap( QMultiLineEdit::WidgetWidth );
     GroupBox7Layout->addWidget( nodeDescriptionInput );
-    GroupBox1Layout->addWidget( GroupBox7 );
+
+    GroupBox17 = new QGroupBox( GroupBox1, "GroupBox17" );
+    GroupBox17->setGeometry( QRect( 11, 23, 356, 245 ) ); 
+    GroupBox17->setTitle( trUtf8( "Type" ) );
+
+    TextLabel2 = new QLabel( GroupBox17, "TextLabel2" );
+    TextLabel2->setGeometry( QRect( 11, 23, 73, 25 ) ); 
+    TextLabel2->setText( trUtf8( "Name:" ) );
+
+    TextLabel3 = new QLabel( GroupBox17, "TextLabel3" );
+    TextLabel3->setGeometry( QRect( 11, 83, 73, 25 ) ); 
+    TextLabel3->setText( trUtf8( "Parent:" ) );
+
+    TextLabel1 = new QLabel( GroupBox17, "TextLabel1" );
+    TextLabel1->setGeometry( QRect( 11, 143, 73, 25 ) ); 
+    TextLabel1->setText( trUtf8( "Library:" ) );
+
+    nodeParentInput = new QLineEdit( GroupBox17, "nodeParentInput" );
+    nodeParentInput->setGeometry( QRect( 90, 83, 255, 25 ) ); 
+
+    nodeNameInput = new QLineEdit( GroupBox17, "nodeNameInput" );
+    nodeNameInput->setGeometry( QRect( 90, 23, 255, 25 ) ); 
+
+    nodeLibraryInput = new QLineEdit( GroupBox17, "nodeLibraryInput" );
+    nodeLibraryInput->setGeometry( QRect( 90, 143, 255, 25 ) ); 
+
+    TextLabel1_4 = new QLabel( GroupBox17, "TextLabel1_4" );
+    TextLabel1_4->setGeometry( QRect( 11, 174, 73, 27 ) ); 
+    TextLabel1_4->setText( trUtf8( "PFTypes:" ) );
+
+    pointerFieldTypesCombo = new QComboBox( FALSE, GroupBox17, "pointerFieldTypesCombo" );
+    pointerFieldTypesCombo->setGeometry( QRect( 90, 174, 255, 27 ) ); 
+    QToolTip::add( pointerFieldTypesCombo, trUtf8( "Pointer Field Types" ) );
+
+    structureCombo = new QComboBox( FALSE, GroupBox17, "structureCombo" );
+    structureCombo->setGeometry( QRect( 90, 207, 255, 27 ) ); 
+
+    TextLabel1_5 = new QLabel( GroupBox17, "TextLabel1_5" );
+    TextLabel1_5->setGeometry( QRect( 11, 207, 73, 27 ) ); 
+    TextLabel1_5->setText( trUtf8( "Structure:" ) );
+
+    parentSysComp = new QCheckBox( GroupBox17, "parentSysComp" );
+    parentSysComp->setGeometry( QRect( 11, 114, 334, 23 ) ); 
+    parentSysComp->setText( trUtf8( "Is Parent a System Component?" ) );
+    parentSysComp->setChecked( TRUE );
+
+    sysComp = new QCheckBox( GroupBox17, "sysComp" );
+    sysComp->setGeometry( QRect( 11, 54, 180, 23 ) ); 
+    sysComp->setText( trUtf8( "System Component?" ) );
+
+    decoratableSwitch = new QCheckBox( GroupBox17, "decoratableSwitch" );
+    decoratableSwitch->setGeometry( QRect( 220, 54, 120, 23 ) ); 
+    decoratableSwitch->setText( trUtf8( "Decoratable?" ) );
     Layout6->addWidget( GroupBox1 );
 
     GroupBox3 = new QGroupBox( this, "GroupBox3" );
-    GroupBox3->setTitle( tr( "Fields" ) );
+    GroupBox3->setTitle( trUtf8( "Fields" ) );
     GroupBox3->setColumnLayout(0, Qt::Vertical );
-    GroupBox3->layout()->setSpacing( 0 );
-    GroupBox3->layout()->setMargin( 0 );
+    GroupBox3->layout()->setSpacing( 6 );
+    GroupBox3->layout()->setMargin( 11 );
     GroupBox3Layout = new QVBoxLayout( GroupBox3->layout() );
     GroupBox3Layout->setAlignment( Qt::AlignTop );
-    GroupBox3Layout->setSpacing( 6 );
-    GroupBox3Layout->setMargin( 11 );
 
     partListBox = new QListBox( GroupBox3, "partListBox" );
     partListBox->setEnabled( TRUE );
@@ -157,12 +128,10 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     partFrame->setEnabled( TRUE );
     partFrame->setFrameShape( QFrame::Box );
     partFrame->setFrameShadow( QFrame::Raised );
-    partFrameLayout = new QGridLayout( partFrame ); 
-    partFrameLayout->setSpacing( 6 );
-    partFrameLayout->setMargin( 11 );
+    partFrameLayout = new QGridLayout( partFrame, 1, 1, 11, 6, "partFrameLayout"); 
 
     TextLabel3_2 = new QLabel( partFrame, "TextLabel3_2" );
-    TextLabel3_2->setText( tr( "Type:" ) );
+    TextLabel3_2->setText( trUtf8( "Type:" ) );
 
     partFrameLayout->addWidget( TextLabel3_2, 1, 0 );
 
@@ -172,17 +141,17 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     partFrameLayout->addWidget( partTypeCombo, 1, 1 );
 
     TextLabel2_2 = new QLabel( partFrame, "TextLabel2_2" );
-    TextLabel2_2->setText( tr( "Cardinality:" ) );
+    TextLabel2_2->setText( trUtf8( "Cardinality:" ) );
 
     partFrameLayout->addWidget( TextLabel2_2, 2, 0 );
 
     TextLabel1_2 = new QLabel( partFrame, "TextLabel1_2" );
-    TextLabel1_2->setText( tr( "Name:" ) );
+    TextLabel1_2->setText( trUtf8( "Name:" ) );
 
     partFrameLayout->addWidget( TextLabel1_2, 0, 0 );
 
     TextLabel4_2 = new QLabel( partFrame, "TextLabel4_2" );
-    TextLabel4_2->setText( tr( "DefaultValue:" ) );
+    TextLabel4_2->setText( trUtf8( "DefaultValue:" ) );
 
     partFrameLayout->addWidget( TextLabel4_2, 6, 0 );
 
@@ -196,17 +165,17 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     partFrameLayout->addWidget( partNameInput, 0, 1 );
 
     TextLabel2_3 = new QLabel( partFrame, "TextLabel2_3" );
-    TextLabel2_3->setText( tr( "Access:" ) );
+    TextLabel2_3->setText( trUtf8( "Access:" ) );
 
     partFrameLayout->addWidget( TextLabel2_3, 3, 0 );
 
     TextLabel1_3 = new QLabel( partFrame, "TextLabel1_3" );
-    TextLabel1_3->setText( tr( "Visibility:" ) );
+    TextLabel1_3->setText( trUtf8( "Visibility:" ) );
 
     partFrameLayout->addWidget( TextLabel1_3, 4, 0 );
 
     TextLabel3_3 = new QLabel( partFrame, "TextLabel3_3" );
-    TextLabel3_3->setText( tr( "Header:" ) );
+    TextLabel3_3->setText( trUtf8( "Header:" ) );
 
     partFrameLayout->addWidget( TextLabel3_3, 5, 0 );
 
@@ -231,12 +200,12 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     partFrameLayout->addWidget( partDescriptionInput, 8, 1 );
 
     TextLabel5 = new QLabel( partFrame, "TextLabel5" );
-    TextLabel5->setText( tr( "Description:" ) );
+    TextLabel5->setText( trUtf8( "Description:" ) );
 
     partFrameLayout->addWidget( TextLabel5, 8, 0 );
 
     TextLabel1_6 = new QLabel( partFrame, "TextLabel1_6" );
-    TextLabel1_6->setText( tr( "DefaultHeader:" ) );
+    TextLabel1_6->setText( trUtf8( "DefaultHeader:" ) );
 
     partFrameLayout->addWidget( TextLabel1_6, 7, 0 );
 
@@ -245,102 +214,94 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     partFrameLayout->addWidget( partDefaultHeaderInput, 7, 1 );
     GroupBox3Layout->addWidget( partFrame );
 
-    Layout3 = new QHBoxLayout; 
-    Layout3->setSpacing( 6 );
-    Layout3->setMargin( 0 );
+    Layout3 = new QHBoxLayout( 0, 0, 6, "Layout3"); 
 
     newPart = new QPushButton( GroupBox3, "newPart" );
-    newPart->setText( tr( "New" ) );
-    QToolTip::add(  newPart, tr( "create a new node part" ) );
+    newPart->setText( trUtf8( "New" ) );
+    QToolTip::add( newPart, trUtf8( "create a new node part" ) );
     Layout3->addWidget( newPart );
 
     deletePart = new QPushButton( GroupBox3, "deletePart" );
     deletePart->setEnabled( TRUE );
-    deletePart->setText( tr( "Delete" ) );
+    deletePart->setText( trUtf8( "Delete" ) );
     Layout3->addWidget( deletePart );
 
     clonePart = new QPushButton( GroupBox3, "clonePart" );
     clonePart->setEnabled( TRUE );
-    clonePart->setText( tr( "Clone" ) );
+    clonePart->setText( trUtf8( "Clone" ) );
     Layout3->addWidget( clonePart );
 
     upPart = new QPushButton( GroupBox3, "upPart" );
-    upPart->setText( tr( "Up" ) );
+    upPart->setText( trUtf8( "Up" ) );
     Layout3->addWidget( upPart );
 
     downPart = new QPushButton( GroupBox3, "downPart" );
-    downPart->setText( tr( "Down" ) );
+    downPart->setText( trUtf8( "Down" ) );
     Layout3->addWidget( downPart );
     GroupBox3Layout->addLayout( Layout3 );
     Layout6->addWidget( GroupBox3 );
     FieldContainerViewLayout->addLayout( Layout6 );
 
-    Layout7 = new QHBoxLayout; 
-    Layout7->setSpacing( 6 );
-    Layout7->setMargin( 0 );
+    Layout7 = new QHBoxLayout( 0, 0, 6, "Layout7"); 
 
-    Layout6_2 = new QGridLayout; 
-    Layout6_2->setSpacing( 6 );
-    Layout6_2->setMargin( 0 );
+    Layout6_2 = new QGridLayout( 0, 1, 1, 0, 6, "Layout6_2"); 
 
     writeNodeCode = new QPushButton( this, "writeNodeCode" );
-    writeNodeCode->setText( tr( "Write Field Container Base Code" ) );
+    writeNodeCode->setText( trUtf8( "Write Field Container Base Code" ) );
 
     Layout6_2->addWidget( writeNodeCode, 0, 4 );
 
     writeProcCode = new QPushButton( this, "writeProcCode" );
-    writeProcCode->setText( tr( "Write Field Container Code" ) );
+    writeProcCode->setText( trUtf8( "Write Field Container Code" ) );
 
     Layout6_2->addWidget( writeProcCode, 1, 4 );
 
     saveAs = new QPushButton( this, "saveAs" );
-    saveAs->setText( tr( "Save as" ) );
+    saveAs->setText( trUtf8( "Save as" ) );
 
     Layout6_2->addWidget( saveAs, 1, 3 );
 
     load = new QPushButton( this, "load" );
-    load->setText( tr( "Load" ) );
+    load->setText( trUtf8( "Load" ) );
 
     Layout6_2->addWidget( load, 0, 1 );
 
     save = new QPushButton( this, "save" );
-    save->setText( tr( "Save" ) );
+    save->setText( trUtf8( "Save" ) );
 
     Layout6_2->addWidget( save, 0, 3 );
 
     PushButton15 = new QPushButton( this, "PushButton15" );
-    PushButton15->setText( tr( "Reset Field Types" ) );
+    PushButton15->setText( trUtf8( "Reset Field Types" ) );
 
     Layout6_2->addWidget( PushButton15, 0, 2 );
 
     PushButton16 = new QPushButton( this, "PushButton16" );
-    PushButton16->setText( tr( "Load Field Types" ) );
+    PushButton16->setText( trUtf8( "Load Field Types" ) );
 
     Layout6_2->addWidget( PushButton16, 1, 2 );
 
     loadParent = new QPushButton( this, "loadParent" );
-    loadParent->setText( tr( "Load parent" ) );
+    loadParent->setText( trUtf8( "Load parent" ) );
 
     Layout6_2->addWidget( loadParent, 1, 1 );
 
     PushButton14 = new QPushButton( this, "PushButton14" );
-    PushButton14->setText( tr( "New" ) );
+    PushButton14->setText( trUtf8( "New" ) );
 
     Layout6_2->addWidget( PushButton14, 0, 0 );
     Layout7->addLayout( Layout6_2 );
     QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
     Layout7->addItem( spacer );
 
-    Layout4 = new QVBoxLayout; 
-    Layout4->setSpacing( 6 );
-    Layout4->setMargin( 0 );
+    Layout4 = new QVBoxLayout( 0, 0, 6, "Layout4"); 
 
     about = new QPushButton( this, "about" );
-    about->setText( tr( "About" ) );
+    about->setText( trUtf8( "About" ) );
     Layout4->addWidget( about );
 
     exit = new QPushButton( this, "exit" );
-    exit->setText( tr( "Exit" ) );
+    exit->setText( trUtf8( "Exit" ) );
     Layout4->addWidget( exit );
     Layout7->addLayout( Layout4 );
     FieldContainerViewLayout->addLayout( Layout7 );
@@ -351,11 +312,11 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     connect( newPart, SIGNAL( clicked() ), this, SLOT( newPartSlot() ) );
     connect( deletePart, SIGNAL( clicked() ), this, SLOT( deletePartSlot() ) );
     connect( clonePart, SIGNAL( clicked() ), this, SLOT( clonePartSlot() ) );
-    connect( nodeNameInput, SIGNAL( textChanged(const QString&) ), this, SLOT( nameChanged(const QString &) ) );
-    connect( nodeParentInput, SIGNAL( textChanged(const QString&) ), this, SLOT( parentChanged(const QString &) ) );
-    connect( partNameInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partNameChanged(const QString &) ) );
-    connect( partDefaultValueInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partDefaultValueChanged(const QString &) ) );
-    connect( partDescriptionInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partDescriptionChanged(const QString &) ) );
+    connect( nodeNameInput, SIGNAL( textChanged(const QString&) ), this, SLOT( nameChanged(const QString&) ) );
+    connect( nodeParentInput, SIGNAL( textChanged(const QString&) ), this, SLOT( parentChanged(const QString&) ) );
+    connect( partNameInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partNameChanged(const QString&) ) );
+    connect( partDefaultValueInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partDefaultValueChanged(const QString&) ) );
+    connect( partDescriptionInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partDescriptionChanged(const QString&) ) );
     connect( partVisibilityCombo, SIGNAL( activated(int) ), this, SLOT( partVisibilityChanged(int) ) );
     connect( loadParent, SIGNAL( clicked() ), this, SLOT( loadParentSlot() ) );
     connect( saveAs, SIGNAL( clicked() ), this, SLOT( saveAsSlot() ) );
@@ -365,20 +326,21 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     connect( partListBox, SIGNAL( highlighted(int) ), this, SLOT( activePartChanged(int) ) );
     connect( about, SIGNAL( clicked() ), this, SLOT( aboutSlot() ) );
     connect( writeNodeCode, SIGNAL( clicked() ), this, SLOT( writeFieldContainerBaseSlot() ) );
-    connect( writeProcCode, SIGNAL( clicked() ), this, SLOT( writeFieldContainerSlot() ) );
     connect( pointerFieldTypesCombo, SIGNAL( activated(int) ), this, SLOT( pointerFieldTypesChanged(int) ) );
     connect( partCardinalityCombo, SIGNAL( activated(int) ), this, SLOT( partCardinalityChanged(int) ) );
-    connect( nodeLibraryInput, SIGNAL( textChanged(const QString&) ), this, SLOT( libraryChanged(const QString &) ) );
+    connect( nodeLibraryInput, SIGNAL( textChanged(const QString&) ), this, SLOT( libraryChanged(const QString&) ) );
     connect( PushButton14, SIGNAL( clicked() ), this, SLOT( newSlot() ) );
     connect( PushButton15, SIGNAL( clicked() ), this, SLOT( resetFieldTypesSlot() ) );
     connect( PushButton16, SIGNAL( clicked() ), this, SLOT( loadFieldTypesSlot() ) );
     connect( structureCombo, SIGNAL( activated(int) ), this, SLOT( structureChanged(int) ) );
     connect( partAccessCombo, SIGNAL( activated(int) ), this, SLOT( partAccessChanged(int) ) );
-    connect( partIncludeInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partIncludeChanged(const QString &) ) );
-    connect( partDefaultHeaderInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partDefaultHeaderChanged(const QString &) ) );
+    connect( partIncludeInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partIncludeChanged(const QString&) ) );
+    connect( partDefaultHeaderInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partDefaultHeaderChanged(const QString&) ) );
     connect( sysComp, SIGNAL( stateChanged(int) ), this, SLOT( sysCompChanged(int) ) );
     connect( parentSysComp, SIGNAL( stateChanged(int) ), this, SLOT( parentSysCompChanged(int) ) );
-    connect( partTypeCombo, SIGNAL( textChanged(const QString&) ), this, SLOT( partTypeChanged(const QString &) ) );
+    connect( partTypeCombo, SIGNAL( textChanged(const QString&) ), this, SLOT( partTypeChanged(const QString&) ) );
+    connect( decoratableSwitch, SIGNAL( stateChanged(int) ), this, SLOT( decoratableSwitch_stateChanged(int) ) );
+    connect( writeProcCode, SIGNAL( stateChanged(int) ), this, SLOT( writeFieldContainerSlot(int) ) );
 
     // tab order
     setTabOrder( nodeNameInput, nodeParentInput );
@@ -413,170 +375,5 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
 FieldContainerView::~FieldContainerView()
 {
     // no need to delete child widgets, Qt does it all for us
-}
-
-void FieldContainerView::aboutSlot()
-{
-    qWarning( "FieldContainerView::aboutSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::activePartChanged(int)
-{
-    qWarning( "FieldContainerView::activePartChanged(int): Not implemented yet!" );
-}
-
-void FieldContainerView::clonePartSlot()
-{
-    qWarning( "FieldContainerView::clonePartSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::deletePartSlot()
-{
-    qWarning( "FieldContainerView::deletePartSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::downPartSlot()
-{
-    qWarning( "FieldContainerView::downPartSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::exitSlot()
-{
-    qWarning( "FieldContainerView::exitSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::libraryChanged(const QString &)
-{
-    qWarning( "FieldContainerView::libraryChanged(const QString &): Not implemented yet!" );
-}
-
-void FieldContainerView::loadFieldTypesSlot()
-{
-    qWarning( "FieldContainerView::loadFieldTypesSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::loadParentSlot()
-{
-    qWarning( "FieldContainerView::loadParentSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::loadSlot()
-{
-    qWarning( "FieldContainerView::loadSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::nameChanged(const QString &)
-{
-    qWarning( "FieldContainerView::nameChanged(const QString &): Not implemented yet!" );
-}
-
-void FieldContainerView::newPartSlot()
-{
-    qWarning( "FieldContainerView::newPartSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::newSlot()
-{
-    qWarning( "FieldContainerView::newSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::parentChanged(const QString &)
-{
-    qWarning( "FieldContainerView::parentChanged(const QString &): Not implemented yet!" );
-}
-
-void FieldContainerView::parentSysCompChanged(int)
-{
-    qWarning( "FieldContainerView::parentSysCompChanged(int): Not implemented yet!" );
-}
-
-void FieldContainerView::partAccessChanged(int)
-{
-    qWarning( "FieldContainerView::partAccessChanged(int): Not implemented yet!" );
-}
-
-void FieldContainerView::partCardinalityChanged(int)
-{
-    qWarning( "FieldContainerView::partCardinalityChanged(int): Not implemented yet!" );
-}
-
-void FieldContainerView::partDefaultHeaderChanged(const QString &)
-{
-    qWarning( "FieldContainerView::partDefaultHeaderChanged(const QString &): Not implemented yet!" );
-}
-
-void FieldContainerView::partDefaultValueChanged(const QString &)
-{
-    qWarning( "FieldContainerView::partDefaultValueChanged(const QString &): Not implemented yet!" );
-}
-
-void FieldContainerView::partDescriptionChanged(const QString &)
-{
-    qWarning( "FieldContainerView::partDescriptionChanged(const QString &): Not implemented yet!" );
-}
-
-void FieldContainerView::partIncludeChanged(const QString &)
-{
-    qWarning( "FieldContainerView::partIncludeChanged(const QString &): Not implemented yet!" );
-}
-
-void FieldContainerView::partNameChanged(const QString &)
-{
-    qWarning( "FieldContainerView::partNameChanged(const QString &): Not implemented yet!" );
-}
-
-void FieldContainerView::partTypeChanged(const QString &)
-{
-    qWarning( "FieldContainerView::partTypeChanged(const QString &): Not implemented yet!" );
-}
-
-void FieldContainerView::partVisibilityChanged(int)
-{
-    qWarning( "FieldContainerView::partVisibilityChanged(int): Not implemented yet!" );
-}
-
-void FieldContainerView::pointerFieldTypesChanged(int)
-{
-    qWarning( "FieldContainerView::pointerFieldTypesChanged(int): Not implemented yet!" );
-}
-
-void FieldContainerView::resetFieldTypesSlot()
-{
-    qWarning( "FieldContainerView::resetFieldTypesSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::saveAsSlot()
-{
-    qWarning( "FieldContainerView::saveAsSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::saveSlot()
-{
-    qWarning( "FieldContainerView::saveSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::structureChanged(int)
-{
-    qWarning( "FieldContainerView::structureChanged(int): Not implemented yet!" );
-}
-
-void FieldContainerView::sysCompChanged(int)
-{
-    qWarning( "FieldContainerView::sysCompChanged(int): Not implemented yet!" );
-}
-
-void FieldContainerView::upPartSlot()
-{
-    qWarning( "FieldContainerView::upPartSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::writeFieldContainerBaseSlot()
-{
-    qWarning( "FieldContainerView::writeFieldContainerBaseSlot(): Not implemented yet!" );
-}
-
-void FieldContainerView::writeFieldContainerSlot()
-{
-    qWarning( "FieldContainerView::writeFieldContainerSlot(): Not implemented yet!" );
 }
 
