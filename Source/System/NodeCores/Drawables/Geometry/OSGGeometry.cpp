@@ -222,7 +222,7 @@ Geometry::~Geometry(void)
         {
             _sfTypes.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfTypes.getValue(), Attachment::ParentsFieldMask);
+        endEditCP(_sfTypes.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfTypes.getValue());
     }
@@ -233,7 +233,7 @@ Geometry::~Geometry(void)
         {
             _sfLengths.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfLengths.getValue(), Attachment::ParentsFieldMask);
+        endEditCP(_sfLengths.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfLengths.getValue());
     }
@@ -244,7 +244,7 @@ Geometry::~Geometry(void)
         {
             _sfPositions.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfPositions.getValue(), Attachment::ParentsFieldMask);
+        endEditCP(_sfPositions.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfPositions.getValue());
     }
@@ -255,7 +255,7 @@ Geometry::~Geometry(void)
         {
             _sfNormals.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfNormals.getValue(), Attachment::ParentsFieldMask);
+        endEditCP(_sfNormals.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfNormals.getValue());
     }
@@ -266,7 +266,7 @@ Geometry::~Geometry(void)
         {
             _sfColors.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfColors.getValue(), Attachment::ParentsFieldMask);
+        endEditCP(_sfColors.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfColors.getValue());
     }
@@ -278,7 +278,7 @@ Geometry::~Geometry(void)
         {
             _sfSecondaryColors.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfSecondaryColors.getValue(), 
+        endEditCP(_sfSecondaryColors.getValue(), 
                         Attachment::ParentsFieldMask);
 
         subRefCP(_sfSecondaryColors.getValue());
@@ -290,7 +290,7 @@ Geometry::~Geometry(void)
         {
             _sfTexCoords.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfTexCoords.getValue(), Attachment::ParentsFieldMask);
+        endEditCP(_sfTexCoords.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfTexCoords.getValue());
     }
@@ -301,7 +301,7 @@ Geometry::~Geometry(void)
         {
             _sfTexCoords1.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfTexCoords1.getValue(), Attachment::ParentsFieldMask);
+        endEditCP(_sfTexCoords1.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfTexCoords1.getValue());
     }
@@ -312,7 +312,7 @@ Geometry::~Geometry(void)
         {
             _sfTexCoords2.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfTexCoords2.getValue(), Attachment::ParentsFieldMask);
+        endEditCP(_sfTexCoords2.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfTexCoords2.getValue());
     }
@@ -323,7 +323,7 @@ Geometry::~Geometry(void)
         {
             _sfTexCoords3.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfTexCoords3.getValue(), Attachment::ParentsFieldMask);
+        endEditCP(_sfTexCoords3.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfTexCoords3.getValue());
     }
@@ -334,7 +334,7 @@ Geometry::~Geometry(void)
         {
             _sfIndices.getValue()->subParent(thisP);
         }
-        beginEditCP(_sfIndices.getValue(), Attachment::ParentsFieldMask);
+        endEditCP(_sfIndices.getValue(), Attachment::ParentsFieldMask);
 
         subRefCP(_sfIndices.getValue());
     }
