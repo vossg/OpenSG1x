@@ -13,8 +13,6 @@
 #include <qlistbox.h>
 #include <qdir.h>
 
-using namespace std;
-
 /* 
  *  Constructs a FieldContainerViewCtl which is a child of 'parent', with the 
  *  name 'name' and widget flags set to 'f' 
@@ -92,7 +90,7 @@ void FieldContainerViewCtl::sync(void)
 void FieldContainerViewCtl::updateList(void) 
 {
 	char line[1024];
-	list<Field>::iterator nPI;
+	std::list<Field>::iterator nPI;
 
 	partListBox->clear();
 
@@ -270,7 +268,7 @@ void FieldContainerViewCtl::loadFieldContainer(const char *fileName)
  */
 void FieldContainerViewCtl::activePartChanged(int index)
 {
-	//	cerr << "activePartChanged:" << index << endl;
+	//	std::cerr << "activePartChanged:" << index << std::endl;
 
 	if (!_lineUpdate) {
 		_activePartIndex = index;
@@ -817,7 +815,7 @@ void FieldContainerViewCtl::pointerFieldTypesChanged(int index)
 
 void FieldContainerViewCtl::structureChanged(int index)
 {
-	cerr << "set abstract: " << index << endl;
+	std::cerr << "set abstract: " << index << std::endl;
 
 	_fieldContainer.setAbstract(index);
 }

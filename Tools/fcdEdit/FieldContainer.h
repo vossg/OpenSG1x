@@ -15,8 +15,6 @@
 #include "ActionType.h"
 #include "Field.h"
 
-using namespace std;
-
 class FieldContainer {
 
     friend class Field;
@@ -112,13 +110,13 @@ private:
     bool _parentSystemComponent;
 
   ///
-    list<Field> _fieldList;
+    std::list<Field> _fieldList;
 
     ///
     FieldKey findFieldKey (const char *key);
     
     ///
-    void putField ( ofstream &out, const char *prefix,
+    void putField ( std::ofstream &out, const char *prefix,
                                   FieldKey key, const char *value);
 
     /// last save name
@@ -232,7 +230,7 @@ public:
         { _parentSystemComponent = parentSystemComponent; }
 
   ///
-  list<Field> &fieldList(void) { return _fieldList; }
+  std::list<Field> &fieldList(void) { return _fieldList; }
 
     ///
     Field *getField(unsigned index);
@@ -241,7 +239,7 @@ public:
   virtual bool readDesc (const char *fileName = 0);
 
     ///
-    virtual bool writeTempl ( ofstream & out, char *fcname, 
+    virtual bool writeTempl ( std::ofstream & out, char *fcname, 
                                 char *parentname, bool decorator,
                                 char ** templ  );
 

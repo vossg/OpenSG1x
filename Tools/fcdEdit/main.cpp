@@ -1,6 +1,7 @@
 
 
 #include <string>
+#include <iostream>
 
 #ifndef FCD_TERM
 
@@ -37,7 +38,7 @@ int main( int argc, char **argv )
                 }
                 else
                 {
-                    cerr << "fcdEdit: -d but no argument given!" <<endl;
+                    std::cerr << "fcdEdit: -d but no argument given!" <<std::endl;
                     return 1;
                 }                
                 break;
@@ -49,7 +50,7 @@ int main( int argc, char **argv )
                 }
                 else
                 {
-                    cerr << "fcdEdit: -t but no argument given!" <<endl;
+                    std::cerr << "fcdEdit: -t but no argument given!" <<std::endl;
                     return 1;
                 }                
                 break;
@@ -69,18 +70,18 @@ int main( int argc, char **argv )
                 }
                 else
                 {
-                    cerr << "fcdEdit: -p but no argument given!" <<endl;
+                    std::cerr << "fcdEdit: -p but no argument given!" <<std::endl;
                     return 1;
                 }                
                 break;
              case 'h':
-                cerr << "Usage: fcdEdit -d file.fcd -t file.ftd -bfh" << endl;
-                cerr << "  -d file.fcd: load the field container description" << endl;
-                cerr << "  -t file.ftd: load the field type description" << endl;
-                cerr << "  -b write the field container base code files" << endl;
-                cerr << "  -f write the field container code files" << endl;
-                cerr << "  -p base code files output path" << endl;
-                cerr << "  -h print usage" << endl;
+                std::cerr << "Usage: fcdEdit -d file.fcd -t file.ftd -bfh" << std::endl;
+                std::cerr << "  -d file.fcd: load the field container description" << std::endl;
+                std::cerr << "  -t file.ftd: load the field type description" << std::endl;
+                std::cerr << "  -b write the field container base code files" << std::endl;
+                std::cerr << "  -f write the field container code files" << std::endl;
+                std::cerr << "  -p base code files output path" << std::endl;
+                std::cerr << "  -h print usage" << std::endl;
                 return 0;
                 break;
             }
@@ -101,7 +102,7 @@ int main( int argc, char **argv )
     if (writeBase || writeFC) 
     {
         if (fcdFile.empty())
-            cerr << "ERROR: Can't write code without description" << endl;
+            std::cerr << "ERROR: Can't write code without description" << std::endl;
         else 
         {
             fc.readDesc(fcdFile.c_str());
@@ -163,13 +164,13 @@ int main( int argc, char **argv )
                 writePath += sep;
             break;
         case 'h':
-            cerr << "Usage: fcdEdit -d file.fcd -t file.ftd -bfh" << endl;
-            cerr << "  -d file.fcd: load the field container description" << endl;
-            cerr << "  -t file.ftd: load the field type description" << endl;
-            cerr << "  -b write the field container base code files" << endl;
-            cerr << "  -f write the field container code files" << endl;
-            cerr << "  -p base code files output path" << endl;
-            cerr << "  -h print usage" << endl;
+            std::cerr << "Usage: fcdEdit -d file.fcd -t file.ftd -bfh" << std::endl;
+            std::cerr << "  -d file.fcd: load the field container description" << std::endl;
+            std::cerr << "  -t file.ftd: load the field type description" << std::endl;
+            std::cerr << "  -b write the field container base code files" << std::endl;
+            std::cerr << "  -f write the field container code files" << std::endl;
+            std::cerr << "  -p base code files output path" << std::endl;
+            std::cerr << "  -h print usage" << std::endl;
             return 0;
             break;
         }
@@ -192,7 +193,7 @@ int main( int argc, char **argv )
                 }
                 else
                 {
-                    cerr << "fcdEdit: -d but no argument given!" <<endl;
+                    std::cerr << "fcdEdit: -d but no argument given!" <<std::endl;
                     return 1;
                 }                
                 break;
@@ -204,7 +205,7 @@ int main( int argc, char **argv )
                 }
                 else
                 {
-                    cerr << "fcdEdit: -t but no argument given!" <<endl;
+                    std::cerr << "fcdEdit: -t but no argument given!" <<std::endl;
                     return 1;
                 }                
                 break;
@@ -224,18 +225,18 @@ int main( int argc, char **argv )
                 }
                 else
                 {
-                    cerr << "fcdEdit: -p but no argument given!" <<endl;
+                    std::cerr << "fcdEdit: -p but no argument given!" <<std::endl;
                     return 1;
                 }                
                 break;
              case 'h':
-                cerr << "Usage: fcdEdit -d file.fcd -t file.ftd -bfh" << endl;
-                cerr << "  -d file.fcd: load the field container description" << endl;
-                cerr << "  -t file.ftd: load the field type description" << endl;
-                cerr << "  -b write the field container base code files" << endl;
-                cerr << "  -f write the field container code files" << endl;
-                cerr << "  -p base code files output path" << endl;
-                cerr << "  -h print usage" << endl;
+                std::cerr << "Usage: fcdEdit -d file.fcd -t file.ftd -bfh" << std::endl;
+                std::cerr << "  -d file.fcd: load the field container description" << std::endl;
+                std::cerr << "  -t file.ftd: load the field type description" << std::endl;
+                std::cerr << "  -b write the field container base code files" << std::endl;
+                std::cerr << "  -f write the field container code files" << std::endl;
+                std::cerr << "  -p base code files output path" << std::endl;
+                std::cerr << "  -h print usage" << std::endl;
                 return 0;
                 break;
             }
@@ -256,7 +257,7 @@ int main( int argc, char **argv )
     if (writeBase || writeFC) 
     {
         if (fcdFile.empty())
-            cerr << "ERROR: Can't write code without description" << endl;
+            std::cerr << "ERROR: Can't write code without description" << std::endl;
         else 
         {
             fc.readDesc(fcdFile.c_str());
