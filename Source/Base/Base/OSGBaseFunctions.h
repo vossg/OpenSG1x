@@ -61,6 +61,10 @@
 #include <ieeefp.h>
 #endif
 
+#ifdef OSG_USE_STDMATH
+#include <cmath>
+#endif
+
 #include <OSGConfig.h>
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
@@ -82,86 +86,86 @@ OSG_BEGIN_NAMESPACE
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgsqrt(const FloatTypeT rVal);
+    osgsqrt(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgcos(const FloatTypeT rVal);
+    osgcos(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgsin(const FloatTypeT rVal);
+    osgsin(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgtan(const FloatTypeT rVal);
+    osgtan(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgacos(const FloatTypeT rVal);
+    osgacos(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgasin(const FloatTypeT rVal);
+    osgasin(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgatan(const FloatTypeT rVal);
+    osgatan(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgatan2(const FloatTypeT rVal1,
-             const FloatTypeT rVal2);
+    osgatan2(const FloatTypeT rValue1,
+             const FloatTypeT rValue2);
 
 
 template <class FloatTypeT> inline
-FloatTypeT osgabs(const FloatTypeT rVal);
+FloatTypeT osgabs(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgpow(const FloatTypeT rVal,
+    osgpow(const FloatTypeT rValue,
            const FloatTypeT rExp);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osglog(const FloatTypeT rVal);
+    osglog(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgexp(const FloatTypeT rVal);
+    osgexp(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgfloor(const FloatTypeT rVal);
+    osgfloor(const FloatTypeT rValue);
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgceil(const FloatTypeT rVal);
+    osgceil(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
-UInt32 osgfinite(const FloatTypeT rVal);
+UInt32 osgfinite(const FloatTypeT rValue);
 
 /*---------------------------------------------------------------------*/
 /*                           Min / Max Functions                       */
 
 template <class TypeT> inline
-TypeT osgMin(const TypeT lVal, const TypeT rVal);
+TypeT osgMin(const TypeT lVal, const TypeT rValue);
 
 
 template <class TypeT> inline
-TypeT osgMax(const TypeT lVal, const TypeT rVal);
+TypeT osgMax(const TypeT lVal, const TypeT rValue);
 
 
 template <class TypeT> inline
@@ -171,7 +175,7 @@ TypeT osgClamp(const TypeT minVal, const TypeT val, const TypeT maxVal);
 /*                               Swap Functions                        */
 
 template <class TypeT> inline
-void osgSwap(TypeT & lVal, TypeT & rVal);
+void osgSwap(TypeT & lVal, TypeT & rValue);
 
 /*---------------------------------------------------------------------*/
 /*                               Sign Functions                        */
@@ -184,32 +188,32 @@ Int8 osgSgn(TypeT val);
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgdegree2rad(const FloatTypeT rVal);
+    osgdegree2rad(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgrad2degree(const FloatTypeT rVal);
+    osgrad2degree(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    deg2rad(const FloatTypeT rVal);
+    deg2rad(const FloatTypeT rValue);
 
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    rad2deg(const FloatTypeT rVal);
+    rad2deg(const FloatTypeT rValue);
 
 /*---------------------------------------------------------------------*/
 /*                             Power 2 Functions                       */
 
 template <class TypeT> inline
-bool osgispower2(TypeT rVal);
+bool osgispower2(TypeT rValue);
 
 
 template <class TypeT> inline
-TypeT osgnextpower2(TypeT rVal);
+TypeT osgnextpower2(TypeT rValue);
 
 
 /*---------------------------------------------------------------------*/

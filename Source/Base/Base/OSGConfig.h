@@ -194,7 +194,7 @@
 
 #    define OSG_STDEXCEPTION_NAMESPACE    std
 
-#    if __GNUC_MINOR__ >=1
+#    if __GNUC__ >= 4 || __GNUC_MINOR__ >=1
 #        define OSG_STDEXTENSION_NAMESPACE  __gnu_cxx
 #        define OSG_HAS_SSTREAM
 #    else
@@ -280,6 +280,14 @@
 
 # define OSG_HAS_FLOATMATH
 
+/*! \brief Use the math functions from the std:: namespace
+ *  \ingroup GrpBaseDefines
+    The std:: namespace has a set of overloaded functions for many
+    math operations, up to and including long double versions.
+ */
+
+# define OSG_USE_STDMATH
+
 /*! \brief SGI's stl implementation is available
  *  \ingroup GrpBaseDefines
  */
@@ -328,6 +336,8 @@
 
 # define OSG_HAS_FLOATMATH
 
+# define OSG_USE_STDMATH
+
 # define OSG_USE_GLX
 
 # define OSG_USE_PTHREADS
@@ -371,6 +381,8 @@
 # define OSG_HAS_ATANF2
 
 # define OSG_HAS_FLOATMATH
+
+# define OSG_USE_STDMATH
 
 # define OSG_USE_GLX
 
@@ -434,6 +446,8 @@
 // general float math
 # define OSG_HAS_FLOATMATH
 
+# define OSG_USE_STDMATH
+
 // Use WGL 
 # define OSG_USE_WGL
 
@@ -470,6 +484,8 @@
 # define OSG_HAS_STD_NAMESPACE
 // general float math
 # define OSG_HAS_FLOATMATH
+
+# define OSG_USE_STDMATH
 
 # define OSG_STREAM_HAS_ISOPEN
 //# define OSG_HAS_VSNPRINTF
@@ -606,6 +622,8 @@
 
 # define OSG_HAS_FLOATMATH
 
+# define OSG_USE_STDMATH
+
 /*! \brief SGI's stl implementation is available
  *  \ingroup GrpBaseDefines
  */
@@ -701,6 +719,8 @@
  */
 
 //# define OSG_HAS_FLOATMATH
+
+# define OSG_USE_STDMATH
 
 /*! \brief SGI's stl implementation is available
  *  \ingroup GrpBaseDefines

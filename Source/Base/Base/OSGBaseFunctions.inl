@@ -58,23 +58,25 @@ OSG_BEGIN_NAMESPACE
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType 
-    osgsqrt(const FloatTypeT rVal)
+    osgsqrt(const FloatTypeT rValue)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgsqrt(RealType(rVal));
+    return  osgsqrt(RealType(rValue));
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real32 osgsqrt(const Real32 rVal)
+Real32 osgsqrt(const Real32 rValue)
 {
-#ifdef OSG_HAS_FLOATMATH
-    return sqrtf(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::sqrt(rValue);
+#elif defined(OSG_HAS_FLOATMATH)
+    return sqrtf(rValue);
 #else
-    return (Real32) sqrt((Real32) rVal);
+    return (Real32) sqrt((Real32) rValue);
 #endif
 }
 
@@ -82,18 +84,26 @@ Real32 osgsqrt(const Real32 rVal)
  */
 
 inline
-Real64 osgsqrt(const Real64 rVal)
+Real64 osgsqrt(const Real64 rValue)
 {
-    return sqrt(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::sqrt(rValue);
+#else
+    return sqrt(rValue);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real128 osgsqrt(const Real128 rVal)
+Real128 osgsqrt(const Real128 rValue)
 {
-    return sqrtl(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::sqrt(rValue);
+#else
+    return sqrtl(rValue);
+#endif
 }
 
 /*! \}                                                                 */
@@ -106,23 +116,25 @@ Real128 osgsqrt(const Real128 rVal)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType 
-    osgcos(const FloatTypeT rVal)
+    osgcos(const FloatTypeT rValue)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgcos(RealType(rVal));
+    return  osgcos(RealType(rValue));
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real32 osgcos(const Real32 rVal)
+Real32 osgcos(const Real32 rValue)
 {
-#ifdef OSG_HAS_FLOATMATH
-    return cosf(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::cos(rValue);
+#elif defined(OSG_HAS_FLOATMATH)
+    return cosf(rValue);
 #else
-    return (Real32) cos((Real32) rVal);
+    return (Real32) cos((Real32) rValue);
 #endif
 }
 
@@ -130,18 +142,26 @@ Real32 osgcos(const Real32 rVal)
  */
 
 inline
-Real64 osgcos(const Real64 rVal)
+Real64 osgcos(const Real64 rValue)
 {
-    return cos(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::cos(rValue);
+#else
+    return cos(rValue);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real128 osgcos(const Real128 rVal)
+Real128 osgcos(const Real128 rValue)
 {
-    return cosl(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::cos(rValue);
+#else
+    return cosl(rValue);
+#endif
 }
 
 /*! \}                                                                 */
@@ -154,23 +174,25 @@ Real128 osgcos(const Real128 rVal)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType 
-    osgsin(const FloatTypeT rVal)
+    osgsin(const FloatTypeT rValue)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgsin(RealType(rVal));
+    return  osgsin(RealType(rValue));
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real32 osgsin(const Real32 rVal)
+Real32 osgsin(const Real32 rValue)
 {
-#ifdef OSG_HAS_FLOATMATH
-    return sinf(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::sin(rValue);
+#elif defined(OSG_HAS_FLOATMATH)
+    return sinf(rValue);
 #else
-    return (Real32) sin((Real32) rVal);
+    return (Real32) sin((Real32) rValue);
 #endif
 }
 
@@ -178,18 +200,26 @@ Real32 osgsin(const Real32 rVal)
  */
 
 inline
-Real64 osgsin(const Real64 rVal)
+Real64 osgsin(const Real64 rValue)
 {
-    return sin(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::sin(rValue);
+#else
+    return sin(rValue);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real128 osgsin(const Real128 rVal)
+Real128 osgsin(const Real128 rValue)
 {
-    return sinl(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::sin(rValue);
+#else
+    return sinl(rValue);
+#endif
 }
 
 /*! \}                                                                 */
@@ -202,23 +232,25 @@ Real128 osgsin(const Real128 rVal)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgtan(const FloatTypeT rVal)
+    osgtan(const FloatTypeT rValue)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgtan(RealType(rVal));
+    return  osgtan(RealType(rValue));
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real32 osgtan(const Real32 rVal)
+Real32 osgtan(const Real32 rValue)
 {
-#ifdef OSG_HAS_FLOATMATH
-    return tanf(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::tan(rValue);
+#elif defined(OSG_HAS_FLOATMATH)
+    return tanf(rValue);
 #else
-    return (Real32) tan((Real32) rVal);
+    return (Real32) tan((Real32) rValue);
 #endif
 }
 
@@ -226,18 +258,26 @@ Real32 osgtan(const Real32 rVal)
  */
 
 inline
-Real64 osgtan(const Real64 rVal)
+Real64 osgtan(const Real64 rValue)
 {
-    return tan(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::tan(rValue);
+#else
+    return tan(rValue);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real128 osgtan(const Real128 rVal)
+Real128 osgtan(const Real128 rValue)
 {
-    return tanl(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::tan(rValue);
+#else
+    return tanl(rValue);
+#endif
 }
 
 /*! \}                                                                 */
@@ -250,23 +290,25 @@ Real128 osgtan(const Real128 rVal)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType 
-    osgacos(const FloatTypeT rVal)
+    osgacos(const FloatTypeT rValue)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgacos(RealType(rVal));
+    return  osgacos(RealType(rValue));
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real32 osgacos(const Real32 rVal)
+Real32 osgacos(const Real32 rValue)
 {
-#ifdef OSG_HAS_FLOATMATH
-    return acosf(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::acos(rValue);
+#elif defined(OSG_HAS_FLOATMATH)
+    return acosf(rValue);
 #else
-    return (Real32) acos((Real32) rVal);
+    return (Real32) acos((Real32) rValue);
 #endif
 }
 
@@ -274,18 +316,26 @@ Real32 osgacos(const Real32 rVal)
  */
 
 inline
-Real64 osgacos(const Real64 rVal)
+Real64 osgacos(const Real64 rValue)
 {
-    return acos(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::acos(rValue);
+#else
+    return acos(rValue);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real128 osgacos(const Real128 rVal)
+Real128 osgacos(const Real128 rValue)
 {
-    return acosl(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::acos(rValue);
+#else
+    return acosl(rValue);
+#endif
 }
 
 /*! \}                                                                 */
@@ -298,23 +348,25 @@ Real128 osgacos(const Real128 rVal)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgasin(const FloatTypeT rVal)
+    osgasin(const FloatTypeT rValue)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgasin(RealType(rVal));
+    return  osgasin(RealType(rValue));
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real32 osgasin(const Real32 rVal)
+Real32 osgasin(const Real32 rValue)
 {
-#ifdef OSG_HAS_FLOATMATH
-    return asinf(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::asin(rValue);
+#elif defined(OSG_HAS_FLOATMATH)
+    return asinf(rValue);
 #else
-    return (Real32) asin((Real32) rVal);
+    return (Real32) asin((Real32) rValue);
 #endif
 }
 
@@ -323,18 +375,26 @@ Real32 osgasin(const Real32 rVal)
  */
 
 inline
-Real64 osgasin(const Real64 rVal)
+Real64 osgasin(const Real64 rValue)
 {
-    return asin(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::asin(rValue);
+#else
+    return asin(rValue);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real128 osgasin(const Real128 rVal)
+Real128 osgasin(const Real128 rValue)
 {
-    return asinl(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::asin(rValue);
+#else
+    return asinl(rValue);
+#endif
 }
 
 /*! \}                                                                 */
@@ -347,23 +407,25 @@ Real128 osgasin(const Real128 rVal)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType 
-    osgatan(const FloatTypeT rVal)
+    osgatan(const FloatTypeT rValue)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgatan(RealType(rVal));
+    return  osgatan(RealType(rValue));
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real32 osgatan(const Real32 rVal)
+Real32 osgatan(const Real32 rValue)
 {
-#ifdef OSG_HAS_FLOATMATH
-    return atanf(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::atan(rValue);
+#elif defined(OSG_HAS_FLOATMATH)
+    return atanf(rValue);
 #else
-    return (Real32) atan((Real32) rVal);
+    return (Real32) atan((Real32) rValue);
 #endif
 }
 
@@ -371,18 +433,26 @@ Real32 osgatan(const Real32 rVal)
  */
 
 inline
-Real64 osgatan(const Real64 rVal)
+Real64 osgatan(const Real64 rValue)
 {
-    return atan(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::atan(rValue);
+#else
+    return atan(rValue);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real128 osgatan(const Real128 rVal)
+Real128 osgatan(const Real128 rValue)
 {
-    return atanl(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::atan(rValue);
+#else
+    return atanl(rValue);
+#endif
 }
 
 /*! \}                                                                 */
@@ -395,28 +465,30 @@ Real128 osgatan(const Real128 rVal)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType 
-    osgatan2(const FloatTypeT rVal1,
-             const FloatTypeT rVal2)
+    osgatan2(const FloatTypeT rValue1,
+             const FloatTypeT rValue2)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgatan2(RealType(rVal1), RealType(rVal2));
+    return  osgatan2(RealType(rValue1), RealType(rValue2));
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real32 osgatan2(const Real32 rVal1, const Real32 rVal2)
+Real32 osgatan2(const Real32 rValue1, const Real32 rValue2)
 {
-#ifdef OSG_HAS_FLOATMATH
+#ifdef OSG_USE_STDMATH
+    return std::atan2(rValue1, rValue2);
+#elif defined(OSG_HAS_FLOATMATH)
 #ifndef _OSG_HAS_ATANF2__
-    return atan2f(rVal1, rVal2);
+    return atan2f(rValue1, rValue2);
 #else
-    return (Real32) atan2((Real32) rVal1, (Real32) rVal2);
+    return (Real32) atan2((Real32) rValue1, (Real32) rValue2);
 #endif
 #else
-    return (Real32) atan2((Real32) rVal1, (Real32) rVal2);
+    return (Real32) atan2((Real32) rValue1, (Real32) rValue2);
 #endif
 }
 
@@ -424,18 +496,26 @@ Real32 osgatan2(const Real32 rVal1, const Real32 rVal2)
  */
 
 inline
-Real64 osgatan2(const Real64 rVal1, const Real64 rVal2)
+Real64 osgatan2(const Real64 rValue1, const Real64 rValue2)
 {
-    return atan2(rVal1, rVal2);
+#ifdef OSG_USE_STDMATH
+    return std::atan2(rValue1, rValue2);
+#else
+    return atan2(rValue1, rValue2);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real128 osgatan2(const Real128 rVal1, const Real128 rVal2)
+Real128 osgatan2(const Real128 rValue1, const Real128 rValue2)
 {
-    return atan2l(rVal1, rVal2);
+#ifdef OSG_USE_STDMATH
+    return std::atan2(rValue1, rValue2);
+#else
+    return atan2l(rValue1, rValue2);
+#endif
 }
 
 /*! \}                                                                 */
@@ -458,7 +538,9 @@ TypeT osgabs(const TypeT rValue)
 inline
 Real32 osgabs(const Real32 rValue)
 {
-#if defined(OSG_HAS_FLOATMATH) && !defined(OSG_NO_FABSF)
+#ifdef OSG_USE_STDMATH
+    return std::abs(rValue);
+#elif defined(OSG_HAS_FLOATMATH) && !defined(OSG_NO_FABSF)
     return fabsf(rValue);
 #else
     return (Real32) fabs((Real32) rValue);
@@ -471,7 +553,11 @@ Real32 osgabs(const Real32 rValue)
 inline
 Real64 osgabs(const Real64 rValue)
 {
+#ifdef OSG_USE_STDMATH
+    return std::abs(rValue);
+#else
     return fabs(rValue);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
@@ -480,7 +566,11 @@ Real64 osgabs(const Real64 rValue)
 inline
 Real128 osgabs(const Real128 rValue)
 {
+#ifdef OSG_USE_STDMATH
+    return std::abs(rValue);
+#else
     return fabsl(rValue);
+#endif
 }
 
 /*! \}                                                                 */
@@ -493,12 +583,12 @@ Real128 osgabs(const Real128 rValue)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgpow(const FloatTypeT rVal,
+    osgpow(const FloatTypeT rValue,
            const FloatTypeT rExp)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgpow(RealType(rVal), RealType(rExp));
+    return  osgpow(RealType(rValue), RealType(rExp));
 }
 
 /*! \ingroup GrpBaseBaseMathFn
@@ -507,7 +597,9 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 inline
 Real32 osgpow(const Real32 rValue, const Real32 rExp)
 {
-#ifdef OSG_HAS_FLOATMATH
+#ifdef OSG_USE_STDMATH
+    return std::pow(rValue, rExp);
+#elif defined(OSG_HAS_FLOATMATH)
     return powf(rValue, rExp);
 #else
     return (Real32) pow((Real32) rValue, (Real32) rExp);
@@ -520,7 +612,11 @@ Real32 osgpow(const Real32 rValue, const Real32 rExp)
 inline
 Real64 osgpow(const Real64 rValue, const Real64 rExp)
 {
+#ifdef OSG_USE_STDMATH
+    return std::pow(rValue, rExp);
+#else
     return pow(rValue, rExp);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
@@ -529,7 +625,11 @@ Real64 osgpow(const Real64 rValue, const Real64 rExp)
 inline
 Real128 osgpow(const Real128 rValue, const Real128 rExp)
 {
+#ifdef OSG_USE_STDMATH
+    return std::pow(rValue, rExp);
+#else
     return powl(rValue, rExp);
+#endif
 }
 
 /*! \}                                                                 */
@@ -542,23 +642,25 @@ Real128 osgpow(const Real128 rValue, const Real128 rExp)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osglog(const FloatTypeT rVal)
+    osglog(const FloatTypeT rValue)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osglog(RealType(rVal));
+    return  osglog(RealType(rValue));
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real32 osglog(const Real32 rVal)
+Real32 osglog(const Real32 rValue)
 {
-#ifdef OSG_HAS_FLOATMATH
-    return logf(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::log(rValue);
+#elif defined(OSG_HAS_FLOATMATH)
+    return logf(rValue);
 #else
-    return (Real32) log((Real32) rVal);
+    return (Real32) log((Real32) rValue);
 #endif
 }
 
@@ -566,18 +668,26 @@ Real32 osglog(const Real32 rVal)
  */
 
 inline
-Real64 osglog(const Real64 rVal)
+Real64 osglog(const Real64 rValue)
 {
-    return log(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::log(rValue);
+#else
+    return log(rValue);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real128 osglog(const Real128 rVal)
+Real128 osglog(const Real128 rValue)
 {
-    return logl(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::log(rValue);
+#else
+    return logl(rValue);
+#endif
 }
 
 /*! \}                                                                 */
@@ -590,23 +700,25 @@ Real128 osglog(const Real128 rVal)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgexp(const FloatTypeT rVal)
+    osgexp(const FloatTypeT rValue)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgexp(RealType(rVal));
+    return  osgexp(RealType(rValue));
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real32 osgexp(const Real32 rVal)
+Real32 osgexp(const Real32 rValue)
 {
-#ifdef OSG_HAS_FLOATMATH
-    return expf(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::exp(rValue);
+#elif defined(OSG_HAS_FLOATMATH)
+    return expf(rValue);
 #else
-    return (Real32) exp((Real32) rVal);
+    return (Real32) exp((Real32) rValue);
 #endif
 }
 
@@ -614,18 +726,26 @@ Real32 osgexp(const Real32 rVal)
  */
 
 inline
-Real64 osgexp(const Real64 rVal)
+Real64 osgexp(const Real64 rValue)
 {
-    return exp(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::exp(rValue);
+#else
+    return exp(rValue);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 inline
-Real128 osgexp(const Real128 rVal)
+Real128 osgexp(const Real128 rValue)
 {
-    return expl(rVal);
+#ifdef OSG_USE_STDMATH
+    return std::exp(rValue);
+#else
+    return expl(rValue);
+#endif
 }
 
 /*! \}                                                                 */
@@ -638,11 +758,11 @@ Real128 osgexp(const Real128 rVal)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgfloor(const FloatTypeT rVal)
+    osgfloor(const FloatTypeT rValue)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgfloor(RealType(rVal));
+    return  osgfloor(RealType(rValue));
 }
 
 /*! \ingroup GrpBaseBaseMathFn
@@ -651,7 +771,9 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 inline
 Real32 osgfloor(const Real32 rValue)
 {
-#ifdef OSG_HAS_FLOATMATH
+#ifdef OSG_USE_STDMATH
+    return std::floor(rValue);
+#elif defined(OSG_HAS_FLOATMATH)
 # ifdef OSG_HPUX_ACC
     return (Real32) floor((Real32) rValue);
 # else
@@ -668,7 +790,11 @@ Real32 osgfloor(const Real32 rValue)
 inline
 Real64 osgfloor(const Real64 rValue)
 {
+#ifdef OSG_USE_STDMATH
+    return std::floor(rValue);
+#else
     return floor(rValue);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
@@ -677,7 +803,11 @@ Real64 osgfloor(const Real64 rValue)
 inline
 Real128 osgfloor(const Real128 rValue)
 {
+#ifdef OSG_USE_STDMATH
+    return std::floor(rValue);
+#else
     return floorl(rValue);
+#endif
 }
 
 /*! \}                                                                 */
@@ -690,11 +820,11 @@ Real128 osgfloor(const Real128 rValue)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgceil(const FloatTypeT rVal)
+    osgceil(const FloatTypeT rValue)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgceil(RealType(rVal));
+    return  osgceil(RealType(rValue));
 }
 
 /*! \ingroup GrpBaseBaseMathFn
@@ -703,7 +833,9 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 inline
 Real32 osgceil(const Real32 rValue)
 {
-#ifdef OSG_HAS_FLOATMATH
+#ifdef OSG_USE_STDMATH
+    return std::ceil(rValue);
+#elif defined(OSG_HAS_FLOATMATH)
 # ifdef OSG_HPUX_ACC
     return (Real32) ceil((Real32) rValue);
 # else
@@ -720,7 +852,11 @@ Real32 osgceil(const Real32 rValue)
 inline
 Real64 osgceil(const Real64 rValue)
 {
+#ifdef OSG_USE_STDMATH
+    return std::ceil(rValue);
+#else
     return ceil(rValue);
+#endif
 }
 
 /*! \ingroup GrpBaseBaseMathFn
@@ -729,7 +865,11 @@ Real64 osgceil(const Real64 rValue)
 inline
 Real128 osgceil(const Real128 rValue)
 {
+#ifdef OSG_USE_STDMATH
+    return std::ceil(rValue);
+#else
     return ceill(rValue);
+#endif
 }
 
 /*! \}                                                                 */
@@ -741,15 +881,15 @@ Real128 osgceil(const Real128 rValue)
  */
 
 template <class FloatTypeT> inline
-UInt32 osgfinite(const FloatTypeT rVal)
+UInt32 osgfinite(const FloatTypeT rValue)
 {
 #ifdef WIN32
-    return _finite(rVal);
+    return _finite(rValue);
 #else
 #ifdef __hpux
-    return  isfinite(rVal);
+    return  isfinite(rValue);
 #else
-    return  finite(rVal);
+    return  finite(rValue);
 #endif
 #endif
 }
@@ -763,18 +903,18 @@ UInt32 osgfinite(const FloatTypeT rVal)
  */
 
 template <class TypeT> inline
-TypeT osgMin(const TypeT lVal, const TypeT rVal)
+TypeT osgMin(const TypeT lVal, const TypeT rValue)
 {
-    return ((lVal < rVal) ? lVal : rVal);
+    return ((lVal < rValue) ? lVal : rValue);
 }
 
 /*! \ingroup GrpBaseBaseMathFn
  */
 
 template <class TypeT> inline
-TypeT osgMax(const TypeT lVal, const TypeT rVal)
+TypeT osgMax(const TypeT lVal, const TypeT rValue)
 {
-    return ((lVal > rVal) ? lVal : rVal);
+    return ((lVal > rValue) ? lVal : rValue);
 }
 
 /*! \ingroup GrpBaseBaseMathFn
@@ -816,12 +956,12 @@ Int8 osgSgn(TypeT val)
  */
 
 template <class TypeT> inline
-void osgSwap(TypeT & lVal, TypeT & rVal)
+void osgSwap(TypeT & lVal, TypeT & rValue)
 {
     TypeT val(lVal);
 
-    lVal = rVal;
-    rVal = val;
+    lVal = rValue;
+    rValue = val;
 }
 
 /*! \}                                                                 */
@@ -852,11 +992,11 @@ Real64 osgdegree2rad(const Real64 rValue)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType 
-    osgdegree2rad(const FloatTypeT rVal)
+    osgdegree2rad(const FloatTypeT rValue)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  OSG::osgdegree2rad(RealType(rVal));
+    return  OSG::osgdegree2rad(RealType(rValue));
 }
 
 /*! \}                                                                 */
@@ -887,11 +1027,11 @@ Real64 osgrad2degree(const Real64 rValue)
 
 template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
-    osgrad2degree(const FloatTypeT rVal)
+    osgrad2degree(const FloatTypeT rValue)
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  OSG::osgrad2degree(RealType(rVal));
+    return  OSG::osgrad2degree(RealType(rValue));
 }
 
 /*! \}                                                                 */
