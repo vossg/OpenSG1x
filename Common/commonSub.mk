@@ -476,6 +476,9 @@ help:
 	@echo "<default>  as as tests"
 	@echo "dbg        compile the debug versions of the configured tests"
 	@echo "opt        compile the optimized versions of the configured tests"
+	@echo "dbgLnk     compile the debug versions of the tests using the static lib"
+	@echo "optLnk     compile the optimized versions of the tests using the static lib"
+	@echo "(to create dbg versions of specific tests use 'make <testname> dbg', same for opt)"
 	@echo "depend     explicitly create the dependency information"
 	@echo 
 	@echo "Cleanup targets"
@@ -509,6 +512,8 @@ help:
 	@echo "<default>  compile the same versions of the library as last time"
 	@echo "dbg        compile the debug versions of the library"
 	@echo "opt        compile the optimized versions of the library"
+	@echo "dbgLnk     compile the debug versions of the static library"
+	@echo "optLnk     compile the optimized versions of the static library"
 	@echo "depend     explicitly create the dependency information"
 	@echo 
 	@echo "Cleanup targets"
