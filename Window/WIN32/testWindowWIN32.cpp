@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
-#include <GL/gl.h>
+#include <OSGGL.h>
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
