@@ -117,7 +117,7 @@ FieldDescription *GeoColors4ubPropertyDesc::_desc[] =
 
 OSG_BEGIN_NAMESPACE
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate GeoProperty        <GeoColors3fPropertyDesc   >::_type
 #pragma instantiate GeoProperty        <GeoColors4fPropertyDesc   >::_type

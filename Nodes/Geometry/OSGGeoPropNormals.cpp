@@ -69,7 +69,7 @@ FieldDescription *GeoNormals3fPropertyDesc::_desc[] =
 
 OSG_BEGIN_NAMESPACE
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate GeoProperty        <GeoNormals3fPropertyDesc  >::_type
 

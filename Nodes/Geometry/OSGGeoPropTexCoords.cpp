@@ -85,7 +85,7 @@ FieldDescription *GeoTexCoords3fPropertyDesc::_desc[] =
 
 OSG_BEGIN_NAMESPACE
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate GeoProperty        <GeoTexCoords2fPropertyDesc>::_type
 

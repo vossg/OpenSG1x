@@ -69,7 +69,7 @@ FieldDescription *GeoPLengthsUI32PropertyDesc::_desc[] =
 
 OSG_BEGIN_NAMESPACE
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate GeoProperty        <GeoPLengthsUI32PropertyDesc >::_type
 

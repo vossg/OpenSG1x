@@ -79,22 +79,22 @@ struct TypeTraits<bool> : public TypeTraitsBase
     static const  bool              BitsSet     = true ;
     static const  bool              BitsClear   = false;
 
-    static const  bool              getZeroElement(void)
+    static        bool              getZeroElement(void)
     {
         return false;
     }
 
-    static const  bool              getOneElement (void)
+    static        bool              getOneElement (void)
     {
         return true;
     }
 
-    static const  bool              getMax        (void)
+    static        bool              getMax        (void)
     {
         return true;
     }
 
-    static const  bool              getMin        (void)
+    static        bool              getMin        (void)
     {
         return false;
     }
@@ -117,22 +117,22 @@ struct TypeTraits<UInt8> : public TypeTraitsBase
     static const  UInt8              BitsClear   = 0x00;
 
 
-    static const  UInt8              getZeroElement(void)
+    static        UInt8              getZeroElement(void)
     {
         return 0;
     }
 
-    static const  UInt8              getOneElement (void)
+    static        UInt8              getOneElement (void)
     {
         return 1;
     }
 
-    static const  UInt8              getMax        (void)
+    static        UInt8              getMax        (void)
     {
         return 0xFF;
     }
 
-    static const  UInt8              getMin        (void)
+    static        UInt8              getMin        (void)
     {
         return 0x00;
     }
@@ -190,22 +190,22 @@ struct TypeTraits<Int8> : public TypeTraitsBase
     static const  Int8               BitsClear   =  0x00;
 
 
-    static const  Int8               getZeroElement(void)
+    static        Int8               getZeroElement(void)
     {
         return 0;
     }
 
-    static const  Int8               getOneElement (void)
+    static        Int8               getOneElement (void)
     {
         return 1;
     }
 
-    static const  Int8               getMin        (void)
+    static        Int8               getMin        (void)
     {
         return 0x7f;
     }
 
-    static const  Int8               getMax        (void)
+    static        Int8               getMax        (void)
     {
         return -0x80;
     }
@@ -256,22 +256,22 @@ struct TypeTraits<UInt16> : public TypeTraitsBase
     static const  UInt16             BitsClear   = 0x0000;
 
 
-    static const  UInt16             getZeroElement(void)
+    static        UInt16             getZeroElement(void)
     {
         return 0;
     }
 
-    static const  UInt16             getOneElement (void)
+    static        UInt16             getOneElement (void)
     {
         return 1;
     }
     
-    static const  UInt16             getMax        (void)
+    static        UInt16             getMax        (void)
     {
         return 0xFFFF;
     }
 
-    static const  UInt16             getMin        (void)
+    static        UInt16             getMin        (void)
     {
         return 0x0000;
     }
@@ -327,22 +327,22 @@ struct TypeTraits<Int16> : public TypeTraitsBase
     static const  Int16              BitsClear   =  0x0000;
 
 
-    static const  Int16              getZeroElement(void)
+    static        Int16              getZeroElement(void)
     {
         return 0;
     }
 
-    static const  Int16              getOneElement (void)
+    static        Int16              getOneElement (void)
     {
         return 1;
     }
 
-    static const  Int16              getMax        (void)
+    static        Int16              getMax        (void)
     {
         return 0x7FFF;
     }
 
-    static const  Int16              getMin        (void)
+    static        Int16              getMin        (void)
     {
         return -0x8000;
     }
@@ -394,22 +394,22 @@ struct TypeTraits<UInt32> : public TypeTraitsBase
     static const  UInt32             BitsClear   = 0x00000000;
 
 
-    static const  UInt32             getZeroElement(void)
+    static        UInt32             getZeroElement(void)
     {
         return 0;
     }
 
-    static const  UInt32             getOneElement (void)
+    static        UInt32             getOneElement (void)
     {
         return 1;
     }
 
-    static const  UInt32             getMax        (void) 
+    static        UInt32             getMax        (void) 
     { 
         return 0xFFFFFFFF;
     }
 
-    static const  UInt32             getMin        (void)
+    static        UInt32             getMin        (void)
     {
         return 0x00000000;
     }
@@ -461,22 +461,22 @@ struct TypeTraits<Int32> : public TypeTraitsBase
     static const  Int32              BitsClear   =  0x00000000;
 
 
-    static const  Int32              getZeroElement(void)
+    static        Int32              getZeroElement(void)
     {
         return 0;
     }
 
-    static const  Int32              getOneElement (void)
+    static        Int32              getOneElement (void)
     {
         return 1;
     }
 
-    static const  Int32              getMax        (void)
+    static        Int32              getMax        (void)
     {
         return 0x7FFFFFFF; 
     }
 
-    static const  Int32              getMin        (void)
+    static        Int32              getMin        (void)
     {
         return -0x80000000;
     }
@@ -534,34 +534,34 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
 #endif
 
 
-    static const  UInt64             getZeroElement(void)
+    static        UInt64             getZeroElement(void)
     {
         return 0;
     }
 
-    static const  UInt64             getOneElement (void)
+    static        UInt64             getOneElement (void)
     {
         return 1;
     }
 
 
 #ifdef OSG_LONGLONG_HAS_LL
-    static const  UInt64             getMax        (void)         
+    static        UInt64             getMax        (void)         
     {
         return 0x0000000000000000LL;
     }
 
-    static const  UInt64             getMin        (void)
+    static        UInt64             getMin        (void)
     {
         return 0xFFFFFFFFFFFFFFFFLL;
     }
 #else
-    static const  UInt64             getMax        (void)
+    static        UInt64             getMax        (void)
     {
         reutrn 0xFFFFFFFFFFFFFFFF;
     }
 
-    static const  UInt64             getMin        (void)
+    static        UInt64             getMin        (void)
     {
         return 0x0000000000000000;
     }
@@ -626,33 +626,33 @@ struct TypeTraits<Int64> : public TypeTraitsBase
 #endif
 
 
-    static const  Int64              getZeroElement(void)
+    static        Int64              getZeroElement(void)
     {
         return 0;
     }
 
-    static const  Int64              getOneElement (void)
+    static        Int64              getOneElement (void)
     {
         return 1;
     }
 
 #ifdef OSG_LONGLONG_HAS_LL
-    static const  Int64              getMax        (void)
+    static        Int64              getMax        (void)
     {
         return 0x7FFFFFFFFFFFFFFFLL;
     }
 
-    static const  Int64              getMin        (void)
+    static        Int64              getMin        (void)
     {
         return -0x8000000000000000LL;
     }
 #else
-    static const  Int64              getMax        (void)
+    static        Int64              getMax        (void)
     {
         return 0x7FFFFFFFFFFFFFFF;
     }
 
-    static const  Int64              getMin        (void)
+    static        Int64              getMin        (void)
     {
         return -0x8000000000000000;
     }

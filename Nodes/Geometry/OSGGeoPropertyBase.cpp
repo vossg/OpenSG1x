@@ -62,7 +62,7 @@ efficient as the specific one.
 
 */
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate AbstractGeoProperty<GeoPositionsPropertyDesc  >::_type
 

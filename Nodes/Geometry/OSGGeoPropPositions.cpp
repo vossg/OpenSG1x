@@ -151,7 +151,7 @@ FieldDescription *GeoPositions4dPropertyDesc::_desc[] =
 
 OSG_BEGIN_NAMESPACE
 
-#if defined(__sgi)
+#if defined(OSG_SGI_EXPLICIT_INSTANTIATION)
 
 #pragma instantiate GeoProperty        <GeoPositions2fPropertyDesc>::_type
 #pragma instantiate GeoProperty        <GeoPositions3fPropertyDesc>::_type
