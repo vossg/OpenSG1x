@@ -107,6 +107,9 @@ void GrabForeground::dump(      UInt32    ,
 */   
 void GrabForeground::draw(DrawActionBase *, Viewport *port)
 {
+    if(getActive() == false)
+        return;
+    
     ImagePtr i = getImage();
     
     if(i == NullFC)       // No image, no grab.

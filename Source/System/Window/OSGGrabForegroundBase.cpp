@@ -67,6 +67,9 @@ OSG_USING_NAMESPACE
 const OSG::BitVector  GrabForegroundBase::ImageFieldMask = 
     (TypeTraits<BitVector>::One << GrabForegroundBase::ImageFieldId);
 
+const OSG::BitVector  GrabForegroundBase::ActiveFieldMask = 
+    (TypeTraits<BitVector>::One << GrabForegroundBase::ActiveFieldId);
+
 const OSG::BitVector GrabForegroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -77,6 +80,9 @@ const OSG::BitVector GrabForegroundBase::MTInfluenceMask =
 /*! \var ImagePtr        GrabForegroundBase::_sfImage
     The image to write to.
 */
+/*! \var bool            GrabForegroundBase::_sfActive
+    Activate the grabber.
+*/
 
 //! GrabForeground description
 
@@ -86,7 +92,12 @@ FieldDescription *GrabForegroundBase::_desc[] =
                      "image", 
                      ImageFieldId, ImageFieldMask,
                      false,
-                     (FieldAccessMethod) &GrabForegroundBase::getSFImage)
+                     (FieldAccessMethod) &GrabForegroundBase::getSFImage),
+    new FieldDescription(SFBool::getClassType(), 
+                     "active", 
+                     ActiveFieldId, ActiveFieldMask,
+                     false,
+                     (FieldAccessMethod) &GrabForegroundBase::getSFActive)
 };
 
 
@@ -143,6 +154,7 @@ void GrabForegroundBase::executeSync(      FieldContainer &other,
 
 GrabForegroundBase::GrabForegroundBase(void) :
     _sfImage                  (), 
+    _sfActive                 (bool(false)), 
     Inherited() 
 {
 }
@@ -153,6 +165,7 @@ GrabForegroundBase::GrabForegroundBase(void) :
 
 GrabForegroundBase::GrabForegroundBase(const GrabForegroundBase &source) :
     _sfImage                  (source._sfImage                  ), 
+    _sfActive                 (source._sfActive                 ), 
     Inherited                 (source)
 {
 }
@@ -174,6 +187,11 @@ UInt32 GrabForegroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfImage.getBinSize();
     }
 
+    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+    {
+        returnValue += _sfActive.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -186,6 +204,11 @@ void GrabForegroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ImageFieldMask & whichField))
     {
         _sfImage.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+    {
+        _sfActive.copyToBin(pMem);
     }
 
 
@@ -201,6 +224,11 @@ void GrabForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfImage.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+    {
+        _sfActive.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -212,6 +240,9 @@ void GrabForegroundBase::executeSyncImpl(      GrabForegroundBase *pOther,
 
     if(FieldBits::NoField != (ImageFieldMask & whichField))
         _sfImage.syncWith(pOther->_sfImage);
+
+    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+        _sfActive.syncWith(pOther->_sfActive);
 
 
 }
@@ -246,7 +277,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRABFOREGROUNDBASE_INLINE_CVSID;
 
