@@ -26,7 +26,6 @@
 #include <OSGSimpleGeometry.h>
 #include <OSGThread.h>
 #include <OSGThreadManager.h>
-#include <OSGFunctors.h>
 #include <OSGTime.h>
 #include <OSGTransform.h>
 #include <OSGAttachment.h>

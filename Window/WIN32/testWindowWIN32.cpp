@@ -24,7 +24,6 @@
 #include <OSGNode.h>
 #include <OSGGroup.h>
 #include <OSGSimpleGeometry.h>
-#include <OSGFunctors.h>
 #include <OSGTime.h>
 #include <OSGTransform.h>
 #include <OSGAttachment.h>

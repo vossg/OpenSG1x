@@ -666,8 +666,11 @@ int main (int argc, char **argv)
 
     // Task 2: draw wireframe bbox, if wanted
     ract->registerEnterFunction( OSG::Geometry::getClassType(),
-                                    OSG::osgFunctionFunctor2( wireDraw ) );
-
+                                 OSG::osgTypedFunctionFunctor2CPtrRef<
+                                    OSG::Action::ResultE, 
+                                    OSG::CNodePtr,
+                                    OSG::Action *                      >(
+                                        wireDraw));
 
     // tball
 

@@ -414,8 +414,12 @@ int main (int argc, char **argv)
     ract = DrawAction::create();
     
     // tweak it use our function for geometry rendering
-    ract->registerEnterFunction(    Geometry::getClassType(), 
-                                    osgFunctionFunctor2( doDraw ) );
+    ract->registerEnterFunction(Geometry::getClassType(), 
+                                OSG::osgTypedFunctionFunctor2CPtrRef<
+                                    OSG::Action::ResultE, 
+                                    OSG::CNodePtr,
+                                    OSG::Action *                      >(
+                                        doDraw ) );
 
     
     // tball
@@ -429,8 +433,10 @@ int main (int argc, char **argv)
 
     // allocate the GL id
     
-    glid = Window::registerGLObject( osgFunctionFunctor2( dlist ), 1 );
-    glid2 = Window::registerGLObject( osgFunctionFunctor2( dlist2 ), 1 );
+    glid = Window::registerGLObject (
+        osgTypedFunctionVoidFunctor2Ptr(dlist ), 1);
+    glid2 = Window::registerGLObject(
+        osgTypedFunctionVoidFunctor2Ptr(dlist2), 1);
     
     // run...
     

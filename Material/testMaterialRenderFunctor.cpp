@@ -126,8 +126,8 @@ int main (int argc, char **argv)
     plane_geo = GeometryPtr::dcast(plane->getCore());
     torus_geo = GeometryPtr::dcast(torus->getCore());
 
-    pfunc=osgMethodFunctor1Ptr(&(*plane_geo), &Geometry::draw);
-    tfunc=osgMethodFunctor1Ptr(&(*torus_geo), &Geometry::draw);
+    pfunc=osgTypedMethodFunctor1ObjPtr(&(*plane_geo), &Geometry::draw);
+    tfunc=osgTypedMethodFunctor1ObjPtr(&(*torus_geo), &Geometry::draw);
 
     pm = ChunkMaterial::create();
 
