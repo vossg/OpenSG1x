@@ -22,8 +22,8 @@ LIB_SYSTEM           := "$(shell cygpath -w $(LIB_SYSTEM))"
 LIB_COMPILER          = $(ICL_BASEDIR)/lib
 LIB_COMPILER         := "$(shell cygpath -w $(LIB_COMPILER))"
 
-INCLUDE_GLUT          = /F/Dev/glut
+INCLUDE_GLUT          = /V/Win/NT/glut
 INCLUDE_GLUT         := "$(shell cygpath -w $(INCLUDE_GLUT))"
 
-LINK_GLUT             = /F/Dev/glut
+LINK_GLUT             = /V/Win/NT/glut
 LINK_GLUT            := "$(shell cygpath -w $(LINK_GLUT))"
