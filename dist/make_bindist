@@ -236,7 +236,7 @@ sed -e 's|##DBG##|opt|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneVie
 chmod 755 ../run_osgSceneViewer
 
 #remove the stuff we don't need here
-rm Makefile.dist Makefile.win template.*  Tutorials.dsp.raw common.cygwin
+rm Makefile.dist Makefile.win template.*  Tutorials.dsp.raw common.cygwin .prefix.*
 
 gmake
 gmake clean
