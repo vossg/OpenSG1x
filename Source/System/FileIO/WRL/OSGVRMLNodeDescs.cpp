@@ -3312,7 +3312,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
                 }
                 else
                 {
-                    pTexture->setWrapS(GL_CLAMP);
+                    pTexture->setWrapT(GL_CLAMP);
                 }
                 pTexture->setEnvMode(GL_REPLACE);
                 endEditCP(pTexture);
