@@ -830,12 +830,9 @@
 
 
 #ifdef OSG_WIN_TYPES
-#   ifndef OSG_NO_WINDOWD_H_INCLUDE
-#       define WIN32_LEAN_AND_MEAN
-#       include <windows.h>
-#       undef WIN32_LEAN_AND_MEAN
-#       include <winsock.h>
-#   endif
+#ifndef OSG_NO_WINDOWD_H_INCLUDE
+#include <windows.h>
+#endif
 #endif
 
 #ifndef OSG_WIN_TYPES
