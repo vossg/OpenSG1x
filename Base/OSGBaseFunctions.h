@@ -166,328 +166,6 @@ OSG_BASE_DLLMAPPING FloatTypeT osgpow(const FloatTypeT &rVal,
 template <class FloatTypeT> 
 OSG_BASE_DLLMAPPING FloatTypeT osgfloor(const FloatTypeT &rVal);
 
-/*@}*/
-
-/*! @name Real32 Specializations
- */
-
-/*@{*/
-
-/*! \brief osgsqrt
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline 
-Real32 osgsqrt(const Real32 &rVal)
-{
-#ifdef OSG_HAS_FLOATMATH
-    return sqrtf(rVal);
-#else
-    return (Real32) sqrt((Real32) rVal);
-#endif
-}
-
-/*! \brief osgcos
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real32 osgcos(const Real32 &rVal)
-{
-#ifdef OSG_HAS_FLOATMATH
-    return cosf(rVal);
-#else
-    return (Real32) cos((Real32) rVal);
-#endif
-}
-
-/*! \brief osgsin
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real32 osgsin(const Real32 &rVal)
-{
-#ifdef OSG_HAS_FLOATMATH
-    return sinf(rVal);
-#else
-    return (Real32) sin((Real32) rVal);
-#endif
-}
-
-/*! \brief osgtan
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real32 osgtan(const Real32 &rVal)
-{
-#ifdef OSG_HAS_FLOATMATH
-    return tanf(rVal);
-#else
-    return (Real32) tan((Real32) rVal);
-#endif
-}
-
-/*! \brief osgacos
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real32 osgacos(const Real32 &rVal)
-{
-#ifdef OSG_HAS_FLOATMATH
-    return acosf(rVal);
-#else
-    return (Real32) acos((Real32) rVal);
-#endif
-}
-
-/*! \brief osgasin
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real32 osgasin(const Real32 &rVal)
-{
-#ifdef OSG_HAS_FLOATMATH
-    return asinf(rVal);
-#else
-    return (Real32) asin((Real32) rVal);
-#endif
-}
-
-/*! \brief osgatan
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real32 osgatan(const Real32 &rVal)
-{
-#ifdef OSG_HAS_FLOATMATH
-    return atanf(rVal);
-#else
-    return (Real32) atan((Real32) rVal);
-#endif
-}
-
-/*! \brief osgatan2
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real32 osgatan2(const Real32 &rVal1, const Real32 &rVal2)
-{
-#ifdef OSG_HAS_FLOATMATH
-#ifndef _OSG_HAS_ATANF2__
-    return atan2f(rVal1, rVal2);
-#else
-	return (Real32) atan2((Real32) rVal1, (Real32) rVal2);
-#endif
-#else
-	return (Real32) atan2((Real32) rVal1, (Real32) rVal2);
-#endif
-}
-
-/*! \brief osgdegree2rad
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline 
-Real32 osgdegree2rad(const Real32 &rValue)
-{
-   return (rValue/360.f) * 2.f * 3.1415926535f;
-}
-
-/*! \brief osgrad2degree
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real32 osgrad2degree(const Real32 &rValue)
-{
-   return (rValue/(2.f * 3.1415926535f)) * 360.f;
-}
-
-/*! \brief osgabs
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline 
-Real32 osgabs(const Real32 &rValue)
-{
-#ifdef OSG_HAS_FLOATMATH
-    return fabsf(rValue);
-#else
-    return (Real32) fabs((Real32) rValue);
-#endif
-}
-
-/*! \brief osgpow
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline 
-Real32 osgpow(const Real32 &rValue, const Real32 &rExp)
-{
-#ifdef OSG_HAS_FLOATMATH
-    return powf(rValue, rExp);
-#else
-    return (Real32) pow((Real32) rValue, (Real32) rExp);
-#endif
-}
-
-/*! \brief osgfloor
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline 
-Real32 osgfloor(const Real32 &rValue)
-{
-#ifdef OSG_HAS_FLOATMATH
-    return floorf(rValue);
-#else
-    return (Real32) floor((Real32) rValue);
-#endif
-}
-
-/*@}*/
-
-/*! @name Real64 Specializations
- */
-
-/*@{*/
-
-/*! \brief osgsqrt
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline 
-Real64 osgsqrt(const Real64 &rVal)
-{
-    return sqrt(rVal);
-}
-
-/*! \brief osgcos
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real64 osgcos(const Real64 &rVal)
-{
-    return cos(rVal);
-}
-
-/*! \brief osgsin
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real64 osgsin(const Real64 &rVal)
-{
-    return sin(rVal);
-}
-
-/*! \brief osgtan
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real64 osgtan(const Real64 &rVal)
-{
-    return tan(rVal);
-}
-
-/*! \brief osgacos
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real64 osgacos(const Real64 &rVal)
-{
-    return acos(rVal);
-}
-
-/*! \brief osgasin
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real64 osgasin(const Real64 &rVal)
-{
-    return asin(rVal);
-}
-
-/*! \brief osgatan
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real64 osgatan(const Real64 &rVal)
-{
-    return atan(rVal);
-}
-
-/*! \brief osgatan2
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real64 osgatan2(const Real64 &rVal1, const Real64 &rVal2)
-{
-    return atan2(rVal1, rVal2);
-}
-
-/*! \brief osgdegree2rad
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline 
-Real64 osgdegree2rad(const Real64 &rValue)
-{
-   return (rValue/360) * 2 * 3.1415926535;
-}
-
-/*! \brief osgrad2degree
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real64 osgrad2degree(const Real64 &rValue)
-{
-   return (rValue/(2 * 3.1415926535)) * 360;
-}
-
-/*! \brief osgabs
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline 
-Real64 osgabs(const Real64 &rValue)
-{
-    return fabs(rValue);
-}
-
-/*! \brief osgpow
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline 
-Real64 osgpow(const Real64 &rValue, const Real64 &rExp)
-{
-    return pow(rValue, rExp);
-}
-
-/*! \brief osgfloor
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline 
-Real64 osgfloor(const Real64 &rValue)
-{
-    return floor(rValue);
-}
-
 /*! \brief osgMax
  *  \ingroup BaseMathFunctions
  */
@@ -532,29 +210,15 @@ struct osgIF<false, IThenT, IElseT>
  */
 
 inline
-OSG_BASE_DLLMAPPING void osgstringDup(const char *szInput, char *&szOutput)
-{
-    delete [] szOutput;
-    szOutput = NULL;
-
-    if(szInput != NULL)
-    {
-        szOutput = new char[strlen(szInput) + 1];
-        strcpy(szOutput, szInput);
-    }
-}
+OSG_BASE_DLLMAPPING void osgstringDup(const char *szInput, char *&szOutput);
 
 /*! \brief limited string compare
  *  \ingroup BaseFunctions
  */
-
 
 inline 
 OSG_BASE_DLLMAPPING
-Int32 osgstrncmp(const char *string1, const char *string2, size_t count)
-{
-	return strncmp(string1, string2, count);
-}
+Int32 osgstrncmp(const char *string1, const char *string2, size_t count);
 
 /*! \brief limited string compare
  *  \ingroup BaseFunctions
@@ -562,10 +226,7 @@ Int32 osgstrncmp(const char *string1, const char *string2, size_t count)
 
 
 inline 
-OSG_BASE_DLLMAPPING Int32 osgstrlen(const char *string1)
-{
-    return strlen(string1);
-}
+OSG_BASE_DLLMAPPING Int32 osgstrlen(const char *string1);
 
 
 /*! \brief string compare
@@ -573,10 +234,7 @@ OSG_BASE_DLLMAPPING Int32 osgstrlen(const char *string1)
  */
 
 inline 
-OSG_BASE_DLLMAPPING Int32 osgstrcmp(const char *string1, const char *string2)
-{
-	return strcmp(string1, string2);
-}
+OSG_BASE_DLLMAPPING Int32 osgstrcmp(const char *string1, const char *string2);
 
 /*! \brief string case compare
  *  \ingroup BaseFunctions
@@ -584,14 +242,7 @@ OSG_BASE_DLLMAPPING Int32 osgstrcmp(const char *string1, const char *string2)
 
 inline 
 OSG_BASE_DLLMAPPING Int32 osgstrcasecmp(const char *string1, 
-                                        const char *string2)
-{
-#ifndef WIN32
-	return strcasecmp(string1, string2);
-#else
-	return _stricmp(string1, string2);
-#endif
-}
+                                        const char *string2);
 
 /*! \brief String less than compare functor used for a STL weak ordering
  *  \ingroup BaseFunctions
@@ -625,24 +276,7 @@ OSG_BASE_DLLMAPPING struct EQString
 /*@{*/
 
 inline
-OSG_BASE_DLLMAPPING void osgsleep(UInt32 usecs)
-{
-#ifdef WIN32
-    Sleep(usecs);
-#else
-    
-    // Rough aproximation, have to find a better way soon (GV)
-
-    if( (usecs * 1000) > 1000000)
-    {
-        sleep(usecs / 1000);
-    }
-    else
-    {
-        usleep(usecs * 1000);
-    }
-#endif
-}
+OSG_BASE_DLLMAPPING void osgsleep(UInt32 usecs);
 
 /*@}*/
 
@@ -692,5 +326,7 @@ OSG_BASE_DLLMAPPING Bool osgExit(void);
 /*@}*/
 
 OSG_END_NAMESPACE
+
+#include "OSGBaseFunctions.inl"
 
 #endif /* OSGBASEFUNCTIONS_H */
