@@ -74,14 +74,19 @@ OSG_USING_NAMESPACE
  *
  **/
 
+map<UInt32,Connection*>   ClusterWindow::_connection=
+                                     map<UInt32,Connection*>();
+map<UInt32,RemoteAspect*> ClusterWindow::_remoteAspect=
+                                     map<UInt32,RemoteAspect*>();
+
 /*----------------------- constructors & destructors ----------------------*/
 
 //! Constructor
 
 ClusterWindow::ClusterWindow(void) :
     Inherited(),
-    _connection(NULL),
-    _remoteAspect(NULL),
+    _firstFrame(true),
+    _connectionAndAspectOwner(false),
     _statistics(NULL)
 {
 }
@@ -90,8 +95,8 @@ ClusterWindow::ClusterWindow(void) :
 
 ClusterWindow::ClusterWindow(const ClusterWindow &source) :
     Inherited(source),
-    _connection(NULL),
-    _remoteAspect(NULL),
+    _firstFrame(true),
+    _connectionAndAspectOwner(false),
     _statistics(NULL)
 {
 }
@@ -100,13 +105,17 @@ ClusterWindow::ClusterWindow(const ClusterWindow &source) :
 
 ClusterWindow::~ClusterWindow(void)
 {
-    if(_connection)
+    ClusterWindowPtr ptr(this);
+    if(_connectionAndAspectOwner)
     {
-        delete _connection;
-    }
-    if(_remoteAspect)
-    {
-        delete _remoteAspect;
+        map<UInt32,Connection*>::iterator cI=
+            _connection.find( ptr.getFieldContainerId() );
+        if(cI!=_connection.end())
+            _connection.erase(cI);
+        map<UInt32,RemoteAspect*>::iterator aI=
+            _remoteAspect.find( ptr.getFieldContainerId() );
+        if(aI!=_remoteAspect.end())
+            _remoteAspect.erase(aI);
     }
 }
 
@@ -143,28 +152,34 @@ void (*ClusterWindow::getFunctionByName ( const Char8 * ))()
 
 void ClusterWindow::init( void )
 {
+    Connection   *connection;
+    RemoteAspect *remoteAspect;
     int i;
     MFString::iterator s;
 
-    if(_connection)
+    if(getConnection())
     {
         SWARNING << "init called twice" << endl;
         return;
     }
+    // delete on destroy
+    _connectionAndAspectOwner=true;
     // create connection
     if(getConnectionType().empty())
     {
         setConnectionType("StreamSock");
     }
-    _connection = ConnectionFactory::the().create(getConnectionType());
-    if(_connection == NULL)
+    connection=ConnectionFactory::the().create(getConnectionType());
+    if(connection == NULL)
     {
         SFATAL << "Unknown connection type " << getConnectionType() << endl;
     }
+    setConnection(connection);
     // create remote aspect
-    _remoteAspect = new RemoteAspect();
+    remoteAspect = new RemoteAspect();
+    setRemoteAspect(remoteAspect);
     if(_statistics)
-        _remoteAspect->setStatistics(_statistics);
+        remoteAspect->setStatistics(_statistics);
 
     // connect to all servers
     for(s =getServers().begin();
@@ -201,7 +216,7 @@ void ClusterWindow::init( void )
                 {
                     SINFO << "Found at address " << respAddress << endl;
                     // connect to server
-                    _connection->connect(respAddress);
+                    connection->connect(respAddress);
                     retry=false;
                 }
             }
@@ -222,21 +237,20 @@ void ClusterWindow::init( void )
 #endif
     for(i=0;i<getServers().size();++i)
     {
-        _connection->selectChannel();
-        _connection->getValue(serverLittleEndian);
+        connection->selectChannel();
+        connection->getValue(serverLittleEndian);
         if(serverLittleEndian != littleEndian)
         {
             forceNetworkOrder=true;
         }
     }
-    _connection->putValue(forceNetworkOrder);
-    _connection->flush();
-    _connection->setNetworkOrder(forceNetworkOrder);
+    connection->putValue(forceNetworkOrder);
+    connection->flush();
+    connection->setNetworkOrder(forceNetworkOrder);
     if(forceNetworkOrder)
     {
         SLOG << "Run clustering in network order mode" << endl;
     }
-    _firstFrame=true;
 }
 
 void ClusterWindow::render( RenderAction *action )
@@ -258,7 +272,7 @@ void ClusterWindow::deactivate( void )
 
 void ClusterWindow::swap( void )
 {
-    if(_connection && _remoteAspect)
+    if(getConnection() && getRemoteAspect())
     {
         clientSwap();
     }
@@ -266,7 +280,7 @@ void ClusterWindow::swap( void )
 
 void ClusterWindow::renderAllViewports( RenderAction *action )
 {
-    if(_connection && _remoteAspect)
+    if(getConnection() && getRemoteAspect())
     {
         clientRender(action);
     }
@@ -274,12 +288,15 @@ void ClusterWindow::renderAllViewports( RenderAction *action )
 
 void ClusterWindow::frameInit(void)
 {
-    if(_remoteAspect && _connection)
+    Connection   *connection  =getConnection();
+    RemoteAspect *remoteAspect=getRemoteAspect();
+
+    if(remoteAspect && connection)
     {
         if(_firstFrame)
         {
             // send sync
-            _remoteAspect->sendSync(*_connection);
+            remoteAspect->sendSync(*connection);
             ChangeList cl;
             cl.clearAll();
             cl.merge(*Thread::getCurrentChangeList());
@@ -289,7 +306,7 @@ void ClusterWindow::frameInit(void)
             // last chance to modifie before sync
             clientPreSync();
             // send sync
-            _remoteAspect->sendSync(*_connection);
+            getRemoteAspect()->sendSync(*connection);
             cl.merge(*Thread::getCurrentChangeList());
             Thread::getCurrentChangeList()->clearAll();
             Thread::getCurrentChangeList()->merge(cl);
@@ -298,7 +315,7 @@ void ClusterWindow::frameInit(void)
         else
         {
             clientPreSync();
-            _remoteAspect->sendSync(*_connection);
+            remoteAspect->sendSync(*connection);
         }
     }
 }
@@ -307,13 +324,47 @@ void ClusterWindow::frameExit(void)
 {
 }
 
+/*-------------------------- connection and aspect access -----------------*/
+
+Connection   *ClusterWindow::getConnection   ( void )
+{
+    map<UInt32,Connection*>::iterator cI=
+        _connection.find( ClusterWindowPtr(this).getFieldContainerId() );
+    if(cI!=_connection.end())
+        return cI->second;
+    else
+        return NULL;
+}
+
+void ClusterWindow::setConnection ( Connection *connection )
+{
+    _connection[ ClusterWindowPtr(this).getFieldContainerId() ] = 
+        connection;
+}
+
+RemoteAspect *ClusterWindow::getRemoteAspect ( void )
+{
+    map<UInt32,RemoteAspect*>::iterator aI=
+        _remoteAspect.find( ClusterWindowPtr(this).getFieldContainerId() );
+    if(aI!=_connection.end())
+        return aI->second;
+    else
+        return NULL;
+}
+
+void ClusterWindow::setRemoteAspect ( RemoteAspect *aspect )
+{
+    _remoteAspect[ ClusterWindowPtr(this).getFieldContainerId() ] = 
+        aspect;
+}
+
 /*-------------------------- statistics -----------------------------------*/
 
 void ClusterWindow::setStatistics(StatCollector *statistics)
 {
     _statistics = statistics;
-    if(_remoteAspect)
-        _remoteAspect->setStatistics(statistics);
+    if(getRemoteAspect())
+        getRemoteAspect()->setStatistics(statistics);
 }
 
 /*----------------------------- client methods ----------------------------*/

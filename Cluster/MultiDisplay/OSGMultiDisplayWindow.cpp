@@ -217,7 +217,7 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
 
 void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
 {
-    _connection->wait();
+    getConnection()->wait();
     Inherited::serverSwap(window,id);
 }
 
@@ -255,7 +255,7 @@ void MultiDisplayWindow::clientInit( void )
 void MultiDisplayWindow::clientSwap( void )
 {
     // sync all servers
-    _connection->signal();
+    getConnection()->signal();
     // show client window 
     Inherited::clientSwap();
 }

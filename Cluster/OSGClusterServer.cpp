@@ -117,8 +117,6 @@ ClusterServer::~ClusterServer(void)
     {
         if(_clusterWindow!=NullFC)
         {
-            // TODO does clusterWindow need the connection on server side?
-            _clusterWindow->_connection = NULL;
             _clusterWindow=NullFC;
         }
         if(_connection)
@@ -215,8 +213,6 @@ void ClusterServer::stop()
 {
     if(_clusterWindow!=NullFC)
     {
-        // TODO does clusterWindow need the connection on server side?
-        _clusterWindow->_connection = NULL;
         _clusterWindow=NullFC;
     }
     if(_connection)
@@ -264,7 +260,8 @@ void ClusterServer::render(RenderAction *action)
         SINFO << "Start server " << _serviceName 
               << " with id " << _serverId << endl;
         // initialize server window 
-        _clusterWindow->_connection = _connection;
+        _clusterWindow->setConnection(_connection);
+        _clusterWindow->setRemoteAspect(_aspect);
         _clusterWindow->serverInit(_window,_serverId);
     }
     // sync with render clinet

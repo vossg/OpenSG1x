@@ -68,6 +68,14 @@ RenderNode *RenderNode::_prefefined[]=
 {
     // some nvidia cards 
 
+    new RenderNode(1.0/ 42666739,          // GF 4
+                   1.0/ 42628314,
+                   1.0/857690534,
+                   1.0/ 35149710,
+                   1.0/ 35149710,
+                   "NVIDIA Corporation",
+                   "GeForce4 Ti 4600/AGP/3DNOW!"),
+
     new RenderNode(1.0/ 14598000,          // GF 256
                    1.0/ 14597000,
                    1.0/110599000,

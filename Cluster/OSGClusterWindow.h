@@ -149,18 +149,31 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
     /*! \}                                                                 */
     
     /*---------------------------------------------------------------------*/
+    /*! \name               connection and aspect access                   */
+    /*! \{                                                                 */
+
+    Connection   *getConnection   ( void                       );
+    void          setConnection   ( Connection   *connection   );
+    RemoteAspect *getRemoteAspect ( void                       );
+    void          setRemoteAspect ( RemoteAspect *aspect       );
+
+    /*! \}                                                                 */
+
+    /*---------------------------------------------------------------------*/
     /*! \name               unsynced thread variables                      */
     /*! \{                                                                 */
 
-    Connection      *_connection;
-    RemoteAspect    *_remoteAspect;
     bool             _firstFrame;
+    bool             _connectionAndAspectOwner;
     StatCollector   *_statistics;
 
     /*! \}                                                                 */
 
     /*==========================  PRIVATE  ================================*/
   private:
+
+    static map<UInt32,Connection*>   _connection;
+    static map<UInt32,RemoteAspect*> _remoteAspect;
 
     friend class FieldContainer;
     friend class ClusterWindowBase;

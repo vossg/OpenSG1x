@@ -126,17 +126,18 @@ void SortFirstWindow::serverInit( WindowPtr serverWindow,
 {
     UInt32 sync;
     RenderNode renderNode;
+    Connection *connection=getConnection();
 
     // create cluster node information
     // get performance
     renderNode.determinePerformance(serverWindow);
     renderNode.dump();
     // transfer to client for load balancing
-    _connection->putValue(id);
-    renderNode.copyToBin(*_connection);
-    _connection->flush();
-    _connection->selectChannel();
-    _connection->getValue(sync);
+    connection->putValue(id);
+    renderNode.copyToBin(*connection);
+    connection->flush();
+    connection->selectChannel();
+    connection->getValue(sync);
 }
 
 /** update server window
@@ -242,7 +243,7 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
         {
             // send image
             _bufferHandler.send(
-                *_connection,
+                *getConnection(),
                 ClusterViewBuffer::RGB,
                 vp->getPixelLeft(),
                 vp->getPixelBottom(),
@@ -261,7 +262,7 @@ void SortFirstWindow::serverSwap( WindowPtr window,
     window->swap();
     if(!getCompose())
     {
-        _connection->wait();
+        getConnection()->wait();
     }
 }
 
@@ -274,20 +275,21 @@ void SortFirstWindow::clientInit( void )
 {
     UInt32 id;
     RenderNode renderNode;
+    Connection *connection = getConnection();
 
     _tileLoadBalancer=new TileLoadBalancer(getUseFaceDistribution());
     // read all node infos
-    for(UInt32 i=0;i<_connection->getChannelCount();++i)
+    for(UInt32 i=0;i<connection->getChannelCount();++i)
     {
-        _connection->selectChannel();
-        _connection->getValue(id);
-        renderNode.copyFromBin(*_connection);
+        connection->selectChannel();
+        connection->getValue(id);
+        renderNode.copyFromBin(*connection);
         renderNode.dump();
         _tileLoadBalancer->addRenderNode(renderNode,id);    
     }
     // sync servers
-    _connection->putValue(id);
-    _connection->flush();
+    connection->putValue(id);
+    connection->flush();
 }
 
 /*! client frame init
@@ -372,6 +374,7 @@ void SortFirstWindow::clientRender( RenderAction *  /* action */ )
 void SortFirstWindow::clientSwap( void )
 {
     UInt32 cv;
+    Connection *connection=getConnection();
     if(getCompose())
     {
         if(getClientWindow()!=NullFC)
@@ -383,14 +386,14 @@ void SortFirstWindow::clientSwap( void )
             // receive all viewports
             for(cv=0;cv<getPort().size();++cv)
             {
-                _bufferHandler.recv(*_connection);
+                _bufferHandler.recv(*connection);
             }
             Inherited::clientSwap();
         }
     }
     else
     {
-        _connection->signal();
+        connection->signal();
     }
 }
 
