@@ -59,6 +59,8 @@
 
 #include <utility>
 
+#include <float.h>
+
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
@@ -831,14 +833,14 @@ struct TypeConstants<Int64> : public TypeConstantsBase
     static inline Int64 getAllSet(void)   { return 0xFFFFFFFFFFFFFFFFLL; };
     static inline Int64 getAllClear(void) { return 0x0000000000000000LL; };
 
-    static inline Int64 getMax(void)      { return -0x7FFFFFFFFFFFFFFFLL; };
-    static inline Int64 getMin(void)      { return  0x7FFFFFFFFFFFFFFFLL; };
+    static inline Int64 getMax(void)      { return  0x7FFFFFFFFFFFFFFFLL; };
+    static inline Int64 getMin(void)      { return -0x7FFFFFFFFFFFFFFFLL; };
 #else
     static inline Int64 getAllSet(void)   { return 0xFFFFFFFFFFFFFFFF; };
     static inline Int64 getAllClear(void) { return 0x0000000000000000; };
 
-    static inline Int64 getMax(void)      { return -0x7FFFFFFFFFFFFFFF; };
-    static inline Int64 getMin(void)      { return  0x7FFFFFFFFFFFFFFF; };
+    static inline Int64 getMax(void)      { return  0x7FFFFFFFFFFFFFFF; };
+    static inline Int64 getMin(void)      { return -0x7FFFFFFFFFFFFFFF; };
 #endif
 
 
@@ -894,6 +896,9 @@ struct TypeConstants<Real64> : public TypeConstantsBase
         else
             return getZeroElement();
     }
+
+    static inline Real64 getMax(void) { return DBL_MAX; };
+    static inline Real64 getMin(void) { return DBL_MIN; };
 };
 
 /*! \brief TypeConstants<Real32>
@@ -920,6 +925,9 @@ struct TypeConstants<Real32> : public TypeConstantsBase
         else
             return getZeroElement();
     }
+
+    static inline Real32 getMax(void) { return FLT_MAX; };
+    static inline Real32 getMin(void) { return FLT_MIN; };
 };
 
 OSG_END_NAMESPACE
