@@ -83,6 +83,7 @@ bool                     info = false;
 std::string              connectionDestination="";
 std::string              connectionInterface="";
 OSG::SolidBackgroundPtr  bkgnd;
+UInt32                   subtilesize=32;
 
 /*! Simple show text function
  */
@@ -978,7 +979,7 @@ int main(int argc,char **argv)
                     break;
                 case 't':
                     opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
-                    //subtilesize=atoi(opt);
+                    subtilesize=atoi(opt);
                     break;
 #ifdef FRAMEINTERLEAVE
                 case 'i':
@@ -1005,6 +1006,8 @@ int main(int argc,char **argv)
                             composerType = "BinarySwapComposer";
                         if(argv[i][lpos] == 'P')
                             composerType = "PipelineComposer";
+                        if(argv[i][lpos] == 'S')
+                            composerType = "SepiaComposer";
                         ++lpos;
                     }
                     break;
@@ -1159,7 +1162,12 @@ int main(int argc,char **argv)
                     if(icPtr != NullFC)
                     {
                         beginEditCP(icPtr);
-//                        icPtr->setTileSize(subtilesize);
+/*
+                        if(PipelineComposerPtr::dcast(icPtr) != NullFC)
+                            PipelineComposerPtr::dcast(icPtr)->setTileSize(subtilesize);
+                        if(BinarySwapComposerPtr::dcast(icPtr) != NullFC)
+                            BinarySwapComposerPtr::dcast(icPtr)->setTileSize(subtilesize);
+*/
                         icPtr->setStatistics(info);
 //                        icPtr->setShort(false);
                         sortlast->setComposer(icPtr);
@@ -1189,7 +1197,8 @@ int main(int argc,char **argv)
         }
         beginEditCP(clusterWindow);
         {
-            clusterWindow->getAutostart().push_back(autostart);
+            if(!autostart.empty())
+                clusterWindow->getAutostart().push_back(autostart);
 
             for(i=0 ; i<servers.size() ; ++i)
                 clusterWindow->getServers().push_back(servers[i]);
