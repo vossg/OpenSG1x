@@ -52,6 +52,8 @@
 
     ?getFieldPtr@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@QAEPAV?$SField@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$0A@@2@XZ
 
+    ?getField@?$GeoProperty@UGeoColors3fPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$Color3@M@osg@@$0A@@2@XZ
+
     ?getClassType@?$DynFieldAttachment@UGenericAttDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
 
     ??A?$MField@VNodePtr@osg@@$0A@@osg@@QAEAAVNodePtr@1@I@Z

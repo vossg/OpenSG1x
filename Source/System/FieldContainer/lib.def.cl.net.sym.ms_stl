@@ -54,6 +54,8 @@
 
     ?getClassType@?$DynFieldAttachment@UGenericAttDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
 
+    ?getField@?$GeoProperty@UGeoColors3fPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$Color3@M@osg@@$0A@@2@XZ
+
     ??A?$MField@VNodePtr@osg@@$0A@@osg@@QAEAAVNodePtr@1@I@Z
     ?size@?$MField@VNodePtr@osg@@$0A@@osg@@QBEIXZ
 
