@@ -4,34 +4,47 @@ using namespace OSG;
 
 /*! \page Preface Preface
 
+<br><br><br><br><br><br><br>
+
 \latexonly Starter:NewChapter \endlatexonly
 
-<HR>
+<table width="100%" border="0"><tr><td width="100%" align="center">
+<I>Dedicated to Felicitas</I>
+</td></tr></table>
 
-<B>Update May, 7th</B>
+<br><br><br><br><br><br><br>
 
-The OpenSG documentation project will end at end of May - the version number will then hit 1.0. Except for
-some missing details, the documentation is complete. Currently I am "debugging", i.e. finding typos and
-checking if the tutorials and examples are really working. If you encounter any mistakes, feel free to
-send me a mail to <A HREF ="mailto:mail@oliver-abert.de">mail@oliver-abert.de </A>.
+Welcome to the OpenSG tutorial. My name is Oliver Abert, currently I am a stundent of computer visualistics at the University of Koblenz in Germany. Although I
+did my best, you may find some words or phrases that are not really that english - it's okay for me if you smile about such phrases, but please have a bit 
+[TODO:]Nachsicht with me, as I am no native english speaker!
 
-Of course this document can not cover every aspect of OpenSG, but if my limited time allows it I may
-add some more lines after end of may - and that is where you can help: If you have an important example
-or tutorial for a topic that was not covered, I will be glad to add it to the documentation.
-<HR>
+I first got OpenSG to know in a project at my university, where a group of students had to develop a stereo virtual releality application. I was the team 
+leader for the software part (we also had a design team, that created models, textures, etc.) at that time and beside that I also was responsible for the
+rendering component. Well, I guess you are not surprised if I tell you now, that OpenSG became or system of choice for the job. In the following six month, that
+was from summer till winter 2003, I made my hands dirty with OpenSG. 
 
-Welcome to the OpenSG tuorial pages. By reading the following chapters you will first learn how to use
-the basic features of OpenSG. Little tutorials are making the learning process more fun, as you 
-understand the concepts just by doing it! Later you will learn more advanced techniques by completing
-bigger tutorials.
+Of course that alone would not make me write a documentation of that size. Since my second semester I am a student assisant in the computer graphics institute,
+which is lead by Prof. Dr. MŸller. Well and he was [TODO:] Vorstand by OpenSG before he came to my university. By knowing him, I also get to knew Dirk Reiners, 
+one of the main developers of OpenSG - together with my experience from first working with OpenSG it was obvious that there is a great need for an improved 
+documentation, that will make it easier to start learning OpenSG. To make it short - after severeal weeks of mailing forth and back we came down to a plan which
+result you are havin on your screen or in your hand, depending on the type of media you prefer ;-)
 
-As the starter guide too, these tutorial pages are not meant to be a complete introduction to computer
-graphics and real-time rendering. The good news is, that you actually do not need to know much about
-scenegraphs in general. I suppose if you never have heard of the scenegraph concept before, you would
-not have downloaded this piece of software ;-)
+Working on this document was fun (most of the time) and I want to say thank you to some people at this point.<br><br>
 
-If you have not downloaded and installed OpenSG you should start off here : 
-\ref TutorialIntroduction
+Thanks to <I>Dirk</I> for answering a lot of questions and for correcting some of my creative english<br>
+Thanks to <I>Stefan</I> who made this possible, by supporting me all the way<br>
+Thanks to <I>Matthias</I> for helping me with the QT stuff<br>
+Thanks to <I>Dominik,[TODO]...</I> from whom I have taken the code for the passive window tutorial<br>
+Thanks to all who have mailed me bugs and typos and the like<br><br>
 
+Finally,<br>
+Thanks to <I>Felicitas</I> for encouraging me all the time<br>
+Thanks to <I>Lena</I> who helped me in a very difficult peroid of my life (well, that's private and not related to this document, though)<br>
+<br><br><br>
+Now enjoy, and I hope this document will be useful to you. If you are really new to OpenSG it is best to start off with chapter \ref TutorialIntroduction.
 
+Yours,<br><br>
+
+Oliver Abert
+ 
 **/
