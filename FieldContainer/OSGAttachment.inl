@@ -518,17 +518,18 @@ template <class AttachmentDescT> inline
 FieldContainerPtr DynFieldAttachment<AttachmentDescT>::clone(void)
 {
     PtrType returnValue = DynFieldAttachment<AttachmentDescT>::createEmpty();
+	UInt32 i;
 
-    for(UInt32 i  = Inherited::NextFieldId; 
-               i <= _localType.getNumFieldDescs(); 
-               i++)
+    for( i = Inherited::NextFieldId; 
+         i <= _localType.getNumFieldDescs(); 
+         i++)
     {
         returnValue->addField(*(_localType.getFieldDescription(i)));
     }
 
-    for(UInt32 i  = Inherited::NextFieldId; 
-               i <= _localType.getNumFieldDescs(); 
-               i++)
+    for( i = Inherited::NextFieldId; 
+         i <= _localType.getNumFieldDescs(); 
+         i++)
     {
         returnValue->getDynamicField(i)->setAbstrValue(
             *(_dynFieldsV[i - Inherited::NextFieldId]));
