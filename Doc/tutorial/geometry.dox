@@ -8,7 +8,9 @@ OSG_USING_NAMESPACE;
 
 Chapter Overview
 <HR>
-    \ref GeometryBackground
+    \ref GeometryBackground <BR>
+	\ref GeometryLearningByDoing <BR>
+	\ref GeometryEfficientManipulation <BR>
 <HR>
 
 Geometry is actually a usual core like the others from the last chapter too. However, the geometry core is of course the most important one and there
@@ -26,5 +28,235 @@ All data describing the geometry is stored in seperate arrays. Positions, Colors
 own osg::MField. OpenGL is capable of processing different formats of data, because some perform better under certain circumstances. OpenSG features
 all the same different data formats by providing a lot of different classes which are luckily very similar to use and are all derived from
 osg::GeoProperty. Prominent examples for geometry properties are osg::GeoPosition3f or osg::GeoNormal3f. There are a lot of other datatypes, of
-course, just have a look at the osg::GeoProperty description page. 
+course, just have a look at the osg::GeoProperty description page.
+
+\section GeometryLearningByDoing Learning by doing
+
+Fist of all we are going to build a geometry node with the most important features from bottom up. A good example is the simulation of water
+as this covers many problems you might encounter if creating your own geometry. This water tutorial will be developed throughout the whole
+chapter. Let us think about what we will actually need and what are we going to to in detail:
+
+We simulate the water by using a uniform grid with N * N points, with N some integer constant. As these points are equidistant we only need to
+store the height value (the value that is going to be changed during simulation) and one global witdth anf height as well as some global origin
+where the grid is going to be placed.
+
+There are a lot of alogorithms which try to simulate the movement of water more or less adequate or fast but as we are more concerned on how to 
+do stuff in OpenSG, I suppose we just take a very easy formula to calculate the height values. Of course, if you are interested, you may repalce
+the formula by another.
+
+Now take our framework again as a starting point. Then add some global variables and include files.
+
+<PRE>
+	#include <OpenSG/OSGGeometry.h>
+</PRE>
+
+\code
+// this will specify the resolution of the mesh
+#define N   100
+
+//the two dimensional array that will store all height values
+Real16[N][N] wMesh;
+
+//the origin of the water mesh
+Pnt3f wOrigin = Pnt3f(0,0,0);
+
+//width and length of the mesh
+UInt16 width = 100;
+UInt16 length = 100;
+\endcode
+
+Insert the code right at the beginning of the createScenegraph method which should still be empty at this point.
+
+Before we start to create the geometry we should first initialize the wMesh array to avoid corrupt data when building the scenegraph. For now
+we simply set all height values to zero.
+
+\code
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < N; j++)
+			wMesh[i][j] = 0;
+\endcode
+
+Now we can begin to build the geometry step by step. The first thing to to is to define the type of primitives we want to use. Quads would be
+sufficent for us. It is possible to use more than one primitive. I will discuss that here : Chapter (xxx).
+
+\code
+	// GeoPTypes will define the types of primitives to be used
+	GeoPTypesPtr type = GeoPTypesUI8::create();
+	beginEditCP(type, GeoPTypesUI8::GeoPropDataFieldMask);
+		// we want to use quads ONLY 
+		type->addValue(GL_QUADS);
+	endEditCP(type, GeoPTypesUI8::GeoPropDataFieldMask);
+\endcode
+
+The next thing is not so exciting in this example: we have to tell our geometry how long (how many vertices) the primitives are. As we are 
+using quads only, the length is reasonably four!
+
+\code
+	// GeoPLength will define the number of vertices of
+	// the used primitives
+	GeoPLengthsPtr length = GeoPLengthsUI32::create();
+	beginEditCP(length, GeoPLengthsUI32::GeoPropDataFieldMask);
+		// the length of our quads is four ;-)
+		length->addValue(4);
+	endEditCP(length, GeoPLengthsUI32::GeoPropDataFieldMask);
+\endcode
+
+Now we will provide the positions of our vertices. We use the data of the 'wMesh' array we initialized previously.
+
+\code
+	// GeoPositions3f stores the positions of all vertices used in 
+	// this specific geometry core
+	GeoPositions3fPtr pos = GeoPositions3f::create();
+	beginEditCP(pos, GeoPositions3f::GeoPropDataFieldMask);
+		// here they all come
+		for (int x = 0; x < N; x++)
+			for (int z = 0; z < N; z++)
+				pos->addValue(Pnt3f(x, wMesh[x][z], z));
+	endEditCP(pos, GeoPositions3f::GeoPropDataFieldMask);
+\endcode
+
+<I>
+You might question your self if this is actually useful what I am doing here. It look like that the width and length of the mesh we create 
+corresponds to the resolution we choose, that is the higher the resolution the greater the mesh is. Well, that is correct - till now. After 
+creating the complete geometry core we are going to scale that whole thing to the correct size provided by the global variables. Of course it 
+would be reasonable to store not just height values but whole points like an two dimensional array of osg::Pnt3f. But storing whole points 
+consumes more memory than one Real16 value. Anyway, it is up to you or wether memory is a concern or not. As we want to play a bit around with
+scenegraph manipulation I chose the first variant.
+
+Another unusual thing is that it seems we are creating a single quad with N*N vertices. Of course that is not correct. OpenSG is smart enough 
+to know when a primitve is provided with all needed data. In this specific case, where quads only are used, OpenSG knows after the first four
+vertices that know a new quad will be specified.
+</I>
+
+Now we assign colors to the geometry, actually just one color this time, to be specific.
+
+\code
+	//GeoColors3f stores all color values that will be used
+	GeoColors3fPtr colors = GeoColors3f::create();
+	beginEditCP(colors, GeoColors3f::GeoPropDataFieldMask);
+		for (int x = 0; x < mWater->getXWidth(); x++)
+			for (int z = 0; z < mWater->getZWidth(); z++)
+				colors->addValue(Color3f(0,0,(x+1)/(z+1)));
+	endEditCP(colors, GeoColors3f::GeoPropDataFieldMask);
+\endcode
+
+Normals are still missing. We add them similar to all other properties:
+
+\code
+	GeoNormals3fPtr norms = GeoNormals3f::create();
+	beginEditCP(norms, GeoNormals3f::GeoPropDataFieldMask);
+		for (int x = 0; x < N; x++)
+			for (int z = 0; z < N; z++)
+				// As initially all heights are set to zero thus yielding a plane,
+				// we set all normals to (0,1,0) parallel to the y-axis
+				norms->addValue(Vec3f(0,1,0);
+	endEditCP(norms, GeoNormals3f::GeoPropDataFieldMask);
+\endcode
+
+Something still missing? Yes of course! If you think about what we have done so far you might notice that something is quite not correct. We have
+not considered yet that a quad uses four vertices and thus most quads, except for these at borders, uses vertices already used by four other quads.
+However we provided every vertex just a single time.
+
+Of course we did, because everthing else is a waste of memory. That is what indeces are used for. The next block of code tells OpenSG which 
+vertices are used by a quad. The vertices are only referenced, but not copied, in this way.
+
+\image html vertex_multi_use.png "Vertex are used by multiple quads"
+\image latex vertex_multi_use.eps "Vertex are used by multiple quads" width = 4cm
+
+<I>
+	Quad A uses vertex 1,2,3,4 whereas vertex 4 is used by quads A,B,C and D. The index which defines quad A would point to the vertices 1,2,3 and
+	4. Quad B would reuse the vertices 2 and 4 as well as two others not considered here. 
+</I>
+
+\code
+	// GeoIndicesUI32 points to all relevant data used by the 
+	// provided primitives
+	GeoIndicesUI32Ptr indices = GeoIndicesUI32::create();
+	beginEditCP(indices, GeoIndicesUI32::GeoPropDataFieldMask);
+		for (int x = 0; x < N-1; x++)
+			for (int z = 0; z < N-1; z++){
+				// points to four vertices that will
+				// define a single quad
+				indices->addValue(z*N+x);	
+				indices->addValue((z+1)*N+x);
+				indices->addValue((z+1)*N+x+1);
+				indices->addValue(z*N+x+1);
+			}
+	endEditCP(indices, GeoIndicesUI32::GeoPropDataFieldMask);
+\endcode
+
+<I>
+There are different possibilities on how to index the data. That will be discussed in more detail later in this Chapter(xxx)
+</I>
+
+Now that we have created all data we need we can create the geometry object that will hold all the pices together
+
+\code
+	GeometryPtr geo = Geometry::create();
+	beginEditCP(geo,
+		Geometry::TypesFieldMask		|
+		Geometry::LengthsFieldMask		|
+		Geometry::IndicesFieldMask		|
+		Geometry::PositionsFieldMask	|
+		Geometry::NormalsFieldMask		|
+		Geometry::ColorsFieldMask		|
+		);
+	
+		geo->setTypes(type);
+		geo->setLengths(length);
+		geo->setIndices(indices);
+		geo->setPositions(pos);
+		geo->setNormals(norms);
+		geo->setColors(colors);
+
+	endEditCP(geo,
+		Geometry::TypesFieldMask		|
+		Geometry::LengthsFieldMask		|
+		Geometry::IndicesFieldMask		|
+		Geometry::PositionsFieldMask	|
+		Geometry::NormalsFieldMask		|
+		Geometry::ColorsFieldMask		|
+		);
+\endcode
+
+<I>
+Some pages ago I told you that the FieldMasks need not to be specified as the library then assumes that all fields will be changed. I also told
+you that leaving them out will slow down your application. However, as the start up is not performance critical in most circumstances I, personally,
+would leave the field masks out. To be honest: who cares if startup takes 5 or 5.1 seconds ;-) Maybe you just give it a try and compare the time
+you wait for the system to start up
+</I>
+
+Finally we put the newly created core into a node and return it.
+
+\code
+	NodePtr root = Node::create();
+	beginEditCP(root);
+		root->setCore(geo);
+	endEditCP(root);
+	
+	return root;
+\endcode
+
+Your water simulation version 0.1 is done. Compile and execute and watch the beautiful result!
+
+What? A plane? That whole effort for a simple plane? Of course the result is a plane as we set all height values to zero previously. We need to
+modify the values during the display function. But first we have a deeper look at what we have done so far!
+
+\section GeometryEfficientManipulation Efficient Manipulation
+
+Often geometry itself often stays untouched during a simulation except for rigid transformation applied to the whole geometry. However, if it 
+is necessary to modify the geometry during a simulation (like in our water example) it is mostly very important to do it fast. In this section
+we want to enable animation of the water mesh and by doing so I will demonstrate some tricks on how to speed up this important task.
+
+Before we start we quickly implement a function which will simulate the behaviour of water with respect to the time passed. As said earlier I will
+only use a simple function but feel free to replace this with a more complex one.
+
+Add this block of code somewhere at the beginning of the file (at least before the display function).
+
+\code
+void updateMesh(UInt32 time){
+	for (int x = 0; x < N; x++)
+		for (int z = 0; z < N)
+}
+\endcode
 */

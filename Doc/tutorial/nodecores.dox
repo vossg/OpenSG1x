@@ -16,6 +16,7 @@ Chapter Overview
     \ref TutorialNodeCoresSwitch<br>
     \ref TutorialNodeCoresLOD<br>
     \ref TutorialNodeCoresTutorial<br>
+	\ref TutorialNodeCoresExercises<br>
 <HR>
 
 In this chapter you will learn how to use the most important cores. The transform and material core are discussed in more detail and additionally
@@ -908,9 +909,23 @@ You see, that it is very easy and comfortable to edit parts of a transformation 
 would have run into big trouble or you would have to store all three transformation parts seperatly and construct the final matrix every frame
 by hand.
 
+\section TutorialNodeCoresExercises Exercises
 
-[TODO: Exercises: Copy the eyes for the last tutorial....]
-[TODO: Exercises: 08nodecores3 performance question; switchblock in display...]
+\subsection TutoralNodeCoresExercises1 Ex. Complete copy of the woman model
+
+
+You might have noticed that when we were copying the geometry of the women, something was missing with the clone model. The eyes where not
+copied. Why? They were not copied because the are a geometry node on their own, i.e. they are not contained in FACESET_woman. Figure out how
+they are named and extend the search and copy function thus the eyes are correctly copied with the rest of the body.
+
+<I>
+Hint: Load the VRML file with a 3D modelling package or just read the itself with a common text editor. It is really not that hard!
+</I>
+
+\subsection TutorialNodeCoresExercises2 Ex. Optimizing transformation switches
+
+If you did the last tutorial you surely have noticed that the animation "jumps" if you switch from one kind of transformation to another. Figure
+out where the effect comes from and implement a solution.
 
 Next Chapter: \ref Geometry
 */
