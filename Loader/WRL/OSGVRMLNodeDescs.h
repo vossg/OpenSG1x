@@ -1340,6 +1340,93 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGroupDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
+//! VRML Extrusion Desc 
+//! \ingroup GeometryLoaderLib
+
+class OSG_SYSTEMLIB_DLLMAPPING VRMLExtrusionDesc : public VRMLNodeDesc
+{
+    /*==========================  PUBLIC  =================================*/
+  public :
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    VRMLExtrusionDesc(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~VRMLExtrusionDesc(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
+
+    virtual void init(const Char8 *szName);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Field                                    */
+    /*! \{                                                                 */
+
+    virtual bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
+
+    virtual void endProtoInterface(      void);
+
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Node                                     */
+    /*! \{                                                                 */
+
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
+
+    virtual void              endNode  (      FieldContainerPtr            );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
+
+    virtual void dump(const Char8 *szNodeName);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLExtrusionDesc(const VRMLExtrusionDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLExtrusionDesc &source);
+};
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
 //! VRML Inline Desc 
 //! \ingroup GeometryLoaderLib
 

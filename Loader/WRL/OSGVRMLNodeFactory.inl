@@ -314,6 +314,16 @@ void VRMLNodeFactory<BaseT>::beginProto(
 
             _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
+        else if(stringcasecmp("Extrusion", szProtoname) == 0)
+        {
+            stringDup(szProtoname, szName);
+
+            _pCurrentNodeDesc = new VRMLExtrusionDesc();
+
+            _pCurrentNodeDesc->init(szProtoname);
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
+        }
         else
         {
             stringDup(szProtoname, szName);

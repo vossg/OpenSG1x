@@ -1328,11 +1328,6 @@ PROTO Extrusion [
      endFieldDecl  ();
 
      beginFieldDecl("MFVec2f", Self::OSGmfVec2f, "crossSection");
-     addFieldValue (" 1  1");
-     addFieldValue (" 1 -1");
-     addFieldValue ("-1 -1");
-     addFieldValue ("-1  1");
-     addFieldValue (" 1  1");
      endFieldDecl  ();
 
      beginFieldDecl("SFBool", Self::OSGsfBool, "endCap");
@@ -1340,11 +1335,9 @@ PROTO Extrusion [
      endFieldDecl  ();
 
      beginFieldDecl("MFRotation", Self::OSGmfRotation, "orientation");
-     addFieldValue ("0 0 1 0");
      endFieldDecl  ();
 
      beginFieldDecl("MFVec2f", Self::OSGmfVec2f, "scale");
-     addFieldValue ("1 1");
      endFieldDecl  ();
      
      beginFieldDecl("SFBool", Self::OSGsfBool, "solid");
@@ -1352,8 +1345,6 @@ PROTO Extrusion [
      endFieldDecl  ();
      
      beginFieldDecl("MFVec3f", Self::OSGmfVec3f, "spine");
-     addFieldValue ("0 0 0");
-     addFieldValue ("0 1 0");
      endFieldDecl  ();
  }
  endProto  ();

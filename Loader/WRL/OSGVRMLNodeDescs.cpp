@@ -3728,6 +3728,332 @@ void VRMLGroupDesc::dump(const Char8 *)
 //  Class
 //---------------------------------------------------------------------------
 
+/*! \class osg::VRMLExtrusionDesc
+ */
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+VRMLExtrusionDesc::VRMLExtrusionDesc(void) :
+     Inherited()
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+VRMLExtrusionDesc::~VRMLExtrusionDesc(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Helper                                    */
+
+void VRMLExtrusionDesc::init(const Char8 *OSG_VRML_ARG(szName))
+{
+#ifdef OSG_DEBUG_VRML
+    indentLog(getIndent(), PINFO);
+    PINFO << "ExtrusionDesc::init : " << szName << endl;
+#endif
+
+    _pNodeProto     = Node::create();
+//    _pNodeCoreProto = Group::create();
+
+    _pGenAtt        = GenericAtt::create();
+    _pGenAtt->setInternal(true);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Field                                     */
+ 
+bool VRMLExtrusionDesc::prototypeAddField(const Char8  *szFieldType,
+                                          const UInt32  uiFieldTypeId,
+                                          const Char8  *szFieldname)
+{
+    _pCurrField = NULL;
+
+    return Inherited::prototypeAddField(szFieldType,
+                                        uiFieldTypeId,
+                                        szFieldname);
+}
+
+void VRMLExtrusionDesc::endProtoInterface(void)
+{
+}
+
+void VRMLExtrusionDesc::getFieldAndDesc(      
+          FieldContainerPtr  pFC,
+    const Char8            * szFieldname,
+          Field            *&pField,
+    const FieldDescription *&pDesc)
+{
+#ifdef OSG_DEBUG_VRML
+    indentLog(getIndent(), PINFO);
+    PINFO << "VRMLExtrusionDesc::getFieldAndDesc : looking for " 
+          << szFieldname 
+          << endl;
+#endif
+
+    if(szFieldname == NULL)
+        return;
+
+    if(pFC == NullFC)
+        return;
+
+    incIndent();
+
+    Inherited::getFieldAndDesc(pFC, 
+                               szFieldname, 
+                               pField,
+                               pDesc);
+
+#ifdef OSG_DEBUG_VRML
+    decIndent();
+#endif
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Node                                     */
+
+FieldContainerPtr VRMLExtrusionDesc::beginNode(
+    const Char8       *,
+    const Char8       *,
+    FieldContainerPtr  )
+{
+    FieldContainerPtr returnValue = NullFC;
+    NodePtr           pNode       = NullFC;
+    GenericAttPtr     pAtt        = NullFC;
+
+    if(_pNodeProto != NullFC)
+    {
+        FieldContainerPtr pAttClone = _pGenAtt->clone();
+        
+        pAtt = GenericAttPtr::dcast(pAttClone);
+
+        if(pAtt != NullFC)
+        {
+            pAtt->setInternal(true);
+        }
+
+        returnValue = _pNodeProto->shallowCopy();
+
+        pNode = NodePtr::dcast(returnValue);
+
+        pNode->addAttachment(pAtt);
+    }
+
+    return returnValue;
+}
+
+void VRMLExtrusionDesc::endNode(FieldContainerPtr pFC)
+{    
+          Field            *pField = NULL;
+    const FieldDescription *pDesc  = NULL;
+          NodePtr           pNode  = NullFC;
+
+    if(pFC == NullFC)
+        return;
+
+    pNode = NodePtr::dcast(pFC);
+
+    if(pNode == NullFC)
+        return;
+    
+    SFBool       *pBeginCap     = NULL;
+    SFBool       *pCcw          = NULL;
+    SFBool       *pConvex       = NULL;
+    SFReal32     *pCreaseAngle  = NULL;
+    MFVec2f      *pCrossSection = NULL;
+    SFBool       *pEndCap       = NULL;
+    MFQuaternion *pOrientation  = NULL;
+    MFVec2f      *pScale        = NULL;
+    SFBool       *pSolid        = NULL;
+    MFVec3f      *pSpine        = NULL;
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "beginCap", 
+                               pField,
+                               pDesc);
+    
+    if(pField != NULL)
+    {
+        pBeginCap = static_cast<SFBool *>(pField);
+    }
+    
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "ccw", 
+                               pField,
+                               pDesc);
+    
+    if(pField != NULL)
+    {
+        pCcw = static_cast<SFBool *>(pField);
+    }
+    
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "convex", 
+                               pField,
+                               pDesc);
+    
+    if(pField != NULL)
+    {
+        pConvex = static_cast<SFBool *>(pField);
+    }
+    
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "creaseAngle", 
+                               pField,
+                               pDesc);
+    
+    if(pField != NULL)
+    {
+        pCreaseAngle = static_cast<SFReal32 *>(pField);
+    }
+    
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "crossSection", 
+                               pField,
+                               pDesc);
+    
+    if(pField != NULL)
+    {
+        pCrossSection = static_cast<MFVec2f *>(pField);
+    }
+    
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "endCap", 
+                               pField,
+                               pDesc);
+    
+    if(pField != NULL)
+    {
+        pEndCap = static_cast<SFBool *>(pField);
+    }
+    
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "orientation", 
+                               pField,
+                               pDesc);
+    
+    if(pField != NULL)
+    {
+        pOrientation = static_cast<MFQuaternion *>(pField);
+    }
+    
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "scale", 
+                               pField,
+                               pDesc);
+    
+    if(pField != NULL)
+    {
+        pScale = static_cast<MFVec2f *>(pField);
+    }
+
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "solid", 
+                               pField,
+                               pDesc);
+    
+    if(pField != NULL)
+    {
+        pSolid = static_cast<SFBool *>(pField);
+    }
+    
+
+    Inherited::getFieldAndDesc(pFC, 
+                               "spine", 
+                               pField,
+                               pDesc);
+    
+    if(pField != NULL)
+    {
+        pSpine = static_cast<MFVec3f *>(pField);
+    }
+    
+
+
+    if(pBeginCap     != NULL &&
+       pCcw          != NULL &&
+       pConvex       != NULL &&
+       pCreaseAngle  != NULL &&
+       pCrossSection != NULL &&
+       pEndCap       != NULL &&
+       pOrientation  != NULL &&
+       pScale        != NULL &&
+       pSolid        != NULL &&
+       pSpine        != NULL)
+    {
+#ifdef OSG_DEBUG_VRML
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLExtrusionDesc::endNode"
+              << endl;
+#endif
+        
+/*
+        GeometryPtr pGeo = makeExtrusionGeo(pBeginCap    ->getValue (),
+                                            pCcw         ->getValue (),
+                                            pConvex      ->getValue (),
+                                            pCreaseAngle ->getValue (),
+                                            pCrossSection->getValues(),
+                                            pEndCap      ->getValue (),
+                                            pOrientation ->getValues(),
+                                            pScale       ->getValues(),
+                                            pSolid       ->getValue (),
+                                            pSpine       ->getValues());
+                                           
+*/
+
+
+// snip remove later
+        fprintf(stderr, "%u %u %u %f | %u | %u | %u %u | %u | %u\n",
+                pBeginCap    ->getValue (),
+                pCcw         ->getValue (),
+                pConvex      ->getValue (),
+                pCreaseAngle ->getValue (),
+                pCrossSection->size     (),
+                pEndCap      ->getValue (),
+                pOrientation ->size     (),
+                pScale       ->size     (),
+                pSolid       ->getValue (),
+                pSpine       ->size     ());
+
+        GroupPtr pGeo = Group::create();
+// snap end remove later2       
+
+        beginEditCP(pNode, Node::CoreFieldMask);
+        {
+            pNode->setCore(pGeo);
+        }
+        endEditCP  (pNode, Node::CoreFieldMask);
+    }
+    else
+    {
+        fprintf(stderr, "\n\nExtrusion parameter missing\n");
+    }
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
+
+void VRMLExtrusionDesc::dump(const Char8 *)
+{
+}
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
 /*! \class osg::VRMLInlineDesc
  */
 
