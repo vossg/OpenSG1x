@@ -456,31 +456,10 @@ NodePtr OBJSceneFileType::read(std::istream &is) const
   return rootPtr;
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: Scene &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: write the image to the given file
-//SeeAlso:
-//s:
-//
-//------------------------------
-bool OBJSceneFileType::write (const NodePtr & OSG_CHECK_ARG(node    ),
-                              const Char8   *OSG_CHECK_ARG(fileName)) const
+NodePtr OBJSceneFileType::read(const Char8 *fileName) const
 {
-    FFATAL (("OBJSceneFileType::write() is not impl.\n"));
-    return false;
+    FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
+    return NullFC;
 }
 
 /******************************

@@ -102,6 +102,12 @@ NodePtr BINSceneFileType::read(std::istream &is) const
     return loader.getRootNode();
 }
 
+NodePtr BINSceneFileType::read(const Char8 *fileName) const
+{
+    FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
+    return NullFC;
+}
+
 #ifdef __sgi
 #pragma reset woff 1209
 #endif
@@ -116,6 +122,13 @@ bool BINSceneFileType::write(const NodePtr &node,
 {
     BINWriter writer(os);
     return writer.write(node);
+}
+
+bool BINSceneFileType::write(const NodePtr &node,
+                             const Char8 *fileName) const
+{
+    FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
+    return false;
 }
 
 /*-------------------------------------------------------------------------*/

@@ -104,11 +104,6 @@ typedef unsigned long ulong;
 
 // the error reporting routine
 
-void ErrorMsg(const char *msg)
-{
-
-}
-
 struct LChunk
 {
     unsigned short id;
@@ -234,11 +229,6 @@ LVector4 VectorByMatrix(const LMatrix4 &m, const LVector4 &vec)
         res.w = 1;
 
     return res;
-}
-
-void QuatToMatrix(const LVector4 &quat, LMatrix4 &m)
-{
-
 }
 
 //-------------------------------------------------------
@@ -1186,7 +1176,7 @@ bool L3DS::Load(std::istream &is)
     m_buffer = (unsigned char*) calloc(m_bufferSize, 1);
     if (m_buffer == 0)
     {
-        ErrorMsg("L3DS::LoadFile - not enough memory (malloc failed)");
+        fprintf(stderr, "L3DS::LoadFile - not enough memory (malloc failed)");
         return false;
     }
     is.read((char *) m_buffer, m_bufferSize);
@@ -1194,7 +1184,7 @@ bool L3DS::Load(std::istream &is)
     {
         free(m_buffer);
         m_bufferSize = 0;
-        ErrorMsg("L3DS::LoadFile - error reading from stream");
+        fprintf(stderr, "L3DS::LoadFile - error reading from stream");
         return false;
     }
 
@@ -1212,7 +1202,7 @@ bool L3DS::Load(const char *filename)
     f = fopen(filename, "rb");
     if (f == 0)
     {
-        ErrorMsg("L3DS::LoadFile - cannot open file");
+        fprintf(stderr, "L3DS::LoadFile - cannot open file");
         return false;
     }
     fseek(f, 0, SEEK_END);
@@ -1221,7 +1211,7 @@ bool L3DS::Load(const char *filename)
     m_buffer = (unsigned char*) calloc(m_bufferSize, 1);
     if (m_buffer == 0)
     {
-        ErrorMsg("L3DS::LoadFile - not enough memory (malloc failed)");
+        fprintf(stderr, "L3DS::LoadFile - not enough memory (malloc failed)");
         return false;
     }
     if (fread(m_buffer, m_bufferSize, 1, f) != 1)
@@ -1229,7 +1219,7 @@ bool L3DS::Load(const char *filename)
         fclose(f);
         free(m_buffer);
         m_bufferSize = 0;
-        ErrorMsg("L3DS::LoadFile - error reading from file");
+        fprintf(stderr, "L3DS::LoadFile - error reading from file");
         return false;
     }
     fclose(f);
@@ -1413,7 +1403,7 @@ LColor3 L3DS::ReadColor(const LChunk &chunk)
         col.b = ReadByte()/255.0f;
         break;
     default:
-        ErrorMsg("L3DS::ReadColor - error this is not a color chunk");
+        fprintf(stderr, "L3DS::ReadColor - error this is not a color chunk");
     }
     return col;
 }
@@ -1428,7 +1418,7 @@ float L3DS::ReadPercentage(const LChunk &chunk)
     case FLOAT_PERCENTAGE:
         return ReadFloat();
     }
-    ErrorMsg("L3DS::ReadPercentage - error, the chunk is not a percentage chunk");
+    fprintf(stderr, "L3DS::ReadPercentage - error, the chunk is not a percentage chunk");
     return 0;
 }
 
@@ -1440,7 +1430,7 @@ bool L3DS::Read3DS()
     mainchunk = ReadChunk();
     if (mainchunk.id != MAIN3DS)
     {
-        ErrorMsg("L3DS::Read3DS - wrong file format");
+        fprintf(stderr, "L3DS::Read3DS - wrong file format");
         return false;
     }
     if (!FindChunk(edit, mainchunk))
@@ -1674,7 +1664,7 @@ void L3DS::ReadFaceList(const LChunk &chunk, LMesh &mesh)
     // consistency checks
     if (chunk.id != TRI_FACELIST)
     {
-        ErrorMsg("L3DS::ReadFaceList - internal error: wrong chunk passed as parameter");
+        fprintf(stderr, "L3DS::ReadFaceList - internal error: wrong chunk passed as parameter");
         return;
     }
     GotoChunk(chunk);
@@ -1804,7 +1794,7 @@ void L3DS::ReadMaterial(const LChunk &parent)
             child = ReadChunk();
             if (child.id != MAT_MAPNAME)
             {
-                ErrorMsg("L3DS::ReadMaterial - error, expected chunk not found");
+                fprintf(stderr, "L3DS::ReadMaterial - error, expected chunk not found");
                 return;
             }
             ReadASCIIZ(str, 30);
@@ -1879,21 +1869,21 @@ void L3DS::ReadKeyframeData(const LChunk &parent)
     GotoChunk(parent);
 
     // read the pivot
-    LVector3 pivot = zero3;
+    //LVector3 pivot = zero3;
 
     LChunk pivotchunk;
     pivotchunk.id = PIVOT;
     if (FindChunk(pivotchunk, parent))
     {
         GotoChunk(pivotchunk);
-        pivot.x = ReadFloat();
-        pivot.y = ReadFloat();
-        pivot.z = ReadFloat();
+        /*pivot.x =*/ ReadFloat();
+        /*pivot.y =*/ ReadFloat();
+        /*pivot.z =*/ ReadFloat();
     }
     GotoChunk(parent);
 
     // read frame 0 from the position track
-    LVector3 pos = zero3;
+    //LVector3 pos = zero3;
 
     frames = 0;
 
@@ -1910,15 +1900,15 @@ void L3DS::ReadKeyframeData(const LChunk &parent)
         if (frames > 0)
         {
             ReadKeyheader();
-            pos.x = ReadFloat();
-            pos.y = ReadFloat();
-            pos.z = ReadFloat();
+            /*pos.x =*/ ReadFloat();
+            /*pos.y =*/ ReadFloat();
+            /*pos.z =*/ ReadFloat();
         }
     }
     GotoChunk(parent);
 
     // now read the rotation track
-    LVector4 rot = zero4;
+    //LVector4 rot = zero4;
 
     LChunk rotchunk;
     rotchunk.id = ROT_TRACK_TAG;
@@ -1935,19 +1925,19 @@ void L3DS::ReadKeyframeData(const LChunk &parent)
         if (frames > 0)
         {
             ReadKeyheader();
-            rot.x = ReadFloat();
-            rot.y = ReadFloat();
-            rot.z = ReadFloat();
-            rot.w = ReadFloat();
+            /*rot.x =*/ ReadFloat();
+            /*rot.y =*/ ReadFloat();
+            /*rot.z =*/ ReadFloat();
+            /*rot.w =*/ ReadFloat();
         }
     }
     GotoChunk(parent);
 
     // now read the scaling chunk
-    LVector3 scale;
-    scale.x = 1;
-    scale.y = 1;
-    scale.z = 1;
+    //LVector3 scale;
+    //scale.x = 1;
+    //scale.y = 1;
+    //scale.z = 1;
 
     LChunk scalechunk;
     scalechunk.id = SCL_TRACK_TAG;
@@ -1965,9 +1955,9 @@ void L3DS::ReadKeyframeData(const LChunk &parent)
         if (frames > 0)
         {
             ReadKeyheader();
-            scale.x = ReadFloat();
-            scale.y = ReadFloat();
-            scale.z = ReadFloat();
+            /*scale.x =*/ ReadFloat();
+            /*scale.y =*/ ReadFloat();
+            /*scale.z =*/ ReadFloat();
         }
     }
     GotoChunk(parent);

@@ -294,31 +294,10 @@ NodePtr OFFSceneFileType::read(std::istream &is) const
     return root;
 }
 
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: Scene &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: write the image to the given file
-//SeeAlso:
-//s:
-//
-//------------------------------
-bool OFFSceneFileType::write(const NodePtr & OSG_CHECK_ARG(node    ),
-                             std::ostream & OSG_CHECK_ARG(os)) const
+NodePtr OFFSceneFileType::read(const Char8 *fileName) const
 {
-    FFATAL(("OFFSceneFileType::write() is not impl.\n"));
-    return false;
+    FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
+    return NullFC;
 }
 
 /******************************

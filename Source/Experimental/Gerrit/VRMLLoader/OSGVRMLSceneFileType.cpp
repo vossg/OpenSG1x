@@ -106,12 +106,10 @@ NodePtr VRMLSceneFileType::read(std::istream &is) const
     return  _pVRMLToOSGAction->getRoot();
 }
 
-/*-------------------------------------------------------------------------*/
-/*                               Write                                     */
-
-bool VRMLSceneFileType::write(const NodePtr &, const Char8 *) const
+NodePtr VRMLSceneFileType::read(const Char8 *fileName) const
 {
-    return false;
+    FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
+    return NullFC;
 }
 
 /*-------------------------------------------------------------------------*/

@@ -84,14 +84,15 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
     /*! \{                                                                 */
 
     virtual NodePtr    read        (std::istream &is) const;
+    virtual NodePtr    read        (const Char8 *fileName) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual bool write(const NodePtr  &node,
-                       const Char8   *fileName) const;
+    virtual bool write(const NodePtr &node, std::ostream &os) const;
+    virtual bool write(const NodePtr  &node, const Char8   *fileName) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

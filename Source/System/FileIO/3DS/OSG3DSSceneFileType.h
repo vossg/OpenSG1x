@@ -58,7 +58,7 @@ OSG_BEGIN_NAMESPACE
  * \brief InventorSceneFileType
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING A3DSSceneFileType : public osg::SceneFileType
+class OSG_SYSTEMLIB_DLLMAPPING A3DSSceneFileType : public SceneFileType
 {
 public:
 
@@ -66,37 +66,36 @@ public:
 
     virtual ~A3DSSceneFileType(void);
 
-    virtual const osg::Char8 *getName(void) const;
+    virtual const Char8 *getName(void) const;
 
-    virtual osg::NodePtr read(std::istream &is) const;
-
-    virtual bool write(const osg::NodePtr &node, std::ostream &os) const;
+    virtual NodePtr read(std::istream &is) const;
+    virtual NodePtr read(const Char8 *fileName) const;
 
 protected:
 
-    static const osg::Char8            *_suffixA[];
+    static const Char8            *_suffixA[];
     static       A3DSSceneFileType  _the;
 
-    A3DSSceneFileType(const osg::Char8  *suffixArray[],
-                           OSG::UInt16  suffixByteCount,
+    A3DSSceneFileType(const Char8  *suffixArray[],
+                           UInt16  suffixByteCount,
                            bool    override,
-                           OSG::UInt32  overridePriority);
+                           UInt32  overridePriority);
 
     A3DSSceneFileType(const A3DSSceneFileType &obj);
 
 private:
 
-    OSG::NodePtr createMesh(L3DS &scene, LMesh &mesh) const;
-    MaterialPtr createMaterial(L3DS &scene, OSG::UInt32 id) const;
+    NodePtr createMesh(L3DS &scene, LMesh &mesh) const;
+    MaterialPtr createMaterial(L3DS &scene, UInt32 id) const;
 
-    mutable std::map<OSG::UInt32, OSG::MaterialPtr> _materials;
-    typedef std::map<OSG::UInt32, OSG::MaterialPtr>::iterator materialIt;
+    mutable std::map<UInt32, MaterialPtr> _materials;
+    typedef std::map<UInt32, MaterialPtr>::iterator materialIt;
 };
 
 typedef A3DSSceneFileType* A3DSSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSG3DSSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSG3DSSceneFileType.h,v 1.1 2003/08/14 13:24:48 a-m-z Exp $"
+#define OSG3DSSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSG3DSSceneFileType.h,v 1.2 2003/08/17 16:21:47 a-m-z Exp $"
 
 #endif // _OSG3DSSCENEFILETYPE_H_

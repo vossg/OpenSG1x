@@ -101,8 +101,21 @@ NodePtr VRMLSceneFileType::read(std::istream &is) const
     return  _pVRMLLoader->getRoot();
 }
 
+NodePtr VRMLSceneFileType::read(const Char8 *fileName) const
+{
+    FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
+    return NullFC;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                               Write                                     */
+
+bool VRMLSceneFileType::write(const NodePtr &node,
+                             std::ostream &os) const
+{
+    FWARNING (("STREAM INTERFACE NOT IMPLEMENTED!\n"));
+    return false;
+}
 
 bool VRMLSceneFileType::write(const NodePtr &root, const Char8 *name) const
 {

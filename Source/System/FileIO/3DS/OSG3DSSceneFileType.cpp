@@ -108,10 +108,10 @@ NodePtr A3DSSceneFileType::read(std::istream &is) const
  * \param
  * \return
  */
-bool A3DSSceneFileType::write(const NodePtr & OSG_CHECK_ARG(node),
-                             std::ostream & OSG_CHECK_ARG(os)) const
+NodePtr A3DSSceneFileType::read(const Char8 *fileName) const
 {
-	return false;
+    FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
+    return NullFC;
 }
 
 /*!
@@ -353,6 +353,6 @@ MaterialPtr A3DSSceneFileType::createMaterial(L3DS &scene, UInt32 id) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSG3DSSceneFileType.cpp,v 1.1 2003/08/14 13:24:48 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSG3DSSCENEFILETYPE_HEADER_CVSID;
 }

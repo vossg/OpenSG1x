@@ -225,36 +225,15 @@ NodePtr RAWSceneFileType::read(std::istream &is) const
     return root;
 }
 
+NodePtr RAWSceneFileType::read(const Char8 *fileName) const
+{
+    FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
+    return NullFC;
+}
+
 #ifdef __sgi
 #pragma reset woff 1209
 #endif
-
-//----------------------------
-// Function name: write
-//----------------------------
-//
-//Parameters:
-//p: Scene &image, const char *fileName
-//GlobalVars:
-//g:
-//Returns:
-//r:bool
-// Caution
-//c:
-//Assumations:
-//a:
-//Describtions:
-//d: write the image to the given file
-//SeeAlso:
-//s:
-//
-//------------------------------
-
-bool RAWSceneFileType::write(const NodePtr & OSG_CHECK_ARG(node    ),
-                             std::ostream & OSG_CHECK_ARG(os)) const
-{
-    return false;
-}
 
 /******************************
 *protected
