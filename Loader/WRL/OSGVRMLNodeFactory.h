@@ -71,7 +71,7 @@ OSG_BEGIN_NAMESPACE
 //! \ingroup GeometryLoaderLib
 
 template <class BaseT>
-class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeFactory : public BaseT
+class VRMLNodeFactory : public BaseT
 {
     /*==========================  PRIVATE  ================================*/
   private:

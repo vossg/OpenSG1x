@@ -193,7 +193,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InterpolatorBase
 };
 
 template <class KeyValueType>
-class OSG_SYSTEMLIB_DLLMAPPING Interpolator : public InterpolatorBase
+class Interpolator : public InterpolatorBase
 {
   public:
     //-----------------------------------------------------------------------

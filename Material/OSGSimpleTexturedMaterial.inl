@@ -50,6 +50,7 @@ OSG_BEGIN_NAMESPACE
     That's what imageChanged is for.
  */
 
+inline
 void SimpleTexturedMaterial::imageChanged(void)
 {
     _textureChunk->imageContentChanged();
@@ -58,5 +59,5 @@ void SimpleTexturedMaterial::imageChanged(void)
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.inl,v 1.3 2002/06/10 21:56:40 dirk Exp $"
+#define OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.inl,v 1.4 2002/06/21 09:11:23 vossg Exp $"
 

@@ -16,4 +16,22 @@ might want to give it a try configuring OpenSG using --enable-fixed-xtree.
 We'll try to figure out if these problems still persist in their lastest
 release (the one shipping with VS7), more on that soon.
 
+--
+
+If you use VisualStudio.Net to build OpenSG or the prebuild libs from 
+VisualStudio.Net, depending on your code unresolved symbols might occur. 
+This is due to bugs in Microsofts compiler/linker which screw up to export
+tables of the dll's build. If you build the libs on your own, just add the 
+mangled symbol to FieldContainer/lib.def.sym and relink the dlls.
+If you use the prebuild ones, you might try the libs build using intel's
+icl compiler against the VisualStudio.Net runtime, and please drop us
+a note, that we are able to include the symbol into the prebuild libs.
+
+As I had not had the time to analyse all the circumstances under which 
+the Microsoft tools decide to drop some symbols, and as mangled names
+must be provided within the def files, I am currently not able to figure
+out and insert all symbols that might be missing. One solution might
+be to compare the icl dll against the vc7 ones and figure out the 
+differences, I'll try this sooner or later  ;-).
+
 Gerrit ;-)

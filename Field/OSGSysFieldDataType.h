@@ -149,6 +149,7 @@ struct FieldDataTraits2<bool> :
         }
     }
          
+#ifndef OSG_WIN32_CL
     static       UInt32    getBinSize (const bool & )
     {
         return sizeof(UInt8);
@@ -168,7 +169,7 @@ struct FieldDataTraits2<bool> :
         pMem.getValue(value);
         oObject=value;
     }
-
+#endif
 };
 
 /*! \brief Int8 field traits 

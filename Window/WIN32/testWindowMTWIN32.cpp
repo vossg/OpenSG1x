@@ -427,11 +427,11 @@ int main (int argc, char **argv)
         drawThreadStop[i] = false;
 
         // get new thread
-        drawThread[i] = gThreadManager->getThread(NULL);
+        drawThread[i] = Thread::get(NULL);
         if ( drawThread[i] != NULL )
         {      
             drawThreadID[i] = i;
-            drawThread[i]->run( drawThreadProc, 0, (void *) &(drawThreadID[i]) );
+            drawThread[i]->runFunction( drawThreadProc, 0, (void *) &(drawThreadID[i]) );
         }
     }
 

@@ -439,9 +439,9 @@ template DLLMAPPING                                            \
 const FieldType &MField< T1, T2 >::getType(void) const
 #else
 #define OSG_DLLEXPORT_SFIELD_GET_TYPE_DEF1(T1,     DLLMAPPING) \
-template class DLLMAPPING SField< T1 >
+template class DLLMAPPING SField< T1, 0 >
 #define OSG_DLLEXPORT_MFIELD_GET_TYPE_DEF1(T1,     DLLMAPPING) \
-template class DLLMAPPING MField< T1 >                           
+template class DLLMAPPING MField< T1, 0 >                           
 #define OSG_DLLEXPORT_SFIELD_GET_TYPE_DEF2(T1, T2, DLLMAPPING) \
 template class DLLMAPPING SField< T1, T2 >                          
 #define OSG_DLLEXPORT_MFIELD_GET_TYPE_DEF2(T1, T2, DLLMAPPING) \

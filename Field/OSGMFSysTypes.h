@@ -68,6 +68,7 @@ OSG_BEGIN_NAMESPACE
 
 typedef MField<bool, 2>   MFBool;
 
+#ifndef OSG_WIN32_CL
 template <> inline
 UInt32 MField<bool, 2>::getBinSize(void)
 {
@@ -115,6 +116,7 @@ void MField<bool, 2>::copyFromBin(BinaryDataHandler &pMem)
         _values[i] = tmpBVal;
     }
 }
+#endif
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL2(MField, bool, 2, OSG_BASE_DLLTMPLMAPPING)

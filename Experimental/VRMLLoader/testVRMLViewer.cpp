@@ -88,8 +88,8 @@ OSG::ComponentTransformPtr   sceneTransCore;
 
 OSG::Animation         *animation = NULL;
 vector<string>          animTargetNames;
-map<const string, OSG::ComponentTransformPtr> animMap;
-typedef map<const string, OSG::ComponentTransformPtr>::iterator AnimIter;
+map<string, OSG::ComponentTransformPtr> animMap;
+typedef map<string, OSG::ComponentTransformPtr>::iterator AnimIter;
 bool                    doInterpolators = false;
 
 OSG::Time               startTime;
