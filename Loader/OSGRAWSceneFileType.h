@@ -94,7 +94,7 @@ public:
   /** get method for attribute the */
   virtual RAWSceneFileType & the (void) { return _the; }
 
-#if defined(__linux)
+#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
   static  RAWSceneFileType & staticThe (void) { return _the; }
 #endif
 
