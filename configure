@@ -699,7 +699,7 @@ ac_gdz_mpatrol_libs_e1=
 
 ac_gdz_test_debug_libs=
 
-ac_gdz_wrote_stl='0'
+ac_gdz_wrote_stl="no"
 
 ac_aux_dir=
 for ac_dir in $ac_gdz_commonconf_dir $srcdir/$ac_gdz_commonconf_dir; do
@@ -4030,7 +4030,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
     if test "$enable_stlport" = yes; then
 
-        ac_gdz_wrote_stl='1'
+        ac_gdz_wrote_stl=yes
 
         case $build_os in
             cygwin*)
@@ -4375,7 +4375,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
     ac_gdz_stl_lib_e4=
     ac_gdz_stl_dir_e4=
 
-    if test ac_gdz_wrote_stl='0'; then
+    if test "$ac_gdz_wrote_stl" = no; then
 
         if test -n "$ac_gdz_stl_dir"; then
             ac_gdz_stl_lib_e4='-lCio'
@@ -4672,6 +4672,7 @@ EOF
 chmod +x $CONFIG_STATUS
 rm -fr confdefs* $ac_clean_files
 test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
+
 
     fi
 

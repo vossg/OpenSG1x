@@ -906,7 +906,7 @@ dnl e4
     ac_gdz_stl_lib_e4=
     ac_gdz_stl_dir_e4=
 
-    if test ac_gdz_wrote_stl='0'; then
+    if test "$ac_gdz_wrote_stl" = no; then
 
         if test -n "$ac_gdz_stl_dir"; then
             ac_gdz_stl_lib_e4='-lCio'
@@ -926,6 +926,7 @@ dnl e4
         touch confdefs.h
 
         AC_OUTPUT($ac_gdz_common_stl_e4:$ac_gdz_common_stl_in_e4)
+
     fi
 ])
 
@@ -1980,7 +1981,7 @@ dnl e18
 
     if test "$enable_stlport" = yes; then
 
-        ac_gdz_wrote_stl='1'
+        ac_gdz_wrote_stl=yes
 
         case $build_os in
             cygwin*)

@@ -65,7 +65,7 @@ ac_gdz_mpatrol_libs_e1=
 
 ac_gdz_test_debug_libs=
 
-ac_gdz_wrote_stl='0'
+ac_gdz_wrote_stl="no"
 
 AC_CONFIG_AUX_DIR($ac_gdz_commonconf_dir) 
 
