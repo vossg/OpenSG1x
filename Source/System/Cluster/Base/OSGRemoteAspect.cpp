@@ -83,8 +83,10 @@ RemoteAspect::RemoteAspect(void) :
     FieldContainerFactory::TypeMapIterator  typeI;
 
     // initialize field filter
-    _fieldFilter[Geometry::getClassType().getId()] = Geometry::GLIdFieldMask;
-    _fieldFilter[TextureChunk::getClassType().getId()] = TextureChunk::GLIdFieldMask;
+    _fieldFilter[Geometry::getClassType().getId()] = 
+        Geometry::GLIdFieldMask;
+    _fieldFilter[TextureChunk::getClassType().getId()] = 
+        TextureChunk::GLIdFieldMask;
 
     for(typeI = FieldContainerFactory::the()->beginTypes();
             typeI != FieldContainerFactory::the()->endTypes(); ++typeI)
@@ -273,10 +275,8 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
 
         case CHANGED:
             {
-                UInt32  maskUInt32;
                 connection.getValue(remoteId);
-                connection.getValue(maskUInt32);
-                mask = maskUInt32;
+                connection.getValue(mask);
                 receivedFCI = _receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
@@ -398,7 +398,6 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
     FieldContainerPtr                   fcPtr;
     UInt32                              typeId;
     BitVector                           mask;
-    UInt32                              maskUInt32;
     UInt8                               cmd;
     std::string                         typeName;
     FieldMaskMapT::iterator             sentFCI;
@@ -486,7 +485,8 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
     }
 
     for(FieldMaskMapT::iterator condensedI = changedMap.begin();
-            condensedI != changedMap.end(); ++condensedI)
+        condensedI != changedMap.end();
+        ++condensedI)
     {
         sentFCI = _sentFC.find(condensedI->first);
 
@@ -494,39 +494,43 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
         if(sentFCI == _sentFC.end())
             continue;
 
-        FieldContainerPtr   fcPtr = FieldContainerFactory::the()->getContainer(condensedI->first);
+        FieldContainerPtr fcPtr = 
+            FieldContainerFactory::the()->getContainer(condensedI->first);
 
         // ignore removed containers
         if(fcPtr == NullFC)
             continue;
         mask = condensedI->second;
-        filterI = _fieldFilter.find(fcPtr->getType().getId());
 
         // apply field filter
+        filterI = _fieldFilter.find(fcPtr->getType().getId());
         if(filterI != _fieldFilter.end())
         {
-            FDEBUG(("SyncFieldFilter: :%s \n", fcPtr->getType().getName().str()
-                           )) mask &= 0xFFFFFFFF ^ filterI->second;
+            FDEBUG(("SyncFieldFilter: :%s \n", 
+                    fcPtr->getType().getName().str() )) 
+            mask &= 0xFFFFFFFFFFFFFFFFL ^ filterI->second;
         }
 
         if(mask)
         {
             // send changes
-            maskUInt32 = mask;
             condensedI->second |= mask;
             cmd = CHANGED;
             connection.putValue(cmd);
             connection.putValue(condensedI->first); // id
-            connection.putValue(maskUInt32);        // mask
+            connection.putValue(mask);              // mask
             fcPtr->copyToBin(connection, mask);
-            FDEBUG(("Changed: %s ID:%d Mask:%d\n", fcPtr->getType().getName()
-                                   .str(), fcPtr.getFieldContainerId(), mask))
+            FDEBUG(("Changed: %s ID:%d Mask:%lld\n", 
+                    fcPtr->getType().getName().str(),
+                    fcPtr.getFieldContainerId(), 
+                    mask))
         }
     }
 
     // addref
     for(addRefedI = changeList->beginAddRefd();
-            addRefedI != changeList->endAddRefd(); addRefedI++)
+        addRefedI != changeList->endAddRefd();
+        ++addRefedI)
     {
         UInt32  id = (*addRefedI);
 
@@ -540,7 +544,8 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
 
     // subref
     for(subRefedI = changeList->beginSubRefd();
-            subRefedI != changeList->endSubRefd(); subRefedI++)
+        subRefedI != changeList->endSubRefd();
+        ++subRefedI)
     {
         UInt32  id = (*subRefedI);
 
@@ -574,9 +579,10 @@ void RemoteAspect::registerCreated(const FieldContainerType &type,
 {
     while(type.getId() >= _createdFunctors.size())
     {
-        _createdFunctors.push_back(osgTypedFunctionFunctor2CPtrRef < bool,
-                                           FieldContainerPtr,
-                                           RemoteAspect * > (&_defaultCreatedFunction));
+        _createdFunctors.push_back(
+            osgTypedFunctionFunctor2CPtrRef
+            <bool,FieldContainerPtr,RemoteAspect * >
+            (&_defaultCreatedFunction));
     }
 
     _createdFunctors[type.getId()] = func;
@@ -698,7 +704,6 @@ bool RemoteAspect::callChanged(FieldContainerPtr &fcp)
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 #ifdef __sgi
-
 /* fcp is used only if the FDEBUG macro is not removed by the
    proprocessor. Switch off error for unused fcp parameter. */
 #pragma set woff 3201
@@ -708,8 +713,10 @@ bool RemoteAspect::callChanged(FieldContainerPtr &fcp)
  */
 bool RemoteAspect::_defaultCreatedFunction(FieldContainerPtr &fcp, RemoteAspect *)
 {
-    FDEBUG(("Created:%s %d\n", fcp->getType().getName().str(), fcp.
-                   getFieldContainerId())) return true;
+    FDEBUG(("Created:%s %d\n", 
+            fcp->getType().getName().str(),
+            fcp.getFieldContainerId()))
+    return true;
 }
 
 /*! Default destroyed functor
@@ -717,16 +724,20 @@ bool RemoteAspect::_defaultCreatedFunction(FieldContainerPtr &fcp, RemoteAspect 
 bool RemoteAspect::_defaultDestroyedFunction(FieldContainerPtr &fcp,
                                              RemoteAspect *)
 {
-    FDEBUG(("Destroyed:%s %d\n\n", fcp->getType().getName().str(), fcp.
-                   getFieldContainerId())) return true;
+    FDEBUG(("Destroyed:%s %d\n\n",
+            fcp->getType().getName().str(),
+            fcp.getFieldContainerId()))
+    return true;
 }
 
 /*! Default changed functor
  */
 bool RemoteAspect::_defaultChangedFunction(FieldContainerPtr &fcp, RemoteAspect *)
 {
-    FDEBUG(("Changed:%s %d\n", fcp->getType().getName().str(), fcp.
-                   getFieldContainerId())) return true;
+    FDEBUG(("Changed:%s %d\n", 
+            fcp->getType().getName().str(),
+            fcp.getFieldContainerId()))
+    return true;
 }
 
 #ifdef __sgi
