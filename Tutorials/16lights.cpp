@@ -20,7 +20,7 @@
 // Activate the OpenSG namespace
 OSG_USING_NAMESPACE
 
-UInt16          nlights = 6;
+UInt32          nlights = 6;
 
 TransformPtr    lightBeacons[8];
 LightPtr        lights      [8];
