@@ -747,8 +747,8 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
     piN = coordIndex.size();
 		if (piN) 
     	for ( i = 0; i <= piN; i++) {
-      	if ( ((i == piN) && vN && (coordIndex[i - 1] >= 0)) ||
-        	   ((index = coordIndex[i]) < 0 ) && vN && i < piN) {
+        index = (i == piN) ? -1 : coordIndex[i];
+      	if ( (index < 0) && vN ) {
 	        primitiveTypeCount [ (vN > maxPType) ? maxPType : vN]++;
   	      primitiveN++;
     	    vN = 0;
