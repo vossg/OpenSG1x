@@ -808,6 +808,8 @@ Action::ResultE RenderAction::start(void)
 
 Action::ResultE RenderAction::stop(ResultE res)
 {
+    Inherited::stop(res);
+
     UInt32 i;
 
 //    dump(_pRoot, 0);
@@ -825,12 +827,12 @@ Action::ResultE RenderAction::stop(ResultE res)
 // GL stuff handled by chunks now
 //    glEnable   (GL_BLEND);
 //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//    glDepthMask(false);
+    glDepthMask(false);
 
     draw(_pTransMatRoot->getFirstChild());
 
 //    glDisable  (GL_BLEND);
-//    glDepthMask(true);
+    glDepthMask(true);
 
     if(_pActiveState != NULL)
     {
