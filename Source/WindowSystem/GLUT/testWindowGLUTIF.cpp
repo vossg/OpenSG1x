@@ -21,6 +21,8 @@
 #include <OSGDrawAction.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGSceneFileHandler.h>
+#include <OSGImage.h>
+#include <OSGImageFileType.h>
 
 #include <OSGDirectionalLight.h>
 
@@ -321,14 +323,14 @@ int main (int argc, char **argv)
     // Foreground
     ImageForegroundPtr fgnd = ImageForeground::create();
 
-    ImageP lo = new Image();
+    ImagePtr lo = Image::create();
     if(argc > 1)
     {
         lo->read( argv[1] );
     }
     else
     {
-        ImageFileType::restore( *lo, (UChar8*)LogoData, -1 );
+        ImageFileType::restore( lo, (UChar8*)LogoData, -1 );
     }
     FWARNING(( "%s: %d x %d, bpp %d\n", argv[1], lo->getWidth(),
         lo->getHeight(), lo->getBpp() ));
@@ -337,7 +339,7 @@ int main (int argc, char **argv)
 
     if ( argc > 2 )
     {
-        ImageP lo2 = new Image();
+        ImagePtr lo2 = Image::create();
         lo2->read( argv[2] );
 
         FWARNING(( "%s: %d x %d, bpp %d\n", argv[2], lo2->getWidth(),

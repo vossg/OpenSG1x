@@ -44,8 +44,6 @@ NodePtr  root;
 
 NodePtr  file;
 
-Image *image;
-
 PerspectiveCameraPtr cam;
 ViewportPtr vp;
 WindowPtr win;

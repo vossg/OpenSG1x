@@ -31,6 +31,8 @@
 #include "OSGCamera.h"
 #include "OSGPerspectiveCamera.h"
 
+#include "OSGImage.h"
+#include "OSGImageFileType.h"
 #include "OSGImageBackground.h"
 #include "OSGLogoData.h"
 
@@ -59,7 +61,7 @@ Trackball tball;
 int mouseb = 0;
 int lastx=0, lasty=0;
 
-ImageP image;
+ImagePtr image;
 
 void
 display(void)
@@ -317,14 +319,14 @@ int main (int argc, char **argv)
     // Background
     ImageBackgroundPtr bkgnd = ImageBackground::create();
 
-    image = new Image();
+    image = Image::create();
     if(argc > 1)
     {
         image->read( argv[1] );
     }
     else
     {
-        ImageFileType::restore( *image, (UChar8*)LogoData, -1 );
+        ImageFileType::restore( image, (UChar8*)LogoData, -1 );
     }
     FWARNING(( "%s: %d x %d, bpp %d\n", argv[1], image->getWidth(),
         image->getHeight(), image->getBpp() ));

@@ -299,7 +299,8 @@ int main (int argc, char **argv)
     UChar8 imgdata[] = 
         {  255,0,0,128,  0,255,0,128,  0,0,255,255,  255,255,255,255 };
     
-    Image *image = new Image( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
+    ImagePtr image = Image::create();
+    image->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
 
     if ( argc > 2 )
         image->read( argv[2] );

@@ -21,6 +21,7 @@
 #include <OSGDrawAction.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGSceneFileHandler.h>
+#include <OSGImage.h>
 
 #include <OSGDirectionalLight.h>
 
@@ -44,7 +45,7 @@ NodePtr  root;
 
 NodePtr  file;
 
-Image *image;
+ImagePtr image;
 
 PerspectiveCameraPtr cam;
 ViewportPtr vp;
@@ -324,7 +325,8 @@ int main (int argc, char **argv)
     // Foreground
     GrabForegroundPtr fgnd = GrabForeground::create();
 
-    image = new Image(Image::OSG_RGB_PF,1);
+    image = Image::create();
+    image->set(Image::OSG_RGB_PF,1);
 
     fgnd->setImage(image);
 
