@@ -259,11 +259,12 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
 void SortFirstWindow::serverSwap( WindowPtr window,
                                   UInt32 )
 {
-    window->swap();
     if(!getCompose())
     {
+        getConnection()->signal();
         getConnection()->wait();
     }
+    window->swap();
 }
 
 /*----------------------------- client methods ----------------------------*/
@@ -393,6 +394,7 @@ void SortFirstWindow::clientSwap( void )
     }
     else
     {
+        connection->wait();
         connection->signal();
     }
 }
