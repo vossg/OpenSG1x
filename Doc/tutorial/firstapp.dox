@@ -1,0 +1,222 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! 
+\page FirstApp First Application
+
+\section FirstAppTutorial First Tutorial
+
+\code
+
+//what follows here is the smallest OpenSG programm possible
+//most things used here are explained now or on the next few pages, so don't 
+//worry if not everythings clear right at the beginning...
+
+//Some needed inlcude files - these will become more, believe me ;)
+#include <OpenSG/OSGGLUT.h>
+#include <OpenSG/OSGConfig.h>
+#include <OpenSG/OSGSimpleGeometry.h>
+#include <OpenSG/OSGGLUTWindow.h>
+#include <OpenSG/OSGSimpleSceneManager.h>
+
+//In most cases it is useful to add this line, else every OpenSG command
+//must be proceeded by an extra OSG::
+OSG_USING_NAMESPACE
+
+//The SimpleSceneManager is a little usefull class which helps us to 
+//manage little scenes. It will be discussed in detail later on
+SimpleSceneManager *mgr;
+
+//we have a forward declarion here, just to sort the code 
+int setupGLUT( int *argc, char *argv[] );
+
+int main(int argc, char **argv)
+{
+	// Init the OpenSG subsystem
+	osgInit(argc,argv);
+	
+	// We create a GLUT Window (that is almost the same for most applications)
+	int winid = setupGLUT(&argc, argv);
+	GLUTWindowPtr gwin= GLUTWindow::create();
+	gwin->setId(winid);
+	gwin->init();
+
+	// That will be our whole scene for now : an incredible Torus
+	NodePtr scene = makeTorus(.5, 2, 16, 16);
+
+	// Create and setup our little friend - the SSM
+	mgr = new SimpleSceneManager;
+	mgr->setWindow(gwin );
+	mgr->setRoot  (scene);
+	mgr->showAll();
+    
+	// Give Control to the GLUT Main Loop
+	glutMainLoop();
+
+	return 0;
+}
+
+// react to size changes
+void reshape(int w, int h)
+{
+    mgr->resize(w, h);
+    glutPostRedisplay();
+}
+
+// just redraw our scene if this GLUT callback is invoked
+void display(void)
+{
+	mgr->redraw();
+}
+
+//The GLUT subsystem is set up here. This is very similar to other GLUT applications
+//If you have worked with GLUT before, you may have the feeling of meeting old friends again,
+//if you have not used GLUT before that is no problem. GLUT will be introduced shortly on the
+//next section
+
+int setupGLUT(int *argc, char *argv[])
+{
+	glutInit(argc, argv);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    
+	int winid = glutCreateWindow("OpenSG First Application");
+    
+	// register the GLUT callback functions
+	glutDisplayFunc(display);
+	glutReshapeFunc(reshape);
+
+	return winid;
+}
+
+\endcode
+
+That is all to get a little nice window, displaying a torus. I admit that there are OpenGL programs out there, that are shorter
+and do the same - but that will soon change, as our tutorials will get more advanced.
+
+The first thing that is boring, is the fact the we can not interact with our newly created virtual world. It would be wonderfull
+to have some mouse input, that we can navigate with. So that will be our first task - open (if you have closed it) the file you
+just created and go to the setupGLUT function. Just below the other two callback functions add these two lines
+
+\code
+glutMotionFunc(motion);
+glutMouseFunc(mouse);
+\endcode
+
+and add this whole method anywhere before the declaration of the setupGLUT function
+
+\code
+// react to mouse motions with pressed buttons
+void motion(int x, int y)
+{
+	mgr->mouseMove(x, y);
+	glutPostRedisplay();
+}
+
+// react to mouse button presses
+void mouse(int button, int state, int x, int y)
+{
+    if (state)
+        mgr->mouseButtonRelease(button, x, y);
+    else
+        mgr->mouseButtonPress(button, x, y);
+        
+    glutPostRedisplay();
+}
+	
+\endcode
+
+\subsection FirstAppTutorialMakefile A Makefile 
+
+As far as well - but still we need to compile that file we just created. Windows users should paste the code simply in one of the existing
+tutorial files where as Unix users should create a little makefile. Because the last part is a bit tricky a present a makefile which is ready
+to use and which can easily be taken as a starting point for own better suited makefiles
+
+\code
+# Very general use makefile for compiling OpenSG Programs
+# This makefile will compile every programm in this folder 
+# with a filename like this 01******.cpp
+
+# "opt" if you use the optimized library otherwise it is "dbg"
+LIBTYPE ?= dbg
+
+# set the path to the installed osg-config executable here
+# e.g. if you installed in /usr/local it is
+OSGCONFIG := /usr/local/bin/osg-config
+
+CC = "$(shell $(OSGCONFIG) --compiler)"
+CCFLAGS = $(shell $(OSGCONFIG) --cflags --$(LIBTYPE) Base System GLUT)
+LDFLAGS = $(shell $(OSGCONFIG) --libs --$(LIBTYPE) Base System GLUT)
+
+# all tutorials in this directory
+
+TUTS :=  $(wildcard [0-9][0-9]*.cpp) 
+PROGS := $(TUTS:.cpp=) 
+
+# program dependencies
+
+default:	$(PROGS)
+
+# make rules
+
+# by the way, do not let it bother you, if you do not understand that
+# "makefile-magic". You can write great programs without this knowledge,
+# I know that ;)
+
+.PHONY: clean Clean
+
+clean:
+	rm -f  *.o 
+
+Clean: clean
+	rm -f $(PROGS) 
+
+%.o: %.cpp
+	$(CC) -c $(CCFLAGS) $<
+
+%: %.o
+	$(CC) -o $@ $< $(LDFLAGS)
+
+%: %.cpp
+	$(CC) $(CCFLAGS) $< $(LDFLAGS) -o $@ 
+	
+\endcode
+
+\Section FirstAppTutorialGLUT GLUT
+
+If you are familiar with GLUT, you can skip to the next Section right away, 
+otherwise you may find it usefull, even tough GLUT is not a must as OpenSG 
+applications can also be driven by other windowing systems like QT or MFC.
+
+So what is GLUT? GLUT stands for GL Utility Library - with GLUT you can easily
+create a window in which OpenGL renders. Furthermore you can access the keyboard
+and mouse with just a few lines of code. That is what OpenSG uses GLUT for. Of course 
+it is not as Powerfull as QT, but is much more simpler to handle. 
+
+GLUT is alwasy initialized at the beginning by telling the library the size of the
+window, the color depth and similar things. Afterwards the callbacks are registered.
+Let us have a closer lock at that
+
+\code
+int setupGLUT(int *argc, char *argv[])
+{
+	glutInit(argc, argv);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+	int winid = glutCreateWindow("OpenSG First Application");    
+	glutDisplayFunc(display);
+	glutReshapeFunc(reshape);
+
+	return winid;
+}
+\endcode
+
+glutInit does some magic initialization stuff which should not concern us right here.
+The Paramters given to glutInitDisplayMode are telling GLUT to use the RGB Color Mode and
+that it shuld activate the depth buffer of OpenGL whereas GLUT_DOUBLE tells the library to
+use a double buffered window mode which rewards us with smoother graphics. If you do not specify
+the GLUT_DEPTH constant you will have no depth testing in your OpenSG application what is most
+likely not what you want.
+
+And what about those callbacks? If you have a look at the main method of our first application you
+will notice that the last command 
+*/
