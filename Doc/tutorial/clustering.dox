@@ -32,7 +32,7 @@ edge applications need often the power of a supercomputer or a cluster of machin
 become more and more interesting in the past years for industry as well as for universities. 
 
 <I>
-You may have noticed that I like computer manufractured by a company having an apple as it's logo. Here is one interesting thing about them and clusters: The
+You may have noticed that I like computer manufactured by a company having an apple as it's logo. Here is one interesting thing about them and clusters: The
 fastest computer on earth is a supercomputer from NEC with a performance peak of 40 tera flops whereas the third fastest machine is a cluster of 1000
 Apple G5's that score a peak of about 17 tera flops. Well, you might say that the NEC is more than twice as fast... yes, but it is also more than 10 times
 more expensive! That is why clusters get more and more interesting!
@@ -46,7 +46,7 @@ The following image shows a usual setup for a passive stereo application.
 <I>
 If you want to drive a passive stereo application for example, you need three machines: the client is running the application (i.e. modifying the scenegraph, 
 loading of files, handling user input, performing simulation etc.) and the two servers will only render. Each server would have a slightly different position of
-the camera to simulate human eyes and thus each server would render a differnt, yet similar, image. 
+the camera to simulate human eyes and thus each server would render a different, yet similar, image. 
 </I>
 
 The words "Client" and "Server" might be a bit misleading, so keep in mind, that the server does only rendering! One could say he serves the screen... or so. 
@@ -61,13 +61,13 @@ can also be run on a single machine. In fact, OpenSG doesn't care about where th
 \image html dual_window.png "One scene rendered in two independent windows"
 \image latex dual_window.eps "One scene rendered in two independent windows" width=6cm
 
-This image shows three windows: the small one is only for navigation interaction (i.e mouse movement) and is not necesarily required. Both other windows display
+This image shows three windows: the small one is only for navigation interaction (i.e mouse movement) and is not necessarily required. Both other windows display
 one scene as if it were rendered into one window only. In this case, both windows run on the same computer, but this must not be the case as we can see very 
 soon.
 
 \section TutorialClusteringeExample Example - A Multi Window Application
 
-You might have guessed we need two differnet programs (client & server) and therefore we will need two .cpp files, too.  This time I will present the whole
+You might have guessed we need two different programs (client & server) and therefore we will need two .cpp files, too.  This time I will present the whole
 program at once, because most of the code is not quite new at all. Here is the complete code for the client application - I tried to make it as short as possible
 
 \subsection TutorialClusteringeExampleClient The Client
@@ -203,9 +203,9 @@ with the names of your dogs or children... ;-)
 That's all? Yes, at least for the client. Of course the servers are still missing. If you would run this application you won't see any window, because it will be
 waiting for a connection to the servers that will never come...
 
-One word about the display() function: maybe you wonder why we have to clear the change list. We encountered the change list last chaper when I was talking about 
+One word about the display() function: maybe you wonder why we have to clear the change list. We encountered the change list last chapter when I was talking about 
 multithreading. The data exchange between the client and the servers works pretty much the same way, as clustering is some sort of multithreading on an arbitary
-number of machines over a network. However, synchronisation is handeled
+number of machines over a network. However, synchronisation is handled
 automatically, but you still have to tell the system when to clear the change list. 
 
 \subsection TutorialClusteringeExampleServer The Server
@@ -337,24 +337,24 @@ and in the server
 	server = new ClusterServer(window,argv[1],"Multicast","");
 \endcode
 
-which are responsible for setting up the connection. Multicast is straight forward to use, but if used in a large network (such as universties have, for example)
+which are responsible for setting up the connection. Multicast is straight forward to use, but if used in a large network (such as universities have, for example)
 you might get an administrator out of his cave, because network connection speed may suffer. In this case it is better to use StreamSock, which will establish
 a point to point connection, rather than scanning the whole network for potential servers. For big systems Multicast scales a lot better, as the data had to be put on the network only once.
 
 <I>
 When we developed the VR application, I mentioned previously, we had several people testing models and developing simultaneously and thus often started a client 
-and two servers - but when more than one person started the client and servers at about the same time, it happend that one sever connected to the correct client,
+and two servers - but when more than one person started the client and servers at about the same time, it happened that one sever connected to the correct client,
 but the other to some other client... well, needless to say, that the immersion of the simulation was not that good ;) 
 
-After an angry administrator visted us (he finally found out why the network was so slow...) we finally had to switched from multicast to a point to point 
-connection. So if you use Multicast, make sure you undestand the implications.
+After an angry administrator visited us (he finally found out why the network was so slow...) we finally had to switched from multicast to a point to point 
+connection. So if you use Multicast, make sure you understand the implications.
 </I>
 
 \section TutorialClusteringRemoteAspects Remote Aspects
 
 From the last chapter you roughly know what aspects are. Remote aspects work in a very similar way. In a cluster environment remote aspects are used to propagate
-changes of field containers. The synconization can take place automatically, but it can also be done manually with sendSync() and receiveSync(). Whether the
-synconization is manually or automatically driven, it is important not to apply changes twice, so the change list has to be cleared always and also
+changes of field containers. The synchronization can take place automatically, but it can also be done manually with sendSync() and receiveSync(). Whether the
+synchronization is manually or automatically driven, it is important not to apply changes twice, so the change list has to be cleared always and also
 manually (like in the example). Under certain circumstances it is good to know when a field container is created or destroyed - the problem is that the change
 list carries only changes of existing field containers by default. When a new container is created, there is a bit of extra work to do. In this case it might come
 in very practical to have the possibility to define some callbacks for these events: registerCreated(), registerChanged() and registerDestroyed() will do
@@ -534,7 +534,7 @@ int main(int argc, char **argv)
 	
 	scene =createScenegraph(argv);
 	
-    //we beginn with creating our cameras
+    //we begin with creating our cameras
 	camera = PerspectiveCamera::create();
 	
 	beginEditCP(camera);
@@ -554,7 +554,7 @@ int main(int argc, char **argv)
 	leftViewport = Viewport::create();
 	rightViewport = Viewport::create();
 	
-	//the decorator decarates the camera and will create the left eye
+	//the decorator decorates the camera and will create the left eye
 	ShearedStereoCameraDecoratorPtr cameraDecorator = ShearedStereoCameraDecorator::create();
     beginEditCP(cameraDecorator);
         cameraDecorator->setLeftEye(true);
@@ -570,7 +570,7 @@ int main(int argc, char **argv)
         endEditCP(leftViewport);
     endEditCP(cameraDecorator);
 	
-	//thr right decorator for the right eye
+	//the right decorator for the right eye
 	cameraDecorator=OSG::ShearedStereoCameraDecorator::create();
     beginEditCP(cameraDecorator);
         cameraDecorator->setLeftEye(false);

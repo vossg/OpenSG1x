@@ -183,7 +183,7 @@ Next, place this block after the "woman" Node is created (again, just a few line
 	endEditCP(womanEyes);
 \endcode 
 
-Finally locate the line where the ctNode is edited (somewhere near the end of the createScenegraph() function) and add this line somewhere beween the begin- and
+Finally locate the line where the ctNode is edited (somewhere near the end of the createScenegraph() function) and add this line somewhere between the begin- and
 endEditCP commands.
 
 \code

@@ -21,7 +21,7 @@ Chapter Overview
 
 This chapter is dedicated to another very important aspect of computer graphics: light sources. Well, most scenes have at least one, but
 often more, lightsources to simulate a realistic environment. OpenSG features the common OpenGL lightsourses: spot, directional and point
-lights. The actual usage is easy and should be simiar to OpenGL. At the end of this chapter there will be a tutorial in which will add some
+lights. The actual usage is easy and should be similar to OpenGL. At the end of this chapter there will be a tutorial in which we will add some
 light sources to the water mesh from the last chapter.
 
 \section TutorialLightPointLight Point Light
@@ -96,7 +96,7 @@ endEditCP  (dLight);
 
 The spot light is the most expensive light source to compute. It is similar to a point light in that it has colors, attenuation and a position, but spot lights have an additional
 direction and angle which will define the area that is lit. Another value is needed to specify how fast intensity drops off as light reaches the
-border of the lit area. I suggest that you play around with the paramates to see what happens.
+border of the lit area. I suggest that you play around with the parameters to see what happens.
 
 \code
 
@@ -104,8 +104,10 @@ SpotLightPtr sLight = SpotLight::create();
 
 beginEditCP(sLight);
     
-    l->setSpotExponent(2);
-    l->setSpotCutOff(deg2rad(30));
+	//set how fast light intesity decreases at the border
+    sLight->setSpotExponent(2);
+	//set the opening angle
+    sLight->setSpotCutOff(deg2rad(30));
     
     //color information
     sLight->setDiffuse(Color4f(1,1,1,1));
@@ -138,7 +140,7 @@ system, the direction is along the positive z-axis. The following picture shows 
 
 This is a typical setup if you want to move the light source independent of the rest of the scene. But the beacon is not limited in any way, it can be an arbitrary Node in the graph, including nodes below the light source or even the light source itself.
 
-The main maotivation for specifying the position/orientation of the lights via a beaconn Node and not via for example a Matrix is consistency and automatisms. This approach hides the difference between light sources and other Nodes for purposes of maniuplation and animation. Light sources are manipulated exactly like any other node, by changing transformations on a Transform or ComponentTransform node. This also allows passive changes in the sense that a light source can be literally attached to another object and move whenever it moves. All just by setting the beacon. 
+The main motivation for specifying the position/orientation of the lights via a beacon Node and not via for example a Matrix is consistency and automatisms. This approach hides the difference between light sources and other Nodes for purposes of manipulation and animation. Light sources are manipulated exactly like any other node, by changing transformations on a Transform or ComponentTransform node. This also allows passive changes in the sense that a light source can be literally attached to another object and move whenever it moves. All just by setting the beacon. 
 
 For the attachment to another object situation the current setup is still somewhat limited. Given that the position and orientation of the light source is defined by constant values in the coordinate system of the beacon, you'd have to add temporary transformations to move the light source inside this coordinate system, for example to move the two headlights of a car to the correct position within the car. To simplify these operations, the light sources actually do have position and direction Fields, as applicable to the give type of light source. But you still need to set a beacon to define the reference coordinate system. If in doubt, just use the light source's Node as a beacon.
 
@@ -147,11 +149,11 @@ For the attachment to another object situation the current setup is still somewh
 Just to mention it: The camera uses the same beacon mechanism to define the position and orientation of the viewer. This unifies moving and animation of all relevant objects in the scenegraph to changing Transformation nodes.
 
 Another comment: the SimpleSceneManager by default provides a directional light set up as a headlight. That is the reason why we didn't have 
-a black sceen in the previous tutorials, altough we had not defined a single light source.
+a black sceen in the previous tutorials, although we had not defined a single light source.
 </I>
 
 <b>Note:</b>
-Right now the limitation of the area of influence is not implemented yet, a light source will also influence its siblings, not only its children. It is still stringly recommended to follow the abovementioned sceen setup, otherwise things will break once the area feature is implemented, and even today unexpected effects can appear due to culling of light sources. So do it right from the beginning and you never have to worry. 
+Right now the limitation of the area of influence is not implemented yet, a light source will also influence its siblings, not only its children. It is still stringly recommended to follow the above mentioned screen setup, otherwise things will break once the area feature is implemented, and even today unexpected effects can appear due to culling of light sources. So do it right from the beginning and you never have to worry. 
 
 \subsection TutorialLightSwitch Where's the switch?
 
@@ -170,7 +172,7 @@ So far there is no way to turn lights on and off, expect for removing them from 
 
 \subsection TutorialLightGeneralAttenuation Attenuation Paramaters
 
-To avoid confiusion, I want to say some words about attenuation parameters. All light sources, except for the directional light, have 
+To avoid confusion, I want to say some words about attenuation parameters. All light sources, except for the directional light, have 
 attenuation parameters which specify how fast light intensity will decrease as the distance to an object increases. There are three values
 constant- , linear- and quadric attenuation. The default value for constant attenuation is one and zero for the others. The following
 image shows results for some different attenuation values. 
@@ -190,9 +192,9 @@ dislike these parameters... so keep it in mind ;-)
 
 \section TutorialLightTutorial Tutorial - Light it up
 
-As promised we are going to extend the last tutorial with some light sources, which will hopefully enhance the visual apperance of our
+As promised we are going to extend the last tutorial with some light sources, which will hopefully enhance the visual appearance of our
 water simulation ;-). Please take <a href="progs/09geometry_water3.cpp">progs/09geometry_water3.cpp</a> as a starting point. The first thing
-we need to to is to shut off the default head light, which the simple scene manger creates automatically. This is very easy indeed, just 
+we need to do is to shut off the default head light, which the simple scene manger creates automatically. This is very easy indeed, just 
 add the following line in the main method somewhere after we created the simple scene manager and before we enter the glutMainLoop!
 
 \code
@@ -224,13 +226,13 @@ block where the GeoColor3f property is created as well as the line that says
 \code
     geo->setColors(colors);
 \endcode
-during the creation of the geometry core. That will reomve the "hand-made" color values and will no longer overwrite the attributes of our
+during the creation of the geometry core. That will remove the "hand-made" color values and will no longer overwrite the attributes of our
 red material. If you compile and execute the application now you will see red water. Notice, that the color will change if you move the
-camera. Remember that we alredy provided normals which where all parallel to the y axis. If you want to, you can change the material's color
+camera. Remember that we already provided normals which where all parallel to the y axis. If you want to, you can change the material's color
 from red back to blue as this was only to demonstrate the conflict between assigned vertex colors and the color of a material. I do not want 
 to pursuade anybody to use red water... ;-)
 
-If you saw nothing but a black sceen, you forgot to turn the headlight back on. Anyway, turn the headlight off, as we want to add our own 
+If you saw nothing but a black screen, you forgot to turn the headlight back on. Anyway, turn the headlight off, as we want to add our own 
 light sources now. We start with the most common a point light.
 
 At first add two new headers
@@ -272,7 +274,7 @@ and replace the entire block with the following code
         pLightTransform->setMatrix(m);
     endEditCP(pLightTransform);
     
-    //we add a little spehere that will represent the light source
+    //we add a little sphere that will represent the light source
     GeometryPtr sphere = makeSphereGeo(2,2);
 
     SimpleMaterialPtr sm = SimpleMaterial::create();
@@ -334,7 +336,7 @@ and replace the entire block with the following code
 
 If you run the application it will crash and the terminal tells you something about a "segmentation fault". I personally do not like this error, because
 the only thing you are told by this error is, that something really does not work! So what can it be? When you have a look at the display function you see 
-right at the beginning that we are acessing the geometry core of the scene node. That exacly is our problem! We need the geometry pointer to modify the 
+right at the beginning that we are accessing the geometry core of the scene node. That exacly is our problem! We need the geometry pointer to modify the 
 geometry and we assumed that the core of the root node holds the geometry core. Well that was correct, until we changed the design of the scenegraph. Now 
 it is the one and only child of the root node which holds the geometry. Change the line that says
 
@@ -404,7 +406,7 @@ and add that line, but make sure it is within the begin-/ endEditCP(pLight) bloc
 
 <I>
 If you now compare this result with the last one, where we used a point light you will notice the difference in shading. This one here is again uniformly 
-shaded, whereas the point light result looked better. Well, you can now think about what happend... this question can be found again right down herer
+shaded, whereas the point light result looked better. Well, you can now think about what happened... this question can be found again right down here
 in the exercises part ;-)
 </I>
 

@@ -88,7 +88,7 @@ Open a terminal and enter the two following commands
 \code
 cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/opensg login
 		
-cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/openg co OpenSG
+cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/opensg co OpenSG
 \endcode
 
 <I>

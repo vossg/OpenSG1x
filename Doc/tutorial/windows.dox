@@ -26,7 +26,7 @@ had one window with one viewport, which were provided by the simple scene manage
 
 I will also introduce foregrounds and backgrounds, as these are closely related 
 to windows and viewports. Foregrounds can be used to display logos or they can even be used to capture a screenshot amongst other things, whereas backgrounds do 
-exactly what you expect them to do: the clear the background in different ways.
+exactly what you expect them to do: clear the background in different ways.
 
 \section TutorialWindowsWindows Windows
 
@@ -65,7 +65,7 @@ actually do have some advantages compared to the others, because both work on ma
 Win32 windows to the Microsoft platform. Additionally GLUT and QT windows might be a bit easier to use as there are wrapper classes 
 that may help you out. We have used GLUT windows all the way, so you should be familiar with that. For QT you can have a look at \ref QT
 
-So what does a window actally do? First of all, it is responsible for output of the rendered images. It does no handling of input events or similar things. 
+So what does a window actually do? First of all, it is responsible for output of the rendered images. It does no handling of input events or similar things. 
 A window
 keeps its instances of viewports and manages OpenGL context creation and activation/deactivation. It also handles detection of OpenGL extensions. 
 
@@ -73,7 +73,7 @@ The passive window is a bit different from the others. A passive window does not
 programs. Passive windows can be used with any window and GUI system that supports OpenGL. See section \ref TutorialQTPassiveWindow for an example using 
 passive windows.
 
-The last three windows, cluster, multi display and sort fist windows are used for clustering. These will be discussed in more detail in chapter \ref Clustering.
+The last three windows, cluster, multi display and sort first windows are used for clustering. These will be discussed in more detail in chapter \ref Clustering.
 
 At the end of this chapter there will be a tutorial where we will set up an application from scratch, without the simple scene manager. This tutorial
 may explain the usage of windows and viewports better than words can tell.
@@ -96,12 +96,12 @@ one defined relativly and the other absolute.
 \image latex viewports_new.eps "Resizing window with two different viewports" width = 8cm
 
 <I>
-    The yellow viewport is defined relativ to the window, where as the red vieport's values are given absolutly in pixels. When the window is resized the 
+    The yellow viewport is defined relative to the window, whereas the red viewport's values are given absolutly in pixels. When the window is resized the 
     yellow viewports changes it's size too, but the red one doesn't change shape or position at all.
 </I>
 
 You can also pass a -1 to one or more parameters which means that the most possible space is taken by the viewport. An exception to these sizing rules is the
-passiveViewport which simply ingnores all given values, as they are taken from the currently active OpenGL context. 
+passiveViewport which simply ignores all given values, as they are taken from the currently active OpenGL context. 
 
 In order to use a viewport correctly you not only need to define its size, but some additional things are needed: A node of the scenegraph (usually the root node)
 where rendering traversal should begein, a camera and a background are needed. Optionally you can provide one or more foreground(s). 
@@ -116,7 +116,7 @@ of all available viewports
 <LI>osg::StereoBufferViewport</LI>
 </UL>
 
-Well, the default Vieport is what you want in most cases. Passive viewports are needed to integrate OpenSG into existing OpenGL programs. The color buffer
+Well, the default Viewport is what you want in most cases. Passive viewports are needed to integrate OpenSG into existing OpenGL programs. The color buffer
 viewport allows rendering in specific color channels and finally the stereo buffer viewport is used mostly for active stereo applications. Stereo with
 shutter glasses for example need four buffers which are provided by osg::StereoBufferViewport. Passive stereo can be achived with default viewports. 
 Again, more on that in \ref Clustering.
@@ -124,8 +124,8 @@ Again, more on that in \ref Clustering.
 \section TutorialWindowsCameras Cameras
 
 A camera is of course needed for every application. The camera defines what is actually being rendered. The same way as you can have multiple viewports, you
-can also have multiple cameras. However, one camera can be attachted to more than one viewport. The most important parameters of a camera are position
-and orientation. Cameras in OpenSG behave in a similar way like light sources - their position is definied by the transformation of a beacon they are assigned
+can also have multiple cameras. However, one camera can be attached to more than one viewport. The most important parameters of a camera are position
+and orientation. Cameras in OpenSG behave in a similar way like light sources - their position is defined by the transformation of a beacon they are assigned
 to. In most cases you will have a transformation node right below the root node and use it as a beacon for the camera. However, if you want the user to
 drive a car, for example, it would make sense to attach the camera to the car geometry, thus every transformation applied to the car geometry will also be 
 applied to the camera as well.
@@ -178,7 +178,7 @@ Sorry, the matrix camera is not related to the movie trilogy and hence cannot pr
 to help the development of OpenSG... ;-) 
 
 The matrix camera is a very simple one as it keeps the modelview and perspective matrices directly and ignores all other attributes it may have. Under
-certain cicumstances this may be very useful, especially if you are integrating OpenSG into an existing OpenGL program by using a passive window as well
+certain circumstances this may be very useful, especially if you are integrating OpenSG into an existing OpenGL program by using a passive window as well
 as passive viewports. With this camera you are very close to standard OpenGL behaviour.
 
 \subsection TutorialWindowsCameraDecorators Camera Decorators
@@ -195,7 +195,7 @@ Here is an overview of the decorators currently available
 
 \subsubsection TutorialWindowsCameraDecoratorsStero Stereo Decorators
 
-There are actually two different decorators for stereo solutions. Both have some attributes in common. The eye seperation defines the distance between the
+There are actually two different decorators for stereo solutions. Both have some attributes in common. The eye separation defines the distance between the
 eyes and is provided in model units. You should be very careful with this value as too small or big values will destroy the stereo effect (and may
 make people sick...). Finally you need to tell the decorator if it is the left or the right one. This is handeled by a simple boolean variable where true
 indicates the left eye.
@@ -234,7 +234,7 @@ is a public demand for it. ;-)
 \subsubsection TutorialWindowsCameraDecoratorsTile Tile Camera Decorator
 
 This kind of decorator is used to scale some rectangular area up to full viewport size. It's mainly use is to divide a large rendering area into some small
-areas which are displayed on a dfifferent sceen each. The parameters of the camera can be set up as if you were using one large viewport. This is much easier
+areas which are displayed on a dfifferent screen each. The parameters of the camera can be set up as if you were using one large viewport. This is much easier
 than placing several cameras side by side to archive the same effect. 
 
 In Darmstadt, Germany there is a wall of screens, called HEye Wall, with 6 * 4 screens which is capable of stereo rendering. A 48 + 1 node cluster running 
@@ -331,7 +331,7 @@ image foreground supports correct alpha blending.
 
 \subsection TutorialWindowsForegroundsPolygon Polygon Foreground
 
-The osg::PolygonForeground draws a single polygon with an optional texture on top of the rendered image. It's main purpose is to achive the same results
+The osg::PolygonForeground draws a single polygon with an optional texture on top of the rendered image. It's main purpose is to achieve the same results
 as with the default image foreground, but by using a texture rather than an image, which is quite faster to compute as this process is better accelerated by the
 graphics hardware. 
 
@@ -378,7 +378,7 @@ Whenever a frame is rendered the osg::Image grabImage will store the rendered fr
 
 osg::FileGrabForeground works pretty much the same way grab foreground does. However as the name implies the result is stored in a file rather than in an
 OpenSG image object. There is a boolean flag to tell the system whether this foreground is active or not, inherited from the GrabForeground. Furthermore you do not need to create an image 
-instance as this is done automatically for you, but you have to provide a filename for the image to be stored. You are not limited to storing single files only,
+instance as this is done automatically for you, but you have to provide a filename for the image to be stored. You are not limited storing single files only,
 it is also possible to store image sequences. The filename is given in a printf style thus naming an image "image%d" will lead to an image sequence as 
 an internal frame counter
 will replace the variable in the filename with the counter value. If you use %04d instead you will have leading zeros in your filename which might be very
@@ -404,7 +404,7 @@ Here is an overview of what we are going to do.
 \image html scene_setup.png "Application overview"
 \image latex scene_setup.eps "Application overview" width = 8cm
 
-This time we will start with an completly empty file! So open your editor of choice and create a new file and store it in the progs folder like the other
+This time we will start with a completely empty file! So open your editor of choice and create a new file and store it in the progs folder like the other
 tutorial files. First thing we need are a lot of include files:
 
 \code
@@ -627,7 +627,7 @@ void display(void)
 }
 \endcode
 
-You now can execute the application, altough there really is not much to see. You will see an error telling you that the camera has no beacon 
+You now can execute the application, although there really is not much to see. You will see an error telling you that the camera has no beacon 
 and you can see the gradient
 background only... anyway, we are not quite done yet, for a minimal application there is still a light source missing and beacons for the light and camera(s). 
 So this will be our next step, to create a working scenegraph. We also add a torus to have at least some visible geometry. Locate the following lines at
@@ -765,7 +765,7 @@ Now try to compile and execute the application. It should look like this
 \image html 2viewports.png "Two different viewports on the same scene"
 \image latex 2viewports.eps "Two different viewports on the same scene" width = 4cm
 
-As you can see, the torus is displayed from two different positions. This is really not a miracle as we have defined different locations for both cameras. This is nice, but if you resize the window, the viewports are not scaled correctly altough they should! The reason is, that we have not specified the GLUT 
+As you can see, the torus is displayed from two different positions. This is really not a miracle as we have defined different locations for both cameras. This is nice, but if you resize the window, the viewports are not scaled correctly although they should! The reason is, that we have not specified the GLUT 
 reshape callback function. Add this line to the setupGLUT() function
 
 \code
@@ -900,7 +900,7 @@ void keyboard(unsigned char k, int x, int y){
 	from more complex data structures. With bigger projects it won't be possible to store everything globally ;-)
 </I>
 
-Our application is complete now. One hint for those with fast machines: Do not turn on screen capturing for to long, or you will hove lots of jpg files...
+Our application is complete now. One hint for those with fast machines: Do not turn on screen capturing for to long, or you will have lots of jpg files...
 
 One essential functionaliy is indeed still missing! We are not able to navigate in any means. Well, this is up to you now, have a look at the exercises ;-)
 
@@ -908,7 +908,7 @@ One essential functionaliy is indeed still missing! We are not able to navigate 
 
 \subsection TutorialWindwsExercises1 Ex. Sky Background
 
-Try to use a sky background with textures. You can find the needed textures in the progs/data folder. The files are calles right.jpg, top.jpg,... and so on.
+Try to use a sky background with textures. You can find the needed textures in the progs/data folder. The files are called right.jpg, top.jpg,... and so on.
 
 \subsection TutorialWindwsExercises2 Ex. Navigator
 

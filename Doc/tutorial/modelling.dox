@@ -40,7 +40,7 @@ In many cases VRML will be your format of choice, because OpenSG can read it and
 </UL>
 
 Of course these are not the only programs available, but these are really powerful. On Linux it might become a bit difficult to find professional software. I
-know of none that is compareable with these above - but if you do, please tell me.
+know of none that is comparable with these above - but if you do, please tell me.
 
 
 \section TutorialModelingThingsGoodToKnow Things Good to Know About
@@ -88,7 +88,7 @@ Be careful with textures! Depending on your cleverness of your exporter you can 
 of course) several times it can happen that OpenSG loads this textures as often into memory as you have assigned it. As far as I know that is the case with
 Studio Max, but not with Cinema 4D. 
 
-If you are working with Studio Max and have assigned a texure a hundred times, you either have to expand your memory or you have to use to use the 
+If you are working with Studio Max and have assigned a texture a hundred times, you either have to expand your memory or you have to use to use the 
 osg::MaterialMergeGraphOp (see TutorialTraversalGraphOps). This graph operator is designed to find identical textures and reference them correctly. 
 
 \section TutorialModelingUsingBINFiles Using BIN/OSB Files
@@ -200,7 +200,7 @@ bool appendFileAtNode(string file, NodePtr node, string name)
 
 \endcode
 
-As described BIN files contain the whole graph and all its data, including textures. Therefore they can become quite large. But their loading time can be order of magnitude smaller than the time for ASCII files, therefore the abovementioned cachine can make sense.
+As described BIN files contain the whole graph and all its data, including textures. Therefore they can become quite large. But their loading time can be order of magnitude smaller than the time for ASCII files, therefore the above mentioned machine can make sense.
 
 The BIN file use the reflective interface to be independent of additions to the system. A disadvantage of this apporach is that the BIN file format is very tightly connected to the actual library. If the library is changed, by adding or removing Fields to/from an existing FieldContainer all old BIN files cannot be loaded anymore! Thus BIN should never be used as an actual storage format, it is only a cache format that can be used to reduce load times.
 

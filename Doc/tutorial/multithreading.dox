@@ -24,8 +24,8 @@ will be finally rewarded for all these begin- and endEditCP blocks you have writ
 
 Well, let's start right of with something very simple, just to see how easy it can be to use multiple threads (if you know how ;) ).
 
-As always, please make a copy of the framwork file. We really need no geometry at all for this little demonstration, but the scene manager must have at least
-a root node. So create a group node or some simple geometry, whatever you want, and set it as root for the simple scene manager. This is necessary to surpress
+As always, please make a copy of the framework file. We really need no geometry at all for this little demonstration, but the scene manager must have at least
+a root node. So create a group node or some simple geometry, whatever you want, and set it as root for the simple scene manager. This is necessary to suppress
 error messages. Try to execute, just to make sure
 everything works fine - there is nothing more annoying than searching hours for an error in your threads, where the real error lies somewhere else!
 
@@ -52,7 +52,7 @@ void printB(void *args){
 }
 \endcode
 
-These functions will simply print A or B respektivley until the application is terminated. Now we need to create and start the threads that will run both
+These functions will simply print A or B respectively until the application is terminated. Now we need to create and start the threads that will run both
 functions. Add the following code right before the main function!
 
 \code
@@ -107,7 +107,7 @@ now sets a new matrix that field in the appropriate threads aspect is changed - 
 Of course, this has the potential to cause heavy problems, as we now have inconsistent data, because thread one seems not to be aware of the new matrix thread 
 two has set. That is what ChangeLists are for. Every thread has its own change list. Every time data is written, an entry is added to the corresponding change 
 list. At some point, the threads needs to be synchronized and that is where a change list's content is read and the relevant data of this aspect is copied to 
-the other aspect. The synchronization has to be initiated manually and can't be done automatically, asboth threads have to be aware of it and be in state where they can accept changes to the graph.
+the other aspect. The synchronization has to be initiated manually and can't be done automatically, as both threads have to be aware of it and be in state where they can accept changes to the graph.
 
 Well, this will be easier to understand if we consider a little example. So here we go: imagine we want a simple torus (yes, again amazing geometry!) which 
 should rotate around the y axis - so we need a new transformation matrix every frame. This time, computation of the matrix will be done in an additional thread. 
@@ -174,7 +174,7 @@ will be run in its own thread.
 
 \code
 //this function will run in a thread and will simply
-//rotate the cube by setting a new transformation matrix
+//rotate the torus by setting a new transformation matrix
 void rotate(void *args){
 	// we won't stop calculating new matrices....
 	while(true){
@@ -272,7 +272,7 @@ The application will still run, but this time without any movement of the torus.
 command thread 2 is doing a fine job, but thread 1 will never become aware of the changes. So the change list of thread 2 has to be applied on thread 1, thus
 all changes from aspect 2 are copied to aspect 1.
 
-Alright, it seems that <I>animationThread->getChangeList()->applyAndClear();</I> will do some synching between the threads. 
+Alright, it seems that <I>animationThread->getChangeList()->applyAndClear();</I> will do some synchronization between the threads. 
 The next figure shows what happens on applying the change list
 
 \image html sync.png "Applying a change list"
@@ -280,10 +280,10 @@ The next figure shows what happens on applying the change list
 
 Well, I assume that you have not 
 worked with threads before, so if you have already you can jump to the next passage right away. When working with threads some things might get a bit confusing.
-It is somehow like having two independent programs running, which are written in one and the same source file and can use the same gloabl variables or objects. 
+It is somehow like having two independent programs running, which are written in one and the same source file and can use the same global variables or objects. 
 You have to keep in mind that two or more (nearly) independant applications can access the same data at the same time.
 
-In this specific case, the synching command is called within the display() function, which is run by the main thread. That is, if we call 
+In this specific case, the synchronization command is called within the display() function, which is run by the main thread. That is, if we call 
 <I>animationThread->getChangeList()->applyAndClear();</I>, we will get the change list from the other thread, which will have one entry (the changed matrix
 field). This change list will be applied to the current thread, the main thread. Remember, the main thread is also the one, that will render - so afterwards
 the new matrix can be taken into account when rendering. Additionally, applyAndClear() also removes all entries in the change list, so that it is empty again.
@@ -318,10 +318,10 @@ Be careful to use the correct value as argument for entering barriers. If I woul
 the application will wait there forever and never continue, because there is no third thread that could enter the barrier.
 
 Now that you have a basic understanding of how threads work, you might come to the conclusion, that this is not very efficient, as every thread has to wait
-every frame until the other has also finised - yes, as I said before, this was for didactic reasons only and should not be used like that in the real world.
+every frame until the other has also finished - yes, as I said before, this was for didactic reasons only and should not be used like that in the real world.
 
 A little example where multithreading might be useful: imagine you have a virtual reality system, that has to load files from disk during runtime. If these files
-contain some bigger models, such as terrain our houses, loading might take some noticeable time. If you are running a single threaded application, the whole
+contain some bigger models, such as terrain or houses, loading might take some noticeable time. If you are running a single threaded application, the whole
 thing will stop (i.e. the picture will freeze) until loading is finished. In this case you could have a second thread for loading. This thread will be started
 when a model should be loaded. The model will be loaded into memory while the main application will continue to run. When the loading process has finished,
 both threads will be synchronized and then the additional thread will be terminated. Done.

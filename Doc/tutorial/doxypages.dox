@@ -40,7 +40,7 @@ as the inheritance diagramm. The following image shows the detailed page of the 
 \image html doc.png "Class reference page"
 \image latex doc.eps "Class reference page" width = 8cm
 
-In this case, you can see that Transform is derived from FieldContainer. As I mentioned before, please keep in mind, that most of the imortant methods and member
+In this case, you can see that Transform is derived from FieldContainer. As I mentioned before, please keep in mind, that most of the important methods and member
 variables are not stored in the classes themselves, but in their corresponding base classes. If you have a look at the methods of osg::Transform, you will notice
 that there is not much interesting to see. However, the most important method for this class is setMatrix() which can be found in osg::TransformBase. You can 
 simply click on that class in the inheritance diagram.
@@ -62,7 +62,7 @@ no one will ;-)
 \section TutorialAppendixCTestfiles OpenSG Test Files
 
 There are quite a lot test .cpp files, which are used by the developers to test basic OpenSG functionality. These test files are stored together with the rest
-of the source code. So you can simply search for all files named 'test*.cpp'. Maybe one of the 150+ files shows you something you need an I fergot to tell you.
+of the source code. So you can simply search for all files named 'test*.cpp'. Maybe one of the 150+ files shows you something you need an I forget to tell you.
 However, this should be one of your last options in order to solve a problem... ;-)
 
 \section TutorialAppendixCDesperate  Despairing
@@ -81,7 +81,7 @@ modeling packages this comes in very useful. The following image shows the runni
 \image latex sceneViewer.eps "The OpenSG Scene Viewer in action" width = 10cm 
 
 As you can see, there are also some statistics displayed in the rendering window, thus you can test how well a model is being rended by OpenSG or if it loads
-coorectly at all...
+correctly at all...
 
 The OpenSG Scene Viewer is not compiled by default, you have to do it yourself, if you have not downloaded a precompiled package. However if you have compiled
 OpenSG on you own, this one is peanuts.

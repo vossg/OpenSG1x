@@ -26,11 +26,11 @@ one, and there are some things you should know about it. That is why a whole cha
 \section GeometryBackground Background
 
 Before we start generating geometry like crazy, we need to know something about the concepts. At the very beginning the implementation might
-look a bit uncomfortable, but please keep in mind that the geometry class was designed to provide a maximum of flexibility while still beeing
+look a bit uncomfortable, but please keep in mind that the geometry class was designed to provide a maximum of flexibility while still being
 most performant. 
 
 One big advanatge of the OpenSG geometry is it's great flexibility. It is possible to store different primitive types (triangles, quads etc.)
-in one single core, there is no need to create sperate cores for each primitive type. Even lines and points can be used in the same core 
+in one single core, there is no need to create seperate cores for each primitive type. Even lines and points can be used in the same core 
 along with triangles and others. 
 
 \subsection GeometryBackgroundProperties Properties
@@ -40,7 +40,7 @@ own osg::MField. OpenGL is capable of processing different formats of data, beca
 features the same data formats, by providing a lot of different classes which are luckily very similar to use and are all derived 
 from osg::GeoProperty. Prominent examples for geometry properties are osg::GeoPosition3f or osg::GeoNormal3f. There are a lot of other datatypes, 
 of course, just have a look at the osg::GeoProperty description page. All these geometry property classes are simple STL vectors slightly 
-enhanced with some features we already know like multi thread safty.
+enhanced with some features we already know like multi thread safety.
 
 \subsection GeometryBackgroundIndex Indices
 
@@ -84,7 +84,7 @@ UInt16 length = 100;
 
 Insert the code right at the beginning of the createScenegraph() function which should still be empty at this point.
 
-Before we start to create the geometry we should first initialize the wMesh array to avoid corrupt data when building the scenegraph. For now
+Before we start creating the geometry we should first initialize the wMesh array to avoid corrupt data when building the scenegraph. For now,
 we simply set all height values to zero.
 
 \code
@@ -93,7 +93,7 @@ we simply set all height values to zero.
             wMesh[i][j] = 0;
 \endcode
 
-Now we can begin to build the geometry step by step. The first thing to to is to define the type of primitives we want to use. Quads would be
+Now we can begin to build the geometry step by step. The first thing to do is to define the type of primitives we want to use. Quads would be
 sufficient for us. However, as mentioned before, it is possible to use more than one primitive. That will be discussed here : \ref GeometryPrimitiveTypes.
 
 \code
@@ -194,7 +194,7 @@ Something still missing? Yes of course! If you think about what we have done so 
 not considered yet that a quad uses four vertices and thus most quads, except for these at borders, uses vertices already used by four other 
 quads. However we provided every vertex just a single time.
 
-Of course we did, because everything else would be a waste of memory. That is what indeces are used for. The next block of code tells OpenSG which 
+Of course we did, because everything else would be a waste of memory. That is what indexes are used for. The next block of code tells OpenSG which 
 vertices are used by a quad. The vertices are only referenced, but not copied, in this way.
 
 \image html vertex_multi_use.png "Vertex are used by multiple quads"
@@ -226,7 +226,7 @@ vertices are used by a quad. The vertices are only referenced, but not copied, i
 There are different possibilities on how to index the data. That will be discussed in this section: \ref GeometryIndexing.
 </I>
 
-Now that we have created all data we need, we can create the geometry object that will hold all the pices together.
+Now that we have created all data we need, we can create the geometry object that will hold all the pieces together.
 
 \code
     GeometryPtr geo = Geometry::create();
@@ -299,7 +299,7 @@ modify the values during the display function. But first we have a deeper look a
 
 \section GeometryPrimitiveTypes Primitive Types
 
-If you remember what we have done at the beginning when we startet to create the water mesh geometry, you know that we had told OpenSG to use
+If you remember what we have done at the beginning when we started to create the water mesh geometry, you know that we had told OpenSG to use
 just one single primitive type, a quad, with a length of 39204 vertices. Now here some words about the geometry's flexibility: 
 If you want to use triangles, quads and some polygons you need not to create seperate geometry cores, but you can use them all in one single
 core even mixed with lines and points. 
@@ -308,7 +308,7 @@ This is done by first telling OpenSG what primitives you are going to use. Let u
 16 triangles two lines and another 8 quads. Sure, you could (and should) put the quads together to  16 quads, but we leave it that way for now.
 Data from modeling packages is not quite well structured most of the time, so better get used to it ;-)
 
-We simply tell now OpenSG what is going to come:
+Now, we simply tell OpenSG what is going to come:
 
 \code
 // do not add this code to the tutorial source.
@@ -323,7 +323,7 @@ We simply tell now OpenSG what is going to come:
     endEditCP(type, GeoPTypesUI8::GeoPropDataFieldMask);
 \endcode
 
-As far as well, but OpenSG also need to know of how many of each will come. The length we have provided previously in our example specify the
+As far as well, but OpenSG also need to know how many of each type will come. The length we have provided previously in our example specify the
 number of vertices, not the number of quads, triangles or whatever. So with some math we will find out that we need 32 vertices for 8 quads 
 (8 quads * 4 vertices per quad = 32) and 48 for the 16 triangles and so on
 
@@ -437,7 +437,7 @@ If you are striping geometry, please make sure to provide a correct number of ve
 
 Please notice that concave polygons are not supported neither by OpenGL nor by OpenSG! So make sure your polygons with more than three vertices are convex.
 
-The following image shows an example of primitive types and corresponding lengths.
+The following imagine shows an example of primitive types and corresponding lengths.
 
 \image html primitive_and_length.png "Primtives and corresponding length"
 \image latex primitive_and_length.eps "Primtives and corresponding length" width=8cm
@@ -486,13 +486,13 @@ triangle and now we have an integer returned from that class. We now try to comp
     // IntersectAction class
     ti.seek(pIndex);
     
-    // and now retrieve the coordiantes
+    // and now retrieve the coordinates
     Pnt3f p1 = ti.getPosition(0);
     Pnt3f p2 = ti.getPosition(1);
     Pnt3f p3 = ti.getPosition(2);
 \endcode
 
-The usage of these iterators is very easy, at least if you know how to do it. When I fist started using OpenSG I had a similar problem to solve
+The usage of these iterators is very easy, at least if you know how to do it. When I first started using OpenSG I had a similar problem to solve
 and I did it with five times the code length and much more effort. It took me some time to cut it down to these few lines... :)
 
 \section GeometryIndexing Indexing
@@ -562,7 +562,7 @@ If using multi indexing the property arrays need not to be equally long any more
 be one entry long with every color index pointing to this one and only entry.
 
 
-So now that you have non-indexed, single- and multi-indexed Geometry at hand, which should you use? In general single-indexed Geometry is the most efficient way for rendering. It can make sense to use non-indexed geometry, if there are no shared vertices. In this case indices only cost memory brint no benefit. Multi-indexed data can be more compact in terms of memory (if the data s bigger than the additional index), but OpenGL doesn't natively support it. Therefore it has to be split up to be used with OpenGL, which can have a big impact on performance. Only use it if memory is really critical or you really need it.
+So now that you have non-indexed, single- and multi-indexed Geometry at hand, which should you use? In general single-indexed Geometry is the most efficient way for rendering. It can make sense to use non-indexed geometry, if there are no shared vertices. In this case indices only cost memory brint no benefit. Multi-indexed data can be more compact in terms of memory (if the data is bigger than the additional index), but OpenGL doesn't natively support it. Therefore it has to be split up to be used with OpenGL, which can have a big impact on performance. Only use it if memory is really critical or you really need it.
 
 Conclusion: use single-indexed geometry, if you can. 
 
@@ -743,7 +743,7 @@ with non-rigid transformations. With static geometry they perform very well. I r
 
 \section TutorialGeometryUtilities Geometry Utility Functions
 
-OpenSG comes along with some useful utiliy functions, which can help you with some basic, but important tasks. I remember when I first needed
+OpenSG comes along with some useful utility functions, which can help you with some basic, but important tasks. I remember when I first needed
 face normals where the model only had vertex normals. I had one or two long nights I spend with the geometry in general and the geometry iterators until I had
 succeeded in developing an algorithm that worked in that way I wanted it to. It was a few days later when I realized a function called 
 "calcFaceNormals". Well, my variant of face normal calculation was as fast as the build-in function was, but the only annoying thing was, that 
@@ -769,7 +769,7 @@ Of course with vertex normals it is just all the same
     calcVertexNormals(geo);
 \endcode
 
-You proably already know, that face normals are unique for every triangle or quad. Objects rendered with face normals will look faceted, which 
+You probably already know, that face normals are unique for every triangle or quad. Objects rendered with face normals will look faceted, which 
 might not be what you want. For a smooth rendering normals per vertex are required. Please keep in mind that vertex normals can only be
 computed correctly, if the geometry data is also correct. The resulting vertex normal is just the result of averaging all neighbouring
 vertex normals and if some vertices are stored multiple times the result will be incorrect. 
@@ -821,11 +821,11 @@ on a per frame basis is not really recommended!
 
 As OpenGL supports a lot of different geometry data formats, also new problems arise. Of course, not all of these variants are equally efficient,
 but luckily OpenSG also offers some methods to improve the data automatically. I mentioned createSharedIndex() before, which will look for 
-identical elements and remove the copies, changing only the indeces. 
+identical elements and remove the copies, changing only the indexes. 
 
 This step is necessary for osg::createOptimizedPrimitivs to work as this method needs to know which primitves are using the same vertex
 which means they are neighbours. It tries to reduce the needed number of vertices to a minimum by combining primitives to stripes or fans. 
-No property values will be changed, only the indeces are modified. The actual algorithm used here is very fast, but will not necessarily provide an optimal solution. Due
+No property values will be changed, only the indexes are modified. The actual algorithm used here is very fast, but will not necessarily provide an optimal solution. Due
 to its pseudo random nature you can run it several times and take the best result. If performace is critical you can of course do it
 only once which will yield a non-optimal but definetly better solution than before.
 

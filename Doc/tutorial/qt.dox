@@ -94,7 +94,7 @@ All other options should be left as they are. Please make sure that everything i
 
 \subsubsection TutorialQTDesignerBuildGUIPlacing Place the Custom Widget
 
-Now select the OSGQGLManagedDesignerWidget, if you havn't already, and drag a rectangle that will take up all space left. Your window "Form1" should now look
+Now select the OSGQGLManagedDesignerWidget, if you haven't already, and drag a rectangle that will take up all space left. Your window "Form1" should now look
 like this
 
 \image html qtdesigner_form1.png "The QT window"
@@ -124,7 +124,7 @@ Click on "OK" to close that window. We need to connect the parts with each other
 on "No Signal" below Signal and select clicked(). Set Receiver to "MainWindow" and finally set slot to load() - click OK.
 
 Now click on the load() slot, found beneath the public specifier. That will open a new window, where you find the body
-of the load() function. Here we can add code to perform the actions we want it to do. Repleace the contents of the file with the following code - of course you
+of the load() function. Here we can add code to perform the actions we want it to do. Replace the contents of the file with the following code - of course you
 can leave out the comments...
 
 \code
@@ -237,7 +237,7 @@ Here you go!
 
 \section TutorialQTPassiveWindow Passive Window with QT / Plain OpenGL Code
 
-In section \ref TutorialWindowsWindows you have learned that passive windows do not handle OpenGL contexts and are designed to fit easyily into existing 
+In section \ref TutorialWindowsWindows you have learned that passive windows do not handle OpenGL contexts and are designed to fit easily into existing 
 applications. I will present to you another example application which will use a passive window and still offering all basic features we used so far, like
 loading of files and navigation. This example application is implemented with QT, too, but it should be no big deal to use any other window manager like MFC, 
 xwWidges, etc. (it is just that I have no clue how MFC stuff works ;-), but if you do, feel free to contribute an example...) 
@@ -275,7 +275,7 @@ public:
 
 protected:
 	// these replace the callback functions
-	// you now from the other tutorials
+	// you know from the other tutorials
 	void initializeGL();
 	void resizeGL(int, int);
 	void paintGL();
@@ -398,12 +398,12 @@ int main( int argc, char **argv ){
 \endcode
 
 This time you won't need to call the 'uic' and 'moc' commands like in the last example, because we have not used the designer to create an interface. However
-hacking the long OpenSG paramters and other attributes into the terminal is quite time robbing, so I offer you a Makefile which also can be taken for your
+hacking the long OpenSG parameters and other attributes into the terminal is quite time robbing, so I offer you a Makefile which also can be taken for your
 future projects.
 
 \code
 # This Makefile will compile the OpenSGWidget application (2nd tutorial in qt.dox)
-# The first totorial has to be compiled by hand (see qt.dox)
+# The first tutorial has to be compiled by hand (see qt.dox)
 
 
 # define the kind of library you have installed ('dbg' or 'opt')
@@ -439,7 +439,7 @@ clean:
 	rm -rf *.o OSGWidget
 \endcode
 
-If you want to use it for your own projects you simply have to add your sourcefiles to the line that says "SOURCES = ....". Additionally it might increase 
+If you want to use it for your own projects you simply have to add your source files to the line that says "SOURCES = ....". Additionally it might increase 
 performance if you add some platform specific parameters to the CCFLAGS, like "-march=athlon" or the like.
 
 So if you have saved all three file in the same folder (or just use the premade ones) then fire up a terminal cd to the directory and call "make". After make

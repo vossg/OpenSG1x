@@ -52,7 +52,7 @@ intuitive manner, but this may become unefficient if used extensively.
 </I>
 
 The other way is to have a transformation describing the complete movement, so all geometry nodes are located directly 
-below the root node. This approach is not as intuitive than the other is, but it might be faster to compute. This figureis illustrating this 
+below the root node. This approach is not as intuitive than the other is, but it might be faster to compute. This figure is illustrating this 
 variant. 
 
 \image html solarsystem_flat.png "The more efficient way..."
@@ -182,7 +182,7 @@ void display(void)
 Allright, compile and execute... and what do you see? Only one planet, right? But why? Think about it, before reading any further!
 
 Got it? Yes, we have overwritten the translation, we set up in the first place. Well, that is actually not what we desired? We could try to extract the old
-matrix out of our graph and then apply the rotation our we could create a completly new matrix and assigning the translation again. That is what
+matrix out of our graph and then apply the rotation, or we could create a completly new matrix and assigning the translation again. That is what
 we will do for now, but in the next section we will learn about another possibility that solves our problem easy and efficient. Add the following
 code right after we set the rotation
 
@@ -262,7 +262,7 @@ Please take the results from above (06solarsystem2.cpp) as a starting point for 
 not present the full code here again, because the changes are not so grave, but you can find the full code in the file named 06solarsystem3.cpp. Here
 are the necessary changes:
 
-1. Locate the pice of code where the moonTransformation is added to the planet node - remove these lines, because the moon will no longer be
+1. Locate the piece of code where the moonTransformation is added to the planet node - remove these lines, because the moon will no longer be
 a child of the planet
 
 2. Attach the moonTransformation you just removed to the root node
@@ -355,7 +355,7 @@ m.getTransform(translation, rotation, scalation, scaleOrientation, center);
 // translation would be (1,2,3) if we take m from the example above
 \endcode
 
-Furthermore you have some methods you need for inverting, calculating the determinant ect.
+Furthermore you have some methods you need for inverting, calculating the determinant etc.
 
 \code
 m.invert();        //calculates the inverse matrix;
@@ -420,7 +420,7 @@ image onto an object. Here you will find a more detailed overview about how to u
 
 \subsection TutorialNodeCoresMaterialSimpleMaterial Simple Material
 
-The Simple Material class provides an easy to use interface for materials without textures or other advanced fatures. It features all basic
+The Simple Material class provides an easy to use interface for materials without textures or other advanced features. It features all basic
 attributes like diffuse and specular color, as well as transparency, emission, shininess and ambient color. Here is an little example
 of a red material that is 50% transparent and has a dark gray as ambient color
 
@@ -542,7 +542,7 @@ in different resolutions. The system will display one of the provided models dep
 advantage is obvious: If you are close to the model it is rendered in high resolution thus details are well visible, if you are far
 away the object is approximated by a handful polygons and thus saving memory and rendering time. 
  
-The usage of LOD cores is quite simple. Notice the class is called DistanceLOD and not just LOD! There will be other LODs in the future, but for noe DistanceLOD is fine.
+The usage of LOD cores is quite simple. Notice the class is called DistanceLOD and not just LOD! There will be other LODs in the future, but for now DistanceLOD is fine.
 
 \code
 
@@ -569,7 +569,7 @@ shows how the LOD object we just created, works.
 <I>
 This figure shows what reasonable models for a distance LOD could look like. On the left hand side there is the full resolution model which should be rendered
 if the camera is very close to the model. When distance is increasing the quality will drop as each following model has only a tenth of the polygons. You have
-to figure out the correct values for the distance when models will swap as this is of course highly depandant on your scene and the scale you have choosen.
+to figure out the correct values for the distance when models will swap as this is of course highly dependant on your scene and the scale you have choosen.
 </I>
 
 \section TutorialNodeCoresTutorial Big Tutorial
@@ -577,15 +577,15 @@ to figure out the correct values for the distance when models will swap as this 
 Now it is finally time for a more exiting tutorial as we now have a basic knowledge of all the really most important aspects of OpenSG. What shall
 we do this time? 
 
-The fist thing we do is to setup a little LOD node containing three different levels of detail of a woman. 
+The first thing we do is to setup a little LOD node containing three different levels of detail of a woman. 
 These files are provided as VRML files
 and can be found in the prog/data folder. As always, we choose <A HREF = "progrs/00framework.cpp">progs/00framework.cpp</A> as our starting point.
 
 First of all add two new header files
-<PRE>
+\code
     #include <OpenSG/OSGSceneFileHandler.h>
     #include <OpenSG/OSGDistanceLOD.h> 
-</PRE>
+\endcode
 
 Now replace the createScenegraph() method with following code
 
@@ -634,10 +634,10 @@ NodePtr createScenegraph(void)
 
 \endcode
 
-You can now compile and execute this tutorial. When the window appears you will see the model of the woman. Right now the medium model is displayed
-because our distance to the cener point (0,0,0) is between 200 and 500 units. If you move the camera closer (by holding right mouse button)
+You can now compile and execute this tutorial. When the window appears, you will see the model of the woman. Right now the medium model is displayed
+because our distance to the center point (0,0,0) is between 200 and 500 units. If you move the camera closer (by holding right mouse button)
 you can see how the model flips from medium to high resolution. The same happens of course if you move far away. The parameters were
-choosen so that you can see the effect - in real life this is of course not what you want! Try to increase the range values by a factor of two or
+chosen so that you can see the effect - in real life this is of course not what you want! Try to increase the range values by a factor of two or
 three and you will not be able to see the flipping effect anymore.
 
 Now lets us extend our little application with a switch. Under certain circumstances it could be useful to turn off the LOD object, but we do not
@@ -682,10 +682,10 @@ The first should be obvious, the second is later needed to read names which were
 Now, if executed, everything looks like it did before. Now we want to add another copy of our highres model to our switch node. We could use
 the scenefilehandler to load another instance of that file but that would be a waste of memory. A better aproach would be to simply reference the
 geometry core by a second node, that is actually what the scenegraph is for. Unfortunately we have no appropriate GeometryPtr which points to 
-our desired women mesh as we loaded it from file an got an NodePtr in return. So it is time for some fun and retrive that geometry from the
+our desired women mesh as we loaded it from file and got an NodePtr in return. So it is time for some fun and retrieve that geometry from the
 loaded graph.
 
-What is our concern with that? Well, if you construced the graph on your own, you have knowledge about where to find what. If you load models
+What is our concern with that? Well, if you built the graph on your own, you have knowledge about where to find what. If you load models
 from a file you cannot know what is all in there. This time we are lucky, because the model is not very complex. If we load it into a 3D software
 like Studio Max or Cinema4D we can easily figure out that the name of the mesh (not the whole object) is "FACESET_woman". You can even figure that
 out if you are reading the VRML file in a text editor - but do not expect that to work with huge and complex files!
@@ -734,7 +734,7 @@ ends up returning either the node named "FACESET_Woman" or NullFC.
 Now we have a tool for searching, now we just need to use it. Add this right before we leave the createScenegraph() function
 
 \code
-    // we know want to extract the mesh geometry out of the graph
+    // we now want to extract the mesh geometry out of the graph
     // it is sufficent to pass the model only, as root for searching
     NodePtr womanGeometry = checkName(w_high);
 \endcode
@@ -752,7 +752,7 @@ be added directly after the last piece of code, does that
 \endcode
 <I>
     This may look a little weird, but it's really not that bad. The getCore() method returns a "NodeCorePtr", which are all other core pointer
-    classes are derived from. As we know that this specific node will contain geometry we can saftly cast it dynamically. As we will see later
+    classes are derived from. As we know that this specific node will contain geometry we can safely cast it dynamically. As we will see later
     on it is not a big deal if you do not know which kind of core is stored in a node. OpenSG is reflective and thus you can obtain information
     about any core just by asking it. 
 </I>
@@ -871,7 +871,7 @@ After executing you will see that nothing visible has changed at all. Of course 
 transformation as the one before. Well, to make it a bit more exciting we are going to modify the transformation every frame, which will 
 show the advantages of the component transform.
 
-We are gooing to let the user decide which kind of transformation will be applied. If he presses 's' a scale will be applied, 't' is a 
+We are going to let the user decide which kind of transformation will be applied. If he presses 's' a scale will be applied, 't' is a 
 translation whereas 'r' yields a rotation.
 
 First we need two more global variables that will count the rendered frames so far and keeps track of the selected translation mode.

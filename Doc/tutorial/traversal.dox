@@ -33,7 +33,7 @@ void display(void)
 \endcode
 
 Building a scenegraph is only useful if you work with it. OpenSG actions are actually tools which can perform various actions on the graph. In most cases 
-the graph is traversed and on entering every node some function is called. There are some predefined actions, like the render action, but you can also 
+the graph is traversed and a function is called when entering a node. There are some predefined actions, like the render action, but you can also 
 create your own of course.
 
 \section TutorialTraversalActions Actions
@@ -62,7 +62,7 @@ Assuming that the traversal will not be interrupted for some reason, a traverse 
 order. If you start the action at the root node, all Nodes will be visited in that order: A, B, C, F, G, D, E, H. When providing
 a vector of nodes, let's say G and E then the visited nodes would be G, E and H.
 
-Another example: If you start with root node A and node C will return Action::Skip then the processed nodes are A, B, C, D, E, H. Node C
+Another example: If you start with root node A and node C returns Action::Skip then the processed nodes are A, B, C, D, E, H. Node C
 itself is processed but not it's children.
 
 \section TutorialTraversalActionsRender Render Action
@@ -100,7 +100,7 @@ about the first object that was hit. Here is a little example on how you would t
 We would sent a ray from (5,0,-10) in the opposite direction of the y axis. If we hit something the intersection point will be printed on screen.
 </I>
 
-Please notice that intersection tests are really expensive. It will be sufficient for object picking and the like, but collision dectection for example
+Please notice that intersection tests are really expensive. It will be sufficient for object picking and the like, but collision detection for example
 would require collision models to be fast enough. I participated in a project where we used OpenSG for driving a stereo application. We first used
 the intersect action every frame and tested against the complete geometry to determine if the user ran into some obstacle. Well, that was not a very good idea, our
 framerate dropped from more than 30 down to three frames per second. We later had collision wall models with very few polygons. With that we were able to use
@@ -191,7 +191,7 @@ of arguments. So creation rules for the functor creation is like that
 	osgTypedFunctionFunctorXCPtrRef<returnType, Argument1, Argument2, ..., ArgumentX>(functionName)
 \endcode
 
-It is also possible to reference a method of some object instead of a function. I will demonstarte that in the tutorial at the end of this chapter.
+It is also possible to reference a method of some object instead of a function. I will demonstrate that in the tutorial at the end of this chapter.
 
 Anyway, what is the use of all this? Well you might need to traverse the graph more often than you think. If you want to print the number of all triangles for
 every geometry node for example you could create an "enter" function which checks if that node core is derived from osg::Geometry and if that is the case, calls
@@ -216,7 +216,7 @@ the graph is traversed once for every operator you have defined which may slow d
 It is also possible to specify an exclude list of
 nodes which will be skipped during traversal. This can be used to keep a number of important nodes intact, while optimizing the rest of the graph.
 
-Depending on your scene, graph operators can have a great impact of on the performance of your application, but keep in mind that this is not true in general.
+Depending on your scene, graph operators can have a great impact on the performance of your application, but keep in mind that this is not true in general.
 For example, the 3D Studio Max VRML exporter is not very good, therefore you can archive great results with graph operators, where as the Cinema 4D exporter is
 doing a good job and there is not that much to optimize left. However, giving it a try can always be useful.
 
@@ -261,7 +261,7 @@ model.
 
 This one is extremly useful under certain circumstances. I had the following situation during a recent project: Someone modeled a few different buildings and
 someone else build a little city from these with copy and paste. The buildings were textured, of course. Well, we exported that to VRML with Studio Max and
-after loading with OpenSG our RAM was all but gone... 1 GB of memory wasted. What happend? The texture that was assigned to the buildings was loaded once
+after loading with OpenSG our RAM was all but gone... 1 GB of memory wasted. What happened? The texture that was assigned to the buildings was loaded once
 for each object and was not reused probably... and we had lots of buildings. 
 
 This is where the material merge graph operator will help you out. If applied to the graph it will look for identical textures, that will be shared if possible
@@ -298,7 +298,7 @@ nodes with 50 polygons each won't be speedy at all... As a rule of thumb I'd rec
 
 In this tutorial we are going to load a VRML file from disk (you already know that from \ref TutorialBasicTutorial4) containing a simple scene with just three
 objects - a torus, a sphere and a cone. This file was created using a 3D modeling package. All three objects are named after what they are. No additional 
-features, like textures or geometry modifieres from a modeling package were used. I will use some different approaches on how to use traverse() and
+features, like textures or geometry modifiers from a modeling package were used. I will use some different approaches on how to use traverse() and
 osg::GraphOps
 
 Again we take 00framework.cpp as a starting point. First we need to add some include files we already know from other tutorials
@@ -314,7 +314,7 @@ You also should activate the standard namespace.
 	using namespace std;
 \endcode
 
-At the beginning we are going to load the VRML file mentioned above. This, too, should look a bit familiar to you by now. Paste this block of code into the
+At the beginning we are going to load the VRML file mentioned above. This should look a bit familiar to you by now. Paste this block of code into the
 createScenegraph() function.
 
 \code
@@ -376,9 +376,9 @@ geometry core of the woman model in section \ref TutorialNodeCoresTutorial. Some
 it was provided in the modeling package (torus, sphere and cone).
 
 It seems that the FACESET_* nodes were created automatically when exporting a scene to VRML. Maybe nodes named FACESET_* always contain the geometry cores? 
-We can proof the assumtion by implementing another traversal action.
+We can proof the assumption by implementing another traversal action.
 Instead of the most enter() function we used above, we now will have a functor that checks if the current node's core is derived from osg::Geometry and
-if that is true it will print the name of that node. If our assumtion is correct we will have only node names that will beginn with FACESET_ . 
+if that is true it will print the name of that node. If our assumption is correct we will have only node names that will beginn with FACESET_ . 
 Of course this will only be correct if you have not created your own geometry or loaded some other files.
 
 \code
@@ -401,7 +401,7 @@ Action::ResultE isGeometry(NodePtr& node)
 Extend the keyboard() function in that way, it will react to the 'g' key and start a traversal using the isGeometry() functor. The code is nearly identical to
 the other case. After you have finished that, compile and execute the application. 
 
-After you have pushed the 'g' key you will know that our assumtion was correct! If you have problems compiling it you can have a look at the complete program 
+After you have pushed the 'g' key you will know that our assumption was correct! If you have problems compiling it you can have a look at the complete program 
 here : <a href = "progs/12traversal.cpp">progs/12traversal.cpp</a>
 
 
@@ -461,9 +461,9 @@ now we need to pass the sequence object to the loader. Once again change the lin
 	NodePtr n = SceneFileHandler::the().read(filename, graphOperator);
 \endcode
 
-After loading, the resulting graph will be modified by the graph operator sequence. In this sepcific case the geometry will first be verified, then the
+After loading, the resulting graph will be modified by the graph operator sequence. In this specific case the geometry will first be verified, then the
 geometry will be optimized by merging reusable parts, as well as applying transformations to the vertices directly, where possible. Next all field containers
-with identical content are shared and finally the the geometry is verified again.
+with identical content are shared and finally the geometry is verified again.
 	
 Again, please note, that this does not always result in better graphs! If you try it with the scene from "brick_quads.wrl" you will not notice any 
 significant changes at all.
@@ -548,7 +548,7 @@ If you have less than 512 MB of memory, you should choose more than 50 polygons 
 </B>
 
 If you have a look at the traverse function call, you will notice that it is quite similar. <I>osgTypedFunctionFunctor1CPtrRef</I> changed to 
-<I>osgTypedMethodFunctor1ObjPtrCPtrRef</I> and aditionally you also specifiy the class type that will be used.
+<I>osgTypedMethodFunctor1ObjPtrCPtrRef</I> and additionally you also specifiy the class type that will be used.
 
 After compiling execute the application with
 <PRE>
@@ -556,7 +556,7 @@ After compiling execute the application with
 </PRE>
 
 Try to rotate the guy. If you have a moderate PC you might notice that the performance is not that great, as there are 60.000 polygons in one node. Memory
-consumtion lies by about 23 MB. Now split the graph up by pushing 's' - this may take some time. Memory consumtion goes up to about 307 MB, but performance
+consumtion lies by about 23 MB. Now split the graph up by pushing 's' - this may take some time. Memory consumption goes up to about 307 MB, but performance
 increases significantly as now the view frustum culling can work better. The number of nodes increases from 2 to 1190 nodes if you used 50 polygons as maximum!
 
 Of course, this one is just for demonstartion - I would not recommend this for usage in real live...
@@ -568,7 +568,7 @@ The code so far can be found in "progs/12traversal2.cpp"
 Finally we add a last feature for this tutorial. We are going to add the possibility to click into the window to select objects which will then be deleted. 
 
 First remove the code that created the graph operator sequence during createScenegraph(). Do not forget to adjust the load command by removing the operator
-sequence parameter. We do not want these optimiziations for this example, because the individual boxes would be merged into a single one. You see - as we
+sequence parameter. We do not want these optimizations for this example, because the individual boxes would be merged into a single one. You see - as we
 want to preserve the structure this time, graph optimizers are not always a solution to all problems.
 
 Anyway, replace the mouse() function with the following code
