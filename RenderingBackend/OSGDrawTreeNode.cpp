@@ -78,6 +78,9 @@ OSG_USING_NAMESPACE
 
 char DrawTreeNode::cvsid[] = "@(#)$Id: $";
 
+Int32 DrawTreeNode::_iCreateCount = 0;
+Int32 DrawTreeNode::_iDeleteCount = 0;
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -148,6 +151,7 @@ void DrawTreeNode::addChild(DrawTreeNode *pChild)
     if(_pLastChild == NULL)
     {
         setRefP(_pFirstChild, pChild);
+
         _pLastChild  = pChild;
     }
     else

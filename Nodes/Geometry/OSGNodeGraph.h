@@ -253,7 +253,6 @@ public:
         }
         else {
           _nodeVec[index].init(index,-1,v0,v1,v2);
-          FWARNING (( "Nonmanifold mesh triangle (%d/%d/%d)\n", v0,v1,v2 ));
         }
       }
       else {

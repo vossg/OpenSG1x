@@ -153,16 +153,24 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     Int16 calcMappingIndex( UInt16 attrib ) const;
    
 
+    /** check if the geometry can be merged into this one, return true if yes */
+    
+    Bool isMergeable( const GeometryPtr other );
+
+    /** merge the geometry into this one, return true if successful */
+    
+    Bool merge( const GeometryPtr other );
+
+    /** create a deep copy of the geometry */
+    
+    GeometryPtr clone( void );
+
     /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
 
     /*--------------------------- gl objects --------------------------------*/
-
-    void handleGL( Window* win, UInt32 id );
-    
-    void onCreate(const FieldContainer &source);
     
     inline void invalidateDlistCache(void);
 
@@ -216,6 +224,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     Geometry(void);
     Geometry(const Geometry &source);
     virtual ~Geometry(void); 
+
+    void handleGL( Window* win, UInt32 id );
+    
+    void onCreate(const FieldContainer &source);
     
   private:
 

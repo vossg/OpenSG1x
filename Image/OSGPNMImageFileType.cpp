@@ -178,8 +178,7 @@ bool PNMImageFileType::read (Image &image, const Char8 *fileName )
 				line = image.getData() + (y * lineSize);
 				for (x = 0; x < lineSize; x++) {
 					in >> value;
-					*line++ = value;
-				}
+	}
 			}
 		}
 

@@ -365,6 +365,9 @@ void FieldContainerPtrBase::subRefUnlocked(void) const
     {
         Thread::getCurrentChangeList()->addDestroyed(*getIdP());
 
+        FieldContainerFactory::the()->unregisterFieldContainer(
+            *((const FieldContainerPtr *) this));
+
         UInt8 *pTmp = getFirstElemP();
 
         ((FieldContainer *) pTmp)->onDestroy();

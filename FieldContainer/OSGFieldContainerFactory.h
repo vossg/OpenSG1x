@@ -140,6 +140,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 
     friend class FieldContainerType;
     friend class FieldContainer;
+    friend class FieldContainerPtrBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -220,7 +221,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 
     void   initTypeMap           (void);
 
-    UInt32 registerFieldContainer(const FieldContainerPtr &pFieldContainer);
+    void   unregisterFieldContainer(const FieldContainerPtr &pFieldContainer);
+    UInt32   registerFieldContainer(const FieldContainerPtr &pFieldContainer);
 
     UInt32 registerType          (      FieldContainerType *pType );
     UInt16 registerGroup         (const Char8              *szName);

@@ -101,7 +101,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
  
     /*------------------------- your_category -------------------------------*/
 
-    virtual NodePtr     read   (const char    *fileName) const;
+    virtual NodePtr     read   (const Char8   *fileName, 
+                                      UInt32   uiOptions) const;
 
     virtual Bool        write  (const NodePtr  node, 
                                 const char    *fileName) const;

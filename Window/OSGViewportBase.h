@@ -76,6 +76,7 @@
 #include <OSGCameraFields.h>	// Camera type
 #include <OSGNodeFields.h>	// Root type
 #include <OSGBackgroundFields.h>	// Background type
+#include <OSGForegroundFields.h>	// Foregrounds type
 
 #include <OSGViewportFields.h>
 
@@ -119,7 +120,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
         CameraFieldId = ParentFieldId + 1,
         RootFieldId = CameraFieldId + 1,
         BackgroundFieldId = RootFieldId + 1,
-        NextFieldId = BackgroundFieldId + 1
+        ForegroundsFieldId = BackgroundFieldId + 1,
+        NextFieldId = ForegroundsFieldId + 1
 
     };
 
@@ -131,6 +133,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     static const osg::BitVector CameraFieldMask;
     static const osg::BitVector RootFieldMask;
     static const osg::BitVector BackgroundFieldMask;
+    static const osg::BitVector ForegroundsFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -185,6 +188,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     inline SFCameraPtr	*getSFCamera(void);
     inline SFNodePtr	*getSFRoot(void);
     inline SFBackgroundPtr	*getSFBackground(void);
+    inline MFForegroundPtr	*getMFForegrounds(void);
 
     /*----------------------------- access ----------------------------------*/
 
@@ -215,6 +219,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     inline const BackgroundPtr	&getBackground(void) const;
     inline       void	         setBackground( const BackgroundPtr &value );
 
+    inline       ForegroundPtr	               &getForegrounds( UInt32 index );
+    inline       MFForegroundPtr &getForegrounds(void);
+    inline const MFForegroundPtr &getForegrounds(void) const;
 
     //!@}
 
@@ -272,6 +279,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     /*! The background used to clear this viewport.
      */
     SFBackgroundPtr	_sfBackground;
+    /*! The foreground additions to the rendered image.
+     */
+    MFForegroundPtr	_mfForegrounds;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

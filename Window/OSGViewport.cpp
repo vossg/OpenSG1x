@@ -58,6 +58,7 @@
 #include "OSGViewport.h"
 #include "OSGWindow.h"
 #include "OSGCamera.h"
+#include "OSGForeground.h"
 
 OSG_USING_NAMESPACE
 
@@ -69,7 +70,8 @@ OSG_USING_NAMESPACE
 /*! \class osg::Viewport
     \ingroup Windows
 
-A Viewport is a part of the Window it is attached to used for rendering. Every Window can hold an arbitrary number of viewports. 	
+A Viewport is a part of the Window it is attached to used for rendering. Every 
+Window can hold an arbitrary number of viewports. 	
 
 */
 
@@ -243,6 +245,9 @@ void Viewport::draw( DrawAction * action )
 
 	action->apply( getRoot() );
 
+	for ( UInt16 i=0; i < getForegrounds().getSize(); i++ )
+		getForegrounds( i )->draw( action, this );
+
 	if ( ! full )
 		glDisable( GL_SCISSOR_TEST );
 }
@@ -290,6 +295,9 @@ void Viewport::render( RenderAction * action )
 
 	action->apply( getRoot() );
 
+	for(UInt16 i=0; i < getForegrounds().getSize(); i++)
+		getForegrounds(i)->draw(action, this);
+
 /*
 	if ( ! full )
 		glDisable( GL_SCISSOR_TEST );
@@ -316,4 +324,5 @@ void Viewport::dump(      UInt32     uiIndent,
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
+
 

@@ -180,6 +180,12 @@ SFBackgroundPtr *ViewportBase::getSFBackground(void)
 	return &_sfBackground;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+MFForegroundPtr *ViewportBase::getMFForegrounds(void)
+{
+	return &_mfForegrounds;
+}
+
 
 OSG_SYSTEMLIB_DLLMAPPING
 Real32 &ViewportBase::getLeft(void)
@@ -325,6 +331,22 @@ void ViewportBase::setBackground( const BackgroundPtr &value )
 	_sfBackground.setValue(value);
 }
 
+
+OSG_SYSTEMLIB_DLLMAPPING
+ForegroundPtr &ViewportBase::getForegrounds( UInt32 index)
+{
+	return _mfForegrounds.getValue( index );
+}
+
+MFForegroundPtr &ViewportBase::getForegrounds(void)
+{
+	return _mfForegrounds;
+}
+
+const MFForegroundPtr &ViewportBase::getForegrounds(void) const
+{
+	return _mfForegrounds;
+}
 
 
 /*------------------------------ access -----------------------------------*/

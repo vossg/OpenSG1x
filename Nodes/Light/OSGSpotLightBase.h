@@ -216,10 +216,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     /*! 
      */
     SFVec3f	_sfDirection;
-    /*! 
+    /*! The drop-off exponent of the spotlight.
      */
     SFReal32	_sfSpotExponent;
-    /*! 
+    /*! The cut-off angle of the spotlight (in radians, not degrees!).
      */
     SFReal32	_sfSpotCutOff;
 

@@ -174,7 +174,9 @@ void MaterialChunk::activate ( DrawActionBase *, UInt32 )
 {
 	glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,   
 										_sfDiffuse.getValue().getValueRef() );
-	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,   
+	glColor4fv( _sfDiffuse.getValue().getValueRef() );
+	
+glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,   
 										_sfAmbient.getValue().getValueRef() );
 	glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,   
 										_sfSpecular.getValue().getValueRef() );

@@ -100,7 +100,7 @@ public:
   virtual SceneFileType * getFileType ( const char *fileName );
 
   /**  read image*/
-  virtual NodePtr read (const Char8 *fileName, UInt32 uiOptions);
+  virtual NodePtr read (const Char8 *fileName, UInt32 uiOptions = 0);
 
   /** write image  */
   virtual Bool write (const NodePtr node, const char *fileName);

@@ -103,9 +103,11 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
 
     virtual OSGSceneFileType &the(void);
 
-    virtual NodePtr read (const char    *fileName                  ) const;
+    virtual NodePtr read (const Char8    *fileName, 
+                                UInt32    uiOptions) const;
 
-    virtual Bool    write(const NodePtr  node, const char *fileName) const;
+    virtual Bool    write(const NodePtr   node, 
+                          const char     *fileName ) const;
 
     virtual const char *getName(void) const { return "OSG GEOMETRY"; }
 

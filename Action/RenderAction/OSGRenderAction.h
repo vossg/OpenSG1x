@@ -172,7 +172,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
 
     vector<MatrixStore>  _vMatrixStack;
 
-    MaterialMap         *_pMatMap;
+    MaterialMap          _mMatMap;
     
     DrawTreeNode        *_pRoot;
     DrawTreeNode        *_pMatRoot;

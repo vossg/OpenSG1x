@@ -1130,7 +1130,7 @@ FieldContainerPtr VRMLGeometryDesc::beginNode(
 
     if(_pNodeProto != NullNode)
     {
-        FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
+        FieldContainerPtr pAttClone = _pGenAtt->clone();
         
         pAtt = GenericAttPtr::dcast(pAttClone);
 
@@ -1306,6 +1306,11 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
 
                 OSG::calcVertexNormals(pGeo);
             }
+
+            if(0 != (_uiOptions & VRMLFile::StripeGeometry) ) 
+            {
+                createOptimizedPrimitives(pGeo, 1, true, true, 8, false);
+            }
         }
     }
     else
@@ -1319,7 +1324,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
         {
             indentLog(getIndent(), PNOTICE);
             PNOTICE << "Geo create lineset " << &(*pNode) << endl;
-
+ 
             setIndexFromVRMLData(pGeo,
                                  pCoordIndex    ->getValues(),
                                  dummyVec ,
@@ -1329,7 +1334,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                                  dummyBool,
                                  dummyBool,
                                  pColorPerVertex->getValue() ,
-															   false, // create normal, do we need normals for lines ?
+                                 false,  // create normal; not yet :)
                                  false);
         }
     }

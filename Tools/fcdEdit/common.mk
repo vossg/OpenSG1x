@@ -1049,10 +1049,10 @@ $(SYSTARGET): $(BINOBJS)
 	$(LEX) $< > $@
 
 %.h: %.ui
-	uic -o $@ $<
+	$(QTDIR)/bin/uic -o $@ $<
 
 %.cpp: %.ui
-	uic -i $*.h -o $@ $<
+	$(QTDIR)/bin/uic -i $*.h -o $@ $<
 
 moc_%.cpp: %.h
 	$(MOC) -f$< $< -o $@

@@ -62,8 +62,10 @@
 #include <stdio.h>
 
 #include <OSGConfig.h>
+
 #include "OSGGeometryBase.h"
 #include "OSGGeometry.h"
+
 
 OSG_USING_NAMESPACE
 
@@ -111,7 +113,7 @@ const OSG::BitVector	GeometryBase::GLIdFieldMask =
 
 
 
-char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.12 2001/08/06 11:34:28 mroth Exp $";
+char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.13 2001/08/19 18:07:42 vossg Exp $";
 
 /** \brief Group field description
  */

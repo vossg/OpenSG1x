@@ -57,6 +57,7 @@
 #include <OSGVRMLTransform.h>
 #include <OSGGeoPropPtrs.h>
 #include <OSGSimpleMaterial.h>
+#include <OSGMaterialGroup.h>
 #include "OSGAction.h"
 #include "OSGVRMLWriteAction.h"
 
@@ -824,9 +825,9 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
     fprintf(pFile, "]\n");
 }
 
-void VRMLWriteAction::writeMaterial (GeometryPtr      pGeo, 
-                                     FILE            *pFile,
-                                     VRMLWriteAction *pWriter)
+void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo, 
+                                    FILE            *pFile,
+                                    VRMLWriteAction *pWriter)
 {
     if(pGeo == NullFC)
         return;
@@ -1030,6 +1031,21 @@ Action::ResultE VRMLWriteAction::writeGeoLeave(CNodePtr &pGroup,
     return Action::Continue;
 }
 
+Action::ResultE VRMLWriteAction::writeMatGroupEnter(CNodePtr &pGroup,
+                                                    Action   *pAction)
+{
+    
+    return Action::Continue;
+}
+
+Action::ResultE VRMLWriteAction::writeMatGroupLeave(CNodePtr &pGroup,
+                                                    Action   *pAction)
+{
+
+    return Action::Continue;
+}
+
+
 Bool VRMLWriteAction::initializeAction(int &, char **)
 {
     fprintf(stderr, "Init VRMLWriter\n");
@@ -1054,6 +1070,12 @@ Bool VRMLWriteAction::initializeAction(int &, char **)
                             CNodePtr &, 
                             Action *>(VRMLWriteAction::writeGeoEnter));
 
+    VRMLWriteAction::registerEnterDefault( 
+        MaterialGroup::getClassType(), 
+        osgFunctionFunctor2<Action::ResultE,
+                            CNodePtr &, 
+                            Action *>(VRMLWriteAction::writeMatGroupEnter));
+
 
 
     VRMLWriteAction::registerLeaveDefault(
@@ -1073,6 +1095,12 @@ Bool VRMLWriteAction::initializeAction(int &, char **)
         osgFunctionFunctor2<Action::ResultE,
                             CNodePtr &,
                             Action *>(&VRMLWriteAction::writeGeoLeave));
+
+    VRMLWriteAction::registerLeaveDefault(
+        Group::getClassType(), 
+        osgFunctionFunctor2<Action::ResultE,
+                            CNodePtr &,
+                            Action *>(&VRMLWriteAction::writeMatGroupLeave));
 
 #else
 

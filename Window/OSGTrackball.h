@@ -54,6 +54,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Trackball
 {
   public:
 
+    enum TranslationGen
+    {
+        OSGOrientedTranslation = 0x01,
+        OSGAbsoluteTranslation = 0x02
+    };
+
     enum Mode
     {
         OSGCamera = 0x01,
@@ -89,38 +95,42 @@ class OSG_SYSTEMLIB_DLLMAPPING Trackball
     void setAutoPosition(Bool bVal);
     void setAutoPositionNeg(Bool bVal);
 	
-    void setMode(Mode gMode);
-	void setTranslationMode(TranslationMode gMode);
-    void setTranslationScale(Real32 rTranslationScale);
-
+    void setMode            (Mode gMode);
+	void setTranslationMode (TranslationMode gMode            );
+    void setTranslationScale(Real32          rTranslationScale);
+    void setTranslationGen  (TranslationGen  gMode            );
 
     void reset(void);
 
-    void setStartPosition(Real32 rX, Real32 rY, Real32 rZ, 
-                          Bool bUpdate = false);
-    void setStartPosition(Vec3f &gStartPos, Bool bUpdate = false);
+    void   setStartPosition(Real32 rX, Real32 rY, Real32 rZ, 
+                            Bool bUpdate = false);
+    void   setStartPosition(Vec3f &gStartPos, Bool bUpdate = false);
 
-    Vec3f &getPosition(void);
+    Vec3f &getPosition     (void);
 
     void setStartRotation(Real32 rX, Real32 rY, Real32 rZ, Real32 rW, 
                           Bool bUpdate = false);
     void setStartRotation(Quaternion &gStartRot, Bool bUpdate = false);
 
-    Quaternion &getRotation(void);		
+    void setRotationCenter(const Pnt3f &pRotationCenter);
 
-		
-	void setSize( Real32 s );
-	Real32 getSize() const;
+    Quaternion &getRotation  (void);		
 
+    Matrix     &getFullExamineMatrix  (void);
+    Matrix     &getFullTrackballMatrix(void);
+
+	void   setSize(Real32 s);
+	Real32 getSize(void    ) const;
 		
   private:
 
     Bool   _bSum;
     Bool   _bAutoPosition;
 
-    Mode _gMode;
+    Mode            _gMode;
 	TranslationMode _gTransMode;
-	
+    TranslationGen	_gTransGen;
+
     Real32 _rAutoPositionStep;
     Real32 _rAutoPositionIncrement;
 
@@ -128,10 +138,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Trackball
 	Real32 _rTranslationScale;
 	
     Quaternion _qVal;
-    Vec3f    _pVal;
+    Vec3f      _pVal;
 
     Quaternion _qValStart;
-    Vec3f    _pValStart;
+    Vec3f      _pValStart;
+
+    Pnt3f      _pRotationCenter;
+
+    Matrix     _fullMatrix;
 
 	Trackball(const Trackball &org);
 	void operator =(const Trackball &org);

@@ -107,7 +107,7 @@ RAWSceneFileType RAWSceneFileType::_the ( suffixA, sizeof(suffixA));
 //s:
 //
 //------------------------------
-NodePtr RAWSceneFileType::read (const char *fileName ) const
+NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 {
 	NodePtr root;
 	ifstream in(fileName);

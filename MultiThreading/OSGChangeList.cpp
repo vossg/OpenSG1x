@@ -53,6 +53,7 @@
 #include "OSGThread.h"
 #include "OSGThreadManager.h"
 #include "OSGLog.h"
+#include "OSGFieldContainerFactory.h"
 
 OSG_USING_NAMESPACE
 
@@ -208,7 +209,8 @@ void ChangeList::addChanged(const FieldContainerPtr &pFieldContainer,
     if(_bReadOnly == true)
         return;
 
-    ChangeEntry tmpEntry(pFieldContainer, bvWhichField);
+//  ChangeEntry tmpEntry(pFieldContainer, bvWhichField);
+    ChangeEntry tmpEntry(pFieldContainer.getFieldContainerId(), bvWhichField);
 
     _vChangedFieldContainers.push_back(tmpEntry);
 }
@@ -218,7 +220,8 @@ void ChangeList::addAddRefd(const FieldContainerPtr &pFieldContainer)
     if(_bReadOnly == true)
         return;
 
-    _vAddRefdFieldContainers.push_back(pFieldContainer);
+//    _vAddRefdFieldContainers.push_back(pFieldContainer);
+    _vAddRefdFieldContainers.push_back(pFieldContainer.getFieldContainerId());
 }
 
 void ChangeList::addSubRefd(const FieldContainerPtr &pFieldContainer)
@@ -226,7 +229,8 @@ void ChangeList::addSubRefd(const FieldContainerPtr &pFieldContainer)
     if(_bReadOnly == true)
         return;
 
-    _vSubRefdFieldContainers.push_back(pFieldContainer);
+//    _vSubRefdFieldContainers.push_back(pFieldContainer);
+    _vSubRefdFieldContainers.push_back(pFieldContainer.getFieldContainerId());
 }
 
 void ChangeList::addCreated  (const UInt32 uiContainerId)
@@ -301,12 +305,19 @@ void ChangeList::applyTo(UInt32 uiAspectId)
 
     _bReadOnly = true;
 
+    FieldContainerPtr pTmp;
+
     for(i = 0; i < _vChangedFieldContainers.size(); i++)
     {
-        _vChangedFieldContainers[i].first.executeSync(
-            _uiAspectId,
-             uiAspectId,
-            _vChangedFieldContainers[i].second);
+        pTmp = FieldContainerFactory::the()->getContainer(
+            _vChangedFieldContainers[i].first);
+
+        if(pTmp == NullFC)
+            continue;
+
+        pTmp.executeSync(_uiAspectId,
+                          uiAspectId,
+                         _vChangedFieldContainers[i].second);
     }
 
     for(i = 0; i < _vAddRefdFieldContainers.size(); i++)
@@ -360,22 +371,28 @@ void ChangeList::dump(void)
 
     for(i = 0; i < _vChangedFieldContainers.size(); i++)
     {
+//        fprintf(stderr, "\t%d\n", 
+//                _vChangedFieldContainers[i].first.getFieldContainerId());
         fprintf(stderr, "\t%d\n", 
-                _vChangedFieldContainers[i].first.getFieldContainerId());
+                _vChangedFieldContainers[i].first);
     }
 
     fprintf(stderr, "CLAdd:\n");
     for(i = 0; i < _vAddRefdFieldContainers.size(); i++)
     {
+//        fprintf(stderr, "\t%d\n", 
+//                _vAddRefdFieldContainers[i].getFieldContainerId());
         fprintf(stderr, "\t%d\n", 
-                _vAddRefdFieldContainers[i].getFieldContainerId());
+                _vAddRefdFieldContainers[i]);
     }
 
     fprintf(stderr, "CLSub:\n");
     for(i = 0; i < _vSubRefdFieldContainers.size(); i++)
     {
+//        fprintf(stderr, "\t%d\n", 
+//                _vSubRefdFieldContainers[i].getFieldContainerId());
         fprintf(stderr, "\t%d\n", 
-                _vSubRefdFieldContainers[i].getFieldContainerId());
+                _vSubRefdFieldContainers[i]);
     }
 
     fprintf(stderr, "CLCreate:\n");

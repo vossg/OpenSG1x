@@ -61,6 +61,7 @@ Trackball::Trackball(Real32 rSize) :
     _bAutoPosition(false),
     _gMode(OSGCamera),
 	_gTransMode(OSGFixedZ),
+    _gTransGen (OSGAbsoluteTranslation),
     _rAutoPositionStep(1.),
     _rAutoPositionIncrement(1.),
     _rTrackballSize(rSize),
@@ -68,7 +69,8 @@ Trackball::Trackball(Real32 rSize) :
     _qVal(),
     _pVal(),
     _qValStart(),
-    _pValStart()
+    _pValStart(),
+    _pRotationCenter()
 {
 }
 
@@ -189,8 +191,27 @@ void Trackball::updatePosition(Real32 rLastX,    Real32 rLastY,
 {
     if(_gTransMode == OSGFree)
     {
-        _pVal[0] += (rLastX - rCurrentX) * -_rTranslationScale;
-        _pVal[1] += (rLastY - rCurrentY) * -_rTranslationScale;
+        if(_gTransGen == OSGAbsoluteTranslation)
+        {
+            _pVal[0] += (rLastX - rCurrentX) * -_rTranslationScale;
+            _pVal[1] += (rLastY - rCurrentY) * -_rTranslationScale;
+        }
+        else
+        {
+            Vec3f tmpVec((rLastX - rCurrentX) * -_rTranslationScale,
+                         (rLastY - rCurrentY) * -_rTranslationScale,
+                         0.);
+                
+            Matrix m1;
+
+            m1.setRotate(getRotation());
+
+            m1.transform(tmpVec);
+
+            _pVal[0] += tmpVec[0];
+            _pVal[1] += tmpVec[1];
+            _pVal[2] += tmpVec[2];
+        }
     }	
 }
 
@@ -199,7 +220,26 @@ void Trackball::updatePositionNeg(Real32 /*rLastX*/,    Real32 rLastY,
 {
     if(_gTransMode == OSGFree)
     {
-        _pVal[2] += (rLastY - rCurrentY) * -_rTranslationScale;
+        if(_gTransGen == OSGAbsoluteTranslation)
+        {
+            _pVal[2] += (rLastY - rCurrentY) * -_rTranslationScale;
+        }
+        else
+        {
+            Vec3f tmpVec(0.,
+                         0.,
+                         (rLastY - rCurrentY) * -_rTranslationScale);
+            
+            Matrix m1;
+            
+            m1.setRotate(getRotation());
+
+            m1.transform(tmpVec);
+
+            _pVal[0] += tmpVec[0];
+            _pVal[1] += tmpVec[1];
+            _pVal[2] += tmpVec[2];
+        }
     }
 }
 
@@ -235,6 +275,20 @@ void Trackball::setTranslationScale(Real32 rTranslationScale)
     _rTranslationScale = rTranslationScale;
 }
 
+void Trackball::setTranslationGen(TranslationGen gMode)
+{
+    if(_gTransGen == OSGAbsoluteTranslation && 
+        gMode     == OSGOrientedTranslation)
+    {
+        Matrix tmpMat = getFullTrackballMatrix();
+
+        _pVal[0] = tmpMat[3][0];
+        _pVal[1] = tmpMat[3][1];
+        _pVal[2] = tmpMat[3][2];
+    }
+
+    _gTransGen = gMode;
+}
 
 void Trackball::reset(void)
 {
@@ -308,11 +362,73 @@ void Trackball::setStartRotation(Quaternion &gStartRot, Bool bUpdate)
         _qVal = _qValStart;
 }
 
+void Trackball::setRotationCenter(const Pnt3f &pRotationCenter)
+{
+    _pRotationCenter = pRotationCenter;
+}
+
 Quaternion &Trackball::getRotation(void)
 {
     return _qVal;
 }
 
+Matrix &Trackball::getFullExamineMatrix(void)
+{
+    OSG::Matrix m1;
+
+    _fullMatrix.setIdentity();
+
+    _fullMatrix[3][0] = _pVal[0];
+    _fullMatrix[3][1] = _pVal[1];
+    _fullMatrix[3][2] = _pVal[2];
+    
+    m1.setRotate    (getRotation());
+    _fullMatrix.mult(m1);
+
+    m1.setIdentity ();
+    m1.setTranslate(getPosition());
+        
+    _fullMatrix.mult(m1);
+
+    m1.setIdentity();
+
+    m1[3][0] = -_pVal[0];
+    m1[3][1] = -_pVal[1];
+    m1[3][2] = -_pVal[2];
+
+    _fullMatrix.mult(m1);
+
+    return _fullMatrix;
+}
+
+Matrix &Trackball::getFullTrackballMatrix(void)
+{
+    OSG::Matrix m1;
+
+    _fullMatrix.setIdentity();
+
+    _fullMatrix[3][0] = _pRotationCenter[0];
+    _fullMatrix[3][1] = _pRotationCenter[1];
+    _fullMatrix[3][2] = _pRotationCenter[2];
+    
+    m1.setRotate    (getRotation());
+    _fullMatrix.mult(m1);
+
+    m1.setIdentity ();
+    m1.setTranslate(getPosition());
+        
+    _fullMatrix.mult(m1);
+
+    m1.setIdentity();
+
+    m1[3][0] = -_pRotationCenter[0];
+    m1[3][1] = -_pRotationCenter[1];
+    m1[3][2] = -_pRotationCenter[2];
+
+    _fullMatrix.mult(m1);
+
+    return _fullMatrix;
+}
 
 
 

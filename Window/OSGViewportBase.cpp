@@ -119,9 +119,12 @@ const OSG::BitVector	ViewportBase::RootFieldMask =
 const OSG::BitVector	ViewportBase::BackgroundFieldMask = 
     (1 << ViewportBase::BackgroundFieldId);
 
+const OSG::BitVector	ViewportBase::ForegroundsFieldMask = 
+    (1 << ViewportBase::ForegroundsFieldId);
 
 
-char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.12 2001/08/07 17:20:08 dirk Exp $";
+
+char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.13 2001/08/19 18:07:42 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -167,7 +170,12 @@ FieldDescription *ViewportBase::_desc[] =
                      "background", 
                      BackgroundFieldId, BackgroundFieldMask,
                      false,
-                     (FieldAccessMethod) &ViewportBase::getSFBackground)
+                     (FieldAccessMethod) &ViewportBase::getSFBackground),
+    new FieldDescription(MFForegroundPtr::getClassType(), 
+                     "foregrounds", 
+                     ForegroundsFieldId, ForegroundsFieldMask,
+                     false,
+                     (FieldAccessMethod) &ViewportBase::getMFForegrounds)
 };
 
 /** \brief Viewport type
@@ -254,6 +262,7 @@ ViewportBase::ViewportBase(void) :
 	_sfCamera	(), 
 	_sfRoot	(), 
 	_sfBackground	(), 
+	_mfForegrounds	(), 
 	Inherited() 
 {
 }
@@ -270,6 +279,7 @@ ViewportBase::ViewportBase(const ViewportBase &source) :
 	_sfCamera		(source._sfCamera), 
 	_sfRoot		(source._sfRoot), 
 	_sfBackground		(source._sfBackground), 
+	_mfForegrounds		(source._mfForegrounds), 
 	Inherited        (source)
 {
 }
@@ -327,6 +337,11 @@ UInt32 ViewportBase::getBinSize(const BitVector &whichField)
         returnValue += _sfBackground.getBinSize();
     }
 
+    if(FieldBits::NoField != (ForegroundsFieldMask & whichField))
+    {
+        returnValue += _mfForegrounds.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -376,6 +391,11 @@ MemoryHandle ViewportBase::copyToBin(      MemoryHandle  pMem,
         pMem = _sfBackground.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (ForegroundsFieldMask & whichField))
+    {
+        pMem = _mfForegrounds.copyToBin(pMem);
+    }
+
 
     return pMem;
 }
@@ -423,6 +443,11 @@ MemoryHandle ViewportBase::copyFromBin(      MemoryHandle  pMem,
     if(FieldBits::NoField != (BackgroundFieldMask & whichField))
     {
         pMem = _sfBackground.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ForegroundsFieldMask & whichField))
+    {
+        pMem = _mfForegrounds.copyFromBin(pMem);
     }
 
 
@@ -480,6 +505,11 @@ void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
     if(FieldBits::NoField != (BackgroundFieldMask & whichField))
     {
         _sfBackground.syncWith(pOther->_sfBackground);
+    }
+
+    if(FieldBits::NoField != (ForegroundsFieldMask & whichField))
+    {
+        _mfForegrounds.syncWith(pOther->_mfForegrounds);
     }
 
 

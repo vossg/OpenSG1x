@@ -118,7 +118,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     enum 
     {
         CreateNormals       = Inherited::LastOption << 1,
-        LogProtoGeneration  = CreateNormals         << 1,
+        StripeGeometry      = CreateNormals         << 1,
+        LogProtoGeneration  = StripeGeometry        << 1,
         LogObjectGeneration = LogProtoGeneration    << 1,
 
         LastOption          = LogObjectGeneration

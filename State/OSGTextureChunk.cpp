@@ -76,7 +76,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.15 2001/08/10 03:33:11 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.16 2001/08/19 18:07:42 vossg Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
 
@@ -675,6 +675,9 @@ void TextureChunk::changeFrom( DrawActionBase *action, StateChunk * old, UInt32 
 	TextureChunk * oldp = dynamic_cast<TextureChunk *>(old);
 	ImageP img = getImage();
 	GLenum target, oldtarget;		
+
+	if ( ! img )
+	  return;
 
 	if ( img->getDepth() > 1 )			
 	{

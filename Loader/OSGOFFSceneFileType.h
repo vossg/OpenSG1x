@@ -8,7 +8,7 @@
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
-\*---------------------------------------------------------------------------*/
+ \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
@@ -71,7 +71,7 @@ OSG_BEGIN_NAMESPACE
 class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType 
 {
 
-public:
+  public:
 
 //----------------------------
 //enums    		 							 
@@ -88,26 +88,26 @@ public:
 //---------------------------
 
 
-  /** Destructor */
+    /** Destructor */
 	virtual ~OFFSceneFileType (void);
 
-  /** get method for attribute the */
-  virtual OFFSceneFileType & the (void) { return _the; }
+    /** get method for attribute the */
+    virtual OFFSceneFileType & the (void) { return _the; }
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
-  static  OFFSceneFileType & staticThe (void) { return _the; }
+    static  OFFSceneFileType & staticThe (void) { return _the; }
 #endif
 
-  /** read the model from the given file */
-  virtual NodePtr read (const char *fileName) const;
+    /** read the model from the given file */
+    virtual NodePtr read(const Char8 *fileName, UInt32 uiOptions) const;
 
-  /** write the model to the given file */
-  virtual Bool write (const NodePtr node, const char *fileName) const;
+    /** write the model to the given file */
+    virtual Bool write (const NodePtr node, const char *fileName) const;
 
-  /** get method for the type name */
-  virtual const char *getName (void) const { return "OFF GEOMETRY"; }
+    /** get method for the type name */
+    virtual const char *getName (void) const { return "OFF GEOMETRY"; }
 
-protected:
+  protected:
 
 //------------------------------
 //enums    		 								 
@@ -129,12 +129,12 @@ protected:
 //---------------------------
 
 
-  /** Default Constructor */
-  OFFSceneFileType ( const char *suffixArray[], 
-												UInt16 suffixByteCount );
+    /** Default Constructor */
+    OFFSceneFileType ( const char *suffixArray[], 
+                       UInt16 suffixByteCount );
 
-  /** Copy Constructor */
-  OFFSceneFileType (const OFFSceneFileType &obj);
+    /** Copy Constructor */
+    OFFSceneFileType (const OFFSceneFileType &obj);
 
 //-----------------------------
 //instance Variables  		     
@@ -146,7 +146,7 @@ protected:
 //-----------------------------
 
 
-private:
+  private:
 
 //----------------------------------
 //enums    		 										 
@@ -161,8 +161,8 @@ private:
 	typedef SceneFileType Inherited;
 
 
-  /**  */
-  static OFFSceneFileType _the;
+    /**  */
+    static OFFSceneFileType _the;
 
 //-------------------------------
 //friend Classes      	  	     

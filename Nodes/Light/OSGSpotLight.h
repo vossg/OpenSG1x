@@ -101,9 +101,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
 
     //@{ 
     //! set the light's attributes
-    void setSpotDirection(Real32 rX, Real32 rY, Real32 rZ);
+    inline void   setSpotDirection(Real32 rX, Real32 rY, Real32 rZ);
+    inline void   setSpotCutOffDeg(Real32 angle);
+    inline Real32 getSpotCutOffDeg(void);
 
-    /*----------------------------- access ----------------------------------*/
     //@}
 
     /*-------------------------- transformation ----------------------------*/

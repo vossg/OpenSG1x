@@ -103,7 +103,7 @@ VRMLSceneFileType &VRMLSceneFileType::the(void)
 
 /*------------------------------ access -----------------------------------*/
 
-NodePtr VRMLSceneFileType::read(const char *fileName) const
+NodePtr VRMLSceneFileType::read(const Char8 *fileName, UInt32 uiOptions) const
 {
     if(_pVRMLLoader == NULL)
     {
@@ -112,7 +112,7 @@ NodePtr VRMLSceneFileType::read(const char *fileName) const
         _pVRMLLoader->scanStandardPrototypes("std.wrl", 0);
     }
 
-    _pVRMLLoader->scanFile(fileName, OSG::VRMLFile::CreateNormals);
+    _pVRMLLoader->scanFile(fileName, uiOptions);
 
     return  _pVRMLLoader->getRoot();
 }

@@ -316,6 +316,26 @@ UInt32 FieldContainerFactory::registerFieldContainer(
     return returnValue;
 }
 
+void FieldContainerFactory::unregisterFieldContainer(
+    const FieldContainerPtr &pFieldContainer)
+{
+    if(pFieldContainer == NullFC)
+        return;
+
+    if(_pStoreLock != NULL)
+        _pStoreLock->aquire();
+    
+    if(_pFieldContainerStore != NULL)
+    {
+        (*_pFieldContainerStore)[pFieldContainer.getFieldContainerId()] = 
+            NullFC;
+    }
+    
+    if(_pStoreLock != NULL)
+        _pStoreLock->release();
+}
+
+
 UInt32 FieldContainerFactory::registerType(FieldContainerType *pType)
 {
     UInt32 returnValue = TypeFactory::the()->registerType(pType);

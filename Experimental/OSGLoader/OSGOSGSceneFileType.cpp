@@ -102,7 +102,7 @@ OSGSceneFileType &OSGSceneFileType::the(void)
     return _the;
 }
 
-NodePtr OSGSceneFileType::read(const char *fileName) const
+NodePtr OSGSceneFileType::read(const Char8 *fileName, UInt32 uiOptions) const
 {
     _pFile->scanFile(fileName, 0);
     return _pFile->getRoot();

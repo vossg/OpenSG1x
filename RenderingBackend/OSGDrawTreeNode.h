@@ -88,6 +88,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     //   enums                                                               
     //-----------------------------------------------------------------------
 
+    static Int32 _iCreateCount;
+    static Int32 _iDeleteCount;
+
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------

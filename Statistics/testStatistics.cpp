@@ -1,0 +1,38 @@
+#include <iostream>
+
+#include <OSGStatElem.h>
+#include <OSGStatCollector.h>
+#include <OSGStatElemDesc.h>
+#include <OSGStatTimeElem.h>
+#include <OSGStatRealElem.h>
+#include <OSGStatIntElem.h>
+
+osg::StatElemDesc fpsDesc ("fps","fps desc", osg::StatTimeElem::create);
+osg::StatElemDesc fooDesc ("foo","foo desc", osg::StatIntElem::create);
+osg::StatElemDesc barDesc ("bar","bar desc", osg::StatRealElem::create);
+
+int main (int argc, char **argv)
+{
+	osg::StatCollector collector;
+	osg::StatElem *elem;
+	osg::Int32 fpsID = fpsDesc.getID();
+	osg::String str;
+
+	elem = collector.getElem(fpsID);
+
+	collector.getElem<osg::StatTimeElem> (fpsDesc)->start();
+	collector.getElem<osg::StatIntElem>  (fooDesc)->inc();
+	collector.getElem<osg::StatRealElem> (barDesc)->set(2.0);
+
+	collector.getElem<osg::StatTimeElem> (fpsDesc)->stop();
+	collector.getElem ( fpsDesc )->putToString ( str );
+	std::cerr << "Time out: " << str << std::endl;
+
+	collector.getElem ( fooDesc )->putToString ( str );
+	std::cerr << "Int  out: " << str << std::endl;
+
+	collector.getElem ( barDesc )->putToString ( str );
+	std::cerr << "Real out: " << str << std::endl;
+
+	osg::StatElemDesc::printAll();
+}

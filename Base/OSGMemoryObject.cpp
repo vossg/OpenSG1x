@@ -142,8 +142,13 @@ void MemoryObject::subRef(void)
 {
     _refCount--;
 
-    if(_refCount == 0)
+    if(_refCount <= 0)
         delete this;
+}
+
+Int32 MemoryObject::getRefCount(void)
+{
+    return _refCount;
 }
 
 ///---------------------------------------------------------------------------

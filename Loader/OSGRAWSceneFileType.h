@@ -99,7 +99,7 @@ public:
 #endif
 
   /** read the model from the given file */
-  virtual NodePtr read (const char *fileName) const;
+  virtual NodePtr read(const Char8 *fileName, UInt32 uiOptions) const;
 
   /** write the model to the given file */
   virtual Bool write (const NodePtr node, const char *fileName) const;

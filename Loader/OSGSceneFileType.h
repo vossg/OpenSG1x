@@ -100,31 +100,30 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     //-------------------------------------------------------
 
 
-     static const char *getClassname(void) 
-			 { return "SceneFileType"; };
+    static const char *getClassname(void) { return "SceneFileType"; };
 
     //-------------------------------------------------------
     // instance functions 
     //-------------------------------------------------------
 
-		 /** Destructor */
-		 virtual ~SceneFileType (void);
+    /** Destructor */
+    virtual ~SceneFileType (void);
 		 
-		 /** get mathod for the type name */
-		 virtual const char *getName (void) const = 0;
+    /** get mathod for the type name */
+    virtual const char *getName (void) const = 0;
 		 
-		 /** get method for attribute suffixList */
-		 virtual list<String> & suffixList (void) { return _suffixList; }
+    /** get method for attribute suffixList */
+    virtual list<String> & suffixList (void) { return _suffixList; }
 		 
-		 /** fill the given image with the content of the file 'fileName' */
-		 virtual NodePtr read (const char *fileName ) const = 0;
+    /** fill the given image with the content of the file 'fileName' */
+    virtual NodePtr read(const Char8  *fileName, UInt32  uiOptions) const = 0;
 		 
-		 /** write the given image to 'fileName' */
-		 virtual Bool write ( const NodePtr node,
-													const char *fileName ) const = 0;
+    /** write the given image to 'fileName' */
+    virtual Bool write ( const NodePtr node,
+                         const char *fileName ) const = 0;
 		 
-		 /** print debug info to cerr */
-		 void print(void);
+    /** print debug info to cerr */
+    void print(void);
 
 
   protected:
@@ -154,12 +153,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     //-------------------------------------------------------
 
 
-		/** Default Constructor */
-		SceneFileType ( const char * suffixArray[], 
-											 UInt16 suffixByteCount );
+    /** Default Constructor */
+    SceneFileType ( const char * suffixArray[], 
+                    UInt16 suffixByteCount );
 
-		/** Copy Constructor */
-		SceneFileType (const SceneFileType &obj);
+    /** Copy Constructor */
+    SceneFileType (const SceneFileType &obj);
 
   private:
 
@@ -187,8 +186,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileType
     //class Variables 
     //-------------------------------------------------------
 
-		/** suffix list for the type */
-		list<String> _suffixList;
+    /** suffix list for the type */
+    list<String> _suffixList;
 
     //-------------------------------------------------------
     //class functions

@@ -367,8 +367,6 @@ void Geometry::dump(      UInt32     uiIndent,
 }
 
 
-/*------------------------------- dump ----------------------------------*/
-
 /** \brief calc the indices into the index field for the given attributes
  */
 
@@ -388,6 +386,144 @@ Int16  Geometry::calcMappingIndex( UInt16 attrib ) const
 }
 
     
+
+/** check if the geometry can be merged into this one, return true if yes 
+  They need to have the same material and the same mappings or the same set of
+  attributes.
+*/
+Bool Geometry::isMergeable( const GeometryPtr other )
+{
+    if ( getMaterial()               != other->getMaterial()              ||
+         getIndexMapping().getSize() != other->getIndexMapping().getSize()  )
+    	return false;
+    
+    UInt16 i;
+    
+    // this could be better if resorting was checked too. later.
+    for ( i=0; i < getIndexMapping().getSize(); i++ )
+    	if ( getIndexMapping()[i] != other->getIndexMapping()[i] )
+	    	return false;
+    
+    // if no index mapping, compare the existing properties
+    if ( ! getIndexMapping().getSize() )
+    {
+    	if ( ( (        getNormals()   != GeoNormalPtr::NullPtr    ) ^
+			   ( other->getNormals()   != GeoNormalPtr::NullPtr    ) 
+			 ) ||
+			 ( (        getColors()    != GeoColorPtr::NullPtr     ) ^
+			   ( other->getColors()    != GeoColorPtr::NullPtr     ) 
+			 ) ||
+			 ( (        getTexCoords() != GeoTexCoordsPtr::NullPtr ) ^
+			   ( other->getTexCoords() != GeoTexCoordsPtr::NullPtr ) 
+		   ) )
+			return false;	 
+    }
+	
+    return true;
+}
+
+/** merge the geometry into this one, return true if successful */
+
+Bool Geometry::merge( const GeometryPtr other )
+{
+	if ( ! isMergeable( other ) )
+		return false;
+	
+	// append the data
+	UInt32 i;
+	
+	// Base indices for the new data
+	UInt32 posBase, normalBase, colorBase, texcoordBase, indBase, typeBase,
+	       lengthBase;
+
+	// this is generic, but not very efficient. 
+	// specialize if you need more speed
+
+#define copyAttrib( NAME, APTR, GETFUNC )				\
+{														\
+	APTR NAME    =        GETFUNC();					\
+	APTR o##NAME = other->GETFUNC();					\
+														\
+	beginEditCP( NAME );								\
+	NAME##Base = NAME->getSize();						\
+	NAME->resize( NAME##Base + o##NAME->getSize() );	\
+														\
+	for ( i = 0; i < o##NAME->getSize(); i++ )			\
+		NAME->setValue( o##NAME->getValue( i ), NAME##Base + i );		\
+														\
+	endEditCP( NAME );									\
+}
+
+	copyAttrib( pos, GeoPositionPtr, getPositions );
+	copyAttrib( type, GeoPTypePtr, getTypes );
+	copyAttrib( length, GeoPLengthPtr, getLengths );
+	
+	// this is not perfect, I should test the index mapping if the property
+	// is used at all and not blindly copy it. later.
+	if ( getNormals() != GeoNormalPtr::NullPtr )
+		copyAttrib( normal, GeoNormalPtr, getNormals );
+	
+	if ( getColors() != GeoColorPtr::NullPtr )
+		copyAttrib( color, GeoColorPtr, getColors );
+	
+	if ( getTexCoords() != GeoTexCoordsPtr::NullPtr )
+		copyAttrib( texcoord, GeoTexCoordsPtr, getTexCoords );
+
+#undef copyAttrib
+	
+	// now the fun part: indices
+	
+	// do we have indices? if not, we're done
+	if ( getIndex() != GeoIndexPtr::NullPtr )
+	{
+		// indices
+		GeoIndexPtr ind  =        getIndex();
+		GeoIndexPtr oind = other->getIndex();
+	
+		beginEditCP( ind );
+		
+		// single index?
+		if ( getIndexMapping().getSize() < 2 )
+		{
+			for ( i = 0; i < oind->getSize(); i++ )
+				ind->setValue( oind->getValue(i) + posBase, indBase + i );			
+		}
+		else // multi-index
+		{
+			UInt32 * offsets = new UInt32 [ getIndexMapping().getSize() ];
+			Int16 mind;
+			UInt16 nmap = getIndexMapping().getSize();
+			UInt16 j;
+			
+			// should do a sanity check if they're the same for everything
+			// that's together, but logically they have to be, as they all 
+			// use the same index
+			
+			if ( ( mind = calcMappingIndex( MapPosition ) ) >= 0 )
+				offsets[ mind ] = posBase;
+			
+			if ( ( mind = calcMappingIndex( MapNormal ) ) >= 0 )
+				offsets[ mind ] = normalBase;
+			
+			if ( ( mind = calcMappingIndex( MapColor ) ) >= 0 )
+				offsets[ mind ] = colorBase;
+			
+			if ( ( mind = calcMappingIndex( MapTexcoords ) ) >= 0 )
+				offsets[ mind ] = texcoordBase;
+				
+			// bump every index by its offset
+			for ( i = 0, j = 0; i < oind->getSize(); 
+				  i++, j = ( j + 1 ) % nmap )
+				ind->setValue( oind->getValue(i) + offsets[j], indBase + i );
+			
+			delete [] offsets;
+		}
+		
+		endEditCP( ind );
+	}
+	
+	return true;
+}
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -490,8 +626,10 @@ void Geometry::changed(BitVector whichField, ChangeMode from)
             _parents[i]->invalidateVolume();
         }            
     }
+
 	// invalidate the dlist cache
-	Window::refreshGLObject( getGLId() );
+	if (getDlistCache())
+		Window::refreshGLObject( getGLId() );
 }
 
     
@@ -559,6 +697,34 @@ FaceIterator Geometry::endFaces  ( void ) const
 	it.setToEnd();
 	
 	return it;
+}
+
+
+/** clone the geometry */
+
+GeometryPtr Geometry::clone( void )
+{
+	GeometryPtr geo = Geometry::create();
+	FieldContainerFactory * fcf = FieldContainerFactory::the();
+	
+	// create copies of the attributes
+
+	beginEditCP( geo );
+	
+	geo->setTypes    ( getTypes    ()->clone() );
+	geo->setLengths  ( getLengths  ()->clone() );
+	geo->setPositions( getPositions()->clone() );
+	geo->setNormals  ( getNormals  ()->clone() );
+	geo->setColors   ( getColors   ()->clone() );
+	geo->setTexCoords( getTexCoords()->clone() );
+	geo->setIndex    ( getIndex    ()->clone() );
+	
+	geo->getMFIndexMapping()->setValues( *getMFIndexMapping() );
+
+	geo->setMaterial  ( getMaterial  () );
+	geo->setDlistCache( getDlistCache() );
+	
+	return geo;
 }
 
 /*-------------------------------------------------------------------------*\

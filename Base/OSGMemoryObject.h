@@ -112,7 +112,7 @@ class OSG_BASE_DLLMAPPING MemoryObject
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    UInt32  _refCount;
+    Int32  _refCount;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -163,8 +163,10 @@ class OSG_BASE_DLLMAPPING MemoryObject
 
     virtual ~MemoryObject(void); 
 
-    void addRef(void);
-    void subRef(void);    
+    void  addRef     (void);
+    void  subRef     (void);    
+
+    Int32 getRefCount(void);
 };
 
 OSG_END_NAMESPACE

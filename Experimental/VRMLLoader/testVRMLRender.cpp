@@ -41,6 +41,10 @@
 #include "OSGTrackball.h"
 
 #include "OSGVRMLFile.h"
+#ifdef TUBS
+#include "OSGTubsMesh.h"
+#include "OSGTubs3DText.h"
+#endif
 
 OSG::DrawAction * ract;
 OSG::Bool doWire = false;
@@ -60,16 +64,24 @@ int lastx=0, lasty=0;
 
 OSG::DirectionalLightPtr dl;
 
+
+#ifdef TUBS
+OSG::OSGTubsMeshPtr pMesh;
+#endif
+
 void 
 display(void)
 {
+/*
 	OSG::Matrix m1, m2;
 
 	m1.setRotate( tball.getRotation() );
 	m2.setTranslate( tball.getPosition() );
 	
 	m1.mult( m2 );
-	cam_trans->getSFMatrix()->setValue( m1 );
+    */
+
+	cam_trans->getSFMatrix()->setValue( tball.getFullTrackballMatrix() );
 
 	win->draw( ract );
 
@@ -82,7 +94,150 @@ void reshape( int w, int h )
 	win->resize( w, h );
 }
 
+void loadMesh(const char *szFilename, OSG::NodePtr dlight)
+{
+    // Mesh
+    
+#ifdef TUBS
+    pMesh = OSG::OSGTubsMesh::create();
+            
+    pMesh->loadMesh(szFilename, 1.0);
+    
+    OSG::NodePtr pMeshNode = OSG::Node::create();
+    
+    pMeshNode->setCore(pMesh);
+    
+    pMeshNode->updateVolume();
+    
+    dlight->addChild  (pMeshNode);
+    
+    // Volume Mesh
+    // should check first. ok for now.
+    
+    const OSG::BoxVolume *volMesh = (OSG::BoxVolume *) 
+        &(pMeshNode->getVolume());
+    
+    OSG::Vec3f meshMin, meshMax;
+    OSG::Pnt3f meshCenter;
+    
+    volMesh->getBounds(meshMin, meshMax);
+    volMesh->getCenter(meshCenter);
+    
+    
+    // Text 1
+    
+    OSG::NodePtr pTextNode1 = OSG::Node::create();
+    
+    OSG::OSGTubs3DTextPtr pText1 = OSG::OSGTubs3DText::create();
+    
+    pText1->loadFont("comic.ttf");
+    
+    pText1->setText("The Power of");
+    
+    pTextNode1->setCore(pText1);
+    
+    pTextNode1->updateVolume();
+    
+    
+    // Volume Text
+    
+    // should check first. ok for now.
+    const OSG::BoxVolume *volText1 = (OSG::BoxVolume *) 
+        & (pTextNode1->getVolume());
+    
+    OSG::Vec3f text1Min, text1Max;
+    
+    volText1->getBounds(text1Min, text1Max);
+    
+    OSG::NodePtr pTextTrNode1             = 
+        OSG::Node::create();
+    
+    OSG::VRMLTransformPtr pTextTransform1 = 
+        OSG::VRMLTransform::create();
+    
+    pTextTrNode1->setCore(pTextTransform1);
+    
+    pTextTrNode1->addChild(pTextNode1);
+    
+    OSG::Vec3f      textScale1(0.2, 0.2, 0.2);
+    OSG::Vec3f      textTrans1(0., 0., 0.);
+    OSG::Quaternion textRot1;
+    
+    textRot1.setValueAsAxisDeg(-1., 0., 0., -90.);
+    
+    textTrans1[0] = -0.5 * (text1Max[0] - text1Min[0]) * 0.2;
+    textTrans1[2] = meshCenter[2] + 
+        (-0.8 * (meshMax[2] - meshMin[2]));
+    
+    beginEditCP(pTextTransform1);
+    {
+        pTextTransform1->setScale      (textScale1);
+        pTextTransform1->setRotation   (textRot1  );
+        pTextTransform1->setTranslation(textTrans1);
+    }
+    endEditCP  (pTextTransform1);
+    
+    dlight->addChild(pTextTrNode1);
+    
+    
+    // Text 2
+    
+    OSG::NodePtr pTextNode2 = OSG::Node::create();
+    
+    OSG::OSGTubs3DTextPtr pText2 = OSG::OSGTubs3DText::create();
+    
+    pText2->loadFont("comic.ttf");
+    
+    pText2->setText("Subdivision Surfaces");
+    
+    pTextNode2->setCore(pText2);
 
+    pTextNode2->updateVolume();
+
+
+    // Volume Text
+
+            // should check first. ok for now.
+    const OSG::BoxVolume *volText2 = (OSG::BoxVolume *) 
+        & (pTextNode2->getVolume());
+        
+    OSG::Vec3f text2Min, text2Max;
+
+    volText2->getBounds(text2Min, text2Max);
+
+    OSG::NodePtr pTextTrNode2             = 
+        OSG::Node::create();
+
+    OSG::VRMLTransformPtr pTextTransform2 = 
+        OSG::VRMLTransform::create();
+
+    pTextTrNode2->setCore(pTextTransform2);
+
+    pTextTrNode2->addChild(pTextNode2);
+
+    OSG::Vec3f      textScale2(0.2, 0.2, 0.2);
+    OSG::Vec3f      textTrans2(0., 0., 0.);
+    OSG::Quaternion textRot2;
+
+    textRot2.setValueAsAxisDeg(-1., 0., 0., -90.);
+
+    textTrans2[0] = -0.5 * (text2Max[0] - text2Min[0]) * 0.2;
+    textTrans2[2] = 
+        meshCenter[2] + (-0.8 * (meshMax[2] - meshMin[2])) +
+        -1.2 * (text1Max[2] - text1Min[2]);
+
+    beginEditCP(pTextTransform2);
+    {
+        pTextTransform2->setScale      (textScale2);
+        pTextTransform2->setRotation   (textRot2  );
+        pTextTransform2->setTranslation(textTrans2);
+    }
+    endEditCP  (pTextTransform2);
+
+    dlight->addChild(pTextTrNode2);
+#endif
+}
+                      
 void
 animate(void)
 {
@@ -173,6 +328,7 @@ OSG::Action::ResultE wireDraw( OSG::CNodePtr &, OSG::Action * action )
 		const OSG::DynamicVolume& vol = node->getVolume();
 
 		OSG::Pnt3f min,max;
+        
 		vol.getBounds( min, max );
 
 		OSG::Bool l = glIsEnabled( GL_LIGHTING );
@@ -278,6 +434,24 @@ void key(unsigned char key, int x, int y)
             ract->setFrustumCulling(false);            
             cerr << "Frustum cull off" << endl;
             break;
+
+        case 't':
+#ifdef TUBS
+            if(pMesh != OSG::NullFC)
+            {
+                pMesh->toogleShowTessalation();
+            }
+#endif
+            break;
+        case 'r':
+#ifdef TUBS
+            if(pMesh != OSG::NullFC)
+            {
+                pMesh->toggleRenderSmooth();
+            }
+#endif
+            break;
+
         case '1':
             dl->setDirection(0,0,1);
             break;
@@ -374,25 +548,44 @@ int main (int argc, char **argv)
 
 	// Load the file
 
+    OSG::beginEditCP(dlight);
+
     for(OSG::UInt32 numFiles = 1; numFiles < argc; numFiles++)
     {
-        file = OSG::SceneFileHandler::the().read(argv[numFiles], 0);
-                     
-        OSG::beginEditCP(dlight);
-        dlight->addChild( file );
-        dlight->invalidateVolume();
-        OSG::endEditCP(dlight);
+        if(argv[numFiles][0] == '-')
+        {
+            loadMesh(&(argv[numFiles][1]), dlight);
+        }
+        else
+        {
+            file = 
+                OSG::SceneFileHandler::the().read(
+                    argv[numFiles], 
+                    OSG::VRMLFile::StripeGeometry |
+                    OSG::VRMLFile::CreateNormals);
+            
+            dlight->addChild(file);
+        }
     }
+    
+    dlight->invalidateVolume();
 
-
+    OSG::endEditCP(dlight);
+    
     dlight->updateVolume();
 
     // should check first. ok for now.
     const OSG::BoxVolume *vol = (OSG::BoxVolume *)&dlight->getVolume();
         
     OSG::Vec3f min,max;
-    vol->getBounds( min, max );
-	
+    OSG::Vec3f size;
+    OSG::Pnt3f center;
+
+    vol->getBounds(min, max);
+	vol->getCenter(center);
+
+    size = max - min;
+
     cout << "Volume: from " << min << " to " << max << endl;
 
 //	cerr << "Tree: " << endl;
@@ -459,6 +652,8 @@ int main (int argc, char **argv)
                    min[1] + ((max[1] - min[1]) * 0.5), 
                    max[2] + ( max[2] - min[2] ) * 1.5 );
 
+    
+
     float scale = (max[2] - min[2] + max[1] - min[1] + max[0] - min[0]) / 6;
 
 	tball.setMode( OSG::Trackball::OSGObject );
@@ -466,11 +661,26 @@ int main (int argc, char **argv)
 	tball.setSum( true );
 	tball.setTranslationMode( OSG::Trackball::OSGFree );
     tball.setTranslationScale(scale);
+    tball.setRotationCenter(center);
+    tball.setTranslationGen(OSG::Trackball::OSGAbsoluteTranslation);
+
 	// run...
 
-	cam->setFar(fabs(max[2] + ( max[2] - min[2] ) * 3));
+	cam->setFar(size.length() * 4.5);
 
-    
+    if((size.length() * 4.5) > 1000.)
+    {
+        cam->setNear( 1 );
+    }
+    else if((size.length()) < 100.)
+    {
+        cam->setNear(0.01);
+    }
+    else
+    {
+        cam->setNear(0.1);
+    }
+
 
 	glutMainLoop();
 	

@@ -59,11 +59,9 @@ template <class GeoPropertyDesc>
 char AbstractGeoProperty<GeoPropertyDesc>::cvsid[] = 
     "@(#)$Id: $";
 
-#ifndef __linux
 template <class GeoPropertyDesc>
 const  AbstractGeoProperty<GeoPropertyDesc>::PtrType
     AbstractGeoProperty<GeoPropertyDesc>::NullPtr;
-#endif
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class GeoPropertyDesc>

@@ -200,7 +200,7 @@ RenderAction::RenderAction(void) :
     _currMatrix          (),
     _vMatrixStack        (),
 
-    _pMatMap             (NULL),
+    _mMatMap             (),
 
     _pRoot               (NULL),
     _pMatRoot            (NULL),
@@ -235,7 +235,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _currMatrix          (source._currMatrix),
     _vMatrixStack        (source._vMatrixStack),
 
-    _pMatMap             (source._pMatMap),
+    _mMatMap             (source._mMatMap),
 
     _pRoot               (source._pRoot),
     _pMatRoot            (source._pMatRoot),
@@ -314,8 +314,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
         return;
     }
 
-    MaterialMap::iterator it        = _pMatMap->find(pMat);
-    DrawTreeNode          *pNewElem = new DrawTreeNode;
+    MaterialMap::iterator it        = _mMatMap.find(pMat);
 
     pMat->rebuildState();
 
@@ -385,11 +384,13 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     }
     else
     {
-        if(it == _pMatMap->end())
+        DrawTreeNode *pNewElem = new DrawTreeNode;
+
+        if(it == _mMatMap.end())
         {
             DrawTreeNode *pNewMatElem = new DrawTreeNode;
             
-            (*_pMatMap)[pMat].push_back(pNewMatElem);
+            _mMatMap[pMat].push_back(pNewMatElem);
             
             pNewElem->setGeometry   (pGeo);
             pNewElem->setMatrixStore(_currMatrix);
@@ -612,20 +613,35 @@ Action::ResultE RenderAction::start(void)
         }
     }
 
-    delete _pMatMap;
-
-    _pMatMap = new MaterialMap;
+    _mMatMap.clear();
 
     subRefP(_pRoot);
+    subRefP(_pMatRoot);
+    subRefP(_pTransMatRoot);
+
+/*
+    if(_pRoot != NULL)
+    {
+        fprintf(stderr, "CDN %d DDN %d ODN %d ",
+                DrawTreeNode::_iCreateCount,
+                DrawTreeNode::_iDeleteCount,
+                DrawTreeNode::_iCreateCount - DrawTreeNode::_iDeleteCount);
+    }
+    */
+
+    DrawTreeNode::_iCreateCount = 0;
+    DrawTreeNode::_iDeleteCount = 0;
 
     _pRoot         = new DrawTreeNode;
     addRefP(_pRoot);
 
     _pMatRoot      = new DrawTreeNode;
-    _pRoot->addChild(_pMatRoot);
+//    _pRoot->addChild(_pMatRoot);
+    addRefP(_pMatRoot);
 
     _pTransMatRoot = new DrawTreeNode;
-    _pRoot->addChild(_pTransMatRoot);
+//    _pRoot->addChild(_pTransMatRoot);
+    addRefP(_pTransMatRoot);
 
     _pActiveState   = NULL;
 
@@ -643,22 +659,36 @@ Action::ResultE RenderAction::start(void)
 
 Action::ResultE RenderAction::stop(ResultE res)
 {
-//    dump(_pRoot, 0);
+    UInt32 i;
 
-    for(UInt32 i = 0; i < _vLights.size(); i++)
+//    dump(_pRoot, 0);
+//    dump(_pMatRoot, 0);
+//    dump(_pTransMatRoot, 0);
+
+    for(i = 0; i < _vLights.size(); i++)
     {
         glLoadMatrixf(_vLights[i].second.getValues());
         _vLights[i].first->activate(this, i);
     }
 
-    draw(_pRoot);
+    draw(_pMatRoot->getFirstChild());
 
-    for(UInt32 i = 0; i < _vLights.size(); i++)
+    glEnable   (GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//    glDepthMask(false);
+
+    draw(_pTransMatRoot->getFirstChild());
+
+    glDisable  (GL_BLEND);
+//    glDepthMask(true);
+
+    for(i = 0; i < _vLights.size(); i++)
     {
         _vLights[i].first->deactivate(this, i);
     }
 
-    fprintf(stderr, "Material %d Matrix %d Geometry %d Transparent %d\r", 
+    fprintf(stderr,
+            "Material %d Matrix %d Geometry %d Transparent %d\r",
             _uiNumMaterialChanges, 
             _uiNumMatrixChanges, 
             _uiNumGeometries,

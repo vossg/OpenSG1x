@@ -271,6 +271,10 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     static Action::ResultE writeGroupLeave(CNodePtr &pGroup,
                                            Action   *pAction);
 
+    static Action::ResultE writeMatGroupEnter(CNodePtr &pGroup,
+                                              Action   *pAction);
+    static Action::ResultE writeMatGroupLeave(CNodePtr &pGroup,
+                                              Action   *pAction);
 
     static Action::ResultE writeVTransformEnter(CNodePtr &pGroup,
                                                 Action   *pAction);

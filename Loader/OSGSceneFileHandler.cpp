@@ -172,25 +172,35 @@ SceneFileType * SceneFileHandler::getFileType ( const char *fileName )
 NodePtr SceneFileHandler::read(const char *fileName,  UInt32 uiOptions)
 {
 	SceneFileType *type = getFileType(fileName);
-	NodePtr node = NullNode;
+	NodePtr        node = NullNode;
 
-	if ( ! fileName )
+	if(! fileName)
 	{
 		SWARNING << "cannot read NULL file" << endl;
 		return node;
 	}
 	
-	if (type) {
-		SINFO << "try to read " << fileName << " as " << type->getName() << endl;
-		node = type->read(fileName);
+	if (type) 
+    {
+		SINFO << "try to read " << fileName 
+              << " as "         << type->getName() << endl;
+
+        node = type->read(fileName, uiOptions);
+
 		if (node != NullNode)
-			SINFO << "read ok:" << endl;
+        {
+			SINFO    << "read ok:"        << endl;
+        }
 		else
+        {
 			SWARNING << "could not read " << endl;
+        }
 	}
 	else
-		SWARNING << "could not read " << fileName 
-						 << "; unknown file format" << endl;
+    {
+		SWARNING << "could not read "       << fileName 
+                 << "; unknown file format" << endl;
+    }
 
 	return node;
 }

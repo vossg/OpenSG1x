@@ -351,7 +351,7 @@ int main (int argc, char **argv)
 	glEnable( GL_LIGHT0 );
     glEnable( GL_NORMALIZE );
     glEnable( GL_BLEND);
-    glDisable( GL_CULL_FACE );
+	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
 	// OSG
 
 	// create the graph

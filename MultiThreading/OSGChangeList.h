@@ -93,15 +93,20 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef pair<FieldContainerPtr, BitVector>  ChangeEntry;
+//    typedef pair<FieldContainerPtr, BitVector>  ChangeEntry;
+
+    typedef pair<UInt32, BitVector>             ChangeEntry;     
     typedef FieldContainerPtr                   RefEntry;    
     typedef UInt32                              IdRefEntry;
 
     typedef vector<ChangeEntry>::size_type      changed_size_type;
     typedef vector<ChangeEntry>::const_iterator changed_const_iterator;
 
-    typedef vector<RefEntry>::size_type         refd_size_type;
-    typedef vector<RefEntry>::const_iterator    refd_const_iterator;
+//    typedef vector<RefEntry>::size_type       refd_size_type;
+//    typedef vector<RefEntry>::const_iterator  refd_const_iterator;
+
+    typedef vector<IdRefEntry>::size_type       refd_size_type;
+    typedef vector<IdRefEntry>::const_iterator  refd_const_iterator;
 
     typedef vector<IdRefEntry>::size_type       idrefd_size_type;
     typedef vector<IdRefEntry>::const_iterator  idrefd_const_iterator;
@@ -149,8 +154,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
 
     vector<ChangeEntry> _vChangedFieldContainers;
 
-    vector<RefEntry>    _vAddRefdFieldContainers;
-    vector<RefEntry>    _vSubRefdFieldContainers;
+//    vector<RefEntry>    _vAddRefdFieldContainers;
+//    vector<RefEntry>    _vSubRefdFieldContainers;
+
+    vector<IdRefEntry>  _vAddRefdFieldContainers;
+    vector<IdRefEntry>  _vSubRefdFieldContainers;
     
     vector<IdRefEntry>  _vCreatedFieldContainers;
     vector<IdRefEntry>  _vDestroyedFieldContainers;

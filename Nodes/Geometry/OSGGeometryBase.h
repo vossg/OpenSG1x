@@ -80,7 +80,6 @@
 #include <OSGBoolFields.h>	// DlistCache type
 #include <OSGInt32Fields.h>	// GLId type
 
-#include <OSGGeoPropInterfaceFields.h>
 #include <OSGGeometryFields.h>
 
 OSG_BEGIN_NAMESPACE

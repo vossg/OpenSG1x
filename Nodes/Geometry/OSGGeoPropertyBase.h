@@ -593,8 +593,8 @@ typedef AbstractGeoProperty<GeoPLengthPropertyDesc> GeoPLength;
 #else
 
 OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
-                    	   GeoPLengthPropertyDesc, 
-                    	   OSG_SYSTEMLIB_DLLTMPLMAPPING)
+                            GeoPLengthPropertyDesc, 
+                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif

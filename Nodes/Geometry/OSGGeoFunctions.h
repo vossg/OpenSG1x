@@ -87,7 +87,7 @@ Int32 setIndexFromVRMLData ( GeometryPtr geo,
 
 /*! \brief optimize the geo by creating strips and fans, 
  *  creates new index values but does not touch the property values
- *  returns the number of points to be tranformed 
+ *  returns the number of points to be transformed 
  *  \ingroup Geometry
  */
 Int32 createOptimizedPrimitives ( GeometryPtr geo,
@@ -103,11 +103,16 @@ Int32 createOptimizedPrimitives ( GeometryPtr geo,
 UInt32 calcPrimitiveCount ( GeometryPtr geo,
                             UInt32 &triangle, UInt32 &line, UInt32 &point);
 
+/*! \brief merge the given geometries into a minimal number of nodes
+ *  \ingroup Geometry
+ */
+void mergeGeometries( vector<NodePtr> & nodes, vector<NodePtr> & results );
+
 
 /*! \brief calculate face normals for the geometry
  *  \ingroup Geometry
  */
-OSG_SYSTEMLIB_DLLMAPPING
+OSG_SYSTEMLIB_DLLMAPPING 
 void calcFaceNormals( GeometryPtr geo );
 
 /*! \brief create a geometry that shows the face normals of another geometry

@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGMFNODECOREPTR_H_
-#define _OSGMFNODECOREPTR_H_
+#ifndef _OSGSFNODECORE_H_
+#define _OSGSFNODECORE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -47,39 +47,39 @@
 //---------------------------------------------------------------------------
 
 #include <OSGSystemDef.h>
-#include <OSGMField.h>
+#include <OSGSField.h>
 #include <OSGNodeCoreFieldDataType.h>
 
-/** \file OSGMFFieldContainerTypes.h
+/** \file OSGSFFieldContainerTypes.h
  *  \ingroup FieldLib
- *  \ingroup MultiFields
+ *  \ingroup SingleFields
  *  \brief OpenSG field container single fields
  *
  * <UL>
- * <LI> osg::MFNodeCorePtr
+ * <LI> osg::SFNodeCorePtr
  * </UL>
  */
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief MFNodeCorePtr
+/** \brief SFNodeCorePtr
  */
 
-typedef MField<NodeCorePtr>       MFNodeCorePtr;
+typedef SField<NodeCorePtr>       SFNodeCorePtr;
 
 #ifndef OSG_COMPILECONTAINERFIELDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate MField<NodeCorePtr>::_fieldType
+#pragma do_not_instantiate SField<NodeCorePtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, NodeCorePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, NodeCorePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGMFNODECOREPTR_H_ */
+#endif /* _OSGSFNODECOREPTR_H_ */
 
