@@ -79,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.28 2002/06/26 14:35:46 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.29 2002/06/27 02:33:07 vossg Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -285,11 +285,15 @@ void SimpleMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
     PLOG << "\tshininess: " << getShininess()  << endl;
     PLOG << "\temission: " << getEmission()  << endl;
     PLOG << "\ttransparency: " << getTransparency()  << endl;
+    PLOG << "\tlit: " << getLit() << endl;
+
     PLOG << "\tChunks: " << endl;
 
     for(MFStateChunkPtr::const_iterator i = _mfChunks.begin();
             i != _mfChunks.end(); i++)
         PLOG << "\t" << *i << endl;
+
+    PLOG << "SimpleMaterial end " << this << endl;
 }
 
 
