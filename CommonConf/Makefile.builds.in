@@ -13,6 +13,8 @@ include $(@ac_gdz_lib_project_praefix@POOL)/$(@ac_gdz_lib_project_praefix@COMMON
 
 SUB_LIBS       := @ac_gdz_package_order@
 
+SUB_TESTS      := @ac_gdz_package_order_test@
+
 INSTALL_DIR    := @ac_gdz_install_prefix_e3@
 
 @ac_gdz_lib_project_praefix@_DO_DOC     := 0

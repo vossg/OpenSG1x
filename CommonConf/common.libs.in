@@ -1,5 +1,6 @@
 
 ac_gdz_package_order="BaseLib SystemLib"
+ac_gdz_package_order_test="BaseTest SystemTest"
 
 ac_gdz_packages="Base System WindowX WindowWIN32 WindowQT WindowGLUT"
 

@@ -493,6 +493,7 @@ dnl e2
                 ;;
                 *)
                     ac_gdz_package_order="${ac_gdz_package_order} WindowXLib"
+                    ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowXTest"
                 ;;
             esac
         fi
@@ -502,6 +503,7 @@ dnl e2
                 continue
             else
                 ac_gdz_package_order="${ac_gdz_package_order} WindowWIN32Lib"
+                ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowWIN32Test"
             fi
         fi
         if test ${ac_gdz_package_name} = "WindowQT"; then
@@ -510,6 +512,7 @@ dnl e2
                 continue
             else
                 ac_gdz_package_order="${ac_gdz_package_order} WindowQTLib"
+                ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowQTTest"
             fi
         fi
         if test ${ac_gdz_package_name} = "WindowGLUT"; then
@@ -518,6 +521,7 @@ dnl e2
                 continue
             else
                 ac_gdz_package_order="${ac_gdz_package_order} WindowGLUTLib"
+                ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowGLUTTest"
             fi
         fi
 
@@ -774,6 +778,7 @@ dnl e3
 
     AC_SUBST(ac_gdz_lib_src_dir)
     AC_SUBST(ac_gdz_package_order)
+    AC_SUBST(ac_gdz_package_order_test)
     AC_SUBST(ac_gdz_lib_package_sys_common_out)
     AC_SUBST(ac_gdz_lib_project_praefix)
     AC_SUBST(ac_gdz_install_prefix_e3)

@@ -34,7 +34,8 @@ SUB_MAKEFILE  := Makefile
 # Normal lib Targets
 #########################################################################
 
-SUB_LIBTARGETS  := $(addsuffix .src, $(SUB_LIBS))
+SUB_LIBTARGETS   := $(addsuffix .src, $(SUB_LIBS))
+SUB_TESTTARGETS  := $(addsuffix .src, $(SUB_TESTS))
 
 dbg:
 	@$(MAKE) -k -r $($(PROJ)TOPMAKEPAR) -f Makefile dbg_internal
@@ -65,6 +66,14 @@ optLnk:
 opt_internalLnk: SUB_TARGET := optLnk
 opt_internalLnk: SUB_JOB := build
 opt_internalLnk: $(SUB_LIBTARGETS) 
+
+#########################################################################
+# test
+#########################################################################
+
+tests: SUB_TARGET := Tests
+tests: SUB_JOB := build
+tests: $(SUB_TESTTARGETS)
 
 #########################################################################
 # clean

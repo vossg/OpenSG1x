@@ -6703,6 +6703,7 @@ ac_gdz_package_sys_common_out=common.$build-$ac_gdz_compiler$ac_gdz_suffix.mk
                 ;;
                 *)
                     ac_gdz_package_order="${ac_gdz_package_order} WindowXLib"
+                    ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowXTest"
                 ;;
             esac
         fi
@@ -6712,6 +6713,7 @@ ac_gdz_package_sys_common_out=common.$build-$ac_gdz_compiler$ac_gdz_suffix.mk
                 continue
             else
                 ac_gdz_package_order="${ac_gdz_package_order} WindowWIN32Lib"
+                ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowWIN32Test"
             fi
         fi
         if test ${ac_gdz_package_name} = "WindowQT"; then
@@ -6720,6 +6722,7 @@ ac_gdz_package_sys_common_out=common.$build-$ac_gdz_compiler$ac_gdz_suffix.mk
                 continue
             else
                 ac_gdz_package_order="${ac_gdz_package_order} WindowQTLib"
+                ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowQTTest"
             fi
         fi
         if test ${ac_gdz_package_name} = "WindowGLUT"; then
@@ -6728,6 +6731,7 @@ ac_gdz_package_sys_common_out=common.$build-$ac_gdz_compiler$ac_gdz_suffix.mk
                 continue
             else
                 ac_gdz_package_order="${ac_gdz_package_order} WindowGLUTLib"
+                ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowGLUTTest"
             fi
         fi
 
@@ -7285,6 +7289,7 @@ ac_gdz_lib_package_sys_common_out=common.$build-$ac_gdz_compiler$ac_gdz_suffix.m
     
     
     
+    
 
     touch confdefs.h
 
@@ -7353,6 +7358,7 @@ $ac_vpsub
 $extrasub
 s%@ac_gdz_lib_src_dir@%$ac_gdz_lib_src_dir%g
 s%@ac_gdz_package_order@%$ac_gdz_package_order%g
+s%@ac_gdz_package_order_test@%$ac_gdz_package_order_test%g
 s%@ac_gdz_lib_package_sys_common_out@%$ac_gdz_lib_package_sys_common_out%g
 s%@ac_gdz_lib_project_praefix@%$ac_gdz_lib_project_praefix%g
 s%@ac_gdz_install_prefix_e3@%$ac_gdz_install_prefix_e3%g
