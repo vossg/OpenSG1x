@@ -99,10 +99,20 @@ OSG_USING_NAMESPACE
  */
 
 const BitVector 
+    Attachment::InternalFieldMask  = (1 << Attachment::InternalFieldId);
+const BitVector 
     Attachment::ParentsFieldMask  = (1 << Attachment::ParentsFieldId);
 
 FieldDescription *Attachment::_desc[] =
 {
+    new FieldDescription(
+        SFBool::getClassType(),
+        "private",
+        OSG_FC_FIELD_IDM_DESC(InternalField),
+        false,
+        (FieldAccessMethod) &Attachment::getSFInternal,
+        "true"),
+
     new FieldDescription(
         MFNodePtr::getClassType(),
         "parents",
@@ -172,9 +182,37 @@ Int32 Attachment::findParent(FieldContainerPtr parent)
 /*-------------------------------------------------------------------------*/
 /*                            Binary Access                                */
 
+SFBool &Attachment::getInternal(void)
+{
+    return _sfInternal;
+}
+
+const SFBool &Attachment::getInternal(void) const
+{
+    return _sfInternal;
+}
+
+SFBool *Attachment::getSFInternal(void)
+{
+    return &_sfInternal;
+}
+
+void Attachment::setInternal(bool bVal)
+{
+    _sfInternal.setValue(bVal);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            Binary Access                                */
+
 UInt32 Attachment::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = 0;
+
+    if(FieldBits::NoField != (InternalFieldMask & whichField))
+    {
+        returnValue += _sfInternal.getBinSize();
+    }
 
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
     {
@@ -187,6 +225,11 @@ UInt32 Attachment::getBinSize(const BitVector &whichField)
 void Attachment::copyToBin(      BinaryDataHandler &pMem,
                            const BitVector         &whichField)
 {
+    if(FieldBits::NoField != (InternalFieldMask & whichField))
+    {
+        _sfInternal.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
     {
         _parents.copyToBin(pMem);
@@ -196,6 +239,11 @@ void Attachment::copyToBin(      BinaryDataHandler &pMem,
 void Attachment::copyFromBin(      BinaryDataHandler &pMem,
                              const BitVector         &whichField)
 {
+    if(FieldBits::NoField != (InternalFieldMask & whichField))
+    {
+        _sfInternal.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
     {
         _parents.copyFromBin(pMem);
@@ -250,14 +298,16 @@ void Attachment::dump(      UInt32                  uiIndent,
 /*                            Constructors                                 */
 
 Attachment::Attachment(void) :
-    Inherited(),
-    _parents()
+     Inherited (     ),
+    _sfInternal(false),
+    _parents   (     )
 {
 }
 
 Attachment::Attachment(const Attachment &obj) :
-    Inherited(obj),
-    _parents()
+     Inherited (obj            ),
+    _sfInternal(obj._sfInternal),
+    _parents   (               )
 {
 }
 
@@ -289,6 +339,11 @@ void Attachment::executeSyncImpl(      Attachment *pOther,
                                  const BitVector  &whichField)
 {
     Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (InternalFieldMask & whichField))
+    {
+        _sfInternal.syncWith(pOther->_sfInternal);
+    }
 
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
     {

@@ -71,8 +71,23 @@ struct FieldTraitsRecurseMapper<AttachmentMap> :
 
     static UInt32 getBinSize(const AttachmentMap &oObject)
     {
+        AttachmentMap::const_iterator mapIt  = oObject.begin();
+        AttachmentMap::const_iterator mapEnd = oObject.end();
+
+        UInt32 uiNumPublicObjects = 0;
+
+        while(mapIt != mapEnd)
+        {
+            if(mapIt->second->getInternal().getValue() == false)
+            {
+                ++uiNumPublicObjects;
+            }
+
+            ++mapIt;
+        }
+
         return sizeof(UInt32) +  // Number of elements in the map 
-               oObject.size() * (sizeof(UInt16) + sizeof(UInt32));
+               uiNumPublicObjects * (sizeof(UInt16) + sizeof(UInt32));
     }
 
     static UInt32 getBinSize(const AttachmentMap *pObjectStore,
@@ -94,22 +109,35 @@ struct FieldTraitsRecurseMapper<AttachmentMap> :
     {
         UInt16 binding;
         UInt32 id;
-        UInt32 size;
+        UInt32 uiNumPublicObjects = 0;
 
         AttachmentMap::const_iterator mapIt  = pObject.begin();
         AttachmentMap::const_iterator mapEnd = pObject.end();
 
-        size = pObject.size();
+        while(mapIt != mapEnd)
+        {
+            if(mapIt->second->getInternal().getValue() == false)
+            {
+                ++uiNumPublicObjects;
+            }
 
-        pMem.putValue(size);
+            ++mapIt;
+        }
+
+        pMem.putValue(uiNumPublicObjects);
+
+        mapIt = pObject.begin();
 
         for(; mapIt != mapEnd; ++mapIt)
         {
-            binding = mapIt->first & 0xffff;
-            id      = mapIt->second.getFieldContainerId();
-
-            pMem.putValue(binding);
-            pMem.putValue(id);
+            if(mapIt->second->getInternal().getValue() == false)
+            {
+                binding = mapIt->first & 0xffff;
+                id      = mapIt->second.getFieldContainerId();
+                
+                pMem.putValue(binding);
+                pMem.putValue(id);
+            }
         }
     }
 

@@ -55,6 +55,7 @@
 #include <OSGMFFieldContainerPtr.h>
 #include <OSGIDString.h>
 #include <OSGBinaryDataHandler.h>
+#include <OSGVRMLNodeDescs.h>
 
 #include <OSGConfig.h>
 #include "OSGBINWriter.h"
@@ -298,8 +299,13 @@ void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
                     ((SFAttachmentMap*)fieldPtr)->getValue().begin();
                 AttachmentMap::const_iterator mapEnd = 
                     ((SFAttachmentMap*)fieldPtr)->getValue().end();
+
                 for(; mapIt != mapEnd; ++mapIt)
                 {
+                    fprintf(stderr, "Write %s %s\n",
+                            mapIt->second->getType().getCName(),
+                            GenericAtt::getClassType().getCName());
+
                     doIndexFC(mapIt->second);
                 }
             }

@@ -46,6 +46,7 @@
 #include <OSGFieldContainerPtr.h>
 #include <OSGSFBaseTypes.h>
 #include <OSGMFFieldContainerPtr.h>
+#include <OSGSFSysTypes.h>
 
 #include <map>
 #include <iostream>
@@ -76,9 +77,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     enum 
     { 
         ParentsFieldId     = Inherited::NextFieldId, 
-        NextFieldId        = ParentsFieldId + 1
+        InternalFieldId    = ParentsFieldId + 1,
+        NextFieldId        = InternalFieldId + 1
     };
 
+    static const BitVector InternalFieldMask;
     static const BitVector ParentsFieldMask;
 
     /*---------------------------------------------------------------------*/
@@ -101,6 +104,17 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     void                       subParent   (FieldContainerPtr parent);
 
     Int32                      findParent  (FieldContainerPtr parent);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Parents                               */
+    /*! \{                                                                 */
+
+          SFBool &getInternal  (void);
+    const SFBool &getInternal  (void) const;
+          SFBool *getSFInternal(void);
+
+          void    setInternal  (bool bVal);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -138,6 +152,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
+    SFBool              _sfInternal;
     MFFieldContainerPtr _parents;
 
     /*! \}                                                                 */

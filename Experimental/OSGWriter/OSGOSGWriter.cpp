@@ -40,6 +40,7 @@
 
 #include "OSGOSGWriter.h"
 #include <OSGAttachment.h>
+#include "OSGVRMLNodeDescs.h"
 
 OSG_USING_NAMESPACE
 
@@ -370,7 +371,10 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
         
             for(; iter!=end; ++iter)
             {
-                writeContainer(iter->second);
+                if(iter->second->getInternal().getValue() != true)
+                {
+                    writeContainer(iter->second);
+                }
             }
             _indent--; 
             
@@ -473,6 +477,6 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.12 2002/06/23 09:38:55 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.13 2002/06/26 08:01:02 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOSGWRITER_HEADER_CVSID;
 }

@@ -180,6 +180,7 @@ void VRMLNodeDesc::init(const Char8 *szName)
     _pNodeProto = Node::create();
 
     _pGenAtt    = GenericAtt::create();
+    _pGenAtt->setInternal(true);
 }
 
 
@@ -510,6 +511,11 @@ FieldContainerPtr VRMLNodeDesc::beginNode(const Char8      *,
 
             pAtt = GenericAttPtr::dcast(pAttClone);
 
+            if(pAtt != NullFC)
+            {
+                pAtt->setInternal(true);
+            }
+
             if(pCore != NullFC)
             {
                 pCore->addAttachment(pAtt);
@@ -702,6 +708,7 @@ void VRMLShapeDesc::init(const Char8 *OSG_VRML_ARG(szName))
     _pNodeCoreProto = MaterialGroup::create();
 
     _pGenAtt        = GenericAtt::create();
+    _pGenAtt->setInternal(true);
 }
 
 void VRMLShapeDesc::setMaterialDesc(VRMLMaterialDesc *pMaterialDesc)
@@ -997,6 +1004,7 @@ void VRMLGeometryDesc::init(const Char8 *OSG_VRML_ARG(szName))
     _pNodeCoreProto = Geometry::create();
 
     _pGenAtt = GenericAtt::create();
+    _pGenAtt->setInternal(true);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1166,6 +1174,11 @@ FieldContainerPtr VRMLGeometryDesc::beginNode(
         FieldContainerPtr pAttClone = _pGenAtt->clone();
         
         pAtt = GenericAttPtr::dcast(pAttClone);
+
+        if(pAtt != NullFC)
+        {
+            pAtt->setInternal(true);
+        }
 
         pFC = _pNodeProto->shallowCopy();
 
@@ -1520,6 +1533,7 @@ void VRMLGeometryPartDesc::init(const Char8 *OSG_VRML_ARG(szName))
     }
 
     _pGenAtt = GenericAtt::create();
+    _pGenAtt->setInternal(true);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1689,6 +1703,7 @@ void VRMLGeometryObjectDesc::init(const Char8 *OSG_VRML_ARG(szName))
     }
 
     _pGenAtt = GenericAtt::create();
+    _pGenAtt->setInternal(true);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1755,6 +1770,11 @@ FieldContainerPtr VRMLGeometryObjectDesc::beginNode(
         FieldContainerPtr pAttClone = _pGenAtt->clone();
         
         pAtt = GenericAttPtr::dcast(pAttClone);
+
+        if(pAtt != NullFC)
+        {
+            pAtt->setInternal(true);
+        }
 
         returnValue = _pNodeProto->shallowCopy();
 
@@ -2041,6 +2061,7 @@ void VRMLAppearanceDesc::init(const Char8 *OSG_VRML_ARG(szName))
     _pNodeProto = ChunkMaterial::create();
 
     _pGenAtt    = GenericAtt::create();
+    _pGenAtt->setInternal(true);
 }
 
 void VRMLAppearanceDesc::setMaterialDesc(VRMLMaterialDesc *pMaterialDesc)
@@ -3024,6 +3045,7 @@ void VRMLLODDesc::init(const Char8 *OSG_VRML_ARG(szName))
     _pNodeCoreProto = DistanceLOD::create();
 
     _pGenAtt        = GenericAtt::create();
+    _pGenAtt->setInternal(true);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -3176,8 +3198,13 @@ FieldContainerPtr VRMLLODDesc::beginNode(
     if(_pNodeProto != NullFC)
     {
         FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
-        
+
         pAtt = GenericAttPtr::dcast(pAttClone);
+
+        if(pAtt != NullFC)
+        {
+            pAtt->setInternal(true);
+        }
 
         pFC = _pNodeProto->shallowCopy();
 
@@ -3261,6 +3288,7 @@ void VRMLSwitchDesc::init(const Char8 *OSG_VRML_ARG(szName))
     _pNodeCoreProto = Switch::create();
 
     _pGenAtt        = GenericAtt::create();
+    _pGenAtt->setInternal(true);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -3395,8 +3423,13 @@ FieldContainerPtr VRMLSwitchDesc::beginNode(
     if(_pNodeProto != NullFC)
     {
         FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
-        
+
         pAtt = GenericAttPtr::dcast(pAttClone);
+        
+        if(pAtt != NullFC)
+        {
+            pAtt->setInternal(true);
+        }
 
         pFC = _pNodeProto->shallowCopy();
 
@@ -3486,6 +3519,7 @@ void VRMLGroupDesc::init(const Char8 *OSG_VRML_ARG(szName))
     _pNodeCoreProto = Group::create();
 
     _pGenAtt        = GenericAtt::create();
+    _pGenAtt->setInternal(true);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -3636,8 +3670,13 @@ FieldContainerPtr VRMLGroupDesc::beginNode(
     if(_pNodeProto != NullFC)
     {
         FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
-        
+
         pAtt = GenericAttPtr::dcast(pAttClone);
+
+        if(pAtt != NullFC)
+        {
+            pAtt->setInternal(true);
+        }
 
         pFC = _pNodeProto->shallowCopy();
 
@@ -3727,6 +3766,7 @@ void VRMLInlineDesc::init(const Char8 *OSG_VRML_ARG(szName))
     _pNodeCoreProto = Inline::create();
 
     _pGenAtt        = GenericAtt::create();
+    _pGenAtt->setInternal(true);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -3863,8 +3903,13 @@ FieldContainerPtr VRMLInlineDesc::beginNode(
     if(_pNodeProto != NullFC)
     {
         FieldContainerPtr pAttClone = _pGenAtt->emptyCopy();
-        
+
         pAtt = GenericAttPtr::dcast(pAttClone);
+
+        if(pAtt != NullFC)
+        {
+            pAtt->setInternal(true);
+        }
 
         pFC = _pNodeProto->shallowCopy();
 
@@ -3946,6 +3991,7 @@ void VRMLViewpointDesc::init(const Char8 *OSG_VRML_ARG(szName))
     _pNodeProto     = Node::create();
     _pNodeCoreProto = ComponentTransform::create();
     _pGenAtt        = GenericAtt::create();    
+    _pGenAtt->setInternal(true);
 
     FieldDescription *pDesc = 
         new FieldDescription(SFBool::getClassType(), 
@@ -4113,6 +4159,11 @@ FieldContainerPtr VRMLViewpointDesc::beginNode(
         FieldContainerPtr pAttClone = _pGenAtt->clone();
         
         pAtt = GenericAttPtr::dcast(pAttClone);
+
+        if(pAtt != NullFC)
+        {
+            pAtt->setInternal(true);
+        }
 
         pFC = _pNodeProto->shallowCopy();
 
