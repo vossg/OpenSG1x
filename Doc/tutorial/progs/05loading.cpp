@@ -77,16 +77,30 @@ void keyboard(unsigned char k, int , int ){
     switch(k){
         case 's':
         
+            // there were some changes in the interface since version 1.2.0
+#if OSG_MINOR_VERSION > 2
+            // this is the cvs version or version 1.3+
+        
             // create an output stream (this is STL code, and
             // is not OpenSG specific!)
-            FILE *out = fopen("data/output.bin", "wb");
+            ofstream out("data/output.bin");
             if(!out){
-                cout << "File could not be created!" << endl;
+                cout << "Output stream could not be created!" << endl;
                 return;
             }
-            
             //create the writer object
             BINWriter writer(out);
+#else
+            // this code applies to version 1.2
+            FILE* outFile = fopen("data/output.bin", "wb");
+            if(outFile == NULL){
+                cout << "File could not be created!" << endl;
+                return; 
+            }
+            //create the writer object
+            BINWriter writer(outFile);
+#endif
+            
             //write the file now
             writer.write(scene);
             
@@ -113,6 +127,7 @@ int setupGLUT(int *argc, char *argv[])
     glutMotionFunc(motion);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
+    glutIdleFunc(display);
     
     return winid;
 }

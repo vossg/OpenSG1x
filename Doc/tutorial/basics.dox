@@ -1404,6 +1404,10 @@ void keyboard(unsigned char k, int , int ){
     switch(k){
         case 's':
         
+            // there were some changes in the interface since version 1.2.0
+#if OSG_MINOR_VERSION > 2
+            // this is the cvs version or version 1.3+
+        
             // create an output stream (this is STL code, and
             // is not OpenSG specific!)
             ofstream out("data/output.bin");
@@ -1411,9 +1415,19 @@ void keyboard(unsigned char k, int , int ){
                 cout << "Output stream could not be created!" << endl;
                 return;
             }
-            
             //create the writer object
             BINWriter writer(out);
+#else
+            // this code applies to version 1.2
+            FILE* outFile = fopen("data/output.bin", "wb");
+            if(outFile == NULL){
+                cout << "File could not be created!" << endl;
+                return; 
+            }
+            //create the writer object
+            BINWriter writer(outFile);
+#endif
+            
             //write the file now
             writer.write(scene);
             
@@ -1422,6 +1436,9 @@ void keyboard(unsigned char k, int , int ){
     }
 }
 \endcode
+<I>
+Notice: There were some changes in the interface of the BINWriter class since version 1.2.0. This is why I had to use these #define blocks!
+</I>
 
 3.\n
 Additionally you have to add "<OpenSG/OSGBINWriter.h>"  to your list of files to include
