@@ -470,8 +470,6 @@ PathHandler::PathType PathHandler::analysePath(const Char8 *path)
 
     if(returnValue == Win32Path)
     {
-        fprintf(stderr, "xx%u\n", uiSize);
-
         if(uiSize >= 2)
         {
             if(path[1] == ':')
@@ -516,7 +514,7 @@ void PathHandler::expandWin32Path(std::string &path)
 
             if(szEnvVal == NULL)
             {
-                fprintf(stderr, "Could not find env var %s\n", envVar.c_str());
+                FWARNING(("Could not find env var %s\n", envVar.c_str()));
             }
             else
             {
@@ -562,7 +560,7 @@ void PathHandler::expandUnixPath(std::string &path)
 
             if(szEnvVal == NULL)
             {
-                fprintf(stderr, "Could not find env var %s\n", envVar.c_str());
+                FWARNING(("Could not find env var %s\n", envVar.c_str()));
             }
             else
             {
@@ -619,8 +617,7 @@ void PathHandler::expandUnixPath(std::string &path)
             }
             else
             {
-                fprintf(stderr, "Could not find user home %s\n",
-                        userHome.c_str());
+                FWARNING(("Could not find user home %s\n", userHome.c_str()));
             }
         }
 #endif
