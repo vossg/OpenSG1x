@@ -1,5 +1,5 @@
 
-LINKER_INIT_FLAG     := -fini
+LINKER_INIT_FLAG     := -Wl,-Bsymbolic -Wl,-init 
 
 LIBPATH_OPTION       := -L
 LIBLNK_OPTION        := -l
@@ -69,7 +69,7 @@ ifeq ($(DEBUG_VERSION), 0)
 	COMP_DEBUG       = 
 else
 	COMP_OPTIMIZE    =
-	COMP_DEBUG       = -g 
+	COMP_DEBUG       = -g -DOSG_DEBUG
 endif
 
 ### Compiler Flags ################################################

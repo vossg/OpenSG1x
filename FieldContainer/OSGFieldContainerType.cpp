@@ -271,8 +271,8 @@ Bool FieldContainerType::initialize(void)
 
     _bInitialized = initBaseType    ();
     
-    FDEBUG ( ( "init FieldContainerType %d (%d)",
-							 _szName.str(), int(_bInitialized) ));
+    FDEBUG ( ( "init FieldContainerType %s (%d)\n",
+               _szName.str(), int(_bInitialized) ));
 
     return _bInitialized;
 }

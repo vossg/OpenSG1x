@@ -1,5 +1,5 @@
 
-LINKER_INIT_FLAG     := -init
+LINKER_INIT_FLAG     := -Wl,-init
 
 LIBPATH_OPTION       := -L
 LIBLNK_OPTION        := -l

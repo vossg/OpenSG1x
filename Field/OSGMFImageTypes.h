@@ -74,7 +74,7 @@ typedef MField<ImageP> MFImageP;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, MFImageP, OSG_FIELD_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, ImageP, OSG_FIELD_DLLTMPLMAPPING)
 
 #endif
 #endif

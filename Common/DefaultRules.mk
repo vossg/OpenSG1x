@@ -82,32 +82,80 @@ define win_make_depend
 	 		>> $@
 endef
 
-define unix_make_depend
+define linux_make_depend
 	@echo "# Building dependency $(@F) from $(<F)"
 	@-rm -f $@
 	@echo '# Module dependencies' > $@
-	@$(CC) $(DEPEND_OPTION) $< $(CCFLAGS) $(CCLOCALFLAGS) $(INCL) \
-	 $(INC_OPTION)$(OBJDIR) $(INC_OPTION). | \
-	 $(SED) -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 	\
-			-e '/:.*\/stdlib\//d' 				\
-			-e '/:[     ]*\/usr\/include\//d'	\
-			-e '/: \.\.\/Base\//d'              \
-			-e 's/^\([^\.]*\)$(OBJ_SUFFIX):/\1$(DEP_SUFFIX) \1$(OBJ_SUFFIX):/1' \
+	@$(CC) $(DEPEND_OPTION) $< $(CCFLAGS) $(CCLOCALFLAGS) $(INCL) 	\
+	 $(INC_OPTION)$(OBJDIR) $(INC_OPTION). 							\
+	 | $(SED) -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 					\
+	 		  -e 's/\/usr\/include\/[^ ]*//g'						\
+	 		  -e 's/\/usr\/Software\/[^ ]*//g'						\
+	 		  -e 's/\/igd\/[^ ]*//g'								\
+			  -e 's/.*\.\.\/Base\/[^ ]*//g'							\
+			  -e 's/^\([^\.]*\)$(OBJ_SUFFIX):/\1$(DEP_SUFFIX) \1$(OBJ_SUFFIX):/1' \
+			>> $@ 
+endef
+
+define irix_make_depend
+	@echo "# Building dependency $(@F) from $(<F) "
+	@-rm -f $@
+	@echo '# Module dependencies' > $@
+	@$(CC) $(DEPEND_OPTION) $< $(CCFLAGS) $(CCLOCALFLAGS) $(INCL) 	\
+	 $(INC_OPTION)$(OBJDIR) $(INC_OPTION).							\
+	 | $(SED)	-e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 					\
+	 		 	-e '/:[     ]*\/usr\/include\//d'					\
+				-e '/:.*\/stdlib\//d' 								\
+				-e '/:.*\.\.\/Base\//d'								\
+				-e 's/^\([^\.]*\)$(OBJ_SUFFIX):/\1$(DEP_SUFFIX) \1$(OBJ_SUFFIX):/1' \
 			>> $@
 endef
 
 ifeq ($(OS_BASE), cygwin)
 $(OBJDIR)/%$(DEP_SUFFIX): %.cpp 
-	$(win_make_depend)
-
-$(OBJDIR)/%$(DEP_SUFFIX): %.c 
+ifneq ($(OSGNODEPSREBUILD),1)
 	$(win_make_depend)
 else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+
+$(OBJDIR)/%$(DEP_SUFFIX): %.c 
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(win_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+endif
+
+ifeq ($(OS_BASE), irix6.5)
 $(OBJDIR)/%$(DEP_SUFFIX): %.cpp
-	$(unix_make_depend)
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(irix_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
 
 $(OBJDIR)/%$(DEP_SUFFIX): %.c
-	$(unix_make_depend)
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(irix_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+endif
+
+ifeq ($(OS_BASE), linux-gnu)
+$(OBJDIR)/%$(DEP_SUFFIX): %.cpp
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(linux_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+$(OBJDIR)/%$(DEP_SUFFIX): %.c
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(linux_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
 endif
 
 ifeq ($(OS_BASE), cygwin)
@@ -132,7 +180,7 @@ ifeq ($(OS_BASE), cygwin)
 SO_INIT_FLAGS =
 else
 ifeq ($(SO_NEEDS_INIT),1)
-SO_INIT_FLAGS = -Wl,$(LINKER_INIT_FLAG) -Wl,osgInitSharedObject$(PACKAGE_NAME)
+SO_INIT_FLAGS = $(LINKER_INIT_FLAG) -Wl,osgInitSharedObject$(PACKAGE_NAME)
 else
 SO_INIT_FLAGS =
 endif
@@ -185,12 +233,14 @@ ifeq ($(IN_TEST_DIR),1)
 $(LIB_TESTQTTARGET_DEPS): $(LIB_TESTQTTARGET_CPP)
 
 list: 
-	@echo "\n\n\tavailable test cases :"
-	@echo "\t======================\n"
+	@echo 
+	@echo "	available test cases :"
+	@echo "	======================\n"
 	@for file in $(TEST_TARGETS_LIST); do	\
-		echo "\t\tgmake $$file";         	\
+		echo "		gmake $$file";         	\
 	done
-	@echo "\n\n"
+	@echo 
+	@echo 
 endif
 
 #########################################################################

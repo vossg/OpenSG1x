@@ -470,7 +470,7 @@ osgStartLog(false,OSG::LOG_INFO,OSG_LOG_MODULE, __FILE__, __LINE__)
 {                                                                   \
   osg::initLog(); \
   if (osg::osgLogP->checkLevel(osg::LOG_DEBUG)) { \
-    osg::osgStartLog(true,osg::LOG_DEBUG,OSG_LOG_MODUL,__FILE__,__LINE__) \
+    osg::osgStartLog(true,osg::LOG_DEBUG,OSG_LOG_MODULE,__FILE__,__LINE__); \
     osg::osgLogP->doLog par;    \
     osg::osgLogP->unlock(); \
   } \

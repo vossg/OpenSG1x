@@ -5,8 +5,16 @@
 extern "C"
 {
 
+#ifdef __linux
+void _init(void);
+#endif
+
 void osgInitSharedObject@ac_gdz_package_name_out@(void)
 {
+#ifdef __linux
+    _init();
+#endif
+
     OSG::SLOG << "Init Shared Object : @ac_gdz_package_name_out@" << endLog;
 
     OSG::FieldContainerFactory::the()->initializePendingTypes();

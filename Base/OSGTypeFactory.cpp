@@ -163,7 +163,7 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
     if(findTypeStatic(pType->getCName()) != 0)
     {
         SWARNING << "ERROR: Can't add a second "
-                    << "type with the name" << pType->getCName() << endl;
+                 << "type with the name " << pType->getCName() << endl;
 
         return returnValue;
     }
@@ -172,7 +172,7 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
     
     _mTypeNameMap[StringLink(pType->getCName())] = returnValue;
 
-		FDEBUG (("Registered type %s | %d", pType->getCName(), returnValue));
+    FDEBUG (("Registered type %s | %d\n", pType->getCName(), returnValue));
 
     return returnValue;
 }

@@ -136,7 +136,7 @@ FieldType::FieldType(const Char8             *szName,
     _createMethod(createMethod)
 {	
     FieldFactory::addType(this);
-    FDEBUG (("Initialized FieldType : %s",_szName));
+    FDEBUG (("Initialized FieldType : %s\n", getCName()));
 }
 
 
