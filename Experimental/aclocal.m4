@@ -194,6 +194,7 @@ AC_DEFUN(AC_GDZ_EXEEXT,
        cygwin*)
         AC_MSG_CHECKING(executable suffix)
         EXEEXT=.exe
+        ac_gdz_exe_suffix=.exe
         AC_MSG_RESULT($EXEEXT)
         ;;
 

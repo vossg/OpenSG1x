@@ -57,7 +57,7 @@ define win_make_depend
 	@echo "# Building dependency $(@F) from $(<F)" 				
 	@-rm -f $@;													
 	@echo '# Module dependencies' > $@							
-	@$(CC) $(DEPEND_OPTION) $(call cnvUnix2Win,$<) $(CCFLAGS)   \
+	@$(CC) $(DEPEND_OPTION) $(call cnvUnix2Win,$<) $(CCFLAGS) $(INC_OPTION)"."\
 	 $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) $(INC_OPTION)"$(OBJDIR)" |	\
 	 $(SED) -e '/:.*\\Microsoft /d' 				\
 		 	-e '/:.*\\Intel\\/d' 					\
@@ -76,7 +76,7 @@ define unix_make_depend
 	@-rm -f $@
 	@echo '# Module dependencies' > $@
 	@$(CC) $(DEPEND_OPTION) $< $(CCFLAGS) $(CCLOCALFLAGS) $(INCL) \
-	 $(INC_OPTION)$(OBJDIR)| \
+	 $(INC_OPTION)$(OBJDIR) $(INC_OPTION). | \
 	 $(SED) -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 	\
 			-e '/:.*\/stdlib\//d' 				\
 			-e '/:[     ]*\/usr\/include\//d'	\

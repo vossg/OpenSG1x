@@ -178,8 +178,8 @@ then
 
 	ac_gdz_compiler_exe_exe='"$(CC_PATH)/xilink" -NODEFAULTLIB'
 
-	ac_gdz_flex_exe=//v/Win/NT/cygwin/bin/flex.exe
-	ac_gdz_bison_exe=//v/Win/NT/cygwin/bin/bison.exe
+	ac_gdz_flex_exe=flex.exe
+	ac_gdz_bison_exe=bison.exe
 
 	ac_gdz_gmake_exe=gmake
 
@@ -220,7 +220,7 @@ else
 
     if test $build_os = linux-gnu; 
     then 
-    	ac_gdz_base_system_libs='-pthread '$ac_gdz_base_system_libs
+		ac_gdz_base_system_libs='-pthread '$ac_gdz_base_system_libs
     fi
 fi 
 
@@ -264,6 +264,7 @@ ac_gdz_package_sub_dir_out=Builds/$build-$ac_gdz_compiler
 AC_CONFIG_HEADER($ac_gdz_package_sub_dir_out/Base/OSGConfigured.h:CommonConf/OSGConfigured.h.in)
 
 if [[ $build_os = cygwin ]]; then 
+	touch $ac_gdz_package_sub_dir_out/Base/unistd.h
     ac_gdz_gen_base_inc_e1="..\\Base"
 else
     ac_gdz_gen_base_inc_e1="../Base"
