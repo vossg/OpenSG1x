@@ -54,6 +54,8 @@
 
 #include <GL/gl.h>
 
+#define OSG_COMPILELIGHT
+
 #include <OSGFieldContainerPtr.h>
 #include <OSGFieldContainerType.h>
 #include "OSGLightBase.h"

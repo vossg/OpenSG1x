@@ -47,6 +47,16 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILELIGHT
+#       define OSG_LIGHT_DLLMAPPING __declspec(dllexport)
+#   else
+#       define OSG_LIGHT_DLLMAPPING __declspec(dllimport)
+#   endif
+#else
+#define OSG_LIGHT_DLLMAPPING
+#endif
+
 #include <OSGBaseTypes.h>
 #include <OSGNodeCore.h>
 #include <OSGFieldContainerPtr.h>
@@ -82,7 +92,7 @@ typedef FCPtr<NodeCorePtr, LightBase> LightPtr;
  *  \brief Base for the different OGL lights.
  */
 
-class OSG_DLLEXPORT LightBase : public NodeCore
+class OSG_LIGHT_DLLMAPPING LightBase : public NodeCore
 {
   private:
 

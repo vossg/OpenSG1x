@@ -74,7 +74,7 @@ typedef FCPtr<PointLightPtr, SpotLight> SpotLightPtr;
  *  \brief Spot light
  */
 
-class OSG_DLLEXPORT SpotLight : public PointLight
+class OSG_LIGHT_DLLMAPPING SpotLight : public PointLight
 {
   public:
 

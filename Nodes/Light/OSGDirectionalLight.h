@@ -75,7 +75,7 @@ typedef FCPtr<LightPtr, DirectionalLight> DirectionalLightPtr;
  *  \brief Directional light
  */
 
-class OSG_DLLEXPORT DirectionalLight : public LightBase
+class OSG_LIGHT_DLLMAPPING DirectionalLight : public LightBase
 {
   public:
 
