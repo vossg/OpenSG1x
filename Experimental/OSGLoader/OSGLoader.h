@@ -36,16 +36,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGLOADER_H_
 #define _OSGLOADER_H_
 #ifdef __sgi
 #pragma once
 #endif
-
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
@@ -62,170 +57,102 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief native osg loader (vrml syntax)
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING OSGLoader : 
     public ScanParseFieldTypeMapper<ScanParseSkel>
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
+    /*==========================  PRIVATE  ================================*/
   private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
 
     typedef ScanParseFieldTypeMapper<ScanParseSkel    > Inherited;
     typedef map                     <string, 
                                      FieldContainerPtr> NamedFCMap;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    OSGLoader(const OSGLoader &source);
-    void operator =(const OSGLoader &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-
-    FieldContainerPtr        _pCurrentFC;
-    NodePtr                  _pRootNode;
-    Field                   *_pCurrentField;
-    const FieldDescription  *_pCurrentFieldDesc;
-    NamedFCMap               _defMap;
-
-    stack<FieldContainerPtr > _fcStack;
-    stack<Field            *> _fStack;
-    stack<const FieldDescription *> _fdStack;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    void initFieldTypeMapper(void);
-    void setFieldContainerValue(FieldContainerPtr pNewNode);
-    FieldContainerPtr findFCByName(const Char8 *szName,NodePtr root);
-
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-    
-    static void touch(void) {};
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     OSGLoader(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
     virtual ~OSGLoader(void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Skel replacements                             */
+    /*! \{                                                                 */
 
-    virtual void    beginNode              (const Char8 *szNodeTypename,
-                                            const Char8 *szNodename);
+    virtual void    beginNode         (const Char8 *szNodeTypename,
+                                       const Char8 *szNodename    );
     
-    virtual void    endNode                (void);
+    virtual void    endNode           (void);
 
-    virtual void    use                    (const Char8 *szName);
+    virtual void    use               (const Char8 *szName        );
 
-    virtual void    beginField             (const Char8  *szFieldname,
-                                            const UInt32  uiFieldTypeId);
+    virtual void    beginField        (const Char8  *szFieldname,
+                                       const UInt32  uiFieldTypeId);
 
-    virtual void    endField               (void);
+    virtual void    endField          (void);
 
-    virtual NodePtr getRoot                (void);
-    virtual vector<FieldContainerPtr> getRoots       (void);
+    virtual void    addFieldValue     (const Char8 *szFieldVal    );
 
-    virtual FieldContainerPtr getReference(const Char8 *szName);
+    virtual Int32   mapExtIntFieldType(const Char8 *szFieldname,
+                                       const Int32  iFieldTypeId  );
 
-    /*------------------------- your_operators ------------------------------*/
+    virtual UInt32  getFieldType      (const Char8 *szFieldname   );
 
-    virtual void addFieldValue          (const Char8 *szFieldVal);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
 
-    /*------------------------- assignment ----------------------------------*/
+    virtual NodePtr                   getRootNode (void);
+    virtual vector<FieldContainerPtr> getRootNodes(void);
 
-    virtual UInt32 getFieldType      (const Char8 *szFieldname);
+    virtual FieldContainerPtr         getReference (const Char8 *szName);
 
-    /*------------------------- comparison ----------------------------------*/
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+          FieldContainerPtr                _pCurrentFC;
+          NodePtr                          _pRootNode;
+          Field                           *_pCurrentField;
+    const FieldDescription                *_pCurrentFieldDesc;
+          NamedFCMap                       _defMap;
+
+          stack<      FieldContainerPtr >  _fcStack;
+          stack<      Field            *>  _fStack;
+          stack<const FieldDescription *>  _fdStack;
+
+
+    void              initFieldTypeMapper   (      void                      );
+
+    void              setFieldContainerValue(      FieldContainerPtr pNewNode);
+
+    FieldContainerPtr findFCByName          (const Char8            *szName,
+                                                   NodePtr           root    );
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    OSGLoader(const OSGLoader &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const OSGLoader &source);
 };
 
 //---------------------------------------------------------------------------
@@ -237,5 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
 typedef OSGLoader *OSGLoaderP;
 
 OSG_END_NAMESPACE
+
+#define OSGLOADER_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGLOADER_H_ */

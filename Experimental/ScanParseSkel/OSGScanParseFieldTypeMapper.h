@@ -36,169 +36,94 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGSCANPARSEFIELDTYPEMAPPER_H_
 #define _OSGSCANPARSEFIELDTYPEMAPPER_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBaseTypes.h>
 #include <map>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib 
+ *  \brief FieldTypeMapper, provides functions to map from system to 
+ *  scanner types  
  */
 
 template <class BaseT>
-class OSG_SYSTEMLIB_DLLMAPPING ScanParseFieldTypeMapper 
-    : public BaseT 
+class OSG_SYSTEMLIB_DLLMAPPING ScanParseFieldTypeMapper : public BaseT 
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef BaseT Inherited;
-    typedef typename Inherited::BuildInFieldType BuildInFieldTypes;
-
-    typedef map<BuildInFieldTypes, 
-                UInt32           > IntExtMap;
-    typedef map<UInt32,        
-                BuildInFieldTypes> ExtIntMap;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    ScanParseFieldTypeMapper(const ScanParseFieldTypeMapper &source);
-    void operator =(const ScanParseFieldTypeMapper &source);
-
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    typedef          BaseT                       Inherited;
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    typedef typename Inherited::BuildInFieldType BuildInFieldTypes;
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    typedef          map<BuildInFieldTypes, 
+                         UInt32           >      IntExtMap;
+    typedef          map<UInt32,        
+                         BuildInFieldTypes>      ExtIntMap;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*==========================  PUBLIC  =================================*/
+  public :
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    ScanParseFieldTypeMapper(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~ScanParseFieldTypeMapper(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Set                                     */
+    /*! \{                                                                 */
+
+    void setExtIntMapping(BuildInFieldTypes eBuildInType, 
+                          UInt32            uiMappedType);
+
+    void setIntExtMapping(UInt32            uiMappedType, 
+                          BuildInFieldTypes eBuildInType);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Map                                     */
+    /*! \{                                                                 */
+
+    virtual Int32 mapExtIntFieldType(const Char8 *szFieldname,
+                                     const Int32  iFieldTypeId);
+
+    virtual Int32 mapIntExtFieldType(const Char8 *szFieldname,
+                                     const Int32  iFieldTypeId);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
 
     IntExtMap _mIntExt;
     ExtIntMap _mExtInt;
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-  public :
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    ScanParseFieldTypeMapper(void);
-
-    virtual ~ScanParseFieldTypeMapper(void); 
-
-    /*------------------------- your_category -------------------------------*/
-
-    void setExtIntMapping(BuildInFieldTypes eBuildInType, 
-                          UInt32 uiMappedType);
-
-    void setIntExtMapping(UInt32 uiMappedType, 
-                          BuildInFieldTypes eBuildInType);
-
-    /*------------------------- your_operators ------------------------------*/
-
-    Int32 mapExtIntFieldType(const Char8 *szFieldname,
-                             const Int32  iFieldTypeId);
-
-    Int32 mapIntExtFieldType(const Char8 *szFieldname,
-                             const Int32  iFieldTypeId);
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    ScanParseFieldTypeMapper(const ScanParseFieldTypeMapper &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const ScanParseFieldTypeMapper &source);
 };
 
 //---------------------------------------------------------------------------
@@ -208,5 +133,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseFieldTypeMapper
 OSG_END_NAMESPACE
 
 #include <OSGScanParseFieldTypeMapper.inl>
+
+#define OSGSCANPARSEFIELDTYPEMAPPER_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSCANPARSEFIELDTYPEMAPPER_H_ */

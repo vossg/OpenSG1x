@@ -94,7 +94,7 @@ WARNINGS_C_OFF		= # -woff 835
 # rubens
 # warning(3322): omission of explicit type is nonstandard ("int" assumed)
 
-WARNINGS_CPP_OFF 	= -Qwd985 -Qwd530
+WARNINGS_CPP_OFF 	= -Qwd985 -Qwd530 -Qwd981
 
 WARN_ERR_CPP        = -Qwe698
 

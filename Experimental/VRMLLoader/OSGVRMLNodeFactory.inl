@@ -66,9 +66,6 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class BaseT>
-char VRMLNodeFactory<BaseT>::cvsid[] = "@(#)$Id: $";
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -98,8 +95,7 @@ char VRMLNodeFactory<BaseT>::cvsid[] = "@(#)$Id: $";
 \*-------------------------------------------------------------------------*/
 
 template <class BaseT> inline
-VRMLNodeDesc *
-    VRMLNodeFactory<BaseT>::findNodeDesc(const Char8 *szNodeTypename)
+VRMLNodeDesc *VRMLNodeFactory<BaseT>::findNodeDesc(const Char8 *szNodeTypename)
 {
     VRMLNodeDesc *returnValue = NULL;
 
@@ -606,32 +602,6 @@ void VRMLNodeFactory<BaseT>::dumpTable(void)
     }
 }
 
-//---------------------------------------------------------------------------
-//  FUNCTION: 
-//---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-//---------------------------------------------------------------------------
-//
-//p: Paramaters: 
-//p: 
-//
-//g: GlobalVars:
-//g: 
-//
-//r: Return:
-//r: 
-//
-//c: Caution:
-//c: 
-//
-//a: Assumptions:
-//a: 
-//
-//d: Description:
-//d: 
-//
-//s: SeeAlso:
-//s: 
-//---------------------------------------------------------------------------
-
 OSG_END_NAMESPACE
+
+#define OSGVRNLNODEFACTORY_INLINE_CVSID "@(#)$Id: $"

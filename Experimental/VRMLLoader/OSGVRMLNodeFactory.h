@@ -36,16 +36,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGVRMLNODEFACTORY_H_
 #define _OSGVRMLNODEFACTORY_H_
 #ifdef __sgi
 #pragma once
 #endif
-
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
@@ -72,52 +67,15 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML97 Loader prototype handler 
  */
 
 template <class BaseT>
 class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeFactory : public BaseT
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
+    /*==========================  PRIVATE  ================================*/
   private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
 
 #ifdef OSG_SGI_STL
     typedef hash_map<     const Char8 *,  VRMLNodeDesc *, 
@@ -126,28 +84,67 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeFactory : public BaseT
     typedef map     <     const Char8 *,  VRMLNodeDesc *, 
                                           LTString      > NodeNameDescHash;
 #endif
-   
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
+    
+    /*==========================  PUBLIC  =================================*/
+  public :
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    VRMLNodeFactory(void);
 
-    static char cvsid[];
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    virtual ~VRMLNodeFactory(void); 
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Skel replacements                          */
+    /*! \{                                                                 */
+
+    virtual void beginProtoInterface   (const Char8 *szProtoname);
+    virtual void endProtoInterface     (      void);
+
+    virtual void addProtoEventIn       (const Char8 *szEventType,
+                                        const Char8 *szEventName); 
+
+    virtual void addProtoEventOut      (const Char8 *szEventType,
+                                        const Char8 *szEventName); 
+
+    virtual void beginProtoField       (const Char8  *szFieldType,
+                                        const UInt32  uiFieldTypeId,
+                                        const Char8  *szFieldName); 
+
+    virtual void endProtoField         (      void);
+
+    virtual void beginProtoExposedField(const Char8  *szFieldType,
+                                        const UInt32  uiFieldTypeId,
+                                        const Char8  *szFieldName); 
+
+    virtual void endProtoExposedField  (      void);
+
+    virtual void addFieldValue         (const Char8 *szFieldVal);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
+
+    void dumpTable(void);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    typedef BaseT Inherited;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
 
     VRMLNodeDesc     *_pCurrentNodeDesc;
     NodeNameDescHash  _mNodeDescHash;
@@ -155,101 +152,28 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeFactory : public BaseT
     Bool              _bInFieldProto;
     Bool              _bIgnoreProto;
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-   
-    // prohibit default functions (move to 'public' if you need one)
 
+    VRMLNodeDesc *findNodeDesc     (const Char8        *szNodeTypename);
+    void          addNodeDesc      (const Char8        *szNodeTypename,
+                                          VRMLNodeDesc *pDesc);
+
+    virtual void preStandardProtos (      void);
+    virtual void postStandardProtos(      void);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
     VRMLNodeFactory(const VRMLNodeFactory &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const VRMLNodeFactory &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef BaseT Inherited;
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    VRMLNodeDesc *findNodeDesc(const Char8 *szNodeTypename);
-    void          addNodeDesc (const Char8        *szNodeTypename,
-                                     VRMLNodeDesc *pDesc);
-
-    virtual void preStandardProtos (void);
-    virtual void postStandardProtos(void);
-    
-  public :
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    VRMLNodeFactory(void);
-
-    virtual ~VRMLNodeFactory(void); 
-
-    /*------------------------- your_category -------------------------------*/
-
-    virtual void beginProtoInterface    (const Char8 *szProtoname);
-    virtual void endProtoInterface      (void);
-
-    virtual void addProtoEventIn        (const Char8 *szEventType,
-                                         const Char8 *szEventName); 
-
-    virtual void addProtoEventOut       (const Char8 *szEventType,
-                                         const Char8 *szEventName); 
-
-    virtual void beginProtoField        (const Char8  *szFieldType,
-                                         const UInt32  uiFieldTypeId,
-                                         const Char8  *szFieldName); 
-
-    virtual void endProtoField          (void);
-
-    virtual void beginProtoExposedField (const Char8  *szFieldType,
-                                         const UInt32  uiFieldTypeId,
-                                         const Char8  *szFieldName); 
-
-    virtual void endProtoExposedField   (void);
-
-
-    /*------------------------- your_operators ------------------------------*/
-
-    virtual void addFieldValue          (const Char8 *szFieldVal);
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-
-    void dumpTable(void);
 };
 
 OSG_END_NAMESPACE
 
 #include <OSGVRMLNodeFactory.inl>
+
+#define OSGVRMLNODEFACTORY_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGVRMLNODEFACTORY_H_ */

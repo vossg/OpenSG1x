@@ -2,9 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                     Copyright 2000,2001 by OpenSG Forum                   *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *   contact: reiners@igd.fhg.de, gerrit.voss@vossg.org, jbehr@zgdv.de       *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -36,6 +36,10 @@
 #if defined(OSG_WIN_TYPES)
 #undef OSG_BOOL_IS_UNSIGNED
 #endif
+
+#undef OSG_DEFAULT_LOG_LEVEL
+#undef OSG_DEFAULT_LOG_TYPE 
+
 
 #endif
 

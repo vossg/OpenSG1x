@@ -40,17 +40,9 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
 #include <string>
 #include <map>
@@ -64,26 +56,40 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
+/*! \ingroup GeometryWriterLib
+ *  \brief Brief OSGWriter
+ */
 
-class OSGWriter
+class OSG_SYSTEMLIB_DLLMAPPING OSGWriter
 {
-    public:
-    OSGWriter(ostream& stream, UInt32 indentStep=4);
+    /*==========================  PUBLIC  =================================*/
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    OSGWriter(ostream &stream, UInt32 indentStep = 4);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
     ~OSGWriter(void);
-    void write( NodePtr node );
-    void write( vector<NodePtr> nodes );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Write                                      */
+    /*! \{                                                                 */
+
+    void write(NodePtr         node );
+    void write(vector<NodePtr> nodes);
     
-    private:
-    void indentLine(void);
-    void setIndentStep( UInt32 newStep );
-    void doListFC( FieldContainerPtr fieldConPtr );
-    void doPrintListedFC( FieldContainerPtr fieldConPtr );
-    
-    ostream& _outstream;
-    
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected: 
+
     struct SharedFCInfoHelper
     {
         Bool   printed;
@@ -92,17 +98,40 @@ class OSGWriter
         static string buildName(FieldContainerPtr fcptr,
                                 UInt32            num);
 
-        SharedFCInfoHelper(void) : printed(false), named(false) {}
+        SharedFCInfoHelper(void);
     };
     
     typedef map<FieldContainerPtr, SharedFCInfoHelper> SharedFCInfoMap;
-    
-    SharedFCInfoMap _fcmap;
-    UInt32 _sharedFCCount;
-    UInt32 _indention;
-    UInt32 _indentStep;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    SharedFCInfoMap  _fcmap;
+    UInt32           _sharedFCCount;
+    UInt32           _indention;
+    UInt32           _indentStep;
+
+    ostream         &_outstream;
+
+
+    void indentLine     (void                         );
+    void setIndentStep  (UInt32            newStep    );
+    void doListFC       (FieldContainerPtr fieldConPtr);
+    void doPrintListedFC(FieldContainerPtr fieldConPtr);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    OSGWriter(const OSGWriter &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const OSGWriter &source);
 };
 
 OSG_END_NAMESPACE
+
+#define OSGOSGWRITER_HEADER_CVSID "@(#)$Id: OSGOSGWriter.h,v 1.4 2001/10/07 09:32:36 vossg Exp $"
     
 #endif /* _OSGOSGWRITER_H_ */

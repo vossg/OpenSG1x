@@ -43,10 +43,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
@@ -77,16 +73,12 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
 class VRMLAppearanceDesc;
 class VRMLMaterialDesc;
 class VRMLImageTextureDesc;
 
 //---------------------------------------------------------------------------
-//   Types
+//  Class
 //---------------------------------------------------------------------------
 
 struct GenericAttDesc
@@ -94,9 +86,9 @@ struct GenericAttDesc
     typedef Attachment    Parent;
     typedef AttachmentPtr ParentPtr;
 
-    static const char *getTypeName      (void) { return "GenericAtt"; }
-    static const char *getParentTypeName(void) { return "Attachment"; }
-    static const char *getGroupName     (void) { return "VRMLGenAtt"; }
+    static const Char8 *getTypeName      (void) { return "GenericAtt"; }
+    static const Char8 *getParentTypeName(void) { return "Attachment"; }
+    static const Char8 *getGroupName     (void) { return "VRMLGenAtt"; }
 };
 
 typedef DynFieldAttachment<GenericAttDesc>  GenericAtt;
@@ -145,7 +137,7 @@ OSG_DLLEXPORT_DECL1(SField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 
-/** \brief MFWindowPtr
+/** \brief MFGenericAttrPtr
  */
 
 typedef MField<GenericAttPtr>       MFGenericAttPtr;
@@ -167,169 +159,70 @@ OSG_DLLEXPORT_DECL1(MField, GenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief General VRML Node Desc
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc 
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    VRMLNodeDesc(const VRMLNodeDesc &source);
-    void operator =(const VRMLNodeDesc &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-#ifdef OSG_SGI_STL
-    typedef hash_map<     const Char8 *,  UInt32, 
-                     hash<const Char8 *>, EQString> FieldNameTypeHash;
-#else
-    typedef map     <     const Char8 *,  UInt32, 
-                                          LTString> FieldNameTypeHash;
-#endif
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static UInt32 _uiIndent;
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    FieldNameTypeHash _mFieldTypes;
-
-    GenericAttPtr     _pGenAtt;
-
-    FieldContainerPtr _pNodeProto;
-    FieldContainerPtr _pNodeCoreProto;
-
-    Field            *_pCurrField;
-
-    string            _szCurrentName;
-    Bool              _bSaveOnEnd;
-
-    UInt32            _uiOptions;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    OSG::Field *getField(FieldContainerPtr  pFC1, 
-                         FieldContainerPtr  pFC2,
-                         GenericAttPtr      pGenAtt,
-                         const Char8       *szFieldname);
-
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Class Get                                  */
+    /*! \{                                                                 */
 
     static UInt32 getIndent  (void);
     static void   incIndent  (void);
     static void   decIndent  (void);
     static void   resetIndent(void);
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    VRMLNodeDesc (void);
+    VRMLNodeDesc(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
     virtual ~VRMLNodeDesc (void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    virtual void init      (const Char8  *szName   );
-            void setOptions(      UInt32  uiOptions);
+    virtual       void              init                 (const Char8 *szName);
+                  void              setOptions           (      UInt32 uiOpt );
 
-    virtual void reset(void);
+    virtual       void              reset                (void);
 
-    virtual void              setOnEndSave         (const Char8 *szName);
-    virtual void              clearOnEndSave       (void);
-    virtual Bool              getOnEndSave         (void);
-    virtual const Char8 *     getSavename          (void);
-    virtual FieldContainerPtr getSaveFieldContainer(void) ;
+    virtual       void              setOnEndSave         (const Char8 *szName);
+    virtual       void              clearOnEndSave       (void);
+    virtual       Bool              getOnEndSave         (void);
+    virtual const Char8            *getSavename          (void);
+    virtual       FieldContainerPtr getSaveFieldContainer(void);
 
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Field                                    */
+    /*! \{                                                                 */
 
-    /*------------------------- assignment ----------------------------------*/
-
-    virtual OSG::Field *getField(const Char8   *szFieldname);
+    virtual Field *getField       (const Char8             * szFieldname);
     
-    virtual void getFieldAndDesc(      FieldContainerPtr   pFC,
-                                 const Char8             * szFieldname,
-                                       Field             *&pField,
-                                 const FieldDescription  *&pDesc);
+    virtual void   getFieldAndDesc(      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
     
 
-    /*-----------------------------------------------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Prototypes                                 */
+    /*! \{                                                                 */
 
     virtual Bool prototypeAddField     (const Char8  *szFieldType,
                                         const UInt32  uiFieldTypeId,
@@ -339,22 +232,80 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
     
     virtual void endProtoInterface     (void);
 
-    /*----------------------------------------------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
 
-    virtual FieldContainerPtr beginNode    (const Char8       *szTypename,
-                                            const Char8       *szName,
-                                            FieldContainerPtr  pCurrentFC);
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
     
-    virtual void              endNode      (FieldContainerPtr);
+    virtual void              endNode  (      FieldContainerPtr            );
 
-    virtual void              addFieldValue(      Field *pField,
-                                            const Char8 *szFieldVal);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      FieldValue                              */
+    /*! \{                                                                 */
 
-    virtual Bool              use          (FieldContainerPtr);
+    virtual void addFieldValue(      Field             *pField,
+                               const Char8             *szFieldVal);
+
+    virtual Bool use          (      FieldContainerPtr            );
    
-    /*------------------------- comparison ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(const Char8 *szNodeName);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+#ifdef OSG_SGI_STL
+    typedef hash_map<     const Char8 *,  UInt32, 
+                     hash<const Char8 *>, EQString> FieldNameTypeHash;
+#else
+    typedef map     <     const Char8 *,  UInt32, 
+                                          LTString> FieldNameTypeHash;
+#endif
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    static UInt32             _uiIndent;
+
+           FieldNameTypeHash  _mFieldTypes;
+
+           GenericAttPtr      _pGenAtt;
+
+           FieldContainerPtr  _pNodeProto;
+           FieldContainerPtr  _pNodeCoreProto;
+
+           Field             *_pCurrField;
+
+           string             _szCurrentName;
+           Bool               _bSaveOnEnd;
+
+           UInt32             _uiOptions;
+
+
+    Field *getField(      FieldContainerPtr  pFC1, 
+                          FieldContainerPtr  pFC2,
+                          GenericAttPtr      pGenAtt,
+                    const Char8             *szFieldname);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLNodeDesc(const VRMLNodeDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLNodeDesc &source);
 };
 
 
@@ -362,120 +313,41 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML Shape Desc
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc 
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef VRMLNodeDesc Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    VRMLShapeDesc(const VRMLShapeDesc &source);
-    void operator =(const VRMLShapeDesc &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    VRMLMaterialDesc *_pMaterialDesc;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     VRMLShapeDesc(void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
     virtual ~VRMLShapeDesc(void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    virtual void init             (const Char8            *szName);
+    virtual void init           (const Char8            *szName);
 
-            void setMaterialDesc  (      VRMLMaterialDesc *pMaterialDesc);
+            void setMaterialDesc(      VRMLMaterialDesc *pMaterialDesc);
     
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
 
     virtual Bool prototypeAddField(const Char8  *szFieldType,
                                    const UInt32  uiFieldTypeId,
@@ -487,19 +359,44 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc
                                    const FieldDescription  *&pDesc);
 
 
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
     
-    virtual FieldContainerPtr beginNode(const Char8       *szTypename,
-                                        const Char8       *szName,
-                                        FieldContainerPtr  pCurrentFC);
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
 
-    virtual void              endNode  (FieldContainerPtr pFC);
+    virtual void              endNode  (FieldContainerPtr        pFC);
 
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(const Char8 *szNodeName);
 
-    /*------------------------- comparison ----------------------------------*/
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    VRMLMaterialDesc *_pMaterialDesc;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLShapeDesc(const VRMLShapeDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLShapeDesc &source);
 };
 
 
@@ -507,92 +404,82 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLShapeDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML Gemometry Desc
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
 {
-  public:
+    /*==========================  PUBLIC  =================================*/
+  public :
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
+    VRMLGeometryDesc(Bool bIsFaceSet);
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-  private:
+    virtual ~VRMLGeometryDesc(void); 
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    virtual void init(const Char8 *szName);
 
-    typedef VRMLNodeDesc Inherited;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
 
-    static char cvsid[];
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    virtual void              endNode  (      FieldContainerPtr  pFC);
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Field Value                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual void addFieldValue(      Field *pField,
+                               const Char8 *szFieldVal);
 
-    // prohibit default functions (move to 'public' if you need one)
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
-    VRMLGeometryDesc(const VRMLGeometryDesc &source);
-    void operator =(const VRMLGeometryDesc &source);
+    virtual void dump(const Char8 *szNodeName);
 
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
 
     Bool          _bIsFaceSet;
 
@@ -602,204 +489,106 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryDesc : public VRMLNodeDesc
     GeoPTypesPtr   _pTypeField;
     GeoPLengthsPtr _pLengthField;
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
 
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLGeometryDesc(const VRMLGeometryDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLGeometryDesc &source);
+};
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML Gemetry Part Desc 
+ */
+
+class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
+{
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    VRMLGeometryPartDesc(Char8 *szVRMLPartname,
+                         Char8 *szOSGPartname,
+                         Char8 *szOSGProtoname);
 
-    VRMLGeometryDesc(Bool bIsFaceSet);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-    virtual ~VRMLGeometryDesc(void); 
+    virtual ~VRMLGeometryPartDesc(void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    virtual void init           (const Char8 *szName);
+    virtual void init(const Char8 *szName);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Field                                    */
+    /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8  *szFieldType,
-                                   const UInt32  uiFieldTypeId,
-                                   const Char8  *szFieldName); 
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName);
 
     virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
                                    const Char8             * szFieldname,
                                          Field             *&pField,
                                    const FieldDescription  *&pDesc);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Node                                     */
+    /*! \{                                                                 */
 
-    /*------------------------- your_category -------------------------------*/
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
 
-    virtual FieldContainerPtr beginNode    (const Char8       *szTypename,
-                                            const Char8       *szName,
-                                            FieldContainerPtr  pCurrentFC);
-
-    virtual void              endNode      (FieldContainerPtr pFC);
-
-    virtual void              addFieldValue(      Field *pField,
-                                            const Char8 *szFieldVal);
-
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(const Char8 *szNodeName);
 
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-};
-
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
- */
-
-class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
-{
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef VRMLNodeDesc Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    VRMLGeometryPartDesc(const VRMLGeometryPartDesc &source);
-    void operator =(const VRMLGeometryPartDesc &source);
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
 
     Char8 *_szVRMLPartname;
     Char8 *_szOSGPartname;
     Char8 *_szOSGProtoname;
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-  public :
+    typedef VRMLNodeDesc Inherited;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    VRMLGeometryPartDesc(Char8 *szVRMLPartname,
-                         Char8 *szOSGPartname,
-                         Char8 *szOSGProtoname);
-
-    virtual ~VRMLGeometryPartDesc(void); 
-
-    /*------------------------- your_category -------------------------------*/
-
-    virtual void init           (const Char8 *szName);
-
-    /*------------------------- your_category -------------------------------*/
-
-    virtual Bool prototypeAddField(const Char8  *szFieldType,
-                                   const UInt32  uiFieldTypeId,
-                                   const Char8  *szFieldName); 
-
-    virtual void getFieldAndDesc  (      OSG::FieldContainerPtr   pFC,
-                                   const Char8                  * szFieldname,
-                                         OSG::Field             *&pField,
-                                   const OSG::FieldDescription  *&pDesc);
-
-    /*------------------------- your_category -------------------------------*/
-
-    virtual FieldContainerPtr beginNode(const Char8       *szTypename,
-                                        const Char8       *szName,
-                                        FieldContainerPtr  pCurrentFC);
-
-    /*------------------------- your_operators ------------------------------*/
-
-    virtual void dump(const Char8 *szNodeName);
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLGeometryPartDesc(const VRMLGeometryPartDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLGeometryPartDesc &source);
 };
 
 
@@ -807,143 +596,88 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML Geometry Object Desc 
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryObjectDesc : public VRMLNodeDesc
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef VRMLNodeDesc Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    VRMLGeometryObjectDesc(const VRMLGeometryObjectDesc &source);
-    void operator =(const VRMLGeometryObjectDesc &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    Char8 *_szVRMLObjectname;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+ 
     VRMLGeometryObjectDesc(Char8 *szVRMLObjectname);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
     virtual ~VRMLGeometryObjectDesc(void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    virtual void init           (const Char8 *szName);
+    virtual void init(const Char8 *szName);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Field                                    */
+    /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8  *szFieldType,
-                                   const UInt32  uiFieldTypeId,
-                                   const Char8  *szFieldName); 
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
 
-    virtual void getFieldAndDesc  (      OSG::FieldContainerPtr   pFC,
-                                   const Char8                  * szFieldname,
-                                         OSG::Field             *&pField,
-                                   const OSG::FieldDescription  *&pDesc);
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
 
-    virtual FieldContainerPtr beginNode(const Char8       *szTypename,
-                                        const Char8       *szName,
-                                        FieldContainerPtr  pCurrentFC);
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
 
-    virtual void              endNode  (FieldContainerPtr);
+    virtual void              endNode  (      FieldContainerPtr            );
 
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(const Char8 *szNodeName);
 
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-    /*------------------------- comparison ----------------------------------*/
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    Char8 *_szVRMLObjectname;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLGeometryObjectDesc(const VRMLGeometryObjectDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLGeometryObjectDesc &source);
 };
 
 
@@ -951,152 +685,100 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryObjectDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML Appearance Desc 
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef VRMLNodeDesc Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    VRMLAppearanceDesc(const VRMLAppearanceDesc &source);
-    void operator =(const VRMLAppearanceDesc &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    SFFieldContainerPtr   _sfTexture;
-
-    VRMLMaterialDesc     *_pMaterialDesc;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    VRMLAppearanceDesc(void);
 
-    VRMLAppearanceDesc();
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
     virtual ~VRMLAppearanceDesc(void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    virtual void init               (const Char8 *szName);
+    virtual void init           (const Char8            *szName);
 
-    virtual void setMaterialDesc    (VRMLMaterialDesc     *pMaterialDesc);
+    virtual void setMaterialDesc(      VRMLMaterialDesc *pMaterialDesc);
 
 
     virtual FieldContainerPtr getSaveFieldContainer(void);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Field                                   */
+    /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8  *szFieldType,
-                                   const UInt32  uiFieldTypeId,
-                                   const Char8  *szFieldName); 
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
 
-    virtual void getFieldAndDesc  (      OSG::FieldContainerPtr   pFC,
-                                   const Char8                  * szFieldname,
-                                         OSG::Field             *&pField,
-                                   const OSG::FieldDescription  *&pDesc);
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Field                                   */
+    /*! \{                                                                 */
 
-    virtual FieldContainerPtr beginNode(const Char8       *szTypename,
-                                        const Char8       *szName,
-                                        FieldContainerPtr  pCurrentFC);
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
 
-    virtual void              endNode  (FieldContainerPtr);
+    virtual void              endNode  (      FieldContainerPtr            );
 
-    virtual Bool              use      (FieldContainerPtr pFC);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Field Value                                */
+    /*! \{                                                                 */
 
-    /*------------------------- your_operators ------------------------------*/
+    virtual Bool use(FieldContainerPtr pFC);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(const Char8 *szNodeName);
 
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-    /*------------------------- comparison ----------------------------------*/
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    SFFieldContainerPtr  _sfTexture;
+    VRMLMaterialDesc    *_pMaterialDesc;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLAppearanceDesc(const VRMLAppearanceDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLAppearanceDesc &source);
 };
 
 
@@ -1104,92 +786,80 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML Material Desc 
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
 {
-  public:
+    /*==========================  PUBLIC  =================================*/
+  public :
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
+    VRMLMaterialDesc(void);
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-  private:
+    virtual ~VRMLMaterialDesc(void); 
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    virtual void        init              (const Char8 *szName);
 
-    typedef VRMLNodeDesc Inherited;
+    virtual void        reset             (      void);
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
+    virtual MaterialPtr getDefaultMaterial(      void);
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Field                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
 
-    static char cvsid[];
+    virtual void endProtoInterface(      void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
 
-    // prohibit default functions (move to 'public' if you need one)
+    virtual void              endNode  (      FieldContainerPtr            );
 
-    VRMLMaterialDesc(const VRMLMaterialDesc &source);
-    void operator =(const VRMLMaterialDesc &source);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
+    virtual void dump(const Char8 *szNodeName);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
 
     SFReal32          _defaultAmbientIntensity;
     SFColor3f         _defaultDiffuseColor;
@@ -1208,60 +878,16 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
     SimpleMaterialPtr _pDefMat;
     SimpleMaterialPtr _pMat;
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-  public :
+    typedef VRMLNodeDesc Inherited;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    VRMLMaterialDesc();
-
-    virtual ~VRMLMaterialDesc(void); 
-
-    /*------------------------- your_category -------------------------------*/
-
-    virtual void        init (const Char8 *szName);
-
-    virtual void        reset(void);
-
-    virtual MaterialPtr getDefaultMaterial(void);
-
-    /*------------------------- your_category -------------------------------*/
-
-    virtual Bool prototypeAddField(const Char8  *szFieldType,
-                                   const UInt32  uiFieldTypeId,
-                                   const Char8  *szFieldName); 
-
-    virtual void endProtoInterface(void);
-
-    virtual void getFieldAndDesc  (      OSG::FieldContainerPtr   pFC,
-                                   const Char8                  * szFieldname,
-                                         OSG::Field             *&pField,
-                                   const OSG::FieldDescription  *&pDesc);
-
-    /*------------------------- your_category -------------------------------*/
-
-    virtual FieldContainerPtr beginNode(const Char8       *szTypename,
-                                        const Char8       *szName,
-                                        FieldContainerPtr  pCurrentFC);
-
-    virtual void              endNode      (FieldContainerPtr);
-
-    /*------------------------- your_operators ------------------------------*/
-
-    virtual void dump(const Char8 *szNodeName);
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLMaterialDesc(const VRMLMaterialDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLMaterialDesc &source);
 };
 
 
@@ -1269,454 +895,286 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML ImageTexture Desc 
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLImageTextureDesc : public VRMLNodeDesc
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef VRMLNodeDesc Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    VRMLImageTextureDesc(const VRMLImageTextureDesc &source);
-    void operator =(const VRMLImageTextureDesc &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    SFString       _defaultURL;
-    SFBool         _defaultRepeatS;
-    SFBool         _defaultRepeatT;
-
-    MFString       _url;
-    SFBool         _repeatS;
-    SFBool         _repeatT;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    VRMLImageTextureDesc(void);
 
-    VRMLImageTextureDesc();
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
     virtual ~VRMLImageTextureDesc(void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    virtual void        init (const Char8 *szName);
+    virtual void init (const Char8 *szName);
 
-    virtual void        reset(void);
+    virtual void reset(      void);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Field                                    */
+    /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8  *szFieldType,
-                                   const UInt32  uiFieldTypeId,
-                                   const Char8  *szFieldName); 
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
 
     virtual void endProtoInterface(void);
 
-    virtual void getFieldAndDesc  (      OSG::FieldContainerPtr   pFC,
-                                   const Char8                  * szFieldname,
-                                         OSG::Field             *&pField,
-                                   const OSG::FieldDescription  *&pDesc);
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
 
-    virtual FieldContainerPtr beginNode(const Char8       *szTypename,
-                                        const Char8       *szName,
-                                        FieldContainerPtr  pCurrentFC);
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
 
-    virtual void              endNode  (FieldContainerPtr);
+    virtual void              endNode  (      FieldContainerPtr            );
 
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(const Char8 *szNodeName);
 
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-    /*------------------------- comparison ----------------------------------*/
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    SFString _defaultURL;
+    SFBool   _defaultRepeatS;
+    SFBool   _defaultRepeatT;
+
+    MFString _url;
+    SFBool   _repeatS;
+    SFBool   _repeatT;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLImageTextureDesc(const VRMLImageTextureDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLImageTextureDesc &source);
 };
+
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML PixelTexture Desc 
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLPixelTextureDesc : public VRMLNodeDesc
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef VRMLNodeDesc Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    VRMLPixelTextureDesc(const VRMLPixelTextureDesc &source);
-    void operator =(const VRMLPixelTextureDesc &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    SFImageP       _defaultImage;
-    SFBool         _defaultRepeatS;
-    SFBool         _defaultRepeatT;
-
-    SFImageP       _image;
-    SFBool         _repeatS;
-    SFBool         _repeatT;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    VRMLPixelTextureDesc(void);
 
-    VRMLPixelTextureDesc();
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
     virtual ~VRMLPixelTextureDesc(void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    virtual void        init (const Char8 *szName);
+    virtual void init (const Char8 *szName);
 
-    virtual void        reset(void);
+    virtual void reset(      void);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field                                     */
+    /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8  *szFieldType,
-                                   const UInt32  uiFieldTypeId,
-                                   const Char8  *szFieldName); 
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
 
-    virtual void endProtoInterface(void);
+    virtual void endProtoInterface(      void);
 
-    virtual void getFieldAndDesc  (      OSG::FieldContainerPtr   pFC,
-                                   const Char8                  * szFieldname,
-                                         OSG::Field             *&pField,
-                                   const OSG::FieldDescription  *&pDesc);
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Node                                      */
+    /*! \{                                                                 */
 
-    virtual FieldContainerPtr beginNode(const Char8       *szTypename,
-                                        const Char8       *szName,
-                                        FieldContainerPtr  pCurrentFC);
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
 
-    virtual void              endNode  (FieldContainerPtr);
+    virtual void              endNode  (      FieldContainerPtr            );
 
-    virtual void              addFieldValue(      Field *pField,
-                                            const Char8 *szFieldVal);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Field Value                                 */
+    /*! \{                                                                 */
 
-    /*------------------------- your_operators ------------------------------*/
+    virtual void addFieldValue(      Field *pField,
+                               const Char8 *szFieldVal);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(const Char8 *szNodeName);
 
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-    /*------------------------- comparison ----------------------------------*/
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    SFImageP _defaultImage;
+    SFBool   _defaultRepeatS;
+    SFBool   _defaultRepeatT;
+
+    SFImageP _image;
+    SFBool   _repeatS;
+    SFBool   _repeatT;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLPixelTextureDesc(const VRMLPixelTextureDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLPixelTextureDesc &source);
 };
-
 
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML LOD Desc 
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLLODDesc : public VRMLNodeDesc
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef VRMLNodeDesc Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    VRMLLODDesc(const VRMLLODDesc &source);
-    void operator =(const VRMLLODDesc &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    VRMLLODDesc(void);
 
-    VRMLLODDesc();
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
     virtual ~VRMLLODDesc(void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    virtual void        init (const Char8 *szName);
+    virtual void init(const Char8 *szName);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Field                                   */
+    /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8  *szFieldType,
-                                   const UInt32  uiFieldTypeId,
-                                   const Char8  *szFieldName); 
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
 
     virtual void endProtoInterface(void);
 
-    virtual void getFieldAndDesc  (      OSG::FieldContainerPtr   pFC,
-                                   const Char8                  * szFieldname,
-                                         OSG::Field             *&pField,
-                                   const OSG::FieldDescription  *&pDesc);
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
 
-    virtual FieldContainerPtr beginNode(const Char8       *szTypename,
-                                        const Char8       *szName,
-                                        FieldContainerPtr  pCurrentFC);
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
 
-    virtual void              endNode  (FieldContainerPtr);
+    virtual void              endNode  (      FieldContainerPtr            );
 
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(const Char8 *szNodeName);
 
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-    /*------------------------- comparison ----------------------------------*/
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLLODDesc(const VRMLLODDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLLODDesc &source);
 };
 
 
@@ -1724,295 +1182,176 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLLODDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML Switch Desc 
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLSwitchDesc : public VRMLNodeDesc
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef VRMLNodeDesc Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    VRMLSwitchDesc(const VRMLSwitchDesc &source);
-    void operator =(const VRMLSwitchDesc &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    VRMLSwitchDesc(void);
 
-    VRMLSwitchDesc();
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
     virtual ~VRMLSwitchDesc(void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    virtual void        init (const Char8 *szName);
+    virtual void init(const Char8 *szName);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Field                                   */
+    /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8  *szFieldType,
-                                   const UInt32  uiFieldTypeId,
-                                   const Char8  *szFieldName); 
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
 
-    virtual void endProtoInterface(void);
+    virtual void endProtoInterface(      void);
 
-    virtual void getFieldAndDesc  (      OSG::FieldContainerPtr   pFC,
-                                   const Char8                  * szFieldname,
-                                         OSG::Field             *&pField,
-                                   const OSG::FieldDescription  *&pDesc);
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
 
-    virtual FieldContainerPtr beginNode(const Char8       *szTypename,
-                                        const Char8       *szName,
-                                        FieldContainerPtr  pCurrentFC);
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
 
-    virtual void              endNode  (FieldContainerPtr);
+    virtual void              endNode  (      FieldContainerPtr            );
 
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(const Char8 *szNodeName);
 
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-    /*------------------------- comparison ----------------------------------*/
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLSwitchDesc(const VRMLSwitchDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLSwitchDesc &source);
 };
-
-
 
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML Group Desc 
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLGroupDesc : public VRMLNodeDesc
 {
-  public:
+    /*==========================  PUBLIC  =================================*/
+  public :
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
+    VRMLGroupDesc(void);
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-  private:
+    virtual ~VRMLGroupDesc(void); 
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    virtual void init(const Char8 *szName);
 
-    typedef VRMLNodeDesc Inherited;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Field                                    */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
+    virtual void endProtoInterface(      void);
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
 
-    static char cvsid[];
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Node                                     */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    virtual void              endNode  (      FieldContainerPtr            );
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
-    // prohibit default functions (move to 'public' if you need one)
+    virtual void dump(const Char8 *szNodeName);
 
-    VRMLGroupDesc(const VRMLGroupDesc &source);
-    void operator =(const VRMLGroupDesc &source);
-
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-    
     SFVec3f _defaultBoxCenter;
     SFVec3f _defaultBoxSize;
 
     SFVec3f _boxCenter;
     SFVec3f _boxSize;
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-  public :
+    typedef VRMLNodeDesc Inherited;
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    VRMLGroupDesc();
-
-    virtual ~VRMLGroupDesc(void); 
-
-    /*------------------------- your_category -------------------------------*/
-
-    virtual void        init (const Char8 *szName);
-
-    /*------------------------- your_category -------------------------------*/
-
-    virtual Bool prototypeAddField(const Char8  *szFieldType,
-                                   const UInt32  uiFieldTypeId,
-                                   const Char8  *szFieldName); 
-
-    virtual void endProtoInterface(void);
-
-    virtual void getFieldAndDesc  (      OSG::FieldContainerPtr   pFC,
-                                   const Char8                  * szFieldname,
-                                         OSG::Field             *&pField,
-                                   const OSG::FieldDescription  *&pDesc);
-
-    /*------------------------- your_category -------------------------------*/
-
-    virtual FieldContainerPtr beginNode(const Char8       *szTypename,
-                                        const Char8       *szName,
-                                        FieldContainerPtr  pCurrentFC);
-
-    virtual void              endNode  (FieldContainerPtr);
-
-    /*------------------------- your_operators ------------------------------*/
-
-    virtual void dump(const Char8 *szNodeName);
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLGroupDesc(const VRMLGroupDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLGroupDesc &source);
 };
 
 
@@ -2020,135 +1359,55 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGroupDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML Inline Desc 
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLInlineDesc : public VRMLNodeDesc
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef VRMLNodeDesc Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    VRMLInlineDesc(const VRMLInlineDesc &source);
-    void operator =(const VRMLInlineDesc &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    SFVec3f _defaultBoxCenter;
-    SFVec3f _defaultBoxSize;
-    
-    SFVec3f _boxCenter;
-    SFVec3f _boxSize;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    VRMLInlineDesc(void);
 
-    VRMLInlineDesc();
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
     virtual ~VRMLInlineDesc(void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    virtual void        init (const Char8 *szName);
+    virtual void init(const Char8 *szName);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Field                                   */
+    /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8  *szFieldType,
-                                   const UInt32  uiFieldTypeId,
-                                   const Char8  *szFieldName); 
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
 
-    virtual void endProtoInterface(void);
+    virtual void endProtoInterface(      void);
 
-    virtual void getFieldAndDesc  (      OSG::FieldContainerPtr   pFC,
-                                   const Char8                  * szFieldname,
-                                         OSG::Field             *&pField,
-                                   const OSG::FieldDescription  *&pDesc);
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
 
     virtual FieldContainerPtr beginNode(const Char8       *szTypename,
                                         const Char8       *szName,
@@ -2156,171 +1415,128 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLInlineDesc : public VRMLNodeDesc
 
     virtual void              endNode  (FieldContainerPtr);
 
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(const Char8 *szNodeName);
 
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-    /*------------------------- comparison ----------------------------------*/
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    SFVec3f _defaultBoxCenter;
+    SFVec3f _defaultBoxSize;
+    
+    SFVec3f _boxCenter;
+    SFVec3f _boxSize;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLInlineDesc(const VRMLInlineDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLInlineDesc &source);
 };
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML Viewpoint Desc 
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLViewpointDesc : public VRMLNodeDesc
 {
-  public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef VRMLNodeDesc Inherited;
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    VRMLViewpointDesc(const VRMLViewpointDesc &source);
-    void operator =(const VRMLViewpointDesc &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
+    /*==========================  PUBLIC  =================================*/
   public :
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    VRMLViewpointDesc(void);
 
-    VRMLViewpointDesc();
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
     virtual ~VRMLViewpointDesc(void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
 
-    virtual void        init (const Char8 *szName);
+    virtual void                  init            (const Char8 *szName);
 
-    virtual void        reset(void);
+    virtual void                  reset           (      void         );
 
-    virtual ComponentTransformPtr getDefaultBeacon(void);
-//  virtual FieldContainerPtr getSaveFieldContainer(void);
+    virtual ComponentTransformPtr getDefaultBeacon(      void         );
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Field                                   */
+    /*! \{                                                                 */
 
-    virtual Bool prototypeAddField(const Char8  *szFieldType,
-                                   const UInt32  uiFieldTypeId,
-                                   const Char8  *szFieldName); 
+    virtual Bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName); 
 
-    virtual void endProtoInterface(void);
+    virtual void endProtoInterface(      void);
 
-    virtual void getFieldAndDesc  (      OSG::FieldContainerPtr   pFC,
-                                   const Char8                  * szFieldname,
-                                         OSG::Field             *&pField,
-                                   const OSG::FieldDescription  *&pDesc);
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
 
-    virtual FieldContainerPtr beginNode(const Char8       *szTypename,
-                                        const Char8       *szName,
-                                        FieldContainerPtr  pCurrentFC);
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
 
-    virtual void              endNode      (FieldContainerPtr);
+    virtual void              endNode  (      FieldContainerPtr            );
 
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(const Char8 *szNodeName);
 
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
 
-    /*------------------------- comparison ----------------------------------*/
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLViewpointDesc(const VRMLViewpointDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLViewpointDesc &source);
 };
 
-//---------------------------------------------------------------------------
-
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
 OSG_END_NAMESPACE
+
+#define OSGVRMLNODEDESCS_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGVRMLNODEDESCS_H_ */
 

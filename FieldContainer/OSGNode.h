@@ -91,7 +91,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     typedef NodePtr Ptr;
 
-
     /*---------------------------------------------------------------------*/
     /*! \name        General Fieldcontainer Declaration                    */
     /*! \{                                                                 */
@@ -113,7 +112,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \name                                                              */
     /*! \{                           Parent                                */
 
-    NodePtr    getParent  (void);
+    NodePtr getParent(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -146,7 +145,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \{                                                                 */
     /*--------------------------- access fields ----------------------------*/
 
-    SFDynamicVolume     *getSFVolume  (void);
+    SFDynamicVolume *getSFVolume  (void);
 
     SFNodePtr       *getSFParent  (void);
     SFNodeCorePtr   *getSFCore    (void);
@@ -225,7 +224,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFDynamicVolume     _volume;
+    SFDynamicVolume _volume;
 
     SFNodePtr       _parent;
     MFNodePtr       _children;
@@ -249,12 +248,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                MT Destruction                                */
+    /*! \name                MT Construction                               */
     /*! \{                                                                 */
 
     void setParent(const NodePtr &parent);
 
-    void onCreate (void                 );
+    void onCreate (      void           );
     void onCreate (const Node    &source);
 
     /*! \}                                                                 */

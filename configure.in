@@ -242,7 +242,7 @@ fi
 
 dnl ############# Myrinet Settings #####################
 
-AC_ARG_WITH(myrinet,   [  --with-myrinet=DIR                     Use Myrinet lib, if DIR is given use the file from the give directory],
+AC_ARG_WITH(myrinet,   [  --with-myrinet=DIR                 Use Myrinet lib, if DIR is given use the file from the give directory],
 			,with_myrinet=no) 
 
 if [[ "$with_myrinet" = yes ]]; then
@@ -258,6 +258,16 @@ else
 	ac_gdz_conf_package_myrinet_e1='1'
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_MYRINET'
 fi
+
+dnl ############# loglevel Settings #####################
+
+AC_ARG_WITH(log_level,     [  --with-log_level=LEVEL             Sets the default log level LEVEL (LOG, FATAL, WARNING, NOTICE, INFO, DEBUG) ],
+			,with_log_level=WARNING) 
+
+dnl ############# loglevel Settings #####################
+
+AC_ARG_WITH(log_type,     [  --with-log_type=TYPE               Sets the default log level TYPE (NONE, STDOUT, STDERR) ],
+			,with_log_type=STDERR) 
 
 dnl ############# TLS Settings #####################
 
@@ -584,6 +594,7 @@ AC_SUBST(ac_gdz_conf_package_glut_e1)
 AC_SUBST_FILE(ac_gdz_common_patterns)
 AC_SUBST_FILE(ac_gdz_common_system)
 
+
 if [[ "$enable_compiler_pedantic_errors" = yes ]]; then
     ac_gdz_ped_errors_e1=1
 else
@@ -643,6 +654,8 @@ AC_GDZ_WRITE_COMMON_GL()
 
 AC_GDZ_WRITE_COMMON_MYRINET()
 
+AC_GDZ_WRITE_OSG_CONFIG()
+
 ac_gdz_package_sys_common_out=common.$build-$ac_gdz_compiler$ac_gdz_suffix.mk
 
 AC_GDZ_WRITE_PACKET_MAKE()
@@ -660,6 +673,49 @@ fi
 if [[ "$enable_win_bool_is_unsigned" = yes ]]; then
     AC_DEFINE(OSG_BOOL_IS_UNSIGNED)
 fi
+
+case $with_log_level in
+	LOG)
+		AC_DEFINE(OSG_DEFAULT_LOG_LEVEL, LOG_LOG)
+		;;
+    FATAL)
+		AC_DEFINE(OSG_DEFAULT_LOG_LEVEL, LOG_FATAL)
+		;;
+    WARNING)
+		AC_DEFINE(OSG_DEFAULT_LOG_LEVEL, LOG_WARNING)
+		;;
+    NOTICE)
+		AC_DEFINE(OSG_DEFAULT_LOG_LEVEL, LOG_NOTICE)
+		;;
+    INFO)
+		AC_DEFINE(OSG_DEFAULT_LOG_LEVEL, LOG_INFO)
+		;;
+    DEBUG)
+		AC_DEFINE(OSG_DEFAULT_LOG_LEVEL, LOG_DEBUG)
+		;;
+	*)
+		echo "Unknown log level ($with_log_level), resetting to WARNING"
+		AC_DEFINE(OSG_DEFAULT_LOG_LEVEL, LOG_WARNING)
+		;;
+esac
+
+case $with_log_type in
+
+	NONE) 
+		AC_DEFINE(OSG_DEFAULT_LOG_TYPE, LOG_NODE)
+		;;
+	STDOUT) 
+		AC_DEFINE(OSG_DEFAULT_LOG_TYPE, LOG_STDOUT)
+		;;
+	STDERR) 
+		AC_DEFINE(OSG_DEFAULT_LOG_TYPE, LOG_STDERR)
+		;;
+	*) 
+		echo "Unknown log level ($with_log_type), resetting to STDERR"
+		AC_DEFINE(OSG_DEFAULT_LOG_TYPE, LOG_STDERR)
+		;;
+esac
+
 
 AC_GDZ_WRITE_SYSTEM_COMMON()
 

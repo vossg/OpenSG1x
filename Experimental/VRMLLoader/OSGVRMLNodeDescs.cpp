@@ -74,6 +74,20 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGVRMLNODEDESCS_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<GenericAttPtr>::_type("GenericAttPtr",
@@ -110,8 +124,6 @@ OSG_END_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char   VRMLNodeDesc::cvsid[] = "@(#)$Id: $";
 
 UInt32 VRMLNodeDesc::_uiIndent = 0;
 
@@ -182,13 +194,13 @@ Field *VRMLNodeDesc::getField(      FieldContainerPtr  pFC1,
         return returnValue;
     }
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "VRMLNodeDesc::getField " << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "VRMLNodeDesc::getField " << endl;
 
     incIndent();
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Trying to find field : " << szFieldname << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Trying to find field : " << szFieldname << endl;
 
     if(pFC1 != NullFC)
     {
@@ -197,8 +209,8 @@ Field *VRMLNodeDesc::getField(      FieldContainerPtr  pFC1,
 
     incIndent();
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Got this from node : " << returnValue << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Got this from node : " << returnValue << endl;
 
     if(returnValue != NULL)
         return returnValue;
@@ -207,13 +219,13 @@ Field *VRMLNodeDesc::getField(      FieldContainerPtr  pFC1,
     {
         returnValue = pFC2->getField(szFieldname);
 
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "Got this from nodecore : " << returnValue << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "Got this from nodecore : " << returnValue << endl;
     }
     else
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "No core to check" << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "No core to check" << endl;
     }
 
 
@@ -225,8 +237,8 @@ Field *VRMLNodeDesc::getField(      FieldContainerPtr  pFC1,
         returnValue = pGenAtt->getField(szFieldname);
     }
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Got this from attachment : " << returnValue << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Got this from attachment : " << returnValue << endl;
 
     decIndent();
     decIndent();
@@ -343,17 +355,17 @@ void VRMLNodeDesc::getFieldAndDesc(
     if(pFC == NullFC)
         return;
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "VRMLNodeDesc::getFieldAndDesc : looking for " 
-            << szFieldname 
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "VRMLNodeDesc::getFieldAndDesc : looking for " 
+          << szFieldname 
+          << endl;
 
     incIndent();
 
     pField = pFC->getField(szFieldname);
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Got this from fieldcontainer : " << pField << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Got this from fieldcontainer : " << pField << endl;
 
     if(pField != NULL)
     {
@@ -373,8 +385,8 @@ void VRMLNodeDesc::getFieldAndDesc(
         {
             pField    = pNodeCore->getField(szFieldname);
             
-            indentLog(getIndent(), PNOTICE);
-            PNOTICE << "Got this from nodecore : " << pField << endl;
+            indentLog(getIndent(), PINFO);
+            PINFO << "Got this from nodecore : " << pField << endl;
         }
         
         if(pField != NULL)
@@ -391,8 +403,8 @@ void VRMLNodeDesc::getFieldAndDesc(
                 pField = pTmpFC->getField(szFieldname);
             }
 
-            indentLog(getIndent(), PNOTICE);
-            PNOTICE << "Got this from node attachment : " << pField << endl;
+            indentLog(getIndent(), PINFO);
+            PINFO << "Got this from node attachment : " << pField << endl;
 
             if(pField == NULL)
             {
@@ -405,9 +417,9 @@ void VRMLNodeDesc::getFieldAndDesc(
                     pField = pTmpFC->getField(szFieldname);
                 }
 
-                indentLog(getIndent(), PNOTICE);
-                PNOTICE << "Got this from nodecore attachment : " 
-                        << pField << endl;
+                indentLog(getIndent(), PINFO);
+                PINFO << "Got this from nodecore attachment : " 
+                      << pField << endl;
             }
 
             if(pField != NULL)
@@ -433,9 +445,9 @@ void VRMLNodeDesc::getFieldAndDesc(
             pDesc = pTmpFC->getType().findFieldDescription(szFieldname);
         }        
 
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "Got this from nodecore attachment : " 
-                << pField << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "Got this from nodecore attachment : " 
+              << pField << endl;
 
     }
 
@@ -457,12 +469,12 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
                               szFieldName);
 
     
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "VRMLNodeDesc::prototypeAddField | getField " 
-            << szFieldName
-            << "  returned : "
-            << pField 
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "VRMLNodeDesc::prototypeAddField | getField " 
+          << szFieldName
+          << "  returned : "
+          << pField 
+          << endl;
 
     if(pField == NULL)
     {
@@ -478,14 +490,14 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
             return false;
         }
         
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLNodeDesc::prototypeAddField | got fieldtype : " 
-                << uiFieldTypeId
-                << " "
-                << pType->getName()
-                << " " 
-                << pType->getId()
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLNodeDesc::prototypeAddField | got fieldtype : " 
+              << uiFieldTypeId
+              << " "
+              << pType->getName()
+              << " " 
+              << pType->getId()
+              << endl;
         
         pDesc = new FieldDescription(*pType, 
                                      szFieldName, 
@@ -503,16 +515,16 @@ Bool VRMLNodeDesc::prototypeAddField(const Char8  *szFieldType,
 
         delete pDesc;
     
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLNodeDesc::prototypeAddField | field added : " 
-                << szFieldType 
-                << " " 
-                << uiFieldTypeId
-                << " " 
-                << szFieldName 
-                << " " 
-                << _pCurrField
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLNodeDesc::prototypeAddField | field added : " 
+              << szFieldType 
+              << " " 
+              << uiFieldTypeId
+              << " " 
+              << szFieldName 
+              << " " 
+              << _pCurrField
+              << endl;
         
         if(_pCurrField != NULL)
             return true;
@@ -674,8 +686,6 @@ void VRMLNodeDesc::dump(const Char8 *szNodeName)
  *                           Class variables                               *
 \***************************************************************************/
 
-char VRMLShapeDesc::cvsid[] = "@(#)$Id: $";
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -731,8 +741,8 @@ VRMLShapeDesc::~VRMLShapeDesc(void)
 
 void VRMLShapeDesc::init(const Char8 *szName)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "ShapeDesc::init : " << szName << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "ShapeDesc::init : " << szName << endl;
 
     _pNodeProto = Node::create();
 
@@ -752,10 +762,10 @@ Bool VRMLShapeDesc::prototypeAddField(const Char8  *szFieldType,
 {
     Bool returnValue = false;
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "VRMLShapeDesc::prototypeAddField | add request : " 
-            << szFieldname
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "VRMLShapeDesc::prototypeAddField | add request : " 
+          << szFieldname
+          << endl;
 
     _pCurrField = NULL;
 
@@ -769,12 +779,12 @@ Bool VRMLShapeDesc::prototypeAddField(const Char8  *szFieldType,
         _pCurrField = _pNodeProto->getField("children");
         returnValue = true;
 
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLShapeDesc::prototypeAddField | request internal : " 
-                << szFieldname 
-                << " "
-                << _pCurrField
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLShapeDesc::prototypeAddField | request internal : " 
+              << szFieldname 
+              << " "
+              << _pCurrField
+              << endl;
     }
 
     if(stringcasecmp("apperance", szFieldname) == 0)
@@ -782,13 +792,13 @@ Bool VRMLShapeDesc::prototypeAddField(const Char8  *szFieldType,
         _pCurrField = _pNodeProto->getField("core");
         returnValue = true;
 
-        indentLog(getIndent(), PNOTICE);
+        indentLog(getIndent(), PINFO);
 
-        PNOTICE << "VRMLShapeDesc::prototypeAddField | request internal : " 
-                << szFieldname 
-                << " "
-                << _pCurrField
-                << endl;
+        PINFO << "VRMLShapeDesc::prototypeAddField | request internal : " 
+              << szFieldname 
+              << " "
+              << _pCurrField
+              << endl;
     }
 
     if(_pCurrField == NULL)
@@ -815,19 +825,19 @@ void VRMLShapeDesc::getFieldAndDesc(
     if(pFC == NullFC)
         return;
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "VRMLShapeDesc::getFieldAndDesc : looking for " 
-            << szFieldname 
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "VRMLShapeDesc::getFieldAndDesc : looking for " 
+          << szFieldname 
+          << endl;
 
     incIndent();
 
     if(stringcasecmp("geometry", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLShapeDesc::getFieldAndDesc : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLShapeDesc::getFieldAndDesc : request internal "
+              << szFieldname
+              << endl;
 
         pField = pFC->getField("children");
         
@@ -836,10 +846,10 @@ void VRMLShapeDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("appearance", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLShapeDesc::getFieldAndDesc : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLShapeDesc::getFieldAndDesc : request internal "
+              << szFieldname
+              << endl;
 
         pField = pFC->getField("core");
         
@@ -873,8 +883,8 @@ FieldContainerPtr VRMLShapeDesc::beginNode(const Char8       *szTypename,
         returnValue = _pNodeProto->shallowCopy();
     }
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Begin Shape " << &(*pNode) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Begin Shape " << &(*pNode) << endl;
 
     incIndent();
 
@@ -908,8 +918,8 @@ void VRMLShapeDesc::endNode(FieldContainerPtr pFC)
 
     decIndent();
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "End Shape " << &(*pFC) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "End Shape " << &(*pFC) << endl;
 }
 
 /*-------------------------- assignment -----------------------------------*/
@@ -946,8 +956,6 @@ void VRMLShapeDesc::dump(const Char8 *szNodeName)
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char VRMLGeometryDesc::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -1011,8 +1019,8 @@ VRMLGeometryDesc::~VRMLGeometryDesc(void)
 
 void VRMLGeometryDesc::init(const Char8 *szName)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "GeoDesc::init : " << szName << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "GeoDesc::init : " << szName << endl;
 
     _pNodeProto     = Node::create();
     _pNodeCoreProto = Geometry::create();
@@ -1052,9 +1060,9 @@ Bool VRMLGeometryDesc::prototypeAddField(const Char8  *szFieldType,
 
     if(bFound == true)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "GeoDesc::prototypeAddField : internal " 
-                << szFieldname << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "GeoDesc::prototypeAddField : internal " 
+              << szFieldname << endl;
 
         return true;
     }
@@ -1073,10 +1081,10 @@ void VRMLGeometryDesc::getFieldAndDesc(
           Field             *&pField,
     const FieldDescription  *&pDesc)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "GeoDesc::getFieldAndDesc : request " 
-            << szFieldname 
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "GeoDesc::getFieldAndDesc : request " 
+          << szFieldname 
+          << endl;
 
     if(szFieldname == NULL)
         return;
@@ -1106,9 +1114,9 @@ void VRMLGeometryDesc::getFieldAndDesc(
 
     if(stringcasecmp("coord", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "GeoDesc::getFieldAndDesc : internal " 
-                << szFieldname << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "GeoDesc::getFieldAndDesc : internal " 
+              << szFieldname << endl;
 
         pField = pGeo->getField("positions");
         
@@ -1117,9 +1125,9 @@ void VRMLGeometryDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("normal", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "GeoDesc::getFieldAndDesc : internal " 
-                << szFieldname << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "GeoDesc::getFieldAndDesc : internal " 
+              << szFieldname << endl;
 
         pField = pGeo->getField("normals");
         
@@ -1128,9 +1136,9 @@ void VRMLGeometryDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("color", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "GeoDesc::getFieldAndDesc : internal " 
-                << szFieldname << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "GeoDesc::getFieldAndDesc : internal " 
+              << szFieldname << endl;
 
         pField = pGeo->getField("colors");
         
@@ -1139,9 +1147,9 @@ void VRMLGeometryDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("texCoord", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "GeoDesc::getFieldAndDesc : internal " 
-                << szFieldname << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "GeoDesc::getFieldAndDesc : internal " 
+              << szFieldname << endl;
 
         pField = pGeo->getField("texCoords");
         
@@ -1187,8 +1195,8 @@ FieldContainerPtr VRMLGeometryDesc::beginNode(
         pNodeCore->addAttachment(pAtt);
     }
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Begin Geo " << &(*pNode) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Begin Geo " << &(*pNode) << endl;
 
     incIndent();
 
@@ -1324,8 +1332,8 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
            pNormalPerVertex != NULL &&
            pColorPerVertex  != NULL)
         {
-            indentLog(getIndent(), PNOTICE);
-            PNOTICE << "Geo create faceset " << &(*pNode) << endl;
+            indentLog(getIndent(), PINFO);
+            PINFO << "Geo create faceset " << &(*pNode) << endl;
 
             setIndexFromVRMLData(pGeo,
                                  pCoordIndex     ->getValues(),
@@ -1342,8 +1350,8 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
             if((0 != (_uiOptions & VRMLFile::CreateNormals) )    &&
                (pGeo->getNormals() == NullFC))
             {
-                indentLog(getIndent(), PNOTICE);
-                PNOTICE << "Geo create normals " << &(*pNode) << endl;
+                indentLog(getIndent(), PINFO);
+                PINFO << "Geo create normals " << &(*pNode) << endl;
 
                 OSG::calcVertexNormals(pGeo);
             }
@@ -1363,8 +1371,8 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
            pColorIndex      != NULL &&
            pColorPerVertex  != NULL)
         {
-            indentLog(getIndent(), PNOTICE);
-            PNOTICE << "Geo create lineset " << &(*pNode) << endl;
+            indentLog(getIndent(), PINFO);
+            PINFO << "Geo create lineset " << &(*pNode) << endl;
  
             setIndexFromVRMLData(pGeo,
                                  pCoordIndex    ->getValues(),
@@ -1382,8 +1390,8 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
 
     decIndent();
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "End Geo " << &(*pNode) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "End Geo " << &(*pNode) << endl;
 }
 
 void VRMLGeometryDesc::addFieldValue(      Field *pField,
@@ -1429,8 +1437,6 @@ void VRMLGeometryDesc::dump(const Char8 *szNodeName)
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char VRMLGeometryPartDesc::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -1494,13 +1500,13 @@ VRMLGeometryPartDesc::~VRMLGeometryPartDesc(void)
 
 void VRMLGeometryPartDesc::init(const Char8 *szName)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "GeoPartDesc::init : " 
-            << szName << " "
-            << _szVRMLPartname << " "
-            << _szOSGPartname << " "
-            << _szOSGProtoname << " "
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "GeoPartDesc::init : " 
+          << szName << " "
+          << _szVRMLPartname << " "
+          << _szOSGPartname << " "
+          << _szOSGProtoname << " "
+          << endl;
 
     _pNodeProto =
        FieldContainerFactory::the()->createFieldContainer(_szOSGProtoname);
@@ -1527,10 +1533,10 @@ Bool VRMLGeometryPartDesc::prototypeAddField(const Char8  *szFieldType,
 
     if(stringcasecmp(_szVRMLPartname, szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "GeoPartDesc::prototypeAddField : add part " 
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "GeoPartDesc::prototypeAddField : add part " 
+              << szFieldname
+              << endl;
 
         bFound = true;
     }
@@ -1554,10 +1560,10 @@ void VRMLGeometryPartDesc::getFieldAndDesc(
           Field            *&pField,
     const FieldDescription *&pDesc)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "VRMLGeometryPartDesc::getFieldAndDesc : looking for " 
-            << szFieldname 
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "VRMLGeometryPartDesc::getFieldAndDesc : looking for " 
+          << szFieldname 
+          << endl;
 
     if(szFieldname == NULL)
         return;
@@ -1569,13 +1575,12 @@ void VRMLGeometryPartDesc::getFieldAndDesc(
 
     if(stringcasecmp(_szVRMLPartname, szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLGeometryPartDesc::getFieldAndDesc : request internal "
-                << szFieldname 
-                << " return "
-                << _szOSGPartname
-            
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLGeometryPartDesc::getFieldAndDesc : request internal "
+              << szFieldname 
+              << " return "
+              << _szOSGPartname
+              << endl;
 
         pField = pFC->getField(_szOSGPartname);
         
@@ -1652,8 +1657,6 @@ void VRMLGeometryPartDesc::dump(const Char8 *szNodeName)
  *                           Class variables                               *
 \***************************************************************************/
 
-char VRMLGeometryObjectDesc::cvsid[] = "@(#)$Id: $";
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -1710,11 +1713,11 @@ VRMLGeometryObjectDesc::~VRMLGeometryObjectDesc(void)
 
 void VRMLGeometryObjectDesc::init(const Char8 *szName)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "GeoObjDesc::init : " 
-            << szName << " "
-            << _szVRMLObjectname 
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "GeoObjDesc::init : " 
+          << szName << " "
+          << _szVRMLObjectname 
+          << endl;
 
     _pNodeProto = Node::create();
 
@@ -1747,10 +1750,10 @@ void VRMLGeometryObjectDesc::getFieldAndDesc(
           Field            *&pField,
     const FieldDescription *&pDesc)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "VRMLGeometryObjectDesc::getFieldAndDesc : looking for " 
-            << szFieldname 
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "VRMLGeometryObjectDesc::getFieldAndDesc : looking for " 
+          << szFieldname 
+          << endl;
 
     if(szFieldname == NULL)
         return;
@@ -1820,9 +1823,9 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
         {
             SFVec3f *pVec = static_cast<SFVec3f *>(pField);
 
-            indentLog(getIndent(), PNOTICE);
-            PNOTICE << "VRMLGeometryObjectDesc::endNode : Create box"
-                    << endl;
+            indentLog(getIndent(), PINFO);
+            PINFO << "VRMLGeometryObjectDesc::endNode : Create box"
+                  << endl;
 
             GeometryPtr pGeo = makeBoxGeo(pVec->getValue()[0],
                                           pVec->getValue()[1],
@@ -1884,9 +1887,9 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
            pSide   != NULL &&
            pBottom != NULL)
         {
-            indentLog(getIndent(), PNOTICE);
-            PNOTICE << "VRMLGeometryObjectDesc::endNode : Create cone"
-                    << endl;
+            indentLog(getIndent(), PINFO);
+            PINFO << "VRMLGeometryObjectDesc::endNode : Create cone"
+                  << endl;
 
             GeometryPtr pGeo = makeConeGeo(pHeight->getValue(),
                                            pBotRad->getValue(),
@@ -1962,10 +1965,10 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
            pSide   != NULL &&
            pTop    != NULL)
         {
-            indentLog(getIndent(), PNOTICE);
-            PNOTICE << "VRMLGeometryObjectDesc::endNode : Create cylinder"
-                    << endl;
-
+            indentLog(getIndent(), PINFO);
+            PINFO << "VRMLGeometryObjectDesc::endNode : Create cylinder"
+                  << endl;
+            
             GeometryPtr pGeo = makeCylinderGeo(pHeight->getValue(),
                                                pRadius->getValue(),
                                                32,
@@ -1987,9 +1990,9 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
         {
             SFReal32 *pValue = static_cast<SFReal32 *>(pField);
             
-            indentLog(getIndent(), PNOTICE);
-            PNOTICE << "VRMLGeometryObjectDesc::endNode : Create sphere"
-                    << endl;
+            indentLog(getIndent(), PINFO);
+            PINFO << "VRMLGeometryObjectDesc::endNode : Create sphere"
+                  << endl;
 
             GeometryPtr pGeo = makeSphereGeo(3, pValue->getValue());
 
@@ -2035,8 +2038,6 @@ void VRMLGeometryObjectDesc::dump(const Char8 *szNodeName)
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char VRMLAppearanceDesc::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -2094,8 +2095,8 @@ VRMLAppearanceDesc::~VRMLAppearanceDesc(void)
 
 void VRMLAppearanceDesc::init(const Char8 *szName)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "ApperanceDesc::init : " << szName << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "ApperanceDesc::init : " << szName << endl;
 
     _pNodeCoreProto = MaterialGroup::create();
 
@@ -2146,10 +2147,10 @@ void VRMLAppearanceDesc::getFieldAndDesc(
     const FieldDescription *&pDesc)
 {
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "VRMLAppearanceDesc::getFieldAndDesc : looking for " 
-            << szFieldname 
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "VRMLAppearanceDesc::getFieldAndDesc : looking for " 
+          << szFieldname 
+          << endl;
 
     if(pFC == NullFC)
         return;
@@ -2161,10 +2162,10 @@ void VRMLAppearanceDesc::getFieldAndDesc(
 
     if(stringcasecmp("material", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLAppearanceDesc::getFieldAndDesc : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLAppearanceDesc::getFieldAndDesc : request internal "
+              << szFieldname
+              << endl;
         
         pField = pFC->getField("material");
         
@@ -2173,10 +2174,10 @@ void VRMLAppearanceDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("texture", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLAppearanceDesc::getFieldAndDesc : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLAppearanceDesc::getFieldAndDesc : request internal "
+              << szFieldname
+              << endl;
 
         _sfTexture.setValue(NullFC);
 
@@ -2218,8 +2219,8 @@ FieldContainerPtr VRMLAppearanceDesc::beginNode(
         pNodeCore->addAttachment(pAtt);
     }    
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Begin Appearance " << &(*pNodeCore) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Begin Appearance " << &(*pNodeCore) << endl;
 
     incIndent();
 
@@ -2295,8 +2296,8 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
 
     decIndent();
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "End Appearance " <<  &(*(_sfTexture.getValue())) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "End Appearance " <<  &(*(_sfTexture.getValue())) << endl;
 }
 
 Bool VRMLAppearanceDesc::use(FieldContainerPtr pFC)
@@ -2338,8 +2339,6 @@ void VRMLAppearanceDesc::dump(const Char8 *szNodeName)
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char VRMLMaterialDesc::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -2411,8 +2410,8 @@ VRMLMaterialDesc::~VRMLMaterialDesc(void)
 
 void VRMLMaterialDesc::init(const Char8 *szName)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "MaterialDesc::init : " << szName << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "MaterialDesc::init : " << szName << endl;
 }
 
 void VRMLMaterialDesc::reset(void)
@@ -2481,10 +2480,10 @@ Bool VRMLMaterialDesc::prototypeAddField(const Char8  *szFieldType,
 
     if(bFound == true)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "MaterialDesc::prototypeAddField : add part " 
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "MaterialDesc::prototypeAddField : add part " 
+              << szFieldname
+              << endl;
         return true;
     }
     else
@@ -2621,8 +2620,6 @@ void VRMLMaterialDesc::dump(const Char8 *szNodeName)
  *                           Class variables                               *
 \***************************************************************************/
 
-char VRMLImageTextureDesc::cvsid[] = "@(#)$Id: $";
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -2684,8 +2681,8 @@ VRMLImageTextureDesc::~VRMLImageTextureDesc(void)
 
 void VRMLImageTextureDesc::init(const Char8 *szName)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "ImageTextureDesc::init : " << szName << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "ImageTextureDesc::init : " << szName << endl;
 }
 
 void VRMLImageTextureDesc::reset(void)
@@ -2723,10 +2720,10 @@ Bool VRMLImageTextureDesc::prototypeAddField(const Char8  *szFieldType,
 
     if(bFound == true)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "ImageTextureDesc::prototypeAddField : add part " 
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "ImageTextureDesc::prototypeAddField : add part " 
+              << szFieldname
+              << endl;
 
         return true;
     }
@@ -2771,8 +2768,8 @@ FieldContainerPtr VRMLImageTextureDesc::beginNode(
 {
     TextureChunkPtr returnValue = TextureChunk::create();
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Begin ImageTexture " << &(*returnValue) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Begin ImageTexture " << &(*returnValue) << endl;
 
     incIndent();
 
@@ -2794,8 +2791,8 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
 
     if(pTexture != NullFC)
     {
-        PNOTICE << "VRMLImageTextureDesc::endNode : Reading texture " 
-                << _url.getValue(0).str() << endl;
+        PINFO << "VRMLImageTextureDesc::endNode : Reading texture " 
+              << _url.getValue(0).str() << endl;
         
         if(pImage->read(_url.getValue(0).str()))
         {
@@ -2840,12 +2837,12 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
 
     decIndent();
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "End ImageTexture " 
-            << _url.getValue(0).str() << " "
-            << _repeatS.getValue()    << " "
-            << _repeatT.getValue()    << " "
-            << &(*pFC) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "End ImageTexture " 
+          << _url.getValue(0).str() << " "
+          << _repeatS.getValue()    << " "
+          << _repeatT.getValue()    << " "
+          << &(*pFC) << endl;
 }
 
 /*-------------------------- assignment -----------------------------------*/
@@ -2881,8 +2878,6 @@ void VRMLImageTextureDesc::dump(const Char8 *szNodeName)
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char VRMLPixelTextureDesc::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -2945,8 +2940,8 @@ VRMLPixelTextureDesc::~VRMLPixelTextureDesc(void)
 
 void VRMLPixelTextureDesc::init(const Char8 *szName)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "PixelTextureDesc::init : " << szName << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "PixelTextureDesc::init : " << szName << endl;
 }
 
 void VRMLPixelTextureDesc::reset(void)
@@ -2984,10 +2979,10 @@ Bool VRMLPixelTextureDesc::prototypeAddField(const Char8  *szFieldType,
 
     if(bFound == true)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "PixelTextureDesc::prototypeAddField : add part " 
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "PixelTextureDesc::prototypeAddField : add part " 
+              << szFieldname
+              << endl;
 
         return true;
     }
@@ -3037,8 +3032,8 @@ FieldContainerPtr VRMLPixelTextureDesc::beginNode(
     _repeatS = _defaultRepeatS;
     _repeatT = _defaultRepeatT;
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Begin PixelTexture " << &(*returnValue) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Begin PixelTexture " << &(*returnValue) << endl;
 
     incIndent();
 
@@ -3084,11 +3079,11 @@ void VRMLPixelTextureDesc::endNode(FieldContainerPtr pFC)
 
     decIndent();
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "End PixelTexture " 
-            << _repeatS.getValue()    << " "
-            << _repeatT.getValue()    << " "
-            << &(*pFC) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "End PixelTexture " 
+          << _repeatS.getValue()    << " "
+          << _repeatT.getValue()    << " "
+          << &(*pFC) << endl;
 }
 
 void VRMLPixelTextureDesc::addFieldValue(      Field *,
@@ -3133,8 +3128,6 @@ void VRMLPixelTextureDesc::dump(const Char8 *szNodeName)
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char VRMLLODDesc::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -3189,8 +3182,8 @@ VRMLLODDesc::~VRMLLODDesc(void)
 
 void VRMLLODDesc::init(const Char8 *szName)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "LODDesc::init : " << szName << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "LODDesc::init : " << szName << endl;
 
     _pNodeProto     = Node::create();
     _pNodeCoreProto = DistanceLOD::create();
@@ -3251,10 +3244,10 @@ void VRMLLODDesc::getFieldAndDesc(
 
     NodePtr pNode = NodePtr::dcast(pFC);
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "VRMLShapeDesc::getFieldAndDesc : looking for " 
-            << szFieldname 
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "VRMLShapeDesc::getFieldAndDesc : looking for " 
+          << szFieldname 
+          << endl;
 
     if(pNode == NullFC)
     {
@@ -3276,10 +3269,10 @@ void VRMLLODDesc::getFieldAndDesc(
 
     if(stringcasecmp("level", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLLODDesc::getFieldAndDesc :  : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLLODDesc::getFieldAndDesc :  : request internal "
+              << szFieldname
+              << endl;
 
         pField = pNode->getField("children");
         
@@ -3288,10 +3281,10 @@ void VRMLLODDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("center", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLLODDesc::getFieldAndDesc :  : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLLODDesc::getFieldAndDesc :  : request internal "
+              << szFieldname
+              << endl;
 
         pField = pLOD->getField("center");
         
@@ -3300,10 +3293,10 @@ void VRMLLODDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("range", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLLODDesc::getFieldAndDesc :  : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLLODDesc::getFieldAndDesc :  : request internal "
+              << szFieldname
+              << endl;
 
         pField = pLOD->getField("range");
         
@@ -3351,8 +3344,8 @@ FieldContainerPtr VRMLLODDesc::beginNode(
         pNodeCore->addAttachment(pAtt);
     }
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Begin LOD " << &(*pNode) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Begin LOD " << &(*pNode) << endl;
 
     incIndent();
 
@@ -3363,9 +3356,9 @@ void VRMLLODDesc::endNode(FieldContainerPtr pFC)
 {    
     decIndent();
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "End LOD " 
-            << &(*pFC) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "End LOD " 
+          << &(*pFC) << endl;
 }
 
 /*-------------------------- assignment -----------------------------------*/
@@ -3402,8 +3395,6 @@ void VRMLLODDesc::dump(const Char8 *szNodeName)
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char VRMLSwitchDesc::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -3458,8 +3449,8 @@ VRMLSwitchDesc::~VRMLSwitchDesc(void)
 
 void VRMLSwitchDesc::init(const Char8 *szName)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "SwitchDesc::init : " << szName << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "SwitchDesc::init : " << szName << endl;
 
     _pNodeProto     = Node::create();
     _pNodeCoreProto = Switch::create();
@@ -3516,10 +3507,10 @@ void VRMLSwitchDesc::getFieldAndDesc(
 
     NodePtr pNode = NodePtr::dcast(pFC);
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "VRMLShapeDesc::getFieldAndDesc : looking for " 
-            << szFieldname 
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "VRMLShapeDesc::getFieldAndDesc : looking for " 
+          << szFieldname 
+          << endl;
 
     if(pNode == NullFC)
     {
@@ -3541,10 +3532,10 @@ void VRMLSwitchDesc::getFieldAndDesc(
 
     if(stringcasecmp("choice", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLSwitchDesc::getFieldAndDesc :  : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLSwitchDesc::getFieldAndDesc :  : request internal "
+              << szFieldname
+              << endl;
 
         pField = pNode->getField("children");
         
@@ -3553,10 +3544,10 @@ void VRMLSwitchDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("whichChoice", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLSwitchDesc::getFieldAndDesc :  : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLSwitchDesc::getFieldAndDesc :  : request internal "
+              << szFieldname
+              << endl;
 
         pField = pSwitch->getField("choice");
         
@@ -3604,8 +3595,8 @@ FieldContainerPtr VRMLSwitchDesc::beginNode(
         pNodeCore->addAttachment(pAtt);
     }
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Begin Switch " << &(*pNode) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Begin Switch " << &(*pNode) << endl;
 
     incIndent();
 
@@ -3616,9 +3607,9 @@ void VRMLSwitchDesc::endNode(FieldContainerPtr pFC)
 {    
     decIndent();
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "End Switch " 
-            << &(*pFC) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "End Switch " 
+          << &(*pFC) << endl;
 }
 
 /*-------------------------- assignment -----------------------------------*/
@@ -3654,8 +3645,6 @@ void VRMLSwitchDesc::dump(const Char8 *szNodeName)
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char VRMLGroupDesc::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -3716,8 +3705,8 @@ VRMLGroupDesc::~VRMLGroupDesc(void)
 
 void VRMLGroupDesc::init(const Char8 *szName)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "GroupDesc::init : " << szName << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "GroupDesc::init : " << szName << endl;
 
     _pNodeProto     = Node::create();
     _pNodeCoreProto = Group::create();
@@ -3780,10 +3769,10 @@ void VRMLGroupDesc::getFieldAndDesc(
 
     NodePtr pNode = NodePtr::dcast(pFC);
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "VRMLGroupDesc::getFieldAndDesc : looking for " 
-            << szFieldname 
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "VRMLGroupDesc::getFieldAndDesc : looking for " 
+          << szFieldname 
+          << endl;
 
     if(pNode == NullFC)
     {
@@ -3805,30 +3794,30 @@ void VRMLGroupDesc::getFieldAndDesc(
 
     if(stringcasecmp("bboxCenter", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLGroupDesc::getFieldAndDesc :  : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLGroupDesc::getFieldAndDesc :  : request internal "
+              << szFieldname
+              << endl;
 
         pField = &_boxCenter;
         pDesc  = NULL;
     }
     else if(stringcasecmp("whichChoice", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLGroupDesc::getFieldAndDesc :  : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLGroupDesc::getFieldAndDesc :  : request internal "
+              << szFieldname
+              << endl;
 
         pField = &_boxSize;
         pDesc  = NULL;
     }
     else if(stringcasecmp("children", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLGroupDesc::getFieldAndDesc :  : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLGroupDesc::getFieldAndDesc :  : request internal "
+              << szFieldname
+              << endl;
 
         pField = pNode->getField("children");
         
@@ -3876,8 +3865,8 @@ FieldContainerPtr VRMLGroupDesc::beginNode(
         pNodeCore->addAttachment(pAtt);
     }
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Begin Group " << &(*pNode) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Begin Group " << &(*pNode) << endl;
 
     incIndent();
 
@@ -3888,9 +3877,9 @@ void VRMLGroupDesc::endNode(FieldContainerPtr pFC)
 {    
     decIndent();
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "End Group " 
-            << &(*pFC) << endl;    
+    indentLog(getIndent(), PINFO);
+    PINFO << "End Group " 
+          << &(*pFC) << endl;    
 }
 
 /*-------------------------- assignment -----------------------------------*/
@@ -3927,8 +3916,6 @@ void VRMLGroupDesc::dump(const Char8 *szNodeName)
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char VRMLInlineDesc::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -3989,9 +3976,9 @@ VRMLInlineDesc::~VRMLInlineDesc(void)
 
 void VRMLInlineDesc::init(const Char8 *szName)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "InlineDesc::init : " << szName << endl;
-
+    indentLog(getIndent(), PINFO);
+    PINFO << "InlineDesc::init : " << szName << endl;
+    
     _pNodeProto     = Node::create();
     _pNodeCoreProto = Inline::create();
 
@@ -4053,10 +4040,10 @@ void VRMLInlineDesc::getFieldAndDesc(
 
     NodePtr pNode = NodePtr::dcast(pFC);
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "VRMLInlineDesc::getFieldAndDesc : looking for " 
-            << szFieldname 
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "VRMLInlineDesc::getFieldAndDesc : looking for " 
+          << szFieldname 
+          << endl;
 
     if(pNode == NullFC)
     {
@@ -4078,20 +4065,20 @@ void VRMLInlineDesc::getFieldAndDesc(
 
     if(stringcasecmp("bboxCenter", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLInlineDesc::getFieldAndDesc :  : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLInlineDesc::getFieldAndDesc :  : request internal "
+              << szFieldname
+              << endl;
 
         pField = &_boxCenter;
         pDesc  = NULL;
     }
     else if(stringcasecmp("whichChoice", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "VRMLInlineDesc::getFieldAndDesc :  : request internal "
-                << szFieldname
-                << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLInlineDesc::getFieldAndDesc :  : request internal "
+              << szFieldname
+              << endl;
 
         pField = &_boxSize;
         pDesc  = NULL;
@@ -4137,8 +4124,8 @@ FieldContainerPtr VRMLInlineDesc::beginNode(
         pNodeCore->addAttachment(pAtt);
     }
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Begin Inline" << &(*pNode) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Begin Inline" << &(*pNode) << endl;
 
     incIndent();
 
@@ -4149,9 +4136,9 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
 {    
     decIndent();
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "End Inline " 
-            << &(*pFC) << endl;   
+    indentLog(getIndent(), PINFO);
+    PINFO << "End Inline " 
+          << &(*pFC) << endl;   
 }
 
 /*-------------------------- assignment -----------------------------------*/
@@ -4187,8 +4174,6 @@ void VRMLInlineDesc::dump(const Char8 *szNodeName)
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char VRMLViewpointDesc::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -4330,10 +4315,10 @@ void VRMLViewpointDesc::getFieldAndDesc(
           Field            *&pField,
     const FieldDescription *&pDesc)
 {
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "ViewpointDesc::getFieldAndDesc : request " 
-            << szFieldname 
-            << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "ViewpointDesc::getFieldAndDesc : request " 
+          << szFieldname 
+          << endl;
 
     if(szFieldname == NULL)
         return;
@@ -4361,9 +4346,9 @@ void VRMLViewpointDesc::getFieldAndDesc(
 
     if(stringcasecmp("orientation", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "ViewpointDesc::getFieldAndDesc : internal " 
-                << szFieldname << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "ViewpointDesc::getFieldAndDesc : internal " 
+              << szFieldname << endl;
 
         pField = pTransform->getField("rotation");
         
@@ -4372,9 +4357,9 @@ void VRMLViewpointDesc::getFieldAndDesc(
     }
     else if(stringcasecmp("position", szFieldname) == 0)
     {
-        indentLog(getIndent(), PNOTICE);
-        PNOTICE << "ViewpointDesc::getFieldAndDesc : internal " 
-                << szFieldname << endl;
+        indentLog(getIndent(), PINFO);
+        PINFO << "ViewpointDesc::getFieldAndDesc : internal " 
+              << szFieldname << endl;
 
         pField = pTransform->getField("translation");
         
@@ -4420,8 +4405,8 @@ FieldContainerPtr VRMLViewpointDesc::beginNode(
         pNodeCore->addAttachment(pAtt);
     }
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "Begin Viewpoint " << &(*pNode) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "Begin Viewpoint " << &(*pNode) << endl;
 
     incIndent();
     
@@ -4432,8 +4417,8 @@ void VRMLViewpointDesc::endNode(FieldContainerPtr pFC)
 { 
     decIndent();
 
-    indentLog(getIndent(), PNOTICE);
-    PNOTICE << "End Viewpoint " << &(*pFC) << endl;
+    indentLog(getIndent(), PINFO);
+    PINFO << "End Viewpoint " << &(*pFC) << endl;
 }
 
 /*-------------------------- assignment -----------------------------------*/

@@ -62,9 +62,6 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class BaseT>
-char ScanParseFieldTypeMapper<BaseT>::cvsid[] = "@(#)$Id: $";
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -179,32 +176,6 @@ Int32 ScanParseFieldTypeMapper<BaseT>::mapIntExtFieldType(
 
 /*-------------------------- assignment -----------------------------------*/
 
-//---------------------------------------------------------------------------
-//  FUNCTION: 
-//---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-//---------------------------------------------------------------------------
-//
-//p: Paramaters: 
-//p: 
-//
-//g: GlobalVars:
-//g: 
-//
-//r: Return:
-//r: 
-//
-//c: Caution:
-//c: 
-//
-//a: Assumptions:
-//a: 
-//
-//d: Description:
-//d: 
-//
-//s: SeeAlso:
-//s: 
-//---------------------------------------------------------------------------
-
 OSG_END_NAMESPACE
+
+#define OSGSCANPARSEFIELDTYPEMAPPER_INLINE_CVSID "@(#)$Id: $"

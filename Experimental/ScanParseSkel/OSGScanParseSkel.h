@@ -36,16 +36,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGSCANPARSESKEL_H_
 #define _OSGSCANPARSESKEL_H_
 #ifdef __sgi
 #pragma once
 #endif
-
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
@@ -53,39 +48,14 @@
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib 
+ *  \brief Parser / Scanner Skeleton for VRML97 syntax based file formats 
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 {
+    /*==========================  PUBLIC  =================================*/
   public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
 
     enum BuildInFieldType
     {
@@ -133,156 +103,127 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
         LastOption = 0x0001
     };
 
-  private:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    static char cvsid[];
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    ScanParseSkel(const ScanParseSkel &source);
-    void operator =(const ScanParseSkel &source);
-
-  protected:
-
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
-    UInt32 _uiOptions;
-    Bool   _bMapTypeIds;
-    Char8 *_szReferenceHeader;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    void reset        (void);
-
-    void setMapTypeIds(Bool bVal);
-
-    void setReferenceHeader(const Char8 *szReferenceHeader);
-
-  public :
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
     ScanParseSkel(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
     virtual ~ScanParseSkel(void); 
 
-    /*------------------------- your_category -------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Scan                                    */
+    /*! \{                                                                 */
 
     virtual void scanFile(const Char8 *szFilename, UInt32 uiOptions);
 
-    /*------------------------- your_operators ------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Prototypes                               */
+    /*! \{                                                                 */
 
-    virtual Bool verifyHeader           (const Char8 *szHeader);
+    virtual Bool verifyHeader          (const Char8 *szHeader);
 
-    virtual void beginProtoInterface    (const Char8 *szProtoname);
-    virtual void endProtoInterface      (void);
+    virtual void beginProtoInterface   (const Char8 *szProtoname);
+    virtual void endProtoInterface     (void);
 
-    virtual void addProtoEventIn        (const Char8 *szEventType,
-                                         const Char8 *szEventName); 
+    virtual void addProtoEventIn       (const Char8 *szEventType,
+                                        const Char8 *szEventName); 
 
-    virtual void addProtoEventOut       (const Char8 *szEventType,
-                                         const Char8 *szEventName); 
+    virtual void addProtoEventOut      (const Char8 *szEventType,
+                                        const Char8 *szEventName); 
 
-    virtual void beginProtoField        (const Char8  *szFieldType,
-                                         const UInt32  uiFieldTypeId,
-                                         const Char8  *szFieldName); 
+    virtual void beginProtoField       (const Char8  *szFieldType,
+                                        const UInt32  uiFieldTypeId,
+                                        const Char8  *szFieldName); 
 
-    virtual void endProtoField          (void);
+    virtual void endProtoField         (void);
 
-    virtual void beginProtoExposedField (const Char8  *szFieldType,
-                                         const UInt32  uiFieldTypeId,
-                                         const Char8  *szFieldName); 
+    virtual void beginProtoExposedField(const Char8  *szFieldType,
+                                        const UInt32  uiFieldTypeId,
+                                        const Char8  *szFieldName); 
 
-    virtual void endProtoExposedField   (void);
+    virtual void endProtoExposedField  (void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Fields                                   */
+    /*! \{                                                                 */
 
-    virtual void beginField             (const Char8  *szFieldname,
-                                         const UInt32  uiFieldTypeId);
+    virtual void beginField(const Char8  *szFieldname,
+                            const UInt32  uiFieldTypeId);
 
-    virtual void endField               (void);
+    virtual void endField  (void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Nodes                                    */
+    /*! \{                                                                 */
 
-    virtual void beginNode              (const Char8 *szNodeTypename,
-                                         const Char8 *szNodename);
+    virtual void beginNode(const Char8 *szNodeTypename,
+                           const Char8 *szNodename);
     
-    virtual void endNode                (void);
+    virtual void endNode  (void);
 
-    virtual void use                    (const Char8 *szName);
+    virtual void use      (const Char8 *szName);
 
-    virtual void addFieldValue          (const Char8 *szFieldVal);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Misc                                     */
+    /*! \{                                                                 */
 
-    virtual void addRoute               (const Char8 *szOutNodename,
-                                         const Char8 *szOutFieldname,
-                                         const Char8 *szInNodename,
-                                         const Char8 *szInFieldname);
+    virtual void addFieldValue(const Char8 *szFieldVal);
 
-    /*------------------------- assignment ----------------------------------*/
+    virtual void addRoute     (const Char8 *szOutNodename,
+                               const Char8 *szOutFieldname,
+                               const Char8 *szInNodename,
+                               const Char8 *szInFieldname);
 
-    Bool              getMapFieldTypes(void);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Type Information                             */
+    /*! \{                                                                 */
 
-    virtual Int32  mapExtIntFieldType (const Char8 *szFieldname,
-                                       const Int32  iFieldTypeId);
+    Bool           getMapFieldTypes  (void);
 
-    virtual UInt32 getFieldType       (const Char8 *szFieldname);
+    virtual Int32  mapExtIntFieldType(const Char8 *szFieldname,
+                                      const Int32  iFieldTypeId);
 
-    /*------------------------- comparison ----------------------------------*/
+    virtual UInt32 getFieldType      (const Char8 *szFieldname);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    UInt32  _uiOptions;
+    Bool    _bMapTypeIds;
+    Char8  *_szReferenceHeader;
+
+
+    void reset             (      void);
+
+    void setMapTypeIds     (      Bool   bVal);
+
+    void setReferenceHeader(const Char8 *szReferenceHeader);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    ScanParseSkel(const ScanParseSkel &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const ScanParseSkel &source);
 };
 
 //---------------------------------------------------------------------------
@@ -294,5 +235,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 typedef ScanParseSkel *ScanParseSkelP;
 
 OSG_END_NAMESPACE
+
+#define OSGSCANPARSESKEL_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSCANPARSESKEL_H_ */

@@ -85,6 +85,20 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGLOADER_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -96,8 +110,6 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char OSGLoader::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -222,61 +234,9 @@ void OSGLoader::initFieldTypeMapper(void)
 
     /* To Node Mappings */
 
-    setIntExtMapping(SFNodeCorePtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(SFGeoPTypesPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(SFGeoIndicesPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(SFGeoPLengthsPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(SFGeoColorsPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-    setIntExtMapping(SFGeoPositionsPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-
-	setIntExtMapping(SFGeoNormalsPtr::getClassType().getId(),
-					 ScanParseSkel::OSGsfNode);
-	
-	setIntExtMapping(SFGeoTexCoordsPtr::getClassType().getId(),
-					 ScanParseSkel::OSGsfNode);
-	
-	setIntExtMapping(SFMaterialPtr::getClassType().getId(),
-					 ScanParseSkel::OSGsfNode);
-
 	setIntExtMapping(SFAttachmentMap::getClassType().getId(),
                      ScanParseSkel::OSGmfNode);
 
-    setIntExtMapping(SFWindowPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-    setIntExtMapping(MFWindowPtr::getClassType().getId(),
-                     ScanParseSkel::OSGmfNode);
-
-    setIntExtMapping(SFViewportPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-    setIntExtMapping(MFViewportPtr::getClassType().getId(),
-                     ScanParseSkel::OSGmfNode);
-
-    setIntExtMapping(SFCameraPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-    setIntExtMapping(MFCameraPtr::getClassType().getId(),
-                     ScanParseSkel::OSGmfNode);
-    
-    setIntExtMapping(SFPerspectiveCameraPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-    setIntExtMapping(MFPerspectiveCameraPtr::getClassType().getId(),
-                     ScanParseSkel::OSGmfNode);
-    
-    setIntExtMapping(SFBackgroundPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
-    setIntExtMapping(MFBackgroundPtr::getClassType().getId(),
-                     ScanParseSkel::OSGmfNode);
-    
     /* extended types */
     
     setIntExtMapping(SFMatrix::getClassType().getId(),
@@ -294,7 +254,6 @@ void OSGLoader::initFieldTypeMapper(void)
 					 ScanParseSkel::OSGsfPlane);
 	setIntExtMapping(MFPlane::getClassType().getId(),
 					 ScanParseSkel::OSGmfPlane);
-	
 }
 
 /* remove this, if there is a general methode to find containers */
@@ -450,18 +409,18 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
     if(szNodeTypename == NULL)
         return;
 
-    PLOG << "Begin node : " << szNodeTypename << " | ";
+    PINFO << "Begin node : " << szNodeTypename << " | ";
 
     if(szNodename == NULL)
     {
-        PLOG << "NULL";
+        PINFO << "NULL";
     }
     else
     {
-        PLOG << szNodename;
+        PINFO << szNodename;
     }
         
-    PLOG << endl;
+    PINFO << endl;
     
     pNewNode = 
         FieldContainerFactory::the()->createFieldContainer(szNodeTypename);
@@ -539,7 +498,7 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
     
 void OSGLoader::endNode(void)
 {
-    fprintf(stderr, "End Node\n");
+    PINFO << "End Node" << endl;
 
     if(_pCurrentFC != NullFC)
     {
@@ -587,12 +546,12 @@ void OSGLoader::use(const Char8 *szName)
     }
 }
 
-NodePtr OSGLoader::getRoot(void)
+NodePtr OSGLoader::getRootNode(void)
 {
     return _pRootNode;
 }
 
-vector<FieldContainerPtr> OSGLoader::getRoots(void)
+vector<FieldContainerPtr> OSGLoader::getRootNodes(void)
 {
 	vector<FieldContainerPtr> fcVec;
 
@@ -605,7 +564,7 @@ vector<FieldContainerPtr> OSGLoader::getRoots(void)
 
 void OSGLoader::addFieldValue(const Char8 *szFieldVal)
 {
-    PLOG << "\t\tFV : " << szFieldVal << endl;
+    PINFO << "\t\tFV : " << szFieldVal << endl;
 
     if(_pCurrentField != NULL)
     {
@@ -625,7 +584,7 @@ UInt32 OSGLoader::getFieldType(const Char8 *szFieldname)
     {
         pField = _pCurrentFC->getField(szFieldname);
 
-        fprintf(stderr, "GF : %s %p\n", szFieldname, pField);
+        PINFO << "GF : " << szFieldname << " " << pField << endl;
 
         if(pField != NULL)
         {
@@ -636,10 +595,61 @@ UInt32 OSGLoader::getFieldType(const Char8 *szFieldname)
     return returnValue;
 }
 
+Int32 OSGLoader::mapExtIntFieldType(const Char8 *szFieldname,
+                                    const Int32  iFieldTypeId)
+{
+    Int32 returnValue = Inherited::mapExtIntFieldType(szFieldname,
+                                                      iFieldTypeId);
+
+	if(returnValue < 0 && szFieldname != NULL && _pCurrentFC != NullFC)
+    {
+        Field *pField = _pCurrentFC->getField(szFieldname);
+
+        if(pField != NULL)
+        {
+            const FieldType &oFieldType = pField->getType();
+        
+            /* Should be this way 
+
+            if(oFieldType.getContentType().isDerivedFrom(
+                FieldDataTraits<FieldContainerPtr>::getType()) == true)
+            {
+            }
+            */
+
+            PINFO << "FieldTypeId invalid, trying to fix. " << endl;
+            PINFO << oFieldType.getContentType().getCName()
+                  << " comparing with "
+                  << FieldDataTraits<FieldContainerPtr>::getType().getCName()
+                  << endl;
+            
+            
+            if(strstr(oFieldType.getContentType().getCName(), 
+                      "Ptr"                                 ) != NULL)
+            {
+                PINFO << "FieldContainerPtr or derived class, "
+                      << "parsing as Node"
+                      << endl;
+                
+                if(oFieldType.getCardinality() == FieldType::SINGLE_FIELD)
+                {
+                    returnValue = ScanParseSkel::OSGsfNode;
+                }
+                else
+                {
+                    returnValue = ScanParseSkel::OSGmfNode;
+                }
+            }
+        }
+    }
+
+    return returnValue;
+}
+
 void OSGLoader::beginField(const Char8 *szFieldname,
                            const UInt32 uiFieldTypeId)
 {
-    fprintf(stderr, "BeginField : %s %p\n", szFieldname, _pCurrentField);
+    PINFO << "BeginField " << szFieldname << " " << _pCurrentField << endl;
 
     if(szFieldname == NULL)
         return;
@@ -653,40 +663,15 @@ void OSGLoader::beginField(const Char8 *szFieldname,
         _pCurrentFieldDesc = 
             _pCurrentFC->getType().findFieldDescription(szFieldname);
 
-        fprintf(stderr, "BF : %s %p %p\n", 
-                szFieldname, _pCurrentField, _pCurrentFieldDesc);
+        PINFO << "BF : "
+              <<  szFieldname       << " " 
+              << _pCurrentField     << " " 
+              << _pCurrentFieldDesc << endl;
 
         if(_pCurrentFieldDesc != NULL)
         {
             beginEditCP(_pCurrentFC, _pCurrentFieldDesc->getFieldMask());
         }
-
-// Must be moved somewhere else
-#if 0		
-		if( uiFieldTypeId < 0 )
-		{
-			cerr << "FieldTypeId invalid, trying to fix. " << endl;
-			cerr << _pCurrentField->getType().getContentType().getCName()
-				 << " comparing with "
-				 << FieldContainer::getClassType().getCName() << endl;
-			if( (_pCurrentField->getType().getContentType().isDerivedFrom(
-				FieldContainer::getClassType() ) == true) ||
-				(strstr(_pCurrentField->getType().getCName(), "Ptr") != NULL) )
-			{
-				cerr << "FieldContainerPtr or derived class, parsing as Node"
-					 << endl;
-				if( _pCurrentField->getCardinality() ==
-										FieldType::SINGLE_FIELD )
-				{
-					uiFieldTypeId = ScanParseSkel::OSGsfNode;
-				}
-				else
-				{
-					uiFieldTypeId = ScanParseSkel::OSGmfNode;
-				}
-			}
-		}
-#endif
     }
 
     _fStack.push (_pCurrentField);
@@ -695,7 +680,7 @@ void OSGLoader::beginField(const Char8 *szFieldname,
 
 void OSGLoader::endField(void)
 {
-    fprintf(stderr, "End Field\n");
+    PINFO << "End Field" << endl;
 
     _fStack.pop();
 
@@ -735,7 +720,7 @@ FieldContainerPtr OSGLoader::getReference(const Char8 *szName)
 	{
 		return (*iter).second;
 	}
-    return findFCByName(szName,getRoot());
+    return findFCByName(szName, getRootNode());
 }
 
 /*---------------------------- properties ---------------------------------*/

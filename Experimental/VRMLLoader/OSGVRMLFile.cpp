@@ -75,11 +75,23 @@
 
 OSG_USING_NAMESPACE
 
-#ifndef __sgi
-template OSG_SYSTEMLIB_DLLMAPPING 
-ScanParseFieldTypeMapper<ScanParseSkel>;
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-template OSG_SYSTEMLIB_DLLMAPPING 
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGVRMLFILE_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
+
+#ifndef __sgi
+template OSG_SYSTEMLIB_DLLMAPPING
 VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
 #endif
 
@@ -94,8 +106,6 @@ VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char VRMLFile::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -36,16 +36,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGOSGSCENEFILETYPE_H_
 #define _OSGOSGSCENEFILETYPE_H_
 #ifdef __sgi
 #pragma once
 #endif
-
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 
 #include <OSGBaseTypes.h>
 #include <OSGSceneFileType.h>
@@ -53,8 +48,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup Loader
- *  \brief Brief
+/*! \ingroup GeometryLoaderLib
+ *  \brief Brief OSGOSGSceneFileType
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
@@ -65,17 +60,22 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
     typedef vector<FieldContainerPtr> FCPtrStore;
 
     /*---------------------------------------------------------------------*/
+    /*! \name                Class Get                                     */
+    /*! \{                                                                 */
+
+    static OSGSceneFileType &the(void);
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     virtual ~OSGSceneFileType (void);
  
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    virtual       OSGSceneFileType &the    (void);
     virtual const Char8            *getName(void) const;
 
     /*! \}                                                                 */
@@ -97,7 +97,6 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
     virtual Bool write(const NodePtr  node, 
                        const Char8   *fileName) const;
 
-
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -106,17 +105,17 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGSceneFileType : public SceneFileType
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    static const Char8      *_suffixA[];
-    static OSGSceneFileType  _the;
+    static const Char8            *_suffixA[];
+    static       OSGSceneFileType  _the;
 
-           OSGLoader        *_pFile;
+                 OSGLoader        *_pFile;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    OSGSceneFileType(const char   *suffixArray[], 
+    OSGSceneFileType(const Char8  *suffixArray[], 
                            UInt16  suffixByteCount,
                            Bool    override,
                            UInt32  overridePriority);

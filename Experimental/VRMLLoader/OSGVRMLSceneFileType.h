@@ -49,8 +49,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup Loader
- *  \brief Brief
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML97 SceneFileType
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
@@ -61,19 +61,24 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
     typedef vector<FieldContainerPtr> FCPtrStore;
 
     /*---------------------------------------------------------------------*/
+    /*! \name                   Class Get                                  */
+    /*! \{                                                                 */
+
+    static VRMLSceneFileType &the(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~VRMLSceneFileType (void);
+    virtual ~VRMLSceneFileType(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    virtual       VRMLSceneFileType &the    (void);
-
-    virtual const Char8             *getName(void) const;
+    virtual const Char8 *getName(void) const;
  
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -51,11 +51,19 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: $";
-    char cvsid_hpp[] = OSGOSGSCENEFILETYPE_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGOSGSCENEFILETYPE_HEADER_CVSID;
 }
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /***************************************************************************\
  *                               Types                                     *
@@ -65,7 +73,7 @@ namespace
  *                           Class variables                               *
 \***************************************************************************/
 
-const char *OSGSceneFileType::_suffixA[] =  { "osg" };
+const Char8 *OSGSceneFileType::_suffixA[] =  { "osg" };
 
 OSGSceneFileType OSGSceneFileType::_the(_suffixA, 
                                         sizeof(_suffixA),
@@ -76,23 +84,22 @@ OSGSceneFileType OSGSceneFileType::_the(_suffixA,
  *                           Class methods                                 *
 \***************************************************************************/
 
-
-
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
+OSGSceneFileType &OSGSceneFileType::the(void)
+{
+    return _the;
+}
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -104,11 +111,6 @@ OSGSceneFileType OSGSceneFileType::_the(_suffixA,
 
 /*------------------------------ access -----------------------------------*/
 
-OSGSceneFileType &OSGSceneFileType::the(void)
-{
-    return _the;
-}
-
 const Char8 *OSGSceneFileType::getName(void) const 
 { 
     return "OSG GEOMETRY"; 
@@ -119,7 +121,7 @@ NodePtr OSGSceneFileType::read(const Char8 *fileName, UInt32 uiOptions) const
 {
     _pFile->scanFile(fileName, uiOptions);
 
-    return _pFile->getRoot();
+    return _pFile->getRootNode();
 }
 
 OSGSceneFileType::FCPtrStore OSGSceneFileType::readTopNodes(
@@ -128,7 +130,7 @@ OSGSceneFileType::FCPtrStore OSGSceneFileType::readTopNodes(
 {
 	_pFile->scanFile(fileName, uiOptions);
 
-	return _pFile->getRoots();
+	return _pFile->getRootNodes();
 }
 
 

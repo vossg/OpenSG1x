@@ -55,6 +55,20 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace 
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGSCANPARSESKEL_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -66,8 +80,6 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
-char ScanParseSkel::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -126,8 +138,8 @@ void ScanParseSkel::setReferenceHeader(const Char8 *szReferenceHeader)
  */
 
 ScanParseSkel::ScanParseSkel(void) :
-    _bMapTypeIds(false),
-    _szReferenceHeader(NULL)
+    _bMapTypeIds      (false),
+    _szReferenceHeader(NULL )
 {
 }
 
@@ -161,7 +173,7 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
     {
         setSkel(this);
 
-        fprintf(stderr, "Loading : %s\n", szFilename);
+        PNOTICE << "Loading : " << szFilename << endl;
 
         OSGScanParseSkel_in = pInFile;
 
@@ -270,7 +282,7 @@ void ScanParseSkel::endNode(void)
 
 void ScanParseSkel::use(const Char8 *szName)
 {
-    fprintf(stderr, "Use : %s\n", szName);
+    PINFO << "Use : " << szName << endl;
 }
 
 void ScanParseSkel::addFieldValue(const Char8 *)

@@ -36,20 +36,17 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGVRMLFILE_H_
 #define _OSGVRMLFILE_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGSystemDef.h>
 
 #include <map>
+#include <stack>
+#include <vector>
 
 #include <OSGBaseTypes.h>
 #include <OSGScanParseSkel.h>
@@ -59,61 +56,28 @@
 #include <OSGField.h>
 #include <OSGFieldContainer.h>
 
-#include <stack>
-#include <vector>
-
 #include <OSGVRMLNodeFactory.h>
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-typedef VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> > 
-    Parent;
+typedef VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> > Parent;
 
 #ifndef OSG_COMPILEVRMLLOADERINST
-
 #ifndef __sgi
-extern 
-template OSG_SYSTEMLIB_DLLMAPPING 
-ScanParseFieldTypeMapper<ScanParseSkel>;
-
-extern 
-template OSG_SYSTEMLIB_DLLMAPPING 
+extern
+template OSG_SYSTEMLIB_DLLMAPPING
 VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
 #endif
-
 #endif
 
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
-
-/*! \ingroup 
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup GeometryLoaderLib
+ *  \brief VRML97 Loader (Geometry only)
  */
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
 {
+    /*==========================  PUBLIC  =================================*/
   public:
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
-
-    typedef Parent Inherited;
-
-    //-----------------------------------------------------------------------
-    //   constants                                                           
-    //-----------------------------------------------------------------------
 
     enum 
     {
@@ -125,154 +89,110 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
         LastOption          = LogObjectGeneration
     };
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-  private:
+    VRMLFile(void);
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    virtual ~VRMLFile(void); 
 
-    //-----------------------------------------------------------------------
-    //   friend classes                                                      
-    //-----------------------------------------------------------------------
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Skel replacements                          */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   friend functions                                                    
-    //-----------------------------------------------------------------------
+    virtual void   scanFile     (const Char8  *szFilename, 
+                                       UInt32  uiOptions);
 
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
 
-    static char cvsid[];
+    virtual void   beginNode    (const Char8 *szNodeTypename,
+                                 const Char8 *szNodename);
+    
+    virtual void   endNode      (void);
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+    virtual void   beginField   (const Char8  *szFieldname,
+                                 const UInt32  uiFieldTypeId);
 
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    virtual void   endField     (void);
 
-    // prohibit default functions (move to 'public' if you need one)
 
-    VRMLFile(const VRMLFile &source);
-    void operator =(const VRMLFile &source);
+    virtual void   addFieldValue(const Char8 *szFieldVal);
 
+
+    virtual UInt32 getFieldType (const Char8 *szFieldname);
+
+
+    virtual void   use          (const Char8 *szName);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Helper                                  */
+    /*! \{                                                                 */
+    
+    void    scanStandardPrototypes  (const Char8  *szFilename, 
+                                           UInt32  uiOptions);
+    
+    void    createStandardPrototypes(void);
+    
+    NodePtr getRoot                 (void);
+    
+    NodePtr cloneTree               (NodePtr pRootNode);
+    
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
   protected:
 
-    //-----------------------------------------------------------------------
-    //   enums                                                               
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   types                                                               
-    //-----------------------------------------------------------------------
+    typedef Parent Inherited;
 
     typedef map<IDString, FieldContainerPtr> NameContainerMap;
     typedef map<IDString, VRMLNodeDesc    *> NameDescriptionMap;
  
-    //-----------------------------------------------------------------------
-    //   class variables                                                     
-    //-----------------------------------------------------------------------
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
 
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
+          NodePtr                    _pRootNode;
 
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
+          VRMLNodeDesc *             _pCurrNodeDesc;
+    stack<VRMLNodeDesc *>            _sNodeDescs;
 
-          NodePtr          _pRootNode;
+          FieldContainerPtr          _pCurrentFC;
+          Field                     *_pCurrentField;
+    const FieldDescription          *_pCurrentFieldDesc;
 
-          VRMLNodeDesc *   _pCurrNodeDesc;
-    stack<VRMLNodeDesc *>  _sNodeDescs;
+    stack<      FieldContainerPtr >  _fcStack;
+    stack<      Field            *>  _fStack;
+    stack<const FieldDescription *>  _fdStack;
 
-          FieldContainerPtr  _pCurrentFC;
-          Field             *_pCurrentField;
-    const FieldDescription  *_pCurrentFieldDesc;
-
-    stack<      FieldContainerPtr > _fcStack;
-    stack<      Field            *> _fStack;
-    stack<const FieldDescription *> _fdStack;
-
-    NameContainerMap                _nameFCMap;
-    NameDescriptionMap              _nameDescMap;
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    void initIntExtFieldTypeMapper(void);
-    void initExtIntFieldTypeMapper(void);
-
-    FieldContainerPtr findFCByName          (const Char8  *szName,
-                                                   NodePtr pNode);
-
-    void              setContainerFieldValue(const FieldContainerPtr &pFC);
-
-    FieldContainerPtr findReference         (const Char8 *szName);
-
-  public :
-
-    //-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance functions                                                  
-    //-----------------------------------------------------------------------
-
-    VRMLFile(void);
-    virtual ~VRMLFile(void); 
-
-    virtual void scanFile(const Char8 *szFilename, UInt32 uiOptions);
-
-    /*------------------------- your_category -------------------------------*/
-
-    virtual void  beginNode               (const Char8 *szNodeTypename,
-                                           const Char8 *szNodename);
-    
-    virtual void  endNode                 (void);
+         NameContainerMap            _nameFCMap;
+         NameDescriptionMap          _nameDescMap;
 
 
-    virtual void  beginField              (const Char8  *szFieldname,
-                                           const UInt32  uiFieldTypeId);
+    void              initIntExtFieldTypeMapper(void);
+    void              initExtIntFieldTypeMapper(void);
 
-    virtual void  endField                (void);
+    FieldContainerPtr findFCByName             (const Char8  *szName,
+                                                      NodePtr pNode);
 
-    /*------------------------- your_operators ------------------------------*/
+    void              setContainerFieldValue   (const FieldContainerPtr &pFC);
 
-    virtual void  addFieldValue           (const Char8 *szFieldVal);
+    FieldContainerPtr findReference            (const Char8 *szName);
 
-    /*------------------------- assignment ----------------------------------*/
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
 
-    virtual UInt32  getFieldType          (const Char8 *szFieldname);
-
-    /*------------------------- comparison ----------------------------------*/
-
-    virtual void    use                     (const Char8 *szName);
-    
-            void    scanStandardPrototypes  (const Char8  *szFilename, 
-                                                   UInt32  uiOptions);
-    
-            void    createStandardPrototypes(void);
-
-            NodePtr getRoot                 (void);
-
-            NodePtr cloneTree               (NodePtr pRootNode);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLFile(const VRMLFile &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLFile &source);
 };
 
 //---------------------------------------------------------------------------
@@ -284,5 +204,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
 typedef VRMLFile *VRMLFileP;
 
 OSG_END_NAMESPACE
+
+#define OSGVRMLFILE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGVRMLFILE_H_ */

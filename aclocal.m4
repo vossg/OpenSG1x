@@ -1140,3 +1140,299 @@ dnl e14
 
     AC_OUTPUT($ac_gdz_common_myrinet_e14:$ac_gdz_common_myrinet_in_e14)
 ])
+
+
+AC_DEFUN(AC_GDZ_WRITE_OSG_CONFIG,
+[
+dnl e15
+
+    ac_gdz_glut_lib_e5=
+    ac_gdz_glut_incdir_e15=
+    ac_gdz_glut_libdir_e15=
+
+    if [[ "$with_glut" = yes ]]; then
+        ac_gdz_have_glut_e15=yes
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_glut_lib_e15='glut32.lib'
+        else
+           ac_gdz_glut_lib_e15='-lglut'
+        fi
+    elif [[ -n "$ac_gdz_glut_dir" ]]; then
+
+        ac_gdz_have_glut_e15=yes
+
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_glut_incdir_e15='"'`cygpath -w $ac_gdz_glut_dir/include`'"'
+           ac_gdz_glut_libdir_e15='"'`cygpath -w $ac_gdz_glut_dir/lib`'"'
+           ac_gdz_glut_lib_e15='"glut32.lib"'
+        else
+           ac_gdz_glut_incdir_e15=$ac_gdz_glut_dir/include
+           ac_gdz_glut_libdir_e15=$ac_gdz_glut_dir/lib
+           ac_gdz_glut_lib_e15='"-lglut"'
+        fi
+    else
+        ac_gdz_have_glut_e15=no
+    fi
+
+
+
+    changequote(<<, >>)dnl
+
+    ac_gdz_qt_lib_e15=
+    ac_gdz_qt_incdir_e15=
+    ac_gdz_qt_libdir_e15=
+    ac_gdz_qt_moc_e15=
+
+    if [[ -n "$ac_gdz_qt_dir" ]]; then
+
+        ac_gdz_have_qt_e15=yes
+
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_qt_incdir_e15='"'`cygpath -w $ac_gdz_qt_dir/include`'"'
+           ac_gdz_qt_libdir_e15='"'`cygpath -w $ac_gdz_qt_dir/lib`'"'
+           ac_gdz_qt_moc_e15=$ac_gdz_qt_dir/bin/moc
+           ac_gdz_qt_lib_e15='"'`cd $ac_gdz_qt_dir/lib; ls qt[0-9]*.lib`'"'
+            
+        else
+           ac_gdz_qt_incdir_e15=$ac_gdz_qt_dir/include
+           ac_gdz_qt_libdir_e15=$ac_gdz_qt_dir/lib
+           ac_gdz_qt_moc_e15=$ac_gdz_qt_dir/bin/moc
+           ac_gdz_qt_lib_e15='"-lqt"'
+        fi
+    else
+        ac_gdz_have_qt_e15=no
+    fi
+
+    changequote([, ])dnl
+
+
+
+    ac_gdz_tif_lib_e15=
+    ac_gdz_tif_incdir_e15=
+    ac_gdz_tif_libdir_e15=
+
+    if [[ "$with_tif" = yes ]]; then
+
+        ac_gdz_have_tif_e15=yes
+
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_tif_lib_e15='tif32.lib'
+        else
+           ac_gdz_tif_lib_e15='-ltiff'
+        fi
+
+    elif [[ -n "$ac_gdz_tif_dir" ]]; then
+
+        ac_gdz_have_tif_e15=yes
+
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_tif_incdir_e15='"'`cygpath -w $ac_gdz_tif_dir/include`'"'
+           ac_gdz_tif_libdir_e15='"'`cygpath -w $ac_gdz_tif_dir/lib`'"'
+           ac_gdz_tif_lib_e15='"tif32.lib"'
+        else
+           ac_gdz_tif_incdir_e15=$ac_gdz_tif_dir/include
+           ac_gdz_tif_libdir_e15=$ac_gdz_tif_dir/lib
+           ac_gdz_tif_lib_e15='"-ltiff"'
+        fi
+
+    else
+    
+        ac_gdz_have_tif_e15=no
+
+    fi
+
+
+    ac_gdz_jpg_lib_e15=
+    ac_gdz_jpg_incdir_e15=
+    ac_gdz_jpg_libdir_e15=
+
+    if [[ "$with_jpg" = yes ]]; then
+
+        ac_gdz_have_jpg_e15=yes
+
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_jpg_lib_e15='"jpg32.lib"'
+        else
+           ac_gdz_jpg_lib_e15='"-ljpeg"'
+        fi
+
+    elif [[ -n "$ac_gdz_jpg_dir" ]]; then
+
+        ac_gdz_have_jpg_e15=yes
+
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_jpg_incdir_e15='"'`cygpath -w $ac_gdz_jpg_dir/include`'"'
+           ac_gdz_jpg_libdir_e15='"'`cygpath -w $ac_gdz_jpg_dir/lib`'"'
+           ac_gdz_jpg_lib_e15='"jpg32.lib"'
+        else
+           ac_gdz_jpg_incdir_e15=$ac_gdz_jpg_dir/include
+           ac_gdz_jpg_libdir_e15=$ac_gdz_jpg_dir/lib
+           ac_gdz_jpg_lib_e15='"-ljpeg"'
+        fi
+
+    else
+    
+        ac_gdz_have_jpg_e15=no
+
+    fi
+
+
+
+    ac_gdz_png_lib_e15=
+    ac_gdz_png_incdir_e15=
+    ac_gdz_png_libdir_e15=
+
+    if [[ "$with_png" = yes ]]; then
+
+        ac_gdz_have_png_e15=yes
+
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_png_lib_e15='"png32.lib"'
+        else
+           ac_gdz_png_lib_e15='"-lpng -lz"'
+        fi
+
+    elif [[ -n "$ac_gdz_png_dir" ]]; then
+
+        ac_gdz_have_png_e15=yes
+
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_png_incdir_e15='"'`cygpath -w $ac_gdz_png_dir/include`'"'
+           ac_gdz_png_libdir_e15='"'`cygpath -w $ac_gdz_png_dir/lib`'"'
+           ac_gdz_png_lib_e15='"png32.lib"'
+        else
+           ac_gdz_png_incdir_e15=$ac_gdz_png_dir/include
+           ac_gdz_png_libdir_e15=$ac_gdz_png_dir/lib
+           ac_gdz_png_lib_e15='"-lpng"'
+        fi
+    
+    else
+    
+        ac_gdz_have_png_e15=no
+
+    fi
+
+
+
+    ac_gdz_mng_lib_e15=
+    ac_gdz_mng_incdir_e15=
+    ac_gdz_mng_libdir_e15=
+
+    if [[ "$with_mng" = yes ]]; then
+
+        ac_gdz_have_mng_e15=yes
+
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_mng_lib_e15='"mng32.lib"'
+        else
+           ac_gdz_mng_lib_e15='"-lmng"'
+        fi
+
+    elif [[ -n "$ac_gdz_mng_dir" ]]; then
+
+        ac_gdz_have_mng_e15=yes
+
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_mng_incdir_e15='"'`cygpath -w $ac_gdz_mng_dir/include`'"'
+           ac_gdz_mng_libdir_e15='"'`cygpath -w $ac_gdz_mng_dir/lib`'"'
+           ac_gdz_mng_lib_e15='"mng32.lib"'
+        else
+           ac_gdz_mng_incdir_e15=$ac_gdz_mng_dir/include
+           ac_gdz_mng_libdir_e15=$ac_gdz_mng_dir/lib
+           ac_gdz_mng_lib_e15='"-lmng"'
+        fi
+
+    else
+
+        ac_gdz_have_mng_e15=no
+
+    fi
+
+
+    AC_SUBST(ac_gdz_mng_incdir_e15)
+    AC_SUBST(ac_gdz_mng_libdir_e15)
+    AC_SUBST(ac_gdz_mng_lib_e15)
+    AC_SUBST(ac_gdz_have_mng_e15)
+
+
+    ac_gdz_gif_lib_e15=
+    ac_gdz_gif_incdir_e15=
+    ac_gdz_gif_libdir_e15=
+
+    if [[ "$with_gif" = yes ]]; then
+        
+        ac_gdz_have_gif_e15=yes
+
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_gif_lib_e15=
+        else
+           ac_gdz_gif_lib_e15=
+        fi
+    elif [[ -n "$ac_gdz_gif_dir" ]]; then
+
+        ac_gdz_have_gif_e15=yes
+
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_gif_incdir_e15=
+           ac_gdz_gif_libdir_e15=
+           ac_gdz_gif_lib_e15=
+        else
+           ac_gdz_gif_incdir_e15=
+           ac_gdz_gif_libdir_e15=
+           ac_gdz_gif_lib_e15=
+        fi
+    else
+        ac_gdz_have_gif_e15=no
+    fi
+
+
+    if test $build_os = cygwin; then 
+        ac_gdz_system_win_e15=yes
+        ac_gdz_system_unix_e15=no
+    else
+        ac_gdz_system_win_e15=no
+        ac_gdz_system_unix_e15=yes
+    fi
+
+    ac_gdz_osg_config_in_e15=$ac_gdz_commonconf_dir/osg-config.in
+    ac_gdz_osg_config_e15=$ac_gdz_commonpackage_dir/osg-config
+
+    touch confdefs.h
+
+    AC_SUBST(ac_gdz_glut_lib_e15)
+    AC_SUBST(ac_gdz_glut_incdir_e15)
+    AC_SUBST(ac_gdz_glut_libdir_e15)
+    AC_SUBST(ac_gdz_have_glut_e15)
+
+    AC_SUBST(ac_gdz_qt_incdir_e15)
+    AC_SUBST(ac_gdz_qt_libdir_e15)
+    AC_SUBST(ac_gdz_qt_lib_e15)
+    AC_SUBST(ac_gdz_qt_moc_e15)
+    AC_SUBST(ac_gdz_have_qt_e15)
+
+    AC_SUBST(ac_gdz_tif_incdir_e15)
+    AC_SUBST(ac_gdz_tif_libdir_e15)
+    AC_SUBST(ac_gdz_tif_lib_e15)
+    AC_SUBST(ac_gdz_have_tif_e15)
+
+    AC_SUBST(ac_gdz_jpg_incdir_e15)
+    AC_SUBST(ac_gdz_jpg_libdir_e15)
+    AC_SUBST(ac_gdz_jpg_lib_e15)
+    AC_SUBST(ac_gdz_have_jpg_e15)
+
+    AC_SUBST(ac_gdz_png_incdir_e15)
+    AC_SUBST(ac_gdz_png_libdir_e15)
+    AC_SUBST(ac_gdz_png_lib_e15)
+    AC_SUBST(ac_gdz_have_png_e15)
+
+    AC_SUBST(ac_gdz_gif_incdir_e15)
+    AC_SUBST(ac_gdz_gif_libdir_e15)
+    AC_SUBST(ac_gdz_gif_lib_e15)
+    AC_SUBST(ac_gdz_have_gif_e15)
+
+    AC_SUBST(ac_gdz_system_win_e15)
+    AC_SUBST(ac_gdz_system_unix_e15)
+
+    AC_OUTPUT($ac_gdz_osg_config_e15:$ac_gdz_osg_config_in_e15)
+])
+
