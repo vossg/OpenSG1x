@@ -73,89 +73,90 @@ OSG_USING_NAMESPACE
 
 /*-------------------------- constructor ----------------------------------*/
 
-DynamicVolume::DynamicVolume ( Type type) 
+DynamicVolume::DynamicVolume ( Type type)
 {
-	setVolumeType(type);
+    setVolumeType(type);
 }
 
-DynamicVolume::DynamicVolume(const DynamicVolume &obj) 
-	: Volume(obj),
+DynamicVolume::DynamicVolume(const DynamicVolume &obj)
+    : Volume(obj),
     _type(obj._type)
 {
-	switch ( _type ) {
-	case BOX_VOLUME:
-		new (_volumeMem) BoxVolume(*((OSG::BoxVolume*)(obj._volumeMem)));
-		break;	
-	case SPHERE_VOLUME:
-		new (_volumeMem) SphereVolume(*((OSG::SphereVolume*)(obj._volumeMem)));
-		break;
-	}
+    switch ( _type ) {
+    case BOX_VOLUME:
+        new (_volumeMem) BoxVolume(*((OSG::BoxVolume*)(obj._volumeMem)));
+        break;
+    case SPHERE_VOLUME:
+        new (_volumeMem) SphereVolume(*((OSG::SphereVolume*)(obj._volumeMem)));
+        break;
+    }
 }
 
 /*------------------------------ feature ----------------------------------*/
 
 void DynamicVolume::setVolumeType ( Type type )
 {
-	_type = type;
+    _type = type;
 
-	switch (type) {
-	case BOX_VOLUME:
-		new (_volumeMem) BoxVolume;
-		break;
-	case SPHERE_VOLUME:
-		new (_volumeMem) SphereVolume;
-		break;
-	}
+    switch (type) {
+    case BOX_VOLUME:
+        new (_volumeMem) BoxVolume;
+        break;
+    case SPHERE_VOLUME:
+        new (_volumeMem) SphereVolume;
+        break;
+    }
 }
 
 void DynamicVolume::morphToType ( Type type )
 {
-	Pnt3f min,max;
-	Vec3f vec;
-	BoxVolume *bv;
-	SphereVolume *sv;
+    Pnt3f min,max;
+    Vec3f vec;
+    BoxVolume *bv;
+    SphereVolume *sv;
 
-	if (type == _type)
-		return;
-	else	
-		switch (getType()) {
-		case BOX_VOLUME:
-			getBounds(min,max);
-			bv = new (_volumeMem) BoxVolume;
-			bv->setBounds(min,max);
-			break;
-		case SPHERE_VOLUME:
-			getBounds(min,max);
-			sv = new (_volumeMem) SphereVolume;
-			vec.setValues(max.x(),max.y(),max.z());
-			vec -= Vec3f(min.x(),min.y(),min.z());
-			sv->setValue(vec,vec.length()/2);
-			break;
-		}
+    if (type == _type)
+        return;
+    else
+        switch (getType()) {
+        case BOX_VOLUME:
+            getBounds(min,max);
+            bv = new (_volumeMem) BoxVolume;
+            bv->setBounds(min,max);
+            break;
+        case SPHERE_VOLUME:
+            getBounds(min,max);
+            sv = new (_volumeMem) SphereVolume;
+            vec.setValues(max.x(),max.y(),max.z());
+            vec -= Vec3f(min.x(),min.y(),min.z());
+            sv->setValue(vec,vec.length()/2);
+            break;
+        }
 }
 
 DynamicVolume & DynamicVolume::operator = (const DynamicVolume &source)
 {
-	_type = source._type;
+    _type = source._type;
 
-	switch ( _type ) 
-	{
-	case BOX_VOLUME:
-		new (_volumeMem)BoxVolume( *((OSG::BoxVolume*)(source._volumeMem)));
-		break;
-	case SPHERE_VOLUME:
-		new (_volumeMem)SphereVolume( *((OSG::SphereVolume*)(source._volumeMem)));
-		break;
-	}
+    switch ( _type )
+    {
+    case BOX_VOLUME:
+        new (_volumeMem)BoxVolume( *((OSG::BoxVolume*)(source._volumeMem)));
+        break;
+    case SPHERE_VOLUME:
+        new (_volumeMem)SphereVolume(*((OSG::SphereVolume*)
+            (source._volumeMem)));
+        break;
+    }
 
-	return *this;
+    return *this;
 }
 
 /// print the volume */
 void DynamicVolume::dump( UInt32 uiIndent, const BitVector &bvFlags) const
 {
-	PLOG << "Dyn:";
-	getInstance().dump( uiIndent, bvFlags );
+    PLOG << "Dyn:";
+    getInstance().dump( uiIndent, bvFlags );
 }
 
 /***************************************************************************\

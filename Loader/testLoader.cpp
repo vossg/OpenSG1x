@@ -18,23 +18,23 @@ OSG_USING_NAMESPACE
 
 int main (int argc, char **argv)
 {
-	NodePtr node;
-	const char *fileName = (argc > 1) ? argv[1] : "test.raw";
-	
-	osgInit(argc, argv);
+    NodePtr node;
+    const char *fileName = (argc > 1) ? argv[1] : "test.raw";
 
-	SceneFileHandler::the().print();
+    osgInit(argc, argv);
 
-	node = SceneFileHandler::the().read(fileName, 0);
+    SceneFileHandler::the().print();
 
-	node->updateVolume();
+    node = SceneFileHandler::the().read(fileName, 0);
 
-	Vec3f center;
-	node->getVolume().getCenter(center);
+    node->updateVolume();
 
-	cerr << "Volume: center " << center << ", volume "
-		 << node->getVolume().getScalarVolume() << endl;
+    Vec3f center;
+    node->getVolume().getCenter(center);
 
- 
-	return 0;
+    cerr << "Volume: center " << center << ", volume "
+         << node->getVolume().getScalarVolume() << endl;
+
+
+    return 0;
 }

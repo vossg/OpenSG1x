@@ -53,7 +53,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-namespace 
+namespace
 {
     Char8 cvsid_cpp[] = "@(#)$Id: $";
     Char8 cvsid_hpp[] = OSGVRMLSCENEFILETYPE_HEADER_CVSID;
@@ -73,7 +73,7 @@ namespace
 
 const char *VRMLSceneFileType::_suffixA[] =  { "wrl" };
 
-VRMLSceneFileType VRMLSceneFileType::_the(_suffixA, 
+VRMLSceneFileType VRMLSceneFileType::_the(_suffixA,
                                           sizeof(_suffixA),
                                           false,
                                           10);
@@ -109,14 +109,14 @@ VRMLSceneFileType &VRMLSceneFileType::the(void)
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-const Char8 *VRMLSceneFileType::getName(void) const 
-{ 
-    return "VRML GEOMETRY"; 
+const Char8 *VRMLSceneFileType::getName(void) const
+{
+    return "VRML GEOMETRY";
 }
 
 /*------------------------------ access -----------------------------------*/
 
-NodePtr VRMLSceneFileType::read(const Char8  *fileName, 
+NodePtr VRMLSceneFileType::read(const Char8  *fileName,
                                       UInt32  uiReplaceOptions) const
 {
     if(_pVRMLLoader == NULL)
@@ -132,7 +132,7 @@ NodePtr VRMLSceneFileType::read(const Char8  *fileName,
     return  _pVRMLLoader->getRoot();
 }
 
-NodePtr VRMLSceneFileType::read(const Char8  *fileName, 
+NodePtr VRMLSceneFileType::read(const Char8  *fileName,
                                       UInt32  uiAddOptions,
                                       UInt32  uiSubOptions) const
 {
@@ -156,11 +156,11 @@ VRMLSceneFileType::FCPtrStore VRMLSceneFileType::readTopNodes(
     FCPtrStore fcVec;
 
     NodePtr    nodePtr = read(fileName, uiReplaceOptions);
-    
+
     if(nodePtr != NullFC)
         fcVec.push_back(nodePtr);
-    
-	return fcVec;
+
+    return fcVec;
 }
 
 VRMLSceneFileType::FCPtrStore VRMLSceneFileType::readTopNodes(
@@ -171,11 +171,11 @@ VRMLSceneFileType::FCPtrStore VRMLSceneFileType::readTopNodes(
     FCPtrStore fcVec;
 
     NodePtr    nodePtr = read(fileName, uiAddOptions, uiSubOptions);
-    
+
     if(nodePtr != NullFC)
         fcVec.push_back(nodePtr);
-    
-	return fcVec;
+
+    return fcVec;
 }
 
 
@@ -201,11 +201,11 @@ Bool VRMLSceneFileType::write(const NodePtr, const char *) const
 /** \brief Constructor
  */
 
-VRMLSceneFileType::VRMLSceneFileType(const char   *suffixArray[], 
+VRMLSceneFileType::VRMLSceneFileType(const char   *suffixArray[],
                                            UInt16  suffixByteCount,
                                            Bool    override,
                                            UInt32  overridePriority) :
-	Inherited(suffixArray, 
+    Inherited(suffixArray,
               suffixByteCount,
               override,
               overridePriority)
@@ -227,30 +227,30 @@ VRMLSceneFileType::~VRMLSceneFileType(void)
 
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------
 

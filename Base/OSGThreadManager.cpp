@@ -312,7 +312,7 @@ Bool ThreadManager::shutdown(void)
     _sLockPoolStore.clear();
 
 #ifdef CHECK
-#if defined (OSG_ASPECT_USE_LOCALSTORAGE)		
+#if defined (OSG_ASPECT_USE_LOCALSTORAGE)
     Thread::freeAspect();
     Thread::freeThread();
     Thread::freeChangeList();

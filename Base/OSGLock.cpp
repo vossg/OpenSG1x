@@ -237,17 +237,17 @@ void PThreadLockBase::shutdown(void)
 
 void PThreadLockBase::aquire(void)
 {
-    pthread_mutex_lock  (&(_pLowLevelLock));         
+    pthread_mutex_lock  (&(_pLowLevelLock));
 }
 
 void PThreadLockBase::release(void)
 {
-    pthread_mutex_unlock(&(_pLowLevelLock));               
+    pthread_mutex_unlock(&(_pLowLevelLock));
 }
 
 Bool PThreadLockBase::request(void)
 {
-    return (pthread_mutex_trylock(&(_pLowLevelLock)) != EBUSY); 
+    return (pthread_mutex_trylock(&(_pLowLevelLock)) != EBUSY);
 }
 
 /*---------------------------- properties ---------------------------------*/
@@ -319,7 +319,7 @@ SprocLockBase::SprocLockBase(void):
 /** \brief Constructor
  */
 
-SprocLockBase::SprocLockBase(const Char8  *szName, 
+SprocLockBase::SprocLockBase(const Char8  *szName,
                                          UInt32  uiId):
     Inherited(szName, uiId),
     _pLowLevelLock(NULL)
@@ -492,15 +492,15 @@ WinThreadLockBase::~WinThreadLockBase(void)
 }
 
 Bool WinThreadLockBase::init(void)
-{ 
+{
 #ifdef OSG_WINLOCK_USE_MUTEX
-	_pMutex = CreateMutex(NULL,      // no security attributes
+    _pMutex = CreateMutex(NULL,      // no security attributes
                           FALSE,     // initially not owned
                           _szName);  // name of mutex
-	
-	if(_pMutex == NULL) 
-	{
-		return false;
+
+    if(_pMutex == NULL)
+    {
+        return false;
     }
 
     return true;
@@ -620,7 +620,7 @@ Lock *Lock::create(const Char8 *szName, UInt32 uiId)
         delete returnValue;
         returnValue = NULL;
     }
-    
+
     return returnValue;
 }
 
@@ -707,8 +707,8 @@ Lock::~Lock(void)
 
 char LockPool::cvsid[] = "@(#)$Id: $";
 
-MPLockPoolType LockPool::_type("OSGLockPool", 
-                               "OSGMPBase", 
+MPLockPoolType LockPool::_type("OSGLockPool",
+                               "OSGMPBase",
                                LockPool::create);
 
 /***************************************************************************\
@@ -734,7 +734,7 @@ LockPool *LockPool::create(const Char8 *szName, UInt32 uiId)
         delete returnValue;
         returnValue = NULL;
     }
-    
+
     return returnValue;
 }
 
@@ -781,7 +781,7 @@ Bool LockPool::init(void)
     }
 
     delete [] pTmp;
-        
+
     return returnValue;
 }
 
@@ -848,30 +848,30 @@ Bool LockPool::request(void *keyP)
 /*-------------------------- comparison -----------------------------------*/
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------
 

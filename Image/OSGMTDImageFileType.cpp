@@ -64,8 +64,7 @@ static const Char8 *suffixArray[] =
 	"mtd","opensg","opensgImage"
 };
 
-MTDImageFileType MTDImageFileType::_the(suffixArray,
-                                        sizeof(suffixArray) );
+MTDImageFileType MTDImageFileType::_the(suffixArray, sizeof(suffixArray) );
 
 /*****************************
  *	  Classvariables
@@ -148,33 +147,33 @@ Bool MTDImageFileType::read (Image &image, const Char8 *fileName )
 //
 //------------------------------
 Bool MTDImageFileType::write ( const Image &image, const Char8 *fileName )
-{	
-  Bool retCode = false;
+{
+	Bool retCode = false;
 
-  /*
-  ofstream out(fileName);
-  Head head;
-  const void *headData = (void*)(&head);
-  unsigned dataSize = image.getSize(), headSize = sizeof(Head);
+  	/*
+  	ofstream out(fileName);
+  	Head head;
+  	const void *headData = (void*)(&head);
+  	unsigned dataSize = image.getSize(), headSize = sizeof(Head);
 
-  head.pixelFormat  = image.getPixelFormat();
-  head.width        = image.getWidth();
-  head.height       = image.getHeight();
-  head.depth        = image.getDepth();
-  head.mipmapCount  = image.getMipMapCount();
-  head.frameCount   = image.getFrameCount();
-  head.frameDelay   = short(image.getFrameDelay() * 1000.0);
-  head.hostToNet();
+  	head.pixelFormat  = image.getPixelFormat();
+  	head.width        = image.getWidth();
+  	head.height       = image.getHeight();
+  	head.depth        = image.getDepth();
+  	head.mipmapCount  = image.getMipMapCount();
+  	head.frameCount   = image.getFrameCount();
+  	head.frameDelay   = short(image.getFrameDelay() * 1000.0);
+  	head.hostToNet();
   
-  if ( out && out.write(static_cast<const char *>(headData), headSize) && 
-       dataSize &&
-       out.write((char *)(image.getData()), dataSize) )
-    retCode = true;
-  else
-    retCode = false;    
-  */
+  	if ( out && out.write(static_cast<const char *>(headData), headSize) && 
+    	 dataSize &&
+       	 out.write((char *)(image.getData()), dataSize) )
+    		retCode = true;
+  	else
+    	retCode = false;    
+  	*/
 
-  return retCode;
+  	return retCode;
 }
 
 //----------------------------------------------------------------------
@@ -187,9 +186,9 @@ Bool MTDImageFileType::write ( const Image &image, const Char8 *fileName )
 UInt64 MTDImageFileType::restoreData ( Image &image, const UChar8 *buffer,
                                        Int32 memSize )
 {
-  image.setData(buffer);
+  	image.setData(buffer);
 
-  return true;
+  	return true;
 }
 
 //----------------------------------------------------------------------
@@ -202,13 +201,13 @@ UInt64 MTDImageFileType::restoreData ( Image &image, const UChar8 *buffer,
 UInt64 MTDImageFileType::storeData ( const Image &image, UChar8 *buffer,
                                      Int32 memSize )
 {
-  unsigned dataSize = image.getSize();
-  const UChar8 *src = image.getData();
+  	unsigned dataSize = image.getSize();
+  	const UChar8 *src = image.getData();
 
-  if ( dataSize && src && buffer )
-    memcpy( buffer, src, dataSize);
+  	if ( dataSize && src && buffer )
+    	memcpy( buffer, src, dataSize);
   
-  return dataSize;
+  	return dataSize;
 } 
 
 /******************************
@@ -255,7 +254,7 @@ UInt64 MTDImageFileType::storeData ( const Image &image, UChar8 *buffer,
 //
 //------------------------------
 MTDImageFileType::MTDImageFileType ( const Char8 *suffixArray[], 
-																					 UInt16 suffixByteCount )
+									 UInt16 suffixByteCount )
 	: ImageFileType ( suffixArray, suffixByteCount )
 {
 	return;

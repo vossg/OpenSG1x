@@ -131,13 +131,13 @@ TypeFactory::~TypeFactory(void)
 
 UInt32 TypeFactory::findTypeStatic(const Char8 *szName)
 {
-	TypeNameMapCnstIt  typeIt;
-	UInt32             uiTypeId = 0;
+    TypeNameMapCnstIt  typeIt;
+    UInt32             uiTypeId = 0;
 
     typeIt   = _mTypeNameMap.find(IDStringLink(szName));
     uiTypeId = (typeIt == _mTypeNameMap.end()) ? 0 : (*typeIt).second;
 
-	return uiTypeId;
+    return uiTypeId;
 }
 
 UInt32 TypeFactory::registerType(TypeBase *pType)
@@ -146,17 +146,17 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
 
     if(pType == NULL)
     {
-		SWARNING << "no data store given" << endl;
+        SWARNING << "no data store given" << endl;
 
-		return returnValue;        
+        return returnValue;
     }
 
-	if(pType->getName().empty() == true) 
+    if(pType->getName().empty() == true)
     {
-		SWARNING << "OSGDataElementType without name" << endl;
+        SWARNING << "OSGDataElementType without name" << endl;
 
-		return returnValue;
-	}
+        return returnValue;
+    }
 
     if(findTypeStatic(pType->getCName()) != 0)
     {
@@ -167,7 +167,7 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
     }
 
     returnValue = _mTypeNameMap.size() + 1;
-    
+
     _mTypeNameMap[IDStringLink(pType->getCName())] = returnValue;
 
     FDEBUG (("Registered type %s | %d\n", pType->getCName(), returnValue));
@@ -189,30 +189,30 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
 
 
 //---------------------------------------------------------------------------
-//  FUNCTION: 
+//  FUNCTION:
 //---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 //---------------------------------------------------------------------------
 //
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 //
 //g: GlobalVars:
-//g: 
+//g:
 //
 //r: Return:
-//r: 
+//r:
 //
 //c: Caution:
-//c: 
+//c:
 //
 //a: Assumptions:
-//a: 
+//a:
 //
 //d: Description:
-//d: 
+//d:
 //
 //s: SeeAlso:
-//s: 
+//s:
 //---------------------------------------------------------------------------
 

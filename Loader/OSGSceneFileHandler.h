@@ -81,7 +81,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*! \{                                                                 */
 
     virtual SceneFileType *getFileType(const Char8 *fileName);
-		virtual int getSuffixList(list<const char*> & suffixList);
+    virtual int getSuffixList(list<const char*> & suffixList);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

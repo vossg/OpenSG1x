@@ -57,8 +57,8 @@ OSG_USING_NAMESPACE
 
 /*! \defgroup MaterialLib
 
-The Material abstracts the surface characteristics that are used to render 
-the renderable objects. 
+The Material abstracts the surface characteristics that are used to render
+the renderable objects.
 
 */
 
@@ -77,7 +77,7 @@ The material base class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.11 2001/10/10 10:42:55 vossg Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.12 2001/10/11 16:41:18 neumannc Exp $";
 
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::NullMaterial;
 
@@ -167,7 +167,7 @@ void Material::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void Material::dump(      UInt32     , 
+void Material::dump(      UInt32     ,
                     const BitVector &) const
 {
 //   Inherited::dump(uiIndent, bvFlags);
@@ -188,7 +188,7 @@ Bool Material::operator < (const Material &other) const
 
 Bool Material::operator == (const Material &other) const
 {
-	return false;
+    return false;
 }
 
 /** \brief unequal
@@ -196,10 +196,10 @@ Bool Material::operator == (const Material &other) const
 
 Bool Material::operator != (const Material &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
 
-    
+
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -

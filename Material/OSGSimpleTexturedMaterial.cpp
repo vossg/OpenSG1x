@@ -65,7 +65,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.2 2001/10/10 10:42:55 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.3 2001/10/11 16:41:18 neumannc Exp $";
     static char cvsid_hpp[] = OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID;
 }
@@ -89,7 +89,7 @@ texture, just the ones needed most often.
 SimpleTexturedMaterial::SimpleTexturedMaterial(void) :
     Inherited()
 {
-	_textureChunk = TextureChunk::create();
+    _textureChunk = TextureChunk::create();
 }
 
 //! Copy Constructor
@@ -97,7 +97,7 @@ SimpleTexturedMaterial::SimpleTexturedMaterial(void) :
 SimpleTexturedMaterial::SimpleTexturedMaterial(const SimpleTexturedMaterial &source) :
     Inherited(source)
 {
-	_textureChunk = TextureChunk::create();
+    _textureChunk = TextureChunk::create();
 }
 
 //! Destructor
@@ -110,7 +110,7 @@ SimpleTexturedMaterial::~SimpleTexturedMaterial(void)
 
 static const char *getClassname(void)
 {
-    return "SimpleTexturedMaterial"; 
+    return "SimpleTexturedMaterial";
 };
 
 /*----------------------------- class specific ----------------------------*/
@@ -126,7 +126,7 @@ void SimpleTexturedMaterial::initMethod (void)
 void SimpleTexturedMaterial::changed(BitVector whichField, ChangeMode from)
 {
     Inherited::changed(whichField, from);
-    
+
     // these two are very expensive, as they need to regenerate the
     // texture object, do only if really needed
     if(whichField & ImageFieldMask)
@@ -156,7 +156,7 @@ void SimpleTexturedMaterial::changed(BitVector whichField, ChangeMode from)
             _textureChunk->setGenFuncT( GL_NONE );
         }
     }
-    
+
 }
 
 
@@ -172,13 +172,13 @@ StatePtr SimpleTexturedMaterial::makeState( void )
 void SimpleTexturedMaterial::rebuildState(void)
 {
     Inherited::rebuildState();
-        
+
     _pState->addChunk(_textureChunk);
 }
 
 Bool SimpleTexturedMaterial::isTransparent(void) const
 {
-    return Inherited::isTransparent() || 
+    return Inherited::isTransparent() ||
            (getImage()->getBpp() > 3 && getEnvMode() != GL_DECAL);
 }
 

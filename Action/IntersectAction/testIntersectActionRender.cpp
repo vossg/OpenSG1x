@@ -43,7 +43,7 @@ display(void)
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 	glPushMatrix();
-	glRotatef( glutGet( GLUT_ELAPSED_TIME ) / 1000.f, 0,0,1 );
+	glRotatef( glutGet( GLUT_ELAPSED_TIME ) / 50.f, 0,0,1 );
 	dact->apply( root );
 
 	glPopMatrix();
@@ -136,11 +136,11 @@ void key( unsigned char key, int , int )
 	
 	static Pnt3f pnts[] = { Pnt3f( 0,0,1 ), Pnt3f( 1,0,1),  Pnt3f( 2,0,1), 
 				Pnt3f( 3,0,1), Pnt3f( 0,0,1 ), Pnt3f( 0,0,1 ), 
-				Pnt3f( 0,0,1 ),Pnt3f( 0,0,1 ), 
+				Pnt3f( 0,0,1 ),Pnt3f( 0,0,1 ), Pnt3f( 0.9,0.9,1 ), 
 				Pnt3f(-Inf,-Inf,-Inf) };
 	static Vec3f dirs[] = { Vec3f( 0,0,-1), Vec3f( 0,0,-1), Vec3f( 0,0,-1),  
 				Vec3f( 0,0,-1), Vec3f( 0,-.2,-1), Vec3f( 0,.2,-1),  
-				Vec3f( -.2,-.2,-1), Vec3f( .2,.2,-1),
+				Vec3f( -.2,-.2,-1), Vec3f( .2,.2,-1), Vec3f( 0,0,-1 ),
 				Vec3f(-Inf,-Inf,-Inf) };
 	
 	static int i = 0;
@@ -154,7 +154,7 @@ void key( unsigned char key, int , int )
 
 	beginEditCP(points);
 	points->setValue( pnts[i], 0 );
-	points->setValue( pnts[i] + dirs[i], 1 );
+	points->setValue( pnts[i] + (dirs[i])*(Real32)(3.0), 1 );
 
 	if ( act->didHit() )
 	{
@@ -259,9 +259,11 @@ int main (int argc, char **argv)
     NodePtr  p1 = makePlane( 2,2,2,2 );
     g = GeometryPtr::dcast(p1->getCore());
 	g->setMaterial( white );
+	p1->updateVolume();
 	NodePtr  p2 = makePlane( 2,2,2,2 );
     g = GeometryPtr::dcast(p2->getCore());
 	g->setMaterial( white );
+	p2->updateVolume();
 	
     NodePtr g4 = Node::create();
  	TransformPtr t1 = Transform::create();
@@ -271,6 +273,7 @@ int main (int argc, char **argv)
 	beginEditCP(g4);
 	g4->setCore( t1 );
 	g4->addChild( p2 );
+	g4->updateVolume();
 	endEditCP(g4);
 
     NodePtr g3 = Node::create();
@@ -278,6 +281,7 @@ int main (int argc, char **argv)
 	beginEditCP(g3);
 	g3->setCore( g3c );
 	g3->addChild( p1 );
+	g3->updateVolume();
 	endEditCP(g3);
 	
     NodePtr g2 = Node::create();
@@ -285,6 +289,7 @@ int main (int argc, char **argv)
 	beginEditCP(g2);
 	g2->setCore( g2c );
 	g2->addChild( g3 );
+	g2->updateVolume();
 	endEditCP(g2);
 
     iroot = Node::create();
@@ -293,6 +298,7 @@ int main (int argc, char **argv)
 	iroot->setCore( g1c );
 	iroot->addChild( g2 );
 	iroot->addChild( g4 );
+	iroot->updateVolume();
 	endEditCP(iroot);
 
    

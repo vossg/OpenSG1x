@@ -37,7 +37,7 @@
 \*---------------------------------------------------------------------------*/
 
 //---------------------------------------------------------
-// 	Includes  
+//  Includes
 //---------------------------------------------------------
 
 
@@ -57,7 +57,7 @@
 OSG_USING_NAMESPACE
 
 /* enum VecBase::VectorSizeE
- * brief 
+ * brief
 */
 
 /* var VecBase::VectorSizeE VecBase::_iSize
@@ -79,12 +79,12 @@ OSG_USING_NAMESPACE
 
 
 /********************************************************/
-/**	  Classvariables                                   **/
+/**   Classvariables                                   **/
 /********************************************************/
 
 
 /********************************************************/
-/**	  Class methodes  **/
+/**   Class methodes  **/
 /********************************************************/
 
 
@@ -93,30 +93,30 @@ OSG_USING_NAMESPACE
 //--------------------------------------------------------
 //
 //Parameters:
-//p: unsigned int day, unsigned int month, int year, unsigned int hour=0,unsigned int minute=0,  unsigned int second=0 
+//p: unsigned int day, unsigned int month, int year, unsigned int hour=0,unsigned int minute=0,  unsigned int second=0
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:void
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: set all elements at once
 //SeeAlso:
 //s:
 //
 //--------------------------------------------------------
-void Date::set (unsigned int day, unsigned int month, int year, 
-									 unsigned int hour, unsigned int minute, unsigned int sec  )
+void Date::set (unsigned int day,  unsigned int month,  int year,
+                unsigned int hour, unsigned int minute, unsigned int sec  )
 {
-	_day = day;
-  _month = month;
-  _year = year;
-  _hour = hour;
-  _minute = minute;
-  _second = sec;   
+    _day = day;
+    _month = month;
+    _year = year;
+    _hour = hour;
+    _minute = minute;
+    _second = sec;
 }
 
 //--------------------------------------------------------
@@ -126,13 +126,13 @@ void Date::set (unsigned int day, unsigned int month, int year,
 //Parameters:
 //p: const char *string
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:void
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: check if it is a leap year
 //SeeAlso:
@@ -141,10 +141,11 @@ void Date::set (unsigned int day, unsigned int month, int year,
 //--------------------------------------------------------
 void Date::set (const char *string )
 {
-	if (string && *string) {
-    istrstream is(string);
-    // is >> *this;
-  }                       
+    if (string && *string)
+    {
+        istrstream is(string);
+        // is >> *this;
+    }
 }
 
 //--------------------------------------------------------
@@ -154,26 +155,26 @@ void Date::set (const char *string )
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
-//d: 
+//d:
 //SeeAlso:
 //s:
 //
 //--------------------------------------------------------
 Bool Date::isLeapYear (void )
 {
-  if (_year & 3)
+    if (_year & 3)
+        return false;
+    if ((_year % 100) || !(_year % 400))
+        return true;
     return false;
-  if ((_year % 100) || !(_year % 400))
-    return true;
-  return false;     	
 }
 
 //--------------------------------------------------------
@@ -183,13 +184,13 @@ Bool Date::isLeapYear (void )
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: check if the date valid
 //SeeAlso:
@@ -198,18 +199,18 @@ Bool Date::isLeapYear (void )
 //--------------------------------------------------------
 Bool Date::valid (void )
 {
- static const unsigned int daysPerMonth[12] =
-  { 31, 28, 31, 30, 31, 30, 30, 31, 30, 31, 30, 31 };
+    static const unsigned int daysPerMonth[12] =
+    { 31, 28, 31, 30, 31, 30, 30, 31, 30, 31, 30, 31 };
 
-  if ((_hour > 23) || (_minute > 59) || (_second > 59))
+    if ((_hour > 23) || (_minute > 59) || (_second > 59))
+        return false;
+    if ((_month < 1) || (_day < 1) || (_month > 12))
+        return false;
+    if (_day <= daysPerMonth[_month - 1])
+        return true;
+    if ((_month == 2) && (_day == 29))
+        return isLeapYear();
     return false;
-  if ((_month < 1) || (_day < 1) || (_month > 12))
-    return false;
-  if (_day <= daysPerMonth[_month - 1])
-    return true;
-  if ((_month == 2) && (_day == 29))
-    return isLeapYear();
-  return false;                
 }
 
 /********************************************************/
@@ -224,13 +225,13 @@ Bool Date::valid (void )
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:void
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: set the object with current system date
 //SeeAlso:
@@ -239,18 +240,18 @@ Bool Date::valid (void )
 //--------------------------------------------------------
 void Date::setSystemDate (void )
 {
-	time_t clock;
-  struct tm *tm_time;
+    time_t clock;
+    struct tm *tm_time;
 
-  time(&clock);
-  tm_time = localtime(&clock);
+    time(&clock);
+    tm_time = localtime(&clock);
 
-  _second = tm_time->tm_sec;
-  _minute = tm_time->tm_min;
-  _hour = tm_time->tm_hour;
-  _day = tm_time->tm_mday;
-  _month = tm_time->tm_mon + 1;
-  _year = tm_time->tm_year + 1900;      
+    _second = tm_time->tm_sec;
+    _minute = tm_time->tm_min;
+    _hour = tm_time->tm_hour;
+    _day = tm_time->tm_mday;
+    _month = tm_time->tm_mon + 1;
+    _year = tm_time->tm_year + 1900;
 }
 
 //--------------------------------------------------------
@@ -260,13 +261,13 @@ void Date::setSystemDate (void )
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Default Constructor
 //SeeAlso:
@@ -276,7 +277,7 @@ void Date::setSystemDate (void )
 Date::Date (void )
 : _second(0), _minute(0), _hour(0), _day(0), _month(0), _year(0)
 {
-	return;
+    return;
 }
 
 //--------------------------------------------------------
@@ -286,13 +287,13 @@ Date::Date (void )
 //Parameters:
 //p: const Date &obj
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Copy Constructor
 //SeeAlso:
@@ -301,9 +302,9 @@ Date::Date (void )
 //---------------------------------------------------------
 Date::Date (const Date &obj )
 : _second(obj._second), _minute(obj._minute), _hour(obj._hour),
-  _day(obj._day), _month(obj._month), _year(obj._year)    
+  _day(obj._day), _month(obj._month), _year(obj._year)
 {
-	return;
+    return;
 }
 
 //--------------------------------------------------------
@@ -313,13 +314,13 @@ Date::Date (const Date &obj )
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Destructor
 //SeeAlso:
@@ -328,7 +329,7 @@ Date::Date (const Date &obj )
 //---------------------------------------------------------
 Date::~Date (void )
 {
-	return;
+    return;
 }
 
 ostream &OSG::operator << (ostream &outStream, const Date &obj)
@@ -348,7 +349,7 @@ istream &OSG::operator >>(istream &inStream, Date &obj)
 
   return inStream >> obj._day  >> c >> obj._month  >> c >> obj._year
                   >> obj._hour >> c >> obj._minute >> c >> obj._second;
-}                                            
+}
 
 /*----------------------access----------------------------*/
 
@@ -367,13 +368,13 @@ istream &OSG::operator >>(istream &inStream, Date &obj)
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Destructor
 //SeeAlso:
@@ -397,13 +398,13 @@ Bool operator ==(const Date &v1, const Date &v2)
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Destructor
 //SeeAlso:
@@ -412,44 +413,44 @@ Bool operator ==(const Date &v1, const Date &v2)
 //---------------------------------------------------------
 Bool operator <(const Date &v1, const Date &v2)
 {
-	if (v1._year < v2._year)
-		return true;
-	if (v1._year > v2._year)
-		return false;
+    if (v1._year < v2._year)
+        return true;
+    if (v1._year > v2._year)
+        return false;
 
-	// v1._year == v2._year
+    // v1._year == v2._year
 
-	if (v1._month < v2._month)
-		return true;
-	if (v1._month > v2._month)
-		return false;
+    if (v1._month < v2._month)
+        return true;
+    if (v1._month > v2._month)
+        return false;
 
-	// v1._month == v2._month
+    // v1._month == v2._month
 
-	if (v1._day < v2._day)
-		return true;
-	if (v1._day > v2._day)
-		return false;
+    if (v1._day < v2._day)
+        return true;
+    if (v1._day > v2._day)
+        return false;
 
-	// v1._day == v2._day
+    // v1._day == v2._day
 
-	if (v1._hour < v2._hour)
-		return true;
-	if (v1._hour > v2._hour)
-		return false;
+    if (v1._hour < v2._hour)
+        return true;
+    if (v1._hour > v2._hour)
+        return false;
 
-	// v1._hour == v2._hour
+    // v1._hour == v2._hour
 
-	if (v1._minute < v2._minute)
-		return true;
-	if (v1._minute > v2._minute)
-		return false;
+    if (v1._minute < v2._minute)
+        return true;
+    if (v1._minute > v2._minute)
+        return false;
 
-	// v1._minute == v2._minute
+    // v1._minute == v2._minute
 
-	if (v1._second < v2._second)
-		return true;
-	return false;
+    if (v1._second < v2._second)
+        return true;
+    return false;
 }
 
 //--------------------------------------------------------
@@ -459,13 +460,13 @@ Bool operator <(const Date &v1, const Date &v2)
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Destructor
 //SeeAlso:
@@ -480,13 +481,13 @@ Bool operator <(const Date &v1, const Date &v2)
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Destructor
 //SeeAlso:

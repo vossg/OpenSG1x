@@ -60,10 +60,10 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::BlendChunk
-	\ingroup StateChunks
+    \ingroup StateChunks
 
-The blending chunk handles OpenGL blending, i.e. the definition how incoming 
-pixel are combined with the pixel already in the frame buffer. 	
+The blending chunk handles OpenGL blending, i.e. the definition how incoming
+pixel are combined with the pixel already in the frame buffer.
 
 */
 
@@ -75,7 +75,7 @@ pixel are combined with the pixel already in the frame buffer.
  *                           Class variables                               *
 \***************************************************************************/
 
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.7 2001/10/10 10:42:57 vossg Exp $";
+char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.8 2001/10/11 16:41:18 neumannc Exp $";
 
 StateChunkClass BlendChunk::_class("Blend");
 
@@ -130,8 +130,8 @@ void BlendChunk::initMethod (void)
 BlendChunk::BlendChunk(void) :
     Inherited()
 {
-	_extBlend       = Window::registerExtension( "EXT_blend_color" );
-	_funcBlendColor = Window::registerFunction ( "glBlendColorEXT" );
+    _extBlend       = Window::registerExtension( "EXT_blend_color" );
+    _funcBlendColor = Window::registerFunction ( "glBlendColorEXT" );
 }
 
 /** \brief Copy Constructor
@@ -162,7 +162,7 @@ void BlendChunk::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void BlendChunk::dump(      UInt32     uiIndent, 
+void BlendChunk::dump(      UInt32     uiIndent,
                          const BitVector &bvFlags) const
 {
    Inherited::dump(uiIndent, bvFlags);
@@ -172,50 +172,50 @@ void BlendChunk::dump(      UInt32     uiIndent,
 
 void BlendChunk::activate ( DrawActionBase *action, UInt32 )
 {
-	
-	if ( _sfSrcFactor.getValue() != GL_NONE )
-	{
-		glBlendFunc( _sfSrcFactor.getValue(), _sfDestFactor.getValue() );
-		
-		if ( action->getWindow()->hasExtension( _extBlend ) )
-		{
-			// get "glBlendColorEXT" function pointer	
-			 
-			void * blendcolor = 
-			    action->getWindow()->getFunction( _funcBlendColor );
 
-			((void (*)(GLclampf red,GLclampf green,GLclampf blue,
-			     GLclampf alpha )) 
-			     blendcolor )
-			    ( _sfColor.getValue().red(),  
-			      _sfColor.getValue().green(), 
-			      _sfColor.getValue().blue(), 
-			      _sfColor.getValue().alpha() );	
-		}
+    if ( _sfSrcFactor.getValue() != GL_NONE )
+    {
+        glBlendFunc( _sfSrcFactor.getValue(), _sfDestFactor.getValue() );
 
-		glEnable( GL_BLEND );
-	} 	
+        if ( action->getWindow()->hasExtension( _extBlend ) )
+        {
+            // get "glBlendColorEXT" function pointer
+
+            void * blendcolor =
+                action->getWindow()->getFunction( _funcBlendColor );
+
+            ((void (*)(GLclampf red,GLclampf green,GLclampf blue,
+                 GLclampf alpha ))
+                 blendcolor )
+                ( _sfColor.getValue().red(),
+                  _sfColor.getValue().green(),
+                  _sfColor.getValue().blue(),
+                  _sfColor.getValue().alpha() );
+        }
+
+        glEnable( GL_BLEND );
+    }
 }
 
 void BlendChunk::changeFrom( DrawActionBase *act, StateChunk * old_chunk, UInt32 index )
 {
-	old_chunk->deactivate( act, index );
-	activate( act, index );
+    old_chunk->deactivate( act, index );
+    activate( act, index );
 }
 
 void BlendChunk::deactivate ( DrawActionBase *, UInt32 )
 {
-	if ( _sfSrcFactor.getValue() != GL_NONE )
-	{
-		glDisable( GL_BLEND );	
-	}
+    if ( _sfSrcFactor.getValue() != GL_NONE )
+    {
+        glDisable( GL_BLEND );
+    }
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
 Real32 BlendChunk::switchCost( StateChunk * )
 {
-	return 0;
+    return 0;
 }
 
 /** \brief assignment
@@ -231,16 +231,16 @@ Bool BlendChunk::operator < (const StateChunk &other) const
 
 Bool BlendChunk::operator == (const StateChunk &other) const
 {
-	BlendChunk const *tother = dynamic_cast<BlendChunk const*>(&other);
+    BlendChunk const *tother = dynamic_cast<BlendChunk const*>(&other);
 
-	if ( !tother )
-		return false;
+    if ( !tother )
+        return false;
 
-	if(getColor() != tother->getColor())
-	   
-		return false;
-		
-	return true;
+    if(getColor() != tother->getColor())
+
+        return false;
+
+    return true;
 }
 
 /** \brief unequal
@@ -248,10 +248,10 @@ Bool BlendChunk::operator == (const StateChunk &other) const
 
 Bool BlendChunk::operator != (const StateChunk &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
 
-    
+
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -

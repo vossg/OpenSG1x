@@ -35,22 +35,22 @@ DrawAction * dact;
 NodePtr  root;
 
 
-void 
+void
 display(void)
 {
-	static float a = 0;
+    static float a = 0;
 
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	glPushMatrix();
-	glRotatef( a, 0,1,0 );
-	dact->apply( root );
+    glPushMatrix();
+    glRotatef( a, 0,1,0 );
+    dact->apply( root );
 
-	glPopMatrix();
+    glPopMatrix();
 
-	a+=1;
+    a+=1;
 
-	glutSwapBuffers();
+    glutSwapBuffers();
 }
 
 int main (int argc, char **argv)
@@ -66,47 +66,47 @@ int main (int argc, char **argv)
         pGeoProto->setDlistCache(false);
     }
 
-	const char *fileName = (argc > 1) ? argv[1] : "test.raw";
+    const char *fileName = (argc > 1) ? argv[1] : "test.raw";
 
-	SceneFileHandler::the().print();
+    SceneFileHandler::the().print();
 
-	root = SceneFileHandler::the().read(fileName, 0);
+    root = SceneFileHandler::the().read(fileName, 0);
 
-	if ( root == NullFC )
-	{
-		cerr << "Error loading " << fileName << "!" << endl;
-		exit(1);
-	}
+    if ( root == NullFC )
+    {
+        cerr << "Error loading " << fileName << "!" << endl;
+        exit(1);
+    }
 
 
-	cerr << "Tree: " << endl;
-	root->dump();
+    cerr << "Tree: " << endl;
+    root->dump();
 
-	// GLUT init
+    // GLUT init
 
- 	glutInit(&argc, argv);
-	glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-	glutCreateWindow("OpenSG");
-	glutDisplayFunc(display);       
-	
-	glutIdleFunc(display);
+    glutInit(&argc, argv);
+    glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    glutCreateWindow("OpenSG");
+    glutDisplayFunc(display);
 
-	glMatrixMode( GL_PROJECTION );
-	glLoadIdentity();
-	gluPerspective( 60, 1, 0.1, 100 );
-	glMatrixMode( GL_MODELVIEW );
-	glLoadIdentity();
+    glutIdleFunc(display);
 
-	gluLookAt( 15,15,15,  0, 0, 0,   0, 1, 0 );
-	
-	glEnable( GL_DEPTH_TEST );
-	// glDrawMode(  );
-	glEnable( GL_LIGHTING );
-	glEnable( GL_LIGHT0 );
-		
-	dact = DrawAction::create();
-	
-	glutMainLoop();
-	
-	return 0;
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    gluPerspective( 60, 1, 0.1, 100 );
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+
+    gluLookAt( 15,15,15,  0, 0, 0,   0, 1, 0 );
+
+    glEnable( GL_DEPTH_TEST );
+    // glDrawMode(  );
+    glEnable( GL_LIGHTING );
+    glEnable( GL_LIGHT0 );
+
+    dact = DrawAction::create();
+
+    glutMainLoop();
+
+    return 0;
 }

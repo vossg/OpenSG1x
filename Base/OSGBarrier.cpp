@@ -101,7 +101,7 @@ char BarrierCommonBase::cvsid[] = "@(#)$Id: $";
  */
 
 BarrierCommonBase::BarrierCommonBase(const Char8  *szName,
-                                                 UInt32  uiId):
+                                           UInt32  uiId):
     Inherited(szName),
     _uiBarrierId(uiId)
 {
@@ -186,7 +186,7 @@ PThreadBarrierBase::PThreadBarrierBase(const Char8  *szName,
     _pLockOne         (),
     _pLockTwo         (),
     _pWakeupCondition (),
-    _uiCount          (0)    
+    _uiCount          (0)
 {
 }
 
@@ -202,7 +202,7 @@ Bool PThreadBarrierBase::init(void)
     pthread_cond_init (&(_pWakeupCondition), NULL);
     pthread_mutex_init(&(_pLockOne),         NULL);
     pthread_mutex_init(&(_pLockTwo),         NULL);
-        
+
     _uiCount = 0;
 
     return true;
@@ -227,7 +227,7 @@ void PThreadBarrierBase::enter(UInt32 uiNumWaitFor)
 {
     if(uiNumWaitFor <= 1)
         return;
-        
+
     pthread_mutex_lock(&(_pLockOne));
 
     _uiCount++;
@@ -241,24 +241,24 @@ void PThreadBarrierBase::enter(UInt32 uiNumWaitFor)
     else
     {
         /* ok, enough threads are waiting
-           => wake up all waiting threads 
+           => wake up all waiting threads
         */
 
         pthread_cond_broadcast(&(_pWakeupCondition));
-        
+
     }
 
-    pthread_mutex_lock(&(_pLockTwo));         
-    
+    pthread_mutex_lock(&(_pLockTwo));
+
     if(_uiCount == uiNumWaitFor)
     {
         _uiCount = 0;
 
         pthread_cond_init(&(_pWakeupCondition), NULL);
     }
-    
-    pthread_mutex_unlock(&(_pLockTwo));               
-    
+
+    pthread_mutex_unlock(&(_pLockTwo));
+
     pthread_mutex_unlock(&(_pLockOne));
 }
 
@@ -358,7 +358,7 @@ Bool SprocBarrierBase::init(void)
 void SprocBarrierBase::shutdown(void)
 {
     if(_pBarrier != NULL)
-        free_barrier(_pBarrier);   
+        free_barrier(_pBarrier);
 }
 
 /*-------------------------------------------------------------------------*\
@@ -437,10 +437,10 @@ WinThreadBarrierBase::WinThreadBarrierBase(const Char8  *szName,
                                                        UInt32  uiId) :
     Inherited(szName, uiId),
 
-	_uiCount(0),
-	_pMutex1(NULL),
-	_pMutex2(NULL),
-	_pConditionEvent(NULL)
+    _uiCount(0),
+    _pMutex1(NULL),
+    _pMutex2(NULL),
+    _pConditionEvent(NULL)
 
 {
 }
@@ -460,45 +460,45 @@ Bool WinThreadBarrierBase::init(void)
 
     sprintf(pTmp, "%sWE", _szName);
 
-	_pConditionEvent = CreateEvent(NULL,
+    _pConditionEvent = CreateEvent(NULL,
                                    TRUE,
                                    FALSE,
-                                   pTmp); 
+                                   pTmp);
 
-    if(_pConditionEvent == NULL) 
-	{
-		fprintf(stderr, "Event create failed\n");
-		return false;
+    if(_pConditionEvent == NULL)
+    {
+        fprintf(stderr, "Event create failed\n");
+        return false;
     }
 
     sprintf(pTmp, "%sM1", _szName);
 
-	_pMutex1 = CreateMutex(NULL,   // no security attributes
+    _pMutex1 = CreateMutex(NULL,   // no security attributes
                            FALSE,  // initially not owned
                            pTmp);  // name of mutex
-	
-	if(_pMutex1 == NULL) 
-	{
+
+    if(_pMutex1 == NULL)
+    {
         CloseHandle(_pConditionEvent);
 
-		fprintf(stderr, "Create mutex1 failed\n");
-		return false;
+        fprintf(stderr, "Create mutex1 failed\n");
+        return false;
     }
 
 
     sprintf(pTmp, "%sM2", _szName);
 
-	_pMutex2 = CreateMutex(NULL,   // no security attributes
+    _pMutex2 = CreateMutex(NULL,   // no security attributes
                            FALSE,  // initially not owned
                            pTmp);  // name of mutex
-	
-	if(_pMutex2 == NULL) 
-	{
+
+    if(_pMutex2 == NULL)
+    {
         CloseHandle(_pConditionEvent);
         CloseHandle(_pMutex1);
 
-		fprintf(stderr, "Create mutex2 failed\n");
-		return false;
+        fprintf(stderr, "Create mutex2 failed\n");
+        return false;
     }
 
     delete [] pTmp;
@@ -530,7 +530,7 @@ void WinThreadBarrierBase::enter(UInt32 uiNumWaitFor)
 {
     if(uiNumWaitFor <= 1)
         return;
-        
+
     WaitForSingleObject(_pMutex1, INFINITE);
 
     _uiCount++;
@@ -545,23 +545,23 @@ void WinThreadBarrierBase::enter(UInt32 uiNumWaitFor)
     else
     {
         /* ok, enough threads are waiting
-           => wake up all waiting threads 
+           => wake up all waiting threads
         */
 
         ReleaseMutex(_pMutex1);
         SetEvent(_pConditionEvent);
-        
+
     }
 
-	WaitForSingleObject(_pMutex2, INFINITE);
-    
+    WaitForSingleObject(_pMutex2, INFINITE);
+
     if(_uiCount == uiNumWaitFor)
     {
         _uiCount = 0;
         ResetEvent(_pConditionEvent);
     }
 
-	ReleaseMutex(_pMutex2);
+    ReleaseMutex(_pMutex2);
 }
 
 /*---------------------------- properties ---------------------------------*/
@@ -589,7 +589,7 @@ void WinThreadBarrierBase::enter(UInt32 uiNumWaitFor)
 
 char Barrier::cvsid[] = "@(#)$Id: $";
 
-MPBarrierType Barrier::_type("OSGBarrier", 
+MPBarrierType Barrier::_type("OSGBarrier",
                              "OSGMPBase",
                              Barrier::create);
 
@@ -617,7 +617,7 @@ Barrier *Barrier::create (const Char8  *szName,
         delete returnValue;
         returnValue = NULL;
     }
-    
+
     return returnValue;
 }
 
@@ -684,30 +684,30 @@ Barrier::~Barrier(void)
 
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------
 

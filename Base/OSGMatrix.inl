@@ -56,11 +56,11 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 /** \typedef TransformationMatrix::ValueType
- *  \brief Value type, eg Real32 
+ *  \brief Value type, eg Real32
  */
 
 /** \typedef VectorInterface<ValueTypeT, VecStorage4<ValueTypeT> >\
-     TransformationMatrix::VectorType; 
+     TransformationMatrix::VectorType;
  *   \brief Matrix vector type, eg Vec4f
  */
 
@@ -187,7 +187,7 @@ TransformationMatrix<ValueTypeT>::TransformationMatrix(
     _matrix[2].setValue(vector3);
 }
 
-/** \brief Constructor using 4 Vec3f values 
+/** \brief Constructor using 4 Vec3f values
  */
 
 template<class ValueTypeT> inline
@@ -212,17 +212,17 @@ TransformationMatrix<ValueTypeT>::TransformationMatrix(
     const ValueTypeT rVal10,
     const ValueTypeT rVal20,
     const ValueTypeT rVal30,
-    
+
     const ValueTypeT rVal01,
     const ValueTypeT rVal11,
     const ValueTypeT rVal21,
     const ValueTypeT rVal31,
-    
+
     const ValueTypeT rVal02,
     const ValueTypeT rVal12,
     const ValueTypeT rVal22,
     const ValueTypeT rVal32,
-    
+
     const ValueTypeT rVal03,
     const ValueTypeT rVal13,
     const ValueTypeT rVal23,
@@ -317,17 +317,17 @@ void TransformationMatrix<ValueTypeT>::setValue(
     const ValueTypeT rVal10,
     const ValueTypeT rVal20,
     const ValueTypeT rVal30,
-    
+
     const ValueTypeT rVal01,
     const ValueTypeT rVal11,
     const ValueTypeT rVal21,
     const ValueTypeT rVal31,
-    
+
     const ValueTypeT rVal02,
     const ValueTypeT rVal12,
     const ValueTypeT rVal22,
     const ValueTypeT rVal32,
-    
+
     const ValueTypeT rVal03,
     const ValueTypeT rVal13,
     const ValueTypeT rVal23,
@@ -348,17 +348,17 @@ void TransformationMatrix<ValueTypeT>::setValueTransposed(
     const ValueTypeT rVal01,
     const ValueTypeT rVal02,
     const ValueTypeT rVal03,
-    
+
     const ValueTypeT rVal10,
     const ValueTypeT rVal11,
     const ValueTypeT rVal12,
     const ValueTypeT rVal13,
-    
+
     const ValueTypeT rVal20,
     const ValueTypeT rVal21,
     const ValueTypeT rVal22,
     const ValueTypeT rVal23,
-    
+
     const ValueTypeT rVal30,
     const ValueTypeT rVal31,
     const ValueTypeT rVal32,
@@ -445,44 +445,44 @@ void TransformationMatrix<ValueTypeT>::setValue(const char *str)
 
       ValueTypeT vec[16];
 
-      if( (str  == NULL) || 
+      if( (str  == NULL) ||
         (*str == '\0') )
-    {
+      {
         setIdentity();
         return;
       }
 
-    for(i = 0; i < numOfToken; c++) 
+    for(i = 0; i < numOfToken; c++)
     {
-        switch (*c) 
+        switch (*c)
         {
             case '\0':
-                if (tokenC) 
+                if (tokenC)
                 {
                     *tokenC = 0;
-                    vec[i++] = 
+                    vec[i++] =
                         TypeConstants<ValueTypeT>::getFromString(token);
-    
+
                 }
-                
-                while (i < numOfToken) 
-                    vec[i++] = 
+
+                while (i < numOfToken)
+                    vec[i++] =
                         TypeConstants<ValueTypeT>::getZeroElement();
 
                 break;
             case ' ':
             case '\t':
-                  case '\n':  
-                if (tokenC) 
+                  case '\n':
+                if (tokenC)
                 {
                     *tokenC = 0;
-                    vec[i++] = 
+                    vec[i++] =
                         TypeConstants<ValueTypeT>::getFromString(token);
                     tokenC = 0;
                 }
                 break;
             default:
-                if (!tokenC) 
+                if (!tokenC)
                 {
                     tokenC = token;
                 }
@@ -519,7 +519,7 @@ ValueTypeT *TransformationMatrix<ValueTypeT>::getValues(void)
 template<class ValueTypeT> inline
 const ValueTypeT *TransformationMatrix<ValueTypeT>::getValues(void) const
 {
-	return _matrix[0].getValues();
+    return _matrix[0].getValues();
 }
 
 /*------------------------- create transformation -------------------------*/
@@ -540,8 +540,8 @@ void TransformationMatrix<ValueTypeT>::setScale(const ValueTypeT s)
 /** \brief Sets matrix to scale by given uniform factor
  */
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setScale(const ValueTypeT sx, 
-			const ValueTypeT sy, const ValueTypeT sz)
+void TransformationMatrix<ValueTypeT>::setScale(const ValueTypeT sx,
+            const ValueTypeT sy, const ValueTypeT sz)
 {
     _matrix[0][0] = sx;
     _matrix[1][1] = sy;
@@ -580,7 +580,7 @@ template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setTranslate(
     const VectorType3f &t)
 {
-    _matrix[3].setValue(t);   
+    _matrix[3].setValue(t);
 }
 
 /** \brief Sets matrix to translate by given point
@@ -589,7 +589,7 @@ template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setTranslate(
     const PointType3f &t)
 {
-    _matrix[3].setValue(t);   
+    _matrix[3].setValue(t);
 }
 
 /** \brief Sets matrix to rotate by given rotation
@@ -606,7 +606,7 @@ void TransformationMatrix<ValueTypeT>::setRotate(
    orientation for scale, and center.  The "center" is the
    center point for scaling and rotation.  The "scaleOrientation"
    chooses the primary axes for the scale.
-*/ 
+*/
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setTransform(
     const VectorType3f   &translation,
@@ -618,120 +618,120 @@ void TransformationMatrix<ValueTypeT>::setTransform(
     Matrix tmpMat1;
     Matrix tmpMat2;
 
-	// Concatenate the translations t and c
-	VectorType3f tg(translation);
-	tg += center;
+    // Concatenate the translations t and c
+    VectorType3f tg(translation);
+    tg += center;
 
-	// Concatenate the rotations r and so
-	QuaternionType rg(rotation);
-	rg *= scaleOrientation;
+    // Concatenate the rotations r and so
+    QuaternionType rg(rotation);
+    rg *= scaleOrientation;
 
-	// Calculate the inverse of so
-	QuaternionType soi(scaleOrientation);
-	soi.invert();
+    // Calculate the inverse of so
+    QuaternionType soi(scaleOrientation);
+    soi.invert();
 
-	// Calculate the 3x3 rotation matrix
-	rg. getValue(tmpMat1);
-	soi.getValue(tmpMat2);
+    // Calculate the 3x3 rotation matrix
+    rg. getValue(tmpMat1);
+    soi.getValue(tmpMat2);
 
-	// Calculate the resulting transformation matrix
+    // Calculate the resulting transformation matrix
 
-	tmpMat1[0][0] *= scaleFactor[0]; 
-    tmpMat1[0][1] *= scaleFactor[0]; 
+    tmpMat1[0][0] *= scaleFactor[0];
+    tmpMat1[0][1] *= scaleFactor[0];
     tmpMat1[0][2] *= scaleFactor[0];
 
-	tmpMat1[1][0] *= scaleFactor[1]; 
-    tmpMat1[1][1] *= scaleFactor[1]; 
+    tmpMat1[1][0] *= scaleFactor[1];
+    tmpMat1[1][1] *= scaleFactor[1];
     tmpMat1[1][2] *= scaleFactor[1];
-	
-    tmpMat1[2][0] *= scaleFactor[2]; 
-    tmpMat1[2][1] *= scaleFactor[2]; 
+
+    tmpMat1[2][0] *= scaleFactor[2];
+    tmpMat1[2][1] *= scaleFactor[2];
     tmpMat1[2][2] *= scaleFactor[2];
 
-	_matrix[0][0] = 
-        tmpMat2[0][0] * tmpMat1[0][0] + 
-        tmpMat2[0][1] * tmpMat1[1][0] + 
+    _matrix[0][0] =
+        tmpMat2[0][0] * tmpMat1[0][0] +
+        tmpMat2[0][1] * tmpMat1[1][0] +
         tmpMat2[0][2] * tmpMat1[2][0];
 
-	_matrix[0][1] = 
-        tmpMat2[0][0] * tmpMat1[0][1] + 
-        tmpMat2[0][1] * tmpMat1[1][1] + 
+    _matrix[0][1] =
+        tmpMat2[0][0] * tmpMat1[0][1] +
+        tmpMat2[0][1] * tmpMat1[1][1] +
         tmpMat2[0][2] * tmpMat1[2][1];
 
-	_matrix[0][2] = 
-        tmpMat2[0][0] * tmpMat1[0][2] + 
-        tmpMat2[0][1] * tmpMat1[1][2] + 
+    _matrix[0][2] =
+        tmpMat2[0][0] * tmpMat1[0][2] +
+        tmpMat2[0][1] * tmpMat1[1][2] +
         tmpMat2[0][2] * tmpMat1[2][2];
 
-	_matrix[0][3] = 0.0;
+    _matrix[0][3] = 0.0;
 
 
-	_matrix[1][0] = 
-        tmpMat2[1][0] * tmpMat1[0][0] + 
+    _matrix[1][0] =
+        tmpMat2[1][0] * tmpMat1[0][0] +
         tmpMat2[1][1] * tmpMat1[1][0] +
         tmpMat2[1][2] * tmpMat1[2][0];
 
-	_matrix[1][1] = 
+    _matrix[1][1] =
         tmpMat2[1][0] * tmpMat1[0][1] +
-        tmpMat2[1][1] * tmpMat1[1][1] + 
+        tmpMat2[1][1] * tmpMat1[1][1] +
         tmpMat2[1][2] * tmpMat1[2][1];
 
-	_matrix[1][2] =
-        tmpMat2[1][0] * tmpMat1[0][2] + 
-        tmpMat2[1][1] * tmpMat1[1][2] + 
+    _matrix[1][2] =
+        tmpMat2[1][0] * tmpMat1[0][2] +
+        tmpMat2[1][1] * tmpMat1[1][2] +
         tmpMat2[1][2] * tmpMat1[2][2];
 
-	_matrix[1][3] = 0.0;
+    _matrix[1][3] = 0.0;
 
 
-	_matrix[2][0] =
-        tmpMat2[2][0] * tmpMat1[0][0] + 
-        tmpMat2[2][1] * tmpMat1[1][0] + 
+    _matrix[2][0] =
+        tmpMat2[2][0] * tmpMat1[0][0] +
+        tmpMat2[2][1] * tmpMat1[1][0] +
         tmpMat2[2][2] * tmpMat1[2][0];
 
-	_matrix[2][1] = 
-        tmpMat2[2][0] * tmpMat1[0][1] + 
-        tmpMat2[2][1] * tmpMat1[1][1] + 
+    _matrix[2][1] =
+        tmpMat2[2][0] * tmpMat1[0][1] +
+        tmpMat2[2][1] * tmpMat1[1][1] +
         tmpMat2[2][2] * tmpMat1[2][1];
 
-	_matrix[2][2] = 
-        tmpMat2[2][0] * tmpMat1[0][2] + 
-        tmpMat2[2][1] * tmpMat1[1][2] + 
+    _matrix[2][2] =
+        tmpMat2[2][0] * tmpMat1[0][2] +
+        tmpMat2[2][1] * tmpMat1[1][2] +
         tmpMat2[2][2] * tmpMat1[2][2];
 
-	_matrix[2][3] = 0.0;
+    _matrix[2][3] = 0.0;
 
 
-	_matrix[3][0] = 
-        _matrix[0][0] * -center[0] + 
-        _matrix[1][0] * -center[1] + 
+    _matrix[3][0] =
+        _matrix[0][0] * -center[0] +
+        _matrix[1][0] * -center[1] +
         _matrix[2][0] * -center[2] + tg[0];
 
-	_matrix[3][1] = 
-        _matrix[0][1] * -center[0] + 
-        _matrix[1][1] * -center[1] + 
+    _matrix[3][1] =
+        _matrix[0][1] * -center[0] +
+        _matrix[1][1] * -center[1] +
         _matrix[2][1] * -center[2] + tg[1];
 
-	_matrix[3][2] = 
-        _matrix[0][2] * -center[0] + 
-        _matrix[1][2] * -center[1] + 
+    _matrix[3][2] =
+        _matrix[0][2] * -center[0] +
+        _matrix[1][2] * -center[1] +
         _matrix[2][2] * -center[2] + tg[2];
 
-	_matrix[3][3] = 1.0;
-   
+    _matrix[3][3] = 1.0;
+
 }
 
-/** \brief Composes the matrix based on a translation 
+/** \brief Composes the matrix based on a translation
  */
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setTransform(
     const VectorType3f   &t )
 {
-	setIdentity();
-	
-	_matrix[3][0] = t[0];
-	_matrix[3][1] = t[1];
-	_matrix[3][2] = t[2];
+    setIdentity();
+
+    _matrix[3][0] = t[0];
+    _matrix[3][1] = t[1];
+    _matrix[3][2] = t[2];
 
 }
 
@@ -741,55 +741,55 @@ template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setTransform(
     const QuaternionType &r )
 {
-	setIdentity();
+    setIdentity();
 
-	// Calculate the 3x3 rotation matrix
+    // Calculate the 3x3 rotation matrix
     r.getValue(*this);
 }
 
 template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setTransform (const VectorType3f   &t, 
+void TransformationMatrix<ValueTypeT>::setTransform (const VectorType3f   &t,
                                                      const QuaternionType &r)
 {
     r.getValue(*this);
 
-	// Calculate the resulting transformation matrix
-	_matrix[0][3] = 0.0;
-	_matrix[1][3] = 0.0;
-	_matrix[2][3] = 0.0;
+    // Calculate the resulting transformation matrix
+    _matrix[0][3] = 0.0;
+    _matrix[1][3] = 0.0;
+    _matrix[2][3] = 0.0;
 
-	_matrix[3][0] = t[0];
-	_matrix[3][1] = t[1];
-	_matrix[3][2] = t[2];
-	_matrix[3][3] = 1.0;
+    _matrix[3][0] = t[0];
+    _matrix[3][1] = t[1];
+    _matrix[3][2] = t[2];
+    _matrix[3][3] = 1.0;
 }
 
 /** \brief Composes the matrix based on a translation, rotation and scale
  */
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setTransform(
-    const VectorType3f   &t, 
+    const VectorType3f   &t,
     const QuaternionType &r,
     const VectorType3f   &s)
 {
 //    Matrix tmpMat;
 
-	// Calculate the 3x3 rotation matrix
+    // Calculate the 3x3 rotation matrix
     r.getValue(*this);
 
-	// Calculate the resulting transformation matrix
-	_matrix[0][0] *= s[0]; _matrix[0][1] *= s[0]; _matrix[0][2] *=s[0];
-	_matrix[1][0] *= s[1]; _matrix[1][1] *= s[1]; _matrix[1][2] *=s[1];
-	_matrix[2][0] *= s[2]; _matrix[2][1] *= s[2]; _matrix[2][2] *=s[2];
+    // Calculate the resulting transformation matrix
+    _matrix[0][0] *= s[0]; _matrix[0][1] *= s[0]; _matrix[0][2] *=s[0];
+    _matrix[1][0] *= s[1]; _matrix[1][1] *= s[1]; _matrix[1][2] *=s[1];
+    _matrix[2][0] *= s[2]; _matrix[2][1] *= s[2]; _matrix[2][2] *=s[2];
 
-	_matrix[0][3] = 0.0;
-	_matrix[1][3] = 0.0;
-	_matrix[2][3] = 0.0;
+    _matrix[0][3] = 0.0;
+    _matrix[1][3] = 0.0;
+    _matrix[2][3] = 0.0;
 
-	_matrix[3][0] = t[0];
-	_matrix[3][1] = t[1];
-	_matrix[3][2] = t[2];
-	_matrix[3][3] = 1.0;
+    _matrix[3][0] = t[0];
+    _matrix[3][1] = t[1];
+    _matrix[3][2] = t[2];
+    _matrix[3][3] = 1.0;
 }
 
 /** \brief Composes the matrix based on a translation, rotation, scale and
@@ -797,88 +797,88 @@ void TransformationMatrix<ValueTypeT>::setTransform(
 */
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setTransform(
-    const VectorType3f   &t, 
+    const VectorType3f   &t,
     const QuaternionType &r,
-    const VectorType3f   &s, 
+    const VectorType3f   &s,
     const QuaternionType &so)
 {
     Matrix tmpMat1;
     Matrix tmpMat2;
 
-	// Concatenate the rotations r and so
-	QuaternionType rg(r);
-	rg.mult(so);
+    // Concatenate the rotations r and so
+    QuaternionType rg(r);
+    rg.mult(so);
 
-	// Calculate the inverse of so
-	QuaternionType soi(so);
-	soi.invert();
+    // Calculate the inverse of so
+    QuaternionType soi(so);
+    soi.invert();
 
-	// Calculate the 3x3 rotation matrix
-	rg. getValue(tmpMat1);
-	soi.getValue(tmpMat2);
+    // Calculate the 3x3 rotation matrix
+    rg. getValue(tmpMat1);
+    soi.getValue(tmpMat2);
 
-	// Calculate the resulting transformation matrix
-	tmpMat1[0][0] *= s[0]; tmpMat1[0][1] *= s[0]; tmpMat1[0][2] *=s[0];
-	tmpMat1[1][0] *= s[1]; tmpMat1[1][1] *= s[1]; tmpMat1[1][2] *=s[1];
-	tmpMat1[2][0] *= s[2]; tmpMat1[2][1] *= s[2]; tmpMat1[2][2] *=s[2];
+    // Calculate the resulting transformation matrix
+    tmpMat1[0][0] *= s[0]; tmpMat1[0][1] *= s[0]; tmpMat1[0][2] *=s[0];
+    tmpMat1[1][0] *= s[1]; tmpMat1[1][1] *= s[1]; tmpMat1[1][2] *=s[1];
+    tmpMat1[2][0] *= s[2]; tmpMat1[2][1] *= s[2]; tmpMat1[2][2] *=s[2];
 
-	_matrix[0][0] =
-        tmpMat2[0][0] * tmpMat1[0][0] + 
-        tmpMat2[0][1] * tmpMat1[1][0] + 
+    _matrix[0][0] =
+        tmpMat2[0][0] * tmpMat1[0][0] +
+        tmpMat2[0][1] * tmpMat1[1][0] +
         tmpMat2[0][2] * tmpMat1[2][0];
 
-	_matrix[0][1] = 
-        tmpMat2[0][0] * tmpMat1[0][1] + 
-        tmpMat2[0][1] * tmpMat1[1][1] + 
+    _matrix[0][1] =
+        tmpMat2[0][0] * tmpMat1[0][1] +
+        tmpMat2[0][1] * tmpMat1[1][1] +
         tmpMat2[0][2] * tmpMat1[2][1];
 
-	_matrix[0][2] = 
-        tmpMat2[0][0] * tmpMat1[0][2] + 
-        tmpMat2[0][1] * tmpMat1[1][2] + 
+    _matrix[0][2] =
+        tmpMat2[0][0] * tmpMat1[0][2] +
+        tmpMat2[0][1] * tmpMat1[1][2] +
         tmpMat2[0][2] * tmpMat1[2][2];
 
-	_matrix[0][3] = 0.0;
+    _matrix[0][3] = 0.0;
 
 
-	_matrix[1][0] = 
-        tmpMat2[1][0] * tmpMat1[0][0] + 
-        tmpMat2[1][1] * tmpMat1[1][0] + 
+    _matrix[1][0] =
+        tmpMat2[1][0] * tmpMat1[0][0] +
+        tmpMat2[1][1] * tmpMat1[1][0] +
         tmpMat2[1][2] * tmpMat1[2][0];
 
-	_matrix[1][1] = 
-        tmpMat2[1][0] * tmpMat1[0][1] + 
-        tmpMat2[1][1] * tmpMat1[1][1] + 
+    _matrix[1][1] =
+        tmpMat2[1][0] * tmpMat1[0][1] +
+        tmpMat2[1][1] * tmpMat1[1][1] +
         tmpMat2[1][2] * tmpMat1[2][1];
 
-	_matrix[1][2] = 
-        tmpMat2[1][0] * tmpMat1[0][2] + 
-        tmpMat2[1][1] * tmpMat1[1][2] + 
+    _matrix[1][2] =
+        tmpMat2[1][0] * tmpMat1[0][2] +
+        tmpMat2[1][1] * tmpMat1[1][2] +
         tmpMat2[1][2] * tmpMat1[2][2];
 
-	_matrix[1][3] = 0.0;
+    _matrix[1][3] = 0.0;
 
 
-	_matrix[2][0] = 
-        tmpMat2[2][0] * tmpMat1[0][0] + 
-        tmpMat2[2][1] * tmpMat1[1][0] + 
+    _matrix[2][0] =
+        tmpMat2[2][0] * tmpMat1[0][0] +
+        tmpMat2[2][1] * tmpMat1[1][0] +
         tmpMat2[2][2] * tmpMat1[2][0];
 
-	_matrix[2][1] = 
-        tmpMat2[2][0] * tmpMat1[0][1] + 
-        tmpMat2[2][1] * tmpMat1[1][1] + 
+    _matrix[2][1] =
+        tmpMat2[2][0] * tmpMat1[0][1] +
+        tmpMat2[2][1] * tmpMat1[1][1] +
         tmpMat2[2][2] * tmpMat1[2][1];
 
-	_matrix[2][2] = 
-        tmpMat2[2][0] * tmpMat1[0][2] + 
-        tmpMat2[2][1] * tmpMat1[1][2] + 
+    _matrix[2][2] =
+        tmpMat2[2][0] * tmpMat1[0][2] +
+        tmpMat2[2][1] * tmpMat1[1][2] +
         tmpMat2[2][2] * tmpMat1[2][2];
 
-	_matrix[2][3] = 0.0;
+    _matrix[2][3] = 0.0;
 
-	_matrix[3][0] = t[0];
-	_matrix[3][1] = t[1];
-	_matrix[3][2] = t[2];
-	_matrix[3][3] = 1.0;
+    _matrix[3][0] = t[0];
+    _matrix[3][1] = t[1];
+    _matrix[3][2] = t[2];
+    _matrix[3][3] = 1.0;
 }
 
 /** \brief Decomposes the matrix into a translation, rotation, scale,
@@ -891,9 +891,9 @@ void TransformationMatrix<ValueTypeT>::setTransform(
 */
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::getTransform(
-    VectorType3f   &translation, 
+    VectorType3f   &translation,
     QuaternionType &rotation,
-    VectorType3f   &scaleFactor, 
+    VectorType3f   &scaleFactor,
     QuaternionType &scaleOrientation,
     VectorType3f   &center) const
 {
@@ -904,9 +904,9 @@ void TransformationMatrix<ValueTypeT>::getTransform(
  */
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::getTransform(
-    VectorType3f   &translation, 
+    VectorType3f   &translation,
     QuaternionType &rotation,
-    VectorType3f   &scaleFactor, 
+    VectorType3f   &scaleFactor,
     QuaternionType &scaleOrientation) const
 {
     cerr << "Matrix::getTransform not implemented yet\n";
@@ -919,10 +919,10 @@ void TransformationMatrix<ValueTypeT>::getTransform(
 */
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::factor(
-    TransformationMatrix &r, 
-    VectorType3f         &s, 
+    TransformationMatrix &r,
+    VectorType3f         &s,
     TransformationMatrix &u,
-    VectorType3f         &t, 
+    VectorType3f         &t,
     TransformationMatrix &proj) const
 {
     cerr << "Matrix::getTransform not implemented yet\n";
@@ -941,20 +941,20 @@ Bool TransformationMatrix<ValueTypeT>::factor(
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::multMatrixPnt(
-    const PointType3f &src, 
+    const PointType3f &src,
           PointType3f &dst) const
 {
-	dst.setValues((src[0] * _matrix[0][0] + 
+    dst.setValues((src[0] * _matrix[0][0] +
                    src[1] * _matrix[1][0] +
-                   src[2] * _matrix[2][0] + 
+                   src[2] * _matrix[2][0] +
                             _matrix[3][0]),
-                  (src[0] * _matrix[0][1] + 
+                  (src[0] * _matrix[0][1] +
                    src[1] * _matrix[1][1] +
-                   src[2] * _matrix[2][1] + 
+                   src[2] * _matrix[2][1] +
                             _matrix[3][1]),
                   (src[0] * _matrix[0][2] +
                    src[1] * _matrix[1][2] +
-                   src[2] * _matrix[2][2] + 
+                   src[2] * _matrix[2][2] +
                             _matrix[3][2]));
 }
 
@@ -974,34 +974,34 @@ void TransformationMatrix<ValueTypeT>::multMatrixPnt(
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::multFullMatrixPnt(
-    const PointType3f &src, 
+    const PointType3f &src,
           PointType3f &dst) const
 {
-	ValueTypeT w =	src[0] * _matrix[0][3] +
-						src[1] * _matrix[1][3] +
-						src[2] * _matrix[2][3] + 
-								 _matrix[3][3];
-	
-	if ( w < Eps && w > -Eps )
-	{
-		SINFO << "multFullMatrixPnt: w < Eps!" << endl;
-		dst.setValues(0, 0, 0);
-		return;		
-	}
+    ValueTypeT w =  src[0] * _matrix[0][3] +
+                        src[1] * _matrix[1][3] +
+                        src[2] * _matrix[2][3] +
+                                 _matrix[3][3];
 
-	w = 1./w;
-	dst.setValues((src[0] * _matrix[0][0] + 
-				   src[1] * _matrix[1][0] +
-				   src[2] * _matrix[2][0] + 
-							_matrix[3][0]) * w,
-				  (src[0] * _matrix[0][1] + 
-				   src[1] * _matrix[1][1] +
-				   src[2] * _matrix[2][1] + 
-							_matrix[3][1]) * w,
-				  (src[0] * _matrix[0][2] +
-				   src[1] * _matrix[1][2] +
-				   src[2] * _matrix[2][2] + 
-							_matrix[3][2]) * w);
+    if ( w < Eps && w > -Eps )
+    {
+        SINFO << "multFullMatrixPnt: w < Eps!" << endl;
+        dst.setValues(0, 0, 0);
+        return;
+    }
+
+    w = 1./w;
+    dst.setValues((src[0] * _matrix[0][0] +
+                   src[1] * _matrix[1][0] +
+                   src[2] * _matrix[2][0] +
+                            _matrix[3][0]) * w,
+                  (src[0] * _matrix[0][1] +
+                   src[1] * _matrix[1][1] +
+                   src[2] * _matrix[2][1] +
+                            _matrix[3][1]) * w,
+                  (src[0] * _matrix[0][2] +
+                   src[1] * _matrix[1][2] +
+                   src[2] * _matrix[2][2] +
+                            _matrix[3][2]) * w);
 }
 
 /** \brief Multiplies matrix by given column point. The full (4x4) matrix is used.
@@ -1014,19 +1014,19 @@ void TransformationMatrix<ValueTypeT>::multFullMatrixPnt(
     multFullMatrixPnt(pnt, pnt);
 }
 
-/** \brief Multiplies matrix by given column vector,  where the resulting 
+/** \brief Multiplies matrix by given column vector,  where the resulting
  *  vector is given
  */
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::multMatrixVec(
-    const VectorType3f &src, 
+    const VectorType3f &src,
           VectorType3f &dst) const
 {
-	dst.setValues((src[0] * _matrix[0][0] + 
+    dst.setValues((src[0] * _matrix[0][0] +
                    src[1] * _matrix[1][0] +
                    src[2] * _matrix[2][0]),
-                  (src[0] * _matrix[0][1] + 
+                  (src[0] * _matrix[0][1] +
                    src[1] * _matrix[1][1] +
                    src[2] * _matrix[2][1]),
                   (src[0] * _matrix[0][2] +
@@ -1050,7 +1050,7 @@ void TransformationMatrix<ValueTypeT>::multMatrixVec(
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::transform(
-    const PointType3f &src, 
+    const PointType3f &src,
           PointType3f &dest) const
 {
     multMatrixPnt(src, dest);
@@ -1072,7 +1072,7 @@ void TransformationMatrix<ValueTypeT>::transform(
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::transform(
-    const VectorType3f &src, 
+    const VectorType3f &src,
           VectorType3f &dest) const
 {
     multMatrixVec(src, dest);
@@ -1101,7 +1101,7 @@ void TransformationMatrix<ValueTypeT>::transform(
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::equals(
-    const TransformationMatrix &matrix, 
+    const TransformationMatrix &matrix,
     const ValueType             tolerance) const
 {
     UInt32 i;
@@ -1124,11 +1124,11 @@ Bool TransformationMatrix<ValueTypeT>::equals(
 template<class ValueTypeT> inline
 ValueTypeT TransformationMatrix<ValueTypeT>::det3(void) const
 {
-    return (_matrix[0][0] * _matrix[1][1] * _matrix[2][2] + 
-            _matrix[0][1] * _matrix[1][2] * _matrix[2][0] + 
-            _matrix[0][2] * _matrix[1][0] * _matrix[2][1] - 
-            _matrix[0][2] * _matrix[1][1] * _matrix[2][0] - 
-            _matrix[0][1] * _matrix[1][0] * _matrix[2][2] - 
+    return (_matrix[0][0] * _matrix[1][1] * _matrix[2][2] +
+            _matrix[0][1] * _matrix[1][2] * _matrix[2][0] +
+            _matrix[0][2] * _matrix[1][0] * _matrix[2][1] -
+            _matrix[0][2] * _matrix[1][1] * _matrix[2][0] -
+            _matrix[0][1] * _matrix[1][0] * _matrix[2][2] -
             _matrix[0][0] * _matrix[1][2] * _matrix[2][1]);
 }
 
@@ -1138,215 +1138,215 @@ ValueTypeT TransformationMatrix<ValueTypeT>::det3(void) const
 template<class ValueTypeT> inline
 ValueTypeT TransformationMatrix<ValueTypeT>::det (void) const
 {
-    ValueTypeT 
-        a1, a2, a3, a4, 
-        b1, b2, b3, b4, 
-        c1, c2, c3, c4, 
+    ValueTypeT
+        a1, a2, a3, a4,
+        b1, b2, b3, b4,
+        c1, c2, c3, c4,
         d1, d2, d3, d4;
 
-	a1 = _matrix[0][0]; 
+    a1 = _matrix[0][0];
     b1 = _matrix[1][0];
-	c1 = _matrix[2][0]; 
+    c1 = _matrix[2][0];
     d1 = _matrix[3][0];
 
-	a2 = _matrix[0][1]; 
+    a2 = _matrix[0][1];
     b2 = _matrix[1][1];
-	c2 = _matrix[2][1]; 
+    c2 = _matrix[2][1];
     d2 = _matrix[3][1];
 
-	a3 = _matrix[0][2]; 
+    a3 = _matrix[0][2];
     b3 = _matrix[1][2];
-	c3 = _matrix[2][2]; 
+    c3 = _matrix[2][2];
     d3 = _matrix[3][2];
 
-	a4 = _matrix[0][3]; 
+    a4 = _matrix[0][3];
     b4 = _matrix[1][3];
-	c4 = _matrix[2][3]; 
+    c4 = _matrix[2][3];
     d4 = _matrix[3][3];
 
- 	return(	  a1 * det3(b2, b3, b4, c2, c3, c4, d2, d3, d4)
-			- b1 * det3(a2, a3, a4, c2, c3, c4, d2, d3, d4)
-			+ c1 * det3(a2, a3, a4, b2, b3, b4, d2, d3, d4)
-			- d1 * det3(a2, a3, a4, b2, b3, b4, c2, c3, c4));
-    
+    return(   a1 * det3(b2, b3, b4, c2, c3, c4, d2, d3, d4)
+            - b1 * det3(a2, a3, a4, c2, c3, c4, d2, d3, d4)
+            + c1 * det3(a2, a3, a4, b2, b3, b4, d2, d3, d4)
+            - d1 * det3(a2, a3, a4, b2, b3, b4, c2, c3, c4));
+
 }
 
 // This inverse stuff should be grouped in a better way :-). It's just a
 // Cut&Paste section. I will have a look at it lateron (GV)
 
 /** \brief Stores the inverse of the matrix into result, returns true if the
- *   matrix is not singular 
+ *   matrix is not singular
  */
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::inverse(
     TransformationMatrix &result) const
 {
-    ValueTypeT rDet; 
+    ValueTypeT rDet;
 
     ValueTypeT
-        a1, a2, a3, a4, 
-        b1, b2, b3, b4, 
-        c1, c2, c3, c4, 
+        a1, a2, a3, a4,
+        b1, b2, b3, b4,
+        c1, c2, c3, c4,
         d1, d2, d3, d4;
 
-	a1 = _matrix[0][0]; 
+    a1 = _matrix[0][0];
     b1 = _matrix[1][0];
-	c1 = _matrix[2][0]; 
+    c1 = _matrix[2][0];
     d1 = _matrix[3][0];
 
-	a2 = _matrix[0][1]; 
+    a2 = _matrix[0][1];
     b2 = _matrix[1][1];
-	c2 = _matrix[2][1]; 
+    c2 = _matrix[2][1];
     d2 = _matrix[3][1];
 
-	a3 = _matrix[0][2]; 
+    a3 = _matrix[0][2];
     b3 = _matrix[1][2];
-	c3 = _matrix[2][2]; 
+    c3 = _matrix[2][2];
     d3 = _matrix[3][2];
 
-	a4 = _matrix[0][3]; 
+    a4 = _matrix[0][3];
     b4 = _matrix[1][3];
-	c4 = _matrix[2][3]; 
+    c4 = _matrix[2][3];
     d4 = _matrix[3][3];
 
-	rDet = det();
+    rDet = det();
 
     if(osgabs(rDet) < 1E-30)
-	{
+    {
 #ifdef OSG_PRINT_MATHERR
         fprintf(stderr, "invertMatrix: Singular matrix, no inverse!\n");
 #endif
         result.setIdentity();
 
-		return false;
+        return false;
     }
 
-	rDet = 1.f / rDet;
+    rDet = 1.f / rDet;
 
-    result[0][0]  =   det3(b2, b3, b4, c2, c3, 
+    result[0][0]  =   det3(b2, b3, b4, c2, c3,
                            c4, d2, d3, d4) * rDet;
-    result[0][1]  = - det3(a2, a3, a4, c2, c3, c4, 
+    result[0][1]  = - det3(a2, a3, a4, c2, c3, c4,
                            d2, d3, d4) * rDet;
-    result[0][2]  =   det3(a2, a3, a4, b2, b3, b4, 
+    result[0][2]  =   det3(a2, a3, a4, b2, b3, b4,
                            d2, d3, d4) * rDet;
-    result[0][3]  = - det3(a2, a3, a4, b2, b3, b4, 
+    result[0][3]  = - det3(a2, a3, a4, b2, b3, b4,
                            c2, c3, c4) * rDet;
-    
-    result[1][0]  = - det3(b1, b3, b4, c1, c3, c4, 
+
+    result[1][0]  = - det3(b1, b3, b4, c1, c3, c4,
                            d1, d3, d4) * rDet;
-    result[1][1]  =   det3(a1, a3, a4, c1, c3, c4, 
+    result[1][1]  =   det3(a1, a3, a4, c1, c3, c4,
                            d1, d3, d4) * rDet;
-    result[1][2]  = - det3(a1, a3, a4, b1, b3, b4, 
+    result[1][2]  = - det3(a1, a3, a4, b1, b3, b4,
                            d1, d3, d4) * rDet;
-    result[1][3]  =   det3(a1, a3, a4, b1, b3, b4, 
+    result[1][3]  =   det3(a1, a3, a4, b1, b3, b4,
                            c1, c3, c4) * rDet;
-    
-    result[2][0]  =   det3(b1, b2, b4, c1, c2, c4, 
+
+    result[2][0]  =   det3(b1, b2, b4, c1, c2, c4,
                            d1, d2, d4) * rDet;
-    result[2][1]  = - det3(a1, a2, a4, c1, c2, c4, 
+    result[2][1]  = - det3(a1, a2, a4, c1, c2, c4,
                            d1, d2, d4) * rDet;
-    result[2][2]  =   det3(a1, a2, a4, b1, b2, b4, 
+    result[2][2]  =   det3(a1, a2, a4, b1, b2, b4,
                            d1, d2, d4) * rDet;
-    result[2][3]  = - det3(a1, a2, a4, b1, b2, b4, 
+    result[2][3]  = - det3(a1, a2, a4, b1, b2, b4,
                            c1, c2, c4) * rDet;
-    
-    result[3][0]  = - det3(b1, b2, b3, c1, c2, c3, 
+
+    result[3][0]  = - det3(b1, b2, b3, c1, c2, c3,
                            d1, d2, d3) * rDet;
-    result[3][1]  =   det3(a1, a2, a3, c1, c2, c3, 
+    result[3][1]  =   det3(a1, a2, a3, c1, c2, c3,
                            d1, d2, d3) * rDet;
-    result[3][2]  = - det3(a1, a2, a3, b1, b2, b3, 
+    result[3][2]  = - det3(a1, a2, a3, b1, b2, b3,
                            d1, d2, d3) * rDet;
-    result[3][3]  =   det3(a1, a2, a3, b1, b2, b3, 
+    result[3][3]  =   det3(a1, a2, a3, b1, b2, b3,
                            c1, c2, c3) * rDet;
-    
+
     return true;
 }
 
 /** \brief Inverts the matrix, returns true if the
- *   matrix is not singular 
+ *   matrix is not singular
  */
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::invert(void)
 {
-    ValueTypeT           rDet; 
+    ValueTypeT           rDet;
     TransformationMatrix result;
 
     ValueTypeT
-        a1, a2, a3, a4, 
-        b1, b2, b3, b4, 
-        c1, c2, c3, c4, 
+        a1, a2, a3, a4,
+        b1, b2, b3, b4,
+        c1, c2, c3, c4,
         d1, d2, d3, d4;
 
-	a1 = _matrix[0][0]; 
+    a1 = _matrix[0][0];
     b1 = _matrix[1][0];
-	c1 = _matrix[2][0]; 
+    c1 = _matrix[2][0];
     d1 = _matrix[3][0];
 
-	a2 = _matrix[0][1]; 
+    a2 = _matrix[0][1];
     b2 = _matrix[1][1];
-	c2 = _matrix[2][1]; 
+    c2 = _matrix[2][1];
     d2 = _matrix[3][1];
 
-	a3 = _matrix[0][2]; 
+    a3 = _matrix[0][2];
     b3 = _matrix[1][2];
-	c3 = _matrix[2][2]; 
+    c3 = _matrix[2][2];
     d3 = _matrix[3][2];
 
-	a4 = _matrix[0][3]; 
+    a4 = _matrix[0][3];
     b4 = _matrix[1][3];
-	c4 = _matrix[2][3]; 
+    c4 = _matrix[2][3];
     d4 = _matrix[3][3];
 
-	rDet = det();
+    rDet = det();
 
     if(osgabs(rDet) < 1E-30)
-	{
+    {
 #ifdef OSG_PRINT_MATHERR
         fprintf(stderr, "invertMatrix: Singular matrix, no inverse!\n");
 #endif
         setIdentity();
 
-		return false;
+        return false;
     }
 
-	rDet = 1.f / rDet;
+    rDet = 1.f / rDet;
 
-    result[0][0]  =   det3(b2, b3, b4, c2, c3, 
+    result[0][0]  =   det3(b2, b3, b4, c2, c3,
                            c4, d2, d3, d4) * rDet;
-    result[0][1]  = - det3(a2, a3, a4, c2, c3, c4, 
+    result[0][1]  = - det3(a2, a3, a4, c2, c3, c4,
                            d2, d3, d4) * rDet;
-    result[0][2]  =   det3(a2, a3, a4, b2, b3, b4, 
+    result[0][2]  =   det3(a2, a3, a4, b2, b3, b4,
                            d2, d3, d4) * rDet;
-    result[0][3]  = - det3(a2, a3, a4, b2, b3, b4, 
+    result[0][3]  = - det3(a2, a3, a4, b2, b3, b4,
                            c2, c3, c4) * rDet;
-    
-    result[1][0]  = - det3(b1, b3, b4, c1, c3, c4, 
+
+    result[1][0]  = - det3(b1, b3, b4, c1, c3, c4,
                            d1, d3, d4) * rDet;
-    result[1][1]  =   det3(a1, a3, a4, c1, c3, c4, 
+    result[1][1]  =   det3(a1, a3, a4, c1, c3, c4,
                            d1, d3, d4) * rDet;
-    result[1][2]  = - det3(a1, a3, a4, b1, b3, b4, 
+    result[1][2]  = - det3(a1, a3, a4, b1, b3, b4,
                            d1, d3, d4) * rDet;
-    result[1][3]  =   det3(a1, a3, a4, b1, b3, b4, 
+    result[1][3]  =   det3(a1, a3, a4, b1, b3, b4,
                            c1, c3, c4) * rDet;
-    
-    result[2][0]  =   det3(b1, b2, b4, c1, c2, c4, 
+
+    result[2][0]  =   det3(b1, b2, b4, c1, c2, c4,
                            d1, d2, d4) * rDet;
-    result[2][1]  = - det3(a1, a2, a4, c1, c2, c4, 
+    result[2][1]  = - det3(a1, a2, a4, c1, c2, c4,
                            d1, d2, d4) * rDet;
-    result[2][2]  =   det3(a1, a2, a4, b1, b2, b4, 
+    result[2][2]  =   det3(a1, a2, a4, b1, b2, b4,
                            d1, d2, d4) * rDet;
-    result[2][3]  = - det3(a1, a2, a4, b1, b2, b4, 
+    result[2][3]  = - det3(a1, a2, a4, b1, b2, b4,
                            c1, c2, c4) * rDet;
-    
-    result[3][0]  = - det3(b1, b2, b3, c1, c2, c3, 
+
+    result[3][0]  = - det3(b1, b2, b3, c1, c2, c3,
                            d1, d2, d3) * rDet;
-    result[3][1]  =   det3(a1, a2, a3, c1, c2, c3, 
+    result[3][1]  =   det3(a1, a2, a3, c1, c2, c3,
                            d1, d2, d3) * rDet;
-    result[3][2]  = - det3(a1, a2, a3, b1, b2, b3, 
+    result[3][2]  = - det3(a1, a2, a3, b1, b2, b3,
                            d1, d2, d3) * rDet;
-    result[3][3]  =   det3(a1, a2, a3, b1, b2, b3, 
+    result[3][3]  =   det3(a1, a2, a3, b1, b2, b3,
                            c1, c2, c3) * rDet;
 
     *this = result;
@@ -1355,89 +1355,89 @@ Bool TransformationMatrix<ValueTypeT>::invert(void)
 }
 
 /** \brief Set the matrix to be the inverse of the given one, returns true if
- *   the matrix is not singular 
+ *   the matrix is not singular
  */
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::invertFrom(
     const TransformationMatrix &matrix)
 {
-    ValueTypeT rDet; 
+    ValueTypeT rDet;
 
     ValueTypeT
-        a1, a2, a3, a4, 
-        b1, b2, b3, b4, 
-        c1, c2, c3, c4, 
+        a1, a2, a3, a4,
+        b1, b2, b3, b4,
+        c1, c2, c3, c4,
         d1, d2, d3, d4;
 
-	a1 = matrix._matrix[0][0]; 
+    a1 = matrix._matrix[0][0];
     b1 = matrix._matrix[1][0];
-	c1 = matrix._matrix[2][0]; 
+    c1 = matrix._matrix[2][0];
     d1 = matrix._matrix[3][0];
 
-	a2 = matrix._matrix[0][1]; 
+    a2 = matrix._matrix[0][1];
     b2 = matrix._matrix[1][1];
-	c2 = matrix._matrix[2][1]; 
+    c2 = matrix._matrix[2][1];
     d2 = matrix._matrix[3][1];
 
-	a3 = matrix._matrix[0][2]; 
+    a3 = matrix._matrix[0][2];
     b3 = matrix._matrix[1][2];
-	c3 = matrix._matrix[2][2]; 
+    c3 = matrix._matrix[2][2];
     d3 = matrix._matrix[3][2];
 
-	a4 = matrix._matrix[0][3]; 
+    a4 = matrix._matrix[0][3];
     b4 = matrix._matrix[1][3];
-	c4 = matrix._matrix[2][3]; 
+    c4 = matrix._matrix[2][3];
     d4 = matrix._matrix[3][3];
 
-	rDet = matrix.det();
+    rDet = matrix.det();
 
     if (osgabs(rDet) < 1E-30)
-	{
+    {
 #ifdef OSG_PRINT_MATHERR
         fprintf(stderr, "invertMatrix: Singular matrix, no inverse!\n");
 #endif
         setIdentity();
 
-		return false;
+        return false;
     }
 
-	rDet = 1.f / rDet;
+    rDet = 1.f / rDet;
 
-    _matrix[0][0]  =   det3(b2, b3, b4, c2, c3, 
+    _matrix[0][0]  =   det3(b2, b3, b4, c2, c3,
                             c4, d2, d3, d4) * rDet;
-    _matrix[0][1]  = - det3(a2, a3, a4, c2, c3, c4, 
+    _matrix[0][1]  = - det3(a2, a3, a4, c2, c3, c4,
                             d2, d3, d4) * rDet;
-    _matrix[0][2]  =   det3(a2, a3, a4, b2, b3, b4, 
+    _matrix[0][2]  =   det3(a2, a3, a4, b2, b3, b4,
                             d2, d3, d4) * rDet;
-    _matrix[0][3]  = - det3(a2, a3, a4, b2, b3, b4, 
+    _matrix[0][3]  = - det3(a2, a3, a4, b2, b3, b4,
                             c2, c3, c4) * rDet;
-    
-    _matrix[1][0]  = - det3(b1, b3, b4, c1, c3, c4, 
+
+    _matrix[1][0]  = - det3(b1, b3, b4, c1, c3, c4,
                             d1, d3, d4) * rDet;
-    _matrix[1][1]  =   det3(a1, a3, a4, c1, c3, c4, 
+    _matrix[1][1]  =   det3(a1, a3, a4, c1, c3, c4,
                             d1, d3, d4) * rDet;
-    _matrix[1][2]  = - det3(a1, a3, a4, b1, b3, b4, 
+    _matrix[1][2]  = - det3(a1, a3, a4, b1, b3, b4,
                             d1, d3, d4) * rDet;
-    _matrix[1][3]  =   det3(a1, a3, a4, b1, b3, b4, 
+    _matrix[1][3]  =   det3(a1, a3, a4, b1, b3, b4,
                             c1, c3, c4) * rDet;
-    
-    _matrix[2][0]  =   det3(b1, b2, b4, c1, c2, c4, 
+
+    _matrix[2][0]  =   det3(b1, b2, b4, c1, c2, c4,
                             d1, d2, d4) * rDet;
-    _matrix[2][1]  = - det3(a1, a2, a4, c1, c2, c4, 
+    _matrix[2][1]  = - det3(a1, a2, a4, c1, c2, c4,
                             d1, d2, d4) * rDet;
-    _matrix[2][2]  =   det3(a1, a2, a4, b1, b2, b4, 
+    _matrix[2][2]  =   det3(a1, a2, a4, b1, b2, b4,
                             d1, d2, d4) * rDet;
-    _matrix[2][3]  = - det3(a1, a2, a4, b1, b2, b4, 
+    _matrix[2][3]  = - det3(a1, a2, a4, b1, b2, b4,
                             c1, c2, c4) * rDet;
-    
-    _matrix[3][0]  = - det3(b1, b2, b3, c1, c2, c3, 
+
+    _matrix[3][0]  = - det3(b1, b2, b3, c1, c2, c3,
                             d1, d2, d3) * rDet;
-    _matrix[3][1]  =   det3(a1, a2, a3, c1, c2, c3, 
+    _matrix[3][1]  =   det3(a1, a2, a3, c1, c2, c3,
                             d1, d2, d3) * rDet;
-    _matrix[3][2]  = - det3(a1, a2, a3, b1, b2, b3, 
+    _matrix[3][2]  = - det3(a1, a2, a3, b1, b2, b3,
                             d1, d2, d3) * rDet;
-    _matrix[3][3]  =   det3(a1, a2, a3, b1, b2, b3, 
+    _matrix[3][3]  =   det3(a1, a2, a3, b1, b2, b3,
                             c1, c2, c3) * rDet;
 
     return true;
@@ -1447,8 +1447,8 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::inverse3(
     TransformationMatrix &result) const
 {
-    ValueTypeT rDet = det3(); 
-    
+    ValueTypeT rDet = det3();
+
     if(osgabs(rDet) < 1E-20)
     {
 #ifdef OSG_PRINT_MATHERR
@@ -1459,46 +1459,46 @@ Bool TransformationMatrix<ValueTypeT>::inverse3(
 
         return false;
     }
-    
+
     rDet = 1.0f / rDet;
-    
-    result[0][0]  =   det2(_matrix[1][1], 
-                           _matrix[1][2], 
-                           _matrix[2][1], 
+
+    result[0][0]  =   det2(_matrix[1][1],
+                           _matrix[1][2],
+                           _matrix[2][1],
                            _matrix[2][2]) * rDet;
-    result[0][1]  = - det2(_matrix[0][1], 
-                           _matrix[0][2], 
-                           _matrix[2][1], 
+    result[0][1]  = - det2(_matrix[0][1],
+                           _matrix[0][2],
+                           _matrix[2][1],
                            _matrix[2][2]) * rDet;
-    result[0][2]  =   det2(_matrix[0][1], 
-                           _matrix[0][2], 
-                           _matrix[1][1], 
+    result[0][2]  =   det2(_matrix[0][1],
+                           _matrix[0][2],
+                           _matrix[1][1],
                            _matrix[1][2]) * rDet;
-    
-    result[1][0]  = - det2(_matrix[1][0], 
-                           _matrix[1][2], 
-                           _matrix[2][0], 
+
+    result[1][0]  = - det2(_matrix[1][0],
+                           _matrix[1][2],
+                           _matrix[2][0],
                            _matrix[2][2]) * rDet;
-    result[1][1]  =   det2(_matrix[0][0], 
-                           _matrix[0][2], 
-                           _matrix[2][0], 
+    result[1][1]  =   det2(_matrix[0][0],
+                           _matrix[0][2],
+                           _matrix[2][0],
                            _matrix[2][2]) * rDet;
-    result[1][2]  = - det2(_matrix[0][0], 
-                           _matrix[0][2], 
-                           _matrix[1][0], 
+    result[1][2]  = - det2(_matrix[0][0],
+                           _matrix[0][2],
+                           _matrix[1][0],
                            _matrix[1][2]) * rDet;
-    
-    result[2][0]  =   det2(_matrix[1][0], 
-                           _matrix[1][1], 
-                           _matrix[2][0], 
+
+    result[2][0]  =   det2(_matrix[1][0],
+                           _matrix[1][1],
+                           _matrix[2][0],
                            _matrix[2][1]) * rDet;
-    result[2][1]  = - det2(_matrix[0][0], 
-                           _matrix[0][1], 
-                           _matrix[2][0], 
+    result[2][1]  = - det2(_matrix[0][0],
+                           _matrix[0][1],
+                           _matrix[2][0],
                            _matrix[2][1]) * rDet;
-    result[2][2]  =   det2(_matrix[0][0], 
-                           _matrix[0][1], 
-                           _matrix[1][0], 
+    result[2][2]  =   det2(_matrix[0][0],
+                           _matrix[0][1],
+                           _matrix[1][0],
                            _matrix[1][1]) * rDet;
 
     result[3][0] =
@@ -1506,14 +1506,14 @@ Bool TransformationMatrix<ValueTypeT>::inverse3(
         result[3][2] = TypeConstants<ValueType>::getZeroElement();
 
     result[3][3] = TypeConstants<ValueType>::getOneElement();
-    
+
     return true;
 }
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::invert3(void)
 {
-    ValueTypeT           rDet    = det3(); 
+    ValueTypeT           rDet    = det3();
     TransformationMatrix result;
 
     if(osgabs(rDet) < 1E-20)
@@ -1525,46 +1525,46 @@ Bool TransformationMatrix<ValueTypeT>::invert3(void)
 
         return false;
     }
-    
+
     rDet = 1.0f / rDet;
-    
-    result[0][0]  =   det2(_matrix[1][1], 
-                           _matrix[1][2], 
-                           _matrix[2][1], 
+
+    result[0][0]  =   det2(_matrix[1][1],
+                           _matrix[1][2],
+                           _matrix[2][1],
                            _matrix[2][2]) * rDet;
-    result[0][1]  = - det2(_matrix[0][1], 
-                           _matrix[0][2], 
-                           _matrix[2][1], 
+    result[0][1]  = - det2(_matrix[0][1],
+                           _matrix[0][2],
+                           _matrix[2][1],
                            _matrix[2][2]) * rDet;
-    result[0][2]  =   det2(_matrix[0][1], 
-                           _matrix[0][2], 
-                           _matrix[1][1], 
+    result[0][2]  =   det2(_matrix[0][1],
+                           _matrix[0][2],
+                           _matrix[1][1],
                            _matrix[1][2]) * rDet;
-    
-    result[1][0]  = - det2(_matrix[1][0], 
-                           _matrix[1][2], 
-                           _matrix[2][0], 
+
+    result[1][0]  = - det2(_matrix[1][0],
+                           _matrix[1][2],
+                           _matrix[2][0],
                            _matrix[2][2]) * rDet;
-    result[1][1]  =   det2(_matrix[0][0], 
-                           _matrix[0][2], 
-                           _matrix[2][0], 
+    result[1][1]  =   det2(_matrix[0][0],
+                           _matrix[0][2],
+                           _matrix[2][0],
                            _matrix[2][2]) * rDet;
-    result[1][2]  = - det2(_matrix[0][0], 
-                           _matrix[0][2], 
-                           _matrix[1][0], 
+    result[1][2]  = - det2(_matrix[0][0],
+                           _matrix[0][2],
+                           _matrix[1][0],
                            _matrix[1][2]) * rDet;
-    
-    result[2][0]  =   det2(_matrix[1][0], 
-                           _matrix[1][1], 
-                           _matrix[2][0], 
+
+    result[2][0]  =   det2(_matrix[1][0],
+                           _matrix[1][1],
+                           _matrix[2][0],
                            _matrix[2][1]) * rDet;
-    result[2][1]  = - det2(_matrix[0][0], 
-                           _matrix[0][1], 
-                           _matrix[2][0], 
+    result[2][1]  = - det2(_matrix[0][0],
+                           _matrix[0][1],
+                           _matrix[2][0],
                            _matrix[2][1]) * rDet;
-    result[2][2]  =   det2(_matrix[0][0], 
-                           _matrix[0][1], 
-                           _matrix[1][0], 
+    result[2][2]  =   det2(_matrix[0][0],
+                           _matrix[0][1],
+                           _matrix[1][0],
                            _matrix[1][1]) * rDet;
 
     result[3][0] =
@@ -1574,7 +1574,7 @@ Bool TransformationMatrix<ValueTypeT>::invert3(void)
     result[3][3] = TypeConstants<ValueType>::getOneElement();
 
     *this = result;
-    
+
     return true;
 }
 
@@ -1582,8 +1582,8 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::invertFrom3(
     const TransformationMatrix &matrix)
 {
-    ValueTypeT rDet = matrix.det3(); 
-    
+    ValueTypeT rDet = matrix.det3();
+
     if(osgabs(rDet) < 1E-20)
     {
 #ifdef OSG_PRINT_MATHERR
@@ -1594,46 +1594,46 @@ Bool TransformationMatrix<ValueTypeT>::invertFrom3(
 
         return false;
     }
-    
+
     rDet = 1.0f / rDet;
-    
-    _matrix[0][0]  =   det2(matrix._matrix[1][1], 
-                            matrix._matrix[1][2], 
-                            matrix._matrix[2][1], 
+
+    _matrix[0][0]  =   det2(matrix._matrix[1][1],
+                            matrix._matrix[1][2],
+                            matrix._matrix[2][1],
                             matrix._matrix[2][2]) * rDet;
-    _matrix[0][1]  = - det2(matrix._matrix[0][1], 
-                            matrix._matrix[0][2], 
-                            matrix._matrix[2][1], 
+    _matrix[0][1]  = - det2(matrix._matrix[0][1],
+                            matrix._matrix[0][2],
+                            matrix._matrix[2][1],
                             matrix._matrix[2][2]) * rDet;
-    _matrix[0][2]  =   det2(matrix._matrix[0][1], 
-                            matrix._matrix[0][2], 
-                            matrix._matrix[1][1], 
+    _matrix[0][2]  =   det2(matrix._matrix[0][1],
+                            matrix._matrix[0][2],
+                            matrix._matrix[1][1],
                             matrix._matrix[1][2]) * rDet;
-    
-    _matrix[1][0]  = - det2(matrix._matrix[1][0], 
-                            matrix._matrix[1][2], 
-                            matrix._matrix[2][0], 
+
+    _matrix[1][0]  = - det2(matrix._matrix[1][0],
+                            matrix._matrix[1][2],
+                            matrix._matrix[2][0],
                             matrix._matrix[2][2]) * rDet;
-    _matrix[1][1]  =   det2(matrix._matrix[0][0], 
-                            matrix._matrix[0][2], 
-                            matrix._matrix[2][0], 
+    _matrix[1][1]  =   det2(matrix._matrix[0][0],
+                            matrix._matrix[0][2],
+                            matrix._matrix[2][0],
                             matrix._matrix[2][2]) * rDet;
-    _matrix[1][2]  = - det2(matrix._matrix[0][0], 
-                            matrix._matrix[0][2], 
-                            matrix._matrix[1][0], 
+    _matrix[1][2]  = - det2(matrix._matrix[0][0],
+                            matrix._matrix[0][2],
+                            matrix._matrix[1][0],
                             matrix._matrix[1][2]) * rDet;
-    
-    _matrix[2][0]  =   det2(matrix._matrix[1][0], 
-                            matrix._matrix[1][1], 
-                            matrix._matrix[2][0], 
+
+    _matrix[2][0]  =   det2(matrix._matrix[1][0],
+                            matrix._matrix[1][1],
+                            matrix._matrix[2][0],
                             matrix._matrix[2][1]) * rDet;
-    _matrix[2][1]  = - det2(matrix._matrix[0][0], 
-                            matrix._matrix[0][1], 
-                            matrix._matrix[2][0], 
+    _matrix[2][1]  = - det2(matrix._matrix[0][0],
+                            matrix._matrix[0][1],
+                            matrix._matrix[2][0],
                             matrix._matrix[2][1]) * rDet;
-    _matrix[2][2]  =   det2(matrix._matrix[0][0], 
-                            matrix._matrix[0][1], 
-                            matrix._matrix[1][0], 
+    _matrix[2][2]  =   det2(matrix._matrix[0][0],
+                            matrix._matrix[0][1],
+                            matrix._matrix[1][0],
                             matrix._matrix[1][1]) * rDet;
 
     _matrix[3][0] =
@@ -1641,43 +1641,44 @@ Bool TransformationMatrix<ValueTypeT>::invertFrom3(
         _matrix[3][2] = TypeConstants<ValueType>::getZeroElement();
 
     _matrix[3][3] = TypeConstants<ValueType>::getOneElement();
-    
+
     return true;
 }
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::transposed(
-		TransformationMatrix &result) const
+        TransformationMatrix &result) const
 {
-	result.setValues(	(*this)[0][0], (*this)[1][0], (*this)[2][0], (*this)[3][0], 
-						(*this)[0][1], (*this)[1][1], (*this)[2][1], (*this)[3][1], 
-						(*this)[0][2], (*this)[1][2], (*this)[2][2], (*this)[3][2], 
-						(*this)[0][3], (*this)[1][3], (*this)[2][3], (*this)[3][3] );
-	return true;
+    result.setValues((*this)[0][0], (*this)[1][0], (*this)[2][0], (*this)[3][0],
+                     (*this)[0][1], (*this)[1][1], (*this)[2][1], (*this)[3][1],
+                     (*this)[0][2], (*this)[1][2], (*this)[2][2], (*this)[3][2],
+                     (*this)[0][3], (*this)[1][3], (*this)[2][3], (*this)[3][3]
+                     );
+    return true;
 }
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::transpose(void)
 {
-	ValueTypeT tmp;
-	tmp = (*this)[1][0]; (*this)[1][0] = (*this)[0][1]; (*this)[0][1] = tmp;
-	tmp = (*this)[2][0]; (*this)[2][0] = (*this)[0][2]; (*this)[0][2] = tmp;
-	tmp = (*this)[3][0]; (*this)[3][0] = (*this)[0][3]; (*this)[0][3] = tmp;
-	tmp = (*this)[2][1]; (*this)[2][1] = (*this)[1][2]; (*this)[1][2] = tmp;
-	tmp = (*this)[3][1]; (*this)[3][1] = (*this)[1][3]; (*this)[1][3] = tmp;
-	tmp = (*this)[3][2]; (*this)[3][2] = (*this)[2][3]; (*this)[2][3] = tmp;
-	return true;
+    ValueTypeT tmp;
+    tmp = (*this)[1][0]; (*this)[1][0] = (*this)[0][1]; (*this)[0][1] = tmp;
+    tmp = (*this)[2][0]; (*this)[2][0] = (*this)[0][2]; (*this)[0][2] = tmp;
+    tmp = (*this)[3][0]; (*this)[3][0] = (*this)[0][3]; (*this)[0][3] = tmp;
+    tmp = (*this)[2][1]; (*this)[2][1] = (*this)[1][2]; (*this)[1][2] = tmp;
+    tmp = (*this)[3][1]; (*this)[3][1] = (*this)[1][3]; (*this)[1][3] = tmp;
+    tmp = (*this)[3][2]; (*this)[3][2] = (*this)[2][3]; (*this)[2][3] = tmp;
+    return true;
 }
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::transposeFrom(
-	const TransformationMatrix &matrix)
+    const TransformationMatrix &matrix)
 {
-	this->setValues(	matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0], 
-						matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1], 
-						matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2], 
-						matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3] );
-	return true;
+    this->setValues(    matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0],
+                        matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1],
+                        matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2],
+                        matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3]);
+    return true;
 }
 
 template<class ValueTypeT> inline
@@ -1690,7 +1691,7 @@ void TransformationMatrix<ValueTypeT>::mult(
     (rTmpMat)[0][1] = rowMulCol4((*this),1,(matrix),0);
     (rTmpMat)[0][2] = rowMulCol4((*this),2,(matrix),0);
     (rTmpMat)[0][3] = rowMulCol4((*this),3,(matrix),0);
-    
+
     (rTmpMat)[1][0] = rowMulCol4((*this),0,(matrix),1);
     (rTmpMat)[1][1] = rowMulCol4((*this),1,(matrix),1);
     (rTmpMat)[1][2] = rowMulCol4((*this),2,(matrix),1);
@@ -1737,7 +1738,7 @@ void TransformationMatrix<ValueTypeT>::multLeft(
     (rTmpMat)[0][1] = rowMulCol4((matrix),1,(*this),0);
     (rTmpMat)[0][2] = rowMulCol4((matrix),2,(*this),0);
     (rTmpMat)[0][3] = rowMulCol4((matrix),3,(*this),0);
-    
+
     (rTmpMat)[1][0] = rowMulCol4((matrix),0,(*this),1);
     (rTmpMat)[1][1] = rowMulCol4((matrix),1,(*this),1);
     (rTmpMat)[1][2] = rowMulCol4((matrix),2,(*this),1);
@@ -1782,25 +1783,25 @@ template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::add(
     const TransformationMatrix &matrix)
 {
-	_matrix[0][0] += matrix._matrix[0][0];
-	_matrix[0][1] += matrix._matrix[0][1];  
-	_matrix[0][2] += matrix._matrix[0][2];  
-	_matrix[0][3] += matrix._matrix[0][3];  
+    _matrix[0][0] += matrix._matrix[0][0];
+    _matrix[0][1] += matrix._matrix[0][1];
+    _matrix[0][2] += matrix._matrix[0][2];
+    _matrix[0][3] += matrix._matrix[0][3];
 
-	_matrix[1][0] += matrix._matrix[1][0]; 
-	_matrix[1][1] += matrix._matrix[1][1]; 
-	_matrix[1][2] += matrix._matrix[1][2]; 
-	_matrix[1][3] += matrix._matrix[1][3]; 
+    _matrix[1][0] += matrix._matrix[1][0];
+    _matrix[1][1] += matrix._matrix[1][1];
+    _matrix[1][2] += matrix._matrix[1][2];
+    _matrix[1][3] += matrix._matrix[1][3];
 
-	_matrix[2][0] += matrix._matrix[2][0]; 
-	_matrix[2][1] += matrix._matrix[2][1]; 
-	_matrix[2][2] += matrix._matrix[2][2]; 
-	_matrix[2][3] += matrix._matrix[2][3]; 
+    _matrix[2][0] += matrix._matrix[2][0];
+    _matrix[2][1] += matrix._matrix[2][1];
+    _matrix[2][2] += matrix._matrix[2][2];
+    _matrix[2][3] += matrix._matrix[2][3];
 
-	_matrix[3][0] += matrix._matrix[3][0]; 
-	_matrix[3][1] += matrix._matrix[3][1]; 
-	_matrix[3][2] += matrix._matrix[3][2]; 
-	_matrix[3][3] += matrix._matrix[3][3]; 
+    _matrix[3][0] += matrix._matrix[3][0];
+    _matrix[3][1] += matrix._matrix[3][1];
+    _matrix[3][2] += matrix._matrix[3][2];
+    _matrix[3][3] += matrix._matrix[3][3];
 }
 
 /** \brief Adds a scaled version of the given matrix to this matrix
@@ -1810,25 +1811,25 @@ template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::addScaled(
     const TransformationMatrix &matrix, ValueTypeT s)
 {
-	_matrix[0][0] += s*matrix._matrix[0][0];  
-	_matrix[0][1] += s*matrix._matrix[0][1];  
-	_matrix[0][2] += s*matrix._matrix[0][2];  
-	_matrix[0][3] += s*matrix._matrix[0][3];  
+    _matrix[0][0] += s*matrix._matrix[0][0];
+    _matrix[0][1] += s*matrix._matrix[0][1];
+    _matrix[0][2] += s*matrix._matrix[0][2];
+    _matrix[0][3] += s*matrix._matrix[0][3];
 
-	_matrix[1][0] += s*matrix._matrix[1][0];  
-	_matrix[1][1] += s*matrix._matrix[1][1];  
-	_matrix[1][2] += s*matrix._matrix[1][2];  
-	_matrix[1][3] += s*matrix._matrix[1][3];  
+    _matrix[1][0] += s*matrix._matrix[1][0];
+    _matrix[1][1] += s*matrix._matrix[1][1];
+    _matrix[1][2] += s*matrix._matrix[1][2];
+    _matrix[1][3] += s*matrix._matrix[1][3];
 
-	_matrix[2][0] += s*matrix._matrix[2][0];  
-	_matrix[2][1] += s*matrix._matrix[2][1];  
-	_matrix[2][2] += s*matrix._matrix[2][2];  
-	_matrix[2][3] += s*matrix._matrix[2][3];  
+    _matrix[2][0] += s*matrix._matrix[2][0];
+    _matrix[2][1] += s*matrix._matrix[2][1];
+    _matrix[2][2] += s*matrix._matrix[2][2];
+    _matrix[2][3] += s*matrix._matrix[2][3];
 
-	_matrix[3][0] += s*matrix._matrix[3][0];  
-	_matrix[3][1] += s*matrix._matrix[3][1];  
-	_matrix[3][2] += s*matrix._matrix[3][2];  
-	_matrix[3][3] += s*matrix._matrix[3][3];  
+    _matrix[3][0] += s*matrix._matrix[3][0];
+    _matrix[3][1] += s*matrix._matrix[3][1];
+    _matrix[3][2] += s*matrix._matrix[3][2];
+    _matrix[3][3] += s*matrix._matrix[3][3];
 }
 
 /** \brief Negates the matrix in place
@@ -1837,25 +1838,25 @@ void TransformationMatrix<ValueTypeT>::addScaled(
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::negate(void)
 {
-	_matrix[0][0] *= -1.0;
-	_matrix[0][1] *= -1.0;
-	_matrix[0][2] *= -1.0;
-	_matrix[0][3] *= -1.0;
+    _matrix[0][0] *= -1.0;
+    _matrix[0][1] *= -1.0;
+    _matrix[0][2] *= -1.0;
+    _matrix[0][3] *= -1.0;
 
-	_matrix[1][0] *= -1.0;
-	_matrix[1][1] *= -1.0;
-	_matrix[1][2] *= -1.0;
-	_matrix[1][3] *= -1.0;
+    _matrix[1][0] *= -1.0;
+    _matrix[1][1] *= -1.0;
+    _matrix[1][2] *= -1.0;
+    _matrix[1][3] *= -1.0;
 
-	_matrix[2][0] *= -1.0;
-	_matrix[2][1] *= -1.0;
-	_matrix[2][2] *= -1.0;
-	_matrix[2][3] *= -1.0;
+    _matrix[2][0] *= -1.0;
+    _matrix[2][1] *= -1.0;
+    _matrix[2][2] *= -1.0;
+    _matrix[2][3] *= -1.0;
 
-	_matrix[3][0] *= -1.0;
-	_matrix[3][1] *= -1.0;
-	_matrix[3][2] *= -1.0;
-	_matrix[3][3] *= -1.0;
+    _matrix[3][0] *= -1.0;
+    _matrix[3][1] *= -1.0;
+    _matrix[3][2] *= -1.0;
+    _matrix[3][3] *= -1.0;
 }
 
 /** \brief Scales the elements of this matrix
@@ -1865,25 +1866,25 @@ template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::scale(
 ValueTypeT s)
 {
-	_matrix[0][0] *= s;
-	_matrix[0][1] *= s;
-	_matrix[0][2] *= s;
-	_matrix[0][3] *= s;
+    _matrix[0][0] *= s;
+    _matrix[0][1] *= s;
+    _matrix[0][2] *= s;
+    _matrix[0][3] *= s;
 
-	_matrix[1][0] *= s;
-	_matrix[1][1] *= s;
-	_matrix[1][2] *= s;
-	_matrix[1][3] *= s;
+    _matrix[1][0] *= s;
+    _matrix[1][1] *= s;
+    _matrix[1][2] *= s;
+    _matrix[1][3] *= s;
 
-	_matrix[2][0] *= s;
-	_matrix[2][1] *= s;
-	_matrix[2][2] *= s;
-	_matrix[2][3] *= s;
+    _matrix[2][0] *= s;
+    _matrix[2][1] *= s;
+    _matrix[2][2] *= s;
+    _matrix[2][3] *= s;
 
-	_matrix[3][0] *= s;
-	_matrix[3][1] *= s;
-	_matrix[3][2] *= s;
-	_matrix[3][3] *= s;
+    _matrix[3][0] *= s;
+    _matrix[3][1] *= s;
+    _matrix[3][2] *= s;
+    _matrix[3][3] *= s;
 }
 
 /** \brief Returns the 1-norm of _matrix matrix
@@ -1892,82 +1893,82 @@ ValueTypeT s)
 template<class ValueTypeT> inline
 ValueTypeT TransformationMatrix<ValueTypeT>::norm1(void) const
 {
-	ValueTypeT m(0);
+    ValueTypeT m(0);
 
-	m += osgabs(_matrix[0][0]);
-	m += osgabs(_matrix[0][1]);
-	m += osgabs(_matrix[0][2]);
-	m += osgabs(_matrix[0][3]);
-	m += osgabs(_matrix[1][0]);
-	m += osgabs(_matrix[1][1]);
-	m += osgabs(_matrix[1][2]);
-	m += osgabs(_matrix[1][3]);
-	m += osgabs(_matrix[2][0]);
-	m += osgabs(_matrix[2][1]);
-	m += osgabs(_matrix[2][2]);
-	m += osgabs(_matrix[2][3]);
-	m += osgabs(_matrix[3][0]);
-	m += osgabs(_matrix[3][1]);
-	m += osgabs(_matrix[3][2]);
-	m += osgabs(_matrix[3][3]);
+    m += osgabs(_matrix[0][0]);
+    m += osgabs(_matrix[0][1]);
+    m += osgabs(_matrix[0][2]);
+    m += osgabs(_matrix[0][3]);
+    m += osgabs(_matrix[1][0]);
+    m += osgabs(_matrix[1][1]);
+    m += osgabs(_matrix[1][2]);
+    m += osgabs(_matrix[1][3]);
+    m += osgabs(_matrix[2][0]);
+    m += osgabs(_matrix[2][1]);
+    m += osgabs(_matrix[2][2]);
+    m += osgabs(_matrix[2][3]);
+    m += osgabs(_matrix[3][0]);
+    m += osgabs(_matrix[3][1]);
+    m += osgabs(_matrix[3][2]);
+    m += osgabs(_matrix[3][3]);
 
-	return m;
+    return m;
 }
 
 /** \brief Returns the 2-norm of this matrix
 */
 
 template<class ValueTypeT> inline
-ValueTypeT TransformationMatrix<ValueTypeT>::norm2(void) const 
+ValueTypeT TransformationMatrix<ValueTypeT>::norm2(void) const
 {
-	ValueTypeT m(0), t;
+    ValueTypeT m(0), t;
 
-	t = _matrix[0][0]; m += t*t;
-	t = _matrix[0][1]; m += t*t;
-	t = _matrix[0][2]; m += t*t;
-	t = _matrix[0][3]; m += t*t;
-	t = _matrix[1][0]; m += t*t;
-	t = _matrix[1][1]; m += t*t;
-	t = _matrix[1][2]; m += t*t;
-	t = _matrix[1][3]; m += t*t;
-	t = _matrix[2][0]; m += t*t;
-	t = _matrix[2][1]; m += t*t;
-	t = _matrix[2][2]; m += t*t;
-	t = _matrix[2][3]; m += t*t;
-	t = _matrix[3][0]; m += t*t;
-	t = _matrix[3][1]; m += t*t;
-	t = _matrix[3][2]; m += t*t;
-	t = _matrix[3][3]; m += t*t;
+    t = _matrix[0][0]; m += t*t;
+    t = _matrix[0][1]; m += t*t;
+    t = _matrix[0][2]; m += t*t;
+    t = _matrix[0][3]; m += t*t;
+    t = _matrix[1][0]; m += t*t;
+    t = _matrix[1][1]; m += t*t;
+    t = _matrix[1][2]; m += t*t;
+    t = _matrix[1][3]; m += t*t;
+    t = _matrix[2][0]; m += t*t;
+    t = _matrix[2][1]; m += t*t;
+    t = _matrix[2][2]; m += t*t;
+    t = _matrix[2][3]; m += t*t;
+    t = _matrix[3][0]; m += t*t;
+    t = _matrix[3][1]; m += t*t;
+    t = _matrix[3][2]; m += t*t;
+    t = _matrix[3][3]; m += t*t;
 
-	return osgsqrt(m);
+    return osgsqrt(m);
 }
 
 /** \brief Returns the infinity norm of this matrix
 */
 
 template<class ValueTypeT> inline
-ValueTypeT TransformationMatrix<ValueTypeT>::normInfinity(void) const 
+ValueTypeT TransformationMatrix<ValueTypeT>::normInfinity(void) const
 {
-	ValueTypeT m(0),t;
+    ValueTypeT m(0),t;
 
-	if ((t = osgabs(_matrix[0][0])) > m) m = t;
-	if ((t = osgabs(_matrix[0][1])) > m) m = t;
-	if ((t = osgabs(_matrix[0][2])) > m) m = t;
-	if ((t = osgabs(_matrix[0][3])) > m) m = t;
-	if ((t = osgabs(_matrix[1][0])) > m) m = t;
-	if ((t = osgabs(_matrix[1][1])) > m) m = t;
-	if ((t = osgabs(_matrix[1][2])) > m) m = t;
-	if ((t = osgabs(_matrix[1][3])) > m) m = t;
-	if ((t = osgabs(_matrix[2][0])) > m) m = t;
-	if ((t = osgabs(_matrix[2][1])) > m) m = t;
-	if ((t = osgabs(_matrix[2][2])) > m) m = t;
-	if ((t = osgabs(_matrix[2][3])) > m) m = t;
-	if ((t = osgabs(_matrix[3][0])) > m) m = t;
-	if ((t = osgabs(_matrix[3][1])) > m) m = t;
-	if ((t = osgabs(_matrix[3][2])) > m) m = t;
-	if ((t = osgabs(_matrix[3][3])) > m) m = t;
+    if ((t = osgabs(_matrix[0][0])) > m) m = t;
+    if ((t = osgabs(_matrix[0][1])) > m) m = t;
+    if ((t = osgabs(_matrix[0][2])) > m) m = t;
+    if ((t = osgabs(_matrix[0][3])) > m) m = t;
+    if ((t = osgabs(_matrix[1][0])) > m) m = t;
+    if ((t = osgabs(_matrix[1][1])) > m) m = t;
+    if ((t = osgabs(_matrix[1][2])) > m) m = t;
+    if ((t = osgabs(_matrix[1][3])) > m) m = t;
+    if ((t = osgabs(_matrix[2][0])) > m) m = t;
+    if ((t = osgabs(_matrix[2][1])) > m) m = t;
+    if ((t = osgabs(_matrix[2][2])) > m) m = t;
+    if ((t = osgabs(_matrix[2][3])) > m) m = t;
+    if ((t = osgabs(_matrix[3][0])) > m) m = t;
+    if ((t = osgabs(_matrix[3][1])) > m) m = t;
+    if ((t = osgabs(_matrix[3][2])) > m) m = t;
+    if ((t = osgabs(_matrix[3][3])) > m) m = t;
 
-	return m;
+    return m;
 }
 
 
@@ -1985,25 +1986,26 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::sqrt(
     TransformationMatrix &result) const
 {
-	TransformationMatrix<ValueTypeT> iX, Y, iY;
-	ValueTypeT g, ig;
+    TransformationMatrix<ValueTypeT> iX, Y, iY;
+    ValueTypeT g, ig;
 
-	result.setValue(*this);
-	Y.setIdentity();
-  for (int i = 0; i < 6; i++) {
-		result.inverse(iX);
-    Y.inverse(iY);
-		g = osgabs(osgpow(result.det()*Y.det(),ValueTypeT(-0.125)));
-		ig = ValueTypeT(1.0/g);
-		result.scale(g);
-		result.addScaled(iY,ig);
-	  result.scale(0.5);
-		Y.scale(g);
-    Y.addScaled(iX,ig);
-    Y.scale(0.5); 
-	}
-	// ToDo: return should depend on achieved accuracy
-	return true;
+    result.setValue(*this);
+    Y.setIdentity();
+    for (int i = 0; i < 6; i++)
+    {
+        result.inverse(iX);
+        Y.inverse(iY);
+        g = osgabs(osgpow(result.det()*Y.det(),ValueTypeT(-0.125)));
+        ig = ValueTypeT(1.0/g);
+        result.scale(g);
+        result.addScaled(iY,ig);
+        result.scale(0.5);
+        Y.scale(g);
+        Y.addScaled(iX,ig);
+        Y.scale(0.5);
+    }
+    // ToDo: return should depend on achieved accuracy
+    return true;
 }
 
 /** \brief Sets this matrix to the square root of the given matrix,
@@ -2014,25 +2016,26 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::sqrtOf(
     const TransformationMatrix &matrix)
 {
-	TransformationMatrix<ValueTypeT> iX, Y, iY;
-	ValueTypeT g, ig;
-	
-	setValue(matrix);
-	Y.setIdentity();
-  for (int i = 0; i < 6; i++) {
-		inverse(iX);
-    Y.inverse(iY);
-		g = osgabs(osgpow(det()*Y.det(),ValueTypeT(-0.125)));
-		ig = ValueTypeT(1.0/g);
-		scale(g);
-		addScaled(iY,ig);
-	  scale(0.5);
-		Y.scale(g);
-    Y.addScaled(iX,ig);
-    Y.scale(0.5); 
-	}
-	// ToDo: return should depend on achieved accuracy
-	return true;
+    TransformationMatrix<ValueTypeT> iX, Y, iY;
+    ValueTypeT g, ig;
+
+    setValue(matrix);
+    Y.setIdentity();
+    for (int i = 0; i < 6; i++)
+    {
+        inverse(iX);
+        Y.inverse(iY);
+        g = osgabs(osgpow(det()*Y.det(),ValueTypeT(-0.125)));
+        ig = ValueTypeT(1.0/g);
+        scale(g);
+        addScaled(iY,ig);
+        scale(0.5);
+        Y.scale(g);
+        Y.addScaled(iX,ig);
+        Y.scale(0.5);
+    }
+    // ToDo: return should depend on achieved accuracy
+    return true;
 }
 
 /** \brief Sets this matrix to its square root,
@@ -2042,24 +2045,25 @@ Bool TransformationMatrix<ValueTypeT>::sqrtOf(
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::sqrt(void)
 {
-	TransformationMatrix<ValueTypeT> iX, Y, iY;
-	ValueTypeT g, ig;
-	
-	Y.setIdentity();
-  for (int i = 0; i < 6; i++) {
-		inverse(iX);
-    Y.inverse(iY);
-		g = osgabs(osgpow(det()*Y.det(),ValueTypeT(-0.125)));
-		ig = ValueTypeT(1.0/g);
-		scale(g);
-		addScaled(iY,ig);
-	  scale(0.5);
-		Y.scale(g);
-    Y.addScaled(iX,ig);
-    Y.scale(0.5); 
-	}
-	// ToDo: return should depend on achieved accuracy
-	return true;
+    TransformationMatrix<ValueTypeT> iX, Y, iY;
+    ValueTypeT g, ig;
+
+    Y.setIdentity();
+    for (int i = 0; i < 6; i++)
+    {
+        inverse(iX);
+        Y.inverse(iY);
+        g = osgabs(osgpow(det()*Y.det(),ValueTypeT(-0.125)));
+        ig = ValueTypeT(1.0/g);
+        scale(g);
+        addScaled(iY,ig);
+        scale(0.5);
+        Y.scale(g);
+        Y.addScaled(iX,ig);
+        Y.scale(0.5);
+    }
+    // ToDo: return should depend on achieved accuracy
+    return true;
 }
 
 /** \brief Computes the logarithm of this matrix and stores it in
@@ -2070,92 +2074,96 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::log(
     TransformationMatrix &result) const
 {
-	const int maxiter(12);
-	const ValueTypeT eps(1e-12);
-	int k(0), i(0);
-	TransformationMatrix<ValueTypeT> A(*this),Z;
-	
+    const int maxiter(12);
+    const ValueTypeT eps(1e-12);
+    int k(0), i(0);
+    TransformationMatrix<ValueTypeT> A(*this),Z;
 
-	// Take repeated square roots to reduce spectral radius
-	Z.setValue(A);
-	Z[0][0] -= TypeConstants<ValueType>::getOneElement();
-	Z[1][1] -= TypeConstants<ValueType>::getOneElement();
-	Z[2][2] -= TypeConstants<ValueType>::getOneElement();
-	Z[3][3] -= TypeConstants<ValueType>::getOneElement(); 
-	while (Z.normInfinity() > 0.5) {
-		A.sqrt();
-		Z.setValue(A);	
-		Z[0][0] -= TypeConstants<ValueType>::getOneElement();
-		Z[1][1] -= TypeConstants<ValueType>::getOneElement();
-		Z[2][2] -= TypeConstants<ValueType>::getOneElement();
-		Z[3][3] -= TypeConstants<ValueType>::getOneElement(); 
-		k++;
-	}
 
-	A[0][0] -= TypeConstants<ValueType>::getOneElement();
-	A[1][1] -= TypeConstants<ValueType>::getOneElement();
-	A[2][2] -= TypeConstants<ValueType>::getOneElement();
-	A[3][3] -= TypeConstants<ValueType>::getOneElement(); 
-	A.negate();
-	result.setValue(A);
-	Z.setValue(A);
-	i = 1;
-	while(Z.normInfinity() > eps && i < maxiter) {
-		Z.mult(A);
-		i++;
-		result.addScaled(Z,ValueTypeT(1.0)/ValueTypeT(i));		
-	}
-	result.scale(ValueTypeT(-1.0)*ValueTypeT(1<<k));
+    // Take repeated square roots to reduce spectral radius
+    Z.setValue(A);
+    Z[0][0] -= TypeConstants<ValueType>::getOneElement();
+    Z[1][1] -= TypeConstants<ValueType>::getOneElement();
+    Z[2][2] -= TypeConstants<ValueType>::getOneElement();
+    Z[3][3] -= TypeConstants<ValueType>::getOneElement();
+    while (Z.normInfinity() > 0.5)
+    {
+        A.sqrt();
+        Z.setValue(A);
+        Z[0][0] -= TypeConstants<ValueType>::getOneElement();
+        Z[1][1] -= TypeConstants<ValueType>::getOneElement();
+        Z[2][2] -= TypeConstants<ValueType>::getOneElement();
+        Z[3][3] -= TypeConstants<ValueType>::getOneElement();
+        k++;
+    }
 
-	return (i<maxiter);
+    A[0][0] -= TypeConstants<ValueType>::getOneElement();
+    A[1][1] -= TypeConstants<ValueType>::getOneElement();
+    A[2][2] -= TypeConstants<ValueType>::getOneElement();
+    A[3][3] -= TypeConstants<ValueType>::getOneElement();
+    A.negate();
+    result.setValue(A);
+    Z.setValue(A);
+    i = 1;
+    while(Z.normInfinity() > eps && i < maxiter)
+    {
+        Z.mult(A);
+        i++;
+        result.addScaled(Z,ValueTypeT(1.0)/ValueTypeT(i));
+    }
+    result.scale(ValueTypeT(-1.0)*ValueTypeT(1<<k));
+
+    return (i<maxiter);
 }
 
 /** \brief Sets this matrix to the logarithm of the given matrix,
-	assumes det > 0
+    assumes det > 0
 */
 
 template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::logOf(
     const TransformationMatrix &matrix)
 {
-	const int maxiter(12);
-	const ValueTypeT eps(1e-12);
-	int k(0), i(0);
-	TransformationMatrix<ValueTypeT> A(matrix),Z;
-	
+    const int maxiter(12);
+    const ValueTypeT eps(1e-12);
+    int k(0), i(0);
+    TransformationMatrix<ValueTypeT> A(matrix),Z;
 
-	// Take repeated square roots to reduce spectral radius
-	Z.setValue(A);
-	Z[0][0] -= TypeConstants<ValueType>::getOneElement();
-	Z[1][1] -= TypeConstants<ValueType>::getOneElement();
-	Z[2][2] -= TypeConstants<ValueType>::getOneElement();
-	Z[3][3] -= TypeConstants<ValueType>::getOneElement(); 
-	while (Z.normInfinity() > 0.5) {
-		A.sqrt();
-		Z.setValue(A);	
-		Z[0][0] -= TypeConstants<ValueType>::getOneElement();
-		Z[1][1] -= TypeConstants<ValueType>::getOneElement();
-		Z[2][2] -= TypeConstants<ValueType>::getOneElement();
-		Z[3][3] -= TypeConstants<ValueType>::getOneElement(); 
-		k++;
-	}
 
-	A[0][0] -= TypeConstants<ValueType>::getOneElement();
-	A[1][1] -= TypeConstants<ValueType>::getOneElement();
-	A[2][2] -= TypeConstants<ValueType>::getOneElement();
-	A[3][3] -= TypeConstants<ValueType>::getOneElement(); 
-	A.negate();
-	setValue(A);
-	Z.setValue(A);
-	i = 1;
-	while(Z.normInfinity() > eps && i < maxiter) {
-		Z.mult(A);
-		i++;
-		addScaled(Z,ValueTypeT(1.0)/ValueTypeT(i));		
-	}
-	scale(ValueTypeT(-1.0)*ValueTypeT(1<<k));
+    // Take repeated square roots to reduce spectral radius
+    Z.setValue(A);
+    Z[0][0] -= TypeConstants<ValueType>::getOneElement();
+    Z[1][1] -= TypeConstants<ValueType>::getOneElement();
+    Z[2][2] -= TypeConstants<ValueType>::getOneElement();
+    Z[3][3] -= TypeConstants<ValueType>::getOneElement();
+    while (Z.normInfinity() > 0.5)
+    {
+        A.sqrt();
+        Z.setValue(A);
+        Z[0][0] -= TypeConstants<ValueType>::getOneElement();
+        Z[1][1] -= TypeConstants<ValueType>::getOneElement();
+        Z[2][2] -= TypeConstants<ValueType>::getOneElement();
+        Z[3][3] -= TypeConstants<ValueType>::getOneElement();
+        k++;
+    }
 
-	return (i<maxiter);
+    A[0][0] -= TypeConstants<ValueType>::getOneElement();
+    A[1][1] -= TypeConstants<ValueType>::getOneElement();
+    A[2][2] -= TypeConstants<ValueType>::getOneElement();
+    A[3][3] -= TypeConstants<ValueType>::getOneElement();
+    A.negate();
+    setValue(A);
+    Z.setValue(A);
+    i = 1;
+    while(Z.normInfinity() > eps && i < maxiter)
+    {
+        Z.mult(A);
+        i++;
+        addScaled(Z,ValueTypeT(1.0)/ValueTypeT(i));
+    }
+    scale(ValueTypeT(-1.0)*ValueTypeT(1<<k));
+
+    return (i<maxiter);
 }
 
 /** \brief Computes the exponential of this matrix and stores it in
@@ -2166,28 +2174,29 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::exp(
     TransformationMatrix &result) const
 {
-	TransformationMatrix<ValueTypeT> A(*this), D, N;
-	const int q(6);
-	int j(1), k;
-	ValueTypeT c(1.0);
+    TransformationMatrix<ValueTypeT> A(*this), D, N;
+    const int q(6);
+    int j(1), k;
+    ValueTypeT c(1.0);
 
-	j += int(osglog(A.normInfinity()/0.693));
-	if (j < 0) j = 0;
-	A.scale(1.0/(ValueTypeT(1<<j)));
-	result.setIdentity();
-	for (k = 1; k <= q; k++) {
-		c *= ValueTypeT(q-k+1)/ValueTypeT(k*(2*q-k+1));
-		result.multLeft(A);
-		N.addScaled(result,c);
-		if (k%2) D.addScaled(result,-c);
-		else D.addScaled(result,c);
-  }
-	result.invertFrom(D);
-	result.mult(N);
-	for (k=0;k<j;k++)
-		result.mult(result);
-	// ToDo: return value
-	return true;
+    j += int(osglog(A.normInfinity()/0.693));
+    if (j < 0) j = 0;
+    A.scale(1.0/(ValueTypeT(1<<j)));
+    result.setIdentity();
+    for (k = 1; k <= q; k++)
+    {
+        c *= ValueTypeT(q-k+1)/ValueTypeT(k*(2*q-k+1));
+        result.multLeft(A);
+        N.addScaled(result,c);
+        if (k%2) D.addScaled(result,-c);
+        else D.addScaled(result,c);
+    }
+    result.invertFrom(D);
+    result.mult(N);
+    for (k=0;k<j;k++)
+        result.mult(result);
+    // ToDo: return value
+    return true;
 }
 
 /** \brief Sets this matrix to the exponential of the given matrix
@@ -2197,28 +2206,29 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::expOf(
     const TransformationMatrix &matrix)
 {
-	TransformationMatrix<ValueTypeT> A(matrix), D, N;
-	const int q(6);
-	int j(1), k;
-	ValueTypeT c(1.0);
+    TransformationMatrix<ValueTypeT> A(matrix), D, N;
+    const int q(6);
+    int j(1), k;
+    ValueTypeT c(1.0);
 
-	j += int(osglog(A.normInfinity()/0.693));
-	if (j < 0) j = 0;
-	A.scale(1.0/(ValueTypeT(1<<j)));
-	setIdentity();
-	for (k = 1; k <= q; k++) {
-		c *= ValueTypeT(q-k+1)/ValueTypeT(k*(2*q-k+1));
-		multLeft(A);
-		N.addScaled(*this,c);
-		if (k%2) D.addScaled(*this,-c);
-		else D.addScaled(*this,c);
-  }
-	invertFrom(D);
-	mult(N);
-	for (k=0;k<j;k++)
-		mult(*this);
-	// ToDo: return value
-	return true;
+    j += int(osglog(A.normInfinity()/0.693));
+    if (j < 0) j = 0;
+    A.scale(1.0/(ValueTypeT(1<<j)));
+    setIdentity();
+    for (k = 1; k <= q; k++)
+    {
+        c *= ValueTypeT(q-k+1)/ValueTypeT(k*(2*q-k+1));
+        multLeft(A);
+        N.addScaled(*this,c);
+        if (k%2) D.addScaled(*this,-c);
+        else D.addScaled(*this,c);
+    }
+    invertFrom(D);
+    mult(N);
+    for (k=0;k<j;k++)
+        mult(*this);
+    // ToDo: return value
+    return true;
 }
 
 //@}
@@ -2235,7 +2245,7 @@ template<class ValueTypeT> inline
 TransformationMatrix<ValueTypeT>::VectorType &
     TransformationMatrix<ValueTypeT>::operator [](UInt32 uiIndex)
 {
-    return _matrix[uiIndex]; 
+    return _matrix[uiIndex];
 }
 
 /** \brief Returns a const reference to the element stored at the given index
@@ -2245,7 +2255,7 @@ template<class ValueTypeT> inline
 const TransformationMatrix<ValueTypeT>::VectorType &
    TransformationMatrix<ValueTypeT>::operator [](UInt32 uiIndex) const
 {
-    return _matrix[uiIndex]; 
+    return _matrix[uiIndex];
 }
 
 //@}
@@ -2259,14 +2269,14 @@ const TransformationMatrix<ValueTypeT>::VectorType &
  */
 
 template<class ValueTypeT> inline
-TransformationMatrix<ValueTypeT> & 
+TransformationMatrix<ValueTypeT> &
     TransformationMatrix<ValueTypeT>::operator = (
         const TransformationMatrix &source)
 {
     UInt32 i;
 
-	if (this == &source)
-		return *this;
+    if (this == &source)
+        return *this;
 
     for(i = 0; i < 4; i++)
         _matrix[i] = source._matrix[i];
@@ -2299,7 +2309,7 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::operator != (
     const TransformationMatrix &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
 
 //@}
@@ -2310,14 +2320,14 @@ Bool TransformationMatrix<ValueTypeT>::operator != (
 
 template<class ValueTypeT> inline
 ValueTypeT TransformationMatrix<ValueTypeT>::rowMulCol4(
-    const TransformationMatrix &gRowMat, UInt32 iRow, 
+    const TransformationMatrix &gRowMat, UInt32 iRow,
     const TransformationMatrix &gColMat, UInt32 iColumn) const
 {
-	return 
+    return
         gRowMat[0][iRow] * gColMat[iColumn][0] +
-		gRowMat[1][iRow] * gColMat[iColumn][1] +
-		gRowMat[2][iRow] * gColMat[iColumn][2] +
-		gRowMat[3][iRow] * gColMat[iColumn][3];
+        gRowMat[1][iRow] * gColMat[iColumn][1] +
+        gRowMat[2][iRow] * gColMat[iColumn][2] +
+        gRowMat[3][iRow] * gColMat[iColumn][3];
 }
 
 
@@ -2331,17 +2341,17 @@ ValueTypeT TransformationMatrix<ValueTypeT>::det2(
 
 template<class ValueTypeT> inline
 ValueTypeT TransformationMatrix<ValueTypeT>::det3(
-    const ValueTypeT a1, 
-    const ValueTypeT a2, 
+    const ValueTypeT a1,
+    const ValueTypeT a2,
     const ValueTypeT a3,
-    const ValueTypeT b1, 
-    const ValueTypeT b2, 
+    const ValueTypeT b1,
+    const ValueTypeT b2,
     const ValueTypeT b3,
-    const ValueTypeT c1, 
-    const ValueTypeT c2, 
+    const ValueTypeT c1,
+    const ValueTypeT c2,
     const ValueTypeT c3) const
-{    
-    return 
+{
+    return
         (a1 * b2 * c3) + (a2 * b3 * c1) + (a3 * b1 * c2) -
         (a1 * b3 * c2) - (a2 * b1 * c3) - (a3 * b2 * c1);
 }
@@ -2352,17 +2362,17 @@ ValueTypeT TransformationMatrix<ValueTypeT>::det3(
 
 /** \brief write vector to stream
  */
-template<class ValueTypeT> inline 
+template<class ValueTypeT> inline
 ostream &operator <<(ostream                                  &os,
                      const   TransformationMatrix<ValueTypeT> &obj)
 {
     UInt32 i;
     UInt32 j;
 
-	ios::fmtflags oldflags = os.flags(ios::showpoint | ios::fixed); 
-	int pr = os.precision(3); 
-	char fill = os.fill(' ');
-	int width = os.width(8);
+    ios::fmtflags oldflags = os.flags(ios::showpoint | ios::fixed);
+    int pr = os.precision(3);
+    char fill = os.fill(' ');
+    int width = os.width(8);
 
     for(j = 0; j < 4; j++)
     {
@@ -2372,14 +2382,14 @@ ostream &operator <<(ostream                                  &os,
         }
 
         os << "\n";
-	}
+    }
 
-	os.flags(oldflags); 
-	os.precision(pr); 
-	os.fill(fill);
-	os.width(width);
+    os.flags(oldflags);
+    os.precision(pr);
+    os.fill(fill);
+    os.width(width);
 
-	return os;
+    return os;
 }
 
 OSG_END_NAMESPACE

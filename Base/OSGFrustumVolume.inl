@@ -77,32 +77,32 @@ ostream& operator<< (ostream & os, const FrustumVolume &obj);
 inline
 FrustumVolume::FrustumVolume() : Volume() {;}
 
-/// Constructor given bounds 
+/// Constructor given bounds
 inline
 FrustumVolume::FrustumVolume (  const Plane &pnear, const Plane &pfar,
-																const Plane &left, const Plane &right,
-													      const Plane &top,  const Plane &bottom)
-	: Volume()
+                                const Plane &left,  const Plane &right,
+                                const Plane &top,   const Plane &bottom)
+    : Volume()
 {
-	_planeVec[0] = pnear;
-	_planeVec[1] = pfar;
-	_planeVec[2] = left;
-	_planeVec[3] = right;
-	_planeVec[4] = top;
-	_planeVec[5] = bottom;
+    _planeVec[0] = pnear;
+    _planeVec[1] = pfar;
+    _planeVec[2] = left;
+    _planeVec[3] = right;
+    _planeVec[4] = top;
+    _planeVec[5] = bottom;
 }
 
 /// Copy Constructor
 inline
 FrustumVolume::FrustumVolume(const FrustumVolume &obj)
-		: Volume(obj)
-{ 
-	_planeVec[0] = obj._planeVec[0];
-	_planeVec[1] = obj._planeVec[1];
-	_planeVec[2] = obj._planeVec[2];
-	_planeVec[3] = obj._planeVec[3];
-	_planeVec[4] = obj._planeVec[4];
-	_planeVec[5] = obj._planeVec[5];
+        : Volume(obj)
+{
+    _planeVec[0] = obj._planeVec[0];
+    _planeVec[1] = obj._planeVec[1];
+    _planeVec[2] = obj._planeVec[2];
+    _planeVec[3] = obj._planeVec[3];
+    _planeVec[4] = obj._planeVec[4];
+    _planeVec[5] = obj._planeVec[5];
 }
 
 /// Destructor
@@ -114,43 +114,43 @@ FrustumVolume::~FrustumVolume() {;}
 /// Returns the near plane
 inline
 const Plane & FrustumVolume::getNear   (void) const
-{ 
-	return _planeVec[0];
+{
+    return _planeVec[0];
 }
 
 /// Returns the far plane
 inline
 const Plane & FrustumVolume::getFar   (void) const
-{ 
-	return _planeVec[1];
+{
+    return _planeVec[1];
 }
 
 /// Returns the left plane
 inline
 const Plane & FrustumVolume::getLeft   (void) const
-{ 
-	return _planeVec[2];
+{
+    return _planeVec[2];
 }
 
 /// Returns the right plane
 inline
 const Plane & FrustumVolume::getRight   (void) const
-{ 
-	return _planeVec[3];
+{
+    return _planeVec[3];
 }
 
 /// Returns the top plane
 inline
 const Plane & FrustumVolume::getTop   (void) const
-{ 
-	return _planeVec[4];
+{
+    return _planeVec[4];
 }
 
 /// Returns the bottom plane
 inline
 const Plane & FrustumVolume::getBottom   (void) const
-{ 
-	return _planeVec[5];
+{
+    return _planeVec[5];
 }
 
 
@@ -158,7 +158,7 @@ const Plane & FrustumVolume::getBottom   (void) const
 inline
 const Plane *FrustumVolume::getPlanes(void)
 {
-	return _planeVec;
+    return _planeVec;
 }
 
 /*-------------------------- extending ------------------------------------*/
@@ -166,13 +166,13 @@ const Plane *FrustumVolume::getPlanes(void)
 inline
 void FrustumVolume::extendBy(const Volume &volume)
 {
-	osg::extend(*this,volume);
+    osg::extend(*this,volume);
 }
 
 inline
 void FrustumVolume::extendBy(const FrustumVolume &volume)
 {
-	osg::extend(*this,volume);
+    osg::extend(*this,volume);
 }
 
 /*-------------------------- intersection ---------------------------------*/
@@ -180,13 +180,13 @@ void FrustumVolume::extendBy(const FrustumVolume &volume)
 inline
 Bool FrustumVolume::intersect (const Volume &volume) const
 {
-	return osg::intersect(*this,volume);
+    return osg::intersect(*this,volume);
 }
 
 inline
 Bool FrustumVolume::intersect(const FrustumVolume &volume) const
 {
-	return osg::intersect(*this,volume);
+    return osg::intersect(*this,volume);
 }
 
 /*-------------------------- operation ------------------------------------*/
@@ -195,8 +195,8 @@ Bool FrustumVolume::intersect(const FrustumVolume &volume) const
 /// Inequality comparisons
 inline
 Bool operator != (const FrustumVolume &b1, const FrustumVolume &b2)
-{ 
-	return !(b1 == b2); 
+{
+    return !(b1 == b2);
 }
 
 

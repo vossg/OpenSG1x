@@ -94,14 +94,14 @@ char Exception::cvsid[] = "@(#)$Id:$";
  */
 
 Exception::Exception(void) :
-	Inherited(),
+    Inherited(),
     _what()
 {
 }
 
 
 Exception::Exception(const Exception &source) :
-	Inherited(source),
+    Inherited(source),
     _what(source._what)
 {
 }
@@ -131,17 +131,17 @@ const char *Exception::what() const OSG_THROW_NOTHING()
 
 Exception& Exception::operator = (const Exception &source)
 {
-	if (this == &source)
-		return *this;
+    if (this == &source)
+        return *this;
 
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 
-	// free mem alloced by members of 'this'
+    // free mem alloced by members of 'this'
 
-	// alloc new mem for members
+    // alloc new mem for members
 
-	// copy 
+    // copy
     _what=source._what;
     return *this;
 }
@@ -162,8 +162,8 @@ OSG_BEGIN_NAMESPACE
 
 OSG_BASE_DLLMAPPING ostream &operator <<(ostream &os, const Exception &obj)
 {
-	return os << obj.what() << endl;
-} 
+    return os << obj.what() << endl;
+}
 
 OSG_END_NAMESPACE
 

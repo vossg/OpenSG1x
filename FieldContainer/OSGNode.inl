@@ -90,28 +90,28 @@ OSG_FIELD_CONTAINER_INL_DEF(Node, NodePtr)
 inline
 const DynamicVolume &Node::getVolume( void ) const
 {
-	return _volume.getValue();
+    return _volume.getValue();
 }
 
 inline
 const DynamicVolume &Node::getVolume( Bool update )
 {
-	if ( update )
-		updateVolume();
+    if ( update )
+        updateVolume();
 
-	return _volume.getValue();
+    return _volume.getValue();
 }
 
 inline
-NodeCorePtr Node::getCore(void)     
+NodeCorePtr Node::getCore(void)
 {
-    return _core.getValue(); 
+    return _core.getValue();
 }
 
 inline
-NodeCorePtr Node::getCore(void) const  
+NodeCorePtr Node::getCore(void) const
 {
-    return _core.getValue(); 
+    return _core.getValue();
 }
 
 inline
@@ -121,9 +121,9 @@ NodePtr Node::getParent(void)
 }
 
 inline
-UInt32 Node::getNChildren(void) const 
+UInt32 Node::getNChildren(void) const
 {
-    return _children.size(); 
+    return _children.size();
 }
 
 /*------------------------------ access -----------------------------------*/

@@ -49,57 +49,57 @@ OSG_BEGIN_NAMESPACE
 /*! Default Constructor
 */
 inline
-CylinderVolume::CylinderVolume(void) : Volume() 
+CylinderVolume::CylinderVolume(void) : Volume()
 {
-	;
+    ;
 }
 
 inline
-CylinderVolume::CylinderVolume(const Pnt3f &p, const Vec3f &d, 
-		float r) : Volume(),	_axisPos(p), _axisDir(d), _radius(r) { setEmpty(false);}
+CylinderVolume::CylinderVolume(const Pnt3f &p, const Vec3f &d,
+        float r) : Volume(),    _axisPos(p), _axisDir(d), _radius(r) { setEmpty(false);}
 
 inline
 CylinderVolume::CylinderVolume(const CylinderVolume &c): Volume(c)
 , _axisPos(c._axisPos), _axisDir(c._axisDir), _radius(c._radius) {;}
 
 inline
-CylinderVolume::~CylinderVolume(void) 
+CylinderVolume::~CylinderVolume(void)
 {
-	;
+    ;
 }
 
 inline
 void CylinderVolume::setValue(const Pnt3f &p, const Vec3f &d, float r)
-{ 
-	_axisPos = p; 
-	_axisDir = d; 
-	_radius = r; 
+{
+    _axisPos = p;
+    _axisDir = d;
+    _radius = r;
 }
 
 inline
-void CylinderVolume::setAxis(const Pnt3f &p, const Vec3f &d) 
-{ 
-	_axisPos = p; 
-	_axisDir = d; 
+void CylinderVolume::setAxis(const Pnt3f &p, const Vec3f &d)
+{
+    _axisPos = p;
+    _axisDir = d;
 }
 
 inline
-void CylinderVolume::setRadius(float r) 
-{ 
-	_radius = r; 
+void CylinderVolume::setRadius(float r)
+{
+    _radius = r;
 }
 
 inline
 void CylinderVolume::getAxis(Pnt3f &apos, Vec3f &adir) const
 {
-	adir = _axisDir;
-	apos = _axisPos;
+    adir = _axisDir;
+    apos = _axisPos;
 }
-  
+
 inline
-float CylinderVolume::getRadius(void) const 
-{ 
-	return _radius; 
+float CylinderVolume::getRadius(void) const
+{
+    return _radius;
 }
 
 inline
@@ -110,8 +110,8 @@ void CylinderVolume::extendBy(const Volume &volume)
 
 inline
 void CylinderVolume::extendBy(const CylinderVolume &volume)
-{ 
-	OSG::extend(*this,volume);
+{
+    OSG::extend(*this,volume);
 }
 
 inline

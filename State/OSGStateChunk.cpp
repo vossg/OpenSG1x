@@ -54,9 +54,9 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \defgroup StateChunks
-	\ingroup StateLib
+    \ingroup StateLib
 
-The StateChunk encapsulates a logical part of the OpenGL state. 
+The StateChunk encapsulates a logical part of the OpenGL state.
 
 */
 
@@ -78,64 +78,64 @@ vector<UInt32>* StateChunkClass::_numslots = NULL;
 
 StateChunkClass::StateChunkClass( Char8 *name, UInt32 numslots )
 {
-	if ( ! _classNames )
-	{
-		_classNames = new vector<string>(0);
-		_numslots   = new vector<UInt32>(0);
-	}
+    if ( ! _classNames )
+    {
+        _classNames = new vector<string>(0);
+        _numslots   = new vector<UInt32>(0);
+    }
 
-	_classId = _classNames->size();
-	
-	for ( unsigned i = 0; i < numslots; i++ )
-	{
-		_classNames->push_back( name );
-		_numslots->push_back( numslots );
-	}
+    _classId = _classNames->size();
+
+    for ( unsigned i = 0; i < numslots; i++ )
+    {
+        _classNames->push_back( name );
+        _numslots->push_back( numslots );
+    }
 }
 
 StateChunkClass::iterator StateChunkClass::begin( void )
 {
-	return _classNames->begin();
+    return _classNames->begin();
 }
 
 StateChunkClass::iterator StateChunkClass::end( void )
 {
-	return _classNames->end();
+    return _classNames->end();
 }
 
 // instance access
 
 UInt32 StateChunkClass::getID( void ) const
 {
-	return _classId;
+    return _classId;
 }
 
 Int32 StateChunkClass::getNumSlots( void ) const
 {
-	return (*_numslots)[_classId];
+    return (*_numslots)[_classId];
 }
 
 const Char8 *StateChunkClass::getName( void ) const
 {
-	return (*_classNames)[_classId].c_str();
+    return (*_classNames)[_classId].c_str();
 }
 
 // static access
 
-Int32 StateChunkClass::getNumSlots( UInt32 index ) 
+Int32 StateChunkClass::getNumSlots( UInt32 index )
 {
-	if ( index >= (*_numslots).size() )
-		return -1;
+    if ( index >= (*_numslots).size() )
+        return -1;
 
-	return (*_numslots)[index];
+    return (*_numslots)[index];
 }
 
-const Char8 *StateChunkClass::getName( UInt32 index ) 
+const Char8 *StateChunkClass::getName( UInt32 index )
 {
-	if ( index >= (*_classNames).size() )
-			return "<Unknown StatChunkClass!>";
+    if ( index >= (*_classNames).size() )
+            return "<Unknown StatChunkClass!>";
 
-	return (*_classNames)[index].c_str();
+    return (*_classNames)[index].c_str();
 }
 
 
@@ -225,10 +225,10 @@ void StateChunk::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void StateChunk::dump(      UInt32     uiIndent, 
+void StateChunk::dump(         UInt32     uiIndent,
                          const BitVector &bvFlags) const
 {
-	SLOG << "Dump StateChunk NI" << endl;
+    SLOG << "Dump StateChunk NI" << endl;
 }
 
 
@@ -236,7 +236,7 @@ void StateChunk::dump(      UInt32     uiIndent,
 
 const StateChunkClass *  StateChunk::getClass( void ) const
 {
-	return NULL;
+    return NULL;
 }
 
 Bool StateChunk::isTransparent(void) const
@@ -252,8 +252,8 @@ void StateChunk::activate ( DrawActionBase * action, UInt32 index )
 
 void StateChunk::changeFrom( DrawActionBase * action, StateChunk * old, UInt32 index )
 {
-	old->deactivate( action, index );
-	activate( action, index );
+    old->deactivate( action, index );
+    activate( action, index );
 }
 
 void StateChunk::deactivate ( DrawActionBase * action, UInt32 index )
@@ -264,7 +264,7 @@ void StateChunk::deactivate ( DrawActionBase * action, UInt32 index )
 
 Real32 StateChunk::switchCost( StateChunk * chunk )
 {
-	return 0;
+    return 0;
 }
 
 /** \brief assignment
@@ -280,7 +280,7 @@ Bool StateChunk::operator < (const StateChunk &other) const
 
 Bool StateChunk::operator == (const StateChunk &other) const
 {
-	return false;
+    return false;
 }
 
 /** \brief unequal
@@ -288,10 +288,10 @@ Bool StateChunk::operator == (const StateChunk &other) const
 
 Bool StateChunk::operator != (const StateChunk &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
 
-    
+
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -

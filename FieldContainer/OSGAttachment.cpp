@@ -58,8 +58,8 @@ OSG_BEGIN_NAMESPACE
 
 #else
 
-OSG_FC_DLLEXPORT_DEF      (SimpleAttachment, 
-                           NameAttachmentDesc, 
+OSG_FC_DLLEXPORT_DEF      (SimpleAttachment,
+                           NameAttachmentDesc,
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
@@ -70,7 +70,7 @@ OSG_END_NAMESPACE
 #pragma set woff 1174
 #endif
 
-namespace 
+namespace
 {
     static char cvsid_cpp[] = "@(#)$Id: $";
     static char cvsid_hpp[] = OSGATTACHMENT_HEADER_CVSID;
@@ -98,18 +98,18 @@ namespace
  *                           Class variables                               *
 \***************************************************************************/
 
-const BitVector 
-	Attachment::ParentsFieldMask  = (1 << Attachment::ParentsFieldId);
+const BitVector
+    Attachment::ParentsFieldMask  = (1 << Attachment::ParentsFieldId);
 
 
 /** \brief Attachment field description
  */
 
-FieldDescription *Attachment::_desc[] = 
+FieldDescription *Attachment::_desc[] =
 {
-	new FieldDescription(
-        MFNodePtr::getClassType(), 
-        "parents", 
+    new FieldDescription(
+        MFNodePtr::getClassType(),
+        "parents",
         OSG_FC_FIELD_IDM_DESC(ParentsField),
         true,
         (FieldAccessMethod) &Attachment::getMFParents,
@@ -210,7 +210,7 @@ UInt32 Attachment::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-void Attachment::copyToBin(      BinaryDataHandler &pMem, 
+void Attachment::copyToBin(      BinaryDataHandler &pMem,
                            const BitVector         &whichField)
 {
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
@@ -219,7 +219,7 @@ void Attachment::copyToBin(      BinaryDataHandler &pMem,
     }
 }
 
-void Attachment::copyFromBin(      BinaryDataHandler &pMem, 
+void Attachment::copyFromBin(      BinaryDataHandler &pMem,
                              const BitVector         &whichField)
 {
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
@@ -230,11 +230,11 @@ void Attachment::copyFromBin(      BinaryDataHandler &pMem,
 
 /*------------------------------- dump ------------------------------------*/
 
-/** \brief Dump attachment contents to stderr, should be changed to use a 
+/** \brief Dump attachment contents to stderr, should be changed to use a
  *  log stream instead
  */
 
-void Attachment::dump(      UInt32     uiIndent, 
+void Attachment::dump(      UInt32     uiIndent,
                       const BitVector &bvFlags) const
 {
     UInt32 i;
@@ -249,7 +249,7 @@ void Attachment::dump(      UInt32     uiIndent,
 
     indentLog(uiIndent + 4, PLOG);
     PLOG << "Parents : " << endl;
-        
+
     for(i = 0; i < _parents.size(); i++)
     {
         indentLog(uiIndent + 4, PLOG);
@@ -281,7 +281,7 @@ Attachment::Attachment(void) :
 {
 }
 
-/** \brief Copy Constructor 
+/** \brief Copy Constructor
  */
 
 Attachment::Attachment(const Attachment &obj) :
@@ -330,31 +330,31 @@ void Attachment::executeSyncImpl(      Attachment     *pOther,
 \*-------------------------------------------------------------------------*/
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------
 
 OSG_SYSTEMLIB_DLLMAPPING

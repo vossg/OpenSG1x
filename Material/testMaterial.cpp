@@ -12,27 +12,27 @@ OSG_USING_NAMESPACE
 
 int main( int argc, char *argv[] )
 {
-	osgInit(argc, argv);
+    osgInit(argc, argv);
 
-	MaterialPtr m;
-	
-	ChunkMaterialPtr b = ChunkMaterial::create();	
+    MaterialPtr m;
 
-	b->dump();
-	
-	MaterialChunkPtr mchunk1, mchunk2;
+    ChunkMaterialPtr b = ChunkMaterial::create();
 
-	mchunk1 = MaterialChunk::create();
-	mchunk1->setDiffuse( Color4f( 1,0,0,0 ) );
-	mchunk1->setAmbient( Color4f( 1,0,0,0 ) );
-	mchunk1->setShininess( 20 );
-	b->addChunk( mchunk1 );
+    b->dump();
 
-	b->dump();
+    MaterialChunkPtr mchunk1, mchunk2;
 
-	b->subChunk( mchunk1 );
+    mchunk1 = MaterialChunk::create();
+    mchunk1->setDiffuse( Color4f( 1,0,0,0 ) );
+    mchunk1->setAmbient( Color4f( 1,0,0,0 ) );
+    mchunk1->setShininess( 20 );
+    b->addChunk( mchunk1 );
 
-	b->dump();
+    b->dump();
 
-	return 0;
+    b->subChunk( mchunk1 );
+
+    b->dump();
+
+    return 0;
 }

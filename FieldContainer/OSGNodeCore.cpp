@@ -53,7 +53,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-namespace 
+namespace
 {
     static char cvsid_cpp[] = "@(#)$Id: $";
     static char cvsid_hpp[] = OSGNODECORE_HEADER_CVSID;
@@ -74,13 +74,13 @@ namespace
  *                           Class variables                               *
 \***************************************************************************/
 
-const BitVector 
-	NodeCore::ParentsFieldMask     = (1 << NodeCore::ParentsFieldId    );
+const BitVector
+    NodeCore::ParentsFieldMask     = (1 << NodeCore::ParentsFieldId    );
 
-FieldDescription *NodeCore::_desc[] = 
+FieldDescription *NodeCore::_desc[] =
 {
-	new FieldDescription(MFNodePtr::getClassType(), 
-                         "parents", 
+    new FieldDescription(MFNodePtr::getClassType(),
+                         "parents",
                          OSG_FC_FIELD_IDM_DESC(ParentsField),
                          true,
                          (FieldAccessMethod) &NodeCore::getMFParents)
@@ -157,15 +157,15 @@ void NodeCore::adjustVolume(Volume &)
 
 void NodeCore::invalidateVolume( void)
 {
-	for( int i = 0; i < _parents.size(); i++)
+    for( int i = 0; i < _parents.size(); i++)
     {
-		_parents[i]->invalidateVolume();
-	}
+        _parents[i]->invalidateVolume();
+    }
 }
 
 /*-------------------------- assignment -----------------------------------*/
 
-void NodeCore::dump(      UInt32     uiIndent, 
+void NodeCore::dump(      UInt32     uiIndent,
                     const BitVector &bvFlags) const
 {
     UInt32 i;
@@ -173,10 +173,10 @@ void NodeCore::dump(      UInt32     uiIndent,
     indentLog(uiIndent, PLOG);
 
     PLOG << "Core : " << getType().getName()
-         << " " 
-         << _attachmentMap.getValue().size() 
+         << " "
+         << _attachmentMap.getValue().size()
          << " attachments | "
-         << this 
+         << this
          << endl;
 
     indentLog(uiIndent, PLOG);
@@ -184,7 +184,7 @@ void NodeCore::dump(      UInt32     uiIndent,
 
     indentLog(uiIndent + 4, PLOG);
     PLOG << "Parents : " << endl;
-        
+
     for(i = 0; i < _parents.size(); i++)
     {
         indentLog(uiIndent + 4, PLOG);
@@ -219,7 +219,7 @@ NodeCore::NodeCore(void) :
     Inherited     (),
     _parents      ()
 {
-	return;
+    return;
 }
 
 /** \brief Copy Constructor
@@ -280,7 +280,7 @@ UInt32 NodeCore::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-void NodeCore::copyToBin(      BinaryDataHandler &pMem, 
+void NodeCore::copyToBin(      BinaryDataHandler &pMem,
                          const BitVector         &whichField)
 {
     Inherited::copyToBin(pMem, whichField);
@@ -291,7 +291,7 @@ void NodeCore::copyToBin(      BinaryDataHandler &pMem,
     }
 }
 
-void NodeCore::copyFromBin(      BinaryDataHandler &pMem, 
+void NodeCore::copyFromBin(      BinaryDataHandler &pMem,
                            const BitVector         &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
@@ -325,29 +325,29 @@ void NodeCore::executeSyncImpl(      NodeCore  *pOther,
 \*-------------------------------------------------------------------------*/
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------

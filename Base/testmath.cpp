@@ -18,7 +18,7 @@ using OSG::Vec2s;
 using OSG::Pnt2f;
 using OSG::Pnt3f;
 using OSG::Pnt4f;
- 
+
 using OSG::Matrix4f;
 using OSG::Matrix;
 using OSG::Quaternion;
@@ -135,7 +135,7 @@ void vectorTestConstructAndSetTest(void)
     printVec(v4f3);
 
     cerr << "construct (4 val);\n";
-        
+
     printVec(v2f4);
     printVec(v3f4);
     printVec(v4f4);
@@ -195,8 +195,8 @@ void vectorTestConstructAndSetTest(void)
     printVec(v3fp7);
     printVec(v4fp7);
 
-    
-    
+
+
 
     Vec2f v2f8(pVals);
     Vec3f v3f8(pVals);
@@ -205,7 +205,7 @@ void vectorTestConstructAndSetTest(void)
     cerr << "construct (array)\n";
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);    
+    printVec(v4f8);
 
     v2f8.setNull();
     v3f8.setNull();
@@ -214,7 +214,7 @@ void vectorTestConstructAndSetTest(void)
     cerr << "set Null\n";
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);    
+    printVec(v4f8);
 
     v2f8.setValues( 20.f, 30.f);
 //    v3f8.setValue(20., 30.);
@@ -224,7 +224,7 @@ void vectorTestConstructAndSetTest(void)
 
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);    
+    printVec(v4f8);
 
 //    v2f8.setValue(20., 30., 40.);
     v3f8.setValues(20., 30., 40.);
@@ -234,7 +234,7 @@ void vectorTestConstructAndSetTest(void)
 
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);    
+    printVec(v4f8);
 
 //    v2f8.setValue(20., 30., 40., 50.);
 //    v3f8.setValue(20., 30., 40., 50.);
@@ -244,7 +244,7 @@ void vectorTestConstructAndSetTest(void)
 
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);    
+    printVec(v4f8);
 
 
 //    v2f8.setValue(v2f4);
@@ -254,7 +254,7 @@ void vectorTestConstructAndSetTest(void)
     cerr << "set vec size 2 " << v2f4 << "\n";;
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);    
+    printVec(v4f8);
 
 //    v2f8.setValue(20., 30., 40., 50.);
 //    v3f8.setValues(20., 30., 40., 50.);
@@ -267,8 +267,8 @@ void vectorTestConstructAndSetTest(void)
     cerr << "set vec size 3 " << v3f4 << "\n";
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);    
-    
+    printVec(v4f8);
+
 //    v2f8.setValue(20., 30., 40., 50.);
 //    v3f8.setValues(20., 30., 40., 50.);
 //    v4f8.setValue(20., 30., 40., 50.);
@@ -281,7 +281,7 @@ void vectorTestConstructAndSetTest(void)
 
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);        
+    printVec(v4f8);
 
 
 //    v2f8.setValue(20., 30., 40., 50.);
@@ -296,7 +296,7 @@ void vectorTestConstructAndSetTest(void)
 
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);        
+    printVec(v4f8);
 
 
 //    v2f8.setValue(20., 30., 40., 50.);
@@ -311,7 +311,7 @@ void vectorTestConstructAndSetTest(void)
 
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);        
+    printVec(v4f8);
 
 
 
@@ -327,10 +327,10 @@ void vectorTestConstructAndSetTest(void)
 
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);        
+    printVec(v4f8);
 
 
-    
+
     v2f8.setNull();
     v3f8.setNull();
     v4f8.setNull();
@@ -343,7 +343,7 @@ void vectorTestConstructAndSetTest(void)
 
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);        
+    printVec(v4f8);
 
 
 
@@ -359,7 +359,7 @@ void vectorTestConstructAndSetTest(void)
 
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);        
+    printVec(v4f8);
 
 
 
@@ -375,7 +375,7 @@ void vectorTestConstructAndSetTest(void)
 
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);        
+    printVec(v4f8);
 
 
     v2f8.setNull();
@@ -390,11 +390,11 @@ void vectorTestConstructAndSetTest(void)
 
     printVec(v2f8);
     printVec(v3f8);
-    printVec(v4f8);        
+    printVec(v4f8);
 
 }
 
-void vectorMathTests(void) 
+void vectorMathTests(void)
 {
     Vec2f v2f1;
     Vec2f v2f2(1., 0.);
@@ -458,7 +458,7 @@ void vectorMathTests(void)
     v2f2.setValues(10., 20.);
     v3f2.setValues(10., 20., 30.);
     v4f2.setValues(10., 20., 30., 40.);
-   
+
     cout << v2f1.dot(v2f2) << " ( 50) \n";
     cout << v3f1.dot(v3f2) << " (140)\n";
     cout << v4f1.dot(v4f2) << " (300)\n";
@@ -540,8 +540,8 @@ void vectorMathTests(void)
     cout << v4f1 << " \n";
 
     fprintf(stderr, "%f %f %f %f\n", v4f1[0], v4f1[1], v4f1[2], v4f1[3]);
-    fprintf(stderr, "%f %f %f %f\n", 
-            v4f1.getValues()[0], v4f1.getValues()[1], 
+    fprintf(stderr, "%f %f %f %f\n",
+            v4f1.getValues()[0], v4f1.getValues()[1],
             v4f1.getValues()[2], v4f1.getValues()[3]);
 
     v4f1.getSeparateValues(rX, rY, rZ, rW);
@@ -661,7 +661,7 @@ void matrixTest(void)
     cout << endl << "Matrix math test " << endl;
     cout << endl << "========================================" << endl << endl;
 
-    cout << "Identity               : " << endl 
+    cout << "Identity               : " << endl
          << Matrix::identity()   << endl;
 
     cout << endl << "========================================" << endl << endl;
@@ -671,12 +671,12 @@ void matrixTest(void)
     cout << "4 vector3f constructor : " << endl << m3 << endl;
     cout << "Copy consructor        : " << endl << m4 << endl;
     cout << "16f values construtor  : " << endl << m5 << endl;
-    
+
     cout << endl << "========================================" << endl << endl;
-    
+
 
     m1.setValue(v4, v3, v2);
-    
+
     m2.setIdentity();
     m2.setValue(v1, v2, v3, v4);
 
@@ -713,7 +713,7 @@ void matrixTest(void)
         {
             fprintf(stderr, "% 5.3f ", (m5.getValues())[j * 4 + i]);
         }
-        
+
         fprintf(stderr, "\n");
     }
 
@@ -721,10 +721,10 @@ void matrixTest(void)
 
     m1.setIdentity();
     m1.setScale(10.);
-    
+
     m2.setIdentity();
     m2.setScale(v3);
-    
+
     m3.setIdentity();
     m3.setTranslate(v4);
 
@@ -746,11 +746,11 @@ void matrixTest(void)
     m1.setRotate(q1);
     m2.setRotate(q2);
     m3.setRotate(q3);
-   
+
     cout << "Set rotate X/60     : " << endl << m1 << endl;
     cout << "Set rotate Y/60     : " << endl << m2 << endl;
     cout << "Set rotate Z/60     : " << endl << m3 << endl;
-    
+
     cout << endl << "========================================" << endl << endl;
 
     m1.setIdentity();
@@ -792,7 +792,7 @@ void matrixTest(void)
 
     cout << m3.invertFrom(m1) << endl;
     cout << "InverseFrom trans * rot : " << endl << m3 << endl;
- 
+
     m3 = m1;
 
     cout << m3.invert();
@@ -824,7 +824,7 @@ void matrixTest(void)
 
     cout << m3.invertFrom3(m1) << endl;
     cout << "InverseFrom trans * rot : " << endl << m3 << endl;
- 
+
     m3 = m1;
 
     cout << m3.invert3() << endl;
@@ -849,7 +849,7 @@ void matrixTest(void)
     m1.mult(m2);
 
     v1.setValues(0., 0., 1.);
-    p1.setValues(0., 1., 0.);    
+    p1.setValues(0., 1., 0.);
 
     m1.transform(v1, v2);
     m1.transform(p1, p2);
@@ -989,20 +989,20 @@ void quattest(void)
     Real32 axisArray[4] = { 1., 0., 0., 90. };
 
     Matrix rotmatInX(
-        1.000,    0.000,    0.000,    0.000, 
-        0.000,    0.500,   -0.866,    0.000, 
-        0.000,    0.866,    0.500,    0.000, 
+        1.000,    0.000,    0.000,    0.000,
+        0.000,    0.500,   -0.866,    0.000,
+        0.000,    0.866,    0.500,    0.000,
         0.000,    0.000,    0.000,    1.000);
 
     Matrix rotmatInY(
-        0.500,    0.000,    0.866,    0.000, 
-        0.000,    1.000,    0.000,    0.000, 
-       -0.866,    0.000,    0.500,    0.000, 
+        0.500,    0.000,    0.866,    0.000,
+        0.000,    1.000,    0.000,    0.000,
+       -0.866,    0.000,    0.500,    0.000,
         0.000,    0.000,    0.000,    1.000);
 
     Matrix rotmatInZ(
-        0.500,   -0.866,    0.000,    0.000,   
-        0.866,    0.500,    0.000,    0.000,   
+        0.500,   -0.866,    0.000,    0.000,
+        0.866,    0.500,    0.000,    0.000,
         0.000,    0.000,    1.000,    0.000,
         0.000,    0.000,    0.000,    1.000);
 
@@ -1035,11 +1035,11 @@ void quattest(void)
     Quaternion q7;
     Quaternion q8;
     Quaternion q9;
-    
+
 
     cout << endl << "Quaternion math test " << endl;
     cout << endl << "========================================" << endl << endl;
-    
+
     cout << "Default Constructor         : " << endl << q1 << endl;
     cout << "Construtor Axis3f, Angle    : " << endl << q2 << endl;
     cout << "Copy Constructor            : " << endl << q3 << endl;
@@ -1062,7 +1062,7 @@ void quattest(void)
 
     q5.setIdentity();
     q5.setValueAsQuat(0., 0.707, 0., 0.707);
-    
+
     q6.setIdentity();
     q6.setValueAsAxisDeg(v1, 60.);
 
@@ -1126,12 +1126,12 @@ void quattest(void)
     cout << endl << "========================================" << endl << endl;
 
     q2.getValueAsAxisDeg(x, y, z, w);
-    
+
     printf("Get val as axis\n");
     printf("%5.3f %5.3f %5.3f %5.3f\n", x, y, z, w);
 
     q1.getValueAsQuat(x, y, z, w);
-    
+
     printf("Get val as quat\n");
     printf("%5.3f %5.3f %5.3f %5.3f\n", x, y, z, w);
 
@@ -1151,7 +1151,7 @@ void quattest(void)
     cout << endl << "========================================" << endl << endl;
 
     printf("length\n%5.3f", q1.length());
-    
+
     q1.normalize();
     printf("norm\n%5.3f\n", q1.length());
 
@@ -1204,12 +1204,12 @@ void quattest(void)
     q1.getValue(m);
 
     cout <<  "\n" << m << "\n";
-    
+
     q2.setValue(m);
 
     cout <<  "\n" << q2 << "\n";
 
-    fprintf(stderr, "\n %f %f %f %f\n", 
+    fprintf(stderr, "\n %f %f %f %f\n",
             q2.getValues()[0],
             q2.getValues()[1],
             q2.getValues()[2],
@@ -1226,7 +1226,7 @@ void quattest(void)
     cout << q1 << "\n";
 
     v1.setValues(1., 0., 0.);
-    
+
     q1.setValue(0., 1., 0., Pi/2.);
 
     q1.multVec(v1, v2);
@@ -1236,7 +1236,7 @@ void quattest(void)
     q1.scaleAngle(2.);
 
     q1.transform(v1, v2);
-    
+
     cout << v1 << "\n" << v2 << "\n";
 
     q1.setValue(0., 1., 0., Pi/2.);
@@ -1271,108 +1271,108 @@ void quattest(void)
 
 void matcheck( Matrix & mat, Pnt3f * vec, int nelem )
 {
-	Pnt3f p1,p2;
-	int i;
-	
-	for ( i = 0; i < nelem; i++ )
-	{
-		mat.multFullMatrixPnt( vec[i],p2 );
-		cout << "transforms " << vec[i] << " to " << p2 << endl;
-		
-	}
+    Pnt3f p1,p2;
+    int i;
 
-	cout << endl;
+    for ( i = 0; i < nelem; i++ )
+    {
+        mat.multFullMatrixPnt( vec[i],p2 );
+        cout << "transforms " << vec[i] << " to " << p2 << endl;
+
+    }
+
+    cout << endl;
 }
 
 void matutilitytest( void )
 {
-	Matrix res;
+    Matrix res;
 
-	Pnt3f p1,p2;
-	Vec3f v;
+    Pnt3f p1,p2;
+    Vec3f v;
 
-	Pnt3f testvec1[] = { Pnt3f( 0,0,0 ), Pnt3f( 1,0,0 ), Pnt3f( 2,0,0 ), 
-		Pnt3f( 0,1,0 ), Pnt3f( 0,0,1 ), Pnt3f( 1,1,1 )  };
-	
-	// check the lookat matrix 
+    Pnt3f testvec1[] = { Pnt3f( 0,0,0 ), Pnt3f( 1,0,0 ), Pnt3f( 2,0,0 ),
+        Pnt3f( 0,1,0 ), Pnt3f( 0,0,1 ), Pnt3f( 1,1,1 )  };
 
-	MatrixLookAt( res,  0.f,0.f,0.f, 0.f,0.f,-1.f, 0.f,1.f,0.f );	
+    // check the lookat matrix
+
+    MatrixLookAt( res,  0.f,0.f,0.f, 0.f,0.f,-1.f, 0.f,1.f,0.f );
     cout << "Lookat (0,0,0)-(0,0,-1)-(0,1,0): " << endl << res << endl;
-	matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
+    matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
-	p1.setValues( 0,0,0);
-	p2.setValues( 0,0,-1);
-	v.setValues( 0,1,0);
-	MatrixLookAt( res,  p1, p2, v );	
+    p1.setValues( 0,0,0);
+    p2.setValues( 0,0,-1);
+    v.setValues( 0,1,0);
+    MatrixLookAt( res,  p1, p2, v );
     cout << "Lookat ("<<p1<<"):("<<p2<<"):("<<v<< "): " << endl << res << endl;
-	matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
+    matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
-	MatrixLookAt( res,  0.f,0.f,2.f, 0.f,0.f,0.f, 0.f,1.f,0.f );	
+    MatrixLookAt( res,  0.f,0.f,2.f, 0.f,0.f,0.f, 0.f,1.f,0.f );
     cout << "Lookat (0,0,2)-(0,0,0)-(0,1,0): " << endl << res << endl;
-	matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
+    matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
-	MatrixLookAt( res,  2.f,0.f,0.f, 0.f,0.f,0.f, 0.f,1.f,0.f );	
+    MatrixLookAt( res,  2.f,0.f,0.f, 0.f,0.f,0.f, 0.f,1.f,0.f );
     cout << "Lookat (2,0,0)-(0,0,0)-(0,1,0): " << endl << res << endl;
-	matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
+    matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
-	if ( MatrixLookAt( res,  0.f,3.f,0.f, 0.f,0.f,0.f, 0.f,1.f,0.f ) )
-	{
-		cout << "MatrixLookAt failed: illegal conf correctly detected." << endl;
-	}
-	else	
-	{
-		cout << "MatrixLookAt succeeded: illegal conf not detected!!!" << endl;
-	}
-	MatrixLookAt( res,  0.f,3.f,0.f, 0.f,0.f,0.f, 0.f,0.f,1.f );
+    if ( MatrixLookAt( res,  0.f,3.f,0.f, 0.f,0.f,0.f, 0.f,1.f,0.f ) )
+    {
+        cout << "MatrixLookAt failed: illegal conf correctly detected." << endl;
+    }
+    else
+    {
+        cout << "MatrixLookAt succeeded: illegal conf not detected!!!" << endl;
+    }
+    MatrixLookAt( res,  0.f,3.f,0.f, 0.f,0.f,0.f, 0.f,0.f,1.f );
     cout << "Lookat (0,3,0)-(0,1,0)-(0,0,1): " << endl << res << endl;
-	matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
+    matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
-	p1.setValues( 1,1,1);
-	p2.setValues( 0,0,0);
-	v.setValues( 0,2,0);
-	MatrixLookAt( res,  p1,p2,v );	
+    p1.setValues( 1,1,1);
+    p2.setValues( 0,0,0);
+    v.setValues( 0,2,0);
+    MatrixLookAt( res,  p1,p2,v );
     cout << "Lookat ("<<p1<<"):("<<p2<<"):("<<v<< "): " << endl << res << endl;
-	matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
+    matcheck( res, testvec1, sizeof(testvec1)/sizeof(Pnt3f) );
 
-	// check window
+    // check window
 
-	Pnt3f testvec2[] = { Pnt3f( 0,0,0 ), Pnt3f( 0,0,.5 ), 
-		Pnt3f( 0,0,1 ), Pnt3f( 0,0,-.5 ), Pnt3f( 0,0,-1 ), Pnt3f( 0,0,-1.5 ), 
-		Pnt3f( 0,0,-2 ), Pnt3f( .5,.5,-.5 ), Pnt3f( 1,1,-1 )  };
+    Pnt3f testvec2[] = { Pnt3f( 0,0,0 ), Pnt3f( 0,0,.5 ),
+        Pnt3f( 0,0,1 ), Pnt3f( 0,0,-.5 ), Pnt3f( 0,0,-1 ), Pnt3f( 0,0,-1.5 ),
+        Pnt3f( 0,0,-2 ), Pnt3f( .5,.5,-.5 ), Pnt3f( 1,1,-1 )  };
 
-	MatrixFrustum( res, -1, 1, -1, 1, .1, 1 );
+    MatrixFrustum( res, -1, 1, -1, 1, .1, 1 );
     cout << "Frustum (-1, 1, -1, 1, .1, 1): " << endl << res << endl;
-	matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
+    matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
-	MatrixFrustum( res, 0, 1, 0, 1, 0.1, 1 );
+    MatrixFrustum( res, 0, 1, 0, 1, 0.1, 1 );
     cout << "Frustum (0, 1, 0, 1, 0.1, 1): " << endl << res << endl;
-	matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
-	
-	// check orthogonal projection
+    matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
-	MatrixOrthogonal( res, -1, 1, -1, 1, -1, 1 );
+    // check orthogonal projection
+
+    MatrixOrthogonal( res, -1, 1, -1, 1, -1, 1 );
     cout << "Orthogonal (-1, 1, -1, 1, -1, 1): " << endl << res << endl;
-	matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
+    matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
-	MatrixOrthogonal( res, -4, -1, 1, 3, -2, 2 );
+    MatrixOrthogonal( res, -4, -1, 1, 3, -2, 2 );
     cout << "Orthogonal (-4, -1, 1, 3, -2, 2): " << endl << res << endl;
-	matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
+    matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
-	// check perspective projection
+    // check perspective projection
 
-	MatrixPerspective( res, 45, 1, 0.1, 1 );
+    MatrixPerspective( res, 45, 1, 0.1, 1 );
     cout << "Perspective (45, 1, 0.1, 1): " << endl << res << endl;
-	matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
+    matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
-	MatrixPerspective( res, 45, 2, 0.1, 1 );
+    MatrixPerspective( res, 45, 2, 0.1, 1 );
     cout << "Perspective (45, 2, 0.1, 1): " << endl << res << endl;
-	matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
-	
+    matcheck( res, testvec2, sizeof(testvec2)/sizeof(Pnt3f) );
 
-	// TODO: check stereo projection
 
-	// TODO: check general projection
-	
+    // TODO: check stereo projection
+
+    // TODO: check general projection
+
 }
 
 void matNSMTest(void)
@@ -1382,102 +1382,102 @@ void matNSMTest(void)
     Matrix m1,m2,m3;
     TransformationMatrix<Real64> md1,md2,md3;
 
-		// first single precision floats
+        // first single precision floats
 
 
-		cout << "====================================================" << endl
-				 << "  Testing the matrix functions sqrt, exp, and log" << endl
-				 << "====================================================" << endl
-				 << endl
-				 << "32 bit float types" << endl;
+        cout << "====================================================" << endl
+             << "  Testing the matrix functions sqrt, exp, and log" << endl
+             << "====================================================" << endl
+             << endl
+             << "32 bit float types" << endl;
 
-		m1.setIdentity();
+        m1.setIdentity();
 
-		cout << endl << "Test matrix is identity!"  << endl;
+        cout << endl << "Test matrix is identity!"  << endl;
 
-		m1.sqrt(m2);
-		m3.sqrtOf(m1);
+        m1.sqrt(m2);
+        m3.sqrtOf(m1);
 
-		cout << "A.sqrt():" << endl << m2 << endl
-				 << "sqrtOf(A):" << endl << m3 << endl;
+        cout << "A.sqrt():" << endl << m2 << endl
+             << "sqrtOf(A):" << endl << m3 << endl;
 
-		m1.exp(m2);
-		m3.expOf(m1);
-		
-		cout << "A.exp():" << endl << m2 << endl
-				 << "expOf(A):" << endl << m3 << endl;
+        m1.exp(m2);
+        m3.expOf(m1);
 
-		cout << "A.log():" << m1.log(m2) << endl << m2 << endl
-				 << "logOf(A):" << m3.logOf(m1) << endl << m3 << endl << endl;
+        cout << "A.exp():" << endl << m2 << endl
+             << "expOf(A):" << endl << m3 << endl;
 
-
-		do 
-				for (int i=0;i<4;i++)
-						for (int j=0;j<4;j++)
-								m1[i][j] = Real32(rand())/Real32(RAND_MAX);
-		while (m1.det() < 0);
-
-		cout << endl << "Test matrix (A):" << endl << m1 << endl;
-
-		m1.sqrt(m2);
-		m3.sqrtOf(m1);
-
-		cout << "A.sqrt():" << endl << m2 << endl
-				 << "sqrtOf(A):" << endl << m3 << endl;
-
-		m2.mult(m2);
-		m3.mult(m3);
-		m2.addScaled(m1,-1.0);
-		m3.addScaled(m1,-1.0);
-
-		cout << "Accuracy:" << endl 
-				 << "|A.sqrt()*A.sqrt()-A|:  " << m2.norm2() << endl
-				 << "|sqrtOf(A)*A.sqrtOf(A)-A|:  " << m3.norm2() << endl << endl;
-
-		m1.exp(m2);
-		m3.expOf(m1);
-		
-		cout << "A.exp():" << endl << m2 << endl
-				 << "expOf(A):" << endl << m3 << endl;
-
-		cout << "A.log():" << m1.log(m2) << endl << m2 << endl
-				 << "logOf(A):" << m3.logOf(m1) << endl << m3 << endl;
-
-		m1.exp(m2);
-		m2.log(m3);
-		m2.setValue(m3);
-		m3.addScaled(m1,-1.0);
-
-		cout << "A.exp.log():" << endl << m2 << endl
-				 << "|A.exp().log()-A|):  " << m3.norm2() << endl;
+        cout << "A.log():" << m1.log(m2) << endl << m2 << endl
+             << "logOf(A):" << m3.logOf(m1) << endl << m3 << endl << endl;
 
 
-		// now double precision floats
+        do
+                for (int i=0;i<4;i++)
+                        for (int j=0;j<4;j++)
+                                m1[i][j] = Real32(rand())/Real32(RAND_MAX);
+        while (m1.det() < 0);
+
+        cout << endl << "Test matrix (A):" << endl << m1 << endl;
+
+        m1.sqrt(m2);
+        m3.sqrtOf(m1);
+
+        cout << "A.sqrt():" << endl << m2 << endl
+             << "sqrtOf(A):" << endl << m3 << endl;
+
+        m2.mult(m2);
+        m3.mult(m3);
+        m2.addScaled(m1,-1.0);
+        m3.addScaled(m1,-1.0);
+
+        cout << "Accuracy:" << endl
+             << "|A.sqrt()*A.sqrt()-A|:  " << m2.norm2() << endl
+             << "|sqrtOf(A)*A.sqrtOf(A)-A|:  " << m3.norm2() << endl << endl;
+
+        m1.exp(m2);
+        m3.expOf(m1);
+
+        cout << "A.exp():" << endl << m2 << endl
+             << "expOf(A):" << endl << m3 << endl;
+
+        cout << "A.log():" << m1.log(m2) << endl << m2 << endl
+             << "logOf(A):" << m3.logOf(m1) << endl << m3 << endl;
+
+        m1.exp(m2);
+        m2.log(m3);
+        m2.setValue(m3);
+        m3.addScaled(m1,-1.0);
+
+        cout << "A.exp.log():" << endl << m2 << endl
+             << "|A.exp().log()-A|):  " << m3.norm2() << endl;
 
 
-		cout << endl 
-				 << "64 bit float types (accuracies only)" << endl << endl;
+        // now double precision floats
 
-		for (int i=0;i<4;i++)
-				for (int j=0;j<4;j++)
-						md1[i][j] = Real64(m1[i][j]);
-						
 
-		md1.sqrt(md2);
-		md3.sqrtOf(md1);
-		md2.mult(md2);
-		md3.mult(md3);
-		md2.addScaled(md1,-1.0);
-		md3.addScaled(md1,-1.0);
+        cout << endl
+             << "64 bit float types (accuracies only)" << endl << endl;
 
-		cout << "|A.sqrt()*A.sqrt()-A|:  " << md2.norm2() << endl
-				 << "|sqrtOf(A)*A.sqrtOf(A)-A|:  " << md3.norm2() << endl;
+        for (int i=0;i<4;i++)
+                for (int j=0;j<4;j++)
+                        md1[i][j] = Real64(m1[i][j]);
 
-		md1.exp(md2);
-		md2.log(md3);
-		md3.addScaled(md1,-1.0);
 
-		cout << "|A.exp().log()-A|:  " << md3.norm2() << endl << endl;
+        md1.sqrt(md2);
+        md3.sqrtOf(md1);
+        md2.mult(md2);
+        md3.mult(md3);
+        md2.addScaled(md1,-1.0);
+        md3.addScaled(md1,-1.0);
+
+        cout << "|A.sqrt()*A.sqrt()-A|:  " << md2.norm2() << endl
+             << "|sqrtOf(A)*A.sqrtOf(A)-A|:  " << md3.norm2() << endl;
+
+        md1.exp(md2);
+        md2.log(md3);
+        md3.addScaled(md1,-1.0);
+
+        cout << "|A.exp().log()-A|:  " << md3.norm2() << endl << endl;
 
 }
 
@@ -1532,7 +1532,7 @@ Real32 nonFloatTest(void)
     rVal = osglog(90.);
     rVal = osgexp(90.f);
     rVal = osgfloor(90.);
-    
+
     return rVal;
 }
 
@@ -1544,8 +1544,8 @@ int main(void)
 //    vectorMathTests();
 //    matrixTest();
 //   quattest();
-//	matutilitytest();
-//		matNSMTest();
+//  matutilitytest();
+//      matNSMTest();
 
     nonFloatTest();
 

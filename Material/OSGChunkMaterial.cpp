@@ -75,7 +75,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.14 2001/10/10 10:42:55 vossg Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.15 2001/10/11 16:41:18 neumannc Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -142,58 +142,58 @@ void ChunkMaterial::changed(BitVector, ChangeMode)
 {
 }
 
-    
+
 /*-------------------------- your_category---------------------------------*/
 
 Bool ChunkMaterial::addChunk( StateChunkPtr chunk )
 {
-	_mfChunks.push_back( chunk );
-	return true;
+    _mfChunks.push_back( chunk );
+    return true;
 }
 
 Bool ChunkMaterial::subChunk( StateChunkPtr chunk )
 {
-	MFStateChunkPtr::iterator i;
-	
-	i = _mfChunks.find( chunk );
-	
-	if (i == _mfChunks.end())
-	{
-		SWARNING << "ChunkMaterial::subChunk(" << this << ") has no chunk " 
-				 << chunk << endl;
-	}
-	else
-		_mfChunks.erase( i );
-		
-	return true;
+    MFStateChunkPtr::iterator i;
+
+    i = _mfChunks.find( chunk );
+
+    if (i == _mfChunks.end())
+    {
+        SWARNING << "ChunkMaterial::subChunk(" << this << ") has no chunk "
+                 << chunk << endl;
+    }
+    else
+        _mfChunks.erase( i );
+
+    return true;
 }
-	
-	
-	
+
+
+
 void ChunkMaterial::draw( Geometry* geo, DrawAction * action )
 {
-	StatePtr state = makeState();
+    StatePtr state = makeState();
 
-	addRefCP( state );
-	
-	state->activate( action );
-	
-	geo->draw( action );
+    addRefCP( state );
 
-	state->deactivate( action );
+    state->activate( action );
 
-	subRefCP( state ); // kill it
+    geo->draw( action );
+
+    state->deactivate( action );
+
+    subRefCP( state ); // kill it
 }
-	
+
 StatePtr ChunkMaterial::makeState( void )
 {
-	StatePtr state = State::create();
-	
-	for ( MFStateChunkPtr::iterator i = _mfChunks.begin(); 
-			i != _mfChunks.end(); i++ )
-		state->addChunk( *i );
-	
-	return state;
+    StatePtr state = State::create();
+
+    for ( MFStateChunkPtr::iterator i = _mfChunks.begin();
+            i != _mfChunks.end(); i++ )
+        state->addChunk( *i );
+
+    return state;
 }
 
 void ChunkMaterial::rebuildState(void)
@@ -210,24 +210,24 @@ void ChunkMaterial::rebuildState(void)
     MFStateChunkPtr::iterator it        = _mfChunks.begin();
     MFStateChunkPtr::iterator chunksEnd = _mfChunks.end();
 
-	for (; it != chunksEnd; ++it)
+    for (; it != chunksEnd; ++it)
     {
-		_pState->addChunk(*it);
+        _pState->addChunk(*it);
     }
 }
 
 Bool ChunkMaterial::isTransparent(void) const
 {
-    Bool             returnValue = false;           
+    Bool             returnValue = false;
 
     MFStateChunkPtr::const_iterator it        = _mfChunks.begin();
     MFStateChunkPtr::const_iterator chunksEnd = _mfChunks.end();
 
-	for (; it != chunksEnd; ++it, returnValue == false)
+    for (; it != chunksEnd; ++it, returnValue == false)
     {
         returnValue = (*it)->isTransparent();
     }
-    
+
     return returnValue;
 }
 
@@ -235,15 +235,15 @@ Bool ChunkMaterial::isTransparent(void) const
 
 /*------------------------------- dump ----------------------------------*/
 
-void ChunkMaterial::dump(      UInt32     uiIndent, 
+void ChunkMaterial::dump(      UInt32     uiIndent,
                          const BitVector &bvFlags) const
 {
     SLOG << "ChunkMaterial at " << this << endl;
     SLOG << "Chunks: " << endl;
-	
-	for ( MFStateChunkPtr::const_iterator i = _mfChunks.begin(); 
-			i != _mfChunks.end(); i++ )
-		SLOG << *i << endl;	
+
+    for ( MFStateChunkPtr::const_iterator i = _mfChunks.begin();
+            i != _mfChunks.end(); i++ )
+        SLOG << *i << endl;
 }
 
 /*-------------------------- comparison -----------------------------------*/

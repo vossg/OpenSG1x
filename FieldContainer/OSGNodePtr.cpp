@@ -57,7 +57,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-namespace 
+namespace
 {
     static char cvsid_cpp[] = "@(#)$Id: $";
     static char cvsid_hpp[] = OSGNODEPTR_HEADER_CVSID;
@@ -146,13 +146,13 @@ NodePtr::~NodePtr(void)
 
 NodeCore *NodePtr::getCore(void)
 {
-    return 
+    return
         ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
 NodeCore *NodePtr::getCore(void) const
 {
-    return 
+    return
         ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
@@ -192,7 +192,7 @@ Node &NodePtr::operator *(void) const
 
 Node *NodePtr::getCPtr(void)
 {
-    return (Node *) getElemP(Thread::getAspect());   
+    return (Node *) getElemP(Thread::getAspect());
 }
 
 Node *NodePtr::getCPtr(void) const
@@ -207,8 +207,8 @@ Node *NodePtr::getCPtr(void) const
 
 void NodePtr::operator = (const CNodePtr &source)
 {
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 }
 
 /** \brief assignment
@@ -216,8 +216,8 @@ void NodePtr::operator = (const CNodePtr &source)
 
 void NodePtr::operator = (const NodePtr &source)
 {
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 }
 
 /** \brief assignment
@@ -225,8 +225,8 @@ void NodePtr::operator = (const NodePtr &source)
 
 void NodePtr::operator = (const NullFieldContainerPtr &source)
 {
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -360,7 +360,7 @@ NodeCore *CNodePtr::operator->(void)
 
 NodeCore *CNodePtr::operator->(void) const
 {
-    return 
+    return
         ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
@@ -384,13 +384,13 @@ NodeCore &CNodePtr::operator *(void) const
 
 NodeCore *CNodePtr::getCPtr(void)
 {
-    return 
+    return
         ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
 NodeCore *CNodePtr::getCPtr(void) const
 {
-    return 
+    return
         ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
 }
 
@@ -401,8 +401,8 @@ NodeCore *CNodePtr::getCPtr(void) const
 
 void CNodePtr::operator = (const NodePtr &source)
 {
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 }
 
 /** \brief assignment
@@ -410,8 +410,8 @@ void CNodePtr::operator = (const NodePtr &source)
 
 void CNodePtr::operator = (const CNodePtr &source)
 {
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 }
 
 /** \brief assignment
@@ -419,8 +419,8 @@ void CNodePtr::operator = (const CNodePtr &source)
 
 void CNodePtr::operator = (const NullFieldContainerPtr &source)
 {
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -458,18 +458,18 @@ OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream  &os,
                           const NodePtr  &fc)
 {
-	if(fc == NullFC)
+    if(fc == NullFC)
     {
-		os << hex << "NodePtr 0x" << &fc << dec << ":NullFC";
+        os << hex << "NodePtr 0x" << &fc << dec << ":NullFC";
     }
-	else
+    else
     {
-		os << hex << "NodePtr 0x" 
-           << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x" 
-		   << hex << (int) (&(*fc)) << dec << ")";
+        os << hex << "NodePtr 0x"
+           << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x"
+           << hex << (int) (&(*fc)) << dec << ")";
     }
 
-	return os;
+    return os;
 }
 
 /** \brief Write FC to the given stream
@@ -479,46 +479,46 @@ OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream  &os,
                           const CNodePtr &fc)
 {
-	if(fc == NullFC)
+    if(fc == NullFC)
     {
-		os << hex << "NodePtr 0x" << &fc << dec << ":NullFC";
+        os << hex << "NodePtr 0x" << &fc << dec << ":NullFC";
     }
-	else
+    else
     {
-		os << hex << "NodePtr 0x" 
-           << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x" 
-		   << hex << (int) (&(*fc)) << dec << ")";
+        os << hex << "NodePtr 0x"
+           << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x"
+           << hex << (int) (&(*fc)) << dec << ")";
     }
 
-	return os;
+    return os;
 }
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------
 
 

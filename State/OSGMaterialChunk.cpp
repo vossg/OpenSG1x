@@ -57,7 +57,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::MaterialChunk
-	\ingroup StateChunks
+    \ingroup StateChunks
 
 The material chunk class.
 
@@ -158,96 +158,96 @@ void MaterialChunk::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void MaterialChunk::dump(      UInt32     uiIndent, 
+void MaterialChunk::dump(      UInt32     uiIndent,
                          const BitVector &bvFlags) const
 {
-	SLOG << "Dump MaterialChunk NI" << endl;
+    SLOG << "Dump MaterialChunk NI" << endl;
 }
 
- 
+
 
 /*-------------------------- your_category---------------------------------*/
 
 void MaterialChunk::activate ( DrawActionBase *, UInt32 )
 {
-	if ( getLit() )
-		glEnable( GL_LIGHTING );
-	else
-		glDisable( GL_LIGHTING );
-	
-	if ( getColorMaterial() == GL_NONE )
-		glDisable( GL_COLOR_MATERIAL );
-	else
-	{
-		glColorMaterial( GL_FRONT_AND_BACK, getColorMaterial() );
-		glEnable( GL_COLOR_MATERIAL );
-	}
-	
-	glColor4fv( _sfDiffuse.getValue().getValueRef() );
+    if ( getLit() )
+        glEnable( GL_LIGHTING );
+    else
+        glDisable( GL_LIGHTING );
 
-	if ( getLit() )
-	{
-		glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,   
-											_sfDiffuse.getValue().getValueRef() );
+    if ( getColorMaterial() == GL_NONE )
+        glDisable( GL_COLOR_MATERIAL );
+    else
+    {
+        glColorMaterial( GL_FRONT_AND_BACK, getColorMaterial() );
+        glEnable( GL_COLOR_MATERIAL );
+    }
 
-		glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,   
-											_sfAmbient.getValue().getValueRef() );
-		glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,   
-											_sfSpecular.getValue().getValueRef() );
-		glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,   
-											_sfEmission.getValue().getValueRef() );
-		glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue() );
-	}
+    glColor4fv( _sfDiffuse.getValue().getValueRef() );
+
+    if ( getLit() )
+    {
+        glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,
+                      _sfDiffuse.getValue().getValueRef() );
+
+        glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,
+                      _sfAmbient.getValue().getValueRef() );
+        glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,
+                      _sfSpecular.getValue().getValueRef() );
+        glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,
+                      _sfEmission.getValue().getValueRef() );
+        glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue());
+    }
 }
 
 void MaterialChunk::changeFrom( DrawActionBase *, StateChunk * old_chunk, UInt32 )
 {
-	MaterialChunk const *old = dynamic_cast<MaterialChunk const*>(old_chunk);
+    MaterialChunk const *old = dynamic_cast<MaterialChunk const*>(old_chunk);
 
-	// change from me to me?
-	// this assumes I haven't changed in the meantime. is that a valid assumption?
-	if ( old == this )
-		return;
+    // change from me to me?
+    // this assumes I haven't changed in the meantime. is that a valid assumption?
+    if ( old == this )
+        return;
 
-	if ( getLit() && ! old->getLit() )
-		glEnable( GL_LIGHTING );
-	else if ( ! getLit() && old->getLit() )
-		glDisable( GL_LIGHTING );
-	
-	if ( getColorMaterial() == GL_NONE && old->getColorMaterial() != GL_NONE)
-		glDisable( GL_COLOR_MATERIAL );
-	else if ( getColorMaterial() != old->getColorMaterial() )
-	{
-		glColorMaterial( GL_FRONT_AND_BACK, getColorMaterial() );
-		glEnable( GL_COLOR_MATERIAL );
-	}
-	
-	glColor4fv( _sfDiffuse.getValue().getValueRef() );
+    if ( getLit() && ! old->getLit() )
+        glEnable( GL_LIGHTING );
+    else if ( ! getLit() && old->getLit() )
+        glDisable( GL_LIGHTING );
 
-	if ( getLit() )
-	{
-		glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,   
-											_sfDiffuse.getValue().getValueRef() );
-		glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,   
-											_sfAmbient.getValue().getValueRef() );
-		glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,   
-											_sfSpecular.getValue().getValueRef() );
-		glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,   
-											_sfEmission.getValue().getValueRef() );
-		// adjust shininess only if it differs enough
-		if ( osgabs( _sfShininess.getValue() - old->getShininess() ) > 1e-4 )
-			glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue() );
-	}
+    if ( getColorMaterial() == GL_NONE && old->getColorMaterial() != GL_NONE)
+        glDisable( GL_COLOR_MATERIAL );
+    else if ( getColorMaterial() != old->getColorMaterial() )
+    {
+        glColorMaterial( GL_FRONT_AND_BACK, getColorMaterial() );
+        glEnable( GL_COLOR_MATERIAL );
+    }
+
+    glColor4fv( _sfDiffuse.getValue().getValueRef() );
+
+    if ( getLit() )
+    {
+        glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,
+                      _sfDiffuse.getValue().getValueRef() );
+        glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,
+                      _sfAmbient.getValue().getValueRef() );
+        glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,
+                      _sfSpecular.getValue().getValueRef() );
+        glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,
+                      _sfEmission.getValue().getValueRef() );
+        // adjust shininess only if it differs enough
+        if ( osgabs( _sfShininess.getValue() - old->getShininess() ) > 1e-4 )
+            glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue() );
+    }
 }
 
 void MaterialChunk::deactivate ( DrawActionBase *, UInt32 )
 {
 
-	if ( getLit() )
-		glDisable( GL_LIGHTING );
-	
-	if ( getColorMaterial() != GL_NONE )
-		glDisable( GL_COLOR_MATERIAL );
+    if ( getLit() )
+        glDisable( GL_LIGHTING );
+
+    if ( getColorMaterial() != GL_NONE )
+        glDisable( GL_COLOR_MATERIAL );
 }
 
 
@@ -255,7 +255,7 @@ void MaterialChunk::deactivate ( DrawActionBase *, UInt32 )
 
 Real32 MaterialChunk::switchCost( StateChunk * chunk )
 {
-	return 0;
+    return 0;
 }
 
 Bool MaterialChunk::isTransparent(void) const
@@ -274,16 +274,16 @@ Bool MaterialChunk::operator < (const StateChunk &other) const
 
 Bool MaterialChunk::operator == (const StateChunk &other) const
 {
-	MaterialChunk const *tother = dynamic_cast<MaterialChunk const*>(&other);
+    MaterialChunk const *tother = dynamic_cast<MaterialChunk const*>(&other);
 
-	if ( !tother )
-		return false;
+    if ( !tother )
+        return false;
 
-	if(getDiffuse() != tother->getDiffuse())
-	   
-		return false;
-		
-	return true;
+    if(getDiffuse() != tother->getDiffuse())
+
+        return false;
+
+    return true;
 }
 
 /** \brief unequal
@@ -291,9 +291,9 @@ Bool MaterialChunk::operator == (const StateChunk &other) const
 
 Bool MaterialChunk::operator != (const StateChunk &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
-   
+
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -

@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-namespace 
+namespace
 {
     static char cvsid_cpp[] = "@(#)$Id: $";
     static char cvsid_hpp[] = OSGFIELDCONTAINERFACTORY_HEADER_CVSID;
@@ -122,7 +122,7 @@ FieldContainerFactory *FieldContainerFactory::the(void)
     if(_the == NULL)
         _the = new FieldContainerFactory();
 
-    return _the; 
+    return _the;
 }
 
 /***************************************************************************\
@@ -171,14 +171,14 @@ FieldContainerFactory::~FieldContainerFactory(void)
 
 void FieldContainerFactory::initTypeMap(void)
 {
-	if(_pTypeIdMap   == NULL && 
-       _pTypeNameMap == NULL) 
+    if(_pTypeIdMap   == NULL &&
+       _pTypeNameMap == NULL)
     {
-		_pTypeIdMap      = new TypeIdMap;
-		_pTypeNameMap    = new TypeNameMap;
-		_pGroupMap       = new GroupMap;
+        _pTypeIdMap      = new TypeIdMap;
+        _pTypeNameMap    = new TypeNameMap;
+        _pGroupMap       = new GroupMap;
         _pUnitTypesStore = new UninitializedTypeStore;
-	}
+    }
 }
 
 
@@ -198,7 +198,7 @@ Bool FieldContainerFactory::initializePendingTypes(void)
             _pMapLock->aquire();
 
         UninitTypeStoreIt uninitIt = _pUnitTypesStore->begin();
-        
+
         while(uninitIt != _pUnitTypesStore->end())
         {
             pType = *uninitIt;
@@ -222,7 +222,7 @@ Bool FieldContainerFactory::initializePendingTypes(void)
                 else
                 {
                     returnValue = false;
-                    
+
                     uninitIt++;
                 }
             }
@@ -231,11 +231,11 @@ Bool FieldContainerFactory::initializePendingTypes(void)
         if(_pMapLock != NULL)
             _pMapLock->release();
 
-        PINFO << "(" 
-                 << returnValue 
-                 << "|" 
-                 << _pUnitTypesStore->size() 
-                 << ")" 
+        PINFO << "("
+                 << returnValue
+                 << "|"
+                 << _pUnitTypesStore->size()
+                 << ")"
                  << endl;
     }
 
@@ -244,7 +244,7 @@ Bool FieldContainerFactory::initializePendingTypes(void)
 
 Bool FieldContainerFactory::initialize(int &argc, char **argv)
 {
-	TypeIdMapIt typeIt;
+    TypeIdMapIt typeIt;
 
     if(_bInitialized == true)
         return true;
@@ -261,37 +261,37 @@ Bool FieldContainerFactory::initialize(int &argc, char **argv)
 
     addRefP(_pMapLock);
 
-		FDEBUG( ("Got shore lock %d, Got map %d",
-						int (_pStoreLock), int(_pMapLock)) );
+        FDEBUG( ("Got shore lock %d, Got map %d",
+                        int (_pStoreLock), int(_pMapLock)) );
 
     _bInitialized = true;
 
     initializePendingTypes();
-    
-	return _pStoreLock != NULL && _pMapLock != NULL;
+
+    return _pStoreLock != NULL && _pMapLock != NULL;
 }
 
 Bool FieldContainerFactory::terminate(void)
 {
-	TypeIdMapIt typeIt;
+    TypeIdMapIt typeIt;
 
     SINFO << "terminate singleton FieldContainerFactory" << endl;
 
     if(_bInitialized == false)
         return true;
 
-	if(_pTypeIdMap != NULL) 
+    if(_pTypeIdMap != NULL)
     {
         int i = 0;
-		for(  typeIt  = _pTypeIdMap->begin(); 
-              typeIt != _pTypeIdMap->end(); 
-            ++typeIt) 
+        for(  typeIt  = _pTypeIdMap->begin();
+              typeIt != _pTypeIdMap->end();
+            ++typeIt)
         {
-			(*typeIt).second->terminate(); 
+            (*typeIt).second->terminate();
 
             i++;
         }
-	}
+    }
 
     subRefP(_pStoreLock);
     subRefP(_pMapLock);
@@ -317,7 +317,7 @@ UInt32 FieldContainerFactory::registerFieldContainer(
     }
 
     _pFieldContainerStore->push_back(pFieldContainer);
-    
+
     returnValue = _pFieldContainerStore->size() - 1;
 
     if(_pStoreLock != NULL)
@@ -334,13 +334,13 @@ void FieldContainerFactory::unregisterFieldContainer(
 
     if(_pStoreLock != NULL)
         _pStoreLock->aquire();
-    
+
     if(_pFieldContainerStore != NULL)
     {
-        (*_pFieldContainerStore)[pFieldContainer.getFieldContainerId()] = 
+        (*_pFieldContainerStore)[pFieldContainer.getFieldContainerId()] =
             NullFC;
     }
-    
+
     if(_pStoreLock != NULL)
         _pStoreLock->release();
 }
@@ -373,7 +373,7 @@ UInt16 FieldContainerFactory::registerGroup(const Char8 *szName)
         SWARNING << "Group without name" << endl;
         return 0;
     }
-    
+
     returnValue = findGroupId(szName);
 
     if(returnValue == 0)
@@ -383,7 +383,7 @@ UInt16 FieldContainerFactory::registerGroup(const Char8 *szName)
 
         returnValue                       = _pGroupMap->size() + 1;
 
-		(*_pGroupMap)[IDStringLink(szName)] = returnValue;
+        (*_pGroupMap)[IDStringLink(szName)] = returnValue;
 
         if(_pMapLock != NULL)
             _pMapLock->release();
@@ -394,31 +394,31 @@ UInt16 FieldContainerFactory::registerGroup(const Char8 *szName)
 
 void  FieldContainerFactory::unregisterType(FieldContainerType *pType)
 {
-	TypeIdMapIt   typeIdIt;
-	TypeNameMapIt typeNameIt;
+    TypeIdMapIt   typeIdIt;
+    TypeNameMapIt typeNameIt;
 
     if(pType == NULL)
         return;
 
-	if(_pTypeIdMap) 
+    if(_pTypeIdMap)
     {
-		typeIdIt = _pTypeIdMap->find(pType->getId());
-		
+        typeIdIt = _pTypeIdMap->find(pType->getId());
+
         if(typeIdIt != _pTypeIdMap->end())
         {
             _pTypeIdMap->erase(typeIdIt);
         }
-	}
+    }
 
-	if(_pTypeNameMap) 
+    if(_pTypeNameMap)
     {
-		typeNameIt = _pTypeNameMap->find(IDStringLink(pType->getCName()));
+        typeNameIt = _pTypeNameMap->find(IDStringLink(pType->getCName()));
 
-		if(typeNameIt != _pTypeNameMap->end())
+        if(typeNameIt != _pTypeNameMap->end())
         {
             _pTypeNameMap->erase(typeNameIt);
         }
-	}
+    }
 }
 
 /*-------------------------------------------------------------------------*\
@@ -427,35 +427,35 @@ void  FieldContainerFactory::unregisterType(FieldContainerType *pType)
 
 /*------------------------------ access -----------------------------------*/
 
-/*! \brief method to find a type 
+/*! \brief method to find a type
  */
 
 FieldContainerType *FieldContainerFactory::findType(UInt32 uiTypeId) const
 {
-	TypeIdMapConstIt  typeIt;
-	FieldContainerType    *pType = NULL;
+    TypeIdMapConstIt  typeIt;
+    FieldContainerType    *pType = NULL;
 
-	if(_pTypeIdMap) 
+    if(_pTypeIdMap)
     {
-		typeIt = _pTypeIdMap->find(uiTypeId);
-		pType   = (typeIt == _pTypeIdMap->end()) ? NULL : (*typeIt).second;
-	}
+        typeIt = _pTypeIdMap->find(uiTypeId);
+        pType   = (typeIt == _pTypeIdMap->end()) ? NULL : (*typeIt).second;
+    }
 
-	return pType;
+    return pType;
 }
 
 FieldContainerType *FieldContainerFactory::findType(const Char8 *szName) const
 {
-	TypeNameMapCnstIt   typeIt;
-	FieldContainerType *pType = NULL;
+    TypeNameMapCnstIt   typeIt;
+    FieldContainerType *pType = NULL;
 
-	if(_pTypeNameMap) 
+    if(_pTypeNameMap)
     {
-		typeIt = _pTypeNameMap->find(IDStringLink(szName));
-		pType  = (typeIt == _pTypeNameMap->end()) ? NULL : (*typeIt).second;
-	}
+        typeIt = _pTypeNameMap->find(IDStringLink(szName));
+        pType  = (typeIt == _pTypeNameMap->end()) ? NULL : (*typeIt).second;
+    }
 
-	return pType;
+    return pType;
 }
 
 FieldContainerType *FieldContainerFactory::findUninitializedType(
@@ -480,36 +480,36 @@ FieldContainerType *FieldContainerFactory::findUninitializedType(
 
 UInt32 FieldContainerFactory::getNumTypes(void) const
 {
-    return _pTypeNameMap ? _pTypeNameMap->size() : 0; 
+    return _pTypeNameMap ? _pTypeNameMap->size() : 0;
 }
 
 
 UInt16 FieldContainerFactory::findGroupId(const Char8 *szName) const
 {
-	GroupMapConstIt gIt;
+    GroupMapConstIt gIt;
 
-	if (_pGroupMap) 
+    if (_pGroupMap)
     {
-		gIt = _pGroupMap->find(IDStringLink(szName));
-		return ((gIt == _pGroupMap->end()) ? 0 : (*gIt).second);
-	}
+        gIt = _pGroupMap->find(IDStringLink(szName));
+        return ((gIt == _pGroupMap->end()) ? 0 : (*gIt).second);
+    }
 
-	return 0;
+    return 0;
 }
 
 const Char8 *FieldContainerFactory::findGroupName(UInt16 uiGroupId) const
 {
-	GroupMapConstIt gIt;
+    GroupMapConstIt gIt;
 
-	for(gIt = _pGroupMap->begin(); gIt != _pGroupMap->end(); gIt++) 
+    for(gIt = _pGroupMap->begin(); gIt != _pGroupMap->end(); gIt++)
     {
-		if((*gIt).second == uiGroupId)
-			return (*gIt).first.str();
-	}
+        if((*gIt).second == uiGroupId)
+            return (*gIt).first.str();
+    }
 
-	return NULL;
+    return NULL;
 }
-        
+
 UInt16 FieldContainerFactory::getNumGroups (void) const
 {
     return _pGroupMap ? _pGroupMap->size() : 0;
@@ -562,7 +562,7 @@ FieldContainerPtr FieldContainerFactory::createFieldContainer(
 {
     FieldContainerPtr returnValue;
 
-	const FieldContainerType *pType = findType(name);
+    const FieldContainerType *pType = findType(name);
 
     if(pType != NULL)
         returnValue = pType->createFieldContainer();
@@ -574,7 +574,7 @@ NodePtr FieldContainerFactory::createNode(const Char8 *name) const
 {
     NodePtr returnValue;
 
-	const FieldContainerType *pType = findType(name);
+    const FieldContainerType *pType = findType(name);
 
     if(pType != NULL)
         returnValue = pType->createNode();
@@ -587,7 +587,7 @@ NodeCorePtr FieldContainerFactory::createNodeCore(
 {
     NodeCorePtr returnValue;
 
-	const FieldContainerType *pType = findType(name);
+    const FieldContainerType *pType = findType(name);
 
     if(pType != NULL)
         returnValue = pType->createNodeCore();
@@ -600,7 +600,7 @@ AttachmentPtr FieldContainerFactory::createAttachment(
 {
     AttachmentPtr returnValue;
 
-	const FieldContainerType *pType = findType(name);
+    const FieldContainerType *pType = findType(name);
 
     if(pType != NULL)
         returnValue = pType->createAttachment();
@@ -614,131 +614,131 @@ AttachmentPtr FieldContainerFactory::createAttachment(
 
 void FieldContainerFactory::writeSingleTypeFCD( ostream &out, const FieldContainerType *t )
 {
-	FieldContainerType * parent = t->getParent();
-	
-	out << "<FieldContainer" << endl;
-	out << "\tname=\"" << t->getCName() << "\"" << endl;
-	if ( parent )
-		out << "\tparent=\"" << parent->getCName() << "\"" << endl;
-	out << "\tlibrary=\"" << "???" << "\"" << endl;
-	out << "\tstructure=\"" << ( t->isAbstract()?"abstract":"concrete" ) << "\"" 
-		<< endl;
-	
-	// look for pointerfield types
-	string s;
-	int pt = 0;
-	static char *pftypes[] = { "none", "single", "multi", "both" };
-	
-	s  = "SF";
-	s += t->getCName();
-	s += "Ptr";
-	if ( FieldFactory::the().getFieldType( s.c_str() ) != NULL )
-		pt |= 1;
-	
-	s  = "MF";
-	s += t->getCName();
-	s += "Ptr";
-	if ( FieldFactory::the().getFieldType( s.c_str() ) != NULL )
-		pt |= 2;
-	
-	out << "\tpointerfieldtypes=\"" << pftypes[ pt ] << "\"" << endl;
-	out << ">" << endl;
+    FieldContainerType * parent = t->getParent();
 
-	// Print the fields in this FC, ignore the parents' fields
-	// !!! This should start at 0, FIX ME
+    out << "<FieldContainer" << endl;
+    out << "\tname=\"" << t->getCName() << "\"" << endl;
+    if ( parent )
+        out << "\tparent=\"" << parent->getCName() << "\"" << endl;
+    out << "\tlibrary=\"" << "???" << "\"" << endl;
+    out << "\tstructure=\"" << ( t->isAbstract()?"abstract":"concrete" ) << "\""
+        << endl;
 
-	for ( int i = parent ? parent->getNumFieldDescs() + 1 : 1; 
-			i <= t->getNumFieldDescs(); i++ )
-	{
-		const FieldDescription *f = t->getFieldDescription( i );
+    // look for pointerfield types
+    string s;
+    int pt = 0;
+    static char *pftypes[] = { "none", "single", "multi", "both" };
 
-		out << "\t<Field" << endl;
-		out << "\t\tname=\"" << f->getCName() << "\"" << endl;
+    s  = "SF";
+    s += t->getCName();
+    s += "Ptr";
+    if ( FieldFactory::the().getFieldType( s.c_str() ) != NULL )
+        pt |= 1;
 
-		// Filter the SF/MF from the type
-		const Char8 * c = FieldFactory::the().getFieldType( f->getTypeId() )->getCName();
-		if ( ! strncmp( c, "SF", 2 ) || ! strncmp( c, "MF", 2 ) )
-			c += 2;
-		out << "\t\ttype=\"" << c << "\"" << endl;
+    s  = "MF";
+    s += t->getCName();
+    s += "Ptr";
+    if ( FieldFactory::the().getFieldType( s.c_str() ) != NULL )
+        pt |= 2;
 
-		out << "\t\tcardinality=\"" 
-			<< ( FieldFactory::the().getFieldType( f->getTypeId() )->getCardinality() 
-			     ? "multi" : "single"  )
-			<< "\"" << endl;
-		out << "\t\tvisibility=\"" << (f->isInternal() ? "internal" : "external" ) 
-			<< "\"" << endl;
-		out << "\t>" << endl;
-		out << "\t</Field>" << endl;
-	}
-	out << "</FieldContainer>" << endl;
+    out << "\tpointerfieldtypes=\"" << pftypes[ pt ] << "\"" << endl;
+    out << ">" << endl;
+
+    // Print the fields in this FC, ignore the parents' fields
+    // !!! This should start at 0, FIX ME
+
+    for ( int i = parent ? parent->getNumFieldDescs() + 1 : 1;
+            i <= t->getNumFieldDescs(); i++ )
+    {
+        const FieldDescription *f = t->getFieldDescription( i );
+
+        out << "\t<Field" << endl;
+        out << "\t\tname=\"" << f->getCName() << "\"" << endl;
+
+        // Filter the SF/MF from the type
+        const Char8 * c = FieldFactory::the().getFieldType( f->getTypeId() )->getCName();
+        if ( ! strncmp( c, "SF", 2 ) || ! strncmp( c, "MF", 2 ) )
+            c += 2;
+        out << "\t\ttype=\"" << c << "\"" << endl;
+
+        out << "\t\tcardinality=\""
+            << ( FieldFactory::the().getFieldType( f->getTypeId() )->getCardinality()
+                 ? "multi" : "single"  )
+            << "\"" << endl;
+        out << "\t\tvisibility=\"" << (f->isInternal() ? "internal" : "external" )
+            << "\"" << endl;
+        out << "\t>" << endl;
+        out << "\t</Field>" << endl;
+    }
+    out << "</FieldContainer>" << endl;
 
 }
-	/* type output */
-	/* name given: output only the given type,
-	   out given: output all types into the stream, 
-	   no name, no out: output all types into separate files
+    /* type output */
+    /* name given: output only the given type,
+       out given: output all types into the stream,
+       no name, no out: output all types into separate files
        */
 
 void FieldContainerFactory::writeFCD( char * name, ostream * out )
 {
-	TypeIdMapIt type;
-	const FieldContainerType *pType;
+    TypeIdMapIt type;
+    const FieldContainerType *pType;
 
-	if(_pTypeIdMap == NULL) 
-		return;
+    if(_pTypeIdMap == NULL)
+        return;
 
-	if ( name )
-	{
-		pType  = findType( name );
-		
-		if ( ! pType )
-		{
-			SWARNING << "FieldContainerFactory::writeFCD: type " << name 
-					 << " is unknown!" << endl;
-			return;
-		}
-		
-		if ( out )
-		{
-			writeSingleTypeFCD( *out, pType );
-		}
-		else
-		{
-			string s( pType->getCName() );
-			s.append( ".fcd" );
-			
-			ofstream f( s.c_str() );
-			
-			writeSingleTypeFCD( f, pType );
-		}
-		
-		return;
-	}	
-	
-	// write header once? 
-	if ( out )
-	{
-		*out << "<?xml version=\"1.0\" ?>" << endl << endl;
-	}
+    if ( name )
+    {
+        pType  = findType( name );
 
-	for(  type  = _pTypeIdMap->begin(); 
-		  type != _pTypeIdMap->end(); 
-		++type) 
-	{
-		if ( out )
-			writeSingleTypeFCD( *out, (*type).second );
-		else
-		{
-			string s( (*type).second->getCName() );
-			s.append( ".fcd" );
-			
-			ofstream f( s.c_str() );
-			
-			f << "<?xml version=\"1.0\" ?>" << endl << endl;
-			writeSingleTypeFCD( f, (*type).second );			
-		}
-		*out << endl;
-	}
+        if ( ! pType )
+        {
+            SWARNING << "FieldContainerFactory::writeFCD: type " << name
+                     << " is unknown!" << endl;
+            return;
+        }
+
+        if ( out )
+        {
+            writeSingleTypeFCD( *out, pType );
+        }
+        else
+        {
+            string s( pType->getCName() );
+            s.append( ".fcd" );
+
+            ofstream f( s.c_str() );
+
+            writeSingleTypeFCD( f, pType );
+        }
+
+        return;
+    }
+
+    // write header once?
+    if ( out )
+    {
+        *out << "<?xml version=\"1.0\" ?>" << endl << endl;
+    }
+
+    for(  type  = _pTypeIdMap->begin();
+          type != _pTypeIdMap->end();
+        ++type)
+    {
+        if ( out )
+            writeSingleTypeFCD( *out, (*type).second );
+        else
+        {
+            string s( (*type).second->getCName() );
+            s.append( ".fcd" );
+
+            ofstream f( s.c_str() );
+
+            f << "<?xml version=\"1.0\" ?>" << endl << endl;
+            writeSingleTypeFCD( f, (*type).second );
+        }
+        *out << endl;
+    }
 }
 
 /*-------------------------- assignment -----------------------------------*/
@@ -754,30 +754,30 @@ const FieldContainerFactory::FieldContainerStore *
 
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------
 

@@ -114,7 +114,7 @@ char BaseThreadCommonBase::cvsid[]        = "@(#)$Id: $";
 
 BaseThreadCommonBase::BaseThreadCommonBase(const Char8  *szName,
                                                  UInt32  uiId  ) :
-    
+
      Inherited  (szName),
     _uiThreadId (uiId)
 {
@@ -203,18 +203,18 @@ void *BasePThreadBase::threadFunc(void *pThreadArg)
             if(pArgs[0] != NULL)
             {
                 ThreadFuncF fThreadFunc = (ThreadFuncF) pArgs[0];
-                
+
                 fThreadFunc(pArgs[1]);
             }
         }
-    }    
+    }
 
     return NULL;
 }
 
 void BasePThreadBase::init(void)
 {
-    setupThread    ();        
+    setupThread    ();
     setupBlockCond ();
 }
 
@@ -224,7 +224,7 @@ void BasePThreadBase::freeThread(void *pThread)
     BaseThread **pT = (BaseThread **) pThread;
 
     if(pT != NULL)
-        delete pT;    
+        delete pT;
 }
 #endif
 
@@ -243,13 +243,13 @@ BaseThread *BasePThreadBase::getCurrent(void)
 #endif
 
 #ifdef OSG_ASPECT_USE_PTHREADSELF
-    pthread_t threadId = pthread_self(); 
+    pthread_t threadId = pthread_self();
 
     return _vThreads[threadId & 0x00FF];
 #endif
 
 #ifdef OSG_ASPECT_USE_CUSTOMSELF
-    pthread_t threadId = gThreadSelf(); 
+    pthread_t threadId = gThreadSelf();
 
     return _vThreads[threadId];
 #endif
@@ -278,7 +278,7 @@ void BasePThreadBase::join(BasePThreadBase *pThread)
 /** \brief Constructor
  */
 
-BasePThreadBase::BasePThreadBase(const Char8  *szName, 
+BasePThreadBase::BasePThreadBase(const Char8  *szName,
                                        UInt32  uiId  ) :
     Inherited   (szName, uiId),
 
@@ -306,11 +306,11 @@ void BasePThreadBase::setupThread(void)
 
     *pThread = (BaseThread *) this;
 
-    pthread_setspecific(_threadKey, (void *) pThread);  
+    pthread_setspecific(_threadKey, (void *) pThread);
 #endif
 
 #ifdef OSG_ASPECT_USE_PTHREADSELF
-    pthread_t threadId = pthread_self(); 
+    pthread_t threadId = pthread_self();
 
     _vThreads.resize((threadId & 0x00FF) + 1);
 
@@ -318,7 +318,7 @@ void BasePThreadBase::setupThread(void)
 #endif
 
 #ifdef OSG_ASPECT_USE_CUSTOMSELF
-    pthread_t threadId = gThreadSelf(); 
+    pthread_t threadId = gThreadSelf();
 
     _vThreads.resize(threadId + 1);
 
@@ -343,7 +343,7 @@ void BasePThreadBase::setupBlockCond(void)
 
 /*------------------------------ access -----------------------------------*/
 
-Bool BasePThreadBase::run(ThreadFuncF  fThreadFunc, 
+Bool BasePThreadBase::run(ThreadFuncF  fThreadFunc,
                           void        *pThreadArg)
 {
     Bool  returnValue = true;
@@ -358,7 +358,7 @@ Bool BasePThreadBase::run(ThreadFuncF  fThreadFunc,
         _pThreadData[1] =          pThreadArg;
         _pThreadData[2] = (void *) this;
 
-		rc = pthread_create(_pThreadDesc, 
+        rc = pthread_create(_pThreadDesc,
                             NULL,
                             BasePThreadBase::threadFunc,
                             (void *) &_pThreadData);
@@ -368,7 +368,7 @@ Bool BasePThreadBase::run(ThreadFuncF  fThreadFunc,
             SFATAL << "OSGPTB : pthread_create failed" << endl;
             returnValue = false;
         }
-        
+
     }
     else
     {
@@ -456,7 +456,7 @@ void BaseSprocBase::threadFunc(void *pThreadArg)
                 threadFuncF(pArgs[1]);
             }
         }
-    }    
+    }
 }
 
 void BaseSprocBase::init(void)
@@ -495,14 +495,14 @@ void BaseSprocBase::join(BaseSprocBase *pThread)
  */
 
 BaseSprocBase::BaseSprocBase(const Char8  *szName,
-                                   UInt32  uiId) :    
+                                   UInt32  uiId) :
     Inherited(szName, uiId),
 
     _pid(NULL)
 {
     _pThreadData[0] = NULL;
     _pThreadData[1] = NULL;
-    _pThreadData[2] = NULL;    
+    _pThreadData[2] = NULL;
 }
 
 /** \brief Destructor
@@ -530,7 +530,7 @@ void BaseSprocBase::setCurrentInternal(BaseThread *pThread)
 
 /*------------------------------ access -----------------------------------*/
 
-Bool BaseSprocBase::run(ThreadFuncF  fThreadFunc, 
+Bool BaseSprocBase::run(ThreadFuncF  fThreadFunc,
                         void        *pThreadArg)
 {
     Bool  returnValue = true;
@@ -542,7 +542,7 @@ Bool BaseSprocBase::run(ThreadFuncF  fThreadFunc,
         _pThreadData[1] =          pThreadArg;
         _pThreadData[2] = (void *) this;
 
-		rc = sproc(BaseSprocBase::threadFunc, PR_SALL, (void *) _pThreadData);
+        rc = sproc(BaseSprocBase::threadFunc, PR_SALL, (void *) _pThreadData);
 
         if(rc == -1)
         {
@@ -648,7 +648,7 @@ void BaseWinThreadBase::freeThread(void)
 
     pThread = (BaseThread **) TlsGetValue(_threadKey);
 
-	delete pThread;
+    delete pThread;
 }
 #endif
 
@@ -671,12 +671,12 @@ void BaseWinThreadBase::threadFunc(void *pThreadArg)
 
             threadFuncF(pArgs[1]);
         }
-    }    
+    }
 }
 
 void BaseWinThreadBase::init(void)
 {
-    setupThread(); 
+    setupThread();
 }
 
 /*-------------------------------------------------------------------------*\
@@ -693,14 +693,14 @@ BaseThread *BaseWinThreadBase::getCurrent(void)
     return *pThread;
 #endif
 #ifdef OSG_ASPECT_USE_DECLSPEC
-	return _pThreadLocal;
+    return _pThreadLocal;
 #endif
 }
-        
+
 void BaseWinThreadBase::join(BaseWinThreadBase *pThread)
 {
-	if(pThread != NULL)
-		WaitForSingleObject(pThread->_pExternalHandle, INFINITE);
+    if(pThread != NULL)
+        WaitForSingleObject(pThread->_pExternalHandle, INFINITE);
 }
 
 /***************************************************************************\
@@ -722,9 +722,9 @@ BaseWinThreadBase::BaseWinThreadBase(const Char8  *szName,
                                            UInt32  uiId) :
     Inherited(szName, uiId),
 
-	_pThreadHandle(NULL),
-	_pExternalHandle(NULL),
-	_uiNativeThreadId(0)
+    _pThreadHandle(NULL),
+    _pExternalHandle(NULL),
+    _uiNativeThreadId(0)
 {
     _pThreadData[0] = NULL;
     _pThreadData[1] = NULL;
@@ -740,24 +740,24 @@ BaseWinThreadBase::~BaseWinThreadBase(void)
 
 void BaseWinThreadBase::setPid(void)
 {
-	_pThreadHandle   = GetCurrentThread();
-	_uiNativeThreadId = GetCurrentThreadId();
+    _pThreadHandle   = GetCurrentThread();
+    _uiNativeThreadId = GetCurrentThreadId();
 }
 
 void BaseWinThreadBase::setExternalHandle(Handle pExternalHandle)
 {
-	_pExternalHandle = pExternalHandle;
+    _pExternalHandle = pExternalHandle;
 }
 
 
 void BaseWinThreadBase::setupThread(void)
 {
 #if defined (OSG_ASPECT_USE_LOCALSTORAGE)
-	BaseThread **pThread = new BaseThread *;
+    BaseThread **pThread = new BaseThread *;
 
-	*pThread = (BaseThread *) this;
+    *pThread = (BaseThread *) this;
 
-	TlsSetValue(_threadKey, pThread);
+    TlsSetValue(_threadKey, pThread);
 #endif
 
 #if defined (OSG_ASPECT_USE_DECLSPEC)
@@ -773,12 +773,12 @@ void BaseWinThreadBase::setupThread(void)
 
 /*------------------------------ access -----------------------------------*/
 
-Bool BaseWinThreadBase::run(ThreadFuncF  fThreadFunc, 
+Bool BaseWinThreadBase::run(ThreadFuncF  fThreadFunc,
                             void        *pThreadArg)
 {
     Bool   returnValue = true;
     Handle rc          = 0;
-	DWord  tmp;
+    DWord  tmp;
 
     if(fThreadFunc != NULL)
     {
@@ -786,14 +786,14 @@ Bool BaseWinThreadBase::run(ThreadFuncF  fThreadFunc,
         _pThreadData[1] =          pThreadArg;
         _pThreadData[2] = (void *) this;
 
-		rc = CreateThread(NULL, 
-						  0,    
-                          (LPTHREAD_START_ROUTINE) BaseThreadBase::threadFunc, 
-				          _pThreadData, 
-						  0,    
-						  &tmp);
-		
-		this->setExternalHandle(rc);
+        rc = CreateThread(NULL,
+                          0,
+                          (LPTHREAD_START_ROUTINE) BaseThreadBase::threadFunc,
+                          _pThreadData,
+                          0,
+                          &tmp);
+
+        this->setExternalHandle(rc);
 
         if(rc == NULL)
         {
@@ -868,7 +868,7 @@ void BaseWinThreadBase::kill(void)
 
 void BaseWinThreadBase::print(void)
 {
-	fprintf(stderr, "OSGWinThreadBase -%s-%d-\n", _szName, _uiThreadId);
+    fprintf(stderr, "OSGWinThreadBase -%s-%d-\n", _szName, _uiThreadId);
 }
 
 /*---------------------------- properties ---------------------------------*/
@@ -898,8 +898,8 @@ void BaseWinThreadBase::print(void)
 
 char BaseThread::cvsid[] = "@(#)$Id: $";
 
-MPThreadType BaseThread::_type("OSGBaseThread", 
-                               "OSGMPBase", 
+MPThreadType BaseThread::_type("OSGBaseThread",
+                               "OSGMPBase",
                                BaseThread::create,
                                BaseThread::initThreading);
 
@@ -925,9 +925,9 @@ void BaseThread::initThreading(void)
     FINFO(("BaseThread::initThreading\n"))
 
 #ifdef OSG_ASPECT_USE_PTHREADKEY
-    int rc; 
+    int rc;
 
-    rc = pthread_key_create(&(BaseThread::_threadKey), 
+    rc = pthread_key_create(&(BaseThread::_threadKey),
                               BaseThread::freeThread);
 
     FFASSERT((rc == 0), 1, ("Failed to create pthread thread key\n");)
@@ -935,17 +935,17 @@ void BaseThread::initThreading(void)
 
 #ifdef OSG_ASPECT_USE_PTHREADSELF
     BaseThread::_vThreads.resize(16);
-    
+
     for(UInt32 i = 0; i < 16; i++)
     {
         BaseThread::_vThreads[i]     = NULL;
     }
 #endif
 
-#if defined (OSG_ASPECT_USE_LOCALSTORAGE)		
-	BaseThread::_threadKey     = TlsAlloc();
+#if defined (OSG_ASPECT_USE_LOCALSTORAGE)
+    BaseThread::_threadKey     = TlsAlloc();
 
-	FFASSERT((BaseThread::_threadKey != 0xFFFFFFFF), 1, 
+    FFASSERT((BaseThread::_threadKey != 0xFFFFFFFF), 1,
              ("Failed to alloc thread key local storage\n");)
 #endif
 }
@@ -1015,30 +1015,30 @@ BaseThread::~BaseThread(void)
 
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------
 

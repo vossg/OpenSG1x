@@ -122,7 +122,7 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 /*
-template <class BasePtrTypeT, class FieldContainerTypeT> 
+template <class BasePtrTypeT, class FieldContainerTypeT>
 const FCPtr<BasePtrTypeT, FieldContainerTypeT>
     FCPtr<BasePtrTypeT, FieldContainerTypeT>::NullPtr;
     */
@@ -195,7 +195,7 @@ FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(void) :
-	Inherited()
+    Inherited()
 {
 }
 
@@ -204,7 +204,7 @@ FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(void) :
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(const FCPtr &source):
-	Inherited(source)
+    Inherited(source)
 {
 }
 
@@ -215,7 +215,7 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FCPtr<BasePtrTypeT, FieldContainerTypeT>::FCPtr(
     const NullFieldContainerPtr &source) :
 
-	Inherited(source)
+    Inherited(source)
 {
 }
 
@@ -243,7 +243,7 @@ FieldContainerTypeT *FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator ->(
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FieldContainerTypeT *FCPtr<BasePtrTypeT, 
+FieldContainerTypeT *FCPtr<BasePtrTypeT,
                             FieldContainerTypeT>::operator ->(void) const
 {
     return (FieldContainerTypeT *) getElemP(Thread::getAspect());
@@ -263,7 +263,7 @@ FieldContainerTypeT &FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator *(
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-FieldContainerTypeT &FCPtr<BasePtrTypeT, 
+FieldContainerTypeT &FCPtr<BasePtrTypeT,
                             FieldContainerTypeT>::operator *(void) const
 {
     return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
@@ -293,8 +293,8 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 void FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
     const FCPtr &source)
 {
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 }
 
 /** \brief NullPtr assignment
@@ -304,8 +304,8 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 void FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
     const NullFieldContainerPtr &source)
 {
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -392,7 +392,7 @@ void FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
 \***************************************************************************/
 
 /*
-template <class BasePtrTypeT, class FieldContainerTypeT> 
+template <class BasePtrTypeT, class FieldContainerTypeT>
 const ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>
     ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::NullPtr;
     */
@@ -439,17 +439,17 @@ ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
     const FieldContainerTypeT *source) :
-    
+
     Inherited(source)
 {
 }
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
-    const FieldContainerTypeT *source, 
+    const FieldContainerTypeT *source,
     const UInt16               uiSize,
     const UInt16               uiParentEPos) :
-    
+
     Inherited(source, uiSize, uiParentEPos)
 {
 }
@@ -465,7 +465,7 @@ ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(void) :
-	Inherited()
+    Inherited()
 {
 }
 
@@ -476,7 +476,7 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
     const NullFieldContainerPtr &source) :
 
-	Inherited(source)
+    Inherited(source)
 {
 }
 
@@ -487,7 +487,7 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
     const NCFCPtr &source) :
 
-	Inherited(source)
+    Inherited(source)
 {
 }
 
@@ -498,7 +498,7 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::ConstFCPtr(
     const ConstFCPtr &source) :
 
-	Inherited(source)
+    Inherited(source)
 {
 }
 
@@ -516,7 +516,7 @@ ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::~ConstFCPtr(void)
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT, 
+const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
                                        FieldContainerTypeT>::operator ->(void)
 {
     return (FieldContainerTypeT *) getElemP(Thread::getAspect());
@@ -526,7 +526,7 @@ const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT, 
+const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
                                        FieldContainerTypeT>::operator ->(
                                            void) const
 {
@@ -537,7 +537,7 @@ const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT, 
+const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
                                        FieldContainerTypeT>::operator *(void)
 {
     return *((FieldContainerTypeT *) getElemP(Thread::getAspect()));
@@ -547,7 +547,7 @@ const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
  */
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT, 
+const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
                                        FieldContainerTypeT>::operator *(
                                            void) const
 {
@@ -556,7 +556,7 @@ const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
 
 
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
-const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT, 
+const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
                                        FieldContainerTypeT>::getCPtr(void)
 
 {
@@ -579,8 +579,8 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
     const NCFCPtr &source)
 {
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 }
 
 /** \brief assignment
@@ -590,8 +590,8 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
     const ConstFCPtr &source)
 {
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 }
 
 /** \brief assignment
@@ -601,8 +601,8 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
     const NullFieldContainerPtr &source)
 {
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 }
 
 /*------------------------------ access -----------------------------------*/

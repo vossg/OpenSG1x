@@ -35,53 +35,53 @@ DrawAction * dact;
 
 NodePtr plane,torus;
 ChunkMaterialPtr pm;
-SimpleMaterialPtr tmat;	
+SimpleMaterialPtr tmat;
 
-void 
+void
 display(void)
 {
-	float a = glutGet( GLUT_ELAPSED_TIME );
+    float a = glutGet( GLUT_ELAPSED_TIME );
 
-	if ( (int) ( a / 2000 ) & 1 )	
-		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-	else
-		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    if ( (int) ( a / 2000 ) & 1 )
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    else
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	glPushMatrix();
-	glRotatef( a / 20, 0,0,1 );
+    glPushMatrix();
+    glRotatef( a / 20, 0,0,1 );
 
-	dact->apply( plane );
+    dact->apply( plane );
 
-	glPushMatrix();
-	glTranslatef( 0,0,fabs(sinf(a/3000 * Pi))*2 );
-	glRotatef( (a/3000) * 360 / 2, 1,0,0 );
+    glPushMatrix();
+    glTranslatef( 0,0,fabs(sinf(a/3000 * Pi))*2 );
+    glRotatef( (a/3000) * 360 / 2, 1,0,0 );
 
-	dact->apply( torus );
+    dact->apply( torus );
 
-	// do some OpenGL rendering
+    // do some OpenGL rendering
 
-	StatePtr st = pm->makeState();
+    StatePtr st = pm->makeState();
 
-	addRefCP( st );
-	
-	st->activate( dact );
-	glutSolidSphere( .4, 8, 8 );
-	st->deactivate( dact );
+    addRefCP( st );
 
-	subRefCP( st );
-	
-	glPopMatrix();
-	
-	glPopMatrix();
+    st->activate( dact );
+    glutSolidSphere( .4, 8, 8 );
+    st->deactivate( dact );
 
-	glutSwapBuffers();
+    subRefCP( st );
+
+    glPopMatrix();
+
+    glPopMatrix();
+
+    glutSwapBuffers();
 }
 
 int main (int argc, char **argv)
 {
-	// GLUT init
+    // GLUT init
 
     osgInit(argc, argv);
 
@@ -94,63 +94,63 @@ int main (int argc, char **argv)
         pGeoProto->setDlistCache(false);
     }
 
-	glutInit(&argc, argv);
-	glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-	glutCreateWindow("OpenSG");
-	// glutKeyboardFunc(key);
-	// glutReshapeFunc(resize);
-	glutDisplayFunc(display);       
-	// glutMouseFunc(mouse);   
-	// glutMotionFunc(motion); 
-	
-	glutIdleFunc(display);
+    glutInit(&argc, argv);
+    glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    glutCreateWindow("OpenSG");
+    // glutKeyboardFunc(key);
+    // glutReshapeFunc(resize);
+    glutDisplayFunc(display);
+    // glutMouseFunc(mouse);
+    // glutMotionFunc(motion);
 
-	glMatrixMode( GL_PROJECTION );
-	glLoadIdentity();
-	gluPerspective( 60, 1, 0.1, 10 );
-	glMatrixMode( GL_MODELVIEW );
-	glLoadIdentity();
-	gluLookAt( 3, 3, 3,  0, 0, 0,   0, 0, 1 );
-	
-	glEnable( GL_DEPTH_TEST );
-	glEnable( GL_LIGHTING );
-	glEnable( GL_LIGHT0 );
+    glutIdleFunc(display);
 
-	// OSG
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    gluPerspective( 60, 1, 0.1, 10 );
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+    gluLookAt( 3, 3, 3,  0, 0, 0,   0, 0, 1 );
 
-	plane = makePlane( 2, 2, 8, 8 );
-	torus = makeTorus( .2, 1, 16, 8 );
+    glEnable( GL_DEPTH_TEST );
+    glEnable( GL_LIGHTING );
+    glEnable( GL_LIGHT0 );
 
-	GeometryPtr plane_geo, torus_geo;
-	plane_geo = GeometryPtr::dcast(plane->getCore());
-	torus_geo = GeometryPtr::dcast(torus->getCore());
-	
-	
-	pm = ChunkMaterial::create();
+    // OSG
 
-	MaterialChunkPtr pmc = MaterialChunk::create();
-	pmc->setDiffuse( Color4f( 1,0,0,0 ) );
-	pmc->setAmbient( Color4f( 1,0,0,0 ) );
-	pmc->setSpecular( Color4f( 1,1,1,0 ) );
-	pmc->setShininess( 20 );
-	
-	pm->addChunk( pmc );
-	
-	plane_geo->setMaterial( pm );
-	
-	
-	tmat = SimpleMaterial::create();
+    plane = makePlane( 2, 2, 8, 8 );
+    torus = makeTorus( .2, 1, 16, 8 );
 
-	tmat->setDiffuse( Color3f( 0,1,0 ) );
-	tmat->setAmbient( Color3f( 0,1,0 ) );
-	
-	torus_geo->setMaterial( tmat );
-	
-	
-	dact = DrawAction::create();
-	
-	glutMainLoop();
-	
+    GeometryPtr plane_geo, torus_geo;
+    plane_geo = GeometryPtr::dcast(plane->getCore());
+    torus_geo = GeometryPtr::dcast(torus->getCore());
+
+
+    pm = ChunkMaterial::create();
+
+    MaterialChunkPtr pmc = MaterialChunk::create();
+    pmc->setDiffuse( Color4f( 1,0,0,0 ) );
+    pmc->setAmbient( Color4f( 1,0,0,0 ) );
+    pmc->setSpecular( Color4f( 1,1,1,0 ) );
+    pmc->setShininess( 20 );
+
+    pm->addChunk( pmc );
+
+    plane_geo->setMaterial( pm );
+
+
+    tmat = SimpleMaterial::create();
+
+    tmat->setDiffuse( Color3f( 0,1,0 ) );
+    tmat->setAmbient( Color3f( 0,1,0 ) );
+
+    torus_geo->setMaterial( tmat );
+
+
+    dact = DrawAction::create();
+
+    glutMainLoop();
+
     return 0;
 }
 

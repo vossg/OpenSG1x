@@ -16,17 +16,17 @@
 int main (int argc, char **argv)
 {
     OSG::Bool retCode = 0;
-	ofstream out;
+    ofstream out;
     osg::ImageFileType *fileType;
-	osg::Image image;
+    osg::Image image;
     osg::UChar8 *data = 0;
     unsigned long i,maxSize;
-	
-	OSG::ImageFileHandler::the().print();
 
-	if (argc > 2)
+    OSG::ImageFileHandler::the().print();
+
+    if (argc > 2)
     {
-		if (image.read(argv[1]))
+        if (image.read(argv[1]))
         {
             out.open(argv[2]);
             if (out.eof() == false)
@@ -35,7 +35,7 @@ int main (int argc, char **argv)
                 maxSize = fileType->maxBufferSize(image);
                 data = new osg::UChar8[maxSize];
                 fileType->store(image,data);
-                out << "unsigned char imageData[] = {"; 
+                out << "unsigned char imageData[] = {";
                 for (i = 0; i < maxSize; i++)
                 {
                     if ((i % 8) == 0)
@@ -46,23 +46,23 @@ int main (int argc, char **argv)
                 delete [] data;
                 retCode = 0;
             }
-            else 
+            else
             {
                 FFATAL (("Can not open %s output file\n"));
                 retCode = -2;
             }
         }
-        else 
+        else
         {
             FFATAL (("Can not open %s input file\n"));
             retCode = -3;
         }
     }
-    else 
+    else
     {
         FLOG (( "usage: %s inputImageFile outputAsciiFile\n", argv[0] ));
         retCode = -1;
     }
-    
-	return retCode;
+
+    return retCode;
 }

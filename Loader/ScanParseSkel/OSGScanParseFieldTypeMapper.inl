@@ -101,7 +101,7 @@ OSG_BEGIN_NAMESPACE
 
 template <class BaseT> inline
 ScanParseFieldTypeMapper<BaseT>::ScanParseFieldTypeMapper(void) :
-	Inherited(),
+    Inherited(),
     _mIntExt(),
     _mExtInt()
 

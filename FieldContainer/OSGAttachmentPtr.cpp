@@ -55,7 +55,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-namespace 
+namespace
 {
     static char cvsid_cpp[] = "@(#)$Id: $";
     static char cvsid_hpp[] = OSGATTACHMENTPTR_HEADER_CVSID;
@@ -168,7 +168,7 @@ Attachment &AttachmentPtr::operator *(void) const
 
 Attachment *AttachmentPtr::getCPtr(void)
 {
-    return (Attachment *) getElemP(Thread::getAspect());   
+    return (Attachment *) getElemP(Thread::getAspect());
 }
 
 Attachment *AttachmentPtr::getCPtr(void) const
@@ -183,8 +183,8 @@ Attachment *AttachmentPtr::getCPtr(void) const
 
 void AttachmentPtr::operator = (const AttachmentPtr &source)
 {
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 }
 
 /** \brief NullPtr assignment
@@ -192,8 +192,8 @@ void AttachmentPtr::operator = (const AttachmentPtr &source)
 
 void AttachmentPtr::operator = (const NullFieldContainerPtr &source)
 {
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -235,46 +235,46 @@ OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream        &os,
                           const AttachmentPtr  &fc)
 {
-	if(fc == NullFC)
+    if(fc == NullFC)
     {
-		os << hex << "NodePtr 0x" << &fc << dec << ":NullFC";
+        os << hex << "NodePtr 0x" << &fc << dec << ":NullFC";
     }
-	else
+    else
     {
-		os << hex << "NodePtr 0x" 
-           << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x" 
-		   << hex << (int) (&(*fc)) << dec << ")";
+        os << hex << "NodePtr 0x"
+           << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x"
+           << hex << (int) (&(*fc)) << dec << ")";
     }
 
-	return os;
+    return os;
 }
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------
 
 

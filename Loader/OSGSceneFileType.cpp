@@ -38,7 +38,7 @@
 
 
 //---------------------------------------------------------
-// 	Includes  
+//  Includes
 //---------------------------------------------------------
 
 #include <stdlib.h>
@@ -53,7 +53,7 @@
 
 OSG_USING_NAMESPACE
 
-namespace 
+namespace
 {
     char cvsid_cpp[] = "@(#)$Id: $";
     char cvsid_hpp[] = OSGSCENEFILETYPE_HEADER_CVSID;
@@ -61,7 +61,7 @@ namespace
 
 //---------------------------------------------------------
 
-SceneFileType::SceneFileType(const Char8  *suffixArray[], 
+SceneFileType::SceneFileType(const Char8  *suffixArray[],
                                    UInt16  suffixByteCount,
                                    Bool    override,
                                    UInt32  overridePriority) :
@@ -71,45 +71,45 @@ SceneFileType::SceneFileType(const Char8  *suffixArray[],
 {
     FINFO(( "Init %s Scene File Type %d\n", suffixArray[0], this ));
 
-	int count = (suffixByteCount / sizeof(const Char8 *)), i = 0;
-	list<IDString>::iterator sI;
+    int count = (suffixByteCount / sizeof(const Char8 *)), i = 0;
+    list<IDString>::iterator sI;
 
-	_suffixList.resize(count);
-	for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++)
-		sI->set(suffixArray[i++]);
+    _suffixList.resize(count);
+    for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++)
+        sI->set(suffixArray[i++]);
 
-	SceneFileHandler::addSceneFileType(*this);
+    SceneFileHandler::addSceneFileType(*this);
 }
 
 //---------------------------------------------------------
 SceneFileType::SceneFileType(const SceneFileType &obj) :
-	_suffixList      (obj._suffixList      ),
+    _suffixList      (obj._suffixList      ),
     _override        (obj._override        ),
     _overridePriority(obj._overridePriority)
 {
-	SWARNING << "In SceneFileType copy constructor" << endl;
+    SWARNING << "In SceneFileType copy constructor" << endl;
 }
 
 //---------------------------------------------------------
 SceneFileType::~SceneFileType(void)
 {
-	return;
+    return;
 }
 
 //---------------------------------------------------------
 void SceneFileType::print(void)
 {
-	list<IDString>::iterator sI;
+    list<IDString>::iterator sI;
 
-	osgLog() << getName();
+    osgLog() << getName();
 
-	if (_suffixList.empty())
-		osgLog() << "NONE";
-	else
-		for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++) 
-			osgLog().stream(OSG::LOG_DEBUG) << sI->str() << " ";
+    if (_suffixList.empty())
+        osgLog() << "NONE";
+    else
+        for (sI = _suffixList.begin(); sI != _suffixList.end(); sI++)
+            osgLog().stream(OSG::LOG_DEBUG) << sI->str() << " ";
 
-	osgLog() << endl;
+    osgLog() << endl;
 }
 
 //---------------------------------------------------------
@@ -137,7 +137,7 @@ UInt32 SceneFileType::getOverridePriority(void)
 
 SceneFileType::FCPtrStore SceneFileType::readTopNodes(
     const Char8  *fileName,
-          UInt32  uiReplaceOptions) const 
+          UInt32  uiReplaceOptions) const
 {
   FieldContainerPtr fcPtr = read(fileName, uiReplaceOptions);
 
@@ -154,7 +154,7 @@ SceneFileType::FCPtrStore SceneFileType::readTopNodes(
 SceneFileType::FCPtrStore SceneFileType::readTopNodes(
     const Char8  *fileName,
           UInt32  uiAddOptions,
-          UInt32  uiSubOptions) const 
+          UInt32  uiSubOptions) const
 {
   FieldContainerPtr fcPtr = read(fileName, uiAddOptions, uiSubOptions);
   vector<FieldContainerPtr> fcVec;

@@ -72,54 +72,54 @@ OSG_USING_NAMESPACE
 \*-------------------------------------------------------------------------*/
 
 /**  */
-void CylinderVolume::getCenter(Pnt3f &center) const 
-{ 
-	center = _axisPos + _axisDir * .5;
+void CylinderVolume::getCenter(Pnt3f &center) const
+{
+    center = _axisPos + _axisDir * .5;
 }
 
 /**  */
 float CylinderVolume::getScalarVolume(void) const
-{ 
-	return isEmpty() ? 0.0 : (_radius * _radius * Pi * _axisDir.length());
+{
+    return isEmpty() ? 0.0 : (_radius * _radius * Pi * _axisDir.length());
 }
 
 /** gives the boundaries of the volume */
 void CylinderVolume::getBounds( Pnt3f &min, Pnt3f &max ) const
 {
-	// this is rather simpleminded, but good enough for now
-	
-	if ( _axisDir[0] < 0 )
-	{
-		min[0] = _axisPos[0] + _axisDir[0] - _radius;
-		max[0] = _axisPos[0] - _axisDir[0] + _radius;
-	}
-	else
-	{
-		min[0] = _axisPos[0] - _axisDir[0] - _radius;
-		max[0] = _axisPos[0] + _axisDir[0] + _radius;
-	}
-	
-	if ( _axisDir[1] < 0 )
-	{
-		min[1] = _axisPos[1] + _axisDir[1] - _radius;
-		max[1] = _axisPos[1] - _axisDir[1] + _radius;
-	}
-	else
-	{
-		min[1] = _axisPos[1] - _axisDir[1] - _radius;
-		max[1] = _axisPos[1] + _axisDir[1] + _radius;
-	}
-	
-	if ( _axisDir[2] < 0 )
-	{
-		min[2] = _axisPos[2] + _axisDir[2] - _radius;
-		max[2] = _axisPos[2] - _axisDir[2] + _radius;
-	}
-	else
-	{
-		min[2] = _axisPos[2] - _axisDir[2] - _radius;
-		max[2] = _axisPos[2] + _axisDir[2] + _radius;
-	}
+    // this is rather simpleminded, but good enough for now
+
+    if ( _axisDir[0] < 0 )
+    {
+        min[0] = _axisPos[0] + _axisDir[0] - _radius;
+        max[0] = _axisPos[0] - _axisDir[0] + _radius;
+    }
+    else
+    {
+        min[0] = _axisPos[0] - _axisDir[0] - _radius;
+        max[0] = _axisPos[0] + _axisDir[0] + _radius;
+    }
+
+    if ( _axisDir[1] < 0 )
+    {
+        min[1] = _axisPos[1] + _axisDir[1] - _radius;
+        max[1] = _axisPos[1] - _axisDir[1] + _radius;
+    }
+    else
+    {
+        min[1] = _axisPos[1] - _axisDir[1] - _radius;
+        max[1] = _axisPos[1] + _axisDir[1] + _radius;
+    }
+
+    if ( _axisDir[2] < 0 )
+    {
+        min[2] = _axisPos[2] + _axisDir[2] - _radius;
+        max[2] = _axisPos[2] - _axisDir[2] + _radius;
+    }
+    else
+    {
+        min[2] = _axisPos[2] - _axisDir[2] - _radius;
+        max[2] = _axisPos[2] + _axisDir[2] + _radius;
+    }
 }
 
 /*-------------------------- extending ------------------------------------*/
@@ -127,53 +127,53 @@ void CylinderVolume::getBounds( Pnt3f &min, Pnt3f &max ) const
 /** extends (if necessary) to contain the given 3D point */
 void CylinderVolume::extendBy (const Pnt3f &pt)
 {
-	assert(false);
+    assert(false);
 }
 
 /*-------------------------- intersection ---------------------------------*/
-	
+
 /** Returns true if intersection of given point and CylinderVolume is not empty */
 Bool CylinderVolume::intersect (const Pnt3f &point) const
 {
-	Real32 dist = Line(_axisPos, _axisDir).distance( point );
+    Real32 dist = Line(_axisPos, _axisDir).distance( point );
 
-	if ( dist > _radius )
-		return false;
-		
-	Plane bottom( _axisDir, _axisPos), top( -_axisDir, _axisPos + _axisDir );
-	
-	Bool inspace = bottom.isInHalfSpace( point ) && top.isInHalfSpace( point );
-	
-	return inspace;
+    if ( dist > _radius )
+        return false;
+
+    Plane bottom( _axisDir, _axisPos), top( -_axisDir, _axisPos + _axisDir );
+
+    Bool inspace = bottom.isInHalfSpace( point ) && top.isInHalfSpace( point );
+
+    return inspace;
 }
 
 
 /** intersect the CylinderVolume with the given Line */
 Bool CylinderVolume::intersect ( const Line &line ) const
 {
-	return line.intersect(*this);
+    return line.intersect(*this);
 }
 
 /** intersect the volume with the given Line */
 Bool CylinderVolume::intersect ( const Line &line,
-		 Real32 &enter, Real32 &exit ) const
+         Real32 &enter, Real32 &exit ) const
 {
-		return line.intersect(*this, enter, exit);
+        return line.intersect(*this, enter, exit);
 }
 
 Bool CylinderVolume::isOnSurface (const Pnt3f &point) const
 {
-	Real32 dist = Line(_axisPos, _axisDir).distance( point );
+    Real32 dist = Line(_axisPos, _axisDir).distance( point );
 
-	if ( dist > _radius )
-		return false;
-		
-	Plane bottom( -_axisDir, _axisPos), top( _axisDir, _axisPos + _axisDir );
-	
-	Bool onplane = bottom.isOnPlane( point ) || top.isOnPlane( point );
-	
-	return	( onplane && dist <= _radius ) || 
-			( !onplane && osgabs( dist - _radius ) < Eps );
+    if ( dist > _radius )
+        return false;
+
+    Plane bottom( -_axisDir, _axisPos), top( _axisDir, _axisPos + _axisDir );
+
+    Bool onplane = bottom.isOnPlane( point ) || top.isOnPlane( point );
+
+    return  ( onplane && dist <= _radius ) ||
+            ( !onplane && osgabs( dist - _radius ) < Eps );
 }
 
 /*-------------------------- transformation -------------------------------*/
@@ -181,13 +181,13 @@ Bool CylinderVolume::isOnSurface (const Pnt3f &point) const
 /** transform volume by the given matrix */
 void CylinderVolume::transform (const Matrix &mat)
 {
-	assert(false);
+    assert(false);
 }
 
 /// print the volume */
 void CylinderVolume::dump( UInt32 uiIndent, const BitVector &bvFlags) const
 {
-	PLOG << "Cylinder(" << _axisPos << "|" << _axisDir << "|" << _radius << ")";
+    PLOG << "Cylinder(" << _axisPos << "|" << _axisDir << "|" << _radius << ")";
 }
 
 /*-------------------------------------------------------------------------*\

@@ -59,8 +59,8 @@ OSG_USING_NAMESPACE
 /*! \class osg::LightChunk
     \ingroup StateChunks
 
-The light chunk contains the parameter set for a single light source. 
-It's taken straight from the glLight() manpage. 	
+The light chunk contains the parameter set for a single light source.
+It's taken straight from the glLight() manpage.
 
 */
 
@@ -154,10 +154,10 @@ void LightChunk::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void LightChunk::dump(      UInt32     uiIndent, 
+void LightChunk::dump(      UInt32     uiIndent,
                          const BitVector &bvFlags) const
 {
-	SLOG << "Dump LightChunk NI" << endl;
+    SLOG << "Dump LightChunk NI" << endl;
 }
 
 
@@ -165,69 +165,69 @@ void LightChunk::dump(      UInt32     uiIndent,
 
 void LightChunk::activate( DrawActionBase *, UInt32 index )
 {
-	glLightfv( GL_LIGHT0 + index, GL_DIFFUSE,   
-							_sfDiffuse.getValue().getValueRef() );
-	glLightfv( GL_LIGHT0 + index, GL_AMBIENT,   
-							_sfAmbient.getValue().getValueRef() );
-	glLightfv( GL_LIGHT0 + index, GL_SPECULAR,   
-							_sfSpecular.getValue().getValueRef() );
-	glLightfv( GL_LIGHT0 + index, GL_POSITION,   
-							_sfPosition.getValue().getValues() );
-	glLightf ( GL_LIGHT0 + index, GL_CONSTANT_ATTENUATION,   
-							_sfConstantAttenuation.getValue() );
-	glLightf ( GL_LIGHT0 + index, GL_LINEAR_ATTENUATION,   
-							_sfLinearAttenuation.getValue() );
-	glLightf ( GL_LIGHT0 + index, GL_QUADRATIC_ATTENUATION,   
-							_sfQuadraticAttenuation.getValue() );
+    glLightfv( GL_LIGHT0 + index, GL_DIFFUSE,
+                            _sfDiffuse.getValue().getValueRef() );
+    glLightfv( GL_LIGHT0 + index, GL_AMBIENT,
+                            _sfAmbient.getValue().getValueRef() );
+    glLightfv( GL_LIGHT0 + index, GL_SPECULAR,
+                            _sfSpecular.getValue().getValueRef() );
+    glLightfv( GL_LIGHT0 + index, GL_POSITION,
+                            _sfPosition.getValue().getValues() );
+    glLightf ( GL_LIGHT0 + index, GL_CONSTANT_ATTENUATION,
+                            _sfConstantAttenuation.getValue() );
+    glLightf ( GL_LIGHT0 + index, GL_LINEAR_ATTENUATION,
+                            _sfLinearAttenuation.getValue() );
+    glLightf ( GL_LIGHT0 + index, GL_QUADRATIC_ATTENUATION,
+                            _sfQuadraticAttenuation.getValue() );
 
-	glLightf(  GL_LIGHT0 + index, GL_SPOT_CUTOFF, _sfCutoff.getValue() );
-	if ( _sfCutoff.getValue() < 180 )
-	{
-		glLightfv( GL_LIGHT0 + index, GL_SPOT_DIRECTION,   
-										_sfDirection.getValue().getValues() );
-		glLightf(  GL_LIGHT0 + index, GL_SPOT_EXPONENT, _sfExponent.getValue() );
-	}
-	glEnable( GL_LIGHT0 + index );
+    glLightf(  GL_LIGHT0 + index, GL_SPOT_CUTOFF, _sfCutoff.getValue() );
+    if ( _sfCutoff.getValue() < 180 )
+    {
+        glLightfv( GL_LIGHT0 + index, GL_SPOT_DIRECTION,
+                                        _sfDirection.getValue().getValues() );
+        glLightf(  GL_LIGHT0 + index, GL_SPOT_EXPONENT, _sfExponent.getValue() );
+    }
+    glEnable( GL_LIGHT0 + index );
 }
 
 void LightChunk::changeFrom( DrawActionBase *, StateChunk * old_chunk, UInt32 index )
 {
-	LightChunk const *old = dynamic_cast<LightChunk const*>(old_chunk);
+    LightChunk const *old = dynamic_cast<LightChunk const*>(old_chunk);
 
-	// change from me to me?
-	// this assumes I haven't changed in the meantime. is that a valid assumption?
-	if ( old == this )
-		return;
+    // change from me to me?
+    // this assumes I haven't changed in the meantime. is that a valid assumption?
+    if ( old == this )
+        return;
 
-	// it could theoretically be more efficient to turn the light off before 
-	// changing its parameters, have to try that sometime
-	glLightfv( GL_LIGHT0 + index, GL_DIFFUSE,   
-							_sfDiffuse.getValue().getValueRef() );
-	glLightfv( GL_LIGHT0 + index, GL_AMBIENT,   
-							_sfAmbient.getValue().getValueRef() );
-	glLightfv( GL_LIGHT0 + index, GL_SPECULAR,   
-							_sfSpecular.getValue().getValueRef() );
-	glLightfv( GL_LIGHT0 + index, GL_POSITION,   
-							_sfPosition.getValue().getValues() );
-	glLightf ( GL_LIGHT0 + index, GL_CONSTANT_ATTENUATION,   
-							_sfConstantAttenuation.getValue() );
-	glLightf ( GL_LIGHT0 + index, GL_LINEAR_ATTENUATION,   
-							_sfLinearAttenuation.getValue() );
-	glLightf ( GL_LIGHT0 + index, GL_QUADRATIC_ATTENUATION,   
-							_sfQuadraticAttenuation.getValue() );
+    // it could theoretically be more efficient to turn the light off before
+    // changing its parameters, have to try that sometime
+    glLightfv( GL_LIGHT0 + index, GL_DIFFUSE,
+                            _sfDiffuse.getValue().getValueRef() );
+    glLightfv( GL_LIGHT0 + index, GL_AMBIENT,
+                            _sfAmbient.getValue().getValueRef() );
+    glLightfv( GL_LIGHT0 + index, GL_SPECULAR,
+                            _sfSpecular.getValue().getValueRef() );
+    glLightfv( GL_LIGHT0 + index, GL_POSITION,
+                            _sfPosition.getValue().getValues() );
+    glLightf ( GL_LIGHT0 + index, GL_CONSTANT_ATTENUATION,
+                            _sfConstantAttenuation.getValue() );
+    glLightf ( GL_LIGHT0 + index, GL_LINEAR_ATTENUATION,
+                            _sfLinearAttenuation.getValue() );
+    glLightf ( GL_LIGHT0 + index, GL_QUADRATIC_ATTENUATION,
+                            _sfQuadraticAttenuation.getValue() );
 
-	glLightf(  GL_LIGHT0 + index, GL_SPOT_CUTOFF, _sfCutoff.getValue() );
-	if ( _sfCutoff.getValue() < 180 )
-	{
-		glLightfv( GL_LIGHT0 + index, GL_SPOT_DIRECTION,   
-										_sfDirection.getValue().getValues() );
-		glLightf(  GL_LIGHT0 + index, GL_SPOT_EXPONENT, _sfExponent.getValue() );
-	}
+    glLightf(  GL_LIGHT0 + index, GL_SPOT_CUTOFF, _sfCutoff.getValue() );
+    if ( _sfCutoff.getValue() < 180 )
+    {
+        glLightfv( GL_LIGHT0 + index, GL_SPOT_DIRECTION,
+                                        _sfDirection.getValue().getValues() );
+        glLightf(  GL_LIGHT0 + index, GL_SPOT_EXPONENT, _sfExponent.getValue() );
+    }
 }
 
 void LightChunk::deactivate( DrawActionBase *, UInt32 index )
 {
-	glDisable( GL_LIGHT0 + index );
+    glDisable( GL_LIGHT0 + index );
 }
 
 
@@ -235,7 +235,7 @@ void LightChunk::deactivate( DrawActionBase *, UInt32 index )
 
 Real32 LightChunk::switchCost( StateChunk * chunk )
 {
-	return 0;
+    return 0;
 }
 
 /** \brief assignment
@@ -251,16 +251,15 @@ Bool LightChunk::operator < (const StateChunk &other) const
 
 Bool LightChunk::operator == (const StateChunk &other) const
 {
-	LightChunk const *tother = dynamic_cast<LightChunk const*>(&other);
+    LightChunk const *tother = dynamic_cast<LightChunk const*>(&other);
 
-	if ( !tother )
-		return false;
+    if ( !tother )
+        return false;
 
-	if ( ! getDiffuse().equals( tother->getDiffuse(), Eps )
-	   )
-		return false;
-		
-	return true;
+    if ( ! getDiffuse().equals( tother->getDiffuse(), Eps ) )
+        return false;
+
+    return true;
 }
 
 /** \brief unequal
@@ -268,11 +267,11 @@ Bool LightChunk::operator == (const StateChunk &other) const
 
 Bool LightChunk::operator != (const StateChunk &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
 
 
-    
+
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -

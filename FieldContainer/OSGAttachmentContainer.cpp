@@ -54,7 +54,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-namespace 
+namespace
 {
     static char cvsid_cpp[] = "@(#)$Id: $";
     static char cvsid_hpp[] = OSGATTACHMENTCONTAINER_HEADER_CVSID;
@@ -77,26 +77,26 @@ namespace
  * as pure virtual functions :-( (GV)
  */
 
-const BitVector AttachmentContainer::AttachmentsFieldMask = 
+const BitVector AttachmentContainer::AttachmentsFieldMask =
     (1 << AttachmentContainer::AttachmentsFieldId);
 
-FieldDescription *AttachmentContainer::_desc[] = 
+FieldDescription *AttachmentContainer::_desc[] =
 {
     new FieldDescription(SFAttachmentMap::getClassType(),
                          "attachments",
                          OSG_FC_FIELD_IDM_DESC(AttachmentsField),
-                         false,	
-                         (FieldAccessMethod) 
+                         false,
+                         (FieldAccessMethod)
                              &AttachmentContainer::getSFAttachments)
 };
 
 FieldContainerType AttachmentContainer::_type(
-    "AttachmentContainer", 
-    "FieldContainer", 
+    "AttachmentContainer",
+    "FieldContainer",
     0,
     NULL,
     0,
-    _desc, 
+    _desc,
     sizeof(_desc));
 
 
@@ -131,11 +131,11 @@ FieldContainerType AttachmentContainer::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-/*! \fn FieldContainerType &AttachmentContainer::getClassType(void) 
+/*! \fn FieldContainerType &AttachmentContainer::getClassType(void)
  *  \brief returns AttachmentContainer type
  */
 
-/*! \fn UInt32 AttachmentContainer::getClassTypeId(void) 
+/*! \fn UInt32 AttachmentContainer::getClassTypeId(void)
  *  \brief returns AttachmentContainer type id
  */
 
@@ -151,11 +151,11 @@ void AttachmentContainer::addAttachment(const AttachmentPtr &fieldContainerP,
     if(fieldContainerP == NullFC)
         return;
 
-	key = (UInt32 (fieldContainerP->getGroupId()) << 16) | binding;
+    key = (UInt32 (fieldContainerP->getGroupId()) << 16) | binding;
 
     addRefCP(fieldContainerP);
 
-	AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
+    AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
 
     beginEditCP(fieldContainerP, Attachment::ParentsFieldMask);
     {
@@ -163,11 +163,11 @@ void AttachmentContainer::addAttachment(const AttachmentPtr &fieldContainerP,
     }
     endEditCP  (fieldContainerP, Attachment::ParentsFieldMask);
 
-	if(fcI != _attachmentMap.getValue().end())
+    if(fcI != _attachmentMap.getValue().end())
     {
         subRefCP((*fcI).second);
         (*fcI).second = fieldContainerP;
-    }	
+    }
     else
     {
         _attachmentMap.getValue()[key] = fieldContainerP;
@@ -199,16 +199,16 @@ void AttachmentContainer::subAttachment(const AttachmentPtr &fieldContainerP,
         subRefCP((*fcI).second);
 
         _attachmentMap.getValue().erase(fcI);
-    }  
+    }
 }
 
-AttachmentPtr AttachmentContainer::findAttachment(UInt32 groupId, 
-                                                  UInt16 binding) 
+AttachmentPtr AttachmentContainer::findAttachment(UInt32 groupId,
+                                                  UInt16 binding)
 {
     UInt32 key = (UInt32(groupId) << 16) | binding;
 
     AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
-    
+
     return (fcI == _attachmentMap.getValue().end()) ? NullFC : (*fcI).second;
 }
 
@@ -224,7 +224,7 @@ AttachmentContainerPtr AttachmentContainer::getPtr(void)
     return AttachmentContainerPtr(*this);
 }
 
-void AttachmentContainer::changed(BitVector  , 
+void AttachmentContainer::changed(BitVector  ,
                                   ChangeMode )
 {
 }
@@ -241,7 +241,7 @@ UInt32 AttachmentContainer::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-void AttachmentContainer::copyToBin  (      BinaryDataHandler &pMem, 
+void AttachmentContainer::copyToBin  (      BinaryDataHandler &pMem,
                                       const BitVector    &whichField)
 {
     if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
@@ -250,7 +250,7 @@ void AttachmentContainer::copyToBin  (      BinaryDataHandler &pMem,
     }
 }
 
-void AttachmentContainer::copyFromBin(      BinaryDataHandler &pMem, 
+void AttachmentContainer::copyFromBin(      BinaryDataHandler &pMem,
                                       const BitVector    &whichField)
 {
     if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
@@ -261,7 +261,7 @@ void AttachmentContainer::copyFromBin(      BinaryDataHandler &pMem,
 
 /*------------------------------- dump ----------------------------------*/
 
-void AttachmentContainer::dump(      UInt32     uiIndent, 
+void AttachmentContainer::dump(      UInt32     uiIndent,
                                const BitVector &bvFlags) const
 {
     AttachmentMap::const_iterator fcI;
@@ -300,7 +300,7 @@ AttachmentContainer::AttachmentContainer(const AttachmentContainer &source) :
     Inherited     (source),
     _attachmentMap()
 {
-    AttachmentMap::const_iterator fcI = 
+    AttachmentMap::const_iterator fcI =
         source._attachmentMap.getValue().begin();
 
     while(fcI != source._attachmentMap.getValue().end())
@@ -327,7 +327,7 @@ void AttachmentContainer::executeSync(      FieldContainer &other,
     this->executeSyncImpl((AttachmentContainer *) &other, whichField);
 }
 
-void AttachmentContainer::executeSyncImpl(      
+void AttachmentContainer::executeSyncImpl(
           AttachmentContainer *pOther,
     const BitVector           &whichField)
 {
@@ -346,30 +346,30 @@ void AttachmentContainer::executeSyncImpl(
 \*-------------------------------------------------------------------------*/
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------
 

@@ -55,8 +55,8 @@
 #else
   #include <sys/types.h>
   #include <sys/time.h>
-#endif      
- 
+#endif
+
 #include "OSGTime.h"
 
 OSG_BEGIN_NAMESPACE
@@ -80,27 +80,27 @@ OSG_BEGIN_NAMESPACE
 
 OSG_BASE_DLLMAPPING Time getSystemTime (void)
 {
-	Time time;
+    Time time;
 
 #ifdef WIN32
-	
-	/*  use _ftime() funktion, is less precise  
-	struct _timeb timebuffer;
-	_ftime(&timebuffer);
-	time = double (timebuffer.millitm) / 1000.0 + double (timebuffer.time);
-	*/
 
-	time = Time(timeGetTime()) / 1000.0;
+    /*  use _ftime() funktion, is less precise
+    struct _timeb timebuffer;
+    _ftime(&timebuffer);
+    time = double (timebuffer.millitm) / 1000.0 + double (timebuffer.time);
+    */
+
+    time = Time(timeGetTime()) / 1000.0;
 
 #else
 
-	struct timeval tv;
-	gettimeofday(&tv, 0);
-	time = Time(tv.tv_usec) / 1000000.0 + Time(tv.tv_sec);
+    struct timeval tv;
+    gettimeofday(&tv, 0);
+    time = Time(tv.tv_usec) / 1000000.0 + Time(tv.tv_sec);
 
 #endif
 
-	return time;
+    return time;
 }
 
 /*-------------------------------------------------------------------------*\

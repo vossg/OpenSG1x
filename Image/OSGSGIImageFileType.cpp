@@ -80,10 +80,10 @@ unsigned char *l,int n)
 {
     while(n--) 
     {
-	l[0] = r[0];
-	l[1] = g[0];
-	l[2] = b[0];
-	l[3] = a[0];
+		l[0] = r[0];
+		l[1] = g[0];
+		l[2] = b[0];
+		l[3] = a[0];
         l += 4; r++; g++; b++; a++;
     }
 }
@@ -99,9 +99,9 @@ latola(unsigned char *b, unsigned char *a,unsigned char *l,int n)
 {
     while(n--) 
     {
-	l[0] = *b;
-	l[1] = *a;
-	l += 2; b++; a++;
+		l[0] = *b;
+		l[1] = *a;
+		l += 2; b++; a++;
     }
 }
 
@@ -111,10 +111,10 @@ rgbtorgb(unsigned char *r,unsigned char *g,unsigned char *b,unsigned char *l,
 {
     while(n--) 
     {
-	l[0] = r[0];
-	l[1] = g[0];
-	l[2] = b[0];
-	l += 3; r++; g++; b++;
+		l[0] = r[0];
+		l[1] = g[0];
+		l[2] = b[0];
+		l += 3; r++; g++; b++;
     }
 }
 
@@ -144,9 +144,9 @@ ConvertShort(unsigned short *array, long length)
     ptr = (unsigned char *)array;
     while (length--) 
     {
-	b1 = *ptr++;
-	b2 = *ptr++;
-	*array++ = (b1 << 8) | (b2);
+		b1 = *ptr++;
+		b2 = *ptr++;
+		*array++ = (b1 << 8) | (b2);
     }
 }
 
@@ -159,11 +159,11 @@ ConvertLong(unsigned *array, long length)
     ptr = (unsigned char *)array;
     while (length--) 
     {
-	b1 = *ptr++;
-	b2 = *ptr++;
-	b3 = *ptr++;
-	b4 = *ptr++;
-	*array++ = (b1 << 24) | (b2 << 16) | (b3 << 8) | (b4);
+		b1 = *ptr++;
+		b2 = *ptr++;
+		b3 = *ptr++;
+		b4 = *ptr++;
+		*array++ = (b1 << 24) | (b2 << 16) | (b3 << 8) | (b4);
     }
 }
 
@@ -171,8 +171,8 @@ static ImageRec *ImageOpen(const char *fileName)
 {
     union 
     {
-	int testWord;
-	char testByte[4];
+		int testWord;
+		char testByte[4];
     } endianTest;
     ImageRec *image;
     int swapFlag;
@@ -181,30 +181,30 @@ static ImageRec *ImageOpen(const char *fileName)
     endianTest.testWord = 1;
     if (endianTest.testByte[0] == 1) 
     {
-	swapFlag = 1;
+		swapFlag = 1;
     } 
     else 
     {
-	swapFlag = 0;
+		swapFlag = 0;
     }
 
     image = (ImageRec *)malloc(sizeof(ImageRec));
     if (image == NULL) 
     {
-	fprintf(stderr, "Out of memory!\n");
-	exit(1);
+		fprintf(stderr, "Out of memory!\n");
+		exit(1);
     }
     if ((image->file = fopen(fileName, "rb")) == NULL) 
     {
-	perror(fileName);
-	exit(1);
+		perror(fileName);
+		exit(1);
     }
 
     fread(image, 1, 12, image->file);
 
     if (swapFlag) 
     {
-	ConvertShort(&image->imagic, 6);
+		ConvertShort(&image->imagic, 6);
     }
 
     image->tmp = (unsigned char *)malloc(image->xsize*256);
@@ -214,29 +214,29 @@ static ImageRec *ImageOpen(const char *fileName)
     if (image->tmp == NULL || image->tmpR == NULL || image->tmpG == NULL ||
 	image->tmpB == NULL) 
     {
-	fprintf(stderr, "Out of memory!\n");
-	exit(1);
+		fprintf(stderr, "Out of memory!\n");
+		exit(1);
     }
 
     if ((image->type & 0xFF00) == 0x0100) 
     {
-	x = image->ysize * image->zsize * sizeof(unsigned);
-	image->rowStart = (unsigned *)malloc(x);
-	image->rowSize = (int *)malloc(x);
-	if (image->rowStart == NULL || image->rowSize == NULL) 
-	{
-	    fprintf(stderr, "Out of memory!\n");
-	    exit(1);
-	}
-	image->rleEnd = 512 + (2 * x);
-	fseek(image->file, 512, SEEK_SET);
-	fread(image->rowStart, 1, x, image->file);
-	fread(image->rowSize, 1, x, image->file);
-	if (swapFlag) 
-	{
-	    ConvertLong(image->rowStart, x/sizeof(unsigned));
-	    ConvertLong((unsigned *)image->rowSize, x/sizeof(int));
-	}
+		x = image->ysize * image->zsize * sizeof(unsigned);
+		image->rowStart = (unsigned *)malloc(x);
+		image->rowSize = (int *)malloc(x);
+		if (image->rowStart == NULL || image->rowSize == NULL) 
+		{
+	    	fprintf(stderr, "Out of memory!\n");
+	    	exit(1);
+		}
+		image->rleEnd = 512 + (2 * x);
+		fseek(image->file, 512, SEEK_SET);
+		fread(image->rowStart, 1, x, image->file);
+		fread(image->rowSize, 1, x, image->file);
+		if (swapFlag) 
+		{
+	    	ConvertLong(image->rowStart, x/sizeof(unsigned));
+	    	ConvertLong((unsigned *)image->rowSize, x/sizeof(int));
+		}
     }
     return image;
 }
@@ -260,42 +260,42 @@ ImageGetRow(ImageRec *image, unsigned char *buf, int y, int z)
 
     if ((image->type & 0xFF00) == 0x0100) 
     {
-	fseek(image->file, image->rowStart[y+z*image->ysize], SEEK_SET);
-	fread(image->tmp, 1, (unsigned int)image->rowSize[y+z*image->ysize],
-	      image->file);
+		fseek(image->file, image->rowStart[y+z*image->ysize], SEEK_SET);
+		fread(image->tmp, 1, (unsigned int)image->rowSize[y+z*image->ysize],
+	      	  image->file);
 
-	iPtr = image->tmp;
-	oPtr = buf;
-	while (1) 
-	{
-	    pixel = *iPtr++;
-	    count = (int)(pixel & 0x7F);
-	    if (!count) 
-	    {
-		return;
-	    }
-	    if (pixel & 0x80) 
-	    {
-		while (count--) 
+		iPtr = image->tmp;
+		oPtr = buf;
+		while (1) 
 		{
-		    *oPtr++ = *iPtr++;
+	    	pixel = *iPtr++;
+	    	count = (int)(pixel & 0x7F);
+	    	if (!count) 
+	    	{
+				return;
+	    	}
+	    	if (pixel & 0x80) 
+	    	{
+				while (count--) 
+				{
+		    		*oPtr++ = *iPtr++;
+				}
+	    	} 
+	    	else 
+	    	{
+				pixel = *iPtr++;
+				while (count--) 
+				{
+		    		*oPtr++ = pixel;
+				}
+	    	}
 		}
-	    } 
-	    else 
-	    {
-		pixel = *iPtr++;
-		while (count--) 
-		{
-		    *oPtr++ = pixel;
-		}
-	    }
-	}
     } 
     else 
     {
-	fseek(image->file, 512+(y*image->xsize)+(z*image->xsize*image->ysize),
-	      SEEK_SET);
-	fread(buf, 1, image->xsize, image->file);
+		fseek(image->file, 512+(y*image->xsize)+(z*image->xsize*image->ysize),
+	      	  SEEK_SET);
+		fread(buf, 1, image->xsize, image->file);
     }
 }
 
@@ -373,47 +373,47 @@ Bool SGIImageFileType::read (Image &image, const char *fileName )
     	    lptr = image.getData();
 	    for(y=0; y<img->ysize; y++) 
 	    {
-		ImageGetRow(img,rbuf,y,0);
-		bwtobw(rbuf,lptr,img->xsize);
-		lptr += img->xsize;
+			ImageGetRow(img,rbuf,y,0);
+			bwtobw(rbuf,lptr,img->xsize);
+			lptr += img->xsize;
 	    }
 	    break;
     case 2: image.set( Image::OSG_LA_PF, img->xsize, img->ysize );
     	    lptr = image.getData();
 	    for(y=0; y<img->ysize; y++) 
 	    {
-		ImageGetRow(img,rbuf,y,0);
-		ImageGetRow(img,abuf,y,1);
-		latola(rbuf,abuf,lptr,img->xsize);
-		lptr += img->xsize*img->zsize;
+			ImageGetRow(img,rbuf,y,0);
+			ImageGetRow(img,abuf,y,1);
+			latola(rbuf,abuf,lptr,img->xsize);
+			lptr += img->xsize*img->zsize;
 	    }
 	    break;
     case 3: image.set( Image::OSG_RGB_PF, img->xsize, img->ysize );
     	    lptr = image.getData();
 	    for(y=0; y<img->ysize; y++) 
 	    {
-		ImageGetRow(img,rbuf,y,0);
-		ImageGetRow(img,gbuf,y,1);
-		ImageGetRow(img,bbuf,y,2);
-		rgbtorgb(rbuf,gbuf,bbuf,lptr,img->xsize);
-		lptr += img->xsize*img->zsize;
+			ImageGetRow(img,rbuf,y,0);
+			ImageGetRow(img,gbuf,y,1);
+			ImageGetRow(img,bbuf,y,2);
+			rgbtorgb(rbuf,gbuf,bbuf,lptr,img->xsize);
+			lptr += img->xsize*img->zsize;
 	    }
 	    break;
     case 4: image.set( Image::OSG_RGBA_PF, img->xsize, img->ysize );
     	    lptr = image.getData();
 	    for(y=0; y<img->ysize; y++) 
 	    {
-		ImageGetRow(img,rbuf,y,0);
-		ImageGetRow(img,gbuf,y,1);
-		ImageGetRow(img,bbuf,y,2);
-		ImageGetRow(img,abuf,y,3);
-		rgbatorgba(rbuf,gbuf,bbuf,abuf,lptr,img->xsize);
-		lptr += img->xsize*img->zsize;
+			ImageGetRow(img,rbuf,y,0);
+			ImageGetRow(img,gbuf,y,1);
+			ImageGetRow(img,bbuf,y,2);
+			ImageGetRow(img,abuf,y,3);
+			rgbatorgba(rbuf,gbuf,bbuf,abuf,lptr,img->xsize);
+			lptr += img->xsize*img->zsize;
 	    }
 	    break;
     default:FWARNING(( "SGIImageFileType::read: unknown zsize %d!", 
     	    	img->zsize));
-    	    return false;
+    	return false;
     }
 
     ImageClose(img);

@@ -57,7 +57,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::TransformChunk
-	\ingroup StateChunks
+    \ingroup StateChunks
 
 The transformation chunk class.
 
@@ -154,10 +154,10 @@ void TransformChunk::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void TransformChunk::dump(      UInt32     uiIndent, 
+void TransformChunk::dump(      UInt32     uiIndent,
                          const BitVector &bvFlags) const
 {
-	SLOG << "Dump TransformChunk NI" << endl;
+    SLOG << "Dump TransformChunk NI" << endl;
 }
 
 
@@ -165,32 +165,32 @@ void TransformChunk::dump(      UInt32     uiIndent,
 
 void TransformChunk::activate ( DrawActionBase *,  UInt32 )
 {
-	glPushMatrix();
-	glMultMatrixf( getMatrix().getValues() );
+    glPushMatrix();
+    glMultMatrixf( getMatrix().getValues() );
 }
 
 void TransformChunk::changeFrom( DrawActionBase *,  StateChunk * old, UInt32 )
 {
-	// change from me to me?
-	// this assumes I haven't changed in the meantime. is that a valid assumption?
-	if ( old == this )
-		return;
+    // change from me to me?
+    // this assumes I haven't changed in the meantime. is that a valid assumption?
+    if ( old == this )
+        return;
 
-	glPopMatrix();
-	glPushMatrix();
-	glMultMatrixf( getMatrix().getValues() );	
+    glPopMatrix();
+    glPushMatrix();
+    glMultMatrixf( getMatrix().getValues() );
 }
 
 void TransformChunk::deactivate ( DrawActionBase *,  UInt32 )
 {
-	glPopMatrix();
+    glPopMatrix();
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
 Real32 TransformChunk::switchCost( StateChunk * chunk )
 {
-	return 0;
+    return 0;
 }
 
 /** \brief assignment
@@ -206,12 +206,12 @@ Bool TransformChunk::operator < (const StateChunk &other) const
 
 Bool TransformChunk::operator == (const StateChunk &other) const
 {
-	TransformChunk const *tother = dynamic_cast<TransformChunk const*>(&other);
+    TransformChunk const *tother = dynamic_cast<TransformChunk const*>(&other);
 
-	if ( !tother )
-		return false;
+    if ( !tother )
+        return false;
 
-	return getMatrix().equals( tother->getMatrix(), Eps );
+    return getMatrix().equals( tother->getMatrix(), Eps );
 }
 
 /** \brief unequal
@@ -219,9 +219,9 @@ Bool TransformChunk::operator == (const StateChunk &other) const
 
 Bool TransformChunk::operator != (const StateChunk &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
-    
+
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -

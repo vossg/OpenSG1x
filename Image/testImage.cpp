@@ -18,20 +18,22 @@ using osg::Image;
 
 int main (int argc, char **argv)
 {
-	int retCode = 0;
-	char defaultOutImage[] = "out.pnm"; 
-	Image image, image2;
-	
-	OSG::ImageFileHandler::the().print();
+    int retCode = 0;
+    char defaultOutImage[] = "out.pnm";
+    Image image, image2;
 
-	if (argc > 1) {
-		image.read(argv[1]);
-		image.write( (argc > 2) ? argv[2] : defaultOutImage);
-	}
-	else {
-		FLOG (("usage: %s inputimage [ouputimage]\n", argv[0]));
-		retCode = -1;
-	}
+    OSG::ImageFileHandler::the().print();
 
-	return retCode;
+    if (argc > 1)
+	{
+        image.read(argv[1]);
+        image.write( (argc > 2) ? argv[2] : defaultOutImage);
+    }
+    else
+	{
+        FLOG (("usage: %s inputimage [ouputimage]\n", argv[0]));
+        retCode = -1;
+    }
+
+    return retCode;
 }

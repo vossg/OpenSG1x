@@ -79,7 +79,7 @@ The simple material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.17 2001/10/10 10:42:55 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.18 2001/10/11 16:41:18 neumannc Exp $";
 
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
@@ -127,7 +127,7 @@ void SimpleMaterial::initMethod (void)
 SimpleMaterial::SimpleMaterial(void) :
     Inherited()
 {
-	_materialChunk = MaterialChunk::create();
+    _materialChunk = MaterialChunk::create();
 }
 
 /** \brief Copy Constructor
@@ -136,7 +136,7 @@ SimpleMaterial::SimpleMaterial(void) :
 SimpleMaterial::SimpleMaterial(const SimpleMaterial &source) :
     Inherited(source)
 {
-	_materialChunk = MaterialChunk::create();
+    _materialChunk = MaterialChunk::create();
 }
 
 /** \brief Destructor
@@ -155,60 +155,60 @@ void SimpleMaterial::changed(BitVector, ChangeMode)
 }
 
 /*-------------------------- your_category---------------------------------*/
-	
-	
+
+
 void SimpleMaterial::draw( Geometry* geo, DrawAction * action )
 {
-	StatePtr state = makeState();
-		
-	state->activate( action );
-	
-	geo->draw( action );
+    StatePtr state = makeState();
 
-	state->deactivate( action );
+    state->activate( action );
 
-	subRefCP( state );
+    geo->draw( action );
+
+    state->deactivate( action );
+
+    subRefCP( state );
 }
-	
+
 StatePtr SimpleMaterial::makeState( void )
 {
-	StatePtr state = State::create();
-	
-	Color3f v3;
-	Color4f v4;
-	float alpha = 1.f - getTransparency();
-	
-	beginEditCP( _materialChunk );
-	
-	v3 = getAmbient(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
-	_materialChunk->setAmbient( v4 );
-	v3 = getDiffuse(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
-	_materialChunk->setDiffuse( v4 );
-	v3 = getSpecular(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
-	_materialChunk->setSpecular( v4 );
-	_materialChunk->setShininess( getShininess() );
-	v3 = getEmission(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
-	_materialChunk->setEmission( v4 );
-	
-	_materialChunk->setLit( getLit() );
-	_materialChunk->setColorMaterial( getColorMaterial() );
-	
-	endEditCP( _materialChunk );
+    StatePtr state = State::create();
 
-	state->addChunk( _materialChunk );
-	
-	for ( MFStateChunkPtr::iterator i = _mfChunks.begin(); 
-			i != _mfChunks.end(); i++ )
-		state->addChunk( *i );
-	
-	return state;
+    Color3f v3;
+    Color4f v4;
+    float alpha = 1.f - getTransparency();
+
+    beginEditCP( _materialChunk );
+
+    v3 = getAmbient(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha );
+    _materialChunk->setAmbient( v4 );
+    v3 = getDiffuse(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha );
+    _materialChunk->setDiffuse( v4 );
+    v3 = getSpecular(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha );
+    _materialChunk->setSpecular( v4 );
+    _materialChunk->setShininess( getShininess() );
+    v3 = getEmission(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha );
+    _materialChunk->setEmission( v4 );
+
+    _materialChunk->setLit( getLit() );
+    _materialChunk->setColorMaterial( getColorMaterial() );
+
+    endEditCP( _materialChunk );
+
+    state->addChunk( _materialChunk );
+
+    for ( MFStateChunkPtr::iterator i = _mfChunks.begin();
+            i != _mfChunks.end(); i++ )
+        state->addChunk( *i );
+
+    return state;
 }
 
 void SimpleMaterial::rebuildState(void)
 {
-	Color3f v3;
-	Color4f v4;
-	Real32  alpha = 1.f - getTransparency();
+    Color3f v3;
+    Color4f v4;
+    Real32  alpha = 1.f - getTransparency();
 
     if(_pState != NullFC)
     {
@@ -219,44 +219,44 @@ void SimpleMaterial::rebuildState(void)
         _pState = State::create();
     }
 
-	beginEditCP(_materialChunk);
-	
-	v3 = getAmbient(); 
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha); 
+    beginEditCP(_materialChunk);
 
-	_materialChunk->setAmbient(v4);
+    v3 = getAmbient();
+    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
 
-	v3 = getDiffuse(); 
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha); 
+    _materialChunk->setAmbient(v4);
 
-	_materialChunk->setDiffuse(v4);
+    v3 = getDiffuse();
+    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
 
-	v3 = getSpecular(); 
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha); 
+    _materialChunk->setDiffuse(v4);
 
-	_materialChunk->setSpecular(v4);
+    v3 = getSpecular();
+    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
 
-	_materialChunk->setShininess(getShininess());
+    _materialChunk->setSpecular(v4);
 
-	v3 = getEmission(); 
-    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha); 
+    _materialChunk->setShininess(getShininess());
 
-	_materialChunk->setEmission(v4);
+    v3 = getEmission();
+    v4.setValuesRGBA(v3[0], v3[1], v3[2], alpha);
 
-	_materialChunk->setLit( getLit() );
-	_materialChunk->setColorMaterial( getColorMaterial() );
-	
-	endEditCP(_materialChunk);
+    _materialChunk->setEmission(v4);
 
-	_pState->addChunk(_materialChunk);
+    _materialChunk->setLit( getLit() );
+    _materialChunk->setColorMaterial( getColorMaterial() );
 
-	
+    endEditCP(_materialChunk);
+
+    _pState->addChunk(_materialChunk);
+
+
     MFStateChunkPtr::iterator it        = _mfChunks.begin();
     MFStateChunkPtr::iterator chunksEnd = _mfChunks.end();
 
-	for(; it != chunksEnd; ++it)
+    for(; it != chunksEnd; ++it)
     {
-		_pState->addChunk(*it);
+        _pState->addChunk(*it);
     }
 }
 
@@ -269,24 +269,24 @@ Bool SimpleMaterial::isTransparent(void) const
 
 /*------------------------------- dump ----------------------------------*/
 
-void SimpleMaterial::dump(      UInt32     uiIndent, 
+void SimpleMaterial::dump(      UInt32     uiIndent,
                           const BitVector &bvFlags) const
 {
     SLOG << "SimpleMaterial at " << this << endl;
-	PLOG << "\tambient: " << getAmbient() << endl;
-	PLOG << "\tdiffuse: " << getDiffuse()  << endl;
-	PLOG << "\tspecular: " << getSpecular()  << endl;
-	PLOG << "\tshininess: " << getShininess()  << endl;
-	PLOG << "\temission: " << getEmission()  << endl;
-	PLOG << "\ttransparency: " << getTransparency()  << endl;
+    PLOG << "\tambient: " << getAmbient() << endl;
+    PLOG << "\tdiffuse: " << getDiffuse()  << endl;
+    PLOG << "\tspecular: " << getSpecular()  << endl;
+    PLOG << "\tshininess: " << getShininess()  << endl;
+    PLOG << "\temission: " << getEmission()  << endl;
+    PLOG << "\ttransparency: " << getTransparency()  << endl;
     PLOG << "\tChunks: " << endl;
-	
-	for ( MFStateChunkPtr::const_iterator i = _mfChunks.begin(); 
-			i != _mfChunks.end(); i++ )
-		PLOG << "\t" << *i << endl;	
+
+    for ( MFStateChunkPtr::const_iterator i = _mfChunks.begin();
+            i != _mfChunks.end(); i++ )
+        PLOG << "\t" << *i << endl;
 }
 
-    
+
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -

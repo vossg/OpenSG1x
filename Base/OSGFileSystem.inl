@@ -96,14 +96,14 @@ Bool File::tstAttr(const Char8  *szFilename,
                 }
             }
 
-            if(uiAccessFlags & AccessFlags::IsWriteable) 
+            if(uiAccessFlags & AccessFlags::IsWriteable)
             {
                 if(statBuffer.st_mode & OSGWRITEFLAG)
                 {
                     returnValue = true;
                 }
             }
-        }        
+        }
     }
 
     return returnValue;
@@ -141,7 +141,7 @@ Bool Directory::tstAttr(const Char8  *szFilename,
                 }
             }
 
-            if(uiAccessFlags & AccessFlags::IsWriteable) 
+            if(uiAccessFlags & AccessFlags::IsWriteable)
             {
                 if(statBuffer.st_mode & OSGWRITEFLAG)
                 {
@@ -152,7 +152,7 @@ Bool Directory::tstAttr(const Char8  *szFilename,
                     returnValue = false;
                 }
             }
-        }        
+        }
     }
 
     return returnValue;
@@ -175,7 +175,7 @@ Char8 *Directory::getCurrent(void)
 #endif
         if(szTmpBuf != NULL)
             break;
-        
+
         uiCurrentNameSize *= 2;
         delete [] returnValue;
 
@@ -217,33 +217,33 @@ vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
             DIR    *pDir        = opendir(szDirname);
             dirent *pDirEntry   = NULL;
             Char8  *szEntryName = NULL;
-            
+
             if(pDir != NULL)
             {
                 returnValue = new vector<Char8 *>;
-                
+
                 do
                 {
                     pDirEntry = readdir(pDir);
-                    
+
                     if(pDirEntry != NULL)
                     {
                         stringDup(pDirEntry->d_name, szEntryName);
-                        
+
                         returnValue->push_back(szEntryName);
                         szEntryName = NULL;
                     }
                 }
                 while(pDirEntry != NULL);
-                
+
                 closedir(pDir);
             }
 #else
             Char8           *szTmpDirname = NULL;
-			
+
             Bool             bVal;
             WIN32_FIND_DATA  pDirEntry;
-            HANDLE           pDir; 
+            HANDLE           pDir;
             Char8           *szEntryName = NULL;
 
             szTmpDirname = new Char8[strlen(szDirname) + 5];
@@ -251,22 +251,22 @@ vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
             sprintf(szTmpDirname, "%s\\*", szDirname);
 
             pDir = FindFirstFile(szTmpDirname, &pDirEntry);
-            
+
             if(pDir != INVALID_HANDLE_VALUE)
             {
                 returnValue = new vector<Char8 *>;
-                
+
                 do
-                {                    
+                {
                     stringDup(pDirEntry.cFileName, szEntryName);
-                    
+
                     returnValue->push_back(szEntryName);
                     szEntryName = NULL;
-                    
+
                     bVal = FindNextFile(pDir, &pDirEntry);
                 }
                 while(bVal == true);
-                
+
                 FindClose(pDir);
             }
 

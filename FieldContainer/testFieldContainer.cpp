@@ -26,14 +26,14 @@ int main (int argc, char **argv)
     OSG::Thread::getCurrent()->getChangeList()->clearAll();
     OSG::Thread::getCurrent()->getChangeList()->dump();
 
-    OSG::PLOG << "Num types : " 
+    OSG::PLOG << "Num types : "
               << OSG::FieldContainerFactory::the()->getNumTypes()
               << endl;
 
-	OSG::FieldContainerPtr pFC;
+    OSG::FieldContainerPtr pFC;
 
     pFC.dump(0, OSG::FCDumpFlags::RefCount);
-    
+
     pFC = OSG::FieldContainerFactory::the()->createNode("Node");
 
     pFC.dump(0, OSG::FCDumpFlags::RefCount);
@@ -45,7 +45,7 @@ int main (int argc, char **argv)
     OSG::Thread::getCurrent()->getChangeList()->dump();
 
     pFC->dump();
-    
+
     OSG::subRefCP(pFC);
 
     pFC.dump(0, OSG::FCDumpFlags::RefCount);
@@ -144,8 +144,8 @@ int main (int argc, char **argv)
     p1->dump(0, OSG::FCDumpFlags::RefCount);
     p1.dump (0, OSG::FCDumpFlags::RefCount);
 
-    OSG::endEditCP(p1);   
- 
+    OSG::endEditCP(p1);
+
 
 
     p1.dump (0, OSG::FCDumpFlags::RefCount);
@@ -172,7 +172,7 @@ int main (int argc, char **argv)
     p1.dump (0, OSG::FCDumpFlags::RefCount);
     p1->dump(0, OSG::FCDumpFlags::RefCount);
     g1.dump (0, OSG::FCDumpFlags::RefCount);
-    
+
     g1 = OSG::Group::create();
 
     p1->setCore(g1);
@@ -191,7 +191,7 @@ int main (int argc, char **argv)
     p1.dump (0, OSG::FCDumpFlags::RefCount);
     p1->dump(0, OSG::FCDumpFlags::RefCount);
     p2->dump(0, OSG::FCDumpFlags::RefCount);
-  
+
     cerr << endl << endl << "Indirect Del" << endl;
 
     p2->setCore(OSG::NullFC);
@@ -204,7 +204,7 @@ int main (int argc, char **argv)
 
     OSG::NamePtr n1 = OSG::Name::create();
     OSG::NamePtr n2 = OSG::Name::create();
-    
+
     p1->addAttachment(n1);
 
     p1.dump (0, OSG::FCDumpFlags::RefCount);
@@ -236,7 +236,7 @@ int main (int argc, char **argv)
 
     p1.dump (0, OSG::FCDumpFlags::RefCount);
     p2.dump (0, OSG::FCDumpFlags::RefCount);
-    
+
     p1->dump(0, OSG::FCDumpFlags::RefCount);
     p2->dump(0, OSG::FCDumpFlags::RefCount);
 
@@ -294,10 +294,10 @@ typedef FCPtr<NodePtr,  NewNode> NewNodePtr;
 class NewNode : public Node
 {
   public :
-    
-	static FieldContainerType _type;
 
-    static NewNodePtr create(void) 
+    static FieldContainerType _type;
+
+    static NewNodePtr create(void)
         {
             NewNodePtr fc;
 
@@ -308,11 +308,11 @@ class NewNode : public Node
             if(_type.getPrototype() != NULL)
                 _type.getPrototype()->clone().dcast(fc);
 #endif
-            
+
             return fc;
         }
 
-    static NewNodePtr createEmpty(void) 
+    static NewNodePtr createEmpty(void)
         {
             NewNodePtr returnValue;
 
@@ -332,18 +332,18 @@ class NewNode : public Node
             NewNodePtr returnValue;
 
             newPtr(returnValue, this);
-            
-            return returnValue;    
+
+            return returnValue;
     };
 
 };
 
-FieldContainerType NewNode::_type("NewNode", 
-                                        "Node", 
+FieldContainerType NewNode::_type("NewNode",
+                                        "Node",
                                         0,
                                         (PrototypeCreateF) &NewNode::createEmpty,
                                         0,
-                                        NULL, 
+                                        NULL,
                                         0);
 
 #endif
@@ -360,28 +360,28 @@ struct DynDesc
 
 int main (int argc, char **argv)
 {
-    
+
     osgInit(argc, argv);
 
-//	Field *pI;
+//  Field *pI;
 
-	cout << "TypeCounter: "
+    cout << "TypeCounter: "
          << " | " << sizeof(FieldContainerPtr) << endl;
 
 
-	FieldContainerPtr qFC = NullFC;
-	
-//	fprintf( stderr,"stderr output\n");
+    FieldContainerPtr qFC = NullFC;
+
+//  fprintf( stderr,"stderr output\n");
 //    pFC.dump();
 
 //    NullFC.dump();
 
-//	cout << "Stream output" << endl;
+//  cout << "Stream output" << endl;
 
-//	cout << "pFC: " ;
-//	cout << pFC << endl;
+//  cout << "pFC: " ;
+//  cout << pFC << endl;
 
-//	cout << "NullFC: " << qFC << endl;
+//  cout << "NullFC: " << qFC << endl;
 
 
     if(pFC != NullFC)
@@ -403,13 +403,13 @@ int main (int argc, char **argv)
 
 //    cerr << endl << endl;
 
-    
+
 //    pb1->getType().print();
 
 
 
-   
-	Thread::getCurrentChangeList()->dump();
+
+    Thread::getCurrentChangeList()->dump();
 
 
 //    p1.dump();
@@ -419,10 +419,10 @@ int main (int argc, char **argv)
 
     GeoPointsPtr pPoint;
 
-	cerr << "GeoPoints::getClassname()=" << GeoPoints::getClassname() << endl;
-	cerr << "GeoPointsPtr::getClassname()=" << GeoPointsPtr::getClassname() << endl;
-	cerr << "pPoint.getClassname()=" << pPoint.getClassname() << endl;
-	cerr << "(*pPoint).getClassname()=" << (*pPoint).getClassname() << endl;
+    cerr << "GeoPoints::getClassname()=" << GeoPoints::getClassname() << endl;
+    cerr << "GeoPointsPtr::getClassname()=" << GeoPointsPtr::getClassname() << endl;
+    cerr << "pPoint.getClassname()=" << pPoint.getClassname() << endl;
+    cerr << "(*pPoint).getClassname()=" << (*pPoint).getClassname() << endl;
 
     pPoint = GeoPoints::create();
 
@@ -485,11 +485,11 @@ int main (int argc, char **argv)
 
     fprintf(stderr, "%x\n", da->getType().getFieldDescription(1));
 
-	FieldDescription *pDesc;
+    FieldDescription *pDesc;
 
     pDesc = new FieldDescription(
-        SFString::getClassType(), 
-        "name", 
+        SFString::getClassType(),
+        "name",
         0, 0,
         false,
         (FieldIndexAccessMethod) &DynAtt::getDynamicField);
@@ -501,8 +501,8 @@ int main (int argc, char **argv)
 
 
     pDesc = new FieldDescription(
-        SFString::getClassType(), 
-        "name1", 
+        SFString::getClassType(),
+        "name1",
         0, 0,
         false,
         (FieldIndexAccessMethod) &DynAtt::getDynamicField);
@@ -525,8 +525,8 @@ int main (int argc, char **argv)
     fprintf(stderr, "Retrieve Field 3 %d\n", da->getField(3));
 
     pDesc = new FieldDescription(
-        SFString::getClassType(), 
-        "name2", 
+        SFString::getClassType(),
+        "name2",
         0, 0,
         false,
         (FieldIndexAccessMethod) &DynAtt::getDynamicField);

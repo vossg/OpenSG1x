@@ -124,11 +124,11 @@ const BitVector SimpleAttachment<AttachmentDescT>::SimpleFieldMask =
  */
 
 template <class AttachmentDescT>
-FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] = 
+FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] =
 {
-	new FieldDescription(
-        StoredFieldType::getClassType(), 
-        AttachmentDescT::getFieldName(), 
+    new FieldDescription(
+        StoredFieldType::getClassType(),
+        AttachmentDescT::getFieldName(),
         OSG_FC_FIELD_IDM_DESC(SimpleField),
         false,
         (FieldAccessMethod) &SimpleAttachment::getFieldPtr,
@@ -141,16 +141,16 @@ FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] =
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class AttachmentDescT>
-FieldContainerType SimpleAttachment<AttachmentDescT>::_type = 
-	FieldContainerType(
-		AttachmentDescT::getTypeName(),
-		"Attachment",
-		AttachmentDescT::getGroupName(),
-		(PrototypeCreateF) &SimpleAttachment<
+FieldContainerType SimpleAttachment<AttachmentDescT>::_type =
+    FieldContainerType(
+        AttachmentDescT::getTypeName(),
+        "Attachment",
+        AttachmentDescT::getGroupName(),
+        (PrototypeCreateF) &SimpleAttachment<
                                               AttachmentDescT>::createEmpty,
-		AttachmentDescT::getInitMethod(),
-		_desc,
-		sizeof(_desc));
+        AttachmentDescT::getInitMethod(),
+        _desc,
+        sizeof(_desc));
 #else
 template <class AttachmentDescT>
 FieldContainerType SimpleAttachment<AttachmentDescT>::_type(
@@ -243,7 +243,7 @@ UInt32 SimpleAttachment<AttachmentDescT>::getBinSize(
 
 template <class AttachmentDescT> inline
 void SimpleAttachment<AttachmentDescT>::copyToBin(
-          BinaryDataHandler &pMem, 
+          BinaryDataHandler &pMem,
     const BitVector         &whichField)
 {
     if(FieldBits::NoField != (SimpleFieldMask & whichField))
@@ -254,7 +254,7 @@ void SimpleAttachment<AttachmentDescT>::copyToBin(
 
 template <class AttachmentDescT> inline
 void SimpleAttachment<AttachmentDescT>::copyFromBin(
-          BinaryDataHandler &pMem, 
+          BinaryDataHandler &pMem,
     const BitVector         &whichField)
 {
     if(FieldBits::NoField != (SimpleFieldMask & whichField))
@@ -262,12 +262,12 @@ void SimpleAttachment<AttachmentDescT>::copyFromBin(
         _field.copyFromBin(pMem);
     }
 }
-    
+
 
 /*------------------------------- dump ----------------------------------*/
 
 template <class AttachmentDescT> inline
-void SimpleAttachment<AttachmentDescT>::dump(      UInt32     uiIndent, 
+void SimpleAttachment<AttachmentDescT>::dump(      UInt32     uiIndent,
                                              const BitVector &bvFlags ) const
 {
     Inherited::dump(uiIndent, bvFlags);
@@ -284,7 +284,7 @@ void SimpleAttachment<AttachmentDescT>::dump(      UInt32     uiIndent,
 
 template <class AttachmentDescT> inline
 SimpleAttachment<AttachmentDescT>::SimpleAttachment(void) :
-	Inherited(),
+    Inherited(),
     _field()
 {
 }
@@ -313,12 +313,12 @@ void SimpleAttachment<AttachmentDescT>::executeSync(
           FieldContainer &other,
     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SimpleAttachment *) &other, 
+    this->executeSyncImpl((SimpleAttachment *) &other,
                           whichField);
 }
 
 template <class AttachmentDescT> inline
-void SimpleAttachment<AttachmentDescT>::executeSyncImpl(      
+void SimpleAttachment<AttachmentDescT>::executeSyncImpl(
           SimpleAttachment *pOther,
     const BitVector        &whichField)
 {
@@ -349,19 +349,19 @@ void SimpleAttachment<AttachmentDescT>::executeSyncImpl(
  */
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
-template <class AttachmentDescT> 
-FieldContainerType DynFieldAttachment<AttachmentDescT>::_type = 
-	FieldContainerType(
-		AttachmentDescT::getTypeName(),
-		AttachmentDescT::getParentTypeName(),
-		AttachmentDescT::getGroupName(),
-		(PrototypeCreateF) &DynFieldAttachment<AttachmentDescT>::createEmpty,
-		NULL,
-		NULL,
+template <class AttachmentDescT>
+FieldContainerType DynFieldAttachment<AttachmentDescT>::_type =
+    FieldContainerType(
+        AttachmentDescT::getTypeName(),
+        AttachmentDescT::getParentTypeName(),
+        AttachmentDescT::getGroupName(),
+        (PrototypeCreateF) &DynFieldAttachment<AttachmentDescT>::createEmpty,
         NULL,
-		true);
+        NULL,
+        NULL,
+        true);
 #else
-template <class AttachmentDescT> 
+template <class AttachmentDescT>
 FieldContainerType DynFieldAttachment<AttachmentDescT>::_type(
     AttachmentDescT::getTypeName(),
     AttachmentDescT::getParentTypeName(),
@@ -411,7 +411,7 @@ FieldContainerType &DynFieldAttachment<AttachmentDescT>::getType(void)
 }
 
 template <class AttachmentDescT> inline
-const FieldContainerType& 
+const FieldContainerType&
     DynFieldAttachment<AttachmentDescT>::getType(void) const
 {
     return _localType;
@@ -441,10 +441,10 @@ UInt32 DynFieldAttachment<AttachmentDescT>::addField(
             if(_dynFieldsV.size() <=
                returnValue - Inherited::NextFieldId)
             {
-                _dynFieldsV.resize((returnValue - 
+                _dynFieldsV.resize((returnValue -
                                     Inherited::NextFieldId) + 1);
             }
-            
+
             _dynFieldsV[returnValue - Inherited::NextFieldId] = fieldP;
         }
     }
@@ -482,8 +482,8 @@ FieldContainerPtr DynFieldAttachment<AttachmentDescT>::emptyCopy(void)
 {
     PtrType returnValue = DynFieldAttachment<AttachmentDescT>::createEmpty();
 
-    for(UInt32 i  = Inherited::NextFieldId; 
-               i <= _localType.getNumFieldDescs(); 
+    for(UInt32 i  = Inherited::NextFieldId;
+               i <= _localType.getNumFieldDescs();
                i++)
     {
         returnValue->addField(*(_localType.getFieldDescription(i)));
@@ -496,17 +496,17 @@ template <class AttachmentDescT> inline
 FieldContainerPtr DynFieldAttachment<AttachmentDescT>::clone(void)
 {
     PtrType returnValue = DynFieldAttachment<AttachmentDescT>::createEmpty();
-	UInt32 i;
+    UInt32 i;
 
-    for( i = Inherited::NextFieldId; 
-         i <= _localType.getNumFieldDescs(); 
+    for( i = Inherited::NextFieldId;
+         i <= _localType.getNumFieldDescs();
          i++)
     {
         returnValue->addField(*(_localType.getFieldDescription(i)));
     }
 
-    for( i = Inherited::NextFieldId; 
-         i <= _localType.getNumFieldDescs(); 
+    for( i = Inherited::NextFieldId;
+         i <= _localType.getNumFieldDescs();
          i++)
     {
         returnValue->getDynamicField(i)->setAbstrValue(
@@ -519,27 +519,27 @@ FieldContainerPtr DynFieldAttachment<AttachmentDescT>::clone(void)
 /*------------------------------- dump ----------------------------------*/
 
 template <class AttachmentDescT> inline
-void DynFieldAttachment<AttachmentDescT>::dump(      UInt32     uiIndent, 
+void DynFieldAttachment<AttachmentDescT>::dump(      UInt32     uiIndent,
                                                const BitVector &) const
 {
     indentLog(uiIndent, PLOG);
-	PLOG << "DynFieldAttachment (" ;
+    PLOG << "DynFieldAttachment (" ;
 
     _localType.dump();
     PLOG << endl;
 
     indentLog(uiIndent, PLOG);
-	PLOG << "{" << endl;
+    PLOG << "{" << endl;
 
     uiIndent += 4;
 
     for(UInt32 i = 1; i <= getType().getNumFieldDescs(); i++)
     {
         indentLog(uiIndent, PLOG);
-      	PLOG <<      getType().getFieldDescription(i)->getCName () 
+        PLOG <<      getType().getFieldDescription(i)->getCName ()
              << " ("
              << const_cast<DynFieldAttType *>(this)->getField(
-                     getType().getFieldDescription(i)->getFieldId()) 
+                     getType().getFieldDescription(i)->getFieldId())
              << ")"
              << endl;
     }
@@ -547,7 +547,7 @@ void DynFieldAttachment<AttachmentDescT>::dump(      UInt32     uiIndent,
     uiIndent -= 4;
 
     indentLog(uiIndent, PLOG);
-	PLOG << "}" << endl;
+    PLOG << "}" << endl;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -561,7 +561,7 @@ void DynFieldAttachment<AttachmentDescT>::dump(      UInt32     uiIndent,
 
 template <class AttachmentDescT> inline
 DynFieldAttachment<AttachmentDescT>::DynFieldAttachment(void) :
-	Inherited(),
+    Inherited(),
     _localType(_type),
     _dynFieldsV()
 {

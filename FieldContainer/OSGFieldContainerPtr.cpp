@@ -62,7 +62,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-namespace 
+namespace
 {
     static char cvsid_cpp[] = "@(#)$Id: $";
     static char cvsid_hpp[] = OSGFIELDCONTAINERPTR_HEADER_CVSID;
@@ -171,7 +171,7 @@ void FieldContainerPtrBase::updateTypedStore(void)
 FieldContainerPtrBase::FieldContainerPtrBase(void) :
     _containerSize(0),
     _uiParentEPos(InvalidParentEPos),
-	_storeP(NULL)
+    _storeP(NULL)
 {
 #ifdef OSG_DEBUG_TYPED_FCPTR
     _szTypename = NULL;
@@ -183,7 +183,7 @@ FieldContainerPtrBase::FieldContainerPtrBase(
 
     _containerSize(source._containerSize),
     _uiParentEPos (source._uiParentEPos),
-	_storeP       (source._storeP)
+    _storeP       (source._storeP)
 {
 #ifdef OSG_DEBUG_TYPED_FCPTR
     if(_storeP == NULL)
@@ -271,7 +271,7 @@ FieldContainerPtrBase::~FieldContainerPtrBase(void)
 /*----------------------------- Sync --------------------------------------*/
 
 void FieldContainerPtrBase::executeSync(UInt32    uiFromAspect,
-                                        UInt32    uiToAspect, 
+                                        UInt32    uiToAspect,
                                         BitVector whichField)
 {
     ((FieldContainer *) getElemP(uiToAspect))->executeSync
@@ -282,16 +282,12 @@ void FieldContainerPtrBase::executeSync(UInt32    uiFromAspect,
 
 Int32 *FieldContainerPtrBase::getRefCountP(void)
 {
-    return (Int32 *) (_storeP -  
-                         sizeof(Int32)  -
-                         sizeof(UInt32));
+    return (Int32 *) (_storeP - sizeof(Int32) - sizeof(UInt32));
 }
 
 Int32 *FieldContainerPtrBase::getRefCountP(void) const
 {
-    return (Int32 *) (_storeP -  
-                         sizeof(Int32)  -
-                         sizeof(UInt32));
+    return (Int32 *) (_storeP - sizeof(Int32) - sizeof(UInt32));
 }
 
 UInt32 *FieldContainerPtrBase::getIdP(void)
@@ -353,7 +349,7 @@ void FieldContainerPtrBase::addRef(void) const
     _pRefCountLock->aquire(_storeP);
 
     (*getRefCountP())++;
-    
+
     _pRefCountLock->release(_storeP);
 
     Thread::getCurrentChangeList()->addAddRefd(*((FieldContainerPtr *) this));
@@ -386,7 +382,7 @@ void FieldContainerPtrBase::subRefUnlocked(void) const
         for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
         {
             ((FieldContainer *) pTmp)->~FieldContainer();
-            
+
             pTmp += _containerSize;
         }
 
@@ -409,7 +405,7 @@ void FieldContainerPtrBase::subRefUntraced(void) const
         for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
         {
             ((FieldContainer *) pTmp)->~FieldContainer();
-            
+
             pTmp += _containerSize;
         }
 
@@ -442,19 +438,19 @@ UInt32 FieldContainerPtrBase::getFieldContainerId(void) const
 
 UInt16  FieldContainerPtrBase::getContainerSize(void) const
 {
-	return _containerSize;
+    return _containerSize;
 }
 
 /*-------------------------- assignment -----------------------------------*/
 
 void FieldContainerPtrBase::operator =(const FieldContainerPtrBase &source)
 {
-	if (this == &source)
-		return;
+    if (this == &source)
+        return;
 
     _containerSize = source._containerSize;
     _uiParentEPos  = source._uiParentEPos;
-    _storeP        = source._storeP;    
+    _storeP        = source._storeP;
 
 #ifdef OSG_DEBUG_TYPED_FCPTR
     if(_storeP == NULL)
@@ -487,7 +483,7 @@ Bool FieldContainerPtrBase::operator ==(const FieldContainerPtrBase &other)const
 
 Bool FieldContainerPtrBase::operator !=(const FieldContainerPtrBase &other)const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
 
 /** \brief not
@@ -500,7 +496,7 @@ Bool FieldContainerPtrBase::operator !(void) const
 
 
 
-void FieldContainerPtrBase::dump(      UInt32     uiIndent, 
+void FieldContainerPtrBase::dump(      UInt32     uiIndent,
                                  const BitVector &bvFlags) const
 {
     if(_storeP != NULL)
@@ -521,7 +517,7 @@ void FieldContainerPtrBase::dump(      UInt32     uiIndent,
              indentLog(uiIndent, PLOG);
              PLOG << "RefCount : " << *(getRefCountP()) << endl;
         }
-        
+
 
 
 //        dumpContent();
@@ -688,7 +684,7 @@ FieldContainer &FieldContainerPtr::operator *(void) const
     return *((FieldContainer *) (getElemP(Thread::getAspect())));
 }
 
-/** \brief get OSGFieldContainer * 
+/** \brief get OSGFieldContainer *
  */
 
 FieldContainer *FieldContainerPtr::getCPtr(void)
@@ -847,7 +843,7 @@ const FieldContainer &ConstFieldContainerPtr::operator *(void) const
     return *((const FieldContainer *) (getElemP(Thread::getAspect())));
 }
 
-/** \brief get OSGFieldContainer * 
+/** \brief get OSGFieldContainer *
  */
 
 const FieldContainer *ConstFieldContainerPtr::getCPtr(void)
@@ -882,7 +878,7 @@ void ConstFieldContainerPtr::operator =(const ConstFieldContainerPtr &source)
 //  Class
 //---------------------------------------------------------------------------
 
-NullFieldContainerPtr::NullFieldContainerPtr(void) : 
+NullFieldContainerPtr::NullFieldContainerPtr(void) :
     FieldContainerPtr()
 {
 }

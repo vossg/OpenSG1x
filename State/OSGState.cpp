@@ -147,125 +147,125 @@ void State::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void State::dump(      UInt32     uiIndent, 
+void State::dump(      UInt32     uiIndent,
                          const BitVector &bvFlags) const
 {
-	cerr << "State at " << this << endl;
+    cerr << "State at " << this << endl;
 
-	MFStateChunkPtr::const_iterator it;
-	UInt32 cind;
-	
-	for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); it++, cind++ )
-	{
-		cerr << StateChunkClass::getName(cind) << "\t";
-		if ( *it == NullStateChunk )
-			cerr << "NullChunk" << endl;
-		else
-			cerr << *it << endl;
-	}
+    MFStateChunkPtr::const_iterator it;
+    UInt32 cind;
+
+    for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); it++, cind++ )
+    {
+        cerr << StateChunkClass::getName(cind) << "\t";
+        if ( *it == NullStateChunk )
+            cerr << "NullChunk" << endl;
+        else
+            cerr << *it << endl;
+    }
 }
 
 
 /*-------------------------- your_category---------------------------------*/
-	
+
 void State::addChunk( StateChunkPtr chunk, Int32 index )
 {
-	if ( index > 0 && index > chunk->getClass()->getNumSlots() )
-	{
-		SWARNING << "addChunk: index " << index << " > Numslots "
-				 << chunk->getClass()->getNumSlots() << ",  ignored!" << endl;
-		return;
-	}
-	
-	UInt32 cindex = chunk->getClassID();
-	UInt32 csize = _mfChunks.size();
-	
-	// special case: find empty slot automatically
-	if ( index < 0 )
-	{
-		UInt8 nslots = chunk->getClass()->getNumSlots();
-		UInt8 ci;
+    if ( index > 0 && index > chunk->getClass()->getNumSlots() )
+    {
+        SWARNING << "addChunk: index " << index << " > Numslots "
+                 << chunk->getClass()->getNumSlots() << ",  ignored!" << endl;
+        return;
+    }
 
-		for ( ci = cindex; ci < cindex + nslots && ci < csize; ci++ ) 
-			if ( _mfChunks.getValue( ci ) == NullStateChunk )
-				break;
-		
-		if ( ci >= cindex + nslots )	// no free slot found
-		{
-			SWARNING << "addChunk: no free slot found for " 
-					 << chunk->getClass()->getName() << " class, ignored!" << endl;
-			return;
-		}
-		cindex = ci;
-	}
-	else	
-		cindex += index;
-		
-	// add the chunk to the state at cindex
-	if ( cindex >= csize )
-	{
-		UInt32 oldsize = csize, 
-				  newsize = cindex + 1;
+    UInt32 cindex = chunk->getClassID();
+    UInt32 csize = _mfChunks.size();
 
-		_mfChunks.resize( newsize );
-	
-		for ( UInt32 i = oldsize; i < newsize; i++ )
-			_mfChunks.setValue( NullStateChunk, i );
-	}
+    // special case: find empty slot automatically
+    if ( index < 0 )
+    {
+        UInt8 nslots = chunk->getClass()->getNumSlots();
+        UInt8 ci;
 
-	_mfChunks.setValue( chunk, cindex );
+        for ( ci = cindex; ci < cindex + nslots && ci < csize; ci++ )
+            if ( _mfChunks.getValue( ci ) == NullStateChunk )
+                break;
+
+        if ( ci >= cindex + nslots )    // no free slot found
+        {
+            SWARNING << "addChunk: no free slot found for "
+                     << chunk->getClass()->getName() << " class, ignored!" << endl;
+            return;
+        }
+        cindex = ci;
+    }
+    else
+        cindex += index;
+
+    // add the chunk to the state at cindex
+    if ( cindex >= csize )
+    {
+        UInt32 oldsize = csize,
+                  newsize = cindex + 1;
+
+        _mfChunks.resize( newsize );
+
+        for ( UInt32 i = oldsize; i < newsize; i++ )
+            _mfChunks.setValue( NullStateChunk, i );
+    }
+
+    _mfChunks.setValue( chunk, cindex );
 }
 
-	
+
 void State::subChunk( StateChunkPtr chunk, Int32 index )
 {
-	if ( index > 0 && index > chunk->getClass()->getNumSlots() )
-	{
-		SWARNING << "subChunk: index " << index << " > Numslots "
-				 << chunk->getClass()->getNumSlots() << ",  ignored!" << endl;
-		return;
-	}
-	
-	UInt32 cindex = chunk->getClassID();
-	UInt32 csize = _mfChunks.size();
-	
-	// special case: find it in the slots
-	if ( index < 0 )
-	{
-		UInt8 nslots = chunk->getClass()->getNumSlots();
-		UInt8 ci;
+    if ( index > 0 && index > chunk->getClass()->getNumSlots() )
+    {
+        SWARNING << "subChunk: index " << index << " > Numslots "
+                 << chunk->getClass()->getNumSlots() << ",  ignored!" << endl;
+        return;
+    }
 
-		for ( ci = cindex; ci < cindex + nslots && ci < csize; ci++ ) 
-			if ( _mfChunks.getValue( ci ) == chunk )
-				break;
-		
-		if ( ci >= cindex + nslots )	// no free slot found
-		{
-			SWARNING << "subChunk: chunk " << chunk << " of class " 
-					 << chunk->getClass()->getName() << " not found!" << endl;
-			return;
-		}
-		cindex = ci;
-	}
+    UInt32 cindex = chunk->getClassID();
+    UInt32 csize = _mfChunks.size();
 
-	// remove the chunk from the state 
+    // special case: find it in the slots
+    if ( index < 0 )
+    {
+        UInt8 nslots = chunk->getClass()->getNumSlots();
+        UInt8 ci;
 
-	_mfChunks.setValue( NullStateChunk, cindex );
+        for ( ci = cindex; ci < cindex + nslots && ci < csize; ci++ )
+            if ( _mfChunks.getValue( ci ) == chunk )
+                break;
+
+        if ( ci >= cindex + nslots )    // no free slot found
+        {
+            SWARNING << "subChunk: chunk " << chunk << " of class "
+                     << chunk->getClass()->getName() << " not found!" << endl;
+            return;
+        }
+        cindex = ci;
+    }
+
+    // remove the chunk from the state
+
+    _mfChunks.setValue( NullStateChunk, cindex );
 }
-	
+
 void State::subChunk( UInt32 classid, Int32 index )
 {
-	if ( index > 0 && index > StateChunkClass::getNumSlots(classid) )
-	{
-		SWARNING << "subChunk: index " << index << " > Numslots "
-				 << StateChunkClass::getNumSlots(classid) 
-				 << ",  ignored!" << endl;
-		return;
-	}
+    if ( index > 0 && index > StateChunkClass::getNumSlots(classid) )
+    {
+        SWARNING << "subChunk: index " << index << " > Numslots "
+                 << StateChunkClass::getNumSlots(classid)
+                 << ",  ignored!" << endl;
+        return;
+    }
 
-	// remove the chunk from the state 
+    // remove the chunk from the state
 
-	_mfChunks.setValue( NullStateChunk, classid + index );	
+    _mfChunks.setValue( NullStateChunk, classid + index );
 }
 
 void State::clearChunks(void)
@@ -277,62 +277,62 @@ void State::clearChunks(void)
 // call the OpenGL commands to set my part of the state.
 void State::activate(DrawActionBase *action)
 {
-	MFStateChunkPtr::iterator it;
-	Int32 ind = 0;
-	UInt32 cind;
+    MFStateChunkPtr::iterator it;
+    Int32 ind = 0;
+    UInt32 cind;
 
-	for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); 
-		  ++it, ++cind,  ++ind )
-	{
-		if ( *it != NullStateChunk )
-			(*it)->activate( action, UInt32(ind) );
-		if ( ind >= StateChunkClass::getNumSlots( cind ) )
-			ind = -1;
-	}
+    for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end();
+          ++it, ++cind,  ++ind )
+    {
+        if ( *it != NullStateChunk )
+            (*it)->activate( action, UInt32(ind) );
+        if ( ind >= StateChunkClass::getNumSlots( cind ) )
+            ind = -1;
+    }
 }
 
-// call commands to get from old to my state. 
+// call commands to get from old to my state.
 void State::changeFrom(DrawActionBase *action, State *old)
 {
-	MFStateChunkPtr::iterator it;
-	Int32 ind = 0;
+    MFStateChunkPtr::iterator it;
+    Int32 ind = 0;
     UInt32 i;
-	UInt32 cind;
+    UInt32 cind;
 
-	for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); 
-		  ++it, ++cind, ++ind )
-	{
-		StateChunkPtr o = old->getChunk( cind );
-		StateChunkPtr n = *it;
+    for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end();
+          ++it, ++cind, ++ind )
+    {
+        StateChunkPtr o = old->getChunk( cind );
+        StateChunkPtr n = *it;
 
-		if ( n != NullStateChunk )
-		{			
-			if ( o != NullStateChunk )
-				n->changeFrom( action, o.getCPtr(), UInt32(ind) );
-			else
-				n->activate( action, UInt32(ind) );
-		}
-		else if ( o != NullStateChunk )
-			o->deactivate( action, UInt32(ind) );
-			
-		if ( ind >= StateChunkClass::getNumSlots( cind ) )
-			ind = -1;
-	}
+        if ( n != NullStateChunk )
+        {
+            if ( o != NullStateChunk )
+                n->changeFrom( action, o.getCPtr(), UInt32(ind) );
+            else
+                n->activate( action, UInt32(ind) );
+        }
+        else if ( o != NullStateChunk )
+            o->deactivate( action, UInt32(ind) );
+
+        if ( ind >= StateChunkClass::getNumSlots( cind ) )
+            ind = -1;
+    }
 
     ind = 0;
 
     for(i = cind; i < old->getChunks().size(); ++i, ++ind)
     {
-		StateChunkPtr o = old->getChunk(i);
+        StateChunkPtr o = old->getChunk(i);
 
         if(o != NullFC)
         {
             o->deactivate(action, UInt32(ind));
         }
 
-		if(ind >= StateChunkClass::getNumSlots(cind))
+        if(ind >= StateChunkClass::getNumSlots(cind))
         {
-			ind = -1;
+            ind = -1;
         }
     }
 }
@@ -341,25 +341,25 @@ void State::changeFrom(DrawActionBase *action, State *old)
 // reset my part of the state.
 void State::deactivate ( DrawActionBase *action )
 {
-	MFStateChunkPtr::iterator it;
-	Int32 ind = 0;
-	UInt32 cind;
+    MFStateChunkPtr::iterator it;
+    Int32 ind = 0;
+    UInt32 cind;
 
-	for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); 
-		  ++it, ++cind,  ++ind )
-	{
-		if ( *it != NullStateChunk )
-			(*it)->deactivate( action, UInt32(ind) );
-		if ( ind >= StateChunkClass::getNumSlots( cind ) )
-			ind = -1;
-	}
+    for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end();
+          ++it, ++cind,  ++ind )
+    {
+        if ( *it != NullStateChunk )
+            (*it)->deactivate( action, UInt32(ind) );
+        if ( ind >= StateChunkClass::getNumSlots( cind ) )
+            ind = -1;
+    }
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
 Real32 State::switchCost( State * state )
 {
-	return 0;
+    return 0;
 }
 
 /** \brief assignment
@@ -375,7 +375,7 @@ Bool State::operator < (const State &other) const
 
 Bool State::operator == (const State &other) const
 {
-	return false;
+    return false;
 }
 
 /** \brief unequal
@@ -383,9 +383,9 @@ Bool State::operator == (const State &other) const
 
 Bool State::operator != (const State &other) const
 {
-	return ! (*this == other);
+    return ! (*this == other);
 }
-    
+
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -

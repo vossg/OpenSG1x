@@ -19,113 +19,113 @@ StatePtr state1, state2;
 
 DrawAction * dact;
 
-void 
+void
 display(void)
 {
-	float t = glutGet( GLUT_ELAPSED_TIME );
+    float t = glutGet( GLUT_ELAPSED_TIME );
 
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	state1->activate( dact );
+    state1->activate( dact );
 
-	glCallList( dlid );
+    glCallList( dlid );
 
-	Matrix m;
-	m.setTranslate( cos(t/1000), 0, sin(t/1000) );
-	tchunk2->setMatrix( m );
+    Matrix m;
+    m.setTranslate( cos(t/1000), 0, sin(t/1000) );
+    tchunk2->setMatrix( m );
 
-	state2->changeFrom(  dact ,state1.getCPtr() );
+    state2->changeFrom(  dact ,state1.getCPtr() );
 
-	glCallList( dlid );
+    glCallList( dlid );
 
-	state2->deactivate( dact );
+    state2->deactivate( dact );
 
-	glutSwapBuffers();
+    glutSwapBuffers();
 }
 
 
 int main( int argc, char *argv[] )
 {
-	osgInit(argc, argv);
-	
-	glutInit(&argc, argv);
-	glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-	glutCreateWindow("OpenSG");
-	// glutKeyboardFunc(key);
-	// glutReshapeFunc(resize);
-	glutDisplayFunc(display);       
-	// glutMouseFunc(mouse);   
-	// glutMotionFunc(motion); 
-	
-	glutIdleFunc(display);
-	
-	glMatrixMode( GL_PROJECTION );
-	glLoadIdentity();
-	gluPerspective( 60, 1, 0.1, 10 );
-	glMatrixMode( GL_MODELVIEW );
-	glLoadIdentity();
-	gluLookAt( 3, 3, 3,  0, 0, 0,   0, 1, 0 );
-	
-	glEnable( GL_DEPTH_TEST );
-	glEnable( GL_LIGHTING );
-	glEnable( GL_LIGHT0 );
+    osgInit(argc, argv);
 
-	dlid = glGenLists( 1 );
+    glutInit(&argc, argv);
+    glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    glutCreateWindow("OpenSG");
+    // glutKeyboardFunc(key);
+    // glutReshapeFunc(resize);
+    glutDisplayFunc(display);
+    // glutMouseFunc(mouse);
+    // glutMotionFunc(motion);
 
-	glNewList( dlid, GL_COMPILE );
-	glutSolidSphere( .8, 8, 8 );
-	glEndList();
+    glutIdleFunc(display);
 
-	dact = DrawAction::create();
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    gluPerspective( 60, 1, 0.1, 10 );
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+    gluLookAt( 3, 3, 3,  0, 0, 0,   0, 1, 0 );
 
-	Matrix m;
+    glEnable( GL_DEPTH_TEST );
+    glEnable( GL_LIGHTING );
+    glEnable( GL_LIGHT0 );
 
-	tchunk1 = TransformChunk::create();
-	m.setTranslate( 0, 1, 0 );
-	tchunk1->setMatrix( m );
+    dlid = glGenLists( 1 );
 
-	state1 = State::create();
-	state1->addChunk( tchunk1 );
+    glNewList( dlid, GL_COMPILE );
+    glutSolidSphere( .8, 8, 8 );
+    glEndList();
 
-	tchunk2 = TransformChunk::create();
-	tchunk2->setMatrix( Matrix::identity() );
+    dact = DrawAction::create();
 
-	state2 = State::create();
-	state2->addChunk( tchunk2 );
+    Matrix m;
 
-	MaterialChunkPtr mchunk1, mchunk2;
+    tchunk1 = TransformChunk::create();
+    m.setTranslate( 0, 1, 0 );
+    tchunk1->setMatrix( m );
 
-	mchunk1 = MaterialChunk::create();
-	mchunk1->setDiffuse( Color4f( 1,0,0,0 ) );
-	mchunk1->setAmbient( Color4f( 1,0,0,0 ) );
-	mchunk1->setShininess( 20 );
-	state1->addChunk( mchunk1 );
+    state1 = State::create();
+    state1->addChunk( tchunk1 );
 
-	mchunk2 = MaterialChunk::create();
-	mchunk2->setDiffuse( Color4f( 0,1,0,0 ) );
-	mchunk2->setAmbient( Color4f( 0,1,0,0 ) );
-	mchunk2->setShininess( 50 );
-	state2->addChunk( mchunk2 );
+    tchunk2 = TransformChunk::create();
+    tchunk2->setMatrix( Matrix::identity() );
 
-	LightChunkPtr lchunk1, lchunk2;
+    state2 = State::create();
+    state2->addChunk( tchunk2 );
 
-	lchunk1 = LightChunk::create();
-	lchunk1->setDiffuse( Color4f( 1,1,1,1 ) );
-	lchunk1->setPosition( Vec4f( 0,1,0,0 ) );
-	state1->addChunk( lchunk1 );
+    MaterialChunkPtr mchunk1, mchunk2;
 
-	lchunk2 = LightChunk::create();
-	lchunk2->setDiffuse( Color4f( 1,0,0,1 ) );
-	lchunk2->setPosition( Vec4f( 0,0,-2,1 ) );
-	state2->addChunk( lchunk2 );
+    mchunk1 = MaterialChunk::create();
+    mchunk1->setDiffuse( Color4f( 1,0,0,0 ) );
+    mchunk1->setAmbient( Color4f( 1,0,0,0 ) );
+    mchunk1->setShininess( 20 );
+    state1->addChunk( mchunk1 );
 
-	cerr << "State1:" << endl;
-	state1->dump();
+    mchunk2 = MaterialChunk::create();
+    mchunk2->setDiffuse( Color4f( 0,1,0,0 ) );
+    mchunk2->setAmbient( Color4f( 0,1,0,0 ) );
+    mchunk2->setShininess( 50 );
+    state2->addChunk( mchunk2 );
 
-	cerr << "State2:" << endl;
-	state2->dump();
+    LightChunkPtr lchunk1, lchunk2;
 
-	glutMainLoop();
+    lchunk1 = LightChunk::create();
+    lchunk1->setDiffuse( Color4f( 1,1,1,1 ) );
+    lchunk1->setPosition( Vec4f( 0,1,0,0 ) );
+    state1->addChunk( lchunk1 );
 
-	return 0;
+    lchunk2 = LightChunk::create();
+    lchunk2->setDiffuse( Color4f( 1,0,0,1 ) );
+    lchunk2->setPosition( Vec4f( 0,0,-2,1 ) );
+    state2->addChunk( lchunk2 );
+
+    cerr << "State1:" << endl;
+    state1->dump();
+
+    cerr << "State2:" << endl;
+    state2->dump();
+
+    glutMainLoop();
+
+    return 0;
 }

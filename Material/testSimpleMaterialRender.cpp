@@ -35,42 +35,42 @@ DrawAction * dact;
 
 NodePtr plane,torus;
 
-void 
+void
 display(void)
 {
-	// do the motion in OpenGl, to stay independent of the ransform node
-	// use the draw action to check the material
-	
-	float a = glutGet( GLUT_ELAPSED_TIME );
+    // do the motion in OpenGl, to stay independent of the ransform node
+    // use the draw action to check the material
 
-	if ( (int) ( a / 2000 ) & 1 )	
-		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-	else
-		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    float a = glutGet( GLUT_ELAPSED_TIME );
 
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    if ( (int) ( a / 2000 ) & 1 )
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    else
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
-	glPushMatrix();
-	glRotatef( a / 20, 0,0,1 );
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	dact->apply( plane );
+    glPushMatrix();
+    glRotatef( a / 20, 0,0,1 );
 
-	glPushMatrix();
-	glTranslatef( 0,0,fabs(sinf(a/3000 * Pi))*2 );
-	glRotatef( (a/3000) * 360 / 2, 1,0,0 );
+    dact->apply( plane );
 
-	dact->apply( torus );
+    glPushMatrix();
+    glTranslatef( 0,0,fabs(sinf(a/3000 * Pi))*2 );
+    glRotatef( (a/3000) * 360 / 2, 1,0,0 );
 
-	glPopMatrix();
-	
-	glPopMatrix();
+    dact->apply( torus );
 
-	glutSwapBuffers();
+    glPopMatrix();
+
+    glPopMatrix();
+
+    glutSwapBuffers();
 }
 
 int main (int argc, char **argv)
 {
-	// GLUT init
+    // GLUT init
 
     osgInit(argc, argv);
 
@@ -83,37 +83,37 @@ int main (int argc, char **argv)
         pGeoProto->setDlistCache(false);
     }
 
-	glutInit(&argc, argv);
-	glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-	glutCreateWindow("OpenSG");
-	// glutKeyboardFunc(key);
-	// glutReshapeFunc(resize);
-	glutDisplayFunc(display);       
-	// glutMouseFunc(mouse);   
-	// glutMotionFunc(motion); 
-	
-	glutIdleFunc(display);
+    glutInit(&argc, argv);
+    glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    glutCreateWindow("OpenSG");
+    // glutKeyboardFunc(key);
+    // glutReshapeFunc(resize);
+    glutDisplayFunc(display);
+    // glutMouseFunc(mouse);
+    // glutMotionFunc(motion);
 
-	glMatrixMode( GL_PROJECTION );
-	glLoadIdentity();
-	gluPerspective( 60, 1, 0.1, 10 );
-	glMatrixMode( GL_MODELVIEW );
-	glLoadIdentity();
-	gluLookAt( 3, 3, 3,  0, 0, 0,   0, 0, 1 );
-	
-	glEnable( GL_DEPTH_TEST );
-	glEnable( GL_LIGHTING );
-	glEnable( GL_LIGHT0 );
+    glutIdleFunc(display);
 
-	// OSG
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    gluPerspective( 60, 1, 0.1, 10 );
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+    gluLookAt( 3, 3, 3,  0, 0, 0,   0, 0, 1 );
 
-	plane = makePlane( 2, 2, 2, 2 );
-	torus = makeTorus( .2, 1, 16, 8 );
+    glEnable( GL_DEPTH_TEST );
+    glEnable( GL_LIGHTING );
+    glEnable( GL_LIGHT0 );
 
-	GeometryPtr plane_geo, torus_geo;
-	plane_geo = GeometryPtr::dcast(plane->getCore());
-	torus_geo = GeometryPtr::dcast(torus->getCore());
-	
+    // OSG
+
+    plane = makePlane( 2, 2, 2, 2 );
+    torus = makeTorus( .2, 1, 16, 8 );
+
+    GeometryPtr plane_geo, torus_geo;
+    plane_geo = GeometryPtr::dcast(plane->getCore());
+    torus_geo = GeometryPtr::dcast(torus->getCore());
+
     unsigned int ntris = 0;
     unsigned int nquads = 0;
     unsigned int ngons = 0;
@@ -132,36 +132,36 @@ int main (int argc, char **argv)
                 ngons ++ ;
 
         fi.getLength();
-    } 
+    }
 
     fprintf(stderr, "%d tris %d quats %d gons\n", ntris, nquads, ngons);
 
-	SimpleMaterialPtr pm, tm;	
-	
-	pm = SimpleMaterial::create();
+    SimpleMaterialPtr pm, tm;
 
-	pm->setDiffuse( Color3f( 1,0,0 ) );
-	pm->setAmbient( Color3f( 1,0,0 ) );
-	pm->setSpecular( Color3f( 1,1,1 ) );
-	pm->setShininess( 10 );
-	
-	plane_geo->setMaterial( pm );
-	
-	
-	tm = SimpleMaterial::create();
+    pm = SimpleMaterial::create();
 
-	tm->setDiffuse( Color3f( 0,1,0 ) );
-	tm->setAmbient( Color3f( 0,1,0 ) );
-	
-	torus_geo->setMaterial( tm );
-	
-	// as there no useful except Material yet adding Chunks will 
-	// have to wait a little...
-	
-	dact = DrawAction::create();
-	
-	glutMainLoop();
-	
+    pm->setDiffuse( Color3f( 1,0,0 ) );
+    pm->setAmbient( Color3f( 1,0,0 ) );
+    pm->setSpecular( Color3f( 1,1,1 ) );
+    pm->setShininess( 10 );
+
+    plane_geo->setMaterial( pm );
+
+
+    tm = SimpleMaterial::create();
+
+    tm->setDiffuse( Color3f( 0,1,0 ) );
+    tm->setAmbient( Color3f( 0,1,0 ) );
+
+    torus_geo->setMaterial( tm );
+
+    // as there no useful except Material yet adding Chunks will
+    // have to wait a little...
+
+    dact = DrawAction::create();
+
+    glutMainLoop();
+
     return 0;
 }
 

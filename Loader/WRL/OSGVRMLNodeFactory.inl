@@ -103,7 +103,7 @@ VRMLNodeDesc *VRMLNodeFactory<BaseT>::findNodeDesc(const Char8 *szNodeTypename)
         _mNodeDescHash.find(szNodeTypename);
 
     if(mNodeDescIt != _mNodeDescHash.end())
-    {    
+    {
         indentLog(VRMLNodeDesc::getIndent(), PINFO);
         PINFO << "Found Node "
               << mNodeDescIt->first << " ("
@@ -126,7 +126,7 @@ void VRMLNodeFactory<BaseT>::addNodeDesc(const Char8        *szNodeTypename,
 
     stringDup(szNodeTypename, szName);
 
-    _mNodeDescHash[szName] = pDesc; 
+    _mNodeDescHash[szName] = pDesc;
 
     _pCurrentNodeDesc = pDesc;
 }
@@ -177,7 +177,7 @@ void VRMLNodeFactory<BaseT>::postStandardProtos(void)
 }
 
 
-    
+
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
@@ -193,7 +193,7 @@ VRMLNodeFactory<BaseT>::VRMLNodeFactory(void) :
 
     _pCurrentNodeDesc(NULL),
     _mNodeDescHash   (),
-    
+
     _bInFieldProto   (false),
 
     _bIgnoreProto    (false)
@@ -220,7 +220,7 @@ void VRMLNodeFactory<BaseT>::beginProtoInterface(
 
     Char8 *szName = NULL;
 
-    NodeNameDescHash::iterator mNodeDescIt = 
+    NodeNameDescHash::iterator mNodeDescIt =
         _mNodeDescHash.find(szProtoname);
 
     if(mNodeDescIt == _mNodeDescHash.end())
@@ -228,220 +228,220 @@ void VRMLNodeFactory<BaseT>::beginProtoInterface(
         if(stringcasecmp("IndexedFaceSet", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLGeometryDesc(true);
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("IndexedLineSet", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLGeometryDesc(false);
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Shape", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLShapeDesc;
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Coordinate", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLGeometryPartDesc("point",
                                                          "positions",
                                                          "GeoPositions3f");
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Normal", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLGeometryPartDesc("vector",
                                                          "Normals",
                                                          "GeoNormals3f");
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Color", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLGeometryPartDesc("color",
                                                          "Colors",
                                                          "GeoColors3f");
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("TextureCoordinate", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLGeometryPartDesc("point",
                                                          "TexCoords",
                                                          "GeoTexCoords2f");
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Appearance", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLAppearanceDesc();
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Material", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLMaterialDesc();
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Box", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLGeometryObjectDesc("Box");
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Cone", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLGeometryObjectDesc("Cone");
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Cylinder", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLGeometryObjectDesc("Cylinder");
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Sphere", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLGeometryObjectDesc("Sphere");
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("ImageTexture", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLImageTextureDesc();
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("PixelTexture", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLPixelTextureDesc();
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("LOD", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLLODDesc();
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Switch", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLSwitchDesc();
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Group", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLGroupDesc();
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Inline", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLInlineDesc();
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
         else if(stringcasecmp("Viewpoint", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLViewpointDesc();
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
-        }						
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
+        }
         else
         {
             stringDup(szProtoname, szName);
-            
+
             _pCurrentNodeDesc = new VRMLNodeDesc;
-            
+
             _pCurrentNodeDesc->init(szProtoname);
-            
-            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
 
         _pCurrentNodeDesc->setOptions(_uiCurrOptions);
@@ -450,8 +450,8 @@ void VRMLNodeFactory<BaseT>::beginProtoInterface(
     else
     {
         indentLog(VRMLNodeDesc::getIndent(), PINFO);
-        PINFO << "Could not add second proto named " 
-              << szProtoname 
+        PINFO << "Could not add second proto named "
+              << szProtoname
               << endl;
 
         _bIgnoreProto = true;
@@ -478,7 +478,7 @@ void VRMLNodeFactory<BaseT>::addProtoEventIn(
 {
     if(_bIgnoreProto == true)
         return;
-    
+
     indentLog(VRMLNodeDesc::getIndent(), PINFO);
     PINFO << "AddEventIn " << szEventType << " " << szEventName << endl;
 }
@@ -548,7 +548,7 @@ OSG::NodePtr VRMLNodeFactory<BaseT>::getNode(const Char8 *szNodename)
     OSG::NodePtr              returnValue = OSG::NullNode;
     OSG::FieldContainerPtr    pTmp;
     NodeProtoMap::iterator gIt;
-    
+
     if(szNodename == NULL)
         return returnValue;
 
@@ -564,7 +564,7 @@ OSG::NodePtr VRMLNodeFactory<BaseT>::getNode(const Char8 *szNodename)
 
     return returnValue;
 }
-#endif   
+#endif
 
 /*---------------------------- properties ---------------------------------*/
 
@@ -574,7 +574,7 @@ void VRMLNodeFactory<BaseT>::addFieldValue(const Char8 *szFieldVal)
     if(_bInFieldProto == true)
     {
         indentLog(VRMLNodeDesc::getIndent(), PINFO);
-    
+
         PINFO << "Add proto field value : " << szFieldVal << endl;
     }
 

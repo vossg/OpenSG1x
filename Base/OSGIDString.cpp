@@ -74,13 +74,13 @@ OSG_USING_NAMESPACE
 IDString::IDString(unsigned size)
 : _str(0), _memType(COPY)
 {
-	setLength(size);
+    setLength(size);
 }
 
 IDString::IDString(const char *str, MemType memType)
 : _str(0), _memType(memType)
 {
-	set(str, memType);
+    set(str, memType);
 }
 
 /** Class Copy Constructor
@@ -88,7 +88,7 @@ IDString::IDString(const char *str, MemType memType)
 IDString::IDString(const IDString &obj, MemType memType)
 : _str(0), _memType(memType)
 {
-	set(obj._str, memType);
+    set(obj._str, memType);
 }
 
 
@@ -98,34 +98,34 @@ IDString::IDString(const IDString &obj, MemType memType)
 */
 IDString::~IDString()
 {
-	/*
-	cerr << "In IDString::~IDString() for " << (_str ? _str : "NULL")
-			 << ", memType: " << (_memType == COPY ? "COPY" : "LINK")
-			 << endl;
-			 */
+    /*
+    cerr << "In IDString::~IDString() for " << (_str ? _str : "NULL")
+             << ", memType: " << (_memType == COPY ? "COPY" : "LINK")
+             << endl;
+             */
 
-	if (_str && _memType == COPY)
-		delete [] _str; 
+    if (_str && _memType == COPY)
+        delete [] _str;
 }
 
 
 /*------------------------------ access -----------------------------------*/
 
-void IDString::toUpper(void) 
+void IDString::toUpper(void)
 {
-	int i, l = length();
+    int i, l = length();
 
-	for (i = 0; i < l; i++) 
-		_str[i] = toupper(_str[i]);
+    for (i = 0; i < l; i++)
+        _str[i] = toupper(_str[i]);
 
 }
 
-void IDString::toLower(void) 
+void IDString::toLower(void)
 {
-	int i, l = length();
+    int i, l = length();
 
-	for (i = 0; i < l; i++) 
-		_str[i] = tolower(_str[i]);
+    for (i = 0; i < l; i++)
+        _str[i] = tolower(_str[i]);
 
 }
 
@@ -133,53 +133,53 @@ void IDString::toLower(void)
 */
 unsigned IDString::length(void) const
 {
-	return _str ? strlen(_str) : 0;
+    return _str ? strlen(_str) : 0;
 }
 
 void IDString::setLength(unsigned length)
 {
-	if (_str && _memType == COPY)
-		delete [] _str;
+    if (_str && _memType == COPY)
+        delete [] _str;
 
-	if (length) {
-		_str = new char[length];
-		*_str = 0;
-	}
-	else
-		_str = 0;
+    if (length) {
+        _str = new char[length];
+        *_str = 0;
+    }
+    else
+        _str = 0;
 
-	_memType = COPY;
+    _memType = COPY;
 }
 
 /** set method for attribute str
 */
 void IDString::set(const char *str, MemType memType)
 {
-	if ( str == _str )	// set to itself? 
-	{
-		// !!! can you change _memType here? I think not. IMHO
-		return;
-	}
+    if ( str == _str )  // set to itself?
+    {
+        // !!! can you change _memType here? I think not. IMHO
+        return;
+    }
 
-	if (_str && _memType == COPY)
-		delete [] _str;
+    if (_str && _memType == COPY)
+        delete [] _str;
 
-	if (memType == COPY) 
-	{
-		if (str) 
-		{
-			// cerr << "INFO: Try to buffer for " << str; 
-			_str = new char[strlen(str) + 1];
-			// cerr << " ... done" << endl; 
-			strcpy(_str, str);
-		}
-		else 
-			_str = 0;
-	}
-	else
-		_str = const_cast<char*>(str);
+    if (memType == COPY)
+    {
+        if (str)
+        {
+            // cerr << "INFO: Try to buffer for " << str;
+            _str = new char[strlen(str) + 1];
+            // cerr << " ... done" << endl;
+            strcpy(_str, str);
+        }
+        else
+            _str = 0;
+    }
+    else
+        _str = const_cast<char*>(str);
 
-	_memType = memType;
+    _memType = memType;
 }
 
 //----------------------------------------------------------------------
@@ -187,188 +187,188 @@ void IDString::set(const char *str, MemType memType)
 // Author: cholzhae
 // Date:   Mo Oct 09 13:00:00 2000
 // Description:
-//         
+//
 //----------------------------------------------------------------------
 void IDString::tokenize(vector <IDString*> &v)
 {
-	int l        = length(),
-		oldpos   = 0,
-		pos      = 0,
-		inQuotes = 0,
-		inToken  = 0;
+    int l        = length(),
+        oldpos   = 0,
+        pos      = 0,
+        inQuotes = 0,
+        inToken  = 0;
 
-	if ( l > 0 ) 
-	{
+    if ( l > 0 )
+    {
 
-		char *buf = (char *)malloc( (l+1) * sizeof(char) );
-	
-		for ( pos = 0; pos <= l; pos++) 	
-		{
-			
-			if ( !inQuotes )
-			{
-				if ( !inToken )
-				{
-					if ( _str[pos] == '"' )
-					{
-						inQuotes = 1;
-						oldpos = pos+1;				
-					}
-					else if ( _str[pos] != ' ' )
-					{
-						inToken = 1;
-						oldpos = pos;			
-					} 
-				}
-				else if ( inToken )
-				{			
-					if ( _str[pos] == '"' )
-					{
-						inToken = 0;
+        char *buf = (char *)malloc( (l+1) * sizeof(char) );
 
-						strncpy( buf, _str + oldpos, pos - oldpos );
-						buf [ pos - oldpos ] = '\0';						
-						v.push_back( new IDString( buf ) );
-						
-						inQuotes = 1;
-						oldpos = pos;
-						
-					}
-					else if ( _str[pos] == ' ' )
-					{
-						inToken = 0;
-						
-						strncpy( buf, _str + oldpos, pos - oldpos );
-						buf [ pos - oldpos ] = '\0';						
-						v.push_back( new IDString( buf ) );	
-					}
-					else if ( pos == l ) 
-					{
-						strncpy( buf, _str + oldpos, pos - oldpos );
-						buf [ pos - oldpos ] = '\0';						
-						v.push_back( new IDString( buf ) );	
-					}
-					
-				}
-				
-			}
-			else if ( inQuotes ) 
-			{
-				if ( _str[pos] == '"' )
-				{
-					inQuotes = 0;
-						
-					if ( pos > oldpos )
-					{	
-						strncpy( buf, _str + oldpos, pos - oldpos );
-						buf [ pos - oldpos ] = '\0';						
-						v.push_back( new IDString( buf ) );
-					}
-				}
-				else if ( pos == l )
-				{
-					if ( pos > oldpos )
-					{
-						strncpy( buf, _str + oldpos, pos - oldpos );
-						buf [ pos - oldpos ] = '\0';						
-						v.push_back( new IDString( buf ) );
-					}
-				}
-			}		
-		}
-		free(buf);
-	}
+        for ( pos = 0; pos <= l; pos++)
+        {
+
+            if ( !inQuotes )
+            {
+                if ( !inToken )
+                {
+                    if ( _str[pos] == '"' )
+                    {
+                        inQuotes = 1;
+                        oldpos = pos+1;
+                    }
+                    else if ( _str[pos] != ' ' )
+                    {
+                        inToken = 1;
+                        oldpos = pos;
+                    }
+                }
+                else if ( inToken )
+                {
+                    if ( _str[pos] == '"' )
+                    {
+                        inToken = 0;
+
+                        strncpy( buf, _str + oldpos, pos - oldpos );
+                        buf [ pos - oldpos ] = '\0';
+                        v.push_back( new IDString( buf ) );
+
+                        inQuotes = 1;
+                        oldpos = pos;
+
+                    }
+                    else if ( _str[pos] == ' ' )
+                    {
+                        inToken = 0;
+
+                        strncpy( buf, _str + oldpos, pos - oldpos );
+                        buf [ pos - oldpos ] = '\0';
+                        v.push_back( new IDString( buf ) );
+                    }
+                    else if ( pos == l )
+                    {
+                        strncpy( buf, _str + oldpos, pos - oldpos );
+                        buf [ pos - oldpos ] = '\0';
+                        v.push_back( new IDString( buf ) );
+                    }
+
+                }
+
+            }
+            else if ( inQuotes )
+            {
+                if ( _str[pos] == '"' )
+                {
+                    inQuotes = 0;
+
+                    if ( pos > oldpos )
+                    {
+                        strncpy( buf, _str + oldpos, pos - oldpos );
+                        buf [ pos - oldpos ] = '\0';
+                        v.push_back( new IDString( buf ) );
+                    }
+                }
+                else if ( pos == l )
+                {
+                    if ( pos > oldpos )
+                    {
+                        strncpy( buf, _str + oldpos, pos - oldpos );
+                        buf [ pos - oldpos ] = '\0';
+                        v.push_back( new IDString( buf ) );
+                    }
+                }
+            }
+        }
+        free(buf);
+    }
 }
 
 void IDString::tokenize(vector <IDString> &v)
 {
-	int l        = length(),
-		oldpos   = 0,
-		pos      = 0,
-		inQuotes = 0,
-		inToken  = 0;
+    int l        = length(),
+        oldpos   = 0,
+        pos      = 0,
+        inQuotes = 0,
+        inToken  = 0;
 
-	if ( l > 0 ) 
-	{
+    if ( l > 0 )
+    {
 
-		char *buf = (char *)malloc( (l+1) * sizeof(char) );
-	
-		for ( pos = 0; pos <= l; pos++) 	
-		{
-			
-			if ( !inQuotes )
-			{
-				if ( !inToken )
-				{
-					if ( _str[pos] == '"' )
-					{
-						inQuotes = 1;
-						oldpos = pos+1;				
-					}
-					else if ( _str[pos] != ' ' )
-					{
-						inToken = 1;
-						oldpos = pos;			
-					} 
-				}
-				else if ( inToken )
-				{			
-					if ( _str[pos] == '"' )
-					{
-						inToken = 0;
+        char *buf = (char *)malloc( (l+1) * sizeof(char) );
 
-						strncpy( buf, _str + oldpos, pos - oldpos );
-						buf [ pos - oldpos ] = '\0';						
-						v.push_back( IDString( buf ) );
-						
-						inQuotes = 1;
-						oldpos = pos;
-						
-					}
-					else if ( _str[pos] == ' ' )
-					{
-						inToken = 0;
-						
-						strncpy( buf, _str + oldpos, pos - oldpos );
-						buf [ pos - oldpos ] = '\0';						
-						v.push_back( IDString( buf ) );	
-					}
-					else if ( pos == l ) 
-					{
-						strncpy( buf, _str + oldpos, pos - oldpos );
-						buf [ pos - oldpos ] = '\0';						
-						v.push_back( IDString( buf ) );	
-					}
-					
-				}
-				
-			}
-			else if ( inQuotes ) 
-			{
-				if ( _str[pos] == '"' )
-				{
-					inQuotes = 0;
-						
-					if ( pos > oldpos )
-					{	
-						strncpy( buf, _str + oldpos, pos - oldpos );
-						buf [ pos - oldpos ] = '\0';						
-						v.push_back( IDString( buf ) );
-					}
-				}
-				else if ( pos == l )
-				{
-					if ( pos > oldpos )
-					{
-						strncpy( buf, _str + oldpos, pos - oldpos );
-						buf [ pos - oldpos ] = '\0';						
-						v.push_back( IDString( buf ) );
-					}
-				}
-			}		
-		}
-		free(buf);
-	}
+        for ( pos = 0; pos <= l; pos++)
+        {
+
+            if ( !inQuotes )
+            {
+                if ( !inToken )
+                {
+                    if ( _str[pos] == '"' )
+                    {
+                        inQuotes = 1;
+                        oldpos = pos+1;
+                    }
+                    else if ( _str[pos] != ' ' )
+                    {
+                        inToken = 1;
+                        oldpos = pos;
+                    }
+                }
+                else if ( inToken )
+                {
+                    if ( _str[pos] == '"' )
+                    {
+                        inToken = 0;
+
+                        strncpy( buf, _str + oldpos, pos - oldpos );
+                        buf [ pos - oldpos ] = '\0';
+                        v.push_back( IDString( buf ) );
+
+                        inQuotes = 1;
+                        oldpos = pos;
+
+                    }
+                    else if ( _str[pos] == ' ' )
+                    {
+                        inToken = 0;
+
+                        strncpy( buf, _str + oldpos, pos - oldpos );
+                        buf [ pos - oldpos ] = '\0';
+                        v.push_back( IDString( buf ) );
+                    }
+                    else if ( pos == l )
+                    {
+                        strncpy( buf, _str + oldpos, pos - oldpos );
+                        buf [ pos - oldpos ] = '\0';
+                        v.push_back( IDString( buf ) );
+                    }
+
+                }
+
+            }
+            else if ( inQuotes )
+            {
+                if ( _str[pos] == '"' )
+                {
+                    inQuotes = 0;
+
+                    if ( pos > oldpos )
+                    {
+                        strncpy( buf, _str + oldpos, pos - oldpos );
+                        buf [ pos - oldpos ] = '\0';
+                        v.push_back( IDString( buf ) );
+                    }
+                }
+                else if ( pos == l )
+                {
+                    if ( pos > oldpos )
+                    {
+                        strncpy( buf, _str + oldpos, pos - oldpos );
+                        buf [ pos - oldpos ] = '\0';
+                        v.push_back( IDString( buf ) );
+                    }
+                }
+            }
+        }
+        free(buf);
+    }
 }
 
 
@@ -384,7 +384,7 @@ OSG_BEGIN_NAMESPACE
 
 OSG_BASE_DLLMAPPING ostream &operator <<(ostream &os, const IDString &obj)
 {
-	return os << (obj.str() ? obj.str() : "0 IDString");
-} 
+    return os << (obj.str() ? obj.str() : "0 IDString");
+}
 
 OSG_END_NAMESPACE

@@ -58,7 +58,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-namespace 
+namespace
 {
     static char cvsid_cpp[] = "@(#)$Id: $";
     static char cvsid_hpp[] = OSGFIELDCONTAINER_HEADER_CVSID;
@@ -104,43 +104,43 @@ FieldContainerType FieldContainer::_type("FieldContainer");
 \*-------------------------------------------------------------------------*/
 
 FieldContainerType &FieldContainer::getType(void)
-{ 
-    return _type; 
+{
+    return _type;
 }
 
 const FieldContainerType &FieldContainer::getType(void) const
-{ 
-    return _type; 
+{
+    return _type;
 }
 
-UInt32 FieldContainer::getTypeId(void) const 
+UInt32 FieldContainer::getTypeId(void) const
 {
-    return getType().getId(); 
+    return getType().getId();
 }
 
 UInt16 FieldContainer::getGroupId(void) const
 {
-    return getType().getGroupId(); 
+    return getType().getGroupId();
 }
 
-const Char8 *FieldContainer::getTypeName(void) const 
+const Char8 *FieldContainer::getTypeName(void) const
 {
-    return getType().getCName(); 
+    return getType().getCName();
 }
 
 
 Field *FieldContainer::getField(UInt32 fieldId)
 {
-	const FieldDescription *desc = getType().getFieldDescription(fieldId);
+    const FieldDescription *desc = getType().getFieldDescription(fieldId);
 
     return desc ? desc->getField(*this) : NULL;
 }
 
 Field *FieldContainer::getField(const Char8 *fieldName)
 {
-	const FieldDescription *desc =getType().findFieldDescription(fieldName);
+    const FieldDescription *desc =getType().findFieldDescription(fieldName);
 
-	return desc ? desc->getField(*this) : NULL;
+    return desc ? desc->getField(*this) : NULL;
 }
 
 UInt32 FieldContainer::getBinSize(const BitVector    &whichField)
@@ -148,12 +148,12 @@ UInt32 FieldContainer::getBinSize(const BitVector    &whichField)
     return 0;
 }
 
-void FieldContainer::copyToBin(      BinaryDataHandler &, 
+void FieldContainer::copyToBin(      BinaryDataHandler &,
                                const BitVector         &)
 {
 }
 
-void FieldContainer::copyFromBin(      BinaryDataHandler &, 
+void FieldContainer::copyFromBin(      BinaryDataHandler &,
                                  const BitVector         &)
 {
 }
@@ -188,7 +188,7 @@ FieldContainer::FieldContainer(void) :
 
 FieldContainer::FieldContainer(const FieldContainer &) :
     _shares(0)
-                   
+
 {
 }
 
@@ -228,31 +228,31 @@ void FieldContainer::executeSyncImpl(      FieldContainer *,
 
 
 //---------------------------------------------------------------------------
-//  FUNCTION: 
+//  FUNCTION:
 //---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 //---------------------------------------------------------------------------
 //
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 //
 //g: GlobalVars:
-//g: 
+//g:
 //
 //r: Return:
-//r: 
+//r:
 //
 //c: Caution:
-//c: 
+//c:
 //
 //a: Assumptions:
-//a: 
+//a:
 //
 //d: Description:
-//d: 
+//d:
 //
 //s: SeeAlso:
-//s: 
+//s:
 //---------------------------------------------------------------------------
 
 OSG_BEGIN_NAMESPACE
@@ -289,12 +289,12 @@ void setRefdCP(      FieldContainerPtrBase &objectP,
         objectP = newObjectP;
 
         if(objectP != NullFC)
-            objectP.addRef();        
+            objectP.addRef();
     }
 }
 
 /*! osgBeginEditCP */
-void beginEditCP(const FieldContainerPtr &objectP, 
+void beginEditCP(const FieldContainerPtr &objectP,
                        BitVector         whichField)
 {
     if(objectP != NullFC)
@@ -302,21 +302,21 @@ void beginEditCP(const FieldContainerPtr &objectP,
 }
 
 /*! osgEndEditCP */
-void endEditCP(const FieldContainerPtr &objectP, 
+void endEditCP(const FieldContainerPtr &objectP,
                      BitVector          whichField)
 {
     if(objectP != NullFC)
         objectP.endEdit(whichField);
 }
 
-void changedCP(const FieldContainerPtr &objectP, 
+void changedCP(const FieldContainerPtr &objectP,
                      BitVector          whichField)
 {
     if(objectP != NullFC)
         objectP.changed(whichField);
 }
 
-void endEditNotChangedCP(const FieldContainerPtr &objectP, 
+void endEditNotChangedCP(const FieldContainerPtr &objectP,
                                BitVector          whichField)
 {
     if(objectP != NullFC)

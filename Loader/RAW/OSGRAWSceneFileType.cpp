@@ -37,7 +37,7 @@
 \*---------------------------------------------------------------------------*/
 
 //-------------------------------
-// 	Includes 					 			    
+//  Includes
 //-------------------------------
 
 #include <stdlib.h>
@@ -67,9 +67,9 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-namespace 
+namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.8 2001/10/10 10:42:55 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRAWSceneFileType.cpp,v 1.9 2001/10/11 16:41:18 neumannc Exp $";
     static Char8 cvsid_hpp[] = OSGRAWSCENEFILETYPE_HEADER_CVSID;
 }
 
@@ -80,22 +80,22 @@ namespace
 /*****************************
  *   Types
  *****************************/
-// Static Class Varible implementations: 
+// Static Class Varible implementations:
 
 const Char8            *RAWSceneFileType::_suffixA[] = {"raw"};
 
-      RAWSceneFileType  RAWSceneFileType::_the         (_suffixA, 
+      RAWSceneFileType  RAWSceneFileType::_the         (_suffixA,
                                                         sizeof(_suffixA),
                                                         false,
                                                         10);
 
 /*****************************
- *	  Classvariables
+ *    Classvariables
  *****************************/
 
 
 /********************************
- *	  Class methodes
+ *    Class methodes
  *******************************/
 
 
@@ -110,13 +110,13 @@ const Char8            *RAWSceneFileType::_suffixA[] = {"raw"};
 //Parameters:
 //p: Scene &image, const char *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: read the image from the given file
 //SeeAlso:
@@ -125,113 +125,113 @@ const Char8            *RAWSceneFileType::_suffixA[] = {"raw"};
 //------------------------------
 NodePtr RAWSceneFileType::read(const Char8 *fileName, UInt32) const
 {
-	NodePtr root;
-	ifstream in(fileName);
-	GeometryPtr geo;
-	GeoPositions3f::PtrType points;
-	GeoNormals3f::PtrType   normals;
-	GeoIndicesUI32Ptr index;
-	GeoPLengthsUI32Ptr lens;
-	GeoPTypesUI8Ptr type;
-	Vec3f vec[3];
-	Int32 i = 0, n, triCount = 0;
-	Real32 x,y,z;
+    NodePtr root;
+    ifstream in(fileName);
+    GeometryPtr geo;
+    GeoPositions3f::PtrType points;
+    GeoNormals3f::PtrType   normals;
+    GeoIndicesUI32Ptr index;
+    GeoPLengthsUI32Ptr lens;
+    GeoPTypesUI8Ptr type;
+    Vec3f vec[3];
+    Int32 i = 0, n, triCount = 0;
+    Real32 x,y,z;
 
     fprintf(stderr, "Loading using Loader 0\n");
 
-	if (in) 
+    if (in)
     {
-		root = Node::create();
-		geo = Geometry::create();
+        root = Node::create();
+        geo = Geometry::create();
 
         beginEditCP(geo, FieldBits::AllFields);
         beginEditCP(root, Node::CoreFieldMask);
-		root->setCore( geo );
+        root->setCore( geo );
         endEditCP(root, Node::CoreFieldMask);
 
-		points = GeoPositions3f::create();
-  		geo->setPositions( points );
-		normals = GeoNormals3f::create();
-		geo->setNormals ( normals );
+        points = GeoPositions3f::create();
+        geo->setPositions( points );
+        normals = GeoNormals3f::create();
+        geo->setNormals ( normals );
 
-		triCount = i = 0;
+        triCount = i = 0;
 
-		beginEditCP(points,  FieldBits::AllFields);
-		beginEditCP(normals, FieldBits::AllFields);
+        beginEditCP(points,  FieldBits::AllFields);
+        beginEditCP(normals, FieldBits::AllFields);
 
-		while (1) {
-			in >> x >> y >> z;
-			if (in.eof()) 
-				break;
-			else {
-				points->getFieldPtr()->addValue( Pnt3f ( x, y, z) );
-				vec[i].setValues(x,y,z);
-				if (i == 2) {
-					vec[0] -= vec[1];
-					vec[1] -= vec[2];
-					vec[0].crossThis(vec[1]);
-					vec[0].normalize();
-					
-					normals->getFieldPtr()->addValue ( vec[0] );
-					normals->getFieldPtr()->addValue ( vec[0] );
-					normals->getFieldPtr()->addValue ( vec[0] );
+        while (1) {
+            in >> x >> y >> z;
+            if (in.eof())
+                break;
+            else {
+                points->getFieldPtr()->addValue( Pnt3f ( x, y, z) );
+                vec[i].setValues(x,y,z);
+                if (i == 2) {
+                    vec[0] -= vec[1];
+                    vec[1] -= vec[2];
+                    vec[0].crossThis(vec[1]);
+                    vec[0].normalize();
 
-					i = 0;
-					triCount++;
-				}
-				else 
-					i++;
-			}
-		}
+                    normals->getFieldPtr()->addValue ( vec[0] );
+                    normals->getFieldPtr()->addValue ( vec[0] );
+                    normals->getFieldPtr()->addValue ( vec[0] );
 
-		endEditCP(points,  FieldBits::AllFields);
-		endEditCP(normals, FieldBits::AllFields);
-		
-		if (triCount) 
-		{
-		
-			index = GeoIndicesUI32::create();
-			geo->setIndices( index );
-			beginEditCP(index, FieldBits::AllFields);
-			n = triCount * 3;
-			for (i = 0; i < n; i++) 
-				index->getFieldPtr()->addValue( i );
-			endEditCP(index, FieldBits::AllFields);
-			
+                    i = 0;
+                    triCount++;
+                }
+                else
+                    i++;
+            }
+        }
 
-			lens = GeoPLengthsUI32::create();
-			geo->setLengths( lens );
+        endEditCP(points,  FieldBits::AllFields);
+        endEditCP(normals, FieldBits::AllFields);
+
+        if (triCount)
+        {
+
+            index = GeoIndicesUI32::create();
+            geo->setIndices( index );
+            beginEditCP(index, FieldBits::AllFields);
+            n = triCount * 3;
+            for (i = 0; i < n; i++)
+                index->getFieldPtr()->addValue( i );
+            endEditCP(index, FieldBits::AllFields);
+
+
+            lens = GeoPLengthsUI32::create();
+            geo->setLengths( lens );
             beginEditCP(lens, FieldBits::AllFields);
-			lens->addValue( n );
-			endEditCP(lens, FieldBits::AllFields);
+            lens->addValue( n );
+            endEditCP(lens, FieldBits::AllFields);
 
-			type = GeoPTypesUI8::create();
-			geo->setTypes( type );
-			beginEditCP(type, FieldBits::AllFields);
-			type->addValue( GL_TRIANGLES );
-			endEditCP(type, FieldBits::AllFields);
-		}
+            type = GeoPTypesUI8::create();
+            geo->setTypes( type );
+            beginEditCP(type, FieldBits::AllFields);
+            type->addValue( GL_TRIANGLES );
+            endEditCP(type, FieldBits::AllFields);
+        }
 
-		SimpleMaterialPtr mat = SimpleMaterial::create();
+        SimpleMaterialPtr mat = SimpleMaterial::create();
         beginEditCP(mat, FieldBits::AllFields);
-		mat->setDiffuse( Color3f( .8, .8, .8 ) );
-		mat->setSpecular( Color3f( 1, 1, 1 ) );
-		mat->setShininess( 20 );
+        mat->setDiffuse( Color3f( .8, .8, .8 ) );
+        mat->setSpecular( Color3f( 1, 1, 1 ) );
+        mat->setShininess( 20 );
         endEditCP(mat, FieldBits::AllFields);
-		
-		geo->setMaterial( mat );
+
+        geo->setMaterial( mat );
         endEditCP(geo, FieldBits::AllFields);
-	
-		in.close();
-	}
 
-	if (triCount)
-		SNOTICE << triCount << " triangle read " << endl;
+        in.close();
+    }
 
-	return root;
+    if (triCount)
+        SNOTICE << triCount << " triangle read " << endl;
+
+    return root;
 }
 
-NodePtr RAWSceneFileType::read(const Char8  *fileName, 
+NodePtr RAWSceneFileType::read(const Char8  *fileName,
                                      UInt32  uiAddOptions,
                                      UInt32  uiSubOption ) const
 {
@@ -245,13 +245,13 @@ NodePtr RAWSceneFileType::read(const Char8  *fileName,
 //Parameters:
 //p: Scene &image, const char *fileName
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:Bool
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: write the image to the given file
 //SeeAlso:
@@ -259,10 +259,10 @@ NodePtr RAWSceneFileType::read(const Char8  *fileName,
 //
 //------------------------------
 
-Bool RAWSceneFileType::write(const NodePtr  node, 
+Bool RAWSceneFileType::write(const NodePtr  node,
                              const Char8   *fileName) const
-{	
-	return false;
+{
+    return false;
 }
 
 /******************************
@@ -271,12 +271,12 @@ Bool RAWSceneFileType::write(const NodePtr  node,
 
 
 /******************************
-*private	
+*private
 ******************************/
 
 
 /***************************
-*instance methodes 
+*instance methodes
 ***************************/
 
 
@@ -295,13 +295,13 @@ Bool RAWSceneFileType::write(const NodePtr  node,
 //Parameters:
 //p: const char *suffixArray[], UInit16 suffixByteCount
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Default Constructor
 //SeeAlso:
@@ -309,11 +309,11 @@ Bool RAWSceneFileType::write(const NodePtr  node,
 //
 //------------------------------
 
-RAWSceneFileType::RAWSceneFileType(const Char8  *suffixArray[], 
+RAWSceneFileType::RAWSceneFileType(const Char8  *suffixArray[],
                                          UInt16  suffixByteCount,
                                          Bool    override,
                                          UInt32  overridePriority) :
-	SceneFileType(suffixArray, 
+    SceneFileType(suffixArray,
                   suffixByteCount,
                   override,
                   overridePriority)
@@ -321,13 +321,13 @@ RAWSceneFileType::RAWSceneFileType(const Char8  *suffixArray[],
 }
 
 RAWSceneFileType &RAWSceneFileType::the(void)
-{ 
-    return _the; 
+{
+    return _the;
 }
 
-const Char8 *RAWSceneFileType::getName(void) const 
-{ 
-    return "RAW GEOMETRY"; 
+const Char8 *RAWSceneFileType::getName(void) const
+{
+    return "RAW GEOMETRY";
 }
 
 //----------------------------
@@ -337,13 +337,13 @@ const Char8 *RAWSceneFileType::getName(void) const
 //Parameters:
 //p: const RAWSceneFileType &obj
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Copy Constructor
 //SeeAlso:
@@ -352,9 +352,9 @@ const Char8 *RAWSceneFileType::getName(void) const
 //------------------------------
 
 RAWSceneFileType::RAWSceneFileType(const RAWSceneFileType &obj) :
-	SceneFileType(obj)
+    SceneFileType(obj)
 {
-	return;
+    return;
 }
 
 //----------------------------
@@ -364,13 +364,13 @@ RAWSceneFileType::RAWSceneFileType(const RAWSceneFileType &obj) :
 //Parameters:
 //p: void
 //GlobalVars:
-//g: 
+//g:
 //Returns:
 //r:
 // Caution
-//c: 
+//c:
 //Assumations:
-//a: 
+//a:
 //Describtions:
 //d: Destructor
 //SeeAlso:
@@ -380,7 +380,7 @@ RAWSceneFileType::RAWSceneFileType(const RAWSceneFileType &obj) :
 
 RAWSceneFileType::~RAWSceneFileType (void )
 {
-	return;
+    return;
 }
 
 /*------------access----------------*/
@@ -394,7 +394,7 @@ RAWSceneFileType::~RAWSceneFileType (void )
 
 
 /****************************
-*protected	
+*protected
 ****************************/
 
 

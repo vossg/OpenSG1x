@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-namespace 
+namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
     static Char8 cvsid_hpp[] = OSGFIELDCONTAINERTYPE_HEADER_CVSID;
@@ -115,9 +115,9 @@ namespace
 
 void FieldContainerType::registerType(const Char8 *szGroupName)
 {
-	_uiTypeId  = FieldContainerFactory::the()->registerType (this);
+    _uiTypeId  = FieldContainerFactory::the()->registerType (this);
 
-	_uiGroupId = FieldContainerFactory::the()->registerGroup( 
+    _uiGroupId = FieldContainerFactory::the()->registerGroup(
         szGroupName != NULL ? szGroupName : _szName.str());
 }
 
@@ -156,13 +156,13 @@ Bool FieldContainerType::initBaseType(void)
 Bool FieldContainerType::initFields(void)
 {
     UInt32    i;
-	DescMapIt descIt;
+    DescMapIt descIt;
 
     _bInitialized = true;
 
-    for(i = 0; i < _uiDescByteCounter / sizeof(FieldDescription *); i++) 
+    for(i = 0; i < _uiDescByteCounter / sizeof(FieldDescription *); i++)
     {
-        if(_pDesc[i]->isValid()) 
+        if(_pDesc[i]->isValid())
         {
             descIt = _mDescMap.find(IDStringLink(_pDesc[i]->getCName()));
 
@@ -170,13 +170,13 @@ Bool FieldContainerType::initFields(void)
             {
                 _mDescMap[IDStringLink(_pDesc[i]->getCName())] = _pDesc[i];
 
-                _vDescVec.push_back(_pDesc[i]); 
+                _vDescVec.push_back(_pDesc[i]);
             }
             else
             {
-                SWARNING << "ERROR: Double field description " 
-                            << "in " << _szName.str() << "from " 
-                            << _pDesc[i]->getCName() 
+                SWARNING << "ERROR: Double field description "
+                            << "in " << _szName.str() << "from "
+                            << _pDesc[i]->getCName()
                             << _pDesc[i]->getTypeId() << endl;
 
                 _bInitialized = false;
@@ -184,8 +184,8 @@ Bool FieldContainerType::initFields(void)
         }
         else
         {
-            SWARNING << "ERROR: Invalid field description " 
-                        << "in " << _szName.str() << "from " 
+            SWARNING << "ERROR: Invalid field description "
+                        << "in " << _szName.str() << "from "
                         << _pDesc[i]->getTypeId() << endl;
 
             _bInitialized = false;
@@ -200,34 +200,34 @@ Bool FieldContainerType::initFields(void)
 
 Bool FieldContainerType::initParentFields(void)
 {
-	DescMapIt dPIt;
+    DescMapIt dPIt;
 
     _bInitialized = true;
 
-    if(_szParentName.str() != NULL) 
+    if(_szParentName.str() != NULL)
     {
-        _pParent = 
+        _pParent =
             FieldContainerFactory::the()->findType(_szParentName.str());
 
         if(_pParent == NULL)
         {
-            _pParent = 
+            _pParent =
                 FieldContainerFactory::the()->findUninitializedType(
                     _szParentName.str());
         }
 
-        if(_pParent != NULL) 
+        if(_pParent != NULL)
         {
             _bInitialized = _pParent->initialize();
-            
+
             if(_bInitialized == false)
             {
                 return _bInitialized;
             }
 
             for(  dPIt  = _pParent->_mDescMap.begin();
-                  dPIt != _pParent->_mDescMap.end(); 
-                ++dPIt) 
+                  dPIt != _pParent->_mDescMap.end();
+                ++dPIt)
             {
                 if(_mDescMap.find((*dPIt).first) == _mDescMap.end())
                 {
@@ -236,20 +236,20 @@ Bool FieldContainerType::initParentFields(void)
                 else
                 {
                     SWARNING << "ERROR: Can't add field "
-                                << "description a second time: " 
-                                << (*dPIt).first.str() << endl; 
+                                << "description a second time: "
+                                << (*dPIt).first.str() << endl;
                 }
-            } 				
-            
+            }
+
             _vDescVec.insert(_vDescVec.end(),
                              _pParent->_vDescVec.begin(),
                              _pParent->_vDescVec.end());
-            
+
         }
-        else 
+        else
         {
             SWARNING << "ERROR: Can't find type with "
-                        << "name " << _szParentName.str() 
+                        << "name " << _szParentName.str()
                         << endl;
 
             _bInitialized = false;
@@ -280,7 +280,7 @@ Bool FieldContainerType::initialize(void)
         return _bInitialized;
 
     _bInitialized = initBaseType    ();
-    
+
     FDEBUG ( ( "init FieldContainerType %s (%d)\n",
                _szName.str(), int(_bInitialized) ));
 
@@ -305,7 +305,7 @@ void FieldContainerType::terminate(void)
 
     _bInitialized = false;
 
-    for(i = 0; i < _uiDescByteCounter / sizeof(FieldDescription *); i++) 
+    for(i = 0; i < _uiDescByteCounter / sizeof(FieldDescription *); i++)
     {
         delete _pDesc[i];
     }
@@ -347,18 +347,18 @@ FieldContainerType::FieldContainerType(const Char8        *szName,
     _pDesc            (pDesc),
     _uiDescByteCounter(uiDescByteCounter),
 
-	_mDescMap(),
+    _mDescMap(),
     _vDescVec(0)
 {
-	registerType(szGroupName);
+    registerType(szGroupName);
 
-	if(fInitMethod != NULL)
-		fInitMethod();
+    if(fInitMethod != NULL)
+        fInitMethod();
 }
 
 FieldContainerType::FieldContainerType(const FieldContainerType &obj) :
 
-    Inherited   (obj.getCName(), obj.getCParentName()), 
+    Inherited   (obj.getCName(), obj.getCParentName()),
     _uiGroupId  (obj._uiGroupId),
 
     _bInitialized(false),
@@ -366,7 +366,7 @@ FieldContainerType::FieldContainerType(const FieldContainerType &obj) :
 
     _baseType(obj._baseType),
 
-    _pParent(obj._pParent), 
+    _pParent(obj._pParent),
 
     _szParentName (obj._szParentName),
     _szGroupName  (obj._szGroupName),
@@ -377,15 +377,15 @@ FieldContainerType::FieldContainerType(const FieldContainerType &obj) :
     _pDesc            (obj._pDesc),
     _uiDescByteCounter(obj._uiDescByteCounter),
 
-	_mDescMap(),
+    _mDescMap(),
     _vDescVec(0)
 {
     if(_pPrototype != NullFC)
-        addRefCP(_pPrototype);        
+        addRefCP(_pPrototype);
 
     initFields();
     initParentFields();
-    
+
     _bInitialized = true;
 }
 
@@ -407,17 +407,17 @@ FieldContainerType::~FieldContainerType(void)
 /** \brief Get method for attribute Id
  */
 
-UInt16 FieldContainerType::getGroupId (void) const 
+UInt16 FieldContainerType::getGroupId (void) const
 {
-    return _uiGroupId; 
+    return _uiGroupId;
 }
 
-/** \brief Get method for attribute parent 
+/** \brief Get method for attribute parent
 */
 
 FieldContainerType *FieldContainerType::getParent(void) const
 {
-    return _pParent; 
+    return _pParent;
 }
 
 
@@ -444,7 +444,7 @@ FieldDescription *FieldContainerType::findFieldDescription(
     DescMapIt descIt = _mDescMap.find(IDStringLink(szFieldName));
 
     return (descIt == _mDescMap.end()) ? NULL : (*descIt).second;
-}     
+}
 
 const FieldDescription *FieldContainerType::findFieldDescription(
     const Char8 *szFieldName) const
@@ -452,7 +452,7 @@ const FieldDescription *FieldContainerType::findFieldDescription(
     DescMapConstIt descIt = _mDescMap.find(IDStringLink(szFieldName));
 
     return (descIt == _mDescMap.end()) ? NULL : (*descIt).second;
-}     
+}
 
 UInt32 FieldContainerType::getNumFieldDescs(void) const
 {
@@ -475,13 +475,13 @@ UInt32 FieldContainerType::addDescription(const FieldDescription &desc)
 
     if(desc.isValid())
     {
-        if(descIt == _mDescMap.end()) 
+        if(descIt == _mDescMap.end())
         {
             pDesc = new FieldDescription(desc);
 
             _mDescMap[IDStringLink(pDesc->getCName())] = pDesc;
 
-            descVIt = find(_vDescVec.begin(), 
+            descVIt = find(_vDescVec.begin(),
                            _vDescVec.end(),
                            pNullDesc);
 
@@ -501,16 +501,16 @@ UInt32 FieldContainerType::addDescription(const FieldDescription &desc)
         }
         else
         {
-            SWARNING << "ERROR: Double field description " 
-                        << "in " << _szName.str() << "from " 
-                        << desc.getCName() 
+            SWARNING << "ERROR: Double field description "
+                        << "in " << _szName.str() << "from "
+                        << desc.getCName()
                         << desc.getTypeId() << endl;
         }
     }
     else
     {
-        SWARNING << "ERROR: Invalid field description " 
-                    << "in " << _szName.str() << "from " 
+        SWARNING << "ERROR: Invalid field description "
+                    << "in " << _szName.str() << "from "
                     << desc.getTypeId() << endl;
     }
 
@@ -531,7 +531,7 @@ Bool FieldContainerType::subDescription(UInt32 uiFieldId)
 
     if(descMIt != _mDescMap.end())
     {
-        _mDescMap.erase(descMIt);       
+        _mDescMap.erase(descMIt);
     }
     else
     {
@@ -566,15 +566,15 @@ FieldContainerPtr FieldContainerType::getPrototype(void) const
 
 Bool FieldContainerType::setPrototype(FieldContainerPtr pPrototype)
 {
-	Bool returnValue = false;
+    Bool returnValue = false;
 
     if(pPrototype != NullFC)
     {
         setRefdCP(_pPrototype, pPrototype);
-		returnValue = true;
+        returnValue = true;
     }
 
-	return returnValue;
+    return returnValue;
 }
 
 Bool FieldContainerType::isInitialized(void) const
@@ -630,13 +630,13 @@ FieldContainerPtr FieldContainerType::createFieldContainer(void) const
         fc = _pPrototype->shallowCopy();
     }
 
-	return fc;
+    return fc;
 }
 
 
 NodePtr  FieldContainerType::createNode(void) const
 {
-	NodePtr fc;
+    NodePtr fc;
 
     if(isAbstract() == false &&
        isNode()     == true)
@@ -644,12 +644,12 @@ NodePtr  FieldContainerType::createNode(void) const
         fc = NodePtr::dcast(_pPrototype->shallowCopy());
     }
 
-	return fc;
+    return fc;
 }
 
 NodeCorePtr FieldContainerType::createNodeCore(void) const
 {
-	NodeCorePtr fc;
+    NodeCorePtr fc;
 
     if(isAbstract() == false &&
        isNodeCore() == true)
@@ -657,12 +657,12 @@ NodeCorePtr FieldContainerType::createNodeCore(void) const
         fc = NodeCorePtr::dcast(_pPrototype->shallowCopy());
     }
 
-	return fc;
+    return fc;
 }
 
 AttachmentPtr FieldContainerType::createAttachment(void) const
 {
-	AttachmentPtr fc;
+    AttachmentPtr fc;
 
     if(isAbstract()   == false &&
        isAttachment() == true)
@@ -670,7 +670,7 @@ AttachmentPtr FieldContainerType::createAttachment(void) const
         fc = AttachmentPtr::dcast(_pPrototype->shallowCopy());
     }
 
-	return fc;
+    return fc;
 }
 
 
@@ -692,16 +692,16 @@ Bool FieldContainerType::isAttachment(void) const
 
 /*-------------------------- your_category---------------------------------*/
 
-void FieldContainerType::dump(      UInt32     uiIndent, 
+void FieldContainerType::dump(      UInt32     uiIndent,
                               const BitVector &bvFlags) const
 {
-    SLOG << "FieldContainerType: " << getCName() 
-				 << ", Id: "       << getId() 
-				 << ", parentP: "  << (_pParent ? _pParent->getCName() : "NONE")
-				 << ", groupId: "  << _uiGroupId 
-				 << ", abstract: " 
-				 << ((_pPrototype != NullFC) ? "false" : "true")
-				 << endl;
+    SLOG << "FieldContainerType: " << getCName()
+                 << ", Id: "       << getId()
+                 << ", parentP: "  << (_pParent ? _pParent->getCName() : "NONE")
+                 << ", groupId: "  << _uiGroupId
+                 << ", abstract: "
+                 << ((_pPrototype != NullFC) ? "false" : "true")
+                 << endl;
 }
 
 /*-------------------------- assignment -----------------------------------*/
@@ -711,30 +711,30 @@ void FieldContainerType::dump(      UInt32     uiIndent,
 
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------
 

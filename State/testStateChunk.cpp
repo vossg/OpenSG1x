@@ -12,128 +12,151 @@ OSG_USING_NAMESPACE
 
 int main( int argc, char *argv[] )
 {
-	osgInit(argc, argv);
+    osgInit(argc, argv);
 
-	StateChunkClass::iterator it;
-	
-	cerr << "StateChunk classes:" << endl;
-	
-	for ( it = StateChunkClass::begin(); it != StateChunkClass::end(); it++ )
-	{
-		cerr << *it << endl;
-	}
+    StateChunkClass::iterator it;
 
-	// test values
+    cerr << "StateChunk classes:" << endl;
 
-	Matrix m1,m2;
-	m1.setTranslate( 1,2,3 );
+    for ( it = StateChunkClass::begin(); it != StateChunkClass::end(); it++ )
+    {
+        cerr << *it << endl;
+    }
 
-	Real32 r1 = 123.45, r2;
-	UInt32 ui1 = 12345, ui2;
-	
-	Vec3f v31(1, 2, 3), v32;
-	Vec4f v41(1, 2, 3, 4), v42;
-	Color4f c41(1, 2, 3, 4), c42;
+    // test values
 
-	// Test macros for simple set/get correspondence
+    Matrix m1,m2;
+    m1.setTranslate( 1,2,3 );
 
-#define testField( name, set,get, v1,v2,comp )				\
-	set(v1);												\
-	v2 = get();												\
-	cerr << name;											\
-	if ( ! comp )											\
-	{														\
-		cerr << " " << v1 << "!=" << v2 << "!!!" << endl;	\
-		exit(1);											\
-	}														\
-	else													\
-		cerr << " ok" << endl
+    Real32 r1 = 123.45, r2;
+    UInt32 ui1 = 12345, ui2;
 
-#define testMatrixField( name, set, get )  	\
-	testField( name, set, get, m1, m2, m1.equals( m2, Eps ) )
+    Vec3f v31(1, 2, 3), v32;
+    Vec4f v41(1, 2, 3, 4), v42;
+    Color4f c41(1, 2, 3, 4), c42;
 
-#define testVec3fField( name, set, get )  	\
-	testField( name, set, get, v31, v32, v31.equals( v32, Eps ) )
+    // Test macros for simple set/get correspondence
 
-#define testVec4fField( name, set, get )  	\
-	testField( name, set, get, v41, v42, v41.equals( v42, Eps ) )
+#define testField( name, set,get, v1,v2,comp )              \
+    set(v1);                                                \
+    v2 = get();                                             \
+    cerr << name;                                           \
+    if ( ! comp )                                           \
+    {                                                       \
+        cerr << " " << v1 << "!=" << v2 << "!!!" << endl;   \
+        exit(1);                                            \
+    }                                                       \
+    else                                                    \
+        cerr << " ok" << endl
 
-#define testColor4fField( name, set, get )  	\
-	testField( name, set, get, c41, c42, (c41 == c42) )
+#define testMatrixField( name, set, get )   \
+    testField( name, set, get, m1, m2, m1.equals( m2, Eps ) )
 
-#define testRealField( name, set, get )  	\
-	testField( name, set, get, r1, r2, r1 == r2 )
+#define testVec3fField( name, set, get )    \
+    testField( name, set, get, v31, v32, v31.equals( v32, Eps ) )
 
-#define testUInt32Field( name, set, get )  	\
-	testField( name, set, get, ui1, ui2, r1 == r2 )
+#define testVec4fField( name, set, get )    \
+    testField( name, set, get, v41, v42, v41.equals( v42, Eps ) )
 
-	// Transform Chunk
+#define testColor4fField( name, set, get )      \
+    testField( name, set, get, c41, c42, (c41 == c42) )
 
-	TransformChunkPtr tchunk = TransformChunk::create();
+#define testRealField( name, set, get )     \
+    testField( name, set, get, r1, r2, r1 == r2 )
 
-	cerr << "Transform chunk class: " << tchunk->getClass()->getName() << ", id "
-		 << tchunk->getClassID() << ", numslots " << tchunk->getClass()->getNumSlots() 
-		 << endl;
+#define testUInt32Field( name, set, get )   \
+    testField( name, set, get, ui1, ui2, r1 == r2 )
 
-	testMatrixField( "TransformChunk: matrix", tchunk->setMatrix, tchunk->getMatrix );
+    // Transform Chunk
 
-	// Material Chunk
+    TransformChunkPtr tchunk = TransformChunk::create();
 
-	MaterialChunkPtr mchunk = MaterialChunk::create();
+    cerr << "Transform chunk class: " << tchunk->getClass()->getName()
+         << ", id "
+         << tchunk->getClassID() << ", numslots "
+         << tchunk->getClass()->getNumSlots()
+         << endl;
 
-	cerr << "Material chunk class: " << mchunk->getClass()->getName() << ", id "
-		 << mchunk->getClassID() << ", numslots " << tchunk->getClass()->getNumSlots() 
-		 << endl;
+    testMatrixField( "TransformChunk: matrix", tchunk->setMatrix,
+                     tchunk->getMatrix );
 
-	testColor4fField( "MaterialChunk: diffuse", mchunk->setDiffuse, mchunk->getDiffuse );
-	testColor4fField( "MaterialChunk: ambient", mchunk->setAmbient, mchunk->getAmbient );
-	testColor4fField( "MaterialChunk: specular", mchunk->setSpecular, mchunk->getSpecular );
-	testColor4fField( "MaterialChunk: emission", mchunk->setEmission, mchunk->getEmission );
-	testRealField( "MaterialChunk: shininess", mchunk->setShininess, mchunk->getShininess );
-	
-	// Light chunk
+    // Material Chunk
 
-	LightChunkPtr lchunk = LightChunk::create();
+    MaterialChunkPtr mchunk = MaterialChunk::create();
 
-	cerr << "Light chunk class: " << lchunk->getClass()->getName() << ", id "
-		 << lchunk->getClassID() << ", numslots " << lchunk->getClass()->getNumSlots() 
-		 << endl;
+    cerr << "Material chunk class: " << mchunk->getClass()->getName()
+         << ", id "
+         << mchunk->getClassID() << ", numslots "
+         << tchunk->getClass()->getNumSlots()
+         << endl;
 
-	testColor4fField( "LightChunk: diffuse", lchunk->setDiffuse, lchunk->getDiffuse );
-	testColor4fField( "LightChunk: ambient", lchunk->setAmbient, lchunk->getAmbient );
-	testColor4fField( "LightChunk: specular", lchunk->setSpecular, lchunk->getSpecular );
-	testVec4fField( "LightChunk: position", lchunk->setPosition, lchunk->getPosition );
-	testVec3fField( "LightChunk: direction", lchunk->setDirection, lchunk->getDirection );
-	testRealField( "LightChunk: exponent", lchunk->setExponent, lchunk->getExponent);
-	testRealField( "LightChunk: cutoff", lchunk->setCutoff, lchunk->getCutoff );
-	testRealField( "LightChunk: exponent", lchunk->setExponent, lchunk->getExponent );
-	testRealField( "LightChunk: constant attenuation", lchunk->setConstantAttenuation, 
-			lchunk->getConstantAttenuation );
-	testRealField( "LightChunk: linear attenuation", lchunk->setLinearAttenuation, 
-			lchunk->getLinearAttenuation );
-	testRealField( "LightChunk: quadratic attenuation", lchunk->setQuadraticAttenuation, 
-			lchunk->getQuadraticAttenuation );
-	
+    testColor4fField( "MaterialChunk: diffuse", mchunk->setDiffuse,
+                      mchunk->getDiffuse );
+    testColor4fField( "MaterialChunk: ambient",
+                      mchunk->setAmbient, mchunk->getAmbient );
+    testColor4fField( "MaterialChunk: specular",
+                      mchunk->setSpecular, mchunk->getSpecular );
+    testColor4fField( "MaterialChunk: emission",
+                      mchunk->setEmission, mchunk->getEmission );
+    testRealField( "MaterialChunk: shininess",
+                   mchunk->setShininess, mchunk->getShininess );
 
-	// Texture chunk
+    // Light chunk
 
-	TextureChunkPtr xchunk = TextureChunk::create();
+    LightChunkPtr lchunk = LightChunk::create();
 
-	cerr << "Texture chunk class: " << xchunk->getClass()->getName() << ", id "
-		 << xchunk->getClassID() << ", numslots " << xchunk->getClass()->getNumSlots() 
-		 << endl;
+    cerr << "Light chunk class: " << lchunk->getClass()->getName() << ", id "
+         << lchunk->getClassID() << ", numslots "
+         << lchunk->getClass()->getNumSlots()
+         << endl;
 
-	testUInt32Field( "TextureChunk: minFilter", xchunk->setMinFilter, 
-			xchunk->getMinFilter );
-	testUInt32Field( "TextureChunk: magFilter", xchunk->setMagFilter, 
-			xchunk->getMagFilter );
-	testUInt32Field( "TextureChunk: wrapR", xchunk->setWrapR, 
-			xchunk->getWrapR );
-	testUInt32Field( "TextureChunk: wrapS", xchunk->setWrapS, 
-			xchunk->getWrapS );
-	testUInt32Field( "TextureChunk: wrapT", xchunk->setWrapT, 
-			xchunk->getWrapT );
-	
-	
-	return 0;
+    testColor4fField( "LightChunk: diffuse", lchunk->setDiffuse,
+                      lchunk->getDiffuse );
+    testColor4fField( "LightChunk: ambient", lchunk->setAmbient,
+                      lchunk->getAmbient );
+    testColor4fField( "LightChunk: specular", lchunk->setSpecular,
+                      lchunk->getSpecular );
+    testVec4fField( "LightChunk: position", lchunk->setPosition,
+                    lchunk->getPosition );
+    testVec3fField( "LightChunk: direction", lchunk->setDirection,
+                    lchunk->getDirection );
+    testRealField( "LightChunk: exponent", lchunk->setExponent,
+                   lchunk->getExponent);
+    testRealField( "LightChunk: cutoff", lchunk->setCutoff, lchunk->getCutoff );
+    testRealField( "LightChunk: exponent", lchunk->setExponent,
+                   lchunk->getExponent );
+    testRealField( "LightChunk: constant attenuation",
+                   lchunk->setConstantAttenuation,
+                   lchunk->getConstantAttenuation );
+    testRealField( "LightChunk: linear attenuation",
+                   lchunk->setLinearAttenuation,
+                   lchunk->getLinearAttenuation );
+    testRealField( "LightChunk: quadratic attenuation",
+                   lchunk->setQuadraticAttenuation,
+                   lchunk->getQuadraticAttenuation );
+
+
+    // Texture chunk
+
+    TextureChunkPtr xchunk = TextureChunk::create();
+
+    cerr << "Texture chunk class: " << xchunk->getClass()->getName()
+         << ", id "
+         << xchunk->getClassID() << ", numslots "
+         << xchunk->getClass()->getNumSlots()
+         << endl;
+
+    testUInt32Field( "TextureChunk: minFilter", xchunk->setMinFilter,
+                     xchunk->getMinFilter );
+    testUInt32Field( "TextureChunk: magFilter", xchunk->setMagFilter,
+                     xchunk->getMagFilter );
+    testUInt32Field( "TextureChunk: wrapR", xchunk->setWrapR,
+                     xchunk->getWrapR );
+    testUInt32Field( "TextureChunk: wrapS", xchunk->setWrapS,
+                     xchunk->getWrapS );
+    testUInt32Field( "TextureChunk: wrapT", xchunk->setWrapT,
+                     xchunk->getWrapT );
+
+
+    return 0;
 }

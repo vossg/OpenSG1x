@@ -54,7 +54,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-namespace 
+namespace
 {
     static char cvsid_cpp[] = "@(#)$Id: $";
     static char cvsid_hpp[] = OSGNODE_HEADER_CVSID;
@@ -87,22 +87,22 @@ const BitVector Node::ParentFieldMask      = (1 << Node::ParentFieldId     );
 const BitVector Node::ChildrenFieldMask    = (1 << Node::ChildrenFieldId   );
 const BitVector Node::CoreFieldMask        = (1 << Node::CoreFieldId       );
 
-FieldDescription *Node::_desc[] = 
+FieldDescription *Node::_desc[] =
 {
-	new FieldDescription(SFDynamicVolume::getClassType(), 
-                         "volume", 
+    new FieldDescription(SFDynamicVolume::getClassType(),
+                         "volume",
                          OSG_FC_FIELD_IDM_DESC(VolumeField),
                          false,
                          (FieldAccessMethod) &Node::getSFVolume),
 
-	new FieldDescription(SFNodePtr::getClassType(),
-                         "parent", 
+    new FieldDescription(SFNodePtr::getClassType(),
+                         "parent",
                          OSG_FC_FIELD_IDM_DESC(ParentField),
                          true,
                          (FieldAccessMethod) &Node::getSFParent),
 
-	new FieldDescription(MFNodePtr::getClassType(), 
-                         "children", 
+    new FieldDescription(MFNodePtr::getClassType(),
+                         "children",
                          OSG_FC_FIELD_IDM_DESC(ChildrenField),
                          false,
                          (FieldAccessMethod) &Node::getMFChildren),
@@ -110,17 +110,17 @@ FieldDescription *Node::_desc[] =
     new FieldDescription(SFNodeCorePtr::getClassType(),
                          "core",
                          OSG_FC_FIELD_IDM_DESC(CoreField),
-                         false,	
+                         false,
                          (FieldAccessMethod) &Node::getSFCore)
 };
 
 FieldContainerType Node::_type(
-    "Node", 
-    "FieldContainer", 
+    "Node",
+    "FieldContainer",
     0,
     (PrototypeCreateF) &Node::createEmpty,
     0,
-    _desc, 
+    _desc,
     sizeof(_desc));
 
 
@@ -156,19 +156,19 @@ const NodePtr Node::NullNode(NullFC);
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-/*! \fn FieldContainerType &Node::getClassType(void) 
+/*! \fn FieldContainerType &Node::getClassType(void)
  *  \brief returns node type
  */
 
-/*! \fn UInt32 Node::getClassTypeId(void) 
+/*! \fn UInt32 Node::getClassTypeId(void)
  *  \brief returns node type id
  */
 
-/*! \fn NodePtr Node::create(void) 
+/*! \fn NodePtr Node::create(void)
  *  \brief creates a clone of the prototype
  */
 
-/*! \fn NodePtr Node::createEmpty(void) 
+/*! \fn NodePtr Node::createEmpty(void)
  *  \brief creates a empty node, does not clone the prototype
  */
 
@@ -182,7 +182,7 @@ void Node::setCore(const NodeCorePtr &core)
 
     thisP.setParentFieldPos(CoreFieldId);
 
-	if(_core.getValue() != NullFC)
+    if(_core.getValue() != NullFC)
     {
         beginEditCP(_core.getValue(), NodeCore::ParentsFieldMask);
         {
@@ -193,9 +193,9 @@ void Node::setCore(const NodeCorePtr &core)
         subRefCP(_core.getValue());
     }
 
-	_core.setValue(core);
-	
-	if(_core.getValue() != NullFC) 
+    _core.setValue(core);
+
+    if(_core.getValue() != NullFC)
     {
         beginEditCP(_core.getValue(), NodeCore::ParentsFieldMask);
         {
@@ -204,25 +204,25 @@ void Node::setCore(const NodeCorePtr &core)
         endEditCP  (_core.getValue(), NodeCore::ParentsFieldMask);
 
         addRefCP(_core.getValue());
-	}
+    }
 
     // TODO Check if required (GV)
-	invalidateVolume();
+    invalidateVolume();
 }
 
 void Node::addChild(const NodePtr &childP)
-{	
+{
     if(childP != NullFC)
     {
-		// do the ref early, to prevent destroys on getParent(a)->addChild(a)
-		addRefCP(childP);
+        // do the ref early, to prevent destroys on getParent(a)->addChild(a)
+        addRefCP(childP);
 
-		// already somebody else's child?
-		if ( childP->getParent() != NullFC )
-		{
-			childP->getParent()->subChild( childP );
-		}
-		
+        // already somebody else's child?
+        if ( childP->getParent() != NullFC )
+        {
+            childP->getParent()->subChild( childP );
+        }
+
         _children.addValue(childP);
 
         beginEditCP(childP, Node::ParentFieldMask);
@@ -231,26 +231,26 @@ void Node::addChild(const NodePtr &childP)
         }
         endEditCP  (childP, Node::ParentFieldMask);
 
-		// TODO Check if required (GV)
-		invalidateVolume();
+        // TODO Check if required (GV)
+        invalidateVolume();
     }
 }
 
 void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
-{    
+{
     MFNodePtr::iterator childIt = _children.begin();
 
     if(childP != NullFC)
     {
-		// do the ref early, to prevent destroys on getParent(a)->addChild(a)
-		addRefCP(childP);
+        // do the ref early, to prevent destroys on getParent(a)->addChild(a)
+        addRefCP(childP);
 
-		// already somebody else's child?
-		if ( childP->getParent() != NullFC )
-		{
-			childP->getParent()->subChild( childP );
-		}
-		
+        // already somebody else's child?
+        if ( childP->getParent() != NullFC )
+        {
+            childP->getParent()->subChild( childP );
+        }
+
         childIt   += childIndex;
 
         _children.insert(childIt, childP);
@@ -263,17 +263,17 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
     }
 
     // TODO check if required (GV)
-	invalidateVolume();
+    invalidateVolume();
 }
 
 void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
 {
     if(childP != NullFC)
-    {		
-		// do the ref early, to prevent destroys on getParent(a)->addChild(a)
+    {
+        // do the ref early, to prevent destroys on getParent(a)->addChild(a)
         addRefCP(childP);
 
-		// remove the current child
+        // remove the current child
         beginEditCP(_children.getValue(childIndex), Node::ParentFieldMask);
         {
             _children.getValue(childIndex)->setParent(NullNode);
@@ -282,13 +282,13 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
 
         subRefCP(_children.getValue(childIndex));
 
-		// already somebody else's child?
-		if ( childP->getParent() != NullNode )
-		{
-			childP->getParent()->subChild( childP );
-		}
+        // already somebody else's child?
+        if ( childP->getParent() != NullNode )
+        {
+            childP->getParent()->subChild( childP );
+        }
 
-		// set the new child
+        // set the new child
         _children.getValue(childIndex) = childP;
 
         beginEditCP(childP, Node::ParentFieldMask);
@@ -299,12 +299,12 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
     }
 
     // TODO check if required (GV)
-	invalidateVolume();
+    invalidateVolume();
 }
 
 //! return true on success, false on child not found
 
-Bool Node::replaceChildBy(const NodePtr &childP, 
+Bool Node::replaceChildBy(const NodePtr &childP,
                           const NodePtr &newChildP)
 {
     MFNodePtr::iterator childIt = _children.find(childP);
@@ -313,8 +313,8 @@ Bool Node::replaceChildBy(const NodePtr &childP,
     {
         if(childIt != _children.end())
         {
-			// do the ref early, to prevent destroys on getParent(a)->addChild(a)
-			addRefCP(newChildP);
+            // do the ref early, to prevent destroys on getParent(a)->addChild(a)
+            addRefCP(newChildP);
 
             beginEditCP(childP, Node::ParentFieldMask);
             {
@@ -324,11 +324,11 @@ Bool Node::replaceChildBy(const NodePtr &childP,
 
             subRefCP(childP);
 
-			// already somebody else's child?
-			if ( newChildP->getParent() != NullFC )
-			{
-				newChildP->getParent()->subChild( newChildP );
-			}
+            // already somebody else's child?
+            if ( newChildP->getParent() != NullFC )
+            {
+                newChildP->getParent()->subChild( newChildP );
+            }
 
             (*childIt) = newChildP;
 
@@ -337,31 +337,31 @@ Bool Node::replaceChildBy(const NodePtr &childP,
                 newChildP->setParent(getPtr());
             }
             endEditCP  (newChildP, Node::ParentFieldMask);
-		
-			// TODO check if required (GV)
-			invalidateVolume();
-			
-			return true;
+
+            // TODO check if required (GV)
+            invalidateVolume();
+
+            return true;
         }
     }
 
-	return false;
+    return false;
 }
 
 Int32 Node::findChild(const NodePtr &childP) const
 {
-	UInt32 index;
+    UInt32 index;
 
-	for(index = 0; index < _children.size(); index++)
+    for(index = 0; index < _children.size(); index++)
     {
-		if( _children[index] == childP)
-			break;
+        if( _children[index] == childP)
+            break;
     }
 
-	if(index < _children.size())
-		return index;
-	else
-		return -1;
+    if(index < _children.size())
+        return index;
+    else
+        return -1;
 }
 
 void Node::subChild(const NodePtr &childP)
@@ -382,7 +382,7 @@ void Node::subChild(const NodePtr &childP)
     }
 
     // TODO check if required (GV)
-	invalidateVolume();
+    invalidateVolume();
 }
 
 void Node::subChild(UInt32 childIndex)
@@ -405,7 +405,7 @@ void Node::subChild(UInt32 childIndex)
     }
 
     // TODO check if required (GV)
-	invalidateVolume();
+    invalidateVolume();
 }
 
 NodePtr Node::getChild(UInt32 childIndex)
@@ -415,9 +415,9 @@ NodePtr Node::getChild(UInt32 childIndex)
 
 /*---------------------------- properties ---------------------------------*/
 
-SFDynamicVolume *Node::getSFVolume(void) 
+SFDynamicVolume *Node::getSFVolume(void)
 {
-    return &_volume; 
+    return &_volume;
 }
 
 SFNodePtr *Node::getSFParent(void)
@@ -444,65 +444,65 @@ NodePtr Node::getPtr(void)
 
 Matrix Node::getToWorld(void)
 {
-	Matrix tmp;
-	
-	getToWorld(tmp);
-	
-	return tmp;
+    Matrix tmp;
+
+    getToWorld(tmp);
+
+    return tmp;
 }
-	
+
 void Node::getToWorld(Matrix &result)
 {
-	if(getParent() != NullFC)
+    if(getParent() != NullFC)
     {
-		getParent()->getToWorld(result);
+        getParent()->getToWorld(result);
     }
-	else
+    else
     {
-		result.setIdentity();
+        result.setIdentity();
     }
 
-	getCore()->accumulateMatrix(result);
+    getCore()->accumulateMatrix(result);
 }
 
 /*-------------------------- assignment -----------------------------------*/
 
 void Node::getWorldVolume(DynamicVolume &result)
-{	
-	Matrix m;
-	
-	if(getParent() != NullFC)
-		getParent()->getToWorld(m);
-	else
-		m.setIdentity();
-		
-	updateVolume();
-	result = getVolume();
-	result.transform(m);
+{
+    Matrix m;
+
+    if(getParent() != NullFC)
+        getParent()->getToWorld(m);
+    else
+        m.setIdentity();
+
+    updateVolume();
+    result = getVolume();
+    result.transform(m);
 }
-	
+
 void Node::updateVolume(void)
 {
-	Volume & vol = _volume.getValue().getInstance();
+    Volume & vol = _volume.getValue().getInstance();
 
-	if(vol.isValid())
-		return;				// still valid, nothing to do
+    if(vol.isValid())
+        return;             // still valid, nothing to do
 
-	MFNodePtr::iterator it;
+    MFNodePtr::iterator it;
 
     beginEdit(VolumeFieldMask, _volume);
 
-	vol.setEmpty();
+    vol.setEmpty();
 
-	for(it = _children.begin(); it != _children.end(); it++)
-	{
-		(*it)->updateVolume();
-		vol.extendBy((*it)->getVolume());
-	}
+    for(it = _children.begin(); it != _children.end(); it++)
+    {
+        (*it)->updateVolume();
+        vol.extendBy((*it)->getVolume());
+    }
 
-	// test for null core. Shouldn't happen, but just in case...
-	if(getCore() != NullFC) 
-		getCore()->adjustVolume(vol);
+    // test for null core. Shouldn't happen, but just in case...
+    if(getCore() != NullFC)
+        getCore()->adjustVolume(vol);
 
     endEdit(VolumeFieldMask, _volume);
 }
@@ -524,7 +524,7 @@ void Node::invalidateVolume(void)
     }
 }
 
-void Node::changed(BitVector  whichField, 
+void Node::changed(BitVector  whichField,
                    ChangeMode from)
 {
     if(whichField & (CoreFieldMask | ChildrenFieldMask))
@@ -556,11 +556,11 @@ UInt32 Node::getBinSize(const BitVector &whichField)
     {
         returnValue += _core         .getBinSize();
     }
-    
+
     return returnValue;
 }
 
-void Node::copyToBin  (      BinaryDataHandler &pMem, 
+void Node::copyToBin  (      BinaryDataHandler &pMem,
                        const BitVector         &whichField)
 {
     Inherited::copyToBin(pMem, whichField);
@@ -586,7 +586,7 @@ void Node::copyToBin  (      BinaryDataHandler &pMem,
     }
 }
 
-void Node::copyFromBin(      BinaryDataHandler &pMem, 
+void Node::copyFromBin(      BinaryDataHandler &pMem,
                        const BitVector         &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
@@ -614,13 +614,13 @@ void Node::copyFromBin(      BinaryDataHandler &pMem,
 
 /*------------------------------- dump ----------------------------------*/
 
-void Node::dump(      UInt32     uiIndent, 
+void Node::dump(      UInt32     uiIndent,
                 const BitVector &bvFlags) const
 {
     UInt32 i;
 
     indentLog(uiIndent, PLOG);
-    
+
     PLOG << "Node : " << _children.size() << " children | "
          << _attachmentMap.getValue().size() << " attachments | "
          << "Parent : ";
@@ -631,7 +631,7 @@ void Node::dump(      UInt32     uiIndent,
         PLOG << "NULL | ";
 
     PLOG << this << endl;
-    
+
     indentLog(uiIndent, PLOG);
 
     PLOG << "[" << endl;
@@ -698,7 +698,7 @@ void Node::dump(      UInt32     uiIndent,
     {
         cerr << " ";
     }
-    
+
     cerr << "{" << endl;
 
 
@@ -753,12 +753,12 @@ Node::~Node (void )
 /*------------------------------ access -----------------------------------*/
 
 void Node::setParent(const NodePtr &parent)
-{ 
-	if ( parent != NullFC )
-	    addRefCP(parent);
+{
+    if ( parent != NullFC )
+        addRefCP(parent);
 
-	if ( _parent.getValue() != NullFC )
-		subRefCP(_parent.getValue());
+    if ( _parent.getValue() != NullFC )
+        subRefCP(_parent.getValue());
 
     _parent.setValue(parent);
 }
@@ -820,30 +820,30 @@ void Node::executeSyncImpl(      Node      *pOther,
 \*-------------------------------------------------------------------------*/
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------
 

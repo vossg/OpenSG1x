@@ -21,7 +21,7 @@ extern "C"
 /* includes */ 
 #include <unistd.h>
 #include <math.h>
-#include <string.h>
+#include <string>
 #include <stdlib.h>
 
 #undef v2a_FLEX_DEBUG

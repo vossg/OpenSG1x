@@ -66,19 +66,19 @@ OSG_BEGIN_NAMESPACE
 
 inline
 FieldContainerType &FieldContainer::getClassType(void)
-{ 
-    return _type; 
+{
+    return _type;
 }
 
 inline
 UInt32 FieldContainer::getClassTypeId(void)
-{ 
+{
     return _type.getId();
 }
 
 inline
 UInt16 FieldContainer::getClassGroupId(void)
-{ 
+{
     return _type.getGroupId();
 }
 
@@ -129,18 +129,18 @@ ostream &operator <<(
     ostream                                                 &os,
     const FCPtr<BasePtrTypeT, FieldContainerTypeT> &fc)
 {
-	if(fc == NullFC)
+    if(fc == NullFC)
     {
-		os << hex << "FCPtr 0x" << &fc << dec << ":NullFC";
+        os << hex << "FCPtr 0x" << &fc << dec << ":NullFC";
     }
-	else
+    else
     {
-		os << hex << "FCPtr 0x" 
-           << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x" 
-		   << hex << (int) (&(*fc)) << dec << ")";
+        os << hex << "FCPtr 0x"
+           << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x"
+           << hex << (int) (&(*fc)) << dec << ")";
     }
 
-	return os;
+    return os;
 }
 
 OSG_END_NAMESPACE

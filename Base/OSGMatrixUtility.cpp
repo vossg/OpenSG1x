@@ -51,232 +51,236 @@
 OSG_BEGIN_NAMESPACE
 
 
-OSG_BASE_DLLMAPPING Bool MatrixOrthogonal(Matrix &result, 
-                                          Real32 rLeft, 
-                                          Real32 rRight, 
-                                          Real32 rBottom, 
-                                          Real32 rTop, 
-                                          Real32 rNear, 
+OSG_BASE_DLLMAPPING Bool MatrixOrthogonal(Matrix &result,
+                                          Real32 rLeft,
+                                          Real32 rRight,
+                                          Real32 rBottom,
+                                          Real32 rTop,
+                                          Real32 rNear,
                                           Real32 rFar)
 {
-	result.setValueTransposed( 
-		2. / ( rRight - rLeft ), 0., 0., 0.,
-		0., 2. / ( rTop - rBottom ), 0., 0.,
-		0., 0., -2. / ( rFar - rNear ), 0.,
-		-( rRight + rLeft ) / ( rRight - rLeft ), -( rTop + rBottom ) / ( rTop - rBottom ),
-		-( rFar + rNear ) / ( rFar - rNear ), 1. );
+    result.setValueTransposed(
+        2. / ( rRight - rLeft ), 0., 0., 0.,
+        0., 2. / ( rTop - rBottom ), 0., 0.,
+        0., 0., -2. / ( rFar - rNear ), 0.,
+        -( rRight + rLeft ) / ( rRight - rLeft ),
+        -( rTop + rBottom ) / ( rTop - rBottom ),
+        -( rFar + rNear )   / ( rFar - rNear ), 1. );
 
-	return false;
+    return false;
 }
 
 
-OSG_BASE_DLLMAPPING Bool MatrixFrustum(Matrix &result, 
-                                       Real32 rLeft, 
-                                       Real32 rRight, 
-                                       Real32 rBottom, 
-                                       Real32 rTop, 
-                                       Real32 rNear, 
+OSG_BASE_DLLMAPPING Bool MatrixFrustum(Matrix &result,
+                                       Real32 rLeft,
+                                       Real32 rRight,
+                                       Real32 rBottom,
+                                       Real32 rTop,
+                                       Real32 rNear,
                                        Real32 rFar)
 {
-	Real32	dz = rFar - rNear,
-			dx = rRight - rLeft,
-			dy = rTop - rBottom,
-			n2 = 2 * rNear;
+    Real32  dz = rFar - rNear,
+            dx = rRight - rLeft,
+            dy = rTop - rBottom,
+            n2 = 2 * rNear;
 
-	result.setValueTransposed( 
-		n2 / dx, 0, 0, 0,
-		0, n2 / dy, 0, 0,
-		( rRight + rLeft ) / dx, ( rTop + rBottom ) / dy, -( rFar + rNear ) / dz, -1,
-		0, 0, -( rFar * n2 ) / dz, 0 );
+    result.setValueTransposed(
+        n2 / dx, 0, 0, 0,
+        0, n2 / dy, 0, 0,
+        ( rRight + rLeft ) / dx,
+        ( rTop + rBottom ) / dy,
+        -( rFar + rNear ) / dz, -1,
+        0, 0, -( rFar * n2 ) / dz, 0 );
 
-	return false;
+    return false;
 }
 
 
-OSG_BASE_DLLMAPPING Bool MatrixPerspective(Matrix &result, 
-                                           Real32 rFovy, 
-                                           Real32 rAspect, 
-                                           Real32 rNear, 
+OSG_BASE_DLLMAPPING Bool MatrixPerspective(Matrix &result,
+                                           Real32 rFovy,
+                                           Real32 rAspect,
+                                           Real32 rNear,
                                            Real32 rFar)
 {
-	Real32	ct = osgtan( rFovy );
+    Real32  ct = osgtan( rFovy );
 
-	if ( rNear > rFar )
-	{
-		SWARNING << "MatrixPerspective: near " << rNear << " > far " << rFar 
-				<< "!\n" << endl;
-	}
-	if(rFovy <= Eps)
-	{
-		SWARNING << "MatrixPerspective: fovy " << rFovy << " very small!\n" << endl;
-	}
-	if(osgabs(rNear - rFar) < Eps)
-	{
-		SWARNING << "MatrixPerspective: near " << rNear << " ~= far " << rFar 
-				<< "!\n" << endl;
-	}
-	if(rAspect < Eps)
-	{
-		SWARNING << "MatrixPerspective: aspect ratio " << rAspect 
-				<< " very small!\n" << endl;
-	}
+    if ( rNear > rFar )
+    {
+        SWARNING << "MatrixPerspective: near " << rNear << " > far " << rFar
+                 << "!\n" << endl;
+    }
+    if(rFovy <= Eps)
+    {
+        SWARNING << "MatrixPerspective: fovy " << rFovy << " very small!\n"
+                 << endl;
+    }
+    if(osgabs(rNear - rFar) < Eps)
+    {
+        SWARNING << "MatrixPerspective: near " << rNear << " ~= far " << rFar
+                 << "!\n" << endl;
+    }
+    if(rAspect < Eps)
+    {
+        SWARNING << "MatrixPerspective: aspect ratio " << rAspect
+                 << " very small!\n" << endl;
+    }
 
-	MatrixFrustum(result, - rNear * ct * rAspect, rNear * ct * rAspect, 
-							 - rNear * ct , rNear * ct, 
-							   rNear, rFar );
+    MatrixFrustum(result, - rNear * ct * rAspect, rNear * ct * rAspect,
+                  - rNear * ct , rNear * ct, rNear, rFar );
 
 
-	return false;
+    return false;
 }
 
 
-OSG_BASE_DLLMAPPING Bool MatrixStereoPerspective(Matrix &projection, 
+OSG_BASE_DLLMAPPING Bool MatrixStereoPerspective(Matrix &projection,
                                                  Matrix &projtrans,
-                                                 Real32 rFovy, 
-                                                 Real32 rAspect, 
-                                                 Real32 rNear, 
-                                                 Real32 rFar, 
-                                                 Real32 rZeroparallax, 
-                                                 Real32 rEyedistance, 
-                                                 Real32 rWhicheye, 
+                                                 Real32 rFovy,
+                                                 Real32 rAspect,
+                                                 Real32 rNear,
+                                                 Real32 rFar,
+                                                 Real32 rZeroparallax,
+                                                 Real32 rEyedistance,
+                                                 Real32 rWhicheye,
                                                  Real32 rOverlap)
 {
-	Real32	rLeft,
-			rRight,
-			rTop,
-			rBottom;
-	
-	Real32	gltan,
-			rEye = - rEyedistance * ( rWhicheye - .5 ), 
-			d;
+    Real32  rLeft,
+            rRight,
+            rTop,
+            rBottom;
 
-	if ( rNear > rFar )
-	{
-		SWARNING << "MatrixPerspective: near " << rNear << " > far " << rFar 
-				<< "!\n" << endl;
-	}
-	if ( rFovy <= Eps )
-	{
-		SWARNING << "MatrixPerspective: fovy " << rFovy << " very small!\n" << endl;
-	}
-	if ( osgabs( rNear - rFar ) < Eps )
-	{
-		SWARNING << "MatrixPerspective: near " << rNear << " ~= far " << rFar 
-				<< "!\n" << endl;
-	}
-	if ( rAspect < Eps )
-	{
-		SWARNING << "MatrixPerspective: aspect ratio " << rAspect 
-				<< " very small!\n" << endl;
-	}
-	if ( rZeroparallax < Eps )
-	{
-		SWARNING << "MatrixPerspective: zero parallax " << rZeroparallax 
-				<< " very small, setting to 1!\n" << endl;
-		rZeroparallax = 1;
-	}
+    Real32  gltan,
+            rEye = - rEyedistance * ( rWhicheye - .5 ),
+            d;
 
-	rTop = osgtan( rFovy ) * rNear;	/* Calculate upper and lower clipping planes */
-	rBottom = -rTop;
+    if ( rNear > rFar )
+    {
+        SWARNING << "MatrixPerspective: near " << rNear << " > far " << rFar
+                 << "!\n" << endl;
+    }
+    if ( rFovy <= Eps )
+    {
+        SWARNING << "MatrixPerspective: fovy " << rFovy << " very small!\n"
+                 << endl;
+    }
+    if ( osgabs( rNear - rFar ) < Eps )
+    {
+        SWARNING << "MatrixPerspective: near " << rNear << " ~= far " << rFar
+                 << "!\n" << endl;
+    }
+    if ( rAspect < Eps )
+    {
+        SWARNING << "MatrixPerspective: aspect ratio " << rAspect
+                 << " very small!\n" << endl;
+    }
+    if ( rZeroparallax < Eps )
+    {
+        SWARNING << "MatrixPerspective: zero parallax " << rZeroparallax
+                 << " very small, setting to 1!\n" << endl;
+        rZeroparallax = 1;
+    }
+
+    rTop = osgtan( rFovy ) * rNear; /* Calculate upper and lower clipping planes */
+    rBottom = -rTop;
 
 
-	gltan = osgtan( rFovy * rAspect );	/* Calculate left and right clipping planes */
-	rLeft =  ( -gltan + rEye / rZeroparallax ) * rNear;
-	rRight = (  gltan + rEye / rZeroparallax ) * rNear;
-	
-	d = rRight - rLeft;
-	
-	rLeft += d * ( 1  - rOverlap ) * ( rWhicheye - .5 );
-	rRight += d * ( 1  - rOverlap ) * ( rWhicheye - .5 );
+    gltan = osgtan( rFovy * rAspect );  /* Calculate left and right clipping planes */
+    rLeft =  ( -gltan + rEye / rZeroparallax ) * rNear;
+    rRight = (  gltan + rEye / rZeroparallax ) * rNear;
 
-	MatrixFrustum( projection, rLeft, rRight, rBottom, rTop, rNear, rFar );
+    d = rRight - rLeft;
 
-	projtrans.setIdentity();
-	projtrans[0][3] = rEye;
+    rLeft += d * ( 1  - rOverlap ) * ( rWhicheye - .5 );
+    rRight += d * ( 1  - rOverlap ) * ( rWhicheye - .5 );
 
-	return false;
+    MatrixFrustum( projection, rLeft, rRight, rBottom, rTop, rNear, rFar );
+
+    projtrans.setIdentity();
+    projtrans[0][3] = rEye;
+
+    return false;
 }
 
-OSG_BASE_DLLMAPPING Bool MatrixLookAt(Matrix & result, 
-                                      Real32 fromx, 
-                                      Real32 fromy, 
-                                      Real32 fromz, 
-                                      Real32 atx, 
-                                      Real32 aty, 
-                                      Real32 atz, 
-                                      Real32 upx, 
-                                      Real32 upy, 
+OSG_BASE_DLLMAPPING Bool MatrixLookAt(Matrix & result,
+                                      Real32 fromx,
+                                      Real32 fromy,
+                                      Real32 fromz,
+                                      Real32 atx,
+                                      Real32 aty,
+                                      Real32 atz,
+                                      Real32 upx,
+                                      Real32 upy,
                                       Real32 upz)
 {
-	Vec3f view, right, newup,up;
+    Vec3f view, right, newup,up;
 
-	view.setValues( fromx - atx , fromy - aty, fromz - atz );
-	view.normalize();
+    view.setValues( fromx - atx , fromy - aty, fromz - atz );
+    view.normalize();
 
-	up.setValues( upx, upy, upz );
-	right = up.cross( view );
-	if ( right.dot(right) < Eps )
-	{
-		return true;
-	}
-	
-	right.normalize();
-	
-	newup = view.cross( right );
-	
-	result.setIdentity();
-	result.setTranslate( fromx, fromy, fromz );
+    up.setValues( upx, upy, upz );
+    right = up.cross( view );
+    if ( right.dot(right) < Eps )
+    {
+        return true;
+    }
 
-	Matrix tmpm;
-	tmpm.setValue( right, newup, view );
+    right.normalize();
 
-	result.mult( tmpm );
+    newup = view.cross( right );
 
-	return false;
+    result.setIdentity();
+    result.setTranslate( fromx, fromy, fromz );
+
+    Matrix tmpm;
+    tmpm.setValue( right, newup, view );
+
+    result.mult( tmpm );
+
+    return false;
 }
 
-OSG_BASE_DLLMAPPING Bool MatrixLookAt(Matrix & result, 
+OSG_BASE_DLLMAPPING Bool MatrixLookAt(Matrix & result,
                                       Pnt3f from, Pnt3f at, Vec3f up)
 {
-	Vec3f view, right, newup;
-	Vec3f tmp;
-	
-	view = from - at;
-	view.normalize();
+    Vec3f view, right, newup;
+    Vec3f tmp;
 
-	right = up.cross( view );
-	if ( right.dot(right) < Eps )
-	{
-		return true;
-	}
+    view = from - at;
+    view.normalize();
 
-	right.normalize();
-	
-	newup = view.cross( right );
-	
-	result.setIdentity();
-	result.setTranslate( from[0], from[1], from[2] );
+    right = up.cross( view );
+    if ( right.dot(right) < Eps )
+    {
+        return true;
+    }
 
-	Matrix tmpm;
-	tmpm.setValue( right, newup, view );
+    right.normalize();
 
-	result.mult( tmpm );
+    newup = view.cross( right );
 
-	return false;
+    result.setIdentity();
+    result.setTranslate( from[0], from[1], from[2] );
+
+    Matrix tmpm;
+    tmpm.setValue( right, newup, view );
+
+    result.mult( tmpm );
+
+    return false;
 }
 
 
 
-OSG_BASE_DLLMAPPING Bool MatrixProjection(Matrix &result, 
-                                          Real32  rLeft,   
-                                          Real32  rRight, 
-                                          Real32  rBottom, 
-                                          Real32  rTop, 
-                                          Real32  rNear,   
+OSG_BASE_DLLMAPPING Bool MatrixProjection(Matrix &result,
+                                          Real32  rLeft,
+                                          Real32  rRight,
+                                          Real32  rBottom,
+                                          Real32  rTop,
+                                          Real32  rNear,
                                           Real32  rFar )
 {
-	SFATAL << "MatrixProjection: Not yet implemented!" << endl;
-	abort();
+    SFATAL << "MatrixProjection: Not yet implemented!" << endl;
+    abort();
 
     return false;
 }
