@@ -80,7 +80,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGExtrusionGeometry.cpp,v 1.1 2002/08/23 14:59:19 jbehr Exp $";
+static char cvsid[] = "@(#)$Id: OSGExtrusionGeometry.cpp,v 1.2 2002/08/24 05:45:07 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -1520,8 +1520,8 @@ static void renderHull( const vector<osg::Pnt3f> &vertices,
       il = k*vValues;
       iu = ((k + 1) % uValues)*vValues;
       
-      geoLengthsPtr->addValue(2*tot_cs_len);
-      geoTypesPtr->addValue(GL_TRIANGLE_STRIP);
+      geoLengthsPtr->push_back(2*tot_cs_len);
+      geoTypesPtr->push_back(GL_TRIANGLE_STRIP);
       
       ilc = il;
       iuc = iu;
@@ -1530,8 +1530,8 @@ static void renderHull( const vector<osg::Pnt3f> &vertices,
 
       for(j = 0;j < vValues; j++)                
         { 
-          geoVerticesPtr->addValue(vertices[ilc++]);
-          geoVerticesPtr->addValue(vertices[iuc++]);
+          geoVerticesPtr->push_back(vertices[ilc++]);
+          geoVerticesPtr->push_back(vertices[iuc++]);
         }
       
       if(vWrap)
@@ -1539,8 +1539,8 @@ static void renderHull( const vector<osg::Pnt3f> &vertices,
           iuc = ((k + 1) % uValues)*vValues;
           ilc = k*vValues;
           
-          geoVerticesPtr->addValue(vertices[ilc]);
-          geoVerticesPtr->addValue(vertices[iuc]);
+          geoVerticesPtr->push_back(vertices[ilc]);
+          geoVerticesPtr->push_back(vertices[iuc]);
         }
       
       endEditCP(geoVertices);
@@ -1556,8 +1556,8 @@ static void renderHull( const vector<osg::Pnt3f> &vertices,
           
           for(j = 0;j < vValues; j++)          
             { 
-              geoNormalsPtr->addValue(normals[ilc++]);
-              geoNormalsPtr->addValue(normals[iuc++]);
+              geoNormalsPtr->push_back(normals[ilc++]);
+              geoNormalsPtr->push_back(normals[iuc++]);
             }
           
           if(vWrap)
@@ -1565,8 +1565,8 @@ static void renderHull( const vector<osg::Pnt3f> &vertices,
             iuc = ((k + 1) % uValues)*vValues;
             ilc = k*vValues;
             
-            geoNormalsPtr->addValue(normals[ilc]);
-            geoNormalsPtr->addValue(normals[iuc]);
+            geoNormalsPtr->push_back(normals[ilc]);
+            geoNormalsPtr->push_back(normals[iuc]);
           }
           endEditCP(geoNormals);
         }
@@ -1582,8 +1582,8 @@ static void renderHull( const vector<osg::Pnt3f> &vertices,
 
           for(j = 0;j < tot_cs_len; j++)
           { 
-            geoTexCoords->addValue(texCoords[il++]);
-            geoTexCoords->addValue(texCoords[iu++]);
+            geoTexCoords->push_back(texCoords[il++]);
+            geoTexCoords->push_back(texCoords[iu++]);
           }
           beginEditCP(geoTexCoords);
         }
@@ -1638,20 +1638,21 @@ void renderCap( const vector<osg::Vec2f> &crossSection,
   beginEditCP(geoLengths);
   beginEditCP(geoVertices);
   {
-    geoTypes->addValue(GL_TRIANGLE_FAN);
-    geoLengths->addValue(v_limit + 1);
+    geoTypes->push_back(GL_TRIANGLE_FAN);
+    geoLengths->push_back(v_limit + 1);
 
-    geoVertices->addValue(vertexBaryCenter);
+    geoVertices->push_back(vertexBaryCenter);
 
     for(UInt32 j = 0; j < v_limit; j++)
     {
       if(!uWrap)
-        {
-          geoVertices->addValue(hullVertices[numOfCap*vValues+(j % vValues)]); 
-        }
+      {
+          geoVertices->push_back(
+              hullVertices[numOfCap*vValues+(j % vValues)]); 
+      }
       else /* u_wrap */
         {
-          geoVertices->addValue(hullVertices[j % vValues]); 
+          geoVertices->push_back(hullVertices[j % vValues]); 
         }
     }
 
@@ -1688,7 +1689,7 @@ void renderCap( const vector<osg::Vec2f> &crossSection,
         for(UInt32 j = 0; j < v_limit + 1; j++)
           {
             normal.normalize();
-            geoNormals->addValue(normal);
+            geoNormals->push_back(normal);
           }
       }
       endEditCP(geoNormals);
@@ -1704,7 +1705,7 @@ void renderCap( const vector<osg::Vec2f> &crossSection,
             osg::Vec2f texCoord;
 
             texCoord = Vec2f(0.0f, 0.0f);
-            geoTexCoords->addValue(texCoord);
+            geoTexCoords->push_back(texCoord);
           }
       }
       endEditCP(geoTexCoords);

@@ -118,7 +118,7 @@ endif
 
 LANG_FLAGS          = 
 
-COMPILER    		= -Qvc6 -GX -Gi- -Qansi -GR
+COMPILER    		= -Qvc6 -GX -Gi- -Qansi -Qoption,cpp,--new_for_init -GR
 
 ifeq ($(LNK),lnk)
 COMPILER_RUNTIME_DBG    = -MTd
