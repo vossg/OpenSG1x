@@ -1,0 +1,21 @@
+#include <OpenSG/OSGConfig.h>
+
+OSG_USING_NAMESPACE;
+
+/*! 
+\page Light Light
+\latexonly Starter:NewChapter \endlatexonly
+
+Chapter Overview
+<HR>
+    \ref TutorialLightGeneral <BR>
+<HR>
+
+This chapter is all about light sources. I will introduce point, spot and directional light sources. At the end of the chapter I will extend
+the tutorial from the last chapter as all lightsources are added. Furthermore I will show you some important things you need to know if
+working with light sources.
+
+\section TutorialLightGeneral General Things About Light in OpenSG
+
+
+*/

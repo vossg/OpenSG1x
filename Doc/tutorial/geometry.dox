@@ -11,8 +11,10 @@ Chapter Overview
     \ref GeometryBackground <BR>
     \ref GeometryLearningByDoing <BR>
     \ref GeometryPrimitiveTypes <BR>
+    \ref GeometryIterator<BR>
     \ref GeometryIndexing <BR> 
     \ref GeometryEfficientManipulation <BR>
+    \ref TutorialGeometryUtilities <BR>
 <HR>
 
 Geometry is actually a common core like all the others from the last chapter too. However, the geometry core is of course the most important 
@@ -433,18 +435,57 @@ The following image shows an example of primitive types and corresponding length
 OpenSG geometry is very flexible and powerful. It is easy to mix up different primitive types in one core, assign some properties like normals
 or texture coordinates to them and you can even reuse data with indexing (see next section \ref GeometryIndexing). So far everthing seems to
 be fine, but from another point of view things might become difficult. If you want to walk over all triangles for example you can easily run
-into problems as the data might be highly mixed up with different primitive types. So you would have to take care of a lot of sepcial cases.
+into problems as the data might be highly mixed up with different primitive types. So you would have to take care of a lot of sepcial cases
+usually solved by some kind of big ugly switch blocks.
 
-This is were geometry iterators may help you out. These are special designed iterators which will iterate primitive by primitive, face by face
+This is were geometry iterators may help you out. These will iterate primitive by primitive, face by face
 (which is either a quad or a triangle) or triangle by triangle.
 
-<I>
-Hint for the advanced:<br>
-If you are using the build in ray intersection functionality you might have encountered the problem of finding the triangle you actually hit.
+For example
+if you are using the build in ray intersection functionality you might have encountered the problem of finding the triangle you actually hit.
 You can easly get the hit point, but the promising method "getHitTriangle" returns an Int32... so what to do? This integer defines the position
-in the index data array of the geometry. You can easily get tis triangle by using geometry iterators.
-[TODO: provide an example]
+in the index data array of the geometry. Will will have a closer look at the ray intersection functions later in Chapter (xxx), but for
+now I only want to show a little code fragment of how to use a geometry iterator. Let's image we have send some ray into the scene, hit a 
+triangle and now we have an integer returned from that class. We now try to compute the coordinates of the three vertices.
+
+\code
+    // the object 'ia' is of type IntersectAction and
+    // stores the result.
+    
+    //retrieve the hitted triangle as well as the node
+    Int32 pIndex = ia->getHitTriangle();
+    NodePtr n = ia->getHitObject();
+
+    // we make sure that the core of this node is
+    // actually a geometry core
+    std::string coretype = n->getCore()->getTypeName();
+    if (coretype != "Geometry"){
+	  	std::cerr << "No geometry core! Nothing to do!" << std::endl;
+	   	return;
+    }
+
+    // get the geometry
+    GeometryPtr geo = GeometryPtr::dcast(n->getCore());
+
+    // Creating the iterator object
+    TriangleIterator ti(geo);
+    
+    // jump to the index we got from the
+    // IntersectAction class
+    ti.seek(pIndex);
+    
+    // and now retrieve the coordiantes
+    Pnt3f p1 = ti.getPosition(0);
+    Pnt3f p2 = ti.getPosition(1);
+    Pnt3f p3 = ti.getPosition(2);
+\endcode
+
+<I>
+Have a look at tutorial (xxx) for a more complete understanding. This is only a fragment.
 </I>
+
+The usage of these iterators is very easy, at least if you now how to. When I fist startet using OpenSG I had a similar problem to solve
+and I did it with five times the code length and much more effort. It took me some time to cut it down to these few lines... :)
 
 \section GeometryIndexing Indexing
 
@@ -700,5 +741,124 @@ display lists off is rewarded with a performance increase by about 170%!
 
 [TODO: maybe insert an example showing how display lists perform on static objects! people might think that d-lists are stupid... :-( ]
 
+\section TutorialGeometryUtilities Geometry Utility Functions
 
+OpenSG comes along with some usefull utiliy functions, which can help you with some basic, but important tasks. I remember when I first needed
+face normals where the model only had vertex normals. I had a long battle with the geometry in general and the geometry iterators until I had
+succeeded in developing and algorithm that worked in that way I wanted it to. It was a few days later when I realized a function called 
+"calcFaceNormals". Well, my variant of face normal calculation was as fast as the build in function was, but the only annoying thing was, that 
+I did it with some dozens lines of code where one single line would have done the job. Here is how it works
+
+<I>
+    Note: you need to include the following include file for the utility functions:
+</I>
+<PRE>
+        #include <OpenSG/OSGGeoFunctions.h>
+</PRE>
+
+If you have some geometry core which face normals you want to calculate you simply need to type
+
+\code
+    calcFaceNormals(geo);
+\endcode
+
+Of course with vertex normals it is just all the same
+
+\code
+    calcVertexNormals(geo);
+\endcode
+
+As you proably already know are face normals unique for every triangle or quad. Objects rendered with face normals will look faceted, which 
+might not be what you want. For a smooth rendering normals per vertex are required. Please keep in mind that vertex normals can only be
+computed correctly if the geometry data is also correct. The resulting vertex normal is just the result of averaging all neighboring
+vertex normals and if some vertex are stored multiple time the result will be incorrect. 
+
+Anyway identical vertices, which are defined multiple times, can be unified automatically (i.e. they are "merged" into one vertex) by calling
+
+\code
+    createSharedIndex(sphere);
+\endcode
+
+on the geometry beforehand.
+
+\image html vertex_face_normals.png "Different normals used for rendering"
+\image latex vertex_face_normals.eps "Different normals used for rendering" width = 8cm
+
+<I>
+The left image was rendered using face normals, resulting in a faceted look, as promised. The middle image shows what happens if you calculate
+vertex normals with multiple vertex defintions, where the right image shows correct vertex normal rendering with usage of createSharedIndex() 
+before the vertex normals were calculated
+</I> 
+
+The facet effect on a sphere is often not what you want and calculating vertex normals does a fine job here. However, some other objects 
+might not be so happy with that. The problem is that all normals at a vertex will be averaged and thus edges you may want to keep will
+be averaged out too. 
+
+\image html box_vertex_normals.png "Box with bad vertex normals"
+\image latex box_vertex_normals.eps "Box with bad vertex normals" width = 4cm
+
+<I>
+See how bad the cube now looks. If you increase the mesh resolution the effect will reduce in size, but that no good solution anyway.
+</I>
+
+There is another variant of calcVertexNormals which can be given an angle. Edges that have an angle larger than that value will not be
+averaged out.
+
+Replacing the old function call with
+\code
+    calcVertexNormals(geo, 30)
+\endcode 
+would help us out with the cube.
+
+Calculating vertex normals is more complex than it sounds and it requires a considerably amount of time to compute. Using one of these methods
+on a per frame basis is not recommended!
+
+
+As OpenGL supports a lot of different geometry data formats, also new problems arise. Of course, not all of these variants are equally efficient,
+but luckily OpenSG also offers some methods to improve the data automatically. I mentioned createSharedIndex() before, which will look for 
+identical elements and remove the copies, changing only the indeces. 
+
+This step is necessary for osg::createOptimizedPrimitivs to work probably as this method needs to know which primitves are using the same vertex
+which means they are neighbours. It tries to reduced the needed number of vertices to a minimum by combining primitives to stripes or fans. 
+No propertiy values will be changed, only the indeces are modified. The actual algorithm used here will not provide an optimal solution. Due
+to it's pseudo random nature you can run it several times and take the best result. If performace is critical you can of course do it
+only once which will yields an non-optimal but definetly better solution than before.
+
+osg::createSingleIndex will reduce a multi indexed geometry into a single indexed. Multi indexing is very efficient in storage but when it
+comes to performance single indexing is better. The reason is that OpenGL does not support multi indexing directly. OpenGL's more efficient 
+specifiers like vertex arrays cannot be used with OpenSG's multi indexing geometry. Finally you have do decide for yourself what's suiting
+better for you, but it is good to know that you can convert from multi- to single indexing.
+
+Last but not least, it is possible to let OpenSG render normals for you. This may be usefull for debuging purposes, so you can make sure
+the normals are actually pointing in the desired direction. There are two methods, one for vertex and the other for face normals. You should
+make sure which exist before calling on of these methods.
+
+\image html rendered_normals.png "Rendered normals of a sphere"
+\image latex rendered_normals.eps "Rendered normals of a sphere" width = 4cm
+ 
+<I>
+This nice picture shows the rendered normals of a sphere. However, it would be difficult to figure out if one is facing the wrong direction 
+anyway ;-)
+</I>
+
+This code fragment shows how to do it:
+
+\code
+    root = calcVertexNormalsGeo(some_geometry_core, 1.0);
+    SimpleMaterialPtr mat = SimpleMaterial::create();
+    
+    GeometryPtr geo = GeometryPtr::dcast(root->getCore());
+    beginEditCP(geo);
+        geo->setMaterial(mat);
+    endEditCP(geo);
+\endcode
+
+<I>
+Note that you have to add a material even if it is "empty" like this one, else you won't see anything but error messages!
+</I>
+
+osg::calcVertexNormalsGeo need some geometry core and a float value which will define the length of the normals. Of course this does not change
+the real normals in any way.
+
+Next Chapter : \ref Light
 */
