@@ -163,7 +163,9 @@ int main (int argc, char **argv)
 
     // the connection between GLUT and OpenSG
     GLUTWindowPtr gwin= GLUTWindow::create();
-    gwin->setWinID(winid);
+    beginEditCP(gwin);
+    gwin->setId(winid);
+    endEditCP  (gwin);
     gwin->init();
 
     // create the geometry to manipulate
