@@ -165,6 +165,21 @@ bool ChunkMaterial::subChunk(StateChunkPtr chunk)
     return true;
 }
 
+StateChunkPtr ChunkMaterial::find(const FieldContainerType &type, UInt32 index)
+{
+    UInt32 count = 0;
+    for(MFStateChunkPtr::iterator i = _mfChunks.begin();i != _mfChunks.end();++i)
+    {
+        if((*i)->getType() == type)
+        {
+            if(count == index)
+                return (*i);
+            ++count;
+        }
+    }
+    return NullFC;
+}
+
 /*! Draw the geometry with this material.
 */
 
