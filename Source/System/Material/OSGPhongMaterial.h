@@ -82,6 +82,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterial : public PhongMaterialBase
 
     virtual StatePtr makeState(void);
     virtual void rebuildState(void);
+  
+    static ChunkMaterialPtr createChunkMaterial(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -121,7 +123,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterial : public PhongMaterialBase
     BlendChunkPtr           _blendChunk;
     VertexProgramChunkPtr   _vpChunk;
     FragmentProgramChunkPtr _fpChunk;
-    bool                    _initialized;
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const PhongMaterial &source);
@@ -134,6 +135,6 @@ OSG_END_NAMESPACE
 #include <OSGPhongMaterialBase.inl>
 #include <OSGPhongMaterial.inl>
 
-#define OSGPHONGMATERIAL_HEADER_CVSID "@(#)$Id: OSGPhongMaterial.h,v 1.2 2003/10/03 14:43:32 a-m-z Exp $"
+#define OSGPHONGMATERIAL_HEADER_CVSID "@(#)$Id: OSGPhongMaterial.h,v 1.3 2003/10/09 09:36:12 a-m-z Exp $"
 
 #endif /* _OSGPHONGMATERIAL_H_ */

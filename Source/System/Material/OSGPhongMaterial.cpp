@@ -188,8 +188,7 @@ PhongMaterial::PhongMaterial(void) :
     _materialChunk(NullFC),
     _blendChunk(NullFC),
     _vpChunk(NullFC),
-    _fpChunk(NullFC),
-    _initialized(false)
+    _fpChunk(NullFC)
 {
 }
 
@@ -198,50 +197,46 @@ PhongMaterial::PhongMaterial(const PhongMaterial &source) :
     _materialChunk(source._materialChunk),
     _blendChunk(source._blendChunk),
     _vpChunk(source._vpChunk),
-    _fpChunk(source._fpChunk),
-    _initialized(source._initialized)
+    _fpChunk(source._fpChunk)
 {
     _arbFragmentProgram = Window::registerExtension("GL_ARB_fragment_program");
 }
 
 PhongMaterial::~PhongMaterial(void)
 {
+    subRefCP(_materialChunk);
     subRefCP(_blendChunk);
+    subRefCP(_vpChunk);
+    subRefCP(_fpChunk);
 }
 
 void PhongMaterial::prepareLocalChunks(void)
 {
-    if(_initialized)
+    if(_materialChunk != NullFC)
         return;
-    
-    _initialized = true;
 
     _materialChunk = MaterialChunk::create();
-    // so everybody can set the attributes using the ChunkMaterial class
-    // iterating over the chunks.
-    addChunk(_materialChunk);
+    addRefCP(_materialChunk);
 
     _blendChunk = BlendChunk::create();
+    addRefCP(_blendChunk);
     beginEditCP(_blendChunk);
         _blendChunk->setSrcFactor (GL_SRC_ALPHA);
         _blendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
     endEditCP  (_blendChunk);
-    // can't do a addChunk(_blendChunk) cause we only want to add it to the state
-    // if it is really transparent.
-    addRefCP(_blendChunk);
-
+    
     // phong shading without a fragment shader looks quite black ;-)
     // all cards with a fragment shader should also have a vertex shader.
     if(Window::hasCommonExtension(_arbFragmentProgram))
     {
         _vpChunk = VertexProgramChunk::create();
-        addChunk(_vpChunk);
+        addRefCP(_vpChunk);
         beginEditCP(_vpChunk);
             _vpChunk->setProgram(_phong_vp_prg);
         endEditCP(_vpChunk);
         
         _fpChunk = FragmentProgramChunk::create();
-        addChunk(_fpChunk);
+        addRefCP(_fpChunk);
         beginEditCP(_fpChunk);
             _fpChunk->setProgram(_phong_fp_prg);
         endEditCP(_fpChunk);
@@ -295,10 +290,14 @@ StatePtr PhongMaterial::makeState(void)
         _materialChunk->setLit(getLit());
         _materialChunk->setColorMaterial(getColorMaterial());
     endEditCP  (_materialChunk);
-    
+    state->addChunk(_materialChunk);
+
     if(isTransparent())
         state->addChunk(_blendChunk);
 
+    state->addChunk(_vpChunk);
+    state->addChunk(_fpChunk);
+    
     for(MFStateChunkPtr::iterator i  = _mfChunks.begin();
                                   i != _mfChunks.end(); 
                                 ++i)
@@ -350,16 +349,58 @@ void PhongMaterial::rebuildState(void)
         _materialChunk->setLit(getLit());
         _materialChunk->setColorMaterial(getColorMaterial());
     endEditCP(_materialChunk);
+    _pState->addChunk(_materialChunk);
     
     if(isTransparent())
         _pState->addChunk(_blendChunk);
 
+    _pState->addChunk(_vpChunk);
+    _pState->addChunk(_fpChunk);
+    
     for(MFStateChunkPtr::iterator i  = _mfChunks.begin();
                                   i != _mfChunks.end(); 
                                 ++i)
     {
         _pState->addChunk(*i);
     }
+}
+
+ChunkMaterialPtr PhongMaterial::createChunkMaterial(void)
+{
+    ChunkMaterialPtr cmat = ChunkMaterial::create();
+    
+    MaterialChunkPtr matc = MaterialChunk::create();
+    beginEditCP(matc);
+        matc->setAmbient(Color4f(0.1, 0.1, 0.2, 1.0));
+        matc->setDiffuse(Color4f(0.2, 0.2, 0.8, 1.0));
+        matc->setSpecular(Color4f(0.8, 0.8, 0.8, 1.0));
+        matc->setShininess(100);
+    endEditCP(matc);
+    
+    beginEditCP(cmat, ChunksFieldMask);
+        cmat->addChunk(matc);
+    endEditCP(cmat, ChunksFieldMask);
+    
+    // phong shading without a fragment shader looks quite black ;-)
+    // all cards with a fragment shader should also have a vertex shader.
+    if(Window::hasCommonExtension(_arbFragmentProgram))
+    {
+        VertexProgramChunkPtr vpc = VertexProgramChunk::create();
+        beginEditCP(vpc);
+            vpc->setProgram(_phong_vp_prg);
+        endEditCP(vpc);
+        
+        FragmentProgramChunkPtr fpc = FragmentProgramChunk::create();
+        beginEditCP(fpc);
+            fpc->setProgram(_phong_fp_prg);
+        endEditCP(fpc);
+        
+        beginEditCP(cmat, ChunksFieldMask);
+            cmat->addChunk(vpc);
+            cmat->addChunk(fpc);
+        endEditCP(cmat, ChunksFieldMask);
+    }
+    return cmat;
 }
 
 /*------------------------------------------------------------------------*/
@@ -375,7 +416,7 @@ void PhongMaterial::rebuildState(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhongMaterial.cpp,v 1.2 2003/10/03 14:43:32 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhongMaterial.cpp,v 1.3 2003/10/09 09:36:12 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGPHONGMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHONGMATERIAL_INLINE_CVSID;
 
