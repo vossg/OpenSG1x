@@ -175,7 +175,7 @@ checkerror ()
     $grep -v \
     	-e "WIN32Window::init: failed" \
     	-e "WIN32Window::activate: failed" \
-    	-e "inling failed in" \
+    	-e "inlining failed" \
     	-e "failed in call to" \
 	>> $log_errors || true
     
