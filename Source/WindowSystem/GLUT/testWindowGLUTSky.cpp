@@ -37,6 +37,8 @@
 
 #include "OSGTrackball.h"
 
+#include <OSGTestCubeMaps.h>
+
 using namespace OSG;
 
 DrawAction * ract;
@@ -302,24 +304,33 @@ int main (int argc, char **argv)
     ImagePtr image = Image::create();
     image->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
 
-    if ( argc > 2 )
-        image->read( argv[2] );
+    if (argc > 2  && strcmp(argv[2], "-c"))
+            image->read( argv[2] );
     
     TextureChunkPtr tex1;
     tex1 = TextureChunk::create();
-    tex1->setImage( image );
+    if (argc > 2  && !strcmp(argv[2], "-c"))
+    {
+        setTestCubeImages(tex1);
+    }
+    else
+    {
+        tex1->setImage(image);
+    }
     tex1->setMinFilter( GL_NEAREST );
     tex1->setMagFilter( GL_NEAREST );
-    tex1->setWrapS( GL_REPEAT );
+    tex1->setWrapS( GL_CLAMP );
+    tex1->setWrapT( GL_CLAMP );
+    tex1->setWrapR( GL_CLAMP );
     tex1->setEnvMode( GL_REPLACE );
     
     sky->setBackTexture(tex1);
-//    sky->setFrontTexture(tex1);
+    sky->setFrontTexture(tex1);
     sky->setLeftTexture(tex1);
     sky->setRightTexture(tex1);
     sky->setBottomTexture(tex1);
-//    sky->setTopTexture(tex1);
- 
+    sky->setTopTexture(tex1);
+    
     endEditCP  (sky);
 
     // Viewport
