@@ -290,7 +290,9 @@ int main(int argc, char **argv)
     */
      
     cerr << "Variant 1: just print every encountered node" << endl;
-    traverse(scene, osgFunctionFunctor1(enter));
+    traverse(scene, 
+             osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
+                                             NodePtr        >(enter));
      
     cerr << endl 
          << "Variant 2: just print every encountered node, using a vector" 
@@ -300,31 +302,57 @@ int main(int argc, char **argv)
     nodevec.push_back(tortransnode);
     nodevec.push_back(cyltransnode);
     
-    traverse(nodevec, osgFunctionFunctor1(enter));
+    traverse(nodevec, 
+             osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
+                                             NodePtr        >(enter));
       
     cerr << endl 
          << "Variant 3: just print every encountered node on entering"
          << " and leaving" << endl;
-    traverse(scene, osgFunctionFunctor1(enter), osgFunctionFunctor2(leave));
+
+    traverse(scene, 
+             osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
+                                             NodePtr        >(enter), 
+             osgTypedFunctionFunctor2CPtrRef<Action::ResultE,
+                                             NodePtr,
+                                             Action::ResultE>(leave));
        
     // now use a travstate object to hold additional data   
     travstate t;
     
     cerr << endl 
          << "Variant 4: use an object to hold state for indentation" << endl;
-    traverse(scene, osgMethodFunctor1Ptr(&t, &travstate::enter), 
-                    osgMethodFunctor2Ptr(&t, &travstate::leave));
+    traverse(scene, 
+             osgTypedMethodFunctor1ObjPtrCPtrRef<Action::ResultE,
+                                                 travstate,
+                                                 NodePtr>(
+                                                     &t, 
+                                                     &travstate::enter), 
+             osgTypedMethodFunctor2ObjPtrCPtrRef<Action::ResultE,
+                                                 travstate,
+                                                 NodePtr,
+                                                 Action::ResultE>(
+                                                     &t, 
+                                                     &travstate::leave));
  
       
     cerr << endl 
          << "Variant 5: don't descend into transforms" << endl;
-    traverse(scene, osgFunctionFunctor1(dontEnterTrans), 
-                    osgFunctionFunctor2(leave         ));
+    traverse(scene, 
+             osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
+                                             NodePtr        >(dontEnterTrans), 
+             osgTypedFunctionFunctor2CPtrRef<Action::ResultE,
+                                             NodePtr,
+                                             Action::ResultE>(leave         ));
       
     cerr << endl 
          << "Variant 6: quit when you find a geometry" << endl;
-    traverse(scene, osgFunctionFunctor1(quitGeo), 
-                    osgFunctionFunctor2(leave  ));
+    traverse(scene, 
+             osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
+                                             NodePtr        >(quitGeo), 
+             osgTypedFunctionFunctor2CPtrRef<Action::ResultE,
+                                             NodePtr,
+                                             Action::ResultE>(leave  ));
     
  
     // create the SimpleSceneManager helper
