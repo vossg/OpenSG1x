@@ -170,7 +170,7 @@ SHLChunk::SHLChunk(const SHLChunk &source) :
     _oldParameterSize(source._oldParameterSize)
 {
     _shl_extension = Window::registerExtension("GL_ARB_shading_language_100");
-    _cg_extension = Window::registerExtension("EXT_Cg_shader");
+    _cg_extension = Window::registerExtension("GL_EXT_Cg_shader");
 
     _funcCreateProgramObject =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCreateProgramObjectARB", 
@@ -967,7 +967,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.28 2004/10/03 16:42:57 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.29 2004/10/04 13:47:49 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

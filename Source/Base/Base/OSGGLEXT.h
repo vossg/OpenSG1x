@@ -945,12 +945,12 @@
 
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
-/*! \name EXT_Cg_shader                                                */
+/*! \name GL_EXT_Cg_shader                                                */
 /*! \ingroup GrpBaseBaseGLConstants                                    */
 /*  \{                                                                 */
 
-#ifndef EXT_Cg_shader
-#define EXT_Cg_shader 1
+#ifndef GL_EXT_Cg_shader
+#define GL_EXT_Cg_shader 1
 
 #define GL_CG_VERTEX_SHADER_EXT           0x890E
 #define GL_CG_FRAGMENT_SHADER_EXT         0x890F
