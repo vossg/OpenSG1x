@@ -6390,6 +6390,9 @@ if test $build_os = irix6.5; then
     ac_gdz_vector_fix_in_e16=$ac_gdz_commonconf_dir/vector.in
     ac_gdz_vector_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/vector
 
+    ac_gdz_algo_fix_in_e16=$ac_gdz_commonconf_dir/algorithm.in
+    ac_gdz_algo_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/algorithm
+
 
     trap '' 1 2 15
 
@@ -6450,6 +6453,7 @@ trap 'rm -fr `echo "$ac_gdz_fstream_fix_out_e16:$ac_gdz_fstream_fix_in_e16
               $ac_gdz_list_fix_out_e16:$ac_gdz_list_fix_in_e16
               $ac_gdz_map_fix_out_e16:$ac_gdz_map_fix_in_e16
               $ac_gdz_string_fix_out_e16:$ac_gdz_string_fix_in_e16
+              $ac_gdz_algo_fix_out_e16:$ac_gdz_algo_fix_in_e16
               $ac_gdz_vector_fix_out_e16:$ac_gdz_vector_fix_in_e16 $ac_gdz_package_sub_dir_out/Base/OSGConfigured.h:CommonConf/OSGConfigured.h.in" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
@@ -6505,6 +6509,7 @@ CONFIG_FILES=\${CONFIG_FILES-"$ac_gdz_fstream_fix_out_e16:$ac_gdz_fstream_fix_in
               $ac_gdz_list_fix_out_e16:$ac_gdz_list_fix_in_e16
               $ac_gdz_map_fix_out_e16:$ac_gdz_map_fix_in_e16
               $ac_gdz_string_fix_out_e16:$ac_gdz_string_fix_in_e16
+              $ac_gdz_algo_fix_out_e16:$ac_gdz_algo_fix_in_e16
               $ac_gdz_vector_fix_out_e16:$ac_gdz_vector_fix_in_e16"}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
