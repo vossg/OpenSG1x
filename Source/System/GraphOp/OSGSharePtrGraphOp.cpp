@@ -231,6 +231,23 @@ FieldContainerPtr SharePtrGraphOp::compareFCs(const FieldContainerPtr &fc)
                     beginEditCP(fc, mask);
                         ((SFFieldContainerPtr *) fc_field)->setValue(nffc);
                     endEditCP(fc, mask);
+#if 0
+                    // for attachments we need to update the parents field!
+                    AttachmentPtr attachment = AttachmentPtr::dcast(nffc);
+                    if(attachment != NullFC)
+                    {
+                        AttachmentPtr attorg = AttachmentPtr::dcast(ffc);
+                        beginEditCP(attorg, Attachment::ParentsFieldMask);
+                            attorg->subParent(fc);
+                        endEditCP(attorg, Attachment::ParentsFieldMask);
+
+                        FieldContainerPtr fcb = fc;
+                        fcb.setParentFieldPos(fdesc->getFieldId());
+                        beginEditCP(attachment, Attachment::ParentsFieldMask);
+                            attachment->addParent(fc);
+                        endEditCP(attachment, Attachment::ParentsFieldMask);
+                    }
+#endif
                     subRefCP(ffc);
                 }
             }
@@ -247,6 +264,23 @@ FieldContainerPtr SharePtrGraphOp::compareFCs(const FieldContainerPtr &fc)
                     {
                         addRefCP(nffc);
                         (*(((MFFieldContainerPtr *)fc_field)))[j] = nffc;
+#if 0
+                        // for attachments we need to update the parents field!
+                        AttachmentPtr attachment = AttachmentPtr::dcast(nffc);
+                        if(attachment != NullFC)
+                        {
+                            AttachmentPtr attorg = AttachmentPtr::dcast(ffc);
+                            beginEditCP(attorg, Attachment::ParentsFieldMask);
+                                attorg->subParent(fc);
+                            endEditCP(attorg, Attachment::ParentsFieldMask);
+
+                            FieldContainerPtr fcb = fc;
+                            fcb.setParentFieldPos(fdesc->getFieldId());
+                            beginEditCP(attachment, Attachment::ParentsFieldMask);
+                                attachment->addParent(fc);
+                            endEditCP(attachment, Attachment::ParentsFieldMask);
+                        }
+#endif
                         subRefCP(ffc);
                     }
                 }
