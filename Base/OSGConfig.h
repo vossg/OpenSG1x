@@ -322,6 +322,7 @@
 # if __GNUC__ >= 3 
 # define OSG_HASH_MAP_AS_EXT
 # define OSG_SGI_STL
+namespace __gnu_cxx {} using namespace __gnu_cxx;
 # endif
 
 // compiler supports namespaces

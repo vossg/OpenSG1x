@@ -43,7 +43,7 @@ LIB_FILE_$(SUB_DIR)_LNK := -all_load $(LIB_FILE_$(SUB_DIR)_LNK)
 LIB_FILE_$(SUB_DIR)     := -all_load $(LIB_FILE_$(SUB_DIR)) 
 else
 LIB_FILE_$(SUB_DIR)_LNK := $(LIB_FILE_$(SUB_DIR)_LNK) 
-LIB_FILE_$(SUB_DIR)     := -all_load $(LIB_FILE_$(SUB_DIR)) 
+LIB_FILE_$(SUB_DIR)     := $(LIB_FILE_$(SUB_DIR)) 
 endif
 endif
 
