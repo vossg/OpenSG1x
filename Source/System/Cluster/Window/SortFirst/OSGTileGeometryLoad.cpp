@@ -301,8 +301,8 @@ void TileGeometryLoad::updateGeometry()
     UInt32             faceCount=0;
     NodeCorePtr        core;
     GeometryPtr        geo;
-    const Real32       sq2=sqrt(2);
-    const Real32       sq3=sqrt(3);
+    const Real32       sq2=sqrt(2.0);
+    const Real32       sq3=sqrt(3.0);
 
     _faces = 0;
     core=_node->getCore();
