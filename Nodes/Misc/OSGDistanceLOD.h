@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGDISTANCELOD_H_
 #define _OSGDISTANCELOD_H_
 #ifdef __sgi
@@ -50,25 +49,14 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! *put brief class description here* 
+//! DistanceLOD
+//! \ingroup NodesLib
 
 class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef DistanceLODBase Inherited;
-
     /*==========================  PUBLIC  =================================*/
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "DistanceLOD"; };
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
@@ -76,6 +64,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
     virtual void changed(BitVector  whichField,
                          ChangeMode from);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(      UInt32    uiIndent = 0,
                       const BitVector bvFlags  = 0) const;
@@ -84,9 +76,16 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    typedef DistanceLODBase Inherited;
+
 #ifdef OSG_NOFUNCTORS
+    /*---------------------------------------------------------------------*/
+    /*! \name                      DistLOD Draw                            */
+    /*! \{                                                                 */
+
     static Action::ResultE DistLODDraw(CNodePtr &cnode,
                                        Action   *pAction);
+    /*! \}                                                                 */
 #endif
 
     /*---------------------------------------------------------------------*/
@@ -117,23 +116,24 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
     friend class FieldContainer;
     friend class DistanceLODBase;
 
-    static char cvsid[];
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
+    /*! \name                      Init                                    */
     /*! \{                                                                 */
 
-    static void initMethod( void );
-    void operator =(const DistanceLOD &source);
+    static void initMethod(void);
 
     /*! \}                                                                 */
-};
+    /*---------------------------------------------------------------------*/
 
-typedef DistanceLOD *DistanceLODP;
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const DistanceLOD &source);
+};
 
 OSG_END_NAMESPACE
 
 #include <OSGDistanceLOD.inl>
 #include <OSGDistanceLODBase.inl>
+
+#define OSGDISTANCELOD_HEADER_CVSID "@(#)$Id: OSGDistanceLOD.h,v 1.6 2001/11/05 11:15:31 vossg Exp $"
 
 #endif /* _OSGDISTANCELOD_H_ */

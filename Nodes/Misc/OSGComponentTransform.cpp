@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -51,58 +47,64 @@
 
 OSG_USING_NAMESPACE
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.6 2001/11/05 11:15:31 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGCOMPONENTTRANSFORM_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGCOMPONENTTRANSFORM_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*! \class osg::ComponentTransform
-
-
-
 */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                               Changed                                   */
 
-char ComponentTransform::cvsid[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.5 2001/11/02 14:39:44 neumannc Exp $";
+void ComponentTransform::changed(BitVector which, ChangeMode mode)
+{
+    ComponentTransformPtr ptr(*this);
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+    if(which != MatrixFieldMask)
+    {
+        beginEditCP(ptr, MatrixFieldMask);
+        {
+            getMatrix().setTransform(getTranslation     (),
+                                     getRotation        (),
+                                     getScale           (),
+                                     getScaleOrientation(),
+                                     getCenter          ());
+        }
+        endEditCP  (ptr, MatrixFieldMask);
+    }
+    else
+    {
+        this->Transform::changed(which, mode);
+    }
+}
+void ComponentTransform::dump(      UInt32    uiIndent, 
+                              const BitVector bvFlags) const
+{
+    Inherited::dump(uiIndent, bvFlags);
+}
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
+/*-------------------------------------------------------------------------*/
+/*                                Draw                                     */
 
 #ifdef OSG_NOFUNCTORS
-OSG::Action::ResultE ComponentTransform::ComponentTransformDrawEnter(CNodePtr &cnode, 
-                                                           Action  *pAction)
+Action::ResultE ComponentTransform::ComponentTransformDrawEnter(
+    CNodePtr &cnode, 
+    Action   *pAction)
 {
-    NodeCore     *pNC = cnode.getCPtr();
+    NodeCore           *pNC = cnode.getCPtr();
     ComponentTransform *pTr = dynamic_cast<ComponentTransform *>(pNC);
 
     if(pTr == NULL)
@@ -116,10 +118,11 @@ OSG::Action::ResultE ComponentTransform::ComponentTransformDrawEnter(CNodePtr &c
     }
 }
 
-OSG::Action::ResultE ComponentTransform::ComponentTransformDrawLeave(CNodePtr &cnode, 
-                                                           Action  *pAction)
+Action::ResultE ComponentTransform::ComponentTransformDrawLeave(
+    CNodePtr &cnode, 
+    Action   *pAction)
 {
-    NodeCore     *pNC = cnode.getCPtr();
+    NodeCore           *pNC = cnode.getCPtr();
     ComponentTransform *pTr = dynamic_cast<ComponentTransform *>(pNC);
 
     if(pTr == NULL)
@@ -134,69 +137,21 @@ OSG::Action::ResultE ComponentTransform::ComponentTransformDrawLeave(CNodePtr &c
 }
 #endif
 
-void ComponentTransform::initMethod (void)
+/*-------------------------------------------------------------------------*/
+/*                              Intersect                                  */
+
+Action::ResultE ComponentTransform::intersectEnter(Action *action)
 {
-#ifndef OSG_NOFUNCTORS
-    DrawAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                ComponentTransformPtr, 
-                                Action *>(&ComponentTransform::drawEnter));
-    DrawAction::registerLeaveDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                ComponentTransformPtr, 
-                                Action *>(&ComponentTransform::drawLeave));
-
-
-
-    RenderAction::registerEnterDefault(getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                ComponentTransformPtr, 
-                                Action *>(&ComponentTransform::renderEnter));
-    RenderAction::registerLeaveDefault(getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                ComponentTransformPtr, 
-                                Action *>(&ComponentTransform::renderLeave));
-
-    
-    RenderAction::registerEnterDefault(getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                ComponentTransformPtr, 
-                                Action *>(&ComponentTransform::intersectEnter));
-    RenderAction::registerLeaveDefault(getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                ComponentTransformPtr, 
-                                Action *>(&ComponentTransform::intersectLeave));
-    
-#else
-
-    DrawAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        ComponentTransform::ComponentTransformDrawEnter));
-    DrawAction::registerLeaveDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        ComponentTransform::ComponentTransformDrawLeave));
-#endif
+    return Transform::intersectEnter(action);
 }
 
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
+Action::ResultE ComponentTransform::intersectLeave(Action *action)
+{
+    return Transform::intersectLeave(action);
+}
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 ComponentTransform::ComponentTransform(void) :
     Inherited()
@@ -204,73 +159,84 @@ ComponentTransform::ComponentTransform(void) :
     _sfScale.getValue().setValues(1.f, 1.f, 1.f);         
 }
 
-/** \brief Copy Constructor
- */
-
 ComponentTransform::ComponentTransform(const ComponentTransform &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 ComponentTransform::~ComponentTransform(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Init                                      */
 
-/** \brief react to field changes
- */
-
-void ComponentTransform::changed(BitVector which, ChangeMode mode)
+void ComponentTransform::initMethod (void)
 {
-    ComponentTransformPtr ptr(*this);
-    if(which != MatrixFieldMask)
-    {
-        beginEditCP(ptr,MatrixFieldMask);
-        getMatrix().setTransform(getTranslation     (),
-                                 getRotation        (),
-                                 getScale           (),
-                                 getScaleOrientation(),
-                                 getCenter          ());
-        endEditCP(ptr,MatrixFieldMask);
-    }
-    else
-    {
-        this->Transform::changed(which, mode);
-    }
-}
+#ifndef OSG_NOFUNCTORS
+    DrawAction::registerEnterDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  ComponentTransformPtr, 
+                                  Action *>(&ComponentTransform::drawEnter));
 
-/*------------------------------- dump ----------------------------------*/
+    DrawAction::registerLeaveDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  ComponentTransformPtr, 
+                                  Action *>(&ComponentTransform::drawLeave));
 
-/** \brief output the instance for debug purposes
- */
 
-void ComponentTransform::dump(      UInt32    uiIndent, 
-                              const BitVector bvFlags) const
-{
-    Inherited::dump(uiIndent, bvFlags);
-}
+    RenderAction::registerEnterDefault(
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  ComponentTransformPtr, 
+                                  Action *>(&ComponentTransform::renderEnter));
 
+    RenderAction::registerLeaveDefault(
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  ComponentTransformPtr, 
+                                  Action *>(&ComponentTransform::renderLeave));
+
+
+    RenderAction::registerEnterDefault(
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<
+            OSG::Action::ResultE,
+            CNodePtr,  
+            ComponentTransformPtr, 
+            Action *             >(&ComponentTransform::intersectEnter));
+
+    RenderAction::registerLeaveDefault(
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<
+            OSG::Action::ResultE,
+            CNodePtr,  
+            ComponentTransformPtr, 
+            Action *             >(&ComponentTransform::intersectLeave));
     
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+#else
 
-Action::ResultE ComponentTransform::intersectEnter(Action * action)
-{
-    return this->Transform::intersectEnter(action);
+    DrawAction::registerEnterDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(
+            ComponentTransform::ComponentTransformDrawEnter));
+    
+    DrawAction::registerLeaveDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(
+            ComponentTransform::ComponentTransformDrawLeave));
+#endif
 }
 
-Action::ResultE ComponentTransform::intersectLeave(Action * action)
-{
-    return this->Transform::intersectLeave(action);
-}
 
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 

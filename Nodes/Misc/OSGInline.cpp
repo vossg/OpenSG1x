@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -50,60 +46,49 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGINLINE_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGINLINE_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*! \class osg::Inline
-
-
-
 */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                               Sync                                      */
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+void Inline::changed(BitVector, ChangeMode)
+{
+}
 
-char Inline::cvsid[] = "@(#)$Id: $";
+/*-------------------------------------------------------------------------*/
+/*                               Dump                                      */
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+void Inline::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                  const BitVector OSG_CHECK_ARG(bvFlags )) const
+{
+    SLOG << "Dump Inline NI" << endl;
+}
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
+/*-------------------------------------------------------------------------*/
+/*                              Inline Draw                                */
 
 #ifdef OSG_NOFUNCTORS
 OSG::Action::ResultE Inline::InlineDrawEnter(CNodePtr &cnode, 
-                                                      Action  *pAction)
+                                             Action   *pAction)
 {
-    NodeCore      *pNC = cnode.getCPtr();
-    Inline *pSC = dynamic_cast<Inline *>(pNC);
+    NodeCore *pNC = cnode.getCPtr();
+    Inline   *pSC = dynamic_cast<Inline *>(pNC);
 
     if(pSC == NULL)
     {
@@ -117,10 +102,10 @@ OSG::Action::ResultE Inline::InlineDrawEnter(CNodePtr &cnode,
 }
 
 OSG::Action::ResultE Inline::InlineDrawLeave(CNodePtr &cnode, 
-                                                      Action  *pAction)
+                                             Action  *pAction)
 {
-    NodeCore      *pNC = cnode.getCPtr();
-    Inline *pSC = dynamic_cast<Inline *>(pNC);
+    NodeCore *pNC = cnode.getCPtr();
+    Inline   *pSC = dynamic_cast<Inline *>(pNC);
 
     if(pSC == NULL)
     {
@@ -134,94 +119,34 @@ OSG::Action::ResultE Inline::InlineDrawLeave(CNodePtr &cnode,
 }
 #endif
 
-void Inline::initMethod (void)
-{
-#ifndef OSG_NOFUNCTORS
-    DrawAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                InlinePtr, 
-                                Action *>(&Inline::drawEnter));
-    DrawAction::registerLeaveDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                InlinePtr, 
-                                Action *>(&Inline::drawLeave));
-#else
-    DrawAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Inline::InlineDrawEnter));
-    DrawAction::registerLeaveDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Inline::InlineDrawLeave));
-#endif
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 Inline::Inline(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 Inline::Inline(const Inline &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 Inline::~Inline(void)
 {
 }
 
+/*-------------------------------------------------------------------------*/
+/*                                Draw                                     */
 
-/** \brief react to field changes
- */
-
-void Inline::changed(BitVector, ChangeMode)
-{
-}
-
-/*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
-
-void Inline::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
-                  const BitVector OSG_CHECK_ARG(bvFlags )) const
-{
-    SLOG << "Dump Inline NI" << endl;
-}
-
-    
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-//! DrawAction:  execute the OpenGL commands directly   
-Action::ResultE Inline::drawEnter(Action * action)
+Action::ResultE Inline::drawEnter(Action *action)
 {
     DrawAction *da = dynamic_cast<DrawAction *>(action);
 
-    if ( da->selectVisibles() == 0 )
+    if(da->selectVisibles() == 0)
         return Action::Skip;
     
     return Action::Continue;
@@ -232,7 +157,32 @@ Action::ResultE Inline::drawLeave(Action *)
     return Action::Continue;
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Init                                     */
 
+void Inline::initMethod(void)
+{
+#ifndef OSG_NOFUNCTORS
+    DrawAction::registerEnterDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  InlinePtr, 
+                                  Action *>(&Inline::drawEnter));
+
+    DrawAction::registerLeaveDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  InlinePtr, 
+                                  Action *>(&Inline::drawLeave));
+#else
+    DrawAction::registerEnterDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(Inline::InlineDrawEnter));
+
+    DrawAction::registerLeaveDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(Inline::InlineDrawLeave));
+#endif
+}

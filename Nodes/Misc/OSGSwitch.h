@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGSWITCH_H_
 #define _OSGSWITCH_H_
 #ifdef __sgi
@@ -52,27 +51,20 @@ OSG_BEGIN_NAMESPACE
 
 class OSG_SYSTEMLIB_DLLMAPPING Switch : public SwitchBase
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef SwitchBase Inherited;
-
     /*==========================  PUBLIC  =================================*/
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "Switch"; };
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField,
                          ChangeMode from);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(      UInt32    uiIndent = 0,
                       const BitVector bvFlags  = 0) const;
@@ -81,16 +73,19 @@ class OSG_SYSTEMLIB_DLLMAPPING Switch : public SwitchBase
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    typedef SwitchBase Inherited;
+
+#ifdef OSG_NOFUNCTORS
     /*---------------------------------------------------------------------*/
     /*! \name                Switch Draw                                   */
     /*! \{                                                                 */
 
-#ifdef OSG_NOFUNCTORS
     static Action::ResultE SwitchDraw(CNodePtr &cnode,
                                       Action   *pAction);
-#endif
 
     /*! \}                                                                 */
+#endif
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -109,7 +104,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Switch : public SwitchBase
     /*---------------------------------------------------------------------*/
     /*! \name                   Draw                                       */
     /*! \{                                                                 */
-    Action::ResultE draw(Action* action);
+
+    Action::ResultE draw(Action *action);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -118,16 +114,17 @@ class OSG_SYSTEMLIB_DLLMAPPING Switch : public SwitchBase
     friend class FieldContainer;
     friend class SwitchBase;
 
-    static char cvsid[];
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Specific                             */
     /*! \{                                                                 */
 
-    static void initMethod( void );
-    void operator =(const Switch &source);
+    static void initMethod(void);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const Switch &source);
 };
 
 typedef Switch *SwitchP;
@@ -136,5 +133,7 @@ OSG_END_NAMESPACE
 
 #include <OSGSwitch.inl>
 #include <OSGSwitchBase.inl>
+
+#define OSGSWITCH_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSWITCH_H_ */

@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -51,57 +47,46 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.15 2001/11/05 11:15:31 vossg Exp $";
+    static Char8 cvsid_hpp[] = OSGMATERIALGROUP_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGMATERIALGROUP_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*! \class osg::MaterialGroup
-
-
-
 */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                                Sync                                     */
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+void MaterialGroup::changed(BitVector, ChangeMode)
+{
+}
 
-char MaterialGroup::cvsid[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.14 2001/10/15 04:52:16 vossg Exp $";
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+void MaterialGroup::dump(      UInt32    uiIndent, 
+                         const BitVector bvFlags) const
+{
+    Inherited::dump(uiIndent, bvFlags);
+}
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
+/*-------------------------------------------------------------------------*/
+/*                             Static Draw Render                          */
 
 #ifdef OSG_NOFUNCTORS
 OSG::Action::ResultE MaterialGroup::MatGroupDrawEnter(CNodePtr &cnode, 
-                                                      Action  *pAction)
+                                                      Action   *pAction)
 {
     NodeCore      *pNC = cnode.getCPtr();
     MaterialGroup *pSC = dynamic_cast<MaterialGroup *>(pNC);
@@ -118,7 +103,7 @@ OSG::Action::ResultE MaterialGroup::MatGroupDrawEnter(CNodePtr &cnode,
 }
 
 OSG::Action::ResultE MaterialGroup::MatGroupDrawLeave(CNodePtr &cnode, 
-                                                      Action  *pAction)
+                                                      Action   *pAction)
 {
     NodeCore      *pNC = cnode.getCPtr();
     MaterialGroup *pSC = dynamic_cast<MaterialGroup *>(pNC);
@@ -134,7 +119,7 @@ OSG::Action::ResultE MaterialGroup::MatGroupDrawLeave(CNodePtr &cnode,
     }
 }
 OSG::Action::ResultE MaterialGroup::MatGroupRenderEnter(CNodePtr &cnode, 
-                                                      Action  *pAction)
+                                                        Action   *pAction)
 {
     NodeCore      *pNC = cnode.getCPtr();
     MaterialGroup *pSC = dynamic_cast<MaterialGroup *>(pNC);
@@ -151,7 +136,7 @@ OSG::Action::ResultE MaterialGroup::MatGroupRenderEnter(CNodePtr &cnode,
 }
 
 OSG::Action::ResultE MaterialGroup::MatGroupRenderLeave(CNodePtr &cnode, 
-                                                      Action  *pAction)
+                                                        Action   *pAction)
 {
     NodeCore      *pNC = cnode.getCPtr();
     MaterialGroup *pSC = dynamic_cast<MaterialGroup *>(pNC);
@@ -168,107 +153,30 @@ OSG::Action::ResultE MaterialGroup::MatGroupRenderLeave(CNodePtr &cnode,
 }
 #endif
 
-void MaterialGroup::initMethod (void)
-{
-#ifndef OSG_NOFUNCTORS
-    DrawAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                MaterialGroupPtr, 
-                                Action *>(&MaterialGroup::drawEnter));
-    DrawAction::registerLeaveDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                MaterialGroupPtr, 
-                                Action *>(&MaterialGroup::drawLeave));
-
-    RenderAction::registerEnterDefault(getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                  CNodePtr,  
-                                  MaterialGroupPtr, 
-                                  Action *>(&MaterialGroup::renderEnter));
-    RenderAction::registerLeaveDefault(getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                 CNodePtr,  
-                                 MaterialGroupPtr, 
-                                 Action *>(&MaterialGroup::renderLeave));
-#else
-    DrawAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        MaterialGroup::MatGroupDrawEnter));
-    DrawAction::registerLeaveDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        MaterialGroup::MatGroupDrawLeave));
-    DrawAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        MaterialGroup::MatGroupRenderEnter));
-    DrawAction::registerLeaveDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        MaterialGroup::MatGroupRenderLeave));
-#endif
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 MaterialGroup::MaterialGroup(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 MaterialGroup::MaterialGroup(const MaterialGroup &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 MaterialGroup::~MaterialGroup(void)
 {
 }
 
+/*-------------------------------------------------------------------------*/
+/*                                Draw                                     */
 
-/** \brief react to field changes
- */
-
-void MaterialGroup::changed(BitVector, ChangeMode)
-{
-}
-
-/*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
-
-void MaterialGroup::dump(      UInt32    uiIndent, 
-                         const BitVector bvFlags) const
-{
-    Inherited::dump(uiIndent, bvFlags);
-}
-
-    
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-//! DrawAction:  execute the OpenGL commands directly   
-Action::ResultE MaterialGroup::drawEnter(Action * action)
+Action::ResultE MaterialGroup::drawEnter(Action *action)
 {
     DrawAction *da = dynamic_cast<DrawAction *>(action);
 
@@ -294,11 +202,11 @@ Action::ResultE MaterialGroup::drawLeave(Action * action)
     return Action::Continue;
 }
 
-//! RenderAction:  generate draw tree
+/*-------------------------------------------------------------------------*/
+/*                               Render                                    */
+
 Action::ResultE MaterialGroup::renderEnter(Action * action)
 {
-//    fprintf(stderr, "MaterialGroup::renderEnter\n");
-
     RenderAction *da = dynamic_cast<RenderAction *>(action);
 
     if(da != NULL && _sfMaterial.getValue() != NullFC)
@@ -311,8 +219,6 @@ Action::ResultE MaterialGroup::renderEnter(Action * action)
 
 Action::ResultE MaterialGroup::renderLeave(Action * action)
 {
-//    fprintf(stderr, "MaterialGroup::renderLeave\n");
-
     RenderAction *da = dynamic_cast<RenderAction *>(action);
 
     if(da != NULL)
@@ -323,8 +229,54 @@ Action::ResultE MaterialGroup::renderLeave(Action * action)
     return Action::Continue;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                                Init                                     */
  
-/*-------------------------------------------------------------------------*\
-  -  private                                                                -
-  \*-------------------------------------------------------------------------*/
+void MaterialGroup::initMethod(void)
+{
+#ifndef OSG_NOFUNCTORS
+    DrawAction::registerEnterDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  MaterialGroupPtr, 
+                                  Action *>(&MaterialGroup::drawEnter));
+    DrawAction::registerLeaveDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  MaterialGroupPtr, 
+                                  Action *>(&MaterialGroup::drawLeave));
+
+    RenderAction::registerEnterDefault(
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  MaterialGroupPtr, 
+                                  Action *>(&MaterialGroup::renderEnter));
+    RenderAction::registerLeaveDefault(
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  MaterialGroupPtr, 
+                                  Action *>(&MaterialGroup::renderLeave));
+#else
+    DrawAction::registerEnterDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(MaterialGroup::MatGroupDrawEnter));
+
+    DrawAction::registerLeaveDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(MaterialGroup::MatGroupDrawLeave));
+
+    DrawAction::registerEnterDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(MaterialGroup::MatGroupRenderEnter));
+
+    DrawAction::registerLeaveDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(MaterialGroup::MatGroupRenderLeave));
+#endif
+}
+
 

@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -53,63 +49,54 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGGROUP_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGGROUP_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*! \class osg::Group
 
-
-Group is the simplest form of a NodeCore. A group
-carries no predefined data and most actions will only traverse the
-children list. So usually the group does nothing.
+  Group is the simplest form of a NodeCore. A group
+  carries no predefined data and most actions will only traverse the
+  children list. So usually the group does nothing.
 
 */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                               Sync                                      */
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+void Group::changed(BitVector, ChangeMode)
+{
+}
 
-char Group::cvsid[] = "@(#)$Id: $";
+/*-------------------------------------------------------------------------*/
+/*                               Dump                                      */
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+void Group::dump(      UInt32    uiIndent, 
+                 const BitVector bvFlags) const
+{
+   Inherited::dump(uiIndent, bvFlags);
+}
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
+/*-------------------------------------------------------------------------*/
+/*                       Static Action Callbacks                           */
 
 #ifdef OSG_NOFUNCTORS
 OSG::Action::ResultE Group::GroupDrawEnter(CNodePtr &cnode, 
-                                                      Action  *pAction)
+                                           Action   *pAction)
 {
-    NodeCore      *pNC = cnode.getCPtr();
-    Group *pSC = dynamic_cast<Group *>(pNC);
+    NodeCore *pNC = cnode.getCPtr();
+    Group    *pSC = dynamic_cast<Group *>(pNC);
 
     if(pSC == NULL)
     {
@@ -123,10 +110,10 @@ OSG::Action::ResultE Group::GroupDrawEnter(CNodePtr &cnode,
 }
 
 OSG::Action::ResultE Group::GroupDrawLeave(CNodePtr &cnode, 
-                                                      Action  *pAction)
+                                           Action   *pAction)
 {
-    NodeCore      *pNC = cnode.getCPtr();
-    Group *pSC = dynamic_cast<Group *>(pNC);
+    NodeCore *pNC = cnode.getCPtr();
+    Group    *pSC = dynamic_cast<Group *>(pNC);
 
     if(pSC == NULL)
     {
@@ -145,7 +132,7 @@ OSG::Action::ResultE Group::GroupIntEnter(CNodePtr &cnode,
     NodeCore *pNC = cnode.getCPtr();
     Group    *pSC = dynamic_cast<Group *>(pNC);
     
-    if(pSC == NULL )
+    if(pSC == NULL)
     {
         fprintf(stderr, "MDIE: core NULL\n");
         return Action::Skip;
@@ -155,121 +142,36 @@ OSG::Action::ResultE Group::GroupIntEnter(CNodePtr &cnode,
         return pSC->intersect(pAction);
     }
 }
-
 #endif
 
-void Group::initMethod (void)
-{
-#ifndef OSG_NOFUNCTORS
-    DrawAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                GroupPtr, 
-                                Action *>(&Group::drawEnter));
-    DrawAction::registerLeaveDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                GroupPtr, 
-                                Action *>(&Group::drawLeave));
-    RenderAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                GroupPtr, 
-                                Action *>(&Group::drawEnter));
-    RenderAction::registerLeaveDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                GroupPtr, 
-                                Action *>(&Group::drawLeave));
-    IntersectAction::registerEnterDefault( getClassType(),
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,
-                                GroupPtr,
-                                Action *>(&Group::intersect));
-#else
-    DrawAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Group::GroupDrawEnter));
-    DrawAction::registerLeaveDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Group::GroupDrawLeave));
-    RenderAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Group::GroupDrawEnter));
-    RenderAction::registerLeaveDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Group::GroupDrawLeave));
-    IntersectAction::registerEnterDefault(getClassType(),
-                                    Action::osgFunctionFunctor2(
-                                        Group::GroupIntEnter));
-#endif
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 Group::Group(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 Group::Group(const Group &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 Group::~Group(void)
 {
 }
 
+/*-------------------------------------------------------------------------*/
+/*                               Draw                                      */
 
-/** \brief react to field changes
- */
-
-void Group::changed(BitVector, ChangeMode)
-{
-}
-
-/*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
-
-void Group::dump(      UInt32    uiIndent, 
-                 const BitVector bvFlags) const
-{
-   Inherited::dump(uiIndent, bvFlags);
-}
-
-    
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-//! DrawAction:  execute the OpenGL commands directly   
-Action::ResultE Group::drawEnter(Action * action)
+Action::ResultE Group::drawEnter(Action *action)
 {
     DrawActionBase *da = dynamic_cast<DrawActionBase *>(action);
 
-    if ( da->selectVisibles() == 0 )
+    if(da->selectVisibles() == 0)
         return Action::Skip;
     
     return Action::Continue;
@@ -280,12 +182,15 @@ Action::ResultE Group::drawLeave(Action *)
     return Action::Continue;
 }
 
-Action::ResultE Group::intersect(Action * action)
+/*-------------------------------------------------------------------------*/
+/*                             Intersect                                   */
+
+Action::ResultE Group::intersect(Action *action)
 {
-    IntersectAction     *ia = dynamic_cast<IntersectAction*>(action);
-    const DynamicVolume &dv = ia->getActNode()->getVolume();
+          IntersectAction *ia = dynamic_cast<IntersectAction *>(action);
+    const DynamicVolume   &dv = ia->getActNode()->getVolume();
     
-    if( dv.isValid() && !dv.intersect(ia->getLine()) )
+    if(dv.isValid() && ! dv.intersect(ia->getLine()))
     {
         return Action::Skip;  //bv missed -> can not hit children
     }
@@ -293,10 +198,68 @@ Action::ResultE Group::intersect(Action * action)
     return Action::Continue;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                                Init                                     */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+void Group::initMethod (void)
+{
+#ifndef OSG_NOFUNCTORS
+    DrawAction::registerEnterDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  GroupPtr, 
+                                  Action *>(&Group::drawEnter));
+    DrawAction::registerLeaveDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  GroupPtr, 
+                                  Action *>(&Group::drawLeave));
+
+    RenderAction::registerEnterDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  GroupPtr, 
+                                  Action *>(&Group::drawEnter));
+    RenderAction::registerLeaveDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  GroupPtr, 
+                                  Action *>(&Group::drawLeave));
+    
+    IntersectAction::registerEnterDefault( 
+        getClassType(),
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,
+                                  GroupPtr,
+                                  Action *>(&Group::intersect));
+#else
+
+    DrawAction::registerEnterDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(Group::GroupDrawEnter));
+
+    DrawAction::registerLeaveDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(Group::GroupDrawLeave));
+
+    RenderAction::registerEnterDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(Group::GroupDrawEnter));
+
+    RenderAction::registerLeaveDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(Group::GroupDrawLeave));
+
+    IntersectAction::registerEnterDefault(
+        getClassType(),
+        Action::osgFunctionFunctor2(Group::GroupIntEnter));
+
+#endif
+}
 
 
 

@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -55,57 +51,64 @@
 
 OSG_USING_NAMESPACE
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGTRANSFORM_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGTRANSFORM_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*! \class osg::Transform
 
-The basic Transformation class. Just keeps a single matrix. For more complex 
-behaviour, see its descendents.     
+  The basic Transformation class. Just keeps a single matrix. For more complex 
+  behaviour, see its descendents.     
 
 */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                               Sync                                      */
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+void Transform::changed(BitVector, ChangeMode)
+{
+    invalidateVolume();
+}
 
-char Transform::cvsid[] = "@(#)$Id: $";
+/*-------------------------------------------------------------------------*/
+/*                               Helper                                    */
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+void Transform::accumulateMatrix(Matrix &result)
+{
+    result.mult(getMatrix());
+}
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+void Transform::adjustVolume(Volume &volume)
+{
+    volume.transform(_sfMatrix.getValue());
+}
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+void Transform::dump(      UInt32    uiIndent, 
+                     const BitVector bvFlags) const
+{
+   Inherited::dump(uiIndent, bvFlags);
+}
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
+/*-------------------------------------------------------------------------*/
+/*                         Transform Draw                                  */
 
 #ifdef OSG_NOFUNCTORS
 OSG::Action::ResultE Transform::TransformDrawEnter(CNodePtr &cnode, 
-                                                   Action  *pAction)
+                                                   Action   *pAction)
 {
     NodeCore  *pNC = cnode.getCPtr();
     Transform *pSC = dynamic_cast<Transform *>(pNC);
@@ -122,7 +125,7 @@ OSG::Action::ResultE Transform::TransformDrawEnter(CNodePtr &cnode,
 }
 
 OSG::Action::ResultE Transform::TransformDrawLeave(CNodePtr &cnode, 
-                                                   Action  *pAction)
+                                                   Action   *pAction)
 {
     NodeCore  *pNC = cnode.getCPtr();
     Transform *pSC = dynamic_cast<Transform *>(pNC);
@@ -139,7 +142,7 @@ OSG::Action::ResultE Transform::TransformDrawLeave(CNodePtr &cnode,
 }
 
 OSG::Action::ResultE Transform::TransformIntEnter(CNodePtr &cnode, 
-                                                  Action  *pAction)
+                                                  Action   *pAction)
 {
     NodeCore  *pNC = cnode.getCPtr();
     Transform *pSC = dynamic_cast<Transform *>(pNC);
@@ -156,7 +159,7 @@ OSG::Action::ResultE Transform::TransformIntEnter(CNodePtr &cnode,
 }
 
 OSG::Action::ResultE Transform::TransformIntLeave(CNodePtr &cnode, 
-                                                  Action  *pAction)
+                                                  Action   *pAction)
 {
     NodeCore  *pNC = cnode.getCPtr();
     Transform *pSC = dynamic_cast<Transform *>(pNC);
@@ -173,188 +176,92 @@ OSG::Action::ResultE Transform::TransformIntLeave(CNodePtr &cnode,
 }
 #endif
 
-void Transform::initMethod (void)
-{
-#ifndef OSG_NOFUNCTORS
-    DrawAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                TransformPtr, 
-                                Action *>(&Transform::drawEnter));
-    DrawAction::registerLeaveDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                TransformPtr, 
-                                Action *>(&Transform::drawLeave));
-
-    IntersectAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                TransformPtr, 
-                                Action *>(&Transform::intersectEnter));
-    IntersectAction::registerLeaveDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                TransformPtr, 
-                                Action *>(&Transform::intersectLeave));
-
-    RenderAction::registerEnterDefault(getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                TransformPtr, 
-                                Action *>(&Transform::renderEnter));
-    RenderAction::registerLeaveDefault(getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                TransformPtr, 
-                                Action *>(&Transform::renderLeave));
-
-#else
-
-    DrawAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Transform::TransformDrawEnter));
-    DrawAction::registerLeaveDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Transform::TransformDrawLeave));
-
-    IntersectAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Transform::TransformIntEnter));
-    IntersectAction::registerLeaveDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Transform::TransformIntLeave));
-#endif
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 Transform::Transform(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 Transform::Transform(const Transform &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 Transform::~Transform(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
 
-/** \brief react to field changes
- */
+/*-------------------------------------------------------------------------*/
+/*                               Draw                                      */
 
-void Transform::changed(BitVector, ChangeMode)
+Action::ResultE Transform::drawEnter(Action *action)
 {
-    invalidateVolume();
-}
+    DrawAction *da = dynamic_cast<DrawAction *>(action);
 
-/*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
-
-
-void Transform::accumulateMatrix( Matrix & result )
-{
-    result.mult( getMatrix() );
-}
-
-void Transform::adjustVolume( Volume & volume )
-{
-    volume.transform( _sfMatrix.getValue() );
-}
-
-/*------------------------------- dump ----------------------------------*/
-
-void Transform::dump(      UInt32    uiIndent, 
-                     const BitVector bvFlags) const
-{
-   Inherited::dump(uiIndent, bvFlags);
-}
-
-    
-/** Actions */
-
-// execute the OpenGL commands directly 
-Action::ResultE Transform::drawEnter(Action * action )
-{
-    DrawAction * da = dynamic_cast<DrawAction*>(action);
     // should use the chunk, but it's not updated yet
-    glPushMatrix();
-    glMultMatrixf( getMatrix().getValues() );
+    glPushMatrix ();
+    glMultMatrixf(getMatrix().getValues());
 
     da->selectVisibles();
 
     return Action::Continue;
 }
 
-Action::ResultE Transform::drawLeave(Action *  )
+Action::ResultE Transform::drawLeave(Action *)
 {
     glPopMatrix();
 
     return Action::Continue;
 }
 
-// test the ray 
-// transform it into the local coordinate space
-Action::ResultE Transform::intersectEnter( Action *action )
+/*-------------------------------------------------------------------------*/
+/*                            Intersect                                    */
+
+Action::ResultE Transform::intersectEnter(Action *action)
 {
-    IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
-    Matrix m = this->getMatrix();
+    IntersectAction *ia = dynamic_cast<IntersectAction *>(action);
+    Matrix           m  = this->getMatrix();
+
     m.invert();
     
     Pnt3f pos;
     Vec3f dir;
-    m.multFullMatrixPnt( ia->getLine().getPosition(), pos );
-    m.multMatrixVec( ia->getLine().getDirection(), dir );
+
+    m.multFullMatrixPnt(ia->getLine().getPosition (), pos);
+    m.multMatrixVec    (ia->getLine().getDirection(), dir);
     
-    ia->setLine( Line( pos, dir ), ia->getMaxDist() );
+    ia->setLine(Line(pos, dir), ia->getMaxDist());
 
     return Action::Continue; 
 }
 
-Action::ResultE Transform::intersectLeave( Action *action )
+Action::ResultE Transform::intersectLeave(Action *action)
 {
-    IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
-    Matrix m = this->getMatrix();
+    IntersectAction *ia = dynamic_cast<IntersectAction *>(action);
+    Matrix           m  = this->getMatrix();
     
     Pnt3f pos;
     Vec3f dir;
-    m.multFullMatrixPnt( ia->getLine().getPosition(), pos );
-    m.multMatrixVec( ia->getLine().getDirection(), dir );
+
+    m.multFullMatrixPnt(ia->getLine().getPosition (), pos);
+    m.multMatrixVec    (ia->getLine().getDirection(), dir);
     
-    ia->setLine( Line( pos, dir ), ia->getMaxDist() );
+    ia->setLine(Line(pos, dir), ia->getMaxDist());
 
     return Action::Continue;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                                Render                                   */
+
 Action::ResultE Transform::renderEnter(Action *action)
 {
-//    fprintf(stderr, "Transform::renderEnter\n");
-
     RenderAction *pAction = dynamic_cast<RenderAction *>(action);
 
     pAction->push_matrix(this->getMatrix());
@@ -366,8 +273,6 @@ Action::ResultE Transform::renderEnter(Action *action)
 
 Action::ResultE Transform::renderLeave(Action *action)
 {
-//    fprintf(stderr, "Transform::renderLeave\n");
-
     RenderAction *pAction = dynamic_cast<RenderAction *>(action);
 
     pAction->pop_matrix();
@@ -375,11 +280,74 @@ Action::ResultE Transform::renderLeave(Action *action)
     return Action::Continue;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Init                                     */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+void Transform::initMethod (void)
+{
+#ifndef OSG_NOFUNCTORS
 
+    DrawAction::registerEnterDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  TransformPtr, 
+                                  Action *>(&Transform::drawEnter));
+    
+    DrawAction::registerLeaveDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  TransformPtr, 
+                                  Action *>(&Transform::drawLeave));
+
+
+    IntersectAction::registerEnterDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  TransformPtr, 
+                                  Action *>(&Transform::intersectEnter));
+
+    IntersectAction::registerLeaveDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  TransformPtr, 
+                                  Action *>(&Transform::intersectLeave));
+
+
+    RenderAction::registerEnterDefault(
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  TransformPtr, 
+                                  Action *>(&Transform::renderEnter));
+
+    RenderAction::registerLeaveDefault(
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  TransformPtr, 
+                                  Action *>(&Transform::renderLeave));
+
+#else
+
+    DrawAction::registerEnterDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(Transform::TransformDrawEnter));
+
+    DrawAction::registerLeaveDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(Transform::TransformDrawLeave));
+
+    IntersectAction::registerEnterDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(Transform::TransformIntEnter));
+
+    IntersectAction::registerLeaveDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(Transform::TransformIntLeave));
+
+#endif
+}

@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGINLINE_H_
 #define _OSGINLINE_H_
 #ifdef __sgi
@@ -52,32 +51,9 @@ OSG_BEGIN_NAMESPACE
 
 class OSG_SYSTEMLIB_DLLMAPPING Inline : public InlineBase
 {
-    /*==========================  PRIVATE  ================================*/    
-  private:
-
-    typedef InlineBase Inherited;
-
     /*==========================  PUBLIC  =================================*/  
   public:
           
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-    static const char *getClassname(void) { return "Inline"; };
-  
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Inline Draw                               */
-    /*! \{                                                                 */  
-
-#ifdef OSG_NOFUNCTORS
-    static Action::ResultE InlineDrawEnter(CNodePtr &cnode, 
-                                             Action   *pAction);
-    static Action::ResultE InlineDrawLeave(CNodePtr &cnode, 
-                                             Action   *pAction);
-#endif
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Sync                                      */
     /*! \{                                                                 */
@@ -85,23 +61,41 @@ class OSG_SYSTEMLIB_DLLMAPPING Inline : public InlineBase
     virtual void changed(BitVector  whichField, 
                          ChangeMode from);
  
-    /*------------------------------ dump -----------------------------------*/
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(      UInt32    uiIndent = 0, 
                       const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    typedef InlineBase Inherited;
+
+#ifdef OSG_NOFUNCTORS
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Inline Draw                               */
+    /*! \{                                                                 */  
+
+    static Action::ResultE InlineDrawEnter(CNodePtr &cnode, 
+                                           Action   *pAction);
+    static Action::ResultE InlineDrawLeave(CNodePtr &cnode, 
+                                           Action   *pAction);
+
+    /*! \}                                                                 */
+#endif
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Draw                                      */
     /*! \{                                                                 */
     
-    Action::ResultE drawEnter(Action * action );
-    Action::ResultE drawLeave(Action * action );
+    Action::ResultE drawEnter(Action *action);
+    Action::ResultE drawLeave(Action *action);
 
     /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/    
-  protected:
-          
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -117,29 +111,30 @@ class OSG_SYSTEMLIB_DLLMAPPING Inline : public InlineBase
     virtual ~Inline(void); 
 
     /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/        
+    /*==========================  PRIVATE  ================================*/
   private:
 
     friend class FieldContainer;
     friend class InlineBase;
 
-    static char cvsid[];
-    
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
+    /*! \name                     Init                                     */
     /*! \{                                                                 */
 
-    static void initMethod( void );
-    void operator =(const Inline &source);
+    static void initMethod(void);
     
-    /*! \}                                                                 */    
-};
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
 
-typedef Inline *InlineP;
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const Inline &source);
+};
 
 OSG_END_NAMESPACE
 
 #include <OSGInline.inl>
 #include <OSGInlineBase.inl>
+
+#define OSGINLINE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGINLINE_H_ */

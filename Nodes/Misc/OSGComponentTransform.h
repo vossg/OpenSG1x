@@ -36,8 +36,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGVRMLTRANSFORM_H_
-#define _OSGVRMLTRANSFORM_H_
+#ifndef _OSGCOMPONENTTRANSFORM_H_
+#define _OSGCOMPONENTTRANSFORM_H_
+
 #ifdef __sgi
 #pragma once
 #endif
@@ -52,24 +53,23 @@ OSG_BEGIN_NAMESPACE
  *  \ingroup NodesLib
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform : public ComponentTransformBase
+class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform : 
+    public ComponentTransformBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "ComponentTransform"; };
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField,
                          ChangeMode from);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(      UInt32    uiIndent = 0,
                       const BitVector bvFlags  = 0) const;
@@ -78,25 +78,27 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform : public ComponentTransformBas
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                      ComponentTransform Draw                      */
-    /*! \{                                                                 */
+    typedef ComponentTransformBase Inherited;
 
 #ifdef OSG_NOFUNCTORS
+    /*---------------------------------------------------------------------*/
+    /*! \name                ComponentTransform Draw                       */
+    /*! \{                                                                 */
+
     static Action::ResultE ComponentTransformDrawEnter(CNodePtr &cnode,
-                                                  Action   *pAction);
+                                                       Action   *pAction);
     static Action::ResultE ComponentTransformDrawLeave(CNodePtr &cnode,
-                                                  Action   *pAction);
+                                                       Action   *pAction);
+
+    /*! \}                                                                 */
 #endif
     
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Action Callback                            */
     /*! \{                                                                 */
 
     Action::ResultE intersectEnter(Action * action);
     Action::ResultE intersectLeave(Action * action);
-    
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -108,7 +110,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform : public ComponentTransformBas
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     virtual ~ComponentTransform(void);
@@ -117,28 +119,27 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform : public ComponentTransformBas
     /*==========================  PRIVATE  ================================*/
   private:
 
-    typedef ComponentTransformBase Inherited;
-
     friend class FieldContainer;
     friend class ComponentTransformBase;
 
-    static char cvsid[];
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
+    /*! \name                     Init                                     */
     /*! \{                                                                 */
 
-    static void initMethod( void );
-    void operator =(const ComponentTransform &source);
+    static void initMethod(void);
 
     /*! \}                                                                 */
-};
+    /*---------------------------------------------------------------------*/
 
-typedef ComponentTransform *ComponentTransformP;
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const ComponentTransform &source);
+};
 
 OSG_END_NAMESPACE
 
 #include <OSGComponentTransform.inl>
 #include <OSGComponentTransformBase.inl>
 
-#endif /* _OSGVRMLTRANSFORM_H_ */
+#define OSGCOMPONENTTRANSFORM_HEADER_CVSID "@(#)$Id: OSGComponentTransform.h,v 1.4 2001/11/05 11:15:31 vossg Exp $"
+
+#endif /* _OSGCOMPONENTTRANSFORM_H_ */

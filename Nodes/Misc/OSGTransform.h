@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGTRANSFORM_H_
 #define _OSGTRANSFORM_H_
 #ifdef __sgi
@@ -59,22 +58,25 @@ class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "Transform"; };
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
-
-    virtual void accumulateMatrix( Matrix & result );
 
     virtual void changed(BitVector  whichField,
                          ChangeMode from);
 
-    void adjustVolume( Volume & volume );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
+
+    virtual void accumulateMatrix(Matrix &result);
+
+            void adjustVolume    (Volume &volume);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(      UInt32    uiIndent = 0,
                       const BitVector bvFlags  = 0) const;
@@ -83,23 +85,26 @@ class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    typedef TransformBase Inherited;
+
+#ifdef OSG_NOFUNCTORS
     /*---------------------------------------------------------------------*/
     /*! \name                      Transform Draw                          */
     /*! \{                                                                 */
 
-#ifdef OSG_NOFUNCTORS
     static Action::ResultE TransformDrawEnter(CNodePtr &cnode,
                                               Action   *pAction);
     static Action::ResultE TransformDrawLeave(CNodePtr &cnode,
                                               Action   *pAction);
 
-    static Action::ResultE TransformIntEnter(CNodePtr &cnode,
-                                             Action   *pAction);
-    static Action::ResultE TransformIntLeave(CNodePtr &cnode,
-                                             Action   *pAction);
-#endif
+    static Action::ResultE TransformIntEnter (CNodePtr &cnode,
+                                              Action   *pAction);
+    static Action::ResultE TransformIntLeave (CNodePtr &cnode,
+                                              Action   *pAction);
 
     /*! \}                                                                 */
+#endif
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -119,41 +124,40 @@ class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
     /*! \name              Draw & Intersect & Render                       */
     /*! \{                                                                 */
 
-    Action::ResultE drawEnter(Action * action );
-    Action::ResultE drawLeave(Action * action );
+    Action::ResultE drawEnter     (Action *action);
+    Action::ResultE drawLeave     (Action *action);
 
-    Action::ResultE intersectEnter(Action * action );
-    Action::ResultE intersectLeave(Action * action );
+    Action::ResultE intersectEnter(Action *action);
+    Action::ResultE intersectLeave(Action *action);
 
-    Action::ResultE renderEnter(Action *action);
-    Action::ResultE renderLeave(Action *action);
+    Action::ResultE renderEnter   (Action *action);
+    Action::ResultE renderLeave   (Action *action);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
-    typedef TransformBase Inherited;
-
     friend class FieldContainer;
     friend class TransformBase;
 
-    static char cvsid[];
-
     /*---------------------------------------------------------------------*/
-    /*! \name                       Class Specific                         */
+    /*! \name                   Init                                       */
     /*! \{                                                                 */
 
-    static void initMethod( void );
-    void operator =(const Transform &source);
+    static void initMethod(void);
 
     /*! \}                                                                 */
-};
+    /*---------------------------------------------------------------------*/
 
-typedef Transform *TransformP;
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const Transform &source);
+};
 
 OSG_END_NAMESPACE
 
 #include <OSGTransform.inl>
 #include <OSGTransformBase.inl>
+
+#define OSGTRANSFORM_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGTRANSFORM_H_ */

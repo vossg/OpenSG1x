@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -52,57 +48,49 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGSWITCH_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSWITCH_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*! \class osg::Switch
-
-
-
 */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                                Sync                                     */
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+void Switch::changed(BitVector, ChangeMode)
+{
+}
 
-char Switch::cvsid[] = "@(#)$Id: $";
+/*-------------------------------------------------------------------------*/
+/*                               Dump                                      */
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+void Switch::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
+                  const BitVector OSG_CHECK_ARG(bvFlags )) const
+{
+    SLOG << "Dump Switch NI" << endl;
+}
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                              Switch Draw                                */
 
 #ifdef OSG_NOFUNCTORS
 OSG::Action::ResultE Switch::SwitchDraw(CNodePtr &cnode, 
-                                        Action  *pAction)
+                                        Action   *pAction)
 {
-    NodeCore  *pNC = cnode.getCPtr();
-    Switch    *pSC = dynamic_cast<Switch *>(pNC);
+    NodeCore *pNC = cnode.getCPtr();
+    Switch   *pSC = dynamic_cast<Switch *>(pNC);
 
     if(pSC == NULL)
     {
@@ -116,10 +104,51 @@ OSG::Action::ResultE Switch::SwitchDraw(CNodePtr &cnode,
 }
 #endif
 
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
-void Switch::initMethod (void)
+Switch::Switch(void) :
+    Inherited()
+{
+}
+
+Switch::Switch(const Switch &source) :
+    Inherited(source)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+Switch::~Switch(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Draw                                      */
+
+Action::ResultE Switch::draw(Action *action)
+{
+    DrawActionBase *da = dynamic_cast<DrawActionBase *>(action);
+
+    da->useNodeList();
+
+    if((getChoice() >= 0                 ) && 
+       (getChoice() < action->getNNodes()))
+    {
+        if(da->isVisible(action->getNode(getChoice()).getCPtr()))
+        {
+            da->addNode(action->getNode(getChoice()));
+        }
+    }
+    
+    return Action::Continue;
+}
+ 
+/*-------------------------------------------------------------------------*/
+/*                                Init                                     */
+
+void Switch::initMethod(void)
 {
 #ifndef OSG_NOFUNCTORS
 
@@ -139,92 +168,13 @@ void Switch::initMethod (void)
 
 #else
 
-    DrawAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Switch::SwitchDraw));
+    DrawAction::registerEnterDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(Switch::SwitchDraw));
 
-    RenderAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                        Switch::SwitchDraw));
+    RenderAction::registerEnterDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(Switch::SwitchDraw));
 
 #endif
 }
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-Switch::Switch(void) :
-    Inherited()
-{
-}
-
-/** \brief Copy Constructor
- */
-
-Switch::Switch(const Switch &source) :
-    Inherited(source)
-{
-}
-
-/** \brief Destructor
- */
-
-Switch::~Switch(void)
-{
-}
-
-
-/** \brief react to field changes
- */
-
-void Switch::changed(BitVector, ChangeMode)
-{
-}
-
-/*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
-
-void Switch::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
-                  const BitVector OSG_CHECK_ARG(bvFlags )) const
-{
-    SLOG << "Dump Switch NI" << endl;
-}
-
-    
-Action::ResultE Switch::draw(Action* action)
-{
-    DrawActionBase *da = dynamic_cast<DrawActionBase *>(action);
-
-    da->useNodeList();
-
-    if((getChoice() >= 0                 ) && 
-       (getChoice() < action->getNNodes()))
-    {
-        if ( da->isVisible( action->getNode(getChoice()).getCPtr() ) )
-            da->addNode(action->getNode(getChoice()));
-    }
-    
-    return Action::Continue;
-}
- 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-

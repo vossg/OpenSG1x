@@ -36,9 +36,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGMATERIALGROUP_H_
 #define _OSGMATERIALGROUP_H_
+
 #ifdef __sgi
 #pragma once
 #endif
@@ -52,27 +52,20 @@ OSG_BEGIN_NAMESPACE
 
 class OSG_SYSTEMLIB_DLLMAPPING MaterialGroup : public MaterialGroupBase
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef MaterialGroupBase Inherited;
-
     /*==========================  PUBLIC  =================================*/
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "MaterialGroup"; };
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField,
                          ChangeMode from);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
 
     virtual void dump(      UInt32    uiIndent = 0,
                       const BitVector bvFlags  = 0) const;
@@ -81,23 +74,26 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroup : public MaterialGroupBase
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    typedef MaterialGroupBase Inherited;
+
+#ifdef OSG_NOFUNCTORS
     /*---------------------------------------------------------------------*/
     /*! \name                   Mat Group Draw & Render                    */
     /*! \{                                                                 */
 
-#ifdef OSG_NOFUNCTORS
-    static Action::ResultE MatGroupDrawEnter(CNodePtr &cnode,
-                                             Action   *pAction);
-    static Action::ResultE MatGroupDrawLeave(CNodePtr &cnode,
-                                             Action   *pAction);
-
+    static Action::ResultE MatGroupDrawEnter  (CNodePtr &cnode,
+                                               Action   *pAction);
+    static Action::ResultE MatGroupDrawLeave  (CNodePtr &cnode,
+                                               Action   *pAction);
+    
     static Action::ResultE MatGroupRenderEnter(CNodePtr &cnode,
-                                             Action   *pAction);
+                                               Action   *pAction);
     static Action::ResultE MatGroupRenderLeave(CNodePtr &cnode,
-                                             Action   *pAction);
-#endif
+                                               Action   *pAction);
 
     /*! \}                                                                 */
+#endif
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -117,11 +113,11 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroup : public MaterialGroupBase
     /*! \name                   Draw & Render                              */
     /*! \{                                                                 */
 
-    Action::ResultE drawEnter(Action * action );
-    Action::ResultE drawLeave(Action * action );
+    Action::ResultE drawEnter  (Action *action);
+    Action::ResultE drawLeave  (Action *action);
 
-    Action::ResultE renderEnter(Action * action);
-    Action::ResultE renderLeave(Action * action);
+    Action::ResultE renderEnter(Action *action);
+    Action::ResultE renderLeave(Action *action);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -130,16 +126,17 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroup : public MaterialGroupBase
     friend class FieldContainer;
     friend class MaterialGroupBase;
 
-    static char cvsid[];
-
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
+    /*! \name                       Init                                   */
     /*! \{                                                                 */
 
-    static void initMethod( void );
-    void operator =(const MaterialGroup &source);
+    static void initMethod(void);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const MaterialGroup &source);
 };
 
 typedef MaterialGroup *MaterialGroupP;
@@ -148,5 +145,7 @@ OSG_END_NAMESPACE
 
 #include <OSGMaterialGroup.inl>
 #include <OSGMaterialGroupBase.inl>
+
+#define OSGMATERIALGROUP_HEADER_CVSID "@(#)$Id: OSGMaterialGroup.h,v 1.11 2001/11/05 11:15:31 vossg Exp $"
 
 #endif /* _OSGMATERIALGROUP_H_ */
