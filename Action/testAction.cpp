@@ -201,12 +201,28 @@ Action::ResultE traventer(NodePtr& node)
 	return Action::Continue; 
 }
 
-Action::ResultE travleave(NodePtr& node) 
+Action::ResultE travleave(NodePtr& node, Action::ResultE res) 
 { 
-	cerr << "travleave called: " << node << endl;
+	cerr << "travleave called: " << node << " " << res << endl;
 
 	return Action::Continue; 
 }
+
+struct TravActor
+{
+    Action::ResultE enter(NodePtr& n)
+    {
+ 	    cerr << "TravActor::enter " << this << " Node " << n << endl;
+        return Action::Continue;
+    }
+    Action::ResultE leave(NodePtr& n, Action::ResultE res)
+    {
+ 	    cerr << "TravActor::leave " << this << " Node " << n 
+             << " Res " << res << endl;
+        return Action::Continue;
+    }
+};
+
 
 int main( int argc, char *argv[] )
 {
@@ -325,9 +341,34 @@ int main( int argc, char *argv[] )
 
 #if 1 // !!! what the &%$^&# is going on here?
 
+    {
+    
+    TravActor tact1,tact2;
+
     // traversal function test
 	cerr << "Traverse(node,enter):" << endl;
-    traverse(g1,  osgFunctionFunctor1(traventer));    
+    traverse(g1, osgMethodFunctor1Ptr(&tact1, &TravActor::enter));    
+
+    
+	cerr << "Traverse(node,enter):" << endl;
+    traverse(g1, osgMethodFunctor1Ptr(&tact1, &TravActor::enter));    
+    
+	cerr << "Traverse(list,enter):" << endl;
+    traverse(g1->getMFChildren()->getValues(), 
+             osgMethodFunctor1Ptr(&tact2, &TravActor::enter) );
+    
+	cerr << "Traverse(node,enter&leave):" << endl;
+    traverse(g1, osgMethodFunctor1Ptr(&tact1, &TravActor::enter), 
+                 osgMethodFunctor2Ptr(&tact1, &TravActor::leave) );
+    
+	cerr << "Traverse(list,enter&leave):" << endl;
+    traverse(g1->getMFChildren()->getValues(), 
+             osgMethodFunctor1Ptr(&tact2, &TravActor::enter), 
+             osgMethodFunctor2Ptr(&tact2, &TravActor::leave) );
+ 
+    
+	cerr << "Traverse(node,enter):" << endl;
+    traverse(g1, osgFunctionFunctor1(traventer));    
     
 	cerr << "Traverse(list,enter):" << endl;
     traverse(g1->getMFChildren()->getValues(), 
@@ -335,12 +376,13 @@ int main( int argc, char *argv[] )
     
 	cerr << "Traverse(node,enter&leave):" << endl;
     traverse(g1, osgFunctionFunctor1(traventer), 
-                 osgFunctionFunctor1(travleave) );
+                 osgFunctionFunctor2(travleave) );
     
-	cerr << "Traverse(list,enter):" << endl;
+	cerr << "Traverse(list,enter&leave):" << endl;
     traverse(g1->getMFChildren()->getValues(), 
              osgFunctionFunctor1(traventer), 
-             osgFunctionFunctor1(travleave) );
+             osgFunctionFunctor2(travleave) );
+    }
 #endif  
     
 

@@ -496,10 +496,18 @@ Action::ResultE Action::_defaultLeaveFunction(CNodePtr& node, Action * action)
 OSG_BEGIN_NAMESPACE
 
 inline
-Action::ResultE doCall(NodePtr          node, 
-                       TraverseFunctor &func)
+Action::ResultE doCallEnter(NodePtr               node, 
+                            TraverseEnterFunctor &func)
 {
     return func.call(node);
+}
+
+inline
+Action::ResultE doCallLeave(NodePtr               node, 
+                            Action::ResultE       res,
+                            TraverseLeaveFunctor &func)
+{
+    return func.call(node, res);
 }
 
 OSG_END_NAMESPACE
@@ -507,8 +515,8 @@ OSG_END_NAMESPACE
 /*! Simple tree traversal function. Calls func for every node encountered
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE OSG::traverse(  vector<NodePtr> &list, 
-                                TraverseFunctor func )
+Action::ResultE OSG::traverse(  vector<NodePtr>     &list, 
+                                TraverseEnterFunctor func )
 {
     Action::ResultE res;
     vector<NodePtr>::iterator it = list.begin(),
@@ -516,7 +524,7 @@ Action::ResultE OSG::traverse(  vector<NodePtr> &list,
     
     for ( ; it != en; ++it )
     {
-        res = doCall((*it), func);
+        res = doCallEnter((*it), func);
         
         if(res == Action::Quit)
             break;
@@ -528,12 +536,12 @@ Action::ResultE OSG::traverse(  vector<NodePtr> &list,
 /*! Simple tree traversal function. Calls func for every node encountered
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE OSG::traverse(  NodePtr node, 
-                               TraverseFunctor func )
+Action::ResultE OSG::traverse( NodePtr              node, 
+                               TraverseEnterFunctor func )
 {
     Action::ResultE res;
     
-    res = doCall(node, func);
+    res = doCallEnter(node, func);
     
     switch(res)
     {
@@ -550,11 +558,28 @@ Action::ResultE OSG::traverse(  NodePtr node,
     leave after leaving.
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE OSG::traverse(   vector<NodePtr> &list, 
-                                 TraverseFunctor  enter, 
-                                 TraverseFunctor  leave )
+Action::ResultE OSG::traverse(   vector<NodePtr>      &list, 
+                                 TraverseEnterFunctor  enter, 
+                                 TraverseLeaveFunctor  leave )
 {
-    return Action::Quit;
+    Action::ResultE res;
+    vector<NodePtr>::iterator it = list.begin(),
+                              en = list.end();
+    
+    for ( ; it != en; ++it )
+    {
+        res = doCallEnter((*it), enter);
+        
+        if(res == Action::Quit)
+            break;
+        
+        res = doCallLeave((*it), res, leave);
+        
+        if(res == Action::Quit)
+            break;       
+    }
+        
+    return res;
 }
 
                             
@@ -562,9 +587,23 @@ Action::ResultE OSG::traverse(   vector<NodePtr> &list,
     leave after leaving.
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE OSG::traverse(   NodePtr root, 
-                                 TraverseFunctor enter, 
-                                 TraverseFunctor leave )
+Action::ResultE OSG::traverse(   NodePtr node, 
+                                 TraverseEnterFunctor enter, 
+                                 TraverseLeaveFunctor leave )
 {
-    return Action::Quit;
+    Action::ResultE res;
+    
+    res = doCallEnter(node, enter);
+    
+    switch(res)
+    {
+    case Action::Skip:      return Action::Continue;
+    case Action::Continue:  return traverse( node->getMFChildren()->getValues(), 
+                                             enter, leave );
+    default:                break;
+    }
+     
+    res = doCallLeave(node, res, leave);
+                
+    return res;
 }

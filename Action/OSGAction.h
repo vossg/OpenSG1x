@@ -352,23 +352,25 @@ typedef Action *ActionP;
 
 #ifndef OSG_NOFUNCTORS
 
-typedef Functor1Base<Action::ResultE, NodePtr &> TraverseFunctor;
+typedef Functor1Base<Action::ResultE, NodePtr &> TraverseEnterFunctor;
+typedef Functor2Base<Action::ResultE, NodePtr &, Action::ResultE> 
+                                                 TraverseLeaveFunctor;
 
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE traverse(NodePtr         root, 
-                         TraverseFunctor func);
+Action::ResultE traverse(NodePtr               root, 
+                         TraverseEnterFunctor  func);
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE traverse(vector<NodePtr> &list, 
-                         TraverseFunctor  func);
+Action::ResultE traverse(vector<NodePtr>      &list, 
+                         TraverseEnterFunctor  func);
                             
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE traverse(NodePtr         root, 
-                         TraverseFunctor enter, 
-                         TraverseFunctor leave);
+Action::ResultE traverse(NodePtr               root, 
+                         TraverseEnterFunctor  enter, 
+                         TraverseLeaveFunctor  leave);
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE traverse(vector<NodePtr> &list, 
-                         TraverseFunctor  enter, 
-                         TraverseFunctor  leave);
+Action::ResultE traverse(vector<NodePtr>      &list, 
+                         TraverseEnterFunctor  enter, 
+                         TraverseLeaveFunctor  leave);
 #endif
                             
 /*! \}                                                                 */
