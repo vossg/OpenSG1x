@@ -1,0 +1,124 @@
+
+LINKER_INIT_FLAG     := -Wl,-Bsymbolic -Wl,-init 
+
+LIBPATH_OPTION       := -L
+LIBLNK_OPTION        := -l
+
+OBJ_OPTION           := -o
+
+NO_STDINC_DEP_OPTION := -Y
+
+COMPONLY_OPTION      := -c
+
+ASONLY_OPTION        := -s
+
+DEPEND_OPTION        := -M
+
+LD_OUTOPT            := -o 
+
+DIR_SEP              := /
+
+II_FILESDIR          := 
+
+### Defines #######################################################
+
+# For QT
+DEP_PLATTFORMDEF = -Ddarwin
+
+SOURCE_DEFINES   = -Ddarwin -D_GNU_SOURCE -DQT_CLEAN_NAMESPACE \
+                   $(CONFIGURED_PACKAGE_DEFS)
+#-DMNG_LIB -DPNG_LIB
+#-D__STL_USE_NEW_IOSTREAMS
+
+SYSTEM_DEFINES   = -D_OSG_HAVE_CONFIGURED_H_
+
+### Warnings #######################################################
+
+WARNINGS	   	:= -Wall -W   -Wpointer-arith 			\
+				   -Wcast-qual -Wcast-align   -Wconversion   	\
+				   -Wsign-compare 						  		\
+				   -Winline 
+
+#-Wshadow
+#				   -Wmissing-declarations -Wmissing-noreturn    \
+
+WARNINGS_C_OFF		= # -woff 835
+
+# 1110 : statement is unreachable
+# 1174 : Variable declared but never referenced
+# 1375 : Base class Destructor not virtual
+# 1376 : class has no accessible constructors
+# 1424 : The template parameter is not used in declaring the argument types
+# 1682 : overloaded virtual function is only partially overridden
+# rubens
+# warning(3322): omission of explicit type is nonstandard ("int" assumed)
+
+WARNINGS_CPP_OFF 	= -Wno-unused -Wno-long-long
+
+### Language #######################################################
+
+LANG_FLAGS          = 
+#-frepo  -fno-implicit-templates
+COMPILER    		= -ansi  -use_readonly_const 
+
+ifeq ($(LNK),)
+COMPILER           := $(COMPILER) -dynamic
+endif
+
+### Optimize / Debug ###############################################
+
+ifeq ($(PRINT_INLINE), 1)
+COMP_INLINE := 
+endif
+
+ifeq ($(DEBUG_VERSION), 0)
+	COMP_OPTIMIZE    = -O2
+	COMP_DEBUG       = 
+else
+	COMP_OPTIMIZE    =
+	COMP_DEBUG       = -g -DOSG_DEBUG
+endif
+
+### Compiler Flags ################################################
+
+
+DEFINES     = $(SOURCE_DEFINES) $(SYSTEM_DEFINES) $(DEP_PLATTFORMDEF)
+
+# C Compiler Flags
+
+NO_STD_INC     = -nostdinc
+NO_STD_INC_DEP = -Y
+
+CFLAGS   = $(WARNINGS) $(WARNINGS_C_OFF) -D__STDC__ $(DEFINES) 	\
+		   $(COMPILER) $(COMP_OPTIMIZE) $(COMP_DEBUG) 
+
+# CPP Compiler Flags
+
+CCFLAGS   = $(WARNINGS)   $(WARNINGS_CPP_OFF) $(DEFINES)		\
+		    $(COMPILER)   $(LANG_FLAGS)       $(COMP_OPTIMIZE) 	\
+			$(COMP_DEBUG) 
+
+# Assembler Flags
+
+ASFLAGS   = $(WARNINGS) $(WARNINGS_C_OFF) $(DEFINES) 	\
+	 	    $(COMPILER) $(COMP_OPTIMIZE) $(COMP_DEBUG) 
+
+
+# Linker Flags
+
+ifeq ($(PRINT_INLINE), 1)
+LINK_INLINE := 
+endif
+
+ifeq ($(DEBUG_VERSION), 0)
+	LINK_OPTIMIZE    = -O2
+	AR_FLAGS         = 
+	LINK_DEBUG       = 
+else
+	LINK_OPTIMIZE    =
+	LINK_DEBUG       = -g 
+endif
+
+
+LD_FLAGS += -L/usr/X11R6/lib $(LINK_OPTIMIZE) $(LINK_DEBUG)
+
