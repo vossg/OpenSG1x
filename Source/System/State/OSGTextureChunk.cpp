@@ -1058,12 +1058,18 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
       )
     {
         nteximages = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
+        // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
+        if(nteximages == Window::unknownConstant)
+            nteximages = 1.0f;
     }
     if((ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)) ==
        Window::unknownConstant
       )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
+        // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
+        if(ntexcoords == Window::unknownConstant)
+            ntexcoords = 1.0f;
     }
 
     if(idx >= nteximages)
@@ -1132,7 +1138,14 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         }
     }
 
-    if(idx < win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB))
+    UInt32 ntexunits = static_cast<UInt32>(
+                            win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB));
+
+    // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
+    if(ntexunits == Window::unknownConstant)
+        ntexunits = 1;
+
+    if(idx < ntexunits)
     {
         // texture env
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
@@ -1222,6 +1235,10 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     
     ntexunits = static_cast<UInt32>(
                             win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB));
+
+    // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
+    if(ntexunits == Window::unknownConstant)
+        ntexunits = 1;
 
     if((dummy = win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)) ==
        Window::unknownConstant
@@ -1400,12 +1417,18 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
       )
     {
         nteximages = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
+        // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
+        if(nteximages == Window::unknownConstant)
+            nteximages = 1.0f;
     }
     if((ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_COORDS_ARB)) ==
        Window::unknownConstant
       )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
+        // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
+        if(ntexcoords == Window::unknownConstant)
+            ntexcoords = 1.0f;
     }
 
     if(idx >= nteximages)
@@ -1452,8 +1475,10 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
 	          0.0f);
     }
     
+    UInt32 ntexunits = static_cast<UInt32>(
+                            win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB));
     
-    if(idx >= static_cast<UInt16>(win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB)))
+    if(idx >= ntexunits)
         return; // tetxures >= MTU are not enabled and don't have an env
         
     if(!isActive)
