@@ -72,11 +72,11 @@ doc:
 		`cat Common/dummyClasses.list` 		  					\
                  > Common/dummyClasses.doxygen
 
-	#@rm -f Common/dummyClasses.list       						
+	@rm -f Common/dummyClasses.list       						
 
 	# do doxygen
 	$(DOC_ENV) doxygen Common/Doxygen_$(OS_BASE).cfg -d
-	# @rm -f Common/dummyClasses.doxygen  
+	@rm -f Common/dummyClasses.doxygen  
 
 
 fcdToBase:
