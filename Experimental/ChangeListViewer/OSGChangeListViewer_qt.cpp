@@ -6,6 +6,11 @@
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
+
+#ifdef WIN32
+#pragma warning (disable : 1125)
+#endif
+
 #include "OSGChangeListViewer_qt.h"
 
 #include <qvariant.h>   // first for gcc 2.7.2
@@ -28,6 +33,10 @@
 #include <qtooltip.h>
 #include <qwhatsthis.h>
 #include "OSGChangeListViewer_qt.ui.h"
+
+#ifdef WIN32
+#pragma warning (default : 1125)
+#endif
 
 /* 
  *  Constructs a ChangeListViewer which is a child of 'parent', with the 
