@@ -92,12 +92,14 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunk : public BlendChunkBase
     /*! \name                    State Commands                            */
     /*! \{                                                                 */
 
-    virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
+    virtual void activate      ( DrawActionBase * action, UInt32 index = 0 );
 
-    virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
-                              UInt32 index = 0 );
+    virtual void changeFrom    ( DrawActionBase * action, StateChunk * old,
+                                 UInt32 index = 0 );
 
-    virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
+    virtual void deactivate    ( DrawActionBase * action, UInt32 index = 0 );
+
+    virtual bool isTransparent ( void ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

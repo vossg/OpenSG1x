@@ -372,6 +372,11 @@ void BlendChunk::deactivate ( DrawActionBase *action, UInt32 )
 
 /*-------------------------- Comparison -----------------------------------*/
 
+bool BlendChunk::isTransparent(void) const
+{
+    return getDestFactor() != GL_ZERO;
+}
+
 Real32 BlendChunk::switchCost(StateChunk *)
 {
     return 0;
