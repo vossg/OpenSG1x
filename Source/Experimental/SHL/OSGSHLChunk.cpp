@@ -731,19 +731,24 @@ void SHLChunk::checkOSGParameters(void)
         {
             if(parameter->getName() == "OSGCameraOrientation")
             {
-                _osgParametersCallbacks.push_back(updateCameraOrientation);
+                // .net compiler needs this workaround in opt mode ...
+                paramtercbfp fp = updateCameraOrientation;
+                _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGCameraPosition")
             {
-                _osgParametersCallbacks.push_back(updateCameraPosition);
+                paramtercbfp fp = updateCameraPosition;
+                _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGViewMatrix")
             {
-                _osgParametersCallbacks.push_back(updateViewMatrix);
+                paramtercbfp fp = updateViewMatrix;
+                _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGInvViewMatrix")
             {
-                _osgParametersCallbacks.push_back(updateInvViewMatrix);
+                paramtercbfp fp = updateInvViewMatrix;
+                _osgParametersCallbacks.push_back(fp);
             }
             else
             {
@@ -941,7 +946,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.26 2004/09/09 17:56:15 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.27 2004/09/10 11:44:27 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
