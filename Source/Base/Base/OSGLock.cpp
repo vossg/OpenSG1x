@@ -408,7 +408,7 @@ void Lock::release(void)
 
 bool Lock::request(void)
 {
-    Inherited::request();
+    return Inherited::request();
 }
 
 /*------------------------------ Create -----------------------------------*/
