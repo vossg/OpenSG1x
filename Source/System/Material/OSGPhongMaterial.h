@@ -80,8 +80,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterial : public PhongMaterialBase
     virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector  bvFlags  = 0) const;
 
-    virtual StatePtr makeState(void);
-    virtual void rebuildState(void);
+    virtual StatePtr    makeState       (void);
+    virtual void        rebuildState    (void);
+    virtual bool        isTransparent   (void) const;
   
     static ChunkMaterialPtr createChunkMaterial(void);
 

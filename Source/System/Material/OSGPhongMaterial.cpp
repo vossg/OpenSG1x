@@ -322,7 +322,7 @@ StatePtr PhongMaterial::makeState(void)
 
     if(isTransparent())
         state->addChunk(_blendChunk);
-
+    
     if(_vpChunk != NullFC)
         state->addChunk(_vpChunk);
     
@@ -386,7 +386,7 @@ void PhongMaterial::rebuildState(void)
     
     if(isTransparent())
         _pState->addChunk(_blendChunk);
-
+    
     if(_vpChunk != NullFC)
         _pState->addChunk(_vpChunk);
     
@@ -403,6 +403,10 @@ void PhongMaterial::rebuildState(void)
     }
 }
 
+bool PhongMaterial::isTransparent(void) const
+{
+    return ((getTransparency() > Eps) || (Inherited::isTransparent()));
+}
 
 ChunkMaterialPtr PhongMaterial::createChunkMaterial(void)
 {
