@@ -50,6 +50,8 @@
 
 OSG_USING_NAMESPACE
 
+#if 0
+
 FieldDescription *NameAttachmentDesc::_desc[] =
 {
     new FieldDescription(
@@ -58,9 +60,14 @@ FieldDescription *NameAttachmentDesc::_desc[] =
         OSG_FC_FIELD_IDM_DESC(SimpleAttachment<
                                   NameAttachmentDesc>::SimpleField),
         false,
+        (FieldAccessMethod) NULL)
+/*
         (FieldAccessMethod) &SimpleAttachment<
                                   NameAttachmentDesc>::getFieldPtr)
+ */
 };
+
+#endif
 
 OSG_BEGIN_NAMESPACE
 

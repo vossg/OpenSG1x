@@ -88,7 +88,7 @@ const FieldType MField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
     MFieldTraits::getMName(), 
     MFieldTraits::getPName(),
     MFieldTraits::getType (),
-    create,
+    MField<FieldTypeT, fieldNameSpace>::create,
     FieldType::MULTI_FIELD);
 #else
 template <class FieldTypeT, Int32 fieldNameSpace>
@@ -96,7 +96,7 @@ const FieldType MField<FieldTypeT, fieldNameSpace>::_fieldType(
     MFieldTraits::getMName(), 
     MFieldTraits::getPName(),
     MFieldTraits::getType (),
-    create,
+    MField<FieldTypeT, fieldNameSpace>::create,
     FieldType::MULTI_FIELD);
 #endif
 

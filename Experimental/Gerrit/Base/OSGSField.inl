@@ -64,7 +64,7 @@ const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
     SFieldTraits::getSName(), 
     SFieldTraits::getPName(),
     SFieldTraits::getType (),
-    create,
+    SField<FieldTypeT, fieldNameSpace>::create,
     FieldType::SINGLE_FIELD);
 #else
 template <class FieldTypeT, Int32 fieldNameSpace>
@@ -72,7 +72,7 @@ const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType(
     SFieldTraits::getSName(), 
     SFieldTraits::getPName(),
     SFieldTraits::getType (),
-    create,
+    SField<FieldTypeT, fieldNameSpace>::create,
     FieldType::SINGLE_FIELD);
 #endif
 
@@ -124,7 +124,7 @@ SField<FieldTypeT, fieldNameSpace>::~SField(void)
 //! Return a reference to the stored value
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-SField<FieldTypeT, fieldNameSpace>::reference 
+typename SField<FieldTypeT, fieldNameSpace>::reference 
     SField<FieldTypeT, fieldNameSpace>::getValue(void)
 {
     return _value;
@@ -133,7 +133,7 @@ SField<FieldTypeT, fieldNameSpace>::reference
 //! Return a const reference to the stored value
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-SField<FieldTypeT, fieldNameSpace>::const_reference
+typename SField<FieldTypeT, fieldNameSpace>::const_reference
     SField<FieldTypeT, fieldNameSpace>::getValue(void) const
 {
     return _value;

@@ -90,7 +90,7 @@ class MField : public Field
 
     typedef          FieldTypeT                                  StoredType;
 
-    typedef          MFieldTraits::ArgumentType                  ArgumentType;
+    typedef typename MFieldTraits::ArgumentType                  ArgumentType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Get                                  */

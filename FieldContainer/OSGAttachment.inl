@@ -62,7 +62,7 @@ const BitVector SimpleAttachment<AttachmentDescT>::SimpleFieldMask =
 /*-------------------------------------------------------------------------*/
 /*                           Type Information                              */
 
-#if defined(OSG_MICROSOFT_COMPILER_ALERT)
+#if 1 //defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class AttachmentDescT>
 FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] =
 {
@@ -76,7 +76,8 @@ FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] =
 };
 #endif
 
-#if defined(OSG_MICROSOFT_COMPILER_ALERT)
+#if 1
+#if 1//defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class AttachmentDescT>
 FieldContainerType SimpleAttachment<AttachmentDescT>::_type =
     FieldContainerType(
@@ -99,6 +100,7 @@ FieldContainerType SimpleAttachment<AttachmentDescT>::_type(
     AttachmentDescT::getInitMethod(),
     AttachmentDescT::getDesc(),
     sizeof(FieldDescription *));
+#endif
 #endif
 
 OSG_FIELD_CONTAINER_INL_TMPL_DEF(SimpleAttachment,

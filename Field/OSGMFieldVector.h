@@ -58,14 +58,18 @@ OSG_BEGIN_NAMESPACE
 #endif
 
 #if defined(__linux) || defined(__hpux)
-#if __GNUC__ >= 3
-#define __STL_DEFAULT_ALLOCATOR(TP) allocator<TP>
-#elif defined (__ICL)
-#define __STL_DEFAULT_ALLOCATOR(TP) allocator<TP>
-#endif
+#    if __GNUC__ >= 3
+#        define OSG_STL_DEFAULT_ALLOCATOR(TP) = allocator<TP>
+#    elif defined (__ICL)
+#        define OSG_STL_DEFAULT_ALLOCATOR(TP) = allocator<TP>
+#    elif defined (OSG_HPUX_ACC)
+#        define OSG_STL_DEFAULT_ALLOCATOR(TP) _RWSTD_COMPLEX_DEFAULT(allocator<TP>)
+#    endif
+#else
+#    define OSG_STL_DEFAULT_ALLOCATOR(TP) = __STL_DEFAULT_ALLOCATOR(TP)
 #endif
 
-template <class Tp, class Alloc = __STL_DEFAULT_ALLOCATOR(Tp) >
+template <class Tp, class Alloc OSG_STL_DEFAULT_ALLOCATOR(Tp) >
 class MFieldVector : public vector<Tp, Alloc> 
 {
   private:

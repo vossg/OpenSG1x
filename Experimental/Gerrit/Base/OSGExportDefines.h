@@ -349,6 +349,22 @@
     OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)                     \
     OSG_FC_EXPORT_GETTYPE_DEF(CLASSNAME, T1, DLLMAPPING)     
 
+#elif defined (__hpux)
+
+#define OSG_DLLEXPORT_DECL1(CLASSNAME, T1, DLLMAPPING)
+#define OSG_DLLEXPORT_DECL2(CLASSNAME, T1, T2, DLLMAPPING) 
+
+#define OSG_EXPORT_TYPE_DEF1(CLASSNAME, T1, DLLMAPPING)                      \
+    template const FieldType  CLASSNAME<T1>::_fieldType;
+#define OSG_EXPORT_TYPE_DEF2(CLASSNAME, T1, T2, DLLMAPPING)                  \
+    template const FieldType  CLASSNAME<T1, T2>::_fieldType;
+
+#define OSG_DLLEXPORT_DEF1(CLASSNAME, T1, DLLMAPPING)                        \
+    OSG_EXPORT_TYPE_DEF1        (CLASSNAME, T1, DLLMAPPING)                  \
+
+#define OSG_DLLEXPORT_DEF2(CLASSNAME, T1, T2, DLLMAPPING)                    \
+    OSG_EXPORT_TYPE_DEF2        (CLASSNAME, T1, T2, DLLMAPPING)              \
+
 #elif defined (__linux) || defined(__sun) || defined(__hpux)
 
 #if 0

@@ -260,7 +260,7 @@ class SimpleAttachment : public Attachment
     /*! \name                  Type information                            */
     /*! \{                                                                 */
 
-#if defined(OSG_MICROSOFT_COMPILER_ALERT)
+#if 1 //defined(OSG_MICROSOFT_COMPILER_ALERT)
     static FieldDescription   *_desc[];
 #endif
 

@@ -231,7 +231,11 @@ LogBuf::~LogBuf()
  *                           Class variables                               *
 \***************************************************************************/
 
-OSG_BASE_DLLMAPPING LogP OSG::osgLogP = NULL;
+OSG_BEGIN_NAMESPACE
+
+OSG_BASE_DLLMAPPING LogP osgLogP = NULL;
+
+OSG_END_NAMESPACE
 
 /*! \brief holds the nil buffer 
  */

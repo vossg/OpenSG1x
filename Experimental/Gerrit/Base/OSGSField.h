@@ -85,7 +85,7 @@ class SField : public Field
     typedef          FieldTypeT                  StoredType;
     typedef          FieldTypeT                 &reference;
     typedef const    FieldTypeT                 &const_reference;
-    typedef          SFieldTraits::ArgumentType  ArgumentType;
+    typedef typename SFieldTraits::ArgumentType  ArgumentType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Get                                  */
