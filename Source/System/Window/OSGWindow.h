@@ -91,7 +91,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     // max status value = 7, 3 bit shift is enough 
     enum { statusShift = 3, statusMask = 7 }; 
 
-    static const Real32 unknownConstant = -1e100;    
+    static const Real32 unknownConstant;    
     
     typedef ArgsCollector<UInt32>                      GLObjectFunctorArgs;
 

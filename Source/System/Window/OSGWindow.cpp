@@ -232,6 +232,11 @@ std::vector<Int32                  >  OSG::Window::_registeredFunctionExts;
 std::vector<GLenum                 >  OSG::Window::_registeredConstants;
 
 
+/*! Just a constant to indicate that the GL constant is unknown
+*/
+
+const Real32 OSG::Window::unknownConstant = -1e100;    
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
