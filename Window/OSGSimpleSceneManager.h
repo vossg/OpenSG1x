@@ -120,6 +120,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     virtual void  useOpenSGLogo    ( void );
     
             void setNavigationMode ( Navigator::Mode new_mode );
+    inline  Bool setClickCenter    ( Bool mode );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -214,6 +215,6 @@ OSG_END_NAMESPACE
 
 #include "OSGSimpleSceneManager.inl"
 
-#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.10 2001/11/14 14:31:24 istoynov Exp $"
+#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.11 2001/11/19 18:40:50 dirk Exp $"
 
 #endif /* _OSGSIMPLESCENEMANAGER_H_ */

@@ -39,8 +39,10 @@
 #ifndef _OSG_NAVIGATOR_H_
 #define _OSG_NAVIGATOR_H_
 
+#include <OSGConfig.h>
 #include <OSGSystemDef.h>
-#include <OSGWindowBase.h>
+
+#include <OSGWindow.h>
 #include <OSGViewport.h>
 #include <OSGBaseTypes.h>
 #include <OSGLine.h>
@@ -108,41 +110,35 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
     
     /*! \}                                                                 */    
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */    
- 
-    const char *getClassname(void) { return "Navigator"; }
-    
-    /*! \}                                                                 */    
-    /*---------------------------------------------------------------------*/
     /*! \name                    Notificators                              */
     /*! \{                                                                 */
     
-    inline void buttonPress  (Int16 button,Int16 x,Int16 y);
-    inline void buttonRelease(Int16 button,Int16 x,Int16 y);
-    inline void keyPress     (Int16 key   ,Int16 x,Int16 y);        
-    inline void moveTo       (             Int16 x,Int16 y);
+    void buttonPress  (Int16 button,Int16 x,Int16 y);
+    void buttonRelease(Int16 button,Int16 x,Int16 y);
+    void keyPress     (Int16 key   ,Int16 x,Int16 y);        
+    void moveTo       (             Int16 x,Int16 y);
     
     /*! \}                                                                 */    
     /*---------------------------------------------------------------------*/
     /*! \name                        Set                                   */
     /*! \{                                                                 */
     
-    inline void setMode(Mode new_mode);
-    inline void setViewport(ViewportPtr new_viewport);
-    inline void setMotionFactor(Real32 new_factor);
-    inline void setCenter(Pnt3f new_center);
-    inline void setDistance(Real32 new_distance);
-    inline void setUp(Vec3f new_up);
+    void setMode         (Mode        new_mode    );
+    void setViewport     (ViewportPtr new_viewport);
+    void setMotionFactor (Real32      new_factor  );
+    void setCenter       (Pnt3f       new_center  );
+    void setDistance     (Real32      new_distance);
+    void setUp           (Vec3f       new_up      );
+    Bool setClickCenter  (Bool        state       );
     
     /*! \}                                                                 */    
     /*---------------------------------------------------------------------*/
     /*! \name                        Get                                   */
     /*! \{                                                                 */
     
-    inline Matrix &getMatrix();
-    inline State   getState();
-    inline Mode    getMode();
+    Matrix &getMatrix();
+    State   getState();
+    Mode    getMode();
     
     /*! \}                                                                 */        
     /*==========================  PRIVATE  ================================*/
@@ -161,20 +157,21 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
 
     ViewportPtr _vp;
     
-    bool        _moved;        
+    Bool        _moved;        
+    Bool        _clickCenter;        
     Real32      _lastX,_lastY;
     Pnt3f       _ip;
     Vec3f       _dir;
     /*! \}                                                                 */
 
-    inline void getIntersectionPoint(Int16 x, Int16 y);
-    inline void calcDeltas(Int16 fromX, Int16 fromY, Int16 toX, Int16 toY, 
+    void getIntersectionPoint(Int16 x, Int16 y);
+    void calcDeltas(Int16 fromX, Int16 fromY, Int16 toX, Int16 toY, 
                           Real32 &distanceX, Real32 &distanceY);
  
 };
 
 OSG_END_NAMESPACE
-        
-#include <OSGNavigator.inl>
 
+#define OSGNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGNavigator.h,v 1.3 2001/11/19 18:40:50 dirk Exp $"
+        
 #endif

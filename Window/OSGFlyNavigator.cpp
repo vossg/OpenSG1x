@@ -36,146 +36,167 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#include <OSGConfig.h>
+#include <OSGBaseTypes.h>
+#include <OSGMatrix.h>
 #include <OSGMatrixUtility.h>
 
-OSG_BEGIN_NAMESPACE
+#include "OSGFlyNavigator.h"
+
+OSG_USING_NAMESPACE
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFlyNavigator.cpp,v 1.1 2001/11/19 18:40:50 dirk Exp $";
+    static Char8 cvsid_hpp       [] = OSGFLYNAVIGATOR_HEADER_CVSID;
+    //static Char8 cvsid_inl       [] = OSGFLYNAVIGATOR_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGFLYNAVIGATOR_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
+/*------------------------- constructors ----------------------------------*/
 
 /*! Constructor
  */
-
-TrackballNavigator::TrackballNavigator(Real32 rSize): _rRadius(rSize)
+ 
+FlyNavigator::FlyNavigator()
 {
-    _finalMatrix.setIdentity();
+    _rEye=Pnt3f(0,0,1);
+    _rCenter=Pnt3f(0,0,0);
+    _vUp=Vec3f(0,1,0);
     _tMatrix.setIdentity();
 }
+ 
+
+/*-------------------------- destructors ----------------------------------*/
 
 /*! Destructor
- */ 
+ */
 
-TrackballNavigator::~TrackballNavigator()
+FlyNavigator::~FlyNavigator()
 {
 }
+
+/*------------------------------ get --------------------------------------*/
 
 /*! get the current transformation matrix
  */
 
-inline Matrix &TrackballNavigator::getMatrix()
+Matrix &FlyNavigator::getMatrix()
 {
-    Matrix temp;
-    _finalMatrix=_tMatrix;
-    temp.setIdentity();
-    temp.setTranslate(0,0,_rDistance);
-    
-    _finalMatrix.mult(temp);            
-            
-    return _finalMatrix;    
+    MatrixLookAt(_tMatrix,_rEye,_rCenter,_vUp);
+    return _tMatrix;
 }
 
-/*! sets the center of the trackball in real coordinates
+/*------------------------------ set --------------------------------------*/
+
+/*! sets the eye point
  */
 
-inline void TrackballNavigator::setCenter(Pnt3f new_center)
+void FlyNavigator::setFrom(Pnt3f new_eye)
 {
-    _tMatrix.setTranslate(new_center[0],new_center[1],new_center[2]);    
+    _rEye=new_eye;
 }
 
-/*! sets the distance to the center of the trackball
+/*! sets the point at which the eye is looking
  */
 
-inline void TrackballNavigator::setDistance(Real32 new_distance)
+void FlyNavigator::setAt(Pnt3f new_center)
 {
-    _rDistance=new_distance;
+    _rCenter=new_center;
 }
 
 /*! sets the up vector
  */
 
-inline void TrackballNavigator::setUp(Vec3f new_up)
+void FlyNavigator::setUp(Vec3f new_up)
 {
-    Pnt3f from(_tMatrix[3][0],_tMatrix[3][1],_tMatrix[3][2]);
-    Pnt3f to=from; to[2]-=1;
-    MatrixLookAt(_tMatrix,from,to,new_up);
+    _vUp=new_up;
 }
+
+/*---------------------- Flyer Transformations ----------------------------*/
 
 /*! makes a rotation
  */
 
-inline void TrackballNavigator::rotate(Real32 fromX, Real32 fromY, Real32 toX, Real32 toY)
+void FlyNavigator::rotate(Real32 deltaX, Real32 deltaY)
 {    
-    Quaternion qCurrVal;
+    // rotate around the up vector
+    Matrix final,temp;
+    Quaternion q;   
     
-    Vec3f vAxis;
-    Real32 rPhi;
+    q.setValueAsAxisRad(_vUp,-deltaX);
+    q.getValue(temp);    
     
-    Vec3f vP1,vP2,vDiff;
+    final.setIdentity();
+    final.setTranslate(_rEye);
+    final.mult(temp);
     
-    Real32 rTmp;
+    temp.setIdentity(); 
+    temp.setTranslate(-_rEye[0],-_rEye[1],-_rEye[2]);
     
-    if (osgabs(fromX-toX)>Eps || osgabs(fromY-toY)>Eps)
-    {
-        vP1.setValues(fromX,fromY,projectToSphere(_rRadius,fromX,fromY));
-        vP2.setValues(toX,toY,projectToSphere(_rRadius,toX,toY));
+    final.mult(temp);    
+    final.multMatrixPnt(_rCenter);
+    
+    // rotate around the side vector
+            
+    Vec3f lv=_rCenter-_rEye;
+    lv.normalize();                              
+            
+    Vec3f sv=lv; 
+    sv.crossThis(_vUp);
+    sv.normalize();            
+    q.setValueAsAxisRad(sv,-deltaY);
+    q.getValue(temp);
 
-        vAxis=vP2;
-        vAxis.crossThis(vP1);
+    final.setIdentity();
+    final.setTranslate(_rEye);
+    final.mult(temp);
         
-        vDiff=vP1;
-        vDiff-=vP2;
-        
-        rTmp=vDiff.length()/(2.0f*_rRadius);
-        if (rTmp>1.0) rTmp=1.0;
-        if (rTmp<-1.0) rTmp=-1.0;
-        
-        rPhi=2.0*osgasin(rTmp);
-        qCurrVal.setValueAsAxisRad(vAxis,rPhi);
-        
-        Matrix temp;
-        qCurrVal.getValue(temp);
-        //temp.transpose();
-        
-        _tMatrix.mult(temp);
-    }
+    temp.setIdentity(); 
+    temp.setTranslate(-_rEye[0],-_rEye[1],-_rEye[2]);
+    
+    final.mult(temp);        
+    final.multMatrixPnt(_rCenter);    
 }
 
-/*! makes translation in the XY plane
+/*! "flyes" forward, i.e. makes a translation along the view vector
  */
 
-inline void TrackballNavigator::translateXY(Real32 distanceX, Real32 distanceY)
-{     
-    Matrix temp;
-    temp.setIdentity();
-    temp.setTranslate(distanceX,distanceY,0);
-    _tMatrix.mult(temp);        
-}
-
-/*! makes a translation along the Z-axis
- */
-
-inline void TrackballNavigator::translateZ(Real32 distance)
+void FlyNavigator::forward(Real32 step)
 {
-    _rDistance+=distance;
+    Vec3f lv;
+    lv=_rEye-_rCenter;
+    lv.normalize();                                  
+    lv*=(step);
+    Matrix transl;
+    transl.setIdentity();
+    transl.setTranslate(lv);                   
+    transl.multMatrixPnt(_rCenter);
+    transl.multMatrixPnt(_rEye);    
 }
 
-/*! project a point on the virtual trackball
+/*! "flyes" on the right, i.e. makes a translation along the side vector
  */
 
-inline Real32 TrackballNavigator::projectToSphere(Real32 rRadius, Real32 rX, Real32 rY)
+void FlyNavigator::right(Real32 step)
 {
-    Real32 d, t, z;
-
-    d = sqrt(rX * rX + rY * rY);
-
-    if (d < rRadius * 0.70710678118654752440f) 
-    {    /* Inside sphere */
-        z = sqrt(rRadius * rRadius - d * d);
-    } 
-    else 
-    {           /* On hyperbola */
-        t = rRadius / 1.41421356237309504880f;
-        z = t * t / d;
-    }
-
-    return z;
-}
-
-OSG_END_NAMESPACE
+    Vec3f sv;
+    sv=_rEye-_rCenter;
+    sv.crossThis(_vUp);
+    sv.normalize();            
+    sv*=(step);
+    Matrix transl;
+    transl.setIdentity();
+    transl.setTranslate(sv);                   
+    transl.multMatrixPnt(_rCenter);
+    transl.multMatrixPnt(_rEye); 
+} 

@@ -39,6 +39,9 @@
 #ifndef _OSG_TRACKBALLNAVIGATOR_H_
 #define _OSG_TRACKBALLNAVIGATOR_H_
 
+#include <OSGConfig.h>
+#include <OSGSystemDef.h>
+
 #include <OSGVector.h>
 #include <OSGQuaternion.h>
 #include <OSGViewport.h>
@@ -87,27 +90,27 @@ class OSG_SYSTEMLIB_DLLMAPPING TrackballNavigator
     /*! \name                        Get                                   */
     /*! \{                                                                 */
 
-    inline Matrix &getMatrix();
-    inline State   getState();
+    Matrix &getMatrix();
+    State   getState();
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Set                                   */
     /*! \{                                                                 */
 
-    inline void setCenter  (Pnt3f new_center);
-    inline void setDistance(Real32 new_distance);
-    inline void setUp      (Vec3f new_up);
+    void setCenter  (Pnt3f new_center);
+    void setDistance(Real32 new_distance);
+    void setUp      (Vec3f new_up);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name              Trackball Transformations                       */
     /*! \{                                                                 */
 
-    inline void rotate     (Real32 fromX, Real32 fromY, 
+    void rotate     (Real32 fromX, Real32 fromY, 
                             Real32 toX, Real32 toY);
-    inline void translateXY(Real32 distanceX, Real32 distanceY);
-    inline void translateZ (Real32 distance);
+    void translateXY(Real32 distanceX, Real32 distanceY);
+    void translateZ (Real32 distance);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -121,12 +124,11 @@ class OSG_SYSTEMLIB_DLLMAPPING TrackballNavigator
     State  _currentState;
 
     /*! \}                                                                 */
-    inline Real32 projectToSphere(Real32 rRadius, Real32 rX, Real32 rY);
+    Real32 projectToSphere(Real32 rRadius, Real32 rX, Real32 rY);
 };
-
 
 OSG_END_NAMESPACE
 
-#include <OSGTrackballNavigator.inl>
+#define OSGTRACKBALLNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGTrackballNavigator.h,v 1.2 2001/11/19 18:40:50 dirk Exp $"
 
 #endif

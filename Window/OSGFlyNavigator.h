@@ -39,6 +39,10 @@
 #ifndef _OSG_FLYNAVIGATOR_H_
 #define _OSG_FLYNAVIGATOR_H_
 
+#include <OSGConfig.h>
+#include <OSGSystemDef.h>
+
+#include <OSGBaseTypes.h>
 #include <OSGVector.h>
 #include <OSGQuaternion.h>
 
@@ -66,35 +70,28 @@ class OSG_SYSTEMLIB_DLLMAPPING FlyNavigator
     
     /*! \}                                                                 */    
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */    
- 
-    const char *getClassname(void) { return "FlyNavigator"; }
-    
-    /*! \}                                                                 */    
-    /*---------------------------------------------------------------------*/
     /*! \name                        Get                                   */
     /*! \{                                                                 */
     
-    inline Matrix &getMatrix();
+    Matrix &getMatrix();
     
     /*! \}                                                                 */    
     /*---------------------------------------------------------------------*/
     /*! \name                        Set                                   */
     /*! \{                                                                 */
     
-    inline void setFrom(Pnt3f new_eye);
-    inline void setAt  (Pnt3f new_center);
-    inline void setUp  (Vec3f new_up);
+    void setFrom(Pnt3f new_eye);
+    void setAt  (Pnt3f new_center);
+    void setUp  (Vec3f new_up);
     
     /*! \}                                                                 */        
     /*---------------------------------------------------------------------*/
     /*! \name                  Flyer Transformations                       */
     /*! \{                                                                 */
           
-    inline void rotate (Real32 deltaX, Real32 deltaY);
-    inline void forward(Real32 step);
-    inline void right  (Real32 step); 
+    void rotate (Real32 deltaX, Real32 deltaY);
+    void forward(Real32 step);
+    void right  (Real32 step); 
         
     /*! \}                                                                 */    
     /*==========================  PRIVATE  ================================*/
@@ -110,9 +107,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FlyNavigator
     /*! \}                                                                 */
 };
 
-
 OSG_END_NAMESPACE
-        
-#include <OSGFlyNavigator.inl>
+
+#define OSGFLYNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGFlyNavigator.h,v 1.2 2001/11/19 18:40:50 dirk Exp $"
 
 #endif

@@ -36,7 +36,34 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-OSG_BEGIN_NAMESPACE
+#include <OSGConfig.h>
+#include <OSGBaseTypes.h>
+#include <OSGMatrix.h>
+#include <OSGMatrixUtility.h>
+#include <OSGCamera.h>
+
+#include "OSGNavigator.h"
+
+OSG_USING_NAMESPACE
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.1 2001/11/19 18:40:50 dirk Exp $";
+    static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
+    //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGNAVIGATOR_HEADER_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
+/*------------------------- constructors ----------------------------------*/
 
 /*! Constructor
  */
@@ -45,12 +72,15 @@ Navigator::Navigator(): _currentState(IDLE),
                         _currentMode(TRACKBALL),
                         _rMotionFactor(0.04f),
                         _vp(NullFC),
-                        _ip(0,0,0)
+                        _ip(0,0,0),
+                        _lastX(0),
+                        _lastY(0),
+                        _moved(false),
+                        _clickCenter(true)
 {
-    _lastX=0;
-    _lastY=0;
-    _moved=false;
 }
+
+/*-------------------------- destructors ----------------------------------*/
 
 /*! Destructor
  */
@@ -59,10 +89,12 @@ Navigator::~Navigator()
 {
 }
 
+/*-------------------------- Notificators ---------------------------------*/
+
 /*! Notifies for mouse button press.
  */
 
-inline void Navigator::buttonPress(Int16 button, Int16 x, Int16 y)
+void Navigator::buttonPress(Int16 button, Int16 x, Int16 y)
 {
     _lastX=x; _lastY=y;
     _moved=false;
@@ -75,7 +107,7 @@ inline void Navigator::buttonPress(Int16 button, Int16 x, Int16 y)
             {
                 case LEFT_MOUSE:   {_currentState=ROTATING;      } break;
                 case MIDDLE_MOUSE: {_currentState=TRANSLATING_XY;
-                                     getIntersectionPoint(x,y);   } break;
+                                     getIntersectionPoint(x,y);  } break;
                 case RIGHT_MOUSE:  {_currentState=TRANSLATING_Z; } break;
             }
         } break;
@@ -96,13 +128,13 @@ inline void Navigator::buttonPress(Int16 button, Int16 x, Int16 y)
 /*! Notifies for mouse button release
  */
 
-inline void Navigator::buttonRelease(Int16 , Int16 x, Int16 y)
+void Navigator::buttonRelease(Int16 , Int16 x, Int16 y)
 {
     switch (_currentMode)
     {
         case TRACKBALL:
         {
-            if (!_moved)
+            if (!_moved && _clickCenter)
             {
               	IntersectAction * act = IntersectAction::create();        
                 Line line;
@@ -130,7 +162,7 @@ inline void Navigator::buttonRelease(Int16 , Int16 x, Int16 y)
 /*! Notifies for key press
  */
 
-inline void Navigator::keyPress(Int16 key, Int16 , Int16 )
+void Navigator::keyPress(Int16 key, Int16 , Int16 )
 {
     switch (_currentMode)
     {
@@ -154,7 +186,7 @@ inline void Navigator::keyPress(Int16 key, Int16 , Int16 )
 /*! Notifies for mouse motion
  */
 
-inline void Navigator::moveTo(Int16 x, Int16 y)
+void Navigator::moveTo(Int16 x, Int16 y)
 {
     _moved=true;
     
@@ -216,10 +248,12 @@ inline void Navigator::moveTo(Int16 x, Int16 y)
     _lastY=y;   
 }
 
+/*------------------------------ set --------------------------------------*/
+
 /*! Sets the navigator mode (Trackball or Flyer)
  */
 
-inline void Navigator::setMode(Navigator::Mode new_mode)
+void Navigator::setMode(Navigator::Mode new_mode)
 {
     _currentMode=new_mode;
 }
@@ -227,7 +261,7 @@ inline void Navigator::setMode(Navigator::Mode new_mode)
 /*! Sets the motion factor
  */
 
-inline void Navigator::setMotionFactor(Real32 new_factor)
+void Navigator::setMotionFactor(Real32 new_factor)
 {
     _rMotionFactor=new_factor;
 }
@@ -235,7 +269,7 @@ inline void Navigator::setMotionFactor(Real32 new_factor)
 /*! Sets the viewport
  */
 
-inline void Navigator::setViewport(ViewportPtr new_viewport)
+void Navigator::setViewport(ViewportPtr new_viewport)
 {
     _vp=new_viewport;
 }
@@ -243,7 +277,7 @@ inline void Navigator::setViewport(ViewportPtr new_viewport)
 /*! Sets the center of the navigator
  */
 
-inline void Navigator::setCenter(Pnt3f new_center)
+void Navigator::setCenter(Pnt3f new_center)
 {
     switch (_currentMode)
     {
@@ -261,7 +295,7 @@ inline void Navigator::setCenter(Pnt3f new_center)
 /*! Sets the distance from the center
  */
 
-inline void Navigator::setDistance(Real32 new_distance)
+void Navigator::setDistance(Real32 new_distance)
 {
     switch (_currentMode)
     {
@@ -271,7 +305,7 @@ inline void Navigator::setDistance(Real32 new_distance)
     }    
 }
 
-inline void Navigator::setUp(Vec3f new_up)
+void Navigator::setUp(Vec3f new_up)
 {
     switch (_currentMode)
     {
@@ -281,10 +315,12 @@ inline void Navigator::setUp(Vec3f new_up)
     }        
 }
 
+/*------------------------------ get --------------------------------------*/
+
 /*! Gets the transformation matrix
  */
 
-inline Matrix &Navigator::getMatrix()
+Matrix &Navigator::getMatrix()
 {
     switch (_currentMode)
     {
@@ -298,7 +334,7 @@ inline Matrix &Navigator::getMatrix()
 /*! Gets the navigator's current state
  */
 
-inline Navigator::State Navigator::getState()
+Navigator::State Navigator::getState()
 {
     return _currentState;
 }
@@ -306,9 +342,20 @@ inline Navigator::State Navigator::getState()
 /*! Gets the navigator's current mode
  */
 
-inline Navigator::Mode Navigator::getMode()
+Navigator::Mode Navigator::getMode()
 {
     return _currentMode;
+}
+
+/*! sets the clickCenter current state
+ */
+
+Bool Navigator::setClickCenter(Bool state)
+{   
+    Bool old = _clickCenter;
+    
+    _clickCenter = state;
+    return old;
 }
 
 /*! Calculates the transformation matrix from CC to WC using actuall view
@@ -338,7 +385,7 @@ static void calcCCtoWCMatrix(Matrix &cctowc, const Matrix &view,
     intersection point exists the intersection is set to (0,0,0)
  */
 
-inline void Navigator::getIntersectionPoint(Int16 x, Int16 y)
+void Navigator::getIntersectionPoint(Int16 x, Int16 y)
 {
   	IntersectAction * act = IntersectAction::create();        
     Line line;
@@ -374,12 +421,12 @@ inline void Navigator::getIntersectionPoint(Int16 x, Int16 y)
     }    
 }
 
-/*! Calculate the real translation that have to be done , so that the
+/*! Calculate the real translation that have to be done, so that the
     trackball can actually drag the object in the plane parallel to the
     screen.
  */
 
-inline void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY, 
+void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY, 
                                   Real32 &distanceX, Real32 &distanceY)
 {        
     Matrix view;
@@ -416,5 +463,3 @@ inline void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
     distanceX=transl[0];
     distanceY=transl[1];    
 }
-
-OSG_END_NAMESPACE
