@@ -217,7 +217,7 @@ bool Image::setData(const UChar8 *da)
 {  
     if(da) 
     {
-        memcpy(getData(), da, getSize());
+        createData(da);
     }
     else 
     {
@@ -1267,9 +1267,13 @@ bool Image::createData(const UInt8 *data)
     if(getDepth() == 1)
     {
         if(getHeight() == 1)
+        {
             setDimension(1);
+        }
         else
+        {
             setDimension(2);
+        }
     }
     else
         setDimension(3);
@@ -1282,7 +1286,8 @@ bool Image::createData(const UInt8 *data)
     // copy the data
     if((byteCount = getSize()))
     {
-        getPixel().resize(byteCount);
+        if(getPixel().getSize() != byteCount)
+            getPixel().resize(byteCount);
         if(data)
             memcpy(getData(), data, byteCount);
     }
