@@ -150,10 +150,10 @@ protected:
 
     protected:
 
-//        struct PQEntryLessCompare;
-//        friend struct PQEntryLessCompare;
+        struct PQEntryLessCompare;
+        friend struct PQEntryLessCompare;
 
-//        friend class PILeave;
+        friend class PILeave;
 
         /*====================== LeaveEntryBase ==========================*/
 
@@ -191,6 +191,9 @@ protected:
         };
 
         /*====================== PQEntryLessCompare ======================*/
+
+        struct PQEntryLessCompare;
+        friend struct PQEntryLessCompare;
 
         struct PQEntryLessCompare
         {
@@ -262,7 +265,7 @@ protected:
         class PQEntry;
         friend class PQEntry;
 
-//        friend class PriorityIterator;
+        friend class PriorityIterator;
 
         typedef std::list<LeaveEntry> LeaveList;
         typedef LeaveList::iterator   LeaveListIt;
@@ -321,8 +324,8 @@ protected:
         LeaveList     _leaveList;
     };
 
-//    friend class PILeave::LeaveEntry;
-//    friend class PILeave::PQEntry;
+    friend class PILeave::LeaveEntry;
+    friend class PILeave::PQEntry;
 
     /*====================================================================*\
      * PIEnterOrd                                                         *
@@ -346,7 +349,7 @@ protected:
         class PQEntry;
         friend class PQEntry;
 
-//        friend class PriorityIterator;
+        friend class PriorityIterator;
 
         typedef std::list<ActorStateChunk> StateList;
         typedef StateList::iterator        StateListIt;
@@ -391,7 +394,7 @@ protected:
         StateListIt   _currState;
     };
 
-//    friend class PIEnterOrd::PQEntry;
+    friend class PIEnterOrd::PQEntry;
 
     /*====================================================================*\
      * PILeaveOrd                                                         *
@@ -418,7 +421,7 @@ protected:
         class PQEntry;
         friend class PQEntry;
 
-//        friend class PriorityIterator;
+        friend class PriorityIterator;
 
         typedef std::list<LeaveEntry>      LeaveList;
         typedef LeaveList::iterator        LeaveListIt;
@@ -494,8 +497,8 @@ protected:
         StateListIt   _currState;
     };
 
-//    friend class PILeaveOrd::LeaveEntry;
-//    friend class PILeaveOrd::PQEntry;
+    friend class PILeaveOrd::LeaveEntry;
+    friend class PILeaveOrd::PQEntry;
 
     PriorityIterator(void);
 
