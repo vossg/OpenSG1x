@@ -1,3 +1,17 @@
+#
+# This is a legacy Makefile. We will replace it with a more OpenSG-style 
+# Makefile later, but for now it has to suffice.
+# 
+# To compile the SceneViewer you need your QTDIR to point to a QT-3.0
+# installation. The OSGROOT settings below use an OpenSG installed in the
+# Builds hierarchy, if yours is elsewhere call make with make OSGROOT=...
+#
+# If you have trouble making it, talk to us, we can help. See www.opensg.org
+# for details.
+#
+
+OSGROOT := $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
+
 
 GCCHOME = /usr
 GCCPATH = ${GCCHOME}
@@ -10,7 +24,7 @@ PROBACK = *.ndf
 ######################################################################
 
 ### Build Flags ######################################################
-TMPBIN          = YES
+TMPBIN          = NO
 DEBUG           = YES
 #PURIFYBIN       = YES
 #EEFENCE		= YES
@@ -312,12 +326,14 @@ ifeq ($(OS),IRIX)
   NCFLAGS = -c -o $@ -DARCH=3 -n32 -LANG:bool=ON -woff 1682
 	NLD			= CC 
 	NLIBDIR = lib
+	NMKDEP  = CC -M
 
 	STRIP   = strip
 	LINK    = ln -s
 	LEX     = flex -dLst
 	YACC    = /sgi/gnu2.7.2/bin/bison
 	MOC     = $(QTDIR)/bin/moc
+	UIC     = $(QTDIR)/bin/uic
 	DFLAG   = -g -D DEBUG
 	OPTFLAG = -O2 -D NDEBUG
 	LDFLAGS = -o $(SYSTARGET) 
@@ -413,6 +429,7 @@ ifeq ($(OS),IRIX64)
 	NLD			= CC -n32 -LANG:std -ptused
 	NSO     = CC -shared -n32 -LANG:std
 	NLIBDIR = lib32
+	NMKDEP  = CC -M
 
 	AR      = CC -ar -n32 -o 
 	STRIP   = strip
@@ -420,6 +437,7 @@ ifeq ($(OS),IRIX64)
 	LEX     = flex -dLst
 	YACC    = /sgi/gnu2.7.2/bin/bison
 	MOC     = $(QTDIR)/bin/moc
+	UIC     = $(QTDIR)/bin/uic
 	DFLAG   = -g -D DEBUG
 	OPTFLAG = -D NDEBUG
 	LDFLAGS = -o $(SYSTARGET) 
@@ -1232,7 +1250,7 @@ moc_%.cpp: %.h
 
 %.$(SYSDEP).dep: %.cpp
 	@echo "Updating " $@
-	@$(MKDEP) $(INCS) -I. $< | sed 's/\.o/\.$(SYSDEP)\.o/' > $@
+	$(MKDEP) $(INCS) -I. $< | sed 's/\.o/\.$(SYSDEP)\.o/' > $@
 
 %.$(SYSDEP).o: %.cc
 	$(CXX) $(CXXFLAGS) $<
