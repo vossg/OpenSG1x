@@ -356,8 +356,10 @@ void FieldContainerPtrBase::executeSync(UInt32    uiFromAspect,
                                         UInt32    uiToAspect,
                                         BitVector whichField)
 {
-    ((FieldContainer *) getElemP(uiToAspect))->executeSync
-        (*((FieldContainer *) getElemP(uiFromAspect)), whichField);
+    FieldContainer *pTo = ((FieldContainer *) getElemP(uiToAspect));
+    
+    pTo->executeSync(*((FieldContainer *) getElemP(uiFromAspect)), whichField);
+    pTo->changed(whichField, FieldContainer::Sync);
 }
 
 /*-------------------------------------------------------------------------*/
