@@ -467,7 +467,7 @@ lib.$(DBG).def: $(LIB_DEF_SRC) $(LIB_HEADER_SRC)
 	cp  $(LIB_HEADER_SRC) ./lib.$(DBG).def
 	cat $(LIB_DEF_SRC) >> ./lib.$(DBG).def
 else
-$(error no lib.def.header given)
+lib.$(DBG).def:
 endif
 
 else
