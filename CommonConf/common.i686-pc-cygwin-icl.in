@@ -113,6 +113,9 @@ COMPILER_RUNTIME_DBG    = -MDd
 COMPILER_RUNTIME_OPT    = -MD
 endif
 
+CCFLAGS_EXT_OPT  := -O2 -Ob1
+CCFLAGS_EXT_DBG  := -ZI -Od -GZ -D_DEBUG
+
 ### Optimize / Debug ###############################################
 
 ifeq ($(PRINT_INLINE), 1)
@@ -144,6 +147,8 @@ CFLAGS   := $(WARNINGS) $(WARNINGS_C_OFF) -D__STDC__ 						\
 
 CCFLAGS  := $(WARNINGS) $(WARNINGS_CPP_OFF) $(WARN_ERR_CPP) $(DEFINES)      \
 		    $(COMPILER) $(COMPILER_RUNTIME) $(COMP_OPTIMIZE) $(COMP_DEBUG) 
+
+CCFLAGS_EXT := $(WARNINGS_CPP_OFF) $(WARN_ERR_CPP) $(SYSTEM_DEFINES) $(RUNTIME_DEFINES) $(COMPILER)
 
 # Assembler Flags
 

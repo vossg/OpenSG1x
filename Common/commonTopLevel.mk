@@ -271,6 +271,16 @@ fcdToBase:
 	done;																	\
 	cd $$CURRDIRBASE
 
+INSTALL_DIR_SED := $(shell echo $(INSTALL_DIR) | sed -e 's/\//\\\//g')
+
+install-bin:
+	@if [ ! -w $(INSTALL_DIR)/bin ]; then mkdir $(INSTALL_DIR)/bin; fi
+	@cat CommonPackages/osg-config |										\
+	$(SED) -e 's/@am_gdz_system_flags@/\"$(CCFLAGS_EXT)\"/g'			\
+	       -e 's/@am_gdz_system_flags_opt@/\"$(CCFLAGS_EXT_OPT)\"/g'	\
+	       -e 's/@am_gdz_system_flags_dbg@/\"$(CCFLAGS_EXT_DBG)\"/g'	\
+		   -e 's/@am_gdz_install_dir@/"$(INSTALL_DIR_SED)\"/g'			\
+		> $(INSTALL_DIR)/bin/osg-config
 
 install-libs-ln: INSTLINK := $(LINK)
 install-libs-ln: install-libs
@@ -278,9 +288,9 @@ install-libs-ln: install-libs
 install-libs-cp: INSTLINK := cp
 install-libs-cp: install-libs
 
-install-ln: install-includes install-libs-ln
-install-cp: install-includes install-libs-cp
-install: install-includes install-libs-cp
+install-ln: install-includes install-libs-ln install-bin
+install-cp: install-includes install-libs-cp install-bin
+install: install-includes install-libs-cp install-bin
 
 install-gabe: INSTLINK := cp
 install-gabe: install-includes-gabe install-libs-cp

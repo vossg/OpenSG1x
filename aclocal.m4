@@ -1394,6 +1394,8 @@ dnl e15
         ac_gdz_system_unix_e15=yes
     fi
 
+    ac_gdz_base_system_libs_e15='"'$ac_gdz_base_system_libs'"'
+
     ac_gdz_osg_config_in_e15=$ac_gdz_commonconf_dir/osg-config.in
     ac_gdz_osg_config_e15=$ac_gdz_commonpackage_dir/osg-config
 
@@ -1432,6 +1434,8 @@ dnl e15
 
     AC_SUBST(ac_gdz_system_win_e15)
     AC_SUBST(ac_gdz_system_unix_e15)
+
+    AC_SUBST(ac_gdz_base_system_libs_e15)
 
     AC_OUTPUT($ac_gdz_osg_config_e15:$ac_gdz_osg_config_in_e15)
 ])
