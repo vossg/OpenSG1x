@@ -91,14 +91,19 @@ ifeq ($(findstring WIN,$(SYSTEM)),WIN)
 	LINK   := -link
 	EXEEXT :=.exe
 endif
+ifeq ($(SYSTEM),HP-UX)
+        CCOUT := -o 
+        LDOUT := -o 
+	LINK  := 
+endif
 
 # Var settings
 
 CC = "$(shell $(OSGCONFIG) --compiler)"
 
-CCFLAGS = $(shell $(OSGCONFIG) --$(LIBTYPE) --cflags Base System GLUT)
+CCFLAGS = $(shell $(OSGCONFIG) --cflags --$(LIBTYPE) Base System GLUT)
 
-LDFLAGS = $(LINK) $(shell $(OSGCONFIG) --$(LIBTYPE) --libs Base System GLUT)
+LDFLAGS = $(LINK) $(shell $(OSGCONFIG) --libs --$(LIBTYPE) Base System GLUT)
 
 
 # all tutorials in this directory
