@@ -81,10 +81,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageComposerBase : public AttachmentContainer
 {
   private:
 
-    typedef AttachmentContainer Inherited;
+    typedef AttachmentContainer    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef ImageComposerPtr  Ptr;
 
     enum
     {
@@ -214,6 +216,6 @@ typedef ImageComposerBase *ImageComposerBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGECOMPOSERBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGIMAGECOMPOSERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGIMAGECOMPOSERBASE_H_ */
