@@ -68,6 +68,22 @@ OSG_SYSTEMLIB_DLLMAPPING void calcVertexNormals( GeometryPtr geo );
  */
 OSG_SYSTEMLIB_DLLMAPPING NodePtr getNormals( GeometryPtr geo, Real32 length );
 
+/*! \brief create the geometry index form the given FaceSet (VRML style) data 
+ *  \ingroup Geometry
+ */
+OSG_SYSTEMLIB_DLLMAPPING 
+Int32 setIndexFromVRMLData ( GeometryPtr geo, 
+                             vector<Int32> coordIndex,
+                             vector<Int32> normalIndex,
+                             vector<Int32> colorIndex,
+                             vector<Int32> texCoordIndex,
+														 Bool convex = true, 
+														 Bool ccw = true,
+                             Bool normalPerVertex = true,
+                             Bool colorPerVertex = true,
+                             Bool faceSet = true );
+
+
 
 OSG_END_NAMESPACE
 
