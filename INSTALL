@@ -159,14 +159,15 @@ you an overview and browse through the structure but nothing more (Currently).
 
     make doc
 
-This uses doxygen to create documentation in Doc/Code/html. We use version 
-1.2.0, which is pretty new, but 1.1.5 should be ok, too. For now we include 
-the docs per default. 
+This uses doxygen to create documentation in Doc/Code/html. We use
+version 1.2.5, which is pretty new, but 1.2.0 should be ok, too. The
+default configuration uses dot, so you need that, too, or you have turn
+off the HAVE_DOT option.
 
-A rather large number of classes does not show up in the right places
-because it is created via typedefs from templated master classes. If
-you know a tool that can handle this reasonably, please tell us!
-
+There is a workaround for typedefed templates not showing up as classes.
+It tricks doxygen into seeing classes that aren't there. So don't be
+surprised if you see classes in the documentation that are not in the
+code.
 
 If you really really need some free disk space again use
 
@@ -175,5 +176,13 @@ If you really really need some free disk space again use
     make distclean (deletes allmost everything, you must call make init before
                     you try to recompile OpenSG)
     
-   
 
+   
+Configure
+=========
+
+We actually have a lovely configure script now, but it's still a bit
+experimental, so we don't make it the default.
+
+See Experimental/using_configure on how to use it. Feedback on success
+(or failure) welcome!
