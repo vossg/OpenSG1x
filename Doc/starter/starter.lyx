@@ -1206,16 +1206,102 @@ Fields
 All data in FieldContainers is organized in fields.
  There are two general types of fields, fields for single values (SFields)
  and fields for multiple values (MFields).
- For the standard types and most pointer and ptr types there are instances
- of both types of fields.
+ For the standard types and most pointer and ptr types there are predefined
+ instances of both types of fields.
 \layout Subsection
 
 Single Fields
 \layout Standard
 
+Single fields hold, as the name says, a single value as their content.
+ This content can be accessed directly using 
+\family typewriter 
+getValue();
+\family default 
+ and 
+\family typewriter 
+setValue();
+\family default 
+.
+ It can also be copied from another field of the same type via 
+\family typewriter 
+setValue();
+\family default 
+ (for fields of the same type) or by 
+\family typewriter 
+setAbstrValue():
+\family default 
+ (for fields which have the same type, but are given as an abstract field).
 \layout Subsection
 
 Multi Fields
+\layout Standard
+
+Multi fields hold, as the name says again, multiple values as their content.
+ They are realized as STL vectors and offer a similar interface.
+ The field defines types for iterators and references, and the standard
+ 
+\family typewriter 
+begin()
+\family default 
+, 
+\family typewriter 
+end()
+\family default 
+, 
+\family typewriter 
+front()
+\family default 
+, 
+\family typewriter 
+back()
+\family default 
+, 
+\family typewriter 
+push_back()
+\family default 
+, 
+\family typewriter 
+insert()
+\family default 
+, 
+\family typewriter 
+erase(), clear()
+\family default 
+, 
+\family typewriter 
+size()
+\family default 
+, 
+\family typewriter 
+resize(),
+\family default 
+ 
+\family typewriter 
+reserve()
+\family default 
+ and other functions.
+\layout Standard
+
+In addition it has an interface closer to the single fields.
+ It features the 
+\family typewriter 
+setValue()
+\family default 
+ variants mentioned above and indexed variants like 
+\family typewriter 
+getValue(const UInt32 index)
+\family default 
+ and 
+\family typewriter 
+setValue(const FieldTypeT &value, const UInt32 index)
+\family default 
+ methods.
+ It also features an OpenSG-style 
+\family typewriter 
+getSize()
+\family default 
+ method.
 \layout Subsection
 
 FieldContainer Fields
@@ -1224,29 +1310,114 @@ FieldContainer Fields
 Each attribute has a name, e.g.
  
 \family typewriter 
-value
+someValue
 \family default 
 , and every field container has a set of standard access functions to access
  its fields.
- The field itself can be accessed via getSFValue() or getMFValue() for single
- or multiple value fields respectively.
-\layout Section
-
-FieldContainer attachments
+ The field itself can be accessed via 
+\family typewriter 
+getSFSomeValue()
+\family default 
+ or 
+\family typewriter 
+getMFSomeValue()
+\family default 
+ for single or multiple value fields respectively.
 \layout Standard
 
-attachment blabla
+For SFields containers features 
+\family typewriter 
+getSomeValue()
+\family default 
+ and 
+\family typewriter 
+setSomeValue()
+\family default 
+ direct access methods.
+ The MField 
+\family typewriter 
+getSomeValue()
+\family default 
+ method returns the whole field, just like the 
+\family typewriter 
+getMFSomeValue()
+\family default 
+ method.
+ Some field containers have more access functions, often something like
+ an 
+\family typewriter 
+addSomeValue()
+\family default 
+ method to simplify adding data to multi fields.
+ See the field container docs for details.
 \layout Section
 
 Nodes and NodeCores
 \layout Standard
 
-single (see image 
+Of course the most important structures in a scenegraph are the actual nodes
+ that make up the graph.
+\layout Standard
+
+OpenSG uses a somewhat different approach than many other systems.
+ The node is split into two parts: the actual 
+\family typewriter 
+Node
+\family default 
+ and the 
+\family typewriter 
+NodeCore
+\family default 
+ (s.
+ 
 \begin_inset LatexCommand \ref{singleParentFig}
 
 \end_inset 
 
+).
+ 
+\layout Standard
 
+The 
+\family typewriter 
+Node
+\family default 
+ keeps the general information: the children list, the parent pointer, the
+ bounding volume and the core pointer.
+ The 
+\family typewriter 
+Node
+\family default 
+ can not be shared, every node can only be at one place in the graph, thus
+ a single parent pointer is enough.
+ There is only one kind of node which kep sall the common information.
+ Actions tht depend on the position in the graph, like accessing the accumulated
+ matrix to the world coordinate system or the world bounding volume, have
+ to be done on the node, as it uniquely defines and identifies the position
+ in the graph.
+\layout Standard
+
+The 
+\family typewriter 
+NodeCore
+\family default 
+ carries the differentiating information for the node.
+ There are 
+\family typewriter 
+NodeCore
+\family default 
+s for all the different functions needed in the tree: groups, transformations,
+ geometry and many more.
+ 
+\family typewriter 
+NodeCore
+\family default 
+s can be shared between different nodes, thus they keep an array or actually
+ a MultiField of 
+\family typewriter 
+Node
+\family default 
+ pointers.
 \begin_float fig 
 \layout Standard
 \align center 
@@ -1268,16 +1439,73 @@ flags 9
 
 Single Parent Scene
 \end_float 
-) stuff
-\layout Subsection
+\layout Section
 
-Node 
+FieldContainer attachments
 \layout Standard
 
-volume stuff, toWord matrix
-\layout Subsection
+OpenSG field containers and nodes do not feature an unused pointer to attach
+ data, usually called user data in other systems.
+ Instead, many field containers feature a map to attach specific kinds of
+ field containers called attachments.
+ The most important ones are 
+\family typewriter 
+Node
+\family default 
+s and 
+\family typewriter 
+NodeCore
+\family default 
+s, but many others which are not used in large numbers like 
+\family typewriter 
+Window
+\family default 
+, 
+\family typewriter 
+Viewport
+\family default 
+, 
+\family typewriter 
+Camera
+\family default 
+ etc.
+ are derived from 
+\family typewriter 
+AttachmentContainer
+\family default 
+ and thus can carry attachments.
+\layout Standard
 
-NodeCore 
+The attachments themselves have to be derived from 
+\family typewriter 
+Attachment
+\family default 
+ (see 
+\begin_inset LatexCommand \ref{sec:creating_new_fcs}
+
+\end_inset 
+
+ for details how to do that).
+ There are also predefined attachments, right now the only one is 
+\family typewriter 
+NameAttachment
+\family default 
+, which allows assigning a name to the field containers.
+\layout Standard
+
+Every 
+\family typewriter 
+AttachmentContainer
+\family default 
+ can hold an arbitrary number of attachments.
+ The attachments are divided into separate groups, and there can be only
+ one attachment of every group attached to an AC.
+ Most attachments are a group by themselves, but if needed new ones can
+ be used as replacements for their parents.
+ 
+\shape italic 
+Is that true? The grouping is somewhat vague.
+ 
 \layout Section
 
 Data separation & Thread safety
@@ -1286,9 +1514,31 @@ Data separation & Thread safety
 \end_inset 
 
 
+\layout Standard
+
+One of the primary design goals of OpenSG is supporting multi-threaded applicati
+ons.
+ For asynchronous threads that means that every thread might need its private
+ copy of the data.
+ To combine that with easy usability and efficient access OpenSG...
+\layout Standard
+
+Duplicate Containers, shared MFIelds, Ptrs
 \layout Chapter
 
 Special Node Cores
+\layout Section
+
+Group
+\layout Section
+
+Transformation
+\layout Section
+
+Geometry
+\layout Section
+
+DistanceLOD
 \layout Description
 
 Material chunk stuff
@@ -1303,10 +1553,35 @@ Action and Traversals
 Usage
 \layout Section
 
+Simple Traversal
+\layout Standard
+
+
+\shape italic 
+Need to write it.
+ A simple functions that takes a fucntor and passes it every node, and another
+ one that takes a function and a data pointer.
+\layout Section
+
 Write our own action handler
 \layout Chapter
 
-Camera and Window
+Window
+\layout Section
+
+Window
+\layout Section
+
+Viewport
+\layout Section
+
+Camera
+\layout Section
+
+Background
+\layout Section
+
+Foreground
 \layout Chapter
 
 Loader
@@ -1331,6 +1606,11 @@ Image
 \layout Chapter
 
 Creating new FieldContainer classes
+\begin_inset LatexCommand \label{sec:creating_new_fcs}
+
+\end_inset 
+
+
 \layout Standard
 
 fcdEdit (see image 
@@ -1414,24 +1694,24 @@ flags 11
 \end_inset 
 
 
-\layout Caption
-
 \end_float 
 \layout Enumerate
 
-Node name; you don't have to include the OSG prefix
+Node name; don't include the OSG prefix
 \layout Enumerate
 
-System Component ?
+System Component: needed to define the include convention, usually not used
+ by applications.
 \layout Enumerate
 
-Parent field container; you dont have to include the OSG prefix
+Parent field container; dont include the OSG prefix
 \layout Enumerate
 
-Is Parent a System Component
+Is Parent a System Component: needed to define include convention.
+ has to be set when deriving from a system component.
 \layout Enumerate
 
-Library:
+Library: 
 \layout Enumerate
 
 PFTypes
