@@ -437,6 +437,25 @@ inline void GeoProperty<propertyDesc>::addValue(
 	_field.addValue( value );
 }
 
+template <class propertyDesc> 
+inline void GeoProperty<propertyDesc>::clear( void )
+{
+	_field.clear();
+}
+
+template <class propertyDesc> 
+inline void GeoProperty<propertyDesc>::push_back( 
+		const typename propertyDesc::GenericType & value)
+{
+	addValue( value );
+}
+
+template <class propertyDesc> 
+inline void GeoProperty<propertyDesc>::resize( size_t newsize )
+{
+	_field.resize( newsize );
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 template <class GeoPropertyDesc> inline

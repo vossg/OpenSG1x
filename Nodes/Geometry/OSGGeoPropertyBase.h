@@ -123,6 +123,7 @@ class OSG_GEOMETRY_DLLTMPLMAPPING AbstractGeoProperty :
 	virtual UInt8	*getData     (void) = 0;
 	
 	// generic access to make using different types easier
+	// mimics the MField interface as far as possible
 
 	virtual typename GeoPropertyDesc::GenericType 
 					getValue( const UInt32 index ) = 0;
@@ -142,6 +143,21 @@ class OSG_GEOMETRY_DLLTMPLMAPPING AbstractGeoProperty :
 	
 	virtual void 	addValue(
 						const typename GeoPropertyDesc::GenericType & val )= 0;
+
+	// insert() and erase() should go here
+	// it's just not clear how to handle iterators in a generic way
+	// what about find()? Probably not very useful in this context
+	
+	virtual void 	clear( void ) = 0;
+	
+
+	virtual void	resize(size_t newsize) = 0;
+	
+	virtual void 	push_back( 
+					const typename GeoPropertyDesc::GenericType & val ) = 0;
+	
+	// size clashes with another size()...
+	// virtual UInt32	size( void ) const;
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -322,7 +338,19 @@ class OSG_GEOMETRY_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
 	
 	virtual void 	addValue(
 						const typename GeoPropertyDesc::GenericType & val );
-
+	// insert() and erase() should go here
+	// it's just not clear how to handle iterators in a generic way
+	// what about find()? Probably not very useful in this context
+	
+	virtual void 	clear();
+	
+	virtual void	resize(size_t newsize);
+	
+	virtual void 	push_back( 
+					const typename GeoPropertyDesc::GenericType & val );
+	
+	// size clashes with FieldContainer::size()
+	// virtual UInt32	size( void ) const;
 
     /*------------------------- assignment ----------------------------------*/
 
