@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.12 2001/11/09 08:17:09 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.13 2002/02/04 16:09:54 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDISTANCELODBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISTANCELODBASE_INLINE_CVSID;
 
@@ -118,7 +118,7 @@ FieldDescription *DistanceLODBase::_desc[] =
 
 FieldContainerType DistanceLODBase::_type(
     "DistanceLOD",
-    "NodeCore",
+    "Group",
     NULL,
     (PrototypeCreateF) &DistanceLODBase::createEmpty,
     DistanceLOD::initMethod,

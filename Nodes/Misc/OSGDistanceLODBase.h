@@ -65,7 +65,7 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 
-#include <OSGNodeCore.h> // Parent
+#include <OSGGroup.h> // Parent
 
 #include <OSGPnt3fFields.h> // Center type
 #include <OSGReal32Fields.h> // Range type
@@ -79,11 +79,11 @@ class BinaryDataHandler;
 
 //! \brief DistanceLOD Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public NodeCore
+class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public Group
 {
   private:
 
-    typedef NodeCore Inherited;
+    typedef Group Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -229,6 +229,6 @@ typedef DistanceLODBase *DistanceLODBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.12 2001/11/09 08:17:09 vossg Exp $"
+#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.13 2002/02/04 16:09:54 dirk Exp $"
 
 #endif /* _OSGDISTANCELODBASE_H_ */

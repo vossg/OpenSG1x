@@ -64,7 +64,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<SwitchPtr>::_type("SwitchPtr", "NodeCorePtr", true);
+DataType FieldDataTraits<SwitchPtr>::_type("SwitchPtr", "GroupPtr", true);
 
 #if defined(__sgi)
 
@@ -124,7 +124,7 @@ FieldDescription *SwitchBase::_desc[] =
 
 FieldContainerType SwitchBase::_type(
     "Switch",
-    "NodeCore",
+    "Group",
     NULL,
     (PrototypeCreateF) &SwitchBase::createEmpty,
     Switch::initMethod,

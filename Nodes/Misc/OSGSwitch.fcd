@@ -2,7 +2,7 @@
 
 <FieldContainer
 	name="Switch"
-	parent="NodeCore"
+	parent="Group"
 	library="System"
 	pointerfieldtypes="both"
 	structure="concrete"

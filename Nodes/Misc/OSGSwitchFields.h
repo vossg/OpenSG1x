@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGNodeCoreFields.h>
+#include <OSGGroupFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -68,7 +68,7 @@ class Switch;
 
 //! SwitchPtr
 
-typedef FCPtr<NodeCorePtr, Switch> SwitchPtr;
+typedef FCPtr<GroupPtr, Switch> SwitchPtr;
 
 /*! \brief SwitchPtr field traits 
     \ingroup FieldLib

@@ -65,7 +65,7 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 
-#include <OSGNodeCore.h> // Parent
+#include <OSGGroup.h> // Parent
 
 #include <OSGInt32Fields.h> // Choice type
 
@@ -78,11 +78,11 @@ class BinaryDataHandler;
 
 //! \brief Switch Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public NodeCore
+class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public Group
 {
   private:
 
-    typedef NodeCore Inherited;
+    typedef Group Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:

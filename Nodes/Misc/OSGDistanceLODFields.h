@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGNodeCoreFields.h>
+#include <OSGGroupFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -68,11 +68,11 @@ class DistanceLOD;
 
 //! DistanceLODPtr
 
-typedef FCPtr<NodeCorePtr, DistanceLOD> DistanceLODPtr;
+typedef FCPtr<GroupPtr, DistanceLOD> DistanceLODPtr;
 
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODFIELDS_HEADER_CVSID "@(#)$Id: OSGDistanceLODFields.h,v 1.6 2001/11/30 11:48:20 vossg Exp $"
+#define OSGDISTANCELODFIELDS_HEADER_CVSID "@(#)$Id: OSGDistanceLODFields.h,v 1.7 2002/02/04 16:09:54 dirk Exp $"
 
 #endif /* _OSGDISTANCELODFIELDS_H_ */
