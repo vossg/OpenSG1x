@@ -306,7 +306,7 @@ int main(int argc, char **argv)
     Pnt4f resultview(0,165,1,1);  // result view
     
 #if 0
-    Pnt3f vpproj[6][4] = { 
+    Pnt3f vpproj[3][4] = { 
         { Pnt3f(-337.739, -146.218, -36.4828), 
           Pnt3f(-143.808, -146.218, -307.763), 
           Pnt3f(-118.215, 140.118, -289.467), 
@@ -321,7 +321,9 @@ int main(int argc, char **argv)
           Pnt3f(118.215, 140.118, -289.467)}
         };
 #else
-    Pnt3f vpproj[6][4] = { 
+
+    Pnt3f vpproj[3][4] = 
+    { 
         { Pnt3f(-166.735, -146.218, -264.509), 
           Pnt3f(166.735, -146.218, -264.509), 
           Pnt3f(166.735, 140.118, -295.97), 
@@ -334,7 +336,7 @@ int main(int argc, char **argv)
           Pnt3f(-118.215, -146.218, -289.467), 
           Pnt3f(-143.808, 140.118, -307.763), 
           Pnt3f(-337.739, 140.118, -36.4828)},
-        };
+    };
 #endif
 
     // the camera to move the user
