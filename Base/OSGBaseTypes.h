@@ -476,11 +476,17 @@ typedef UInt8 *MemoryHandle;
 
 const Real32 Eps = 1E-6f;
 
-/*! \brief Eps
+/*! \brief Pi
  *  \ingroup BaseConstants
  */
 
 const Real32 Pi  = (Real32) 3.141592653589793;
+
+/*! \brief sqrt(2)
+ *  \ingroup BaseConstants
+ */
+
+const Real32 Sqrt2  = (Real32) 1.41421356237309504;
 
 /*! positive infinity
  *  \ingroup BaseConstants
