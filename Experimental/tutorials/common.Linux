@@ -1,0 +1,14 @@
+
+# the path where OpenSG is found
+OPENSGPATH := ../Builds/i686-pc-linux-gnu-g++
+
+CC := gcc
+
+CCFLAGS :=	-D__linux -D_GNU_SOURCE -DQT_CLEAN_NAMESPACE -DOSG_WITH_GLUT \
+			-D_OSG_HAVE_CONFIGURED_H_ -D__linux__  -DOSG_DEBUG	\
+			-ansi -use_readonly_const -g \
+			-I$(OPENSGPATH)/include  -I.
+
+LD_FLAGS := -L/usr/X11R6/lib -L$(OPENSGPATH)/lib/dbg \
+			-lOSGWindowGLUT -lOSGSystem  -lOSGBase -lglut	\
+			-lGLU -lGL -lXmu -lXi -lXt -lX11 -lpthread -lm

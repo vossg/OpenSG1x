@@ -1,0 +1,13 @@
+
+  OpenSG Experimental Tutorial Examples
+  =====================================
+
+These are the tutorial examples that are not ready for primetime yet.
+Either because they don't quite show what they're supposed to show,
+or because they show stuff that's not stable yet.
+
+08parloading - use a separate thread to load a file, sync it to the
+               main thread and start rendering
+
+09syncedthreads - simple producer-consumer example for multithreading
+
