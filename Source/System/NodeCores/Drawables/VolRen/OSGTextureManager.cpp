@@ -356,7 +356,8 @@ Vec3f TextureManager::calcBrickSubdivision(Int32      resX,
 
             Real32 fMB_required  = (Real32) (resX * resY * resZ * dataSize);
 
-            Int32 nNumBricks     = (Int32) ceil(fMB_required / fMB_available);
+            Int32 nNumBricks     = (Int32) osgceil(fMB_required / 
+                                                   fMB_available);
             Int32 nRealNumBricks = 1;
 
             while(nNumBricks > nRealNumBricks) 

@@ -247,10 +247,10 @@ void DVRIsoShader::deactivate_ColorMatrixShading(DVRVolume      *volume,
         // compute covered pixels
         GLint sr[4];
 
-        sr[0] = (GLint) floorf(vpOrigin[0]+(screenS[0]+1.0f)*(vpSize[0]/2));
-        sr[1] = (GLint) floorf(vpOrigin[1]+(screenS[1]+1.0f)*(vpSize[1]/2));
-        sr[2] = (GLint) ceilf (vpOrigin[0]+(screenS[2]+1.0f)*(vpSize[0]/2));
-        sr[3] = (GLint) ceilf (vpOrigin[1]+(screenS[3]+1.0f)*(vpSize[1]/2));
+        sr[0] = (GLint) osgfloor(vpOrigin[0]+(screenS[0]+1.0f)*(vpSize[0]/2));
+        sr[1] = (GLint) osgfloor(vpOrigin[1]+(screenS[1]+1.0f)*(vpSize[1]/2));
+        sr[2] = (GLint) osgceil (vpOrigin[0]+(screenS[2]+1.0f)*(vpSize[0]/2));
+        sr[3] = (GLint) osgceil (vpOrigin[1]+(screenS[3]+1.0f)*(vpSize[1]/2));
 
         // copy covered pixels 
         glMatrixMode(GL_MODELVIEW);

@@ -135,6 +135,10 @@ template <class FloatTypeT> inline
 typename TypeTraits<FloatTypeT>::RealReturnType
     osgfloor(const FloatTypeT rVal);
 
+template <class FloatTypeT> inline
+typename TypeTraits<FloatTypeT>::RealReturnType
+    osgceil(const FloatTypeT rVal);
+
 
 template <class FloatTypeT> inline
 UInt32 osgfinite(const FloatTypeT rVal);

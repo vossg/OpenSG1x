@@ -564,6 +564,49 @@ Real64 osgfloor(const Real64 rValue)
 
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
+/*! \name ceil                                                         */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+template <class FloatTypeT> inline
+typename TypeTraits<FloatTypeT>::RealReturnType
+    osgceil(const FloatTypeT rVal)
+{
+    typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
+
+    return  osgceil(RealType(rVal));
+}
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real32 osgceil(const Real32 rValue)
+{
+#ifdef OSG_HAS_FLOATMATH
+# ifdef OSG_HPUX_ACC
+    return (Real32) ceil((Real32) rValue);
+# else
+    return ceilf(rValue);
+# endif
+#else
+    return (Real32) ceil((Real32) rValue);
+#endif
+}
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real64 osgceil(const Real64 rValue)
+{
+    return ceil(rValue);
+}
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
 /*! \name finite                                                       */
 /*! \{                                                                 */
 
@@ -686,7 +729,7 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgdegree2rad(RealType(rVal));
+    return  OSG::osgdegree2rad(RealType(rVal));
 }
 
 /*! \}                                                                 */
@@ -721,7 +764,7 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 {
     typedef typename TypeTraits<FloatTypeT>::RealReturnType RealType;
 
-    return  osgrad2degree(RealType(rVal));
+    return  OSG::osgrad2degree(RealType(rVal));
 }
 
 /*! \}                                                                 */
