@@ -395,22 +395,29 @@ void FieldContainerViewCtl::partVisibilityChanged(int index)
 void FieldContainerViewCtl::writeFieldContainerBaseSlot()
 {
 	char decFile[256];
+	char inlFile[256];
 	char impFile[256];
 
 	sync();
 
 	if (_fieldContainer.name()) {
-		sprintf( decFile,"%s.%s", 
+		sprintf( decFile,"%s%sBase.%s", _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.decFileSuffix());
-		sprintf( impFile,"%s.%s", 
+		sprintf( inlFile,"%s%sBase.%s",  _fieldContainer.filePrefix(),
+						 _fieldContainer.name(), _fieldContainer.inlFileSuffix());
+		sprintf( impFile,"%s%sBase.%s",  _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.impFileSuffix());
 		if (_fieldContainer.writeBaseCodeDec(decFile))
-			if (_fieldContainer.writeBaseCodeImp(decFile,impFile))
-				QMessageBox::information ( this, "Write OK",
-																	 "Wrote dec and imp file" );
+			if (_fieldContainer.writeBaseCodeInl(inlFile))
+				if (_fieldContainer.writeBaseCodeImp(decFile,impFile))
+					QMessageBox::information ( this, "Write OK",
+																	 "Wrote dec, inl and imp file" );
+				else
+					QMessageBox::warning ( this, "Write error",
+															 "Couldn't write the imp file ");
 			else
 				QMessageBox::warning ( this, "Write error",
-															 "Couldn't write the imp file ");
+															 "Couldn't write the inl file ");
 		else
 			QMessageBox::warning ( this, "Write error",
 														 "Couldn't write the dec file ");
@@ -428,22 +435,29 @@ void FieldContainerViewCtl::writeFieldContainerBaseSlot()
 void FieldContainerViewCtl::writeFieldContainerSlot()
 {
 	char decFile[256];
+	char inlFile[256];
 	char impFile[256];
 
 	sync();
 
 	if (_fieldContainer.name()) {
-		sprintf( decFile,"%sProc.%s", 
+		sprintf( decFile,"%s%s.%s",  _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.decFileSuffix());
-		sprintf( impFile,"%sProc.%s", 
+		sprintf( inlFile,"%s%s.%s",  _fieldContainer.filePrefix(),
+						 _fieldContainer.name(), _fieldContainer.inlFileSuffix());
+		sprintf( impFile,"%s%s.%s",  _fieldContainer.filePrefix(),
 						 _fieldContainer.name(), _fieldContainer.impFileSuffix());
 		if (_fieldContainer.writeCodeDec(decFile))
-			if (_fieldContainer.writeCodeImp(decFile,impFile))
-				QMessageBox::information ( this, "Write OK",
-																	 "Wrote dec and imp file" );
+			if (_fieldContainer.writeCodeInl(inlFile))
+				if (_fieldContainer.writeCodeImp(decFile,impFile))
+					QMessageBox::information ( this, "Write OK",
+																		 "Wrote dec, inl and imp file" );
+				else
+					QMessageBox::warning ( this, "Write error",
+																 "Couldn't write the imp file ");
 			else
 				QMessageBox::warning ( this, "Write error",
-															 "Couldn't write the imp file ");
+															 "Couldn't write the inl file ");
 		else
 			QMessageBox::warning ( this, "Write error",
 														 "Couldn't write the dec file ");
