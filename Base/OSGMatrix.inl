@@ -492,7 +492,7 @@ void TransformationMatrix<ValueTypeT>::setRotate(const QuaternionType &q)
 }
 
 
-/*! \brief Composes the matrix based on a translation, rotation, scale,
+/*! Composes the matrix based on a translation, rotation, scale,
    orientation for scale, and center.  The "center" is the
    center point for scaling and rotation.  The "scaleOrientation"
    chooses the primary axes for the scale.
@@ -625,7 +625,7 @@ void TransformationMatrix<ValueTypeT>::setTransform(const VectorType3f &t)
 
 }
 
-//! Composes the matrix based on a translation and rotation
+//! Composes the matrix based on a rotation
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setTransform(const QuaternionType &r)
@@ -633,6 +633,8 @@ void TransformationMatrix<ValueTypeT>::setTransform(const QuaternionType &r)
     // Calculate the 4x4 rotation matrix
     r.getValue(*this);
 }
+
+//! Composes the matrix based on a translation and rotation
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setTransform(const VectorType3f   &t,
