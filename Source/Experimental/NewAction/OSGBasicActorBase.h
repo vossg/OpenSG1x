@@ -80,43 +80,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BasicActorBase : public ActorBase
     virtual ResultE leaveNode(const NodePtr &pNode) = 0;
 
     /*! \}                                                                   */
-    /*-----------------------------------------------------------------------*/
-    /*! \name    Children Managment                                          */
-    /*! \{                                                                   */
-
-    inline bool getChildrenListEnabled(void) const;
-    inline void setChildrenListEnabled(bool enabled);
-
-    inline NodePtr      getNode         (void                    ) const;
-
-    inline UInt32       getNumChildren  (void                    ) const;
-    inline NodePtr      getChild        (UInt32       childIndex ) const;
-
-    inline bool         getChildActive  (UInt32       childIndex ) const;
-    inline void         setChildActive  (UInt32       childIndex,
-                                         bool         active     );
-
-    inline PriorityType getChildPriority(UInt32       childIndex ) const;
-    inline void         setChildPriority(UInt32       childIndex,
-                                         PriorityType prio       );
-
-    /*! \}                                                                   */
-    /*-----------------------------------------------------------------------*/
-    /*! \name    Extra Children Managment                                    */
-    /*! \{                                                                   */
-
-    inline UInt32       getNumExtraChildren  (void                    ) const;
-    inline NodePtr      getExtraChild        (UInt32       childIndex ) const;
-
-    inline bool         getExtraChildActive  (UInt32       childIndex ) const;
-    inline void         setExtraChildActive  (UInt32       childIndex,
-                                              bool         active     );
-
-    inline PriorityType getExtraChildPriority(UInt32       childIndex ) const;
-    inline void         setExtraChildPriority(UInt32       childIndex,
-                                              PriorityType prio       );
-
-    /*! \}                                                                   */
     /*==== PROTECTED ========================================================*/
   protected:
     /*-----------------------------------------------------------------------*/
@@ -149,6 +112,6 @@ OSG_END_NAMESPACE
 
 #include "OSGBasicActorBase.inl"
 
-#define OSGBASICACTORBASE_HEADER_CVSID "@(#)$Id: OSGBasicActorBase.h,v 1.2 2004/09/11 11:10:03 neumannc Exp $"
+#define OSGBASICACTORBASE_HEADER_CVSID "@(#)$Id: OSGBasicActorBase.h,v 1.3 2004/09/13 15:15:02 neumannc Exp $"
 
 #endif /* _OSGBASICACTORBASE_H_ */

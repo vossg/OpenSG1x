@@ -58,7 +58,7 @@ PageExperimentalNewActionActorBase for a description.
 
 To create a new actor you should use the actorEdit utility that can be found
 in /OpenSG/Tools/actorEdit. It will generate a base class for your own actor
-that takes care of the managment of functors and state.
+that takes care of the management of functors and state.
 
 \endext
 

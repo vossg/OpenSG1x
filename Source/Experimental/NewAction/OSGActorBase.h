@@ -122,7 +122,44 @@ class OSG_SYSTEMLIB_DLLMAPPING ActorBase
 
     /*! \}                                                                   */
     /*-----------------------------------------------------------------------*/
-    /*! \name    State Managment                                             */
+    /*! \name    Children Management                                         */
+    /*! \{                                                                   */
+
+    inline bool getChildrenListEnabled(void) const;
+    inline void setChildrenListEnabled(bool enabled);
+
+    inline NodePtr      getNode         (void                    ) const;
+
+    inline UInt32       getNumChildren  (void                    ) const;
+    inline NodePtr      getChild        (UInt32       childIndex ) const;
+
+    inline bool         getChildActive  (UInt32       childIndex ) const;
+    inline void         setChildActive  (UInt32       childIndex,
+                                         bool         active     );
+
+    inline PriorityType getChildPriority(UInt32       childIndex ) const;
+    inline void         setChildPriority(UInt32       childIndex,
+                                         PriorityType prio       );
+
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Extra Children Management                                   */
+    /*! \{                                                                   */
+
+    inline UInt32       getNumExtraChildren  (void                    ) const;
+    inline NodePtr      getExtraChild        (UInt32       childIndex ) const;
+
+    inline bool         getExtraChildActive  (UInt32       childIndex ) const;
+    inline void         setExtraChildActive  (UInt32       childIndex,
+                                              bool         active     );
+
+    inline PriorityType getExtraChildPriority(UInt32       childIndex ) const;
+    inline void         setExtraChildPriority(UInt32       childIndex,
+                                              PriorityType prio       );
+
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    State Management                                            */
     /*! \{                                                                   */
 
 #ifdef OSG_NEWACTION_STATESLOTINTERFACE
@@ -211,6 +248,6 @@ OSG_END_NAMESPACE
 
 #include "OSGActorBase.inl"
 
-#define OSGACTORBASE_HEADER_CVSID "@(#)$Id: OSGActorBase.h,v 1.4 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGACTORBASE_HEADER_CVSID "@(#)$Id: OSGActorBase.h,v 1.5 2004/09/13 15:15:02 neumannc Exp $"
 
 #endif /* _OSGACTORBASE_H_ */

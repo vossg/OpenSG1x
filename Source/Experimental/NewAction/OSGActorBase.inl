@@ -131,7 +131,170 @@ ActorBase::getActorId(void) const
 }
 
 //----------------------------------------------------------------------------
-//    State Managment
+//    Children Management
+//----------------------------------------------------------------------------
+
+/*! Return if the children list is enabled.
+ */
+
+inline bool
+ActorBase::getChildrenListEnabled(void) const
+{
+    return _pAction->getChildrenListEnabled();
+}
+
+/*! Enable or disable the children list.
+ */
+
+inline void
+ActorBase::setChildrenListEnabled(bool enabled)
+{
+    _pAction->setChildrenListEnabled(enabled);
+}
+
+/*! Return the traversed node.
+ */
+
+inline NodePtr
+ActorBase::getNode(void) const
+{
+    return _pAction->getChildrenList().getParentNode();
+}
+
+/*! Return the number of children of the traversed node.
+ */
+
+inline UInt32
+ActorBase::getNumChildren(void) const
+{
+    return _pAction->getChildrenList().getSize();
+}
+
+/*! Return the childIndex'th child of the traversed node.
+    \warning childIndex is not range checked.
+*/
+
+inline NodePtr
+ActorBase::getChild(UInt32 childIndex) const
+{
+    return _pAction->getChildrenList().getChild(childIndex);
+}
+
+/*! Return if the childIndex'th child is active, i.e. whether it will be
+    traversed.
+    \warning childIndex is not range checked.
+    \warning The children list must have been enabled with
+    setChildrenListEnabled(true);
+*/
+
+inline bool
+ActorBase::getChildActive(UInt32 childIndex) const
+{
+    return _pAction->getChildrenList().getActive(childIndex);
+}
+
+/*! Set if the childIndex'th child will be included in the traversal.
+    \warning childIndex is not range checked.
+    \warning The children list must have been enabled with
+    setChildrenListEnabled(true);
+*/
+
+inline void
+ActorBase::setChildActive(UInt32 childIndex, bool active)
+{
+    _pAction->getChildrenList().setActive(childIndex, active);
+}
+
+/*! Return the priority assigned to the childIndex'th child.
+    \warning childIndex is not range checked.
+    \warning The children list must have been enabled with
+    setChildrenListEnabled(true);
+*/
+
+inline ActorBase::PriorityType
+ActorBase::getChildPriority(UInt32 childIndex) const
+{
+    return _pAction->getChildrenList().getPriority(childIndex);
+}
+
+/*! Set the priority of the childIndex'th child.
+    \warning childIndex is not range checked.
+    \warning The children list must have been enabled with
+    setChildrenListEnabled(true);
+*/
+
+inline void
+ActorBase::setChildPriority(UInt32 childIndex, PriorityType prio)
+{
+    _pAction->getChildrenList().setPriority(childIndex, prio);
+}
+
+//----------------------------------------------------------------------------
+//    Extra Children Management
+//----------------------------------------------------------------------------
+
+/*! Return the number of extra children already added.
+ */
+
+inline UInt32
+ActorBase::getNumExtraChildren(void) const
+{
+    return _pAction->getExtraChildrenList().getSize();
+}
+
+/*! Return the childIndex'th extra child.
+    \warning childIndex is not range checked.
+ */
+
+inline NodePtr
+ActorBase::getExtraChild(UInt32 childIndex) const
+{
+    return _pAction->getExtraChildrenList().getChild(childIndex);
+}
+
+/*! Return if the childIndex'th extra child is active, i.e. whether it will be
+    traversed.
+    \warning childIndex is not range checked.
+*/
+
+inline bool
+ActorBase::getExtraChildActive(UInt32 childIndex) const
+{
+    return _pAction->getExtraChildrenList().getActive(childIndex);
+}
+
+/*! Set if the childIndex'th extra child will be included in the traversal.
+    \warning childIndex is not range checked.
+*/
+
+inline void
+ActorBase::setExtraChildActive(UInt32 childIndex, bool active)
+{
+    _pAction->getExtraChildrenList().setActive(childIndex, active);
+}
+
+/*! Return the priority assigned to the childIndex'th extra child.
+    \warning childIndex is not range checked.
+*/
+
+inline ActorBase::PriorityType
+ActorBase::getExtraChildPriority(UInt32 childIndex) const
+{
+    return _pAction->getExtraChildrenList().getPriority(childIndex);
+}
+
+/*! Set the priority of the childIndex'th extra child.
+    \warning childIndex is not range checked.
+*/
+
+inline void
+ActorBase::setExtraChildPriority(UInt32 childIndex, PriorityType prio)
+{
+    _pAction->getExtraChildrenList().setPriority(childIndex, prio);
+}
+
+//----------------------------------------------------------------------------
+//    State Management
 //----------------------------------------------------------------------------
 
 /*! Notify the action, that state is about to be edited.
@@ -217,4 +380,4 @@ ActorBase::getSlotMap(void)
 
 OSG_END_NAMESPACE
 
-#define OSGACTORBASE_INLINE_CVSID "@(#)$Id: OSGActorBase.inl,v 1.4 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGACTORBASE_INLINE_CVSID "@(#)$Id: OSGActorBase.inl,v 1.5 2004/09/13 15:15:02 neumannc Exp $"

@@ -126,7 +126,7 @@ NewActionBase::setChildrenListEnabled(bool enabled)
 
 \ext
     ExtendActorBase and BasicActorBase have convenience functions for
-    children managment, use them instead of manipulating the list directly.
+    children management, use them instead of manipulating the list directly.
 \endext
  */
 
@@ -140,7 +140,7 @@ NewActionBase::getChildrenList(void) const
 
 \ext
     ExtendActorBase and BasicActorBase have convenience functions for
-    children managment, use them instead of manipulating the list directly.
+    children management, use them instead of manipulating the list directly.
 \endext
  */
 
@@ -154,7 +154,7 @@ NewActionBase::getChildrenList(void)
 
 \ext
     ExtendActorBase and BasicActorBase have convenience functions for extra
-    children managment, use them instead of manipulating the list directly.
+    children management, use them instead of manipulating the list directly.
 \endext
  */
 
@@ -168,7 +168,7 @@ NewActionBase::getExtraChildrenList(void) const
 
 \ext
     ExtendActorBase and BasicActorBase have convenience functions for extra
-    children managment, use them instead of manipulating the list directly.
+    children management, use them instead of manipulating the list directly.
 \endext
  */
 
@@ -256,4 +256,4 @@ NewActionBase::endBasic(void)
 
 OSG_END_NAMESPACE
 
-#define OSGNEWACTIONBASE_INLINE_CVSID "@(#)$Id: OSGNewActionBase.inl,v 1.1 2004/09/10 15:00:46 neumannc Exp $"
+#define OSGNEWACTIONBASE_INLINE_CVSID "@(#)$Id: OSGNewActionBase.inl,v 1.2 2004/09/13 15:15:02 neumannc Exp $"

@@ -36,8 +36,8 @@
 // STL
 #include <vector>
 
-#define SCENE_DEPTH 6
-#define RAY_COUNT   5000
+#define SCENE_DEPTH 4
+#define RAY_COUNT   500
 #define X_SIZE      20.0
 #define Y_SIZE      20.0
 #define Z_SIZE      20.0
