@@ -134,20 +134,29 @@ int main (int argc, char **argv)
     
     // set a callback for reading progress.
     SceneFileHandler::the().setReadProgressCB(progress);
-#if 0
-    // stream test.
-    std::ifstream in(fileName, std::ios::binary);
+
+    // Using the stream interface
     // The last parameter is the filetype e.g. "bin", "osg" but it is
     // also possible to use the filename with a extension.
-    scene = SceneFileHandler::the().read(in, fileName);
-    in.close();
-#else
-    GraphOpSeq graphop;
-    graphop.addGraphOp(new VerifyGeoGraphOp);
-    graphop.addGraphOp(new StripeGraphOp);
-    scene = SceneFileHandler::the().read(fileName, &graphop);
-#endif
+    //std::ifstream in(fileName, std::ios::binary);
+    //scene = SceneFileHandler::the().read(in, fileName);
+    //in.close();
 
+    // As a default all geometries are striped with the StripeGraphOp
+    // To disable the default striper you can add a empty GraphOpSeq instance.
+    //GraphOpSeq *graphop = new GraphOpSeq;
+    //SceneFileHandler::the().setDefaultGraphOp(graphop);
+    //scene = SceneFileHandler::the().read(fileName);
+    // or
+    //GraphOpSeq *graphop = new GraphOpSeq;
+    //scene = SceneFileHandler::the().read(fileName, graphop);
+    
+    // You can also add your own GraphOP's
+    GraphOpSeq *graphop = new GraphOpSeq;
+    graphop->addGraphOp(new VerifyGeoGraphOp);
+    graphop->addGraphOp(new StripeGraphOp);
+    scene = SceneFileHandler::the().read(fileName, graphop);
+    
     if(scene == NullFC)
     {
         std::cerr << "Error loading " << fileName << "!" << std::endl;
@@ -156,13 +165,12 @@ int main (int argc, char **argv)
 
     //scene.dump();
 
-#if 0
-    // stream test.
-    std::ofstream out("test.bin", std::ios::binary);
-    SceneFileHandler::the().write(scene, out, "bin");
-    out.close();
-#endif
+    // stream out test.
+    //std::ofstream out("test.bin", std::ios::binary);
+    //SceneFileHandler::the().write(scene, out, "bin");
+    //out.close();
     
+    // file out test.
     //SceneFileHandler::the().write(scene, "test.osg", true);
 
     // create the SimpleSceneManager helper

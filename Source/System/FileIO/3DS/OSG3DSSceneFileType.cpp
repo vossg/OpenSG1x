@@ -251,8 +251,7 @@ NodePtr A3DSSceneFileType::createMesh(L3DS &scene, LMesh &mesh) const
 	endEditCP(geo);
 
 
-    createSharedIndex(geo);
-    createOptimizedPrimitives(geo);
+    //createSharedIndex(geo);
     //osg::calcVertexNormals(geo);
 
     return node;
@@ -345,6 +344,6 @@ MaterialPtr A3DSSceneFileType::createMaterial(L3DS &scene, UInt32 id) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSG3DSSceneFileType.cpp,v 1.5 2003/08/22 14:25:21 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSG3DSSceneFileType.cpp,v 1.6 2003/09/19 13:47:10 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSG3DSSCENEFILETYPE_HEADER_CVSID;
 }

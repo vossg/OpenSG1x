@@ -1390,11 +1390,6 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
 
                 OSG::calcVertexNormals(pGeo, pCreaseAngle->getValue());
             }
-
-            //if(0 != (_uiOptions & VRMLFile::StripeGeometry) )
-            {
-                createOptimizedPrimitives(pGeo, 1, true, true, 8, false);
-            }
         }
         else
         {
@@ -1910,11 +1905,6 @@ void VRMLGeometryPointSetDesc::endNode(FieldContainerPtr pFC)
 #endif
 
                 OSG::calcVertexNormals(pGeo, pCreaseAngle->getValue());
-            }
-
-            //if(0 != (_uiOptions & VRMLFile::StripeGeometry) )
-            {
-                createOptimizedPrimitives(pGeo, 1, true, true, 8, false);
             }
         }
         else

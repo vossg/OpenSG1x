@@ -134,6 +134,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   DefaultGraphOp                             */
+    /*! \{                                                                 */
+    
+    virtual GraphOpSeq *getDefaultGraphOp(void                  );
+    virtual void        setDefaultGraphOp(GraphOpSeq *graphOpSeq);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Options                                    */
     /*! \{                                                                 */
 
@@ -210,6 +218,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     PathHandler     *_pathHandler;
     PathHandler     _defaultPathHandler;
+    GraphOpSeq      *_defaultgraphOpSeq;
+    
 };
 
 typedef SceneFileHandler* SceneFileHandlerP;

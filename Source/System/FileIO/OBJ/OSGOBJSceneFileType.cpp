@@ -415,9 +415,6 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
                 if ((meshIndexMask & 4) == 0)
                   calcVertexNormals(geoPtr);
 
-                // TODO; need opt flag
-                createOptimizedPrimitives(geoPtr);
-
                 // create and link the node
                 nodePtr = Node::create();
                 beginEditCP ( nodePtr );
