@@ -290,9 +290,9 @@ int main(int argc, char** argv)
     
     beginEditCP(lodNodeCore);
     lodNodeCore->getSFCenter()->setValue( Pnt3f(0, 0, 0) );
-    lodNodeCore->getMFRange()->addValue( 4.0 );
-    lodNodeCore->getMFRange()->addValue( 8.0 );
-    lodNodeCore->getMFRange()->addValue( 11.0 );
+    lodNodeCore->getMFRange()->push_back( 4.0 );
+    lodNodeCore->getMFRange()->push_back( 8.0 );
+    lodNodeCore->getMFRange()->push_back( 11.0 );
     endEditCP(lodNodeCore);
     
         
