@@ -255,88 +255,17 @@ bool intersect(const BoxVolume &box, const CylinderVolume &cylinder)
 OSG_BASE_DLLMAPPING 
 bool intersect(const BoxVolume &box, const FrustumVolume &frustum)
 {
-    const Pnt3f &min = box.getMin();
-    const Pnt3f &max = box.getMax();
+    Pnt3f min, max;
+    box.getBounds(min, max);
 
-    Plane       frust[] =
-    {
-        frustum.getNear  (),
-        frustum.getFar   (),
-        frustum.getLeft  (),
-        frustum.getRight (),
-        frustum.getTop   (),
-        frustum.getBottom()
-    };
+    const Plane       *frust = frustum.getPlanes();
 
     // check each point of the box to the 6 planes
 
     for(Int32 i = 0; i < 6; i++)
     {
-        if(frust[i].getNormal().x() * min.x() +
-           frust[i].getNormal().y() * min.y() +
-           frust[i].getNormal().z() * min.z() -
-           frust[i].getDistanceFromOrigin() < 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * min.x() +
-           frust[i].getNormal().y() * min.y() +
-           frust[i].getNormal().z() * max.z() -
-           frust[i].getDistanceFromOrigin() < 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * min.x() +
-           frust[i].getNormal().y() * max.y() +
-           frust[i].getNormal().z() * min.z() -
-           frust[i].getDistanceFromOrigin() < 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * min.x() +
-           frust[i].getNormal().y() * max.y() +
-           frust[i].getNormal().z() * max.z() -
-           frust[i].getDistanceFromOrigin() < 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * max.x() +
-           frust[i].getNormal().y() * min.y() +
-           frust[i].getNormal().z() * min.z() -
-           frust[i].getDistanceFromOrigin() < 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * max.x() +
-           frust[i].getNormal().y() * min.y() +
-           frust[i].getNormal().z() * max.z() -
-           frust[i].getDistanceFromOrigin() < 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * max.x() +
-           frust[i].getNormal().y() * max.y() +
-           frust[i].getNormal().z() * min.z() -
-           frust[i].getDistanceFromOrigin() < 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * max.x() +
-           frust[i].getNormal().y() * max.y() +
-           frust[i].getNormal().z() * max.z() -
-           frust[i].getDistanceFromOrigin() < 0.f)
-        {
-            continue;
-        }
-
-        return false;
+        if(frust[i].isOutHalfSpace(min, max))
+            return false;
     }
 
     return true;
@@ -470,26 +399,13 @@ bool intersect(const SphereVolume &sphere, const CylinderVolume &cylinder)
 OSG_BASE_DLLMAPPING 
 bool intersect(const SphereVolume &sphere, const FrustumVolume &frustum)
 {
-    Plane frust[6] =
-    {
-        frustum.getNear  (),
-        frustum.getFar   (),
-        frustum.getLeft  (),
-        frustum.getRight (),
-        frustum.getTop   (),
-        frustum.getBottom()
-    };
+    const Plane             *frust = frustum.getPlanes();
 
     //check the center of the sphere with each plane of the frustum
     for(Int32 i = 0; i < 6; i++)
     {
-        if(frust[i].getNormal().x() * sphere.getCenter().x() +
-           frust[i].getNormal().y() * sphere.getCenter().y() +
-           frust[i].getNormal().z() * sphere.getCenter().z() -
-           frust[i].getDistanceFromOrigin() <= -sphere.getRadius())
-        {
+        if(frust[i].distance(sphere.getCenter()) < -sphere.getRadius())
             return false;
-        }
     }
 
     return true;
@@ -572,88 +488,17 @@ bool intersect(const CylinderVolume &cylinder1,
 OSG_BASE_DLLMAPPING 
 bool intersect(const CylinderVolume &cylinder, const FrustumVolume &frustum)
 {
-    Pnt3f   min, max;
-
+    Pnt3f min, max;
     cylinder.getBounds(min, max);
 
-    Plane frust[] =
-    {
-        frustum.getNear  (),
-        frustum.getFar   (),
-        frustum.getLeft  (),
-        frustum.getRight (),
-        frustum.getTop   (),
-        frustum.getBottom()
-    };
+    const Plane       *frust = frustum.getPlanes();
 
-    //check the boundaries of the cylinder with each plane of the frustum
+    // check each point of the box to the 6 planes
+
     for(Int32 i = 0; i < 6; i++)
     {
-        if(frust[i].getNormal().x() * min.x() +
-           frust[i].getNormal().y() * min.y() +
-           frust[i].getNormal().z() * min.z() -
-           frust[i].getDistanceFromOrigin() > 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * min.x() +
-           frust[i].getNormal().y() * min.y() +
-           frust[i].getNormal().z() * max.z() -
-           frust[i].getDistanceFromOrigin() > 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * min.x() +
-           frust[i].getNormal().y() * max.y() +
-           frust[i].getNormal().z() *  min.z() -
-           frust[i].getDistanceFromOrigin() > 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * min.x() +
-           frust[i].getNormal().y() * max.y() +
-           frust[i].getNormal().z() * max.z() -
-           frust[i].getDistanceFromOrigin() > 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * max.x() +
-           frust[i].getNormal().y() * min.y() +
-           frust[i].getNormal().z() * min.z() -
-           frust[i].getDistanceFromOrigin() > 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * max.x() +
-           frust[i].getNormal().y() * min.y() +
-           frust[i].getNormal().z() * max.z() -
-           frust[i].getDistanceFromOrigin() > 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * max.x() +
-           frust[i].getNormal().y() * max.y() +
-           frust[i].getNormal().z() * min.z() -
-           frust[i].getDistanceFromOrigin() > 0.f)
-        {
-            continue;
-        }
-
-        if(frust[i].getNormal().x() * max.x() +
-           frust[i].getNormal().y() * max.y() +
-           frust[i].getNormal().z() * max.z() -
-           frust[i].getDistanceFromOrigin() > 0.f)
-        {
-            continue;
-        }
-
-        return false;
+        if(frust[i].isOutHalfSpace(min, max))
+            return false;
     }
 
     return true;

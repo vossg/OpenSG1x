@@ -453,9 +453,7 @@ bool intersect(const FrustumVolume &frustum, const Volume &vol,
 {
     Pnt3f min, max;
     vol.getBounds(min, max);
-    
-    Pnt3f p;
-    
+     
     const Plane             *frust = frustum.getPlanes();
     FrustumVolume::PlaneSet  mask  = 0x1;
    
