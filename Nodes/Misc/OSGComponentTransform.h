@@ -92,15 +92,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform :
 
     /*! \}                                                                 */
 #endif
-    
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Action Callback                            */
-    /*! \{                                                                 */
-
-    Action::ResultE intersectEnter(Action * action);
-    Action::ResultE intersectLeave(Action * action);
-    
-    /*! \}                                                                 */
+     
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -140,6 +132,6 @@ OSG_END_NAMESPACE
 #include <OSGComponentTransform.inl>
 #include <OSGComponentTransformBase.inl>
 
-#define OSGCOMPONENTTRANSFORM_HEADER_CVSID "@(#)$Id: OSGComponentTransform.h,v 1.4 2001/11/05 11:15:31 vossg Exp $"
+#define OSGCOMPONENTTRANSFORM_HEADER_CVSID "@(#)$Id: OSGComponentTransform.h,v 1.5 2001/11/09 08:32:08 neumannc Exp $"
 
 #endif /* _OSGCOMPONENTTRANSFORM_H_ */

@@ -44,6 +44,7 @@
 #include "OSGComponentTransform.h"
 #include "OSGDrawAction.h"
 #include "OSGRenderAction.h"
+#include "OSGIntersectAction.h"
 
 OSG_USING_NAMESPACE
 
@@ -53,7 +54,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.6 2001/11/05 11:15:31 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.7 2001/11/09 08:32:08 neumannc Exp $";
     static Char8 cvsid_hpp[] = OSGCOMPONENTTRANSFORM_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGCOMPONENTTRANSFORM_INLINE_CVSID;
 }
@@ -137,18 +138,6 @@ Action::ResultE ComponentTransform::ComponentTransformDrawLeave(
 }
 #endif
 
-/*-------------------------------------------------------------------------*/
-/*                              Intersect                                  */
-
-Action::ResultE ComponentTransform::intersectEnter(Action *action)
-{
-    return Transform::intersectEnter(action);
-}
-
-Action::ResultE ComponentTransform::intersectLeave(Action *action)
-{
-    return Transform::intersectLeave(action);
-}
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
@@ -207,21 +196,19 @@ void ComponentTransform::initMethod (void)
                                   Action *>(&ComponentTransform::renderLeave));
 
 
-    RenderAction::registerEnterDefault(
+    IntersectAction::registerEnterDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<
-            OSG::Action::ResultE,
-            CNodePtr,  
-            ComponentTransformPtr, 
-            Action *             >(&ComponentTransform::intersectEnter));
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                 CNodePtr,  
+                                 ComponentTransformPtr, 
+                                 Action*>(&ComponentTransform::intersectEnter));
 
-    RenderAction::registerLeaveDefault(
+    IntersectAction::registerLeaveDefault(
         getClassType(), 
-        osgMethodFunctor2BaseCPtr<
-            OSG::Action::ResultE,
-            CNodePtr,  
-            ComponentTransformPtr, 
-            Action *             >(&ComponentTransform::intersectLeave));
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                 CNodePtr,  
+                                 ComponentTransformPtr, 
+                                 Action*>(&ComponentTransform::intersectLeave));
     
 #else
 
