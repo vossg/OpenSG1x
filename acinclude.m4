@@ -1033,13 +1033,16 @@ dnl e5
                 fi
             ;;
             *)
-                ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_libdir; ls libqt-mt.$ac_gdz_so_suffix 2> /dev/null`
+                ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_libdir; ls libqt-mt$ac_gdz_so_suffix 2> /dev/null`
 
                 if test "x"$ac_gdz_qt_lib_e6 = "x"; then
-                    ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_libdir; ls libqt.$ac_gdz_so_suffix 2> /dev/null`
+                    ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_libdir; ls libqt$ac_gdz_so_suffix 2> /dev/null`
 
                     if test "x"$ac_gdz_qt_lib_e6 != "x"; then
                         ac_gdz_qt_lib_e6='-lqt'
+                    else
+                        echo "QT configured, but neither libqt-mt$ac_gdz_so_suffix nor libqt$ac_gdz_so_suffix found in $ac_gdz_qt_libdir!"
+                        exit 1
                     fi
         
                 else
@@ -1550,10 +1553,10 @@ dnl e15
             ;;
 
             *)
-                ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_libdir; ls libqt-mt.$ac_gdz_so_suffix 2> /dev/null`
+                ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_libdir; ls libqt-mt$ac_gdz_so_suffix 2> /dev/null`
 
                 if test "x"$ac_gdz_qt_lib_e15 = "x"; then
-                    ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_libdir; ls libqt.$ac_gdz_so_suffix 2> /dev/null`
+                    ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_libdir; ls libqt$ac_gdz_so_suffix 2> /dev/null`
 
                     if test "x"$ac_gdz_qt_lib_e15 != "x"; then
                         ac_gdz_qt_lib_e15='-lqt'

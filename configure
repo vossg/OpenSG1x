@@ -5131,10 +5131,10 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
                 fi
             ;;
             *)
-                ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_libdir; ls libqt-mt.$ac_gdz_so_suffix 2> /dev/null`
+                ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_libdir; ls libqt-mt$ac_gdz_so_suffix 2> /dev/null`
 
                 if test "x"$ac_gdz_qt_lib_e6 = "x"; then
-                    ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_libdir; ls libqt.$ac_gdz_so_suffix 2> /dev/null`
+                    ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_libdir; ls libqt$ac_gdz_so_suffix 2> /dev/null`
 
                     if test "x"$ac_gdz_qt_lib_e6 != "x"; then
                         ac_gdz_qt_lib_e6='-lqt'
@@ -7842,10 +7842,10 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
             ;;
 
             *)
-                ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_libdir; ls libqt-mt.$ac_gdz_so_suffix 2> /dev/null`
+                ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_libdir; ls libqt-mt$ac_gdz_so_suffix 2> /dev/null`
 
                 if test "x"$ac_gdz_qt_lib_e15 = "x"; then
-                    ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_libdir; ls libqt.$ac_gdz_so_suffix 2> /dev/null`
+                    ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_libdir; ls libqt$ac_gdz_so_suffix 2> /dev/null`
 
                     if test "x"$ac_gdz_qt_lib_e15 != "x"; then
                         ac_gdz_qt_lib_e15='-lqt'
