@@ -172,11 +172,7 @@ Int32 Viewport::getPixelRight( void ) const
 	if ( getRight() > 1 )
 		return getRight();
 
-	// ==1: full screen
-	if ( getRight() == 1 )
-		return getParent()->getWidth() * getRight();
-	
-	// <1: partial screen, use 1 less to not overlap other windows
+	// <=1: partial screen, use 1 less to not overlap other windows
 	return getParent()->getWidth() * getRight() - 1;
 }
 
@@ -194,11 +190,7 @@ Int32 Viewport::getPixelTop( void ) const
 	if ( getTop() > 1 )
 		return getTop();
 
-	// ==1: full screen
-	if ( getTop() == 1 )
-		return getParent()->getHeight() * getTop();
-	
-	// <1: partial screen, use 1 less to not overlap other windows
+	// <=1: partial screen, use 1 less to not overlap other windows
 	return getParent()->getHeight() * getTop() - 1;
 }
 
@@ -232,7 +224,7 @@ void Viewport::draw( DrawAction * action )
 
 	GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
 		  pt=getPixelTop();
-	GLint pw=pr-pl,ph=pt-pb;
+	GLint pw=pr-pl+1,ph=pt-pb+1;
 	Bool full = isFullWindow();
 
 	glViewport( pl, pb, pw, ph );
