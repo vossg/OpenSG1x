@@ -196,8 +196,8 @@ const string InterpolatorBase::type2String(InterpolType t)
             return string("Position");
         case Orientation:
             return string("Orientation");
-        case None:
-            return string("None");
+        case Unused:
+            return string("Unused");
         case Other:
             return string("Other");
         default:

@@ -59,7 +59,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InterpolatorBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    enum InterpolType { None, Orientation, Position, Other };
+    enum InterpolType { Unused, Orientation, Position, Other };
 
     //-----------------------------------------------------------------------
     //   constants                                                           
