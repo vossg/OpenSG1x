@@ -386,6 +386,16 @@ Int32 &PolygonChunkBase::getStipple( UInt32 index)
 	return _mfStipple.getValue( index );
 }
 
+MFInt32 &PolygonChunkBase::getStipple(void)
+{
+	return _mfStipple;
+}
+
+const MFInt32 &PolygonChunkBase::getStipple(void) const
+{
+	return _mfStipple;
+}
+
 
 /*------------------------------ access -----------------------------------*/
 
