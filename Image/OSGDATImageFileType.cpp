@@ -136,65 +136,64 @@ Bool DATImageFileType::read (      Image &image,
 
   initTypeMap();
 
-  for ( keyI = _keyStrMap.begin();
-        keyI != _keyStrMap.end(); ++keyI )
-    cerr << ">" << keyI->first << "< is " << keyI->second << endl;
-
   // read the data file 
   for ( lineBuffer[0] = 0; 
-        ( inDat.get ( lineBuffer, lineBufferSize) && 
-          (keySepPos = strchr(lineBuffer,keySep)) );
+        inDat.getline ( lineBuffer, lineBufferSize);
         lineBuffer[0] = 0 ) 
     {        
-      keyL = keySepPos - lineBuffer;
-      keyStr.assign( lineBuffer, keyL + 1);
-      keyStr[keyL] = 0;
-      cerr << "find: >" << keyStr << "<" << endl;
-
-      keyI = _keyStrMap.find(keyStr);
-      key = ((keyI == _keyStrMap.end()) ? UNKNOWN_KT : keyI->second);
-      value = keySepPos + 1;
-      while (value && isspace(*value))
-        value++;
-      valueL = strlen(value);
-      while (isspace(value[valueL-1]))
-        value[--valueL] = 0;
-      switch (key)
+      if ((keySepPos = strchr(lineBuffer,keySep))) 
         {
-        case OBJECT_FILE_NAME_KT:
-          objectFileName = value;
-          break;
-        case RESOLUTION_KT:
-          sscanf ( value, "%d %d %d", &(res[0]), &(res[1]), &(res[2]));
-          break;
-        case FORMAT_KT:
-          formatI = _formatStrMap.find(value);
-          if (formatI != _formatStrMap.end())
+          keyL = keySepPos - lineBuffer;
+          keyStr.assign( lineBuffer, keyL );        
+          keyI = _keyStrMap.find(keyStr);
+          key = ((keyI == _keyStrMap.end()) ? UNKNOWN_KT : keyI->second);
+          value = keySepPos + 1;        
+          while (value && isspace(*value))
+            value++;
+          valueL = strlen(value);
+          while (isspace(value[valueL-1]))
+            value[--valueL] = 0;
+          switch (key)
             {
-              formatType = formatI->second.type;
-              bpv = formatI->second.bpv;
-              pixelFormat = formatI->second.pixelFormat;
-              needConversion = formatI->second.needConversion;
+            case OBJECT_FILE_NAME_KT:
+              objectFileName = value;
+              break;
+            case RESOLUTION_KT:
+              sscanf ( value, "%d %d %d", &(res[0]), &(res[1]), &(res[2]));
+              break;
+            case FORMAT_KT:
+              formatI = _formatStrMap.find(value);
+              if (formatI != _formatStrMap.end())
+                {
+                  formatType = formatI->second.type;
+                  bpv = formatI->second.bpv;
+                  pixelFormat = formatI->second.pixelFormat;
+                  needConversion = formatI->second.needConversion;
+                }
+              else 
+                {
+                  formatType = UNKNOWN_FT;
+                  bpv = 0;
+                  pixelFormat = Image::OSG_INVALID_PF;
+                  needConversion = false;
+                }
+              break;
+            case FILE_OFFSET_KT:
+              sscanf ( value, "%d", &fileOffset );
+              break;
+            case UNKNOWN_KT:
+              FWARNING (( "Uknown DAT file key: >%s<\n", keyStr.c_str() ));
+              image.setAttachment ( keyStr, value );
+              break;
+            case SLICE_THICKNESS_KT:
+            default:
+              image.setAttachment ( keyStr, value );
+              break;
             }
-          else 
-            {
-              formatType = UNKNOWN_FT;
-              bpv = 0;
-              pixelFormat = Image::OSG_INVALID_PF;
-              needConversion = false;
-            }
-          break;
-        case FILE_OFFSET_KT:
-          sscanf ( value, "%d", &fileOffset );
-          break;
-        case SLICE_THICKNESS_KT:
-        default:
-          image.setAttachment ( keyStr, value );
-          break;
-        case UNKNOWN_KT:
-          FWARNING (( "Uknown DAT file key: >%s<\n", keyStr.c_str() ));
-          image.setAttachment ( keyStr, value );
-          break;
+        }
+      else 
+        {        
+          FINFO (("Skip DAT line\n"));
         }
     }
   
@@ -499,7 +498,7 @@ void DATImageFileType::initTypeMap(void)
       _keyStrMap["Resolution"]      = RESOLUTION_KT;
       _keyStrMap["SliceThickness"]  = SLICE_THICKNESS_KT;
       _keyStrMap["Format"]          = FORMAT_KT;
-      _keyStrMap["FielOffset"]      = FILE_OFFSET_KT;
+      _keyStrMap["FileOffset"]      = FILE_OFFSET_KT;
      }
 
   if (_formatStrMap.empty())
