@@ -50,22 +50,28 @@
 #include <OSGThread.h>
 #endif
 
+/*! \file OSGFieldContainerImpl.h
+    \ingroup GrpSystemFCContainer
+ */
+
 OSG_BEGIN_NAMESPACE
 
 class Field;
 class BinaryDataHandler;
 
-//! FieldContainer
-//! \ingroup GrpSystemFieldContainer
+/*! \ingroup GrpSystemFCContainer
+ */
 
 class FieldContainer 
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     enum { NextFieldId = 1 };
 
-    static const BitVector NextFieldMask = (1 << NextFieldId);
+    static const BitVector NextFieldMask   = (1 << NextFieldId);
+    static const BitVector MTInfluenceMask = 0x00;
 
     /*---------------------------------------------------------------------*/
     /*! \name             Get Class Type Information                       */
@@ -156,6 +162,7 @@ class FieldContainer
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -245,6 +252,7 @@ class FieldContainer
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainerPtrBase;
@@ -257,11 +265,6 @@ class FieldContainer
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
-
-/*! \ingroup GrpSystemFieldContainer
- *  \relates FieldContainer
- *  \brief var needs inline
- */
 
 #define OSG_FC_TMPL_VAR_INL 
 
