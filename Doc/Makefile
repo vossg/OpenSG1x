@@ -139,11 +139,11 @@ DOC_ENV += OSG_USE_DOC_LEVEL="$(DOC_LEVEL)" DOC_LEVEL_PREDEF="$(DOC_LEVEL_PREDEF
 DOC_ENV += DOC_LEVEL_ENABLED="$(DOC_LEVEL_ENABLED)" 
 DOC_ENV += DOC_IMAGE_PATHES="$(DOC_IMAGE_PATHES)"
 
-#DOXYGEN := doxygen
+DOXYGEN := doxygen
 #DOXYGEN := /home/gerrit/SoftwareTest/doxygen/bin/doxygen
 #DOXYGEN := /net/pc1107/data/dirk/software/doxygen-1.2.18/bin/doxygen
 #DOXYGEN := /net/pc1107/data/dirk/software/doxygen-1.3-rc2/bin/doxygen
-DOXYGEN := /data/dirk/software/doxygen_cvs_send/bin/doxygen
+#DOXYGEN := /data/dirk/software/doxygen_cvs_send/bin/doxygen
 #DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs/bin/doxygen
 #DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs_org/bin/doxygen
 #DOXYGEN := /home/gerrit/SoftwareTest/doxygen-1.3-rc1/bin/doxygen
@@ -250,6 +250,9 @@ Images/%.eps: Images/%.jpg
 	convert -compress none $< PS:$@ 
 #  jpeg2ps gives better results, but is not usually available
 #  jpeg2ps -q $< > $@ 
+
+Images/%.eps: Images/%.png
+	convert -compress none $< PS:$@ 
 
 Images/%.eps: Images/%.fig
 	(cd Images && fig2dev -L eps $(notdir $<) $(notdir $@) ) 
