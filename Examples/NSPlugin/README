@@ -3,6 +3,7 @@ OpenSG NSPlugins
 
 This is a OpenSG render plugin for netscape.
 It depends on the Qt GUI library (with a compiled netscape plugin extension lib).
+On windows you need to configure OpenSG with the --enable-win-localstorage option.
 
 INSTALL
 -------
