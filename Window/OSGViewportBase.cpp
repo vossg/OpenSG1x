@@ -119,7 +119,7 @@ const OSG::BitVector	ViewportBase::BackgroundFieldMask =
 
 
 
-char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
+char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.8 2001/07/09 14:44:54 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -127,42 +127,42 @@ char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.7 2001/07/09 07:5
 FieldDescription ViewportBase::_desc[] = 
 {
     FieldDescription(SFReal32::getClassType(), 
-                     "sfLeft", 
+                     "left", 
                      LeftFieldId, LeftFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFLeft),
     FieldDescription(SFReal32::getClassType(), 
-                     "sfRight", 
+                     "right", 
                      RightFieldId, RightFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFRight),
     FieldDescription(SFReal32::getClassType(), 
-                     "sfBottom", 
+                     "bottom", 
                      BottomFieldId, BottomFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFBottom),
     FieldDescription(SFReal32::getClassType(), 
-                     "sfTop", 
+                     "top", 
                      TopFieldId, TopFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFTop),
     FieldDescription(SFWindowPtr::getClassType(), 
-                     "sfParent", 
+                     "parent", 
                      ParentFieldId, ParentFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFParent),
     FieldDescription(SFCameraPtr::getClassType(), 
-                     "sfCamera", 
+                     "camera", 
                      CameraFieldId, CameraFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFCamera),
     FieldDescription(SFNodePtr::getClassType(), 
-                     "sfRoot", 
+                     "root", 
                      RootFieldId, RootFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFRoot),
     FieldDescription(SFBackgroundPtr::getClassType(), 
-                     "sfBackground", 
+                     "background", 
                      BackgroundFieldId, BackgroundFieldMask,
                      false,
                      (FieldAccessMethod) &ViewportBase::getSFBackground)

@@ -83,7 +83,7 @@ const OSG::BitVector	TransformChunkBase::MatrixFieldMask =
 
 
 
-char TransformChunkBase::cvsid[] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
+char TransformChunkBase::cvsid[] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.7 2001/07/09 14:44:54 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -91,7 +91,7 @@ char TransformChunkBase::cvsid[] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.6 200
 FieldDescription TransformChunkBase::_desc[] = 
 {
     FieldDescription(SFMatrix::getClassType(), 
-                     "sfMatrix", 
+                     "matrix", 
                      MatrixFieldId, MatrixFieldMask,
                      false,
                      (FieldAccessMethod) &TransformChunkBase::getSFMatrix)

@@ -704,7 +704,8 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				*fielddescription = NULL;
 	char 		*fieldnameCaps = NULL, 
 				*fieldnameUpper = NULL;
-	
+    char        *fieldnameDesc    = NULL;	
+
 	// state
 	char ** flStart;
 	list<Field>::iterator fieldIt;
@@ -760,6 +761,9 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 			if ( fieldnameUpper ) free( fieldnameUpper );
 			fieldnameUpper = strdup( fieldname );
 			for ( char *s = fieldnameUpper; s && *s; *s = toupper(*s), s++ ) {}
+
+			if ( fieldnameDesc ) free( fieldnameDesc );
+			fieldnameDesc = strdup( fieldname );
 
             fieldname = new char[strlen(fieldIt->name()) + 3];
             strcpy(&(fieldname[2]), fieldIt->name());			
@@ -1114,7 +1118,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				"@!Description!@",		"@!Fielddescription!@", 
 				"@!FieldSeparator!@",	"@!FieldDefaultHeader!@",
 				"@!HeaderPrefix!@", 	"@!ParentHeaderPrefix!@",
-				NULL };
+				"@!fieldnameDesc!@",     NULL };
 			char *values[ sizeof(keys) / sizeof( char * ) ];
 			
 			values[0] = fcname;
@@ -1137,6 +1141,8 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				values[9] = fieldnameCaps;
 				values[10] = fieldnameUpper;
 				values[11] = (char*)(fieldIt->visibility() ? "false" : "true");
+                values[20] = fieldnameDesc;
+
 				if ( fieldIt->defaultValue() )
 				{
 					s = new char [ strlen(fieldtype) + 
@@ -1252,6 +1258,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 		
 	if ( fieldnameCaps ) free( fieldnameCaps );
 	if ( fieldnameUpper ) free( fieldnameUpper );
+	if ( fieldnameDesc ) free( fieldnameDesc );
 	free( fcnameUpper );
 	free( libnameUpper );
 	free( parentnameUpper );

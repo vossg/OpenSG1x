@@ -98,7 +98,7 @@ const OSG::BitVector	SimpleMaterialBase::TransparencyFieldMask =
 
 
 
-char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
+char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.7 2001/07/09 14:44:54 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -106,32 +106,32 @@ char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.6 200
 FieldDescription SimpleMaterialBase::_desc[] = 
 {
     FieldDescription(SFColor3f::getClassType(), 
-                     "sfAmbient", 
+                     "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFAmbient),
     FieldDescription(SFColor3f::getClassType(), 
-                     "sfDiffuse", 
+                     "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFDiffuse),
     FieldDescription(SFColor3f::getClassType(), 
-                     "sfSpecular", 
+                     "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFSpecular),
     FieldDescription(SFReal32::getClassType(), 
-                     "sfShininess", 
+                     "shininess", 
                      ShininessFieldId, ShininessFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFShininess),
     FieldDescription(SFColor3f::getClassType(), 
-                     "sfEmission", 
+                     "emission", 
                      EmissionFieldId, EmissionFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFEmission),
     FieldDescription(SFReal32::getClassType(), 
-                     "sfTransparency", 
+                     "transparency", 
                      TransparencyFieldId, TransparencyFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFTransparency)

@@ -83,7 +83,7 @@ const OSG::BitVector	ChunkMaterialBase::ChunksFieldMask =
 
 
 
-char ChunkMaterialBase::cvsid[] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
+char ChunkMaterialBase::cvsid[] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.7 2001/07/09 14:44:54 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -91,7 +91,7 @@ char ChunkMaterialBase::cvsid[] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.6 2001/
 FieldDescription ChunkMaterialBase::_desc[] = 
 {
     FieldDescription(MFStateChunkPtr::getClassType(), 
-                     "mfChunks", 
+                     "chunks", 
                      ChunksFieldId, ChunksFieldMask,
                      false,
                      (FieldAccessMethod) &ChunkMaterialBase::getMFChunks)

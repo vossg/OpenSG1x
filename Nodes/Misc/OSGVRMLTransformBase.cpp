@@ -110,7 +110,7 @@ const OSG::BitVector	VRMLTransformBase::TranslationFieldMask =
 
 
 
-char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
+char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.8 2001/07/09 14:44:54 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -118,27 +118,27 @@ char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.7 2001/
 FieldDescription VRMLTransformBase::_desc[] = 
 {
     FieldDescription(SFVec3f::getClassType(), 
-                     "sfCenter", 
+                     "center", 
                      CenterFieldId, CenterFieldMask,
                      false,
                      (FieldAccessMethod) &VRMLTransformBase::getSFCenter),
     FieldDescription(SFQuaternion::getClassType(), 
-                     "sfRotation", 
+                     "rotation", 
                      RotationFieldId, RotationFieldMask,
                      false,
                      (FieldAccessMethod) &VRMLTransformBase::getSFRotation),
     FieldDescription(SFVec3f::getClassType(), 
-                     "sfScale", 
+                     "scale", 
                      ScaleFieldId, ScaleFieldMask,
                      false,
                      (FieldAccessMethod) &VRMLTransformBase::getSFScale),
     FieldDescription(SFQuaternion::getClassType(), 
-                     "sfScaleOrientation", 
+                     "scaleOrientation", 
                      ScaleOrientationFieldId, ScaleOrientationFieldMask,
                      false,
                      (FieldAccessMethod) &VRMLTransformBase::getSFScaleOrientation),
     FieldDescription(SFVec3f::getClassType(), 
-                     "sfTranslation", 
+                     "translation", 
                      TranslationFieldId, TranslationFieldMask,
                      false,
                      (FieldAccessMethod) &VRMLTransformBase::getSFTranslation)

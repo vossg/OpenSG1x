@@ -92,7 +92,7 @@ const OSG::BitVector	BlendChunkBase::GLIdFieldMask =
 
 
 
-char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
+char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.7 2001/07/09 14:44:54 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -100,22 +100,22 @@ char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.6 2001/07/09 
 FieldDescription BlendChunkBase::_desc[] = 
 {
     FieldDescription(SFUInt32::getClassType(), 
-                     "sfSrcFactor", 
+                     "SrcFactor", 
                      SrcFactorFieldId, SrcFactorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFSrcFactor),
     FieldDescription(SFUInt32::getClassType(), 
-                     "sfDestFactor", 
+                     "DestFactor", 
                      DestFactorFieldId, DestFactorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFDestFactor),
     FieldDescription(SFColor4f::getClassType(), 
-                     "sfColor", 
+                     "Color", 
                      ColorFieldId, ColorFieldMask,
                      false,
                      (FieldAccessMethod) &BlendChunkBase::getSFColor),
     FieldDescription(SFUInt32::getClassType(), 
-                     "sfGLId", 
+                     "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
                      (FieldAccessMethod) &BlendChunkBase::getSFGLId)

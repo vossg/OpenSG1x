@@ -99,7 +99,7 @@ const OSG::BitVector	DynamicBackgroundBase::AngleFieldMask =
 
 
 
-char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
+char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.8 2001/07/09 14:44:54 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -107,12 +107,12 @@ char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1
 FieldDescription DynamicBackgroundBase::_desc[] = 
 {
     FieldDescription(MFColor3f::getClassType(), 
-                     "mfColor", 
+                     "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
                      (FieldAccessMethod) &DynamicBackgroundBase::getMFColor),
     FieldDescription(MFReal32::getClassType(), 
-                     "mfAngle", 
+                     "angle", 
                      AngleFieldId, AngleFieldMask,
                      false,
                      (FieldAccessMethod) &DynamicBackgroundBase::getMFAngle)

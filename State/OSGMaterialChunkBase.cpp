@@ -95,7 +95,7 @@ const OSG::BitVector	MaterialChunkBase::ShininessFieldMask =
 
 
 
-char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
+char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.7 2001/07/09 14:44:54 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -103,27 +103,27 @@ char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.6 2001/
 FieldDescription MaterialChunkBase::_desc[] = 
 {
     FieldDescription(SFColor4f::getClassType(), 
-                     "sfDiffuse", 
+                     "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
                      (FieldAccessMethod) &MaterialChunkBase::getSFDiffuse),
     FieldDescription(SFColor4f::getClassType(), 
-                     "sfAmbient", 
+                     "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
                      (FieldAccessMethod) &MaterialChunkBase::getSFAmbient),
     FieldDescription(SFColor4f::getClassType(), 
-                     "sfSpecular", 
+                     "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
                      (FieldAccessMethod) &MaterialChunkBase::getSFSpecular),
     FieldDescription(SFColor4f::getClassType(), 
-                     "sfEmission", 
+                     "emission", 
                      EmissionFieldId, EmissionFieldMask,
                      false,
                      (FieldAccessMethod) &MaterialChunkBase::getSFEmission),
     FieldDescription(SFReal32::getClassType(), 
-                     "sfShininess", 
+                     "shininess", 
                      ShininessFieldId, ShininessFieldMask,
                      false,
                      (FieldAccessMethod) &MaterialChunkBase::getSFShininess)

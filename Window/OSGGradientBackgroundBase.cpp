@@ -99,7 +99,7 @@ const OSG::BitVector	GradientBackgroundBase::PositionFieldMask =
 
 
 
-char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
+char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.8 2001/07/09 14:44:54 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -107,12 +107,12 @@ char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v
 FieldDescription GradientBackgroundBase::_desc[] = 
 {
     FieldDescription(MFColor3f::getClassType(), 
-                     "mfColor", 
+                     "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
                      (FieldAccessMethod) &GradientBackgroundBase::getMFColor),
     FieldDescription(MFReal32::getClassType(), 
-                     "mfPosition", 
+                     "position", 
                      PositionFieldId, PositionFieldMask,
                      false,
                      (FieldAccessMethod) &GradientBackgroundBase::getMFPosition)

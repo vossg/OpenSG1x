@@ -130,7 +130,7 @@ char *FCBaseTemplate_cpp[]={
 "",
 "@@endif", 
 "",
-"char @!Classname!@Base::cvsid[] = \"@(#)$Id: FCBaseTemplate_cpp.h,v 1.9 2001/07/09 07:50:58 vossg Exp $\";",
+"char @!Classname!@Base::cvsid[] = \"@(#)$Id: FCBaseTemplate_cpp.h,v 1.10 2001/07/09 14:44:54 vossg Exp $\";",
 "",
 "@@if hasFields", 
 "/** \\brief Group field description",
@@ -140,7 +140,7 @@ char *FCBaseTemplate_cpp[]={
 "{",
 "@@BeginFieldLoop@@",
 "    FieldDescription(@!CARDINALITY!@@!Fieldtype!@::getClassType(), ",
-"                     \"@!fieldname!@\", ",
+"                     \"@!fieldnameDesc!@\", ",
 "                     @!Fieldname!@FieldId, @!Fieldname!@FieldMask,",
 "                     @!fieldvisibility!@,",
 "                     (FieldAccessMethod) &@!Classname!@Base::get"

@@ -98,7 +98,7 @@ const OSG::BitVector	CameraDecoratorBase::CameraFieldMask =
 
 
 
-char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.3 2001/07/09 07:50:58 vossg Exp $";
+char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.4 2001/07/09 14:44:54 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -106,7 +106,7 @@ char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.3 2
 FieldDescription CameraDecoratorBase::_desc[] = 
 {
     FieldDescription(SFCameraPtr::getClassType(), 
-                     "sfCamera", 
+                     "camera", 
                      CameraFieldId, CameraFieldMask,
                      false,
                      (FieldAccessMethod) &CameraDecoratorBase::getSFCamera)
