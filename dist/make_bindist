@@ -215,6 +215,10 @@ case $system in
             config_shell=bash
             distname=win
             innosetup="/cygdrive/c/Programme/Inno Setup 3/ISCC.exe"
+            if ! test -x "$innosetup"
+            then
+                innosetup="/cygdrive/c/Program Files/Inno Setup 4/ISCC.exe"
+            fi
             build_make=make
         fi
         ;;
