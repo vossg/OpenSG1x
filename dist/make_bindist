@@ -382,7 +382,7 @@ case $system in
 
         mkdir Tools
 
-        cp -r $OSGPOOL/Tools/fcdEdit Examples
+        cp -r $OSGPOOL/Tools/fcdEdit Tools
 
         cd Tools/fcdEdit
 
