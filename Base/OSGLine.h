@@ -66,7 +66,7 @@ Parametric description: l(t) = pos + t * dir
 
 */
 
-class Line {
+class OSG_BASE_DLLMAPPING Line {
 
 public:
 
