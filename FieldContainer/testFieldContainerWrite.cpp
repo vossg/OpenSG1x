@@ -154,11 +154,11 @@ void OSGWriter::doListFC( FieldContainerPtr fieldConPtr )
                                                     FieldType::MULTI_FIELD )
                     {
                         for( UInt32 j=0;
-                            j<((MFFieldContainerPtr *) fieldPtr)->getSize();
+                            j<((MFFieldContainerPtr *) fieldPtr)->size();
                             ++j )
                         {
-                            doListFC( ((MFFieldContainerPtr *)
-                                          fieldPtr)->getValue(j) );
+                            doListFC( (*(((MFFieldContainerPtr *)
+                                          fieldPtr)))[j] );
                         }
                     }
                 }
@@ -230,10 +230,10 @@ void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
                         _outstream << " [" << endl;
                         _indention += _indentStep;
                         for( UInt32 j=0;
-                          j<((MFFieldContainerPtr *) fieldPtr)->getSize(); ++j )
+                          j<((MFFieldContainerPtr *) fieldPtr)->size(); ++j )
                         {
-                            doPrintListedFC( ((MFFieldContainerPtr *)
-                                          fieldPtr)->getValue(j) );
+                            doPrintListedFC( 
+                                (*(((MFFieldContainerPtr *)fieldPtr)))[j] );
                         }
                         _indention -= _indentStep;
                         indentLine(); _outstream << "]" <<endl;
