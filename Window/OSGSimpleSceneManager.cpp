@@ -40,7 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_SYSTEMLIB
+#define OSG_COMPILESYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -57,7 +57,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.2 2001/09/28 07:56:59 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.3 2001/09/30 11:57:01 vossg Exp $";
     static char cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
