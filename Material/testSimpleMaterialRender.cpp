@@ -109,9 +109,9 @@ int main (int argc, char **argv)
 	
 	pm = SimpleMaterial::create();
 
-	pm->setDiffuse( Vec3f( 1,0,0 ) );
-	pm->setAmbient( Vec3f( 1,0,0 ) );
-	pm->setSpecular( Vec3f( 1,1,1 ) );
+	pm->setDiffuse( Color3f( 1,0,0 ) );
+	pm->setAmbient( Color3f( 1,0,0 ) );
+	pm->setSpecular( Color3f( 1,1,1 ) );
 	pm->setShininess( 10 );
 	
 	plane_geo->setMaterial( pm );
@@ -119,8 +119,8 @@ int main (int argc, char **argv)
 	
 	tm = SimpleMaterial::create();
 
-	tm->setDiffuse( Vec3f( 0,1,0 ) );
-	tm->setAmbient( Vec3f( 0,1,0 ) );
+	tm->setDiffuse( Color3f( 0,1,0 ) );
+	tm->setAmbient( Color3f( 0,1,0 ) );
 	
 	torus_geo->setMaterial( tm );
 	

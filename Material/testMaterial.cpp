@@ -23,8 +23,8 @@ int main( int argc, char *argv[] )
 	MaterialChunkPtr mchunk1, mchunk2;
 
 	mchunk1 = MaterialChunk::create();
-	mchunk1->setDiffuse( Vec4f( 1,0,0,0 ) );
-	mchunk1->setAmbient( Vec4f( 1,0,0,0 ) );
+	mchunk1->setDiffuse( Color4f( 1,0,0,0 ) );
+	mchunk1->setAmbient( Color4f( 1,0,0,0 ) );
 	mchunk1->setShininess( 20 );
 	b->addChunk( mchunk1 );
 

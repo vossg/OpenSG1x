@@ -107,9 +107,9 @@ int main (int argc, char **argv)
 	pm = ChunkMaterial::create();
 
 	MaterialChunkPtr pmc = MaterialChunk::create();
-	pmc->setDiffuse( Vec4f( 1,0,0,0 ) );
-	pmc->setAmbient( Vec4f( 1,0,0,0 ) );
-	pmc->setSpecular( Vec4f( 1,1,1,0 ) );
+	pmc->setDiffuse( Color4f( 1,0,0,0 ) );
+	pmc->setAmbient( Color4f( 1,0,0,0 ) );
+	pmc->setSpecular( Color4f( 1,1,1,0 ) );
 	pmc->setShininess( 20 );
 	
 	pm->addChunk( pmc );
@@ -120,8 +120,8 @@ int main (int argc, char **argv)
 	tm = ChunkMaterial::create();
 
 	MaterialChunkPtr tmc = MaterialChunk::create();
-	tmc->setDiffuse( Vec4f( 0,1,0,0 ) );
-	tmc->setAmbient( Vec4f( 0,1,0,0 ) );
+	tmc->setDiffuse( Color4f( 0,1,0,0 ) );
+	tmc->setAmbient( Color4f( 0,1,0,0 ) );
 	
 	tm->addChunk( tmc );
 	

@@ -24,11 +24,11 @@ int main( int argc, char *argv[] )
 
 	// test simple settings
 	
-	b->setAmbient( Vec3f( 0.1, 0.1, 0.1) );
-	b->setDiffuse( Vec3f( 0.5, 0.5, 0.5) );
-	b->setSpecular( Vec3f( 0.7, 0.7, 0.7) );
+	b->setAmbient( Color3f( 0.1, 0.1, 0.1) );
+	b->setDiffuse( Color3f( 0.5, 0.5, 0.5) );
+	b->setSpecular( Color3f( 0.7, 0.7, 0.7) );
 	b->setShininess( 25 );
-	b->setEmission( Vec3f( 0.1, 0.2, 0.3) );
+	b->setEmission( Color3f( 0.1, 0.2, 0.3) );
 	b->setTransparency( 0.5 );
 
 	b->dump();
@@ -36,8 +36,8 @@ int main( int argc, char *argv[] )
 	// add a non-standard chunk
 	MaterialChunkPtr mchunk1;
 	mchunk1 = MaterialChunk::create();
-	mchunk1->setDiffuse( Vec4f( 1,0,0,0 ) );
-	mchunk1->setAmbient( Vec4f( 1,0,0,0 ) );
+	mchunk1->setDiffuse( Color4f( 1,0,0,0 ) );
+	mchunk1->setAmbient( Color4f( 1,0,0,0 ) );
 	mchunk1->setShininess( 20 );
 	b->addChunk( mchunk1 );
 
