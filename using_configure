@@ -15,7 +15,7 @@ IRIX :
 
 ./configure --with-compiler=CC --with-stl=<stl-dir>
 		    --with-qt=<qt-dir> --with-glut=<glut-dir>
-
+			--prefix=<install-dir>
 cd Builds/mips-sgi-irix6.5-CC
 gmake
 
@@ -24,6 +24,8 @@ CYGWIN (ICL4.5, including patch P000223C, P000421C, p000512c, P000616C)
        (ICL5.0)
 
 bash ./configure --with-compiler=icl45 --with-qt=<qtdir> --with-glut=<glut-dir>
+                 --prefix=<install-dir>
+
 cd Build/i686-pc-cygwin-icl45
 make
 
@@ -31,8 +33,18 @@ make
 Linux (RH 7.0, including patch gcc/RHBA-2000-132, glibc/RHBA-2000-079) 
 
 ./configure --with-compiler=g++ --with-glut --with-qt=<qtdir>
+			--prefix=<install-dir>
 cd Build/i686-pc-linux-g++
 make
+
+----
+General parameters : 
+
+	--prefix=<install-dir>
+
+		sets the install directory where OpenSG will be installed. If set
+		to BUILD the Builds/<system> directory will be used. Defaults to
+		/usr/local
 
 To make the system:
 

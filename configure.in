@@ -361,13 +361,21 @@ ac_gdz_commonpackage_dir_e1=$ac_gdz_commonpackage_dir
 AC_SUBST(ac_gdz_commonpackage_dir_e1)
 
 if [[ "$prefix" = NONE ]]; then
-ac_gdz_install_prefix=$ac_gdz_src_dir/$ac_gdz_lib_base_dir
+    ac_gdz_install_prefix=/usr/local
+elif [[ "$prefix" = "BUILD" ]]; then
+    ac_gdz_install_prefix=$ac_gdz_src_dir/$ac_gdz_lib_base_dir
+elif [[ "$prefix" = "" ]]; then
+    ac_gdz_install_prefix=$ac_gdz_src_dir/$ac_gdz_lib_base_dir
 else
-if [[ "$prefix" = "" ]]; then
-ac_gdz_install_prefix=$ac_gdz_src_dir/$ac_gdz_lib_base_dir
-else
-ac_gdz_install_prefix=$prefix
-fi
+    prefix_f=${prefix#\/}
+
+    if [[ $prefix = $prefix_f ]]; then
+        echo 'Local Path'
+        ac_gdz_install_prefix=$ac_gdz_src_dir/$prefix
+    else
+        echo 'Abs Path'
+        ac_gdz_install_prefix=$prefix
+    fi
 fi
 
 ac_gdz_common_platform_in=$ac_gdz_commonconf_dir/common.platform.mk.in

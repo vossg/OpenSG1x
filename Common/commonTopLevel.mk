@@ -87,22 +87,24 @@ DepClean: $(SUB_LIBTARGETS)
 
 install-includes:
 	@if [ ! -w $(INSTALL_DIR)/include ]; then mkdir $(INSTALL_DIR)/include; fi
-	@CURRDIR=`pwd`;                                                     \
-	cd $(INSTALL_DIR)/include;											\
-	rm -f *.h *.inl *.h;												\
-	find $($(PROJ)POOL) -follow							\
-		\( -type d \( -name CVS -o -name Test -o -name include -o 		\
-		   -name Tools -o -name '.*' -o -name 'examples' \) -prune \) 	\
-		-o -type f -name '*\.hpp' -print -exec $(INSTLINK) {} . \; ;	\
-	find $($(PROJ)POOL)	-follow						\
-		\( -type d \( -name CVS -o -name Test -o -name include  -o 		\
-		   -name Tools -o -name '.*' -o -name 'examples' \) -prune \) 	\
-		-o -type f -name '*\.h' -print -exec $(INSTLINK) {} . \; ;		\
-	find $($(PROJ)POOL) -follow           				\
-		\( -type d \( -name CVS -o -name Test -o -name include -o		\
-			-name '.*' -o -name 'examples' \) -prune \) 				\
-		-o -type f -name '*\.inl' -print -exec $(INSTLINK) {} . \; ;	\
-	cd $$CURRDIR;
+	@if [ ! -w $(INSTALL_DIR)/include/OpenSG ]; then 						 \
+		mkdir $(INSTALL_DIR)/include/OpenSG; 								 \
+	 fi
+	@CURRDIR=`pwd`;                                                     	 \
+	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.h' 				 \
+		-exec rm -f {} \;       ;											 \
+	find $(INSTALL_DIR)/include/OpenSG -follow  -name '*.inl'				 \
+		-exec rm -f {} \;       ;											 \
+	find $($(PROJ)POOL)	-follow												 \
+		\( -type d \( -name CVS -o -name Test -o -name include  -o 			 \
+		   -name Tools -o -name '.*' -o -name 'examples' -o					 \
+		   -name 'Templates' \) -prune \) -o -type f -name '*.h' 			 \
+	-exec $($(PROJ)POOL)/Common/sedInc {} $(INSTALL_DIR)/include/OpenSG \; ; \
+	find $($(PROJ)POOL)	-follow												 \
+		\( -type d \( -name CVS -o -name Test -o -name include  -o 			 \
+		   -name Tools -o -name '.*' -o -name 'examples' -o					 \
+		   -name 'Templates' \) -prune \) -o -type f -name '*.inl'			 \
+	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \; ; \
 
 install-libs:
 	@if [ ! -w $(INSTALL_DIR)/lib ]; then mkdir $(INSTALL_DIR)/lib; fi
@@ -174,21 +176,15 @@ fcdToBase:
 	cd $$CURRDIRBASE
 
 
-install-includes-ln: INSTLINK := $(LINK)
-install-includes-ln: install-includes
-
-install-includes-cp: INSTLINK := cp
-install-includes-cp: install-includes
-
 install-libs-ln: INSTLINK := $(LINK)
 install-libs-ln: install-libs
 
 install-libs-cp: INSTLINK := cp
 install-libs-cp: install-libs
 
-install-ln: install-includes-ln install-libs-ln
-install-cp: install-includes-cp install-libs-cp
-install: install-includes-ln install-libs-ln
+install-ln: install-includes install-libs-ln
+install-cp: install-includes install-libs-cp
+install: install-includes install-libs-ln
 
 %.src:
 	@if [ -d $* ]; then 													\
