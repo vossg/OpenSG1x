@@ -668,8 +668,10 @@ void Log::doLog(char * format, ...)
     vsprintf( buffer, format, args );
 #endif
 
-    *this << buffer;
-    *this << std::flush;
+    lock();
+	*this << buffer;
+	*this << std::flush;
+    unlock();
 
     va_end( args );
 }
