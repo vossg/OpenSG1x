@@ -465,7 +465,7 @@ bool FieldContainer::readDesc (const char *fn)
 						}
 					}
 					else {
-						npI = _fieldList.insert(_fieldList.end());
+						npI = _fieldList.insert(_fieldList.end(),Field());
 						for (aI = attr.begin(); aI != attr.end(); aI++) {
 							switch (findFieldKey(aI->first.c_str())) {
 							case NAME_FIELD:
