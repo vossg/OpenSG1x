@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'FieldContainerView.ui'
 **
-** Created: Wed May 23 19:53:37 2001
+** Created: Mon Sep 17 17:53:04 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -110,7 +110,7 @@ public slots:
     virtual void partDescriptionChanged(const QString &);
     virtual void partIncludeChanged(const QString &);
     virtual void partNameChanged(const QString &);
-    virtual void partTypeChanged(int);
+    virtual void partTypeChanged(const QString &);
     virtual void partVisibilityChanged(int);
     virtual void pointerFieldTypesChanged(int);
     virtual void resetFieldTypesSlot();

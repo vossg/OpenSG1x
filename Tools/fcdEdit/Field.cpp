@@ -7,7 +7,7 @@
 #define strcasecmp stricmp
 #endif
 
-// Application declarations
+// Application dectlarations
 
 using namespace std;
 
@@ -69,11 +69,10 @@ std::vector<std::string> Field::_typeName;
 //----------------------------------------------------------------------
 Field::Field (void )
 	: _name(0), _defaultValue(0), _defaultHeader(0), 
-	  _description(0), _header(0)
+	  _description(0), _header(0), _type(0)
 {
-	_type = 0;
 	_cardinality = 0;
-	_visibility = 0;
+	_visibility = 1;
 	_access = 0;
 
 	return;
@@ -87,7 +86,8 @@ Field::Field (void )
 //         Class Copy Constructor
 //----------------------------------------------------------------------
 Field::Field (const Field &obj )
-: _name(0), _defaultValue(0), _defaultHeader(0), _description(0), _header(0)
+: _name(0), _type(0), _defaultValue(0), _defaultHeader(0), 
+  _description(0), _header(0)
 {
 	*this = obj;
 }
@@ -102,6 +102,7 @@ Field::Field (const Field &obj )
 Field::~Field (void )
 {
 	setName(0);
+	setType(0);
 	setDescription(0);
 	setDefaultValue(0);
 	setDefaultHeader(0);
@@ -206,18 +207,6 @@ const char *Field::accessStr(int i)
 	int vecSize = sizeof(_accessName )/ sizeof(char*);
 
 	return (i >= 0 && i < vecSize) ? _accessName[i] : 0;
-}
-
-//----------------------------------------------------------------------
-// Method: type
-// Author: jbehr
-// Date:   Thu Jan  8 19:53:04 1998
-// Description:
-//         
-//----------------------------------------------------------------------
-const char *Field::typeStr(void)
-{
-	return typeStr(_type);
 }
 
 //----------------------------------------------------------------------
@@ -366,23 +355,17 @@ void Field::setHeader ( const char* header )
 // Description:
 //         set method for attribute type
 //----------------------------------------------------------------------
-void Field::setType ( const char* typeStr ) 
+void Field::setType ( const char* type )
 {
-	int type = -1, i, n = _typeName.size();
-	string str(typeStr);
+	delete _type;
 	
-	for (i = 0; i < n; ++i) 
-		if (_typeName[i] == str) {
-			type = i;
-			break;
-		}
-
-	if (type == -1) {
-		type = n;
-		_typeName.push_back(str);
+	if (type && *type && strcmp(type,FieldContainer::_nil) ) 
+	{
+		_type = new char [strlen(type)+1];
+		strcpy(_type,type);
 	}
-	
-	_type = type;
+	else
+		_type = 0;
 }
 
 //----------------------------------------------------------------------
@@ -433,7 +416,7 @@ void Field::setVisibility ( const char* visibilityStr )
 	{
 		cerr << "Field::setVisibility: string '" << visibilityStr << "' is unknown!" 
 		     << endl;
-		_visibility = 0;
+		_visibility = 1;
 	}
 }
 
@@ -493,7 +476,8 @@ bool Field::getLine (char *line)
 				
 	sprintf ( line, "%s %s %s %s %s %s %s, %s" , 
 						(_name && *_name) ? _name : "None",
-						cardinalityStr(), typeStr(), 
+						cardinalityStr(), 
+						(_type && *_type) ? _type : "Bool",
 						visibilityStr(), accessStr(), 
 						(_header && *_header) ? _header : "auto", 
 						def, 
@@ -513,7 +497,7 @@ bool Field::getLine (char *line)
 Field &Field::operator= (const Field &obj)
 {
 	setName(obj._name);
-	_type = obj._type;
+	setType(obj._type);
 	setDescription(obj._description);
 	setDefaultValue(obj._defaultValue);
 	setDefaultHeader(obj._defaultHeader);
@@ -538,7 +522,7 @@ bool Field::operator== (const Field &obj)
 						!strcmp(_description, obj._description) &&
 						!strcmp(_defaultValue, obj._defaultValue) &&
 						!strcmp(_defaultHeader, obj._defaultHeader) &&
-						_type == obj._type &&
+						!strcmp(_type, obj._type) &&
 						_cardinality == obj._cardinality &&
 						_visibility == obj._visibility &&
 						_access == obj._access &&

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'FieldContainerView.ui'
 **
-** Created: Sun Aug 12 15:52:37 2001
+** Created: Mon Sep 17 17:53:07 2001
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -167,6 +167,7 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     partFrameLayout->addWidget( TextLabel3_2, 1, 0 );
 
     partTypeCombo = new QComboBox( FALSE, partFrame, "partTypeCombo" );
+    partTypeCombo->setEditable( TRUE );
 
     partFrameLayout->addWidget( partTypeCombo, 1, 1 );
 
@@ -368,7 +369,6 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     connect( pointerFieldTypesCombo, SIGNAL( activated(int) ), this, SLOT( pointerFieldTypesChanged(int) ) );
     connect( partCardinalityCombo, SIGNAL( activated(int) ), this, SLOT( partCardinalityChanged(int) ) );
     connect( nodeLibraryInput, SIGNAL( textChanged(const QString&) ), this, SLOT( libraryChanged(const QString &) ) );
-    connect( partTypeCombo, SIGNAL( activated(int) ), this, SLOT( partTypeChanged(int) ) );
     connect( PushButton14, SIGNAL( clicked() ), this, SLOT( newSlot() ) );
     connect( PushButton15, SIGNAL( clicked() ), this, SLOT( resetFieldTypesSlot() ) );
     connect( PushButton16, SIGNAL( clicked() ), this, SLOT( loadFieldTypesSlot() ) );
@@ -378,6 +378,7 @@ FieldContainerView::FieldContainerView( QWidget* parent,  const char* name, bool
     connect( partDefaultHeaderInput, SIGNAL( textChanged(const QString&) ), this, SLOT( partDefaultHeaderChanged(const QString &) ) );
     connect( sysComp, SIGNAL( stateChanged(int) ), this, SLOT( sysCompChanged(int) ) );
     connect( parentSysComp, SIGNAL( stateChanged(int) ), this, SLOT( parentSysCompChanged(int) ) );
+    connect( partTypeCombo, SIGNAL( textChanged(const QString&) ), this, SLOT( partTypeChanged(const QString &) ) );
 
     // tab order
     setTabOrder( nodeNameInput, nodeParentInput );
@@ -524,9 +525,9 @@ void FieldContainerView::partNameChanged(const QString &)
     qWarning( "FieldContainerView::partNameChanged(const QString &): Not implemented yet!" );
 }
 
-void FieldContainerView::partTypeChanged(int)
+void FieldContainerView::partTypeChanged(const QString &)
 {
-    qWarning( "FieldContainerView::partTypeChanged(int): Not implemented yet!" );
+    qWarning( "FieldContainerView::partTypeChanged(const QString &): Not implemented yet!" );
 }
 
 void FieldContainerView::partVisibilityChanged(int)

@@ -36,7 +36,7 @@ private:
 	int _cardinality;
 
   /// 
-	int _type;
+	char *_type;
 
 	///
 	int _visibility;
@@ -76,7 +76,7 @@ public:
 	static int loadFieldTypeList(const char *fileName);
 
 	/// get the type string for the given index
-	static const char *typeStr(int index);
+	static const char *typeStr (int index);
 
 	/// get the cardinality string for the given index
 	static const char *cardinalityStr (int index);
@@ -86,9 +86,6 @@ public:
 
 	/// get the visibility string for the given index
 	static const char *accessStr (int index);
-
-	/// get the datatype string
-	const char *typeStr(void);
 
 	/// get the cardinality string
 	const char *cardinalityStr (void);
@@ -115,11 +112,7 @@ public:
 	virtual void setCardinality (const char *cardinalityStr);
 
   /// get method for attribute type
-  virtual int type (void) const { return _type; }
-
-  /// set method for attribute type
-  virtual void setType (int type)
-     { _type = type; }
+  virtual char *type (void) const { return _type; }
 
   /// set method for attribute type
 	virtual void setType ( const char* typeStr );

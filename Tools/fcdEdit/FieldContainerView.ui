@@ -315,6 +315,10 @@
                                         <name>name</name>
                                         <cstring>partTypeCombo</cstring>
                                     </property>
+                                    <property stdset="1">
+                                        <name>editable</name>
+                                        <bool>true</bool>
+                                    </property>
                                 </widget>
                                 <widget row="2"  column="0" >
                                     <class>QLabel</class>
@@ -889,12 +893,6 @@
         <slot>libraryChanged(const QString &amp;)</slot>
     </connection>
     <connection>
-        <sender>partTypeCombo</sender>
-        <signal>activated(int)</signal>
-        <receiver>FieldContainerView</receiver>
-        <slot>partTypeChanged(int)</slot>
-    </connection>
-    <connection>
         <sender>PushButton14</sender>
         <signal>clicked()</signal>
         <receiver>FieldContainerView</receiver>
@@ -948,6 +946,12 @@
         <receiver>FieldContainerView</receiver>
         <slot>parentSysCompChanged(int)</slot>
     </connection>
+    <connection>
+        <sender>partTypeCombo</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FieldContainerView</receiver>
+        <slot>partTypeChanged(const QString &amp;)</slot>
+    </connection>
     <slot access="public">aboutSlot()</slot>
     <slot access="public">activePartChanged(int)</slot>
     <slot access="public">clonePartSlot()</slot>
@@ -970,7 +974,7 @@
     <slot access="public">partDescriptionChanged(const QString &amp;)</slot>
     <slot access="public">partIncludeChanged(const QString &amp;)</slot>
     <slot access="public">partNameChanged(const QString &amp;)</slot>
-    <slot access="public">partTypeChanged(int)</slot>
+    <slot access="public">partTypeChanged(const QString &amp;)</slot>
     <slot access="public">partVisibilityChanged(int)</slot>
     <slot access="public">pointerFieldTypesChanged(int)</slot>
     <slot access="public">resetFieldTypesSlot()</slot>

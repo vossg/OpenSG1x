@@ -561,7 +561,7 @@ bool FieldContainer::writeDesc (const char *fN)
     for (npI = _fieldList.begin(); npI != _fieldList.end(); npI++) {
       out << nprefix << "<Field" << endl;
       putField(out, pprefix, NAME_FIELD, npI->name());
-      putField(out, pprefix, TYPE_FIELD, npI->typeStr());
+      putField(out, pprefix, TYPE_FIELD, npI->type()?npI->type():"Bool");
       putField(out, pprefix, CARDINALITY_FIELD, npI->cardinalityStr());
       putField(out, pprefix, VISIBILITY_FIELD, npI->visibilityStr());
       putField(out, pprefix, DEFAULTVALUE_FIELD, npI->defaultValue());
@@ -749,7 +749,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 
 			fieldname = fieldIt->name();
 
-			fieldtype = fieldIt->typeStr();
+			fieldtype = fieldIt->type();
 			fieldcardinality = cardnames[ fieldIt->cardinality() ];
 			fielddescription = (char*)( fieldIt->description() ? 
                                   fieldIt->description() : "" );

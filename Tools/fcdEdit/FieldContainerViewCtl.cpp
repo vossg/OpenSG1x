@@ -125,7 +125,7 @@ void FieldContainerViewCtl::updateActivePartView(void)
 {
 	if (_activePart) {
 		partNameInput->setText(QString(_activePart->name()));
-		partTypeCombo->setCurrentItem(int(_activePart->type()));
+		partTypeCombo->setEditText(_activePart->type());
 		partVisibilityCombo->setCurrentItem(int(_activePart->visibility()));
 		partCardinalityCombo->setCurrentItem(int(_activePart->cardinality()));
 		partAccessCombo->setCurrentItem(int(_activePart->access()));
@@ -365,10 +365,10 @@ void FieldContainerViewCtl::partNameChanged(const QString &value)
 /* 
  * public slot
  */
-void FieldContainerViewCtl::partTypeChanged(int index)
+void FieldContainerViewCtl::partTypeChanged(const QString &value)
 {
 	if (_activePart) {
-		_activePart->setType(index);
+		_activePart->setType(value);
 		updateActiveListItem();
 	}
 }
