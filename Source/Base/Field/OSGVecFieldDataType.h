@@ -321,6 +321,7 @@ struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore2Base<Vec4ub>
 
 
 
+#ifndef OSG_NO_INT8_PNT
 /*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -473,7 +474,7 @@ struct FieldDataTraits<Vec4b> : public FieldTraitsRecurseVecStore2Base<Vec4b>
 /*! \class  FieldTraitsRecurseVecStore2Base<Vec4b> */
 /*! \hideinhierarchy                               */
 #endif
-
+#endif
 
 
 /*! \ingroup GrpBaseFieldTraits
@@ -1405,7 +1406,7 @@ struct FieldDataTraits<Pnt4ub> : public FieldTraitsRecurseVecStore2Base<Pnt4ub>
 #endif
 
 
-
+#ifndef OSG_NO_INT8_PNT
 /*! \ingroup GrpBaseFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -1558,7 +1559,7 @@ struct FieldDataTraits<Pnt4b> : public FieldTraitsRecurseVecStore2Base<Pnt4b>
 /*! \class  FieldTraitsRecurseVecStore2Base<Pnt4b> */
 /*! \hideinhierarchy                               */
 #endif
-
+#endif
 
 
 /*! \ingroup GrpBaseFieldTraits

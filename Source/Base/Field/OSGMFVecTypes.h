@@ -72,10 +72,12 @@ typedef MField<Vec2ub> MFVec2ub;
 OSG_DLLEXPORT_DECL1(MField, Vec2ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
+#ifndef OSG_NO_INT8_PNT
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
 /*! \ingroup GrpBaseFieldMulti */
 
 typedef MField<Vec2b> MFVec2b;
+#endif
 #endif
 
 #ifndef OSG_COMPILEFIELDINST
@@ -145,6 +147,7 @@ typedef MField<Vec3ub> MFVec3ub;
 OSG_DLLEXPORT_DECL1(MField, Vec3ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
+#ifndef OSG_NO_INT8_PNT
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
 /*! \ingroup GrpBaseFieldMulti */
 
@@ -153,6 +156,7 @@ typedef MField<Vec3b> MFVec3b;
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(MField, Vec3b, OSG_BASE_DLLTMPLMAPPING)
+#endif
 #endif
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
@@ -218,6 +222,7 @@ typedef MField<Vec4ub> MFVec4ub;
 OSG_DLLEXPORT_DECL1(MField, Vec4ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
+#ifndef OSG_NO_INT8_PNT
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
 /*! \ingroup GrpBaseFieldMulti */
 
@@ -226,6 +231,7 @@ typedef MField<Vec4b> MFVec4b;
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(MField, Vec4b, OSG_BASE_DLLTMPLMAPPING)
+#endif
 #endif
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
@@ -291,6 +297,7 @@ typedef MField<Pnt2ub> MFPnt2ub;
 OSG_DLLEXPORT_DECL1(MField, Pnt2ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
+#ifndef OSG_NO_INT8_PNT
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
 /*! \ingroup GrpBaseFieldMulti */
 
@@ -299,6 +306,7 @@ typedef MField<Pnt2b> MFPnt2b;
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(MField, Pnt2b, OSG_BASE_DLLTMPLMAPPING)
+#endif
 #endif
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
@@ -364,6 +372,7 @@ typedef MField<Pnt3ub> MFPnt3ub;
 OSG_DLLEXPORT_DECL1(MField, Pnt3ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
+#ifndef OSG_NO_INT8_PNT
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
 /*! \ingroup GrpBaseFieldMulti */
 
@@ -372,6 +381,7 @@ typedef MField<Pnt3b> MFPnt3b;
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(MField, Pnt3b, OSG_BASE_DLLTMPLMAPPING)
+#endif
 #endif
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
@@ -437,6 +447,7 @@ typedef MField<Pnt4ub> MFPnt4ub;
 OSG_DLLEXPORT_DECL1(MField, Pnt4ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
+#ifndef OSG_NO_INT8_PNT
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
 /*! \ingroup GrpBaseFieldMulti */
 
@@ -445,6 +456,7 @@ typedef MField<Pnt4b> MFPnt4b;
 
 #ifndef OSG_COMPILEFIELDINST
 OSG_DLLEXPORT_DECL1(MField, Pnt4b, OSG_BASE_DLLTMPLMAPPING)
+#endif
 #endif
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 

@@ -370,7 +370,13 @@
 
 # define OSG_LONGLONG_HAS_LL
 
-# define OSG_THROW_NOTHING() 
+# if __INTEL_COMPILER_VERSION >= 710
+#     define OSG_THROW_NOTHING() throw()
+# else
+#     define OSG_THROW_NOTHING() 
+# endif
+
+# define OSG_NO_INT8_PNT
 
 # define OSG_USE_PTHREADS
 

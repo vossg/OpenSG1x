@@ -726,13 +726,17 @@ typedef Vec2ub *Vec2ubP;
     \ingroup GrpBaseBaseMathObj
  */
 
+#ifndef OSG_NO_INT8_PNT
 typedef VectorInterface< Int8, VecStorage2<Int8> > Vec2b;
+#endif
 
 /*! \var typedef Vec2b *Vec2bP;
     \ingroup GrpBaseBaseMathObj
  */
 
+#ifndef OSG_NO_INT8_PNT
 typedef Vec2b *Vec2bP;
+#endif
 
 /*! \var typedef VectorInterface< UInt16, VecStorage2<UInt16> > Vec2us;
     \ingroup GrpBaseBaseMathObj
@@ -811,13 +815,17 @@ typedef Vec3ub *Vec3ubP;
     \ingroup GrpBaseBaseMathObj
  */
 
+#ifndef OSG_NO_INT8_PNT
 typedef VectorInterface< Int8, VecStorage3<Int8> > Vec3b;
+#endif
 
 /*! \var typedef Vec3b *Vec3bP;
     \ingroup GrpBaseBaseMathObj
  */
 
+#ifndef OSG_NO_INT8_PNT
 typedef Vec3b *Vec3bP;
+#endif
 
 /*! \var typedef VectorInterface< UInt16, VecStorage3<UInt16> > Vec3us;
     \ingroup GrpBaseBaseMathObj
@@ -896,13 +904,17 @@ typedef Vec4ub *Vec4ubP;
     \ingroup GrpBaseBaseMathObj
  */
 
+#ifndef OSG_NO_INT8_PNT
 typedef VectorInterface< Int8, VecStorage4<Int8> > Vec4b;
+#endif
 
 /*! \var typedef Vec4b *Vec4bP;
     \ingroup GrpBaseBaseMathObj
  */
 
+#ifndef OSG_NO_INT8_PNT
 typedef Vec4b *Vec4bP;
+#endif
 
 /*! \var typedef VectorInterface< UInt16, VecStorage4<UInt16> > Vec4us;
     \ingroup GrpBaseBaseMathObj
@@ -983,13 +995,17 @@ typedef Pnt2ub *Pnt2ubP;
     \ingroup GrpBaseBaseMathObj
  */
 
+#ifndef OSG_NO_INT8_PNT
 typedef PointInterface< Int8, VecStorage2<Int8> > Pnt2b;
+#endif
 
 /*! \var typedef Pnt2b *Pnt2bP;
     \ingroup GrpBaseBaseMathObj
  */
 
+#ifndef OSG_NO_INT8_PNT
 typedef Pnt2b *Pnt2bP;
+#endif
 
 /*! \var typedef PointInterface< UInt16, VecStorage2<UInt16> > Pnt2us;
     \ingroup GrpBaseBaseMathObj
@@ -1068,13 +1084,17 @@ typedef Pnt3ub *Pnt3ubP;
     \ingroup GrpBaseBaseMathObj
  */
 
+#ifndef OSG_NO_INT8_PNT
 typedef PointInterface< Int8, VecStorage3<Int8> > Pnt3b;
+#endif
 
 /*! \var typedef Pnt3b *Pnt3bP;
     \ingroup GrpBaseBaseMathObj
  */
 
+#ifndef OSG_NO_INT8_PNT
 typedef Pnt3b *Pnt3bP;
+#endif
 
 /*! \var typedef PointInterface< UInt16, VecStorage3<UInt16> > Pnt3us;
     \ingroup GrpBaseBaseMathObj
@@ -1153,13 +1173,17 @@ typedef Pnt4ub *Pnt4ubP;
     \ingroup GrpBaseBaseMathObj
  */
 
+#ifndef OSG_NO_INT8_PNT
 typedef PointInterface< Int8, VecStorage4<Int8> > Pnt4b;
+#endif
 
 /*! \var typedef Pnt4b *Pnt4bP;
     \ingroup GrpBaseBaseMathObj
  */
 
+#ifndef OSG_NO_INT8_PNT
 typedef Pnt4b *Pnt4bP;
+#endif
 
 /*! \var typedef PointInterface< UInt16, VecStorage4<UInt16> > Pnt4us;
     \ingroup GrpBaseBaseMathObj
