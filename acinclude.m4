@@ -1455,7 +1455,7 @@ dnl e14
                 ac_gdz_freetype1_lib_e14='freetype.lib'
             ;;
             *)
-                ac_gdz_freetype1_lib_e14='-lfreetype'
+                ac_gdz_freetype1_lib_e14='-lfreetype -lttf'
             ;;
         esac
 

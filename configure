@@ -6822,7 +6822,7 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
                 ac_gdz_freetype1_lib_e14='freetype.lib'
             ;;
             *)
-                ac_gdz_freetype1_lib_e14='-lfreetype'
+                ac_gdz_freetype1_lib_e14='-lfreetype -lttf'
             ;;
         esac
 
