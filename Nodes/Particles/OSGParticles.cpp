@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.11 2002/01/21 02:43:14 jbehr Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.12 2002/02/04 16:10:29 dirk Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -1726,7 +1726,7 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
                           norm->getSize() != pos->getSize())
       )
     {
-        FWARNING(("Particles::draw: inconsistent attributes (%d %d %d)!",
+        FWARNING(("Particles::draw: inconsistent attributes (p:%d s:%d c:%d)!",
                     pos->getSize(), size->getSize(),
                     (col != NullFC)? (int)col->getSize() : -1));
         return Action::Continue;
