@@ -257,6 +257,20 @@ int DgramSocket::sendTo(const void *buf,int size,const SocketAddress &to)
 #endif
                to.getSockAddr(),
                to.getSockAddrSize());
+#ifdef _sgi
+    /* Irix simetimes returns ENOBUFS on blocking write.
+       Retry until buffer is available */
+    while(len == -1 && errno == ENOBUFS)
+    {
+        usleep(100);
+        len=sendto(_sd,
+                   (const char*)buf,size,
+                   0,
+                   to.getSockAddr(),
+                   to.getSockAddrSize());
+    }
+#endif
+
     if(len == -1)
     {
         throw SocketError("sendto()");
