@@ -24,7 +24,7 @@
 
 \layout Title
 
-OpenSG Starter guide
+OpenSG starter guide
 \layout Standard
 
 
@@ -545,8 +545,21 @@ PINFO
 \family default 
 .
  
-\shape italic 
-What about the lock/unlock stuff? How does that work?
+\layout Standard
+
+To synchronize multiple outputs from various threads all S* commands lock
+ the stream.
+ You have to use 'osg::endLog' (e.g.
+ SFATAL << 
+\begin_inset Quotes eld
+\end_inset 
+
+Message
+\begin_inset Quotes erd
+\end_inset 
+
+ << endLog) to unlock the stream output.
+ 
 \layout Standard
 
 The C interface tries to mimic the printf semantics.
@@ -593,7 +606,48 @@ What do you mean by %s?
 , s));
 \family default 
 .
- 
+ The nice think about the C style interace is that the hole output can be
+ compiled out.
+ Actually, the 
+\family typewriter 
+FDEBUG
+\family default 
+ (( )) are only compiled in when OSG_DEBUG is set.
+ The OSG_DEBUG define is automatically set while compiling the system in
+ debug (default) mode.
+\layout Standard
+
+The user can activate/deactivate various elements per log message turing
+ runtime by changing the LogHeaderElem mask.
+ The following elements are supported right know:
+\layout Description
+
+LOG_BEGIN_NEWLINE_HEADER creates a extra newline infront of every output
+\layout Description
+
+LOG_TYPE_HEADER writes the Level (e.g.
+ WARNING) as first element
+\layout Description
+
+LOG_TIMESTAMP_HEADER writes a timestamp 
+\layout Description
+
+LOG_MODULE_HEADER writes the name of the current module 
+\layout Description
+
+LOG_FILE_HEADER writes the source file name
+\layout Description
+
+LOG_LINE_HEADER writes the source line number 
+\layout Description
+
+LOG_EEND_NEWLINE_HEADER creates a extra newline at the end 
+\layout Standard
+
+When unchanged, the timestamp will be the time in seconds since the programm
+ started.
+ The user can set/reset the timestamp at any time (e.g.
+ osgLog().resetRefTime()).
 \layout Section
 
 Math
@@ -1056,18 +1110,63 @@ Barrier
 \layout Section
 
 Image
-\layout Section
-
-String / StringID
 \layout Standard
 
-Do not use it.
- Only for internal use to built efficient maps for names, not for application
- use.
- Use std::string instead.
+Defines and holds a 1D/2D/3D image and optional a mipmap pyramid and/or
+ an list of equally sized frames with a single frameDelay.
+ Various pixelTypes are supported to handle grey and RGB color images with
+ or without alpha channel.
+ The image data starts in the lower left (front) corner and all bytes for
+ a single pixel (e.g.
+ RGB) are stored one after another in memoy.
+ There are not organized in separate layers or channels.
+ 
+\layout Standard
+
+The Image is only a container for the pixel data and image descrition.
+ It does not create or handle any OpenGL state elements.
+ However, image objects are utilized to handle the data for texture (e.g.
+ SimpleTextureMaterial) or bitmap objects (e.g.
+ ImageForeground).
+ 
+\layout Standard
+
+The system provides loader and writer for various formats (see section 
+\begin_inset LatexCommand \ref{imageLoaderSection}
+
+\end_inset 
+
+).
+ The graph loader (e.g.
+ OSGLoader, VRMLLoader) use the image loader to fetch the raster data.
+ 
+\layout Section
+
+IDString
+\layout Standard
+
+A very primitive string class.
+ Mainly used for string IDs (e.g.
+ node type names).
+ It is not a generic class like the std::string implementation.
+ It's only for internal use to built efficient maps for names, not for applicati
+on use.
+ If you need a string class use use std::string instead.
+ 
+\layout Standard
+
+We decided to create our own specific string class since the std::string
+ did not provide all features we needed (e.g.
+ shared memory pointer, automatic perfered pointer comparision when comparing
+ objects)
 \layout Chapter
 
 Fields and FieldContainers
+\begin_inset LatexCommand \label{sec:Fields_and_FieldContainer}
+
+\end_inset 
+
+
 \layout Standard
 
 One central goal of the OpenSG design is easy to use thread-safe data.
@@ -1423,7 +1522,7 @@ Node
 \align center 
 
 \begin_inset Figure size 238 304
-file .backup/node_core_share.eps
+file node_core_share.eps
 width 4 80
 flags 9
 
@@ -1594,6 +1693,11 @@ Scene
 \layout Subsection
 
 Image
+\begin_inset LatexCommand \label{imageLoaderSection}
+
+\end_inset 
+
+
 \layout Section
 
 Write our own
@@ -1613,7 +1717,43 @@ Creating new FieldContainer classes
 
 \layout Standard
 
-fcdEdit (see image 
+Most developer which use OpenSG as scene graph library will probable never
+ create own OpenSG FieldContainer classes.
+ Simular to widget libs (e.g.
+ qt,gtk) people just use inscances (the widgets) but never create new classes.
+ 
+\layout Standard
+
+However, you can always extend the type system of OpenSG to integrate new
+ core (e.g.
+ a fandy LOD switch) or application specific fielcontainer.
+\layout Standard
+
+Fieldcontainer are the system central mechanims to deal with any kind of
+ thread save data (see section 
+\begin_inset LatexCommand \ref{sec:Fields_and_FieldContainer}
+
+\end_inset 
+
+).
+ Therefore, the class declaration must include various extra meta information
+ for the field and fieldcontainer type handling.
+ 
+\layout Standard
+
+In most systems (e.g.
+ Inventor), you would properply start to write a new class or node by just
+ 'copy and past' an existend implementation.
+ However, since OpenSG needs all this extra meta data it is not a pleased
+ but very error proning process to create the field container source by
+ hand.
+ Instatt, we provide a graphical tool to create and manage the fieldcontainer
+ description and implementation.
+\layout Standard
+
+The basic idea is that you use de 'field container description editor' ($OSGROOT
+/tools/fcdEdit) to create a XML file including the description of your fieldcont
+ainer fields and interfaces (see image 
 \begin_inset LatexCommand \ref{fcdEditFig}
 
 \end_inset 
@@ -1624,7 +1764,7 @@ fcdEdit (see image
 \align center 
 
 \begin_inset Figure size 267 177
-file .backup/fcd.eps
+file fcd.eps
 width 4 90
 flags 9
 
@@ -1640,19 +1780,65 @@ flags 9
 
 FcdEdit blabla
 \end_float 
- ) stuff
+ ).
+ The tools is also apple to create all the necessary c++ source files.
+ The fieldcontainer code is splitted in to classes (e.g.
+ for a Foo fieldcontainer: FooBase and Foo).
+ This strategy has various advantages:
+\layout Description
+
+Type_system_changes: If the OpenSG core team would decide to change the
+ code interface for the fieldcontainter type management we can just recreate
+ the base classes from the XML description.
+ No adaptions 'by hand' are needed.
+\layout Description
+
+Interface_changes: If you would like to change the interface of you fieldcontain
+er (e.g.
+ add another field) later on you can just reedit the xml file in fcdEdit
+ and recreate the base classes.
+ 
 \layout Section
 
 XML Description (Foo.fcd)
+\layout Standard
+
+Includes all field and meta descriptions for a sincle fieldcontainer.
+ Can be read and writen by the fcdEdit tool.
+ You should not change it by hand.
+ 
 \layout Section
 
 Field Types (FooFields.h)
+\layout Standard
+
+Include the field and pointer declarations the the fieldcontainer to be
+ used in other fieldcontainers fields as reference.
+ You should not change the file by hand.
 \layout Section
 
 Base/Meta Type (FooBase.h, FooBase.inl, FooBase.cpp)
+\layout Standard
+
+Holds all the meta and field information.
+ Do not change it by hand.
+ Use the fcdEdit tool to create the files anew whenever you change the xml
+ description.
+ 
 \layout Section
 
 'User Code' implementation (Foo.h, Foo.inl, Foo.cpp)
+\layout Standard
+
+Holds the 'user code'.
+ The fcdEdit is able to create a skeleton for you fieldcontainer implementation.
+ The code does not include any meta information therefor it is not necessary
+ to create it anew whenever you change the interface.
+ 
+\layout Standard
+
+Include new action handler or whatever you need as functionality.
+ 
 \layout Section
 
 prototype replacement
@@ -1674,12 +1860,12 @@ begin{appendix}
 \layout Chapter
 
 Code Style
+\layout Standard
+
+To be included: A short but sufficient code style description.
 \layout Chapter
 
 fcdEdit description
-\layout Standard
-
-Code Style
 \layout Standard
 
 \begin_float fig 
