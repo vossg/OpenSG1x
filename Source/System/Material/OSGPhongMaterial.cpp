@@ -295,8 +295,11 @@ StatePtr PhongMaterial::makeState(void)
     if(isTransparent())
         state->addChunk(_blendChunk);
 
-    state->addChunk(_vpChunk);
-    state->addChunk(_fpChunk);
+    if(_vpChunk != NullFC)
+        state->addChunk(_vpChunk);
+    
+    if(_fpChunk != NullFC)
+        state->addChunk(_fpChunk);
     
     for(MFStateChunkPtr::iterator i  = _mfChunks.begin();
                                   i != _mfChunks.end(); 
@@ -354,8 +357,11 @@ void PhongMaterial::rebuildState(void)
     if(isTransparent())
         _pState->addChunk(_blendChunk);
 
-    _pState->addChunk(_vpChunk);
-    _pState->addChunk(_fpChunk);
+    if(_vpChunk != NullFC)
+        _pState->addChunk(_vpChunk);
+    
+    if(_fpChunk != NullFC)
+        _pState->addChunk(_fpChunk);
     
     for(MFStateChunkPtr::iterator i  = _mfChunks.begin();
                                   i != _mfChunks.end(); 
@@ -418,7 +424,7 @@ ChunkMaterialPtr PhongMaterial::createChunkMaterial(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhongMaterial.cpp,v 1.4 2003/10/10 15:38:50 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhongMaterial.cpp,v 1.5 2003/10/10 21:06:58 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGPHONGMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHONGMATERIAL_INLINE_CVSID;
 
