@@ -49,8 +49,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! DistanceLOD
-//! \ingroup GrpSystemNodeCoresMisc
+/*! \brief Distance-based Level Of Detail
+    \ingroup GrpSystemNodeCoresMisc
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
 {

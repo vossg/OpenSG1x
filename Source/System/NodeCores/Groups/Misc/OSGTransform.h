@@ -49,8 +49,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Transform provides one matrix to transform objects.
-//! \ingroup GrpSystemNodeCoresMisc
+/*! \brief Transform provides one matrix to transform objects.
+    \ingroup GrpSystemNodeCoresMisc
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
 {

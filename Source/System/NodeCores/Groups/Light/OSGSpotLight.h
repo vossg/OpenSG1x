@@ -47,8 +47,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Spotlight
-//! \ingroup GrpSystemNodeCoresLights
+/*! \brief Spot Light
+    \ingroup GrpSystemNodeCoresLights
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
 {

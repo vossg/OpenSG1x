@@ -17,6 +17,6 @@
 		visibility="external"
 		access="public"
 	>
-	The material used to render the particles.
+	The material used to render the Drawable.
 	</Field>
 </FieldContainer>

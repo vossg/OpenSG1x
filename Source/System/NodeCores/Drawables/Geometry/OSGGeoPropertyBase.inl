@@ -172,8 +172,9 @@ void GeoProperty<GeoPropertyDesc>::changed(BitVector whichField,
 
     while(parentsIt != parentsEnd)
     {
-        (*parentsIt)->changed(1 << parentsIt->getParentFieldPos(),
-                              ChangedOrigin::Child);
+        (*parentsIt)->changed(
+                TypeTraits<BitVector>::One << parentsIt->getParentFieldPos(),
+                ChangedOrigin::Child);
         ++parentsIt;
     }
 

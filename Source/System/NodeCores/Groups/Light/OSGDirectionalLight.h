@@ -47,8 +47,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Directional light
-//! \ingroup GrpSystemNodeCoresLights
+/*! \brief Directional light
+    \ingroup GrpSystemNodeCoresLights
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
 {

@@ -40,6 +40,9 @@
 
 #include <OSGConfig.h>
 
+// exclude the whole class from user docs
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+
 OSG_BEGIN_NAMESPACE
 
 inline
@@ -87,6 +90,8 @@ bool ParticleBSPTree::created(void)
 }
 
 OSG_END_NAMESPACE
+
+#endif // Doc exclude
 
 #define OSGPARTICLEBSP_INLINE_CVSID "@(#)$Id: OSGParticleBSP.inl,v 1.1 2002/01/10 21:14:10 dirk Exp $"
 

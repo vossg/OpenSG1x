@@ -6,7 +6,7 @@ using namespace OSG;
     \ingroup GrpSystemNodeCoresDrawables
 */
 
-/* \page PageSystemSlices Slices
+/*! \page PageSystemSlices Slices
 
 Slices is a simple volume rendering core. 
 The Slicer just creates and renders 

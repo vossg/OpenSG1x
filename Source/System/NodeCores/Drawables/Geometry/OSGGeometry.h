@@ -58,7 +58,7 @@ class TriangleIterator;
 class PrimitiveIterator;
 class FaceIterator;
 
-/*! The Geometry class, see \ref PageSystemGeometry for a description.
+/*! \brief The Geometry class, see \ref PageSystemGeometry for a description.
 */
 class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 {

@@ -49,9 +49,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! ComponentTransform provides a vrml style transformation.
- *  \ingroup GrpSystemNodeCoresMisc
- */
+/*! \brief ComponentTransform provides a vrml style transformation.
+    \ingroup GrpSystemNodeCoresMisc
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform : 
     public ComponentTransformBase

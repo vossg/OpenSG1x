@@ -91,7 +91,7 @@ static char cvsid[] = "@(#)$Id: $";
 /*! \{                                                                 */
 
 
-/*! \fn osg::makeExtrusion
+/*! \fn makeExtrusion
     \ingroup GrpSystemDrawablesGeometrySimpleGeometry
 
     Create an extrusion Geometry, see \ref PageSystemSimpleGeometryExtrusion
@@ -99,7 +99,7 @@ static char cvsid[] = "@(#)$Id: $";
 
 */
 
-/*! \func osg::makeExtrusionGeo
+/*! \fn makeExtrusionGeo
     \ingroup GrpSystemDrawablesGeometrySimpleGeometry
 
     Create the Geometry Core for an extrusion Geometry, see \ref
@@ -1789,7 +1789,6 @@ void renderCap(const std::vector<Pnt2f> &crossSection,
     }
 }
 
-/* */
 NodePtr OSG::makeExtrusion(const std::vector<Pnt2f> &crossSection,
                            const std::vector<Quaternion> &orientation,
                            const std::vector<Vec2f> &scale,
@@ -1816,7 +1815,6 @@ NodePtr OSG::makeExtrusion(const std::vector<Pnt2f> &crossSection,
     return node;
 }
 
-/* */
 GeometryPtr OSG::makeExtrusionGeo(const std::vector<Pnt2f> &crossSection,
                                   const std::vector<Quaternion> &orientation,
                                   const std::vector<Vec2f> &scale,

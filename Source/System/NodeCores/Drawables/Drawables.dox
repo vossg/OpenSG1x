@@ -5,11 +5,11 @@ using namespace OSG;
 /*! \defgroup GrpSystemNodeCoresDrawables Drawables
     \ingroup GrpSystemNodeCores
 
-See \ref PageSystemDrawables for details.
+See \ref PageSystemNCDrawables for details.
 
 */
 
-/*! \page PageSystemDrawables Drawables
+/*! \page PageSystemNCDrawables Drawables
 
 \latexonly Starter:NewChapter \endlatexonly
 

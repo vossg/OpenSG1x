@@ -47,8 +47,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Pointlight
-//! \ingroup GrpSystemNodeCoresLights
+/*! \brief Point Light
+    \ingroup GrpSystemNodeCoresLights
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
 {

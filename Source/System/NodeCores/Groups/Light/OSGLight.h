@@ -51,8 +51,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Light
-//! \ingroup GrpSystemNodeCoresLights
+/*! \brief Lights Base class
+    \ingroup GrpSystemNodeCoresLights
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING Light : public LightBase
 {

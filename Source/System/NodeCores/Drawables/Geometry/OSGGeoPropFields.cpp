@@ -50,20 +50,24 @@
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<GeoPositionsPtr >::_type("GeoPositionsPtr",
+// Doxygen can't find these
+#ifndef OSG_DO_DOC
+
+DataType FieldDataTraits<GeoPositionsPtr>::_type("GeoPositionsPtr",
                                                  "GeoPositionsInterfacePtr");
-DataType FieldDataTraits<GeoNormalsPtr   >::_type("GeoNormalsPtr",
+DataType FieldDataTraits<GeoNormalsPtr  >::_type("GeoNormalsPtr",
                                                  "GeoNormalsInterfacePtr");
-DataType FieldDataTraits<GeoColorsPtr    >::_type("GeoColorsPtr",
+DataType FieldDataTraits<GeoColorsPtr   >::_type("GeoColorsPtr",
                                                  "GeoColorsInterfacePtr");
 DataType FieldDataTraits<GeoTexCoordsPtr>::_type("GeoTexCoordsPtr",
                                                  "GeoTexCoordsInterfacePtr");
-DataType FieldDataTraits<GeoIndicesPtr    >::_type("GeoIndicesPtr",
+DataType FieldDataTraits<GeoIndicesPtr  >::_type("GeoIndicesPtr",
                                                  "GeoIndicesInterfacePtr");
-DataType FieldDataTraits<GeoPTypesPtr    >::_type("GeoPTypesPtr",
+DataType FieldDataTraits<GeoPTypesPtr   >::_type("GeoPTypesPtr",
                                                  "GeoPTypesInterfacePtr");
-DataType FieldDataTraits<GeoPLengthsPtr  >::_type("GeoPLengthsPtr",
+DataType FieldDataTraits<GeoPLengthsPtr >::_type("GeoPLengthsPtr",
                                                  "GeoPLengthsInterfacePtr");
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(GeoPositionsPtr , OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(GeoNormalsPtr   , OSG_SYSTEMLIB_DLLTMPLMAPPING);
