@@ -22,6 +22,7 @@
 // the headers for the SimpleMaterials
 #include <OpenSG/OSGSimpleMaterial.h>
 #include <OpenSG/OSGSimpleTexturedMaterial.h>
+#include <OpenSG/OSGImage.h>
 
 
 // Activate the OpenSG namespace
@@ -231,7 +232,7 @@ int main(int argc, char **argv)
         libraries.
     */
     
-    ImageP image = new Image;
+    ImagePtr image = Image::create();
    
     if(argc > 1)
     {
@@ -239,10 +240,12 @@ int main(int argc, char **argv)
     }
     else
     {
-        UChar8 data[] = {  0xff, 0xff, 0xff,  0xff, 0x00, 0xff,
-                           0x00, 0xff, 0xff,  0xff, 0xff, 0xff };
+        UChar8 data[] = {  0xff, 0xff, 0xff,  0x80, 0x00, 0x00,
+                           0x80, 0x00, 0x00,  0xff, 0xff, 0xff };
 
+        beginEditCP(image);
         image->set( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, data );
+        endEditCP(image);
     }
     
     SimpleTexturedMaterialPtr m2 = SimpleTexturedMaterial::create();
@@ -259,7 +262,7 @@ int main(int argc, char **argv)
         
         m2->setImage        (image);
         m2->setMinFilter    (GL_LINEAR_MIPMAP_LINEAR);
-        m2->setMagFilter    (GL_LINEAR);
+        m2->setMagFilter    (GL_NEAREST);
         m2->setEnvMode      (GL_MODULATE);
         m2->setEnvMap       (false);
     }
