@@ -776,6 +776,11 @@ dnl ############# XTREE Settings #####################
 AC_ARG_ENABLE(fixed-xtree,     [  --enable-fixed-xtree               Use fixed xtree header ],
 			,enable_fixed_xtree=no) 
 
+dnl ############# XTREE Settings #####################
+
+AC_ARG_WITH(icc-gnu-compat,     [  --with-icc-gnu-compat               Use fixed xtree header ],
+			,with_icc_gnu_compat=no) 
+
 dnl ############# Depreciated Settings #####################
 
 AC_ARG_ENABLE(depreciated,     [  --disable-depreciated              Exclude depreciated interfaces ],
@@ -1183,6 +1188,11 @@ dnl a symlink from gmake to make
         ;;
     esac
 
+    if test "$with_icc_gnu_compat" != no; then
+        ac_gdz_compiler_exe=$ac_gdz_compiler_exe" -cxxlib-gcc -gcc-version=$with_icc_gnu_compat"
+        ac_gdz_compiler_exe_shared=$ac_gdz_compiler_exe_shared" -cxxlib-gcc -gcc-version=$with_icc_gnu_compat"
+    fi
+
     if test $ac_gdz_conf_package_efence = "1"; then
         if test "x"$ac_gdz_efence_dir = "x" ; then
             ac_gdz_test_debug_libs=' -lefence'
@@ -1571,7 +1581,9 @@ case $with_log_type in
 		;;
 esac
 
-
+if test "$with_icc_gnu_compat" != no; then
+    AC_DEFINE(OSG_ICC_GNU_COMPAT)
+fi
 
 AC_GDZ_WRITE_SYSTEM_COMMON()
 

@@ -862,4 +862,26 @@
 
 #define OSG_FLEX_USE_IOSTREAM_INPUT 1
 
+#if defined(OSG_ICC_GNU_COMPAT)
+
+# undef OSG_USE_HASH_COMPARE
+
+# if __GNUC__ >= 3
+#    define OSG_HASH_MAP_AS_EXT
+
+     /*! \brief SGI's stl implementation is available
+      *  \ingroup GrpBaseDefines
+      */
+#    ifdef OSG_STDEXTENSION_NAMESPACE
+#        undef OSG_STDEXTENSION_NAMESPACE
+#    endif
+
+#    if __GNUC_MINOR__ >=1
+#        define OSG_STDEXTENSION_NAMESPACE  __gnu_cxx
+#    else
+#        define OSG_STDEXTENSION_NAMESPACE  std
+#    endif
+# endif
+#endif
+
 #endif /* _OSGCONFIG_H_ */

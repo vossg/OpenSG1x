@@ -110,6 +110,8 @@ ac_help="$ac_help
 ac_help="$ac_help
   --enable-fixed-xtree               Use fixed xtree header "
 ac_help="$ac_help
+  --with-icc-gnu-compat               Use fixed xtree header "
+ac_help="$ac_help
   --disable-depreciated              Exclude depreciated interfaces "
 ac_help="$ac_help
   --disable-glut-glsubdir            do not use GL subdir while including glut.h "
@@ -1687,6 +1689,16 @@ fi
  
 
 
+# Check whether --with-icc-gnu-compat or --without-icc-gnu-compat was given.
+if test "${with_icc_gnu_compat+set}" = set; then
+  withval="$with_icc_gnu_compat"
+  :
+else
+  with_icc_gnu_compat=no
+fi
+ 
+
+
 # Check whether --enable-depreciated or --disable-depreciated was given.
 if test "${enable_depreciated+set}" = set; then
   enableval="$enable_depreciated"
@@ -2130,7 +2142,7 @@ else { echo "configure: error: can not run $ac_config_sub" 1>&2; exit 1; }
 fi
 
 echo $ac_n "checking host system type""... $ac_c" 1>&6
-echo "configure:2134: checking host system type" >&5
+echo "configure:2146: checking host system type" >&5
 
 host_alias=$host
 case "$host_alias" in
@@ -2151,7 +2163,7 @@ host_os=`echo $host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
 echo "$ac_t""$host" 1>&6
 
 echo $ac_n "checking target system type""... $ac_c" 1>&6
-echo "configure:2155: checking target system type" >&5
+echo "configure:2167: checking target system type" >&5
 
 target_alias=$target
 case "$target_alias" in
@@ -2169,7 +2181,7 @@ target_os=`echo $target | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
 echo "$ac_t""$target" 1>&6
 
 echo $ac_n "checking build system type""... $ac_c" 1>&6
-echo "configure:2173: checking build system type" >&5
+echo "configure:2185: checking build system type" >&5
 
 build_alias=$build
 case "$build_alias" in
@@ -2231,7 +2243,7 @@ ac_gdz_compiler_base=$ac_gdz_compiler
     ac_gdz_check_compiler_available=no
 
     echo $ac_n "checking "site config conf.$build-$ac_gdz_compiler.in"""... $ac_c" 1>&6
-echo "configure:2235: checking "site config conf.$build-$ac_gdz_compiler.in"" >&5
+echo "configure:2247: checking "site config conf.$build-$ac_gdz_compiler.in"" >&5
 
     if test -r "$ac_gdz_commonconf_dir/conf.$build-$ac_gdz_compiler.in"; then
         echo "$ac_t"""yes"" 1>&6
@@ -2243,7 +2255,7 @@ echo "configure:2235: checking "site config conf.$build-$ac_gdz_compiler.in"" >&
     if test $ac_gdz_compiler_dir"set" = set; then 
         
     echo $ac_n "checking "/ guessing compiler dir for $build-$ac_gdz_compiler"""... $ac_c" 1>&6
-echo "configure:2247: checking "/ guessing compiler dir for $build-$ac_gdz_compiler"" >&5
+echo "configure:2259: checking "/ guessing compiler dir for $build-$ac_gdz_compiler"" >&5
 
     case "$build_os" in
        irix*)
@@ -2531,7 +2543,7 @@ echo "configure:2247: checking "/ guessing compiler dir for $build-$ac_gdz_compi
 
     if test $ac_gdz_check_compiler_available = yes; then
         echo $ac_n "checking whether the C compiler ($CC $CFLAGS $LDFLAGS) is available""... $ac_c" 1>&6
-echo "configure:2535: checking whether the C compiler ($CC $CFLAGS $LDFLAGS) is available" >&5
+echo "configure:2547: checking whether the C compiler ($CC $CFLAGS $LDFLAGS) is available" >&5
 
 
 ac_ext=c
@@ -2548,7 +2560,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:2552: checking for $ac_word" >&5
+echo "configure:2564: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_CC'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2590,7 +2602,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:2594: checking for $ac_word" >&5
+echo "configure:2606: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_CC'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2648,7 +2660,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:2652: checking for $ac_word" >&5
+echo "configure:2664: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_CXX'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2690,7 +2702,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:2694: checking for $ac_word" >&5
+echo "configure:2706: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_CXX'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2732,7 +2744,7 @@ fi
 
     else
         echo $ac_n "checking whether the C compiler ($CC $CFLAGS $LDFLAGS) works""... $ac_c" 1>&6
-echo "configure:2736: checking whether the C compiler ($CC $CFLAGS $LDFLAGS) works" >&5
+echo "configure:2748: checking whether the C compiler ($CC $CFLAGS $LDFLAGS) works" >&5
 
 ac_ext=c
 # CFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
@@ -2748,7 +2760,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:2752: checking for $ac_word" >&5
+echo "configure:2764: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_CC'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2790,7 +2802,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:2794: checking for $ac_word" >&5
+echo "configure:2806: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_CC'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2830,12 +2842,12 @@ fi
 
 cat > conftest.$ac_ext << EOF
 
-#line 2834 "configure"
+#line 2846 "configure"
 #include "confdefs.h"
 
 main(){return(0);}
 EOF
-if { (eval echo configure:2839: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:2851: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   ac_cv_prog_cc_works=yes
   # If we can't run a trivial program, we are probably using a cross compiler.
   if (./conftest; exit) 2>/dev/null; then
@@ -2861,7 +2873,7 @@ if test $ac_cv_prog_cc_works = no; then
   { echo "configure: error: installation or configuration problem: C compiler cannot create executables." 1>&2; exit 1; }
 fi
 echo $ac_n "checking whether the C compiler ($CC $CFLAGS $LDFLAGS) is a cross-compiler""... $ac_c" 1>&6
-echo "configure:2865: checking whether the C compiler ($CC $CFLAGS $LDFLAGS) is a cross-compiler" >&5
+echo "configure:2877: checking whether the C compiler ($CC $CFLAGS $LDFLAGS) is a cross-compiler" >&5
 echo "$ac_t""$ac_cv_prog_cc_cross" 1>&6
 cross_compiling=$ac_cv_prog_cc_cross
 
@@ -2873,7 +2885,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:2877: checking for $ac_word" >&5
+echo "configure:2889: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_CXX'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2915,7 +2927,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:2919: checking for $ac_word" >&5
+echo "configure:2931: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_CXX'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2959,7 +2971,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:2963: checking for $ac_word" >&5
+echo "configure:2975: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_prog_CXX'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2995,7 +3007,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:2999: checking for $ac_word" >&5
+echo "configure:3011: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_prog_CXX'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3029,7 +3041,7 @@ test -n "$CXX" || CXX="unknown_compiler"
 fi
 
 echo $ac_n "checking whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) works""... $ac_c" 1>&6
-echo "configure:3033: checking whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) works" >&5
+echo "configure:3045: checking whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) works" >&5
 
 ac_ext=C
 # CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
@@ -3040,12 +3052,12 @@ cross_compiling=$ac_cv_prog_cxx_cross
 
 cat > conftest.$ac_ext << EOF
 
-#line 3044 "configure"
+#line 3056 "configure"
 #include "confdefs.h"
 
 int main(){return(0);}
 EOF
-if { (eval echo configure:3049: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3061: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   ac_cv_prog_cxx_works=yes
   # If we can't run a trivial program, we are probably using a cross compiler.
   if (./conftest; exit) 2>/dev/null; then
@@ -3071,12 +3083,12 @@ if test $ac_cv_prog_cxx_works = no; then
   { echo "configure: error: installation or configuration problem: C++ compiler cannot create executables." 1>&2; exit 1; }
 fi
 echo $ac_n "checking whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) is a cross-compiler""... $ac_c" 1>&6
-echo "configure:3075: checking whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) is a cross-compiler" >&5
+echo "configure:3087: checking whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) is a cross-compiler" >&5
 echo "$ac_t""$ac_cv_prog_cxx_cross" 1>&6
 cross_compiling=$ac_cv_prog_cxx_cross
 
 echo $ac_n "checking whether we are using GNU C++""... $ac_c" 1>&6
-echo "configure:3080: checking whether we are using GNU C++" >&5
+echo "configure:3092: checking whether we are using GNU C++" >&5
 if eval "test \"`echo '$''{'ac_cv_prog_gxx'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3085,7 +3097,7 @@ else
   yes;
 #endif
 EOF
-if { ac_try='${CXX-g++} -E conftest.C'; { (eval echo configure:3089: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }; } | egrep yes >/dev/null 2>&1; then
+if { ac_try='${CXX-g++} -E conftest.C'; { (eval echo configure:3101: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }; } | egrep yes >/dev/null 2>&1; then
   ac_cv_prog_gxx=yes
 else
   ac_cv_prog_gxx=no
@@ -3098,7 +3110,7 @@ ac_test_CXXFLAGS="${CXXFLAGS+set}"
 ac_save_CXXFLAGS="$CXXFLAGS"
 CXXFLAGS=
 echo $ac_n "checking whether ${CXX-g++} accepts -g""... $ac_c" 1>&6
-echo "configure:3102: checking whether ${CXX-g++} accepts -g" >&5
+echo "configure:3114: checking whether ${CXX-g++} accepts -g" >&5
 if eval "test \"`echo '$''{'ac_cv_prog_cxx_g'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3136,12 +3148,12 @@ fi
 ac_gdz_compiler_base_def=${ac_gdz_compiler}${ac_gdz_stl_suffix}
 
 echo $ac_n "checking for Cygwin environment""... $ac_c" 1>&6
-echo "configure:3140: checking for Cygwin environment" >&5
+echo "configure:3152: checking for Cygwin environment" >&5
 if eval "test \"`echo '$''{'ac_cv_cygwin'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat > conftest.$ac_ext <<EOF
-#line 3145 "configure"
+#line 3157 "configure"
 #include "confdefs.h"
 
 int main() {
@@ -3152,7 +3164,7 @@ int main() {
 return __CYGWIN__;
 ; return 0; }
 EOF
-if { (eval echo configure:3156: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3168: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   ac_cv_cygwin=yes
 else
@@ -3169,19 +3181,19 @@ echo "$ac_t""$ac_cv_cygwin" 1>&6
 CYGWIN=
 test "$ac_cv_cygwin" = yes && CYGWIN=yes
 echo $ac_n "checking for mingw32 environment""... $ac_c" 1>&6
-echo "configure:3173: checking for mingw32 environment" >&5
+echo "configure:3185: checking for mingw32 environment" >&5
 if eval "test \"`echo '$''{'ac_cv_mingw32'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat > conftest.$ac_ext <<EOF
-#line 3178 "configure"
+#line 3190 "configure"
 #include "confdefs.h"
 
 int main() {
 return __MINGW32__;
 ; return 0; }
 EOF
-if { (eval echo configure:3185: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3197: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   ac_cv_mingw32=yes
 else
@@ -3202,7 +3214,7 @@ test "$ac_cv_mingw32" = yes && MINGW32=yes
 
        cygwin*)
         echo $ac_n "checking executable suffix""... $ac_c" 1>&6
-echo "configure:3206: checking executable suffix" >&5
+echo "configure:3218: checking executable suffix" >&5
         EXEEXT=.exe
         ac_gdz_exe_suffix=.exe
         echo "$ac_t""$EXEEXT" 1>&6
@@ -3212,7 +3224,7 @@ echo "configure:3206: checking executable suffix" >&5
         
 
 echo $ac_n "checking for executable suffix""... $ac_c" 1>&6
-echo "configure:3216: checking for executable suffix" >&5
+echo "configure:3228: checking for executable suffix" >&5
 if eval "test \"`echo '$''{'ac_cv_exeext'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3222,7 +3234,7 @@ else
   rm -f conftest*
   echo 'int main () { return 0; }' > conftest.$ac_ext
   ac_cv_exeext=
-  if { (eval echo configure:3226: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; }; then
+  if { (eval echo configure:3238: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; }; then
     for file in conftest.*; do
       case $file in
       *.c | *.o | *.obj) ;;
@@ -3257,12 +3269,12 @@ ac_exeext=$EXEEXT
        cygwin*)
         if test $ac_gdz_compiler_base = g++; then
         	echo $ac_n "checking obj suffix""... $ac_c" 1>&6
-echo "configure:3261: checking obj suffix" >&5
+echo "configure:3273: checking obj suffix" >&5
         	ac_gdz_obj_suffix=.o
         	echo "$ac_t""$ac_gdz_obj_suffix" 1>&6
         else
         	echo $ac_n "checking obj suffix""... $ac_c" 1>&6
-echo "configure:3266: checking obj suffix" >&5
+echo "configure:3278: checking obj suffix" >&5
         	ac_gdz_obj_suffix=.obj
         	echo "$ac_t""$ac_gdz_obj_suffix" 1>&6
         fi
@@ -3270,13 +3282,13 @@ echo "configure:3266: checking obj suffix" >&5
 
         *)
         echo $ac_n "checking for object suffix""... $ac_c" 1>&6
-echo "configure:3274: checking for object suffix" >&5
+echo "configure:3286: checking for object suffix" >&5
 if eval "test \"`echo '$''{'ac_cv_objext'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   rm -f conftest*
 echo 'int i = 1;' > conftest.$ac_ext
-if { (eval echo configure:3280: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3292: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   for ac_file in conftest.*; do
     case $ac_file in
     *.c) ;;
@@ -3300,7 +3312,7 @@ ac_objext=$ac_cv_objext
 
 
     echo $ac_n "checking lib suffix""... $ac_c" 1>&6
-echo "configure:3304: checking lib suffix" >&5
+echo "configure:3316: checking lib suffix" >&5
 
     case "$build_os" in
 
@@ -3322,7 +3334,7 @@ echo "configure:3304: checking lib suffix" >&5
 
 
     echo $ac_n "checking shared object suffix""... $ac_c" 1>&6
-echo "configure:3326: checking shared object suffix" >&5
+echo "configure:3338: checking shared object suffix" >&5
 
     case "$build_os" in
 
@@ -3347,7 +3359,7 @@ echo "configure:3326: checking shared object suffix" >&5
 
 
      echo $ac_n "checking shared object praefix""... $ac_c" 1>&6
-echo "configure:3351: checking shared object praefix" >&5
+echo "configure:3363: checking shared object praefix" >&5
 
      case "$build_os" in
 
@@ -3370,7 +3382,7 @@ if test $build_os = cygwin; then
 
 		
     echo $ac_n "checking system dir""... $ac_c" 1>&6
-echo "configure:3374: checking system dir" >&5
+echo "configure:3386: checking system dir" >&5
 
     if test $enable_win_exclude_default_path = no; then
         case "$build_os" in
@@ -3566,6 +3578,11 @@ else
         ;;
     esac
 
+    if test "$with_icc_gnu_compat" != no; then
+        ac_gdz_compiler_exe=$ac_gdz_compiler_exe" -cxxlib-gcc -gcc-version=$with_icc_gnu_compat"
+        ac_gdz_compiler_exe_shared=$ac_gdz_compiler_exe_shared" -cxxlib-gcc -gcc-version=$with_icc_gnu_compat"
+    fi
+
     if test $ac_gdz_conf_package_efence = "1"; then
         if test "x"$ac_gdz_efence_dir = "x" ; then
             ac_gdz_test_debug_libs=' -lefence'
@@ -3608,7 +3625,7 @@ fi
 ac_gdz_common_system=$ac_gdz_commonconf_dir/common.$build-$ac_gdz_compiler_base.in
 
 echo $ac_n "checking project config common.project.in""... $ac_c" 1>&6
-echo "configure:3612: checking project config common.project.in" >&5
+echo "configure:3629: checking project config common.project.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.project.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -3619,7 +3636,7 @@ else
 fi
 
 echo $ac_n "checking package config common.libs.in""... $ac_c" 1>&6
-echo "configure:3623: checking package config common.libs.in" >&5
+echo "configure:3640: checking package config common.libs.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.libs.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -3631,7 +3648,7 @@ fi
 
 
 echo $ac_n "checking additional package configs""... $ac_c" 1>&6
-echo "configure:3635: checking additional package configs" >&5
+echo "configure:3652: checking additional package configs" >&5
 
 for i in `find . -name common.libs.in | sed -e 's|^./||'` ;
 do
@@ -11554,7 +11571,12 @@ EOF
 		;;
 esac
 
+if test "$with_icc_gnu_compat" != no; then
+    cat >> confdefs.h <<\EOF
+#define OSG_ICC_GNU_COMPAT 1
+EOF
 
+fi
 
 
 
