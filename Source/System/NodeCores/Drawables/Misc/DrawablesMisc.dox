@@ -9,8 +9,14 @@ using namespace OSG;
 /* \page PageSystemSlices Slices
 
 osg::Slices is a simple volume rendering node. It depends on the material
-setting up a 3D texture and just renders viewer-oriented slices through a
-rectangular volume, which is centered around the origin and specified using the
-size in the three dimensions.
+to setup a 3D texture and BlendMode. The Slicer just creates and renders 
+viewer-oriented slices from back to front through a rectangular volume, 
+which is centered around the origin and specified using the
+size in the three dimensions. The numberOfSlices parameter defines
+the number of slices which should be utilizes along the diagonal. 
+Therefore it is more the max number of slices rendered and should be
+set to match the texture sampling rate. The slice distance is uniform 
+for different camera positions which is necessary to minimize the re-sampling 
+artifacts. 
 
 */
