@@ -134,8 +134,8 @@ MulticastConnection::MulticastConnection(int ) :
     for(i=0;i<(_udpReadBuffers.size()-1);i++)
     {
         _udpReadBuffers[i].resize(MULTICAST_BUFFER_SIZE);
-        readBufAdd(&_udpReadBuffers[i][sizeof(UDPHeader)],
-                   _udpReadBuffers[i].size()-sizeof(UDPHeader));
+        readBufAdd(&_udpReadBuffers[i][sizeof(UDPBuffer::UDPHeader)],
+                   _udpReadBuffers[i].size()-sizeof(UDPBuffer::UDPHeader));
     }
     _udpReadBuffers[i].resize(MULTICAST_BUFFER_SIZE);
 
@@ -144,8 +144,8 @@ MulticastConnection::MulticastConnection(int ) :
     for(i=0;i<(_udpWriteBuffers.size()-1);i++)
     {
         _udpWriteBuffers[i].resize(MULTICAST_BUFFER_SIZE);
-        writeBufAdd(&_udpWriteBuffers[i][sizeof(UDPHeader)],
-                     _udpWriteBuffers[i].size()-sizeof(UDPHeader));
+        writeBufAdd(&_udpWriteBuffers[i][sizeof(UDPBuffer::UDPHeader)],
+                     _udpWriteBuffers[i].size()-sizeof(UDPBuffer::UDPHeader));
     }
     _udpWriteBuffers[i].resize(MULTICAST_BUFFER_SIZE);
 
@@ -168,7 +168,7 @@ MulticastConnection::~MulticastConnection(void)
     {
         if(_destination.getPort()!=0)
         {
-            UDPHeader closed={0,CLOSED};
+            UDPBuffer::UDPHeader closed={0,CLOSED};
             SLOG << "Connection closed" << endl;
             _socket.sendTo(&closed,sizeof(closed),_destination);
         }
@@ -374,7 +374,7 @@ UInt32 MulticastConnection::getChannelCount(void)
  **/
 void MulticastConnection::selectChannel()
 {
-    UDPHeader header;
+    UDPBuffer::UDPHeader header;
     SocketAddress from;
     SocketSelection selection;
     UInt32 size;
@@ -435,7 +435,7 @@ void MulticastConnection::readBuffer()
 {
     UDPBuffersT::iterator currentBuffer=_udpReadBuffers.begin(); 
     BuffersT::iterator    buffer;
-    UDPHeader            *header;
+    UDPBuffer::UDPHeader *header;
     UDPBuffer             responseAck;
     UInt32                pos;
     SocketAddress         from;
@@ -460,7 +460,7 @@ void MulticastConnection::readBuffer()
                                       from);
         if(from != _channelAddress[_channel])
             continue;
-        header    = (UDPHeader*)&(*currentBuffer)[0];
+        header    = (UDPBuffer::UDPHeader*)&(*currentBuffer)[0];
         seqNumber = ntohl(header->seqNumber);
 
         if(header->type == ACK_REQUEST)
@@ -513,8 +513,8 @@ void MulticastConnection::readBuffer()
                 continue;
             }
             buffer->setMem ( (MemoryHandle)&(*currentBuffer)
-                             [sizeof(UDPHeader)] );
-            buffer->setDataSize ( dataSize - sizeof(UDPHeader) );
+                             [sizeof(UDPBuffer::UDPHeader)] );
+            buffer->setDataSize ( dataSize - sizeof(UDPBuffer::UDPHeader) );
             buffer->setSize ( currentBuffer->size() );
             currentBuffer++;
         }
@@ -534,7 +534,7 @@ void MulticastConnection::writeBuffer(void)
     vector<int>            send;
     vector<int>::iterator  sendI;
     BuffersT::iterator     bufferI;
-    UDPHeader              ackRequest;
+    UDPBuffer::UDPHeader   ackRequest;
     set<SocketAddress>     receivers(_channelAddress.begin(),
                                      _channelAddress.end());
     set<SocketAddress>     missingAcks;
@@ -542,14 +542,15 @@ void MulticastConnection::writeBuffer(void)
     UDPBuffer              responseAck;
     Time                   waitTime,t0,t1;
     SocketAddress          from;
-    UDPHeader             *header;
+    UDPBuffer::UDPHeader  *header;
     UInt32                 nacks;
 
     for(bufferI=writeBufBegin() ; 
         bufferI!=writeBufEnd() && bufferI->getDataSize()>0 ;
         bufferI++)
     {
-        header = (UDPHeader*)(bufferI->getMem()-sizeof(UDPHeader));
+        header = (UDPBuffer::UDPHeader*)(
+            bufferI->getMem()-sizeof(UDPBuffer::UDPHeader));
         header->type      = DATA;
         header->seqNumber = htonl(_seqNumber++);
         send.push_back(true);
@@ -569,9 +570,10 @@ void MulticastConnection::writeBuffer(void)
         {
             if(*sendI == true)
             {
-                _socket.sendTo(bufferI->getMem()      - sizeof(UDPHeader),
-                               bufferI->getDataSize() + sizeof(UDPHeader),
-                               _destination);
+                _socket.sendTo(
+                    bufferI->getMem()      - sizeof(UDPBuffer::UDPHeader),
+                    bufferI->getDataSize() + sizeof(UDPBuffer::UDPHeader),
+                    _destination);
                 *sendI=false;
             }
         }
@@ -582,7 +584,9 @@ void MulticastConnection::writeBuffer(void)
               (_maxWaitForAck-(OSG::getSystemTime()-t0))>0.001)
         {
             // send acknolage request
-            _socket.sendTo(&ackRequest,sizeof(UDPHeader),_destination);
+            _socket.sendTo(&ackRequest,
+                           sizeof(UDPBuffer::UDPHeader),
+                           _destination);
             // wait for acknolages. Max _waitForAck seconds.
             for(waitTime=_waitForAck,t1=OSG::getSystemTime();
                 waitTime>0.001 && (!missingAcks.empty());
@@ -696,7 +700,7 @@ void *MulticastConnection::aliveProc(void *arg)
             alive.member           = htonl(connection->_member);
             connection->_socket.sendTo(
                 &alive,
-                sizeof(UDPHeader)+sizeof(alive.member),
+                sizeof(UDPBuffer::UDPHeader)+sizeof(alive.member),
                 connection->_destination);
         }
         if(connection->_aliveSocket.waitReadable(connection->_aliveTime))

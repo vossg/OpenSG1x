@@ -146,13 +146,15 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     };
 
     typedef vector<vector<UInt8> > UDPBuffersT;
-    struct UDPHeader
-    {
-        UInt32 seqNumber;
-        UInt8  type;
-    };
+
     struct UDPBuffer
     {
+        struct UDPHeader
+        {
+            UInt32 seqNumber;
+            UInt8  type;
+        };
+
         UDPHeader  header;
         union 
         {
