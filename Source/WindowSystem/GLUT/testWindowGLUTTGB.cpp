@@ -104,14 +104,25 @@ void updateMatrix(Matrix &m)
     
     beginEditCP(reg);
 
+    reg->setCombinerRGB(ncomb,
+        GL_TEXTURE1_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable A
+        GL_ZERO,               GL_UNSIGNED_INVERT_NV,   GL_RGB, // variable B
+        GL_TEXTURE2_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable C
+        GL_ZERO,               GL_UNSIGNED_INVERT_NV,   GL_RGB, // variable D
+        GL_DISCARD_NV, GL_DISCARD_NV, GL_TEXTURE0_ARB,   // ABout, CDout, Sumout
+        GL_NONE, GL_NONE,                            // scale, bias
+        GL_FALSE, GL_FALSE, GL_FALSE );                // ABdot, CDdot, muxSum
+
+    ncomb++;
+
     // first combiner: spare0 = dot(col, m1), spare1 = dot(col,m2)      
      
     reg->setCombinerColors(ncomb, m1, m2);
 
     reg->setCombinerRGB(ncomb,
-        GL_TEXTURE1_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable A
+        GL_TEXTURE0_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable A
         GL_CONSTANT_COLOR0_NV, GL_EXPAND_NORMAL_NV,     GL_RGB, // variable B
-        GL_TEXTURE2_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable C
+        GL_TEXTURE0_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable C
         GL_CONSTANT_COLOR1_NV, GL_EXPAND_NORMAL_NV,     GL_RGB, // variable D
         GL_SPARE0_NV, GL_SPARE1_NV, GL_DISCARD_NV,   // ABout, CDout, Sumout
         GL_NONE, GL_NONE,                            // scale, bias
@@ -124,7 +135,7 @@ void updateMatrix(Matrix &m)
     reg->setCombinerColors(ncomb, m3, selectR);
 
     reg->setCombinerRGB(ncomb,
-        GL_TEXTURE2_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable A
+        GL_TEXTURE0_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable A
         GL_CONSTANT_COLOR0_NV, GL_EXPAND_NORMAL_NV,     GL_RGB, // variable B
         GL_SPARE0_NV,          GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable C
         GL_CONSTANT_COLOR1_NV, GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable D
@@ -317,10 +328,16 @@ int main(int argc, char **argv)
     argammachunk = TextureChunk::create();    
     beginEditCP(argammachunk);
     argammachunk->setImage(argammaimg);
+    argammachunk->setInternalFormat(GL_RGB8);
     argammachunk->setMinFilter(GL_NEAREST);
     argammachunk->setMagFilter(GL_NEAREST);
+#ifdef GL_CLAMP_TO_EDGE
     argammachunk->setWrapS(GL_CLAMP_TO_EDGE);
     argammachunk->setWrapT(GL_CLAMP_TO_EDGE);
+#else
+    argammachunk->setWrapS(GL_CLAMP);
+    argammachunk->setWrapT(GL_CLAMP);
+#endif
     argammachunk->setShaderOperation(GL_DEPENDENT_AR_TEXTURE_2D_NV);
     argammachunk->setShaderInput    (GL_TEXTURE0_ARB);
     endEditCP  (argammachunk);
@@ -343,10 +360,16 @@ int main(int argc, char **argv)
     gbgammachunk = TextureChunk::create();    
     beginEditCP(gbgammachunk);
     gbgammachunk->setImage(gbgammaimg);
+    gbgammachunk->setInternalFormat(GL_RGB8);
     gbgammachunk->setMinFilter(GL_NEAREST);
     gbgammachunk->setMagFilter(GL_NEAREST);
+#ifdef GL_CLAMP_TO_EDGE
     gbgammachunk->setWrapS(GL_CLAMP_TO_EDGE);
     gbgammachunk->setWrapT(GL_CLAMP_TO_EDGE);
+#else
+    gbgammachunk->setWrapS(GL_CLAMP);
+    gbgammachunk->setWrapT(GL_CLAMP);
+#endif
     gbgammachunk->setShaderOperation(GL_DEPENDENT_GB_TEXTURE_2D_NV);
     gbgammachunk->setShaderInput    (GL_TEXTURE0_ARB);
     endEditCP  (gbgammachunk);
