@@ -20,3 +20,19 @@ if test -w Source/System/FileIO/OBJ/tmp_gv; then
         mv Source/System/FileIO/OBJ/OSGOBJSceneFileType.cpp Source/System/FileIO/OBJ/tmp_gv
     fi
 fi
+
+if ! test -w Source/Base/Base/tmp_gv; then 
+    echo "Need Source/Base/Base/tmp_gv"
+	echo "mkdir Source/Base/Base/tmp_gv"
+
+    mkdir Source/Base/Base/tmp_gv
+fi
+
+if test -w Source/Base/Base/tmp_gv; then
+	echo "Moving stuff out of the way"
+
+    if test -r Source/Base/Base/testmath.cpp; then
+        echo "mv Source/Base/Base/testmath.cpp Source/Base/Base/tmp_gv"
+        mv Source/Base/Base/testmath.cpp Source/Base/Base/tmp_gv
+    fi
+fi
