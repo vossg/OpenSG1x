@@ -214,7 +214,7 @@ void MyOSGQGLWidget::keyPressEvent ( QKeyEvent *ke )
     }
 }
 
-void *drawThreadProc (void *arg) 
+void drawThreadProc (void *arg) 
 {               
     int               *my_id = (int *) arg;
     MyOSGQGLWidget *my_widget = glWidget[*my_id];
@@ -250,9 +250,6 @@ void *drawThreadProc (void *arg)
         if ( predraw-- < 0 )
             drawBarrier->enter( NUM_THREADS + 1 );
     }
-
-    // Destroy context
-    return ( NULL );
 }
 
 int main( int argc, char **argv )
