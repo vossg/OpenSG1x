@@ -25,7 +25,14 @@ new handlers.
 /*! Cunstruct a WebInterface for the given port. If the port
   is used, try to bind to the following port number.
 */
-WebInterface::WebInterface(UInt32 port)
+WebInterface::WebInterface(UInt32 port) :
+    _socket(),
+    _accepted(),
+    _body(),
+    _handler(),
+    _root(NullFC),
+    _header(getDefaultHeader()),
+    _footer()
 {
     bool bound=false;
     _socket.open();
@@ -122,6 +129,37 @@ bool WebInterface::waitRequest(double duration)
 void WebInterface::setRoot(NodePtr root)
 {
     _root = root;
+}
+
+/*! Set the html header.
+ */
+void WebInterface::setHeader(const std::string &header)
+{
+    _header = header;
+}
+
+/*! Set the html footer.
+ */
+void WebInterface::setFooter(const std::string &footer)
+{
+    _footer = footer;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             get                                         */
+
+/*! Get the html header.
+ */
+const std::string &WebInterface::getHeader(void)
+{
+    return _header;
+}
+
+/*! Get the html footer.
+ */
+const std::string &WebInterface::getFooter(void)
+{
+    return _footer;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -391,14 +429,13 @@ void WebInterface::rootHandler(std::ostream &os,
                                const char *,
                                ParameterT &)
 {
-    os <<
-        "<html>"
-        "<h1>OpenSG Web Interface</h1>"
-        "<ui>"
-        "<li><a href=\"changelist\">ChangeList</a>"
-        "<li><a href=\"treeview\">SceneGraph</a>"
-        "</ui>"
-        "</html>";
+    os << "<html>" << _header;
+    os << "<h1>OpenSG Web Interface</h1>"
+          "<ui>"
+          "<li><a href=\"changelist\">ChangeList</a>"
+          "<li><a href=\"treeview\">SceneGraph</a>"
+          "</ui>";
+    os << _footer << "</html>";
 }
 
 /*! View the current changelist
@@ -420,7 +457,7 @@ void WebInterface::changelistHandler(std::ostream &os,
 
     changeList=OSG::Thread::getCurrentChangeList();
 
-    os << "<html>"
+    os << "<html>" << _header
        << "<h1>ChangeList</h1>";
     
     // created
@@ -510,7 +547,7 @@ void WebInterface::changelistHandler(std::ostream &os,
     while(col && col++ < destroyedCols)
         os << "<td>&nbsp;</td>";
     os << "</tr>\n</table>\n";
-    os << "</html>";
+    os << _footer << "</html>";
 }
 
 /*! FieldContainer view handler
@@ -528,12 +565,14 @@ void WebInterface::fcViewHandler(std::ostream &os,
 
     if(!getParam(param,"id"))
     {
-        os << "<html>id missing</html>";
+        os << "<html>" << _header
+           << "id missing"
+           << _footer << "</html>";
         return;
     }
     id=atoi(getParam(param,"id"));
 
-    os << "<html>";
+    os << "<html>" << _header;
     fcPtr = FieldContainerFactory::the()->getContainer(id);
     if(fcPtr == NullFC)
     {
@@ -611,7 +650,7 @@ void WebInterface::fcViewHandler(std::ostream &os,
         }
         os << "</table>";
     }
-    os << "</html>";
+    os << _footer << "</html>";
 }
 
 /*! Edit field value
@@ -638,13 +677,17 @@ void WebInterface::fcEditHandler(std::ostream &os,
     }
     if(fcPtr == NullFC)
     {
-        os << "<html>Unknown field container</html>";
+        os << "<html>" << _header
+           << "Unknown field container"
+           << _footer << "</html>";
         return;
     }
     field = fcPtr->getField(fid);
     if(field == NULL)
     {
-        os << "<html>Unknown field in container</html>";
+        os << "<html>" << _header
+           << "Unknown field in container"
+           << _footer << "</html>";
         return;
     }
     desc=fcPtr->getType().getFieldDescription(fid);
@@ -655,7 +698,8 @@ void WebInterface::fcEditHandler(std::ostream &os,
         endEditCP(fcPtr,desc->getFieldMask());
     }
     field->getValueByStr(value);
-    os << "<html><h1>Edit "
+    os << "<html>" << _header
+       << "<h1>Edit "
        << fcPtr->getTypeName()
        << "."
        << desc->getName().str()
@@ -672,7 +716,7 @@ void WebInterface::fcEditHandler(std::ostream &os,
        << fid
        << "\">"
        << "</form>"
-       << "</html>";
+       << _footer << "</html>";
 }
 
 /*! Show scenegraph tree. For each leave to open, a parameter with
@@ -699,12 +743,12 @@ void WebInterface::treeViewHandler(std::ostream &os,
         setParam(param,"close",NULL);
     }        
     // Changed 
-    os << "<html>"
+    os << "<html>" << _header
        << "<h1>Scenegraph</h1>\n"
        << "<ul>\n";
     treeViewNode(os,_root,param);
     os << "</ul>"
-       << "</html>";
+       << _footer << "</html>";
 }
 
 /*! Returns the name of a field container.
@@ -727,4 +771,18 @@ const char *WebInterface::getNodeName(const FieldContainerPtr &fcPtr)
         return unnamed;
     
     return name;
+}
+
+/*! Returns the default html header.
+*/
+std::string WebInterface::getDefaultHeader(void)
+{
+    std::stringstream header;
+    header << "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">"
+           << "<tr bgcolor=\"#E5E5E5\">"
+           << "<td valign=center><a href=\"/\"><font color=\"#004faf\">Home</font></a></td>"
+           << "<td valign=center><a href=\"changelist\"><font color=\"#004faf\">Changelist</font></a></td>"
+           << "<td valign=center><a href=\"treeview\"><font color=\"#004faf\">Scenegraph</font></a></td>"
+           << "</tr></table>";
+    return header.str();
 }

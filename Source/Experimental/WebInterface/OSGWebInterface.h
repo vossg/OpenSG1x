@@ -47,7 +47,18 @@ public:
     /*! \{                                                                 */
 
     void setRoot(NodePtr root);
-
+    
+    void                setHeader(const std::string &header);
+    void                setFooter(const std::string &footer);
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Get                                     */
+    /*! \{                                                                 */
+    
+    const std::string   &getHeader(void);
+    const std::string   &getFooter(void);
+    
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 protected:
@@ -95,6 +106,7 @@ private:
                                       NodePtr           node,
                                       ParameterT       &param );
     const char *getNodeName          (const FieldContainerPtr &fcPtr);
+    std::string getDefaultHeader     (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -122,6 +134,8 @@ private:
     std::stringstream _body;
     HandlerT          _handler;
     NodePtr           _root;
+    std::string       _header;
+    std::string       _footer;
 
     /*! \}                                                                 */
 };
