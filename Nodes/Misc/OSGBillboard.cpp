@@ -195,8 +195,6 @@ void Billboard::calcMatrix(DrawActionBase *pAction, Matrix &mResult)
 
         vUp.setValue (mCamToWorld[1]);
 
-        vDir *= -1.f;
-
         Quaternion qN(n, vDir);
 
         mToWorld.mult(u);
@@ -219,7 +217,7 @@ void Billboard::calcMatrix(DrawActionBase *pAction, Matrix &mResult)
 
         mToWorld.mult(getAxisOfRotation(), wUp);
 
-        vDir = objpos - eyepos;
+        vDir = eyepos - objpos;
 
         s    = vDir.cross(wUp);
         tDir = wUp .cross(s  );
