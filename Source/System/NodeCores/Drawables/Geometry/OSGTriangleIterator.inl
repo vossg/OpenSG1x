@@ -59,7 +59,7 @@ Int32 TriangleIterator::getIndex(void) const
 inline       
 Int32 TriangleIterator::getPositionIndex(Int32 which) const
 {
-    return getPositionIndex(_triPntIndex[which]);
+    return Inherited::getPositionIndex(_triPntIndex[which]);
 }
 
 inline       
@@ -73,7 +73,7 @@ Pnt3f TriangleIterator::getPosition(Int32 which) const
 inline       
 Int32 TriangleIterator::getNormalIndex(Int32 which) const
 {
-    return getNormalIndex(_triPntIndex[which]);
+    return Inherited::getNormalIndex(_triPntIndex[which]);
 }
 
 inline 
@@ -90,7 +90,7 @@ Vec3f TriangleIterator::getNormal(Int32 which) const
 inline       
 Int32 TriangleIterator::getColorIndex(Int32 which) const
 {
-    return getColorIndex(_triPntIndex[which]);
+    return Inherited::getColorIndex(_triPntIndex[which]);
 }
 
 inline 
@@ -108,7 +108,7 @@ Color3f TriangleIterator::getColor(Int32 which) const
 inline       
 Int32 TriangleIterator::getTexCoordsIndex(Int32 which) const
 {
-    return getTexCoordsIndex(_triPntIndex[which]);
+    return Inherited::getTexCoordsIndex(_triPntIndex[which]);
 }
 
 inline 
@@ -126,7 +126,7 @@ Vec2f TriangleIterator::getTexCoords(Int32 which) const
 inline       
 Int32 TriangleIterator::getTexCoordsIndex1(Int32 which) const
 {
-    return getTexCoordsIndex1(_triPntIndex[which]);
+    return Inherited::getTexCoordsIndex1(_triPntIndex[which]);
 }
 
 inline 
@@ -144,7 +144,7 @@ Vec2f TriangleIterator::getTexCoords1(Int32 which) const
 inline       
 Int32 TriangleIterator::getTexCoordsIndex2(Int32 which) const
 {
-    return getTexCoordsIndex2(_triPntIndex[which]);
+    return Inherited::getTexCoordsIndex2(_triPntIndex[which]);
 }
 
 inline 
@@ -162,7 +162,7 @@ Vec2f TriangleIterator::getTexCoords2(Int32 which) const
 inline       
 Int32 TriangleIterator::getTexCoordsIndex3(Int32 which) const
 {
-    return getTexCoordsIndex3(_triPntIndex[which]);
+    return Inherited::getTexCoordsIndex3(_triPntIndex[which]);
 }
 
 inline 
@@ -181,10 +181,11 @@ inline
 Int32 TriangleIterator::getIndexIndex(Int32 which) const
 {
     if(_triPntIndex[which] >= 0)
-        return getIndexIndex(_triPntIndex[which]);
+        return Inherited::getIndexIndex(_triPntIndex[which]);
     else 
         return -1;
 }
 
 
 OSG_END_NAMESPACE
+

@@ -70,7 +70,7 @@ inline
 Int32 FaceIterator::getPositionIndex(Int32 which) const
 {
     if(_facePntIndex[which] >= 0)
-        return getPositionIndex(_facePntIndex[which]);
+        return Inherited::getPositionIndex(_facePntIndex[which]);
     else 
         return -1;
 }
@@ -90,7 +90,7 @@ inline
 Int32 FaceIterator::getNormalIndex(Int32 which) const
 {
     if(_facePntIndex[which] >= 0)
-        return getNormalIndex(_facePntIndex[which]);
+        return Inherited::getNormalIndex(_facePntIndex[which]);
     else 
         return -1;
 }
@@ -110,7 +110,7 @@ inline
 Int32 FaceIterator::getColorIndex(Int32 which) const
 {
     if(_facePntIndex[which] >= 0)
-        return getColorIndex(_facePntIndex[which]);
+        return Inherited::getColorIndex(_facePntIndex[which]);
     else 
         return -1;
 }
@@ -131,7 +131,7 @@ inline
 Int32 FaceIterator::getTexCoordsIndex(Int32 which) const
 {
     if(_facePntIndex[which] >= 0)
-        return getTexCoordsIndex(_facePntIndex[which]);
+        return Inherited::getTexCoordsIndex(_facePntIndex[which]);
     else 
         return -1;
 }
@@ -152,7 +152,7 @@ inline
 Int32 FaceIterator::getTexCoordsIndex1(Int32 which) const
 {
     if(_facePntIndex[which] >= 0)
-        return getTexCoordsIndex1(_facePntIndex[which]);
+        return Inherited::getTexCoordsIndex1(_facePntIndex[which]);
     else 
         return -1;
 }
@@ -173,7 +173,7 @@ inline
 Int32 FaceIterator::getTexCoordsIndex2(Int32 which) const
 {
     if(_facePntIndex[which] >= 0)
-        return getTexCoordsIndex2(_facePntIndex[which]);
+        return Inherited::getTexCoordsIndex2(_facePntIndex[which]);
     else 
         return -1;
 }
@@ -194,7 +194,7 @@ inline
 Int32 FaceIterator::getTexCoordsIndex3(Int32 which) const
 {
     if(_facePntIndex[which] >= 0)
-        return getTexCoordsIndex3(_facePntIndex[which]);
+        return Inherited::getTexCoordsIndex3(_facePntIndex[which]);
     else 
         return -1;
 }
@@ -214,7 +214,7 @@ inline
 Int32 FaceIterator::getIndexIndex(Int32 which) const
 {
     if(_facePntIndex[which] >= 0)
-        return getIndexIndex(_facePntIndex[which]);
+        return Inherited::getIndexIndex(_facePntIndex[which]);
     else 
         return -1;
 }

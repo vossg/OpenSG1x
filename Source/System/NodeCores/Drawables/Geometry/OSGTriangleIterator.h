@@ -123,7 +123,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TriangleIterator : public PrimitiveIterator
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
-          
+
+    typedef PrimitiveIterator Inherited;
+    
     /*---------------------------------------------------------------------*/
     /*! \name                       Set                                    */
     /*! \{                                                                 */

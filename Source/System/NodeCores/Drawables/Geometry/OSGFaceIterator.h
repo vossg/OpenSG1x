@@ -133,6 +133,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FaceIterator : public PrimitiveIterator
 
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef PrimitiveIterator Inherited;
           
    /*==========================  PRIVATE  ================================*/    
   private:

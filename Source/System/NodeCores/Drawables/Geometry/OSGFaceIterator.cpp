@@ -307,6 +307,8 @@ FaceIterator& FaceIterator::operator =(const FaceIterator &source)
     if(this == &source)
         return *this;
     
+    *static_cast<Inherited *>(this) = source;
+
     this->_faceIndex            = source._faceIndex;
     this->_actPrimIndex         = source._actPrimIndex;
     this->_facePntIndex[0]      = source._facePntIndex[0];
@@ -321,19 +323,23 @@ FaceIterator& FaceIterator::operator =(const FaceIterator &source)
 
 bool FaceIterator::operator <(const FaceIterator &other) const
 {
-    return this < &other ||
-           (this == &other &&
-              _actPrimIndex < other._actPrimIndex);
+    return 
+          (*static_cast<const Inherited *>(this) <  other) ||
+        ( (*static_cast<const Inherited *>(this) == other)             &&
+          _actPrimIndex                          <  other._actPrimIndex);
 }
 
 bool FaceIterator::operator ==(const FaceIterator &other) const
 {
     if(isAtEnd() && other.isAtEnd())
         return true;
+
     if(isAtEnd() || other.isAtEnd())
         return false;
-    return this == &other &&
-            _actPrimIndex == other._actPrimIndex;
+
+    return 
+        (*static_cast<const Inherited *>(this) == other              ) &&
+        _actPrimIndex                          == other._actPrimIndex;
 }
 
 bool FaceIterator::operator !=(const FaceIterator &other) const

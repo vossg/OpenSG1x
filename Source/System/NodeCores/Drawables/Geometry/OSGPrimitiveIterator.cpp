@@ -245,6 +245,8 @@ PrimitiveIterator::~PrimitiveIterator(void)
 */
 void PrimitiveIterator::setGeo(const GeometryPtr& geo)
 {
+    OSG_ASSERT(geo != NullFC);
+
     _geo     = geo;
     _types   = geo->getTypes();
     _lengths = geo->getLengths();

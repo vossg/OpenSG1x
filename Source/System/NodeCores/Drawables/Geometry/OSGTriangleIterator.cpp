@@ -287,6 +287,8 @@ TriangleIterator& TriangleIterator::operator =(const TriangleIterator &source)
 {
     if(this == &source)
         return *this;
+
+    *static_cast<Inherited *>(this) = source;
     
     this->_triIndex         = source._triIndex;
     this->_actPrimIndex     = source._actPrimIndex;
@@ -301,19 +303,23 @@ TriangleIterator& TriangleIterator::operator =(const TriangleIterator &source)
 
 bool TriangleIterator::operator <(const TriangleIterator &other) const
 {
-    return this < &other ||
-           (this == &other &&
-              _actPrimIndex < other._actPrimIndex);
+    return 
+          (*static_cast<const Inherited *>(this) <  other) ||
+        ( (*static_cast<const Inherited *>(this) == other)             &&
+          _actPrimIndex                          <  other._actPrimIndex);
 }
 
 bool TriangleIterator::operator ==(const TriangleIterator &other) const
 {
     if(isAtEnd() && other.isAtEnd())
         return true;
+
     if(isAtEnd() || other.isAtEnd())
         return false;
-    return this == &other &&
-            _actPrimIndex == other._actPrimIndex;
+
+    return 
+        (*static_cast<const Inherited *>(this) == other              ) &&
+        _actPrimIndex                          == other._actPrimIndex;
 }
 
 bool TriangleIterator::operator !=(const TriangleIterator &other) const
