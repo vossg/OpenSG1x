@@ -18,9 +18,6 @@ hello:                  The simplest OpenSG program. Just creates a torus.
 
 move:                   How to use transformations.
 
-refcount:               How to destroy objects, and how to prevent them from 
-                        being destroyed.
-
 share:                  Sharing the cores between different nodes.
 
 hiertransform:          Demonstrates the hierarchical accumulative effects of
@@ -43,7 +40,7 @@ picking:                Using a ray test to select objects/faces.
 
 
 The directory contains a test image that can be passed to materials to be used
-as a texture: osg_power_trans.tif, which is the "Powered by OpenSG" logo
+as a texture: osg_power_trans.rgb, which is the "Powered by OpenSG" logo
 image. 
 
 It also contains two little test models: a set of dolphins in OBJ
