@@ -53,7 +53,7 @@ public:
 
     virtual TXFGlyphInfo    *getTXFGlyphInfo(UInt8 ascii);
 
-    virtual bool            dump(ostream &out);
+    virtual bool            dump(std::ostream &out);
 };
 
 OSG_END_NAMESPACE typedef osg::TTFontStyle * TTFontStyleP;

@@ -439,7 +439,7 @@ TXFGlyphInfo *TTFontStyle::getTXFGlyphInfo(UInt8 which)
 }
 
 /* */
-bool TTFontStyle::dump(ostream &out)
+bool TTFontStyle::dump(std::ostream &out)
 {
     const Int32 *bb;
     UInt32      swapit = 0x12345678;
