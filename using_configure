@@ -2,10 +2,13 @@
 How to use configure is quite straight forward. But be warned it is still
 considered to be experimental. See ./configure --help for available options.
 
+IMPORTANT NODE
+If you created the links required by previous versions of the configure method
+delete them and update again.
+
 All platforms
 
 cd <..../OpenSG>
-cd Experimental
 autoconf
 
 IRIX :
@@ -42,13 +45,13 @@ as an alternative you can do gmake install and add lib/dbg to your path.
 to make a test program
 cd SystemTest
 make testWindowGLUT
-./testWindowGLUT ../../../../Loader/dino.raw
+./testWindowGLUT ../../../Loader/dino.raw
 
 
 To make the VRML Loader test program you need to be in SystemTest and
-ln -s ../../../VRMLLoader/std.wrl .
+ln -s ../../../Experimental/VRMLLoader/std.wrl .
 make testVRMLRender
-./testVRMLRender ../../../VRMLLoader/tie.wrl
+./testVRMLRender ../../../Experimental/VRMLLoader/tie.wrl
 Used keys: a s z x c w ESC
 
 
