@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGNurbsDef.h"
+#include "OSGSystemDef.h"
 #include <OSGConfig.h>
 
 #include "OSGdctptypes.h"
