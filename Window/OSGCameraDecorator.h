@@ -86,9 +86,6 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecorator : public CameraDecoratorBase
     virtual void getViewing              (Matrix        &result, 
                                           UInt32 width, UInt32 height);
 
-    virtual void getFrustum              (FrustumVolume &result,
-                                          const Viewport& port);
-    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
@@ -139,6 +136,6 @@ OSG_END_NAMESPACE
 #include <OSGCameraDecoratorBase.inl>
 #include <OSGCameraDecorator.inl>
 
-#define OSGCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGCameraDecorator.h,v 1.9 2002/04/01 14:25:22 vossg Exp $"
+#define OSGCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGCameraDecorator.h,v 1.10 2002/05/13 16:24:41 mroth Exp $"
 
 #endif /* _OSGCAMERADECORATOR_H_ */

@@ -131,12 +131,6 @@ void CameraDecorator::getViewing(Matrix &result,
     getDecoratee()->getViewing(result, width, height);
 }
 
-void CameraDecorator::getFrustum( FrustumVolume& result, const Viewport& p )
-{
-    getDecoratee()->getFrustum(result, p);
-}
-
-
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
 
@@ -150,7 +144,7 @@ void CameraDecorator::getFrustum( FrustumVolume& result, const Viewport& p )
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.9 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.10 2002/05/13 16:24:40 mroth Exp $";
     static char cvsid_hpp[] = OSGCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGCAMERADECORATOR_INLINE_CVSID;
 }
