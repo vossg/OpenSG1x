@@ -737,6 +737,48 @@ class ConstFCPtr : public BasePtrTypeT
     friend class FieldContainer;
 };
 
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+    CPEditor class to wrap begin/endEditCP in an auto_ptr-like object
+ */
+
+class OSG_SYSTEMLIB_DLLMAPPING CPEditor
+{
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+  
+    inline CPEditor(void);
+    
+    inline CPEditor(const FieldContainerPtr fc, const BitVector mask);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+    
+    inline ~CPEditor();
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+  
+    FieldContainerPtr   _fc;
+    BitVector           _mask;
+};
+
+/*! \ingroup GrpSystemFieldContainerFuncs
+    Helper macro to simplify using CPEditor
+ */
+
+#define CPEdit(fc,mask) \
+ CPEditor CPEdit_##fc((fc),(mask))
+
 #ifdef __sgi
 #pragma reset woff 1375
 #endif

@@ -1123,6 +1123,23 @@ void FieldContainerPtrBase::executeSync(UInt32    uiFromAspect,
     pTo->changed(whichField, ChangedOrigin::Sync);
 }
 
+// CPEditor definition
+
+CPEditor::CPEditor(void) : _fc(NullFC), _mask(0)
+{}
+    
+CPEditor::CPEditor(const FieldContainerPtr fc, const BitVector mask)
+    : _fc(fc), _mask(mask)
+{
+    beginEditCP(fc, mask);
+}
+    
+CPEditor::~CPEditor()
+{
+    if(_fc != NullFC)
+        endEditCP(_fc, _mask);
+}
+
 OSG_END_NAMESPACE
 
 #define OSGFIELDCONTAINERPTR_INLINE_CVSID "@(#)$Id: $"
