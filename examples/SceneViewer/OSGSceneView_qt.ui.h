@@ -146,9 +146,15 @@ void OSGSceneView::setActiveNode( osg::NodePtr node )
   std::string val;
   osg::MFFieldContainerPtr* mfFieldPtr;
   QString qval;
-
+  std::list<QWidget*>::iterator wI;
+  osg::OSGQGLManagedWidget *w;
+  
   activeNode = node;
   
+  for (wI = viewList.begin(); wI != viewList.end(); ++wI)
+    if ((w = dynamic_cast<osg::OSGQGLManagedWidget*>(*wI)))
+      w->getManager().setHighlight(node);
+   
   if (node != osg::NullFC) 
     {
       core = node->getCore();
