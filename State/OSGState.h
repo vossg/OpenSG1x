@@ -101,13 +101,17 @@ class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
     bool          chunkPresent ( UInt32 id );
     bool          chunkPresent ( StateChunkPtr chunk );
 
-    void           addChunk     ( StateChunkPtr chunk, Int32 index = -1 );
+    enum          { AutoSlot = -1, AutoSlotReplace = -2 };
+    
+    void          addChunk     ( StateChunkPtr chunk, 
+                                 Int32         index = AutoSlotReplace );
 
-    void           subChunk     ( StateChunkPtr chunk, Int32 index = -1 );
+    void          subChunk     ( StateChunkPtr chunk, 
+                                 Int32         index = AutoSlotReplace );
 
-    void           subChunk     ( UInt32 classid, Int32 index = -1 );
+    void          subChunk     ( UInt32 classid, Int32 index = -1 );
 
-    void           clearChunks  (void);
+    void          clearChunks  (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
