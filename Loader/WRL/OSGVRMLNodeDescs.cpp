@@ -55,6 +55,7 @@
 #include <OSGGeometry.h>
 #include <OSGMaterialGroup.h>
 #include <OSGSimpleGeometry.h>
+#include <OSGExtrusionGeometry.h>
 #include <OSGTextureChunk.h>
 #include <OSGGeoFunctions.h>
 #include <OSGDistanceLOD.h>
@@ -4388,6 +4389,8 @@ void VRMLExtrusionDesc::endNode(FieldContainerPtr pFC)
     const FieldDescription *pDesc  = NULL;
           NodePtr           pNode  = NullFC;
 
+    FLOG (("Run VRMLExtrusionDesc::endNode()\n"));
+
     if(pFC == NullFC)
         return;
 
@@ -4534,20 +4537,21 @@ void VRMLExtrusionDesc::endNode(FieldContainerPtr pFC)
         PINFO << "VRMLExtrusionDesc::endNode"
               << endl;
 #endif
-        
-/*
-        GeometryPtr pGeo = makeExtrusionGeo(pBeginCap    ->getValue (),
-                                            pCcw         ->getValue (),
-                                            pConvex      ->getValue (),
-                                            pCreaseAngle ->getValue (),
-                                            pCrossSection->getValues(),
-                                            pEndCap      ->getValue (),
-                                            pOrientation ->getValues(),
-                                            pScale       ->getValues(),
-                                            pSolid       ->getValue (),
-                                            pSpine       ->getValues());
-                                           
-*/
+
+        // TODO: creaseAngle/numOfSubdivision param/handling ?
+
+        GeometryPtr pGeo = makeExtrusionGeo ( pCrossSection->getValues(),
+                                              pOrientation ->getValues(),
+                                              pScale       ->getValues(),
+                                              pSpine       ->getValues(),
+                                              pBeginCap    ->getValue (),
+                                              pEndCap      ->getValue (),
+                                              pCcw         ->getValue (),
+                                              pConvex      ->getValue (),
+                                              true, // buildNormal
+                                              true, // buildTexCoord
+                                              0     // numOfSubdivision
+                                              );                                           
 
 
 // snip remove later
@@ -4563,7 +4567,6 @@ void VRMLExtrusionDesc::endNode(FieldContainerPtr pFC)
                 pSolid       ->getValue (),
                 pSpine       ->size     ());
 
-        GroupPtr pGeo = Group::create();
 // snap end remove later2       
 
         beginEditCP(pNode, Node::CoreFieldMask);
