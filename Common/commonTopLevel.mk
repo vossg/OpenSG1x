@@ -74,23 +74,23 @@ install-includes:
 	 then																	\
 		cd include; 														\
 		rm -f *.h *.inl *.h;												\
-		find $(OSGPOOL) 													\
+		find $($(PROJECTPSD)POOL)											\
 			\( -type d \( -name CVS -o -name Test -o -name include \) 		\
 			   -prune \) 													\
 			-o -type f -name '*\.hpp' -print -exec $(LINK) {} . \; ;		\
-		find $(OSGPOOL) 													\
+		find $($(PROJECTPSD)POOL)											\
 			\( -type d \( -name CVS -o -name Test -o -name include \) 		\
 			   -prune \) 													\
 			-o -type f -name '*\.h' -print -exec $(LINK) {} . \; ;			\
-		find $(OSGPOOL) 													\
+		find $($(PROJECTPSD)POOL)											\
 			\( -type d \( -name CVS -o -name Test -o -name include \)		\
 			   -prune \)													\
 			-o -type f -name '*\.inl' -print -exec $(LINK) {} . \; ;		\
 	fi;																		\
-	cd $(OSGPOOL);
+	cd $($(PROJECTPSD)POOL);
 
 install-libs:
-	@BUILDLIBS=`find $(OSGPOOL) -name '$(OBJDIR)' 	 						\
+	@BUILDLIBS=`find $($(PROJECTPSD)POOL) -name '$(OBJDIR)'					\
 						-exec find {} -name '*\.$(LIBEXT)' -print \;` ;		\
 	if [ -w lib/$(OS)$(DBG) ];												\
 	 then																	\
@@ -102,7 +102,7 @@ install-libs:
 			echo  $$t;														\
 		done																\
 	fi;																		\
-	cd $(OSGPOOL);
+	cd $($(PROJECTPSD)POOL);
 
 install: install-includes install-libs
 endif
