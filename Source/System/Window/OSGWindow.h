@@ -348,12 +348,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
     static Lock                      *_GLObjectLock;
     static Lock                      *_staticWindowLock;
+    static std::vector<GLObject  *>   _glObjects;
+    static const Char8               *_glLibraryName;
+
     static std::vector<std::string>   _registeredExtensions;
     static std::vector<std::string>   _ignoredExtensions;
     static std::vector<bool       >   _commonExtensions;
     static std::vector<std::string>   _registeredFunctions;
     static std::vector<Int32      >   _registeredFunctionExts;
-    static std::vector<GLObject  *>   _glObjects;
 
     static std::vector<GLenum     >   _registeredConstants;
 
