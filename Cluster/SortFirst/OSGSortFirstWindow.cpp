@@ -60,6 +60,8 @@ OSG_USING_NAMESPACE
 
 ClusterViewBuffer SortFirstWindow::_bufferHandler;
 
+// #define USE_VPORT_SLICES
+
 /*! \class osg::SortFirstWindow
 Cluster rendering configuration for sort first image composition
 */
@@ -122,10 +124,12 @@ void SortFirstWindow::dump(      UInt32    ,
 /** transfer server cababilities to the client
  *
  **/
-void SortFirstWindow::serverInit( WindowPtr ,
-                                  UInt32 )
+void SortFirstWindow::serverInit( WindowPtr serverWindow,
+                                  UInt32 id)
 {
-#if 0
+#if USE_VPORT_SLICES
+
+#else
     UInt32 sync;
     RenderNode renderNode;
     Connection *connection=getConnection();
@@ -277,7 +281,9 @@ void SortFirstWindow::serverSwap( WindowPtr window,
 
 void SortFirstWindow::clientInit( void )
 {
-#if 0
+#if USE_VPORT_SLICES
+
+#else
     UInt32 id;
     RenderNode renderNode;
     Connection *connection = getConnection();
@@ -346,7 +352,19 @@ void SortFirstWindow::clientPreSync( void )
     
     beginEditCP(ptr,SortFirstWindow::RegionFieldMask);
     getRegion().clear();
-#if 0
+#if USE_VPORT_SLICES
+    for(cv=0;cv<getPort().size();cv++)
+    {
+        int s=getServers().size();
+        for(i=0;i<s;i++)
+        {
+            getRegion().push_back(i/float(s)*getWidth());
+            getRegion().push_back(0);
+            getRegion().push_back((i+1)/float(s)*getWidth());
+            getRegion().push_back(1*getHeight());
+        }
+    }
+#else
     for(cv=0;cv<getPort().size();cv++)
     {
         _tileLoadBalancer->update( getPort()[cv]->getRoot() );
@@ -359,18 +377,6 @@ void SortFirstWindow::clientPreSync( void )
             getRegion().push_back(region[4*i+1]);
             getRegion().push_back(region[4*i+2]);
             getRegion().push_back(region[4*i+3]);
-        }
-    }
-#else
-    for(cv=0;cv<getPort().size();cv++)
-    {
-        int s=getServers().size();
-        for(i=0;i<s;i++)
-        {
-            getRegion().push_back(i/float(s)*getWidth());
-            getRegion().push_back(0);
-            getRegion().push_back((i+1)/float(s)*getWidth());
-            getRegion().push_back(1*getHeight());
         }
     }
 #endif
