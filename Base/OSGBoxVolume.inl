@@ -147,8 +147,8 @@ inline
 void BoxVolume::getBounds(float &xmin, float &ymin, float &zmin,
                         float &xmax, float &ymax, float &zmax ) const
 { 
-	_min.getValues(xmin, ymin, zmin); 
-	_max.getValues(xmax, ymax, zmax); 
+	_min.getSeparateValues(xmin, ymin, zmin); 
+	_max.getSeparateValues(xmax, ymax, zmax); 
 }
 
 /// get method

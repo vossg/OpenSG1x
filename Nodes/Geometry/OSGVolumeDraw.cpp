@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.5 2001/08/06 10:46:15 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGVolumeDraw.cpp,v 1.6 2001/08/07 13:45:08 neumannc Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -226,23 +226,23 @@ void osg::drawVolume ( const FrustumVolume &volume )
 	// got the points, draw them
 
     glBegin( GL_LINE_LOOP );
-	glVertex3fv( pnts[0].getValuesRef() );
-	glVertex3fv( pnts[1].getValuesRef() );
-	glVertex3fv( pnts[3].getValuesRef() );
-	glVertex3fv( pnts[2].getValuesRef() );
-	glVertex3fv( pnts[6].getValuesRef() );
-	glVertex3fv( pnts[7].getValuesRef() );
-	glVertex3fv( pnts[5].getValuesRef() );
-	glVertex3fv( pnts[4].getValuesRef() );
+	glVertex3fv( pnts[0].getValues() );
+	glVertex3fv( pnts[1].getValues() );
+	glVertex3fv( pnts[3].getValues() );
+	glVertex3fv( pnts[2].getValues() );
+	glVertex3fv( pnts[6].getValues() );
+	glVertex3fv( pnts[7].getValues() );
+	glVertex3fv( pnts[5].getValues() );
+	glVertex3fv( pnts[4].getValues() );
     glEnd();
 
     glBegin( GL_LINES );
- 	glVertex3fv( pnts[1].getValuesRef() );
- 	glVertex3fv( pnts[5].getValuesRef() );
- 	glVertex3fv( pnts[2].getValuesRef() );
- 	glVertex3fv( pnts[6].getValuesRef() );
- 	glVertex3fv( pnts[3].getValuesRef() );
- 	glVertex3fv( pnts[7].getValuesRef() );
+ 	glVertex3fv( pnts[1].getValues() );
+ 	glVertex3fv( pnts[5].getValues() );
+ 	glVertex3fv( pnts[2].getValues() );
+ 	glVertex3fv( pnts[6].getValues() );
+ 	glVertex3fv( pnts[3].getValues() );
+ 	glVertex3fv( pnts[7].getValues() );
     glEnd();
 
     return;

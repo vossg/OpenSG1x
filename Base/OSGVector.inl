@@ -149,7 +149,7 @@ void VecStorage2<ValueTypeT>::setValues(const ValueTypeT &rVal1,
  */
 
 template <class ValueTypeT> inline
-void VecStorage2<ValueTypeT>::getValues(ValueTypeT &rVal1, 
+void VecStorage2<ValueTypeT>::getSeparateValues(ValueTypeT &rVal1, 
                                         ValueTypeT &rVal2) const
 {
     rVal1 = _values[0];
@@ -281,7 +281,7 @@ void VecStorage3<ValueTypeT>::setValues(const ValueTypeT &rVal1,
  */
 
 template <class ValueTypeT> inline
-void VecStorage3<ValueTypeT>::getValues(ValueTypeT &rVal1, 
+void VecStorage3<ValueTypeT>::getSeparateValues(ValueTypeT &rVal1, 
                                         ValueTypeT &rVal2, 
                                         ValueTypeT &rVal3) const
 {
@@ -425,7 +425,7 @@ void VecStorage4<ValueTypeT>::setValues(const ValueTypeT &rVal1,
  */
 
 template <class ValueTypeT> inline
-void VecStorage4<ValueTypeT>::getValues(ValueTypeT &rVal1, 
+void VecStorage4<ValueTypeT>::getSeparateValues(ValueTypeT &rVal1, 
                                         ValueTypeT &rVal2, 
                                         ValueTypeT &rVal3, 
                                         ValueTypeT &rVal4) const
@@ -924,7 +924,7 @@ void PointInterface<ValueTypeT, StorageInterfaceT>::setValue(
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
 ValueTypeT *PointInterface<ValueTypeT, 
-                                  StorageInterfaceT>::getValuesRef(void)
+                                  StorageInterfaceT>::getValues(void)
 {
     return _values;
 }
@@ -935,7 +935,7 @@ ValueTypeT *PointInterface<ValueTypeT,
 template <class    ValueTypeT, 
           class    StorageInterfaceT> inline
 const ValueTypeT *PointInterface<ValueTypeT, 
-                                        StorageInterfaceT>::getValuesRef(
+                                        StorageInterfaceT>::getValues(
    void) const
 {
     return _values;

@@ -255,7 +255,7 @@ Action::ResultE SpotLight::drawEnter(Action * action )
 
     dir[3] = 0;
 
-    glLightfv( light, GL_SPOT_DIRECTION, dir.getValuesRef() );
+    glLightfv( light, GL_SPOT_DIRECTION, dir.getValues() );
     glLightf( light, GL_SPOT_CUTOFF, _sfSpotCutOff.getValue() );
     glLightf( light, GL_SPOT_EXPONENT, _sfSpotExponent.getValue() );
 

@@ -442,10 +442,16 @@ void TransformationMatrix<ValueTypeT>::setValue(
 template<class ValueTypeT> inline
 ValueTypeT *TransformationMatrix<ValueTypeT>::getValues(void)
 {
-    return _matrix[0].getValuesRef();
+    return _matrix[0].getValues();
 }
 
 //@}
+
+template<class ValueTypeT> inline
+const ValueTypeT *TransformationMatrix<ValueTypeT>::getValues(void) const
+{
+	return _matrix[0].getValues();
+}
 
 /*------------------------- create transformation -------------------------*/
 

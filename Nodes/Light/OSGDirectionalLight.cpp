@@ -249,7 +249,7 @@ Action::ResultE DirectionalLight::drawEnter(Action * action )
     Vec4f dir( _sfDirection.getValue() );
 
     dir[3] = 0;
-    glLightfv( light, GL_POSITION, dir.getValuesRef() );
+    glLightfv( light, GL_POSITION, dir.getValues() );
     glLightf( light, GL_SPOT_CUTOFF, 180 );
 
     glPopMatrix();

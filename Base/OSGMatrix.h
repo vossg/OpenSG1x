@@ -206,6 +206,7 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
     /*------------------------- get functions -------------------------------*/
 
     ValueTypeT *getValues(void);
+	const ValueTypeT *getValues(void) const;
     
     /*---------------------- create transformation --------------------------*/
 

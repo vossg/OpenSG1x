@@ -269,7 +269,7 @@ Action::ResultE PointLight::drawEnter(Action * action )
     Vec4f pos( _sfPosition.getValue() );
 
     pos[3] = 1;
-    glLightfv( light, GL_POSITION, pos.getValuesRef() );
+    glLightfv( light, GL_POSITION, pos.getValues() );
     glLightf( light, GL_SPOT_CUTOFF, 180 );
 
     glPopMatrix();

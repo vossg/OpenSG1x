@@ -110,7 +110,7 @@ class OSG_BASE_DLLMAPPING VecStorage2
 
     void setValues(const ValueTypeT &rVal1, const ValueTypeT &rVal2);
 
-    void getValues(ValueTypeT &rVal1, ValueTypeT &rVal2) const;
+    void getSeparateValues(ValueTypeT &rVal1, ValueTypeT &rVal2) const;
 
     ValueTypeT x(void) const;
     ValueTypeT y(void) const;
@@ -229,7 +229,7 @@ class OSG_BASE_DLLMAPPING VecStorage3
                    const ValueTypeT &rVal2, 
                    const ValueTypeT &rVal3);
 
-    void getValues(ValueTypeT &rVal1, 
+    void getSeparateValues(ValueTypeT &rVal1, 
                    ValueTypeT &rVal2, 
                    ValueTypeT &rVal3) const;
 
@@ -352,7 +352,7 @@ class OSG_BASE_DLLMAPPING VecStorage4
                    const ValueTypeT &rVal3, 
                    const ValueTypeT &rVal4);
 
-    void getValues(ValueTypeT &rVal1, 
+    void getSeparateValues(ValueTypeT &rVal1, 
                    ValueTypeT &rVal2, 
                    ValueTypeT &rVal3, 
                    ValueTypeT &rVal4) const;
@@ -518,14 +518,14 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
             {
                 for(i = 0; i < _iSize; i++)
                 {
-                    _values[i] = vec.getValuesRef()[i];
+                    _values[i] = vec.getValues()[i];
                 }
             }
             else	
             {
                 for(i = 0; i < VectorT::_iSize; i++)
                 {
-                    _values[i] = vec.getValuesRef()[i];
+                    _values[i] = vec.getValues()[i];
                 }
                 for(i = VectorT::_iSize; i < _iSize; i++)
                 {
@@ -617,7 +617,7 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
                 i < (_iSize < VectorT::_iSize ? _iSize : VectorT::_iSize); 
                 i++)
             {
-                _values[i] = vec.getValuesRef()[i];
+                _values[i] = vec.getValues()[i];
             }
         }
 
@@ -632,8 +632,8 @@ class OSG_BASE_DLLMAPPING PointInterface : public StorageInterfaceT
 
     /*------------------------- get values -------------------------------*/
 
-    ValueTypeT *getValuesRef(void);
-    const ValueTypeT *getValuesRef(void) const;
+    ValueTypeT *getValues(void);
+    const ValueTypeT *getValues(void) const;
 
     /*--------------------------- common math -------------------------------*/
 
@@ -838,14 +838,14 @@ class OSG_BASE_DLLMAPPING VectorInterface :
             {
                 for(i = 0; i < _iSize; i++)
                 {
-                    _values[i] = vec.getValuesRef()[i];
+                    _values[i] = vec.getValues()[i];
                 }
             }
             else	
             {
                 for(i = 0; i < VectorT::_iSize; i++)
                 {
-                    _values[i] = vec.getValuesRef()[i];
+                    _values[i] = vec.getValues()[i];
                 }
                 for(i = VectorT::_iSize; i < _iSize; i++)
                 {
