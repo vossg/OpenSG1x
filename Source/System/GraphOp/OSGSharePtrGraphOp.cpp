@@ -64,6 +64,12 @@ A class used to create indexed geometries.
 */
 
 /***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+std::set<FieldContainerPtr> SharePtrGraphOp::_added_cores;
+
+/***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
 
@@ -106,7 +112,10 @@ bool SharePtrGraphOp::traverse(NodePtr& root)
 
     bool result = true;
     compareFCs(root);
-    
+    // HACK but doing it directly in compareFCs() leads to crash while destroying the
+    // scenegraph and this only with one special geometry file ...
+    fillAttachmentParents(root);
+
     FLOG(("Shared %u ptrs with types", _share_counter));
 
     for(fcsMap::iterator i = _fctypes.begin();i != _fctypes.end();++i)
@@ -245,6 +254,7 @@ FieldContainerPtr SharePtrGraphOp::compareFCs(const FieldContainerPtr &fc)
                         fcb.setParentFieldPos(fdesc->getFieldId());
                         beginEditCP(attachment, Attachment::ParentsFieldMask);
                             attachment->addParent(fc);
+                            //((MFFieldContainerPtr *) attachment->getField("parents"))->clear();
                         endEditCP(attachment, Attachment::ParentsFieldMask);
                     }
 #endif
@@ -496,4 +506,158 @@ bool SharePtrGraphOp::isEqual(const osg::FieldContainerPtr &a,
         }
     }
     return true;
+}
+
+Action::ResultE SharePtrGraphOp::clearAttachmentParent(NodePtr &node)
+{
+    if(node == NullFC)
+        return Action::Continue;
+
+    FieldContainerPtr fc = node->getCore();
+
+    if(fc == NullFC)
+        return Action::Continue;
+
+    // the core could be shared this would lead to duplicated parent entries.
+    if(_added_cores.count(fc) == 1)
+        return Action::Continue;
+
+    _added_cores.insert(fc);
+
+    FieldContainerType  &fcType = fc->getType();
+
+    //go through all fields
+    for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
+    {
+        FieldDescription    *fDesc = fcType.getFieldDescription(i);
+        Field               *fieldPtr = fc->getField(i);
+        const FieldType     &fType = fieldPtr->getType();
+        std::string         fieldType = fType.getCName();
+        BitVector           mask = fDesc->getFieldMask();
+
+        if(fDesc->isInternal())
+        {
+            continue;
+        }
+
+        if(strstr(fieldType.c_str(), "Ptr") != NULL)
+        {
+            if(fieldType[0] == 'S' && fieldType[1] == 'F') // single field
+            {
+                AttachmentPtr attachment =
+                    AttachmentPtr::dcast(((SFFieldContainerPtr *) fieldPtr)
+                    ->getValue());
+                if(attachment != NullFC)
+                {
+                    fc.setParentFieldPos(fDesc->getFieldId());
+                    beginEditCP(attachment, Attachment::ParentsFieldMask);
+                        ((MFFieldContainerPtr *) attachment->getField("parents"))->clear();
+                    endEditCP(attachment, Attachment::ParentsFieldMask);
+                }
+            }
+            else if(fieldType[0] == 'M' && fieldType[1] == 'F') // multi field
+            {
+                MFFieldContainerPtr *mfield = (MFFieldContainerPtr *) fieldPtr;
+                UInt32 noe = mfield->size();
+                for(UInt32 j = 0; j < noe; ++j)
+                {
+                    AttachmentPtr attachment =
+                        AttachmentPtr::dcast((*(mfield))[j]);
+                    if(attachment != NullFC)
+                    {
+                        fc.setParentFieldPos(fDesc->getFieldId());
+                        beginEditCP(attachment, Attachment::ParentsFieldMask);
+                            ((MFFieldContainerPtr *) attachment->getField("parents"))->clear();
+                        endEditCP(attachment, Attachment::ParentsFieldMask);
+                    }
+                }
+            }
+        }
+    }
+
+    return Action::Continue;
+}
+
+Action::ResultE SharePtrGraphOp::addAttachmentParent(NodePtr &node)
+{
+    if(node == NullFC)
+        return Action::Continue;
+
+    FieldContainerPtr fc = node->getCore();
+
+    if(fc == NullFC)
+        return Action::Continue;
+
+    // the core could be shared this would lead to duplicated parent entries.
+    if(_added_cores.count(fc) == 1)
+        return Action::Continue;
+
+    _added_cores.insert(fc);
+
+    FieldContainerType  &fcType = fc->getType();
+
+    //go through all fields
+    for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
+    {
+        FieldDescription    *fDesc = fcType.getFieldDescription(i);
+        Field               *fieldPtr = fc->getField(i);
+        const FieldType     &fType = fieldPtr->getType();
+        std::string         fieldType = fType.getCName();
+        BitVector           mask = fDesc->getFieldMask();
+
+        if(fDesc->isInternal())
+        {
+            continue;
+        }
+
+        if(strstr(fieldType.c_str(), "Ptr") != NULL)
+        {
+            if(fieldType[0] == 'S' && fieldType[1] == 'F') // single field
+            {
+                AttachmentPtr attachment =
+                    AttachmentPtr::dcast(((SFFieldContainerPtr *) fieldPtr)
+                    ->getValue());
+                if(attachment != NullFC)
+                {
+                    fc.setParentFieldPos(fDesc->getFieldId());
+                    beginEditCP(attachment, Attachment::ParentsFieldMask);
+                        attachment->addParent(fc);
+                    endEditCP(attachment, Attachment::ParentsFieldMask);
+                }
+            }
+            else if(fieldType[0] == 'M' && fieldType[1] == 'F') // multi field
+            {
+                MFFieldContainerPtr *mfield = (MFFieldContainerPtr *) fieldPtr;
+                UInt32 noe = mfield->size();
+                for(UInt32 j = 0; j < noe; ++j)
+                {
+                    AttachmentPtr attachment =
+                        AttachmentPtr::dcast((*(mfield))[j]);
+                    if(attachment != NullFC)
+                    {
+                        fc.setParentFieldPos(fDesc->getFieldId());
+                        beginEditCP(attachment, Attachment::ParentsFieldMask);
+                            attachment->addParent(fc);
+                        endEditCP(attachment, Attachment::ParentsFieldMask);
+                    }
+                }
+            }
+        }
+    }
+
+    return Action::Continue;
+}
+
+void SharePtrGraphOp::fillAttachmentParents(const NodePtr &node)
+{
+    if(node == NullFC)
+        return;
+
+    _added_cores.clear();
+    OSG::traverse(node, osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
+                     NodePtr>(clearAttachmentParent));
+    _added_cores.clear();
+    OSG::traverse(node, osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
+                     NodePtr>(addAttachmentParent));
+    _added_cores.clear();
 }

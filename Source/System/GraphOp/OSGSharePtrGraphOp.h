@@ -118,14 +118,19 @@ private:
     static bool isEqual(const osg::FieldContainerPtr &a,
                         const osg::FieldContainerPtr &b);
 
+    static Action::ResultE clearAttachmentParent(NodePtr &node);
+    static Action::ResultE addAttachmentParent(NodePtr &node);
+    static void fillAttachmentParents(const NodePtr &node);
+
     typedef std::set<FieldContainerPtr> fcsSet;
     typedef std::map<std::string, fcsSet> fcsMap;
     fcsMap      _fctypes;
 
-    std::vector<std::string> _includes;
-    std::vector<std::string> _excludes;
+    std::vector<std::string>            _includes;
+    std::vector<std::string>            _excludes;
+    UInt32                              _share_counter;
 
-    UInt32      _share_counter;
+    static std::set<FieldContainerPtr>  _added_cores;
 };
 
 OSG_END_NAMESPACE
