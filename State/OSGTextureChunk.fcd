@@ -4,7 +4,7 @@
 	name="TextureChunk"
 	parent="StateChunk"
 	library="System"
-	pointerfieldtypes="none"
+	pointerfieldtypes="both"
 	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
@@ -148,7 +148,7 @@
 	</Field>
 	<Field
 		name="genFuncSPlane"
-		type="Pnt4f"
+		type="Vec4f"
 		cardinality="single"
 		visibility="external"
 		access="public"
@@ -156,7 +156,7 @@
 	</Field>
 	<Field
 		name="genFuncTPlane"
-		type="Pnt4f"
+		type="Vec4f"
 		cardinality="single"
 		visibility="external"
 		access="public"
@@ -164,7 +164,7 @@
 	</Field>
 	<Field
 		name="genFuncRPlane"
-		type="Pnt4f"
+		type="Vec4f"
 		cardinality="single"
 		visibility="external"
 		access="public"
@@ -172,7 +172,7 @@
 	</Field>
 	<Field
 		name="genFuncQPlane"
-		type="Pnt4f"
+		type="Vec4f"
 		cardinality="single"
 		visibility="external"
 		access="public"

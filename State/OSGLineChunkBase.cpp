@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLineChunkBase.cpp,v 1.1 2002/01/04 12:57:36 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLineChunkBase.cpp,v 1.2 2002/01/09 10:27:56 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGLINECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLINECHUNKBASE_INLINE_CVSID;
 

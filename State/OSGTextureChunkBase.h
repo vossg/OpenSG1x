@@ -81,10 +81,10 @@
 #include <OSGUInt32Fields.h> // GenFuncT type
 #include <OSGUInt32Fields.h> // GenFuncR type
 #include <OSGUInt32Fields.h> // GenFuncQ type
-#include <OSGPnt4fFields.h> // GenFuncSPlane type
-#include <OSGPnt4fFields.h> // GenFuncTPlane type
-#include <OSGPnt4fFields.h> // GenFuncRPlane type
-#include <OSGPnt4fFields.h> // GenFuncQPlane type
+#include <OSGVec4fFields.h> // GenFuncSPlane type
+#include <OSGVec4fFields.h> // GenFuncTPlane type
+#include <OSGVec4fFields.h> // GenFuncRPlane type
+#include <OSGVec4fFields.h> // GenFuncQPlane type
 #include <OSGUInt32Fields.h> // GLId type
 
 #include <OSGTextureChunkFields.h>
@@ -185,10 +185,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     inline       SFUInt32            *getSFGenFuncT       (void);
     inline       SFUInt32            *getSFGenFuncR       (void);
     inline       SFUInt32            *getSFGenFuncQ       (void);
-    inline       SFPnt4f             *getSFGenFuncSPlane  (void);
-    inline       SFPnt4f             *getSFGenFuncTPlane  (void);
-    inline       SFPnt4f             *getSFGenFuncRPlane  (void);
-    inline       SFPnt4f             *getSFGenFuncQPlane  (void);
+    inline       SFVec4f             *getSFGenFuncSPlane  (void);
+    inline       SFVec4f             *getSFGenFuncTPlane  (void);
+    inline       SFVec4f             *getSFGenFuncRPlane  (void);
+    inline       SFVec4f             *getSFGenFuncQPlane  (void);
     inline       SFUInt32            *getSFGLId           (void);
 
     inline       ImageP              &getImage          (void);
@@ -219,14 +219,14 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     inline const UInt32              &getGenFuncR       (void) const;
     inline       UInt32              &getGenFuncQ       (void);
     inline const UInt32              &getGenFuncQ       (void) const;
-    inline       Pnt4f               &getGenFuncSPlane  (void);
-    inline const Pnt4f               &getGenFuncSPlane  (void) const;
-    inline       Pnt4f               &getGenFuncTPlane  (void);
-    inline const Pnt4f               &getGenFuncTPlane  (void) const;
-    inline       Pnt4f               &getGenFuncRPlane  (void);
-    inline const Pnt4f               &getGenFuncRPlane  (void) const;
-    inline       Pnt4f               &getGenFuncQPlane  (void);
-    inline const Pnt4f               &getGenFuncQPlane  (void) const;
+    inline       Vec4f               &getGenFuncSPlane  (void);
+    inline const Vec4f               &getGenFuncSPlane  (void) const;
+    inline       Vec4f               &getGenFuncTPlane  (void);
+    inline const Vec4f               &getGenFuncTPlane  (void) const;
+    inline       Vec4f               &getGenFuncRPlane  (void);
+    inline const Vec4f               &getGenFuncRPlane  (void) const;
+    inline       Vec4f               &getGenFuncQPlane  (void);
+    inline const Vec4f               &getGenFuncQPlane  (void) const;
     inline       UInt32              &getGLId           (void);
     inline const UInt32              &getGLId           (void) const;
 
@@ -249,10 +249,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     inline void setGenFuncT       ( const UInt32 &value );
     inline void setGenFuncR       ( const UInt32 &value );
     inline void setGenFuncQ       ( const UInt32 &value );
-    inline void setGenFuncSPlane  ( const Pnt4f &value );
-    inline void setGenFuncTPlane  ( const Pnt4f &value );
-    inline void setGenFuncRPlane  ( const Pnt4f &value );
-    inline void setGenFuncQPlane  ( const Pnt4f &value );
+    inline void setGenFuncSPlane  ( const Vec4f &value );
+    inline void setGenFuncTPlane  ( const Vec4f &value );
+    inline void setGenFuncRPlane  ( const Vec4f &value );
+    inline void setGenFuncQPlane  ( const Vec4f &value );
     inline void setGLId           ( const UInt32 &value );
 
     /*! \}                                                                 */
@@ -313,10 +313,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     SFUInt32            _sfGenFuncT;
     SFUInt32            _sfGenFuncR;
     SFUInt32            _sfGenFuncQ;
-    SFPnt4f             _sfGenFuncSPlane;
-    SFPnt4f             _sfGenFuncTPlane;
-    SFPnt4f             _sfGenFuncRPlane;
-    SFPnt4f             _sfGenFuncQPlane;
+    SFVec4f             _sfGenFuncSPlane;
+    SFVec4f             _sfGenFuncTPlane;
+    SFVec4f             _sfGenFuncRPlane;
+    SFVec4f             _sfGenFuncQPlane;
     SFUInt32            _sfGLId;
 
     /*! \}                                                                 */
@@ -365,6 +365,6 @@ typedef TextureChunkBase *TextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.19 2001/11/30 12:10:01 vossg Exp $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.20 2002/01/09 10:27:56 dirk Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */

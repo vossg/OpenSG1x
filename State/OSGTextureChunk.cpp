@@ -74,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.26 2001/12/07 10:16:10 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.27 2002/01/09 10:27:56 dirk Exp $";
 
 StateChunkClass TextureChunk::_class("Texture");
 
@@ -507,8 +507,8 @@ void TextureChunk::handleGL( Window *win, UInt32 id )
                                                 width, height, depth,
                                                 externalFormat, type, data );
 #  else
-                            FWARNING(("TextureChunk::initialize: 3d textures"
-                                      "supported, but GLU version < 1.3, thus"
+                            FWARNING(("TextureChunk::initialize: 3d textures "
+                                      "supported, but GLU version < 1.3, thus "
                                       "gluBuild3DMipmaps not supported!\n"));
 #  endif
                             break;

@@ -73,6 +73,23 @@
 #include <GL/gl.h>                        // GenFuncR default header
 #include <GL/gl.h>                        // GenFuncQ default header
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<TextureChunkPtr>::_type("TextureChunkPtr", "StateChunkPtr", true);
+
+#if defined(__sgi)
+
+#pragma instantiate SField<TextureChunkPtr>::_fieldType
+#pragma instantiate MField<TextureChunkPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
@@ -82,7 +99,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.22 2001/11/30 12:10:01 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.23 2002/01/09 10:27:56 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 
@@ -196,16 +213,16 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
 /*! \var UInt32          TextureChunkBase::_sfGenFuncQ
     
 */
-/*! \var Pnt4f           TextureChunkBase::_sfGenFuncSPlane
+/*! \var Vec4f           TextureChunkBase::_sfGenFuncSPlane
     
 */
-/*! \var Pnt4f           TextureChunkBase::_sfGenFuncTPlane
+/*! \var Vec4f           TextureChunkBase::_sfGenFuncTPlane
     
 */
-/*! \var Pnt4f           TextureChunkBase::_sfGenFuncRPlane
+/*! \var Vec4f           TextureChunkBase::_sfGenFuncRPlane
     
 */
-/*! \var Pnt4f           TextureChunkBase::_sfGenFuncQPlane
+/*! \var Vec4f           TextureChunkBase::_sfGenFuncQPlane
     
 */
 /*! \var UInt32          TextureChunkBase::_sfGLId
@@ -285,22 +302,22 @@ FieldDescription *TextureChunkBase::_desc[] =
                      GenFuncQFieldId, GenFuncQFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFGenFuncQ),
-    new FieldDescription(SFPnt4f::getClassType(), 
+    new FieldDescription(SFVec4f::getClassType(), 
                      "genFuncSPlane", 
                      GenFuncSPlaneFieldId, GenFuncSPlaneFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFGenFuncSPlane),
-    new FieldDescription(SFPnt4f::getClassType(), 
+    new FieldDescription(SFVec4f::getClassType(), 
                      "genFuncTPlane", 
                      GenFuncTPlaneFieldId, GenFuncTPlaneFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFGenFuncTPlane),
-    new FieldDescription(SFPnt4f::getClassType(), 
+    new FieldDescription(SFVec4f::getClassType(), 
                      "genFuncRPlane", 
                      GenFuncRPlaneFieldId, GenFuncRPlaneFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFGenFuncRPlane),
-    new FieldDescription(SFPnt4f::getClassType(), 
+    new FieldDescription(SFVec4f::getClassType(), 
                      "genFuncQPlane", 
                      GenFuncQPlaneFieldId, GenFuncQPlaneFieldMask,
                      false,

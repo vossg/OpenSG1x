@@ -60,6 +60,8 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
+#include <OSGTransformChunkFields.h>
+
 OSG_BEGIN_NAMESPACE
 
 class TextureTransformChunk;
@@ -71,6 +73,6 @@ typedef FCPtr<TransformChunkPtr, TextureTransformChunk> TextureTransformChunkPtr
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURETRANSFORMCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunkFields.h,v 1.1 2001/12/03 21:46:42 dirk Exp $"
+#define OSGTEXTURETRANSFORMCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunkFields.h,v 1.2 2002/01/09 10:27:56 dirk Exp $"
 
 #endif /* _OSGTEXTURETRANSFORMCHUNKFIELDS_H_ */
