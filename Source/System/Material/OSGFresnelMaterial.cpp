@@ -225,13 +225,16 @@ void FresnelMaterial::changed(BitVector whichField, UInt32 origin)
 
     if(whichField & ImageFieldMask)
     {
-        beginEditCP(_img);
-            _img->set(Image::OSG_RGBA_PF, getImage()->getWidth(), getImage()->getHeight());
-        endEditCP(_img);
-        
-        beginEditCP(_textureChunk, TextureChunk::ImageFieldMask);
-            _textureChunk->setImage(_img);
-        endEditCP(_textureChunk, TextureChunk::ImageFieldMask);
+        if(getImage() != NullFC)
+        {
+            beginEditCP(_img);
+                _img->set(Image::OSG_RGBA_PF, getImage()->getWidth(), getImage()->getHeight());
+            endEditCP(_img);
+            
+            beginEditCP(_textureChunk, TextureChunk::ImageFieldMask);
+                _textureChunk->setImage(_img);
+            endEditCP(_textureChunk, TextureChunk::ImageFieldMask);
+        }
     }
     
     if((whichField & ImageFieldMask) ||
@@ -380,7 +383,7 @@ bool FresnelMaterial::isTransparent(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterial.cpp,v 1.1 2004/02/01 20:07:03 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterial.cpp,v 1.2 2004/02/05 18:03:29 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGFRESNELMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFRESNELMATERIAL_INLINE_CVSID;
 
