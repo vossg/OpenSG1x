@@ -63,6 +63,9 @@ endif
 # Set the system we're running on
 SYSTEM := $(shell uname)
 
+# which extension to be used for executables
+EXEEXT :=
+
 # be very careful with these lines. There needs to be a space after the Unix
 # lines and nothing after the win lines!!
 
@@ -85,7 +88,8 @@ ifeq ($(findstring WIN,$(SYSTEM)),WIN)
         OS := WIN32
         CCOUT := -Fo
         LDOUT := /out:
-	LINK  := -link
+	LINK   := -link
+	EXEEXT :=.exe
 endif
 
 # Var settings
@@ -100,7 +104,7 @@ LDFLAGS = $(LINK) $(shell $(OSGCONFIG) --$(LIBTYPE) --libs Base System GLUT)
 # all tutorials in this directory
 
 TUTS :=  $(wildcard [0-9][0-9]*.cpp) 
-PROGS := $(TUTS:.cpp=) 
+PROGS := $(TUTS:.cpp=$(EXEEXT)) 
 
 # program dependencies
 
@@ -127,5 +131,5 @@ Clean: clean
 %: %.o
 	$(CC) $(LDOUT)$@ $< $(LDFLAGS)
 
-%: %.cpp
+%$(EXEEXT): %.cpp
 	$(CC) $(CCFLAGS) $< $(LDFLAGS) $(LDOUT)$@ 
