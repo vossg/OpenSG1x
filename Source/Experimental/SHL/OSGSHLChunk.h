@@ -90,7 +90,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     /*! \{                                                                 */
 
     void updateParameters(Window *win, const MFShaderParameterPtr &parameters,
-                          bool useProgram = true, bool force = false);
+                          bool useProgram = true, bool force = false,
+                          bool keepProgramActive = false);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -230,6 +231,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.15 2004/10/03 16:42:57 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.16 2005/03/28 21:23:43 dirk Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

@@ -560,7 +560,8 @@ void SHLChunk::updateProgram(Window *win)
 
 void SHLChunk::updateParameters(Window *win,
                                 const MFShaderParameterPtr &parameters,
-                                bool useProgram, bool force)
+                                bool useProgram, bool force,
+                                bool keepProgramActive)
 {
     GLuint program = (GLuint) win->getGLObjectId(getGLId());
 
@@ -728,7 +729,7 @@ void SHLChunk::updateParameters(Window *win,
         }
     }
 
-    if(useProgram)
+    if(useProgram && !keepProgramActive)
         useProgramObject(0);
 }
 
@@ -967,7 +968,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.30 2005/01/19 01:44:06 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.31 2005/03/28 21:23:31 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
