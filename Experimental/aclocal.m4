@@ -611,6 +611,8 @@ AC_DEFUN(AC_GDZ_WRITE_COMMON_QT,
 [
 dnl e5
 
+    changequote(<<, >>)dnl
+
     ac_gdz_qt_lib_e6=
     ac_gdz_qt_incdir_e6=
     ac_gdz_qt_libdir_e6=
@@ -620,8 +622,9 @@ dnl e5
         if [[ $build_os = cygwin ]]; then
            ac_gdz_qt_incdir_e6='"'`cygpath -w $ac_gdz_qt_dir/include`'"'
            ac_gdz_qt_libdir_e6='"'`cygpath -w $ac_gdz_qt_dir/lib`'"'
-           ac_gdz_qt_moc_e6='"'`cygpath -w $ac_gdz_qt_dir/bin/moc`'"'
-           ac_gdz_qt_lib_e6='qt.lib'
+           ac_gdz_qt_moc_e6=$ac_gdz_qt_dir/bin/moc
+           ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_dir/lib; ls qt[0-9]*.lib`
+            
         else
            ac_gdz_qt_incdir_e6=$ac_gdz_qt_dir/include
            ac_gdz_qt_libdir_e6=$ac_gdz_qt_dir/lib
@@ -629,6 +632,8 @@ dnl e5
            ac_gdz_qt_lib_e6='-lqt'
         fi
     fi
+
+    changequote([, ])dnl
 
     ac_gdz_common_qt_in_e6=$ac_gdz_commonconf_dir/commonQT.in
     ac_gdz_common_qt_e6=$ac_gdz_commonpackage_dir/commonQT.mk
@@ -642,3 +647,5 @@ dnl e5
 
     AC_OUTPUT($ac_gdz_common_qt_e6:$ac_gdz_common_qt_in_e6)
 ])
+
+
