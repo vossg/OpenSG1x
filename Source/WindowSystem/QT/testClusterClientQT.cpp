@@ -105,7 +105,8 @@ void ClusterClientGLWidget::paintGL()
     
     try
     {
-        _cwin->render((RenderAction *) _mgr->getAction());
+        if(_cwin != NullFC)
+            _cwin->render((RenderAction *) _mgr->getAction());
         Thread::getCurrentChangeList()->clearAll();
     }
     catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
@@ -287,6 +288,7 @@ int main( int argc, char **argv )
 
     w.setClusterWindow(clusterWindow);
     w.show();
+    w.updateGL();
     
     bool r = 0;
     try
@@ -298,6 +300,9 @@ int main( int argc, char **argv )
     {
         SLOG << e.what() << std::endl;
     }
+    
+    w.setClusterWindow(NullFC);
+    subRefCP(clusterWindow);
     
     return r;
 }
