@@ -107,6 +107,12 @@ class OSG_BASE_DLLMAPPING StringLink : public String
 
     /*------------------------- your_operators ------------------------------*/
 
+    inline const StringLink & operator =(const StringLink &obj) 
+		{
+			set( obj.str(), LINK);
+
+			return *this;
+		}
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -178,7 +184,6 @@ class OSG_BASE_DLLMAPPING StringLink : public String
 
 	// prohibit default functions (move to 'public' if you need one)
     
-    void operator =(const StringLink &source);
 };
 
 //---------------------------------------------------------------------------
