@@ -97,7 +97,7 @@ void QTWindow::changed(BitVector whichField, UInt32 origin)
 
 //! output the instance for debug purposes
 
-void QTWindow::dump(      UInt32    , 
+void QTWindow::dump(      UInt32    ,
                          const BitVector ) const
 {
     SLOG << "Dump QTWindow NI" << std::endl;
@@ -106,15 +106,15 @@ void QTWindow::dump(      UInt32    ,
 
 /*-------------------------- your_category---------------------------------*/
 
-    
-//! init the window: create the context  
+
+//! init the window: create the context
 void QTWindow::init( void )
 {
 #ifdef WIN32
     if(getGlWidget() != NULL)
     {
         setHwnd(getGlWidget()->winId());
-        
+
         Inherited::init();
     }
 #else
@@ -134,19 +134,19 @@ void QTWindow::init( void )
 
     // is the visual GL-capable ?
     int useGL;
-    glXGetConfig( getDisplay(), 
-                  vi, 
-                  GLX_USE_GL, 
+    glXGetConfig( getDisplay(),
+                  vi,
+                  GLX_USE_GL,
                   &useGL );
     if (!useGL)
     {
-        SFATAL << "Visual is not OpenGL-capable!" << endl;
-    }    
+        SFATAL << "Visual is not OpenGL-capable!" << endLog;
+    }
 
     // create the new context
     setContext(glXCreateContext(getDisplay(), vi, None, GL_TRUE));
 #endif
-    
+
     activate();
     setupGL();
 }
@@ -158,7 +158,7 @@ void QTWindow::init( void )
 OSG_BEGIN_NAMESPACE
 
 // doxygen can't find this
-#ifndef OSG_DO_DOC 
+#ifndef OSG_DO_DOC
 
 DataType FieldDataTraits<OSGQGLWidgetP>::_type("OSGQGLWidgetP", NULL);
 
