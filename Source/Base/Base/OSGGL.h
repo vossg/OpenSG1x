@@ -50,6 +50,13 @@
 #include <GL/gl.h>
 #endif
 
+// Need to define a definitely unused constant
+// OpenGL doesn't provide one... :(
+
+#define OSG_GL_UNUSED 0xffff
+
+
+
 #include <OSGGLU.h>
 
 #ifdef OSG_DEBUG
@@ -59,7 +66,8 @@
                                                     \
     while((glerr = glGetError()) != GL_NO_ERROR)    \
     {                                               \
-        FWARNING(("%s failed: %s (%#x)\n",          \
+        FWARNING(("(%s,%d): %s failed: %s (%#x)\n", \
+                __FILE__, __LINE__,                 \
                 (text),                             \
                 gluErrorString(glerr),              \
                 glerr));                            \

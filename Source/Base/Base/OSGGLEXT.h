@@ -48,7 +48,7 @@
 #include <OSGGL.h>
 #endif
 
-// Defines needed to support some OpenGL extensions
+// Defines needed to support some OpenGLF extensions
 // There's no way to get these from OpenGL. 
 // The system just has to make sure they 
 // are only used when the extensions are supported.
@@ -1025,9 +1025,25 @@
 #define GL_HALF_FLOAT_NV                  0x140B
 #endif
 
+/*---------------------------------------------------------------------*/
+/*! \name GL_EXT_blend_func_separate                                   */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+
+#ifndef GL_EXT_blend_func_separate
+#define GL_BLEND_DST_RGB_EXT              0x80C8
+#define GL_BLEND_SRC_RGB_EXT              0x80C9
+#define GL_BLEND_DST_ALPHA_EXT            0x80CA
+#define GL_BLEND_SRC_ALPHA_EXT            0x80CB
+#endif
+
+
 #ifndef GL_VERSION_1_2
 #define GL_CLAMP_TO_EDGE                  0x812F
 #endif
+
 
 #define OSGGLEXT_HEADER_CVSID "@(#)$Id: $"
 
