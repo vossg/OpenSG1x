@@ -31,6 +31,6 @@ else:
 
 if _po.getPlatform() == 'win32' and _po.getOption('qt'):
     BuildProgram(tc, 'osgAXPlugin', sources, tools=[],
-                 updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
+                 updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGWindowGLUT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
                  CPPPATH=['.', env['PREFIX'].Dir('include')],
                  CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])
