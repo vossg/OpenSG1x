@@ -152,13 +152,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \name                  Active / TravMask                           */
     /*! \{                                                                 */
 
-          bool   getActive  (void      );
-    const bool   getActive  (void      ) const;
+    bool   getActive  (void      ) const;
 
-          void   setActive  (bool   val);
+    void   setActive  (bool   val);
 
-          void   setTravMask(UInt32 val);
-          UInt32 getTravMask(void      ) const;
+    void   setTravMask(UInt32 val);
+    UInt32 getTravMask(void      ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

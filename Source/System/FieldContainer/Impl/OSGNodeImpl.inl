@@ -90,6 +90,18 @@ NodePtr Node::getChild(UInt32 childIndex)
 
 
 inline
+UInt32 Node::getTravMask(void) const
+{
+    return _sfTravMask.getValue();
+}
+
+inline
+void  Node::setTravMask(UInt32 val)
+{
+    _sfTravMask.setValue(val);
+}
+
+inline
 bool Node::getActive(void)
 {
     return getTravMask() == TypeTraits<UInt32>::getMax();
@@ -106,18 +118,6 @@ void  Node::setActive(bool val)
 {
     _sfTravMask.setValue(val ? TypeTraits<UInt32>::getMax()        :
                                TypeTraits<UInt32>::getZeroElement() );
-}
-
-inline
-UInt32 Node::getTravMask(void) const
-{
-    return _sfTravMask.getValue();
-}
-
-inline
-void  Node::setTravMask(UInt32 val)
-{
-    _sfTravMask.setValue(val);
 }
 
 /*-------------------------------------------------------------------------*/
