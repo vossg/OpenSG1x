@@ -1103,8 +1103,8 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
                 }
               }
               triCount += len - 2;
-              primitiveN++;
             }
+            primitiveN++;
             beginIndex = endIndex = -1;
           }
           else
