@@ -74,7 +74,7 @@ OSG_FC_LAST_FIELD_IDM_DEF(ChunkMaterial, StateChunksField)
 
 
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.3 2001/02/05 18:41:14 dirk Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.4 2001/02/12 02:11:01 dirk Exp $";
 
 
 FieldDescription ChunkMaterial::_desc[] = 
@@ -174,7 +174,7 @@ Bool ChunkMaterial::subChunk( StateChunkPtr chunk )
 	
 	i = _chunks.find( chunk );
 	
-	if (i != _chunks.end())
+	if (i == _chunks.end())
 	{
 		SWARNING << "ChunkMaterial::subChunk(" << this << ") has no chunk " 
 				 << chunk << endl;
@@ -187,7 +187,7 @@ Bool ChunkMaterial::subChunk( StateChunkPtr chunk )
 	
 	
 	
-void ChunkMaterial::draw( Geometry* geo, Action * action )
+void ChunkMaterial::draw( Geometry* geo, DrawAction * action )
 {
 	StatePtr state = State::create();
 
@@ -197,11 +197,11 @@ void ChunkMaterial::draw( Geometry* geo, Action * action )
 			i != _chunks.end(); i++ )
 		state->addChunk( *i );
 	
-	state->activate();
+	state->activate( action );
 	
 	geo->draw( action );
 
-	state->deactivate();
+	state->deactivate( action );
 
 	osgSubRefCP( state ); // kill it
 }

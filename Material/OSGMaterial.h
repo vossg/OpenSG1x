@@ -74,7 +74,7 @@ OSG_BEGIN_NAMESPACE
 class Geometry;
 typedef FCPtr <NodeCorePtr, Geometry> GeometryPtr;
 
-class Action;
+class DrawAction;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -135,7 +135,7 @@ class Material : public FieldContainer
 	/** sets up the OpenGL and calls the Geometry's draw method.
 	    Not sure that's the best idea. Alternative: Functor */
 	
-	virtual void draw( Geometry* geo, Action * action ) = 0;
+	virtual void draw( Geometry* geo, DrawAction * action ) = 0;
 
     /*----------------------------- access ----------------------------------*/
 

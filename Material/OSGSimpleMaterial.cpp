@@ -96,7 +96,7 @@ OSG_FC_LAST_FIELD_IDM_DEF(SimpleMaterial, TransparencyField)
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.5 2001/02/05 18:41:14 dirk Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.6 2001/02/12 02:11:01 dirk Exp $";
 
 
 FieldDescription SimpleMaterial::_desc[] = 
@@ -350,7 +350,7 @@ void	SimpleMaterial::setTransparency  ( const Real32 color )
 /*-------------------------- your_category---------------------------------*/
 	
 	
-void SimpleMaterial::draw( Geometry* geo, Action * action )
+void SimpleMaterial::draw( Geometry* geo, DrawAction * action )
 {
 	StatePtr state = State::create();
 	
@@ -378,11 +378,11 @@ void SimpleMaterial::draw( Geometry* geo, Action * action )
 			i != _chunks.end(); i++ )
 		state->addChunk( *i );
 	
-	state->activate();
+	state->activate( action );
 	
 	geo->draw( action );
 
-	state->deactivate();
+	state->deactivate( action );
 
 	osgSubRefCP( state );
 }

@@ -119,7 +119,7 @@ class OSG_MATERIAL_DLLMAPPING ChunkMaterial : public Material
 	/** sets up the OpenGL and calls the Geometry's draw method.
 	    Not sure that's the best idea. Alternative: Functor */
 	
-	virtual void draw( Geometry* geo, Action * action );
+	virtual void draw( Geometry* geo, DrawAction * action );
 
     /*----------------------------- access ----------------------------------*/
 	
