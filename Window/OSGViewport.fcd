@@ -1,0 +1,84 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="Viewport"
+	parent="FieldContainer"
+	library="Window"
+	structure="concrete"
+	pointerfieldtypes="both"
+>
+A Viewport is a part of the Window it is attached to used for rendering. Every Window
+can hold an arbitrary number of viewports.
+	<Field
+		name="left"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+	>
+	The left edge of the viewport. Values between 0 and 1 are relative to the size of
+	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the 
+	left border. All other values are illegal.
+	</Field>
+	<Field
+		name="right"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+	>
+	The right edge of the viewport. Values between 0 and 1 are relative to the size of
+	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the 
+	right border. All other values are illegal.
+	</Field>
+	<Field
+		name="bottom"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+	>
+	The bottom edge of the viewport. Values between 0 and 1 are relative to the size of
+	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the 
+	bottom border. All other values are illegal.
+	</Field>
+	<Field
+		name="top"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+	>
+	The top edge of the viewport. Values between 0 and 1 are relative to the size of
+	the Window, values &gt; 1 are absolute pixel coordinates, value == -1 means the 
+	top border. All other values are illegal.
+	</Field>
+	<Field
+		name="parent"
+		type="WindowPtr"
+		cardinality="single"
+		visibility="external"
+	>
+	The Window this viewport is contained in.
+	</Field>
+	<Field
+		name="camera"
+		type="CameraPtr"
+		cardinality="single"
+		visibility="external"
+	>
+	The Camera used to render the viewport.
+	</Field>
+	<Field
+		name="root"
+		type="NodePtr"
+		cardinality="single"
+		visibility="external"
+	>
+	The root of the tree that is displayed in this viewport.
+	</Field>
+	<Field
+		name="background"
+		type="BackgroundPtr"
+		cardinality="single"
+		visibility="external"
+	>
+	The background used to clear this viewport.
+	</Field>
+</FieldContainer>

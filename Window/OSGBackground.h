@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSG_BACKGROUND_H_
-#define _OSG_BACKGROUND_H_
+#ifndef _OSGBACKGROUND_H_
+#define _OSGBACKGROUND_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -47,9 +47,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGFieldContainer.h>
-#include "OSGWindowBase.h"
+#include <OSGConfig.h>
+
+#include <OSGBackgroundBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -59,10 +59,6 @@ OSG_BEGIN_NAMESPACE
 
 class DrawAction;
 class Viewport;
-
-class Background;
-typedef FCPtr<FieldContainerPtr, Background> BackgroundPtr;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
@@ -74,14 +70,14 @@ typedef FCPtr<FieldContainerPtr, Background> BackgroundPtr;
 /*! \brief background base class
  */
 
-class OSG_WINDOW_DLLMAPPING Background : public FieldContainer
+class OSG_WINDOW_DLLMAPPING Background : public BackgroundBase
 {
-  private:
-
-    typedef FieldContainer Inherited;
-
   public:
 
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -102,22 +98,16 @@ class OSG_WINDOW_DLLMAPPING Background : public FieldContainer
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(BackgroundPtr)
+    /*--------------------------- access fields ----------------------------*/
 
-    /*------------------------- your_category -------------------------------*/
+	virtual void clear( DrawAction * action, Viewport * port ) = 0;
 
-	virtual void clear( DrawAction * action, Viewport * port );
+    /*-------------------------- transformation ----------------------------*/
 
-    /*------------------------- your_operators ------------------------------*/
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-
-    Bool operator < (const Background &other) const;
-    
-	//Bool operator == (const Background &other) const;
-	//Bool operator != (const Background &other) const;
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
+    /*------------------------------ volume -------------------------------*/
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -146,13 +136,16 @@ class OSG_WINDOW_DLLMAPPING Background : public FieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
+    // They should all be in BackgroundBase.
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     Background(void);
+    Background(const Background &source);
     virtual ~Background(void); 
-
+    
   private:
 
     //-----------------------------------------------------------------------
@@ -163,12 +156,14 @@ class OSG_WINDOW_DLLMAPPING Background : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef BackgroundBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
-    friend class FieldContainerType;
+    friend class BackgroundBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -178,13 +173,13 @@ class OSG_WINDOW_DLLMAPPING Background : public FieldContainer
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
-
-	static FieldContainerType _type;
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
+
+    static void initMethod( void );
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -194,77 +189,23 @@ class OSG_WINDOW_DLLMAPPING Background : public FieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
-    Background(const Background &source);
-    Background & operator =(const Background &source);
+    void operator =(const Background &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
 
 /** \brief class pointer
  */
 typedef Background *BackgroundP;
 
-/** \brief BackgroundPtr
- */
-typedef FCPtr<FieldContainerPtr, Background> BackgroundPtr;
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief BackgroundPtr field traits 
- */
-template <>
-struct FieldDataTraits<BackgroundPtr> : public Traits
-{
-    enum                         { StringConvertable = 0x00  };
-
-    static Char8 *getSName(void) { return "SFBackgroundPtr"; }
-    static Char8 *getMName(void) { return "MFBackgroundPtr"; }
-};
-
-/** \brief SFBackgroundPtr
- */
-typedef SField<BackgroundPtr>       SFBackgroundPtr;
-
-#ifndef OSG_COMPILEBACKGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<BackgroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, BackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-
-/** \brief MFBackgroundPtr
- */
-typedef MField<BackgroundPtr>       MFBackgroundPtr;
-
-#ifndef OSG_COMPILEBACKGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<BackgroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, BackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
 OSG_END_NAMESPACE
 
-#include "OSGBackground.inl"
+#include <OSGBackground.inl>
+#include <OSGBackgroundBase.inl>
 
 #endif /* _OSGBACKGROUND_H_ */
-
-

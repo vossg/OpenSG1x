@@ -54,7 +54,6 @@
 #endif
 
 #define OSG_COMPILEWINDOW
-#define OSG_COMPILEPERSPEKTIVECAMERAINST
 
 #include <OSGBaseTypes.h>
 #include <OSGLog.h>
@@ -78,7 +77,7 @@ OSG_USING_NAMESPACE
 /*! \class osg::PerspectiveCamera
     \ingroup Cameras
 
-The PerspectiveCamera base class.
+A perspective camera with a symmetric frustum. 	
 
 */
 
@@ -86,50 +85,19 @@ The PerspectiveCamera base class.
  *                               Types                                     *
 \***************************************************************************/
 
-OSG_BEGIN_NAMESPACE
-
-#if defined(__sgi)
-
-#pragma instantiate SField<PerspectiveCameraPtr>::_fieldType
-#pragma instantiate MField<PerspectiveCameraPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, PerspectiveCameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, PerspectiveCameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
 char PerspectiveCamera::cvsid[] = "@(#)$Id: $";
 
-OSG_FC_FIRST_FIELD_IDM_DEF(PerspectiveCamera, DegreeField)
-OSG_FC_LAST_FIELD_IDM_DEF (PerspectiveCamera, DegreeField)
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-// Static Class Varible implementations: 
-FieldDescription PerspectiveCamera::_desc[] = 
-{
-       FieldDescription(
-           SFReal32::getClassType(),
-           "degrees", 
-           OSG_FC_FIELD_IDM_DESC(DegreeField),
-           false,
-           (FieldAccessMethod) &PerspectiveCamera::getSFDegrees),
-};
-
-FieldContainerType PerspectiveCamera::_type(
-    "PerspectiveCamera", 
-    "Camera", 
-    0,
-    (PrototypeCreateF) &PerspectiveCamera::createEmpty,
-    0,
-    _desc, 
-    sizeof(_desc));
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -147,6 +115,12 @@ FieldContainerType PerspectiveCamera::_type(
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
+
+void PerspectiveCamera::initMethod (void)
+{
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -156,7 +130,6 @@ FieldContainerType PerspectiveCamera::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(PerspectiveCamera, PerspectiveCameraPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -164,12 +137,15 @@ OSG_FIELD_CONTAINER_DEF(PerspectiveCamera, PerspectiveCameraPtr)
  */
 
 PerspectiveCamera::PerspectiveCamera(void) :
-	Inherited(), _degrees( 60 )
+    Inherited()
 {
 }
 
-PerspectiveCamera::PerspectiveCamera( const PerspectiveCamera& source) :
-	Inherited(), _degrees( source.getDegrees() )
+/** \brief Copy Constructor
+ */
+
+PerspectiveCamera::PerspectiveCamera(const PerspectiveCamera &source) :
+    Inherited(source)
 {
 }
 
@@ -180,9 +156,13 @@ PerspectiveCamera::~PerspectiveCamera(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
 
-/*---------------------------- properties ---------------------------------*/
+/** \brief react to field changes
+ */
+
+void PerspectiveCamera::changed(BitVector, ChangeMode)
+{
+}
 
 /*-------------------------- your_category---------------------------------*/
 
@@ -193,63 +173,30 @@ void PerspectiveCamera::draw( DrawAction * action, const Viewport& port )
 void PerspectiveCamera::getProjection( Matrix& result, 
 	const Viewport& port )
 {
-	MatrixPerspective( result, getDegrees() / 2, 
+	MatrixPerspective( result, getFov() / 2, 
 			port.getPixelWidth() / (float) port.getPixelHeight(), 
 			getNear(), getFar() );
 }
 	
 
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
-
-/*-------------------------- comparison -----------------------------------*/
-
 /*------------------------------- dump ----------------------------------*/
 
+/** \brief output the instance for debug purposes
+ */
+
 void PerspectiveCamera::dump(      UInt32     uiIndent, 
-                             const BitVector &bvFlags) const
+                         const BitVector &bvFlags) const
 {
 	SLOG << "Dump PerspectiveCamera NI" << endl;
 }
+
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

@@ -55,8 +55,6 @@
 #endif
 
 #define OSG_COMPILEWINDOW
-#define OSG_COMPILEWINDOWINST
-
 #include <OSGDrawAction.h>
 
 #include "OSGViewport.h"
@@ -89,7 +87,7 @@ Window objects.
 
 */
 
-/*! \class osg::Window
+/*! \class Window
     \ingroup Windows
 
 The Window base class.
@@ -100,86 +98,29 @@ The Window base class.
  *                               Types                                     *
 \***************************************************************************/
 
-OSG_BEGIN_NAMESPACE
-
-#if defined(__sgi)
-
-#pragma instantiate SField<WindowPtr>::_fieldType
-#pragma instantiate MField<WindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
-
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
 char Window::cvsid[] = "@(#)$Id: $";
 
-OSG_FC_FIRST_FIELD_IDM_DEF(Window, WidthField)
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-OSG_FC_FIELD_IDM_DEF      (Window, HeightField, WidthField )
-OSG_FC_FIELD_IDM_DEF      (Window, PortsField,  HeightField)
-
-OSG_FC_LAST_FIELD_IDM_DEF (Window, PortsField)
-
-// Static Class Varible implementations: 
-FieldDescription Window::_desc[] = 
-{
-        FieldDescription(SFUInt16::getClassType(), 
-                            "width", 
-                            OSG_FC_FIELD_IDM_DESC(WidthField),
-                            false,
-                            (FieldAccessMethod) &Window::getSFWidth),
-
-        FieldDescription(SFUInt16::getClassType(),
-                            "height", 
-                            OSG_FC_FIELD_IDM_DESC(HeightField),
-                            false,
-                            (FieldAccessMethod) &Window::getSFHeight),
-
-        FieldDescription(MFViewportPtr::getClassType(), 
-                            "ports", 
-                            OSG_FC_FIELD_IDM_DESC(PortsField),
-                            false,
-                            (FieldAccessMethod) &Window::getMFPorts),
-
-        FieldDescription(SFBool::getClassType(), 
-                            "resizePending", 
-                            OSG_FC_FIELD_IDM_DESC(ResizePendingField),
-                            true,
-                            (FieldAccessMethod) &Window::getSFResizePending),
-
-        FieldDescription(MFGLObjectFlagE::getClassType(), 
-                            "globjectflags", 
-                            OSG_FC_FIELD_IDM_DESC(GLObjectFlagsField),
-                            true,
-                            (FieldAccessMethod) &Window::getMFGLObjectFlags)
-};
-
-FieldContainerType Window::_type(
-    "Window", 
-    "FieldContainer", 
-    0,
-    NULL,
-    0,
-    _desc, 
-    sizeof(_desc));
-	
-
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 // GLobject handling
 
 Lock                      *Window::_GLObjectLock;
 vector<Window::GLObject*>  Window::_glObjects;
 vector<UInt32>             Window::_glObjectDestroyList;
 
+// GL extension handling
+
+vector<String>			   Window::_registeredExtensions;
+vector<String>			   Window::_registeredFunctions;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -197,7 +138,12 @@ vector<UInt32>             Window::_glObjectDestroyList;
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
 
+void Window::initMethod (void)
+{
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -207,7 +153,6 @@ vector<UInt32>             Window::_glObjectDestroyList;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_ABSTR_FIELD_CONTAINER_DEF(Window, WindowPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -215,29 +160,24 @@ OSG_ABSTR_FIELD_CONTAINER_DEF(Window, WindowPtr)
  */
 
 Window::Window(void) :
-	Inherited(), 
-	_ports(), _width(0), _height(0), _resizePending(), _glObjectFlags()
+    Inherited()
 {
 	// reserve index 0, illegal for most OpenGL functions
 	if ( _glObjects.empty() )
 		_glObjects.push_back( NULL );	
 }
 
-
 /** \brief Copy Constructor
  */
 
-Window::Window( const Window& source ) :
-	Inherited( source ), _ports( source._ports ), _width( source._width ), 
-	_height( source._height ), _resizePending( source._resizePending ),
-	_glObjectFlags( source._glObjectFlags )
-{	
+Window::Window(const Window &source) :
+    Inherited(source)
+{
 	// mark all flags as notused, i.e. have to initialize on use
-	for ( vector<GLObjectFlagE>::iterator it = _glObjectFlags.begin();
+	for ( vector<UInt32>::iterator it = _glObjectFlags.begin();
 			it != _glObjectFlags.end(); ++it )
 		*it = notused;
 }
-
 
 /** \brief Destructor
  */
@@ -247,6 +187,14 @@ Window::~Window(void)
 	// delete the ports and the context
 }
 
+
+/** \brief react to field changes
+ */
+
+void Window::changed(BitVector, ChangeMode)
+{
+}
+
 /*------------------------------ access -----------------------------------*/
 
 
@@ -254,20 +202,20 @@ void Window::addPort(const ViewportPtr &portP)
 {
     if(portP != NullFC)
     {
-        _ports.addValue(portP);
-        _ports.back()->setParent(FieldContainer::getPtr<WindowPtr>(*this));
+        _port.addValue(portP);
+        _port.back()->setParent(FieldContainer::getPtr<WindowPtr>(*this));
     }
 }
 
 void Window::insertPort(UInt32 portIndex, const ViewportPtr &portP)
 {    
-    MFViewportPtr::iterator portIt = _ports.begin();
+    MFViewportPtr::iterator portIt = _port.begin();
 
     if(portP != NullFC)
     {
         portIt += portIndex;
         
-        (*(_ports.insert(portIt, portP)))->setParent(
+        (*(_port.insert(portIt, portP)))->setParent(
             FieldContainer::getPtr<WindowPtr>(*this));
     }
 }
@@ -277,9 +225,9 @@ void Window::replacePort(UInt32 portIndex, const ViewportPtr &portP)
 {
     if(portP != NullFC)
     {
-        _ports.getValue(portIndex)->setParent(WindowPtr::NullPtr);
-        _ports.getValue(portIndex) = portP;
-        _ports.getValue(portIndex)->setParent(
+        _port.getValue(portIndex)->setParent(WindowPtr::NullPtr);
+        _port.getValue(portIndex) = portP;
+        _port.getValue(portIndex)->setParent(
             FieldContainer::getPtr<WindowPtr>(*this));
     }
 }
@@ -287,11 +235,11 @@ void Window::replacePort(UInt32 portIndex, const ViewportPtr &portP)
 void Window::replacePortBy(const ViewportPtr &portP, 
                              const ViewportPtr &newportP)
 {
-    MFViewportPtr::iterator portIt = _ports.find(portP);
+    MFViewportPtr::iterator portIt = _port.find(portP);
 
     if(newportP != NullFC)
     {
-        if(portIt != _ports.end())
+        if(portIt != _port.end())
         {
             (*portIt)->setParent(WindowPtr::NullPtr);
             (*portIt) = newportP;
@@ -303,43 +251,30 @@ void Window::replacePortBy(const ViewportPtr &portP,
 
 void Window::subPort(const ViewportPtr &portP)
 {
-    MFViewportPtr::iterator portIt = _ports.find(portP);
+    MFViewportPtr::iterator portIt = _port.find(portP);
 
-    if(portIt != _ports.end())
+    if(portIt != _port.end())
     {
         (*portIt)->setParent(WindowPtr::NullPtr);
 
-        _ports.erase(portIt);
+        _port.erase(portIt);
     }
 
 }
 
 void Window::subPort(UInt32  portIndex)
 {
-    MFViewportPtr::iterator portIt = _ports.begin();
+    MFViewportPtr::iterator portIt = _port.begin();
 
     portIt += portIndex;
 
-    if(portIt != _ports.end())
+    if(portIt != _port.end())
     {
         (*portIt)->setParent(WindowPtr::NullPtr);
 
-        _ports.erase(portIt);
+        _port.erase(portIt);
     }
 }
-
-ViewportPtr Window::getPort(UInt32  portIndex)
-{
-    return _ports.getValue(portIndex);
-}
-
-MFViewportPtr *Window::getMFPorts(void)
-{
-    return &_ports;
-}
-
-
-
 
 UInt32 Window::registerGLObject ( GLObjectFunctor functor, UInt32 num )
 {
@@ -470,7 +405,50 @@ void Window::destroyGLObject ( UInt32 id, UInt32 num )
 	_glObjectDestroyList.push_back( num );
 }
 
-void Window::frame( void )
+void Window::dumpExtensions ( void )
+{	
+	vector<String>::iterator it;
+	cout << "GL Extensions: ";
+	for ( it = _extensions.begin(); it != _extensions.end(); it++ )
+	{
+		cout << it->str() << ", ";
+	}
+	cout << endl;		
+}
+
+void Window::frameInit( void )
+{
+    // any new extension registered ? 
+    while ( _registeredExtensions.size() > _availExtensions.size() )
+    {			
+	
+        // GL extension string allready retrieved ? 
+		if ( _extensions.empty() )
+		{			
+			// if not, retrieve and split it
+			String s = String( (Char8 *)glGetString(GL_EXTENSIONS) );
+			s.tokenize( _extensions );
+			sort( _extensions.begin(), _extensions.end() );
+		}
+				
+	    /* perform a binary search over the retrieved extension strings.
+		   Push back the result as an availability flag for the extension
+		   requested by the application */		   
+		_availExtensions.push_back( binary_search( 
+ 					   _extensions.begin(),
+					   _extensions.end(),
+					   _registeredExtensions[_availExtensions.size()] )  );
+	}
+	
+	while ( _registeredFunctions.size() > _extFunctions.size() )
+{	
+		_extFunctions.push_back( (void*)getFunctionByName( 
+						_registeredFunctions[ _extFunctions.size() ] ));
+	}
+
+}
+
+void Window::frameExit( void )
 {	
 	if ( _glObjectDestroyList.size() > 0 )
 	{
@@ -524,23 +502,24 @@ void Window::setupGL ( void )
 void Window::draw( DrawAction * action )
 {
 	activate();
+	frameInit();    // query recently registered GL extensions
 	
 	resizeGL();
 
 	drawAllViewports( action );
 
 	swap();
-	frame();	// after frame cleanup: delete GL objects, if needed
+	frameExit();	// after frame cleanup: delete GL objects, if needed
 }
 	
 void Window::drawAllViewports( DrawAction * action )
 {
 	DrawAction *a = dynamic_cast<DrawAction*>(action);
-	MFViewportPtr::iterator portIt = _ports.begin();
+	MFViewportPtr::iterator portIt = _port.begin();
 
 	a->setWindow( this );
 	
-	while ( portIt != _ports.end() )
+	while ( portIt != _port.end() )
 	{
 		(*portIt)->draw( action );
 		portIt++;
@@ -577,61 +556,36 @@ Window& Window::operator = (const Window &source)
 
 	setWidth( source.getWidth() );
 	setHeight( source.getHeight() );
-	_ports.setValues( source._ports.getValues() );
+	_port.setValues( source._port.getValues() );
 	_glObjectFlags.setValues( source._glObjectFlags.getValues() );
 	
 	// mark all flags as notused, i.e. have to initialize on use
-	for ( vector<GLObjectFlagE>::iterator it = _glObjectFlags.begin();
+	for ( vector<UInt32>::iterator it = _glObjectFlags.begin();
 			it != _glObjectFlags.end(); ++it )
 		*it = notused;
 	
 	return *this;
 }
 
-/*-------------------------- comparison -----------------------------------*/
 
 /*------------------------------- dump ----------------------------------*/
 
+/** \brief output the instance for debug purposes
+ */
+
 void Window::dump(      UInt32     uiIndent, 
-                  const BitVector &bvFlags) const
+                         const BitVector &bvFlags) const
 {
 	SLOG << "Dump Window NI" << endl;
 }
+
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

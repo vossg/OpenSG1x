@@ -50,18 +50,6 @@
 #include <iostream.h>
 #endif
 
-/** \fn const char *SimpleAttachment::getClassname(void)
- *  \brief Classname
- */
-
-/** \typedef SimpleAttachment::Inherited
- *  \brief Parent type
- */
-
-/** \typedef SimpleAttachment::_field
- *  \brief Data store
- */
-
 OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
@@ -84,7 +72,6 @@ OSG_BEGIN_NAMESPACE
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
@@ -97,25 +84,13 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_INL_DEF(GradientBackground, GradientBackgroundPtr)
-
 /*------------- constructors & destructors --------------------------------*/
 
 /*--------------------------- type information-----------------------------*/
 
 /*------------------------------ access -----------------------------------*/
 
-
-inline MFColor3f *GradientBackground::getMFColor( void )
-{
-	return &_color;
-}
-
-inline MFReal32 *GradientBackground::getMFPosition( void )
-{
-	return &_position;
-}
-
+/*------------------------------ access -----------------------------------*/
 inline void GradientBackground::addColor( Color3f col, Real32 pos )
 {
 	_color.addValue( col );
@@ -130,46 +105,9 @@ inline void GradientBackground::addColor( Color3f col, Real32 pos )
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-inline void GradientBackground::addColor(Color3f col)
-{
-	_color.addValue( col );
-}
-
-inline void GradientBackground::addPosition(Real32 pos)
-{
-	_position.addValue( pos );
-}
-
-inline void GradientBackground::setMFColor(MFColor3f col)
-{
-	_color.setValues(col);
-}
-
-inline void GradientBackground::setMFPosition(MFReal32 pos)
-{
-	_position.setValues(pos);
-}
-
-/*
-inline Color3f GradientBackground::getColor( void )
-{
-	return _color.getValue();
-}
-*/
-
-/*
-inline Color3f GradientBackground::getPosition( void )
-{
-	return _position.getValue();
-}
-*/
 
 
 OSG_END_NAMESPACE

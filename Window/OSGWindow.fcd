@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="Window"
+	parent="FieldContainer"
+	library="Window"
+	structure="abstract"
+	pointerfieldtypes="both"
+>
+The base class for all windows.
+	<Field
+		name="width"
+		type="UInt16"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="height"
+		type="UInt16"
+		cardinality="single"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="port"
+		type="ViewportPtr"
+		cardinality="multi"
+		visibility="external"
+	>
+	</Field>
+	<Field
+		name="resizePending"
+		type="Bool"
+		cardinality="single"
+		visibility="internal"
+	>
+	</Field>
+        <Field
+                name="glObjectFlags"
+                type="UInt32"
+                cardinality="multi"
+                visibility="internal"
+        >
+		This field will have to disappear...
+        </Field>
+</FieldContainer>

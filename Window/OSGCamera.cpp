@@ -56,7 +56,6 @@
 #endif
 
 #define OSG_COMPILEWINDOW
-#define OSG_COMPILECAMERAINST
 
 #include "OSGNode.h"
 #include "OSGFieldContainerPtr.h"
@@ -88,65 +87,19 @@ The Camera base class.
  *                               Types                                     *
 \***************************************************************************/
 
-OSG_BEGIN_NAMESPACE
-
-#if defined(__sgi)
-
-#pragma instantiate SField<CameraPtr>::_fieldType
-#pragma instantiate MField<CameraPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, CameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, CameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
 char Camera::cvsid[] = "@(#)$Id: $";
 
-OSG_FC_FIRST_FIELD_IDM_DEF(Camera, BeaconField)
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-OSG_FC_FIELD_IDM_DEF      (Camera, NearField, BeaconField)
-OSG_FC_FIELD_IDM_DEF      (Camera, FarField,  NearField)
-
-OSG_FC_LAST_FIELD_IDM_DEF (Camera, FarField)
-
-// Static Class Varible implementations: 
-FieldDescription Camera::_desc[] = 
-{
-        FieldDescription(SFNodePtr::getClassType(), 
-                            "beacon", 
-                            OSG_FC_FIELD_IDM_DESC(BeaconField),
-                            false,
-                            (FieldAccessMethod) &Camera::getSFBeacon),
-        
-        FieldDescription(SFReal32::getClassType(),
-                            "near", 
-                            OSG_FC_FIELD_IDM_DESC(NearField),
-                            false,
-                            (FieldAccessMethod) &Camera::getSFNear),
-        
-        FieldDescription(SFReal32::getClassType(),
-                            "far", 
-                            OSG_FC_FIELD_IDM_DESC(FarField),
-                            false,
-                            (FieldAccessMethod) &Camera::getSFFar),
-};
-
-FieldContainerType Camera::_type(
-    "Camera", 
-    "FieldContainer", 
-    0,
-    (PrototypeCreateF) &Camera::createEmpty,
-    0,
-    _desc, 
-    sizeof(_desc));
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -164,6 +117,12 @@ FieldContainerType Camera::_type(
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
+
+void Camera::initMethod (void)
+{
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -173,7 +132,6 @@ FieldContainerType Camera::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(Camera, CameraPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -181,13 +139,15 @@ OSG_FIELD_CONTAINER_DEF(Camera, CameraPtr)
  */
 
 Camera::Camera(void) :
-	Inherited(), _beacon(), _near(0), _far(0)
+    Inherited()
 {
 }
 
+/** \brief Copy Constructor
+ */
+
 Camera::Camera(const Camera &source) :
-	Inherited(), _beacon(source.getBeacon()), _near(source.getNear()), 
-	_far(source.getFar())
+    Inherited(source)
 {
 }
 
@@ -198,9 +158,13 @@ Camera::~Camera(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
 
-/*---------------------------- properties ---------------------------------*/
+/** \brief react to field changes
+ */
+
+void Camera::changed(BitVector, ChangeMode)
+{
+}
 	
 
 /*-------------------------- your_category---------------------------------*/
@@ -297,74 +261,24 @@ Bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)
 	return true;
 }
 
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
-
-Camera& Camera::operator = (const Camera &source)
-{
-	if (this == &source)
-		return *this;
-
-	// copy parts inherited from parent
-	// *(static_cast<Inherited *>(this)) = source;
-
-	// free mem alloced by members of 'this'
-
-	// alloc new mem for members
-
-	// copy 
-
-    return *this;
-}
-
-/*-------------------------- comparison -----------------------------------*/
-
 /*------------------------------- dump ----------------------------------*/
 
+/** \brief output the instance for debug purposes
+ */
+
 void Camera::dump(      UInt32     uiIndent, 
-                  const BitVector &bvFlags) const
+                         const BitVector &bvFlags) const
 {
 	SLOG << "Dump Camera NI" << endl;
 }
+
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

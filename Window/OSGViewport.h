@@ -36,8 +36,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSG_VIEWPORT_H_
-#define _OSG_VIEWPORT_H_
+
+#ifndef _OSGVIEWPORT_H_
+#define _OSGVIEWPORT_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -46,14 +47,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGSField.h>
-#include <OSGMField.h>
-#include <OSGFieldContainer.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGSFSysTypes.h>
-#include <OSGSFFieldContainerTypes.h>
-#include "OSGWindowBase.h"
+#include <OSGConfig.h>
+
+#include <OSGViewportBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -61,61 +57,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class Camera;
-typedef FCPtr <FieldContainerPtr, Camera> CameraPtr;
-typedef SField<CameraPtr                   > SFCameraPtr;
-
-#ifndef OSG_COMPILECAMERAINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<CameraPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, CameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-
-class Window;
-typedef FCPtr <FieldContainerPtr, Window> WindowPtr;
-typedef SField<WindowPtr                   > SFWindowPtr;
-
-#ifndef OSG_COMPILEWINDOWINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<WindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-
-class Background;
-typedef FCPtr <FieldContainerPtr, Background> BackgroundPtr;
-typedef SField<BackgroundPtr                   > SFBackgroundPtr;
-
-#ifndef OSG_COMPILEBACKGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<BackgroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, BackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-class Viewport;
-typedef FCPtr <FieldContainerPtr, Viewport> ViewportPtr;
-
 class DrawAction;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
@@ -127,28 +69,14 @@ class DrawAction;
 /*! \brief Viewport class
  */
 
-class OSG_WINDOW_DLLMAPPING Viewport : public FieldContainer
+class OSG_WINDOW_DLLMAPPING Viewport : public ViewportBase
 {
-    typedef FieldContainer Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(LeftField                   )
-
-    OSG_FC_FIELD_IDM_DECL      (RightField,      LeftField  )
-    OSG_FC_FIELD_IDM_DECL      (BottomField,     RightField )
-    OSG_FC_FIELD_IDM_DECL      (TopField,        BottomField)
-    OSG_FC_FIELD_IDM_DECL      (ParentField,     TopField   )
-    OSG_FC_FIELD_IDM_DECL      (CameraField,     ParentField)
-    OSG_FC_FIELD_IDM_DECL      (RootField,       CameraField)
-    OSG_FC_FIELD_IDM_DECL      (BackgroundField, RootField  )
-
-    OSG_FC_LAST_FIELD_IDM_DECL (BackgroundField             )
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -161,64 +89,16 @@ class OSG_WINDOW_DLLMAPPING Viewport : public FieldContainer
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    /** */
     static const char *getClassname(void) { return "Viewport"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    /*-------------- general fieldcontainer declaration --------------------*/
-
-    OSG_FIELD_CONTAINER_DECL(ViewportPtr)
-
-    /*------------------------- your_category -------------------------------*/
-
-    virtual void draw( DrawAction * action );
-
-    
-    void setParent    (WindowPtr     parent);
-    void setBackground(BackgroundPtr bkgnd); 
-    void setRoot      (NodePtr       root);
-    void setCamera    (CameraPtr     cam);
-    
-
-    WindowPtr        getParent  (void) const;
-    SFWindowPtr     *getSFParent(void);
-    
-    BackgroundPtr    getBackground  (void) const;
-    SFBackgroundPtr *getSFBackground(void);
-    
-    NodePtr          getRoot  (void) const;
-    SFNodePtr       *getSFRoot(void);
-    
-    CameraPtr        getCamera  (void) const;
-    SFCameraPtr     *getSFCamera(void);
-
+    /*----------------------------- access ----------------------------------*/
     
     void setSize(Real32 left,  Real32 bottom, 
                  Real32 right, Real32 top);
-    
-
-    void         setLeft  (Real32 left);
-    Real32    getLeft  (void) const;
-    SFReal32 *getSFLeft(void);
-
-    
-    void         setRight  (Real32 right);
-    Real32    getRight  (void) const;
-    SFReal32 *getSFRight(void);
-    
-
-    void         setBottom  (Real32 bottom);
-    Real32    getBottom  (void) const;
-    SFReal32 *getSFBottom(void);
-    
-
-    void         setTop  (Real32 top);
-    Real32    getTop  (void) const;
-    SFReal32 *getSFTop(void);
-
     
     Int32 getPixelLeft  (void) const;
     Int32 getPixelRight (void) const;
@@ -228,17 +108,16 @@ class OSG_WINDOW_DLLMAPPING Viewport : public FieldContainer
     Int32 getPixelHeight(void) const;
     
     Bool isFullWindow( void ) const;
-    
-    /*------------------------- your_operators ------------------------------*/
 
-    /*------------------------- assignment ----------------------------------*/
+    /*------------------------- your_category -------------------------------*/
 
-    /*------------------------- comparison ----------------------------------*/
+    virtual void draw( DrawAction * action );
 
-    Bool operator < (const Viewport &other) const;
-    
-    //Bool operator == (const Viewport &other) const;
-    //Bool operator != (const Viewport &other) const;
+
+    /*---------------------------- changes ----------------------------------*/
+
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -267,47 +146,16 @@ class OSG_WINDOW_DLLMAPPING Viewport : public FieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    /** Position of the viewport within the window. For 0 <= pos <= 1 it's a
-        part of the window, for pos > 1 it's in pixel, and it's from the lower 
-        left corner (OpenGL style). For part positioning the rightmost/topmost 
-        pixel is not used, to allow tight packing.
-    */  
-    
-    SFReal32      _left;
-    SFReal32      _right;
-    SFReal32      _bottom;
-    SFReal32      _top;
-    
-    /** The window this viewport is assigned to. */
-    SFWindowPtr     _parent;
-    
-    /** The camera used by this viewport, or NULL. 
-     *  If NULL, the static _defaultCamera is used. 
-     */
+    // They should all be in ViewportBase.
 
-    SFCameraPtr     _camera;
-    
-    /** The root node of this viewport, or NULL. 
-     *  If NULL, the static _defaultRoot is used. 
-     */
-
-    SFNodePtr       _root;
-    
-    /** The background for this viewport, or NULL. 
-     *  If NULL, the static _defaultBackground is used. 
-     */
-
-    SFBackgroundPtr _background;
-    
-    /** NYI: properties, callbacks  */  
-    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     Viewport(void);
+    Viewport(const Viewport &source);
     virtual ~Viewport(void); 
-
+    
   private:
 
     //-----------------------------------------------------------------------
@@ -318,13 +166,15 @@ class OSG_WINDOW_DLLMAPPING Viewport : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef ViewportBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
-    friend class FieldContainerType;
-    
+    friend class ViewportBase;
+
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
@@ -335,25 +185,23 @@ class OSG_WINDOW_DLLMAPPING Viewport : public FieldContainer
 
     static char cvsid[];
 
-    static FieldContainerType _type;
-    static FieldDescription   _desc[];
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+    static void initMethod( void );
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-    
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     // prohibit default functions (move to 'public' if you need one)
 
-    Viewport(const Viewport &source);
-    Viewport& operator =(const Viewport &source);
+    void operator =(const Viewport &source);
 };
 
 //---------------------------------------------------------------------------
@@ -365,61 +213,9 @@ class OSG_WINDOW_DLLMAPPING Viewport : public FieldContainer
  */
 typedef Viewport *ViewportP;
 
-/** \brief ViewportPtr
- */
-typedef FCPtr<FieldContainerPtr, Viewport> ViewportPtr;
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief ViewportPtr field traits 
- */
-
-template <>
-struct FieldDataTraits<ViewportPtr> : public Traits
-{
-    enum                         { StringConvertable = 0x00  };
-
-    static Char8 *getSName(void) { return "SFViewportPtr"; }
-    static Char8 *getMName(void) { return "MFViewportPtr"; }
-};
-
-/** \brief SFViewportPtr
- */
-
-typedef SField<ViewportPtr>       SFViewportPtr;
-
-#ifndef OSG_COMPILEVIEWPORTINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<ViewportPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, ViewportPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-/** \brief MFViewportPtr
- */
-
-typedef MField<ViewportPtr>       MFViewportPtr;
-
-#ifndef OSG_COMPILEVIEWPORTINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<ViewportPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, ViewportPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
 OSG_END_NAMESPACE
 
-#include "OSGViewport.inl"
+#include <OSGViewport.inl>
+#include <OSGViewportBase.inl>
 
 #endif /* _OSGVIEWPORT_H_ */

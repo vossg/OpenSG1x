@@ -36,8 +36,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSG_WINDOW_H_
-#define _OSG_WINDOW_H_
+
+#ifndef _OSGWINDOW_H_
+#define _OSGWINDOW_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -46,18 +47,11 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGFunctors.h>
-#include <OSGThreadManager.h>
-#include <OSGLock.h>
-#include <OSGSField.h>
-#include <OSGMField.h>
-#include <OSGSFSysTypes.h>
-#include <OSGFieldContainer.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGFieldDescription.h>
-#include "OSGWindowBase.h" 
+#include <OSGConfig.h>
 
+#include <OSGFunctors.h>
+
+#include <OSGWindowBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -65,30 +59,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class Viewport;
-typedef FCPtr <FieldContainerPtr, Viewport> ViewportPtr;
-typedef MField<ViewportPtr                > MFViewportPtr;
-
-#ifndef OSG_COMPILEVIEWPORTINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<ViewportPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, ViewportPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-class Pipe;
-typedef FCPtr <FieldContainerPtr, Pipe> PipePtr;
-
-class Window;
-typedef FCPtr <FieldContainerPtr, Window> WindowPtr;
-
 class DrawAction;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
@@ -97,30 +68,17 @@ class DrawAction;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \brief Window base class
+/*! \brief *put brief class description here* 
  */
 
-class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
+class OSG_WINDOW_DLLMAPPING Window : public WindowBase
 {
-  private:
-
-    typedef FieldContainer Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(WidthField)
-
-    OSG_FC_FIELD_IDM_DECL      (HeightField,		WidthField )
-    OSG_FC_FIELD_IDM_DECL      (PortsField, 		HeightField)
-    OSG_FC_FIELD_IDM_DECL      (ResizePendingField, PortsField)
-    OSG_FC_FIELD_IDM_DECL      (GLObjectFlagsField, ResizePendingField)
-
-    OSG_FC_LAST_FIELD_IDM_DECL (GLObjectFlagsField)
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -144,9 +102,8 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    /*-------------- general fieldcontainer declaration --------------------*/
-
-    OSG_ABSTR_FIELD_CONTAINER_DECL(WindowPtr)
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
 
     /*------------------------- your_category -------------------------------*/
 
@@ -163,21 +120,13 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
     void subPort      (      UInt32       portIndex);
 
 
-    ViewportPtr    getPort   (UInt32  portIndex);
-    MFViewportPtr *getMFPorts(void);
-    
-    
-    void      setWidth  (UInt16 width);
-    UInt16    getWidth  (void) const;
-    SFUInt16 *getSFWidth(void);
-    
-
-    void      setHeight  (UInt16 height);
-    UInt16    getHeight  (void) const;
-    SFUInt16 *getSFHeight(void);
-
     void setSize(UInt16 width, UInt16 height);
 
+    static UInt32   registerExtension( const String &s );
+    static UInt32   registerFunction ( const String &s );
+    Bool	    	hasExtension  	 ( UInt32 id );    
+	void           *getFunction      ( UInt32 id );
+	void 		    dumpExtensions   ( void );
 
 	static UInt32	registerGLObject ( GLObjectFunctor functor, UInt32 num );
 	void			validateGLObject ( UInt32 id );	
@@ -186,15 +135,20 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
  
     virtual void draw   			(DrawAction *action);
  	virtual void drawAllViewports 	(DrawAction *action);
-	virtual void frame  			(void);
+    virtual void    frameInit	     (void);
+    virtual void    frameExit  	     (void);
    
-	void		setResizePending ( Bool resizePending );
 	Bool		isResizePending  ( void );
  
     virtual void resize 			(int width, int height);
  	virtual void resizeGL			(void);
 	   
-    // Window-system dependent functions
+	/** GL implementation dependent functions **/
+    
+	// Query for a GL extension function 
+	virtual void	(*getFunctionByName ( const String &s ))() = 0;
+	   
+    /** Window-system dependent functions **/
     
     // init the window: create the context  
     virtual void init( void ) = 0;
@@ -202,14 +156,12 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
     // activate the window: bind the OGL context    
     virtual void activate( void ) = 0;
     
+    // deactivate the window: release the OGL context
+    virtual void deactivate ( void ) = 0;
+    
     // swap front and back buffers  
     virtual void swap( void ) = 0;
 
-    /*------------------------- your_operators ------------------------------*/
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -303,38 +255,11 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    /** The width of the window. */
-    SFUInt16		_width;
-
-    /** The height of the window. */
-    SFUInt16		_height;
-
-    /** The viewports used by the window. */
-    MFViewportPtr	_ports;
-
-    /** Flag a pending resize. */
-    SFBool  		_resizePending;
-
-    /** The GLObject flags for this window. */
-	// This should be global through all aspects
-    MFGLObjectFlagE _glObjectFlags;
-
-    /** NYI: dlist sharing brothers */
- 
-	/** GLObject stuff **/
-
-	static Lock                       *_GLObjectLock;
-
-	static vector<Window::GLObject*>  _glObjects;
-
-	static vector<UInt32>			  _glObjectDestroyList;
+    // They should all be in WindowBase.
    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-   
-    SFBool  		*getSFResizePending(void);
-    MFGLObjectFlagE *getMFGLObjectFlags(void);
 
     Window(void);
     Window(const Window &source);
@@ -353,12 +278,14 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef WindowBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
-    friend class FieldContainerType;
+    friend class WindowBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -370,16 +297,45 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
 
     static char cvsid[];
 
-    static FieldContainerType _type;
-    static FieldDescription   _desc[];
+    /** Extension stuff **/
+	
+	// contains the extensions registered by the application 
+    static vector<String>	          _registeredExtensions;
+	
+	// contains the GL extension functions registered by the application
+    static vector<String>     	      _registeredFunctions;	
+ 
+	/** GLObject stuff **/
 
+	static Lock                       *_GLObjectLock;
+	static vector<Window::GLObject*>  _glObjects;
+	static vector<UInt32>			  _glObjectDestroyList;
+   
+ 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+    static void initMethod( void );
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
+
+    /** Extension stuff **/
+		
+	// contains the split glGetString(GL_EXTENSIONS)
+	vector<String> 					  _extensions;
+
+	
+	/* contains a boolean for every registered extension which
+	   indicates, whether an extensions is available for the Window's
+	   context or not  */
+    vector<Bool>                      _availExtensions;
+
+	// contains the GL extension functions registered by the application
+	vector<void*>        	  		  _extFunctions;
+	
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -394,78 +350,14 @@ class OSG_WINDOW_DLLMAPPING Window : public FieldContainer
 //   Exported Types
 //---------------------------------------------------------------------------
 
+
 /** \brief class pointer
  */
 typedef Window *WindowP;
 
-/** \brief WindowPtr
- */
-typedef FCPtr<FieldContainerPtr, Window> WindowPtr;
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief WindowPtr field traits 
- */
-
-template <>
-struct FieldDataTraits<WindowPtr> : public Traits
-{
-    enum                         { StringConvertable = 0x00  };
-
-    static Char8 *getSName(void) { return "SFWindowPtr"; }
-    static Char8 *getMName(void) { return "MFWindowPtr"; }
-};
-
-/** \brief SFWindowPtr
- */
-
-typedef SField<WindowPtr>       SFWindowPtr;
-
-#ifndef OSG_COMPILEWINDOWINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<WindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-
-template <>
-struct FieldDataTraits<Window::GLObjectFlagE> : public Traits
-{
-    enum                           { StringConvertable = 0x00  };
-
-    static Char8 *getSName(void)   { return "SFGLObjectFlagE"; }
-    static Char8 *getMName(void)   { return "MFGLObjectFlagE"; }
-};
-
-
-/** \brief MFWindowPtr
- */
-
-typedef MField<WindowPtr>       MFWindowPtr;
-
-
-#ifndef OSG_COMPILEWINDOWINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<WindowPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, WindowPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
 OSG_END_NAMESPACE
 
-#include "OSGWindow.inl"
+#include <OSGWindow.inl>
+#include <OSGWindowBase.inl>
 
-#endif /* _OSG_WINDOW_H_ */
-
+#endif /* _OSGWINDOW_H_ */

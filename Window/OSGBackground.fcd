@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="Background"
+	parent="FieldContainer"
+	library="Window"
+	structure="abstract"
+	pointerfieldtypes="both"
+>
+Background is the base class for all background clearing.
+</FieldContainer>

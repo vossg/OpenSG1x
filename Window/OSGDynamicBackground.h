@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGGRADIENTBACKGROUND_H_
-#define _OSGGRADIENTBACKGROUND_H_
+#ifndef _OSGDYNAMICBACKGROUND_H_
+#define _OSGDYNAMICBACKGROUND_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -49,7 +49,7 @@
 
 #include <OSGConfig.h>
 
-#include <OSGGradientBackgroundBase.h>
+#include <OSGDynamicBackgroundBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -59,6 +59,7 @@ OSG_BEGIN_NAMESPACE
 
 class DrawAction;
 class Viewport;
+
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
@@ -67,10 +68,10 @@ class Viewport;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \brief gradient background class
+/*! \brief *put brief class description here* 
  */
 
-class OSG_WINDOW_DLLMAPPING GradientBackground : public GradientBackgroundBase
+class OSG_WINDOW_DLLMAPPING DynamicBackground : public DynamicBackgroundBase
 {
   public:
 
@@ -90,7 +91,7 @@ class OSG_WINDOW_DLLMAPPING GradientBackground : public GradientBackgroundBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "GradientBackground"; };
+    static const char *getClassname(void) { return "DynamicBackground"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -103,7 +104,7 @@ class OSG_WINDOW_DLLMAPPING GradientBackground : public GradientBackgroundBase
 
 	void clear( DrawAction * action, Viewport * port );
 
-	void addColor(Color3f color, Real32 position);
+	void addColors(Color3f color, Real32 position);
 
     /*----------------------------- access ----------------------------------*/
 
@@ -141,15 +142,15 @@ class OSG_WINDOW_DLLMAPPING GradientBackground : public GradientBackgroundBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    // They should all be in GradientBackgroundBase.
+    // They should all be in DynamicBackgroundBase.
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    GradientBackground(void);
-    GradientBackground(const GradientBackground &source);
-    virtual ~GradientBackground(void); 
+    DynamicBackground(void);
+    DynamicBackground(const DynamicBackground &source);
+    virtual ~DynamicBackground(void); 
     
   private:
 
@@ -161,14 +162,14 @@ class OSG_WINDOW_DLLMAPPING GradientBackground : public GradientBackgroundBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef GradientBackgroundBase Inherited;
+    typedef DynamicBackgroundBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
-    friend class GradientBackgroundBase;
+    friend class DynamicBackgroundBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -196,7 +197,7 @@ class OSG_WINDOW_DLLMAPPING GradientBackground : public GradientBackgroundBase
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const GradientBackground &source);
+    void operator =(const DynamicBackground &source);
 };
 
 //---------------------------------------------------------------------------
@@ -206,11 +207,11 @@ class OSG_WINDOW_DLLMAPPING GradientBackground : public GradientBackgroundBase
 
 /** \brief class pointer
  */
-typedef GradientBackground *GradientBackgroundP;
+typedef DynamicBackground *DynamicBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGGradientBackground.inl>
-#include <OSGGradientBackgroundBase.inl>
+#include <OSGDynamicBackground.inl>
+#include <OSGDynamicBackgroundBase.inl>
 
-#endif /* _OSGGRADIENTBACKGROUND_H_ */
+#endif /* _OSGDYNAMICBACKGROUND_H_ */

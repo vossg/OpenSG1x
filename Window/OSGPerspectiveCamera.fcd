@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="PerspectiveCamera"
+	parent="Camera"
+	library="Window"
+	structure="concrete"
+	pointerfieldtypes="both"
+>
+A perspective camera with a symmetric frustum.
+	<Field
+		name="fov"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+	>
+	The vertical field of view, in degrees.
+	</Field>
+</FieldContainer>

@@ -44,7 +44,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
@@ -55,7 +55,6 @@
 #include <GL/gl.h>
 
 #define OSG_COMPILEWINDOW
-#define OSG_COMPILEVIEWPORTINST
 
 #include <OSGField.h>
 #include <OSGFieldContainer.h>
@@ -76,7 +75,7 @@ OSG_USING_NAMESPACE
 /*! \class osg::Viewport
     \ingroup Windows
 
-The Viewport class.
+A Viewport is a part of the Window it is attached to used for rendering. Every Window can hold an arbitrary number of viewports. 	
 
 */
 
@@ -84,108 +83,19 @@ The Viewport class.
  *                               Types                                     *
 \***************************************************************************/
 
-OSG_BEGIN_NAMESPACE
-
-#if defined(__sgi)
-
-#pragma instantiate SField<ViewportPtr>::_fieldType
-#pragma instantiate MField<ViewportPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, ViewportPtr, OSG_WINDOW_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, ViewportPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
 char Viewport::cvsid[] = "@(#)$Id: $";
 
-OSG_FC_FIRST_FIELD_IDM_DEF(Viewport, LeftField)
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-OSG_FC_FIELD_IDM_DEF      (Viewport, RightField,      LeftField  )
-OSG_FC_FIELD_IDM_DEF      (Viewport, BottomField,     RightField )
-OSG_FC_FIELD_IDM_DEF      (Viewport, TopField,        BottomField)
-OSG_FC_FIELD_IDM_DEF      (Viewport, ParentField,     TopField   )
-OSG_FC_FIELD_IDM_DEF      (Viewport, CameraField,     ParentField)
-OSG_FC_FIELD_IDM_DEF      (Viewport, RootField,       CameraField)
-OSG_FC_FIELD_IDM_DEF      (Viewport, BackgroundField, RootField  )
-
-OSG_FC_LAST_FIELD_IDM_DEF (Viewport, BackgroundField)
-
-// Static Class Varible implementations: 
-FieldDescription Viewport::_desc[] = 
-{
-        FieldDescription(
-            SFReal32::getClassType(), 
-            "left", 
-            OSG_FC_FIELD_IDM_DESC(LeftField),
-            false,
-            (FieldAccessMethod) &Viewport::getSFLeft),
-
-        FieldDescription(
-            SFReal32::getClassType(), 
-            "right", 
-            OSG_FC_FIELD_IDM_DESC(RightField),
-            false,           
-            (FieldAccessMethod) &Viewport::getSFRight),
-
-        FieldDescription(
-            SFReal32::getClassType(), 
-            "bottom", 
-            OSG_FC_FIELD_IDM_DESC(BottomField),
-            false,
-            (FieldAccessMethod) &Viewport::getSFBottom),
-
-        FieldDescription(
-            SFReal32::getClassType(), 
-            "top", 
-            OSG_FC_FIELD_IDM_DESC(TopField),
-            false,
-            (FieldAccessMethod) &Viewport::getSFTop),
-
-        FieldDescription(
-            SFWindowPtr::getClassType(), 
-            "parent", 
-            OSG_FC_FIELD_IDM_DESC(ParentField),
-            false,
-            (FieldAccessMethod) &Viewport::getSFParent),
-
-        FieldDescription(
-            SFCameraPtr::getClassType(), 
-            "camera", 
-            OSG_FC_FIELD_IDM_DESC(CameraField),
-            false,
-            (FieldAccessMethod) &Viewport::getSFCamera),
-
-        FieldDescription(
-            SFNodePtr::getClassType(), 
-            "root", 
-            OSG_FC_FIELD_IDM_DESC(RootField),
-            false,
-            (FieldAccessMethod) &Viewport::getSFRoot),
-
-        FieldDescription(
-            SFBackgroundPtr::getClassType(), 
-            "background", 
-            OSG_FC_FIELD_IDM_DESC(BackgroundField),
-            false,
-            (FieldAccessMethod) &Viewport::getSFBackground),
-};
-
-FieldContainerType Viewport::_type(
-    "Viewport", 
-    "FieldContainer", 
-    0,
-    (PrototypeCreateF) &Viewport::createEmpty,
-    0,
-    _desc, 
-    sizeof(_desc));
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -203,6 +113,12 @@ FieldContainerType Viewport::_type(
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
+
+void Viewport::initMethod (void)
+{
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -212,7 +128,6 @@ FieldContainerType Viewport::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(Viewport, ViewportPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
@@ -220,16 +135,15 @@ OSG_FIELD_CONTAINER_DEF(Viewport, ViewportPtr)
  */
 
 Viewport::Viewport(void) :
-	Inherited(), _left(0), _right(1), _bottom(0), _top(1), 
-	_camera(), _root(), _background(), _parent()
+    Inherited()
 {
 }
 
-Viewport::Viewport( const Viewport& source) :
-	Inherited(), _left(source.getLeft()), _right(source.getRight()), 
-	_bottom(source.getBottom()), _top(source.getTop()), 
-	_camera(source.getCamera()), _root(source.getRoot()), 
-	_background(source.getBackground()), _parent(source.getParent())
+/** \brief Copy Constructor
+ */
+
+Viewport::Viewport(const Viewport &source) :
+    Inherited(source)
 {
 }
 
@@ -240,7 +154,13 @@ Viewport::~Viewport(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
+
+/** \brief react to field changes
+ */
+
+void Viewport::changed(BitVector, ChangeMode)
+{
+}
 
 /*---------------------------- properties ---------------------------------*/
 
@@ -340,74 +260,24 @@ void Viewport::draw( DrawAction * action )
 		glDisable( GL_SCISSOR_TEST );
 }
 
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
-
-Viewport& Viewport::operator = (const Viewport &source)
-{
-	if (this == &source)
-		return *this;
-
-	// copy parts inherited from parent
-	//*(static_cast<Inherited *>(this)) = source;
-
-	// free mem alloced by members of 'this'
-
-	// alloc new mem for members
-
-	// copy 
-
-    return *this;
-}
-
-/*-------------------------- comparison -----------------------------------*/
-
 /*------------------------------- dump ----------------------------------*/
 
+/** \brief output the instance for debug purposes
+ */
+
 void Viewport::dump(      UInt32     uiIndent, 
-                    const BitVector &bvFlags) const
+                         const BitVector &bvFlags) const
 {
 	SLOG << "Dump Viewport NI" << endl;
 }
+
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 

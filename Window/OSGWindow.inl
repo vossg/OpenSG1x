@@ -2,9 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
- *                                                                           *
- *                            www.opensg.org                                 *
+ *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -52,8 +50,6 @@
 #include <iostream.h>
 #endif
 
-#include "OSGAction.h"
-
 OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
@@ -63,7 +59,6 @@ OSG_BEGIN_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -81,7 +76,6 @@ OSG_BEGIN_NAMESPACE
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-
 /***************************************************************************\
  *                           Instance methods                              *
 \***************************************************************************/
@@ -90,68 +84,19 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_ABSTR_FIELD_CONTAINER_INL_DEF(Window, WindowPtr)
-
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
-
-
-
-/** \brief Destructor
- */
-
+/*--------------------------- type information-----------------------------*/
 
 /*------------------------------ access -----------------------------------*/
 
+/*------------------------------ access -----------------------------------*/
 
-inline UInt16 Window::getWidth( void ) const
-{
-	return _width.getValue();
-}
-
-inline SFUInt16 *Window::getSFWidth( void ) 
-{
-	return &_width;
-}
-
-inline void Window::setWidth( UInt16 width )
-{
-	_width.setValue( width );
-}
-
-inline UInt16 Window::getHeight( void ) const
-{
-	return _height.getValue();
-}
-
-inline SFUInt16 *Window::getSFHeight( void ) 
-{
-	return &_height;
-}
-
-inline void Window::setHeight( UInt16 height )
-{
-	_height.setValue( height );
-}
-
-
+/*------------------------------- size ----------------------------------*/
 inline void Window::setSize( UInt16 width, UInt16 height )
 {
 	setHeight( height );
 	setWidth( width );
-}
-
-
-inline SFBool *Window::getSFResizePending( void ) 
-{
-	return &_resizePending;
-}
-
-inline void Window::setResizePending( Bool resizePending )
-{
-	_resizePending.setValue( resizePending );
 }
 
 inline Bool Window::isResizePending ( void )
@@ -159,76 +104,41 @@ inline Bool Window::isResizePending ( void )
 	return _resizePending.getValue();
 }
 
+/** GL extension stuff **/
 
-inline Window::MFGLObjectFlagE *Window::getMFGLObjectFlags( void ) 
+
+inline UInt32 Window::registerExtension( const String &s )
 {
-	return &_glObjectFlags;
+	UInt32 r = _registeredExtensions.size();
+    _registeredExtensions.push_back( String(s) );
+    return ( r );
 }
 
-/*---------------------------- properties ---------------------------------*/
+inline UInt32 Window::registerFunction( const String &s )
+{
+	UInt32 r = _registeredFunctions.size();
+    _registeredFunctions.push_back( String(s) );
+    return ( r );
+}
 
-/*-------------------------- your_category---------------------------------*/
+inline Bool Window::hasExtension( UInt32 id )
+{
+    return _availExtensions[ id ];
+}
 
-
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
-
-
-
-/*-------------------------- comparison -----------------------------------*/
-
-/** \brief assignment
- */
-
-
-/** \brief equal
- */
-
-
-/** \brief unequal
- */
-
-
+inline void* Window::getFunction ( UInt32 id )
+{
+	return _extFunctions[ id ];
+}
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSG_END_NAMESPACE
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
+OSG_END_NAMESPACE
 

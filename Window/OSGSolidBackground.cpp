@@ -44,7 +44,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #include <GL/gl.h>
 
@@ -77,7 +77,7 @@ OSG_USING_NAMESPACE
 /*! \class osg::SolidBackground
     \ingroup Backgrounds
 
-The SolidBackground class.
+A single colored background. 	
 
 */
 
@@ -85,50 +85,19 @@ The SolidBackground class.
  *                               Types                                     *
 \***************************************************************************/
 
-OSG_BEGIN_NAMESPACE
-
-#if defined(__sgi)
-
-#pragma instantiate SField<SolidBackgroundPtr>::_fieldType
-//#pragma instantiate MField<SolidBackgroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, SolidBackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
-//OSG_DLLEXPORT_DEF1(MField, BackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
-
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
-char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.4 2001/04/06 16:28:59 jbehr Exp $";
+char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.5 2001/04/15 02:19:06 dirk Exp $";
 
-OSG_FC_FIRST_FIELD_IDM_DEF(SolidBackground, ColorField)
-OSG_FC_LAST_FIELD_IDM_DEF (SolidBackground, ColorField)
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-// Static Class Varible implementations: 
-FieldDescription SolidBackground::_desc[] = 
-{
-        FieldDescription(SFColor3f::getClassType(), 
-                            "color", 
-                            OSG_FC_FIELD_IDM_DESC(ColorField),
-                            false,
-                            (FieldAccessMethod) &SolidBackground::getColor),
-};
-
-FieldContainerType SolidBackground::_type(
-    "SolidBackground", 
-    "FieldContainer", 
-    0,
-    (PrototypeCreateF) &SolidBackground::createEmpty,
-    0,
-    _desc, 
-    sizeof(_desc));
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -146,6 +115,12 @@ FieldContainerType SolidBackground::_type(
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+/** \brief initialize the static features of the class, e.g. action callbacks
+ */
+
+void SolidBackground::initMethod (void)
+{
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -155,22 +130,22 @@ FieldContainerType SolidBackground::_type(
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_DEF(SolidBackground, SolidBackgroundPtr)
 
 /*------------- constructors & destructors --------------------------------*/
 
 /** \brief Constructor
  */
 
-SolidBackground::SolidBackground(void) //:
-//	Inherited()
-	  // TODO: initialize members
+SolidBackground::SolidBackground(void) :
+    Inherited()
 {
 }
 
-SolidBackground::SolidBackground(const SolidBackground &source) //:
-//	Inherited()
-	  // TODO: initialize members
+/** \brief Copy Constructor
+ */
+
+SolidBackground::SolidBackground(const SolidBackground &source) :
+    Inherited(source)
 {
 }
 
@@ -181,9 +156,13 @@ SolidBackground::~SolidBackground(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
 
-/*---------------------------- properties ---------------------------------*/
+/** \brief react to field changes
+ */
+
+void SolidBackground::changed(BitVector, ChangeMode)
+{
+}
 
 /*-------------------------- your_category---------------------------------*/
 
@@ -194,43 +173,22 @@ void SolidBackground::clear(DrawAction *, ViewportP)
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }
 
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
-
-SolidBackground &SolidBackground::operator = (const SolidBackground &source)
-{
-	if (this == &source)
-		return *this;
-
-	// copy parts inherited from parent
-	// *(static_cast<Inherited *>(this)) = source;
-
-	// free mem alloced by members of 'this'
-
-	// alloc new mem for members
-
-	// copy 
-
-    return *this;
-}
-
-/*-------------------------- comparison -----------------------------------*/
-
 /*------------------------------- dump ----------------------------------*/
 
+/** \brief output the instance for debug purposes
+ */
+
 void SolidBackground::dump(      UInt32     uiIndent, 
-                           const BitVector &bvFlags) const
+                         const BitVector &bvFlags) const
 {
 	SLOG << "Dump SolidBackground NI" << endl;
 }
 
+    
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
-
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="SolidBackground"
+	parent="Background"
+	library="Window"
+	structure="concrete"
+	pointerfieldtypes="single"
+>
+A single colored background.
+	<Field
+		name="color"
+		type="Color3f"
+		cardinality="single"
+		visibility="external"
+	>
+	The background color.
+	</Field>
+</FieldContainer>

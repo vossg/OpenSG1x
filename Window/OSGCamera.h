@@ -36,8 +36,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSG_CAMERA_H_
-#define _OSG_CAMERA_H_
+
+#ifndef _OSGCAMERA_H_
+#define _OSGCAMERA_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -46,16 +47,12 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
+#include <OSGConfig.h>
+
 #include <OSGMatrix.h>
-#include <OSGVolume.h>
 #include <OSGFrustumVolume.h>
-#include <OSGMField.h>
-#include <OSGFieldDescription.h>
-#include <OSGSFSysTypes.h>
-#include <OSGSFFieldContainerTypes.h>
-#include <OSGFieldContainer.h>
-#include "OSGWindowBase.h"
+
+#include <OSGCameraBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -63,12 +60,10 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class Camera;
-
-typedef FCPtr <FieldContainerPtr, Camera> CameraPtr;
-
 class Viewport;
 class DrawAction;
+class FrustumVolume;
+class Line;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -81,25 +76,14 @@ class DrawAction;
 /*! \brief Camera base class
  */
 
-class OSG_WINDOW_DLLMAPPING Camera : public FieldContainer
+class OSG_WINDOW_DLLMAPPING Camera : public CameraBase
 {
-  private:
-
-    typedef FieldContainer Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(BeaconField           )
-
-    OSG_FC_FIELD_IDM_DECL      (NearField, BeaconField)
-    OSG_FC_FIELD_IDM_DECL      (FarField,  NearField  )
-
-    OSG_FC_LAST_FIELD_IDM_DECL (FarField              )
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -112,7 +96,6 @@ class OSG_WINDOW_DLLMAPPING Camera : public FieldContainer
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    /** */
     static const char *getClassname(void) { return "Camera"; };
 
     //-----------------------------------------------------------------------
@@ -121,7 +104,14 @@ class OSG_WINDOW_DLLMAPPING Camera : public FieldContainer
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(CameraPtr)
+    /*--------------------------- access fields ----------------------------*/
+
+    /*----------------------------- access ----------------------------------*/
+
+    /*-------------------------- transformation ----------------------------*/
+
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
 
     /*------------------------- your_category -------------------------------*/
 
@@ -150,32 +140,8 @@ class OSG_WINDOW_DLLMAPPING Camera : public FieldContainer
 	/* pixel are from top-left */
     Bool calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port);
 
-	/** access the fields */
-		
-    void       setBeacon  (NodePtr beacon);
-    NodePtr    getBeacon  (void) const;
-    SFNodePtr *getSFBeacon(void);
-    
-    
-    void      setNear  (Real32 rNear);
-    Real32    getNear  (void) const;
-    SFReal32 *getSFNear(void);
-    
-    
-    void      setFar  (Real32 rFar);
-    Real32    getFar  (void) const;
-    SFReal32 *getSFFar(void);
-    
-    /*------------------------- your_operators ------------------------------*/
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-
-    Bool operator < (const Camera &other) const;
-    
-    //Bool operator == (const Camera &other) const;
-    //Bool operator != (const Camera &other) const;
+ 
+    /*------------------------------ volume -------------------------------*/
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -203,23 +169,17 @@ class OSG_WINDOW_DLLMAPPING Camera : public FieldContainer
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-    
-    /** The beacon to define the position/orientation. */
-    SFNodePtr _beacon;
-    
-    /** The near distance. */
-    SFReal32  _near;
-    
-    /** The far distance. */
-    SFReal32  _far;
+
+    // They should all be in CameraBase.
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     Camera(void);
+    Camera(const Camera &source);
     virtual ~Camera(void); 
-
+    
   private:
 
     //-----------------------------------------------------------------------
@@ -230,12 +190,14 @@ class OSG_WINDOW_DLLMAPPING Camera : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef CameraBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
-    friend class FieldContainerType;
+    friend class CameraBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -247,12 +209,11 @@ class OSG_WINDOW_DLLMAPPING Camera : public FieldContainer
 
     static char cvsid[];
 
-    static FieldContainerType _type;
-    static FieldDescription   _desc[];
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
+
+    static void initMethod( void );
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -264,77 +225,21 @@ class OSG_WINDOW_DLLMAPPING Camera : public FieldContainer
 
     // prohibit default functions (move to 'public' if you need one)
 
-    Camera(const Camera &source);
-    Camera& operator =(const Camera &source);
+    void operator =(const Camera &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
 
 /** \brief class pointer
  */
 typedef Camera *CameraP;
 
-/** \brief CameraPtr
- */
-typedef FCPtr<FieldContainerPtr, Camera> CameraPtr;
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief CameraPtr field traits 
- */
-
-template <>
-struct FieldDataTraits<CameraPtr> : public Traits
-{
-    enum                         { StringConvertable = 0x00  };
-
-    static Char8 *getSName(void) { return "SFCameraPtr"; }
-    static Char8 *getMName(void) { return "MFCameraPtr"; }
-};
-
-/** \brief SFCameraPtr
- */
-
-typedef SField<CameraPtr>       SFCameraPtr;
-
-#ifndef OSG_COMPILECAMERAINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<CameraPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, CameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-/** \brief MFCameraPtr
- */
-
-typedef MField<CameraPtr>       MFCameraPtr;
-
-#ifndef OSG_COMPILECAMERAINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<CameraPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, CameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
 OSG_END_NAMESPACE
 
-#include "OSGCamera.inl"
+#include <OSGCamera.inl>
+#include <OSGCameraBase.inl>
 
-#endif /* _OSG_CAMERA_H_ */
-
-
+#endif /* _OSGCAMERA_H_ */

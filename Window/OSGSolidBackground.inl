@@ -50,18 +50,6 @@
 #include <iostream.h>
 #endif
 
-/** \fn const char *SimpleAttachment::getClassname(void)
- *  \brief Classname
- */
-
-/** \typedef SimpleAttachment::Inherited
- *  \brief Parent type
- */
-
-/** \typedef SimpleAttachment::_field
- *  \brief Data store
- */
-
 OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
@@ -84,7 +72,6 @@ OSG_BEGIN_NAMESPACE
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
@@ -97,31 +84,13 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_INL_DEF(SolidBackground, SolidBackgroundPtr)
-
 /*------------- constructors & destructors --------------------------------*/
 
 /*--------------------------- type information-----------------------------*/
 
 /*------------------------------ access -----------------------------------*/
 
-inline Color3f SolidBackground::getColor( void )
-{
-	return _color.getValue();
-}
-
-
-inline SFColor3f *SolidBackground::getSFColor( void )
-{
-	return &_color;
-}
-
-
-inline void SolidBackground::setColor( Color3f color )
-{
-	_color.setValue( color );
-}
-
+/*------------------------------ access -----------------------------------*/
 
 /*------------------------------- size ----------------------------------*/
 
@@ -130,7 +99,6 @@ inline void SolidBackground::setColor( Color3f color )
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
-
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

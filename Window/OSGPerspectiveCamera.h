@@ -36,8 +36,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSG_PERSPECTIVE_CAMERA_H_
-#define _OSG_PERSPECTIVE_CAMERA_H_
+
+#ifndef _OSGPERSPECTIVECAMERA_H_
+#define _OSGPERSPECTIVECAMERA_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -46,10 +47,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include "OSGWindowBase.h"
-#include <OSGBaseTypes.h>
-#include <OSGFrustumVolume.h>
-#include <OSGMatrix.h>
+#include <OSGConfig.h>
+
+#include <OSGPerspectiveCameraBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -57,13 +57,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class Camera;
 class DrawAction;
-
-class PerspectiveCamera;
-typedef FCPtr <CameraPtr,
-               PerspectiveCamera   > PerspectiveCameraPtr;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
@@ -75,22 +69,14 @@ typedef FCPtr <CameraPtr,
 /*! \brief PerspectiveCamera class
  */
 
-class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public Camera
+class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public PerspectiveCameraBase
 {
-  private:
-
-    typedef Camera Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(DegreeField)
-
-    OSG_FC_LAST_FIELD_IDM_DECL (DegreeField)
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -103,16 +89,14 @@ class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public Camera
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    /** */
     static const char *getClassname(void) { return "PerspectiveCamera"; };
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    /*-------------- general fieldcontainer declaration --------------------*/
-
-    OSG_FIELD_CONTAINER_DECL(PerspectiveCameraPtr)
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
 
     /*------------------------- your_category -------------------------------*/
 
@@ -122,17 +106,6 @@ class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public Camera
     /** get the separate elements needed for rendering */
 
     virtual void getProjection( Matrix& result, const Viewport& port );
-
-    
-    void      setDegrees  (Real32 degrees);
-    Real32    getDegrees  (void) const;
-    SFReal32 *getSFDegrees(void);
-        
-    /*------------------------- your_operators ------------------------------*/
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -161,16 +134,16 @@ class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public Camera
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    /** The vertical field of view, in degrees. */
-    SFReal32 _degrees;
+    // They should all be in PerspectiveCameraBase.
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     PerspectiveCamera(void);
+    PerspectiveCamera(const PerspectiveCamera &source);
     virtual ~PerspectiveCamera(void); 
- 
+    
   private:
 
     //-----------------------------------------------------------------------
@@ -181,12 +154,14 @@ class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public Camera
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef PerspectiveCameraBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
-    friend class FieldContainerType;
+    friend class PerspectiveCameraBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -198,13 +173,11 @@ class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public Camera
 
     static char cvsid[];
 
-    static FieldContainerType _type;
- 
-    static FieldDescription   _desc[];
-
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
+
+    static void initMethod( void );
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -216,77 +189,21 @@ class OSG_WINDOW_DLLMAPPING PerspectiveCamera : public Camera
 
     // prohibit default functions (move to 'public' if you need one)
 
-    PerspectiveCamera(const PerspectiveCamera &source);
-    PerspectiveCamera& operator =(const PerspectiveCamera &source);
+    void operator =(const PerspectiveCamera &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
-
 
 /** \brief class pointer
  */
 typedef PerspectiveCamera *PerspectiveCameraP;
 
-/** \brief PerspectiveCameraPtr
- */
-typedef FCPtr<CameraPtr, PerspectiveCamera> PerspectiveCameraPtr;
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief PerspectiveCameraPtr field traits 
- */
-
-template <>
-struct FieldDataTraits<PerspectiveCameraPtr> : public Traits
-{
-    enum                        { StringConvertable = 0x00  };
-
-    static char *getSName(void) { return "SFPerspectiveCameraPtr"; }
-    static char *getMName(void) { return "MFPerspectiveCameraPtr"; }
-};
-
-/** \brief SFPerspectiveCameraPtr
- */
-
-typedef SField<PerspectiveCameraPtr>       SFPerspectiveCameraPtr;
-
-#ifndef OSG_COMPILEPERSPEKTIVECAMERAINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<PerspectiveCameraPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, PerspectiveCameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-
-/** \brief MFPerspectiveCameraPtr
- */
-
-typedef MField<PerspectiveCameraPtr>       MFPerspectiveCameraPtr;
-
-#ifndef OSG_COMPILEPERSPEKTIVECAMERAINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<PerspectiveCameraPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, PerspectiveCameraPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
 OSG_END_NAMESPACE
 
-#include "OSGPerspectiveCamera.inl"
+#include <OSGPerspectiveCamera.inl>
+#include <OSGPerspectiveCameraBase.inl>
 
-#endif /* _OSG_PERSPECTIVE_CAMERA_H_ */
+#endif /* _OSGPERSPECTIVECAMERA_H_ */

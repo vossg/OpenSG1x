@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSG_SOLIDBACKGROUND_H_
-#define _OSG_SOLIDBACKGROUND_H_
+#ifndef _OSGSOLIDBACKGROUND_H_
+#define _OSGSOLIDBACKGROUND_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -47,10 +47,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGFieldContainer.h>
-#include "OSGWindowBase.h"
-#include "OSGBackground.h"
+#include <OSGConfig.h>
+
+#include <OSGSolidBackgroundBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -60,10 +59,6 @@ OSG_BEGIN_NAMESPACE
 
 class DrawAction;
 class Viewport;
-
-class SolidBackground;
-typedef FCPtr<BackgroundPtr, SolidBackground> SolidBackgroundPtr;
-
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
@@ -75,21 +70,14 @@ typedef FCPtr<BackgroundPtr, SolidBackground> SolidBackgroundPtr;
 /*! \brief SolidBackground class
  */
 
-class OSG_WINDOW_DLLMAPPING SolidBackground : public Background
+class OSG_WINDOW_DLLMAPPING SolidBackground : public SolidBackgroundBase
 {
-  private:
-
-    typedef FieldContainer Inherited;
-
   public:
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
-
-    OSG_FC_FIRST_FIELD_IDM_DECL(ColorField)
-    OSG_FC_LAST_FIELD_IDM_DECL (ColorField)
-
+    
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -110,28 +98,20 @@ class OSG_WINDOW_DLLMAPPING SolidBackground : public Background
 
     /*-------------- general fieldcontainer declaration --------------------*/
 
-    OSG_FIELD_CONTAINER_DECL(SolidBackgroundPtr) //????
-
+    /*--------------------------- access fields ----------------------------*/
     /*------------------------- your_category -------------------------------*/
 
 	void clear( DrawAction * action, Viewport * port );
 
-	void setColor( Color3f col );
 
-	Color3f getColor();
+    /*----------------------------- access ----------------------------------*/
 
-	SFColor3f *getSFColor();
+    /*-------------------------- transformation ----------------------------*/
 
-    /*------------------------- your_operators ------------------------------*/
-
-    /*------------------------- assignment ----------------------------------*/
-
-    /*------------------------- comparison ----------------------------------*/
-
-    Bool operator < (const SolidBackground &other) const;
-    
-	//Bool operator == (const Background &other) const;
-	//Bool operator != (const Background &other) const;
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
+ 
+    /*------------------------------ volume -------------------------------*/
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -160,16 +140,16 @@ class OSG_WINDOW_DLLMAPPING SolidBackground : public Background
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-	  //** The clear color of the window */
-	  SFColor3f _color;
+    // They should all be in SolidBackgroundBase.
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
     SolidBackground(void);
+    SolidBackground(const SolidBackground &source);
     virtual ~SolidBackground(void); 
-
+    
   private:
 
     //-----------------------------------------------------------------------
@@ -180,12 +160,14 @@ class OSG_WINDOW_DLLMAPPING SolidBackground : public Background
     //   types                                                               
     //-----------------------------------------------------------------------
 
+    typedef SolidBackgroundBase Inherited;
+
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
     friend class FieldContainer;
-    friend class FieldContainerType;
+    friend class SolidBackgroundBase;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -195,15 +177,13 @@ class OSG_WINDOW_DLLMAPPING SolidBackground : public Background
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
-
-	static FieldContainerType _type;
-	static FieldDescription   _desc[];
-
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
+
+    static void initMethod( void );
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -213,83 +193,23 @@ class OSG_WINDOW_DLLMAPPING SolidBackground : public Background
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
-    SolidBackground(const SolidBackground &source);
-    SolidBackground & operator =(const SolidBackground &source);
+    void operator =(const SolidBackground &source);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
-// class pointer
 
 /** \brief class pointer
  */
 typedef SolidBackground *SolidBackgroundP;
 
-/** \brief BackgroundPtr
- */
-typedef FCPtr<BackgroundPtr, SolidBackground> SolidBackgroundPtr;
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief BackgroundPtr field traits 
- */
-
-
-template <>
-struct FieldDataTraits<SolidBackgroundPtr> : public Traits
-{
-    enum                         { StringConvertable = 0x00  };
-
-    static Char8 *getSName(void) { return "SFSolidBackgroundPtr"; }
-    static Char8 *getMName(void) { return "MFSolidBackgroundPtr"; }
-};
-
-
-/** \brief SFSolidBackgroundPtr
- */
-
-typedef SField<SolidBackgroundPtr>       SFSolidBackgroundPtr;
-
-#ifndef OSG_COMPILEBACKGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<SolidBackgroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, SolidBackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-
-/** \brief MFBackgroundPtr
- */
-/*
-typedef MField<BackgroundPtr>       MFBackgroundPtr;
-
-#ifndef OSG_COMPILEBACKGROUNDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<BackgroundPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(MField, BackgroundPtr, OSG_WINDOW_DLLTMPLMAPPING)
-
-#endif
-#endif
-*/
-
 OSG_END_NAMESPACE
 
-#include "OSGSolidBackground.inl"
+#include <OSGSolidBackground.inl>
+#include <OSGSolidBackgroundBase.inl>
 
-#endif /* _OSGSolidBACKGROUND_H_ */
-
-
+#endif /* _OSGSOLIDBACKGROUND_H_ */

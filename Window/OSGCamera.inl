@@ -2,9 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                 Copyright (C) 2000 by the OpenSG Forum                    *
- *                                                                           *
- *                            www.opensg.org                                 *
+ *                         Copyright 2000 by OpenSG Forum                    *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -52,8 +50,6 @@
 #include <iostream.h>
 #endif
 
-#include "OSGCamera.h"
-
 OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
@@ -64,11 +60,9 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -78,11 +72,9 @@ OSG_BEGIN_NAMESPACE
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -92,134 +84,26 @@ OSG_BEGIN_NAMESPACE
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-OSG_FIELD_CONTAINER_INL_DEF(Camera, CameraPtr)
-
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
-
-
-
-/** \brief Destructor
- */
-
+/*--------------------------- type information-----------------------------*/
 
 /*------------------------------ access -----------------------------------*/
 
-	
-inline void Camera::setBeacon( NodePtr beacon )
-{
-	_beacon.setValue( beacon );
-}
-	
-inline NodePtr Camera::getBeacon( void ) const
-{
-	return _beacon.getValue();
-}
-	
-inline SFNodePtr *Camera::getSFBeacon( void ) 
-{
-	return &_beacon;
-}
-		
-	
-inline void Camera::setNear( Real32 rNear )
-{
-	_near.setValue( rNear );
-}
-	
-inline Real32 Camera::getNear( void ) const
-{
-	return _near.getValue();
-}	
-	
-inline SFReal32 *Camera::getSFNear( void ) 
-{
-	return &_near;
-}	
+/*------------------------------ access -----------------------------------*/
 
+/*------------------------------- size ----------------------------------*/
 
-inline void Camera::setFar( Real32 rFar )
-{
-	_far.setValue( rFar );
-}
-	
-inline Real32 Camera::getFar( void ) const
-{
-	return _far.getValue();
-}	
-	
-inline SFReal32 *Camera::getSFFar( void ) 
-{
-	return &_far;
-}	
-
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
-
-
-
-/*-------------------------- comparison -----------------------------------*/
-
-/** \brief assignment
- */
-
-
-/** \brief equal
- */
-
-
-/** \brief unequal
- */
-
-
+/*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSG_END_NAMESPACE
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
+OSG_END_NAMESPACE
 
