@@ -150,7 +150,7 @@ buildDepLibPath   = $(BUILD_BASE)/$(1)/$(LIBDIR)
 ifeq ($(OS_BASE), cygwin)
 buildLibName      = $(LIBLNK_OPTION)$(PROJ)$(1)$(LIB_SUFFIX)
 else
-buildLibName      = $(LIBLNK_OPTION)$(PROJ)$(1)
+buildLibName      = $(LIBLNK_OPTION)$(PROJ)$(1)$(DEBUG_CHAR)
 endif
 
 ifeq ($(OS_BASE), cygwin)
