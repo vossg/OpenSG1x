@@ -113,7 +113,7 @@ void TextureBackground::clear(DrawActionBase *action, Viewport *OSG_CHECK_ARG(vi
     
     if( tex != NullFC )
     {
-        bool light = glIsEnabled(GL_LIGHTING);
+        GLboolean light = glIsEnabled(GL_LIGHTING);
         if (light)  
             glDisable(GL_LIGHTING);
     
@@ -123,15 +123,15 @@ void TextureBackground::clear(DrawActionBase *action, Viewport *OSG_CHECK_ARG(vi
     
         glClear(GL_DEPTH_BUFFER_BIT);
     
-        GLboolean depth=glIsEnabled(GL_DEPTH_TEST);
+        GLboolean depth = glIsEnabled(GL_DEPTH_TEST);
         glDisable(GL_DEPTH_TEST);
     
         GLint depthFunc;
         glGetIntegerv(GL_DEPTH_FUNC, &depthFunc);
         glDepthFunc(GL_ALWAYS);
     
-        glEnable( GL_TEXTURE_2D );
-        glDepthMask( FALSE );
+        glEnable(GL_TEXTURE_2D);
+        glDepthMask(GL_FALSE);
     
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
@@ -189,14 +189,14 @@ void TextureBackground::clear(DrawActionBase *action, Viewport *OSG_CHECK_ARG(vi
         }
         tex->deactivate(action);
     
-        glDepthMask( TRUE );
+        glDepthMask(GL_TRUE);
         if(depth)    
             glEnable(GL_DEPTH_TEST);
         glDepthFunc(depthFunc);
     
         glPolygonMode(GL_FRONT, fill[0]);
         glPolygonMode(GL_BACK , fill[1]);
-        if (light)  
+        if(light)  
             glEnable(GL_LIGHTING);
         glColor3f(1.0f, 1.0f, 1.0f);
 
@@ -208,13 +208,13 @@ void TextureBackground::clear(DrawActionBase *action, Viewport *OSG_CHECK_ARG(vi
     }
     else
     {
-        glClearColor(1.0f, 0.0f, 0.0f, 1.0f);                 
-        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+        glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 }
 
-void TextureBackground::dump(      UInt32    , 
-                         const BitVector ) const
+void TextureBackground::dump(UInt32,
+                             const BitVector ) const
 {
     SLOG << "Dump TextureBackground NI" << std::endl;
 }
@@ -233,7 +233,7 @@ void TextureBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.1 2004/01/23 14:15:32 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.2 2004/01/25 13:41:45 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 
