@@ -49,6 +49,7 @@
 #endif
 #include <OSGScanParseSkel.tab.h>
 #include <OSGConfig.h>
+#include <OSGLog.h>
 
 #include <OSGBaseFunctions.h>
 #include <OSGScanParseSkel.h>
@@ -793,9 +794,7 @@ extern void clearSkel  (void);
 
 void OSGScanParseSkel_error (char *s)  /* Called by fhs_parse on error */
 {
-  fprintf (stderr, "-----> %s in Line %d\n", s, iLineNum);
-//, 
-//          SKELTEXT);
+  FWARNING(("-----> %s in Line %d\n", s, iLineNum));
 }
 
 

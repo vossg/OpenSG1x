@@ -46,6 +46,8 @@
 
 #include <OSGScanParseSkel.tab.h>
 #include <OSGScanParseSkel.h>
+#include <OSGConfig.h>
+#include <OSGLog.h>
 
 #ifdef OSG_FLEX_USE_IOSTREAM_INPUT
 #include <iostream>
@@ -155,7 +157,7 @@ header (#[^\n]*\n)
  /*   wurde. Jetzt kann entweder der Wert eines */
  /*   Feldes oder ein "IS" gelesen werden. */
 
-//    fprintf(stderr,"LEX--> Start State %d\n", expectToken);
+//    FWARNING(("LEX--> Start State %d\n", expectToken));
 
     if(expectToken != 0)
     {   
@@ -212,7 +214,7 @@ header (#[^\n]*\n)
             case TOK_SFVOLUME:  BEGIN sfvolumeValue;  break;
 
             default: 
-                fprintf(stderr, "ACK: Bad expectToken"); 
+                FWARNING(("ACK: Bad expectToken")); 
                 break;
         }
     }
