@@ -79,6 +79,15 @@ TypeBase::TypeBase(const Char8 *szName,
     _uiTypeId = TypeFactory::the()->registerType(this);
 }
 
+TypeBase::TypeBase(const TypeBase &source) :
+    _uiTypeId    (source._uiTypeId),
+    _uiTypeRootId(source._uiTypeRootId),
+    _pParent     (source._pParent),
+    _szName      (source._szName),
+    _szParentName(source._szParentName)
+{
+}
+
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 

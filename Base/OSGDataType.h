@@ -82,11 +82,11 @@ class OSG_BASE_DLLMAPPING DataType : public TypeBase
 
     typedef TypeBase Inherited;
 
+    DataType(const DataType &source);
+
     /*==========================  PRIVATE  ================================*/
   private:
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    DataType(const DataType &source);
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const DataType &source);
 };

@@ -110,11 +110,11 @@ class OSG_BASE_DLLMAPPING TypeBase
     IDString  _szName;
     IDString  _szParentName;
 
+    TypeBase(const TypeBase &source);
+
     /*==========================  PRIVATE  ================================*/
   private:
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    TypeBase       (const TypeBase &source);
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const TypeBase &source);
 };

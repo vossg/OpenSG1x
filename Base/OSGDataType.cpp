@@ -78,6 +78,12 @@ DataType::DataType(const Char8 *szName,
 {
 }
 
+DataType::DataType(const DataType &source) :
+    Inherited(source)
+{
+}
+
+
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
