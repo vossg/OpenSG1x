@@ -86,8 +86,8 @@ NodePriorityPair::LessCompare::operator ()(const NodePriorityPair &lhs,
     return (lhs.getPriority() < rhs.getPriority());
 }
 
-}; /* namespace NewActionTypes */
+} /* namespace NewActionTypes */
 
 OSG_END_NAMESPACE
 
-#define OSGNEWACTIONTYPES_INLINE_CVSID "@(#)$Id: OSGNewActionTypes.inl,v 1.1 2004/04/20 13:47:08 neumannc Exp $"
+#define OSGNEWACTIONTYPES_INLINE_CVSID "@(#)$Id: OSGNewActionTypes.inl,v 1.2 2004/04/21 14:54:33 a-m-z Exp $"
