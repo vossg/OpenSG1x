@@ -46,12 +46,13 @@ $(EXEDIR)/%: $(OBJDIR)/%.o
 		$(call cnvSubDirsUnix2Win,$<) $(LIBPATHS) $(LIBS)
 endif
 
+
 define win_make_depend 	
 	@echo "# Building dependency $(@F) from $(<F)" 				
 	@-rm -f $@;													
 	@echo '# Module dependencies' > $@							
 	@$(CC) $(DEPEND_OPTION) $(call cnvUnix2Win,$<) $(CCFLAGS)   \
-	 $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) | 		\
+	 $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) $(INC_OPTION)"$(OBJDIR)" |	\
 	 $(SED) -e '/:.*\\Microsoft /d' 				\
 		 	-e '/:.*\\Intel\\/d' 					\
 		 	-e '/:.*\\stdlib/d' 					\
@@ -68,7 +69,8 @@ define unix_make_depend
 	@echo "# Building dependency $(@F) from $(<F)"
 	@-rm -f $@
 	@echo '# Module dependencies' > $@
-	@$(CC) $(DEPEND_OPTION) $< $(CCFLAGS) $(CCLOCALFLAGS) $(INCL) |\
+	@$(CC) $(DEPEND_OPTION) $< $(CCFLAGS) $(CCLOCALFLAGS) $(INCL) \
+	 $(INC_OPTION)$(OBJDIR)| \
 	 $(SED) -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 	\
 			-e '/:.*\/stdlib\//d' 				\
 			-e '/:[     ]*\/usr\/include\//d'	\
@@ -137,7 +139,7 @@ endif
 
 $(TEST_TARGETS): $(TEST_OBJS) $(LIBS_DEP) $(TEST_DEPS)  
 
-$(TEST_TARGETS_IN): $(LIB_TESTQTTARGET_CPP) $(TEST_TARGETS) 
+$(TEST_TARGETS_IN):  $(TEST_TARGETS) $(LIB_TESTQTTARGET_CPP)
 	@for file in $@; do                \
 		echo $$file;                   \
 		rm -f $$file;                  \
