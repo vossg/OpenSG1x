@@ -536,9 +536,10 @@ routine will break at this point. The next figure will show what I mean.
     message on your terminal like that: Recurse core is null, don't know what to do!
 </I>
 
-I will introduce all important cores in Chapter (xxx), but for now I want to present only two of them. 
+All important cores will be introduced in the next chapter (\ref NodeCores). However as real time graphics without any movement are quite 
+boring, I will introduce the transformation and group core briefly already here.
 
-\subsection BasicCoresGroup Group core
+\subsection TutorialBasicCoresGroup Group core
 
 The first one is the simplest of all 
 of them: the group core. A group core does nothing in special it just makes it possible to have a node and attach several children to it. You 
@@ -561,7 +562,7 @@ can be referenced by as many nodes as you want to - and this is way it is called
 
 The group core has no interesting methods as it does really nothing
 
-\subsection basicCoresTransform Transform core
+\subsection TutorialBasicCoresTransform Transform core
 
 The other one is the transform core, which is most likely one of the most important. As you might expect this one is needed to move your geometry
 around. Creation, of course, is just the same as ever, but you have some more methods to play with compared to the group core. Here is an example
@@ -1405,9 +1406,6 @@ void keyboard(unsigned char k, int , int ){
 
 3.\n
 Additionally you have to add "<OpenSG/OSGBINWriter.h>"  to your list of files to include
-
-
-
 
 
 

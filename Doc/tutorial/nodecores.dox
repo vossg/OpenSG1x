@@ -1,0 +1,28 @@
+#include <OpenSG/OSGConfig.h>
+#include <OpenSG/OSGNavigator.h>
+#include <OpenSG/OSGPerspectiveCamera.h>
+
+OSG_USING_NAMESPACE;
+
+/*! 
+\page NodeCores Node Cores
+\latexonly Starter:NewChapter \endlatexonly
+
+In this chapter you will learn how to use the most important cores. The transform and material core are discussed in more detail and additionally
+I will introduce Switch, LOD and the component transform core as well. At the end of the chapter there will be our first bigger tutorial, where
+we will use all the cores introduced here.
+
+The geometry core is of course one of the most important cores of all of them, but because of it's importance, the geometry core is not introduced
+here, but in the next chapter which is about geometry only!
+
+\subsection TutorialNodeCoresTransform Transform Core
+
+The transform core was already briefly introduced in the last Chapter (\ref TutorialBasicCoresTransform), but now we will have a more deeper
+look at it. However, about the transform class itself is not much left to say, as the most important method is the "setMatrix()" method. So the
+key for correct transformations lies withing the Matrix itself. Let us imagine a little, more complex scene using more than jsut one transformation
+like we did before. The most popular example is the modell of a solor system. To make it a bit easier, we only want a sun and one planet
+with one moon. The sun is stationary and the planet is orbiting in a circle around the sun whereas the moon is doing the same around the planet. 
+We also don't want to pay any attention to real sizes and distances. 
+
+
+*/
