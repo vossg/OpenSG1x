@@ -80,7 +80,7 @@ void Image::initMethod (void)
 {
 }
 
-/*! Inform parrents, when image was changed
+/*! Inform parents, when image was changed
  */
 void Image::changed(BitVector whichField, UInt32 origin)
 {
@@ -89,7 +89,7 @@ void Image::changed(BitVector whichField, UInt32 origin)
 
     while(parentsIt != parentsEnd)
     {
-        (*parentsIt)->changed(  TypeTraits<BitVector>::One << 
+        (*parentsIt)->changed(TypeTraits<BitVector>::One << 
                                     parentsIt->getParentFieldPos(),
                                 ChangedOrigin::Child);
         ++parentsIt;
@@ -215,14 +215,16 @@ bool Image::set(ImagePtr image)
 */
 bool Image::setData(const UChar8 *da)
 {  
-  if (da) {
-    memcpy ( getData(), da, getSize() );
-  }
-  else {
-    FWARNING (("Image::setData(Null) call\n"));
-  }
+    if(da) 
+    {
+        memcpy(getData(), da, getSize());
+    }
+    else 
+    {
+        FWARNING(("Image::setData(Null) call\n"));
+    }
   
-  return (da ? true : false);
+    return (da ? true : false);
 }
 
 /*! method to update just a subregion of the image data
@@ -238,7 +240,7 @@ bool Image::setSubData ( Int32 offX, Int32 offY, Int32 offZ,
     FDEBUG(( "Image::setSubData (%d %d %d) - (%d %d %d) - src %p\n",
              offX, offY, offZ, srcW, srcH, srcD, src ));
 
-    if (!src || !dest) 
+    if(!src || !dest) 
     {
         FFATAL(("Invalid data pointer in Image::setSubData\n"));
         return false;
@@ -281,7 +283,7 @@ bool Image::flipDepthFrameData (void)
   bool retCode = false;
   Int32 value;
 
-  if ((getMipMapCount() == 1)&&((getFrameCount() == 1)||(getDepth() == 1))) 
+  if((getMipMapCount() == 1)&&((getFrameCount() == 1)||(getDepth() == 1))) 
   {
       value = getFrameCount();
       setFrameCount(getDepth());
@@ -499,22 +501,21 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                         case OSG_L_PF:
                             for (srcI = destI = 0; destI < destSize; ) 
                             {
-                                sum = 0;
-                                sum += getData()[srcI++];
-                                sum += getData()[srcI++];
-                                sum += getData()[srcI++];
-                                data[destI++] = sum / 3;
+                                data[destI++] = static_cast<UInt32>
+                                                (getData()[srcI++] * 0.263 +
+                                                 getData()[srcI++] * 0.655 +
+                                                 getData()[srcI++] * 0.082  );                                
                             }               
                             break;
                         case OSG_LA_PF:
                             for (srcI = destI = 0; destI < destSize; ) 
                             {
-                                sum = 0;
-                                sum += getData()[srcI++];
-                                sum += getData()[srcI++];
-                                sum += getData()[srcI++];
-                                data[destI++] = sum / 3;
-                                data[destI++] = sum / 3;
+                                sum = static_cast<UInt32>
+                                                (getData()[srcI++] * 0.263 +
+                                                 getData()[srcI++] * 0.655 +
+                                                 getData()[srcI++] * 0.082  );                                
+                                data[destI++] = sum;
+                                data[destI++] = sum;
                             }               
                             break;
                         case OSG_RGB_PF:
@@ -540,23 +541,21 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                         case OSG_L_PF:
                             for (srcI = destI = 0; destI < destSize; ) 
                             {
-                                sum = 0;
-                                sum += getData()[srcI++];
-                                sum += getData()[srcI++];
-                                sum += getData()[srcI++];
-                                data[destI++] = sum / 3;
+                                data[destI++] = static_cast<UInt32>
+                                                (getData()[srcI++] * 0.263 +
+                                                 getData()[srcI++] * 0.655 +
+                                                 getData()[srcI++] * 0.082  );                                
                                 srcI++;
                             }               
                             break;
                         case OSG_LA_PF:
                             for (srcI = destI = 0; destI < destSize; ) 
                             {
-                                sum = 0;
-                                sum += getData()[srcI++];
-                                sum += getData()[srcI++];
-                                sum += getData()[srcI++];
-                                data[destI++] = sum / 3;
-                                data[destI++] = getData()[srcI++];
+                                data[destI++] = static_cast<UInt32>
+                                                (getData()[srcI++] * 0.263 +
+                                                 getData()[srcI++] * 0.655 +
+                                                 getData()[srcI++] * 0.082  );                                
+                                data[destI++] =  getData()[srcI++];
                             }               
                             break;
                         case OSG_RGB_PF:
@@ -594,7 +593,7 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
     return (data ? true : false);
 }
 
-/*! It just fills the hole image data with the given pixel value. It is 
+/*! It just fills the whole image data with the given pixel value. It is 
     mainly used to initialize the image data.
 */
 void Image::clear(UChar8 pixelValue)
