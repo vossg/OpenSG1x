@@ -716,7 +716,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
         OSG_CLASS_PTR fc;                                                     \
                                                                               \
         if(getClassType().getPrototype() != OSG::NullFC)                      \
-         fc = dcast<OSG_CLASS_PTR>(getClassType().getPrototype()->            \
+         fc = OSG::dcast<OSG_CLASS_PTR>(getClassType().getPrototype()->       \
                  shallowCopy());                                              \
                                                                               \
         return fc;                                                            \
@@ -732,7 +732,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
         OSG_CLASS_PTR fc;                                                     \
                                                                               \
         if(getClassType().getPrototype() != OSG::NullFC)                      \
-         fc = dcast<OSG_CLASS_PTR>(getClassType().getPrototype()->            \
+         fc = OSG::dcast<OSG_CLASS_PTR>(getClassType().getPrototype()->       \
                   shallowCopy());                                             \
                                                                               \
         return fc;                                                            \

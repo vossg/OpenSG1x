@@ -170,6 +170,9 @@ Bool FieldContainerFactory::initializePendingTypes(void)
     Bool           returnValue = true;
     FieldContainerType *pType       = NULL;
 
+    if(_bInitialized == false)
+        return false;
+
     SINFO << "OSGFieldContainerFactory init pending types" << endl;
 
     if(_pUnitTypesStore != NULL)
