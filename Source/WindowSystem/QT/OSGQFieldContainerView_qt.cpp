@@ -90,7 +90,7 @@ QFieldContainerView::QFieldContainerView(      FieldContainerPtr  pFC,
     _pTable->setNumCols      (3                  );
     _pTable->setReadOnly     (true               );
     _pTable->setSelectionMode(QTable::NoSelection);
-    
+
     setFieldContainer(pFC);
 }
 
@@ -142,8 +142,8 @@ QFieldContainerView::beginEdit(UInt32 uiFieldId, UInt32 uiIndex)
     if((uiFieldId < 1) || (uiFieldId > _pFC->getType().getNumFieldDescs()))
         return;
 
-    QFieldViewBase *pFView = 
-        dynamic_cast<QFieldViewBase *>(_pTable->cellWidget(uiFieldId-1, 
+    QFieldViewBase *pFView =
+        dynamic_cast<QFieldViewBase *>(_pTable->cellWidget(uiFieldId-1,
                                                            ValueColumn ));
 
     if(pFView)
@@ -171,7 +171,7 @@ QFieldContainerView::endEdit(UInt32 uiFieldId)
 {
     if((uiFieldId < 1) || (uiFieldId > _pFC->getType().getNumFieldDescs()))
         return;
-    
+
     QFieldViewBase *pFView =
         dynamic_cast<QFieldViewBase *>(_pTable->cellWidget(uiFieldId - 1,
                                                            ValueColumn   ));
@@ -208,7 +208,7 @@ void
 QFieldContainerView::clearTable(void)
 {
     UInt32 rows = _pTable->numRows();
- 
+
     for(UInt32 i = rows; i > 0; --i)
     {
         _pTable->removeRow(i-1);
@@ -221,7 +221,7 @@ QFieldContainerView::fillTable(const FieldContainerPtr &pFC, UInt32 uiAspect)
     UInt32  uiNumFields = pFC->getType().getNumFieldDescs();
 
     _pTable->setNumRows(uiNumFields);
-    
+
     for(UInt32 i = 0; i < uiNumFields; ++i)
     {
 
@@ -230,47 +230,53 @@ QFieldContainerView::fillTable(const FieldContainerPtr &pFC, UInt32 uiAspect)
             QSFieldView *pSFView = new QSFieldView(pFC, i+1, uiAspect, this);
 
             _pTable->setCellWidget(i, ValueColumn, pSFView      );
-            _pTable->setItem      (i, ValueColumn, 
+
+#if (QT_VERSION < 0x030301) || (QT_VERSION < 304)
+            _pTable->setItem      (i, ValueColumn,
                                    new QWidgetTableItem(_pTable));
-            
-            connect(pSFView, 
-                    SIGNAL(clicked        (FieldContainerPtr, UInt32, 
+#endif
+
+            connect(pSFView,
+                    SIGNAL(clicked        (FieldContainerPtr, UInt32,
                                            UInt32,            ButtonState)),
-                    this,    
-                    SLOT  (onClicked      (FieldContainerPtr, UInt32, 
+                    this,
+                    SLOT  (onClicked      (FieldContainerPtr, UInt32,
                                            UInt32,            ButtonState)));
-            connect(pSFView, 
+            connect(pSFView,
                     SIGNAL(doubleClicked  (FieldContainerPtr, UInt32,
                                            UInt32,            ButtonState)),
                     this,
-                    SLOT  (onDoubleClicked(FieldContainerPtr, UInt32, 
+                    SLOT  (onDoubleClicked(FieldContainerPtr, UInt32,
                                            UInt32,            ButtonState)));
             _pTable->setText(i, NameColumn,
                              pFC->getType().getFieldDescription(i+1)->getCName());
-        } 
+        }
         else
         {
             QMFieldView *pMFView = new QMFieldView(pFC, i+1, uiAspect, this);
-            
+
             _pTable->setCellWidget(i, ValueColumn, pMFView      );
+
+#if (QT_VERSION < 0x030302) || (QT_VERSION < 304)
             _pTable->setItem      (i, ValueColumn,
                                    new QWidgetTableItem(_pTable));
+#endif
 
-             connect(pMFView, 
-                     SIGNAL(clicked        (FieldContainerPtr, UInt32, 
+             connect(pMFView,
+                     SIGNAL(clicked        (FieldContainerPtr, UInt32,
                                             UInt32,            ButtonState)),
-                     this,    
+                     this,
                      SLOT  (onClicked      (FieldContainerPtr, UInt32,
                                             UInt32,            ButtonState)));
-             connect(pMFView, 
+             connect(pMFView,
                      SIGNAL(doubleClicked  (FieldContainerPtr, UInt32,
                                             UInt32,            ButtonState)),
                      this,
                      SLOT  (onDoubleClicked(FieldContainerPtr, UInt32,
                                             UInt32,            ButtonState)));
-                                            
+
             QString s(pFC->getType().getFieldDescription(i+1)->getCName());
-            
+
             if(pMFView->getFieldPtr()->getSize() >= 2)
             {
                 s += "\n";
@@ -281,17 +287,17 @@ QFieldContainerView::fillTable(const FieldContainerPtr &pFC, UInt32 uiAspect)
             }
             _pTable->setText(i, NameColumn, s);
         }
-        
+
         _pTable->setText(i, TypeColumn,
                          pFC->getField(i+1)->getType().getCName());
     }
-    
+
     for(UInt32 i=0; i<uiNumFields; ++i)
         _pTable->adjustRow(i);
 
     _pTable->adjustColumn(NameColumn );
     _pTable->adjustColumn(ValueColumn);
-    
+
     if(_bShowTypeColumn)
     {
         _pTable->showColumn  (TypeColumn);
