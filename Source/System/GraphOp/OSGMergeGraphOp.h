@@ -86,7 +86,7 @@ public:
     /*! \name                   Main methods                               */
     /*! \{                                                                 */
 
-    bool traverse(NodePtr& root);
+    bool traverse(NodePtr& node);
 
     //virtual const std::string getName(void) { return _name; };
 
@@ -103,6 +103,8 @@ protected:
 
     /*==========================  PRIVATE  ================================*/
 private:
+    bool mergeOnce(NodePtr& node);
+
     void makeExcludeList        (NodePtr& node);
     void processGroups          (NodePtr& node);
     void processTransformations (NodePtr& node);

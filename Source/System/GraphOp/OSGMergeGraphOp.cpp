@@ -1,3 +1,4 @@
+
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -92,15 +93,38 @@ GraphOp* MergeGraphOp::create()
     return inst;
 }
 
-bool MergeGraphOp::traverse(NodePtr& root)
+UInt32 countNodes(const NodePtr& node)
 {
-    std::list<NodePtr> tempList;
-    tempList.clear();
-    tempList.splice(tempList.end(),_excludeListNodes);
-    makeExcludeList(root);
-    bool result = GraphOp::traverse(root);
-    _excludeListNodes.clear();    
-    _excludeListNodes.splice(_excludeListNodes.end(),tempList);
+    if (node == NullFC)
+        return 0;
+
+    UInt32 total = 1;
+    for (UInt32 i = 0; i < node->getNChildren(); ++i)
+        total += countNodes(node->getChild(i));
+    return total;
+}
+
+bool MergeGraphOp::traverse(NodePtr& node)
+{
+    // This is a hack and should be treated as such.
+    // The fact that it helps means there is something wrong with
+    // the merger. FIXME!!!
+    UInt32 next = countNodes(node);
+    SINFO << "MergeGraphOp::traverse: Number of nodes before merge: " 
+          << next << endLog;
+    bool result = true;
+    UInt32 current;
+    do {
+        current = next;
+        result &= mergeOnce(node);
+        if (!result)
+            break;
+        next = countNodes(node);
+    } while (next < current);
+
+    SINFO << "MergeGraphOp::traverse: Number of nodes after merge: " 
+          << current << endLog;
+
     return result;
 }
 
@@ -109,13 +133,20 @@ void MergeGraphOp::setParams(const std::string)
 }
 
 /*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
+
+bool MergeGraphOp::mergeOnce(NodePtr& node)
+{
+    std::list<NodePtr> tempList;
+    tempList.clear();
+    tempList.splice(tempList.end(),_excludeListNodes);
+    makeExcludeList(node);
+    bool result = GraphOp::traverse(node);
+    _excludeListNodes.clear();    
+    _excludeListNodes.splice(_excludeListNodes.end(),tempList);
+    return result;
+}
 
 void MergeGraphOp::makeExcludeList(NodePtr& node)
 {
