@@ -58,8 +58,10 @@ typedef void (CALLBACK *OSGGLUfuncptr)();
 #elif defined(__linux)
 #  ifdef GLAPIENTRY
 typedef void (GLAPIENTRY *OSGGLUfuncptr)();
-#  else
+#  elif defined(APIENTRY)
 typedef void (APIENTRY *OSGGLUfuncptr)();
+#  else
+typedef void (*OSGGLUfuncptr)();
 #  endif
 #else
 typedef void (*OSGGLUfuncptr)();
