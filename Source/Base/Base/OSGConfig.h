@@ -157,7 +157,7 @@
 
 # else
 #     define OSG_THROW_NOTHING() 
-#     if __GNUC_MINOR__ <= 95
+#     if __GNUC_MINOR__ <= 96
 #         define OSG_GCC_NO_IOS_BASE
 #     endif
 # endif
