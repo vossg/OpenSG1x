@@ -61,6 +61,7 @@
 #include "OSGImageBase.h"
 #include "OSGImage.h"
 
+#include <OSGGL.h>                        // DataType default header
 
 OSG_USING_NAMESPACE
 
@@ -309,7 +310,7 @@ ImageBase::ImageBase(void) :
     _mfPixel                  (), 
     _sfFrameSize              (Int32(0)), 
     _sfName                   (), 
-    _sfDataType               (Int32(1)), 
+    _sfDataType               (Int32(GL_UNSIGNED_BYTE)), 
     _sfComponentSize          (Int32(1)), 
     Inherited() 
 {
