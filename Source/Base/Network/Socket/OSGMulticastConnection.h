@@ -42,6 +42,8 @@
 #pragma once
 #endif
 
+#include <set>
+
 #include <OSGBaseTypes.h>
 #include <OSGTime.h>
 #include <OSGBase.h>
@@ -150,10 +152,13 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     /*! \name                  address handling                            */
     /*! \{                                                                 */
  
-    void interpreteAddress(const std::string  &address,
-                                 std::string  &group,
-                                 UInt32       &port,
-                                 UInt32       &member);
+    void          interpreteAddress(const std::string &address,
+                                          std::string &group,
+                                               UInt32 &port,
+                                               UInt32 &member  );
+    SocketAddress findFreeGroup    (void                       );
+    void          addUsedGroup     (const SocketAddress &group );
+    void          subUsedGroup     (const SocketAddress &group );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -176,6 +181,7 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     SocketAddress                     _destination;
     UInt32                            _member;
     Time                              _aliveTime;
+    SocketAddress                     _multicastGroupAddress;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -201,7 +207,10 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     /*! \name                   Class Variable                             */
     /*! \{                                                                 */
 
-    static ConnectionType _type;
+    static ConnectionType             _type;
+    static std::set<std::string>      _usedGroup;
+    static std::string                _defaultGroup;
+    static UInt32                     _defaultPort;
 
     /*! \}                                                                 */
 

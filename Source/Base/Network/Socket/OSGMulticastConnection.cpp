@@ -103,7 +103,8 @@ MulticastConnection::MulticastConnection(int ) :
     _socket(),
     _aliveTime(4),
     _aliveThread(NULL),
-    _stopAliveThread(false)
+    _stopAliveThread(false),
+    _multicastGroupAddress()
 {
     UInt32 i;
 
@@ -148,13 +149,14 @@ MulticastConnection::~MulticastConnection(void)
             SLOG << "Connection closed" << std::endl;
             _socket.sendTo(&closed,sizeof(closed),_destination);
         }
-        _socket.close();
-        _groupSocket.close();
-        _aliveSocket.close();
+        subUsedGroup(_multicastGroupAddress);
     }
     catch(...)
     {
     }
+    try { _socket.close();      } catch (...) {}
+    try { _groupSocket.close(); } catch (...) {}
+    try { _aliveSocket.close(); } catch (...) {}
 }
 
 /*-------------------------------------------------------------------------*/
@@ -174,21 +176,27 @@ Connection *MulticastConnection::create(void)
  **/
 std::string MulticastConnection::bind(const std::string &address)
 {
-    char        bound[256];
-    std::string group;
-    UInt32      port;
-    UInt32      member;
+    char          bound[256];
+    std::string   group;
+    UInt32        port;
+    UInt32        member;
     
     interpreteAddress(address,group,port,member);
+    _multicastGroupAddress = SocketAddress(group.c_str(),port);
     if(group.empty())
-        group     ="224.11.12.50";
-    if(port==0)
-        port =6546;
+    {
+        _multicastGroupAddress = findFreeGroup();
+        group = _multicastGroupAddress.getHost();
+        port  = _multicastGroupAddress.getPort();
+    }
 
     // prepare socket
     _groupSocket.setReusePort(true);
     _groupSocket.bind(SocketAddress(SocketAddress::ANY,port));
-    _groupSocket.join(SocketAddress(group.c_str()));
+    port=_groupSocket.getAddress().getPort();
+    _multicastGroupAddress.setPort(port);
+    addUsedGroup(_multicastGroupAddress);
+    _groupSocket.join(_multicastGroupAddress);
     _inSocket=_groupSocket;
     _socket.bind(SocketAddress(SocketAddress::ANY,0));
 
@@ -212,38 +220,63 @@ void MulticastConnection::accept(void)
     SocketAddress destination;
     UInt32 size;
     SocketSelection selection;
+    UInt32 firstRequestPort=0;
+    Time waitForAck=4;
+    Time stopWaitForAck=0;
 
     for(;;)
     {
-        // wait for connection request
-        do
-        {
-            size=_inSocket.recvFrom(&connect,sizeof(connect),destination);
-        }
-        while(connect.header.type != CONNECT ||
-              connect.member      != htonl(_member));
-        // send connection response
-        _socket.sendTo(&connect,size,destination);
         // wait max 4 sec for response acknolage
         selection.setRead(_socket);
         selection.setRead(_inSocket);
-        if(selection.select(4))
+        if(selection.select(waitForAck))
         {
+            // are we waiting for an ack?
+            if(firstRequestPort)
+            {
+                waitForAck=stopWaitForAck-getSystemTime();
+                if(waitForAck<=0)
+                    break;
+            }
+            // request ?
+            if(selection.isSetRead(_inSocket))
+            {
+                size=_inSocket.recvFrom(&connect,sizeof(connect),destination);
+                // request for me?
+                if(connect.header.type != CONNECT        ||
+                   connect.member      != htonl(_member))
+                    continue;
+                // we can only ansper the question from the first socket
+                // otherwise more then one connection is accepted
+                if(firstRequestPort != 0 && 
+                   firstRequestPort != destination.getPort())
+                    continue;
+                // if already connected
+                if(std::find(_channelAddress.begin(),
+                             _channelAddress.end(),
+                             destination) != _channelAddress.end())
+                    continue;
+                // respond
+                firstRequestPort = destination.getPort();
+                stopWaitForAck   = getSystemTime()+4;
+                // send connection response
+                _socket.sendTo(&connect,size,destination);
+            }
+
+            // ack?
             if(selection.isSetRead(_socket))
             {
                 size=_socket.recvFrom(&connect,sizeof(connect),destination);
                 if(connect.header.type == CONNECT &&
                    connect.member      == htonl(_member))
-                {
                     break;
-                }
             }
         }
         else
         {
-            // response ack lost. Doesn't matter. Because we haven't
-            // got a new connection request either.
-            break;
+            // ack got lost
+            if(firstRequestPort)
+                break;
         }
     }
     _destination=destination;
@@ -266,7 +299,8 @@ void MulticastConnection::connect(const std::string &address)
     UInt32        size;
 
     interpreteAddress(address,group,port,member);
-    _destination=SocketAddress(group.c_str(),port);
+    _multicastGroupAddress=_destination=SocketAddress(group.c_str(),port);
+    addUsedGroup(_multicastGroupAddress);
     if(member == 0)
     {
         SFATAL << "Connect to member and no member is given" << std::endl;
@@ -291,6 +325,7 @@ void MulticastConnection::connect(const std::string &address)
             if(connectResponse.header.type == connectRequest.header.type &&
                connectResponse.member      == connectRequest.member)
             {
+                // send ack
                 _socket.sendTo(&connectRequest,size,from);
                 break;
             }
@@ -686,12 +721,68 @@ void MulticastConnection::interpreteAddress(const std::string &address,
     }
 }
 
+/*! Get the next free multicast group
+ */
+SocketAddress MulticastConnection::findFreeGroup(void)
+{
+    if(_usedGroup.size()==0)
+        return SocketAddress(_defaultGroup.c_str(),_defaultPort);
+    std::string address=*_usedGroup.rbegin();
+    
+    char newAddress[16];
+    UInt32 a,b,c,d;
+
+    sscanf(address.c_str(),"%d.%d.%d.%d",&a,&b,&c,&d);
+    do
+    {
+        ++d;
+        if(d>254)
+        {
+            d=254;
+            ++c;
+            if(c>254)
+            {
+                c=254;
+                ++b;
+                if(b>254)
+                {
+                    SFATAL << "Unable to find free multicast group" 
+                           << std::endl;
+                    return SocketAddress(_defaultGroup.c_str(),
+                                         _defaultPort);
+                }                
+            }
+        }
+        sprintf(newAddress,"%d.%d.%d.%d",224,b&255,c&255,d&255);
+    }
+    while(_usedGroup.find(newAddress) != _usedGroup.end());
+    return SocketAddress(newAddress,0);
+}
+
+/*! add group address to used list
+ */
+void MulticastConnection::addUsedGroup(const SocketAddress &group )
+{
+    _usedGroup.insert(group.getHost());
+}
+
+/*! sub group address from used list
+ */
+void MulticastConnection::subUsedGroup(const SocketAddress &group )
+{
+    _usedGroup.erase(group.getHost());
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              class vatiables                            */
 
 ConnectionType MulticastConnection::_type(&MulticastConnection::create,
                                           "Multicast");
+
+std::set<std::string> MulticastConnection::_usedGroup=std::set<std::string>();
+
+std::string MulticastConnection::_defaultGroup="224.11.11.10";
+UInt32      MulticastConnection::_defaultPort =17523;
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
