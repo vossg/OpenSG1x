@@ -231,8 +231,12 @@ Action::ResultE Light::renderEnter(Action *action)
     return Action::Continue;
 }
 
-Action::ResultE Light::renderLeave(Action *OSG_CHECK_ARG(action))
+Action::ResultE Light::renderLeave(Action *action)
 {
+    RenderAction *pAction = dynamic_cast<RenderAction *>(action);
+
+    pAction->undropLight(this);
+
     return Action::Continue;
 }
 
