@@ -148,7 +148,7 @@ public:
 							 Image *destination = 0);
 
 	/** create mipmap, level == -1 will create all maipmaps until 1x1 */
-	Bool createMipmap ( Int32 level );
+	Bool createMipmap ( Int32 level = -1, Image *destination = 0);
 
   /** methode to write the image data to the given File */
   Bool write (const Char8 *fileName);
@@ -177,6 +177,12 @@ public:
   /** get method for attribute bpp */
 	UChar8 getBpp (void) const { return _bpp; }
 
+	/** get the number of mipmaps */
+	Int32 getMipMapCount(void) { return _mipmapCount; }
+	
+	/** geth the number of frames */
+	Int32 getFrameCount(void) { return _frameCount; }
+			
   /** get method for attribute pixelFormat */
 	PixelFormat getPixelFormat (void) const { return _pixelFormat; }
 
@@ -201,6 +207,12 @@ public:
 			return data;
 		}
 
+  /** get method for attribute data */
+  inline UChar8 *getDataByTime ( Time time, UInt32 mipmapNum = 1) 
+		{ 
+			return _data; 
+		}	
+
 	/** calculate mipmap geometry */
 	void calcMipmapGeometry ( Int32 mipmapNum,
 														Int32 &width, Int32 &height, Int32 &depth )
@@ -209,12 +221,6 @@ public:
 			height = _height >> mipmapNum;
 			depth  = _depth >> mipmapNum;
 		}
-
-  /** get method for attribute data */
-  inline UChar8 *getDataByTime ( Time time, UInt32 mipmapNum = 1) 
-		{ 
-			return _data; 
-		}	
 
   /** clears the image (sets all pixel to pixelValue) */
   virtual void clear (UChar8 pixelValue = 0);

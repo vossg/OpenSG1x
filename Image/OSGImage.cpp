@@ -422,8 +422,124 @@ Bool Image::scale ( int width, int height, int depth, Image *destination )
 //s:
 //
 //------------------------------
-Bool Image::createMipmap ( Int32 level )
+Bool Image::createMipmap ( Int32 level, Image *destination)
 {
+	struct Offset { 
+		Int32 w;
+		Int32 h;
+		Int32 d;
+	};
+	Offset offset[][8] = { 
+		{ // 000
+			{ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, { 0,0,0 },
+			{ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, { 0,0,0 }
+		},
+		{ // 100
+			{ 0,0,0 }, { 1,0,0 }, { 0,0,0 }, { 0,0,0 },
+			{ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, { 0,0,0 }
+		},
+		{ // 010
+			{ 0,0,0 }, { 0,1,0 }, { 0,0,0 }, { 0,0,0 },
+			{ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, { 0,0,0 }
+		},
+		{ // 110
+			{ 0,0,0 }, { 0,1,0 }, { 1,0,0 }, { 1,1,0 },
+			{ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, { 0,0,0 }
+		},
+		{ // 001
+			{ 0,0,0 }, { 0,0,1 }, { 0,0,0 }, { 0,0,0 },
+			{ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, { 0,0,0 }
+		},
+		{ // 101
+			{ 0,0,0 }, { 1,0,0 }, { 0,0,1 }, { 1,0,1 },
+			{ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, { 0,0,0 }
+		},
+		{ // 110
+			{ 0,0,0 }, { 1,0,0 }, { 0,1,0 }, { 0,1,1 },
+			{ 0,0,0 }, { 0,0,0 }, { 0,0,0 }, { 0,0,0 }
+		},
+		{ // 111
+			{ 0,0,0 }, { 1,0,0 }, { 0,1,0 }, { 1,1,0 },
+			{ 0,0,1 }, { 1,0,1 }, { 0,1,1 }, { 1,1,1 }
+		}
+	};
+	Int32 offsetSize[] = { 0,2,2,4,2,4,4,8 };
+	Image  *destImage = destination ? destination : new Image;
+	Int32  w = _width, h = _height, d = _depth;
+	Int32  wm, hm, dm, wi, hi, di;
+	UChar8 *src,*dest,*pixel;
+	Int32  value, i, elem, dim, frame, size, mipmap;
+	Int32  channel, lineSize, sliceSize;
+	
+	// calc the level count
+	if (level < 0) {
+		for (level = 0; true; level++) {
+			if ((w == 1) && (h == 1) && (d == 1))
+				break;
+			else {
+				w = (w >>= 1) ? w : 1;
+				h = (h >>= 1) ? h : 1;
+				d = (d >>= 1) ? d : 1;
+			}
+		}
+	}
+
+	// create destination image
+	destImage->set( _pixelFormat, _width, _height, _depth,
+									level, _frameCount, _frameDelay, 0 );
+
+	// copy the data;
+	for (frame = 0; frame < _frameCount; frame++) {
+		src = this->getData(0,frame);
+		dest = destImage->getData(0,frame);
+		size = _width * _height * _depth * _bpp;
+		memcpy ( src, dest, size);
+		src = dest;
+		dest = src + size;
+		w = _width;
+		h = _height;
+		d = _depth;
+		for (mipmap = 1; mipmap < level; mipmap++) {
+			dim = (d>dm)*1 + (h>hm)*2 + (w>wm)*4;
+			elem = offsetSize[dim];
+			lineSize = w * _bpp;
+			sliceSize = w * h * _bpp;
+			wm = (w == 1) ? w : (w >> 1);
+			hm = (h == 1) ? h : (h >> 1);
+			dm = (d == 1) ? d : (d >> 1);			
+		  for (di = 0; di < dm; di++) {
+				for (hi = 0; hi < hm; hi++) {
+					for (wi = 0; wi < wm; wm++) {
+						for (channel = _bpp; channel < _bpp; channel++) {
+							value = 0;
+							for (i = 0; i < elem; i++) {
+								value += src[ ((wi*2)+offset[dim][i].w)*_bpp +
+														  ((hi*2)+offset[dim][i].h)*lineSize +
+														  ((di*2)+offset[dim][i].d)*sliceSize +
+														  channel 
+														];
+							}
+							*dest++ = value / elem;
+						}
+						
+					}
+				}
+			}
+			src += sliceSize;
+			w = wm;
+			h = hm;
+			d = dm;
+		}
+	}
+
+	// rip the data from the local destImage if necessary
+	if (!destination) {
+		delete [] _data;
+		_data = destImage->_data;
+		destImage->_data = 0;
+		delete destImage;
+	}
+	
 	return true;
 }
 
