@@ -6,7 +6,7 @@
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
- \*---------------------------------------------------------------------------*/
+\*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
@@ -23,7 +23,7 @@
  * License along with this library; if not, write to the Free Software       *
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
- \*---------------------------------------------------------------------------*/
+\*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                Changes                                    *
  *                                                                           *
@@ -32,7 +32,7 @@
  *                                                                           *
  *                                                                           *
  *                                                                           *
- \*---------------------------------------------------------------------------*/
+\*---------------------------------------------------------------------------*/
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
@@ -41,19 +41,19 @@
 /* */
 
 OSG_BEGIN_NAMESPACE inline void GraphicStatisticsForeground::processValue(Real32 &value,
-                                                                          const UInt32 &ID)
+                                                                          const UInt32 &elementID)
 {
-    processOnlyValue(value, ID);
-    addValueToHistory(value, ID);
+    processOnlyValue(value, elementID);
+    addValueToHistory(value, elementID);
 }
 
 /* */
 inline void GraphicStatisticsForeground::processOnlyValue(Real32 &value,
-                                                          const UInt32 &ID)
+                                                          const UInt32 &elementID)
 {
-    UInt32  flags = getFlags()[ID];
-    Real32  minV = getMinValue()[ID];
-    Real32  maxV = getMaxValue()[ID];
+    UInt32  flags = getFlags()[elementID];
+    Real32  minV = getMinValue()[elementID];
+    Real32  maxV = getMaxValue()[elementID];
 
     /* check for invert */
     if(flags & OSG_RECIPROC)
@@ -66,7 +66,7 @@ inline void GraphicStatisticsForeground::processOnlyValue(Real32 &value,
     {
         if(flags & OSG_OVERFLOW_RESIZE)
         {
-            getMaxValue()[ID] = value;
+            getMaxValue()[elementID] = value;
         }
         else
         {
@@ -79,7 +79,7 @@ inline void GraphicStatisticsForeground::processOnlyValue(Real32 &value,
     {
         if(flags & OSG_UNDERFLOW_RESIZE)
         {
-            getMinValue()[ID] = value;
+            getMinValue()[elementID] = value;
         }
         else
         {
@@ -92,21 +92,21 @@ inline void GraphicStatisticsForeground::processOnlyValue(Real32 &value,
 
 /* */
 inline void GraphicStatisticsForeground::addValueToHistory(Real32 &value,
-                                                           const UInt32 &ID)
+                                                           const UInt32 &elementID)
 {
-    UInt32  flags = getFlags()[ID];
+    UInt32  flags = getFlags()[elementID];
 
     /* Smooth the value, if asked for */
     UInt32  hSize = _history.size();
-    UInt32  size = (ID < hSize) ? _history[ID].size() : 0;
+    UInt32  size = (elementID < hSize) ? _history[elementID].size() : 0;
 
     if(size > 0)
     {
-        UInt32  queueEnd = _historyID[ID];
-        _history[ID][queueEnd] = value;
+        UInt32  queueEnd = _historyID[elementID];
+        _history[elementID][queueEnd] = value;
 
         /* increment the queue end */
-        _historyID[ID] = (_historyID[ID] + 1) % size;
+        _historyID[elementID] = (_historyID[elementID] + 1) % size;
 
         /* check whether the value should be smoothed */
         if((flags & OSG_SMOOTH) ||
@@ -117,7 +117,7 @@ inline void GraphicStatisticsForeground::addValueToHistory(Real32 &value,
 
             for(UInt32 i = 0; i < size; i++)
             {
-                v = _history[ID][i];
+                v = _history[elementID][i];
 
                 if(i)
                 {
@@ -139,16 +139,16 @@ inline void GraphicStatisticsForeground::addValueToHistory(Real32 &value,
                 //_history[ID][queueEnd] = value;
             }
 
-            if((flags & OSG_OVERFLOW_RESIZE) && (max < getMaxValue()[ID]))
+            if((flags & OSG_OVERFLOW_RESIZE) && (max < getMaxValue()[elementID]))
             {
-                max += (getMaxValue()[ID] - max) / 2.0f;
-                getMaxValue()[ID] = osgMax(v, max);
+                max += (getMaxValue()[elementID] - max) / 2.0f;
+                getMaxValue()[elementID] = osgMax(v, max);
             }
 
-            if((flags & OSG_UNDERFLOW_RESIZE) && (min > getMinValue()[ID]))
+            if((flags & OSG_UNDERFLOW_RESIZE) && (min > getMinValue()[elementID]))
             {
-                min -= (min - getMinValue()[ID]) / 2.0f;
-                getMinValue()[ID] = osgMin(v, min);
+                min -= (min - getMinValue()[elementID]) / 2.0f;
+                getMinValue()[elementID] = osgMin(v, min);
             }
         }
     }
