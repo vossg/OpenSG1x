@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGVRMLAPPEARANCE_HPP_
-#define _OSGVRMLAPPEARANCE_HPP_
+#ifndef _OSGVRMLTEXTURETRANSFORM_HPP_
+#define _OSGVRMLTEXTURETRANSFORM_HPP_
 #ifdef __sgi
 #pragma once
 #endif
@@ -48,10 +48,9 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGVRMLUnlimitedNode.h>
-
-#include <OSGMaterialChunk.h>
-#include <OSGTextureChunk.h>
-#include <OSGTextureTransformChunk.h>
+#include <OSGSFVecTypes.h>
+#include <OSGSFSysTypes.h>
+#include <OSGQuaternion.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,10 +68,10 @@ class VRMLToOSGAction;
 //  Class
 //---------------------------------------------------------------------------
 
-//! VRMLAppearance
+//! VRMLTextureTransform
 //! \ingroup VRMLNodeLib
 
-class OSG_VRML_DLLMAPPING VRMLAppearance : public VRMLUnlimitedNode
+class OSG_VRML_DLLMAPPING VRMLTextureTransform : public VRMLUnlimitedNode
 {
   private:
 
@@ -88,19 +87,25 @@ class OSG_VRML_DLLMAPPING VRMLAppearance : public VRMLUnlimitedNode
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef       VRMLAppearance *Ptr;
-    typedef const VRMLAppearance *ConstPtr;
+    typedef       VRMLTextureTransform *Ptr;
+    typedef const VRMLTextureTransform *ConstPtr;
 
     //-----------------------------------------------------------------------
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_RC_FIRST_ELEM_IDM_DECL(MaterialField                       );
+    OSG_RC_FIRST_ELEM_IDM_DECL(CenterField     );
 
-    OSG_RC_ELEM_IDM_DECL      (TextureField         , MaterialField);
-    OSG_RC_ELEM_IDM_DECL      (TextureTransformField, TextureField );
+    OSG_RC_ELEM_IDM_DECL      (RotationField,    
+                               CenterField     );
 
-    OSG_RC_LAST_ELEM_IDM_DECL (TextureTransformField               );
+    OSG_RC_ELEM_IDM_DECL      (ScaleField,       
+                               RotationField   );
+
+    OSG_RC_ELEM_IDM_DECL      (TranslationField,      
+                               ScaleField      );
+
+    OSG_RC_LAST_ELEM_IDM_DECL (TranslationField);
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -141,7 +146,7 @@ class OSG_VRML_DLLMAPPING VRMLAppearance : public VRMLUnlimitedNode
     //-----------------------------------------------------------------------
 
     //! prohibit default function (move to 'public' if needed) 
-    void operator =(const VRMLAppearance &source);
+    void operator =(const VRMLTextureTransform &source);
 
   protected:
 
@@ -169,16 +174,18 @@ class OSG_VRML_DLLMAPPING VRMLAppearance : public VRMLUnlimitedNode
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    SFVRMLNode _sfMaterial;
-    SFVRMLNode _sfTexture;
-    SFVRMLNode _sfTextureTransform;
+    SFVec2f  _sfCenter;
+    SFReal32 _sfRotation;
+    SFVec2f  _sfScale;
+    SFVec2f  _sfTranslation;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    VRMLAppearance(void);
-    VRMLAppearance(const VRMLAppearance &source);
+    //! prohibit default function (move to 'public' if needed) 
+    VRMLTextureTransform(void);
+    VRMLTextureTransform(const VRMLTextureTransform &source);
 
   public :
 
@@ -192,28 +199,31 @@ class OSG_VRML_DLLMAPPING VRMLAppearance : public VRMLUnlimitedNode
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~VRMLAppearance(void); 
+    virtual ~VRMLTextureTransform(void); 
+
+    /*----------------------------- access ----------------------------------*/
+
+    virtual void setElement(Field  *pField, 
+                            UInt32  uiElementId);
 
     /*-------------------------- field access -------------------------------*/
 
-    SFVRMLNode *getSFMaterial(void);
-    SFVRMLNode *getSFTexture(void);
-    SFVRMLNode *getSFTextureTransform(void);
+    SFVec2f  *getSFCenter          (void);
+    SFReal32 *getSFRotation        (void);
+    SFVec2f  *getSFScale           (void);
+    SFVec2f  *getSFTranslation     (void);
 };
 
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-//! VRMLAppearanceBinder
+//! VRMLTextureTransformBinder
 //! \ingroup VRMLOSGBindingLib
 
-class OSG_VRML_DLLMAPPING VRMLAppearanceBinder : public VRMLNodeBinder
+class OSG_VRML_DLLMAPPING VRMLTextureTransformBinder : 
+    public VRMLNodeBinder
 {
   private:
 
@@ -272,9 +282,9 @@ class OSG_VRML_DLLMAPPING VRMLAppearanceBinder : public VRMLNodeBinder
     //-----------------------------------------------------------------------
 
     //! prohibit default function (move to 'public' if needed) 
-    VRMLAppearanceBinder(const VRMLAppearanceBinder &source);
+    VRMLTextureTransformBinder(const VRMLTextureTransformBinder &source);
     //! prohibit default function (move to 'public' if needed) 
-    void operator =(const VRMLAppearanceBinder &source);
+    void operator =(const VRMLTextureTransformBinder &source);
 
   protected:
 
@@ -298,9 +308,16 @@ class OSG_VRML_DLLMAPPING VRMLAppearanceBinder : public VRMLNodeBinder
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
+    Vec3f      _vCenter;
+    Quaternion _qRotation;
+    Vec3f      _vScale;
+    Vec3f      _vTrans;
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
+
+    void pushValues(void);
 
   public :
 
@@ -312,23 +329,29 @@ class OSG_VRML_DLLMAPPING VRMLAppearanceBinder : public VRMLNodeBinder
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    VRMLAppearanceBinder(void);
+    VRMLTextureTransformBinder(void);
 
-    virtual ~VRMLAppearanceBinder(void); 
+    virtual ~VRMLTextureTransformBinder(void); 
 
     /*------------------------- your_category -------------------------------*/
 
-    void init               (VRMLToOSGAction          *pAction  );
-    
-    void setMaterial        (MaterialChunkPtr          pMat     );
-    void setTexture         (TextureChunkPtr           pTex     );
-    void setTextureTransform(TextureTransformChunkPtr  pTexTrans);
+    void init    (VRMLToOSGAction *pAction);
+    void finish  (VRMLToOSGAction *pAction);
 
-    void finish             (VRMLToOSGAction          *pAction  );
+    /*------------------------- your_category -------------------------------*/
+
+    void setCenter          (Vec2f  &vCenter  );
+    void setRotation        (Real32 &rRotation);
+    void setScale           (Vec2f  &vScale   );
+    void setTranslation     (Vec2f  &vTrans   );
 };
 
 OSG_END_NAMESPACE
 
-#define OSGVRMLAPPEARANCE_HEADER_CVSID "@(#)$Id: $"
+#define OSGVRMLTEXTURETRANSFORM_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGVRMLAPPEARANCE_HPP_ */
+#endif /* _OSGVRMLTEXTURETRANSFORM_HPP_ */
+
+
+
+

@@ -218,6 +218,9 @@ void VRMLLoader::initFieldTypeMapper(void)
 
 
 
+    setIntExtMapping(MFColor3f::getClassType().getId(),
+                     ScanParseSkel::OSGmfColor);
+
     setIntExtMapping(MFInt32::getClassType().getId(),
                      ScanParseSkel::OSGmfInt32);
 

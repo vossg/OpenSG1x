@@ -169,6 +169,9 @@ void endEdit(T *pT, const BitVector whichField)
 
 OSG_END_NAMESPACE
 
+#define OSG_DEBUG_VRMLTOOSG
+
+
 #endif /* _OSGVRMLNODEBASE_HPP_ */
 
 
