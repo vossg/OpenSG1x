@@ -404,6 +404,9 @@ void Window::validateGLObject ( UInt32 id )
 		    	    _glObjects[id]->getFunctor().call( this, id );
 			    _mfGlObjectStatus[id] = initialized;
 		    	    break;
+	case reinitialize:  _glObjects[id]->getFunctor().call( this, id );
+			    _mfGlObjectStatus[id] = initialized;
+		    	    break;
 	case needrefresh:   _glObjects[id]->getFunctor().call( this, id );
 			    _mfGlObjectStatus[id] = initialized;
 		    	    break;
@@ -439,6 +442,7 @@ void Window::doRefreshGLObject( UInt32 id )
 	case notused:	 // not used yet, no need to refresh
 	case destroy:
 	case finaldestroy:	// object is being destroyed, ignore refresh
+	case reinitialize:	// object is being reinitialized, ignore refresh
 		break;
 	case initialize:	// can't happen, internal temporal state
 		SWARNING << "Window::refreshGLObject: id " << id
@@ -449,6 +453,47 @@ void Window::doRefreshGLObject( UInt32 id )
 		break;
 	default:
 		SWARNING << "Window::refreshGLObject: id " << id
+				 << " in state " << _mfGlObjectStatus[id] << "?!?!" << endl;
+		return;
+	}
+}
+
+void Window::reinitializeGLObject( UInt32 id )
+{
+	vector<WindowPtr>::iterator it;
+
+	for ( it = _allWindows.begin(); it != _allWindows.end(); it++ )
+	{
+		(*it)->doReinitializeGLObject( id );
+	}
+}
+
+void Window::doReinitializeGLObject( UInt32 id )
+{
+	if ( id >= _mfGlObjectStatus.size() )
+	{
+		SWARNING << "Window::reinitializeGLObject: nothing known "
+		    	 << "about id " << id << "!" << endl;
+		return;
+	}
+	
+	switch ( _mfGlObjectStatus[id] ) 
+	{
+	case notused:	 // not used yet, no need to refresh
+	case destroy:
+	case finaldestroy:	// object is being destroyed, ignore refresh
+		break;
+	case initialize:	// can't happen, internal temporal state
+		SWARNING << "Window::reinitializeGLObject: id " << id
+				 << " in state initialize ?!?!" << endl;
+		return;
+	case needrefresh: // already needing refresh, switch to reinitialize
+	case reinitialize:// already needing reinitialize
+	case initialized:
+		_mfGlObjectStatus[id] = reinitialize;
+		break;
+	default:
+		SWARNING << "Window::reinitializeGLObject: id " << id
 				 << " in state " << _mfGlObjectStatus[id] << "?!?!" << endl;
 		return;
 	}
@@ -477,7 +522,7 @@ void Window::frameInit( void )
     while ( _registeredExtensions.size() > _availExtensions.size() )
     {			
 	
-        // GL extension string allready retrieved ? 
+        // GL extension string already retrieved ? 
 		if ( _extensions.empty() )
 		{			
 			// if not, retrieve and split it

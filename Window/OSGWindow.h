@@ -86,7 +86,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     //-----------------------------------------------------------------------
 
 	enum GLObjectStatusE { 
-		notused=1, initialize, initialized, needrefresh, destroy, finaldestroy };
+		notused=1, initialize, reinitialize, initialized, 
+		needrefresh, destroy, finaldestroy };
 
     //-----------------------------------------------------------------------
     //   types                                                               
@@ -149,17 +150,18 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
     void setSize(UInt16 width, UInt16 height);
 
-    static UInt32   registerExtension( const Char8 *s );
-    static UInt32   registerFunction ( const Char8 *s );
-    Bool	    	hasExtension  	 ( UInt32 id );    
-	void           *getFunction      ( UInt32 id );
-	void 		    dumpExtensions   ( void );
+    static UInt32   registerExtension   ( const Char8 *s );
+    static UInt32   registerFunction    ( const Char8 *s );
+    Bool	    	hasExtension  	    ( UInt32 id );    
+	void           *getFunction         ( UInt32 id );
+	void 		    dumpExtensions      ( void );
 
-	static UInt32	registerGLObject ( GLObjectFunctor functor, UInt32 num );
-	void			validateGLObject ( UInt32 id );	
-	GLObjectStatusE	getGLObjectStatus( UInt32 id );	
-	static void	    refreshGLObject  ( UInt32 id );	
-	static void 	destroyGLObject  ( UInt32 id, UInt32 num );
+	static UInt32	registerGLObject    ( GLObjectFunctor functor, UInt32 num );
+	void			validateGLObject    ( UInt32 id );	
+	GLObjectStatusE	getGLObjectStatus   ( UInt32 id );	
+	static void	    refreshGLObject     ( UInt32 id );	
+	static void	    reinitializeGLObject( UInt32 id );	
+	static void 	destroyGLObject     ( UInt32 id, UInt32 num );
  
     virtual void    draw   			 (DrawAction *action = NULL );
  	virtual void    drawAllViewports (DrawAction *action = NULL);
@@ -299,6 +301,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
 	// mark the object for refresh
 	void doRefreshGLObject( UInt32 id );	
+
+	// mark the object for reinitialization
+	void doReinitializeGLObject( UInt32 id );	
 
   private:
 
