@@ -9411,24 +9411,6 @@
 			Name="Scan/Parse Files"
 			Filter="y;l">
 			<Filter
-				Name="SourceSystemFileIOFhs ly"
-				Filter="">
-				<File
-					RelativePath="..\..\..\Source\System\FileIO\Fhs\fhs.y">
-					<FileConfiguration
-						Name="Debug|Win32">
-						<Tool
-							Name="VCCustomBuildTool"
-							CommandLine="bison.exe -d -v -pfhs_  -bfhs_ ../../../Source/System/FileIO/Fhs/fhs.y
-move fhs_.tab.c fhs.tab.cpp
-move fhs_.tab.h fhs.tab.h
-move fhs_.output fhs.tab.output
-"
-							Outputs="fhs.tab.cpp;fhs.tab.h"/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-			<Filter
 				Name="SourceSystemFileIOScanParseSkel ly"
 				Filter="">
 				<File
