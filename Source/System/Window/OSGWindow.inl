@@ -105,15 +105,6 @@ inline void* Window::getFunctionNoCheck(UInt32 id)
     return _extFunctions[ id ];
 }
 
-
-/*! Return the value of the registered constant, Inf if not registered
-    or no value received yet.
-*/
-inline Real32 Window::getConstantValue(GLenum id)
-{
-    return getConstantValuev(id)[0];
-}
-
 /*! Return the value of the registered constant, (Inf, Inf) if not
     registered or no value received yet.
 */
@@ -127,6 +118,14 @@ inline const Vec2f& Window::getConstantValuev(GLenum id)
         return _availConstants[id];
 
     return inf;
+}
+
+/*! Return the value of the registered constant, Inf if not registered 
+    or no value received yet.
+*/
+inline Real32 Window::getConstantValue(GLenum id)
+{
+    return getConstantValuev(id)[0];
 }
 
 /*! Find the id of a registered extension. Return -1 if extension not
