@@ -80,7 +80,7 @@ inline void
 GeoProperty<GeoTexCoords1fPropertyDesc>::setValue( const Vec2f & val,
     const UInt32 index )
 {
-    _field[index].setValues(val[0]);
+    _field[index] = val[0];
 }
 
 template<>

@@ -82,7 +82,7 @@ struct GeoTexCoords1fPropertyDesc : public GeoTexCoordsPropertyDesc
 
     typedef GeoTexCoordsPropertyDesc    InheritedDesc;
 
-    typedef MFFloat                     StoredFieldType;
+    typedef MFReal32                    StoredFieldType;
     typedef InheritedDesc::GenericType  GenericType;
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE

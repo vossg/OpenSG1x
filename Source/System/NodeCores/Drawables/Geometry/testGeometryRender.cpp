@@ -177,9 +177,24 @@ int main (int argc, char **argv)
     texs->push_back( Vec2f( 0, 2 ) );
     endEditCP(texs);
 
+    // Note: the object has texCoords, but no texture, so don't be suprised to 
+    // not see the texture. ;)
+    GeoTexCoords1fPtr texs1 = GeoTexCoords1f::create();
+    g1->setTexCoords1( texs1 );
+    beginEditCP(texs1);
+    texs1->getField().push_back( 0 );
+    texs1->getField().push_back( 0.5 );
+    texs1->getField().push_back( 1 );
+    texs1->getField().push_back( 0.5 );
+    texs1->getField().push_back( 0 );
+    texs1->getField().push_back( 2 );
+    texs1->getField().push_back( 2 );
+    texs1->getField().push_back( 0 );
+    endEditCP(texs1);
+
     // use second texture coordinates
     texs = GeoTexCoords2f::create();
-    g1->setTexCoords1( texs );
+    g1->setTexCoords2( texs );
     beginEditCP(texs);
     texs->push_back( Vec2f( 0, 0 ) );
     texs->push_back( Vec2f( 1, 0 ) );
@@ -254,7 +269,7 @@ int main (int argc, char **argv)
     std::vector<OSG::Color3f> colData_l;
     OSG::GeoColors3fPtr colorPtr_l;
 
-    colorPtr_l->getField().setValues(colData_l);
+//    colorPtr_l->getField().setValues(colData_l);
 
     win = GLUTWindow::create();
     win->init();
