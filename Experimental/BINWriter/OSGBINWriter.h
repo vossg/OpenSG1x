@@ -55,7 +55,7 @@ OSG_BEGIN_NAMESPACE
 //! Brief
 //! \ingroup baselib
 
-class /*OSG_DLLEXPORT*/ BINWriter
+class OSG_SYSTEMLIB_DLLMAPPING BINWriter
 {
     /*==========================  PUBLIC  =================================*/
   public:

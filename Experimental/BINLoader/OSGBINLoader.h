@@ -49,7 +49,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class BINLoader
+class OSG_SYSTEMLIB_DLLMAPPING BINLoader
 {
     /*==========================  PUBLIC  =================================*/
 
