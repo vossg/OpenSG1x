@@ -256,7 +256,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     //-----------------------------------------------------------------------
 
 	// handle the GL stuff: creation, activatiom, deletion
-	void handleGL( Window::GLObjectStatusE mode, UInt32 id );
+	void handleGL(Window *win, UInt32 id);
 
     // prohibit default functions (move to 'public' if you need one)
 

@@ -76,7 +76,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.11 2001/07/28 15:05:06 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.12 2001/07/30 08:50:10 vossg Exp $";
 
 StateChunkClass TextureChunk::_class(String("Texture"));
 
@@ -188,7 +188,7 @@ void TextureChunk::onCreate( const FieldContainer & )
 	setGLId( Window::registerGLObject( 
 						osgMethodFunctor2CPtr<
 										void,
-										Window::GLObjectStatusE,
+										Window *,
 										UInt32,
 										TextureChunkPtr
 										>( tmpPtr, &TextureChunk::handleGL ), 1 
@@ -221,8 +221,10 @@ void TextureChunk::dump(      UInt32     uiIndent,
 
 // GL object handler
 // create the texture and destroy it
-void TextureChunk::handleGL( Window::GLObjectStatusE mode, UInt32 id )
+void TextureChunk::handleGL(Window *win, UInt32 id)
 {
+    Window::GLObjectStatusE mode = win->getGLObjectStatus(id);
+
 	if ( mode == Window::destroy )
 	{
 		GLuint tex = id;

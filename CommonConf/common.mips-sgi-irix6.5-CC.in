@@ -73,7 +73,10 @@ endif
 
 ### Language #######################################################
 
-LANG_FLAGS          = -LANG:ansi-for-init-scope=on -LANG:restrict			\
+#can not use this one, as MS is not ansi conform
+#-LANG:ansi-for-init-scope=on 
+
+LANG_FLAGS          = -LANG:restrict			                            \
 					  -LANG:exceptions=ON -LANG:std
 
 COMPILER    		= -$(ABI) -$(ISA) -xansi  -use_readonly_const 			\
