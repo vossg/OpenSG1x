@@ -57,6 +57,8 @@
 #include <OpenSG/OSGSimpleTexturedMaterial.h>
 #include <OpenSG/OSGImage.h>
 #include <OpenSG/OSGSimpleAttachments.h>
+
+#include <OSGContribDef.h>
 #include "OSGDeformableGeometry.h"
 #include "OSGSkinDeformer.h"
 #include "OSGBlendShapeDeformer.h"
