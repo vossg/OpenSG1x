@@ -446,7 +446,8 @@ void Slices::drawSlices ( const Vec3f &planeNormal,
   Plane plane;
   Real32 distance, sliceDistance, volumeDiagonal = getSize().length();
   Int32 i, si, numOfSlices = getNumberOfSlices();
-
+	Vec3f vPos, vDist;
+	
   if (_edgeVec.empty())
     initEdgeVec();
 
@@ -457,6 +458,9 @@ void Slices::drawSlices ( const Vec3f &planeNormal,
   {
     sliceDistance =  volumeDiagonal/ Real32( numOfSlices + 1);
     distance = - volumeDiagonal / 2;
+		vDist = planeNormal;
+		vDist.normalize();
+		vDist *= -sliceDistance;
   }
 
   triCount = 0;
@@ -479,18 +483,30 @@ void Slices::drawSlices ( const Vec3f &planeNormal,
         if (slice.ccw)
           for (i = 0; i < slice.numOfIntersection; i++) 
             {
+              vPos = slice.pointVec[i];
+						  vPos += vDist;
+							
               glTexCoord3f ( (hsx + slice.pointVec[i][0]) * ssx,
                              (hsy + slice.pointVec[i][1]) * ssy,
                              (hsz + slice.pointVec[i][2]) * ssz );
-              glVertex3fv( slice.pointVec[i].getValues() );
+              glColor3f    ( (hsx + vPos.x()) * ssx,
+                             (hsy + vPos.y()) * ssy,
+                             (hsz + vPos.z()) * ssz );
+              glVertex3fv  ( slice.pointVec[i].getValues() );
             }
         else
           for (i = slice.numOfIntersection - 1; i >= 0; i--) 
             {
+              vPos = slice.pointVec[i];
+						  vPos += vDist;
+							
               glTexCoord3f ( (hsx + slice.pointVec[i][0]) * ssx,
                              (hsy + slice.pointVec[i][1]) * ssy,
                              (hsz + slice.pointVec[i][2]) * ssz );
-              glVertex3fv( slice.pointVec[i].getValues() );
+              glColor3f    ( (hsx + vPos.x()) * ssx,
+                             (hsy + vPos.y()) * ssy,
+                             (hsz + vPos.z()) * ssz );
+              glVertex3fv  ( slice.pointVec[i].getValues() );
             }
         ::glEnd();
       }
