@@ -91,6 +91,14 @@ class TripleInt
         {
             _values[ind] = val;
         }
+
+        bool operator ==(const TripleInt &rhs) const
+        {
+            return 
+                _values[0] == rhs._values[0] &&
+                _values[1] == rhs._values[1] &&
+                _values[2] == rhs._values[2];
+        }
         
     private:
     

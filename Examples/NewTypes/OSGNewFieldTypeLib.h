@@ -72,7 +72,7 @@ OSG_BEGIN_NAMESPACE
 
 // Let's define a simple class that should be used in a Field
 
-class TripleIntLib
+class OSG_MYLIBRARY_DLLTMPLMAPPING TripleIntLib
 {
     public:
     
@@ -97,6 +97,14 @@ class TripleIntLib
             _values[ind] = val;
         }
         
+        bool operator ==(const TripleIntLib &rhs) const
+        {
+            return 
+                _values[0] == rhs._values[0] &&
+                _values[1] == rhs._values[1] &&
+                _values[2] == rhs._values[2];
+        }
+
     private:
     
     	// This is not strictly necessary and just for illustration

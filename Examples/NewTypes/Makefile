@@ -41,8 +41,11 @@ OBJS := $(SRCS:.cpp=$(OBJEXT))
 # if you installed in /usr/local:
 # OSGROOT := /usr/local
 # use this if you installed in Builds/*/
-OSGROOT := $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
+# But ONLY if there is no more than one build directory for the platform 
+# returned by config.guess in there (GV).
 
+# set ONLY if not given by the users env
+OSGROOT ?= $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
 
 CC := "$(shell $(OSGROOT)/bin/osg-config --compiler)"
 
