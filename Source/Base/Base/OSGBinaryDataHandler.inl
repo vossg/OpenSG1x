@@ -195,7 +195,7 @@ void BinaryDataHandler::putValue(const Int64 &value)
 inline 
 void BinaryDataHandler::putValue(const Real32 &value)
 {
-    UInt32 v = htonl( *((UInt32*)(&value)) );
+    UInt32 v = htonl( *((const UInt32 *)(&value)) );
 
     put(&v, sizeof(Real32));
 }
@@ -203,7 +203,7 @@ void BinaryDataHandler::putValue(const Real32 &value)
 inline 
 void BinaryDataHandler::putValue(const Real64 &value)
 {
-    UInt64 v = htonl64( *((UInt64*)(&value)) );
+    UInt64 v = htonl64( *((const UInt64 *)(&value)) );
 
     put(&v, sizeof(Real64));
 }
@@ -211,8 +211,8 @@ void BinaryDataHandler::putValue(const Real64 &value)
 inline 
 void BinaryDataHandler::putValue(const Real128 &value)
 {
-    UInt64 v = htonl64( *((UInt64*)(&value)) );
-    UInt64 w = htonl64( *(((UInt64*)(&value)) + 1) );
+    UInt64 v = htonl64( *( (const UInt64 *)(&value)) );
+    UInt64 w = htonl64( *(((const UInt64 *)(&value)) + 1) );
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     put(&w, sizeof(UInt64));
