@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.17 2001/10/15 07:05:36 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.18 2001/10/18 09:57:26 dirk Exp $";
     static char cvsid_hpp       [] = OSGLIGHTBASEBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGLIGHTBASEBASE_INLINE_CVSID;
 
@@ -111,13 +111,13 @@ const OSG::BitVector  LightBaseBase::QuadraticAttenuationFieldMask =
 // Field descriptions
 
 /*! \var Color4f         LightBaseBase::_sfAmbient
-    
+    The light's ambient component.
 */
 /*! \var Color4f         LightBaseBase::_sfDiffuse
-    
+    The light's diffuse color.
 */
 /*! \var Color4f         LightBaseBase::_sfSpecular
-    
+    The light's specular color.
 */
 /*! \var NodePtr         LightBaseBase::_sfBeacon
     
@@ -227,9 +227,9 @@ void LightBaseBase::executeSync(      FieldContainer &other,
 #endif
 
 LightBaseBase::LightBaseBase(void) :
-    _sfAmbient                (), 
-    _sfDiffuse                (), 
-    _sfSpecular               (), 
+    _sfAmbient                (Color4f(0,0,0,1)), 
+    _sfDiffuse                (Color4f(1,1,1,1)), 
+    _sfSpecular               (Color4f(1,1,1,1)), 
     _sfBeacon                 (), 
     _sfOn                     (Bool(true)), 
     _sfConstantAttenuation    (Real32(1)), 
