@@ -224,14 +224,14 @@ int main (int argc, char **argv) {
  	
 	// Frustum defined by normal vector and distance
 	
- 	Plane near(Vec3f(0,0,-1),2);
-	Plane far(Vec3f(0,0,1),7);
-	Plane right(Vec3f(-0.7071,0,-0.7071),0);
-	Plane left(Vec3f(0.7071,0,-0.7071),0);
-	Plane top(Vec3f(0,-0.7071,-0.7071),0);
-	Plane bottom(Vec3f(0,0.7071,-0.7071),0);
+ 	Plane pnear(Vec3f(0,0,-1),2);
+	Plane pfar(Vec3f(0,0,1),7);
+	Plane pright(Vec3f(-0.7071,0,-0.7071),0);
+	Plane pleft(Vec3f(0.7071,0,-0.7071),0);
+	Plane ptop(Vec3f(0,-0.7071,-0.7071),0);
+	Plane pbottom(Vec3f(0,0.7071,-0.7071),0);
 	
-	FrustumVolume frustum(near, far, left, right, top, bottom);
+	FrustumVolume frustum(pnear, pfar, pleft, pright, ptop, pbottom);
 	
 	//Frustum defined by a clipMatrix
 
