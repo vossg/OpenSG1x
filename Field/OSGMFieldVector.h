@@ -60,7 +60,7 @@ OSG_BEGIN_NAMESPACE
 #if defined(__linux)
 #if __GNUC__ >= 3
 #define __STL_DEFAULT_ALLOCATOR(TP) allocator<TP>
-#else if defined (__ICL)
+#elif defined (__ICL)
 #define __STL_DEFAULT_ALLOCATOR(TP) allocator<TP>
 #endif
 #endif
