@@ -3,7 +3,7 @@
  *                                                                           *
  *                                                                           *
  *                                Copyright                                  *
- *                                2000,2001                                  *
+ *                                2000-2002                                  *
  *                            by Fraunhofer IGD                              *
  *                                                                           *
  *                       contact: vossg@igd.fhg.de                           *
