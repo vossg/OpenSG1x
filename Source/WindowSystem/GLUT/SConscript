@@ -19,9 +19,8 @@ InstallHeaders(env, headers)
 def custom(env):
     env.Append(LIBS=env.get('OSG_WINDOW_GLUT_LIBS', []))
 
-BuildLibrary(tc, 'OSGWindowGLUT', sources, updates=[custom],
+BuildLibrary(tc, 'OSGWindowGLUT', sources,
+             updates=[custom, OpenSGLibrary(['OSGSystem', 'OSGBase'])],
              CPPPATH=ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs),
              CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWGLUTLIB',
-                         'OSG_WITH_GLUT'],
-             LIBPATH=['../../Base', '../../System'],
-             LIBS=['OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}'])
+                         'OSG_WITH_GLUT'])

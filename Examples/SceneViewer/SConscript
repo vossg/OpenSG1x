@@ -12,11 +12,10 @@ def custom(env):
 if tc.is_win32():
     dep_LIBS = []
 else:
-    dep_LIBS = ['OSGWindowX${OSG_LIBSUF}']
+    dep_LIBS = ['OSGWindowX']
 
 
-BuildProgram(tc, 'osgSceneViewer', sources, tools=['qt'], updates=[custom],
+BuildProgram(tc, 'osgSceneViewer', sources, tools=['qt'],
+             updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
              CPPPATH=['.', env['PREFIX'].Dir('include')],
-             LIBPATH=[env['PREFIX'].Dir('lib')],
-             LIBS=['OSGWindowQT${OSG_LIBSUF}', 'OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}'] + dep_LIBS,
              CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])

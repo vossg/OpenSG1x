@@ -6,8 +6,7 @@ InstallHeaders(env, headers)
 def custom(env):
     env.Append(LIBS=env.get('OSG_SYSTEM_LIBS', []))
 
-BuildLibrary(tc, 'OSGSystem', sources, updates=[custom],
+BuildLibrary(tc, 'OSGSystem', sources,
+             updates=[custom, OpenSGLibrary('OSGBase')],
              CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILESYSTEMLIB'],
-             CPPPATH=ExpandCPPPath(SystemDirs + BaseDirs, generated),
-             LIBPATH=['../Base'],
-             LIBS=['OSGBase${OSG_LIBSUF}'])
+             CPPPATH=ExpandCPPPath(SystemDirs + BaseDirs, generated))

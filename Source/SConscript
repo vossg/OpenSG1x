@@ -45,7 +45,17 @@ def InstallHeaders(env, headers):
                     r'< $SOURCE > $TARGET')
 
 def InstallLibrary(env, lib):
-    env.Install('$PREFIX/lib', lib)
+    if env.get('OSG_LIBDIR'):
+        dest = env['PREFIX'].Dir('lib').Dir(env['OSG_LIBDIR'])
+    else:
+        dest = env['PREFIX'].Dir('lib')
+
+    #print "Installing to %s: %s" % (dest, env.subst(dest))
+    #print "  %s" % lib.abspath
+    #print "    ->"
+    tgt = env.Install(dest, lib)
+    #print "  %s" % tgt
+
 
 def ExpandCPPPath(list, generated = []):
     return [n.srcnode() for n in list] + generated
@@ -64,7 +74,12 @@ def BuildLibrary(tc, name, sources, tools=[], updates=[], includeGen=0, **kw):
 
         def base(n): return splitext(basename(str(n)))[0]
         objects = [env.SharedObject("${OSG_OBJDIR}/" + base(k), k) for k in sources]
-        lib = env.SharedLibrary(name + '${OSG_LIBSUF}', objects)
+
+        target = name + '${OSG_LIBSUF}'
+        if env.get('OSG_LIBDIR'):
+            target = join('${OSG_LIBDIR}', target)
+
+        lib = env.SharedLibrary(target, objects)
         InstallLibrary(env, lib)
 
 

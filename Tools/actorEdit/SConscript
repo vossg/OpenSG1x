@@ -1,0 +1,30 @@
+Import('*')
+
+sources = Split("""
+    actorEdit.cpp
+    actorEditGui.cpp
+    OSGActorCodeWriter.cpp
+    OSGActorDescConstants.cpp
+    OSGActorDesc.cpp
+    OSGActorDescReader.cpp
+    OSGActorDescWriter.cpp
+    OSGActorEditViewCtl_qt.cpp
+    OSGActorStateElemDesc.cpp
+    OSGActorEditView_qt.ui
+""")
+
+def custom(env):
+    env['CXXFILESUFFIX'] = '.cpp'
+    env['QT_HPREFIX'] = 'uic_'
+    env.Append(CPPPATH = ['$OSG_OBJDIR'])
+
+if tc.is_win32():
+    dep_LIBS = ['OSGWindowWIN32']
+else:
+    dep_LIBS = ['OSGWindowX']
+
+
+BuildProgram(tc, 'actorEdit', sources, tools=['qt'],
+             updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
+             CPPPATH=[Dir('.'), Dir('$OSG_OBJDIR'), env['PREFIX'].Dir('include')],
+             CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])

@@ -55,6 +55,56 @@ elif PLATFORM == 'cygwin':
 
 
 
+def InstallProgram(env, prog):
+    if env.get('OSG_PROGDIR'):
+        env.Install('$PREFIX/lib/$OSG_PROGDIR', prog)
+    else:
+        env.Install('$PREFIX/lib', prog)
+
+        
+def BuildProgram(tc, name, sources, tools=[], updates=[], **kw):
+    from os.path import basename, join
+    from SCons.Util import splitext
+
+    for env in tc.get_env_list():
+        env = env.Copy()
+        for t in tools:   env.Tool(t)
+        for u in updates: u(env)
+        apply(env.Append, [], kw)
+
+        def base(n): return splitext(basename(str(n)))[0]
+        objects = [env.Object("${OSG_OBJDIR}/" + base(k), k) for k in sources]
+
+        target = name + '${OSG_PROGSUF}'
+        if env.get('OSG_PROGDIR'):
+            target = join('$OSG_PROGDIR', target)
+
+        prog = env.Program(target, objects)
+        InstallProgram(env, prog)
+
+
+class OpenSGLibrary:
+    def __init__(self, libraries):
+        if type(libraries) != type([]):
+            libraries = [libraries]
+        self.libraries = libraries
+
+    def __call__(self, env):
+        if env.get('OSG_LIBDIR'):
+            libdir = env['PREFIX'].Dir('lib').Dir(env['OSG_LIBDIR'])
+        else:
+            libdir = env['PREFIX'].Dir('lib')
+
+        env.AppendUnique(LIBPATH = [Dir(libdir)])
+        
+        for lib in self.libraries:
+            env.AppendUnique(LIBS = [lib + '$OSG_LIBSUF'])
+
+
+Export('BuildProgram OpenSGLibrary')
+
+
+
 def CreateEnvironment(*args, **kw):
     "Creates an environment with some things that always have to be set."
     env = apply(Environment, args, kw)
@@ -197,7 +247,7 @@ class win32_msvc_base(win32):
 
     def get_env_list(self):
         env = self.get_env()
-        
+
         dbg = env.Copy()
         dbg.Append(CXXFLAGS=['/MDd', '/Od', '/RTC1', '/Z7'],
                    LINKFLAGS=['/DEBUG'],
@@ -247,7 +297,24 @@ class linux_gcc(ToolChain):
         env['OSG_WINDOW_X_LIBS'] = []
 
         env['OSG_OBJDIR'] = 'obj'
-        return [env]
+
+        dbg = env.Copy()
+        dbg.Append(CXXFLAGS=['-g'],
+                   LINKFLAGS=[''],
+                   CPPDEFINES=['_DEBUG'])
+        dbg['OSG_OBJDIR']  = 'dbg'
+        dbg['OSG_LIBDIR']  = 'dbg'
+        dbg['OSG_PROGDIR'] = 'dbg'
+        
+        opt = env.Copy()
+        opt.Append(CXXFLAGS=['-O2'],
+                   LINKFLAGS=['-s'],
+                   CPPDEFINES=[])
+        opt['OSG_OBJDIR']  = 'opt'
+        opt['OSG_LIBDIR']  = 'opt'
+        opt['OSG_PROGDIR'] = 'opt'
+
+        return [dbg, opt]
 
 class unknown(ToolChain):
     "Specific build type is not known.  Try defaults."
@@ -323,4 +390,4 @@ BuildDir(env['BUILD_DIR'], '.', duplicate=0)
 Export('env')
 SConscript(dirs=map(
     lambda n: env['BUILD_DIR'].Dir(n),
-    ['Source', 'Examples']))
+    ['Source', 'Examples', 'Tools']))

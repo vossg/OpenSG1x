@@ -75,18 +75,14 @@ def custom(env):
 
 if tc.is_win32():
     dep_CPPPATH = ['../WIN32']
-    dep_LIBPATH = ['../WIN32']
-    dep_LIBS    = ['OSGWindowWIN32${OSG_LIBSUF}']
+    dep_LIBS    = ['OSGWindowWIN32']
 else:
     dep_CPPPATH = ['../X']
-    dep_LIBPATH = ['../X']
-    dep_LIBS    = ['OSGWindowX${OSG_LIBSUF}']
+    dep_LIBS    = ['OSGWindowX']
 
-BuildLibrary(tc, 'OSGWindowQT', sources, tools=['qt'], updates=[custom],
+BuildLibrary(tc, 'OSGWindowQT', sources, tools=['qt'],
+             updates=[custom, OpenSGLibrary(dep_LIBS + ['OSGSystem', 'OSGBase'])],
              includeGen=1,
              CPPPATH = ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs + map(Dir, dep_CPPPATH)),
              CPPDEFINES = ['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWQTLIB',
-                           'OSG_WITH_QT', 'QT_CLEAN_NAMESPACE'],
-             LIBPATH = ['../../Base', '../../System'] + dep_LIBPATH,
-             LIBS = dep_LIBS + ['OSGSystem${OSG_LIBSUF}',
-                     'OSGBase${OSG_LIBSUF}'])
+                           'OSG_WITH_QT', 'QT_CLEAN_NAMESPACE'])
