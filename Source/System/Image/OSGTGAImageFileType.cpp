@@ -36,10 +36,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 //-------------------------------
-// Includes  
+// Includes
 //-------------------------------
 
-#ifdef __hpux // prevent int32 clash (model.h/tiff.h)  
+#ifdef __hpux // prevent int32 clash (model.h/tiff.h)
 #define _INT32
 #endif
 
@@ -60,16 +60,16 @@
 OSG_USING_NAMESPACE
 
 
-/*! \class osg::TGAImageFileType 
+/*! \class osg::TGAImageFileType
     \ingroup GrpSystemImage
 
-Image File Type to read/write and store/restore Image objects as 
+Image File Type to read/write and store/restore Image objects as
 TGA data.
 
 All the type specific code is included in the class. Does
 not depend on external libs.
-        
-    
+
+
 */
 
 // Static Class Varible implementations:
@@ -89,7 +89,7 @@ TGAImageFileType& TGAImageFileType::the (void)
 void TGAImageFileType::readHeader(std::istream &in, TGAHeader &header)
 {
     UInt8 dum[18];
-    
+
     in.read(reinterpret_cast<char *>(dum), 18);
 
     header.idLength      = dum[ 0];
@@ -98,7 +98,7 @@ void TGAImageFileType::readHeader(std::istream &in, TGAHeader &header)
     header.cmapEntrySize = dum[ 7];
     header.depth         = dum[16];
     header.descriptor    = dum[17];
-   
+
     if(osgIsBigEndian())
     {
         header.cmapFirst  = dum[ 4] + dum[ 3] * 256;
@@ -126,16 +126,16 @@ bool TGAImageFileType::readCompressedImageData(std::istream &in, ImagePtr &image
     UChar8 *data = image->getData();
     UInt16 bpp = image->getBpp();
     UChar8 r,g,b,a;
-        
+
     while(npix)
     {
         in.read(reinterpret_cast<char *>(&rep), 1);
-        
+
         if(rep & 0x80)
         {
             rep = (rep & 0x7f) + 1;
             npix -= rep;
-            
+
             switch(image->getPixelFormat())
             {
                 case Image::OSG_L_PF:
@@ -145,7 +145,7 @@ bool TGAImageFileType::readCompressedImageData(std::istream &in, ImagePtr &image
                         *data++ = a;
                     }
                     break;
-                case Image::OSG_RGB_PF:     
+                case Image::OSG_RGB_PF:
                     in.read(reinterpret_cast<char *>(&b), 1);
                     in.read(reinterpret_cast<char *>(&g), 1);
                     in.read(reinterpret_cast<char *>(&r), 1);
@@ -181,7 +181,7 @@ bool TGAImageFileType::readCompressedImageData(std::istream &in, ImagePtr &image
             in.read(reinterpret_cast<char *>(data), bpp * rep);
             data += rep * bpp;
             npix -= rep;
-        }   
+        }
     }
     return true;
 }
@@ -196,41 +196,41 @@ TGAImageFileType TGAImageFileType::_the("tga",
 Tries to fill the image object with the data read from
 the given fileName. Returns true on success.
 */
-bool TGAImageFileType::read(      ImagePtr &image, 
+bool TGAImageFileType::read(      ImagePtr &image,
                             const Char8    *fileName)
 {
     std::ifstream  in(fileName, std::ios::in | std::ios::binary);
-    
+
     if(! in.rdbuf()->is_open())
     {
         FWARNING(("Error opening TGA file %s!\n", fileName));
         return false;
     }
 
-    TGAHeader header;   
+    TGAHeader header;
     readHeader(in, header);
-    
+
     Image::PixelFormat format = Image::OSG_INVALID_PF;
- 
+
     bool    compressed = header.imageType & 0x8;
-    
+
     switch(header.imageType & ~0x8)
     {
     case 1:     FWARNING(("TGA: 8-bit image not supported!\n"));
                 break;
-                
+
     case 2:     switch(header.depth)
                 {
                 case 24:    format = Image::OSG_RGB_PF;
                             break;
                 case 32:    format = Image::OSG_RGBA_PF;
                             break;
-                default:    FWARNING(("TGA: Unknown pixel depth %s!\n", 
+                default:    FWARNING(("TGA: Unknown pixel depth %d!\n",
                                     header.depth));
                             break;
                 }
                 break;
-                
+
     case 3:     format = Image::OSG_L_PF;
                 break;
     }
@@ -238,42 +238,42 @@ bool TGAImageFileType::read(      ImagePtr &image,
     if(format == Image::OSG_INVALID_PF)
     {
        FWARNING(("Unsupported image type for TGA file %s!\n", fileName));
-       return false; 
+       return false;
     }
-    
+
     image->set(format, header.width, header.height);
 
     // read the image ID
     UInt8 imageid[256];
     in.read(reinterpret_cast<char *>(imageid), header.idLength);
     imageid[header.idLength] = 0;
-    
+
     FDEBUG(("TGA: Image ID '%s'\n", imageid));
-    
+
     // read color map data
     if(header.colorMapType == 1)
     {
         UInt32 len = osgMin(header.cmapEntrySize / 3, 8) * header.cmapLength;
-        
+
         UInt8 * dum = new UInt8 [len];
-        
+
         in.read(reinterpret_cast<char *>(dum), len);
-    
+
         delete [] dum;
     }
-    
+
     // read image data
     if(compressed)
     {
         if(!readCompressedImageData(in, image))
         {
             FWARNING(("Unsupported image type for TGA file %s!\n", fileName));
-            return false; 
+            return false;
         }
     }
     else
     {
-        in.read(reinterpret_cast<char *>(image->getData()), 
+        in.read(reinterpret_cast<char *>(image->getData()),
                 static_cast<int>(image->getSize()));
     }
 
@@ -285,7 +285,7 @@ bool TGAImageFileType::read(      ImagePtr &image,
     case 0x10:  // bottom right
     case 0x20:  // top left
     case 0x30:  // top right
-                FWARNING(("TGA: origin 0x%d not supported!\n", 
+                FWARNING(("TGA: origin 0x%d not supported!\n",
                           header.descriptor & 0x30));
                 return false;
     }
@@ -297,7 +297,7 @@ bool TGAImageFileType::read(      ImagePtr &image,
         UChar8 *d    = image->getData(), dum;
         UInt32  npix = image->getWidth() * image->getHeight();
         UInt8   bpp  = image->getBpp();
-        
+
         while(npix--)
         {
             dum  = d[2];
@@ -306,7 +306,7 @@ bool TGAImageFileType::read(      ImagePtr &image,
             d += bpp;
         }
     }
-   
+
     return true;
 }
 
