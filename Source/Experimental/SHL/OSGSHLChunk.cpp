@@ -739,8 +739,7 @@ void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program)
     if(_osgParameters.count("OSGCameraOrientation") > 0)
     {
         Matrix m;
-        NodePtr beacon = action->getCamera()->getBeacon();
-        beacon->getToWorld(m);
+        action->getCamera()->getBeacon()->getToWorld(m);
         m[3].setValues(0,0,0,0);
     
         // get "glUniformMatrix4fvARB" function pointer
@@ -755,8 +754,7 @@ void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program)
     if(_osgParameters.count("OSGCameraPosition") > 0)
     {
         Matrix m;
-        NodePtr beacon = action->getCamera()->getBeacon();
-        beacon->getToWorld(m);
+        action->getCamera()->getBeacon()->getToWorld(m);
         Vec3f cameraPos(m[3][0], m[3][1], m[3][2]);
     
         // get "glUniform3fvARB" function pointer
@@ -765,6 +763,35 @@ void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program)
         GLint location = getUniformLocation(program, "OSGCameraPosition");
         if(location != -1)
             uniform3fv(location, 1, cameraPos.getValues());
+    }
+
+    // update viewing matrix
+    if(_osgParameters.count("OSGViewMatrix") > 0)
+    {
+        Matrix m;
+        action->getCamera()->getBeacon()->getToWorld(m);
+        m.invert();
+
+        // get "glUniformMatrix4fvARB" function pointer
+        PFNGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (PFNGLUNIFORMMATRIXFVARBPROC)
+            action->getWindow()->getFunction(_funcUniformMatrix4fv);
+        GLint location = getUniformLocation(program, "OSGViewMatrix");
+        if(location != -1)
+            uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
+    }
+
+    // update invert viewing matrix
+    if(_osgParameters.count("OSGInvViewMatrix") > 0)
+    {
+        Matrix m;
+        action->getCamera()->getBeacon()->getToWorld(m);
+
+        // get "glUniformMatrix4fvARB" function pointer
+        PFNGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (PFNGLUNIFORMMATRIXFVARBPROC)
+            action->getWindow()->getFunction(_funcUniformMatrix4fv);
+        GLint location = getUniformLocation(program, "OSGInvViewMatrix");
+        if(location != -1)
+            uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
     }
 }
 
@@ -883,7 +910,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.23 2004/09/08 13:00:30 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.24 2004/09/08 16:48:51 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
