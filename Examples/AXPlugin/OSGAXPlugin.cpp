@@ -45,7 +45,9 @@ OpenSGWidget::OpenSGWidget( QGLFormat f, QWidget *parent, const char *name )
     _mgr(NULL),
     _pwin(NullFC),
     _render_wireframe(false),
-    _render_statistic(false)
+    _render_statistic(false),
+    _fullscreen(false),
+    _parent(NULL)
 {
     setAcceptDrops(true);
     setAutoBufferSwap(false);
@@ -228,6 +230,9 @@ void OpenSGWidget::keyPressEvent(QKeyEvent *e)
         case Key_F12:
             toggleStatistic();
         break;
+        case Key_Space:
+            toggleFullScreen();
+        break;
     }
 }
 
@@ -267,6 +272,33 @@ void OpenSGWidget::toggleStatistic(void)
     updateGL();
 }
 
+void OpenSGWidget::toggleFullScreen(void)
+{
+    _fullscreen = !_fullscreen;
+
+    // on ATI cards this leads to render bugs, a much slower but safe way
+    // is to create a new render widget with the right window flags and
+    // destroy the old one.
+
+    if(_fullscreen)
+    {
+        _parent = parentWidget();
+        QPoint p(0, 0);
+        reparent(NULL, WStyle_Customize | WStyle_NoBorder |
+                 Qt::WStyle_StaysOnTop, p, true);
+        setFocus();
+        resize(QApplication::desktop()->size());
+        updateGL();
+    }
+    else
+    {
+        QPoint p(0, 0);
+        reparent(_parent, 0, p, true);
+        setFocus();
+        updateGL();
+    }
+}
+
 // ****************************
 // AXPlugin
 // ****************************
@@ -275,6 +307,7 @@ OSGAXPlugin::OSGAXPlugin(QWidget *parent, const char *name) :
         QWidget(parent, name),
         _main(NULL),
         _tools(NULL),
+        _gl_container(NULL),
         _gl(NULL),
         _root(NullFC),
         _show_tools(true),
@@ -300,9 +333,11 @@ OSGAXPlugin::OSGAXPlugin(QWidget *parent, const char *name) :
     QVBoxLayout *vl = new QVBoxLayout(this);
     vl->addWidget(_main);
     
+    _gl_container = new QVBox(_main);
+    
     // create render widget.
     _gl = new OpenSGWidget(QGLFormat(QGL::DoubleBuffer | QGL::DepthBuffer |
-                                     QGL::Rgba | QGL::DirectRendering), _main);
+                                     QGL::Rgba | QGL::DirectRendering), _gl_container);
 
     connect(_gl, SIGNAL(droppedFiles(const QStringList &)), this,
             SLOT(droppedFiles(const QStringList &)));

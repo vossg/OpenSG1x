@@ -27,6 +27,7 @@ public:
     void setHeadlightEnabled(bool s);
     bool isHeadlightEnabled(void);
     void toggleStatistic(void);
+    void toggleFullScreen(void);
 
 signals:
 
@@ -54,6 +55,8 @@ protected:
 
     bool _render_wireframe;
     bool _render_statistic;
+    bool _fullscreen;
+    QWidget *_parent;
 };
 
 // -----------------------------
@@ -120,6 +123,7 @@ protected:
 private:
 
     QVBox *_main;
+    QVBox        *_gl_container;
     OpenSGWidget *_gl;
     OSG::NodePtr _root;
     bool _show_tools;
