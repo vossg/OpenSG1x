@@ -12,6 +12,8 @@
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ *                                                                           *
+ *                                                                           *
  * This library is free software; you can redistribute it and/or modify it   *
  * under the terms of the GNU Library General Public License as published    *
  * by the Free Software Foundation, version 2.                               *
@@ -24,6 +26,7 @@
  * You should have received a copy of the GNU Library General Public         *
  * License along with this library; if not, write to the Free Software       *
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -61,6 +64,8 @@
 #include "OSGFieldContainerPtr.h"
 #include "OSGGeometry.h"
 #include "OSGDrawAction.h"
+
+#include "OSGMaterial.h"
 
 #include "OSGGeoPumpFactory.h"
 

@@ -12,6 +12,7 @@
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ *                                                                           *
  * This library is free software; you can redistribute it and/or modify it   *
  * under the terms of the GNU Library General Public License as published    *
  * by the Free Software Foundation, version 2.                               *
@@ -24,6 +25,7 @@
  * You should have received a copy of the GNU Library General Public         *
  * License along with this library; if not, write to the Free Software       *
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -204,6 +206,18 @@ inline
 void				Geometry::setIndex( GeoIndexPtr index )
 {
     _index.setValue( index );
+}
+		
+inline
+MaterialPtr		Geometry::getMaterial( void )
+{
+    return _material.getValue();
+}
+
+inline
+void				Geometry::setMaterial( MaterialPtr material )
+{
+    _material.setValue( material );
 }
 
 /*-------------------------------------------------------------------------*\

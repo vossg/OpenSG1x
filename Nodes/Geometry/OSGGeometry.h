@@ -56,6 +56,7 @@
 #include <OSGFieldDescription.h>
 #include <OSGGeoProperty.h>
 #include <OSGAction.h>
+#include <OSGMaterial.h>
 // #include <OSGTriangleIterator.h>
 // #include <OSGPrimitiveIterator.h>
 
@@ -104,6 +105,8 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     OSG_FC_FIELD_IDM_DECL      (ColorPerVertexField )
 
     OSG_FC_FIELD_IDM_DECL      (GeoIndexField       )
+
+    OSG_FC_FIELD_IDM_DECL      (MaterialField       )
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
@@ -154,6 +157,9 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     // This will probably move out into a derived class
     inline GeoIndexPtr      getIndex( void );
     inline void             setIndex( GeoIndexPtr index );
+	
+	inline MaterialPtr		getMaterial( void );
+	inline void					setMaterial( MaterialPtr material );
     
     // TODO: separate indices, texcoords, ...
     
@@ -167,6 +173,7 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     SFGeoNormalPtr      *getSFNormals( void );
     SFBool              *getSFNormalPerVertex( void );
     SFGeoIndexPtr       *getSFIndex( void );
+	SFMaterialPtr	*getSFMaterial( void );
 
     /** pointer */
 
@@ -184,6 +191,14 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(void) const;
+	
+    /*------------------------------ Actions --------------------------------*/
+	
+	// execute the OpenGL commands to draw the geometry	
+	Action::ResultE doDraw(Action * action );
+	
+	// low-level OpenGL calls, ignoring materials	
+	Action::ResultE draw(Action * action );
 
   protected:
 
@@ -218,9 +233,6 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     virtual void changed(BitVector whichField, ChangeMode from);
     
     /*------------------------------ Actions --------------------------------*/
-    
-    // execute the OpenGL commands to draw the geometry 
-    Action::ResultE draw(Action * action );
     
   private:
 
@@ -278,6 +290,8 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     
     SFGeoIndexPtr    _index;
     
+	SFMaterialPtr _material;
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------

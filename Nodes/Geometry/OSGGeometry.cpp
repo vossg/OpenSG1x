@@ -124,11 +124,14 @@ OSG_FC_FIELD_IDM_DEF      (Geometry,
                            GeoIndexField, 
                            ColorPerVertexField)
 
-OSG_FC_LAST_FIELD_IDM_DEF (Geometry, 
+OSG_FC_FIELD_IDM_DEF      (Geometry, 
+						   MaterialField,
                            GeoIndexField)
 
-char Geometry::cvsid[] = "@(#)$Id: $";
+OSG_FC_LAST_FIELD_IDM_DEF (Geometry, 
+                           MaterialField)
 
+char Geometry::cvsid[] = "@(#)$Id: $";
 FieldDescription Geometry::_desc[] = 
 {
 	FieldDescription(
@@ -189,6 +192,14 @@ FieldDescription Geometry::_desc[] =
         OSG_FC_FIELD_IDM_DESC(GeoIndexField),
         false,
         (FieldAccessMethod) &Geometry::getSFIndex), 
+
+
+	FieldDescription(
+        SFMaterialPtr::getClassType(),
+        "material", 
+        OSG_FC_FIELD_IDM_DESC(MaterialField),
+        false,
+        (FieldAccessMethod) &Geometry::getSFMaterial), 
 };
 
 FieldContainerType Geometry::_type(
@@ -226,7 +237,7 @@ void Geometry::initMethod (void)
 		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
 								CNodePtr,  
 								GeometryPtr, 
-								Action *>(&Geometry::draw));
+								Action *>(&Geometry::doDraw));
 }
 
 
@@ -248,7 +259,7 @@ OSG_FIELD_CONTAINER_DEF(Geometry, GeometryPtr)
 Geometry::Geometry(void) :
 	Inherited(),
     _types(), _lengths(), _positions(), _normals(), _colors(),
-	_normalsPerVertex(), _colorsPerVertex(), _index()
+	_normalsPerVertex(), _colorsPerVertex(), _index(), _material()
 {
 }
 
@@ -258,7 +269,8 @@ Geometry::Geometry(const Geometry &source) :
 	_positions(source._positions), _normals(source._normals), 
 	_colors(source._colors),
 	_normalsPerVertex(source._normalsPerVertex), 
-	_colorsPerVertex(source._colorsPerVertex), _index(source._index)
+	_colorsPerVertex(source._colorsPerVertex), _index(source._index),
+	_material(source._material)
 {
 }
 
@@ -351,6 +363,11 @@ SFGeoIndexPtr		*Geometry::getSFIndex( void )
 	return &_index;
 }
 
+SFMaterialPtr		*Geometry::getSFMaterial( void )
+{
+	return &_material;
+}
+
 /*-------------------------- your_category---------------------------------*/
 
 /*-------------------------- assignment -----------------------------------*/
@@ -415,6 +432,15 @@ void Geometry::dump(void) const
 
 /** \brief Actions
  */
+	
+Action::ResultE Geometry::doDraw(Action * action )
+{
+	if ( getMaterial() != NullFC )
+		getMaterial()->draw( this, action );
+	else
+		draw( action );
+	return Action::Continue;
+}
 	
 Action::ResultE Geometry::draw(Action * action )
 {
