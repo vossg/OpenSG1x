@@ -565,7 +565,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
                 SWARNING << "Unknown volume type in getBinSize" << endl;
         }
 
-        return sizeof(size);
+        return size;
     }
 
     static UInt32 getBinSize(const DynamicVolume *pObjectStore,
