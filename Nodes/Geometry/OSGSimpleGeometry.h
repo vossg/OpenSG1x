@@ -47,6 +47,7 @@
 #include <OSGSystemDef.h>
 #include <OSGGeoPropPtrs.h>
 #include <OSGGeometry.h>
+#include <OSGMaterial.h>
 
 
 OSG_BEGIN_NAMESPACE
@@ -163,6 +164,12 @@ OSG_SYSTEMLIB_DLLMAPPING GeoPosition3fPtr makeGeoPosition3f  (UInt32 uiSize);
 OSG_SYSTEMLIB_DLLMAPPING GeoIndexUI32Ptr  makeGeoIndexUI32Ptr(UInt32 uiSize);
 OSG_SYSTEMLIB_DLLMAPPING GeoPLengthPtr    makeGeoPLengthPtr  (UInt32 uiSize);
 OSG_SYSTEMLIB_DLLMAPPING GeoPTypePtr      makeGeoPTypePtr    (UInt32 uiSize);
+
+/*! \brief access the default material
+ *  \ingroup SimpleGeometry
+ */
+OSG_SYSTEMLIB_DLLMAPPING MaterialPtr getDefaultMaterial(void);
+
 
 /*! \}                                                                 */
 

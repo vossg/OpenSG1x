@@ -45,6 +45,7 @@
 
 #include "OSGConfig.h"
 #include <OSGLog.h>
+#include <OSGSimpleMaterial.h>
 #include "OSGSimpleGeometry.h"
 
 OSG_USING_NAMESPACE
@@ -56,7 +57,7 @@ OSG_USING_NAMESPACE
 /*! \defgroup SimpleGeometry
 	\ingroup GeometryLib
 
-SimpleGeometry combines a number of functions to create some spezialized 
+SimpleGeometry combines a number of functions to create some specialized 
 geometry very easily. 
 
 */
@@ -71,7 +72,26 @@ static char cvsid[] = "@(#)$Id: $";
 #pragma reset woff 1174
 #endif
 
+/*! The default material used for simple geometries. 
+ */
 
+static SimpleMaterialPtr _defaultMaterial;
+
+OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultMaterial(void)
+{
+	if(_defaultMaterial == NullFC)
+	{
+		_defaultMaterial = SimpleMaterial::create();
+		beginEditCP(_defaultMaterial);
+		_defaultMaterial->setDiffuse( Color3f( 1,1,.5 ) );
+		_defaultMaterial->setAmbient( Color3f( 0.1,0.1,0.1 ) );
+		_defaultMaterial->setSpecular( Color3f( 1,1,1 ) );
+		_defaultMaterial->setShininess( 20 );
+		endEditCP(_defaultMaterial);
+	}
+	
+	return _defaultMaterial;
+}
 
 /*! \ingroup SimpleGeometry
 	\return NodePtr the created plane
@@ -162,6 +182,7 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
     GeometryPtr geo = Geometry::create();
 
  	beginEditCP(geo);
+	geo->setMaterial( getDefaultMaterial() );
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
 	geo->setTexCoords( tex );
@@ -445,6 +466,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
     GeometryPtr geo = Geometry::create();
 
  	beginEditCP(geo);
+	geo->setMaterial( getDefaultMaterial() );
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
 	geo->getIndexMapping().addValue( Geometry::MapPosition | 
@@ -591,6 +613,7 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
     GeometryPtr geo = Geometry::create();
 
  	beginEditCP(geo);
+	geo->setMaterial( getDefaultMaterial() );
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
 	geo->getIndexMapping().addValue( Geometry::MapPosition | 
@@ -809,6 +832,7 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     GeometryPtr geo = Geometry::create();
 
  	beginEditCP(geo);
+	geo->setMaterial( getDefaultMaterial() );
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
 	geo->getIndexMapping().addValue( Geometry::MapPosition | 
@@ -962,6 +986,7 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
     GeometryPtr geo = Geometry::create();
 
  	beginEditCP(geo);
+	geo->setMaterial( getDefaultMaterial() );
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
 	geo->getIndexMapping().addValue( Geometry::MapPosition | 
@@ -1031,33 +1056,4 @@ OSG_SYSTEMLIB_DLLMAPPING GeoPTypePtr OSG::makeGeoPTypePtr(UInt32 uiSize)
 
     return returnValue;
 }
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
 
