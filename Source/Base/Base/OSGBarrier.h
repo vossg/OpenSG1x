@@ -43,6 +43,14 @@
 #endif
 
 #include <OSGBase.h>
+#include <OSGConfig.h>
+
+#if ! defined (OSG_USE_PTHREADS)   && \
+    ! defined (OSG_USE_SPROC)      && \
+    ! defined (OSG_USE_WINTHREADS)
+#error "No threading model defined,  check your system/compiler combination"
+#endif
+
 #include <OSGBaseTypes.h>
 #include <OSGMPBase.h>
 
@@ -63,15 +71,17 @@ class MPFieldStore;
 //  Class
 //---------------------------------------------------------------------------
 
-//! BarrierCommonBase
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpBaseBaseMultiThreading
+ */
 
 class OSG_BASE_DLLMAPPING BarrierCommonBase : public MPBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef MPBase Inherited;
@@ -111,22 +121,17 @@ class OSG_BASE_DLLMAPPING BarrierCommonBase : public MPBase
 
 #if defined (OSG_USE_PTHREADS)
 
-//! PThreadBarrierBase
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpBaseBaseMultiThreading
+ */
 
 class PThreadBarrierBase : public BarrierCommonBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Enter                                    */
-    /*! \{                                                                 */
-
-    void enter(UInt32 uiNumWaitFor);
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef BarrierCommonBase Inherited;
@@ -149,17 +154,25 @@ class PThreadBarrierBase : public BarrierCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    bool init(void);
+    bool init    (       void        );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destruction                                */
     /*! \{                                                                 */
 
-    void shutdown(void);
+    void shutdown(       void        );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Enter                                    */
+    /*! \{                                                                 */
+
+    void enter   (UInt32 uiNumWaitFor);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     pthread_mutex_t _pLockOne;
@@ -186,22 +199,17 @@ typedef PThreadBarrierBase BarrierBase;
 
 #if defined (OSG_USE_SPROC)
 
-//! SprocBarrierBase
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpBaseBaseMultiThreading
+ */
 
 class SprocBarrierBase : public BarrierCommonBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Enter                                   */
-    /*! \{                                                                 */
-
-    void enter(UInt32 uiNumWaitFor);
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef BarrierCommonBase Inherited;
@@ -224,17 +232,25 @@ class SprocBarrierBase : public BarrierCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    bool init(void);
+    bool init    (void               );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destruction                                */
     /*! \{                                                                 */
 
-    void shutdown(void);
+    void shutdown(void               );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Enter                                   */
+    /*! \{                                                                 */
+
+    void enter   (UInt32 uiNumWaitFor);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     barrier_t *_pBarrier;
@@ -258,23 +274,17 @@ typedef SprocBarrierBase BarrierBase;
 
 #if defined (OSG_USE_WINTHREADS)
 
-//! WinThreadBarrierBase
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpBaseBaseMultiThreading
+ */
 
-class OSG_BASE_DLLMAPPING WinThreadBarrierBase :
-    public BarrierCommonBase
+class OSG_BASE_DLLMAPPING WinThreadBarrierBase : public BarrierCommonBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Enter                                   */
-    /*! \{                                                                 */
-
-    void enter(UInt32 uiNumWaitFor);
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -295,17 +305,25 @@ class OSG_BASE_DLLMAPPING WinThreadBarrierBase :
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    bool init(void);
+    bool init    (void               );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destruction                                */
     /*! \{                                                                 */
 
-    void shutdown(void);
+    void shutdown(void               );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Enter                                   */
+    /*! \{                                                                 */
+
+    void enter   (UInt32 uiNumWaitFor);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     typedef BarrierCommonBase Inherited;
@@ -332,12 +350,13 @@ typedef WinThreadBarrierBase BarrierBase;
 //  Class
 //---------------------------------------------------------------------------
 
-//! Barrier
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpBaseBaseMultiThreading
+ */
 
 class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef MPBarrierType Type;
@@ -345,14 +364,24 @@ class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
     /*---------------------------------------------------------------------*/
     /*! \name                      Get                                     */
     /*! \{                                                                 */
-    
+
     static       Barrier       *get         (const Char8 *szName);
     static       Barrier       *find        (const Char8 *szName);
 
-    static const MPBarrierType &getClassType(void);
+    static       Barrier       *create      (      void         );
+
+    static const MPBarrierType &getClassType(      void         );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Enter                                   */
+    /*! \{                                                                 */
+
+    void enter(UInt32 uiNumWaitFor);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef BarrierBase Inherited;
@@ -382,6 +411,7 @@ class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class MPFieldStore<Barrier>;
@@ -395,6 +425,5 @@ class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
 OSG_END_NAMESPACE
 
 #define OSGBARRIER_HEADER_CVSID "@(#)$Id: $"
-
 
 #endif /* _OSGBARRIER_H_ */

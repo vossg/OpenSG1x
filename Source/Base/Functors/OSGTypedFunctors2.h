@@ -63,6 +63,7 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors2Helper
+    \hideinhierarchy
  */
 
 template <class RetT, 
@@ -108,6 +109,7 @@ struct TypedTraits2
 
 
 /*! \ingroup GrpBaseFunctors1Helper
+    \hideinhierarchy
  */
 
 template <class RetT, 
@@ -171,6 +173,7 @@ struct TypedSOTraits2
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class RetT,
@@ -248,6 +251,7 @@ class TypedFunctor2Base : public TypedFunctorBase<SizeTraitsT>
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class CallArgT, 
@@ -324,6 +328,7 @@ class TypedVoidFunctor2Base : public TypedFunctorBase<SizeTraitsT>
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class RetT, 
@@ -422,6 +427,7 @@ class TypedFunctionFunctor2 :
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class CallArgT, 
@@ -516,6 +522,7 @@ class TypedFunctionVoidFunctor2 :
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class RetT, 
@@ -615,6 +622,7 @@ class TypedObjectFunctor2 :
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class CallArgT, 
@@ -710,6 +718,7 @@ class TypedObjectVoidFunctor2 :
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class RetT, 
@@ -816,6 +825,7 @@ class TypedStoredObjectFunctor2 :
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class StoredObjectT, 

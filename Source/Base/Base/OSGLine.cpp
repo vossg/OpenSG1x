@@ -71,21 +71,27 @@ Line::Line(void) :
 {
 }
 
+
 Line::Line(const Line &obj) : 
     _pos(obj._pos), 
     _dir(obj._dir)
 {
 }
 
+
 Line::Line(const Pnt3f &p0, const Pnt3f &p1)
 {
     setValue(p0, p1);
 }
 
+
 Line::Line(const Pnt3f &pos, const Vec3f &dir)
 {
     setValue(pos, dir);
 }
+
+
+/*--------------------------- destructor ----------------------------------*/
 
 Line::~Line(void)
 {
@@ -508,10 +514,10 @@ bool Line::intersect(const BoxVolume &box,
             tl = (low [0] - _pos[0]) * r;
         }
 
-        // check for flat boxes, count them as intersected
-        if(tl-te < Eps)
+        // check for flat boxes, count them as intersected           
+        if(tl - te < Eps)
             return true;
-            
+        
 //        if (te > 1)   return false;
 
         if(tl < out)   
@@ -540,8 +546,8 @@ bool Line::intersect(const BoxVolume &box,
             tl = (low [1] - _pos[1]) * r;
         }
 
-        // check for flat boxes, count them as intersected
-        if(tl-te < Eps)
+        // check for flat boxes, count them as intersected           
+        if(tl - te < Eps)
             return true;
 
 //      if (te > 1)   return false;
@@ -573,8 +579,8 @@ bool Line::intersect(const BoxVolume &box,
             tl = (low [2] - _pos[2]) * r;
         }
 
-        // check for flat boxes, count them as intersected
-        if(tl-te < Eps)
+        // check for flat boxes, count them as intersected           
+        if(tl - te < Eps)
             return true;
 
 //        if (te > 1)   return false;

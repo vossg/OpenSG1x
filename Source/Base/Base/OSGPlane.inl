@@ -25,7 +25,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGPLANE_INL_
 #define _OSGPLANE_INL_
 
@@ -33,16 +32,38 @@
 
 OSG_BEGIN_NAMESPACE
 
+
+inline
+Real32 Plane::distance(const Pnt3f &pnt) const 
+{ 
+    return _normalVec.dot(pnt) - _distance; 
+}
+
+
+/*! Set the plane given the normal and distance. 
+    The normal needs to be normalized!
+ */
+
+inline
+void Plane::set(const Vec3f &normal, Real32 distance)
+{
+    _normalVec = normal;
+    _distance = distance;   
+}
+
+
 /*! Set the plane given the (x,y,z) normal and distance
     The normal needs to be normalized!
  */
 
 inline
-void Plane::set(Real32 x, Real32 y, Real32 z, Real32 distance )
+void Plane::set(Real32 x, Real32 y, Real32 z, Real32 distance)
 {
     _normalVec.setValues(x, y, z);
+
     _distance = distance;    
 }
+
 
 /*! Set the plane given the (x,y,z) normal and distance in a Vec4f
     The normal needs to be normalized!
@@ -52,22 +73,10 @@ inline
 void Plane::set(const Vec4f &plane)
 {
     _normalVec.setValues(plane[0], plane[1], plane[2]);
+
     _distance = plane[3];    
 }
 
-/*! Set the plane given the normal and distance. 
-    The normal needs to be normalized!
- */
-
-inline
-void Plane::set(const Vec3f &normal, Real32 distance )
-{
-    _normalVec = normal;
-    _distance = distance;   
-}
-
-/*! Get the normal vector.
- */
 
 inline
 const Vec3f &Plane::getNormal(void) const 
@@ -75,27 +84,15 @@ const Vec3f &Plane::getNormal(void) const
     return _normalVec; 
 }
 
-/*! Get the distance from the origin.
- */
 
 inline
-Real32 Plane::getDistanceFromOrigin (void) const 
+Real32 Plane::getDistanceFromOrigin(void) const 
 { 
     return _distance; 
 }
 
-/*! Get the distance of the point from the plane.
- */
 
 inline
-Real32 Plane::distance(const Pnt3f &pnt) const 
-{ 
-    return _normalVec.dot(pnt) - _distance; 
-}
-
-/*! != operator, based on ==.
- */
-inline OSG_BASE_DLLMAPPING
 bool operator!=(const Plane &p1, const Plane &p2)
 { 
     return !(p1 == p2); 

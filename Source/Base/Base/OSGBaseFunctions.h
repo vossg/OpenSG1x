@@ -255,7 +255,8 @@ TypeT osgnextpower2(TypeT rVal);
 /*! \{                                                                 */
 
 /*! \brief osgStaticMax
- *  \ingroup GrpBaseMathFunctions
+    \ingroup GrpBaseMathFunctions
+    \hideinhierarchy
  */
 
 template <Int32 uiValue1, Int32 uiValue2>
@@ -398,7 +399,8 @@ Int32 stringcasecmp(const Char8 *string1,
                     const Char8 *string2);
 
 /*! \brief String less than compare functor used for a STL weak ordering
- *  \ingroup GrpBaseFunctions
+    \ingroup GrpBaseFunctions
+    \hideinhierarchy
  */
 
 struct LTString
@@ -410,7 +412,8 @@ struct LTString
 };
 
 /*! \brief String equal compare functor
- *  \ingroup GrpBaseFunctions
+    \ingroup GrpBaseFunctions
+    \hideinhierarchy
  */
 
 struct EQString
@@ -585,6 +588,9 @@ typedef bool (*InitFuncF)(void);
 typedef bool (*ExitFuncF)(void);
 
 
+/*! \hideinhierarchy
+ */
+
 class OSG_BASE_DLLMAPPING InitFuncWrapper
 {
     /*==========================  PUBLIC  =================================*/
@@ -598,6 +604,9 @@ class OSG_BASE_DLLMAPPING InitFuncWrapper
 
     /*! \}                                                                 */
 };
+
+/*! \hideinhierarchy
+ */
 
 class OSG_BASE_DLLMAPPING StaticInitFuncWrapper
 {

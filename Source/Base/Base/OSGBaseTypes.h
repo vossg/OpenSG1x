@@ -46,7 +46,7 @@
 #include <OSGBase.h>
 
 #if defined(OSG_SGI_TYPES) || defined (OSG_LINUX_TYPES) || \
-    defined (OSG_SUNOS_TYPES)
+    defined(OSG_SUNOS_TYPES)
 #include <sys/types.h>
 #endif
 
@@ -63,92 +63,79 @@ OSG_BEGIN_NAMESPACE
 #if defined(OSG_SGI_TYPES)
 
 /*! \var typedef char Char8;
- *  \brief Char8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef char           Char8;
 
 /*! \var typedef unsigned char UChar8;
- *  \brief UChar8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef unsigned char UChar8;
 
 /*! \var typedef signed signed char SChar8;
- *  \brief UChar8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef signed char   SChar8;
 
 /*! \var typedef int8_t Int8;
- *  \brief Int8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int8_t    Int8;
 
 /*! \var typedef uint8_t UInt8;
- *  \brief UInt8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef uint8_t   UInt8;
 
 /*! \var typedef int16_t Int16;
- *  \brief Int16
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int16_t   Int16;
 
 /*! \var typedef uint16_t UInt16;
- *  \brief UInt16
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef uint16_t  UInt16;
 
 /*! \var typedef int32_t Int32;
- *  \brief Int32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int32_t   Int32;
 
 /*! \var typedef uint32_t UInt32;
- *  \brief UInt32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef uint32_t  UInt32;
 
 /*! \var typedef int64_t Int64;
- *  \brief Int64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int64_t   Int64;
 
 /*! \var typedef uint64_t UInt64;
- *  \brief UInt64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef uint64_t  UInt64;
 
 /*! \var typedef float Real32;
- *  \brief Real32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef float     Real32;
 
 /*! \var typedef double Real64;
- *  \brief Real64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef double    Real64;
@@ -156,92 +143,79 @@ typedef double    Real64;
 #elif defined(OSG_LINUX_TYPES)
 
 /*! \var typedef char Char8;
- *  \brief Char8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef char           Char8;
 
 /*! \var typedef unsigned char UChar8;
- *  \brief UChar8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef unsigned char UChar8;
 
 /*! \var typedef signed char SChar8;
- *  \brief UChar8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef signed char   SChar8;
 
 /*! \var typedef int8_t Int8;
- *  \brief Int8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int8_t     Int8;
 
 /*! \var typedef u_int8_t UInt8;
- *  \brief UInt8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef u_int8_t   UInt8;
 
 /*! \var typedef int16_t Int16;
- *  \brief Int16
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int16_t    Int16;
 
 /*! \var typedef u_int16_t UInt16;
- *  \brief UInt16
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef u_int16_t  UInt16;
 
 /*! \var typedef int32_t Int32;
- *  \brief Int32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int32_t    Int32;
 
 /*! \var typedef u_int32_t UInt32;
- *  \brief UInt32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef u_int32_t  UInt32;
 
 /*! \var typedef int64_t Int64;
- *  \brief Int64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int64_t    Int64;
 
 /*! \var typedef u_int64_t UInt64;
- *  \brief UInt64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef u_int64_t  UInt64;
 
 /*! \var typedef float Real32;
- *  \brief Real32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef float      Real32;
 
 /*! \var typedef double Real64;
- *  \brief Real64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef double     Real64;
@@ -249,92 +223,79 @@ typedef double     Real64;
 #elif defined(OSG_HPUX_TYPES)
 
 /*! \var typedef char Char8;
- *  \brief Char8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef char           Char8;
 
 /*! \var typedef unsigned char UChar8;
- *  \brief UChar8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef unsigned char UChar8;
 
 /*! \var typedef signed char SChar8;
- *  \brief UChar8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef signed char   SChar8;
 
 /*! \var typedef int8_t Int8;
- *  \brief Int8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int8_t     Int8;
 
 /*! \var typedef u_int8_t UInt8;
- *  \brief UInt8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef uint8_t   UInt8;
 
 /*! \var typedef int16_t Int16;
- *  \brief Int16
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int16_t    Int16;
 
 /*! \var typedef u_int16_t UInt16;
- *  \brief UInt16
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef uint16_t  UInt16;
 
 /*! \var typedef int32_t Int32;
- *  \brief Int32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int32_t    Int32;
 
 /*! \var typedef u_int32_t UInt32;
- *  \brief UInt32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef uint32_t  UInt32;
 
 /*! \var typedef int64_t Int64;
- *  \brief Int64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int64_t    Int64;
 
 /*! \var typedef u_int64_t UInt64;
- *  \brief UInt64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef uint64_t  UInt64;
 
 /*! \var typedef float Real32;
- *  \brief Real32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef float      Real32;
 
 /*! \var typedef double Real64;
- *  \brief Real64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef double     Real64;
@@ -342,8 +303,7 @@ typedef double     Real64;
 #elif defined(OSG_WIN_TYPES)
 
 /*! \var typedef bool bool;
- *  \brief bool
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 #ifdef OSG_BOOL_IS_UNSIGNED
@@ -353,106 +313,91 @@ typedef unsigned      bool;
 #endif
 
 /*! \var typedef unsigned char Char8;
- *  \brief Char8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef CHAR           Char8;
 
 /*! \var typedef unsigned char UChar8;
- *  \brief UChar8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef UCHAR         UChar8;
 
 /*! \var typedef signed char SChar8;
- *  \brief UChar8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef signed char   SChar8;
 
 /*! \var typedef CHAR Int8;
- *  \brief Int8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef signed char   Int8;
 
 /*! \var typedef UCHAR UInt8;
- *  \brief UInt8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef UCHAR   UInt8;
 
 /*! \var typedef SHORT Int16;
- *  \brief Int16
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef SHORT   Int16;
 
 /*! \var typedef USHORT UInt16;
- *  \brief UInt16
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef USHORT  UInt16;
 
 /*! \var typedef INT32 Int32;
- *  \brief Int32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef INT32   Int32;
 
 /*! \var typedef UINT32 UInt32;
- *  \brief UInt32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef UINT32  UInt32;
 
 /*! \var typedef INT64 Int64;
- *  \brief Int64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef INT64   Int64;
 
 /*! \var typedef UINT64 UInt64;
- *  \brief UInt64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef UINT64  UInt64;
 
 /*! \var typedef DWORD DWord;
- *  \brief DWord
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef DWORD   DWord;
 
 /*! \var typedef HANDLE Handle;
- *  \brief Handle
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef HANDLE  Handle;
 
 /*! \var typedef float Real32;
- *  \brief Real32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef float     Real32;
 
 /*! \var typedef double Real64;
- *  \brief Real64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef double    Real64;
@@ -460,92 +405,79 @@ typedef double    Real64;
 #elif defined(OSG_SUNOS_TYPES)
 
 /*! \var typedef char Char8;
- *  \brief Char8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef char           Char8;
 
 /*! \var typedef unsigned char UChar8;
- *  \brief UChar8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef unsigned char UChar8;
 
 /*! \var typedef signed char SChar8;
- *  \brief UChar8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef signed char   SChar8;
 
 /*! \var typedef int8_t Int8;
- *  \brief Int8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int8_t     Int8;
 
 /*! \var typedef uint8_t UInt8;
- *  \brief UInt8
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef uint8_t   UInt8;
 
 /*! \var typedef int16_t Int16;
- *  \brief Int16
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int16_t    Int16;
 
 /*! \var typedef uint16_t UInt16;
- *  \brief UInt16
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef uint16_t  UInt16;
 
 /*! \var typedef int32_t Int32;
- *  \brief Int32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef int32_t    Int32;
 
 /*! \var typedef uint32_t UInt32;
- *  \brief UInt32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef uint32_t  UInt32;
 
 /*! \var typedef long long Int64;
- *  \brief Int64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef long long    Int64;
 
 /*! \var typedef unsigned long long UInt64;
- *  \brief UInt64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef unsigned long long  UInt64;
 
 /*! \var typedef float Real32;
- *  \brief Real32
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef float      Real32;
 
 /*! \var typedef double Real64;
- *  \brief Real64
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef double     Real64;
@@ -555,51 +487,48 @@ typedef double     Real64;
 #endif
 
 /*! \var UInt32 BitVector;
- *  \brief BitVector
- *  \ingroup GrpBaseTypes
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef UInt32 BitVector;
 
 /*! \var UInt8 *MemoryHandle;
- *  \brief Handle to raw memory
- *  \ingroup GrpBaseTypes
+ *  Handle to raw memory
+ *  \ingroup GrpBaseBaseBaseTypes
  */
 
 typedef UInt8 *MemoryHandle;
 
-/*! \brief Eps
- *  \ingroup GrpBaseConstants
+/*! \ingroup GrpBaseBaseConstants
  */
 
 const Real32 Eps = 1E-6f;
 
-/*! \brief Pi
- *  \ingroup GrpBaseConstants
+/*! \ingroup GrpBaseBaseConstants
  */
 
-const Real32 Pi  = (Real32) 3.141592653589793;
+const Real32 Pi  = 3.141592653589793f;
 
-/*! \brief sqrt(2)
- *  \ingroup GrpBaseConstants
+/*! sqrt(2)
+ *  \ingroup GrpBaseBaseConstants
  */
 
-const Real32 Sqrt2  = (Real32) 1.41421356237309504;
+const Real32 Sqrt2  = 1.41421356237309504f;
 
 /*! positive infinity
- *  \ingroup GrpBaseConstants
+ *  \ingroup GrpBaseBaseConstants
  */
 
 const Real32 Inf = 1E30;
 
 /*! negative infinity
- *  \ingroup GrpBaseConstants
+ *  \ingroup GrpBaseBaseConstants
  */
 
 const Real32 NegInf = - 1E30;
 
-/*! \brief MathTypeProperties
- *  \ingroup GrpBaseConstants
+/*! MathTypeProperties
+ *  \ingroup GrpBaseBaseConstants
  */
 
 enum MathTypeProperties

@@ -229,7 +229,7 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     bool _stopAliveThread;
     void startAliveThread();
     void stopAliveThread();
-    static void *aliveProc(void *arg);
+    static void aliveProc(void *arg);
     /*! \}                                                                 */
 
     typedef Connection Inherited;

@@ -64,13 +64,15 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-//! MPFieldStore
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpBaseBaseMultiThreading
+    \hideinhierarchy
+ */
 
 template <class MPFieldT>
 class MPFieldStore
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef typename MPFieldT::Type MPFieldType;
@@ -116,6 +118,7 @@ class MPFieldStore
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -139,6 +142,7 @@ class MPFieldStore
     UInt32 registerMPType(MPFieldType *pType);
 
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class ThreadManager;
@@ -156,12 +160,13 @@ class MPFieldStore
 //  Class
 //---------------------------------------------------------------------------
 
-//! ThreadManager
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpBaseBaseMultiThreading
+ */
 
 class OSG_BASE_DLLMAPPING ThreadManager
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/
@@ -178,14 +183,14 @@ class OSG_BASE_DLLMAPPING ThreadManager
     /*! \name                      Set / Get                               */
     /*! \{                                                                 */
 
-    static void           setAppThreadType(const Char8 *szAppThreadType);
+    static void           setAppThreadType(const Char8  *szAppThreadType);
 
-    static ThreadManager *the             (void);
+    static ThreadManager *the             (      void                   );
 
-    static BaseThread    *getAppThread    (void);
+    static BaseThread    *getAppThread    (      void                   );
 
-    static void           setNumAspects   (UInt32 uiNumApects);
-    static UInt32         getNumAspects   (void);
+    static void           setNumAspects   (      UInt32  uiNumApects    );
+    static UInt32         getNumAspects   (      void                   );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -213,28 +218,28 @@ class OSG_BASE_DLLMAPPING ThreadManager
     /*! \{                                                                 */
 
     usptr_t *getArena(void);
-
 #endif
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
-    static bool initialize(void);
-    static bool terminate (void);
+    static bool   initialize          (void                     );
+    static bool   terminate           (void                     );
 
-    void removeThread  (BaseThread *pThread);
-    void removeBarrier (Barrier    *pBarrier);
-    void removeLock    (Lock       *pLock);
-    void removeLockPool(LockPool   *pLockPool);
+           void   removeThread        (BaseThread     *pThread  );
+           void   removeBarrier       (Barrier        *pBarrier );
+           void   removeLock          (Lock           *pLock    );
+           void   removeLockPool      (LockPool       *pLockPool);
 
-    UInt32 registerThreadType  (MPThreadType   *pType);
-    UInt32 registerBarrierType (MPBarrierType  *pType);
-    UInt32 registerLockType    (MPLockType     *pType);
-    UInt32 registerLockPoolType(MPLockPoolType *pType);
+           UInt32 registerThreadType  (MPThreadType   *pType    );
+           UInt32 registerBarrierType (MPBarrierType  *pType    );
+           UInt32 registerLockType    (MPLockType     *pType    );
+           UInt32 registerLockPoolType(MPLockPoolType *pType    );
 
-    bool init    (void);
-    bool shutdown(void);
+           bool   init                (void                     );
+           bool   shutdown            (void                     );
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -251,6 +256,7 @@ class OSG_BASE_DLLMAPPING ThreadManager
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /*---------------------------------------------------------------------*/
@@ -267,8 +273,11 @@ class OSG_BASE_DLLMAPPING ThreadManager
     friend class Lock;
     friend class LockPool;
 
-    friend OSG_BASE_DLLMAPPING bool osgInit(Int32 argc, Char8 **argv);
-    friend OSG_BASE_DLLMAPPING bool osgExit(void                    );
+    OSG_BASE_DLLMAPPING 
+    friend bool osgInit(Int32 argc, Char8 **argv);
+
+    OSG_BASE_DLLMAPPING 
+    friend bool osgExit(void                    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

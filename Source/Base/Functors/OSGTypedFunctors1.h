@@ -63,6 +63,7 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors1Helper
+    \hideinhierarchy
  */
 
 template <class RetT, 
@@ -99,6 +100,7 @@ struct TypedTraits1
 
 
 /*! \ingroup GrpBaseFunctors1Helper
+    \hideinhierarchy
  */
 
 template <class RetT, 
@@ -155,6 +157,7 @@ struct TypedSOTraits1
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class RetT,
@@ -228,6 +231,7 @@ class TypedFunctor1Base : public TypedFunctorBase<SizeTraitsT>
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class CallArgT, class SizeTraitsT = DefaultFunctorSizeTraits>
@@ -300,6 +304,7 @@ class TypedVoidFunctor1Base : public TypedFunctorBase<SizeTraitsT>
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class RetT, 
@@ -385,6 +390,7 @@ class TypedFunctionFunctor1 :
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class CallArgT, 
@@ -468,7 +474,8 @@ class TypedFunctionVoidFunctor1 :
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseAnonFunctors
- *  \brief Brief AnonObjectFunctor1
+    \hideinhierarchy
+     AnonObjectFunctor1
  */
 
 template <class RetT, 
@@ -559,6 +566,7 @@ class TypedObjectFunctor1 :
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class CallArgT, 
@@ -646,6 +654,7 @@ class TypedObjectVoidFunctor1 :
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class RetT, 
@@ -744,6 +753,7 @@ class TypedStoredObjectFunctor1 :
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class StoredObjectT, 

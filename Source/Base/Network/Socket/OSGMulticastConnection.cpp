@@ -660,7 +660,7 @@ void MulticastConnection::stopAliveThread()
  *
  * Send an alive package after _aliveTime 
  **/
-void *MulticastConnection::aliveProc(void *arg) 
+void MulticastConnection::aliveProc(void *arg) 
 { 
     MulticastConnection *connection=static_cast<MulticastConnection *>(arg);
     UDPBuffer alive;
@@ -685,7 +685,6 @@ void *MulticastConnection::aliveProc(void *arg)
             connection->_aliveSocket.recv(&tag,sizeof(tag));
         }
     }
-    return NULL;
 }
 
 /** nterprete address

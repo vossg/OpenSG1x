@@ -243,6 +243,7 @@ TypedObjectVoidFunctor1< CPtrRefCallArg<Arg1T> >
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors1Helper
+    \hideinhierarchy
  */
 
 template<class T1, class T2, class T3>
@@ -283,6 +284,7 @@ TypedStoredObjectVoidFunctor1<
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors1Helper
+    \hideinhierarchy
  */
 
 template<class T1, class T2, class T3>
@@ -500,6 +502,7 @@ TypedObjectVoidFunctor2<CPtrRefCallArg<ObjectT>,
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors2Helper
+    \hideinhierarchy
  */
 
 template<class T1, class T2, class T3, class T4>
@@ -545,6 +548,7 @@ TypedStoredObjectVoidFunctor2<CPtrRefCallArg<ObjectT>,
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors2Helper
+    \hideinhierarchy
  */
 
 template<class T1, class T2, class T3, class T4>
@@ -591,6 +595,7 @@ TypedStoredObjectVoidFunctor2<CPtrRefCallArg<ObjectT>,
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors2Helper
+    \hideinhierarchy
  */
 
 template<class T1, class T2, class T3>

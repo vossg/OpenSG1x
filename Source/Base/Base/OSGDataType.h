@@ -46,12 +46,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! DataType
-//! \ingroup TypeLib
+/*! \ingroup GrpBaseBaseTypeSystem
+ */
 
 class OSG_BASE_DLLMAPPING DataType : public TypeBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     /*---------------------------------------------------------------------*/
@@ -79,6 +80,7 @@ class OSG_BASE_DLLMAPPING DataType : public TypeBase
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef TypeBase Inherited;

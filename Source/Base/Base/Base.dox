@@ -40,6 +40,24 @@ using namespace OSG;
     \brief ToDo
 */
 
+/*! \defgroup GrpBaseBaseBaseTypes BaseTypes
+    \ingroup GrpBaseBase
+
+    \brief ToDo
+*/
+
+/*! \defgroup GrpBaseBaseBaseTypeTraits BaseTypesTraits
+    \ingroup GrpBaseBase
+
+    \brief ToDo
+*/
+
+/*! \defgroup GrpBaseBaseConstants Constants
+    \ingroup GrpBaseBase
+
+    \brief ToDo
+*/
+
 /*! \defgroup GrpBaseBaseTypeSystem TypeSystem
     \ingroup GrpBaseBase
 

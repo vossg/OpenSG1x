@@ -50,18 +50,20 @@
 #include <GL/gl.h>
 #endif
 
-// helper macro
-
 #ifdef OSG_DEBUG
-#define glErr(text)                           \
-{                                   \
-        GLenum glerr;                           \
-        glerr=glGetError();                     \
-        if(glerr!=GL_NO_ERROR)                     \
-        {                               \
-                fprintf(stderr, "%s failed: %s (%#x)\n", (text),    \
-                                        gluErrorString(glerr), glerr);  \
-        }                               \
+#define glErr(text)                      \
+{                                        \
+    GLenum glerr;                        \
+    glerr = glGetError();                \
+                                         \
+    if(glerr != GL_NO_ERROR)             \
+    {                                    \
+        fprintf(stderr,                  \
+                "%s failed: %s (%#x)\n", \
+                (text),                  \
+                gluErrorString(glerr),   \
+                glerr);                  \
+    }                                    \
 }
 #else
 #define glErr(text)

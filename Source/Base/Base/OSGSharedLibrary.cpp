@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -59,40 +55,7 @@ OSG_USING_NAMESPACE
 Char8 SharedLibrary::_szApplicationName[] = "Application";
 
 
-bool SharedLibrary::open(void)
-{
-    Char8 *libName = NULL;
-
-    if(_pHandle != NULL)
-    {
-        return true;
-    }
-
-    if(_type == SharedLib)
-    {
-        libName = _szName;
-    }
-
-#ifndef WIN32
-#ifdef OSG_DLOPEN_LAZY
-    _pHandle = dlopen(libName, RTLD_LAZY | RTLD_GLOBAL);
-#else
-    _pHandle = dlopen(libName, RTLD_NOW  | RTLD_GLOBAL);
-#endif
-
-    if(_pHandle == NULL)
-    {
-        fprintf(stderr, "%s\n", dlerror());
-    }
-#else
-    _pHandle = LoadLibrary(libName);
-#endif
-
-    return (_pHandle != NULL);
-}
-
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
+/*--------------------------- Constructors --------------------------------*/
 
 SharedLibrary::SharedLibrary(void) :
     _szName (NULL   ),
@@ -122,20 +85,14 @@ SharedLibrary::SharedLibrary(const Char8 *szName) :
     this->open();
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-/** \brief Destructor
- */
+/*---------------------------- Destructor ---------------------------------*/
 
 SharedLibrary::~SharedLibrary(void)
 {
     close();
 }
 
-
-/*-------------------------------------------------------------------------*/
-/*                             Assignment                                  */
+/*---------------------------- Class Specific -----------------------------*/
 
 bool SharedLibrary::open(const Char8 *szName)
 {
@@ -222,6 +179,39 @@ const Char8 *SharedLibrary::getName(void)
     return _szName;
 }
 
+/*------------------------------- Helper ----------------------------------*/
+
+bool SharedLibrary::open(void)
+{
+    Char8 *libName = NULL;
+
+    if(_pHandle != NULL)
+    {
+        return true;
+    }
+
+    if(_type == SharedLib)
+    {
+        libName = _szName;
+    }
+
+#ifndef WIN32
+#ifdef OSG_DLOPEN_LAZY
+    _pHandle = dlopen(libName, RTLD_LAZY | RTLD_GLOBAL);
+#else
+    _pHandle = dlopen(libName, RTLD_NOW  | RTLD_GLOBAL);
+#endif
+
+    if(_pHandle == NULL)
+    {
+        fprintf(stderr, "%s\n", dlerror());
+    }
+#else
+    _pHandle = LoadLibrary(libName);
+#endif
+
+    return (_pHandle != NULL);
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

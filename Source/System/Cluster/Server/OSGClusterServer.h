@@ -134,7 +134,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
     /*! \name                     Thread                                   */
     /*! \{                                                                 */
 
-    static void *serviceProc(void *arg);
+    static void serviceProc(void *arg);
 
     /*! \}                                                                 */
 

@@ -48,17 +48,17 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief TypeTraitsBase, documentation dummy
- *  \ingroup GrpBaseTraits
+/*! \ingroup GrpBaseBaseBaseTypeTraits
  */
 
 struct OSG_BASE_DLLMAPPING TypeTraitsBase
 {
+#ifdef GV_CHECK_CHECK
     static const  bool               IsPOD    = true;
     static const  MathTypeProperties MathProp = BoolValue;
 
-    static const  bool              BitsSet     = true ;
-    static const  bool              BitsClear   = false;
+    static const  bool               BitsSet     = true ;
+    static const  bool               BitsClear   = false;
 
     static        bool              getZeroElement(void)
     {
@@ -79,10 +79,10 @@ struct OSG_BASE_DLLMAPPING TypeTraitsBase
     {
         return false;
     }
+#endif
 };
 
-/*! \brief TypeTraits
- *  \ingroup GrpBaseTraits
+/*! \ingroup GrpBaseBaseBaseTypeTraits
  */
 
 template <class LookupTypeT>
@@ -100,38 +100,43 @@ template <class LookupTypeT>
 const bool TypeTraits<LookupTypeT>::IsPOD;
 #endif
 
+
+/*! \ingroup GrpBaseBaseBaseTypeTraits
+ */
+
 template <>
 struct TypeTraits<bool> : public TypeTraitsBase
 {
-    static const  bool               IsPOD    = true;
-    static const  MathTypeProperties MathProp = BoolValue;
+    static const  bool               IsPOD     = true;
+    static const  MathTypeProperties MathProp  = BoolValue;
 
-    static const  bool              BitsSet     = true ;
-    static const  bool              BitsClear   = false;
+    static const  bool               BitsSet   = true ;
+    static const  bool               BitsClear = false;
 
-    static        bool              getZeroElement(void)
+
+    static        bool               getZeroElement(void)
     {
         return false;
     }
 
-    static        bool              getOneElement (void)
+    static        bool               getOneElement (void)
     {
         return true;
     }
 
-    static        bool              getMax        (void)
+    static        bool               getMax        (void)
     {
         return true;
     }
 
-    static        bool              getMin        (void)
+    static        bool               getMin        (void)
     {
         return false;
     }
 };
 
-/*! \brief TypeTraits<UInt8>
- *  \ingroup GrpBaseTraits
+
+/*! \ingroup GrpBaseBaseBaseTypeTraits
  */
 
 template <>
@@ -140,11 +145,11 @@ struct TypeTraits<UInt8> : public TypeTraitsBase
     typedef       Real32             RealReturnType;
 
 
-    static const  bool               IsPOD    = true;
-    static const  MathTypeProperties MathProp = IntValue;
+    static const  bool               IsPOD     = true;
+    static const  MathTypeProperties MathProp  = IntValue;
 
-    static const  UInt8              BitsSet     = 0xFF;
-    static const  UInt8              BitsClear   = 0x00;
+    static const  UInt8              BitsSet   = 0xFF;
+    static const  UInt8              BitsClear = 0x00;
 
 
     static        UInt8              getZeroElement(void)
@@ -168,12 +173,12 @@ struct TypeTraits<UInt8> : public TypeTraitsBase
     }
 
 
-    static Real32 getFraction  (UInt8 val)
+    static Real32      getFraction  (UInt8 val)
     {
         return (Real32(val) / Real32(getMax()));
     };
 
-    static UInt8 getPortion    (Real32 val)
+    static UInt8       getPortion   (Real32 val)
     {
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 810)
@@ -185,17 +190,21 @@ struct TypeTraits<UInt8> : public TypeTraitsBase
     };
 
 
-    static UInt8 getFromString (const Char8 *szString)
+    static UInt8       getFromString(const Char8 *szString)
     {
         if(szString != NULL)
+        {
             return atoi(szString);
+        }
         else
+        {
             return getZeroElement();
+        }
     }
 
-    static std::string putToString (const UInt8 val)
+    static std::string putToString  (const UInt8 val)
     {
-        char buffer[10];
+        Char8 buffer[10];
 
         sprintf(buffer, "%u", val);
 
@@ -203,8 +212,8 @@ struct TypeTraits<UInt8> : public TypeTraitsBase
     }
 };
 
-/*! \brief TypeTraits<Int8>
- *  \ingroup GrpBaseTraits
+
+/*! \ingroup GrpBaseBaseBaseTypeTraits
  */
 
 template <>
@@ -241,27 +250,32 @@ struct TypeTraits<Int8> : public TypeTraitsBase
     }
 
 
-    static Real32 getFraction (Int8   val)
+    static Real32      getFraction  (Int8   val)
     {
         return (Real32(val) / Real32(getMax()));
     };
-    static Int8 getPortion    (Real32 val)
+
+    static Int8        getPortion   (Real32 val)
     {
         return (Int8) (val * Real32(getMax()));
     };
 
 
-    static Int8 getFromString (const Char8 *szString)
+    static Int8        getFromString(const Char8 *szString)
     {
         if(szString != NULL)
+        {
             return atoi(szString);
+        }
         else
+        {
             return getZeroElement();
+        }
     }
 
-    static std::string putToString (const Int8 val)
+    static std::string putToString  (const Int8 val)
     {
-        char buffer[10];
+        Char8 buffer[10];
 
         sprintf(buffer, "%i", val);
 
@@ -269,8 +283,8 @@ struct TypeTraits<Int8> : public TypeTraitsBase
     }
 };
 
-/*! \brief TypeTraits<UInt16>
- *  \ingroup GrpBaseTraits
+
+/*! \ingroup GrpBaseBaseBaseTypeTraits
  */
 
 template <>
@@ -307,28 +321,32 @@ struct TypeTraits<UInt16> : public TypeTraitsBase
     }
 
 
-    static Real32 getFraction(UInt16 val)
+    static Real32      getFraction  (UInt16 val)
     {
         return (Real32(val) / Real32(getMax()));
     };
 
-    static UInt16 getPortion (Real32 val)
+    static UInt16      getPortion   (Real32 val)
     {
         return (UInt16) (val * Real32(getMax()));
     };
 
 
-    static UInt16 getFromString(const Char8 *szString)
+    static UInt16      getFromString(const Char8 *szString)
     {
         if(szString != NULL)
+        {
             return atoi(szString);
+        }
         else
+        {
             return getZeroElement();
+        }
     }
 
-    static std::string putToString (const UInt16 val)
+    static std::string putToString  (const UInt16 val)
     {
-        char buffer[10];
+        Char8 buffer[10];
 
 //      Check WIN32 Version
 #ifdef WIN32
@@ -341,14 +359,15 @@ struct TypeTraits<UInt16> : public TypeTraitsBase
     }
 };
 
-/*! \brief TypeTraits<Int16>
- *  \ingroup GrpBaseTraits
+
+/*! \ingroup GrpBaseBaseBaseTypeTraits
  */
 
 template <>
 struct TypeTraits<Int16> : public TypeTraitsBase
 {
     typedef       Real32             RealReturnType;
+
 
     static const  bool               IsPOD       = true;
     static const  MathTypeProperties MathProp    = IntValue;
@@ -378,28 +397,32 @@ struct TypeTraits<Int16> : public TypeTraitsBase
     }
 
 
-    static Real32 getFraction(Int16  val)
+    static Real32      getFraction  (Int16  val)
     {
         return (Real32(val) / Real32(getMax()));
     };
 
-    static Int16  getPortion (Real32 val)
+    static Int16       getPortion   (Real32 val)
     {
         return (Int16) (val * Real32(getMax()));
     };
 
 
-    static Int16 getFromString (const Char8 *szString)
+    static Int16       getFromString(const Char8 *szString)
     {
         if(szString != NULL)
+        {
             return atoi(szString);
+        }
         else
+        {
             return getZeroElement();
+        }
     }
 
-    static std::string putToString (const Int16 val)
+    static std::string putToString  (const Int16 val)
     {
-        char buffer[10];
+        Char8 buffer[10];
 
         sprintf(buffer, "%i", val);
 
@@ -407,8 +430,8 @@ struct TypeTraits<Int16> : public TypeTraitsBase
     }
 };
 
-/*! \brief TypeTraits<UInt32>
- *  \ingroup GrpBaseTraits
+
+/*! \ingroup GrpBaseBaseBaseTypeTraits
  */
 
 template <>
@@ -445,28 +468,32 @@ struct TypeTraits<UInt32> : public TypeTraitsBase
     }
 
 
-    static Real32 getFraction(UInt32 val)
+    static Real32      getFraction  (UInt32 val)
     {
         return (Real32(val) / Real32(getMax()));
     };
 
-    static UInt32 getPortion (Real32 val)
+    static UInt32      getPortion   (Real32 val)
     {
         return (UInt32) (val * Real32(getMax()));
     };
 
 
-    static UInt32 getFromString(const Char8 *szString)
+    static UInt32      getFromString(const Char8 *szString)
     {
         if(szString != NULL)
+        {
             return atol(szString);
+        }
         else
+        {
             return getZeroElement();
+        }
     }
 
     static std::string putToString  (const UInt32 val)
     {
-        char buffer[15];
+        Char8 buffer[15];
 
         sprintf(buffer, "%u", val);
 
@@ -474,8 +501,8 @@ struct TypeTraits<UInt32> : public TypeTraitsBase
     }
 };
 
-/*! \brief TypeTraits<Int32>
- *  \ingroup GrpBaseTraits
+
+/*! \ingroup GrpBaseBaseBaseTypeTraits
  */
 
 template <>
@@ -512,28 +539,32 @@ struct TypeTraits<Int32> : public TypeTraitsBase
     }
 
 
-    static Real32 getFraction(Int32  val)
+    static Real32      getFraction  (Int32  val)
     {
         return (Real32(val) / Real32(getMax()));
     };
 
-    static Int32  getPortion (Real32 val)
+    static Int32       getPortion   (Real32 val)
     {
         return (Int32) (val * Real32(getMax()));
     };
 
 
-    static Int32 getFromString(const Char8 *szString)
+    static Int32       getFromString(const Char8 *szString)
     {
         if(szString != NULL)
+        {
             return atol(szString);
+        }
         else
+        {
             return getZeroElement();
+        }
     }
 
-    static std::string putToString (const Int32 val)
+    static std::string putToString  (const Int32 val)
     {
-        char buffer[15];
+        Char8 buffer[15];
 
         sprintf(buffer, "%i", val);
 
@@ -542,8 +573,7 @@ struct TypeTraits<Int32> : public TypeTraitsBase
 };
 
 
-/*! \brief TypeTraits<UInt64>
- *  \ingroup GrpBaseTraits
+/*! \ingroup GrpBaseBaseBaseTypeTraits
  */
 
 template <>
@@ -598,18 +628,18 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
 #endif
 
 
-    static Real32 getFraction(UInt64 val)
+    static Real32      getFraction  (UInt64 val)
     {
         return (Real32(val) / Real32(getMax()));
     };
 
-    static UInt64 getPortion (Real32 val)
+    static UInt64      getPortion   (Real32 val)
     {
         return (UInt64) (val * Real32(getMax()));
     };
 
 
-    static UInt64 getFromString (const Char8 *szString)
+    static UInt64      getFromString(const Char8 *szString)
     {
 #if !defined(__sun) && !defined(__linux) && !defined(darwin) &&  \
     !defined(__hpux)
@@ -624,9 +654,9 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
             return getZeroElement();
     }
 
-    static std::string putToString (const UInt64 val)
+    static std::string putToString  (const UInt64 val)
     {
-        char buffer[25];
+        Char8 buffer[25];
 
         sprintf(buffer, "%llu", val);
 
@@ -634,8 +664,8 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
     }
 };
 
-/*! \brief TypeTraits<Int64>
- *  \ingroup GrpBaseTraits
+
+/*! \ingroup GrpBaseBaseBaseTypeTraits
  */
 
 template <>
@@ -689,18 +719,18 @@ struct TypeTraits<Int64> : public TypeTraitsBase
 #endif
 
 
-    static Real32 getFraction(Int64  val)
+    static Real32      getFraction  (Int64  val)
     {
         return (Real32(val) / Real32(getMax()));
     };
 
-    static Int64  getPortion (Real32 val)
+    static Int64       getPortion   (Real32 val)
     {
         return (Int64) (val * Real32(getMax()));
     };
 
 
-    static Int64 getFromString (const Char8 *szString)
+    static Int64       getFromString(const Char8 *szString)
     {
 #if !defined(__sun) && !defined(__linux) && !defined(darwin) &&  \
     !defined(__hpux)
@@ -715,9 +745,9 @@ struct TypeTraits<Int64> : public TypeTraitsBase
             return getZeroElement();
     }
 
-    static std::string putToString (const Int64 val)
+    static std::string putToString  (const Int64 val)
     {
-        char buffer[25];
+        Char8 buffer[25];
 
         sprintf(buffer, "%lli", val);
 
@@ -725,8 +755,69 @@ struct TypeTraits<Int64> : public TypeTraitsBase
     }
 };
 
-/*! \brief TypeTraits<Real64>
- *  \ingroup GrpBaseTraits
+
+/*! \ingroup GrpBaseBaseBaseTypeTraits
+ */
+
+template <>
+struct TypeTraits<Real32> : public TypeTraitsBase
+{
+    typedef       Real32             RealReturnType;
+
+
+    static const  bool               IsPOD       = true;
+    static const  MathTypeProperties MathProp    = RealValue;
+
+    static        Real32             getZeroElement(void)
+    {
+        return 0.f;
+    }
+
+    static        Real32             getOneElement (void)
+    {
+        return 1.f;
+    }
+
+    static        Real32             getMax        (void)
+    {
+        return FLT_MAX;
+    }
+
+    static        Real32             getMin        (void)
+    {
+        return FLT_MIN;
+    }
+
+
+    static Real32 getFraction     (Real32 rVal) { return rVal; };
+    static Real32 getPortion      (Real32 rVal) { return rVal; };
+
+
+    static Real32 getFromString   (const Char8 *szString)
+    {
+        if(szString != NULL)
+        {
+            return atof(szString);
+        }
+        else
+        {
+            return getZeroElement();
+        }
+    }
+
+    static std::string putToString(const Real32 val)
+    {
+        Char8 buffer[20];
+
+        sprintf(buffer, "%e", val);
+
+        return std::string(buffer);
+    }
+
+};
+
+
+/*! \ingroup GrpBaseBaseBaseTypeTraits
  */
 
 template <>
@@ -759,82 +850,30 @@ struct TypeTraits<Real64> : public TypeTraitsBase
     }
 
 
-    static Real64 getFraction  (Real64 rVal) { return rVal; };
-    static Real64 getPortion   (Real64 rVal) { return rVal; };
+    static Real64 getFraction     (Real64 rVal) { return rVal; };
+    static Real64 getPortion      (Real64 rVal) { return rVal; };
 
 
-    static Real64 getFromString(const Char8 *szString)
+    static Real64 getFromString   (const Char8 *szString)
     {
         if(szString != NULL)
+        {
             return atof(szString);
+        }
         else
+        {
             return getZeroElement();
+        }
     }
 
-    static std::string putToString  (const Real64 val)
+    static std::string putToString(const Real64 val)
     {
-        char buffer[25];
+        Char8 buffer[25];
 
         sprintf(buffer, "%e", val);
 
         return std::string(buffer);
     }
-};
-
-/*! \brief TypeTraits<Real32>
- *  \ingroup GrpBaseTraits
- */
-
-template <>
-struct TypeTraits<Real32> : public TypeTraitsBase
-{
-    typedef       Real32             RealReturnType;
-
-    static const  bool               IsPOD       = true;
-    static const  MathTypeProperties MathProp    = RealValue;
-
-    static        Real32             getZeroElement(void)
-    {
-        return 0.f;
-    }
-
-    static        Real32             getOneElement (void)
-    {
-        return 1.f;
-    }
-
-    static        Real32             getMax        (void)
-    {
-        return FLT_MAX;
-    }
-
-    static        Real32             getMin        (void)
-    {
-        return FLT_MIN;
-    }
-
-
-    static Real32 getFraction  (Real32 rVal) { return rVal; };
-    static Real32 getPortion   (Real32 rVal) { return rVal; };
-
-
-    static Real32 getFromString(const Char8 *szString)
-    {
-        if(szString != NULL)
-            return atof(szString);
-        else
-            return getZeroElement();
-    }
-
-    static std::string putToString  (const Real32 val)
-    {
-        char buffer[20];
-
-        sprintf(buffer, "%e", val);
-
-        return std::string(buffer);
-    }
-
 };
 
 OSG_END_NAMESPACE

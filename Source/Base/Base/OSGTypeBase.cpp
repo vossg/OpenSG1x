@@ -57,10 +57,11 @@ OSG_USING_NAMESPACE
 TypeBase::TypeBase(const Char8 *szName,
                    const Char8 *szParentName,
                    const UInt32             ) :
-    _uiTypeId    (0),
-    _uiTypeRootId(0),
-    _pParent     (NULL),
-    _szName      (szName),
+
+    _uiTypeId    (0           ),
+    _uiTypeRootId(0           ),
+    _pParent     (NULL        ),
+    _szName      (szName      ),
     _szParentName(szParentName)
 {
     _uiTypeId = TypeFactory::the()->registerType(this);

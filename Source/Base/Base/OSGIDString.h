@@ -51,20 +51,19 @@
 
 OSG_BEGIN_NAMESPACE
 
-
 class IDString;
+
 OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream  &os,
                                               const IDString      &obj);
 
-/*! \ingroup GrpBaseTypes
- *  \brief OSGIDString
- *
- *  detailed
+/*! \ingroup GrpBaseBase
+    \brief IDString
  */
 
 class OSG_BASE_DLLMAPPING IDString
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     enum MemType
@@ -73,21 +72,19 @@ class OSG_BASE_DLLMAPPING IDString
         LINK
     };
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
+    typedef std::vector<IDString  > StringVec;
+    typedef std::vector<IDString *> StringPVec;
 
-    static const char *getClassname(void) { return "OSGIDString"; }
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    explicit IDString(UInt32 size = 0);
+    explicit IDString(      UInt32    size    = 0   );
 
-    explicit IDString(const Char8 *str,  MemType memType = COPY);
-             IDString(const IDString &obj, MemType memType = COPY);
+    explicit IDString(const Char8    *str,  
+                            MemType   memType = COPY);
+             IDString(const IDString &obj,  
+                            MemType   memType = COPY);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -98,96 +95,68 @@ class OSG_BASE_DLLMAPPING IDString
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                  Your Category                               */
+    /*! \name                      Access                                  */
     /*! \{                                                                 */
 
-    inline const Char8   *str    (void) const { return _str; }
+    const Char8 *str      (      void                      ) const;
 
-    inline bool           isEmpty(void) const { return (_str && *_str) ?
-                                                 false : true; }
+          bool   isEmpty  (      void                      ) const;
+                                       
 
-    void   set       (const Char8 *str, MemType memType = COPY);
+          void   set      (const Char8 *str, 
+                                 MemType     memType = COPY);
 
-    void   toUpper   (void);
-    void   toLower   (void);
+          void   toUpper  (      void                      );
+          void   toLower  (      void                      );
 
-    UInt32 getLength (void) const;
+          UInt32 getLength(      void                      ) const;
+          void   setLength(      UInt32      length        );
 
-    void   setLength (UInt32 length);
-
-    void   tokenize  (std::vector <IDString  > &v);
-    void   tokenize  (std::vector <IDString *> &v);
+          void   tokenize (      StringVec  &v             );
+          void   tokenize (      StringPVec &v             );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Assignment                                 */
     /*! \{                                                                 */
 
-    inline const IDString & operator =(const IDString &obj)
-        {
-            set(obj._str);
-
-            return *this;
-        }
+    const IDString & operator =(const IDString &obj);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                  Comparison                                  */
     /*! \{                                                                 */
 
-    inline bool operator < (const IDString &obj) const
-    {
-        return (_str && obj._str && (::strcmp(_str, obj._str) < 0));
-    }
+    bool operator ==(const IDString &obj) const;
+    bool operator !=(const IDString &obj) const;
 
-    inline bool operator ==(const IDString &o)   const
-    {
-        return ((_str == o._str) ?
-                1 : (_str && o._str && !::strcmp(_str, o._str)));
-    }
+    bool operator < (const IDString &obj) const;
+    bool operator > (const IDString &obj) const;
 
-    inline bool operator !=(const IDString &o)   const
-    {
-        return ! (*this == o);
-    }
-
-    inline bool operator > (const IDString &o)   const
-    {
-        return ! (*this < o) && ! (*this == o);
-    }
-
-    inline bool operator >=(const IDString &o)   const
-    {
-        return ! (*this < o);
-    }
-
-    inline bool operator <=(const IDString &o)   const
-    {
-        return (*this < o) || (*this == o);
-    }
+    bool operator >=(const IDString &obj) const;
+    bool operator <=(const IDString &obj) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*==========================  PRIVATE  ================================*/
+
+    Char8   *_str;
+    MemType  _memType;
+
     private:
 
     friend OSG_BASE_DLLMAPPING
     std::ostream &operator <<(      std::ostream  &os,
                               const IDString      &obj);
 
-    static char cvsid[];
-
-    Char8   *_str;
-    MemType  _memType;
-
 };
-
-typedef IDString *IDStringP;
 
 OSG_END_NAMESPACE
 
+#include <OSGIDString.inl>
 #include <OSGIDStringLink.h>
 
 #endif /* _OSGSTRING_H_ */

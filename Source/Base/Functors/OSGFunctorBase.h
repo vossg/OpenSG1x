@@ -63,6 +63,7 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 struct DefaultFunctorSizeTraits
@@ -82,6 +83,7 @@ struct DefaultFunctorSizeTraits
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class Argument1T>
@@ -92,6 +94,7 @@ struct ArgsCollector
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class Argument1T, class Argument2T>
@@ -102,6 +105,7 @@ struct ArgsCollector2
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class ArgT>
@@ -114,6 +118,7 @@ struct ObjCallArg
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class ArgT>
@@ -129,6 +134,7 @@ struct RefCallArg
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class ArgT>
@@ -146,6 +152,7 @@ struct PtrCallArg
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class ArgT>
@@ -163,6 +170,7 @@ struct CPtrCallArg
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class ArgT>
@@ -180,6 +188,7 @@ struct CPtrRefCallArg
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class RetT, class ClassT>
@@ -189,6 +198,7 @@ struct ClassMemFunc
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class RetT, class ClassT, class ArgsT>
@@ -200,6 +210,7 @@ struct ClassMemFunc1
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class RetT, class ClassT, class ArgsT>
@@ -212,6 +223,7 @@ struct ClassMemFunc2
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class RetT, class CallArgT>
@@ -226,6 +238,7 @@ struct FunctorBuildFuncType1
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class RetT, class CallArgT, class ArgsT>
@@ -242,6 +255,7 @@ struct FunctorBuildObjFuncType1
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class RetT, class CallArgT, class ArgsT>
@@ -262,6 +276,7 @@ struct FunctorBuildFuncType2
 };
 
 /*! \ingroup GrpBaseFunctorsHelper
+    \hideinhierarchy
  */
 
 template <class RetT, class ObjCallArgT, class CallArgT, class ArgsT>
@@ -284,6 +299,7 @@ struct FunctorBuildObjFuncType2
 //---------------------------------------------------------------------------
 
 /*! \ingroup GrpBaseFunctors
+    \hideinhierarchy
  */
 
 template <class SizeTraitsT = DefaultFunctorSizeTraits>

@@ -51,73 +51,85 @@
 
 OSG_USING_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*! \class osg::Plane
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+  Oriented plane in 3D space defined by normal and distance.
 
+  The plane is defined by a plane normal and a distance from the
+  origin along that normal. Planes may be used to represent either 
+  planes or half-spaces. In the latter case (as for the isInHalfSpace() 
+  method), the half-space is defined to be all points on the plane or on
+  the side of the plane in the direction of the plane normal.
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+  The 4 coefficients of the plane equation of an Plane can be
+  obtained easily as the 3 coordinates of the plane normal and the
+  distance, in that order. The normal is normalized.
+  
+  node: Plane is all p such that normalVec . p - distance = 0
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+ */
+
 
 /*-------------------------- constructor ----------------------------------*/
 
-/// Default Constructor
-Plane::Plane(void)
-: _normalVec(0, 0, 0), _distance(0)
-{}
+Plane::Plane(void) : 
+    _normalVec(0.f, 0.f, 0.f), 
+    _distance (0.f          )
+{
+}
 
-/// Copy Constructor
-Plane::Plane(const Plane &obj)
-: _normalVec(obj._normalVec), _distance(obj._distance)
-{}
 
-/**
-  Construct a plane given 3 points.
-  Orientation is computed by taking (p1 - p0) x (p2 - p0) and
-  pointing the normal in that direction.
-*/
+Plane::Plane(const Plane &obj) : 
+    _normalVec(obj._normalVec), 
+    _distance (obj._distance )
+{
+}
+
+
+/*! Construct a plane given 3 points.
+    Orientation is computed by taking (p1 - p0) x (p2 - p0) and
+    pointing the normal in that direction.
+ */
+
 Plane::Plane(const Pnt3f &p0, const Pnt3f &p1, const Pnt3f &p2)
 {
     Vec3f vec2(p2 - p0);
 
-    _normalVec=p1 - p0;
+    _normalVec = p1 - p0;
+
     _normalVec.crossThis(vec2);
     _normalVec.normalize();
     
     _distance = _normalVec.dot(p0);
 }
 
-/**
-  Construct a plane given normal and distance from origin along normal.
-  Orientation is given by the normal vector n.
-*/
-Plane::Plane(const Vec3f &normal, Real32 distance)
-: _normalVec(normal), _distance(distance)
+
+Plane::Plane(const Vec3f &normal, Real32 distance) : 
+    _normalVec(normal  ), 
+    _distance (distance)
 {
     _normalVec.normalize();
 }
 
-/**
-  Construct a plane given normal and a point to pass through
-  Orientation is given by the normal vector n.
-*/
-Plane::Plane(const Vec3f &normal, const Pnt3f &point)
-: _normalVec(normal)
+
+Plane::Plane(const Vec3f &normal, const Pnt3f &point) :
+    _normalVec(normal)
 {
     _normalVec.normalize();
+
     _distance = _normalVec.dot(point);
 }
 
-/// Offset a plane by a given distance.
+/*--------------------------- destructor ----------------------------------*/
+
+Plane::~Plane(void)
+{
+}
+
+
+/*! Add offset to distance.
+ */
+
 void Plane::offset(Real32 d)
 {
     _distance += d;
@@ -125,153 +137,173 @@ void Plane::offset(Real32 d)
 
 /*-------------------------- intersection ---------------------------------*/
 
-/**
-  Intersect plane and plane, returning true if there is an intersection
-  false if planes are parallel
-  taken from Steve Baker's SG library, used with permission. Algorithm
-  explanation can be found at 
-  http://geometryalgorithms.com/Archive/algorithm_0104/algorithm_0104.htm
-*/
+/*! Intersect plane and plane, returning true if there is an intersection
+    false if planes are parallel taken from Steve Baker's SG library, used 
+    with permission. Algorithm explanation can be found at 
+    http://geometryalgorithms.com/Archive/algorithm_0104/algorithm_0104.htm
+ */
+
 bool Plane::intersect(const Plane &pl, Line &is) const
 {
-    Vec3f dir = _normalVec.cross( pl.getNormal() );
+    Vec3f dir = _normalVec.cross(pl.getNormal());
     Pnt3f pnt;
 
     Real32 len = dir.length();
 
-    if ( len < Eps ) return false;
+    if(len < Eps) 
+        return false;
 
     /* Determine intersection point with the best suited coordinate plane. */
 
-    Real32 abs ;
+    Real32 abs;
     Real32 maxabs = osgabs(dir[0]);
-    UInt16 index = 0;
+    UInt16 index  = 0;
 
-    if (( abs = osgabs(dir[1])) > maxabs) { maxabs = abs ; index = 1; }
-    if (( abs = osgabs(dir[2])) > maxabs) { maxabs = abs ; index = 2; }
+    if((abs = osgabs(dir[1])) > maxabs) 
+    { 
+        maxabs = abs;
+        index  = 1; 
+    }
 
-    switch ( index )
+    if((abs = osgabs(dir[2])) > maxabs)
     {
-    case 0: pnt.setValues(  0.f,
-                            (pl.getNormal()[2] * _distance - 
-                             _normalVec[2] * pl.getDistanceFromOrigin()
-                             ) / dir[0],
-                            (_normalVec[1] * pl.getDistanceFromOrigin() -
-                             pl.getNormal()[1] * _distance
-                            ) / dir[0]
-                        );
+        maxabs = abs; 
+        index  = 2;
+    }
+
+    switch(index)
+    {
+        case 0: 
+            pnt.setValues(
+                0.f,
+                (pl.getNormal            ()[2] * _distance     - 
+                 pl.getDistanceFromOrigin()    * _normalVec[2]) / dir[0],
+                (pl.getDistanceFromOrigin()    * _normalVec[1] -
+                 pl.getNormal            ()[1] * _distance    ) / dir[0]);
             break;
-    case 1: pnt.setValues(   (_normalVec[2] * pl.getDistanceFromOrigin() -
-                              pl.getNormal()[2] * _distance
-                             ) / dir[1],
-                             0.f,
-                             (pl.getNormal()[0] * _distance -
-                              _normalVec[0] * pl.getDistanceFromOrigin()
-                             ) / dir[1]
-                        );
+
+        case 1:
+            pnt.setValues(
+                (pl.getDistanceFromOrigin()    * _normalVec[2] -
+                 pl.getNormal            ()[2] * _distance    ) / dir[1],
+                0.f,
+                (pl.getNormal            ()[0] * _distance     -
+                 pl.getDistanceFromOrigin()    * _normalVec[0]) / dir[1]);
             break;
-    case 2: pnt.setValues(   (pl.getNormal()[1] * _distance -
-                              _normalVec[1] * pl.getDistanceFromOrigin()
-                             ) / dir[2],
-                             (_normalVec[0] * pl.getDistanceFromOrigin() -
-                              pl.getNormal()[0] * _distance
-                             ) / dir[2],
-                             0.f
-                        );
+
+        case 2: 
+            pnt.setValues(
+                (pl.getNormal            ()[1] * _distance     -
+                 pl.getDistanceFromOrigin()    * _normalVec[1]) / dir[2],
+                (pl.getDistanceFromOrigin()    * _normalVec[0] -
+                 pl.getNormal            ()[0] * _distance)     / dir[2],
+                0.f);
             break;
-    default: return false ;  /* Impossible */
+
+        default: 
+            return false;  /* Impossible */
     }
 
     /* Normalize the direction */
 
     dir *= 1./len;
 
-    is.setValue( pnt, dir );
+    is.setValue(pnt, dir);
+    
     return true;
 }
 
-/**
-  Intersect line and plane, returning true if there is an intersection
-  in the positive part of the line
-  false if line is parallel to plane
-*/
+/*! Intersect line and plane, returning true if there is an intersection
+    in the positive part of the line false if line is parallel to plane
+ */
+
 bool Plane::intersect(const Line &line, Pnt3f &point) const
 {
     Real32 t;
 
-    if ( intersect( line, t ) )
+    if(intersect(line, t) == true)
     {
         point = line.getPosition() + t * line.getDirection();
+
         return true;
     }
     else
+    {
         return false;
+    }
 }
 
-/**
-  Intersect line and plane, returning true if there is an intersection
-  false if line is parallel to plane. t is the distance along the line.
-*/
+/*! Intersect line and plane, returning true if there is an intersection
+    false if line is parallel to plane. t is the distance along the line.
+ */
+
 bool Plane::intersect(const Line &line, Real32 &t) const
 {
-    if ( intersectInfinite(line,t) == false || t < 0 )
+    if(intersectInfinite(line, t) == false || t < 0.f)
+    {
         return false;
+    }
 
     return true;
 }
 
-/**
-  Intersect line and plane, returning true if there is an intersection
-  false if line is parallel to plane
-*/
-bool Plane::intersectInfinite(const Line &line, Pnt3f &point) const
-{
-    Real32 t;
+/*! Intersect line and plane, returning true if there is an intersection
+    false if line is parallel to plane. t is the distance along
+    the line, which may be negative, i.e. the check is against a double
+    infinite line. 
+ */
 
-    if ( intersectInfinite( line, t ) )
-    {
-        point = line.getPosition() + t * line.getDirection();
-        return true;
-    }
-    else
-        return false;
-}
-
-/**
-  Intersect line and plane, returning true if there is an intersection
-  false if line is parallel to plane. t is the distance along
-  the line, which may be negative, i.e. the check is against a double
-  infinite line. 
-*/
 bool Plane::intersectInfinite(const Line &line, Real32 &t) const
 {
     Real32 a;
 
-    if ( ( a = _normalVec.dot(line.getDirection()) ) != 0.0)
+    a = _normalVec.dot(line.getDirection());
+
+    if(a != 0.0f)
     {
-        t = _normalVec.dot(Pnt3f(_normalVec * _distance) -  line.getPosition()
-                          ) / a;
+        t = _normalVec.dot(
+            Pnt3f(_normalVec * _distance) -  line.getPosition()) / a;
 
         return true;
     }
     else
     {
-        if ( _normalVec.dot(line.getPosition()) - _distance == 0)
+        if(_normalVec.dot(line.getPosition()) - _distance == 0.f)
         {
-            t = 0;
+            t = 0.f;
+
             return true;
         }
     }
+
     return false;
 }
 
-/// Transforms the plane by the given matrix
+/*! Intersect line and plane, returning true if there is an intersection
+    false if line is parallel to plane
+ */
+
+bool Plane::intersectInfinite(const Line &line, Pnt3f &point) const
+{
+    Real32 t;
+
+    if(intersectInfinite(line, t) == true)
+    {
+        point = line.getPosition() + t * line.getDirection();
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
 void Plane::transform(const Matrix &matrix)
 {
-    // TODO
-//  assert(false);
-
     matrix.mult(_normalVec);
+
     _normalVec.normalize();
 
     Vec3f trans;
@@ -285,13 +317,12 @@ void Plane::transform(const Matrix &matrix)
     UInt32 uiValNorm  = getMaxIndexAbs3(_normalVec);
     UInt32 uiValPoint = getMaxIndexAbs3( trans);
 
-    if(trans[uiValPoint] >  Eps ||
-       trans[uiValPoint] < -Eps)
+    if(trans[uiValPoint] >  Eps || trans[uiValPoint] < -Eps)
     {
-        if((_normalVec[uiValNorm ] < 0. &&
-             trans    [uiValPoint] < 0. ) ||
-           (_normalVec[uiValNorm ] > 0. &&
-             trans    [uiValPoint] > 0. ))
+        if((_normalVec[uiValNorm ] < 0.f &&
+             trans    [uiValPoint] < 0.f ) ||
+           (_normalVec[uiValNorm ] > 0.f &&
+             trans    [uiValPoint] > 0.f ))
         {
             _distance -= trans.length();
         }
@@ -303,9 +334,7 @@ void Plane::transform(const Matrix &matrix)
     }
 }
 
-/*! Returns true if the given point is within the half-space
-    defined by the plane
-*/
+
 bool Plane::isInHalfSpace(const Pnt3f &point) const
 {
     Real32 scalar = _normalVec.dot(point) - _distance;
@@ -313,9 +342,7 @@ bool Plane::isInHalfSpace(const Pnt3f &point) const
     return scalar <= 0 ? true : false;
 }
 
-/**
-  Returns true if the given point is on the plane
-*/
+
 bool Plane::isOnPlane(const Pnt3f &point) const
 {
     Real32 scalar = _normalVec.dot(point) - _distance;
@@ -325,42 +352,19 @@ bool Plane::isOnPlane(const Pnt3f &point) const
 
 OSG_BEGIN_NAMESPACE
 
-/// Equality comparison operators
+
 OSG_BASE_DLLMAPPING
 bool operator ==(const Plane &p1, const Plane &p2)
 {
-    return ((p1._distance == p2._distance) &&
-             (p1._normalVec == p2._normalVec));
+    return ((p1._distance  == p2._distance ) &&
+            (p1._normalVec == p2._normalVec)   );
 }
 
 OSG_BASE_DLLMAPPING
-std::ostream &operator << (std::ostream &outStream, const Plane &obj)
+std::ostream &operator <<(std::ostream &outStream, const Plane &obj)
 {
-  return  outStream << obj.getNormal() << ":" << obj.getDistanceFromOrigin();
+    return outStream << obj.getNormal() << ":" << obj.getDistanceFromOrigin();
 }
 
 OSG_END_NAMESPACE
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/

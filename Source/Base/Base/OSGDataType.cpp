@@ -60,7 +60,7 @@ OSG_USING_NAMESPACE
 
 DataType::DataType(const Char8  *szName,
                    const Char8  *szParentName,
-                   const UInt32  uiNameSpace) :
+                   const UInt32  uiNameSpace ) :
     Inherited(szName, szParentName, uiNameSpace)
 {
 }
@@ -108,4 +108,8 @@ namespace
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
     static Char8 cvsid_hpp[] = OSGDATATYPE_HEADER_CVSID;
 }
+
+
+
+
 

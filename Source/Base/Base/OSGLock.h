@@ -74,20 +74,22 @@ class MPFieldStore;
 //  Class
 //---------------------------------------------------------------------------
 
-//! LockCommonBase
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpBaseBaseMultiThreading
+ */
 
 class OSG_BASE_DLLMAPPING LockCommonBase : public MPBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
-    typedef MPBase Inherited;
+    typedef MPBase  Inherited;
 
-    UInt32 _uiLockId;
+            UInt32 _uiLockId;
   
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -105,6 +107,7 @@ class OSG_BASE_DLLMAPPING LockCommonBase : public MPBase
     
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */
@@ -122,24 +125,17 @@ class OSG_BASE_DLLMAPPING LockCommonBase : public MPBase
 
 #if defined (OSG_USE_PTHREADS)
 
-//! PThreadLockBase
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpBaseBaseMultiThreading
+ */
 
 class PThreadLockBase : public LockCommonBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Lock                                       */
-    /*! \{                                                                 */
-
-    void aquire (void);
-    void release(void);
-    bool request(void);
-    
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef LockCommonBase Inherited;
@@ -163,7 +159,7 @@ class PThreadLockBase : public LockCommonBase
     /*! \name                  Construction                                */
     /*! \{                                                                 */
 
-    bool init(void);
+    bool init    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -173,7 +169,17 @@ class PThreadLockBase : public LockCommonBase
     void shutdown(void);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Lock                                       */
+    /*! \{                                                                 */
+
+    void aquire  (void);
+    void release (void);
+    bool request (void);
+    
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
     
     friend class LockPool;
@@ -199,24 +205,17 @@ typedef PThreadLockBase LockBase;
 
 #if defined (OSG_USE_SPROC)
 
-//! SprocLockBase
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpBaseBaseMultiThreading
+ */
 
 class SprocLockBase : public LockCommonBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
     
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Lock                                      */
-    /*! \{                                                                 */
-
-    void aquire (void);
-    void release(void);
-    bool request(void);
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef LockCommonBase Inherited;
@@ -240,17 +239,27 @@ class SprocLockBase : public LockCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    bool    init    (void);
+    bool init    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destruction                                */
     /*! \{                                                                 */
 
-    void    shutdown(void);
+    void shutdown(void);
     
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Lock                                      */
+    /*! \{                                                                 */
+
+    void aquire  (void);
+    void release (void);
+    bool request (void);
+
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class LockPool;
@@ -280,24 +289,17 @@ typedef SprocLockBase LockBase;
 #define OSG_WINLOCK_USE_MUTEX
 #endif
 
-//! WinThreadLockBase
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpBaseBaseMultiThreading
+ */
 
 class OSG_BASE_DLLMAPPING WinThreadLockBase : public LockCommonBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                       Lock                                   */
-    /*! \{                                                                 */
-
-    void    aquire (void);
-    void    release(void);
-    bool    request(void);
-    
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef LockCommonBase Inherited;
@@ -321,15 +323,24 @@ class OSG_BASE_DLLMAPPING WinThreadLockBase : public LockCommonBase
     /*! \name                   Construction                               */
     /*! \{                                                                 */
     
-    bool    init    (void);
+    bool init    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destruction                                */
     /*! \{                                                                 */
 
-    void    shutdown(void);
+    void shutdown(void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Lock                                   */
+    /*! \{                                                                 */
+
+    void aquire  (void);
+    void release (void);
+    bool request (void);
+    
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
@@ -359,12 +370,13 @@ typedef WinThreadLockBase LockBase;
 //  Class
 //---------------------------------------------------------------------------
 
-//! Lock
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpBaseBaseMultiThreading
+ */
 
 class OSG_BASE_DLLMAPPING Lock : public LockBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef MPLockType Type;
@@ -376,15 +388,27 @@ class OSG_BASE_DLLMAPPING Lock : public LockBase
     static       Lock       *get         (const Char8 *szName);
     static       Lock       *find        (const Char8 *szName);
 
-    static const MPLockType &getClassType(void               ); 
+    static       Lock       *create      (      void         );
+
+    static const MPLockType &getClassType(      void         ); 
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Lock                                   */
+    /*! \{                                                                 */
+
+    void aquire (void);
+    void release(void);
+    bool request(void);
+    
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
-    typedef LockBase Inherited;
+    typedef LockBase    Inherited;
 
-    static MPLockType _type;
+    static  MPLockType _type;
   
     /*---------------------------------------------------------------------*/
     /*! \name                   Construction                               */
@@ -409,6 +433,7 @@ class OSG_BASE_DLLMAPPING Lock : public LockBase
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class LockPool;
@@ -427,12 +452,13 @@ class OSG_BASE_DLLMAPPING Lock : public LockBase
 //  Class
 //---------------------------------------------------------------------------
 
-//! LockPool
-//! \ingroup GrpBaseThreading
+/*! \ingroup GrpBaseBaseMultiThreading
+ */
 
 class OSG_BASE_DLLMAPPING LockPool : public LockCommonBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef MPLockPoolType Type;
@@ -441,8 +467,9 @@ class OSG_BASE_DLLMAPPING LockPool : public LockCommonBase
     /*! \name                      Get                                     */
     /*! \{                                                                 */
     
-    static LockPool *get (const Char8 *szName);
-    static LockPool *find(const Char8 *szName);
+    static LockPool *get   (const Char8 *szName);
+    static LockPool *find  (const Char8 *szName);
+    static LockPool *create(      void         );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -455,16 +482,17 @@ class OSG_BASE_DLLMAPPING LockPool : public LockCommonBase
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
-    typedef LockCommonBase Inherited;
+    typedef LockCommonBase  Inherited;
 
-    static MPLockPoolType _type;
+    static  MPLockPoolType _type;
 
-    Lock   _pLocks    [uiLockPoolSize];
+            Lock           _pLocks    [uiLockPoolSize];
 
 #ifdef OSG_DEBUG_LOCK_STAT
-    UInt32 _pLockStats[uiLockPoolSize];
+            UInt32         _pLockStats[uiLockPoolSize];
 #endif
 
     /*---------------------------------------------------------------------*/
@@ -503,6 +531,7 @@ class OSG_BASE_DLLMAPPING LockPool : public LockCommonBase
         
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class MPFieldStore<LockPool>;

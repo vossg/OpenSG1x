@@ -47,28 +47,24 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \class MPFieldStore
- */
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
+/*-------------------------- constructor ----------------------------------*/
 
-template <class MPFieldT>
+template <class MPFieldT> inline
 MPFieldStore<MPFieldT>::MPFieldStore(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
+/*--------------------------- destructor ----------------------------------*/
 
-template <class MPFieldT>
+template <class MPFieldT> inline
 MPFieldStore<MPFieldT>::~MPFieldStore(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-template <class MPFieldT>
+template <class MPFieldT> inline
 MPFieldT *MPFieldStore<MPFieldT>::getMPField(const Char8 *szName,
                                              const Char8 *szTypeName)
 {
@@ -101,10 +97,10 @@ MPFieldT *MPFieldStore<MPFieldT>::getMPField(const Char8 *szName,
     return returnValue;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                                Get                                      */
 
-template <class MPFieldT>
+/*------------------------------- get -----------------------------------*/
+
+template <class MPFieldT> inline
 MPFieldT *MPFieldStore<MPFieldT>::findMPField(const Char8 *szName)
 {
     MPFieldMapIt gIt;
@@ -115,12 +111,49 @@ MPFieldT *MPFieldStore<MPFieldT>::findMPField(const Char8 *szName)
     gIt = _mFieldMap.find(IDStringLink(szName));
 
     if(gIt != _mFieldMap.end())
+    {
         return (*gIt).second;
+    }
     else
+    {
         return NULL;
+    }
 }
 
-template <class MPFieldT>
+template <class MPFieldT> inline
+void MPFieldStore<MPFieldT>::removeMPField(MPFieldT *pField)
+{
+    if(pField == NULL)
+        return;
+
+    MPFieldMapIt gIt = _mFieldMap.find(IDStringLink(pField->getCName()));
+
+    if(gIt != _mFieldMap.end())
+    {
+        _mFieldMap.erase(gIt);
+    }
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Helper                                    */
+
+template <class MPFieldT> inline
+void MPFieldStore<MPFieldT>::clear(void)
+{
+    MPFieldMapIt gIt = _mFieldMap.begin();
+
+    while(gIt != _mFieldMap.end())
+    {
+        delete (*gIt).second;
+
+        ++gIt;
+    }
+
+    _mFieldMap.clear();
+}
+
+
+template <class MPFieldT> inline
 typename MPFieldStore<MPFieldT>::MPFieldType *
     MPFieldStore<MPFieldT>::findMPFieldType(const Char8 *szName) const
 {
@@ -144,42 +177,10 @@ typename MPFieldStore<MPFieldT>::MPFieldType *
     }
 }
 
-template <class MPFieldT>
-void MPFieldStore<MPFieldT>::removeMPField(MPFieldT *pField)
-{
-    if(pField == NULL)
-        return;
-
-    MPFieldMapIt gIt = _mFieldMap.find(
-        IDStringLink(pField->getCName()));
-
-    if(gIt != _mFieldMap.end())
-    {
-        _mFieldMap.erase(gIt);
-    }
-}
-
-/*-------------------------------------------------------------------------*/
-/*                               Helper                                    */
-
-template <class MPFieldT>
-void MPFieldStore<MPFieldT>::clear(void)
-{
-    MPFieldMapIt gIt = _mFieldMap.begin();
-
-    while(gIt != _mFieldMap.end())
-    {
-        delete (*gIt).second;
-        gIt++;
-    }
-
-    _mFieldMap.clear();
-}
-
 /*-------------------------------------------------------------------------*/
 /*                             Register                                    */
 
-template <class MPFieldT>
+template <class MPFieldT> inline
 UInt32 MPFieldStore<MPFieldT>::registerMPType(MPFieldType *pType)
 {
     UInt32 returnValue = 0;

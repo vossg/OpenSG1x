@@ -114,6 +114,7 @@ enum LogModuleHandling
 /*! \ingroup GrpBaseLog
     \brief Logger ostream, required to fix some problems between the different
            plattforms
+    \hideinhierarchy
  */
 
 struct OSG_BASE_DLLMAPPING LogOStream : public std::ostream
@@ -144,6 +145,7 @@ class OSG_BASE_DLLMAPPING LogBuf : public std::streambuf
                                    Int32  size,
                                    void  *clientData);
  
+    /*! \hideinhierarchy */
     struct Chunk 
     {
         Char8 *data;
@@ -337,11 +339,13 @@ class OSG_BASE_DLLMAPPING Log : public std::ostream
     /*---------------------------------------------------------------------*/
     /*! \name                         Helper                               */
     /*! \{                                                                 */
-   
+
+    /*! \hideinhierarchy */
     struct OSG_BASE_DLLMAPPING nilbuf : public std::streambuf 
     {
     };
 
+    /*! \hideinhierarchy */
     struct Module
     {
         const Char8 *name;

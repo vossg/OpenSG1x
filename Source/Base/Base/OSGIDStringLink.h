@@ -47,32 +47,23 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup GrpBaseTypes
- *  \brief IDStringLink
- *
- *  detailed
+/*! \ingroup GrpBaseBase
+    \brief IDStringLink
  */
 
 class OSG_BASE_DLLMAPPING IDStringLink : public IDString
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "IDString"; }
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    explicit IDStringLink(const Char8 *str = 0);
-             IDStringLink(const IDStringLink &obj);
-
-    explicit IDStringLink(const IDString &obj);
+    explicit IDStringLink(const Char8        *str = 0);
+             IDStringLink(const IDStringLink &obj    );
+    explicit IDStringLink(const IDString     &obj    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -86,30 +77,22 @@ class OSG_BASE_DLLMAPPING IDStringLink : public IDString
     /*! \name                   Operators                                  */
     /*! \{                                                                 */
 
-    inline const IDStringLink & operator =(const IDStringLink &obj)
-        {
-            set( obj.str(), LINK);
-
-            return *this;
-        }
+    const IDStringLink & operator =(const IDStringLink &obj);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     typedef IDString Inherited;
-
-    static char cvsid[];
-
-    // prohibit default functions (move to 'public' if you need one)
-
 };
 
-typedef IDStringLink *IDStringLinkP;
-
 OSG_END_NAMESPACE
+
+#include <OSGIDStringLink.inl>
 
 #endif /* _OSGSTRINGLINK_H_ */

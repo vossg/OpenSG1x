@@ -48,9 +48,6 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::ThreadManager
- */
-
 ThreadManager *ThreadManager::_pThreadManager      = NULL;
 BaseThread    *ThreadManager::_pAppThread          = NULL;
 
@@ -64,27 +61,28 @@ bool           ThreadManager::_bNumAspectSet       = false;
 #endif
 
 
-/*-------------------------------------------------------------------------*/
-/*                           Get / Set                                     */
+/*-------------------------- Get / Set ------------------------------------*/
 
 void ThreadManager::setAppThreadType(const Char8 *szAppThreadType)
 {
     stringDup(szAppThreadType, _szAppThreadType);
 }
 
+
 ThreadManager *ThreadManager::the(void)
 {
     if(_pThreadManager == NULL)
         _pThreadManager = new ThreadManager();
 
-    
     return _pThreadManager;
 }
+
 
 BaseThread *ThreadManager::getAppThread(void)
 {
     return _pAppThread;
 }
+
 
 void ThreadManager::setNumAspects(UInt32 OSG_CHECK_ARG(uiNumAspects))
 {
@@ -106,19 +104,19 @@ void ThreadManager::setNumAspects(UInt32 OSG_CHECK_ARG(uiNumAspects))
 
         Thread::_pAspectsA = pAspect;
 #endif
-        _uiNumAspects   = uiNumAspects;
+        _uiNumAspects  = uiNumAspects;
         _bNumAspectSet = true;        
     }    
 #endif
 }
+
 
 UInt32 ThreadManager::getNumAspects(void)
 {
     return _uiNumAspects;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                     Create Threading Elements                           */
+/*-------------------- Create Threading Elements --------------------------*/
 
 BaseThread *ThreadManager::getThread(const Char8 *szName,
                                      const Char8 *szTypeName)
@@ -176,7 +174,7 @@ LockPool *ThreadManager::getLockPool(const Char8 *szName,
     return returnValue;
 }
 
-BaseThread  *ThreadManager::findThread (const Char8 *szName)
+BaseThread  *ThreadManager::findThread(const Char8 *szName)
 {
     BaseThread *returnValue = NULL;
 
@@ -228,8 +226,7 @@ LockPool *ThreadManager::findLockPool(const Char8 *szName)
     return returnValue;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                                Get                                      */
+/*------------------------------- Get -------------------------------------*/
 
 #if defined(OSG_USE_SPROC)
 usptr_t *ThreadManager::getArena(void)
@@ -238,8 +235,7 @@ usptr_t *ThreadManager::getArena(void)
 }
 #endif
 
-/*-------------------------------------------------------------------------*/
-/*                               Helper                                    */
+/*------------------------------ Helper -----------------------------------*/
 
 bool ThreadManager::initialize(void)
 {
@@ -299,17 +295,17 @@ void ThreadManager::removeLockPool(LockPool *pLockPool)
     _storePLock->release();
 }
 
-UInt32 ThreadManager::registerThreadType  (MPThreadType   *pType)
+UInt32 ThreadManager::registerThreadType(MPThreadType *pType)
 {
     return _sThreadStore.registerMPType(pType);
 }
 
-UInt32 ThreadManager::registerBarrierType (MPBarrierType  *pType)
+UInt32 ThreadManager::registerBarrierType(MPBarrierType *pType)
 {
     return _sBarrierStore.registerMPType(pType);
 }
 
-UInt32 ThreadManager::registerLockType    (MPLockType     *pType)
+UInt32 ThreadManager::registerLockType(MPLockType *pType)
 {
     return _sLockStore.registerMPType(pType);
 }
@@ -420,8 +416,7 @@ bool ThreadManager::shutdown(void)
     return true;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
+/*--------------------------- Constructors --------------------------------*/
 
 ThreadManager::ThreadManager(void) :
     _sThreadStore  (),
@@ -436,8 +431,7 @@ ThreadManager::ThreadManager(void) :
 #endif
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
+/*---------------------------- Destructo ----------------------------------*/
 
 ThreadManager::~ThreadManager(void)
 {

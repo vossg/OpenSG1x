@@ -316,7 +316,7 @@ bool ClusterServer::windowChanged(FieldContainerPtr& fcp,
  * \param arg   Pointer to the ClusterServer
  */
 
-void *ClusterServer::serviceProc(void *arg)
+void ClusterServer::serviceProc(void *arg)
 {
     ClusterServer *server = static_cast<ClusterServer *>(arg);
     BinaryMessage  msg;
@@ -393,8 +393,6 @@ void *ClusterServer::serviceProc(void *arg)
     }
 
     SINFO << "Stop service thread" << std::endl;
-
-    return NULL;
 }
 
 
