@@ -71,17 +71,17 @@ OSG_BEGIN_NAMESPACE
 /*                        Base Math Runtime Functions                  */
 
 template <class FloatTypeT> inline
-typename TypeTraits<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgsqrt(const FloatTypeT rVal);
 
 
 template <class FloatTypeT> inline
-typename TypeTraits<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgcos(const FloatTypeT rVal);
 
 
 template <class FloatTypeT> inline
-typename TypeTraits<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgsin(const FloatTypeT rVal);
 
 
@@ -91,7 +91,7 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 
 
 template <class FloatTypeT> inline
-typename TypeTraits<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgacos(const FloatTypeT rVal);
 
 
@@ -101,12 +101,12 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 
 
 template <class FloatTypeT> inline
-typename TypeTraits<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgatan(const FloatTypeT rVal);
 
 
 template <class FloatTypeT> inline
-typename TypeTraits<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgatan2(const FloatTypeT rVal1,
              const FloatTypeT rVal2);
 
@@ -169,7 +169,7 @@ Int8 osgSgn(TypeT val);
 /*                           Rad / Degree Functions                    */
 
 template <class FloatTypeT> inline
-typename TypeTraits<FloatTypeT>::RealReturnType 
+typename TypeTraits<FloatTypeT>::RealReturnType
     osgdegree2rad(const FloatTypeT rVal);
 
 
@@ -203,7 +203,7 @@ TypeT osgnextpower2(TypeT rVal);
 
 /*---------------------------------------------------------------------*/
 /*! \defgroup GrpCMax compile time max
-    \ingroup GrpBaseBaseCmpTimeFn                                      
+    \ingroup GrpBaseBaseCmpTimeFn
  */
 
 /*! \ingroup GrpBaseBaseCmpTimeFn
@@ -223,7 +223,7 @@ struct OSG_BASE_DLLMAPPING osgStaticMax
 
 /*---------------------------------------------------------------------*/
 /*! \defgroup GrpCIFTBased compile time if, type based
-    \ingroup GrpBaseBaseCmpTimeFn                                      
+    \ingroup GrpBaseBaseCmpTimeFn
  */
 
 /*! \ingroup GrpBaseBaseCmpTimeFn
@@ -268,12 +268,12 @@ struct osgTypeIF<FalseType, IThenT, IElseT>
 
 /*---------------------------------------------------------------------*/
 /*! \defgroup GrpCIFBBased compile time if, bool based
-    \ingroup GrpBaseBaseCmpTimeFn                                      
+    \ingroup GrpBaseBaseCmpTimeFn
  */
 
 /*! Compile time if, true case, bool based
-    \ingroup GrpBaseBaseCmpTimeFn                  
-    \ingroup GrpCIFBBased                                      
+    \ingroup GrpBaseBaseCmpTimeFn
+    \ingroup GrpCIFBBased
     \hideinhierarchy
  */
 
@@ -285,7 +285,7 @@ struct osgIF
 };
 
 /*! Compile time if, false case, bool based
-    \ingroup GrpBaseBaseCmpTimeFn                  
+    \ingroup GrpBaseBaseCmpTimeFn
     \ingroup GrpCIFBBased
     \hideinhierarchy
  */
@@ -303,7 +303,7 @@ struct osgIF<false, IThenT, IElseT>
 
 /*---------------------------------------------------------------------*/
 /*! \defgroup GrpCIFBBased compile time if, bool based
-    \ingroup GrpBaseBaseCmpTimeFn                                      
+    \ingroup GrpBaseBaseCmpTimeFn
  */
 
 /*! \ingroup GrpBaseBaseCmpTimeFn
@@ -371,7 +371,7 @@ Int32 stringcasecmp(const Char8 *string1,
 
 /*! String less than compare functor used for a STL weak ordering
     \ingroup GrpBaseSTLHelpers
-    \ingroup GrpBaseBaseStringFn 
+    \ingroup GrpBaseBaseStringFn
     \hideinhierarchy
  */
 
@@ -385,7 +385,7 @@ struct LTString
 
 /*! String equal compare functor
     \ingroup GrpBaseSTLHelpers
-    \ingroup GrpBaseBaseStringFn 
+    \ingroup GrpBaseBaseStringFn
     \hideinhierarchy
  */
 
@@ -400,19 +400,19 @@ struct EQString
 
 // String Tokenizer
 
-struct string_token_iterator : 
+struct OSG_BASE_DLLMAPPING string_token_iterator :
 #if defined(__GNUC__) && __GNUC__ < 3
     public std::input_iterator<std::string, std::ptrdiff_t>
 #else
     public std::iterator<std::input_iterator_tag, std::string>
 #endif
 {
-  public:   
+  public:
     string_token_iterator();
-  
-    string_token_iterator(const std::string & str_, 
+
+    string_token_iterator(const std::string & str_,
                           const char        * separator_ = " ");
-  
+
     string_token_iterator(const string_token_iterator & rhs);
 
     string_token_iterator & operator++();
@@ -491,9 +491,9 @@ extern OSG_BASE_DLLMAPPING SystemState GlobalSystemState;
 
 /*! init function prototype
    \ingroup GrpBaseBaseInitExit
- 
+
    order :
-    
+
        - PreMP
        - MP
        - (Factory [GV])
@@ -505,7 +505,7 @@ typedef bool (*InitFuncF)(void);
 /*! exit function prototype
     \ingroup GrpBaseBaseInitExit
     order :
-  
+
        - (Factory [GV])
        - SystemExit
        - MP
@@ -517,7 +517,7 @@ typedef bool (*ExitFuncF)(void);
 
 /*! \ingroup GrpBaseBaseInitExit
     \hideinhierarchy
-    InitFuncWrapper is a little wrapper class that allows calling an init 
+    InitFuncWrapper is a little wrapper class that allows calling an init
     function without an associated class.
  */
 
@@ -534,7 +534,7 @@ struct OSG_BASE_DLLMAPPING InitFuncWrapper
 
 /*! \ingroup GrpBaseBaseInitExit
     \hideinhierarchy
-    StaticInitFuncWrapper is a little wrapper class that allows calling a 
+    StaticInitFuncWrapper is a little wrapper class that allows calling a
     static init function without an associated class.
  */
 
@@ -550,23 +550,23 @@ struct OSG_BASE_DLLMAPPING StaticInitFuncWrapper
 };
 
 
-OSG_BASE_DLLMAPPING 
+OSG_BASE_DLLMAPPING
 void addInitFunction      (InitFuncF initFunc);
 
-OSG_BASE_DLLMAPPING 
+OSG_BASE_DLLMAPPING
 void addSystemExitFunction(ExitFuncF exitFunc);
 
-OSG_BASE_DLLMAPPING 
+OSG_BASE_DLLMAPPING
 void addPreMPInitFunction (InitFuncF initFunc);
 
-OSG_BASE_DLLMAPPING 
+OSG_BASE_DLLMAPPING
 void addPostMPExitFunction(ExitFuncF exitFunc);
 
 
-OSG_BASE_DLLMAPPING 
+OSG_BASE_DLLMAPPING
 bool osgInit(Int32 argc, Char8 **argv);
 
-OSG_BASE_DLLMAPPING 
+OSG_BASE_DLLMAPPING
 bool osgExit(void);
 
 OSG_END_NAMESPACE
