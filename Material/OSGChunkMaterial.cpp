@@ -84,7 +84,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.9 2001/04/23 18:33:14 dirk Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.10 2001/04/24 09:03:44 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -181,13 +181,9 @@ Bool ChunkMaterial::subChunk( StateChunkPtr chunk )
 	
 void ChunkMaterial::draw( Geometry* geo, DrawAction * action )
 {
-	StatePtr state = State::create();
+	StatePtr state = makeState();
 
 	addRefCP( state );
-	
-	for ( MFStateChunkPtr::iterator i = _chunks.begin(); 
-			i != _chunks.end(); i++ )
-		state->addChunk( *i );
 	
 	state->activate( action );
 	
@@ -198,18 +194,15 @@ void ChunkMaterial::draw( Geometry* geo, DrawAction * action )
 	subRefCP( state ); // kill it
 }
 	
-void ChunkMaterial::activate( void )
+StatePtr ChunkMaterial::makeState( void )
 {
-	for ( MFStateChunkPtr::iterator i = _chunks.begin(); 
-			i != _chunks.end(); i++ )
-		i->activate();
-}
+	StatePtr state = State::create();
 	
-void ChunkMaterial::deactivate( void )
-{
 	for ( MFStateChunkPtr::iterator i = _chunks.begin(); 
 			i != _chunks.end(); i++ )
-		i->deactivate();
+		state->addChunk( *i );
+	
+	return state;
 }
 
 /*-------------------------- assignment -----------------------------------*/

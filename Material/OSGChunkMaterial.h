@@ -120,13 +120,11 @@ class OSG_MATERIAL_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
 	
 	virtual void draw( Geometry* geo, DrawAction * action );
 
-	/** sets up the OpenGL */
-	
-	virtual void activate( void );
 
-	/** resets the OpenGL */
-	
-	virtual void deactivate( void );
+	/** create the current state of the material 
+	    note that this will not work for multipass materials etc.! */
+		
+	virtual StatePtr makeState( void );
 
     /*----------------------------- access ----------------------------------*/
 	

@@ -62,10 +62,16 @@ display(void)
 
 	// do some OpenGL rendering
 
-	pm->activate();
-	glutSolidSphere( .4, 8, 8 );
-	pm->deactivate();
+	StatePtr st = pm->makeState();
 
+	addRefCP( st );
+	
+	st->activate( dact );
+	glutSolidSphere( .4, 8, 8 );
+	st->deactivate( dact );
+
+	subRefCP( st );
+	
 	glPopMatrix();
 	
 	glPopMatrix();

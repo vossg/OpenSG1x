@@ -50,6 +50,7 @@
 #include <OSGConfig.h>
 
 #include <OSGMaterialBase.h>
+#include <OSGState.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -119,18 +120,15 @@ class OSG_MATERIAL_DLLMAPPING Material : public MaterialBase
 
 	/** sets up the OpenGL and calls the Geometry's draw method.
 	    Not sure that's the best idea. Alternative: Functor */
-	
+			
 	virtual void draw( Geometry* geo, DrawAction * action ) = 0;
 
-	/** sets up the OpenGL 
-	    note that this will not work for multipass materials etc.!
-	 */
-	
-	virtual void activate( void ) = 0;
 
-	/** resets the OpenGL */
-	
-	virtual void deactivate( void ) = 0;
+	/** create the current state of the material 
+	    note that this will not work for multipass materials etc.! */
+		
+	virtual StatePtr makeState( void ) = 0;
+
 
     /*------------------------- comparison ----------------------------------*/
 
