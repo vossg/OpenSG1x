@@ -68,6 +68,10 @@ key(unsigned char key, int , int )
                 break;
     case 't':   mgr->setNavigationMode(Navigator::TRACKBALL);
                 break;
+    case 'q':   mgr->setStatistics(true);
+                break;
+    case 'w':   mgr->setStatistics(false);
+                break;
     }
     glutPostRedisplay();
 }

@@ -199,6 +199,36 @@ void key(unsigned char key, int , int )
     case 'c':   glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
                 cerr << "PolygonMode: Fill." << endl;
                 break;
+    case 'd':   {
+                    
+                for ( int i = 0; i < nhviewports; i++ )
+                {
+                    for ( int j = 0; j < nvviewports; j++ )
+                    {
+                        int ind = i * nvviewports + j;
+                        beginEditCP(deco[ind]);
+                        deco[ind]->setSize( 0, 0, 1, 1 );
+                        endEditCP(deco[ind]);
+                    }
+                }
+                }
+                break;
+    case 'f':   {
+                    
+                for ( int i = 0; i < nhviewports; i++ )
+                {
+                    for ( int j = 0; j < nvviewports; j++ )
+                    {
+                        int ind = i * nvviewports + j;
+
+                        beginEditCP(deco[ind]);
+                        deco[ind]->setSize( 1./nhviewports * i,1./nvviewports * j, 
+                                            1./nhviewports * (i+1),1./nvviewports * (j+1) );
+                        endEditCP(deco[ind]);
+                    }
+                }
+                }
+                break;
     }
 }
 
