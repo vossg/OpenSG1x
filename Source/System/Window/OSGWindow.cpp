@@ -769,7 +769,7 @@ void OSG::Window::dumpExtensions(void)
 #include <iterator>
 
 struct string_token_iterator : 
-#if defined(__sgi)
+#if defined(__sgi) || defined(__linux)
     public std::iterator<std::input_iterator_tag, std::string>
 #else
     public std::input_iterator<std::string, std::ptrdiff_t>
