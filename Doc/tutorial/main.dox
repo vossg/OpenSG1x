@@ -4,6 +4,8 @@ using namespace OSG;
 
 /*! \page TutorialMain Preface
 
+\latexonly Starter:NewChapter \endlatexonly
+
 <HR>
 
 The OpenSG documentation project is not yet finished! Actually it just started. You can already use

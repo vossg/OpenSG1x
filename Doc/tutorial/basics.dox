@@ -2,7 +2,10 @@
 
 using namespace OSG;
 
-/*! \page TutorialBasics Basics
+/*! 
+
+\page TutorialBasics Basics
+\latexonly Starter:NewChapter \endlatexonly
 
 If you have read this online tutorial right from the beginning, you are able to install OpenSG, you know a few things about GLUT, the 
 Simple Scene Manager und you have compiled and executed your first program. Well that is good, but you need to know a bit more
@@ -162,8 +165,8 @@ just the same as in OpenGL:
 
 In OpenSG matrices are stored column major like shown in the next picture
 
-\image html matrix_storage.png ""
-\image latex matrix_storage.eps "" width=8cm
+\image html matrix_storage.png "Storage of a matrix in memory"
+\image latex matrix_storage.eps "Storage of a matrix in memory" width=8cm
 
 The first column vector can be retrieved with a simple matrix[0]. Storing the values in this manner 
 has a little advantage compared to row major storage as you can easy access the matrix coordiante
@@ -292,8 +295,8 @@ others are possible. Detailed information are here : osg::Quaternion
 Nodes are in some way the most important object in a scenegraph. In OpenSG the nodes descibe the 
 hierarchy of the graph only! Here is a simple graph we want to build:
 
-\image html simple_graph.png ""
-\image latex simple_graph.eps "" width=4cm
+\image html simple_graph.png "The family scenegraph"
+\image latex simple_graph.eps "The familiy scenegraph" width=4cm
 
 \code
 
@@ -342,7 +345,7 @@ for most OpenSG objects.
 In fact calling
 <PRE> Node n = Node() </PRE>
 will get you an error during compiling like this one
-<PRE> osg::Node::Node() is protected withhin this context </PRE>
+<PRE> osg::Node::Node() is protected within this context </PRE>
 Well, that is looking bad. What to do, if the constructor is obviously not public thus it cannot be called.
 I remember still when I faced this probem, looking like a cow at the screen... 
 
@@ -388,18 +391,18 @@ This little example demonstrates what can go wrong with smart pointers
     Node b = Node::create();
     Node c = Node::create();
     
-    // we add a as a child to b
+    // we add "a" as a child to "b"
     beginEditCP(b);
         b->addChild(a);
     endEditCP(b);
     
-    //no, we want a to be a child of c
+    //no, we want "a" to be a child of "c"
     beginEditCP(b);
-        // this removes a as a child of b
+        // this removes "a" as a child of "b"
         b->subChild(a);
     endEditCP(b);
     
-    //and now add it to c
+    //and now add it to "c"
     beginEditCP(c);
         c->addChild(a);
     endeditCP(c);
@@ -413,9 +416,101 @@ Okay, no big deal? The explanation stands right above the code... when we call s
 count is reduced from one to zero and is then immediatly deleted from memory. When we want add a to c we 
 are operating on a non existent object - and that is never good.
 
-So if you want to change parents of a node you got to make sure that it's reference count stays above zero.
+So if you want to change parents of a node you need to make sure that it's reference count stays above zero.
 You can manually increase or decrease the reference count of any object by calling
 <PRE>addRefCP(objectPtr)</PRE>
 <PRE>subRefCP(objectPtr)</PRE>
+You have to increase the reference count via addRefCP first, before you delete the child of any node. Here is
+the correct code 
+
+\code
+    Node a = Node::create();
+    Node b = Node::create();
+    Node c = Node::create();
+    // all reference counts of a,b and c are 0
+    
+    // we add "a" as a child to "b"
+    beginEditCP(b);
+        b->addChild(a);
+        // "a" now has a reference count of 1,
+        // because adding it as a child increases
+        // the count by one
+    endEditCP(b);
+    
+    //no, we want "a" to be a child of "c"
+    beginEditCP(b);
+        // first we increase the reference count
+        addRefCP(a);
+        // reference count of "a" is now 2
+        // this removes "a" as a child of "b"
+        b->subChild(a);
+        // reference count is now 1 again
+    endEditCP(b);
+    
+    //and now add it to "c"
+    beginEditCP(c);
+        c->addChild(a);
+        // and the reference count is now 2
+        
+        // to avoid problems we decrease the count by hand
+        subRefCP(a);
+        // and now the count is 1 as it should be
+    endeditCP(c);
+\endcode
+
+The usage of add- and subRefCP might seem a bit confusing at the beginning, but it really does make sense. By the way,
+the operating system of macintosh systems, Mac OS X, is also using the smart pointer concept!
+
+\section basicNodeNames Naming your nodes
+
+When working with big scenes it can be very useful to name your nodes. For instance you could name your node which holds
+the geometry for a car "car_geo". You will see that it will be much easier to search your graph for a node with a known
+name. In Chapter [XXX] we will learn how to use modelling software like Studio Max in conjunction with OpenSG. At this point
+I only want to mention that if you have named parts of your modell, you can search for these nodes by using exactly the same
+names.
+
+It is very easy to assign a name to you nodes. Here is an example
+
+\code
+
+// you will need this include file in order to work with named nodes
+#include <OpenSG/OSGSimpleAttachments.h>
+
+NodePtr n = Node::create();
+
+// now we assign a name of our choice
+setName(n, "Karl-Eberhard");
+
+// if we want to extract the name later on...
+if (getName(n))
+    cout << "This node is called " << getName(n);
+\endcode
+
+It is very important to check if the result of getName is true. If you skip the if clause and use the result directly, your
+program will crash if no name was set!
+
+Later I will introduce a litlle helper class which searches a whole graph and returns the node matching a given name.
+
+\subsection BasicNodeVolumes Volumes
+
+Every node has an axis aligned bounding volume. That is the smallest possible box, which axis are parallel to the axis of the 
+coordinate system, that contains all polygons. As you might know or guess theses bounding volumes are used to speed up several 
+processes like casting a ray or checking if an object is within the frustum of the camera. If you want to know wether a ray hits 
+an object with 20.000 polygons or not, you can fist test against it's bounding box  and if that box is not hit the object can not be
+hit, saving you a lot of intersection tests. 
+
+\image html bounding_box.png "The red object is enclosed by the bounding box"
+\image latex bounding_box.eps "The red object is enclosed by the bounding box" width=6cm
+
+Normally these bounding boxes are managed by OpenSG automatically. If you modify
+geometry during runtime, the bounding box of the corressponding node will be marked as invalid. If and only if this node is used
+for the next time it's bounding box will be updated automatically. If you need to mark a volume as invalid for some reason, you can 
+do so by invoking the following on any node
+<PRE>n->invalidateVolume()</PRE>
+Note that these updates will walk the graph back up. If a bounding box of any node is recalculated so is the bounding box of the node's 
+parent. That will be repeated until the root node is reached.
+
+\section BasicCores Cores
+
 
 */

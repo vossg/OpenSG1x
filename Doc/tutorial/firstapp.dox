@@ -6,6 +6,8 @@ OSG_USING_NAMESPACE;
 
 /*! 
 \page FirstApp First Application
+\latexonly Starter:NewChapter \endlatexonly
+
 
 \section FirstAppTutorial First Tutorial
 
@@ -379,5 +381,7 @@ the wheel geometry core has four. There are four different transform cores and e
 If you compare the two last pictures it seems that the concept of how OpenSG works is much more difficult. You will see soon, that 
 actually the separtion of core and node is very easy to handle. It may produce some additional lines of code, but later on you will 
 also see what the big picture of this concept is.
+
+Next chapter : \ref TutorialBasics
 
 */

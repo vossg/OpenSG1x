@@ -4,32 +4,33 @@ using namespace OSG;
 
 /*! 
 \page TutorialIntroduction Introduction
+\latexonly Starter:NewChapter \endlatexonly
 
 \image html opensg_logo_small.png ""
-\image latex opensg_logo_small.eps "" width=8cm
+\image latex opensg_logo_small.eps "OpenSG Logo" width=8cm
 
 \section TutorialWhatIsOpenSG What is OpenSG
 
-OpenSG is an open source real-time rendering system based on a scenegraph metaphor on top of OpenGL. So what is the
-difference compared to OpenGL? OpenGL is a state machine and that means it does not know anything 
-about the environment. OpenGL is only aware of the polygon just being calculated and drawn, it does 
-not know what was and what will come. Here comes the strength of a scenegraph system. OpenSG stores 
-the whole scene in a graph (know you get where the name is from) and thus can optimize the way data
+OpenSG is an open source real-time rendering system based on a scenegraph metaphor on top of OpenGL. So 
+what is the difference compared to OpenGL? OpenGL is a state machine and that means it does not know 
+anything about the environment. OpenGL is only aware of the polygon just being calculated and drawn, it 
+does not know what was and what will come. Here comes the strength of a scenegraph system. OpenSG stores 
+the whole scene in a graph (now you get where the name is from) and thus can optimize the way data
 is passed to the graphics hardware. It is even possible (and extrem useful) to check if parts of
 the scene are not visible, like a desk behind a closed door. The rendering for these parts can be
-skipped completely resulting in a great increase of performance depending on the scene.
+skipped completely, resulting in a great increase of performance depending on the scene.
 
 Of course OpenSG is not the only scenegraph based system. Applications like Performer, OpenInventor and
-Java3D, to name a few, are working in a similar way. As always every system has its own advantages
-and disatvantages. For OpenSG the biggest advantages are lieing in the ability to handle a cluster 
-and multithreaded data structures in a very easy and still efficient way. In Addition it works seamlessly
+Java3D, to name a few, are using similar techniques. As always every system has its own advantages
+and disadvantages. In case of OpenSG the biggest advantages are lieing in the ability to handle a cluster 
+and multithreaded data structures in a very easy and still efficient way. In addition it works seamlessly
 on heterogeneous networks, so multiple computers with different graphic cards can drive one and the
 same application. Another big advantage is it's accessibility which makes it very easy to extend. Compared
-to the other scenegraph systems mentioned OpenSG has only few disadvantages. Some have more build-in
+to the other scenegraph systems mentioned, OpenSG has only few disadvantages. Some have more build-in
 functionality due to their much earlier date of release, but this will vanish as OpenSG hits version
 1.3 and above. In my personal opinion the biggest problem with OpenSG was the lack of a good documentation,
 because the learning curve was very hard at the beginning. This makes it especially difficult for new
-users to get startet. It is my goal to turn this disadvantage into the opposite ;-)
+users to get started. It is my goal to turn this disadvantage into the opposite ;-)
 
 Some last words in general : OpenSG runs on various Unix systems as well as on Windows. If you are
 using Windows you need the Microsdoft Visual Studio compiler version 7 or above, whereas on Unix you
@@ -138,9 +139,23 @@ necessary. This file is sourced every time you open a new shell. Please notice t
 
 \subsection TutorialInstallationCygwin Installation on Cygwin
 
-The installtion on cygwin is almost indentical to the Linux installtion procedure, but there are some different prerequisites. 
+The installation on cygwin is almost indentical to the Linux installtion procedure, but there are some different prerequisites. 
 It is best to have the Intel or Viusal Studio Compiler installed at their default locations (i.e. c:\\program files\\), otherwise it
-is possible that the configure script can not find them. GLUT needs to be installed in UNIX-style directories in order to be found
+is possible that the configure script can not find them. In addition to that I supplied the path to some Visual Studio .dll by extending
+the Windows path variable by : 
+<PRE>c:\\program files\\Microsoft Visual Studio .NET\\Common7\\IDE</PRE> 
+where a lot of important files lie. You might adjust the path to your current Version (this applies to .NET 2002 and maybe also 2003).
+
+GLUT needs to be installed in UNIX-style directories in order to be found
+
+Unless you are using the old version 5.0 of visual studio you also need to add a parameter to your configure line:
+<PRE>./configure [--all-options-you-want] --with-compiler={icl60, icl70, cl.net}</PRE>
+Choose the compiler coressponding to your version of Visual Studio.
+
+Depending on your environment you also have to make standard include files accessible to the compiler. The simplest way to do that, is 
+to add another paramter to your configure command
+<PRE>--with-add-incdir=/usr/include/w32api</PRE>
+This is the default location for important windows header files like windows.h within your cygwin environment
 
 Like with the installation on Linux you need to tell your system where to find the dll and lib files. You can simply copy them
 all to the folder where your executable is, but a more clever way is to adjust your PATH variable
@@ -198,6 +213,11 @@ OpenSG Functionality)
 
 For Linux users it is not that complicated. Wether you just edit the tutorials or you write your own little makefile.
 
+\section TutorialExercises Exercises
+
+1. Compile OpenSG for your platform. GLUT, tif, png and jpg support have to be enabled \n
+2. Compile all tutorials found in the "OpenSG/Tutorials" folder. Please notice that these tutorials are not related to
+the tutorials i will present throughout theses pages!\n
 
 Next Chapter : \ref FirstApp
 */
