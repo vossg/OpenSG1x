@@ -18,6 +18,7 @@ using namespace xmlpp;
 #include "FieldContainer.h"
 
 // Include the template strings
+#include "FCFieldsTemplate_h.h"
 #include "FCBaseTemplate_h.h"
 #include "FCBaseTemplate_inl.h"
 #include "FCBaseTemplate_cpp.h"
@@ -44,6 +45,7 @@ FieldContainer::KeyDic FieldContainer::_keyDic[] = {
 	{ FieldContainer::CARDINALITY_FIELD,       "cardinality" },
 	{ FieldContainer::VISIBILITY_FIELD,        "visibility" },
 	{ FieldContainer::DEFAULTVALUE_FIELD,      "defaultValue" },
+	{ FieldContainer::DEFAULTHEADER_FIELD,     "defaultHeader" },
 	{ FieldContainer::HEADER_FIELD,            "header" },
 	{ FieldContainer::ACCESS_FIELD,            "access" },
 	{ FieldContainer::UNKNOWN_FIELD, 0}
@@ -54,7 +56,7 @@ const char *FieldContainer::_pointerFieldTypesName[] = {
 };
 
 const char *FieldContainer::_abstractName[] = {
-	"concreate", "abstract"
+	"concrete", "abstract"
 };
 
 //----------------------------------------------------------------------
@@ -399,6 +401,9 @@ bool FieldContainer::readDesc (const char *fn)
 							case ACCESS_FIELD:
 								npI->setAccess(aI->second.c_str());
 								break;
+							case DEFAULTHEADER_FIELD:
+								npI->setDefaultHeader(aI->second.c_str());
+								break;
 							case HEADER_FIELD:
 								npI->setHeader(aI->second.c_str());
 								break;
@@ -500,6 +505,7 @@ bool FieldContainer::writeDesc (const char *fN)
       putField(out, pprefix, CARDINALITY_FIELD, npI->cardinalityStr());
       putField(out, pprefix, VISIBILITY_FIELD, npI->visibilityStr());
       putField(out, pprefix, DEFAULTVALUE_FIELD, npI->defaultValue());
+      putField(out, pprefix, DEFAULTHEADER_FIELD, npI->defaultHeader());
       putField(out, pprefix, HEADER_FIELD, npI->header());
       putField(out, pprefix, ACCESS_FIELD, npI->accessStr());
       out << nprefix << ">" << endl;
@@ -526,6 +532,7 @@ bool FieldContainer::writeDesc (const char *fN)
 bool FieldContainer::writeCode (bool base, bool fc)
 {	
 	bool retCode = false;
+	char fldFile[256];
 	char decFile[256];
 	char inlFile[256];
 	char impFile[256];
@@ -534,6 +541,8 @@ bool FieldContainer::writeCode (bool base, bool fc)
 
 		if (base) {
 			retCode = true;
+			sprintf(fldFile,"%s%sFields.%s", filePrefix(), name(), 
+											decFileSuffix());
 			sprintf(decFile,"%s%sBase.%s", filePrefix(), name(), 
 											decFileSuffix());
 			sprintf(inlFile,"%s%sBase.%s", filePrefix(), name(), 
@@ -541,12 +550,13 @@ bool FieldContainer::writeCode (bool base, bool fc)
 			sprintf(impFile,"%s%sBase.%s", filePrefix(), name(), 
 											impFileSuffix());
 
+			retCode &= writeCodeFields(fldFile);
 			retCode &= writeBaseCodeDec(decFile);
 			retCode &= writeBaseCodeInl(inlFile);
 			retCode &= writeBaseCodeImp(decFile,impFile);
 
 			if (retCode)
-				cerr << "Write OK, Wrote base dec,inl and imp file" << endl;
+				cerr << "Write OK, Wrote base fields,dec,inl and imp file" << endl;
 			else
 				cerr << "Write error: Couldn't write the dec,inl and imp file" << endl;
 		}
@@ -557,6 +567,28 @@ bool FieldContainer::writeCode (bool base, bool fc)
 			sprintf(inlFile,"%s%s.%s", filePrefix(), name(), inlFileSuffix());
 			sprintf(impFile,"%s%s.%s", filePrefix(), name(), impFileSuffix());
 			
+			FILE *f;
+			if ( f = fopen( decFile, "r" ) )
+			{
+				fclose(f);
+				cerr << decFile << " exists, please remove it and try again!" << endl;
+				retCode = false;
+			}
+			if ( f = fopen( inlFile, "r" ) )
+			{
+				fclose(f);
+				cerr << inlFile << " exists, please remove it and try again!" << endl;
+				retCode = false;
+			}
+			if ( f = fopen( impFile, "r" ) )
+			{
+				fclose(f);
+				cerr << impFile << " exists, please remove it and try again!" << endl;
+				retCode = false;
+			}
+			if ( ! retCode )
+				return retCode;
+				
 			retCode &= writeCodeDec(decFile);
 			retCode &= writeCodeInl(inlFile);
 			retCode &= writeCodeImp(decFile,impFile);
@@ -813,6 +845,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 					"Abstract", "hasFields", 
 					"hasPrivateFields", "hasProtectedFields", "hasPublicFields", 
 					"isPrivate", "isProtected", "isPublic",
+					"hasDefaultHeader",
 					NULL };
 				
 				char *key = s + strcspn( s, " \t");
@@ -923,6 +956,11 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 							if ( fieldIt->access() != 0 )
 								skipIf = 1;
 							break;
+				case 11:	// hasDefaultHeader
+							if ( ! fieldIt->defaultHeader() || 
+								  *fieldIt->defaultHeader() == 0 )
+								skipIf = 1;
+							break;
 							
 				default:
 							cerr << "Unknown if clause \"" << s + 5 << "\"" 
@@ -964,6 +1002,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				"@!FIELDNAME!@", 		"@!fieldvisibility!@",
 				"@!FieldTypedDefault!@","@!FieldtypeInclude!@",
 				"@!Description!@",		"@!Fielddescription!@", 
+				"@!FieldSeparator!@",	"@!FieldDefaultHeader!@",
 				NULL };
 			const char *values[ sizeof(keys) / sizeof( char * ) ];
 			
@@ -1010,11 +1049,11 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 					s = new char [ strlen(fieldtype) + 13];
 					strcpy( s, "OSG" );
 					strcat( s, fieldtype );
-					if ( ! strcmp( &s[strlen(s) - 3], "Ptr" ) )
+					// remove the Ptr suffix
+					if ( !strcmp( &s[strlen(s) - 3], "Ptr" ) )
 						s[strlen(s) - 3] = 0;
-					else
-						strcat( s, "Fields" );
-					strcat( s, ".h" );
+					// Append 'Fields' to get the header
+					strcat( s, "Fields.h" );
 				}
 				else
 				{
@@ -1023,13 +1062,23 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				}
 				values[13] = s;
 				
-				values[15] = fielddescription;			
+				values[15] = fielddescription;	
+
+				if ( fieldIt == --_fieldList.end() )
+					values[16] = "";
+				else
+					values[16] = ",";
+
+				if ( fieldIt->defaultHeader() && *fieldIt->defaultHeader())
+					values[17] = fieldIt->defaultHeader();
+				else
+					values[17] = "";
 			}
 			else
 			{
 				values[6] = values[7] = values[8] = values[9] = 
 				values[10] = values[11] = values[12] = values[13] = 
-				values[15] = NULL;
+				values[15] = values[16] = values[17] = NULL;
 			}
 
 
@@ -1090,6 +1139,30 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 	return retCode;
 }
 
+
+//----------------------------------------------------------------------
+// Method: writeFields
+// Author: dr
+// Date:   Thu Jan  8 19:53:04 1998
+// Description:
+//         
+//----------------------------------------------------------------------
+bool FieldContainer::writeCodeFields (const char *decFile)
+{
+	bool retCode = false;
+
+	ofstream out;
+
+	if (decFile)
+		out.open(decFile);
+ 
+	if (out) 
+	{
+		retCode = writeTempl( out, FCPtrTemplate_h );
+ 	}
+ 
+	return retCode;
+}
 
 //----------------------------------------------------------------------
 // Method: writeDec

@@ -44,6 +44,9 @@ private:
 	///
 	char *_defaultValue;
 
+	///
+	char* _defaultHeader;
+
   /// 
   char* _description;
 
@@ -136,6 +139,12 @@ public:
 
 	/// set method for attribute type
 	virtual void setDefaultValue ( const char *defaultValue);
+
+  /// get method for attribute defaultHeader
+  virtual char* defaultHeader (void) { return _defaultHeader; }
+
+  /// set method for attribute defaultHeader
+  virtual void setDefaultHeader (const char* defaultHeader);
 
   /// get method for attribute description
   virtual char* description (void) { return _description; }

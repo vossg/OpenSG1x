@@ -28,7 +28,7 @@ private:
 
 									TYPE_FIELD, CARDINALITY_FIELD, VISIBILITY_FIELD, 
 									DEFAULTVALUE_FIELD, ACCESS_FIELD, HEADER_FIELD, 
-									UNKNOWN_FIELD
+									DEFAULTHEADER_FIELD, UNKNOWN_FIELD
 	};
 
 	struct KeyDic {
@@ -174,6 +174,9 @@ public:
 
 	///
 	virtual bool writeCode ( bool base, bool fc );
+
+	///
+	virtual bool writeCodeFields (const char *ptrFile);
 
 	///
 	virtual bool writeBaseCodeDec (const char *decFile);

@@ -58,7 +58,8 @@ std::vector<std::string> Field::_typeName;
 //         Class Constructor
 //----------------------------------------------------------------------
 Field::Field (void )
-	: _name(0), _defaultValue(0), _description(0), _header(0)
+	: _name(0), _defaultValue(0), _defaultHeader(0), 
+	  _description(0), _header(0)
 {
 	_type = 0;
 	_cardinality = 0;
@@ -76,7 +77,7 @@ Field::Field (void )
 //         Class Copy Constructor
 //----------------------------------------------------------------------
 Field::Field (const Field &obj )
-: _name(0), _defaultValue(0), _description(0), _header(0)
+: _name(0), _defaultValue(0), _defaultHeader(0), _description(0), _header(0)
 {
 	*this = obj;
 }
@@ -93,6 +94,7 @@ Field::~Field (void )
 	setName(0);
 	setDescription(0);
 	setDefaultValue(0);
+	setDefaultHeader(0);
 	setHeader(0);
 }
 
@@ -283,6 +285,26 @@ void Field::setDefaultValue (const char* defaultValue )
 }
 
 //----------------------------------------------------------------------
+// Method: setDefaultHeader
+// Author: jbehr
+// Date:   Thu Jan  8 19:53:04 1998
+// DefaultHeader:
+//         set method for attribute defaultHeader
+//----------------------------------------------------------------------
+void Field::setDefaultHeader ( const char* defaultHeader )
+{
+	delete _defaultHeader;
+	
+	if (defaultHeader && *defaultHeader && strcmp(defaultHeader,FieldContainer::_nil)) 
+	{
+		_defaultHeader = new char [strlen(defaultHeader)+1];
+		strcpy(_defaultHeader,defaultHeader);
+	}
+	else
+		_defaultHeader = 0;
+}
+
+//----------------------------------------------------------------------
 // Method: setDescription
 // Author: jbehr
 // Date:   Thu Jan  8 19:53:04 1998
@@ -434,14 +456,35 @@ void Field::setAccess ( const char* accessStr )
 //----------------------------------------------------------------------
 bool Field::getLine (char *line)
 {
+	char * def;
+	def = new char [ (_defaultValue ? strlen( _defaultValue) : 0 ) + 
+	                  (_defaultHeader ? strlen( _defaultHeader) : 0 ) +
+					  3
+					];
+	if ( _defaultHeader && *_defaultHeader )
+	{
+		if ( _defaultValue && *_defaultValue )
+			sprintf( def, "%s (%s)", _defaultValue, _defaultHeader );
+		else
+			sprintf( def, "None" );
+	}
+	else				
+	{
+		if ( _defaultValue && *_defaultValue )
+			sprintf( def, "%s", _defaultValue );
+		else
+			sprintf( def, "None" );
+	}	
+				
 	sprintf ( line, "%s %s %s %s %s %s %s, %s" , 
 						(_name && *_name) ? _name : "None",
 						cardinalityStr(), typeStr(), 
 						visibilityStr(), accessStr(), 
 						(_header && *_header) ? _header : "auto", 
-						(_defaultValue && *_defaultValue) ? _defaultValue : "None", 
+						def, 
 						(_description	&& *_description) ? _description : "None");
 
+	delete [] def;
 	return true;
 }
 
@@ -458,6 +501,7 @@ Field &Field::operator= (const Field &obj)
 	_type = obj._type;
 	setDescription(obj._description);
 	setDefaultValue(obj._defaultValue);
+	setDefaultHeader(obj._defaultHeader);
 	setHeader(obj._header);
 	_access = obj._access;
 	_cardinality = obj._cardinality;
@@ -477,6 +521,7 @@ bool Field::operator== (const Field &obj)
 	return 	(	!strcmp(_name, obj._name) &&
 						!strcmp(_description, obj._description) &&
 						!strcmp(_defaultValue, obj._defaultValue) &&
+						!strcmp(_defaultHeader, obj._defaultHeader) &&
 						_type == obj._type &&
 						_cardinality == obj._cardinality &&
 						_access == obj._access &&
