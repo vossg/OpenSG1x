@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Mo 18. Aug 17:03:38 2003
-**      by: The User Interface Compiler ($Id: qt/main.cpp   3.2.0   edited May 19 14:22 $)
+** Created: Di 19. Aug 10:48:09 2003
+**      by: The User Interface Compiler ($Id: qt/main.cpp   3.1.2   edited Dec 19 11:45 $)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/

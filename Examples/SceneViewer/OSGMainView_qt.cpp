@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Mo 18. Aug 17:03:50 2003
-**      by: The User Interface Compiler ($Id: qt/main.cpp   3.2.0   edited May 19 14:22 $)
+** Created: Di 19. Aug 10:48:30 2003
+**      by: The User Interface Compiler ($Id: qt/main.cpp   3.1.2   edited Dec 19 11:45 $)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
@@ -952,8 +952,8 @@ static const char* const image5_data[] = {
 "e5e5e5e5e4e4e4e5e4e4e4e5e5e5e5e5e5e4e4e5e5e4"};
 
 
-/*
- *  Constructs a OSGMainView as a child of 'parent', with the
+/* 
+ *  Constructs a OSGMainView as a child of 'parent', with the 
  *  name 'name' and widget flags set to 'f'.
  *
  */
@@ -1022,8 +1022,8 @@ OSGMainView::OSGMainView( QWidget* parent, const char* name, WFlags fl )
     // menubar
     menubar = new QMenuBar( this, "menubar" );
 
-
     fileMenu = new QPopupMenu( this );
+
     fileNewAction->addTo( fileMenu );
     fileOpenAction->addTo( fileMenu );
     fileInsertAction->addTo( fileMenu );
@@ -1033,14 +1033,14 @@ OSGMainView::OSGMainView( QWidget* parent, const char* name, WFlags fl )
     filePrintAction->addTo( fileMenu );
     fileMenu->insertSeparator();
     fileExitAction->addTo( fileMenu );
-    menubar->insertItem( QString(""), fileMenu, 1 );
-
+    menubar->insertItem( QString(""), fileMenu, 0 );
     helpMenu = new QPopupMenu( this );
+
     helpContentsAction->addTo( helpMenu );
     helpIndexAction->addTo( helpMenu );
     helpMenu->insertSeparator();
     helpAboutAction->addTo( helpMenu );
-    menubar->insertItem( QString(""), helpMenu, 2 );
+    menubar->insertItem( QString(""), helpMenu, 1 );
 
     languageChange();
     resize( QSize(715, 553).expandedTo(minimumSizeHint()) );
@@ -1100,7 +1100,7 @@ void OSGMainView::languageChange()
     toolBar->setLabel( tr( "Tools" ) );
     Toolbar->setLabel( tr( "Toolbar" ) );
     CheckBox2->setText( tr( "Stats " ) );
-    menubar->findItem( 1 )->setText( tr( "&File" ) );
-    menubar->findItem( 2 )->setText( tr( "&Help" ) );
+    menubar->findItem( 0 )->setText( tr( "&File" ) );
+    menubar->findItem( 1 )->setText( tr( "&Help" ) );
 }
 
