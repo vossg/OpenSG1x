@@ -55,4 +55,24 @@
 		access="public"
 	>
 	</Field>
+	<Field
+		name="vertexProfile"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="CG_PROFILE_UNKNOWN"
+		access="public"
+	>
+	vertex profile
+	</Field>
+	<Field
+		name="fragmentProfile"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="CG_PROFILE_UNKNOWN"
+		access="public"
+	>
+	vertex profile
+	</Field>
 </FieldContainer>

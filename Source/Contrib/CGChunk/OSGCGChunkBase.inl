@@ -131,6 +131,20 @@ SFUInt32 *CGChunkBase::getSFGLId(void)
     return &_sfGLId;
 }
 
+//! Get the CGChunk::_sfVertexProfile field.
+inline
+SFUInt32 *CGChunkBase::getSFVertexProfile(void)
+{
+    return &_sfVertexProfile;
+}
+
+//! Get the CGChunk::_sfFragmentProfile field.
+inline
+SFUInt32 *CGChunkBase::getSFFragmentProfile(void)
+{
+    return &_sfFragmentProfile;
+}
+
 
 //! Get the value of the CGChunk::_sfVertexProgram field.
 inline
@@ -193,6 +207,48 @@ inline
 void CGChunkBase::setGLId(const UInt32 &value)
 {
     _sfGLId.setValue(value);
+}
+
+//! Get the value of the CGChunk::_sfVertexProfile field.
+inline
+UInt32 &CGChunkBase::getVertexProfile(void)
+{
+    return _sfVertexProfile.getValue();
+}
+
+//! Get the value of the CGChunk::_sfVertexProfile field.
+inline
+const UInt32 &CGChunkBase::getVertexProfile(void) const
+{
+    return _sfVertexProfile.getValue();
+}
+
+//! Set the value of the CGChunk::_sfVertexProfile field.
+inline
+void CGChunkBase::setVertexProfile(const UInt32 &value)
+{
+    _sfVertexProfile.setValue(value);
+}
+
+//! Get the value of the CGChunk::_sfFragmentProfile field.
+inline
+UInt32 &CGChunkBase::getFragmentProfile(void)
+{
+    return _sfFragmentProfile.getValue();
+}
+
+//! Get the value of the CGChunk::_sfFragmentProfile field.
+inline
+const UInt32 &CGChunkBase::getFragmentProfile(void) const
+{
+    return _sfFragmentProfile.getValue();
+}
+
+//! Set the value of the CGChunk::_sfFragmentProfile field.
+inline
+void CGChunkBase::setFragmentProfile(const UInt32 &value)
+{
+    _sfFragmentProfile.setValue(value);
 }
 
 

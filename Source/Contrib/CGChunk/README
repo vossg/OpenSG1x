@@ -18,7 +18,7 @@ relatively simple and not full-featured, but it's a start, you're welcome to
 make it more complete. ;)
 
 It just keeps the vertex and fragment program in strings and manages the
-context, but always uses the ARB_FP1 and ARB_VP1 profiles for portability.
+context.
 
 Configure:
 

@@ -55,8 +55,6 @@
 OSG_USING_NAMESPACE
 
 CGcontext CGChunk::_current_context = NULL;
-CGprofile CGChunk::_vertexProfile = CG_PROFILE_UNKNOWN;
-CGprofile CGChunk::_fragmentProfile = CG_PROFILE_UNKNOWN;
     
 /*! \class osg::CGChunk
 
@@ -92,8 +90,8 @@ void CGChunk::cgErrorCallback(void)
     if(LastError)
     {
         FWARNING(("Cg error occured!\n\n"));
-    	if(cgIsContext(_current_context))
-    	{
+        if(cgIsContext(_current_context))
+        {
             const char *Listing = cgGetLastListing(_current_context);
             FWARNING(("\n---------------------------------------------------\n"));
             FWARNING(("%s\n\n", cgGetErrorString(LastError)));
@@ -131,17 +129,9 @@ CGChunk::~CGChunk(void)
 
 void CGChunk::onCreate(const CGChunk */*source*/)
 {
-    // Doesn't work in external shared libraries!
-    //if(GlobalSystemState == Startup)
-    //    return;
-
-    static bool prototype = true;
-
-    if(prototype)
-    {
-        prototype = false;
+    // ignore prototypes.
+    if(GlobalSystemState == Startup)
         return;
-    }
 
     // we need this for clustering without it handleGL is never called.
     RemoteAspect::addFieldFilter(CGChunk::getClassType().getId(), CGChunk::GLIdFieldMask);
@@ -251,19 +241,13 @@ void CGChunk::updateCGContext(void)
     _current_context = _context;
 
     // can't do this in onCreate()
-    if(_vertexProfile == CG_PROFILE_UNKNOWN)
-    {
-        // CG_PROFILE_ARBVP1
-        _vertexProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
-        cgGLSetOptimalOptions(_vertexProfile);
-    }
+    if(getVertexProfile() == CG_PROFILE_UNKNOWN)
+        setVertexProfile(cgGLGetLatestProfile(CG_GL_VERTEX));
+    cgGLSetOptimalOptions((CGprofile) getVertexProfile());
     
-    if(_fragmentProfile == CG_PROFILE_UNKNOWN)
-    {
-        // CG_PROFILE_ARBFP1
-        _fragmentProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
-        cgGLSetOptimalOptions(_fragmentProfile);
-    }
+    if(getFragmentProfile() == CG_PROFILE_UNKNOWN)
+        setFragmentProfile(cgGLGetLatestProfile(CG_GL_FRAGMENT));
+    cgGLSetOptimalOptions((CGprofile) getFragmentProfile());
     
     // reload programs
     if(hasVP() && !getVertexProgram().empty())
@@ -272,7 +256,7 @@ void CGChunk::updateCGContext(void)
             cgDestroyProgram(_vProgram);
 
         _vProgram = cgCreateProgram(_context, CG_SOURCE, getVertexProgram().c_str(),
-                                    _vertexProfile, NULL, NULL);
+                                    (CGprofile) getVertexProfile(), NULL, NULL);
         if(_vProgram)
         {
             _vp_isvalid = true;
@@ -291,7 +275,7 @@ void CGChunk::updateCGContext(void)
             cgDestroyProgram(_fProgram);
 
         _fProgram = cgCreateProgram(_context, CG_SOURCE, getFragmentProgram().c_str(),
-                                               _fragmentProfile, NULL, NULL);
+                                    (CGprofile) getFragmentProfile(), NULL, NULL);
         if(cgIsProgram(_fProgram))
         {
             _fp_isvalid = true;
@@ -465,13 +449,13 @@ void CGChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
 
     if(_vp_isvalid)
     {
-        cgGLEnableProfile(_vertexProfile);
+        cgGLEnableProfile((CGprofile) getVertexProfile());
         cgGLBindProgram(_vProgram);
     }
 
     if(_fp_isvalid)
     {
-        cgGLEnableProfile(_fragmentProfile);
+        cgGLEnableProfile((CGprofile) getFragmentProfile());
         cgGLBindProgram(_fProgram);
     }
 }
@@ -496,13 +480,13 @@ void CGChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 
     if(_vp_isvalid)
     {
-        cgGLEnableProfile(_vertexProfile);
+        cgGLEnableProfile((CGprofile) getVertexProfile());
         cgGLBindProgram(_vProgram);
     }
 
     if(_fp_isvalid)
     {
-        cgGLEnableProfile(_fragmentProfile);
+        cgGLEnableProfile((CGprofile) getFragmentProfile());
         cgGLBindProgram(_fProgram);
     }
 }
@@ -511,10 +495,10 @@ void CGChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 void CGChunk::deactivate(DrawActionBase */*action*/, UInt32 /*idx*/)
 {
     if(_fp_isvalid)
-        cgGLDisableProfile(_fragmentProfile);
+        cgGLDisableProfile((CGprofile) getFragmentProfile());
 
     if(_vp_isvalid)
-        cgGLDisableProfile(_vertexProfile);
+        cgGLDisableProfile((CGprofile) getVertexProfile());
 }
 
 /*-------------------------- Comparison -----------------------------------*/
@@ -537,7 +521,9 @@ bool CGChunk::operator == (const StateChunk &other) const
         return false;
 
     if(getVertexProgram() != tother->getVertexProgram() ||
+       getVertexProfile() != tother->getVertexProfile() ||
        getFragmentProgram() != tother->getFragmentProgram() ||
+       getFragmentProfile() != tother->getFragmentProfile() ||
        getParamValues().size() != tother->getParamValues().size() ||
        getParamNames().size()  != tother->getParamNames().size())
         return false;
@@ -555,24 +541,24 @@ bool CGChunk::operator != (const StateChunk &other) const
 
 bool CGChunk::hasVP(void)
 {
-    if(cgGLIsProfileSupported(_vertexProfile))
+    if(cgGLIsProfileSupported((CGprofile) getVertexProfile()))
     {
         return true;
     }
     
     SWARNING << "Vertex programming extensions "
-             << cgGetProfileString(_vertexProfile)
+             << cgGetProfileString((CGprofile) getVertexProfile())
              << " not supported!" << std::endl;
     return false;
 }
 
 bool CGChunk::hasFP(void)
 {
-    if (cgGLIsProfileSupported(_fragmentProfile))
+    if (cgGLIsProfileSupported((CGprofile) getFragmentProfile()))
         return true;
 
     SWARNING << "Fragment programming extensions "
-             << cgGetProfileString(_fragmentProfile)
+             << cgGetProfileString((CGprofile) getFragmentProfile())
              << " not supported!" << std::endl;
     return false;
 }

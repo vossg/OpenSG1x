@@ -79,6 +79,12 @@ const OSG::BitVector  CGChunkBase::ParamValuesFieldMask =
 const OSG::BitVector  CGChunkBase::GLIdFieldMask = 
     (TypeTraits<BitVector>::One << CGChunkBase::GLIdFieldId);
 
+const OSG::BitVector  CGChunkBase::VertexProfileFieldMask = 
+    (TypeTraits<BitVector>::One << CGChunkBase::VertexProfileFieldId);
+
+const OSG::BitVector  CGChunkBase::FragmentProfileFieldMask = 
+    (TypeTraits<BitVector>::One << CGChunkBase::FragmentProfileFieldId);
+
 const OSG::BitVector CGChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -100,6 +106,12 @@ const OSG::BitVector CGChunkBase::MTInfluenceMask =
 */
 /*! \var UInt32          CGChunkBase::_sfGLId
     
+*/
+/*! \var UInt32          CGChunkBase::_sfVertexProfile
+    vertex profile
+*/
+/*! \var UInt32          CGChunkBase::_sfFragmentProfile
+    vertex profile
 */
 
 //! CGChunk description
@@ -130,7 +142,17 @@ FieldDescription *CGChunkBase::_desc[] =
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     (FieldAccessMethod) &CGChunkBase::getSFGLId)
+                     (FieldAccessMethod) &CGChunkBase::getSFGLId),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "vertexProfile", 
+                     VertexProfileFieldId, VertexProfileFieldMask,
+                     false,
+                     (FieldAccessMethod) &CGChunkBase::getSFVertexProfile),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "fragmentProfile", 
+                     FragmentProfileFieldId, FragmentProfileFieldMask,
+                     false,
+                     (FieldAccessMethod) &CGChunkBase::getSFFragmentProfile)
 };
 
 
@@ -191,6 +213,8 @@ CGChunkBase::CGChunkBase(void) :
     _mfParamNames             (), 
     _mfParamValues            (), 
     _sfGLId                   (), 
+    _sfVertexProfile          (UInt32(CG_PROFILE_UNKNOWN)), 
+    _sfFragmentProfile        (UInt32(CG_PROFILE_UNKNOWN)), 
     Inherited() 
 {
 }
@@ -205,6 +229,8 @@ CGChunkBase::CGChunkBase(const CGChunkBase &source) :
     _mfParamNames             (source._mfParamNames             ), 
     _mfParamValues            (source._mfParamValues            ), 
     _sfGLId                   (source._sfGLId                   ), 
+    _sfVertexProfile          (source._sfVertexProfile          ), 
+    _sfFragmentProfile        (source._sfFragmentProfile        ), 
     Inherited                 (source)
 {
 }
@@ -246,6 +272,16 @@ UInt32 CGChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfGLId.getBinSize();
     }
 
+    if(FieldBits::NoField != (VertexProfileFieldMask & whichField))
+    {
+        returnValue += _sfVertexProfile.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
+    {
+        returnValue += _sfFragmentProfile.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -278,6 +314,16 @@ void CGChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         _sfGLId.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (VertexProfileFieldMask & whichField))
+    {
+        _sfVertexProfile.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
+    {
+        _sfFragmentProfile.copyToBin(pMem);
     }
 
 
@@ -313,6 +359,16 @@ void CGChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfGLId.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (VertexProfileFieldMask & whichField))
+    {
+        _sfVertexProfile.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
+    {
+        _sfFragmentProfile.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -336,6 +392,12 @@ void CGChunkBase::executeSyncImpl(      CGChunkBase *pOther,
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
+
+    if(FieldBits::NoField != (VertexProfileFieldMask & whichField))
+        _sfVertexProfile.syncWith(pOther->_sfVertexProfile);
+
+    if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
+        _sfFragmentProfile.syncWith(pOther->_sfFragmentProfile);
 
 
 }

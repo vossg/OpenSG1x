@@ -195,8 +195,6 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
     void parseParams(CGparameter param);
 
     static CGcontext _current_context;
-    static CGprofile _vertexProfile;
-    static CGprofile _fragmentProfile;
 };
 
 typedef CGChunk *CGChunkP;

@@ -176,9 +176,13 @@ int main(int argc, char **argv)
         matc->setLit(true);
     endEditCP(matc);
 
+    // we use the glstate in the cg program so we force
+    // to use the CG_PROFILE_ARBVP1 and CG_PROFILE_ARBFP1 extensions.
     CGChunkPtr cgc = CGChunk::create();
     beginEditCP(cgc);
+        cgc->setVertexProfile(CG_PROFILE_ARBVP1);
         cgc->setVertexProgram(_vp_program);
+        cgc->setFragmentProfile(CG_PROFILE_ARBFP1);
         cgc->setFragmentProgram(_fp_program);
     endEditCP(cgc);
 
