@@ -24,7 +24,7 @@ int main (int argc, char **argv)
 
     OSG::ImageFileHandler::the().print();
 
-    if(argc >= 3 && !strcasecmp(argv[1], "-type"))
+    if(argc >= 3 && !stringcasecmp(argv[1], "-type"))
     {
         fileType = osg::ImageFileHandler::the().getFileType(argv[2]);  
         argv += 2;
