@@ -788,6 +788,9 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                 break;
                             }
                             break;
+                    default:
+                        FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                        break;
                     }
                     break;
 
@@ -968,6 +971,9 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                 break;
                             }
                             break;
+                    default:
+                        FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                        break;
                     }
                     break;
 
@@ -1177,6 +1183,9 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                                 break;
                             }
                             break;
+                    default:
+                        FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                        break;
                     }
                     break;
                     //-----------------------------------------------------
@@ -1604,7 +1613,7 @@ bool Image::convertDataTypeTo (Int32 destDataType)
             {
                 case OSG_UINT8_IMAGEDATA:
                     {
-                        UInt32 nMin = (UInt32) 4294967295;
+                        UInt32 nMin = (UInt32) 4294967295ul;
                         UInt32 nMax = (UInt32) 0;
                         for (UInt32 i = 0; i < sourceSize; ++i)
                         {
@@ -1629,7 +1638,7 @@ bool Image::convertDataTypeTo (Int32 destDataType)
                     break;
                 case OSG_UINT16_IMAGEDATA:
                     {
-                        UInt32 nMin = (UInt32) 4294967295;
+                        UInt32 nMin = (UInt32) 4294967295ul;
                         UInt32 nMax = (UInt32) 0;
                         for (UInt32 i = 0; i < sourceSize; ++i)
                         {
@@ -2609,7 +2618,8 @@ Image::~Image(void)
 bool Image::hasAlphaChannel(void)
 {
     return 
-        getPixelFormat() == OSG_RGBA_PF
+        getForceAlphaChannel()
+        || getPixelFormat() == OSG_RGBA_PF
 #ifdef OSG_HAS_BGRA_PF
         || getPixelFormat() == OSG_BGRA_PF
 #endif
@@ -2624,6 +2634,7 @@ bool Image::hasAlphaChannel(void)
 bool Image::hasCompressedData(void)
 {
   return 
+     getForceCompressedData()           ||
     (getPixelFormat() == OSG_RGB_DXT1)  ||
     (getPixelFormat() == OSG_RGBA_DXT1) ||
     (getPixelFormat() == OSG_RGBA_DXT3) ||
@@ -2635,8 +2646,9 @@ bool Image::hasCompressedData(void)
  */
 bool Image::hasColorChannel(void)
 {
-    return !( getPixelFormat() == OSG_L_PF
-    || getPixelFormat() == OSG_LA_PF);
+    return !( getPixelFormat() == OSG_L_PF ||
+              getPixelFormat() == OSG_LA_PF) 
+           || getForceColorChannel();
 }
 
 /*! Method returns the right frame data for the given time.
@@ -2703,7 +2715,44 @@ UInt32 Image::calcMipmapLevelCount ( void ) const
 /*                            Calculate Mipmap Size                        */
 
 
-/*! Internal used method to calculate the mem sum of all mipmap levels in byte
+/*! Method to calculate the mem sum of a mipmap level in byte
+ */
+UInt32 Image::calcMipmapLevelSize ( UInt32 mipmapNum,
+                                    UInt32 w, UInt32 h, UInt32 d) const
+{
+    Int32 sum;
+
+    switch (getPixelFormat()) 
+    {
+    case OSG_RGB_DXT1:
+    case OSG_RGBA_DXT1:
+        sum = (((w?w:1)+3)/4) * (((h?h:1)+3)/4) * 8;
+        break;
+    case OSG_RGBA_DXT3:
+    case OSG_RGBA_DXT5:
+        sum = (((w?w:1)+3)/4) * (((h?h:1)+3)/4) * 16;
+        break;
+    default:
+        sum = (w?w:1) * (h?h:1) * getBpp();
+        break;
+    }
+
+    sum *= (d?d:1);
+
+    return sum;
+}
+
+/*! MethMethod to calculate the mem of one mipmap level in byte
+            for the current Image paramter
+ */
+UInt32 Image::calcMipmapLevelSize (UInt32 mipmapNum) const
+{
+    UInt32 w, h, d;
+    calcMipmapGeometry(mipmapNum, w, h, d);
+    return calcMipmapLevelSize(mipmapNum, w, h, d);
+}
+
+/*! Method to calculate the mem sum of all mipmap levels in byte
  */
 UInt32 Image::calcMipmapSumSize ( UInt32 mipmapNum,
                                   UInt32 w, UInt32 h, UInt32 d) const
@@ -2712,23 +2761,7 @@ UInt32 Image::calcMipmapSumSize ( UInt32 mipmapNum,
 
     while (mipmapNum--)
     {
-      switch (getPixelFormat()) {
-      case OSG_RGB_DXT1:
-      case OSG_RGBA_DXT1:
-        levelSum = (((w?w:1)+3)/4) * (((h?h:1)+3)/4) * 8;
-        break;
-      case OSG_RGBA_DXT3:
-      case OSG_RGBA_DXT5:
-        levelSum = (((w?w:1)+3)/4) * (((h?h:1)+3)/4) * 16;
-        break;
-      default:
-        levelSum = (w?w:1) * (h?h:1) * getBpp();
-        break;
-      }
-      
-      levelSum *= (d?d:1);
-      
-      sum += levelSum;
+      sum += calcMipmapLevelSize(mipmapNum,w,h,d);
       
       w >>= 1;
       h >>= 1;
@@ -2738,7 +2771,7 @@ UInt32 Image::calcMipmapSumSize ( UInt32 mipmapNum,
     return sum;
 }
 
-/*! Internal used method to calculate the mem sum of all mipmap levels in byte
+/*! Method to calculate the mem sum of all mipmap levels in byte
     for the current Image paramter
 */
 UInt32 Image::calcMipmapSumSize (UInt32 mipmapNum) const

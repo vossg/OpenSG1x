@@ -167,4 +167,37 @@
 		access="public"
 	>
 	</Field>
+	<Field
+		name="forceCompressedData"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+        Set to true if using the image to keep unknown data for textures.
+        Generally used in conjunction with TextureChunk::externalFormat.
+	</Field>
+	<Field
+		name="forceAlphaChannel"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+        Set to true if using the image to keep unknown data for textures.
+        Generally used in conjunction with TextureChunk::externalFormat.
+	</Field>
+	<Field
+		name="forceColorChannel"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+        Set to true if using the image to keep unknown data for textures.
+        Generally used in conjunction with TextureChunk::externalFormat.
+	</Field>
 </FieldContainer>

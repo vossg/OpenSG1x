@@ -116,6 +116,15 @@ const OSG::BitVector  ImageBase::SideCountFieldMask =
 const OSG::BitVector  ImageBase::SideSizeFieldMask = 
     (TypeTraits<BitVector>::One << ImageBase::SideSizeFieldId);
 
+const OSG::BitVector  ImageBase::ForceCompressedDataFieldMask = 
+    (TypeTraits<BitVector>::One << ImageBase::ForceCompressedDataFieldId);
+
+const OSG::BitVector  ImageBase::ForceAlphaChannelFieldMask = 
+    (TypeTraits<BitVector>::One << ImageBase::ForceAlphaChannelFieldId);
+
+const OSG::BitVector  ImageBase::ForceColorChannelFieldMask = 
+    (TypeTraits<BitVector>::One << ImageBase::ForceColorChannelFieldId);
+
 const OSG::BitVector ImageBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -173,6 +182,15 @@ const OSG::BitVector ImageBase::MTInfluenceMask =
 */
 /*! \var Int32           ImageBase::_sfSideSize
     
+*/
+/*! \var bool            ImageBase::_sfForceCompressedData
+    Set to true if using the image to keep unknown data for textures.         Generally used in conjunction with TextureChunk::externalFormat.
+*/
+/*! \var bool            ImageBase::_sfForceAlphaChannel
+    Set to true if using the image to keep unknown data for textures.         Generally used in conjunction with TextureChunk::externalFormat.
+*/
+/*! \var bool            ImageBase::_sfForceColorChannel
+    Set to true if using the image to keep unknown data for textures.         Generally used in conjunction with TextureChunk::externalFormat.
 */
 
 //! Image description
@@ -263,7 +281,22 @@ FieldDescription *ImageBase::_desc[] =
                      "sideSize", 
                      SideSizeFieldId, SideSizeFieldMask,
                      true,
-                     (FieldAccessMethod) &ImageBase::getSFSideSize)
+                     (FieldAccessMethod) &ImageBase::getSFSideSize),
+    new FieldDescription(SFBool::getClassType(), 
+                     "forceCompressedData", 
+                     ForceCompressedDataFieldId, ForceCompressedDataFieldMask,
+                     false,
+                     (FieldAccessMethod) &ImageBase::getSFForceCompressedData),
+    new FieldDescription(SFBool::getClassType(), 
+                     "forceAlphaChannel", 
+                     ForceAlphaChannelFieldId, ForceAlphaChannelFieldMask,
+                     false,
+                     (FieldAccessMethod) &ImageBase::getSFForceAlphaChannel),
+    new FieldDescription(SFBool::getClassType(), 
+                     "forceColorChannel", 
+                     ForceColorChannelFieldId, ForceColorChannelFieldMask,
+                     false,
+                     (FieldAccessMethod) &ImageBase::getSFForceColorChannel)
 };
 
 
@@ -336,6 +369,9 @@ ImageBase::ImageBase(void) :
     _sfComponentSize          (Int32(1)), 
     _sfSideCount              (Int32(1)), 
     _sfSideSize               (Int32(0)), 
+    _sfForceCompressedData    (bool(false)), 
+    _sfForceAlphaChannel      (bool(false)), 
+    _sfForceColorChannel      (bool(false)), 
     Inherited() 
 {
 }
@@ -362,6 +398,9 @@ ImageBase::ImageBase(const ImageBase &source) :
     _sfComponentSize          (source._sfComponentSize          ), 
     _sfSideCount              (source._sfSideCount              ), 
     _sfSideSize               (source._sfSideSize               ), 
+    _sfForceCompressedData    (source._sfForceCompressedData    ), 
+    _sfForceAlphaChannel      (source._sfForceAlphaChannel      ), 
+    _sfForceColorChannel      (source._sfForceColorChannel      ), 
     Inherited                 (source)
 {
 }
@@ -463,6 +502,21 @@ UInt32 ImageBase::getBinSize(const BitVector &whichField)
         returnValue += _sfSideSize.getBinSize();
     }
 
+    if(FieldBits::NoField != (ForceCompressedDataFieldMask & whichField))
+    {
+        returnValue += _sfForceCompressedData.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ForceAlphaChannelFieldMask & whichField))
+    {
+        returnValue += _sfForceAlphaChannel.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ForceColorChannelFieldMask & whichField))
+    {
+        returnValue += _sfForceColorChannel.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -555,6 +609,21 @@ void ImageBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (SideSizeFieldMask & whichField))
     {
         _sfSideSize.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ForceCompressedDataFieldMask & whichField))
+    {
+        _sfForceCompressedData.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ForceAlphaChannelFieldMask & whichField))
+    {
+        _sfForceAlphaChannel.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ForceColorChannelFieldMask & whichField))
+    {
+        _sfForceColorChannel.copyToBin(pMem);
     }
 
 
@@ -650,6 +719,21 @@ void ImageBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfSideSize.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ForceCompressedDataFieldMask & whichField))
+    {
+        _sfForceCompressedData.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ForceAlphaChannelFieldMask & whichField))
+    {
+        _sfForceAlphaChannel.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ForceColorChannelFieldMask & whichField))
+    {
+        _sfForceColorChannel.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -709,6 +793,15 @@ void ImageBase::executeSyncImpl(      ImageBase *pOther,
 
     if(FieldBits::NoField != (SideSizeFieldMask & whichField))
         _sfSideSize.syncWith(pOther->_sfSideSize);
+
+    if(FieldBits::NoField != (ForceCompressedDataFieldMask & whichField))
+        _sfForceCompressedData.syncWith(pOther->_sfForceCompressedData);
+
+    if(FieldBits::NoField != (ForceAlphaChannelFieldMask & whichField))
+        _sfForceAlphaChannel.syncWith(pOther->_sfForceAlphaChannel);
+
+    if(FieldBits::NoField != (ForceColorChannelFieldMask & whichField))
+        _sfForceColorChannel.syncWith(pOther->_sfForceColorChannel);
 
 
 }

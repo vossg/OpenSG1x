@@ -44,6 +44,11 @@ int main (int argc, char **argv)
                 maxSize = fileType->maxBufferSize(pImage);
                 data = new OSG::UChar8[maxSize];
                 maxSize = fileType->store(pImage,(OSG::UChar8*)data);
+                out << "/* Image: " << argv[1] << "*/" << std::endl;
+                out << "static unsigned int imageWidth = " 
+                    << pImage->getWidth() << ";" << std::endl;               
+                out << "static unsigned int imageHeight = " 
+                    << pImage->getHeight() << ";" << std::endl;               
                 out << "static unsigned char imageData[" << maxSize << "] = {" ;
                 for (i = 0; i < maxSize; i++)
                 {

@@ -82,6 +82,9 @@
 #include <OSGInt32Fields.h> // ComponentSize type
 #include <OSGInt32Fields.h> // SideCount type
 #include <OSGInt32Fields.h> // SideSize type
+#include <OSGBoolFields.h> // ForceCompressedData type
+#include <OSGBoolFields.h> // ForceAlphaChannel type
+#include <OSGBoolFields.h> // ForceColorChannel type
 
 #include <OSGImageFields.h>
 
@@ -105,24 +108,27 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
 
     enum
     {
-        ParentsFieldId       = Inherited::NextFieldId,
-        DimensionFieldId     = ParentsFieldId       + 1,
-        WidthFieldId         = DimensionFieldId     + 1,
-        HeightFieldId        = WidthFieldId         + 1,
-        DepthFieldId         = HeightFieldId        + 1,
-        BppFieldId           = DepthFieldId         + 1,
-        MipMapCountFieldId   = BppFieldId           + 1,
-        FrameCountFieldId    = MipMapCountFieldId   + 1,
-        FrameDelayFieldId    = FrameCountFieldId    + 1,
-        PixelFormatFieldId   = FrameDelayFieldId    + 1,
-        PixelFieldId         = PixelFormatFieldId   + 1,
-        FrameSizeFieldId     = PixelFieldId         + 1,
-        NameFieldId          = FrameSizeFieldId     + 1,
-        DataTypeFieldId      = NameFieldId          + 1,
-        ComponentSizeFieldId = DataTypeFieldId      + 1,
-        SideCountFieldId     = ComponentSizeFieldId + 1,
-        SideSizeFieldId      = SideCountFieldId     + 1,
-        NextFieldId          = SideSizeFieldId      + 1
+        ParentsFieldId             = Inherited::NextFieldId,
+        DimensionFieldId           = ParentsFieldId             + 1,
+        WidthFieldId               = DimensionFieldId           + 1,
+        HeightFieldId              = WidthFieldId               + 1,
+        DepthFieldId               = HeightFieldId              + 1,
+        BppFieldId                 = DepthFieldId               + 1,
+        MipMapCountFieldId         = BppFieldId                 + 1,
+        FrameCountFieldId          = MipMapCountFieldId         + 1,
+        FrameDelayFieldId          = FrameCountFieldId          + 1,
+        PixelFormatFieldId         = FrameDelayFieldId          + 1,
+        PixelFieldId               = PixelFormatFieldId         + 1,
+        FrameSizeFieldId           = PixelFieldId               + 1,
+        NameFieldId                = FrameSizeFieldId           + 1,
+        DataTypeFieldId            = NameFieldId                + 1,
+        ComponentSizeFieldId       = DataTypeFieldId            + 1,
+        SideCountFieldId           = ComponentSizeFieldId       + 1,
+        SideSizeFieldId            = SideCountFieldId           + 1,
+        ForceCompressedDataFieldId = SideSizeFieldId            + 1,
+        ForceAlphaChannelFieldId   = ForceCompressedDataFieldId + 1,
+        ForceColorChannelFieldId   = ForceAlphaChannelFieldId   + 1,
+        NextFieldId                = ForceColorChannelFieldId   + 1
     };
 
     static const OSG::BitVector ParentsFieldMask;
@@ -142,6 +148,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     static const OSG::BitVector ComponentSizeFieldMask;
     static const OSG::BitVector SideCountFieldMask;
     static const OSG::BitVector SideSizeFieldMask;
+    static const OSG::BitVector ForceCompressedDataFieldMask;
+    static const OSG::BitVector ForceAlphaChannelFieldMask;
+    static const OSG::BitVector ForceColorChannelFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -184,6 +193,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
            SFInt32             *getSFDataType       (void);
            SFInt32             *getSFSideCount      (void);
            SFInt32             *getSFSideSize       (void);
+           SFBool              *getSFForceCompressedData(void);
+           SFBool              *getSFForceAlphaChannel(void);
+           SFBool              *getSFForceColorChannel(void);
 
            Int32               &getDimension      (void);
      const Int32               &getDimension      (void) const;
@@ -213,6 +225,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
      const Int32               &getSideCount      (void) const;
            Int32               &getSideSize       (void);
      const Int32               &getSideSize       (void) const;
+           bool                &getForceCompressedData(void);
+     const bool                &getForceCompressedData(void) const;
+           bool                &getForceAlphaChannel(void);
+     const bool                &getForceAlphaChannel(void) const;
+           bool                &getForceColorChannel(void);
+     const bool                &getForceColorChannel(void) const;
            FieldContainerPtr   &getParents        (const UInt32 index);
            MFFieldContainerPtr &getParents        (void);
      const MFFieldContainerPtr &getParents        (void) const;
@@ -239,6 +257,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
      void setDataType       ( const Int32 &value );
      void setSideCount      ( const Int32 &value );
      void setSideSize       ( const Int32 &value );
+     void setForceCompressedData( const bool &value );
+     void setForceAlphaChannel( const bool &value );
+     void setForceColorChannel( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -301,6 +322,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     SFInt32             _sfComponentSize;
     SFInt32             _sfSideCount;
     SFInt32             _sfSideSize;
+    SFBool              _sfForceCompressedData;
+    SFBool              _sfForceAlphaChannel;
+    SFBool              _sfForceColorChannel;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

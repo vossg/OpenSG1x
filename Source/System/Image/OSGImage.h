@@ -86,30 +86,30 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
 
 /*** RGB_DXT1 ***/
 #if defined(GL_COMPRESSED_RGB_S3TC_DXT1_EXT)
-												 OSG_RGB_DXT1   = GL_COMPRESSED_RGB_S3TC_DXT1_EXT,
+                         OSG_RGB_DXT1   = GL_COMPRESSED_RGB_S3TC_DXT1_EXT,
 #else
-												 OSG_RGB_DXT1   = 0,
+                         OSG_RGB_DXT1   = 0,
 #endif
 
 /*** RGBA_DXT1 ***/
 #if defined(GL_COMPRESSED_RGBA_S3TC_DXT1_EXT)
-												 OSG_RGBA_DXT1  = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT,
+                         OSG_RGBA_DXT1  = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT,
 #else
-												 OSG_RGBA_DXT1   = 0,
+                         OSG_RGBA_DXT1   = 0,
 #endif
 
 /*** RGBA_DXT3 ***/
 #if defined(GL_COMPRESSED_RGBA_S3TC_DXT3_EXT)
-												 OSG_RGBA_DXT3  = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT,
+                         OSG_RGBA_DXT3  = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT,
 #else
-												 OSG_RGBA_DXT3   = 0,
+                         OSG_RGBA_DXT3   = 0,
 #endif
 
 /*** RGBA_DXT5 ***/
 #if defined(GL_COMPRESSED_RGBA_S3TC_DXT5_EXT)
-												 OSG_RGBA_DXT5  = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT,
+                         OSG_RGBA_DXT5  = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT,
 #else
-												 OSG_RGBA_DXT5   = 0,
+                         OSG_RGBA_DXT5   = 0,
 #endif
 
                          OSG_RGB_PF     = GL_RGB,
@@ -316,6 +316,19 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     const std::string * findAttachmentField ( const std::string &key) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name               Calculate Mipmap Size                          */
+    /*! \{                                                                 */
+
+    UInt32 calcMipmapLevelSize( UInt32 mipmapNum,
+                                     UInt32 w, UInt32 h, UInt32 d) const;
+    UInt32 calcMipmapLevelSize( UInt32 mipmapNum                 ) const;
+
+    UInt32 calcMipmapSumSize  ( UInt32 mipmapNum,
+                                     UInt32 w, UInt32 h, UInt32 d) const;
+    UInt32 calcMipmapSumSize  ( UInt32 mipmapNum                 ) const;
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -345,15 +358,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
 
     /*==========================  PRIVATE  ================================*/
   private:
-    /*---------------------------------------------------------------------*/
-    /*! \name               Calculate Mipmap Size                          */
-    /*! \{                                                                 */
-
-    UInt32 calcMipmapSumSize( UInt32 mipmapNum,
-                                     UInt32 w, UInt32 h, UInt32 d) const;
-    UInt32 calcMipmapSumSize( UInt32 mipmapNum                   ) const;
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Image Data                                 */
     /*! \{                                                                 */

@@ -215,6 +215,27 @@ SFInt32 *ImageBase::getSFSideSize(void)
     return &_sfSideSize;
 }
 
+//! Get the Image::_sfForceCompressedData field.
+inline
+SFBool *ImageBase::getSFForceCompressedData(void)
+{
+    return &_sfForceCompressedData;
+}
+
+//! Get the Image::_sfForceAlphaChannel field.
+inline
+SFBool *ImageBase::getSFForceAlphaChannel(void)
+{
+    return &_sfForceAlphaChannel;
+}
+
+//! Get the Image::_sfForceColorChannel field.
+inline
+SFBool *ImageBase::getSFForceColorChannel(void)
+{
+    return &_sfForceColorChannel;
+}
+
 
 //! Get the value of the Image::_sfDimension field.
 inline
@@ -529,6 +550,69 @@ inline
 void ImageBase::setSideSize(const Int32 &value)
 {
     _sfSideSize.setValue(value);
+}
+
+//! Get the value of the Image::_sfForceCompressedData field.
+inline
+bool &ImageBase::getForceCompressedData(void)
+{
+    return _sfForceCompressedData.getValue();
+}
+
+//! Get the value of the Image::_sfForceCompressedData field.
+inline
+const bool &ImageBase::getForceCompressedData(void) const
+{
+    return _sfForceCompressedData.getValue();
+}
+
+//! Set the value of the Image::_sfForceCompressedData field.
+inline
+void ImageBase::setForceCompressedData(const bool &value)
+{
+    _sfForceCompressedData.setValue(value);
+}
+
+//! Get the value of the Image::_sfForceAlphaChannel field.
+inline
+bool &ImageBase::getForceAlphaChannel(void)
+{
+    return _sfForceAlphaChannel.getValue();
+}
+
+//! Get the value of the Image::_sfForceAlphaChannel field.
+inline
+const bool &ImageBase::getForceAlphaChannel(void) const
+{
+    return _sfForceAlphaChannel.getValue();
+}
+
+//! Set the value of the Image::_sfForceAlphaChannel field.
+inline
+void ImageBase::setForceAlphaChannel(const bool &value)
+{
+    _sfForceAlphaChannel.setValue(value);
+}
+
+//! Get the value of the Image::_sfForceColorChannel field.
+inline
+bool &ImageBase::getForceColorChannel(void)
+{
+    return _sfForceColorChannel.getValue();
+}
+
+//! Get the value of the Image::_sfForceColorChannel field.
+inline
+const bool &ImageBase::getForceColorChannel(void) const
+{
+    return _sfForceColorChannel.getValue();
+}
+
+//! Set the value of the Image::_sfForceColorChannel field.
+inline
+void ImageBase::setForceColorChannel(const bool &value)
+{
+    _sfForceColorChannel.setValue(value);
 }
 
 
