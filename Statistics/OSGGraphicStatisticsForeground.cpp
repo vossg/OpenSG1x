@@ -42,7 +42,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <iostream.h>
+#include <iostream>
 
 #ifdef OSG_HAS_SSTREAM
 #include <sstream>
@@ -62,8 +62,9 @@
 #include <OSGViewport.h>
 #include "OSGStatElem.h"
 #include "OSGGraphicStatisticsForeground.h"
-#include "GL/gl.h"
-#include "GL/glut.h"
+#include "OSGGL.h"
+//#include "GL/glut.h"
+
 OSG_USING_NAMESPACE
 
 /* static vars */
@@ -1424,7 +1425,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.4 2002/07/22 18:38:57 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.5 2002/07/25 16:18:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
