@@ -91,4 +91,14 @@ A Viewport is a part of the Window it is attached to used for rendering. Every W
 	>
 	The foreground additions to the rendered image.
 	</Field>
+	<Field
+		name="travMask"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+                defaultValue="TypeTraits<UInt32>::getMax()"
+	>
+	The foreground additions to the rendered image.
+	</Field>
 </FieldContainer>

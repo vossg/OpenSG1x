@@ -292,59 +292,34 @@ void DrawActionBase::setFrustum(FrustumVolume &frustum)
 }
 
 // select all visible nodes
-UInt32 DrawActionBase::selectVisibles( void )
+UInt32 DrawActionBase::selectVisibles(void)
 {
-    if ( getFrustumCulling() == false )
+    if(getFrustumCulling() == false)
         return getNNodes();
 
     useNodeList();
 
+    Color3f col;
+    
     UInt32 count = 0;
     for ( UInt32 i = 0; i < getNNodes(); i++ )
     {
-        bool l;
-        bool d = getVolumeDrawing();
-        if ( d )
-        {
-            l = glIsEnabled( GL_LIGHTING );
-            glDisable( GL_LIGHTING );
-        }
-
         if ( isVisible( getNode(i).getCPtr() ) )
         {
-            if ( d ) glColor3f( 0,1,0 );
+            col.setValuesRGB(0,1,0);
             addNode( getNode(i) );
             ++count;
         }
         else
-            if ( d ) glColor3f( 1,0,0 );
-
-        if ( d )
+            col.setValuesRGB(1,0,0);
+        
+        if(getVolumeDrawing())
         {
-            drawVolume( getNode(i)->getVolume() );
-            if ( l ) glEnable( GL_LIGHTING );
+            dropVolume(this, getNode(i), col);
         }
     }
 
     return count;
 }
-
-
-/*---------------------------- properties ---------------------------------*/
-
-/*---------------------------- culling ------------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
 
 

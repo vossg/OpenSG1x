@@ -159,6 +159,13 @@ MFForegroundPtr *ViewportBase::getMFForegrounds(void)
     return &_mfForegrounds;
 }
 
+//! Get the Viewport::_sfTravMask field.
+inline
+SFUInt32 *ViewportBase::getSFTravMask(void)
+{
+    return &_sfTravMask;
+}
+
 
 //! Get the value of the Viewport::_sfLeft field.
 inline
@@ -326,6 +333,27 @@ inline
 void ViewportBase::setBackground(const BackgroundPtr &value)
 {
     _sfBackground.setValue(value);
+}
+
+//! Get the value of the Viewport::_sfTravMask field.
+inline
+UInt32 &ViewportBase::getTravMask(void)
+{
+    return _sfTravMask.getValue();
+}
+
+//! Get the value of the Viewport::_sfTravMask field.
+inline
+const UInt32 &ViewportBase::getTravMask(void) const
+{
+    return _sfTravMask.getValue();
+}
+
+//! Set the value of the Viewport::_sfTravMask field.
+inline
+void ViewportBase::setTravMask(const UInt32 &value)
+{
+    _sfTravMask.setValue(value);
 }
 
 

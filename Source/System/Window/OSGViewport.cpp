@@ -232,6 +232,7 @@ void Viewport::draw(DrawAction * action)
     action->setViewport  (this);
     action->setCamera    (getCamera    ().getCPtr());
     action->setBackground(getBackground().getCPtr());
+    action->setTravMask  (getTravMask()            );
     
     getCamera    ()->setup(action, *this);
     getBackground()->clear(action,  this);
@@ -279,7 +280,8 @@ void Viewport::render(RenderActionBase *action)
 
     action->setCamera    (getCamera    ().getCPtr());
     action->setBackground(getBackground().getCPtr());
-    action->setViewport  (this                    );
+    action->setViewport  (this                     );
+    action->setTravMask  (getTravMask()            );
 
 //  getCamera()->setup(action, *this);
 //  getBackground()->clear(action, this);

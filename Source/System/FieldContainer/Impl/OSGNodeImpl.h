@@ -84,15 +84,15 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     enum 
     { 
         VolumeFieldId      = Inherited::NextFieldId, 
-        ActiveFieldId      = VolumeFieldId         + 1,
-        ParentFieldId      = ActiveFieldId         + 1,
+        TravMaskFieldId    = VolumeFieldId         + 1,
+        ParentFieldId      = TravMaskFieldId       + 1,
         ChildrenFieldId    = ParentFieldId         + 1,
         CoreFieldId        = ChildrenFieldId       + 1,
         NextFieldId        = CoreFieldId           + 1
     };
 
     static const BitVector VolumeFieldMask;
-    static const BitVector ActiveFieldMask;
+    static const BitVector TravMaskFieldMask;
     static const BitVector ParentFieldMask;
     static const BitVector ChildrenFieldMask;
     static const BitVector CoreFieldMask;
@@ -149,13 +149,16 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Active                                 */
+    /*! \name                  Active / TravMask                           */
     /*! \{                                                                 */
 
-          bool &getActive(void     );
-    const bool &getActive(void     ) const;
+          bool   getActive  (void      );
+    const bool   getActive  (void      ) const;
 
-          void  setActive(bool val);
+          void   setActive  (bool   val);
+
+          void   setTravMask(UInt32 val);
+          UInt32 getTravMask(void      ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -170,7 +173,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \{                                                                 */
 
     SFDynamicVolume *getSFVolume  (void);
-    SFBool          *getSFActive  (void);
+    SFUInt32        *getSFTravMask(void);
     SFNodePtr       *getSFParent  (void);
     SFNodeCorePtr   *getSFCore    (void);
     MFNodePtr       *getMFChildren(void);
@@ -251,7 +254,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     SFDynamicVolume _sfVolume;
     
-    SFBool          _sfActive;
+    SFUInt32        _sfTravMask;
     
     SFNodePtr       _sfParent;
     MFNodePtr       _mfChildren;

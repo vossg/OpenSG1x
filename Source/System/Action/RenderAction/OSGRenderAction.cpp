@@ -683,7 +683,7 @@ bool RenderAction::isVisible( Node* node )
     return false;
 }
 
-//! enter a new level for visibility Return false if noed is not visible, true
+//! enter a new level for visibility Return false if node is not visible, true
 //  if it is.
 
 bool RenderAction::pushVisibility(void)

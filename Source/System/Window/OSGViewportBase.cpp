@@ -65,32 +65,38 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ViewportBase::LeftFieldMask = 
-    (1 << ViewportBase::LeftFieldId);
+    (TypeTraits<BitVector>::One << ViewportBase::LeftFieldId);
 
 const OSG::BitVector  ViewportBase::RightFieldMask = 
-    (1 << ViewportBase::RightFieldId);
+    (TypeTraits<BitVector>::One << ViewportBase::RightFieldId);
 
 const OSG::BitVector  ViewportBase::BottomFieldMask = 
-    (1 << ViewportBase::BottomFieldId);
+    (TypeTraits<BitVector>::One << ViewportBase::BottomFieldId);
 
 const OSG::BitVector  ViewportBase::TopFieldMask = 
-    (1 << ViewportBase::TopFieldId);
+    (TypeTraits<BitVector>::One << ViewportBase::TopFieldId);
 
 const OSG::BitVector  ViewportBase::ParentFieldMask = 
-    (1 << ViewportBase::ParentFieldId);
+    (TypeTraits<BitVector>::One << ViewportBase::ParentFieldId);
 
 const OSG::BitVector  ViewportBase::CameraFieldMask = 
-    (1 << ViewportBase::CameraFieldId);
+    (TypeTraits<BitVector>::One << ViewportBase::CameraFieldId);
 
 const OSG::BitVector  ViewportBase::RootFieldMask = 
-    (1 << ViewportBase::RootFieldId);
+    (TypeTraits<BitVector>::One << ViewportBase::RootFieldId);
 
 const OSG::BitVector  ViewportBase::BackgroundFieldMask = 
-    (1 << ViewportBase::BackgroundFieldId);
+    (TypeTraits<BitVector>::One << ViewportBase::BackgroundFieldId);
 
 const OSG::BitVector  ViewportBase::ForegroundsFieldMask = 
-    (1 << ViewportBase::ForegroundsFieldId);
+    (TypeTraits<BitVector>::One << ViewportBase::ForegroundsFieldId);
 
+const OSG::BitVector  ViewportBase::TravMaskFieldMask = 
+    (TypeTraits<BitVector>::One << ViewportBase::TravMaskFieldId);
+
+const OSG::BitVector ViewportBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -120,6 +126,9 @@ const OSG::BitVector  ViewportBase::ForegroundsFieldMask =
     The background used to clear this viewport.
 */
 /*! \var ForegroundPtr   ViewportBase::_mfForegrounds
+    The foreground additions to the rendered image.
+*/
+/*! \var UInt32          ViewportBase::_sfTravMask
     The foreground additions to the rendered image.
 */
 
@@ -171,7 +180,12 @@ FieldDescription *ViewportBase::_desc[] =
                      "foregrounds", 
                      ForegroundsFieldId, ForegroundsFieldMask,
                      false,
-                     (FieldAccessMethod) &ViewportBase::getMFForegrounds)
+                     (FieldAccessMethod) &ViewportBase::getMFForegrounds),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "travMask", 
+                     TravMaskFieldId, TravMaskFieldMask,
+                     false,
+                     (FieldAccessMethod) &ViewportBase::getSFTravMask)
 };
 
 
@@ -236,6 +250,7 @@ ViewportBase::ViewportBase(void) :
     _sfRoot                   (), 
     _sfBackground             (), 
     _mfForegrounds            (), 
+    _sfTravMask               (UInt32(TypeTraits<UInt32>::getMax())), 
     Inherited() 
 {
 }
@@ -254,6 +269,7 @@ ViewportBase::ViewportBase(const ViewportBase &source) :
     _sfRoot                   (source._sfRoot                   ), 
     _sfBackground             (source._sfBackground             ), 
     _mfForegrounds            (source._mfForegrounds            ), 
+    _sfTravMask               (source._sfTravMask               ), 
     Inherited                 (source)
 {
 }
@@ -315,6 +331,11 @@ UInt32 ViewportBase::getBinSize(const BitVector &whichField)
         returnValue += _mfForegrounds.getBinSize();
     }
 
+    if(FieldBits::NoField != (TravMaskFieldMask & whichField))
+    {
+        returnValue += _sfTravMask.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -367,6 +388,11 @@ void ViewportBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ForegroundsFieldMask & whichField))
     {
         _mfForegrounds.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TravMaskFieldMask & whichField))
+    {
+        _sfTravMask.copyToBin(pMem);
     }
 
 
@@ -422,6 +448,11 @@ void ViewportBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfForegrounds.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (TravMaskFieldMask & whichField))
+    {
+        _sfTravMask.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -457,6 +488,9 @@ void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
 
     if(FieldBits::NoField != (ForegroundsFieldMask & whichField))
         _mfForegrounds.syncWith(pOther->_mfForegrounds);
+
+    if(FieldBits::NoField != (TravMaskFieldMask & whichField))
+        _sfTravMask.syncWith(pOther->_sfTravMask);
 
 
 }

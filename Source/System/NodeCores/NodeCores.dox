@@ -31,6 +31,15 @@ like accessing the accumulated matrix to the world coordinate system or the
 world bounding volume, have to be done on the node, as it uniquely defines and
 identifies the position in the graph.
 
+Additionally, Nodes contain a traversal mask. When traversing a graph (see 
+\ref PageActions) some parts of the graph can be left out. To do that the
+logical and of the Node's traversal mask and the Action's traversal mask is
+checked if it's 0. If it is, the Node and all its descendents are not
+traversed, otherwise they are. This allows splitting the graph into logical
+partitions, that are only use for some actions (e.g. have a separate set of
+moedls for ray intersection). To use this for rendering the osg::Viewport also
+has a traversal mask that is used for rendering it.
+
 A NodeCore carries the differentiating information for a node. There are
 NodeCores for all the different functions needed in the tree: groups,
 transformations, geometry and many more. NodeCores can be shared between

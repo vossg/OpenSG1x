@@ -182,6 +182,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
 
     /*------------------------- assignment ----------------------------------*/
 
+    inline UInt32 getTravMask (void) const;
+    
+    inline void   setTravMask (UInt32 val);
+    
+
     /*------------------------- comparison ----------------------------------*/
 
     bool operator < (const Action &other);
@@ -308,7 +313,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
 
     bool                  _useNewList;// set by clearNodeList
     std::vector<NodePtr>  _newList;   // list of active object for this level
-    
+
+    UInt32                _travMask;
+       
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------

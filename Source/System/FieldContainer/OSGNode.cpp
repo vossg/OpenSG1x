@@ -54,8 +54,8 @@ OSG_USING_NAMESPACE
 
 const BitVector Node::VolumeFieldMask      =
         (TypeTraits<BitVector>::One << Node::VolumeFieldId     );
-const BitVector Node::ActiveFieldMask      = 
-        (TypeTraits<BitVector>::One << Node::ActiveFieldId     );
+const BitVector Node::TravMaskFieldMask      = 
+        (TypeTraits<BitVector>::One << Node::TravMaskFieldId   );
 const BitVector Node::ParentFieldMask      = 
         (TypeTraits<BitVector>::One << Node::ParentFieldId     );
 const BitVector Node::ChildrenFieldMask    = 
@@ -72,10 +72,10 @@ FieldDescription *Node::_desc[] =
                          (FieldAccessMethod) &Node::getSFVolume),
 
     new FieldDescription(SFBool::getClassType(),
-                         "active",
-                         OSG_FC_FIELD_IDM_DESC(ActiveField),
+                         "travMask",
+                         OSG_FC_FIELD_IDM_DESC(TravMaskField),
                          false,
-                         (FieldAccessMethod) &Node::getSFActive),
+                         (FieldAccessMethod) &Node::getSFTravMask),
 
     new FieldDescription(SFNodePtr::getClassType(),
                          "parent",
@@ -424,37 +424,6 @@ fprintf(stderr,"%p: node 0x%p gwv (%f %f %f  %f %f %f)\n",
 */
 }
 
-#if 0
-void Node::updateVolume(void)
-{
-    Volume &vol = _sfVolume.getValue().getInstance();
-
-    if(vol.isValid() == true)
-        return;             // still valid, nothing to do
-
-// fprintf(stderr,"%p: node 0x%p update needed\n", Thread::getCurrent(), this);
-
-    MFNodePtr::iterator it;
-
-    beginEdit(VolumeFieldMask, _sfVolume);
-
-    vol.setEmpty();
-
-    for(it = _mfChildren.begin(); it != _mfChildren.end(); ++it)
-    {
-        (*it)->updateVolume();
-        vol.extendBy((*it)->getVolume());
-    }
-
-    // test for null core. Shouldn't happen, but just in case...
-    if(getCore() != NullFC)
-        getCore()->adjustVolume(vol);
-   
-    _sfVolume.getValue().instanceChanged();
-    
-    endEdit(VolumeFieldMask, _sfVolume);
-}
-#else // test version using DVol instance instead of reference
 void Node::updateVolume(void)
 {
     if(_sfVolume.getValue().getInstance().isValid() == true)
@@ -471,12 +440,15 @@ void Node::updateVolume(void)
 
     vol.getInstance().setEmpty();
 
-    if(getActive())
+    if(getTravMask())
     {
         for(it = _mfChildren.begin(); it != _mfChildren.end(); ++it)
         {
-            (*it)->updateVolume();
-            vol.getInstance().extendBy((*it)->getVolume());
+            if((*it)->getTravMask())
+            {
+                (*it)->updateVolume();
+                vol.getInstance().extendBy((*it)->getVolume());
+            }
         }
 
         // test for null core. Shouldn't happen, but just in case...
@@ -492,7 +464,6 @@ void Node::updateVolume(void)
     
     endEdit(VolumeFieldMask, _sfVolume);
 }
-#endif
 
 void Node::invalidateVolume(void)
 {
@@ -628,7 +599,7 @@ void Node::dump(      UInt32    uiIndent,
 Node::Node(void) :
      Inherited  (),
     _sfVolume   (),
-    _sfActive   (true),
+    _sfTravMask (TypeTraits<UInt32>::getMax()),
     _sfParent   (),
     _mfChildren (),
     _sfCore     ()
@@ -638,7 +609,7 @@ Node::Node(void) :
 Node::Node(const Node &source) :
      Inherited  (source),
     _sfVolume   (source._sfVolume),
-    _sfActive   (source._sfActive),
+    _sfTravMask (source._sfTravMask),
     _sfParent   (),
     _mfChildren (),
     _sfCore     ()
@@ -692,8 +663,8 @@ NodePtr OSG::cloneTree(NodePtr pRootNode)
 
         beginEditCP(returnValue);
         {
-            returnValue->setActive(pRootNode->getActive());
-            returnValue->setCore  (pRootNode->getCore());
+            returnValue->setTravMask(pRootNode->getTravMask());
+            returnValue->setCore    (pRootNode->getCore());
             
             for(UInt32 i = 0; i < pRootNode->getNChildren(); i++)
             {

@@ -335,6 +335,10 @@ void OSG::Window::onDestroy(void)
 
 void OSG::Window::staticAcquire(void)
 {
+    // Is the ThreadManager initialized yet?
+    if(GlobalSystemState != Running)
+        return;
+        
     if(_staticWindowLock == NULL)
     {
         _staticWindowLock = ThreadManager::the()->getLock(NULL);
@@ -344,6 +348,10 @@ void OSG::Window::staticAcquire(void)
 
 void OSG::Window::staticRelease(void)
 {
+    // Is the ThreadManager initialized yet?
+    if(GlobalSystemState != Running)
+        return;
+        
     _staticWindowLock->release();
 }
 

@@ -74,6 +74,7 @@
 #include <OSGNodeFields.h> // Root type
 #include <OSGBackgroundFields.h> // Background type
 #include <OSGForegroundFields.h> // Foregrounds type
+#include <OSGUInt32Fields.h> // TravMask type
 
 #include <OSGViewportFields.h>
 
@@ -104,7 +105,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
         RootFieldId        = CameraFieldId      + 1,
         BackgroundFieldId  = RootFieldId        + 1,
         ForegroundsFieldId = BackgroundFieldId  + 1,
-        NextFieldId        = ForegroundsFieldId + 1
+        TravMaskFieldId    = ForegroundsFieldId + 1,
+        NextFieldId        = TravMaskFieldId    + 1
     };
 
     static const OSG::BitVector LeftFieldMask;
@@ -116,7 +118,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     static const OSG::BitVector RootFieldMask;
     static const OSG::BitVector BackgroundFieldMask;
     static const OSG::BitVector ForegroundsFieldMask;
+    static const OSG::BitVector TravMaskFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -149,6 +154,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
            SFNodePtr           *getSFRoot           (void);
            SFBackgroundPtr     *getSFBackground     (void);
            MFForegroundPtr     *getMFForegrounds    (void);
+           SFUInt32            *getSFTravMask       (void);
 
            Real32              &getLeft           (void);
      const Real32              &getLeft           (void) const;
@@ -166,6 +172,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
      const NodePtr             &getRoot           (void) const;
            BackgroundPtr       &getBackground     (void);
      const BackgroundPtr       &getBackground     (void) const;
+           UInt32              &getTravMask       (void);
+     const UInt32              &getTravMask       (void) const;
            ForegroundPtr       &getForegrounds    (const UInt32 index);
            MFForegroundPtr     &getForegrounds    (void);
      const MFForegroundPtr     &getForegrounds    (void) const;
@@ -183,6 +191,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
      void setCamera         ( const CameraPtr &value );
      void setRoot           ( const NodePtr &value );
      void setBackground     ( const BackgroundPtr &value );
+     void setTravMask       ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -237,6 +246,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     SFNodePtr           _sfRoot;
     SFBackgroundPtr     _sfBackground;
     MFForegroundPtr     _mfForegrounds;
+    SFUInt32            _sfTravMask;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -150,7 +150,7 @@ Action *Action::getPrototype( void )
 /** \brief Constructor
  */
 
-Action::Action(void)
+Action::Action(void) : _travMask(TypeTraits<UInt32>::getMax())
 {
     if ( _defaultEnterFunctors )
         _enterFunctors = *_defaultEnterFunctors;
@@ -164,7 +164,8 @@ Action::Action(void)
 
 Action::Action( const Action & source ) :
     _enterFunctors( source._enterFunctors ),
-    _leaveFunctors( source._leaveFunctors )
+    _leaveFunctors( source._leaveFunctors ),
+    _travMask     ( source._travMask      )
 {
 }
 
@@ -289,7 +290,7 @@ Action::ResultE Action::recurse( NodePtr node  )
     if ( node == NullFC )
         return Continue;
 
-    if(node->getActive() == false)
+    if((node->getTravMask() & getTravMask()) == 0)
         return Continue;
 
     NodeCorePtr core = node->getCore();

@@ -90,21 +90,34 @@ NodePtr Node::getChild(UInt32 childIndex)
 
 
 inline
-bool &Node::getActive(void)
+bool Node::getActive(void)
 {
-    return _sfActive.getValue();
+    return getTravMask() == TypeTraits<UInt32>::getMax();
 }
 
 inline
-const bool &Node::getActive(void) const
+const bool Node::getActive(void) const
 {
-    return _sfActive.getValue();
+    return getTravMask() == TypeTraits<UInt32>::getMax();
 }
 
 inline
 void  Node::setActive(bool val)
 {
-    _sfActive.setValue(val);
+    _sfTravMask.setValue(val ? TypeTraits<UInt32>::getMax()        :
+                               TypeTraits<UInt32>::getZeroElement() );
+}
+
+inline
+UInt32 Node::getTravMask(void) const
+{
+    return _sfTravMask.getValue();
+}
+
+inline
+void  Node::setTravMask(UInt32 val)
+{
+    _sfTravMask.setValue(val);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -117,9 +130,9 @@ SFDynamicVolume *Node::getSFVolume(void)
 }
 
 inline
-SFBool *Node::getSFActive(void)
+SFUInt32 *Node::getSFTravMask(void)
 {
-    return &_sfActive;
+    return &_sfTravMask;
 }
 
 inline
@@ -162,6 +175,20 @@ void Node::changed(BitVector  whichField,
             }
         }
     }
+
+    if(whichField & TravMaskFieldMask)
+    {
+        beginEditCP(getParent(), Node::VolumeFieldMask);
+        if(getParent() != NullFC)
+        {
+            getParent()->invalidateVolume();
+        }
+        else
+        {
+            invalidateVolume();
+        }
+        endEditCP(getParent(), Node::VolumeFieldMask);
+    }
     
     if(whichField & ChildrenFieldMask)
     {
@@ -198,9 +225,9 @@ UInt32 Node::getBinSize(const BitVector &whichField)
         returnValue += _sfVolume       .getBinSize();
     }
 
-    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+    if(FieldBits::NoField != (TravMaskFieldMask & whichField))
     {
-        returnValue += _sfActive       .getBinSize();
+        returnValue += _sfTravMask     .getBinSize();
     }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
@@ -232,9 +259,9 @@ void Node::copyToBin(      BinaryDataHandler &pMem,
         _sfVolume.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+    if(FieldBits::NoField != (TravMaskFieldMask & whichField))
     {
-        _sfActive.copyToBin(pMem);
+        _sfTravMask.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
@@ -264,9 +291,9 @@ void Node::copyFromBin(      BinaryDataHandler &pMem,
         _sfVolume.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+    if(FieldBits::NoField != (TravMaskFieldMask & whichField))
     {
-        _sfActive.copyFromBin(pMem);
+        _sfTravMask.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
@@ -309,9 +336,9 @@ void Node::executeSyncImpl(      Node      *pOther,
         _sfVolume.syncWith(pOther->_sfVolume);
     }
 
-    if (FieldBits::NoField != (ActiveFieldMask & whichField))
+    if (FieldBits::NoField != (TravMaskFieldMask & whichField))
     {
-        _sfActive.syncWith(pOther->_sfActive);
+        _sfTravMask.syncWith(pOther->_sfTravMask);
     }
 
     if (FieldBits::NoField != (ParentFieldMask & whichField))

@@ -146,7 +146,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     virtual bool    isVisible(Node* node) = 0;
 
     // select all visible nodes
-    UInt32          selectVisibles( void );
+    UInt32  selectVisibles( void );
     
     /*------------------------- your_operators ------------------------------*/
 
