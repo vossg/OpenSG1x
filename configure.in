@@ -497,6 +497,8 @@ dnl a symlink from gmake to make
 
 	ac_gdz_base_system_libs='-lm'
 
+    ac_gdz_compiler_exe_exe='$(CC)'
+
     if test $ac_gdz_conf_package_efence = "1"; then
         if test "x"$ac_gdz_efence_dir = "x" ; then
             ac_gdz_test_debug_libs=' -lefence'
