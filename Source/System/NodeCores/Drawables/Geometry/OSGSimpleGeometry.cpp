@@ -1114,8 +1114,8 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
     beginEditCP(norms);
     beginEditCP(tex);
     
-    static int inds[6][2] =  { {0,1}, {0,1}, {1,2}, {1,2}, {2,0}, {2,0} };
-    static int signs[6][2] = { {1,1}, {-1,1}, {1,1}, {-1,1}, {1,1}, {-1,1} };
+    static int inds[6][2] =  { {0,1}, {0,1}, {2,1}, {2,1}, {0,2}, {0,2} };
+    static int signs[6][2] = { {1,1}, {-1,1}, {-1,1}, {1,1}, {1,-1}, {1,1} };
     static int asigns[6] = { 1, -1, 1, -1, 1, -1 };
     
     for(pl = 0; pl < 6; pl++)
@@ -1138,7 +1138,7 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
                 norm[ axis ] = asigns[ pl ];
                 n->push_back(norm);
                 tx->push_back(Vec2f(x / (Real32) res[inds[pl][0]], 
-                                     y / (Real32) res[inds[pl][1]]));
+                                    y / (Real32) res[inds[pl][1]]));
             }
         }
     }
@@ -1171,7 +1171,7 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
             for(x = 0; x <= h; x++)
             {
                 i->push_back(basepoint + (y + 1) * (h + 1) + x);
-                i->push_back(basepoint +   y      * (h + 1) + x);
+                i->push_back(basepoint +  y      * (h + 1) + x);
             }
         }
         basepoint += UInt32((res[inds[pl][0]] + 1.f) * 
