@@ -47,18 +47,17 @@
 #include <OSGNodeCoreFieldDataType.h>
 
 /*! \file OSGSFNodeCorePtr.h
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \brief OpenSG field container single fields
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldSingle
 */
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief SFNodeCorePtr
-    \ingroup GrpBaseFieldSingle
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpSystemFieldSingle */
 
-typedef SField<NodeCorePtr>       SFNodeCorePtr;
+typedef SField<NodeCorePtr> SFNodeCorePtr;
+#endif
 
 #ifndef OSG_COMPILECONTAINERFIELDINST
 

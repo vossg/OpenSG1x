@@ -73,11 +73,12 @@ typedef FCPtr<DrawablePtr, MaterialDrawable> MaterialDrawablePtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief MaterialDrawablePtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<MaterialDrawablePtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<MaterialDrawablePtr> :
     static char     *getSName(void) { return "SFMaterialDrawablePtr"; }
     static char     *getMName(void) { return "MFMaterialDrawablePtr"; }
 };
-#endif             // exclude from doc
 
-//! SFMaterialDrawablePtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<MaterialDrawablePtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<MaterialDrawablePtr> SFMaterialDrawablePtr;
+#endif
 
 #ifndef OSG_COMPILEMATERIALDRAWABLEINST
 OSG_DLLEXPORT_DECL1(SField, MaterialDrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFMaterialDrawablePtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<MaterialDrawablePtr> MFMaterialDrawablePtr;
+#endif
 
 #ifndef OSG_COMPILEMATERIALDRAWABLEINST
 OSG_DLLEXPORT_DECL1(MField, MaterialDrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
@@ -115,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, MaterialDrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLEFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableFields.h,v 1.3 2002/11/11 13:55:48 dirk Exp $"
+#define OSGMATERIALDRAWABLEFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableFields.h,v 1.4 2002/12/11 17:40:24 vossg Exp $"
 
 #endif /* _OSGMATERIALDRAWABLEFIELDS_H_ */

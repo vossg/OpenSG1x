@@ -73,11 +73,12 @@ typedef FCPtr<GroupPtr, Transform> TransformPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief TransformPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<TransformPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<TransformPtr> :
     static char     *getSName(void) { return "SFTransformPtr"; }
     static char     *getMName(void) { return "MFTransformPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFTransformPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<TransformPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<TransformPtr> SFTransformPtr;
+#endif
 
 #ifndef OSG_COMPILETRANSFORMINST
 OSG_DLLEXPORT_DECL1(SField, TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFTransformPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<TransformPtr> MFTransformPtr;
+#endif
 
 #ifndef OSG_COMPILETRANSFORMINST
 OSG_DLLEXPORT_DECL1(MField, TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

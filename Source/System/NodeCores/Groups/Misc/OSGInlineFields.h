@@ -73,11 +73,12 @@ typedef FCPtr<NodeCorePtr, Inline> InlinePtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief InlinePtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<InlinePtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<InlinePtr> :
     static char     *getSName(void) { return "SFInlinePtr"; }
     static char     *getMName(void) { return "MFInlinePtr"; }
 };
-#endif             // exclude from doc
 
-//! SFInlinePtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<InlinePtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<InlinePtr> SFInlinePtr;
+#endif
 
 #ifndef OSG_COMPILEINLINEINST
 OSG_DLLEXPORT_DECL1(SField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFInlinePtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<InlinePtr> MFInlinePtr;
+#endif
 
 #ifndef OSG_COMPILEINLINEINST
 OSG_DLLEXPORT_DECL1(MField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

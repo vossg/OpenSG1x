@@ -88,9 +88,6 @@ OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
 
-/*! \class OSG::Attachment
- */
-
 /*! \var MFFieldContainerPtr Attachment::_parents
     \brief Parents multifield
  */

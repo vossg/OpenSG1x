@@ -73,11 +73,12 @@ typedef FCPtr<SimpleMaterialPtr, SimpleTexturedMaterial> SimpleTexturedMaterialP
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief SimpleTexturedMaterialPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<SimpleTexturedMaterialPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<SimpleTexturedMaterialPtr> :
     static char     *getSName(void) { return "SFSimpleTexturedMaterialPtr"; }
     static char     *getMName(void) { return "MFSimpleTexturedMaterialPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFSimpleTexturedMaterialPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<SimpleTexturedMaterialPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<SimpleTexturedMaterialPtr> SFSimpleTexturedMaterialPtr;
+#endif
 
 #ifndef OSG_COMPILESIMPLETEXTUREDMATERIALINST
 OSG_DLLEXPORT_DECL1(SField, SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFSimpleTexturedMaterialPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<SimpleTexturedMaterialPtr> MFSimpleTexturedMaterialPtr;
+#endif
 
 #ifndef OSG_COMPILESIMPLETEXTUREDMATERIALINST
 OSG_DLLEXPORT_DECL1(MField, SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

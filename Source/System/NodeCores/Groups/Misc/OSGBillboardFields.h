@@ -73,11 +73,12 @@ typedef FCPtr<GroupPtr, Billboard> BillboardPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief BillboardPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<BillboardPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<BillboardPtr> :
     static char     *getSName(void) { return "SFBillboardPtr"; }
     static char     *getMName(void) { return "MFBillboardPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFBillboardPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<BillboardPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<BillboardPtr> SFBillboardPtr;
+#endif
 
 #ifndef OSG_COMPILEBILLBOARDINST
 OSG_DLLEXPORT_DECL1(SField, BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFBillboardPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<BillboardPtr> MFBillboardPtr;
+#endif
 
 #ifndef OSG_COMPILEBILLBOARDINST
 OSG_DLLEXPORT_DECL1(MField, BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

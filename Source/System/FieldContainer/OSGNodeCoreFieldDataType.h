@@ -46,18 +46,18 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \file OSGNodeCoreFieldDataType.h
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief OpenSG NodeCore Field Data Types  
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
-/*! \brief NodeCorePtr field traits
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \file OSGNodeCoreFieldDataType.h
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldTraits
+ */
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<NodeCorePtr> : 
@@ -72,6 +72,13 @@ struct FieldDataTraits<NodeCorePtr> :
     static char     *getSName(void) { return "SFNodeCorePtr";  }
     static char     *getMName(void) { return "MFNodeCorePtr";  }
 };
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class FieldTraitsRecurseMapper<NodeCorePtr, true> */
+/*! \hideinhierarchy                                   */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 OSG_END_NAMESPACE
 

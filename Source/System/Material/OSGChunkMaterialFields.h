@@ -73,11 +73,12 @@ typedef FCPtr<MaterialPtr, ChunkMaterial> ChunkMaterialPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief ChunkMaterialPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<ChunkMaterialPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<ChunkMaterialPtr> :
     static char     *getSName(void) { return "SFChunkMaterialPtr"; }
     static char     *getMName(void) { return "MFChunkMaterialPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFChunkMaterialPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<ChunkMaterialPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<ChunkMaterialPtr> SFChunkMaterialPtr;
+#endif
 
 #ifndef OSG_COMPILECHUNKMATERIALINST
 OSG_DLLEXPORT_DECL1(SField, ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFChunkMaterialPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<ChunkMaterialPtr> MFChunkMaterialPtr;
+#endif
 
 #ifndef OSG_COMPILECHUNKMATERIALINST
 OSG_DLLEXPORT_DECL1(MField, ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

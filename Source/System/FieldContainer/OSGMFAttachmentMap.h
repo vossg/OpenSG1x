@@ -47,18 +47,17 @@
 #include <OSGAttachmentMapFieldDataType.h>
 
 /*! \file OSGMFAttachmentMap.h
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldMulti
-    \brief OpenSG field container multi fields
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldMulti
  */
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief MFAttachmentMap
-    \ingroup GrpBaseFieldMulti
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpSystemFieldMulti */
 
-typedef MField<AttachmentMap>     MFAttachmentMap;
+typedef MField<AttachmentMap> MFAttachmentMap;
+#endif
 
 #ifndef OSG_COMPILECONTAINERFIELDINST
 OSG_DLLEXPORT_DECL1(MField, AttachmentMap, OSG_SYSTEMLIB_DLLTMPLMAPPING)

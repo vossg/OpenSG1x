@@ -73,11 +73,12 @@ typedef FCPtr<GeometryPtr, GeoCubes> GeoCubesPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief GeoCubesPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpMyFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<GeoCubesPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<GeoCubesPtr> :
     static char     *getSName(void) { return "SFGeoCubesPtr"; }
     static char     *getMName(void) { return "MFGeoCubesPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFGeoCubesPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<GeoCubesPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpMyFieldSingle */
 
 typedef SField<GeoCubesPtr> SFGeoCubesPtr;
+#endif
 
 #ifndef OSG_COMPILEGEOCUBESINST
 OSG_DLLEXPORT_DECL1(SField, GeoCubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFGeoCubesPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpMyFieldMulti */
 
 typedef MField<GeoCubesPtr> MFGeoCubesPtr;
+#endif
 
 #ifndef OSG_COMPILEGEOCUBESINST
 OSG_DLLEXPORT_DECL1(MField, GeoCubesPtr, OSG_MYLIB_DLLTMPLMAPPING)

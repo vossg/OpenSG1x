@@ -46,18 +46,18 @@
 
 OSG_BEGIN_NAMESPACE
 
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
 /*! \file OSGFieldContainerFieldDataType.h
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief OpenSG FieldContainer Field Data Types  
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldTraits
 */
 
-/*! \brief FieldContainerPtr field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldTraitsRecurseMapper<FieldContainerPtr, false> : 
@@ -132,11 +132,16 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr, false> :
     }
 };
 
-/*! \brief FieldContainerPtr field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class FieldTraitsRecurseBase<FieldContainerPtr> */
+/*! \hideinhierarchy                                 */
+#endif
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<FieldContainerPtr> : 
@@ -176,6 +181,8 @@ struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<FieldContainerPtr> :
         
                         
 };
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 OSG_END_NAMESPACE
 

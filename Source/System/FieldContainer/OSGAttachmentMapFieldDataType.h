@@ -50,18 +50,18 @@ OSG_BEGIN_NAMESPACE
 
 typedef std::map<UInt32, AttachmentPtr>  AttachmentMap;
 
-/*! \file OSGAttachmentMapFieldDataType.h
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief OpenSG AttachmentContainer Field Data Types  
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
-/*! \brief FieldContainerPtr field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \file OSGAttachmentMapFieldDataType.h
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldTraits
+ */
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldTraitsRecurseMapper<AttachmentMap, false> : 
@@ -189,6 +189,17 @@ struct FieldTraitsRecurseMapper<AttachmentMap, false> :
     }
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class FieldTraitsRecurseBase<AttachmentMap> */
+/*! \hideinhierarchy                             */
+#endif
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
 template <>
 struct FieldDataTraits<AttachmentMap> : 
     public FieldTraitsRecurseMapper<AttachmentMap, false>
@@ -214,6 +225,8 @@ struct FieldDataTraits<AttachmentMap> :
         outStr.assign("AttachmentMap");
     }
 };
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 OSG_END_NAMESPACE
 

@@ -50,6 +50,9 @@ OSG_BEGIN_NAMESPACE
 #pragma set woff 1209
 #endif
 
+/*! \hideinhierarchy
+ */
+
 struct FIELDCONTAINER_ERROR
 {
     OSG_PROPERTY_VIOLATION(Pointer)

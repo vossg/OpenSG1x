@@ -44,9 +44,6 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::FieldContainer
- */
-
 FieldContainerType FieldContainer::_type("FieldContainer");
 
 /*-------------------------------------------------------------------------*/

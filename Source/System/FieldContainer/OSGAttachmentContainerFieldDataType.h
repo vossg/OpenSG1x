@@ -45,18 +45,18 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \file OSGAttachmentContainerFieldDataType.h
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief OpenSG AttachmentContainer Field Data Types  
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
-/*! \brief AttachmentPtr field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \file OSGAttachmentContainerFieldDataType.h
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldTraits
+ */
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<AttachmentContainerPtr> : 
@@ -72,6 +72,13 @@ struct FieldDataTraits<AttachmentContainerPtr> :
     static char     *getSName(void) { return "SFAttachmentContainerPtr"; }
     static char     *getMName(void) { return "MFAttachmentContainerPtr"; }
 };
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class FieldTraitsRecurseMapper<AttachmentContainerPtr, true> */
+/*! \hideinhierarchy                                              */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 OSG_END_NAMESPACE
 

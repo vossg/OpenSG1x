@@ -73,11 +73,12 @@ typedef FCPtr<NodeCorePtr, Drawable> DrawablePtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief DrawablePtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<DrawablePtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<DrawablePtr> :
     static char     *getSName(void) { return "SFDrawablePtr"; }
     static char     *getMName(void) { return "MFDrawablePtr"; }
 };
-#endif             // exclude from doc
 
-//! SFDrawablePtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<DrawablePtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<DrawablePtr> SFDrawablePtr;
+#endif
 
 #ifndef OSG_COMPILEDRAWABLEINST
 OSG_DLLEXPORT_DECL1(SField, DrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFDrawablePtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<DrawablePtr> MFDrawablePtr;
+#endif
 
 #ifndef OSG_COMPILEDRAWABLEINST
 OSG_DLLEXPORT_DECL1(MField, DrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
@@ -115,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, DrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGDRAWABLEFIELDS_HEADER_CVSID "@(#)$Id: OSGDrawableFields.h,v 1.3 2002/11/11 13:55:48 dirk Exp $"
+#define OSGDRAWABLEFIELDS_HEADER_CVSID "@(#)$Id: OSGDrawableFields.h,v 1.4 2002/12/11 17:40:24 vossg Exp $"
 
 #endif /* _OSGDRAWABLEFIELDS_H_ */

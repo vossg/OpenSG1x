@@ -47,18 +47,17 @@
 #include <OSGAttachmentFieldDataType.h>
 
 /*! \file OSGSFAttachmentPtr.h
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \brief OpenSG field container single fields
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldSingle
 */
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief SFAttachmentPtr
-    \ingroup GrpBaseFieldSingle
-*/
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpSystemFieldSingle */
 
-typedef SField<AttachmentPtr>     SFAttachmentPtr;
+typedef SField<AttachmentPtr> SFAttachmentPtr;
+#endif
 
 #ifndef OSG_COMPILECONTAINERFIELDINST
 OSG_DLLEXPORT_DECL1(SField, AttachmentPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

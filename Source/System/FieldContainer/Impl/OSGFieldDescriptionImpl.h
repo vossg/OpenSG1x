@@ -172,8 +172,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
 //   Class         
 //---------------------------------------------------------------------------
 
-//! FieldDescription point less than
-//! \ingroup GrpSystemFieldContainer
+/*! FieldDescription point less than
+    \ingroup GrpSystemFieldContainer
+    \hideinhierarchy
+ */
 
 struct FieldDescriptionPLT
 {

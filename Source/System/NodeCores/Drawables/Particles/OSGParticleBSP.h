@@ -218,8 +218,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticleBSPTree
 };
 
 
-/*! \brief ParticleBSPTree field traits 
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<ParticleBSPTree> : 
@@ -267,13 +272,21 @@ struct FieldDataTraits<ParticleBSPTree> :
     }
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class FieldTraitsRecurseBase<ParticleBSPTree> */
+/*! \hideinhierarchy                               */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
 /*! \brief ParticleBSPTree fields
 */
 
-//! SFParticleBSPTree
-//! \ingroup GrpBaseFieldSingle
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
 
 typedef SField<ParticleBSPTree> SFParticleBSPTree;
+#endif
 
 #ifndef OSG_COMPILEPARTICLEBSPINST
 OSG_DLLEXPORT_DECL1(SField, ParticleBSPTree, OSG_SYSTEMLIB_DLLTMPLMAPPING)
@@ -284,7 +297,7 @@ OSG_END_NAMESPACE
 
 #include <OSGParticleBSP.inl>
 
-#define OSGPARTICLEBSP_HEADER_CVSID "@(#)$Id: OSGParticleBSP.h,v 1.1 2002/01/10 21:14:10 dirk Exp $"
+#define OSGPARTICLEBSP_HEADER_CVSID "@(#)$Id: $"
 
 #endif            // exclude from user doc
 

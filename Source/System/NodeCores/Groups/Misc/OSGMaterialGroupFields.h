@@ -73,11 +73,12 @@ typedef FCPtr<GroupPtr, MaterialGroup> MaterialGroupPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief MaterialGroupPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<MaterialGroupPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<MaterialGroupPtr> :
     static char     *getSName(void) { return "SFMaterialGroupPtr"; }
     static char     *getMName(void) { return "MFMaterialGroupPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFMaterialGroupPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<MaterialGroupPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<MaterialGroupPtr> SFMaterialGroupPtr;
+#endif
 
 #ifndef OSG_COMPILEMATERIALGROUPINST
 OSG_DLLEXPORT_DECL1(SField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFMaterialGroupPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<MaterialGroupPtr> MFMaterialGroupPtr;
+#endif
 
 #ifndef OSG_COMPILEMATERIALGROUPINST
 OSG_DLLEXPORT_DECL1(MField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

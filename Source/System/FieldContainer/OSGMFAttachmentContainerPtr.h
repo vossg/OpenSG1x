@@ -47,18 +47,17 @@
 #include <OSGAttachmentContainerFieldDataType.h>
 
 /*! \file OSGMFAttachmentContainerPtr.h
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldMulti
-    \brief OpenSG attachment container multi fields
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldMulti
 */
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief MFAttachmentContainerPtr
-    \ingroup GrpBaseFieldMulti
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<AttachmentContainerPtr> MFAttachmentContainerPtr;
+#endif
 
 #ifndef OSG_COMPILECONTAINERFIELDINST
 OSG_DLLEXPORT_DECL1(MField, 

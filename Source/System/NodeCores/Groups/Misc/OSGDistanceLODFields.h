@@ -73,9 +73,12 @@ typedef FCPtr<GroupPtr, DistanceLOD> DistanceLODPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief DistanceLODPtr field traits 
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<DistanceLODPtr> : 
@@ -86,7 +89,15 @@ struct FieldDataTraits<DistanceLODPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
-#endif             // exclude from doc
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<DistanceLODPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
 
 
 OSG_END_NAMESPACE

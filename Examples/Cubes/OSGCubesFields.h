@@ -73,11 +73,12 @@ typedef FCPtr<MaterialDrawablePtr, Cubes> CubesPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief CubesPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpMyFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<CubesPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<CubesPtr> :
     static char     *getSName(void) { return "SFCubesPtr"; }
     static char     *getMName(void) { return "MFCubesPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFCubesPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<CubesPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpMyFieldSingle */
 
 typedef SField<CubesPtr> SFCubesPtr;
+#endif
 
 #ifndef OSG_COMPILECUBESINST
 OSG_DLLEXPORT_DECL1(SField, CubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFCubesPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpMyFieldMulti */
 
 typedef MField<CubesPtr> MFCubesPtr;
+#endif
 
 #ifndef OSG_COMPILECUBESINST
 OSG_DLLEXPORT_DECL1(MField, CubesPtr, OSG_MYLIB_DLLTMPLMAPPING)

@@ -582,9 +582,6 @@ FieldContainerPtr::FieldContainerPtr(const FieldContainer *source,
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \class osg::ConstFieldContainerPtr
- */
-
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 

@@ -46,12 +46,30 @@
 
 OSG_BEGIN_NAMESPACE
 
-typedef GeoPositions::PtrType GeoPositionsPtr;
+/*! \file OSGGeoPropFields.h
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldTraits
+ */
 
-/*! \ingroup GrpSystemDrawablesGeometryProperties
-    \hideinhierarchy
-    \brief The Field Traits trait for osg::GeoPositionsPtr.
-*/
+typedef GeoPositions::PtrType GeoPositionsPtr;
+typedef GeoNormals  ::PtrType GeoNormalsPtr;
+typedef GeoColors   ::PtrType GeoColorsPtr;
+typedef GeoTexCoords::PtrType GeoTexCoordsPtr;
+typedef GeoIndices  ::PtrType GeoIndicesPtr;
+typedef GeoPTypes   ::PtrType GeoPTypesPtr;
+typedef GeoPLengths ::PtrType GeoPLengthsPtr;
+
+
+
+
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
 template <>
 struct FieldDataTraits<GeoPositionsPtr> :
     public FieldTraitsRecurseMapper<GeoPositionsPtr, true>
@@ -70,14 +88,23 @@ struct FieldDataTraits<GeoPositionsPtr> :
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    static DataType &getType  (void) { return _type;              }
+    static DataType &getType  (void) { return _type;               }
     static Char8    *getSName (void) { return "SFGeoPositionsPtr"; }
     static Char8    *getMName (void) { return "MFGeoPositionsPtr"; }
 
     /*! \}                                                                 */
 };
 
-#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<GeoPositionsPtr, true> */
+/*! \hideinhierarchy                                        */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
+
 typedef SField<GeoPositionsPtr> SFGeoPositionsPtr;
 #endif
 
@@ -85,12 +112,17 @@ typedef SField<GeoPositionsPtr> SFGeoPositionsPtr;
 OSG_DLLEXPORT_DECL1(SField, GeoPositionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-typedef GeoNormals::PtrType GeoNormalsPtr;
 
-/*! \ingroup GrpSystemDrawablesGeometryProperties
-    \hideinhierarchy
-    \brief The Field Traits trait for osg::GeoNormalsPtr.
-*/
+
+
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
 template <>
 struct FieldDataTraits<GeoNormalsPtr> :
     public FieldTraitsRecurseMapper<GeoNormalsPtr, true>
@@ -99,12 +131,21 @@ struct FieldDataTraits<GeoNormalsPtr> :
     enum                            { StringConvertable = 0x00  };
     enum                            { bHasParent        = 0x01  };
 
-    static DataType &getType  (void) { return _type;            }
+    static DataType &getType  (void) { return _type;             }
     static Char8    *getSName (void) { return "SFGeoNormalsPtr"; }
     static Char8    *getMName (void) { return "MFGeoNormalsPtr"; }
 };
 
-#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<GeoNormalsPtr, true> */
+/*! \hideinhierarchy                                      */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
+
 typedef SField<GeoNormalsPtr> SFGeoNormalsPtr;
 #endif
 
@@ -112,12 +153,17 @@ typedef SField<GeoNormalsPtr> SFGeoNormalsPtr;
 OSG_DLLEXPORT_DECL1(SField, GeoNormalsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-typedef GeoColors::PtrType GeoColorsPtr;
 
-/*! \ingroup GrpSystemDrawablesGeometryProperties
-    \hideinhierarchy
-    \brief The Field Traits trait for osg::GeoColorsPtr.
-*/
+
+
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
 template <>
 struct FieldDataTraits<GeoColorsPtr> :
     public FieldTraitsRecurseMapper<GeoColorsPtr, true>
@@ -126,12 +172,21 @@ struct FieldDataTraits<GeoColorsPtr> :
     enum                             { StringConvertable = 0x00 };
     enum                             { bHasParent        = 0x01 };
 
-    static DataType &getType  (void) { return _type;            }
+    static DataType &getType  (void) { return _type;             }
     static Char8    *getSName (void) { return "SFGeoColorsPtr";  }
     static Char8    *getMName (void) { return "MFGeoColorsPtr";  }
 };
 
-#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<GeoColorsPtr, true> */
+/*! \hideinhierarchy                                     */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
+
 typedef SField<GeoColorsPtr> SFGeoColorsPtr;
 #endif
 
@@ -139,12 +194,17 @@ typedef SField<GeoColorsPtr> SFGeoColorsPtr;
 OSG_DLLEXPORT_DECL1(SField, GeoColorsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-typedef GeoTexCoords::PtrType GeoTexCoordsPtr;
 
-/*! \ingroup GrpSystemDrawablesGeometryProperties
-    \hideinhierarchy
-    \brief The Field Traits trait for osg::GeoTexCoordsPtr.
-*/
+
+
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
 template <>
 struct FieldDataTraits<GeoTexCoordsPtr> :
     public FieldTraitsRecurseMapper<GeoTexCoordsPtr, true>
@@ -158,7 +218,16 @@ struct FieldDataTraits<GeoTexCoordsPtr> :
     static Char8    *getMName (void) { return "MFGeoTexCoordsPtr"; }
 };
 
-#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<GeoTexCoordsPtr, true> */
+/*! \hideinhierarchy                                        */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
+
 typedef SField<GeoTexCoordsPtr> SFGeoTexCoordsPtr;
 #endif
 
@@ -166,12 +235,17 @@ typedef SField<GeoTexCoordsPtr> SFGeoTexCoordsPtr;
 OSG_DLLEXPORT_DECL1(SField, GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-typedef GeoIndices::PtrType GeoIndicesPtr;
 
-/*! \ingroup GrpSystemDrawablesGeometryProperties
-    \hideinhierarchy
-    \brief The Field Traits trait for osg::GeoIndicesPtr.
-*/
+
+
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
 template <>
 struct FieldDataTraits<GeoIndicesPtr> :
     public FieldTraitsRecurseMapper<GeoIndicesPtr, true>
@@ -180,12 +254,21 @@ struct FieldDataTraits<GeoIndicesPtr> :
     enum                             { StringConvertable = 0x00 };
     enum                             { bHasParent        = 0x01 };
 
-    static DataType &getType  (void) { return _type;            }
+    static DataType &getType  (void) { return _type;             }
     static Char8    *getSName (void) { return "SFGeoIndicesPtr";  }
     static Char8    *getMName (void) { return "MFGeoIndicesPtr";  }
 };
 
-#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<GeoIndicesPtr, true> */
+/*! \hideinhierarchy                                      */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)  
+/*! \ingroup GrpSystemFieldSingle */
+
 typedef SField<GeoIndicesPtr> SFGeoIndicesPtr;
 #endif
 
@@ -193,12 +276,17 @@ typedef SField<GeoIndicesPtr> SFGeoIndicesPtr;
 OSG_DLLEXPORT_DECL1(SField, GeoIndicesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-typedef GeoPTypes::PtrType GeoPTypesPtr;
 
-/*! \ingroup GrpSystemDrawablesGeometryProperties
-    \hideinhierarchy
-    \brief The Field Traits trait for osg::GeoPTypesPtr.
-*/
+
+
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
 template <>
 struct FieldDataTraits<GeoPTypesPtr> :
     public FieldTraitsRecurseMapper<GeoPTypesPtr, true>
@@ -207,12 +295,21 @@ struct FieldDataTraits<GeoPTypesPtr> :
     enum                             { StringConvertable = 0x00 };
     enum                             { bHasParent        = 0x01 };
 
-    static DataType &getType  (void) { return _type;            }
+    static DataType &getType  (void) { return _type;             }
     static Char8    *getSName (void) { return "SFGeoPTypesPtr";  }
     static Char8    *getMName (void) { return "MFGeoPTypesPtr";  }
 };
 
-#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<GeoPTypesPtr, true> */
+/*! \hideinhierarchy                                     */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpSystemFieldSingle */
+
 typedef SField<GeoPTypesPtr> SFGeoPTypesPtr;
 #endif
 
@@ -220,12 +317,17 @@ typedef SField<GeoPTypesPtr> SFGeoPTypesPtr;
 OSG_DLLEXPORT_DECL1(SField, GeoPTypesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-typedef GeoPLengths::PtrType GeoPLengthsPtr;
 
-/*! \ingroup GrpSystemDrawablesGeometryProperties
-    \hideinhierarchy
-    \brief The Field Traits trait for osg::GeoPLengthsPtr.
-*/
+
+
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
 template <>
 struct FieldDataTraits<GeoPLengthsPtr> :
     public FieldTraitsRecurseMapper<GeoPLengthsPtr, true>
@@ -239,7 +341,16 @@ struct FieldDataTraits<GeoPLengthsPtr> :
     static char     *getMName (void) { return "MFGeoPLengthsPtr"; }
 };
 
-#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<GeoPLengthsPtr, true> */
+/*! \hideinhierarchy                                       */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpSystemFieldSingle */
+
 typedef SField<GeoPLengthsPtr> SFGeoPLengthsPtr;
 #endif
 

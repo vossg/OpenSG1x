@@ -73,11 +73,12 @@ typedef FCPtr<GroupPtr, Switch> SwitchPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief SwitchPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<SwitchPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<SwitchPtr> :
     static char     *getSName(void) { return "SFSwitchPtr"; }
     static char     *getMName(void) { return "MFSwitchPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFSwitchPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<SwitchPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<SwitchPtr> SFSwitchPtr;
+#endif
 
 #ifndef OSG_COMPILESWITCHINST
 OSG_DLLEXPORT_DECL1(SField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFSwitchPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<SwitchPtr> MFSwitchPtr;
+#endif
 
 #ifndef OSG_COMPILESWITCHINST
 OSG_DLLEXPORT_DECL1(MField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

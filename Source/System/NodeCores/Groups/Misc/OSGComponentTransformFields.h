@@ -73,11 +73,12 @@ typedef FCPtr<TransformPtr, ComponentTransform> ComponentTransformPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief ComponentTransformPtr field traits 
-    \ingroup BaseFieldSingle
-    \ingroup BaseFieldMulti
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<ComponentTransformPtr> : 
@@ -93,21 +94,31 @@ struct FieldDataTraits<ComponentTransformPtr> :
     static char     *getSName(void) { return "SFComponentTransformPtr"; }
     static char     *getMName(void) { return "MFComponentTransformPtr"; }
 };
-#endif             // exclude from doc
 
-//! SFComponentTransformPtr
-//! \ingroup BaseFieldSingle
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<ComponentTransformPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<ComponentTransformPtr> SFComponentTransformPtr;
+#endif
 
 #ifndef OSG_COMPILECOMPONENTTRANSFORMINST
 OSG_DLLEXPORT_DECL1(SField, ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-//! MFComponentTransformPtr
-//! \ingroup BaseFieldMulti
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<ComponentTransformPtr> MFComponentTransformPtr;
+#endif
 
 #ifndef OSG_COMPILECOMPONENTTRANSFORMINST
 OSG_DLLEXPORT_DECL1(MField, ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)

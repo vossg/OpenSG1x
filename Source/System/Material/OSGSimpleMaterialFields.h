@@ -73,9 +73,12 @@ typedef FCPtr<ChunkMaterialPtr, SimpleMaterial> SimpleMaterialPtr;
 
 #endif
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-/*! \brief SimpleMaterialPtr field traits 
-*/
+#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+/*! \ingroup GrpSystemFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<SimpleMaterialPtr> : 
@@ -86,7 +89,15 @@ struct FieldDataTraits<SimpleMaterialPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 };
-#endif             // exclude from doc
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<SimpleMaterialPtr, true>
+    \hideinhierarchy
+ */
+#endif
+
+#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+
 
 
 OSG_END_NAMESPACE

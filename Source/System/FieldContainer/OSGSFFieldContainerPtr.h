@@ -46,22 +46,18 @@
 #include <OSGSField.h>
 #include <OSGFieldContainerFieldDataType.h>
 
-/** \file OSGSFFieldContainerPtr.h
- *  \ingroup GrpBaseField
- *  \ingroup GrpBaseFieldSingle
- *  \brief OpenSG field container single fields
- *
- * <UL>
- * <LI> osg::SFFieldContainerPtr
- * </UL>
+/*! \file OSGSFFieldContainerPtr.h
+    \ingroup GrpSystemField
+    \ingroup GrpSystemFieldSingle
  */
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief SFFieldContainerPtr
- */
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<FieldContainerPtr> SFFieldContainerPtr;
+#endif
 
 #ifndef OSG_COMPILECONTAINERFIELDINST
 OSG_DLLEXPORT_DECL1(SField, FieldContainerPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
