@@ -162,13 +162,6 @@ SHLChunk::SHLChunk(void) :
     _osgParametersCallbacks(),
     _oldParameterSize(0)
 {
-}
-
-SHLChunk::SHLChunk(const SHLChunk &source) :
-    Inherited(source),
-    _osgParametersCallbacks(source._osgParametersCallbacks),
-    _oldParameterSize(source._oldParameterSize)
-{
     _shl_extension = Window::registerExtension("GL_ARB_shading_language_100");
     _cg_extension = Window::registerExtension("GL_EXT_Cg_shader");
 
@@ -274,6 +267,13 @@ SHLChunk::SHLChunk(const SHLChunk &source) :
     _funcGetUniformfv =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGetUniformfvARB", 
                                   _shl_extension);
+}
+
+SHLChunk::SHLChunk(const SHLChunk &source) :
+    Inherited(source),
+    _osgParametersCallbacks(source._osgParametersCallbacks),
+    _oldParameterSize(source._oldParameterSize)
+{
 }
 
 SHLChunk::~SHLChunk(void)
@@ -967,7 +967,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.29 2004/10/04 13:47:49 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.30 2005/01/19 01:44:06 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
