@@ -99,11 +99,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     GeometryPtr        getPtr           (void) const;
 
-    
-    virtual 
-    AbstractGeoPropertyInterface * getProperty (int mapID);
-
-                                        
     Int16              calcMappingIndex (UInt16 attrib) const;
 
     GeometryPtr        clone            (void);
@@ -115,6 +110,17 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     bool               merge            (const GeometryPtr other);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Abstract                                  */
+    /*! \{                                                                 */
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    virtual AbstractGeoPropertyInterface *getProperty(Int32 mapID);
+#endif
+                                        
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */

@@ -406,48 +406,54 @@ void Geometry::dump(      UInt32    uiIndent,
    Inherited::dump(uiIndent, bvFlags);
 }
 
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+
 /** \brief find the property pointer for the givem mapID
  */
-AbstractGeoPropertyInterface * Geometry::getProperty (int mapID)
+
+AbstractGeoPropertyInterface *Geometry::getProperty(Int32 mapID)
 {
-  AbstractGeoPropertyInterface *pP = 0;
-
-  switch (mapID) 
+    AbstractGeoPropertyInterface *pP = 0;
+    
+    switch (mapID) 
     {
-    case 0:
-      pP = 0;
-      break;
-    case MapPosition:
-      pP = (getPositions() == NullFC) ? 0 : &(*getPositions());
-      break;
-    case MapNormal:
-      pP = (getNormals() == NullFC) ? 0 : &(*getNormals());
-      break;
-    case MapColor:
-      pP = (getColors() == NullFC) ? 0 : &(*getColors());
-      break;
-    case MapTexcoords:
-      pP = (getTexCoords() == NullFC) ? 0 : &(*getTexCoords());
-      break;
-      // TODO; multitexture stuff
-      /*
-    case MapTexcoords2:
-      pP = (getTexCoords2() == NullFC) ? 0 : &(*getTexCoords2());
-      break;
-    case MapTexcoords3:
-      pP = (getTexCoords3() == NullFC) ? 0 : &(*getTexCoords3());
-      break;
-    case MapTexcoords4:
-      pP = (getTexCoords4() == NullFC) ? 0 : &(*getTexCoords4());
-      break;
-      */
-    default:
-      FFATAL (( "Invalid mapID (%d) in Geometry::getProperty()\n", mapID ));
-      break;
+        case 0:
+            pP = 0;
+            break;
+        case MapPosition:
+            pP = (getPositions() == NullFC) ? 0 : &(*getPositions());
+            break;
+        case MapNormal:
+            pP = (getNormals() == NullFC) ? 0 : &(*getNormals());
+            break;
+        case MapColor:
+            pP = (getColors() == NullFC) ? 0 : &(*getColors());
+            break;
+        case MapTexcoords:
+            pP = (getTexCoords() == NullFC) ? 0 : &(*getTexCoords());
+            break;
+            // TODO; multitexture stuff
+            /*
+              case MapTexcoords2:
+              pP = (getTexCoords2() == NullFC) ? 0 : &(*getTexCoords2());
+              break;
+              case MapTexcoords3:
+              pP = (getTexCoords3() == NullFC) ? 0 : &(*getTexCoords3());
+              break;
+              case MapTexcoords4:
+              pP = (getTexCoords4() == NullFC) ? 0 : &(*getTexCoords4());
+              break;
+            */
+        default:
+            FFATAL(("Invalid mapID (%d) in Geometry::getProperty()\n", 
+                    mapID));
+          break;
     }
-
-  return pP;
+    
+    return pP;
 }
+
+#endif
 
 /** \brief calc the indices into the index field for the given attributes
  */

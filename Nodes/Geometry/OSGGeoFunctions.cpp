@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.44 2002/04/10 21:54:47 jbehr Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.45 2002/04/11 03:53:31 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -1366,6 +1366,9 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
  *  returns the number of property values
  *  \ingroup Geometry
  */
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+
 Int32 createSingleIndex ( GeometryPtr geoPtr )
 {
   Int16 mask, maskID;
@@ -1430,6 +1433,8 @@ Int32 createSingleIndex ( GeometryPtr geoPtr )
 
   return vCount;
 }
+
+#endif
 
 /*! \brief return the number of triangle/line/point elem
  *  \ingroup Geometry

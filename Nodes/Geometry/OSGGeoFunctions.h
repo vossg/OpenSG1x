@@ -51,21 +51,22 @@ OSG_BEGIN_NAMESPACE
 //! \ingroup GeometryLib
 //! Multi/Single index dictionary
 
-class IndexDic {
+struct IndexDic 
+{
 
- public:
+  public:
   
-  inline Int32 entry ( vector<Int32> & indexVec );
+    inline       Int32          entry     (vector<Int32> &indexVec);
+    
+    inline const vector<Int32> &entry     (Int32          index   );          
 
-  inline const vector<Int32> & entry ( Int32 index );          
+    inline       UInt32         entryCount(void                   ) const;
 
-  inline UInt32 entryCount (void) const;
-
- private:
+  private:
   
-  std::map< std::vector <Int32>, Int32 > _indexMap;
+    map   <      vector<Int32>  , Int32> _indexMap;
   
-  std::vector < const std::vector<Int32> *> _indexVec;
+    vector<const vector<Int32> *       > _indexVec;
  
 };
 
