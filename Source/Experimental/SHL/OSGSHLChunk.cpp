@@ -87,6 +87,8 @@ UInt32 SHLChunk::_funcGetAttribLocation = Window::invalidFunctionID;
 
 UInt32 SHLChunk::_funcUniform4fv = Window::invalidFunctionID;
 
+SHLChunk::destroyMap SHLChunk::_destroy;
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -108,17 +110,13 @@ void SHLChunk::initMethod (void)
 
 SHLChunk::SHLChunk(void) :
     Inherited(),
-    _vShader(0),
-    _fShader(0),
-    _program(0)
+    _programs()
 {
 }
 
 SHLChunk::SHLChunk(const SHLChunk &source) :
     Inherited(source),
-    _vShader(source._vShader),
-    _fShader(source._fShader),
-    _program(source._program)
+    _programs(source._programs)
 {
     _shl_extension = Window::registerExtension("GL_ARB_shading_language_100");
     
@@ -208,6 +206,26 @@ void SHLChunk::onCreate(const SHLChunk */*source*/)
 
 void SHLChunk::onDestroy(void)
 {
+    // Can't delete the programs here will be deleted in handleGL.
+    for(programsIt it = _programs.begin(); it != _programs.end(); ++it)
+    {
+        Window *win = (*it).first;
+        GLuint id = (*it).second;
+
+        destroyIt itd = _destroy.find(win);
+        
+        if(itd != _destroy.end())
+        {
+            (*itd).second.push_back(id);
+        }
+        else
+        {
+            std::vector<GLuint> v;
+            v.push_back(id);
+            _destroy.insert(std::pair<Window *, std::vector<GLuint> >(win, v));
+        }
+    }
+
     if(getGLId() > 0)
         Window::destroyGLObject(getGLId(), 1);
 }
@@ -252,20 +270,30 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
     Window::unpackIdStatus(idstatus, id, mode);
 
     if(!win->hasExtension(_shl_extension))
+    {
+        FWARNING(("OpenGL Shading Language is not supported, couldn't find extension 'GL_ARB_shading_language_100'!\n"));
         return;
+    }
 
+    // BUG this is not called for every window!
     if(mode == Window::destroy)
     {
-        if(_program != 0)
+        //printf("Window::destroy: %p\n", win);
+        destroyIt itd = _destroy.find(win);
+        if(itd != _destroy.end())
         {
             // get "glDeleteObjectARB" function pointer
             void (OSG_APIENTRY* deleteObject)(GLuint obj) =
             (void (OSG_APIENTRY*)(GLuint obj))
             win->getFunction(_funcDeleteObject);
 
-            deleteObject(_program);
+            for(UInt32 i=0;i<(*itd).second.size();++i)
+            {
+                //printf("destroy program id %u\n", (*itd).second[i]);
+                deleteObject((*itd).second[i]);
+            }
+            (*itd).second.clear();
         }
-
     }
     else if(mode == Window::finaldestroy)
     {
@@ -279,14 +307,16 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
             updateProgram(win);
         }
 
-        if(_program != 0)
+        programsIt it = _programs.find(win);
+        if(it != _programs.end())
         {
+            GLuint program = (*it).second;
             // get "glUseProgramObjectARB" function pointer
             void (OSG_APIENTRY* useProgramObject)(GLuint programObj) =
             (void (OSG_APIENTRY*)(GLuint programObj))
             win->getFunction(_funcUseProgramObject);
             
-            useProgramObject(_program);
+            useProgramObject(program);
             
             // get "glUniform4fvARB" function pointer
             void (OSG_APIENTRY* uniform4fv)(GLint location, GLsizei count, GLfloat *value) =
@@ -303,7 +333,7 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
             // set params
             for(UInt16 i = 0; i < getParamValues().size(); ++i)
             {
-                GLint location = getUniformLocation(_program, getParamNames()[i].c_str());
+                GLint location = getUniformLocation(program, getParamNames()[i].c_str());
                 Vec4f &val = getParamValues()[i];
                 uniform4fv(location, 1, val.getValues());
             }
@@ -319,6 +349,8 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
 
 void SHLChunk::updateProgram(Window *win)
 {
+    //printf("SHLChunk::updateProgram glid %u\n", getGLId());
+
     // get "glCreateProgramObjectARB" function pointer
     GLuint (OSG_APIENTRY* createProgramObject)(void) =
     (GLuint (OSG_APIENTRY*)(void))
@@ -369,69 +401,72 @@ void SHLChunk::updateProgram(Window *win)
     (void (OSG_APIENTRY*)(GLuint programObj))
     win->getFunction(_funcUseProgramObject);
     
-    if(_program == 0)
+    UInt32 program = 0;
+    programsIt it = _programs.find(win);
+    if(it == _programs.end())
     {
-        _program = createProgramObject();
+        program = createProgramObject();
+        _programs.insert(std::pair<Window *, UInt32>(win, program));
+        it = _programs.find(win);
     }
     else
     {
-        //useProgramObject(_program);
-        deleteObject(_program);
-        _program = createProgramObject();
-        //useProgramObject(_program);
+        deleteObject((*it).second);
+        program = createProgramObject();
+        (*it).second = program;
     }
-    
+
+    UInt32 vShader = 0;
     GLint has_vertex = 0;
     // reload programs
     if(!getVertexProgram().empty())
     {
-        _vShader = createShaderObject(GL_VERTEX_SHADER_ARB);
+        vShader = createShaderObject(GL_VERTEX_SHADER_ARB);
         const char *source = getVertexProgram().c_str();
-        shaderSource(_vShader, 1, (const char **) &source, 0);
+        shaderSource(vShader, 1, (const char **) &source, 0);
 
         int success = 0;
-        compileShader(_vShader);
-        getObjectParameteriv(_vShader, GL_OBJECT_COMPILE_STATUS_ARB, &has_vertex);
+        compileShader(vShader);
+        getObjectParameteriv(vShader, GL_OBJECT_COMPILE_STATUS_ARB, &has_vertex);
         
         if(has_vertex == 0)
         {
             char *debug;
             GLint debugLength;
-            getObjectParameteriv(_vShader, GL_OBJECT_INFO_LOG_LENGTH_ARB, &debugLength);
+            getObjectParameteriv(vShader, GL_OBJECT_INFO_LOG_LENGTH_ARB, &debugLength);
               
             debug = new char[debugLength];
-            getInfoLog(_vShader, debugLength, &debugLength, debug);
+            getInfoLog(vShader, debugLength, &debugLength, debug);
         
             FFATAL(("Couldn't compile vertex program!\n%s\n", debug));
             delete [] debug;
-            deleteObject(_vShader);
-            _vShader = 0;
+            deleteObject(vShader);
         }
     }
 
+    UInt32 fShader = 0;
     GLint has_fragment = 0;
     if(!getFragmentProgram().empty())
     {
-        _fShader = createShaderObject(GL_FRAGMENT_SHADER_ARB);
+        fShader = createShaderObject(GL_FRAGMENT_SHADER_ARB);
         const char *source = getFragmentProgram().c_str();
-        shaderSource(_fShader, 1, (const char **) &source, 0);
+        shaderSource(fShader, 1, (const char **) &source, 0);
 
-        compileShader(_fShader);
-        getObjectParameteriv(_fShader, GL_OBJECT_COMPILE_STATUS_ARB, &has_fragment);
+        compileShader(fShader);
+        getObjectParameteriv(fShader, GL_OBJECT_COMPILE_STATUS_ARB, &has_fragment);
         
         if(has_fragment == 0)
         {
             char *debug;
             GLint debugLength;
-            getObjectParameteriv(_fShader, GL_OBJECT_INFO_LOG_LENGTH_ARB, &debugLength);
+            getObjectParameteriv(fShader, GL_OBJECT_INFO_LOG_LENGTH_ARB, &debugLength);
               
             debug = new char[debugLength];
-            getInfoLog(_fShader, debugLength, &debugLength, debug);
+            getInfoLog(fShader, debugLength, &debugLength, debug);
         
             FFATAL(("Couldn't compile fragment program!\n%s\n", debug));
             delete [] debug;
-            deleteObject(_fShader);
-            _fShader = 0;
+            deleteObject(fShader);
         }
     }
 
@@ -439,49 +474,41 @@ void SHLChunk::updateProgram(Window *win)
     {
         if(has_vertex)
         {
-            attachObject(_program, _vShader);
+            attachObject(program, vShader);
             // just flagged for deletion
-            deleteObject(_vShader);
-            _vShader = 0;
+            deleteObject(vShader);
         }
 
         if(has_fragment)
         {
-            attachObject(_program, _fShader);
+            attachObject(program, fShader);
             // just flagged for deletion
-            deleteObject(_fShader);
-            _fShader = 0;
+            deleteObject(fShader);
         }
 
-        linkProgram(_program);
+        linkProgram(program);
         
         GLint success = 0;
-        getObjectParameteriv(_program, GL_OBJECT_LINK_STATUS_ARB, &success);
+        getObjectParameteriv(program, GL_OBJECT_LINK_STATUS_ARB, &success);
         if(!success)
         {
             char *debug;
             GLint debugLength;
-            getObjectParameteriv(_program, GL_OBJECT_INFO_LOG_LENGTH_ARB, &debugLength);
+            getObjectParameteriv(program, GL_OBJECT_INFO_LOG_LENGTH_ARB, &debugLength);
               
             debug = new char[debugLength];
-            getInfoLog(_program, debugLength, &debugLength, debug);
+            getInfoLog(program, debugLength, &debugLength, debug);
         
             FFATAL(("Couldn't link vertex and fragment program!\n%s\n", debug));
             delete [] debug;
-            deleteObject(_program);
-            _program = 0;
+            _programs.erase(it);
+            deleteObject(program);
         }
-        /*
-        else
-        {
-            printf("SHLChunk::linked program %u\n", getGLId());
-        }
-        */
     }
     else
     {
-        deleteObject(_program);
-        _program = 0;
+        _programs.erase(it);
+        deleteObject(program);
     }
 }
 
@@ -639,9 +666,11 @@ Int16 SHLChunk::findParameter(const std::string &name)
 
 void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
 {
+    //printf("SHLChunk::activate : %p\n", action->getWindow());
     action->getWindow()->validateGLObject(getGLId());
 
-    if(_program == 0)
+    programsIt it = _programs.find(action->getWindow());
+    if(it == _programs.end())
         return;
 
     // get "glUseProgramObjectARB" function pointer
@@ -649,7 +678,7 @@ void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
     (void (OSG_APIENTRY*)(GLuint programObj))
     action->getWindow()->getFunction(_funcUseProgramObject);
     
-    useProgramObject(_program);
+    useProgramObject((*it).second);
 }
 
 
@@ -668,21 +697,27 @@ void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 
     action->getWindow()->validateGLObject(getGLId());
 
-    if(_program == 0)
-        return;
-
     // get "glUseProgramObjectARB" function pointer
     void (OSG_APIENTRY* useProgramObject)(GLuint programObj) =
     (void (OSG_APIENTRY*)(GLuint programObj))
     action->getWindow()->getFunction(_funcUseProgramObject);
-    
-    useProgramObject(_program);
+
+    programsIt it = old->_programs.find(action->getWindow());
+    // deactivate the old one
+    if(it != old->_programs.end())
+        useProgramObject(0);
+
+    it = _programs.find(action->getWindow());
+
+    if(it != _programs.end())
+        useProgramObject((*it).second);
 }
 
 
 void SHLChunk::deactivate(DrawActionBase *action, UInt32 /*idx*/)
 {
-    if(_program == 0)
+    programsIt it = _programs.find(action->getWindow());
+    if(it == _programs.end())
         return;
 
     // get "glUseProgramObjectARB" function pointer
@@ -741,7 +776,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.6 2004/05/26 17:43:14 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.7 2004/05/27 18:20:29 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
