@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="PassiveBackground"
+	parent="Background"
+	library="System"
+	structure="concrete"
+	pointerfieldtypes="single"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+</FieldContainer>
