@@ -101,6 +101,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
     WindowPtr getClusterWindow (void);
     WindowPtr getServerWindow  (void);
 
+    inline RemoteAspect *getRemoteAspect   (void)                   const;
+    
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -149,6 +151,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
 };
 
 OSG_END_NAMESPACE
+
+#include <OSGClusterServer.inl>
 
 #define OSG_CLUSTERSERVERHEADER_CVSID "@(#)$Id:$"
 
