@@ -1,0 +1,20 @@
+
+This is a simple command-line converter program.
+
+Its purpose is to load a model in one of the supported formats, do some
+conversions/optimizations on it, and store it in on of the supported formats.
+
+Just run osg-conv without arguments to see a list of options.
+
+It's simple but absolutely functional. Its biggest weakness right now is the
+hard-coded GraphOp set, which hinges on fixing the string interface to
+GraphOpSeq. Once that's fixed, this program does all it's supposed to do
+(unless you can find something that it should do but doesn't, add it and send
+me a patch ;).
+
+Thanks to Jan Springer for the contribution!
+
+Yours
+
+    Dirk Reiners
+    
