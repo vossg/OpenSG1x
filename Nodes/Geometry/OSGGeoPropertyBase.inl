@@ -199,9 +199,9 @@ const  GeoProperty<GeoPropertyDesc>::PtrType
  */
 
 template <class GeoPropertyDesc>
-FieldDescription GeoProperty<GeoPropertyDesc>::_desc[] = 
+FieldDescription *GeoProperty<GeoPropertyDesc>::_desc[] = 
 {
-    FieldDescription(
+    new FieldDescription(
         StoredFieldType::getClassType(), 
         GeoPropertyDesc::getFieldName(), 
         OSG_FC_FIELD_IDM_DESC(GeoPropDataField),
@@ -232,7 +232,7 @@ FieldContainerType GeoProperty<GeoPropertyDesc>::_type(
         (PrototypeCreateF) &GeoProperty<GeoPropertyDesc>::createEmpty,
         GeoPropertyDesc::getInitMethod(),
         _desc,
-        sizeof(FieldDescription));
+        sizeof(FieldDescription *));
 #endif
 
 

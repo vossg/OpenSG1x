@@ -637,6 +637,8 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
         ac_gdz_win_build_base_e2=
         ac_gdz_build_dir_e2=$ac_gdz_build_dir        
 
+        ac_gdz_package_test_debug_libs_e2=$ac_gdz_test_debug_libs
+
         if [[ $build_os = cygwin ]]; then
             ac_gdz_src_dir_win_e2=`cygpath -w $ac_gdz_src_dir`
             ac_gdz_win_pool_e2=${ac_gdz_project_praefix}POOL_WIN"     ?= "$ac_gdz_src_dir_win_e2
@@ -667,6 +669,8 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
         AC_SUBST(ac_gdz_package_so_needs_init_e2)
 
         AC_SUBST(ac_gdz_package_def_e2)
+
+        AC_SUBST(ac_gdz_package_test_debug_libs_e2)        
 
         touch confdefs.h
 

@@ -107,29 +107,29 @@ const OSG::BitVector	TileCameraDecoratorBase::TopFieldMask =
 
 
 
-char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.4 2001/07/09 14:44:54 vossg Exp $";
+char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.5 2001/07/18 01:39:40 vossg Exp $";
 
 /** \brief Group field description
  */
 
-FieldDescription TileCameraDecoratorBase::_desc[] = 
+FieldDescription *TileCameraDecoratorBase::_desc[] = 
 {
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "left", 
                      LeftFieldId, LeftFieldMask,
                      false,
                      (FieldAccessMethod) &TileCameraDecoratorBase::getSFLeft),
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "right", 
                      RightFieldId, RightFieldMask,
                      false,
                      (FieldAccessMethod) &TileCameraDecoratorBase::getSFRight),
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "bottom", 
                      BottomFieldId, BottomFieldMask,
                      false,
                      (FieldAccessMethod) &TileCameraDecoratorBase::getSFBottom),
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "top", 
                      TopFieldId, TopFieldMask,
                      true,

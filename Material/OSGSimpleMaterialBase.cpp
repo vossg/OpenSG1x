@@ -98,39 +98,39 @@ const OSG::BitVector	SimpleMaterialBase::TransparencyFieldMask =
 
 
 
-char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.7 2001/07/09 14:44:54 vossg Exp $";
+char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
 
 /** \brief Group field description
  */
 
-FieldDescription SimpleMaterialBase::_desc[] = 
+FieldDescription *SimpleMaterialBase::_desc[] = 
 {
-    FieldDescription(SFColor3f::getClassType(), 
+    new FieldDescription(SFColor3f::getClassType(), 
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFAmbient),
-    FieldDescription(SFColor3f::getClassType(), 
+    new FieldDescription(SFColor3f::getClassType(), 
                      "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFDiffuse),
-    FieldDescription(SFColor3f::getClassType(), 
+    new FieldDescription(SFColor3f::getClassType(), 
                      "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFSpecular),
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "shininess", 
                      ShininessFieldId, ShininessFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFShininess),
-    FieldDescription(SFColor3f::getClassType(), 
+    new FieldDescription(SFColor3f::getClassType(), 
                      "emission", 
                      EmissionFieldId, EmissionFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleMaterialBase::getSFEmission),
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "transparency", 
                      TransparencyFieldId, TransparencyFieldMask,
                      false,

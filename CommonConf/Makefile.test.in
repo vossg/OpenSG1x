@@ -35,6 +35,8 @@ PACKAGE_NAME := @ac_gdz_package_name_out@
 
 SO_NEEDS_INIT := @ac_gdz_package_so_needs_init_e2@
 
+DEBUG_LIBS := @ac_gdz_package_test_debug_libs_e2@
+
 Tests: Test
 
 include $(@ac_gdz_project_praefix@POOL)/$(@ac_gdz_project_praefix@COMMON)/@ac_gdz_package_sys_common_out@

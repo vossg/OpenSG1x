@@ -89,24 +89,24 @@ const OSG::BitVector	SpotLightBase::SpotCutOffFieldMask =
 
 
 
-char SpotLightBase::cvsid[] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.7 2001/07/09 14:44:54 vossg Exp $";
+char SpotLightBase::cvsid[] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
 
 /** \brief Group field description
  */
 
-FieldDescription SpotLightBase::_desc[] = 
+FieldDescription *SpotLightBase::_desc[] = 
 {
-    FieldDescription(SFVec3f::getClassType(), 
+    new FieldDescription(SFVec3f::getClassType(), 
                      "direction", 
                      DirectionFieldId, DirectionFieldMask,
                      false,
                      (FieldAccessMethod) &SpotLightBase::getSFDirection),
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "spotExponent", 
                      SpotExponentFieldId, SpotExponentFieldMask,
                      false,
                      (FieldAccessMethod) &SpotLightBase::getSFSpotExponent),
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "spotCutOff", 
                      SpotCutOffFieldId, SpotCutOffFieldMask,
                      false,

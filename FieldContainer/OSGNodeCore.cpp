@@ -61,32 +61,24 @@ const NodeCorePtr OSG::NullNodeCore;
  *                           Class variables                               *
 \***************************************************************************/
 
-/*
 const BitVector 
 	NodeCore::ParentsFieldMask     = (1 << NodeCore::ParentsFieldId    );
 const BitVector 
 	NodeCore::AttachmentsFieldMask = (1 << NodeCore::AttachmentsFieldId);
-*/
 
-OSG_FC_FIRST_FIELD_IDM_DEF(NodeCore, ParentsField)
-
-OSG_FC_FIELD_IDM_DEF      (NodeCore, AttachmentsField, ParentsField)
-
-OSG_FC_LAST_FIELD_IDM_DEF (NodeCore, NextField)
-
-FieldDescription NodeCore::_desc[] = 
+FieldDescription *NodeCore::_desc[] = 
 {
-	FieldDescription(MFNodePtr::getClassType(), 
-                     "parents", 
-                     OSG_FC_FIELD_IDM_DESC(ParentsField),
-                     false,
-                     (FieldAccessMethod) &NodeCore::getMFParents),
+	new FieldDescription(MFNodePtr::getClassType(), 
+                         "parents", 
+                         OSG_FC_FIELD_IDM_DESC(ParentsField),
+                         false,
+                         (FieldAccessMethod) &NodeCore::getMFParents),
     
-    FieldDescription(SFAttachmentMap::getClassType(),
-                     "attachments", 
-                     OSG_FC_FIELD_IDM_DESC(AttachmentsField),
-                     false,
-                     (FieldAccessMethod) &NodeCore::getSFAttachments)
+    new FieldDescription(SFAttachmentMap::getClassType(),
+                         "attachments", 
+                         OSG_FC_FIELD_IDM_DESC(AttachmentsField),
+                         false,
+                         (FieldAccessMethod) &NodeCore::getSFAttachments)
 };
 
 FieldContainerType NodeCore::_type("NodeCore",

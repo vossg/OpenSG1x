@@ -92,29 +92,29 @@ const OSG::BitVector	PointLightBase::QuadraticAttenuationFieldMask =
 
 
 
-char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.7 2001/07/09 14:44:54 vossg Exp $";
+char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
 
 /** \brief Group field description
  */
 
-FieldDescription PointLightBase::_desc[] = 
+FieldDescription *PointLightBase::_desc[] = 
 {
-    FieldDescription(SFPnt3f::getClassType(), 
+    new FieldDescription(SFPnt3f::getClassType(), 
                      "position", 
                      PositionFieldId, PositionFieldMask,
                      false,
                      (FieldAccessMethod) &PointLightBase::getSFPosition),
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "constantAttenuation", 
                      ConstantAttenuationFieldId, ConstantAttenuationFieldMask,
                      false,
                      (FieldAccessMethod) &PointLightBase::getSFConstantAttenuation),
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "linearAttenuation", 
                      LinearAttenuationFieldId, LinearAttenuationFieldMask,
                      false,
                      (FieldAccessMethod) &PointLightBase::getSFLinearAttenuation),
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "quadraticAttenuation", 
                      QuadraticAttenuationFieldId, QuadraticAttenuationFieldMask,
                      false,

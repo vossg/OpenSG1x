@@ -110,34 +110,34 @@ const OSG::BitVector	WindowBase::GlObjectFlagsFieldMask =
 
 
 
-char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.8 2001/07/09 14:44:54 vossg Exp $";
+char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.9 2001/07/18 01:39:40 vossg Exp $";
 
 /** \brief Group field description
  */
 
-FieldDescription WindowBase::_desc[] = 
+FieldDescription *WindowBase::_desc[] = 
 {
-    FieldDescription(SFUInt16::getClassType(), 
+    new FieldDescription(SFUInt16::getClassType(), 
                      "width", 
                      WidthFieldId, WidthFieldMask,
                      false,
                      (FieldAccessMethod) &WindowBase::getSFWidth),
-    FieldDescription(SFUInt16::getClassType(), 
+    new FieldDescription(SFUInt16::getClassType(), 
                      "height", 
                      HeightFieldId, HeightFieldMask,
                      false,
                      (FieldAccessMethod) &WindowBase::getSFHeight),
-    FieldDescription(MFViewportPtr::getClassType(), 
+    new FieldDescription(MFViewportPtr::getClassType(), 
                      "port", 
                      PortFieldId, PortFieldMask,
                      false,
                      (FieldAccessMethod) &WindowBase::getMFPort),
-    FieldDescription(SFBool::getClassType(), 
+    new FieldDescription(SFBool::getClassType(), 
                      "resizePending", 
                      ResizePendingFieldId, ResizePendingFieldMask,
                      true,
                      (FieldAccessMethod) &WindowBase::getSFResizePending),
-    FieldDescription(MFUInt32::getClassType(), 
+    new FieldDescription(MFUInt32::getClassType(), 
                      "glObjectFlags", 
                      GlObjectFlagsFieldId, GlObjectFlagsFieldMask,
                      true,

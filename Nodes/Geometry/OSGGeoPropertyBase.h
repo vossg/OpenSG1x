@@ -428,9 +428,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
 
     static char cvsid[];
 
-    static FieldDescription   _desc[];
+    static FieldDescription   *_desc[];
 
-    static FieldContainerType _type;
+    static FieldContainerType  _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     

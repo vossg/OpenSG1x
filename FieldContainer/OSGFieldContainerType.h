@@ -75,7 +75,7 @@ typedef FCPtr<FieldContainerPtr, Attachment> AttachmentPtr;
 //   Types
 //---------------------------------------------------------------------------
 
-typedef void            (*InitContainerF)  (void);
+typedef void              (*InitContainerF)  (void);
 typedef FieldContainerPtr (*PrototypeCreateF)(void);
 
 //---------------------------------------------------------------------------
@@ -199,7 +199,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public TypeBase
     FieldContainerPtr   _pPrototype;
     PrototypeCreateF    _fPrototypeCreate;
 
-    FieldDescription   *_pDesc;
+    FieldDescription  **_pDesc;
     UInt32              _uiDescByteCounter;
 
 	DescMap             _mDescMap;
@@ -216,8 +216,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public TypeBase
     Bool initFields      (void);
     Bool initParentFields(void);
 
-	Bool initialize     (void);
-    void    terminate   (void);
+	Bool initialize      (void);
+    void terminate       (void);
 
   public :
 
@@ -234,7 +234,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public TypeBase
                        const Char8            *szGroupName       = NULL,
                        PrototypeCreateF        fPrototypeCreate  = NULL,
                        InitContainerF          fInitMethod       = NULL,
-                       FieldDescription       *pDesc             = NULL,
+                       FieldDescription      **pDesc             = NULL,
                        UInt32                  uiDescByteCounter = 0,
                        Bool                    bDescsAddable     = false);
     FieldContainerType(const FieldContainerType &source);
@@ -253,11 +253,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public TypeBase
           FieldDescription *getFieldDescription(UInt32 uiFieldId);
     const FieldDescription *getFieldDescription(UInt32 uiFieldId) const;
 
-          FieldDescription *findFieldDescription(
-              const Char8 *szFieldName);
+          FieldDescription *findFieldDescription(const Char8 *szFieldName);
 
     const FieldDescription *findFieldDescription(
-              const Char8 *szFieldName) const; 
+        const Char8 *szFieldName) const; 
 
     UInt32                 getNumFieldDescs(void) const;
 

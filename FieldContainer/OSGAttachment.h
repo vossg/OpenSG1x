@@ -154,8 +154,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static FieldDescription   _desc[];
-	static FieldContainerType _type;
+	static FieldDescription   *_desc[];
+	static FieldContainerType  _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -375,9 +375,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
 
 	static char cvsid[];
 
-	static FieldDescription   _desc[];
+	static FieldDescription   *_desc[];
 
-	static FieldContainerType _type;
+	static FieldContainerType  _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     

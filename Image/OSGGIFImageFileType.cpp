@@ -58,6 +58,8 @@
 #include <OSGLog.h>
 
 
+#ifdef OSG_WITH_GIF
+
 //--- GIF-INCLUDE START ----------------------------------------------------
 
 #define GIF_MAXCOLORS	256
@@ -119,11 +121,14 @@ typedef struct {
 	GIFData		*data;
 } GIFStream;
 
+
 static GIFStream*	GIFRead(char *), *GIFReadFP(FILE *);
 static int		GIFTest(char *);
 static int		GIFWrite(char *, GIFStream *, int);
 static int		GIFWriteFP(FILE *, GIFStream *, int);
 static int 	GIFFree (GIFStream *);
+
+#endif
 
 //--- GIF INCLUDE END ----------------------------------------------------
 
@@ -141,7 +146,7 @@ OSG_USING_NAMESPACE
 
 // Static Class Varible implementations:
 static const char *suffixArray[] = {
-  "gif"
+    "gif"
 };
 
 GIFImageFileType GIFImageFileType::_the ( suffixArray, sizeof(suffixArray) );
@@ -179,6 +184,8 @@ bool GIFImageFileType::read (Image &image, const char *fileName )
 {
 	bool retCode = false;
 
+#ifdef OSG_WITH_GIF
+
 	Image::PixelFormat pixelFormat;
 	GIFStream *gifStream = GIFRead(const_cast<char*>(fileName));
 	GIFData   *gifData = 0;
@@ -186,14 +193,14 @@ bool GIFImageFileType::read (Image &image, const char *fileName )
 	int i, j, destI, lineSize;
 	unsigned red, green, blue;
 	int transparentIndex;
-  int width = 0, height = 0, channel = 0;
+    int width = 0, height = 0, channel = 0;
 	unsigned char *srcData = 0, *destData = 0;
 	int colorIndex;
 	unsigned frameCount = 0, currentFrame = 0;
 	unsigned char *colorMap = 0;
-  int imageSize = 0;
+    int imageSize = 0;
 	int colorMapSize;
-  Time frameDelay;
+    Time frameDelay;
 
 	if (gifStream) {
 		frameCount = 0;
@@ -207,167 +214,169 @@ bool GIFImageFileType::read (Image &image, const char *fileName )
 	if (gifStream) {
 		for (gifData = gifStream->data; gifData; gifData = gifData->next ) {
 			switch (gifData->type) {
-			case gif_image:
+                case gif_image:
         
-        if (frameCount) {
-          FDEBUG (( "Try to copy GIF Anim Frame %d/%d\n", 
-                    (currentFrame+1), frameCount ));
-        }
+                    if (frameCount) {
+                        FDEBUG (( "Try to copy GIF Anim Frame %d/%d\n", 
+                                  (currentFrame+1), frameCount ));
+                    }
 
-				// get the att. 
-				transparentIndex = gifData->info.transparent;
-        frameDelay = float(gifData->info.delayTime) / 100.0f;
-				width = gifData->width;
-				height = gifData->height;
+                    // get the att. 
+                    transparentIndex = gifData->info.transparent;
+                    frameDelay = float(gifData->info.delayTime) / 100.0f;
+                    width = gifData->width;
+                    height = gifData->height;
 
-				// check if the movie is color or greyscale
-				isColor = false;
-				if (gifData->data.image.cmapSize > 0) {
-					colorMapSize = gifData->data.image.cmapSize;
-					colorMap = (unsigned char *)gifData->data.image.cmapData;
-					// cout << "INFO: Use gifData colorMap" << endl;
-				}
-				else
-					if (gifStream->cmapSize > 0) { 
-						colorMapSize = gifStream->cmapSize;
-						colorMap = (unsigned char *)gifStream->cmapData;
-						// cout << "INFO: Use gifStream colorMap" << endl;
-					}
-					else {
-            FWARNING (("Invalid color map in GIFImageFileType::read()\n"));
-						colorMapSize = 0;
-					}
+                    // check if the movie is color or greyscale
+                    isColor = false;
+                    if (gifData->data.image.cmapSize > 0) {
+                        colorMapSize = gifData->data.image.cmapSize;
+                        colorMap = (unsigned char *)gifData->data.image.cmapData;
+                        // cout << "INFO: Use gifData colorMap" << endl;
+                    }
+                    else
+                        if (gifStream->cmapSize > 0) { 
+                            colorMapSize = gifStream->cmapSize;
+                            colorMap = (unsigned char *)gifStream->cmapData;
+                            // cout << "INFO: Use gifStream colorMap" << endl;
+                        }
+                        else {
+                            FWARNING (("Invalid color map in GIFImageFileType::read()\n"));
+                            colorMapSize = 0;
+                        }
 					
-				for (i = 0; i < colorMapSize; i++) { 
-					if (i != transparentIndex) {
-						red   = colorMap[i * 3 + 0];
-						green = colorMap[i * 3 + 1];
-						blue  = colorMap[i * 3 + 2];
-						if (red != green || red != blue) {
-							isColor = true;
-							break;
-						}
-					}
-				}
+                    for (i = 0; i < colorMapSize; i++) { 
+                        if (i != transparentIndex) {
+                            red   = colorMap[i * 3 + 0];
+                            green = colorMap[i * 3 + 1];
+                            blue  = colorMap[i * 3 + 2];
+                            if (red != green || red != blue) {
+                                isColor = true;
+                                break;
+                            }
+                        }
+                    }
 
-				// calculate the movie channel
-				channel = (isColor ? 3 : 1) + (transparentIndex >= 0 ? 1 : 0);
+                    // calculate the movie channel
+                    channel = (isColor ? 3 : 1) + (transparentIndex >= 0 ? 1 : 0);
 
- 				if (currentFrame) {
-          // is not the first frame
-          if ( (channel == image.getBpp()) &&
-               (width == image.getWidth()) && 
-               (height == image.getHeight()) )
-            destData = image.getData(0,currentFrame);
-          else {
-            FWARNING (("GIF Anim with miscellaneous image dimensions\n"));
-            return false;
-          }
-        }
-        else {
-          switch (channel) {
-          case 1:
-            pixelFormat = Image::OSG_L_PF;
-            break;
-          case 2:
-            pixelFormat = Image::OSG_LA_PF;
-            break;
-          case 3:
-            pixelFormat = Image::OSG_RGB_PF;
-            break;
-          case 4:
-            pixelFormat = Image::OSG_RGBA_PF;
-            break;
-          };
-					image.set(pixelFormat, width, height,1,1,frameCount,frameDelay);
-          destData = image.getData();
-				}
+                    if (currentFrame) {
+                        // is not the first frame
+                        if ( (channel == image.getBpp()) &&
+                             (width == image.getWidth()) && 
+                             (height == image.getHeight()) )
+                            destData = image.getData(0,currentFrame);
+                        else {
+                            FWARNING (("GIF Anim with miscellaneous image dimensions\n"));
+                            return false;
+                        }
+                    }
+                    else {
+                        switch (channel) {
+                            case 1:
+                                pixelFormat = Image::OSG_L_PF;
+                                break;
+                            case 2:
+                                pixelFormat = Image::OSG_LA_PF;
+                                break;
+                            case 3:
+                                pixelFormat = Image::OSG_RGB_PF;
+                                break;
+                            case 4:
+                                pixelFormat = Image::OSG_RGBA_PF;
+                                break;
+                        };
+                        image.set(pixelFormat, width, height,1,1,frameCount,frameDelay);
+                        destData = image.getData();
+                    }
 					
-				// copy the image data)
-				lineSize = width * channel;
-				srcData = gifData->data.image.data;
-				destData = destData + ((height - 1) * lineSize);
+                    // copy the image data)
+                    lineSize = width * channel;
+                    srcData = gifData->data.image.data;
+                    destData = destData + ((height - 1) * lineSize);
 				
-				switch (channel) {
-				case 1: // Greyscale without Alpha
-					destI = 0;
-					for (i = width * height; i--; ) {
-						destData[destI++] = colorMap[*srcData++ * 3];
-						if (destI >= lineSize) {
-							destI = 0;
-							destData -= lineSize;
-						}
-					}
-					break;
+                    switch (channel) {
+                        case 1: // Greyscale without Alpha
+                            destI = 0;
+                            for (i = width * height; i--; ) {
+                                destData[destI++] = colorMap[*srcData++ * 3];
+                                if (destI >= lineSize) {
+                                    destI = 0;
+                                    destData -= lineSize;
+                                }
+                            }
+                            break;
 					
-				case 2: // Greyscale with Alpha
-					destI = 0;
-					for (i = width * height; i--; ) {
-						colorIndex = *srcData++;
-						if (colorIndex == transparentIndex) {
-							destData[destI++] = 0;
-							destData[destI++] = 0;
-						}
-						else {
-							destData[destI++] = colorMap[colorIndex * 3];
-							destData[destI++] = 255;
-						}
-						if (destI >= lineSize) {
-							destI = 0;
-							destData -= lineSize;
-						}
-					}
-					break;
+                        case 2: // Greyscale with Alpha
+                            destI = 0;
+                            for (i = width * height; i--; ) {
+                                colorIndex = *srcData++;
+                                if (colorIndex == transparentIndex) {
+                                    destData[destI++] = 0;
+                                    destData[destI++] = 0;
+                                }
+                                else {
+                                    destData[destI++] = colorMap[colorIndex * 3];
+                                    destData[destI++] = 255;
+                                }
+                                if (destI >= lineSize) {
+                                    destI = 0;
+                                    destData -= lineSize;
+                                }
+                            }
+                            break;
 					
-				case 3: // RGB without Alpha
-					destI = 0;
-					for (i = width * height; i--; ) {
-						colorIndex = *srcData++;
-						for (j = 0; j < 3; j++)
-							destData[destI++] = colorMap[colorIndex * 3 + j];
-						if (destI >= lineSize) {
-							destI = 0;
-							destData -= lineSize;
-						}							
-					}
-					break;
+                        case 3: // RGB without Alpha
+                            destI = 0;
+                            for (i = width * height; i--; ) {
+                                colorIndex = *srcData++;
+                                for (j = 0; j < 3; j++)
+                                    destData[destI++] = colorMap[colorIndex * 3 + j];
+                                if (destI >= lineSize) {
+                                    destI = 0;
+                                    destData -= lineSize;
+                                }							
+                            }
+                            break;
 					
-				case 4: // RGB with Alpha
-					destI = 0;
-					for (i = width * height; i--; ) {
-						colorIndex = *srcData++;
-						if (colorIndex == transparentIndex) {
-							for (j = 0; j < 3; j++) 
-								destData[destI++] = 0; // RGB
-							destData[destI++] = 0; // ALPHA
-						}						
-						else {
-							for (j = 0; j < 3; j++)
-								destData[destI++] = colorMap[colorIndex * 3 + j]; // RGB
-							destData[destI++] = 255;   // ALPHA
-						}
-						if (destI >= lineSize) {
-							destI = 0;
-							destData -= lineSize;
-						}
-					}
-					break;
-				}
-				retCode = true;
+                        case 4: // RGB with Alpha
+                            destI = 0;
+                            for (i = width * height; i--; ) {
+                                colorIndex = *srcData++;
+                                if (colorIndex == transparentIndex) {
+                                    for (j = 0; j < 3; j++) 
+                                        destData[destI++] = 0; // RGB
+                                    destData[destI++] = 0; // ALPHA
+                                }						
+                                else {
+                                    for (j = 0; j < 3; j++)
+                                        destData[destI++] = colorMap[colorIndex * 3 + j]; // RGB
+                                    destData[destI++] = 255;   // ALPHA
+                                }
+                                if (destI >= lineSize) {
+                                    destI = 0;
+                                    destData -= lineSize;
+                                }
+                            }
+                            break;
+                    }
+                    retCode = true;
 
-        currentFrame++;
+                    currentFrame++;
 
-				break;
-			case gif_comment:
-				break;
-			case gif_text:
-				break;
+                    break;
+                case gif_comment:
+                    break;
+                case gif_text:
+                    break;
 			}
 		}
 		GIFFree (gifStream);
 	}
 	else
 		retCode = false;
+
+#endif
 	
 	return retCode;
 
@@ -396,19 +405,19 @@ bool GIFImageFileType::read (Image &image, const char *fileName )
 bool GIFImageFileType::write (const Image &image, const char *fileName )
 {
 
-#ifdef GIF_LIB
+#ifdef OSG_WITH_GIF
 
 	SWARNING << getMimeType() 
-					 << " write is not implemented "
-					 << endLog;
+             << " write is not implemented "
+             << endLog;
 
 #else
 
 	SWARNING << getMimeType() 
-					 << " write is not compiled into the current binary " 
-					 << endLog;
+             << " write is not compiled into the current binary " 
+             << endLog;
 
-  return false;
+    return false;
 
 #endif                     
 
@@ -458,8 +467,8 @@ bool GIFImageFileType::write (const Image &image, const char *fileName )
 //
 //------------------------------
 GIFImageFileType::GIFImageFileType ( const char *suffixArray[], 
-																					 UInt16 suffixByteCount)
-  : ImageFileType ( suffixArray, suffixByteCount )
+                                     UInt16 suffixByteCount)
+    : ImageFileType ( suffixArray, suffixByteCount )
 {
 	return;
 }
@@ -533,6 +542,8 @@ GIFImageFileType::~GIFImageFileType (void )
 /****************************
 *private
 ****************************/
+
+#ifdef OSG_WITH_GIF
 
 //--- GIF-READ START ----------------------------------------------------
 
@@ -608,20 +619,20 @@ static int    showComment = GIF_FALSE;
 
 int     GIFTest(char *file)
 {
-        FILE    *fd = fopen(file, "rb");
-        char    buf[10];
-        int     ret = GIF_FALSE;
+    FILE    *fd = fopen(file, "rb");
+    char    buf[10];
+    int     ret = GIF_FALSE;
 
-        if (fd != NULL && ReadOK(fd, buf, 6)) {
-                if ((strncmp(buf, "GIF", 3) == 0) &&
-                     ((strncmp(buf + 3, "87a", 3) != 0) ||
-                      (strncmp(buf + 3, "89a", 3) != 0)))
-                        ret = GIF_TRUE;
-        }
+    if (fd != NULL && ReadOK(fd, buf, 6)) {
+        if ((strncmp(buf, "GIF", 3) == 0) &&
+            ((strncmp(buf + 3, "87a", 3) != 0) ||
+             (strncmp(buf + 3, "89a", 3) != 0)))
+            ret = GIF_TRUE;
+    }
 
-        fclose(fd);
+    fclose(fd);
 
-        return ret;
+    return ret;
 }
 
 GIFStream *GIFReadFP(FILE *fd)
@@ -641,10 +652,10 @@ GIFStream *GIFReadFP(FILE *fd)
 		goto out;
 
 	if (! ReadOK(fd,buf,6)) 
-	       ERROR("error reading magic number" );
+        ERROR("error reading magic number" );
 
 	if (strncmp((char*)buf,"GIF",3) != 0) 
-	       ERROR("not a GIF file" );
+        ERROR("not a GIF file" );
 
 	if ((strncmp(((char*)(buf)) + 3, "87a", 3) != 0) && 
 	    (strncmp(((char*)(buf)) + 3, "89a", 3) != 0)) 
@@ -762,7 +773,7 @@ GIFStream *GIFReadFP(FILE *fd)
 			}
 		} else if (c == ',') {
 			if (! ReadOK(fd,buf,9))
-			       ERROR("couldn't read left/top/width/height");
+                ERROR("couldn't read left/top/width/height");
 
 			cur = NEW(GIFData);
 
@@ -784,7 +795,7 @@ GIFStream *GIFReadFP(FILE *fd)
 			cur->data.image.data = (unsigned char *)malloc(cur->width * cur->height);
 			cur->data.image.interlaced = BitSet(buf[8], INTERLACE);
 			readImage(fd, BitSet(buf[8], INTERLACE), 
-				cur->width, cur->height, cur->data.image.data);
+                      cur->width, cur->height, cur->data.image.data);
 
 			resetInfo = GIF_TRUE;
 		} else {
@@ -801,7 +812,7 @@ GIFStream *GIFReadFP(FILE *fd)
 	if (c != ';')
 		ERROR("EOF / data stream" );
 
-out:
+ out:
 
 	return gifStream;
 }
@@ -824,21 +835,21 @@ int	GIFFreeData (GIFData *gifData)
 
 	if (gifData) {
 		switch (gifData->type) {
-		case gif_image:
-			if (gifData->data.image.data) {
-				free (gifData->data.image.data);
-			}
-			break;
-		case gif_comment:
-			if (gifData->data.comment.text) {
-				free (gifData->data.comment.text);
-			}
-			break;
-		case gif_text:
-			if (gifData->data.text.text) {
-				free (gifData->data.text.text);
-			}
-			break;
+            case gif_image:
+                if (gifData->data.image.data) {
+                    free (gifData->data.image.data);
+                }
+                break;
+            case gif_comment:
+                if (gifData->data.comment.text) {
+                    free (gifData->data.comment.text);
+                }
+                break;
+            case gif_text:
+                if (gifData->data.text.text) {
+                    free (gifData->data.text.text);
+                }
+                break;
 		}
 		retCode = 1;
 	}
@@ -867,7 +878,7 @@ int GIFFree (GIFStream *gifStream)
 }
 
 static int readColorMap(FILE *fd, int size, 
-			unsigned char data[GIF_MAXCOLORS][3])
+                        unsigned char data[GIF_MAXCOLORS][3])
 {
 	int             i;
 	unsigned char   rgb[3 * GIF_MAXCOLORS];
@@ -893,21 +904,21 @@ static int    ZeroDataBlock = GIF_FALSE;
 
 static int GetDataBlock(FILE *fd, unsigned char *buf)
 {
-       unsigned char   count;
+    unsigned char   count;
 
-       if (! ReadOK(fd,&count,1)) {
-               INFO_MSG(("error in getting DataBlock size"));
-               return -1;
-       }
+    if (! ReadOK(fd,&count,1)) {
+        INFO_MSG(("error in getting DataBlock size"));
+        return -1;
+    }
 
-       ZeroDataBlock = count == 0;
+    ZeroDataBlock = count == 0;
 
-       if ((count != 0) && (! ReadOK(fd, buf, count))) {
-               INFO_MSG(("error in reading DataBlock"));
-               return -1;
-       }
+    if ((count != 0) && (! ReadOK(fd, buf, count))) {
+        INFO_MSG(("error in reading DataBlock"));
+        return -1;
+    }
 
-       return count;
+    return count;
 }
 
 /*
@@ -990,14 +1001,14 @@ static int nextCode(FILE *fd, int code_size)
 	j = end / 8;
 	i = curbit / 8;
 
-        if (i == j) 
-                ret = buf[i];
-        else if (i + 1 == j) 
-                ret = buf[i] | (buf[i+1] << 8);
-        else 
-                ret = buf[i] | (buf[i+1] << 8) | (buf[i+2] << 16);
+    if (i == j) 
+        ret = buf[i];
+    else if (i + 1 == j) 
+        ret = buf[i] | (buf[i+1] << 8);
+    else 
+        ret = buf[i] | (buf[i+1] << 8) | (buf[i+2] << 16);
 
-        ret = (ret >> (curbit % 8)) & maskTbl[code_size];
+    ret = (ret >> (curbit % 8)) & maskTbl[code_size];
 
 	curbit += code_size;
 	
@@ -1008,85 +1019,85 @@ static int nextCode(FILE *fd, int code_size)
 
 static int nextLWZ(FILE *fd)
 {
-       static int	table[2][(1<< MAX_LWZ_BITS)];
-       static int	firstcode, oldcode;
-       int		code, incode;
-       register int	i;
+    static int	table[2][(1<< MAX_LWZ_BITS)];
+    static int	firstcode, oldcode;
+    int		code, incode;
+    register int	i;
 
-       while ((code = nextCode(fd, code_size)) >= 0) {
-               if (code == clear_code) {
-                       for (i = 0; i < clear_code; ++i) {
-                               table[0][i] = 0;
-                               table[1][i] = i;
-                       }
-                       for (; i < (1<<MAX_LWZ_BITS); ++i)
-                               table[0][i] = table[1][i] = 0;
-                       code_size = set_code_size+1;
-                       max_code_size = 2*clear_code;
-                       max_code = clear_code+2;
-                       sp = stack;
+    while ((code = nextCode(fd, code_size)) >= 0) {
+        if (code == clear_code) {
+            for (i = 0; i < clear_code; ++i) {
+                table[0][i] = 0;
+                table[1][i] = i;
+            }
+            for (; i < (1<<MAX_LWZ_BITS); ++i)
+                table[0][i] = table[1][i] = 0;
+            code_size = set_code_size+1;
+            max_code_size = 2*clear_code;
+            max_code = clear_code+2;
+            sp = stack;
 			do {
-			       firstcode = oldcode = nextCode(fd, code_size);
+                firstcode = oldcode = nextCode(fd, code_size);
 			} while (firstcode == clear_code);
 
 			return firstcode;
-               }
-	       if (code == end_code) {
-                       int             count;
-                       unsigned char   buf[260];
+        }
+        if (code == end_code) {
+            int             count;
+            unsigned char   buf[260];
 
-                       if (ZeroDataBlock)
-                               return -2;
+            if (ZeroDataBlock)
+                return -2;
 
-                       while ((count = GetDataBlock(fd, buf)) > 0)
-                               ;
+            while ((count = GetDataBlock(fd, buf)) > 0)
+                ;
 
-                       if (count != 0)
-                               INFO_MSG(("missing EOD in data stream"));
-                       return -2;
-               }
+            if (count != 0)
+                INFO_MSG(("missing EOD in data stream"));
+            return -2;
+        }
 
-               incode = code;
+        incode = code;
 
-               if (code >= max_code) {
-                       *sp++ = firstcode;
-                       code = oldcode;
-               }
+        if (code >= max_code) {
+            *sp++ = firstcode;
+            code = oldcode;
+        }
 
-               while (code >= clear_code) {
-                       *sp++ = table[1][code];
-                       if (code == table[0][code])
-                               ERROR("circular table entry BIG ERROR");
-                       code = table[0][code];
-               }
+        while (code >= clear_code) {
+            *sp++ = table[1][code];
+            if (code == table[0][code])
+                ERROR("circular table entry BIG ERROR");
+            code = table[0][code];
+        }
 
-               *sp++ = firstcode = table[1][code];
+        *sp++ = firstcode = table[1][code];
 
-               if ((code = max_code) <(1<<MAX_LWZ_BITS)) {
-                       table[0][code] = oldcode;
-                       table[1][code] = firstcode;
-                       ++max_code;
-                       if ((max_code >= max_code_size) &&
-                               (max_code_size < (1<<MAX_LWZ_BITS))) {
-                               max_code_size *= 2;
-                               ++code_size;
-                       }
-               }
+        if ((code = max_code) <(1<<MAX_LWZ_BITS)) {
+            table[0][code] = oldcode;
+            table[1][code] = firstcode;
+            ++max_code;
+            if ((max_code >= max_code_size) &&
+                (max_code_size < (1<<MAX_LWZ_BITS))) {
+                max_code_size *= 2;
+                ++code_size;
+            }
+        }
 
-               oldcode = incode;
+        oldcode = incode;
 
-               if (sp > stack)
-                       return *--sp;
-       }
-       return code;
+        if (sp > stack)
+            return *--sp;
+    }
+    return code;
 }
 
 static void readImage(FILE *fd, int interlace, int width, int height, 
-			unsigned char *data)
+                      unsigned char *data)
 {
-       unsigned char	*dp, c;      
+    unsigned char	*dp, c;      
 
-       int		v, xpos = 0, ypos = 0, pass = 0;
+    int		v, xpos = 0, ypos = 0, pass = 0;
 
 	/*
 	**  Initialize the Compression routines
@@ -1098,7 +1109,7 @@ static void readImage(FILE *fd, int interlace, int width, int height,
 
 	if (verbose)
 		INFO_MSG(("reading %d by %d%s GIF image",
-			width, height, interlace ? " interlaced" : ""));
+                  width, height, interlace ? " interlaced" : ""));
 
 	if (interlace) {
 		int	i;
@@ -1132,11 +1143,11 @@ static void readImage(FILE *fd, int interlace, int width, int height,
 		}
 	}
 
-fini:
-       if (readLWZ(fd) >= 0)
-               INFO_MSG(("too much input data, ignoring extra..."));
+ fini:
+    if (readLWZ(fd) >= 0)
+        INFO_MSG(("too much input data, ignoring extra..."));
 
-       return;
+    return;
 }
 
 //--- GIF-READ END ------------------------------------------------------
@@ -1278,7 +1289,7 @@ static int optimizeCMAP(GIFStream *stream)
 		**  Quite, I'm doing a bubble sort... ACK!
 		*/
 		qsort ( vals, size, sizeof(vals[0]), 
-						(int (*)(const void *, const void *))cvalCMP );
+                (int (*)(const void *, const void *))cvalCMP );
 
 		for (i = 0; i < size; i++) 
 			if (vals[i].idx != i)
@@ -1304,11 +1315,11 @@ static int optimizeCMAP(GIFStream *stream)
 		if (img->data.image.cmapSize != 0) {
 			for (i = 0; i < size; i++) {
 				stream->cmapData[i][0] = 
-						img->data.image.cmapData[i][0];
+                    img->data.image.cmapData[i][0];
 				stream->cmapData[i][1] = 
-						img->data.image.cmapData[i][1];
+                    img->data.image.cmapData[i][1];
 				stream->cmapData[i][2] = 
-						img->data.image.cmapData[i][2];
+                    img->data.image.cmapData[i][2];
 			}
 			img->data.image.cmapSize = 0;
 			stream->cmapSize = size;
@@ -1441,16 +1452,16 @@ int	GIFWriteFP(FILE *fp, GIFStream *stream, int optimize)
 			PUTBYTE(c, fp);
 
 			putColorMap(fp, cur->data.image.cmapSize,
-					cur->data.image.cmapData);
+                        cur->data.image.cmapData);
 
 			putImage(fp, cur->data.image.interlaced, bpp,
-					cur->width, cur->height, 
-					cur->data.image.data);
+                     cur->width, cur->height, 
+                     cur->data.image.data);
 		} else if (cur->type == gif_comment) {
 			PUTBYTE('!', fp);
 			PUTBYTE(0xfe, fp);
 			putDataBlocks(fp, cur->data.comment.len, 
-					(unsigned char*)cur->data.comment.text);
+                          (unsigned char*)cur->data.comment.text);
 		} else if (cur->type == gif_text) {
 			putGif89Info(fp, &cur->info);
 
@@ -1468,7 +1479,7 @@ int	GIFWriteFP(FILE *fp, GIFStream *stream, int optimize)
 			PUTBYTE(cur->data.text.bg, fp);
 
 			putDataBlocks(fp, cur->data.text.len, 
-					(unsigned char*)cur->data.text.text);
+                          (unsigned char*)cur->data.text.text);
 		}
 	}
 
@@ -1565,9 +1576,9 @@ static void putGif89Info(FILE *fp, GIF89info *info)
 #define HSIZE  5003            /* 80% occupancy */
 
 #ifdef NO_UCHAR
- typedef char   char_type;
+typedef char   char_type;
 #else /*NO_UCHAR*/
- typedef        unsigned char   char_type;
+typedef        unsigned char   char_type;
 #endif /*NO_UCHAR*/
 
 /*
@@ -1649,7 +1660,7 @@ static int ClearCode;
 static int EOFCode;
 
 static void putImage(FILE *fp, int interlaced, int bpp, int width, int height, 
-			unsigned char *data)
+                     unsigned char *data)
 {
 	unsigned char	*end = data + width * height;
 	int		left = interlaced ? width : width * height;
@@ -1704,7 +1715,7 @@ static void putImage(FILE *fp, int interlaced, int bpp, int width, int height,
 
 	ent = *dp++;
 	do {
-again:
+ again:
 		/*
 		**  Fetch the next pixel
 		*/
@@ -1713,30 +1724,30 @@ again:
 			if (interlaced) {
 				do {
 					switch (pass) {
-					case 0:
-						cury += 8;
-						if (cury >= height) {
-							pass++;
-							cury = 4;
-						}
-						break;
-					case 1:
-						cury += 8;
-						if (cury >= height) {
-							pass++;
-							cury = 2;
-						}
-						break;
-					case 2:
-						cury += 4;
-						if (cury >= height) {
-							pass++;
-							cury = 1;
-						}
-						break;
-					case 3:
-						cury += 2;
-						break;
+                        case 0:
+                            cury += 8;
+                            if (cury >= height) {
+                                pass++;
+                                cury = 4;
+                            }
+                            break;
+                        case 1:
+                            cury += 8;
+                            if (cury >= height) {
+                                pass++;
+                                cury = 2;
+                            }
+                            break;
+                        case 2:
+                            cury += 4;
+                            if (cury >= height) {
+                                pass++;
+                                cury = 1;
+                            }
+                            break;
+                        case 3:
+                            cury += 2;
+                            break;
 					}
 				} while (pass < 3 && cury >= height);
 				if (cury >= height)
@@ -1790,7 +1801,7 @@ again:
 			cl_block();
 		}
 	} while (1);
-done:
+ done:
 	/*
 	** Put out the final code.
 	**/
@@ -1821,7 +1832,7 @@ done:
  */
 
 static unsigned long masks[] = {  0x0000, 
-				  0x0001, 0x0003, 0x0007, 0x000F,
+                                  0x0001, 0x0003, 0x0007, 0x000F,
                                   0x001F, 0x003F, 0x007F, 0x00FF,
                                   0x01FF, 0x03FF, 0x07FF, 0x0FFF,
                                   0x1FFF, 0x3FFF, 0x7FFF, 0xFFFF };
@@ -1858,7 +1869,7 @@ static void output(code_int code)
 			else
 				maxcode = MAXCODE(n_bits);
 		}
-        }
+    }
 
 	if (code == EOFCode) {
 		/*
@@ -1882,11 +1893,11 @@ static void output(code_int code)
 static void cl_block()
 {
 
-        cl_hash((count_int)hsize);
-        free_ent = ClearCode + 2;
-        clear_flg = GIF_TRUE;
+    cl_hash((count_int)hsize);
+    free_ent = ClearCode + 2;
+    clear_flg = GIF_TRUE;
 
-        output((code_int)ClearCode);
+    output((code_int)ClearCode);
 }
 
 static void cl_hash(count_int hsize)          /* reset code table */
@@ -1919,7 +1930,7 @@ static char accum[256];
 */
 static void char_init()
 {
-        a_count = 0;
+    a_count = 0;
 }
 
 /*
@@ -1928,9 +1939,9 @@ static void char_init()
 */
 static void char_out(int c)
 {
-        accum[a_count++] = c;
-        if (a_count == 255)
-                flush_char();
+    accum[a_count++] = c;
+    if (a_count == 255)
+        flush_char();
 }
 
 /*
@@ -1938,12 +1949,14 @@ static void char_out(int c)
 */
 static void flush_char()
 {
-        if (a_count != 0) {
-                PUTBYTE(a_count, g_outfile);
-                fwrite(accum, 1, a_count, g_outfile);
-                a_count = 0;
-        }
+    if (a_count != 0) {
+        PUTBYTE(a_count, g_outfile);
+        fwrite(accum, 1, a_count, g_outfile);
+        a_count = 0;
+    }
 }
 
 
 //--- GIF-WRITE END -----------------------------------------------------
+
+#endif

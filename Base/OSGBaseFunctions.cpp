@@ -62,6 +62,8 @@ static vector<ExitFuncF> *osgExitFunctions   = NULL;
 
 static vector<InitFuncF> *osgMPInitFunctions = NULL;
 static vector<ExitFuncF> *osgMPExitFunctions = NULL;
+
+SystemState GlobalSystemState = Startup;
 OSG_END_NAMESPACE
 
 OSG_USING_NAMESPACE
@@ -137,12 +139,16 @@ Bool OSG::osgInit(int argc, char **argv)
             break;         
     }
 
+    GlobalSystemState = Running;
+
     return returnValue;
 }
 
 Bool OSG::osgExit(void)
 {
     Bool returnValue = true;
+
+    GlobalSystemState = Shutdown;
 
 // Check it (GV)
 //    Thread::getCurrentChangeList()->setReadOnly(true);

@@ -83,14 +83,14 @@ const OSG::BitVector	DirectionalLightBase::DirectionFieldMask =
 
 
 
-char DirectionalLightBase::cvsid[] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.7 2001/07/09 14:44:54 vossg Exp $";
+char DirectionalLightBase::cvsid[] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
 
 /** \brief Group field description
  */
 
-FieldDescription DirectionalLightBase::_desc[] = 
+FieldDescription *DirectionalLightBase::_desc[] = 
 {
-    FieldDescription(SFVec3f::getClassType(), 
+    new FieldDescription(SFVec3f::getClassType(), 
                      "direction", 
                      DirectionFieldId, DirectionFieldMask,
                      false,

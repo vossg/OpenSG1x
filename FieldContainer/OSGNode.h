@@ -242,8 +242,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public FieldContainer
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    static FieldDescription   _desc[];
-    static FieldContainerType _type;
+    static FieldDescription   *_desc[];
+    static FieldContainerType  _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     

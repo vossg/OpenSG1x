@@ -77,37 +77,37 @@ const BitVector Node::ChildrenFieldMask    = (1 << Node::ChildrenFieldId   );
 const BitVector Node::CoreFieldMask        = (1 << Node::CoreFieldId       );
 const BitVector Node::AttachmentsFieldMask = (1 << Node::AttachmentsFieldId);
 
-FieldDescription Node::_desc[] = 
+FieldDescription *Node::_desc[] = 
 {
-	FieldDescription(SFDynamicVolume::getClassType(), 
-                        "volume", 
-                        OSG_FC_FIELD_IDM_DESC(VolumeField),
-                        false,
-                        (FieldAccessMethod) &Node::getSFVolume),
+	new FieldDescription(SFDynamicVolume::getClassType(), 
+                         "volume", 
+                         OSG_FC_FIELD_IDM_DESC(VolumeField),
+                         false,
+                         (FieldAccessMethod) &Node::getSFVolume),
 
-	FieldDescription(SFNodePtr::getClassType(),
-                        "parent", 
-                        OSG_FC_FIELD_IDM_DESC(ParentField),
-                        false,
-                        (FieldAccessMethod) &Node::getSFParent),
+	new FieldDescription(SFNodePtr::getClassType(),
+                         "parent", 
+                         OSG_FC_FIELD_IDM_DESC(ParentField),
+                         false,
+                         (FieldAccessMethod) &Node::getSFParent),
 
-	FieldDescription(MFNodePtr::getClassType(), 
-                        "children", 
-                        OSG_FC_FIELD_IDM_DESC(ChildrenField),
-                        false,
-                        (FieldAccessMethod) &Node::getMFChildren),
+	new FieldDescription(MFNodePtr::getClassType(), 
+                         "children", 
+                         OSG_FC_FIELD_IDM_DESC(ChildrenField),
+                         false,
+                         (FieldAccessMethod) &Node::getMFChildren),
 
-    FieldDescription(SFNodeCorePtr::getClassType(),
-                        "core",
-                        OSG_FC_FIELD_IDM_DESC(CoreField),
-                        false,	
-                        (FieldAccessMethod) &Node::getSFCore),
+    new FieldDescription(SFNodeCorePtr::getClassType(),
+                         "core",
+                         OSG_FC_FIELD_IDM_DESC(CoreField),
+                         false,	
+                         (FieldAccessMethod) &Node::getSFCore),
 
-    FieldDescription(SFAttachmentMap::getClassType(),
-                        "attachments",
-                        OSG_FC_FIELD_IDM_DESC(AttachmentsField),
-                        false,	
-                        (FieldAccessMethod) &Node::getSFAttachments)
+    new FieldDescription(SFAttachmentMap::getClassType(),
+                         "attachments",
+                         OSG_FC_FIELD_IDM_DESC(AttachmentsField),
+                         false,	
+                         (FieldAccessMethod) &Node::getSFAttachments)
 };
 
 FieldContainerType Node::_type(

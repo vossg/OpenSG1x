@@ -279,9 +279,9 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLTransformBase : public Transform
 
     static char cvsid[];
 
-    static FieldDescription   _desc[];
+    static FieldDescription   *_desc[];
 
-    static FieldContainerType _type;
+    static FieldContainerType  _type;
 
 
     //-----------------------------------------------------------------------

@@ -210,7 +210,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
 
     static char cvsid[];
 
-    static FieldContainerType _type;
+    static FieldContainerType  _type;
 
 
     //-----------------------------------------------------------------------

@@ -356,12 +356,36 @@ void FieldContainerPtrBase::subRef(void) const
 
     _pRefCountLock->release(_storeP);
 
+    subRefUnlocked();
+}
+
+void FieldContainerPtrBase::subRefUnlocked(void) const
+{
     Thread::getCurrentChangeList()->addSubRefd(*this);
 
     if((*getRefCountP()) <= 0)
     {
         Thread::getCurrentChangeList()->addDestroyed(*getIdP());
 
+        UInt8 *pTmp = getFirstElemP();
+
+        ((FieldContainer *) pTmp)->onDestroy();
+
+        for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
+        {
+            ((FieldContainer *) pTmp)->~FieldContainer();
+            
+            pTmp += _containerSize;
+        }
+
+        operator delete(_storeP + getRefCountOff());
+    }
+}
+
+void FieldContainerPtrBase::subRefUntraced(void) const
+{
+    if((*getRefCountP()) <= 0)
+    {
         UInt8 *pTmp = getFirstElemP();
 
         ((FieldContainer *) pTmp)->onDestroy();

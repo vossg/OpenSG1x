@@ -98,14 +98,14 @@ const OSG::BitVector	MaterialGroupBase::MaterialFieldMask =
 
 
 
-char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.7 2001/07/09 14:44:54 vossg Exp $";
+char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
 
 /** \brief Group field description
  */
 
-FieldDescription MaterialGroupBase::_desc[] = 
+FieldDescription *MaterialGroupBase::_desc[] = 
 {
-    FieldDescription(SFMaterialPtr::getClassType(), 
+    new FieldDescription(SFMaterialPtr::getClassType(), 
                      "material", 
                      MaterialFieldId, MaterialFieldMask,
                      false,

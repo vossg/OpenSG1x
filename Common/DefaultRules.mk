@@ -77,7 +77,7 @@ $(EXEDIR)/%.exe: $(OBJDIR)/%.obj
 else
 $(EXEDIR)/%: $(OBJDIR)/%.o 
 	$(CC) $(LD_OUTOPT)$(LD_OUTSPACE)$@ $(LD_FLAGS) $(LDLOCALFLAGS) \
-		$(call cnvSubDirsUnix2Win,$<) $(LIBPATHS) $(LIBS)
+		$(call cnvSubDirsUnix2Win,$<) $(LIBPATHS) $(LIBS) $(DEBUG_LIBS)
 endif
 
 

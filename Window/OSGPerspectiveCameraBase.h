@@ -239,9 +239,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 
     static char cvsid[];
 
-    static FieldDescription   _desc[];
+    static FieldDescription   *_desc[];
 
-    static FieldContainerType _type;
+    static FieldContainerType  _type;
 
 
     //-----------------------------------------------------------------------

@@ -98,14 +98,14 @@ const OSG::BitVector	StateBase::ChunksFieldMask =
 
 
 
-char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.7 2001/07/09 14:44:54 vossg Exp $";
+char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
 
 /** \brief Group field description
  */
 
-FieldDescription StateBase::_desc[] = 
+FieldDescription *StateBase::_desc[] = 
 {
-    FieldDescription(MFStateChunkPtr::getClassType(), 
+    new FieldDescription(MFStateChunkPtr::getClassType(), 
                      "chunks", 
                      ChunksFieldId, ChunksFieldMask,
                      false,

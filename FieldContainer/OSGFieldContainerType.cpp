@@ -150,24 +150,24 @@ Bool FieldContainerType::initFields(void)
 
     _bInitialized = true;
 
-    for(i = 0; i < _uiDescByteCounter / sizeof(FieldDescription); i++) 
+    for(i = 0; i < _uiDescByteCounter / sizeof(FieldDescription *); i++) 
     {
-        if(_pDesc[i].isValid()) 
+        if(_pDesc[i]->isValid()) 
         {
-            descIt = _mDescMap.find(StringLink(_pDesc[i].getCName()));
+            descIt = _mDescMap.find(StringLink(_pDesc[i]->getCName()));
 
             if(descIt == _mDescMap.end())
             {
-                _mDescMap[StringLink(_pDesc[i].getCName())] = &_pDesc[i];
+                _mDescMap[StringLink(_pDesc[i]->getCName())] = _pDesc[i];
 
-                _vDescVec.push_back(&_pDesc[i]); 
+                _vDescVec.push_back(_pDesc[i]); 
             }
             else
             {
                 SWARNING << "ERROR: Double field description " 
                             << "in " << _szName.str() << "from " 
-                            << _pDesc[i].getCName() 
-                            << _pDesc[i].getTypeId() << endl;
+                            << _pDesc[i]->getCName() 
+                            << _pDesc[i]->getTypeId() << endl;
 
                 _bInitialized = false;
             }
@@ -176,7 +176,7 @@ Bool FieldContainerType::initFields(void)
         {
             SWARNING << "ERROR: Invalid field description " 
                         << "in " << _szName.str() << "from " 
-                        << _pDesc[i].getTypeId() << endl;
+                        << _pDesc[i]->getTypeId() << endl;
 
             _bInitialized = false;
         }
@@ -279,9 +279,26 @@ Bool FieldContainerType::initialize(void)
 
 void FieldContainerType::terminate(void)
 {
-    clearRefCP(_pPrototype);
+    UInt32 i;
+
+    if(_pPrototype != NullFC)
+    {
+        if(GlobalSystemState == Shutdown)
+        {
+            _pPrototype.subRefUntraced();
+        }
+        else
+        {
+            _pPrototype.subRefUnlocked();
+        }
+    }
 
     _bInitialized = false;
+
+    for(i = 0; i < _uiDescByteCounter / sizeof(FieldDescription *); i++) 
+    {
+        delete _pDesc[i];
+    }
 }
 
 /*-------------------------------------------------------------------------*\
@@ -298,9 +315,9 @@ FieldContainerType::FieldContainerType(const Char8        *szName,
                                    const Char8            *szGroupName,
                                    PrototypeCreateF        fPrototypeCreate,
                                    InitContainerF          fInitMethod,
-                                   FieldDescription        *pDesc,
-                                   UInt32                   uiDescByteCounter,
-                                   Bool                     bDescsAddable) :
+                                   FieldDescription      **pDesc,
+                                   UInt32                  uiDescByteCounter,
+                                   Bool                    bDescsAddable) :
     Inherited(szName),
     _uiGroupId(0),
 
@@ -367,8 +384,11 @@ FieldContainerType::FieldContainerType(const FieldContainerType &obj) :
 
 FieldContainerType::~FieldContainerType(void)
 {
-    terminate();
-    FieldContainerFactory::the()->unregisterType(this);
+    if(GlobalSystemState != Shutdown)
+    {
+        terminate();
+        FieldContainerFactory::the()->unregisterType(this);
+    }
 }
 
 

@@ -96,14 +96,14 @@ const OSG::BitVector	SolidBackgroundBase::ColorFieldMask =
 
 
 
-char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.8 2001/07/09 14:44:54 vossg Exp $";
+char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.9 2001/07/18 01:39:40 vossg Exp $";
 
 /** \brief Group field description
  */
 
-FieldDescription SolidBackgroundBase::_desc[] = 
+FieldDescription *SolidBackgroundBase::_desc[] = 
 {
-    FieldDescription(SFColor3f::getClassType(), 
+    new FieldDescription(SFColor3f::getClassType(), 
                      "color", 
                      ColorFieldId, ColorFieldMask,
                      false,

@@ -40,6 +40,10 @@ ac_gdz_conf_package_png='0'
 ac_gdz_conf_package_png_e1='0'
 ac_gdz_conf_package_mng='0'
 ac_gdz_conf_package_mng_e1='0'
+ac_gdz_conf_package_efence='0'
+ac_gdz_conf_package_efence_e1='0'
+
+ac_gdz_test_debug_libs=
 
 AC_CONFIG_AUX_DIR($ac_gdz_commonconf_dir) 
 
@@ -193,6 +197,24 @@ else
 	ac_gdz_conf_package_mng='1'
 	ac_gdz_conf_package_mng_e1='1'
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_MNG'
+fi
+
+dnl ############# efence Settings #####################
+
+AC_ARG_WITH(efence,     [  --with-efence=DIR                  Use efence lib, if DIR is given use the file from the give directory],
+			,with_efence=no) 
+
+if [[ "$with_efence" = yes ]]; then
+	ac_gdz_efence_dir=
+	ac_gdz_conf_package_efence='1'
+	ac_gdz_conf_package_efence_e1='1'
+elif [[ "$with_efence" = no ]]; then
+	ac_gdz_efence_dir=
+else
+	ac_gdz_efence_dir=$with_efence
+	ac_gdz_conf_package_efence='1'
+	ac_gdz_conf_package_efence_e1='1'
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs
 fi
 
 dnl ############# TLS Settings #####################
@@ -361,6 +383,14 @@ else
 	ac_gdz_system_lib_dir_e1=
 
 	ac_gdz_base_system_libs='-lm'
+
+    if [[ $ac_gdz_conf_package_efence = "1" ]]; then
+        if [[ "x"$ac_gdz_efence_dir = "x" ]]; then
+            ac_gdz_test_debug_libs=' -lefence'
+        else
+            ac_gdz_test_debug_libs=" -L$ac_gdz_efence_dir -lefence"
+        fi
+    fi
 
     if test $build_os = linux-gnu; 
     then 

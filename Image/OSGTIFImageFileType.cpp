@@ -189,7 +189,7 @@ bool TIFImageFileType::read (Image &image, const char *fileName )
    blue  = 2;
    alpha = 3;
 
-#elif
+#else
 
    red   = 3;
    green = 2;

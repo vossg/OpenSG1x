@@ -92,29 +92,29 @@ const OSG::BitVector	LightBaseBase::BeaconFieldMask =
 
 
 
-char LightBaseBase::cvsid[] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.7 2001/07/09 14:44:54 vossg Exp $";
+char LightBaseBase::cvsid[] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
 
 /** \brief Group field description
  */
 
-FieldDescription LightBaseBase::_desc[] = 
+FieldDescription *LightBaseBase::_desc[] = 
 {
-    FieldDescription(SFColor4f::getClassType(), 
+    new FieldDescription(SFColor4f::getClassType(), 
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
                      (FieldAccessMethod) &LightBaseBase::getSFAmbient),
-    FieldDescription(SFColor4f::getClassType(), 
+    new FieldDescription(SFColor4f::getClassType(), 
                      "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
                      (FieldAccessMethod) &LightBaseBase::getSFDiffuse),
-    FieldDescription(SFColor4f::getClassType(), 
+    new FieldDescription(SFColor4f::getClassType(), 
                      "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
                      (FieldAccessMethod) &LightBaseBase::getSFSpecular),
-    FieldDescription(SFNodePtr::getClassType(), 
+    new FieldDescription(SFNodePtr::getClassType(), 
                      "beacon", 
                      BeaconFieldId, BeaconFieldMask,
                      false,

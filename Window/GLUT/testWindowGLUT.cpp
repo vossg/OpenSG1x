@@ -183,27 +183,27 @@ void key(unsigned char key, int x, int y)
 {
 	switch ( key )
 	{
-	case 27:	osgExit(); exit(0);
-	case 'a':	glDisable( GL_LIGHTING );
-				cerr << "Lighting disabled." << endl;
-				break;
-	case 's':	glEnable( GL_LIGHTING );
-				cerr << "Lighting enabled." << endl;
-				break;
-	case 'z':	glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-				cerr << "PolygonMode: Point." << endl;
-				break;
-	case 'x':	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-				cerr << "PolygonMode: Line." << endl;
-				break;
-	case 'c':	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-				cerr << "PolygonMode: Fill." << endl;
-				break;
-	case 'r':	cerr << "Sending ray through " << x << "," << y << endl;
-				Line l;
-				cam->calcViewRay( l, x, y, *vp );
-				cerr << "From " << l.getPosition() << ", dir " << l.getDirection() << endl;
-				break;
+        case 27:	osgExit(); exit(0);
+        case 'a':	glDisable( GL_LIGHTING );
+            cerr << "Lighting disabled." << endl;
+            break;
+        case 's':	glEnable( GL_LIGHTING );
+            cerr << "Lighting enabled." << endl;
+            break;
+        case 'z':	glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
+            cerr << "PolygonMode: Point." << endl;
+            break;
+        case 'x':	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
+            cerr << "PolygonMode: Line." << endl;
+            break;
+        case 'c':	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+            cerr << "PolygonMode: Fill." << endl;
+            break;
+        case 'r':	cerr << "Sending ray through " << x << "," << y << endl;
+            Line l;
+            cam->calcViewRay( l, x, y, *vp );
+            cerr << "From " << l.getPosition() << ", dir " << l.getDirection() << endl;
+            break;
 	}
 }
 
@@ -309,7 +309,7 @@ int main (int argc, char **argv)
 	endEditCP(dlight);
 
 	cerr << "Tree: " << endl;
-	root->dump();
+//	root->dump();
 
 	// Camera
 	

@@ -214,7 +214,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GroupBase : public NodeCore
 
     static char cvsid[];
 
-    static FieldContainerType _type;
+    static FieldContainerType  _type;
 
 
     //-----------------------------------------------------------------------

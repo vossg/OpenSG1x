@@ -104,24 +104,24 @@ const OSG::BitVector	CameraBase::FarFieldMask =
 
 
 
-char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.8 2001/07/09 14:44:54 vossg Exp $";
+char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.9 2001/07/18 01:39:40 vossg Exp $";
 
 /** \brief Group field description
  */
 
-FieldDescription CameraBase::_desc[] = 
+FieldDescription *CameraBase::_desc[] = 
 {
-    FieldDescription(SFNodePtr::getClassType(), 
+    new FieldDescription(SFNodePtr::getClassType(), 
                      "beacon", 
                      BeaconFieldId, BeaconFieldMask,
                      false,
                      (FieldAccessMethod) &CameraBase::getSFBeacon),
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "near", 
                      NearFieldId, NearFieldMask,
                      false,
                      (FieldAccessMethod) &CameraBase::getSFNear),
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "far", 
                      FarFieldId, FarFieldMask,
                      false,

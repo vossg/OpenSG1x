@@ -20,7 +20,7 @@ ifeq ($(OS),SunOS)
   endif
   GLD     = $(GCCHOME)/bin/g++
 	GSO     = $(GCCHOME)/bin/gcc -shared
-	
+
 	NCCHOME =  /solaris/WorkShop5.0/SUNWspro/SC5.0
 	NCC			= $(NCCHOME)/bin/cc
 	NCXX		= $(NCCHOME)/bin/CC 
@@ -255,7 +255,7 @@ ifeq ($(OS),IRIX)
 	NCC			= cc
 	NCXX		= /usr/bin/CC
 	NCXXINC = -I/usr/include/CC
-  NCFLAGS = -c -o $@ -D$(OS)_OS -DARCH=3 -DNATIVE_CC -n32 -LANG:bool=ON -woff 1107,1682 
+  NCFLAGS = -c -o $@ -D$(OS)_OS -DARCH=3 -DNATIVE_CC -n32 -LANG:bool=ON -LANG:std -woff 1107,1682 
 	NLD			= CC 
 	NLIBDIR = lib
 
@@ -289,7 +289,7 @@ ifeq ($(OS),IRIX)
 	MINC 		=	-I/usr/include/X11 
 	MLIB		= -L/usr/$(LIBDIR) -lXm 
 	QTINC		=	-I$(QTDIR)/include
-	QTLIB		= -L$(QTDIR)/$(LIBDIR) -lqt
+	QTLIB		= -L$(QTDIR)/$(LIBDIR) -lqt -lCio
 	QTOGLINC = 
 	QTOGLLIB = -lqgl
 	OGLINC	= -I/usr/include -DSGI_OGL -DOPENGL -DOPENGL_EXTENSIONS -DOPENGL_LIB
@@ -575,7 +575,7 @@ ifeq ($(OS),Linux)
 endif
 #-- NT --------------------------------------------------------------
 ifeq ($(findstring WIN,$(OS)),WIN)
-	
+
 	QTDIR := q:\\packages\\qt-2.3
 	OS		= WIN32
 	GCC 		= gcc
@@ -1189,7 +1189,7 @@ doc: $(DOCDIR)
 
 $(DOCDIR)/tex: doc
 	mkdir -p $(DOCDIR)/tex
-	
+
 tex:	$(HEADERS) $(DOCDIR)/tex
 	doc++ -t -o $(DOCDIR)/tex/$(TARGET).tex $(HEADERS)
 
@@ -1199,7 +1199,7 @@ ps: tex
 
 $(DOCDIR)/html: doc
 	mkdir -p $(DOCDIR)/html
-	
+
 html: $(HEADERS) $(DOCDIR)/html
 	doc++ -p -u -H -d $(DOCDIR)/html -b $(HEADERS)
 

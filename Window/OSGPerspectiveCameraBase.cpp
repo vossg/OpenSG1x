@@ -98,14 +98,14 @@ const OSG::BitVector	PerspectiveCameraBase::FovFieldMask =
 
 
 
-char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.8 2001/07/09 14:44:54 vossg Exp $";
+char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.9 2001/07/18 01:39:40 vossg Exp $";
 
 /** \brief Group field description
  */
 
-FieldDescription PerspectiveCameraBase::_desc[] = 
+FieldDescription *PerspectiveCameraBase::_desc[] = 
 {
-    FieldDescription(SFReal32::getClassType(), 
+    new FieldDescription(SFReal32::getClassType(), 
                      "fov", 
                      FovFieldId, FovFieldMask,
                      false,

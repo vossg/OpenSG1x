@@ -275,9 +275,9 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public FieldContainer
 
     static char cvsid[];
 
-    static FieldDescription   _desc[];
+    static FieldDescription   *_desc[];
 
-    static FieldContainerType _type;
+    static FieldContainerType  _type;
 
 
     //-----------------------------------------------------------------------

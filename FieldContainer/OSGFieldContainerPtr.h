@@ -132,6 +132,9 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     friend OSG_SYSTEMLIB_DLLMAPPING
     void clearRefCP (      FieldContainerPtrBase &objectP);
 
+    friend OSG_SYSTEMLIB_DLLMAPPING
+    class FieldContainerType;
+
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
@@ -231,6 +234,9 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 
     void addRef(void) const;
     void subRef(void) const;
+
+    void subRefUnlocked(void) const;
+    void subRefUntraced(void) const;
 
     /*----------------------------- Edit -----------------------------------*/
 

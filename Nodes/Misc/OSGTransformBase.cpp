@@ -98,14 +98,14 @@ const OSG::BitVector	TransformBase::MatrixFieldMask =
 
 
 
-char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.7 2001/07/09 14:44:54 vossg Exp $";
+char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.8 2001/07/18 01:39:39 vossg Exp $";
 
 /** \brief Group field description
  */
 
-FieldDescription TransformBase::_desc[] = 
+FieldDescription *TransformBase::_desc[] = 
 {
-    FieldDescription(SFMatrix::getClassType(), 
+    new FieldDescription(SFMatrix::getClassType(), 
                      "matrix", 
                      MatrixFieldId, MatrixFieldMask,
                      false,

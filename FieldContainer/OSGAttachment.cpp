@@ -63,6 +63,7 @@ OSG_FC_DLLEXPORT_DEF      (SimpleAttachment,
                            OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
+
 OSG_END_NAMESPACE
 
 /** \fn const char *Attachment::getClassname(void)
@@ -98,9 +99,9 @@ char Attachment::cvsid[] = "@(#)$Id: $";
 /** \brief Attachment field description
  */
 
-FieldDescription Attachment::_desc[] = 
+FieldDescription *Attachment::_desc[] = 
 {
-	FieldDescription(
+	new FieldDescription(
         MFNodePtr::getClassType(), 
         "parents", 
         OSG_FC_FIELD_IDM_DESC(ParentsField),

@@ -466,6 +466,15 @@ OSG_BASE_DLLMAPPING void osgsleep(UInt32 millisecs);
 
 /*@{*/
 
+enum SystemState
+{
+    Startup  = 0x01,
+    Running  = 0x02,
+    Shutdown = 0x03
+};
+
+extern SystemState GlobalSystemState;
+
 /*! \var Bool (*InitFuncF)(int argc, char **argv);
  *  \brief InitFuncF
  *  \ingroup BaseFunctions

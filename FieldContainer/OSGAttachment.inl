@@ -132,9 +132,9 @@ const  SimpleAttachment<AttachmentDescT>::PtrType
  */
 
 template <class AttachmentDescT>
-FieldDescription SimpleAttachment<AttachmentDescT>::_desc[] = 
+FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] = 
 {
-	FieldDescription(
+	new FieldDescription(
         StoredFieldType::getClassType(), 
         AttachmentDescT::getFieldName(), 
         OSG_FC_FIELD_IDM_DESC(SimpleField),
@@ -169,7 +169,7 @@ FieldContainerType SimpleAttachment<AttachmentDescT>::_type(
                                               AttachmentDescT>::createEmpty,
     AttachmentDescT::getInitMethod(),
     _desc,
-    sizeof(FieldDescription));
+    sizeof(FieldDescription *));
 #endif
 
 
