@@ -18,7 +18,7 @@ int main (int argc, char **argv)
     OSG::UChar8 *data = 0;
     unsigned long i,maxSize;
 
-    OSG::ImageFileHandler::the().print();
+    OSG::ImageFileHandler::the().dump();
 
     if(argc >= 3 && !OSG::stringcasecmp(argv[1], "-type"))
     {

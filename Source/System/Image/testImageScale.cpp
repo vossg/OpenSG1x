@@ -22,7 +22,7 @@ int main (int argc, char **argv)
     Image *pImage = new Image;
     unsigned w,h,d;
 
-    OSG::ImageFileHandler::the().print();
+    OSG::ImageFileHandler::the().dump();
 
     if (argc > 2)
     {

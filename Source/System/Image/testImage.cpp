@@ -23,7 +23,7 @@ int main (int argc, char **argv)
     char defaultOutImage[] = "out.pnm";
     Image *pImage;
 
-    OSG::ImageFileHandler::the().print();
+    OSG::ImageFileHandler::the().dump();
 
     if (argc > 1)
     {
