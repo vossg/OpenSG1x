@@ -2595,7 +2595,7 @@ else
         ;;
 
        hpux*)
-		ac_gdz_compiler_exe_shared='$(CC) -b -AA +ESnolit +inst_auto -Wf,-o'
+		ac_gdz_compiler_exe_shared='$(CC) +DA2.0N -b -AA +ESnolit +inst_auto -Wf,-o'
         ac_gdz_system_incl_dir_e1=/opt/aCC/include_std
         ;;
 
@@ -2632,7 +2632,7 @@ else
 
     case $build_os in
         hpux*)
-            ac_gdz_compiler_exe_exe='$(CC) -AA +ESnolit +inst_auto -Wf,-o'
+            ac_gdz_compiler_exe_exe='$(CC) +DA2.0N -AA +ESnolit +inst_auto -Wf,-o'
         ;;
         *)
             ac_gdz_compiler_exe_exe='$(CC)'

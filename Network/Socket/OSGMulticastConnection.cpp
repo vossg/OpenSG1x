@@ -53,9 +53,6 @@
 #include "OSGMulticastConnection.h"
 #include "OSGStreamSocket.h"
 
-using std::vector;
-using std::set;
-
 OSG_USING_NAMESPACE
 
 #ifdef __sgi

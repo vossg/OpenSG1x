@@ -163,7 +163,7 @@ class MField : public Field
     
     void            push_back(ArgumentType value);
     
-    void            resize   (size_t newsize);
+    void            resize   (size_t newsize, FieldTypeT t = FieldTypeT());
     void            reserve  (size_t newsize);
     
     UInt32          size     (void          ) const;

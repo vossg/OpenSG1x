@@ -208,7 +208,7 @@ string Socket::getErrorStr()
 string Socket::getHostErrorStr()
 {
     const char *err;
-#ifdef WIN32
+#if defined(WIN32) || defined(__hpux)
     err = strerror(getHostError());
 #else
     err = hstrerror(getHostError());

@@ -145,6 +145,18 @@
 #define GL_TEXTURE_WRAP_R_EXT             0x8072
 #define GL_MAX_3D_TEXTURE_SIZE            0x8073
 #define GL_MAX_3D_TEXTURE_SIZE_EXT        0x8073
+#else
+#if defined(GL_EXT_texture3D) && ! defined(GL_TEXTURE_3D)
+#define GL_PACK_SKIP_IMAGES               0x806B
+#define GL_PACK_IMAGE_HEIGHT              0x806C
+#define GL_UNPACK_SKIP_IMAGES             0x806D
+#define GL_UNPACK_IMAGE_HEIGHT            0x806E
+#define GL_PROXY_TEXTURE_3D               0x8070
+#define GL_TEXTURE_3D                     0x806F
+#define GL_TEXTURE_DEPTH                  0x8071
+#define GL_TEXTURE_WRAP_R                 0x8072
+#define GL_MAX_3D_TEXTURE_SIZE            0x8073
+#endif
 #endif
 
 // Register Combiners
@@ -203,6 +215,6 @@
 #define GL_COMBINER7_NV                   0x8557
 #endif
 
-#define OSGGLEXT_HEADER_CVSID "@(#)$Id: OSGGLEXT.h,v 1.1 2002/06/10 21:42:34 dirk Exp $"
+#define OSGGLEXT_HEADER_CVSID "@(#)$Id: OSGGLEXT.h,v 1.2 2002/06/13 07:35:13 vossg Exp $"
 
 #endif /* _OSGGL_H_ */

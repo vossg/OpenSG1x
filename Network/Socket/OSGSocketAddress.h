@@ -66,11 +66,11 @@ class OSG_BASE_DLLMAPPING SocketAddress {
     enum Type { ANY,BROADCAST,MULTICAST };
 
 #if   defined(WIN32)
-    typedef        char       SocketAddrT;
-#elif defined(darwin)
-    typedef        const char SocketAddrT;
+    typedef          char       SocketAddrT;
+#elif defined(darwin) || defined(__hpux)
+    typedef          const char SocketAddrT;
 #else
-    typedef struct socketaddr SocketAddrT;
+    typedef struct ::socketaddr SocketAddrT;
 #endif
 
     static const char *getClassname(void) { return "Address"; }

@@ -356,9 +356,9 @@ void MField<FieldTypeT, fieldNameSpace>::push_back(ArgumentType value)
 */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-void MField<FieldTypeT, fieldNameSpace>::resize(size_t newsize)
+void MField<FieldTypeT, fieldNameSpace>::resize(size_t newsize, FieldTypeT t)
 {
-    _values.resize(newsize);
+    _values.resize(newsize, t);
 }
 
 /*! \brief allocates memory for the given number of elements. 
@@ -523,11 +523,18 @@ void MField<FieldTypeT, fieldNameSpace>::copyFromBin(BinaryDataHandler &pMem)
 
      pMem  .get   (&n, sizeof(UInt32));
     _values.clear ( );
-    _values.resize(n);
 
-    MFieldTraits::copyFromBin(   pMem, 
+#ifdef __hpux
+    FieldTypeT tmpVal;
+
+    _values.resize(n, tmpVal);
+#else
+    _values.resize(n);
+#endif
+
+    MFieldTraits::copyFromBin(pMem, 
                               &(_values[0]),
-                                 n);
+                              n);
 }
 
 /*-------------------------------------------------------------------------*/

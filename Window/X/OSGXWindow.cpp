@@ -173,7 +173,15 @@ void (*XWindow::getFunctionByName( const Char8 *s ))(void)
     void *func = dlsym( libHandle, s );
     return (void (*)(void))func;         
 #elif defined(__hpux)
-    return NULL;
+    static void *libHandle = NULL;
+
+    if(libHandle == NULL)
+    {
+        // HACK, but we link against libGL anyway
+        libHandle = dlopen(NULL, RTLD_GLOBAL);
+    }
+
+    return (void (*)(void)) dlsym(libHandle, s);
 #else
 #if GLX_ARB_get_proc_address
     return glXGetProcAddressARB((const GLubyte *) s);

@@ -116,6 +116,9 @@
 #    define OSG_SGI_STL
 
 #    define OSG_THROW_NOTHING() throw()
+
+namespace __gnu_cxx {} using namespace __gnu_cxx;
+
 # else
 #     define OSG_THROW_NOTHING() 
 # endif
@@ -367,6 +370,8 @@
 
 # define OSG_USE_PTHREADS
 
+# define OSG_DLSYM_NEEDS_UNDERSCORE
+
 # endif // if defined(darwin)
 
 /*-------------------------------------------------------------------------*/
@@ -541,6 +546,12 @@ OSG_USING_STD_NAMESPACE
 
 #endif /*  */
 
+
+#if defined(OSG_DLSYM_NEEDS_UNDERSCORE)
+#define OSG_DLSYM_UNDERSCORE "_"
+#else
+#define OSG_DLSYM_UNDERSCORE
+#endif
 
 #if defined (OSG_USE_PTHREADS)
 

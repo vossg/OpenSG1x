@@ -145,7 +145,7 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
         CLOSED
     };
 
-    typedef std::vector<std::vector<UInt8> > UDPBuffersT;
+    typedef vector<vector<UInt8> > UDPBuffersT;
     struct UDPHeader
     {
         UInt32 seqNumber;
@@ -186,8 +186,8 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    std::vector<SocketAddress>        _channelAddress;
-    std::vector<UInt32>               _channelSeqNumber;
+    vector<SocketAddress>             _channelAddress;
+    vector<UInt32>                    _channelSeqNumber;
     UInt32                            _channel;
     UInt32                            _seqNumber;
     UDPBuffersT                       _udpReadBuffers;

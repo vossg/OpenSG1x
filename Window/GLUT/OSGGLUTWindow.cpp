@@ -53,7 +53,7 @@
 
 #include <OSGGLUT.h>
 
-#if defined(__sgi) || defined(darwin)
+#if defined(__sgi) || defined(darwin) || defined(__hpux)
 #include <dlfcn.h>
 #endif
 
@@ -154,6 +154,15 @@ void (*GLUTWindow::getFunctionByName(const Char8 *s))(void)
 #elif defined( WIN32 )
     return (void (*)(void)) wglGetProcAddress(s);
 #elif defined(__hpux)
+    static void *libHandle = NULL;
+
+    if(libHandle == NULL)
+    {
+        // HACK, but we link against libGL anyway
+        libHandle = dlopen(NULL, RTLD_GLOBAL);
+    }
+
+    return (void (*)(void)) dlsym(libHandle, s);
 #elif defined(darwin)
     static void *libHandle = NULL;
 

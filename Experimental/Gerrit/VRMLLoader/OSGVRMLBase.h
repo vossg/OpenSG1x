@@ -158,7 +158,7 @@ template <class T> inline
 void endEdit(T &oT, const BitVector whichField)
 {
     endEditNoChanged<T>(oT, whichField);
-    oT.changed(whichField, FieldContainer::External);
+    oT.changed(whichField, ChangedOrigin::External);
 }
 #endif
 
@@ -167,7 +167,7 @@ void endEdit(T *pT, const BitVector whichField)
 {
     endEditNoChanged<T>(pT, whichField);
 //CHECKCHECK
-//    pT->changed(whichField, FieldContainer::External);
+//    pT->changed(whichField, ChangedOrigin::External);
 }
 
 OSG_END_NAMESPACE
