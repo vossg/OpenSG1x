@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.40 2002/02/16 03:48:41 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.41 2002/02/28 07:56:08 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -397,11 +397,11 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
     endEditCP( geo );
 
     // Do the normals have their own index?
-    MFUInt16      &im   = geo->getIndexMapping();
-    Int16          ni   = geo->calcMappingIndex( Geometry::MapNormal );
-    GeoIndicesPtr  ip   = geo->getIndices();
-    UInt32         nind = ip->getSize() / (im.getSize() ? im.getSize() : 1);
-
+    MFUInt16      &im     = geo->getIndexMapping();
+    Int16          ni     = geo->calcMappingIndex( Geometry::MapNormal );
+    GeoIndicesPtr  ip     = geo->getIndices();
+    UInt32         nind   = ip->getSize() / (im.getSize() ? im.getSize() : 1);
+    int            imsize = 0;
     if(ni < 0 || im.getValue(ni) != Geometry::MapNormal)
     {
         // normals need their own index
@@ -426,13 +426,14 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
         im.addValue( Geometry::MapNormal );
         
         // add an entry to the indices for the normals
-        const int imsize = im.getSize();
+		imsize = im.getSize();
         
         beginEditCP(ip);
         ip->resize(nind * imsize);
+
         for(UInt32 i = nind - 1; i > 0; --i)
         {
-            for(UInt16 j = 0; j < imsize - 1; ++j )
+            for(Int16 j = imsize - 2; j >= 0; --j)
             {
                 UInt32 val;
                 ip->getValue( val, i * (imsize - 1) + j );
@@ -445,7 +446,7 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
     }
     else // set the normal indices
     {
-        const int imsize = im.getSize();
+        imsize = im.getSize();
         beginEditCP(ip);
         for(UInt32 i = 0; i < nind; ++i)
         {
