@@ -22,6 +22,7 @@ using namespace OSG;
 int main (int argc, char **argv) {
 
  	Real32 ent, ex;
+	int i;
 
 	//Lines:
 
@@ -41,7 +42,7 @@ int main (int argc, char **argv) {
 					    Pnt3f(-4,6,0), Pnt3f(0,6,0)
 						};
 
-	for ( int i = 0; i < nlines; i++ )
+	for ( i = 0; i < nlines; i++ )
 		lines[i].setValue( pnts[i*2], pnts[i*2+1] );
 
 
@@ -62,7 +63,7 @@ int main (int argc, char **argv) {
 	b.dump();
 	cout << endl;
 
-	for ( int i = 0 ; i < nlines; i++ )
+	for ( i = 0 ; i < nlines; i++ )
 	{
 		cout << "Line: (" << lines[i].getPosition() << ") (" 
 			 << lines[i].getDirection() << ")" << endl;
@@ -112,7 +113,7 @@ int main (int argc, char **argv) {
 	cout << endl;
 
 
-	for ( int i = 0 ; i < nlines; i++ )
+	for ( i = 0 ; i < nlines; i++ )
 	{
 		cout << "Line: (" << lines[i].getPosition() << ") (" 
 			 << lines[i].getDirection() << ")" << endl;
@@ -172,7 +173,7 @@ int main (int argc, char **argv) {
 	cout << endl;
 
 
-	for ( int i = 0 ; i < nlines; i++ )
+	for ( i = 0 ; i < nlines; i++ )
 	{
 		cout << "Line: (" << lines[i].getPosition() << ") (" 
 			 << lines[i].getDirection() << ")" << endl;
