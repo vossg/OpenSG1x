@@ -378,7 +378,7 @@ int main (int argc, char **argv)
                                 1./nhviewports * (i+1),1./nvviewports * (j+1) );
 
             deco[ind] = TileCameraDecorator::create();
-            deco[ind]->setCamera( cam );
+            deco[ind]->setDecoratee( cam );
             deco[ind]->setSize( 1./nhviewports * i,1./nvviewports * j, 
                                 1./nhviewports * (i+1),1./nvviewports * (j+1) );
 

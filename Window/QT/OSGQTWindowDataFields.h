@@ -46,6 +46,8 @@
 
 #include <OSGConfig.h>
 
+#include <OSGWindowQTDef.h>
+
 #include <OSGBaseTypes.h>
 #include <OSGFieldDataType.h>
 
@@ -58,7 +60,7 @@ OSG_BEGIN_NAMESPACE
 
 
 template <>
-struct FieldDataTraits<OSGQGLWidgetP> : 
+struct OSG_WINDOWQTLIB_DLLMAPPING FieldDataTraits<OSGQGLWidgetP> : 
     public FieldTraitsRecurseBase<OSGQGLWidgetP>
 {
     static DataType             _type;                       
@@ -106,6 +108,6 @@ OSG_DLLEXPORT_DECL1(MField, OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGQTWINDOWDATAFIELDS_HEADER_CVSID "@(#)$Id: OSGQTWindowDataFields.h,v 1.1 2002/02/05 20:39:34 dirk Exp $"
+#define OSGQTWINDOWDATAFIELDS_HEADER_CVSID "@(#)$Id: OSGQTWindowDataFields.h,v 1.2 2002/02/17 18:43:14 dirk Exp $"
 
 #endif /* _OSGQTWINDOWDATAFIELDS_H_ */

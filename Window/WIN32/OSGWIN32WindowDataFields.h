@@ -62,7 +62,8 @@
 OSG_BEGIN_NAMESPACE
 
 template <>
-struct FieldDataTraits<HWND> : public FieldTraitsRecurseBase<HWND>
+struct OSG_WINDOWWIN32LIB_DLLMAPPING FieldDataTraits<HWND> : 
+    public FieldTraitsRecurseBase<HWND>
 {
     static DataType             _type;                       
 
@@ -82,7 +83,8 @@ struct FieldDataTraits<HWND> : public FieldTraitsRecurseBase<HWND>
 };
 
 template <>
-struct FieldDataTraits<HDC> : public FieldTraitsRecurseBase<HDC>
+struct OSG_WINDOWWIN32LIB_DLLMAPPING FieldDataTraits<HDC> : 
+    public FieldTraitsRecurseBase<HDC>
 {
     static DataType             _type;                       
 
@@ -102,7 +104,8 @@ struct FieldDataTraits<HDC> : public FieldTraitsRecurseBase<HDC>
 };
 
 template <>
-struct FieldDataTraits<HGLRC> : public FieldTraitsRecurseBase<HGLRC>
+struct OSG_WINDOWWIN32LIB_DLLMAPPING FieldDataTraits<HGLRC> : 
+    public FieldTraitsRecurseBase<HGLRC>
 {
     static DataType             _type;                       
 
@@ -122,7 +125,8 @@ struct FieldDataTraits<HGLRC> : public FieldTraitsRecurseBase<HGLRC>
 };
 
 template <>
-struct FieldDataTraits<PAINTSTRUCT> : public FieldTraitsRecurseBase<PAINTSTRUCT>
+struct OSG_WINDOWWIN32LIB_DLLMAPPING FieldDataTraits<PAINTSTRUCT> : 
+    public FieldTraitsRecurseBase<PAINTSTRUCT>
 {
     static DataType             _type;                       
 
@@ -199,7 +203,7 @@ OSG_DLLEXPORT_DECL1(MField, PAINTSTRUCT, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWWIN32DATAFIELDS_HEADER_CVSID "@(#)$Id: OSGWIN32WindowDataFields.h,v 1.3 2002/02/07 08:51:14 dirk Exp $"
+#define OSGWINDOWWIN32DATAFIELDS_HEADER_CVSID "@(#)$Id: OSGWIN32WindowDataFields.h,v 1.4 2002/02/17 18:43:14 dirk Exp $"
 
 #endif /* WIN32 */
 

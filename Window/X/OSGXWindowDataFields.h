@@ -48,6 +48,8 @@
 
 #include <GL/glx.h>
 
+#include <OSGWindowXDef.h>
+
 #include <OSGBaseTypes.h>
 #include <OSGFieldDataType.h>
 
@@ -62,7 +64,8 @@ typedef ::Window X11Window;
 
 
 template <>
-struct FieldDataTraits<DisplayP> : public FieldTraitsRecurseBase<DisplayP>
+struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<DisplayP> : 
+    public FieldTraitsRecurseBase<DisplayP>
 {
     static DataType             _type;                       
 
@@ -82,7 +85,8 @@ struct FieldDataTraits<DisplayP> : public FieldTraitsRecurseBase<DisplayP>
 };
 
 template <>
-struct FieldDataTraits<X11Window> : public FieldTraitsRecurseBase<X11Window>
+struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<X11Window> : 
+    public FieldTraitsRecurseBase<X11Window>
 {
     static DataType             _type;                       
 
@@ -102,7 +106,8 @@ struct FieldDataTraits<X11Window> : public FieldTraitsRecurseBase<X11Window>
 };
 
 template <>
-struct FieldDataTraits<GLXContext> : public FieldTraitsRecurseBase<GLXContext>
+struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<GLXContext> : 
+    public FieldTraitsRecurseBase<GLXContext>
 {
     static DataType             _type;                       
 
@@ -179,6 +184,6 @@ OSG_DLLEXPORT_DECL1(MField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowDataFields.h,v 1.2 2002/02/05 20:39:35 dirk Exp $"
+#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowDataFields.h,v 1.3 2002/02/17 18:43:15 dirk Exp $"
 
 #endif /* _OSGXWINDOWDATAFIELDS_H_ */
