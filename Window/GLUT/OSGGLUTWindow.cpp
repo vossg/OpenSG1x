@@ -51,7 +51,7 @@
 
 #include "OSGGLUTWindow.h"
 
-#include <OSGGlut.h>
+#include <OSGGLUT.h>
 
 #ifdef sgi
 #include <dlfcn.h>
