@@ -79,7 +79,7 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
     static bool      getFromString(      Matrix   &outVal,
                                    const Char8   *&inVal)
     {
-        outVal.setValue(inVal);
+        outVal.setValue(inVal, false);
         return true;
     }
 
