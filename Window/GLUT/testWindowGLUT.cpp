@@ -34,7 +34,7 @@
 #include "OSGGLUTWindow.h"
 #include "OSGCamera.h"
 #include "OSGPerspectiveCamera.h"
-#include "OSGBackground.h"
+#include "OSGSolidBackground.h"
 //#include "OSGUniformBackground.h"
 
 #if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
@@ -269,8 +269,8 @@ int main (int argc, char **argv)
 	endEditCP(dlight);
 	
 	beginEditCP(dl);
-	dl->setAmbientColor( .3, .3, .3, 1 );
-	dl->setDiffuseColor( 1, 1, 1, 1 );
+	dl->setAmbient( .3, .3, .3, 1 );
+	dl->setDiffuse( 1, 1, 1, 1 );
 	dl->setDirection(0,0,1);
 	dl->setBeacon( b1n);
 	endEditCP(dl);
@@ -315,12 +315,12 @@ int main (int argc, char **argv)
 	
 	cam = PerspectiveCamera::create();
 	cam->setBeacon( b1n );
-	cam->setDegrees( 90 );
+	cam->setFov( 90 );
 	cam->setNear( 0.1 );
 	cam->setFar( 10000 );
 
 	// Background
-	BackgroundPtr bkgnd = Background::create();
+	SolidBackgroundPtr bkgnd = SolidBackground::create();
 
 	// Viewport
 

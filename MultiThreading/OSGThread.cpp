@@ -853,12 +853,12 @@ void Thread::initThreading(void)
     rc = pthread_key_create(&(Thread::_aspectKey), 
                               Thread::freeAspect);
 
-    FFASSERT((rc != 0), 1, ("Failed to create pthread aspect key\n");)
+    FFASSERT((rc == 0), 1, ("Failed to create pthread aspect key\n");)
 
     rc = pthread_key_create(&(Thread::_changeListKey), 
                               Thread::freeChangeList);
 
-    FFASSERT((rc != 0), 1, ("Failed to create pthread changelist key\n");)
+    FFASSERT((rc == 0), 1, ("Failed to create pthread changelist key\n");)
 #endif
 
 #ifdef OSG_ASPECT_USE_PTHREADSELF

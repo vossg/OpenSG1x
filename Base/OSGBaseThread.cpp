@@ -932,7 +932,7 @@ void BaseThread::initThreading(void)
     rc = pthread_key_create(&(BaseThread::_threadKey), 
                               BaseThread::freeThread);
 
-    FFASSERT((rc != 0), 1, ("Failed to create pthread thread key\n");)
+    FFASSERT((rc == 0), 1, ("Failed to create pthread thread key\n");)
 #endif
 
 #ifdef OSG_ASPECT_USE_PTHREADSELF

@@ -87,7 +87,7 @@ The material base class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.7 2001/04/15 01:57:09 dirk Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.8 2001/04/18 11:42:21 vossg Exp $";
 
 OSG_MATERIAL_DLLMAPPING MaterialPtr OSG::NullMaterial;
 
@@ -169,10 +169,10 @@ void Material::changed(BitVector, ChangeMode)
 /** \brief output the instance for debug purposes
  */
 
-void Material::dump(      UInt32     uiIndent, 
-                         const BitVector &bvFlags) const
+void Material::dump(      UInt32     , 
+                    const BitVector &) const
 {
-   Inherited::dump(uiIndent, bvFlags);
+//   Inherited::dump(uiIndent, bvFlags);
 }
 
 /*-------------------------- comparison -----------------------------------*/

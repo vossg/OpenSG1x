@@ -48,6 +48,7 @@
 #include "OSGConfig.h"
 
 #include <iostream>
+#include <string>
 
 #include "OSGFieldContainerFactory.h"
 #include "OSGString.h"

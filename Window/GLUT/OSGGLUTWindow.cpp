@@ -67,6 +67,8 @@
 #include "OSGBackground.h"
 #include "OSGGLUTWindow.h"
 
+#include <GL/glx.h>
+
 OSG_USING_NAMESPACE
 
 

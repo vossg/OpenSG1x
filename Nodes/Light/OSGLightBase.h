@@ -72,6 +72,14 @@ OSG_BEGIN_NAMESPACE
 
 class OSG_LIGHT_DLLMAPPING LightBase : public LightBaseBase
 {
+  private:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef LightBaseBase Inherited;
+
   public:
 
     //-----------------------------------------------------------------------

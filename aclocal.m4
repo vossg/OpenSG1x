@@ -543,6 +543,11 @@ dnl        ac_gdz_package_testlink_dep_out_files=$ac_gdz_package_link_dep_out_fi
                 ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGDllInit.cpp
                 ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
                 ac_gdz_package_so_needs_init_e2=1
+            elif [[ $build_os = linux-gnu ]]; then
+                ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
+                ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
+                ac_gdz_common_init_code_files_e2="$ac_gdz_common_init_code_e2:$ac_gdz_common_init_code_in_e2"
+                ac_gdz_package_so_needs_init_e2=0
             else
                 ac_gdz_common_init_code_in_e2=${ac_gdz_commonconf_dir}/OSGSoInit.cpp.in
                 ac_gdz_common_init_code_e2=${ac_gdz_package_dir}/OSGSoInit.cpp
