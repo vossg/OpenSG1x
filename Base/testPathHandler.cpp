@@ -6,16 +6,59 @@ OSG_USING_NAMESPACE
 
 int main( int argc, char** argv )
 {
-  PathHandler ph;
-	   	
-  ph.addPath( "" );
-  ph.setBaseFile( "" );
+    PathHandler ph;
+
+    ph.push_backPath("a/b:b/c/d/:c/d/e/f:/d/f/g/h/i/");
+    ph.push_backPath("e");
+    ph.push_backPath("");
+
+//    ph.addPath("/x:/x/y/z/");
+
+//    ph.addPath("%FOO%/a;%BAR%/a/b/c");
+//    ph.addPath("%FOO%%BAR%");
+//    ph.addPath("%FOO%");
+//    ph.addPath("%FOO%;/o/p/q");
+
+//    ph.push_frontPath ("wa\\wb;wc\\wd\\we\\;\\wx\\wy\\wz");
+
+
+//    ph.addPath("%FOO%/wa;%BAR%/wa/wb/wc");
+
+//  ph.addPath ("a\\b;c\\d\\e\\;E:\\x\\y\\z");
+
+//  ph.addUnixPath();
+
+  ph.dump();
+/*
+  ph.setBaseFile("../foo/test.ppm");
+  ph.dump();
+
+  ph.setBaseFile("../foo/");
+  ph.dump();
+
+  ph.setBaseFile("../foo");
+  ph.dump();
+
+  ph.setBaseFile("..\\foo\\test.ppm");
+  ph.dump();
+
+  ph.setBaseFile("..\\foo\\");
+  ph.dump();
+
+  ph.setBaseFile("..\\foo");
+  ph.dump();
+
+  ph.setBaseFile("test.ppm");
+  ph.dump();
+*/
   
   SLOG << "Looking for OSGPathHandler.h: "
        << ph.findFile( "~/OSGPathHandler.h" ) << endl;
+
   SLOG << "Looking for testCalcFaceNormals.cpp: "
        << ph.findFile( "testCalcFaceNormals.cpp" ) << endl;
-  ph.subPath( "~/Develop/OpenSG/Base" );
+
+//  ph.subPath( "~/Develop/OpenSG/Base" );
   
  
   return 0;

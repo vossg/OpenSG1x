@@ -1,0 +1,282 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "OSGConfig.h"
+
+#include <iostream>
+
+#include <OSGBaseFunctions.h>
+
+OSG_BEGIN_NAMESPACE
+
+
+#if defined(__sgi)
+
+const UInt32 OSGDIRFLAG   = IFDIR;
+const UInt32 OSGREADFLAG  = IREAD;
+const UInt32 OSGWRITEFLAG = IWRITE;
+
+#elif defined(__linux)
+
+const UInt32 OSGDIRFLAG   = S_IFDIR;
+const UInt32 OSGREADFLAG  = S_IRUSR;
+const UInt32 OSGWRITEFLAG = S_IWUSR;
+
+#elif defined(WIN32)
+
+const UInt32 OSGDIRFLAG   = _S_IFDIR;
+const UInt32 OSGREADFLAG  = _S_IREAD;
+const UInt32 OSGWRITEFLAG = _S_IWRITE;
+
+#else
+#error "Could not find your system, check your system/compiler combination"
+#endif
+
+inline
+Bool File::tstAttr(const Char8  *szFilename,
+                         UInt32  uiAccessFlags)
+{
+    Bool  returnValue = false;
+    Int32 rc          = 0;
+
+    struct stat statBuffer;
+
+    if(szFilename != NULL)
+    {
+#ifndef WIN32
+        rc = stat(szFilename, &statBuffer);
+#else
+        rc = _stat(szFilename, &statBuffer);
+#endif
+        if(rc == 0 && ! (statBuffer.st_mode & OSGDIRFLAG))
+        {
+            if(uiAccessFlags & AccessFlags::IsReadable)
+            {
+                if(statBuffer.st_mode & OSGREADFLAG)
+                {
+                    returnValue = true;
+                }
+            }
+
+            if(uiAccessFlags & AccessFlags::IsWriteable) 
+            {
+                if(statBuffer.st_mode & OSGWRITEFLAG)
+                {
+                    returnValue = true;
+                }
+            }
+        }        
+    }
+
+    return returnValue;
+}
+
+
+inline
+Bool Directory::tstAttr(const Char8  *szFilename,
+                              UInt32  uiAccessFlags)
+{
+    Bool  returnValue = false;
+    Int32 rc          = 0;
+
+    struct stat statBuffer;
+
+    if(szFilename != NULL)
+    {
+#ifndef WIN32
+        rc = stat(szFilename, &statBuffer);
+#else
+        rc = _stat(szFilename, &statBuffer);
+#endif
+
+        if(rc == 0 && (statBuffer.st_mode & OSGDIRFLAG))
+        {
+            if(uiAccessFlags & AccessFlags::IsReadable)
+            {
+                if(statBuffer.st_mode & OSGREADFLAG)
+                {
+                    returnValue = true;
+                }
+                else
+                {
+                    returnValue = false;
+                }
+            }
+
+            if(uiAccessFlags & AccessFlags::IsWriteable) 
+            {
+                if(statBuffer.st_mode & OSGWRITEFLAG)
+                {
+                    returnValue = true;
+                }
+                else
+                {
+                    returnValue = false;
+                }
+            }
+        }        
+    }
+
+    return returnValue;
+}
+
+inline
+Char8 *Directory::getCurrent(void)
+{
+    UInt32 uiCurrentNameSize = 256;
+
+    Char8 *returnValue = new Char8[uiCurrentNameSize];
+    Char8 *szTmpBuf;
+
+    while(1)
+    {
+#ifndef WIN32
+        szTmpBuf = getcwd(returnValue, uiCurrentNameSize);
+#else
+        szTmpBuf = _getcwd(returnValue, uiCurrentNameSize);
+#endif
+        if(szTmpBuf != NULL)
+            break;
+        
+        uiCurrentNameSize *= 2;
+        delete [] returnValue;
+
+        returnValue = new Char8[uiCurrentNameSize];
+    }
+
+    return returnValue;
+}
+
+inline
+Bool Directory::setCurrent(const Char8 *szDirname)
+{
+    Bool returnValue = false;
+
+    if(szDirname != NULL)
+    {
+#ifndef _WIN32_TARGET_
+        if(chdir(szDirname) == 0)
+            returnValue = true;
+#else
+        if(_chdir(szDirname) == 0)
+            returnValue = true;
+#endif
+    }
+
+    return returnValue;
+}
+
+inline
+vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
+{
+    vector<Char8 *> *returnValue = NULL;
+
+    if(szDirname != NULL)
+    {
+        if(tstAttr(szDirname, AccessFlags::IsReadable) == true)
+        {
+#ifndef WIN32
+            DIR    *pDir        = opendir(szDirname);
+            dirent *pDirEntry   = NULL;
+            Char8  *szEntryName = NULL;
+            
+            if(pDir != NULL)
+            {
+                returnValue = new vector<Char8 *>;
+                
+                do
+                {
+                    pDirEntry = readdir(pDir);
+                    
+                    if(pDirEntry != NULL)
+                    {
+                        stringDup(pDirEntry->d_name, szEntryName);
+                        
+                        returnValue->push_back(szEntryName);
+                        szEntryName = NULL;
+                    }
+                }
+                while(pDirEntry != NULL);
+                
+                closedir(pDir);
+            }
+#else
+            Char8           *szTmpDirname = NULL;
+			
+            Bool             bVal;
+            WIN32_FIND_DATA  pDirEntry;
+            HANDLE           pDir; 
+            Char8           *szEntryName = NULL;
+
+            szTmpDirname = new Char8[strlen(szDirname) + 5];
+
+            sprintf(szTmpDirname, "%s\\*", szDirname);
+
+            pDir = FindFirstFile(szTmpDirname, &pDirEntry);
+            
+            if(pDir != INVALID_HANDLE_VALUE)
+            {
+                returnValue = new vector<Char8 *>;
+                
+                do
+                {                    
+                    stringDup(pDirEntry.cFileName, szEntryName);
+                    
+                    returnValue->push_back(szEntryName);
+                    szEntryName = NULL;
+                    
+                    bVal = FindNextFile(pDir, &pDirEntry);
+                }
+                while(bVal == true);
+                
+                FindClose(pDir);
+            }
+
+            delete szTmpDirname;
+#endif
+        }
+    }
+
+    return returnValue;
+}
+
+OSG_END_NAMESPACE
+
