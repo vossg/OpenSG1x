@@ -169,7 +169,6 @@ void QTWindow::init( void )
         setHDC    ( GetDC(_glWidget->winId()) );
         
         Inherited::init();
-        setGLContext( wglCreateContext( getHDC() ) );
     }
 #else
     XVisualInfo *vi;

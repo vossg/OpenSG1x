@@ -111,7 +111,7 @@ class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLWidget : public QGLWidget
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    OSGQGLWidget( QWidget *parent=0, const char *name=0, 
+    OSGQGLWidget( QWidget *parent, const char *name=0, 
 					const QGLWidget * shareWidget=0, WFlags f=0 );
 					
     OSGQGLWidget( const QGLFormat & format= QGLFormat( DirectRendering | 
@@ -131,8 +131,8 @@ class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLWidget : public QGLWidget
     /*------------------------- your_category -------------------------------*/
 	
 	// the main point of these is to prevent QT from interfering with OpenGL 
-	virtual void makeCurrent( void ) {};
-	virtual void swapBuffers( void ) {};
+	virtual void makeCurrent( void );
+	virtual void swapBuffers( void );
 	
     /*------------------------- your_operators ------------------------------*/
 
@@ -168,11 +168,11 @@ class OSG_QTWINDOWLIB_DLLMAPPING OSGQGLWidget : public QGLWidget
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	virtual void initializeGL( void ) {};
-	virtual void paintGL( void ) {};
-	virtual void resizeGL( int w, int h ) {};
+	virtual void initializeGL( void );
+	virtual void paintGL( void );
+	virtual void resizeGL( int w, int h );
 
-	//private:
+	private:
 
     //-----------------------------------------------------------------------
     //   enums                                                               

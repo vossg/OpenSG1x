@@ -137,6 +137,26 @@ OSGQGLWidget::~OSGQGLWidget( void )
 
 /*------------------------------ access -----------------------------------*/
 
+void OSGQGLWidget::initializeGL( void ) 
+{
+}
+
+void OSGQGLWidget::paintGL(void) 
+{
+}
+
+void OSGQGLWidget::resizeGL(int, int) 
+{
+}
+
+void OSGQGLWidget::makeCurrent(void)
+{
+}
+
+void OSGQGLWidget::swapBuffers(void)
+{
+}
+
 /*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/
