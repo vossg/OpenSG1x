@@ -151,7 +151,7 @@ class ActorCodeWriter
     };
 
     bool writeTemplate(std::ostream  &outStream, ActorDesc *pActorDesc,
-                       char         **pTemplate                        );
+                       const char    **pTemplate                        );
 
     bool        getCondition  (const std::string                &strCond,
                                      ActorDesc                  *pActorDesc,
@@ -170,6 +170,6 @@ class ActorCodeWriter
 
 //#include "OSGActorCodeWriter.inl"
 
-#define OSGACTORCODEWRITER_HEADER_CVSID "@(#)$Id: OSGActorCodeWriter.h,v 1.1 2004/04/20 13:06:50 neumannc Exp $"
+#define OSGACTORCODEWRITER_HEADER_CVSID "@(#)$Id: OSGActorCodeWriter.h,v 1.2 2004/09/13 09:45:20 neumannc Exp $"
 
 #endif /* _OSGACTORCODEWRITER_H_ */

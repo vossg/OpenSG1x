@@ -67,10 +67,12 @@
 @@endif
 
 @@if UseLocalIncludes
+#include "OSGNewActionTypes.h"
 #include "@!ParentHeaderPrefix!@@!ParentHeader!@"               // Parent
 #include "@!HeaderPrefix!@OSG@!EnterStore!@FunctorStore.h"      // EnterStore
 #include "@!HeaderPrefix!@OSG@!LeaveStore!@FunctorStore.h"      // LeaveStore
 @@else
+#include <OSGNewActionTypes.h>
 #include <@!ParentHeaderPrefix!@@!ParentHeader!@>               // Parent
 #include <@!HeaderPrefix!@OSG@!EnterStore!@FunctorStore.h>      // EnterStore
 #include <@!HeaderPrefix!@OSG@!LeaveStore!@FunctorStore.h>      // LeaveStore
@@ -94,47 +96,47 @@ class OSG_@!LIBNAME!@LIB_DLLMAPPING @!Classname!@Base : public @!ParentName!@
 class @!Classname!@Base : public @!ParentName!@
 @@endif
 {
-    /*==========================  PUBLIC  =================================*/
+    /*====  PUBLIC  =========================================================*/
   public:
-    /*---------------------------------------------------------------------*/
-    /*! \name    Types                                                     */
-    /*! \{                                                                 */
+    /*---------------------------------------- ------------------------------*/
+    /*! \name    Types                                                       */
+    /*! \{                                                                   */
 
     typedef @!ParentName!@::ResultE ResultE;
     typedef @!ParentName!@::Functor Functor;
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Destructor                                                */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Destructor                                                  */
+    /*! \{                                                                   */
 
     virtual ~@!Classname!@Base(void);
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Start/Stop                                                */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Start/Stop                                                  */
+    /*! \{                                                                   */
 
     virtual ResultE start(void);
     virtual ResultE stop (void);
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Apply                                                     */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Apply                                                       */
+    /*! \{                                                                   */
 
 @@if !EnterStore_IS_Empty
-    virtual ResultE applyEnter(const NodePtr &pNode);
+    virtual ResultE enterNode(const NodePtr &pNode);
 @@endif
 @@if !LeaveStore_IS_Empty
-    virtual ResultE applyLeave(const NodePtr &pNode);
+    virtual ResultE leaveNode(const NodePtr &pNode);
 @@endif
 
 @@if EnterStore_IS_Simple
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Enter Registration                                        */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Enter Registration                                          */
+    /*! \{                                                                   */
 
     static void regClassEnter  (const Functor &refFunc);
            void regEnter       (const Functor &refFunc);
@@ -143,10 +145,10 @@ class @!Classname!@Base : public @!ParentName!@
            void unregEnter     (      void            );
 @@endif
 @@if EnterStore_IS_Single
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Enter Registration                                        */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Enter Registration                                          */
+    /*! \{                                                                   */
 
     static void regClassEnter         (const Functor            &refFunc,
                                        const FieldContainerType &refType );
@@ -161,10 +163,10 @@ class @!Classname!@Base : public @!ParentName!@
            void unregDefaultEnter     (      void                        );
 @@endif
 @@if EnterStore_IS_Multi
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Enter Registration                                        */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Enter Registration                                          */
+    /*! \{                                                                   */
 
     static void regClassEnter         (const Functor            &refFunc,
                                        const FieldContainerType &refType );
@@ -179,10 +181,10 @@ class @!Classname!@Base : public @!ParentName!@
            void unregDefaultEnter     (      void                        );
 @@endif
 @@if LeaveStore_IS_Simple
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Leave Registration                                        */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Leave Registration                                          */
+    /*! \{                                                                   */
 
     static void regClassLeave  (const Functor &refFunc);
            void regLeave       (const Functor &refFunc);
@@ -191,10 +193,10 @@ class @!Classname!@Base : public @!ParentName!@
            void unregLeave     (      void            );
 @@endif
 @@if LeaveStore_IS_Single
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Leave Registration                                        */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Leave Registration                                          */
+    /*! \{                                                                   */
 
     static void regClassLeave         (const Functor            &refFunc,
                                        const FieldContainerType &refType );
@@ -209,10 +211,10 @@ class @!Classname!@Base : public @!ParentName!@
            void unregDefaultLeave     (      void                        );
 @@endif
 @@if LeaveStore_IS_Multi
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Leave Registration                                        */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Leave Registration                                          */
+    /*! \{                                                                   */
 
     static void regClassLeave         (const Functor            &refFunc,
                                        const FieldContainerType &refType );
@@ -227,24 +229,41 @@ class @!Classname!@Base : public @!ParentName!@
            void unregDefaultLeave     (      void                        );
 @@endif
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name    Public State Access                                       */
-    /*! \{                                                                 */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Public State Access                                         */
+    /*! \{                                                                   */
 
 @@BeginStateLoop@@
 @@if StateElem_IS_Public
-    inline const @!StateElemType!@ &get@!StateElemName!@(void                                ) const;
+    inline const @!StateElemType!@ &get@!StateElemName!@(void                             ) const;
+    inline       @!StateElemType!@ &get@!StateElemName!@(void                             );
     inline       void               set@!StateElemName!@(const @!StateElemType!@ &stateVal);
 @@endif
 @@EndStateLoop@@
 
-    /*! \}                                                                  */
-    /*=========================  PROTECTED  ================================*/
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    State Management                                            */
+    /*! \{                                                                   */
+
+#ifdef OSG_NEWACTION_STATESLOTINTERFACE
+    virtual UInt32          createStateClone  (void                       );
+    virtual void            destroyStateClone (UInt32          slotId     );
+#else
+    virtual ActorBaseState *createStateClone  (void                       );
+    virtual void            destroyStateClone (ActorBaseState *pStateClone);
+#endif
+
+    virtual void            createInitialState(void                       );
+    virtual void            deleteInitialState(void                       );
+
+    /*! \}                                                                   */
+    /*====  PROTECTED  ======================================================*/
   protected:
-    /*----------------------------------------------------------------------*/
-    /*! \name    Types & Friends                                            */
-    /*! \{                                                                  */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Types & Friends                                             */
+    /*! \{                                                                   */
 
     class   @!Classname!@BaseState;
     friend  class OSG::@!Classname!@Base::@!Classname!@BaseState;
@@ -254,10 +273,10 @@ class @!Classname!@Base : public @!ParentName!@
     typedef @!EnterStore!@FunctorStore EnterStoreType;
     typedef @!LeaveStore!@FunctorStore LeaveStoreType;
 
-    /*! \}                                                                  */
-    /*----------------------------------------------------------------------*/
-    /*! \name    State Class                                                */
-    /*! \{                                                                  */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    State Class                                                 */
+    /*! \{                                                                   */
 
 @@if Library
     class OSG_@!LIBNAME!@LIB_DLLMAPPING @!Classname!@BaseState : public ParentStateType
@@ -270,11 +289,6 @@ class @!Classname!@Base : public @!ParentName!@
         inline   @!Classname!@BaseState(const @!Classname!@BaseState &source);
 
         virtual ~@!Classname!@BaseState(void                                );
-
-        virtual ActorBaseState *clone(MemoryHandle pMemHandle) const;
-
-        virtual bool            empty(void                   ) const;
-        virtual UInt32          size (void                   ) const;
 
 @@BeginStateLoop@@
 @@if StateElem_IS_Hierarchical
@@ -291,55 +305,53 @@ class @!Classname!@Base : public @!ParentName!@
 @@EndStateLoop@@
     };
 
-    /*! \}                                                                  */
-    /*----------------------------------------------------------------------*/
-    /*! \name    Constructor                                                */
-    /*! \{                                                                  */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Constructor                                                 */
+    /*! \{                                                                   */
 
     @!Classname!@Base(void);
 
-    /*! \}                                                                  */
-    /*----------------------------------------------------------------------*/
-    /*! \name    Events                                                     */
-    /*! \{                                                                  */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    Event Notification                                          */
+    /*! \{                                                                   */
 
-    virtual void attachEvent(NewAction *pAction, UInt32 uiActorId);
-    virtual void detachEvent(NewAction *pAction, UInt32 uiActorId);
+    virtual void addEvent(NewActionBase *pAction, UInt32 actorId);
+    virtual void subEvent(NewActionBase *pAction, UInt32 actorId);
 
-    /*! \}                                                                  */
-    /*----------------------------------------------------------------------*/
-    /*! \name    State Access                                               */
-    /*! \{                                                                  */
+    /*! \}                                                                   */
+    /*-----------------------------------------------------------------------*/
+    /*! \name    State Access                                                */
+    /*! \{                                                                   */
 
-    inline const @!Classname!@BaseState *getCastStatePtr(void) const;
-    inline       @!Classname!@BaseState *getCastStatePtr(void);
+    inline const @!Classname!@BaseState *getCastState(void) const;
+    inline       @!Classname!@BaseState *getCastState(void);
 
 @@BeginStateLoop@@
 @@if StateElem_IS_Protected
     inline const @!StateElemType!@ &get@!StateElemName!@(void) const;
+    inline       @!StateElemType!@ &get@!StateElemName!@(void);
     inline       void               set@!StateElemName!@(const @!StateElemType!@ &stateVal);
 @@endif
 @@EndStateLoop@@
 
-    virtual void createState(void);
-    virtual void deleteState(void);
-
-    /*! \}                                                                  */
-    /*===========================  PRIVATE  ================================*/
+    /*! \}                                                                   */
+    /*====  PRIVATE  ========================================================*/
   private:
     typedef @!ParentName!@ Inherited;
 
     static EnterStoreType *_pClassEnterStore;
     static LeaveStoreType *_pClassLeaveStore;
 
-    EnterStoreType         _instanceEnterStore;
-    LeaveStoreType         _instanceLeaveStore;
-
 @@BeginStateLoop@@
 @@if !StateElem_IS_Hierarchical
     @!StateElemType!@ _state@!StateElemName!@;
 @@endif
 @@EndStateLoop@@
+
+    EnterStoreType         _instanceEnterStore;
+    LeaveStoreType         _instanceLeaveStore;
 };
 
 OSG_END_NAMESPACE

@@ -50,27 +50,42 @@
  *****************************************************************************
 \*****************************************************************************/
 
+//----------------------------------------------------------------------------
+//    Includes
+//----------------------------------------------------------------------------
+
 #include <@!HeaderPrefix!@OSGConfig.h>
+@@if UseLocalIncludes
+#include "OSGNodeCore.h"
+@@else
+#include <OSGNodeCore.h>
+@@endif
 
 #include "OSG@!Classname!@Base.h"
 
 OSG_USING_NAMESPACE
 
-/*-------------------------------------------------------------------------*/
-/*    Static Member Init                                                   */
+//----------------------------------------------------------------------------
+//    Static Member Init
+//----------------------------------------------------------------------------
 
 @!Classname!@Base::EnterStoreType *@!Classname!@Base::_pClassEnterStore = NULL;
 @!Classname!@Base::LeaveStoreType *@!Classname!@Base::_pClassLeaveStore = NULL;
 
-/*-------------------------------------------------------------------------*/
-/*    Destructor                                                           */
+//----------------------------------------------------------------------------
+//    Destructor
+//----------------------------------------------------------------------------
+
+/*! Destructor.
+ */
 
 @!Classname!@Base::~@!Classname!@Base(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*    Start/Stop                                                           */
+//----------------------------------------------------------------------------
+//    Start/Stop
+//----------------------------------------------------------------------------
 
 /*! Called before a traversal begins. This method can be overridden in derived
  *  classes, but the inherited version must be called.
@@ -92,8 +107,9 @@ OSG_USING_NAMESPACE
     return @!ParentName!@::stop();
 }
 
-/*-------------------------------------------------------------------------*/
-/*    Apply                                                                */
+//----------------------------------------------------------------------------
+//    Enter/Leave
+//----------------------------------------------------------------------------
 
 @@if !EnterStore_IS_Empty
 /*! This method is called when a node is entered. This method can be overridden
@@ -102,7 +118,7 @@ OSG_USING_NAMESPACE
  */
 
 @!Classname!@Base::ResultE
-@!Classname!@Base::applyEnter(const NodePtr &pNode)
+@!Classname!@Base::enterNode(const NodePtr &pNode)
 {
 @@if EnterStore_IS_Simple
     ResultE  result = NewActionTypes::Continue;
@@ -118,7 +134,7 @@ OSG_USING_NAMESPACE
     }
     else
     {
-        result = @!ParentName!@::applyEnter(pNode);
+        result = @!ParentName!@::enterNode(pNode);
     }
 
     return result;
@@ -138,7 +154,7 @@ OSG_USING_NAMESPACE
     }
     else
     {
-        result = @!ParentName!@::applyEnter(pNode);
+        result = @!ParentName!@::enterNode(pNode);
     }
 
     return result;
@@ -158,7 +174,7 @@ OSG_USING_NAMESPACE
     }
     else
     {
-        result = @!ParentName!@::applyEnter(pNode);
+        result = @!ParentName!@::enterNode(pNode);
     }
 
     return result;
@@ -173,7 +189,7 @@ OSG_USING_NAMESPACE
  */
 
 @!Classname!@Base::ResultE
-@!Classname!@Base::applyLeave(const NodePtr &pNode)
+@!Classname!@Base::leaveNode(const NodePtr &pNode)
 {
 @@if LeaveStore_IS_Simple
     ResultE  result = NewActionTypes::Continue;
@@ -189,7 +205,7 @@ OSG_USING_NAMESPACE
     }
     else
     {
-        result = @!ParentName!@::applyLeave(pNode);
+        result = @!ParentName!@::leaveNode(pNode);
     }
 
     return result;
@@ -209,7 +225,7 @@ OSG_USING_NAMESPACE
     }
     else
     {
-        result = @!ParentName!@::applyLeave(pNode);
+        result = @!ParentName!@::leaveNode(pNode);
     }
 
     return result;
@@ -229,7 +245,7 @@ OSG_USING_NAMESPACE
     }
     else
     {
-        result = @!ParentName!@::applyLeave(pNode);
+        result = @!ParentName!@::leaveNode(pNode);
     }
 
     return result;
@@ -238,8 +254,9 @@ OSG_USING_NAMESPACE
 @@endif
 
 @@if !EnterStore_IS_Empty
-/*-------------------------------------------------------------------------*/
-/*    Enter Registration                                                   */
+//----------------------------------------------------------------------------
+//    Enter Registration
+//----------------------------------------------------------------------------
 
 @@if EnterStore_IS_Simple
 /*! Register a functor that is used by all instances of this class, when
@@ -483,8 +500,9 @@ void
 @@endif
 
 @@if !LeaveStore_IS_Empty
-/*-------------------------------------------------------------------------*/
-/*    Leave Registration                                                   */
+//----------------------------------------------------------------------------
+//    Leave Registration
+//----------------------------------------------------------------------------
 
 @@if LeaveStore_IS_Simple
 /*! Register a functor that is used by all instances of this class, when
@@ -726,8 +744,87 @@ void
 @@endif
 @@endif
 
-/*-------------------------------------------------------------------------*/
-/*    State Class                                                          */
+//----------------------------------------------------------------------------
+//    State Management
+//----------------------------------------------------------------------------
+
+#ifdef OSG_NEWACTION_STATESLOTINTERFACE
+
+UInt32
+@!Classname!@Base::createStateClone(void)
+{
+    UInt32     stateSlot = getSlotMap   (               ).size();
+    StateType *pClone    = new StateType(*getCastState());
+
+    getSlotMap().push_back(pClone);
+
+    setState(pClone);
+
+    return stateSlot;
+}
+
+#else /* OSG_NEWACTION_STATESLOTINTERFACE */
+
+@!Classname!@Base::ActorBaseState *
+@!Classname!@Base::createStateClone(void)
+{
+    StateType *pClone = new StateType(*getCastState());
+
+    setState(pClone);
+
+    return pClone;
+}
+
+#endif /* OSG_NEWACTION_STATESLOTINTERFACE */
+
+#ifdef OSG_NEWACTION_STATESLOTINTERFACE
+
+void
+@!Classname!@Base::destroyStateClone(UInt32 slotId)
+{
+    delete getSlotMap()[slotId];
+}
+
+#else /* OSG_NEWACTION_STATESLOTINTERFACE */
+
+void
+@!Classname!@Base::destroyStateClone(ActorBaseState *pState)
+{
+    delete pState;
+}
+
+#endif /* OSG_NEWACTION_STATESLOTINTERFACE */
+
+void
+@!Classname!@Base::createInitialState(void)
+{
+    if(getState() != NULL)
+    {
+        SWARNING << "@!Classname!@Base::createInitialState: State is not NULL."
+                 << endLog;
+    }
+
+    setState(new StateType());
+}
+
+void
+@!Classname!@Base::deleteInitialState(void)
+{
+    if(getState() == NULL)
+    {
+        SWARNING << "@!Classname!@Base::deleteInitalState: State is NULL."
+                 << endLog;
+    }
+
+    delete getState();
+
+    setState(NULL);
+}
+
+
+//----------------------------------------------------------------------------
+//    State Class
+//----------------------------------------------------------------------------
 
 /*! Destructor.
  */
@@ -736,114 +833,59 @@ void
 {
 }
 
-/*! Return of new copy constructed instance of @!Classname!@BaseState.
+//----------------------------------------------------------------------------
+//    Constructors
+//----------------------------------------------------------------------------
+
+/*! Default Constructor.
  */
 
-ActorBase::ActorBaseState *
-@!Classname!@Base::@!Classname!@BaseState::clone(MemoryHandle pMemHandle) const
-{
-    return new @!Classname!@BaseState(*this);
-}
-
-/*! Return if there are any data members.
- */
-
-bool
-@!Classname!@Base::@!Classname!@BaseState::empty(void) const
-{
-@@if HAS_Hierarchical_State
-    return false;
-@@else
-    return Inherited::StateType::empty();
-@@endif
-}
-
-/*! Return sizeof(@!Classname!@BaseState).
- */
-
-UInt32
-@!Classname!@Base::@!Classname!@BaseState::size(void) const
-{
-    return sizeof(@!Classname!@BaseState);
-}
-
-/*-------------------------------------------------------------------------*/
-/*    Constructors                                                         */
-
-@!Classname!@Base::@!Classname!@Base(void) :
+@!Classname!@Base::@!Classname!@Base(void)
+    : Inherited(),
 @@BeginStateLoop@@
 @@if !StateElem_IS_Hierarchical
       _state@!StateElemName!@(@!StateElemDefaultValue!@),
 @@endif
 @@EndStateLoop@@
-      Inherited()
+      _instanceEnterStore(),
+      _instanceLeaveStore()
 {
     if(_pClassEnterStore == NULL)
         _pClassEnterStore = new EnterStoreType();
 
     if(_pClassLeaveStore == NULL)
         _pClassLeaveStore = new LeaveStoreType();
+
+@@if !EnterStore_IS_Empty
+    setEnterNodeFlag(true);
+@@endif
+@@if !LeaveStore_IS_Empty
+    setLeaveNodeFlag(true);
+@@endif
 }
 
-/*-------------------------------------------------------------------------*/
-/*    Events                                                               */
+//----------------------------------------------------------------------------
+//    Event Notification
+//----------------------------------------------------------------------------
 
-/*! This is called when the actor is attached to an action. This method can
+/*! Called when the actor is attached to an action. This method can
  *  be overridden in derived classes, but the inherited version must be called.
  */
 
 void
-@!Classname!@Base::attachEvent(NewAction *pAction, UInt32 uiActorId)
+@!Classname!@Base::addEvent(NewActionBase *pAction, UInt32 uiActorId)
 {
-    Inherited::attachEvent(pAction, uiActorId);
+    Inherited::addEvent(pAction, uiActorId);
 }
 
-/*! This is called when the actor is detached from an action. This method can
+/*! Called when the actor is detached from an action. This method can
  *  be overridden in derived classes, but the inherited version must be called.
  */
 
 void
-@!Classname!@Base::detachEvent(NewAction *pAction, UInt32 uiActorId)
+@!Classname!@Base::subEvent(NewActionBase *pAction, UInt32 uiActorId)
 {
-    Inherited::detachEvent(pAction, uiActorId);
-}
-
-/*-------------------------------------------------------------------------*/
-/*    State Access                                                         */
-
-/*! Create an instance of this actor's state class.
- *  This method is called from ActorBase::attachEvent, there is no need to
- *  call it manually.
- */
-
-void
-@!Classname!@Base::createState(void)
-{
-    if(getStatePtr() != NULL)
-    {
-        SWARNING << "@!Classname!@Base::createState: StatePtr is not NULL. "
-                 << endLog;
-    }
-
-    setStatePtr(new @!Classname!@BaseState());
-}
-
-/*! Delete the instance of this actor's state.
- *  This method is called from ActorBase::detachEvent, there is no need to
- *  call it manually.
- */
-
-void
-@!Classname!@Base::deleteState(void)
-{
-    if(getStatePtr() == NULL)
-    {
-        SWARNING << "@!Classname!@Base::deleteState: StatePtr is NULL."
-                 << endLog;
-    }
-
-    delete getStatePtr();
-    setStatePtr(NULL);
+    Inherited::subEvent(pAction, uiActorId);
 }
 
 /*------------------------------------------------------------------------*/
@@ -859,7 +901,7 @@ void
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: ActorBaseTemplate_cpp.h,v 1.1 2004/04/20 13:06:50 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: ActorBaseTemplate_cpp.h,v 1.2 2004/09/13 09:45:20 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSG@!CLASSNAME!@BASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSG@!CLASSNAME!@BASE_INLINE_CVSID;
 }

@@ -1,5 +1,5 @@
 
-char *ActorTemplate_inl[] =
+const char *ActorTemplate_inl[] =
 {
 "/*---------------------------------------------------------------------------*\\",
 " *                                OpenSG                                     *",

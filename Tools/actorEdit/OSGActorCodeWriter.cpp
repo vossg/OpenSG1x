@@ -285,12 +285,12 @@ ActorCodeWriter::getInlFileName(ActorDesc *pActorDesc)
 
 bool
 ActorCodeWriter::writeTemplate(std::ostream  &outStream, ActorDesc *pActorDesc,
-                               char         **pTemplate                       )
+                               const char   **pTemplate                       )
 {
-    char **pStateLoopStart;
-    int    skipIf          = 0;
-    bool   skipStateLoop   = false;
-    bool   retValue        = true;
+    const char **pStateLoopStart;
+    int          skipIf          = 0;
+    bool         skipStateLoop   = false;
+    bool         retValue        = true;
 
     ActorDesc::StateElemListIt itSE;
     ActorDesc::StateElemListIt endSE;
@@ -675,7 +675,7 @@ ActorCodeWriter::upCase(const std::string &strIn)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGActorCodeWriter.cpp,v 1.1 2004/04/20 13:06:50 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGActorCodeWriter.cpp,v 1.2 2004/09/13 09:45:20 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGACTORCODEWRITER_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGACTORCODEWRITER_INLINE_CVSID;
 }

@@ -53,17 +53,18 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*-------------------------------------------------------------------------*/
-/*    State Access                                                         */
+//----------------------------------------------------------------------------
+//    State Access
+//----------------------------------------------------------------------------
 
 /*! Return the StatePtr, cast to this actor's state class
  *  @!Classname!@BaseState
  */
 
 inline const @!Classname!@Base::@!Classname!@BaseState *
-@!Classname!@Base::getCastStatePtr(void) const
+@!Classname!@Base::getCastState(void) const
 {
-    return reinterpret_cast<const @!Classname!@BaseState *>(getStatePtr());
+    return reinterpret_cast<const @!Classname!@BaseState *>(getState());
 }
 
 /*! Return the StatePtr, cast to this actor's state class
@@ -71,13 +72,14 @@ inline const @!Classname!@Base::@!Classname!@BaseState *
  */
 
 inline @!Classname!@Base::@!Classname!@BaseState *
-@!Classname!@Base::getCastStatePtr(void)
+@!Classname!@Base::getCastState(void)
 {
-    return reinterpret_cast<@!Classname!@BaseState *>(getStatePtr());
+    return reinterpret_cast<@!Classname!@BaseState *>(getState());
 }
 
-/*-------------------------------------------------------------------------*/
-/*    State Class                                                          */
+//----------------------------------------------------------------------------
+//    State Class
+//----------------------------------------------------------------------------
 
 /*! Default constructor.
  */
@@ -130,8 +132,9 @@ inline @!StateElemType!@ &
 @@endif
 @@EndStateLoop@@
 
-/*-------------------------------------------------------------------------*/
-/*    Public State Access                                                  */
+//----------------------------------------------------------------------------
+//    Public State Access
+//----------------------------------------------------------------------------
 
 @@BeginStateLoop@@
 @@if StateElem_IS_Public
@@ -146,7 +149,24 @@ inline const @!StateElemType!@ &
 @!Classname!@Base::get@!StateElemName!@(void) const
 {
 @@if StateElem_IS_Hierarchical
-    return getCastStatePtr()->get@!StateElemName!@();
+    return getCastState()->get@!StateElemName!@();
+@@else
+    return _state@!StateElemName!@;
+@@endif
+}
+
+/*! Return the state element @!StateElemName!@.
+@@if StateElem_IS_Hierarchical
+ *  \warning This state element can only be accessed after the actor was
+ *  attached to an action.
+@@endif
+ */
+
+inline @!StateElemType!@ &
+@!Classname!@Base::get@!StateElemName!@(void)
+{
+@@if StateElem_IS_Hierarchical
+    return getCastState()->get@!StateElemName!@();
 @@else
     return _state@!StateElemName!@;
 @@endif
@@ -163,7 +183,7 @@ inline void
 @!Classname!@Base::set@!StateElemName!@(const @!StateElemType!@ &stateVal)
 {
 @@if StateElem_IS_Hierarchical
-    getCastStatePtr()->get@!StateElemName!@() = stateVal;
+    getCastState()->get@!StateElemName!@() = stateVal;
 @@else
     _state@!StateElemName!@ = stateVal;
 @@endif
@@ -171,8 +191,9 @@ inline void
 @@endif
 @@EndStateLoop@@
 
-/*-------------------------------------------------------------------------*/
-/*    Protected State Access                                               */
+//----------------------------------------------------------------------------
+//    Protected State Access
+//----------------------------------------------------------------------------
 
 @@BeginStateLoop@@
 @@if StateElem_IS_Protected
@@ -187,7 +208,24 @@ inline const @!StateElemType!@ &
 @!Classname!@Base::get@!StateElemName!@(void) const
 {
 @@if StateElem_IS_Hierarchical
-    return getCastStatePtr()->get@!StateElemName!@();
+    return getCastState()->get@!StateElemName!@();
+@@else
+    return _state@!StateElemName!@;
+@@endif
+}
+
+/*! Return the state element @!StateElemName!@.
+@@if StateElem_IS_Hierarchical
+ *  \warning This state element can only be accessed after the actor was
+ *  attached to an action.
+@@endif
+ */
+
+inline @!StateElemType!@ &
+@!Classname!@Base::get@!StateElemName!@(void)
+{
+@@if StateElem_IS_Hierarchical
+    return getCastState()->get@!StateElemName!@();
 @@else
     return _state@!StateElemName!@;
 @@endif
@@ -204,7 +242,7 @@ inline void
 @!Classname!@Base::set@!StateElemName!@(const @!StateElemType!@ &stateVal)
 {
 @@if StateElem_IS_Hierarchical
-    return getCastStatePtr()->get@!StateElemName!@() = stateVal;
+    return getCastState()->get@!StateElemName!@() = stateVal;
 @@else
     _state@!StateElemName!@ = stateVal;
 @@endif
@@ -214,4 +252,4 @@ inline void
 
 OSG_END_NAMESPACE
 
-#define OSG@!CLASSNAME!@BASE_INLINE_CVSID "@(#)$Id: ActorBaseTemplate_inl.h,v 1.2 2004/04/21 12:12:25 neumannc Exp $"
+#define OSG@!CLASSNAME!@BASE_INLINE_CVSID "@(#)$Id: ActorBaseTemplate_inl.h,v 1.3 2004/09/13 09:45:20 neumannc Exp $"
