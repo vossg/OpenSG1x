@@ -1,5 +1,7 @@
 #!/usr/bin/perl 
 
+use File::Basename;
+
 if($#ARGV < 0)
 {
     print "Usage : $0 arg_file\n";
@@ -173,6 +175,124 @@ sub printHeader
         print "\n";
         print "# Begin Source File\n";
         print "SOURCE=$hfile\n";
+        print "# End Source File\n";
+        print "\n";
+    }
+    
+    print "# End Group\n";
+}
+
+
+sub printHeaderInstall
+{
+    local $pack = shift(@_);
+    local $hdr  = shift(@_);
+    local $ysrc = shift(@_);
+    local $inl  = shift(@_);
+
+    local $i;
+
+    print "# Begin Group \"$pack Install \"\n";
+    print "# PROP Default_Filter \"\"\n";
+
+    $rel_out_path="../include/OpenSG";
+    
+    for $i (0..$#$hdr)
+    {
+        print "\n";
+        print "# Begin Source File\n";
+        print "SOURCE=$rel_path/$$hdr[$i]\n";
+        
+        $hdrfile = $$hdr[$i];
+        $hdrbase = basename($hdrfile, "");
+
+        print "\n";
+        print "!IF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Release\"\n";
+        print "\n";
+        print "!ELSEIF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Debug\"\n";
+        print "\n";
+        print "# Begin Custom Build\n";
+        print "\n";
+
+#        print "foo : $rel_path/$hdrfile\n";
+#        print "foo : $rel_out_path/$hdrfile\n";
+
+        print "\"$rel_out_path/$hdrbase\": \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"\n";
+        print "\tsed.exe -e \"s/include[ ]*<OSG/include <OpenSG\\/OSG/g\" -e \"s/include[ ]*\\\"OSG/include \\\"OpenSG\\/OSG/g\" $rel_path/$hdrfile > $rel_out_path/$hdrbase\n";
+        print "\n";
+        print "# End Custom Build\n";
+        print "\n";
+        print "!ENDIF\n";
+        print "\n";
+
+        print "# End Source File\n";
+        print "\n";
+    }
+
+
+    for $i (0..$#$inl)
+    {
+        print "\n";
+        print "# Begin Source File\n";
+        print "SOURCE=$rel_path/$$inl[$i]\n";
+        
+        $inlfile = $$inl[$i];
+        $inlbase = basename($inlfile, "");
+
+        print "\n";
+        print "!IF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Release\"\n";
+        print "\n";
+        print "!ELSEIF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Debug\"\n";
+        print "\n";
+        print "# Begin Custom Build\n";
+        print "\n";
+
+#        print "foo : $rel_path/$inlfile\n";
+#        print "foo : $rel_out_path/$inlfile\n";
+
+        print "\"$rel_out_path/$inlbase\": \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"\n";
+        print "\tsed.exe -e \"s/include[ ]*<OSG/include <OpenSG\\/OSG/g\" -e \"s/include[ ]*\\\"OSG/include \\\"OpenSG\\/OSG/g\" $rel_path/$inlfile > $rel_out_path/$inlbase\n";
+        print "\n";
+        print "# End Custom Build\n";
+        print "\n";
+        print "!ENDIF\n";
+        print "\n";
+
+        print "# End Source File\n";
+        print "\n";
+    }
+
+    for $i (0..$#$ysrc)
+    {
+        $yfile = $$ysrc[$i];
+
+        $hfile = $yfile;
+        $hfile =~ s/(.*\/)//g;
+        $hfile =~ s/\.y/\.tab.h/;
+
+        print "\n";
+        print "# Begin Source File\n";
+        print "SOURCE=$hfile\n";
+
+        $hdrfile = $hfile;
+        $hdrbase = basename($hdrfile, "");
+
+        print "\n";
+        print "!IF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Release\"\n";
+        print "\n";
+        print "!ELSEIF  \"\$(CFG)\" == \"${out_libname}Lib - Win32 Debug\"\n";
+        print "\n";
+        print "# Begin Custom Build\n";
+        print "\n";
+
+        print "\"$rel_out_path/$hdrbase\": \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"\n";
+        print "\tsed.exe -e \"s/include[ ]*<OSG/include <OpenSG\\/OSG/g\" -e \"s/include[ ]*\\\"OSG/include \\\"OpenSG\\/OSG/g\" $hdrfile > $rel_out_path/$hdrbase\n";
+        print "\n";
+        print "# End Custom Build\n";
+        print "\n";
+        print "!ENDIF\n";
+        print "\n";
+
         print "# End Source File\n";
         print "\n";
     }
@@ -431,6 +551,18 @@ sub printTargets
     
     printResourse([@out_def]);
 
+    print "\n";
+    print "# End Group\n";
+    print "\n";
+    print "\n";
+
+    print "# Begin Group \"Header Install\"\n";
+    print "# PROP Default_Filter \"h;hpp;hxx;hm\"\n";
+    print "\n";
+    for $i (0..$#out_packages)
+    {
+        printHeaderInstall($out_packages[$i], $out_h[$i], $out_y[$i], $out_inl[$i]);
+    }
     print "\n";
     print "# End Group\n";
 
