@@ -527,9 +527,21 @@ endif
 ifneq ($(LIB_FLEXPPTARGET_CPP),)
 $(OBJDIR)/%.lex.cpp: %.lpp
 	$(FLEX) -+ -P$(call flex_int,$<) $<
+ifneq ($(OS_BASE),irix6.5)
 	cat lex.$(call flex_int,$<).cc | 								\
 		sed -e 's/\(yy\)\(text_ptr\)/$(call flex_int,$<)\2/g'		\
 		> $(OBJDIR)/$(call flex_ext,$<).lex.cpp
+else
+	cat lex.$(call flex_int,$<).cc | 									\
+		sed -e 's/\(yy\)\(text_ptr\)/$(call flex_int,$<)\2/g'			\
+			-e 's/\&cin/\&std::cin/g'									\
+			-e 's/\&cout/\&std::cout/g'									\
+			-e 's/cerr/std::cerr/g'										\
+			-e 's/class istream;/#include <iosfwd>/g'					\
+			-e 's/istream\*/\std::istream\*/g'							\
+			-e 's/ostream\*/\std::ostream\*/g'							\
+		> $(OBJDIR)/$(call flex_ext,$<).lex.cpp
+endif
 	-rm lex.$(call flex_int,$<).cc
 
 $(LIB_FLEXPPTARGET_CPP) : $(LIB_FLEXPPSOURCES)

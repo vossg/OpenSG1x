@@ -5138,6 +5138,9 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
                     if test "x"$ac_gdz_qt_lib_e6 != "x"; then
                         ac_gdz_qt_lib_e6='-lqt'
+                    else
+                        echo "QT configured, but neither libqt-mt$ac_gdz_so_suffix nor libqt$ac_gdz_so_suffix found in $ac_gdz_qt_libdir!"
+                        exit 1
                     fi
         
                 else
@@ -8618,6 +8621,9 @@ if test $build_os = irix6.5; then
     ac_gdz_stl_ctype_fix_in_e16=$ac_gdz_commonconf_dir/stl_ctype.h.in
     ac_gdz_stl_ctype_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/stl_ctype.h
 
+    ac_gdz_flexlexer_fix_in_e16=$ac_gdz_commonconf_dir/FlexLexer.h.in
+    ac_gdz_flexlexer_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/FlexLexer.h
+
 
     touch confdefs.h
 
@@ -8684,7 +8690,8 @@ trap 'rm -fr `echo "$ac_gdz_fstream_fix_out_e16:$ac_gdz_fstream_fix_in_e16
               $ac_gdz_algo_fix_out_e16:$ac_gdz_algo_fix_in_e16
               $ac_gdz_vector_fix_out_e16:$ac_gdz_vector_fix_in_e16
               $ac_gdz_stl_locale_fix_out_e16:$ac_gdz_stl_locale_fix_in_e16
-              $ac_gdz_stl_ctype_fix_out_e16:$ac_gdz_stl_ctype_fix_in_e16 $ac_gdz_package_sub_dir_out/Base/OSGConfigured.h:CommonConf/OSGConfigured.h.in" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
+              $ac_gdz_stl_ctype_fix_out_e16:$ac_gdz_stl_ctype_fix_in_e16
+              $ac_gdz_flexlexer_fix_out_e16:$ac_gdz_flexlexer_fix_in_e16 $ac_gdz_package_sub_dir_out/Base/OSGConfigured.h:CommonConf/OSGConfigured.h.in" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
 
@@ -8743,7 +8750,8 @@ CONFIG_FILES=\${CONFIG_FILES-"$ac_gdz_fstream_fix_out_e16:$ac_gdz_fstream_fix_in
               $ac_gdz_algo_fix_out_e16:$ac_gdz_algo_fix_in_e16
               $ac_gdz_vector_fix_out_e16:$ac_gdz_vector_fix_in_e16
               $ac_gdz_stl_locale_fix_out_e16:$ac_gdz_stl_locale_fix_in_e16
-              $ac_gdz_stl_ctype_fix_out_e16:$ac_gdz_stl_ctype_fix_in_e16"}
+              $ac_gdz_stl_ctype_fix_out_e16:$ac_gdz_stl_ctype_fix_in_e16
+              $ac_gdz_flexlexer_fix_out_e16:$ac_gdz_flexlexer_fix_in_e16"}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then

@@ -733,7 +733,7 @@ extern void clearSkel  (void);
 
 void OSGScanParseSkel_error (char *s)  /* Called by fhs_parse on error */
 {
-  printf ("-----> %s in Line %d, read %s\n", s, iLineNum);
+  printf ("-----> %s in Line %d\n", s, iLineNum);
 //, 
 //          SKELTEXT);
 }
