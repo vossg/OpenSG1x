@@ -81,7 +81,6 @@ ClusterNetwork::ClusterNetwork(UInt32 id) :
     _connection(),
     _id(id)
 {
-    std::cout << "create network id :" << id << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -91,7 +90,6 @@ ClusterNetwork::ClusterNetwork(UInt32 id) :
  */
 ClusterNetwork::~ClusterNetwork(void)
 {
-    std::cout << "delete network id:" << _id << std::endl;
     if(_aspect)
         delete _aspect;
     _aspect=NULL;
@@ -124,7 +122,7 @@ Connection *ClusterNetwork::getMainConnection(void)
 
 Connection *ClusterNetwork::getConnection(UInt32 id)
 {
-    if(id<=_connection.size())
+    if(id<_connection.size())
         return _connection[id];
     else
         return NULL;
@@ -179,95 +177,80 @@ void ClusterNetwork::connect(
     UInt32 servers,
     const std::string &connectionType,
     const std::string &localAddress,
-    Int32  withId)
+    UInt32 withId)
 {
-    UInt32 c;
-    Connection *connection;
-    std::string address;
+    UInt32 id,a;
     UInt32 fromId=0,toId=servers;
-    UInt32 recvId;
-    bool isClient,connectThisId;
-    UInt32 idCnt;
+    std::vector<std::string> address;
 
-    std::cout << "start" << std::endl;
-    isClient      =(thisId == servers);
-    if(withId>=0)
-    {
-        fromId=toId=(UInt32)withId;
-    }
-    if(_mainConnection==NULL)
-    {
-        SFATAL << "main connection missing" << std::endl;
-        return;
-    }
-    while(_connection.size()<=toId)
-        _connection.push_back(NULL);
-    for(c = fromId; c <= toId; ++c)
-    {
-        connectThisId = (c == thisId);
+    _connection.resize(servers+1);
+    address.resize(servers+1);
+    
+    if(withId != ALL_NODES)
+        fromId = toId = withId;
 
-        connection = ConnectionFactory::the().create(connectionType);
-        if(connectThisId)
-            address = connection->bind(localAddress);
-        if(isClient)
+    for(id = fromId; id <= toId; ++id)
+        _connection[id]=ConnectionFactory::the().create(connectionType);
+    
+    // transmit address to client;
+    if(thisId == servers)
+    {
+        // this is the client
+        for(id = fromId; id <= toId; ++id)
         {
-            // send all servers a start flag
-            std::cout << c << "send start flag" << std::endl;
-            _mainConnection->putValue(thisId);
-            _mainConnection->flush();
-            std::cout << c << "get response" << std::endl;
-            // receive response from all servers
-            for(idCnt = 0; idCnt < servers ; ++idCnt)
-            { 
-                _mainConnection->selectChannel();
-                _mainConnection->getValue(recvId);
-                std::cout << "client got id " << recvId << std::endl;
-                if(recvId == c)
-                    _mainConnection->getValue(address);
-            }
-            std::cout << c << "send address " << address << std::endl;
-            // tell all servers the current address to connect
-            _mainConnection->putValue(address);
-            _mainConnection->flush();
-            std::cout << c << "done " << address << std::endl;
-        }
-        else
-        {
-            std::cout << c << "recv start flag" << std::endl;
-            // ceceive start flag
-            _mainConnection->selectChannel();
-            _mainConnection->getValue(recvId);
-            std::cout << c << "send response" << std::endl;
-            // send response
-            _mainConnection->putValue(thisId);
-            if(connectThisId)
-                _mainConnection->putValue(address);
-            _mainConnection->flush();
-            std::cout << c << "get address " << std::endl;
-            // read address
-            _mainConnection->selectChannel();
-            _mainConnection->getValue(address);
-            std::cout << c << "get address " << address << std::endl;
-        }
-        if(connectThisId)
-        {
-            for(idCnt = 0; idCnt < servers; ++idCnt)
+            if(id == thisId)
+                address[id] = _connection[id]->bind(localAddress);
+            else
             {
-                std::cout << "accept" << std::endl;
-                connection->accept();
-                std::cout << "accept end" << std::endl;
+                _mainConnection->selectChannel(id);
+                _mainConnection->getValue(address[id]);
+            }
+        }
+    }
+    else
+    {
+        // this is a server
+        _mainConnection->putValue(_connection[thisId]->bind(localAddress));
+        _mainConnection->flush();
+    }
+
+    // transmit address to all servers;
+    for(id = fromId; id <= toId; ++id)
+    {
+        if(thisId == servers)
+        {
+            // this is the client
+            _mainConnection->putValue(address[id]);
+            _mainConnection->flush();
+        }
+        else
+        {
+            // this is a server
+            _mainConnection->selectChannel();
+            _mainConnection->getValue(address[id]);
+        }
+    }
+
+    // establish connection
+    for(id = fromId; id <= toId; ++id)
+    {
+        if(id == thisId)
+        {
+            for(a = fromId ; a <= toId ; ++a)
+            {
+                if(a != id)
+                {
+                    _connection[a]->connect(address[a]);
+                }
             }
         }
         else
         {
-            std::cout << c << "connect " << address << std::endl;
-            connection->connect(address);
-            std::cout << c << "connect end" << address << std::endl;
+            _connection[thisId]->accept();
         }
-        _connection[c]=connection;
     }
-    std::cout << "finish" << std::endl;
 }
+
 
 /*-------------------------------------------------------------------------*/
 /*                              static access                              */

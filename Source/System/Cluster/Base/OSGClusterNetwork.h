@@ -61,6 +61,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterNetwork : public MemoryObject
 
     typedef std::vector<Connection *>         ConnectionsT;
     typedef std::map<UInt32,ClusterNetwork *> ConnectionInfoMapT;
+    enum { ALL_NODES   = 0xf00000 };
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Get                                     */
@@ -89,7 +90,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterNetwork : public MemoryObject
                             UInt32  servers,
                  const std::string &connectionType,
                  const std::string &localAddress  =std::string(),
-                            Int32   withId        =-1);
+                            UInt32  withId        =ALL_NODES);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
