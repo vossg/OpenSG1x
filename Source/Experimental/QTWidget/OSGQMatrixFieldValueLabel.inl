@@ -171,7 +171,7 @@ QMatrixFieldValueLabel<MatrixTypeT>::updateCache(void)
             {
                 _strCachedValues[4 * row + col] =
                     TTraits::putToString(
-                        pMF->getValue(getIndex()).getValues()[4 * col + row]
+                        (*pMF)[getIndex()].getValues()[4 * col + row]
                                         ).c_str();
 
                 widthOfCol[col] = osgMax(widthOfCol[col], 
@@ -190,5 +190,5 @@ QMatrixFieldValueLabel<MatrixTypeT>::updateCache(void)
 
 OSG_END_NAMESPACE
 
-#define OSGQMATRIXFIELDVALUELABEL_INLINE_CVSID "@(#)$Id: OSGQMatrixFieldValueLabel.inl,v 1.1 2003/05/07 14:03:40 neumannc Exp $"
+#define OSGQMATRIXFIELDVALUELABEL_INLINE_CVSID "@(#)$Id: OSGQMatrixFieldValueLabel.inl,v 1.2 2003/05/10 04:21:11 vossg Exp $"
 

@@ -139,9 +139,9 @@ class MField : public Field
 #ifndef OSG_DISABLE_DEPRECIATED
           reference            getValue (const UInt32 index);
     const_reference            getValue (const UInt32 index) const;
+#endif
 
     virtual UInt32             getSize  (      void        ) const;
-#endif
 
                   StorageType &getValues(      void            );
             const StorageType &getValues(      void            ) const;

@@ -110,9 +110,7 @@ class OSG_BASE_DLLMAPPING Field
 
     virtual       bool                    isEmpty       (void) const = 0;
 
-#ifndef OSG_DISABLE_DEPRECIATED
     virtual       UInt32                  getSize       (void) const = 0;
-#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -484,12 +484,6 @@ typename MField<FieldTypeT, fieldNameSpace>::const_reference
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-UInt32 MField<FieldTypeT, fieldNameSpace>::getSize(void) const
-{
-    return size();
-}
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::setValue(       ArgumentType value,
                                                   const UInt32       index)
 {
@@ -502,6 +496,12 @@ void MField<FieldTypeT, fieldNameSpace>::addValue(ArgumentType value)
     push_back(value);
 }
 #endif
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+UInt32 MField<FieldTypeT, fieldNameSpace>::getSize(void) const
+{
+    return size();
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              MT Sync                                    */

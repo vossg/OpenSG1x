@@ -123,9 +123,7 @@ class SField : public Field
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-#ifndef OSG_DISABLE_DEPRECIATED
     virtual       UInt32      getSize (void) const;
-#endif
 
                   reference   getValue(void);
             const_reference   getValue(void) const;
