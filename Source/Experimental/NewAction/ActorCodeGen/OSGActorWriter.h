@@ -47,7 +47,7 @@
 #include "OSGActorInfo.h"
 #include "OSGStateElemInfo.h"
 
-#include <ostream>
+#include <iostream>
 #include <string>
 
 OSG_BEGIN_NAMESPACE
@@ -123,6 +123,6 @@ OSG_END_NAMESPACE
 
 #include "OSGActorWriter.inl"
 
-#define OSGACTORWRITER_HEADER_CVSID "@(#)$Id: $"
+#define OSGACTORWRITER_HEADER_CVSID "@(#)$Id: OSGActorWriter.h,v 1.1 2003/10/10 13:51:07 neumannc Exp $"
 
 #endif /* _OSGACTORWRITER_H_ */
