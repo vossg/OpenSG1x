@@ -1,3 +1,5 @@
+# WindowSystem GLUT
+
 Import('*')
 
 sources = Split("""
@@ -24,3 +26,4 @@ BuildLibrary(tc, 'OSGWindowGLUT', sources,
              CPPPATH=ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs),
              CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWGLUTLIB',
                          'OSG_WITH_GLUT'])
+

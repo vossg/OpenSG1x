@@ -1,3 +1,5 @@
+# SceneViewer
+
 Import('*')
 
 sources = Split("""
@@ -15,7 +17,8 @@ else:
     dep_LIBS = ['OSGWindowX']
 
 
-BuildProgram(tc, 'osgSceneViewer', sources, tools=['qt'],
-             updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
-             CPPPATH=['.', env['PREFIX'].Dir('include')],
-             CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])
+if _po.getOption('qt'):
+    BuildProgram(tc, 'osgSceneViewer', sources, tools=['qt'],
+                 updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
+                 CPPPATH=['.', env['PREFIX'].Dir('include')],
+                 CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])

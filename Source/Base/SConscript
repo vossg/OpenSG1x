@@ -1,3 +1,7 @@
+# Base
+
+import os.path
+
 Import('*')
 
 headers, sources, tests, generated = ProcessDirs(BaseDirs)

@@ -1,3 +1,5 @@
+# Source
+
 import os
 import SCons.Node.FS
 from os.path import basename, join
@@ -70,7 +72,7 @@ def BuildLibrary(tc, name, sources, tools=[], updates=[], includeGen=0, **kw):
         # QT generates a header where the object file goes, so we need
         # to include it.
         if includeGen:
-            env.Append(CPPPATH=["${OSG_OBJDIR}"])
+            env.Append(CPPPATH=["${OSG_OBJDIR}/.."])
 
         def base(n): return splitext(basename(str(n)))[0]
         objects = [env.SharedObject("${OSG_OBJDIR}/" + base(k), k) for k in sources]
@@ -138,8 +140,16 @@ SystemDirs = [Dir('System').Dir(n) for n in Split("""
     ../Experimental/NewAction/ActorCodeGen
     ../Experimental/NewAction/Actors
     ../Experimental/Text
+    ../Experimental/ShadowMapViewport
+    ../Experimental/SHL
+    ../Experimental/WebInterface
 """)]
 
 Export('BaseDirs SystemDirs')
 
 SConscript(dirs=['Base', 'System', 'WindowSystem'])
+
+#BuildProgram(tc, 'testLoaderRender', ['System/FileIO/Base/testLoaderRender.cpp'], tools=[],
+#                 updates=[OpenSGLibrary(['OSGWindowGLUT', 'OSGSystem', 'OSGBase'])],
+#                 CPPPATH=ExpandCPPPath(SystemDirs + BaseDirs),
+#                 CPPDEFINES=['OSG_WITH_GLUT', 'OSG_BUILD_DLL'])

@@ -1,3 +1,5 @@
+# WindowSystem QT
+
 Import('*')
 
 sources = Split("""
@@ -65,12 +67,18 @@ InstallHeaders(env, headers)
 
 def custom(env):
     # By default, SCons/QT generates moc_<file>.cpp
-    env['QT_MOCNAMEGENERATOR'] = lambda x, src_suffix, env: x + '_moc.cpp'
-    env['QT_AUTOBUILD_MOC_SOURCES'] = 0
+    #env['QT_MOCNAMEGENERATOR'] = lambda x, src_suffix, env: x + '_moc.cpp'
 
     # Otherwise QT/moc tries to generate .cc files.
     env['CXXFILESUFFIX'] = '.cpp'
-    
+
+    env['QT_MOCHPREFIX'] = ''
+    env['QT_MOCHSUFFIX'] = '_moc$CXXFILESUFFIX'
+    # we don't want to compile the moced header files
+    # I added a hack to qt.py in scons search for AMZ
+    # doesn't work with my scons version ...
+    env['QT_AUTOBUILD_MOC_SOURCES'] = 0
+
     env.Append(LIBS=env.get('OSG_WINDOW_QT_LIBS', []))
 
 if tc.is_win32():
@@ -80,9 +88,10 @@ else:
     dep_CPPPATH = ['../X']
     dep_LIBS    = ['OSGWindowX']
 
-BuildLibrary(tc, 'OSGWindowQT', sources, tools=['qt'],
-             updates=[custom, OpenSGLibrary(dep_LIBS + ['OSGSystem', 'OSGBase'])],
-             includeGen=1,
-             CPPPATH = ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs + map(Dir, dep_CPPPATH)),
-             CPPDEFINES = ['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWQTLIB',
-                           'OSG_WITH_QT', 'QT_CLEAN_NAMESPACE'])
+if _po.getOption('qt'):
+    BuildLibrary(tc, 'OSGWindowQT', sources, tools=['qt'],
+                 updates=[custom, OpenSGLibrary(dep_LIBS + ['OSGSystem', 'OSGBase'])],
+                 includeGen=1,
+                 CPPPATH = ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs + map(Dir, dep_CPPPATH)),
+                 CPPDEFINES = ['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWQTLIB',
+                               'OSG_WITH_QT', 'QT_CLEAN_NAMESPACE'])

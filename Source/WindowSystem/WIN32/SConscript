@@ -22,4 +22,4 @@ BuildLibrary(tc, 'OSGWindowWIN32', sources,
              CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWWIN32LIB'],
              LIBPATH=['../../Base', '../../System'],
              LIBS=['OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}',
-                   'user32', 'gdi32', 'opengl32', 'ws2_32'])
+                   'user32', 'gdi32', 'opengl32', 'ws2_32', 'winmm'])

@@ -1,18 +1,21 @@
+# fcdCompile and fcdEdit
+
+import os.path
+
 Import('*')
 
 sources = Split("""
     FieldContainer.cpp
-    FieldContainerViewCtl.cpp
     Field.cpp
     main.cpp
     ParseComandLine.cpp
-    FieldContainerView.ui
 """)
 
 def custom(env):
     env['CXXFILESUFFIX'] = '.cpp'
     env['QT_HPREFIX'] = 'uic_'
     env.Append(CPPPATH = ['$OSG_OBJDIR'])
+    env['OSG_PROGDIR'] = os.path.join('..', 'fcdEdit')
 
 if tc.is_win32():
     dep_LIBS = ['OSGWindowWIN32']
@@ -20,7 +23,12 @@ else:
     dep_LIBS = ['OSGWindowX']
 
 
-#BuildProgram(tc, 'fcdEdit', sources, tools=['qt'],
+BuildProgram(tc, 'fcdCompile', sources, tools=[],
+             updates=[custom, OpenSGLibrary(['OSGSystem', 'OSGBase'])],
+             CPPPATH=[Dir('.'), Dir('$OSG_OBJDIR'), env['PREFIX'].Dir('include')],
+             CPPDEFINES=['FCD_TERM', 'OSG_BUILD_DLL'])
+
+#BuildProgram(tc, 'fcdEdit', sources + ['FieldContainerViewCtl.cpp', 'FieldContainerView.ui'], tools=['qt'],
 #             updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
 #             CPPPATH=[Dir('.'), Dir('$OSG_OBJDIR'), env['PREFIX'].Dir('include')],
 #             CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])

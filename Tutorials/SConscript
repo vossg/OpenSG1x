@@ -1,0 +1,24 @@
+# Tutorials
+
+import os
+Import('*')
+
+sources = Split("""
+    OSGMainView_qt.cpp
+    OSGSceneView_qt.cpp
+    main.cpp
+""")
+
+def custom(env):
+    env['CXXFILESUFFIX'] = '.cpp'
+    env['OSG_PROGDIR'] = os.path.join('..', 'Tutorials')
+
+sources = Glob('*.cpp')
+
+for source in sources:
+    target = str(source)
+    target = target[:-4] # remove .cpp
+    BuildProgram(tc, target, [source], tools=[],
+                 updates=[custom, OpenSGLibrary(['OSGWindowGLUT', 'OSGSystem', 'OSGBase'])],
+                 CPPPATH=['.', env['PREFIX'].Dir('include')],
+                 CPPDEFINES=['OSG_WITH_GLUT', 'OSG_BUILD_DLL'])
