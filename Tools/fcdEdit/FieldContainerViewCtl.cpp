@@ -114,43 +114,123 @@ void FieldContainerViewCtl::updateActiveListItem(void)
 
 void FieldContainerViewCtl::updateFieldContainerView(void)
 {
-	nodeNameInput->setText(QString(_fieldContainer.name()));
-	nodeParentInput->setText(QString(_fieldContainer.parentFieldContainer()));
-	nodeLibraryInput->setText(QString(_fieldContainer.library()));
-	nodeDescriptionInput->setText(QString(_fieldContainer.description()));
-	pointerFieldTypesCombo->setCurrentItem(_fieldContainer.pointerFieldTypes());
-	structureCombo->setCurrentItem(_fieldContainer.abstract());
-	sysComp->setChecked(_fieldContainer.systemComponent());
-	parentSysComp->setChecked(_fieldContainer.parentSystemComponent());
-	decoratableSwitch->setChecked(_fieldContainer.decoratable());
-	localIncludes->setChecked(_fieldContainer.useLocalIncludes());
+    // without the block signals the slots are called and it crashes!
+    nodeNameInput->blockSignals(true);
+    nodeNameInput->setText(QString(_fieldContainer.name()));
+    nodeNameInput->blockSignals(false);
+
+    nodeParentInput->blockSignals(true);
+    nodeParentInput->setText(QString(_fieldContainer.parentFieldContainer()));
+    nodeParentInput->blockSignals(false);
+    
+    nodeLibraryInput->blockSignals(true);
+    nodeLibraryInput->setText(QString(_fieldContainer.library()));
+    nodeLibraryInput->blockSignals(false);
+    
+    nodeDescriptionInput->blockSignals(true);
+    nodeDescriptionInput->setText(QString(_fieldContainer.description()));
+    nodeDescriptionInput->blockSignals(false);
+    
+    pointerFieldTypesCombo->blockSignals(true);
+    pointerFieldTypesCombo->setCurrentItem(_fieldContainer.pointerFieldTypes());
+    pointerFieldTypesCombo->blockSignals(false);
+    
+    structureCombo->blockSignals(true);
+    structureCombo->setCurrentItem(_fieldContainer.abstract());
+    structureCombo->blockSignals(false);
+    
+    sysComp->blockSignals(true);
+    sysComp->setChecked(_fieldContainer.systemComponent());
+    sysComp->blockSignals(false);
+    
+    parentSysComp->blockSignals(true);
+    parentSysComp->setChecked(_fieldContainer.parentSystemComponent());
+    parentSysComp->blockSignals(false);
+    
+    decoratableSwitch->blockSignals(true);
+    decoratableSwitch->setChecked(_fieldContainer.decoratable());
+    decoratableSwitch->blockSignals(false);
+    
+    localIncludes->blockSignals(true);
+    localIncludes->setChecked(_fieldContainer.useLocalIncludes());
+    localIncludes->blockSignals(false);
 }
 
 void FieldContainerViewCtl::updateActivePartView(void)
 {
-	if (_activePart) {
-		partNameInput->setText(QString(_activePart->name()));
-		partTypeCombo->setEditText(_activePart->type());
-		partVisibilityCombo->setCurrentItem(int(_activePart->visibility()));
-		partCardinalityCombo->setCurrentItem(int(_activePart->cardinality()));
-		partAccessCombo->setCurrentItem(int(_activePart->access()));
-		partIncludeInput->setText(QString(_activePart->header()));
-		partDefaultValueInput->setText(QString(_activePart->defaultValue()));
-		partDefaultHeaderInput->setText(QString(_activePart->defaultHeader()));
-		partDescriptionInput->setText(QString(_activePart->description()));
-	}
-	else {
-		partNameInput->clear();
-		partTypeCombo->setCurrentItem(0);
-		partVisibilityCombo->setCurrentItem(0);
-		partCardinalityCombo->setCurrentItem(0);
-		partAccessCombo->setCurrentItem(0);
-		partIncludeInput->clear();
-		partDefaultValueInput->clear();
-		partDescriptionInput->clear();
-	}
-		
-}													 
+    // without the block signals the slots are called and it crashes!
+    if (_activePart) {
+        partNameInput->blockSignals(true);
+        partNameInput->setText(QString(_activePart->name()));
+        partNameInput->blockSignals(false);
+        
+        partTypeCombo->blockSignals(true);
+        partTypeCombo->setEditText(_activePart->type());
+        partTypeCombo->blockSignals(false);
+        
+        partVisibilityCombo->blockSignals(true);
+        partVisibilityCombo->setCurrentItem(int(_activePart->visibility()));
+        partVisibilityCombo->blockSignals(false);
+        
+        partCardinalityCombo->blockSignals(true);
+        partCardinalityCombo->setCurrentItem(int(_activePart->cardinality()));
+        partCardinalityCombo->blockSignals(false);
+        
+        partAccessCombo->blockSignals(true);
+        partAccessCombo->setCurrentItem(int(_activePart->access()));
+        partAccessCombo->blockSignals(false);
+        
+        partIncludeInput->blockSignals(true);
+        partIncludeInput->setText(QString(_activePart->header()));
+        partIncludeInput->blockSignals(false);
+        
+        partDefaultValueInput->blockSignals(true);
+        partDefaultValueInput->setText(QString(_activePart->defaultValue()));
+        partDefaultValueInput->blockSignals(false);
+        
+        partDefaultHeaderInput->blockSignals(true);
+        partDefaultHeaderInput->setText(QString(_activePart->defaultHeader()));
+        partDefaultHeaderInput->blockSignals(false);
+        
+        partDescriptionInput->blockSignals(true);
+        partDescriptionInput->setText(QString(_activePart->description()));
+        partDescriptionInput->blockSignals(false);
+    }
+    else {
+        partNameInput->blockSignals(true);
+        partNameInput->clear();
+        partNameInput->blockSignals(false);
+        
+        partTypeCombo->blockSignals(true);
+        partTypeCombo->setCurrentItem(0);
+        partTypeCombo->blockSignals(false);
+        
+        partVisibilityCombo->blockSignals(true);
+        partVisibilityCombo->setCurrentItem(0);
+        partVisibilityCombo->blockSignals(false);
+        
+        partCardinalityCombo->blockSignals(true);
+        partCardinalityCombo->setCurrentItem(0);
+        partCardinalityCombo->blockSignals(false);
+        
+        partAccessCombo->blockSignals(true);
+        partAccessCombo->setCurrentItem(0);
+        partAccessCombo->blockSignals(false);
+        
+        partIncludeInput->blockSignals(true);
+        partIncludeInput->clear();
+        partIncludeInput->blockSignals(false);
+        
+        partDefaultValueInput->blockSignals(true);
+        partDefaultValueInput->clear();
+        partDefaultValueInput->blockSignals(false);
+        
+        partDescriptionInput->blockSignals(true);
+        partDescriptionInput->clear();
+        partDescriptionInput->blockSignals(false);
+    }
+
+}
 
 void FieldContainerViewCtl::loadFieldContainer(const char *fileName)
 {
@@ -697,22 +777,36 @@ void FieldContainerViewCtl::resetFieldTypesSlot(void)
 
 void FieldContainerViewCtl::newSlot(void)
 {
-	QString emptyStr;
-	_fieldContainer.clear();
-
+    QString emptyStr("");
+    _fieldContainer.clear();
+    
     setCaption( trUtf8( "OpenSG Field Container Editor " ) );
-
-	nodeNameInput->setText(emptyStr);
-	nodeParentInput->setText(emptyStr);
-	nodeLibraryInput->setText(emptyStr);
-	pointerFieldTypesCombo->setCurrentItem(0);
-	nodeDescriptionInput->setText(emptyStr);
-
-	partFrame->setEnabled(FALSE);
-	_activePartIndex = -1;
-	_activePart = 0;
-	updateActivePartView();			
-	updateList();
+    
+    nodeNameInput->blockSignals(true);
+    nodeNameInput->setText(emptyStr);
+    nodeNameInput->blockSignals(false);
+    
+    nodeParentInput->blockSignals(true);
+    nodeParentInput->setText(emptyStr);
+    nodeParentInput->blockSignals(false);
+    
+    nodeLibraryInput->blockSignals(true);
+    nodeLibraryInput->setText(emptyStr);
+    nodeLibraryInput->blockSignals(false);
+    
+    pointerFieldTypesCombo->blockSignals(true);
+    pointerFieldTypesCombo->setCurrentItem(0);
+    pointerFieldTypesCombo->blockSignals(false);
+    
+    nodeDescriptionInput->blockSignals(true);
+    nodeDescriptionInput->setText(emptyStr);
+    nodeDescriptionInput->blockSignals(false);
+    
+    partFrame->setEnabled(FALSE);
+    _activePartIndex = -1;
+    _activePart = 0;
+    updateActivePartView();			
+    updateList();
 }
 
 void FieldContainerViewCtl::pointerFieldTypesChanged(int index)

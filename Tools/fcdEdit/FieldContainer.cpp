@@ -243,7 +243,8 @@ const char *FieldContainer::abstractStr(int i)
 //----------------------------------------------------------------------
 void FieldContainer::setName (const char* name )
 {
-    delete _name;
+    if(_name != NULL)
+        delete [] _name;
 
     if (name && *name && strcmp(name,_nil)) {
         _name = new char [strlen(name)+1];
@@ -262,7 +263,8 @@ void FieldContainer::setName (const char* name )
 //----------------------------------------------------------------------
 void FieldContainer::setParentFieldContainer (const char* parentFieldContainer )
 {
-    delete _parentFieldContainer;
+    if(_parentFieldContainer != NULL)
+        delete [] _parentFieldContainer;
 
     if (parentFieldContainer && *parentFieldContainer) {
         _parentFieldContainer = new char [strlen(parentFieldContainer)+1];
@@ -281,7 +283,8 @@ void FieldContainer::setParentFieldContainer (const char* parentFieldContainer )
 //----------------------------------------------------------------------
 void FieldContainer::setDescription (const char* description )
 {
-    delete _description;
+    if(_description != NULL)
+        delete [] _description;
 
     if (description && *description) {
         _description = new char [strlen(description)+1];
@@ -300,7 +303,8 @@ void FieldContainer::setDescription (const char* description )
 //----------------------------------------------------------------------
 void FieldContainer::setLibrary (const char* library )
 {
-    delete _library;
+    if(_library != NULL)
+        delete [] _library;
 
     if (library && *library) {
         _library = new char [strlen(library)+1];
