@@ -673,46 +673,11 @@ dnl e2
             if test -n "$p2"; then
                 if test $build_os = $p2; then
                     ac_gdz_vpath_out=$ac_gdz_vpath_out:'$('${ac_gdz_project_praefix}'POOL)'/$p1
-
-                    ac_gdz_def_file=$p1/lib.def
-
-                    echo "Check Def : $ac_gdz_def_file"
-
-                    if test -r $ac_gdz_def_file; then
-                        if test $iFirstTime = "yes"; then
-                            ac_gdz_package_def_e2=lib.def
-                            echo "    cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name}.def.in ${ac_gdz_package_dir}/lib.def"
-                            echo "    cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def"
-                            cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name}.def.in ${ac_gdz_package_dir}/lib.def
-                            cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def
-                            iFirstTime="no"
-                        else
-                            echo "    cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def"
-                            cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def
-                        fi
-                    fi
                 fi
             else
                 ac_gdz_vpath_out=$ac_gdz_vpath_out:'$('${ac_gdz_project_praefix}'POOL)'/$p1
-
-                ac_gdz_def_file=$p1/lib.def
-
-                echo "Check Def : $ac_gdz_def_file"
-
-                if test -r $ac_gdz_def_file; then
-                    if test $iFirstTime = "yes"; then
-                        ac_gdz_package_def_e2=lib.def
-                        echo "    cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name}.def.in ${ac_gdz_package_dir}/lib.def"
-                        echo "    cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def"
-                        cp  ${ac_gdz_commonconf_dir}/lib${ac_gdz_package_name}.def.in ${ac_gdz_package_dir}/lib.def
-                        cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def
-                        iFirstTime="no"
-                    else
-                        echo "    cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def"
-                        cat $ac_gdz_def_file >> ${ac_gdz_package_dir}/lib.def
-                    fi
-                fi
             fi
+
         done
 
         changequote([, ])dnl

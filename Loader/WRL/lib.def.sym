@@ -17,3 +17,4 @@
     ?mapExtIntFieldType@?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@UAEHPBDH@Z
     ?preStandardProtos@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@MAEXXZ
     ?postStandardProtos@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@MAEXXZ
+	?mapIntExtFieldType@?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@UAEHPBDH@Z

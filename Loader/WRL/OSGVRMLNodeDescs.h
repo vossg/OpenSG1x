@@ -1640,7 +1640,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLDirectionalLightDesc : public VRMLNodeDesc
 //  Class
 //---------------------------------------------------------------------------
 
-//! VRML DirectionalLight Desc 
+//! VRML PointLight Desc 
 //! \ingroup GeometryLoaderLib
 
 class OSG_SYSTEMLIB_DLLMAPPING VRMLPointLightDesc : public VRMLNodeDesc

@@ -65,8 +65,9 @@ typedef VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> > Parent;
 
 #ifndef OSG_COMPILEVRMLLOADERINST
 #ifndef __sgi
-extern
-template OSG_SYSTEMLIB_DLLMAPPING
+extern template OSG_SYSTEMLIB_DLLMAPPING
+ScanParseFieldTypeMapper<ScanParseSkel>;
+extern template OSG_SYSTEMLIB_DLLMAPPING
 VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
 #endif
 #endif
@@ -169,7 +170,11 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-          NodePtr                    _pRootNode;
+//          NodePtr                    _pRoot;
+          NodePtr                    _pSceneRootNode;
+
+          NodePtr                    _pLightRoot;
+          NodePtr                    _pCurrentGlobalLight;
 
           VRMLNodeDesc *             _pCurrNodeDesc;
     stack<VRMLNodeDesc *>            _sNodeDescs;

@@ -11,6 +11,7 @@ cnvUnix2Win = "$(shell cygpath -w $(1))"
 
 ifneq ($(IN_TEST_DIR),1)
 STRIP_CURRENT_LIB_DEF=$(strip $(CURRENT_LIB_DEF))
+
 ifneq ($(STRIP_CURRENT_LIB_DEF),)
 	LIB_CDEF = -D$(STRIP_CURRENT_LIB_DEF)
 else
@@ -262,7 +263,7 @@ ifneq ($(SUB_SO),)
 SubLib: $(LIBS_DEP) $(SUB_SO) 
 	@echo "LASTDBG=$(DBG)" > .lastdbg
 
-$(SUB_SO): $(LIBS_DEP) $(LIB_QTTARGET_CPP) $(LIB_OBJECTS) 
+$(SUB_SO): $(LIBS_DEP) $(LIB_QTTARGET_CPP) $(LIB_OBJECTS) $(SUB_SO_DEF) 
 	@echo $(LIB_OBJECTS) $(AR_FLAGS) $(SUB_SO)
 	$(LD_SHARED) $($(PROJ)SUBPRELINKPAR) $(LD_OUTOPT)$(LD_OUTSPACE)$(SUB_SO) \
 		$(LIBPATHS) $(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) $(LIBS) 		 \
@@ -384,6 +385,27 @@ dbgLnk: Test
 
 optLnk: Test
 	@echo "LASTDBG=dbg" > .lastdbg
+
+endif
+
+#########################################################################
+# lib.def
+#########################################################################
+
+ifneq ($(LIB_DEF_SRC),)
+
+ifneq ($(LIB_HEADER_SRC),)
+
+lib.def: $(LIB_DEF_SRC) $(LIB_HEADER_SRC)
+	cp  $(LIB_HEADER_SRC) ./lib.def
+	cat $(LIB_DEF_SRC) >> ./lib.def
+else
+$(error no lib.def.header given)
+endif
+
+else
+
+lib.def:
 
 endif
 

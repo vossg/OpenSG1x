@@ -46,6 +46,12 @@ getProjQTSourceFiles   = $(foreach dir,$(1),$(call getQTSourceFiles,$(dir)))
 
 getPrTestQTSourceFiles = $(foreach dir,$(1),$(call getTestQTSourceFiles,$(dir)))
 
+getLibDefHdrFiles      = $(wildcard $(1)/lib.def.hdr)
+getProjLibDefHeader    = $(foreach dir,$(1),$(call getLibDefHdrFiles,$(dir)))
+
+getLibDefFiles         = $(wildcard $(1)/lib.def.sym)
+getProjLibDefFiles     = $(foreach dir,$(1),$(call getLibDefFiles,$(dir)))
+
 #########################################################################
 # Get Flex/Bison Source Files
 #########################################################################
@@ -275,6 +281,25 @@ LIB_TESTQTTARGET_CPP  := $(addprefix $(OBJDIR)/,$(LIB_TESTQTTARGET_CPP))
 LIB_TESTQTTARGET_DEPS := $(patsubst %.cpp,%.d,$(LIB_TESTQTTARGET_CPP))
 
 LIB_TESTQT_TARGET     := $(LIB_TESTQTTARGET_CPP) : $(LIB_TESTQT_SOURCES)
+endif
+
+endif
+
+#########################################################################
+# Define LibDef
+#########################################################################
+
+LIB_HEADER_SRC := $(strip $(call getProjLibDefHeader,$(LIB_ABSSOURCEDIRS)))
+LIB_DEF_SRC    := $(strip $(call getProjLibDefFiles,$(LIB_ABSSOURCEDIRS)))
+
+SUB_SO_DEF :=
+
+ifneq ($(LIB_DEF_SRC),)
+
+ifneq ($(LIB_HEADER_SRC),)
+
+SUB_SO_DEF := lib.def
+
 endif
 
 endif

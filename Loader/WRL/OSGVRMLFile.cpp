@@ -90,6 +90,8 @@ namespace
 
 #ifndef __sgi
 template OSG_SYSTEMLIB_DLLMAPPING
+ScanParseFieldTypeMapper<ScanParseSkel>;
+template OSG_SYSTEMLIB_DLLMAPPING
 VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
 #endif
 
@@ -103,7 +105,11 @@ OSG::Time findTime  = 0.;
 VRMLFile::VRMLFile(void) :
     Inherited(),
 
-    _pRootNode    (NullFC),
+//    _pRootNode         (NullFC),
+    _pSceneRootNode     (NullFC),
+
+    _pLightRoot         (NullFC),
+    _pCurrentGlobalLight(NullFC),
 
     _pCurrNodeDesc(NULL),
     _sNodeDescs   (),
@@ -146,7 +152,10 @@ void VRMLFile::scanFile(const Char8 *szFilename, UInt32 uiOptions)
 {
     startTime = getSystemTime();
 
-    _pRootNode = NullFC;
+//    _pRootNode           = NullFC;
+    _pSceneRootNode      = NullFC;
+    _pLightRoot          = NullFC;
+    _pCurrentGlobalLight = NullFC;
 
 #ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::resetIndent();
@@ -178,7 +187,11 @@ void VRMLFile::scanFile(const Char8  *szFilename,
 {
     startTime = getSystemTime();
 
-    _pRootNode = NullFC;
+//    _pRootNode           = NullFC;
+
+    _pSceneRootNode      = NullFC;
+    _pLightRoot          = NullFC;
+    _pCurrentGlobalLight = NullFC;
 
 #ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::resetIndent();
@@ -365,19 +378,24 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
     {
         NodePtr pNode = NodePtr::dcast(_pCurrentFC);
 
-        if(_pRootNode == NullFC)
+        if(_pSceneRootNode == NullFC)
         {
             GroupPtr pGroup = Group::create();
 
-            _pRootNode = Node::create();
-            beginEditCP(_pRootNode,Node::CoreFieldMask);
-            _pRootNode->setCore(pGroup);
-            endEditCP(_pRootNode,Node::CoreFieldMask);
+            _pSceneRootNode = Node::create();
+
+            beginEditCP(_pSceneRootNode, Node::CoreFieldMask);
+            {
+                _pSceneRootNode->setCore(pGroup);
+            }
+            endEditCP  (_pSceneRootNode, Node::CoreFieldMask);
         }
 
-        beginEditCP(_pRootNode,Node::ChildrenFieldMask);
-        _pRootNode->addChild(pNode);
-        endEditCP(_pRootNode,Node::ChildrenFieldMask);
+        beginEditCP(_pSceneRootNode, Node::ChildrenFieldMask);
+        {
+            _pSceneRootNode->addChild(pNode);
+        }
+        endEditCP  (_pSceneRootNode, Node::ChildrenFieldMask);
     }
 }
    
@@ -2539,7 +2557,7 @@ PROTO WorldInfo [
 
 NodePtr VRMLFile::getRoot(void)
 {
-    return _pRootNode;
+    //   return _pRootNode;
 }
 
 NodePtr VRMLFile::cloneTree(NodePtr pRootNode)
@@ -2850,7 +2868,12 @@ FieldContainerPtr VRMLFile::findReference(const Char8 *szName)
     }
     else
     {
-        returnValue = findFCByName(szName, _pRootNode);
+        returnValue = findFCByName(szName, _pSceneRootNode);
+
+        if(returnValue == NullFC && _pLightRoot != NullFC)
+        {
+            returnValue = findFCByName(szName, _pLightRoot);
+        }
     }
     
     return returnValue;
