@@ -49,7 +49,7 @@ RemoteAspect* ClusterServer::getRemoteAspect(void) const
 }
 
 inline
-void ClusterServer::setInterface(const std::string &interface)
+void ClusterServer::setInterface(const std::string &interf)
 {
     _interface = interface;
 }

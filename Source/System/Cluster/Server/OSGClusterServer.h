@@ -108,7 +108,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
     /*! \name                   set                                        */
     /*! \{                                                                 */
 
-    void setInterface(const std::string &interface);
+    void setInterface(const std::string &interf);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
