@@ -199,3 +199,5 @@
     ?insert@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@V34@ABVFieldContainerPtr@2@@Z
     ?erase@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@V34@@Z
     ?empty@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QBE_NXZ
+
+    ?getValue@?$SField@V?$map@IVAttachmentPtr@osg@@U?$less@I@std@@V?$allocator@U?$pair@$$CBIVAttachmentPtr@osg@@@std@@@4@@std@@$0A@@osg@@QBEABV?$map@IVAttachmentPtr@osg@@U?$less@I@std@@V?$allocator@U?$pair@$$CBIVAttachmentPtr@osg@@@std@@@4@@std@@XZ
