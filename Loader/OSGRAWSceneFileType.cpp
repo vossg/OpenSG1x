@@ -65,6 +65,7 @@
 #include <OSGNode.h>
 #include <OSGGeometry.h>
 #include <OSGGeoProperty.h>
+#include <OSGSimpleMaterial.h>
 
 
 #include "OSGRAWSceneFileType.h"
@@ -201,6 +202,14 @@ NodePtr RAWSceneFileType::read (const char *fileName ) const
 			geo->setNormalPerVertex( true );
 		}
 
+		SimpleMaterialPtr mat = SimpleMaterial::create();
+        osgBeginEditCP(mat, FieldBits::AllFields);
+		mat->setDiffuse( Color3f( .8, .8, .8 ) );
+		mat->setSpecular( Color3f( 1, 1, 1 ) );
+		mat->setShininess( 20 );
+        osgEndEditCP(mat, FieldBits::AllFields);
+		
+		geo->setMaterial( mat );
         osgEndEditCP(geo, FieldBits::AllFields);
 	
 		in.close();
