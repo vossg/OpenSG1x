@@ -75,7 +75,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.43 2002/07/02 15:07:00 dirk Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.44 2002/08/07 17:08:54 dirk Exp $";
 
 StateChunkClass TextureChunk::_class("Texture", osgMaxTextures);
 
@@ -887,8 +887,11 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     GLenum        oldtarget = GL_INVALID_ENUM;
 
     if(img == NULL || img->getDimension() == 0)
-      return;
-
+    {
+        oldp->deactivate(action, idx);
+        return;
+    }
+    
     glErr("TextureChunk::changeFrom precheck");
     
     activateTexture(action->getWindow(), idx);
@@ -901,6 +904,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         {
             FWARNING(("TextureChunk::changeFrom: 3D textures not "
                         "supported for this window!\n"));
+            oldp->deactivate(action, idx);
             return;
         }
     }
@@ -923,6 +927,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
             {
                 FWARNING(("TextureChunk::changeFrom: 3D textures not "
                             "supported for this window!\n"));
+                oldp->deactivate(action, idx);
                 return;
             }
         }
