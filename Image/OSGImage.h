@@ -138,6 +138,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
                Int32 frameCount = 1, Time frameDelay = 0.0,
                UChar8 *data = 0, Bool doCopy = true );
 
+		/** str add value method, mainly used by ascii parser */
+		Bool addValue (const char *value);
+
     /** reformate the image to the given pixelFormat */
     Bool reformat ( PixelFormat pixelFormat, Image *destination = 0);
 

@@ -404,7 +404,7 @@ header (#[^\n]*\n)
 
 <mfint32Value>{int32} {
 
-    if(_pSkel != NULL)
+   if(_pSkel != NULL)
         _pSkel->addFieldValue(OSGScanParseSkel_text);
 
     if (parsing_mf)
@@ -420,12 +420,14 @@ header (#[^\n]*\n)
 
     /* sfimageValue ::=  int32 int32 int32 ... */
 
+<sfimageValue>{int32}{ws}{int32}{ws}{int32} {
+    int w, h, d;
+    sscanf(OSGScanParseSkel_text, "%d %d %d", &w, &h, &d);
 
-<sfimageValue>{int32}{ws}{int32} {
-    int w, h;
-    sscanf(yytext, "%d %d", &w, &h);
+   	if(_pSkel != NULL)
+			_pSkel->addFieldValue(OSGScanParseSkel_text);
 
-    sfImageIntsExpected = 1+w*h;
+    sfImageIntsExpected = w*h;
     sfImageIntsParsed   = 0;                          
 
     BEGIN IN_SFIMG;
@@ -433,6 +435,14 @@ header (#[^\n]*\n)
 
 <IN_SFIMG>{int32} {
     ++sfImageIntsParsed;
+
+		/* std extention: stop pixelread neg values */
+		if (*OSGScanParseSkel_text == '-')
+			sfImageIntsParsed = sfImageIntsExpected;
+
+		if(_pSkel != NULL)
+      _pSkel->addFieldValue(OSGScanParseSkel_text);
+		
     if (sfImageIntsParsed == sfImageIntsExpected)
 	{
         BEGIN NODE;

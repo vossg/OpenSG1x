@@ -160,6 +160,97 @@ Bool Image::set ( PixelFormat pF,
 }
 
 //----------------------------
+// Function name: addValue
+//----------------------------
+//
+//Parameters:
+//p: const char *value
+//GlobalVars:
+//g: 
+//Returns:
+//r:bool
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d: set methode wich sets the image data
+//SeeAlso:
+//s:
+//
+//------------------------------
+Bool Image::addValue (const char *value)
+{
+  static Image *currentImage = 0;
+  static UChar8 *currentData = 0;
+  
+	Int32 width, height, pixelDepth;
+  Int64 i,j, size, v;
+  UChar8  *data;
+  PixelFormat pf;
+	Bool isHead = strchr(value,' ') ? true : false;
+  
+  // make sure we only read one image at a time
+  if ( currentImage == this ) {
+    if (isHead) {
+      FDEBUG (("Start new read cycle in image::addValue()\n"));
+    }
+  }
+  else {
+    if (!isHead) {
+      FFATAL (("Additional image date for different image\n"));
+    }
+  }
+  currentImage = this;
+
+	if (isHead) {
+    // read the head
+    sscanf(value, "%d %d %d", &width, &height, &pixelDepth);        
+    
+    FDEBUG (( "Image::addValue() set: w/h/bpp: %d/%d/%d\n", 
+              width,height,pixelDepth ));
+
+	  switch (pixelDepth) {
+    case 1:
+      pf = osg::Image::OSG_L_PF;
+      break;
+    case 2:
+      pf = osg::Image::OSG_LA_PF;
+      break;
+    case 3:
+      pf = osg::Image::OSG_RGB_PF;
+      break;
+    case 4:
+      pf = osg::Image::OSG_RGBA_PF;
+      break;
+    default:
+      pf = osg::Image::OSG_INVALID_PF;
+      FFATAL (("Invalid pixel depth: %d\n", pixelDepth));
+      break;
+    }
+    
+    if (pf && (width > 0) && (height > 0)) {
+      set(pf, width, height );
+      currentData = _data;
+    }
+    else {
+      currentData = 0;
+    }
+  }
+  else {
+    if (currentData) {
+      // add data
+      // TODO; should we check the bounds, should be done by the parser ?
+      v = strtoul(value, 0, strchr(value, 'x') ? 16 : 10);
+      for (j = _bpp; j--;) 
+        *currentData++ = (v >> (8 * j)) & 255;
+    }
+  }
+
+  return (currentData ? true : false);
+}
+
+//----------------------------
 // Function name: reformat
 //----------------------------
 //
