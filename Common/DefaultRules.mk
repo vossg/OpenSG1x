@@ -10,6 +10,16 @@
 cnvUnix2Win = "$(shell cygpath -w $(1))"
 
 ifeq ($(OS_BASE), cygwin)
+ifeq ($(OS_CMPLR), bcc)
+$(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
+	$(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."					\
+	$(OBJ_OPTION)$(call cnvUnix2Win,$@) $(call cnvUnix2Win,$<)
+$(OBJDIR)/%$(OBJ_SUFFIX): %.c
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
+	$(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."					\
+	 $(OBJ_OPTION) $(call cnvUnix2Win,$@) $(call cnvUnix2Win,$<)
+else
 $(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."					\
@@ -18,6 +28,7 @@ $(OBJDIR)/%$(OBJ_SUFFIX): %.c
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(INC_OPTION)"$(OBJDIR)" $(INC_OPTION)"."					\
 	 $(OBJ_OPTION)"$(OBJDIR)\\" $(call cnvUnix2Win,$<)
+endif
 else
 $(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
@@ -134,7 +145,7 @@ SubLib: $(LIB_DEPS) $(SUB_SO)
 $(SUB_SO): $(LIBS_DEP) $(LIB_QTTARGET_CPP) $(LIB_OBJECTS) 
 	@echo $(LIB_OBJECTS) $(AR_FLAGS) $(SUB_SO)
 	$(LD_SHARED) $(LD_OUTOPT)$(LD_OUTSPACE)$(SUB_SO) \
-		$(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) $(LIBPATHS) $(LIBS) \
+		$(LIBPATHS) $(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) $(LIBS) \
 		$(SO_INIT_FLAGS) $(LD_FLAGS)
 
 $(LIB_QT_TARGET)

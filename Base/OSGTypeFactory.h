@@ -99,7 +99,7 @@ class OSG_BASE_DLLMAPPING TypeFactory
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef map<StringLink, UInt32>          TypeNameMap;
+    typedef std::map<StringLink, UInt32>     TypeNameMap;
 
     typedef TypeNameMap::iterator            TypeNameMapIt;
     typedef TypeNameMap::const_iterator      TypeNameMapCnstIt;

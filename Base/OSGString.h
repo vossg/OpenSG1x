@@ -57,6 +57,11 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
+class String;
+OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os, 
+                                              const String       &obj);
+
+
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
@@ -126,7 +131,7 @@ class OSG_BASE_DLLMAPPING String
 
 	void    setLength(UInt32 length);
 
-	void    tokenize( vector <String*> &v);
+	void    tokenize( std::vector <String*> &v);
 
 
     /*------------------------- your_operators ------------------------------*/
@@ -202,8 +207,9 @@ class OSG_BASE_DLLMAPPING String
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-	friend OSG_BASE_DLLMAPPING ostream &operator <<(      ostream &os, 
-                                                    const String  &obj);
+	friend OSG_BASE_DLLMAPPING 
+    std::ostream &operator <<(      std::ostream &os, 
+                              const String       &obj);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     

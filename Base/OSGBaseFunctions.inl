@@ -488,10 +488,10 @@ inline
 OSG_BASE_DLLMAPPING Int32 stringcasecmp(const char *string1, 
                                         const char *string2)
 {
-#ifndef WIN32
+#if !defined(WIN32)
 	return strcasecmp(string1, string2);
 #else
-	return _stricmp(string1, string2);
+    return _stricmp  (string1, string2);
 #endif
 }
 
@@ -500,7 +500,7 @@ OSG_BASE_DLLMAPPING Int32 stringcasecmp(const char *string1,
 inline
 OSG_BASE_DLLMAPPING int putenv(char *string)
 {
-#ifndef WIN32
+#if !defined(WIN32) || defined(BCC)
     return ::putenv(string);
 #else
     return ::_putenv(string);

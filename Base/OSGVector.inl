@@ -1049,7 +1049,7 @@ VectorInterface<ValueTypeT, StorageInterfaceT>
 
     for(i = 0; i < _iSize; i++)
     {
-        returnValue._values[i] -= vec._values[i];
+        returnValue[i] -= vec[i];
     }
 
     return returnValue;

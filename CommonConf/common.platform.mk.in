@@ -43,7 +43,7 @@ EXE_SUFFIX           := @ac_gdz_exe_suffix@
 
 
 OS_BASE              := @ac_gdz_os_base@
-
+OS_CMPLR             := @ac_gdz_compiler_base@
 
 @ac_gdz_common_patterns@
 
@@ -59,8 +59,8 @@ CONFIGURED_PACKAGE_DEFS :=@ac_gdz_conf_package_defs@
 INCL_$(OS_BASE) := $(INC_OPTION)"@ac_gdz_gen_base_inc_e1@" $(INCL_$(OS_BASE))
 LIBS_$(OS_BASE) := @ac_gdz_base_system_libs@ 
 
-INCLUDE_SYSTEM  := @ac_gdz_system_incl_dir@
-LINK_SYSTEM     := @ac_gdz_system_lib_dir@
+INCLUDE_SYSTEM  := @ac_gdz_system_incl_dir_e1@
+LINK_SYSTEM     := @ac_gdz_system_lib_dir_e1@
 
 include $(@ac_gdz_plat_project_praefix@POOL)/$(@ac_gdz_plat_project_praefix@COMMONPACK)/commonSTL.mk
 
