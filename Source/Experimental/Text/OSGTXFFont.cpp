@@ -47,7 +47,8 @@ bool sRead(std::istream &file,
         file.read (static_cast<Char8 *>(value), size);
     }
 
-    return !file.fail();
+    bool failed = file.fail();
+    return !failed;
 }
 
 TXFFont::TXFFont(void) :
@@ -101,61 +102,69 @@ TXFFont::~TXFFont(void)
 
 void TXFFont::initFromStream(std::istream &source)
 {
-    bool    swapit;
+    bool    swapit, valid = true;
     UChar8  u_magic, *imageBuffer = NULL;
     Char8   c_magic[3];
     UInt32  ibuff, bitWidth = 0, stride;
     UInt16  sbuff;
     Int32   i, j;
 
-    // checking filetype
+    valid &= !source.fail();
+    // checking sourcetype
     source >> u_magic;
+    valid &= !source.fail();
 
     if(!(u_magic == 0xff))
-        _valid = false;
+        valid = false;
 
     source.read(c_magic, 3);
+    valid &= !source.fail();
 
     if(strncmp(c_magic, "txf", 3))
-        _valid = false;
+        valid = false;
 
     source.read(reinterpret_cast < Char8 * > (&ibuff), 4);
+    valid &= !source.fail();
     swapit = (ibuff == 0x12345678 ? false : true);
 
     if(swapit && (ibuff - 0x78563412))
-        _valid = false;
+        valid = false;
+        
+    valid &= sRead(source, &_txfIsBitmap, 4, swapit);
+    valid &= sRead(source, &_txfFontWidth, 4, swapit);
+    valid &= sRead(source, &_txfFontHeight, 4, swapit);
+    valid &= sRead(source, &_txfFontMaxAscent, 4, swapit);
+    valid &= sRead(source, &_txfFontMaxDescent, 4, swapit);
+    valid &= sRead(source, &_txfNumGlyphs, 4, swapit);
 
-    _valid &= sRead(source, &_txfIsBitmap, 4, swapit);
-    _valid &= sRead(source, &_txfFontWidth, 4, swapit);
-    _valid &= sRead(source, &_txfFontHeight, 4, swapit);
-    _valid &= sRead(source, &_txfFontMaxAscent, 4, swapit);
-    _valid &= sRead(source, &_txfFontMaxDescent, 4, swapit);
-    _valid &= sRead(source, &_txfNumGlyphs, 4, swapit);
-
-    _valid &= !(_txfIsBitmap > 1);
+    valid &= !(_txfIsBitmap > 1);
 
     _txfFontMaxDescent = 
         _txfFontMaxDescent > 0 ? _txfFontMaxDescent * -1 : _txfFontMaxDescent;
 
-    if(!_valid)
+    if(!valid)
+    {
+        _valid = valid;
         return;
-
+    }
+    
     // read content: glyph info
     _txfGlyphs = new txfChar[256];
 
     for(i = 0; i < _txfNumGlyphs; i++)
     {
-        _valid &= sRead(source, &sbuff, 2, swapit);
+        valid &= sRead(source, &sbuff, 2, swapit);
         source.read((Char8 *) _txfGlyphs[(UChar8) sbuff].dimensions, 6);
-        _valid &= sRead(source, &_txfGlyphs[(UChar8) sbuff].x, 2, swapit);
-        _valid &= sRead(source, &_txfGlyphs[(UChar8) sbuff].y, 2, swapit);
+        valid &= sRead(source, &_txfGlyphs[(UChar8) sbuff].x, 2, swapit);
+        valid &= sRead(source, &_txfGlyphs[(UChar8) sbuff].y, 2, swapit);
         _txfGlyphs[(UChar8) sbuff].remapped = 0;
 
-        if(!_valid)
+        if(!valid)
         {
             delete [] _txfGlyphs;
 
             _txfGlyphs = NULL;
+            _valid = valid;
 
             return;
         }
@@ -175,15 +184,16 @@ void TXFFont::initFromStream(std::istream &source)
                             _txfFontWidth * _txfFontHeight);
     }
 
-    _valid &= !source.fail();
+    valid &= !source.fail();
 
-    if(!_valid)
+    if(!valid)
     {
         delete [] _txfGlyphs;
         delete [] imageBuffer;
 
         _txfGlyphs   = NULL;
          imageBuffer = NULL;
+        _valid = valid;
 
         return;
     }
