@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <FieldContainer
-	name="SHLChunk"
-	parent="ShaderChunk"
+	name="ShaderParameterBool"
+	parent="ShaderParameter"
 	library="System"
 	pointerfieldtypes="both"
 	structure="concrete"
@@ -11,4 +11,13 @@
 	decoratable="false"
 	useLocalIncludes="false"
 >
+	<Field
+		name="value"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	parameter value
+	</Field>
 </FieldContainer>

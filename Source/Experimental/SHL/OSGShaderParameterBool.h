@@ -36,40 +36,36 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGSHLCHUNK_H_
-#define _OSGSHLCHUNK_H_
+#ifndef _OSGSHADERPARAMETERBOOL_H_
+#define _OSGSHADERPARAMETERBOOL_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
-#include "OSGDrawActionBase.h"
-#include "OSGWindow.h"
 
-#include <OSGSHLChunkBase.h>
+#include <OSGShaderParameterBoolBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief SHLChunk class. See \ref
-           PageKernelSHLChunk for a description.
+/*! \brief ShaderParameterBool class. See \ref 
+           PageSystemShaderParameterBool for a description.
 */
 
-class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
+class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBool : public ShaderParameterBoolBase
 {
   private:
 
-    typedef SHLChunkBase Inherited;
+    typedef ShaderParameterBoolBase Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
-
-    virtual const StateChunkClass * getClass         (void) const;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField,
+    virtual void changed(BitVector  whichField, 
                          UInt32     origin    );
 
     /*! \}                                                                 */
@@ -77,135 +73,53 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0,
+    virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector  bvFlags  = 0) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                       State                                  */
-    /*! \{                                                                 */
-
-    virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
-
-    virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
-                             UInt32 index = 0 );
-
-    virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Comparison                                */
-    /*! \{                                                                 */
-
-    virtual Real32 switchCost  ( StateChunk * chunk );
-
-    virtual bool   operator <  (const StateChunk &other) const;
-
-    virtual bool   operator == (const StateChunk &other) const;
-    virtual bool   operator != (const StateChunk &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    // Variables should all be in SHLChunkBase.
+    // Variables should all be in ShaderParameterBoolBase.
 
-    void onCreate(const SHLChunk *source = NULL);
-    void onDestroy(void);
+    void onCreate(const ShaderParameterBool *source = NULL);
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    SHLChunk(void);
-    SHLChunk(const SHLChunk &source);
+    ShaderParameterBool(void);
+    ShaderParameterBool(const ShaderParameterBool &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~SHLChunk(void);
+    virtual ~ShaderParameterBool(void); 
 
     /*! \}                                                                 */
-
+    
     /*==========================  PRIVATE  ================================*/
   private:
 
     friend class FieldContainer;
-    friend class SHLChunkBase;
-
-    // class. Used for indexing in State
-    static StateChunkClass _class;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name            OpenGL Extension Handling                         */
-    /*! \{                                                                 */
-
-    static UInt32 _shl_extension;
-
-    static UInt32 _funcCreateProgramObject;
-    static UInt32 _funcCreateShaderObject;
-    static UInt32 _funcDeleteObject;
-    static UInt32 _funcDetachObject;
-    static UInt32 _funcAttachObject;
-
-    static UInt32 _funcShaderSource;
-    static UInt32 _funcCompileShader;
-    static UInt32 _funcLinkProgram;
-    static UInt32 _funcGetInfoLog;
-    static UInt32 _funcUseProgramObject;
-
-    static UInt32 _funcGetObjectParameteriv;
-    static UInt32 _funcGetObjectParameterfv;
-    static UInt32 _funcGetUniformLocation;
-
-    static UInt32 _funcBindAttribLocation;
-    static UInt32 _funcGetAttribLocation;
-
-    static UInt32 _funcUniform1i;
-    static UInt32 _funcUniform2iv;
-    static UInt32 _funcUniform3iv;
-    static UInt32 _funcUniform4iv;
-    
-    static UInt32 _funcUniform1f;
-    static UInt32 _funcUniform2fv;
-    static UInt32 _funcUniform3fv;
-    static UInt32 _funcUniform4fv;
-    
-    static UInt32 _funcUniformMatrix4fv;
-
-    /*! \}                                                                 */
+    friend class ShaderParameterBoolBase;
 
     static void initMethod(void);
 
-    void handleGL(Window *win, UInt32 id);
-
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const SHLChunk &source);
 
-    typedef std::map<Window *, GLuint> programsMap;
-    typedef programsMap::iterator programsIt;
-    programsMap _programs;
-
-    typedef std::map<Window *, std::vector<GLuint> > destroyMap;
-    typedef destroyMap::iterator destroyIt;
-    static destroyMap _destroy;
-
-    void updateProgram(Window *win);
-    void updateParameters(Window *win, bool all = false);
-    void resetParameters(void);
-
-    Int32 _reset;
+    void operator =(const ShaderParameterBool &source);
 };
 
-typedef SHLChunk *SHLChunkP;
+typedef ShaderParameterBool *ShaderParameterBoolP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSHLChunkBase.inl>
-#include <OSGSHLChunk.inl>
+#include <OSGShaderParameterBoolBase.inl>
+#include <OSGShaderParameterBool.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.9 2004/07/01 11:26:56 a-m-z Exp $"
+#define OSGSHADERPARAMETERBOOL_HEADER_CVSID "@(#)$Id: OSGShaderParameterBool.h,v 1.1 2004/07/01 11:26:56 a-m-z Exp $"
 
-#endif /* _OSGCGCHUNK_H_ */
+#endif /* _OSGSHADERPARAMETERBOOL_H_ */

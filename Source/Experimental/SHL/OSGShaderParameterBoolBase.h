@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class SHLChunk
+ **     class ShaderParameterBool
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGSHLCHUNKBASE_H_
-#define _OSGSHLCHUNKBASE_H_
+#ifndef _OSGSHADERPARAMETERBOOLBASE_H_
+#define _OSGSHADERPARAMETERBOOLBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -63,28 +63,37 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGShaderChunk.h> // Parent
+#include <OSGShaderParameter.h> // Parent
 
+#include <OSGBoolFields.h> // Value type
 
-#include <OSGSHLChunkFields.h>
+#include <OSGShaderParameterBoolFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class SHLChunk;
+class ShaderParameterBool;
 class BinaryDataHandler;
 
-//! \brief SHLChunk Base Class.
+//! \brief ShaderParameterBool Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
+class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBoolBase : public ShaderParameter
 {
   private:
 
-    typedef ShaderChunk    Inherited;
+    typedef ShaderParameter    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef SHLChunkPtr  Ptr;
+    typedef ShaderParameterBoolPtr  Ptr;
+
+    enum
+    {
+        ValueFieldId = Inherited::NextFieldId,
+        NextFieldId  = ValueFieldId + 1
+    };
+
+    static const OSG::BitVector ValueFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -105,6 +114,23 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
     virtual const FieldContainerType &getType  (void) const; 
 
     virtual       UInt32              getContainerSize(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           SFBool              *getSFValue          (void);
+
+           bool                &getValue          (void);
+     const bool                &getValue          (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setValue          ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -131,8 +157,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  SHLChunkPtr      create          (void); 
-    static  SHLChunkPtr      createEmpty     (void); 
+    static  ShaderParameterBoolPtr      create          (void); 
+    static  ShaderParameterBoolPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -147,25 +173,32 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
   protected:
 
     /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
+
+    SFBool              _sfValue;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    SHLChunkBase(void);
-    SHLChunkBase(const SHLChunkBase &source);
+    ShaderParameterBoolBase(void);
+    ShaderParameterBoolBase(const ShaderParameterBoolBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~SHLChunkBase(void); 
+    virtual ~ShaderParameterBoolBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      SHLChunkBase *pOther,
+    void executeSyncImpl(      ShaderParameterBoolBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -174,11 +207,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
 
     friend class FieldContainer;
 
+    static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const SHLChunkBase &source);
+    void operator =(const ShaderParameterBoolBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -186,10 +220,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
 //---------------------------------------------------------------------------
 
 
-typedef SHLChunkBase *SHLChunkBaseP;
+typedef ShaderParameterBoolBase *ShaderParameterBoolBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.4 2004/07/01 11:26:56 a-m-z Exp $"
+#define OSGSHADERPARAMETERBOOLBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBoolBase.h,v 1.1 2004/07/01 11:26:57 a-m-z Exp $"
 
-#endif /* _OSGSHLCHUNKBASE_H_ */
+#endif /* _OSGSHADERPARAMETERBOOLBASE_H_ */

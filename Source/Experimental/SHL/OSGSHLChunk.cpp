@@ -51,6 +51,7 @@
 #include <OSGRemoteAspect.h>
 
 #include <OSGShaderParameter.h>
+#include <OSGShaderParameterBool.h>
 #include <OSGShaderParameterInt.h>
 #include <OSGShaderParameterReal.h>
 #include <OSGShaderParameterVec2f.h>
@@ -153,7 +154,6 @@ void SHLChunk::initMethod (void)
 SHLChunk::SHLChunk(void) :
     Inherited(),
     _programs(),
-    _parameter_access(NULL),
     _reset(-1)
 {
 }
@@ -161,7 +161,6 @@ SHLChunk::SHLChunk(void) :
 SHLChunk::SHLChunk(const SHLChunk &source) :
     Inherited(source),
     _programs(source._programs),
-    _parameter_access(source._parameter_access),
     _reset(source._reset)
 {
     _shl_extension = Window::registerExtension("GL_ARB_shading_language_100");
@@ -604,6 +603,21 @@ void SHLChunk::updateParameters(Window *win, bool all)
         
         switch(parameter->getTypeId())
         {
+            case ShaderParameter::SHPTypeBool:
+            {
+                ShaderParameterBoolPtr p = ShaderParameterBoolPtr::dcast(parameter);
+                // get "glUniform1iARB" function pointer
+                PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
+                    win->getFunction(_funcUniform1i);
+    
+                //printf("setting: %s %d\n", p->getName().c_str(), p->getValue());
+                GLint location = getUniformLocation(program, p->getName().c_str());
+                if(location != -1)
+                    uniform1i(location, (GLint) p->getValue());
+                else
+                    FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
+            }
+            break;
             case ShaderParameter::SHPTypeInt:
             {
                 ShaderParameterIntPtr p = ShaderParameterIntPtr::dcast(parameter);
@@ -721,129 +735,6 @@ void SHLChunk::resetParameters(void)
             endEditCP(parameter);
         }
     }
-}
-
-/*---------------------------- Access ------------------------------------*/
-
-/*! Read the program string from the given file
-*/
-bool SHLChunk::readVertexProgram(const char *file)
-{
-    std::ifstream s(file);
-    
-    if(s.good())
-    {
-        return readVertexProgram(s);
-    }
-    else
-    {
-        FWARNING(("ProgramChunk::read: couldn't open '%s' for reading!\n",
-                    file));
-        return false;
-    }
-}
-
-/*! Read the program string from the given stream
-*/
-bool SHLChunk::readVertexProgram(std::istream &stream)
-{
-#define BUFSIZE 200
-    
-    getVertexProgram().erase();    
-    char buf[BUFSIZE];
-
-    if(!stream.good())
-    {
-        FWARNING(("ProgramChunk::read: stream is not good!\n"));
-        return false;
-    }
-    
-    do
-    {
-        stream.read(buf, BUFSIZE);
-        getVertexProgram().append(buf, stream.gcount());
-    }
-    while(!stream.eof());
-    
-    return true;
-}
-
-/*! Read the program string from the given file
-*/
-bool SHLChunk::readFragmentProgram(const char *file)
-{
-    std::ifstream s(file);
-    
-    if(s.good())
-    {
-        return readFragmentProgram(s);
-    }
-    else
-    {
-        FWARNING(("ProgramChunk::read: couldn't open '%s' for reading!\n",
-                    file));
-        return false;
-    }
-}
-
-/*! Read the program string from the given stream
-*/
-bool SHLChunk::readFragmentProgram(std::istream &stream)
-{
-#define BUFSIZE 200
-    
-    getFragmentProgram().erase();    
-    char buf[BUFSIZE];
-
-    if(!stream.good())
-    {
-        FWARNING(("ProgramChunk::read: stream is not good!\n"));
-        return false;
-    }
-    
-    do
-    {
-        stream.read(buf, BUFSIZE);
-        getFragmentProgram().append(buf, stream.gcount());
-    }
-    while(!stream.eof());
-    
-    return true;
-}
-
-bool SHLChunk::setUniformParameter(const char *name, Int32 value)
-{
-    return _parameter_access->setParameter<ShaderParameterInt>(name, value);
-}
-
-bool SHLChunk::setUniformParameter(const char *name, Real32 value)
-{
-    return _parameter_access->setParameter<ShaderParameterReal>(name, value);
-}
-
-bool SHLChunk::setUniformParameter(const char *name, const Vec2f &value)
-{
-    return _parameter_access->setParameter<ShaderParameterVec2f>(name, value);
-}
-
-bool SHLChunk::setUniformParameter(const char *name, const Vec3f &value)
-{
-    return _parameter_access->setParameter<ShaderParameterVec3f>(name, value);
-}
-
-bool SHLChunk::setUniformParameter(const char *name, const Vec4f &value)
-{
-    return _parameter_access->setParameter<ShaderParameterVec4f>(name, value);
-}
-
-bool SHLChunk::setUniformParameter(const char *name, const Matrix &value)
-{
-    return _parameter_access->setParameter<ShaderParameterMatrix>(name, value);
-}
-
-bool SHLChunk::subUniformParameter(const char *name)
-{
-    return _parameter_access->subParameter(name);
 }
 
 /*------------------------------ State ------------------------------------*/
@@ -966,7 +857,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.14 2004/06/24 18:20:15 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.15 2004/07/01 11:26:56 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

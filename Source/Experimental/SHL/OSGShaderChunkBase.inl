@@ -4,8 +4,6 @@
  *                                                                           *
  *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
- *                            www.opensg.org                                 *
- *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
@@ -44,88 +42,149 @@
  **          Any changes made to this file WILL be lost when it is          **
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
+ **     Do not change this file, changes should be done in the derived      **
+ **     class ShaderChunk!
+ **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
-
-#ifndef _OSGSHLCHUNKFIELDS_H_
-#define _OSGSHLCHUNKFIELDS_H_
-#ifdef __sgi
-#pragma once
-#endif
-
 #include <OSGConfig.h>
-
-#include <OSGFieldContainerPtr.h>
-#include <OSGNodeCoreFieldDataType.h>
-#include <OSGSystemDef.h>
-
-#include <OSGShaderChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class SHLChunk;
 
-#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
-//! SHLChunkPtr
-
-typedef FCPtr<ShaderChunkPtr, SHLChunk> SHLChunkPtr;
-
-#endif
-
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpSystemFieldTraits
- */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
-
-template <>
-struct FieldDataTraits<SHLChunkPtr> : 
-    public FieldTraitsRecurseMapper<SHLChunkPtr, true>
+//! access the type of the class
+inline
+OSG::FieldContainerType &ShaderChunkBase::getClassType(void)
 {
-    static DataType             _type;                       
+    return _type; 
+} 
 
-    enum                        { StringConvertable = 0x00 };
-    enum                        { bHasParent        = 0x01 };
-
-    static DataType &getType (void) { return _type;        }
-
-    static char     *getSName(void) { return "SFSHLChunkPtr"; }
-    static char     *getMName(void) { return "MFSHLChunkPtr"; }
-};
-
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsRecurseMapper<SHLChunkPtr, true>
-    \hideinhierarchy
- */
-#endif
-
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+//! access the numerical type of the class
+inline
+OSG::UInt32 ShaderChunkBase::getClassTypeId(void) 
+{
+    return _type.getId(); 
+} 
 
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpSystemFieldSingle */
+/*------------------------------ get -----------------------------------*/
 
-typedef SField<SHLChunkPtr> SFSHLChunkPtr;
-#endif
+//! Get the ShaderChunk::_sfVertexProgram field.
+inline
+SFString *ShaderChunkBase::getSFVertexProgram(void)
+{
+    return &_sfVertexProgram;
+}
 
-#ifndef OSG_COMPILESHLCHUNKINST
-OSG_DLLEXPORT_DECL1(SField, SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-#endif
+//! Get the ShaderChunk::_sfFragmentProgram field.
+inline
+SFString *ShaderChunkBase::getSFFragmentProgram(void)
+{
+    return &_sfFragmentProgram;
+}
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpSystemFieldMulti */
+//! Get the ShaderChunk::_mfParameters field.
+inline
+MFShaderParameterPtr *ShaderChunkBase::getMFParameters(void)
+{
+    return &_mfParameters;
+}
 
-typedef MField<SHLChunkPtr> MFSHLChunkPtr;
-#endif
+//! Get the ShaderChunk::_sfGLId field.
+inline
+SFUInt32 *ShaderChunkBase::getSFGLId(void)
+{
+    return &_sfGLId;
+}
 
-#ifndef OSG_COMPILESHLCHUNKINST
-OSG_DLLEXPORT_DECL1(MField, SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-#endif
+
+//! Get the value of the ShaderChunk::_sfVertexProgram field.
+inline
+std::string &ShaderChunkBase::getVertexProgram(void)
+{
+    return _sfVertexProgram.getValue();
+}
+
+//! Get the value of the ShaderChunk::_sfVertexProgram field.
+inline
+const std::string &ShaderChunkBase::getVertexProgram(void) const
+{
+    return _sfVertexProgram.getValue();
+}
+
+//! Set the value of the ShaderChunk::_sfVertexProgram field.
+inline
+void ShaderChunkBase::setVertexProgram(const std::string &value)
+{
+    _sfVertexProgram.setValue(value);
+}
+
+//! Get the value of the ShaderChunk::_sfFragmentProgram field.
+inline
+std::string &ShaderChunkBase::getFragmentProgram(void)
+{
+    return _sfFragmentProgram.getValue();
+}
+
+//! Get the value of the ShaderChunk::_sfFragmentProgram field.
+inline
+const std::string &ShaderChunkBase::getFragmentProgram(void) const
+{
+    return _sfFragmentProgram.getValue();
+}
+
+//! Set the value of the ShaderChunk::_sfFragmentProgram field.
+inline
+void ShaderChunkBase::setFragmentProgram(const std::string &value)
+{
+    _sfFragmentProgram.setValue(value);
+}
+
+//! Get the value of the ShaderChunk::_sfGLId field.
+inline
+UInt32 &ShaderChunkBase::getGLId(void)
+{
+    return _sfGLId.getValue();
+}
+
+//! Get the value of the ShaderChunk::_sfGLId field.
+inline
+const UInt32 &ShaderChunkBase::getGLId(void) const
+{
+    return _sfGLId.getValue();
+}
+
+//! Set the value of the ShaderChunk::_sfGLId field.
+inline
+void ShaderChunkBase::setGLId(const UInt32 &value)
+{
+    _sfGLId.setValue(value);
+}
+
+
+//! Get the value of the \a index element the ShaderChunk::_mfParameters field.
+inline
+ShaderParameterPtr &ShaderChunkBase::getParameters(const UInt32 index)
+{
+    return _mfParameters[index];
+}
+
+//! Get the ShaderChunk::_mfParameters field.
+inline
+MFShaderParameterPtr &ShaderChunkBase::getParameters(void)
+{
+    return _mfParameters;
+}
+
+//! Get the ShaderChunk::_mfParameters field.
+inline
+const MFShaderParameterPtr &ShaderChunkBase::getParameters(void) const
+{
+    return _mfParameters;
+}
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGSHLChunkFields.h,v 1.4 2004/07/01 11:26:56 a-m-z Exp $"
+#define OSGSHADERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderChunkBase.inl,v 1.1 2004/07/01 11:26:56 a-m-z Exp $"
 
-#endif /* _OSGSHLCHUNKFIELDS_H_ */

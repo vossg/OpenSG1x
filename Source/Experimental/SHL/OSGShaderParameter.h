@@ -84,6 +84,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
     enum
     {
         SHPTypeUnknown = 0,
+        SHPTypeBool,
         SHPTypeInt,
         SHPTypeReal,
         SHPTypeVec2s,
@@ -94,7 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
         SHPTypeVec4f,
         SHPTypeMatrix
     };
-  
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -137,6 +138,6 @@ OSG_END_NAMESPACE
 #include <OSGShaderParameterBase.inl>
 #include <OSGShaderParameter.inl>
 
-#define OSGSHADERPARAMETER_HEADER_CVSID "@(#)$Id: OSGShaderParameter.h,v 1.1 2004/06/05 18:16:43 a-m-z Exp $"
+#define OSGSHADERPARAMETER_HEADER_CVSID "@(#)$Id: OSGShaderParameter.h,v 1.2 2004/07/01 11:26:56 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETER_H_ */

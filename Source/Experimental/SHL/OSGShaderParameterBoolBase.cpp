@@ -45,74 +45,94 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class SHLChunk!
+ **     class ShaderParameterBool!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#define OSG_COMPILESHLCHUNKINST
+#define OSG_COMPILESHADERPARAMETERBOOLINST
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <OSGConfig.h>
 
-#include "OSGSHLChunkBase.h"
-#include "OSGSHLChunk.h"
+#include "OSGShaderParameterBoolBase.h"
+#include "OSGShaderParameterBool.h"
 
 
 OSG_USING_NAMESPACE
 
-const OSG::BitVector SHLChunkBase::MTInfluenceMask = 
+const OSG::BitVector  ShaderParameterBoolBase::ValueFieldMask = 
+    (TypeTraits<BitVector>::One << ShaderParameterBoolBase::ValueFieldId);
+
+const OSG::BitVector ShaderParameterBoolBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
+// Field descriptions
 
-FieldContainerType SHLChunkBase::_type(
-    "SHLChunk",
-    "ShaderChunk",
-    NULL,
-    (PrototypeCreateF) &SHLChunkBase::createEmpty,
-    SHLChunk::initMethod,
-    NULL,
-    0);
+/*! \var bool            ShaderParameterBoolBase::_sfValue
+    parameter value
+*/
 
-//OSG_FIELD_CONTAINER_DEF(SHLChunkBase, SHLChunkPtr)
+//! ShaderParameterBool description
+
+FieldDescription *ShaderParameterBoolBase::_desc[] = 
+{
+    new FieldDescription(SFBool::getClassType(), 
+                     "value", 
+                     ValueFieldId, ValueFieldMask,
+                     false,
+                     (FieldAccessMethod) &ShaderParameterBoolBase::getSFValue)
+};
+
+
+FieldContainerType ShaderParameterBoolBase::_type(
+    "ShaderParameterBool",
+    "ShaderParameter",
+    NULL,
+    (PrototypeCreateF) &ShaderParameterBoolBase::createEmpty,
+    ShaderParameterBool::initMethod,
+    _desc,
+    sizeof(_desc));
+
+//OSG_FIELD_CONTAINER_DEF(ShaderParameterBoolBase, ShaderParameterBoolPtr)
 
 /*------------------------------ get -----------------------------------*/
 
-FieldContainerType &SHLChunkBase::getType(void) 
+FieldContainerType &ShaderParameterBoolBase::getType(void) 
 {
     return _type; 
 } 
 
-const FieldContainerType &SHLChunkBase::getType(void) const 
+const FieldContainerType &ShaderParameterBoolBase::getType(void) const 
 {
     return _type;
 } 
 
 
-FieldContainerPtr SHLChunkBase::shallowCopy(void) const 
+FieldContainerPtr ShaderParameterBoolBase::shallowCopy(void) const 
 { 
-    SHLChunkPtr returnValue; 
+    ShaderParameterBoolPtr returnValue; 
 
-    newPtr(returnValue, dynamic_cast<const SHLChunk *>(this)); 
+    newPtr(returnValue, dynamic_cast<const ShaderParameterBool *>(this)); 
 
     return returnValue; 
 }
 
-UInt32 SHLChunkBase::getContainerSize(void) const 
+UInt32 ShaderParameterBoolBase::getContainerSize(void) const 
 { 
-    return sizeof(SHLChunk); 
+    return sizeof(ShaderParameterBool); 
 }
 
 
-void SHLChunkBase::executeSync(      FieldContainer &other,
+void ShaderParameterBoolBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SHLChunkBase *) &other, whichField);
+    this->executeSyncImpl((ShaderParameterBoolBase *) &other, whichField);
 }
 
 /*------------------------- constructors ----------------------------------*/
@@ -121,7 +141,8 @@ void SHLChunkBase::executeSync(      FieldContainer &other,
 #pragma warning (disable : 383)
 #endif
 
-SHLChunkBase::SHLChunkBase(void) :
+ShaderParameterBoolBase::ShaderParameterBoolBase(void) :
+    _sfValue                  (), 
     Inherited() 
 {
 }
@@ -130,48 +151,67 @@ SHLChunkBase::SHLChunkBase(void) :
 #pragma warning (default : 383)
 #endif
 
-SHLChunkBase::SHLChunkBase(const SHLChunkBase &source) :
+ShaderParameterBoolBase::ShaderParameterBoolBase(const ShaderParameterBoolBase &source) :
+    _sfValue                  (source._sfValue                  ), 
     Inherited                 (source)
 {
 }
 
 /*-------------------------- destructors ----------------------------------*/
 
-SHLChunkBase::~SHLChunkBase(void)
+ShaderParameterBoolBase::~ShaderParameterBoolBase(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 SHLChunkBase::getBinSize(const BitVector &whichField)
+UInt32 ShaderParameterBoolBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (ValueFieldMask & whichField))
+    {
+        returnValue += _sfValue.getBinSize();
+    }
 
 
     return returnValue;
 }
 
-void SHLChunkBase::copyToBin(      BinaryDataHandler &pMem,
+void ShaderParameterBoolBase::copyToBin(      BinaryDataHandler &pMem,
                                   const BitVector         &whichField)
 {
     Inherited::copyToBin(pMem, whichField);
 
+    if(FieldBits::NoField != (ValueFieldMask & whichField))
+    {
+        _sfValue.copyToBin(pMem);
+    }
+
 
 }
 
-void SHLChunkBase::copyFromBin(      BinaryDataHandler &pMem,
+void ShaderParameterBoolBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
 
+    if(FieldBits::NoField != (ValueFieldMask & whichField))
+    {
+        _sfValue.copyFromBin(pMem);
+    }
+
 
 }
 
-void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
+void ShaderParameterBoolBase::executeSyncImpl(      ShaderParameterBoolBase *pOther,
                                         const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (ValueFieldMask & whichField))
+        _sfValue.syncWith(pOther->_sfValue);
 
 
 }
@@ -184,11 +224,11 @@ void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<SHLChunkPtr>::_type("SHLChunkPtr", "ShaderChunkPtr");
+DataType FieldDataTraits<ShaderParameterBoolPtr>::_type("ShaderParameterBoolPtr", "ShaderParameterPtr");
 #endif
 
-OSG_DLLEXPORT_SFIELD_DEF1(SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(ShaderParameterBoolPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(ShaderParameterBoolPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 
@@ -206,10 +246,10 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.4 2004/07/01 11:26:56 a-m-z Exp $";
-    static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
-    static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBoolBase.cpp,v 1.1 2004/07/01 11:26:57 a-m-z Exp $";
+    static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERBOOLBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGSHADERPARAMETERBOOLBASE_INLINE_CVSID;
 
-    static Char8 cvsid_fields_hpp[] = OSGSHLCHUNKFIELDS_HEADER_CVSID;
+    static Char8 cvsid_fields_hpp[] = OSGSHADERPARAMETERBOOLFIELDS_HEADER_CVSID;
 }
 
