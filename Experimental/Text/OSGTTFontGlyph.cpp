@@ -9,6 +9,7 @@
 #endif
 #include <iostream>
 
+#include "OSGBaseTypes.h"
 
 // Application declarations
 #include "freetype1/freetype/freetype.h"
@@ -31,9 +32,9 @@ TTFontGlyph::TTFontGlyph (void )
 	return;
 }
 
-TTFontGlyph::TTFontGlyph (const TTFontGlyph &obj )
+TTFontGlyph::TTFontGlyph (const TTFontGlyph &OSG_CHECK_ARG(obj) )
 {
-	return;
+	assert(false);
 }
 
 TTFontGlyph::TTFontGlyph (int ascii, int unicode)
@@ -103,12 +104,12 @@ bool TTFontGlyph::setSizes (float *_boundingBox, float & _advance)
 {
     TT_Get_Glyph_Metrics(_ttGlyph, &_ttGlyphMetrics );
 
-    _advance = (_ttGlyphMetrics.advance/64);
+    _advance = (static_cast<Real32>(_ttGlyphMetrics.advance)/64);
 
-    _boundingBox[0]= _ttGlyphMetrics.bbox.xMin/64;
-    _boundingBox[1]= _ttGlyphMetrics.bbox.xMax/64;
-    _boundingBox[2]= _ttGlyphMetrics.bbox.yMin/64;
-    _boundingBox[3]= _ttGlyphMetrics.bbox.yMax/64;
+    _boundingBox[0]= static_cast<Real32>(_ttGlyphMetrics.bbox.xMin)/64;
+    _boundingBox[1]= static_cast<Real32>(_ttGlyphMetrics.bbox.xMax)/64;
+    _boundingBox[2]= static_cast<Real32>(_ttGlyphMetrics.bbox.yMin)/64;
+    _boundingBox[3]= static_cast<Real32>(_ttGlyphMetrics.bbox.yMax)/64;
 
     return true;
 }

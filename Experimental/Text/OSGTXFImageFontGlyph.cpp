@@ -12,9 +12,6 @@
 #include <iostream>
 
 
-// Application declarations
-#include "freetype1/freetype/freetype.h"
-
 // Class declarations
 #include "OSGTXFImageFontGlyph.h"
 
@@ -43,7 +40,6 @@ TXFImageFontGlyph::TXFImageFontGlyph (IGlyphType type, int ascii, int unicode)
 {
 	return;
 }
-
 
 TXFImageFontGlyph::~TXFImageFontGlyph (void )
 {

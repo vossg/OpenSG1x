@@ -23,9 +23,10 @@ TTFontGlyphContour::TTFontGlyphContour (void )
 	return;
 }
 
-TTFontGlyphContour::TTFontGlyphContour (const TTFontGlyphContour &obj )
+TTFontGlyphContour::TTFontGlyphContour (const TTFontGlyphContour
+                                        &OSG_CHECK_ARG(obj) )
 {
-	return;
+	assert(false);
 }
 
 TTFontGlyphContour::~TTFontGlyphContour (void )

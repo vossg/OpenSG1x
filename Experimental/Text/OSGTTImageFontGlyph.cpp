@@ -36,9 +36,9 @@ TTImageFontGlyph::TTImageFontGlyph (void )
 	return;
 }
 
-TTImageFontGlyph::TTImageFontGlyph (const TTImageFontGlyph &obj )
+TTImageFontGlyph::TTImageFontGlyph (const TTImageFontGlyph &OSG_CHECK_ARG(obj) )
 {
-	return;
+	assert(false);
 }
 
 TTImageFontGlyph::TTImageFontGlyph (IGlyphType type, int ascii, int unicode)

@@ -9,6 +9,8 @@
 #endif
 #include <iostream>
 
+#include "OSGBaseTypes.h"
+
 
 // Application declarations
 #include "freetype1/freetype/freetype.h"
@@ -33,9 +35,10 @@ TTVectorFontGlyph::TTVectorFontGlyph (void )
 	return;
 }
 
-TTVectorFontGlyph::TTVectorFontGlyph (const TTVectorFontGlyph &obj )
+TTVectorFontGlyph::TTVectorFontGlyph (const TTVectorFontGlyph
+                                      &OSG_CHECK_ARG(obj) )
 {
-	return;
+	assert(false);
 }
 
 TTVectorFontGlyph::TTVectorFontGlyph (VGlyphType type, int ascii, int unicode)
@@ -546,22 +549,29 @@ int TTVectorFontGlyph::sortContours(TT_Outline outline)
 	clockwise = false;
 	
 	for(;j <= outline.contours[i]; j++) {
-	    if(outline.points[j].x < bb[0]) bb[0] = outline.points[j].x;
-	    if(outline.points[j].x > bb[2]) bb[2] = outline.points[j].x;
-	    if(outline.points[j].y < bb[1]) bb[1] = outline.points[j].y;
-	    if(outline.points[j].y > bb[3]) bb[3] = outline.points[j].y;
+        Real32 x = static_cast<Real32>(outline.points[j].x);
+        Real32 y = static_cast<Real32>(outline.points[j].y);
+	    if(x < bb[0]) 
+            bb[0] = x;
+	    if(x > bb[2]) 
+            bb[2] = x;
+	    if(y < bb[1])    
+            bb[1] = y;
+	    if(y > bb[3]) 
+            bb[3] = y;
 
 	    if(j!= (i ? outline.contours[i-1]+1 : 0)) {
-		order += (outline.points[j].x * last[1] - 
-			  outline.points[j].y * last[0]);
+		order += (x * last[1] - y * last[0]);
 		clockwise = order < 0.f;
 	    }
-	    last[0] = outline.points[j].x;
-	    last[1] = outline.points[j].y;
+	    last[0] = x;
+	    last[1] = y;
 	}
 	order +=
-	    (outline.points[i ? outline.contours[i-1]+1 : 0].x * last[1] - 
-	     outline.points[i ? outline.contours[i-1]+1 : 0].y * last[0]);
+	    (static_cast<Real32>(outline.points[i ? outline.contours[i-1]+1 : 0].x)
+             * last[1] - 
+	     static_cast<Real32>(outline.points[i ? outline.contours[i-1]+1 : 0].y)
+             * last[0]);
 	clockwise = order < 0.f;
 
 	if(clockwise) {

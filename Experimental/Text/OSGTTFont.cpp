@@ -35,9 +35,9 @@ TTFont::TTFont (void )
 	return;
 }
 
-TTFont::TTFont (const TTFont &obj )
+TTFont::TTFont (const TTFont &OSG_CHECK_ARG(obj) )
 {
-    return;
+    assert(false);
 }
 
 

@@ -34,10 +34,10 @@ TTFontStyle::TTFontStyle (void )
 	return;
 }
 
-TTFontStyle::TTFontStyle (const TTFontStyle &obj )
+TTFontStyle::TTFontStyle (const TTFontStyle &OSG_CHECK_ARG(obj) )
 : _ttInstance(0)
 {
-	return;
+	assert(false);
 }
 
 TTFontStyle::~TTFontStyle (void )
@@ -397,40 +397,40 @@ bool TTFontStyle::dump(ostream & out)
   unsigned char *oBuffer;
 
   out << (char)0xff << "txf";
-  out.write(&swapit,4);
-  out.write(&zero, 4);
-  out.write(&_txfFontWidth, 4);
-  out.write(&_txfFontHeight, 4);
+  out.write(reinterpret_cast<char*>(&swapit),4);
+  out.write(reinterpret_cast<char*>(&zero), 4);
+  out.write(reinterpret_cast<char*>(&_txfFontWidth), 4);
+  out.write(reinterpret_cast<char*>(&_txfFontHeight), 4);
   buffer = (int)rint(getMaxAscent()*72);
-  out.write(&buffer, 4);
+  out.write(reinterpret_cast<char*>(&buffer), 4);
   buffer = (int)rint(getMaxDescent()*72);
-  out.write(&buffer, 4);
+  out.write(reinterpret_cast<char*>(&buffer), 4);
 
   for(short i=0; i < _txfGlyphInfos.size(); i++)
     if(!(_txfGlyphInfos[i]->remapped())) nc++;
 
-  out.write(&nc, 4);
+  out.write(reinterpret_cast<char*>(&nc), 4);
 
 
   for(short i=0; i < _txfGlyphInfos.size(); i++)
     if(!(_txfGlyphInfos[i]->remapped())) {
       bb = _imageGlyphs[i]->getBoundingBox();
-      out.write(&i, 2);
+      out.write(reinterpret_cast<char*>(&i), 2);
       out << (char) (bb[1] - bb[0]);
       out << (char) (bb[3] - bb[2]);
       out << (char) bb[0] << (char) bb[2];
       out << (char) _imageGlyphs[i]->getAdvance();
       out << (char) 0;
       sbuffer = (short) _txfGlyphInfos[i]->getDimensions()[0];
-      out.write(&sbuffer, 2);
+      out.write(reinterpret_cast<char*>(&sbuffer), 2);
       sbuffer = (short) _txfGlyphInfos[i]->getDimensions()[1];
-      out.write(&sbuffer, 2);
+      out.write(reinterpret_cast<char*>(&sbuffer), 2);
     }
 
   oBuffer = new unsigned char [_txfFontWidth*_txfFontHeight];
   for (int j=0; j< _txfFontWidth*_txfFontHeight; j++)
     oBuffer[j] = _txfImageMap[2*j];
-  out.write(oBuffer, _txfFontWidth*_txfFontHeight);
+  out.write(reinterpret_cast<char*>(oBuffer), _txfFontWidth*_txfFontHeight);
 
   delete oBuffer;
 

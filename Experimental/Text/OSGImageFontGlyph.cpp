@@ -24,13 +24,13 @@ ImageFontGlyph::ImageFontGlyph (const ImageFontGlyph &obj )
 }
 */
 
-/*
+
 ImageFontGlyph::ImageFontGlyph (IGlyphType type)
-: _type(IGLYPH_NONE), _bitmapBuffer(0), _pixmapBuffer(0)
+: _type(type), _bitmapBuffer(0), _pixmapBuffer(0)
 {
     return;
 }
-*/
+
 
 ImageFontGlyph::~ImageFontGlyph (void )
 {
