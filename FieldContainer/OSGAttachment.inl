@@ -62,6 +62,7 @@ const BitVector SimpleAttachment<AttachmentDescT>::SimpleFieldMask =
 /*-------------------------------------------------------------------------*/
 /*                           Type Information                              */
 
+/*
 template <class AttachmentDescT>
 FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] =
 {
@@ -73,6 +74,7 @@ FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] =
         (FieldAccessMethod) &SimpleAttachment::getFieldPtr,
         NULL)
 };
+*/
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class AttachmentDescT>
@@ -87,7 +89,7 @@ FieldContainerType SimpleAttachment<AttachmentDescT>::_type =
         _desc,
         sizeof(_desc));
 #else
-template <class AttachmentDescT>
+template <class AttachmentDescT> 
 FieldContainerType SimpleAttachment<AttachmentDescT>::_type(
     AttachmentDescT::getTypeName(),
     "Attachment",
@@ -95,7 +97,7 @@ FieldContainerType SimpleAttachment<AttachmentDescT>::_type(
     (PrototypeCreateF) &SimpleAttachment<
                                               AttachmentDescT>::createEmpty,
     AttachmentDescT::getInitMethod(),
-    _desc,
+    AttachmentDescT::getDesc(),
     sizeof(FieldDescription *));
 #endif
 
@@ -110,7 +112,7 @@ OSG_FIELD_CONTAINER_INL_TMPL_DEF(SimpleAttachment,
 //! Returns pointer to stored field
 
 template <class AttachmentDescT> inline
-SimpleAttachment<AttachmentDescT>::StoredFieldType *
+typename SimpleAttachment<AttachmentDescT>::StoredFieldType *
     SimpleAttachment<AttachmentDescT>::getFieldPtr(void)
 {
     return &_field;
@@ -119,7 +121,7 @@ SimpleAttachment<AttachmentDescT>::StoredFieldType *
 //! Returns reference to the stored field
  
 template <class AttachmentDescT> inline
-SimpleAttachment<AttachmentDescT>::StoredFieldType &
+typename SimpleAttachment<AttachmentDescT>::StoredFieldType &
     SimpleAttachment<AttachmentDescT>::getField(void)
 {
     return _field;
@@ -128,7 +130,7 @@ SimpleAttachment<AttachmentDescT>::StoredFieldType &
 //! Returns const reference to the stored field
 
 template <class AttachmentDescT> inline
-const SimpleAttachment<AttachmentDescT>::StoredFieldType &
+const typename SimpleAttachment<AttachmentDescT>::StoredFieldType &
     SimpleAttachment<AttachmentDescT>::getField(void) const
 {
     return _field;

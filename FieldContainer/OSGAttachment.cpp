@@ -48,12 +48,25 @@
 #include "OSGAttachment.h"
 #include "OSGMFNodePtr.h"
 
+OSG_USING_NAMESPACE
+
+FieldDescription *NameAttachmentDesc::_desc[] =
+{
+    new FieldDescription(
+        FieldTypeT::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(SimpleAttachment<
+                                  NameAttachmentDesc>::SimpleField),
+        false,
+        (FieldAccessMethod) &SimpleAttachment<
+                                  NameAttachmentDesc>::getFieldPtr)
+};
+
 OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
 
 #pragma instantiate SimpleAttachment<NameAttachmentDesc>::_type
-#pragma instantiate SimpleAttachment<NameAttachmentDesc>::_desc
 
 #else
 

@@ -800,7 +800,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
                                    OSG_CLASS,                                 \
                                    OSG_CLASS_PTR)                             \
     template <class OSG_TMPL_PARAM> inline                                    \
-    OSG_CLASS<OSG_TMPL_PARAM>::OSG_CLASS_PTR                                  \
+    typename OSG_CLASS<OSG_TMPL_PARAM>::OSG_CLASS_PTR                         \
         OSG_CLASS<OSG_TMPL_PARAM>::create(void)                               \
     {                                                                         \
         OSG_CLASS_PTR fc;                                                     \
@@ -830,7 +830,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
                                          OSG_CLASS,                     \
                                          OSG_CLASS_PTR)                 \
     template <class OSG_TMPL_PARAM> inline                              \
-    OSG_CLASS<OSG_TMPL_PARAM>::OSG_CLASS_PTR                            \
+    typename OSG_CLASS<OSG_TMPL_PARAM>::OSG_CLASS_PTR                   \
         OSG_CLASS<OSG_TMPL_PARAM>::createEmpty(void)                    \
     {                                                                   \
         OSG_CLASS_PTR returnValue;                                      \
