@@ -339,8 +339,6 @@ int main( int argc, char *argv[] )
 	act1->apply( g1->getMFChildren()->begin(), g1->getMFChildren()->end() );
 
 
-#if 1 // !!! what the &%$^&# is going on here?
-
     {
     
     TravActor tact1,tact2;
@@ -383,7 +381,6 @@ int main( int argc, char *argv[] )
              osgFunctionFunctor1(traventer), 
              osgFunctionFunctor2(travleave) );
     }
-#endif  
     
 
 	// try the error checks

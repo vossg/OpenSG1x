@@ -597,8 +597,8 @@ Action::ResultE OSG::traverse(   NodePtr node,
     
     switch(res)
     {
-    case Action::Skip:      return Action::Continue;
-    case Action::Continue:  return traverse( node->getMFChildren()->getValues(), 
+    case Action::Skip:      res = Action::Continue;
+    case Action::Continue:  res = traverse( node->getMFChildren()->getValues(), 
                                              enter, leave );
     default:                break;
     }
