@@ -924,7 +924,7 @@ struct TypeTraits<GLenum> : public TypeTraitsBase
     }
 
 
-    static GLEnum      getFromString(const Char8 *szString)
+    static GLenum      getFromString(const Char8 *szString)
     {
         if(szString != NULL)
         {
