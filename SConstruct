@@ -512,6 +512,8 @@ def moveGVBetaFile(base, file):
     dst = os.path.join(base, 'tmp_gv', file)
     if os.path.exists(src) and not os.path.exists(dst):
         shutil.move(src, dst)
+    if os.path.exists(src):
+        os.unlink(src)
 
 def unmoveGVBetaFile(base, file):
     src = os.path.join(base, 'tmp_gv', file)
