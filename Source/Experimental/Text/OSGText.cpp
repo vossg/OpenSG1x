@@ -657,22 +657,57 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
     VectorFontGlyph ***g = 0;
     const Char8     *text;
 
-    if(creationMode != FILL_TEX_CHAR_MCM &&
-           creationMode != FILL_TEX_ALL_MCM &&
-           creationMode != FILL_MCM)
+    if (creationMode != FILL_TEX_CHAR_MCM &&
+        creationMode != FILL_TEX_ALL_MCM &&
+        creationMode != FILL_MCM)
         return false;
 
-    GeoPositions3fPtr   points = GeoPositions3f::create();
-    GeoNormals3fPtr     normals = GeoNormals3f::create();
-    GeoTexCoords2fPtr   texCoords;
-    if(creationMode == FILL_TEX_CHAR_MCM || creationMode == FILL_TEX_ALL_MCM)
-    {
-        texCoords = GeoTexCoords2f::create();
+    GeoPositions3fPtr points;
+	points = GeoPositions3fPtr::dcast(mesh.getPositions());
+	if (points == NullFC)
+	    points = GeoPositions3f::create();
+
+    GeoNormals3fPtr normals;
+	normals = GeoNormals3fPtr::dcast(mesh.getNormals());
+	if (normals == NullFC)
+	    normals = GeoNormals3f::create();
+
+    GeoTexCoords2fPtr texCoords;
+	texCoords = GeoTexCoords2fPtr::dcast(mesh.getTexCoords());
+    if (creationMode == FILL_TEX_CHAR_MCM || creationMode == FILL_TEX_ALL_MCM) {
+        if (texCoords == NullFC)
+		    texCoords = GeoTexCoords2f::create();
     }
 
-    GeoPTypesPtr        ftypes = GeoPTypesUI8::create();
-    GeoPLengthsPtr      flengths = GeoPLengthsUI32::create();
-    GeoIndicesUI32Ptr   faces = GeoIndicesUI32::create();
+    GeoPTypesPtr ftypes;
+	ftypes = GeoPTypesPtr::dcast(mesh.getTypes());
+	if (ftypes == NullFC)
+	    ftypes = GeoPTypesUI8::create();
+
+    GeoPLengthsPtr flengths;
+    flengths = GeoPLengthsPtr::dcast(mesh.getLengths());
+	if (flengths == NullFC)
+	    flengths = GeoPLengthsUI32::create();
+
+    GeoIndicesUI32Ptr faces;
+	faces = GeoIndicesUI32Ptr::dcast(mesh.getIndices());
+    if (faces == NullFC)
+	    faces = GeoIndicesUI32::create();
+
+	beginEditCP(points, FieldBits::AllFields);
+    beginEditCP(normals, FieldBits::AllFields);
+	if (creationMode == FILL_TEX_CHAR_MCM || creationMode == FILL_TEX_ALL_MCM)
+	    beginEditCP(texCoords, FieldBits::AllFields);
+	beginEditCP(ftypes, FieldBits::AllFields);
+	beginEditCP(flengths, FieldBits::AllFields);
+	beginEditCP(faces, FieldBits::AllFields);
+
+	points->clear();
+	normals->clear();
+	texCoords->clear();
+	ftypes->clear();
+	flengths->clear();
+	faces->clear();
 
     if(_fontInstance)
     {
@@ -773,8 +808,8 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
 
             points->resize(lastVert + numVertices);
 
-            if(creationMode == FILL_TEX_CHAR_MCM ||
-                           creationMode == FILL_TEX_ALL_MCM)
+            if (creationMode == FILL_TEX_CHAR_MCM ||
+                creationMode == FILL_TEX_ALL_MCM )
             {
                 texCoords->resize(lastVert + numVertices);
             }
@@ -886,7 +921,7 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
                         texCoords->setValue(Vec2f(
                             (g[line][strOff]->getPoints())[i - diff][0] /
                                 localWidth,
-                            ((g[line][strOff]->getPoints())[i - diff][1] + 
+                            ((g[line][strOff]->getPoints())[i - diff][1] +
                                 descent) / localHeight), 
                             i);
                     }
@@ -1001,6 +1036,12 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
             }
         }
 
+        beginEditCP(mesh.getPtr(), FieldBits::AllFields);
+
+		//mesh.invalidateVolume();
+		//if (mesh.getDlistCache())
+		//	mesh.setDlistCache(false);
+
         mesh.setPositions(points);
         mesh.setNormals(normals);
 
@@ -1008,22 +1049,19 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
         mesh.setLengths(flengths);
         mesh.setIndices(faces);
 
-        if(creationMode == FILL_TEX_CHAR_MCM ||
-                   creationMode == FILL_TEX_ALL_MCM)
-        {
-            mesh.getIndexMapping().push_back(Geometry::MapPosition | 
-                                             Geometry::MapTexCoords);
-        }
-        else
-        {
-            mesh.getIndexMapping().push_back(Geometry::MapPosition);
-        }
-
-        mesh.getIndexMapping().push_back(Geometry::MapNormal);
-
-        if(creationMode == FILL_TEX_CHAR_MCM ||
-                   creationMode == FILL_TEX_ALL_MCM)
+        if (creationMode == FILL_TEX_CHAR_MCM || creationMode == FILL_TEX_ALL_MCM)
             mesh.setTexCoords(texCoords);
+
+		mesh.getIndexMapping().clear();
+
+		if(creationMode == FILL_TEX_CHAR_MCM || creationMode == FILL_TEX_ALL_MCM) {
+			mesh.getIndexMapping().push_back(Geometry::MapPosition |
+											 Geometry::MapTexCoords);
+		}
+		else {
+			mesh.getIndexMapping().push_back(Geometry::MapPosition);
+		}
+		mesh.getIndexMapping().push_back(Geometry::MapNormal);
 
         for(line = 0; line < (Int32) lineVec.size(); line++)
             delete[] g[line];
@@ -1031,6 +1069,16 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
 
         mesh.setMaterial(getDefaultMaterial());
 
+		endEditCP(points, FieldBits::AllFields);
+		endEditCP(normals, FieldBits::AllFields);
+		if (creationMode == FILL_TEX_CHAR_MCM || creationMode == FILL_TEX_ALL_MCM)
+			endEditCP(texCoords, FieldBits::AllFields);
+		endEditCP(ftypes, FieldBits::AllFields);
+		endEditCP(flengths, FieldBits::AllFields);
+		endEditCP(faces, FieldBits::AllFields);
+
+		endEditCP(mesh.getPtr(), FieldBits::AllFields);
+        
         return true;
     }
 
