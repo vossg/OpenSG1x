@@ -137,6 +137,14 @@ const FieldType &SField<FieldTypeT, fieldNameSpace>::getType(void) const
 }
 #endif
 
+#ifndef OSG_DISABLE_DEPRECIATED
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+UInt32 SField<FieldTypeT, fieldNameSpace>::getSize(void) const
+{
+    return 1;
+}
+#endif
+
 /*-------------------------------------------------------------------------*/
 /*                                Set                                      */
 

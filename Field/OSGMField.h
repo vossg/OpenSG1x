@@ -119,8 +119,12 @@ class MField : public Field
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
+#ifndef OSG_DISABLE_DEPRECIATED
           reference            getValue (const UInt32 index);
     const_reference            getValue (const UInt32 index) const;
+
+    virtual UInt32             getSize  (      void        ) const;
+#endif
 
                   StorageType &getValues(void);
             const StorageType &getValues(void) const;
@@ -139,8 +143,12 @@ class MField : public Field
             void setValues    (const StorageType &value);
             void setValues    (const Self        &obj  );
     
+#ifndef OSG_DISABLE_DEPRECIATED
             void setValue     (      ArgumentType value,
                                const UInt32       index);
+
+            void addValue     (      ArgumentType value);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

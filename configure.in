@@ -700,6 +700,11 @@ dnl ############# XTREE Settings #####################
 AC_ARG_ENABLE(fixed-xtree,     [  --enable-fixed-xtree               Use fixed xtree header ],
 			,enable_fixed_xtree=no) 
 
+dnl ############# Depreciated Settings #####################
+
+AC_ARG_ENABLE(depreciated,     [  --disable-depreciated              Exclude depreciated interfaces ],
+		disable_depreciated=yes, disable_depreciated=no) 
+
 dnl ############# Bool=unsigned int Settings #####################
 
 AC_ARG_ENABLE(win-bool-is-unsigned,     [  --enable-win-bool-is-unsigned      Define Bool as unsigned, required to combine the software with Microsoft stuff, since preprocessors ignore namespaces ],
@@ -1318,6 +1323,10 @@ if test "$enable_sgi_pthread" = yes; then
     AC_DEFINE(OSG_SGI_USE_PTHREAD)
 else
     AC_DEFINE(OSG_SGI_USE_SPROC)
+fi
+
+if test "$disable_depreciated" = yes; then
+    AC_DEFINE(OSG_DISABLE_DEPRECIATED)
 fi
 
 if test "$with_mpatrol" != no; then

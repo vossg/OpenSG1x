@@ -40,6 +40,8 @@
 #undef OSG_DEFAULT_LOG_LEVEL
 #undef OSG_DEFAULT_LOG_TYPE 
 
+#undef OSG_DISABLE_DEPRECIATED
+
 #if defined(WIN32) && ! defined(__ICL)
 #pragma warning( disable : 4786 4661 4305 )
 #endif

@@ -115,8 +115,13 @@ int main (int argc, char **argv)
     testBField[0] = true;
     testBField[1] = false;
 
+#ifndef OSG_DISABLE_DEPRECIATED
     testBField.getValue(0);
     testBField.setValue(true, 0);
+
+    testBField.addValue(true);
+    testBField.getSize();
+#endif
 
     return 0;   
 }

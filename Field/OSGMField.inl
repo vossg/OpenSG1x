@@ -486,7 +486,7 @@ typename MField<FieldTypeT, fieldNameSpace>::const_reference
     return _values[index];
 }
 
-
+#ifndef OSG_DISABLE_DEPRECIATED
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 typename MField<FieldTypeT, fieldNameSpace>::reference 
     MField<FieldTypeT, fieldNameSpace>::getValue (const UInt32 index)
@@ -502,11 +502,24 @@ MField<FieldTypeT, fieldNameSpace>::const_reference
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
+UInt32 MField<FieldTypeT, fieldNameSpace>::getSize(void) const
+{
+    return size();
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::setValue(       ArgumentType value,
                                                   const UInt32       index)
 {
     operator[](index) = value;
 }
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void MField<FieldTypeT, fieldNameSpace>::addValue(ArgumentType value)
+{
+    push_back(value);
+}
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                              MT Sync                                    */
