@@ -131,6 +131,7 @@ Particles::Particles(const Particles &source) :
 
 Particles::~Particles(void)
 {
+	subRefCP(_sfMaterial.getValue());
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -163,6 +164,17 @@ void Particles::changed(BitVector whichField, UInt32 origin)
             _parents[i]->invalidateVolume();
         }
         getBsp().destroy();
+    }
+
+	if(whichField & MaterialFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfMaterial.getValue());
+            }
+        }
     }
 
     Inherited::changed(whichField, origin);
@@ -2290,7 +2302,7 @@ ParticlesDrawer *Particles::findDrawer(void)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.24 2002/06/30 05:04:22 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.25 2002/08/24 13:52:59 a-m-z Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }

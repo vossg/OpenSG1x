@@ -101,6 +101,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
     Action::ResultE render               (Action         *action);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+    
+    void setMaterial       (const MaterialPtr     &value);
+    
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -159,6 +167,6 @@ OSG_END_NAMESPACE
 #include <OSGParticlesBase.inl>
 #include <OSGParticles.inl>
 
-#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.7 2002/06/01 10:37:24 vossg Exp $"
+#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.8 2002/08/24 13:52:59 a-m-z Exp $"
 
 #endif /* _OSGPARTICLES_H_ */

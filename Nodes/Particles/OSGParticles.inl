@@ -42,7 +42,15 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*------------------------------ access -----------------------------------*/
+
+inline
+void Particles::setMaterial(const MaterialPtr &value)
+{
+    setRefdCP(_sfMaterial.getValue(), value);
+}
+
 OSG_END_NAMESPACE
 
-#define OSGPARTICLES_INLINE_CVSID "@(#)$Id: OSGParticles.inl,v 1.1 2002/01/04 17:05:03 dirk Exp $"
+#define OSGPARTICLES_INLINE_CVSID "@(#)$Id: OSGParticles.inl,v 1.2 2002/08/24 13:52:59 a-m-z Exp $"
 
