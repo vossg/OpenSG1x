@@ -785,6 +785,18 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				{
 					continue;
 				}
+				
+				int maxlen = 4; // NextFieldId is min length
+				for(; fieldIt != _fieldList.end(); fieldIt++)
+				{
+					if ( strlen( fieldIt->name()) > maxlen )
+						maxlen = strlen( fieldIt->name());
+				}
+				char *spc = new char [maxlen + 1];
+				memset( spc, ' ', maxlen );
+				spc[maxlen]=0;
+				
+				fieldIt = _fieldList.begin();
 				const char *name, *prevname;
 				name = fieldIt->name();
 				// first field: refer to parent's last field
@@ -792,7 +804,9 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
                 out << "    {" << endl;
 
 				out << "        " 
-				    << (char)toupper( name[0] ) << name + 1 << "FieldId"
+				    << (char)toupper( name[0] ) << name + 1 
+					<< "FieldId"
+					<< spc + strlen( name )
 					<< " = Inherited::NextFieldId"
                     << "," << endl;
                     
@@ -802,19 +816,28 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 					name = fieldIt->name();
 					out << "        " 
 				    	<< (char)toupper(name[0]) << name + 1 << "FieldId"
+						<< spc + strlen( name )
 						<< " = " << (char)toupper(prevname[0]) 
-						<< prevname + 1 << "FieldId + 1"
+						<< prevname + 1 << "FieldId"
+						<< spc + strlen(prevname)
+						<< " + 1"
                         << "," << endl;
 				}
 
                 out << "        " 
-                    << "NextFieldId = "
+                    << "NextFieldId " 
+					<< spc + 4				
+					<< "= "
                     << (char)toupper(name[0]) 
-                    << name + 1 << "FieldId + 1"
+                    << name + 1 << "FieldId "
+					<< spc + strlen(name)
+					<< "+ 1"
                     << endl;
                 
-                out << endl << "    };" << endl << endl;
-
+                out  << "    };" << endl << endl;
+				
+				delete [] spc;
+				
 				for ( fieldIt = _fieldList.begin(); fieldIt != _fieldList.end(); fieldIt++ )
 				{
 					name = fieldIt->name();
@@ -1114,40 +1137,58 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 		{
 			// replace @!classname!@ etc. with the names
 			static char *keys[] = { 
-				"@!Classname!@", 		"@!CLASSNAME!@", 
-				"@!Libname!@",  		"@!LIBNAME!@",
-				"@!Parent!@", 			"@!PARENT!@",
-				"@!CARDINALITY!@",		"@!Fieldtype!@",
-				"@!fieldname!@", 		"@!Fieldname!@", 
-				"@!FIELDNAME!@", 		"@!fieldvisibility!@",
-				"@!FieldTypedDefault!@","@!FieldtypeInclude!@",
-				"@!Description!@",		"@!Fielddescription!@", 
-				"@!FieldSeparator!@",	"@!FieldDefaultHeader!@",
-				"@!HeaderPrefix!@", 	"@!ParentHeaderPrefix!@",
-				"@!fieldnameDesc!@",     NULL };
+				"@!Classname", 			"@!CLASSNAME", 
+				"@!Libname",  			"@!LIBNAME",
+				"@!ParentHeaderPrefix",
+				"@!Parent", 			"@!PARENT",
+				"@!FieldtypeInclude",
+				"@!FieldTypedDefault",	
+				"@!CARDINALITY",		"@!Fieldtype",
+				"@!fieldnameDesc",
+				"@!fieldname", 			"@!Fieldname", 
+				"@!FIELDNAME", 			"@!fieldvisibility",
+				"@!Description",		"@!Fielddescription", 
+				"@!FieldSeparator",		"@!FieldDefaultHeader",
+				"@!HeaderPrefix", 		
+				NULL };
+			typedef enum {  
+					ClassnameE = 0,		CLASSNAMEE, 
+					LibnameE,  			LIBNAMEE,
+					ParentHeaderPrefixE,
+					ParentE, 			PARENTE,
+					FieldtypeIncludeE,
+					FieldTypedDefaultE, 
+					CARDINALITYE,		FieldtypeE,
+					fieldnameDescE,
+					fieldnameE, 		FieldnameE, 
+					FIELDNAMEE, 		fieldvisibilityE,
+					DescriptionE,		FielddescriptionE, 
+					FieldSeparatorE,	FieldDefaultHeaderE,
+					HeaderPrefixE, 		
+					} varE;
 			char *values[ sizeof(keys) / sizeof( char * ) ];
-			
-			values[0] = fcname;
-			values[1] = fcnameUpper;
-			values[2] = libname;
-			values[3] = libnameUpper;
-			values[4] = parentname;
-			values[5] = parentnameUpper;
-			values[14] = (char*)(description);
-			values[18] = (char*)(headerPrefix);
-			values[19] = (char*)(parentHeaderPrefix);
+					
+			values[ClassnameE] = fcname;
+			values[CLASSNAMEE] = fcnameUpper;
+			values[LibnameE] = libname;
+			values[LIBNAMEE] = libnameUpper;
+			values[ParentE] = parentname;
+			values[PARENTE] = parentnameUpper;
+			values[DescriptionE] = (char*)(description);
+			values[HeaderPrefixE] = (char*)(headerPrefix);
+			values[ParentHeaderPrefixE] = (char*)(parentHeaderPrefix);
 
 			if ( inFieldLoop )
 			{
 				char * s;
 
-				values[6] = fieldcardinality;
-				values[7] = strdup(fieldtype);
-				values[8] = strdup(fieldname);
-				values[9] = fieldnameCaps;
-				values[10] = fieldnameUpper;
-				values[11] = (char*)(fieldIt->visibility() ? "false" : "true");
-                values[20] = fieldnameDesc;
+				values[CARDINALITYE] = fieldcardinality;
+				values[FieldtypeE] = strdup(fieldtype);
+				values[fieldnameE] = strdup(fieldname);
+				values[FieldnameE] = fieldnameCaps;
+				values[FIELDNAMEE] = fieldnameUpper;
+				values[fieldvisibilityE] = (char*)(fieldIt->visibility() ? "false" : "true");
+                values[fieldnameDescE] = fieldnameDesc;
 
 				if ( fieldIt->defaultValue() )
 				{
@@ -1159,13 +1200,13 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 					strcat( s, "(" );
 					strcat( s, fieldIt->defaultValue() );
 					strcat( s, ")" );	
-					values[12] = s;		
+					values[FieldTypedDefaultE] = s;		
 				}
 				else
 				{
-					s = new char [1];
+					s = new char [CLASSNAMEE];
 					*s = 0;
-					values[12] = s;	
+					values[FieldTypedDefaultE] = s;	
 				}
 				
 				// FieldtypeInclude
@@ -1188,25 +1229,28 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 					s = new char [ strlen(fieldIt->header()) + 1];
 					strcpy( s, fieldIt->header() );					
 				}
-				values[13] = s;
+				values[FieldtypeIncludeE] = s;
 				
-				values[15] = fielddescription;	
+				values[FielddescriptionE] = fielddescription;	
 
 				if ( fieldIt == --_fieldList.end() )
-					values[16] = "";
+					values[FieldSeparatorE] = "";
 				else
-					values[16] = ",";
+					values[FieldSeparatorE] = ",";
 
 				if ( fieldIt->defaultHeader() && *fieldIt->defaultHeader())
-					values[17] = fieldIt->defaultHeader();
+					values[FieldDefaultHeaderE] = fieldIt->defaultHeader();
 				else
-					values[17] = "";
+					values[FieldDefaultHeaderE] = "";
 			}
 			else
 			{
-				values[6] = values[7] = values[8] = values[9] = 
-				values[10] = values[11] = values[12] = values[13] = 
-				values[15] = values[16] = values[17] = NULL;
+				values[CARDINALITYE] = values[FieldtypeE] = 
+				values[fieldnameE] = values[FieldnameE] = 
+				values[FIELDNAMEE] = values[fieldvisibilityE] = 
+				values[FieldTypedDefaultE] = values[FieldtypeIncludeE] = 
+				values[FielddescriptionE] = values[FieldSeparatorE] = 
+				values[FieldDefaultHeaderE] = NULL;
 			}
 
 
@@ -1216,7 +1260,7 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 			{
 				if ( !ce[1] || ce[1] != '!' )
 				{
-					ce = strchr( ce + 1, '@' );;
+					ce = strchr( ce + 1, '@' );
 					continue;
 				}
 				
@@ -1224,9 +1268,14 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				for ( i = 0; keys[i] ; i++ )
 					if ( ! strncmp( ce, keys[i], strlen( keys[i] ) ) )
 					{
+						int len = 0;
+						if ( ce[ strlen(keys[i]) ] == ':' )
+						{
+							len = atoi( ce + strlen(keys[i]) + 1 );
+						}
 						if ( ! values[i] ) 
 						{
-							cerr << "Replacement for " << keys[i] << " is NULL"
+							cerr << "Replacement for " << keys[i] << "!@ is NULL"
 								 << " in line " << *templ << endl;
 						}
 						else
@@ -1235,9 +1284,11 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 							for ( p = cs; p < ce; p++ )
 								out << *p;
 							if ( strlen( values[i] ) )
-								out << values[i];
+								out << values[i];	
+							for ( int j = strlen( values[i] ); j < len; j++ )
+								out << ' ';	
 						}
-						ce += strlen( keys[i] );	// get behind the !@-string
+						ce = strchr( ce + 1, '@' ) + 1;	// get behind the !@-string
 						cs = ce;
 						break;
 					}
@@ -1252,10 +1303,17 @@ bool FieldContainer::writeTempl( ofstream & out, char ** templ )
 				ce = strchr( ce, '@' );
 			}
 			
-			if ( values[12] )	delete [] values[12];		
-			if ( values[13] )	delete [] values[13];
-			if ( values[7] )	free( values[7] );
-			if ( values[8] )	free( values[8] );
+			if ( values[FieldTypedDefaultE] )	
+				delete [] values[FieldTypedDefaultE];
+						
+			if ( values[FieldtypeIncludeE] )	
+				delete [] values[FieldtypeIncludeE];
+				
+			if ( values[FieldtypeE] )	
+				free( values[FieldtypeE] );
+				
+			if ( values[fieldnameE] )	
+				free( values[fieldnameE] );
 
 			out << cs << endl;
 		}
