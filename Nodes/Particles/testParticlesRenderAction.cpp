@@ -51,7 +51,8 @@ int main(int argc, char **argv)
     MFPnt3f* p = pnts->getFieldPtr();
 
     beginEditCP(pnts);
-    for(UInt32 i = 0; i < count; ++i)
+    UInt32 i;
+    for(i = 0; i < count; ++i)
     {
         Pnt3f pnt(osgrand(),osgrand(),osgrand());
         p->addValue(pnt);        
@@ -62,14 +63,14 @@ int main(int argc, char **argv)
     GeoColors3fPtr cols = GeoColors3f::create();
     particles->setColors( cols );
     beginEditCP(cols);
-    for(UInt32 i = 0; i < count; ++i)
+    for(i = 0; i < count; ++i)
     {
         cols->getFieldPtr()->addValue( Color3f(osgrand(),osgrand(),osgrand()) );
     }
     endEditCP(cols);
 
     MFVec3f *size = particles->getMFSizes();
-    for(UInt32 i = 0; i < count; ++i)
+    for(i = 0; i < count; ++i)
     {
         Real32 s=osgrand()/10.f;
         size->addValue(Vec3f(s,0,0));
