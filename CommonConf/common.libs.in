@@ -11,7 +11,7 @@ ac_gdz_package[3]="WindowWIN32:1:Window/WIN32@: Action Action/DrawAction Base Fi
 
 ac_gdz_package[4]="WindowQT:1:Window/QT@:  Action Action/DrawAction Base Field FieldContainer Loader Log MultiThreading Material Nodes/Misc Nodes/Geometry Nodes/Light State Window Window/@WINDOWSYSTEM@ QT GL : Window@WINDOWSYSTEM@Lib  SystemLib BaseLib : : QT GL TIF JPG PNG MNG : " 
 
-ac_gdz_package[5]="WindowGLUT:1:Window/GLUT@: Action Action/DrawAction Action/IntersectAction Base Field FieldContainer Image Loader Log Material MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light State Window GLUT GL : SystemLib BaseLib : : GLUT GL TIF JPG PNG MNG :" 
+ac_gdz_package[5]="WindowGLUT:1:Window/GLUT@: Action Action/DrawAction Action/DrawRender Action/IntersectAction Base Field FieldContainer Image Loader Log Material MultiThreading Nodes/Misc Nodes/Geometry Nodes/Light State Window GLUT GL : SystemLib BaseLib : : GLUT GL TIF JPG PNG MNG :" 
 
 
 
