@@ -975,8 +975,8 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
         
         for(b = 0; b <= latres; b++)
         {
-            i->addValue(b * (longres+1) + a);
             i->addValue(b * (longres+1) + a + 1);
+            i->addValue(b * (longres+1) + a);
         }
     }
 
