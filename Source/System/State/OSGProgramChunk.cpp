@@ -197,12 +197,14 @@ bool ProgramChunk::read(const char *file)
 {
     std::ifstream s(file);
     
-    if(s)
+    if(s.good())
     {
         return read(s);
     }
     else
     {
+        FWARNING(("ProgramChunk::read: couldn't open '%s' for reading!\n",
+                    file));
         return true;
     }
 }
@@ -215,6 +217,13 @@ bool ProgramChunk::read(std::istream &stream)
     
     getProgram().erase();    
     char buf[BUFSIZE];
+
+    if(!stream.good())
+    {
+        FWARNING(("ProgramChunk::read: stream is not good!\n"));
+        return true;
+   
+    }
     
     do
     {
@@ -305,13 +314,24 @@ void ProgramChunk::printCompileError(Window *win, UInt32 idstatus)
               "at position %d: %s\n",
               win, id, mode, pos, glGetString(GL_PROGRAM_ERROR_STRING_ARB)));
     
-    UInt32 first, last;
-    first = osgMax(static_cast<GLint>(                  0), pos-20);
-    last  = osgMin(static_cast<GLint>(getProgram().size()), pos+20);
+    UInt32 start = 0, end, line = 0;
     
-    std::string mesg("Location: ");
+    for(end = 0; end < getProgram().size(); ++end)
+    {
+        if(getProgram()[end] == '\n')
+        {
+            ++line;
+            
+            if(pos < end)
+                break;
+            
+            start = end + 1;
+        }
+    }
     
-    for(UInt32 i = first; i < last; ++i)
+    std::string mesg;
+    
+    for(UInt32 i = start; i < end; ++i)
     {
         if(i == pos)
         {
@@ -328,7 +348,7 @@ void ProgramChunk::printCompileError(Window *win, UInt32 idstatus)
         }
     }
     
-    SWARNING << mesg << endLog;
+    SWARNING << "Location (line " << line << "): " << mesg << endLog;
 }
 
 /*! GL object handler
