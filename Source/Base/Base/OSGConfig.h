@@ -59,13 +59,13 @@
     e.g. "1.3.0pre1"
  */
 
-#define OSG_VERSION_STRING      "1.9.0"
+#define OSG_VERSION_STRING      "1.6.0pre1"
 
 /*! The numeric full version, with two digits per major/minor/release, e.g.
     010300
  */
 
-#define OSG_VERSION             010900
+#define OSG_VERSION             010600
 
 /*! The numeric major version number, e.g. 1
  */
@@ -75,7 +75,7 @@
 /*! The numeric minor version number, e.g. 4
  */
 
-#define OSG_MINOR_VERSION       9
+#define OSG_MINOR_VERSION       6
 
 /*! The numeric release version number, e.g. 0
  */
