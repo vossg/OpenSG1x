@@ -53,16 +53,12 @@
 
 OSG_BEGIN_NAMESPACE
 
-
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
- */
-
 class StatElemDescBase;
 
-class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem {
+/*! \brief Time Statistics element, see \ref PageSystemStatistics for details.
+*/
+class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem 
+{
 
     /*==========================  PUBLIC  =================================*/
  public:
@@ -85,21 +81,20 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem {
     /*! \name                    instance                                  */
     /*! \{                                                                 */
 
-    inline void reset(void);
+    inline void         reset        (void);
     
-    inline const Time &start(void);
+    inline const Time & start        (void);
       
-    inline const Time &stop(void);
+    inline const Time & stop         (void);
 
-    inline const Time & getTime(void);
+    inline const Time & getTime      (void) const;
         
-    virtual void putToString(std::string &str, const char *format = NULL);
+    virtual void        putToString  (std::string &str, 
+                                      const char *format = NULL) const;
+ 
+    virtual bool        getFromString(const Char8 *&inVal);
 
-    virtual bool getFromString(const Char8 *&inVal);
-
-    virtual Real64 getValue(void);
-
-    virtual ~StatTimeElem(void); 
+    virtual Real64      getValue     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -107,9 +102,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem {
     /*! \{                                                                 */
 
     bool operator < (const StatTimeElem &other) const;
-    
-    //OSGbool operator == (const StatTimeElem &other) const;
-    //OSGbool operator != (const StatTimeElem &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -119,15 +111,15 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem {
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
   
-    StatTimeElem ( StatElemDescBase *desc );
+    StatTimeElem(StatElemDescBase *desc);
+
+    virtual ~StatTimeElem(void); 
 
     /*! \}                                                                 */
     /*=========================  PRIVATE    ===============================*/
  private:
 
     typedef StatElem Inherited;
-
-    static char cvsid[];
 
     Time _time;
 

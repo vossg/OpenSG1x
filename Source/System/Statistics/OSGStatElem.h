@@ -52,6 +52,8 @@ OSG_BEGIN_NAMESPACE
 
 class StatElemDescBase;
 
+/*! \brief Single Statistics element, see \ref PageSystemStatistics for details.
+*/
 class OSG_SYSTEMLIB_DLLMAPPING StatElem
 {
     /*==========================  PUBLIC  =================================*/
@@ -68,15 +70,17 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
     /*! \name                     Instance                                 */
     /*! \{                                                                 */
 
-    inline  bool               isOn         (void);
-    inline  void               setOn        (bool on);
+    inline  bool               isOn         (void               ) const;
+    inline  void               setOn        (bool on            );
 
-    inline  StatElemDescBase * getDesc      (void);
+    inline  StatElemDescBase * getDesc      (void               ) const;
 
     virtual void               putToString  (      std::string &str, 
-                                             const char *format = NULL) = 0;
-    virtual bool               getFromString(const Char8 *&inVal) = 0;
-    virtual Real64             getValue     (void) = 0; 
+                                             const char        *format = NULL) 
+                                                const = 0;
+                                                
+    virtual bool               getFromString(const Char8 *&inVal)       = 0;
+    virtual Real64             getValue     (void               ) const = 0; 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -101,9 +105,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
 
     /*==========================  PRIVATE  ================================*/
   private:
-
-    static char cvsid[];
-
     bool _on;
 
     StatElemDescBase *_desc;

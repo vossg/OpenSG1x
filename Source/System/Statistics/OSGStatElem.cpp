@@ -66,7 +66,7 @@ a Real64 value via getValue, if possible, and in ASCII via the putToString and
 getFromString methods. Additionally every StatElem can be switched on or off, 
 to prevent collecting statistics that is not needed, via the setOn methods. 
 Finally, ever StatElem can give information about itself in the form of a 
-StatElemDesc*. 
+osg::StatElemDesc*. 
 
 /ext 
 
@@ -89,33 +89,15 @@ single "%" value to format the contents of the StatElem.
 
 */ 
 
-
-/***************************************************************************\ 
-*                               Types                                     * 
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char StatElem::cvsid[] = "@(#)$Id: $";
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
 
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
+ -  public                                                                -
 \*-------------------------------------------------------------------------*/
 
 /*------------- constructors & destructors --------------------------------*/
-
-/** Constructor. Per default every element is on. 
- */
 
 StatElem::StatElem (StatElemDescBase *desc) 
   : _on(true),_desc(desc)
@@ -123,23 +105,11 @@ StatElem::StatElem (StatElemDescBase *desc)
   ;
 }
 
-/** Destructor
- */
-
 StatElem::~StatElem(void)
 {
 }
 
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
 /*-------------------------- assignment -----------------------------------*/
-
-/** assignment
- */
 
 StatElem& StatElem::operator = (const StatElem &source)
 {
@@ -156,9 +126,9 @@ StatElem& StatElem::operator = (const StatElem &source)
 
 /*-------------------------- comparison -----------------------------------*/
 
-/** Comparison. This does not compare the actual values of the StatElem, as
-that may not be possible for all types. 
- */
+/*! Comparison. This does not compare the actual values of the StatElem, as
+    that may not be possible for all types. 
+*/
 
 bool StatElem::operator < (const StatElem &other) const
 {

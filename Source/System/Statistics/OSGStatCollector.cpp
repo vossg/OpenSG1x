@@ -54,67 +54,30 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
 
 
 /***************************************************************************\
- *                           Instance methods                              *
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::StatCollector
+    \ingroup GrpSystemStatistics
+
+    The StatCollector is responsible for managing a set of osg::StatElem
+    elements, see \ref PageSystemStatistics for details.
+*/
+
+/***************************************************************************\
+ *                         Instance methods                                *
 \***************************************************************************/
 
 /*-------------------------------------------------------------------------*\
- -  public                                                                 -
+ -  public                                                                -
 \*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 StatCollector::StatCollector(void)
 {
-  refitElemNum();
+    refitElemNum();
 }
 
 StatCollector::StatCollector(const StatCollector &source) :
@@ -127,31 +90,32 @@ StatCollector *StatCollector::create(void)
     return new StatCollector();
 }
 
-/** \brief Destructor
- */
-
 StatCollector::~StatCollector(void)
 {
 	for(UInt32 i = 0; i < _elemVec.size(); ++i)
 		delete _elemVec[i];
 }
 
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
 /*-------------------------- your_category---------------------------------*/
 
-void StatCollector::refitElemNum (void)
+/*! Increase the size of the StatCollector's data array. This is called during
+    construction and will only be needed later, when a new StatElem has been added
+    after the StatCollector was instanced. This will very rarely be the case.
+*/
+void StatCollector::refitElemNum(void)
 {
   unsigned eN = _elemVec.size(), dN = StatElemDescBase::getNumOfDescs();
 
-  if (eN != dN)
+  if(eN != dN)
   {
     _elemVec.resize(dN,0);
   }
 }
 
+/*! Convert the current contents into a string. This
+    string can be used as a compact representation of the data, and as input
+    for StatCollector::getFromString.
+*/
 void StatCollector::putToString(std::string &str) const
 {
     std::vector<StatElem*>::const_iterator it;
@@ -177,6 +141,10 @@ void StatCollector::putToString(std::string &str) const
     str.append("}");
 }
      
+
+/*! Set the contents from a string. The string has to have the format that is
+    used by StatCollector::putToString.
+*/
 bool StatCollector::getFromString(const Char8 *&inVal)
 {
     const Char8 *c = inVal;
@@ -224,6 +192,9 @@ bool StatCollector::getFromString(const Char8 *&inVal)
     return true;
 }
 
+
+/*! Remove all elements from the collector.
+*/
 void StatCollector::clearElems(void)
 {
     for(std::vector<StatElem*>::iterator i = _elemVec.begin(); 
@@ -237,9 +208,6 @@ void StatCollector::clearElems(void)
 
 /*-------------------------- assignment -----------------------------------*/
 
-/** \brief assignment
- */
-
 StatCollector& StatCollector::operator = (const StatCollector &source)
 {
     if (this == &source)
@@ -252,9 +220,9 @@ StatCollector& StatCollector::operator = (const StatCollector &source)
 
 /*-------------------------- comparison -----------------------------------*/
 
-/** \brief assignment
- */
-
+/*! The comparison is only done on the addresses, as a real comparison is not
+    well defined on a StatCollector.
+*/
 bool StatCollector::operator < (const StatCollector &other) const
 {
     return this < &other;
@@ -266,10 +234,14 @@ bool StatCollector::operator < (const StatCollector &other) const
 
 OSG_BEGIN_NAMESPACE
 
+#ifndef OSG_DO_DOC
+
 /*-------------------------- field instantiations -------------------------*/
 
 DataType FieldDataTraits<StatCollector>::_type("StatCollector", 
-        "None");
+                                               "None");
+
+#endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(StatCollector, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 

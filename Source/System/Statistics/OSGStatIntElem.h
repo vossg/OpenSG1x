@@ -52,7 +52,10 @@ OSG_BEGIN_NAMESPACE
 
 class StatElemDescBase;
 
-class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
+/*! \brief Integer Statistics element, see \ref PageSystemStatistics for details.
+*/
+class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem 
+{
 
      /*==========================  PUBLIC  =================================*/
  public:
@@ -75,27 +78,26 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
     /*! \name                    instance                                  */
     /*! \{                                                                 */
    
-    inline void set (Int32 value);
+    inline  void   set          (Int32 value);
 
-    inline Int32 get (void);
+    inline  Int32  get          (void) const;
 
-    inline void add (Int32 v);
+    inline  void   add          (Int32 v);
     
-    inline void sub (Int32 v);
+    inline  void   sub          (Int32 v);
 
-    inline void reset (void);
+    inline  void   reset        (void);
 
-    inline void inc (void);
+    inline  void   inc          (void);
 
-    inline void dec (void);
+    inline  void   dec          (void);
 
-    virtual void putToString(std::string &str, const char *format = NULL);
+    virtual void   putToString  (std::string &str, 
+                                 const char *format = NULL) const;
 
-    virtual bool getFromString(const Char8 *&inVal);
+    virtual bool   getFromString(const Char8 *&inVal);
 
-    virtual Real64 getValue(void);
-
-    virtual ~StatIntElem(void); 
+    virtual Real64 getValue     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -115,14 +117,14 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
 
     StatIntElem ( StatElemDescBase *desc );
 
+    virtual ~StatIntElem(void); 
+
     /*! \}                                                                 */
     /*=========================  PRIVATE    ===============================*/
   private:
 
     typedef StatElem Inherited;
-
-    static char cvsid[];
-    
+   
     Int32 _value;
 
     StatIntElem(const StatIntElem &source);

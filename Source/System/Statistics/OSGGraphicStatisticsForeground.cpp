@@ -38,6 +38,8 @@
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
+#include <OSGConfig.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -47,7 +49,6 @@
 #else
 #include <strstream>
 #endif
-#include <OSGConfig.h>
 #include <OSGTXFFont.h>
 #include <OSGNodePtr.h>
 #include <OSGViewport.h>

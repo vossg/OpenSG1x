@@ -38,22 +38,24 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*-------------------------------------------------------------------------*/
+inline const std::string & StatStringElem::get(void) const 
+{ 
+    return _value; 
+}
+
 inline void StatStringElem::set(const std::string & value) 
 { 
-  _value = value; 
+    _value = value; 
 }
 
-/*-------------------------------------------------------------------------*/
 inline void StatStringElem::set(const Char8 * value)
 { 
-  _value = (value ? value : ""); 
+    _value = (value ? value : ""); 
 }
 
-/*-------------------------------------------------------------------------*/
 inline void StatStringElem::reset(void) 
 { 
-  _value.resize(0); 
+    _value.resize(0); 
 }
 
 

@@ -50,66 +50,23 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
 
 /***************************************************************************\
- *                               Types                                     *
+ *                            Description                                  *
 \***************************************************************************/
+
+/*! \class osg::StatTimeElem
+    \ingroup GrpSystemStatistics
+
+    The StatIntElem keeps a osg::Time value for time measurements, 
+    see \ref PageSystemStatistics for details. 
+*/
 
 /***************************************************************************\
- *                           Class variables                               *
+ *                         Instance methods                                *
 \***************************************************************************/
-
-char StatTimeElem::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
 
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 StatTimeElem::StatTimeElem(StatElemDescBase *desc)
   : StatElem(desc)
@@ -122,22 +79,13 @@ StatElem *StatTimeElem::create ( StatElemDescBase *desc)
 }
 
 
-//StatTimeElem::StatTimeElem(const StatTimeElem &source) :
-//  Inherited(source),
-//    // TODO: initialize members
-//{
-//}
-
-/** \brief Destructor
- */
-
 StatTimeElem::~StatTimeElem(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-void StatTimeElem::putToString(std::string &str, const char *format)
+void StatTimeElem::putToString(std::string &str, const char *format) const
 {
     if(!format)
     {
@@ -183,45 +131,28 @@ bool StatTimeElem::getFromString(const Char8 *&inVal)
     return FieldDataTraits1<Time>::getFromString(_time, inVal);
 }
 
-Real64 StatTimeElem::getValue(void)
+Real64 StatTimeElem::getValue(void) const
 {
     return static_cast<Real64>(getTime());
 }
 
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
 /*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
 
 StatTimeElem& StatTimeElem::operator = (const StatTimeElem &source)
 {
     if (this == &source)
         return *this;
 
-    // copy parts inherited from parent
-    //*(static_cast<Inherited *>(this)) = source;
-
-    // free mem alloced by members of 'this'
-
-    // alloc new mem for members
-
-    // copy 
-
-  return *this;
+    _time = source._time;
+    
+    return *this;
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
-/** \brief assignment
- */
-
 bool StatTimeElem::operator < (const StatTimeElem &other) const
 {
-    return this < &other;
+    return _time < other._time;
 }
 
 

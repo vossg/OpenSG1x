@@ -52,12 +52,8 @@ OSG_BEGIN_NAMESPACE
 
 class StatElemDescBase;
 
-/*! \ingroup baselib
- *  \brief Abstract statistice element base class
- *
- *  detailed
- */
-
+/*! \brief String Statistics element, see \ref PageSystemStatistics for details.
+*/
 class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
 
      /*==========================  PUBLIC  =================================*/
@@ -80,20 +76,21 @@ class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
     /*---------------------------------------------------------------------*/
     /*! \name                    instance                                  */
     /*! \{                                                                 */
+    
+    inline  const std::string & get          (void) const;
+    
+    inline  void                set          (const std::string & value);
 
-    virtual ~StatStringElem(void); 
-   
-    inline void set(const std::string & value);
+    inline  void                set          (const Char8 * value);
 
-    inline void set(const Char8 * value);
+    inline  void                reset        (void);
 
-    inline void reset(void);
+    virtual void                putToString  (std::string &str, 
+                                              const char *format = NULL) const;
 
-    virtual void putToString(std::string &str, const char *format = NULL);
+    virtual bool                getFromString(const Char8 *&inVal);
 
-    virtual bool getFromString(const Char8 *&inVal);
-
-    virtual Real64 getValue(void);
+    virtual Real64              getValue     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -101,9 +98,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
     /*! \{                                                                 */
  
     bool operator < (const StatStringElem &other) const;
-    
-    //OSGbool operator == (const StatStringElem &other) const;
-    //OSGbool operator != (const StatStringElem &other) const;
 
     /*! \}                                                                 */
 
@@ -114,7 +108,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    StatStringElem ( StatElemDescBase *desc );
+    StatStringElem(StatElemDescBase *desc);
+
+    virtual ~StatStringElem(void); 
 
     /*! \}                                                                 */
 
@@ -122,8 +118,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
   private:
 
     typedef StatElem Inherited;
-
-    static char cvsid[];
     
     std::string _value;
 

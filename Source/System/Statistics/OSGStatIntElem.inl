@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *             Copyright(C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -38,46 +38,39 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*-------------------------------------------------------------------------*/
-inline void StatIntElem::set (Int32 value) 
+inline void StatIntElem::set(Int32 value) 
 { 
-  _value = value; 
+    _value = value; 
 }
 
-/*-------------------------------------------------------------------------*/
-inline Int32 StatIntElem::get (void) 
+inline Int32 StatIntElem::get(void) const
 { 
-  return _value; 
+    return _value; 
 }
 
-/*-------------------------------------------------------------------------*/
-inline void StatIntElem::add (Int32 v) 
+inline void StatIntElem::add(Int32 v) 
 { 
-  _value += v; 
+    _value += v; 
 }
     
-/*-------------------------------------------------------------------------*/
-inline void StatIntElem::sub (Int32 v) 
+inline void StatIntElem::sub(Int32 v) 
 { 
-  _value -= v; 
+    _value -= v; 
 }
 
-/*-------------------------------------------------------------------------*/
-inline void StatIntElem::reset (void) 
+inline void StatIntElem::reset(void) 
 { 
-  _value = 0; 
+    _value = 0; 
 }
 
-/*-------------------------------------------------------------------------*/
-inline void StatIntElem::inc (void) 
+inline void StatIntElem::inc(void) 
 { 
-  _value++; 
+    _value++; 
 }
 
-/*-------------------------------------------------------------------------*/
-inline void StatIntElem::dec (void) 
+inline void StatIntElem::dec(void) 
 { 
-  _value--; 
+    _value--; 
 }
 
 OSG_END_NAMESPACE

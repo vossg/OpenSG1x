@@ -52,7 +52,7 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \brief Graphics Statistics Foreground class. See \ref 
-    PageSystemWindowForegroundStatisticsGraphics for a description.
+    PageSystemWindowForegroundStatisticsGraphic for a description.
 */
 
 class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStatisticsForegroundBase

@@ -58,13 +58,10 @@ OSG_BEGIN_NAMESPACE
 class StatElem;
 class StatElemDescBase;
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
- */
-
-class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
+/*! \brief Manager for Stat elements, see \ref PageSystemStatistics for details.
+*/
+class OSG_SYSTEMLIB_DLLMAPPING StatCollector 
+{
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -85,9 +82,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
 
             void     refitElemNum  (void);
 
-    inline  bool     isValidID     (Int32 id);
-
             void     clearElems    (void);
+
+    inline  bool     isValidID     (Int32 id);
 
             void     reset         (void);
 
@@ -130,9 +127,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
     /*! \{                                                                 */
 
          bool operator <  (const StatCollector &other) const;
-
-    //OSGbool operator == (const StatCollector &other) const;
-    //OSGbool operator != (const StatCollector &other) const;
 
     /*! \}                                                                 */
 

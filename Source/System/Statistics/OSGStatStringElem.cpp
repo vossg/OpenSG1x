@@ -50,50 +50,23 @@
 
 OSG_USING_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
 /***************************************************************************\
- *                           Class variables                               *
+ *                            Description                                  *
 \***************************************************************************/
 
-char StatStringElem::cvsid[] = "@(#)$Id: $";
+/*! \class osg::StatStringElem
+    \ingroup GrpSystemStatistics
+
+    The StatIntElem keeps a std::string for messages, states or status
+    information, see \ref PageSystemStatistics for details. 
+*/
 
 /***************************************************************************\
- *                           Class methods                                 *
+ *                         Instance methods                                *
 \***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
 
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 StatStringElem::StatStringElem(StatElemDescBase *desc)
   : StatElem(desc), _value()
@@ -105,22 +78,13 @@ StatElem *StatStringElem::create(StatElemDescBase *desc)
     return new StatStringElem(desc);
 }
 
-//StatStringElem::StatStringElem(const StatStringElem &source) :
-//  Inherited(source),
-//    // TODO: initialize members
-//{
-//}
-
-/** \brief Destructor
- */
-
 StatStringElem::~StatStringElem(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-void StatStringElem::putToString(std::string &str, const char *format)
+void StatStringElem::putToString(std::string &str, const char *format) const
 {
     if(!format)
     {
@@ -145,41 +109,24 @@ bool StatStringElem::getFromString(const Char8 *&inVal)
     return true;
 }
 
-Real64 StatStringElem::getValue(void)
+Real64 StatStringElem::getValue(void) const
 {
     return 0;
 }
 
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
 /*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
 
 StatStringElem& StatStringElem::operator = (const StatStringElem &source)
 {
     if (this == &source)
         return *this;
 
-    // copy parts inherited from parent
-    //*(static_cast<Inherited *>(this)) = source;
+    set(source.get());
 
-    // free mem alloced by members of 'this'
-
-    // alloc new mem for members
-
-    // copy 
-
-  return *this;
+    return *this;
 }
 
 /*-------------------------- comparison -----------------------------------*/
-
-/** \brief assignment
- */
 
 bool StatStringElem::operator < (const StatStringElem &other) const
 {

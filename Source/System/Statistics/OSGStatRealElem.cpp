@@ -50,66 +50,23 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
 
 /***************************************************************************\
- *                               Types                                     *
+ *                            Description                                  *
 \***************************************************************************/
+
+/*! \class osg::StatRealElem
+    \ingroup GrpSystemStatistics
+
+    The StatIntElem keeps an Real32 value, see \ref PageSystemStatistics for
+    details. 
+*/
 
 /***************************************************************************\
- *                           Class variables                               *
+ *                         Instance methods                                *
 \***************************************************************************/
-
-char StatRealElem::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
 
 /*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
 
 StatRealElem::StatRealElem(StatElemDescBase *desc)
   : StatElem(desc), _value(0)
@@ -121,22 +78,13 @@ StatElem *StatRealElem::create ( StatElemDescBase *desc)
     return new StatRealElem(desc);
 }
 
-//StatRealElem::StatRealElem(const StatRealElem &source) :
-//  Inherited(source),
-//    // TODO: initialize members
-//{
-//}
-
-/** \brief Destructor
- */
-
 StatRealElem::~StatRealElem(void)
 {
 }
 
 /*------------------------------ access -----------------------------------*/
 
-void StatRealElem::putToString(std::string &str, const char *format)
+void StatRealElem::putToString(std::string &str, const char *format) const
 {
     if(!format)
     {
@@ -156,45 +104,28 @@ bool StatRealElem::getFromString(const Char8 *&inVal)
     return FieldDataTraits<Real32>::getFromString(_value, inVal);
 }
 
-Real64 StatRealElem::getValue(void)
+Real64 StatRealElem::getValue(void) const
 {
     return static_cast<Real64>(get());
 }
 
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
 /*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
- */
 
 StatRealElem& StatRealElem::operator = (const StatRealElem &source)
 {
     if (this == &source)
         return *this;
 
-    // copy parts inherited from parent
-    //*(static_cast<Inherited *>(this)) = source;
-
-    // free mem alloced by members of 'this'
-
-    // alloc new mem for members
-
-    // copy 
-
-  return *this;
+    set(source.get());
+    
+    return *this;
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
-/** \brief assignment
- */
-
 bool StatRealElem::operator < (const StatRealElem &other) const
 {
-    return this < &other;
+    return this->get() < other.get();
 }
 
 /*-------------------------------------------------------------------------*/

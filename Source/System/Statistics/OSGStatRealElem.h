@@ -54,13 +54,10 @@ OSG_BEGIN_NAMESPACE
 
 class StatElemDescBase;
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
- */
-
-class OSG_SYSTEMLIB_DLLMAPPING StatRealElem : public StatElem {
+/*! \brief Real32 Statistics element, see \ref PageSystemStatistics for details.
+*/
+class OSG_SYSTEMLIB_DLLMAPPING StatRealElem : public StatElem 
+{
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -76,30 +73,29 @@ class OSG_SYSTEMLIB_DLLMAPPING StatRealElem : public StatElem {
     /*! \name                    your_category                             */
     /*! \{                                                                 */
 
-    static StatElem *create ( StatElemDescBase *desc );
+    static StatElem *create(StatElemDescBase *desc);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    instance                                  */
     /*! \{                                                                 */
 
-    inline void set (Real32 value);
+    inline void    set          (Real32 value);
 
-    inline Real32 get (void);
+    inline Real32  get          (void) const;
 
-    inline void add (Real32 v);
+    inline void    add          (Real32 v);
     
-    inline void sub (Real32 v);
+    inline void    sub          (Real32 v);
 
-    inline void reset (void);
+    inline void    reset        (void);
 
-    virtual void putToString(std::string &str, const char *format = NULL);
+    virtual void   putToString  (std::string &str, 
+                                 const char *format = NULL) const;
 
-    virtual bool getFromString(const Char8 *&inVal);
+    virtual bool   getFromString(const Char8 *&inVal);
 
-    virtual Real64 getValue(void);
-
-    virtual ~StatRealElem(void); 
+    virtual Real64 getValue     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -107,10 +103,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatRealElem : public StatElem {
     /*! \{                                                                 */
 
     bool operator < (const StatRealElem &other) const;
-    
-    //OSGbool operator == (const StatRealElem &other) const;
-    //OSGbool operator != (const StatRealElem &other) const;
-
+ 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -121,13 +114,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StatRealElem : public StatElem {
 
     StatRealElem ( StatElemDescBase *desc );
 
+    virtual ~StatRealElem(void); 
+
     /*! \}                                                                 */
     /*=========================  PRIVATE    ===============================*/
   private:
 
     typedef StatElem Inherited;
-   
-    static char cvsid[];
 
     Real32 _value;
  
