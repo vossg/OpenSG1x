@@ -64,7 +64,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.8 2001/07/29 17:57:20 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.9 2001/07/30 09:33:11 jbehr Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -239,10 +239,10 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo,
  */
 OSG_SYSTEMLIB_DLLMAPPING 
 Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr, 
-                                  vector<Int32> coordIndex,
-                                  vector<Int32> normalIndex,
-                                  vector<Int32> colorIndex,
-                                  vector<Int32> texCoordIndex,
+                                  vector<Int32> & coordIndex,
+                                  vector<Int32> & normalIndex,
+                                  vector<Int32> & colorIndex,
+                                  vector<Int32> & texCoordIndex,
                                   Bool convex, 
                                   Bool ccw,
                                   Bool normalPerVertex,
