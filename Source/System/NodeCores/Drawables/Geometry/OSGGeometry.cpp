@@ -759,9 +759,6 @@ Action::ResultE Geometry::intersect(Action * action)
                                      it.getPosition(1),
                                      it.getPosition(2), t, &norm))
         {
-            FDEBUG(("Tri hit: %d dist %g norm (%g %g %g)\n",
-                    it.getIndex(),  t, norm[0], norm[1], norm[2]));
-
             ia->setHit(t, ia->getActNode(), it.getIndex(), norm);
         }
     }

@@ -154,9 +154,6 @@ Action::ResultE Transform::intersectEnter(Action *action)
 
     m.multFullMatrixPnt(ia->getLine().getPosition (), pos);
     m.multMatrixVec    (ia->getLine().getDirection(), dir);
-    
-    FDEBUG(("Transformed line: pos (%g %g %g) dir (%g %g %g)\n",
-            pos[0], pos[1], pos[2], dir[0], dir[1], dir[2]));
 
     ia->setLine(Line(pos, dir), ia->getMaxDist());
     ia->scale(dir.length());
@@ -174,9 +171,6 @@ Action::ResultE Transform::intersectLeave(Action *action)
 
     m.multFullMatrixPnt(ia->getLine().getPosition (), pos);
     m.multMatrixVec    (ia->getLine().getDirection(), dir);
-    
-    FDEBUG(("Transformed line: pos (%g %g %g) dir (%g %g %g)\n",
-            pos[0], pos[1], pos[2], dir[0], dir[1], dir[2]));
 
     ia->setLine(Line(pos, dir), ia->getMaxDist());
     ia->scale(dir.length());
@@ -253,8 +247,6 @@ Action::ResultE Transform::renderLeave(Action *action)
 
 void Transform::initMethod (void)
 {
-    FDEBUG(("Transform::initMethod (void).\n"));
-
     DrawAction::registerEnterDefault( 
         getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<
