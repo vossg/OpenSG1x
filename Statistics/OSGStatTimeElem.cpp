@@ -120,10 +120,12 @@ StatElem *StatTimeElem::create ( StatElemDesc *desc)
   return new StatTimeElem(desc);
 }
 
-String &StatTimeElem::putToString ( String &str)
+std::string &StatTimeElem::putToString ( std::string &str)
 {
-  str.setLength(64);
-  sprintf((char*)(str.str()),"%g", _time);
+  char buffer[64];
+
+  sprintf(buffer,"%g", _time);
+  str = buffer;
 
   return str;
 }

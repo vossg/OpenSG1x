@@ -7,6 +7,8 @@
 #include <OSGStatRealElem.h>
 #include <OSGStatIntElem.h>
 
+#include <string>
+
 osg::StatElemDesc fpsDesc ("fps","fps desc", osg::StatTimeElem::create);
 osg::StatElemDesc fooDesc ("foo","foo desc", osg::StatIntElem::create);
 osg::StatElemDesc barDesc ("bar","bar desc", osg::StatRealElem::create);
@@ -16,7 +18,7 @@ int main (int argc, char **argv)
     osg::StatCollector collector;
     osg::StatElem *elem;
     osg::Int32 fpsID = fpsDesc.getID();
-    osg::IDString str;
+    std::string str;
 
     elem = collector.getElem(fpsID);
 

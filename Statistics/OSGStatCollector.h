@@ -76,33 +76,18 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
     /*! \name                     Instance                                 */
     /*! \{                                                                 */
 
-    inline  UInt32   getNumOfElems (void)
-      { return _elemVec.size(); }
+    inline  UInt32   getNumOfElems (void);
 
-    inline  Bool     isValidID     (Int32 ID)
-      { return ((ID >= 0) && (ID < Int32(_elemVec.size()))); }
+    inline  Bool     isValidID     (Int32 ID);
 
-    inline  StatElem *getElem      (Int32 ID, Bool create = true)
-      {
-        StatElem *elem = _elemVec[ID];
+    inline  StatElem *getElem      (Int32 ID, Bool create = true);
 
-        if (!elem && create) {
-          StatElemDesc *desc = StatElemDesc::getDesc(ID);
-          elem =_elemVec[ID] = desc->createElem();
-        }
-
-        return elem;
-      }
+    inline  StatElem  *getElem     (StatElemDesc &desc, Bool create = true );
 
 
-    inline  StatElem  *getElem  (StatElemDesc &desc, Bool create = true )
-      { return getElem(desc.getID(),create); }
+    template<class T> inline T* getElem(int id);
 
-    template<class T> T* getElem(int id)
-      { return ((T*)(this->getElem(id))); }
-
-    template<class T> T* getElem(StatElemDesc &desc)
-      { return ((T*)(this->getElem(desc))); }
+    template<class T> inline T* getElem(StatElemDesc &desc);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -152,5 +137,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
 typedef StatCollector *StatCollectorP;
 
 OSG_END_NAMESPACE
+
+#include <OSGStatCollector.inl>
 
 #endif /* _STATCOLLECTOR_H_ */

@@ -73,29 +73,25 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc
    /*! \name                    instance                                  */
    /*! \{                                                                 */
 
-    inline  static Bool isValidID (Int32 ID)
-        { return (_descVec && (ID >= 0) && (ID < Int32(_descVec->size()))); }
+    inline  static Bool isValidID (Int32 ID);
 
-    inline  static StatElemDesc *getDesc (Int32 ID)
-        { return (*_descVec)[ID]; }
+    inline  static StatElemDesc *getDesc (Int32 ID);
 
     static StatElemDesc *findDescByName (const Char8 *name);
 
-    inline  static Int32 getNumOfDescs(void)
-        { return _descVec ? _descVec->size() : 0; }
+    inline  static Int32 getNumOfDescs(void);
 
-    inline  static const Char8 *getClassname(void)
-        { return "StatElemDesc"; }
+    inline  static const Char8 *getClassname(void);
 
     static void printAll (void);
 
     void print(void);
 
-    inline        Int32   getID            (void) { return _ID; }
+    inline        Int32   getID(void);
 
-    inline  const IDString &getName        (void) { return _name; }
+    inline  const IDString &getName(void);
 
-    inline  const IDString &getDescription (void) { return _description; }
+    inline  const IDString &getDescription (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -149,9 +145,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc
     // prohibit default functions (move to 'public' if you need one)
 
     // only called by OSGStatCollector friend
-    inline
-      StatElem* createElem ( void )
-      { return _createMethod ? _createMethod(this) : 0; }
+    inline StatElem* createElem ( void );
 
     StatElemDesc (const StatElemDesc &source);
     StatElemDesc& operator =(const StatElemDesc &source);
@@ -160,5 +154,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc
 typedef StatElemDesc *StatElemDescP;
 
 OSG_END_NAMESPACE
+
+#include <OSGStatElemDesc.inl>
 
 #endif /* _CLASSNAME_H_ */

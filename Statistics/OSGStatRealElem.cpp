@@ -120,10 +120,13 @@ StatElem *StatRealElem::create ( StatElemDesc *desc)
   return new StatRealElem(desc);
 }
 
-String &StatRealElem::putToString ( String &str)
+std::string &StatRealElem::putToString ( std::string &str )
 {
-  str.setLength(64);
-  sprintf((char*)(str.str()),"%g", _value);
+  char buffer[64];
+
+  // TODO; optimize !
+  sprintf(buffer,"%g", _value);
+  str = buffer;
   
   return str;
 }

@@ -46,7 +46,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGSystemDef.h>
 
-#include <OSGIDString.h>
+#include <string>
 
 OSG_BEGIN_NAMESPACE
 
@@ -74,13 +74,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
     /*! \name                     Instance                                 */
     /*! \{                                                                 */
 
-    inline  Bool           getOn       (void)         { return _on; }
+    inline  Bool           getOn       (void);
 
-    inline  void           setOn       (Bool on)      { _on = on; }
+    inline  void           setOn       (Bool on);
 
-    inline  StatElemDesc * getDesc     (void)         { return _desc; }
+    inline  StatElemDesc * getDesc     (void);
 
-    virtual IDString      &putToString ( IDString &str ) = 0;
+    virtual std::string      &putToString ( std::string &str ) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -128,5 +128,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
 typedef StatElem *StatElemP;
 
 OSG_END_NAMESPACE
+
+#include <OSGStatElem.inl>
 
 #endif /* _STATELEM_H_ */

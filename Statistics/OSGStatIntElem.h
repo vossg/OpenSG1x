@@ -79,28 +79,21 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
     /*! \name                    instance                                  */
     /*! \{                                                                 */
    
-    inline 
-      void set (Int32 value) { _value = value; }
+    inline void set (Int32 value);
 
-    inline
-      Int32 get (void) { return _value; }
+    inline Int32 get (void);
 
-    inline
-      void add (Int32 v) { _value += v; }
+    inline void add (Int32 v);
     
-    inline
-      void sub (Int32 v) { _value -= v; }
+    inline void sub (Int32 v);
 
-    inline
-      void reset (void) { _value = 0; }
+    inline void reset (void);
 
-    inline
-      void inc (void) { _value++; }
+    inline void inc (void);
 
-    inline
-      void dec (void) { _value--; }
+    inline void dec (void);
 
-    virtual String &putToString ( String &str);
+    virtual std::string &putToString ( std::string &str);
 
     virtual ~StatIntElem(void); 
 
@@ -148,5 +141,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem {
 typedef StatIntElem *StatIntElemP;
 
 OSG_END_NAMESPACE
+
+#include <OSGStatIntElem.inl>
 
 #endif /* _STATINTELEM_H_ */

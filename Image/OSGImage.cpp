@@ -998,7 +998,7 @@ Bool Image::createData(const UChar8 *data, Bool doCopy)
 }
 
 //----------------------------
-// Function name: createData
+// Function name: scaleData
 //----------------------------
 //
 //Parameters:

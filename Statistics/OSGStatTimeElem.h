@@ -83,23 +83,15 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem {
     /*! \name                    instance                                  */
     /*! \{                                                                 */
 
-    inline
-      void reset(void) 
-      { _time = 0; }
+    inline void reset(void);
     
-    inline
-      const Time &start(void) 
-      { return (_time = getSystemTime()); }
-    
-        inline
-            const Time &stop(void)
-            { return (_time = (getSystemTime() - _time)); }
+    inline const Time &start(void);
+      
+    inline const Time &stop(void);
 
-    inline
-      const Time & getTime(void)
-      { return _time; }
+    inline const Time & getTime(void);
         
-    virtual String &putToString ( String &str);
+    virtual std::string &putToString ( std::string &str);
 
     virtual ~StatTimeElem(void); 
 
@@ -147,5 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem {
 typedef StatTimeElem *StatTimeElemP;
 
 OSG_END_NAMESPACE
+
+#include <OSGStatTimeElem.inl>
 
 #endif /* _STATTIMEELEM_H_ */

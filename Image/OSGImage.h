@@ -211,24 +211,25 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \name                    Get  Methods                              */
     /*! \{                                                                 */
 
-    inline Int32  getDimension  (void) const { return _dimension; }
+		inline Bool   isValid (void) const;
 
-    inline Int32  getWidth      (void) const { return _width; }
+    inline Int32  getDimension  (void) const;
 
-    inline Int32  getHeight     (void) const { return _height; }
+    inline Int32  getWidth      (void) const;
 
-    inline Int32  getDepth      (void) const { return _depth; }
+    inline Int32  getHeight     (void) const;
 
-    inline UChar8 getBpp        (void) const { return _bpp; }
+    inline Int32  getDepth      (void) const;
 
-    inline Int32  getMipMapCount(void) const { return _mipmapCount; }
+    inline UChar8 getBpp        (void) const;
 
-    inline Int32  getFrameCount (void) const { return _frameCount; }
+    inline Int32  getMipMapCount(void) const;
 
-    inline Time   getFrameDelay (void) const { return _frameDelay; }
+    inline Int32  getFrameCount (void) const;
 
-    inline PixelFormat getPixelFormat (void) const { return _pixelFormat; }
+    inline Time   getFrameDelay (void) const;
 
+    inline PixelFormat getPixelFormat (void) const;
 
     Bool hasAlphaChannel(void);
 
@@ -239,62 +240,33 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 
 
     inline unsigned long getSize ( Bool withMipmap = true,
-                         Bool withFrames = true) const
-        { return  (calcMipmapSumSize((withMipmap ? (_mipmapCount-1) : 0)) *
-                   (withFrames ? _frameCount : 1) * _bpp);
-        }
+                                   Bool withFrames = true) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Get Methods                                */
     /*! \{                                                                 */
 
-    inline 
-      UChar8 *getData ( UInt32 mipmapNum = 0, UInt32 frameNum = 0) const
-        {
-            UChar8 *data = _data + (frameNum * _frameSize * _bpp);
+    inline UChar8 *getData ( UInt32 mipmapNum = 0, 
+                             UInt32 frameNum = 0) const;
 
-            if (mipmapNum)
-                data += calcMipmapSumSize(mipmapNum - 1);
+    inline UChar8 *getDataByTime(Time time, UInt32 mipmapNum = 1);
 
-            return data;
-        }
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name               string attachment handling                     */
+    /*! \{                                                                 */
 
-    inline 
-      UChar8 *getDataByTime(Time time, UInt32 mipmapNum = 1);
+    inline Bool hasAttachment (void) const;
 
-    inline 
-      Bool hasAttachment (void) 
-      {
-        return (_attachmentMap.empty() ? false : true);
-      }
+    inline UInt32 attachmentCount (void) const;
 
-    inline
-      UInt32 attachmentCount (void)
-      {
-        return _attachmentMap.size();
-      }
+    inline  void setAttachment ( const std::string &key, 
+                                 const std::string &data);
 
-    inline 
-      void setAttachment ( const std::string &key, 
-                           const std::string &data)
-      { 
-        _attachmentMap[key] = data; 
-      }
+    inline std::string * findAttachment ( const std::string &key);
 
-    inline
-      std::string * findAttachment ( const std::string &key) 
-      { 
-        std::map<std::string,std::string>::iterator ssI;
-        ssI = _attachmentMap.find(key);
-        return (ssI == _attachmentMap.end() ? 0 : &(ssI->second));
-      }
-
-    inline 
-      void eraseAttachment ( const std::string &key) 
-      {
-        _attachmentMap.erase(key);
-      }
+    inline void eraseAttachment ( const std::string &key);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -302,41 +274,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \{                                                                 */
 
     inline void   calcMipmapGeometry   ( UInt32 mipmapNum,
-                              UInt32 &width, UInt32 &height, UInt32 &depth )
-        {
-            width  = _width >> mipmapNum;
-            height = _height >> mipmapNum;
-            depth  = _depth >> mipmapNum;
-        }
+                                         UInt32 &width, 
+                                         UInt32 &height, 
+                                         UInt32 &depth );
 
-#ifdef __sgi
-#pragma set woff 1209
-#endif
+    inline UInt32 calcMipmapLevelCount ( void );
 
-    inline UInt32 calcMipmapLevelCount ( void )
-        {
-            UInt32  w = _width, h = _height, d = _depth;
-            UInt32 level;
-
-            for (level = 1; true; level++)
-            {
-                if ((w == 1) && (h == 1) && (d == 1))
-                    break;
-                else
-                {
-                    w = (w >>= 1) ? w : 1;
-                    h = (h >>= 1) ? h : 1;
-                    d = (d >>= 1) ? d : 1;
-                }
-            }
-            return level;
-        }
-
-#ifdef __sgi
-#pragma reset woff 1209
-#endif
-
-           UInt32 calcFrameNum(Time time, Bool loop = true);
+    UInt32 calcFrameNum(Time time, Bool loop = true);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -392,51 +336,27 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /*! \name               Calculate Mipmap Size                          */
     /*! \{                                                                 */
 
-    inline UInt32 calcMipmapSize    ( UInt32 mipmapNum,
-                                      UInt32 w, UInt32 h, UInt32 d) const
-        {
-            w >>= mipmapNum;
-            h >>= mipmapNum;
-            d >>= mipmapNum;
+    inline UInt32 calcMipmapSize ( UInt32 mipmapNum,
+                                   UInt32 w, UInt32 h, UInt32 d) const;
 
-            return (w?w:1) * (h?h:1) * (d?d:1);
-        }
-
-    inline UInt32 calcMipmapSize    ( UInt32 mipmapNum) const
-        {
-            return calcMipmapSize(mipmapNum,_width,_height,_depth);
-        }
+    inline UInt32 calcMipmapSize    ( UInt32 mipmapNum) const;
 
     inline UInt32 calcMipmapSumSize ( UInt32 mipmapNum,
-                                      UInt32 w, UInt32 h, UInt32 d) const
-        {
-            Int32 sum = w * h * d;
+                                      UInt32 w, UInt32 h, UInt32 d) const;
 
-            while (mipmapNum--) {
-                w >>= 1;
-                h >>= 1;
-                d >>= 1;
-                sum += (w?w:1) * (h?h:1) * (d?d:1);
-            }
-
-            return sum;
-        }
-
-
-    inline UInt32 calcMipmapSumSize (UInt32 mipmapNum) const
-        {
-            return calcMipmapSumSize(mipmapNum,_width,_height,_depth);
-        }
+    inline UInt32 calcMipmapSumSize (UInt32 mipmapNum) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Image Data                                 */
     /*! \{                                                                 */
 
-    inline Bool createData (const UChar8 *data, Bool doCopy );
+    Bool createData (const UChar8 *data, Bool doCopy );
 
-    inline Bool scaleData  (UChar8* srcData, Int32 srcW, Int32 srcH, Int32 srcD,
-                     UChar8* destData, Int32 destW, Int32 destH, Int32 destD );
+    Bool scaleData  ( UChar8* srcData, 
+                      Int32 srcW, Int32 srcH, Int32 srcD,
+                      UChar8* destData, 
+                      Int32 destW, Int32 destH, Int32 destD );
 
     /*! \}                                                                 */
 };
@@ -444,5 +364,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 typedef Image* ImageP;
 
 OSG_END_NAMESPACE
+
+#include <OSGImage.inl>
 
 #endif // OSGIMAGE_CLASS_DECLARATION

@@ -48,6 +48,8 @@
 
 #include <OSGStatElem.h>
 
+#include <string>
+
 OSG_BEGIN_NAMESPACE
 
 /*! \ingroup baselib
@@ -79,22 +81,17 @@ class OSG_SYSTEMLIB_DLLMAPPING StatRealElem : public StatElem {
     /*! \name                    instance                                  */
     /*! \{                                                                 */
 
-    inline 
-      void set (Real32 value) { _value = value; }
+    inline void set (Real32 value);
 
-    inline
-      Real32 get (void) { return _value; }
+    inline Real32 get (void);
 
-    inline
-      void add (Real32 v) { _value += v; }
+    inline void add (Real32 v);
     
-    inline
-      void sub (Real32 v) { _value -= v; }
+    inline void sub (Real32 v);
 
-    inline
-      void reset (void) { _value = 0; }
+    inline void reset (void);
 
-    virtual String &putToString ( String &str);
+    virtual std::string &putToString ( std::string &str);
 
     virtual ~StatRealElem(void); 
 
@@ -142,5 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatRealElem : public StatElem {
 typedef StatRealElem *StatRealElemP;
 
 OSG_END_NAMESPACE
+
+#include "OSGStatRealElem.inl"
 
 #endif /* _STATREALELEM_H_ */
