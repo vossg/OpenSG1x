@@ -48,7 +48,7 @@ OSG_BEGIN_NAMESPACE
 // RefPtr methods
 
 template< class Ref >
-RefPtr<Ref>::RefPtr(void)
+RefPtr<Ref>::RefPtr(void) : _ref(NullFC)
 {}
 
 template< class Ref >
@@ -121,5 +121,5 @@ void RefPtr<Ref>::setRef(const Ref &ref)
 
 OSG_END_NAMESPACE
 
-#define OSGREFPTR_INLINE_CVSID "@(#)$Id: OSGRefPtr.inl,v 1.1 2003/11/07 20:52:23 dirk Exp $"
+#define OSGREFPTR_INLINE_CVSID "@(#)$Id: OSGRefPtr.inl,v 1.2 2005/02/22 21:05:03 dirk Exp $"
 
