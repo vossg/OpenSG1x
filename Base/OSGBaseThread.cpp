@@ -49,6 +49,7 @@
 #include "OSGLog.h"
 
 #if ! defined (OSG_USE_PTHREADS) && ! defined (OSG_USE_WINTHREADS)
+#define _SGI_MP_SOURCE
 #include <sys/types.h>
 #include <sys/prctl.h>
 #include <errno.h>
@@ -62,7 +63,6 @@
 #if defined (OSG_USE_PTHREADS)
 #include <signal.h>
 #endif
-
 
 OSG_USING_NAMESPACE
 
@@ -178,7 +178,7 @@ bool BasePThreadBase::runFunction(ThreadFuncF  fThreadFunc,
 
     if(fThreadFunc != NULL)
     {
-        if(_pThreadDesc == NULL)
+       if(_pThreadDesc == NULL)
             _pThreadDesc = new pthread_t;
 
         pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, &rc);
@@ -186,9 +186,16 @@ bool BasePThreadBase::runFunction(ThreadFuncF  fThreadFunc,
         _pThreadData[0] = (void *) fThreadFunc;
         _pThreadData[1] =          pThreadArg;
         _pThreadData[2] = (void *) this;
+       	
+		pthread_attr_t  threadAttr;       
+        pthread_attr_setscope(&threadAttr, PTHREAD_SCOPE_SYSTEM);
 
         rc = pthread_create(_pThreadDesc,
+#if 0        
+                            &threadAttr,
+#else
                             NULL,
+#endif
                             BasePThreadBase::threadFunc,
                             (void *) &_pThreadData);
 
@@ -414,7 +421,8 @@ bool BaseSprocBase::runFunction(ThreadFuncF  fThreadFunc,
 
         if(rc == -1)
         {
-            SFATAL << "OSGSPB : sproc thread failed" << endl;
+            SFATAL << "OSGSPB : sproc thread failed. Reason: " 
+                   << strerror(errno) << endl;
             returnValue = false;
         }
     }
@@ -617,7 +625,8 @@ bool BaseWinThreadBase::runFunction(ThreadFuncF  fThreadFunc,
 
         if(rc == NULL)
         {
-            SFATAL << "OSGWTB : sproc thread failed" << endl;
+            SFATAL << "OSGWTB : sproc thread failed. Reason: "  
+                   << strerror(errno) << endl;
             returnValue = false;
         }
     }
