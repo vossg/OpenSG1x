@@ -274,13 +274,6 @@ Attachment::~Attachment(void)
 
 void Attachment::onDestroy(void)
 {
-    MFFieldContainerPtr::iterator parentIt = _parents.begin();
-
-    while(parentIt != _parents.end())
-    {
-        subRefCP(*parentIt);
-        parentIt++;
-    }
 }
 
 /*-------------------------------------------------------------------------*/
