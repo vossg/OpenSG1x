@@ -59,7 +59,7 @@
 
 
 #include <OSGConfig.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 
@@ -77,14 +77,16 @@ class BinaryDataHandler;
 
 //! \brief DVRSimpleLUTShader Base Class.
 
-class OSG_VOLRENLIB_DLLMAPPING DVRSimpleLUTShaderBase : public DVRSimpleShader
+class OSG_SYSTEMLIB_DLLMAPPING DVRSimpleLUTShaderBase : public DVRSimpleShader
 {
   private:
 
-    typedef DVRSimpleShader Inherited;
+    typedef DVRSimpleShader    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef DVRSimpleLUTShaderPtr  Ptr;
 
     enum
     {
@@ -230,6 +232,6 @@ typedef DVRSimpleLUTShaderBase *DVRSimpleLUTShaderBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDVRSIMPLELUTSHADERBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGDVRSIMPLELUTSHADERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGDVRSIMPLELUTSHADERBASE_H_ */

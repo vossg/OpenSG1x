@@ -186,7 +186,7 @@ OSG_BEGIN_NAMESPACE
 DataType FieldDataTraits<DVRAppearancePtr>::_type("DVRAppearancePtr", "ChunkMaterialPtr");
 #endif
 
-OSG_DLLEXPORT_SFIELD_DEF1(DVRAppearancePtr, OSG_VOLRENLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(DVRAppearancePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 
@@ -204,7 +204,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRAPPEARANCEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRAPPEARANCEBASE_INLINE_CVSID;
 

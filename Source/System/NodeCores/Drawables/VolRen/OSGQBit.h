@@ -6,7 +6,7 @@
 #endif
 
 #include <OSGConfig.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 #include <OSGBase.h>
 
 #include <OSGBaseTypes.h>
@@ -18,13 +18,13 @@ OSG_BEGIN_NAMESPACE
 
 /*! \var typedef Char8 QBit;
  *  \brief Qbit (true, false, dont_care)
- *  \ingroup VolRen (temporarily)
+ *  \ingroup VolRen
  */
 
 typedef UInt8 QBit;
 
 /*! \brief QBit field traits
-    \ingroup VolRenLib
+    \ingroup VolRen
     \ingroup SingleFields
     \ingroup MultiFields 
 */
@@ -147,7 +147,7 @@ struct FieldDataTraits1<QBit> :
 typedef SField<QBit, 1>     SFQBit;
 
 #ifndef OSG_COMPILEQBITFIELDINST
-OSG_DLLEXPORT_DECL2(SField, QBit, 1, OSG_VOLRENLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL2(SField, QBit, 1, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
   
 
@@ -158,7 +158,7 @@ OSG_DLLEXPORT_DECL2(SField, QBit, 1, OSG_VOLRENLIB_DLLTMPLMAPPING)
 typedef MField<QBit, 1>     MFQBit;
 
 #ifndef OSG_COMPILEQBITFIELDINST
-OSG_DLLEXPORT_DECL2(MField, QBit, 1, OSG_VOLRENLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL2(MField, QBit, 1, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE

@@ -60,7 +60,7 @@ class Brick;
  */
 
 
-class OSG_VOLRENLIB_DLLMAPPING DVRShader : public DVRShaderBase
+class OSG_SYSTEMLIB_DLLMAPPING DVRShader : public DVRShaderBase
 {
   private:
 

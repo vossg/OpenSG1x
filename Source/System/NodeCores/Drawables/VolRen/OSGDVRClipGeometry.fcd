@@ -3,7 +3,7 @@
 <FieldContainer
 	name="DVRClipGeometry"
 	parent="FieldContainer"
-	library="VolRen"
+	library="System"
 	pointerfieldtypes="both"
 	structure="concrete"
 	systemcomponent="true"

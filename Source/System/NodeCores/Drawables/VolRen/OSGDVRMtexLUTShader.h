@@ -54,7 +54,7 @@ class DVRRenderSlice;
 /*! \brief *put brief class description here* 
  */
 
-class OSG_VOLRENLIB_DLLMAPPING DVRMtexLUTShader : public DVRMtexLUTShaderBase
+class OSG_SYSTEMLIB_DLLMAPPING DVRMtexLUTShader : public DVRMtexLUTShaderBase
 {
 private:
 

@@ -59,7 +59,7 @@
 
 
 #include <OSGConfig.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 
@@ -75,14 +75,16 @@ class BinaryDataHandler;
 
 //! \brief DVRGeometry Base Class.
 
-class OSG_VOLRENLIB_DLLMAPPING DVRGeometryBase : public Geometry
+class OSG_SYSTEMLIB_DLLMAPPING DVRGeometryBase : public Geometry
 {
   private:
 
-    typedef Geometry Inherited;
+    typedef Geometry    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef DVRGeometryPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -188,6 +190,6 @@ typedef DVRGeometryBase *DVRGeometryBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDVRGEOMETRYBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGDVRGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGDVRGEOMETRYBASE_H_ */

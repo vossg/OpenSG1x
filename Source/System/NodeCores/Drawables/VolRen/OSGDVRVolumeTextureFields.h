@@ -58,7 +58,7 @@
 
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCoreFieldDataType.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGAttachmentFields.h>
 
@@ -66,8 +66,7 @@ OSG_BEGIN_NAMESPACE
 
 class DVRVolumeTexture;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! DVRVolumeTexturePtr
 
 typedef FCPtr<AttachmentPtr, DVRVolumeTexture> DVRVolumeTexturePtr;
@@ -75,7 +74,7 @@ typedef FCPtr<AttachmentPtr, DVRVolumeTexture> DVRVolumeTexturePtr;
 #endif
 
 #if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpVolRenFieldTraits
+/*! \ingroup GrpSystemFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -103,6 +102,6 @@ struct FieldDataTraits<DVRVolumeTexturePtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGDVRVOLUMETEXTUREFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGDVRVOLUMETEXTUREFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGDVRVOLUMETEXTUREFIELDS_H_ */

@@ -51,7 +51,7 @@ OSG_BEGIN_NAMESPACE
 /*! \brief *put brief class description here* 
  */
 
-class OSG_VOLRENLIB_DLLMAPPING DVRLookupTable : public DVRLookupTableBase
+class OSG_SYSTEMLIB_DLLMAPPING DVRLookupTable : public DVRLookupTableBase
 {
   private:
 

@@ -58,7 +58,7 @@
 
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCoreFieldDataType.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGDVRSimpleShaderFields.h>
 
@@ -66,7 +66,7 @@ OSG_BEGIN_NAMESPACE
 
 class DVRSimpleLUTShader;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! DVRSimpleLUTShaderPtr
 
 typedef FCPtr<DVRSimpleShaderPtr, DVRSimpleLUTShader> DVRSimpleLUTShaderPtr;
@@ -74,7 +74,7 @@ typedef FCPtr<DVRSimpleShaderPtr, DVRSimpleLUTShader> DVRSimpleLUTShaderPtr;
 #endif
 
 #if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpVolRenFieldTraits
+/*! \ingroup GrpSystemFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -102,6 +102,6 @@ struct FieldDataTraits<DVRSimpleLUTShaderPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGDVRSIMPLELUTSHADERFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGDVRSIMPLELUTSHADERFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGDVRSIMPLELUTSHADERFIELDS_H_ */

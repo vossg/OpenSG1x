@@ -288,7 +288,7 @@ OSG_BEGIN_NAMESPACE
 DataType FieldDataTraits<DVRClipObjectsPtr>::_type("DVRClipObjectsPtr", "AttachmentPtr");
 #endif
 
-OSG_DLLEXPORT_SFIELD_DEF1(DVRClipObjectsPtr, OSG_VOLRENLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(DVRClipObjectsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 
@@ -306,7 +306,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRCLIPOBJECTSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRCLIPOBJECTSBASE_INLINE_CVSID;
 

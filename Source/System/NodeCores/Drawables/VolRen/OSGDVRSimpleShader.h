@@ -51,7 +51,7 @@ OSG_BEGIN_NAMESPACE
 /*! \brief *put brief class description here* 
  */
 
-class OSG_VOLRENLIB_DLLMAPPING DVRSimpleShader : public DVRSimpleShaderBase
+class OSG_SYSTEMLIB_DLLMAPPING DVRSimpleShader : public DVRSimpleShaderBase
 {
   private:
 

@@ -51,7 +51,7 @@ OSG_BEGIN_NAMESPACE
 /*! \brief *put brief class description here* 
  */
 
-class OSG_VOLRENLIB_DLLMAPPING DVRAppearance : public DVRAppearanceBase
+class OSG_SYSTEMLIB_DLLMAPPING DVRAppearance : public DVRAppearanceBase
 {
   private:
 

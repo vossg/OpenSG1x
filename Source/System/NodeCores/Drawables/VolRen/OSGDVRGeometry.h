@@ -51,7 +51,7 @@ OSG_BEGIN_NAMESPACE
 /*! \brief *put brief class description here* 
  */
 
-class OSG_VOLRENLIB_DLLMAPPING DVRGeometry : public DVRGeometryBase
+class OSG_SYSTEMLIB_DLLMAPPING DVRGeometry : public DVRGeometryBase
 {
   private:
 

@@ -7,7 +7,7 @@
 
 #include <OSGConfig.h>
 
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <vector>
 

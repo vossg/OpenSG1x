@@ -58,7 +58,7 @@
 
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCoreFieldDataType.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGAttachmentFields.h>
 
@@ -66,7 +66,7 @@ OSG_BEGIN_NAMESPACE
 
 class DVRClipObjects;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! DVRClipObjectsPtr
 
 typedef FCPtr<AttachmentPtr, DVRClipObjects> DVRClipObjectsPtr;
@@ -74,7 +74,7 @@ typedef FCPtr<AttachmentPtr, DVRClipObjects> DVRClipObjectsPtr;
 #endif
 
 #if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpVolRenFieldTraits
+/*! \ingroup GrpSystemFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -104,17 +104,17 @@ struct FieldDataTraits<DVRClipObjectsPtr> :
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpVolRenFieldSingle */
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<DVRClipObjectsPtr> SFDVRClipObjectsPtr;
 #endif
 
 #ifndef OSG_COMPILEDVRCLIPOBJECTSINST
-OSG_DLLEXPORT_DECL1(SField, DVRClipObjectsPtr, OSG_VOLRENLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, DVRClipObjectsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGDVRCLIPOBJECTSFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGDVRCLIPOBJECTSFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGDVRCLIPOBJECTSFIELDS_H_ */

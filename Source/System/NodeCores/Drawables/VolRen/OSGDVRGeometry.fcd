@@ -3,7 +3,7 @@
 <FieldContainer
 	name="DVRGeometry"
 	parent="Geometry"
-	library="VolRen"
+	library="System"
 	pointerfieldtypes="single"
 	structure="concrete"
 	systemcomponent="true"

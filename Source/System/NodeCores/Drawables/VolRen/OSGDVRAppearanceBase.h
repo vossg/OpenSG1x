@@ -59,7 +59,7 @@
 
 
 #include <OSGConfig.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 
@@ -75,14 +75,16 @@ class BinaryDataHandler;
 
 //! \brief DVRAppearance Base Class.
 
-class OSG_VOLRENLIB_DLLMAPPING DVRAppearanceBase : public ChunkMaterial
+class OSG_SYSTEMLIB_DLLMAPPING DVRAppearanceBase : public ChunkMaterial
 {
   private:
 
-    typedef ChunkMaterial Inherited;
+    typedef ChunkMaterial    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef DVRAppearancePtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -188,6 +190,6 @@ typedef DVRAppearanceBase *DVRAppearanceBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDVRAPPEARANCEBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGDVRAPPEARANCEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGDVRAPPEARANCEBASE_H_ */

@@ -3,7 +3,7 @@
 <FieldContainer
 	name="DVRAppearance"
 	parent="ChunkMaterial"
-	library="VolRen"
+	library="System"
 	pointerfieldtypes="single"
 	structure="concrete"
 	systemcomponent="true"

@@ -3,7 +3,7 @@
 <FieldContainer
 	name="DVRClipObjects"
 	parent="Attachment"
-	library="VolRen"
+	library="System"
 	pointerfieldtypes="single"
 	structure="concrete"
 	systemcomponent="true"

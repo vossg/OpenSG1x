@@ -53,7 +53,7 @@ OSG_BEGIN_NAMESPACE
 /*! \brief *put brief class description here* 
  */
 
-class OSG_VOLRENLIB_DLLMAPPING DVRClipObjects : public DVRClipObjectsBase
+class OSG_SYSTEMLIB_DLLMAPPING DVRClipObjects : public DVRClipObjectsBase
 {
   private:
 

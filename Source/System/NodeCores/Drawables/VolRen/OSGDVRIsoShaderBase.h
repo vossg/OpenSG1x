@@ -59,7 +59,7 @@
 
 
 #include <OSGConfig.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 
@@ -77,14 +77,16 @@ class BinaryDataHandler;
 
 //! \brief DVRIsoShader Base Class.
 
-class OSG_VOLRENLIB_DLLMAPPING DVRIsoShaderBase : public DVRShader
+class OSG_SYSTEMLIB_DLLMAPPING DVRIsoShaderBase : public DVRShader
 {
   private:
 
-    typedef DVRShader Inherited;
+    typedef DVRShader    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef DVRIsoShaderPtr  Ptr;
 
     enum
     {
@@ -230,6 +232,6 @@ typedef DVRIsoShaderBase *DVRIsoShaderBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDVRISOSHADERBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGDVRISOSHADERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGDVRISOSHADERBASE_H_ */

@@ -59,7 +59,7 @@
 
 
 #include <OSGConfig.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 
@@ -80,14 +80,16 @@ class BinaryDataHandler;
 
 //! \brief DVRIsoSurface Base Class.
 
-class OSG_VOLRENLIB_DLLMAPPING DVRIsoSurfaceBase : public Attachment
+class OSG_SYSTEMLIB_DLLMAPPING DVRIsoSurfaceBase : public Attachment
 {
   private:
 
-    typedef Attachment Inherited;
+    typedef Attachment    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef DVRIsoSurfacePtr  Ptr;
 
     enum
     {
@@ -254,6 +256,6 @@ typedef DVRIsoSurfaceBase *DVRIsoSurfaceBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDVRISOSURFACEBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGDVRISOSURFACEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGDVRISOSURFACEBASE_H_ */

@@ -258,8 +258,8 @@ OSG_BEGIN_NAMESPACE
 DataType FieldDataTraits<DVRClipGeometryPtr>::_type("DVRClipGeometryPtr", "FieldContainerPtr");
 #endif
 
-OSG_DLLEXPORT_SFIELD_DEF1(DVRClipGeometryPtr, OSG_VOLRENLIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(DVRClipGeometryPtr, OSG_VOLRENLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(DVRClipGeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(DVRClipGeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 
@@ -277,7 +277,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRCLIPGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRCLIPGEOMETRYBASE_INLINE_CVSID;
 

@@ -58,7 +58,7 @@
 
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCoreFieldDataType.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGNodeCoreFields.h>
 
@@ -66,7 +66,7 @@ OSG_BEGIN_NAMESPACE
 
 class DVRVolume;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! DVRVolumePtr
 
 typedef FCPtr<NodeCorePtr, DVRVolume> DVRVolumePtr;
@@ -74,7 +74,7 @@ typedef FCPtr<NodeCorePtr, DVRVolume> DVRVolumePtr;
 #endif
 
 #if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpVolRenFieldTraits
+/*! \ingroup GrpSystemFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -102,6 +102,6 @@ struct FieldDataTraits<DVRVolumePtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGDVRVOLUMEFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGDVRVOLUMEFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGDVRVOLUMEFIELDS_H_ */

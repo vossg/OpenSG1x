@@ -55,7 +55,7 @@ OSG_BEGIN_NAMESPACE
 /*! \brief *put brief class description here* 
  */
 
-class OSG_VOLRENLIB_DLLMAPPING DVRClipGeometry : public DVRClipGeometryBase
+class OSG_SYSTEMLIB_DLLMAPPING DVRClipGeometry : public DVRClipGeometryBase
 {
   private:
 

@@ -59,7 +59,7 @@
 
 
 #include <OSGConfig.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 
@@ -75,14 +75,16 @@ class BinaryDataHandler;
 
 //! \brief DVRShader Base Class.
 
-class OSG_VOLRENLIB_DLLMAPPING DVRShaderBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING DVRShaderBase : public FieldContainer
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef FieldContainer    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef DVRShaderPtr  Ptr;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -172,6 +174,6 @@ typedef DVRShaderBase *DVRShaderBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDVRSHADERBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGDVRSHADERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGDVRSHADERBASE_H_ */

@@ -59,7 +59,7 @@
 
 
 #include <OSGConfig.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 
@@ -77,14 +77,16 @@ class BinaryDataHandler;
 
 //! \brief DVRClipGeometry Base Class.
 
-class OSG_VOLRENLIB_DLLMAPPING DVRClipGeometryBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING DVRClipGeometryBase : public FieldContainer
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef FieldContainer    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef DVRClipGeometryPtr  Ptr;
 
     enum
     {
@@ -230,6 +232,6 @@ typedef DVRClipGeometryBase *DVRClipGeometryBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDVRCLIPGEOMETRYBASE_HEADER_CVSID "@(#)$Id: OSGDVRClipGeometryBase.h,v 1.3 2003/09/23 12:55:41 weiler Exp $"
+#define OSGDVRCLIPGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGDVRCLIPGEOMETRYBASE_H_ */

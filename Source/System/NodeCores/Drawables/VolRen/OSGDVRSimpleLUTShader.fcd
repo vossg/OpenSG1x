@@ -3,7 +3,7 @@
 <FieldContainer
 	name="DVRSimpleLUTShader"
 	parent="DVRSimpleShader"
-	library="VolRen"
+	library="System"
 	pointerfieldtypes="none"
 	structure="concrete"
 	systemcomponent="true"

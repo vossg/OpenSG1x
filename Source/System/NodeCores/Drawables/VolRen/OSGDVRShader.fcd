@@ -3,7 +3,7 @@
 <FieldContainer
 	name="DVRShader"
 	parent="FieldContainer"
-	library="VolRen"
+	library="System"
 	pointerfieldtypes="single"
 	structure="abstract"
 	systemcomponent="true"

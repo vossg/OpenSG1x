@@ -58,7 +58,7 @@
 
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCoreFieldDataType.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGFieldContainerFields.h>
 
@@ -66,7 +66,7 @@ OSG_BEGIN_NAMESPACE
 
 class DVRClipGeometry;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! DVRClipGeometryPtr
 
 typedef FCPtr<FieldContainerPtr, DVRClipGeometry> DVRClipGeometryPtr;
@@ -74,7 +74,7 @@ typedef FCPtr<FieldContainerPtr, DVRClipGeometry> DVRClipGeometryPtr;
 #endif
 
 #if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpVolRenFieldTraits
+/*! \ingroup GrpSystemFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -105,27 +105,27 @@ struct FieldDataTraits<DVRClipGeometryPtr> :
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpVolRenFieldSingle */
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<DVRClipGeometryPtr> SFDVRClipGeometryPtr;
 #endif
 
 #ifndef OSG_COMPILEDVRCLIPGEOMETRYINST
-OSG_DLLEXPORT_DECL1(SField, DVRClipGeometryPtr, OSG_VOLRENLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, DVRClipGeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpVolRenFieldMulti */
+/*! \ingroup GrpSystemFieldMulti */
 
 typedef MField<DVRClipGeometryPtr> MFDVRClipGeometryPtr;
 #endif
 
 #ifndef OSG_COMPILEDVRCLIPGEOMETRYINST
-OSG_DLLEXPORT_DECL1(MField, DVRClipGeometryPtr, OSG_VOLRENLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, DVRClipGeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGDVRCLIPGEOMETRYFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGDVRCLIPGEOMETRYFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGDVRCLIPGEOMETRYFIELDS_H_ */

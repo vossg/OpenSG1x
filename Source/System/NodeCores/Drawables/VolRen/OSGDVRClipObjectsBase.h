@@ -59,7 +59,7 @@
 
 
 #include <OSGConfig.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
 
@@ -78,14 +78,16 @@ class BinaryDataHandler;
 
 //! \brief DVRClipObjects Base Class.
 
-class OSG_VOLRENLIB_DLLMAPPING DVRClipObjectsBase : public Attachment
+class OSG_SYSTEMLIB_DLLMAPPING DVRClipObjectsBase : public Attachment
 {
   private:
 
-    typedef Attachment Inherited;
+    typedef Attachment    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef DVRClipObjectsPtr  Ptr;
 
     enum
     {
@@ -251,6 +253,6 @@ typedef DVRClipObjectsBase *DVRClipObjectsBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDVRCLIPOBJECTSBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGDVRCLIPOBJECTSBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGDVRCLIPOBJECTSBASE_H_ */

@@ -58,7 +58,7 @@
 
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCoreFieldDataType.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 
 #include <OSGGeometryFields.h>
 
@@ -66,7 +66,7 @@ OSG_BEGIN_NAMESPACE
 
 class DVRGeometry;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! DVRGeometryPtr
 
 typedef FCPtr<GeometryPtr, DVRGeometry> DVRGeometryPtr;
@@ -74,7 +74,7 @@ typedef FCPtr<GeometryPtr, DVRGeometry> DVRGeometryPtr;
 #endif
 
 #if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpVolRenFieldTraits
+/*! \ingroup GrpSystemFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
@@ -104,17 +104,17 @@ struct FieldDataTraits<DVRGeometryPtr> :
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpVolRenFieldSingle */
+/*! \ingroup GrpSystemFieldSingle */
 
 typedef SField<DVRGeometryPtr> SFDVRGeometryPtr;
 #endif
 
 #ifndef OSG_COMPILEDVRGEOMETRYINST
-OSG_DLLEXPORT_DECL1(SField, DVRGeometryPtr, OSG_VOLRENLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, DVRGeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGDVRGEOMETRYFIELDS_HEADER_CVSID "@(#)$Id: OSGDVRGeometryFields.h,v 1.4 2003/03/25 16:02:57 weiler Exp $"
+#define OSGDVRGEOMETRYFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGDVRGEOMETRYFIELDS_H_ */

@@ -3,7 +3,7 @@
 <FieldContainer
 	name="DVRVolume"
 	parent="NodeCore"
-	library="VolRen"
+	library="System"
 	pointerfieldtypes="none"
 	structure="concrete"
 	systemcomponent="true"

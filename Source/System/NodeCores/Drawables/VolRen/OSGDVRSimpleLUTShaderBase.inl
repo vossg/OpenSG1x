@@ -156,5 +156,5 @@ void DVRSimpleLUTShaderBase::setActiveLutMode(const Int8 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGDVRSIMPLELUTSHADERBASE_INLINE_CVSID "@(#)$Id: OSGDVRSimpleLUTShaderBase.inl,v 1.4 2003/07/07 18:30:46 weiler Exp $"
+#define OSGDVRSIMPLELUTSHADERBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

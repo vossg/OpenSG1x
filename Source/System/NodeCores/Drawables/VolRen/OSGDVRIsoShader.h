@@ -47,7 +47,7 @@
 #include <OSGConfig.h>
 #include <OSGWindow.h>
 #include <OSGGL.h>
-#include <OSGVolRenDef.h>
+#include <OSGSystemDef.h>
 #include <OSGDVRShader.h>
 #include <OSGDrawActionBase.h>
 #include <OSGDVRVolume.h>
@@ -64,7 +64,7 @@ OSG_BEGIN_NAMESPACE
 /*! \brief *put brief class description here* 
  */
 
-class OSG_VOLRENLIB_DLLMAPPING DVRIsoShader : public DVRIsoShaderBase
+class OSG_SYSTEMLIB_DLLMAPPING DVRIsoShader : public DVRIsoShaderBase
 {
   private:
 
