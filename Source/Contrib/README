@@ -27,7 +27,9 @@ The currently available contributions are
 
 - CGChunk:                  Chunk for nVidia's CG library
 - DrawFunctorCore:          Callback-based OpenGL NodeCore
-- LinearCombinerGeometry:   Geometrx morphing between objects
+- LinearCombinerGeometry:   Geometric morphing between objects
+- MayaExporter:             Plugin for Maya to export OpenSG geometry, plus 
+                              helper classes for some deformation support
 
 
 If you want to contribute: great! Take a look at the existing contributions
@@ -41,4 +43,4 @@ at least want to see that it works and what it does. ;)
 
 
 The OpenSG Core
-2003/06/01
+2003/06/02

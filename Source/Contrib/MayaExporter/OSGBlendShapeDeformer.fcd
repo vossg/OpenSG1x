@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="BlendShapeDeformer"
+	parent="Deformer"
+	library="Contrib"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+Implements mesh blend shape deformation.
+	<Field
+		name="weight"
+		type="Real32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Weight of each target.
+	</Field>
+	<Field
+		name="vertexIndices"
+		type="UInt32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Vertex indices to deform.
+	</Field>
+	<Field
+		name="targetIndices"
+		type="UInt16"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Target index of vertex (into weight array).
+	</Field>
+	<Field
+		name="targetVertices"
+		type="Pnt3f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Target vertex offset.
+	</Field>
+	<Field
+		name="normalIndices"
+		type="UInt32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Normal indices to deform.
+	</Field>
+	<Field
+		name="normalTargetIndices"
+		type="UInt16"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Target index of normal (into weight array).
+	</Field>
+	<Field
+		name="targetNormals"
+		type="Vec3f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Target normal offset.
+	</Field>
+</FieldContainer>

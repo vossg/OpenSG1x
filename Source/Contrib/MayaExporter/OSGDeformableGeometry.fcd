@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="DeformableGeometry"
+	parent="Geometry"
+	library="Contrib"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+	<Field
+		name="deformers"
+		type="DeformerPtr"
+		cardinality="multi"
+		visibility="external"
+		header="OSGDeformer.h"
+		access="public"
+	>
+	Array of deformers that are executed in the given order to modify geometry properties.
+	</Field>
+	<Field
+		name="basePositions"
+		type="GeoPositionsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Base vertex positions before geometry is deformed.
+	</Field>
+	<Field
+		name="baseNormals"
+		type="GeoNormalsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Base vertex normals before geometry is deformed.
+	</Field>
+</FieldContainer>

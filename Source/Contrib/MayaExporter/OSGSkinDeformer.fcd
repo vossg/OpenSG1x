@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="SkinDeformer"
+	parent="Deformer"
+	library="Contrib"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+Implements mesh skin deformation using a skeleton. Intended to recreate the functionality of Maya's skinCluster node. The vertexIndices, influenceIndices, and influenceWeights arrays will all have the same number of elements, which should allow looping through them all quickly with no conditional statements.
+	<Field
+		name="influences"
+		type="NodePtr"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Transform nodes that influence the mesh deformation
+	</Field>
+	<Field
+		name="baseMatrices"
+		type="Matrix"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Base world matrix for each influence transform
+	</Field>
+	<Field
+		name="vertexIndices"
+		type="UInt32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Vertex indices to deform.
+	</Field>
+	<Field
+		name="influenceIndices"
+		type="UInt16"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Indices of influence transforms for each vertex index
+	</Field>
+	<Field
+		name="influenceWeights"
+		type="Real32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Weight of each influence for each vertex index
+	</Field>
+	<Field
+		name="normalIndices"
+		type="UInt32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Normal indices to deform.
+	</Field>
+	<Field
+		name="normalInfluenceIndices"
+		type="UInt16"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Indices of influence transforms for each normal index.
+	</Field>
+	<Field
+		name="normalInfluenceWeights"
+		type="Real32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Weight of each influence for each normal index.
+	</Field>
+</FieldContainer>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="Deformer"
+	parent="AttachmentContainer"
+	library="Contrib"
+	pointerfieldtypes="both"
+	structure="abstract"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+Represents a mesh deformation operation.
+	<Field
+		name="geometry"
+		type="NodePtr"
+		cardinality="single"
+		visibility="external"
+		defaultValue="NullFC"
+		access="public"
+	>
+	Geometry node to deform
+	</Field>
+</FieldContainer>

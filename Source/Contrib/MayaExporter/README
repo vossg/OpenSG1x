@@ -1,0 +1,138 @@
+
+README for MayaExporter
+=======================
+
+Name:                   MayaExporter
+License:                LGPL
+Maintainer:             Michael Babcock <mbabcock@la.creatureshop.henson.com>
+Initial Author:         Michael Babcock <mbabcock@la.creatureshop.henson.com>
+Additional Libraries:   Maya SDK
+Added:                  2003/05/28
+Last modified:          2003/05/28
+Last tested:            2003/05/28
+
+Description:
+
+This directory contains a Maya plugin that exports scenes to the
+OpenSG file format. It currently uses the OpenSG binary format (.bin)
+because embedded textures in the text format (.osg) make the files
+extremely large. The export format can be easily changed by changing a
+couple lines in the source code.
+
+I have tested the exporter on Linux, but it should port to Windows
+with little trouble. Note that as of Maya for Linux version 4.5, you
+_must_ use gcc version 2.96 20000731 (Red Hat Linux 7.1 2.96-98) to
+compile Maya plugins (so this includes compiling the OpenSG
+libraries). This can be quite a pain, hopefully Maya 5 will use gcc
+3.x.
+
+The exporter supports Maya meshes with multiple materials by
+representing the mesh as an OpenSG Group node. Each set of faces with
+the same material is exported as a Geometry child node of the Group.
+
+Maya's Lambert, Phong, and Blinn materials are converted to a
+SimpleTexturedMaterial. Blinn is (incorrectly) approximated as Phong.
+Texturing is supported on the Color attribute. Maya's ConvertSolidTx
+command is used to bake the color attribute into a simple image
+texture, so complex Maya shading networks can be connected to this
+attribute. Multiple UV Sets are not supported. Materials are not
+shared when they could be (but note that the use of ConvertSolidTx
+makes sharing materials more difficult than it may seem).
+
+Maya Transforms and Joints are converted to ComponentTransform
+nodes. There is a bug when scale and rotates are present, however,
+where the resulting ComponentTransform scales about the wrong axis.
+
+Names are set on the Nodes, not NodeCores.
+
+Geometry instancing has not been tested and probably doesn't work.
+
+Export of lights and cameras is not implemented yet.
+
+As a general rule, to workaround export problems, try deleting history
+and freezing transforms in Maya.
+
+
+* Deformable Geometry
+
+Two types of deformable geometry are supported, blendshapes and
+skinclusters. All blendshape target weights should be set to zero at
+the time of export. You must link the deformable geometry object files
+into your OpenSG program for the scene to load properly. In fact,
+currently all meshes are exported as DeformableGeometry even if they
+have no deformers.
+
+Currently, it is the responsibility of the application to find the
+deformers and execute them. This could possibly be made part of the
+changed() or render action of the DeformableGeometry class, but I'm
+not sure of the implications for allowing multithreaded deformation.
+
+Display list caching must be turned off for all deformable geometry
+nodes (deform_geo->setDlistCache(false)) or performance will be very
+bad. DeformableGeometry nodes set their bounding box to a large volume
+(setting it to infinite doesn't seem to work). Otherwise you would
+need to call invalidateVolume() each frame which also slows
+performance.
+
+To perform the deformation execute code like this each frame:
+
+for each deform_geo:
+    osg::MFDeformerPtr defs = deform_geo->getDeformers();
+    if (defs.size() > 0) {
+        osg::GeoPositionsPtr positions = deform_geo->getPositions();
+        osg::GeoPositionsPtr base_positions = deform_geo->getBasePositions();
+        osg::GeoNormalsPtr normals = deform_geo->getNormals();
+        osg::GeoNormalsPtr base_normals = deform_geo->getBaseNormals();
+        osg::beginEditCP(positions);
+        osg::beginEditCP(normals);
+        {
+            // Reset to base positions and normals.
+            for (unsigned int i = 0; i < base_positions->size(); i++)
+                positions->setValue(base_positions->getValue(i), i);
+            for (unsigned int i = 0; i < base_normals->size(); i++)
+                normals->setValue(base_normals->getValue(i), i);
+
+            // Process each deformer in turn.
+            for (osg::MFDeformerPtr::iterator d = defs.begin(); d != defs.end(); ++d)
+                (*d)->deform();
+        }
+        osg::endEditCP(positions);
+        osg::endEditCP(normals);
+   }
+   // Invalidate bbox even for geo with no deformers because they may share geoproperties.
+   // FIXME: Makes rendering slow.
+   //deform_geo->invalidateVolume();
+
+
+* TO-DO
+
+Fix scale+rotate problem for Transforms.
+
+Implement custom FieldContainers: MayaTransform and MayaJoint.
+
+Bug when skinned geometry is not in world space?
+
+Don't using SimpleTextureMaterial for non-textured materials.
+
+Share materials when possible.
+
+Don't use DeformableGeometry for meshes without deformers.
+
+Support multiple UV Sets.
+
+Support lights and cameras.
+
+Optimize deformers.
+ - Avoid copying base positions each frame by using extra temporary arrays.
+ - Only recalculate joint matrices once even if they drive many skin deformers.
+ - Don't allocate memory in SkinDeformer::deform().
+ - Create custom fieldcontainers (like geoproperties) to store
+ deformer information, so reduce redundant operations (but more
+ branches).
+ - Implement deformers as a vertex program (but lose access to positions
+ for later use such as collision detection).
+
+SkinDeformer should multiply normals by inverse transpose matrix if
+joints are scaled.
+
+Support realtime shaders in Maya and export them.
