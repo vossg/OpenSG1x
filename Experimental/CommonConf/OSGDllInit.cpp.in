@@ -1,0 +1,22 @@
+
+#define OSGCOMPILESYSTEMLIB
+
+#include <OSGLog.hpp>
+#include <OSGDataStoreFactory.hpp>
+
+extern "C" int APIENTRY
+DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+{
+	// Remove this if you use lpReserved
+	UNREFERENCED_PARAMETER(lpReserved);
+
+	if(dwReason == DLL_PROCESS_ATTACH)
+	{
+        SLOG << "Init Shared Object : @ac_gdz_package_name_out@" << endl;
+
+        OSG::OSGDataStoreFactory::the()->initializePendingTypes();
+	}
+
+	return 1;   // ok
+}
+

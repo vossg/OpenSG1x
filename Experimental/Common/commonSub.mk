@@ -16,6 +16,26 @@ LIBDIR = $(LIBDIR_BASE)-$(DBG)
 OBJ_SUFFIX := $(strip $(OBJ_SUFFIX))
 
 #########################################################################
+# Get Job Type
+#########################################################################
+
+NONBUILDTARGETS    = depend commonclean dbgclean optclean clean commonClean	\
+					 dbgClean optClean Clean commonDepClean dbgDepClean		\
+					 optDepClean DepClean LibClean
+
+ifeq ($(MAKECMDGOALS),)
+SUB_JOB := build
+else
+FILTEREDCMDGOALS := $(strip $(filter-out $(NONBUILDTARGETS),$(MAKECMDGOALS)))
+
+ifeq ($(FILTEREDCMDGOALS),)
+SUB_JOB := admin
+else
+SUB_JOB := build
+endif
+endif
+
+#########################################################################
 # Get Source Files
 #########################################################################
 

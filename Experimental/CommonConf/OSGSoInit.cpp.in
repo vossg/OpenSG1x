@@ -1,0 +1,15 @@
+
+#include <OSGLog.hpp>
+#include <OSGDataStoreFactory.hpp>
+
+extern "C"
+{
+
+void osgInitSharedObject@ac_gdz_package_name_out@(void)
+{
+    SLOG << "Init Shared Object : @ac_gdz_package_name_out@" << endl;
+
+    OSG::DataStoreFactory::the()->initializePendingTypes();
+}    
+
+}

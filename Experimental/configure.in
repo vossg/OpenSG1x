@@ -4,9 +4,6 @@ define([AC_CACHE_SAVE], )dnl
 
 AC_INIT(Base/OSGConfig.h)
 
-dnl AC_CONFIG_HEADER(config.h)
-
-
 dnl ############# Default Settings #####################
 
 ac_gdz_common_dir=Common
@@ -38,9 +35,9 @@ dnl ############# STL Settings #####################
 AC_ARG_WITH(stl,     [  --with-stl=DIR          Where to find the stl to use],
 			,with_stl=no) 
 
-if [[ $with_stl = yes ]]; then
+if [[ "$with_stl" = yes ]]; then
 	ac_gdz_stl_dir=
-elif [[ $with_stl = no ]]; then
+elif [[ "$with_stl" = no ]]; then
 	ac_gdz_stl_dir=
 else
 	ac_gdz_stl_dir=$with_stl
@@ -51,13 +48,23 @@ dnl ############# GLUT Settings #####################
 AC_ARG_WITH(glut,     [  --with-glut=DIR          Where to find the glut files to use],
 			,with_glut=no) 
 
-if [[ $with_glut = yes ]]; then
+if [[ "$with_glut" = yes ]]; then
 	ac_gdz_glut_dir=
-elif [[ $with_glut = no ]]; then
+elif [[ "$with_glut" = no ]]; then
 	ac_gdz_glut_dir=
 else
 	ac_gdz_glut_dir=$with_glut
 fi
+
+dnl ############# TLS Settings #####################
+
+AC_ARG_WITH(glut,     [  --with-win-localstorage=DIR          Use local storage instead of __declspec to get thread local storage on windows],
+			,with_win_localstorage=no) 
+
+dnl ############# Bool=unsigned int Settings #####################
+
+AC_ARG_WITH(glut,     [  --with-win-bool-is-unsigned=DIR      Define Bool as unsigned, required to combine the software with Microsoft stuff, since preprocessors ignore namespaces ],
+			,with_win_bool_is_unsigned=no) 
 
 dnl ############# Run Tests #####################
 
@@ -174,6 +181,14 @@ fi
 
 ac_gdz_package_sub_dir_out=Builds/$build-$ac_gdz_compiler
 
+AC_CONFIG_HEADER($ac_gdz_package_sub_dir_out/Base/OSGConfigured.h:CommonConf/OSGConfigured.h.in)
+
+if [[ $build_os = cygwin ]]; then 
+    ac_gdz_gen_base_inc_e1="..\\Base"
+else
+    ac_gdz_gen_base_inc_e1="../Base"
+fi
+
 AC_GDZ_SCAN_PACKET_DESC()
 
 AC_SUBST(ac_gdz_so_praefix)
@@ -200,6 +215,8 @@ AC_SUBST(ac_gdz_compiler_lib)
 AC_SUBST(ac_gdz_base_system_libs)
 AC_SUBST(ac_gdz_plat_project_praefix)
 
+AC_SUBST(ac_gdz_gen_base_inc_e1)
+
 AC_SUBST_FILE(ac_gdz_common_patterns)
 AC_SUBST_FILE(ac_gdz_common_system)
 
@@ -223,6 +240,14 @@ AC_GDZ_WRITE_COMMON_STL()
 
 dnl AC_DEFINE(XXX)
 
-dnl AC_CHECK_HEADERS(unistd.h)
+if [[ "$with_win_localstorage" = yes ]]; then
+    AC_DEFINE(OSG_ASPECT_USE_LOCALSTORAGE)
+else
+    AC_DEFINE(OSG_ASPECT_USE_DECLSPEC)
+fi
+
+if [[ "$with_win_bool_is_unsigned" = yes ]]; then
+    AC_DEFINE(OSG_BOOL_IS_UNSIGNED)
+fi
 
 AC_GDZ_WRITE_COMMON_GLUT()

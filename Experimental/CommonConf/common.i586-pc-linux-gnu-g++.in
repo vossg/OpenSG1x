@@ -24,7 +24,7 @@ DEP_PLATTFORMDEF = -D__linux__
 SOURCE_DEFINES   = -D__linux -D_GNU_SOURCE 
 #-D__STL_USE_NEW_IOSTREAMS
 
-SYSTEM_DEFINES   =
+SYSTEM_DEFINES   = -D_OSG_HAVE_CONFIGURED_H_
 
 ### Warnings #######################################################
 
