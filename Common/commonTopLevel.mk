@@ -141,24 +141,24 @@ install-includes: install-test
 	    -exec rm -f {} \;       ;                                           \
 	find $($(PROJ)POOL) -follow                                             \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
-	       -name Tools -o -name '.*' -o -name examples -o                   \
+	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o      \
 	       -name Templates -o -name Builds -o -name VS \) -prune \) -o      \
 	       -type f -name '*.h'                                              \
 	-exec $($(PROJ)POOL)/Common/sedInc {} $(INSTALL_DIR)/include/OpenSG \; ;\
 	find $($(PROJ)POOL) -follow                                             \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o          \
-	       -name Tools -o -name '.*' -o -name examples -o                   \
+	       -name Tools -o -name '.*' -o -name examples -o -name tmp         \
 	       -name Templates -o -name Builds -o -name VS \) -prune \) -o      \
 	       -type f -name '*.inl'                                            \
 	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \; ;\
 	find $$CURRDIR  -follow                                                 \
 	    \( -type d \( -name CVS -o -name '*Test' -o -name include  -o       \
-	       -name Tools -o -name Builds \) -prune \)                         \
+	       -name Tools -o -name Builds -o -name tmp \) -prune \)            \
 	    -o -type f -name '*\.h'                                             \
 	-exec $($(PROJ)POOL)/Common/sedIncBuild {} $(INSTALL_DIR)/include/OpenSG \; ; \
 	find $$CURRDIR -follow                                                  \
 	    \( -type d \( -name CVS -o -name '*Test' -o -name include -o        \
-	       -name Tools -o -name Builds \) -prune \)                         \
+	       -name Tools -o -name Builds -o -name tmp \) -prune \)            \
 	    -o -type f -name '*\.inl'                                           \
 	-exec $($(PROJ)POOL)/Common/sedInl {} $(INSTALL_DIR)/include/OpenSG \;
 
@@ -172,24 +172,24 @@ update-includes: install-test
 	CURRDIR=`pwd`;                                                           \
 	find $($(PROJ)POOL) -follow                                              \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o           \
-	       -name Tools -o -name '.*' -o -name examples -o                    \
+	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o       \
 	       -name Templates -o -name Builds -o -name VS \) -prune \) -o       \
 	       -type f -name '*.h'                                               \
 	-exec $($(PROJ)POOL)/Common/sedIncU {} $(INSTALL_DIR)/include/OpenSG \; ;\
 	find $($(PROJ)POOL) -follow                                              \
 	    \( -type d \( -name CVS -o -name Test -o -name include  -o           \
-	       -name Tools -o -name '.*' -o -name examples -o                    \
+	       -name Tools -o -name '.*' -o -name examples -o -name tmp -o       \
 	       -name Templates -o -name Builds -o -name VS \) -prune \) -o       \
 	       -type f -name '*.inl'                                             \
 	-exec $($(PROJ)POOL)/Common/sedInlU {} $(INSTALL_DIR)/include/OpenSG \; ;\
 	find $$CURRDIR  -follow                                                  \
 	    \( -type d \( -name CVS -o -name '*Test' -o -name include  -o        \
-	       -name Tools -o -name Builds \) -prune \)                          \
+	       -name Tools -o -name Builds -o -name tmp \) -prune \)             \
 	    -o -type f -name '*\.h'                                              \
 	-exec $($(PROJ)POOL)/Common/sedIncBuildU {} $(INSTALL_DIR)/include/OpenSG \; ; \
 	find $$CURRDIR -follow                                                   \
 	    \( -type d \( -name CVS -o -name '*Test' -o -name include -o         \
-	       -name Tools -o -name Builds \) -prune \)                          \
+	       -name Tools -o -name Builds -o -name tmp \) -prune \)             \
 	    -o -type f -name '*\.inl'                                            \
 	-exec $($(PROJ)POOL)/Common/sedInlU {} $(INSTALL_DIR)/include/OpenSG \;
 
