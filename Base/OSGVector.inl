@@ -1572,7 +1572,7 @@ VectorInterface<ValueTypeT, StorageInterfaceT>
 	VectorInterface<ValueTypeT, StorageInterfaceT>::operator % (
 			const VectorInterface &vec) const
 {
-	return this.cross( vec );
+	return this->cross( vec );
 }
 
 /** \brief Calculates the right handed cross-product with a given vector; 
@@ -1633,7 +1633,7 @@ template <class    ValueTypeT,
 ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::operator * (
 	const VectorInterface &vec) const
 {
-	return this.dot( vec );
+	return this->dot( vec );
 }
 
 template <class    ValueTypeT, 
@@ -1658,7 +1658,7 @@ template <class    ValueTypeT,
 ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::operator * (
 		const PointInterface<ValueTypeT, StorageInterfaceT> &pnt) const
 {
-     return this.dot( pnt );
+     return this->dot( pnt );
 }
 
 /** \brief Returns the angle between this and another vector
