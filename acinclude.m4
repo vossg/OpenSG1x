@@ -200,6 +200,19 @@ AC_DEFUN(AC_GDZ_SETUP_INTEL,
     ac_gdz_compiler_exe=icl.exe
     ac_gdz_linker_exe=xilink.exe
     ac_gdz_check_compiler_available=yes
+
+    if ! test -d "$ac_gdz_compiler_dir"; then
+        echo
+        echo "ERROR could not determine compiler dir, tried :"
+
+        for drive in c d e f g; do
+            for progdir in "Program Files" "Programme"; do
+                echo "    /cygdrive/$drive/$progdir/$ac_gdz_intelsearchdir"
+            done
+        done
+
+        exit
+    fi
 ])
 
 AC_DEFUN(AC_GDZ_SETUP_MSVC,
@@ -226,6 +239,19 @@ AC_DEFUN(AC_GDZ_SETUP_MSVCNET,
     ac_gdz_compiler_exe=cl.exe
     ac_gdz_linker_exe=link.exe
     ac_gdz_check_compiler_available=yes
+
+    if ! test -d "$ac_gdz_compiler_path"; then
+        echo
+        echo "ERROR could not determine compiler dir, tried :"
+
+        for drive in c d e f g; do
+            for progdir in "Program Files" "Programme"; do
+                echo "    /cygdrive/$drive/$progdir/Microsoft Visual Studio.NET"
+            done
+        done
+
+        exit
+    fi
 ])
 
 AC_DEFUN(AC_GDZ_SETUP_BORLAND,
@@ -494,6 +520,19 @@ AC_DEFUN(AC_GDZ_SET_SYSTEM_DIRS,
 
                     ac_gdz_system_incl_dir=$ac_gdz_studio_dir/VC98/Include
                     ac_gdz_system_lib_dir=$ac_gdz_studio_dir/VC98/Lib
+
+                    if ! test -d "$ac_gdz_studio_dir"; then
+                        echo
+                        echo "ERROR could not determine compiler dir, tried :"
+
+                        for drive in c d e f g; do
+                            for progdir in "Program Files" "Programme"; do
+                                echo "    /cygdrive/$drive/$progdir/Microsoft Visual Studio"
+                            done
+                        done
+                    
+                        exit
+                    fi
                 ;;
                 *)
                     ac_gdz_system_incl_dir=$ac_gdz_compiler_incl
