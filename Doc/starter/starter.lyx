@@ -5,10 +5,11 @@
 \inputencoding auto
 \fontscheme default
 \graphics default
+\float_placement htb
 \paperfontsize default
 \spacing single 
 \papersize Default
-\paperpackage a4
+\paperpackage a4wide
 \use_geometry 0
 \use_amsmath 0
 \paperorientation portrait
@@ -24,7 +25,10 @@
 
 \layout Title
 
-OpenSG Starter Guide
+OpenSG 
+\layout Title
+
+Starter Guide
 \layout Standard
 
 
@@ -42,7 +46,9 @@ Welcome to the OpenSG starter guide.
  This document will help you understand the structure of the OpenSG system
  and the main classes that you need to know to write graphics programs using
  OpenSG.
- 
+ It started as a quickstart, but got a little big for that.
+ ;) If you're not into reading text, take a look at the tutorial programs
+ and come back when you need a little background for specific topics.
 \layout Standard
 
 It is not meant to be an introduction to computer graphics or realtime rendering.
@@ -64,7 +70,7 @@ opensg-developer@lists.sf.net
 \family default 
 ) or to us directly at 
 \family typewriter 
-info@opensg.org.
+feedback@opensg.org.
 \layout Section
 
 What is OpenSG?
@@ -1132,6 +1138,11 @@ Barrier
 \layout Section
 
 Image
+\begin_inset LatexCommand \label{sec:image}
+
+\end_inset 
+
+
 \layout Standard
 
 Defines and holds a 1D/2D/3D image and optional a mipmap pyramid and/or
@@ -1313,7 +1324,7 @@ subRefCP()
  Note that object are created with a reference count of zero, so if a new
  object (refCnt: 0) is attached to a node (increasing the refCnt to 1) and
  removed later on (decreasing it to 0), it will be destroyed.
- Increasing the reference count before ermoving it is needed to prevent
+ Increasing the reference count before removing it is needed to prevent
  the destruction.
  
 \shape italic 
@@ -1736,28 +1747,583 @@ beacon
 , is used.
  The light has a SFNodePtr to reference the beacon, which can be anywhere
  in the scene.
+ The light is positioned in the coordinate system of the beacon.
+ Tip: Using the beacon of the camera (see 
+\begin_inset LatexCommand \ref{sec:camera}
+
+\end_inset 
+
+) as the beacon of a light source creates a headlight.
 \layout Standard
 
-Every light is closely on OpenGL's light speicification.
+Every light is closely on OpenGL's light specification.
  It has a diffuse, specular and ambient color.
+\layout Standard
+
+Additionally it can be switched on and off using the 
+\family typewriter 
+on
+\family default 
+ field.
 \layout Subsection
 
 DirectionalLight
+\layout Standard
+
+The DirectionalLight just has a direction.
+ To use it as a headlight use (0,0,-1) as a direction.
 \layout Subsection
 
 PointLight
+\layout Standard
+
+The Pointlight has a, surprise, position to define its location.
+ In addition, as it really is located i the scene, it has attenuation parameters
+ to change the light intensity depending on the distance to the light.
 \layout Subsection
 
 SpotLight
+\layout Standard
+
+The SpotLight adds a direction to the PointLight and a spotCutOff angle
+ to define the area that's lit.
+ To define the light intensity fallof within that area the spotExponent
+ field is used.
 \layout Section
 
 Geometry
-\layout Description
+\layout Standard
 
-Material chunk stuff
-\layout Description
+The geometries make up the leaves of the graph and ultimately define what's
+ rendered.
+ Geometry has to be flexible, to accomodate the needs of the application,
+ so different data types for the ata that defines the geometry is useful,
+ as well as different indexing capabilities to reuse data as much as possible.
+ But it also has to be efficient to render.
+ Flexibility and performance don't always go well together, thus there are
+ some simplifications to make.
+\layout Standard
 
-Geometry property stuff
+OpenSG geometry is modeled closely following OpenGL.
+ The data that makes up the geometry is stored in separate arrays.
+ Positions, Colors, Normals and Texture Coordinates all have their own arrays,
+ or rather MultiFields.
+ As OpenGL can handle a lot of different formats for the data, some of which
+ might be more appropriate due to speed and memeory consumption than others,
+ depending on the application, OpenSG features different version of this
+ data, allowing all the variants that OpenGL allows.
+ To allow that with type sefaty and without having a separate geometry class
+ for every possible combination the data fields are stored in separate field
+ containers, the so called GeoProperties.
+ There are separate GeoProperties for the different attributes, and variants
+ for the different data types for each kind of GeoProperty.
+ The most prominent are probably GeoPositions3f for Pnt3f positions, GeoNormals3
+f for Vec3f normals, GeoColors3f for Color3f colors and GeoTexCoords2f for
+ Vec2f texture coordinates, but all the other variants are possible.
+ 
+\layout Standard
+
+As the properties only have a single field they can mimic that field by
+ exposing parts of the standrad MultiFeld interface for their contents,
+ so you can use a GeoPropety pretty much just like a MultiField.
+ One problem with the type variety is that writing functions that work on
+ every type of property can becme tedious, as you's have to have a big switch
+ for every kind of data that could arrive.
+ To make that easier for every propety there is defined generic format,
+ e.g.
+ for Positions the format is Pnt3f.
+ The property has a getValue()/setValue() interface for these genric types,
+ i.e.
+ every porperty, no matter in what format it stores the data, can be used
+ as if it used the generic format.
+ Of course this is not as efficient as directly accessing the data, but
+ it speed is not the highest priority or as a fallback it's quite useful.
+ And finally the GeoProperties feature an interface for OpenGL vertex arrays,
+ giving access to the data and the types involved, which is used for rendering.
+\layout Standard
+
+In addition to the abovementioned data there are some other GeoProperties.
+ OpenSG allows multiple primitive types per geometry, i.e.
+ you can freely mix triangles, triangle strips and polygons in a single
+ geometry node.
+ The GeoPTypes property defines the type of the primitives used.
+ Right now it only exists as a GeoPTypesUI32 variant, but others may follow.
+ The number of vertices per primitive is defined by another property, the
+ GeoPLengths peroperty.
+ This, too, only exists in a GeoPLengthsUI32 variant right now.
+ 
+\layout Standard
+
+Using these properties it is already possible to define geometry (see fig.
+ 
+\begin_inset LatexCommand \ref{fig:geo_non_indexed}
+
+\end_inset 
+
+).
+\layout Standard
+
+\begin_float fig 
+\layout Standard
+\align center 
+
+\begin_inset Figure size 153 113
+file tobe.eps
+flags 9
+
+\end_inset 
+
+
+\layout Caption
+
+
+\begin_inset LatexCommand \label{fig:geo_non_indexed}
+
+\end_inset 
+
+Non-Indexed Geometry
+\end_float 
+One additional advantage of separating the properties from the Geometry
+ is the ability to share properties between geometry nodecores.
+ As geometries can only have one material right now that's useful for simplifyin
+g handling objects with multiple materials.
+\layout Standard
+
+But this simple geometry has a big problem: there is no way to reuse vertex
+ data.
+ When a vertex is to be used multiple times, it has to be replicated, which
+ can increase the amount of memory needed up to fourfold or worse.
+ Thus some sort of indexing to reuse vertices is needed.
+ You can guess what's coming? Right, another property.
+\layout Standard
+
+Indices are stored in the GeoIndices property, which only exists in the
+ GeoIndicesUI32 variant right now.
+ When indices are present the given lengths define how many indices are
+ used to define the primitive, while that actual data is index by the indices
+ (see fig.
+ 
+\begin_inset LatexCommand \ref{fig:geo_indexed}
+
+\end_inset 
+
+).
+\layout Standard
+
+\begin_float fig 
+\layout Standard
+\align center 
+
+\begin_inset Figure size 153 113
+file tobe.eps
+flags 9
+
+\end_inset 
+
+
+\layout Caption
+
+
+\begin_inset LatexCommand \label{fig:geo_indexed}
+
+\end_inset 
+
+Indexed Geometry
+\end_float 
+Indexed geometry is very close to OpenGL, and probably the most often used
+ variant of geometry.
+ it doesn't handle all the cases, though.
+\layout Standard
+
+Sometimes vertices need different additional attributes, even though they
+ have the same position.
+ One example are discontinuities in texture coordinates, e.g.
+ when texturing a simple cube.
+ The edges of the cube don't necessarily use the same texture coordinates.
+ To support that a single indexed geometry has to replicate the vertices.
+\layout Standard
+
+To get around that you need multiple indices per vertex to index the different
+ attributes.
+ Adding an idnex for every attribute would blow up the geometry significantly
+ and not neccessarily make it easier to use.
+ We decided to use another way: interleaved indices (see fig.
+ 
+\begin_inset LatexCommand \ref{fig:geo_multi_index}
+
+\end_inset 
+
+).
+\layout Standard
+
+\begin_float fig 
+\layout Standard
+\align center 
+
+\begin_inset Figure size 153 113
+file tobe.eps
+flags 9
+
+\end_inset 
+
+
+\layout Caption
+
+
+\begin_inset LatexCommand \label{fig:geo_multi_index}
+
+\end_inset 
+
+Multi-Indexed Geometry
+\end_float 
+In interleaved indices every vertex of a primitive has not one but multiple
+ indices.
+ Which index is used for which attribute is defined by a separate indexMapping
+ field.
+ The indexMapping field is a UInt32 multifield.
+ The possible values are bitwise combinations of the available attribute
+ masks: Geometry::MapPosition, Geometry::MapNormal etc.
+ The length of the indexMapping defines how many indices are used per vertex.
+ If it's not set a single index for all available properties is used (or
+ none at all).
+\layout Standard
+
+In addition to the properties the geometry keeps a MaterialPtr to define
+ the material that's used for rendering the geometry (see sec.
+ 
+\begin_inset LatexCommand \ref{sec:materials}
+
+\end_inset 
+
+) and a flag that activates caching the geometry in OpenGL display lists.
+ As the geometry rendering is not optimized very much right now that's the
+ best way to get decent performance, and is on by default.
+\layout Subsection
+
+Geometry Iterators
+\layout Standard
+
+The above setup is very nice and flexible to define: you can mix different
+ kinds of primitives in an object, you can have properties and different
+ kinds and the indexing allows the reuse of some or all of the data.
+\layout Standard
+
+But from the other side of the fence things look difficult: if you want
+ to walk over all traingles of a geometry to calculate the average triangel
+ size or the surface area, or for calculating face normals or for whatever
+ reason you have to take care of all the flexibility and be prepared for
+ lots of different ways to define geometry.
+\layout Standard
+
+To simplify that the concept of a geometry iterator was introduced.
+ They allow you to iterate over a given geometry primitive by primitive,
+ or face by face (a face being a triangle or quad), or triangle by triangle.
+ 
+\layout Standard
+
+All of them are used like STL iterators: the geometry has methods to give
+ you the first or last+1th iterator (
+\family typewriter 
+begin()
+\family default 
+ and 
+\family typewriter 
+end()
+\family default 
+) , and to step from one element to the next use 
+\family typewriter 
+++
+\family default 
+.
+ They can also unify the different indices: when using an iterator you can
+ access the index value for each attribute of each vertex of the iterator
+ separately.
+ Or you can directly access the data that's behind the index in its generic
+ form.
+ 
+\layout Standard
+
+If you're used to having a separate Face object that keeps all the data
+ for a separate face, the Iterators pretty mch mimic that behaviour.
+ The one thing you can't do using iterators is changing the data.
+\layout Standard
+
+The 
+\family typewriter 
+PrimitiveIterator
+\family default 
+ is the basic iterator that just iterates through the 
+\family typewriter 
+GeoPTypes
+\family default 
+ property and gives access to the primitive's data.
+ It is useful to solve the index mapping complications and to get access
+ to the generic data, but it's primarily a base class for the following
+ two iterator types.
+\layout Standard
+
+The 
+\family typewriter 
+FaceIterator
+\family default 
+ only iterates over polygonal geometry and ignores points and lines.
+ It also splits the geometry into triangles or quads.
+ 
+\layout Standard
+
+The 
+\family typewriter 
+TriangleIterator
+\family default 
+ behaves like the 
+\family typewriter 
+FaceIterator
+\family default 
+, but it also splits Quads into two triangles, thus it does an implicit
+ triangualtion.
+ As OpenSG just like OpenGL doesn't support concave geometry that's not
+ as hard as it sounds.
+\layout Standard
+
+The iterators can also be used to indicate a specific primitive/face/triangle.
+ Each of these has an associated index that the iterator keeps and that
+ can be accessed using 
+\family typewriter 
+getIndex()
+\family default 
+.
+ Later a new iterator can be used to 
+\family typewriter 
+seek()
+\family default 
+ to the given primitive/face/triangle again and work on it.
+ This is used for example in the 
+\family typewriter 
+IntersectAction
+\family default 
+.
+\layout Chapter
+
+Materials
+\begin_inset LatexCommand \label{sec:materials}
+
+\end_inset 
+
+
+\layout Standard
+
+The materials define the surface properties of the geometry.
+ For the standard Phong lighting model that OpenGL uses these are ambient,
+ diffuse and specular color as well as shininess.
+ But this is an area where extensions are added at an amazing pace and new
+ approaches are developed fast.
+ The purpose of the materials is to abstract that away and give the user
+ an easy to use interface to define the surface properties without having
+ to worry about how to realize this.
+\layout Standard
+
+Thus every geometry needs to have a material associated with it via the
+ 
+\family typewriter 
+material
+\family default 
+ field.
+\layout Standard
+
+This area is quickly expanding, so what we have right now is just the beginning.
+\layout Section
+
+Kinds
+\layout Standard
+
+Right now there are only the simple materials that OpenGL supports.
+ 
+\layout Subsection
+
+
+\family typewriter 
+SimpleMaterial
+\layout Standard
+
+The 
+\family typewriter 
+SimpleMaterial
+\family default 
+ is a pretty direct mapping from OpenGL.
+ It has colors for 
+\family typewriter 
+ambient
+\family default 
+, 
+\family typewriter 
+diffuse
+\family default 
+, 
+\family typewriter 
+specular
+\family default 
+ and 
+\family typewriter 
+emission
+\family default 
+ properties, and a 
+\family typewriter 
+shininess
+\family default 
+ value.
+ In addition to that it has a 
+\family typewriter 
+transparency
+\family default 
+ setting, going from for opaque to 1 for fully transparent.
+ 
+\layout Standard
+
+There are two other attributes in the 
+\family typewriter 
+SimpleMaterial
+\family default 
+ that control the appearance of an object.
+ One is the 
+\family typewriter 
+lit
+\family default 
+ attribute, which defines if the material is influenced by the light sources
+ at all.
+ If it isn't, the color is directly taken from the 
+\family typewriter 
+diffuseColor
+\family default 
+ and the other color attributes are ignored.
+ 
+\layout Standard
+
+The other is the 
+\family typewriter 
+colorMaterial
+\family default 
+ field, which defines how the colors that are given in teh geometry influence
+ the lighting calculation.
+ By default they replace the diffuse color only.
+ The possible values are taken from the 
+\family typewriter 
+glColorMaterial()
+\family default 
+ call, the most useful being 
+\family typewriter 
+GL_DIFFUSE_AND_SPECULAR
+\family default 
+.
+ One possible value that is not used by 
+\family typewriter 
+glColorMaterial()
+\family default 
+ is 
+\family typewriter 
+GL_NONE
+\family default 
+, which switches off the color material handling and thus ignores colors
+ that are given in the geometry.
+\layout Subsection
+
+
+\family typewriter 
+TexturedSimpleMaterial
+\layout Standard
+
+The 
+\family typewriter 
+TexturedSimpleMaterial
+\family default 
+ is derived from the 
+\family typewriter 
+SimpleMaterial
+\family default 
+ and adds a texture.
+ The texture is defined by an image (see 
+\begin_inset LatexCommand \ref{sec:image}
+
+\end_inset 
+
+ for details on how to define or load an image).
+ 
+\layout Standard
+
+Additionally there are some parameters to define the behaviour of the texture.
+ 
+\family typewriter 
+magFilter
+\family default 
+ and 
+\family typewriter 
+minFilter
+\family default 
+ define how to scale the texture image up or down, the allowable values
+ taken from 
+\family typewriter 
+glTexParameter()
+\family default 
+.
+ The most useful ones are 
+\family typewriter 
+GL_POINT
+\family default 
+ or 
+\family typewriter 
+GL_LINEAR
+\family default 
+ for the 
+\family typewriter 
+magFilter
+\family default 
+, and additionally 
+\family typewriter 
+GL_LINEAR_MIPMAP_LINEAR
+\family default 
+ for the 
+\family typewriter 
+minFilter
+\family default 
+.
+ 
+\layout Standard
+
+The 
+\family typewriter 
+envMode
+\family default 
+ defines how the color from the texture is combined with the color from
+ the lighting calculation.
+ The default is 
+\family typewriter 
+GL_REPLACE
+\family default 
+ which completely ignores the lighting color.
+ Other useful values are 
+\family typewriter 
+GL_MODULATE
+\family default 
+, which just multiplies the two, and 
+\family typewriter 
+GL_DECAL
+\family default 
+, which interpolates between lighting and texture based on the texture's
+ alpha channel.
+\layout Standard
+
+Finally the texture can be used as a spherical environment map to simulate
+ a reflective object by setting the 
+\family typewriter 
+envMap
+\family default 
+ field to 
+\family typewriter 
+true
+\family default 
+.
+ Spherical environment maps need to display the image of a reflective sphere
+ in the middle of the environment that is being reflected.
+ 
 \layout Chapter
 
 Action and Traversals
@@ -1787,27 +2353,57 @@ Intersect
 Usage
 \layout Standard
 
-Actions use the same syntax for creating nre actions that fieldcontainers
+Actions use the same syntax for creating are actions that fieldcontainers
  use, as they also use a prototype for that.
  Thus you need to call ActionType::create to get a new one.
  They are not fieldcontainers, though, so simple pointers are ok.
 \layout Standard
 
-To execute an action on a graph you apply it to the graph (action->apply(graph);
+To execute an action on a graph you apply it to the graph (
+\family typewriter 
+action->apply(graph);
+\family default 
 )
 \layout Section
 
 Simple Traversal
+\begin_inset LatexCommand \label{sec:simple_traversal}
+
+\end_inset 
+
+
 \layout Standard
 
 
 \shape italic 
 Need to write it.
- A simple functions that takes a fucntor and passes it every node, and another
+ A simple functions that takes a functor and passes it every node, and another
  one that takes a function and a data pointer.
 \layout Section
 
 Write our own action handler
+\layout Standard
+
+Don't.
+ The Actions are being completely redesigned for 1.1 to become more flexible
+ and clean.
+ Try to stay with the 
+\family typewriter 
+traverse()
+\family default 
+ function (see 
+\begin_inset LatexCommand \ref{sec:simple_traversal}
+
+\end_inset 
+
+) for now.
+ 
+\layout Standard
+
+If you really need to do your own action take a look at the IntersectAction,
+ it shows what you need to implement.
+ Talk to us before you do it, though, maybe the redesign is already usable
+ so you base your new stuff on that.
 \layout Chapter
 
 Window
@@ -1820,6 +2416,11 @@ Viewport
 \layout Section
 
 Camera
+\begin_inset LatexCommand \label{sec:camera}
+
+\end_inset 
+
+
 \layout Section
 
 Background
@@ -1877,7 +2478,7 @@ However, you can always extend the type system of OpenSG to integrate new
  a fancy LOD switch) or application specific fieldcontainers.
 \layout Standard
 
-Fieldcontainers are the system's central mechanims to deal with any kind
+Fieldcontainers are the system's central mechanisms to deal with any kind
  of thread safe data (see section 
 \begin_inset LatexCommand \ref{sec:Fields_and_FieldContainer}
 
@@ -1892,9 +2493,8 @@ Fieldcontainers are the system's central mechanims to deal with any kind
 In most systems (e.g.
  Inventor), you would probably start writing a new class or node by just
  'copy and paste'-ing an existing implementation.
- However, since OpenSG needs all this extra meta data it is not a aimple
- but very error proning process to create the field container source by
- hand.
+ However, since OpenSG needs all this extra meta data it is not a simple
+ but very error prone process to create the field container source by hand.
  Instead, we provide a graphical tool to create and manage the fieldcontainer
  description and implementation.
 \layout Standard
@@ -1936,14 +2536,14 @@ FcdEdit blabla
 \layout Description
 
 Type_system_changes: If the OpenSG core team decides to change the code
- interface for the fieldcontainter type management we can just recreate
- the base classes from the XML description.
+ interface for the fieldcontainer type management we can just recreate the
+ base classes from the XML description.
  No adaptions 'by hand' are needed.
 \layout Description
 
 Interface_changes: If you would like to change the interface of you fieldcontain
 er (e.g.
- add another field) later on you can just reedit the xml file in fcdEdit
+ add another field) later on you can just reedit the XML file in fcdEdit
  and recreate the base classes.
  All necessary access methods are created automatically.
 \layout Section
@@ -1951,8 +2551,8 @@ er (e.g.
 XML Description (Foo.fcd)
 \layout Standard
 
-Includes all field and meta descriptions for a sincle fieldcontainer.
- Can be read and writen by the fcdEdit tool.
+Includes all field and meta descriptions for a single fieldcontainer.
+ Can be read and written by the fcdEdit tool.
  You should only change it by hand when you're sure of what you're doing.
  
 \layout Section
@@ -2040,7 +2640,7 @@ fcdEdit description
 \layout Standard
 \align center 
 
-\begin_inset Figure size 595 484
+\begin_inset Figure size 595 483
 file fcdEdit-numbered.eps
 width 3 100
 flags 11
@@ -2058,7 +2658,7 @@ System Component: needed to define the include convention, usually not used
  by applications.
 \layout Enumerate
 
-Parent field container; dont include the OSG prefix
+Parent field container; don't include the OSG prefix
 \layout Enumerate
 
 Is Parent a System Component: needed to define include convention.
