@@ -199,8 +199,6 @@ class OSG_FIELDCONTAINER_DLLMAPPING NodeCore : public FieldContainer
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef FieldContainer Inherited;
-
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
