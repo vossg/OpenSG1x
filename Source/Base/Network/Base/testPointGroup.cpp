@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include <OSGConfig.h>
 #include <OSGThreadManager.h>
 #include <OSGBaseThread.h>
@@ -16,8 +18,7 @@ int writeCount = 10000;
 
 OSG_USING_NAMESPACE
 
-//char *connectionType = "StreamSock";
-char *connectionType = "Multicast";
+char connectionType[256];
 
 void findPoints(std::set<std::string> &address,int count)
 {
@@ -31,7 +32,7 @@ void findPoints(std::set<std::string> &address,int count)
     while(address.size()<count)
     {
         request = 'r';
-        sock.sendTo(&request,1,SocketAddress("230.12.32.50",23344));
+        sock.sendTo(&connectionType[0],255,SocketAddress("230.12.32.50",23344));
         if(!sock.waitReadable(.5))
             if(address.size() < count)
                 continue;
@@ -41,47 +42,21 @@ void findPoints(std::set<std::string> &address,int count)
         if(!address.count(response))
         {
             address.insert(response);
-            printf("Found %d %s\n",address.size(),response);
+            printf("got %s\n",response);
         }
-    }
-    sock.close();
-}
-
-void waitGroup(const std::string &address)
-{
-    DgramSocket sock;
-    SocketAddress client;
-    char request;
-    char response[256];
-
-    sock.open();
-    sock.setTTL(2);
-    sock.setReusePort(true);
-    sock.bind(SocketAddress(SocketAddress::ANY,23344));
-    sock.join(SocketAddress("230.12.32.50"));
-    if(!sock.waitReadable(0.2))
-        return;
-    sock.recvFrom(&request,1,client);
-    sprintf(response,"%.255s%c",address.c_str(),0);
-    switch(request)
-    {
-        case 'r':
-            sock.sendTo(response,256,client);
-            break;
-        default:
-            exit(0);
     }
     sock.close();
 }
 
 void testSocketGroup(int maxServers)
 {
+    std::set<std::string> address;
+    findPoints(address,maxServers);
+
     Time t,max;
     int count;
     GroupConnection *group = ConnectionFactory::the().createGroup(connectionType);
-    std::set<std::string> address;
     std::set<std::string>::iterator aI;
-    findPoints(address,maxServers);
     for(aI=address.begin() ; aI != address.end() ;aI++)
     {
         printf("try to connect to %s\n",aI->c_str());
@@ -134,7 +109,6 @@ void testSocketGroup(int maxServers)
         {
             channel = group->selectChannel();
             group->get(data,10000);
-
 //            printf(data); // !!
             group->subSelection(channel);
         }
@@ -161,12 +135,12 @@ void testSocketPoint()
 {
     DgramSocket sock;
     SocketAddress client;
-    char request;
     char response[256];
+    std::string lastType,newType;
 
     int count;
-    PointConnection *point = ConnectionFactory::the().createPoint(connectionType);
-    std::string address = point->bind("");
+    PointConnection *point = NULL;
+    std::string address;
     sock.open();
     sock.setTTL(2);
     sock.setReusePort(true);
@@ -176,20 +150,23 @@ void testSocketPoint()
     {
         if(sock.waitReadable(0.2))
         {
-            sock.recvFrom(&request,1,client);
-            sprintf(response,"%.255s%c",address.c_str(),0);
-            switch(request)
+            sock.recvFrom(&connectionType[0],255,client);
+            newType = connectionType;
+            if(lastType != newType)
             {
-                case 'r':
-                    sock.sendTo(response,256,client);
-                    printf("%s %d\n",client.getHost().c_str(),client.getPort());
-                    break;
-                default:
-                    exit(0);
+                if(point)
+                    delete point;
+                point = ConnectionFactory::the().createPoint(connectionType);
+                address = point->bind("");
+                lastType = newType;
             }
+
+            sprintf(response,"%.255s%c",address.c_str(),0);
+            sock.sendTo(response,256,client);
+            printf("%s %d\n",client.getHost().c_str(),client.getPort());
         }
     }
-    while(point->acceptGroup(.2)<0);
+    while(!point || point->acceptGroup(.2)<0);
     sock.close();
 
     point->wait();
@@ -232,8 +209,11 @@ int main(int argc,char **argv)
     {
 */
         osgInit(argc,argv);
-        if(argc>1)
-            testSocketGroup(atoi(argv[1]));
+        if(argc>2)
+        {
+            sprintf(connectionType,"%s",argv[1]);
+            testSocketGroup(atoi(argv[2]));
+        }
         else
             testSocketPoint();
 /*
