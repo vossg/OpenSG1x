@@ -16,6 +16,7 @@ ClusterServer  *server;
 GLUTWindowPtr   window;
 RenderAction   *ract;
 bool            running=false;
+bool            exitOnError=false;
 
 void display()
 {
@@ -31,24 +32,34 @@ void display()
         // clear changelist from prototypes
         OSG::Thread::getCurrentChangeList()->clearAll();
     } 
-    catch(exception &)
+    catch(exception &e)
     {
-#if 0
-        SLOG << e.what() << endl;
-        delete server;
-        osgExit(); 
-#else
-        // try to restart server
-        try
+        if(exitOnError)
         {
-            server->stop();
+            SLOG << e.what() << endl;
+            try
+            {
+                delete server;
+            }
+            catch(...)
+            {
+            }
+            osgExit();
+            exit(0);
         }
-        catch(...)
+        else
         {
+            // try to restart server
+            try
+            {
+                server->stop();
+            }
+            catch(...)
+            {
+            }
+            running=false;
+            glutHideWindow();
         }
-        running=false;
-        glutHideWindow();
-#endif
     }
 }
 
@@ -100,26 +111,31 @@ int main(int argc,char **argv)
                 case 'w':
                     fullscreen=false;
                     break;
+                case 'e':
+                    exitOnError=true;
+                    break;
                 case 'a':
                     address=&(argv[i][2]);
                     break;
                 case 'g':
                     if(sscanf(&(argv[i][2]),"%d,%d,%d,%d",
-			      &width,&height,&x,&y)!=4)
-		    {
-			SWARNING << "Wrong args in -g. Use -gw,h,x,y" << endl;
-			exit(0);
-		    }
+                              &width,&height,&x,&y)!=4)
+                    {
+                        SWARNING << "Wrong args in -g. Use -gw,h,x,y" << endl;
+                        exit(0);
+                    }
                     break;
                 case 'h':
                     cout << argv[0] 
                          << "-m "
                          << "-w "
+                         << "-e "
                          << "-gw,h,x,y "
                          << "-aAddress "
                          << endl;
                     cout << "-m        use multicast" << endl;
                     cout << "-w        no fullscreen" << endl;
+                    cout << "-e        exit after closed connection" << endl;
                     cout << "-g        geometry" << endl;
                     cout << "-aAddress Server network address" << endl;
                     return 0;
@@ -133,19 +149,19 @@ int main(int argc,char **argv)
         osgInit(argc, argv);
         glutInit(&argc, argv);
         glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-	glutInitWindowPosition(x,y);
-	if(width>0)
-	    glutInitWindowSize(width,height);
+        glutInitWindowPosition(x,y);
+        if(width>0)
+            glutInitWindowSize(width,height);
         winid = glutCreateWindow("OpenSG Cluster Client");
         if(fullscreen)
             glutFullScreen();
         /*
-        else
-            glutReshapeWindow(300,300);
+          else
+          glutReshapeWindow(300,300);
         */
-	if(width>0)
-	    glutReshapeWindow(width,height);
-	glutPositionWindow(x, y);
+        if(width>0)
+            glutReshapeWindow(width,height);
+        glutPositionWindow(x, y);
 
         glutPopWindow();
         glutDisplayFunc(display);       
