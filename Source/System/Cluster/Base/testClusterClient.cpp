@@ -34,6 +34,7 @@
 #endif
 #include <OSGShearedStereoCameraDecorator.h>
 #include <OSGSimpleAttachments.h>
+#include <OSGColorBufferViewport.h>
 
 OSG_USING_NAMESPACE
 
@@ -58,7 +59,7 @@ int                      animLoops=-1;
 int                      animLength=30;
 bool                     multiport=false;
 float                    ca=-1,cb=-1,cc=-1;
-bool                     doStereo=false;
+Int32                    stereoMode=0;
 float                    eyedistance=1,zeroparallax=10;
 int                      serverx=-1,servery=-1;
 std::vector<Quaternion>  animOri;
@@ -758,7 +759,7 @@ void init(std::vector<std::string> &filenames)
     // Viewport
     OSG::ViewportPtr vp1;
     OSG::ViewportPtr vp2;
-    if(!doStereo)
+    if(stereoMode == 0)
     {
         vp1 = OSG::Viewport::create();
         beginEditCP(vp1);
@@ -778,7 +779,7 @@ void init(std::vector<std::string> &filenames)
             endEditCP(vp2);
         }
     }
-    else
+    else if(stereoMode == 1)
     {
         OSG::ShearedStereoCameraDecoratorPtr deco;
         // left
@@ -812,6 +813,53 @@ void init(std::vector<std::string> &filenames)
         endEditCP(vp2);
         endEditCP(deco);
     }
+    else if(stereoMode == 2)
+    {
+        OSG::ShearedStereoCameraDecoratorPtr deco;
+        // left
+        deco=OSG::ShearedStereoCameraDecorator::create();
+        beginEditCP(deco);
+            deco->setLeftEye(true);
+            deco->setEyeSeparation(eyedistance);
+            deco->setDecoratee(cam);
+            deco->setZeroParallaxDistance(zeroparallax);
+        endEditCP(deco);
+        
+        ColorBufferViewportPtr cvp1 = ColorBufferViewport::create();
+        beginEditCP(cvp1);
+            cvp1->setCamera    ( deco );
+            cvp1->setBackground( bkgnd );
+            cvp1->setRoot      ( root );
+            cvp1->setSize      ( 0,0, 1,1 );
+            cvp1->setRed(GL_FALSE);
+            cvp1->setGreen(GL_TRUE);
+            cvp1->setBlue(GL_TRUE);
+            cvp1->setAlpha(GL_TRUE);
+        endEditCP(cvp1);
+        vp1 = cvp1;
+        
+        // right
+        deco=OSG::ShearedStereoCameraDecorator::create();
+        beginEditCP(deco);
+            deco->setLeftEye(false);
+            deco->setEyeSeparation(eyedistance);
+            deco->setDecoratee(cam);
+            deco->setZeroParallaxDistance(zeroparallax);
+        endEditCP(deco);
+        
+        ColorBufferViewportPtr cvp2 = ColorBufferViewport::create();
+        beginEditCP(cvp2);
+            cvp2->setCamera    ( deco );
+            cvp2->setBackground( bkgnd );
+            cvp2->setRoot      ( root );
+            cvp2->setSize      ( 0,0,1,1 );
+            cvp2->setRed(GL_TRUE);
+            cvp2->setGreen(GL_FALSE);
+            cvp2->setBlue(GL_FALSE);
+            cvp2->setAlpha(GL_FALSE);
+        endEditCP(cvp2);
+        vp2 = cvp2;
+    }
 
     GLint glvp[4];
     glGetIntegerv( GL_VIEWPORT, glvp );
@@ -823,7 +871,7 @@ void init(std::vector<std::string> &filenames)
         clusterWindow->setSize( glvp[2], glvp[3] );
     clusterWindow->addPort( vp1 );
 
-    if(multiport || doStereo)
+    if(multiport || stereoMode > 0)
         clusterWindow->addPort( vp2 );
 
     if(serviceAddressValid == true)
@@ -954,7 +1002,10 @@ int main(int argc,char **argv)
                     type='I';
                     break;
                 case 's':
-                    doStereo=true;
+                    stereoMode=1;
+                    break;
+                case 'c':
+                    stereoMode=2;
                     break;
                 case 'p':
                     info=true;
@@ -1028,6 +1079,7 @@ int main(int argc,char **argv)
                               << "-L  sort-last" << std::endl
                               << "-h  this msg" << std::endl
                               << "-s  stereo" << std::endl
+                              << "-c  red/cyan stereo" << std::endl
                               << "-e  eye distance" << std::endl
                               << "-z  zero parallax" << std::endl
                               << "-d  disable client rendering"<<std::endl
