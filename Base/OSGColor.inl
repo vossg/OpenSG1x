@@ -117,6 +117,7 @@ void Color3<ValueTypeT>::convertFromHSV(ValueType *rgbP,
     }
 }
 
+
 template <class ValueTypeT> inline
 void Color3<ValueTypeT>::convertToHSV(const ValueType *rgbP,
                                       Real32 &h,
@@ -491,7 +492,7 @@ Bool Color3<ValueTypeT>::operator == (const Color3 &other) const
  */
 
 template <class ValueTypeT> inline
-Bool Color3<ValueTypeT>::equals (const Color3 &other, ValueTypeT tolerance) const
+Bool Color3<ValueTypeT>::equals (const Color3 &other, ValueType tolerance) const
 {
     Bool returnValue = true;
 
@@ -768,7 +769,7 @@ Bool Color4<ValueTypeT>::operator == (const Color4 &other) const
  */
 
 template <class ValueTypeT> inline
-Bool Color4<ValueTypeT>::equals (const Color4 &other, ValueTypeT tolerance) const
+Bool Color4<ValueTypeT>::equals (const Color4 &other, ValueType tolerance) const
 {
     Bool returnValue = true;
 

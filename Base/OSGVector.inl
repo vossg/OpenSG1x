@@ -1456,7 +1456,7 @@ ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::operator * (
 template <class    ValueTypeT,
           class    StorageInterfaceT> inline
 ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::dot (
-        const PointInterface<ValueTypeT, StorageInterfaceT> &pnt) const
+        const PntInterface &pnt) const
 {
     UInt32 i;
 
@@ -1473,7 +1473,7 @@ ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::dot (
 template <class    ValueTypeT,
           class    StorageInterfaceT> inline
 ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::operator * (
-        const PointInterface<ValueTypeT, StorageInterfaceT> &pnt) const
+        const PntInterface &pnt) const
 {
      return this->dot( pnt );
 }

@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup GeometryLib
+/*! \defgroup GeometryLib OpenSG Geometry Lib
     \ingroup NodeCores
 
 The basic polygonal geometry library.

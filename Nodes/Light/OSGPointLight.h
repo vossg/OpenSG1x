@@ -67,14 +67,11 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
     /*! \name                     Access Fields                            */
     /*! \{                                                                 */
 
-    //@{
-    //! set the light's attributes
     void setPosition(Real32 rX, Real32 rY, Real32 rZ);
     inline void setPosition(const Pnt3f & pos);
     void setAttenuation(Real32 rConstant,
                         Real32 rLinear,
                         Real32 rQuadratic);
-    //@}
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

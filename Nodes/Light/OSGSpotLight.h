@@ -68,13 +68,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
     /*! \name                        Set                                   */
     /*! \{                                                                 */
 
-    //@{
-    //! set the light's attributes
     inline void    setSpotDirection(Real32 rX, Real32 rY, Real32 rZ);
     inline void    setSpotCutOffDeg(Real32 angle);
     inline Real32  getSpotCutOffDeg(void);
-
-    //@}
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

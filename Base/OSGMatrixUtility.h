@@ -50,9 +50,12 @@ OSG_BEGIN_NAMESPACE
 template<class ValueTypeT>class TransformationMatrix;
 typedef TransformationMatrix<Real32> Matrix;
 
-/*! \ingroup BaseLib BaseMathMatrices
- *  \brief Matrix utility functions to create and analyze special kinds of matrices
+/*! \ingroup BaseMathMatrices
+ *  \brief Matrix utility functions to create and analyze special kinds 
+ *         of matrices
  */
+
+/*!@{*/
 
 OSG_BASE_DLLMAPPING Bool MatrixOrthogonal           (Matrix &result, 
                                                      Real32  rLeft, 
@@ -111,6 +114,8 @@ OSG_BASE_DLLMAPPING Bool MatrixProjection           (Matrix &result,
                                                      Real32 rTop,  
                                                      Real32 rNear,
                                                      Real32 rFar        );
+
+/*!@}*/
 
 OSG_END_NAMESPACE
 

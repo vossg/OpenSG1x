@@ -161,8 +161,6 @@ typename TypeConstants<FloatTypeT>::RealReturnType
 
 /*@}*/
 
-/*@}*/
-
 /*! @name Default Implementation
  */
 

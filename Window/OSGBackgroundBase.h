@@ -128,8 +128,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BackgroundBase : public AttachmentContainer
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -174,6 +172,6 @@ typedef BackgroundBase *BackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGBackgroundBase.h,v 1.13 2001/10/15 07:05:37 vossg Exp $"
+#define OSGBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGBackgroundBase.h,v 1.14 2001/11/01 05:55:09 vossg Exp $"
 
 #endif /* _OSGBACKGROUNDBASE_H_ */

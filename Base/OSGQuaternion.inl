@@ -169,9 +169,6 @@ void QuaternionBase<ValueTypeT>::slerp(const QuaternionBase &rot0,
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** @name constructors & destructors */
-//@{
-
 /** \brief Constructor
  */
 
@@ -241,12 +238,7 @@ QuaternionBase<ValueTypeT>::~QuaternionBase(void)
 {
 }
 
-//@}
-
 /*---------------------------- set functions --------------------------------*/
-
-/** @name set functions */
-//@{
 
 /** \brief Resets the quaternion to be the identity (0., 0., 0., 1.)
  */
@@ -661,12 +653,7 @@ void QuaternionBase<ValueTypeT>::setValue(const ValueTypeT alpha,
     _quat[3] = (cx * cy * cz) + (sx * sy * sz);
 }
 
-//@}
-
 /*--------------------------- get functions ---------------------------------*/
-
-/** @name get functions */
-//@{
 
 /** \brief  Returns pointer to array of 4 components defining quaternion
  */
@@ -839,12 +826,7 @@ ValueTypeT QuaternionBase<ValueTypeT>::w(void) const
     return _quat[3];
 }
 
-//@}
-
 /*----------------------------- simple math --------------------------------*/
-
-/** @name simple math */
-//@{
 
 /** \brief Returns the 4 dimensional euclidian length of the quaternion
  */
@@ -981,12 +963,7 @@ Bool QuaternionBase<ValueTypeT>::equals(
     return returnValue;
 }
 
-//@}
-
 /*------------------------------ element access -----------------------------*/
-
-/** @name element access */
-//@{
 
 /** \brief Return a reference to the element at index index
  */
@@ -1008,12 +985,7 @@ const ValueTypeT &QuaternionBase<ValueTypeT>::operator [](
     return _quat[index];
 }
 
-//@}
-
 /*---------------------------- math operators -------------------------------*/
-
-/** @name math operators */
-//@{
 
 /** \brief Multiplies by another rotation; results in product of rotations
  */
@@ -1025,12 +997,7 @@ void QuaternionBase<ValueTypeT>::operator *=(
     mult(_quat, other._quat);
 }
 
-//@}
-
 /*-------------------------- assignment -----------------------------------*/
-
-/** @name assignment */
-//@{
 
 /** \brief assignment
  */
@@ -1053,12 +1020,7 @@ const QuaternionBase<ValueTypeT> &
     return *this;
 }
 
-//@}
-
 /*-------------------------- comparison -----------------------------------*/
-
-/** @name comparison */
-//@{
 
 /** \brief less than, compares memory adresses
  */
@@ -1089,8 +1051,6 @@ Bool QuaternionBase<ValueTypeT>::operator != (
 {
     return ! (*this == other);
 }
-
-//@}
 
 
 /** \brief \internal Take the give buffers as quaternions and write the

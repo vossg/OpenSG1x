@@ -124,7 +124,7 @@ const FieldContainerType &ForegroundBase::getType(void) const
 {
     return _type;
 } 
-/*! \}                                                                 */
+
 
 UInt32 ForegroundBase::getContainerSize(void) const 
 { 

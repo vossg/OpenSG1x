@@ -63,7 +63,7 @@ OSG_USING_NAMESPACE
 
 /*-------------------------- constructor ----------------------------------*/
 
-IDStringLink::IDStringLink(const char *str)
+IDStringLink::IDStringLink(const Char8 *str)
 : IDString(str, IDString::LINK)
 {}
 

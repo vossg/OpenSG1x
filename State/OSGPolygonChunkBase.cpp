@@ -79,7 +79,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.16 2001/10/15 07:05:37 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.17 2001/11/01 05:55:08 vossg Exp $";
     static char cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 
@@ -245,7 +245,7 @@ const FieldContainerType &PolygonChunkBase::getType(void) const
 {
     return _type;
 } 
-/*! \}                                                                 */
+
 
 FieldContainerPtr PolygonChunkBase::shallowCopy(void) const 
 { 

@@ -100,7 +100,7 @@ Plane::Plane(const Pnt3f &p0, const Pnt3f &p1, const Pnt3f &p2)
   Construct a plane given normal and distance from origin along normal.
   Orientation is given by the normal vector n.
 */
-Plane::Plane(const Vec3f &normal, float distance)
+Plane::Plane(const Vec3f &normal, Real32 distance)
 : _normalVec(normal), _distance(distance)
 {
     _normalVec.normalize();
@@ -118,7 +118,7 @@ Plane::Plane(const Vec3f &normal, const Pnt3f &point)
 }
 
 /// Offset a plane by a given distance.
-void Plane::offset(float d)
+void Plane::offset(Real32 d)
 {
     _distance += d;
 }
@@ -308,7 +308,7 @@ void Plane::transform(const Matrix &matrix)
 */
 Bool Plane::isInHalfSpace(const Pnt3f &point) const
 {
-    float scalar = _normalVec.dot(point) - _distance;
+    Real32 scalar = _normalVec.dot(point) - _distance;
 
     return scalar <= 0 ? true : false;
 }
@@ -318,7 +318,7 @@ Bool Plane::isInHalfSpace(const Pnt3f &point) const
 */
 Bool Plane::isOnPlane(const Pnt3f &point) const
 {
-    float scalar = _normalVec.dot(point) - _distance;
+    Real32 scalar = _normalVec.dot(point) - _distance;
 
     return osgabs(scalar) < Eps ? true : false;
 }

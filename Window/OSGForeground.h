@@ -107,6 +107,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Foreground : public ForegroundBase
     Foreground(void);
     Foreground(const Foreground &source);
 
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                               */
     /*! \{                                                                 */

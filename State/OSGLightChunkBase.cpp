@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.17 2001/10/30 22:23:59 dirk Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.18 2001/11/01 05:55:08 vossg Exp $";
     static char cvsid_hpp       [] = OSGLIGHTCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGLIGHTCHUNKBASE_INLINE_CVSID;
 
@@ -226,7 +226,7 @@ const FieldContainerType &LightChunkBase::getType(void) const
 {
     return _type;
 } 
-/*! \}                                                                 */
+
 
 FieldContainerPtr LightChunkBase::shallowCopy(void) const 
 { 

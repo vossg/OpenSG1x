@@ -144,7 +144,7 @@ const FieldContainerType &SwitchBase::getType(void) const
 {
     return _type;
 } 
-/*! \}                                                                 */
+
 
 FieldContainerPtr SwitchBase::shallowCopy(void) const 
 { 

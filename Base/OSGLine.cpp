@@ -47,19 +47,19 @@
 
 #include <assert.h>
 
-#include "OSGLine.h"
-#include "OSGPlane.h"
-#include "OSGBoxVolume.h"
-#include "OSGSphereVolume.h"
-#include "OSGCylinderVolume.h"
+//#include "OSGLine.h"
+//#include "OSGPlane.h"
+//#include "OSGBoxVolume.h"
+//#include "OSGSphereVolume.h"
+//#include "OSGCylinderVolume.h"
 
 OSG_USING_NAMESPACE
 
 /*! \class osg::Line
-    A line starting at a point p and extending infinitely far into the direction d.
-    This will probably split up into multiple classes for dual-inifinite and non-
-    infinite lines
- */
+  A line starting at a point p and extending infinitely far into the direction d.
+  This will probably split up into multiple classes for dual-inifinite and non-
+  infinite lines
+  */
 
 /***************************************************************************\
  *                               Types                                     *

@@ -60,7 +60,7 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup Cameras
+/*! \defgroup Cameras OpenSG Cameras
     \ingroup WindowLib
 
 The Camera group includes all the Camera and camera enhancement objects.

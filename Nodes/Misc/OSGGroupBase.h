@@ -144,8 +144,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GroupBase : public NodeCore
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -190,6 +188,6 @@ typedef GroupBase *GroupBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGGroupBase.h,v 1.12 2001/10/15 07:05:36 vossg Exp $"
+#define OSGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGGroupBase.h,v 1.13 2001/11/01 05:55:07 vossg Exp $"
 
 #endif /* _OSGGROUPBASE_H_ */

@@ -51,16 +51,18 @@
 OSG_BEGIN_NAMESPACE
 
 
-/** Accessors for position
-*/
+/*! Accessors for position
+ */
+
 OSG_BASE_DLLMAPPING
 const Pnt3f &Line::getPosition(void) const
 {
     return _pos;
 }
 
-/** Accessors for direction
-*/
+/*! Accessors for direction
+ */
+
 OSG_BASE_DLLMAPPING
 const Vec3f &Line::getDirection(void) const
 {
@@ -71,3 +73,4 @@ const Vec3f &Line::getDirection(void) const
 OSG_END_NAMESPACE
 
 #endif // LINE_CLASS_DECLARATION
+

@@ -51,7 +51,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \defgroup GeoProperties
+/*! \defgroup GeoProperties OpenSG Geo Properties
     \ingroup GeometryLib
 
 GeoProperties are the wrapper classes for the geometry's attributes.

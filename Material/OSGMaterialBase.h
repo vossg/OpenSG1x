@@ -128,8 +128,6 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public FieldContainer
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -174,6 +172,6 @@ typedef MaterialBase *MaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.12 2001/10/15 07:05:36 vossg Exp $"
+#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.13 2001/11/01 05:55:04 vossg Exp $"
 
 #endif /* _OSGMATERIALBASE_H_ */

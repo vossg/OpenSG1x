@@ -54,7 +54,7 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup GeoIterators
+/*! \defgroup GeoIterators OpenSG Geometry Iterators
     \ingroup GeometryLib
 
 Access to Geometry is complicated by its flexibility and the fact that it is
@@ -88,7 +88,7 @@ For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.16 2001/10/15 09:16:05 vossg Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.17 2001/11/01 05:55:06 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *

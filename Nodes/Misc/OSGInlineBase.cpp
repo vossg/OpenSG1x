@@ -144,7 +144,7 @@ const FieldContainerType &InlineBase::getType(void) const
 {
     return _type;
 } 
-/*! \}                                                                 */
+
 
 FieldContainerPtr InlineBase::shallowCopy(void) const 
 { 

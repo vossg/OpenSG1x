@@ -53,7 +53,7 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup StateChunks
+/*! \defgroup StateChunks OpenSG State Lib
     \ingroup StateLib
 
 The StateChunk encapsulates a logical part of the OpenGL state.

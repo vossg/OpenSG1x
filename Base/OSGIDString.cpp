@@ -71,13 +71,13 @@ OSG_USING_NAMESPACE
 
 /** Class default Constructor
 */
-IDString::IDString(unsigned size)
+IDString::IDString(UInt32 size)
 : _str(0), _memType(COPY)
 {
     setLength(size);
 }
 
-IDString::IDString(const char *str, MemType memType)
+IDString::IDString(const Char8 *str, MemType memType)
 : _str(0), _memType(memType)
 {
     set(str, memType);
@@ -144,13 +144,13 @@ unsigned IDString::length(void) const
     return _str ? strlen(_str) : 0;
 }
 
-void IDString::setLength(unsigned length)
+void IDString::setLength(UInt32 length)
 {
     if (_str && _memType == COPY)
         delete [] _str;
 
     if (length) {
-        _str = new char[length];
+        _str = new Char8[length];
         *_str = 0;
     }
     else
@@ -161,7 +161,7 @@ void IDString::setLength(unsigned length)
 
 /** set method for attribute str
 */
-void IDString::set(const char *str, MemType memType)
+void IDString::set(const Char8 *str, MemType memType)
 {
     if ( str == _str )  // set to itself?
     {
@@ -177,7 +177,7 @@ void IDString::set(const char *str, MemType memType)
         if (str)
         {
             // cerr << "INFO: Try to buffer for " << str;
-            _str = new char[strlen(str) + 1];
+            _str = new Char8[strlen(str) + 1];
             // cerr << " ... done" << endl;
             strcpy(_str, str);
         }
@@ -185,7 +185,7 @@ void IDString::set(const char *str, MemType memType)
             _str = 0;
     }
     else
-        _str = const_cast<char*>(str);
+        _str = const_cast<Char8 *>(str);
 
     _memType = memType;
 }
@@ -210,7 +210,7 @@ void IDString::tokenize(vector <IDString*> &v)
     if ( l > 0 )
     {
 
-        char *buf = (char *)malloc( (l+1) * sizeof(char) );
+        Char8 *buf = (Char8 *)malloc( (l+1) * sizeof(Char8) );
 
         for ( pos = 0; pos <= l; pos++)
         {
@@ -311,7 +311,7 @@ void IDString::tokenize(vector <IDString> &v)
     if ( l > 0 )
     {
 
-        char *buf = (char *)malloc( (l+1) * sizeof(char) );
+        Char8 *buf = (Char8 *)malloc( (l+1) * sizeof(Char8) );
 
         for ( pos = 0; pos <= l; pos++)
         {

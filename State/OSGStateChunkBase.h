@@ -128,8 +128,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -174,6 +172,6 @@ typedef StateChunkBase *StateChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStateChunkBase.h,v 1.12 2001/10/15 07:05:37 vossg Exp $"
+#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStateChunkBase.h,v 1.13 2001/11/01 05:55:08 vossg Exp $"
 
 #endif /* _OSGSTATECHUNKBASE_H_ */

@@ -52,7 +52,7 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup SimpleGeometry
+/*! \defgroup SimpleGeometry OpenSG Simple Geometry Functions
     \ingroup GeometryLib
 
 SimpleGeometry combines a number of functions to create some specialized 

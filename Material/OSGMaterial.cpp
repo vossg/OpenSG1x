@@ -55,7 +55,7 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup MaterialLib
+/*! \defgroup MaterialLib OpenSG Material Lib
 
 The Material abstracts the surface characteristics that are used to render
 the renderable objects.
@@ -77,7 +77,7 @@ The material base class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.13 2001/10/15 03:10:22 vossg Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.14 2001/11/01 05:55:04 vossg Exp $";
 
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::NullMaterial;
 

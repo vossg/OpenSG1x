@@ -128,8 +128,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */

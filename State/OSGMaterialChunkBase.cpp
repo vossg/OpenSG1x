@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.17 2001/10/15 07:05:37 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.18 2001/11/01 05:55:08 vossg Exp $";
     static char cvsid_hpp       [] = OSGMATERIALCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGMATERIALCHUNKBASE_INLINE_CVSID;
 
@@ -194,7 +194,7 @@ const FieldContainerType &MaterialChunkBase::getType(void) const
 {
     return _type;
 } 
-/*! \}                                                                 */
+
 
 FieldContainerPtr MaterialChunkBase::shallowCopy(void) const 
 { 

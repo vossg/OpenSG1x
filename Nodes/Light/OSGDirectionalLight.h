@@ -68,11 +68,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
     /*! \name                       Set                                    */
     /*! \{                                                                 */
 
-    //@{
-    //! set the light's attribute
            void setDirection(Real32 rX, Real32 rY, Real32 rZ);
     inline void setDirection( const Vec3f &direction);
-    //@}
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

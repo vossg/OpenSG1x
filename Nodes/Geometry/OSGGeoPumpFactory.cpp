@@ -67,8 +67,7 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup PumpFactory
-    \ingroup GeometryLib
+/*
 
 The PumpFactory is responsible for selecting the most appropriate pump
 function to send the geometry's data to OpenGL.

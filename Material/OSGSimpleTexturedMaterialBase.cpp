@@ -91,7 +91,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.4 2001/10/15 07:05:36 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.5 2001/11/01 05:55:04 vossg Exp $";
     static char cvsid_hpp       [] = OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID;
 
@@ -191,7 +191,7 @@ const FieldContainerType &SimpleTexturedMaterialBase::getType(void) const
 {
     return _type;
 } 
-/*! \}                                                                 */
+
 
 FieldContainerPtr SimpleTexturedMaterialBase::shallowCopy(void) const 
 { 

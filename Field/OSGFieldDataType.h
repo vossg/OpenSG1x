@@ -48,7 +48,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \file FieldDataType.h
+/** \file OSGFieldDataType.h
  *  \ingroup FieldLib
  *  \ingroup SingleFields
  *  \ingroup MultiFields

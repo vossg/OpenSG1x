@@ -163,7 +163,7 @@ class NodeGraph
         }
         inline void add (Node &node, Bool back)
             { back ? push_back(node) : push_front(node); }
-        /*! \{                                                             */        
+        /*! \}                                                             */        
     };
 
     class Node 
@@ -303,6 +303,7 @@ class NodeGraph
         return *edge;
      }
      
+    /*! \}                                                                 */
     /*==========================  PUBLIC  =================================*/
   public:
 

@@ -351,7 +351,12 @@
 // Use GLX 
 # define OSG_USE_GLX
 
+
+# if __GNUC__ >= 3 
+# define OSG_THROW_NOTHING() throw()
+#else
 # define OSG_THROW_NOTHING() 
+#endif
 #endif
 
 

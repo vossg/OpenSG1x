@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \defgroup WindowLib
+/*! \defgroup WindowLib OpenSG Window Lib
 
 The WindowLib include all objects concerned with opening, managing and
 drawing into windows.
@@ -75,7 +75,7 @@ drawing into windows.
 */
 
 
-/*! \defgroup Windows
+/*! \defgroup Windows OpenSG Windows
     \ingroup WindowLib
 
 The Windows group include all the general and window-system specific

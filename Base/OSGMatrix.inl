@@ -141,9 +141,6 @@ const TransformationMatrix<ValueTypeT> &
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** @name constructors & destructors */
-//@{
-
 /** \brief Constructor
  */
 
@@ -242,12 +239,7 @@ TransformationMatrix<ValueTypeT>::~TransformationMatrix(void)
 {
 }
 
-//@}
-
 /*------------------------- set functions -------------------------------*/
-
-/** @name set functions */
-//@{
 
 /** \brief Resets the matrix to identity
  */
@@ -498,12 +490,7 @@ void TransformationMatrix<ValueTypeT>::setValue(const char *str)
 }
 
 
-//@}
-
 /*------------------------------ get Values -------------------------------*/
-
-/** @name get functions */
-//@{
 
 /** Returns an C++ pointer to the value store
  */
@@ -514,8 +501,6 @@ ValueTypeT *TransformationMatrix<ValueTypeT>::getValues(void)
     return _matrix[0].getValues();
 }
 
-//@}
-
 template<class ValueTypeT> inline
 const ValueTypeT *TransformationMatrix<ValueTypeT>::getValues(void) const
 {
@@ -523,9 +508,6 @@ const ValueTypeT *TransformationMatrix<ValueTypeT>::getValues(void) const
 }
 
 /*------------------------- create transformation -------------------------*/
-
-/** @name create transformation matrices */
-//@{
 
 /** \brief Sets matrix to scale by given uniform factor
  */
@@ -928,12 +910,7 @@ Bool TransformationMatrix<ValueTypeT>::factor(
     cerr << "Matrix::getTransform not implemented yet\n";
 }
 
-//@}
-
 /*---------------------------- transform objects ---------------------------*/
-
-/** @name transform objects */
-//@{
 
 /** \brief Multiplies matrix by given column point, where the resulting point
  *  is given
@@ -1088,12 +1065,7 @@ void TransformationMatrix<ValueTypeT>::transform(
     multMatrixVec(vec, vec);
 }
 
-//@}
-
 /*---------------------------- simple math ---------------------------------*/
-
-/** @name simple math */
-//@{
 
 /** \brief Returns true iff all matrix elements are equal within the given
  *  tolerance
@@ -1972,11 +1944,7 @@ ValueTypeT TransformationMatrix<ValueTypeT>::normInfinity(void) const
 }
 
 
-//@}
 /*---------------------------- non-simple math ------------------------------*/
-
-/** @name non-simple math */
-//@{
 
 /** \brief Computes the square root of the matrix and stores it in
     result, assumes det > 0
@@ -2231,12 +2199,7 @@ Bool TransformationMatrix<ValueTypeT>::expOf(
     return true;
 }
 
-//@}
-
 /*--------------------------- element access --------------------------------*/
-
-/** @name element access */
-//@{
 
 /** \brief Returns a reference to the element stored at the given index
  */
@@ -2258,12 +2221,7 @@ const TransformationMatrix<ValueTypeT>::VectorType &
     return _matrix[uiIndex];
 }
 
-//@}
-
 /*-------------------------- assignment -----------------------------------*/
-
-/** @name assignement */
-//@{
 
 /** \brief assignment
  */
@@ -2284,12 +2242,7 @@ TransformationMatrix<ValueTypeT> &
     return *this;
 }
 
-//@}
-
 /*-------------------------- comparison -----------------------------------*/
-
-/** @name comparison */
-//@{
 
 /** \brief equal
  */
@@ -2311,8 +2264,6 @@ Bool TransformationMatrix<ValueTypeT>::operator != (
 {
     return ! (*this == other);
 }
-
-//@}
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -

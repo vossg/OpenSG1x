@@ -86,7 +86,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.20 2001/10/15 07:05:37 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.21 2001/11/01 05:55:09 vossg Exp $";
     static char cvsid_hpp       [] = OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGDYNAMICBACKGROUNDBASE_INLINE_CVSID;
 
@@ -153,7 +153,7 @@ const FieldContainerType &DynamicBackgroundBase::getType(void) const
 {
     return _type;
 } 
-/*! \}                                                                 */
+
 
 FieldContainerPtr DynamicBackgroundBase::shallowCopy(void) const 
 { 

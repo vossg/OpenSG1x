@@ -50,12 +50,7 @@ class OSG_BASE_DLLMAPPING SphereVolume;
 class OSG_BASE_DLLMAPPING CylinderVolume;
 class OSG_BASE_DLLMAPPING FrustumVolume;
 
-/** Directed line in 3D space defined by pos and dir.
-
-Parametric description: l(t) = pos + t * dir
-
-@author jbehr, dorfmuel, Mon Dec 22 11:32:31 1997
-*/
+//! Line
 
 class OSG_BASE_DLLMAPPING Line
 {
@@ -65,6 +60,7 @@ class OSG_BASE_DLLMAPPING Line
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
+
     Line(       void                            );
     Line(const      Line    &obj                    );
     Line(const      Pnt3f   &p0,    const Pnt3f &p1     );
