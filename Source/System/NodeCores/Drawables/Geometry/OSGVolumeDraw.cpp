@@ -289,7 +289,7 @@ class VolumeDrawWrapper
     
   private:
   
-    Action::ResultE draw(DrawActionBase *action)
+    Action::ResultE draw(DrawActionBase *)
     {
         glColor3fv(_col.getValuesRGB());
         drawVolume(_vol);
