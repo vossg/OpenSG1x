@@ -75,7 +75,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
  *                           Class variables                               *
 \***************************************************************************/
 
-char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.10 2001/10/15 04:52:17 vossg Exp $";
+char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.11 2001/10/15 09:16:05 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -266,8 +266,10 @@ void DynamicBackground::clear(DrawActionBase *action, ViewportP viewport)
 
         // ignore values bigger than 1 and lower 0
 
-        int first;
-        int j;
+        UInt32 first;
+        UInt32 last;
+        UInt32 j;
+
         for ( j = 0 ; j < size ; j++ )
         {
             if ( _mfAngle.getValue( j ) <= 1 )
@@ -277,12 +279,11 @@ void DynamicBackground::clear(DrawActionBase *action, ViewportP viewport)
             }
         }
     
-        int last;
-        for ( j = size - 1 ; j >= 0 ; j--)
+        for (Int32 k = size - 1 ; k >= 0 ; k--)
         {
-            if ( _mfAngle.getValue( j ) >= 0 )
+            if ( _mfAngle.getValue( k ) >= 0 )
             {
-                last = j + 1;
+                last = k + 1;
                 break;
             }
         }
@@ -370,7 +371,7 @@ void DynamicBackground::clear(DrawActionBase *action, ViewportP viewport)
             glVertex3f(sin2, cos2, 0);
         glEnd();
 
-        for( int i = first; i < last - 1; i++)
+        for(UInt32 i = first; i < last - 1; i++)
         {
             
             Real32 pos1 = _mfAngle.getValue(i);

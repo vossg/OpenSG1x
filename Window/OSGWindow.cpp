@@ -309,7 +309,7 @@ void Window::subPort(UInt32  portIndex)
 
 UInt32 Window::registerGLObject ( GLObjectFunctor functor, UInt32 num )
 {
-    int      id, i; 
+    UInt32    id, i; 
     GLObject *pGLObject;
 
     id        = _glObjects.size();
@@ -331,7 +331,7 @@ UInt32 Window::registerGLObject ( GLObjectFunctor functor, UInt32 num )
     
     // doesn't fit, try to find a block in the middle
     
-    int cnt = 0;        
+    UInt32 cnt = 0;        
 
     // start searching at 1, id 0 is reserved for GL
     for ( i = 1; i < _glObjects.size(); i++ )
@@ -544,7 +544,7 @@ void Window::frameInit( void )
         if ( _extensions.empty() )
         {           
             // if not, retrieve and split it
-            IDString s = IDString( (Char8 *)glGetString(GL_EXTENSIONS) );
+            IDString s((const Char8 *) glGetString(GL_EXTENSIONS));
             s.tokenize( _extensions );
             sort( _extensions.begin(), _extensions.end() );
         }

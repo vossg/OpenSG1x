@@ -657,7 +657,7 @@ void FieldContainerFactory::writeSingleTypeFCD( ostream &out, const FieldContain
     // Print the fields in this FC, ignore the parents' fields
     // !!! This should start at 0, FIX ME
 
-    for ( int i = parent ? parent->getNumFieldDescs() + 1 : 1;
+    for (UInt32 i = parent ? parent->getNumFieldDescs() + 1 : 1;
             i <= t->getNumFieldDescs(); i++ )
     {
         const FieldDescription *f = t->getFieldDescription( i );

@@ -23,9 +23,9 @@ II_FILESDIR          :=
 ### Defines #######################################################
 
 # For QT
-DEP_PLATTFORMDEF = -D__linux__ 
+DEP_PLATTFORMDEF =  
 
-SOURCE_DEFINES   = -D__linux -D_GNU_SOURCE -DQT_CLEAN_NAMESPACE \
+SOURCE_DEFINES   = -D_GNU_SOURCE -DQT_CLEAN_NAMESPACE \
                    $(CONFIGURED_PACKAGE_DEFS)
 #-DMNG_LIB -DPNG_LIB
 #-D__STL_USE_NEW_IOSTREAMS
@@ -34,15 +34,14 @@ SYSTEM_DEFINES   = -D_OSG_HAVE_CONFIGURED_H_
 
 ### Warnings #######################################################
 
-WARNINGS	   	:= -Wall -W   -Wpointer-arith 			\
-				   -Wcast-qual -Wcast-align   -Wconversion   	\
-				   -Wsign-compare 						  		\
+WARNINGS	   	:= -Wall -W   -Wpointer-arith 			        \
+				   -Wcast-align   -Wconversion   	\
 				   -Winline 
 
 #-Wshadow
 #				   -Wmissing-declarations -Wmissing-noreturn    \
 
-WARNINGS_C_OFF		= # -woff 835
+WARNINGS_C_OFF	:= # -woff 835
 
 # 1110 : statement is unreachable
 # 1174 : Variable declared but never referenced
@@ -53,7 +52,16 @@ WARNINGS_C_OFF		= # -woff 835
 # rubens
 # warning(3322): omission of explicit type is nonstandard ("int" assumed)
 
-WARNINGS_CPP_OFF 	= -Wno-unused -Wno-long-long
+WARNINGS_CPP_OFF := -Wno-unused -Wno-long-long
+
+# -Wcast-qual  (removed from default because of qt2.2
+# -Wno-reorder (removed from default because of the generated base fc's
+
+ifeq ($(PEDANTIC_ERRORS),1)
+WARNINGS         := $(WARNINGS) -Wsign-compare -Wcast-qual -Wreorder
+else
+WARNINGS_CPP_OFF := $(WARNINGS_CPP_OFF) -Wno-reorder -Wno-sign-compare
+endif
 
 ### Language #######################################################
 

@@ -157,7 +157,7 @@ void NodeCore::adjustVolume(Volume &)
 
 void NodeCore::invalidateVolume( void)
 {
-    for( int i = 0; i < _parents.size(); i++)
+    for(UInt32 i = 0; i < _parents.size(); i++)
     {
         _parents[i]->invalidateVolume();
     }

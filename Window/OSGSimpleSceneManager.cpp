@@ -161,7 +161,7 @@ SimpleMaterialPtr SimpleSceneManager::_highlightMaterial;
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.10 2001/10/15 07:05:37 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.11 2001/10/15 09:16:05 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
@@ -177,10 +177,24 @@ namespace
  */
 
 SimpleSceneManager::SimpleSceneManager(void) :
-    _win(), _root(), _internalRoot(), _headlight(), _action(), _trackball(),
-    _lastx(TypeConstants<Int16>::getMax()),
-    _lasty(TypeConstants<Int16>::getMax()),
-    _mousebuttons(0), _highlight(), _highlightPoints()
+    _win            (NullFC), 
+    _root           (NullFC), 
+    _foreground     (NullFC),
+
+    _highlight      (NullFC), 
+    _highlightNode  (NullFC), 
+    _highlightPoints(NullFC),
+
+    _internalRoot   (NullFC), 
+    _headlight      (NullFC), 
+    _action         (NULL  ), 
+    _cart           (NullFC),
+    _camera         (NullFC),
+    _trackball      (      ),
+
+    _lastx          (TypeConstants<Int16>::getMax()),
+    _lasty          (TypeConstants<Int16>::getMax()),
+    _mousebuttons   (0                             )
 {
 }
 

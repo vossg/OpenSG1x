@@ -815,10 +815,13 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     beginEditCP(types);
     
     // initial sizing to prevent reallocation halfway through
-    p->reserve( osgpow( 3.f, (Real32)depth ) * 20 );
-    n->reserve( osgpow( 3.f, (Real32)depth ) * 20 );
-    tx->reserve( osgpow( 3.f, (Real32)depth ) * 20 );
-    i->reserve( osgpow( 3.f, (Real32)depth ) * 20 );
+
+    UInt32 estimatedSize = UInt32(osgpow(3.f, (Real32) depth ) * 20.f);
+
+    p->reserve (estimatedSize);
+    n->reserve (estimatedSize);
+    tx->reserve(estimatedSize);
+    i->reserve (estimatedSize);
     
     // add the initial points to the fields     
     for ( j=0; j<12; j++ ) 
@@ -1005,7 +1008,7 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
     {
         for ( y = 0; y < res[inds[pl][1]]; y++ )
         {
-            UInt16 h = res[inds[pl][0]];
+            UInt16 h = UInt16(res[inds[pl][0]]);
             
             t->addValue( GL_TRIANGLE_STRIP );
             l->addValue( 2 * ( h + 1 ) );
@@ -1016,7 +1019,8 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
                 i->addValue( basepoint +   y      * ( h + 1 ) + x );
             }
         }
-        basepoint += ( res[inds[pl][0]] + 1 ) * ( res[inds[pl][1]] + 1 );
+        basepoint += UInt32( (res[inds[pl][0]] + 1.f) * 
+                             (res[inds[pl][1]] + 1.f) );
     }
     
     endEditCP(index);

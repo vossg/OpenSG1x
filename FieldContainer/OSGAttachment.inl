@@ -358,7 +358,7 @@ FieldContainerType DynFieldAttachment<AttachmentDescT>::_type =
         (PrototypeCreateF) &DynFieldAttachment<AttachmentDescT>::createEmpty,
         NULL,
         NULL,
-        NULL,
+        0,
         true);
 #else
 template <class AttachmentDescT>
@@ -369,7 +369,7 @@ FieldContainerType DynFieldAttachment<AttachmentDescT>::_type(
     (PrototypeCreateF) &DynFieldAttachment<AttachmentDescT>::createEmpty,
     NULL,
     NULL,
-    NULL,
+    0,
     true);
 #endif
 

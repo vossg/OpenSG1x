@@ -79,7 +79,7 @@ A background showing a vertical color gradient. The colors and positions corresp
  *                           Class variables                               *
 \***************************************************************************/
 
-char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.12 2001/10/15 04:52:17 vossg Exp $";
+char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.13 2001/10/15 09:16:05 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -212,7 +212,7 @@ void GradientBackground::clear(DrawActionBase *, ViewportP)
             glVertex3f(1, 0, 0);
         }
 
-        for( int i = 0; i < size; i++)
+        for( UInt32 i = 0; i < size; i++)
         {
             pos = _mfPosition.getValue(i);
 

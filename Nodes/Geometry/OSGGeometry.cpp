@@ -315,7 +315,7 @@ void Geometry::adjustVolume( Volume & volume )
     volume.setValid();
     volume.setEmpty();
     
-    for ( int i = 0; i < pos->getSize(); i++ )
+    for (UInt32 i = 0; i < pos->getSize(); i++)
     {
         Vec3f p;
         pos->getValue( p, i );

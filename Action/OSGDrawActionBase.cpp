@@ -100,29 +100,29 @@ char DrawActionBase::cvsid[] = "@(#)$Id: $";
  */
 
 DrawActionBase::DrawActionBase(void) :
-        Inherited  (),
-    _camera         (NULL),
-    _background     (NULL),
-    _window         (NULL),
-    _viewport       (NULL),
-    _volumeDrawing  (false),
-    _frustumCulling (true),
-    _autoFrustum    (true),
-    _frustum        ()
+     Inherited     (     ),
+    _camera        (NULL ),
+    _background    (NULL ),
+    _window        (NULL ),
+    _viewport      (NULL ),
+    _frustumCulling(true ),
+    _volumeDrawing (false),
+    _autoFrustum   (true ),
+    _frustum       (     )
 {
 }
 
 
 DrawActionBase::DrawActionBase(const DrawActionBase &source) :
-        Inherited   (source                 ),
-    _camera         (source._camera         ),
-    _background     (source._background     ),
-    _window         (source._window         ),
-    _viewport       (source._viewport       ),
-    _volumeDrawing  (source._volumeDrawing ),
-    _frustumCulling (source._frustumCulling ),
-    _autoFrustum    (source._autoFrustum    ),
-    _frustum        (source._frustum        )
+     Inherited     (source                 ),
+    _camera        (source._camera         ),
+    _background    (source._background     ),
+    _window        (source._window         ),
+    _viewport      (source._viewport       ),
+    _frustumCulling(source._frustumCulling ),
+    _volumeDrawing (source._volumeDrawing  ),
+    _autoFrustum   (source._autoFrustum    ),
+    _frustum       (source._frustum        )
 {
 }
 

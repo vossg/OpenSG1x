@@ -162,7 +162,7 @@ UInt64 ImageFileType::storeData(const Image  &OSG_CHECK_ARG(image  ),
 UInt64 ImageFileType::restore(Image &image, const UChar8 *buffer, Int32 memSize)
 {
     UInt32          headSize = sizeof(Head);
-    Head            *head = (Head *) (buffer);
+    Head            *head = (Head *) const_cast<UChar8*>((buffer));
     const UChar8    *data = buffer ? (buffer + headSize) : 0;
     ImageFileType   *type;
     const char      *mimeType;

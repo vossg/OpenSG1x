@@ -108,7 +108,7 @@ namespace
 
 Field * FieldDescription::getField(FieldContainer &dataStore) const
 {
-    Field * pField = NULL;
+    Field *pField = NULL;
 
     if(_fAccessMethod != NULL)
     {

@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.35 2001/10/15 07:05:36 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.36 2001/10/15 09:16:05 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -1130,16 +1130,17 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
   TriangleIterator tI;
   GeoPositionsPtr posPtr;
   Int32 cost = 0, bestCost = 0, worstCost = 0, best = 0;
-  Int32 i, j, n, pN, triCount;
+  Int32 j, n, pN;
     Bool multiIndex;
     vector<int> primitive;
     GeoPLengthsPtr lensPtr;
   GeoPTypesPtr geoTypePtr;
   GeoIndicesPtr indexPtr;
     Time time, inputT, optimizeT, outputT;
-  UInt32 triN, lineN, pointN;
+  UInt32 triN, lineN, pointN, triCount;
   Int32 typeVec[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN };
   Int32 t,typeN = sizeof(typeVec)/sizeof(Int32);
+  UInt32 i;
 
     if (geoPtr != NullFC) {
         posPtr = geoPtr->getPositions();

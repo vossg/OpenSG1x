@@ -162,37 +162,37 @@ void Viewport::changed(BitVector, ChangeMode)
 Int32 Viewport::getPixelLeft( void ) const
 {
     if ( getLeft() > 1 )
-        return getLeft();
+        return Int32(getLeft());
 
-    return getParent()->getWidth() * getLeft();
+    return Int32(getParent()->getWidth() * getLeft());
 }
 
 Int32 Viewport::getPixelRight( void ) const
 {
     // >1: pixel
     if ( getRight() > 1 )
-        return getRight();
+        return Int32(getRight());
 
     // <=1: partial screen, use 1 less to not overlap other windows
-    return getParent()->getWidth() * getRight() - 1;
+    return Int32(getParent()->getWidth() * getRight() - 1);
 }
 
 Int32 Viewport::getPixelBottom( void ) const
 {
     if ( getBottom() > 1 )
-        return getBottom();
+        return Int32(getBottom());
 
-    return getParent()->getHeight() * getBottom();
+    return Int32(getParent()->getHeight() * getBottom());
 }
 
 Int32 Viewport::getPixelTop( void ) const
 {
     // >1: pixel
     if ( getTop() > 1 )
-        return getTop();
+        return Int32(getTop());
 
     // <=1: partial screen, use 1 less to not overlap other windows
-    return getParent()->getHeight() * getTop() - 1;
+    return Int32(getParent()->getHeight() * getTop() - 1);
 }
 
 Bool Viewport::isFullWindow( void ) const

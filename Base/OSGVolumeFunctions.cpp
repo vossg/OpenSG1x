@@ -559,19 +559,19 @@ OSG_BASE_DLLMAPPING Bool intersect(const CylinderVolume &cylinder,
     const CylinderVolume    *cv;
     const FrustumVolume     *fv;
 
-    if((bv = dynamic_cast<const BoxVolume *>(v)))
+    if((bv = dynamic_cast<const BoxVolume *>(v)) != NULL)
     {
         retCode = intersect(cylinder, *bv);
     }
-    else if(sv = dynamic_cast<const SphereVolume *>(v))
+    else if((sv = dynamic_cast<const SphereVolume *>(v)) != NULL)
     {
         retCode = intersect(cylinder, *sv);
     }
-    else if(cv = dynamic_cast<const CylinderVolume *>(v))
+    else if((cv = dynamic_cast<const CylinderVolume *>(v)) != NULL)
     {
         retCode = intersect(cylinder, *cv);
     }
-    else if(fv = dynamic_cast<const FrustumVolume *>(v))
+    else if((fv = dynamic_cast<const FrustumVolume *>(v)) != NULL)
     {
         retCode = intersect(cylinder, *fv);
     }
@@ -599,19 +599,19 @@ OSG_BASE_DLLMAPPING Bool intersect(const FrustumVolume &frustum, const Volume &v
     const CylinderVolume    *cv;
     const FrustumVolume     *fv;
 
-    if((bv = dynamic_cast<const BoxVolume *>(v)))
+    if((bv = dynamic_cast<const BoxVolume *>(v)) != NULL)
     {
         retCode = intersect(frustum, *bv);
     }
-    else if(sv = dynamic_cast<const SphereVolume *>(v))
+    else if((sv = dynamic_cast<const SphereVolume *>(v)) != NULL)
     {
         retCode = intersect(frustum, *sv);
     }
-    else if(cv = dynamic_cast<const CylinderVolume *>(v))
+    else if((cv = dynamic_cast<const CylinderVolume *>(v)) != NULL)
     {
         retCode = intersect(frustum, *cv);
     }
-    else if(fv = dynamic_cast<const FrustumVolume *>(v))
+    else if((fv = dynamic_cast<const FrustumVolume *>(v)) != NULL)
     {
         retCode = intersect(frustum, *fv);
     }

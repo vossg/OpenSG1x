@@ -264,7 +264,7 @@ Bool TIFImageFileType::write(const Image &image, const Char8 *fileName)
     TIFF                *out = TIFFOpen(fileName, "w");
     int                 lineSize = image.getWidth() * image.getBpp();
     int                 photometric, samplesPerPixel;
-    const unsigned char *data;
+    const UChar8       *data;
     int                 row;
 
     // TODO: implemet all cases correct
@@ -303,7 +303,10 @@ Bool TIFImageFileType::write(const Image &image, const Char8 *fileName)
         for(row = 0; row < image.getHeight(); row++)
         {
             data = image.getData() + ((image.getHeight() - row - 1) * lineSize);
-            if(TIFFWriteScanline(out, (tdata_t) data, row, 0) < 0)
+            if(TIFFWriteScanline(out, 
+                                 (tdata_t) const_cast<UChar8 *>(data), 
+                                 row, 
+                                 0) < 0)
                 break;
         }
 
