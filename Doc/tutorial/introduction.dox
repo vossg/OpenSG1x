@@ -161,7 +161,7 @@ This is the default location for important windows header files like windows.h w
 Like with the installation on Linux you need to tell your system where to find the dll and lib files. You can simply copy them
 all to the folder where your executable is, but a more clever way is to adjust your PATH variable
 
-\subsection Installation on a Macintosh PowerPC
+\subsection TutorialInstallationMacintosh Installation on a Macintosh PowerPC
 
 Installing OpenSG on a Macintosh was, and still is, not a very easy task at all. Until today I have not succeeded in getting it work on Mac OS X.
 I had it running on 10.2, but a lot of things, like textures and the loaders , did not work - so it was not very useful. On 10.3 I can compile
@@ -281,7 +281,7 @@ For Linux users it is not that complicated. Wether you just edit the tutorials o
 
 1. Compile OpenSG for your platform. GLUT, tif, png and jpg support have to be enabled \n
 2. Compile all tutorials found in the "OpenSG/Tutorials" folder. Please notice that these tutorials are not related to
-the tutorials i will present throughout theses pages!\n
+the tutorials I will present throughout theses pages!\n
 
 Next Chapter : \ref FirstApp
 */
