@@ -164,7 +164,7 @@ fcdToBase:
 	cd $($(PROJ)POOL) ;														\
 	for i in `find .														\
 		\( -type d \( -name CVS -o -name Test -o -name Builds -o			\
-		   -name Tools -o -name '.*' \) -prune \) 							\
+		   -name Tools -o -name '*/.*' \) -prune \) 						\
 		-o -type f -name '*\.fcd' -print` ;									\
 	do																		\
 		echo $$i ;															\
