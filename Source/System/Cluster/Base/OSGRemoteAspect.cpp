@@ -208,6 +208,7 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
     UInt64                              fullRemoteId;
     LocalTypeMapT::iterator             localTypeI;
     LocalFCMapT::iterator               localFCI;
+    UInt32                              len;
 
     // hack. No materialchange after image chagne
     std::vector<MaterialPtr>            materials;
@@ -328,6 +329,7 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
             {
                 connection.getValue(remoteId);
                 connection.getValue(mask);
+                connection.getValue(len);
 
                 if(getLocalId(remoteId,localId))
                 {
@@ -363,11 +365,13 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                 }
                 else
                 {
-                    SFATAL <<
+                    char dummy;
+                    while(len--)
+                        connection.get(&dummy,1);
+                    SWARNING <<
                         "Can't change unknown FC:" <<
                         remoteId << 
                         std::endl;
-                    throw RemoteSyncError();
                 }
                 break;
             }
@@ -482,6 +486,7 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
     FieldMaskMapT::iterator             sentFCI;
     FieldMaskMapT                       changedMap;
     FieldMaskMapT::iterator             changedMapI;
+    UInt32                              len;
 
     if(_statistics)
     {
@@ -603,6 +608,8 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
             connection.putValue(cmd);
             connection.putValue(condensedI->first); // id
             connection.putValue(mask);              // mask
+            len = fcPtr->getBinSize(mask);
+            connection.putValue(len);
             fcPtr->copyToBin(connection, mask);
             FDEBUG(("Changed: %s ID:%d Mask:%lld\n", 
                     fcPtr->getType().getName().str(),
