@@ -79,6 +79,8 @@
 #include <OSGColor4fFields.h> // EnvColor type
 #include <OSGUInt32Fields.h> // EnvCombineRGB type
 #include <OSGUInt32Fields.h> // EnvCombineAlpha type
+#include <OSGReal32Fields.h> // EnvScaleRGB type
+#include <OSGReal32Fields.h> // EnvScaleAlpha type
 #include <OSGUInt32Fields.h> // EnvSource0RGB type
 #include <OSGUInt32Fields.h> // EnvSource1RGB type
 #include <OSGUInt32Fields.h> // EnvSource2RGB type
@@ -127,7 +129,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
         EnvColorFieldId         = EnvModeFieldId          + 1,
         EnvCombineRGBFieldId    = EnvColorFieldId         + 1,
         EnvCombineAlphaFieldId  = EnvCombineRGBFieldId    + 1,
-        EnvSource0RGBFieldId    = EnvCombineAlphaFieldId  + 1,
+        EnvScaleRGBFieldId      = EnvCombineAlphaFieldId  + 1,
+        EnvScaleAlphaFieldId    = EnvScaleRGBFieldId      + 1,
+        EnvSource0RGBFieldId    = EnvScaleAlphaFieldId    + 1,
         EnvSource1RGBFieldId    = EnvSource0RGBFieldId    + 1,
         EnvSource2RGBFieldId    = EnvSource1RGBFieldId    + 1,
         EnvSource0AlphaFieldId  = EnvSource2RGBFieldId    + 1,
@@ -157,6 +161,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     static const osg::BitVector EnvColorFieldMask;
     static const osg::BitVector EnvCombineRGBFieldMask;
     static const osg::BitVector EnvCombineAlphaFieldMask;
+    static const osg::BitVector EnvScaleRGBFieldMask;
+    static const osg::BitVector EnvScaleAlphaFieldMask;
     static const osg::BitVector EnvSource0RGBFieldMask;
     static const osg::BitVector EnvSource1RGBFieldMask;
     static const osg::BitVector EnvSource2RGBFieldMask;
@@ -208,6 +214,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
            SFColor4f           *getSFEnvColor       (void);
            SFUInt32            *getSFEnvCombineRGB  (void);
            SFUInt32            *getSFEnvCombineAlpha(void);
+           SFReal32            *getSFEnvScaleRGB    (void);
+           SFReal32            *getSFEnvScaleAlpha  (void);
            SFUInt32            *getSFEnvSource0RGB  (void);
            SFUInt32            *getSFEnvSource1RGB  (void);
            SFUInt32            *getSFEnvSource2RGB  (void);
@@ -250,6 +258,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      const UInt32              &getEnvCombineRGB  (void) const;
            UInt32              &getEnvCombineAlpha(void);
      const UInt32              &getEnvCombineAlpha(void) const;
+           Real32              &getEnvScaleRGB    (void);
+     const Real32              &getEnvScaleRGB    (void) const;
+           Real32              &getEnvScaleAlpha  (void);
+     const Real32              &getEnvScaleAlpha  (void) const;
            UInt32              &getEnvSource0RGB  (void);
      const UInt32              &getEnvSource0RGB  (void) const;
            UInt32              &getEnvSource1RGB  (void);
@@ -296,6 +308,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      void setEnvColor       ( const Color4f &value );
      void setEnvCombineRGB  ( const UInt32 &value );
      void setEnvCombineAlpha( const UInt32 &value );
+     void setEnvScaleRGB    ( const Real32 &value );
+     void setEnvScaleAlpha  ( const Real32 &value );
      void setEnvSource0RGB  ( const UInt32 &value );
      void setEnvSource1RGB  ( const UInt32 &value );
      void setEnvSource2RGB  ( const UInt32 &value );
@@ -368,6 +382,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     SFColor4f           _sfEnvColor;
     SFUInt32            _sfEnvCombineRGB;
     SFUInt32            _sfEnvCombineAlpha;
+    SFReal32            _sfEnvScaleRGB;
+    SFReal32            _sfEnvScaleAlpha;
     SFUInt32            _sfEnvSource0RGB;
     SFUInt32            _sfEnvSource1RGB;
     SFUInt32            _sfEnvSource2RGB;

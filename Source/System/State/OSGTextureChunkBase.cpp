@@ -128,6 +128,12 @@ const OSG::BitVector  TextureChunkBase::EnvCombineRGBFieldMask =
 const OSG::BitVector  TextureChunkBase::EnvCombineAlphaFieldMask = 
     (1 << TextureChunkBase::EnvCombineAlphaFieldId);
 
+const OSG::BitVector  TextureChunkBase::EnvScaleRGBFieldMask = 
+    (1 << TextureChunkBase::EnvScaleRGBFieldId);
+
+const OSG::BitVector  TextureChunkBase::EnvScaleAlphaFieldMask = 
+    (1 << TextureChunkBase::EnvScaleAlphaFieldId);
+
 const OSG::BitVector  TextureChunkBase::EnvSource0RGBFieldMask = 
     (1 << TextureChunkBase::EnvSource0RGBFieldId);
 
@@ -208,46 +214,52 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
     Texture environment color default transparent black.
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvCombineRGB
-    
+    Texture environment rgb combine mode, default GL_MODULATE
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvCombineAlpha
-    
+    Texture environment alpha combine mode, default GL_MODULATE
+*/
+/*! \var Real32          TextureChunkBase::_sfEnvScaleRGB
+    Texture environment combine rgb scale factor, default 1.f
+*/
+/*! \var Real32          TextureChunkBase::_sfEnvScaleAlpha
+    Texture environment combine alpha scale factor, default 1.f
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvSource0RGB
-    
+    Texture environment combine source 0 rgb, default GL_TEXTURE
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvSource1RGB
-    
+    Texture environment combine source 1 rgb, default GL_PREVIOUS_EXT
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvSource2RGB
-    
+    Texture environment combine source 2 rgb, default GL_CONSTANT_EXT
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvSource0Alpha
-    
+    Texture environment combine source 0 alpha, default GL_TEXTURE
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvSource1Alpha
-    
+    Texture environment combine source 1 alpha, default GL_PREVIOUS_EXT
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvSource2Alpha
-    
+    Texture environment combine source 2 alpha, default GL_CONSTANT_EXT
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvOperand0RGB
-    
+    Texture environment combine operand 0 rgb, default GL_SRC_COLOR
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvOperand1RGB
-    
+    Texture environment combine operand 1 rgb, default GL_SRC_COLOR
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvOperand2RGB
-    
+    Texture environment combine operand 2 rgb, default GL_SRC_ALPHA
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvOperand0Alpha
-    
+    Texture environment combine operand 0 alpha, default GL_SRC_ALPHA
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvOperand1Alpha
-    
+    Texture environment combine operand 1 alpha, default GL_SRC_ALPHA
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvOperand2Alpha
-    
+    Texture environment combine operand 2 alpha, default GL_SRC_ALPHA
 */
 /*! \var UInt32          TextureChunkBase::_sfGLId
     The OpenGL texture id for this texture.
@@ -327,6 +339,16 @@ FieldDescription *TextureChunkBase::_desc[] =
                      EnvCombineAlphaFieldId, EnvCombineAlphaFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFEnvCombineAlpha),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "envScaleRGB", 
+                     EnvScaleRGBFieldId, EnvScaleRGBFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvScaleRGB),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "envScaleAlpha", 
+                     EnvScaleAlphaFieldId, EnvScaleAlphaFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFEnvScaleAlpha),
     new FieldDescription(SFUInt32::getClassType(), 
                      "envSource0RGB", 
                      EnvSource0RGBFieldId, EnvSource0RGBFieldMask,
@@ -461,6 +483,8 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfEnvColor               (Color4f(0,0,0,0)), 
     _sfEnvCombineRGB          (UInt32(GL_MODULATE)), 
     _sfEnvCombineAlpha        (UInt32(GL_MODULATE)), 
+    _sfEnvScaleRGB            (Real32(1.0f)), 
+    _sfEnvScaleAlpha          (Real32(1.0f)), 
     _sfEnvSource0RGB          (UInt32(GL_TEXTURE)), 
     _sfEnvSource1RGB          (UInt32(GL_PREVIOUS_EXT)), 
     _sfEnvSource2RGB          (UInt32(GL_CONSTANT_EXT)), 
@@ -497,6 +521,8 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfEnvColor               (source._sfEnvColor               ), 
     _sfEnvCombineRGB          (source._sfEnvCombineRGB          ), 
     _sfEnvCombineAlpha        (source._sfEnvCombineAlpha        ), 
+    _sfEnvScaleRGB            (source._sfEnvScaleRGB            ), 
+    _sfEnvScaleAlpha          (source._sfEnvScaleAlpha          ), 
     _sfEnvSource0RGB          (source._sfEnvSource0RGB          ), 
     _sfEnvSource1RGB          (source._sfEnvSource1RGB          ), 
     _sfEnvSource2RGB          (source._sfEnvSource2RGB          ), 
@@ -594,6 +620,16 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (EnvCombineAlphaFieldMask & whichField))
     {
         returnValue += _sfEnvCombineAlpha.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvScaleRGBFieldMask & whichField))
+    {
+        returnValue += _sfEnvScaleRGB.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnvScaleAlphaFieldMask & whichField))
+    {
+        returnValue += _sfEnvScaleAlpha.getBinSize();
     }
 
     if(FieldBits::NoField != (EnvSource0RGBFieldMask & whichField))
@@ -740,6 +776,16 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
         _sfEnvCombineAlpha.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (EnvScaleRGBFieldMask & whichField))
+    {
+        _sfEnvScaleRGB.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvScaleAlphaFieldMask & whichField))
+    {
+        _sfEnvScaleAlpha.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (EnvSource0RGBFieldMask & whichField))
     {
         _sfEnvSource0RGB.copyToBin(pMem);
@@ -883,6 +929,16 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfEnvCombineAlpha.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (EnvScaleRGBFieldMask & whichField))
+    {
+        _sfEnvScaleRGB.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnvScaleAlphaFieldMask & whichField))
+    {
+        _sfEnvScaleAlpha.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (EnvSource0RGBFieldMask & whichField))
     {
         _sfEnvSource0RGB.copyFromBin(pMem);
@@ -998,6 +1054,12 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
 
     if(FieldBits::NoField != (EnvCombineAlphaFieldMask & whichField))
         _sfEnvCombineAlpha.syncWith(pOther->_sfEnvCombineAlpha);
+
+    if(FieldBits::NoField != (EnvScaleRGBFieldMask & whichField))
+        _sfEnvScaleRGB.syncWith(pOther->_sfEnvScaleRGB);
+
+    if(FieldBits::NoField != (EnvScaleAlphaFieldMask & whichField))
+        _sfEnvScaleAlpha.syncWith(pOther->_sfEnvScaleAlpha);
 
     if(FieldBits::NoField != (EnvSource0RGBFieldMask & whichField))
         _sfEnvSource0RGB.syncWith(pOther->_sfEnvSource0RGB);

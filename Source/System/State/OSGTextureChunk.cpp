@@ -840,6 +840,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     if(getEnvMode() == GL_COMBINE_EXT)
     {
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT,  getEnvCombineRGB ());
+        glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_EXT,    getEnvScaleRGB   ());
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT,  getEnvSource0RGB ()); 
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ()); 
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ()); 
@@ -848,6 +849,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand0RGB()); 
 
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, getEnvCombineAlpha ());
+        glTexEnvf(GL_TEXTURE_ENV, GL_ALPHA_SCALE,       getEnvScaleAlpha   ());
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_EXT, getEnvSource0Alpha ());
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA_EXT, getEnvSource1Alpha ());
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA_EXT, getEnvSource2Alpha ());
@@ -961,6 +963,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     if(getEnvMode() == GL_COMBINE_EXT)
     {
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT,  getEnvCombineRGB ());
+        glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_EXT,    getEnvScaleRGB   ());
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT,  getEnvSource0RGB ()); 
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT,  getEnvSource1RGB ()); 
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB_EXT,  getEnvSource2RGB ()); 
@@ -969,6 +972,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB_EXT, getEnvOperand0RGB()); 
 
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, getEnvCombineAlpha ());
+        glTexEnvf(GL_TEXTURE_ENV, GL_ALPHA_SCALE,       getEnvScaleAlpha   ());
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_EXT, getEnvSource0Alpha ());
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA_EXT, getEnvSource1Alpha ());
         glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA_EXT, getEnvSource2Alpha ());
@@ -1077,6 +1081,15 @@ bool TextureChunk::operator == (const StateChunk &other) const
             getEnvOperand0Alpha() == tother->getEnvOperand0Alpha() &&
             getEnvOperand1Alpha() == tother->getEnvOperand1Alpha() &&
             getEnvOperand2Alpha() == tother->getEnvOperand2Alpha();
+
+
+        returnValue &=
+           ((        getEnvScaleRGB  () - tother->getEnvScaleRGB  ()) < Eps) &&
+           ((tother->getEnvScaleRGB  () -         getEnvScaleRGB  ()) < Eps) &&
+           ((        getEnvScaleAlpha() - tother->getEnvScaleAlpha()) < Eps) &&
+           ((tother->getEnvScaleAlpha() -         getEnvScaleAlpha()) < Eps);
+
+
     }
 
     return returnValue;

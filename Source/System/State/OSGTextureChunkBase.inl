@@ -194,6 +194,20 @@ SFUInt32 *TextureChunkBase::getSFEnvCombineAlpha(void)
     return &_sfEnvCombineAlpha;
 }
 
+//! Get the TextureChunk::_sfEnvScaleRGB field.
+inline
+SFReal32 *TextureChunkBase::getSFEnvScaleRGB(void)
+{
+    return &_sfEnvScaleRGB;
+}
+
+//! Get the TextureChunk::_sfEnvScaleAlpha field.
+inline
+SFReal32 *TextureChunkBase::getSFEnvScaleAlpha(void)
+{
+    return &_sfEnvScaleAlpha;
+}
+
 //! Get the TextureChunk::_sfEnvSource0RGB field.
 inline
 SFUInt32 *TextureChunkBase::getSFEnvSource0RGB(void)
@@ -578,6 +592,48 @@ inline
 void TextureChunkBase::setEnvCombineAlpha(const UInt32 &value)
 {
     _sfEnvCombineAlpha.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfEnvScaleRGB field.
+inline
+Real32 &TextureChunkBase::getEnvScaleRGB(void)
+{
+    return _sfEnvScaleRGB.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfEnvScaleRGB field.
+inline
+const Real32 &TextureChunkBase::getEnvScaleRGB(void) const
+{
+    return _sfEnvScaleRGB.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfEnvScaleRGB field.
+inline
+void TextureChunkBase::setEnvScaleRGB(const Real32 &value)
+{
+    _sfEnvScaleRGB.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfEnvScaleAlpha field.
+inline
+Real32 &TextureChunkBase::getEnvScaleAlpha(void)
+{
+    return _sfEnvScaleAlpha.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfEnvScaleAlpha field.
+inline
+const Real32 &TextureChunkBase::getEnvScaleAlpha(void) const
+{
+    return _sfEnvScaleAlpha.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfEnvScaleAlpha field.
+inline
+void TextureChunkBase::setEnvScaleAlpha(const Real32 &value)
+{
+    _sfEnvScaleAlpha.setValue(value);
 }
 
 //! Get the value of the TextureChunk::_sfEnvSource0RGB field.
