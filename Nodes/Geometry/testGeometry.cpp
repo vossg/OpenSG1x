@@ -64,7 +64,8 @@ int main (int argc, char **argv)
          << hex << pnts->getFormat() << dec
          << ", Stride:" << pnts->getStride() << ", Data:" 
          << hex << pnts->getData() << dec 
-         << ", Size " << pnts->getSize()
+         << ", getSize " << pnts->getSize()
+         << ", size " << pnts->size()
          << endl;
 
     g1->setPositions( pnts );
@@ -92,14 +93,7 @@ int main (int argc, char **argv)
          << ", Stride:" << pnts->getStride() << ", Data:" 
          << hex << pnts->getData() << dec 
          << ", Size " << pnts->getSize()
-         << endl;
-
-    cerr << "Positions: " << endl;
-    cerr << "Dim:" << pnt->getDimension() << ", Format:" 
-         << hex << pnt->getFormat() << dec
-         << ", Stride:" << pnt->getStride() << ", Data:" 
-         << hex << pnt->getData() << dec 
-         << ", Size " << pnt->getSize()
+         << ", size " << pnts->size()
          << endl;
 
     cerr << "Geometry Points: " << hex << g1->getPositions() << endl;

@@ -163,6 +163,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     void onCreate(const FieldContainer &source);
 
+    // intersect action: ray test
+    Action::ResultE intersect(Action * action );
+
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
@@ -177,9 +180,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     static void initMethod( void );
 
     void operator =(const Geometry &source);
-
-    // intersect action: ray test
-    Action::ResultE intersect(Action * action );
 
 };
 

@@ -535,13 +535,15 @@ Action::ResultE Geometry::intersect(Action * action )
     
     TriangleIterator it;
     Real32 t;
+    Vec3f norm;
+    
     for( it = this->beginTriangles(); it != this->endTriangles(); ++it )
     {
         if( ia->getLine().intersect( it.getPosition(0),
                                      it.getPosition(1),
-                                     it.getPosition(2), t) )
+                                     it.getPosition(2), t, &norm) )
         {
-            ia->setHit( t, ia->getActNode(), it.getIndex() );
+            ia->setHit( t, ia->getActNode(), it.getIndex(), norm );
         }
     }
     

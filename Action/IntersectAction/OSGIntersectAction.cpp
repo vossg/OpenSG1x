@@ -75,7 +75,7 @@ The intersect action class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.13 2002/02/16 03:48:39 vossg Exp $";
+char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.14 2002/02/27 17:36:54 dirk Exp $";
 
 IntersectAction * IntersectAction::_prototype = NULL;
 
@@ -246,7 +246,8 @@ Action::ResultE  IntersectAction::setEnterLeave( Real32 enter, Real32 leave )
     return Action::Continue;
 }
 
-void IntersectAction::setHit( Real32 t, NodePtr obj, Int32 triIndex )
+void IntersectAction::setHit( Real32 t, NodePtr obj, Int32 triIndex, 
+    Vec3f &normal )
 {
     if ( t < 0 || t > _hitT )
         return;
@@ -254,6 +255,7 @@ void IntersectAction::setHit( Real32 t, NodePtr obj, Int32 triIndex )
     _hitT = t;
     _hitObject = obj;
     _hitTriangle = triIndex;
+    _hitNormal = normal;
     _hit = true;
 }
 

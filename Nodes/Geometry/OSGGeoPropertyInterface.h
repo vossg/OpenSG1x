@@ -74,12 +74,13 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING GeoPropertyInterface
     /*! \name                       Get                                    */
     /*! \{                                                                 */
 
-    virtual UInt32  getFormat    (void) = 0;
-    virtual UInt32  getFormatSize(void) = 0;
-    virtual UInt32  getStride    (void) = 0;
-    virtual UInt32  getDimension (void) = 0;
-    virtual UInt32  getSize      (void) = 0;
-    virtual UInt8  *getData      (void) = 0;
+    virtual UInt32  getFormat    (void) const = 0;
+    virtual UInt32  getFormatSize(void) const = 0;
+    virtual UInt32  getStride    (void) const = 0;
+    virtual UInt32  getDimension (void) const = 0;
+    virtual UInt32  getSize      (void) const = 0;
+    virtual UInt32  size         (void) const = 0;
+    virtual UInt8  *getData      (void) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -106,9 +107,6 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING GeoPropertyInterface
     virtual void        clear    (      void               )       = 0;
     virtual void        resize   (      size_t      newsize)       = 0;
     virtual void        push_back(const GenericType &val   )       = 0;
-
-    // size clashes with another size()...
-    // virtual UInt32   size( void ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

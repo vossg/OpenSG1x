@@ -133,7 +133,8 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
     // to be used by the traversed nodes
     // set (temporary) results
     Action::ResultE setEnterLeave( Real32 enter, Real32 leave );
-    void setHit( Real32 t, NodePtr obj, Int32 triIndex );
+    void setHit( Real32 t, NodePtr obj, Int32 triIndex, Vec3f &normal );
+
     // when entering/leaving a different coordinate system, the values might
     // have to be scaled
     void scale(Real32 s);
@@ -258,6 +259,8 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectAction : public Action
     NodePtr _hitObject;
     // Index of the hit triangle ( from TriangleIterator::getIndex() )
     Int32   _hitTriangle;
+    // Normal of the hit triangle
+    Vec3f   _hitNormal;
     
     //-----------------------------------------------------------------------
     //   instance functions                                                  

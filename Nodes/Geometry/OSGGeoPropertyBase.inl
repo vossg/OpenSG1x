@@ -359,44 +359,53 @@ GeoProperty<GeoPropertyDesc>::clone(void)
  */
 
 template <class GeoPropertyDesc> inline 
-UInt32 GeoProperty<GeoPropertyDesc>::getFormat(void)
+UInt32 GeoProperty<GeoPropertyDesc>::getFormat(void) const
 {
     return GeoPropertyDesc::getFormat();
 }
 
 
 template <class GeoPropertyDesc> inline 
-UInt32 GeoProperty<GeoPropertyDesc>::getFormatSize(void)
+UInt32 GeoProperty<GeoPropertyDesc>::getFormatSize(void) const
 {
     return GeoPropertyDesc::getFormatSize();
 }
 
 
 template <class GeoPropertyDesc> 
-inline UInt32 GeoProperty<GeoPropertyDesc>::getStride(void)
+inline UInt32 GeoProperty<GeoPropertyDesc>::getStride(void) const
 {
     return GeoPropertyDesc::getStride();
 }
 
 
 template <class GeoPropertyDesc> 
-inline UInt32 GeoProperty<GeoPropertyDesc>::getDimension(void)
+inline UInt32 GeoProperty<GeoPropertyDesc>::getDimension(void) const
 {
     return GeoPropertyDesc::getDimension();
 }
 
+
 template <class GeoPropertyDesc> 
-inline UInt32 GeoProperty<GeoPropertyDesc>::getSize(void)
+inline UInt32 GeoProperty<GeoPropertyDesc>::getSize(void) const
 {
     return _field.size();
 }
 
 
 template <class GeoPropertyDesc> 
-inline UInt8 *GeoProperty<GeoPropertyDesc>::getData(void)
+inline UInt32 GeoProperty<GeoPropertyDesc>::size(void) const
+{
+    return _field.size();
+}
+
+
+template <class GeoPropertyDesc> 
+inline UInt8 *GeoProperty<GeoPropertyDesc>::getData(void) const
 {
     return (UInt8 *) &(_field[0]);
 }
+
 
 template <class propertyDesc> inline 
 typename GeoProperty<propertyDesc>::StoredGenericType

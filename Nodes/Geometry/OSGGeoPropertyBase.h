@@ -90,12 +90,13 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
 
     typedef typename GeoPropertyDesc::GenericType          GenericType;
 
-    virtual UInt32  getFormat    (void) = 0;
-    virtual UInt32  getFormatSize(void) = 0;
-    virtual UInt32  getStride    (void) = 0;
-    virtual UInt32  getDimension (void) = 0;
-    virtual UInt32  getSize      (void) = 0;
-    virtual UInt8  *getData      (void) = 0;
+    virtual UInt32  getFormat    (void) const = 0;
+    virtual UInt32  getFormatSize(void) const = 0;
+    virtual UInt32  getStride    (void) const = 0;
+    virtual UInt32  getDimension (void) const = 0;
+    virtual UInt32  getSize      (void) const = 0;
+    virtual UInt32  size         (void) const = 0;
+    virtual UInt8  *getData      (void) const = 0;
 
     virtual GenericType getValue (const UInt32       index )       = 0;
 
@@ -234,12 +235,13 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
     virtual InheritedPtr clone(void);
 #endif
 
-    virtual UInt32  getFormat    (void);
-    virtual UInt32  getFormatSize(void);
-    virtual UInt32  getStride    (void);
-    virtual UInt32  getDimension (void);
-    virtual UInt32  getSize      (void);
-    virtual UInt8  *getData      (void);
+    virtual UInt32  getFormat    (void) const;
+    virtual UInt32  getFormatSize(void) const;
+    virtual UInt32  getStride    (void) const;
+    virtual UInt32  getDimension (void) const;
+    virtual UInt32  getSize      (void) const;
+    virtual UInt32  size         (void) const;
+    virtual UInt8  *getData      (void) const;
 
             StoredFieldType &operator->() { return _field; }
 

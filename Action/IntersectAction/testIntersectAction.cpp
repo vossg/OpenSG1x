@@ -47,14 +47,15 @@ Action::ResultE geometryEnter(CNodePtr& node, Action * action)
 
     TriangleIterator it;
     Real32 t;
+    Vec3f norm;
     
     for ( it = core->beginTriangles(); it != core->endTriangles(); ++it )
     {
         if ( ia->getLine().intersect(   it.getPosition(0), 
                                         it.getPosition(1),
-                                        it.getPosition(2), t ) )
+                                        it.getPosition(2), t, &norm ) )
         {
-            ia->setHit( t, NodePtr(node), it.getIndex() );
+           ia->setHit( t, NodePtr(node), it.getIndex(), norm );
         }
     }
     
