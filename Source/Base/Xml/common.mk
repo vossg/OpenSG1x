@@ -1,6 +1,6 @@
 
-SUB_DIR     := Base/Xmlpp
-PACKAGENAME := BaseXmlpp
+SUB_DIR     := Base/Xml
+PACKAGENAME := BaseXml
 
 INCL_DIR    := $($(PROJ)POOL)/$(SUB_DIR)
 
