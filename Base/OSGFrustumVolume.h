@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -55,7 +55,7 @@ OSG_BEGIN_NAMESPACE
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class FrustumVolume;
 Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
-inline Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
+Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
 ostream& operator<< (ostream & os, const FrustumVolume &obj);
 #endif
 
@@ -82,7 +82,7 @@ box in 3D space.
 //---------------------------------------------------------------------------
 class OSG_BASE_DLLMAPPING FrustumVolume : public Volume {
 
-  public:
+public:
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -100,133 +100,132 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume {
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    /*----------------------- constructor ----------------------------------*/
+/*-------------------------- constructor ----------------------------------*/
 
-    /*! Default constructor - leaves box totally empty
-     */
+/*! Default constructor - leaves box totally empty
+*/
+  inline FrustumVolume(); 
 
-    inline FrustumVolume(); 
-
-    /// Constructor obj from 6 planes
-    inline FrustumVolume(const Plane &pnear, const Plane &pfar,
-                         const Plane &left,  const Plane &right,
-                         const Plane &top,   const Plane &bottom );
-
-
-    /// Copy Constructor
-    inline FrustumVolume(const FrustumVolume &obj);
+  /// Constructor obj from 6 planes
+  inline FrustumVolume ( const Plane &pnear, const Plane &pfar,
+												 const Plane &left, const Plane &right,
+												 const Plane &top,  const Plane &bottom );
 
 
-    /// Destructor
-    inline ~FrustumVolume(); 
+  /// Copy Constructor
+  inline FrustumVolume(const FrustumVolume &obj);
 
-    /*--------------------------- feature ----------------------------------*/
+
+  /// Destructor
+  inline ~FrustumVolume(); 
+
+
+/*------------------------------ feature ----------------------------------*/
 
 	/** return the near plane */
-	inline const Plane &getNear   (void) const;
+	inline const Plane & getNear   (void) const;
 
 	/** return the far plane */
-	inline const Plane &getFar    (void) const;
+	inline const Plane & getFar    (void) const;
 
 	/** return the left plane */
-	inline const Plane &getLeft   (void) const;
+	inline const Plane & getLeft   (void) const;
 
 	/** return the right plane */
-	inline const Plane &getRight  (void) const;
+	inline const Plane & getRight  (void) const;
 
 	/** return the top plane */
-	inline const Plane &getTop    (void) const;
+	inline const Plane & getTop    (void) const;
 
 	/** return the bottom plane */
-	inline const Plane &getBottom (void) const;
+	inline const Plane & getBottom (void) const;
 
 	/** returns the array of planes, (near,far,left,right,top,bottom) */
-	inline const Plane *getPlanes(void); 
+	inline
+	const Plane *getPlanes(void); 
 
 	/** set method for all planes */
-	inline void setPlanes(const Plane &pnear, const Plane &pfar,
-                          const Plane &left,  const Plane &right,
-                          const Plane &top,   const Plane &bottom);
+	inline
+	void setPlanes( const Plane &pnear, const Plane &pfar,
+								 const Plane &left, const Plane &right,
+								 const Plane &top,  const Plane &bottom);
 
-	void setPlanes(const Pnt3f &nlt, const Pnt3f &nlb,
-                   const Pnt3f &nrt, const Pnt3f &nrb,
-                   const Pnt3f &flt, const Pnt3f &flb,
-                   const Pnt3f &frt, const Pnt3f &frb);
+	void setPlanes (  const Pnt3f &nlt, const Pnt3f &nlb,
+										const Pnt3f &nrt, const Pnt3f &nrb,
+										const Pnt3f &flt, const Pnt3f &flb,
+										const Pnt3f &frt, const Pnt3f &frb );
 
-	void setPlanes(const Matrix &matrix);
+	void setPlanes ( const Matrix &matrix );
 									
-    /** gives the center of the volume */
-    virtual void getCenter (Pnt3f &center) const;
+ /** gives the center of the volume */
+  virtual void getCenter (Pnt3f &center) const;
 
-    /** gives the scalar volume of the volume */
-    virtual float getScalarVolume (void) const;
+  /** gives the scalar volume of the volume */
+  virtual float getScalarVolume (void) const;
 
-    /** gives the boundaries of the volume */
-    virtual void getBounds( Pnt3f &minPnt, Pnt3f &maxPnt ) const;
+  /** gives the boundaries of the volume */
+  virtual void getBounds( Pnt3f &minPnt, Pnt3f &maxPnt ) const;
 
 /*-------------------------- extending ------------------------------------*/
 
-    /** extends (if necessary) to contain the given 3D point */
-    virtual void extendBy (const Pnt3f &pt);
+  /** extends (if necessary) to contain the given 3D point */
+  virtual void extendBy (const Pnt3f &pt);
 
-    /** extend the volume by the given volume */
+  /** extend the volume by the given volume */
 	inline void extendBy (const Volume &volume);   
 
-    /// Extends Frustum3f (if necessary) to contain given Frustum3f
-    inline void extendBy ( const FrustumVolume &bb);
+  /// Extends Frustum3f (if necessary) to contain given Frustum3f
+  inline void extendBy ( const FrustumVolume &bb);
 
 /*-------------------------- intersection ---------------------------------*/
 
-    /// Returns true if intersection of given point and Frustum3f is not empty
-    Bool intersect(const Pnt3f &point) const;
+  /// Returns true if intersection of given point and Frustum3f is not empty
+  Bool intersect(const Pnt3f &point) const;
 
-	/** Returns true if intersection of given Line with the box is not 
-        empty */  
+	/** Returns true if intersection of given Line with the box is not empty */  
 	Bool intersect (const Line &line) const;
 
 	/** intersect the box with the given Line */
 	Bool intersect ( const Line &line, 
-                     Real32 &minDist, Real32 &maxDist  ) const;
+									 Real32 &minDist, Real32 &maxDist  ) const;
 
-    /// intersect the volume with another volume 
+  /// intersect the volume with another volume 
 	inline Bool intersect (const Volume &volume) const;
-    
-    /** Returns true if intersection of given Frustum3f and Frustum3f is 
-        not empty */
+
+  /// Returns true if intersection of given Frustum3f and Frustum3f is not empty
 	inline Bool intersect(const FrustumVolume &bb) const;
 
-    /** check if the point is on the volume's surface */
-    virtual Bool isOnSurface (const Pnt3f &point) const;
+  /** check if the point is on the volume's surface */
+  virtual Bool isOnSurface (const Pnt3f &point) const;
 
 
-    /*----------------------- transformation -------------------------------*/
+/*-------------------------- transformation -------------------------------*/
 
-    /// Transforms Frustum3f by matrix
-    virtual void transform(const Matrix &m);
+  /// Transforms Frustum3f by matrix
+  virtual void transform(const Matrix &m);
 
 	
-    /*----------------------- operation ------------------------------------*/
+/*-------------------------- operation ------------------------------------*/
 
-    /// Equality comparisons
-    friend Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
+  /// Equality comparisons
+  friend Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2);
 
-    /// Unequality comparisons
-    friend inline Bool operator !=(const FrustumVolume &b1, 
-                                   const FrustumVolume &b2);
+  /// Unequality comparisons
+  friend Bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2);
 
-    /// Assignment operator
-    const FrustumVolume &operator =(const FrustumVolume &b1);
+  /// Assignment operator
+  const FrustumVolume &operator =(const FrustumVolume &b1);
 
 
-    /*-------------------------- output -------------------------------*/
+/*-------------------------- output -------------------------------*/
 
 	/** print the volume */
-    virtual void dump(	UInt32				uiIndent = 0, 
+  virtual void dump(	UInt32				uiIndent = 0, 
 						const BitVector &	bvFlags = 0) const;
 
-  private:
+private:
 
-    /// holds the 6 planes (near,far,left,right,top,bottom)
+  /// holds the 6 planes (near,far,left,right,top,bottom)
 	Plane _planeVec[6];
 
 };

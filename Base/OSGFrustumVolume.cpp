@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -49,18 +49,23 @@
 
 #include "OSGConfig.h"
 
-#define OSG_COMPILEBASELIB
+#define OSG_COMPILEBASE
 
 #include <OSGLog.h>  
+
+#ifdef OSG_STREAM_IN_STD_NAMESPACE
+#include <iostream>
+#else
+#include <iostream.h>
+#endif
 
 #include <assert.h>
 
 #include <OSGLine.h>
 #include <OSGMatrix.h>
-#include <OSGPlane.h>
-#include <OSGVector.h>
 
 #include "OSGFrustumVolume.h"
+#include "OSGPlane.h"
 
 // Application declarations
 
@@ -90,32 +95,35 @@ OSG_USING_NAMESPACE
 
 
 void FrustumVolume::setPlanes (  const Pnt3f &nlt, const Pnt3f &nlb,
-                                 const Pnt3f &nrt, const Pnt3f &nrb,
-                                 const Pnt3f &flt, const Pnt3f &flb,
-                                 const Pnt3f &frt, const Pnt3f &frb )
+				 const Pnt3f &nrt, const Pnt3f &nrb,
+				 const Pnt3f &flt, const Pnt3f &flb,
+       				 const Pnt3f &frt, const Pnt3f &frb )
 {
-    Plane plnear(nlb,nlt,nrb);
-    Plane plfar(frb,frt,flb);
-    Plane plleft(flb,flt,nlb);
-    Plane plright(nrb,nrt,frb);
-    Plane pltop(frt,nrt,flt);
-    Plane plbottom(nlb,nrb,flb);
+   
+Plane near(nlb,nlt,nrb);
+Plane far(frb,frt,flb);
+Plane left(flb,flt,nlb);
+Plane right(nrb,nrt,frb);
+Plane top(frt,nrt,flt);
+Plane bottom(nlb,nrb,flb);
 
-	_planeVec[0] = plnear;
-	_planeVec[1] = plfar;
-	_planeVec[2] = plleft;
-	_planeVec[3] = plright;
-	_planeVec[4] = pltop;
-	_planeVec[5] = plbottom;	
+
+	_planeVec[0] = near;
+	_planeVec[1] = far;
+	_planeVec[2] = left;
+	_planeVec[3] = right;
+	_planeVec[4] = top;
+	_planeVec[5] = bottom;
+	
 }
 
 void FrustumVolume::setPlanes ( const Matrix &objectClipMat )
 {
 	Real32 planeEquation[6][4]; 
 	Real32 vectorLength;
-    Int32 i;
-    Vec3f dir;
-	
+  Int32 i;
+	Vec3f normal;
+
 	planeEquation[0][0] = objectClipMat[0][3]-objectClipMat[0][0];
 	planeEquation[0][1] = objectClipMat[1][3]-objectClipMat[1][0];
 	planeEquation[0][2] = objectClipMat[2][3]-objectClipMat[2][0];
@@ -146,61 +154,56 @@ void FrustumVolume::setPlanes ( const Matrix &objectClipMat )
 	planeEquation[5][2] = objectClipMat[2][3]-objectClipMat[2][2];
 	planeEquation[5][3] = objectClipMat[3][3]-objectClipMat[3][2];
 	
-	for (i = 0; i < 6; i++) 
-    {
+	for (i = 0; i < 6; i++) {
 		vectorLength = sqrt(planeEquation[i][0] * planeEquation[i][0] +
-                            planeEquation[i][1] * planeEquation[i][1] +
-                            planeEquation[i][2] * planeEquation[i][2]);
+				    planeEquation[i][1] * planeEquation[i][1] +
+				    planeEquation[i][2] * planeEquation[i][2]);
 
 		planeEquation[i][0] /= vectorLength;
 		planeEquation[i][1] /= vectorLength;
 		planeEquation[i][2] /= vectorLength;
 		planeEquation[i][3] /= vectorLength;
+
 	}
+	
+  // right
+  normal.setValues( planeEquation[0][0],
+                    planeEquation[0][1],
+                    planeEquation[0][2] );
+  _planeVec[3].set(normal, planeEquation[0][3]);
 
-    dir.setValues(planeEquation[0][0],
-                  planeEquation[0][1],
-                  planeEquation[0][2]);
+  // left 
+  normal.setValues( planeEquation[1][0],
+                    planeEquation[1][1],
+                    planeEquation[1][2] );
+  _planeVec[2].set(normal, planeEquation[1][3]);
 
-    Plane plright(dir, planeEquation[0][3]);
+  // bottom
+  normal.setValues( planeEquation[2][0],
+                    planeEquation[2][1],
+                    planeEquation[2][2] );
+  _planeVec[5].set(normal, planeEquation[2][3]);
 
-    dir.setValues(planeEquation[1][0],
-                  planeEquation[1][1],
-                  planeEquation[1][2]);
+  // top
+  normal.setValues( planeEquation[3][0],
+                    planeEquation[3][1],
+                    planeEquation[3][2] );
+  _planeVec[4].set(normal, planeEquation[3][3]);
 
-	Plane plleft(dir, planeEquation[1][3]);
+  // near
+  normal.setValues( planeEquation[4][0],
+                    planeEquation[4][1],
+                    planeEquation[4][2] );
+  _planeVec[0].set(normal, planeEquation[4][3]);
 
-    dir.setValues(planeEquation[2][0],
-                  planeEquation[2][1],
-                  planeEquation[2][2]);
+  // far
+  normal.setValues( planeEquation[5][0],
+                    planeEquation[5][1],
+                    planeEquation[5][2] );
+  _planeVec[1].set(normal, planeEquation[5][3]);
 
-	Plane plbottom(dir, planeEquation[2][3]);
-
-    dir.setValues(planeEquation[3][0],
-                  planeEquation[3][1],
-                  planeEquation[3][2]);
-
-	Plane pltop(dir, planeEquation[3][3]);
-
-    dir.setValues(planeEquation[4][0],
-                  planeEquation[4][1],
-                  planeEquation[4][2]);
-
-	Plane plnear(dir, planeEquation[4][3]);
-
-    dir.setValues(planeEquation[5][0],
-                  planeEquation[5][1],
-                  planeEquation[5][2]);
-
-	Plane plfar(dir, planeEquation[5][3]);
-
-	_planeVec[0] = plnear;
-	_planeVec[1] = plfar;
-	_planeVec[2] = plleft;
-	_planeVec[3] = plright;
-	_planeVec[4] = pltop;
-	_planeVec[5] = plbottom;
 }
+
 /// Returns the center of a box
 void FrustumVolume::getCenter(Pnt3f &center) const
 {
@@ -239,17 +242,17 @@ Bool FrustumVolume::intersect(const Pnt3f &point) const
 	int i;
 	Bool retCode = true;
 
-    for (i = 0; i < 6; i++) {
-        if ( ( _planeVec[i].getNormal().x() * point.x() +
-               _planeVec[i].getNormal().y() * point.x() +
-               _planeVec[i].getNormal().z() * point.x() +
-               _planeVec[i].getDistanceFromOrigin()) < 0 ) {
-            retCode = false;
-            break;
-        }
+  for (i = 0; i < 6; i++) {
+    if ( ( _planeVec[i].getNormal().x() * point.x() +
+					 _planeVec[i].getNormal().y() * point.x() +
+					 _planeVec[i].getNormal().z() * point.x() +
+					 _planeVec[i].getDistanceFromOrigin()) < 0 ) {
+      retCode = false;
+      break;
     }
+  }
 
-    return retCode;
+  return retCode;
 }
 
 
@@ -263,7 +266,7 @@ Bool FrustumVolume::intersect (const Line &line) const
 
 /** intersect the box with the given Line */
 Bool FrustumVolume::intersect ( const Line &line, 
-                                Real32 &minDist, Real32 &maxDist ) const
+																Real32 &minDist, Real32 &maxDist ) const
 {
 	return line.intersect(*this,minDist,maxDist);
 }
@@ -298,14 +301,14 @@ void FrustumVolume::dump( UInt32 uiIndent, const BitVector &bvFlags) const
 {
 	// not implemented !!!
 	/*
-      PLOG << "Frustum(" 
-      << _planeVec[0] << "|" 
-      << _planeVec[1] << "|" 
-      << _planeVec[2] << "|" 
-      << _planeVec[3] << "|" 
-      << _planeVec[4] << "|" 
-      << _planeVec[5] <<
-      << ")";
+	PLOG << "Frustum(" 
+			 << _planeVec[0] << "|" 
+			 << _planeVec[1] << "|" 
+			 << _planeVec[2] << "|" 
+			 << _planeVec[3] << "|" 
+			 << _planeVec[4] << "|" 
+			 << _planeVec[5] <<
+			 << ")";
 	*/
 }
 
@@ -316,12 +319,12 @@ OSG_BEGIN_NAMESPACE
 Bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2)
 {
 	return ((b1._planeVec[0] == b2._planeVec[0]) &&
-            (b1._planeVec[1] == b2._planeVec[1]) &&
-            (b1._planeVec[2] == b2._planeVec[2]) &&
-            (b1._planeVec[3] == b2._planeVec[3]) &&
-            (b1._planeVec[4] == b2._planeVec[4]) &&
-            (b1._planeVec[5] == b2._planeVec[5]) &&
-            b1._state == b2._state );
+					(b1._planeVec[1] == b2._planeVec[1]) &&
+					(b1._planeVec[2] == b2._planeVec[2]) &&
+					(b1._planeVec[3] == b2._planeVec[3]) &&
+					(b1._planeVec[4] == b2._planeVec[4]) &&
+					(b1._planeVec[5] == b2._planeVec[5]) &&
+					b1._state == b2._state );
 }
 
 
