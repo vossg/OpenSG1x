@@ -945,6 +945,33 @@
 
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
+/*! \name GL_NV_occlusion_query                                        */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+
+#ifndef GL_NV_occlusion_query
+#define GL_NV_occlusion_query 1
+#define GL_PIXEL_COUNTER_BITS_NV          0x8864
+#define GL_CURRENT_OCCLUSION_QUERY_ID_NV  0x8865
+#define GL_PIXEL_COUNT_NV                 0x8866
+#define GL_PIXEL_COUNT_AVAILABLE_NV       0x8867
+#endif
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name GL_HP_occlusion_test                                         */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+
+#ifndef GL_HP_occlusion_test
+#define GL_HP_occlusion_test 1
+#define GL_OCCLUSION_TEST_HP              0x8165
+#define GL_OCCLUSION_TEST_RESULT_HP       0x8166
+#endif
 
 #ifndef GL_VERSION_1_2
 #define GL_CLAMP_TO_EDGE                  0x812F
