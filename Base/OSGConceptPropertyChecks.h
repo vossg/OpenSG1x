@@ -84,12 +84,12 @@ static void __OSG_##OSGPROP##_Property_violation(T1)                     \
 #define OSG_PROPERTY_REQUIREMENT(OSGCLASS, OSGPROP)                      \
 typedef void (* _OSG##OSGPROP##PropReqDummyFuncFor##OSGCLASS)(OSGCLASS); \
                                                                          \
-template<_OSG##OSGPROP##PropReqDummyFuncFor##OSGCLASS FuncTypeT>      \
+template<_OSG##OSGPROP##PropReqDummyFuncFor##OSGCLASS FuncTypeT>         \
 struct _OSG##OSGPROP##PropReqDummyStructFor##OSGCLASS                    \
 {                                                                        \
 };                                                                       \
                                                                          \
-_OSG##OSGPROP##PropReqDummyStructFor##OSGCLASS<                          \
+static _OSG##OSGPROP##PropReqDummyStructFor##OSGCLASS<                   \
     _OSG_##OSGPROP##_Property_Spec<OSGCLASS>::                           \
         _OSG_##OSGPROP##_Property_violation>                             \
             _OSG##OSGPROP##PropReqDummyStructInstFor##OSGCLASS
