@@ -898,9 +898,9 @@
     </connection>
     <connection>
         <sender>writeProcCode</sender>
-        <signal>stateChanged(int)</signal>
+        <signal>clicked()</signal>
         <receiver>FieldContainerView</receiver>
-        <slot>writeFieldContainerSlot(int)</slot>
+        <slot>writeFieldContainerSlot()</slot>
     </connection>
 </connections>
 <tabstops>
@@ -968,7 +968,7 @@
     <slot>writeFieldContainerBaseSlot()</slot>
     <slot>qqqw_stateChanged( int )</slot>
     <slot>decoratableSwitch_stateChanged( int )</slot>
-    <slot>writeFieldContainerSlot( int )</slot>
+    <slot>writeFieldContainerSlot()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>
