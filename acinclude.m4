@@ -881,6 +881,7 @@ dnl e4
     AC_OUTPUT($ac_gdz_common_stl_e4:$ac_gdz_common_stl_in_e4)
 ])
 
+
 AC_DEFUN(AC_GDZ_WRITE_COMMON_GLUT,
 [
 dnl e5
@@ -1009,24 +1010,60 @@ dnl e7
     AC_OUTPUT($ac_gdz_common_sys_mk_e7:$ac_gdz_common_sys_mk_in_e7)
 ])
 
+
 AC_DEFUN(AC_GDZ_WRITE_COMMON_GL,
 [
 dnl e8
 
+    ac_gdz_gl_lib_e8=
+    ac_gdz_gl_incdir_e8=
+    ac_gdz_gl_libdir_e8=
+
+    if test "$with_gl" = yes; then
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_gl_lib_e8=''
+            ;;
+            darwin*)
+                ac_gdz_gl_lib_e8=''
+                ac_gdz_gl_incdir_e8=/System/Library/Frameworks/OpenGL.framework/Headers
+            ;;
+            *)
+                ac_gdz_gl_lib_e8=''
+            ;;
+        esac
+
+    elif test -n "$ac_gdz_gl_dir"; then
+        if test $build_os = cygwin; then
+           ac_gdz_gl_incdir_e8='"'`cygpath -w $ac_gdz_gl_dir/include`'"'
+           ac_gdz_gl_libdir_e8='"'`cygpath -w $ac_gdz_gl_dir/lib`'"'
+        else
+           ac_gdz_gl_incdir_e8=$ac_gdz_gl_dir/include
+           ac_gdz_gl_libdir_e8=$ac_gdz_gl_dir/lib
+        fi
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_gl_lib_e8=''
+            ;;
+            darwin*)
+                ac_gdz_gl_lib_e8=''
+            ;;
+            *)
+                ac_gdz_gl_lib_e8=''
+            ;;
+        esac
+    fi
+
     ac_gdz_common_gl_in_e8=$ac_gdz_commonconf_dir/commonGL.in
     ac_gdz_common_gl_e8=$ac_gdz_commonpackage_dir/commonGL.mk
 
-    ac_gdz_gl_incdir_e8=
-
-    case $build_os in
-        darwin*)
-            ac_gdz_gl_incdir_e8=/System/Library/Frameworks/OpenGL.framework/Headers
-        ;;
-    esac
-
-    touch confdefs.h
-
     AC_SUBST(ac_gdz_gl_incdir_e8)
+    AC_SUBST(ac_gdz_gl_libdir_e8)
+    AC_SUBST(ac_gdz_gl_lib_e8)
+   
+    touch confdefs.h
 
     AC_OUTPUT($ac_gdz_common_gl_e8:$ac_gdz_common_gl_in_e8)
 ])
@@ -1265,7 +1302,7 @@ AC_DEFUN(AC_GDZ_WRITE_OSG_CONFIG,
 [
 dnl e15
 
-    ac_gdz_glut_lib_e5=
+    ac_gdz_glut_lib_e15=
     ac_gdz_glut_incdir_e15=
     ac_gdz_glut_libdir_e15=
 

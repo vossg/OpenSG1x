@@ -96,6 +96,24 @@ else
 	ac_gdz_stl_dir=$with_stl
 fi
 
+dnl ############# GL Settings #####################
+
+AC_ARG_WITH(gl,     [  --with-gl=DIR                    Use gl, if DIR is given use the file from the give directory],
+			,with_gl=no) 
+
+if test "$with_gl" = yes; then
+	ac_gdz_gl_dir=yes
+	ac_gdz_conf_package_gl='1'
+	ac_gdz_conf_package_gl_e1='1'
+elif test "$with_gl" = no; then
+	ac_gdz_gl_dir=
+else
+	ac_gdz_gl_dir=$with_gl
+	ac_gdz_conf_package_gl='1'
+	ac_gdz_conf_package_gl_e1='1'
+fi
+
+
 dnl ############# GLUT Settings #####################
 
 AC_ARG_WITH(glut,     [  --with-glut=DIR                    Use glut, if DIR is given use the file from the give directory],
@@ -758,6 +776,7 @@ AC_SUBST(ac_gdz_conf_package_jpg_e1)
 AC_SUBST(ac_gdz_conf_package_png_e1)
 AC_SUBST(ac_gdz_conf_package_mng_e1)
 AC_SUBST(ac_gdz_conf_package_gif_e1)
+AC_SUBST(ac_gdz_conf_package_gl_e1)
 AC_SUBST(ac_gdz_conf_package_glut_e1)
 AC_SUBST(ac_gdz_conf_package_freetype1_e1)
 AC_SUBST(ac_gdz_conf_gvbeta_e1)
