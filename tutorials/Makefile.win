@@ -8,7 +8,7 @@ OSGROOT := ..
 GLUTPATH := ../lib/glut_3.7/
 
 # use debug or opt libs?
-LIBTYPE := -dbg
+LIBTYPE :=
 
 # you need to copy the options from compiling the library right now
 # we'll have an 'opensg-config' similiar to 'glib-config', but it's not here yet 
