@@ -3,7 +3,7 @@
 
 SUB_JOB := admin
 
-INSTLINK := ln -s
+INSTLINK := cp
 
 #########################################################################
 # Parallel Settings
@@ -206,7 +206,7 @@ install-libs-cp: install-libs
 
 install-ln: install-includes install-libs-ln
 install-cp: install-includes install-libs-cp
-install: install-includes install-libs-ln
+install: install-includes install-libs-cp
 
 %.src:
 	@if [ -d $* ]; then 													\
