@@ -127,10 +127,9 @@ bool HalfEdgeGraph::Triangle::verify (void)
            )
          )
     {
-        SWARNING << "Neighbor linked more than once: " 
-                 << int(neighbor[0]) << "/" 
-                 << int(neighbor[1]) << "/"
-                 << int(neighbor[2]) << endl;
+        FWARNING(("Neighbor linked more than once: %p/%p/%p\n", neighbor[0],
+                                                                neighbor[1],
+                                                                neighbor[2]));
         retCode = false;
     }
 
@@ -231,12 +230,12 @@ bool HalfEdgeGraph::verify (bool verbose)
             nt2 = triangle->halfEdgeVec[2].twin ? 
               triangle->halfEdgeVec[2].twin->triangle : 0;
             
-            FINFO ( ( "HEG: Triangle %d: %d %d %d, %d %d %d: %s\n",
-                      int (triangle), 
+            FINFO ( ( "HEG: Triangle %p: %d %d %d, %p %p %p: %s\n",
+                      triangle, 
                       triangle->halfEdgeVec[0].vertexStart(),
                       triangle->halfEdgeVec[1].vertexStart(),
                       triangle->halfEdgeVec[2].vertexStart(),
-                      int (nt0), int (nt1), int (nt2),
+                      nt0, nt1, nt2,
                       (validTri ? "VALID" : "INVALID" ) ) );
         }
     }
@@ -276,11 +275,11 @@ bool HalfEdgeGraph::verify (bool verbose)
             for ( lI = _edgeLinkVec[i].begin(); 
                   lI != _edgeLinkVec[i].end(); ++lI )
             {  
-              FINFO (( "HEG: HalfEdge %d: %d to %d, twin: %d\n",
-                       int(lI->second),
+              FINFO (( "HEG: HalfEdge %p: %d to %d, twin: %p\n",
+                       lI->second,
                        lI->second->vertexStart(),
                        lI->second->vertexEnd(),
-                       int(lI->second->twin) ));
+                       lI->second->twin));
             }
         }
     }
