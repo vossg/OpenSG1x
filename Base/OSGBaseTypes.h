@@ -480,7 +480,7 @@ const Real32 Eps = 1E-6f;
  *  \ingroup BaseConstants
  */
 
-const Real32 Pi  = (Real32) 3.141592653589797;
+const Real32 Pi  = (Real32) 3.141592653589793;
 
 /*! positive infinity
 */
@@ -574,7 +574,7 @@ struct TypeConstants<Int8> : public TypeConstantsBase
     static inline Int8 getAllClear   (void) { return 0x00; };
 
     static inline Int8 getMax        (void) { return  0x7F; }; 
-    static inline Int8 getMin        (void) { return -0x7F; }; 
+    static inline Int8 getMin        (void) { return -0x80; }; 
 
 
     static inline Real32 getFraction   (Int8 val) 
@@ -656,7 +656,7 @@ struct TypeConstants<Int16> : public TypeConstantsBase
     static inline Int16 getAllClear(void)    { return 0x0000; };
 
     static inline Int16 getMax(void)         { return  0x7FFF; };
-    static inline Int16 getMin(void)         { return -0x7FFF; };
+    static inline Int16 getMin(void)         { return -0x8000; };
 
 
     static inline Real32 getFraction   (Int16 val) 
@@ -738,7 +738,7 @@ struct TypeConstants<Int32> : public TypeConstantsBase
     static inline Int32 getAllClear   (void) { return 0x00000000; };
 
     static inline Int32 getMax        (void) { return  0x7FFFFFFF; };
-    static inline Int32 getMin        (void) { return -0x7FFFFFFF; };
+    static inline Int32 getMin        (void) { return -0x80000000; };
 
 
     static inline Real32 getFraction   (Int32 val) 
@@ -779,14 +779,14 @@ struct TypeConstants<UInt64> : public TypeConstantsBase
     static inline UInt64 getAllSet  (void) { return 0xFFFFFFFFFFFFFFFFLL; };
     static inline UInt64 getAllClear(void) { return 0x0000000000000000LL; };
 
-    static inline UInt64 getMin     (void) { return 0xFFFFFFFFFFFFFFFFLL; };
-    static inline UInt64 getMax     (void) { return 0x0000000000000000LL; };
+    static inline UInt64 getMin     (void) { return 0x0000000000000000LL; };
+    static inline UInt64 getMax     (void) { return 0xFFFFFFFFFFFFFFFFLL; };
 #else
     static inline UInt64 getAllSet  (void) { return 0xFFFFFFFFFFFFFFFF; };
     static inline UInt64 getAllClear(void) { return 0x0000000000000000; };
 
-    static inline UInt64 getMin     (void) { return 0xFFFFFFFFFFFFFFFF; };
-    static inline UInt64 getMax     (void) { return 0x0000000000000000; };
+    static inline UInt64 getMin     (void) { return 0x0000000000000000; };
+    static inline UInt64 getMax     (void) { return 0xFFFFFFFFFFFFFFFF; };
 #endif
 
     static inline Real32 getFraction   (UInt64 val) 
@@ -834,13 +834,13 @@ struct TypeConstants<Int64> : public TypeConstantsBase
     static inline Int64 getAllClear(void) { return 0x0000000000000000LL; };
 
     static inline Int64 getMax(void)      { return  0x7FFFFFFFFFFFFFFFLL; };
-    static inline Int64 getMin(void)      { return -0x7FFFFFFFFFFFFFFFLL; };
+    static inline Int64 getMin(void)      { return -0x8000000000000000LL; };
 #else
     static inline Int64 getAllSet(void)   { return 0xFFFFFFFFFFFFFFFF; };
     static inline Int64 getAllClear(void) { return 0x0000000000000000; };
 
     static inline Int64 getMax(void)      { return  0x7FFFFFFFFFFFFFFF; };
-    static inline Int64 getMin(void)      { return -0x7FFFFFFFFFFFFFFF; };
+    static inline Int64 getMin(void)      { return -0x8000000000000000; };
 #endif
 
 
