@@ -127,8 +127,9 @@ class OSG_BASE_DLLMAPPING Line
     bool intersect(const Pnt3f                  &v0,
                    const Pnt3f                  &v1,
                    const Pnt3f                  &v2,
-                         Real32                 &t                     ) const;
-    
+                         Real32                 &t,
+                         Vec3f                  *normal = NULL         ) const;
+   
     /*==========================  PRIVATE  ================================*/
   private:
 

@@ -537,8 +537,11 @@ bool Line::intersect(      Real32  OSG_CHECK_ARG(angle),
 
 /** Intersect the line with a triangle.
 */
-bool Line::intersect(   const Pnt3f &v0, const Pnt3f &v1,
-                        const Pnt3f &v2, Real32 &t ) const
+bool Line::intersect(const Pnt3f  &v0, 
+                     const Pnt3f  &v1,
+                     const Pnt3f  &v2, 
+                           Real32 &t,
+                           Vec3f  *norm) const
 {
     Vec3f dir1, dir2;
 
@@ -579,6 +582,11 @@ bool Line::intersect(   const Pnt3f &v0, const Pnt3f &v1,
     Real32 id = 1.f / d;
 
     t = dir2.dot( c ) * id;
+
+    if(norm != NULL)
+    {
+        *norm = a;
+    }
 
     return true;
 }
