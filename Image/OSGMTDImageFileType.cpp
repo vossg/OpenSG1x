@@ -100,12 +100,11 @@ MTDImageFileType MTDImageFileType::_the(suffixArray, sizeof(suffixArray) );
 //s:
 //
 //------------------------------
-Bool MTDImageFileType::read (      Image &OSG_CHECK_ARG(image   ), 
-                             const Char8 *OSG_CHECK_ARG(fileName))
+Bool MTDImageFileType::read (      Image &image   , 
+                             const Char8 *fileName)
 {
   Bool retCode = false;
 
-  /* TODO
   ifstream in(fileName);
   Head head;
   void *headData = (void*)(&head);
@@ -122,7 +121,6 @@ Bool MTDImageFileType::read (      Image &OSG_CHECK_ARG(image   ),
     retCode = true;
   else
     retCode = false;
-  */
 
   return retCode;
 }
@@ -147,12 +145,11 @@ Bool MTDImageFileType::read (      Image &OSG_CHECK_ARG(image   ),
 //s:
 //
 //------------------------------
-Bool MTDImageFileType::write(const Image &OSG_CHECK_ARG(image   ), 
-                             const Char8 *OSG_CHECK_ARG(fileName))
+Bool MTDImageFileType::write(const Image &image   , 
+                             const Char8 *fileName)
 {
     Bool retCode = false;
 
-    /*
     ofstream out(fileName);
     Head head;
     const void *headData = (void*)(&head);
@@ -168,12 +165,10 @@ Bool MTDImageFileType::write(const Image &OSG_CHECK_ARG(image   ),
     head.hostToNet();
   
     if ( out && out.write(static_cast<const char *>(headData), headSize) && 
-         dataSize &&
-             out.write((char *)(image.getData()), dataSize) )
-            retCode = true;
+         dataSize && out.write((char *)(image.getData()), dataSize) )
+      retCode = true;
     else
-        retCode = false;    
-    */
+      retCode = false;    
 
     return retCode;
 }

@@ -121,7 +121,7 @@ Bool PNMImageFileType::read(Image &image, const Char8 *fileName)
         while(in.peek() == commentKey)
             in.ignore(INT_MAX, '\n');
         in >> width >> height;
-        isBinary = (type > 3) ? true : false;
+        isBinary = ((type > 3) && (type < 7)) ? true : false;
     }
     else
     {
@@ -145,6 +145,16 @@ Bool PNMImageFileType::read(Image &image, const Char8 *fileName)
     case 6:
         maxValue = 0;
         image.set(Image::OSG_RGB_PF, width, height);
+        break;
+		case 7: // LA extention 
+				FWARNING (("Read PNM type %d: LA-ascii extention\n",type ));
+        maxValue = 0;
+        image.set(Image::OSG_LA_PF, width, height);
+        break;
+		case 8: // 
+				FWARNING (("Read PNM type %d: RGBA-ascii extention\n",type ));
+        maxValue = 0;
+        image.set(Image::OSG_RGBA_PF, width, height);
         break;
     default:
         SWARNING <<

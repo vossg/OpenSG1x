@@ -59,6 +59,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
     /*==========================  PRIVATE  ================================*/
   private:
 
+    list<IDString> _suffixList;
+
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
     /*---------------------------------------------------------------------*/
     /*! \name                   MTD Header                                 */
     /*! \{                                                                 */
@@ -82,12 +87,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
 
     };
 
-    list<IDString> _suffixList;
-
     /*! \}                                                                 */
-
-    /*=========================  PROTECTED  ===============================*/
-  protected:
 
     /*---------------------------------------------------------------------*/
     /*! \name                Default Constructor                           */

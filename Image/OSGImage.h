@@ -141,6 +141,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 
     Bool setData ( const UChar8 *data = 0, Bool doCopy = true );
 
+		Bool flipDepthFrameData (void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Add Value                                */

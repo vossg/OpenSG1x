@@ -207,6 +207,45 @@ Bool Image::setData(const UChar8 *da, Bool doCopy)
 }
 
 //----------------------------
+// Function name: set
+//----------------------------
+//
+//Parameters:
+//p:obalVars:
+//g:
+//Returns:
+//r:Bool
+// Caution
+//c:
+//Assumations:
+//a:
+//Describtions:
+//d: set methode wich sets the image data
+//SeeAlso:
+//s:
+//
+//------------------------------
+Bool Image::flipDepthFrameData (void)
+{
+  Bool retCode = false;
+  Int32 value;
+
+  if ( (_mipmapCount == 1) && ((_frameCount == 1) || (_depth == 1)) ) 
+    {
+      value = _frameCount;
+      _frameCount = _depth;
+      _depth = value;
+      retCode = true;
+    }
+  else 
+    {
+      FWARNING (("Cant flipDepthFrameData(); invalid data layout\n"));
+    }
+
+  return retCode;
+}
+
+//----------------------------
 // Function name: addValue
 //----------------------------
 //
@@ -329,129 +368,133 @@ Bool Image::addValue(const char *value)
 //s:
 //
 //------------------------------
-Bool Image::reformat(const PixelFormat  OSG_CHECK_ARG(pF         ), 
-                           Image       *OSG_CHECK_ARG(destination))
-{
-    /*
-      UChar8 *data;
-      int srcI, destI, DestSize;
-      Bool valid = false;
-      int sum;
+Bool Image::reformat ( const Image::PixelFormat pixelFormat, 
+                       Image *destination )
+{  
+  UChar8 *data = 0;
+  int srcI, destI, destSize = 0;
+  int sum;
+  Image *dest = destination ? destination : new Image;
 
-      cout << "INFO: Try to reformat image from pixelDepth " 
-      << int(_pixelDepth) << " to " << int(pixelDepth) << " ... ";
-      cout.flush();
+  FINFO (( "Try to reformat image from pixelDepth %d to %d\n",
+           _pixelFormat, pixelFormat ));
 
-      // TODO !!! code all the cases !!!
-      if ( size() && pixelDepth && (pixelDepth != _pixelDepth) ) {
-      DestSize = pixelDepth * _width * _height * _depth;
-      data = new UChar8[DestSize];
+  // TODO !!! code all the cases !!!
+
+  if ( getSize() && pixelFormat && (pixelFormat != _pixelFormat) ) 
+    {
+      dest->set(pixelFormat, _width, _height, _depth );
+      data = dest->_data;
+      destSize = dest->getSize();
       if (data) 
-      switch (_pixelDepth) {
-      case 1: // source pixelDepth == 1
-      switch (pixelDepth) {
-      case 1:
-      break;
-      case 2:
-      for (srcI = destI = 0; destI < DestSize; ) {
-      data[destI++] = _data[srcI];
-      data[destI++] = _data[srcI++];
+        switch (_pixelFormat) {
+        case OSG_L_PF: // source pixelFormat == 1
+          switch (pixelFormat) {
+          case OSG_L_PF:
+            break;
+          case OSG_LA_PF:
+            for (srcI = destI = 0; destI < destSize; ) 
+              {
+                data[destI++] = _data[srcI];
+                data[destI++] = _data[srcI++];
+              }
+            break;
+          case OSG_RGB_PF:
+            for (srcI = destI = 0; destI < destSize; ) 
+              {
+                data[destI++] = _data[srcI];
+                data[destI++] = _data[srcI];
+                data[destI++] = _data[srcI++];
+              }
+            break;
+          case OSG_RGBA_PF:
+            for (srcI = destI = 0; destI < destSize; ) 
+              {
+                data[destI++] = _data[srcI];
+                data[destI++] = _data[srcI];
+                data[destI++] = _data[srcI];
+                data[destI++] = _data[srcI++];
+              }
+            break;
+          }
+          break;
+        case OSG_LA_PF: // source pixelFormat == 2
+          switch (pixelFormat) {
+          case OSG_L_PF:
+            for (srcI = destI = 0; destI < destSize; ) 
+              {
+                data[destI++] = _data[srcI++];
+                srcI++;
+              }
+            break;
+          case OSG_LA_PF:
+            break;
+          case OSG_RGB_PF:
+            for (srcI = destI = 0; destI < destSize; ) 
+              {
+                data[destI++] = _data[srcI];
+                data[destI++] = _data[srcI];
+                data[destI++] = _data[srcI++];
+                srcI++;
+              }
+            break;
+          case OSG_RGBA_PF:
+            for (srcI = destI = 0; destI < destSize; ) 
+              {
+                data[destI++] = _data[srcI];
+                data[destI++] = _data[srcI];
+                data[destI++] = _data[srcI++];
+                data[destI++] = _data[srcI++];
+              }
+            break;
+          }
+          break;
+        case OSG_RGB_PF: // source pixelFormat == 3
+          switch (pixelFormat) 
+            {
+            case OSG_L_PF:
+              break;
+            case OSG_LA_PF:
+              break;
+            case OSG_RGB_PF:
+              break;
+            case OSG_RGBA_PF:
+              for (srcI = destI = 0; destI < destSize; ) 
+                {
+                  sum = 0;
+                  sum += data[destI++] = _data[srcI++];
+                  sum += data[destI++] = _data[srcI++];
+                  sum += data[destI++] = _data[srcI++];
+                  data[destI++] = sum / 3;
+                }
+              break;
+            }
+          break;
+        case OSG_RGBA_PF: // source pixelFormat == 4
+          switch (pixelFormat) {
+          case OSG_L_PF:
+            break;
+          case OSG_LA_PF:
+            break;
+          case OSG_RGB_PF:
+            break;
+          case OSG_RGBA_PF:
+            break;
+          }
+          break;
+        default:
+          FWARNING (( "Unvalid pixeldepth (%d) in Image::reformat() !\n",
+                      pixelFormat ));
+        }
+      if (data) {
+        if (!destination) {
+          *this = *dest;
+          delete dest;
+        }
       }
-      valid = true;
-      break;
-      case 3:
-      for (srcI = destI = 0; destI < DestSize; ) {
-      data[destI++] = _data[srcI];
-      data[destI++] = _data[srcI];
-      data[destI++] = _data[srcI++];
-      }
-      break;
-      case 4:
-      for (srcI = destI = 0; destI < DestSize; ) {
-      data[destI++] = _data[srcI];
-      data[destI++] = _data[srcI];
-      data[destI++] = _data[srcI];
-      data[destI++] = _data[srcI++];
-      }
-      break;
-      }
-      break;
-      case 2: // source pixelDepth == 2
-      switch (pixelDepth) {
-      case 1:
-      for (srcI = destI = 0; destI < DestSize; ) {
-      data[destI++] = _data[srcI++];
-      srcI++;
-      }
-      break;
-      case 2:
-      break;
-      case 3:
-      for (srcI = destI = 0; destI < DestSize; ) {
-      data[destI++] = _data[srcI];
-      data[destI++] = _data[srcI];
-      data[destI++] = _data[srcI++];
-      srcI++;
-      }
-      break;
-      case 4:
-      for (srcI = destI = 0; destI < DestSize; ) {
-      data[destI++] = _data[srcI];
-      data[destI++] = _data[srcI];
-      data[destI++] = _data[srcI++];
-      data[destI++] = _data[srcI++];
-      }
-      break;
-      }
-      break;
-      case 3: // source pixelDepth == 3
-      switch (pixelDepth) {
-      case 1:
-      break;
-      case 2:
-      break;
-      case 3:
-      break;
-      case 4:
-      for (srcI = destI = 0; destI < DestSize; ) {
-      sum = 0;
-      sum += data[destI++] = _data[srcI++];
-      sum += data[destI++] = _data[srcI++];
-      sum += data[destI++] = _data[srcI++];
-      data[destI++] = sum / 3;
-      }
-      valid = true;
-      break;
-      }
-      break;
-      case 4: // source pixelDepth == 4
-      switch (pixelDepth) {
-      case 1:
-      break;
-      case 2:
-      break;
-      case 3:
-      break;
-      case 4:
-      break;
-      }
-      break;
-      default:
-      SWARNING << "Unvalid pixeldepth (" << pixelDepth
-      << " ) in Image::reformat() !\n" << endl;
-      }
-      if (valid) {
-      delete [] _data;
-      _data = data;
-      _pixelDepth = pixelDepth;
-      }
-      }
-      cout << (valid ? " done" : " failed") << endl;
-
-      return valid;
-
-      */
-    return false;
+    }
+  
+  return (data ? true : false);
 }
 
 //----------------------------

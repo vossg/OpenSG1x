@@ -49,7 +49,7 @@ int main (int argc, char **argv)
                 maxSize = fileType->maxBufferSize(image);
                 data = new osg::UChar8[maxSize];
                 maxSize = fileType->store(image,(osg::UChar8*)data);
-                out << "unsigned char imageData[" << maxSize << "] = {" ;
+                out << "static unsigned char imageData[" << maxSize << "] = {" ;
                 for (i = 0; i < maxSize; i++)
                 {
                     if ((i % 8) == 0)
