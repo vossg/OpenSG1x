@@ -456,7 +456,7 @@ void OSGPThreadBase::block(void)
     pthread_mutex_unlock(_blockMutexP);
 }
 
-void VSCPThreadBase::unblock(void)
+void OSGPThreadBase::unblock(void)
 {
     pthread_cond_broadcast(_blockCondP);
 }
@@ -611,7 +611,7 @@ void OSGPThreadBase::setupChangeListP(void)
 
 void OSGPThreadBase::setupBlockCond(void)
 {
-    _blockCond P = new pthread_cond_t;
+    _blockCondP  = new pthread_cond_t;
     _blockMutexP = new pthread_mutex_t;
 
     pthread_cond_init (_blockCondP, NULL);

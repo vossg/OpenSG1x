@@ -49,6 +49,8 @@
 #include <OSGThreadManager.h>
 #endif
 
+#include <errno.h>
+
 OSG_USING_NAMESPACE
 
 /***************************************************************************\
@@ -239,7 +241,7 @@ void OSGPThreadLockBase::release(void)
 
 OSGBool OSGPThreadLockBase::request(void)
 {
-    return (pthread_mutex_trylock(&(_pLowLevelLock)) != EBUSY); 
+    return (pthread_mutex_trylock(&(_lowLevelLock)) != EBUSY); 
 }
 
 /*-------------------------- assignment -----------------------------------*/
