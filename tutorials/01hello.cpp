@@ -44,7 +44,7 @@ int main(int argc, char **argv)
 
     // the connection between GLUT and OpenSG
     GLUTWindowPtr gwin= GLUTWindow::create();
-    gwin->setWinID(winid);
+    gwin->setId(winid);
     gwin->init();
 
     // create the scene
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
 
     // show the whole scene
     mgr->showAll();
-
+    
     // GLUT main loop
     glutMainLoop();
 
