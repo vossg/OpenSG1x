@@ -645,8 +645,6 @@ void FieldContainerViewCtl::structureChanged(int index)
 
 void FieldContainerViewCtl::sysCompChanged(int index)
 {
-	cerr << "set system component: " << index << endl;
-
 	_fieldContainer.setSystemComponent(index);
 	
 	if ( index )

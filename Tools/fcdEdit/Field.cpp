@@ -514,6 +514,7 @@ Field &Field::operator= (const Field &obj)
 	setHeader(obj._header);
 	_access = obj._access;
 	_cardinality = obj._cardinality;
+	_visibility = obj._visibility;
 	
 	return *this;
 }
@@ -533,6 +534,7 @@ bool Field::operator== (const Field &obj)
 						!strcmp(_defaultHeader, obj._defaultHeader) &&
 						_type == obj._type &&
 						_cardinality == obj._cardinality &&
+						_visibility == obj._visibility &&
 						_access == obj._access &&
 						!strcmp(_header, obj._header)
 					);
