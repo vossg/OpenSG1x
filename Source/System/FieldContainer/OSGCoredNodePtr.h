@@ -112,7 +112,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CoredNodePtrBase
  */
 
 template< class Core >
-class OSG_SYSTEMLIB_DLLMAPPING CoredNodePtr : public CoredNodePtrBase
+class CoredNodePtr : public CoredNodePtrBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -195,14 +195,12 @@ class OSG_SYSTEMLIB_DLLMAPPING CoredNodePtr : public CoredNodePtrBase
 
 // begin/endEdit functions. 
 
-template< class Core >
-inline
+template< class Core > inline
 void beginEditCP(const CoredNodePtr<Core> &objectP, 
                        BitVector         whichField = FieldBits    ::AllFields,
                        UInt32            origin     = ChangedOrigin::External);
 
-template< class Core >
-inline
+template< class Core > inline
 void endEditCP  (const CoredNodePtr<Core> &objectP, 
                        BitVector         whichField = FieldBits    ::AllFields,
                        UInt32            origin     = ChangedOrigin::External);
@@ -211,6 +209,6 @@ OSG_END_NAMESPACE
 
 #include "OSGCoredNodePtr.inl"
 
-#define OSGCOREDNODEPTR_HEADER_CVSID "@(#)$Id: OSGCoredNodePtr.h,v 1.1 2003/11/05 21:00:46 dirk Exp $"
+#define OSGCOREDNODEPTR_HEADER_CVSID "@(#)$Id: OSGCoredNodePtr.h,v 1.2 2005/03/14 02:35:32 vossg Exp $"
 
 #endif /* _OSGCOREDNODEPTR_H_ */
