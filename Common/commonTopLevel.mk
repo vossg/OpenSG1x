@@ -448,6 +448,9 @@ help:
 	@echo 
 	@echo "dsp        create dsp files in VSBuild/* from the current config" 
 	@echo 
+	@echo "tests      build dbg tests"
+	@echo "testsOpt   build opt tests"
+	@echo 
 	@echo "Cleanup targets"
 	@echo 
 	@echo "remove temporary result files: object files, flex/bison/moc output etc.,"
