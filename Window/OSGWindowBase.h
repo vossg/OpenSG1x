@@ -72,7 +72,7 @@
 #include <OSGUInt16Fields.h>	// Height type
 #include <OSGViewportFields.h>	// Port type
 #include <OSGBoolFields.h>	// ResizePending type
-#include <OSGUInt32Fields.h>	// GlObjectFlags type
+#include <OSGUInt32Fields.h>	// GlObjectStatus type
 
 #include <OSGWindowFields.h>
 
@@ -112,14 +112,14 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public FieldContainer
         HeightFieldId = WidthFieldId + 1,
         PortFieldId = HeightFieldId + 1,
         ResizePendingFieldId = PortFieldId + 1,
-        GlObjectFlagsFieldId = ResizePendingFieldId + 1
+        GlObjectStatusFieldId = ResizePendingFieldId + 1
     };
 
     static const osg::BitVector WidthFieldMask;
     static const osg::BitVector HeightFieldMask;
     static const osg::BitVector PortFieldMask;
     static const osg::BitVector ResizePendingFieldMask;
-    static const osg::BitVector GlObjectFlagsFieldMask;
+    static const osg::BitVector GlObjectStatusFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -166,7 +166,7 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public FieldContainer
     inline SFUInt16	*getSFHeight(void);
     inline MFViewportPtr	*getMFPort(void);
     inline SFBool	*getSFResizePending(void);
-    inline MFUInt32	*getMFGlObjectFlags(void);
+    inline MFUInt32	*getMFGlObjectStatus(void);
 
     /*----------------------------- access ----------------------------------*/
 
@@ -185,9 +185,9 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public FieldContainer
     inline       ViewportPtr	               &getPort( UInt32 index );
     inline       MFViewportPtr &getPort(void);
     inline const MFViewportPtr &getPort(void) const;
-    inline       UInt32	               &getGlObjectFlags( UInt32 index );
-    inline       MFUInt32 &getGlObjectFlags(void);
-    inline const MFUInt32 &getGlObjectFlags(void) const;
+    inline       UInt32	               &getGlObjectStatus( UInt32 index );
+    inline       MFUInt32 &getGlObjectStatus(void);
+    inline const MFUInt32 &getGlObjectStatus(void) const;
 
     //!@}
 
@@ -233,9 +233,9 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public FieldContainer
     /*! 
      */
     SFBool	_sfResizePending;
-    /*! This field will have to disappear...
+    /*! The GL object's status in this window.
      */
-    MFUInt32	_mfGlObjectFlags;
+    MFUInt32	_mfGlObjectStatus;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -309,4 +309,4 @@ typedef WindowBase *WindowBaseP;
 
 OSG_END_NAMESPACE
 
-#endif /*  _OSGWINDOWBASE_H_ */
+#endif /* _OSGWINDOWBASE_H_ */

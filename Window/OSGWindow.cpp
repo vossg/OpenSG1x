@@ -98,13 +98,10 @@ The Window base class.
 
 char Window::cvsid[] = "@(#)$Id: $";
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+/** global window list, need by static refreshGLObject */
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+vector<WindowPtr>	      Window::_allWindows;
+
 // GLobject handling
 
 Lock                      *Window::_GLObjectLock;
@@ -113,8 +110,8 @@ vector<UInt32>             Window::_glObjectDestroyList;
 
 // GL extension handling
 
-vector<String>			   Window::_registeredExtensions;
-vector<String>			   Window::_registeredFunctions;
+vector<StringLink>			   Window::_registeredExtensions;
+vector<StringLink>			   Window::_registeredFunctions;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -168,8 +165,8 @@ Window::Window(const Window &source) :
     Inherited(source)
 {
 	// mark all flags as notused, i.e. have to initialize on use
-	for ( vector<UInt32>::iterator it = _mfGlObjectFlags.begin();
-			it != _mfGlObjectFlags.end(); ++it )
+	for ( vector<UInt32>::iterator it = _mfGlObjectStatus.begin();
+			it != _mfGlObjectStatus.end(); ++it )
 		*it = notused;
 }
 
@@ -181,6 +178,31 @@ Window::~Window(void)
 	// delete the ports and the context
 }
 
+
+/** \brief instance initialisation
+ */
+
+void Window::onCreate( const FieldContainer & )
+{
+	_allWindows.push_back( WindowPtr(*this ) );
+}
+
+/** \brief instance deletion
+ */
+
+void Window::onDestroy(void)
+{
+	vector<WindowPtr>::iterator it;
+
+	it = find( _allWindows.begin(), _allWindows.end(), WindowPtr( this ) );
+	
+	if ( ! it ) 
+	{
+		FWARNING(("Window::onDelete: couldn't find window %p!\n", this ));
+	}
+	else
+		_allWindows.erase( it );
+}
 
 /** \brief react to field changes
  */
@@ -360,33 +382,54 @@ void Window::validateGLObject ( UInt32 id )
 {
 	UInt32 s;
 
-	s = _mfGlObjectFlags.size();
+	s = _mfGlObjectStatus.size();
 	while ( s <= id ) 
 	{
-		_mfGlObjectFlags.push_back( notused );
+		_mfGlObjectStatus.push_back( notused );
 		s = s + 1;
 	}
 	
-	if ( _mfGlObjectFlags[id] == notused ) 
+	switch ( _mfGlObjectStatus[id] ) 
 	{
-		_mfGlObjectFlags[id] = initialized;
-		_glObjects[id]->incRefCounter();
-		_glObjects[id]->getFunctor().call( initialize, id );
+	case initialized:   // initialized and up to date
+	    	    	    break;
+	case notused:	    _mfGlObjectStatus[id] = initialized;
+		    	    _glObjects[id]->incRefCounter();
+		    	    _glObjects[id]->getFunctor().call( initialize, id );
+			    break;
+	case needrefresh:   _mfGlObjectStatus[id] = initialized;
+		    	    _glObjects[id]->getFunctor().call( needrefresh, id );
+			    break;
+	default:
+		SWARNING << "Window::validateGLObject: id " << id
+				 << " in state " << _mfGlObjectStatus[id] << "?!?!" << endl;
+		return;
 	}
 }
 
-void Window::refreshGLObject ( UInt32 id )
+void Window::refreshGLObject( UInt32 id )
 {
-	if ( id >= _mfGlObjectFlags.size() )
+	vector<WindowPtr>::iterator it;
+
+	for ( it = _allWindows.begin(); it != _allWindows.end(); it++ )
+	{
+		(*it)->doRefreshGLObject( id );
+	}
+}
+
+void Window::doRefreshGLObject( UInt32 id )
+{
+	if ( id >= _mfGlObjectStatus.size() )
 	{
 		SWARNING << "Window::refreshGLObject: nothing known about id " << id
 				 << "!" << endl;
 		return;
 	}
 	
-	switch ( _mfGlObjectFlags[id] ) 
+	switch ( _mfGlObjectStatus[id] ) 
 	{
-	case notused:	// not used yet, no need to refresh
+	case needrefresh:// already needing refresh
+	case notused:	 // not used yet, no need to refresh
 	case destroy:
 	case finaldestroy:	// object is being destroyed, ignore refresh
 		break;
@@ -395,11 +438,11 @@ void Window::refreshGLObject ( UInt32 id )
 				 << " in state initialize ?!?!" << endl;
 		return;
 	case initialized:
-		_mfGlObjectFlags[id] = needrefresh;
+		_mfGlObjectStatus[id] = needrefresh;
 		break;
 	default:
 		SWARNING << "Window::refreshGLObject: id " << id
-				 << " in state " << _mfGlObjectFlags[id] << "?!?!" << endl;
+				 << " in state " << _mfGlObjectStatus[id] << "?!?!" << endl;
 		return;
 	}
 }
@@ -442,13 +485,13 @@ void Window::frameInit( void )
 		_availExtensions.push_back( binary_search( 
  					   _extensions.begin(),
 					   _extensions.end(),
-					   _registeredExtensions[_availExtensions.size()] )  );
+					   String(_registeredExtensions[_availExtensions.size()]) ) );
 	}
 	
 	while ( _registeredFunctions.size() > _extFunctions.size() )
-{	
+	{	
 		_extFunctions.push_back( (void*)getFunctionByName( 
-						_registeredFunctions[ _extFunctions.size() ] ));
+						_registeredFunctions[ _extFunctions.size() ].str() ));
 	}
 
 }
@@ -462,20 +505,20 @@ void Window::frameExit( void )
 
 		UInt32 rc = _glObjects[ i ]->getRefCounter();
 
-		if ( _mfGlObjectFlags[ i ] == initialized ) 
+		if ( _mfGlObjectStatus[ i ] == initialized ) 
 		{			
 		
-			_mfGlObjectFlags[ i ] = destroy;
+			_mfGlObjectStatus[ i ] = destroy;
 			_glObjects[ i ]->getFunctor().call( destroy, i );			
 
 			if ( ! ( rc = _glObjects[ i ]->decRefCounter() )  )
 			{			
 				// call functor with the final-flag
-				_mfGlObjectFlags[ i ] = finaldestroy;
+				_mfGlObjectStatus[ i ] = finaldestroy;
 				_glObjects[ i ]->getFunctor().call( finaldestroy, i );
 			}
 
-			_mfGlObjectFlags[ i ] = notused;			
+			_mfGlObjectStatus[ i ] = notused;			
 		}
 
 		// if the GLObject is removed from each GL-Context, free GLObject-IDs.
@@ -562,11 +605,11 @@ Window& Window::operator = (const Window &source)
 	setWidth( source.getWidth() );
 	setHeight( source.getHeight() );
 	_mfPort.setValues( source._mfPort.getValues() );
-	_mfGlObjectFlags.setValues( source._mfGlObjectFlags.getValues() );
+	_mfGlObjectStatus.setValues( source._mfGlObjectStatus.getValues() );
 	
 	// mark all flags as notused, i.e. have to initialize on use
-	for ( vector<UInt32>::iterator it = _mfGlObjectFlags.begin();
-			it != _mfGlObjectFlags.end(); ++it )
+	for ( vector<UInt32>::iterator it = _mfGlObjectStatus.begin();
+			it != _mfGlObjectStatus.end(); ++it )
 		*it = notused;
 	
 	return *this;

@@ -135,9 +135,9 @@ SFBool *WindowBase::getSFResizePending(void)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-MFUInt32 *WindowBase::getMFGlObjectFlags(void)
+MFUInt32 *WindowBase::getMFGlObjectStatus(void)
 {
-	return &_mfGlObjectFlags;
+	return &_mfGlObjectStatus;
 }
 
 
@@ -213,19 +213,19 @@ const MFViewportPtr &WindowBase::getPort(void) const
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-UInt32 &WindowBase::getGlObjectFlags( UInt32 index)
+UInt32 &WindowBase::getGlObjectStatus( UInt32 index)
 {
-	return _mfGlObjectFlags.getValue( index );
+	return _mfGlObjectStatus.getValue( index );
 }
 
-MFUInt32 &WindowBase::getGlObjectFlags(void)
+MFUInt32 &WindowBase::getGlObjectStatus(void)
 {
-	return _mfGlObjectFlags;
+	return _mfGlObjectStatus;
 }
 
-const MFUInt32 &WindowBase::getGlObjectFlags(void) const
+const MFUInt32 &WindowBase::getGlObjectStatus(void) const
 {
-	return _mfGlObjectFlags;
+	return _mfGlObjectStatus;
 }
 
 

@@ -105,12 +105,12 @@ const OSG::BitVector	WindowBase::PortFieldMask =
 const OSG::BitVector	WindowBase::ResizePendingFieldMask = 
     (1 << WindowBase::ResizePendingFieldId);
 
-const OSG::BitVector	WindowBase::GlObjectFlagsFieldMask = 
-    (1 << WindowBase::GlObjectFlagsFieldId);
+const OSG::BitVector	WindowBase::GlObjectStatusFieldMask = 
+    (1 << WindowBase::GlObjectStatusFieldId);
 
 
 
-char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.9 2001/07/18 01:39:40 vossg Exp $";
+char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.10 2001/07/28 15:02:57 dirk Exp $";
 
 /** \brief Group field description
  */
@@ -138,10 +138,10 @@ FieldDescription *WindowBase::_desc[] =
                      true,
                      (FieldAccessMethod) &WindowBase::getSFResizePending),
     new FieldDescription(MFUInt32::getClassType(), 
-                     "glObjectFlags", 
-                     GlObjectFlagsFieldId, GlObjectFlagsFieldMask,
+                     "glObjectStatus", 
+                     GlObjectStatusFieldId, GlObjectStatusFieldMask,
                      true,
-                     (FieldAccessMethod) &WindowBase::getMFGlObjectFlags)
+                     (FieldAccessMethod) &WindowBase::getMFGlObjectStatus)
 };
 
 /** \brief Window type
@@ -215,7 +215,7 @@ WindowBase::WindowBase(void) :
 	_sfHeight	(), 
 	_mfPort	(), 
 	_sfResizePending	(), 
-	_mfGlObjectFlags	(), 
+	_mfGlObjectStatus	(), 
 	Inherited() 
 {
 }
@@ -228,7 +228,7 @@ WindowBase::WindowBase(const WindowBase &source) :
 	_sfHeight		(source._sfHeight), 
 	_mfPort		(source._mfPort), 
 	_sfResizePending		(source._sfResizePending), 
-	_mfGlObjectFlags		(source._mfGlObjectFlags), 
+	_mfGlObjectStatus		(source._mfGlObjectStatus), 
 	Inherited        (source)
 {
 }
@@ -266,9 +266,9 @@ UInt32 WindowBase::getBinSize(const BitVector &whichField)
         returnValue += _sfResizePending.getBinSize();
     }
 
-    if(FieldBits::NoField != (GlObjectFlagsFieldMask & whichField))
+    if(FieldBits::NoField != (GlObjectStatusFieldMask & whichField))
     {
-        returnValue += _mfGlObjectFlags.getBinSize();
+        returnValue += _mfGlObjectStatus.getBinSize();
     }
 
 
@@ -300,9 +300,9 @@ MemoryHandle WindowBase::copyToBin(      MemoryHandle  pMem,
         pMem = _sfResizePending.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (GlObjectFlagsFieldMask & whichField))
+    if(FieldBits::NoField != (GlObjectStatusFieldMask & whichField))
     {
-        pMem = _mfGlObjectFlags.copyToBin(pMem);
+        pMem = _mfGlObjectStatus.copyToBin(pMem);
     }
 
 
@@ -334,9 +334,9 @@ MemoryHandle WindowBase::copyFromBin(      MemoryHandle  pMem,
         pMem = _sfResizePending.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (GlObjectFlagsFieldMask & whichField))
+    if(FieldBits::NoField != (GlObjectStatusFieldMask & whichField))
     {
-        pMem = _mfGlObjectFlags.copyFromBin(pMem);
+        pMem = _mfGlObjectStatus.copyFromBin(pMem);
     }
 
 
@@ -376,9 +376,9 @@ void WindowBase::executeSyncImpl(      WindowBase *pOther,
         _sfResizePending.syncWith(pOther->_sfResizePending);
     }
 
-    if(FieldBits::NoField != (GlObjectFlagsFieldMask & whichField))
+    if(FieldBits::NoField != (GlObjectStatusFieldMask & whichField))
     {
-        _mfGlObjectFlags.syncWith(pOther->_mfGlObjectFlags);
+        _mfGlObjectStatus.syncWith(pOther->_mfGlObjectStatus);
     }
 
 

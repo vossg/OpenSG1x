@@ -85,15 +85,15 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     //   enums                                                               
     //-----------------------------------------------------------------------
 
-	enum GLObjectFlagE { 
-		notused, initialize, initialized, needrefresh, destroy, finaldestroy };
+	enum GLObjectStatusE { 
+		notused=1, initialize, initialized, needrefresh, destroy, finaldestroy };
 
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
 
 #ifdef OSG_NOFUNCTORS
-    typedef void (*FunctorFunc)(GLObjectFlagE, UInt32);
+    typedef void (*FunctorFunc)(GLObjectStatusE, UInt32);
 
     struct GLObjectFunctor
     {
@@ -101,9 +101,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
         FunctorFunc _func;
 
-        virtual void call(GLObjectFlagE flagsGL, UInt32 uiOpt)
+        virtual void call(GLObjectStatusE status, UInt32 uiOpt)
         {
-            _func(flagsGL, uiOpt);
+            _func(status, uiOpt);
         }
     };
 
@@ -116,7 +116,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
         return result;
     }
 #else
-	typedef Functor2Base<void,GLObjectFlagE,UInt32> GLObjectFunctor;
+	typedef Functor2Base<void,GLObjectStatusE,UInt32> GLObjectFunctor;
 #endif
 
     //-----------------------------------------------------------------------
@@ -149,15 +149,15 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
     void setSize(UInt16 width, UInt16 height);
 
-    static UInt32   registerExtension( const String &s );
-    static UInt32   registerFunction ( const String &s );
+    static UInt32   registerExtension( const Char8 *s );
+    static UInt32   registerFunction ( const Char8 *s );
     Bool	    	hasExtension  	 ( UInt32 id );    
 	void           *getFunction      ( UInt32 id );
 	void 		    dumpExtensions   ( void );
 
 	static UInt32	registerGLObject ( GLObjectFunctor functor, UInt32 num );
 	void			validateGLObject ( UInt32 id );	
-	void			refreshGLObject ( UInt32 id );	
+	static void	    refreshGLObject  ( UInt32 id );	
 	static void 	destroyGLObject  ( UInt32 id, UInt32 num );
  
     virtual void draw   			(DrawAction *action);
@@ -173,7 +173,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 	/** GL implementation dependent functions **/
     
 	// Query for a GL extension function 
-	virtual void	(*getFunctionByName ( const String &s ))() = 0;
+	virtual void	(*getFunctionByName ( const Char8 *s ))() = 0;
 	   
     /** Window-system dependent functions **/
     
@@ -268,8 +268,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 	};
 
     friend class GLObject;
-
-	typedef MField<GLObjectFlagE> MFGLObjectFlagE;
 	
 
     //-----------------------------------------------------------------------
@@ -296,6 +294,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 	
 	// called when the context is created, to setup general OpenGL options
 	virtual void setupGL( void );
+
+
+	// mark the object for refresh
+	void doRefreshGLObject( UInt32 id );	
 
   private:
 
@@ -326,19 +328,23 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
     static char cvsid[];
 
+	/** global window list, need by static refreshGLObject */
+	
+	static vector<WindowPtr>	      _allWindows;
+
     /** Extension stuff **/
 	
 	// contains the extensions registered by the application 
-    static vector<String>	          _registeredExtensions;
+    static vector<StringLink>	      _registeredExtensions;
 	
 	// contains the GL extension functions registered by the application
-    static vector<String>     	      _registeredFunctions;	
+    static vector<StringLink>       _registeredFunctions;	
  
 	/** GLObject stuff **/
 
-	static Lock               *_GLObjectLock;
-	static vector<GLObject*>   _glObjects;
-	static vector<UInt32>	   _glObjectDestroyList;
+	static Lock                      *_GLObjectLock;
+	static vector<GLObject*>          _glObjects;
+	static vector<UInt32>	          _glObjectDestroyList;
    
  
     //-----------------------------------------------------------------------
@@ -365,6 +371,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 	// contains the GL extension functions registered by the application
 	vector<void*>        	  		  _extFunctions;
 	
+
+	// register/unregister the instance with the global list
+	void onCreate(  const FieldContainer &  );
+	void onDestroy( void );
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

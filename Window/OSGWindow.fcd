@@ -39,11 +39,11 @@ The base class for all windows.
 	>
 	</Field>
         <Field
-                name="glObjectFlags"
+                name="glObjectStatus"
                 type="UInt32"
                 cardinality="multi"
                 visibility="internal"
         >
-		This field will have to disappear...
+		The GL object's status in this window.
         </Field>
 </FieldContainer>

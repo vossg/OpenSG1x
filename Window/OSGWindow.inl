@@ -101,17 +101,17 @@ inline Bool Window::isResizePending ( void )
 /** GL extension stuff **/
 
 
-inline UInt32 Window::registerExtension( const String &s )
+inline UInt32 Window::registerExtension( const Char8 *s )
 {
 	UInt32 r = _registeredExtensions.size();
-    _registeredExtensions.push_back( String(s) );
+    _registeredExtensions.push_back( StringLink(s) );
     return ( r );
 }
 
-inline UInt32 Window::registerFunction( const String &s )
+inline UInt32 Window::registerFunction( const Char8 *s )
 {
 	UInt32 r = _registeredFunctions.size();
-    _registeredFunctions.push_back( String(s) );
+    _registeredFunctions.push_back( StringLink(s) );
     return ( r );
 }
 
