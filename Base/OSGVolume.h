@@ -205,7 +205,7 @@ public:
   virtual void getCenter (Pnt3f &center) const = 0;
 
   /** gives the scalar volume of the volume */
-  virtual float getVolume (void) const = 0;
+  virtual float getScalarVolume (void) const = 0;
 
   /** gives the boundaries of the volume */
   virtual void getBounds( Pnt3f &min, Pnt3f &max ) const = 0;

@@ -106,7 +106,7 @@ public:
 
   /// Constructor given bounds 
   inline BoxVolume ( float xmin, float ymin, float zmin,
-									  float xmax, float ymax, float zmax) ;
+										 float xmax, float ymax, float zmax) ;
 
 
   /// Constructor given minimum and maximum points 
@@ -131,7 +131,7 @@ public:
   void getCenter(Pnt3f &center) const;
 
   /** gives the scalar volume of the volume */
-  virtual float getVolume (void) const;
+  virtual float getScalarVolume (void) const;
 
   /// set method with center 0,0,0
   inline void setBounds(float w, float h, float d);

@@ -105,7 +105,7 @@ void BoxVolume::getCenter(Pnt3f &center) const
 }
 
 /// Gives the volume of the box (0 for an empty box)
-float BoxVolume::getVolume() const
+float BoxVolume::getScalarVolume() const
 {
 	return isEmpty() ? 0.0 : (_max[0] - _min[0]) *
 	                         (_max[1] - _min[1]) *
@@ -141,8 +141,8 @@ void BoxVolume::extendBy(const Pnt3f &pt)
 		_min[0] = _max[0] = pt[0];
 		_min[1] = _max[1] = pt[1];
 		_min[2] = _max[2] = pt[2];
-		setEmpty( false );
 
+		setEmpty( false );
 		return;
 	}
 	

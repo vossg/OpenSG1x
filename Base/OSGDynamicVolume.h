@@ -169,7 +169,7 @@ public:
 /*------------------------------ feature ----------------------------------*/
 
 	/** */
-	Volume & getBaseVolume (void) const { return *((OSG::Volume*)(_volumeMem)); }
+	Volume & getInstance (void) const { return *((OSG::Volume*)(_volumeMem)); }
 
 	/** */
 	Type getType (void) const { return _type; }
@@ -190,7 +190,7 @@ public:
   virtual void getCenter (Pnt3f &center) const ;
 
   /** gives the scalar volume of the volume */
-  virtual float getVolume (void) const ;
+  virtual float getScalarVolume (void) const ;
 
   /** gives the boundaries of the volume */
   virtual void getBounds( Pnt3f &min, Pnt3f &max ) const ;

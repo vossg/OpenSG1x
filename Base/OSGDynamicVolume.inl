@@ -67,21 +67,21 @@ OSG_BEGIN_NAMESPACE
 inline 
 void DynamicVolume::getCenter (Pnt3f &center) const
 {
-	getBaseVolume().getCenter(center);
+	getInstance().getCenter(center);
 }
 
 /** gives the scalar volume of the volume */
 inline 
-float DynamicVolume::getVolume (void) const
+float DynamicVolume::getScalarVolume (void) const
 {
-	return getBaseVolume().getVolume();
+	return getInstance().getScalarVolume();
 }
 	
 /** gives the boundaries of the volume */
 inline
 void DynamicVolume::getBounds( Pnt3f &min, Pnt3f &max ) const
 {
-	getBaseVolume().getBounds(min,max);
+	getInstance().getBounds(min,max);
 }
 
 
@@ -91,14 +91,14 @@ void DynamicVolume::getBounds( Pnt3f &min, Pnt3f &max ) const
 inline 
 void DynamicVolume::extendBy (const Pnt3f &pt)
 {
-	getBaseVolume().extendBy(pt);
+	getInstance().extendBy(pt);
 }
 
 /** extend the volume by the given volume */
 inline
 void DynamicVolume::extendBy (const Volume &volume)
 {
-	getBaseVolume().extendBy(volume);
+	getInstance().extendBy(volume);
 }
 
 /*-------------------------- intersection ---------------------------------*/
@@ -107,14 +107,14 @@ void DynamicVolume::extendBy (const Volume &volume)
 inline 
 Bool DynamicVolume::intersect (const Pnt3f &point) const
 {
-	return getBaseVolume().intersect(point);
+	return getInstance().intersect(point);
 }
 
 /** intersect the volume with the given Line */
 inline 
 Bool DynamicVolume::intersect (const Line &line ) const
 {
-	return getBaseVolume().intersect(line);
+	return getInstance().intersect(line);
 }
 
 /** intersect the volume with the given Line */
@@ -122,21 +122,21 @@ inline
 Bool DynamicVolume::intersect ( const Line &line, 
 												Real32 &enter, Real32 &exit  ) const
 {
-	return getBaseVolume().intersect(line,enter,exit);
+	return getInstance().intersect(line,enter,exit);
 }
 
 /** intersect the volume with another volume */
 inline 
 Bool DynamicVolume::intersect (const Volume &volume) const
 {
-	return getBaseVolume().intersect(volume);
+	return getInstance().intersect(volume);
 }
 
 /** check if the point is on the volume's surface */
 inline 
 Bool DynamicVolume::isOnSurface (const Pnt3f &point) const
 {
-	return getBaseVolume().isOnSurface(point);
+	return getInstance().isOnSurface(point);
 }
 
 /*-------------------------- transformation -------------------------------*/
@@ -145,7 +145,7 @@ Bool DynamicVolume::isOnSurface (const Pnt3f &point) const
 inline 
 void DynamicVolume::transform (const Matrix &matrix)
 {
-	getBaseVolume().transform(matrix);
+	getInstance().transform(matrix);
 }
 
 

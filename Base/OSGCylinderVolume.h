@@ -130,7 +130,7 @@ public:
 	virtual void getCenter(Pnt3f &center) const;
 	
   /** returns the scalar volume of the cylinder */
-  virtual float getVolume (void) const;
+  virtual float getScalarVolume (void) const;
 
   /** gives the boundaries of the volume */
   virtual void getBounds( Pnt3f &min, Pnt3f &max ) const;

@@ -87,9 +87,9 @@ void CylinderVolume::getCenter(Pnt3f &center) const
 }
 
 /**  */
-float CylinderVolume::getVolume(void) const
+float CylinderVolume::getScalarVolume(void) const
 { 
-    return _radius * _radius * Pi * _axisDir.length();
+	return isEmpty() ? 0.0 : (_radius * _radius * Pi * _axisDir.length());
 }
 
 /** gives the boundaries of the volume */

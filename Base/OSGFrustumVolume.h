@@ -128,7 +128,7 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
 
     virtual Bool isEmpty (void) const;
 
-    virtual float getVolume (void) const;
+    virtual float getScalarVolume (void) const;
 
     virtual void scale (float scaleValue);
 
