@@ -59,7 +59,7 @@ OSG_BEGIN_NAMESPACE
 
 #if defined(__linux) || defined(__hpux) || defined(darwin)
 #    if __GNUC__ >= 3
-#        define OSG_STL_DEFAULT_ALLOCATOR(TP) = std:;allocator<TP>
+#        define OSG_STL_DEFAULT_ALLOCATOR(TP) = std::allocator<TP>
 #    elif defined (__ICL)
 #        define OSG_STL_DEFAULT_ALLOCATOR(TP) = std::allocator<TP>
 #    elif defined (OSG_HPUX_ACC)
