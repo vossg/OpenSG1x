@@ -108,6 +108,19 @@ void MultiDisplayWindow::dump(      UInt32    ,
 
 /*----------------------------- server methods ----------------------------*/
 
+/*! initialise the cluster window on the server side. This method is
+     called after the first sync.
+ */
+void MultiDisplayWindow::serverInit( WindowPtr ,
+                                     UInt32 id)
+{
+/*
+    getNetwork()->connect(id,
+                          getServers().size(),
+                          getConnectionType());
+*/
+}
+
 /*! render server window
  *  
  *  update all viewport parameters and render local viewports
@@ -243,8 +256,12 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
 void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
 {
     Connection *connection=getNetwork()->getMainConnection();
-
     // clear command buffers
+    UInt8 pixel[3];
+    glReadPixels(0,0,
+                 1,1,
+                 GL_RGB,GL_UNSIGNED_BYTE,
+                 pixel);
     glFinish();
     // tell client that we are finish
     connection->signal();
@@ -256,14 +273,20 @@ void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
 /*----------------------------- client methods ----------------------------*/
 
 /*! init client window
+ *
+ * @todo Handle client like servers. E.g. a special server name 'local'
  */
 void MultiDisplayWindow::clientInit( void )
 {
+    /*
+    getNetwork()->connect(getServers().size(),
+                          getServers().size(),
+                          getConnectionType());
+    */
     ViewportPtr cvp;
     if(getClientWindow() == NullFC ||
        getPort().size()==0)
         return;
-
     cvp=getPort()[0];
 
     // duplucate viewport for client window

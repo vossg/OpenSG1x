@@ -85,10 +85,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterNetwork : public MemoryObject
     /*! \name                   establish connection                       */
     /*! \{                                                                 */
 
-    void connectAll(           UInt32  id,
-                               UInt32  servers,
-                    const std::string &connectionType,
-                    const std::string &localAddress);
+    void connect(           UInt32  thidId,
+                            UInt32  servers,
+                 const std::string &connectionType,
+                 const std::string &localAddress  =std::string(),
+                            Int32   withId        =-1);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

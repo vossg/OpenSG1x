@@ -109,6 +109,7 @@ RemoteAspect::~RemoteAspect(void)
     ReceivedFCT::iterator   i;
     FieldContainerPtr       fcPtr;
     NodePtr                 node;
+    WindowPtr               window;
 
     // subRef received field container
     for(i = _receivedFC.begin(); i != _receivedFC.end(); i++)
@@ -134,7 +135,15 @@ RemoteAspect::~RemoteAspect(void)
                     } while(fcPtr != NullFC);
                 }
             }
-
+            window = WindowPtr::dcast(fcPtr);
+            if(window != NullFC)
+            {
+                do
+                {
+                    subRefCP(fcPtr);
+                    fcPtr = factory->getContainer(i->second);
+                } while(fcPtr != NullFC);
+            }
             /*
             // subref twice because we have two addrefs on reate
             // It is not possible to subref until the node is removed
