@@ -53,19 +53,11 @@
 
 #include <OSGGLUT.h>
 
-#if defined(__sgi) || defined(darwin) || defined(__hpux)
-#include <dlfcn.h>
-#endif
-
 #include "OSGNodePtr.h"
 #include "OSGViewport.h"
 #include "OSGCamera.h"
 #include "OSGBackground.h"
 #include "OSGGLUTWindow.h"
-
-#if !defined(WIN32) && !defined(darwin)
-#include <GL/glx.h>
-#endif
 
 OSG_USING_NAMESPACE
 
@@ -142,41 +134,6 @@ void GLUTWindow::deactivate( void )
 void GLUTWindow::swap( void )
 {
     glutSwapBuffers();
-}
-
-
-// Query for a GL extension function
-void (*GLUTWindow::getFunctionByName(const Char8 *s))(void)
-{
-#ifdef sgi
-    static void *libHandle = NULL;
-    if ( ! libHandle ) 
-        libHandle = dlopen("libgl.so", RTLD_LAZY);
-    return (void (*)(void)) dlsym( libHandle, s);
-#elif defined( WIN32 )
-    return (void (*)(void)) wglGetProcAddress(s);
-#elif defined(__hpux)
-    static void *libHandle = NULL;
-
-    if(libHandle == NULL)
-    {
-        // HACK, but we link against libGL anyway
-        libHandle = dlopen(NULL, RTLD_GLOBAL);
-    }
-
-    return (void (*)(void)) dlsym(libHandle, s);
-#elif defined(darwin)
-    static void *libHandle = NULL;
-
-    if(libHandle == NULL)
-    {
-        libHandle = dlopen("libGL.dylib", RTLD_NOW);
-    }
-
-    return (void (*)(void)) dlsym(libHandle, s);
-#else
-    return (  glXGetProcAddressARB((const GLubyte *)s )  );
-#endif
 }
 
 #endif // OSG_WITH_GLUT

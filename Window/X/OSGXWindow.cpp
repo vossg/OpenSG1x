@@ -45,10 +45,6 @@
 
 #include <OSGConfig.h>
 
-#if defined(sgi) || defined(__hpux)
-#include <dlfcn.h>
-#endif
-
 #define OSG_COMPILEWINDOWXINST
 
 #include "OSGXWindow.h"
@@ -163,37 +159,6 @@ void XWindow::swap( void )
 {
     glXSwapBuffers( getDisplay(), getWindow() );
 }
-
-// Query for a GL extension function
-void (*XWindow::getFunctionByName( const Char8 *s ))(void)
-{
-#ifdef __sgi
-    static void *libHandle = NULL;
-    if(libHandle == NULL)
-        libHandle = dlopen("libgl.so", RTLD_LAZY);
-    void *func = dlsym( libHandle, s );
-    return (void (*)(void))func;         
-#elif defined(__hpux)
-    static void *libHandle = NULL;
-
-    if(libHandle == NULL)
-    {
-        // HACK, but we link against libGL anyway
-        libHandle = dlopen(NULL, RTLD_GLOBAL);
-    }
-
-    return (void (*)(void)) dlsym(libHandle, s);
-#else
-// UGLY HACK: SGI/NVidia header don't define GLX_ARB_get_proc_address,
-// but they use __GLX_glx_h__ instead of GLX_H as an include guard.
-#if defined(GLX_ARB_get_proc_address) || defined(__GLX_glx_h__)
-    return glXGetProcAddressARB((const GLubyte *) s);
-#else
-    return NULL;
-#endif
-#endif
-}
-
 
 #include <OSGMFieldTypeDef.inl>
 #include <OSGSFieldTypeDef.inl>

@@ -82,9 +82,6 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32Window : public WIN32WindowBase
     /*---------------------------------------------------------------------*/
     /*! \name                Window functions                              */
     /*! \{                                                                 */
-
-    // query the system for a GL function
-    virtual void (*getFunctionByName( const Char8 *s ))();
     
     // init the window: create the context  
     virtual void init( void );

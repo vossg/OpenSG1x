@@ -82,9 +82,6 @@ class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindow : public GLUTWindowBase
     /*! \name                Window functions                              */
     /*! \{                                                                 */
     
-    // query the system for a GL function
-    virtual void (*getFunctionByName(const Char8 *s))(void);
-    
     // init the window: create the context  
     // Nothing to do here for GLUT
     virtual void init( void );
