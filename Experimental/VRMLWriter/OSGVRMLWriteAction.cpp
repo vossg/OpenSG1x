@@ -1163,7 +1163,7 @@ Bool VRMLWriteAction::initializeAction(int &, char **)
 
 Bool VRMLWriteAction::terminateAction(void)
 {
-    fprintf(stderr, "Terminate VRMLWriter\n");
+    FINFO(( "Terminate VRMLWriter\n" ));
 
     return true;
 }
