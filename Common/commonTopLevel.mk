@@ -273,13 +273,6 @@ fcdToBase:
 
 INSTALL_DIR_SED := $(shell echo $(INSTALL_DIR) | sed -e 's/\//\\\//g')
 
-$(warning [$(LD_FLAGS)])
-
-$(warning [$(LD_FLAGS_EXT)])
-$(warning [$(LD_FLAGS_EXT_OPT)])
-$(warning [$(LD_FLAGS_EXT_DBG)])
-
-
 install-bin:
 	@if [ ! -w $(INSTALL_DIR)/bin ]; then mkdir $(INSTALL_DIR)/bin; fi
 	cat CommonPackages/osg-config |										\
