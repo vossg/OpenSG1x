@@ -56,6 +56,7 @@
 
 #include "OSGNodePtr.h"
 #include "OSGAttachmentPtr.h"
+#include "OSGThread.h"
 
 OSG_USING_NAMESPACE
 
@@ -436,7 +437,13 @@ const FieldContainerFactory::FieldContainerStore *
 
 bool FieldContainerFactory::initializeFactory(int &argc, char **argv)
 {
-    return the()->initialize(argc, argv);
+    bool returnValue = the()->initialize(argc, argv);
+
+    // CHECKCHECK
+    // clear changelist from prototypes, move this to a different place soon
+    OSG::Thread::getCurrentChangeList()->clearAll();
+
+    return returnValue;
 }
 
 bool FieldContainerFactory::terminateFactory(void)
