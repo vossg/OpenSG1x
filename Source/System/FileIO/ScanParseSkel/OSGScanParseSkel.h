@@ -80,6 +80,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
         OSGmfVec3f    = TOK_MFVEC3F,
         
         OSGmfColor4f  = TOK_MFCOLOR4F,
+        OSGmfColor4i  = TOK_MFCOLOR4I,
         OSGmfColor3f  = TOK_MFCOLOR3F,
         OSGmfMatrix   = TOK_MFMATRIX,
         OSGmfPnt2f    = TOK_MFPNT2F,
@@ -88,6 +89,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
         OSGmfVec4f    = TOK_MFVEC4F,
         OSGmfPlane    = TOK_MFPLANE,
         OSGsfColor4f  = TOK_SFCOLOR4F,
+        OSGsfColor4i  = TOK_SFCOLOR4I,
         OSGsfColor3f  = TOK_SFCOLOR3F,
         OSGsfMatrix   = TOK_SFMATRIX,
         OSGsfPnt2f    = TOK_SFPNT2F,

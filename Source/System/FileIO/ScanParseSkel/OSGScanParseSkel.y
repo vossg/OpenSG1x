@@ -146,6 +146,7 @@ void freeName(char *&szName);
 
 
 %token TOK_MFCOLOR4F
+%token TOK_MFCOLOR4I
 %token TOK_MFCOLOR3F
 %token TOK_MFMATRIX
 %token TOK_MFPNT2F
@@ -155,6 +156,7 @@ void freeName(char *&szName);
 %token TOK_MFPLANE
 
 %token TOK_SFCOLOR4F
+%token TOK_SFCOLOR4I
 %token TOK_SFCOLOR3F
 %token TOK_SFMATRIX
 %token TOK_SFPNT2F
@@ -167,6 +169,7 @@ void freeName(char *&szName);
 
 
 %token Tok_MFColor4f
+%token Tok_MFColor4i
 %token Tok_MFColor3f
 %token Tok_MFMatrix
 %token Tok_MFPnt2f
@@ -176,6 +179,7 @@ void freeName(char *&szName);
 %token Tok_MFPlane
 
 %token Tok_SFColor4f
+%token Tok_SFColor4i
 %token Tok_SFColor3f
 %token Tok_SFMatrix
 %token Tok_SFPnt2f
@@ -553,6 +557,7 @@ fieldType : Tok_MFColor     { nextType = TOK_MFCOLOR;    }
           | Tok_SFVec2f     { nextType = TOK_SFVEC2F;    }
           | Tok_SFVec3f     { nextType = TOK_SFVEC3F;    }
           | Tok_MFColor4f   { nextType = TOK_MFCOLOR4F;  }
+          | Tok_MFColor4i   { nextType = TOK_MFCOLOR4I;  }
           | Tok_MFColor3f   { nextType = TOK_MFCOLOR3F;  }
           | Tok_MFMatrix    { nextType = TOK_MFMATRIX;   }
           | Tok_MFPnt2f     { nextType = TOK_MFPNT2F;    }
@@ -561,6 +566,7 @@ fieldType : Tok_MFColor     { nextType = TOK_MFCOLOR;    }
           | Tok_MFVec4f     { nextType = TOK_MFVEC4F;    }
           | Tok_MFPlane     { nextType = TOK_MFPLANE;    }
           | Tok_SFColor4f   { nextType = TOK_SFCOLOR4F;  }
+          | Tok_SFColor4i   { nextType = TOK_SFCOLOR4I;  }
           | Tok_SFColor3f   { nextType = TOK_SFCOLOR3F;  }
           | Tok_SFMatrix    { nextType = TOK_SFMATRIX;   }
           | Tok_SFPnt2f     { nextType = TOK_SFPNT2F;    }
@@ -593,6 +599,7 @@ fieldValue : TOK_SFBOOL
            | TOK_MFVEC2F
            | TOK_MFVEC3F
            | TOK_MFCOLOR4F
+           | TOK_MFCOLOR4I
            | TOK_MFCOLOR3F
            | TOK_MFMATRIX
            | TOK_MFPNT2F
@@ -601,6 +608,7 @@ fieldValue : TOK_SFBOOL
            | TOK_MFPLANE
            | TOK_MFVEC4F
            | TOK_SFCOLOR4F
+           | TOK_SFCOLOR4I
            | TOK_SFCOLOR3F
            | TOK_SFMATRIX
            | TOK_SFPNT2F

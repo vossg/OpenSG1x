@@ -88,10 +88,10 @@ static char *tmpChar = yy_full_match;
 
 
 %x sfcolor4fValue sfmatrixValue sfpnt2fValue sfpnt3fValue sfpnt4fValue
-%x sfvec4fValue sfcolor3fValue sfplaneValue sfvolumeValue
+%x sfvec4fValue sfcolor3fValue sfplaneValue sfvolumeValue sfcolor4iValue
 
 %x mfcolor4fValue mfmatrixValue mfpnt2fValue mfpnt3fValue mfpnt4fValue 
-%x mfvec4fValue mfcolor3fValue mfplaneValue
+%x mfvec4fValue mfcolor3fValue mfplaneValue mfcolor4iValue
 
 %x EXTERROR
 
@@ -176,8 +176,10 @@ header (#[^\n]*\n)
                 /* extended Field Types */ 
 
             case TOK_MFCOLOR4F: BEGIN mfcolor4fValue; break;
+            case TOK_MFCOLOR4I: BEGIN mfcolor4iValue; break;
             case TOK_MFCOLOR3F: BEGIN mfcolor3fValue; break;            
             case TOK_SFCOLOR4F: BEGIN sfcolor4fValue; break;            
+            case TOK_SFCOLOR4I: BEGIN sfcolor4iValue; break;            
             case TOK_SFCOLOR3F: BEGIN sfcolor3fValue; break;
             case TOK_MFMATRIX:  BEGIN mfmatrixValue;  break;
             case TOK_SFMATRIX:  BEGIN sfmatrixValue;  break;            
@@ -258,6 +260,7 @@ header (#[^\n]*\n)
     /* extended types */
 
 <NODE>MFColor4f     { return Tok_MFColor4f;  } 
+<NODE>MFColor4i     { return Tok_MFColor4i;  } 
 <NODE>MFColor3f     { return Tok_MFColor3f;  }
 <NODE>MFMatrix      { return Tok_MFMatrix;   }
 <NODE>MFPnt2f       { return Tok_MFPnt2f;    } 
@@ -266,6 +269,7 @@ header (#[^\n]*\n)
 <NODE>MFVec4f       { return Tok_MFVec4f;    } 
 <NODE>MFPlane       { return Tok_MFPlane;    }
 <NODE>SFColor4f     { return Tok_SFColor4f;  } 
+<NODE>SFColor4i     { return Tok_SFColor4i;  } 
 <NODE>SFColor3f     { return Tok_SFColor3f;  }
 <NODE>SFMatrix      { return Tok_SFMatrix;   } 
 <NODE>SFPnt2f       { return Tok_SFPnt2f;    } 
@@ -687,7 +691,7 @@ header (#[^\n]*\n)
     /* extended types */
 
 
-<mfcolor3fValue,mfcolor4fValue,mfmatrixValue,mfpnt2fValue>\[ {
+<mfcolor3fValue,mfcolor4fValue,mfcolor4iValue,mfmatrixValue,mfpnt2fValue>\[ {
     if(parsing_mf)
         OSGScanParseSkel_error("Syntaxfehler: Doppelte [");
 
@@ -701,7 +705,7 @@ header (#[^\n]*\n)
     parsing_mf = 1;
 }
 
-<mfcolor3fValue,mfcolor4fValue,mfmatrixValue,mfpnt2fValue>\] {
+<mfcolor3fValue,mfcolor4fValue,mfcolor4iValue,mfmatrixValue,mfpnt2fValue>\] {
   if(!parsing_mf) 
       OSGScanParseSkel_error("Ueberzaehlige ]");
 
@@ -740,6 +744,18 @@ header (#[^\n]*\n)
         _pSkel->addFieldValue(OSGScanParseSkel_text);
 
   return TOK_SFCOLOR4F;
+}
+
+    /* sfcolor4iValue ::= int int int int; */
+
+<sfcolor4iValue>({int32}{ws}){3}{int32} {
+  BEGIN NODE;
+  expectToken = 0;
+
+    if(_pSkel != NULL)
+        _pSkel->addFieldValue(OSGScanParseSkel_text);
+
+  return TOK_SFCOLOR4I;
 }
 
     /* sfcolor3fValue ::= float float float; */
@@ -858,6 +874,26 @@ header (#[^\n]*\n)
         BEGIN NODE;
         expectToken = 0;
         return TOK_MFCOLOR4F;
+    }
+}
+
+
+    /* mfcolor4iValue  ::= sfcolor4iValue | [ ] | [ sfcolor4iValues ];      */
+    /* sfcolor4iValues ::= sfcolor4iValue | sfcolor4iValue sfcolor4iValues; */
+
+<mfcolor4iValue>({int32}{ws}){3}{int32} {
+
+    if(_pSkel != NULL)
+        _pSkel->addFieldValue(OSGScanParseSkel_text);
+
+    if (parsing_mf)
+    {
+    }
+    else 
+    {
+        BEGIN NODE;
+        expectToken = 0;
+        return TOK_MFCOLOR4I;
     }
 }
 

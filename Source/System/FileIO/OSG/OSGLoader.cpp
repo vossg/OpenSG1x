@@ -163,7 +163,10 @@ void OSGLoader::initFieldTypeMapper(void)
 
     setIntExtMapping(SFColor4f::getClassType().getId(),
                      ScanParseSkel::OSGsfColor4f);
-    
+
+    setIntExtMapping(SFColor4ub::getClassType().getId(),
+                     ScanParseSkel::OSGsfColor4i);
+
     setIntExtMapping(SFColor3f::getClassType().getId(),
                      ScanParseSkel::OSGsfColor3f);
 
@@ -199,6 +202,9 @@ void OSGLoader::initFieldTypeMapper(void)
 
     setIntExtMapping(MFColor4f::getClassType().getId(),
                      ScanParseSkel::OSGmfColor4f);
+
+    setIntExtMapping(MFColor4ub::getClassType().getId(),
+                     ScanParseSkel::OSGmfColor4i);
     
     setIntExtMapping(MFColor3f::getClassType().getId(),
                      ScanParseSkel::OSGmfColor3f);
