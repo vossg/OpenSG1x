@@ -153,7 +153,9 @@ else
 	LINK_DEBUG       = -Debug 
 endif
 
-LD_FLAGS += $(COMPILER_LOGO) -NODEFAULTLIB $(LINK_OPTIMIZE) $(LINK_DEBUG)
+# added -FORCE:MULTIPLE because of multiple defined symbols in the Experimental/QTWidgets code,
+# looks like a compiler bug?
+LD_FLAGS += $(COMPILER_LOGO) -NODEFAULTLIB $(LINK_OPTIMIZE) $(LINK_DEBUG) -FORCE:MULTIPLE
 
 LD_FLAGS_EXT     := -NODEFAULTLIB
 LD_FLAGS_EXT_OPT := 
