@@ -40,6 +40,8 @@
 #include <OSGSField.h>
 #include <OSGMField.h>
 #include <OSGFieldContainer.h>
+#include <OSGSFFieldContainerPtr.h>
+#include <OSGMFFieldContainerPtr.h>
 #include <OSGAttachmentContainerPtr.h>
 #include <OSGSimpleAttachments.h>
 
@@ -140,24 +142,20 @@ QFieldContainerEditor::slotActionButtonClicked(
     {
         if(fType.getCardinality() == FieldType::SINGLE_FIELD)
         {
-            SField<FieldContainerPtr> *pSF =
-                reinterpret_cast<SField<FieldContainerPtr> *>(pField);
-
-            if(pSF->getValue() != NullFC)
+            FieldContainerPtr fc = ((SFFieldContainerPtr *) pField)->getValue();
+            if(fc != NullFC)
             {
                 _history.push(_fcPtr);
-                this->setFieldContainer(pSF->getValue());
+                this->setFieldContainer(fc);
             }
         }
         else
         {
-            MField<FieldContainerPtr> *pMF =
-                reinterpret_cast<MField<FieldContainerPtr> *>(pField);
-
-            if((*pMF)[uiValueIndex] != NullFC)
+            FieldContainerPtr fc = (*(((MFFieldContainerPtr *)pField)))[uiValueIndex];
+            if(fc != NullFC)
             {
                 _history.push(_fcPtr);
-                this->setFieldContainer((*pMF)[uiValueIndex]);
+                this->setFieldContainer(fc);
             }
         }
     }
@@ -356,7 +354,7 @@ QFieldContainerEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.4 2004/08/15 15:07:19 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.5 2004/09/17 17:50:35 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQFIELDCONTAINEREDITORQT_INLINE_CVSID;
 }
