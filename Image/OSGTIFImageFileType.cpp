@@ -171,13 +171,24 @@ bool TIFImageFileType::read (Image &image, const char *fileName )
 		if ( TIFFRGBAImageOK( in, errorMessage ) &&
 				 TIFFReadRGBAImage(in, w, h, (uint32*)data, 1)) 
 			valid = true;
-		else {
+		else 
+		{
 			SWARNING << "Tiff reader failed: " << errorMessage << endl;
 			valid = false;
 		}
 	
-		if (valid) {
-			image.set(((bpp == 3) ? Image::OSG_RGB_PF : Image::OSG_RGBA_PF),w,h );
+		if (valid) 
+		{
+			Image::PixelFormat type;
+			switch ( bpp )
+			{
+			case 1: 	type = Image::OSG_L_PF; break;
+			case 2: 	type = Image::OSG_LA_PF; break;
+			case 3: 	type = Image::OSG_RGB_PF; break;
+			case 4: 	type = Image::OSG_RGBA_PF; break;
+			}
+			
+			image.set( type, w, h );
 			dest = image.getData();
 			
 			red   = 3; 
@@ -185,14 +196,28 @@ bool TIFImageFileType::read (Image &image, const char *fileName )
 			blue  = 1; 
 			alpha = 0;
 
-			for (v = 0; v < h; v++) {
+			for (v = 0; v < h; v++) 
+			{
 				line = data + ((v) * (w * 4));				
-				for (u = 0; u < w; u++) {
-					*dest++ = line[red];
-					*dest++ = line[green];
-					*dest++ = line[blue];
-					if (bpp == 4) 
-						*dest++ = line[alpha] ^ 255;
+				for (u = 0; u < w; u++) 
+				{
+					switch ( bpp )
+					{
+					case 4: 	*dest++ = line[red];
+							 	*dest++ = line[green];
+							 	*dest++ = line[blue];
+							 	*dest++ = line[alpha];
+								 break;
+					case 3: 	*dest++ = line[red];
+							 	*dest++ = line[green];
+							 	*dest++ = line[blue];
+								 break;
+					case 2: 	*dest++ = line[red];
+							 	*dest++ = line[green];
+								 break;
+					case 1: 	*dest++ = line[red];
+								 break;
+					}
 					line += 4;
 				}
 			}
