@@ -5,6 +5,16 @@ using namespace OSG;
 /*! \page TutorialIntroduction Introduction
 \latexonly Starter:NewChapter \endlatexonly
 
+Chapter Overview
+<HR>
+    \ref TutorialWhatIsOpenSG <BR>
+    \ref TutorialWhatIsOpenSGNot <BR>
+    \ref TutorialInstallation <BR>
+    \ref TutorialMakingAndExecuting <BR>
+    \ref TutorialCompilation <BR>
+    \ref TutorialExercises <BR>
+<HR>
+
 \image html opensg_logo_small.png ""
 \image latex opensg_logo_small.eps "OpenSG Logo" width=8cm
 
@@ -36,7 +46,7 @@ using Windows you need the Microsdoft Visual Studio compiler version 7 or above,
 only need the gcc compiler (3.x +) and a few libraries like GLUT or Qt and some image libries which are 
 installed on most Unix systems by default. For more detailed instructions, see \ref TutorialInstallation
 
-\section TutorialWhatIsopenSGNot What is OpenSG not?
+\section TutorialWhatIsOpenSGNot What is OpenSG not?
 
 OpenSG is not a full application, it is a library which helps you to develop other applications so you do
 not need to invent your own scenegraph. Altough OpenSG can do more than displaying graphics on your monitor,

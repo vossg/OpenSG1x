@@ -392,6 +392,11 @@ that you might get the same multiplication order problems we had before, thus re
 adjusted with the center field which defines a position around the rotation will be calculated.
 
 [TODO: verify this] 
+For those of you who want to know what exactly happens: This is the way the final transformation matrix is calculated:
+
+<PRE>
+M = Translation * Center * Rotation * ScaleOrientation * Scale * -ScaleOrientation * -Center
+</PRE>
 
 \section TutorialNodeCoresMaterial Materials
 
@@ -422,7 +427,7 @@ endEditCP   (m, SimpleMaterial::DiffuseColorFieldMask |
 
 
 \image html red_transparent_material.png "50% transparent red Material on a sphere"
-\image latex red_transparent_material.png "50% transparent red Material on a sphere" width = 3cm
+\image latex red_transparent_material.eps "50% transparent red Material on a sphere" width = 3cm
 
 <I>
 As you can see, there are artifacts on the sphere. You might know that transparent surfaces quickly get highly complicated to solve if some 
@@ -449,9 +454,9 @@ tutorial!
 
 A scene graph system is expected to do rendering as fast as possible. As I mentioned before, OpenGL state changes can be very expensive operations,
 for example changing some color paramers of a material or light source. Loading and switching textures is even more expensive in most cases. 
-Thus it is very important to handle these state changes in a most efficent way. It is very useful to group all primitives together which use the
-same set of OpenSG states. In addition to that is is necessary to minimize costs if the state is changed - i.e. changing only the diffuse color
-is more efficent than changing twelve states at once.
+Thus it is very important to handle these state changes in the most efficent way possible. It is very useful to group all primitives together 
+which use the same set of OpenSG states. In addition to that is is necessary to minimize costs if the state is changed - i.e. changing only 
+the diffuse color is more efficent than changing twelve states at once.
 
 Of course that is not as easy as it sounds, unfortunately sorting all primitives in the most efficent manner is a NP-complete problem (If you are 
 not familiar with complexity-therory: NP-complete problems are really, really bad). To simplify the problem OpenGL states that are usually changed
@@ -526,4 +531,252 @@ that this is just one example, so the lowest detailed model must not be a billbo
 to you. The polygon count given in the figure are rough possible values that would make sense in most cases, but they are no law!
 </I>
 
+\section TutorialNodeCoresTutorial Big Tutorial
+
+Now it is finally time for a more exiting tutorial as we now have a basic knowledge of all the really most important aspects of OpenSG. What shall
+we do this time? 
+
+The fist thing we do is to setup a little LOD node containing three different levels of detail of a woman. These files are provided as VRML files
+and can be found in the prog/data folder. As always, we choose <A HREF = "progrs/00framework.cpp">progs/00framework.cpp</A> as our starting point.
+
+First of all add two new header files
+<PRE>
+    #include <OpenSG/OSGSceneFileHandler.h>
+    #include <OpenSG/OSGDistanceLOD.h> 
+</PRE>
+
+Now replace the createScenegraph() method with following code
+
+\code
+NodePtr createScenegraph(){
+    //At first we load all needed models from file
+    NodePtr w_high = SceneFileHandler::the().read("data/woman_high.wrl");
+    NodePtr w_medium = SceneFileHandler::the().read("data/woman_medium.wrl");
+    NodePtr w_low = SceneFileHandler::the().read("data/woman_low.wrl");
+    
+    //we check the result
+    if ((w_high == NullFC)&&(w_medium == NullFC)&&(w_low == NullFC)){
+        std::cout 
+            << "It was not possible to load all needed models from file" 
+            << std::endl;
+        return NullFC;
+    }
+    
+    //now the LOD core
+    DistanceLODPtr lod = DistanceLOD::create();
+    beginEditCP(lod, DistanceLOD::CenterFieldMask | DistanceLOD::RangeFieldMask);
+        lod->getSFCenter()->setValue(Pnt3f(0,0,0));
+        lod->getMFRange()->push_back(200);
+        lod->getMFRange()->push_back(500);
+    endEditCP(lod, DistanceLOD::CenterFieldMask | DistanceLOD::RangeFieldMask);
+    
+    //the node containing the LOD core. The three models will be
+    //added as its children
+    NodePtr lodNode = Node::create();
+    beginEditCP(lodNode);
+        lodNode->setCore(lod);
+        lodNode->addChild(w_high);
+        lodNode->addChild(w_medium);
+        lodNode->addChild(w_low);
+    endEditCP(lodNode);
+    
+    NodePtr root = Node::create();
+    beginEditCP(root);
+        root->setCore(Group::create());
+        root->addChild(lodNode);
+    endEditCP(root);
+    
+    return root;
+}
+
+\endcode
+
+You may now compile and execute this tutorial. When the window appears you will see the model of the woman. Right now the medium model is displayed
+because our distance to the cener point (0,0,0) is between 200 and 500 units. If you move the camera closer (by holding right mouse button)
+you can see how he model flips from medium to high resolution. The same happens of course if you move far away. The paramters were especially
+choosen in that way, you can see the effect - in real life this is of course not what you want! Try to increase the range values by factor two or
+three and you will not be able to see the flipping effect anymore.
+
+Now lets us extend our little application with a switch. Under certain circumstances it could be useful to turn off the LOD object, but we do not
+want to abandon the woman from our screen. We utilize a switch node which reacts to a specific key to switch between the LOD object and a "static"
+version. Add the folowing code after the LOD node and before the root node is created
+
+\code
+    //create the node with switch core ********************
+    SwitchPtr sw = Switch::create();
+    beginEditCP(sw, Switch::ChoiceFieldMask);
+        //Notice: the first choice is 0
+        sw->setChoice(0);
+    endEditCP(sw, Switch::ChoiceFieldMask);
+    
+    NodePtr switchNode = Node::create();
+    beginEditCP(switchNode);
+        switchNode->setCore(sw);
+        switchNode->addChild(lodNode);
+    endEditCP(switchNode);
+    
+    //end witch creation **********************************
+\endcode
+
+Now when the root node is created replace the line that says
+<PRE>
+    root->addChild(lodNode);
+</PRE>
+with
+<PRE>
+    root->addChild(switchNode);
+</PRE>
+
+The compiler needs to know two more include file:
+<PRE>
+    #include <OpenSG/OSGSwitch.h>
+    #include <OpenSG/OSGSimpleAttachments.h>
+</PRE>
+The first should be obvious, the second is later needed to read names which were eventually assigned to nodes.
+
+Now, if executed, everthing looks like it did before. We now want to add another copy of our highres model to our switch node. We could use
+the scenefilehandler to load another instance of that file but that would be a waste of memory. A better aproach would be to simply reference the
+geometry core by a second node, that is actually what the scenegraph is for. Unfortunately we have no appropiate GeometryPtr which points on 
+our desired women mesh as we loaded it from file an got an NodePtr in return. So it is time for some fun and retrive that geometry from the
+loaded graph.
+
+What is our concern with that? well, if you construced the graph on your own, you have knowledge about where to find what. If you load models
+from a file you cannot know what is all in there. This time we are lucky, because the model is not very complex. If we load it into a 3D software
+like Studio Max or Cinema4D we can easily figure out that the name of the mesh (not the whole object) is "FACESET_woman". You can even figure that
+out if you are reading the VRML file in a text editor - but do not expect that to work with huge and complex files!
+
+As we know that our graph will consist of only a few nodes (probably not more than 20) we can be lazy when thinking about how to locate the
+geometry node. So we will traverse the whole graph and check the name of every node if it matches the one we are looking for. Please notice that
+you normally would do that by using traversal actions provided by OpenSG, but these will be discussed later in Chapter (xxx) so this time
+we will do it by hand:
+
+This method will search for a node called "FACESET_woman" starting with the node initially passed as argument
+
+\code
+// this function will return the node named "FACESET_Woman"
+// if there is no such node NullFC will be returned
+NodePtr checkName(NodePtr n){
+    UInt32 children = n->getNChildren();
+    
+    //make sure a name existes
+    if (getName(n))
+        //check if it is the name we are looking for
+        if (getName(n)== std::string("FACESET_Woman"))
+            // We got the node!
+            return n;
+    
+    //check all children
+    for (int i = 0; i < children; i++){
+        NodePtr r = checkName(n->getChild(i));
+        if (r != NullFC)
+            // if it is not NullFC it is the node we are looking for
+            // so just pass it through
+            return r;
+    }
+    // no children's name matches or there are no more childs
+    // so return NullFC, indicating that the node was not found yet
+    return NullFC;
+}
+\endcode
+
+<I>
+Maybe this function could use a bit more of explanation. It is a recursive function that will first check if the nodes name matches the (hardcoded)
+search string, "FACESET_Woman" in this case. If that happen, this node is returned, else all children are checked the same way. If a node is
+reached which is not the one we are looking for and it has no children then NullFC is returned, which is similar to a null-pointer. This function
+ends up returning either the node named "FACESET_Woman" or NullFC.
+</I>
+
+Now we have the tools we searching, we just need to use them. Add this right before we leave the createScenegraph() function
+
+\code
+    // we know want to extract the mesh geometry out of the graph
+    // it is sufficent to pass the model only as root for searching
+    NodePtr womanGeometry = checkName(w_high);
+\endcode
+<I>
+    It is possible, of course, to start searching from the root node, but this is not necessary as we know that the geometry is not to be found 
+    outside the nodes used by our model. Additionally we have three different versions of this model loaded into our graph where every one has
+    one such geometry node called FACESET_Woman. As we want only the one with high resolution we pass w_high as the starting point for the search
+</I>
+
+Well, we have now succesfully stored the correct node. Now we must extract the core out of the node. The following line of code, which has to 
+be added directly after the last peace of code, does exactly that
+
+\code
+    GeometryPtr geo = GeometryPtr::dcast(womanGeometry->getCore());
+\endcode
+<I>
+    This may look a little weird, but it's really not that bad. The getCore() method returns a "NodeCorePtr", which are all other core pointer
+    classes are derived from. As we know that this specific node will contain geometry we can saftly cast it dynamically. As we will see later
+    on it is not a big deal if you do not know which kind of core is stored in a node. OpenSG is reflective and thus you can obtain information
+    about any core just by asking it (Chapter(xxx)). 
+</I>
+
+Finally we can now create a new node and reference the geometry core. We also want to translate the new node a bit in Order to see both of
+the women. Insert this directly after the last line of code you just added.
+
+\code
+    //new node with "old" geometry core referenced
+    NodePtr woman = Node::create();
+    beginEditCP(woman);
+        woman->setCore(geo);
+    endEditCP(woman);
+    
+    //translate it a bit to see both women
+    NodePtr womanTrans = Node::create();
+    TransformPtr t = Transform::create();
+    beginEditCP(t);
+        Matrix m;
+        m.setIdentity();
+        m.setTranslate(Vec3f(0,0,200));
+        t->setMatrix(m);
+    endEditCP(t); 
+    beginEditCP(womanTrans);
+        womanTrans->setCore(t);
+        womanTrans->addChild(woman);
+    endEditCP(womanTrans);
+    
+    //add it to the root
+    beginEditCP(root);
+        root->addChild(womanTrans);
+    endEditCP(root);
+\endcode
+
+<I>
+After compiling and executing you can see that there are two identical models on your screen, but in a different color. How can that be? Materials
+can be assigned directly to the geometry, but as I mentioned earlier, it is also possible to use a material group which assigns a material to all
+its children without using the material field of the geometry. This is always the case when loading VRML files and this is therefor the reason why
+we see two different materials on sceen. On the left side we have the original whereas on the right side we have the copied geometry with missing
+information about a material because this was stored in one of the geometries parent nodes.
+</I>
+
+The next thing we want to add is a material for our woman copy. We won't use textures as we have already done that before, but we will use OpenSG
+standard material.
+
+Just add the code somewhere after we have defined the GeometryPtr geo
+
+\code
+    // generating a material *********************************
+    
+    SimpleMaterialPtr mat = SimpleMaterial::create();
+    beginEditCP(mat);
+        mat->setAmbient(Color3f(0.2,0.2,0.2));
+        mat->setDiffuse(Color3f(0.6,0.3,0.1));
+        mat->setSpecular(Color3f(1,1,1));
+        mat->setShininess(0.8);
+    endEditCP(mat);
+    
+    beginEditCP(geo, Geometry::MaterialFieldMask);
+        geo->setMaterial(mat);
+    endEditCP(geo, Geometry::MaterialFieldMask);
+    
+    // end material generation *******************************
+\endcode
+
+Now it is time to demonstrate the usage of the component transform core. We will a rotation, scalation and a tranlation at once and you will
+see how easily these can be modified using a component transform core.
+
+[TODO: continue]
+
+[TODO: Exercises: Copy the eyes for the last tutorial....]
 */
