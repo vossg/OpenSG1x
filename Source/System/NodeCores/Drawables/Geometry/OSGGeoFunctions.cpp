@@ -45,6 +45,8 @@
 
 #include <OSGLog.h>
 
+#include <OSGGLU.h>
+
 #include "OSGGeometry.h"
 #include "OSGGeoPropPtrs.h"
 #include "OSGTriangleIterator.h"
@@ -1917,6 +1919,348 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
     return bestCost;
 }
 
+//Define the gluTessCallback functions 
+
+//Dummy edge handler: Switches off the creation of triangle strips
+//and fans
+void gluTessEdgeFlagCB(GLboolean flag)
+{
+  //empty 
+  FDEBUG(("gluEdgeVertexCB called\n"));
+}
+
+//Vertex data handler: Receives the triangle vertex indices from the 
+//GLU Tesselator
+void gluTessVertexDataCB(UInt32 *curIndexPtr, std::vector<UInt32>  *indexV)
+{
+  if(indexV != NULL)
+    {
+      FDEBUG(("gluVertexDataCB called: indexV@%p->push_back(%d)\n", 
+              indexV, *curIndexPtr));
+      indexV->push_back(*curIndexPtr);
+    }
+  else 
+    {
+      FDEBUG(("Null Pointer in gluTessVertexDataCB\n"));
+    }
+}
+
+//Begin data handler: Initializes the pointer to the index data
+void gluTessBeginDataCB(GLenum type, std::vector<UInt32>  *indexV)
+{
+  if(indexV != NULL) 
+    {
+      FDEBUG(("gluTessBeginDataCB: Beginning new Polygon\n"));
+      FDEBUG(("gluTessBeginDataCB: Type is %d\n", type));
+      FDEBUG(("gluTessBeginDataCB: indexV* is 0x%p\n", indexV));
+    }
+  else 
+    {
+      FDEBUG(("Null Pointer in gluTessVertexDataCB\n"));
+    }
+}
+
+//End handler: For debugging purposes only
+void gluTessEndCB()
+{
+  FDEBUG(("gluTessEndCB called\n"));
+}
+
+//Error handler: Called by the GLU Tesselator to signal errors
+void gluTessErrorCB(GLenum errno)
+{
+  FFATAL(("gluTesselator Error: %s\n", gluErrorString(errno)));
+}
+
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
+
+    createConvexPrimitives iterates over all primitives of the passed
+    geometry tesselating them with the aid of the GLU tesselator. 
+    As a result every planar polygon is tesselated into a sequence of 
+    triangles covering it.
+
+    In case of nonplanar Polygons the results are not guaranteed to be 
+    correct.
+
+    Simple, i.e non-indexed geometries are not supported.
+*/
+
+OSG_SYSTEMLIB_DLLMAPPING 
+void OSG::createConvexPrimitives(GeometryPtr geoPtr)
+{
+  FINFO(("Entering createConvexPrimitives()\n"));
+
+	GLenum windingRule = GLU_TESS_WINDING_ODD;
+
+  OSG::GeoIndicesUI32Ptr       indexPtr;
+  OSG::GeoIndicesUI32Ptr       newIndexPtr = GeoIndicesUI32::create();
+  OSG::GeoPTypesPtr            newTypesPtr = GeoPTypesUI8::create();
+  OSG::GeoPLengthsPtr          newLengthsPtr  = GeoPLengthsUI32::create();
+
+  bool indexed = true;
+
+  std::vector< UInt32 >    inIndexV;
+  std::vector< UInt32 >    outIndexV;
+  std::vector< GLdouble >  positionV;
+
+  inIndexV.reserve(4096);  
+  outIndexV.reserve(4096);
+  positionV.reserve(4096);
+
+  if(geoPtr == NullFC)
+  {
+      FFATAL(("Invalid geoPtr in createSharedIndex()\n"));
+      return;
+  }
+
+  //scan the geometry for GL_POLYGONs
+  bool containsPolygon = false; 
+  PrimitiveIterator primI = geoPtr->beginPrimitives();
+  for(;primI != geoPtr->endPrimitives(); ++primI)
+  {
+      if(primI.getType() == GL_POLYGON)
+      {
+          containsPolygon = true;
+          break;
+      }
+  }
+
+  // skip geometry if it doesn't contain a GL_POLYGON
+  if(!containsPolygon)
+  {
+      FINFO(("Geometry with no GL_POLYGONs in createConvexPrimitives:\n"));
+      FINFO(("Nothing to do for createConvexPrimitives: Returning\n"));
+      return;
+  }
+
+  // determine whether the geometry is indexed
+  indexPtr =  GeoIndicesUI32Ptr::dcast(geoPtr->getIndices());
+  indexed = (indexPtr == NullFC) ?  false : true;
+  FINFO(("Indexed: %d\n",indexed));
+
+  // skip geometry if it is empty or not indexed
+  if(!indexed)
+  {
+      FNOTICE(("Skipping nonindexed geometry in createConvexPrimitives()\n"));
+      return;
+  }
+  else
+  {
+      if(geoPtr->getIndices()->size() == 0)
+      {
+          FNOTICE(("Skipping empty geometry in createConvexPrimitives()\n")); 
+          return;
+      }
+  }
+
+  // convert function pointers to the type expected by the GLU Tesselator
+  _GLUfuncptr gluTessBeginDataCBPtr = 
+    reinterpret_cast<_GLUfuncptr>(gluTessBeginDataCB);
+
+  _GLUfuncptr gluTessEdgeFlagCBPtr = 
+    reinterpret_cast<_GLUfuncptr>(gluTessEdgeFlagCB);
+
+  _GLUfuncptr gluTessVertexDataCBPtr = 
+    reinterpret_cast<_GLUfuncptr>(gluTessVertexDataCB);
+
+  _GLUfuncptr gluTessEndCBPtr = 
+    reinterpret_cast<_GLUfuncptr>(gluTessEndCB);
+
+  _GLUfuncptr gluTessErrorCBPtr = 
+    reinterpret_cast<_GLUfuncptr>(gluTessErrorCB);
+
+  // create and setup a new GLU Tesselator
+  FDEBUG(("gluNewTess()\n"));
+  GLUtesselator* tess = gluNewTess();
+
+  if(tess == NULL)
+  {
+      FFATAL(("Creation of GLUtesselator failed\n"));
+      return;
+  }
+  else
+    FINFO(("Created GLU Tesselator (%p)\n", tess));
+
+  // set the specified winding rule
+  FDEBUG(("gluTessProperty(%p, GLU_TESS_WINDING_RULE, %d)\n",
+          tess, windingRule));
+  gluTessProperty(tess, GLU_TESS_WINDING_RULE, windingRule);
+
+  // register self defined GLU Tesselator callback methods
+  FDEBUG(("gluTessCallback(%p, GLU_TESS_ERROR, %p)\n", 
+          tess, gluTessErrorCBPtr));
+  gluTessCallback(tess, GLU_TESS_ERROR, gluTessErrorCBPtr);
+
+  FDEBUG(("gluTessCallback(%p, GLU_TESS_BEGIN_DATA, %p)\n", 
+          tess, gluTessBeginDataCBPtr));
+  gluTessCallback(tess, GLU_TESS_BEGIN_DATA, gluTessBeginDataCBPtr);
+
+  FDEBUG(("gluTessCallback(%p, GLU_TESS_EDGE_FLAG, %p)\n",
+          tess, gluTessEdgeFlagCBPtr));
+  gluTessCallback(tess, GLU_TESS_EDGE_FLAG, gluTessEdgeFlagCBPtr);
+
+  FDEBUG(("gluTessCallback(%p, GLU_TESS_VERTEX_DATA, %p)\n",
+          tess, gluTessVertexDataCBPtr));
+  gluTessCallback(tess, GLU_TESS_VERTEX_DATA, gluTessVertexDataCBPtr);
+
+  FDEBUG(("gluTessCallback(%p, GLU_TESS_END, %p)\n",
+          tess, gluTessEndCBPtr));
+  gluTessCallback(tess, GLU_TESS_END, gluTessEndCBPtr);
+
+  beginEditCP(newTypesPtr);
+  beginEditCP(newIndexPtr);
+  beginEditCP(newLengthsPtr);
+
+  primI = geoPtr->beginPrimitives();
+  for(;primI != geoPtr->endPrimitives(); ++primI)
+  {
+      FINFO(("Primitive index: %d\n", primI.getIndex()));
+      
+      // if the primitive is not of type GL_POLYGON just copy its contents
+      if(primI.getType() != GL_POLYGON)
+      {
+          FDEBUG(("Not a GL_POLYGON. Copying properties\n"));
+          if(!indexed)
+          {
+              FFATAL(("Nonindexed geometries are not implemented!\n"));
+          }
+          else
+          {
+              newTypesPtr->push_back(primI.getType());
+
+              // maybe we should use memcpy here instead of explicitly copying
+              // each multiindex
+              for(UInt32 i = 0; i < primI.getLength(); i++)
+              {
+                  Int32 curIndex = primI.getIndexIndex(i);
+                  for(UInt32 j = 0; j < geoPtr->getIndexMapping().size(); j++)
+                  {
+                      UInt32 val = indexPtr->getValue(curIndex + j);
+                      newIndexPtr->push_back(val);
+                  }
+              }
+              newLengthsPtr->push_back(primI.getLength());
+          }
+      }
+      // Process GL_POLYGONs i.e. tesselate them
+      else
+      {
+          FINFO(("Tesselating GL_POLYGON (PrimitiveIndex: %d, Vertices %d)\n",
+                 primI.getIndex(), primI.getLength()));
+
+          inIndexV.clear();  
+          outIndexV.clear();
+          positionV.clear();
+          
+          for(UInt32 i = 0; i < primI.getLength(); i++)
+          {
+              // Convert the vertices to double precision
+              // (the tesselator expects them that way)
+              positionV.push_back(static_cast< GLdouble >(primI.
+                                                          getPosition(i)[0]));
+              positionV.push_back(static_cast< GLdouble >(primI.
+                                                          getPosition(i)[1]));
+              positionV.push_back(static_cast< GLdouble >(primI.
+                                                          getPosition(i)[2]));
+
+              // Store the start index of the current multi index
+              // to pass it as "meta data" to the tesselator later on
+              UInt32 curIndex = indexed ? primI.getIndexIndex(i) : i;
+              inIndexV.push_back(curIndex);
+          }
+
+#ifdef OSG_DEBUG          
+
+          for(UInt32 i = 0; i < primI.getLength(); i++) 
+					{
+
+            int index = inIndexV.at(i);
+            double x  = positionV.at(3*i); 
+            double y  = positionV.at(3*i + 1); 
+            double z  = positionV.at(3*i + 2);
+
+            FDEBUG(("Position index: %i Position: (%f,%f,%f)\n", 
+                    index, x, y, z));
+          }
+#endif
+
+          // cast the address of the std::vector which stores the 
+          // tesselator output to a GLvoid *
+          GLvoid* outIndexPtr = reinterpret_cast< GLvoid* >(&outIndexV);
+
+          FDEBUG(("gluTessBeginPolygon(%p, %p)\n", tess, outIndexPtr));
+          gluTessBeginPolygon(tess, outIndexPtr);
+
+          FDEBUG(("gluTessBeginContour(%p)\n", tess));
+          gluTessBeginContour(tess);
+
+
+          for(UInt32 i = 0; i <  primI.getLength(); i++)
+          {
+              GLvoid* curIndexPtr = reinterpret_cast< GLvoid* >(&inIndexV[i]);
+              FDEBUG(("gluTessVertex(%p, %p, %p)\n",
+                      tess, &positionV[i * 3], curIndexPtr));
+
+              // feed the prepared position data and the according beginning 
+              // of its multiindex in the index property to the tesselator
+              gluTessVertex(tess, &positionV[i * 3], curIndexPtr);
+          }
+
+          FDEBUG(("gluTessEndContour(%p)\n", tess));
+          gluTessEndContour(tess);
+
+          FDEBUG(("gluTessEndPolygon(%p)\n", tess));
+          // trigger the tesselator action
+          gluTessEndPolygon(tess); 
+
+          newTypesPtr->push_back(GL_TRIANGLES);
+          
+          if(!indexed)
+          {
+              FFATAL(("Nonindexed geometries are not impled\n"));
+          }
+          else
+          {
+              FDEBUG(("Rebuilding multi indices ...\n"));
+              // copy the indices gathered during the tesselator run
+              // into a new index container
+              for(UInt32 i = 0; i < outIndexV.size(); i++)
+              {
+                  UInt32 vII = outIndexV[i];
+                  for(UInt32 j = 0; j < geoPtr->getIndexMapping().size(); j++)
+                  {
+                      FDEBUG(("Index in tesselated data %d\n",vII + j));
+                      Int32 curIndex = indexPtr->getValue(vII + j);
+                      
+                      FDEBUG(("newIndexPtr->push_back(%d)\n", curIndex));
+                      newIndexPtr->push_back(curIndex);
+                  }
+              }
+          }
+          FINFO(("Vertex count: %d/%d (before/after tesselation)\n",
+                 primI.getLength(), outIndexV.size()));
+          newLengthsPtr->push_back(outIndexV.size());
+      }
+  }
+  
+  endEditCP(newTypesPtr);
+  endEditCP(newIndexPtr);
+  endEditCP(newLengthsPtr);
+  
+  beginEditCP(geoPtr);
+
+  // update the geometry properties 
+  geoPtr->setTypes(newTypesPtr);
+  geoPtr->setIndices(newIndexPtr);
+  geoPtr->setLengths(newLengthsPtr);
+  
+  endEditCP(geoPtr);
+    
+  FDEBUG(("gluDeleteTess(%p)\n", tess));
+  gluDeleteTess(tess);
+
+  FDEBUG(("Exiting from createConvexPrimitives()\n"));
+}
 
 /*! \ingroup GrpSystemDrawablesGeometryFunctions
 

@@ -77,6 +77,9 @@ Int32              createOptimizedPrimitives(GeometryPtr geo,
                                              bool colorCode         = false);
 
 OSG_SYSTEMLIB_DLLMAPPING 
+void                  createConvexPrimitives(GeometryPtr geo);
+
+OSG_SYSTEMLIB_DLLMAPPING 
 Int32                      createSharedIndex(GeometryPtr geo);
 
 OSG_SYSTEMLIB_DLLMAPPING 
