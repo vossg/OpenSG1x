@@ -36,107 +36,107 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-#ifndef _OSGDYNAMICBACKGROUND_H_
-#define _OSGDYNAMICBACKGROUND_H_
+#ifndef _OSGSKYBACKGROUND_H_
+#define _OSGSKYBACKGROUND_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
 
-#include <OSGDynamicBackgroundBase.h>
+#include <OSGSkyBackgroundBase.h>
 
 OSG_BEGIN_NAMESPACE
 
 class DrawActionBase;
 class Viewport;
 
-//! *put brief class description here* 
 
-class OSG_SYSTEMLIB_DLLMAPPING DynamicBackground : public DynamicBackgroundBase
+/*! \brief *put brief class description here* 
+ */
+
+class OSG_SYSTEMLIB_DLLMAPPING SkyBackground : public SkyBackgroundBase
 {
- 
+  private:
+
+    typedef SkyBackgroundBase Inherited;
+
     /*==========================  PUBLIC  =================================*/
- public:
+  public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "DynamicBackground"; };
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    your_category                             */
-    /*! \{                                                                 */
-
-    void clear(DrawActionBase *action, Viewport *port);
-
-    void addColor(Color3f color, Real32 position);
-
- 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    transformation                            */
+    /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField, 
                          ChangeMode from);
- 
-     /*! \}                                                                 */
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                     dump                                     */
+    /*! \name                     Background                               */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32    uiIndent = 0, 
-                      const BitVector bvFlags  = 0) const;
+    virtual void clear(DrawActionBase *action, Viewport *port);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector  bvFlags  = 0) const;
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
- protected:
-                                                                  
+  protected:
+
+    // Variables should all be in SkyBackgroundBase.
+
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    DynamicBackground(void);
-    DynamicBackground(const DynamicBackground &source);
- 
+    SkyBackground(void);
+    SkyBackground(const SkyBackground &source);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
- 
-    virtual ~DynamicBackground(void); 
-   
-    /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/  
- private:
 
-    typedef DynamicBackgroundBase Inherited;
+    virtual ~SkyBackground(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Draw Helper                                */
+    /*! \{                                                                 */
+
+    void drawFace(DrawActionBase *action, TextureChunkPtr tex, 
+                  const Pnt3f &p1, const Pnt3f &p2, 
+                  const Pnt3f &p3, const Pnt3f &p4);
+
+    /*! \}                                                                 */
+    
+    /*==========================  PRIVATE  ================================*/
+  private:
 
     friend class FieldContainer;
-    friend class DynamicBackgroundBase;
+    friend class SkyBackgroundBase;
 
-    static char cvsid[];
+    static void initMethod(void);
 
-    static void initMethod( void );
+    // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const DynamicBackground &source);
+    void operator =(const SkyBackground &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-
-/** \brief class pointer
- */
-typedef DynamicBackground *DynamicBackgroundP;
+typedef SkyBackground *SkyBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDynamicBackground.inl>
-#include <OSGDynamicBackgroundBase.inl>
+#include <OSGSkyBackground.inl>
+#include <OSGSkyBackgroundBase.inl>
 
-#endif /* _OSGDYNAMICBACKGROUND_H_ */
+#define OSGSKYBACKGROUND_HEADER_CVSID "@(#)$Id: OSGSkyBackground.h,v 1.1 2002/01/08 23:33:36 dirk Exp $"
+
+#endif /* _OSGSKYBACKGROUND_H_ */

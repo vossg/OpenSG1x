@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class DynamicBackground
+ **     class SkyBackground
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGDYNAMICBACKGROUNDBASE_H_
-#define _OSGDYNAMICBACKGROUNDBASE_H_
+#ifndef _OSGSKYBACKGROUNDBASE_H_
+#define _OSGSKYBACKGROUNDBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -67,19 +67,28 @@
 
 #include <OSGBackground.h> // Parent
 
-#include <OSGColor3fFields.h> // Color type
-#include <OSGReal32Fields.h> // Angle type
+#include <OSGColor3fFields.h> // SkyColor type
+#include <OSGReal32Fields.h> // SkyAngle type
+#include <OSGColor3fFields.h> // GroundColor type
+#include <OSGReal32Fields.h> // GroundAngle type
+#include <OSGUInt32Fields.h> // SphereRes type
+#include <OSGTextureChunkFields.h> // BackTexture type
+#include <OSGTextureChunkFields.h> // BottomTexture type
+#include <OSGTextureChunkFields.h> // FrontTexture type
+#include <OSGTextureChunkFields.h> // LeftTexture type
+#include <OSGTextureChunkFields.h> // RightTexture type
+#include <OSGTextureChunkFields.h> // TopTexture type
 
-#include <OSGDynamicBackgroundFields.h>
+#include <OSGSkyBackgroundFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class DynamicBackground;
+class SkyBackground;
 class BinaryDataHandler;
 
-//! \brief DynamicBackground Base Class.
+//! \brief SkyBackground Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
+class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 {
   private:
 
@@ -90,13 +99,31 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
 
     enum
     {
-        ColorFieldId = Inherited::NextFieldId,
-        AngleFieldId = ColorFieldId + 1,
-        NextFieldId  = AngleFieldId + 1
+        SkyColorFieldId      = Inherited::NextFieldId,
+        SkyAngleFieldId      = SkyColorFieldId      + 1,
+        GroundColorFieldId   = SkyAngleFieldId      + 1,
+        GroundAngleFieldId   = GroundColorFieldId   + 1,
+        SphereResFieldId     = GroundAngleFieldId   + 1,
+        BackTextureFieldId   = SphereResFieldId     + 1,
+        BottomTextureFieldId = BackTextureFieldId   + 1,
+        FrontTextureFieldId  = BottomTextureFieldId + 1,
+        LeftTextureFieldId   = FrontTextureFieldId  + 1,
+        RightTextureFieldId  = LeftTextureFieldId   + 1,
+        TopTextureFieldId    = RightTextureFieldId  + 1,
+        NextFieldId          = TopTextureFieldId    + 1
     };
 
-    static const osg::BitVector ColorFieldMask;
-    static const osg::BitVector AngleFieldMask;
+    static const osg::BitVector SkyColorFieldMask;
+    static const osg::BitVector SkyAngleFieldMask;
+    static const osg::BitVector GroundColorFieldMask;
+    static const osg::BitVector GroundAngleFieldMask;
+    static const osg::BitVector SphereResFieldMask;
+    static const osg::BitVector BackTextureFieldMask;
+    static const osg::BitVector BottomTextureFieldMask;
+    static const osg::BitVector FrontTextureFieldMask;
+    static const osg::BitVector LeftTextureFieldMask;
+    static const osg::BitVector RightTextureFieldMask;
+    static const osg::BitVector TopTextureFieldMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -120,21 +147,57 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    inline       MFColor3f           *getMFColor          (void);
-    inline       MFReal32            *getMFAngle          (void);
+    inline       MFColor3f           *getMFSkyColor       (void);
+    inline       MFReal32            *getMFSkyAngle       (void);
+    inline       MFColor3f           *getMFGroundColor    (void);
+    inline       MFReal32            *getMFGroundAngle    (void);
+    inline       SFUInt32            *getSFSphereRes      (void);
+    inline       SFTextureChunkPtr   *getSFBackTexture    (void);
+    inline       SFTextureChunkPtr   *getSFBottomTexture  (void);
+    inline       SFTextureChunkPtr   *getSFFrontTexture   (void);
+    inline       SFTextureChunkPtr   *getSFLeftTexture    (void);
+    inline       SFTextureChunkPtr   *getSFRightTexture   (void);
+    inline       SFTextureChunkPtr   *getSFTopTexture     (void);
 
-    inline       Color3f             &getColor          (UInt32 index);
-    inline       MFColor3f           &getColor          (void);
-    inline const MFColor3f           &getColor          (void) const;
-    inline       Real32              &getAngle          (UInt32 index);
-    inline       MFReal32            &getAngle          (void);
-    inline const MFReal32            &getAngle          (void) const;
+    inline       UInt32              &getSphereRes      (void);
+    inline const UInt32              &getSphereRes      (void) const;
+    inline       TextureChunkPtr     &getBackTexture    (void);
+    inline const TextureChunkPtr     &getBackTexture    (void) const;
+    inline       TextureChunkPtr     &getBottomTexture  (void);
+    inline const TextureChunkPtr     &getBottomTexture  (void) const;
+    inline       TextureChunkPtr     &getFrontTexture   (void);
+    inline const TextureChunkPtr     &getFrontTexture   (void) const;
+    inline       TextureChunkPtr     &getLeftTexture    (void);
+    inline const TextureChunkPtr     &getLeftTexture    (void) const;
+    inline       TextureChunkPtr     &getRightTexture   (void);
+    inline const TextureChunkPtr     &getRightTexture   (void) const;
+    inline       TextureChunkPtr     &getTopTexture     (void);
+    inline const TextureChunkPtr     &getTopTexture     (void) const;
+    inline       Color3f             &getSkyColor       (UInt32 index);
+    inline       MFColor3f           &getSkyColor       (void);
+    inline const MFColor3f           &getSkyColor       (void) const;
+    inline       Real32              &getSkyAngle       (UInt32 index);
+    inline       MFReal32            &getSkyAngle       (void);
+    inline const MFReal32            &getSkyAngle       (void) const;
+    inline       Color3f             &getGroundColor    (UInt32 index);
+    inline       MFColor3f           &getGroundColor    (void);
+    inline const MFColor3f           &getGroundColor    (void) const;
+    inline       Real32              &getGroundAngle    (UInt32 index);
+    inline       MFReal32            &getGroundAngle    (void);
+    inline const MFReal32            &getGroundAngle    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
+    inline void setSphereRes      ( const UInt32 &value );
+    inline void setBackTexture    ( const TextureChunkPtr &value );
+    inline void setBottomTexture  ( const TextureChunkPtr &value );
+    inline void setFrontTexture   ( const TextureChunkPtr &value );
+    inline void setLeftTexture    ( const TextureChunkPtr &value );
+    inline void setRightTexture   ( const TextureChunkPtr &value );
+    inline void setTopTexture     ( const TextureChunkPtr &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -161,8 +224,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  DynamicBackgroundPtr      create          (void); 
-    static  DynamicBackgroundPtr      createEmpty     (void); 
+    static  SkyBackgroundPtr      create          (void); 
+    static  SkyBackgroundPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -180,30 +243,39 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFColor3f           _mfColor;
-    MFReal32            _mfAngle;
+    MFColor3f           _mfSkyColor;
+    MFReal32            _mfSkyAngle;
+    MFColor3f           _mfGroundColor;
+    MFReal32            _mfGroundAngle;
+    SFUInt32            _sfSphereRes;
+    SFTextureChunkPtr   _sfBackTexture;
+    SFTextureChunkPtr   _sfBottomTexture;
+    SFTextureChunkPtr   _sfFrontTexture;
+    SFTextureChunkPtr   _sfLeftTexture;
+    SFTextureChunkPtr   _sfRightTexture;
+    SFTextureChunkPtr   _sfTopTexture;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    DynamicBackgroundBase(void);
-    DynamicBackgroundBase(const DynamicBackgroundBase &source);
+    SkyBackgroundBase(void);
+    SkyBackgroundBase(const SkyBackgroundBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~DynamicBackgroundBase(void); 
+    virtual ~SkyBackgroundBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      DynamicBackgroundBase *pOther,
+    void executeSyncImpl(      SkyBackgroundBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -217,7 +289,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const DynamicBackgroundBase &source);
+    void operator =(const SkyBackgroundBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -225,10 +297,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
 //---------------------------------------------------------------------------
 
 
-typedef DynamicBackgroundBase *DynamicBackgroundBaseP;
+typedef SkyBackgroundBase *SkyBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundBase.h,v 1.17 2001/11/09 08:17:07 vossg Exp $"
+#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundBase.h,v 1.1 2002/01/08 23:33:36 dirk Exp $"
 
-#endif /* _OSGDYNAMICBACKGROUNDBASE_H_ */
+#endif /* _OSGSKYBACKGROUNDBASE_H_ */

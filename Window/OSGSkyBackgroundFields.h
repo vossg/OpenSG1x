@@ -48,8 +48,8 @@
 \*****************************************************************************/
 
 
-#ifndef _OSGDYNAMICBACKGROUNDFIELDS_H_
-#define _OSGDYNAMICBACKGROUNDFIELDS_H_
+#ifndef _OSGSKYBACKGROUNDFIELDS_H_
+#define _OSGSKYBACKGROUNDFIELDS_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -64,20 +64,20 @@
 
 OSG_BEGIN_NAMESPACE
 
-class DynamicBackground;
+class SkyBackground;
 
-//! DynamicBackgroundPtr
+//! SkyBackgroundPtr
 
-typedef FCPtr<BackgroundPtr, DynamicBackground> DynamicBackgroundPtr;
+typedef FCPtr<BackgroundPtr, SkyBackground> SkyBackgroundPtr;
 
-/*! \brief DynamicBackgroundPtr field traits 
+/*! \brief SkyBackgroundPtr field traits 
     \ingroup FieldLib
     \ingroup MultiFields
 */
 
 template <>
-struct FieldDataTraits<DynamicBackgroundPtr> : 
-    public FieldTraitsRecurseMapper<DynamicBackgroundPtr>
+struct FieldDataTraits<SkyBackgroundPtr> : 
+    public FieldTraitsRecurseMapper<SkyBackgroundPtr>
 {
     static DataType             _type;                       
 
@@ -86,29 +86,29 @@ struct FieldDataTraits<DynamicBackgroundPtr> :
 
     static DataType &getType (void) { return _type;        }
 
-    static char     *getMName(void) { return "MFDynamicBackgroundPtr"; }
+    static char     *getMName(void) { return "MFSkyBackgroundPtr"; }
 };
 
 
-//! MFDynamicBackgroundPtr
+//! MFSkyBackgroundPtr
 //! \ingroup MultiFields
 
-typedef MField<DynamicBackgroundPtr> MFDynamicBackgroundPtr;
+typedef MField<SkyBackgroundPtr> MFSkyBackgroundPtr;
 
-#ifndef OSG_COMPILEDYNAMICBACKGROUNDINST
+#ifndef OSG_COMPILESKYBACKGROUNDINST
 #if defined(__sgi)
 
-#pragma do_not_instantiate MField<DynamicBackgroundPtr>::_fieldType
+#pragma do_not_instantiate MField<SkyBackgroundPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, DynamicBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, SkyBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGDYNAMICBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundFields.h,v 1.12 2001/11/30 11:48:20 vossg Exp $"
+#define OSGSKYBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundFields.h,v 1.1 2002/01/08 23:33:36 dirk Exp $"
 
-#endif /* _OSGDYNAMICBACKGROUNDFIELDS_H_ */
+#endif /* _OSGSKYBACKGROUNDFIELDS_H_ */
