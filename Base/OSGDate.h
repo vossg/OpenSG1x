@@ -101,6 +101,7 @@ public:
 //class functions 
 //-------------------------------------------------------
 
+/*-------------------------- constructor ----------------------------------*/
 
   /** Default Constructor */
   Date (void);
@@ -108,52 +109,47 @@ public:
   /** Copy Constructor */
   Date (const Date &obj);
 
+
+/*-------------------------- destructor -----------------------------------*/
+
   /** Destructor */
   virtual ~Date (void);
 
+
+/*------------------------------ feature ----------------------------------*/
+
   /** set method for attribute second */
-  inline void setSecond (unsigned int second)
-		{ _second = second; }
+  inline void setSecond (unsigned int second);
 
   /** get method for attribute second */
-	inline unsigned int getSecond (void) 
-		{ return _second;}
+	inline unsigned int getSecond (void); 
 	
   /** set method for attribute minute */
-	inline void setMinute (unsigned int minute)
-		{ _minute = minute; }
+	inline void setMinute (unsigned int minute);
 	
   /** get method for attribute minute */
-  inline unsigned int getMinute (void)
-		{ return _minute; }
+  inline unsigned int getMinute (void);
 
   /** get method for attribute hour */
-  inline unsigned int getHour (void)
-		{ return _hour; }
+  inline unsigned int getHour (void);
 	
   /** set method for attribute hour */
-  inline void setHour (unsigned int hour)
-		{ _hour = hour; }
+  inline void setHour (unsigned int hour);
 	
   /** get method for attribute day */
-  inline unsigned int getDay (void)
-		{ return _day; }
+  inline unsigned int getDay (void);
 	
   /** set method for attribute day */
-  inline void setDay (unsigned int day)
-		{ _day = day; }
+  inline void setDay (unsigned int day);
 	
   /** get method for attribute year */
-  inline int getYear (void)
-		{ return _year; }
+  inline int getYear (void);
 
   /** set method for attribute year */
-  inline void setYear (int year)
-		{ _year = year; }
+  inline void setYear (int year);
 	
   /** cleares all entires */
-  void clear (void) 
-		{ set(0,0,0,0,0,0); }
+  void clear (void) ;
 
   /** set the object with current system date */
   void setSystemDate (void);
@@ -287,4 +283,6 @@ istream &operator >> (istream &inStream,        Date &obj);
 
 OSG_END_NAMESPACE
 
-#endif // OSGDATE_CLASS_DECLARATION
+#include <OSGDate.inl>
+
+#endif // DATE_CLASS_DECLARATION
