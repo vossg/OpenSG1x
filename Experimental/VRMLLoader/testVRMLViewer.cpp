@@ -180,9 +180,19 @@ void selectCamera(uint cameraNr)
     // --- find the name attachment
     namePtr = OSG::NamePtr::dcast( 
         node->findAttachment(OSG::Name::getClassType().getGroupId()) );
+
+    cerr << "Activating viewpoint: ";
     
-    cerr << "Activating viewpoint: " << namePtr->getFieldPtr()->getValue() << endl
-         << "Position:    " 
+    if(namePtr != OSG::NullFC)
+    {
+        cerr << namePtr->getFieldPtr()->getValue() << endl;
+    }
+    else
+    {
+        cerr << "unnamed" << endl;
+    }
+
+    cerr << "Position:    " 
          << vrmlTrans->getSFTranslation()->getValue() 
          << endl
          << "Orientation: " 
