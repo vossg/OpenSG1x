@@ -533,7 +533,7 @@ OSG_SYSTEMLIB_DLLMAPPING
 Action::ResultE OSG::traverse(std::vector<NodePtr> &nodeList, 
                               TraverseEnterFunctor  func    )
 {
-    Action::ResultE res;
+    Action::ResultE res = Action::Continue;
 
     std::vector<NodePtr>::iterator it = nodeList.begin();
     std::vector<NodePtr>::iterator en = nodeList.end  ();
@@ -555,7 +555,7 @@ OSG_SYSTEMLIB_DLLMAPPING
 Action::ResultE OSG::traverse( NodePtr              node, 
                                TraverseEnterFunctor func )
 {
-    Action::ResultE res;
+    Action::ResultE res = Action::Continue;
     
     res = doCallEnter(node, func);
     
@@ -578,7 +578,7 @@ Action::ResultE OSG::traverse(std::vector<NodePtr> &nodeList,
                               TraverseEnterFunctor  enter, 
                               TraverseLeaveFunctor  leave )
 {
-    Action::ResultE res;
+    Action::ResultE res = Action::Continue;
 
     std::vector<NodePtr>::iterator it = nodeList.begin();
     std::vector<NodePtr>::iterator en = nodeList.end  ();
@@ -603,7 +603,7 @@ Action::ResultE OSG::traverse(   NodePtr node,
                                  TraverseEnterFunctor enter, 
                                  TraverseLeaveFunctor leave )
 {
-    Action::ResultE res;
+    Action::ResultE res = Action::Continue;
     
     res = doCallEnter(node, enter);
     
