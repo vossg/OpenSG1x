@@ -115,3 +115,8 @@
     ?copyToBin@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
     ?copyFromBin@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
     ?syncWith@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXAAV12@@Z
+
+    ?getBinSize@DVRVolumeBase@osg@@UAEIAB_K@Z
+    ?copyToBin@?$MField@VNodePtr@osg@@$0A@@osg@@QBEXAAVBinaryDataHandler@2@@Z
+    ?copyFromBin@?$MField@VNodePtr@osg@@$0A@@osg@@QAEXAAVBinaryDataHandler@2@@Z
+    ?syncWith@?$MField@VNodePtr@osg@@$0A@@osg@@QAEXAAV12@@Z
