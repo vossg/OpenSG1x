@@ -1726,8 +1726,7 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
 
 #else
 
-  FFATAL (( "Cannot run createSharedIndex (0x%p): NO_GEO_INFACE\n",
-            geoPtr.getCPtr() ));
+  FFATAL (( "Cannot run createSharedIndex: NO_GEO_INFACE\n" ));
 
 #endif
 
@@ -1830,8 +1829,7 @@ Int32 osg::createSingleIndex ( GeometryPtr geoPtr )
 
 #else
 
-  FFATAL (( "Cannot run createSingleIndex (0x%p): NO_GEO_INFACE\n",
-            geoPtr.getCPtr() ));
+  FFATAL (( "Cannot run createSingleIndex: NO_GEO_INFACE\n" ));
 
 #endif
 
