@@ -128,13 +128,19 @@ class OSG_BASE_DLLMAPPING QuaternionBase
 
     void setIdentity(void);
 
-	void setValueAsAxis(const ValueTypeT *valsP);
+	void setValueAsAxisRad(const ValueTypeT *valsP);
+	void setValueAsAxisDeg(const ValueTypeT *valsP);
+
 	void setValueAsQuat(const ValueTypeT *valsP);
 
-	void setValueAsAxis(const ValueTypeT x, 
-                        const ValueTypeT y, 
-                        const ValueTypeT z, 
-                        const ValueTypeT w);
+	void setValueAsAxisRad ( const ValueTypeT x, 
+                           const ValueTypeT y, 
+                           const ValueTypeT z, 
+                           const ValueTypeT w);
+	void setValueAsAxisDeg ( const ValueTypeT x, 
+                           const ValueTypeT y, 
+                           const ValueTypeT z, 
+                           const ValueTypeT w);
 
 	void setValueAsQuat(const ValueTypeT x, 
                         const ValueTypeT y, 
@@ -143,14 +149,17 @@ class OSG_BASE_DLLMAPPING QuaternionBase
 
 	void setValue(const MatrixType &matrix);
 
-	void setValue(const VectorType &axis, ValueTypeT angle);
+	void setValueAsAxisRad(const VectorType &axis, ValueTypeT angle);
+	void setValueAsAxisDeg(const VectorType &axis, ValueTypeT angle);
 
-	void setValue(const VectorType &rotateFrom, 
+	void setValue ( const VectorType &rotateFrom, 
                   const VectorType &rotateTo);
 
-	void setValue(const char *str);
+	void setValueAsQuat     (const char *str);
+  void setValueAsAxisRad  (const char *str);
+  void setValueAsAxisDeg  (const char *str);
 
-	void setValue(const ValueTypeT alpha, 
+	void setValue ( const ValueTypeT alpha, 
                   const ValueTypeT beta,
                   const ValueTypeT gamma);
 
@@ -158,17 +167,25 @@ class OSG_BASE_DLLMAPPING QuaternionBase
 
 	const ValueTypeT *getValues(void) const;
 
-	void getValueAsAxis(ValueTypeT &x, 
+	void getValueAsAxisDeg ( ValueTypeT &x, 
+                           ValueTypeT &y, 
+                           ValueTypeT &z,
+                           ValueTypeT &w) const;
+
+	void getValueAsAxisRad ( ValueTypeT &x, 
+                           ValueTypeT &y, 
+                           ValueTypeT &z,
+                           ValueTypeT &w) const;
+
+
+  void getValueAsQuat ( ValueTypeT &x, 
                         ValueTypeT &y, 
                         ValueTypeT &z,
                         ValueTypeT &w) const;
 
-    void getValueAsQuat(ValueTypeT &x, 
-                        ValueTypeT &y, 
-                        ValueTypeT &z,
-                        ValueTypeT &w) const;
+	void getValueAsAxisRad(VectorType &axis, ValueTypeT &radians) const;
+	void getValueAsAxisDeg(VectorType &axis, ValueTypeT &radians) const;
 
-	void getValue(VectorType &axis, ValueTypeT &radians) const;
 	void getValue(MatrixType &matrix) const;
 
 	ValueTypeT x(void) const;

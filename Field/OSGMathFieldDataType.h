@@ -96,7 +96,7 @@ struct FieldDataTraits<Quaternion> : public Traits
     static Bool             getFromString(      Quaternion  &outVal,
                                           const Char8      *&inVal)
     {
-        outVal.setValue(inVal);
+        outVal.setValueAsAxisDeg(inVal);
         return true;
     }
 

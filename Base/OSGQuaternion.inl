@@ -248,7 +248,7 @@ QuaternionBase<ValueTypeT>::QuaternionBase(ValueTypeT x,
                                            ValueTypeT z,
                                            ValueTypeT w)
 {
-    setValueAsAxis(x, y, z, w);
+    setValueAsAxisDeg(x, y, z, w);
 }
 
 /** \brief Constructor from matrix
@@ -269,7 +269,7 @@ QuaternionBase<ValueTypeT>::QuaternionBase(
     const VectorType &axis, 
     const ValueTypeT  angle)
 {
-    setValue(axis, angle);
+    setValueAsAxisDeg(axis, angle);
 }
 
 /** \brief Constructor defined by the from and to vector
@@ -317,11 +317,19 @@ void QuaternionBase<ValueTypeT>::setIdentity(void)
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::setValueAsAxis(
+void QuaternionBase<ValueTypeT>::setValueAsAxisRad(
     const ValueTypeT *valsP)
 {
-    setValueAsAxis(valsP[0], valsP[1], valsP[2], valsP[3]);
+    setValueAsAxisRad(valsP[0], valsP[1], valsP[2], valsP[3]);
 }
+
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(
+    const ValueTypeT *valsP)
+{
+    setValueAsAxisDeg(valsP[0], valsP[1], valsP[2], valsP[3]);
+}
+
 
 /** \brief Sets value of rotation from array of 4 components of a quaternion
  */
@@ -339,14 +347,27 @@ void QuaternionBase<ValueTypeT>::setValueAsQuat(
 }
 
 /** \brief Sets value of rotation from 4 individual components interpreted as
+ *  axis and angle in rad
+ */
+
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const ValueTypeT x, 
+                                                   const ValueTypeT y, 
+                                                    const ValueTypeT z, 
+                                                    const ValueTypeT w)
+{
+  setValueAsAxisDeg(x,y,z,w*180.0);
+}
+
+/** \brief Sets value of rotation from 4 individual components interpreted as
  *  axis and angle in degrees
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::setValueAsAxis(const ValueTypeT x, 
-                                                const ValueTypeT y, 
-                                                const ValueTypeT z, 
-                                                const ValueTypeT w)
+void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const ValueTypeT x, 
+                                                   const ValueTypeT y, 
+                                                    const ValueTypeT z, 
+                                                    const ValueTypeT w)
 {
     ValueTypeT rTmp = osgsqrt(x * x + y * y + z * z);
 
@@ -463,24 +484,21 @@ void QuaternionBase<ValueTypeT>::setValue(const MatrixType &matrix)
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::setValue(const VectorType &axis, 
-                                                ValueTypeT  angle)
+void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const VectorType &axis, 
+                                                    ValueTypeT  angle)
 {
-    ValueTypeT rTmp = axis.length();
+  setValuesAsAxisRad(axis[0],axis[1],axis[2],angle); 
+}
 
-    if(rTmp > Eps)
-    {
-        rTmp = osgsin(osgdegree2rad(angle) / 2.0f) / rTmp;
+/** \brief Sets value of quaternion from 3D rotation axis vector and angle in 
+ *  degrees
+ */
 
-        _quat[0] = axis[0] * rTmp;
-        _quat[1] = axis[1] * rTmp;
-        _quat[2] = axis[2] * rTmp;
-        _quat[3] = osgcos(osgdegree2rad(angle) / 2.0f);
-    }
-    else
-    {
-        setIdentity();
-    }
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const VectorType &axis, 
+                                                    ValueTypeT  angle)
+{
+  setValueAsAxisDeg(axis[0],axis[1],axis[2],angle);
 }
 
 /** \brief Sets rotation to rotate one direction vector to another
@@ -554,12 +572,12 @@ void QuaternionBase<ValueTypeT>::setValue(
 	_quat[3] = osgsqrt(0.5 * (1.0 + cost));
 }
 
-/** \brief Sets rotation by a given str (like "0.0 1.0 0.0 3.14"), be aware
+/** \brief Sets rotation by a given str (like "0.0 1.0 0.0 180"), be aware
     that these values are interpreted as axis, angle in degrees    
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::setValue(const char *str)
+void QuaternionBase<ValueTypeT>::setValueAsQuat(const char *str)
 {
 	UInt32 i;
     UInt32 numOfToken = 4;
@@ -615,8 +633,33 @@ void QuaternionBase<ValueTypeT>::setValue(const char *str)
                 break;
         }
     }
-    
-    setValueAsAxis(vec[0], vec[1], vec[2], vec[3]);
+  
+  _quat[0] = vec[0];
+  _quat[1] = vec[1];
+  _quat[2] = vec[2];
+  _quat[3] = vec[3];
+}
+
+/** \brief Sets rotation by a given str (like "0.0 1.0 0.0 3.14"), be aware
+    that these values are interpreted as axis, angle in rad    
+ */
+
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const char *str)
+{
+  setValueAsQuat(str); 
+  setValueAsAxisRad (_quat[0],_quat[1],_quat[2],_quat[3]);
+}
+
+/** \brief Sets rotation by a given str (like "0.0 1.0 0.0 180"), be aware
+    that these values are interpreted as axis, angle in degree   
+ */
+
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const char *str)
+{
+  setValueAsQuat(str); 
+  setValueAsAxisRad (_quat[0],_quat[1],_quat[2],_quat[3]);
 }
 
 /** \brief Sets rotation by three given euler angles
@@ -663,9 +706,23 @@ const ValueTypeT *QuaternionBase<ValueTypeT>::getValues(void) const
  */
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::getValueAsAxis ( ValueTypeT &x, 
-                                                 	 	    ValueTypeT &y, 
-                                                      ValueTypeT &z,
+void QuaternionBase<ValueTypeT>::getValueAsAxisRad ( ValueTypeT &x, 
+                                                     ValueTypeT &y, 
+                                                        ValueTypeT &z,
+                                                      ValueTypeT &w) const
+{
+	getValueAsAxisDeg(x,y,z,w);
+  w = w / 180.0;
+}
+
+/** \brief Returns 4 individual components of rotation quaternion as axis and
+ *  angle in degrees
+ */
+
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::getValueAsAxisDeg ( ValueTypeT &x, 
+                                                     ValueTypeT &y, 
+                                                    ValueTypeT &z,
                                                       ValueTypeT &w) const
 {
 	ValueTypeT len;
@@ -709,30 +766,30 @@ void QuaternionBase<ValueTypeT>::getValueAsQuat(ValueTypeT &x,
     w = _quat[3];
 }
 
+/// Returns corresponding 3D rotation axis vector and angle in rad
+template <class ValueTypeT> inline
+void QuaternionBase<ValueTypeT>::getValueAsAxisRad(VectorType &axis, 
+                                                   ValueTypeT &radians) const
+{
+  Real32 x,y,z,w;
+
+  getValuesAsAxisRad(x,y,z,w);
+  
+  axis.setValues(x,y,z);
+  radians = w;
+}
+
 /// Returns corresponding 3D rotation axis vector and angle in degrees
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::getValue(VectorType &axis, 
-                                                ValueTypeT &radians) const
+void QuaternionBase<ValueTypeT>::getValueAsAxisDeg(VectorType &axis, 
+                                                   ValueTypeT &radians) const
 {
-	ValueTypeT len;
+  Real32 x,y,z,w;
 
-	VectorType q(_quat[0], _quat[1], _quat[2]);
-	 
-    len = q.length();
-
-	if(len > Eps) 
-    {
-		axis  = q * (TypeConstants<ValueTypeT>::getOneElement() / len);
-
-		radians = osgrad2degree(2.0 * osgacos(_quat[3]));
-	}
-	else 
-    {
-		axis.setValues(TypeConstants<ValueTypeT>::getZeroElement(), 
-                       TypeConstants<ValueTypeT>::getZeroElement(),
-                       TypeConstants<ValueTypeT>::getOneElement());
-		radians = TypeConstants<ValueTypeT>::getZeroElement();
-	}          
+  getValuesAsAxisDeg(x,y,z,w);
+  
+  axis.setValues(x,y,z);
+  radians = w;
 }
 
 /// Returns corresponding 4x4 rotation matrix
