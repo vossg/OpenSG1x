@@ -724,19 +724,18 @@ void RemoteAspect::subFieldFilter( UInt32 typeId,BitVector mask)
  */
 void RemoteAspect::restoreChangeList(ChangeList *tocl)
 {
-    ChangeList *cl = new ChangeList;
     for(clStoreIt i = _clStore.begin();i != _clStore.end(); ++i)
     {
         UInt32 id = (*i).first;
         FieldContainerPtr fc = FieldContainerFactory::the()->getContainer(id);
-        cl->addCreated(id);
-        for(UInt32 j=0;j<(*i).second;++j)
-            cl->addAddRefd(fc);
-        cl->addChanged(fc, FieldBits::AllFields);
+        if(fc != NullFC)
+        {
+            tocl->addCreated(id);
+            for(UInt32 j=0;j<(*i).second;++j)
+                tocl->addAddRefd(fc);
+            tocl->addChanged(fc, FieldBits::AllFields);
+        }
     }
-
-    tocl->merge(*cl);
-    delete cl;
 }
 
 /*! store all created, addRefd, subRefd, destroyed into the clStore.
@@ -779,7 +778,7 @@ void RemoteAspect::storeChangeList(ChangeList *cl)
             _clStore.erase(ci);
     }
     
-    //printf("created size: %u\n", _clStore.size());
+    //printf("clStore size: %u\n", _clStore.size());
 }
 
 /*-------------------------------------------------------------------------*/
