@@ -45,6 +45,27 @@ float                 ca=-1,cb=-1,cc=-1;
 bool                  doStereo=false;
 float                 eyedistance=1,zeroparallax=10;
 int                   serverx=-1,servery=-1;
+vector<Quaternion>    animOri;
+vector<Vec3f     >    animPos;
+string                animName="animation.txt";
+Real32                animTime=0;
+
+void loadAnim()
+{
+    Real32 ax,ay,az,r,x,y,z;
+    FILE *file=fopen(animName.c_str(),"r");
+    
+    animOri.clear();
+    animPos.clear();
+    if(!file)
+        return;
+    while(fscanf(file,"%f %f %f %f,%f %f %f",&ax,&ay,&az,&r,&x,&y,&z)==7)
+    {
+        animOri.push_back(Quaternion(Vec3f(ax,ay,az),r));
+        animPos.push_back(Vec3f(x,y,z));
+    }
+    fclose(file);
+}
 
 void showText(int x, int y, char *string)
 {
@@ -77,15 +98,29 @@ void showText(int x, int y, char *string)
 
 void display(void)
 {
-    static int  count=0;
-    static Time start;
+    Time t;
 
-    if(count==0)
-        start=getSystemTime();
+    t=-getSystemTime();
 
-	beginEditCP( cam_trans );
-    cam_trans->getSFMatrix()->setValue( tball.getFullTrackballMatrix() );
-	endEditCP( cam_trans );
+    beginEditCP( cam_trans );
+    if(animate && animPos.size()>1)
+    {
+        Real32 a;
+        UInt32 i;
+        Vec3f v;
+        animTime=fmod(animTime+(1.0/30.0),(animPos.size()-1));
+        i=(UInt32)animTime;
+        a=animTime-i;
+        v=animPos[i] + (animPos[i+1] - animPos[i]) * a; 
+        cam_trans->getMatrix().setTranslate(v[0],v[1],v[2]);
+        cam_trans->getMatrix().setRotate(
+            Quaternion::slerp(animOri[i],animOri[i+1],a));
+    }
+    else
+    {
+        cam_trans->getSFMatrix()->setValue( tball.getFullTrackballMatrix() );
+    }
+    endEditCP( cam_trans );
     try
     {
         clusterWindow->render( ract );	
@@ -98,13 +133,11 @@ void display(void)
         exit(0);
     }
     
-    count++;
-    if(count==10)
-    {
-        if(animate)
-            printf("FPS %8.3f\n",count/(getSystemTime() - start));
-        count=0;
-    }
+    t+=getSystemTime();
+    if(animate)
+        printf("Frame %8.3f %8.5f %8.3f\n",
+               animTime,
+               t,1/t);
 }
 
 void reshape( int width, int height )
@@ -178,6 +211,37 @@ void key(unsigned char key, int /*x*/, int /*y*/)
 {
 	switch ( key )
 	{
+        case 'l':
+        {
+            loadAnim();
+            break;
+        }
+        case 'c':
+        {
+            FILE *file=fopen(animName.c_str(),"w");
+            fclose(file);
+            animOri.clear();
+            animPos.clear();
+            break;
+        }
+        case 's':
+        {
+            FILE *file=fopen(animName.c_str(),"a");
+            Matrix m=cam_trans->getMatrix();
+            Quaternion q(m);
+            Real32 ax,ay,az,r;
+            animPos.push_back(Vec3f(m[3][0],
+                                    m[3][1],
+                                    m[3][2]));
+            animOri.push_back(q);
+            q.getValueAsAxisRad(ax,ay,az,r);
+            fprintf(file,"%f %f %f %f,%f %f %f\n",ax,ay,az,r,
+                    m[3][0],
+                    m[3][1],
+                    m[3][2]);
+            fclose(file);
+            break;
+        }
         case 'b':	// switch wire frame
             if(ract==ract1)
                 ract=ract2;
@@ -562,6 +626,15 @@ int main(int argc,char **argv)
                         break;
                     case 'y':
                         sscanf(argv[i]+2,"%d",&servery);
+                        break;
+                    case 'a':
+                        if(*(argv[i]+2))
+                        {
+                            animName=argv[i]+2;
+                            loadAnim();
+                        }
+                        glutIdleFunc(display);       
+                        animate=true;
                         break;
                     case 'h':
                         cout << argv[0] 
