@@ -255,22 +255,22 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
     /*! \name                   Get Transformations                        */
     /*! \{                                                                 */
 
-    void getTransform(VectorType3f         &translation, 
-                      QuaternionType       &rotation,
-                      VectorType3f         &scaleFactor, 
-                      QuaternionType       &scaleOrientation,
-                      VectorType3f         &center) const;
+    void getTransform(      VectorType3f         &translation, 
+                            QuaternionType       &rotation,
+                            VectorType3f         &scaleFactor, 
+                            QuaternionType       &scaleOrientation,
+                      const VectorType3f         &center) const;
 
-    void getTransform(VectorType3f         &translation, 
-                      QuaternionType       &rotation,
-                      VectorType3f         &scaleFactor, 
-                      QuaternionType       &scaleOrientation) const;
+    void getTransform(      VectorType3f         &translation, 
+                            QuaternionType       &rotation,
+                            VectorType3f         &scaleFactor, 
+                            QuaternionType       &scaleOrientation) const;
 
-    Bool factor      (TransformationMatrix &r, 
-                      VectorType3f         &s, 
-                      TransformationMatrix &u,
-                      VectorType3f         &t, 
-                      TransformationMatrix &proj) const;
+    Bool factor      (      TransformationMatrix &r, 
+                            VectorType3f         &s, 
+                            TransformationMatrix &u,
+                            VectorType3f         &t, 
+                            TransformationMatrix &proj) const;
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -410,6 +410,12 @@ class OSG_BASE_DLLMAPPING TransformationMatrix
                           const ValueTypeT c1, 
                           const ValueTypeT c2, 
                           const ValueTypeT c3                ) const;
+
+    template<UInt32 JacobiRank = 3>
+    Bool jacobi(ValueTypeT    evalues [JacobiRank],
+                VectorType3f  evectors[JacobiRank],
+                Int32        &rots);
+
     
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

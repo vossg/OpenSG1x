@@ -779,13 +779,24 @@ void TransformationMatrix<ValueTypeT>::setTransform(const VectorType3f   &t,
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::getTransform(
-    VectorType3f   &translation,
-    QuaternionType &rotation,
-    VectorType3f   &scaleFactor,
-    QuaternionType &scaleOrientation,
-    VectorType3f   &center) const
+          VectorType3f   &translation,
+          QuaternionType &rotation,
+          VectorType3f   &scaleFactor,
+          QuaternionType &scaleOrientation,
+    const VectorType3f   &center) const
 {
-    cerr << "Matrix::getTransform not implemented yet\n";
+	TransformationMatrix m;
+    TransformationMatrix c;
+
+	m.setTranslate(-center);
+
+	m.mult(*this);
+
+	c.setTranslate(center);
+
+	m.mult(c);
+
+	m.getTransform(translation, rotation, scaleFactor, scaleOrientation);
 }
 
 //! Decomposes the matrix into a translation, rotation  and scale
@@ -797,7 +808,18 @@ void TransformationMatrix<ValueTypeT>::getTransform(
     VectorType3f   &scaleFactor,
     QuaternionType &scaleOrientation) const
 {
-    cerr << "Matrix::getTransform not implemented yet\n";
+    TransformationMatrix so;
+    TransformationMatrix rot;
+    TransformationMatrix proj;
+
+    this->factor(so, scaleFactor, rot, translation, proj);
+    
+    so.transpose();
+    scaleOrientation.setValue(so);
+
+    // gives us transpose of correct answer.
+    rotation.setValue(rot);
+
 }
 
 /*! \brief Factors a matrix m into 5 pieces: m = r s rt u t, where rt
@@ -813,7 +835,82 @@ Bool TransformationMatrix<ValueTypeT>::factor(TransformationMatrix &r,
                                               VectorType3f         &t,
                                               TransformationMatrix &proj) const
 {
-    cerr << "Matrix::getTransform not implemented yet\n";
+    Real64               det;       
+    Real64               det_sign;   
+    Real64               scratch;
+    Int32                i;
+    Int32                j;
+    Int32                junk;
+    TransformationMatrix a;
+    TransformationMatrix aT;
+    TransformationMatrix rT;
+    TransformationMatrix b;
+    TransformationMatrix si;
+    ValueTypeT           evalues [3];
+    VectorType3f         evectors[3];
+    
+    a = *this;
+
+    proj.setIdentity();
+
+    scratch = 1.0;
+    
+    for (i = 0; i < 3; i++) 
+    {
+        for (j = 0; j < 3; j++) 
+        {
+            a._matrix[i][j] *= scratch;
+        }
+
+        t[i] = _matrix[3][i] * scratch;
+
+        a._matrix[3][i] = a._matrix[i][3] = 0.0;
+    }
+
+    a._matrix[3][3] = 1.0;
+    
+    /* (3) Compute det A. If negative, set sign = -1, else sign = 1 */
+
+    det      = a.det3();
+
+    det_sign = (det < 0.0 ? -1.0 : 1.0);
+
+    if(det_sign * det < 1e-12)
+        return false;      // singular
+    
+    /* (4) B = A * A^  (here A^ means A transpose) */
+    
+    aT.transposeFrom(a);
+    b = a;
+    b.mult(aT);
+    
+    b.jacobi<3>(evalues, evectors, junk);
+    
+    r.setValue(evectors[0][0], evectors[0][1], evectors[0][2], 0.0, 
+               evectors[1][0], evectors[1][1], evectors[1][2], 0.0, 
+               evectors[2][0], evectors[2][1], evectors[2][2], 0.0, 
+                          0.0,            0.0,            0.0, 1.0);
+    
+    /* Compute s = sqrt(evalues), with sign. Set si = s-inverse */
+
+    si.setIdentity();
+
+    for(i = 0; i < 3; i++) 
+    {
+        s[i] = det_sign * osgsqrt(evalues[i]);
+
+        si._matrix[i][i] = 1.0 / s[i];
+    }
+    
+    /* (5) Compute U = RT S! R A. */
+
+    rT.transposeFrom(r);
+    u = r;
+    u.mult(si);
+    u.mult(rT);
+    u.mult(a);
+    
+    return true;
 }
 
 /*---------------------------- transform objects ---------------------------*/
@@ -1623,7 +1720,7 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::transposed(
         TransformationMatrix &result) const
 {
-    result.setValues(
+    result.setValueTransposed(
         (*this)[0][0], (*this)[1][0], (*this)[2][0], (*this)[3][0],
         (*this)[0][1], (*this)[1][1], (*this)[2][1], (*this)[3][1],
         (*this)[0][2], (*this)[1][2], (*this)[2][2], (*this)[3][2],
@@ -1651,11 +1748,12 @@ template<class ValueTypeT> inline
 Bool TransformationMatrix<ValueTypeT>::transposeFrom(
     const TransformationMatrix &matrix)
 {
-    this->setValues(matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0],
-                    matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1],
-                    matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2],
-                    matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3]);
-
+    this->setValueTransposed(
+        matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0],
+        matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1],
+        matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2],
+        matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3]);
+    
     return true;
 }
 
@@ -2414,6 +2512,149 @@ ValueTypeT TransformationMatrix<ValueTypeT>::det3(
         (a1 * b2 * c3) + (a2 * b3 * c1) + (a3 * b1 * c2) -
         (a1 * b3 * c2) - (a2 * b1 * c3) - (a3 * b2 * c1);
 }
+
+template<class ValueTypeT> 
+template<UInt32 JacobiRank> inline
+Bool TransformationMatrix<ValueTypeT>::jacobi(
+    ValueTypeT    evalues [JacobiRank],
+    VectorType3f  evectors[JacobiRank],
+    Int32        &rots)
+{
+    Real64  sm;         
+    Real64  theta;      
+    Real64  c, s, t;    
+    Real64  tau;        
+    Real64  h, g;       
+    Real64  thresh;     
+    Real64  b[JacobiRank]; 
+    Real64  z[JacobiRank]; 
+    Int32   p, q, i, j;
+    Real64  a[JacobiRank][JacobiRank];
+    
+    // initializations
+    for (i = 0; i < JacobiRank; i++) 
+    {
+        b[i] = evalues[i] = _matrix[i][i];
+        z[i] = 0.0;
+
+        for (j = 0; j < JacobiRank; j++) 
+        {
+            evectors[i][j] = (i == j) ? 1.0 : 0.0;
+            a[i][j] = _matrix[i][j];
+        }
+    }
+    
+    rots = 0;
+
+    for(i = 0; i < 50; i++) 
+    {
+        sm = 0.0;
+        
+        for(p = 0; p < JacobiRank - 1; p++)
+        {
+            for(q = p+1; q < JacobiRank; q++)
+            {
+                sm += osgabs(a[p][q]);
+            }
+        }
+
+        if (sm == 0.0)
+            return;
+        
+        thresh = (i < 3 ?
+                  (.2 * sm / (JacobiRank * JacobiRank)) :
+                  0.0);
+        
+        for (p = 0; p < JacobiRank - 1; p++) 
+        {
+            for (q = p + 1; q < JacobiRank; q++) 
+            {
+                g = 100.0 * osgabs(a[p][q]);
+                
+                if (i > 3                                          && 
+                    (osgabs(evalues[p]) + g == osgabs(evalues[p])) &&
+                    (osgabs(evalues[q]) + g == osgabs(evalues[q])))
+                {
+                    a[p][q] = 0.0;
+                }
+                else if (osgabs(a[p][q]) > thresh) 
+                {
+                    h = evalues[q] - evalues[p];
+                    
+                    if (osgabs(h) + g == osgabs(h))
+                    {
+                        t = a[p][q] / h;
+                    }
+                    else 
+                    {
+                        theta = .5 * h / a[p][q];
+                        t = 1.0 / (osgabs(theta) + osgsqrt(1 + theta * theta));
+                        if (theta < 0.0)  t = -t;
+                    }
+                    // End of computing tangent of rotation angle
+                    
+                    c = 1.0 / osgsqrt(1.0 + t * t);
+                    s = t * c;
+
+                    tau = s / (1.0 + c);
+                    h   = t * a[p][q];
+
+                    z[p]    -= h;
+                    z[q]    += h;
+
+                    evalues[p] -= h;
+                    evalues[q] += h;
+
+                    a[p][q] = 0.0;
+                    
+                    for (j = 0; j < p; j++) 
+                    {
+                        g = a[j][p];
+                        h = a[j][q];
+
+                        a[j][p] = g - s * (h + g * tau);
+                        a[j][q] = h + s * (g - h * tau);
+                    }
+                    
+                    for (j = p+1; j < q; j++) 
+                    {
+                        g = a[p][j];
+                        h = a[j][q];
+
+                        a[p][j] = g - s * (h + g * tau);
+                        a[j][q] = h + s * (g - h * tau);
+                    }
+                    
+                    for (j = q+1; j < JacobiRank; j++) 
+                    {
+                        g = a[p][j];
+                        h = a[q][j];
+
+                        a[p][j] = g - s * (h + g * tau);
+                        a[q][j] = h + s * (g - h * tau);
+                    }
+                    
+                    for (j = 0; j < JacobiRank; j++) 
+                    {
+                        g = evectors[j][p];
+                        h = evectors[j][q];
+
+                        evectors[j][p] = g - s * (h + g * tau);
+                        evectors[j][q] = h + s * (g - h * tau);
+                    }
+                }
+                rots++;
+            }
+        }
+        for (p = 0; p < JacobiRank; p++) 
+        {
+            evalues[p] = b[p] += z[p];
+
+            z[p] = 0;
+        }
+    }
+}
+
 
 /*-------------------------------------------------------------------------*/
 /*                               Functions                                 */

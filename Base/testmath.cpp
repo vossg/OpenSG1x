@@ -1536,18 +1536,93 @@ Real32 nonFloatTest(void)
     return rVal;
 }
 
+
+void vec2pnttest(void)
+{
+          Vec3f v (3.f, 3.f, 3.f);
+    const Vec3f cv(2.f, 2.f, 2.f);
+
+          Pnt3f  p(5.f, 5.f, 5.f);
+    const Pnt3f cp(8.f, 8.f, 8.f);
+
+    v = p.subZero();
+
+    fprintf(stderr, "%f %f %f\n", v[0], v[1], v[2]);
+
+    v = cp.subZero();
+
+    fprintf(stderr, "%f %f %f\n", v[0], v[1], v[2]);
+
+    p = v;
+
+    p = cv;
+}
+
+void testfactor(void)
+{
+    Matrix m;
+
+    Vec3f      t1;
+    Vec3f      s1;
+    Quaternion r1;
+
+    Vec3f      sR;
+    Vec3f      tR;
+    Quaternion rR;
+    Quaternion rsR;
+
+    r1.setValueAsAxisDeg(1.f, 0.2f, 0.4f, 34.f);
+    s1.setValues(1.1f, 1.5f, 1.7f);
+    t1.setValues(10.f, 11.f, 12.f);
+
+    m.setTransform(t1, r1, s1);
+
+    cerr << "r1" << endl;
+    cerr << r1 << endl;
+
+    cerr << "t1" << endl;
+    cerr << t1 << endl;
+
+    cerr << "s1" << endl;
+    cerr << s1 << endl;
+
+    cerr << "Matrix" << endl;
+    cerr << m << endl;
+    
+    m.getTransform(tR, rR, sR, rsR);
+
+    cerr << "tR" << endl;
+    cerr << tR << endl;
+
+    cerr << "rR" << endl;
+    cerr << rR << endl;
+
+    cerr << "sR" << endl;
+    cerr << sR << endl;
+
+    cerr << "rsR" << endl;
+    cerr << rsR << endl;
+
+    m.getTransform(tR, rR, sR, rsR, t1);
+}
+
 int main(void)
 {
     osgInit(0, NULL);
 
-//   vectorTestConstructAndSetTest();
+//    vectorTestConstructAndSetTest();
 //    vectorMathTests();
 //    matrixTest();
-//   quattest();
-//  matutilitytest();
-//      matNSMTest();
+//    quattest();
+//    matutilitytest();
+//    matNSMTest();
 
-    nonFloatTest();
+//    nonFloatTest();
+
+//    vec2pnttest();
+
+    testfactor();
 
     return 0;
 }
+
