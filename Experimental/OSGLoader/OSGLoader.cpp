@@ -72,6 +72,7 @@
 #include <OSGFieldContainer.h>
 
 #include <OSGGeoProperty.h>
+#include <OSGMaterialFields.h>
 #include <OSGNode.h>
 #include <OSGGroup.h>
 
@@ -162,6 +163,9 @@ void OSGLoader::initFieldTypeMapper(void)
     setIntExtMapping(SFVec3f::getClassType().getId(),
                      ScanParseSkel::OSGsfVec3f);
 
+    setIntExtMapping(SFColor4f::getClassType().getId(),
+                     ScanParseSkel::OSGsfColor4f);
+
 /*
     setIntExtMapping(ScanParseSkel::OSGmfColor, 
                ::getClassType().getId());
@@ -202,6 +206,11 @@ void OSGLoader::initFieldTypeMapper(void)
                      ScanParseSkel::OSGsfInt32);
     setIntExtMapping(MFUInt8::getClassType().getId(),
                      ScanParseSkel::OSGmfInt32);
+	
+	setIntExtMapping(SFUInt16::getClassType().getId(),
+                     ScanParseSkel::OSGsfInt32);
+    setIntExtMapping(MFUInt16::getClassType().getId(),
+                     ScanParseSkel::OSGmfInt32);
 
     setIntExtMapping(SFUInt32::getClassType().getId(),
                      ScanParseSkel::OSGsfInt32);
@@ -229,7 +238,16 @@ void OSGLoader::initFieldTypeMapper(void)
     setIntExtMapping(SFGeoPositionPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFAttachmentMap::getClassType().getId(),
+	setIntExtMapping(SFGeoNormalPtr::getClassType().getId(),
+					 ScanParseSkel::OSGsfNode);
+	
+	setIntExtMapping(SFGeoTexCoordsPtr::getClassType().getId(),
+					 ScanParseSkel::OSGsfNode);
+	
+	setIntExtMapping(SFMaterialPtr::getClassType().getId(),
+					 ScanParseSkel::OSGsfNode);
+
+	setIntExtMapping(SFAttachmentMap::getClassType().getId(),
                      ScanParseSkel::OSGmfNode);
 
     setIntExtMapping(SFWindowPtr::getClassType().getId(),
@@ -267,6 +285,9 @@ void OSGLoader::initFieldTypeMapper(void)
     
     setIntExtMapping(MFPnt3f::getClassType().getId(),
                      ScanParseSkel::OSGmfPnt3f);
+	setIntExtMapping(SFDynamicVolume::getClassType().getId(),
+					 ScanParseSkel::OSGmfFloat);
+	
 }
 
 /* remove this, if there is a general methode to find containers */
