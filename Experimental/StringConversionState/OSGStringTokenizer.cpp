@@ -55,7 +55,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStringTokenizer.cpp,v 1.1 2002/02/22 17:01:53 neumannc Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStringTokenizer.cpp,v 1.2 2002/02/22 23:44:24 dirk Exp $";
     static Char8 cvsid_hpp[] = OSG_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSG_INLINE_CVSID;
 }
@@ -116,7 +116,7 @@ StringTokenizer::~StringTokenizer(void)
 
 /*! assignment
  */
-void StringTokenizer::operator = (const StringTokenizer &source)
+void StringTokenizer::operator = (const StringTokenizer &OSG_CHECK_ARG(source))
 {
     ;
 }
