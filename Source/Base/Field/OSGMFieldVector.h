@@ -48,8 +48,10 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! MFieldVector
-//! \ingroup GrpBaseField
+/*! \file OSGMFieldVector.h
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldMulti
+ */
 
 #if defined(__sgi) || defined(__linux) || defined(darwin) || defined(__hpux)
 
@@ -73,6 +75,11 @@ OSG_BEGIN_NAMESPACE
 
 template <class FieldTypeT, Int32 fieldNameSpace>
 class MField;
+
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldMulti
+    \hideinhierarchy
+ */
 
 template <class Tp, class Alloc OSG_STL_DEFAULT_ALLOCATOR(Tp) >
 class MFieldVector : public std::vector<Tp, Alloc> 
@@ -124,6 +131,11 @@ class MFieldVector : public std::vector<Tp, Alloc>
 #endif
 
 #elif defined(WIN32)
+
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldMulti
+    \hideinhierarchy
+ */
 
 template<class Ty, class A = std::allocator<Ty> >
 class MFieldVector : public std::vector<Ty, A>

@@ -54,15 +54,23 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \file OSGSField.h
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+ */
+
 class BinaryDataHandler;
 
-//! Base class for all single fields, for example ::SFMatrix.
-//! \ingroup GrpBaseFieldSingle
+/*! Base class for all single fields, for example SFMatrix.
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldSingle
+ */
 
 template <class FieldTypeT, Int32 fieldNameSpace = 0>
 class SField : public Field 
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef typename osgIF<fieldNameSpace == 1,
@@ -125,10 +133,10 @@ class SField : public Field
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-    virtual void setAbstrValue(const Field        &obj  );
-
             void setValue     (      ArgumentType  value);
             void setValue     (const Self         &obj  );
+
+    virtual void setAbstrValue(const Field        &obj  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -173,6 +181,7 @@ class SField : public Field
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef Field Inherited;
@@ -189,6 +198,7 @@ class SField : public Field
     /*---------------------------------------------------------------------*/
 
     /*==========================  PRIVATE  ================================*/
+
   private:
 };
 

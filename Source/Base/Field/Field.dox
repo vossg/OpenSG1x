@@ -8,16 +8,28 @@ using namespace OSG;
     See \ref PageBaseField for details.
 */
 
+/*! \defgroup GrpBaseFieldTraits Field Data Traits
+    \ingroup GrpBaseField
+
+    ToDo
+*/
+
 /*! \defgroup GrpBaseFieldSingle Single-Element Fields
     \ingroup GrpBaseField
 
-    \brief ToDo
+    ToDo
 */
 
 /*! \defgroup GrpBaseFieldMulti Multi-Element Fields
     \ingroup GrpBaseField
 
-    \brief ToDo
+    ToDo
+*/
+
+/*! \defgroup GrpBaseFieldHelper Field Helper
+    \ingroup GrpBaseFieldHelper
+
+    ToDo
 */
 
 /*! \page PageBaseField Fields

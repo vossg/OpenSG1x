@@ -38,6 +38,9 @@
 #include <netinet/in.h>
 #endif
 #include <sys/types.h>
+
+#include <OSGBaseFunctions.h>
+
 OSG_BEGIN_NAMESPACE
 
 // define helper functions
@@ -140,6 +143,7 @@ inline
 void BinaryDataHandler::putValue(const UInt16 &value)
 {
     UInt16 z = htons(value);
+
     put(&z, sizeof(UInt16));
 }
 
@@ -147,6 +151,7 @@ inline
 void BinaryDataHandler::putValue(const UInt32 &value)
 {
     UInt32 z = htonl(value);
+
     put(&z, sizeof(UInt32));
 }
 
@@ -154,6 +159,7 @@ inline
 void BinaryDataHandler::putValue(const UInt64 &value)
 {
     UInt64 z = htonl64(value);
+
     put(&z, sizeof(UInt64));
 }
 
@@ -167,6 +173,7 @@ inline
 void BinaryDataHandler::putValue(const Int16 &value)
 {
     Int16 z = htons(value);
+
     put(&z, sizeof(Int16));
 }
 
@@ -174,6 +181,7 @@ inline
 void BinaryDataHandler::putValue(const Int32 &value)
 {
     Int32 z = htonl(value);
+
     put(&z, sizeof(Int32));
 }
 
@@ -182,12 +190,14 @@ void BinaryDataHandler::putValue(const Int64 &value)
 {
     Int64 z = htonl64(value);
     put(&z, sizeof(Int64));
+
 }
 
 inline 
 void BinaryDataHandler::putValue(const Real32 &value)
 {
     UInt32 v = htonl( *((UInt32*)(&value)) );
+
     put(&v, sizeof(Real32));
 }
 
@@ -195,203 +205,206 @@ inline
 void BinaryDataHandler::putValue(const Real64 &value)
 {
     UInt64 v = htonl64( *((UInt64*)(&value)) );
+
     put(&v, sizeof(Real64));
 }
 
 inline 
 void BinaryDataHandler::putValue(const std::string &value)
 {
-    UInt32 len = strlen(value.c_str()) + 1;
+    UInt32 len = stringlen(value.c_str()) + 1;
 
     putValue(len);
-    if(len)
+
+    if(len != 0)
+    {
         put(value.c_str(), len);
+    }
 }
 
 
 inline 
 void BinaryDataHandler::putValues(const bool *value, UInt32 size)
 {
-    put(value, size*sizeof(bool));
+    put(value, size * sizeof(bool));
 }
 
 inline 
 void BinaryDataHandler::putValues(const UInt8 *value, UInt32 size)
 {
-    put(value, size*sizeof(UInt8));
+    put(value, size * sizeof(UInt8));
 }
 
 inline 
 void BinaryDataHandler::putValues(const UInt16 *value, UInt32 size)
 {
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+
+    if(_networkOrder == true)
     {
-        UInt32 i;
-        for(i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             putValue(value[i]);
+        }
     }
     else
 #endif
     {
-        put(value, size*sizeof(UInt16));
+        put(value, size * sizeof(UInt16));
     }
 }
-
-
 
 inline 
 void BinaryDataHandler::putValues(const UInt32 *value, UInt32 size)
 {
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        UInt32 i;
-        for(i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             putValue(value[i]);
+        }
     }
     else
 #endif
     {
-        put(value, size*sizeof(UInt32));
+        put(value, size * sizeof(UInt32));
     }
 }
-
 
 inline 
 void BinaryDataHandler::putValues(const UInt64 *value, UInt32 size)
 {
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        UInt32 i;
-        for(i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             putValue(value[i]);
+        }
     }
     else
 #endif
     {
-        put(value, size*sizeof(UInt64));
+        put(value, size * sizeof(UInt64));
     }
 }
-
 
 inline 
 void BinaryDataHandler::putValues(const Int8 *value, UInt32 size)
 {
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        UInt32 i;
-        for(i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             putValue(value[i]);
+        }
     }
     else
 #endif
     {
-        put(value, size*sizeof(Int8));
+        put(value, size * sizeof(Int8));
     }
 }
-
-
 
 inline 
 void BinaryDataHandler::putValues(const Int16 *value, UInt32 size)
 {
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        UInt32 i;
-        for(i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             putValue(value[i]);
+        }
     }
     else
 #endif
     {
-        put(value, size*sizeof(Int16));
+        put(value, size * sizeof(Int16));
     }
 }
-
-
 
 inline 
 void BinaryDataHandler::putValues(const Int32 *value, UInt32 size)
 {
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        UInt32 i;
-        for(i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             putValue(value[i]);
+        }
     }
     else
 #endif
     {
-        put(value, size*sizeof(Int32));
+        put(value, size * sizeof(Int32));
     }
 }
-
 
 inline 
 void BinaryDataHandler::putValues(const Int64 *value, UInt32 size)
 {
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        UInt32 i;
-        for(i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             putValue(value[i]);
+        }
     }
     else
 #endif
     {
-        put(value, size*sizeof(Int64));
+        put(value, size * sizeof(Int64));
     }
 }
-
 
 inline 
 void BinaryDataHandler::putValues(const Real32 *value, UInt32 size)
 {
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        UInt32 i;
-        for(i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             putValue(value[i]);
+        }
     }
     else
 #endif
     {
-        put(value, size*sizeof(Real32));
+        put(value, size * sizeof(Real32));
     }
 }
-
 
 inline 
 void BinaryDataHandler::putValues(const Real64 *value, UInt32 size)
 {
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        UInt32 i;
-        for(i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             putValue(value[i]);
+        }
     }
     else
 #endif
     {
-        put(value, size*sizeof(Real64));
+        put(value, size * sizeof(Real64));
     }
 }
-
 
 inline 
 void BinaryDataHandler::putValues(const std::string *value, UInt32 size)
 {
-    UInt32 i;
-    for(i = 0; i<size; ++i)
+    for(UInt32 i = 0; i<size; ++i)
+    {
         putValue(value[i]);    
+    }
 }
 
 inline 
@@ -410,6 +423,7 @@ inline
 void BinaryDataHandler::getValue(UInt16 &value)
 {
     get(&value, sizeof(UInt16));
+
     value = ntohs(value);
 }
 
@@ -417,6 +431,7 @@ inline
 void BinaryDataHandler::getValue(UInt32 &value)
 {
     get(&value, sizeof(UInt32));
+
     value = ntohl(value);
 }
 
@@ -424,6 +439,7 @@ inline
 void BinaryDataHandler::getValue(UInt64 &value)
 {
     get(&value, sizeof(UInt64));
+
     value = ntohl64(value);
 }
 
@@ -437,6 +453,7 @@ inline
 void BinaryDataHandler::getValue(Int16 &value)
 {
     get(&value, sizeof(Int16));
+
     value = ntohs(value);
 }
 
@@ -444,6 +461,7 @@ inline
 void BinaryDataHandler::getValue(Int32 &value)
 {
     get(&value, sizeof(Int32));
+
     value = ntohl(value);
 }
 
@@ -451,6 +469,7 @@ inline
 void BinaryDataHandler::getValue(Int64 &value)
 {
     get(&value, sizeof(Int64));
+
     value = ntohl64(value);
 }
 
@@ -458,18 +477,22 @@ inline
 void BinaryDataHandler::getValue(Real32 &value)
 {
     UInt32 v;
+
     get(&v, sizeof(Real32));
-    v = ntohl(v);
-    value = *((Real32*)(&v));
+
+    v     = ntohl(v);
+    value = *(reinterpret_cast<Real32 *>(&v));
 }
 
 inline 
 void BinaryDataHandler::getValue(Real64 &value)
 {
     UInt64 v;
+
     get(&v, sizeof(Real64));
-    v = ntohl64(v);
-    value = *((Real64*)(&v));
+
+    v     = ntohl64(v);
+    value = *(reinterpret_cast<Real64 *>(&v));
 }
 
 inline 
@@ -479,14 +502,16 @@ void BinaryDataHandler::getValue(std::string &value)
     Char8  *str = NULL;
 
     getValue(len);
-    if(len)
+
+    if(len != 0)
     {
-	str = new Char8[len];
+        str = new Char8[len];
+        
+        get(str, len);
 
-	get(str, len);
-	value = str;
-
-	delete [] str;
+        value = str;
+        
+        delete [] str;
     }
     else
     {
@@ -497,24 +522,27 @@ void BinaryDataHandler::getValue(std::string &value)
 inline 
 void BinaryDataHandler::getValues(bool *value, UInt32 size)
 {
-    get(value, size*sizeof(bool));
+    get(value, size * sizeof(bool));
 }
 
 inline 
 void BinaryDataHandler::getValues(UInt8 *value, UInt32 size)
 {
-    get(value, size*sizeof(UInt8));
+    get(value, size * sizeof(UInt8));
 }
 
 inline 
 void BinaryDataHandler::getValues(UInt16 *value, UInt32 size)
 {
-    get(value, size*sizeof(UInt16));
+    get(value, size * sizeof(UInt16));
+
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        for(UInt32 i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             value[i] = ntohs(value[i]);
+        }
     }
 #endif
 }
@@ -522,26 +550,31 @@ void BinaryDataHandler::getValues(UInt16 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(UInt32 *value, UInt32 size)
 {
-    get(value, size*sizeof(UInt32));
+    get(value, size * sizeof(UInt32));
+
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        for(UInt32 i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             value[i] = ntohl(value[i]);
+        }
     }
 #endif
 }
 
-
 inline 
 void BinaryDataHandler::getValues(UInt64 *value, UInt32 size)
 {
-    get(value, size*sizeof(UInt64));
+    get(value, size * sizeof(UInt64));
+
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        for(UInt32 i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             value[i] = ntohl64(value[i]);
+        }
     }
 #endif
 }
@@ -549,18 +582,21 @@ void BinaryDataHandler::getValues(UInt64 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(Int8 *value, UInt32 size)
 {
-    get(value, size*sizeof(Int8));
+    get(value, size * sizeof(Int8));
 }
 
 inline 
 void BinaryDataHandler::getValues(Int16 *value, UInt32 size)
 {
-    get(value, size*sizeof(Int16));
+    get(value, size * sizeof(Int16));
+
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        for(UInt32 i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             value[i] = ntohs(value[i]);
+        }
     }
 #endif
 }
@@ -568,12 +604,15 @@ void BinaryDataHandler::getValues(Int16 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(Int32 *value, UInt32 size)
 {
-    get(value, size*sizeof(Int32));
+    get(value, size * sizeof(Int32));
+
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        for(UInt32 i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             value[i] = ntohl(value[i]);
+        }
     }
 #endif
 }
@@ -581,12 +620,15 @@ void BinaryDataHandler::getValues(Int32 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(Int64 *value, UInt32 size)
 {
-    get(value, size*sizeof(Int64));
+    get(value, size * sizeof(Int64));
+
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        for(UInt32 i = 0; i<size; ++i)
+        for(UInt32 i = 0; i < size; ++i)
+        {
             value[i] = ntohl64(value[i]);
+        }
     }
 #endif
 }
@@ -594,13 +636,17 @@ void BinaryDataHandler::getValues(Int64 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(Real32 *value, UInt32 size)
 {
-    get(value, size*sizeof(Real32));
+    get(value, size * sizeof(Real32));
+
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        UInt32 *intValue=(UInt32*)(value);
-        for(UInt32 i = 0; i<size; ++i)
-            intValue[i]=ntohl(intValue[i]);
+        UInt32 *intValue = reinterpret_cast<UInt32 *>(value);
+
+        for(UInt32 i = 0; i < size; ++i)
+        {
+            intValue[i] = ntohl(intValue[i]);
+        }
     }
 #endif
 }
@@ -608,13 +654,17 @@ void BinaryDataHandler::getValues(Real32 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(Real64 *value, UInt32 size)
 {
-    get(value, size*sizeof(Real64));
+    get(value, size * sizeof(Real64));
+
 #if BYTE_ORDER == LITTLE_ENDIAN
-    if(_networkOrder)
+    if(_networkOrder == true)
     {
-        UInt64 *longValue=(UInt64*)(value);
-        for(UInt32 i = 0; i<size; ++i)
-            longValue[i]=ntohl64(longValue[i]);
+        UInt64 *longValue = reinterpret_cast<UInt64 *>(value);
+
+        for(UInt32 i = 0; i < size; ++i)
+        {
+            longValue[i] = ntohl64(longValue[i]);
+        }
     }
 #endif
 }
@@ -622,9 +672,10 @@ void BinaryDataHandler::getValues(Real64 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(std::string *value, UInt32 size)
 {
-    UInt32 i;
-    for(i = 0; i<size; ++i)
+    for(UInt32 i = 0; i < size; ++i)
+    {
         getValue(value[i]);
+    }
 }
 
 inline
@@ -644,9 +695,21 @@ MemoryHandle BinaryDataHandler::MemoryBlock::getMem(void)
 }
 
 inline
+void BinaryDataHandler::MemoryBlock::setMem(MemoryHandle mem)
+{
+    _mem = mem;
+}
+
+inline
 UInt32 BinaryDataHandler::MemoryBlock::getSize(void)
 {
     return _size;
+}
+
+inline
+void BinaryDataHandler::MemoryBlock::setSize(UInt32 size)
+{
+    _size = size;
 }
 
 inline
@@ -658,19 +721,7 @@ UInt32 BinaryDataHandler::MemoryBlock::getDataSize(void)
 inline
 void BinaryDataHandler::MemoryBlock::setDataSize(UInt32 dataSize)
 {
-    _dataSize=dataSize;
-}
-
-inline
-void BinaryDataHandler::MemoryBlock::setSize(UInt32 size)
-{
-    _size=size;
-}
-
-inline
-void BinaryDataHandler::MemoryBlock::setMem(MemoryHandle mem)
-{
-    _mem=mem;
+    _dataSize = dataSize;
 }
 
 inline
@@ -700,3 +751,4 @@ BinaryDataHandler::BuffersT::iterator BinaryDataHandler::writeBufEnd(void)
 OSG_END_NAMESPACE
 
 #define OSGBINARYDATAHANDLER_INLINE_CVSID "@(#)$Id: $"
+

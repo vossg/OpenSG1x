@@ -48,40 +48,8 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::FieldType
- */
-
-
-/*! \typedef Field *(*FieldType::CreateFieldMethod)(void)
-    \brief Field create method
- */
-
-/*! \var FieldType::_createMethod
-    \brief Field create method
- */
-
-/*! \var FieldType::_contentType
-    \brief Type stored within fields of this type
- */
-
-/*! \var FieldType::_cardinality
-    \brief Cardinality of fields of this type
- */
-
-/*! \var FieldType::Cardinality FieldType::SINGLE_FIELD
-    \brief Single field
- */
-
-/*! \var FieldType::Cardinality FieldType::MULTI_FIELD
-    \brief Mulit field
- */
-
-/*! \fn FieldType::FieldType(const FieldType &source)
-    Only declared public if MSVS is used
- */
-
-/*! \fn void FieldType::operator =(const FieldType &source)
-    Only declared public if MSVS is used
+/*! \var osg::FieldType::_contentType
+    Type stored within fields of this type
  */
 
 /*-------------------------------------------------------------------------*/

@@ -53,15 +53,13 @@
 /*! \file OSGMFMathTypes.h
     \ingroup GrpBaseField
     \ingroup GrpBaseFieldMulti
-    \brief OpenSG math multi fields
 */
 
 OSG_BEGIN_NAMESPACE
 
 
-/*! \brief MFMatrix
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \ingroup GrpBaseFieldMulti
+ */
 
 typedef MField<Matrix>     MFMatrix;
 
@@ -70,9 +68,8 @@ OSG_DLLEXPORT_DECL1(MField, Matrix, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief MFQuaternion
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \ingroup GrpBaseFieldMulti
+ */
 
 typedef MField<Quaternion> MFQuaternion;
 

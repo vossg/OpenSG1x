@@ -54,15 +54,23 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \file OSGMField.h
+    \ingroup GrpBaseField
+    \ingroup GrpBaseFieldMulti
+ */
+
 class BinaryDataHandler;
 
-//! Base class for all multi field, for example ::MFMatrix
-//! \ingroup GrpBaseFieldMulti
+/*! Base class for all multi field, for example MFMatrix
+   \ingroup GrpBaseField
+   \ingroup GrpBaseFieldMulti
+ */
 
 template <class FieldTypeT, Int32 fieldNameSpace = 0>
 class MField : public Field
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef          MFieldVector<FieldTypeT>     StorageType;
@@ -121,22 +129,23 @@ class MField : public Field
     virtual UInt32             getSize  (      void        ) const;
 #endif
 
-                  StorageType &getValues(void);
-            const StorageType &getValues(void) const;
+                  StorageType &getValues(      void            );
+            const StorageType &getValues(      void            ) const;
  
-    virtual const FieldType   &getType  (void) const;
+    virtual const FieldType   &getType  (      void            ) const;
 
-    virtual       bool         isEmpty  (void) const;
+    virtual       bool         isEmpty  (      void            ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-    virtual void setAbstrValue(const Field       &obj  );
-
             void setValues    (const StorageType &value);
             void setValues    (const Self        &obj  );
+
+    virtual void setAbstrValue(const Field       &obj  );
+
     
 #ifndef OSG_DISABLE_DEPRECIATED
             void setValue     (      ArgumentType value,
@@ -229,6 +238,7 @@ class MField : public Field
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef Field Inherited;
@@ -243,9 +253,8 @@ class MField : public Field
 
     static       Field       *create(void);
 
-    /*---------------------------------------------------------------------*/
-
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldContainer;

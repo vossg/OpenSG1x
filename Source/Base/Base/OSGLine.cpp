@@ -379,6 +379,8 @@ bool Line::intersect(const FrustumVolume &frustum) const
 
 OSG_BEGIN_NAMESPACE
 
+/*! \hideinhierarchy */
+
 struct face
 {
     Pnt3f point;

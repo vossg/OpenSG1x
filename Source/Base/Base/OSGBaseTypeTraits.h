@@ -755,8 +755,7 @@ struct TypeTraits<Int64> : public TypeTraitsBase
     }
 };
 
-
-/*! \ingroup GrpBaseBaseBaseTypeTraits
+/*! \ingroup GrpBaseBaseBaseTypeTraits 
  */
 
 template <>

@@ -49,37 +49,6 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::Field
-    \ingroup GrpBaseField
- */
-
-
-/*! \fn const FieldType &Field::getType(void) const
-    \ingroup GrpBaseField
-    \brief Get field type
-*/
-
-/*! \fn UInt32 Field::getSize(void) const
-    \ingroup GrpBaseField
-    \brief Returns the size of the field, allway 1 for single fields.
-*/
-
-/*! \fn void Field::pushValueByStr(const Char8 *str)
-    \ingroup GrpBaseField
-    \brief Set value from string
-*/
-
-/*! \fn string &Field::getValueByStr(string &str) const
-    \ingroup GrpBaseField
-    \brief dump value to string
-*/
-
-/*! \fn void Field::setAbstrValue(const Field &obj)
-    \ingroup GrpBaseField
-    \brief Set value from the given Field, if possible
-*/
-
-
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
@@ -90,14 +59,10 @@ Field::~Field(void)
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
 
-//! Returns the content type of the field
-
 const DataType &Field::getContentType(void) const
 {
     return getType().getContentType();
 }
-
-//! Returns the cardinality of the field
 
 FieldType::Cardinality Field::getCardinality(void) const
 {
@@ -114,7 +79,6 @@ Field::Field(void)
 Field::Field(const Field &)
 {
 }
-
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

@@ -50,25 +50,22 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::BinaryDataHandler
-    Used by the copy functions implemented in SField and MField
-*/
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 BinaryDataHandler::BinaryDataHandler(UInt32 zeroCopyThreshold,
-                                     bool networkOrder) :
-    _readBuffers          (),
-    _writeBuffers         (),
-    _zeroCopyBuffers      (),
+                                     bool   networkOrder     ) :
+    _readBuffers          (                 ),
+    _writeBuffers         (                 ),
+    _zeroCopyBuffers      (                 ),
     _zeroCopyThreshold    (zeroCopyThreshold),
-    _freeMem              (),
-    _currentReadBuffer    (),
-    _currentReadBufferPos (0),
-    _currentWriteBuffer   (),
-    _currentWriteBufferPos(0),
-    _networkOrder         (networkOrder)
+    _freeMem              (                 ),
+    _currentReadBuffer    (                 ),
+    _currentReadBufferPos (0                ),
+    _currentWriteBuffer   (                 ),
+    _currentWriteBufferPos(0                ),
+    _networkOrder         (networkOrder     )
 {
 }
 
@@ -82,8 +79,6 @@ BinaryDataHandler::~BinaryDataHandler(void)
 
 /*-------------------------------------------------------------------------*/
 /*                                Put                                      */
-
-//! \brief but binary data
 
 void BinaryDataHandler::put(void const *src, UInt32 size)
 {
@@ -118,7 +113,7 @@ void BinaryDataHandler::put(void const *src, UInt32 size)
                 pushBuffer();
             }
 
-            copySize = osgMin((_currentWriteBuffer->getSize()    -
+            copySize = osgMin((_currentWriteBuffer->getSize() -
                                _currentWriteBufferPos),
                               size);
 
@@ -135,14 +130,13 @@ void BinaryDataHandler::put(void const *src, UInt32 size)
             {
                 _currentWriteBuffer->setDataSize(_currentWriteBufferPos);
                 _currentWriteBuffer++;
-                _currentWriteBufferPos=0;
+                _currentWriteBufferPos = 0;
             }
         }
     }
 }
 
 /*! Put data from dynamic allocated block
-  
     The caller doesn't know, when the block will be written. So we are
     responsible for freeing this block.
 */
@@ -164,8 +158,6 @@ void BinaryDataHandler::putAndFree(MemoryHandle src, UInt32 size)
 /*-------------------------------------------------------------------------*/
 /*                                Put                                      */
 
-//! \brief get binary data
-
 void BinaryDataHandler::get(void *dst, UInt32 size)
 {
     MemoryHandle data = static_cast<MemoryHandle>(dst);
@@ -182,7 +174,7 @@ void BinaryDataHandler::get(void *dst, UInt32 size)
         }
 
         // read direct into destination
-        read(data,size);
+        read(data, size);
     }
     else
     {
@@ -242,7 +234,7 @@ void BinaryDataHandler::getAndAlloc(MemoryHandle &src, UInt32 size)
 /*-------------------------------------------------------------------------*/
 /*                              Flush                                      */
 
-//! \brief write data not written 
+//! \brief write data not yet written 
 
 void BinaryDataHandler::flush(void)
 {
@@ -264,6 +256,7 @@ void BinaryDataHandler::flush(void)
 
 /*--------------------------------------------------------------------------*/
 /*                             NetworkOrder mode                            */
+
 void BinaryDataHandler::setNetworkOrder(bool value)
 {
     _networkOrder = value;    
@@ -281,7 +274,9 @@ void BinaryDataHandler::readBufAdd(MemoryHandle mem,
                                    UInt32       size,
                                    UInt32       dataSize)
 {
-    _readBuffers.push_back(MemoryBlock(mem, size, dataSize));
+    MemoryBlock memBlock(mem, size, dataSize);
+
+    _readBuffers.push_back(memBlock);
 
     _currentReadBuffer = readBufEnd();
 }
@@ -300,7 +295,9 @@ void BinaryDataHandler::writeBufAdd(MemoryHandle mem,
                                     UInt32       size,
                                     UInt32       dataSize)
 {
-    _writeBuffers.push_back(MemoryBlock(mem, size, dataSize));
+    MemoryBlock memBlock(mem, size, dataSize);
+
+    _writeBuffers.push_back(memBlock);
 
     _currentWriteBuffer    = writeBufBegin();
     _currentWriteBufferPos = 0;
@@ -317,7 +314,7 @@ void BinaryDataHandler::writeBufClear(void)
 /*-------------------------------------------------------------------------*/
 /*                               Read                                      */
 
-/*! \brief default buffer read
+/*!  default buffer read
  
      Use direct read to implement buffer read. First read buffer size
      and then read rest of buffer
@@ -337,10 +334,10 @@ void BinaryDataHandler::readBuffer(void)
 
     // read buffer size
     read((MemoryHandle) &nsize, sizeof(UInt32));
-    size=ntohl(nsize);
+    size = ntohl(nsize);
 
     // read rest of buffer
-    for(i = readBufBegin(); size; ++i)
+    for(i = readBufBegin(); size != 0; ++i)
     {
         if(i == readBufEnd())
         {
@@ -359,7 +356,7 @@ void BinaryDataHandler::readBuffer(void)
         size -= readSize;
     }
 
-    for(; i!= readBufEnd(); ++i)
+    for(; i != readBufEnd(); ++i)
     {
         i->setDataSize(0);
     }
@@ -369,8 +366,7 @@ void BinaryDataHandler::readBuffer(void)
 #pragma warning (default : 383)
 #endif
 
-/** \brief direct buffer read
-    write data into given buffer
+/*! direct buffer read, write data into given buffer
 */
 
 void BinaryDataHandler::read(MemoryHandle OSG_CHECK_ARG(src ),
@@ -383,8 +379,7 @@ void BinaryDataHandler::read(MemoryHandle OSG_CHECK_ARG(src ),
 /*-------------------------------------------------------------------------*/
 /*                               Write                                     */
 
-/** \brief default buffer write
-    Use direct write to implement buffer write.
+/*! default buffer write, use direct write to implement buffer write.
 */
 
 void BinaryDataHandler::writeBuffer(void)
@@ -400,7 +395,8 @@ void BinaryDataHandler::writeBuffer(void)
     }
 
     // write buffer size
-    nsize=htonl(size);
+    nsize = htonl(size);
+
     write((MemoryHandle) &nsize, sizeof(UInt32));
 
     // write buffers
@@ -416,8 +412,7 @@ void BinaryDataHandler::writeBuffer(void)
 /*-------------------------------------------------------------------------*/
 /*                               Handle Buffer                             */
 
-/*! \brief direct buffer write
-    write data into given buffer
+/*! direct buffer write, write data into given buffer
 */
 
 void BinaryDataHandler::write(MemoryHandle OSG_CHECK_ARG(src ),
@@ -436,7 +431,7 @@ void BinaryDataHandler::pushBuffer()
 
     // direct write zero copy buffers
     for(  i  = _zeroCopyBuffers.begin();
-          i != _zeroCopyBuffers.end();
+          i != _zeroCopyBuffers.end  ();
         ++i)
     {
         write(i->getMem(), i->getDataSize());

@@ -53,15 +53,13 @@
 /*! \file OSGSFVecTypes.h
     \ingroup GrpBaseField
     \ingroup GrpBaseFieldSingle
-    \brief OpenSG vector and point single fields
-*/
+ */
 
 OSG_BEGIN_NAMESPACE
 
 
-/*! \brief SFVec2f
-    \ingroup GrpBaseFieldSingle
-*/
+/*! \ingroup GrpBaseFieldSingle
+ */
 
 typedef SField<Vec2f> SFVec2f;
 
@@ -70,9 +68,8 @@ OSG_DLLEXPORT_DECL1(SField, Vec2f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief SFVec3f
-    \ingroup GrpBaseFieldSingle
-*/
+/*! \ingroup GrpBaseFieldSingle
+ */
 
 typedef SField<Vec3f> SFVec3f;
 
@@ -80,9 +77,8 @@ typedef SField<Vec3f> SFVec3f;
 OSG_DLLEXPORT_DECL1(SField, Vec3f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
-/*! \brief SFVec4f
-    \ingroup GrpBaseFieldSingle
-*/
+/*! \ingroup GrpBaseFieldSingle
+ */
 
 typedef SField<Vec4f> SFVec4f;
 
@@ -91,9 +87,8 @@ OSG_DLLEXPORT_DECL1(SField, Vec4f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief SFPnt2f
-    \ingroup GrpBaseFieldSingle
-*/
+/*! \ingroup GrpBaseFieldSingle
+ */
 
 typedef SField<Pnt2f> SFPnt2f;
 
@@ -102,9 +97,8 @@ OSG_DLLEXPORT_DECL1(SField, Pnt2f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief SFPnt2d
-    \ingroup GrpBaseFieldSingle
-*/
+/*! \ingroup GrpBaseFieldSingle
+ */
 
 typedef SField<Pnt2d> SFPnt2d;
 
@@ -113,9 +107,8 @@ OSG_DLLEXPORT_DECL1(SField, Pnt2d, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief SFPnt3f
-    \ingroup GrpBaseFieldSingle
-*/
+/*! \ingroup GrpBaseFieldSingle
+ */
 
 typedef SField<Pnt3f> SFPnt3f;
 
@@ -124,9 +117,8 @@ OSG_DLLEXPORT_DECL1(SField, Pnt3f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief SFPnt3d
-    \ingroup GrpBaseFieldSingle
-*/
+/*! \ingroup GrpBaseFieldSingle
+ */
 
 typedef SField<Pnt3d> SFPnt3d;
 
@@ -135,9 +127,8 @@ OSG_DLLEXPORT_DECL1(SField, Pnt3d, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief SFPnt4f
-    \ingroup GrpBaseFieldSingle
-*/
+/*! \ingroup GrpBaseFieldSingle
+ */
 
 typedef SField<Pnt4f> SFPnt4f;
 
@@ -146,9 +137,8 @@ OSG_DLLEXPORT_DECL1(SField, Pnt4f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief SFPnt4d
-    \ingroup GrpBaseFieldSingle
-*/
+/*! \ingroup GrpBaseFieldSingle
+ */
 
 typedef SField<Pnt4d> SFPnt4d;
 
@@ -160,5 +150,5 @@ OSG_END_NAMESPACE
 
 #define OSGSFVECTYPES_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGSFVECBASE_H_ */
+#endif /* _OSGSFVECTYPES_H_ */
 

@@ -44,17 +44,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \class osg::SField
- */
-
-/** \typedef SField::Inherited
- *  \brief Parent type
- */
-
-/** \var FieldTypeT SField::_value
- *  \brief Value store
- */
-
 /*-------------------------------------------------------------------------*/
 /*                            Class Get                                    */
 
@@ -101,8 +90,6 @@ SField<FieldTypeT, fieldNameSpace>::~SField(void)
 /*-------------------------------------------------------------------------*/
 /*                               Get                                       */
 
-//! Return a reference to the stored value
-
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 typename SField<FieldTypeT, fieldNameSpace>::reference 
     SField<FieldTypeT, fieldNameSpace>::getValue(void)
@@ -111,8 +98,6 @@ typename SField<FieldTypeT, fieldNameSpace>::reference
     return _value;
 }
 
-//! Return a const reference to the stored value
-
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 typename SField<FieldTypeT, fieldNameSpace>::const_reference
     SField<FieldTypeT, fieldNameSpace>::getValue(void) const
@@ -120,15 +105,11 @@ typename SField<FieldTypeT, fieldNameSpace>::const_reference
     return _value;
 }
 
-//! Return 1 as SingleFields contain one value
-
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 bool SField<FieldTypeT, fieldNameSpace>::isEmpty(void) const
 {
     return false;
 }
-
-//! Returns the type of the field
 
 #ifndef WIN32
 template <class FieldTypeT, Int32 fieldNameSpace> inline
@@ -149,7 +130,21 @@ UInt32 SField<FieldTypeT, fieldNameSpace>::getSize(void) const
 /*-------------------------------------------------------------------------*/
 /*                                Set                                      */
 
-//! Copies the values from a given field iff the two fieldtypes match 
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void SField<FieldTypeT, fieldNameSpace>::setValue(ArgumentType value)
+{
+    _value = value;
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void SField<FieldTypeT, 
+            fieldNameSpace>::setValue(const Self &obj)
+{
+    _value = obj._value;
+}
+
+/*! Copies the values from a given field iff the two fieldtypes are equal
+ */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
@@ -160,47 +155,26 @@ void SField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
     }
 }
 
-//! Sets the stored value from a given one
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-void SField<FieldTypeT, fieldNameSpace>::setValue(ArgumentType value)
-{
-    _value = value;
-}
-
-//! \brief Sets the stored value from a given field
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-void SField<FieldTypeT, 
-            fieldNameSpace>::setValue(const Self &obj)
-{
-    _value = obj._value;
-}
-
 /*-------------------------------------------------------------------------*/
 /*                           String IO                                     */
-
-//! Sets the field value from a given string
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 {
     typedef typename osgIF< (SFieldTraits::StringConvertable &
-                             Traits::FromStringConvertable), 
+                             FieldTraits ::FromStringConvertable), 
                             SFieldTraits, 
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
     Converter::getFromString(_value, str);
 }
 
-//! Dump the field to a given string
-
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 std::string &SField<FieldTypeT, 
                     fieldNameSpace>::getValueByStr(std::string &str) const
 {
     typedef typename osgIF< (SFieldTraits::StringConvertable &
-                             Traits::ToStringConvertable), 
+                             FieldTraits ::ToStringConvertable), 
                             SFieldTraits, 
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
@@ -216,7 +190,7 @@ std::string &SField<FieldTypeT,
                         StringConversionStateBase &state) const
 {
     typedef typename osgIF< (SFieldTraits::StringConvertable &
-                             Traits::ToStringConvertable), 
+                             FieldTraits ::ToStringConvertable), 
                             SFieldTraits, 
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
@@ -267,8 +241,6 @@ void SField<FieldTypeT, fieldNameSpace>::copyFromBin(BinaryDataHandler &pMem)
 /*-------------------------------------------------------------------------*/
 /*                              MT Sync                                    */
 
-//! Sets the stored value from a given one
-
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::operator =(const SField &source)
 {
@@ -281,10 +253,6 @@ void SField<FieldTypeT, fieldNameSpace>::operator =(const SField &source)
 /*-------------------------------------------------------------------------*/
 /*                               Dump                                      */
 
-/*! \brief Dump property contents to stderr, should be changed to use a
-    log stream instead
-*/
-
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::dump(void) const
 {
@@ -293,8 +261,6 @@ void SField<FieldTypeT, fieldNameSpace>::dump(void) const
 
 /*-------------------------------------------------------------------------*/
 /*                             Create                                      */
-
-//! Create method used by the factory to create an instance
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 Field *SField<FieldTypeT, fieldNameSpace>::create(void) 

@@ -47,17 +47,10 @@
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::FieldContainerFactory
- */
-
 /*-------------------------------------------------------------------------*/
 /*                            Class Variable                               */
 
-//! Factory instance
-
 FieldFactory FieldFactory::_the;
-
-//! Field type storage
 
 std::map<UInt32, FieldType *> *FieldFactory::_fieldTypeM  = NULL;
 
@@ -71,8 +64,6 @@ FieldFactory::~FieldFactory(void)
 
 /*-------------------------------------------------------------------------*/
 /*                               Create                                    */
-
-//! Create a field of the type given by the typeid
 
 Field *FieldFactory::createField(UInt32 typeId)
 {
@@ -89,8 +80,6 @@ Field *FieldFactory::createField(UInt32 typeId)
         return NULL;
     }
 }
-
-//! Create a field of the type given by the type name
 
 Field *FieldFactory::createField(const Char8 *szName)
 {
@@ -110,8 +99,6 @@ Field *FieldFactory::createField(const Char8 *szName)
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
 
-//! Get the number of field types
-
 UInt32 FieldFactory::getNFieldTypes(void)
 {
     if(_fieldTypeM != NULL) 
@@ -120,9 +107,6 @@ UInt32 FieldFactory::getNFieldTypes(void)
     return 0;
 }
     
-
-//! Get type by name
-
 FieldType *FieldFactory::getFieldType(const Char8 *szName)
 {
     std::map<UInt32, FieldType *>::iterator  mIt;
@@ -147,8 +131,6 @@ FieldType *FieldFactory::getFieldType(const Char8 *szName)
     return returnValue;
 }
 
-//! Get type by typeid
-
 FieldType *FieldFactory::getFieldType(UInt32 typeId)
 {
     std::map<UInt32, FieldType *>::iterator  mIt;
@@ -168,8 +150,6 @@ FieldType *FieldFactory::getFieldType(UInt32 typeId)
     }
 }
 
-//! Get the name of the data type given by its id
-
 const Char8 *FieldFactory::getFieldTypeName(UInt32 typeId)
 {
     FieldType *pFieldType = getFieldType(typeId);
@@ -179,8 +159,6 @@ const Char8 *FieldFactory::getFieldTypeName(UInt32 typeId)
 
 /*-------------------------------------------------------------------------*/
 /*                                 the                                     */
-
-//! Returns a reference to the global factory
 
 FieldFactory &FieldFactory::the(void)
 {
@@ -200,8 +178,6 @@ FieldFactory::FieldFactory(void)
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
-
-//! Add given type to the factory
 
 void FieldFactory::addType(FieldType *pType)
 {

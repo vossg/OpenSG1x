@@ -382,7 +382,13 @@ class TypedFunctionFunctor1 :
     /*! \}                                                                 */
 };
 
-
+/*! \class TypedFunctionFunctorBase< TypedFunctor1Base< RetT, 
+                                                        CallArgT, 
+                                                        SizeTraitsT >, 
+                                     TypedTraits1     < RetT, 
+                                                        CallArgT > > 
+    \hideinhierarchy
+ */
 
 
 //---------------------------------------------------------------------------
@@ -466,7 +472,12 @@ class TypedFunctionVoidFunctor1 :
     /*! \}                                                                 */
 };
 
-
+/*! \class TypedFunctionFunctorBase<TypedVoidFunctor1Base<CallArgT,
+                                                          SizeTraitsT>,
+                                    TypedTraits1         <void, 
+                                                          CallArgT> >
+    \hideinhierarchy
+ */
 
 
 //---------------------------------------------------------------------------
@@ -558,8 +569,13 @@ class TypedObjectFunctor1 :
     /*! \}                                                                 */
 };
 
-
-
+/*! \class TypedObjectFunctorBase<TypedFunctor1Base<RetT, 
+                                                    CallArgT,
+                                                    SizeTraitsT>,
+                                   TypedTraits1<    RetT, 
+                                                    CallArgT> >
+    \hideinhierarchy
+ */
 
 //---------------------------------------------------------------------------
 //  Class
@@ -646,8 +662,12 @@ class TypedObjectVoidFunctor1 :
     /*! \}                                                                 */
 };
 
-
-
+/*! \class TypedObjectFunctorBase<TypedVoidFunctor1Base<CallArgT,
+                                                        SizeTraitsT>,
+                                  TypedTraits1         <void, 
+                                                        CallArgT> >
+    \hideinhierarchy
+ */
 
 //---------------------------------------------------------------------------
 //  Class
@@ -745,8 +765,15 @@ class TypedStoredObjectFunctor1 :
     /*! \}                                                                 */
 };
 
-
-
+/*! \class TypedStoredObjectFunctorBase<
+        TypedFunctor1Base<RetT, 
+                          ArgsT,
+                          SizeTraitsT>,
+        TypedSOTraits1   <RetT, 
+                          StoredObjectT,
+                          ArgsT::ArgsC> >
+    \hideinhierarchy
+ */
 
 //---------------------------------------------------------------------------
 //  Class
@@ -838,6 +865,14 @@ class TypedStoredObjectVoidFunctor1 :
 
     /*! \}                                                                 */
 };
+
+/*! \class TypedStoredObjectFunctorBase<TypedVoidFunctor1Base<ArgsT,
+                                                              SizeTraitsT>,
+                                        TypedSOTraits1       <void, 
+                                                              StoredObjectT,
+                                                              ArgsT::ArgsC> >
+    \hideinhierarchy
+ */
 
 OSG_END_NAMESPACE
 

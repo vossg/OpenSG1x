@@ -419,8 +419,15 @@ class TypedFunctionFunctor2 :
     /*! \}                                                                 */
 };
 
-
-
+/*! \class TypedFunctionFunctorBase<TypedFunctor2Base<RetT, 
+                                                      CallArgT,
+                                                      ArgsT,
+                                                      SizeTraitsT>,
+                                    TypedTraits2     <RetT, 
+                                                      CallArgT,
+                                                      ArgsT> >
+    \hideinhierarchy
+ */
 
 //---------------------------------------------------------------------------
 //  Class
@@ -514,8 +521,14 @@ class TypedFunctionVoidFunctor2 :
     /*! \}                                                                 */
 };
 
-
-
+/*! \class TypedFunctionFunctorBase<TypedVoidFunctor2Base<CallArgT,
+                                                          ArgsT,
+                                                          SizeTraitsT>,
+                                    TypedTraits2         <void, 
+                                                          CallArgT,
+                                                          ArgsT> >
+    \hideinhierarchy
+ */
 
 //---------------------------------------------------------------------------
 //  Class
@@ -614,7 +627,15 @@ class TypedObjectFunctor2 :
     /*! \}                                                                 */
 };
 
-
+/*! \class TypedObjectFunctorBase<TypedFunctor2Base<RetT, 
+                                                    CallArgT,
+                                                    ArgsT,
+                                                    SizeTraitsT>,
+                                  TypedTraits2     <RetT, 
+                                                    CallArgT,
+                                                    ArgsT> >
+    \hideinhierarchy
+ */
 
 
 //---------------------------------------------------------------------------
@@ -710,7 +731,14 @@ class TypedObjectVoidFunctor2 :
     /*! \}                                                                 */
 };
 
-
+/*! \class TypedObjectFunctorBase<TypedVoidFunctor2Base<CallArgT, 
+                                                        ArgsT,
+                                                        SizeTraitsT>,
+                                  TypedTraits2         <void, 
+                                                        CallArgT,
+                                                        ArgsT> >
+    \hideinhierarchy
+ */
 
 
 //---------------------------------------------------------------------------
@@ -817,7 +845,16 @@ class TypedStoredObjectFunctor2 :
     /*! \}                                                                 */
 };
 
-
+/*! \class TypedStoredObjectFunctorBase<TypedFunctor2Base<RetT, 
+                                                          ArgObjectT,
+                                                          ArgsT,
+                                                          SizeTraitsT>,
+                                        TypedSOTraits2   <RetT, 
+                                                          StoredObjectT,
+                                                          ArgObjectT::ArgsC,
+                                                          ArgsT> >
+    \hideinhierarchy
+ */
 
 
 //---------------------------------------------------------------------------
@@ -918,6 +955,16 @@ class TypedStoredObjectVoidFunctor2 :
 
     /*! \}                                                                 */
 };
+
+/*! \class TypedStoredObjectFunctorBase<TypedVoidFunctor2Base<ArgObjectT,
+                                                              ArgsT,
+                                                              SizeTraitsT>,
+                                        TypedSOTraits2      <void, 
+                                                             StoredObjectT,
+                                                             ArgObjectT::ArgsC,
+                                                             ArgsT> >
+    \hideinhierarchy
+ */
 
 OSG_END_NAMESPACE
 

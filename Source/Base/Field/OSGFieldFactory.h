@@ -50,15 +50,20 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \file OSGFieldFactory.h
+    \ingroup GrpBaseField
+ */
+
 class Field;
 class FieldType;
 
-//! Factory for fields
-//! \ingroup GrpBaseField
+/*! \ingroup GrpBaseField
+ */
 
 class OSG_BASE_DLLMAPPING FieldFactory 
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/
@@ -89,13 +94,14 @@ class OSG_BASE_DLLMAPPING FieldFactory
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      the                                     */
+    /*! \name                      The                                     */
     /*! \{                                                                 */
 
     static FieldFactory &the(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -106,6 +112,7 @@ class OSG_BASE_DLLMAPPING FieldFactory
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     friend class FieldType;
@@ -114,7 +121,7 @@ class OSG_BASE_DLLMAPPING FieldFactory
     /*---------------------------------------------------------------------*/
     /*                             Member                                  */
 
-    static FieldFactory              _the;
+    static      FieldFactory              _the;
     
     static std::map<UInt32, FieldType *> *_fieldTypeM;
 

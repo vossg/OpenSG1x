@@ -52,7 +52,15 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \file OSGField.h
+    \ingroup GrpBaseField
+ */
+
 class StringConversionStateBase;
+
+/*! \ingroup GrpBaseFieldHelper
+    \hideinhierarchy
+ */
 
 template <class T>
 struct ErrorFromToString
@@ -72,12 +80,14 @@ struct ErrorFromToString
     }
 };
 
-//! Base class for all fields
-//! \ingroup GrpBaseField
+/*! Base class for all fields
+   \ingroup GrpBaseField
+ */
 
 class OSG_BASE_DLLMAPPING Field
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/
@@ -128,6 +138,7 @@ class OSG_BASE_DLLMAPPING Field
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -139,6 +150,7 @@ class OSG_BASE_DLLMAPPING Field
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */

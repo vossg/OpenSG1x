@@ -50,19 +50,18 @@ OSG_BEGIN_NAMESPACE
 
 /*! \file OSGFieldDataType.h
     \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief OpenSG Field Data Types  
+    \ingroup GrpBaseFieldTraits
 */
 
 
 /*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief  
-*/
+    \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
-struct Traits
+struct FieldTraits
 {
     enum 
     {
@@ -73,24 +72,41 @@ struct Traits
     static const Char8 *getPName(void) { return "Field"; }
 };
 
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy            */
+#endif
+
 template<class FieldTypeT>
 struct FieldDataTraits;
+
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy            */
+#endif
 
 template<class FieldTypeT>
 struct FieldDataTraits1;
 
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy            */
+#endif
+
 template<class FieldTypeT>
 struct FieldDataTraits2;
 
-
 /*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief  
-*/
+    \ingroup GrpBaseFieldTraits */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy            */
+#endif
 
 template<class FieldTypeT>
-struct FieldTraitsRecurseBase : public Traits
+struct FieldTraitsRecurseBase : public FieldTraits
 {
     enum              { bHasParent = 0x00 };
 
@@ -114,7 +130,8 @@ struct FieldTraitsRecurseBase : public Traits
 
         std::string value;
 
-        MappedTrait::putToString(oObject,value);
+        MappedTrait::putToString(oObject, value);
+
         return value.length() + 1 + sizeof(UInt32);
     }
 
@@ -122,7 +139,8 @@ struct FieldTraitsRecurseBase : public Traits
                                              UInt32         uiNumObjects)
     {
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
-        UInt32 size=0;
+
+        UInt32 size = 0;
 
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
@@ -139,7 +157,8 @@ struct FieldTraitsRecurseBase : public Traits
         
         std::string value;
 
-        MappedTrait::putToString(oObject,value);
+        MappedTrait::putToString(oObject, value);
+
     	pMem.putValue(value);
     }
 
@@ -151,7 +170,7 @@ struct FieldTraitsRecurseBase : public Traits
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
 
         // defaut: copy each element
-        for(UInt32 i=0; i < uiNumObjects; ++i)
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
             MappedTrait::copyToBin(pMem, pObjectStore[i]);
         }
@@ -161,13 +180,14 @@ struct FieldTraitsRecurseBase : public Traits
                             FieldTypeT        &oObject)
     {
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
-        const Char8 *c;
+
+        const Char8 *c = NULL;
 
         std::string value;
 
         pMem.getValue(value);
-        c=value.c_str();
-        MappedTrait::getFromString(oObject,c);
+        c = value.c_str();
+        MappedTrait::getFromString(oObject, c);
     }
 
     static void copyFromBin(BinaryDataHandler &pMem, 
@@ -190,10 +210,10 @@ const UInt32 FieldTraitsRecurseBase<FieldTypeT>::uiTest;
 #endif
 
 /*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief  
-*/
+    \ingroup GrpBaseFieldTraits */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy            */
+#endif
 
 template <class FieldTypeT>
 struct FieldTraitsIntegralRecurseMapper : 
@@ -239,10 +259,10 @@ struct FieldTraitsIntegralRecurseMapper :
 
 
 /*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief  
-*/
+    \ingroup GrpBaseFieldTraits */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy            */
+#endif
 
 template <class FieldTypeT, bool bTypeHasParent>
 struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
@@ -294,12 +314,11 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
     }
 };
 
-
 /*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief  
-*/
+    \ingroup GrpBaseFieldTraits */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy            */
+#endif
 
 template <class FieldTypeT, bool bTypeHasParent>
 struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
@@ -351,10 +370,10 @@ struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
 
 
 /*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief  
-*/
+    \ingroup GrpBaseFieldTraits */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy            */
+#endif
 
 template <class FieldTypeT, bool bTypeHasParent>
 struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase<FieldTypeT>
@@ -404,24 +423,26 @@ struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase<FieldTypeT>
     }
 };
 
-
 /*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief  
-*/
+    \ingroup GrpBaseFieldTraits */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy            */
+#endif
 
 template <class FieldTypeT>
 struct FieldDataTraits : public FieldTraitsRecurseMapper<FieldTypeT, false>
 {
 };
 
-
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper<FieldTypeT, false> */
+/*! \hideinhierarchy                                    */
+#endif
 /*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief  
-*/
+    \ingroup GrpBaseFieldTraits */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy            */
+#endif
 
 template <class FieldTypeT>
 struct FieldDataTraits1 : public FieldTraitsRecurseMapper1<FieldTypeT, false>
@@ -429,16 +450,25 @@ struct FieldDataTraits1 : public FieldTraitsRecurseMapper1<FieldTypeT, false>
 };
 
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper1<FieldTypeT, false> */
+/*! \hideinhierarchy                                     */
+#endif
 /*! \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief  
-*/
+    \ingroup GrpBaseFieldTraits */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy            */
+#endif
 
 template <class FieldTypeT>
 struct FieldDataTraits2 : public FieldTraitsRecurseMapper2<FieldTypeT, false>
 {
 };
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseMapper2<FieldTypeT, false> */
+/*! \hideinhierarchy                                     */
+#endif
 
 OSG_END_NAMESPACE
 

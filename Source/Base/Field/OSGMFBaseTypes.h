@@ -53,13 +53,11 @@
 /*! \file OSGMFBaseTypes.h
     \ingroup GrpBaseField
     \ingroup GrpBaseFieldMulti
-    \brief OpenSG base multi fields
-*/
+ */
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief MFString
-    \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<std::string> MFString;
@@ -69,8 +67,7 @@ OSG_DLLEXPORT_DECL1(MField, std::string, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief MFTime
-    \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Time, 1> MFTime;
@@ -80,8 +77,7 @@ OSG_DLLEXPORT_DECL2(MField, Time, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief MFColor3f
-    \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Color3f> MFColor3f;
@@ -91,8 +87,7 @@ OSG_DLLEXPORT_DECL1(MField, Color3f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief MFColor4f
-    \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Color4f> MFColor4f;
@@ -102,8 +97,7 @@ OSG_DLLEXPORT_DECL1(MField, Color4f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief MFColor3ub
-    \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Color3ub> MFColor3ub;
@@ -113,8 +107,7 @@ OSG_DLLEXPORT_DECL1(MField, Color3ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief MFColor4ub
-    \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Color4ub> MFColor4ub;
@@ -124,8 +117,7 @@ OSG_DLLEXPORT_DECL1(MField, Color4ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief MFVolume
-    \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<DynamicVolume> MFVolume;
@@ -135,8 +127,7 @@ OSG_DLLEXPORT_DECL1(MField, DynamicVolume, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief MFBitVector
-    \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<BitVector, 1>  MFBitVector;
@@ -146,8 +137,7 @@ OSG_DLLEXPORT_DECL2(MField, BitVector, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief MFGLenum
-    \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<GLenum, 1>  MFGLenum;
@@ -157,8 +147,7 @@ OSG_DLLEXPORT_DECL2(MField, GLenum, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/*! \brief MFPlane
-    \ingroup GrpBaseFieldMulti
+/*! \ingroup GrpBaseFieldMulti
 */
 
 typedef MField<Plane> MFPlane;

@@ -54,16 +54,16 @@ OSG_BEGIN_NAMESPACE
 
 /*! \file OSGBaseFieldDataType.h
     \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief OpenSG Base Field Data Types  
+    \ingroup GrpBaseFieldTraits
 */
 
-/*! \brief Color3f field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> : 
@@ -104,13 +104,13 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> :
     
     static       UInt32    getBinSize (const Color3f &)
     {
-        return sizeof(Real32)*3;
+        return sizeof(Real32) * 3;
     }
 
     static       UInt32    getBinSize (const Color3f *,
                                              UInt32  uiNumObjects)
     {
-        return sizeof(Real32)*3*uiNumObjects;
+        return sizeof(Real32)* 3 * uiNumObjects;
     }
 
     static void   copyToBin  (      BinaryDataHandler &pMem, 
@@ -142,12 +142,17 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> :
 
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<Color3f> */
+/*! \hideinhierarchy                        */
+#endif
 
-/*! \brief Color4f field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> : 
@@ -190,13 +195,13 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> :
     
     static       UInt32    getBinSize (const Color4f &)
     {
-        return sizeof(Real32)*4;
+        return sizeof(Real32) * 4;
     }
 
     static       UInt32    getBinSize (const Color4f *,
                                              UInt32  uiNumObjects)
     {
-        return sizeof(Real32)*4*uiNumObjects;
+        return sizeof(Real32) * 4 * uiNumObjects;
     }
 
     static void   copyToBin  (      BinaryDataHandler &pMem, 
@@ -231,12 +236,17 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> :
 
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<Color4f> */
+/*! \hideinhierarchy                        */
+#endif
 
-/*! \brief Color3ub field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> : 
@@ -276,13 +286,13 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> :
 
     static       UInt32    getBinSize (const Color3ub &)
     {
-        return sizeof(UInt8)*3;
+        return sizeof(UInt8) * 3;
     }
 
     static       UInt32    getBinSize (const Color3ub *,
                                              UInt32    uiNumObjects)
     {
-        return sizeof(UInt8)*3*uiNumObjects;
+        return sizeof(UInt8)* 3 * uiNumObjects;
     }
 
     static void   copyToBin  (      BinaryDataHandler &pMem, 
@@ -313,12 +323,17 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> :
     }
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<Color3ub> */
+/*! \hideinhierarchy                         */
+#endif
 
-/*! \brief Color4ub field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
@@ -360,13 +375,13 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
 
     static       UInt32    getBinSize (const Color4ub &)
     {
-        return sizeof(UInt8)*4;
+        return sizeof(UInt8) * 4;
     }
 
     static       UInt32    getBinSize (const Color4ub *,
                                              UInt32    uiNumObjects)
     {
-        return sizeof(UInt8)*4*uiNumObjects;
+        return sizeof(UInt8) * 4 * uiNumObjects;
     }
 
     static void   copyToBin  (      BinaryDataHandler &pMem, 
@@ -402,12 +417,17 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
 
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<Color4ub> */
+/*! \hideinhierarchy                         */
+#endif
 
-/*! \brief string field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits<std::string> : 
@@ -500,12 +520,17 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<std::string> :
     }
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<std::string> */
+/*! \hideinhierarchy                            */
+#endif
 
-/*! \brief Time field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> : 
@@ -576,12 +601,17 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> :
     }
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<Time> */
+/*! \hideinhierarchy                     */
+#endif
 
-/*! \brief DynamicVolume field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> : 
@@ -868,11 +898,17 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
     }
 };
 
-/*! \brief BitVector field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<DynamicVolume> */
+/*! \hideinhierarchy                              */
+#endif
+
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> : 
@@ -890,7 +926,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> :
 
     static       BitVector  getDefault(void) { return BitVector();     }
 
-    static       UInt32    getBinSize (const BitVector &)
+    static       UInt32    getBinSize(const BitVector &)
     {
         return sizeof(BitVector);
     }
@@ -938,12 +974,17 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> :
 
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<BitVector> */
+/*! \hideinhierarchy                          */
+#endif
 
-/*! \brief GLenum field traits
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits1<GLenum> : 
@@ -977,12 +1018,17 @@ struct FieldDataTraits1<GLenum> :
     }
 };
 
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsIntegralRecurseMapper<GLenum> */
+/*! \hideinhierarchy                                 */
+#endif
 
-/*! \brief Plane field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> : 
@@ -1027,22 +1073,23 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> :
 
     static       UInt32    getBinSize (const Plane &)
     {
-        return sizeof(UInt32)*4;
+        return sizeof(UInt32) * 4;
     }
 
     static       UInt32    getBinSize (const Plane     *,
                                              UInt32     uiNumObjects)
     {
-        return sizeof(UInt32)*4*uiNumObjects;
+        return sizeof(UInt32) * 4 * uiNumObjects;
     }
 
     static void   copyToBin  (      BinaryDataHandler &pMem, 
                               const Plane            &oObject)
     {
-        const Vec3f &normal   = oObject.getNormal();
+        const Vec3f &normal   = oObject.getNormal            ();
         Real32       distance = oObject.getDistanceFromOrigin();
-        pMem.putValues(&normal[0],3);
-        pMem.putValue (distance);
+
+        pMem.putValues(&normal[0], 3);
+        pMem.putValue ( distance    );
     }
 
     static void copyToBin(      BinaryDataHandler &pMem, 
@@ -1060,9 +1107,11 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> :
     {
         Vec3f  normal;
         Real32 distance;
-        pMem.getValues(&normal[0],3);
-        pMem.getValue (distance);
-        oObject.set(normal,distance);
+
+        pMem.getValues(&normal[0], 3);
+        pMem.getValue ( distance    );
+
+        oObject.set(normal, distance);
     }
 
     static void copyFromBin(BinaryDataHandler &pMem, 
@@ -1075,6 +1124,11 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> :
         }
     }
 };
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<Plane> */
+/*! \hideinhierarchy                      */
+#endif
 
 OSG_END_NAMESPACE
 

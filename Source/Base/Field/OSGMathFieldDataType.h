@@ -50,16 +50,16 @@ OSG_BEGIN_NAMESPACE
 
 /*! \file OSGMathFieldDataType.h
     \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-    \brief OpenSG Math Field Data Types  
+    \ingroup GrpBaseFieldTraits
 */
 
-/*! \brief Matrix field traits
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti 
-*/
+
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
@@ -126,13 +126,13 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
 
     static       UInt32    getBinSize (const Matrix &)
     {
-        return sizeof(Real32)*16;
+        return sizeof(Real32) * 16;
     }
 
     static       UInt32    getBinSize (const Matrix  *,
                                              UInt32  uiNumObjects)
     {
-        return sizeof(Real32)*16*uiNumObjects;
+        return sizeof(Real32) * 16 * uiNumObjects;
     }
 
     static void   copyToBin  (      BinaryDataHandler &pMem, 
@@ -152,22 +152,28 @@ struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
                                 const Matrix     *pObjectStore,
                                 UInt32             uiNumObjects)
     {
-        pMem.putValues(&pObjectStore[0][0][0], uiNumObjects*16);
+        pMem.putValues(&pObjectStore[0][0][0], uiNumObjects * 16);
     }
     
     static void copyFromBin(    BinaryDataHandler &pMem,
                                 Matrix           *pObjectStore,
                                 UInt32             uiNumObjects)
     {
-        pMem.getValues(&pObjectStore[0][0][0], uiNumObjects*16);
+        pMem.getValues(&pObjectStore[0][0][0], uiNumObjects * 16);
     }
 };
 
-/*! \brief Quaternion field traits 
-    \ingroup GrpBaseField
-    \ingroup GrpBaseFieldSingle
-    \ingroup GrpBaseFieldMulti
-*/
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<Matrix> */
+/*! \hideinhierarchy                       */
+#endif
+
+/*! \ingroup GrpBaseField
+    \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
 
 template <>
 struct FieldDataTraits<Quaternion> : 
@@ -221,13 +227,13 @@ struct FieldDataTraits<Quaternion> :
 
     static       UInt32    getBinSize (const Quaternion &)
     {
-        return sizeof(Real32)*4;
+        return sizeof(Real32) * 4;
     }
 
     static       UInt32    getBinSize (const Quaternion *,
-                                             UInt32     uiNumObjects)
+                                             UInt32      uiNumObjects)
     {
-        return sizeof(Real32)*4*uiNumObjects;
+        return sizeof(Real32)* 4 *uiNumObjects;
     }
 
     static void   copyToBin  (      BinaryDataHandler &pMem, 
@@ -263,6 +269,11 @@ struct FieldDataTraits<Quaternion> :
         }
     }
 };
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<Quaternion> */
+/*! \hideinhierarchy                           */
+#endif
 
 OSG_END_NAMESPACE
 

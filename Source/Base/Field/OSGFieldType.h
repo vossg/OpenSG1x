@@ -50,14 +50,19 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \file OSGFieldType.h
+    \ingroup GrpBaseField
+ */
+
 class Field;
 
-//! FieldType
-//! \ingroup GrpBaseField
+/*! \ingroup GrpBaseField
+ */
 
 class OSG_BASE_DLLMAPPING FieldType : public DataType
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     enum Cardinality 
@@ -110,6 +115,7 @@ class OSG_BASE_DLLMAPPING FieldType : public DataType
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef DataType Inherited;
