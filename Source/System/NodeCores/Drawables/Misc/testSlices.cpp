@@ -73,6 +73,8 @@
 #include "OSGPerspectiveCamera.h"
 #include "OSGSolidBackground.h"
 
+#include "OSGOSGWriter.h"
+
 #include "OSGImage.h"
 #include "OSGSlices.h"
 
@@ -91,6 +93,7 @@ using namespace OSG;
 DrawAction * ract;
 
 NodePtr  root;
+Vec3f   size;
 
 PerspectiveCameraPtr cam;
 ViewportPtr vp;
@@ -253,7 +256,30 @@ void key(unsigned char key, int x, int y)
         std::cout << numberOfSlices << std::endl;
       }
       break;
-    case 'p': std::cout << "p pressed" << std::endl; break;                  
+    case 'q':     
+                beginEditCP(slicesCore);
+                {
+                  Real32 s = size.length();
+                  slicesCore->setSize(Vec3f(s,s,s));
+                }
+                endEditCP(slicesCore);
+
+                break;                  
+    case 'w':     
+                beginEditCP(slicesCore);
+                {
+                  slicesCore->setSize(size);
+                }
+                endEditCP(slicesCore);
+
+                break;                  
+    case 'p':   {
+                std::ofstream outFileStream( "test.osg" );
+                OSGWriter writer( outFileStream, 2 );
+                writer.write( root );
+                std::cerr << "File dumped." << std::endl;
+                }
+                break;                  
     case 'L':   glDisable( GL_LIGHTING );
       std::cerr << "Lighting disabled." << std::endl;
       break;
@@ -359,7 +385,6 @@ int main (int argc, char **argv)
     endEditCP(slicesNode);
 
     Image *imageP = 0;
-    Vec3f size;
 
     if (argc > 1) 
       {
