@@ -69,7 +69,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ActorBase
     typedef NewActionTypes::Functor             Functor;
     typedef NewActionTypes::FunctorArgumentType FunctorArgumentType;
 
-    class ActorBaseState
+    class OSG_SYSTEMLIB_DLLMAPPING ActorBaseState
     {
       public:
         inline ActorBaseState(void                        );
@@ -257,6 +257,6 @@ OSG_END_NAMESPACE
 
 #include "OSGActorBase.inl"
 
-#define OSGACTORBASE_HEADER_CVSID "@(#)$Id: OSGActorBase.h,v 1.7 2004/09/19 12:55:56 neumannc Exp $"
+#define OSGACTORBASE_HEADER_CVSID "@(#)$Id: OSGActorBase.h,v 1.8 2005/03/31 19:50:56 dirk Exp $"
 
 #endif /* _OSGACTORBASE_H_ */
