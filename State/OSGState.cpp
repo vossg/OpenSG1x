@@ -298,6 +298,7 @@ void State::changeFrom(DrawActionBase *action, State *old)
 {
 	MFStateChunkPtr::iterator it;
 	Int32 ind = 0;
+    UInt32 i;
 	UInt32 cind;
 
 	for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end(); 
@@ -319,6 +320,23 @@ void State::changeFrom(DrawActionBase *action, State *old)
 		if ( ind >= StateChunkClass::getNumSlots( cind ) )
 			ind = -1;
 	}
+
+    ind = 0;
+
+    for(i = cind; i < old->getChunks().size(); ++i, ++ind)
+    {
+		StateChunkPtr o = old->getChunk(i);
+
+        if(o != NullFC)
+        {
+            o->deactivate(action, UInt32(ind));
+        }
+
+		if(ind >= StateChunkClass::getNumSlots(cind))
+        {
+			ind = -1;
+        }
+    }
 }
 
 
