@@ -3268,7 +3268,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
             {
                 beginEditCP(pTexture);
                 pTexture->setImage(pImage);
-                
+
                 if(_repeatS.getValue() == true)
                 {
                     pTexture->setWrapS(GL_REPEAT);
@@ -3277,7 +3277,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
                 {
                     pTexture->setWrapS(GL_CLAMP);
                 }
-                
+
                 if(_repeatT.getValue() == true)
                 {
                     pTexture->setWrapT(GL_REPEAT);
@@ -3286,7 +3286,7 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
                 {
                     pTexture->setWrapS(GL_CLAMP);
                 }
-                pTexture->setEnvMode(GL_MODULATE);
+                pTexture->setEnvMode(GL_REPLACE);
                 endEditCP(pTexture);
             }
             else
@@ -4453,7 +4453,7 @@ void VRMLExtrusionDesc::endNode(FieldContainerPtr pFC)
     {
         pConvex = static_cast<SFBool *>(pField);
     }
-    
+
 
     Inherited::getFieldAndDesc(pFC, 
                                "creaseAngle", 
@@ -4488,7 +4488,7 @@ void VRMLExtrusionDesc::endNode(FieldContainerPtr pFC)
     }
     
 
-    Inherited::getFieldAndDesc(pFC, 
+    Inherited::getFieldAndDesc(pFC,
                                "orientation", 
                                pField,
                                pDesc);
@@ -4873,7 +4873,7 @@ void VRMLViewpointDesc::init(const Char8 *OSG_VRML_ARG(szName))
 
     FieldDescription *pDesc = 
         new FieldDescription(SFBool::getClassType(), 
-                             "isViewpoint", 
+                             "isViewpoint",
                              0, 0,
                              false,
                              (FieldIndexAccessMethod) 
@@ -5013,7 +5013,7 @@ void VRMLViewpointDesc::getFieldAndDesc(
     else
     {
         VRMLNodeDesc::getFieldAndDesc(pTransform, 
-                                      szFieldname, 
+                                      szFieldname,
                                       pField,
                                       pDesc);
     }
