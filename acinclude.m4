@@ -1205,10 +1205,10 @@ dnl e15
            ac_gdz_qt_libdir_e15='"'`cygpath -w $ac_gdz_qt_dir/lib`'"'
            ac_gdz_qt_moc_e15=$ac_gdz_qt_dir/bin/moc
 
-            ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_dir/lib; ls qt-mt[0-9]*.lib 2> /dev/null`
+            ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_dir/lib; ls qt-mt[0-9]*.lib 2> /dev/null`
                         
-            if test "x"$ac_gdz_qt_lib_e6 = "x"; then
-                ac_gdz_qt_lib_e6=`cd $ac_gdz_qt_dir/lib; ls qt[0-9]*.lib 2> /dev/null`
+            if test "x"$ac_gdz_qt_lib_e15 = "x"; then
+                ac_gdz_qt_lib_e15=`cd $ac_gdz_qt_dir/lib; ls qt[0-9]*.lib 2> /dev/null`
             fi
             
         else
