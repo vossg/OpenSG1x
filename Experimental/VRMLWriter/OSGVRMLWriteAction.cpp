@@ -123,10 +123,66 @@ VRMLWriteAction::FCInfo::~FCInfo(void)
         delete [] _szName;
 }
 
+void VRMLWriteAction::FCInfo::convertName(Char8 *szName)
+{
+    if(szName == NULL)
+        return;
+
+    switch(szName[0])
+    {
+        case 0x30:
+        case 0x31:
+        case 0x32:
+        case 0x33:
+        case 0x34:
+        case 0x35:
+        case 0x36:
+        case 0x37:
+        case 0x38:
+        case 0x39:
+        case 0x2b: 
+        case 0x2d:
+        {
+            szName[0]='_';
+            break;
+        }
+    }
+    
+    for(UInt32 i = 0; i < strlen(szName); i++)
+    {
+        if(szName[i] <= 0x20)
+        {
+            szName[i]='_';
+        }
+        else
+        {
+            switch(szName[i])
+            {
+                case 0x22: 
+                case 0x23:
+                case 0x27:
+                case 0x2c:
+                case 0x2e:
+                case 0x5b:
+                case 0x5c:
+                case 0x5d:
+                case 0x7b:
+                case 0x7d:
+                case 0x7f:
+                {
+                    szName[i]='_';
+                    break;
+                }
+            }
+        }
+    }
+}
+
 void VRMLWriteAction::FCInfo::setName(const Char8 *szName)
 {
-    _szName   = const_cast<Char8 *>(szName);
-    _bOwnName = false;
+    stringDup(szName, _szName);
+    convertName(_szName);
+    _bOwnName = true;
 }
 
 void VRMLWriteAction::FCInfo::buildName(const Char8  *szTypename,

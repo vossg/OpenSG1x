@@ -229,10 +229,12 @@ class OSG_VRMLWRITER_DLLMAPPING VRMLWriteAction : public Action
         FCInfo(const FCInfo &source);
         ~FCInfo(void);
 
-        void setName  (const Char8  *szName);
-        void buildName(const Char8  *szTypename,
+        void convertName(      Char8 *szName);
+
+        void setName    (const Char8  *szName);
+        void buildName  (const Char8  *szTypename,
                              UInt32  uiContainerId);
-        void incUse   (void);
+        void incUse     (void);
         
               UInt32  getUse (void) const;
         const Char8  *getName(void) const;
