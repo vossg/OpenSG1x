@@ -4,24 +4,16 @@
 #include <iostream>
 
 // Application declarations
-
-
 // Class declarations
 #include "OSGFontGlyph.h"
 
-
-// Static Class Variable implementations: 
-
-
-
-OSG_USING_NAMESPACE
-
-
-
-FontGlyph::FontGlyph (void )
-: _valid(true), _asciiCode(-1), _uniCode(-1)
+// Static Class Variable implementations:
+OSG_USING_NAMESPACE FontGlyph::FontGlyph(void) :
+    _valid(true),
+    _asciiCode(-1),
+    _uniCode(-1)
 {
-	return;
+    return;
 }
 
 /*
@@ -31,17 +23,17 @@ FontGlyph::FontGlyph (const FontGlyph &obj )
 	return;
 }
 */
-
-FontGlyph::FontGlyph (Int32 ascii, Int32 unicode)
-: _valid(true), _asciiCode(ascii), _uniCode(unicode)
+FontGlyph::FontGlyph(Int32 ascii, Int32 unicode) :
+    _valid(true),
+    _asciiCode(ascii),
+    _uniCode(unicode)
 {
-	return;
+    return;
 }
 
-FontGlyph::~FontGlyph (void )
+/* */
+FontGlyph::~FontGlyph(void)
 {
-	return;
+    return;
 }
-
-
 #endif

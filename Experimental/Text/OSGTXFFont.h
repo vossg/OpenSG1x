@@ -2,7 +2,6 @@
 #define TXFFONT_CLASS_DECLARATION
 
 #ifndef WIN32
-
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 
@@ -11,72 +10,63 @@
 
 #include <iostream>
 
-
-
-OSG_BEGIN_NAMESPACE
-
-
-class TXFFont : public virtual Font {
-    
-    typedef Font ParentClass;
-
+OSG_BEGIN_NAMESPACE class TXFFont :
+    public virtual Font
+{
+    typedef Font    ParentClass;
 public:
 
-    struct txfChar {
-      Int8           dimensions[6];
-      Int16          x, y;
-      UChar8  remapped;
-      txfChar(void) : remapped(' ') {;}
+    struct txfChar
+    {
+        Int8    dimensions[6];
+        Int16   x, y;
+        UChar8  remapped;
+        txfChar (void)
+        :
+        remapped(' ')
+        { ;
+        }
     };
-
 private:
 
-    Int32             _txfIsBitmap;
-    Int32             _txfFontMaxAscent;
-    Int32             _txfFontMaxDescent;
-    Int32             _txfFontWidth;
-    Int32             _txfFontHeight;
-    Int32             _txfNumGlyphs;
-    txfChar          *_txfGlyphs;
-    UChar8           *_txfImageMap;
-
-
+    Int32               _txfIsBitmap;
+    Int32               _txfFontMaxAscent;
+    Int32               _txfFontMaxDescent;
+    Int32               _txfFontWidth;
+    Int32               _txfFontHeight;
+    Int32               _txfNumGlyphs;
+    txfChar             *_txfGlyphs;
+    UChar8              *_txfImageMap;
 protected:
 
-    void initFromStream(istream & source);
-
+    void                initFromStream(istream &source);
 public:
 
-  /** Default Constructor */
-  TXFFont (void);
+    /** Default Constructor */
+    TXFFont(void);
 
-  /** Copy Constructor */
-  TXFFont (const TXFFont &obj);
+    /** Copy Constructor */
+    TXFFont(const TXFFont &obj);
 
-  /** Constructor */
-  TXFFont (const Char8 *name, string path);
+    /** Constructor */
+    TXFFont(const Char8 *name, string path);
 
-  /** Constructor */
-  TXFFont (const Char8 *name, istream & source);
+    /** Constructor */
+    TXFFont(const Char8 *name, istream &source);
 
-  /** Destructor */
-  virtual ~TXFFont (void);
+    /** Destructor */
+    virtual             ~TXFFont(void);
 
-  /** loading and storing of font-contents */
-  bool initFont (void);
+    /** loading and storing of font-contents */
+    bool                initFont(void);
 
-  /** creates FontStyle aka FontStyle */
-  virtual bool createInstance (Text *text);
+    /** creates FontStyle aka FontStyle */
+    virtual bool        createInstance(Text *text);
 
-  /** creates FontStyle */
-  virtual FontStyle *createInstance (Real32 size);
-
+    /** creates FontStyle */
+    virtual FontStyle   *createInstance(Real32 size);
 };
 
-
-OSG_END_NAMESPACE
-
-typedef osg::TXFFont* TXFFontP;
-
+OSG_END_NAMESPACE typedef osg::TXFFont * TXFFontP;
 #endif
 #endif // TXFFONT_CLASS_DECLARATION

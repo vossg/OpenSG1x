@@ -3,23 +3,18 @@
 // System declarations
 #include <iostream>
 
-
 // Application declarations
-
-
 // Class declarations
 #include "OSGFont.h"
 
-
-
+/* */
 OSG_USING_NAMESPACE
 
-
-// Static Class Variable implementations: 
-
-
-Font::Font (void )
-: _fontPath(NULL), _fontName(NULL), _valid(false)
+// Static Class Variable implementations:
+Font::Font(void) :
+    _fontPath(NULL),
+    _fontName(NULL),
+    _valid(false)
 {
     return;
 }
@@ -31,24 +26,25 @@ Font::Font (const Font &obj)
 	return;
 }
 */
-
-Font::Font (const Char8 *name)
-: _fontName(name), _valid(false)
+Font::Font(const Char8 *name) :
+    _fontName(name),
+    _valid(false)
 {
     return;
 }
 
-
-Font::Font (const Char8 *name, string path )
-: _fontPath(path), _fontName(name), _valid(false)
+/* */
+Font::Font(const Char8 *name, string path) :
+    _fontPath(path),
+    _fontName(name),
+    _valid(false)
 {
     return;
 }
 
-
-Font::~Font (void )
+/* */
+Font::~Font(void)
 {
-	return;
+    return;
 }
-
 #endif

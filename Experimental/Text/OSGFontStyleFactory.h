@@ -2,52 +2,49 @@
 #define FONTINSTANCEFACTORY_CLASS_DECLARATION
 
 #ifndef WIN32
-
 #include <OSGConfig.h>
 #include <OSGPathHandler.h>
 
-OSG_BEGIN_NAMESPACE class FontStyle; OSG_END_NAMESPACE
-
-
+OSG_BEGIN_NAMESPACE class   FontStyle;
+OSG_END_NAMESPACE
 #include <list>
 
-
-OSG_BEGIN_NAMESPACE
-
-
-class FontStyleFactory {
-
+OSG_BEGIN_NAMESPACE class FontStyleFactory
+{
 private:
 
-	static FontStyleFactory _the;
+    static FontStyleFactory             _the;
 
-	list<FontStyle*> _instances;
+    list<FontStyle *>                   _instances;
 
-	/** Default Constructor */
-	FontStyleFactory(void);
+    /** Default Constructor */
+    FontStyleFactory(void);
 
-	/** Copy Constructor */
-	FontStyleFactory(const FontStyleFactory &);
+    /** Copy Constructor */
+    FontStyleFactory(const FontStyleFactory &);
 
-	/** Copy Operator */
-	const FontStyleFactory &operator=(const FontStyleFactory &);
-
+    /** Copy Operator */
+    const FontStyleFactory &operator    =(const FontStyleFactory &);
 public:
 
-	/** Destructor */
-	virtual ~FontStyleFactory();
+    /** Destructor */
+    virtual                             ~FontStyleFactory(void);
 
-	FontStyle *create(PathHandler & paths, const Char8 *fontName, Real32 size);
+    FontStyle                           *create(PathHandler &paths,
+                                                    const Char8 *fontName,
+                                                    Real32 size);
 
-	bool  discard(FontStyle *OSG_CHECK_ARG(fs)) {return false;}
+    bool discard(FontStyle *OSG_CHECK_ARG(fs))
+    {
+        return false;
+    }
 
-	static inline FontStyleFactory &the(void) { return _the; }
-
+    static inline FontStyleFactory &the(void)
+    {
+        return _the;
+    }
 };
 
-
 OSG_END_NAMESPACE
-
-
 #endif
 #endif // FONTINSTANCEFACTORY_CLASS_DECLARATION

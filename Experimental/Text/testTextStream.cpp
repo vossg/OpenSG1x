@@ -2,8 +2,6 @@
 //
 // This example shows how to use TrueType(tm) Fonts with OSGText
 //
-
-
 #include <fstream>
 #include <strstream>
 #include <string>
@@ -25,191 +23,166 @@
 #include <OSGPathHandler.h>
 
 #ifdef OSG_WITH_FREETYPE1
-
 #include "OSGFontStyleFactory.h"
 #include "OSGTXFFont.h"
 #include "OSGTXFFontStyle.h"
 #include "OSGTTFontStyle.h"
 #include "OSGText.h"
 
-
 // Activate the OpenSG namespace
 OSG_USING_NAMESPACE
 
 // The pointer to the transformation
-TransformPtr trans;
+TransformPtr        trans;
 
 // The SimpleSceneManager to manage simple applications
-SimpleSceneManager *mgr;
+SimpleSceneManager  *mgr;
 
 // forward declaration so we can have the interesting stuff upfront
-int setupGLUT( int *argc, char *argv[] );
+int                 setupGLUT(int *argc, char *argv[]);
 
+NodePtr             scene;
+NodePtr             n;
+Text                fontText;
+vector<string>      lineVec;
+Real32              lastT;
 
-NodePtr scene;
-NodePtr n;
-Text fontText;
-string *textLine;
-vector<string *> lineVec;
-Real32 lastT;
-
-
-GeometryPtr txfGeo;
+GeometryPtr         txfGeo;
 
 // redraw the window
-void display( void )
+void display(void)
 {
-  Real32 t = glutGet(GLUT_ELAPSED_TIME );
+    Real32  t = glutGet(GLUT_ELAPSED_TIME);
 
-  char frameText[256];
-  Real32 fps = 1000/(t-lastT);
-  
-  lastT = t;
+    char    frameText[256];
+    Real32  fps = 1000 / (t - lastT);
 
-  sprintf(frameText,"%4.2f fps", fps);
+    lastT = t;
 
-  lineVec[0]->assign(frameText);
+    sprintf(frameText, "%4.2f fps", fps);
 
-    beginEditCP(txfGeo, Geometry::TypesFieldMask          |
-		Geometry::LengthsFieldMask        |
-		Geometry::IndicesFieldMask        |
-		Geometry::IndexMappingFieldMask   |
-		Geometry::PositionsFieldMask      |
-		Geometry::NormalsFieldMask        );
+    lineVec[0].assign(frameText);
 
+    beginEditCP(txfGeo, Geometry::TypesFieldMask | Geometry::LengthsFieldMask |
+                    Geometry::IndicesFieldMask |
+                    Geometry::IndexMappingFieldMask |
+                    Geometry::PositionsFieldMask | Geometry::NormalsFieldMask);
     {
-      fontText.fillTXFGeo(*txfGeo, false, lineVec);
+        fontText.fillTXFGeo(*txfGeo, false, lineVec);
     }
-    endEditCP(txfGeo, Geometry::TypesFieldMask          |
-		Geometry::LengthsFieldMask        |
-		Geometry::IndicesFieldMask        |
-		Geometry::IndexMappingFieldMask   |
-		Geometry::PositionsFieldMask      |
-		Geometry::NormalsFieldMask        );
 
-  mgr->redraw();
+    endEditCP(txfGeo, Geometry::TypesFieldMask | Geometry::LengthsFieldMask |
+                  Geometry::IndicesFieldMask | Geometry::IndexMappingFieldMask |
+                  Geometry::PositionsFieldMask | Geometry::NormalsFieldMask);
+
+    mgr->redraw();
 }
 
 // Initialize GLUT & OpenSG and set up the scene
 int main(int argc, char **argv)
 {
     // OSG init
-    osgInit(argc,argv);
+    osgInit(argc, argv);
 
     // GLUT init
-    int winid = setupGLUT(&argc, argv);
+    int             winid = setupGLUT(&argc, argv);
 
     // the connection between GLUT and OpenSG
-    GLUTWindowPtr gwin= GLUTWindow::create();
-    gwin->setWinID(winid);
+    GLUTWindowPtr   gwin = GLUTWindow::create();
+    gwin->setId(winid);
     gwin->init();
 
     PathHandler paths;
     paths.push_backPath(".");
 
     // create the scene
-
-
-
     // build a special txf-font with only a little set of characters
-
-    FontStyle *fontStyle = FontStyleFactory::the().create(paths, argv[1], 1);
+    FontStyle   *fontStyle = FontStyleFactory::the().create(paths, argv[1], 1);
     assert(fontStyle);
-    ((TTFontStyle *)fontStyle)->createTXFMap((UChar8*)". fps0123456789");
+    //((TTFontStyle *) fontStyle)->createTXFMap((UChar8 *) ". fps0123456789");
+    ((TTFontStyle *) fontStyle)->createTXFMap();
 
     // write it somewhere
-
-#if 0
-    ofstream target;
+#if 1
+    ofstream    target;
     target.open("statistics.txf");
     fontStyle->dump(target);
     target.close();
 #else
-    ostrstream target;
+    ostrstream  target;
     fontStyle->dump(target);
 #endif
-
-
-#if 0
-    ifstream source;
+#if 1
+    ifstream    source;
     source.open("statistics.txf");
-
-    TXFFont *font = new TXFFont("test.txf", source);
-
-    source.close();
 #else
 #if 0
     // Hack, to get the stuff into memory
-    int bufSize = 100000;
-    char *buffer = new char [bufSize];
-    int numRead;
-    FILE *in = fopen("statistics.txf", "r");
+    int     bufSize = 100000;
+    char    *buffer = new char[bufSize];
+    int     numRead;
+    FILE    *in = fopen("statistics.txf", "r");
 
     numRead = fread(buffer, 1, bufSize, in);
 
     fclose(in);
 
-    istrstream source(buffer, numRead);
+    istrstream  source(buffer, numRead);
 #else
-    istrstream source(target.str(), target.pcount());
+    istrstream  source(target.str(), target.pcount());
 #endif
 #endif
-
-    
-
-    TXFFont *font = new TXFFont("test.txf", source);
+    TXFFont     *font = new TXFFont("test.txf", source);
     font->initFont();
-
 
     fontText.setSize(1);
     font->createInstance(&fontText);
 
     fontText.setJustifyMajor(MIDDLE_JT);
 
-    textLine = new string;
-    textLine->assign("0000.00 fps");
-    lineVec.push_back(textLine);
-
-
+    lineVec.push_back("0000.00 fps");
 
     // TXF-Style Texture+Geometry
-
     n = Node::create();
-    txfGeo=Geometry::create();
-    Image txfImg;
-    if(fontText.fillTXFGeo(*txfGeo, true, lineVec)) {
-      fontText.fillTXFImage(txfImg);
-      SimpleTexturedMaterialPtr mat = SimpleTexturedMaterial::create();
-      beginEditCP(mat);
-      {
-	mat->setImage(&txfImg);
-      }
-      endEditCP(mat);
-      txfGeo->setMaterial(mat);
-      beginEditCP(n, Node::CoreFieldMask);
-      {
-	n->setCore(txfGeo);
-      }
+    txfGeo = Geometry::create();
+
+    Image   txfImg;
+    if(fontText.fillTXFGeo(*txfGeo, true, lineVec))
+    {
+        fontText.fillTXFImage(txfImg);
+
+        SimpleTexturedMaterialPtr   mat = SimpleTexturedMaterial::create();
+        beginEditCP(mat);
+        {
+            mat->setImage(&txfImg);
+        }
+
+        endEditCP(mat);
+        txfGeo->setMaterial(mat);
+        beginEditCP(n, Node::CoreFieldMask);
+        {
+            n->setCore(txfGeo);
+        }
     }
 
-    
-    scene = Node::create();  
-    // add a transformation to make it move     
+    scene = Node::create();
+
+    // add a transformation to make it move
     trans = Transform::create();
-    beginEditCP(scene, Node::CoreFieldMask | Node::ChildrenFieldMask  );
+    beginEditCP(scene, Node::CoreFieldMask | Node::ChildrenFieldMask);
     {
         scene->setCore(trans);
         scene->addChild(n);
     }
-    endEditCP  (scene, Node::CoreFieldMask | Node::ChildrenFieldMask  );
- 
+
+    endEditCP(scene, Node::CoreFieldMask | Node::ChildrenFieldMask);
 
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
 
     // tell the manager what to manage
-    mgr->setWindow(gwin );
-    mgr->setRoot  (scene);
+    mgr->setWindow(gwin);
+    mgr->setRoot(scene);
 
     // show the whole scene
     mgr->showAll();
@@ -221,7 +194,9 @@ int main(int argc, char **argv)
 }
 
 //
+
 // GLUT callback functions
+
 //
 
 // react to size changes
@@ -234,11 +209,15 @@ void reshape(int w, int h)
 // react to mouse button presses
 void mouse(int button, int state, int x, int y)
 {
-    if (state)
+    if(state)
+    {
         mgr->mouseButtonRelease(button, x, y);
+    }
     else
+    {
         mgr->mouseButtonPress(button, x, y);
-        
+    }
+
     glutPostRedisplay();
 }
 
@@ -250,11 +229,12 @@ void motion(int x, int y)
 }
 
 // react to keys
-void keyboard(unsigned char k, int , int )
+void keyboard(unsigned char k, int, int)
 {
     switch(k)
     {
-    case 27:    exit(1);
+    case 27:
+        exit(1);
     }
 }
 
@@ -263,9 +243,9 @@ int setupGLUT(int *argc, char *argv[])
 {
     glutInit(argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-    
+
     int winid = glutCreateWindow("OpenSG");
-    
+
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
     glutMouseFunc(mouse);
@@ -280,21 +260,21 @@ int setupGLUT(int *argc, char *argv[])
 
 #else
 
-int main (int argc, char **argv)
+/* */
+int main(int argc, char **argv)
 {
-  FFATAL (("Need freeType 1 lib\n"));
-    
-  return -1;
+    FFATAL(("Need freeType 1 lib\n"));
+
+    return -1;
 }
-
 #endif
-
 #else
 
-int main (int argc, char **argv)
+/* */
+int main(int argc, char **argv)
 {
-  FFATAL (("Text doesn't work on Windows yet\n"));
-    
-  return -1;
+    FFATAL(("Text doesn't work on Windows yet\n"));
+
+    return -1;
 }
 #endif

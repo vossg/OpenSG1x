@@ -2,63 +2,51 @@
 #define TXFIMAGEGLYPH_CLASS_DECLARATION
 
 #ifndef WIN32
-
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 
 #include "OSGImageFontGlyph.h"
 #include "OSGTXFFontGlyph.h"
 
-
-
-OSG_BEGIN_NAMESPACE
-
-
-class TXFImageFontGlyph : public ImageFontGlyph, public virtual TXFFontGlyph {
-/* 	typedef ImageFontGlyph ParentClass; */
-
+OSG_BEGIN_NAMESPACE class TXFImageFontGlyph :
+    public ImageFontGlyph,
+    public virtual TXFFontGlyph
+{
+    /* 	typedef ImageFontGlyph ParentClass; */
 private:
 
-  UChar8 *_srcImage;
-  Int32 _srcWidth, _srcHeight;
+    UChar8          *_srcImage;
+    Int32           _srcWidth, _srcHeight;
 
-  Int32 _xOff, _yOff;
-
+    Int32           _xOff, _yOff;
 protected:
-
 public:
 
-  /** Default Constructor */
-  TXFImageFontGlyph (void);
+    /** Default Constructor */
+    TXFImageFontGlyph(void);
 
-  /** Copy Constructor */
-  TXFImageFontGlyph (const TXFImageFontGlyph &obj);
+    /** Copy Constructor */
+    TXFImageFontGlyph(const TXFImageFontGlyph &obj);
 
-  /** Constructor */
-  TXFImageFontGlyph (IGlyphType type, Int32 ascii, Int32 unicode);
+    /** Constructor */
+    TXFImageFontGlyph(IGlyphType type, Int32 ascii, Int32 unicode);
 
-  /** Destructor */
-  virtual ~TXFImageFontGlyph (void);
+    /** Destructor */
+    virtual         ~TXFImageFontGlyph(void);
 
-  /** Constructor */
-  void setup(IGlyphType type, Int32 ascii, Int32 unicode);
+    /** Constructor */
+    void            setup(IGlyphType type, Int32 ascii, Int32 unicode);
 
-  void setFontDefs(short x, short y, Int8 *dimensions);
+    void            setFontDefs(short x, short y, Int8 *dimensions);
 
-  void setFontSource(UChar8 *srcImage, Int32 width, Int32 height);
+    void            setFontSource(UChar8 *srcImage, Int32 width, Int32 height);
 
-  /** creates desired representation */
-  virtual bool create (void);
-
+    /** creates desired representation */
+    virtual bool    create(void);
 };
 
-typedef TXFImageFontGlyph* TXFImageFontGlyphP;
-
+typedef TXFImageFontGlyph   *TXFImageFontGlyphP;
 
 OSG_END_NAMESPACE
-
-
-
 #endif
 #endif // TXFIMAGEGLYPH_CLASS_DECLARATION
-

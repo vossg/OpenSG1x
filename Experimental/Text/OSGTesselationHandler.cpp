@@ -1,7 +1,6 @@
-
 #ifndef WIN32
-// System declarations
 
+// System declarations
 #include <OSGGL.h>
 #include <OSGGLU.h>
 
@@ -10,42 +9,37 @@
 
 #include <OSGLog.h>
 
-
 // Application declarations
 #include "OSGFontGlyphContour.h"
 #include "OSGVectorFontGlyph.h"
 
-
 // 'Class' declarations
 #include "OSGTesselationHandler.h"
 
+OSG_USING_NAMESPACE VectorFontGlyph *osg::  tmTesselator = 0;
 
-
-
-OSG_USING_NAMESPACE
-
-
-VectorFontGlyph *osg::tmTesselator = 0;
-
+/* */
 void OSG_SYSTEMLIB_DLLMAPPING osg::tessBegin(GLenum OSG_CHECK_ARG(type))
 {
     assert(tmTesselator);
 }
 
-void OSG_SYSTEMLIB_DLLMAPPING  osg::tessEdgeFlag(GLboolean OSG_CHECK_ARG(flag))
+/* */
+void OSG_SYSTEMLIB_DLLMAPPING osg::tessEdgeFlag(GLboolean OSG_CHECK_ARG(flag))
 {
     assert(tmTesselator);
 }
 
 //  ???
-void OSG_SYSTEMLIB_DLLMAPPING  osg::tessVertex(void *data)
+void OSG_SYSTEMLIB_DLLMAPPING osg::tessVertex(void *data)
 {
     assert(tmTesselator);
-    
-    tmTesselator->addPoint((float *)data);
+
+    tmTesselator->addPoint((float *) data);
 }
 
-void OSG_SYSTEMLIB_DLLMAPPING  osg::tessEnd(void)
+/* */
+void OSG_SYSTEMLIB_DLLMAPPING osg::tessEnd(void)
 {
     assert(tmTesselator);
 }
@@ -55,5 +49,4 @@ void OSG_SYSTEMLIB_DLLMAPPING  osg::tessError(GLenum errorNum)
     assert(tmTesselator);
     FWARNING(("got tesselation error %d (%s).", (int) errorNum, gluErrorString(errorNum)));
 }
-
 #endif
