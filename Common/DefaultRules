@@ -1,0 +1,322 @@
+
+#########################################################################
+# Build Rules
+#########################################################################
+
+.SUFFIXES:	.src .$(OBJEXT) .cpp .c _m.cpp .hpp .l .y .tab.cpp .tab.h .s 	\
+			.$(SYSDEP).$(OBJEXT) .$(LIBEXT)
+
+ifeq ($(OS_BASE), NT40)
+
+%.$(SYSDEP).$(OBJEXT): %.cpp
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) \
+	$(OBJNAMEFLAG)$@ $<
+
+$(OBJDIRBASE)$(DBG)/%.$(OBJEXT): %.cpp
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) \
+	$(OBJNAMEFLAG)$(OBJDIRBASE)$(DBG)\\ $<
+
+%.$(SYSDEP).$(OBJEXT): %.s
+	$(CC) $(ASFLAGS) $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) \
+	$(OBJNAMEFLAG)$@ $<
+
+$(OBJDIR)/%.$(OBJEXT): %.s
+	$(CC) $(ASFLAGS) $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) \
+	$(OBJNAMEFLAG)$(OBJDIR)\\ $<
+
+%.$(OBJEXT): %.cpp
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) \
+	$(OBJNAMEFLAG)$@ $<
+
+%.$(SYSDEP): $(OBJDIR)/%.$(OBJEXT) $(PROJLIBSSYS)
+	$(LD) $< $(PRAE_LD_FLAGS) $(LD_FLAGS) $(LDLOCALFLAGS) $(PRAE_LINK_LIBS) \
+		     $(PROJLIBS) $(POST_LINK_LIBS) /out:$@ 
+
+#%.$(SYSDEP): $(OBJDIR)/%.o
+#	@echo XX $@ $<  $(OBJECTS) $(SYSDEP) $(PROJLIBS) / $(PROJLIBSCHECK) \
+#	/ $(PROJLIBSSTRIP)
+
+
+else
+
+%.$(SYSDEP).$(OBJEXT): %.cpp
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) \
+	$(OBJNAMEFLAG) $@ $<
+
+$(OBJDIRBASE)$(DBG)/%.$(OBJEXT): %.cpp
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) \
+	$(OBJNAMEFLAG) $@ $<
+
+%.$(SYSDEP).$(OBJEXT): %.s
+	$(CC) $(ASFLAGS) $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) \
+	$(OBJNAMEFLAG) $@ $<
+
+$(OBJDIR)/%.$(OBJEXT): %.s
+	$(CC) $(ASFLAGS) $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) \
+	$(OBJNAMEFLAG) $@ $<
+
+%.$(OBJEXT): %.cpp
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL) \
+	$(OBJNAMEFLAG) $@ $<
+
+%.$(SYSDEP): $(OBJDIR)/%.o $(PROJLIBS)
+	$(LD) $< $(PRAE_LD_FLAGS) $(LD_FLAGS) $(LDLOCALFLAGS) $(PRAE_LINK_LIBS) \
+		     $(PROJLIBS) $(POST_LINK_LIBS) -o $@ 
+
+#%.$(SYSDEP): $(OBJDIR)/%.o
+#	@echo XX $@ $<  $(OBJECTS) $(SYSDEP) $(PROJLIBS) / $(PROJLIBSCHECK) \
+#	/ $(PROJLIBSSTRIP)
+
+endif
+
+
+#########################################################################
+# Normal lib Targets
+#########################################################################
+
+dbg: 
+	@echo "LASTDBG=DBG" > .lastdbg
+	@DBG=DBG $(MAKE) SubLib
+
+opt: 
+	@echo "LASTDBG=OPT" > .lastdbg
+	@DBG=OPT $(MAKE) SubLib
+
+#########################################################################
+# Automatic Targets
+#########################################################################
+
+#$(TESTPROGS): 
+#	@echo $(SUB_LIB) $(TESTPROGRAMMS) $(TESTOBJECTS) $(PROJLIBS)
+#	@echo -$(PROJLIBSCHECK)
+#	@echo --$(PROJLIBSSTRIP)
+#	@echo ---$(PROJLIBSMISSING)
+#	@echo ----$(PROJLIBSCHECKIN)
+
+ifneq ($(TESTPROGS),)
+$(TESTPROGS): $(SUB_LIB) $(TESTPROGRAMMS) $(TESTOBJECTS)
+	@-rm -f $(TESTPROGS) 2> /dev/null
+	@-$(LINK) $(TESTPROGRAMMS) $(TESTPROGS) 2> /dev/null
+	@echo $(PROGSWARNING) 
+	@echo finished $(TESTPROGS) $(MAKECMDGOAL)  $(CMDGOALS)
+	@echo $(TESTPROGRAMMS)  $(TESTOBJECTS)  $(SUB_LIB) $(NUMTESTPROGS)
+endif
+
+ifneq ($(SUB_LIB),)
+SubLib: $(SUB_LIB) 
+	@-rm -f $(SUB_LIB_LINK) 2> /dev/null
+	@-$(LINK) $(SUB_LIB) $(SUB_LIB_LINK) 2> /dev/null
+endif
+
+ifeq ($(OS_BASE), NT40)
+
+$(SUB_LIB): $(LIBOBJECTS) 
+	@echo $(LIBOBJECTS) 
+ifdef LIBOBJECTS
+	$(AR) /out:"$(SUB_LIB)" $(LIBOBJECTS) $(AR_FLAGS)
+endif
+
+else
+
+$(SUB_LIB): $(LIBOBJECTS) 
+	@echo $(LIBOBJECTS) 
+ifdef LIBOBJECTS
+	$(AR) $(SUB_LIB) $(LIBOBJECTS) $(AR_FLAGS)
+endif
+
+endif
+
+ifneq ($(LIBFLEXTARGET_CPP),)
+$(LIBFLEXTARGET_CPP) : $(LIBFLEXSOURCES)
+	$(FLEX) -l -P$(FLEX_INTERNAL) $<
+	mv lex.$(FLEX_INTERNAL).c $(FLEX_EXTERNAL)
+	@echo F: $@ $<
+endif
+
+ifneq ($(LIBBISONTARGET_CPP),)
+$(LIBBISONTARGET_CPP): $(LIBBISONSOURCES)
+	$(BISON) -d -v -p$(BISON_INTERNAL) -b$(BISON_INTERNAL) $<
+	cp $(BISON_INTERNAL).tab.c $(BISON_EXTERNAL).tab.cpp
+	cp $(BISON_INTERNAL).tab.h $(BISON_EXTERNAL).tab.h
+	rm $(BISON_INTERNAL).tab.c
+	rm $(BISON_INTERNAL).tab.h
+	@echo B: $@ $<
+endif
+
+
+#########################################################################
+# clean
+#########################################################################
+
+dbgclean: 
+	@-rm -f $(OBJDIRBASE)DBG/*.$(OBJEXT) 2>/dev/null
+	@-rm -f core                         2>/dev/null
+	@-rm -f *.pure                       2>/dev/null
+ifneq ($(II_FILESDIRDBG),)
+	@-rm -rf $(II_FILESDIRDBG)   2>/dev/null
+endif
+ifneq ($(TESTCLEANBASE),)
+	@-rm -f $(TESTCLEANBASE)     2>/dev/null
+endif
+ifneq ($(TESTCLEANSYSTEM),)
+	@-rm -f $(TESTCLEANSYSTEM)   2>/dev/null
+endif
+
+optclean: 
+	@-rm -f $(OBJDIRBASE)OPT/*.$(OBJEXT)  2>/dev/null
+	@-rm -f core 2>/dev/null
+	@-rm -f *.pure               2>/dev/null
+ifneq ($(II_FILESDIROPT),)
+	@-rm -rf $(II_FILESDIROPT) 2>/dev/null
+endif
+ifneq ($(TESTCLEANBASE),)
+	@-rm -f $(TESTCLEANBASE)     2>/dev/null
+endif
+ifneq ($(TESTCLEANSYSTEM),)
+	@-rm -f $(TESTCLEANSYSTEM)   2>/dev/null
+endif
+
+clean:
+	@-rm -f $(OBJDIRBASE)$(LASTDBG)/*.$(OBJEXT) 2>/dev/null
+	@-rm -f core 2>/dev/null
+	@-rm -f *.pure               2>/dev/null
+ifneq ($(II_FILESDIR),)
+	@-rm -rf $(II_FILESDIR) 2>/dev/null
+endif
+ifneq ($(TESTCLEANBASE),)
+	@-rm -f $(TESTCLEANBASE)     2>/dev/null
+endif
+ifneq ($(TESTCLEANSYSTEM),)
+	@-rm -f $(TESTCLEANSYSTEM)   2>/dev/null
+endif
+
+#########################################################################
+# Clean
+#########################################################################
+
+dbgClean: dbgclean
+ifneq ($(TESTCLEANSYSTEMS),)
+	@-rm -f $(TESTCLEANSYSTEMS)  2>/dev/null
+endif
+ifneq ($(SUB_LIB),)
+	@-rm -f $(OBJDIRBASE)DBG/*.$(LIBEXT) 2>/dev/null
+endif
+	@-rm -rf $(DOCDIR)/html 2>/dev/null
+
+optClean: optclean
+ifneq ($(TESTCLEANSYSTEMS),)
+	@-rm -f $(TESTCLEANSYSTEMS)  2>/dev/null
+endif
+ifneq ($(SUB_LIB),)
+	@-rm -f $(OBJDIRBASE)OPT/*.$(LIBEXT) 2>/dev/null
+endif
+	@-rm -rf $(DOCDIR)/html 2>/dev/null
+
+Clean: clean
+ifneq ($(TESTCLEANSYSTEMS),)
+	@-rm -f $(TESTCLEANSYSTEMS)  2>/dev/null
+endif
+
+#########################################################################
+# distclean
+#########################################################################
+
+distclean: optClean dbgClean initclean
+	@-rm -f *.dep           2>/dev/null
+	@-rm -rf obj.*          2>/dev/null
+	@-rm -f *.$(LIBEXT)     2>/dev/null
+	@-rm -rf $(DOCDIR)/html 2>/dev/null
+	@-rm -f $(SUB_LIB_LINK) 2>/dev/null
+	@-rm -f .lastdbg        2>/dev/null
+
+initclean:
+ifneq ($(OBJDIRBASE),)
+	@-rm -rf $(OBJDIRBASE)DBG 2>/dev/null
+	@-rm -rf $(OBJDIRBASE)OPT 2>/dev/null
+endif
+ifneq ($(DOCBASEDIR),)
+	@-rm -rf $(DOCBASEDIR) 2>/dev/null
+endif
+
+#########################################################################
+# init
+#########################################################################
+
+init:
+	@echo "init $(notdir $(shell pwd)) with object dir$(OBJDIRBASE)"
+ifneq ($(OBJDIRBASE),)
+	@if [ ! -w $(OBJDIRBASE)DBG ]; then mkdir $(OBJDIRBASE)DBG; fi
+	@if [ ! -w $(OBJDIRBASE)OPT ]; then mkdir $(OBJDIRBASE)OPT; fi
+endif
+
+#########################################################################
+# depend
+#########################################################################
+
+#depend: 
+#	@if [ ! -f $(DEP_MAKEFILE) ] ; then touch $(DEP_MAKEFILE); fi
+#	@$(MAKEDEPEND) $(NO_STD_INC_DEP) -I. $(INCL) $(LIBSOURCES) 			\
+#				$(TESTSOURCES) -f $(DEP_MAKEFILE)  $(DEFINES)				\
+#				$(CCLOCALFLAGS) $(DEP_PLATTFORMDEF)  				 		\
+#				$(DEP_OBJDIR)$(DEPOBJ)  				 					\
+#				-- $(LANG_FLAGS) --
+#	@-rm -f $(DEP_MAKEFILE).bak
+
+ifeq ($(OS_BASE), NT40)
+depend: 
+	@-rm -f $(DEP_MAKEFILE)
+	@echo '# Module dependencies' > $(DEP_MAKEFILE)
+	@$(CC) $(MAKEDEPEND) $(LIBSOURCES) $(TESTSOURCES) $(CCFLAGS)   \
+	 $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL)					 | \
+	 sed -e 's/\([A-Z]\):/\\\1/' 			\
+		 -e 's/\\/\//g' 					\
+		 -e 's/ /\\ /g' 					\
+		 -e 's/:\\ /: /1' 					\
+		 -e 's///' 						\
+		 -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1'	\
+	 >> $(DEP_MAKEFILE)
+else
+depend: 
+	@-rm -f $(DEP_MAKEFILE)
+	@echo '# Module dependencies' > $(DEP_MAKEFILE)
+	@$(CC) $(MAKEDEPEND) $(LIBSOURCES) $(TESTSOURCES) $(CCFLAGS)  \
+	 $(CCLOCALFLAGS) $(COMPONLYFLAG) $(INCL)					 |\
+	 sed -e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1'						  \
+	 >> $(DEP_MAKEFILE)
+endif
+
+dbgdepend: DBG = DBG
+dbgdepend: depend
+
+optdepend: DBG = OPT
+optdepend: depend
+
+#########################################################################
+# cvs
+#########################################################################
+
+commit:
+	cvs commit
+
+update:
+	cvs update -d
+
+#########################################################################
+# doc
+#########################################################################
+
+html: 
+#	@if [ -w $(DOCDIR) ];	 				\
+#	 then									\
+#		if [ ! -w $(DOCDIR)/html ];		 	\
+#		then								\
+#			mkdir $(DOCDIR)/html;			\
+#		fi									\
+#	 fi
+#
+#	doc++ -p -u -H -d $(DOCDIR)/html -b $(DOC_HEADER)
+
+
+doc: html
+
+
