@@ -641,8 +641,8 @@ void osg::calcVertexNormals( GeometryPtr geo, Real32 creaseAngle )
     Real32 cosCrease = osgcos( creaseAngle );
     Vec3f norm;
     std::vector < UInt32> normset;
-    std::vector < std::map< vector<UInt32>, UInt32 > > normDic;
-    std::map< vector<UInt32>, UInt32 >::iterator ndI;
+    std::vector < std::map< std::vector<UInt32>, UInt32 > > normDic;
+    std::map< std::vector<UInt32>, UInt32 >::iterator ndI;
     UInt32         normalIndex = 0;
 
     normDic.resize( pN );
@@ -1539,10 +1539,10 @@ Int32 osg::createSharedIndex ( GeometryPtr geoPtr )
   UInt32 count = 0, i, iN, index, si, sN;
   UInt32 indexMapSize, indexBlock = 0, masterDSize;
   AbstractGeoPropertyInterface *masterProp = 0, *slaveProp = 0;
-  vector<UInt32> slaveDSizeVec;
-  vector<UInt8*> slaveDataVec;
+  std::vector<UInt32> slaveDSizeVec;
+  std::vector<UInt8*> slaveDataVec;
   UInt16 mapMask, propMask, masterPropMask;
-  typedef pair<UInt8*,UInt32> Mem;
+  typedef std::pair<UInt8*,UInt32> Mem;
   Mem mem;
   std::map< Mem, UInt32, memless<Mem> > memMap;
   std::map< Mem, UInt32, memless<Mem> >::iterator mmI;
