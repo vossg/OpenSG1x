@@ -557,7 +557,8 @@ void SimpleSceneManager::setNavigationMode (Navigator::Mode new_mode)
  */
 void SimpleSceneManager::idle(void)
 {
-    if (_navigator.getMode()==Navigator::FLY && _mousebuttons)
+    if ( (_navigator.getMode()==Navigator::FLY    || 
+          _navigator.getMode()==Navigator::WALK ) && _mousebuttons)
         _navigator.moveTo(_lastx,_lasty);
 }
 

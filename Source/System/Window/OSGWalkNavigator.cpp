@@ -141,13 +141,18 @@ void WalkNavigator::forward(Real32 step)
     Matrix transl;
     transl.setIdentity();
     transl.setTranslate(mv);
+
+    Pnt3f old_rFrom = _rFrom;
+    Pnt3f old_rAt   = _rAt;
+
     transl.multMatrixPnt(_rAt);
     transl.multMatrixPnt(_rFrom);
-    
+
     IntersectAction *act=IntersectAction::create();
     Line line;
+
+    //keep the walker at a constant distance from the ground
     line.setValue(_rFrom,-_vUp);
-    
     act->setLine(line);
     act->apply(_ground);
     if (act->didHit())
@@ -159,6 +164,117 @@ void WalkNavigator::forward(Real32 step)
         _rFrom = _rFrom+(_groundDistance-dist+_height)*upn;
         _rAt   = _rAt+(_groundDistance-dist+_height)*upn;            
     }    
+
+
+    //check whether the move is correct
+    
+    Vec3f sv;
+    sv=lv-upn.dot(lv)*upn;
+    sv.crossThis(_vUp);
+    sv.normalize();
+    mv.normalize();
+
+
+    line.setValue(_rFrom+mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance),sv);
+    act->setLine(line/*,_width + 2*_wallDistance*/);
+    act->apply(_world);
+
+    if (act->didHit())
+    {
+        Pnt3f p1=act->getHitPoint();
+        Real32 dist=(_rFrom+mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance)).dist(p1);
+        if (dist<=_width + 2*_wallDistance)
+        {
+            _rFrom = old_rFrom;
+            _rAt   = old_rAt;
+            //printf("didhit:forward, front line\n");
+            return;
+        }
+
+/*
+        _rFrom = old_rFrom;
+        _rAt   = old_rAt;
+        printf("didhit:forward, front line\n");
+        return;
+*/
+    }
+
+
+    line.setValue(_rFrom-mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance),mv);
+    act->setLine(line/*,_fatness + 2*_wallDistance*/);
+    act->apply(_world);
+
+    if (act->didHit())
+    {
+        Pnt3f p1=act->getHitPoint();
+        Real32 dist=(_rFrom-mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance)).dist(p1);
+        if (dist<=_fatness + 2*_wallDistance)
+        {
+            _rFrom = old_rFrom;
+            _rAt   = old_rAt;
+            //printf("didhit:forward, left line\n");
+            return;
+        }
+/*
+        _rFrom = old_rFrom;
+        _rAt   = old_rAt;
+        printf("didhit:forward, left line\n");
+        return;
+*/
+    }
+
+    line.setValue(_rFrom-mv*(_fatness/2+_wallDistance)+sv*(_width/2+_wallDistance),mv);
+    act->setLine(line/*,_fatness + 2*_wallDistance*/);
+    act->apply(_world);
+
+    if (act->didHit())
+    {
+        Pnt3f p1=act->getHitPoint();
+        Real32 dist=(_rFrom-mv*(_fatness/2+_wallDistance)+sv*(_width/2+_wallDistance)).dist(p1);
+        if (dist<=_fatness + 2*_wallDistance)
+        {
+            _rFrom = old_rFrom;
+            _rAt   = old_rAt;
+            //printf("didhit:forward, right line\n");
+            return;
+        }
+/*
+        _rFrom = old_rFrom;
+        _rAt   = old_rAt;
+        printf("didhit:forward, right line\n");
+        return;
+*/
+    }
+
+    //at the end we don't want to go through walls
+    //for example: i am very small, the step is very big
+    //thus we check whether the line connecting my current
+    //position and my old position intersects something
+
+    line.setValue(old_rFrom,_rFrom - old_rFrom);
+    act->setLine(line/*,_rFrom.dist(old_rFrom)*/);
+    act->apply(_world);
+
+    if (act->didHit())
+    {
+        Pnt3f p1=act->getHitPoint();
+        Real32 dist=old_rFrom.dist(p1);
+        if (dist<=_rFrom.dist(old_rFrom))
+        {
+            _rFrom = old_rFrom;
+            _rAt   = old_rAt;
+            //printf("didhit:forward, wall between positions\n");
+            return;
+        }
+/*
+        _rFrom = old_rFrom;
+        _rAt   = old_rAt;
+        printf("didhit:forward, right line\n");
+        return;
+*/
+    }
+
+
 }
     
 /*! "walks" on the right
@@ -180,13 +296,18 @@ void WalkNavigator::right  (Real32 step)
     Matrix transl;
     transl.setIdentity();
     transl.setTranslate(sv);
+
+    Pnt3f old_rFrom = _rFrom;
+    Pnt3f old_rAt   = _rAt;
+
     transl.multMatrixPnt(_rAt);
     transl.multMatrixPnt(_rFrom);
     
     IntersectAction *act=IntersectAction::create();
     Line line;
+
+    //keep the walker at a constant distance from the ground
     line.setValue(_rFrom,-_vUp);
-    
     act->setLine(line);
     act->apply(_ground);
     if (act->didHit())
@@ -198,4 +319,111 @@ void WalkNavigator::right  (Real32 step)
         _rFrom = _rFrom+(_groundDistance-dist+_height)*upn;
         _rAt   = _rAt+(_groundDistance-dist+_height)*upn;            
     }    
+
+
+    //check whether the move is correct
+
+    Vec3f mv;
+    mv=lv-upn.dot(lv)*upn;
+    mv.normalize();
+    sv.normalize();
+
+    line.setValue(_rFrom-mv*(_fatness/2+_wallDistance)+sv*(_width/2+_wallDistance),mv);
+    act->setLine(line,_fatness + 2*_wallDistance);
+    act->apply(_world);
+
+    if (act->didHit())
+    {
+        Pnt3f p1=act->getHitPoint();
+        Real32 dist=(_rFrom-mv*(_fatness/2+_wallDistance)+sv*(_width/2+_wallDistance)).dist(p1);
+        if (dist<=_fatness + 2*_wallDistance)
+        {
+            _rFrom = old_rFrom;
+            _rAt   = old_rAt;
+            //printf("didhit:right, side line\n");
+            return;
+        }
+/*
+        _rFrom = old_rFrom;
+        _rAt   = old_rAt;
+        printf("didhit:right, side line\n");
+        return;
+*/
+    }
+
+
+    line.setValue(_rFrom+mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance),sv);
+    act->setLine(line,_width + 2*_wallDistance);
+    act->apply(_world);
+
+    if (act->didHit())
+    {
+        Pnt3f p1=act->getHitPoint();
+        Real32 dist=(_rFrom+mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance)).dist(p1);
+        if (dist<=_width + 2*_wallDistance)
+        {
+            _rFrom = old_rFrom;
+            _rAt   = old_rAt;
+            //printf("didhit:right, top line\n");
+            return;
+        }
+/*
+        _rFrom = old_rFrom;
+        _rAt   = old_rAt;
+        printf("didhit:right, top line\n");
+        return;
+*/
+    }
+
+    line.setValue(_rFrom-mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance),sv);
+    act->setLine(line,_width + 2*_wallDistance);
+    act->apply(_world);
+
+    if (act->didHit())
+    {
+        Pnt3f p1=act->getHitPoint();
+        Real32 dist=(_rFrom-mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance)).dist(p1);
+        if (dist<=_width + 2*_wallDistance)
+        {
+            _rFrom = old_rFrom;
+            _rAt   = old_rAt;
+            //printf("didhit:right, bottom line\n");
+            return;
+        }
+/*
+        _rFrom = old_rFrom;
+        _rAt   = old_rAt;
+        printf("didhit:right, bottom line\n");
+        return;
+*/
+    }
+
+    //at the end we don't want to go through walls
+    //for example: i am very small, the step is very big
+    //thus we check whether the line connecting my current
+    //position and my old position intersects something
+
+    line.setValue(old_rFrom,_rFrom - old_rFrom);
+    act->setLine(line/*,_rFrom.dist(old_rFrom)*/);
+    act->apply(_world);
+
+    if (act->didHit())
+    {
+        Pnt3f p1=act->getHitPoint();
+        Real32 dist=old_rFrom.dist(p1);
+        if (dist<=_rFrom.dist(old_rFrom))
+        {
+            _rFrom = old_rFrom;
+            _rAt   = old_rAt;
+            //printf("didhit:right, wall between positions\n");
+            return;
+        }
+/*
+        _rFrom = old_rFrom;
+        _rAt   = old_rAt;
+        printf("didhit:forward, right line\n");
+        return;
+*/
+    }
+
 }
