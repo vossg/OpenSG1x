@@ -397,7 +397,17 @@ QFieldContainerPtrEditor::updateDisplay(FieldContainerPtr fcPtr)
 void
 QFieldContainerPtrEditor::updateData(FieldContainerPtr &fcPtr) const
 {
-    fcPtr = FieldContainerFactory::the()->getContainer(_pSpinBoxId->getValue());
+    FieldContainerPtr newfcPtr = FieldContainerFactory::the()->getContainer(_pSpinBoxId->getValue());
+    if(newfcPtr != NullFC && newfcPtr->getType().isDerivedFrom(fcPtr->getType()))
+    {
+        fcPtr = newfcPtr;
+    }
+    else
+    {
+        SWARNING << "QFieldContainerPtrEditor::updateData: "
+                 << "can not update fieldcontainer pointer (wrong type)."
+                 << endLog;
+    }
 }
 
 // include generated file
@@ -416,7 +426,7 @@ QFieldContainerPtrEditor::updateData(FieldContainerPtr &fcPtr) const
 
 namespace
 {
-    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.8 2005/03/18 13:04:27 a-m-z Exp $";
+    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.9 2005/03/26 11:10:59 a-m-z Exp $";
     static Char8 cvsid_hpp     [] = OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl     [] = OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID;
 }
