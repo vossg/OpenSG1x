@@ -50,6 +50,12 @@ test $verbose == 0 || echo "Found $npages pages"
 
 # remove the middle part that we don't want
 (( indexline=`fgrep -n "input{index}" $refman | sed -e s/:.*$//` - 2 ))
+if [[ $indexline -lt 0 ]] # doxygen 1.3.6 and up?
+then
+    (( indexline=`fgrep -n "Namespace Index" $refman | sed -e s/:.*$//` - 1 ))
+    test $verbose == 0 || echo "Detected doxygen 1.3.6 output!"
+fi
+
 reflen=`cat $refman | wc -l`
 test $verbose == 0 || echo "Reflen: $reflen"
 
