@@ -47,10 +47,10 @@ usage ()
 {
     cat << EOF
 
-Usage:	`basename $scriptname` -h
+Usage:    `basename $scriptname` -h
 
 Options:
-    -h	    display this message
+    -h        display this message
 
 EOF
 }
@@ -99,13 +99,12 @@ EOF
 
     if test -s $errfile;
     then
-    	cat $errfile >> $out_mail
-	echo  >> $out_mail
+        cat $errfile >> $out_mail
+        echo  >> $out_mail
     fi
     
     # LOCAL: choose your email adresses here
     $mail -s "OpenSG dailybuild on $host failed" opensg-dailybuilds@lists.sf.net < $out_mail
-    ##$mail -s "OpenSG dailybuild on $host failed" reiners@igd.fhg.de < $out_mail
 }
 
 write_html_log ()
@@ -123,12 +122,12 @@ write_html_log ()
 <title>OpenSG dailybuild $now $title on $host results</title>
 <style type="text/css">
 <!--
-body	    	{ background-color:#ffffff }
-td.line		{ text-align:right; vertical-align:top }
-td.log		{ font-family:monospace; vertical-align:top }
-tr.normal	{ }
-tr.error	{ background-color:#ff2020; color:#ffffff }
-tr.warning	{ background-color:#ff6600 }
+body            { background-color:#ffffff }
+td.line         { text-align:right; vertical-align:top }
+td.log          { font-family:monospace; vertical-align:top }
+tr.normal       { }
+tr.error        { background-color:#ff2020; color:#ffffff }
+tr.warning      { background-color:#ff6600 }
 //-->
 </style>
 </head>
@@ -167,24 +166,25 @@ checkerror ()
     # remove the expected errors
     $grep -n -i -w error $file| \
     $grep -v \
-    	-e "warning: nm returned a nonzero error status" \
-    	-e "GetLastError" \
-    	-e "Error (future)" \
-	> $log_errors || true
+        -e "warning: nm returned a nonzero error status" \
+        -e "GetLastError" \
+        -e "Error (future)" \
+        -e "(ignored)" \
+    > $log_errors || true
     $grep -n -i -w failed $file | \
     $grep -v \
-    	-e "WIN32Window::init: failed" \
-    	-e "WIN32Window::activate: failed" \
-    	-e "inlining failed" \
-    	-e "failed in call to" \
-    	-e "2401 failed: Connection refused" \
-	>> $log_errors || true
+        -e "WIN32Window::init: failed" \
+        -e "WIN32Window::activate: failed" \
+        -e "inlining failed" \
+        -e "failed in call to" \
+        -e "failed: Connection timed out" \
+    >> $log_errors || true
     
     # remove the expected warnings
     $grep -n -i -w warning $file | \
     $grep -v \
-    	-e "not used for resolving any symbol" \
- 	> $log_warnings || true
+        -e "not used for resolving any symbol" \
+    > $log_warnings || true
 
     # write the log file
     write_html_log $out_html.$title.html $title $file $log_errors $log_warnings
@@ -192,21 +192,21 @@ checkerror ()
     # check error file (empty -> ignore)
     if test \! -s $log_errors 
     then
-	rm -f $log_errors
-	echo "`date +%H:%M`: <a href=$link_html.$title.html.gz>$title</a> finished sucessfully.<br>" >> $out_html.Main.html
+        rm -f $log_errors
+        echo "`date +%H:%M`: <a href=$link_html.$title.html.gz>$title</a> finished sucessfully.<br>" >> $out_html.Main.html
     else
- 	echo "`date +%H:%M`: <br><font color=#b00000><a href=$link_html.$title.html.gz>$title</a> had errors!</font><br>" >> $out_html.Main.html
+        echo "`date +%H:%M`: <br><font color=#b00000><a href=$link_html.$title.html.gz>$title</a> had errors!</font><br>" >> $out_html.Main.html
 
-	IFS=':'
-	cat $log_errors | while read line err
-	do
-	    echo "<a href=$link_html.$title.html.gz#$line>$line</a> : $err<br>" >> $out_html.Main.html
-	done
-	IFS=''
+        IFS=':'
+        cat $log_errors | while read line err
+        do
+            echo "<a href=$link_html.$title.html.gz#$line>$line</a> : $err<br>" >> $out_html.Main.html
+        done
+        IFS=''
 
         if test x$do_exit != xno
         then
-	    errorexit $title $log_errors
+            errorexit $title $log_errors
         else
             false
             return
@@ -256,9 +256,9 @@ if ( -r $errfile )
        
         push(@elist, $line);
         
-	print '<tr class="normal"><td class="line">';
-	print "<a href=#$line>$line</a></td>";
-	print "<td class=\"log\"> $err </td></tr>\n";       
+        print '<tr class="normal"><td class="line">';
+        print "<a href=#$line>$line</a></td>";
+        print "<td class=\"log\"> $err </td></tr>\n";       
     }
     
     print "</table>";
@@ -284,9 +284,9 @@ if ( -r $warnfile )
         
         push(@wlist, $line);
         
-	print '<tr class="normal"><td class="line">';
-	print "<a href=#$line>$line</a></td>";
-	print "<td class=\"log\"> $warn </td></tr>\n";       
+        print '<tr class="normal"><td class="line">';
+        print "<a href=#$line>$line</a></td>";
+        print "<td class=\"log\"> $warn </td></tr>\n";       
     }
     
     print "</table>";
@@ -335,11 +335,23 @@ EOF
 
 # ' Just to keep the syntax highlighting happy
 
+# Little script to use ssh -1x for SourceForge Access
+cat > ${tmpdir}/ssh-sf << \EOF
+#!/bin/sh
+if ssh -V 2>&1 | fgrep "SSH Version 1." > /dev/null 2>&1
+then
+    ssh    -i ${HOME}/.ssh/sourceforge -x $*
+else
+    ssh -1 -i ${HOME}/.ssh/sourceforge -x $*
+fi
+EOF
+
+chmod 700 ${tmpdir}/ssh-sf
+
+
 extra_args=""
 config_shell=sh
 mail=echo
-# Only some machines can write the Web files, scp via one of them
-do_copy='cd $basedir; tar cf - $link_html* | ssh pc1107 tar xf - -C $log_destination'
 grep=grep
 
 loginfo=""
@@ -349,51 +361,57 @@ scriptname=$0
 
 while test $# -gt 0 
 do
-	case $1 in
-                --compiler)
-	                compiler=$2
-	                shift
-	                shift
-	                ;;
-                --extra-args)
-                        extra_args="$extra_args $2"
-                        shift
-                        shift
-                        ;;
-                --with-qt)
-                        qt_args="--with-qt=$2"
-                        qt_dir=$2
-                        shift
-                        shift
-                        ;;
-                --with-glut)
-                        glut_args="--with-glut=$2"
-                        shift
-                        shift
-                        ;;
-                --with-tif)
-                        tif_args="--with-tif=$2"
-                        shift
-                        shift
-                        ;;
-                --with-jpg)
-                        jpg_args="--with-jpg=$2"
-                        shift
-                        shift
-                        ;;
-                --with-png)
-                        png_args="--with-png=$2"
-                        shift
-                        shift
-                        ;;
-                --par_jobs)
-                        par_jobs=$2
-                        shift
-                        shift
-                        ;;
-		*)	break 2
-			;;
-	esac
+    case $1 in
+        --compiler)
+            compiler=$2
+            shift
+            shift
+            ;;
+        --extra-args)
+            extra_args="$extra_args $2"
+            shift
+            shift
+            ;;
+        --with-qt)
+            qt_args="--with-qt=$2"
+            qt_dir=$2
+            shift
+            shift
+            ;;
+        --with-glut)
+            glut_args="--with-glut=$2"
+            shift
+            shift
+            ;;
+        --with-tif)
+            tif_args="--with-tif=$2"
+            shift
+            shift
+            ;;
+        --with-jpg)
+            jpg_args="--with-jpg=$2"
+            shift
+            shift
+            ;;
+        --with-png)
+            png_args="--with-png=$2"
+            shift
+            shift
+            ;;
+        --par_jobs)
+            par_jobs=$2
+            shift
+            shift
+            ;;
+        --upload-key )        
+            do_copy="cd \$basedir; tar cf - \$link_html* | ssh -i $2 -l osgdb www.opensg.org tar xf - -C dailybuild_logs"
+            shift
+            shift
+            ;;
+         *) 
+            break 2
+            ;;
+    esac
 done
 
 # LOCAL change to your local directory
@@ -416,22 +434,13 @@ host=`hostname`
 
 # Check out the sources
 
-# little trick to get around the password input
-# not nice but works. Anyone got a better solutions?
-
-cvs_ok=`fgrep -l anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg $HOME/.cvspass`
-if test x$cvs_ok = x
-then
-    echo ":pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg A" >> $HOME/.cvspass
-fi
-
 #cleanup what's left
 rm -rf OpenSG
 
 # cvs needs to be in the path!
-# Lately SourceForge's CVS servers have been somewhat unreliable...
+export CVS_RSH=${tmpdir}/ssh-sf
 rm -f $log_cvs
-until cvs -z9 -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
+until cvs -z9 -ddirk@cvs.opensg.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
 do
     echo "CVS problem, sleeping and retrying!" >> $log_cvs
     sleep 10
@@ -448,124 +457,152 @@ system=`CommonConf/config.sub $guess`
 
 case $system in
 
-    mips-sgi-irix6* )	
-    	
-	qt_dir="/igd/a4/software/IRIX/packages/qt-3.0"
-	qt_args=${qt_args:="--with-qt=${qt_dir}"}
-        glut_args=${glut_args:="--with-glut=/igd/a4/software/IRIX/packages/glut-3.7"}
-	tif_args=${tif_args:="--with-tif=/igd/a4/software/IRIX/"}
-	jpg_args=${jpg_args:="--with-jpg=/igd/a4/software/IRIX/"}
- 	png_args=${png_args:="--with-png=/igd/a4/software/IRIX/"}
-   	par_jobs=${par_jobs:=6}
-	compiler=${compiler:=CC}
-        do_copy='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /igd/a4/home/reiners/.ssh/id.ssh1 pc1107 tar xf - -C $log_destination'
-	mail=/usr/sbin/Mail
-        make=/sgi/bin/gmake
-	export PATH=/igd/a4/software/IRIX/bin/:$PATH
-        loginfo="OS: `/bin/uname -aR` <br>"
-        loginfo="$loginfo Compiler Version: `CC -version 2>&1` <br>"
-	has_doxygen=0
+    mips-sgi-irix6* )    
+
+        compiler=${compiler:=CC}
+        
+        case "$compiler" in
+        
+            CC)
+                # IGD Irix settings
+                
+                qt_dir="/igd/a4/software/IRIX/packages/qt-3.0"
+                qt_args=${qt_args:="--with-qt=${qt_dir}"}
+                glut_args=${glut_args:="--with-glut=/igd/a4/software/IRIX/packages/glut-3.7"}
+                tif_args=${tif_args:="--with-tif=/igd/a4/software/IRIX/"}
+                jpg_args=${jpg_args:="--with-jpg=/igd/a4/software/IRIX/"}
+                png_args=${png_args:="--with-png=/igd/a4/software/IRIX/"}
+                par_jobs=${par_jobs:=6}
+                do_copy=${do_copy:='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /igd/a4/home/reiners/.ssh/id.ssh1 reiners@pc1107 tar xf - -C $log_destination'}
+                mail=/usr/sbin/Mail
+                make=/sgi/bin/gmake
+                export PATH=/igd/a4/software/IRIX/bin/:$PATH
+                loginfo="OS: `/bin/uname -aR` <br>"
+                loginfo="$loginfo Compiler Version: `CC -version 2>&1` <br>"
+                has_doxygen=0
+                ;;
+            
+            CC64)
+                 # VRAC Irix settings
+          
+                glut_args=${glut_args:="--with-glut --with-glutincludedir=/usr/freeware/include/ --with-glutlibdir=/usr/freeware/lib64"}
+                tif_args=${tif_args:="--with-tif --with-tifincludedir=/usr/freeware/include/ --with-tiflibdir=/usr/freeware/lib64"}
+                jpg_args=${jpg_args:="--with-jpg --with-jpgincludedir=/usr/freeware/include/ --with-jpglibdir=/usr/freeware/lib64"}
+                png_args=${png_args:="--with-png --with-pngincludedir=/usr/freeware/include/ --with-pnglibdir=/usr/freeware/lib64"}
+                par_jobs=${par_jobs:=8}
+                do_copy=${do_copy:='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /igd/a4/home/reiners/.ssh/id.ssh1 reiners@pc1107 tar xf - -C $log_destination'}
+                mail=/usr/sbin/Mail
+                make=/home/users/dreiners/bin/IRIX64/make
+                grep=/usr/freeware/bin/grep
+                loginfo="OS: `/bin/uname -aR` <br>"
+                loginfo="$loginfo Compiler Version: `CC -version 2>&1` <br>"
+                has_doxygen=0
+                ;;           
+        esac
         ;;
 
-    hppa2.0w-hp* )	
-        	
-	qt_dir="/igd/a4/software/HP-UX/packages/qt-x11-free-3.2.0b1"
-	qt_args=${qt_args:="--with-qt=${qt_dir}"}
-	glut_args=${glut_args:="--with-glut --with-glutincludedir=/opt/graphics/OpenGL/contrib/libglut --with-glutlibdir=/opt/graphics/OpenGL/contrib/libglut"}
-	tif_args=${tif_args:="--with-tif=/igd/a4/software/HP-UX/"}
-	jpg_args=${jpg_args:="--with-jpg=/igd/a4/software/HP-UX/"}
- 	png_args=${png_args:="--with-png=/igd/a4/software/HP-UX/"}
-   	par_jobs=${par_jobs:=2}
-	compiler=${compiler:=aCC}
-	mail=/usr/bin/mailx
+    hppa2.0w-hp* )    
+
+        qt_dir="/igd/a4/software/HP-UX/packages/qt-x11-free-3.2.0b1"
+        qt_args=${qt_args:="--with-qt=${qt_dir}"}
+        glut_args=${glut_args:="--with-glut --with-glutincludedir=/opt/graphics/OpenGL/contrib/libglut --with-glutlibdir=/opt/graphics/OpenGL/contrib/libglut"}
+        tif_args=${tif_args:="--with-tif=/igd/a4/software/HP-UX/"}
+        jpg_args=${jpg_args:="--with-jpg=/igd/a4/software/HP-UX/"}
+        png_args=${png_args:="--with-png=/igd/a4/software/HP-UX/"}
+        par_jobs=${par_jobs:=2}
+        compiler=${compiler:=aCC}
+        mail=/usr/bin/mailx
         # Need a decent grep here
         grep=/igd/a4/software/HP-UX/bin/grep
-	export PATH=/igd/a4/software/HP-UX/bin/:$PATH
+        export PATH=/igd/a4/software/HP-UX/bin/:$PATH
         loginfo="OS: `/bin/uname -a` <br>"
         loginfo="$loginfo Compiler Version: `aCC --version 2>&1` <br>"
         # Move HP-toxic stuff out of the way
         Common/prep_hp
-	;;
-	
-    *-pc-linux-gnu )	
-    	
-	qt_dir="/usr/lib/qt3"
-	qt_args=${qt_args:="--with-qt=${qt_dir}"}
-    	glut_args=${glut_args:="--with-glut"}
-	tif_args=${tif_args:="--with-tif"}
-	jpg_args=${jpg_args:="--with-jpg"}
- 	png_args=${png_args:="--with-png"}
-    	par_jobs=${par_jobs:=2}
-	compiler=${compiler:=g++}
-	config_shell=bash
-	mail=/usr/bin/Mail
-	export PATH=/igd/a4/software/Linux/bin/:$PATH
+        ;;
+    
+    *-pc-linux-gnu )    
+        
+        qt_dir="/usr/lib/qt3"
+        qt_args=${qt_args:="--with-qt=${qt_dir}"}
+        glut_args=${glut_args:="--with-glut"}
+        tif_args=${tif_args:="--with-tif"}
+        jpg_args=${jpg_args:="--with-jpg"}
+        png_args=${png_args:="--with-png"}
+        par_jobs=${par_jobs:=2}
+        compiler=${compiler:=g++}
+        config_shell=bash
+        mail=/usr/bin/Mail
+        export PATH=/igd/a4/software/Linux/bin/:$PATH
         loginfo="OS: `uname -a` <br>"
         loginfo="$loginfo    `cat /proc/version` <br>"
         loginfo="$loginfo Compiler Version: `$compiler -v 2>&1` <br>"
-	;;
+        ;;
 
-    *-pc-cygwin )	
-    	
+    *-pc-cygwin )    
+
         # Unpack the Supportlibs and use them
         mkdir ${basedir}/supportlibs > $log_cvs 2>&1
         pushd ${basedir}/supportlibs > $log_cvs 2>&1
         rm -rf * > $log_cvs 2>&1
         unzip -o ../OpenSG/dist/win/supportlibs.zip > $log_cvs 2>&1
         popd > $log_cvs 2>&1
-        
-    	glut_args=${glut_args:="--with-glut=`pwd`/../supportlibs"}
-	tif_args=${tif_args:="--with-tif=`pwd`/../supportlibs"}
-	jpg_args=${jpg_args:="--with-jpg=`pwd`/../supportlibs"}
-	png_args=${png_args:="--with-png=`pwd`/../supportlibs"}
-	qt_dir="`pwd`/../packages/qt-3.12"
-	qt_args=${qt_args:="--with-qt=${qt_dir}"}
-    	par_jobs=${par_jobs:=1}
-	compiler=${compiler:=icl50}
-        do_copy='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /home/reiners/.ssh/id_dsa pc1107 tar xf - -C $log_destination'
-	config_shell=bash
-	mail=`pwd`/../do_send_mail
+
+        glut_args=${glut_args:="--with-glut=`pwd`/../supportlibs"}
+        tif_args=${tif_args:="--with-tif=`pwd`/../supportlibs"}
+        jpg_args=${jpg_args:="--with-jpg=`pwd`/../supportlibs"}
+        png_args=${png_args:="--with-png=`pwd`/../supportlibs"}
+        qt_dir="`pwd`/../packages/qt-3.12"
+        qt_args=${qt_args:="--with-qt=${qt_dir}"}
+        par_jobs=${par_jobs:=1}
+        compiler=${compiler:=icl50}
+        do_copy=${do_copy:='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /home/reiners/.ssh/id_dsa reiners@pc1107 tar xf - -C $log_destination'}
+        config_shell=bash
+        mail=`pwd`/../do_send_mail
         loginfo="OS: `uname -a` <br>"
-	;;
-	
-    ia64-unknown-linux-gnu )	
-    	
-    	glut_args=${glut_args:="--with-glut"}
-	tif_args=${tif_args:="--with-tif"}
-	jpg_args=${jpg_args:="--with-jpg"}
-	qt_dir="/opt"
-	qt_args=${qt_args:="--with-qt=${qt_dir}"}
- 	png_args=${png_args:="--with-png"}
-    	par_jobs=${par_jobs:=2}
-	compiler=${compiler:=g++}
-	config_shell=bash
-	mail=/usr/bin/Mail
-        do_copy='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /home/osgdb/.ssh/id_dsa reiners@pc1107 tar xf - -C $log_destination'
+        ;;
+
+    ia64-unknown-linux-gnu )    
+        
+        glut_args=${glut_args:="--with-glut"}
+        tif_args=${tif_args:="--with-tif"}
+        jpg_args=${jpg_args:="--with-jpg"}
+        qt_dir="/opt"
+        qt_args=${qt_args:="--with-qt=${qt_dir}"}
+        png_args=${png_args:="--with-png"}
+        par_jobs=${par_jobs:=2}
+        compiler=${compiler:=g++}
+        config_shell=bash
+        mail=/usr/bin/Mail
+        do_copy=${do_copy:='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /home/osgdb/.ssh/id_dsa reiners@pc1107 tar xf - -C $log_destination'}
         loginfo="OS: `uname -a` <br>"
         loginfo="$loginfo    `cat /proc/version` <br>"
         loginfo="$loginfo Compiler Version: `$compiler -v 2>&1` <br>"
-	;;
+        ;;
 
-    *-apple-darwin* )	
-    	
-    	glut_args="--with-glut"
-    	par_jobs=${par_jobs:=1}
-	compiler=${compiler:=cc}
-	config_shell=sh
-	mail=/usr/bin/Mail
-	export PATH=$PATH
+    *-apple-darwin* )    
+
+        glut_args="--with-glut"
+        par_jobs=${par_jobs:=1}
+        compiler=${compiler:=cc}
+        config_shell=sh
+        mail=/usr/bin/Mail
+        export PATH=$PATH
         loginfo="OS: `uname -a` <br>"
         # get rid of version number
         system=`echo $system | sed -e 's/darwin[0-9].[0-9]/darwin/'`
-	;;
-	
+        ;;
+    
    *)
-   
-    	echo "Unknown system $system!"
-	errorexit System /dev/null
-	;;
-	
+
+        echo "Unknown system $system!"
+        errorexit System /dev/null
+        ;;
+    
 esac
+
+# Only some machines can write the Web files, scp via one of them unless alternative set
+do_copy=${do_copy:='cd $basedir; tar cf - $link_html* | ssh reiners@pc1107 tar xf - -C $log_destination'}
 
 # set defaults if not set yet
 qt_args=${qt_args:=""}
@@ -601,7 +638,7 @@ checkerror "Cvs" $log_cvs
 
 case $system in
 
-    mips-sgi-irix6* )	
+    mips-sgi-irix6* ) 
                         cd ..
                         tar cf - OpenSG | \
                             gzip -9f > $basedir/opensg_dailybuild.$today.source.tgz
@@ -622,13 +659,13 @@ if type doxygen > /dev/null 2>&1
 then
     if type latex > /dev/null 2>&1
     then
-	    has_doxygen=${has_doxygen:=1}
+        has_doxygen=${has_doxygen:=1}
     fi
 fi
 
-if test $has_doxygen = 1;
+if test x$has_doxygen = x1;
 then
-	( rm -f $doc_flag ; $make alldocs 1>$log_doc 2>&1 ; touch $doc_flag ) &
+    ( rm -f $doc_flag ; $make alldocs 1>$log_doc 2>&1 ; touch $doc_flag ) &
 fi
 
 # make the libs
@@ -652,13 +689,13 @@ checkerror "Install" $log_install
 # create the snapshot
 case $system in
 
-    *-pc-cygwin )	
+    *-pc-cygwin )    
                         make dsp
                         make dsp7
                         tar cf - lib include -C ../.. VSBuild | gzip -9f > $out_html.snapshot.tgz                       
                         ;;
 
-    * )	
+    * )    
                         tar cf - lib include | gzip -9f > $out_html.snapshot.tgz
                         ;;
 esac
@@ -667,7 +704,7 @@ esac
 # make and run the tests that have gold test results
 errcount=0
 
-for i in *Test;
+for i in *Test; 
 do
     cd $i
     # keep going after errors to catch them all
@@ -679,30 +716,32 @@ do
     # do we have testfiles?
     if test `\ls -1 test* 2>/dev/null | wc -l` -ne 0 ;
     then
-	for j in test*;
-	do
-    	    # find the gold file
- 	    echo -n "$j... " >> $out_html.Main.html
-   	    tloc=`find ../../.. -name $j.cpp | sed -e 's|[^/]*$||'`goldtests/$j.log
- 	    if test "$tloc" != "goldtests/$j.log" -a -r $tloc
-	    then
-		$j > $log_test 2>&1
-		if test "`diff -q $log_test $tloc`" != "" ;
-		then
-	    	    echo " results differ:<br>" >> $out_html.Main.html
-	    	    echo -n "<pre>" >> $out_html.Main.html
-		    diff $log_test $tloc >> $out_html.Main.html
-	    	    echo "</pre>" >> $out_html.Main.html
-		else
-	    	    echo " ok.<br>" >> $out_html.Main.html
-		fi
-	    else
-	    	echo " no gold test.<br>" >> $out_html.Main.html    
-	    fi 
-	done
+        for j in test*;
+        do
+            # find the gold file
+            echo -n "$j... " >> $out_html.Main.html
+            tloc=`find ../../.. -name $j.cpp | sed -e 's|[^/]*$||'`goldtests/$j.log
+            if test "$tloc" != "goldtests/$j.log" -a -r $tloc
+            then
+                $j > $log_test 2>&1
+                if test "`diff -q $log_test $tloc`" != "" ;
+                then
+                    echo " results differ:<br>" >> $out_html.Main.html
+                    echo -n "<pre>" >> $out_html.Main.html
+                    diff $log_test $tloc >> $out_html.Main.html
+                    echo "</pre>" >> $out_html.Main.html
+                else
+                    echo " ok.<br>" >> $out_html.Main.html
+                fi
+            else
+                echo " no gold test.<br>" >> $out_html.Main.html    
+            fi 
+        done
     fi
+    # free some space, OpenSG is big enough as is...
+    make distclean 1>$log_test.$i 2>&1
     cd ..
-    
+
 done
 
 # make the binary dist
@@ -715,7 +754,7 @@ export OSG_DIST_CLEANUP=yes
 
 case $system in
 
-    *cygwin* )	
+    *cygwin* )    
         ;;
 esac
 
