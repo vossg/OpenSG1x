@@ -55,7 +55,19 @@
 #   ifdef OSG_COMPILEDRAWACTION
 #       define OSG_DRAWACTION_DLLMAPPING __declspec(dllexport)
 #   else
-#       define OSG_DRAWACTION_DLLMAPPING __declspec(dllimport)
+#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEINTERSECTACTION)   || \
+                                     defined(OSG_COMPILEACTION)            || \
+                                     defined(OSG_COMPILEMATERIAL)          || \
+                                     defined(OSG_COMPILEMISC)              || \
+                                     defined(OSG_COMPILELIGHT)             || \
+                                     defined(OSG_COMPILEGEOMETRY)          || \
+                                     defined(OSG_COMPILESTATE)             || \
+                                     defined(OSG_COMPILEWINDOW)            || \
+                                     defined(OSG_COMPILESYSTEMLIB))
+#           define OSG_DRAWACTION_DLLMAPPING __declspec(dllexport)
+#       else
+#           define OSG_DRAWACTION_DLLMAPPING __declspec(dllimport)
+#       endif
 #   endif
 #else
 #define OSG_DRAWACTION_DLLMAPPING

@@ -49,10 +49,23 @@
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
 #   ifdef OSG_COMPILESTATE
 #       define OSG_STATE_DLLMAPPING     __declspec(dllexport)
-#       define OSG_STATE_DLLTMPLMAPPING
+#       define OSG_STATE_DLLTMPLMAPPING __declspec(dllexport)
 #   else
-#       define OSG_STATE_DLLMAPPING     __declspec(dllimport)
-#       define OSG_STATE_DLLTMPLMAPPING __declspec(dllimport)
+#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
+                                     defined(OSG_COMPILEINTERSECTACTION)   || \
+                                     defined(OSG_COMPILEMATERIAL)          || \
+                                     defined(OSG_COMPILEMISC)              || \
+                                     defined(OSG_COMPILELIGHT)             || \
+                                     defined(OSG_COMPILEGEOMETRY)          || \
+                                     defined(OSG_COMPILEACTION)            || \
+                                     defined(OSG_COMPILEWINDOW)            || \
+                                     defined(OSG_COMPILESYSTEMLIB))
+#           define OSG_STATE_DLLMAPPING     __declspec(dllexport)
+#           define OSG_STATE_DLLTMPLMAPPING __declspec(dllexport)
+#       else
+#           define OSG_STATE_DLLMAPPING     __declspec(dllimport)
+#           define OSG_STATE_DLLTMPLMAPPING __declspec(dllimport)
+#       endif
 #   endif
 #else
 #define OSG_STATE_DLLMAPPING

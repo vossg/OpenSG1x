@@ -59,7 +59,13 @@
 #   ifdef OSG_COMPILELOG
 #       define OSG_LOG_DLLMAPPING __declspec(dllexport)
 #   else
-#       define OSG_LOG_DLLMAPPING __declspec(dllimport)
+#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEBASE)         || \
+                                     defined(OSG_COMPILEFIELD)        || \
+                                     defined(OSG_COMPILEFIELDCONTAINER))
+#           define OSG_LOG_DLLMAPPING __declspec(dllexport)
+#       else
+#           define OSG_LOG_DLLMAPPING __declspec(dllimport)
+#       endif
 #   endif
 #else
 #define OSG_LOG_DLLMAPPING

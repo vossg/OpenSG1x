@@ -556,10 +556,10 @@ OSG_USING_STD_NAMESPACE
 
 #if defined(WIN32)
 #define OSG_EXPORT_TYPE_DECL1(CLASSNAME, T1, DLLMAPPING)                     \
-    extern template DLLMAPPING                                               \
+    extern template                                                          \
         const FieldType  CLASSNAME<T1>::_fieldType;
 #define OSG_EXPORT_TYPE_DECL2(CLASSNAME, T1, T2, DLLMAPPING)                 \
-    extern template DLLMAPPING                                               \
+    extern template                                                          \
         const FieldType  CLASSNAME<T1, T2>::_fieldType;
 
 #define OSG_EXPORT_GETTYPE_DECL1(CLASSNAME, T1, DLLMAPPING)                  \
@@ -589,10 +589,10 @@ OSG_USING_STD_NAMESPACE
 
 
 #define OSG_EXPORT_TYPE_DEF1(CLASSNAME, T1, DLLMAPPING)                      \
-    template DLLMAPPING                                                      \
+    template                                                                 \
         const FieldType  CLASSNAME<T1>::_fieldType;
 #define OSG_EXPORT_TYPE_DEF2(CLASSNAME, T1, T2, DLLMAPPING)                  \
-    template DLLMAPPING                                                      \
+    template                                                                 \
         const FieldType  CLASSNAME<T1, T2>::_fieldType;
 
 #define OSG_EXPORT_GETTYPE_DEF1(CLASSNAME, T1, DLLMAPPING)                   \
@@ -623,11 +623,11 @@ OSG_USING_STD_NAMESPACE
 
 
 #define OSG_FC_EXPORT_TYPE_DECL(CLASSNAME, T1, DLLMAPPING)                   \
-    extern template DLLMAPPING                                               \
+    extern template                                                          \
         FieldContainerType CLASSNAME<T1>::_type;
 
 #define OSG_FC_EXPORT_DESC_DECL(CLASSNAME, T1, DLLMAPPING)                   \
-    extern template DLLMAPPING                                               \
+    extern template                                                          \
         FieldDescription   CLASSNAME<T1>::_desc[];
 
 #define OSG_FC_EXPORT_GETTYPE_DECL(CLASSNAME, T1, DLLMAPPING)                \
@@ -652,11 +652,11 @@ OSG_USING_STD_NAMESPACE
 
 
 #define OSG_FC_EXPORT_TYPE_DEF(CLASSNAME, T1, DLLMAPPING)                    \
-    template DLLMAPPING                                                      \
+    template                                                                 \
         FieldContainerType CLASSNAME<T1>::_type;
 
 #define OSG_FC_EXPORT_DESC_DEF(CLASSNAME, T1, DLLMAPPING)                    \
-    template DLLMAPPING                                                      \
+    template                                                                 \
         FieldDescription   CLASSNAME<T1>::_desc[];
 
 #define OSG_FC_EXPORT_GETTYPE_DEF(CLASSNAME, T1, DLLMAPPING)                 \

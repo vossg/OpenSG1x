@@ -51,7 +51,19 @@
 #   ifdef OSG_COMPILELIGHT
 #       define OSG_LIGHT_DLLMAPPING __declspec(dllexport)
 #   else
-#       define OSG_LIGHT_DLLMAPPING __declspec(dllimport)
+#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
+                                     defined(OSG_COMPILEINTERSECTACTION)   || \
+                                     defined(OSG_COMPILEMATERIAL)          || \
+                                     defined(OSG_COMPILEMISC)              || \
+                                     defined(OSG_COMPILEACTIION)           || \
+                                     defined(OSG_COMPILEGEOMETRY)          || \
+                                     defined(OSG_COMPILESTATE)             || \
+                                     defined(OSG_COMPILEWINDOW)            || \
+                                     defined(OSG_COMPILESYSTEMLIB))
+#           define OSG_LIGHT_DLLMAPPING __declspec(dllexport)
+#       else
+#           define OSG_LIGHT_DLLMAPPING __declspec(dllimport)
+#       endif
 #   endif
 #else
 #define OSG_LIGHT_DLLMAPPING

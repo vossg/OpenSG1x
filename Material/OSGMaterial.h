@@ -39,10 +39,23 @@
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
 #   ifdef OSG_COMPILEMATERIAL
 #       define OSG_MATERIAL_DLLMAPPING     __declspec(dllexport)
-#       define OSG_MATERIAL_DLLTMPLMAPPING
+#       define OSG_MATERIAL_DLLTMPLMAPPING __declspec(dllexport)
 #   else
-#       define OSG_MATERIAL_DLLMAPPING     __declspec(dllimport)
-#       define OSG_MATERIAL_DLLTMPLMAPPING __declspec(dllimport)
+#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILEDRAWACTION)        || \
+                                     defined(OSG_COMPILEINTERSECTACTION)   || \
+                                     defined(OSG_COMPILEACTION)            || \
+                                     defined(OSG_COMPILEMISC)              || \
+                                     defined(OSG_COMPILELIGHT)             || \
+                                     defined(OSG_COMPILEGEOMETRY)          || \
+                                     defined(OSG_COMPILESTATE)             || \
+                                     defined(OSG_COMPILEWINDOW)            || \
+                                     defined(OSG_COMPILESYSTEMLIB))
+#           define OSG_MATERIAL_DLLMAPPING     __declspec(dllexport)
+#           define OSG_MATERIAL_DLLTMPLMAPPING __declspec(dllexport)
+#       else
+#           define OSG_MATERIAL_DLLMAPPING     __declspec(dllimport)
+#           define OSG_MATERIAL_DLLTMPLMAPPING __declspec(dllimport)
+#       endif
 #   endif
 #else
 #define OSG_MATERIAL_DLLMAPPING

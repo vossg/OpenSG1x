@@ -45,10 +45,17 @@
 #if defined(WIN32) && defined(OSG_BUILD_DLL) 
 #   ifdef OSG_COMPILEFIELD
 #       define OSG_FIELD_DLLMAPPING     __declspec(dllexport)
-#       define OSG_FIELD_DLLTMPLMAPPING 
+#       define OSG_FIELD_DLLTMPLMAPPING __declspec(dllexport)
 #   else
-#       define OSG_FIELD_DLLMAPPING     __declspec(dllimport)
-#       define OSG_FIELD_DLLTMPLMAPPING __declspec(dllimport)
+#       if defined(OSG_NEW_DLLS) && (defined(OSG_COMPILELOG)          || \
+                                     defined(OSG_COMPILEBASE)         || \
+                                     defined(OSG_COMPILEFIELDCONTAINER))
+#           define OSG_FIELD_DLLMAPPING     __declspec(dllexport)
+#           define OSG_FIELD_DLLTMPLMAPPING __declspec(dllexport)
+#       else
+#           define OSG_FIELD_DLLMAPPING     __declspec(dllimport)
+#           define OSG_FIELD_DLLTMPLMAPPING __declspec(dllimport)
+#       endif
 #   endif
 #else
 #define OSG_FIELD_DLLMAPPING
