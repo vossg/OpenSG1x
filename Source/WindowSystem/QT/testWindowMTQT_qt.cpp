@@ -7,11 +7,7 @@
 
 #include <OSGConfig.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
 #ifdef __sgi
 #pragma set woff 1375

@@ -8,11 +8,7 @@
 #include <windows.h>
 #include <OSGGL.h>
 
-#ifdef OSG_STREAM_IN_STD_NAMESPACE
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
 #include <OSGFieldContainerFactory.h>
 #include <OSGSFSysTypes.h>
