@@ -212,7 +212,7 @@ UInt64 ImageFileType::restore( Image &image,
           
           size = headSize + imageSize + attachmentSize;
       
-          FLOG (( "Restore image data: %lu (%lu/%lu/%lu)\n",
+          FDEBUG (( "Restore image data: %lu (%lu/%lu/%lu)\n",
                   size, headSize, imageSize, attachmentSize ));
 
         }
@@ -254,7 +254,7 @@ UInt64 ImageFileType::store(const Image &image, const char *mimeType,
 UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
 {
   Head            *head;
-  unsigned long   size, dataSize = 0, headSize = sizeof(Head);
+  unsigned long   dataSize = 0, headSize = sizeof(Head);
   unsigned long   attachmentSize;
   char            *strData;           
   UChar8          *dest;
@@ -310,11 +310,10 @@ UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
               *dest++ = 0;
             }
         }     
-
-      size = headSize + dataSize + attachmentSize;
       
-      FLOG (( "Store image data: %lu (%lu/%lu/%lu)\n",
-              size, headSize, dataSize, attachmentSize ));
+      FDEBUG (( "Store image data: %lu (%lu/%lu/%lu)\n",
+              headSize + dataSize + attachmentSize, headSize, dataSize, 
+              attachmentSize ));
     }
   else {
     FFATAL (("Invalid buffer in ImageFileType::store()\n"));
@@ -349,7 +348,7 @@ UInt64 ImageFileType::maxBufferSize(const Image &image)
   
   size = headSize + imageSize + attachmentSize;
   
-  FLOG (( "ImageFileType::maxBufferSize(): %lu (%lu/%lu/%lu)\n", 
+  FINFO (( "ImageFileType::maxBufferSize(): %lu (%lu/%lu/%lu)\n", 
           size, headSize, imageSize, attachmentSize ));
   
   return size;
