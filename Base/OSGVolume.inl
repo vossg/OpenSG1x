@@ -62,7 +62,11 @@ OSG_BEGIN_NAMESPACE
 /** set the volume to contain nothing */
 void Volume::setValid (const Bool value = true) 
 { 
-	_state = value ? (_state | OSGVALID) : (_state & ~OSGVALID); 
+	if (isStatic())
+		if (value)
+		  _state |= OSGVALID;
+		else 
+		  _state &= ~OSGVALID; 
 }
 
 /**  Checks if the volume is valid */
@@ -74,7 +78,13 @@ Bool Volume::isValid (void) const
 /** set the volume to contain nothing */
 void Volume::setEmpty (const Bool value = true) 
 { 
-	_state = value ? (_state | OSGEMPTY) : ( _state & ~OSGEMPTY); 
+	if (value)
+	  if (value) {
+			_state |= OSGEMPTY;
+			_state &= ~OSGINFINITE;
+		}	
+		else 
+			_state &= ~OSGEMPTY;
 }
 
 /**  Checks if the volume is empty */
@@ -86,7 +96,10 @@ Bool Volume::isEmpty (void) const
 /** set the volume to contain nothing */
 void Volume::setStatic (const Bool value = true) 
 { 
-	_state = value ? (_state | OSGSTATIC) : ( _state & ~OSGSTATIC); 
+	if (value)
+		_state |= OSGSTATIC;
+	else 
+		_state &= ~OSGSTATIC; 
 }
 
 /**  Checks if the volume is static */
@@ -98,7 +111,12 @@ Bool Volume::isStatic (void) const
 /** set the volume to contain nothing */
 void Volume::setInfinite (const Bool value = true) 
 { 
-	_state = value ? (_state | OSGINFINITE) : ( _state & ~OSGINFINITE); 
+	if (value) {
+		_state != OSGINFINITE;
+		_state &= ~OSGEMPTY;
+	}
+	else 
+		_state = ~OSGINFINITE; 
 }
 
 /**  Checks if the volume is infinite */
