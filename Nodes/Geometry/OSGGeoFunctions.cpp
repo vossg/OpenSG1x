@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.22 2001/08/24 15:30:12 jbehr Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.23 2001/08/27 03:56:05 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -462,14 +462,15 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
   }
   else {
     piN = coordIndex.size();
-    for ( i = 0; i < piN; i++) {
-      if ( ((i == piN) && vN) || ((index = coordIndex[i]) < 0 )) {
+    for ( i = 0; i <= piN; i++) {
+      if ( ((i == piN) && vN && (coordIndex[i - 1] >= 0)) || 
+           ((index = coordIndex[i]) < 0 )) {
         primitiveTypeCount [ (vN > maxPType) ? maxPType : vN]++;
         primitiveN++;
         vN = 0;
       }
       else {
-        if (index >= pN) {
+        if (index >= pN && i != piN) {
           FWARNING (("Point index (%d/%d) out of range", index, pN));
           coordIndex[i] = 0;
         }
@@ -746,7 +747,9 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
         primitiveN = 0;
         beginIndex = endIndex = -1;
         for ( i = 0; i <= piN; i++) {
-          if ( (i == piN) || ((coordIndex[i]) < 0 )) {
+          if ( ( (i == piN) && (coordIndex[i - 1] >= 0)) || 
+               ((coordIndex[i]) < 0 )) {
+
             len = i - beginIndex;
             if (ccw) {
               endIndex = i;
