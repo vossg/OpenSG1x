@@ -27,8 +27,8 @@
 // needed includes
 #include "xmlpp.hpp"
 #include "xmlparser.hpp"
-#include <cstdio>
-#include <cstdarg>
+//#include <cstdio>
+//#include <cstdarg>
 
 // namespace declaration
 namespace xmlpp {

@@ -337,7 +337,7 @@ ifeq ($(OS),IRIX64)
 	GLIBDIR = lib32
 
 	NCC 		= cc
-	NCXX 		= CC -LANG:std -ptused
+	NCXX 		= CC -LANG:std -ptused -signed
 	#NCXX 		= CC -LANG:std -ptused
 	NCFLAGS = -LANG:std -ptused -c -o $@ -D$(OS)_OS -DNATIVE_CC -n32 \
 						-woff 3303,1355
@@ -366,8 +366,9 @@ ifeq ($(OS),IRIX64)
 	EXLIB 	= -L$(PPOOL)/lib/$(OS)/$(LIBDIR)
 	SYSINC  = 
 	SYSLIB  = -lm
-	STLINC  = -I$(PPOOL)/include/stdlib
-	#STLLIB  = -L /igd/a4/op2010/Software/SGI/stdlib -lCio
+	#STLINC  = -I/igd/a4/op2010/Software/SGI/stdlib
+	#STLLIB  = -L/igd/a4/op2010/Software/SGI/stdlib -lCio
+	STLINC  = 
 	STLLIB  = -L$(PPOOL)/lib/$(OS)/$(LIBDIR) -lCio
  
 	ACEINC  = -I$(PPOOL)/include/ace/version_4.6 ACE_LIB

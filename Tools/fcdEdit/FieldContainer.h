@@ -15,6 +15,8 @@
 #include "ActionType.h"
 #include "Field.h"
 
+using namespace std;
+
 class FieldContainer {
 
 	friend class Field;
