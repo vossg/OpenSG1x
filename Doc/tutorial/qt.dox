@@ -28,7 +28,7 @@ Additionally the last section will deal with a passive window that is integrated
 
 We are going to develop a simple application that features one incredible button which will allow us to load a file from disk. The most space will be taken by
 the area in which the model will be rendered in. Here is an image what the application will look like. The model was loaded by clicking the load button and then
-selecting the appropiate file with a standard dialog.
+selecting the appropriate file with a standard dialog.
 
 \image html qtdesigner_final.png "The application we will create"
 \image latex qtdesigner_final.eps "The application we will create" width = 8cm

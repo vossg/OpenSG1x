@@ -102,12 +102,12 @@ The BIN file format is a binary file format and thus is not that blithering than
 of that files. And maybe most important for systems that need to load models during runtime: loading from a .bin file is <i>much</i> faster than from a .wrl file!
 
 However, there is of course no application that can directly export to OpenSG BIN, so you first have to load VRML files as usual and then you can save them as
-BIN. A good approch could be to have a look if there is a binary version and if not the appropiate VRML is loaded and directly saved as BIN afterwards. The
+BIN. A good approch could be to have a look if there is a binary version and if not the appropriate VRML is loaded and directly saved as BIN afterwards. The
 following example function will load a file <I>file</I> (with or without an extension) from disk, add it to a node <I>node</I> and will name it <I>name</I>.
-First this function will try to load a binary version of that file (i.e <I>file</I>.bin), if that file is not present the appropiate VRML file will be loaded.
+First this function will try to load a binary version of that file (i.e <I>file</I>.bin), if that file is not present the appropriate VRML file will be loaded.
 If that else fails it will try to load the file with the given filename (maybe another file type such as .obj) and if that won't work neither it gives up.
 
-If loading was successfull and was read from a VRML file a appropiate BIN file is written, thus next time it can be loaded from that BIN file.
+If loading was successfull and was read from a VRML file a appropriate BIN file is written, thus next time it can be loaded from that BIN file.
 
 
 \code

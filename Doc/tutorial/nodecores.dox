@@ -33,7 +33,7 @@ dedicated to this core only!
 
 The transform core was already briefly introduced in the last chapter (\ref TutorialBasicCoresTransform), but now we will have a more detailed
 look at it. However, about the transform class itself is not much left to say, as the most important method is the "setMatrix()" method, which lets us
-use any matrix as a transformation matrix. In order to create the transformation that you need, you only have to create the appropiate matrix. 
+use any matrix as a transformation matrix. In order to create the transformation that you need, you only have to create the appropriate matrix. 
 
 Let us imagine a more complex scene using more than just one transformation like we did before. A very common example is the model of a solar 
 system. To make it a bit easier, we only want a sun and one planet with a single moon. The sun should be stationary and the planet is orbiting in a 
@@ -385,7 +385,7 @@ modify the rotation. In many cases it is just too complicated or even impossible
 component transforms are coming into play. 
 
 Component transform cores are able to stores translation, rotation, scales, scale orientation and a center point seperate from each other.
-Thus every component can be edited without affecting values of other parts. There are appropiate getter and setter methods for these fields. The 
+Thus every component can be edited without affecting values of other parts. There are appropriate getter and setter methods for these fields. The 
 following little example will illustrate the usage of a component transform core
 
 \code
@@ -456,7 +456,7 @@ is not derived from osg::NodeCore and thus cannot be inserted as a core directly
 
 One possibility is to use a material group. This class is nearly identical
 to the usual group core but it has a setMaterial() method added with which you can assign a material to that core. Every node which is below
-the appropiate node containing such a core will be rendered with this material.
+the appropriate node containing such a core will be rendered with this material.
 
 Another possibiliy is to set the material field in the geometry using setMaterial(). This next code fragment shows a possible usage of both variants
 
@@ -681,7 +681,7 @@ The first should be obvious, the second is later needed to read names which were
 
 Now, if executed, everything looks like it did before. Now we want to add another copy of our highres model to our switch node. We could use
 the scenefilehandler to load another instance of that file but that would be a waste of memory. A better aproach would be to simply reference the
-geometry core by a second node, that is actually what the scenegraph is for. Unfortunately we have no appropiate GeometryPtr which points to 
+geometry core by a second node, that is actually what the scenegraph is for. Unfortunately we have no appropriate GeometryPtr which points to 
 our desired women mesh as we loaded it from file an got an NodePtr in return. So it is time for some fun and retrive that geometry from the
 loaded graph.
 

@@ -48,7 +48,7 @@ right now ;-)
 Some last words in general : OpenSG runs on various Unix systems as well as on Windows. If you are
 using Windows you need the Microsoft Visual Studio compiler version 7 or above (i.e. Visual Studio .Net or above),
 or the Intel compiler version 6 or above. On Unix you
-only need the gcc compiler (3.x +) and a few libraries like GLUT or Qt and some image libries which are 
+only need the gcc compiler (3.x +) and a few libraries like GLUT or Qt and some image libraries which are 
 installed on most Unix systems by default. For more detailed instructions, see \ref TutorialInstallation
 
 \section TutorialWhatIsOpenSGNot What is OpenSG not?
@@ -93,7 +93,7 @@ cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/openg co OpenSG
 
 <I>
 Attention :
-If you are promted for a password, just hit enter.
+If you are prompted for a password, just hit enter.
 As you are downloading from a UNIX Server, you have to pay special attention to the case of the letters. The
 path must be specified using lowercase characters (i.e. /cvsroot/opensg), where as "co OpenSG" must be specified exactly 
 as it is.
@@ -111,7 +111,7 @@ If you are using one of the major Linux distributions you can download a binary 
 <a href = "www.opensg.org/download.EN.html">OpenSG Homepage</a>. Currently there are precompiled
 packages for Suse 8.0, Suse 8.1, as well as Redhat 8.0. The older Suse version is compiled with gcc 2.95.3 and the
 others with the new gcc 3.2. You can choose between an optimized and a debug version. The latter on is a whole lot bigger
-and not that fast, although the difference is not big enough to make it useless. However the the debug version is better for debugging ;-)
+and not that fast, although the difference is not big enough to make it useless. However the debug version is better for debugging ;-)
 
 The installation of any of these binary packages is as easy as any other. Just download and install it and there you go!
 
@@ -176,7 +176,7 @@ You need to set the LD_LIBRARY_PATH every time you open a new terminal! Because 
 a better way. Instead of typing that command every time you can add it to your profile file. That file lies within your homefolder 
 and is called ".bash_profile", ".profile" or 
 ".tcsh_profile" or something similar to that depending on the type of shell and operating system you are using. Please do not miss that dot, it is 
-necessary. This file is sourced every time you open a new shell. Please notice that this will only take effect after a reboot or at least a resart
+necessary. This file is sourced every time you open a new shell. Please notice that this will only take effect after a reboot or at least a restart
 of the X server.
 
 \subsection TutorialInstallationCygwin Installation on Cygwin
@@ -186,7 +186,7 @@ packages is shown click "View" to go to "Full" alphabetical mode. To compile Ope
 packages and the following ones: bison, flex, make, perl, sed and tar. Cygwin will create an icon on the desktop that opens a standard shell, just like Unix.
 
 The installation on cygwin is almost indentical to the Linux installation procedure, but there are some different prerequisites. 
-It is recommonded to have the Intel or Visual Studio Compiler installed at their default locations (i.e. c:\\program files\\), otherwise it
+It is recommended to have the Intel or Visual Studio Compiler installed at their default locations (i.e. c:\\program files\\), otherwise it
 is possible that the configure script can not find them. In addition to that I supplied the path to some Visual Studio .dll by extending
 the Windows path variable by : 
 \code
@@ -215,8 +215,8 @@ That should do it, however if you need more information on the installation of G
 
 If you don't want to write into your System directories you can also put all the supporting libraries into another place, but then you will have to tell the configure script where you put them.
 
-Most likely you will also need the libaray files for the different image formats. You could search the internet for these libs, there is an 
-easier way. Open the following folder: your_OpenSG_Folder\\dist\\win. There open the zip package 'suportlibs.zip' and there you will find 
+Most likely you will also need the library files for the different image formats. You could search the internet for these libs, there is an 
+easier way. Open the following folder: your_OpenSG_Folder\\dist\\win. There open the zip package 'supportlibs.zip' and there you will find 
 libjpeg.lib, libpng.lib and tif32.lib - copy these files to the same location as glut32.lib file (i.e. ...\\Microsoft Visual Studio .NET\\Vc7\\lib)
 
 Now you have all the libraries needed for a typical OpenSG installation
@@ -227,14 +227,14 @@ Unless you are using the old version 5.0 of the Intel compiler you also need to 
 <PRE>
 ./configure [--all-options-you-want] --with-compiler={icl60, icl70, cl.net}
 </PRE>
-Choose the compiler coressponding to your version of the Intel compiler/Visual Studio. 
+Choose the compiler corresponding to your version of the Intel compiler/Visual Studio. 
 
 <I>Note:\n
 OpenSG does not work with the Visual Studio 6 compiler! You can use the VS6 IDE, but you have to have a 
-supported version of the Intel compiler for that. It doesn work with VS 7 (.Net) and up.
+supported version of the Intel compiler for that. It doesn't work with VS 7 (.Net) and up.
 </I>
 
-The compiler also needs to know the location of some platform depandent include files and libraries. These can be made accessible by the following commands.
+The compiler also needs to know the location of some platform dependent include files and libraries. These can be made accessible by the following commands.
 I'd recommend adding these to your .profile file, which is useful if you intend to compile the library more that just once. Otherwise just adding them in the shell works, too.
 
 \code
@@ -277,7 +277,8 @@ assuming that you have set the environment variables correctly, here is an examp
 
 After a successfull configuration, call 'make' or 'make opt'. Hopefully the compilation process will finish without any errors...
 
-If you put your suppoty libraries someplace other than the System directories, you need to add the <PRE>--with-jpg=/path/to/jpg/library</PRE> etc. options to the configure call.
+If you put your support libraries some place other than the System directories, you need to add the <PRE>--with-jpg=/path/to/jpg/library</PRE> etc. options 
+to the configure call.
 
 \subsubsection TutorialInstallationCygwinRunning Executing the Tutorials
 
@@ -295,7 +296,7 @@ from within the cygwin shell, you have to call them by typing './01hello.exe' an
 
 <I>
 If you know about improvements or some additions (for other windows versions than XP) about the installation procedure, please send me an mail. At the moment
-i have only access to a single, old stupid Windows XP box, so my testing ablities with other Visual Studio versions or different Windows versions are limited.
+i have only access to a single, old stupid Windows XP box, so my testing abilities with other Visual Studio versions or different Windows versions are limited.
 </I>
 
 
@@ -304,12 +305,11 @@ i have only access to a single, old stupid Windows XP box, so my testing ablitie
 Installing OpenSG on a Macintosh was, and still is, not a very easy task at all. Currently there is somebody working on a improved port, but unfortunately
 this port is not finished yet. However, it is possible to run it on a Mac with either some missing features on Mac OS or full features on Linux on Mac.
 
-Installation on Linux/ppc a bit extra effort, but the actual problem might be installing Linux itself on a Mac. At least you are rewarded with
+Installation on Linux/ppc needs a bit extra effort, but the actual problem might be installing Linux itself on a Mac. At least you are rewarded with
 a fully functional and performant OpenSG. 
-I tried Yellow Dog Linux and Gentoo Linux on my Powerbook and the latter also on my G5. In both cases it worked find, after I solved some riddles. However
-installing Gentoo is not very easy, if you are not an experienced Linux user. In that case I would recommend using Yellow Dog Linux.
-Yellow Dog Linux is actually a port of Red Hat, but
-YDL is available for the PowerPC architecture only. You can find the distributions at
+I tried Yellow Dog Linux (YDL) and Gentoo Linux on my Powerbook and the latter also on my G5. In both cases it worked find, after I solved some riddles. However
+installing Gentoo is not very easy, if you are not an experienced Linux user. In that case I would recommend using YDL.
+YDL is actually a port of Red Hat, but it is available for the PowerPC architecture only. You can find the distributions at
 
 <A HREF="http://www.yellowdoglinux.com">http://www.yellowdoglinux.com</A> and <A HREF="http://www.gentoo.org">http://www.gentoo.org</A>
 
@@ -378,7 +378,7 @@ acceleration to your Mac!
 
 In order to use OpenSG on the Windows platform you need either the Intel compiler for Visual Studio 6 or you need Visual Studio 7 (aka .NET) or above. 
 If you do not want to use cygwin you should download the binary installer. After installation, the PATH variable is automatically
-set as needed and your can find the standart tutorials in your start menu. There are ready to use project files for Viusal Studio for every
+set as needed and your can find the standart tutorials in your start menu. There are ready to use project files for Visual Studio for every
 tutorial that comes with OpenSG. These tutorials are the ones that shipped with OpenSG ever since, and have nothing to do with the tutorials we develop beginning
 with the next chapter!
 
@@ -437,25 +437,25 @@ some more general words about compiling OpenSG Projects.
 \subsection TutorialCompilationWin Projects on Windows
 
 If you want to save yourself a lot of time and trouble, do not try to start a new project from
-within Visual Studio. There is a template project file provided. Use this template or simple change the code of a existing tutorial found in the "Tutorials" 
+within Visual Studio. There is a template project file provided. Use this template or simply change the code of an existing tutorial that you will find in the "Tutorials" 
 folder. Of course all those settings can be done by hand, but you should only do that, if you have no other choice (i.e. extend an existing project with
 OpenSG Functionality)
 
 When I started writing the online tutorial it was planned to have a MFC example. However this made it not into the tutorial as I am not used to MFC and
-as far as I know products of Microsoft it would have taken an considerable amount of time to work myself into it, so I decided to focus on other important
-topics which I am more comfortable with. However, in a future version of this documentation there may be an MFC example... If you want to have a GUI, there
+I had not enough time to work into it, so I decided it would be more useful to all of us, if I focus on other important
+topics which I am more comfortable with. However, in the next version of this documentation there may be an MFC example... If you want to have a GUI, there
 still is another possibility: you can use a passive window which can be integrated seamlessly into any window manager. See section \ref TutorialWindowsWindows
-for more an passive windows and/or section \ref TutorialQTPassiveWindow for an passive window example application.
+for more on passive windows and/or section \ref TutorialQTPassiveWindow for an passive window example application.
 
 \subsection TutorialCompilationLinux Projects on Linux
 
-Often Linux users have more trouble with setting up stuff compared to Mac or Windows. However this time it is quite easy, if you know what to do. If you are 
+Often Linux users have more trouble with setting up stuff compared to Mac or Windows. However, this time it is quite easy, if you know what to do. If you are 
 comfortable with Makefiles you can write your own one or use the sample \ref FirstAppTutorialMakefile I'll provide in the next chapter. This sample
 assumes that every OpenSG application consists of one file only (which is really sufficent for us right now) and that each cpp filename is starting with
 a two digit number like 00framework.cpp. Also those files found will compile into an application with the same name. If you want to or need to write your own
 makefile you can peek into the sample one, to get an idea what is needed.
 
-If you do not like terminal hacking you can, of course, also use your favourite integrated development environment. I will show you what is necessary 
+If you do not like terminal hacking you can, of course, also use your favorite integrated development environment. I will show you what is necessary 
 to set up an project using kdevelop 3.0. First create a simple new C++ project like shown in the next picture
 
 \image html new_project.png "Setup new simple C++ project"
@@ -496,7 +496,7 @@ Linker Flags (LDFLAGS)
 
 <B>Important Notes:</B>
 <I>
-I used default paths (i.e. -I/ust/qt/3/include) - you possibly have to adjust some values.
+I used (Gentoo) default paths (i.e. -I/ust/qt/3/include) - you possibly have to adjust some values.
 
 These settings are for the current version of OpenSG. To get them for the version you find the command osg-config and call it as <pre>osg-config --cflags --dbg Base System GLUT QT</pre> for the preprocessor flags and as <pre>osg-config --libs --dbg Base System GLUT QT</pre> for the linker flags. Leave out the QT if you didn't configure it.
 </I>

@@ -21,7 +21,7 @@ Chapter Overview
 \section SolIntroductionEx1 Chapter Introduction - Exercise 1
 Solution to \ref TutorialIntroductionExercises1
 
-The appropiate configure command has to be executed  in your OpenSG folder
+The appropriate configure command has to be executed  in your OpenSG folder
 <PRE>
 	./configure --enable-glut --enable-jpg --enable-tif --enable-png
 </PRE>
@@ -57,7 +57,7 @@ installed a rpm package or the window binaries (where this is done automatically
 Solution to \ref TutorialBasicExercises1
 
 The result is simpy the same. The order of the commands seem to have no impact on the result. If you understand how these methods work it becomes obvious.
-The setTranslate command for instance will overwrite the appropiate three entries in a matrix that define the translation but will leave all others untouched.
+The setTranslate command for instance will overwrite the appropriate three entries in a matrix that define the translation but will leave all others untouched.
 The same is with the setRotate command. The matrix is the same in both ways.
 
 This would have not been the case if we multiplied a transform and a rotation matrix, however that is not what we have done here, but what might have been

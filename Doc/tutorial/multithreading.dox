@@ -102,7 +102,7 @@ that time. The following figure illustrates this:
 \image latex aspects.eps "Two threads and one field container with two aspects" width = 10cm
 
 Here you have one field container of type Transform, which holds two aspects. Two threads are running and each has assigned a single aspect. If thread two
-now sets a new matrix that field in the appropiate threads aspect is changed - the other thread's field stays untouched.
+now sets a new matrix that field in the appropriate threads aspect is changed - the other thread's field stays untouched.
 
 Of course, this has the potential to cause heavy problems, as we now have inconsistent data, because thread one seems not to be aware of the new matrix thread 
 two has set. That is what ChangeLists are for. Every thread has its own change list. Every time data is written, an entry is added to the corresponding change 

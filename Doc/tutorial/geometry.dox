@@ -606,7 +606,7 @@ comes the interesting part: We are going to modify the data stored in the graph.
 old with the new one. Well, this is obviously not very efficient due to a big amount of memory deletion and allocation. What we are actually
 going to do is the following:
 
-First of all we need a pointer to the appropiate geometry node we want to modify. Luckily this is no big deal this time, as we know that the root
+First of all we need a pointer to the appropriate geometry node we want to modify. Luckily this is no big deal this time, as we know that the root
 node itself contains the geometry core. Add this block of code in the display() function right before mgr->redraw() is called
 
 \code

@@ -19,16 +19,16 @@ Dedicated to Felicitas.
 
 <br><br><br><br><br><br><br>
 
-Welcome to the OpenSG tutorial. My name is Oliver Abert, currently I am a stundent of computer visualistics at the University of Koblenz in Germany. Although I
+Welcome to the OpenSG tutorial. My name is Oliver Abert, currently I am a student of computer visualistics at the University of Koblenz in Germany. Although I
 did my best, you may find some words or phrases that are not really that english - it's okay for me if you smile about such phrases, but please have a bit 
 forbearance with me, as I am no native english speaker!
 
-I first got OpenSG to know in a project at my university, where a group of students had to develop a stereo virtual releality application. I was the team 
+I first got OpenSG to know in a project at my university, where a group of students had to develop a stereo virtual reality application. I was the team 
 leader for the software part (we also had a design team, that created models, textures, etc.) at that time and beside that I also was responsible for the
-rendering component. Well, I guess you are not surprised if I tell you now, that OpenSG became or system of choice for the job. In the following six month, that
-was from summer till winter 2003, I made my hands dirty with OpenSG. I realized that OpenSG is really powerful und fun to work with, but at the beginning it was
-quite hard, because the available documentation was not that complete, so I was sure that there is a great demand for an improved documentation especially for 
-people who want to start using OpenSG.
+rendering component. Well, I guess you are not surprised if I tell you now, that OpenSG became our system of choice for the job. In the following six month, that
+was from summer till winter 2003, I made my hands dirty with OpenSG. I realized that OpenSG was really powerful and fun to work with, but at the beginning it was
+quite hard, because the available documentation was not that complete, so I was sure that there is a great demand on an improved documentation especially for 
+beginners.
 
 Of course that alone would not make me write a documentation of that size. Since my second semester I am a student assisant in the computer graphics institute,
 which is lead by Prof. Dr. Mueller. Well and he was executive committee by OpenSG before he came to my university. By knowing him, I also get to knew Dirk Reiners, 
@@ -44,7 +44,7 @@ Thanks to all who have mailed me bugs and typos and the like<br><br>
 
 Finally,<br>
 Thanks to <I>Felicitas</I> for encouraging me all the time<br>
-Thanks to <I>Lena</I> who helped me in a very difficult peroid of my life (well, that's private and not related to this document, though)<br>
+Thanks to <I>Lena</I> who helped me in a very difficult period of my life (well, that's private and not related to this document, though)<br>
 <br><br><br>
 Now enjoy, and I hope this document will be useful to you. If you are really new to OpenSG it is best to start off with chapter \ref TutorialIntroduction.
  

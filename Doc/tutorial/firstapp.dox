@@ -19,8 +19,8 @@ Chapter Overview
 </td></tr></table>
 <HR>
 
-I personally like doing things and watch what happens, before I actually understand what I am doing. This is why a want to begin with a little OpenSG application
-right away. This one will give you a basic feeling of how things work in OpenSG and will already show you some curiosities found in OpenSG...
+I personally like doing things and watch what happens, before I actually understand what I am doing. This is why I want to begin with a little OpenSG application
+right away. This will give you a basic feeling of how things work in OpenSG and will already show you some curiosities found in OpenSG...
 
 \section FirstAppTutorial First Tutorial
 
@@ -28,7 +28,7 @@ The following code will create a wonderful torus, which you will see again in fu
 palace is build upon a first stone, and this torus will be our first step in handling OpenSG! You can copy and paste this code or you can use the 
 provided file. You will
 find all files related to this online tutorial in <PRE>your_opensg_folder/Doc/tutorial/progs</PRE> of your copy of OpenSG (CVS version only!). The filenames are
-given at the beginning of the appropiate tutorials. 
+given at the beginning of the appropriate tutorials. 
 
 \code
 
@@ -53,7 +53,7 @@ OSG_USING_NAMESPACE
 //manage simple configurations. It will be discussed in detail later on
 SimpleSceneManager *mgr;
 
-//we have a forward declarion here, just to have a better order 
+//we have a forward declaration here, just to have a better order 
 //of codepieces
 int setupGLUT( int *argc, char *argv[] );
 
@@ -120,7 +120,7 @@ int setupGLUT(int *argc, char *argv[])
 That is all to get a little nice window, displaying a torus. I admit that there are OpenGL programs out there that are shorter
 and do the same - but that will soon change, as our tutorials will get more advanced.
 
-The first thing that is boring is the fact the we can not interact with our newly created virtual world. It would be wonderful
+The first thing that is boring is the fact that we can not interact with our newly created virtual world. It would be wonderful
 to have some mouse input, so that we can navigate within it. That will be our first task: Open (if you have closed it) the file you
 just created and jump to the setupGLUT() function. Just below the other two callback functions add these two lines
 
@@ -261,7 +261,7 @@ of your application to GLUT. That is if you have not registered a single callbac
 back... even worse you won't be able to see anything on the screen except a black window. So what does this 
 main loop actually do? Without going into too much unecessary detail, it simply checks if any event occurs 
 that a callback is registered for and invokes it in that case. There is at least 
-one callback you should always register (and of course implemet) and that is the display function. This function
+one callback you should always register (and of course implement) and that is the display function. This function
 will always be called if the window needs to be redrawn. That is either the case if the operating system says
 that this window needs redrawing or if you explicitly tell the system (via glutPostRedisplay() for example).
 
@@ -295,7 +295,7 @@ e.g. the keyboard callback is invoked when a key is pressed, the mouse callback 
 \section FirstAppTutorialSSM Simple Scene Manager
 
 The simple scene manager is a useful helper class for quickly creating simple window configurations and interact with them. If you do not want to use the 
-simple scene manager (SSM) you would have quite a lot of work to to (if you are already comfortable with OpenSG you can have a look at 
+simple scene manager (SSM) you would have quite a lot of work to do (if you are already comfortable with OpenSG you can have a look at 
 \ref TutorialWindowsTutorial to see how you can setup a scene witout the SSM). You need to create a window, add a viewport to that window,
 create one or more lights and a camera, set up a navigation and you have to bind that all together. Sometimes that has to be done as the manager
 is useable for simple scenes only (as the name already says), but that will be discussed in detail later. For now we are happy
@@ -308,7 +308,7 @@ the light sources you can easily do that.
 
 \subsection FirstAppTutorialSSMUsage How to use the Simple Scene Manager
 
-In most cases you need a global instance of the simple scene manager. So like in the \ref FirstAppTutorial we define a global variable "mgr" as a
+In most cases you need a global instance of the SSM. So like in the \ref FirstAppTutorial we define a global variable "mgr" as a
 pointer. Of course we need to include the header file for the SSM
 
 \code
@@ -319,7 +319,7 @@ pointer. Of course we need to include the header file for the SSM
 SimpleSceneManager *mgr;
 \endcode
 
-The next thing we need to to is to create an instance of the SSM and specify the two most important things: the window which will
+The next thing we need to do, is to create an instance of the SSM and specify the two most important things: the window which will
 be used for the rendering output and the root node of the scenegraph
 
 \code
@@ -334,13 +334,14 @@ mgr->showAll();
 \endcode
 
 The last command ensures the correct position of the camera. The camera is positioned so that the whole scene will be visible. Of course
-this is not always optimal, because OpenSG cannot know where the most beautiful spot in your scene is, but it effectively prevents one of the most common problems in OpenGL programs: "So I'm done with the program, but why is everything black?".
+this is not always optimal, because OpenSG cannot know where the most beautiful spot in your scene is, but it effectively prevents one 
+of the most common problems in OpenGL programs: "So I'm done with the program, but why is everything black?".
 
 Maybe you have already some knowledge of OpenSG and want to know what the simple scene manager actually creates for you. 
 So here it is: A simple single fullscreen Viewport (osg::Viewport), a perspective Camera (osg::PerspectiveCamera), a render action needed for rendering
 traversals of the graph (osg::RenderAction) and a simple 
-cirectional light (osg::DirectionalLight) attached to the camera, i,.e. functioning as a headlight, are created for you. In addition to that a simple Navigator (osg::Navigator) 
-is created which allows you do rotate with the left, to pan with the right and to zoom with the middle mouse
+directional light (osg::DirectionalLight) attached to the camera, i,.e. functioning as a headlight, are created for you. In addition to that a simple Navigator (osg::Navigator) 
+is created which allows you to rotate with the left, to pan with the right and to zoom with the middle mouse
 button, except for me (Mac user with an one button mouse...).
 
 \section FirstAppTutorialScenegraph The Scenegraph
@@ -362,7 +363,7 @@ Imagine you have one hundred red and one hundred blue triangles and you draw the
 and so on. If programmed that bad, it will result in 200 glBegin/End blocks and 200 color state changes. If programmed 
 well, it only requires on begin/end block and two color state changes. A good scenegraph will sort the triangles in the latter way no matter
 what the input was. Of course this is a very synthetic example, but real life will show you, that big scenes coded by hand are never 
-optimal and with models exported from another software it gets even worse.
+optimal and with models exported from another software it even gets worse.
 
 Another very important aspect of scenegraphs is, that they have knowledge of the entire world. So you can check if parts of your scene
 are not visible. There is no need to render things that are behind the camera. The scenegraph detects parts that are not inside the
@@ -372,7 +373,7 @@ viewing frustum and do not render them. In this way a lot of processing time is 
 
 Most scenegraphs have a similar data structure. Nodes are used to build a graph and these store information about the functionality. 
 Nodes may carry information about transformations, materials, geometry and a lot of other stuff. One of the biggest 
-differences is, whether the scenegraph is a mutiparent or single parent one. 
+differences is, whether the scenegraph is a multiparent or single parent one. 
 Imagine the simplified model of a car consisting of a body and four wheels. 
 The geometry of every wheel is identical, so you do not need four wheels in memory. If you have a single parent scenegraph, there is no
 way, you need to have four copies of the wheel. A multi parent system only needs four transformations relative 
@@ -395,7 +396,7 @@ by as many nodes as desired, and this is how OpenSG can share data efficiently, 
 the wheel geometry core has four. There are four different transform cores and every one of them stores a unique transform matrix.</I>
 
 If you compare the last two pictures it seems that the concept of how OpenSG works is much more difficult. You will see soon, that 
-actually the separtion of core and node is very easy to handle. It may produce some additional lines of code tough, but later on you will 
+actually the separtion of core and node is very easy to handle. It may produce some additional lines of code though, but later on you will 
 also see what the big picture of that concept is.
 
 <B>No exercises in this chapter!</B>

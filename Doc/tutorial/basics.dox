@@ -284,7 +284,7 @@ setIdentity() will overwrite all values of course!
 This figure shows which components of the common 4x4 matrix will be changed by which kind of transformation. (T=translation, S=scalation, R{x,y,z}=rotation 
 around the given axis). As you
 can see, it is safe to set a translation and scalation at once, as these share no components. However setting both, scalation and rotation will yield a result
-you do not want in most cases. You need then to multiplicate two seperte matrices correctly...
+you do not want in most cases. You need then to multiplicate two seperate matrices correctly...
 </I>
 
 If you want to create a Matrix of a specific kind (transform, scale, rotate...) you can use
@@ -326,7 +326,7 @@ the situation described above
 
 \code
 
-// well this is a bit theroetical... we will have more real-world examples 
+// well this is a bit theoretical... we will have more real-world examples 
 // within the next tutorial
 
 // we need a quaternion and a matrix
@@ -372,7 +372,7 @@ NodePtr mother  = Node::create();
 NodePtr me      = Node::create();
 
 // uh, what is happening here???
-// I guess you expected somthing like
+// I guess you expected something like
 // Node n = Node(); or Node *n = new Node();
 // do not worry, explanation will follow hereafter...
 
@@ -403,7 +403,7 @@ code from our \ref FirstAppTutorial and replace the following line
     NodePtr scene = makeTorus(.5, 2, 16, 16);
 \endcode
 
-with the example code from above. But be carful, with grandpa it will not work, you have to rename him
+with the example code from above. But be careful, with grandpa it will not work, you have to rename him
 to "scene", because the Simple Scene Manager is told to use scene as root. Or you can change the code to <pre>mgr->setRoot(grandpa);</pre>, whichever you prefer.
 
 And? Did it work? We will come back later to this little example.
@@ -423,9 +423,9 @@ I still remember when I faced this probem and wondered about it.
 
 Actually every class that is derived from osg::FieldContainer has protected constructors. This includes pretty much all high-level objects like Nodes for the graph, Materials, Textures, Images etc. Other, lower-level, classes, 
 like the math classes we just saw, have their constructors declared public as usual. So if you are unsure 
-whether you can use the constructor directly, just have a look at the inheritance diagramm and if none of
+whether you can use the constructor directly, just have a look at the inheritance diagram and if none of
 the parents is of type FieldContainer then it will work. In section \ref TutorialAppendixCDoxy I'll explain how you
-can find the inheritance diagramm in the doxygen documentation.
+can find the inheritance diagram in the doxygen documentation.
 
 If that is not the case, you must invoke the static create() method as you saw above. This static method
 wraps the constructor. It is done this way for different reasons, the most important being able to ensure multithread safety, but we will discuss that in
@@ -478,7 +478,7 @@ The problem with this approach lies in the time the garbage collector takes ever
 pause periods while the garbage collector is running, which is a serious problem for interactive or real-time programs.
 
 C++ doesn't have garbage collection, and is designed for explicit memory managament using new and delete. It's the program's resposibility to know when an 
-object is not used anymore and call delete on it. This can become pretty tedious, espcially in a system where objects point to each other from different 
+object is not used anymore and call delete on it. This can become pretty tedious, especially in a system where objects point to each other from different 
 directions, which is a pretty nice characterisation of a scenegraph. Nodes point at their children, Geometries point at their Materials etc. For an 
 application it would very hard to keep track of all these references to know when to delete the memory of an object.
 
@@ -496,7 +496,7 @@ object is destroyed. Objects are created with a reference count of zero.
 
 The system helps where it can, in places like setting attributes of scene graph objects (e.g. setting the Material of a Geometry) or adding or subbing 
 Nodes to/from other Nodes it automatically changes the reference count. This takes care of most cases, but can have some unexpected consequences, 
-like the following pice of code demonstrates:
+like the following piece of code demonstrates:
 
 \code
     Node a = Node::create();
@@ -680,7 +680,7 @@ The volume is stored at the node level (cores do not carry a volume) and they ca
 \endcode 
 
 The boolean parameter specifies whether the bounding volume should be updated or not. You have now several possibilities to work on the volume. With
-the help of the intersect() method can can test manually if an osg::Point is inside the volume or if an osg::Line or an osg::Volume intersects the volume. Also
+the help of the intersect() method can test manually if an osg::Point is inside the volume or if an osg::Line or an osg::Volume intersects the volume. Also
 you can extend the volume with another point. Very important is the possibilty to avoid updating of the volume. Later (\ref TutorialGeometryUtilities) we will
 create a water model from the bottom up, which will be animated. This means that the volume will be updated every single frame (and also all parents) which is
 not necessary in every situation. So it would be a good idea, to set the volume to the maximum extend and disable updating of that single volume. The following
@@ -790,8 +790,8 @@ If you now add children to that node they all will be translated by this transfo
 I suppose that you expected it that way, but just to make sure you know: In OpenSG, like in most other scenegraph systems, transformations are 
 only handed down to the children, but never are they passed to neighbours. 
 
-\image html inheritance_example.png "A graph demonstratning the kind of data inheritance"
-\image latex inheritance_example.eps "A graph demonstarting the kind of data inheritance" width = 6cm
+\image html inheritance_example.png "A graph demonstrating the kind of data inheritance"
+\image latex inheritance_example.eps "A graph demonstrating the kind of data inheritance" width = 6cm
 
 <I>
     Here we have two different transformation nodes A and B. Transformations are inherited by children only, so the terrain has 
@@ -918,7 +918,7 @@ Insert the following code before the redraw method of the SSM is called
 \code
 Matrix m;
         
-// get the time since the application startet
+// get the time since the application started
 Real32 time = glutGet(GLUT_ELAPSED_TIME );
         
 // set the rotation
@@ -932,12 +932,12 @@ endEditCP(transCore);
 
 Now again, compile and run (not you! The application ;-) )!
 
-No difference? Nothing is moving? Try to move another window over your GLUT window and your torus will move. So what happend? The display callback
+No difference? Nothing is moving? Try to move another window over your GLUT window and your torus will move. So what happened? The display callback
 is only called if the window needs to be redrawn - that is the case, if it is overlapped by some other window. Well, but that is not what we
 actually want, isn't it? We need the display method to be called at least about 25 times a second. That is where another callback comes into play: the idle 
 callback function.
 
-Jump to the setupGLUT() function where all the other callbacks are registered an add this one :
+Jump to the setupGLUT() function where all the other callbacks are registered and add this one :
 
 \code
 glutIdleFunc(display);
@@ -961,7 +961,7 @@ derived, then have a look at osg::FieldContainer. As I mentioned before: <B>Ever
 created via the static ::create method! The return type is always <I>classname</I>Ptr</B>
 
 There are some more interesting aspects about the field containers. All containers are reflective, that is they provide information about
-themselfs like the classname or a unique id. The following example shows a few operations that are possible on all field containers.
+themselves like the classname or a unique id. The following example shows a few operations that are possible on all field containers.
 
 \code
 // this object could be any other node core, it
@@ -988,7 +988,7 @@ There is also a completly different way to create instances of field containers 
 
 \subsection BasicFieldContainerFactory Field Container Factory
 
-The factory can be very useful in some special cases. With the factory at your hand it is possible to create objectes by using strings instead
+The factory can be very useful in some special cases. With the factory at your hand it is possible to create objects by using strings instead
 of the static class method ::create(). Here are some examples
 
 \code
@@ -1132,7 +1132,7 @@ the object and these blocks must not be seperate. As you can see I have two bloc
 block which modifies n. The additional {}-brackets are used for cosmetic reasons only, they are not neccessary, but they can be extremly
 useful, if you have more complex graphs.
 
-Maybe you wonder what these bloacks are for anyway. Well and again it is multithread safety... by using begin- and endEditCP you tell the system
+Maybe you wonder what these blocks are for anyway. Well and again it is multithread safety... by using begin- and endEditCP you tell the system
 when something is going to be changed. Normally every thread would need a full copy of the data, but that would result in very high memory
 consumption, so in OpenSG much of the data is shared. The multifields I just introduced are shared for example. Only when data is changed
 it will be copied to the current thread. The changes are recorded in a change list which will be used to syncronize the threads again at a
@@ -1155,7 +1155,9 @@ a block. Especially clusters are pretty sensitive to this, 90% of cluster proble
 By invoking beginEditCP(object) you tell the system that you want to change everything. You can specify explicitly which attributes you want
 to modify. This will save some computing power, although it is often not necessary, when initializing the graph. In performance critical sections
 this will be much more important. For example, lets say we have a geometry node representing water, which we need to update every frame. We need
-to update the positions and maybe the nomals too, but color, texture coordinates and other geometry attributes stay untouched. If you just call beginEditCP the system can't know what you changes, so it has to assume you changed everything. For a cluster application that means every bit of data has to be transfered across the network, even if it didn't change. The consequences are less severe for non-cluster applications, but still serious.
+to update the positions and maybe the nomals too, but color, texture coordinates and other geometry attributes stay untouched. If you just call 
+beginEditCP the system can't know what you change, so it has to assume you changed everything. For a cluster application that means every bit of 
+data has to be transfered across the network, even if it didn't change. The consequences are less severe for non-cluster applications, but still serious.
 
 Here is the same example from above, but this time with correct specification of the changing attributes
 
@@ -1271,7 +1273,7 @@ osg::FCEditor is a simple helper object that wraps beginEditCP and endEditCP in 
 \endcode
 
 Looks a bit more friendly, doesn't it? The only slight annoyance is that you have to come up with a name for the CPEditor object. Don't despair, 
-CPEdit relieves you from even that littel chore:
+CPEdit relieves you from even that little chore:
 
 
 \code
@@ -1330,7 +1332,8 @@ If you need the node itself for any reason, you can access it with
 	NodePtr n = cnpGeo.node();
 \endcode
 
-In addition to wrapping eh Node/Core separation, CNPs also handle reference counting that same way RefPtr<> does. Thus the same limitations and additional features described in \ref BasicRefPtr apply.
+In addition to wrapping the Node/Core separation, CNPs also handle reference counting that same way RefPtr<> does. Thus the same limitations and additional 
+features described in \ref BasicRefPtr apply.
 
 Well, next here is the code for an little example showing the cored node pointers in action. You can find the file in 
 <A HREF="progs/examples/00CoredPointer.cpp">progs/examples/00coredPointer.cpp</A>
@@ -1388,13 +1391,13 @@ makeConicalFrustum(height, topRadius, bottomRadius, doSide, doTop, doBottom);
 \endcode
 
 The methods themself should be selfexplaining - they do that what they are supposed to do. All sizes and radii are of type Real32, where as all
-resolution parameters (beginning with <I>res</I>) are Int16. Paramters beginning with <I>do</I> are of type bool, they enable or disable the
+resolution parameters (beginning with <I>res</I>) are Int16. Parameters beginning with <I>do</I> are of type bool, they enable or disable the
 rendering of the appropriate parts. The following example generates a 10 unit height cone with 32 edges with a top but without a bottom
 <PRE>
     NodePtr n = makeCone(10, 5, 32, true, false);
 </PRE>
 
-Always be careful with the resulution paramters. Big values can lead to really huge geometry data. Especially the sphere resolution depth should be
+Always be careful with the resolution parameters. Big values can lead to really huge geometry data. Especially the sphere resolution depth should be
 used moderatly, because this one uses a recursive subdivison algorithm proportional to 4^res, meaning a value of four is already a pretty smooth sphere and a value of 64 will kill your machine (unless you have enough memory for about 10^38 polygons)! For better control use the LatLongSphere, it has nicer texture coordinates anyway.
 
 All of these geometry-generating methods return a NodePtr ready to be inserted into a scenegraph. Often you have already existing nodes and are only in need of the geometry. In this case
@@ -1663,7 +1666,7 @@ You need to remember this, whenever you provide the image data "by hand", if you
 
 \section TutorialBasicTutorial3 Tutorial - Using textures
 
-Now we will learn how we can assign textures to geometry, making our scenes even more beautiful ;) Please use the framwork
+Now we will learn how we can assign textures to geometry, making our scenes even more beautiful ;) Please use the framework
 <A HREF="progs/00framework.cpp">progs/00framework.cpp</A> as a starting point. 
 
 You need to add two new include files in order to load and display images used as a texture
@@ -1725,13 +1728,13 @@ The next interesting and important topic is loading and saving of models and who
 </UL>
 
 As far as I know VRML97 and OBJ are the most important formats as nearly every 3D modeling package can at least export one of them. BIN is
-the OpenSG native binary format and can be very for scenes that are pretty stable and that you need to load often, as it loads very fast. You can find more on modeling packages here : \ref Modeling.
+the OpenSG native binary format and can be very useful for scenes that are pretty stable and that you need to load often, as it loads very fast. You can find more on modeling packages here : \ref Modeling.
 
 Loading scenes and models from disk is quite easy. Normally a simple
 <PRE>
     NodePtr n = SceneFileHandler::the().read(<I>filename</I>);
 </PRE>
-will do. If you have, let's say a VRML-file, the generic loader will automatically select the appropiate loader. Like when loading images, you can
+will do. If you have, let's say a VRML-file, the generic loader will automatically select the appropriate loader. Like when loading images, you can
 use one and the same command for loading all supported filetypes.
 
 As you can see, the return type is a NodePtr - if the loading process was not successfull for some reason "NullFC" is returned. It might be a
@@ -1836,7 +1839,7 @@ Modify the loading/saving tutorial (\ref TutorialBasicLoadingSaving) in that way
 <PRE>
     ./05loading file1.wrl file2.wrl file3.wrl
 </PRE>
-the application should load the three specified files. Also check if the file was successfully loaded and if not throw an appropiate error 
+the application should load the three specified files. Also check if the file was successfully loaded and if not throw an appropriate error 
 (the application should continue to run!).
 
 Next Chapter: \ref NodeCores
