@@ -607,6 +607,36 @@ TypeT osgMax(const TypeT lVal, const TypeT rVal)
     return ((lVal > rVal) ? lVal : rVal);
 }
 
+/*! \ingroup GrpBaseBaseMathFn
+    Clamp \a val to [\a minVal - \a maxVal].
+ */
+
+template <class TypeT> inline
+TypeT osgClamp(const TypeT minVal, const TypeT val, const TypeT maxVal)
+{
+    return ((val > minVal) ? ((val < maxVal) ? val : maxVal) : minVal);
+}
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+/*! \name sgn                                                          */
+/*! \{                                                                 */
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+template <class TypeT> inline
+Int8 osgSgn(TypeT val)
+{
+    if(val < 0)
+        return -1;
+        
+    if(val > 0)
+        return  1;
+    
+    return 0;
+}
+
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 /*! \name swap                                                         */

@@ -392,6 +392,23 @@ void vectorTestConstructAndSetTest(void)
     printVec(v3f8);
     printVec(v4f8);
 
+
+
+
+    v2f8.setNull();
+    v3f8.setNull();
+    v4f8.setNull();
+
+    v2f8.setValue(pVals);
+    v3f8.setValue(pVals);
+    v4f8.setValue(pVals);
+
+    std::cerr << "set vec from Real32\n";
+
+    printVec(v2f8);
+    printVec(v3f8);
+    printVec(v4f8);
+
 }
 
 void vectorMathTests(void)

@@ -146,11 +146,21 @@ TypeT osgMin(const TypeT lVal, const TypeT rVal);
 template <class TypeT> inline
 TypeT osgMax(const TypeT lVal, const TypeT rVal);
 
+
+template <class TypeT> inline
+TypeT osgClamp(const TypeT minVal, const TypeT val, const TypeT maxVal);
+
 /*---------------------------------------------------------------------*/
 /*                               Swap Functions                        */
 
 template <class TypeT> inline
 void osgSwap(TypeT & lVal, TypeT & rVal);
+
+/*---------------------------------------------------------------------*/
+/*                               Sign Functions                        */
+
+template <class TypeT> inline
+Int8 osgSgn(TypeT val);
 
 /*---------------------------------------------------------------------*/
 /*                           Rad / Degree Functions                    */
@@ -186,7 +196,7 @@ TypeT osgnextpower2(TypeT rVal);
 
 
 /*---------------------------------------------------------------------*/
-/*                   Ccompile Rime Functions                           */
+/*                   Ccompile Time Functions                           */
 
 /*---------------------------------------------------------------------*/
 /*! \defgroup GrpCMax compile time max
