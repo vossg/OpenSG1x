@@ -170,6 +170,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     /** Equality comparison operator */
     Bool operator == (const Image &image);
 
+		/** assign operator */
+		Image &operator= (const Image &image);
+
     /** lower comparison operator */
     Bool operator < (const Image &image);
 

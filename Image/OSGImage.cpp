@@ -1128,6 +1128,44 @@ Bool Image::operator == (const Image &image )
     }
     return false;
 }
+
+//----------------------------
+// Function name: operator =
+//----------------------------
+//
+//Parameters:
+//p: const Image &image
+//GlobalVars:
+//g: 
+//Returns:
+//r: Image &image
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d: assign operator
+//SeeAlso:
+//s:
+//
+//------------------------------
+Image &Image::operator= (const Image &image )
+{
+	FDEBUG (( "Running image assign operator\n"));
+
+	this->set ( image._pixelFormat,
+							image._width, image._height, image._depth,
+							image._mipmapCount, 
+              image._frameCount, image._frameDelay,
+							image._data );
+
+#ifdef OSG_DEBUG	
+	this->dump();
+#endif
+	
+	return *this;
+}
+
 //----------------------------
 // Function name: operator <
 //----------------------------
