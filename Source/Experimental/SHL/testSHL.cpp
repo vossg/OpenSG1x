@@ -182,6 +182,10 @@ void keyboard(unsigned char k, int x, int y)
         case 'q':
             exit(1);
         break;
+        case 'w':
+            SceneFileHandler::the().write(_scene, "scene.osb.gz", true);
+            printf("wrote scene.osb.gz\n");
+        break;
     }
 
     glutPostRedisplay();
