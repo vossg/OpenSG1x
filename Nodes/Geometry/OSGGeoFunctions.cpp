@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.41 2002/02/28 07:56:08 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.42 2002/03/19 17:38:09 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -1340,7 +1340,11 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
     geoTypePtr = GeoPTypesUI8Ptr::dcast( geoPtr->getTypes() );
     tN = (geoTypePtr == osg::NullFC) ? 0 : geoTypePtr->getSize();
 
-    if ((tN == 0) || (tN != lN)) {
+    if(tN == 0)
+        return 0; // empty geometry, ignore
+        
+    if(tN != lN) 
+    {
       FWARNING (("Invalid GeoPLengths and GeoPTypes data\n"));
     }
     else {

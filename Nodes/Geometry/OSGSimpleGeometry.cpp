@@ -791,7 +791,7 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     
     // initial sizing to prevent reallocation halfway through
 
-    UInt32 estimatedSize = UInt32(osgpow(3.f, (Real32) depth) * 20.f);
+    UInt32 estimatedSize = UInt32(osgpow(4.f, (Real32) depth) * 20.f);
 
     p->reserve (estimatedSize);
     n->reserve (estimatedSize);

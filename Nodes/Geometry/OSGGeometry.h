@@ -46,6 +46,7 @@
 #include <OSGConfig.h>
 #include <OSGAction.h>
 #include <OSGWindow.h>
+#include <OSGStatElemTypes.h>
 
 #include <OSGGeometryBase.h>
 
@@ -73,6 +74,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     static const UInt16 MapTexcoords3;  // not used yet
     static const UInt16 MapTexcoords4;  // not used yet
     static const UInt16 MapEmpty;
+
+    static StatElemDesc<StatIntElem>  statNTriangles;
+    static StatElemDesc<StatIntElem>  statNLines;
+    static StatElemDesc<StatIntElem>  statNPoints;
+    static StatElemDesc<StatIntElem>  statNVertices;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -139,6 +145,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     Action::ResultE doDraw               (Action * action );
     Action::ResultE draw                 (DrawActionBase *action);
     Action::ResultE render               (Action *action);
+    Action::ResultE intersect            (Action * action );
 
     void            invalidateDlistCache (void);
 
@@ -175,9 +182,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     void handleGL(Window* win, UInt32 id);
 
     void onCreate(const Geometry *source = NULL);
-
-    // intersect action: ray test
-    Action::ResultE intersect(Action * action );
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

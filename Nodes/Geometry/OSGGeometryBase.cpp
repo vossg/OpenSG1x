@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.23 2002/02/04 20:14:09 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.24 2002/03/19 17:38:10 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGEOMETRYBASE_INLINE_CVSID;
 
@@ -152,6 +152,7 @@ const OSG::BitVector  GeometryBase::GLIdFieldMask =
 /*! \var Int32           GeometryBase::_sfGLId
     The dlist id, if used.
 */
+
 //! Geometry description
 
 FieldDescription *GeometryBase::_desc[] = 
@@ -546,4 +547,5 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
 
 
 }
+
 

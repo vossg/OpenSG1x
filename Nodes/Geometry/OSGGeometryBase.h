@@ -125,6 +125,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     static const osg::BitVector DlistCacheFieldMask;
     static const osg::BitVector GLIdFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -147,45 +148,53 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-          SFGeoPTypesPtr      *getSFTypes          (void);
-          SFGeoPLengthsPtr    *getSFLengths        (void);
-          SFGeoPositionsPtr   *getSFPositions      (void);
-          SFGeoNormalsPtr     *getSFNormals        (void);
-          SFGeoColorsPtr      *getSFColors         (void);
-          SFGeoTexCoordsPtr   *getSFTexCoords      (void);
-          SFGeoIndicesPtr     *getSFIndices        (void);
-          MFUInt16            *getMFIndexMapping   (void);
-          SFMaterialPtr       *getSFMaterial       (void);
-          SFBool              *getSFDlistCache     (void);
+    inline       SFGeoPTypesPtr      *getSFTypes          (void);
+    inline       SFGeoPLengthsPtr    *getSFLengths        (void);
+    inline       SFGeoPositionsPtr   *getSFPositions      (void);
+    inline       SFGeoNormalsPtr     *getSFNormals        (void);
+    inline       SFGeoColorsPtr      *getSFColors         (void);
+    inline       SFGeoTexCoordsPtr   *getSFTexCoords      (void);
+    inline       SFGeoIndicesPtr     *getSFIndices        (void);
+    inline       MFUInt16            *getMFIndexMapping   (void);
+    inline       SFMaterialPtr       *getSFMaterial       (void);
+    inline       SFBool              *getSFDlistCache     (void);
 
-          GeoPTypesPtr        &getTypes          (void);
-    const GeoPTypesPtr        &getTypes          (void) const;
-          GeoPLengthsPtr      &getLengths        (void);
-    const GeoPLengthsPtr      &getLengths        (void) const;
-          GeoPositionsPtr     &getPositions      (void);
-    const GeoPositionsPtr     &getPositions      (void) const;
-          GeoNormalsPtr       &getNormals        (void);
-    const GeoNormalsPtr       &getNormals        (void) const;
-          GeoColorsPtr        &getColors         (void);
-    const GeoColorsPtr        &getColors         (void) const;
-          GeoTexCoordsPtr     &getTexCoords      (void);
-    const GeoTexCoordsPtr     &getTexCoords      (void) const;
-          GeoIndicesPtr       &getIndices        (void);
-    const GeoIndicesPtr       &getIndices        (void) const;
-          MaterialPtr         &getMaterial       (void);
-    const MaterialPtr         &getMaterial       (void) const;
-          bool                &getDlistCache     (void);
-    const bool                &getDlistCache     (void) const;
-          UInt16              &getIndexMapping   (UInt32 index);
-          MFUInt16            &getIndexMapping   (void);
-    const MFUInt16            &getIndexMapping   (void) const;
+    inline       GeoPTypesPtr        &getTypes          (void);
+    inline const GeoPTypesPtr        &getTypes          (void) const;
+    inline       GeoPLengthsPtr      &getLengths        (void);
+    inline const GeoPLengthsPtr      &getLengths        (void) const;
+    inline       GeoPositionsPtr     &getPositions      (void);
+    inline const GeoPositionsPtr     &getPositions      (void) const;
+    inline       GeoNormalsPtr       &getNormals        (void);
+    inline const GeoNormalsPtr       &getNormals        (void) const;
+    inline       GeoColorsPtr        &getColors         (void);
+    inline const GeoColorsPtr        &getColors         (void) const;
+    inline       GeoTexCoordsPtr     &getTexCoords      (void);
+    inline const GeoTexCoordsPtr     &getTexCoords      (void) const;
+    inline       GeoIndicesPtr       &getIndices        (void);
+    inline const GeoIndicesPtr       &getIndices        (void) const;
+    inline       MaterialPtr         &getMaterial       (void);
+    inline const MaterialPtr         &getMaterial       (void) const;
+    inline       bool                &getDlistCache     (void);
+    inline const bool                &getDlistCache     (void) const;
+    inline       UInt16              &getIndexMapping   (UInt32 index);
+    inline       MFUInt16            &getIndexMapping   (void);
+    inline const MFUInt16            &getIndexMapping   (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    void setDlistCache     ( const bool &value );
+    inline void setTypes          ( const GeoPTypesPtr &value );
+    inline void setLengths        ( const GeoPLengthsPtr &value );
+    inline void setPositions      ( const GeoPositionsPtr &value );
+    inline void setNormals        ( const GeoNormalsPtr &value );
+    inline void setColors         ( const GeoColorsPtr &value );
+    inline void setTexCoords      ( const GeoTexCoordsPtr &value );
+    inline void setIndices        ( const GeoIndicesPtr &value );
+    inline void setMaterial       ( const MaterialPtr &value );
+    inline void setDlistCache     ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -263,17 +272,17 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-          SFInt32             *getSFGLId           (void);
+    inline       SFInt32             *getSFGLId           (void);
 
-          Int32               &getGLId           (void);
-    const Int32               &getGLId           (void) const;
+    inline       Int32               &getGLId           (void);
+    inline const Int32               &getGLId           (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-    void setGLId           (const Int32 &value);
+    inline void setGLId           (const Int32 &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

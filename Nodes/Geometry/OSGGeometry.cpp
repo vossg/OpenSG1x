@@ -53,6 +53,7 @@
 #include <OSGRenderAction.h>
 #include <OSGMaterial.h>
 #include "OSGGeometry.h"
+#include "OSGGeoFunctions.h"
 #include "OSGGeoPumpFactory.h"
 
 #include "OSGPrimitiveIterator.h"
@@ -101,6 +102,17 @@ const UInt16 Geometry::MapTexcoords2 = Geometry::MapTexcoords << 1;
 const UInt16 Geometry::MapTexcoords3 = Geometry::MapTexcoords2 << 1;
 const UInt16 Geometry::MapTexcoords4 = Geometry::MapTexcoords3 << 1;
 const UInt16 Geometry::MapEmpty      = Geometry::MapTexcoords4 << 1;
+
+
+StatElemDesc<StatIntElem>  Geometry::statNTriangles("NTriangles",
+"number of rendered triangles");
+StatElemDesc<StatIntElem>  Geometry::statNLines("NLines",
+"number of rendered lines");
+StatElemDesc<StatIntElem>  Geometry::statNPoints("NPoints",
+"number of rendered points");
+StatElemDesc<StatIntElem>  Geometry::statNVertices("NVertices",
+"number of transformed vertices");
+
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -340,9 +352,12 @@ GeometryPtr Geometry::getPtr(void) const
 
 // GL object handler
 // put the geometry into a display list
-void Geometry::handleGL( Window* win, UInt32 id )
+void Geometry::handleGL( Window* win, UInt32 idstatus )
 {
-    Window::GLObjectStatusE mode = win->getGLObjectStatus( id );
+    Window::GLObjectStatusE mode;
+    UInt32 id;
+   
+    Window::unpackIdStatus(idstatus, id, mode);
     
     if ( mode == Window::initialize || mode == Window::needrefresh ||
          mode == Window::reinitialize )
@@ -597,6 +612,28 @@ Action::ResultE Geometry::draw(DrawActionBase * action)
         else
         {
             SWARNING << "draw: no Pump found for geometry " << this << endl;
+        }
+    }
+    
+    StatCollector *coll = action->getStatistics();
+    StatIntElem *el = coll->getElem(statNTriangles,false);
+    if(el)
+    {
+        GeometryPtr geo(this);
+        UInt32 ntri,nl,np;
+        
+        calcPrimitiveCount(geo, ntri, nl, np);
+        el->add(ntri);
+        coll->getElem(statNLines)->add(nl);
+        coll->getElem(statNLines)->add(np);
+        
+        if(getIndices() != NullFC)
+        {
+            coll->getElem(statNVertices)->add(getIndices()->getSize());
+        }
+        else
+        {
+            coll->getElem(statNVertices)->add(getPositions()->getSize());
         }
     }
     
