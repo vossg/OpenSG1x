@@ -81,6 +81,7 @@ Int32 setIndexFromVRMLData ( GeometryPtr geo,
                              Bool ccw = true,
                              Bool normalPerVertex = true,
                              Bool colorPerVertex = true,
+                             Bool createNormal = true,
                              Bool faceSet = true );
 
 
@@ -90,14 +91,17 @@ Int32 setIndexFromVRMLData ( GeometryPtr geo,
  *  \ingroup Geometry
  */
 Int32 createOptimizedPrimitives ( GeometryPtr geo,
+                                  UInt32 iteration = 1,
                                   Bool createStrips = true, 
-                                  Bool createFans = true);
+                                  Bool createFans = true,
+                                  UInt32 minFanEdgeCount = 8, 
+                                  Bool colorCode = false );
 
 /*! \brief return the number of triangle/line/point elem 
  *  \ingroup Geometry
  */
-UInt64 calcPrimitiveCount ( GeometryPtr geo,
-                            UInt64 &triangle, UInt64 &line, UInt64 &point);
+UInt32 calcPrimitiveCount ( GeometryPtr geo,
+                            UInt32 &triangle, UInt32 &line, UInt32 &point);
 
 OSG_END_NAMESPACE
 

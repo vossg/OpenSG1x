@@ -1,6 +1,8 @@
 // System declarations
 #include <iostream>
-# include <stdlib.h>
+#include <stdlib.h>
+
+#include <GL/gl.h>
 
 // Application declarations
 
@@ -82,7 +84,7 @@ void NodeGraph::init ( int vertexNum, int nodeNum, int reserveEdges )
 // Description:
 //         
 //----------------------------------------------------------------------
-bool NodeGraph::verify (void )
+bool NodeGraph::verify (bool printInfo )
 {
 	bool retCode = true;
 	int i, n = _nodeVec.size(); 
@@ -102,37 +104,37 @@ bool NodeGraph::verify (void )
 			if (_nodeVec[i].index == -1)
 				nodeDegree[3]++;
 			else {
-				cout << "ERROR: Invalid node index " << _nodeVec[i].index
-						 << " for face " << i << endl;
+        FFATAL (( "Invalid node index %d for face %d\n",
+                  _nodeVec[i].index, i ));
 				retCode = false;
 			}
-	
-	cout << "NodeDegree: ";
-	for (i = 0; i < 4; i++)
-		cout << nodeDegree[i] << " ";
-	cout << endl;
 
-	n = _edgeMapVec.size();
-	for (i = 0; i < n; i++) {
-		connectionCount = _edgeMapVec[i].size();
-		edgeCount += connectionCount;
-		if (connectionMap.find(connectionCount) == connectionMap.end())
-			connectionMap[connectionCount] = 1;
-		else
-			connectionMap[connectionCount]++;
-	}
-	for ( connectionI = connectionMap.begin();
-				connectionI != connectionMap.end(); ++connectionI ) 
-		cout << connectionI->first << ", " << connectionI->second << endl;
-	
-	cout << "EdgeCount: " << edgeCount << endl;
+	if (printInfo) {
+    FNOTICE (( "NodeDegree: %d %d %d %d\n",
+             nodeDegree[0], nodeDegree[1], nodeDegree[2], nodeDegree[3] ));
 
+    FNOTICE (( "EdgeCount: %d\n", edgeCount ));
+    n = _edgeMapVec.size();
+    for (i = 0; i < n; i++) {
+      connectionCount = _edgeMapVec[i].size();
+      edgeCount += connectionCount;
+      if (connectionMap.find(connectionCount) == connectionMap.end())
+        connectionMap[connectionCount] = 1;
+      else
+        connectionMap[connectionCount]++;
+    }
+    for ( connectionI = connectionMap.begin();
+          connectionI != connectionMap.end(); ++connectionI )
+      FNOTICE (( "Point connection %d; count: %d\n",
+                 connectionI->first, connectionI->second ));
+  } 
+ 
 	return retCode;
 }
 
 // macro to compile randomization in and out -- just for debuging
-//#define RANDBOOL (randomize ? (random() & 1) : true)
-#define RANDBOOL true
+#define RANDBOOL (random() & 1)
+//#define RANDBOOL true
 
 //----------------------------------------------------------------------
 // Method: createPathVec
@@ -141,13 +143,15 @@ bool NodeGraph::verify (void )
 // Description:
 //         
 //----------------------------------------------------------------------
-int NodeGraph::createPathVec (vector<Path> &pathVec, bool randomize )
+int NodeGraph::createPathVec ( vector<Path> &pathVec,
+                               bool createStrips, bool createFans,
+                               int minFanEdgeCount )
 {
-	NodeList nodeList[4], *down = 0;
+	NodeList nodeList[4], nonManifoldList, *down = 0;
   int i,n = _nodeVec.size();
 	int frontToBackCost, backToFrontCost, cost = 0, nodeLeft = 0;
 	WalkCase walkCase = START, firstTurn = START;
-	int lowDegree, entrySide, exitSide;
+	int degree, lowDegree, entrySide, exitSide;
 	int pathI = -1;
 	Node *currentNode = 0, *nextNode = 0;
 	Edge *firstEdge = 0, *lastEdge = 0, *brotherEdge = 0;
@@ -158,7 +162,7 @@ int NodeGraph::createPathVec (vector<Path> &pathVec, bool randomize )
 	int pathCost = 0;
 	int pathEntrySide, pathExitSide;
 	bool pathWalkRight;
-			
+
 	down = 0;
 	for (i = 0; i < 4; i++) {
 		nodeList[i].setDown(down);
@@ -166,11 +170,22 @@ int NodeGraph::createPathVec (vector<Path> &pathVec, bool randomize )
 		down = &nodeList[i];
 	}
 
-	for (i = 0; i < n; i++) 
-		if (_nodeVec[i].index >= 0) {
-			nodeList[_nodeVec[i].degree].add( _nodeVec[i], RANDBOOL );
-			nodeLeft++;
-		}
+  for (i = 0; i < n; i++)
+    if (_nodeVec[i].index >= 0) {
+      degree = _nodeVec[i].degree;
+      if (degree >= 0) {
+        nodeList[degree].add( _nodeVec[i], RANDBOOL );
+        nodeLeft++;
+      }
+      else {
+        nonManifoldList.push_back( _nodeVec[i] );
+      }
+    }
+
+	if ((nodeList[1].size() + nodeList[2].size() + nodeList[3].size()) == 0) {
+		FWARNING (("Geometry without any shared vertex, skipping opt.\n"));
+		nodeLeft = 0;
+	}
 
 	while(nodeLeft || (walkCase == FINISH)) {
 		switch (walkCase) {
@@ -204,6 +219,8 @@ int NodeGraph::createPathVec (vector<Path> &pathVec, bool randomize )
 					}
 			}
 			if (nextNode) {
+        // triangle strip
+        pathVec[pathI].type = GL_TRIANGLE_STRIP;
 				pathVec[pathI].add(firstEdge->edgeSide);	
 				pathVec[pathI].add(lastEdge->edgeSide);					
 				pathVec[pathI].add(nextNode->index);
@@ -215,6 +232,8 @@ int NodeGraph::createPathVec (vector<Path> &pathVec, bool randomize )
 				firstTurn = START;
 			}
 			else {
+        // single triangle 
+        pathVec[pathI].type = GL_TRIANGLES;
 				walkCase = START;
 			}
 			break;			
@@ -331,7 +350,15 @@ int NodeGraph::createPathVec (vector<Path> &pathVec, bool randomize )
 			break;
 		}
 	}
-	pathVec[++pathI].clear();
+
+  if (cost) {
+    if ((currentNode = nonManifoldList.first())) {
+      pathVec[++pathI].type = GL_TRIANGLES;
+      for ( ; currentNode; currentNode = currentNode->next )
+        pathVec[pathI].path.push_back(currentNode->index);
+    }
+    pathVec[++pathI].clear();
+  }
 
 	return cost;
 }                                                  
@@ -359,19 +386,20 @@ int NodeGraph::getPrimitive ( Path &path, vector< int > & primitive )
   else {
     pSize = path.path.size();
 
-    if (pSize == 1) { 
+    if (path.type == GL_TRIANGLES) {
       // triangle
-      
-      node = &(_nodeVec[path.path.front()]);
-      for (j = 0; j < 3; j++) {
-        pi = node->edgeVec[j]->vertexStart;
-        primitive.push_back(pi);
+
+      for (listI = path.path.begin(); listI != path.path.end(); ++listI) {
+        node = &(_nodeVec[*listI]);
+        primitive.push_back(node->vertex[0]);
+        primitive.push_back(node->vertex[1]);
+        primitive.push_back(node->vertex[2]);
+        cost += 3;
       }
-      cost += 3;
     }
     else { 
       // triangle strip
-      
+
       if (path.flip) {
         listRI = path.path.rbegin();
         firstIndex = *listRI++;
@@ -497,7 +525,7 @@ int NodeGraph::getPrimitive ( Path &path, vector< int > & primitive )
 // Method: getEdges
 // Author: jbehr
 // Date:   Tue Feb 15 18:16:59 2000
-// Description:
+// Description
 //         
 //----------------------------------------------------------------------
 int NodeGraph::getEdges (list <IndexEdge> & edgeList)

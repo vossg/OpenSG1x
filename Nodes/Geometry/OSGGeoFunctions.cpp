@@ -66,7 +66,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.14 2001/08/05 13:42:32 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.15 2001/08/05 19:05:31 jbehr Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -192,18 +192,18 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo,
 		
 		for ( pi  = geo->beginPrimitives(); 
 			  pi != geo->endPrimitives(); ++pi )
-		{
-			for ( UInt16 k = 0; k < pi.getLength(); k++ )
-			{
-				center[0] += pi.getPosition( k )[0];
-				center[1] += pi.getPosition( k )[1];
-				center[2] += pi.getPosition( k )[2];
-			}
-			pnts->addValue( center );
-			pnts->addValue( center +  length * pi.getNormal( 0 ) );
-		}
+      {
+        for ( UInt16 k = 0; k < pi.getLength(); k++ )
+          {
+            center[0] += pi.getPosition( k )[0];
+            center[1] += pi.getPosition( k )[1];
+            center[2] += pi.getPosition( k )[2];
+          }
+        pnts->addValue( center );
+        pnts->addValue( center +  length * pi.getNormal( 0 ) );
+      }
 	}
-
+  
 	endEditCP(pnts);
 	
 	// create the geometry
@@ -211,7 +211,7 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo,
 	for ( UInt32 i = 0; i < pnts->getSize(); i++ )
 		index->addValue( i );
 	endEditCP(index);
-
+  
 	beginEditCP(type);
 	type->addValue( GL_LINES );
 	endEditCP(type);
@@ -249,253 +249,262 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
                                   Bool ccw,
                                   Bool normalPerVertex,
                                   Bool colorPerVertex,
+                                  Bool createNormal,
                                   Bool faceSet )
 {
-    /** define the bag type */
-    typedef vector<Int32>* IndexBagP;
-
-    /** defines the Index Types */
-    enum IndexType { UNKNOWN_IT = 0,
-                     EMPTY_IT,
-                     VERTEX_COORD_IT, VERTEX_IT, VERTEX_DUP_IT,
-                     PRIMITIVE_IT, PRIMITIVE_INDEX_IT
-    };
-    
-    /** holds the Index types as str, mainly for log/debug outputs */
-    static const char *indexTypeStr[] = {
-        "UNKNOWN_IT", "EMPTY_IT",
-        "VERTEX_COORD_IT", "VERTEX_IT", "VERTEX_DUP_IT",
-        "PRIMTIVE_IT", "PRIMITIVE_INDEX_IT"
-    };
-
-    osg::GeoPositionPtr posPtr;
-    osg::GeoNormalPtr normalPtr;
-    osg::GeoColorPtr colorPtr;
-    osg::GeoTexCoordsPtr texCoordsPtr;
-    osg::GeoPLengthPtr lensPtr;
-    osg::GeoPTypePtr geoTypePtr;
-    osg::GeoIndexPtr indexPtr;
-
-    Int32 index, i, pi, typei, mapi, primitiveN = 0, vN = 0, pType = 0;
-    Int32 maxPType = (faceSet ? 5 : 3);
-    Int32 beginIndex, endIndex, step, len, sysPType = 0;
-    Int32 piN = 0, ciN = 0, niN = 0, tiN = 0;
-    Int32 pN = 0, nN = 0, cN = 0, tN = 0;
-    IndexType indexType[4];
-    IndexType &coordIT = indexType[0];
-    IndexType &normalIT = indexType[1];
-    IndexType &colorIT = indexType[2];
-    IndexType &textureIT = indexType[3];
-    Int32 primitiveTypeCount[6];
-    UInt32 triCount = 0;
-    Int16 indexMap[4], indexMapID[4];
-    IndexBagP indexBag[4] = { &coordIndex, &normalIndex,
-                              &colorIndex, &texCoordIndex };
-
-    //----------------------------------------------------------------------   
-    // init
-    coordIT = VERTEX_IT;
-    indexMap[0] = Geometry::MapPosition;
-
-    //----------------------------------------------------------------------
-    // get the property pointer and element count
-    posPtr = geoPtr->getPositions();
-    pN = ((posPtr == osg::NullFC) ? 0 : posPtr->getSize());
-
-    normalPtr = geoPtr->getNormals();
-    nN = ((normalPtr == osg::NullFC) ? 0 : normalPtr->getSize());
-
-    colorPtr = geoPtr->getColors();
-    cN = ((colorPtr == osg::NullFC) ? 0 : colorPtr->getSize());
-
-    texCoordsPtr = geoPtr->getTexCoords();
-    tN = ((texCoordsPtr == osg::NullFC) ? 0 : texCoordsPtr->getSize());
-
-    FDEBUG (( "vertex attrib count P/N/C/T: %d/%d/%d/%d\n", pN, nN, cN, tN ));
-
-    //----------------------------------------------------------------------
-    // check the vertex index and count the primitives
-    primitiveN = index = 0;
-    for (pType = 0; pType <= maxPType; pType++)
-        primitiveTypeCount[pType] = 0;
-
-    if (!pN) {
-        FWARNING (("No points in osg::setIndexFromVRMLData()"));
+  /** define the bag type */
+  typedef vector<Int32>* IndexBagP;
+  
+  /** defines the Index Types */
+  enum IndexType { UNKNOWN_IT = 0,
+                   EMPTY_IT,
+                   VERTEX_COORD_IT, VERTEX_IT, VERTEX_DUP_IT, 
+                   VERTEX_CREATE_IT,
+                   PRIMITIVE_IT, PRIMITIVE_INDEX_IT,
+                   PRIMITIVE_CREATE_IT
+  };
+  
+  /** holds the Index types as str, mainly for log/debug outputs */
+  static const char *indexTypeStr[] = {
+    "UNKNOWN_IT", "EMPTY_IT",
+    "VERTEX_COORD_IT", "VERTEX_IT", "VERTEX_DUP_IT", "VERTEX_CREATE_IT",
+    "PRIMTIVE_IT", "PRIMITIVE_INDEX_IT", "PRIMITIVE_CREATE_IT"
+  };
+  
+  osg::GeoPositionPtr posPtr;
+  osg::GeoNormalPtr normalPtr;
+  osg::GeoColorPtr colorPtr;
+  osg::GeoTexCoordsPtr texCoordsPtr;
+  osg::GeoPLengthPtr lensPtr;
+  osg::GeoPTypePtr geoTypePtr;
+  osg::GeoIndexPtr indexPtr;
+  
+  Int32 index, i, pi, typei, mapi, primitiveN = 0, vN = 0, pType = 0;
+  Int32 maxPType = (faceSet ? 5 : 3);
+  Int32 beginIndex, endIndex, step, len, sysPType = 0;
+  Int32 piN = 0, ciN = 0, niN = 0, tiN = 0;
+  Int32 pN = 0, nN = 0, cN = 0, tN = 0;
+  IndexType indexType[4];
+  IndexType &coordIT = indexType[0];
+  IndexType &normalIT = indexType[1];
+  IndexType &colorIT = indexType[2];
+  IndexType &textureIT = indexType[3];
+  Int32 primitiveTypeCount[6];
+  UInt32 triCount = 0;
+  Int16 indexMap[4], indexMapID[4];
+  IndexBagP indexBag[4] = { &coordIndex, &normalIndex,
+                            &colorIndex, &texCoordIndex };
+  
+  //----------------------------------------------------------------------   
+  // init
+  coordIT = VERTEX_IT;
+  indexMap[0] = Geometry::MapPosition;
+  
+  //----------------------------------------------------------------------
+  // get the property pointer and element count
+  posPtr = geoPtr->getPositions();
+  pN = ((posPtr == osg::NullFC) ? 0 : posPtr->getSize());
+  
+  normalPtr = geoPtr->getNormals();
+  nN = ((normalPtr == osg::NullFC) ? 0 : normalPtr->getSize());
+  
+  colorPtr = geoPtr->getColors();
+  cN = ((colorPtr == osg::NullFC) ? 0 : colorPtr->getSize());
+  
+  texCoordsPtr = geoPtr->getTexCoords();
+  tN = ((texCoordsPtr == osg::NullFC) ? 0 : texCoordsPtr->getSize());
+  
+  FDEBUG (( "vertex attrib count P/N/C/T: %d/%d/%d/%d\n", pN, nN, cN, tN ));
+  
+  //----------------------------------------------------------------------
+  // check the vertex index and count the primitives
+  primitiveN = index = 0;
+  for (pType = 0; pType < 6; pType++)
+    primitiveTypeCount[pType] = 0;
+  
+  if (!pN) {
+    FWARNING (("No points in osg::setIndexFromVRMLData()"));
+  }
+  else {
+    piN = coordIndex.size();
+    for ( i = 0; i < piN; i++) {
+      if ( ((index = coordIndex[i]) < 0 ) || (vN && (i == piN)) ) {
+        primitiveTypeCount [ (vN > maxPType) ? maxPType : vN]++;
+        primitiveN++;
+        vN = 0;
+      }
+      else {
+        if (index >= pN) {
+          FWARNING (("Point index (%d/%d) out of range", index, pN));
+          coordIndex[i] = 0;
+        }
+        vN++;
+      }
+    }
+  }
+  
+  //----------------------------------------------------------------------
+  // check the normal index
+  normalIT = UNKNOWN_IT;
+  niN = normalIndex.size();
+  if (nN)
+    // have normal elements
+    if (normalPerVertex) {
+      // normal per vertex
+      if (niN >= piN) {
+        // valid normal index number
+        for (i = 0; i < piN; i++) 
+          // check if normal index equals the coord index
+          if (normalIndex[i] != coordIndex[i]) {
+            normalIT = VERTEX_IT;
+            break;
+          }
+        if (normalIT == UNKNOWN_IT) {
+          // if equal than delete unneeded normal index
+          normalIT = VERTEX_DUP_IT;
+        }
+      }
+      else {
+        // no or not enough normal index
+        normalIT = VERTEX_COORD_IT;
+        if (niN) {
+          FWARNING (( "Not enough normal index (%d,%d)\n",
+                      normalIndex.size(), piN));
+          normalIndex.clear();
+        }
+      }
     }
     else {
-        piN = coordIndex.size();
-        for ( i = 0; i < piN; i++) {
-            if ( ((index = coordIndex[i]) < 0 ) || (vN && (i == piN)) ) {
-                primitiveTypeCount [ (vN > maxPType) ? maxPType : vN]++;
-                primitiveN++;
-                vN = 0;
-            }
-            else {
-                if (index >= pN) {
-                    FWARNING (("Point index (%d/%d) out of range", index, pN));
-                    coordIndex[i] = 0;
-                }
-                vN++;
-            }
-        }
-    }
-
-    //----------------------------------------------------------------------
-    // check the normal index
-    normalIT = UNKNOWN_IT;
-    niN = normalIndex.size();
-    if (nN)
-        // have normal elements
-        if (normalPerVertex) {
-            // normal per vertex
-            if (niN >= piN) {
-                // valid normal index number
-                for (i = 0; i < piN; i++) 
-                    // check if normal index equals the coord index
-                    if (normalIndex[i] != coordIndex[i]) {
-                        normalIT = VERTEX_IT;
-                        break;
-                    }
-                if (normalIT == UNKNOWN_IT) {
-                    // if equal than delete unneeded normal index
-                    normalIT = VERTEX_DUP_IT;
-                }
-            }
-            else {
-                // no or not enough normal index
-                normalIT = VERTEX_COORD_IT;
-                if (niN) {
-                    FWARNING (( "Not enough normal index (%d,%d)\n",
-                                normalIndex.size(), piN));
-                    normalIndex.clear();
-                }
-            }
+      // normal per primitive
+      if (niN >= primitiveN) {
+        // use one normal index per primitive
+        normalIT = PRIMITIVE_INDEX_IT;
+      }
+      else {
+        if (nN >= primitiveN) {
+          // use one normal per primitive
+          normalIT = PRIMITIVE_IT;
         }
         else {
-            // normal per primitive
-            if (niN >= primitiveN) {
-                // use one normal index per primitive
-                normalIT = PRIMITIVE_INDEX_IT;
-            }
-            else {
-                if (nN >= primitiveN) {
-                    // use one normal per primitive
-                    normalIT = PRIMITIVE_IT;
-                }
-                else {
-                    FINFO (("not enough normal index (%d,%d)\n", nN, primitiveN));
-                }
-            }
+          FINFO (("not enough normal index (%d,%d)\n", nN, primitiveN));
         }
-    else 
-        normalIT = EMPTY_IT;    
+      }
+    }
+  else
+    if (createNormal) 
+      if (normalPerVertex)
+        normalIT = VERTEX_CREATE_IT;
+      else
+        normalIT = PRIMITIVE_CREATE_IT;
+    else
+      normalIT = EMPTY_IT;    
 
   //----------------------------------------------------------------------
   // check the color index
-    colorIT = UNKNOWN_IT;
-    ciN = colorIndex.size();
-    if (cN)
-        // have color elements
-        if (colorPerVertex) {
-            // color per vertex
-            if (ciN >= piN) {
-                // valid color index number
-                for (i = 0; i < piN; i++) 
-                    // check if color index equals the coord index
-                    if (colorIndex[i] != coordIndex[i]) {
-                        colorIT = VERTEX_IT;
-                        break;
-                    }
-                if (colorIT == UNKNOWN_IT) {
-                    // if equal than delete unneeded color index
-                    colorIT = VERTEX_DUP_IT;
-                }
-            }
-            else {
-                // no or not enough color index
-                colorIT = VERTEX_COORD_IT;
-                if (ciN) {
-                    FWARNING (( "Not enough color index (%d,%d)\n",
-                                colorIndex.size(), piN));
-                    colorIndex.clear();
-                }
-            }
+  colorIT = UNKNOWN_IT;
+  ciN = colorIndex.size();
+  if (cN)
+    // have color elements
+    if (colorPerVertex) {
+      // color per vertex
+      if (ciN >= piN) {
+        // valid color index number
+        for (i = 0; i < piN; i++) 
+          // check if color index equals the coord index
+          if (colorIndex[i] != coordIndex[i]) {
+            colorIT = VERTEX_IT;
+            break;
+          }
+        if (colorIT == UNKNOWN_IT) {
+          // if equal than delete unneeded color index
+          colorIT = VERTEX_DUP_IT;
         }
-        else {
-            // color per primitive
-            if (ciN >= primitiveN) {
-                // use one color index per primitive
-                colorIT = PRIMITIVE_INDEX_IT;
-            }
-            else {
-                if (cN >= primitiveN) {
-                    // use one color per primitive
-                    colorIT = PRIMITIVE_IT;
-                }
-                else {
-                    FINFO (("not enough color index (%d,%d)\n", cN, primitiveN));
-                }
-            }
+      }
+      else {
+        // no or not enough color index
+        colorIT = VERTEX_COORD_IT;
+        if (ciN) {
+          FWARNING (( "Not enough color index (%d,%d)\n",
+                      colorIndex.size(), piN));
+          colorIndex.clear();
         }
-    else
-        colorIT = EMPTY_IT;
-
-  //----------------------------------------------------------------------
-  // check the texture index
-    textureIT = UNKNOWN_IT;
-    tiN = texCoordIndex.size();
-    if (tN) 
-        // have texture elemnts
-        if (tiN >= piN) {
-            // valid texture index number
-            for (i = 0; i < piN; i++) 
-                // check if texture index equals the coord index
-                if (texCoordIndex[i] != coordIndex[i]) {
-                    textureIT = VERTEX_IT;
-                    break;
-                }
-            if (textureIT == UNKNOWN_IT) {
-                // if equal than delete unneeded texture index
-                textureIT = VERTEX_DUP_IT;
-            }
-        }
-        else {
-            // no or not enough texture index
-            textureIT = VERTEX_COORD_IT;
-            if (ciN) {
-                FWARNING (( "Not enough texCoord index (%d,%d)\n",
-                            texCoordIndex.size(), piN));
-                texCoordIndex.clear();
-            }
-        }     
-    else
-        textureIT = EMPTY_IT;
-
-    if (faceSet) {
-        FDEBUG (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d 4/%d poly/%d\n",
-                primitiveN,
-                primitiveTypeCount[0], 
-                primitiveTypeCount[1], 
-                primitiveTypeCount[2],
-                primitiveTypeCount[3], 
-                primitiveTypeCount[4], 
-                primitiveTypeCount[5] ));
+      }
     }
     else {
-        FDEBUG (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d\n",
-                primitiveN,
-                primitiveTypeCount[0], 
-                primitiveTypeCount[1], 
-                primitiveTypeCount[2],
-                primitiveTypeCount[3] ));
+      // color per primitive
+      if (ciN >= primitiveN) {
+        // use one color index per primitive
+        colorIT = PRIMITIVE_INDEX_IT;
+      }
+      else {
+        if (cN >= primitiveN) {
+          // use one color per primitive
+          colorIT = PRIMITIVE_IT;
+        }
+        else {
+          FINFO (("not enough color index (%d,%d)\n", cN, primitiveN));
+        }
+      }
     }
-
-    FDEBUG (( "IndexType: coord: %s, color: %s, normal: %s, texture: %s \n", 
-              indexTypeStr[coordIT],
-              indexTypeStr[colorIT], 
-              indexTypeStr[normalIT],
-              indexTypeStr[textureIT] ));
-
+  else
+    colorIT = EMPTY_IT;
+  
+  //----------------------------------------------------------------------
+  // check the texture index
+  textureIT = UNKNOWN_IT;
+  tiN = texCoordIndex.size();
+  if (tN) 
+    // have texture elemnts
+    if (tiN >= piN) {
+      // valid texture index number
+      for (i = 0; i < piN; i++) 
+        // check if texture index equals the coord index
+        if (texCoordIndex[i] != coordIndex[i]) {
+          textureIT = VERTEX_IT;
+          break;
+        }
+      if (textureIT == UNKNOWN_IT) {
+        // if equal than delete unneeded texture index
+        textureIT = VERTEX_DUP_IT;
+      }
+    }
+    else {
+      // no or not enough texture index
+      textureIT = VERTEX_COORD_IT;
+      if (ciN) {
+        FWARNING (( "Not enough texCoord index (%d,%d)\n",
+                    texCoordIndex.size(), piN));
+        texCoordIndex.clear();
+      }
+    }     
+  else
+    textureIT = EMPTY_IT;
+  
+  if (faceSet) {
+    FDEBUG (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d 4/%d poly/%d\n",
+              primitiveN,
+              primitiveTypeCount[0], 
+              primitiveTypeCount[1], 
+              primitiveTypeCount[2],
+              primitiveTypeCount[3], 
+              primitiveTypeCount[4], 
+              primitiveTypeCount[5] ));
+  }
+  else {
+    FDEBUG (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d\n",
+              primitiveN,
+              primitiveTypeCount[0], 
+              primitiveTypeCount[1], 
+              primitiveTypeCount[2],
+              primitiveTypeCount[3] ));
+  }
+  
+  FDEBUG (( "IndexType: coord: %s, color: %s, normal: %s, texture: %s \n", 
+            indexTypeStr[coordIT],
+            indexTypeStr[colorIT], 
+            indexTypeStr[normalIT],
+            indexTypeStr[textureIT] ));
+  
     //----------------------------------------------------------------------
     // check/create the indexPtr/lengthsPtr/geoTypePtr
     indexPtr = geoPtr->getIndex();
@@ -523,23 +532,25 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
     indexMapID[2] = Geometry::MapColor;
     indexMapID[3] = Geometry::MapTexcoords;
     for (mapi = i = 1; i <= 3; i++) {
-        indexMap[i] = 0;
-        switch (indexType[i]) {
-            case UNKNOWN_IT:
-            case EMPTY_IT:
-                break;
-            case VERTEX_COORD_IT:
-            case VERTEX_DUP_IT:
-                indexMap[0] |= indexMapID[i];
-                break;
-            case VERTEX_IT:
-            case PRIMITIVE_IT:
-            case PRIMITIVE_INDEX_IT:
-                indexMap[mapi++] = indexMapID[i];
-                break;
-        }
+      indexMap[i] = 0;
+      switch (indexType[i]) {
+      case UNKNOWN_IT:
+      case EMPTY_IT:
+        break;
+      case VERTEX_COORD_IT:
+      case VERTEX_DUP_IT:
+        //case VERTEX_CREATE_IT:
+        indexMap[0] |= indexMapID[i];
+        break;
+      case VERTEX_IT:
+      case PRIMITIVE_IT:
+      case PRIMITIVE_INDEX_IT:
+        //case PRIMITIVE_CREATE_IT:
+        indexMap[mapi++] = indexMapID[i];
+        break;
+      }
     }
-  
+    
     //----------------------------------------------------------------------
     // set lens/geoType/index/mapping the index mapping  
     osg::beginEditCP(geoPtr);
@@ -559,110 +570,112 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
     // create index face/line data
     osg::beginEditCP (indexPtr);
     for (pType = (faceSet ? 3 : 2); pType <= maxPType; pType++) {
-    
-        if (primitiveTypeCount[pType]) {
-
-            if (faceSet) 
-                if (pType < 5) {
-                    len = primitiveTypeCount[pType] * pType;          
-                    sysPType = (pType == 3) ? GL_TRIANGLES : GL_QUADS;
-                }
-                else
-                    sysPType = 0;
-            else
-                if (pType == 2) {
-                    len = primitiveTypeCount[pType] * pType;          
-                    sysPType = GL_LINES;
-                }
-                else
-                    sysPType = 0;
-
-            if (sysPType) {
+      
+      // check for the pType count
+      if (primitiveTypeCount[pType]) {
+        
+        // calc len/sysPType
+        if (faceSet) 
+          if (pType < 5) {
+            len = primitiveTypeCount[pType] * pType;          
+            sysPType = (pType == 3) ? GL_TRIANGLES : GL_QUADS;
+          }
+          else
+            sysPType = 0;
+        else
+          if (pType == 2) {
+            len = primitiveTypeCount[pType] * pType;          
+            sysPType = GL_LINES;
+          }
+          else
+            sysPType = 0;
+        
+        // set len/sysPType
+        if (sysPType) {
+          osg::beginEditCP(lensPtr);
+          {
+            lensPtr->getFieldPtr()->addValue(len);
+          }
+          osg::endEditCP (lensPtr);
+          
+          osg::beginEditCP (geoTypePtr);
+          {
+            geoTypePtr->getFieldPtr()->addValue( sysPType );
+          }
+          osg::endEditCP (geoTypePtr);        
+        }
+        
+        primitiveN = 0;
+        beginIndex = endIndex = -1;
+        for ( i = 0; i <= piN; i++) {
+          if ( ((coordIndex[i]) < 0 ) || (i == piN) ) {
+            len = i - beginIndex;
+            if (ccw) {
+              endIndex = i;
+              step = 1;
+            }
+            else {
+              endIndex = beginIndex - 1;
+              beginIndex = i - 1;
+              step = -1;
+            }
+            if ((beginIndex >= 0) && (len == pType)) {             
+              if (len >= maxPType) {
+                sysPType = faceSet ? GL_POLYGON : GL_LINE_STRIP;
                 osg::beginEditCP(lensPtr);
                 {
-                    lensPtr->getFieldPtr()->addValue(len);
+                  lensPtr->getFieldPtr()->addValue(len);
                 }
                 osg::endEditCP (lensPtr);
-        
                 osg::beginEditCP (geoTypePtr);
                 {
-                    geoTypePtr->getFieldPtr()->addValue( sysPType );
+                  geoTypePtr->getFieldPtr()->addValue( sysPType );
                 }
-                osg::endEditCP (geoTypePtr);        
-            }
-      
-            primitiveN = 0;
-            beginIndex = endIndex = -1;
-            for ( i = 0; i <= piN; i++) {
-                if ( ((coordIndex[i]) < 0 ) || (i == piN) ) {
-                  len = i - beginIndex;
-                  if (ccw) {
-                    endIndex = i;
-                    step = 1;
-                  }
-                  else {
-                    endIndex = beginIndex - 1;
-                    beginIndex = i - 1;
-                    step = -1;
-                  }
-                  if ((beginIndex >= 0) && (len == pType)) {
-                    
-                    if (len >= maxPType) {
-                            sysPType = faceSet ? GL_POLYGON : GL_LINE_STRIP;
-                            osg::beginEditCP(lensPtr);
-                            {
-                                lensPtr->getFieldPtr()->addValue(len);
-                            }
-                            osg::endEditCP (lensPtr);
-                            osg::beginEditCP (geoTypePtr);
-                            {
-                                geoTypePtr->getFieldPtr()->addValue( sysPType );
-                            }
-                            osg::beginEditCP (geoTypePtr);
-                        }
-            
-                        // add index data
-                        for (pi = beginIndex; pi != endIndex; pi += step) {
-                          indexPtr->addValue(coordIndex[pi]);
-                            for (mapi = 1; (mapi <= 3) && (indexMap[mapi]); mapi++) {
-                                for (typei = 1; typei <= 3; typei++) {
-                                    if (indexMap[mapi] & indexMapID[typei]) {      
-                                        switch (indexType[typei]) {
-                                            case UNKNOWN_IT:
-                                            case EMPTY_IT:
-                                            case VERTEX_COORD_IT:
-                                            case VERTEX_DUP_IT:
-                                                FFATAL (("Fatal index mapping error \n"));
-                                                break;
-                                            case VERTEX_IT:
-                                                index = (*indexBag[typei])[pi];
-                                                break;
-                                            case PRIMITIVE_IT:
-                                                index = primitiveN;
-                                                break;
-                                            case PRIMITIVE_INDEX_IT:
-                                                index = (*indexBag[typei])[primitiveN];
-                                                break;                     
-                                        }
-                                        indexPtr->addValue(index);
-                                    }
-                                }
-                            }
-                        }
-            
-                        triCount += len - 2;
-                        primitiveN++;
+                osg::beginEditCP (geoTypePtr);
+              }
+              
+              // add index data
+              for (pi = beginIndex; pi != endIndex; pi += step) {
+                indexPtr->addValue(coordIndex[pi]);
+                for (mapi = 1; (mapi <= 3) && (indexMap[mapi]); mapi++) {
+                  for (typei = 1; typei <= 3; typei++) {
+                    if (indexMap[mapi] & indexMapID[typei]) {      
+                      switch (indexType[typei]) {
+                      case UNKNOWN_IT:
+                      case EMPTY_IT:
+                      case VERTEX_COORD_IT:
+                      case VERTEX_DUP_IT:
+                        FFATAL (("Fatal index mapping error \n"));
+                        break;
+                      case VERTEX_IT:
+                        index = (*indexBag[typei])[pi];
+                        break;
+                      case PRIMITIVE_IT:
+                        index = primitiveN;
+                        break;
+                      case PRIMITIVE_INDEX_IT:
+                        index = (*indexBag[typei])[primitiveN];
+                        break;                     
+                      }
+                      indexPtr->addValue(index);
                     }
-                    beginIndex = endIndex = -1;
+                  }
                 }
-                else 
-                    if (beginIndex < 0)
-                        beginIndex = i;
+              }
+              
+              triCount += len - 2;
+              primitiveN++;
             }
+            beginIndex = endIndex = -1;
+          }
+          else 
+            if (beginIndex < 0)
+              beginIndex = i;
         }
+      }
     }
     osg::endEditCP (indexPtr);
-
+    
     return triCount;
 }
 
@@ -672,21 +685,27 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
  *  \ingroup Geometry
  */
 Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
+                                       UInt32 iteration,
                                        Bool createStrips, 
-                                       Bool createFans )
+                                       Bool createFans,
+                                       UInt32 minFanEdgeCount,
+                                       Bool colorCode)
 {
   NodeGraph graph;
-	vector<NodeGraph::Path> pathVec;	
+	vector<NodeGraph::Path> pathVec[2];	
   TriangleIterator tI;
   GeoPositionPtr posPtr;
-  Int32 cost = 0, i, j, n, pN, triCount, sysPType;
+  Int32 cost = 0, bestCost = 0, worstCost = 0, best = 0; 
+  Int32 i, j, n, pN, primN, triCount, sysPType;
 	Bool multiIndex;
 	vector<int> primitive;
 	GeoPLengthPtr lensPtr;
   GeoPTypePtr geoTypePtr;
   GeoIndexPtr indexPtr;
 	Time time, inputT, optimizeT, outputT;
-  UInt64 triN, lineN, pointN;
+  UInt32 triN, lineN, pointN;
+  Int32 typeVec[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN };
+  Int32 t,typeN = sizeof(typeVec)/sizeof(Int32);
 
 	if (geoPtr != NullFC) {
 		posPtr = geoPtr->getPositions();
@@ -696,128 +715,168 @@ Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
 	}
   
 	if (pN && !multiIndex) {
-
-		FNOTICE (("Start Geometry (%d,%d,%d)\n", triN, lineN, pointN));
-
+    
+		FNOTICE (( "Start Geometry optimisation: tri/line/point: %d/%d/%d\n", 
+               triN, lineN, pointN));
+    
 		inputT = getSystemTime();
 		graph.init(pN,triN,8);
-	
-		if (!multiIndex)
+    
+		if (!multiIndex) {
 			triCount = 0;
-    for (tI = geoPtr->beginTriangles(); tI != geoPtr->endTriangles(); ++tI){
-          graph.addNode( triCount,
-                         tI.getPositionIndex(0),
-                         tI.getPositionIndex(1),
-                         tI.getPositionIndex(2) );
-          triCount++;
-		}
-   
-		graph.verify();
+      for (tI = geoPtr->beginTriangles(); tI != geoPtr->endTriangles(); ++tI){
+        graph.setNode( triCount,
+                       tI.getPositionIndex(0),
+                       tI.getPositionIndex(1),
+                       tI.getPositionIndex(2) );
+        triCount++;
+      }
+    }
+    
+    graph.verify();
     if (triN != triCount) {
       FFATAL (("Triangle count missmatch (%d/%d)\n", triN, triCount));
       return 0;
     }
-
-		pathVec.resize(triN);
-
+    
+    pathVec[1].resize(triN);
+    if (iteration > 1)
+      pathVec[0].resize(triN);
+    
+    //----------------------------------------------------------------------
+    // create surface path vector with sampling    
     FDEBUG (("Start path.createPathVec() \n"));
-		time = getSystemTime();
-		inputT = time - inputT;
-		optimizeT = time;	
-		graph.createPathVec(pathVec,false);
+    time = getSystemTime();
+    inputT = time - inputT;
+    optimizeT = time;	
+    bestCost = triN * 3 + 1;
+    worstCost = 0;
+    for (i = 0; i < iteration; i++) {
+      cost = graph.createPathVec(pathVec[!best]);
+			if (cost) {
+      	if (cost < bestCost) {
+        	bestCost = cost;
+        	best = !best;
+      	}
+      	if (cost > worstCost)
+        	worstCost = cost;
+			}
+			else {
+				bestCost = worstCost = 0;
+				break;
+			}
+    }
+    
+    // valid result
+		if (bestCost) {
 
-    //----------------------------------------------------------------------
-    // check/create the indexPtr/lengthsPtr/geoTypePtr
-    indexPtr = geoPtr->getIndex();
-    if (indexPtr == osg::NullFC)
+      //----------------------------------------------------------------------
+      // check/create the indexPtr/lengthsPtr/geoTypePtr
+      indexPtr = geoPtr->getIndex();
+      if (indexPtr == osg::NullFC)
         indexPtr = osg::GeoIndexUI32::create();
-    else
+      else
         indexPtr->clear();
-
-    lensPtr = geoPtr->getLengths();
-    if (lensPtr == osg::NullFC)
+      
+      lensPtr = geoPtr->getLengths();
+      if (lensPtr == osg::NullFC)
         lensPtr = osg::GeoPLength::create();
-    else
+      else
         lensPtr->clear();
-
-    geoTypePtr = geoPtr->getTypes();
-    if (geoTypePtr == osg::NullFC)
-        geoTypePtr = osg::GeoPType::create();
-    else
+    
+      geoTypePtr = geoPtr->getTypes();
+      if (geoTypePtr == osg::NullFC)
+      geoTypePtr = osg::GeoPType::create();
+      else
         geoTypePtr->clear();
-
-    /*
-    //----------------------------------------------------------------------
-    // set lens/geoType/index/mapping the index mapping
-    osg::beginEditCP(geoPtr);
-    {
+      
+      //----------------------------------------------------------------------
+      // set lens/geoType/index/mapping the index mapping
+      osg::beginEditCP(geoPtr);
+      {
         geoPtr->setLengths(lensPtr);
         geoPtr->setTypes(geoTypePtr);
         geoPtr->setIndex(indexPtr);
-    }
-    osg::endEditCP(geoPtr);
-    */
-
-		time = getSystemTime();
-		optimizeT = time - optimizeT;
-		outputT = time;
-
-    FDEBUG (("Start graph.getPrimitive() loop (triN: %d)\n", triN));
-  
-		for (i = 0; i < triN; i++) {
-			n = graph.getPrimitive(pathVec[i],primitive);	
-		  cost += primitive.size();
-      if (n) {
-        if (n == 3) 
-          sysPType = GL_TRIANGLES;
-        else
-          sysPType = GL_TRIANGLE_STRIP;
-        
-        osg::beginEditCP(lensPtr);
-        {
-          lensPtr->getFieldPtr()->addValue(n);
-        }
-        osg::endEditCP (lensPtr);
-        osg::beginEditCP (geoTypePtr);
-        {
-          geoTypePtr->getFieldPtr()->addValue( sysPType );
-        }
-        osg::endEditCP (geoTypePtr);
-        
-        for (j = 0; j < n; j++)
-          indexPtr->addValue( primitive[j]);	
-     
       }
-			else
-				break;
-		}
-    
+      osg::endEditCP(geoPtr);
+      
+      time = getSystemTime();
+      optimizeT = time - optimizeT;
+      outputT = time;
+      
+      FDEBUG (("Start graph.getPrimitive() loop (triN: %d)\n", triN));
+      
+      triCount = 0;
+      for (t = 0; t < typeN; t++) { 
+        for (i = 0; i < triN; i++) {
+          if (pathVec[best][i].type == typeVec[t]) {
+            cost += n = graph.getPrimitive(pathVec[best][i],primitive);	
+            if (n) {
+              if (typeVec[t] == GL_TRIANGLES) 
+                triCount += (n / 3);
+              else {
+                osg::beginEditCP(lensPtr);
+                {
+                  lensPtr->getFieldPtr()->addValue(n);
+                }
+                osg::endEditCP (lensPtr);
+                osg::beginEditCP (geoTypePtr);
+                {
+                  geoTypePtr->getFieldPtr()->addValue( typeVec[t] );
+                }
+                osg::endEditCP (geoTypePtr);
+              }
+              for (j = 0; j < n; j++)
+                indexPtr->addValue( primitive[j]);	
+            }
+            else 
+              break;
+          }
+        }
+        if (triCount) {
+          osg::beginEditCP(lensPtr);
+          {
+            lensPtr->getFieldPtr()->addValue(triCount * 3);
+          }
+          osg::endEditCP (lensPtr);
+          osg::beginEditCP (geoTypePtr);
+          {
+            geoTypePtr->getFieldPtr()->addValue( GL_TRIANGLES );
+          }
+          osg::endEditCP (geoTypePtr);          
+          triCount = 0;
+        }
+      }
+      
+      time = getSystemTime();
+      outputT = time - outputT;
+      
+      FNOTICE (( "Graph in/opt/out timing: %g/%g/%g \n",
+                 inputT, optimizeT, outputT  ));
+      
+      FNOTICE (( "OptResult: %2g%%, Sampling (%di): cost %d/%d\n",
+                 double ( double(bestCost) / double(triN * 3) * 100.0),
+                 iteration, bestCost, worstCost ));
+    }
+  }
 
-		time = getSystemTime();
-		outputT = time - outputT;
-
-		FNOTICE ((	"Graph create/optimize/output: %g/%g/%g, cost: %g\n",
-								inputT, optimizeT, outputT, 
-								double ( double(cost)/double(triN * 3) * 100.0) ));
+  return bestCost; 
 }
-
-return cost;
-}  
-
+  
 /*! \brief return the number of triangle/line/point elem 
  *  \ingroup Geometry
  */
-UInt64 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
-                                 UInt64 &triangle, 
-                                 UInt64 &line, 
-                                 UInt64 &point)
+UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
+                                 UInt32 &triangle, 
+                                 UInt32 &line, 
+                                 UInt32 &point)
 {	
   GeoPTypePtr geoTypePtr;
   GeoPLengthPtr lensPtr;
   GeoPTypePtr::ObjectType::StoredFieldType::iterator typeI, endTypeI;
   GeoPLengthPtr::ObjectType::StoredFieldType::iterator lenI;
   UInt32 lN, tN, len, type;
-
+  // TODO; should we really reset the values ?
   triangle = line = point = 0;
 
   if (geoPtr == osg::NullFC) {

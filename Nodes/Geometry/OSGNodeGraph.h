@@ -137,8 +137,18 @@ private:
 		Node *prev;
 		NodeList *list;
 		Edge * edgeVec[3];
-		Node(void) : index(-1), degree(0), next(0), prev(0), list(0) 
-			{ edgeVec[0] = edgeVec[1] = edgeVec[2] = 0; }
+    int vertex[3];
+		Node(void) : index(-1), degree(0), next(0), prev(0), list(0) { 
+      vertex[0] = vertex[1] = vertex[2] = 0;
+      edgeVec[0] = edgeVec[1] = edgeVec[2] = 0;
+    }
+    inline void init (int i, int d, int v0, int v1, int v2) {
+      index = i;
+      degree = d;
+      vertex[0] = v0;
+      vertex[1] = v1;
+      vertex[2] = v2;
+    }
 		inline void release(void) {
 			if (list) {
 				if (next) {
@@ -232,17 +242,18 @@ public:
 
   /**  */
 	inline 
-    void addNode (int index, int v0, int v1, int v2)
+    void setNode (int index, int v0, int v1, int v2)
 		{
       if (v0 != v1 && v1 != v2 && v2 != v1) {
         if (!getEdge(v0,v1) && !getEdge(v1,v2) && !getEdge(v2,v0)) {
-          _nodeVec[index].index = index;
+          _nodeVec[index].init(index,0,v0,v1,v2);
           _nodeVec[index].edgeVec[0] = &addEdge(v0,v1,_nodeVec[index],0);
           _nodeVec[index].edgeVec[1] = &addEdge(v1,v2,_nodeVec[index],1);
           _nodeVec[index].edgeVec[2] = &addEdge(v2,v0,_nodeVec[index],2);
         }
         else {
-          FWARNING (("nonManifold mesh \n"));
+          _nodeVec[index].init(index,-1,v0,v1,v2);
+          FWARNING (( "Nonmanifold mesh triangle (%d/%d/%d)\n", v0,v1,v2 ));
         }
       }
       else {
@@ -251,20 +262,23 @@ public:
     }
 
   /**  */
-  bool verify (void);
+  bool verify (bool printNotice = false );
 
 	class Path {
 	public:
-		std::list<int> path;
+    int type;
 		bool flip;
+		std::list<int> path;
 		Path(void) { clear();}
 		inline void add( int elem) { flip ? path.push_front(elem) :
 			path.push_back(elem); }
-		inline void clear (void) { path.clear(); flip = false; }			
-	};        
+		inline void clear (void) { path.clear(); flip = false; type = 0;}
+  };        
 		
   /**  */
-  int createPathVec ( std::vector<Path> &stripVec, bool randomize = false );
+  int createPathVec ( std::vector<Path> &stripVec, 
+                      bool createStrips = true, bool createFans = true,
+                      int minFanEdgeCount = 8);
 	
 	/**  */
 	int getPrimitive ( Path &path, std::vector <int> &primitive );

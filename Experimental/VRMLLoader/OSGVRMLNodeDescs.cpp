@@ -1293,6 +1293,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                                  pCcw            ->getValue() ,
                                  pNormalPerVertex->getValue() ,
                                  pColorPerVertex ->getValue() ,
+																 false, // create normal; not yet :)
                                  true);
 
             if((0 != (_uiOptions & VRMLFile::CreateNormals) )    &&
@@ -1326,6 +1327,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                                  dummyBool,
                                  dummyBool,
                                  pColorPerVertex->getValue() ,
+															   false, // create normal, do we need normals for lines ?
                                  false);
         }
     }
