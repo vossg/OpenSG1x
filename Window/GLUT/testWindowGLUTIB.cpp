@@ -203,8 +203,8 @@ void key(unsigned char key, int, int)
                     data += image->getSize() - 1;
                     UChar8 off = UChar8(rand());
                     
-                    for(; data >= start; data--)
-                        *data = UChar8(UInt32(data) & 255) + off;
+                    for(UInt8 val = off; data >= start; data--, val++)
+                        *data = val;
                     }
                     break;
     }
