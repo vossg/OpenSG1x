@@ -1,0 +1,273 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
+#ifndef _OSGINTERSECTACTION_H_
+#define _OSGINTERSECTACTION_H_
+#ifdef __sgi
+#pragma once
+#endif
+
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <vector>
+
+#include <OSGBaseTypes.h>
+#include <OSGAction.h>
+
+#if defined(WIN32) && defined(OSG_BUILD_DLL)
+#   ifdef OSG_COMPILEINTERSECTACTION
+#       define OSG_INTERSECTACTION_DLLMAPPING __declspec(dllexport)
+#   else
+#       define OSG_INTERSECTACTION_DLLMAPPING __declspec(dllimport)
+#   endif
+#else
+#define OSG_INTERSECTACTION_DLLMAPPING
+#endif
+
+OSG_BEGIN_NAMESPACE
+
+//---------------------------------------------------------------------------
+//  Forward References
+//---------------------------------------------------------------------------
+
+class Node;
+
+//---------------------------------------------------------------------------
+//   Types
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \ingroup baselib
+ *  \brief Brief
+ *
+ *  detailed
+ */
+
+class OSG_INTERSECTACTION_DLLMAPPING IntersectAction : public Action
+{
+  public:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    static const char *getClassname(void) { return "IntersectAction"; };
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    IntersectAction(void);
+
+    IntersectAction(const IntersectAction &source);
+
+    IntersectAction( const Line &line, const Real32 maxdist = Inf );
+ 
+    IntersectAction& operator =(const IntersectAction &source);
+
+    virtual ~IntersectAction(void); 
+
+    /*------------------------- your_category -------------------------------*/
+
+    /*------------------------- access ------------------------------*/
+
+	// set input data
+	void setLine( const Line &line, const Real32 maxdist = Inf );
+
+	// get input data
+	inline const Line& getLine( void ) const;
+	inline Real32 getMaxDist( void ) const;
+	
+	// get result data
+	inline bool didHit( void ) const;
+	
+	inline Real32 getHitT( void ) const;
+	
+	inline Pnt3f getHitPoint( void ) const;
+	
+	inline NodePtr getHitObject( void ) const;
+	
+	inline Int32 getHitTriangle( void ) const;
+
+
+	// to be used by the traversed nodes
+	// set (temporary) results
+	Action::ResultE setEnterLeave( Real32 enter, Real32 leave );
+	void setHit( Real32 t, NodePtr obj, Int32 triIndex );
+	
+
+    /*------------------------- your_operators ------------------------------*/
+
+
+    /*------------------------- assignment ----------------------------------*/
+
+    /*------------------------- comparison ----------------------------------*/
+
+    Bool operator < (const IntersectAction &other) const;
+    
+    Bool operator == (const IntersectAction &other) const;
+    Bool operator != (const IntersectAction &other) const;
+    
+	
+    // default registration. static, so it can be called during static init
+    
+    static void registerEnterDefault(   const FieldContainerType &type, 
+                                        const Functor            &func);
+    
+    static void registerLeaveDefault(   const FieldContainerType &type, 
+                                        const Functor            &func);
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+	virtual Action::ResultE start( void );	
+
+  private:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef Action Inherited;
+
+    //-----------------------------------------------------------------------
+    //   friend classes                                                      
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend functions                                                    
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    static char cvsid[];
+
+    // default functors for instantiation
+    static vector<Functor> *_defaultEnterFunctors;
+    static vector<Functor> *_defaultLeaveFunctors;
+    
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+    
+	// Line definition
+	
+	// the line to be tested
+	Line _line;
+	
+	// the maximum distance along the line
+	Real32 _maxdist;
+	
+	// Results (also intermediate)
+	// hit at all (either bv or face)
+	Bool 	_hit;
+	// enter leave distance for bounding volume
+	Real32  _enter;
+	Real32  _leave;
+	
+	// Hit distance
+	Real32  _hitT;
+	// Hit object	
+	NodePtr _hitObject;
+	// Index of the hit triangle ( from TriangleIterator::getIndex() )
+	Int32 	_hitTriangle;
+	
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+};
+
+//---------------------------------------------------------------------------
+//   Exported Types
+//---------------------------------------------------------------------------
+
+// class pointer
+
+typedef IntersectAction *IntersectActionP;
+
+OSG_END_NAMESPACE
+
+#include "OSGIntersectAction.inl"
+
+#endif /* _OSGRENDERACTION_H_ */
