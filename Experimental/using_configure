@@ -18,9 +18,39 @@ IRIX :
 cd Builds/mips-sgi-irix6.5-CC
 gmake
 
+
 CYGWIN :
 
 bash ./configure --with-compiler=icl45 --with-qt=<qtdir> --with-glut=<glut-dir>
 cd Build/i686-pc-cygwin-icl45
 make
+
+
+Linux:
+
+on some confgurations, but only some. We're working on it...
+
+
+
+To make the system:
+
+cd Builds/<system>
+gmake
+(build BaseLib and SystemLib)
+you need to add BaseLib/lib-dbg and SystemLib/lib-dbg to your library path
+
+to make a test program
+cd SystemTest
+make testWindowGLUT
+./testWindowGLUT ../../../../Loader/dino.raw
+
+
+To make the VRML Loader test program you need to be in SystemTest and
+ln -s .../SystemLib/obj-dbg/OSGScanParseSkel.tab.h .../SystemTest/obj-dbg
+ln -s .../Experimental/VRMLLoader/std.wrl .
+make testVRMLRender
+./testVRMLRender ../../../VRMLLoader/tie.wrl
+Used keys: a s z x c w ESC
+
+
 
