@@ -170,49 +170,49 @@ typedef signed char   SChar8;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef int8_t     Int8;
+typedef __int8_t     Int8;
 
 /*! \var typedef u_int8_t UInt8;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef u_int8_t   UInt8;
+typedef __uint8_t   UInt8;
 
 /*! \var typedef int16_t Int16;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef int16_t    Int16;
+typedef __int16_t    Int16;
 
 /*! \var typedef u_int16_t UInt16;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef u_int16_t  UInt16;
+typedef __uint16_t  UInt16;
 
 /*! \var typedef int32_t Int32;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef int32_t    Int32;
+typedef __int32_t    Int32;
 
 /*! \var typedef u_int32_t UInt32;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef u_int32_t  UInt32;
+typedef __uint32_t  UInt32;
 
 /*! \var typedef int64_t Int64;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef int64_t    Int64;
+typedef __int64_t    Int64;
 
 /*! \var typedef u_int64_t UInt64;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef u_int64_t  UInt64;
+typedef __uint64_t  UInt64;
 
 /*! \var typedef float Real32;
  *  \ingroup GrpBaseBaseBaseTypes
