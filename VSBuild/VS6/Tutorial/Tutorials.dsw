@@ -1,0 +1,238 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+ ###############################################################################
+
+Project: "01hello"=".\01hello.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "02move"=".\02move.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "03share"=".\03share.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "04hiertransform"=".\04hiertransform.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "05geometry"=".\05geometry.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "06indexgeometry"=".\06indexgeometry.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "07multiindexgeometry"=".\07multiindexgeometry.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "08materials"=".\08materials.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "09traverse"=".\09traverse.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "10loading"=".\10loading.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "11picking"=".\11picking.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "12ClusterServer"=".\12ClusterServer.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "13ClusterClient"=".\13ClusterClient.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "14switch"=".\14switch.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "15attachments"=".\15attachments.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "16lights"=".\16lights.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "17deepClone"=".\17deepClone.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "18opengl_slave"=".\18opengl_slave.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "19LocalLights"=".\19LocalLights.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "20MaterialSort"=".\20MaterialSort.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "21Shadows"=".\21Shadows.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+ ###############################################################################
+
+Project: "22Shader"=".\22Shader.dsp" - Package Owner=<4>
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+
