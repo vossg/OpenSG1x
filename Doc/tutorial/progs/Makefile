@@ -1,7 +1,7 @@
 # Very general use makefile for openSG Programs 
 
 # use debug or opt libs?
-LIBTYPE ?= opt
+LIBTYPE ?= dbg
 
 # set the path to the installed osg-config executable here
 # e.g. if you installed in /usr/local
