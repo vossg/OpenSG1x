@@ -734,7 +734,7 @@ void RenderAction::draw(DrawTreeNode *pRoot)
     
     if(pRoot->getGeometry() != NULL)
     {
-        pRoot->getGeometry()->draw(this);
+        pRoot->getGeometry()->drawPrimitives(this);
 
         _uiNumGeometries++;
     }
