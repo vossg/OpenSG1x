@@ -135,26 +135,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                 Container Access                             */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Binary Access                              */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   your_operators                             */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Assignment                                */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                    Comparison                                */
     /*! \{                                                                 */
 
@@ -164,19 +144,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     //Bool operator != (const SimpleSceneManager &other) const;
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Type information                            */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Updates                                  */
     /*! \{                                                                 */
@@ -189,25 +159,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Changed                               */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                MT Destruction                                */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Sync                                     */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/
-  private:
 
     WindowPtr            _win;
     NodePtr              _root;
@@ -228,10 +179,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     Int16                _lasty;
     UInt16               _mousebuttons;
 
-
     static  SimpleMaterialPtr    _highlightMaterial;
-    
-    /*!\brief prohibit default function (move to 'public' if needed) */
+ 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+   
+    /* prohibit default function (move to 'public' if needed) */
 
     SimpleSceneManager(const SimpleSceneManager &source);
     void operator =(const SimpleSceneManager &source);
@@ -249,6 +203,6 @@ OSG_END_NAMESPACE
 
 #include "OSGSimpleSceneManager.inl"
 
-#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.3 2001/10/06 23:57:16 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.4 2001/10/10 22:04:56 dirk Exp $"
 
 #endif /* _OSGSIMPLESCENEMANAGER_H_ */

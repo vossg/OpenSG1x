@@ -40,32 +40,37 @@
 OSG_BEGIN_NAMESPACE
 
 
-//! pseudo constructor
+/*! pseudo constructor. Standard interface for OpenSG object creation.
+ */
 inline SimpleSceneManager* SimpleSceneManager::create(void)
 {
     return new SimpleSceneManager;
 }
 
-//! access the window
+/*! get the window to be used for display
+ */
 inline WindowPtr SimpleSceneManager::getWindow(void)
 {
     return _win;
 }
 
-//! set the window
-inline void SimpleSceneManager::setWindow( WindowPtr win )
+/*! set the window to be used for display
+ */
+inline void SimpleSceneManager::setWindow(WindowPtr win)
 {
     _win = win;
 }
 
-//! access the root
+/*! get the root of the displayed tree
+ */
 inline NodePtr SimpleSceneManager::getRoot(void)
 {
     return _root;
 }
 
-//! set the root
-inline void SimpleSceneManager::setRoot( NodePtr root )
+/*! set the root of the displayed tree
+ */
+inline void SimpleSceneManager::setRoot(NodePtr root)
 {
     if(_root != NullFC)
     {
@@ -84,32 +89,40 @@ inline void SimpleSceneManager::setRoot( NodePtr root )
     _internalRoot->addChild(_root);
 }
 
-//! set the headlight settings
-inline void SimpleSceneManager::setHeadlight( Bool on )
+/*! set the headlight setting
+ */
+inline void SimpleSceneManager::setHeadlight(Bool on)
 {
-    if ( _headlight != NullFC )
-        _headlight->setOn( on );
+    if(_headlight != NullFC)
+        _headlight->setOn(on);
 }
 
-inline void SimpleSceneManager::turnHeadlightOn( void )
+/*! turn headlight on.
+ */
+inline void SimpleSceneManager::turnHeadlightOn(void)
 {
-    if ( _headlight != NullFC )
-        _headlight->setOn( true );
+    if(_headlight != NullFC)
+        _headlight->setOn(true);
 }
 
-inline void SimpleSceneManager::turnHeadlightOff( void )
+/*! turn headlight off.
+ */
+inline void SimpleSceneManager::turnHeadlightOff(void)
 {
-    if ( _headlight != NullFC )
-        _headlight->setOn( false );
+    if(_headlight != NullFC)
+        _headlight->setOn(false);
 }
 
-//! highlight settings
-inline void SimpleSceneManager::setHighlight( NodePtr highlight )
+/*! set the highlight object
+ */
+inline void SimpleSceneManager::setHighlight(NodePtr highlight)
 {
-    _highlight=highlight;
+    _highlight = highlight;
     highlightChanged();
 }
 
+/*! get the highlight object
+ */
 inline NodePtr SimpleSceneManager::getHighlight(void)
 {
     return _highlight;
@@ -117,6 +130,6 @@ inline NodePtr SimpleSceneManager::getHighlight(void)
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESCENEMANAGER_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.3 2001/10/06 23:57:16 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.4 2001/10/10 22:04:56 dirk Exp $"
 
 
