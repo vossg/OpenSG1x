@@ -57,7 +57,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.3 2001/09/30 11:57:01 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.4 2001/09/30 19:36:08 dirk Exp $";
     static char cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
@@ -168,7 +168,7 @@ void SimpleSceneManager::initialize(void)
     _camera = PerspectiveCamera::create();
     beginEditCP(_camera);
     _camera->setBeacon( cartN );
-    _camera->setFov( deg2rad( 60 ) );
+    _camera->setFov( deg2rad( 60. ) );
     _camera->setNear( 0.1 );
     _camera->setFar( 10000 );
     endEditCP(_camera);
