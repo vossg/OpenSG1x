@@ -447,6 +447,19 @@ Field *DynFieldAttachment<AttachmentDescT>::getDynamicField(
     return _dynFieldsV[index - Inherited::NextFieldId];
 }
 
+template <class AttachmentDescT> inline
+FieldContainerPtr DynFieldAttachment<AttachmentDescT>::emptyCopy(void)
+{
+    PtrType returnValue = DynFieldAttachment<AttachmentDescT>::createEmpty();
+
+    for(UInt32 i = 2; i <= _localType.getNumFieldDescriptions(); i++)
+    {
+        returnValue->addField(*(_localType.getFieldDescription(i)));
+    }
+
+    return returnValue;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 template <class AttachmentDescT> inline

@@ -245,9 +245,9 @@ FieldContainerPtr FieldContainerType::createFieldContainer(void) const
     if(isAbstract()       == false)
     {
 #ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-        fc = _prototypeP->clone().dcast<FieldContainerPtr>();
+        fc = _prototypeP->shallowCopy().dcast<FieldContainerPtr>();
 #else
-        _prototypeP->clone().dcast(fc);
+        _prototypeP->shallowCopy().dcast(fc);
 #endif
     }
 
@@ -263,9 +263,9 @@ NodePtr  FieldContainerType::createNode(void) const
        isNode()     == true)
     {
 #ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-        fc = _prototypeP->clone().dcast<NodePtr>();
+        fc = _prototypeP->shallowCopy().dcast<NodePtr>();
 #else
-        _prototypeP->clone().dcast(fc);
+        _prototypeP->shallowCopy().dcast(fc);
 #endif
     }
 
@@ -280,9 +280,9 @@ NodeCorePtr FieldContainerType::createNodeCore(void) const
        isNodeCore() == true)
     {
 #ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-        fc = _prototypeP->clone().dcast<NodeCorePtr>();
+        fc = _prototypeP->shallowCopy().dcast<NodeCorePtr>();
 #else
-        _prototypeP->clone().dcast(fc);
+        _prototypeP->shallowCopy().dcast(fc);
 #endif
     }
 
@@ -297,9 +297,9 @@ AttachmentPtr FieldContainerType::createAttachment(void) const
        isAttachment() == true)
     {
 #ifdef OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-    fc = _prototypeP->clone().dcast<AttachmentPtr>();
+    fc = _prototypeP->shallowCopy().dcast<AttachmentPtr>();
 #else
-    _prototypeP->clone().dcast(fc);
+    _prototypeP->shallowCopy().dcast(fc);
 #endif
     }
 

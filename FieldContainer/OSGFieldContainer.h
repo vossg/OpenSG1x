@@ -201,16 +201,16 @@ class OSG_FIELDCONTAINER_DLLMAPPING FieldContainer
 
     /*------------------------------ size -----------------------------------*/
 
-    virtual UInt32            getSize (void) const = 0;
+    virtual UInt32            getSize    (void) const = 0;
 
     /*----------------------------- access ----------------------------------*/
 
-            Field            *getField(      UInt32 fieldId  );
-            Field            *getField(const Char8 *fieldName);
+            Field            *getField   (      UInt32 fieldId  );
+            Field            *getField   (const Char8 *fieldName);
 
     /*----------------------------- clone ----------------------------------*/
 
-    virtual FieldContainerPtr clone   (void) const = 0;
+    virtual FieldContainerPtr shallowCopy(void) const = 0;
 
     /*----------------------------- dump ----------------------------------*/
 
@@ -693,7 +693,8 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
         OSG_CLASS_PTR fc;                                                     \
                                                                               \
         if(getStaticType().getPrototype() != OSG::NullFC)                     \
-         fc = getStaticType().getPrototype()->clone().dcast<OSG_CLASS_PTR>(); \
+         fc = getStaticType().getPrototype()->                                \
+           shallowCopy().dcast<OSG_CLASS_PTR>();                              \
                                                                               \
         return fc;                                                            \
     }
@@ -708,7 +709,8 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
         OSG_CLASS_PTR fc;                                                     \
                                                                               \
         if(getStaticType().getPrototype() != OSG::NullFC)                     \
-         fc = getStaticType().getPrototype()->clone().dcast<OSG_CLASS_PTR>(); \
+         fc = getStaticType().getPrototype()->                                \
+           shallowCopy().dcast<OSG_CLASS_PTR>();                              \
                                                                               \
         return fc;                                                            \
     }
@@ -720,7 +722,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
         OSG_CLASS_PTR fc;                                               \
                                                                         \
         if(getStaticType().getPrototype() != OSG::NullFC)               \
-            getStaticType().getPrototype()->clone().dcast(fc);          \
+            getStaticType().getPrototype()->shallowCopy().dcast(fc);    \
                                                                         \
         return fc;                                                      \
 }
@@ -735,7 +737,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
         OSG_CLASS_PTR fc;                                               \
                                                                         \
         if(getStaticType().getPrototype() != OSG::NullFC)               \
-            getStaticType().getPrototype()->clone().dcast(fc);          \
+            getStaticType().getPrototype()->shallowCopy().dcast(fc);    \
                                                                         \
         return fc;                                                      \
 }
@@ -771,11 +773,11 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
     }
 
 
-#define OSG_FC_CLONE_DECL                                               \
-    virtual OSG::FieldContainerPtr clone(void) const;
+#define OSG_FC_SHALLOWCOPY_DECL                                         \
+    virtual OSG::FieldContainerPtr shallowCopy(void) const;
 
-#define OSG_FC_CLONE_DEF(OSG_CLASS, OSG_CLASS_PTR)                      \
-    OSG::FieldContainerPtr OSG_CLASS::clone(void) const                 \
+#define OSG_FC_SHALLOWCOPY_DEF(OSG_CLASS, OSG_CLASS_PTR)                \
+    OSG::FieldContainerPtr OSG_CLASS::shallowCopy(void) const           \
     {                                                                   \
         OSG_CLASS_PTR returnValue;                                      \
                                                                         \
@@ -784,27 +786,27 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
         return returnValue;                                             \
     } 
 
-#define OSG_FC_CLONE_INL_TMPL_DEF(OSG_TMPL_PARAM,                       \
-                                  OSG_CLASS,                            \
-                                  OSG_CLASS_PTR)                        \
-    template <class OSG_TMPL_PARAM>                                     \
-    OSG::FieldContainerPtr OSG_CLASS<OSG_TMPL_PARAM>::clone(void) const \
-    {                                                                   \
-        OSG_CLASS_PTR returnValue;                                      \
-                                                                        \
-        newPtr(returnValue, this);                                      \
-                                                                        \
-        return returnValue;                                             \
+#define OSG_FC_SHALLOWCOPY_INL_TMPL_DEF(OSG_TMPL_PARAM,                       \
+                                        OSG_CLASS,                            \
+                                        OSG_CLASS_PTR)                        \
+    template <class OSG_TMPL_PARAM>                                           \
+    OSG::FieldContainerPtr OSG_CLASS<OSG_TMPL_PARAM>::shallowCopy(void) const \
+    {                                                                         \
+        OSG_CLASS_PTR returnValue;                                            \
+                                                                              \
+        newPtr(returnValue, this);                                            \
+                                                                              \
+        return returnValue;                                                   \
     } 
 
 
 #define OSG_FC_CREATE_FUNCTIONS_DECL(OSG_CLASS_PTR)                     \
     OSG_FC_CREATE_DECL      (OSG_CLASS_PTR)                             \
     OSG_FC_CREATE_EMPTY_DECL(OSG_CLASS_PTR)                             \
-    OSG_FC_CLONE_DECL
+    OSG_FC_SHALLOWCOPY_DECL
 
 #define OSG_FC_CREATE_FUNCTIONS_DEF(OSG_CLASS, OSG_CLASS_PTR)           \
-    OSG_FC_CLONE_DEF(OSG_CLASS, OSG_CLASS_PTR)
+    OSG_FC_SHALLOWCOPY_DEF(OSG_CLASS, OSG_CLASS_PTR)
 
 #define OSG_FC_CREATE_FUNCTIONS_INL_DEF(OSG_CLASS, OSG_CLASS_PTR)       \
     OSG_FC_CREATE_INL_DEF      (OSG_CLASS, OSG_CLASS_PTR)               \
@@ -813,7 +815,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
 #define OSG_FC_CREATE_FUNCTIONS_INL_TMPL_DEF(OSG_TMPL_PARAM,            \
                                              OSG_CLASS,                 \
                                              OSG_CLASS_PTR)             \
-    OSG_FC_CLONE_INL_TMPL_DEF       (OSG_TMPL_PARAM,                    \
+    OSG_FC_SHALLOWCOPY_INL_TMPL_DEF       (OSG_TMPL_PARAM,              \
                                      OSG_CLASS,                         \
                                      OSG_CLASS_PTR)                     \
     OSG_FC_CREATE_INL_TMPL_DEF      (OSG_TMPL_PARAM,                    \

@@ -450,6 +450,8 @@ class OSG_FIELDCONTAINER_DLLMAPPING DynFieldAttachment :
 
     /*------------------------- your_operators ------------------------------*/
 
+    FieldContainerPtr emptyCopy(void);
+
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
