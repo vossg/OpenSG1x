@@ -461,15 +461,15 @@ class PlatformOptions:
             # try to find the supportslibs directory.
             current_dir = Dir('.').abspath
             supportlibs = 'no'
-            if os.path.exists(os.path.join(current_dir , 'supportlibs', 'include', 'png.h')):
+            if os.path.exists(os.path.join(current_dir , '..', 'supportlibs', 'include', 'png.h')):
                 supportlibs = 'yes'
             else:
                 # unzip supportlibs
                 print 'unzipping win32 supportlibs ...'
                 un = unzip()
                 un.extract(os.path.join(current_dir , 'dist', 'win', 'supportlibs.zip'),
-                           os.path.join(current_dir , 'supportlibs'))
-                if os.path.exists(os.path.join(current_dir , 'supportlibs', 'include', 'png.h')):
+                           os.path.join(current_dir , '..', 'supportlibs'))
+                if os.path.exists(os.path.join(current_dir , '..', 'supportlibs', 'include', 'png.h')):
                     supportlibs = 'yes'
 
             for option in self.package_options:
@@ -676,8 +676,8 @@ class win32(ToolChain):
 
         current_dir = Dir('.').abspath
         supportlibs = ''
-        if os.path.exists(os.path.join(current_dir, 'supportlibs')):
-            supportlibs = os.path.join(current_dir, 'supportlibs')
+        if os.path.exists(os.path.join(current_dir, '..', 'supportlibs')):
+            supportlibs = os.path.join(current_dir, '..', 'supportlibs')
 
         if len(supportlibs) > 0:
             env.AppendENVPath('INCLUDE', supportlibs + os.sep + 'include')
