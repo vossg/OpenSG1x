@@ -2522,7 +2522,7 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
                   << endl;
 #endif
 
-            GeometryPtr pGeo = makeSphereGeo(3, pValue->getValue());
+            GeometryPtr pGeo = makeLatLongSphereGeo(8, 16, pValue->getValue());
 
             beginEditCP(pNode, Node::CoreFieldMask);
             {

@@ -604,14 +604,14 @@ int main (int argc, char **argv)
     dlight->updateVolume();
 
     // should check first. ok for now.
-    const OSG::BoxVolume *vol = (OSG::BoxVolume *)&dlight->getVolume();
+    const OSG::DynamicVolume &vol = dlight->getVolume();
 
     OSG::Vec3f min,max;
     OSG::Vec3f size;
     OSG::Pnt3f center;
 
-    vol->getBounds(min, max);
-    vol->getCenter(center);
+    vol.getBounds(min, max);
+    vol.getCenter(center);
 
     size = max - min;
 
