@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="ViewpointAttachment"
+	parent="Attachment"
+	library="System"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+	<Field
+		name="fieldOfView"
+		type="Real32"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="60.0"
+		access="public"
+	>
+	the viewpoints field of view
+	</Field>
+</FieldContainer>
