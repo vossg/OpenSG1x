@@ -171,7 +171,7 @@ int main (int argc, char **argv) {
     for ( i = 0 ; i < nlines; i++ )
     {
         std::cout << "Line: (" << lines[i].getPosition() << ") ("
-             << lines[i].getDirection() << ")" << endl;
+             << lines[i].getDirection() << ")" << std::endl;
 
         bool res = lines[i].intersect( c, ent, ex );
         Pnt3f   ep = lines[i].getPosition() + ent * lines[i].getDirection(),
