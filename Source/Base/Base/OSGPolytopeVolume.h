@@ -154,6 +154,9 @@ class OSG_BASE_DLLMAPPING PolytopeVolume : public Volume
 typedef PolytopeVolume* PolytopeVolumePtr;
 
 OSG_BASE_DLLMAPPING
+bool operator ==(const PolytopeVolume &b1, const PolytopeVolume &b2);
+
+inline
 bool operator !=(const PolytopeVolume &b1, const PolytopeVolume &b2);
 
 OSG_END_NAMESPACE

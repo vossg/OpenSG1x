@@ -183,12 +183,15 @@ void PolytopeVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 {
     // not implemented...
 }
-/*
+
 /// Equality comparisons
 OSG_BASE_DLLMAPPING
-bool operator ==(const PolytopeVolume &b1, const PolytopeVolume &b2)
+bool operator ==(const PolytopeVolume &OSG_CHECK_ARG(b1),
+                 const PolytopeVolume &OSG_CHECK_ARG(b2))
 {
+    FWARNING(("PolytopeVolume == NIY!\n"));
     // not implemented...
+    /*
     if(b1._numPlanes == b2._numPlanes){
         for(int i=0; i<b1._numPlanes; i++){
             if(b1.planes[i]!=b2.planes[i])
@@ -196,9 +199,10 @@ bool operator ==(const PolytopeVolume &b1, const PolytopeVolume &b2)
         }
         return(true);
     }
+    */
     return(false);
 }
-*/
+
 
 /***************************************************************************\
  *                           Instance methods                              *
