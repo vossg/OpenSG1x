@@ -102,7 +102,55 @@ VRMLToOSGAction::VRMLToOSGAction(void) :
  	 Inherited    (             ),
     _uiOptions    (CreateNormals),
     _pNameNodeMap (NULL         ),
-    _eTransferMode(CopyData     )
+    _eTransferMode(CopyData     ),
+    _pLightRoot   (NullFC       ),
+    _pLightLeave  (NullFC       ),
+    _pFileRoot    (NullFC       )
+{
+}
+
+void VRMLToOSGAction::start(VRMLNode *)
+{
+    _pLightRoot  = NullFC;
+    _pLightLeave = NullFC;
+    _pFileRoot   = NullFC;
+}
+
+void VRMLToOSGAction::stop(VRMLNode *pNode)
+{
+    if(pNode != NULL)
+    {
+        VRMLBindings::NodeBinderPtr pNodeBinder = pNode->getBinder();
+
+        if(pNodeBinder != NULL)
+        {
+            _pFileRoot = NodePtr::dcast(pNodeBinder->getFCPtr());
+
+            if(_pFileRoot != NullFC)
+            {
+                if(_pLightLeave != NullFC)
+                {
+                    beginEditCP(_pLightLeave, Node::ChildrenFieldMask);
+                    {
+                        _pLightLeave->addChild(_pFileRoot);
+                    }
+                    endEditCP  (_pLightLeave, Node::ChildrenFieldMask);
+                }
+            }
+        }
+    }
+}
+
+void VRMLToOSGAction::start(VRMLNodeStoreIt,
+                            VRMLNodeStoreIt)
+{
+    _pLightRoot  = NullFC;
+    _pLightLeave = NullFC;
+    _pFileRoot   = NullFC;
+}
+
+void VRMLToOSGAction::stop(VRMLNodeStoreIt nodesBeginIt,
+                           VRMLNodeStoreIt nodesEndIt  )
 {
 }
 
@@ -147,6 +195,69 @@ void VRMLToOSGAction::setDataTransferMode(DataTransferMode eTransferMode)
 VRMLToOSGAction::DataTransferMode VRMLToOSGAction::getDataTransferMode(void)
 {
     return _eTransferMode;
+}
+
+
+void VRMLToOSGAction::dropLight(LightBasePtr pLight)
+{
+    if(pLight == NullFC)
+        return;
+
+    if(_pLightRoot == NullFC)
+    {
+        _pLightRoot  = Node::create();
+        _pLightLeave = _pLightRoot;
+
+        beginEditCP(_pLightRoot, Node::CoreFieldMask);
+        {
+            _pLightRoot->setCore(pLight);
+        }
+        endEditCP  (_pLightRoot, Node::CoreFieldMask);
+    }
+    else
+    {
+        NodePtr pNode = Node::create();
+
+        beginEditCP(pNode, 
+                    Node::CoreFieldMask    |
+                    Node::ChildrenFieldMask);
+        {
+            pNode->setCore ( pLight    );
+            pNode->addChild(_pLightRoot);
+        }
+        endEditCP  (pNode, 
+                    Node::CoreFieldMask    |
+                    Node::ChildrenFieldMask);
+        
+        _pLightRoot = pNode;
+    }
+}
+
+NodePtr VRMLToOSGAction::getLightRoot(void)
+{
+    return _pLightRoot;
+}
+
+NodePtr VRMLToOSGAction::getLightLeave(void)
+{
+    return _pLightLeave;
+}
+
+NodePtr VRMLToOSGAction::getFileRoot(void)
+{
+    return _pFileRoot;
+}
+
+NodePtr VRMLToOSGAction::getRoot(void)
+{
+    if(_pLightRoot != NullFC)
+    {
+        return _pLightRoot;
+    }
+    else
+    {
+        return _pFileRoot;
+    }
 }
 
 

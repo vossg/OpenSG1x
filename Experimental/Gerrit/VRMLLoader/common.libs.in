@@ -1,7 +1,7 @@
 # Add our directory to the System Lib
 
 if test $enable_gv_beta = yes; then
-    ac_gdz_package_dirs_System="${ac_gdz_package_dirs_System} Experimental/Gerrit/VRMLLoader@ " 
+    ac_gdz_package_dirs_WindowGLUT="${ac_gdz_package_dirs_WindowGLUT} Experimental/Gerrit/VRMLLoader@ " 
 fi
 
 #ac_gdz_package_testinc_dep_System="${ac_gdz_package_testinc_dep_System} Experimental/OSGWriter" 

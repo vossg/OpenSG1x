@@ -293,19 +293,27 @@ int main (int argc, char **argv)
 
     // light
     
+//#define OSG_HLIGHT
+
     NodePtr dlight = Node::create();
+#ifdef OSG_HLIGHT
     DirectionalLightPtr dl = DirectionalLight::create();
+#else
+    GroupPtr dl = Group::create();
+#endif
 
     beginEditCP(dlight);
     dlight->setCore( dl );
     endEditCP(dlight);
     
+#ifdef OSG_HLIGHT
     beginEditCP(dl);
-    dl->setAmbient( .3, .3, .3, 1 );
-    dl->setDiffuse( 1, 1, 1, 1 );
+    dl->setAmbient( .2, .2, .2, 1 );
+    dl->setDiffuse( .8, .8, .8, 1 );
     dl->setDirection(0,0,1);
     dl->setBeacon( b1n);
     endEditCP(dl);
+#endif
 
     // root
     root = Node::create();
@@ -345,7 +353,8 @@ int main (int argc, char **argv)
     aVRMLToOSG.setNameNodeMap(pFile->getNameNodeMap());
     aVRMLToOSG.setDataTransferMode(VRMLToOSGAction::SwapData);
     aVRMLToOSG.apply(pFile->getFileTree());
-    
+
+/*    
     pNodeBinder = (pFile->getFileTree())->getBinder();
     
     if(pNodeBinder != NULL)
@@ -365,7 +374,13 @@ int main (int argc, char **argv)
     {
         fprintf(stderr, "Binder NULL\n");
     }
-    
+    */
+
+    file = aVRMLToOSG.getRoot();
+
+    if(file == NullFC)
+        return 0;
+ 
     file->updateVolume();
 
     Vec3f min,max;

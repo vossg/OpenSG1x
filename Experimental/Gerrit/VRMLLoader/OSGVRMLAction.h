@@ -292,6 +292,7 @@ class VRMLStaticActionMixin : public VRMLAction
     //-----------------------------------------------------------------------
 
     FunctorStore _vTravFunctors;
+    UInt32       _uiTraverseDepth;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -299,9 +300,17 @@ class VRMLStaticActionMixin : public VRMLAction
 
     VRMLStaticActionMixin(void);
 
-    FunctorStore *getDefaultTravFunctors(void           );
+            FunctorStore    *getDefaultTravFunctors(void           );
 
-    ActionResult  traverse              (VRMLNode *pNode);
+            ActionResult     traverse(VRMLNode *pNode);
+
+    virtual void             start   (VRMLNode        *pNode);
+    virtual void             stop    (VRMLNode        *pNode);
+
+    virtual void             start   (VRMLNodeStoreIt  nodesBeginIt,
+                                      VRMLNodeStoreIt  nodesEndIt  );
+    virtual void             stop    (VRMLNodeStoreIt  nodesBeginIt,
+                                      VRMLNodeStoreIt  nodesEndIt  );
 
   public :
 

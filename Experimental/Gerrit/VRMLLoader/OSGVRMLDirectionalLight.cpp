@@ -48,10 +48,18 @@
 #include <iostream>
 
 #include "OSGVRMLDirectionalLight.h"
-
 #include <OSGDataElementDesc.h>
+#include <OSGVRMLToOSGAction.h>
+#include <OSGGroup.h>
 
 OSG_USING_NAMESPACE
+
+OSG_BEGIN_NAMESPACE
+
+VRMLAction::ActionResult osgVRMLDirectionalLightToOpenSG(VRMLNode   &oNode,
+                                                         VRMLAction *pAction);
+
+OSG_END_NAMESPACE
 
 //---------------------------------------------------------------------------
 //  Class
@@ -83,7 +91,7 @@ VRMLObjectType VRMLDirectionalLight::_type(
     "VRMLLight",
     "VRMLNodes",
     (VRMLProtoCreateF) &VRMLDirectionalLight::createEmpty,
-    NULL, // Init
+    VRMLDirectionalLight::init,
     vrmlDirectionalLightDescInserter,
     true);
 
@@ -108,6 +116,17 @@ VRMLObjectType VRMLDirectionalLight::_type(
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+void VRMLDirectionalLight::init(void)
+{
+    VRMLToOSGAction::registerDefaultTrav(
+        VRMLDirectionalLight::getClassType(),
+        osgTypedFunctionFunctor2Ref<
+            VRMLAction::ActionResult,
+            VRMLNode,
+            VRMLAction *>(osgVRMLDirectionalLightToOpenSG));
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -171,6 +190,162 @@ SFVec3f *VRMLDirectionalLight::getSFDirection(void)
     return &_sfDirection;
 }
 
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+VRMLDirectionalLightBinder::VRMLDirectionalLightBinder(void) :
+     Inherited(           ),
+    _pLight   (OSG::NullFC)
+{
+}
+
+VRMLDirectionalLightBinder::~VRMLDirectionalLightBinder(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
+void VRMLDirectionalLightBinder::init(VRMLToOSGAction *pAction)
+{
+}
+
+void VRMLDirectionalLightBinder::finish(VRMLToOSGAction *pAction)
+{
+    if(_pNode == NULL)
+        return;
+
+    VRMLDirectionalLight *pNode = 
+        dynamic_cast<VRMLDirectionalLight *>(_pNode);
+
+    if(pNode == NULL)
+        return;
+
+    NodePtr  pBeaconNode = Node ::create();
+    GroupPtr pBeaconCore = Group::create();
+
+    beginEditCP(pBeaconNode, Node::CoreFieldMask);
+    {
+        pBeaconNode->setCore(pBeaconCore);
+    }
+    endEditCP  (pBeaconCore, Node::CoreFieldMask);
+
+    _pFieldContainer = pBeaconNode;
+
+    _pLight = DirectionalLight::create();
+
+
+    Color4f cCol;
+
+    Real32     rAmbientIntens = pNode->getSFAmbientIntensity()->getValue();
+    Real32     rIntensity     = pNode->getSFIntensity       ()->getValue();
+    SFColor3f *pColor         = pNode->getSFColor           ();
+
+    cCol.setValuesRGBA(pColor->getValue()[0] * rAmbientIntens,
+                       pColor->getValue()[1] * rAmbientIntens,
+                       pColor->getValue()[2] * rAmbientIntens,
+                       1.f);
+
+    beginEditCP(_pLight);
+    {
+        _pLight->setAmbient(cCol);
+
+        _pLight->setBeacon(pBeaconNode);
+
+        cCol.setValuesRGBA(pColor->getValue()[0] * rIntensity,
+                           pColor->getValue()[1] * rIntensity,
+                           pColor->getValue()[2] * rIntensity,
+                           1.f);
+
+        _pLight->setDiffuse (cCol);
+
+        _pLight->setDirection(-pNode->getSFDirection()->getValue()[0],
+                              -pNode->getSFDirection()->getValue()[1],
+                              -pNode->getSFDirection()->getValue()[2]);
+
+        _pLight->setOn(pNode->getSFOn()->getValue());
+
+        _pLight->setSpecular(cCol);
+    }
+    endEditCP  (_pLight);
+
+    pAction->dropLight(_pLight);
+}
+
+
+VRMLAction::ActionResult OSG::osgVRMLDirectionalLightToOpenSG(
+    VRMLNode   &oNode,
+    VRMLAction *pAction)
+{
+#ifdef OSG_DEBUG_VRMLTOOSG
+    fprintf(stderr, 
+            "Visit Directional Light : %s\n", 
+            oNode.getName().str());
+#endif
+
+    VRMLToOSGAction      *pConvAction = 
+        dynamic_cast<VRMLToOSGAction      *>(pAction);
+
+    VRMLDirectionalLight *pLight      = 
+        dynamic_cast<VRMLDirectionalLight *>(&oNode );
+
+    if(pConvAction != NULL && pLight != NULL)
+    {
+        VRMLDirectionalLightBinder *pBinder = 
+            new VRMLDirectionalLightBinder();
+
+        pBinder->setNode(pLight);
+        pBinder->init   (pConvAction);
+
+        pBinder->finish(pConvAction);
+        oNode.setBinder(pBinder);
+    }
+
+    return VRMLAction::Continue;
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

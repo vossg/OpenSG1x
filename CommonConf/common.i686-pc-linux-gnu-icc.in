@@ -82,6 +82,8 @@ WARNINGS_C_OFF	:= # -woff 835
 # rubens
 # warning(3322): omission of explicit type is nonstandard ("int" assumed)
 
+WARNINGS_CPP_ERR := -we167
+
 WARNINGS_CPP_OFF := -wd981
 
 # -Wcast-qual  (removed from default because of qt2.2
@@ -133,7 +135,7 @@ CFLAGS   = $(WARNINGS) $(WARNINGS_C_OFF) -D__STDC__ $(DEFINES) 	\
 
 CCFLAGS   = $(WARNINGS)   $(WARNINGS_CPP_OFF) $(DEFINES)		\
 		    $(COMPILER)   $(LANG_FLAGS)       $(COMP_OPTIMIZE) 	\
-			$(COMP_DEBUG) 
+			$(COMP_DEBUG) $(WARNINGS_CPP_OFF)
 
 CCFLAGS_EXT     := $(SOURCE_DEFINES) $(SYSTEM_DEFINES) $(DEP_PLATTFORMDEF) $(COMPILER) 
 

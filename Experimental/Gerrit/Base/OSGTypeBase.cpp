@@ -109,12 +109,20 @@ TypeBase::TypeBase(const TypeBase &source) :
     _bTypeBaseInitialized(source._bTypeBaseInitialized)
 {
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
+/*
         fprintf(stderr, "GV_MEM_TYPE_DBG : (%u|%lf|%I64d) cc (%p|%s|%u)\n", 
                 0,
                 getSystemTime(), 
                 getPerfCounter(),
                 this,
                 _szName.str());
+                */
+
+        fprintf(stderr, "GV_MEM_TYPE_DBG : (%u) cc (%p|%s|%u)\n", 
+                0,
+                this,
+                _szName.str(),
+                _uiTypeId);
 #endif
 }
 
@@ -187,10 +195,19 @@ TypeBase::TypeBase(const Char8 *szName,
     _uiTypeId = TypeFactory::the()->registerType(this);
 
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
+/*
         fprintf(stderr, "GV_MEM_TYPE_DBG : (%u|%lf|%ld) c (%p|%s|%u)\n", 
                 0,
                 getSystemTime(), 
                 getPerfCounter(),
+                this,
+                _szName.str(),
+                _uiTypeId);
+                */
+
+        fprintf(stderr, "GV_MEM_TYPE_DBG : (%u|%f) c (%p|%s|%u)\n", 
+                0,
+                getSystemTime(),
                 this,
                 _szName.str(),
                 _uiTypeId);
@@ -201,6 +218,7 @@ TypeBase::~TypeBase(void)
 {
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
 //I64
+/*
         fprintf(stderr, "GV_MEM_TYPE_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
                 0,
                 getSystemTime(), 
@@ -208,6 +226,7 @@ TypeBase::~TypeBase(void)
                 this,
                 _szName.str(),
                 _uiTypeId);
+                */
 #endif
 }
 

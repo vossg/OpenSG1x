@@ -51,7 +51,19 @@
 
 #include <OSGDataElementDesc.h>
 
+#include "OSGVRMLToOSGAction.h"
+
+#include <OSGGroup.h>
+#include <OSGNode.h>
+
 OSG_USING_NAMESPACE
+
+OSG_BEGIN_NAMESPACE
+
+VRMLAction::ActionResult osgVRMLPointLightToOpenSG(VRMLNode   &oNode,
+                                                    VRMLAction *pAction);
+
+OSG_END_NAMESPACE
 
 //---------------------------------------------------------------------------
 //  Class
@@ -106,7 +118,7 @@ VRMLObjectType VRMLPointLight::_type(
     "VRMLLight",
     "VRMLNodes",
     (VRMLProtoCreateF) &VRMLPointLight::createEmpty,
-    NULL, // Init
+    VRMLPointLight::init, // Init
     vrmlPointLightDescInserter,
     true);
 
@@ -131,6 +143,17 @@ VRMLObjectType VRMLPointLight::_type(
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+void VRMLPointLight::init(void)
+{
+    VRMLToOSGAction::registerDefaultTrav(
+        VRMLPointLight::getClassType(),
+        osgTypedFunctionFunctor2Ref<
+            VRMLAction::ActionResult,
+            VRMLNode,
+            VRMLAction *>(osgVRMLPointLightToOpenSG));
+
+}
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -207,6 +230,166 @@ SFReal32 *VRMLPointLight::getSFRadius(void)
     return &_sfRadius;
 }
 
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+VRMLPointLightBinder::VRMLPointLightBinder(void) :
+     Inherited(      ),
+    _pLight   (NullFC)
+{
+}
+
+VRMLPointLightBinder::~VRMLPointLightBinder(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
+void VRMLPointLightBinder::init(VRMLToOSGAction *pAction)
+{
+}
+
+void VRMLPointLightBinder::finish(VRMLToOSGAction *pAction)
+{
+    if(_pNode == NULL)
+        return;
+
+    VRMLPointLight *pNode = dynamic_cast<VRMLPointLight *>(_pNode);
+
+    if(pNode == NULL)
+        return;
+
+    NodePtr  pBeaconNode = Node ::create();
+    GroupPtr pBeaconCore = Group::create();
+
+    beginEditCP(pBeaconNode, Node::CoreFieldMask);
+    {
+        pBeaconNode->setCore(pBeaconCore);
+    }
+    endEditCP  (pBeaconCore, Node::CoreFieldMask);
+
+    _pFieldContainer = pBeaconNode;
+
+    _pLight = PointLight::create();
+
+
+    Color4f cCol;
+
+    Real32     rAmbientIntens = pNode->getSFAmbientIntensity()->getValue();
+    Real32     rIntensity     = pNode->getSFIntensity       ()->getValue();
+    SFColor3f *pColor         = pNode->getSFColor           ();
+
+    cCol.setValuesRGBA(pColor->getValue()[0] * rAmbientIntens,
+                       pColor->getValue()[1] * rAmbientIntens,
+                       pColor->getValue()[2] * rAmbientIntens,
+                       1.f);
+
+    beginEditCP(_pLight);
+    {
+        _pLight->setAmbient(cCol);
+
+        _pLight->setAttenuation(pNode->getSFAttenuation()->getValue()[0],
+                                pNode->getSFAttenuation()->getValue()[1],
+                                pNode->getSFAttenuation()->getValue()[2]);
+
+        _pLight->setBeacon(pBeaconNode);
+
+        cCol.setValuesRGBA(pColor->getValue()[0] * rIntensity,
+                           pColor->getValue()[1] * rIntensity,
+                           pColor->getValue()[2] * rIntensity,
+                           1.f);
+
+        _pLight->setDiffuse (cCol);
+
+        _pLight->setOn(pNode->getSFOn()->getValue());
+
+        _pLight->setPosition(pNode->getSFLocation()->getValue()[0],
+                             pNode->getSFLocation()->getValue()[1],
+                             pNode->getSFLocation()->getValue()[2]);
+
+        _pLight->setSpecular(cCol);
+    }
+    endEditCP  (_pLight);
+
+    pAction->dropLight(_pLight);
+}
+
+
+VRMLAction::ActionResult OSG::osgVRMLPointLightToOpenSG(
+    VRMLNode   &oNode,
+    VRMLAction *pAction)
+{
+#ifdef OSG_DEBUG_VRMLTOOSG
+    fprintf(stderr, 
+            "Visit Point Light : %s\n", 
+            oNode.getName().str());
+#endif
+
+    VRMLToOSGAction *pConvAction = 
+        dynamic_cast<VRMLToOSGAction *>(pAction);
+
+    VRMLPointLight  *pLight      = 
+        dynamic_cast<VRMLPointLight  *>(&oNode );
+
+    if(pConvAction != NULL && pLight != NULL)
+    {
+        VRMLPointLightBinder *pBinder     = 
+            new VRMLPointLightBinder();
+
+        pBinder->setNode(pLight);
+        pBinder->init   (pConvAction);
+
+        pBinder->finish(pConvAction);
+        oNode.setBinder(pBinder);
+    }
+
+    return VRMLAction::Continue;
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

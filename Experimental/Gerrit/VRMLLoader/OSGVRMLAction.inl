@@ -122,8 +122,9 @@ void VRMLStaticActionMixin<StaticDescT>::registerDefaultTrav(
 
 template <class StaticDescT> inline
 VRMLStaticActionMixin<StaticDescT>::VRMLStaticActionMixin(void) :
-	 Inherited    (),
-    _vTravFunctors()
+	 Inherited      ( ),
+    _vTravFunctors  ( ),
+    _uiTraverseDepth(0)
 {
     if(_pDefaultTravFunctors != NULL)
         _vTravFunctors = *_pDefaultTravFunctors;
@@ -176,6 +177,29 @@ VRMLAction::ActionResult
     return returnValue;
 }
 
+template <class StaticDescT> inline
+void VRMLStaticActionMixin<StaticDescT>::start(VRMLNode *)
+{
+}
+
+template <class StaticDescT> inline
+void VRMLStaticActionMixin<StaticDescT>::stop(VRMLNode *)
+{
+}
+
+
+template <class StaticDescT> inline
+void VRMLStaticActionMixin<StaticDescT>::start(VRMLNodeStoreIt,
+                                               VRMLNodeStoreIt)
+{
+}
+
+template <class StaticDescT> inline
+void VRMLStaticActionMixin<StaticDescT>::stop(VRMLNodeStoreIt,
+                                              VRMLNodeStoreIt)
+{
+}
+
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
@@ -194,6 +218,13 @@ VRMLAction::ActionResult
         VRMLNodeStoreIt nodesEndIt)
 {
     ActionResult returnValue = Continue;
+
+    if(_uiTraverseDepth == 0)
+    {
+        start(nodesBeginIt, nodesEndIt);
+    }
+
+    ++_uiTraverseDepth;
 
     while(nodesBeginIt != nodesEndIt)
     {
@@ -214,6 +245,16 @@ VRMLAction::ActionResult
         ++nodesBeginIt;
     }
 
+    if(_uiTraverseDepth > 0)
+    {
+        --_uiTraverseDepth;
+    }
+
+    if(_uiTraverseDepth == 0)
+    {
+        stop (nodesBeginIt, nodesEndIt);
+    }
+
     return returnValue;
 }
 
@@ -224,9 +265,26 @@ VRMLAction::ActionResult
 {
     ActionResult returnValue = Continue;
 
+    if(_uiTraverseDepth == 0)
+    {
+        start(pRoot);
+    }
+
+    ++_uiTraverseDepth;
+
     if(pRoot != NULL)
     {
         returnValue = traverse(pRoot);
+    }
+
+    if(_uiTraverseDepth > 0)
+    {
+        --_uiTraverseDepth;
+    }
+
+    if(_uiTraverseDepth == 0)
+    {
+        stop (pRoot);
     }
 
     return returnValue;

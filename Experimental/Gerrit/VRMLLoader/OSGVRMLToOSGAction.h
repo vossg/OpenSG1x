@@ -49,6 +49,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGVRMLAction.h>
 #include <OSGIDString.h>
+#include <OSGLightBase.h>
 
 #include <map>
 
@@ -194,9 +195,21 @@ class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
     NameNodeMap      *_pNameNodeMap;
     DataTransferMode  _eTransferMode;
 
+    NodePtr           _pLightRoot;
+    NodePtr           _pLightLeave;
+    NodePtr           _pFileRoot;
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
+
+    virtual void start(VRMLNode        *pNode       );
+    virtual void stop (VRMLNode        *pNode       );
+
+    virtual void start(VRMLNodeStoreIt  nodesBeginIt,
+                       VRMLNodeStoreIt  nodesEndIt  );
+    virtual void stop (VRMLNodeStoreIt  nodesBeginIt,
+                       VRMLNodeStoreIt  nodesEndIt  );
 
   public :
 
@@ -221,6 +234,16 @@ class OSG_VRML_DLLMAPPING VRMLToOSGAction : public VRMLToOSGMixin
 
     void             setDataTransferMode(DataTransferMode  eTransferMode);
     DataTransferMode getDataTransferMode(void                           );
+
+
+    void             dropLight          (LightBasePtr      pLight       );
+
+    NodePtr          getLightRoot       (void                           );
+    NodePtr          getLightLeave      (void                           );
+
+    NodePtr          getFileRoot        (void                           );
+
+    NodePtr          getRoot            (void                           );
 };
 
 //---------------------------------------------------------------------------
