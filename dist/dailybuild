@@ -146,9 +146,6 @@ EOF
 
     # loop through the file, counting lines, highlight error & warning lines
 
-    # ARGL: Linux/Cygwin bash/sh/ksh forget the array variables after the loop!!!
-    # that's why we have to use the zsh for this script. What's going on here?
-
     if test -s $errfile ;
     then
  	ind=1
@@ -331,7 +328,7 @@ extra_args=""
 par_jobs=1
 config_shell=sh
 mail=echo
-do_copy='cp $out_html* $basedir/opensg_dailybuild.$today.source.tgz $log_destination'
+do_copy='cp $out_html* $log_destination'
 grep=grep
 
 loginfo=""
@@ -374,6 +371,11 @@ do
                         ;;
                 --with-png)
                         png_args="--with-png=$2"
+                        shift
+                        shift
+                        ;;
+                --par_jobs)
+                        par_jobs=$2
                         shift
                         shift
                         ;;
@@ -433,8 +435,9 @@ case $system in
 	tif_args=${tif_args:="--with-tif=/igd/a4/software/IRIX/"}
 	jpeg_args=${jpeg_args:="--with-jpeg=/igd/a4/software/IRIX/"}
  	png_args=${png_args:="--with-png=/igd/a4/software/IRIX/"}
-   	par_jobs=6
+   	par_jobs=${par_jobs:=6}
 	compiler=${compiler:=CC}
+        do_copy='cp $out_html* $basedir/opensg_dailybuild.$today.source.tgz $log_destination'
 	mail=/usr/sbin/Mail
         make=/sgi/bin/gmake
 	export PATH=/igd/a4/software/IRIX/bin/:$PATH
@@ -449,14 +452,14 @@ case $system in
 	tif_args=${tif_args:="--with-tif=/igd/a4/software/HP-UX/"}
 	jpeg_args=${jpeg_args:="--with-jpeg=/igd/a4/software/HP-UX/"}
  	png_args=${png_args:="--with-png=/igd/a4/software/HP-UX/"}
-   	par_jobs=2
+   	par_jobs=${par_jobs:=2}
 	compiler=${compiler:=aCC}
 	mail=/usr/bin/mailx
         # Need a decent grep here
         grep=/igd/a4/software/HP-UX/bin/grep
 	export PATH=/igd/a4/software/HP-UX/bin/:$PATH
         loginfo="OS: `/bin/uname -a` <br>"
-        loginfo="$loginfo Compiler Version: `CC --version 2>&1` <br>"
+        loginfo="$loginfo Compiler Version: `aCC --version 2>&1` <br>"
         # Move HP-toxic stuff out of the way
         Common/prep_hp
 	;;
@@ -468,7 +471,7 @@ case $system in
 	tif_args=${tif_args:="--with-tif"}
 	jpeg_args=${jpeg_args:="--with-jpeg"}
  	png_args=${png_args:="--with-png"}
-    	par_jobs=2
+    	par_jobs=${par_jobs:=2}
 	compiler=${compiler:=g++}
 	config_shell=bash
 	mail=/usr/bin/Mail
@@ -480,17 +483,16 @@ case $system in
 
     *-pc-cygwin )	
     	
-	qt_args=${qt_args:="--with-qt=`pwd`/../packages/qt-3.04"}
     	glut_args=${glut_args:="--with-glut=`pwd`/../packages/glut_3.7"}
 	tif_args=${tif_args:="--with-tif=`pwd`/../packages/tiff-3.5.4"}
-    	par_jobs=1
+    	par_jobs=${par_jobs:=2}
 	compiler=${compiler:=icl50}
 	config_shell=bash
 	mail=`pwd`/../do_send_mail
 	# LOCAL: for the cygwins that don't have full NFS access
 	# note: rcp is a Windows command and thus can't handle /cygdrive pathes
         # and it can't handle <drive>:<file> pathes either, mistaking them for hosts :(
-	do_copy='cd $basedir ; rcp -b $link_html* opensg_dailybuild.$today.source.tgz rubens:$log_destination'
+	do_copy='cd $basedir ; rcp -b $link_html* tizian:$log_destination'
 	export PATH=$PATH
         loginfo="OS: `uname -a` <br>"
 	;;
@@ -498,13 +500,12 @@ case $system in
     *-apple-darwin* )	
     	
     	glut_args="--with-glut"
-    	par_jobs=1
+    	par_jobs=${par_jobs:=1}
 	compiler=${compiler:=cc}
 	config_shell=sh
 	mail=/usr/bin/Mail
 	# LOCAL: for the cygwins that don't have full NFS access
-	do_copy=rcp
-	log_destination="rubens:$log_destination"
+        do_copy='rcp $out_html* tizian:$log_destination'
 	export PATH=$PATH
         loginfo="OS: `uname -a` <br>"
         # get rid of version number

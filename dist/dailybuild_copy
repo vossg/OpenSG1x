@@ -4,7 +4,7 @@
 source ~/.bashrc
 
 # get the latest dailybuild script
-rcp rubens:/igd/a4/opensg/reiners/opensg/OpenSG/dist/dailybuild .
+rcp tizian:/igd/a4/opensg/reiners/opensg/OpenSG/dist/dailybuild .
 
 # remove old logs
 rm -f opensg_dailybuild*

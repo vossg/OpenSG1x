@@ -8,4 +8,4 @@ do
 	(( ind=$ind + 1 ))
 done
 
-rsh rubens /usr/sbin/Mail ${args[*]}
+rsh tizian /usr/sbin/Mail ${args[*]}
