@@ -13,6 +13,7 @@
 #include <OSGRegisterCombinersChunk.h>
 
 #include <OSGOSGWriter.h>
+#include <OSGImage.h>
 
 OSG_USING_NAMESPACE
 
@@ -67,7 +68,7 @@ void setupRegComb(Matrix &m, bool usetex)
             m3(m[2][0]/2+.5,m[2][1]/2+.5,m[2][2]/2+.5,0),
             m4(m[3][0]/2+.5,m[3][1]/2+.5,m[3][2]/2+.5,0);
     
-    Color4f selectR(1,0,0,0), selectG(0,1,0,0), selectB(0,0,1,0);
+    Color4f selectR(1,0,0,0), selectG(0,1,0,0), selectB(0,0,1,0), one(1,1,1,1);
  
     GLenum source = (usetex ? GL_TEXTURE0_ARB : GL_PRIMARY_COLOR_NV);
  
@@ -75,7 +76,7 @@ void setupRegComb(Matrix &m, bool usetex)
     
     rchunk->clearCombiners();
 
-    // first combiner: spare0 = dot(col, m1), spare1 = dot(col,m2)      
+    // first combiner: spare0 = (col.m1), spare1 = (col.m2)      
      
     rchunk->setCombinerColors(0, m1, m2);
 
@@ -88,7 +89,7 @@ void setupRegComb(Matrix &m, bool usetex)
         GL_NONE, GL_NONE,                            // scale, bias
         GL_TRUE, GL_TRUE, GL_FALSE );                // ABdot, CDdot, muxSum
 
-    // second combiner: tex0 = dot(col, m3), spare0 = spare0.r   
+    // second combiner: tex0 = (col.m3), spare0 = (col.m1)_r 
     
     rchunk->setCombinerColors(1, m3, selectR);
 
@@ -101,12 +102,27 @@ void setupRegComb(Matrix &m, bool usetex)
         GL_NONE, GL_NONE,                             // scale, bias
         GL_TRUE, GL_FALSE, GL_FALSE );                 // ABdot, CDdot, muxSum
 
+    // third combiner: spare0 = (col.m1)_r + m4
+    
+    rchunk->setCombinerColors(2, one, m4);
+
+    rchunk->setCombinerRGB( 2,
+        source,                GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable A
+        GL_CONSTANT_COLOR0_NV, GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable B
+        GL_CONSTANT_COLOR1_NV, GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable C
+        GL_CONSTANT_COLOR0_NV, GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable D
+        GL_DISCARD_NV, GL_DISCARD_NV, GL_SPARE0_NV, // ABout, CDout, Sumout
+        GL_NONE, GL_NONE,                             // scale, bias
+        GL_FALSE, GL_FALSE, GL_FALSE );                 // ABdot, CDdot, muxSum
+
     // final combiner 
     
     rchunk->setColor0(selectG);
     rchunk->setColor1(selectB);
     
     // RGB = D + AB + (1-A)C
+    //     = (col.m1)_r + m4 + (col.m2)_g + (1,0,1).((col.m3)_b)
+    //
     rchunk->setFinalCombiner( 
          GL_CONSTANT_COLOR0_NV, GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable A
          GL_SPARE1_NV, GL_UNSIGNED_IDENTITY_NV, GL_RGB,            // variable B
@@ -136,19 +152,19 @@ void keyboard(unsigned char k, int, int)
                 break;    
     case 'm':   {
                 Matrix m;
-                cout << "Enter Matrix:" << endl;
-                cin >> m[0][0] >> m[0][1] >> m[0][2]
-                    >> m[1][0] >> m[1][1] >> m[1][2]
-                    >> m[2][0] >> m[2][1] >> m[2][2];
+                std::cout << "Enter Matrix:" << endl;
+                std::cin >> m[0][0] >> m[0][1] >> m[0][2]
+                         >> m[1][0] >> m[1][1] >> m[1][2]
+                         >> m[2][0] >> m[2][1] >> m[2][2];
                 setupRegComb(m,true);
                 }
                 break;
     case 'n':   {
                 Matrix m;
-                cout << "Enter Matrix:" << endl;
-                cin >> m[0][0] >> m[0][1] >> m[0][2]
-                    >> m[1][0] >> m[1][1] >> m[1][2]
-                    >> m[2][0] >> m[2][1] >> m[2][2];
+                std::cout << "Enter Matrix:" << endl;
+                std::cin >> m[0][0] >> m[0][1] >> m[0][2]
+                         >> m[1][0] >> m[1][1] >> m[1][2]
+                         >> m[2][0] >> m[2][1] >> m[2][2];
                 setupRegComb(m,false);
                 }
                 break;
@@ -180,9 +196,13 @@ int main(int argc, char **argv)
     // create the texture
     TextureChunkPtr tx1 = TextureChunk::create();
    
-    UChar8 imgdata1[] =
+    UInt8 imgdata1[] =
         {  255,0,0,  0,255,0,  0,0,255, 255,255,255 };
-    Image *img1 = new Image(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata1 );
+
+    ImagePtr img1 = Image::create();    
+    beginEditCP(img1);
+    img1->set(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata1 );
+    endEditCP(img1);
     
     beginEditCP(tx1);
     tx1->setImage(img1); // NOTE: the image is NOT copied, the variable
@@ -197,7 +217,7 @@ int main(int argc, char **argv)
     
     // Matrix to transform the colors with
     
-    Matrix m(1,1,1,0, 0,1,0,0, 0,0,1,0, 0,0,0,1);
+    Matrix m(1,1,1,0, 0,1,0,0, 0,0,1,0, 0,0,0.5,1);
     
     rchunk = RegisterCombinersChunk::create();
     
@@ -205,7 +225,7 @@ int main(int argc, char **argv)
     
     setupRegComb(m,true);
      
-    OSGWriter writer( cout, 4 );
+    OSGWriter writer( std::cout, 4 );
     writer.write( rchunk );
      
     // create the corrected material
