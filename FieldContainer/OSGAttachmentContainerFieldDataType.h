@@ -41,6 +41,7 @@
 
 #include <OSGFieldDataType.h>
 #include <OSGFieldContainerPtrForward.h>
+#include <OSGFieldContainerFieldDataType.h>
 
 OSG_BEGIN_NAMESPACE
 

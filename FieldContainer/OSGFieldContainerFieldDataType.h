@@ -59,8 +59,8 @@ OSG_BEGIN_NAMESPACE
     \ingroup MultiFields
 */
 
-template <bool bHasParentT>
-struct FieldTraitsRecurseMapper<FieldContainerPtr, bHasParentT> : 
+template <bool bTypeHasParentT>
+struct FieldTraitsRecurseMapper<FieldContainerPtr, bTypeHasParentT> : 
     public FieldTraitsRecurseBase<FieldContainerPtr>
 {
     enum                    { bHasParent = 0x00       };

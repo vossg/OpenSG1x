@@ -234,13 +234,14 @@ struct FieldTraitsIntegralRecurseMapper :
     \brief  
 */
 
-template <class FieldTypeT, bool bHasParent>
+template <class FieldTypeT, bool bTypeHasParent>
 struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
 {
     typedef typename FieldTypeT::Inherited       Inherited;
     typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
 
-    typedef typename osgIF<bHasParent == true,
+
+    typedef typename osgIF<bTypeHasParent == true,
                            FieldDataTraits<Inherited>, 
                            FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
         MappedTrait;
@@ -290,13 +291,13 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
     \brief  
 */
 
-template <class FieldTypeT, bool bHasParent>
+template <class FieldTypeT, bool bTypeHasParent>
 struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
 {
     typedef typename FieldTypeT::Inherited       Inherited;
     typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
 
-    typedef typename osgIF<bHasParent == true,
+    typedef typename osgIF<bTypeHasParent == true,
                            FieldDataTraits1<Inherited>, 
                            FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
         MappedTrait;
@@ -345,13 +346,13 @@ struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
     \brief  
 */
 
-template <class FieldTypeT, bool bHasParent>
+template <class FieldTypeT, bool bTypeHasParent>
 struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase<FieldTypeT>
 {
     typedef typename FieldTypeT::Inherited       Inherited;
     typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
 
-    typedef typename osgIF<bHasParent == true,
+    typedef typename osgIF<bTypeHasParent == true,
                            FieldDataTraits2<Inherited>, 
                            FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
         MappedTrait;
