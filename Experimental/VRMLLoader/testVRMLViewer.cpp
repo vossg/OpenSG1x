@@ -11,45 +11,45 @@
 
 #include <GL/glut.h>
 
-#include <OpenSG/OSGFieldContainerPtr.h>
-#include <OpenSG/OSGFieldContainerFactory.h>
-#include <OpenSG/OSGSFSysTypes.h>
-#include <OpenSG/OSGFieldContainerPtr.h>
-#include <OpenSG/OSGNodePtr.h>
-#include <OpenSG/OSGVector.h>
-#include <OpenSG/OSGQuaternion.h>
-#include <OpenSG/OSGMatrix.h>
-#include <OpenSG/OSGMatrixUtility.h>
-#include <OpenSG/OSGBoxVolume.h>
-#include <OpenSG/OSGNode.h>
-#include <OpenSG/OSGGroup.h>
-#include <OpenSG/OSGThread.h>
-#include <OpenSG/OSGTransform.h>
-#include <OpenSG/OSGAttachment.h>
-#include <OpenSG/OSGMFVecTypes.h>
-#include <OpenSG/OSGAction.h>
-#include <OpenSG/OSGDrawAction.h>
-#include <OpenSG/OSGGeometry.h>
-#include <OpenSG/OSGGeoFunctions.h>
+#include <OSGFieldContainerPtr.h>
+#include <OSGFieldContainerFactory.h>
+#include <OSGSFSysTypes.h>
+#include <OSGFieldContainerPtr.h>
+#include <OSGNodePtr.h>
+#include <OSGVector.h>
+#include <OSGQuaternion.h>
+#include <OSGMatrix.h>
+#include <OSGMatrixUtility.h>
+#include <OSGBoxVolume.h>
+#include <OSGNode.h>
+#include <OSGGroup.h>
+#include <OSGThread.h>
+#include <OSGTransform.h>
+#include <OSGAttachment.h>
+#include <OSGMFVecTypes.h>
+#include <OSGAction.h>
+#include <OSGDrawAction.h>
+#include <OSGGeometry.h>
+#include <OSGGeoFunctions.h>
 
-#include <OpenSG/OSGDirectionalLight.h>
+#include <OSGDirectionalLight.h>
 
-#include <OpenSG/OSGViewport.h>
-#include <OpenSG/OSGCamera.h>
-#include <OpenSG/OSGWindow.h>
-#include <OpenSG/OSGGLUTWindow.h>
+#include <OSGViewport.h>
+#include <OSGCamera.h>
+#include <OSGWindow.h>
+#include <OSGGLUTWindow.h>
 //#include <OpenSG/OSGPipe.h>
-#include <OpenSG/OSGCamera.h>
-#include <OpenSG/OSGPerspectiveCamera.h>
-#include <OpenSG/OSGSolidBackground.h>
+#include <OSGCamera.h>
+#include <OSGPerspectiveCamera.h>
+#include <OSGSolidBackground.h>
 
-#include <OpenSG/OSGTrackball.h>
+#include <OSGTrackball.h>
 
-#include <OpenSG/OSGVRMLFile.h>
+#include <OSGVRMLFile.h>
 
-#include "OpenSG/OSGViewpointAttachment.h"
-#include <OpenSG/OSGVRMLTransform.h>
-#include <OpenSG/OSGMField.h>
+#include "OSGViewpointAttachment.h"
+#include <OSGVRMLTransform.h>
+#include <OSGMField.h>
 
 OSG::DrawAction * ract;
 OSG::Bool doWire = false;
