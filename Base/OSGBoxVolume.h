@@ -217,7 +217,7 @@ public:
   friend Bool operator ==(const BoxVolume &b1, const BoxVolume &b2);
 
   /// Unequality comparisons
-  inline friend bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
+  inline friend Bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
 
   /// Assignment operator
   const BoxVolume &operator =(const BoxVolume &b1);

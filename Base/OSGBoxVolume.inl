@@ -40,8 +40,8 @@ OSG_BEGIN_NAMESPACE
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class BoxVolume;
-bool operator ==(const BoxVolume &b1, const BoxVolume &b2);
-bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
+Bool operator ==(const BoxVolume &b1, const BoxVolume &b2);
+Bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
 ostream& operator<< (ostream & os, const BoxVolume &obj);
 #endif
 
@@ -172,7 +172,7 @@ void BoxVolume::getSize(Vec3f &vec) const
 
 
 /// Inequality comparisons
-bool operator != (const BoxVolume &b1, const BoxVolume &b2)
+Bool operator != (const BoxVolume &b1, const BoxVolume &b2)
 { 
 	return !(b1 == b2); 
 }
