@@ -1,0 +1,133 @@
+/*---------------------------------------------------------------------------*\
+*                                OpenSG                                     *
+*                                                                           *
+*                                                                           *
+*             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+*                                                                           *
+*                            www.opensg.org                                 *
+*                                                                           *
+*   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+*                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+*                                License                                    *
+*                                                                           *
+* This library is free software; you can redistribute it and/or modify it   *
+* under the terms of the GNU Library General Public License as published    *
+* by the Free Software Foundation, version 2.                               *
+*                                                                           *
+* This library is distributed in the hope that it will be useful, but       *
+* WITHOUT ANY WARRANTY; without even the implied warranty of                *
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+* Library General Public License for more details.                          *
+*                                                                           *
+* You should have received a copy of the GNU Library General Public         *
+* License along with this library; if not, write to the Free Software       *
+* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+*                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+*                                Changes                                    *
+*                                                                           *
+*                                                                           *
+*                                                                           *
+*                                                                           *
+*                                                                           *
+*                                                                           *
+\*---------------------------------------------------------------------------*/
+
+
+#ifndef _OSGGRAPHOP_H_
+#define _OSGGRAPHOP_H_
+#ifdef __sgi
+#pragma once
+#endif
+
+#include <OSGConfig.h>
+
+#include <OSGSystemDef.h>
+#include <OSGAction.h>
+
+OSG_BEGIN_NAMESPACE
+
+//! \ingroup GrpSystemRenderingBackend
+//! GraphOp class
+
+class OSG_SYSTEMLIB_DLLMAPPING GraphOp
+{
+    /*==========================  PUBLIC  =================================*/
+public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Class Get                                 */
+    /*! \{                                                                 */
+
+    static const char *getClassname(void) { return "GraphOp"; };
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+    
+    GraphOp(const char* name = "");
+
+    virtual GraphOp *create(void) = 0;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~GraphOp(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Parameters                                */
+    /*! \{                                                                 */
+
+    virtual void setParams(const std::string params) = 0;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Main methods                               */
+    /*! \{                                                                 */
+
+    virtual bool traverse(NodePtr& root);
+
+    const std::string getName(void)             { return _name; };
+    void              setName(const char *name) { _name=name;   };
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Exclusion                                 */
+    /*! \{                                                                 */    
+    
+    void addToExcludeList       (NodePtr& node           );
+    void addToExcludeList       (const std::string &name );
+    void removeFromExcludeList  (NodePtr& node           );
+    void removeFromExcludeList  (const std::string &name );
+    void clearExcludeList       (void                    );
+    bool isInExcludeListNodes   (NodePtr& node           );
+    bool isInExcludeListNames   (const std::string &name );
+    bool isInExcludeList        (NodePtr& node           );        
+
+    /*! \}                                                                 */
+
+    /*=========================  PROTECTED  ===============================*/
+protected:
+
+    virtual Action::ResultE traverseEnter(NodePtr& node) = 0;
+    virtual Action::ResultE traverseLeave(NodePtr& node, Action::ResultE res) = 0;
+
+    std::list<NodePtr>     _excludeListNodes;
+    std::list<std::string> _excludeListNames;
+
+    /*==========================  PRIVATE  ================================*/
+private:
+    std::string            _name;
+};
+
+typedef GraphOp *GraphOpP;
+OSG_END_NAMESPACE
+
+#endif /* _OSGGRAPHOP_H_ */
