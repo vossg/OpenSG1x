@@ -50,6 +50,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGNodeCore.h>
 #include <OSGFieldContainerPtr.h>
+#include <OSGMiscBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -80,7 +81,7 @@ typedef FCPtr<NodeCorePtr, Group> GroupPtr;
  *  children list. So usually the group does nothing.
  */
 
-class OSG_DLLEXPORT Group : public NodeCore
+class OSG_MISC_DLLMAPPING Group : public NodeCore
 {
   public:
 

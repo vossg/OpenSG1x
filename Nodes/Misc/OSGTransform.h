@@ -56,6 +56,7 @@
 #include <OSGFieldContainerPtr.h>
 #include <OSGFieldDescription.h>
 #include <OSGAction.h>
+#include <OSGMiscBase.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -87,7 +88,7 @@ typedef FCPtr<NodeCorePtr, Transform> TransformPtr;
  *  Transform provides one matrix to transform objects.
  */
 
-class OSG_DLLEXPORT Transform : public NodeCore
+class OSG_MISC_DLLMAPPING Transform : public NodeCore
 {
   public:
 

@@ -52,6 +52,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEMISC
+
 #include "OSGTransform.h"
 #include "OSGDrawAction.h"
 

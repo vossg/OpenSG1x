@@ -50,6 +50,8 @@
 #include <iostream.h>
 #endif
 
+#define OSG_COMPILEMISC
+
 #include "OSGGroup.h"
 
 OSG_USING_NAMESPACE
