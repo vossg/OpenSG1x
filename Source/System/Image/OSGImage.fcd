@@ -25,6 +25,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+                defaultValue="0"
 	>
 	image dimension, 0 for invalid, 1 for 1D, 2 for 2D and     3 for 3D data.
 	</Field>
@@ -34,6 +35,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+                defaultValue="0"
 	>
 	</Field>
 	<Field
@@ -42,6 +44,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+                defaultValue="1"
 	>
 	</Field>
 	<Field
@@ -50,6 +53,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+                defaultValue="1"
 	>
 	</Field>
 	<Field
@@ -58,6 +62,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+                defaultValue="1"
 	>
 	</Field>
 	<Field
@@ -66,6 +71,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+                defaultValue="1"
 	>
 	</Field>
 	<Field
@@ -74,6 +80,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+                defaultValue="1"
 	>
 	</Field>
 	<Field
@@ -82,6 +89,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+                defaultValue="0"
 	>
 	</Field>
 	<Field
@@ -90,6 +98,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+                defaultValue="0"
 	>
 	</Field>
 	<Field
@@ -106,6 +115,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
+                defaultValue="0"
 	>
 	</Field>
 </FieldContainer>
