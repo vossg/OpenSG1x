@@ -83,6 +83,7 @@ void Volume::setEmpty (const Bool value = true)
 	if (value) 
 	{
 		_state |= OSGEMPTY;
+		_state |= OSGVALID;
 		_state &= ~OSGINFINITE;
 	}	
 	else 
@@ -116,6 +117,7 @@ void Volume::setInfinite (const Bool value = true)
 	if (value) 
 	{
 		_state |= OSGINFINITE;
+		_state |= OSGVALID;
 		_state &= ~OSGEMPTY;
 	}
 	else 

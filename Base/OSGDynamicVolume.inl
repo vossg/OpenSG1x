@@ -25,7 +25,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGDYNAMICVOLUME_INL_
 #define _OSGDYNAMICVOLUME_INL_
 

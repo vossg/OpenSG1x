@@ -168,10 +168,10 @@ public:
   virtual void extendBy (const Pnt3f &pt);
 
   /** extend the volume by the given volume */
-  virtual void extendBy (const Volume &volume);   
+	inline void extendBy (const Volume &volume);   
 
   /// Extends Box3f (if necessary) to contain given Box3f
-  void extendBy ( const BoxVolume &bb);
+  inline void extendBy ( const BoxVolume &bb);
 
 /*-------------------------- intersection ---------------------------------*/
 
@@ -186,10 +186,10 @@ public:
 									 Real32 &min, Real32 &max  ) const;
 
   /// intersect the volume with another volume 
-  virtual Bool intersect (const Volume &volume) const;
+	inline Bool intersect (const Volume &volume) const;
 
   /// Returns true if intersection of given Box3f and Box3f is not empty
-  Bool intersect(const BoxVolume &bb) const;
+	inline Bool intersect(const BoxVolume &bb) const;
 
   /** check if the point is on the volume's surface */
   virtual Bool isOnSurface (const Pnt3f &point) const;

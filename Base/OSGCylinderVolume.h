@@ -143,10 +143,10 @@ public:
   virtual void extendBy (const Pnt3f &pt);
 
   /** extend the volume by the given volume */
-  virtual void extendBy (const Volume &volume);
+	inline void extendBy (const Volume &volume);
 
 	/** extends cylinder (if necessary) to contain given cylinder */
-	void extendBy (const CylinderVolume &obj);
+	inline void extendBy (const CylinderVolume &obj);
 
 
 

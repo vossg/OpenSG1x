@@ -97,10 +97,10 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	FrustumVolume(void) : Volume() {;}
-	FrustumVolume(const FrustumVolume &obj) : Volume(obj) {;}
+	FrustumVolume(void);
+	FrustumVolume(const FrustumVolume &obj);
 
-    virtual ~FrustumVolume(void) {;} 
+    virtual ~FrustumVolume(void);
 
     /*------------------------- your_category -------------------------------*/
 
@@ -108,11 +108,14 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
 
     void getCenter(Pnt3f &center) const { center = Pnt3f(0, 0, 0);}
  
-	virtual Bool intersect (const Pnt3f &point) const;
+	virtual Bool intersect (const Pnt3f &point) const 
+		{ return false; }
 
-    virtual Bool intersect (const Volume &volume) const;
+    virtual Bool intersect (const Volume &volume) const
+			{ return false; }
 
-	virtual Bool intersect (const Line &line) const { return false; }
+	virtual Bool intersect (const Line &line) const 
+		{ return false; }
 
 	virtual Bool intersect (const Line &line, 
                                Real32 &min, Real32 &max  ) const 
@@ -120,19 +123,20 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
         return false; 
     }
 
-    virtual void extendBy (const Pnt3f &pt);
+    virtual void extendBy (const Pnt3f &pt)
+			{ return; }
 
-    virtual void extendBy (const Volume &volume);
+    virtual void extendBy (const Volume &volume)
+			{ return; }
 
-    virtual void makeEmpty (void) ;
+    virtual float getScalarVolume (void) const
+			{ return 0.0; }
 
-    virtual Bool isEmpty (void) const;
+    virtual void scale (float scaleValue)
+			{ return; }
 
-    virtual float getScalarVolume (void) const;
-
-    virtual void scale (float scaleValue);
-
-    virtual void transform (const Matrix &mat);
+    virtual void transform (const Matrix &mat)
+			{ return; }
 
     /*------------------------- your_operators ------------------------------*/
 

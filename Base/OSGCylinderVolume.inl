@@ -57,6 +57,7 @@ OSG_BEGIN_NAMESPACE
 
 /*! Default Constructor
 */
+inline
 CylinderVolume::CylinderVolume(void) : Volume() 
 {
 	;
@@ -64,17 +65,21 @@ CylinderVolume::CylinderVolume(void) : Volume()
 
 
 /// Construct a cylinder given its axis and radius
+inline
 CylinderVolume::CylinderVolume(const Pnt3f &p, const Vec3f &d, 
-		float r) : Volume(),	_axisPos(p), _axisDir(d), _radius(r) {;}
+		float r) : Volume(),	_axisPos(p), _axisDir(d), _radius(r) { setEmpty(false);}
 
 
 /// Copy constructor
-CylinderVolume::CylinderVolume(const CylinderVolume &c): Volume()
+inline
+CylinderVolume::CylinderVolume(const CylinderVolume &c): Volume(c)
 , _axisPos(c._axisPos), _axisDir(c._axisDir), _radius(c._radius) {;}
 
 
 
 /// Desctructor	
+
+inline
 CylinderVolume::~CylinderVolume(void) 
 {
 	;
@@ -85,6 +90,7 @@ CylinderVolume::~CylinderVolume(void)
 
 
 /// Change the axis and radius
+inline
 void CylinderVolume::setValue(const Pnt3f &p, const Vec3f &d, float r)
 { 
 	_axisPos = p; 
@@ -94,6 +100,7 @@ void CylinderVolume::setValue(const Pnt3f &p, const Vec3f &d, float r)
 
 
 /// set just the axis 
+inline
 void CylinderVolume::setAxis(const Pnt3f &p, const Vec3f &d) 
 { 
 	_axisPos = p; 
@@ -101,12 +108,14 @@ void CylinderVolume::setAxis(const Pnt3f &p, const Vec3f &d)
 }
 
 /// set just the radius
+inline
 void CylinderVolume::setRadius(float r) 
 { 
 	_radius = r; 
 }
 
 /// return the axis
+inline
 void CylinderVolume::getAxis(Pnt3f &apos, Vec3f &adir) const
 {
 	adir = _axisDir;
@@ -114,9 +123,38 @@ void CylinderVolume::getAxis(Pnt3f &apos, Vec3f &adir) const
 }
   
 /// return the radius
+inline
 float CylinderVolume::getRadius(void) const 
 { 
 	return _radius; 
+}
+
+/*-------------------------- extending ------------------------------------*/
+
+inline
+void CylinderVolume::extendBy(const Volume &volume)
+{
+  OSG::extend(*this,volume);
+}
+
+inline
+void CylinderVolume::extendBy(const CylinderVolume &volume)
+{ 
+	OSG::extend(*this,volume);
+}
+
+/*-------------------------- intersection ---------------------------------*/
+
+inline
+Bool CylinderVolume::intersect (const Volume &volume) const
+{
+  return OSG::intersect(*this,volume);
+}
+
+inline
+Bool CylinderVolume::intersect(const CylinderVolume &volume) const
+{
+  return OSG::intersect(*this,volume);
 }
 
 

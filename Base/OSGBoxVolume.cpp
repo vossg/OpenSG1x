@@ -64,14 +64,12 @@
 #include <OSGLine.h>
 #include <OSGMatrix.h>
 
+#include "OSGBoxVolume.h"
+
 // Application declarations
 
 
 // Class declarations
-#include "OSGCylinderVolume.h"
-#include "OSGSphereVolume.h"
-#include "OSGBoxVolume.h"
-#include "OSGDynamicVolume.h"
 
 OSG_USING_NAMESPACE
 
@@ -168,79 +166,6 @@ void BoxVolume::extendBy(const Pnt3f &pt)
 			_max[2] = pt[2];
 }
 
-#ifdef __sgi
-#pragma set woff 1552
-#endif
-
-/** extend the volume by the given volume */
-void BoxVolume::extendBy (const Volume &volume)
-{
-	const Volume *v = &volume;
-	const BoxVolume *box;
-	const SphereVolume *sphere;
-	const CylinderVolume *cylinder;
-	const DynamicVolume *dynamic = dynamic_cast<const DynamicVolume*>(v);
-
-	if (dynamic)
-		v = &(dynamic->getInstance());
-	
-	if (box = dynamic_cast<const BoxVolume*>(v))
-		this->extendBy(*v);
-	else
-		if (sphere = dynamic_cast<const SphereVolume*>(v))
-			; // code it !
-	  else
-			if (cylinder = dynamic_cast<const CylinderVolume*>(v))
-			  ; // code it !
-}
-	
-#ifdef __sgi
-#pragma reset woff 1552
-#endif
-
-/// Extends Box3f (if necessary) to contain given Box3f
-void BoxVolume::extendBy(const BoxVolume &bb)
-{
-	if ( (! isValid() && ! isEmpty()) || isInfinite() || isStatic() )
-		return;
-
-	if ( ! bb.isValid() )
-		return;
-	
-	if (isEmpty())
-		if (bb.isEmpty())
-			return;
-		else {
-			*this = bb;
-			return;
-		}
-	else
-		if (bb.isEmpty())
-			return;
-			
-	if (bb._min[0] < _min[0])
-		_min[0] = bb._min[0];
-
-	if (bb._max[0] > _max[0])
-		_max[0] = bb._max[0];
-				 	
-	if (bb._min[1] < _min[1])
-		_min[1] = bb._min[1];
-
-	if (bb._max[1] > _max[1])
-		_max[1] = bb._max[1];
-
-	if (bb._min[2] < _min[2])
-		_min[2] = bb._min[2];
-	
-	if (bb._max[2] > _max[2])
-		_max[2] = bb._max[2];
-
-	if (bb.isInfinite())
-		setInfinite(true);
-}
-
-
 /*-------------------------- intersection ---------------------------------*/
 
 /// Returns true if intersection of given point and Box3f is not empty
@@ -276,22 +201,6 @@ Bool BoxVolume::intersect ( const Line &line, Real32 &min, Real32 &max  ) const
 	erg = line.intersect(*this, min, max);
 
 	return erg;
-}
-
-  /// intersect the box with another volume 
-Bool BoxVolume::intersect (const Volume &) const
-{
-	//return volume.intersect(*this);
-	return false;
-}
-
-/// Returns true if intersection of given Box3f and Box3f is not empty
-Bool BoxVolume::intersect(const BoxVolume &bb) const
-{
-	return (!isEmpty() &&
-		(_min[0] <= bb._max[0] && _max[0] >= bb._min[0]) &&
-		(_min[1] <= bb._max[1] && _max[1] >= bb._min[1]) &&
-		(_min[2] <= bb._max[2] && _max[2] >= bb._min[2]));
 }
 
 

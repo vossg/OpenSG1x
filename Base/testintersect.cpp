@@ -136,6 +136,7 @@ int main (int argc, char **argv) {
 		cout << endl;		
 	}
 
+	/* 
 //  Intersect the line with a cylinder.
 
 
@@ -195,6 +196,35 @@ int main (int argc, char **argv) {
 		
 		cout << endl;		
 	}
+	*/
+
+	// ### volume intersection ##############################################
+	cout << "### volume intersection test ###" << endl;
+
+	BoxVolume box(-1,-1,-1,1,1,1);
+	BoxVolume boxOut (10,10,10,20,20,20);
+	BoxVolume boxIn(0,0,0,2,2,2);
+	SphereVolume sphere(Pnt3f(0,0,0),1);
+	SphereVolume sphereOut(Pnt3f(5,0,0),1);
+	SphereVolume sphereIn(Pnt3f(1,0,0),2);
+
+	cout << "Box/box outside test: " << flush;
+	cout << (box.intersect(boxOut) ? "**BAD**" : "ok") << endl;
+
+	cout << "Box/box inside test: " << flush;
+	cout << (box.intersect(boxIn) ? "ok" : "**BAD**") << endl;
+
+	cout << "Box/sphere outside test: " << flush;
+	cout << (box.intersect(sphereOut) ? "**BAD**" : "ok") << endl;
+
+	cout << "Box/sphere inside test: " << flush;
+	cout << (box.intersect(sphereIn) ? "ok" : "**BAD**") << endl;
+
+	cout << "Sphere/sphere outsice test: " << flush;
+	cout << (sphere.intersect(sphereOut) ? "**BAD**" : "ok") << endl;
+
+	cout << "Sphere/sphere inside test: " << flush;
+	cout << (sphere.intersect(sphereIn) ? "ok" : "**BAD**") << endl;
 
   return 0;
 }

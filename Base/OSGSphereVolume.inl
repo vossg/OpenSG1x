@@ -50,6 +50,20 @@ OSG_BEGIN_NAMESPACE
  *                           Class methods                                 *
 \***************************************************************************/
 
+/*-------------------------- constructor ----------------------------------*/
+inline
+SphereVolume::SphereVolume(void) : Volume(), _radius(0) {;}
+
+inline
+SphereVolume::SphereVolume(const SphereVolume &obj) 
+ : Volume(),	_center(obj._center), _radius(obj._radius) { setEmpty(false);}
+
+inline
+SphereVolume::SphereVolume(const Pnt3f &c, float r)
+: Volume(), _center(c), _radius(r) { setEmpty(false);}
+
+inline
+SphereVolume::~SphereVolume() {;}
 
 /*------------------------------ feature ----------------------------------*/
 
@@ -57,6 +71,7 @@ OSG_BEGIN_NAMESPACE
 inline
 void SphereVolume::setValue(const Pnt3f &c, float r)
 { 
+	setEmpty(false);
 	_center = c; 
 	_radius = r; 
 }
@@ -99,6 +114,36 @@ float SphereVolume::getRadius() const
 { 
 	return _radius; 
 }
+
+/*-------------------------- extending ------------------------------------*/
+
+inline
+void SphereVolume::extendBy (const Volume &volume)
+{
+	osg::extend(*this,volume);
+}
+
+inline
+void SphereVolume::extendBy(const SphereVolume &volume)
+{ 
+  osg::extend(*this,volume);
+}
+
+/*-------------------------- intersection ---------------------------------*/
+
+inline
+Bool SphereVolume::intersect (const Volume &volume) const
+{
+  return osg::intersect(*this,volume);
+}
+
+inline
+Bool SphereVolume::intersect(const SphereVolume &volume) const
+{
+  return osg::intersect(*this,volume);
+}
+
+/*-------------------------- operation ------------------------------------*/
 
 /***************************************************************************\
  *                           Instance methods                              *

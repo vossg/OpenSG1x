@@ -51,6 +51,8 @@
 #include "OSGMatrix.h"
 #include "OSGLine.h"
 
+#include "OSGVolumeFunctions.h"
+
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------

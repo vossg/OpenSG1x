@@ -139,11 +139,6 @@ void CylinderVolume::extendBy (const Pnt3f &pt)
 	assert(false);
 }
 
-void CylinderVolume::extendBy (const Volume &volume)
-{
-	assert(false);
-}
-
 /*-------------------------- intersection ---------------------------------*/
 	
 /** Returns true if intersection of given point and CylinderVolume is not empty */
@@ -173,22 +168,6 @@ Bool CylinderVolume::intersect ( const Line &line,
 		 Real32 &enter, Real32 &exit ) const
 {
 		return line.intersect(*this, enter, exit);
-}
-
- /** intersect the CylinderVolume with another Volume */
-Bool CylinderVolume::intersect (const Volume &volume) const
-{
-	// TODO; not impl.
-	assert(false);
-	return false;
-}
-
- /** intersect the CylinderVolume with another CylinderVolume */
-Bool CylinderVolume::intersect (const CylinderVolume &volume) const
-{
-	// TODO; not impl.
-	assert(false);
-	return false;
 }
 
 Bool CylinderVolume::isOnSurface (const Pnt3f &point) const

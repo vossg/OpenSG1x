@@ -117,16 +117,6 @@ void SphereVolume::extendBy (const Pnt3f &pt)
 		_radius = d;
 }
 
-void SphereVolume::extendBy (const Volume &volume)
-{
-	assert(false);
-}
-
-void SphereVolume::extendBy (const SphereVolume &volume)
-{
-	assert(false);
-}
-
 /*------------------------- intersection ------------------------------*/
 
 /** Returns true if intersection of given point and Volume is not empty */
@@ -152,27 +142,6 @@ Bool SphereVolume::intersect( const Line &line,
 {
 	return line.intersect(*this, enter, exit);
 }
-
-/** intersect the SphereVolume with another volume */
-Bool SphereVolume::intersect (const Volume &volume) const
-{
-	//return volume.intersect(*this);
-	// TODO; not impl.
-	assert(false);
-	return false;
-}
-
-/// Intersect SphereVolume and SphereVolume, returning true if there is an intersection
-Bool SphereVolume::intersect(const SphereVolume &sphere) const
-{
-	float dist = (sphere._center - _center).length();
-
-	if ( dist < getRadius() + sphere.getRadius())
-		return true;
-
-	return false;
-}
-
 
 Bool SphereVolume::isOnSurface (const Pnt3f &point) const
 {

@@ -94,17 +94,18 @@ public:
 
 	/** Default constructor
 	*/
-	SphereVolume(void) : Volume(), _radius(0) {;}
+	SphereVolume(void);
 
 	/** Copy Constructor
 	*/
-	SphereVolume(const SphereVolume &obj) 
-		: Volume(),	_center(obj._center), _radius(obj._radius) {;}
+	SphereVolume(const SphereVolume &obj);
 
 	/** Construct a sphere given center and radius
 	*/
-	SphereVolume(const Pnt3f &c, float r)
-		: Volume(), _center(c), _radius(r) {;}
+	SphereVolume(const Pnt3f &c, float r);
+
+	/** Destructor */
+	~SphereVolume();
 
 /*------------------------------ feature ----------------------------------*/
 
@@ -145,11 +146,11 @@ public:
 
 	/** extend the volume by the given volume 
 	*/
-  virtual void extendBy (const Volume &volume);   
+	inline void extendBy (const Volume &volume);   
 
 	/** Extends Box3f (if necessary) to contain given Box3f
 	*/
-  void extendBy(const SphereVolume &bb);
+  inline void extendBy(const SphereVolume &bb);
 
 
 /*-------------------------- intersection ---------------------------------*/
@@ -165,10 +166,10 @@ public:
 							 Real32 &enter, Real32 &exit  ) const;
 
 	/** intersect the SphereVolume with another volume */
-  virtual Bool intersect (const Volume &volume) const;
+	inline Bool intersect (const Volume &volume) const;
 
-	/** Intersect sphere and sphere, returning true if there is an intersection */
-	Bool intersect(const SphereVolume &sphere) const;
+	/** Intersect sphere/sphere, returning true if there is an intersection */
+	inline Bool intersect(const SphereVolume &sphere) const;
 
   /** check if the point is on the volume's surface */
   virtual Bool isOnSurface (const Pnt3f &point) const;
