@@ -186,7 +186,8 @@ int main (int argc, char **argv)
 	cerr << "Frustum Node: " << hex << objects[5] << endl;
 	
 	// try the vertex normal calc
-	calcVertexNormals( dcast<GeometryPtr>(objects[3]->getCore()) );
+    OSG::GeometryPtr pGeo = dcast<GeometryPtr>(objects[3]->getCore());
+	calcVertexNormals(pGeo);
 	
 	// The action
 
