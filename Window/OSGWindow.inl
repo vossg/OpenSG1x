@@ -91,12 +91,12 @@ inline void* Window::getFunction ( UInt32 id )
 {
     if(id >= _extFunctions.size())
     {
-        FWARNING(("Window::getFunction: illegal id %d!\n", id));
+        FINFO(("Window::getFunction: illegal id %d!\n", id));
         return NULL;
     }
     if(_extFunctions[id] == NULL)
     {
-        FWARNING(("Window::getFunction: function \"%s\" is NULL!\n", 
+        FINFO(("Window::getFunction: function \"%s\" is NULL!\n", 
                     _registeredFunctions[id].str()));
         return NULL;       
     }

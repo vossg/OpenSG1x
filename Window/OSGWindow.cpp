@@ -655,6 +655,11 @@ void Window::frameInit( void )
             _extFunctions.push_back(func);
         }
     }
+    else
+    {
+        // Just to make sure the hasExtension finds something
+        _availExtensions.resize(_registeredExtensions.size(), false);
+    }
 }
 
 void Window::frameExit( void )
