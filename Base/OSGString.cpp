@@ -1,4 +1,33 @@
-// System declarations
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                         Copyright 2000 by OpenSG Forum                    *
+ *                                                                           *
+ *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
 #include "OSGConfig.h"
 
@@ -11,62 +40,57 @@
 #include <string.h>
 #include <ctype.h>
 
-#define OSG_COMPILEBASE
 
 // Class declarations
 #include "OSGString.h"
 
 OSG_USING_NAMESPACE
 
-// Static Class Variable implementations: 
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
 
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
 
-//----------------------------------------------------------------------
-// Method: String
-// Author: jbehr
-// Date:   Sat Dec 20 20:39:24 1997
-// Description:
-//         Class default Constructor
-//----------------------------------------------------------------------
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------- constructor ----------------------------------*/
+
+/** Class default Constructor
+*/
 String::String(unsigned size)
 : _str(0), _memType(COPY)
 {
 	setLength(size);
 }
 
-//----------------------------------------------------------------------
-// Method: String
-// Author: jbehr
-// Date:   Sat Dec 20 20:39:24 1997
-// Description:
-//         Class Constructor
-//----------------------------------------------------------------------
 String::String(const char *str, MemType memType)
 : _str(0), _memType(memType)
 {
 	set(str, memType);
 }
 
-//----------------------------------------------------------------------
-// Method: String
-// Author: jbehr
-// Date:   Sat Dec 20 20:39:24 1997
-// Description:
-//         Class Copy Constructor
-//----------------------------------------------------------------------
+/** Class Copy Constructor
+*/
 String::String(const String &obj, MemType memType)
 : _str(0), _memType(memType)
 {
 	set(obj._str, memType);
 }
 
-//----------------------------------------------------------------------
-// Method: ~String
-// Author: jbehr
-// Date:   Sat Dec 20 20:39:24 1997
-// Description:
-//         Class Destructor
-//----------------------------------------------------------------------
+
+/*-------------------------- destructor -----------------------------------*/
+
+/** Class Destructor
+*/
 String::~String()
 {
 	/*
@@ -79,13 +103,9 @@ String::~String()
 		delete [] _str; 
 }
 
-//----------------------------------------------------------------------
-// Method: toupper
-// Author: jbehr
-// Date:   Sat Dec 20 20:39:24 1997
-// Description:
-//        
-//----------------------------------------------------------------------
+
+/*------------------------------ access -----------------------------------*/
+
 void String::toupper(void) 
 {
 	int i, l = length();
@@ -95,13 +115,6 @@ void String::toupper(void)
 
 }
 
-//----------------------------------------------------------------------
-// Method: tolower
-// Author: jbehr
-// Date:   Sat Dec 20 20:39:24 1997
-// Description:
-//        
-//----------------------------------------------------------------------
 void String::tolower(void) 
 {
 	int i, l = length();
@@ -111,25 +124,13 @@ void String::tolower(void)
 
 }
 
-//----------------------------------------------------------------------
-// Method: length
-// Author: jbehr
-// Date:   Sat Dec 20 20:39:24 1997
-// Description:
-//         get the str length
-//----------------------------------------------------------------------
+/** get the str length
+*/
 unsigned String::length(void) const
 {
 	return _str ? strlen(_str) : 0;
 }
 
-//----------------------------------------------------------------------
-// Method: setLength
-// Author: jbehr
-// Date:   Sat Dec 20 20:39:24 1997
-// Description:
-//         TODOC
-//----------------------------------------------------------------------
 void String::setLength(unsigned length)
 {
 	if (_str && _memType == COPY)
@@ -145,20 +146,23 @@ void String::setLength(unsigned length)
 	_memType = COPY;
 }
 
-//----------------------------------------------------------------------
-// Method: set
-// Author: jbehr
-// Date:   Sat Dec 20 20:39:24 1997
-// Description:
-//         set method for attribute str
-//----------------------------------------------------------------------
-void String::set(const Char8 *str, MemType memType)
+/** set method for attribute str
+*/
+void String::set(const char *str, MemType memType)
 {
+	if ( str == _str )	// set to itself? 
+	{
+		// !!! can you change _memType here? I think not. IMHO
+		return;
+	}
+
 	if (_str && _memType == COPY)
 		delete [] _str;
 
-	if (memType == COPY) {
-		if (str) {
+	if (memType == COPY) 
+	{
+		if (str) 
+		{
 			// cerr << "INFO: Try to buffer for " << str; 
 			_str = new char[strlen(str) + 1];
 			// cerr << " ... done" << endl; 
@@ -187,9 +191,10 @@ void String::tokenize( vector <String*> &v)
 		pos      = 0,
 		inQuotes = 0,
 		inToken  = 0;
-		
-	if ( l > 0 ) {
-		
+
+	if ( l > 0 ) 
+	{
+
 		char *buf = (char *)malloc( (l+1) * sizeof(char) );
 	
 		for ( pos = 0; pos <= l; pos++) 	
@@ -208,14 +213,14 @@ void String::tokenize( vector <String*> &v)
 					{
 						inToken = 1;
 						oldpos = pos;			
-					}
+					} 
 				}
 				else if ( inToken )
 				{			
 					if ( _str[pos] == '"' )
 					{
 						inToken = 0;
-						
+
 						strncpy( buf, _str + oldpos, pos - oldpos );
 						buf [ pos - oldpos ] = '\0';						
 						v.push_back( new String( buf ) );
