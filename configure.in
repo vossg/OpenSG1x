@@ -1124,7 +1124,7 @@ else
         ;;
 
        darwin*)
-		ac_gdz_compiler_exe_shared='$(CC) -dynamiclib'
+		ac_gdz_compiler_exe_shared='$(CC) -dynamiclib -compatibility_version 1.2 -current_version 1.2.0 -flat_namespace'
         ac_gdz_compiler_exe_ranlib=ranlib
         ;;
 
@@ -1173,6 +1173,9 @@ dnl a symlink from gmake to make
         solaris*)
     		ac_gdz_compiler_exe_exe='$(CC) -template=no%wholeclass,extdef -ptv -mt'
 			ac_gdz_base_system_libs=$ac_gdz_base_system_libs' -lpthread -lresolv -lsocket  -lnsl '
+        ;;
+        darwin*)
+            ac_gdz_compiler_exe_exe='$(CC) -flat_namespace -Wl,-bind_at_load'
         ;;
         *)
             ac_gdz_compiler_exe_exe='$(CC)'
@@ -1454,6 +1457,9 @@ case $build_os in
     ;;
     hpux*)
         AC_GDZ_FIX_HP_INCLUDES()
+    ;;
+    darwin*)
+        AC_GDZ_FIX_OSX_INCLUDES()
     ;;
 esac
 

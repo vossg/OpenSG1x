@@ -48,10 +48,14 @@ link_flags_dbg=@am_gdz_link_flags_dbg@
 inc_add_path=@am_gdz_add_inc@
 lib_add_path=@am_gdz_add_link@
 
-win_sys_libs="opengl32.lib glu32.lib gdi32.lib"
-unix_sys_libs="-lGLU -lGL -lXmu -lXi -lXt -lX11"
+gl_libs="@ac_gdz_gl_lib_e15@"
+lib_gl_path=@ac_gdz_gl_libdir_e15@
+inc_gl_path=@ac_gdz_gl_incdir_e15@
 
-glut_libs=@ac_gdz_glut_lib_e15@
+win_sys_libs=$gl_libs
+unix_sys_libs=$gl_libs
+
+glut_libs="@ac_gdz_glut_lib_e15@"
 lib_glut_path=@ac_gdz_glut_libdir_e15@
 inc_glut_path=@ac_gdz_glut_incdir_e15@
 
@@ -110,6 +114,10 @@ else
     sys_libs=$unix_sys_libs
 fi;
 
+if test "yes$inc_gl_path" != "yes"; then
+    inc_gl_path="$incdir_pre$inc_gl_path$incdir_suf"
+fi
+
 if test "$stlport_libs"X != X; then
     stl_libs=$stlport_libs
 
@@ -120,6 +128,7 @@ if test "$stlport_libs"X != X; then
         inc_stl_path="$incdir_pre$inc_stlport_path$incdir_suf"
     fi
 fi
+
 
 if test "$have_tif" = "yes"; then
     image_libs="$image_libs $tif_libs"
@@ -494,7 +503,7 @@ if test "$echo_cflags" = "yes"; then
 
     opensg_inc_path=${incdir_pre}${prefix}/include${incdir_suf}
 
-    echo $sys_cflags $sys_defs $inc_stl_path $img_defs $img_incs_path $system_incs_path $opensg_inc_path $inc_add_path
+    echo $sys_cflags $sys_defs $inc_stl_path $img_defs $img_incs_path $system_incs_path $opensg_inc_path $inc_gl_path $inc_add_path
 
 fi
 

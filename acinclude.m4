@@ -1480,6 +1480,40 @@ AC_DEFUN(AC_GDZ_WRITE_OSG_CONFIG,
 [
 dnl e15
 
+    ac_gdz_gl_lib_e15=
+    ac_gdz_gl_incdir_e15=
+    ac_gdz_gl_libdir_e15=
+
+    case $build_os in
+        cygwin*)
+            ac_gdz_gl_lib_e15='opengl32.lib glu32.lib gdi32.lib'
+        ;;
+        darwin*)
+            ac_gdz_gl_lib_e15='-framework OpenGL'
+            ac_gdz_gl_incdir_e15=/System/Library/Frameworks/OpenGL.framework/Headers
+        ;;
+        hpux*)
+            ac_gdz_gl_incdir_e15='/opt/graphics/OpenGL/include'
+            ac_gdz_gl_libdir_e15='/opt/graphics/OpenGL/lib'
+            ac_gdz_gl_lib_e15='-lGLU -lGL -lXmu -lXi -lXt -lX11'
+        ;;
+        *)
+            ac_gdz_gl_lib_e15='-lGLU -lGL -lXmu -lXi -lXt -lX11'
+        ;;
+    esac
+
+    if ! test "$with_gl" = yes; then
+        if test -n "$ac_gdz_gl_dir"; then
+            if test $build_os = cygwin; then
+               ac_gdz_gl_incdir_e15='"'`cygpath -w $ac_gdz_gl_dir/include`'"'
+               ac_gdz_gl_libdir_e15='"'`cygpath -w $ac_gdz_gl_dir/lib`'"'
+            else
+               ac_gdz_gl_incdir_e15=$ac_gdz_gl_dir/include
+               ac_gdz_gl_libdir_e15=$ac_gdz_gl_dir/lib
+            fi
+        fi
+    fi
+
     ac_gdz_glut_lib_e15=
     ac_gdz_glut_incdir_e15=
     ac_gdz_glut_libdir_e15=
@@ -1924,6 +1958,10 @@ dnl e15
 
     touch confdefs.h
 
+    AC_SUBST(ac_gdz_gl_lib_e15)
+    AC_SUBST(ac_gdz_gl_incdir_e15)
+    AC_SUBST(ac_gdz_gl_libdir_e15)
+
     AC_SUBST(ac_gdz_glut_lib_e15)
     AC_SUBST(ac_gdz_glut_incdir_e15)
     AC_SUBST(ac_gdz_glut_libdir_e15)
@@ -2151,4 +2189,19 @@ dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
     touch confdefs.h
 
     AC_OUTPUT($ac_gdz_flexlexer_fix_out_e20:$ac_gdz_flexlexer_fix_in_e20)
+])
+
+AC_DEFUN(AC_GDZ_FIX_OSX_INCLUDES,
+[
+dnl e21
+
+    ac_gdz_flexlexer_fix_in_e21=$ac_gdz_commonconf_dir/FlexLexer.h.in
+    ac_gdz_flexlexer_fix_out_e21=$ac_gdz_package_sub_dir_out/Base/FlexLexer.h
+
+dnl    ac_gdz__fix_in_e16=$ac_gdz_commonconf_dir/.in
+dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
+
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_flexlexer_fix_out_e21:$ac_gdz_flexlexer_fix_in_e21)
 ])

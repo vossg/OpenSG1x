@@ -59,10 +59,12 @@ WARNINGS_CPP_OFF 	= -Wno-unused -Wno-long-long -Wno-reorder
 
 LANG_FLAGS          = 
 #-frepo  -fno-implicit-templates
-COMPILER    		= -ansi  -use_readonly_const 
+COMPILER    		= -ansi 
+#-use_readonly_const 
 
 ifeq ($(LNK),)
-COMPILER           := $(COMPILER) -dynamic
+#-dynamic
+COMPILER           := $(COMPILER) -fPIC -fexport-coalesced
 endif
 
 ### Optimize / Debug ###############################################
@@ -78,6 +80,9 @@ else
 	COMP_OPTIMIZE    =
 	COMP_DEBUG       = -g -DOSG_DEBUG
 endif
+
+CCFLAGS_EXT_OPT := -O2
+CCFLAGS_EXT_DBG := -g -DOSG_DEBUG
 
 ### Compiler Flags ################################################
 
@@ -97,6 +102,8 @@ CFLAGS   = $(WARNINGS) $(WARNINGS_C_OFF) -D__STDC__ $(DEFINES) 	\
 CCFLAGS   = $(WARNINGS)   $(WARNINGS_CPP_OFF) $(DEFINES)		\
 		    $(COMPILER)   $(LANG_FLAGS)       $(COMP_OPTIMIZE) 	\
 			$(COMP_DEBUG) 
+
+CCFLAGS_EXT     := $(SOURCE_DEFINES) $(SYSTEM_DEFINES) $(DEP_PLATTFORMDEF) $(COMPILER) 
 
 # Assembler Flags
 
@@ -121,4 +128,8 @@ endif
 
 
 LD_FLAGS += -L/usr/X11R6/lib $(LINK_OPTIMIZE) $(LINK_DEBUG)
+
+LD_FLAGS_EXT      =  
+LD_FLAGS_EXT_OPT := -O2 
+LD_FLAGS_EXT_DBG := -g 
 

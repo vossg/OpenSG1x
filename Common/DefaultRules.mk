@@ -567,6 +567,10 @@ ifeq ($(OS_BASE), hpux11.00)
 OSG_FIX_LEXER := 1
 endif
 
+ifeq ($(OS_BASE), darwin)
+OSG_FIX_LEXER := 1
+endif
+
 ifneq ($(LIB_FLEXPPTARGET_CPP),)
 $(OBJDIR)/%.lex.cpp: %.lpp $(FLEXLEXER_H_DEP)
 	$(FLEX) -+ -P$(call flex_int,$<) $<

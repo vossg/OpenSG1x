@@ -1,4 +1,4 @@
-#!gmake
+#!make
 
 include ../Common/common.mk
 
@@ -6,7 +6,7 @@ include ../Common/common.mk
 # Documenation Settings
 #########################################################################
 
-DOCBASEDIR := .
+DOCBASEDIR ?= .
 DOCCODEDIR := Code
 DOCDIR     := $(DOCBASEDIR)/$(DOCCODEDIR)/$(DOC_LEVEL_NAME)
 
@@ -146,6 +146,10 @@ DOXYGEN := doxygen
 #DOXYGEN := /net/pc1107/data/dirk/software/doxygen-1.2.18/bin/doxygen
 #DOXYGEN := /net/pc1107/data/dirk/software/doxygen-1.3-rc2/bin/doxygen
 #DOXYGEN := /data/dirk/software/doxygen_cvs_send/bin/doxygen
+#DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs/bin/doxygen
+#DOXYGEN := /home/gerrit/SoftwareInstall/doxygen_cvs_org/bin/doxygen
+#DOXYGEN := /home/gerrit/SoftwareTest/doxygen-1.3-rc1/bin/doxygen
+DOXYGEN := /Users/gandalf/SoftwareBuilds/doxygen_cvs/bin/doxygen
 
 default: help
 

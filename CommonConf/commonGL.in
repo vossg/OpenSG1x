@@ -14,7 +14,8 @@ OSG_LIB_EXT := $(OSG_LIB_EXT) $(LIB_GL)
 endif
 
 ifeq ($(OS_BASE), darwin)
-LIB_GL   := -framework OpenGL
+LIB_GL      := -framework OpenGL
+OSG_LIB_EXT := $(OSG_LIB_EXT) $(LIB_GL)
 endif
 
 ifneq ($(INCLUDE_GL),)

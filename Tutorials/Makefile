@@ -105,6 +105,11 @@ ifeq ($(SYSTEM),HP-UX)
         LDOUT := -o 
 	LINK  := 
 endif
+ifeq ($(SYSTEM),Darwin)
+        CCOUT := -o 
+        LDOUT := -o 
+	LINK  := 
+endif
 
 # Var settings
 
