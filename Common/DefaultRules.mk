@@ -423,6 +423,9 @@ endif
 Test: $(TEST_TARGETS_IN)
 	@echo Tests done  
 
+TestOpt: $(TEST_TARGETS_IN)
+	@echo Tests done  
+
 TestLnk: $(TEST_TARGETS_IN)
 	@echo Tests done  
 

@@ -7,7 +7,7 @@ endif
 # Get Job Type
 #########################################################################
 
-OPT_TARGETS=opt optLnk optClean optclean optCleanLnk optcleanLnk
+OPT_TARGETS=opt optLnk optClean optclean optCleanLnk optcleanLnk TestOpt
 
 LNK_TARGETS=dbgLnk optLnk dbgCleanLnk dbgCleanLnk optCleanLnk optcleanLnk \
 			cleanLnk CleanLnk testsLnk TestLnk
