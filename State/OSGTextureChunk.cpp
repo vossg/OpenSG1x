@@ -74,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.21 2001/10/11 16:41:18 neumannc Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.22 2001/10/13 11:28:31 vossg Exp $";
 
 StateChunkClass TextureChunk::_class("Texture");
 
@@ -665,56 +665,80 @@ void TextureChunk::activate ( DrawActionBase *action, UInt32 )
     glErr( "TextureChunk::activate" );
 }
 
-void TextureChunk::changeFrom( DrawActionBase *action, StateChunk * old, UInt32 )
+void TextureChunk::changeFrom(DrawActionBase *action, 
+                              StateChunk     *old   , 
+                              UInt32                )
 {
     // change from me to me?
-    // this assumes I haven't changed in the meantime. is that a valid assumption?
-    if ( old == this )
+    // this assumes I haven't changed in the meantime. 
+    // is that a valid assumption?
+    if(old == this)
         return;
 
-    TextureChunk * oldp = dynamic_cast<TextureChunk *>(old);
-    ImageP img = getImage();
-    GLenum target, oldtarget;
+    TextureChunk *oldp      = dynamic_cast<TextureChunk *>(old);
+    ImageP        img       = getImage();
+    GLenum        target;
+    GLenum        oldtarget = GL_INVALID_ENUM;
 
-    if ( ! img || ! img->getDimension() )
+    if(img == NULL || img->getDimension() == 0)
       return;
 
-    glErr( "TextureChunk::changeFrom precheck" );
+    glErr("TextureChunk::changeFrom precheck");
 
-    if ( img->getDepth() > 1 )
+    if(img->getDepth() > 1)
     {
         SWARNING << "TextureChunk::changeFrom: 3D textures not supported "
                  << "yet!" << endl;
         return;
     }
-    else if ( img->getHeight() > 1 )        target = GL_TEXTURE_2D;
-    else                                    target = GL_TEXTURE_1D;
-
-    if ( oldp->getImage()->getDepth() > 1 )
+    else if(img->getHeight() > 1)
     {
-        SWARNING << "TextureChunk::changeFrom: 3D textures not supported "
-                 << "yet!" << endl;
-        return;
+        target = GL_TEXTURE_2D;
     }
-    else if ( oldp->getImage()->getHeight() > 1 )   oldtarget = GL_TEXTURE_2D;
-    else                                            oldtarget = GL_TEXTURE_1D;
+    else
+    {
+        target = GL_TEXTURE_1D;
+    }
 
-    if ( target != oldtarget )
-        glDisable( oldtarget );
+    if(oldp->getImage() != NULL)
+    {
+        if(oldp->getImage()->getDepth() > 1)
+        {
+            SWARNING << "TextureChunk::changeFrom: 3D textures not supported "
+                     << "yet!" << endl;
+            return;
+        }
+        else if( oldp->getImage()->getHeight() > 1)
+        {
+            oldtarget = GL_TEXTURE_2D;
+        }
+        else
+        {
+            oldtarget = GL_TEXTURE_1D;
+        }
+
+        if(target != oldtarget)
+        {
+            glDisable(oldtarget);
+        }
+    }
 
     action->getWindow()->validateGLObject( getGLId() );
 
     // just set them
-    glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode() );
-    setGenFunc( GL_S, GL_TEXTURE_GEN_S, getGenFuncS, getGenFuncSPlane );
-    setGenFunc( GL_T, GL_TEXTURE_GEN_T, getGenFuncT, getGenFuncTPlane );
-    setGenFunc( GL_R, GL_TEXTURE_GEN_R, getGenFuncR, getGenFuncRPlane );
-    setGenFunc( GL_Q, GL_TEXTURE_GEN_Q, getGenFuncQ, getGenFuncQPlane );
+    glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
 
-    glBindTexture( target, getGLId() );
+    setGenFunc(GL_S, GL_TEXTURE_GEN_S, getGenFuncS, getGenFuncSPlane);
+    setGenFunc(GL_T, GL_TEXTURE_GEN_T, getGenFuncT, getGenFuncTPlane);
+    setGenFunc(GL_R, GL_TEXTURE_GEN_R, getGenFuncR, getGenFuncRPlane);
+    setGenFunc(GL_Q, GL_TEXTURE_GEN_Q, getGenFuncQ, getGenFuncQPlane);
 
-    if ( target != oldtarget )
-        glEnable( target );
+    glBindTexture(target, getGLId());
+
+    if(target != oldtarget)
+    {
+        glEnable(target);
+    }
 
     glErr( "TextureChunk::changeFrom" );
 }
