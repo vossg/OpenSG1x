@@ -132,9 +132,9 @@ class OSG_FIELD_DLLMAPPING SField : public Field
 
     /*----------------------- field information -----------------------------*/
 
-	virtual Cardinality getCardinality (void) const;
+	virtual FieldType::Cardinality getCardinality (void) const;
 
-    virtual UInt32      size           (void) const;
+    virtual UInt32                 size           (void) const;
 
     /*-------------------------- field type ---------------------------------*/
 

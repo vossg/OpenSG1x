@@ -129,9 +129,11 @@ char FieldType::cvsid[] = "@(#)$Id: $";
  */
 
 FieldType::FieldType(const Char8             *szName,
-                           CreateFieldMethod  createMethod) :
-    Inherited(szName, true),
-    _createMethod(createMethod)
+                           CreateFieldMethod  createMethod,
+                           Cardinality        cardinality) :
+    Inherited    (szName, true),
+    _createMethod(createMethod),
+    _cardinality (cardinality)
 {	
     FieldFactory::addType(this);
     SDEBUG << "Initialized FieldType : " << _szName << endl;
@@ -149,6 +151,10 @@ FieldType::~FieldType(void)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+FieldType::Cardinality FieldType::getCardinality(void) const
+{
+    return _cardinality;
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -101,12 +101,6 @@ class OSG_FIELD_DLLMAPPING Field
     //   enums                                                               
     //-----------------------------------------------------------------------
 
-    enum Cardinality 
-    { 
-        SINGLE_FIELD, 
-        MULTI_FIELD 
-    };
-
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
@@ -134,9 +128,9 @@ class OSG_FIELD_DLLMAPPING Field
 
     /*----------------------- field information -----------------------------*/
 
-	virtual Cardinality getCardinality (void) const = 0;
+	virtual FieldType::Cardinality getCardinality (void) const = 0;
 
-	virtual UInt32      size (void)           const = 0;
+	virtual UInt32                 size (void)           const = 0;
 
     /*------------------------------ access ---------------------------------*/
 

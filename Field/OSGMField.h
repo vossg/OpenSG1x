@@ -333,7 +333,7 @@ class OSG_FIELD_DLLMAPPING MField : public Field
 
     /*----------------------- field information -----------------------------*/
     
-	Cardinality getCardinality (void) const;
+    FieldType::Cardinality getCardinality (void) const;
 
 	// MField has a vector<> interface and an OSG interface, so both are 
 	// sensible

@@ -86,12 +86,14 @@ char SField<FieldTypeT, fieldNameSpace>::cvsid[] = "@(#)$Id: $";
 template <class FieldTypeT, Int32 fieldNameSpace>
 const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
 	SFieldTraits::getSName(), 
-	create);
+	create,
+    FieldType::SINGLE_FIELD);
 #else
 template <class FieldTypeT, Int32 fieldNameSpace>
 const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType(
 	SFieldTraits::getSName(), 
-	create);
+	create,
+    FieldType::SINGLE_FIELD);
 #endif
 
 /***************************************************************************\
@@ -235,10 +237,10 @@ void SField<FieldTypeT,
  */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-Field::Cardinality SField<FieldTypeT, 
-                          fieldNameSpace>::getCardinality (void) const
+FieldType::Cardinality SField<FieldTypeT, 
+                              fieldNameSpace>::getCardinality (void) const
 {
-    return SINGLE_FIELD;
+    return FieldType::SINGLE_FIELD;
 }
 
 /** \brief Returns the size of the field, allway 1

@@ -82,6 +82,12 @@ class OSG_FIELD_DLLMAPPING FieldType : public TypeBase
     //   enums                                                               
     //-----------------------------------------------------------------------
 
+    enum Cardinality 
+    { 
+        SINGLE_FIELD, 
+        MULTI_FIELD 
+    };
+
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
@@ -99,7 +105,8 @@ class OSG_FIELD_DLLMAPPING FieldType : public TypeBase
     //-----------------------------------------------------------------------
 
     FieldType(const Char8             *szName, 
-                    CreateFieldMethod  createMethod);
+                    CreateFieldMethod  createMethod,
+                    Cardinality        cardinality);
 
     virtual ~FieldType (void);
 
@@ -137,6 +144,8 @@ class OSG_FIELD_DLLMAPPING FieldType : public TypeBase
 
     /*------------------------------ access ---------------------------------*/
 
+    Cardinality getCardinality(void) const;
+
     /*----------------------------- comparision -----------------------------*/
 
     /*----------------------------- assignment ------------------------------*/
@@ -163,6 +172,8 @@ class OSG_FIELD_DLLMAPPING FieldType : public TypeBase
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
+
+    Cardinality _cardinality;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
