@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -60,7 +58,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.1 2001/10/29 16:46:56 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.2 2001/10/30 11:25:22 vossg Exp $";
     static char cvsid_hpp[] = OSGIMAGEBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGIMAGEBACKGROUND_INLINE_CVSID;
 }
