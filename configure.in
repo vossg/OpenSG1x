@@ -543,8 +543,15 @@ fi
 
 dnl ############# GIF Settings #####################
 
+AC_ARG_WITH(gif,      [  --with-gif                       Build with gif support],
+enable_with_gif=yes, enable_with_gif=no)
+
 AC_ARG_ENABLE(gif,     [  --enable-gif                       Build with gif support],
 			,enable_gif=no) 
+
+if test "$enable_gif" = yes || test "$enable_with_gif" = yes; then
+    enable_gif=yes
+fi
 
 if test "$enable_gif" = yes; then
 	ac_gdz_gif_dir=
