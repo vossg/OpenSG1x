@@ -372,26 +372,26 @@ void VRMLAppearanceBinder::finish(VRMLToOSGAction *)
     TextureChunkPtr pTexChunk = 
         TextureChunkPtr::dcast(pChunkMat->find(TextureChunk::getClassType()));
     
-    if(pTexChunk == NullFC)
-        return;
-    
     MaterialChunkPtr pMatChunk = 
         MaterialChunkPtr::dcast(
             pChunkMat->find(MaterialChunk::getClassType()));
     
-    beginEditCP(pTexChunk, TextureChunk::EnvModeFieldMask);
-    {
-        if(pMatChunk == NullFC)
+    if(pTexChunk != NullFC)
+    {    
+        beginEditCP(pTexChunk, TextureChunk::EnvModeFieldMask);
         {
-            pTexChunk->setEnvMode(GL_REPLACE);
+            if(pMatChunk == NullFC)
+            {
+                pTexChunk->setEnvMode(GL_REPLACE);
+            }
+            else
+            {
+                pTexChunk->setEnvMode(GL_MODULATE);
+            }
         }
-        else
-        {
-            pTexChunk->setEnvMode(GL_MODULATE);
-        }
+        endEditCP  (pTexChunk, TextureChunk::EnvModeFieldMask);
     }
-    endEditCP  (pTexChunk, TextureChunk::EnvModeFieldMask);
-
+    
     if(pChunkMat != NullFC && (pChunkMat->isTransparent() == true || 
                                _has_alpha))
     {
