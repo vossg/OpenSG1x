@@ -1,4 +1,4 @@
-#!gmake -k -r 
+#!gmake -k -r
 
 OSGCOMMON      ?= Common
 
@@ -9,7 +9,7 @@ OSGPOOL         = $(shell pwd)
 OSGMAINMAKE    = 1
 
 SUBLIBS        = Base Field FieldContainer Action Action/DrawAction Nodes/Misc \
-		 Nodes/Geometry Nodes/Light Image Log Loader Window State
+		 Nodes/Geometry Nodes/Light Log Loader Window State
 
 include $(OSGPOOL)/$(OSGCOMMON)/common.mk
 

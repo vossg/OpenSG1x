@@ -1,0 +1,11 @@
+#ifndef METHODTYPE_H
+#define METHODTYPE_H
+
+///
+enum MethodType { UNDEF_METHOD = 0, 
+									CONSTRUCTOR_METHOD, DESTRUCTOR_METHOD, 
+									SET_METHOD, GET_METHOD, OPERATOR_METHOD,
+									FRIEND_METHOD
+};
+
+#endif // METHODTYPE_H

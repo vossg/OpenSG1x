@@ -1,0 +1,2683 @@
+<!doctype html public "-//w3c//dtd html 4.0//en"> 
+
+<html> 
+
+<head> <title>OpenSG Design Document</title> </head>
+
+<body bgcolor="#F0F0F0">
+
+<br>
+
+<h1><center>OpenSG - An OpenSource Scenegraph</center></h1>
+
+<h2><center>Design Document</center></h2>
+
+<h2><center>Version 0.2 alpha, 2000/05/03</center></h2>
+
+<p><br> Written by: <ul> 
+
+<li> <a href=http://www.igd.fhg.de/~reiners>Dirk Reiners</a> (DR, <a
+href=mailto:reiners@igd.fhg.de>reiners@igd.fhg.de</a>) </li> 
+
+<li> <a href=http://www.igd.fhg.de/igd-a4/staff/rettig.html>Alexander
+Rettig</a> (AR, <a href=mailto:arettig@igd.fhg.de>arettig@igd.fhg.de</a>)
+</li> 
+
+<li> <a href=http://www.igd.fhg.de/~knoepfle>Christian Knoepfle</a> (CK, <a
+href=mailto:knoepfle@igd.fhg.de>knoepfle@igd.fhg.de</a>) </li> 
+
+<li> <a href=http://www.igd.fhg.de/~vossg>Gerrit Voss</a> (GV, <a
+href=mailto:vossg@igd.fhg.de>vossg@igd.fhg.de</a>) </li> 
+
+<li> <a href=http://www.igd.fhg.de/~jbehr>Johannes Behr</a> (JB, <a
+href=mailto:jbehr@igd.fhg.de>jbehr@igd.fhg.de</a>) </li> 
+
+</ul>
+
+<p><br> With contributions by: <ul> 
+
+<li> <a href=http://www.public.iastate.edu/~allenb/>Allen Bierbaum</a> (<a
+href=mailto:allenb@iastate.edu>allenb@iastate.edu</a>) </li> 
+
+<li> David Blythe </li> 
+
+</ul>
+
+Maintainer: DR<p>
+
+<!######################################>
+
+<h2><a NAME="preface">Preface</a></h2>
+
+<!######################################>
+
+This document describes the design underlying the Open Source Scenegraph
+OpenSG. It describes the decision taken and reasons for the decision as well
+as alternatives and reasons for their rejection. The purpose of this document
+is to guide the implementation and set the spirit of the design. It is not a
+rigid specification that describes all the interfaces used, that will follow
+later, during implementation. <p>
+
+The home site of the project is at <a
+href=http://www.opensg.org>http://www.opensg.org</a>, the source
+management is done by <a
+href=http://opensg.sourceforge.net>SourceForge</a>. It is written in
+simplistic HTML with lots of blank lines to allow the use of CVS for
+management, diff to find changes made by new contributors and to
+automatically reformat it to fit an 80 columns editor. Please keep it
+that way. If you want to add images, please send them to the
+maintainer. Thanks.<br>
+
+This document is very much work is progress, so everything written is
+subject to change. Furthermore it represents the goal of the system,
+not the current status. Comments are in <i>italic</i>, sometimes in the
+form of a list of random thoughts. You're welcome to add more, if you
+can explain them to me.<br>
+
+
+<!######################################>
+
+<h2><a NAME="motivation">Motivation</a></h2>
+
+<!######################################>
+
+Scenegraphs are a useful tool to hide a lot of the specialized know-how needed
+to create high-performance feature-rich graphics programs from the application
+programmer. As an analogy in the user interface world one could say that
+Scenegraphs are to low-level APIs like OpenGL what Motif is to X. Now look
+around and see how many people are still programming low-level X and it becomes
+obvious that scenegraphs have a lot of uses and users. <p>
+
+Over time lots of scenegraphs have been written. They all have different
+advantages and disadvantages. The two most famous ones are OpenInventor[1] and
+Performer[2]. The first is very flexible and object-oriented, but has no
+multi-processing support and the design flexibility impacts its rendering
+performance. It has been developed on IRIX and been ported to other Unices and
+Windows. The second is strictly performance-oriented with a focus on vis-sim
+applications. It has an APP-CULL-DRAW-oriented multiprocessing model and is
+only available on IRIX and Linux. <p>
+
+Since 1995 SGI has been trying to built a new unified scenegraph that combines
+flexibility and performance. First as the Cosmo project, later as the OpenGL++
+proposal and finally in the Fahrenheit project. All of them were canceled at
+one point in time, and at SIGGRAPH 99 SGI publicly stated that they were not
+trying to build another "people's scenegraph". <p>
+
+At SIGGRAPH 99 Kent Watsen (kent@watsen.net, NPS), Alan Bierbaum
+(allenb@iastate.edu, VRAC University of Iowa) and DR got together to look for
+alternative scenegraphs, but couldn't find one that fit all our needs. Thus
+this project was started.
+
+<!######################################>
+
+<h2><a NAME="goals">Goals</a></h2>
+
+<!######################################>
+
+The goal of this project is a high-performance scenegraph. It works on Windows
+and different Unix variants, primary targets being IRIX and Linux. Thus the
+primary choice for a low-level API is OpenGL. One important feature is a very
+general multiprocessing support system to allow parallel processes for
+simulations and collision detection. It should be extensible at run-time. Our
+(IGD's) interest is in the area of VR for automotive applications, so one of
+our main interests is in free-form surfaces. One consequence of this is the
+missing need for hard realtime operation. The system should be fast enough to
+drive the graphics hardware as close to full speed as possible, but it will not
+be dumped if it misses a frame. <p>
+
+It should be able to drive a number of display systems, like multi-screen
+projection displays (Powerwalls, CAVEs) etc. thus it needs to be able to handle
+multiple coherent views into a single scene.
+
+<!######################################>
+
+<h2><a NAME="notgoals">!Goals</a></h2>
+
+<!######################################>
+
+This section describes things that in our view are not a part of this project.
+<P>
+
+It is not a Virtual Reality system, it's just a rather application independent
+scenegraph. Thus support for routes a la VRML is beyond the scope of this
+project. Handling of interaction devices like trackers etc. are also beyond the
+scope of this project. There are already a number of toolkits that can handle
+these problems. <p>
+
+It is not seen as a necessity to support other low-level APIs. The importance
+of specialized APIs like Glide is diminishing to zero with the advent of
+hardware T&L in the low-end market. One major goal is portability, and OpenGL
+support is becoming more common in PC graphics accelerators (thanks to John
+Carmack and the Quake family of games), so that D3D support is not a killer
+feature for a graphics system any more. <br>
+
+One problem with multi-API systems is that it either leads to a lowest common
+denominator approach just supporting the cross-section of the features, or to a
+split feature set where a number of features are not portable. Neither is an
+appealing situation.<br>
+
+
+
+<!######################################>
+
+<h2><a NAME="structures">Structure</a></h2>
+
+<!######################################>
+
+<h3><a NAME="axioms">Axioms</h3>
+
+There are usually some basic premises that underly the design of every system.
+These influence many of the decisions taken and serve as a sort of basic
+decision instance. <p>
+
+For OpenSG the axioms are:
+
+<ul>
+
+<li>All objects should be uniquely identified by a pointer.</li>
+
+<li>Multi-threading should be inherently supported and simple to use.</li>
+
+</ul>
+
+This implies a shared memory model, multi-buffered fields instead of separate
+trees, single parents for nodes and other things that are explained later in
+this document. The motivation for these axioms is the ease of use of the
+system and the expected rise of multi-processor systems in the near future.<p>
+
+<h3><a NAME="names">Names</a></h3>
+
+All symbols are part of the <tt>osg</tt> namespace to prevent collisions with
+other libraries, especially for the simple types. In addition all symbols use
+the <tt>osg</tt> or <tt>OSG</tt> prefix.<p>
+
+Class names should be nouns. Basic classes should use simple nouns, derived
+classes the name of their base class plus their own name. <br>
+
+Examples: <tt> class OSGLight; class OSGDirectedLight; </tt><BR>
+
+Since classes should start with upperclass letters we use <tt> class
+OSGLight;</tt> instead of <tt>class osgLight;</tt>. <p>
+
+Methods should use the &lt;verb>[&lt;adjective>]&lt;noun> convention. <br>
+
+Examples: <tt> OSGLight::getColor(); OSGMaterial::getSpecularColor(); </tt><p>
+
+To simplify the document the prefix is not used here. It is implicitly set in
+front of every symbol used by the system.<p>
+
+Only a limited subset of the polish notation is used. Enumeration types use an
+appended <tt>E</tt> to designate them, pointers use <tt>P</tt>. <i>To simplify
+use of reference-counted object we could also use a smart pointer type that is
+used for all pointers inside the system, which uses the <tt>SP</tt> suffix.
+Should we do that? As we have a special type for field container pointers
+anyway it wouldn't make much of a difference for using it. But the cost of
+mandative refcounting might be too high, so enforcing it wouldn't be a good
+idea. So I'd rather leave it for now. (DR)</i><p>
+
+
+<h3>Versions</h3>
+
+The version being linked against can be determined with the
+<tt>OSG_MAJOR_VERSION</tt> and <tt>OSG_MINOR_VERSION</tt> preprocessor symbols,
+both of which are simple numeric values.<p>
+
+At runtime the <tt>PrintVersion( ostream & stream );</tt> function can be used
+to output the version of the library for reference purposes. It can also be
+queried using <tt>GetMajorVersion()</tt> and <tt>GetMinorVersion()</tt>.
+
+
+<h3>OS Abstraction</h3>
+
+To be able to run seamlessly on windows and Unix variants OpenSG uses a utility
+library to abstract certain OS services.<p>
+
+The library offers services for thread creation and basic threading tools 
+(semaphores, locks, barriers, process priority adjustment, processor locking 
+and process assignment). <i>Ok, so some of them are not so basic, but should be 
+possible on all the target OSes anyway.</i> Since we rely heavily on a fast 
+implementation of the multiprocessing stuff we will provide all the nescessary 
+functionallity. Additional functions like message queues which are not needed 
+for the core system have to be discussed.<BR>
+
+
+<h3>Types</h3>
+
+OpenSG uses a set of basic types:
+
+<table> <tr> <td> unsigned byte </td><td> <tt> UInt8</tt> </td> </tr>
+
+<tr> <td> short </td><td><tt> Int16 </tt></td> </tr>
+
+<tr> <td> unsigned short </td><td><tt> UInt16 </tt></td> </tr>
+
+<tr> <td> int </td><td><tt> Int32 </tt></td> </tr>
+
+<tr> <td> unsigned int </td><td><tt> UInt32 </tt></td> </tr>
+
+<tr> <td> long </td><td><tt> Int64 </tt></td> </tr>
+
+<tr> <td> unsigned long </td><td><tt> UInt64 </tt></td> </tr>
+
+<tr> <td> float </td><td><tt> Real32 </tt></td> </tr>
+
+<tr> <td> double </td><td><tt> Real64 </tt></td> </tr>
+
+<tr> <td> float[3] </td><td><tt> Vector3f </tt></td> </tr>
+
+<tr> <td> float[3] </td><td><tt> Point3f </tt></td> </tr>
+
+<tr> <td> float[4][4] </td><td><tt> Matrix4f </tt></td> </tr>
+
+<tr> <td> float[4] </td><td><tt> Quaternion </tt></td> </tr>
+
+<tr> <td> node pointer </td><td><tt> NodeP </tt></td> </tr> </table>
+
+<i>Do we need double vectors/matrices? Do the free-form surfaces really need
+double data? Some big models with small parts might need them, so they will be
+supported by the geometry nodes. The other internal structures are still not
+decided on. (DR)</i><p>
+
+The first simple types are just to guarantee a fixed size.<br>
+
+For type-saftey there are different types for vectors and points. The
+additional program overhead is small due to C++, and the difference enforces
+a clear idea about what the data is used for. <p>
+
+The array types support all the usual conversion and mathematics functions.
+<br>
+
+<i>These are only some of all the possible functions. These things tend to get
+big...(DR)</i><br>
+
+Vectors can be added, subtracted, multiplied (scalar, cross, dot), incremented,
+decremented and multiplied with matrices/transposed matrices/partial
+matrices.<br>
+
+Matrices store their type (identity,translation,orthogonal,general) and the
+sign of the determinant in addition to the basic data to facilitate efficient
+vector-matrix multiplications. They themselves can be scaled, translated,
+rotated, multiplied, determined etc.<p>
+
+Quaternions can be created from matrices and axis/angle tuples, they can be
+transformed into matrices, multiplied, normalized and interpolated
+(slerped).<p>
+
+
+<!-- removed for now. FCs do the refcounting, others don't need it. 
+
+<h3>Memory objects</h3>
+
+One basic class that many other classes are derived from is a
+reference-counting memory object. <p>
+
+It is created with a reference count of zero and is deleted as soon as the
+reference count goes below 1. <p>
+
+A templated smart pointer class <tt>SP</tt> is provided to simplify using them.
+It increments and decrements the refcount automatically on
+construction/deletion and assignment of itself.<p>
+
+<i>Should everything be derived from this class? Not everything needs to be
+refcounted. But everything to be referenced by a field needs to be for thread
+safety, so the higher structures should be.(DR)</i> 
+
+-->
+
+<h3><a NAME="bitmasks">Bitmasks / Bitmask Manager</a></h3>
+
+Bitmasks are used in a number of places to mark structures for special
+treatment. Using fixed bitmask patterns is not a good idea for a system that is
+to be extended at runtime, thus a bitmask manager is supported.<p>
+
+It manages a bitmask using an alloc/free paradigm. Several bitmask manager
+instances are provided by the system for the different masks.<p>
+
+Bitmasks are 32 bit wide, for efficiency.<p>
+
+<i>How big should they be? 32 might not be enough. How well are long longs 
+handled on Intel processors? Should they use an arbitrary size? I'd like them 
+to be constant size, as it makes life so much easier. Even at the danger of 
+sounding like Bill Gates, 32 bit should be enough for everybody. And if not 
+C++ encapsulation allows us to change it later.</i><p>
+
+
+<h3><a NAME="volumes">Volumes</a></h3>
+
+Based on the elementary structures OpenSG supports a number of functions on
+volumes. These are mainly used as bounding volumes to speed up visibility
+culling or intersection testing, but can also be used by the application for
+other tasks. The supported volume types are axis-aligned boxes, spheres,
+<i>cylinders,? (yes, useful for tubes, arms, fingers (AR))</i> frustra and
+polytopes (intersections of halfspaces).
+
+<p>
+
+The volumes support creation around a set of vectors (for initial construction
+around geometry) and around a group of themselves (for hierarchisation). They
+can also extend themselves by a volume of the same type for incremental
+building. Conversion between different types of volumes is done by having a
+constructor taking an axis-aligned box as the parameter and featuring a cast
+operator to axis-aligned box. <i> Is it too dangerous performance-wise to allow
+that? Maybe we could disable that cast for profiling?(DR)</i> For some useful
+special cases direct casts are implemented. Volumes can be transformed by a
+matrix to allow transformations.
+
+<i> Only conversion from and to axis-aligned boxes(AR)? For simplicity reasons,
+yes. Converting from everything to everything explodes fast. If you need
+special cases you're free to write them, I just don't want people to expect
+conversions to be free or fast. (DR)</i> <p>
+
+To use them they can be intersected by rays, returning minimum and maximum
+intersection distance (if any). As all volumes are convex this is complete. One
+of the main uses is visibility determination, so a conservative intersection
+test against frustra is implemented, too. As a simple basis for that a point in
+volume test is realized.
+
+<p>
+
+<i>What's the most useful representation for rays? Point + vector, point +
+normalized vector + length, 2 points? I'd go for point + normalized vector +
+length, any problems with that?(DR) I agree.(AR)</i>
+
+<p> 
+
+<!-- maybe later... 
+
+As volumes are useful basis classes for different
+algorithms they support some creation functions too. They can generate a random
+point on their surface or inside them. This is used by the particle system
+classes to create parameters in a restrained space.<p> 
+
+-->
+
+Volumes can have special states: empty, infinite, invalid and frozen.<p>
+
+Newly created volumes are empty. Extending a volume by an empty volume doesn't
+change it, intersecting an empty volume never hits, transforming an empty
+volume leaves an empty volume. The emptiness test is probably used very often,
+thus it should be fast. <br>
+
+Infinite volumes are similar to empty volumes. Extending a volume by an
+infinite volume doesn't change it, intersecting an infinite volume always hits,
+transforming an infinite volume leaves an infinite volume.<br>
+
+Volumes are invalidated when their enclosed geometry is changed, but the volume
+has not been recalculated yet. This is used for lazy hierarchical bounding
+volume update. Invalid volumes are made valid by assigning a new value to them,
+all other operations leave them unchanged.<br>
+
+Frozen volumes are used to enclose objects that change frequently but don't
+leave a bounded area. Frozen volumes ignore invalidation requests and return
+failure to these requests, thus hierarchical invalidation should stop at frozen
+volumes. They can be intersected and transformed like normal volumes.<br>
+
+
+<h3>Messages and Output</h3>
+
+All outputs from the system are channeled through an output log handler that
+allows different log levels (debug, info, notice, warning, fatal) that can be
+switched off programmatically or by an environment variable. <br>
+
+The interface is basically stream-based, but for the cases where streams are
+just too awkward, you can use a printf-style interface, too.<p>
+
+
+<i> Error handling? Exceptions? Return codes? Some tests show that exceptions 
+have no performance penalty anymore (at least with sgi 7.3 compilers), so they 
+seem ot be the first choice for error handling right now. </i><p>
+
+
+<h3>File handling</h3>
+
+<i> search path management. One search path should be enough for everything.
+Transparent access to compressed (.z,.gz) files? What about archive formats
+(.zip,.tar) seen as directories? Maybe just use PenguinFile and be done.</i>
+
+
+<h3>Time</h3>
+
+<i> time class, for measuring high-res times, thus has to be efficient (Irix'
+cycle counter is a really nice example), needs to watch for wraparound.<p>
+
+optionally frame locked (for slower than life animations and recording),
+connected to scenegraph?<p> </i>
+
+
+<h3><a NAME="functors">Functors</a></h3>
+
+There are several places in the system where user-supplied functions are going
+to be called. <br>
+
+These are realized using member function references similar to STL's
+<tt>mem_fun_t<></tt>. They are close to functor objects, but allow the use of
+multiple functions of a single object. Throughout this document, these objects
+will be called functors.<p>
+
+<i> The current implementation allows mixing interfaces and adapting
+them (e.g.  functors that call simple functions have an additional <tt>
+void * userdata</tt> parameter, or a functor can call a method or a
+simple function), but at the cost of a virtual function call. I'm not
+sure if that flexibility is really needed. Maybe we should built a
+functor with a single interface that doesn't need the virtual call.
+(DR)</i>
+
+<h3>Default Values</h3>
+
+There are four symbolic values for many parameters in the system: Fastest,
+Nicest, DontCare and Default. Many parameters are initialized to DontCare,
+giving the system the freedom to choose parameters as it sees fit.<p>
+
+The actual values used are taken from the global default object
+<tt>Defaults</tt>. These values can be changed by the application, and will
+usually be changed by a system-specific module to reflect the most appropriate
+settings for the actual system.<p>
+
+This functionality is mainly used by the materials, to allow system-specific
+selection of optimal parameters.<p>
+
+<i>This is not enough for all platform-specific optimizations. Some things have 
+to take more care and are hard to do on the fly, or change the data, like 
+reformatting image or geometry data to the optimal format. These can't be done 
+automatically, as the application might depend on some data formats, even at 
+the cost of performance. So for these an opimization action is provided, which 
+optimizes the tree and the data.</i><p>
+
+<!######################################>
+
+<h2> The Scenegraph</h2>
+
+<!######################################>
+
+The basic structure is, surprise, surprise, a scenegraph. It is a tree composed
+of nodes and leaves. Every node has a set of fields that contains the node's
+attributes. <br>
+
+The fields (type <tt>Field</tt>) are the basic data container for data that is
+supposed to be saved to files or accessed in a general way. Conceptually fields are also the unit for multithreading and multi-thread safety.<p>
+
+The clean multiprocessing concept is one of the main new capabilities of the
+OpenSG. There have been attempts of doing this before. <p>
+
+Performer uses a separate scenegraph for every process that is used. Changes
+between processes are communicated via a changelist that collects the ids of
+all nodes that have been changed since the last sync.<br>
+
+Our own scenegraph Y uses a more specialized concept by only having some
+fields that are needed by the downstream processes replicated. The data is
+copied between the fields at sync time depending on a dirty flag. This
+necessitates a traversal to catch all the changed nodes, which might be
+expensive for large graphs. 
+
+<p>
+
+The MP model for OpenSG is more general and flexible. It uses a mixture of both
+concepts, based on a completely shared process model like pthreads. Nonetheless
+there is a compile time option to switch the multithread support off. This can
+be used for applications that don't want or need MP support, and equally
+important for benchmarking the overhead of the multithread support.
+
+<p>
+
+Every field has a number of <b>aspects</b>. The maximum number of aspects is 
+determined at initialization time. <i> Doing it at compile time would make 
+things a bit easier and probably more effective due to being able to used fixed 
+size arrays. If the upper bound of the number of aspects can be sensibly 
+defined. Which it probably can't. :( It might be an interesting experiment to 
+try both and see how they work. As the implementation is hidden inside the base 
+field container out of sight of the applications that's what we're going to do.(DR) With 
+the current model of replicating field containers it's not as bad, init-time 
+should be ok.(DR)</i> Every thread is bound to one aspect. When accessing the 
+field data the version that is assigned to the currently active aspect is 
+returned/changed. <br>
+
+The standard case will be a different aspect for every thread. That is not
+enforced, though, so a careful application can have multiple threads working on
+a single aspect. This is possible because the ChangeList is separate for every
+thread, so after the task is done they can be joined. It has to take care that
+only one thread gets to write a certain field, though, or to join the
+ChangeLists in the right order, whichever that may be. This allows multiple
+processors working on a task without using up lots of aspects and having to
+synchronize all of them to get the result together. A typical case would be
+calculating vertex normals or striping a whole tree, which can be distributed
+among a set of worker threads, probably using a work queue for a
+producer-consumer scheme.
+
+<p>
+
+But this general method means that every field access needs to identify the 
+current thread's active aspect. It would be possible to leave the responsibility 
+for carrying this current aspect id around on the shoulders of the application. 
+But this makes applications a lot more complicated to write and furthermore it's 
+prone to errors that are very hard to identify. <br>
+
+Thus the system needs an extremely efficient way of finding the current aspect 
+id. A system call would probably be too expensive, a thread-specific variable 
+would be better. As the aspect id of a thread will change very rarely, it should 
+be possible to force an optimizing compiler to keep the value in a processor 
+register, giving very low overhead compared to a simple single value scheme. 
+<br>
+
+<i>Irix and most other Unices should supply thread-local data as a part
+of the thread descriptor. Irix does it, for others we looking for it
+but are optimistic about it. Linux doesn't, though, and we hope that
+will change in the future. Right now there is a solution for Linux that
+works, but not at full performance. Apparently Linus is objecting to a
+more efficient approach, maybe that will change in the future. NT has a
+fast method for access to a low-integer thread identifier too, so the
+important bases are covered. (DR) </i>
+
+<p>
+
+An open problem is the memory organization of the multi-buffered fields.<p>
+
+The simple way is to put a copy of the data in the field. But that makes the
+field rather big, thus more cache-unfriendly, and gives rise to severe
+cache-consistency work. But it makes field handling very easy, as pointers to
+fields are valid in every thread.<br>
+
+The alternative is embedding the fields in a larger structure and replicating
+these larger structures. The fields used by nodes are embedded into fiesld
+containers anyway (see <a href=#fieldcontainer>field container</a>). The
+problem is the inability to easily use a pointer to the field any more. This
+can be overcome by defining a <tt>FieldPtr</tt> class that wraps the
+container/field pair to access fields. The most common access to a container's
+fields should be via the container's access methods, so the additional overhead
+for keeping the container around field pointers should easily be compensated by
+the generally more efficient field data access, thus this alternative is the
+preferred one right now.<br>
+
+The consequence is that there can be no naked fields, every field will have to
+be part of a field container.
+
+<p>
+
+Every field is uniquely identified. <i>This could be done by the pointer or by
+a unique integer. Given the increasing importance of distribution for
+clustering and collaborative work they will have a unique numeric id even
+though the ChangeLists will probably use pointers.(DR)</i> Every thread keeps
+a list of the ids of recently changed fields. When a field is changed it's id
+is appended to that list. These change lists are managed in the
+<tt>ChangeList</tt> class.
+
+<p>
+
+<tt>ChangeList</tt>s keep a list of the fields that have been changed in the
+active thread since the last synchronization. Every field change is
+automatically appended to the active <tt>ChangeList</tt>. But every field
+should only be in the list once, even if it was changed multiple times, so the
+data is only copied once. Thus the change list needs a fast way to reject
+already entered ids, or unify them quickly before synchronizing.
+
+<i>There are a number of ways to do that. The easiest is keeping a
+<tt>changed</tt> bit in the fields that is set at change time and cleared at
+sync. Keeping the change list sorted is another way, or sorting it at sync time
+and eliminating doubles. Keeping the change list as a bitfield indicating
+changed fields is not going to be efficient, as the expectation is that only a
+small percentage of all fields are going to be changed between syncs. I don't
+really like the bit per field idea, as keeping a single bit per field per
+aspect is not going to be efficient, as those bits will increase the field
+size, probably by a full word. Gut-feeling says it's going to be the most
+efficient way, though, but sorting at the end might not be all that bad. It
+heavily depends on the length of the change lists in practical applications.
+Statistics and benchmarking will hopefully answer that. A number of
+alternatives could be implemented as subclasses of <tt>ChangeList</tt> and
+either selected by the application or maybe even exchanged at runtime depending
+on the size and frequency of changes.(DR)</i>
+
+<p>
+
+CLs need to support appending field IDs, obviously, and synchronizing an aspect
+to another aspect and his changelist. This also has to work both ways, so that
+two threads can sync each other without creating a change storm, where changes
+are shuttled back and forth between threads, creating all-encompassing CLs. But
+changelists also need to be joined without any synchronization. The need for
+this arises from the above mentioned splitting of a task across multiple
+threads working on one aspect. But at least equally important is the keeping of
+several CLs by a master process to keep multiple independently running
+asynchronous threads consistent. It does that by keeping a CL for every worker
+thread. When a worker asks for a sync the master's CL is appended to all
+workers' CLs. Then the worker's private CL is appended to all other workers CL,
+after which the master's aspect is synced with the worker using the storm-free
+sync mentioned above. This allows multiple independent asynchronous threads
+working at their own speed.
+
+<p>
+
+This change list concept works rather efficient if every thread uses the same
+scenegraph. But as soon as there are threads for specialized tasks that are
+only interested in a small part of the scenegraph they will have to handle a
+whole lot of change messages they are not interested in. To facilitate
+filtering a thread can attach a discrimination functor to his aspect. This
+functor is invoked when a change is to be integrated or synchronized with the
+aspect, and can reject them if the thread is not interested. This decision can
+be based on whatever algorithm is implemented by the user. <i>Should we make
+this easier? Here the unique integer field id might be handy as an index into a
+bitfield. Another idea would be giving the fields types that can be
+discriminated against. Which types is a very open question... Alternatively
+maybe an interest mask similar to the node's traversal mask could work. Using a
+general allocation/deallocation handling for the bits would allow a pretty
+efficient discrimination. That crashes hard when the available bits are
+exhausted, though.(DR)</i>
+
+<p>
+
+<i>What about producer-consumer changelists that allow overlapped
+synchronization (see Performer's CULLoDRAW)? Is that something special or is it
+just frequent synchronization? I think it's the latter, so a special case for
+that is not needed. (DR)</i>
+
+<p>
+
+Besides changing, fields can also be created and deleted, both of which is
+handled by the change lists, too. As there are no naked fields, this is handled
+by the field container objects. Field containers can only really be deleted
+after all aspects that use them have stopped using them. This is accomplished
+by incrementing their reference count in a new aspect on synchronizing with the
+change list of the creating thread. On accepting a deletion change the
+reference count is decremented and the field is deleted when it reaches zero.
+
+<p>
+
+<i>Multi-buffered fields and ChangeLists are <b>the</b> most important data
+structures, as they are used by every access to the data. We should take
+extreme care to get them right. As that is next to impossible to do without
+writing real applications using them we will take care to leave as many
+alternatives open as we can without compromising efficiency.(DR) </i>
+
+<p>
+
+So far the stored data has been treated very abstractly, or rather, not at all.
+There are three variants of the abstract <tt>Field</tt> that store the data
+differently.
+
+<p>
+
+The simplest is the <tt>SingleField&lt;datatype></tt>. It just stores the real
+data of the value to be stored in the field. This is usefully applicable to
+small, fixed size data like integers or real values. At sync time the data is
+just copied between aspects, so the data has to be small, and as it is
+integrated into the structure by the virtue of templates, it has to be fixed
+size. As the real data is copied, this type of field can only be used for
+pointers with care, as the pointed to data is not copied. <br> 
+
+Access is done using the <tt>&lt;datatype> getValue();</tt> and
+<tt>setValue(&lt;datatype> val);</tt> methods. <br>
+
+For all the basic types there are corresponding field types.
+
+<p>
+
+For pointed to data in the form of variable sized arrays there is the
+<tt>MultiField&lt;datatype></tt>. Reading them is done by
+<tt>&lt;datatype> getValue(uint32 index);</tt>. Changing them is a bit
+more complicated. <br>
+
+To prevent useless data copies the array fields employ a copy on write
+strategy. Making that efficient without having to check the validity of
+the current array and appending to the active change list for every
+write access is most easily done by bracketing the write accesses. <br>
+
+Before writing the data <tt>beginEdit(hints)</tt> has to be called. At that
+point a private copy of the array data is made, if one is not associated with
+the current thread already. Sometimes it's not needed to actually copy the data,
+as all of it is going to be recalculated anyway. Thus by giving the right
+<tt>hints</tt> to <tt>beginEdit()</tt> a copy is not made, just uninitialized
+new memory is allocated. To find out if a new copy is needed the arrays are
+reference-counted, so if only one user is attached to an array, no copy needs
+to be made. <i>Should there be hints that indicate that only some elements
+changed? This would make sense if the buffer to be synchronized with has pretty
+much the same data already, so that only some elements have to be copied. The
+only problem is how to know that? I'm tending to say it's the applications
+responsibility to create separate fields/objects for data that changes often
+and data that doesn't change. Might be a good idea anyway as static data could
+be optimized more aggressively (OpenGL display lists etc.).</i><br>
+
+At <tt>endEdit()</tt> time the field is appended to the change list. This
+prevents synchronizing with partially changed and inconsistent fields, even
+though it should be considered a bug to synchronize before closing the open
+fields. <i>What about nested open/closes? We could allow it by keeping a
+counter for the number of opens/closes, which would also allow tracking
+unclosed fields. Right now I think that's not neccessary, but it might be an
+option in the future. (DR)</i>
+
+<p>
+
+<i>One important aspect is locking. MP-hard reference counters need to be
+locked. The system-dependent utility library should provide basic locks, but
+how many? One for all fields? Will become a big bottleneck. One for every
+field? Too expensive, SGI's have a limited number of hardware locks (do they
+still? I know it was 4096 some time ago). Locking might be useful for general
+structures, so I'd propose creating a general locking facility based on the
+pointers of the object to lock.<br>
+
+Some address bits should be used to index into an array of locks. If the locks
+become a bottleneck it can just be increased in size and the load in
+distributed over more locks. Probably the bits 0xf80 are the best, as
+they change hopefully a lot in indeterministic ways, but are not influenced by
+double-aligned structure placement, and 32 locks sounds like a nice compromise
+to start with. As in most other cases, there should be a way to gather
+statistical information about usage and contention, so the number can be
+optimized.(DR)</i> 
+
+<p>
+
+Element management is done using STL vectors. The STL vector interface
+is exposed in large parts to make using them easier. Accessing data is
+done by <tt>getValue(int index)</tt> and <tt>setValue(int index,
+value)</tt>. Both do not check the index for efficiency reasons.
+<i>There should be a debugging version of the library that does,
+though.  (DR)</i> If needed the pointer to the data can be accessed
+using <tt>getValues()</tt>, this is not recommended though, as writing
+over bounds can crash the system.
+
+<p>
+
+<i>Should we keep the arrays that have a reference count of zero as spares to
+be used when a new array is needed? This will prevent frequent allocation of
+array memory when a new array is needed. This can rather easily be done by
+letting the field containers create a spare aspect that keeps the currently
+unused arrays around. As the typical case is change in one thread, synchronize
+with another thread (freeing one copy), and then changing again in the first
+thread (needing a new copy) just keeping one spare around will handle the most
+common cases. (DR) </i>
+
+<p>
+
+IrisGL/OpenGL introduced the idea that the rendering system doesn't
+have to own the data. To integrate fast rendering into another, possibly
+existing system it shouldn't. To allow that there is a <tt>MultiField</tt> 
+variant that does not allocate the data itself, but rather uses
+user-supplied functors to do that. These functors can return pointers
+into application data and thus prevent data duplication.
+
+<p>
+
+<i>flux idea: multiple initialized buffers, changing only some parts of<br>
+attached to frame number? Seem like an application, not a core feature right
+now.</i>
+
+
+
+<a NAME="fieldcontainer"><h3>Field Container</h3></a>
+
+To allow more efficient aspect management fields have to be enclosd by
+field containers. The different aspects are not kept in the fields, but
+rather in the field containers. This keeps the data for the different
+fields of an aspect close together, alleviating cache problems. The
+different copies of the field container are kept in a contiguous block.
+Pointers to a field container point to the beginning of that block and
+contain the size of a single aspect, so it's easy to get to the
+relevant data without dereferencing the basis first. <p>
+
+But as a consequence, standard C/C++ pointers don't work anymore, as
+they have to be manipulated to point to the copy used by the aspect.
+Actually, that's not quite true. C/C++ pointers can be used and are
+valid, as long as they are only used in one aspect. If the application
+can guarantee that the aspect is not going to be changed, it can work
+with standard pointers. <i>Just don't come running if your application
+breaks in unpredictable ways... ;)</i>
+
+<p>
+
+Field containers are the lowest level sharing group. Single fields
+cannot be shared between structures, i.e. pointers to fields are not
+used to reference data from multiple positions. <i>The problem with
+sharing is the need to inform all users of changes. To do that the
+sharable unit needs a list of users. Having that for every field is too
+much overhead, IMHO, as most fields will not be shared. (DR)</i> Thus
+sharing can only be done on the field container level.<p>
+
+The container classes store information about the field's names and
+types in a type class. These field descriptions can be used to access
+the fields of a container by names. To do that they keep an access
+method for the field.  These field descriptions can be extended by an
+application to additional data about a field (e.g. whether a field
+should be used for reading or writing).<br>
+
+The field containers themselves are typed. These types are organized
+hierarchically to allow creation of new container types based on
+existing types.  Only single inheritance is allowed. This type
+information is also used by the <a HREF="#Typing and
+Traversals">traversal</a> mechanism.<p>
+
+There is a problem with changing field containers. Via the named
+access, applications can get access to the fields of a field container
+and can change them. If the field container keeps data that is derived
+from these fields, this data needs to be invalidated and/or updated when
+the fields changes. There are two ways to do that: either the field does
+it, or the user does it. If the field wants to do it, it has to know
+its field container (every field has one, as there can be no naked
+fields). But field container pointers are rather big and would double
+the size of a standard Int32 or Real32 field. Which is a noticable
+difference for a feature that is probably not going to be used very
+often. Thus the second way, and the prefered way right now, is to leave
+the burden on the shoulders of the application. After changing fields
+of a field container, the application has to call the
+<tt>changed()</tt> function of the field container and indicate the
+fields it changed, allowing the field container to react.<p>
+
+
+There are several classes derived from field container to serve
+different needs throughout the system. They are explained later.
+
+
+<!######################################>
+
+<h2>Object Creation and Extension</h2>
+
+<!######################################>
+
+Flexibility and extendibility are important aspects of a system that should be 
+useful for some time to come. This includes extending it at compile time, but 
+also at run-time by an application that does not extend the library's source 
+code. In the extreme case an unsuspecting application that was written before 
+the extension was conceived should be able to take advantage of it.<p>
+
+To allow that system classes must be able to be replaced at runtime by
+different, extended classes. This demands a dynamic generative approach, OpenSG
+uses the Prototype pattern to achieve that.<p>
+
+The higher level system classes have protected constructors and cannot be
+instantiated directly. The system keeps a prototype for every class that is
+used to create new objects. These prototypes are kept in a prototype manager, 
+which functions as a factory.<br>
+
+As the prototypes are used as the basis for new objects they should be 
+initialized with default values and should represent an empty object. The used 
+attributes will probably be changed directly after creation anyway, so 
+there's very little point in providing complicated (and expensive to clone) 
+defaults.<p>
+
+At runtime the application can exchange prototypes and thus change the type of 
+every object created by the system, e.g. by file loaders. The dynamic
+extension of unsuspecting applications can be realized by having the
+application load extension modules that create the new prototypes. This should
+not be done automatically by OpenSG, as some applications might depend on
+specific features and limitations of the built-in types and would not react
+gracefully to new objects. A command-line option that can be handled by the
+system initialize function is probably a useful approach.<p>
+
+Prototypes have some advantages compared to a simple factory. They are objects
+of their class, after all, so they allow access to static methods like type
+queries. For overriden prototypes these will return the correct type of new
+objects that are created, even if the type did not exist at compile time.<p>
+
+To extend objects the decorator pattern is mostly used. It has two major
+advantages: New decorators can easily be loaded dynamically and added to
+applications that know nothing about them (by registering a prototype that
+creates pre-decorated objects), and they can be cascaded, i.e. two decorations
+that don't necessarily know about each other can be attached to an object
+sequentially. To allow the concrete decorators to find themselves in the
+decorator chain, objects that can be decorated have a <tt>getComponent()</tt>
+method to access an eventual next decorator in the chain. <i>Not a great name,
+but the one used in the original text. I'd like <tt>getDecorated()</tt>
+better.(DR)</i>. For non-decorated objects it returns NULL. <p>
+
+Decorators have disadvantages, though. It is pretty much impossible to
+decorate an existing object, as all the pointers pointing to the original
+would have to be redirected. And decorators are not cheap, as they add a level
+of indirection and force all functions that might be changed to be virtual. So
+for extensions that are just going to be used in one application deriving from
+the standard classes would be more efficient. <p>
+
+<i>The performance cost is not nice, but it's only incurred on decorated
+objects, and other patterns I know are not as flexible and dynamic. Are there
+other, better patterns for run-time extensions?(DR)</i><p>
+
+Another function related to object creation is mutation of an existing object
+to a differently typed one. One example is changing an existing group node to a
+switch or LOD node. This could be done by adding all the children of the
+existing node to a new node, removing the old node from its parent and adding
+the new node to it. The disadvantage of that approach is the invalidation of
+all pointers to the old node. The backbone/core concept (s. <a href="data
+reuse">Data reuse</a>) allows a different approach. Only the core container is
+exchanged, the backbone part is left in the tree. To facilitate that a
+constructor function that accepts a node to mutate is available. These
+constructors have to check if the node they are going to mutate is of a type
+they are derived from or of the same type as themselves, so that access
+functions used on the old node can still be used on them.
+
+In general it a single class derivation should be enough to derive new
+objects. Having parallel class hierarchies that have to be kept
+consistent is a heavy burden, that we wish to avoid.<p>
+
+<!######################################>
+
+<h2>Nodes</h2>
+
+<!######################################>
+
+First some general ideas.
+
+<h3><a name="data reuse">Data reuse</a></h3>
+
+In many cases scenes in a scenegraph can benefit significantly from data reuse.
+Simple models like trees or parts of models like the wheels of a car can be
+used several times without keeping multiple copies of the data. 
+
+<p>
+
+Another aspect is the use of different scenegraphs for different semantics. One
+scenegraph might have a structure that is optimized for efficient rendering,
+i.e. use a hierarchy of groups for culling. Another scenegraph might be
+organized in a more logical way, i.e. group all the elements of one type like
+all the screws in a car under one parent. A somewhat inverse aspect is having
+different representations of an object for different tasks. This is handled by
+the <a href="#alternative node">Alternative</a> node.
+
+<p>
+
+Classically this was done by allowing multiple group nodes to use a node, or
+seen the other way round, by allowing a node to have multiple parents. Inventor
+has no parent concept, Performer explicitly allowed access to the different
+parents.
+
+<p>
+
+This multi-parent model has some disadvantages, though. Very often one needs to
+know the parent of a node, e.g. to accumulate the transformation on the way to
+the root node. Inventor was very consequent in this respect: there was no
+parent pointer, so to identify a node the whole path from the root to the node
+is needed. Performer has parent pointers, but which one to use? It depends on
+the scenegraph you're interested in, so you always need to know that, in
+addition to the node.
+
+<p>
+
+Another problem with multiple parents is the inability to store any kind of
+derived data at the node. For example storing the accumulated matrix to the
+world is impossible, as there are possibly many ways to get to the root. The
+same problem impacts the use of bounding box hierarchies for culling and makes
+the use of names to identify nodes impossible.
+
+<p>
+
+Looking at the distribution of the amount of data in typical scenes the biggest
+part is in the geometric data like vertices, normals, colors and texture
+coordinates. Thus the biggest savings in terms of memory reuse are achieved by
+sharing this geometric data. This can most easily be realized by allowing the
+user to define the arrays of geometric data to store in the Geometry nodes. But
+this leaves the responsibility for MP safety on the shoulders of the user, so
+it's not a good solution.
+
+<p>
+
+The next step is to put all the geometry's attributes in a separate structure
+and allow that structure to be used by multiple geometry nodes. This strategy
+was used pretty successfully by Y.
+
+<p>
+
+Applying the same principle to other types of nodes gives other useful results.
+Switch data for example can be used to switch a number of nodes simultaneously.
+Thus the principle is applied to all nodes in OpenSG.
+
+<p>
+
+The backbone part of a node carries all the data that depends on the position
+in the scenegraph, like the parent, the children and derived data, and the name
+and type of the object. This backbone part is the same for all types of nodes,
+even though the leaf nodes (Geometry) ignore the children. <i>I hate that. But
+I don't have a real reason for it, it's just my sense of aesthetics... (CK)</i>
+
+<p>
+
+All other sharable data is collected in a nodetype-specific container that can
+be used by multiple backbones.
+
+<p>
+
+<i>The big problem: this doesn't allow adding or deleting a child to one 
+instance so that the change automagically appears in all other instances. How 
+important is that feature? I can't really think of a killer app right now, but 
+of several interesting little ones. Memory-wise the backbone should be as
+light as possible, so that the overhead of having multiple backbones for a
+node doesn't hurt.<br> 
+
+We could work around that limitation by having links between the different
+nodes representing instances of a node and explicitly mirroring add/delete
+actions between them. But that would have to be done for every node
+separately, which might add some noticeable overhead to tree changes. I don't
+really have a solution for that. I really dislike having multiple parents, but
+I can see cases that would benefit. (DR)</i>
+
+
+<h3>General attributes for every node</h3>
+
+These attributes are kept in the backbone part. As this backbone part contains
+fields, it's derived from the generic field container.
+
+<h4>Bounding Volume</h4>
+
+A node has a bounding volume, which can be any of the available volume
+types (s.  section <a HREF="#volumes">Volumes</a>) <i>We have a
+polymorphic volume now that does can be instanced and doesn't have to
+be referenced. It needs virtual to access the data though, which is not
+nice but impossible to avoid. Maybe we can go back to a single type of
+volume in the nodes later on, when a winner appears from the
+benchmarks. (DR)</i>, and encompasses the node's and all geometry below
+it. Note that this does not necessarily imply encompassing all the
+bounding volumes below it. This allows tighter bounding volumes, as
+e.g. a sphere around a hierarchy of geometry can be smaller than a
+sphere around the next level of bounding spheres. <i>Is that a problem
+for applications that work on bvolumes only?  Is it worth the trouble
+in the first place? I don't know, but until I know I'd like to keep the
+option open. (DR)</i><br>
+
+By default bounding volumes are hierarchically invalidated lazily on changes to
+geometry or transformations below them and are validated lazily on access. To
+prevent frequent updates of bounding volumes that change every frame they can
+also be assigned and frozen. This allows setting the bv to enclose the maximum
+motion range of the moving object (or at least the range for some time), and
+thus prevent expensive updates. <br>
+
+A special case is the virtually infinite bounding volume. It is a special type
+of bvolume that is always visible (it intersects everything), but has no real
+position or size (it doesn't extend another volume when added to it). It is
+used for objects that are always rendered when their parent is rendered, but
+don't extend their parent's bvolume to infinity, which could cause a lot of
+trouble for routines that need the scene's bounding volume (like automatic
+viewer placement). Note that to ensure rendering of a node with a virtually
+infinite bv all nodes between it and the root have to have virtually infinite
+bvs. <i>Problem: has to be done manually, and is not reversed automatically,
+when the lowest level node is removed.(CK) I'd suggest a cleanup action to do that, which is called by the user when sees the need. (DR)</i><br>
+
+<i> One idea I always had in mind but never tried are growing-only bvolumes.
+They would automatically encompass objects moving in a restricted area, but
+might get too big to be useful. Could be integrated later to try thir
+usefulness. (DR)</i><br>
+
+
+<h4>Traversal Mask</h4>
+
+Every node has bitmask to be used for traversal control. Similarly, every
+traversal has a mask and a reference value. Only nodes for which the logical
+<tt>and</tt> of the node's traversal mask and the traversal's mask gives the
+reference value are considered for traversing, the other ones are ignored. 
+<i>(Is that the most general/most useful operation? Is just an <tt>and</tt> 
+enough? DR)</i>
+
+<h4>Name</h4>
+
+Every node has a name. It doesn't have to be unique for the system to work,
+because pointers are used to identify nodes. This is no longer true when a
+scene is to be written to a file. Thus a utility function is available to make
+the names unique, which should <i>(has to?)</i> be called before writing the
+scene to file. <i>Is the name really needed? It could be made a attachment.(DR)
+</i><br>
+
+<h4><a NAME="Attachments">Attachments</a></h4>
+
+To extend a node with new core functonality deriving from it is the
+most efficient way. OpenSG allows doing that on a system-wide basis by
+the prototype factory. But derivation has limitations.<p>
+
+When two extensions should be used together, derivation has a problem,
+as a node can only have one type. Diamond derivation would make the
+type system very complicated, more complicated than we would like to
+handle.<p>
+
+In many cases derivation is too big a concept. Many applications would
+be happy just to add data fields to the nodes. Attachments allow
+that.<p>
+
+An attachments is special kind of field container (that means it can be
+shared between nodes) that can be attached to a node. Nodes keep a map
+mapping a string key and an integer to an attachment pointer. Usually
+there should be only one attachment of any kind at a node, the integer
+allows adding a specified number of them, if that's needed.<p>
+
+<h4>Core</h4>
+
+Every node has a pointer to it's core. The core part also defines the type of
+the node, as nodes themselves are not typed. <p>
+
+This also means that the core's fields can not usually be accessed
+directly from the node. To simplify that and to hide the distinction
+between node and core a templated typed node pointer is added, that can
+be cast to the respective core.<p>
+
+
+<h3><a name="Typing and Actions">Typing and Actions</a></h3>
+
+One major purpose of a scenegraph, like every graph, is to be traversed to
+apply operations to every node in the graph. Typical actions include
+intersection for picking objects, searching for a named node and printing.<p>
+
+OpenSG uses a dynamic visitor pattern similar to the one used by Inventor and
+Cosmo3D to allow simple adding of new node classes and actions.<p>
+
+The types of the node's core can be used to inquire
+inheritance relationships between classes, i.e. check if a given node is
+derived from another type to allow typesafe casts.<p>
+
+The node core's type is used to index a table of functions for every action. 
+The action tables are stored by the different action classes themselves. 
+They are by default initialized from the classes' parent and can be overriden 
+for every action instance, based on the node type to allow easy 
+customization. The action functions are stored as <a 
+href="#functors">functors</a>.<p>
+
+The action functions for group nodes should not recurse themselves
+(i.e.  call the traverser on their children). Some actions might use
+different action functions, e.g. an intersection optimized to handle
+multiple rays would first call a volume-node intersection function and
+call the separate ray tests only if it's successful. Other traversers
+might want to do a breadth first action to distribute work among
+different processors. Group nodes should read and store the information
+about which children to traverse in the action instead. To keep the
+common case of using all children efficient this is taken to be the
+default, if no nodes are specified explicitly.<br>
+
+To do this and still keep generality two functors can be specified for
+every type. The <tt>pre</tt> functor is called on the way down and
+should select the nodes to traverse and do the actions needed on them.
+The <tt>post</tt> functor is called when all children are traversed and
+should do necessary cleanup.<p>
+
+
+The signature of the action functors is <tt>Action::ResultE traverse( Node * node,
+Action * trav );</tt>. <p>
+
+
+The function can return the following codes:<p>
+
+<ul>
+
+<li> Continue </li>
+
+<li> Skip </li>
+
+<li> Cancel </li>
+
+<li> Quit </li>
+
+</ul>
+
+The following types of actions are defined:
+
+<ul>
+
+<li> intersection against single rays </li>
+
+<li> intersection against boxes </li>
+
+<li> intersection against a cone <p>
+
+<i>Intersections: return the closest/ the furthest/ all intersecting
+primitives, give the distance to the primitive for cones/boxes and of course
+the point of intersection/closest distance to primitive, allow a discriminator
+function to accept/reject intersections </i> <p>
+
+</li>
+
+<li> calculating bounding volumes </li>
+
+<li> culling against a frustum </li>
+
+<li> shallow copy action </li>
+
+<li> deep copy action </li>
+
+<li> output action for printing/saving<br>
+
+</li>
+
+</ul> 
+
+<i>How to initialize the actions, the typing system and the creation
+prototypes? I think the best solution is having the managers being able
+to start themselves without initialization, i.e. initialize themselves
+whenever they are called the first time. This allows calling them from
+initializers for static variables, which can be extended just by
+linking new node objects. The functions that can be called for
+initialization will have to test if the manager is initialized yet, but
+as these are rarely used in time-critical sections the overhead is
+acceptable. Derived nodes have to make sure that their base types are
+initalized, but it's still easier than having to care about all
+types.<p> An alternative would be active initialisation, but for that
+somebody has to know all the init functions to be called. That can
+become messy, especially if additional components are being linked
+dynamically. Nonetheless we add that via the field container type,
+which carries an init function. Generality doesn't hurt. ;) (DR)</i><p>
+
+
+<h3>General methods</h3>
+
+Most actions on the graph will use actions to access all nodes. Some cannot 
+be done using this method though.<p>
+
+Every node has the following general functions:
+
+<ul>
+
+<li> bounding volume invalidation <i>Should that be a functor? It could
+be overriden this way. Actually, it could be an action. An action that
+always ovverides the children list with the parent to traverse. Would
+be a backwards traversal, but the code allows it. Sounds like something
+to do just for the neatness factor. ;)</i></li>
+
+</ul>
+
+<i> designate parts that will not be changed? -> auto-optimize?
+auto-compile? a la J3D?<p> </i>
+
+<p>
+
+<h4> User data</h4>
+
+The node core has an <a href=#Attachments>attachment</a> map just like the nodes. <br>
+
+
+<h3>Node types</h3>
+
+OpenSG features the following set of nodes:
+
+<ul>
+
+<li> Group </li>
+
+<li> Billboard </li>
+
+<li> Switch </li>
+
+<li> Alternative </li>
+
+<li> LOD </li>
+
+<li> Light </li>
+
+<li> Environment </li>
+
+<li> Transformation </li>
+
+<li> Geometry </li>
+
+<li> Freeform Surfaces</li>
+
+<li> <i> Decals? modes: stencil poffset refplane </i> </li>
+
+<li> <i> Sphere,Cube,Cone etc.? better as higher-order surfs</i> </li>
+
+<li> <i> ordered group? </i> </li>
+
+<li> <i> j3d clip node (far manipulation inside rooms)?</i> </li>
+
+<li> <i> Sprite particles/ halos for lights? </i> </li>
+
+<li> <i> terrain? </i> </li>
+
+<li> <i> volumetric shadows? </i> </li>
+
+<li> <i> impostors </i> </li>
+
+<li> <i> bones node/ multi-mesh weighted node? </i> </li>
+
+<li> <i> file nodes. automatic paging? </i> </li>
+
+</ul>
+
+
+<br>
+
+The node types:
+
+<h4> Group </h4>
+
+The Group node is the basic interior node. It just traverses all its children
+in undefined order for every kind of traversal. <p>
+
+<i>Why undefined order? Is there a derived node type where the traversal order
+can be controlled for all children(Switch node?)?(AR) Hmm, I don't really care.
+We could define the order from left to right (first to last index). The idea is
+that people using groups shouldn't care. If you care about the drawing order,
+you probably want a decal. Note that state change minimization will change the rendering order anyway, if not explicitly forbidden.(DR)</i><p>
+
+Fields: none <p> 
+
+Derived from: Node <p> 
+
+
+<h4> Billboard </h4>
+
+Billboards orient their children around the center so that their z-axis points
+towards the viewer. Alternatively it can turn them to point opposite to the
+view direction. This has the disadvantage that it is not consistent over
+multiple non-coplanar screens, but it's faster to compute. The rotation can
+either be around a fixed axis or around a point (in which case the object's
+y-axis will point upwards on the screen).<p>
+
+In many cases billboards are just a single polygon. For these it's not useful
+to use a transformation to position them, they should rather be done using the
+<a name="billboardgeometry">BillboardGeometry</a> node.<p>
+
+For intersection traversals the billboard rotates to face the ray. Point billboards just rotate around one axis, as a ray does not have an up direction.<p> 
+
+Fields: mode, center, up-axis <p> 
+
+Derived from: Group <p> 
+
+
+<h4> Switch </h4>
+
+The Switch node selects some of its children for traversal.There are different
+ways to select which child/children are to be traversed.<p>
+
+The simplest is the <tt>whichIndex</tt> field. It's a simple integer the
+selects a single child to display. There are some defined values to signal
+different behavior.<p>
+
+When set to <tt>Switch::All</tt> all children will be rendered. Similarly, when
+set to <tt>Switch::None</tt> no children will be rendered. To select a set of
+children the value <tt>Switch::Some</tt> is used. Which children are used is
+defined by the <tt>whichMask</tt> field. It's a <a name="bitmask">bitmask</a>,
+thus the maximum number of children this is applicable for is defined by the
+bitmask type. Children outside the bitmask range are not traversed. When set to
+<tt>Switch::Single</tt> the <tt>whichIndex</tt> is used to select the child.<p>
+
+<i>This node is not really big, but maybe splitting the functionality into different nodes would result in a cleaner interface.</i><p>
+
+Fields: which, whichMask <p> 
+
+Derived from: Group <p> 
+
+
+<h4><a name="alternative node">Alternative</a></h4>
+
+The Alternative node selects one of its children for traversal, depending on
+the type of traversal. <p>
+
+This node type is primarily used to keep different versions of its children to
+make different kinds of traversals more efficient. A typical use would be to
+have a low res version for collision and maybe intersection, a high-res version
+for reference and data probing and a rending-optimized version for
+rendering.<p> 
+
+Fields: traversalTypes <p> 
+
+Derived from: Group <p> 
+
+
+<h4> LOD </h4>
+
+LODs select one or more of their children depending on a criterion based on the
+object and the viewer and possibly some global criteria. Usually the distance
+between the object and the viewer is used, but it doesn't have to be.<p>
+
+Very different LOD selection criteria are possible. The initially implemented
+one is simply using the distance between the reference point and the viewer to
+select one of the children. The <tt>childDistance</tt> field contains the
+distances at which the respective child becomes active, it should be sorted in
+ascending order and the children should ordered beginning with the most
+detailed. The field can contain one more entry than there are children. The
+first defines the distance the first child starts to be active, the last one
+the distance the last child becomes inactive. <p>
+
+Selection criteria that take global stress into account or not only switch 
+between children but blend or morph between them may be implemented later. One 
+version will take an error in pixel and a distance in world space per level and 
+select the level for which the distance when projected to the screen will be 
+smaller than the pixel error. This mode can especially be used for displaying 
+tessellated free form surfaces. <p>
+
+<i>quality/value? priority/importance -> global selection;
+accumulative lod</i><p>
+
+For intersection traversals the highest quality child is used. <i>Should that
+be selectable?(DR)</i> <p>
+
+Fields: mode, reference point, child distances <p> 
+
+Derived from: Group <p> 
+
+<!--- not needed anymore
+
+<h4> Beacon </h4>
+
+The beacon is a leaf node, it ignores all its children. The purpose of the
+beacon is to split the use of the scenegraph for lights. <p>
+
+Thus the beacon is used to define a position and orientation in space and is
+referenced by lights and cameras.<p>
+
+<i>One problem of this node connection is copying. What should happen if a
+graph contains a light and/or its beacon is copied? If only the beacon is
+copied, the light should stay connected to the original. If only the light is
+copied the copy should stay connected to the beacon. But if both are copied the
+light should refer to the copied beacon. This is hard, because the beacon and
+the light can be in the tree in any order. The best solution I can think of
+right now is to collect all lights (or any other node that might be interested
+in beacons) in a list, and collect the beacons in a pair list containing the
+old and new beacon nodes. After the copy traversal is finished the list of
+lights is checked if its beacon is i the beacon list, and if hat's the case it
+is changed to the new copy. Feels hacky, but the arbitrary ordering probably
+doesn't allow alternatives.(DR)</i> <p>
+
+Fields: <p> 
+
+Derived from: Node <p> 
+
+--->
+
+<h4> Light </h4>
+
+Light and its descendents encapsulate the OpenGL lightsources. Lights
+have a problem though.<p>
+
+On the one hand lights only influence their children. Thus it is
+possible to have lights that only light a part of the scene. But they
+also need to have a position and orientation in space. This could also
+be defined by their position in the scenegraph, but that prevents for
+example attaching a lightsource to a moving object and having it light
+the rest of the scene. <p>
+
+Cameras face a somewhat similar problem. They are not part of the
+scenegraph, but being able to manipulate their position and orientation
+in way similar to the one used to manipulate objects is useful, e.g. to
+attach them to moving objects.<p>
+
+Thus lights keep a pointer to a node that defines the coordinate system
+used by the light. The light's position in the scenegraph defines which
+parts of the scene are lit.<p>
+
+<i>One problem with this is the need to have a bunch of lights below
+each other on the top of the scenegraph. I don't see that as a big
+problem. For high speed rendering more than one or two lights can't be
+used anyway, and even if a bunch are used the nodes are traversed
+pretty fast. I like that better than having a new field type
+<tt>Light</tt> that has to be derived for all the derived light types.
+(DR)</i><p>
+
+<i> explicit light influence areas? activation/selection in material?
+prelighting? multipass lights?</i><p>
+
+Fields: reference node, diffuseColor, specularColor, ambientColor,
+constantAttenuation, linearAttenuation, quadraticAttenuation<p> 
+
+Derived from: Group <p> 
+
+
+<h5>Directional Light</h5>
+
+Defines a directional light source. It is directed along the negative z-axis of
+its beacon's coordinate system.<p>
+
+Fields: <p> 
+
+Derived from: Light <p> 
+
+
+<h5>Point Light</h5>
+
+Defines a positional light source. It is positioned at the origin of its
+beacon's coordinate system.<p>
+
+Fields: <p> 
+
+Derived from: Light <p> 
+
+
+<h5>Spot Light</h5>
+
+Defines a spot light source. It is positioned at the origin and directed along
+the negative z-axis of its beacon's coordinate system.<p>
+
+Fields: angle, exponent<p> 
+
+Derived from: Light <p> 
+
+
+
+<h4> Environment </h4>
+
+Defines the global lighting parameters like global ambient light intensity and
+fog parameters.<p>
+
+<i> in tree at all? would be nice to have somewhat localized fog and ambient
+light, but how to make it efficient? Real localized fog is a completely different story, <p></i>
+
+Fields: ambientColor, fogType, fogStart, fogEnd, fogExp<p> 
+
+Derived from: Node <p> 
+
+
+
+<h4> Transformation </h4>
+
+The Transformation node defines a transformation that is applied to all its
+children and children's children.<p>
+
+Fields: transformation<p> 
+
+Derived Fields: toWorld transformation<p>
+
+Derived from: Group <p> 
+
+<h5> TransformationSet </h5>
+
+The TransformationSet node defines a set of simple transformation that is 
+applied to all its children and children's children.<p>
+
+The separate transformations can be one of a set of primitive transformations:
+Translation, Rotation, Scaling, Matrix, Orientation (from/at/up), Tracer
+(orients towards a beacon), or Beacon (directly uses the beacon's
+transformation).<p>
+
+<i> This gives rise to a field type proliferation that I'm not too happy about. 
+But they're just too useful to be ignored.(DR)</i><p>
+
+Fields: transformations<p> 
+
+Derived from: Transformation <p> 
+
+
+<h4> Text </h4>
+
+The text node and its descendents are used to display text. The text is
+positioned at the origin of the local coordinate system and oriented towards
+the positive x-direction (if applicable). Multiple lines can be displayed,
+separated by '\n'.<p>
+
+Fonts are defined in a separate class, so they can be reused by many text
+nodes.<p>
+
+<i>Caching? Dlists or just storing the created geo? Automatic?</i><p>
+
+Fields: font, text<p> 
+
+Derived from: Node <p> 
+
+
+<h5>Bitmap Text</h5>
+
+Displays a screen-aligned text using bitmaps. They always have the same size,
+no matter how far away the text node is. <i>This makes culling a bit difficult.
+The bounding volume depends on the distance to the viewer and thus changes for
+every frame, preventing storage of the bounding volume. The best solution is
+probably to let the user define the size of the text's bv and freeze it.</i> <p>
+
+Fields: <p> 
+
+Derived from: Text <p> 
+
+
+<h5>Texture Text</h5>
+
+The text is rendered as a series of textured quads. The texture uses the alpha
+component to make the text transparent where needed. <p>
+
+Fields: <p> 
+
+Derived from: Text <p> 
+
+
+<h5>Geometric Text</h5>
+
+Uses the gltt library to generate a 3D geometric representation of the text.
+<p>
+
+Fields: <p> 
+
+Derived from: Text <p> 
+
+
+<h3> Geometry </h3>
+
+The Geometry node is the central leaf node that contains the rendered geometry.
+It has to strike a balance between the flexibility a user might want to have to
+specify the data and the restrictions OpenGL places on efficiently supplying
+data. The geometry node tries to be very general, but not all variants will be
+able to perform equally well.<p>
+
+A geometry node's data faces a number of challenges. It is very big,
+often dominating the memory use of the whole system. Thus it should be
+shared between nodes if possible. But usually not all of it is the
+same, only parts like vertex coordinates. Thus the node core sharing
+mechanism doesn't always apply. Furthermore there is a pretty
+significant variety in the form of data that can be used (e.g. Col3f,
+Col4f, Col4ub, T1f, T2f, T3f etc.). Fields have to have a specified
+type, so a direct field can not accompany this polymorphic data.<br>
+
+Thus the separate data fields are kept in separate field containers
+called Properties, which are referenced by the geometry node. As field
+containers they can be shared, solving problem 1. They can be derived
+from a common type, allowing type-safe polymporphism (problem 2). They
+would add another indirection, but that can be shortcut at
+<tt>set...</tt> time, thus not incurring overhead.<p>
+
+There are two separate ways of specifying the vertex' data. One is
+putting all data in an array of structures that keep all the data for
+every point. In OpenGL this is usually denoted as <i>interleaved
+arrays</i>. The second way is to provide separate arrays (i.e.
+properties) for every kind of data (e.g. vertex coordinates, colors
+etc.).<br>
+
+A part of the data that is always stored in a separate array is the
+primitve lengths. OpenGL has a number of primitives that can have
+different lengths (Polygon, TriStrip, QuadStrip, LineLoop, LineStrip)
+in addition to primitives that have a fixed size (Points, Lines,
+Triangles, Quads). Note that the fixed size primitives are usually used
+in large numbers, but they all have the same length and can be
+specified using a single <tt>glBegin()...glEnd()</tt> loop. Thus only
+one length is really needed for them. The different length primitives
+need a begin/end for every primitive, so to have a number of them in a
+geometry node the length has to be stored for all of them.<br>
+
+It would be simple to have only one kind of primitives in a geometry
+node. This would be a tough restriction, though. Especially when striping
+general models, usually stripes and fans are used intermittendly. Thus
+an array can be specified, to define the type of every primitive to be
+rendered.<p>
+
+The last distinction between different kinds of geometry is the
+indexing. The data can be used directly in the order given, with no
+indexing. This is always useful for points, but in general non-indexed
+data can need a lot of replication. Taking a height field as an
+example, vertices in the middle are used by 4 quads. Without indexing
+they would have to be stored 4 times. Thus indices can be supplied. In
+the most general case a separate index can be supplied for every data
+type. In many cases a single index for all data types is sufficient,
+and more effective, thus this is allowed as a special case.<br>
+
+The last part that needs to be specified for the geometry is the
+binding. Properties can be used not at all, for the whole object, for a
+face, or for a vertex. Only a small subset is actually useful. Texture 
+coordinates have to be per vertex, overall normals are rarely useful etc.
+The main distinction left is between per vertex or per face binding of 
+colors and normals, which is accomplished by a simple boolean. One useful 
+special case is an overall color, which can just as easily be defined
+by a color field with a single color.<p>
+
+'Per Face' can mean lots of different things. OpenSG uses the 'per
+begin()/end() loop' version. A real per face for triangles or
+quads should be simulated by per vertex and proper indexing.<p>
+
+Many of the above concepts are orthogonal and can be combined pretty
+freely. Total generality is going to be too complicated, though, so
+we'll have to restrict some combinations and split the full space of
+possible combinations into several classes. <i>So if you have a
+somewhat unusual combinations that you need, tell us about is.
+(DR)</i><p>
+
+
+
+The actual rendering is done in different ways, depending on the
+combination of attributes used and the availability of OpenGL
+extensions. Vertex arrays are the preferred way of rendering, if
+possible and supported. For the other cases specialized rendering pumps
+are generated to specify the data in an optimal way. <i>There is tricky
+balance here between efficient pumps and having too much code and
+trashing the icache. The optmization action should convert the more
+exotic combinations into something more easily rendered.(DR)</i><p>
+
+Geometry nodes can analyse the data and try to render it more
+efficiently.  Examples for this are the <tt>glDrawRangeElements()</tt>
+extension or the use of display lists. But deriving this information
+can be costly, so it only makes sense when it's used more than once,
+and not for geometry that changes every frame, like morphing models or
+progressive meshes. Thus the geometry keeps a flag indicating if this
+node is going to be static for a while, thus making analysis
+worthwhile. <i>This could be done somewhat automatic by keeping a
+memory of the last frame the node changed and analyse it after a number
+of static frames have passed. We do that rather successfully in Y right
+now, so it might be worth adding. (DR)</i>
+
+The same reasoning applies to other derived data like bsp trees for efficient
+back-to-front rendering. These are only possible for <tt>TRIANGLES</tt>,
+<tt>QUADS</tt> and <tt>POLYGONS</tt>, as they can be rendered individually.
+BSps are used in situations where the z-buffer is unavailable, mostly for
+transparent geometries. By default geometries with 4d colors are not considered
+transparent, as transparency is very expensive and <tt>C4UB</tt> is a very
+common color format. To activate transparency processing the referenced
+material has to be transparent, it's transparency will be replaced by the
+vertex alpha.<p>
+
+To simplify algorithms that want to work on the triangles the geometry can
+create a triangle iterator, which will walk the geometry and be able to return
+the vertex and primitive indices of all the triangles. This will be less
+effective than directly accessing the data, but more convient for many general
+purposes.<p>
+
+Additional vertex/face data can be added as attachments, if the
+application needs it. Some examples would be data for collision
+detection or for radiosity calculations. This data is not automatically
+updated or invalidated, though, the application has to take care of
+that. <i>Should we make this simpler? I don't like the idea of having
+to traverse the attachment map in every <tt>changed()</tt> call for a
+geometry, or for every field conatiner in general. It would make the
+system more general, though. But for these big additions derivation
+might be acceptable, allowing overriding of <tt>changed()</tt>.
+Alternatively, if we have a timestamp scheme for the automatic update
+of geometry's derived data, by storing a similar timestamp in the
+attachment and giving access to the geometry's lazy update is possible.
+As long as the timestamp access is fast enoough, the overhead should be
+acceptable.(DR)</i><p>
+
+<i> 
+
+highlighting/selecting? <br>
+
+dlist priority? per object importance? <br>
+
+per frame calculated attributes (bumpmapping texcoords). calculated in
+app/cull/draw? <br>
+
+single poly billboard? for particles sprite extensions? cpu-based billboards
+(with/without matrix stack changes) <br>
+
+localized fog with bvolume <br>
+
+clipping <br>
+
+guaranteed framerates/progressive refinement rendering?<br>
+
+volumerendering? <br>
+
+</i>
+
+<p>
+
+<!######################################>
+
+<h2><a name="higher order surfaces">Higher Order Surfaces</a></h2>
+
+<!######################################>
+
+<i>I don't really know a lot about the needs and problems of free-form surface
+tessellation. This is rather a list of things I'd like to have, but there are
+probably structures and definitions missing. Help welcome.(DR)</i><p>
+
+Polygonal geometry is not enough for many applications, especially for VR
+applications in constructive sectors, e.g. automotive. Thus OpenSG contains
+capabilities to convert higher-order representations of surfaces into a
+polygonal representation that can be rendered directly.<p>
+
+The conversion of higher-order surfaces to polygons can happen in different
+forms to different levels of accuracy. The most common criterion for
+tessellation is a chordal difference measurement that defines a maximum
+distance between the original surface and the polygonal representation. An
+interesting approach from the rendering side is dividing the surface into a
+defined number of polygons that optimally approximate the surface. To
+accurately render surface normals also have to be calculated. Having original
+surfaces available allows calculating the numerically exact normal at the
+calculated point. <br>
+
+Both of the above mentionened approaches can be costly to compute. In cases
+where a faster result is needed, the surfaces are able to tessellate themselves
+according to an abstract tessellation level, specified as a simple unsigned
+integer, with 1 being the coarsest tessellation. The only constraint is that
+higher levels should create a finer tessellation. This mode is meant for a
+rough initial display in situations a full tessellation is not available yet
+like right after adding or not feasible due to fast changing geometry.
+Furthermore it's easy to implement and a good start for testing.<p>
+
+Sometimes even the simplest tessellation might be too complex to display the
+scene in a useful manner. Either because it's too complex to be rendered in an
+acceptable time, or because the sheer mass hides important details. For these
+cases the surfaces should be able to create a more schematic representation.
+For free-form surfaces the borders and trim curves are a natural
+representation. Other surfaces might use silhouette information or other
+constructive knowledge.<p>
+
+Higher order surfaces are derived from group. Their children should
+only be generated by tesselating the surface, although that is not
+enforced. The tesselation can create a single geometry, or an LOD node
+with several tesselations. It could also generate a progressive mesh for
+continuous levels of detail.<p>
+
+The above mentioned are general capabilites of all higher order surfaces, the
+supported types and more specialized features are described below.
+
+
+<h3>NURBS Surfaces</h3>
+
+The most important higher-order surface type are the Non-Uniform Rational
+B-Splines. They are very general and many commonly used surface types can be
+converted to NURBS. <p>
+
+NURBS can be trimmed by piecewise linear and b-spline trim curves. These curves
+are defined in the parameter space of the surface. <i>Is that enough or do we
+need geometry-space trim curves? How hard is to convert between both? Do we
+need to be able to render trim curves directly? If they're in parametric space
+they have to be converted anyway, so the trim curves can be private data
+structures of the surfaces that don't need to be understood by the rendering
+part. Are other trim curve types needed?(DR)</i><br>
+
+<i>To define B-Spline curves in geometry-space, besides one dimension more for
+the control points we need nothing more than for defining (2D)-trim curves in
+parametric space, so we should have objects for 3D-B-Spline Curves (we can
+misuse them for 2D). Conversion between geometry-space and parametric space is
+expensive (and approximative in both directions in general) (I may have some
+code for that...), but if we need the parametric-space trim curves only for
+rendering, they probably needn't to be converted to 3D-B-Spline curves but
+approximated piecewise linearily before converting to 3D (AR).</i>
+
+NURBS surfaces rarely stand alone, many of them are combined to form one
+continuous surface. To prevent cracks appearing between these partial surfaces
+when tessellating them topological relations between the different surfaces
+have to be analyzed and stored. <p>
+
+<h3>Other types</h3>
+
+<i>What other types are needed? Simple shapes like spheres, cylinders and cones
+could be done here, but how useful are they outside of simple programs? How
+important are swept surfaces, extruded surfaces and other surface types like
+bezier and hermite splines in practical applications? What are other people's
+experiences? (DR)</i><p>
+
+<i>How important are double precision definitions? Is support for double
+precision basic types like vectors etc. really needed?<br>
+
+I'm not sure how back patch culling could be integrated without having the
+higher order surface know all about rendering. One idea would be to derive a
+special geometry that knows about it's originating patch and can cull itself
+accordingly. Sounds like a feature for a later release... (DR)</i> <p>
+
+
+
+<!######################################>
+
+<h2><a name="material">Materials</a></h2>
+
+<!######################################>
+
+Material is somewhat of a misnomer, as this structure not only includes the
+lighting characteristics, but also all OpenGL state that can be changed per
+object. But the <tt>GeoState</tt> name is already taken by Performer ;). <p>
+
+One important aspect of efficient rendering is minimizing state changes. To do
+that the objects (in OpenSG: geometries) active for a given frame have
+to be collected and sorted so that the number and expensiveness of state
+changes needed to render them is minimized.<p>
+
+There are two parts to doing this: finding out what the OpenGL state is for the
+geometry to render, and to sort the used states so that changes are as cheap as
+possible.<br>
+
+Inventor and Performer represent two extremes in doing that. Inventor has no
+concept of a material, everything is inherited during the tree traversal. Thus
+rendering Inventor geometric objects out-of-order is pretty much impossible.
+Performer uses the other extreme, where everything except transformations is
+collected in the geoState (there are global default and override mechanisms
+which make the picture somewhat less black and white, but that's the idea).<p>
+
+Neither approach seems to be the perfect solution. Out-of-order rendering is
+important for state change minimisation, but having to specify the lightsources
+in the material seems a bit harsh. OpenSG tries to find a sweeter spot in the
+middle.<p>
+
+The state of the geometry is mainly defined by the material it's referencing.
+In addition to that the active transformation as defined by the product of the
+transformations of all transform nodes higher up in the tree, the active
+lightsources higher up in the tree and the active environment play a role.<br>
+
+The material attributes are further divided into chunks of attributes,
+which usually are changed together, like the lighting parameters, the
+state contained in a texture object etc. This chunking is needed to
+reduce the number of independent variables to a manageable number, as
+the full OpenGL state is rather big.<br>
+
+The simplest material just wraps the OpenGL state and gives an
+interface to the chunks that make up the OpenGL state. Chunks can be
+added at runtime to allow adding extensions and new features. Not all
+chunks have to be present in every material, but chunks can be added to
+every material.<br>
+
+The chunks can be a direct reflection of the underlying OpenGL
+parameters, but they don't have to. There can be different chunks for a
+given type, with different interfaces. One example would be a a chunk
+that specifies the lighting paramters based on a common color and
+intensity values, or a chunk that specifies the colors in the HSV space
+instead of RGB.<p>
+
+<i>The chunking model is pretty nice and makes the OpenGL state more
+manageable, but there are still some problems I'm not quite sure how to
+solve.<br>
+
+One is overlaps in chunk state. If two chunks change the same OpenGL
+state, there is problem when changes are minimized. This could be
+solved by just disallowing that to happen. Which can be hard to enforce
+when multiple extensions are created that access the same new state. It
+might not be as bad as it seems, as chunks are not a lot higher than
+OpenGL state, so having just one chunk for new state should be
+acceptable. However, too fine-grained chunks don't deliver on the chunking
+promise of making the number of states to watch smaller. I don't feel
+completely confident in the model right now, but it's a decent start.
+(DR)</i><p>
+
+But a material can be more than just a chunk container. Materials
+specify the rendering parameters for a surface, however that rendering
+is realized, which might depend on the underlying hardware. For example
+a material that uses a surface texture in conjunction with lightmaps
+might be rendering using multitextures if available, by multiple
+blended passes otherwise.<br>
+
+To override some parameters <tt>Override</tt> nodes can be placed in
+the scengraph. These nodes contain chunks that override the chunks of
+the same type further down the tree, either in other overrides or in
+other materials.<p>
+
+Chunks have three functions they can perform: activate themselves
+starting from an empty state, deactivate themselves leaving a default
+state, and change from themselves to another instance of the same
+type.  <i>Changing from themselves allows derived types to add some
+state that can be deactivated by them, when they recognize switching to
+a base type.</i> All these functions have an associated cost that can
+be queried. This cost could be used to minimize state changes for the
+drawer. The problem in general is equivalent to the traveling salesman,
+though, so an optimal solution is not feasible for every frame. The
+chunks should provide data to base an approximation on, though.<p>
+
+<i>I like the idea of materials being an abstract interface to an
+underlying chunking representation, maybe even including multi-pass
+effects and automaticly switching between algorithms depending on the
+underlying hardware. But I'm a little afraid about combinations and
+limitations. Let's say I have a nice interface for the lighting
+parameters including handling transparency in a decent manner (which
+means sorting, depth buffer changes etc.). Now I want to change the
+linewidht of the geometry rendered using this material. I can use the
+direct chunk access, if I know what to do. But for more complex things
+that involve several chunks it's going to be difficult to judge the
+interference between them. This still needs some sorting out, but the
+basis feels good.<p>
+
+To facilitate efficient state changes the materials fact that a set of
+chunks belongs together in a material might be useful to keep. Thus two
+objects can be compared very rapidly if they have the same material
+state. That should be easy enough by keeping a mterial pointer/id in the
+draw tree nodes.(DR)</i><p>
+
+
+<i> <font size=-1> Just some random thoughts. Well, a lot actually:
+
+<ul>
+
+<li>chunks that use the same OpenGl state?</li>
+
+<li>view-independent lighting parameters: diffuse, ambient, emissive color</li>
+
+<li>view-dependent lighting parameters: shininess, specular color</li>
+
+<li>backmaterial view-independent lighting parameters: diffuse, ambient,
+emissive color</li>
+
+<li>backmaterial view-dependent lighting parameters: shininess, specular
+color</li>
+
+<li>textures: 4 texture pointers for multi-texturing</li>
+
+<li>texture related: texture environment & combiner, texture coordinate
+generation functions, texture color map/scale/bias, texture matrix </li>
+
+<li> primitives: point size, <i>point parameters?,</i> point smoothing, line
+width, line stippling, line smoothing</li>
+
+<li>blending & transparency: transparency value, transparency flag (is the
+material considered transparent? can depend on user setting, if the transprency
+value is != 1, if one of the textures is RGBA and the environment actually
+propagates that etc.), blendfunction, blendcolor, blendequation, alphakey,
+alphakeyfunction </li>
+
+<li>enables: depth buffering, flat shading, dsided lighting, colormaterial,
+backface/frontface culling mode (the frontface is automatically defined by the
+sign of the active matrix' determinant, the default being counterclockwise)
+</li>
+
+<li>callbacks: one functor called in the drawing thread when the material is
+activated, one called when it's deactivated, allowing arbitrary OpenGL state
+settings </li>
+
+<li>poly mode </li>
+
+<li>ms transp, screen door? </li>
+
+<li>polygon offset </li>
+
+<li>new texgen modes (SGIS_point_line_something) </li>
+
+<li>cubemaps? </li>
+
+<li>parabolic maps -> genfuncs, multitexture </li>
+
+<li>ref plane? </li>
+
+<li>color table/texture lookup table </li>
+
+<li>secondary specular color? </li>
+
+<li>separate unlit color? </li>
+
+<li>bumpmapping? </li>
+
+<li>ogl extension handling/detection </li>
+
+<li>overrides / inherits from a global state </li>
+
+<li>chained materials or only chained textures? </li>
+
+<li>extendability, compile time, runtime, transparent, orthogonality </li>
+
+<li>material indices into global/vp-based/whatever lists? </li>
+
+<li>note: pfgstate: logical push/pop before/after application. simplifies
+comparison (only =/!= global). useful? </li>
+
+<li>automatic mode setup (high quality, high speed) </li>
+
+<li>automatic cost estimation for effects like clipplane/transforms/tex changes 
+and optimal sort order </li>
+
+</ul></font></i>
+
+
+<h3>Textures</h3>
+
+The texture class manages the actual image data and the state that is part of
+the OpenGL texture objects, it really is a wrapper around an OpenGL texture
+object. It uses the image class to load, store and manage the image data.<p>
+
+<h4>Image</h4>
+
+The image class handles pixel arrays. The pixel can be stored as unsigned
+bytes, shorts, ints or as floats, with scanline alignment. One, two or three
+dimensional images with 1, 2, 3 or 4 components can be managed. <br>
+
+The class has pixel-access functions, although it's not recommended to use them
+for large numbers of pixel. Otherwise the class can load and store the most
+common image formats (using external tools like <tt>convert</tt> if needed). 3d
+images can also be constructed from a sequence of 2d images, to simplify
+construction. The class has a scaling method. It is general and can scale the
+image's size arbitraily, but there are specially optimized cases for scaling
+power-of-two to the next smaller power-of-two.<p>
+
+<i>Does anybody know of an OpenSource or PD image class in C++ that handles
+most of this already? I don't feel like reinventing yaw (yet another wheel).
+<br>
+
+What about a fast loading image format containing mipmap levels? Either that or
+allowing separate images (or a sequence of images) for mipmaps. Might be useful
+as soon as expensive operations like FFT are used to calculate
+mipmaps.(DR)</i><p>
+
+
+<h4>Textures</h4>
+
+The texture class wraps OpenGL texture objects, as such it has an array of
+images, the mipmap levels. These don't have to be complete. If they are not by
+default a linear filter is used. If texture LOD control is supported by the
+active system, it is used to restrict the mipmapping to the available levels.
+<p>
+
+The mipmaps are only considered if the minification filter is set to
+mipmapping, otherwise they are ignored. Point and linear filters are also
+supported, as well as symbolic filters for default, fastest and best quality.
+These depend on the running system and can easily be changed by modiying the <a
+href="#defaults object">global defaults object</a>. The same constants can be
+used for the texture's internal format, in addition to the standard OpenGL
+ones. The wrap modes to be used are also stored in the texture. The constants
+used are the same as the constants used by OpenGL, so an application that knows
+what it's doing can use new filter mode constants if applicable. Or a new texture chunk type can use the new filters.<br> 
+
+The texture border is not supported, as it is not recommended on important
+hardware anyway.<p>
+
+After the image has been changed the texture class can be hinted to reload the
+texture, which is more efficient than creating a new one. <p>
+
+
+<p>
+
+<i>
+
+paletted textures? still needed? Dont think so. Well, think again. The Pisa bumpmapping uses them, and it looks pretty neat. A bit limited but neat.<br>
+
+anisotropic filter? just another constant<br>
+
+z textures <br>
+
+detail textures? Use simple multitexture/multipass instead? <br>
+
+chained textures for multitexture? <br>
+
+texture compression -> special filter constants <br>
+
+procedural/animated textures? (sequence, avi, mpeg) <br>
+
+video textures? <br>
+
+framebuffer textures? <br>
+
+cliptextures? Gulp... Looks like a LOT of work... :-/<br>
+
+(DR)</i>
+
+
+
+<!######################################>
+
+<h2>Rendering</h2>
+
+<!######################################>
+
+The process of transforming the geometric data in the scenegraph into an actual
+image, the rendering, is divided into three parts: culling, sorting and drawing.
+
+
+<h3>Culling</h3>
+
+Culling traverses the tree and selects the objects to be rendered.<p>
+
+The simplest culler just selects all objects. A view-frustum culler checks the 
+bounding volume of the traversed object against the active viewing frustum. If 
+it's completely outside the frustum it's discarded, if it's completely inside 
+it's children will not be tested, if it's partially inside the same operation 
+will be done on the children. If it hits a transformation it will transform the 
+frustum into the new space and continue working. <p>
+
+Other cullers might use a portal system to cull hidden objects, or select LODs
+based on a global cost/value scheme, a predictive scheme or a reactive
+stress-based scheme .<p>
+
+An interesting culler, but a somewhat out of the ordinary one is the
+occlusion culler. It uses OpenGL extensions to check the bounding
+volume of objects against the already rendered objects and discards
+them if no pixel is visible.  But that decision can only be made in the
+drawer process. Thus the occlusion culler has to sort the objects to
+first render the ones close to the viewer and insert some functors to
+check the bounding box and skip the next object if it's not visible.
+Depending on which OpenGL extension is used it makes more sense to
+check a whole number of objects (to prevent pipeline stalls) and make
+all the decisions at one point.<p>
+
+Cullers are simple actions. This allows a specialized traversal to
+apply multiple cullers successively to the tree by cascading them. This
+can either be done on a node by node basis (call the next culler in
+line on the result of the last) or, to pipeline the different cullers
+in different threads, by creating a new temporary tree after some
+culling steps. <i>That would be architecturally nice, but I'm a bit
+sceptical about the efficiency of creating a new tree. Creating all the
+nodes and attaching them to the data might be too expensive.
+Multi-parent would be useful here. (DR)</i> <p>
+
+Some cullers may want to take all objects, sort them and render them
+according to some criteria like distance to the viewer or importance.
+after some steps they will insert abortion tests, to abort rendering
+when the rendering time exceeds a target timeframe. To do this a special
+return value for the action is used. It forces the cull manager to not
+call the culler further down the line, but continue on the next node
+level. After the whole tree is finished a finalize method is called on
+the culler, which creates the result list and calls the next culler in
+line.<p>
+
+Conceptually it would be nice if the sorting and rendering stages would
+work on a standard tree. But as said above, creating a full-featured
+multi-thread safe tree copy for every frame is probably going to be too
+expensive. Thus a special culler is used to close the list, which
+creates a specialized structure for sorting and drawing, the draw tree.
+<br>
+
+The draw tree is a tree consisting of a specialized simple node type
+that keeps a list of the active state chunks (s. <a
+href=#Materials>Materials</a>), including active transformation and
+lights, and an object reference of the object to be rendered. These
+don't have to be geometry nodes, every object that has an applicable
+rendering method can be used. <i>Maybe just use a functor, very general
+and already part of the system.(DR)</i> This also allows special
+effects like inserting a temporary viewport and storing the result in a
+texture. <i>This could be done using real <a
+href=#Viewports>viewports</a>, but for some applications the smaller
+solution may be easier to use.</i><p>
+
+In addition there are three grouping nodes, solid, soft and brittle
+<i>the names are open for suggestions...</i>. Solid nodes are cast in
+stone, all their children and only their children are rendered in the
+given and exactly the given order. Soft nodes are the opposite, their
+children will be rendered in any order, they can be deleted and their
+children moved up to the parent etc. Brittle nodes are in the middle,
+they guarantee that their children are rendered in the given order, but
+other things can be inserted between them. <p>
+
+Multipass is done by adding a node several times into the draw tree,
+using different chunk sets. Brittle nodes allow doing that easily
+without giving up all the benefits of state change minimisation. Objects
+rendered using this multipass should use a brittle node, and later the
+brittle nodes can be removed and all the objects using the same state
+can be aggregated.<p>
+
+Some multipass algorithms should only be
+applied to a part of the scene, e.g. for depth map shadows a subset of
+all objects will throw a shadow on another subset, for efficiency
+reasons. There are two ways to identify these subsets. Either store a
+list of objects for each subset, which constitues another reference to
+the objects which has to be removed when the objects are destroyed. Or
+use a subset of the traversal mask to identify the targeted nodes. The
+multipass process will ignore the nodes not fitting the mask. A
+convenience function for propagating all masks from the bottom up, to
+prevent missing a node because some of its ancestors don't have the
+mask set, is provided. <i>The mask approach feels more
+hackish/lowlevel, but I'd guess it's pretty flexible and hopefully
+efficient enough.(DR)</i><p>
+
+The draw tree is not thread-safe, as it doesn't need to be and is
+rather passed in pipeline fashion to the rendering module. <br>
+
+<i>All the intermediate nodes might not be very efficient, but I think
+the model is pretty general und useful the way it is described. Several
+optimizations are possible with cullers that know more about the
+rendering and can create a smaller tree (e.g. know about multipass or
+transparency and skip a lot of the brittle nodes). (DR)</i>
+
+<h3>Sorting</h3>
+
+The sorting works on this draw tree and tries to reorder the children
+of soft and brittle nodes trying to reduce the cost for
+state changing. The result is a sorted draw tree that is traversed by
+the renderer and rendered.<p>
+
+<h3>Rendering</h3>
+
+The renderer just traverses the draw tree and calls the node's
+rendering functions.  <p>
+
+<i>
+
+These are the random thoughts for the whole rendering chapter.<p>
+
+callbacks? derive new nodes/chunks<br>
+
+mirrors<br>
+
+detail culling: ignore sets &lt; #tris or &lt; bbox size<br>
+
+frame abort before overrun, needs prediction for blocks<br>
+
+transparency, trans per face (BSP, no other sensible way)<br>
+
+fixed framerate by early abort. needs dtree sorted by
+importance/distance to viewer. Abort when? Either safety margin to
+frame border, or just after missing it (stupid), or having some
+prediction to make the safety margin smaller.<br>
+
+dynamic envmaps<br>
+
+motion blur<br>
+
+</i>
+
+
+
+<!######################################>
+
+<h2>Window/Viewport Management</h2>
+
+<!######################################>
+
+<h3>Windows</h3>
+
+OpenSG does not create windows itself. Applications will want their own GUI
+around the graphics window anyway, and there are toolkits like GLUT that handle
+window creation cross-platform and rather effectively. Instead OpenSG can be
+attached to already existing OpenGL windows. Example code on how to do that for
+GLUT, Motif, X Windows, QT and MFC are part of the distribution. <br>
+
+To allow that OpenSG's <tt>window</tt>s have methods to be called when a window
+is newly created, when it needs to be redrawn, when it's resized and when it's
+destroyed, similar to the Xt callbacks for OpenGL widgets.<p>
+
+But windows are only a part of the window-system dependent data that needs to
+be handled. <p>
+
+The frame-buffer configuration defines which of the OpenGL defined buffers
+(front/back, stencil, depth etc.) are active for the created window. OpenSG can
+inquire this information after window creation for the OpenGL, but in general
+the user will not want to care about selecting the right configuration. Thus a
+number of functions to select a visual that can be used to create the window is
+supplied for each window system. These selections can either try to select a
+general visual, but for better resource usage they need hints which features
+will be used. As more general applications might not know that, the selectors
+can analyze a given scenegraph to find out which features need to be
+supported.<p>
+
+The last structure that needs to be organized is the rendering context. For a
+multi-threaded system this needs to be handled carefully because the context
+can only be bound to one process, and only this process can call OpenGL
+commands. Thus the window system should not create a context, respectively
+destroy the one it already created and rather let OpenSG create and activate
+the context. All created contexts will share display lists and texture
+objects.<i>My experience is X-based. Does creating a window in a different
+thread than the one rendering to it work on NT at all? What are the
+constraints?(DR)</i><p>
+
+A separate drawing thread can be created for every graphics pipe in the system.
+The pipe-specific information is collected in a <tt>pipe</tt> object. The pipe
+object keeps pipe-specific information like the width and height, the supported
+OpenGL extensions, the drawing thread and a list of the windows that are open
+on the pipe.<p>
+
+OpenSG does store an object for every window that holds information to identify
+the window, which context is to be used for it, its position and size and a
+shadow copy of the context's OpenGL state to minimize useless state changes.<i>
+Still needed? Or depend on material state knowledge?(DR)</i><p>
+
+<i>Window callbacks? -> decorator ?<br>
+
+overlay? pbuffer?<br>
+
+context sharing? Should be automatic as much as possible.<br>
+
+problem: keeping dlists/texobjs consistent across the contexts. idea:
+associate a creation functor with every list/texobj on creation, so
+that they can be recreated for a new context if needed. Might be
+impossible if data goes away after creation.<br>
+
+alternative config wins?<br>
+
+window attributes: rgb size, stencil depth, depth depth, dest alpha, stereo, 
+multisamp (extendability), accum buffer<p> </i>
+
+A window is not actually rendered into, it can be subdivided into multiple
+<tt>viewport</tt>s.<p>
+
+<h3><a name="Viewports">Viewports</a></h3>
+
+Viewports occupy parts of a window. Their position and size is specified using 
+floating point values for left, right, bottom and top borders. Values &lt;= 1 
+are multiplied by the window's size, allowing window size-independent viewports. 
+The right and top border are reduced by one pixel in this case, to create non-
+overlapping windows. Values > 1 are interpreted as pixel positions. Thus a 1x1 
+pixel viewport is not possible, but not very useful either. <p>
+
+Viewports are ordered and all are rendered in that order before the
+final image is swapped. Windows have methods to add a new viewport to
+the front or back of the viewport list. Note that the system can (and
+will) create scratch viewports on its own for special features that
+need prerendering. These will be added at the beginning of the list,
+and as such should be invisible. Unless the application's viewports
+don't cover the whole window, in which case they might be visible. To
+prevent that, applications that don't utilize the whole window should
+create a viewports to cover the unused area which only clear their
+background but don't have a scene to render.That would be good idea
+anyway, otherwise the residue from finished applications might show up in
+those areas.<p>
+
+Viewports clear themselves using a background object they keep referenced.<br>
+
+OpenSG supports a number of background objects that allow simple creation of
+interesting backgrounds. The simplest doesn't clears the background at all,
+allowing overlays onto other viewports, consecutively more complicated ones
+clear the background to a solid color, or clear to a static gradient, or a
+gradient depending on camera orientation, or a textured background depending on
+camera orientation. Backgrounds can also use a combination of image and depth
+buffer to clear the viewport to a predefined state, onto which other objects
+are rendered and integrated correctly. <p>
+
+To draw viewports one has to post a draw request to them. They are scheduled to
+be redrawn, but the drawing is only done after an explit global redraw call.
+This is also the point where windows that were uncovered by the user since the
+last redraw are redrawn. Note that if one viewport of a window is redrawn, all
+of them have to be redrawn due to the OpenGL definition of backbuffer
+behaviour. <p>
+
+Viewports can be synchronized to force a joint redraw whenever one of them is
+redrawn. The buffer swaps of their windows will then be synchronized, so that
+they swap at the same time.<p>
+
+Viewports have a target buffer to draw to. To create a pseudo-single buffered
+viewport it is possible to change that target buffer to the front buffer. Or
+the target buffer can be directed to the left or right buffer, as needed for
+stereo rendering.<p>
+
+The viewport also contains a pointer to the camera that should be used to
+render the viewport.<p>
+
+Viewports also have a function for keeping data. As there can be any
+number of viewports active, all of which might use a different camera,
+seeing a different scenegraph, data that should be kept from frame to
+frame, e.g. to exploit frame to frame coherence, has to be kept in the
+viewport. The viewport has attachment map similar to the ones used by
+ndoes and node cores.<br>
+
+<h4> Camera </h4>
+
+The camera defines position and orientation (via a referenced node) and viewing
+parameters.<br>
+
+A perspective camera has horizontal and/or vertical viewing angle. If only one
+is given the other one is automatically calculated from the viewport size and
+the pixel aspect ratio that is stored in the window.<br>
+
+An orthographic camera defines the height and/or width of a 2D viewport. If
+only one is given the other one is calculated from the viewport size and the
+pixel aspect ratio that is stored in the window. These are useful for overlays
+on top of standard viewports. By adding a viewport with a orthographic camera
+and no background the contents will be rendered orthographically on top of the
+existing image.<p>
+
+Cameras can be decorated (i.e. extended using the decorator pattern) in several
+ways. Note that one camera can be used by multiple viewports, if needed with
+different decorations.<br>
+
+A stereo decorator will create projection and offset parameters to create an
+image to be viewed on a stereo capable display.<p>
+
+A projection decorator, derived from the stereo decorator, will create 
+projection parameters for drawing images to a head-tracked stereo screen. It 
+needs another node to reference the position of the viewer relative to the 
+projection screen, in addition to the geometry of the projection screen. 
+<i>Where to put the fog handling kludge?(DR)</i>
+
+A rotation decorator will turn the camera a specified amount to the side to
+render panorama projection screens. <i>Is that really enough? Still can't
+believe it.(DR)</i><p>
+
+A subimage decorator will cut out a piece of the image and use it to fill the
+viewport. This can be used to split the image across multiple viewports,
+possible on multiple graphics pipes, e.g. for a multi-pipe powerwall
+display.<p>
+
+<i> Another bunch of random thoughts. These are just to remind me of
+what things to think of.<p>
+
+rendering flags like drawboxes depending on Camera? different
+classes?<br>
+
+cave specific near/far?<br>
+
+single viewer coordinate system? separate methods to get
+proj/trans/projtrans and virtual setup to be overriden by
+decorators<br>
+
+wall rendering using standard viewing model<br>
+
+panorama rendering<br>
+
+dome rendering<br>
+
+callback functions to override default behaviour:
+culling/drawing/swapping? decorators?<br>
+
+frame rate management: fixed rate<br>
+
+viewports, vp specific data (sort lists etc), callbacks, attached
+objects?,<br>
+
+stereo mode per vp<br>
+
+viewport parameter sharing? (Perf: channel sharing) LOD?!?<br>
+
+aspect ratio per viewport and per pixel<br>
+
+scene aa active? if available<br>
+
+light model?<br>
+
+fog? modes?<br>
+
+swap synced (optional!) between viewports/across pipes/machines? redraw
+synced<br>
+
+clip policies<br>
+
+video channels? DVR?<br>
+
+explicit sync to next frame to wait for updates and prevent latency due
+to buffers<br>
+
+hyperpipe mode?<br>
+
+background stencil image?<br>
+
+rendering per channel (unlocked/synchronized)<br>
+
+rendering modes/viewport (draw boxes etc.)? (DR)</i>
+
+
+<!######################################>
+
+<h2>Statistics</h2>
+
+<!######################################>
+
+<i> lock statistics <br>
+
+change list statistics <br>
+
+rendering statistics <br>
+
+statistics: frame time, frame count, polygons, vertices, normals, colors,
+	changes, objects, etc. <br>
+
+collect statistics only when asked, it's more expensive than it looks.
+
+(DR)</i>
+
+
+
+
+
+<!######################################>
+
+<h2>Tools</h2>
+
+<!######################################>
+
+<i>Striper; Loader: dynamic concept; HW-dependant parameters
+
+<p>
+
+simplifier <br>
+
+triangulator <br>
+
+demo viewer: standalone, win, unix, GLUT, QT, GNOME, MFC <br>
+
+builder <br>
+
+calc normals <br>
+
+unify <br>
+
+spatializer: join small parts, split large parts, build hierarchy <br>
+
+
+performer loader support <br>
+
+loaders: vrml2, fhs, iv/vrml1, image as terrain?, iges, step? <br>
+
+external loaders. identified by extension? initially ok, but better would be a
+way to use fingerprints in files. how to map fingerprint to filename? <br>
+
+extension aliasing <br>
+
+loader attributes <br>
+
+preloaded/linked loaders <br>
+
+transparent zip/gzip support? lha/winzip/arj/ace/rar? PenguinFile? <br>
+
+testing format for functionalty? scripting interface probably better. <br>
+
+optimizer: optimize all be default, give max performance. option: keep groups,
+keep a given list of groups. compromise between perf und J3D <br>
+
+strip colorizer/visualizer <br>
+
+simplifier <br>
+
+progressive meshes? <br>
+
+disassembler: separate sets into single triangles with attributes. useful for
+striping/fanning/calcing normals etc. <br>
+
+triangle iterator: iterate through all triangles of a geometry/subtree
+to work on them. <br>
+
+(DR)</i>
+
+<!######################################>
+
+<h2>Code Structure</h2>
+
+<!######################################>
+
+<i> autoconf? configure? *sigh* will need it sooner or later <br>
+
+source structure/directory structure <br>
+
+(DR)</i>
+
+
+
+<!######################################>
+
+<h2>Author History</h2>
+
+<!######################################>
+
+Dirk Reiners: 
+
+<blockquote>
+
+I have been working at IGD since 1992. All my work was connected in one way or
+another to high-performance rendering. First for the Genesis Radiosity system
+(Versions 1 and 2), later for the Vis-a-vis rendering kernel. My diploma thesis
+[3] was the design of a new rendering system, Y, which has become the basis of
+the Virtual Design 2 VR system. The renderer is not quite as complete as
+Performer, but usually just as fast, so that's ok with me.
+
+</blockquote>
+
+<h2>Revision History</h2>
+
+<ul> 
+
+<li> Version 0.1 (1999/12/20)
+
+<p>
+
+initial version 
+
+</li> 
+
+</ul>
+
+<h2>References</h2>
+
+[1] "Open Inventor", SIGGRAPH 92?
+
+<p>
+
+[2] "Performer", SIGGRAPH 94
+
+<p>
+
+[3] "High-performance high quality rendering for Virtual Reality
+Applications", Dirk Reiners, Diploma Thesis, Technische Hochschule Darmstadt,
+1994
+
+<p>
+
+The contents of this document are (c) 2000 ZGDV e.V. Darmstadt. 
+
+</body> </html>

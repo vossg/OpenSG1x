@@ -1,0 +1,94 @@
+
+    ==================================
+    OpenSG - an Open Source Scenegraph
+    ==================================
+
+Version  0.1 alpha
+
+
+    What is it / will it be?
+    ------------------------
+
+OpenSG is a realtime rendering system based on a scenegraph metaphor.
+It works along the lines of OpenInventor, Performer or Java3D, although
+it is probably closest to Performer. It supports parallel processing,
+albeit in a more general way, and will drive multiple displays for
+multi-screen stereo projection systems. The goal is to have something
+that handles multi-threaded data structures as simply as possible
+without compromising performance too much. It should also support
+heterogenous multi-pipe applications, i.e. multiple different graphics
+cards running one application. Many things are quite easy to do with a
+little program, but are sometimes hard to fit into an existing system.
+Thus extendibility is an important goal, and we're striving to make
+OpenSG very extendible.
+
+It should work on different Unix systems and Windows. 
+
+It's primary use (i.e. what we are doing with it) is for VR
+applications, mainly in the automotive context. But it can be used for
+any kind of application needing fast and general 3D graphics. It is,
+however, not a complete VR system. Things like device access and
+interaction are left out on purpose, there are other systems for that.
+
+
+This is an alpha release. Which means that it's not complete, not
+bug-free and not very useful for applications. But it's good enough to
+take a look at the basis and the inner working to see if it might be
+able to do what you want (and if not, to tell us about it).
+Multi-processing and heterogenous multi-pipe makes some things quite a
+bit more complicated, and for some problems we don't have a solution yet.
+For some we have an idea, but we just haven't coded yet.
+
+The advantage of it being alpha is that nothing is fixed yet. We're
+open to all kinds of suggestions of what and why to change. The reasons
+would have to be very good to change the low-level inner workings
+(Field/FieldContainer), but for a significant speed increase we might
+be willing to do that. All the high-level stuff is definitely open for
+changes. 
+
+Comments and discussion are best served on SourceForge's web boards, but
+you can also send me mail (dirk@opensg.org).
+
+    Structure
+    ---------
+
+The code tree is structured as follows:
+
+    README              this file
+    COPYING             the LGPL license file
+    INSTALL             how to compile
+    Makefile            top-level makefile
+    Doc/                documentation
+    Common/             helper files for make
+    Base/               base classes for math, multithreading, volumes etc.
+    Log/                log output classes
+    Field/              separate field classes 
+    FieldContainer/     field container, i.e. field aggregation classes.
+                        Also contains most of the multi-thread structure
+                        handling.
+    Nodes/Misc/         Group and Transform nodes
+    Nodes/Geometry/     Geometry node
+    Nodes/Lights/       Light nodes
+    Loader/             Loader infrastructure and simple RAW loader
+    State/              State wrappers and handling
+    Window/             window handling
+
+
+    Compiling
+    ---------
+
+See the seperate INSTALL file for details. In general we don't need
+anything special, but the standard tools we need have to be fairly
+recent.
+
+
+Take a look, enjoy, and tell us what you think!
+
+Yours
+
+          The OpenSG Team
+
+
+Homepage:       www.opensg.org
+Source Home:    www.sourceforge.net/projects/OpenSG (source not here yet)
+Mail contact:   dirk@opensg.org

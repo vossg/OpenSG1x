@@ -1,0 +1,157 @@
+
+Before you build OpenSG make sure that the following requirements for 
+your plattform are met :
+
+Required Packages : 
+===================
+
+Plattform :
+===========
+
+    SGI (>= 6.5)
+    ------------
+
+        Compiler : > MIPS Pro 7.3.*
+        Make     : > gmake 3.78.1
+        glut     : 3.7
+
+    Linux
+    -----
+
+        Compiler : gcc 2.95.2, 
+        Make     : > gmake 3.78.1
+        glut     : 3.7
+
+    NT 
+    -----------------
+
+        During this first dynamic developments, where only infrequent builds 
+        are done on NT, we do not use VisualStudio or some other
+        IDE (of course only if you do not count emacs to be one :-)). So we 
+        actually use gmake in combination with cygwin. So when you get a new
+        gmake PLEASE DO NOT try to build it with native windows dev tools,
+        use the gcc provided by cygwin instead. You can download an build the
+        usual unix distribution using the cygwin environment. Please do not
+        try to use a microsoft compiler. Believe us, it will fail and we are
+        working on it to find all the ways around their interpretation of
+        doing C++ compilations.
+
+        Compiler : Intel C++ 4.5 + latest patchset
+        Cygwin   : > B20
+        gmake    : > gmake 3.78.1
+        glut     : 3.7
+        STL      : SGI stdlib_20000608.zip 
+                   http://www.sgi.com/Technology/STL/standard_library.html
+
+                   STLport should be ok too, but I never tried it.
+
+OpenSG Configuration :
+
+Due to the lack of time we currently do not have a lovely configure script
+doing all these nifty tests. So to configure OpenSG you mainly have to edit
+the Common/directories<YOURSYSTEM><COMPILER EXTENSION>.mk. The other files
+around should stay untouch, in therory at least :-).
+
+Configuration :
+===============
+
+Plattform :
+===========
+
+    SGI : 
+    -----
+    
+        Package:
+        --------
+            
+            glut : set LINK_GLUT and INCLUDE_GLUT to define where we find your
+                   glut package in Common/directoriesSGI.mk.
+
+    Linux : 
+    -------
+    
+        Package:
+        --------
+            
+            glut   : set LINK_GLUT and INCLUDE_GLUT to define where we find 
+                     your glut package. (Common/directoriesLinux.mk)
+
+            OpenGL : set LINK_GL and INCLUDE_GL to define where we find your
+                     OpenGL package. (Common/directoriesLinux.mk)
+
+            gcc    : This is a little bit more complicated, because we just
+                     do not have the 2.95.2 version as our system compiler.
+                     To adapt it to your location change SOFTDIR at the 
+                     beginning of directoriesLinux.mk. The rest should be
+                     tuned in automatically. (Common/directoriesLinux.mk)
+
+    Windows : 
+    -------
+    
+        Package:
+        --------
+            
+            glut   : set LINK_GLUT and INCLUDE_GLUT to define where we find 
+                     your glut package. (Common/directoriesNT40ICL.mk)
+
+            stdlib : set LINK_STL and INCLUDE_STL to define where we find 
+                     your glut package. (Common/directoriesNT40ICL.mk)
+    
+
+            Intel C++ : Set the environment variable OSGCOMPEXT to ICL, 
+                        Set the SOFTDIR / MEDSOFTDIR to define the base
+                        compiler directory. (Common/directoriesNT40ICL.mk)
+
+            MSVC   : Set INCLUDE_SYSTEM to define where the compiler should
+                     look for the windows include files, this has to be done
+                     independent of the compiler you actually use. 
+                     (Common/directoriesNT40ICL.mk) 
+
+Compilation :
+=============
+
+Ok, to finally build your version of OpenSG go to the toplevel directory
+and type 
+
+    gmake init
+    gmake depend
+    gmake
+
+After all the libs are built goto the Loader or Window subdirectory an
+type 
+    
+    make testLoaderRender 
+    ./testLoaderRender dino.raw
+
+    or
+
+    make testWindowGLUT
+    ./testWindowGLUT ../Loader/dino.raw
+
+If everything went ok you will see a dinosaur in a small glut window,
+and now finally smile :-))))))
+
+And last, if you like it and want to get a deeper insight build the
+documentation to get an overview over the different parts of the system. 
+But be aware that the docuentation is by far not complete, it is ok to give
+you an overview and browse through the structure but nothing more (Currently).
+
+    make doc
+
+This uses doxygen to create documentation in Doc/Code/html. We use version 
+1.1.5, which is pretty new, but 1.1.4 should be ok, too. For now we include 
+the docs per default. 
+
+A rather large number of classes does not show up in the right places
+because it is created via typedefs from templated master classes. If
+you know a tool that can handle this reasonably, please tell us!
+
+
+If you really really need some free disk space again use
+
+    make clean     (deletes only the object files) or
+    make Clean     (additionally deletes the libs and the dependency makefiles.
+    make distclean (deletes allmost everything, you must call make init before
+                    you try to recompile OpenSG)
+    
+   

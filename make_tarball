@@ -1,0 +1,89 @@
+#!/bin/ksh -v
+
+# script to pack up a tarball of the current state
+
+TESTDIR=/igd/a4/scratch/reiners/opensg-0.1a
+BASEDIR=`pwd`
+
+# create the test arena
+
+rm -rf $TESTDIR
+mkdir $TESTDIR
+
+if [[ ! -d $TESTDIR ]]
+then
+	echo "Couldn't create testdir!"
+	exit
+fi
+
+# cleanup the mess here
+
+make distclean
+
+# copy the stuff over
+
+cp -R * $TESTDIR
+cd $TESTDIR	
+rm -f Makefile
+mv Makefile.dist Makefile
+
+# remove unwanted things
+
+find . -name CVS -exec rm -rf {} \; 2>&1 1>/dev/null
+
+rm -rf Doc Stuff Templates 
+find . -name '*.dsw' -print -exec rm -f {} \;
+find . -name '*.dsp' -print -exec rm -f {} \;
+
+mkdir Doc
+cp $BASEDIR/Doc/design/opensg_design.html Doc
+
+rm -f first_pic.wc issues make_tarball Readme
+
+for i in Fhs Image Tools
+do
+	rm -rf $i
+	rm -f Common/common$i.mk
+done
+
+# do a test make
+
+rm -f $TESTDIR/mlog
+
+make init	>  $TESTDIR/mlog	2>&1 
+make		>> $TESTDIR/mlog	2>&1 
+
+# do some tests
+
+cd Action
+make testAction		>> $TESTDIR/mlog	2>&1 
+./testAction		>> $TESTDIR/mlog	2>&1 
+cd ..
+
+cd Nodes/Geometry
+make testGeometry	>> $TESTDIR/mlog	2>&1 
+./testGeometry		>> $TESTDIR/mlog	2>&1 
+cd ..
+
+fgrep -i error $TESTDIR/mlog > $TESTDIR/elog
+
+if [[ -s $TESTDIR/elog ]]
+then
+
+	echo 'ERROR during testmake!'
+	cat $TESTDIR/elog	
+	exit
+fi
+
+# clean up
+
+make distclean
+find . -name 'test*.IRIX*' -print -exec rm {} \;
+
+# make the doc. Everybody's gonna need it anyway
+
+make doc
+
+# ok, done. Pack it up and ship.
+
+echo "Make sucessful, pack 'er up."
