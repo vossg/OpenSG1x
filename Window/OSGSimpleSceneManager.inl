@@ -105,6 +105,6 @@ inline void SimpleSceneManager::turnHeadlightOff( void )
 
 OSG_END_NAMESPACE
 
-#define OSG_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.1 2001/09/26 23:30:08 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_INLINE_CVSID "@(#)$Id: OSGSimpleSceneManager.inl,v 1.2 2001/09/28 07:57:00 vossg Exp $"
 
 

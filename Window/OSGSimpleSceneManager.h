@@ -36,14 +36,14 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGSIMPLEAPPWINDOW_H_      // fixme
-#define _OSGSIMPLEAPPWINDOW_H_      // fixme
+#ifndef _OSGSIMPLESCENEMANAGER_H_
+#define _OSGSIMPLESCENEMANAGER_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGBaseTypes.h>
-#include <OSGGLUTWindow.h>          // fixme
+#include <OSGWindow.h>          
 
 #include <OSGDrawAction.h>
 #include <OSGRenderAction.h>
@@ -60,7 +60,7 @@ OSG_BEGIN_NAMESPACE
  *  \brief A helper class to simplify managing simple applications.
  */
 
-class OSG_GLUTWINDOWLIB_DLLMAPPING SimpleSceneManager
+class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -223,6 +223,6 @@ OSG_END_NAMESPACE
 
 #include "OSGSimpleSceneManager.inl"
 
-#define OSG_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.1 2001/09/26 23:30:08 dirk Exp $"
+#define OSGSIMPLESCENEMANAGER_HEADER_CVSID "@(#)$Id: OSGSimpleSceneManager.h,v 1.2 2001/09/28 07:57:00 vossg Exp $"
 
-#endif /* _OSGSIMPLEAPPWINDOW_H_ */
+#endif /* _OSGSIMPLESCENEMANAGER_H_ */

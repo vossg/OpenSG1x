@@ -40,8 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEGLUTWINDOWLIB        // fixme
-#define OSG_COMPILEGLUTWINDOWINST        // fixme
+#define OSG_SYSTEMLIB
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -56,11 +55,11 @@
 
 OSG_USING_NAMESPACE
 
-namespace
+namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.1 2001/09/26 23:30:08 dirk Exp $";
-    char cvsid_hpp[] = OSG_HEADER_CVSID;
-    char cvsid_inl[] = OSG_INLINE_CVSID;
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleSceneManager.cpp,v 1.2 2001/09/28 07:56:59 vossg Exp $";
+    static char cvsid_hpp[] = OSGSIMPLESCENEMANAGER_HEADER_CVSID;
+    static char cvsid_inl[] = OSGSIMPLESCENEMANAGER_INLINE_CVSID;
 }
 
 /*! \var WindowPtr SimpleSceneManager::_win
