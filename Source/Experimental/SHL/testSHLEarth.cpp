@@ -237,7 +237,9 @@ void keyboard(unsigned char k, int x, int y)
             printf("wrote scene.osb.gz\n");
         break;
         case 't':
-            _shl->setUniformParameter("test", count);
+            beginEditCP(_shl, SHLChunk::ParametersFieldMask);
+                _shl->setUniformParameter("test", count);
+            endEditCP(_shl, SHLChunk::ParametersFieldMask);
             count += 0.01;
         break;
     }

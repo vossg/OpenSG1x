@@ -557,9 +557,11 @@ void SHLChunk::updateProgram(Window *win)
         _programs.erase(it);
         deleteObject(program);
     }
+    // update all parameters.
+    updateParameters(win, true);
 }
 
-void SHLChunk::updateParameters(Window *win)
+void SHLChunk::updateParameters(Window *win, bool all)
 {
     programsIt it = _programs.find(win);
     if(it == _programs.end())
@@ -581,7 +583,7 @@ void SHLChunk::updateParameters(Window *win)
     {
         ShaderParameterPtr parameter = getParameters()[i];
         
-        if(!parameter->getChanged())
+        if(!all && !parameter->getChanged())
             continue;
 
         // works also but is not possible with a switch and a switch is much faster.
@@ -597,7 +599,7 @@ void SHLChunk::updateParameters(Window *win)
                 PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
                     win->getFunction(_funcUniform1i);
     
-                //printf("setting: %s %d\n", uniform->getName().c_str(), uniform->getValue());
+                //printf("setting: %s %d\n", p->getName().c_str(), p->getValue());
                 GLint location = getUniformLocation(program, p->getName().c_str());
                 if(location != -1)
                     uniform1i(location, p->getValue());
@@ -612,7 +614,7 @@ void SHLChunk::updateParameters(Window *win)
                 // get "glUniform1fARB" function pointer
                 PFNGLUNIFORM1FARBPROC uniform1f = (PFNGLUNIFORM1FARBPROC)
                     win->getFunction(_funcUniform1f);
-    
+
                 GLint location = getUniformLocation(program, p->getName().c_str());
                 if(location != -1)
                     uniform1f(location, p->getValue());
@@ -922,7 +924,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.11 2004/06/06 16:44:21 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.12 2004/06/07 12:53:24 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

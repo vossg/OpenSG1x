@@ -215,7 +215,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     ShaderParameterAccess *_parameter_access;
 
     void updateProgram(Window *win);
-    void updateParameters(Window *win);
+    void updateParameters(Window *win, bool all = false);
 };
 
 typedef SHLChunk *SHLChunkP;
@@ -225,6 +225,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.6 2004/06/06 16:44:21 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.7 2004/06/07 12:53:24 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
