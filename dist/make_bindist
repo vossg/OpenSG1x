@@ -452,7 +452,7 @@ case $system in
     echo "Cleaning up"
 
     # cleanup the garbage
-    rm -rf CVS Makefile* common.* template.* Tutorials.dsp.raw README BUILD \
+    rm -rf CVS ../CVS Makefile* common.* template.* Tutorials.dsp.raw README BUILD \
            vc60.idb vc70.idb *.obj *.pdb *.ilk .prefix*
     
     var_expand $OSGPOOL/dist/win/BUILD.tutorials BUILD.txt
