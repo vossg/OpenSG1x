@@ -1,0 +1,104 @@
+
+#ifndef _OSGQFIELDVALUELABEL_H_
+#define _OSGQFIELDVALUELABEL_H_
+#ifdef __sgi
+#pragma once
+#endif
+
+#include <OSGBaseTypes.h>
+#include <OSGVector.h>
+#include <OSGFieldContainerPtr.h>
+
+#include <qnamespace.h>
+#include <qsize.h>
+#include <qstring.h>
+
+class QPainter;
+class QColorGroup;
+class QRect;
+
+OSG_BEGIN_NAMESPACE
+
+/*! \brief The base class for the FieldValueLabel flyweights.
+ */
+
+class QFieldViewBase;
+
+class QFieldValueLabelBase : public Qt
+{
+public:
+    QFieldValueLabelBase(QFieldViewBase *pView, UInt32 uiIndex);
+    
+    virtual ~QFieldValueLabelBase(void);
+    
+    virtual void   paint(      QPainter    *pPainter, 
+                         const QColorGroup &colGrp,   const QRect &rect) = 0;
+
+    virtual QSize  sizeHint       (void          ) = 0;
+    virtual QSize  minimumSizeHint(void          ) = 0;
+
+            void   setIndex       (UInt32 uiIndex);
+            UInt32 getIndex       (void          ) const;
+
+    virtual void   valueChanged   (void          ) = 0;
+ 
+protected:
+          QFieldViewBase    *getFieldView     (void);
+    const QFieldViewBase    *getFieldView     (void) const;
+
+          FieldContainerPtr &getFieldContainer(void);
+    const FieldContainerPtr &getFieldContainer(void) const;
+
+          UInt32             getFieldId       (void) const;
+    
+          UInt32             getAspect        (void) const;
+    
+          Field             *getFieldPtr      (void);
+    const Field             *getFieldPtr      (void) const;
+
+private:
+    QFieldViewBase *_pView;
+    UInt32          _uiIndex;
+};
+
+/*! \brief Flyweight label, that uses the text representation of the fields.
+ */
+
+class QGenericFieldValueLabel : public QFieldValueLabelBase
+{
+public:
+    QGenericFieldValueLabel(QFieldViewBase *pView, UInt32 uiIndex);
+    
+    static QFieldValueLabelBase *create(QFieldViewBase *pView, UInt32 uiIndex);
+
+    virtual ~QGenericFieldValueLabel(void);
+
+    virtual void paint(      QPainter    *pPainter, 
+                       const QColorGroup &colGrp,   const QRect &rect);
+    
+    virtual QSize sizeHint       (void);
+    virtual QSize minimumSizeHint(void);
+
+    virtual void  valueChanged   (void);
+
+protected:
+    const QString &getCachedValue(void);
+    const QSize   &getCachedSize (void);
+
+private:
+    typedef QFieldValueLabelBase Inherited;
+
+          void     updateCache   (void);
+
+    QString _strCachedVal;
+    QSize   _cachedSize;
+    bool    _bCacheValid;
+};
+
+OSG_END_NAMESPACE
+
+#define OSGQFIELDVALUELABEL_HEADER_CVSID "@(#)$Id: OSGQFieldValueLabel.h,v 1.1 2003/05/07 14:03:40 neumannc Exp $"
+
+#include "OSGQFieldValueLabel.inl"
+
+#endif /* _OSGQFIELDVALUELABEL_H_ */
