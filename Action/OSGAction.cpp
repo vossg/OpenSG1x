@@ -526,7 +526,7 @@ Action::ResultE OSG::traverse(  vector<NodePtr>     &list,
     
     for ( ; it != en; ++it )
     {
-        res = doCallEnter((*it), func);
+        res = traverse((*it), func);
         
         if(res == Action::Quit)
             break;
@@ -570,15 +570,10 @@ Action::ResultE OSG::traverse(   vector<NodePtr>      &list,
     
     for ( ; it != en; ++it )
     {
-        res = doCallEnter((*it), enter);
+        res = traverse((*it), enter, leave);
         
         if(res == Action::Quit)
             break;
-        
-        res = doCallLeave((*it), res, leave);
-        
-        if(res == Action::Quit)
-            break;       
     }
         
     return res;
@@ -600,6 +595,7 @@ Action::ResultE OSG::traverse(   NodePtr node,
     switch(res)
     {
     case Action::Skip:      res = Action::Continue;
+                            break;
     case Action::Continue:  res = traverse( node->getMFChildren()->getValues(), 
                                              enter, leave );
     default:                break;
