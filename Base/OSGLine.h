@@ -97,38 +97,31 @@ class OSG_BASE_DLLMAPPING Line
     /*! \name                    Intersection                              */
     /*! \{                                                                 */
 
-    bool intersect(const    SphereVolume    &sphere                    ) const;
-    bool intersect(const    SphereVolume    &sphere,  
-                            Real32          &enter,
-                            Real32          &exit                      ) const;
+    bool intersect(const SphereVolume    &sphere                     ) const;
+    bool intersect(const SphereVolume    &sphere,  Real32 &enter,
+                                                   Real32 &exit      ) const;
+    bool intersect(const CylinderVolume  &cyl                        ) const;
+    bool intersect(const CylinderVolume  &cyl,     Real32 &enter,
+                                                   Real32 &exit      ) const;
+    bool intersect(const FrustumVolume   &frustum                    ) const;
+    bool intersect(const FrustumVolume   &frustum, Real32 &enter,
+                                                   Real32 &exit      ) const;
+    bool intersect(const BoxVolume       &box,     Real32 &enter,
+                                                   Real32 &exit      ) const;
+    bool intersect(      Real32           angle,
+                   const BoxVolume       &box                        ) const;
+    bool intersect(      Real32           angle,
+                   const Vec3f            &point                     ) const;
+    bool intersect(      Real32           angle,
+                   const Vec3f            &v0,
+                   const Vec3f            &v1,
+                         Vec3f            &pt                        ) const;
+    bool intersect(const Pnt3f            &v0,
+                   const Pnt3f            &v1,
+                   const Pnt3f            &v2,
+                         Real32           &t,
+                         Vec3f            *normal = NULL             ) const;
     
-    bool intersect(const CylinderVolume     &cyl                       ) const;
-    bool intersect(const CylinderVolume     &cyl,     
-                         Real32             &enter,
-                         Real32             &exit                      ) const;
-    
-    bool intersect(const FrustumVolume          &frustum               ) const;
-    bool intersect(const FrustumVolume          &frustum, 
-                         Real32                 &enter,
-                         Real32                 &exit                  ) const;
-    
-    bool intersect(const BoxVolume              &box,     
-                         Real32                 &enter,
-                         Real32                 &exit                  ) const;
-    
-    bool intersect(      Real32                 angle,
-                   const BoxVolume              &box                   ) const;
-    bool intersect(      Real32                 angle,
-                   const Vec3f                  &point                 ) const;
-    bool intersect(      Real32                 angle,
-                   const Vec3f                  &v0,
-                   const Vec3f                  &v1,
-                         Vec3f                  &pt                    ) const;
-    bool intersect(const Pnt3f                  &v0,
-                   const Pnt3f                  &v1,
-                   const Pnt3f                  &v2,
-                         Real32                 &t,
-                         Vec3f                  *normal = NULL         ) const;
    
     /*==========================  PRIVATE  ================================*/
   private:
