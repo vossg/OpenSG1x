@@ -19,7 +19,7 @@ void streamClient()
     {
         sock.connect(SocketAddress("localhost",23344));
     }
-    catch(SocketException &e)
+    catch(SocketException &)
     {
         SWARNING << "Unable to connect to server" << endl;
         throw;
@@ -52,7 +52,7 @@ void dgramClient()
             sock.recvFrom(buffer,6,server);
             retry=false;
         }
-        catch(SocketConnReset &e)
+        catch(SocketConnReset &)
         {
             // this could happen, when we have send a package to
             // a port which was unbound and the host responds

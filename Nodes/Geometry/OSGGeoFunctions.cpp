@@ -680,11 +680,13 @@ Int32 osg::setIndexFromVRMLData(GeometryPtr    geoPtr,
   };
 
   /** holds the Index types as str, mainly for log/debug outputs */
+#ifdef OSG_DEBUG
   static const char *indexTypeStr[] = {
     "UNKNOWN_IT", "EMPTY_IT",
     "VERTEX_COORD_IT", "VERTEX_IT", "VERTEX_DUP_IT", "VERTEX_CREATE_IT",
     "PRIMTIVE_IT", "PRIMITIVE_INDEX_IT", "PRIMITIVE_CREATE_IT"
   };
+#endif
 
   osg::GeoPositionsPtr posPtr;
   osg::GeoNormalsPtr normalPtr;

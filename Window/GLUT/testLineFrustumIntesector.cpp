@@ -270,8 +270,8 @@ NodePtr makeGeoFrustumIntersectionWires(FrustumVolume &frustum,GeometryPtr geo)
                 if (first && l_en1>=enter1 && l_en1<=exit1 && l_ex1>=enter1 && l_ex1<=exit1)
                 {
 
-                    Pnt3f Pnt1=line1.getPosition() + line1.getDirection()*l_en1;
-                    Pnt3f Pnt2=line1.getPosition() + line1.getDirection()*l_ex1;
+//                    Pnt3f Pnt1=line1.getPosition() + line1.getDirection()*l_en1;
+//                    Pnt3f Pnt2=line1.getPosition() + line1.getDirection()*l_ex1;
 //                    pnts->addValue(Pnt1);
 //                    pnts->addValue(Pnt2);
                     pnts->addValue(enter_point);
@@ -282,8 +282,8 @@ NodePtr makeGeoFrustumIntersectionWires(FrustumVolume &frustum,GeometryPtr geo)
                 if (line2.intersect(frustum,l_en2,l_ex2) && l_en2>=enter2 && l_en2<=exit2 && l_ex2>=enter2 && l_ex2<=exit2)
                 {
 
-                    Pnt3f Pnt1=line2.getPosition() + line2.getDirection()*l_en2;
-                    Pnt3f Pnt2=line2.getPosition() + line2.getDirection()*l_ex2;
+//                    Pnt3f Pnt1=line2.getPosition() + line2.getDirection()*l_en2;
+//                    Pnt3f Pnt2=line2.getPosition() + line2.getDirection()*l_ex2;
 //                    pnts->addValue(Pnt1);
 //                    pnts->addValue(Pnt2);
                     pnts->addValue(enter_point);
@@ -355,8 +355,8 @@ NodePtr makeFrustumWireScene(FrustumVolume &frustum)
 {
     const Plane *_planeVec=frustum.getPlanes();
     
-    const int faces[6][4]={{0,1,3,2},{4,5,7,6},{0,4,5,1},
-                           {2,6,7,3},{2,6,4,0},{1,5,7,3}};
+//    const int faces[6][4]={{0,1,3,2},{4,5,7,6},{0,4,5,1},
+//                           {2,6,7,3},{2,6,4,0},{1,5,7,3}};
     
     Pnt3f vertices[8];
     Line lines[4];

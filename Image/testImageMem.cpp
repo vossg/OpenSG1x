@@ -66,7 +66,7 @@ bool writeMemDump (osg::Image &image, const char *fileName)
 int main (int argc, char **argv)
 {
   int retCode = 0;
-  char defaultOutImage[] = "out.pnm";
+  //char defaultOutImage[] = "out.pnm";
   Image image;
   osg::ImageFileType *fType;
   

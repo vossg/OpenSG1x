@@ -31,7 +31,7 @@ void display()
         // clear changelist from prototypes
         OSG::Thread::getCurrentChangeList()->clearAll();
     } 
-    catch(exception &e)
+    catch(exception &)
     {
 #if 0
         SLOG << e.what() << endl;
