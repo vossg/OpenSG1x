@@ -72,7 +72,7 @@ BINWriter::BINWriter(std::ostream &os) :
     _fcIdMap(),
     _outFileHandler(os),
     _vec_pRootNodes(),
-    _valid_stream(os)
+    _valid_stream(os != false)
 {
 }
 

@@ -192,7 +192,7 @@ void PointChunk::activate(DrawActionBase *action, UInt32)
                   (void (OSG_APIENTRY*)(GLenum pname, GLfloat param))
                   action->getWindow()->getFunction( _funcPointParameterf );
 
-            pointparameterf(GL_POINT_SPRITE_R_MODE_NV, getRMode());
+            pointparameterf(GL_POINT_SPRITE_R_MODE_NV, Real32(getRMode()));
             
             glEnable(GL_POINT_SPRITE_NV);
         }
@@ -286,7 +286,7 @@ void PointChunk::changeFrom( DrawActionBase *action,
                   (void (OSG_APIENTRY*)(GLenum pname, GLfloat param))
                   action->getWindow()->getFunction( _funcPointParameterf );
 
-            pointparameterf(GL_POINT_SPRITE_R_MODE_NV, getRMode());
+            pointparameterf(GL_POINT_SPRITE_R_MODE_NV, Real32(getRMode()));
             
             glEnable(GL_POINT_SPRITE_NV);
         }

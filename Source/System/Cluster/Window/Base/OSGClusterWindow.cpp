@@ -99,7 +99,6 @@ void ClusterWindow::init( void )
 {
     Connection   *connection;
     RemoteAspect *remoteAspect;
-    int i;
     MFString::iterator s;
 
     if(getNetwork()->getMainConnection())
@@ -195,7 +194,7 @@ void ClusterWindow::init( void )
 #else
     UInt8 littleEndian = false;
 #endif
-    for(i=0;i<getServers().size();++i)
+    for(UInt32 i=0;i<getServers().size();++i)
     {
         connection->selectChannel();
         connection->getValue(serverLittleEndian);
@@ -206,7 +205,7 @@ void ClusterWindow::init( void )
     }
     connection->putValue(forceNetworkOrder);
     connection->flush();
-    connection->setNetworkOrder(forceNetworkOrder);
+    connection->setNetworkOrder((forceNetworkOrder != 0));
     if(forceNetworkOrder)
     {
         SLOG << "Run clustering in network order mode" << std::endl;

@@ -118,7 +118,7 @@ void MField<bool, 2>::copyFromBin(BinaryDataHandler &pMem)
     {
         pMem.getValue(tmpBVal);
 
-        _values[i] = tmpBVal;
+        _values[i] = (tmpBVal != 0);
     }
 }
 #endif

@@ -221,7 +221,7 @@ bool Plane::intersect(const Plane &pl, Line &is) const
 
     /* Normalize the direction */
 
-    dir *= 1./len;
+    dir *= 1.f / len;
 
     is.setValue(pnt, dir);
     

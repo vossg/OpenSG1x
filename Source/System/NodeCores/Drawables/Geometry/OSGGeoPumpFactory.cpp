@@ -150,7 +150,7 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
 
     UInt32 uiIndexMask = 0;
 
-    for(Int32 i = 0; i < geo->getIndexMapping().size(); ++i)
+    for(UInt32 i = 0; i < geo->getIndexMapping().size(); ++i)
     {
         uiIndexMask |= geo->getIndexMapping()[i];
     }
@@ -1166,7 +1166,7 @@ static                                                                      \
 void GeoPump##func( Window   *win,                                          \
                            Geometry *geo)                                   \
 {                                                                           \
-    if (win) ;                                                              \
+    /*if (win) ; */                                                         \
                                                                             \
     pumpInternalSetup( Type  , GeoPTypesPtr   , getTypes  , true );         \
     pumpInternalSetup( Length, GeoPLengthsPtr , getLengths, false );        \

@@ -212,7 +212,7 @@ bool TGAImageFileType::read(      ImagePtr &image,
 
     Image::PixelFormat format = Image::OSG_INVALID_PF;
 
-    bool    compressed = header.imageType & 0x8;
+    bool    compressed = (header.imageType & 0x8) != 0;
 
     switch(header.imageType & ~0x8)
     {

@@ -98,8 +98,8 @@ Action::ResultE Switch::draw(Action *action)
 
     DrawActionBase  *da          = dynamic_cast<DrawActionBase *>(action);
 
-    if((getChoice() >= 0                 ) && 
-       (getChoice() < action->getNNodes()))
+    if((getChoice() >= 0                          ) && 
+       (UInt32(getChoice()) < action->getNNodes()))
     {
         da->useNodeList();
 
@@ -127,8 +127,8 @@ Action::ResultE Switch::intersect(Action *action)
 
     IntersectAction  *da          = dynamic_cast<IntersectAction *>(action);
 
-    if((getChoice() >= 0                 ) && 
-       (getChoice() < action->getNNodes()))
+    if((getChoice() >= 0                          ) && 
+       (UInt32(getChoice()) < action->getNNodes()))
     {
         da->addNode(action->getNode(getChoice()));
     }

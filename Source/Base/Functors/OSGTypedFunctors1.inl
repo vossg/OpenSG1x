@@ -104,12 +104,10 @@ RetT TypedFunctor1Base<RetT,
                        CallArgT,
                        SizeTraitsT>::call(CallArgType)
 {
-    RetT returnValue;
-
     FWARNING(("TypedFunctor1Base::call called, undefined behaviour "
                  "might be the consequence\n"));
 
-    return returnValue;
+    return RetT();
 }
 
 #if defined(OSG_WIN32_CL_NET70) 

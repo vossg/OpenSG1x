@@ -88,18 +88,18 @@ inline void
 GeoProperty<GeoNormals3sPropertyDesc>::setValue( const Vec3f & val,
     const UInt32 index )
 {
-    _field[index].setValues(val[0] * 32767.f, 
-                            val[1] * 32767.f, 
-                            val[2] * 32767.f);
+    _field[index].setValues(Int16(val[0] * 32767.f), 
+                            Int16(val[1] * 32767.f), 
+                            Int16(val[2] * 32767.f));
 }
 
 template<>
 inline void
 GeoProperty<GeoNormals3sPropertyDesc>::addValue( const Vec3f & val )
 {
-    _field.push_back(Vec3s(val[0] * 32767.f, 
-                           val[1] * 32767.f, 
-                           val[2] * 32767.f));
+    _field.push_back(Vec3s(Int16(val[0] * 32767.f), 
+                           Int16(val[1] * 32767.f), 
+                           Int16(val[2] * 32767.f)));
 }
 
 template <> inline
@@ -117,9 +117,9 @@ bool GeoProperty<GeoNormals3sPropertyDesc>::insertValue(const Vec3f & val,
     }
     else
     {
-        _field.insert(_field.begin() + index, Vec3s(val[0] * 32767.f, 
-                                                    val[1] * 32767.f, 
-                                                    val[2] * 32767.f));
+        _field.insert(_field.begin() + index, Vec3s(Int16(val[0] * 32767.f), 
+                                                    Int16(val[1] * 32767.f), 
+                                                    Int16(val[2] * 32767.f)));
         return true;
     }
 }

@@ -976,7 +976,7 @@ void SceneFileHandler::readProgress(void * OSG_CHECK_ARG(data))
            !the()._progressData.is->bad())
         {
             UInt64 pos = the()._progressData.is->tellg();
-            p = (pos * 100) / the()._progressData.length;
+            p = UInt32((pos * 100) / the()._progressData.length);
             if(p > 100)
                 p = 100;
         }

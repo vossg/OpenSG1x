@@ -58,7 +58,7 @@ inline void GraphicStatisticsForeground::processOnlyValue(Real32 &value,
     /* check for invert */
     if(flags & OSG_RECIPROC)
     {
-        value = 1.0 / value;
+        value = 1.0f / value;
     }
 
     /* check for a to big Value */
@@ -141,13 +141,13 @@ inline void GraphicStatisticsForeground::addValueToHistory(Real32 &value,
 
             if((flags & OSG_OVERFLOW_RESIZE) && (max < getMaxValue()[ID]))
             {
-                max += (getMaxValue()[ID] - max) / 2.0;
+                max += (getMaxValue()[ID] - max) / 2.0f;
                 getMaxValue()[ID] = osgMax(v, max);
             }
 
             if((flags & OSG_UNDERFLOW_RESIZE) && (min > getMinValue()[ID]))
             {
-                min -= (min - getMinValue()[ID]) / 2.0;
+                min -= (min - getMinValue()[ID]) / 2.0f;
                 getMinValue()[ID] = osgMin(v, min);
             }
         }

@@ -187,10 +187,10 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
         beginEditCP(serverPort);
         regionStart=cv * getServers().size() * 4 + id * 4;
         serverPort->setSize( 
-            getRegion()[ regionStart+0 ] + clientPort->getPixelLeft(),
-            getRegion()[ regionStart+1 ] + clientPort->getPixelBottom(),
-            getRegion()[ regionStart+2 ] + clientPort->getPixelLeft(),
-            getRegion()[ regionStart+3 ] + clientPort->getPixelBottom());
+            Real32(getRegion()[regionStart+0] + clientPort->getPixelLeft()),
+            Real32(getRegion()[regionStart+1] + clientPort->getPixelBottom()),
+            Real32(getRegion()[regionStart+2] + clientPort->getPixelLeft()),
+            Real32(getRegion()[regionStart+3] + clientPort->getPixelBottom()));
 
         serverPort->setRoot      ( clientPort->getRoot()       );
         serverPort->setBackground( clientPort->getBackground() );

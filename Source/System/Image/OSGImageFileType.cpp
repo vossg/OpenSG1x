@@ -241,7 +241,8 @@ UInt64 ImageFileType::restore( ImagePtr &image,
             image->set(Image::PixelFormat(head.pixelFormat), head.width,
                        head.height, head.depth, head.mipmapCount,
                        head.frameCount, float(head.frameDelay) / 1000.0, 0);
-            imageSize = type->restoreData(image, data, memSize - headSize);
+            imageSize = static_cast<unsigned long>(
+                type->restoreData(image, data, memSize - headSize));
             attachmentSize = 0; // head->attachmentSize;
 
             /*
@@ -357,7 +358,7 @@ UInt64 ImageFileType::store(const ImagePtr &image,
         head->mipmapCount    = image->getMipMapCount();
         head->frameCount     = image->getFrameCount();
         head->frameDelay     = short(image->getFrameDelay() * 1000.0);
-        head->attachmentSize = attachmentSize;
+        head->attachmentSize = static_cast<unsigned short>(attachmentSize);
         head->hostToNet();
       
         strcpy(head->mimeType, getMimeType());
@@ -365,7 +366,8 @@ UInt64 ImageFileType::store(const ImagePtr &image,
         dest = (UChar8 *) (buffer + headSize);
 
         if (src) 
-            dataSize = storeData(image, dest, memSize - headSize);
+            dataSize = static_cast<unsigned long>(
+                storeData(image, dest, memSize - headSize));
 
         dest = (UChar8 *) (buffer + headSize + dataSize);
 

@@ -261,9 +261,9 @@ void RenderNode::determinePerformance(WindowPtr &window)
     b = (a2 - .25 * a1) / .75;
     r = runRasterBench();
 
-    _visibleFaceCost = 1.0 / a1;
-    _invisibleFaceCost = 1.0 / b;
-    _drawPixelCost = 1.0 / r;
+    _visibleFaceCost = Real32(1.0 / a1);
+    _invisibleFaceCost = Real32(1.0 / b);
+    _drawPixelCost = Real32(1.0 / r);
 
     // test write performance
     glPixelStorei(GL_PACK_ALIGNMENT, 1);
@@ -282,7 +282,7 @@ void RenderNode::determinePerformance(WindowPtr &window)
 
     glFlush();
     t += getSystemTime();
-    _readPixelCost = t / (c * width * height);
+    _readPixelCost = Real32(t / (c * width * height));
 
     // test write performance
     glMatrixMode(GL_MODELVIEW);
@@ -303,7 +303,7 @@ void RenderNode::determinePerformance(WindowPtr &window)
 
     glFlush();
     t += getSystemTime();
-    _writePixelCost = t / (c * width * height);
+    _writePixelCost = Real32(t / (c * width * height));
     glEnable(GL_DEPTH_TEST);
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
@@ -419,17 +419,17 @@ double RenderNode::runFaceBench(float w, int size)
     for(int x = 0; x <= (vw * w); x += size)
     {
         glNormal3f(0, 0, 1);
-        glVertex3f(x, 0, 1);
+        glVertex3i(x, 0, 1);
         glNormal3f(0, 0, 1);
-        glVertex3f(x, size, 1);
+        glVertex3i(x, size, 1);
         if(((x & 3) == 3) && (x != (vw * w)))
         {
             glEnd();
             glBegin(GL_TRIANGLE_STRIP);
             glNormal3f(0, 0, 1);
-            glVertex3f(x, 0, 1);
+            glVertex3i(x, 0, 1);
             glNormal3f(0, 0, 1);
-            glVertex3f(x, size, 1);
+            glVertex3i(x, size, 1);
         }
     }
 
@@ -450,7 +450,7 @@ double RenderNode::runFaceBench(float w, int size)
         for(int y = 0; y < vh; y += size)
         {
             glCallList(dList);
-            glTranslatef(0, size, 0);
+            glTranslatef(0, GLfloat(size), 0);
         }
 
         glFinish();
@@ -497,13 +497,13 @@ double RenderNode::runRasterBench(void)
     GLuint  dList = glGenLists(1);
     glNewList(dList, GL_COMPILE);
     glBegin(GL_QUADS);
-    glVertex3f(0, 0, 1);
+    glVertex3i(0, 0, 1);
     glNormal3f(0, 0, 1);
-    glVertex3f(0, vh - 1, 1);
+    glVertex3i(0, vh - 1, 1);
     glNormal3f(0, 0, 1);
-    glVertex3f(vw - 1, vh - 1, 1);
+    glVertex3i(vw - 1, vh - 1, 1);
     glNormal3f(0, 0, 1);
-    glVertex3f(vw - 1, 0, 1);
+    glVertex3i(vw - 1, 0, 1);
     glNormal3f(0, 0, 1);
     glEnd();
     glEndList();

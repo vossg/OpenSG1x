@@ -353,7 +353,7 @@ void Log::delHeaderElem(LogHeaderElem elem, bool force)
 
 bool Log::hasHeaderElem(LogHeaderElem elem) 
 {
-    return (_headerElem & elem);
+    return (_headerElem & elem) != 0;
 }
 
 void Log::addModuleHandling(LogModuleHandling handling, 

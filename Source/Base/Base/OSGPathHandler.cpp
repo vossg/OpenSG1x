@@ -533,9 +533,9 @@ void PathHandler::expandUnixPath(std::string &path)
     std::string  envVar;
     std::string  userName;
     std::string  userHome;
-    bool         stop;
 #ifndef WIN32
-    passwd     *userInfo;
+    bool         stop;
+    passwd      *userInfo;
 #endif
 
     std::string::size_type currPos  = 0;

@@ -279,13 +279,13 @@ MaterialPtr A3DSSceneFileType::createMaterial(L3DS &scene, UInt32 id) const
 
     beginEditCP(matc);
         matc->setAmbient(Color4f(m.GetAmbientColor().r, m.GetAmbientColor().g,
-                         m.GetAmbientColor().b, 1.0 - t));
+                         m.GetAmbientColor().b, 1.0f - t));
         matc->setDiffuse(Color4f(m.GetDiffuseColor().r, m.GetDiffuseColor().g,
-                         m.GetDiffuseColor().b, 1.0 - t));
+                         m.GetDiffuseColor().b, 1.0f - t));
         matc->setSpecular(Color4f(m.GetSpecularColor().r, m.GetSpecularColor().g,
-                         m.GetSpecularColor().b, 1.0 - t));
-        matc->setEmission(Color4f(0.0, 0.0, 0.0, 1.0 - t));
-        matc->setShininess(m.GetShininess() * 128.0);
+                         m.GetSpecularColor().b, 1.0f - t));
+        matc->setEmission(Color4f(0.0f, 0.0f, 0.0f, 1.0f - t));
+        matc->setShininess(m.GetShininess() * 128.0f);
     endEditCP(matc);
 
     // add a blend chunk for transparency

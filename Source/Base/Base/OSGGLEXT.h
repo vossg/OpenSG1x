@@ -807,6 +807,10 @@
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 
+#ifndef GL_VERSION_1_2
+#define GL_CLAMP_TO_EDGE                  0x812F
+#endif
+
 #define OSGGLEXT_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGGL_H_ */

@@ -274,12 +274,13 @@ void QuaternionBase<ValueTypeT>::setValue(const MatrixType &matrix)
     {
         s = osgsqrt(tr + 1.0);
 
-        _quat[3] = s * 0.5;
+        _quat[3] = ValueTypeT(s * 0.5);
 
         s = 0.5 / s;
-        _quat[0] = (matrix[1][2] - matrix[2][1]) * s;
-        _quat[1] = (matrix[2][0] - matrix[0][2]) * s;
-        _quat[2] = (matrix[0][1] - matrix[1][0]) * s;
+
+        _quat[0] = ValueTypeT((matrix[1][2] - matrix[2][1]) * s);
+        _quat[1] = ValueTypeT((matrix[2][0] - matrix[0][2]) * s);
+        _quat[2] = ValueTypeT((matrix[0][1] - matrix[1][0]) * s);
     }
     else
     {
@@ -299,14 +300,14 @@ void QuaternionBase<ValueTypeT>::setValue(const MatrixType &matrix)
         qt[i] = s * 0.5;
         s     = 0.5 / s;
 
-        _quat[3] = (matrix[j][k] - matrix[k][j]) * s;
+        _quat[3] = ValueTypeT((matrix[j][k] - matrix[k][j]) * s);
 
         qt[j] = (matrix[i][j] + matrix[j][i]) * s;
         qt[k] = (matrix[i][k] + matrix[k][i]) * s;
 
-        _quat[0] = qt[0];
-        _quat[1] = qt[1];
-        _quat[2] = qt[2];
+        _quat[0] = ValueTypeT(qt[0]);
+        _quat[1] = ValueTypeT(qt[1]);
+        _quat[2] = ValueTypeT(qt[2]);
     }
 
     if(_quat[3] > 1.0 || _quat[3] < -1.0)
@@ -405,7 +406,7 @@ void QuaternionBase<ValueTypeT>::setValue(const VectorType &rotateFrom,
     // use half-angle formulae
     // sin^2 t = ( 1 - cos (2t) ) / 2
 
-    axis *= osgsqrt(0.5 * (1.0 - cost));
+    axis *= ValueTypeT(osgsqrt(0.5 * (1.0 - cost)));
 
     // scale the axis by the sine of half the rotation angle to get
     // the normalized quaternion
@@ -417,7 +418,7 @@ void QuaternionBase<ValueTypeT>::setValue(const VectorType &rotateFrom,
     // cos^2 t = ( 1 + cos (2t) ) / 2
     // w part is cosine of half the rotation angle
 
-    _quat[3] = osgsqrt(0.5 * (1.0 + cost));
+    _quat[3] = ValueTypeT(osgsqrt(0.5 * (1.0 + cost)));
 }
 
 
@@ -605,7 +606,7 @@ void QuaternionBase<ValueTypeT>::getValueAsAxisDeg(ValueTypeT &x,
         y  = q[1];
         z  = q[2];
 
-        w = osgrad2degree(2.0 * osgacos(_quat[3]));
+        w = osgrad2degree(2.0f * osgacos(_quat[3]));
     }
     else
     {

@@ -1176,7 +1176,8 @@ template <class ValueTypeT,
 bool PointInterface<ValueTypeT, StorageInterfaceT>::operator == (
     const PointInterface &other) const
 {
-    return Self::equals(other, Eps);
+    // CHECK
+    return Self::equals(other, ValueTypeT(Eps));
 }
 
 //! Not equal operator, using Eps as the tolerance
@@ -1849,7 +1850,8 @@ template <class ValueTypeT,
 bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator == (
     const VectorInterface &other) const
 {
-    return Self::equals(other, Eps);
+    //CHECK
+    return Self::equals(other, ValueTypeT(Eps));
 }
 
 //! Not eual operator, using Eps as the tolerance

@@ -187,7 +187,7 @@ void ClusterServer::start()
         _connection->flush();
         _connection->selectChannel();
         _connection->getValue(forceNetworkOrder);
-        _connection->setNetworkOrder(forceNetworkOrder);
+        _connection->setNetworkOrder((forceNetworkOrder != 0));
         _serviceAvailable=false;
 
         SINFO << "Connection accepted " << _boundAddress << std::endl;

@@ -897,12 +897,12 @@ void OSG::Window::ignoreExtensions(const Char8 *s)
                         
             if(ind >= 0)
             {
-                if((*winit)->_availExtensions.size() > ind)
+                if((*winit)->_availExtensions.size() > UInt32(ind))
                 {
                     (*winit)->_availExtensions[ind] = false;
                     FPDEBUG((" disabled"));            
                 }
-                if((*winit)->_commonExtensions.size() > ind)
+                if((*winit)->_commonExtensions.size() > UInt32(ind))
                 {
                     (*winit)->_commonExtensions[ind] = false;
                     FPDEBUG((" uncommoned"));            

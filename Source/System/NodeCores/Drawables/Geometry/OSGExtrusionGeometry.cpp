@@ -348,26 +348,26 @@ static void subdivRows(Real32 *col_in, grid *grid_in, UInt32 subfield,
             subdivision point) */
             for(j = 1; j < cols - 2; j++)
             {
-                col_out[2 * (i * lc + j) + 1] = 1.0 / 16.0 *
+                col_out[2 * (i * lc + j) + 1] = 1.0f / 16.0f *
                     (
-                        9.0 * col_in[i * cols + j    ] +
-                        9.0 * col_in[i * cols + j + 1] -
-                              col_in[i * cols + j + 2] -
-                              col_in[i * cols + j - 1]
+                        9.0f * col_in[i * cols + j    ] +
+                        9.0f * col_in[i * cols + j + 1] -
+                               col_in[i * cols + j + 2] -
+                               col_in[i * cols + j - 1]
                     );
             }
 
-            col_out[2 * i * lc + 1] = (1.0 / 8.0) *
+            col_out[2 * i * lc + 1] = (1.0f / 8.0f) *
                 (
-                    3.0 * col_in[i * cols] +
-                    6.0 * col_in[i * cols + 1] -
-                    1.0 * col_in[i * cols + 2]
+                    3.0f * col_in[i * cols] +
+                    6.0f * col_in[i * cols + 1] -
+                    1.0f * col_in[i * cols + 2]
                 );
 
-            col_out[2 * i * lc + (lc - 2)] = (1.0 / 8.0) *
+            col_out[2 * i * lc + (lc - 2)] = (1.0f / 8.0f) *
                 (
-                    3.0 * col_in[i * cols + (cols - 1)] + 6.0 * col_in[i * cols +
-                        (cols - 2)] - 1.0 * col_in[i * cols + (cols - 3)]
+                    3.0f * col_in[i * cols + (cols - 1)] + 6.0f * col_in[i * cols +
+                        (cols - 2)] - 1.0f * col_in[i * cols + (cols - 3)]
                 );
         }
     }
@@ -393,12 +393,12 @@ static void subdivRows(Real32 *col_in, grid *grid_in, UInt32 subfield,
                 if(jm1_mod_cols < 0)
                     jm1_mod_cols += cols;
 
-                col_out[2 * (i * lc + j) + 1] = 1.0 / 16.0 *
+                col_out[2 * (i * lc + j) + 1] = 1.0f / 16.0f *
                     (
-                        9.0 * col_in[i * cols + j] + 
-                        9.0 * col_in[i * cols + (j + 1 ) % cols] -
-                        1.0 * col_in[i * cols + (j + 2) % cols] -
-                        1.0 * col_in[i * cols + jm1_mod_cols]
+                        9.0f * col_in[i * cols + j] + 
+                        9.0f * col_in[i * cols + (j + 1 ) % cols] -
+                        1.0f * col_in[i * cols + (j + 2) % cols] -
+                        1.0f * col_in[i * cols + jm1_mod_cols]
                     );
             }
         }
@@ -430,10 +430,10 @@ static void subdivCols(Real32 *col_in, grid *grid_in, UInt32 subfield,
         {
             for(j = 0; j < lc; j++)
             {
-                col_out[(2 * i + 1) * lc + j] = 1.0 / 16.0 *
+                col_out[(2 * i + 1) * lc + j] = 1.0f / 16.0f *
                     (
-                        9.0 * col_in[2 * i * lc + j] +
-                        9.0 * col_out[2 * (i + 1) * lc + j] -
+                        9.0f * col_in[2 * i * lc + j] +
+                        9.0f * col_out[2 * (i + 1) * lc + j] -
                               col_in[2 * (i + 2) * lc + j] -
                               col_in[2 * (i - 1) * lc + j]
                     );
@@ -443,18 +443,18 @@ static void subdivCols(Real32 *col_in, grid *grid_in, UInt32 subfield,
         /*fill in second upper and lower row*/
         for(j = 0; j < lc; j++)
         {
-            col_out[lc + j] = 1.0 / 8.0 *
+            col_out[lc + j] = 1.0f / 8.0f *
                 (
-                    3.0 * col_in[j] +
-                    6.0 * col_in[2 * lc + j] -
-                    1.0 * col_in[4 * lc + j]
+                    3.0f * col_in[j] +
+                    6.0f * col_in[2 * lc + j] -
+                    1.0f * col_in[4 * lc + j]
                 );
 
-            col_out[(lr - 2) * lc + j] = 1.0 / 8.0 *
+            col_out[(lr - 2) * lc + j] = 1.0f / 8.0f *
                 (
-                    3.0 * col_in[(lr - 1) * lc + j] +
-                    6.0 * col_in[(lr - 3) * lc + j] -
-                    1.0 * col_in[(lr - 5) * lc + j]
+                    3.0f * col_in[(lr - 1) * lc + j] +
+                    6.0f * col_in[(lr - 3) * lc + j] -
+                    1.0f * col_in[(lr - 5) * lc + j]
                 );
         }
     }
@@ -473,8 +473,8 @@ static void subdivCols(Real32 *col_in, grid *grid_in, UInt32 subfield,
 
                 col_out[(2 * i + 1) * lc + j] =
                     (
-                        9.0 * col_in[2 * i * lc + j] +
-                        9.0 * col_out[2 * ((i + 1) % rows) * lc + j] -
+                        9.0f * col_in[2 * i * lc + j] +
+                        9.0f * col_out[2 * ((i + 1) % rows) * lc + j] -
                               col_in[2 * ((i + 2) % rows) * lc + j] -
                               col_in[2 * im1_mod_cols * lc + j]
                     ) /
@@ -1728,8 +1728,8 @@ void renderCap(const std::vector<Pnt2f> &crossSection,
         vertexBaryCenter += v;
     }
 
-    baryCenter /= crossSection.size();
-    vertexBaryCenter /= vValues;
+    baryCenter /= Real32(crossSection.size());
+    vertexBaryCenter /= Real32(vValues);
 
     beginEditCP(geoTypes);
     beginEditCP(geoLengths);

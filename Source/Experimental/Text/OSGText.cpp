@@ -214,7 +214,7 @@ UInt32 Text::getTXFNVertices(std::vector<std::string> &lineVec)
 {
     UInt32 numChars = 0;
     
-    for(Int32 i = 0; i < lineVec.size(); i++)
+    for(UInt32 i = 0; i < lineVec.size(); i++)
     {
         numChars += strlen(lineVec[i].c_str());
     }
@@ -225,7 +225,8 @@ UInt32 Text::getTXFNVertices(std::vector<std::string> &lineVec)
 bool Text::fillTXFArrays(std::vector<std::string> &lineVec, 
                          Pnt3f *points, Vec2f *texcoords)
 {
-    Int32           i, j, k;
+    Int32           j, k;
+    UInt32          i;
     Int32           sStart, sStop, sStep, lStart, lStop, lStep;
     Int32           numChars, numLineChars;
     Real32          xOff, yOff, scale, tmpWidth, oaWidth;
@@ -652,7 +653,7 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
     Int32           glyphNOff = 2, reuseNormals, nstride, facestride = 2;
     bool            retVal = false;
     Real32          zCoord, bb[4], trX = 0.0, trY = 0.0;
-    Real32          maxWidth = 0.0, tmpMinY = HUGE_VAL, tmpMaxY = -HUGE_VAL;
+    Real32          maxWidth = 0.0, tmpMinY = FLT_MAX, tmpMaxY = -FLT_MAX;
     Real32          lineOff = 0.f, off = 0.f, localWidth, localHeight, descent;
     VectorFontGlyph ***g = 0;
     const Char8     *text;

@@ -269,7 +269,7 @@ void ParticleBSPTree::copyFromBin(BinaryDataHandler &pMem)
         else
         {
             pMem.getValue(splitvalue);
-            _tree[i].setSplit(axis,value);
+            _tree[i].setSplit(axis, Real32(value));
         }
     }
 }

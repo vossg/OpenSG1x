@@ -47,6 +47,17 @@
 #endif
 
 #include <OSGGL.h>
+#include <limits>
+
+// The undef's are needed otherwise the numeric_limits won't work (GV)
+
+#if defined(max)
+#undef max
+#endif
+
+#if defined(min)
+#undef min
+#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -166,12 +177,12 @@ struct TypeTraits<UInt8> : public TypeTraitsBase
 
     static        UInt8              getMax        (void)
     {
-        return 0xFF;
+        return std::numeric_limits<UInt8>::max();
     }
 
     static        UInt8              getMin        (void)
     {
-        return 0x00;
+        return std::numeric_limits<UInt8>::min();
     }
 
 
@@ -227,7 +238,7 @@ struct TypeTraits<Int8> : public TypeTraitsBase
     static const  bool               IsPOD       = true;
     static const  MathTypeProperties MathProp    = IntValue;
 
-    static const  Int8               BitsSet     =  0xFF;
+    static const  Int8               BitsSet     =    -1; //0xFF;
     static const  Int8               BitsClear   =  0x00;
 
 
@@ -243,12 +254,12 @@ struct TypeTraits<Int8> : public TypeTraitsBase
 
     static        Int8               getMin        (void)
     {
-        return 0x7f;
+        return std::numeric_limits<Int8>::min();
     }
 
     static        Int8               getMax        (void)
     {
-        return -0x80;
+        return std::numeric_limits<Int8>::max();
     }
 
 
@@ -314,12 +325,12 @@ struct TypeTraits<UInt16> : public TypeTraitsBase
     
     static        UInt16             getMax        (void)
     {
-        return 0xFFFF;
+        return std::numeric_limits<UInt16>::max();
     }
 
     static        UInt16             getMin        (void)
     {
-        return 0x0000;
+        return std::numeric_limits<UInt16>::min();
     }
 
 
@@ -374,7 +385,7 @@ struct TypeTraits<Int16> : public TypeTraitsBase
     static const  bool               IsPOD       = true;
     static const  MathTypeProperties MathProp    = IntValue;
 
-    static const  Int16              BitsSet     =  0xFFFF;
+    static const  Int16              BitsSet     =      -1; //0xFFFF;
     static const  Int16              BitsClear   =  0x0000;
 
 
@@ -390,12 +401,12 @@ struct TypeTraits<Int16> : public TypeTraitsBase
 
     static        Int16              getMax        (void)
     {
-        return 0x7FFF;
+        return std::numeric_limits<Int16>::max();
     }
 
     static        Int16              getMin        (void)
     {
-        return -0x8000;
+        return std::numeric_limits<Int16>::min();
     }
 
 
@@ -461,12 +472,12 @@ struct TypeTraits<UInt32> : public TypeTraitsBase
 
     static        UInt32             getMax        (void) 
     { 
-        return 0xFFFFFFFF;
+        return std::numeric_limits<UInt32>::max();
     }
 
     static        UInt32             getMin        (void)
     {
-        return 0x00000000;
+        return std::numeric_limits<UInt32>::min();
     }
 
 
@@ -532,12 +543,12 @@ struct TypeTraits<Int32> : public TypeTraitsBase
 
     static        Int32              getMax        (void)
     {
-        return 0x7FFFFFFF; 
+        return std::numeric_limits<Int32>::max(); 
     }
 
     static        Int32              getMin        (void)
     {
-        return -0x80000000;
+        return std::numeric_limits<Int32>::min();
     }
 
 
@@ -614,27 +625,15 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
     }
 
 
-#ifdef OSG_LONGLONG_HAS_LL
     static        UInt64             getMax        (void)         
     {
-        return 0x0000000000000000LL;
+        return std::numeric_limits<UInt64>::max();
     }
 
     static        UInt64             getMin        (void)
     {
-        return 0xFFFFFFFFFFFFFFFFLL;
+        return std::numeric_limits<UInt64>::min();
     }
-#else
-    static        UInt64             getMax        (void)
-    {
-        return 0xFFFFFFFFFFFFFFFF;
-    }
-
-    static        UInt64             getMin        (void)
-    {
-        return 0x0000000000000000;
-    }
-#endif
 
 
     static Real32      getFraction  (UInt64 val)
@@ -705,27 +704,15 @@ struct TypeTraits<Int64> : public TypeTraitsBase
         return 1;
     }
 
-#ifdef OSG_LONGLONG_HAS_LL
     static        Int64              getMax        (void)
     {
-        return 0x7FFFFFFFFFFFFFFFLL;
+        return std::numeric_limits<Int64>::max();
     }
 
     static        Int64              getMin        (void)
     {
-        return -0x8000000000000000LL;
+        return std::numeric_limits<Int64>::min();
     }
-#else
-    static        Int64              getMax        (void)
-    {
-        return 0x7FFFFFFFFFFFFFFF;
-    }
-
-    static        Int64              getMin        (void)
-    {
-        return -0x8000000000000000;
-    }
-#endif
 
 
     static Real32      getFraction  (Int64  val)
@@ -805,7 +792,7 @@ struct TypeTraits<Real32> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-            return atof(szString);
+            return Real32(atof(szString));
         }
         else
         {

@@ -259,27 +259,30 @@ NodePtr OFFSceneFileType::read(std::istream &is, const Char8 *) const
         for(i = 0; (!is.eof()) && (i < vertexCount); i++)
         {
             is >> x >> y >> z;
-            point.setValues(x, y, z);
+            point.setValues(Real32(x), Real32(y), Real32(z));
             points->push_back(point);
             
             if(hasNormals)
             {
                 is >> x >> y >> z;
-                norm.setValues(x, y, z);
+                norm.setValues(Real32(x), Real32(y), Real32(z));
                 norms->push_back(norm);
             }
             
             if(hasColors)
             {
                 is >> x >> y >> z >> a;
-                color.setValuesRGBA(x, y, z, a);
+                color.setValuesRGBA(Real32(x), 
+                                    Real32(y), 
+                                    Real32(z), 
+                                    Real32(a));
                 colors->getField().push_back(color);
             }
             
             if(hasTexCoords)
             {
                 is >> x >> y;
-                texcoord.setValues(x, y);
+                texcoord.setValues(Real32(x), Real32(y));
                 texcoords->push_back(texcoord);
             }
         }

@@ -974,7 +974,8 @@ void TransformationMatrix<ValueTypeT>::multFullMatrixPnt(
         return;
     }
 
-    w = 1./w;
+    //CHECK
+    w = ValueTypeT(1.)/w;
     dst.setValues((src[0] * _matrix[0][0] +
                    src[1] * _matrix[1][0] +
                    src[2] * _matrix[2][0] +

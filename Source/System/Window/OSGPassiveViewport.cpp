@@ -122,10 +122,10 @@ void PassiveViewport::draw( DrawAction * action )
 
     GLint vp[4];
     glGetIntegerv(GL_VIEWPORT, vp);
-    setLeft(vp[0]);
-    setBottom(vp[1]);
-    setRight(vp[0] + vp[2]);
-    setTop(vp[1] + vp[3]); 
+    setLeft(Real32(vp[0]));
+    setBottom(Real32(vp[1]));
+    setRight(Real32(vp[0] + vp[2]));
+    setTop(Real32(vp[1] + vp[3])); 
     
     GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
           pt=getPixelTop();
@@ -172,10 +172,10 @@ void PassiveViewport::render(RenderActionBase *action)
 
     GLint vp[4];
     glGetIntegerv(GL_VIEWPORT, vp);
-    setLeft(vp[0]);
-    setBottom(vp[1]);
-    setRight(vp[0] + vp[2] - 1);
-    setTop(vp[1] + vp[3] - 1); 
+    setLeft(Real32(vp[0]));
+    setBottom(Real32(vp[1]));
+    setRight(Real32(vp[0] + vp[2] - 1));
+    setTop(Real32(vp[1] + vp[3] - 1)); 
 
 /*
     GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 

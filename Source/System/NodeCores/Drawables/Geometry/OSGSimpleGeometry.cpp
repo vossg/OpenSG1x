@@ -470,7 +470,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 
             p->push_back(Pnt3f(x, height/2, z));
             n->push_back(Vec3f(0, 1, 0));
-            tx->push_back(Vec2f(x / topradius / 2 + .5, z / topradius / 2 + .5));
+            tx->push_back(Vec2f(x / topradius / 2 + .5f, z / topradius / 2 + .5f));
         }
 
         t->push_back(GL_POLYGON);
@@ -496,7 +496,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 
             p->push_back(Pnt3f(x, -height/2, z));
             n->push_back(Vec3f(0, -1, 0));
-            tx->push_back(Vec2f(x / botradius / 2 + .5, z / botradius / 2 + .5));
+            tx->push_back(Vec2f(x / botradius / 2 + .5f, z / botradius / 2 + .5f));
         }
 
         t->push_back(GL_POLYGON);
@@ -700,13 +700,13 @@ Real32 setVecLen(Vec3f &vec, Real32 length)
                                                                             \
     norm.normalize();                                                       \
     n->push_back(norm);                                                    \
-    tx->push_back(  Vec2f( osgatan2(-(v)[0], -(v)[2]) / Pi / 2 + .5,     \
+    tx->push_back(  Vec2f( osgatan2(-(v)[0], -(v)[2]) / Pi / 2 + .5f,     \
                             osgatan2(-(v)[1],                              \
                                               osgsqrt((v)[2] * (v)[2] +    \
                                                        (v)[0] * (v)[0]      \
                                                     )                      \
                                    )                                       \
-                                  / Pi /2 + .5                              \
+                                  / Pi /2 + .5f                            \
                )       );                                                 \
     norm *= radius;                                                       \
     p->push_back(norm.addToZero());                                       \
@@ -736,13 +736,13 @@ static void subdivideTriangle(UInt32 i1,
             v3 = (*p)[i3];
     Pnt3f v12, v23, v31;
 
-    v12 = v1 + (v2 - v1) * .5;
-    v23 = v2 + (v3 - v2) * .5;
-    v31 = v3 + (v1 - v3) * .5;
+    v12 = v1 + (v2 - v1) * .5f;
+    v23 = v2 + (v3 - v2) * .5f;
+    v31 = v3 + (v1 - v3) * .5f;
     
-    v12 /= 2.0;
-    v23 /= 2.0;
-    v31 /= 2.0;
+    v12 /= 2.0f;
+    v23 /= 2.0f;
+    v31 /= 2.0f;
     
     UInt32 i12 = z++, i23 = z++, i31 = z++;
     
@@ -851,13 +851,13 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
         //addPoint(pnt, j);
         p->push_back(pnt.addToZero());
         n->push_back(norm);
-        tx->push_back(Vec2f(   osgatan2(-(pnt)[0], -(pnt)[2]) / Pi / 2 + .5,
+        tx->push_back(Vec2f(   osgatan2(-(pnt)[0], -(pnt)[2]) / Pi / 2 + .5f,
                                 osgatan2(-(pnt)[1],
                                               osgsqrt((pnt)[2] * (pnt)[2] +
                                                        (pnt)[0] * (pnt)[0] 
                                                     )
                                        )
-                                / Pi / 2 + .5
+                                / Pi / 2 + .5f
                )       ); 
     }
     
@@ -1135,7 +1135,7 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
                 p->push_back(pnt);
                 
                 Vec3f norm(0, 0, 0);
-                norm[ axis ] = asigns[ pl ];
+                norm[ axis ] = Real32(asigns[ pl ]);
                 n->push_back(norm);
                 tx->push_back(Vec2f(x / (Real32) res[inds[pl][0]], 
                                     y / (Real32) res[inds[pl][1]]));

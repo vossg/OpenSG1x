@@ -1011,7 +1011,7 @@ struct drawViewDirQuads : public ParticlesDrawer
         {
             i = index[ii];
 
-            if(i < 0 || i > pos->getSize())
+            if(i < 0 || i > Int32(pos->getSize()))
                 continue;
 
             if(colTrait::particle (colData,  i))
@@ -1209,7 +1209,7 @@ struct drawViewerQuads : public ParticlesDrawer
         {
             i = index[ii];
 
-            if(i < 0 || i > pos->getSize())
+            if(i < 0 || i > Int32(pos->getSize()))
                 continue;
 
             if(colTrait::particle (colData,  i))
@@ -1491,7 +1491,7 @@ struct drawLines : public ParticlesDrawer
         {
             i = index[ii];
 
-            if(i < 0 || i > pos->getSize())
+            if(i < 0 || i > Int32(pos->getSize()))
                 continue;
 
             if(colTrait::particle (colData,  i))
@@ -1606,7 +1606,7 @@ struct drawPoints : public ParticlesDrawer
         {
             i = index[ii];
 
-            if(i < 0 || i > pos->getSize())
+            if(i < 0 || i > Int32(pos->getSize()))
                 continue;
 
             if(colTrait::particle(colData, i))
@@ -1852,7 +1852,7 @@ struct drawObjects : public ParticlesDrawer
         {
             i = index[ii];
 
-            if(i < 0 || i > pos->getSize())
+            if(i < 0 || i > Int32(pos->getSize()))
                 continue;
 
             if(geoTrait::particle (geoData,  i))
@@ -2050,7 +2050,7 @@ struct drawViewerObjects : public ParticlesDrawer
         {
             i = index[ii];
 
-            if(i < 0 || i > pos->getSize())
+            if(i < 0 || i > Int32(pos->getSize()))
                 continue;
 
             if(geoTrait::particle (geoData,  i))
@@ -2205,7 +2205,7 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
             for(i = 0; i < size; i++)
             {
                 if((*(indices))[i] < 0 || 
-                   (*(indices))[i] > pos->size())
+                   (*(indices))[i] > Int32(pos->size()))
                     continue;
 
                 sorterList[len]._index = (*(indices))[i];
@@ -2238,7 +2238,7 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
             for(i = 0; i < size; i++)
             {
                 if((*(indices))[i] < 0 || 
-                   (*(indices))[i] > pos->size())
+                   (*(indices))[i] > Int32(pos->size()))
                     continue;
 
                 sorterList[len]._index = (*(indices))[i];

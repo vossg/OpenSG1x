@@ -322,10 +322,10 @@ void TileLoadBalancer::drawVolumes(WindowPtr win)
         {
             glBegin(GL_LINE_LOOP);
             glColor3f(0, 1, 0);
-            glVertex3f(l->getMin()[0],l->getMin()[1],0);
-            glVertex3f(l->getMax()[0],l->getMin()[1],0);
-            glVertex3f(l->getMax()[0],l->getMax()[1],0);
-            glVertex3f(l->getMin()[0],l->getMax()[1],0);
+            glVertex3i(l->getMin()[0],l->getMin()[1],0);
+            glVertex3i(l->getMax()[0],l->getMin()[1],0);
+            glVertex3i(l->getMax()[0],l->getMax()[1],0);
+            glVertex3i(l->getMin()[0],l->getMax()[1],0);
             glEnd();
         }
     }

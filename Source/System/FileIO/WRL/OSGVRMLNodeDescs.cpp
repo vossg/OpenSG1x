@@ -2419,7 +2419,7 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
             GeometryPtr pGeo = makeConeGeo(pHeight->getValue(),
                                            pBotRad->getValue(),
                                            32,
-                                           pHeight->getValue(),
+                                           pSide  ->getValue(),
                                            pBottom->getValue());
 
             beginEditCP(pNode, Node::CoreFieldMask);

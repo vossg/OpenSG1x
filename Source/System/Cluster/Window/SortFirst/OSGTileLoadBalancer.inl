@@ -50,7 +50,7 @@ inline TileLoadBalancer::RegionLoad::RegionLoad(TileGeometryLoad *load):
 inline void TileLoadBalancer::RegionLoad::updateCost(const Int32 wmin[2],
                                                    const Int32 wmax[2])
 {
-    Real32 faces  =_load->getFaces();
+    Real32 faces  =Real32(_load->getFaces());
     Real32 visible;
     Int32 vismin[2];
     Int32 vismax[2];
@@ -60,9 +60,9 @@ inline void TileLoadBalancer::RegionLoad::updateCost(const Int32 wmin[2],
     {
         _visibleFaces=faces*visible;
         _invisibleFaces=faces-_visibleFaces;
-        _pixel=
+        _pixel=Real32(
             (vismax[0] - vismin[0] + 1)*
-            (vismax[1] - vismin[1] + 1);
+            (vismax[1] - vismin[1] + 1));
     }
     else
     {
@@ -99,15 +99,15 @@ inline Real32 TileLoadBalancer::RegionLoad::getCost(const RenderNode &renderNode
     Real32 invisibleFaces;
     Real32 visible;
 
-    Real32 faces  =_load->getFaces();
+    Real32 faces  =Real32(_load->getFaces());
     visible=_load->getVisibleFraction(wmin,wmax,vismin,vismax);
     if(visible==0.0)
         return 0.0;
     visibleFaces=faces*visible;
     invisibleFaces=faces-visibleFaces;
-    Real32 pixel=
+    Real32 pixel=Real32(
         (vismax[0] - vismin[0] + 1)*
-        (vismax[1] - vismin[1] + 1);
+        (vismax[1] - vismin[1] + 1));
     return renderNode.estimatePerformance(invisibleFaces,
                                           visibleFaces,
                                           pixel);

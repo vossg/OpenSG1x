@@ -181,7 +181,7 @@ void ScreenAlignedText::tessellate(void)
 
 	std::vector<std::string> lineVec;
 
-	for(int i = 0; i < _mfText.size(); i++ )
+	for(unsigned int i = 0; i < _mfText.size(); i++ )
 	{
 		lineVec.push_back( _mfText[i] );
 	}
@@ -217,8 +217,8 @@ Action::ResultE ScreenAlignedText::drawPrimitives( DrawActionBase * )
 	glBitmap( pImage->getWidth()*8,
 			  pImage->getHeight(),
 			  .0,.0,
-			  pImage->getWidth(), 
-			  pImage->getHeight(),
+			  GLfloat(pImage->getWidth()), 
+			  GLfloat(pImage->getHeight()),
 			  pImageData );
     
     return Action::Continue;

@@ -80,26 +80,26 @@ TileGeometryLoad::TileGeometryLoad(NodePtr node,
             Plane(Vec3f( 0, 0, 1)              ,Pnt3f(0,0,0)));
 
         _directions.push_back(
-            Plane(Vec3f( 1, 1, 1)*(1/sqrt(3.0)),Pnt3f(0,0,0)));
+            Plane(Vec3f( 1, 1, 1)*(1/osgsqrt(3.0f)),Pnt3f(0,0,0)));
         _directions.push_back(
-            Plane(Vec3f(-1, 1, 1)*(1/sqrt(3.0)),Pnt3f(1,0,0)));
+            Plane(Vec3f(-1, 1, 1)*(1/osgsqrt(3.0f)),Pnt3f(1,0,0)));
         _directions.push_back(
-            Plane(Vec3f( 1,-1, 1)*(1/sqrt(3.0)),Pnt3f(0,1,0)));
+            Plane(Vec3f( 1,-1, 1)*(1/osgsqrt(3.0f)),Pnt3f(0,1,0)));
         _directions.push_back(
-            Plane(Vec3f( 1, 1,-1)*(1/sqrt(3.0)),Pnt3f(0,0,1)));
+            Plane(Vec3f( 1, 1,-1)*(1/osgsqrt(3.0f)),Pnt3f(0,0,1)));
 
         _directions.push_back(
-            Plane(Vec3f( 1, 1, 0)*(1/sqrt(2.0)),Pnt3f(0,0,0)));
+            Plane(Vec3f( 1, 1, 0)*(1/osgsqrt(2.0f)),Pnt3f(0,0,0)));
         _directions.push_back(
-            Plane(Vec3f( 1,-1, 0)*(1/sqrt(2.0)),Pnt3f(0,1,0)));
+            Plane(Vec3f( 1,-1, 0)*(1/osgsqrt(2.0f)),Pnt3f(0,1,0)));
         _directions.push_back(
-            Plane(Vec3f( 0, 1, 1)*(1/sqrt(2.0)),Pnt3f(0,0,0)));
+            Plane(Vec3f( 0, 1, 1)*(1/osgsqrt(2.0f)),Pnt3f(0,0,0)));
         _directions.push_back(
-            Plane(Vec3f( 0,-1, 1)*(1/sqrt(2.0)),Pnt3f(0,1,0)));
+            Plane(Vec3f( 0,-1, 1)*(1/osgsqrt(2.0f)),Pnt3f(0,1,0)));
         _directions.push_back(
-            Plane(Vec3f( 1, 0, 1)*(1/sqrt(2.0)),Pnt3f(0,0,0)));
+            Plane(Vec3f( 1, 0, 1)*(1/osgsqrt(2.0f)),Pnt3f(0,0,0)));
         _directions.push_back(
-            Plane(Vec3f(-1, 0, 1)*(1/sqrt(2.0)),Pnt3f(1,0,0)));
+            Plane(Vec3f(-1, 0, 1)*(1/osgsqrt(2.0f)),Pnt3f(1,0,0)));
 
 
     }
@@ -257,10 +257,10 @@ void TileGeometryLoad::updateView(Matrix &viewing,
     }
     else
     {
-        minx=width  * ( minx + 1.0 ) / 2.0 - .5;
-        maxx=width  * ( maxx + 1.0 ) / 2.0 + .5;
-        miny=height * ( miny + 1.0 ) / 2.0 - .5;
-        maxy=height * ( maxy + 1.0 ) / 2.0 + .5;
+        minx=width  * ( minx + 1.0f ) / 2.0f - .5f;
+        maxx=width  * ( maxx + 1.0f ) / 2.0f + .5f;
+        miny=height * ( miny + 1.0f ) / 2.0f - .5f;
+        maxy=height * ( maxy + 1.0f ) / 2.0f + .5f;
         _min[0]=(Int32)minx;
         _max[0]=(Int32)maxx;
         _min[1]=(Int32)miny;
@@ -291,15 +291,15 @@ void TileGeometryLoad::updateGeometry()
 {
     const OSG::Volume *volume = &(_node->getVolume().getInstance());
     TriangleIterator   f;
-    int                p,d,s;
+    int                p,s;
     Vec3f              vmin,vmax;
     Pnt3f              pos;
     Real32             min,max;
     PrimitiveIterator  it;
     NodeCorePtr        core;
     GeometryPtr        geo;
-    const Real32       sq2=sqrt(2.0);
-    const Real32       sq3=sqrt(3.0);
+    const Real32       sq2=osgsqrt(2.0f);
+    const Real32       sq3=osgsqrt(3.0f);
 
     _faces = 0;
     core=_node->getCore();
@@ -321,7 +321,7 @@ void TileGeometryLoad::updateGeometry()
     {
         _faceDistribution.resize(_directions.size()*2);
         // loop through all directions
-        for(d=0;d<_directions.size();++d)
+        for(UInt32 d=0;d<_directions.size();++d)
         {
             // init dist
             _faceDistribution[d*2  ].resize(FACE_DISTRIBUTION_SAMPLING_COUNT);
@@ -373,7 +373,7 @@ void TileGeometryLoad::updateGeometry()
                                 (FACE_DISTRIBUTION_SAMPLING_COUNT-1)))]++;
             }
         }
-        for(d=0;d<_directions.size();++d)
+        for(UInt32 d=0;d<_directions.size();++d)
         {
             _faceDistribution[d*2  ][0]/=_faces;
             _faceDistribution[d*2+1][0]/=_faces;
@@ -507,16 +507,16 @@ Real32 TileGeometryLoad::getVisibleFraction( const Int32 wmin[2],
 
     if(_useFaceDistribution)
     {
-        x=1.0/(_max[0]-_min[0]+1);
-        y=1.0/(_max[1]-_min[1]+1);
+        x=1.0f/(_max[0]-_min[0]+1);
+        y=1.0f/(_max[1]-_min[1]+1);
         return
             (getFaceDistribution(_faceDistDirX^1,
-                                 1.0 - (viswmin[0] - _min[0]    ) * x) +
+                                 1.0f - (viswmin[0] - _min[0]    ) * x) +
              getFaceDistribution(_faceDistDirX,
                                        (viswmax[0] - _min[0] + 1) * x) - 1) 
             *
             (getFaceDistribution(_faceDistDirY^1,
-                                 1.0 - (viswmin[1] - _min[1]    ) * y) +
+                                 1.0f - (viswmin[1] - _min[1]    ) * y) +
              getFaceDistribution(_faceDistDirY,
                                        (viswmax[1] - _min[1] + 1) * y) - 1);
     }

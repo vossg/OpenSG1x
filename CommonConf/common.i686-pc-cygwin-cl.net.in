@@ -52,25 +52,27 @@ endif
 
 ### Warnings #######################################################
 
-WARNINGS	   		= -W1
+WARNINGS	   		:= -W3
 
-WARNINGS_C_OFF		= # -woff 835
+WARNINGS_C_OFF		:= 
 
-WARNINGS_CPP_OFF 	:= #-Qwd985 -Qwd530 -Qwd981 -Qwd193
+# 4049 compiler limit : terminating line number emission
+# 4065 switch statement contains 'default' but no 'case' labels
+# 4099 'identifier' : type name first seen using 'objecttype1' now 
+#      seen using 'objecttype2'
+# 4231 nonstandard extension used : 'identifier' before template 
+#      explicit instantiation
+# 4250 'class1' : inherits 'class2::member' via dominance
+# 4251 'identifier' : class 'type' needs to have dll-interface to be used by 
+#       clients of class 'type2'
+# 4275 non – DLL-interface classkey 'identifier' used as base for 
+#      DLL-interface classkey 'identifier'
+# 4355 'this' : used in base member initializer list
 
-# 444 : Destructor not virtual for baseclass
-# 279 : Controlling expression is constant
-#       have to rely on IRIX, or find a way to disable it in certain situations
+WARNINGS_CPP_OFF 	:= $(WARNINGS_C_OFF) -w44049 -w44065 \
+						-w44251 -w44275 -w44099 -w44250 -w44231
 
-WARNINGS_CPP_OFF 	:= #$(WARNINGS_CPP_OFF) -Qwd444 -Qwd279
-
-WARN_ERR_CPP        := #-Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373
-
-#ifeq ($(COMPILERVERSION),501)
-#WARN_ERR_CPP        := $(WARN_ERR_CPP) -Qwe1125
-#endif
-
-#-Qwe383
+WARN_ERR_CPP        :=
 
 ### Language #######################################################
 

@@ -312,7 +312,7 @@ namespace Directory
                         returnValue->push_back(szEntryName);
                         szEntryName = NULL;
                         
-                        bVal = FindNextFile(pDir, &pDirEntry);
+                        bVal = (FindNextFile(pDir, &pDirEntry) != FALSE);
                     }
                     while(bVal == true);
                     

@@ -99,7 +99,7 @@ ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
     int                                            i, l;
     std::ifstream                                  fin;
     const char                                     *mtPrefix = "image/";
-    int                                            mtLen = strlen(mtPrefix);
+    size_t                                          mtLen = strlen(mtPrefix);
 
     if(mimeType && *mimeType)
     {
@@ -371,8 +371,8 @@ UChar8 *ImageFileHandler::store(const ImagePtr &image, UInt64 &memSize,
 
     if(memSize)
     {
-        mem = new UChar8[memSize];
-        memSize = type->store(image, mem, memSize);
+        mem = new UChar8[size_t(memSize)];
+        memSize = type->store(image, mem, Int32(memSize));
     }
     else
     {

@@ -130,7 +130,7 @@ Action::ResultE SplitGraphOp::traverseEnter(NodePtr& node)
 }
 
 #define addPoints( INDEX , LENGTH )                                     \
-for (int k=0; k<LENGTH; k++)                                            \
+for (UInt32 k=0; k<LENGTH; k++)                                         \
 {                                                                       \
     int posInd=it.getPositionIndex(k+INDEX);                            \
     if (pni[geoIndex])                                                  \
@@ -230,7 +230,7 @@ for (int k=0; k<LENGTH; k++)                                            \
                 offsets[ mind ] = t2ni[geoIndex][tex2Ind];										   \
             if ( ( mind = geos[geoIndex]->calcMappingIndex( Geometry::MapTexCoords3 ) ) >= 0 )     \
                 offsets[ mind ] = t3ni[geoIndex][tex3Ind];										   \
-            for (int j=0; j<geos[geoIndex]->getIndexMapping().size(); j++)						   \
+            for (UInt32 j=0; j<geos[geoIndex]->getIndexMapping().size(); j++)						   \
                 indices[geoIndex]->push_back(offsets[j]);										   \
             delete [] offsets;																	   \
         }																						   \
@@ -242,7 +242,7 @@ if (geo->getmethod()!=NullFC && geo->getmethod()->size()>0)                     
 {                                                                                   \
     arr1[i]    = type::dcast(geo->getmethod()->getType().createFieldContainer());   \
     arr2[i]    = new int[geo->getmethod()->size()];                                 \
-    for (int j=0; j<geo->getmethod()->size(); j++)                                  \
+    for (UInt32 j=0; j<geo->getmethod()->size(); j++)                                  \
         arr2[i][j]=-1;                                                              \
 } else { arr2[i]=0; arr1[i]=NullFC; }
 
@@ -290,7 +290,6 @@ Action::ResultE SplitGraphOp::traverseLeave(NodePtr& node, Action::ResultE res)
 
 bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
 {
-    int i;
     //split it only if it is a non special geometry leaf
     if (!isLeaf(node) || isInExcludeList(node) ||
         !node->getCore()->getType().isDerivedFrom(Geometry::getClassType())) return false;
@@ -321,9 +320,9 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
         case GL_POLYGON:
             {
                 Pnt3f center(0,0,0);
-                for (i=0; i<it.getLength(); i++)
+                for (UInt32 i=0; i<it.getLength(); i++)
                     center+=(Vec3f)it.getPosition(i);
-                center/=it.getLength();
+                center/=Real32(it.getLength());
                 centers.push_back(center);                
             } 
             break;
@@ -333,7 +332,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
             while(it.getLength()-ind>=3)
             {
                 Pnt3f center(0,0,0);
-                for (i=0; i<3; i++, ind++)
+                for (UInt32 i=0; i<3; i++, ind++)
                     center+=(Vec3f)it.getPosition(ind);
                 center/=3;
                 centers.push_back(center);
@@ -345,7 +344,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
             while(it.getLength()-ind>=4)
             {
                 Pnt3f center(0,0,0);
-                for (i=0; i<4; i++, ind++)
+                for (UInt32 i=0; i<4; i++, ind++)
                     center+=(Vec3f)it.getPosition(ind);
                 center/=4;
                 centers.push_back(center);
@@ -365,14 +364,14 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
     }    
     
     std::vector<int> order;    
-    for (i=0; i<centers.size(); i++)
+    for (UInt32 i=0; i<centers.size(); i++)
         order.push_back(i);
 
     Pnt3fComparator comp(centers);
 	std::sort(order.begin(), order.end(), comp);
 
     //now we need (centers.size()/_max_polygons) amount of new geometries
-    int ngeos=ceil((double)centers.size()/(double)_max_polygons);
+    int ngeos=int(ceil((double)centers.size()/(double)_max_polygons));
 
     if (ngeos<=1) return false;
 
@@ -398,7 +397,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
     int **t2ni = new int*[ngeos];
     int **t3ni = new int*[ngeos];
 
-    for (i=0; i<ngeos; i++)
+    for (Int32 i=0; i<ngeos; i++)
     {
         geos[i]  = Geometry::create();
 
@@ -461,7 +460,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
             
         case GL_TRIANGLES:
             {
-                i=0;                
+                UInt32 i=0;                
                 while(it.getLength()-i>=3)
                 {                    
                     i+=3;
@@ -471,7 +470,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
             
         case GL_QUADS:
             {
-                i=0;
+                UInt32 i=0;
                 while(it.getLength()-i>=4)
                 {
                     i+=4;
@@ -511,7 +510,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
             
         case GL_TRIANGLES:
             {
-                i=0;
+                UInt32 i=0;
                 int geoIndex;
                 while(it.getLength()-i>=3)
                 {                    
@@ -545,7 +544,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
             
         case GL_QUADS:
             {
-                i=0;
+                UInt32 i=0;
                 while(it.getLength()-i>=4)
                 {
                     i+=4;
@@ -585,7 +584,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
             
         case GL_TRIANGLES:
             {
-                i=0;
+                UInt32 i=0;
                 while(it.getLength()-i>=3)
                 {
                     i+=3;
@@ -595,7 +594,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
             
         case GL_QUADS:
             {
-                i=0;
+                UInt32 i=0;
                 int geoIndex;
                 while(it.getLength()-i>=4)
                 {                    
@@ -637,7 +636,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
         ++it;        
     }
 
-    for (i=0; i<ngeos; i++)
+    for (Int32 i=0; i<ngeos; i++)
     {
         beginEditCP(geos[i]);
 
@@ -681,7 +680,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
         }        
     }
 
-    for (i=0; i<ngeos; i++)
+    for (Int32 i=0; i<ngeos; i++)
     {
         if (pni[i]) delete [] pni[i];
         if (nni[i]) delete [] nni[i];

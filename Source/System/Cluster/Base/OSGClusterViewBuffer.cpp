@@ -476,7 +476,7 @@ void ClusterViewBuffer::pipe(Connection *srcConnection,
                 // set raster pos
 
                 composeTime-=getSystemTime();
-                glRasterPos3f(tx, ty, -0.999997);
+                glRasterPos3f(GLfloat(tx), GLfloat(ty), -0.999997);
 
                 // write depth buffer. Result of comparision in stencil buf.
                 if(srcComponent & DEPTH)

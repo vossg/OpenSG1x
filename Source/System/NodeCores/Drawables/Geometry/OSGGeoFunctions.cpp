@@ -206,7 +206,6 @@ faster; but not well tested code
 */
 {
     GeoNormalsPtr   norms;
-    int             i;
     std::set < UInt32 > used_indices;
 
     if(geo->getNormals() == NullFC)
@@ -244,7 +243,7 @@ faster; but not well tested code
     }
     else            // just one user, can clear all
     {
-        for(i = 0; i < geo->getPositions()->getSize(); i++)
+        for(unsigned i = 0; i < geo->getPositions()->getSize(); i++)
         {
             norms->setValue(Vec3f(0, 0, 0), i);
         }
@@ -280,7 +279,7 @@ faster; but not well tested code
     }
     else            // just one user, can clear all
     {
-        for(i = 0; i < geo->getPositions()->getSize(); i++)
+        for(unsigned i = 0; i < geo->getPositions()->getSize(); i++)
         {
             Vec3f   n = norms->getValue(i);
             n.normalize();
@@ -1589,7 +1588,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
 
     Int32 v[3];
     IndexDic indexDic;
-    bool invalidTriCount = 0;
+    int invalidTriCount = 0;
 
     if(geoPtr != NullFC)
     {
@@ -1688,7 +1687,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
         optimizeT = time;
         bestCost = triN * 3 + 1;
         worstCost = 0;
-        for(i = 0; i < iteration; i++)
+        for(i = 0; i < Int32(iteration); i++)
         {
             cost = graph.createPathVec(pathVec[!best]);
             if(cost)
@@ -1751,7 +1750,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
             cost = 0;
             for(t = 0; t < typeN; t++)
             {
-                for(i = 0; i < triN; i++)
+                for(i = 0; i < Int32(triN); i++)
                 {
                     if(pathVec[best][i].type == typeVec[t])
                     {

@@ -171,22 +171,22 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     if(_textimage == NullFC)
         initText();
 
-    Real32  pw = port->getPixelWidth();
-    Real32  ph = port->getPixelHeight();
+    Real32  pw = Real32(port->getPixelWidth ());
+    Real32  ph = Real32(port->getPixelHeight());
 
     if(pw < 1 || ph < 1)
         return;
 
-    bool    light = glIsEnabled(GL_LIGHTING);
+    GLboolean    light = glIsEnabled(GL_LIGHTING);
 
     GLint   fill[2];
     glGetIntegerv(GL_POLYGON_MODE, fill);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-    bool    depth = glIsEnabled(GL_DEPTH_TEST);
+    GLboolean    depth = glIsEnabled(GL_DEPTH_TEST);
     glDisable(GL_DEPTH_TEST);
 
-    bool    colmat = glIsEnabled(GL_COLOR_MATERIAL);
+    GLboolean    colmat = glIsEnabled(GL_COLOR_MATERIAL);
     glDisable(GL_COLOR_MATERIAL);
 
     glMatrixMode(GL_MODELVIEW);
@@ -282,11 +282,11 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
-    if(depth)
+    if(depth == GL_TRUE)
         glEnable(GL_DEPTH_TEST);
-    if(light)
+    if(light == GL_TRUE)
         glEnable(GL_LIGHTING);
-    if(colmat)
+    if(colmat == GL_TRUE)
         glEnable(GL_COLOR_MATERIAL);
 
     glPolygonMode(GL_FRONT_AND_BACK, fill[0]);

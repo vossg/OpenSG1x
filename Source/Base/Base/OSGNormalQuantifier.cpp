@@ -191,7 +191,7 @@ bool NormalQuantifier::rayTriangle ( const Vec3f & dir,
   if (det > -EPSILON && det < EPSILON)
     return false;
 
-  inv_det = 1.0 / det;
+  inv_det = 1.0f / det;
 
   /* calculate distance from vert0 to ray origin */
   tvec = orig - vert0;

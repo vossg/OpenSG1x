@@ -210,7 +210,7 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
             serverPort->setRightBuffer( true );
             serverPort->setLeftBuffer( true );
         }
-        serverPort->setSize(l,b,r,t);
+        serverPort->setSize(Real32(l),Real32(b),Real32(r),Real32(t));
         // use pixel even if pixel = 1
         if(serverPort->getLeft() == 1.0)
             serverPort->setLeft(1.0001);
@@ -279,7 +279,6 @@ void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
  */
 void MultiDisplayWindow::clientInit( void )
 {
-    int              v;
     bool             changed = false;
     ViewportPtr      vp,cvp;
 
@@ -290,7 +289,7 @@ void MultiDisplayWindow::clientInit( void )
     // check if something changed
     if(getPort().size() == getClientWindow()->getPort().size())
     {
-        for(v = 0 ; v < getPort().size() && !changed ; v++)
+        for(UInt32 v = 0 ; v < getPort().size() && !changed ; v++)
         {
             vp  = getPort(v);
             cvp = getClientWindow()->getPort(v);
@@ -320,7 +319,7 @@ void MultiDisplayWindow::clientInit( void )
             subRefCP(vp);
         }
         // duplicate viewports
-        for(v=0 ; v<getPort().size() ;v++)
+        for(UInt32 v=0 ; v<getPort().size() ;v++)
         {
             getClientWindow()->addPort(ViewportPtr::dcast(getPort(v)->shallowCopy()));
         }

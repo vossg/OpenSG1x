@@ -358,7 +358,7 @@ bool WinThreadLockBase::request(void)
         return false;
     }
 #else
-    return TryEnterCriticalSection(&_pCriticalSection);
+    return (TryEnterCriticalSection(&_pCriticalSection) != FALSE);
 #endif
 }
 

@@ -262,8 +262,8 @@ bool TXFFont::createInstance(Text *fs)
     TXFFontStyle *fInst   = new TXFFontStyle;
 
     fInst->setFontName    (_fontName.c_str() );
-    fInst->setMaxAscent   (_txfFontMaxAscent );
-    fInst->setMaxDescent  (_txfFontMaxDescent);
+    fInst->setMaxAscent   (Real32(_txfFontMaxAscent) );
+    fInst->setMaxDescent  (Real32(_txfFontMaxDescent));
     fInst->setBaselineSkip(
         ((Real32)(_txfFontMaxAscent - _txfFontMaxDescent)) / fInst->getYRes());
 
@@ -293,8 +293,8 @@ OSG::FontStyle *TXFFont::createInstance(Real32 size)
 
     fInst->setFontName    (_fontName.c_str() );
     fInst->setSize        ( size             );
-    fInst->setMaxAscent   (_txfFontMaxAscent );
-    fInst->setMaxDescent  (_txfFontMaxDescent);
+    fInst->setMaxAscent   (Real32(_txfFontMaxAscent ));
+    fInst->setMaxDescent  (Real32(_txfFontMaxDescent));
     fInst->setBaselineSkip(
         ((Real32)(_txfFontMaxAscent - _txfFontMaxDescent)) / fInst->getYRes());
 

@@ -200,7 +200,7 @@ std::string WebInterface::encodeUrl(const std::string &path,
 {
     std::string result=path;
     ParameterT::const_iterator pI;
-    int c;
+    unsigned int c;
     char ch;
     char *hex="0123456789abcdef";
 
@@ -518,7 +518,7 @@ void WebInterface::changelistHandler(std::ostream &os,
             else
             {
                 mask = "";
-                for(int i=0;i<fcPtr->getType().getNumFieldDescs();i++)
+                for(unsigned int i=0;i<fcPtr->getType().getNumFieldDescs();i++)
                 {
                     FieldDescription *desc=fcPtr->getType().getFieldDescription(i+1);
                     if(desc->getFieldMask() & changedI->second)
@@ -603,7 +603,7 @@ void WebInterface::fcViewHandler(std::ostream &os,
            << "</h1>"
            << "<table><tr><th>Field</th><th>Field Type</th><th>&nbsp;</th>"
            << "<th>Value</th></tr>\n";
-        for(int i=0;i<fcPtr->getType().getNumFieldDescs();++i)
+        for(unsigned int i=0;i<fcPtr->getType().getNumFieldDescs();++i)
         {
             FieldDescription *desc=fcPtr->getType().getFieldDescription(i+1);
             field = fcPtr->getField(desc->getFieldId());
@@ -633,7 +633,7 @@ void WebInterface::fcViewHandler(std::ostream &os,
                     if(type.find("MF") == 0)
                     {
                         mfFCPtr = ((MFFieldContainerPtr*)field);
-                        for(int j = 0 ; j < mfFCPtr->size() ; ++j)
+                        for(unsigned int j = 0 ; j < mfFCPtr->size() ; ++j)
                         {
                             if(j>0)
                                 os << "\n<br>";

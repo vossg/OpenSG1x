@@ -376,12 +376,12 @@ bool VerifyGeoGraphOp::travNodeEnter(NodePtr node)
         }                
     }
 
-    for (i=0; i<ind->size(); i++)
-        if (ind->getValue(i)>=sizes[i % nmap] || ind->getValue(i)<0)
+    for (UInt32 j=0; j<ind->size(); j++)
+        if (ind->getValue(j)>=sizes[j % nmap] || ind->getValue(j)<0)
         {
             if (_repair)
             {
-                ind->setValue(0,i);
+                ind->setValue(0,j);
             }
             else
             {

@@ -442,7 +442,7 @@ bool PNGImageFileType::write(const ImagePtr &img,
     */
     png_bytep *row_pointers = new png_bytep [img->getHeight()];
     
-    for(UInt32 k = 0; k < img->getHeight(); k++)
+    for(Int32 k = 0; k < img->getHeight(); k++)
     {
         row_pointers[k] = img->getData() + 
                           (img->getHeight() - 1 - k) * 

@@ -80,14 +80,14 @@ template<> inline
 void GeoProperty<GeoPositions2sPropertyDesc>::setValue(const Pnt3f  &val,
                                                        const UInt32  index)
 {
-    _field[index].setValues(val[0], val[1]);
+    _field[index].setValues(Int16(val[0]), Int16(val[1]));
 }
 
 template<>
 inline
 void GeoProperty<GeoPositions2sPropertyDesc>::addValue(const Pnt3f &val)
 {
-    _field.push_back(Pnt2s( val[0], val[1]));
+    _field.push_back(Pnt2s(Int16(val[0]), Int16(val[1])));
 }
 
 template <> inline
@@ -105,7 +105,8 @@ bool GeoProperty<GeoPositions2sPropertyDesc>::insertValue(const Pnt3f &val,
     }
     else
     {
-        _field.insert(_field.begin() + index, Pnt2s(val[0], val[1]));
+        _field.insert(_field.begin() + index, Pnt2s(Int16(val[0]), 
+                                                    Int16(val[1])));
         return true;
     }
 }
@@ -138,21 +139,23 @@ void GeoProperty<GeoPositions3sPropertyDesc>::getValue(
           Pnt3f  &res,
     const UInt32  index) const
 {
-    res.setValues(_field[index][0], _field[index][1], _field[index][2]);
+    res.setValues(Int16(_field[index][0]),
+                  Int16(_field[index][1]), 
+                  Int16(_field[index][2]));
 }
 
 template<> inline 
 void GeoProperty<GeoPositions3sPropertyDesc>::setValue(const Pnt3f  &val,
                                                        const UInt32  index)
 {
-    _field[index].setValues(val[0], val[1], val[2]);
+    _field[index].setValues(Int16(val[0]), Int16(val[1]), Int16(val[2]));
 }
 
 template<>
 inline
 void GeoProperty<GeoPositions3sPropertyDesc>::addValue(const Pnt3f &val)
 {
-    _field.push_back(Pnt3s( val[0], val[1], val[2]));
+    _field.push_back(Pnt3s(Int16(val[0]), Int16(val[1]), Int16(val[2])));
 }
 
 template <> inline
@@ -170,7 +173,8 @@ bool GeoProperty<GeoPositions3sPropertyDesc>::insertValue(const Pnt3f &val,
     }
     else
     {
-        _field.insert(_field.begin() + index, Pnt3s(val[0], val[1], val[2]));
+        _field.insert(_field.begin() + index, 
+                      Pnt3s(Int16(val[0]), Int16(val[1]), Int16(val[2])));
         return true;
     }
 }
@@ -210,14 +214,14 @@ template<> inline
 void GeoProperty<GeoPositions4sPropertyDesc>::setValue(const Pnt3f  &val,
                                                        const UInt32  index)
 {
-    _field[index].setValues(val[0], val[1], val[2], 1);
+    _field[index].setValues(Int16(val[0]), Int16(val[1]), Int16(val[2]), 1);
 }
 
 template<>
 inline
 void GeoProperty<GeoPositions4sPropertyDesc>::addValue(const Pnt3f &val)
 {
-    _field.push_back(Pnt4s( val[0], val[1], val[2], 1));
+    _field.push_back(Pnt4s(Int16(val[0]), Int16(val[1]), Int16(val[2]), 1));
 }
 
 template <> inline
@@ -235,7 +239,8 @@ bool GeoProperty<GeoPositions4sPropertyDesc>::insertValue(const Pnt3f &val,
     }
     else
     {
-        _field.insert(_field.begin() + index, Pnt4s(val[0],val[1],val[2],1));
+        _field.insert(_field.begin() + index, 
+                      Pnt4s(Int16(val[0]), Int16(val[1]), Int16(val[2]) ,1));
         return true;
     }
 }
@@ -379,14 +384,18 @@ bool GeoProperty<GeoPositions4fPropertyDesc>::insertValue(const Pnt3f &val,
 template<> inline 
 Pnt3f GeoProperty<GeoPositions2dPropertyDesc>::getValue(const UInt32 index)
 {
-    return Pnt3f(_field[index][0], _field[index][1], 0);
+    return Pnt3f(Real32(_field[index][0]),
+                 Real32(_field[index][1]), 
+                 0.f);
 }
 
 template<> inline 
 Pnt3f GeoProperty<GeoPositions2dPropertyDesc>::getValue( 
     const UInt32 index) const
 {
-    return Pnt3f(_field[index][0], _field[index][1], 0);
+    return Pnt3f(Real32(_field[index][0]), 
+                 Real32(_field[index][1]), 
+                 0.f);
 }
 
 template<> inline 
@@ -394,7 +403,9 @@ void GeoProperty<GeoPositions2dPropertyDesc>::getValue(
           Pnt3f   &res,
     const UInt32   index)
 {
-    res.setValues(_field[index][0], _field[index][1], 0);
+    res.setValues(Real32(_field[index][0]),
+                  Real32(_field[index][1]),
+                  0.f);
 }
 
 template<> inline 
@@ -402,7 +413,9 @@ void GeoProperty<GeoPositions2dPropertyDesc>::getValue(
           Pnt3f  &res,
     const UInt32  index) const
 {
-    res.setValues(_field[index][0], _field[index][1], 0);
+    res.setValues(Real32(_field[index][0]), 
+                  Real32(_field[index][1]), 
+                  0.f);
 }
 
 template<> inline 
@@ -444,14 +457,18 @@ bool GeoProperty<GeoPositions2dPropertyDesc>::insertValue(const Pnt3f &val,
 template<> inline 
 Pnt3f GeoProperty<GeoPositions3dPropertyDesc>::getValue(const UInt32 index)
 {
-    return Pnt3f(_field[index][0], _field[index][1], _field[index][2]);
+    return Pnt3f(Real32(_field[index][0]),
+                 Real32(_field[index][1]), 
+                 Real32(_field[index][2]));
 }
 
 template<> inline 
 Pnt3f GeoProperty<GeoPositions3dPropertyDesc>::getValue( 
     const UInt32 index) const
 {
-    return Pnt3f(_field[index][0], _field[index][1], _field[index][2]);
+    return Pnt3f(Real32(_field[index][0]), 
+                 Real32(_field[index][1]), 
+                 Real32(_field[index][2]));
 }
 
 template<> inline 
@@ -459,7 +476,9 @@ void GeoProperty<GeoPositions3dPropertyDesc>::getValue(
           Pnt3f   &res,
     const UInt32   index)
 {
-    res.setValues(_field[index][0], _field[index][1], _field[index][2]);
+    res.setValues(Real32(_field[index][0]), 
+                  Real32(_field[index][1]), 
+                  Real32(_field[index][2]));
 }
 
 template<> inline 
@@ -467,7 +486,9 @@ void GeoProperty<GeoPositions3dPropertyDesc>::getValue(
           Pnt3f  &res,
     const UInt32  index) const
 {
-    res.setValues(_field[index][0], _field[index][1], _field[index][2]);
+    res.setValues(Real32(_field[index][0]),
+                  Real32(_field[index][1]), 
+                  Real32(_field[index][2]));
 }
 
 template<> inline 
@@ -509,14 +530,18 @@ bool GeoProperty<GeoPositions3dPropertyDesc>::insertValue(const Pnt3f &val,
 template<> inline 
 Pnt3f GeoProperty<GeoPositions4dPropertyDesc>::getValue(const UInt32 index)
 {
-    return Pnt3f(_field[index][0], _field[index][1], _field[index][2]);
+    return Pnt3f(Real32(_field[index][0]),
+                 Real32(_field[index][1]),
+                 Real32(_field[index][2]));
 }
 
 template<> inline 
 Pnt3f GeoProperty<GeoPositions4dPropertyDesc>::getValue( 
     const UInt32 index) const
 {
-    return Pnt3f(_field[index][0], _field[index][1], _field[index][2]);
+    return Pnt3f(Real32(_field[index][0]),
+                 Real32(_field[index][1]),
+                 Real32(_field[index][2]));
 }
 
 template<> inline 
@@ -524,7 +549,9 @@ void GeoProperty<GeoPositions4dPropertyDesc>::getValue(
           Pnt3f   &res,
     const UInt32   index)
 {
-    res.setValues(_field[index][0], _field[index][1], _field[index][2]);
+    res.setValues(Real32(_field[index][0]), 
+                  Real32(_field[index][1]), 
+                  Real32(_field[index][2]));
 }
 
 template<> inline 
@@ -532,7 +559,9 @@ void GeoProperty<GeoPositions4dPropertyDesc>::getValue(
           Pnt3f  &res,
     const UInt32  index) const
 {
-    res.setValues(_field[index][0], _field[index][1], _field[index][2]);
+    res.setValues(Real32(_field[index][0]), 
+                  Real32(_field[index][1]),
+                  Real32(_field[index][2]));
 }
 
 template<> inline 

@@ -251,7 +251,7 @@ void TrackballNavigator::rotate(Real32 fromX, Real32 fromY, Real32 toX, Real32 t
 
         rTmp = osgClamp(-1.0f, vDiff.length() / (2.0f * _rRadius), 1.0f);
 
-        rPhi = 2.0 * osgasin(rTmp);
+        rPhi = 2.0f * osgasin(rTmp);
         qCurrVal.setValueAsAxisRad(vAxis, rPhi);
 
         Matrix temp;

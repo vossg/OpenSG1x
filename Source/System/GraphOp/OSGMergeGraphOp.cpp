@@ -351,7 +351,7 @@ void MergeGraphOp::processTransformations(NodePtr& node)
                                 if (pos!=NullFC) 
                                 {
                                     beginEditCP( pos );
-                                    for (int i=0; i<pos->getSize(); i++)
+                                    for (UInt32 i=0; i<pos->getSize(); i++)
                                     {
                                         Pnt3f p=pos->getValue(i);
                                         m.multFullMatrixPnt(p);
@@ -363,7 +363,7 @@ void MergeGraphOp::processTransformations(NodePtr& node)
                                 if (norm!=NullFC)
                                 {
                                     beginEditCP( norm );
-                                    for (int i=0; i<norm->getSize(); i++)
+                                    for (UInt32 i=0; i<norm->getSize(); i++)
                                     {
                                         Vec3f n=norm->getValue(i);
                                         m.multMatrixVec(n);

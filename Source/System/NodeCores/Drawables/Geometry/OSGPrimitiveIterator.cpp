@@ -437,7 +437,7 @@ void PrimitiveIterator::seek(Int32 index)
     _actPointIndex = 0;
     _ended = false;
 
-    if(index >= _types->getSize())
+    if(index >= Int32(_types->getSize()))
     {
         _primIndex = _types->getSize();
         _ended = true;

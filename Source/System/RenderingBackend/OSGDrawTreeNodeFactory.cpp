@@ -66,7 +66,7 @@ DrawTreeNodeFactory::DrawTreeNodeFactory(void) :
 
 DrawTreeNodeFactory::~DrawTreeNodeFactory(void)
 {
-    for(Int32 i = 0; i < _nodeStore.size(); ++i)
+    for(UInt32 i = 0; i < _nodeStore.size(); ++i)
     {
         delete _nodeStore[i];
     }

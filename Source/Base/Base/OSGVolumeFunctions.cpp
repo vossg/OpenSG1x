@@ -817,9 +817,9 @@ void extend(SphereVolume &srcVol, const BoxVolume &vol)
         }
         else
         {
-            c = Pnt3f((min.x() + max.x()) * 0.5, 
-                      (min.y() + max.y()) * 0.5,
-                      (min.z() + max.z()) * 0.5);
+            c = Pnt3f((min.x() + max.x()) * 0.5f, 
+                      (min.y() + max.y()) * 0.5f,
+                      (min.z() + max.z()) * 0.5f);
 
             r = ((max - min).length()) / 2;
 
@@ -841,9 +841,9 @@ void extend(SphereVolume &srcVol, const BoxVolume &vol)
 
     vol1.getBounds(min, max);
 
-    c = Pnt3f((min.x() + max.x()) * 0.5, 
-              (min.y() + max.y()) * 0.5,
-              (min.z() + max.z()) * 0.5);
+    c = Pnt3f((min.x() + max.x()) * 0.5f, 
+              (min.y() + max.y()) * 0.5f,
+              (min.z() + max.z()) * 0.5f);
 
     r = ((max - min).length()) / 2;
 

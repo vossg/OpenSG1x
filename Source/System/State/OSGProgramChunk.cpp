@@ -230,7 +230,7 @@ bool ProgramChunk::addParameter(const char   *name,
     if(index < 0)
         return true;
         
-    if(getParamNames().size() <= index)
+    if(getParamNames().size() <= UInt16(index))
     {
         getParamNames().resize(index + 1);
     }
@@ -245,7 +245,7 @@ const Vec4f& ProgramChunk::getParameter(Int16 index)
     if(index < 0)
         return bad;
         
-    if(getParamValues().size() <= index)
+    if(getParamValues().size() <= UInt16(index))
     {
         return getParamValues()[index];
     }
@@ -260,7 +260,7 @@ bool ProgramChunk::setParameter(Int16 index, const Vec4f& value)
     if(index < 0)
         return true;
         
-    if(getParamValues().size() <= index)
+    if(getParamValues().size() <= UInt16(index))
     {
         getParamValues().resize(index + 1);
     }
@@ -309,7 +309,7 @@ void ProgramChunk::printCompileError(Window *win, UInt32 idstatus)
         {
             ++line;
             
-            if(pos < end)
+            if(UInt32(pos) < end)
                 break;
             
             start = end + 1;

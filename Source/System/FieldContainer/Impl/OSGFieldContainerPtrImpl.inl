@@ -116,13 +116,13 @@ UInt8 *FieldContainerPtrBase::getFirstElemP(void) const
 inline
 Int32  FieldContainerPtrBase::getRefCountOff(void) const
 {
-    return - (sizeof(Int32) + sizeof(UInt32));
+    return -Int32((sizeof(Int32) + sizeof(UInt32)));
 }
 
 inline
 Int32  FieldContainerPtrBase::getIdOff(void) const
 {
-    return - sizeof(UInt32);
+    return -Int32(sizeof(UInt32));
 }
 
 inline

@@ -524,9 +524,9 @@ void SimpleSceneManager::showAll(void)
     Real32 dist = osgMax(d[0],d[1]) / (2 * osgtan(_camera->getFov() / 2.f));
 
     Vec3f up(0,1,0);
-    Pnt3f at((min[0] + max[0]) * .5,(min[1] + max[1]) * .5,(min[2] + max[2]) * .5);
+    Pnt3f at((min[0] + max[0]) * .5f,(min[1] + max[1]) * .5f,(min[2] + max[2]) * .5f);
     Pnt3f from=at;
-    from[2]+=(dist+fabs(max[2]-min[2])*0.5); 
+    from[2]+=(dist+fabs(max[2]-min[2])*0.5f); 
 
     _navigator.set(from,at,up);
 

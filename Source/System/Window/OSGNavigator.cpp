@@ -366,8 +366,8 @@ void Navigator::moveTo(Int16 x, Int16 y)
 {
     _moved = true;
 
-    Real32 width  = _vp->getPixelWidth();
-    Real32 height = _vp->getPixelHeight();
+    Real32 width  = Real32(_vp->getPixelWidth());
+    Real32 height = Real32(_vp->getPixelHeight());
 
     if(width <= 0 || height <= 0)
         return;
@@ -392,7 +392,7 @@ void Navigator::moveTo(Int16 x, Int16 y)
 
         case TRANSLATING_XY:{
                             Real32 distanceX = 0,distanceY = 0;
-                            calcDeltas(_lastX, _lastY, x, y, 
+                            calcDeltas(Int16(_lastX), Int16(_lastY), x, y, 
                                        distanceX, distanceY);
                             _trackball.translateXY(distanceX, distanceY);
                             }
@@ -873,8 +873,8 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
     Matrix cctowc;
     calcCCtoWCMatrix(cctowc, view, _vp);
 
-    Real32  rx = ( toX / (Real32) _vp->getPixelWidth() ) * 2. - 1.,
-            ry = 1.f - ( toY / (Real32) _vp->getPixelHeight() ) * 2.;
+    Real32  rx = ( toX / (Real32) _vp->getPixelWidth() ) * 2.f - 1.f,
+            ry = 1.f - ( toY / (Real32) _vp->getPixelHeight() ) * 2.f;
 
     Pnt3f at;
     cctowc.multFullMatrixPnt( Pnt3f( rx, ry, 1 ), at );

@@ -834,7 +834,7 @@ void RemoteAspect::clearFCMapping(UInt32 localId,UInt32 remoteId)
     {
         RemoteFCMapT::iterator remoteFCI=_remoteFC.find(localId);
         if(remoteFCI != _remoteFC.end())
-            remoteId=remoteFCI->second;
+            remoteId=static_cast<UInt32>(remoteFCI->second);
     }
     
     RemoteFCMapT::iterator remoteFCI=_remoteFC.find(localId);

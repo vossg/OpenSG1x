@@ -113,7 +113,7 @@ void ImageBackground::clear(DrawActionBase *, Viewport *vp)
 
     glClear(GL_COLOR_BUFFER_BIT);
     
-    bool depth=glIsEnabled(GL_DEPTH_TEST);
+    GLboolean depth = glIsEnabled(GL_DEPTH_TEST);
     glDisable(GL_DEPTH_TEST);
 
     glDisable(GL_TEXTURE_2D);
@@ -145,7 +145,7 @@ void ImageBackground::clear(DrawActionBase *, Viewport *vp)
     if(getScale())
         glPixelZoom(1, 1);
 
-    if(depth)    
+    if(depth == GL_TRUE)    
         glEnable(GL_DEPTH_TEST);
     
     glClear(GL_DEPTH_BUFFER_BIT);

@@ -52,6 +52,10 @@ Altered by: Andreas Zieringer 2003
 #  define OS_CODE  0x03  /* assume Unix */
 #endif
 
+#ifdef OSG_WIN32_CL
+#pragma warning(disable : 4355)
+#endif
+
 OSG_BEGIN_NAMESPACE
 
 namespace detail
@@ -421,7 +425,7 @@ private:
 			return;
 
 		_istream.clear(std::ios::goodbit);
-		_istream.seekg(-_zip_stream.avail_in,
+		_istream.seekg(-intf(_zip_stream.avail_in),
                        std::ios_base::cur);
 
 		_zip_stream.avail_in = 0;
@@ -720,6 +724,10 @@ typedef basic_zip_istream<char> zip_istream;
 //typedef basic_zip_istream<wchar_t> zip_wistream;
 
 OSG_END_NAMESPACE
+
+#ifdef OSG_WIN32_CL
+#pragma warning(default : 4355)
+#endif
 
 #endif // OSG_ZSTREAM_SUPPORTED
 

@@ -28,8 +28,8 @@ bool TXFFontStyle::buildGlyphInfos(TXFFont::txfChar *txfGlyphs)
 
     Int32   i;
 
-    xstep = 0.5 / _txfFontWidth;
-    ystep = 0.5 / _txfFontHeight;
+    xstep = 0.5f / _txfFontWidth;
+    ystep = 0.5f / _txfFontHeight;
 
     for(i = 0; i < 256; i++)
     {

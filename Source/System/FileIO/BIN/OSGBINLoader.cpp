@@ -87,7 +87,7 @@ BINLoader::BINLoader(std::istream &is) :
     _fcInfoMap(),
     _countContainers(0),
     _vec_pRootNodes(),
-    _valid_stream(is)
+    _valid_stream(is != false)
 {
 }
 

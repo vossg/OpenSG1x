@@ -251,14 +251,14 @@ bool GeoProperty<GeoTexCoords4fPropertyDesc>::insertValue(const Vec2f & val,
 template <> inline 
 Vec2f GeoProperty<GeoTexCoords1dPropertyDesc>::getValue(const UInt32 index)
 {
-    return Vec2f(_field[index], 0.f);
+    return Vec2f(Real32(_field[index]), 0.f);
 }
 
 template <> inline 
 Vec2f GeoProperty<GeoTexCoords1dPropertyDesc>::getValue(
     const UInt32 index) const
 {
-    return Vec2f(_field[index], 0.f);
+    return Vec2f(Real32(_field[index]), 0.f);
 }
 
 template <> inline 
@@ -266,7 +266,7 @@ void GeoProperty<GeoTexCoords1dPropertyDesc>::getValue(
           Vec2f  &res,
     const UInt32  index)
 {
-    res.setValues(_field[index], 0.f);
+    res.setValues(Real32(_field[index]), 0.f);
 }
 
 template <> inline 
@@ -274,7 +274,7 @@ void GeoProperty<GeoTexCoords1dPropertyDesc>::getValue(
           Vec2f  &res,
     const UInt32  index) const
 {
-    res.setValues(_field[index], 0.f);
+    res.setValues(Real32(_field[index]), 0.f);
 }
 
 template<>
@@ -317,14 +317,16 @@ bool GeoProperty<GeoTexCoords1dPropertyDesc>::insertValue(const Vec2f & val,
 template<> inline
 Vec2f GeoProperty<GeoTexCoords2dPropertyDesc>::getValue(const UInt32 index)
 {
-    return Vec2f(_field[index][0], _field[index][1]);
+    return Vec2f(Real32(_field[index][0]), 
+                 Real32(_field[index][1]));
 }
 
 template<> inline
 Vec2f GeoProperty<GeoTexCoords2dPropertyDesc>::getValue(
     const UInt32 index) const
 {
-    return Vec2f(_field[index][0], _field[index][1]);
+    return Vec2f(Real32(_field[index][0]), 
+                 Real32(_field[index][1]));
 }
 
 template<> inline 
@@ -332,7 +334,8 @@ void GeoProperty<GeoTexCoords2dPropertyDesc>::getValue(
           Vec2f  &res,
     const UInt32  index)
 {
-    res.setValues(_field[index][0], _field[index][1]);
+    res.setValues(Real32(_field[index][0]), 
+                  Real32(_field[index][1]));
 }
 
 template<> inline 
@@ -340,7 +343,8 @@ void GeoProperty<GeoTexCoords2dPropertyDesc>::getValue(
           Vec2f  &res,
     const UInt32  index) const
 {
-    res.setValues(_field[index][0], _field[index][1]);
+    res.setValues(Real32(_field[index][0]), 
+                  Real32(_field[index][1]));
 }
 
 template<>
@@ -383,14 +387,16 @@ bool GeoProperty<GeoTexCoords2dPropertyDesc>::insertValue(const Vec2f & val,
 template<> inline
 Vec2f GeoProperty<GeoTexCoords3dPropertyDesc>::getValue(const UInt32 index)
 {
-    return Vec2f(_field[index][0], _field[index][1]);
+    return Vec2f(Real32(_field[index][0]), 
+                 Real32(_field[index][1]));
 }
 
 template<> inline
 Vec2f GeoProperty<GeoTexCoords3dPropertyDesc>::getValue(
     const UInt32 index) const
 {
-    return Vec2f(_field[index][0], _field[index][1]);
+    return Vec2f(Real32(_field[index][0]), 
+                 Real32(_field[index][1]));
 }
 
 template<> inline 
@@ -398,7 +404,8 @@ void GeoProperty<GeoTexCoords3dPropertyDesc>::getValue(
           Vec2f  &res,
     const UInt32  index)
 {
-    res.setValues(_field[index][0], _field[index][1]);
+    res.setValues(Real32(_field[index][0]), 
+                  Real32(_field[index][1]));
 }
 
 template<> inline 
@@ -406,8 +413,8 @@ void GeoProperty<GeoTexCoords3dPropertyDesc>::getValue(
           Vec2f  &res,
     const UInt32  index) const
 {
-    res.setValues(_field[index][0], 
-                  _field[index][1]);
+    res.setValues(Real32(_field[index][0]), 
+                  Real32(_field[index][1]));
 }
 
 template<>
@@ -450,14 +457,16 @@ bool GeoProperty<GeoTexCoords3dPropertyDesc>::insertValue(const Vec2f & val,
 template<> inline
 Vec2f GeoProperty<GeoTexCoords4dPropertyDesc>::getValue(const UInt32 index)
 {
-    return Vec2f(_field[index][0], _field[index][1]);
+    return Vec2f(Real32(_field[index][0]),
+                 Real32(_field[index][1]));
 }
 
 template<> inline
 Vec2f GeoProperty<GeoTexCoords4dPropertyDesc>::getValue(
     const UInt32 index) const
 {
-    return Vec2f(_field[index][0], _field[index][1]);
+    return Vec2f(Real32(_field[index][0]), 
+                 Real32(_field[index][1]));
 }
 
 template<> inline 
@@ -465,7 +474,8 @@ void GeoProperty<GeoTexCoords4dPropertyDesc>::getValue(
           Vec2f  &res,
     const UInt32  index)
 {
-    res.setValues(_field[index][0], _field[index][1]);
+    res.setValues(Real32(_field[index][0]),
+                  Real32(_field[index][1]));
 }
 
 template<> inline 
@@ -473,7 +483,8 @@ void GeoProperty<GeoTexCoords4dPropertyDesc>::getValue(
           Vec2f  &res,
     const UInt32  index) const
 {
-    res.setValues(_field[index][0], _field[index][1]);
+    res.setValues(Real32(_field[index][0]), 
+                  Real32(_field[index][1]));
 }
 
 template<>

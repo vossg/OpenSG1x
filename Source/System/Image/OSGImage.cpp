@@ -269,8 +269,8 @@ bool Image::setSubData ( Int32 offX, Int32 offY, Int32 offZ,
         {
             lineSize = (xMax - xMin) * getBpp();
             destIdx = ( (z * getHeight() + y) * getWidth() + xMin) * getBpp();
-            memcpy (&dest[destIdx], &src[srcIdx], lineSize);
-            srcIdx += (srcW - (xMax - xMin)) * getBpp() + lineSize;
+            memcpy (&dest[destIdx], &src[srcIdx], size_t(lineSize));
+            srcIdx += Int32((srcW - (xMax - xMin)) * getBpp() + lineSize);
         }
         srcIdx += (srcH - (yMax - yMin)) * srcW * getBpp();
     }
@@ -814,7 +814,7 @@ bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
         {
             for(UInt32 x = xMin; x < xMax; x++) 
             {
-                for(UInt32 i = 0; i < getBpp(); i++) 
+                for(Int32 i = 0; i < getBpp(); i++) 
                 {
                     dest[destIdx] = src[((z * getHeight() + y) * 
 											getWidth() + x) * getBpp() + i];
@@ -882,11 +882,11 @@ bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
         // ensure destination data is zero
         memset(dest, 0, destImage->getSize());
         
-        for(UInt32 z = 0; z < getDepth(); z++) 
+        for(Int32 z = 0; z < getDepth(); z++) 
         { 
-          for(UInt32 x = 0; x < getWidth(); x++) 
+          for(Int32 x = 0; x < getWidth(); x++) 
           { 
-            for(UInt32 i = 0; i < getBpp(); i++) 
+            for(Int32 i = 0; i < getBpp(); i++) 
             { 
               dest[(z * getWidth() + x) * getBpp() + i] = src[((z * getHeight() + offY) * 
                                                        getWidth() + x) * 
@@ -906,11 +906,11 @@ bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
         // ensure destination data is zero
         memset(dest, 0, destImage->getSize());
         
-        for(UInt32 z = 0; z < getDepth(); z++) 
+        for(Int32 z = 0; z < getDepth(); z++) 
         { 
-          for(UInt32 y = 0; y < getHeight(); y++) 
+          for(Int32 y = 0; y < getHeight(); y++) 
           { 
-            for(UInt32 i = 0; i < getBpp(); i++) 
+            for(Int32 i = 0; i < getBpp(); i++) 
             { 
               dest[(z * getHeight() + y) * getBpp() + i] = src[((z * getHeight() + y) * 
                                                         getWidth() + offX) * 
@@ -1183,7 +1183,7 @@ UInt32 Image::calcFrameNum(Time time, bool OSG_CHECK_ARG(loop)) const
   UInt64 frameNum = ((getFrameDelay() > 0) && (getFrameCount() > 0)) ?
         (UInt64(time / getFrameDelay()) % getFrameCount()) : 0;
     
-    return ((frameNum > 0) ? frameNum : 0);
+    return ((frameNum > 0) ? UInt32(frameNum) : 0);
 }
 
 /*! Internal used method to calculate the next mipmap geo for the given level
@@ -1340,7 +1340,7 @@ bool Image::createData(const UInt8 *data)
               FrameSizeFieldMask |
               PixelFieldMask);
 
-    return getData();
+    return (getData() != NULL);
 }
 
 /*! Internal method to scale image data blocks

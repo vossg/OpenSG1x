@@ -178,9 +178,9 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
     for(i = 0; i < getPositions().size(); i++)
     {
         glTexCoord3fv( tc[i].getValues() );
-        glVertex2f( mapCoordinate(pos[i][0], port->getPixelWidth(),
+        glVertex2f( mapCoordinate(pos[i][0], Real32(port->getPixelWidth()),
                                              getNormalizedX()),
-                    mapCoordinate(pos[i][1], port->getPixelHeight(),
+                    mapCoordinate(pos[i][1], Real32(port->getPixelHeight()),
                                              getNormalizedY()) );
     }
 
@@ -208,7 +208,7 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonForeground.cpp,v 1.1 2003/10/08 03:35:00 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonForeground.cpp,v 1.2 2004/01/20 02:34:15 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONFOREGROUNDBASE_INLINE_CVSID;
 

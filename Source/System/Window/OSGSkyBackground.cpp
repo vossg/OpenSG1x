@@ -155,8 +155,9 @@ void SkyBackground::drawFace(DrawActionBase *action,
 
 void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 {
-    bool light = glIsEnabled(GL_LIGHTING);
-    if (light)  
+    GLboolean light = glIsEnabled(GL_LIGHTING);
+
+    if (light == GL_TRUE)  
         glDisable(GL_LIGHTING);
 
     GLint fill[2];
@@ -377,7 +378,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     glDepthFunc(depth);
     glPolygonMode(GL_FRONT, fill[0]);
     glPolygonMode(GL_BACK , fill[1]);
-    if (light)  
+    if (light == GL_TRUE)  
         glEnable(GL_LIGHTING);
     glColor3f(1.0, 1.0, 1.0);
 

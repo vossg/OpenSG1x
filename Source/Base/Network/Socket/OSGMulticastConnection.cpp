@@ -408,7 +408,7 @@ void MulticastConnection::readBuffer()
 
     for(;;)
     {
-        if(_inSocket.waitReadable(_readAliveTimeout)<=0)
+        if(_inSocket.waitReadable(_readAliveTimeout) == false)
         {
             throw ReadError("Timeout");
         }
@@ -480,7 +480,7 @@ void MulticastConnection::writeBuffer(void)
             waitTime>0.001 && (!receivers.empty());
             waitTime=_waitForAck-(OSG::getSystemTime()-t1))
         {
-            if(_socket.waitReadable(waitTime)>0)
+            if(_socket.waitReadable(waitTime) == true)
             {
                 _socket.recvFrom(&response,sizeof(response),from);
                 
@@ -572,7 +572,7 @@ void MulticastConnection::aliveProc(void *arg)
 { 
     MulticastConnection *connection=static_cast<MulticastConnection *>(arg);
     UDPBuffer alive;
-    Real32 waitTime;
+    Time      waitTime;
 
     try
     {

@@ -140,7 +140,7 @@ void GradientBackground::clear(DrawActionBase *, Viewport *)
     }
     else
     {
-        bool light = glIsEnabled(GL_LIGHTING);
+        GLboolean light = glIsEnabled(GL_LIGHTING);
         if(light)  
             glDisable(GL_LIGHTING);
 
@@ -148,10 +148,10 @@ void GradientBackground::clear(DrawActionBase *, Viewport *)
         glGetIntegerv(GL_POLYGON_MODE, fill);
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-        bool depth = glIsEnabled(GL_DEPTH_TEST);
+        GLboolean depth = glIsEnabled(GL_DEPTH_TEST);
         glDisable(GL_DEPTH_TEST);
 
-        bool colmat = glIsEnabled(GL_COLOR_MATERIAL);
+        GLboolean colmat = glIsEnabled(GL_COLOR_MATERIAL);
         glDisable(GL_COLOR_MATERIAL);
 
         glMatrixMode(GL_MODELVIEW);
@@ -201,11 +201,11 @@ void GradientBackground::clear(DrawActionBase *, Viewport *)
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
 
-        if(depth)    
+        if(depth == GL_TRUE)    
             glEnable(GL_DEPTH_TEST);
-        if(light)    
+        if(light == GL_TRUE)    
             glEnable(GL_LIGHTING);
-        if(colmat)   
+        if(colmat == GL_TRUE)   
             glEnable(GL_COLOR_MATERIAL);
         glPolygonMode(GL_FRONT, fill[0]);
         glPolygonMode(GL_BACK , fill[1]);

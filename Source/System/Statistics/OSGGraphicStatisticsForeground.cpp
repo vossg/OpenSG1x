@@ -118,7 +118,7 @@ void GraphicStatisticsForeground::changed(BitVector whichField, UInt32)
             if(_history[i].size() == 0)
             {
                 _history[i].resize(getHistorySize()[i],
-                                                   (getMaxValue()[i] - getMinValue()[i]) / 2.0);
+                                                   (getMaxValue()[i] - getMinValue()[i]) / 2.0f);
             }
         }
     }
@@ -335,7 +335,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
     Real32  xdist = 0.0;
 
     // get the current value to be digitised
-    Real32  value = el->getValue();
+    Real32  value = Real32(el->getValue());
     Real32  vsave = value;
 
     //std::cout << "Analog value: " << value << std::endl;
@@ -370,7 +370,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
         // glVertex2f(0.0, 0.0);
         for(angle = 0.0; angle < 2 * Pi; angle += Pi / 24)
         {
-            glVertex2f(0.5 * cos(angle), 0.5 * sin(angle));
+            glVertex2f(0.5f * cos(angle), 0.5f * sin(angle));
         }
 
         glEnd();
@@ -392,7 +392,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
 
         for(angle = 0.0; angle < 2 * Pi; angle += Pi / 24)
         {
-            glVertex2f(0.5 * cos(angle), 0.5 * sin(angle));
+            glVertex2f(0.5f * cos(angle), 0.5f * sin(angle));
         }
 
         glEnd();
@@ -401,13 +401,13 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
     }
 
     // draw the ticks
-    glColor3f(1.0 - c[0], 1.0 - c[1], 1.0 - c[2]);
+    glColor3f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2]);
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.5, 0.5, 0.0);
     glRotatef(135, 0.0, 0.0, 1.0);
 
-    glColor3f(1.0 - c[0], 1.0 - c[1], 1.0 - c[2]);
+    glColor3f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2]);
     for(UInt32 r = 0; r < 10; r++)
     {
         glBegin(GL_LINES);
@@ -424,7 +424,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.5, 0.5, 0);
-    glRotatef(45 - (xdist * 270.0), 0.0, 0.0, 1.0);
+    glRotatef(45 - (xdist * 270.0f), 0.0, 0.0, 1.0);
 
     // draw arrow
     glColor3f(0.0, 1.0, 0.0);
@@ -446,7 +446,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
     //draw the center of the arrow...
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
-    glColor3f(1.0 - c[0], 1.0 - c[1], 1.0 - c[2]);
+    glColor3f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2]);
     glBegin(GL_QUADS);
     glVertex2f(0.475, 0.475);
     glVertex2f(0.525, 0.475);
@@ -469,7 +469,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
 
         Real32  ang = 1 - ((vsave - minV) / (maxV - minV));
         glRotatef(45.0, 0.0, 0.0, 1.0);
-        glRotatef((ang * 270.0), 0.0, 0.0, 1.0);
+        glRotatef((ang * 270.0f), 0.0, 0.0, 1.0);
         glColor4f(1.0, 1.0, 0.0, 1.0);
         glBegin(GL_LINES);
         glVertex2f(0.0, 0.0);
@@ -488,7 +488,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID, StatElem *el,
         std::string minstr = real2String(minV);
 
         //set color for drawing the text
-        glColor4f(1.0 - c[0], 1.0 - c[1], 1.0 - c[2], 1.0);
+        glColor4f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2], 1.0f);
 
         // Draw the current value under the center.
         glMatrixMode(GL_MODELVIEW);
@@ -537,7 +537,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
     Real32  currQuadheight = 0.0;
 
     /* Get the current value and process it */
-    Real32  value = el->getValue();
+    Real32  value = Real32(el->getValue());
     processValue(value, ID);
 
     //std::cout << "Chart value: " << value << std::endl;
@@ -569,7 +569,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
     UInt32  number = _history[ID].size();
 
     /* width of each Bar */
-    Real32  step = (1.0 - textWidth) / number;
+    Real32  step = (1.0f - textWidth) / number;
 
     /* The collor of the chart is set by the currentColor of this
        statistics Element */
@@ -584,7 +584,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.0, textHeight, 0.0);
-    glScalef(1.0, 1.0 - textHeight, 1.0);
+    glScalef(1.0f, 1.0f - textHeight, 1.0f);
 
     /* loop over all entries in the cycle buffer */
     for(UInt32 i = 0; i < number; i++)
@@ -617,7 +617,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
         std::string valstr = getDescription()[ID] + " " + real2String(value);
 
         // set color to draw the text with
-        glColor4f(1.0 - c[0], 1.0 - c[1], 1.0 - c[2], 1.0);
+        glColor4f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2], 1.0f);
 
         // scale and translate the text
         Real32  ratio = ((Real32) port->getPixelHeight()) /
@@ -627,7 +627,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.5, 0.01, 0.0);
-        glScalef(0.2 * ratio, 0.2, 1.0);
+        glScalef(0.2f * ratio, 0.2f, 1.0f);
         drawString(base, valstr, OSG_CENTER);
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
@@ -636,7 +636,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.0, 0.22, 0.0);
-        glScalef(0.12 * ratio, 0.12, 1.0);
+        glScalef(0.12f * ratio, 0.12f, 1.0f);
         drawString(base, minstr);
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
@@ -645,7 +645,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID, StatElem *el,
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.0, 1.0, 0.0);
-        glScalef(0.12 * ratio, 0.12, 1.0);
+        glScalef(0.12f * ratio, 0.12f, 1.0f);
         drawString(base, maxstr, OSG_LEFT, OSG_TOP);
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
@@ -672,7 +672,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
     Real32  minV = getMinValue()[ID];
     Real32  maxV = getMaxValue()[ID];
 
-    Real32  value = el->getValue();
+    Real32  value = Real32(el->getValue());
     Real32  vsave = value;
 
     //std::cout << "Bar value: " << value << std::endl;
@@ -705,7 +705,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
     Color4f MaxColor = getColorMax()[ID];
 
     // xdist helps to calculate the real size[0] of the quadstrip and the colors
-    xdist = (value - minV) / (maxV - minV) * (1.0 - 2 * textWidth) + textWidth;
+    xdist = (value - minV) / (maxV - minV) * (1.0f - 2 * textWidth) + textWidth;
 
     /* draw the quads */
     if(xdist < 0.5)
@@ -738,14 +738,14 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
         // draw second quad
         glVertex2f(0.5, textHeight);
         glVertex2f(0.5, 1.0);
-        glColor4f(MaxColor[0] * ((xdist - 0.5) * 2) + CurrentColor[0] *
-                    (1 - ((xdist - 0.5) * 2)),
-                  MaxColor[1] * ((xdist - 0.5) * 2) + CurrentColor[1] * 
-                    (1 - ((xdist - 0.5) * 2)),
-                  MaxColor[2] * ((xdist - 0.5) * 2) + CurrentColor[2] *
-                    (1 - ((xdist - 0.5) * 2)), getColorMax()[ID][3]);
-        glVertex2f(0.5 + ((xdist - 0.5)), 1.0);
-        glVertex2f(0.5 + ((xdist - 0.5)), textHeight);
+        glColor4f(MaxColor[0] * ((xdist - 0.5f) * 2) + CurrentColor[0] *
+                    (1 - ((xdist - 0.5f) * 2)),
+                  MaxColor[1] * ((xdist - 0.5f) * 2) + CurrentColor[1] * 
+                    (1 - ((xdist - 0.5f) * 2)),
+                  MaxColor[2] * ((xdist - 0.5f) * 2) + CurrentColor[2] *
+                    (1 - ((xdist - 0.5f) * 2)), getColorMax()[ID][3]);
+        glVertex2f(0.5f + ((xdist - 0.5f)), 1.0);
+        glVertex2f(0.5f + ((xdist - 0.5f)), textHeight);
         glEnd();
     }                                       // end else
 
@@ -756,9 +756,9 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
         glColor4f(1.0, 1.0, 0.0, 1.0);
         glBegin(GL_LINES);
 
-        glVertex2f((vsave - minV) / (maxV - minV) * (1.0 - 2 * textWidth) +
-                           textWidth, 1.0);
-        glVertex2f((vsave - minV) / (maxV - minV) * (1.0 - 2 * textWidth) +
+        glVertex2f((vsave - minV) / (maxV - minV) * (1.0f - 2 * textWidth) +
+                           textWidth, 1.0f);
+        glVertex2f((vsave - minV) / (maxV - minV) * (1.0f - 2 * textWidth) +
                            textWidth, textHeight);
         glEnd();
     }
@@ -772,7 +772,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
         std::string maxstr = real2String(maxV, "%.0f");
 
         // set color to draw the text with
-        glColor4f(1.0 - c[0], 1.0 - c[1], 1.0 - c[2], 1.0);
+        glColor4f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2], 1.0f);
 
         // scale and translate the text
         Real32  ratio = ((Real32) port->getPixelHeight()) /
@@ -782,7 +782,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.0, 0.7, 0.0);
-        glScalef(0.15 * ratio, 0.15, 1.0);
+        glScalef(0.15f * ratio, 0.15f, 1.0f);
         drawString(base, minstr);
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
@@ -791,7 +791,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(1.0, 0.7, 0.0);
-        glScalef(0.15 * ratio, 0.15, 1.0);
+        glScalef(0.15f * ratio, 0.15f, 1.0f);
         drawString(base, maxstr, OSG_RIGHT);
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
@@ -799,8 +799,8 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID, StatElem *el,
         // bottom: Current Value
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
-        glTranslatef(0.5, 0.01, 0.0);
-        glScalef(0.2 * ratio, 0.2, 1.0);
+        glTranslatef(0.5f, 0.01f, 0.0f);
+        glScalef(0.2f * ratio, 0.2f, 1.0f);
         drawString(base, valstr, OSG_CENTER);
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
@@ -833,7 +833,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
     UInt32  flags = getFlags()[ID];
 
     /* Get the current value and process it */
-    Real32  value = el->getValue();
+    Real32  value = Real32(el->getValue());
     Real32  realValue = (flags & OSG_RECIPROC) ? 1.f / value : value;
 
     processValue(value, ID);
@@ -867,7 +867,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
     UInt32  number = _history[ID].size();
 
     /* width of each Bar */
-    Real32  step = (1.0 - textWidth) / number;
+    Real32  step = (1.0f - textWidth) / number;
 
     /* The collor of the chart is set by the currentColor of this
        statistics Element */
@@ -882,7 +882,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.0, textHeight, 0.0);
-    glScalef(1.0, 1.0 - textHeight, 1.0);
+    glScalef(1.0f, 1.0f - textHeight, 1.0f);
 
     /* loop over all entries in the cycle buffer */
     value = _history[ID][_historyID[ID]];
@@ -926,7 +926,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
                        glEnd();
                        glPopMatrix();*/
             // draw one single point with GL_POINT_SIZE =
-            glPointSize(2.0 * getLineWidth());
+            glPointSize(2.0f * getLineWidth());
             glBegin(GL_POINTS);
             glVertex2f(deltax, currHeight);
             glEnd();
@@ -946,7 +946,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
 					real2String(realValue);
 
         // set color to draw the text with
-        glColor4f(1.0 - c[0], 1.0 - c[1], 1.0 - c[2], 1.0);
+        glColor4f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2], 1.0f);
 
         // scale and translate the text
         Real32  ratio = ((Real32) port->getPixelHeight()) /
@@ -956,7 +956,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslatef(0.5, 0.01, 0.0);
-        glScalef(0.2 * ratio, 0.2, 1.0);
+        glScalef(0.2f * ratio, 0.2f, 1.0f);
         drawString(base, valstr, OSG_CENTER);
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
@@ -968,7 +968,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
             glMatrixMode(GL_MODELVIEW);
             glPushMatrix();
             glTranslatef(0.0, 0.22, 0.0);
-            glScalef(0.12 * ratio, 0.12, 1.0);
+            glScalef(0.12f * ratio, 0.12f, 1.0f);
             drawString(base, minstr);
             glMatrixMode(GL_MODELVIEW);
             glPopMatrix();
@@ -981,7 +981,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID, StatElem *el,
             glMatrixMode(GL_MODELVIEW);
             glPushMatrix();
             glTranslatef(0.0, 1.0, 0.0);
-            glScalef(0.12 * ratio, 0.12, 1.0);
+            glScalef(0.12f * ratio, 0.12f, 1.0f);
             drawString(base, maxstr, OSG_LEFT, OSG_TOP);
             glMatrixMode(GL_MODELVIEW);
             glPopMatrix();
@@ -996,7 +996,7 @@ void GraphicStatisticsForeground::drawText(UInt32 ID, StatElem *el,
                                            DrawActionBase *base, Viewport *port)
 {
     /* Get the current value and process it */
-    Real32  value = el->getValue();
+    Real32  value = Real32(el->getValue());
     processOnlyValue(value, ID);
 
     //std::cout << "TextChart value: " << value << std::endl;
@@ -1029,7 +1029,7 @@ void GraphicStatisticsForeground::drawText(UInt32 ID, StatElem *el,
     }
 
     // set color to draw the text with
-    glColor4f(1.0 - c[0], 1.0 - c[1], 1.0 - c[2], 1.0);
+    glColor4f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2], 1.0f);
 
     // scale and translate the text
     Real32  ratio = ((Real32) port->getPixelHeight()) /
@@ -1039,7 +1039,7 @@ void GraphicStatisticsForeground::drawText(UInt32 ID, StatElem *el,
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.02, 0.7, 0.0);
-    glScalef(0.18 * ratio, 0.18, 1.0);
+    glScalef(0.18f * ratio, 0.18f, 1.0f);
     drawString(base, valstr);
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
@@ -1048,7 +1048,7 @@ void GraphicStatisticsForeground::drawText(UInt32 ID, StatElem *el,
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.02, 0.5, 0.0);
-    glScalef(0.18 * ratio, 0.18, 1.0);
+    glScalef(0.18f * ratio, 0.18f, 1.0f);
     drawString(base, "Min: " + minstr);
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
@@ -1057,7 +1057,7 @@ void GraphicStatisticsForeground::drawText(UInt32 ID, StatElem *el,
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslatef(0.02, 0.3, 0.0);
-    glScalef(0.18 * ratio, 0.18, 1.0);
+    glScalef(0.18f * ratio, 0.18f, 1.0f);
     drawString(base, "Max: " + maxstr);
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
@@ -1075,8 +1075,8 @@ void GraphicStatisticsForeground::calcPosAndSize(const UInt32 &id,
 {
     // Width and Height of the current viewport
     // needed for pixel to relative conversion
-    Real32  pw = port->getPixelWidth();     // PixelWidth
-    Real32  ph = port->getPixelHeight();    // PixelHeight
+    Real32  pw = Real32(port->getPixelWidth ());     // PixelWidth
+    Real32  ph = Real32(port->getPixelHeight());    // PixelHeight
     Real32  ratio = pw / ph;
 
     /*
@@ -1141,9 +1141,9 @@ void GraphicStatisticsForeground::calcPosAndSize(const UInt32 &id,
 
     // check whether the positions are relative to the right/bottom
     if(xneg)
-        pos[0] = 1.0 + pos[0] - size[0];
+        pos[0] = 1.0f + pos[0] - size[0];
     if(yneg)
-        pos[1] = 1.0 + pos[1] - size[1];
+        pos[1] = 1.0f + pos[1] - size[1];
 
     // Save the calculated position
     (*Position) = pos;
@@ -1210,7 +1210,7 @@ void GraphicStatisticsForeground::drawString(DrawActionBase *base,
         deltaX = -(positions[n - 3][0]);
     if(align == OSG_CENTER)
     {
-        deltaX = -(positions[n - 3][0]) / 2.0;
+        deltaX = -(positions[n - 3][0]) / 2.0f;
     }
 
     if(valign != OSG_BOTTOM)
@@ -1219,7 +1219,7 @@ void GraphicStatisticsForeground::drawString(DrawActionBase *base,
         Real32  foo = 0.0;
 
         // calculate the height of the text
-        for(int i = 0; i < n; i += 4)
+        for(unsigned int i = 0; i < n; i += 4)
         {
             foo = positions[i + 3][1] - positions[i][1];
             if(foo > textHeight)
@@ -1229,7 +1229,7 @@ void GraphicStatisticsForeground::drawString(DrawActionBase *base,
         if(valign == OSG_TOP)
             deltaY = -textHeight;
         if(valign == OSG_MIDDLE)
-            deltaY = -(textHeight / 2.0);
+            deltaY = -(textHeight / 2.0f);
     }
 
     glMatrixMode(GL_MODELVIEW);
@@ -1237,10 +1237,10 @@ void GraphicStatisticsForeground::drawString(DrawActionBase *base,
 
     // sane the delta values
     Int32   deltaXI = (Int32) (deltaX * 10.0);
-    deltaX = ((Real32) deltaXI) / 10.0;
+    deltaX = ((Real32) deltaXI) / 10.0f;
 
     Int32   deltaYI = (Int32) (deltaY * 10.0);
-    deltaY = ((Real32) deltaYI) / 10.0;
+    deltaY = ((Real32) deltaYI) / 10.0f;
 
     glTranslatef(deltaX, deltaY, 0.0);
 

@@ -247,7 +247,7 @@ void RegisterCombinersChunk::activate( DrawActionBase *action, UInt32  )
     
     ncomb++;
     
-    GLfloat dummy = ncomb;
+    GLfloat dummy = GLfloat(ncomb);
     CombinerParameterfv(GL_NUM_GENERAL_COMBINERS_NV, &dummy);
     CombinerParameterfv(GL_CONSTANT_COLOR0_NV, (GLfloat*)&getColor0());
     CombinerParameterfv(GL_CONSTANT_COLOR1_NV, (GLfloat*)&getColor1());

@@ -126,7 +126,7 @@ bool SharedLibrary::close(void)
 #ifndef WIN32
         returnValue = (dlclose(_pHandle) == 0);
 #else
-        returnValue = FreeLibrary(_pHandle);
+        returnValue = (FreeLibrary(_pHandle)) != FALSE;
 #endif
         _pHandle    = NULL;
     }

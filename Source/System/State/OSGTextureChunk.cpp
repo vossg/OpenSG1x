@@ -674,7 +674,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                                 UInt8 * src = (UInt8 *) img->getData();
                                 UInt8 * dest= (UInt8 *) data;
 
-                                for(int y = 0; y < height; y++)
+                                for(UInt32 y = 0; y < height; y++)
                                 {
                                     memcpy(dest, src, bpl);
 
