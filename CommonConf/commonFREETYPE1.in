@@ -1,0 +1,17 @@
+
+INCLUDE_FREETYPE1 := @ac_gdz_freetype1_incdir_e14@
+LINK_FREETYPE1    := @ac_gdz_freetype1_libdir_e14@
+LIB_FREETYPE1     := @ac_gdz_freetype1_lib_e14@
+
+
+ifneq ($(INCLUDE_FREETYPE1),)
+INCL_$(OS_BASE) += $(INC_OPTION)$(INCLUDE_FREETYPE1)
+endif
+
+ifneq ($(LINK_FREETYPE1),)
+LIBPATHS_FREETYPE1   := $(LIBPATH_OPTION)$(LINK_FREETYPE1)
+endif
+
+ifneq ($(LIB_FREETYPE1),)
+LIB_FILE_FREETYPE1   := $(LIB_FREETYPE1)
+endif
