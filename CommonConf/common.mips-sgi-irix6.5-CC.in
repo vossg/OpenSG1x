@@ -70,7 +70,7 @@ WARNINGS_C_OFF		= # -woff 835
 # rubens
 # warning(3322): omission of explicit type is nonstandard ("int" assumed)
 
-WARNINGS_CPP_OFF 	= #-woff 1110,1174,1375,1682,1424,3322
+WARNINGS_CPP_OFF 	= -woff 1355 #-woff 1110,1174,1375,1682,1424,3322
 
 ifeq ($(PEDANTIC_ERRORS),1)
 WARN_ERR_CPP        = -diag_error 1548,1116,1681,1552,3303,1682,1551,1197   \

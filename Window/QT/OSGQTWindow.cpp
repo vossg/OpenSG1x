@@ -105,7 +105,7 @@ void QTWindow::initMethod (void)
 
 //! react to field changes
 
-void QTWindow::changed(BitVector, ChangeMode)
+void QTWindow::changed(BitVector, UInt32)
 {
 }
 
