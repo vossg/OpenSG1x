@@ -378,7 +378,7 @@ typedef Log *LogP;
 /** appLog */
 
 #ifndef OSG_LOG_MODULE
-#define OSG_LOG_MODULE "UNKNOWN MODUL"
+#define OSG_LOG_MODULE "UNKNOWN MODULE"
 #endif
 
 extern OSG_LOG_DLLMAPPING LogP osgLogP;
