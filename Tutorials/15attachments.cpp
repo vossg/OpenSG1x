@@ -337,7 +337,7 @@ int main(int argc, char **argv)
         VoidPAttachmentPtr m = VoidPAttachmentPtr::dcast(a);
         
         SLOG << "Node voidp value: " 
-             << *(reinterpret_cast<UInt32 *>(&(m->getField().getValue())))
+             << *(reinterpret_cast<UInt32 *>(m->getField().getValue()))
              << endLog;
     }
     else
