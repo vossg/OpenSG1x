@@ -290,7 +290,7 @@ void TypeFactory::writeDot(FILE *pOut)
              bind1st(ptr_fun(writeTypeDot), pOut));
  */
 
-    for(UInt32 i = 0; i < _vTypeStore.size(); i++)
+    for(UInt32 i = 1; i < _vTypeStore.size(); i++)
     {
         writeTypeDot(pOut, _vTypeStore[i]);
     }

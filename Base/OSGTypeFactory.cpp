@@ -69,63 +69,161 @@ TypeFactory *TypeFactory::the(void)
 /*-------------------------------------------------------------------------*/
 /*                              Type Info                                  */
 
-UInt32 TypeFactory::findTypeStatic(const Char8 *szName)
-{
-    TypeNameMapCnstIt  typeIt;
-    UInt32             uiTypeId = 0;
-
-    typeIt   = _mTypeNameMap.find(IDStringLink(szName));
-    uiTypeId = (typeIt == _mTypeNameMap.end()) ? 0 : (*typeIt).second;
-
-    return uiTypeId;
-}
-
 UInt32 TypeFactory::registerType(TypeBase *pType)
 {
     UInt32 returnValue = 0;
 
     if(pType == NULL)
     {
-        SWARNING << "no data store given" << endl;
+		SWARNING << "no data store given" << endl;
 
-        return returnValue;
+		return returnValue;        
     }
 
-    if(pType->getName().isEmpty() == true)
+	if(pType->getName().isEmpty() == true) 
     {
-        SWARNING << "OSGDataElementType without name" << endl;
+		SWARNING << "DataElementType without name" << endl;
 
-        return returnValue;
-    }
+		return returnValue;
+	}
 
-    if(findTypeStatic(pType->getCName()) != 0)
+    UInt32 uiTypeId = findTypeId(pType->getCName    (),
+                                 pType->getNameSpace());
+
+    if(uiTypeId != 0)
     {
-        SWARNING << "ERROR: Can't add a second "
-                 << "type with the name " << pType->getCName() << endl;
+        if(pType != findType(uiTypeId))
+        {
+            SWARNING << "ERROR: Can't add a second "
+                     << "type with the name " << pType->getCName() 
+                     << "(" << pType << ")"
+                     << endl;
+        }
+        else
+        {
+            SWARNING << "Do not run ctr twice "
+                     << "type with the name " << pType->getCName() 
+                     << "(" << pType << ")"
+                     << endl;
+
+
+///            findType(uiTypeId)->dump();
+
+            returnValue = uiTypeId;
+        }
 
         return returnValue;
     }
 
-    returnValue = _mTypeNameMap.size() + 1;
+    returnValue = _vTypeStore.size();
 
-    _mTypeNameMap[IDStringLink(pType->getCName())] = returnValue;
+    _vTypeStore.push_back(pType);
 
-    FDEBUG (("Registered type %s | %d\n", pType->getCName(), returnValue));
+    while(_vTypeNameMaps.size() <= pType->getNameSpace())
+    {
+        _vTypeNameMaps.push_back(new TypeNameMap);
+
+        PINFO << "Added namespace : " << _vTypeNameMaps.size() << endl;
+    }
+
+    (*(_vTypeNameMaps[pType->getNameSpace()]))
+        [IDStringLink(pType->getCName())] = returnValue;
+
+    PINFO << "Registered type " << pType->getCName() 
+          << " | "              << returnValue 
+          << "("                << pType 
+          << ")"
+          << endl;
 
     return returnValue;
 }
 
+UInt32 TypeFactory::findTypeId(const Char8 *szName,
+                               const UInt32 uiNameSpace)
+{
+	TypeNameMapConstIt typeIt;
+	UInt32             uiTypeId = 0;
+
+    if(szName == NULL)
+        return uiTypeId;
+
+    if(_vTypeNameMaps.size() <= uiNameSpace)
+        return uiTypeId;
+
+    TypeNameMap *pMap = _vTypeNameMaps[uiNameSpace];
+
+    typeIt   = pMap->find(IDStringLink(szName));
+
+    uiTypeId = (typeIt == pMap->end()) ? 0 : (*typeIt).second;
+
+	return uiTypeId;
+}
+
+TypeBase *TypeFactory::findType(UInt32 uiTypeId)
+{
+    if(uiTypeId < _vTypeStore.size())
+    {
+        return _vTypeStore[uiTypeId];
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+TypeBase *TypeFactory::findType(const Char8    *szName,
+                                const UInt32    uiNameSpace)
+{
+    UInt32 uiTypeId = findTypeId(szName, uiNameSpace);
+
+    return findType(uiTypeId);
+}
+
 UInt32 TypeFactory::getNumTypes(void)
 {
-    return _mTypeNameMap.size() + 1;
+    return _vTypeStore.size();
+}
+
+void TypeFactory::writeTypeGraph(const Char8 *szFilename)
+{
+    if(szFilename == NULL)
+        return;
+
+    FILE *pOut = fopen(szFilename, "w");
+
+    if(pOut == NULL)
+        return;
+
+    fprintf(pOut, "digraph OSGTypeGraph\n{\n");
+
+/* CHECK
+    for_each(_vTypeStore.begin(), 
+             _vTypeStore.end(),
+             bind1st(ptr_fun(writeTypeDot), pOut));
+ */
+
+    for(UInt32 i = 1; i < _vTypeStore.size(); i++)
+    {
+        writeTypeDot(pOut, _vTypeStore[i]);
+    }
+
+    fprintf(pOut, "}\n");
+    fclose(pOut);
 }
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 TypeFactory::TypeFactory(void) :
-    _mTypeNameMap()
+    _vTypeNameMaps(),
+    _vTypeStore   ()
 {
+    _vTypeStore.reserve  (512 );
+    _vTypeStore.push_back(NULL);
+
+    _vTypeNameMaps.push_back(new TypeNameMap);
+
+//    FactoryController::the()->registerTypeFactory(this);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -135,6 +233,23 @@ TypeFactory::~TypeFactory(void)
 {
 }
 
+
+/*-------------------------------------------------------------------------*/
+/*                              Helper                                     */
+
+void TypeFactory::writeTypeDot(FILE     *pOut,
+                               TypeBase *pTypeBase)
+{
+    fprintf(pOut, "    %s [shape=box]\n", pTypeBase->getCName());
+
+    if(pTypeBase->getCParentName() != NULL)
+    {
+        fprintf(pOut, 
+                "    %s -> %s\n", 
+                pTypeBase->getCParentName(), 
+                pTypeBase->getCName());
+    }
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

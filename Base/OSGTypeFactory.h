@@ -71,23 +71,41 @@ class OSG_BASE_DLLMAPPING TypeFactory
     /*! \name                  Type Info                                   */
     /*! \{                                                                 */
 
-    UInt32 registerType  (      TypeBase *pType );
-    UInt32 findTypeStatic(const Char8    *szName);
+    UInt32    registerType  (      TypeBase *pType      );
 
-    UInt32 getNumTypes   (      void            );
+    UInt32    findTypeId    (const Char8    *szName,
+                             const UInt32    uiNameSpace = 0);
+
+    TypeBase *findType      (      UInt32    uiTypeId       );
+    TypeBase *findType      (const Char8    *szName  ,
+                             const UInt32    uiNameSpace = 0);
+
+
+    UInt32    getNumTypes   (      void                );
+
+    void      writeTypeGraph(const Char8    *szFilename);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    typedef map<IDStringLink, UInt32>   TypeNameMap;
+    typedef map   <IDStringLink, UInt32>  TypeNameMap;
 
-    typedef TypeNameMap::iterator       TypeNameMapIt;
-    typedef TypeNameMap::const_iterator TypeNameMapCnstIt;
+    typedef TypeNameMap::iterator         TypeNameMapIt;
+    typedef TypeNameMap::const_iterator   TypeNameMapConstIt;
 
-    static TypeFactory *_the;
+    typedef vector<TypeBase           *>  TypeStore;
 
-    TypeNameMap _mTypeNameMap;
+    typedef TypeStore::iterator           TypeStoreIt;
+    typedef TypeStore::const_iterator     TypeStoreConstIt;
+
+    typedef vector<TypeNameMap        *>  TypeMapsStore;
+
+
+    static TypeFactory   *_the;
+
+           TypeMapsStore  _vTypeNameMaps;
+           TypeStore      _vTypeStore;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -103,12 +121,20 @@ class OSG_BASE_DLLMAPPING TypeFactory
     virtual ~TypeFactory(void);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Helpen                                   */
+    /*! \{                                                                 */
+
+    static void writeTypeDot(FILE     *pOut,
+                             TypeBase *pTypeBase);
+
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
-    friend class TypeBase;
-    friend class FieldFactory;
-    friend class FieldContainerFactory;
+//    friend class TypeBase;
+//    friend class FieldFactory;
+//    friend class FieldContainerFactory;
 
     /*!\brief prohibit default function (move to 'public' if needed) */
     TypeFactory(const TypeFactory &source);

@@ -80,7 +80,7 @@ DataType FieldDataTraits<FieldContainerPtr     >::_type(
     NULL);
 
 DataType FieldDataTraits<AttachmentContainerPtr>::_type(
-    "AttachmenContainertPtr", 
+    "AttachmentContainerPtr", 
     "FieldContainerPtr");
 
 DataType FieldDataTraits<NodePtr               >::_type(

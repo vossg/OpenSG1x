@@ -440,6 +440,11 @@ void SimpleMaterialBase::executeSyncImpl(      SimpleMaterialBase *pOther,
 
 
 
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<SimpleMaterialPtr>::_type("SimpleMaterialPtr", "ChunkMaterialPtr");
+
+OSG_END_NAMESPACE
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -454,7 +459,7 @@ void SimpleMaterialBase::executeSyncImpl(      SimpleMaterialBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.26 2002/05/16 04:10:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.27 2002/08/21 07:05:49 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLEMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLEMATERIALBASE_INLINE_CVSID;
 

@@ -111,6 +111,11 @@ const Char8  *TypeBase::getCParentName(void) const
     return _szParentName.str();
 }
 
+UInt32 TypeBase::getNameSpace(void) const
+{
+    return 0;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                                Is                                       */
 

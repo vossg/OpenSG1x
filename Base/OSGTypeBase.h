@@ -84,6 +84,8 @@ class OSG_BASE_DLLMAPPING TypeBase
     const IDString &getParentName (void) const;
     const Char8    *getCParentName(void) const;
 
+          UInt32    getNameSpace  (void) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Operators                                */
