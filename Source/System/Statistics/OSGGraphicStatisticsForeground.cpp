@@ -1259,7 +1259,6 @@ void GraphicStatisticsForeground::calcPosAndSize(const UInt32& id,
 
 void GraphicStatisticsForeground::initText(void)
 {
-#ifndef WIN32
     // create the text needed
 #ifdef OSG_HAS_SSTREAM
     std::istringstream stream((char*)GraphicsStatisticsFontData, 
@@ -1291,7 +1290,6 @@ void GraphicStatisticsForeground::initText(void)
         _texchunk->setEnvMode(GL_MODULATE);
     }
     endEditCP  (_texchunk);
-#endif
 }
 
 

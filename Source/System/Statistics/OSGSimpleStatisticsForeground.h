@@ -120,9 +120,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
   private:
 
     static ImageP          _textimage;
-#ifndef WIN32
     static Text            _text;
-#endif
+
     static TextureChunkPtr _texchunk;
     
     friend class FieldContainer;

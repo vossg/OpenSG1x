@@ -68,9 +68,7 @@ Background is the base class for all background clearing.
 /* static vars */
 
 ImageP          SimpleStatisticsForeground::_textimage = NULL;
-#ifndef WIN32
 Text            SimpleStatisticsForeground::_text;
-#endif
 
 TextureChunkPtr SimpleStatisticsForeground::_texchunk;
 
@@ -142,7 +140,6 @@ void SimpleStatisticsForeground::addElement( UInt32 id,
 
 void SimpleStatisticsForeground::initText(void)
 {
-#ifndef WIN32
     // create the text needed
 #ifdef OSG_HAS_SSTREAM
     std::istringstream stream((char*)StatisticsDefaultFontData, 
@@ -175,7 +172,6 @@ void SimpleStatisticsForeground::initText(void)
         _texchunk->setEnvMode(GL_MODULATE);
     }
     endEditCP  (_texchunk);
-#endif
 }
 
 /** \brief draw the statistics 
@@ -183,7 +179,6 @@ void SimpleStatisticsForeground::initText(void)
     
 void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 {
-#ifndef WIN32
     if(_textimage == NULL)
         initText();
         
@@ -303,7 +298,6 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     if ( light )    glEnable( GL_LIGHTING );
     if ( colmat )   glEnable( GL_COLOR_MATERIAL );
     glPolygonMode( GL_FRONT_AND_BACK, fill );
-#endif
 }
 
 
