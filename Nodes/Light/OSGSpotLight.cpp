@@ -249,12 +249,15 @@ Action::ResultE SpotLight::drawEnter(Action * action )
     DrawAction *da = (DrawAction *)action;
     GLenum light = GL_LIGHT0 + da->getLightCount();
 	
-    PointLight::drawEnter( action );
+    LightBase::drawEnter( action );
 
     Vec4f dir( _sfDirection.getValue() );
+    Vec4f pos( _sfPosition.getValue() );
 
+    pos[3] = 1;
     dir[3] = 0;
 
+    glLightfv( light, GL_POSITION, pos.getValues() );
     glLightfv( light, GL_SPOT_DIRECTION, dir.getValues() );
     glLightf( light, GL_SPOT_CUTOFF, _sfSpotCutOff.getValue() );
     glLightf( light, GL_SPOT_EXPONENT, _sfSpotExponent.getValue() );
