@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.16 2001/10/15 07:05:37 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.17 2001/10/30 22:23:59 dirk Exp $";
     static char cvsid_hpp       [] = OSGLIGHTCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGLIGHTCHUNKBASE_INLINE_CVSID;
 
@@ -135,7 +135,7 @@ const OSG::BitVector  LightChunkBase::QuadraticAttenuationFieldMask =
     The light's spotlight exponent.
 */
 /*! \var Real32          LightChunkBase::_sfCutoff
-    The light's spotlight cutoff.
+    The light's spotlight cutoff. As this chunk follows OpenGL conventions, this is the only angle in the system given in degrees.
 */
 /*! \var Real32          LightChunkBase::_sfConstantAttenuation
     The light's constant attenuation.
