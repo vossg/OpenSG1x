@@ -144,6 +144,7 @@ int main(int argc, char **argv)
     PerspectiveCameraPtr cam = PerspectiveCameraPtr::dcast(vp->getCamera());
     beginEditCP(cam);
     cam->setFov(deg2rad(90));
+    cam->setAspect(1);
     endEditCP  (cam);
 
     Navigator *nav = mgr->getNavigator();
