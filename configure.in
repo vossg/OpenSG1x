@@ -308,6 +308,11 @@ dnl ############# Bool=unsigned int Settings #####################
 AC_ARG_ENABLE(win-bool-is-unsigned,     [  --enable-win-bool-is-unsigned      Define Bool as unsigned, required to combine the software with Microsoft stuff, since preprocessors ignore namespaces ],
 			,enable_win_bool_is_unsigned=no) 
 
+dnl ############# TLS Settings #####################
+
+AC_ARG_ENABLE(sgi-pthread,     [  --enable-sgi-pthread               Use pthreads instead of sproc on sgi plattforms],
+			,enable_sgi_pthread=no) 
+
 dnl ############# Fullwarn Settings #####################
 
 AC_ARG_ENABLE(compiler-pedantic-errors,     [  --enable-compiler-pedantic-errors  Sets the compiler to generate more errors. WARNING, some external software (e.g. QT or STL) may require some patches to work with these settings ],
@@ -628,6 +633,11 @@ dnl a symlink from gmake to make
     then 
 		ac_gdz_base_system_libs='-lpthread '$ac_gdz_base_system_libs
     fi
+
+    if test "$enable_sgi_pthread" = yes; 
+    then 
+		ac_gdz_base_system_libs='-lpthread '$ac_gdz_base_system_libs
+    fi
 fi 
 
 if ! test -w Builds; then 
@@ -841,6 +851,12 @@ if test "$enable_win_localstorage" = yes; then
     AC_DEFINE(OSG_ASPECT_USE_LOCALSTORAGE)
 else
     AC_DEFINE(OSG_ASPECT_USE_DECLSPEC)
+fi
+
+if test "$enable_sgi_pthread" = yes; then
+    AC_DEFINE(OSG_SGI_USE_PTHREAD)
+else
+    AC_DEFINE(OSG_SGI_USE_SPROC)
 fi
 
 if test "$enable_win_bool_is_unsigned" = yes; then

@@ -274,7 +274,7 @@
      *  \ingroup BaseDefines
      */
 
-#   define OSG_USE_SPROC
+//#   define OSG_USE_SPROC
 
     /*! \brief Use GLX 
      *  \ingroup BaseDefines

@@ -44,6 +44,19 @@
 #pragma warning( disable : 4786 4661 4305 )
 #endif
 
+#undef OSG_SGI_USE_PTHREAD
+#undef OSG_SGI_USE_SPROC
+
+#if defined(__sgi)
+#   if defined(OSG_SGI_USE_PTHREAD)
+#       define OSG_USE_PTHREADS
+#       define OSG_ASPECT_USE_PTHREADKEY
+#   else
+#       define OSG_USE_SPROC
+#   endif
+#endif
+
+
 #endif
 
 
