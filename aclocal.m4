@@ -244,9 +244,15 @@ AC_DEFUN(AC_GDZ_OBJEXT,
     case "$build_os" in
 
        cygwin*)
-        AC_MSG_CHECKING(obj suffix)
-        ac_gdz_obj_suffix=.obj
-        AC_MSG_RESULT($ac_gdz_obj_suffix)
+        if [[ $ac_gdz_compiler_base = g++ ]]; then
+        	AC_MSG_CHECKING(obj suffix)
+        	ac_gdz_obj_suffix=.o
+        	AC_MSG_RESULT($ac_gdz_obj_suffix)
+        else
+        	AC_MSG_CHECKING(obj suffix)
+        	ac_gdz_obj_suffix=.obj
+        	AC_MSG_RESULT($ac_gdz_obj_suffix)
+        fi
         ;;
 
         *)
@@ -264,7 +270,11 @@ AC_DEFUN(AC_GDZ_LIBEXT,
     case "$build_os" in
 
        cygwin*)
-        ac_gdz_lib_suffix=.lib
+        if [[ $ac_gdz_compiler_base = g++ ]]; then
+	        ac_gdz_lib_suffix=.a
+        else
+	        ac_gdz_lib_suffix=.lib
+	    fi
         ;;
 
         *)

@@ -40,7 +40,7 @@ dnl ############# Compiler Settings #####################
 AC_ARG_WITH(compiler,[  --with-compiler=<compiler> choose one of the following\
  compilers (required)
         IRIX    : CC
-        Windows : icl, icl45, icl50, bcc55
+        Windows : icl, icl45, icl50, bcc55, g++
         Linux   : g++],
         echo Compiler : $with_compiler;ac_gdz_compiler=$with_compiler;,
         echo ERROR --with-compiler option required; exit 1;) 
@@ -189,52 +189,60 @@ AC_GDZ_SOPRAEFIX()
 
 if test $build_os = cygwin; 
 then 
+	if [[ ac_gdz_compiler_base = g++ ]]; then
 
-	AC_GDZ_SET_SYSTEM_DIRS()
+		AC_GDZ_SET_SYSTEM_DIRS()
 
-        case "$ac_gdz_compiler" in
-            icl*)
-				ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'" -nologo'
+    	    case "$ac_gdz_compiler" in
+        	    icl*)
+					ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'" -nologo'
 
-				ac_gdz_compiler_exe_shared='"$(CC_PATH)/'$ac_gdz_linker_exe'" -dll -map -NODEFAULTLIB'
+					ac_gdz_compiler_exe_shared='"$(CC_PATH)/'$ac_gdz_linker_exe'" -dll -map -NODEFAULTLIB'
 
-				ac_gdz_compiler_exe_exe='"$(CC_PATH)/'$ac_gdz_linker_exe'" -NODEFAULTLIB'
+					ac_gdz_compiler_exe_exe='"$(CC_PATH)/'$ac_gdz_linker_exe'" -NODEFAULTLIB'
 
-				ac_gdz_base_system_libs='user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib'
-				ac_gdz_base_system_libs="$ac_gdz_base_system_libs winmm.lib wsock32.lib"
-            ;;
-            bcc*)
-				ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'"'
+					ac_gdz_base_system_libs='user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmd.lib'
+					ac_gdz_base_system_libs="$ac_gdz_base_system_libs winmm.lib wsock32.lib"
+        	    ;;
+	            bcc*)
+					ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'"'
 
-				ac_gdz_compiler_exe_shared='"$(CC_PATH)/'$ac_gdz_linker_exe'" -WD'
+					ac_gdz_compiler_exe_shared='"$(CC_PATH)/'$ac_gdz_linker_exe'" -WD'
 
-				ac_gdz_compiler_exe_exe='"$(CC_PATH)/'$ac_gdz_linker_exe'"'
+					ac_gdz_compiler_exe_exe='"$(CC_PATH)/'$ac_gdz_linker_exe'"'
 
-				ac_gdz_base_system_libs=
-            ;;
-        esac
+					ac_gdz_base_system_libs=
+            	;;
+        	esac
 
+		ac_gdz_ln_exe="cp"
+
+		ac_gdz_system_incl_dir_e1=`cygpath -w "$ac_gdz_system_incl_dir"`
+		ac_gdz_system_lib_dir_e1=`cygpath -w "$ac_gdz_system_lib_dir"`
+
+		ac_gdz_system_incl_dir_e1='"'$ac_gdz_system_incl_dir_e1'"'
+		ac_gdz_system_lib_dir_e1='"'$ac_gdz_system_lib_dir_e1'"'
+
+		ac_gdz_compiler_incl=`cygpath -w "$ac_gdz_compiler_incl"`
+		ac_gdz_compiler_lib=`cygpath -w "$ac_gdz_compiler_lib"`
+
+		ac_gdz_compiler_incl='"'$ac_gdz_compiler_incl'"'
+		ac_gdz_compiler_lib='"'$ac_gdz_compiler_lib'"'
+	else
+		ac_gdz_compiler_exe_shared='$(CC) -shared'
+
+		ac_gdz_systen_incl_dir_e1=
+		ac_gdz_system_lib_dir_e1=
+
+		ac_gdz_base_system_libs='-lm'
+	fi
 
 	ac_gdz_flex_exe=flex.exe
 	ac_gdz_bison_exe=bison.exe
 
-	ac_gdz_gmake_exe=gmake
-
-	ac_gdz_ln_exe="cp"
-
 	ac_gdz_sed_exe=sed
 
-	ac_gdz_system_incl_dir_e1=`cygpath -w "$ac_gdz_system_incl_dir"`
-	ac_gdz_system_lib_dir_e1=`cygpath -w "$ac_gdz_system_lib_dir"`
-
-	ac_gdz_system_incl_dir_e1='"'$ac_gdz_system_incl_dir_e1'"'
-	ac_gdz_system_lib_dir_e1='"'$ac_gdz_system_lib_dir_e1'"'
-
-	ac_gdz_compiler_incl=`cygpath -w "$ac_gdz_compiler_incl"`
-	ac_gdz_compiler_lib=`cygpath -w "$ac_gdz_compiler_lib"`
-
-	ac_gdz_compiler_incl='"'$ac_gdz_compiler_incl'"'
-	ac_gdz_compiler_lib='"'$ac_gdz_compiler_lib'"'
+	ac_gdz_gmake_exe=gmake
 
 else 
 	ac_gdz_compiler_exe_shared='$(CC) -shared'
@@ -304,8 +312,13 @@ if [[ $build_os = cygwin ]]; then
 	if [[ ! -w $ac_gdz_package_sub_dir_out/Base ]]; then
 		mkdir $ac_gdz_package_sub_dir_out/Base
 	fi
-	touch $ac_gdz_package_sub_dir_out/Base/unistd.h
-    ac_gdz_gen_base_inc_e1="..\\Base"
+	
+	if [[ $ac_gdz_compiler_base = g++ ]]; then
+    	ac_gdz_gen_base_inc_e1="../Base"
+	else
+    	ac_gdz_gen_base_inc_e1="..\\Base"
+		touch $ac_gdz_package_sub_dir_out/Base/unistd.h
+    fi
 else
     ac_gdz_gen_base_inc_e1="../Base"
 fi
