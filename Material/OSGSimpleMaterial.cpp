@@ -91,9 +91,10 @@ OSG_FC_FIELD_IDM_DEF      (SimpleMaterial,
 
 OSG_FC_LAST_FIELD_IDM_DEF(SimpleMaterial, TransparencyField)
 
+const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.1 2000/12/17 23:46:51 dirk Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.2 2000/12/21 10:23:43 dirk Exp $";
 
 
 FieldDescription SimpleMaterial::_desc[] = 

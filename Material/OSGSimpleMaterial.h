@@ -84,6 +84,8 @@ class OSG_MATERIAL_DLLMAPPING SimpleMaterial : public ChunkMaterial
 
     OSG_FC_LAST_FIELD_IDM_DECL
 
+    static const SimpleMaterialPtr NullPtr;
+
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
