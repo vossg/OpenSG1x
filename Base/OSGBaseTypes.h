@@ -38,11 +38,6 @@
 
 #include <OSGConfig.h>
 
-#ifdef OSG_WIN_TYPES
-#include <winsock2.h>
-#include <windows.h>
-#endif
-
 #if defined(OSG_SGI_TYPES) || defined (OSG_LINUX_TYPES) || \
     defined (OSG_SUNOS_TYPES)
 #include <sys/types.h>

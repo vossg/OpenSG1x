@@ -40,7 +40,8 @@ DEP_PLATTFORMDEF =
 
 SOURCE_DEFINES   = 
 
-SYSTEM_DEFINES   = /DWIN32 /D_DEBUG /D_WINDOWS
+SYSTEM_DEFINES   = /DWIN32 /D_DEBUG /D_WINDOWS \
+				   -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410
 
 ### Warnings #######################################################
 

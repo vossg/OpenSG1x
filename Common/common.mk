@@ -90,6 +90,8 @@ EXEEXT       :=
 OBJNAMEFLAG  := -o
 COMPONLYFLAG := -c 
 
+.SUFFIXES:
+
 #########################################################################
 # Extract object|source|header filenames from directories
 #########################################################################

@@ -530,13 +530,7 @@ OSG_USING_STD_NAMESPACE
 
 #define OSG_NUM_ASPECTS 4
 
-/* Ok, I am sorry to do it but otherwies it is a big
- * pain ita to get the include order right, even so it is still 
- * hard to do :-(( (GV)
- */
-
 #ifdef OSG_WIN_TYPES
-#include <winsock2.h>
 #include <windows.h>
 #endif
 

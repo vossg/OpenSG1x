@@ -530,7 +530,7 @@ void OSGWinThreadLockBase::release(void)
 	ReleaseMutex(_mutex);
 }
 
-VSCBool VSCWinThreadLockBase::request(void)
+OSGBool OSGWinThreadLockBase::request(void)
 {
     DWORD rc = WaitForSingleObject(_mutex, 0);
 
