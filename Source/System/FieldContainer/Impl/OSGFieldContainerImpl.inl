@@ -183,7 +183,7 @@ void FieldContainer::newPtr(
 
     for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
     {
-        aObject[i].onCreateAspect(prototypeP);
+        aObject[i].onCreateAspect(aObject, prototypeP);
     }
 
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
@@ -255,7 +255,7 @@ void FieldContainer::newPtr(ObjectPtrT &result)
     
     for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
     {
-        aObject[i].onCreateAspect();
+        aObject[i].onCreateAspect(aObject);
     }
 
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
@@ -329,7 +329,8 @@ void FieldContainer::onCreate(const FieldContainer *)
 }
 
 inline
-void FieldContainer::onCreateAspect(const FieldContainer *)
+void FieldContainer::onCreateAspect(const FieldContainer *, 
+                                    const FieldContainer *)
 {
 }
 

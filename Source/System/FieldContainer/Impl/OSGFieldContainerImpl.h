@@ -233,7 +233,8 @@ class FieldContainer
     void onCreate      (const FieldContainer *source = NULL);
 
     OSG_SYSTEMLIB_DLLMAPPING 
-    void onCreateAspect(const FieldContainer *source = NULL);
+    void onCreateAspect(const FieldContainer *aspect0,
+                        const FieldContainer *source = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
