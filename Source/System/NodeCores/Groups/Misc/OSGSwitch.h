@@ -97,6 +97,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Switch : public SwitchBase
     Action::ResultE draw(Action *action);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Intersect                                    */
+    /*! \{                                                                 */
+
+    Action::ResultE intersect(Action *action);
+
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 

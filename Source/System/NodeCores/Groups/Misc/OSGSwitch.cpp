@@ -45,6 +45,7 @@
 
 #include <OSGDrawAction.h>
 #include <OSGRenderAction.h>
+#include <OSGIntersectAction.h>
 
 OSG_USING_NAMESPACE
 
@@ -119,6 +120,29 @@ Action::ResultE Switch::draw(Action *action)
 
     return returnValue;
 }
+
+Action::ResultE Switch::intersect(Action *action)
+{
+    Action::ResultE  returnValue = Action::Continue;
+
+    IntersectAction  *da          = dynamic_cast<IntersectAction *>(action);
+
+    if((getChoice() >= 0                 ) && 
+       (getChoice() < action->getNNodes()))
+    {
+        da->addNode(action->getNode(getChoice()));
+    }
+    else if(getChoice() == -2)
+    {
+        returnValue = Action::Continue;
+    }
+    else
+    {
+        returnValue = Action::Skip;
+    }
+
+    return returnValue;
+}
  
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
@@ -138,6 +162,13 @@ void Switch::initMethod(void)
                                           SwitchPtr       ,
                                           CNodePtr        ,
                                           Action         *>(&Switch::draw));
+
+    IntersectAction::registerEnterDefault(
+        getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          SwitchPtr       ,
+                                          CNodePtr        ,
+                                          Action         *>(&Switch::intersect));
 }
 
 
