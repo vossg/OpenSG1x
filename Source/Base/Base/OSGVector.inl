@@ -1440,6 +1440,23 @@ typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
     return osgsqrt(rTmpVal);
 }
 
+//! square of the Euclidean length of the vector
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
+    VectorInterface<ValueTypeT, StorageInterfaceT>::squareLength(void) const
+{
+    RealReturnType rTmpVal = Self::_values[0] * Self::_values[0];
+
+    for(UInt32 i = 1; i < Self::_iSize; i++)
+    {
+        rTmpVal += Self::_values[i] * Self::_values[i];
+    }
+
+    return rTmpVal;
+}
+
 //! Changes vector to be of unit length
 
 template <class ValueTypeT,

@@ -607,6 +607,7 @@ class VectorInterface :
     /*! \{                                                                 */
 
     RealReturnType  length       (      void                  ) const;
+    RealReturnType  squareLength (      void                  ) const;
 
     void            normalize    (      void                  );
 
