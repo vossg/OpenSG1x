@@ -153,6 +153,8 @@ class OSG_BASE_DLLMAPPING Color3
 
     /*------------------------- your_operators ------------------------------*/
 
+    Color3 operator *(const ValueType val);
+
           ValueType &operator[] (UInt32 uiIndex);
     const ValueType &operator[] (UInt32 uiIndex) const;
 
@@ -317,6 +319,8 @@ class OSG_BASE_DLLMAPPING Color4
 
 
     /*------------------------- your_operators ------------------------------*/
+
+    Color4 operator *(const ValueType val);
 
           ValueType &operator[] (UInt32 uiIndex);
     const ValueType &operator[] (UInt32 uiIndex) const;
