@@ -70,7 +70,10 @@ OSG_BEGIN_NAMESPACE
 typedef MField<bool, 2>   MFBool;
 #endif
 
-#if ! defined(OSG_WIN32_CL) || defined(OSG_WITH_STLPORT)
+#if ! defined(OSG_WIN32_CL)     || \
+      defined(OSG_WITH_STLPORT) || \
+      defined(OSG_NEED_BOOL_MFIELD_SPEZ)
+
 template <> inline
 UInt32 MField<bool, 2>::getBinSize(void) const
 {

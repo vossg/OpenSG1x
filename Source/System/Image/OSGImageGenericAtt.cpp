@@ -36,7 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#define OSG_COMPILEVRMLNODEDESCINST
+#define OSG_IMAGEGENERICATT
         
 #include <stdlib.h>
 #include <stdio.h>

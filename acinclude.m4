@@ -138,7 +138,7 @@ AC_DEFUN(AC_GDZ_FIND_STUDIONET_DIR,
 
     for drive in c d e f g; do
      for progdir in "Program Files" "Programme"; do
-      for vsnet in "Microsoft Visual Studio.NET" "Microsoft Visual Studio .NET"; do
+      for vsnet in $1; do
        if test -d "/cygdrive/$drive/$progdir/$vsnet/"; then
         ac_gdz_find_prog_dir_result="/cygdrive/$drive/$progdir/$vsnet"
         break 2
@@ -239,7 +239,7 @@ AC_DEFUN(AC_GDZ_SETUP_MSVC,
 
 AC_DEFUN(AC_GDZ_SETUP_MSVCNET,
 [
-    AC_GDZ_FIND_STUDIONET_DIR()
+    AC_GDZ_FIND_STUDIONET_DIR($1)
 
     ac_gdz_compiler_dir=$ac_gdz_find_prog_dir_result/Vc7
     ac_gdz_compiler_path=$ac_gdz_compiler_dir/bin
@@ -249,13 +249,15 @@ AC_DEFUN(AC_GDZ_SETUP_MSVCNET,
     ac_gdz_linker_exe=link.exe
     ac_gdz_check_compiler_available=yes
 
+    ac_gdz_compiler_base=cl.net
+
     if ! test -d "$ac_gdz_compiler_path"; then
         echo
         echo "ERROR could not determine compiler dir, tried :"
 
         for drive in c d e f g; do
             for progdir in "Program Files" "Programme"; do
-                for vsnet in "Microsoft Visual Studio.NET" "Microsoft Visual Studio .NET"; do
+                for vsnet in $1; do
                     echo "    /cygdrive/$drive/$progdir/$vsnet"
                 done
             done
@@ -322,9 +324,10 @@ AC_DEFUN(AC_GDZ_GUESS_COMPILER_DIR_AND_EXE,
             icl*)
             AC_GDZ_SETUP_INTEL()
             ;;
-            cl.net*)
-            AC_GDZ_SETUP_MSVCNET()
 
+            cl.net2003*)
+            AC_GDZ_SETUP_MSVCNET("Microsoft Visual Studio.NET 2003" "Microsoft Visual Studio .NET 2003")
+        
             if test "$enable_stlport" = yes; then
                 ac_gdz_stl_suffix=.stlport
             else
@@ -332,6 +335,19 @@ AC_DEFUN(AC_GDZ_GUESS_COMPILER_DIR_AND_EXE,
             fi
 
             ;;
+
+
+            cl.net*)
+            AC_GDZ_SETUP_MSVCNET("Microsoft Visual Studio.NET" "Microsoft Visual Studio .NET")
+        
+            if test "$enable_stlport" = yes; then
+                ac_gdz_stl_suffix=.stlport
+            else
+                ac_gdz_stl_suffix=.ms_stl
+            fi
+
+            ;;
+
             cl*)
             AC_GDZ_SETUP_MSVC()
             if test "$enable_stlport" = yes; then

@@ -104,6 +104,11 @@ typedef GenericAtt::PtrType                 GenericAttPtr;
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 #ifndef OSG_COMPILEVRMLNODEDESCINST
+#if defined(OSG_WIN32_CL) && _MSC_VER > 1300
+OSG_ABSTR_FC_DLLEXPORT_DECL(DynFieldAttachment,
+                            GenericAttDesc,
+                            )
+#else
 OSG_ABSTR_FC_DLLEXPORT_DECL(DynFieldAttachment,
                             GenericAttDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)

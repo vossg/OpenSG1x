@@ -67,8 +67,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgsqrt<Real32>(const Real32 rVal)
+inline
+Real32 osgsqrt(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return sqrtf(rVal);
@@ -80,8 +80,8 @@ Real32 osgsqrt<Real32>(const Real32 rVal)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgsqrt<Real64>(const Real64 rVal)
+inline
+Real64 osgsqrt(const Real64 rVal)
 {
     return sqrt(rVal);
 }
@@ -106,8 +106,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgcos<Real32>(const Real32 rVal)
+inline
+Real32 osgcos(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return cosf(rVal);
@@ -119,8 +119,8 @@ Real32 osgcos<Real32>(const Real32 rVal)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgcos<Real64>(const Real64 rVal)
+inline
+Real64 osgcos(const Real64 rVal)
 {
     return cos(rVal);
 }
@@ -145,8 +145,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgsin<Real32>(const Real32 rVal)
+inline
+Real32 osgsin(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return sinf(rVal);
@@ -158,8 +158,8 @@ Real32 osgsin<Real32>(const Real32 rVal)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgsin<Real64>(const Real64 rVal)
+inline
+Real64 osgsin(const Real64 rVal)
 {
     return sin(rVal);
 }
@@ -184,8 +184,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgtan<Real32>(const Real32 rVal)
+inline
+Real32 osgtan(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return tanf(rVal);
@@ -197,8 +197,8 @@ Real32 osgtan<Real32>(const Real32 rVal)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgtan<Real64>(const Real64 rVal)
+inline
+Real64 osgtan(const Real64 rVal)
 {
     return tan(rVal);
 }
@@ -223,8 +223,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgacos<Real32>(const Real32 rVal)
+inline
+Real32 osgacos(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return acosf(rVal);
@@ -236,8 +236,8 @@ Real32 osgacos<Real32>(const Real32 rVal)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgacos<Real64>(const Real64 rVal)
+inline
+Real64 osgacos(const Real64 rVal)
 {
     return acos(rVal);
 }
@@ -262,8 +262,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgasin<Real32>(const Real32 rVal)
+inline
+Real32 osgasin(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return asinf(rVal);
@@ -276,8 +276,8 @@ Real32 osgasin<Real32>(const Real32 rVal)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgasin<Real64>(const Real64 rVal)
+inline
+Real64 osgasin(const Real64 rVal)
 {
     return asin(rVal);
 }
@@ -302,8 +302,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgatan<Real32>(const Real32 rVal)
+inline
+Real32 osgatan(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return atanf(rVal);
@@ -315,8 +315,8 @@ Real32 osgatan<Real32>(const Real32 rVal)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgatan<Real64>(const Real64 rVal)
+inline
+Real64 osgatan(const Real64 rVal)
 {
     return atan(rVal);
 }
@@ -342,8 +342,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgatan2<Real32>(const Real32 rVal1, const Real32 rVal2)
+inline
+Real32 osgatan2(const Real32 rVal1, const Real32 rVal2)
 {
 #ifdef OSG_HAS_FLOATMATH
 #ifndef _OSG_HAS_ATANF2__
@@ -359,8 +359,8 @@ Real32 osgatan2<Real32>(const Real32 rVal1, const Real32 rVal2)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgatan2<Real64>(const Real64 rVal1, const Real64 rVal2)
+inline
+Real64 osgatan2(const Real64 rVal1, const Real64 rVal2)
 {
     return atan2(rVal1, rVal2);
 }
@@ -382,8 +382,8 @@ TypeT osgabs(const TypeT rValue)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgabs<Real32>(const Real32 rValue)
+inline
+Real32 osgabs(const Real32 rValue)
 {
 #if defined(OSG_HAS_FLOATMATH) && !defined(OSG_NO_FABSF)
     return fabsf(rValue);
@@ -395,8 +395,8 @@ Real32 osgabs<Real32>(const Real32 rValue)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgabs<Real64>(const Real64 rValue)
+inline
+Real64 osgabs(const Real64 rValue)
 {
     return fabs(rValue);
 }
@@ -422,8 +422,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgpow<Real32>(const Real32 rValue, const Real32 rExp)
+inline
+Real32 osgpow(const Real32 rValue, const Real32 rExp)
 {
 #ifdef OSG_HAS_FLOATMATH
     return powf(rValue, rExp);
@@ -435,8 +435,8 @@ Real32 osgpow<Real32>(const Real32 rValue, const Real32 rExp)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgpow<Real64>(const Real64 rValue, const Real64 rExp)
+inline
+Real64 osgpow(const Real64 rValue, const Real64 rExp)
 {
     return pow(rValue, rExp);
 }
@@ -461,8 +461,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osglog<Real32>(const Real32 rVal)
+inline
+Real32 osglog(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return logf(rVal);
@@ -474,8 +474,8 @@ Real32 osglog<Real32>(const Real32 rVal)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osglog<Real64>(const Real64 rVal)
+inline
+Real64 osglog(const Real64 rVal)
 {
     return log(rVal);
 }
@@ -500,8 +500,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgexp<Real32>(const Real32 rVal)
+inline
+Real32 osgexp(const Real32 rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
     return expf(rVal);
@@ -513,8 +513,8 @@ Real32 osgexp<Real32>(const Real32 rVal)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgexp<Real64>(const Real64 rVal)
+inline
+Real64 osgexp(const Real64 rVal)
 {
     return exp(rVal);
 }
@@ -539,8 +539,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgfloor<Real32>(const Real32 rValue)
+inline
+Real32 osgfloor(const Real32 rValue)
 {
 #ifdef OSG_HAS_FLOATMATH
 # ifdef OSG_HPUX_ACC
@@ -556,8 +556,8 @@ Real32 osgfloor<Real32>(const Real32 rValue)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgfloor<Real64>(const Real64 rValue)
+inline
+Real64 osgfloor(const Real64 rValue)
 {
     return floor(rValue);
 }
@@ -674,8 +674,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgdegree2rad<Real32>(const Real32 rValue)
+inline
+Real32 osgdegree2rad(const Real32 rValue)
 {
    return (rValue/360.f) * 2.f * 3.1415926535f;
 }
@@ -683,8 +683,8 @@ Real32 osgdegree2rad<Real32>(const Real32 rValue)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgdegree2rad<Real64>(const Real64 rValue)
+inline
+Real64 osgdegree2rad(const Real64 rValue)
 {
    return (rValue/360) * 2 * 3.1415926535;
 }
@@ -709,8 +709,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real32 osgrad2degree<Real32>(const Real32 rValue)
+inline
+Real32 osgrad2degree(const Real32 rValue)
 {
     return (rValue/(2.f * 3.1415926535f)) * 360.f;
 }
@@ -718,8 +718,8 @@ Real32 osgrad2degree<Real32>(const Real32 rValue)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Real64 osgrad2degree<Real64>(const Real64 rValue)
+inline
+Real64 osgrad2degree(const Real64 rValue)
 {
     return (rValue/(2 * 3.1415926535)) * 360;
 }
@@ -757,8 +757,8 @@ typename TypeTraits<FloatTypeT>::RealReturnType
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-bool osgispower2<UInt32>(UInt32 rValue)
+inline
+bool osgispower2(UInt32 rValue)
 {
     // find the lowest 1 bit
     while(rValue && ! (rValue & 1))
@@ -779,8 +779,8 @@ bool osgispower2<UInt32>(UInt32 rValue)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-bool osgispower2<Int32>(Int32 rValue)
+inline
+bool osgispower2(Int32 rValue)
 {
     // find the lowest 1 bit
     while(rValue && ! (rValue & 1))
@@ -806,8 +806,8 @@ bool osgispower2<Int32>(Int32 rValue)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-UInt32 osgnextpower2<UInt32>(UInt32 rValue)
+inline
+UInt32 osgnextpower2(UInt32 rValue)
 {
     UInt32 result = 1;
 
@@ -822,8 +822,8 @@ UInt32 osgnextpower2<UInt32>(UInt32 rValue)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Int32 osgnextpower2<Int32>(Int32 rValue)
+inline
+Int32 osgnextpower2(Int32 rValue)
 {
     Int32 result = 1;
 
@@ -838,8 +838,8 @@ Int32 osgnextpower2<Int32>(Int32 rValue)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-Int64 osgnextpower2<Int64>(Int64 rValue)
+inline
+Int64 osgnextpower2(Int64 rValue)
 {
     Int64 result = 1;
 
@@ -856,8 +856,8 @@ Int64 osgnextpower2<Int64>(Int64 rValue)
 /*! \ingroup GrpBaseBaseMathFn
  */
 
-template <> inline
-size_t osgnextpower2<size_t>(size_t rValue)
+inline
+size_t osgnextpower2(size_t rValue)
 {
     size_t result = 1;
 

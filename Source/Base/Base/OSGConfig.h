@@ -474,7 +474,11 @@
 # define OSG_WIN32_CL
 
 # define OSG_FOUND_OS
- 
+
+# if _MSC_VER > 1300
+# define OSG_NEED_BOOL_MFIELD_SPEZ
+# endif
+
 # endif // defined(_MSC_VER) && !defined(__ICL)
 
 /*-------------------------------------------------------------------------*/

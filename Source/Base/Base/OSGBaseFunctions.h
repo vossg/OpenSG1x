@@ -344,7 +344,8 @@ struct osgIFGen<false>
 template<bool IConditionV, class IThenT, class IElseT>
 struct osgIF
 {
-    typedef osgIFGen<IConditionV>::osgIFSwitch<IThenT, IElseT>::_IRet _IRet;
+    typedef typename osgIFGen<IConditionV>::osgIFSwitch<IThenT, 
+                                                        IElseT>::_IRet _IRet;
 };
 
 #endif

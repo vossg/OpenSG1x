@@ -92,10 +92,16 @@ typedef ImageGenericAtt::PtrType                 ImageGenericAttPtr;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
-#ifndef OSG_COMPILEVRMLNODEDESCINST
+#ifndef OSG_IMAGEGENERICATT
+#if defined(OSG_WIN32_CL) && _MSC_VER > 1300
+OSG_ABSTR_FC_DLLEXPORT_DECL(DynFieldAttachment, 
+                            ImageGenericAttDesc,
+                            )
+#else
 OSG_ABSTR_FC_DLLEXPORT_DECL(DynFieldAttachment, 
                             ImageGenericAttDesc,
                             OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
 #endif
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
@@ -136,7 +142,7 @@ typedef SField<ImageGenericAttPtr>       SFImageGenericAttPtr;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
-#ifndef OSG_COMPILEVRMLNODEDESCINST
+#ifndef OSG_IMAGEGENERICATT
 OSG_DLLEXPORT_DECL1(SField, ImageGenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
@@ -148,7 +154,7 @@ OSG_DLLEXPORT_DECL1(SField, ImageGenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef MField<ImageGenericAttPtr>       MFImageGenericAttPtr;
 #endif
 
-#ifndef OSG_COMPILEVRMLNODEDESCINST
+#ifndef OSG_IMAGEGENERICATT
 OSG_DLLEXPORT_DECL1(MField, ImageGenericAttPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 

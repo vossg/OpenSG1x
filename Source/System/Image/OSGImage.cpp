@@ -40,6 +40,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILEIMAGE
+
 #include <stdlib.h>
 #include <stdio.h>
 
