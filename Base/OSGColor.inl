@@ -377,14 +377,14 @@ typename Color3<ValueTypeT>::ValueType
 
 template <class ValueTypeT> inline
 typename Color3<ValueTypeT>::ValueType *
-    Color3<ValueTypeT>::getValueRef(void)
+    Color3<ValueTypeT>::getValuesRGB(void)
 {
     return _rgb;
 }
 
 template <class ValueTypeT> inline
 const typename Color3<ValueTypeT>::ValueType *
-    Color3<ValueTypeT>::getValueRef(void) const
+    Color3<ValueTypeT>::getValuesRGB(void) const
 {
     return _rgb;
 }
@@ -690,14 +690,14 @@ typename Color4<ValueTypeT>::ValueType
 
 template <class ValueTypeT> inline
 typename Color4<ValueTypeT>::ValueType *
-    Color4<ValueTypeT>::getValueRef(void)
+    Color4<ValueTypeT>::getValuesRGBA(void)
 {
     return _rgba;
 }
 
 template <class ValueTypeT> inline
 const typename Color4<ValueTypeT>::ValueType *
-    Color4<ValueTypeT>::getValueRef(void) const
+    Color4<ValueTypeT>::getValuesRGBA(void) const
 {
     return _rgba;
 }

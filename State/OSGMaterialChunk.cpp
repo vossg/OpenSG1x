@@ -183,19 +183,19 @@ void MaterialChunk::activate ( DrawActionBase *, UInt32 )
         glEnable( GL_COLOR_MATERIAL );
     }
 
-    glColor4fv( _sfDiffuse.getValue().getValueRef() );
+    glColor4fv( _sfDiffuse.getValue().getValuesRGBA() );
 
     if ( getLit() )
     {
         glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,
-                      _sfDiffuse.getValue().getValueRef() );
+                      _sfDiffuse.getValue().getValuesRGBA() );
 
         glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,
-                      _sfAmbient.getValue().getValueRef() );
+                      _sfAmbient.getValue().getValuesRGBA() );
         glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,
-                      _sfSpecular.getValue().getValueRef() );
+                      _sfSpecular.getValue().getValuesRGBA() );
         glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,
-                      _sfEmission.getValue().getValueRef() );
+                      _sfEmission.getValue().getValuesRGBA() );
         glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue());
     }
 }
@@ -222,18 +222,18 @@ void MaterialChunk::changeFrom( DrawActionBase *, StateChunk * old_chunk, UInt32
         glEnable( GL_COLOR_MATERIAL );
     }
 
-    glColor4fv( _sfDiffuse.getValue().getValueRef() );
+    glColor4fv( _sfDiffuse.getValue().getValuesRGBA() );
 
     if ( getLit() )
     {
         glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE,
-                      _sfDiffuse.getValue().getValueRef() );
+                      _sfDiffuse.getValue().getValuesRGBA() );
         glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT,
-                      _sfAmbient.getValue().getValueRef() );
+                      _sfAmbient.getValue().getValuesRGBA() );
         glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,
-                      _sfSpecular.getValue().getValueRef() );
+                      _sfSpecular.getValue().getValuesRGBA() );
         glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION,
-                      _sfEmission.getValue().getValueRef() );
+                      _sfEmission.getValue().getValuesRGBA() );
         // adjust shininess only if it differs enough
         if ( osgabs( _sfShininess.getValue() - old->getShininess() ) > 1e-4 )
             glMaterialf(  GL_FRONT_AND_BACK, GL_SHININESS, _sfShininess.getValue() );

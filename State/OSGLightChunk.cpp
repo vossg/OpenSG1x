@@ -166,11 +166,11 @@ void LightChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 void LightChunk::activate( DrawActionBase *, UInt32 index )
 {
     glLightfv( GL_LIGHT0 + index, GL_DIFFUSE,
-                            _sfDiffuse.getValue().getValueRef() );
+                            _sfDiffuse.getValue().getValuesRGBA() );
     glLightfv( GL_LIGHT0 + index, GL_AMBIENT,
-                            _sfAmbient.getValue().getValueRef() );
+                            _sfAmbient.getValue().getValuesRGBA() );
     glLightfv( GL_LIGHT0 + index, GL_SPECULAR,
-                            _sfSpecular.getValue().getValueRef() );
+                            _sfSpecular.getValue().getValuesRGBA() );
     glLightfv( GL_LIGHT0 + index, GL_POSITION,
                             _sfPosition.getValue().getValues() );
     glLightf ( GL_LIGHT0 + index, GL_CONSTANT_ATTENUATION,
@@ -202,11 +202,11 @@ void LightChunk::changeFrom( DrawActionBase *, StateChunk * old_chunk, UInt32 in
     // it could theoretically be more efficient to turn the light off before
     // changing its parameters, have to try that sometime
     glLightfv( GL_LIGHT0 + index, GL_DIFFUSE,
-                            _sfDiffuse.getValue().getValueRef() );
+                            _sfDiffuse.getValue().getValuesRGBA() );
     glLightfv( GL_LIGHT0 + index, GL_AMBIENT,
-                            _sfAmbient.getValue().getValueRef() );
+                            _sfAmbient.getValue().getValuesRGBA() );
     glLightfv( GL_LIGHT0 + index, GL_SPECULAR,
-                            _sfSpecular.getValue().getValueRef() );
+                            _sfSpecular.getValue().getValuesRGBA() );
     glLightfv( GL_LIGHT0 + index, GL_POSITION,
                             _sfPosition.getValue().getValues() );
     glLightf ( GL_LIGHT0 + index, GL_CONSTANT_ATTENUATION,

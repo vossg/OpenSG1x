@@ -143,8 +143,8 @@ class OSG_BASE_DLLMAPPING Color3
     ValueType green(void) const;
     ValueType blue (void) const;
 
-          ValueType *getValueRef(void);
-    const ValueType *getValueRef(void) const;
+          ValueType *getValuesRGB(void);
+    const ValueType *getValuesRGB(void) const;
 
 
     /*! \}                                                                 */
@@ -255,8 +255,8 @@ class OSG_BASE_DLLMAPPING Color4
     ValueType blue (void) const;
     ValueType alpha(void) const;
 
-          ValueType *getValueRef(void);
-    const ValueType *getValueRef(void) const;
+          ValueType *getValuesRGBA(void);
+    const ValueType *getValuesRGBA(void) const;
 
 
     /*! \}                                                                 */

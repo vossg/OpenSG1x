@@ -175,9 +175,9 @@ Action::ResultE LightBase::drawEnter(Action *action)
     
     glEnable (light);
     
-    glLightfv(light, GL_DIFFUSE , _sfDiffuse. getValue().getValueRef());
-    glLightfv(light, GL_AMBIENT , _sfAmbient. getValue().getValueRef());
-    glLightfv(light, GL_SPECULAR, _sfSpecular.getValue().getValueRef());
+    glLightfv(light, GL_DIFFUSE , _sfDiffuse. getValue().getValuesRGBA());
+    glLightfv(light, GL_AMBIENT , _sfAmbient. getValue().getValuesRGBA());
+    glLightfv(light, GL_SPECULAR, _sfSpecular.getValue().getValuesRGBA());
 
     glLightf( light, 
               GL_CONSTANT_ATTENUATION, 
