@@ -288,4 +288,13 @@ int main (int argc, char **argv)
 }
 
 #endif
+
+#else
+
+int main (int argc, char **argv)
+{
+  FFATAL (("Text doesn't work on Windows yet\n"));
+    
+  return -1;
+}
 #endif
