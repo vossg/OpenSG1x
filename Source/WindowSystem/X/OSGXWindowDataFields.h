@@ -147,9 +147,114 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<X11Window> :
 /*! \hideinhierarchy */
 #endif
 
+template<class FieldTypeT>
+struct FieldTraitsRecurseBase1 : public FieldTraits
+{
+    enum              { bHasParent = 0x00 };
+
+#ifndef __hpux
+    static const UInt32 uiTest = TypeTraits<FieldTypeT>::IsPOD == true;
+
+    typedef typename 
+    osgIF<uiTest == 1, 
+          const FieldTypeT  , 
+          const FieldTypeT & >::_IRet  ArgumentType;
+#else
+    typedef typename 
+    osgIF<TypeTraits<FieldTypeT>::IsPOD, 
+          const FieldTypeT  , 
+          const FieldTypeT & >::_IRet  ArgumentType;
+#endif
+
+    static       UInt32    getBinSize (const FieldTypeT &oObject)
+    {
+        typedef FieldDataTraits1<FieldTypeT> MappedTrait;
+
+        std::string value;
+
+        MappedTrait::putToString(oObject, value);
+
+        return value.length() + 1 + sizeof(UInt32);
+    }
+
+    static       UInt32    getBinSize (const FieldTypeT    *pObjectStore,
+                                             UInt32         uiNumObjects)
+    {
+        typedef FieldDataTraits1<FieldTypeT> MappedTrait;
+
+        UInt32 size = 0;
+
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            size += MappedTrait::getBinSize(pObjectStore[i]);
+        }
+
+        return size;
+    }
+
+    static void copyToBin(      BinaryDataHandler   &pMem, 
+                          const FieldTypeT          &oObject)
+    {
+        typedef FieldDataTraits1<FieldTypeT> MappedTrait;
+        
+        std::string value;
+
+        MappedTrait::putToString(oObject, value);
+
+    	pMem.putValue(value);
+    }
+
+
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FieldTypeT        *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        typedef FieldDataTraits1<FieldTypeT> MappedTrait;
+
+        // defaut: copy each element
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            MappedTrait::copyToBin(pMem, pObjectStore[i]);
+        }
+    }
+
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            FieldTypeT        &oObject)
+    {
+        typedef FieldDataTraits1<FieldTypeT> MappedTrait;
+
+        const Char8 *c = NULL;
+
+        std::string value;
+
+        pMem.getValue(value);
+        c = value.c_str();
+        MappedTrait::getFromString(oObject, c);
+    }
+
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            FieldTypeT        *pObjectStore,
+                            UInt32             uiNumObjects)
+    {
+        typedef FieldDataTraits1<FieldTypeT> MappedTrait;
+
+        // defaut: copy each element
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            MappedTrait::copyFromBin(pMem, pObjectStore[i]);
+        }
+    }
+};
+
+#if defined(__hpuxX)
+template <class FieldTypeT> inline
+const UInt32 FieldTraitsRecurseBase1<FieldTypeT>::uiTest;
+#endif
+
+
 template <>
-struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<GLXContext> : 
-    public FieldTraitsRecurseBase<GLXContext>
+struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits1<GLXContext> : 
+    public FieldTraitsRecurseBase1<GLXContext>
 {
     static DataType             _type;                       
 
@@ -207,25 +312,25 @@ typedef MField<X11Window> MFX11Window;
 /*! \ingroup GrpWindowXFieldSingle
  */
 
-typedef SField<GLXContext> SFGLXContext;
+typedef SField<GLXContext, 1> SFGLXContext;
 
 /*! \ingroup GrpWindowXFieldMulti
  */
 
-typedef MField<GLXContext> MFGLXContext;
+typedef MField<GLXContext, 1> MFGLXContext;
 
 #endif
 
 // Instantiations
 
 #ifndef OSG_COMPILEWINDOWXINST
-OSG_DLLEXPORT_DECL1(SField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DECL1(SField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DECL1(SField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, DisplayP,      OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, X11Window,     OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL2(SField, GLXContext, 1, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 
-OSG_DLLEXPORT_DECL1(MField, DisplayP,   OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DECL1(MField, X11Window,  OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DECL1(MField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, DisplayP,      OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, X11Window,     OSG_WINDOWXLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL2(MField, GLXContext, 1, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
