@@ -108,6 +108,9 @@ SUB_LIB_LINK = $(call createSublibLink)
 SUB_LIB_UNIX      := $(SUB_LIB)
 SUB_LIB_LINK)UNIX := $(SUB_LIB_LINK)
 
+SUB_LIB_UNIX      := $(SUB_LIB)
+SUB_LIB_LINK_UNIX := $(SUB_LIB_LINK)
+
 endif
 endif
 
