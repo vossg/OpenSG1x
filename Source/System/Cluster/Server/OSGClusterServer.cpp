@@ -43,6 +43,7 @@
 #include "OSGThread.h"
 #include "OSGThreadManager.h"
 #include "OSGClusterServer.h"
+#include "OSGPointConnection.h"
 #include "OSGConnectionFactory.h"
 #include "OSGDgramSocket.h"
 #include "OSGClusterWindow.h"
@@ -100,7 +101,8 @@ ClusterServer::ClusterServer(        WindowPtr    window,
     _serviceGroup(serviceGroup),
     _serviceAvailable(false),
     _serverId(0),
-    _connectionType(connectionType)
+    _connectionType(connectionType),
+    _interface("")
 {
 }
 
@@ -138,12 +140,15 @@ void ClusterServer::start()
     OSG::FieldContainerType *fct;
 
     // create connection
-    _connection = ConnectionFactory::the().create(_connectionType);
+    _connection = ConnectionFactory::the().createPoint(_connectionType);
     if(_connection == NULL)
     {
         SFATAL << "Unknown connection type " << _connectionType << std::endl;
         return;
     }
+
+    // set interface
+    _connection->setInterface(_interface);
 
     // create aspect
     _aspect = new RemoteAspect();
@@ -181,7 +186,9 @@ void ClusterServer::start()
 #else
         UInt8                    littleEndian = false;
 #endif
-        _connection->accept();
+
+        // todo timeout e.g 10 Minutes ??
+        _connection->acceptGroup();
         // determine network order
         _connection->putValue(littleEndian);
         _connection->flush();
@@ -268,10 +275,6 @@ void ClusterServer::doSync(bool applyToChangelist)
         SINFO << "Start server " << _serviceName 
               << " with id "     << _serverId 
               << std::endl;
-        // no timout at client side
-        _connection->setSendAliveInterval(-1);
-        // timeout after 9 seconds
-        _connection->setReadAliveTimeout(6);
         // now the window is responsible for connection and aspect
         _clusterWindow->getNetwork()->setMainConnection(_connection);
         _clusterWindow->getNetwork()->setAspect        (_aspect);

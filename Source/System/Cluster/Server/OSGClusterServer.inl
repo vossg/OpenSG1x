@@ -48,6 +48,12 @@ RemoteAspect* ClusterServer::getRemoteAspect(void) const
     return _aspect;
 }
 
+inline
+void ClusterServer::setInterface(const std::string &interface)
+{
+    _interface = interface;
+}
+
 OSG_END_NAMESPACE
 
 #define OSGCLUSTERSERVER_INLINE_CVSID "@(#)$Id: $"

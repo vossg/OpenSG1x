@@ -115,11 +115,32 @@ ClusterNetwork::~ClusterNetwork(void)
 /*-------------------------------------------------------------------------*/
 /*                             Get                                         */
 
+/*! get main connection. The main connection is used to sync
+    the network aspects
+ */
 Connection *ClusterNetwork::getMainConnection(void)
 {
     return _mainConnection;
 }
 
+/*! get main connection as group connection. If main connection
+    is a point connection, then NULL is returned
+ */
+GroupConnection *ClusterNetwork::getMainGroupConnection(void)
+{
+    return dynamic_cast<GroupConnection*>(_mainConnection);
+}
+
+/*! get main connection as point connection. If main connection
+    is a group connection, then NULL is returned
+ */
+PointConnection *ClusterNetwork::getMainPointConnection(void)
+{
+    return dynamic_cast<PointConnection*>(_mainConnection);
+}
+
+/*! get connection with the given id
+ */
 Connection *ClusterNetwork::getConnection(UInt32 id)
 {
     if(id<_connection.size())
@@ -128,6 +149,24 @@ Connection *ClusterNetwork::getConnection(UInt32 id)
         return NULL;
 }
 
+/*! get connection as group connection. If main connection
+    is a point connection, then NULL is returned
+ */
+GroupConnection *ClusterNetwork::getGroupConnection(UInt32 id)
+{
+    return dynamic_cast<GroupConnection*>(getConnection(id));
+}
+
+/*! get main connection as point connection. If main connection
+    is a group connection, then NULL is returned
+ */
+PointConnection *ClusterNetwork::getPointConnection(UInt32 id)
+{
+    return dynamic_cast<PointConnection*>(getConnection(id));
+}
+
+/*! get remote aspect
+ */
 RemoteAspect *ClusterNetwork::getAspect(void)
 {
     return _aspect;
@@ -167,90 +206,147 @@ void ClusterNetwork::setConnection(UInt32 id,Connection *connection)
 /*-------------------------------------------------------------------------*/
 /*                          establish connection                           */
 
-/*! crossconnect servers and the client. If thisId is equal to servers
- *  then this is the server. if withId >=0 then only connections from 
- *  all to withId are created. E.g. connect(...,n) if n=servers then
- *  all servers are connected with the client.
+/*! crossconnect servers and the client. 
  */
 void ClusterNetwork::connect(
     UInt32 thisId,
-    UInt32 servers,
-    const std::string &connectionType,
-    const std::string &localAddress,
-    UInt32 withId)
+    const std::string &connectionType)
 {
-    UInt32 id,a;
-    UInt32 fromId=0,toId=servers;
-    std::vector<std::string> address;
+    bool                                   isClient;
+    UInt32                                 servers;
+    Connection                            *addressSource;
+    UInt32                                 id,c;
+    std::map<UInt32,std::string>           address;
+    std::vector<UInt32>                    fromId;
+    std::vector<UInt32>                    toId;
+    std::vector<std::string>               toAddr;
+    UInt32                                 addrCount;
+    Connection::Channel                    channel;
+    std::string                            clientAddress;
+
+    // determine if this is a server 
+    if(dynamic_cast<GroupConnection*>(_mainConnection))
+        isClient = true;
+    else
+        isClient = false;
+    // communicate server count
+    if(isClient)
+    {
+        servers = getMainGroupConnection()->getChannelCount();
+        _mainConnection->putValue(servers);
+        _mainConnection->flush();
+    }
+    else
+    {
+        _mainConnection->getValue(servers);
+    }
+
+    addrCount = (servers+1) * servers / 2;
+    fromId.resize(addrCount);
+    toId.resize  (addrCount);
+    toAddr.resize(addrCount);
 
     _connection.resize(servers+1);
-    address.resize(servers+1);
-    
-    if(withId != ALL_NODES)
-        fromId = toId = withId;
-
-    for(id = fromId; id <= toId; ++id)
-        _connection[id]=ConnectionFactory::the().create(connectionType);
-    
-    // transmit address to client;
-    if(thisId == servers)
+    // send all addresses
+    for(id = 0; id <= servers; ++id)
     {
-        // this is the client
-        for(id = fromId; id <= toId; ++id)
+        if(isClient && id == thisId)
+            _connection[id] = 
+                ConnectionFactory::the().createGroup(connectionType);
+        else
+            _connection[id] = 
+                ConnectionFactory::the().createPoint(connectionType);
+        if(id > thisId)
         {
-            if(id == thisId)
-                address[id] = _connection[id]->bind(localAddress);
-            else
+            _mainConnection->putValue(id);
+            _mainConnection->putValue(thisId);
+            _mainConnection->putValue(_connection[id]->bind());
+            _mainConnection->flush();
+        }
+    }
+    // read and retransmit all addresses
+    if(isClient)
+    {
+        for(c = 0 ; c < addrCount ; ++c)
+        {
+            channel = getMainGroupConnection()->selectChannel();
+            getMainGroupConnection()->getValue(fromId[c]);
+            getMainGroupConnection()->getValue(toId[c]);
+            getMainGroupConnection()->getValue(toAddr[c]);
+            // remember client to server
+            if(fromId[c] == thisId)
             {
-                _mainConnection->selectChannel(id);
-                _mainConnection->getValue(address[id]);
+                address[toId[c]] = toAddr[c];
+                getMainGroupConnection()->subSelection(channel);
             }
+        }
+        getMainGroupConnection()->resetSelection();
+        for(c = 0 ; c < addrCount ; ++c)
+        {
+            _mainConnection->putValue(fromId[c]);
+            _mainConnection->putValue(toId[c]);
+            _mainConnection->putValue(toAddr[c]);
+        }
+        _mainConnection->flush();
+    }
+    // receive all addresses
+    if(!isClient)
+    {
+        _mainConnection->selectChannel();
+        for(c = 0 ; c < (servers+1) * servers / 2 ; ++c)
+        {
+            _mainConnection->getValue(fromId[c]);
+            _mainConnection->getValue(toId[c]);
+            _mainConnection->getValue(toAddr[c]);
+            if(fromId[c] == thisId)
+                address[toId[c]] = toAddr[c];
+        }
+    }
+    // connect to all
+    for(id = 0; id <= servers; ++id)
+    {
+        if(id > thisId)
+        {
+            _connection[id]->acceptPoint();
+        }
+        if(id < thisId)
+        {
+            for(;;)
+                try
+                {
+                    _connection[id]->connectPoint(address[id]);
+                    break;
+                }
+                catch(...)
+                {
+                }
+        }
+    }
+
+    // connect all servers with the client.
+    if(isClient)
+    {
+        _mainConnection->putValue(_connection[thisId]->bind());
+        _mainConnection->flush();
+        for(id=0 ; id < servers ; ++id)
+        {
+            getGroupConnection(thisId)->acceptPoint();
         }
     }
     else
     {
-        // this is a server
-        _mainConnection->putValue(_connection[thisId]->bind(localAddress));
-        _mainConnection->flush();
-    }
-
-    // transmit address to all servers;
-    for(id = fromId; id <= toId; ++id)
-    {
-        if(thisId == servers)
-        {
-            // this is the client
-            _mainConnection->putValue(address[id]);
-            _mainConnection->flush();
-        }
-        else
-        {
-            // this is a server
-            _mainConnection->selectChannel();
-            _mainConnection->getValue(address[id]);
-        }
-    }
-
-    // establish connection
-    for(id = fromId; id <= toId; ++id)
-    {
-        if(id == thisId)
-        {
-            for(a = fromId ; a <= toId ; ++a)
+        _mainConnection->getValue(clientAddress);
+        for(;;)
+            try
             {
-                if(a != id)
-                {
-                    _connection[a]->connect(address[a]);
-                }
+                getPointConnection(thisId)->connectGroup(clientAddress);
+                break;
             }
-        }
-        else
-        {
-            _connection[thisId]->accept();
-        }
+            catch(...)
+            {
+            }
     }
 }
-
 
 /*-------------------------------------------------------------------------*/
 /*                              static access                              */

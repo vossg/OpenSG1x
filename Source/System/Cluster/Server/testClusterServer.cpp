@@ -2,11 +2,10 @@
 #include <OSGConfig.h>
 #include <iostream>
 #include <OSGLog.h>
-#include <OSGStreamSockConnection.h>
 #include <OSGClusterServer.h>
 #include <OSGGLUTWindow.h>
 #include <OSGRenderAction.h>
-#include <OSGOSGWriter.h>
+#include <OSGSceneFileHandler.h>
 #include <OSGViewport.h>
 
 OSG_USING_NAMESPACE
@@ -46,6 +45,7 @@ void display()
             catch(...)
             {
             }
+            printf("Exit on error %s",e.what());
             osgExit();
             exit(0);
         }
@@ -79,17 +79,8 @@ void key(unsigned char key, int /*x*/, int /*y*/)
             window->getPort()[0]->getRoot()->dump();
             break;
         case 's':
-            std::ofstream outFileStream( "server.osg" );
-            if( !outFileStream )
-            {
-                SLOG << "Can not open output stream to file: server.osg" 
-                     << std::endl;
-            }
-            else
-            {
-                OSGWriter writer( outFileStream, 4 );
-                writer.write( window->getPort()[0]->getRoot() );
-            }
+            SceneFileHandler::the().write(window->getPort()[0]->getRoot(),"server.osb");
+            exit(0);
             break;
 	}
 }

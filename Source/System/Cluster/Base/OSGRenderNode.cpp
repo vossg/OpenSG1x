@@ -75,6 +75,26 @@ RenderNode *RenderNode::            _prefefined[] =
     new
     RenderNode
         (
+            1.0 /   83495245, // GF 4 
+            1.0 /   16750624,
+            1.0 / 1161538447, 
+            1.0 /   42022724, 
+            1.0 /   83570644,
+            "NVIDIA Corporation", "GeForce4 Ti 4600/AGP/SSE/3DNOW!"
+        ),
+    new
+    RenderNode
+        (
+            1.0 /   83455190, // GF 4 
+            1.0 /   16881114,
+            1.0 / 1061266770, 
+            1.0 /   42022724, 
+            1.0 /   83570644,
+            "NVIDIA Corporation", "GeForce4 Ti 4800 SE/AGP/SSE/3DNOW!"
+        ),
+    new
+    RenderNode
+        (
             1.0 /  105725796, // GF 4 
             1.0 /   20313509,
             1.0 / 1168604741, 
@@ -142,6 +162,16 @@ RenderNode *RenderNode::            _prefefined[] =
             1.0 /  38311070, 
             1.0 /  73507039, 
             "SGI", "IRL/M/2/64/4"
+        ),
+    new
+    RenderNode
+        (
+            1.0 /  12237547, // ATI 
+            1.0 /  12422953, 
+            1.0 / 190803343, 
+            1.0 /  41767062, 
+            1.0 / 157129952, 
+            "ATI Technologies Inc.", "Radeon 9700 PRO Pentium 4 (SSE2)"
         ),
     NULL
 };
@@ -273,14 +303,14 @@ void RenderNode::determinePerformance(WindowPtr &window)
     width = window->getWidth();
     height = window->getHeight();
     pixels.resize(width * height * 4);
-    glFlush();
+    glFinish();
     t = -getSystemTime();
     for(c = 0; c < 2; ++c)
     {
         glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, &pixels[0]);
     }
 
-    glFlush();
+    glFinish();
     t += getSystemTime();
     _readPixelCost = Real32(t / (c * width * height));
 
@@ -294,14 +324,13 @@ void RenderNode::determinePerformance(WindowPtr &window)
     gluOrtho2D(0, width, 0, height);
     glRasterPos2i(0, 0);
     glDisable(GL_DEPTH_TEST);
-    glFlush();
+    glFinish();
     t = -getSystemTime();
     for(c = 0; c < 2; ++c)
     {
         glDrawPixels(width, height, GL_RGB, GL_UNSIGNED_BYTE, &pixels[0]);
     }
-
-    glFlush();
+    glFinish();
     t += getSystemTime();
     _writePixelCost = Real32(t / (c * width * height));
     glEnable(GL_DEPTH_TEST);

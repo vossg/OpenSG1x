@@ -331,6 +331,7 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                 if(getLocalId(remoteId,localId))
                 {
                     fcPtr = factory->getContainer(localId);
+
                     if(applyToChangelist)
                     {
                         beginEditCP(fcPtr, mask);

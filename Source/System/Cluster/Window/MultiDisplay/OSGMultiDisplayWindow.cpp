@@ -53,6 +53,8 @@
 #include "OSGConnection.h"
 #include "OSGNode.h"
 
+#define FAST_SYNC 0
+
 OSG_USING_NAMESPACE
 
 /*! \class osg::MultiDisplayWindow
@@ -259,6 +261,7 @@ void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
                  pixel);
     glFinish();
 
+#if !FAST_SYNC
     connection=getNetwork()->getMainConnection();
     if(!getInterleave())
     {
@@ -267,6 +270,7 @@ void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
         // wait for swap
         connection->wait();
     }
+#endif
     Inherited::serverSwap(window,id);
 }
 
@@ -332,6 +336,10 @@ void MultiDisplayWindow::clientInit( void )
 void MultiDisplayWindow::clientSwap( void )
 {
     Connection *connection=getNetwork()->getMainConnection();
+
+#if FAST_SYNC
+    connection->selectChannel();
+#else
     if(!getInterleave())
     {
         // wait for all servers to finish
@@ -339,6 +347,8 @@ void MultiDisplayWindow::clientSwap( void )
         // initiate swap
         connection->signal();
     }
+#endif
+
     // show client window 
     Inherited::clientSwap();
 }

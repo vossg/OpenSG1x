@@ -50,7 +50,8 @@
 OSG_BEGIN_NAMESPACE
 
 class ImageFileType;
-class Connection;
+class PointConnection;
+class GroupConnection;
 
 class OSG_SYSTEMLIB_DLLMAPPING ClusterViewBuffer
 {
@@ -70,6 +71,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterViewBuffer
     } Component;
     /** \brief stl vector used as char buffer */
     typedef std::vector<Int8> BufferT;
+    /** \brief RGB Color value */
+    struct RGBValue
+    {
+        UInt8 red;
+        UInt8 green;
+        UInt8 blue;
+    };
 
     /*---------------------------------------------------------------------*/
     /*! \name          Constructors / Destructor                           */
@@ -83,9 +91,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterViewBuffer
     /*! \name                 send/recv                                    */
     /*! \{                                                                 */
 
-    void recv( Connection &connection,
-               UInt32      channel   =Connection::ALL_CHANNELS );
-    void send( Connection &connection,
+    void recv( GroupConnection &connection );
+    void send( PointConnection &connection,
                UInt32      component,
                UInt32      x1,
                UInt32      y1,
@@ -93,31 +100,21 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterViewBuffer
                UInt32      y2,
                UInt32      toX,
                UInt32      toY        );
-    void send( Connection &connection,
+    void send( PointConnection &connection,
                UInt32      component,
                UInt32      toX,
                UInt32      toY        );
-    void pipe( Connection *srcConnection,
-               Connection *dstConnection,
-               UInt32      component,
-               UInt32      vpx1,
-               UInt32      vpy1,
-               UInt32      vpx2,
-               UInt32      vpy2,
-               UInt32      x1,
-               UInt32      y1,
-               UInt32      x2,
-               UInt32      y2, 
-               UInt32      dstMinDepth=0,
-               UInt32      srcChannel=Connection::ALL_CHANNELS );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                 set parameters                               */
     /*! \{                                                                 */
 
-    void   setImgTransType(const char *mime=NULL);
-    void   setSubtileSize(UInt32 size);
+    void   setImgTransType (const char *mime=NULL  );
+    void   setSubtileSize  (UInt32 size            );
+    void   setRGBADataType (UInt32 type,UInt32 size);
+    void   setRGBDataType  (UInt32 type,UInt32 size);
+    void   setDepthDataType(UInt32 type,UInt32 size);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -136,6 +133,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterViewBuffer
 
     ImageFileType              *_imgTransType;
     UInt32                      _subTileSize;
+    UInt32                      _rgbDataType;
+    UInt32                      _rgbDataSize;
+    UInt32                      _rgbaDataType;
+    UInt32                      _rgbaDataSize;
+    UInt32                      _depthDataType;
+    UInt32                      _depthDataSize;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

@@ -45,13 +45,14 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGMemoryObject.h>
+#include <OSGGroupConnection.h>
+#include <OSGPointConnection.h>
 
 #include <vector>
 #include <map>
 
 OSG_BEGIN_NAMESPACE
 
-class Connection;
 class RemoteAspect;
 
 class OSG_SYSTEMLIB_DLLMAPPING ClusterNetwork : public MemoryObject
@@ -67,8 +68,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterNetwork : public MemoryObject
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-    Connection      *getMainConnection  (void     );
+    Connection      *getMainConnection      (void);
+    GroupConnection *getMainGroupConnection (void);
+    PointConnection *getMainPointConnection (void);
+
     Connection      *getConnection      (UInt32 id);
+    GroupConnection *getGroupConnection (UInt32 id);
+    PointConnection *getPointConnection (UInt32 id);
+
     RemoteAspect    *getAspect          (void     );
     ConnectionsT    &getConnection      (void     );
     
@@ -87,10 +94,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterNetwork : public MemoryObject
     /*! \{                                                                 */
 
     void connect(           UInt32  thidId,
-                            UInt32  servers,
-                 const std::string &connectionType,
-                 const std::string &localAddress  =std::string(),
-                            UInt32  withId        =ALL_NODES);
+                 const std::string &connectionType);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

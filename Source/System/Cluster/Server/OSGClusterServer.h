@@ -52,7 +52,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class Connection;
+class PointConnection;
 class ClusterWindow;
 class RemoteAspect;
 class Thread;
@@ -104,6 +104,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
     inline RemoteAspect *getRemoteAspect   (void)                   const;
     
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   set                                        */
+    /*! \{                                                                 */
+
+    void setInterface(const std::string &interface);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -120,7 +127,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
     /*! \{                                                                 */
 
     WindowPtr         _window;
-    Connection       *_connection;
+    PointConnection  *_connection;
     std::string       _requestAddress;
     std::string       _boundAddress;
     ClusterWindowPtr  _clusterWindow;
@@ -131,6 +138,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
     bool              _serviceAvailable;
     UInt32            _serverId;
     std::string       _connectionType;
+    std::string       _interface;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

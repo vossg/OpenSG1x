@@ -1,12 +1,9 @@
-// #define SORTLAST
 // #define FRAMEINTERLEAVE
-
 #include <OSGGLUT.h>
 #include <OSGGLU.h>
 #include <OSGConfig.h>
 #include <iostream>
 #include <OSGLog.h>
-#include <OSGStreamSockConnection.h>
 #include <OSGTransform.h>
 #include <OSGGroup.h>
 #include <OSGNode.h>
@@ -26,9 +23,12 @@
 #include <OSGDrawAction.h>
 #include <OSGMultiDisplayWindow.h>
 #include <OSGSortFirstWindow.h>
-#ifdef SORTLAST
+#include <OSGChunkMaterial.h>
+#include <OSGPolygonChunk.h>
+#include <OSGTriangleIterator.h>
+#include <OSGMaterialGroup.h>
 #include <OSGSortLastWindow.h>
-#endif
+#include <OSGImageComposer.h>
 #ifdef FRAMEINTERLEAVE
 #include <OSGFrameInterleaveWindow.h>
 #endif
@@ -39,22 +39,22 @@ OSG_USING_NAMESPACE
 Trackball                tball;
 int                      mouseb = 0;
 int                      lastx=0, lasty=0;
-int                      winwidth=0, winheight=0;
+int                      winwidth=300, winheight=300;
 NodePtr		             root;
 TransformPtr             cam_trans;
 PerspectiveCameraPtr     cam;
 ClusterWindowPtr         clusterWindow;
-RenderAction            *ract,*ract1,*ract2;
+RenderAction            *ract;
 GLUTWindowPtr            clientWindow;
 SortFirstWindowPtr       sortfirst;
-#ifdef SORTLAST
 SortLastWindowPtr        sortlast;
-#endif
 #ifdef FRAMEINTERLEAVE
 FrameInterleaveWindowPtr frameinterleave;
 #endif
 MultiDisplayWindowPtr    multidisplay;
 bool                     animate=false;
+int                      animLoops=-1;
+int                      animLength=30;
 bool                     multiport=false;
 float                    ca=-1,cb=-1,cc=-1;
 bool                     doStereo=false;
@@ -67,6 +67,157 @@ Real32                   animTime=0;
 std::string              serviceAddress;
 bool                     serviceAddressValid = false;
 UInt32                   interleave=0;
+PolygonChunkPtr          polygonChunk;
+bool                     prepared=false;
+bool                     showInfo=false;
+Time                     frame_time=0;
+UInt32                   sum_positions=0;
+UInt32                   sum_geometries=0;
+UInt32                   sum_triangles=0;
+bool                     info = false;
+std::string              connectionDestination="";
+std::string              connectionInterface="";
+
+/*! Simple show text function
+ */
+void displayInfo(int x, int y)
+{
+  int len, i;
+#ifdef WIN32
+#ifdef OSG_WIN32_CL
+  void *font = (void *) 2;
+#else
+  void *font = 2;
+#endif
+#else
+  void *font = GLUT_BITMAP_9_BY_15;
+#endif
+
+  char text[1024];
+  sprintf(text,
+          "FPS:        %12.1f\n"
+          "Positions:  %12u\n"
+          "Triangles:  %12u\n"
+          "Geometries: %12u",
+          1.0/frame_time,
+          sum_positions,
+          sum_triangles,
+          sum_geometries);
+
+  glPushAttrib(GL_ALL_ATTRIB_BITS);
+  glDisable(GL_LIGHTING);
+  glEnable(GL_COLOR_MATERIAL);
+  glPushMatrix();
+  glLoadIdentity();
+  glMatrixMode(GL_PROJECTION);
+  glPushMatrix();
+  glLoadIdentity();
+  gluOrtho2D(0,clientWindow->getWidth(),0,clientWindow->getHeight());
+  glDisable(GL_DEPTH_TEST);  
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+
+  int x1=x-5;
+  int x2=x1+24*9+10;
+  int y1=y+14;
+  int y2=y1-4*20;
+  glBegin(GL_QUADS);
+  glColor4f(.1, .1, .7, .5);
+  glVertex2i(x1,y1);
+  glVertex2i(x1,y2);
+  glVertex2i(x2,y2);
+  glVertex2i(x2,y1);
+  glEnd();
+  glBegin(GL_LINE_LOOP);
+  glColor3f(1.0, 1.0, 0.0);
+  glVertex2i(x1,y1);
+  glVertex2i(x1,y2);
+  glVertex2i(x2,y2);
+  glVertex2i(x2,y1);
+  glEnd();
+
+  glColor3f(1.0, 1.0, 0.0);
+  glRasterPos2f(x, y);
+  len = (int) strlen(text);
+  for (i = 0; i < len; i++) {
+      if(text[i] == '\n')
+      {
+          y-=20;
+          glRasterPos2f(x, y);
+      }
+      else
+          glutBitmapCharacter(font, text[i]);
+  }
+  glPopMatrix();
+  glMatrixMode(GL_MODELVIEW);
+  glPopMatrix();
+  glPopAttrib();
+}
+
+void prepareSceneGraph(NodePtr &node)
+{
+    TriangleIterator f;
+
+    if(!prepared)
+    {
+        polygonChunk = PolygonChunk::create();
+        addRefCP(polygonChunk);
+        prepared = true;
+    }
+
+    NodeCorePtr core  =node->getCore();
+    if(core != NullFC)
+    {
+        GeometryPtr geo   =GeometryPtr::dcast(core);
+        if(geo != NullFC)
+        {
+            MaterialPtr mat = geo->getMaterial();
+            if(mat != NullFC)
+            {
+                ChunkMaterialPtr cmat = ChunkMaterialPtr::dcast(mat);
+                if(cmat->getChunks().find(polygonChunk) == cmat->getChunks().end())
+                {
+                    beginEditCP(cmat);
+                    cmat->addChunk(polygonChunk);
+                    endEditCP(cmat);
+                }
+            }
+            // get num positions
+            GeoPositionsPtr positionsPtr=geo->getPositions();
+            if(positionsPtr != NullFC)
+                sum_positions += positionsPtr->getSize();
+            // get num triangles
+            for(f=geo->beginTriangles() ; f!=geo->endTriangles() ; ++f)
+                ++sum_triangles;
+            // sum of geometry nodes
+            ++sum_geometries;
+        }
+        else
+        {
+            MaterialGroupPtr matGrp = MaterialGroupPtr::dcast(core);
+            if(matGrp != NullFC)
+            {
+                MaterialPtr mat = matGrp->getMaterial();
+                if(mat != NullFC)
+                {
+                    ChunkMaterialPtr cmat = ChunkMaterialPtr::dcast(mat);
+                    if(cmat->getChunks().find(polygonChunk) == cmat->getChunks().end())
+                    {
+                        beginEditCP(cmat);
+                        cmat->addChunk(polygonChunk);
+                        endEditCP(cmat);
+                    }
+                }
+            }
+        }
+    }
+    for(MFNodePtr::iterator nI=node->getMFChildren()->begin();
+        nI != node->getMFChildren()->end();
+        ++nI)
+    {
+        prepareSceneGraph(*nI);
+    }
+}
 
 void loadAnim()
 {
@@ -94,13 +245,11 @@ void display(void)
     beginEditCP( cam_trans );
     if(animate && animPos.size()>1)
     {
-        Real32 a;
-        UInt32 i;
-        Vec3f v;
-        animTime=fmod(animTime+(1.0/30.0),(animPos.size()-1));
-        i=(UInt32)animTime;
-        a=animTime-i;
-        v=animPos[i] + (animPos[i+1] - animPos[i]) * a; 
+        UInt32 i=(UInt32)animTime;
+        Real32 a=animTime-i;
+
+        printf("%d %d\n",i,animPos.size());
+        Vec3f v=animPos[i] + (animPos[i+1] - animPos[i]) * a; 
         cam_trans->getMatrix().setTranslate(v[0],v[1],v[2]);
         cam_trans->getMatrix().setRotate(
             Quaternion::slerp(animOri[i],animOri[i+1],a));
@@ -112,7 +261,26 @@ void display(void)
     endEditCP( cam_trans );
     try
     {
-        clusterWindow->render( ract );	
+        clusterWindow->activate();	
+        clusterWindow->frameInit();	
+        clusterWindow->renderAllViewports(ract);	
+        if(showInfo)
+        {
+            displayInfo(10,90);
+/*
+            char text[1024];
+            sprintf(text,"FPS:        %12.1f",1.0/frame_time);
+            showText(10,70,text);
+            sprintf(text,"Positions:  %12d",sum_positions);
+            showText(10,50,text);
+            sprintf(text,"Triangles:  %12d",sum_triangles);
+            showText(10,30,text);
+            sprintf(text,"Geometries: %12d",sum_geometries);
+            showText(10,10,text);
+*/
+        }
+        clusterWindow->swap();	
+        clusterWindow->frameExit();	
         // clear changelist from prototypes
         OSG::Thread::getCurrentChangeList()->clearAll();
 	}
@@ -123,14 +291,40 @@ void display(void)
     }
     
     t+=getSystemTime();
+    frame_time = t;
+
     if(animate)
+    {
+        Real32 a;
+        UInt32 i;
+        Vec3f v;
+
         printf("Frame %8.3f %8.5f %8.3f\n",
                animTime,
                t,1/t);
+
+        animTime += (animPos.size()/(float)animLength);
+        if(int(animTime)+1 >= animPos.size())
+        {
+            animTime = 0;
+
+            if(animLoops > 0)
+            {
+                animLoops--;
+                if(!animLoops) 
+                {
+                    subRefCP(clusterWindow);
+                    osgExit(); 
+                    exit(0);
+                }
+            }
+        }
+    }
 }
 
 void reshape( int width, int height )
 {
+    printf("reshape %d %d\n",width,height);
     glViewport(0, 0, width, height);
     beginEditCP(clientWindow);
 	clientWindow->resize( width, height );
@@ -276,12 +470,6 @@ void key(unsigned char key, int /*x*/, int /*y*/)
             fclose(file);
             break;
         }
-         case 'b':	// switch wire frame
-            if(ract==ract1)
-                ract=ract2;
-            else
-                ract=ract1;
-            break;
         case 'j':
             if(sortfirst!=NullFC)
             {
@@ -305,6 +493,23 @@ void key(unsigned char key, int /*x*/, int /*y*/)
                 sortfirst->getCompression().erase();
                 endEditCP(sortfirst);
             }
+            break;
+        case 'i':
+            showInfo = !showInfo;
+            break;
+        case 'w':
+            beginEditCP(polygonChunk);
+            if(polygonChunk->getFrontMode() == GL_FILL)
+                polygonChunk->setFrontMode(GL_LINE);
+            else
+                polygonChunk->setFrontMode(GL_FILL);
+
+            if(polygonChunk->getBackMode() == GL_FILL)
+                polygonChunk->setBackMode(GL_LINE);
+            else
+                polygonChunk->setBackMode(GL_FILL);
+
+            endEditCP(polygonChunk);
             break;
         case 'a':
             if(animate)
@@ -337,30 +542,14 @@ void key(unsigned char key, int /*x*/, int /*y*/)
 	glutPostRedisplay();
 }
 
-
-Action::ResultE wireDraw( CNodePtr &, Action * action )
-{
-    NodePtr node = action->getActNode();
-    node->updateVolume();
-    bool l = glIsEnabled( GL_LIGHTING );
-    glDisable( GL_LIGHTING );
-    glColor3f( .8,.8,.8 );
-    drawVolume( node->getVolume() );
-    if ( l )
-        glEnable( GL_LIGHTING );
-    return Action::Continue;
-}
-
-Action::ResultE ignore( CNodePtr &, Action * )
-{	
-    return Action::Continue;
-}
-
-void init(std::vector<char *> &filenames)
+void init(std::vector<std::string> &filenames)
 {
     int i;
     OSG::DirectionalLightPtr dl;
     Real32 x,y,z;
+    DynamicVolume volume;
+    OSG::Vec3f min,max;
+    OSG::Vec3f size;
 
     glEnable( GL_DEPTH_TEST );
     glEnable( GL_LIGHTING );
@@ -414,66 +603,83 @@ void init(std::vector<char *> &filenames)
     OSG::endEditCP(root);
 
     // Load the file
+    OSG::NodePtr scene = OSG::Node::create();
+    addRefCP(scene);
+    OSG::beginEditCP(scene);
+    scene->setCore(OSG::Group::create());
+    OSG::endEditCP(scene);
 
     NodePtr file;
     OSG::beginEditCP(dlight);
     for(i=0;i<filenames.size();i++)
     {
-        file = SceneFileHandler::the().read(filenames[i],0);
+        file = SceneFileHandler::the().read(filenames[i].c_str(),0);
         if(file != NullFC)
-            dlight->addChild(file);
+            scene->addChild(file);
         else
             std::cerr << "Couldn't load file, ignoring " << filenames[i] << std::endl;
     }
 	if ( filenames.size()==0 )
 	{
-        if(ca>0)
-        {
-            if(cb==-1)
-                cb=ca;
-            if(cc==-1)
-                cc=cb;
-            GeometryPtr geo=makeBoxGeo(.6,.6,.6,5,5,5);
+        scene->addChild(makeTorus( .5, 2, 16, 16 ));
+//        scene->addChild(makeBox(.6,.6,.6,5,5,5));
+    }
+
+    prepareSceneGraph(scene);
+    scene->invalidateVolume();
+    scene->updateVolume();
+    volume=scene->getVolume();
+    volume.getBounds(min,max);
+    size = max-min;
+
+    if(ca>0)
+    {
+        if(cb==-1)
+            cb=ca;
+        if(cc==-1)
+            cc=cb;
             
-            NodePtr node;
-            NodePtr geoNode;
-            TransformPtr trans;
-            for(x=-ca/2 ; x<ca/2 ; x++)
-                for(y=-cb/2 ; y<cb/2 ; y++)
-                    for(z=-cc/2 ; z<cc/2 ; z++)
-                    {
-                        trans=Transform::create();
-                        node=Node::create();
-                        geoNode=Node::create();
+        NodePtr node;
+        NodePtr geoNode;
+        TransformPtr trans;
+        for(x=-ca/2.0 ; x<ca/2.0 ; x++)
+            for(y=-cb/2.0 ; y<cb/2.0 ; y++)
+                for(z=-cc/2.0 ; z<cc/2.0 ; z++)
+                {
+                    trans=Transform::create();
+                    node=Node::create();
+                    
+                    beginEditCP(trans);
+                    beginEditCP(node);
                         
-                        beginEditCP(geoNode);
-                        beginEditCP(trans);
-                        beginEditCP(node);
-                        
-                        node->setCore(trans);
-                        trans->getMatrix().setTranslate(x,y,z);
-                        geoNode=Node::create();
-                        geoNode->setCore(geo);
-                        node->addChild( geoNode );
-                        beginEditCP(dlight);
-                        dlight->addChild(node);
-
-                        endEditCP(geoNode);
-                        endEditCP(dlight);
-                        endEditCP(trans);
-                        endEditCP(node);
-                    }
-        }
-        else
-        {
-            file = makeTorus( .5, 2, 16, 16 );
-            beginEditCP(file->getCore());
-            endEditCP(file->getCore());
-            dlight->addChild(file);
-        }
+                    node->setCore(trans);
+                    trans->getMatrix().setTranslate(
+                        x*size[0]*1.1,
+                        y*size[1]*1.1,
+                        z*size[2]*1.1);
+                    node->addChild( osg::cloneTree(scene) );
+                    beginEditCP(dlight);
+                    dlight->addChild(node);
+                    endEditCP(dlight);
+                    endEditCP(trans);
+                    endEditCP(node);
+                }
+    }
+    else
+    {
+        beginEditCP(dlight);
+        dlight->addChild(scene);
+        endEditCP(dlight);
 	}
+    subRefCP(scene);
 
-    dlight->invalidateVolume();
+    if(ca>0)
+    {
+        sum_geometries*=(UInt32)(ca*cb*cc);
+        sum_triangles *=(UInt32)(ca*cb*cc);
+        sum_positions *=(UInt32)(ca*cb*cc);
+    }
+//    dlight->invalidateVolume();
     OSG::endEditCP(dlight);
 
     dlight->updateVolume();
@@ -481,8 +687,6 @@ void init(std::vector<char *> &filenames)
     // should check first. ok for now.
     const OSG::BoxVolume *vol = (OSG::BoxVolume *)&dlight->getVolume();
 
-    OSG::Vec3f min,max;
-    OSG::Vec3f size;
     OSG::Pnt3f center;
 
     vol->getBounds(min, max);
@@ -506,6 +710,7 @@ void init(std::vector<char *> &filenames)
     OSG::SolidBackgroundPtr bkgnd = OSG::SolidBackground::create();
     beginEditCP(bkgnd);
 //    bkgnd->setColor( OSG::Color3f(.8,.8,.8) );
+//    bkgnd->setColor( OSG::Color3f(.1,.1,.6) );
     bkgnd->setColor( OSG::Color3f(0,0,0) );
     endEditCP(bkgnd);
 
@@ -613,175 +818,204 @@ void init(std::vector<char *> &filenames)
 
 int main(int argc,char **argv)
 {
-    int i,winid;
-    std::vector<char *> filenames;
-    std::string connectionType = "StreamSock";
-    int rows=1;
-    char type='M';
-    bool clientRendering=true;
-    bool compose=false;
-#ifdef SORTLAST
-    int subtilesize=32;
-    UInt32 balanceType=0;
-    bool sortPipe=false;
-#endif
+    int                      i,winid;
+    char                    *opt;
+    std::vector<std::string> filenames;
+    std::vector<std::string> servers;
+    std::string              connectionType = "StreamSock";
+    int                      rows=1;
+    char                     type='M';
+    bool                     clientRendering=true;
+    bool                     compose=false;
+
+    int                      subtilesize=32;
+    UInt32                   balanceType=0;
+    bool                     sortPipe=true;
+    std::string              composerType="";
+    ImageComposerPtr         composer=NullFC;
     
-    try
+    for(i=1;i<argc;i++)
     {
-        for(i=1;i<argc;i++)
+        if(strlen(argv[i])>1 && argv[i][0]=='-')
         {
-            if(argv[i][0] >='0' &&
-               argv[i][0] <='9')
+            switch(argv[i][1])
             {
-                if(ca==-1)
-                    ca=atoi(argv[i]);
-                else
-                    if(cb==-1)
-                        cb=atoi(argv[i]);
-                    else
-                        if(cc==-1)
-                            cc=atoi(argv[i]);
-                continue;
-            }
-            if(strlen(argv[i])>1 && argv[i][0]=='-')
-            {
-                switch(argv[i][1])
-                {
-                    case 'b':
-                        serviceAddress.assign(argv[i]+2);
-                        serviceAddressValid = true;
-                        break;
-                    case 'f':
-                        filenames.push_back(argv[i]+2);
-                        break;
-                    case 'm':
-                        connectionType="Multicast";
-                        break;
-                    case 'r':
-                        rows=atoi(argv[i]+2);
-                        break;
-#ifdef SORTLAST
-                    case 't':
-                        subtilesize=atoi(argv[i]+2);
-                        break;
-#endif
-                    case 'i':
-                        interleave=atoi(argv[i]+2);
-                        break;
-                    case 'C':
-                        compose=true;
-                        break;
-                    case 'F':
-                        type='F';
-                        break;
-                    case 'P':
-                        type='P';
-                        break;
-#ifdef SORTLAST
-                    case 'L':
+                case 'D':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    if(sscanf(opt,"%f,%f,%f",&ca,&cb,&cc)!=3)
                     {
-                        type='L';
-                        int lpos=2;
-                        while(argv[i][lpos])
-                        {
-                            if(argv[i][lpos] == 'v')
-                                balanceType=1;
-                            if(argv[i][lpos] == 'p')
-                                balanceType=2;
-                            if(argv[i][lpos] == 's')
-                                sortPipe=true;
-                            ++lpos;
-                        }
-                        break;
+                        std::cout << "Copy opton -C x,y,z" << std::endl;
+                        return 1;
                     }
+                    break;
+                case 'b':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    serviceAddress.assign(opt);
+                    serviceAddressValid = true;
+                    break;
+                case 'f':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    filenames.push_back(opt);
+                    printf("<%s>\n",opt);
+                    break;
+                case 'm':
+                    connectionType="Multicast";
+                    break;
+                case 'r':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    rows=atoi(opt);
+                    break;
+                case 't':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    subtilesize=atoi(opt);
+                    break;
+#ifdef FRAMEINTERLEAVE
+                case 'i':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    interleave=atoi(opt);
+                    break;
 #endif
-                    case 'M':
-                        type='M';
-                        break;
-                    case 'I':
-                        type='I';
-                        break;
-                    case 's':
-                        doStereo=true;
-                        break;
-                    case 'e':
-                        sscanf(argv[i]+2,"%f",&eyedistance);
-                        break;
-                    case 'z':
-                        sscanf(argv[i]+2,"%f",&zeroparallax);
-                        break;
-                    case 'd':
-                        clientRendering=false;
-                        break;
-                    case 'v':
-                        multiport=true;
-                        break;
-                    case 'x':
-                        sscanf(argv[i]+2,"%d",&serverx);
-                        break;
-                    case 'y':
-                        sscanf(argv[i]+2,"%d",&servery);
-                        break;
-                    case 'a':
-                        if(*(argv[i]+2))
-                        {
-                            animName=argv[i]+2;
-                            loadAnim();
-                        }
-                        glutIdleFunc(display);       
-                        animate=true;
-                        break;
-                    case 'h':
-                        std::cout << argv[0] 
-                                  << "-ffile -m -rrows -C -M"
-                                  << std::endl;
-                        std::cout << "-m  use multicast" << std::endl
-                                  << "-M  multi display" << std::endl
-                                  << "-I  frame interleave" << std::endl
-                                  << "-r  number of display rows" << std::endl
-                                  << "-C  compose" << std::endl
-                                  << "-F  sort-first" << std::endl
-                                  << "-L  sort-last static balance" << std::endl
-                                  << "-Lv sort-last view dependent" << std::endl
-                                  << "-h  this msg" << std::endl
-                                  << "-s  stereo" << std::endl
-                                  << "-e  eye distance" << std::endl
-                                  << "-z  zero parallax" << std::endl
-                                  << "-d  disable client rendering"<<std::endl
-                                  << "-v  use two viewports" << std::endl
-                                  << "-x  server x resolution" << std::endl
-                                  << "-y  server y resolution" << std::endl
-                                  << "-t  subtile size for img composition" << std::endl;
-                        return 0;
+                case 'C':
+                    compose=true;
+                    break;
+                case 'F':
+                    type='F';
+                    break;
+                case 'P':
+                    type='P';
+                    break;
+                case 'L':
+                {
+                    type='L';
+                    int lpos=2;
+                    while(argv[i][lpos])
+                    {
+                        if(argv[i][lpos] == 'v')
+                            balanceType=1;
+                        if(argv[i][lpos] == 'p')
+                            balanceType=2;
+                        if(argv[i][lpos] == 's')
+                            sortPipe=true;
+                        if(argv[i][lpos] == 'B') 
+                            composerType = "BinarySwapComposer";
+                        if(argv[i][lpos] == 'P')
+                            composerType = "PipelineComposer";
+                        ++lpos;
+                    }
+                    break;
                 }
+                case 'M':
+                    type='M';
+                    break;
+                case 'I':
+                    type='I';
+                    break;
+                case 's':
+                    doStereo=true;
+                    break;
+                case 'p':
+                    info=true;
+                    break;
+                case 'e':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    sscanf(opt,"%f",&eyedistance);
+                    break;
+                case 'z':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    sscanf(opt,"%f",&zeroparallax);
+                    break;
+                case 'd':
+                    clientRendering=false;
+                    break;
+                case 'v':
+                    multiport=true;
+                    break;
+                case 'x':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    sscanf(opt,"%d",&serverx);
+                    break;
+                case 'y':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    sscanf(opt,"%d",&servery);
+                    break;
+                case 'a':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    animName=opt;
+                    loadAnim();
+                    glutIdleFunc(display);       
+                    animate=true;
+                    break;
+                case 'l':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    if(sscanf(opt,"%d,%d",&animLoops,&animLength) != 2)
+                    {
+                        animLength = 30;
+                        if(sscanf(opt,"%d",&animLoops) != 1)
+                        {
+                            animLoops = -1;
+                        }
+                    }
+                    break;
+                case 'g':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    sscanf(opt,"%d,%d",&winwidth,&winheight);
+                    break;
+                case 'G':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    connectionDestination = opt;
+                    break;
+                case 'i':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    connectionInterface = opt;
+                    break;
+                case 'h':
+                    std::cout << argv[0] 
+                              << "-ffile -m -rrows -C -M"
+                              << std::endl;
+                    std::cout << "-m  use multicast" << std::endl
+                              << "-G  multicast group" << std::endl
+                              << "-i  interface" << std::endl
+                              << "-M  multi display" << std::endl
+#ifdef FRAMEINTERLEAVE
+                              << "-I  frame interleave" << std::endl
+#endif
+                              << "-r  number of display rows" << std::endl
+                              << "-C  compose" << std::endl
+                              << "-F  sort-first" << std::endl
+                              << "-L  sort-last" << std::endl
+                              << "-h  this msg" << std::endl
+                              << "-s  stereo" << std::endl
+                              << "-e  eye distance" << std::endl
+                              << "-z  zero parallax" << std::endl
+                              << "-d  disable client rendering"<<std::endl
+                              << "-v  use two viewports" << std::endl
+                              << "-x  server x resolution" << std::endl
+                              << "-y  server y resolution" << std::endl
+                              << "-t  subtile size for img composition" << std::endl
+                              << "-D  x,y,z duplicate geometry" << std::endl;
+                    return 0;
             }
         }
+        else
+        {
+            servers.push_back(argv[i]);
+        }
+    }
+    try
+    {
         ChangeList::setReadWriteDefault();
+
         osgInit(argc, argv);
         glutInit(&argc, argv);
         glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
+        glutInitWindowSize(winwidth,winheight);
         winid = glutCreateWindow("OpenSG Cluster Client");
         glutKeyboardFunc(key);
         glutReshapeFunc(reshape);
         glutDisplayFunc(display);       
         glutMouseFunc(mouse);   
         glutMotionFunc(motion); 
-        ract1 = RenderAction::create();
-        ract2 = RenderAction::create();
-        // just draw the group's volumes as wireframe, ignore geometries
-        ract1->registerEnterFunction( OSG::Group::getClassType(),
-                                      OSG::osgTypedFunctionFunctor2CPtrRef<
-                                      OSG::Action::ResultE, 
-                                      OSG::CNodePtr,
-                                      OSG::Action *                       >(
-                                         wireDraw));
-        ract1->registerEnterFunction( OSG::Geometry::getClassType(),
-                                      OSG::osgTypedFunctionFunctor2CPtrRef<
-                                      OSG::Action::ResultE, 
-                                      OSG::CNodePtr,
-                                      OSG::Action *                       >(
-                                         ignore));
-        ract=ract2;
+        ract = RenderAction::create();
 
         // clear changelist from prototypes
         OSG::Thread::getCurrentChangeList()->clearAll();
@@ -803,17 +1037,28 @@ int main(int argc,char **argv)
                 endEditCP(sortfirst);
                 clusterWindow=sortfirst;
                 break;
-#ifdef SORTLAST
             case 'L':
                 sortlast=SortLastWindow::create();
                 beginEditCP(sortlast);
-                sortlast->setSubtileSize(subtilesize);
-                sortlast->setBalanceType(balanceType);
-                sortlast->setSortPipe(sortPipe);
+                if(!composerType.empty())
+                {
+                    FieldContainerPtr fcPtr = 
+                        FieldContainerFactory::the()->
+                        createFieldContainer(composerType.c_str());
+                    ImageComposerPtr icPtr = ImageComposerPtr::dcast(fcPtr);
+                    if(icPtr != NullFC)
+                    {
+                        beginEditCP(icPtr);
+//                        icPtr->setTileSize(subtilesize);
+                        icPtr->setStatistics(info);
+//                    icPtr->setShort(false);
+                        sortlast->setComposer(icPtr);
+                        endEditCP(icPtr);
+                    }
+                }
                 endEditCP(sortlast);
                 clusterWindow=sortlast;
                 break;
-#endif
 #ifdef FRAMEINTERLEAVE
             case 'I':
                 frameinterleave=FrameInterleaveWindow::create();
@@ -834,15 +1079,8 @@ int main(int argc,char **argv)
         }
         beginEditCP(clusterWindow);
         {
-            // set servers
-            for(i=1;i<argc;i++)
-            {
-                if(argv[i][0]!='-' && 
-                   (argv[i][0]<'0' || argv[i][0]>'9'))
-                {
-                    clusterWindow->getServers().push_back(argv[i]);
-                }
-            }
+            for(i=0 ; i<servers.size() ; ++i)
+                clusterWindow->getServers().push_back(servers[i]);
             switch(type)
             {
                 case 'M': 
@@ -852,14 +1090,16 @@ int main(int argc,char **argv)
                         rows);
                     break;
             }
+#ifdef FRAMEINTERLEAVE
             clusterWindow->setInterleave(interleave);
+#endif
         }
         endEditCP(clusterWindow);
 
         // create client window
         clientWindow=GLUTWindow::create();
 //        glutReshapeWindow(800,600);
-        glutReshapeWindow(300,300);
+        glutReshapeWindow(winwidth,winheight);
         clientWindow->setId(winid);
         clientWindow->init();
 
@@ -873,7 +1113,10 @@ int main(int argc,char **argv)
             clusterWindow->setClientWindow(clientWindow);
         }
         clusterWindow->init();
-
+        clusterWindow->resize(winwidth,winheight);
+        clientWindow->resize(winwidth,winheight);
+        clusterWindow->setConnectionDestination(connectionDestination);
+        clusterWindow->setConnectionInterface(connectionInterface);
         glutMainLoop();
     } 
     catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)

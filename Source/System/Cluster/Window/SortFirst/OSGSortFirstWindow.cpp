@@ -251,7 +251,7 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
         {
             // send image
             _bufferHandler.send(
-                *getNetwork()->getMainConnection(),
+                *getNetwork()->getMainPointConnection(),
                 ClusterViewBuffer::RGB,
                 vp->getPixelLeft(),
                 vp->getPixelBottom(),
@@ -286,20 +286,25 @@ void SortFirstWindow::clientInit( void )
 #if USE_VPORT_SLICES
 
 #else
-    UInt32 id;
-    RenderNode renderNode;
-    Connection *connection = getNetwork()->getMainConnection();
+    UInt32               id;
+    RenderNode           renderNode;
+    GroupConnection     *connection = getNetwork()->getMainGroupConnection();
+    Connection::Channel  channel;
 
     _tileLoadBalancer=new TileLoadBalancer(getUseFaceDistribution());
     // read all node infos
     for(UInt32 i=0;i<connection->getChannelCount();++i)
     {
-        connection->selectChannel();
+        printf("%d\n",i);
+        channel = connection->selectChannel();
+        connection->subSelection(channel);
         connection->getValue(id);
         renderNode.copyFromBin(*connection);
         renderNode.dump();
         _tileLoadBalancer->addRenderNode(renderNode,id);    
     }
+    connection->resetSelection();
+    printf("end\n");
     // sync servers
     connection->putValue(id);
     connection->flush();
@@ -402,7 +407,7 @@ void SortFirstWindow::clientRender( RenderActionBase *  /* action */ )
 void SortFirstWindow::clientSwap( void )
 {
     UInt32 cv;
-    Connection *connection=getNetwork()->getMainConnection();
+    GroupConnection *connection=getNetwork()->getMainGroupConnection();
     if(getCompose())
     {
         if(getClientWindow()!=NullFC)
