@@ -95,6 +95,7 @@ MFieldVector<Tp, Alloc>::MFieldVector(const Tp             *__first,
 
 #endif /* __STL_MEMBER_TEMPLATES */
 
+template <class Tp, class Alloc> inline
 MFieldVector<Tp, Alloc>::~MFieldVector() 
 {
 }
