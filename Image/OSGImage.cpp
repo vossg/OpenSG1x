@@ -160,6 +160,30 @@ Bool Image::set ( PixelFormat pF,
 }
 
 //----------------------------
+// Function name: set
+//----------------------------
+//
+//Parameters:
+//p:obalVars:
+//g: 
+//Returns:
+//r:bool
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d: set methode wich sets the image data
+//SeeAlso:
+//s:
+//
+//------------------------------
+Bool Image::setData ( const UChar8 *da, Bool doCopy )
+{
+ 	return createData(da, doCopy);
+}
+
+//----------------------------
 // Function name: addValue
 //----------------------------
 //
@@ -721,10 +745,9 @@ UInt64 Image::store (Char8 *mimeType, UChar8* mem, UInt32 memSize)
 //s:
 //
 //------------------------------
-UInt64 Image::restore ( const Char8 *mimeType, const UChar8* mem, 
-                        UInt32 memSize )
+UInt64 Image::restore ( const UChar8* mem, UInt32 memSize )
 {
-  return ImageFileHandler::the().restore(*this,mimeType,mem,memSize);;
+  return ImageFileHandler::the().restore(*this,mem,memSize);;
 }
 
 /******************************

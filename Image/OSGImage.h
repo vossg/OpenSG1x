@@ -138,6 +138,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
                Int32 frameCount = 1, Time frameDelay = 0.0,
                const UChar8 *data = 0, Bool doCopy = true );
 
+    /** set only the data pointer */
+    Bool setData ( const UChar8 *data = 0, Bool doCopy = true );
+
 		/** str add value method, mainly used by ascii parser */
 		Bool addValue (const char *value);
 
@@ -148,8 +151,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     Bool scale ( Int32 width, Int32 height = 1, Int32 depth = 1, 
                  Image *destination = 0);
 
-	/** create mipmap, level == -1 will create all maipmaps until 1x1 */
-	Bool createMipmap ( Int32 level = -1, Image *destination = 0);
+    /** create mipmap, level == -1 will create all maipmaps until 1x1 */
+    Bool createMipmap ( Int32 level = -1, Image *destination = 0);
 
     /** methode to write the image data to the given File */
     Bool write (const Char8 *fileName);
@@ -162,8 +165,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
                    UInt32 memSize = -1);
 
     /** methode to restore the image from a piece of mem */
-    UInt64 restore ( const Char8 *mimeType, const UChar8* mem, 
-                     UInt32 memSize = -1);
+    UInt64 restore ( const UChar8* mem, UInt32 memSize = -1);
 
     /** Equality comparison operator */
     Bool operator == (const Image &image);
@@ -438,7 +440,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
     inline
     Bool createData (const UChar8 *data, Bool doCopy );
 
-	/** Internal medhot to copy&scale image data */
+    /** Internal medhot to copy&scale image data */
     inline
     Bool scaleData ( UChar8* srcData, Int32 srcW, Int32 srcH, Int32 srcD,
                      UChar8* destData, Int32 destW, Int32 destH, Int32 destD );

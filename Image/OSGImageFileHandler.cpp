@@ -331,14 +331,10 @@ bool ImageFileHandler::write ( const Image &image,
 //s:
 //
 //------------------------------
-UInt64 ImageFileHandler::restore ( Image &image, const char *mimeType,
+UInt64 ImageFileHandler::restore ( Image &image, 
                                    const UChar8 *buffer, UInt32 memSize )
 {
-	ImageFileType *type;
-
-  type = mimeType ? getFileType(mimeType) : getDefaultType();
-
-  return type->restore(image,buffer,memSize);
+	return ImageFileType::restore (image,buffer,memSize);
 }
 
 //----------------------------

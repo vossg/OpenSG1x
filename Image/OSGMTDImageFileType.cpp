@@ -54,13 +54,6 @@
 
 #include "OSGMTDImageFileType.h"
 
-// to get ntons/ntohs
-#ifdef WIN32
-#include <winsock.h>
-#else
-#include <arpa/inet.h>
-#endif
-
 OSG_USING_NAMESPACE
 
 /*****************************
@@ -74,34 +67,6 @@ static const Char8 *suffixArray[] =
 
 MTDImageFileType MTDImageFileType::_the ( 	suffixArray,
 																						sizeof(suffixArray) );
-
-Bool MTDImageFileType::Head::netToHost(void)
-{
-  magic        = ntohs(magic);
-  pixelFormat  = ntohs(pixelFormat);
-  width        = ntohs(width);
-  height       = ntohs(height);
-  depth        = ntohs(depth);
-  mipmapCount  = ntohs(mipmapCount);
-  frameCount   = ntohs(frameCount);
-  frameDelay   = ntohs(frameDelay);
-
-  return true;
-}
-
-Bool MTDImageFileType::Head::hostToNet(void)
-{
-  magic        = htons(magic);
-  pixelFormat  = htons(pixelFormat);
-  width        = htons(width);
-  height       = htons(height);
-  depth        = htons(depth);
-  mipmapCount  = htons(mipmapCount);
-  frameCount   = htons(frameCount);
-  frameDelay   = htons(frameDelay);
-
-  return true;
-}
 
 /*****************************
  *	  Classvariables
@@ -140,13 +105,14 @@ Bool MTDImageFileType::Head::hostToNet(void)
 bool MTDImageFileType::read (Image &image, const Char8 *fileName )
 {
   bool retCode = false;
+
+  /* TODO
   ifstream in(fileName);
   Head head;
   void *headData = (void*)(&head);
   unsigned dataSize, headSize = sizeof(Head);
 
-  if ( in && 
-       
+  if ( in &&        
        in.read(static_cast<char *>(headData), 
                headSize) && head.netToHost() &&
        image.set ( Image::PixelFormat(head.pixelFormat), 
@@ -157,6 +123,7 @@ bool MTDImageFileType::read (Image &image, const Char8 *fileName )
     retCode = true;
   else
     retCode = false;
+  */
 
   return retCode;
 }
@@ -184,6 +151,8 @@ bool MTDImageFileType::read (Image &image, const Char8 *fileName )
 bool MTDImageFileType::write ( const Image &image, const Char8 *fileName )
 {	
   bool retCode = false;
+
+  /*
   ofstream out(fileName);
   Head head;
   const void *headData = (void*)(&head);
@@ -203,7 +172,8 @@ bool MTDImageFileType::write ( const Image &image, const Char8 *fileName )
        out.write((char *)(image.getData()), dataSize) )
     retCode = true;
   else
-    retCode = false;
+    retCode = false;    
+  */
 
   return retCode;
 }
@@ -215,19 +185,12 @@ bool MTDImageFileType::write ( const Image &image, const Char8 *fileName )
 // Description:
 //         Destructor
 //----------------------------------------------------------------------
-UInt64 MTDImageFileType::restore (Image &image, const UChar8 *buffer,
-                                  Int32 memSize )
+UInt64 MTDImageFileType::restoreData ( Image &image, const UChar8 *buffer,
+                                       Int32 memSize )
 {
-  UInt32 headSize = sizeof(Head);
-  Head *head = (Head*)(buffer);
-  const UChar8 *data = buffer ? (buffer + headSize) : 0;
+  image.setData(buffer);
 
-  if ( head && data && head->netToHost() )  
-    image.set ( Image::PixelFormat(head->pixelFormat), 
-                head->width, head->height, head->depth, head->mipmapCount, 
-                head->frameCount, float(head->frameDelay) / 1000.0, data );
-
-  return (headSize + image.getSize());
+  return true;
 }
 
 //----------------------------------------------------------------------
@@ -237,40 +200,17 @@ UInt64 MTDImageFileType::restore (Image &image, const UChar8 *buffer,
 // Description:
 //         Destructor
 //----------------------------------------------------------------------
-UInt64 MTDImageFileType::store ( const Image &image, UChar8 *buffer,
-                                 Int32 memSize )
+UInt64 MTDImageFileType::storeData ( const Image &image, UChar8 *buffer,
+                                     Int32 memSize )
 {
-  Head *head = (Head*)(buffer);
-  unsigned dataSize = image.getSize(), headSize = sizeof(Head);
-  UChar8 *dest = (UChar8*)(buffer ? (buffer + headSize) : 0);
+  unsigned dataSize = image.getSize();
   const UChar8 *src = image.getData();
 
-  head->pixelFormat  = image.getPixelFormat();
-  head->width        = image.getWidth();
-  head->height       = image.getHeight();
-  head->depth        = image.getDepth();
-  head->mipmapCount  = image.getMipMapCount();
-  head->frameCount   = image.getFrameCount();
-  head->frameDelay   = short(image.getFrameDelay() * 1000.0);
-  head->hostToNet();
+  if ( dataSize && src && buffer )
+    memcpy( buffer, src, dataSize);
   
-  if ( dataSize && src && dest )
-    memcpy( dest, src, dataSize);
-
-  return (headSize + dataSize);
+  return dataSize;
 } 
-
-//----------------------------------------------------------------------
-// Method: print
-// Author: jbehr
-// Date:   Tue Apr 11 15:32:43 2000
-// Description:
-//         Destructor
-//----------------------------------------------------------------------
-UInt64 MTDImageFileType::maxBufferSize(const Image &image )
-{
-  return (sizeof(Head) + image.getSize());
-}
 
 /******************************
 *protected

@@ -45,6 +45,13 @@
 
 // Application declarations
 
+// to get ntons/ntohs
+#ifdef WIN32
+#include <winsock.h>
+#else
+#include <arpa/inet.h>
+#endif
+
 
 // Class declarations
 
@@ -57,6 +64,31 @@ OSG_USING_NAMESPACE
 
 // Static Class Varible implementations: 
 
+Bool ImageFileType::Head::netToHost(void)
+{
+  pixelFormat  = ntohs(pixelFormat);
+  width        = ntohs(width);
+  height       = ntohs(height);
+  depth        = ntohs(depth);
+  mipmapCount  = ntohs(mipmapCount);
+  frameCount   = ntohs(frameCount);
+  frameDelay   = ntohs(frameDelay);
+
+  return true;
+}
+
+Bool ImageFileType::Head::hostToNet(void)
+{
+  pixelFormat  = htons(pixelFormat);
+  width        = htons(width);
+  height       = htons(height);
+  depth        = htons(depth);
+  mipmapCount  = htons(mipmapCount);
+  frameCount   = htons(frameCount);
+  frameDelay   = htons(frameDelay);
+
+  return true;
+}
 
 //----------------------------------------------------------------------
 // Method: ImageFileType
@@ -106,6 +138,26 @@ ImageFileType::~ImageFileType (void )
 	return;
 }
 
+/** fill the given image with the content of the mem 'buffer' */
+UInt64 ImageFileType::restoreData ( Image &image, const UChar8 *buffer, 
+                                    Int32 memSize )
+{
+  FWARNING (( "ImageXFileType::restoreData() not impl. for mimeType %s\n",
+              getMimeType() ));
+  
+  return 0;
+}
+
+/** store the given image to the mem 'buffer' */
+UInt64 ImageFileType::storeData ( const Image &image, UChar8 *buffer,
+                                  Int32 memSize )
+{
+  FWARNING (( "ImageXFileType::storeData() not impl. for mimeType %s\n",
+              getMimeType() ));
+
+  return 0;
+}
+
 //----------------------------------------------------------------------
 // Method: print
 // Author: jbehr
@@ -116,7 +168,41 @@ ImageFileType::~ImageFileType (void )
 UInt64 ImageFileType::restore ( Image &image, const UChar8 *buffer,
                                 Int32 memSize )
 {
-  return 0;
+  UInt32 headSize = sizeof(Head);
+  Head *head = (Head*)(buffer);
+  const UChar8 *data = buffer ? (buffer + headSize) : 0;
+  ImageFileType *type;
+  const char* mimeType;
+
+  if ( head && data && head->netToHost() && (mimeType = head->mimeType)) {  
+    if ((type = ImageFileHandler::the().getFileType(mimeType,0))) {
+      image.set ( Image::PixelFormat(head->pixelFormat), 
+                  head->width, head->height, head->depth, head->mipmapCount, 
+                  head->frameCount, float(head->frameDelay) / 1000.0, 0 );
+      type->restoreData ( image, data, memSize - headSize);
+    }
+    else {
+      FWARNING (( "Can not restore image data, invalid mimeType: %s\n",
+                  mimeType ? mimeType : "Unknown" ));
+    }
+  }
+
+  return (headSize + image.getSize());
+}
+
+//----------------------------------------------------------------------
+// Method: store
+// Author: jbehr
+// Date:   Tue Apr 11 15:32:43 2000
+// Description:
+//         Destructor
+//----------------------------------------------------------------------
+UInt64 ImageFileType::store ( const Image &image, const char *mimeType,
+                              UChar8 *buffer, Int32 memSize )
+{
+  ImageFileType *type = ImageFileHandler::the().getFileType(mimeType);
+
+  return type ?  type->store(image,buffer,memSize) : 0;
 }
 
 //----------------------------------------------------------------------
@@ -129,7 +215,26 @@ UInt64 ImageFileType::restore ( Image &image, const UChar8 *buffer,
 UInt64 ImageFileType::store ( const Image &image, UChar8 *buffer,
                               Int32 memSize )
 {
-  return 0;
+  Head *head = (Head*)(buffer);
+  unsigned dataSize = image.getSize(), headSize = sizeof(Head);
+  UChar8 *dest = (UChar8*)(buffer ? (buffer + headSize) : 0);
+  const UChar8 *src = image.getData();
+
+  head->pixelFormat  = image.getPixelFormat();
+  head->width        = image.getWidth();
+  head->height       = image.getHeight();
+  head->depth        = image.getDepth();
+  head->mipmapCount  = image.getMipMapCount();
+  head->frameCount   = image.getFrameCount();
+  head->frameDelay   = short(image.getFrameDelay() * 1000.0);
+  head->hostToNet();
+
+  strcpy (head->mimeType, getMimeType());
+
+  if ( dataSize && src && dest )
+    storeData(image,dest,dataSize);
+
+  return (headSize + dataSize);
 }
 
 //----------------------------------------------------------------------
@@ -141,7 +246,7 @@ UInt64 ImageFileType::store ( const Image &image, UChar8 *buffer,
 //----------------------------------------------------------------------
 UInt64 ImageFileType::maxBufferSize(const Image &image )
 {
-  return 0;
+    return (sizeof(Head) + image.getSize());
 }
 
 //----------------------------------------------------------------------

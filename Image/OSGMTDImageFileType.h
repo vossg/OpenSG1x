@@ -103,16 +103,6 @@ public:
   /** write the image to the given file */
   virtual bool write (const Image &image, const Char8 *fileName);
 
-  /** fill the given image with the content of the mem 'buffer' */
-  virtual UInt64 restore ( Image &image, const UChar8 *buffer,
-                           Int32 memSize = -1 );
-
-  /** store the given image to the mem 'buffer' */
-  virtual UInt64 store ( const Image &image, UChar8 *buffer,
-                         Int32 memSize = -1 );
-
-  /** returns the max needed buffer size */ 
-  virtual UInt64 maxBufferSize(const Image &image );
 
 protected:
 
@@ -151,6 +141,13 @@ protected:
 //instance functions  	       
 //-----------------------------
 
+  /** fill the given image with the content of the mem 'buffer' */
+  virtual UInt64 restoreData ( Image &image, const UChar8 *buffer,
+                               Int32 memSize = -1 );
+  
+  /** store the given image to the mem 'buffer' */
+  virtual UInt64 storeData ( const Image &image, UChar8 *buffer,
+                             Int32 memSize = -1 );
 
 private:
 
@@ -169,25 +166,6 @@ private:
   /**  */
   static MTDImageFileType _the;
 
-  /** MTD Header */
-  struct Head {
-    unsigned short magic;
-    unsigned short pixelFormat;
-    unsigned short width;
-    unsigned short height;
-    unsigned short depth;
-    unsigned short mipmapCount;
-    unsigned short frameCount;
-    unsigned short frameDelay;
-    unsigned short _reserved1;
-    unsigned short _reserved2;
-    unsigned short _reserved3;
-    unsigned short _reserved4;
-
-    Bool netToHost (void);
-    Bool hostToNet (void);
-
-  };      
       
 //-------------------------------
 //friend Classes      	  	     

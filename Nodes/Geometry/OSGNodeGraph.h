@@ -131,13 +131,13 @@ private:
 	
 	class Node {
 	public:
-		int index;
-		int degree;
-		Node *next;
+		int index;      // TODO
+		int degree;     // TODO
+		Node *next;     
 		Node *prev;
 		NodeList *list;
 		Edge * edgeVec[3];
-    int vertex[3];
+    int vertex[3];  // TODO
 		Node(void) : index(-1), degree(0), next(0), prev(0), list(0) { 
       vertex[0] = vertex[1] = vertex[2] = 0;
       edgeVec[0] = edgeVec[1] = edgeVec[2] = 0;
@@ -268,10 +268,16 @@ public:
     int type;
 		bool flip;
 		std::list<int> path;
-		Path(void) { clear();}
-		inline void add( int elem) { flip ? path.push_front(elem) :
-			path.push_back(elem); }
-		inline void clear (void) { path.clear(); flip = false; type = 0;}
+		inline Path(void) 
+			: type(0), flip(false) {;}
+		inline Path(const Path &obj) 
+			: type(obj.type),flip(obj.flip),path(obj.path) {;}
+		inline void add( int elem) 
+			{ flip ? path.push_front(elem) : path.push_back(elem); }
+		inline void clear (void) 
+			{ path.clear(); flip = false; type = 0;}
+		inline void operator= (const Path &obj) 
+			{ type = obj.type; flip = obj.flip; path = obj.path; }
   };        
 		
   /**  */

@@ -109,7 +109,7 @@ public:
                       );
 
   /** fill the given image with the content of the mem 'buffer' */
-  virtual UInt64 restore ( Image &image, const char *mimeType,
+  virtual UInt64 restore ( Image &image,
                            const UChar8 *buffer, UInt32 memSize = -1 );
 
   /** store the given image to the mem 'buffer' */
