@@ -193,7 +193,7 @@ void TexGenChunk::activate(DrawActionBase *action, UInt32 idx )
             ntexcoords = 1.0f;
     }
 
-    if(idx >= ntexcoords)
+    if(idx >= static_cast<UInt32>(ntexcoords))
     {
 #ifdef OSG_DEBUG
         FWARNING(("TexGenChunk::activate: Trying to bind texcoord unit %d,"
@@ -302,7 +302,7 @@ void TexGenChunk::changeFrom(   DrawActionBase *action,
             ntexcoords = 1.0f;
     }
 
-    if(idx >= ntexcoords)
+    if(idx >= static_cast<UInt32>(ntexcoords))
     {
 #ifdef OSG_DEBUG
         FWARNING(("TexGenChunk::changeFrom: Trying to bind texcoord unit "
@@ -350,7 +350,7 @@ void TexGenChunk::deactivate(DrawActionBase *action, UInt32 idx)
             ntexcoords = 1.0f;
     }
 
-    if(idx >= ntexcoords)
+    if(idx >= static_cast<UInt32>(ntexcoords))
     {
 #ifdef OSG_DEBUG
         FWARNING(("TexGenChunk::deactivate: Trying to bind texcoord unit %d,"

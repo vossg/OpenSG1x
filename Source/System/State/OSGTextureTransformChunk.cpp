@@ -139,9 +139,12 @@ void TextureTransformChunk::activate ( DrawActionBase * action, UInt32 idx )
       )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
+        // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
+        if(ntexcoords == Window::unknownConstant)
+            ntexcoords = 1.0f;
     }
 
-    if(idx >= ntexcoords)
+    if(idx >= static_cast<UInt32>(ntexcoords))
     {
 #ifdef OSG_DEBUG
         FWARNING(("TextureTransformChunk::deactivate: Trying to bind texcoord unit %d,"
@@ -173,9 +176,12 @@ void TextureTransformChunk::changeFrom( DrawActionBase * action, StateChunk * ol
       )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
+        // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
+        if(ntexcoords == Window::unknownConstant)
+            ntexcoords = 1.0f;
     }
 
-    if(idx >= ntexcoords)
+    if(idx >= static_cast<UInt32>(ntexcoords))
     {
 #ifdef OSG_DEBUG
         FWARNING(("TextureTransformChunk::deactivate: Trying to bind texcoord unit %d,"
@@ -202,9 +208,12 @@ void TextureTransformChunk::deactivate ( DrawActionBase * action, UInt32 idx )
       )
     {
         ntexcoords = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
+        // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
+        if(ntexcoords == Window::unknownConstant)
+            ntexcoords = 1.0f;
     }
 
-    if(idx >= ntexcoords)
+    if(idx >= static_cast<UInt32>(ntexcoords))
     {
 #ifdef OSG_DEBUG
         FWARNING(("TextureTransformChunk::deactivate: Trying to bind texcoord unit %d,"

@@ -1463,7 +1463,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
             ntexcoords = 1.0f;
     }
 
-    if(idx >= nteximages)
+    if(idx >= static_cast<UInt32>(nteximages))
     {
 #ifdef OSG_DEBUG
         FWARNING(("TextureChunk::activate: Trying to bind image unit %d,"
@@ -1515,7 +1515,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     glBindTexture(target, getGLId());
 
 #ifdef GL_NV_point_sprite
-    if(idx < ntexcoords)
+    if(idx < static_cast<UInt32>(ntexcoords))
     {
         if(getPointSprite() &&
            win->hasExtension(_nvPointSprite))
@@ -1525,7 +1525,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     }
 #endif
 
-    if(idx < nteximages)
+    if(idx < static_cast<UInt32>(nteximages))
     {
         if(getLodBias() != 0.0f &&
            win->hasExtension(_extTextureLodBias))
@@ -1535,14 +1535,13 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         }
     }
 
-    UInt32 ntexunits = static_cast<UInt32>(
-                            win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB));
+    Real32 ntexunits = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
 
     // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
     if(ntexunits == Window::unknownConstant)
-        ntexunits = 1;
+        ntexunits = 1.0f;
 
-    if(idx < ntexunits)
+    if(idx < static_cast<UInt32>(ntexunits))
     {
         // texture env
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
@@ -1627,15 +1626,18 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     if(activateTexture(win, idx))
         return; // trying to use too many textures
 
-    Real32 dummy;
     UInt32 nteximages, ntexcoords, ntexunits;
     
-    ntexunits = static_cast<UInt32>(
-                            win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB));
-
-    // sgi doesn't support GL_MAX_TEXTURE_UNITS_ARB!
-    if(ntexunits == Window::unknownConstant)
+    Real32 dummy = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
+    
+    if(dummy == Window::unknownConstant)
+    {
         ntexunits = 1;
+    }
+    else
+    {
+        ntexunits = static_cast<UInt32>(dummy);
+    }
 
     if((dummy = win->getConstantValue(GL_MAX_TEXTURE_IMAGE_UNITS_ARB)) ==
        Window::unknownConstant
@@ -1834,7 +1836,7 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
             ntexcoords = 1.0f;
     }
 
-    if(idx >= nteximages)
+    if(idx >= static_cast<UInt32>(nteximages))
     {
 #ifdef OSG_DEBUG
         FWARNING(("TextureChunk::deactivate: Trying to bind image unit %d,"
@@ -1857,7 +1859,7 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
 #ifdef GL_NV_point_sprite
     if(getPointSprite() &&
        win->hasExtension(_nvPointSprite) &&
-       idx < ntexcoords
+       idx < static_cast<UInt32>(ntexcoords)
       )
     {
         if(!isActive)
@@ -1875,13 +1877,14 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
         if(!isActive)
             activateTexture(win, idx);
         glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
-	          0.0f);
+                0.0f);
     }
     
-    UInt32 ntexunits = static_cast<UInt32>(
-                            win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB));
-    
-    if(idx >= ntexunits)
+    Real32 ntexunits = win->getConstantValue(GL_MAX_TEXTURE_UNITS_ARB);
+    if(ntexunits == Window::unknownConstant)
+        ntexunits = 1.0f;
+
+    if(idx >= static_cast<UInt32>(ntexunits))
         return; // tetxures >= MTU are not enabled and don't have an env
         
     if(!isActive)
