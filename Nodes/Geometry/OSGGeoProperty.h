@@ -109,8 +109,6 @@ class OSGAbstractGeoProperty : public GeoPropertyDesc::Inherit
 
     OSG_ABSTR_FIELD_CONTAINER_TMPL_DECL(OSGPtrType)
 
-    virtual ~OSGAbstractGeoProperty(void); 
-
     /*----------------------------- access ----------------------------------*/
 	
 	virtual OSGUInt32	getFormat    (void) = 0;
@@ -155,6 +153,7 @@ class OSGAbstractGeoProperty : public GeoPropertyDesc::Inherit
 
     OSGAbstractGeoProperty(void);
     OSGAbstractGeoProperty(const OSGAbstractGeoProperty &source);
+    virtual ~OSGAbstractGeoProperty(void); 
 
   private:
 
@@ -251,8 +250,6 @@ class OSGGeoProperty : public GeoPropertyDesc::Inherit
 
     OSG_FIELD_CONTAINER_TMPL_DECL(OSGPtrType)
 
-    virtual ~OSGGeoProperty(void); 
-
     /*----------------------------- access ----------------------------------*/
 
           typename GeoPropertyDesc::FieldType *getFieldPtr(void);
@@ -315,6 +312,7 @@ class OSGGeoProperty : public GeoPropertyDesc::Inherit
 
     OSGGeoProperty(void);
     OSGGeoProperty(const OSGGeoProperty &source);
+    virtual ~OSGGeoProperty(void); 
 
   private:
 

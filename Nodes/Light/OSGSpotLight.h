@@ -111,8 +111,6 @@ class OSGSpotLight : public OSGPointLight
 
     OSG_FIELD_CONTAINER_DECL(OSGSpotLightPtr)
 
-    virtual ~OSGSpotLight(void); 
-
     /*------------------------------- set -----------------------------------*/
 
     //@{ 
@@ -186,6 +184,7 @@ class OSGSpotLight : public OSGPointLight
 
     OSGSpotLight(void);
     OSGSpotLight(const OSGSpotLight &source);
+    virtual ~OSGSpotLight(void); 
     
     // ----------------------------- Actions --------------------------------
     

@@ -111,8 +111,6 @@ class OSGGroup : public OSGNodeCore
 
     OSG_FIELD_CONTAINER_DECL(OSGGroupPtr)
 
-    virtual ~OSGGroup(void); 
-
     /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(void) const;
@@ -145,6 +143,7 @@ class OSGGroup : public OSGNodeCore
 
     OSGGroup(void);
     OSGGroup(const OSGGroup &source);
+    virtual ~OSGGroup(void); 
 
   private:
 

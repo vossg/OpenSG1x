@@ -121,8 +121,6 @@ class OSGViewport : public OSGFieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGViewport(void); 
- 
     /*-------------- general fieldcontainer declaration --------------------*/
 
     OSG_FIELD_CONTAINER_DECL(OSGViewportPtr)
@@ -260,6 +258,7 @@ class OSGViewport : public OSGFieldContainer
     //-----------------------------------------------------------------------
 
     OSGViewport(void);
+    virtual ~OSGViewport(void); 
 
   private:
 

@@ -109,8 +109,6 @@ class OSGCamera : public OSGFieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGCamera(void); 
- 
     /*-------------- general fieldcontainer declaration --------------------*/
 
     OSG_FIELD_CONTAINER_DECL(OSGCameraPtr)
@@ -203,6 +201,7 @@ class OSGCamera : public OSGFieldContainer
     //-----------------------------------------------------------------------
 
     OSGCamera(void);
+    virtual ~OSGCamera(void); 
 
   private:
 

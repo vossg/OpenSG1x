@@ -122,8 +122,6 @@ class OSGLightBase : public OSGNodeCore
 
     OSG_ABSTR_FIELD_CONTAINER_DECL(OSGLightPtr)
 
-    virtual ~OSGLightBase(void); 
-
     /*------------------------- set color terms -----------------------------*/
 
     //@{ 
@@ -210,6 +208,7 @@ class OSGLightBase : public OSGNodeCore
 
     OSGLightBase(void);
     OSGLightBase(const OSGLightBase &source);
+    virtual ~OSGLightBase(void); 
     
     // ------------------------------ Actions ------------------------------
     

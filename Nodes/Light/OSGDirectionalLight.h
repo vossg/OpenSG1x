@@ -109,9 +109,6 @@ class OSGDirectionalLight : public OSGLightBase
 
     OSG_FIELD_CONTAINER_DECL(OSGDirectionalLightPtr)
 
-
-    virtual ~OSGDirectionalLight(void); 
-
     /*------------------------------- set -----------------------------------*/
 
     //@{ 
@@ -166,7 +163,7 @@ class OSGDirectionalLight : public OSGLightBase
 
     OSGDirectionalLight(void);
     OSGDirectionalLight(const OSGDirectionalLight &source);
-
+    virtual ~OSGDirectionalLight(void); 
     
     // ----------------------------- Actions ---------------------------------
     

@@ -84,8 +84,6 @@ class OSGGLUTWindow : public OSGWindow
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGGLUTWindow(void); 
-
     /*-------------- general fieldcontainer declaration --------------------*/
 
     OSG_FIELD_CONTAINER_DECL(OSGGLUTWindowPtr)
@@ -146,6 +144,7 @@ class OSGGLUTWindow : public OSGWindow
     //-----------------------------------------------------------------------
 
     OSGGLUTWindow(void);
+    virtual ~OSGGLUTWindow(void); 
 
   private:
 

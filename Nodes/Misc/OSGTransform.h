@@ -117,8 +117,6 @@ class OSGTransform : public OSGNodeCore
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGTransform(void); 
-
     /*-------------- general fieldcontainer declaration --------------------*/
 
     OSG_FIELD_CONTAINER_DECL(OSGTransformPtr)
@@ -180,6 +178,7 @@ class OSGTransform : public OSGNodeCore
 
     OSGTransform(void);
     OSGTransform(const OSGTransform &source);
+    virtual ~OSGTransform(void); 
     
     /** Actions */
     

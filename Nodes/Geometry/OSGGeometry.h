@@ -126,8 +126,6 @@ class OSGGeometry : public OSGNodeCore
 
     OSG_FIELD_CONTAINER_DECL(OSGGeometryPtr)
 
-    virtual ~OSGGeometry(void); 
-
     /*------------------------- your_category -------------------------------*/
 
 	/** property access. Returns OSGFCNULL if not set or available. */
@@ -214,6 +212,7 @@ class OSGGeometry : public OSGNodeCore
 
     OSGGeometry(void);
     OSGGeometry(const OSGGeometry &source);
+    virtual ~OSGGeometry(void); 
 
     virtual void changed(OSGBitVector whichField, OSGChangeMode from);
 	

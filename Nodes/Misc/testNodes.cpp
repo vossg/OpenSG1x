@@ -62,6 +62,8 @@ int main (int argc, char **argv)
 {
     osgInit( argc, argv );
 
+//    osgLog().setLogLevel(OSG::LOG_DEBUG);
+
     OSGNodePtr  p1 = OSGNode::create();
     OSGGroupPtr g1 = OSGGroup::create();
     OSGTransformPtr t1 = OSGTransform::create();
@@ -137,6 +139,18 @@ int main (int argc, char **argv)
     cout << "p3:" << endl << p3->getToWorld() << endl;
     cout << "p4:" << endl << p4->getToWorld() << endl;
     cout << "p5:" << endl << p5->getToWorld() << endl;
+
+    p1 = OSGNullNode;
+
+    p1.dump();
+
+    p1 = OSGFieldContainerFactory::the().createNode("Node");
+
+    p1.dump();
+
+    p1 = OSGFieldContainerFactory::the().createNode("Transform");
+
+    p1.dump();
 
     return 0;
 }

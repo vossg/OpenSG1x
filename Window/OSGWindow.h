@@ -111,8 +111,6 @@ class OSGWindow : public OSGFieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGWindow(void); 
-
     /*-------------- general fieldcontainer declaration --------------------*/
 
     OSG_ABSTR_FIELD_CONTAINER_DECL(OSGWindowPtr)
@@ -214,6 +212,7 @@ class OSGWindow : public OSGFieldContainer
     //-----------------------------------------------------------------------
 
     OSGWindow(void);
+    virtual ~OSGWindow(void); 
 
   private:
 

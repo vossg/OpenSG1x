@@ -87,8 +87,6 @@ class OSGBackground : public OSGFieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGBackground(void); 
- 
     /*-------------- general fieldcontainer declaration --------------------*/
 
     OSG_FIELD_CONTAINER_DECL(OSGBackgroundPtr)
@@ -139,6 +137,7 @@ class OSGBackground : public OSGFieldContainer
     //-----------------------------------------------------------------------
 
     OSGBackground(void);
+    virtual ~OSGBackground(void); 
 
   private:
 
