@@ -64,8 +64,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShearedStereoCameraDecorator : public ShearedSter
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -125,6 +125,6 @@ OSG_END_NAMESPACE
 #include <OSGShearedStereoCameraDecoratorBase.inl>
 #include <OSGShearedStereoCameraDecorator.inl>
 
-#define OSGSHEAREDSTEREOCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGShearedStereoCameraDecorator.h,v 1.2 2002/04/01 14:25:22 vossg Exp $"
+#define OSGSHEAREDSTEREOCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGShearedStereoCameraDecorator.h,v 1.3 2002/06/01 10:37:26 vossg Exp $"
 
 #endif /* _OSGSHEAREDSTEREOCAMERADECORATOR_H_ */

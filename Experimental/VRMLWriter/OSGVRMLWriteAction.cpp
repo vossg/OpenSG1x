@@ -354,8 +354,9 @@ Action::ResultE VRMLWriteAction::writeGroupEnter(CNodePtr &pGroup,
             return Action::Quit;
         }
 
-        if((pInfo->getName()    != NULL ) &&
-           (pInfo->getWriten() == false))
+        if((pInfo->getName()    != NULL) &&
+           (pInfo->getWriten() == false) &&
+           (pInfo->getName()[0] != '\0'))
         {
             pWriter->printIndent();
             fprintf(pFile, "DEF %s Group\n", pInfo->getName());
@@ -465,8 +466,9 @@ Action::ResultE VRMLWriteAction::writeVTransformEnter(CNodePtr &pGroup,
             return Action::Quit;
         }
 
-        if((pInfo->getName() != NULL) &&
-           (pInfo->getWriten() == false))
+        if((pInfo->getName() != NULL   ) &&
+           (pInfo->getWriten() == false) && 
+           (pInfo->getName()[0] != '\0'))
         {
             pWriter->printIndent();
             fprintf(pFile, "DEF %s Transform\n", pInfo->getName());
@@ -1045,7 +1047,7 @@ Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
             return Action::Quit;
         }
 
-        if(pInfo->getName() != NULL)
+        if(pInfo->getName() != NULL && pInfo->getName()[0] != '\0')
         {
             pWriter->printIndent();
             fprintf(pFile, "DEF %s Shape\n", pInfo->getName());

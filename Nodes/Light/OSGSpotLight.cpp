@@ -64,7 +64,7 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                             Changed                                     */
 
-void SpotLight::changed(BitVector, ChangeMode)
+void SpotLight::changed(BitVector, UInt32)
 {
 }
 

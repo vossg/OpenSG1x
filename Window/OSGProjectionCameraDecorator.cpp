@@ -89,9 +89,9 @@ void ProjectionCameraDecorator::initMethod (void)
 
 //! react to field changes
 
-void ProjectionCameraDecorator::changed(BitVector mask, ChangeMode mode)
+void ProjectionCameraDecorator::changed(BitVector mask, UInt32 origin)
 {
-    Inherited::changed(mask,mode);
+    Inherited::changed(mask, origin);
     
     if(mask & UserFieldMask ||
        mask & SurfaceFieldMask)
@@ -306,7 +306,7 @@ static bool hack = true;
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGProjectionCameraDecorator.cpp,v 1.4 2002/05/13 09:21:11 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGProjectionCameraDecorator.cpp,v 1.5 2002/06/01 10:37:26 vossg Exp $";
     static char cvsid_hpp[] = OSGPROJECTIONCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGPROJECTIONCAMERADECORATOR_INLINE_CVSID;
 }

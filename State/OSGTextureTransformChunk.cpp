@@ -94,7 +94,7 @@ void TextureTransformChunk::initMethod (void)
 
 //! react to field changes
 
-void TextureTransformChunk::changed(BitVector, ChangeMode)
+void TextureTransformChunk::changed(BitVector, UInt32)
 {
 }
 
@@ -176,7 +176,7 @@ void TextureTransformChunk::deactivate ( DrawActionBase *, UInt32 )
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.7 2002/04/30 09:29:12 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGTextureTransformChunk.cpp,v 1.8 2002/06/01 10:37:25 vossg Exp $";
     static char cvsid_hpp[] = OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTURETRANSFORMCHUNK_INLINE_CVSID;
 }

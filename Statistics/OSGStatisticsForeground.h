@@ -64,8 +64,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StatisticsForeground : public StatisticsForegroun
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -124,6 +124,6 @@ OSG_END_NAMESPACE
 #include <OSGStatisticsForegroundBase.inl>
 #include <OSGStatisticsForeground.inl>
 
-#define OSGSTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGStatisticsForeground.h,v 1.2 2002/04/01 14:25:23 vossg Exp $"
+#define OSGSTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGStatisticsForeground.h,v 1.3 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGSTATISTICSFOREGROUND_H_ */

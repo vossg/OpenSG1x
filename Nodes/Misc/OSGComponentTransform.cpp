@@ -55,7 +55,7 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                               Changed                                   */
 
-void ComponentTransform::changed(BitVector which, ChangeMode mode)
+void ComponentTransform::changed(BitVector which, UInt32 origin)
 {
     ComponentTransformPtr ptr(*this);
 
@@ -73,7 +73,7 @@ void ComponentTransform::changed(BitVector which, ChangeMode mode)
     }
     else
     {
-        this->Transform::changed(which, mode);
+        this->Transform::changed(which, origin);
     }
 }
 void ComponentTransform::dump(      UInt32    uiIndent, 
@@ -173,7 +173,7 @@ void ComponentTransform::initMethod (void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.9 2002/04/30 09:29:11 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGComponentTransform.cpp,v 1.10 2002/06/01 10:37:23 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGCOMPONENTTRANSFORM_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGCOMPONENTTRANSFORM_INLINE_CVSID;
 }

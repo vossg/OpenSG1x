@@ -92,7 +92,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField,
-                         ChangeMode from);
+                         UInt32     origin   );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -154,6 +154,20 @@ void Attachment::subParent(FieldContainerPtr parent)
     }
 }
 
+Int32 Attachment::findParent(FieldContainerPtr parent)
+{
+    MFFieldContainerPtr::iterator parentIt = _parents.find(parent);
+
+    if(parentIt != _parents.end())
+    {
+        return parentIt - _parents.begin();
+    }
+    else
+    {
+        return -1;
+    }
+}
+
 /*-------------------------------------------------------------------------*/
 /*                            Binary Access                                */
 

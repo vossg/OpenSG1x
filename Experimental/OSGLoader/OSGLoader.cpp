@@ -355,22 +355,6 @@ void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
                          << "is no attachment container"
                          << endl;
                 }
-/*
-                if(_pCurrentFC->getType().isNode() == true)
-                {
-                    NodePtr       pNode = NodePtr      ::dcast(_pCurrentFC);
-                    AttachmentPtr pAtt  = AttachmentPtr::dcast(pNewNode);
-
-                    pNode->addAttachment(pAtt);
-                }
-                else if(_pCurrentFC->getType().isNodeCore() == true)
-                {
-                    NodeCorePtr   pNodeCore = NodeCorePtr ::dcast(_pCurrentFC);
-                    AttachmentPtr pAtt      = AttachmentPtr::dcast(pNewNode);
-
-                    pNodeCore->addAttachment(pAtt); 
-                }
- */
             }
             else
             {
@@ -753,7 +737,11 @@ void OSGLoader::beginField(const Char8 *szFieldname,
 
         if(_pCurrentFieldDesc != NULL)
         {
-            beginEditCP(_pCurrentFC, _pCurrentFieldDesc->getFieldMask());
+            beginEditCP(_pCurrentFC, 
+                        _pCurrentFieldDesc->getFieldMask(),
+                         ChangedOrigin::Abstract          |
+                         ChangedOrigin::AbstrIgnoreCore   |
+                         ChangedOrigin::AbstrIgnoreChild  );
         }
     }
 
@@ -779,7 +767,11 @@ void OSGLoader::endField(void)
 
     if(_pCurrentFC != NullFC && _pCurrentFieldDesc != NULL)
     {
-        endEditCP(_pCurrentFC, _pCurrentFieldDesc->getFieldMask());
+        endEditCP(_pCurrentFC, 
+                  _pCurrentFieldDesc->getFieldMask(),
+                   ChangedOrigin::Abstract          |
+                   ChangedOrigin::AbstrIgnoreCore   |
+                   ChangedOrigin::AbstrIgnoreChild  );
     }
 
     _fdStack.pop();

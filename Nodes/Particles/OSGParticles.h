@@ -80,8 +80,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -159,6 +159,6 @@ OSG_END_NAMESPACE
 #include <OSGParticlesBase.inl>
 #include <OSGParticles.inl>
 
-#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.6 2002/04/01 14:25:26 vossg Exp $"
+#define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.7 2002/06/01 10:37:24 vossg Exp $"
 
 #endif /* _OSGPARTICLES_H_ */

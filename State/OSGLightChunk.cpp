@@ -145,7 +145,7 @@ LightChunk::~LightChunk(void)
 /** \brief react to field changes
  */
 
-void LightChunk::changed(BitVector, ChangeMode)
+void LightChunk::changed(BitVector, UInt32)
 {
 }
 

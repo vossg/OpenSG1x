@@ -88,7 +88,7 @@ void ShearedStereoCameraDecorator::initMethod (void)
 
 //! react to field changes
 
-void ShearedStereoCameraDecorator::changed(BitVector, ChangeMode)
+void ShearedStereoCameraDecorator::changed(BitVector, UInt32)
 {
 }
 
@@ -142,7 +142,7 @@ void ShearedStereoCameraDecorator::getProjection( Matrix &result,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGShearedStereoCameraDecorator.cpp,v 1.2 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGShearedStereoCameraDecorator.cpp,v 1.3 2002/06/01 10:37:26 vossg Exp $";
     static char cvsid_hpp[] = OSGSHEAREDSTEREOCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGSHEAREDSTEREOCAMERADECORATOR_INLINE_CVSID;
 }

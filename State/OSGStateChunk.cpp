@@ -214,7 +214,7 @@ StateChunk::~StateChunk(void)
 /** \brief react to field changes
  */
 
-void StateChunk::changed(BitVector, ChangeMode)
+void StateChunk::changed(BitVector, UInt32)
 {
 }
 

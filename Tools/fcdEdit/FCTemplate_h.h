@@ -75,7 +75,7 @@ char *FCTemplate_h[]={
 "    /*! \\{                                                                 */",
 "",
 "    virtual void changed(BitVector  whichField, ",
-"                         ChangeMode from);",
+"                         UInt32     origin    );",
 "",
 "    /*! \\}                                                                 */",
 "    /*---------------------------------------------------------------------*/",
@@ -127,7 +127,7 @@ char *FCTemplate_h[]={
 "#include <OSG@!Classname!@Base.inl>",
 "#include <OSG@!Classname!@.inl>",
 "",
-"#define OSG@!CLASSNAME!@_HEADER_CVSID \"@(#)$Id: FCTemplate_h.h,v 1.14 2002/03/25 01:26:00 vossg Exp $\"",
+"#define OSG@!CLASSNAME!@_HEADER_CVSID \"@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $\"",
 "",
 "#endif /* _OSG@!CLASSNAME!@_H_ */",
 NULL };

@@ -97,15 +97,7 @@ struct FieldDataTraits<GeoCubesPtr> :
 typedef SField<GeoCubesPtr> SFGeoCubesPtr;
 
 #ifndef OSG_COMPILEGEOCUBESINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<GeoCubesPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(SField, GeoCubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 //! MFGeoCubesPtr
@@ -114,19 +106,11 @@ OSG_DLLEXPORT_DECL1(SField, GeoCubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
 typedef MField<GeoCubesPtr> MFGeoCubesPtr;
 
 #ifndef OSG_COMPILEGEOCUBESINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate MField<GeoCubesPtr>::_fieldType
-
-#else
-
 OSG_DLLEXPORT_DECL1(MField, GeoCubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
-
-#endif
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGGEOCUBESFIELDS_HEADER_CVSID "@(#)$Id: OSGGeoCubesFields.h,v 1.1 2002/05/13 10:53:40 dirk Exp $"
+#define OSGGEOCUBESFIELDS_HEADER_CVSID "@(#)$Id: OSGGeoCubesFields.h,v 1.2 2002/06/01 10:37:27 vossg Exp $"
 
 #endif /* _OSGGEOCUBESFIELDS_H_ */

@@ -91,7 +91,7 @@ void XWindow::initMethod (void)
 
 //! react to field changes
 
-void XWindow::changed(BitVector, ChangeMode)
+void XWindow::changed(BitVector, UInt32)
 {
 }
 

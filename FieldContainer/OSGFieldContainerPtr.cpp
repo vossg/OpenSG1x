@@ -343,7 +343,7 @@ void FieldContainerPtrBase::executeSync(UInt32    uiFromAspect,
     FieldContainer *pTo = ((FieldContainer *) getElemP(uiToAspect));
     
     pTo->executeSync(*((FieldContainer *) getElemP(uiFromAspect)), whichField);
-    pTo->changed(whichField, FieldContainer::Sync);
+    pTo->changed(whichField, ChangedOrigin::Sync);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -593,22 +593,24 @@ void FieldContainerPtr::operator =(const FieldContainerPtr &source)
 /*-------------------------------------------------------------------------*/
 /*                             MT Edit                                     */
 
-void FieldContainerPtr::beginEdit(BitVector OSG_CHECK_ARG(whichField)) const
+void FieldContainerPtr::beginEdit(BitVector OSG_CHECK_ARG(whichField),
+                                  UInt32    OSG_CHECK_ARG(origin    )) const
 {
 }
 
-void FieldContainerPtr::endEdit(BitVector whichField) const
+void FieldContainerPtr::endEdit(BitVector whichField, UInt32 origin) const
 {
-    endEditNotChanged(whichField);
-    changed(whichField);
+    endEditNotChanged(whichField, origin);
+    changed(whichField, origin);
 }
 
-void FieldContainerPtr::changed(BitVector whichField) const
+void FieldContainerPtr::changed(BitVector whichField, UInt32 origin) const
 {
-    (*this)->changed(whichField, FieldContainer::External);
+    (*this)->changed(whichField, origin);
 }
 
-void FieldContainerPtr::endEditNotChanged(BitVector whichField) const
+void FieldContainerPtr::endEditNotChanged(BitVector whichField,
+                                          UInt32              ) const
 {
     Thread::getCurrentChangeList()->addChanged(*this, whichField);
 }

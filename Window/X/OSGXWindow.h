@@ -64,8 +64,8 @@ class OSG_WINDOWXLIB_DLLMAPPING XWindow : public XWindowBase
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -88,7 +88,7 @@ void ImageBackground::initMethod (void)
 
 //! react to field changes
 
-void ImageBackground::changed(BitVector, ChangeMode)
+void ImageBackground::changed(BitVector, UInt32)
 {
 }
 
@@ -166,7 +166,7 @@ void ImageBackground::dump(      UInt32     ,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.7 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGImageBackground.cpp,v 1.8 2002/06/01 10:37:26 vossg Exp $";
     static char cvsid_hpp[] = OSGIMAGEBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGIMAGEBACKGROUND_INLINE_CVSID;
 }

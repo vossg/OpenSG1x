@@ -96,7 +96,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Viewport : public ViewportBase
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+                         UInt32     origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

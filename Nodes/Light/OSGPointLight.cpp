@@ -94,7 +94,7 @@ void PointLight::makeChunk(void)
 /*-------------------------------------------------------------------------*/
 /*                             Changed                                     */
 
-void PointLight::changed(BitVector, ChangeMode)
+void PointLight::changed(BitVector, UInt32)
 {
 }
 

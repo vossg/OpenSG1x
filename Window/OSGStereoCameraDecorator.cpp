@@ -85,7 +85,7 @@ void StereoCameraDecorator::initMethod (void)
 
 //! react to field changes
 
-void StereoCameraDecorator::changed(BitVector, ChangeMode)
+void StereoCameraDecorator::changed(BitVector, UInt32)
 {
 }
 
@@ -111,7 +111,7 @@ void StereoCameraDecorator::dump(      UInt32    ,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGStereoCameraDecorator.cpp,v 1.2 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGStereoCameraDecorator.cpp,v 1.3 2002/06/01 10:37:26 vossg Exp $";
     static char cvsid_hpp[] = OSGSTEREOCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGSTEREOCAMERADECORATOR_INLINE_CVSID;
 }

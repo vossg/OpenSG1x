@@ -72,8 +72,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveBackground :
     /*! \name                     transformation                           */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   dump                                       */

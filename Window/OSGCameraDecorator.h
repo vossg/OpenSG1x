@@ -64,8 +64,8 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecorator : public CameraDecoratorBase
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -136,6 +136,6 @@ OSG_END_NAMESPACE
 #include <OSGCameraDecoratorBase.inl>
 #include <OSGCameraDecorator.inl>
 
-#define OSGCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGCameraDecorator.h,v 1.10 2002/05/13 16:24:41 mroth Exp $"
+#define OSGCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGCameraDecorator.h,v 1.11 2002/06/01 10:37:26 vossg Exp $"
 
 #endif /* _OSGCAMERADECORATOR_H_ */

@@ -66,8 +66,8 @@ class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindow : public GLUTWindowBase
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

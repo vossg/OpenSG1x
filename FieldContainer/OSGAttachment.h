@@ -102,6 +102,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     void                       addParent   (FieldContainerPtr parent);
     void                       subParent   (FieldContainerPtr parent);
 
+    Int32                      findParent  (FieldContainerPtr parent);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */

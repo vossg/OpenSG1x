@@ -139,8 +139,8 @@ FieldContainer::~FieldContainer(void)
 /*-------------------------------------------------------------------------*/
 /*                               Changed                                   */
 
-void FieldContainer::changed(BitVector  OSG_CHECK_ARG(whichField),
-                             ChangeMode OSG_CHECK_ARG(from      ))
+void FieldContainer::changed(BitVector OSG_CHECK_ARG(whichField),
+                             UInt32    OSG_CHECK_ARG(origin    ))
 {
     // fprintf(stderr, "FC Changed %d %d\n", whichField, fromSync);
 }
@@ -208,31 +208,35 @@ void setRefdCP(      FieldContainerPtrBase &objectP,
 }
 
 void beginEditCP(const FieldContainerPtr &objectP,
-                       BitVector         whichField)
+                       BitVector         whichField,
+                       UInt32            origin    )
 {
     if(objectP != NullFC)
-        objectP.beginEdit(whichField);
+        objectP.beginEdit(whichField, origin);
 }
 
 void endEditCP(const FieldContainerPtr &objectP,
-                     BitVector          whichField)
+                     BitVector          whichField,
+                     UInt32             origin    )
 {
     if(objectP != NullFC)
-        objectP.endEdit(whichField);
+        objectP.endEdit(whichField, origin);
 }
 
 void changedCP(const FieldContainerPtr &objectP,
-                     BitVector          whichField)
+                     BitVector          whichField,
+                     UInt32             origin    )
 {
     if(objectP != NullFC)
-        objectP.changed(whichField);
+        objectP.changed(whichField, origin);
 }
 
 void endEditNotChangedCP(const FieldContainerPtr &objectP,
-                               BitVector          whichField)
+                               BitVector          whichField,
+                               UInt32             origin    )
 {
     if(objectP != NullFC)
-        objectP.endEditNotChanged(whichField);
+        objectP.endEditNotChanged(whichField, origin);
 }
 
 OSG_END_NAMESPACE

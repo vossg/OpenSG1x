@@ -143,7 +143,7 @@ void Billboard::initMethod (void)
 
 //! react to field changes
 
-void Billboard::changed(BitVector, ChangeMode)
+void Billboard::changed(BitVector, UInt32)
 {
 }
 

@@ -79,7 +79,7 @@ A background showing a vertical color gradient. The colors and positions corresp
  *                           Class variables                               *
 \***************************************************************************/
 
-char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.17 2002/05/13 09:21:11 vossg Exp $";
+char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.18 2002/06/01 10:37:26 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -150,7 +150,7 @@ GradientBackground::~GradientBackground(void)
 /** \brief react to field changes
  */
 
-void GradientBackground::changed(BitVector, ChangeMode)
+void GradientBackground::changed(BitVector, UInt32)
 {
 }
 

@@ -54,7 +54,7 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                                Sync                                     */
 
-void Switch::changed(BitVector, ChangeMode)
+void Switch::changed(BitVector, UInt32)
 {
 }
 

@@ -168,8 +168,8 @@ SFAttachmentMap *AttachmentContainer::getSFAttachments(void)
 /*-------------------------------------------------------------------------*/
 /*                             Changed                                     */
 
-void AttachmentContainer::changed(BitVector  ,
-                                  ChangeMode )
+void AttachmentContainer::changed(BitVector,
+                                  UInt32   )
 {
 }
 

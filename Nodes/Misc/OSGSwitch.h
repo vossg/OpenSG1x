@@ -58,8 +58,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Switch : public SwitchBase
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField,
-                         ChangeMode from);
+    virtual void changed(BitVector whichField,
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

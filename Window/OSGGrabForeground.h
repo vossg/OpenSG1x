@@ -64,8 +64,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForeground : public GrabForegroundBase
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -124,6 +124,6 @@ OSG_END_NAMESPACE
 #include <OSGGrabForegroundBase.inl>
 #include <OSGGrabForeground.inl>
 
-#define OSGGRABFOREGROUND_HEADER_CVSID "@(#)$Id: OSGGrabForeground.h,v 1.2 2002/04/01 14:25:22 vossg Exp $"
+#define OSGGRABFOREGROUND_HEADER_CVSID "@(#)$Id: OSGGrabForeground.h,v 1.3 2002/06/01 10:37:26 vossg Exp $"
 
 #endif /* _OSGGRABFOREGROUND_H_ */

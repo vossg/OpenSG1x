@@ -71,8 +71,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LineChunk : public LineChunkBase
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -152,6 +152,6 @@ OSG_END_NAMESPACE
 #include <OSGLineChunkBase.inl>
 #include <OSGLineChunk.inl>
 
-#define OSGLINECHUNK_HEADER_CVSID "@(#)$Id: OSGLineChunk.h,v 1.3 2002/04/01 14:25:23 vossg Exp $"
+#define OSGLINECHUNK_HEADER_CVSID "@(#)$Id: OSGLineChunk.h,v 1.4 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGLINECHUNK_H_ */

@@ -71,8 +71,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -142,6 +142,6 @@ OSG_END_NAMESPACE
 #include <OSGTextureTransformChunkBase.inl>
 #include <OSGTextureTransformChunk.inl>
 
-#define OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunk.h,v 1.3 2002/04/01 14:25:23 vossg Exp $"
+#define OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunk.h,v 1.4 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGTEXTURETRANSFORMCHUNK_H_ */

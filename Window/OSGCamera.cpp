@@ -154,7 +154,7 @@ Camera::~Camera(void)
 /** \brief react to field changes
  */
 
-void Camera::changed(BitVector, ChangeMode)
+void Camera::changed(BitVector, UInt32)
 {
 }
     

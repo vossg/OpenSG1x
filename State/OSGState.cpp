@@ -138,7 +138,7 @@ State::~State(void)
 /** \brief react to field changes
  */
 
-void State::changed(BitVector, ChangeMode)
+void State::changed(BitVector, UInt32)
 {
 }
 

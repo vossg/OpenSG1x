@@ -95,7 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     static const char *mapType          (UInt8 type);
 
     virtual void       changed          (BitVector whichField,
-                                         ChangeMode from);
+                                         UInt32    origin    );
 
     GeometryPtr        getPtr           (void) const;
 

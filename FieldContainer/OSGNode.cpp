@@ -516,9 +516,14 @@ void Node::invalidateVolume(void)
 /*                              Changed                                    */
 
 void Node::changed(BitVector  whichField,
-                   ChangeMode OSG_CHECK_ARG(from))
+                   UInt32               )
 {
-    if(whichField & (CoreFieldMask | ChildrenFieldMask))
+    if(whichField & CoreFieldMask)
+    {
+        invalidateVolume();
+    }
+    
+    if(whichField & ChildrenFieldMask)
     {
         invalidateVolume();
     }

@@ -403,7 +403,80 @@ void Geometry::handleGL( Window* win, UInt32 idstatus )
 void Geometry::dump(      UInt32    uiIndent, 
                     const BitVector bvFlags) const
 {
-   Inherited::dump(uiIndent, bvFlags);
+    UInt32 i;
+
+    indentLog(uiIndent, PLOG);
+
+    PLOG << "GeoCore : " 
+         << getType().getName()
+         << " "
+         << _attachmentMap.getValue().size()
+         << " attachments | "
+         << this
+         << endl;
+
+    indentLog(uiIndent, PLOG);
+    PLOG << "[" << endl;
+
+    indentLog(uiIndent + 4, PLOG);
+    PLOG << "Parents : " << endl;
+
+    for(i = 0; i < _parents.size(); i++)
+    {
+        indentLog(uiIndent + 4, PLOG);
+        PLOG << "           " << i << ") " << &(*(_parents[i])) << endl;
+    }
+
+    indentLog(uiIndent, PLOG);
+    PLOG << "]" << endl;
+
+    indentLog(uiIndent, PLOG);
+    PLOG << "{" << endl;
+
+    if(getPositions() != NullFC)
+    {
+        getPositions()->dump(uiIndent, bvFlags);
+    }
+
+    if(getIndices() != NullFC)
+    {
+        getIndices()->dump(uiIndent, bvFlags);
+    }
+
+    if(getMaterial() != NullFC)
+    {
+        getMaterial()->dump(uiIndent, bvFlags);
+    }
+
+    if(getTypes() != NullFC)
+    {
+        getTypes()->dump(uiIndent, bvFlags);
+    }
+
+    if(getLengths() != NullFC)
+    {
+        getLengths()->dump(uiIndent, bvFlags);
+    }
+
+    if(getNormals() != NullFC)
+    {
+        getNormals()->dump(uiIndent, bvFlags);
+    }
+
+    if(getColors() != NullFC)
+    {
+        getColors()->dump(uiIndent, bvFlags);
+    }
+
+    if(getTexCoords() != NullFC)
+    {
+        getTexCoords()->dump(uiIndent, bvFlags);
+    }
+
+    AttachmentContainer::dump(uiIndent, bvFlags);
+
+    indentLog(uiIndent, PLOG);
+    PLOG << "}" << endl;
 }
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
@@ -742,17 +815,229 @@ Action::ResultE Geometry::render(Action *action)
 
 
 
+
 /** \brief react to field changes
  */
 
-void Geometry::changed(BitVector whichField, ChangeMode OSG_CHECK_ARG(from))
+void Geometry::changed(BitVector whichField, 
+                       UInt32    origin    )
 {
+    if(whichField & TypesFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+                
+                if(_sfTypes.getValue()                    != NullFC &&
+                   _sfTypes.getValue()->findParent(thisP) ==     -1  )
+                {
+                    GeoPTypesPtr pType = _sfTypes.getValue();
+                    
+                    _sfTypes.setValue(NullFC);
+                    
+                    setTypes(pType);
+                }
+            }
+            else
+            {
+                GeoPTypesPtr pType = _sfTypes.getValue();
+                
+                _sfTypes.setValue(NullFC);
+                
+                setTypes(pType);
+            }
+        }
+    }
+    
+    if(whichField & LengthsFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+                
+                if(_sfLengths.getValue()                    != NullFC &&
+                   _sfLengths.getValue()->findParent(thisP) ==     -1  )
+                {
+                    GeoPLengthsPtr pLength = _sfLengths.getValue();
+                    
+                    _sfLengths.setValue(NullFC);
+                    
+                    setLengths(pLength);
+                }
+            }
+            else
+            {
+                GeoPLengthsPtr pLength = _sfLengths.getValue();
+                
+                _sfLengths.setValue(NullFC);
+                
+                setLengths(pLength);
+            }
+        }
+    }
+
     if(whichField & PositionsFieldMask)
     {
         for(UInt32 i = 0; i < _parents.size(); i++)
         {
             _parents[i]->invalidateVolume();
         }            
+
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+                
+                if(_sfPositions.getValue()                    != NullFC &&
+                   _sfPositions.getValue()->findParent(thisP) ==     -1  )
+                {
+                    GeoPositionsPtr pPos = _sfPositions.getValue();
+                    
+                    _sfPositions.setValue(NullFC);
+                    
+                    setPositions(pPos);
+                }
+            }
+            else
+            {
+                GeoPositionsPtr pPos = _sfPositions.getValue();
+                
+                _sfPositions.setValue(NullFC);
+                
+                setPositions(pPos);
+            }
+        }
+        else
+        {
+        }
+    }
+
+    if(whichField & NormalsFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+                
+                if(_sfNormals.getValue()                    != NullFC &&
+                   _sfNormals.getValue()->findParent(thisP) ==     -1  )
+                {
+                    GeoNormalsPtr pNorm = _sfNormals.getValue();
+                    
+                    _sfNormals.setValue(NullFC);
+                    
+                    setNormals(pNorm);
+                }
+            }
+            else
+            {
+                GeoNormalsPtr pNorm = _sfNormals.getValue();
+                
+                _sfNormals.setValue(NullFC);
+                
+                setNormals(pNorm);
+            }
+        }
+    }
+
+    if(whichField & ColorsFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+                
+                if(_sfColors.getValue()                    != NullFC &&
+                   _sfColors.getValue()->findParent(thisP) ==     -1  )
+                {
+                    GeoColorsPtr pColor = _sfColors.getValue();
+                    
+                    _sfColors.setValue(NullFC);
+                    
+                    setColors(pColor);
+                }
+            }
+            else
+            {
+                GeoColorsPtr pColor = _sfColors.getValue();
+                
+                _sfColors.setValue(NullFC);
+                
+                setColors(pColor);
+            }
+        }
+    }
+
+    if(whichField & TexCoordsFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+                
+                if(_sfTexCoords.getValue()                    != NullFC &&
+                   _sfTexCoords.getValue()->findParent(thisP) ==     -1  )
+                {
+                    GeoTexCoordsPtr pTexCoord = _sfTexCoords.getValue();
+                    
+                    _sfTexCoords.setValue(NullFC);
+                    
+                    setTexCoords(pTexCoord);
+                }
+            }
+            else
+            {
+                GeoTexCoordsPtr pTexCoord = _sfTexCoords.getValue();
+                
+                _sfTexCoords.setValue(NullFC);
+                
+                setTexCoords(pTexCoord);
+            }
+        }
+    }
+
+    if(whichField & IndicesFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+                
+                if(_sfIndices.getValue()                    != NullFC &&
+                   _sfIndices.getValue()->findParent(thisP) ==     -1  )
+                {
+                    GeoIndicesPtr pIndex = _sfIndices.getValue();
+                    
+                    _sfIndices.setValue(NullFC);
+                    
+                    setIndices(pIndex);
+                }
+            }
+            else
+            {
+                GeoIndicesPtr pIndex = _sfIndices.getValue();
+                
+                _sfIndices.setValue(NullFC);
+                
+                setIndices(pIndex);
+            }
+        }
+    }
+
+    if(whichField & MaterialFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+        }
     }
 
     // invalidate the dlist cache

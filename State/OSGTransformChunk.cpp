@@ -145,7 +145,7 @@ TransformChunk::~TransformChunk(void)
 /** \brief react to field changes
  */
 
-void TransformChunk::changed(BitVector, ChangeMode)
+void TransformChunk::changed(BitVector, UInt32)
 {
 }
 

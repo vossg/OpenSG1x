@@ -82,8 +82,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Background : public BackgroundBase
     /*! \name                     transformation                           */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
  
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -85,7 +85,7 @@ void FileGrabForeground::initMethod (void)
 
 //! react to field changes
 
-void FileGrabForeground::changed(BitVector, ChangeMode)
+void FileGrabForeground::changed(BitVector, UInt32)
 {
 }
 
@@ -159,7 +159,7 @@ void FileGrabForeground::draw(DrawActionBase *action, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGFileGrabForeground.cpp,v 1.2 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGFileGrabForeground.cpp,v 1.3 2002/06/01 10:37:26 vossg Exp $";
     static char cvsid_hpp[] = OSGFILEGRABFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGFILEGRABFOREGROUND_INLINE_CVSID;
 }

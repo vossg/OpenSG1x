@@ -151,7 +151,7 @@ PerspectiveCamera::~PerspectiveCamera(void)
 /** \brief react to field changes
  */
 
-void PerspectiveCamera::changed(BitVector, ChangeMode)
+void PerspectiveCamera::changed(BitVector, UInt32)
 {
 }
 

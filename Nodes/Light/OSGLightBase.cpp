@@ -112,7 +112,7 @@ void LightBase::makeChunk(void)
 /*-------------------------------------------------------------------------*/
 /*                             Sync                                     */
 
-void LightBase::changed(BitVector, ChangeMode)
+void LightBase::changed(BitVector, UInt32)
 {
 }
 

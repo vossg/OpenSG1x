@@ -85,7 +85,7 @@ void CameraDecorator::initMethod (void)
 
 //! react to field changes
 
-void CameraDecorator::changed(BitVector, ChangeMode)
+void CameraDecorator::changed(BitVector, UInt32)
 {
 }
 
@@ -144,7 +144,7 @@ void CameraDecorator::getViewing(Matrix &result,
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.10 2002/05/13 16:24:40 mroth Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.11 2002/06/01 10:37:25 vossg Exp $";
     static char cvsid_hpp[] = OSGCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGCAMERADECORATOR_INLINE_CVSID;
 }

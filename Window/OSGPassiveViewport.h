@@ -64,8 +64,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveViewport : public PassiveViewportBase
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -126,6 +126,6 @@ OSG_END_NAMESPACE
 #include <OSGPassiveViewportBase.inl>
 #include <OSGPassiveViewport.inl>
 
-#define OSGPASSIVEVIEWPORT_HEADER_CVSID "@(#)$Id: OSGPassiveViewport.h,v 1.2 2002/04/01 14:25:22 vossg Exp $"
+#define OSGPASSIVEVIEWPORT_HEADER_CVSID "@(#)$Id: OSGPassiveViewport.h,v 1.3 2002/06/01 10:37:26 vossg Exp $"
 
 #endif /* _OSGPASSIVEVIEWPORT_H_ */

@@ -53,7 +53,7 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                                Sync                                     */
 
-void MaterialGroup::changed(BitVector, ChangeMode)
+void MaterialGroup::changed(BitVector, UInt32)
 {
 }
 
@@ -194,7 +194,7 @@ void MaterialGroup::initMethod(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.17 2002/04/30 09:29:11 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGMaterialGroup.cpp,v 1.18 2002/06/01 10:37:23 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGMATERIALGROUP_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGMATERIALGROUP_INLINE_CVSID;
 }

@@ -61,8 +61,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField,
-                         ChangeMode from);
+    virtual void changed(BitVector whichField,
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -124,6 +124,6 @@ OSG_END_NAMESPACE
 #include <OSGDistanceLODBase.inl>
 #include <OSGDistanceLOD.inl>
 
-#define OSGDISTANCELOD_HEADER_CVSID "@(#)$Id: OSGDistanceLOD.h,v 1.8 2002/04/01 14:25:25 vossg Exp $"
+#define OSGDISTANCELOD_HEADER_CVSID "@(#)$Id: OSGDistanceLOD.h,v 1.9 2002/06/01 10:37:23 vossg Exp $"
 
 #endif /* _OSGDISTANCELOD_H_ */

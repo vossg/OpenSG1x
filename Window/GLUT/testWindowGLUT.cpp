@@ -351,6 +351,13 @@ int main (int argc, char **argv)
     
     file->updateVolume();
 
+//    file->dump();
+
+//    subRefCP(file);
+
+//    return 0;
+
+
     Vec3f min,max;
     file->getVolume().getBounds( min, max );
     
@@ -417,12 +424,23 @@ int main (int argc, char **argv)
 
     // tball
 
-    Vec3f pos( 0, 0, max[2] + ( max[2] - min[2] ) * 1.5 );
+    Vec3f pos;
+    pos.setValues(min[0] + ((max[0] - min[0]) * 0.5), 
+                  min[1] + ((max[1] - min[1]) * 0.5), 
+                  max[2] + ( max[2] - min[2] ) * 1.5 );
+    
+    float scale = (max[2] - min[2] + max[1] - min[1] + max[0] - min[0]) / 6;
+
+    Pnt3f tCenter(min[0] + (max[0] - min[0]) / 2,
+                  min[1] + (max[1] - min[1]) / 2,
+                  min[2] + (max[2] - min[2]) / 2);
 
     tball.setMode( Trackball::OSGObject );
     tball.setStartPosition( pos, true );
     tball.setSum( true );
     tball.setTranslationMode( Trackball::OSGFree );
+    tball.setTranslationScale(scale);
+    tball.setRotationCenter(tCenter);
 
     // run...
     

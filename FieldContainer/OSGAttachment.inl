@@ -409,8 +409,8 @@ void DynFieldAttachment<AttachmentDescT>::dump(      UInt32    uiIndent,
     indentLog(uiIndent, PLOG);
     PLOG << "DynFieldAttachment (" ;
 
-    _localType.dump();
-    PLOG << endl;
+//    _localType.dump();
+    PLOG << ")" << endl;
 
     indentLog(uiIndent, PLOG);
     PLOG << "{" << endl;

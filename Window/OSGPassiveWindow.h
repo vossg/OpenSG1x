@@ -65,8 +65,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveWindow : public PassiveWindowBase
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -136,6 +136,6 @@ OSG_END_NAMESPACE
 #include <OSGPassiveWindowBase.inl>
 #include <OSGPassiveWindow.inl>
 
-#define OSGPASSIVEWINDOW_HEADER_CVSID "@(#)$Id: OSGPassiveWindow.h,v 1.2 2002/04/01 14:25:22 vossg Exp $"
+#define OSGPASSIVEWINDOW_HEADER_CVSID "@(#)$Id: OSGPassiveWindow.h,v 1.3 2002/06/01 10:37:26 vossg Exp $"
 
 #endif /* _OSGPASSIVEWINDOW_H_ */

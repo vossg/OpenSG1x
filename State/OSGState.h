@@ -70,7 +70,7 @@ class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField,
-                        ChangeMode from);
+                         UInt32     origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

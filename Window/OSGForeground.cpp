@@ -139,7 +139,7 @@ Foreground::~Foreground(void)
 /** \brief react to field changes
  */
 
-void Foreground::changed(BitVector, ChangeMode)
+void Foreground::changed(BitVector, UInt32)
 {
 }
 

@@ -61,7 +61,7 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
 
-void Transform::changed(BitVector, ChangeMode)
+void Transform::changed(BitVector, UInt32)
 {
     invalidateVolume();
 }

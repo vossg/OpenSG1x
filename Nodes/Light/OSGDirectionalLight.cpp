@@ -66,7 +66,7 @@ void DirectionalLight::setDirection(Real32 rX, Real32 rY, Real32 rZ)
 /*-------------------------------------------------------------------------*/
 /*                             Changed                                     */
 
-void DirectionalLight::changed(BitVector, ChangeMode)
+void DirectionalLight::changed(BitVector, UInt32)
 {
 }
 

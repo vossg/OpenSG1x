@@ -152,7 +152,7 @@ Viewport::~Viewport(void)
 /** \brief react to field changes
  */
 
-void Viewport::changed(BitVector, ChangeMode)
+void Viewport::changed(BitVector, UInt32)
 {
 }
 

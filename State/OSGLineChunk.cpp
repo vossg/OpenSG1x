@@ -95,7 +95,7 @@ void LineChunk::initMethod (void)
 
 //! react to field changes
 
-void LineChunk::changed(BitVector, ChangeMode)
+void LineChunk::changed(BitVector, UInt32)
 {
 }
 
@@ -204,7 +204,7 @@ bool LineChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGLineChunk.cpp,v 1.5 2002/04/30 09:29:12 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGLineChunk.cpp,v 1.6 2002/06/01 10:37:25 vossg Exp $";
     static char cvsid_hpp[] = OSGLINECHUNK_HEADER_CVSID;
     static char cvsid_inl[] = OSGLINECHUNK_INLINE_CVSID;
 }

@@ -60,7 +60,7 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
 
-void Group::changed(BitVector, ChangeMode)
+void Group::changed(BitVector, UInt32)
 {
 }
 

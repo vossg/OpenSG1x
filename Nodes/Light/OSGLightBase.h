@@ -92,8 +92,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public LightBaseBase
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField,
-                         ChangeMode from);
+    virtual void changed(BitVector whichField,
+                         UInt32    origin   );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

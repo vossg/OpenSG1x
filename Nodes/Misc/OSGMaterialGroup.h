@@ -59,8 +59,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroup : public MaterialGroupBase
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField,
-                         ChangeMode from);
+    virtual void changed(BitVector whichField,
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -128,6 +128,6 @@ OSG_END_NAMESPACE
 #include <OSGMaterialGroupBase.inl>
 #include <OSGMaterialGroup.inl>
 
-#define OSGMATERIALGROUP_HEADER_CVSID "@(#)$Id: OSGMaterialGroup.h,v 1.13 2002/04/01 14:25:25 vossg Exp $"
+#define OSGMATERIALGROUP_HEADER_CVSID "@(#)$Id: OSGMaterialGroup.h,v 1.14 2002/06/01 10:37:23 vossg Exp $"
 
 #endif /* _OSGMATERIALGROUP_H_ */

@@ -203,8 +203,6 @@ class GeoProperty :
     typedef typename GeoPropertyDesc::GenericType         StoredGenericType;
     typedef typename StoredFieldType::StoredType          StoredType;
 
-    typedef          FieldContainer::ChangeMode           FCChangeMode;
-
     OSG_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
@@ -306,8 +304,8 @@ class GeoProperty :
     /*! \name                      Changed                                 */
     /*! \{                                                                 */
 
-    virtual void changed        (BitVector    whichField, 
-                                 FCChangeMode from      );
+    virtual void changed        (BitVector whichField, 
+                                 UInt32    origin    );
             
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

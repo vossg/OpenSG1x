@@ -154,7 +154,7 @@ void Particles::initMethod (void)
 
 //! react to field changes
 
-void Particles::changed(BitVector whichField, ChangeMode OSG_CHECK_ARG(from))
+void Particles::changed(BitVector whichField, UInt32 OSG_CHECK_ARG(origin))
 {
     if(whichField & PositionsFieldMask)
     {
@@ -2268,7 +2268,7 @@ ParticlesDrawer *Particles::findDrawer(void)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.19 2002/05/31 08:52:38 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.20 2002/06/01 10:37:24 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }

@@ -105,7 +105,7 @@ void SimpleTexturedMaterial::initMethod (void)
 #pragma warning (disable : 383)
 #endif
 
-void SimpleTexturedMaterial::changed(BitVector whichField, ChangeMode from)
+void SimpleTexturedMaterial::changed(BitVector whichField, UInt32 origin)
 {
     // these two are very expensive, as they need to regenerate the
     // texture object, do only if really needed
@@ -137,7 +137,7 @@ void SimpleTexturedMaterial::changed(BitVector whichField, ChangeMode from)
         }
     }
 
-    Inherited::changed(whichField, from);
+    Inherited::changed(whichField, origin);
 }
 
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
@@ -190,7 +190,7 @@ void SimpleTexturedMaterial::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.10 2002/04/30 09:29:09 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.11 2002/06/01 10:37:22 vossg Exp $";
     static char cvsid_hpp[] = OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID;
 }

@@ -72,8 +72,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForeground : public ImageForegroundBase
     /*! \name                     transformation                           */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
  
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

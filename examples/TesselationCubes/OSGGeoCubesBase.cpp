@@ -62,24 +62,6 @@
 #include "OSGGeoCubes.h"
 
 
-OSG_BEGIN_NAMESPACE
-
-DataType FieldDataTraits<GeoCubesPtr>::_type("GeoCubesPtr", "GeometryPtr");
-
-#if defined(__sgi)
-
-#pragma instantiate SField<GeoCubesPtr>::_fieldType
-#pragma instantiate MField<GeoCubesPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DEF1(SField, GeoCubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, GeoCubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
-
-#endif
-
-OSG_END_NAMESPACE
-
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  GeoCubesBase::PositionFieldMask = 
@@ -302,6 +284,20 @@ void GeoCubesBase::executeSyncImpl(      GeoCubesBase *pOther,
 
 
 
+#include <OpenSG/OSGSFieldTypeDef.inl>
+#include <OpenSG/OSGMFieldTypeDef.inl>
+
+OSG_BEGIN_NAMESPACE
+
+DataType FieldDataTraits<GeoCubesPtr>::_type("GeoCubesPtr", "GeometryPtr");
+
+
+OSG_DLLEXPORT_SFIELD_DEF1(GeoCubesPtr, OSG_MYLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(GeoCubesPtr, OSG_MYLIB_DLLTMPLMAPPING);
+
+OSG_END_NAMESPACE
+
+
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
 
@@ -315,14 +311,10 @@ void GeoCubesBase::executeSyncImpl(      GeoCubesBase *pOther,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGeoCubesBase.cpp,v 1.1 2002/05/13 10:53:40 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGeoCubesBase.cpp,v 1.2 2002/06/01 10:37:27 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGEOCUBESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGEOCUBESBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGGEOCUBESFIELDS_HEADER_CVSID;
 }
-
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
 

@@ -104,7 +104,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField,
-                        ChangeMode from);
+                         UInt32     origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -510,7 +510,12 @@ void VRMLFile::beginField(const Char8  *szFieldname,
 
         if(_pCurrentFC != NullFC)
         {
-            beginEditCP(_pCurrentFC);
+            beginEditCP(_pCurrentFC, 
+                         FieldBits::AllFields, 
+                         ChangedOrigin::Abstract         |
+                         ChangedOrigin::AbstrIgnoreCore  |
+                         ChangedOrigin::AbstrIgnoreChild |
+                         ChangedOrigin::AbstrCheckValid  );
 
             if(_pCurrentFC->getType().isNode())
             {
@@ -518,7 +523,12 @@ void VRMLFile::beginField(const Char8  *szFieldname,
 
                 pCore = pNode->getCore();
 
-                beginEditCP(pCore);
+                beginEditCP(pCore, 
+                            FieldBits::AllFields, 
+                            ChangedOrigin::Abstract         |
+                            ChangedOrigin::AbstrIgnoreCore  |
+                            ChangedOrigin::AbstrIgnoreChild |
+                            ChangedOrigin::AbstrCheckValid);
             }
         }
     }
@@ -548,7 +558,12 @@ void VRMLFile::endField(void)
 
         if(_pCurrentFC != NullFC)
         {
-            endEditCP(_pCurrentFC);
+            endEditCP(_pCurrentFC, 
+                       FieldBits::AllFields, 
+                       ChangedOrigin::Abstract         |
+                       ChangedOrigin::AbstrIgnoreCore  |
+                       ChangedOrigin::AbstrIgnoreChild |
+                       ChangedOrigin::AbstrCheckValid  );
 
             if(_pCurrentFC->getType().isNode())
             {
@@ -556,7 +571,12 @@ void VRMLFile::endField(void)
 
                 pCore = pNode->getCore();
 
-                endEditCP(pCore);
+                endEditCP(pCore, 
+                          FieldBits::AllFields, 
+                          ChangedOrigin::Abstract         |
+                          ChangedOrigin::AbstrIgnoreCore  |
+                          ChangedOrigin::AbstrIgnoreChild |
+                          ChangedOrigin::AbstrCheckValid  );
             }
         }
     }
@@ -2882,34 +2902,6 @@ void VRMLFile::setContainerFieldValue(const FieldContainerPtr &pFC)
             
             pNode->setCore(pCore);
         }
-
-/*
-        else if(_pCurrentField == _pCurrentFC->getField("attachments"))
-        {
-            if(pNewNode->getType().isAttachment() == true)
-            {
-                if(_pCurrentFC->getType().isNode() == true)
-                {
-                    NodePtr       pNode = _pCurrentFC.dcast<NodePtr>();
-                    AttachmentPtr pAtt  =  pNewNode.dcast<AttachmentPtr>();
-
-                    pNode->addAttachment(pAtt);
-                }
-                else if(_pCurrentFC->getType().isNodeCore() == true)
-                {
-                    NodeCorePtr   pNodeCore = _pCurrentFC.dcast<NodeCorePtr>();
-                    AttachmentPtr pAtt      =  pNewNode.dcast<AttachmentPtr>();
-
-                    pNodeCore->addAttachment(pAtt); 
-                }
-            }
-            else
-            {
-                SLOG << "FieldContainer : " << szNodeTypename 
-                     << " is no attachment" << endl;
-            }
-        }
-*/
         else if(_pCurrentField->getCardinality() == FieldType::SINGLE_FIELD)
         {
             ((SFFieldContainerPtr *) _pCurrentField)->setValue(pFC);

@@ -70,7 +70,7 @@ A perspective camera with a symmetric frustum.
  *                           Class variables                               *
 \***************************************************************************/
 
-char MatrixCamera::cvsid[] = "@(#)$Id: OSGMatrixCamera.cpp,v 1.1 2002/01/29 17:50:57 dirk Exp $";
+char MatrixCamera::cvsid[] = "@(#)$Id: OSGMatrixCamera.cpp,v 1.2 2002/06/01 10:37:26 vossg Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -141,7 +141,7 @@ MatrixCamera::~MatrixCamera(void)
 /** \brief react to field changes
  */
 
-void MatrixCamera::changed(BitVector, ChangeMode)
+void MatrixCamera::changed(BitVector, UInt32)
 {
 }
 

@@ -210,7 +210,7 @@ void Window::onDestroy(void)
 /** \brief react to field changes
  */
 
-void Window::changed(BitVector, ChangeMode)
+void Window::changed(BitVector, UInt32)
 {
 }
 

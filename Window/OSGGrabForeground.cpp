@@ -88,7 +88,7 @@ void GrabForeground::initMethod (void)
 
 //! react to field changes
 
-void GrabForeground::changed(BitVector, ChangeMode)
+void GrabForeground::changed(BitVector, UInt32)
 {
 }
 
@@ -151,7 +151,7 @@ void GrabForeground::draw(DrawActionBase *, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGGrabForeground.cpp,v 1.4 2002/04/30 09:29:13 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGGrabForeground.cpp,v 1.5 2002/06/01 10:37:26 vossg Exp $";
     static char cvsid_hpp[] = OSGGRABFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGGRABFOREGROUND_INLINE_CVSID;
 }

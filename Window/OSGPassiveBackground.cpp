@@ -151,7 +151,7 @@ PassiveBackground::~PassiveBackground(void)
 /** \brief react to field changes
  */
 
-void PassiveBackground::changed(BitVector, ChangeMode)
+void PassiveBackground::changed(BitVector, UInt32)
 {
 }
 

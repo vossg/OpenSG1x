@@ -64,8 +64,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoBufferViewport : public StereoBufferViewpor
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -125,6 +125,6 @@ OSG_END_NAMESPACE
 #include <OSGStereoBufferViewportBase.inl>
 #include <OSGStereoBufferViewport.inl>
 
-#define OSGSTEREOBUFFERVIEWPORT_HEADER_CVSID "@(#)$Id: OSGStereoBufferViewport.h,v 1.2 2002/04/01 14:25:22 vossg Exp $"
+#define OSGSTEREOBUFFERVIEWPORT_HEADER_CVSID "@(#)$Id: OSGStereoBufferViewport.h,v 1.3 2002/06/01 10:37:26 vossg Exp $"
 
 #endif /* _OSGSTEREOBUFFERVIEWPORT_H_ */

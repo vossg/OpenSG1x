@@ -107,6 +107,19 @@ namespace FieldBits
     const BitVector Field31   = 0x80000000;
 }
 
+namespace ChangedOrigin
+{
+    const UInt32 External         = 0x0001;
+    const UInt32 Sync             = 0x0002;
+    const UInt32 Child            = 0x0004;
+    const UInt32 Abstract         = 0x0008;
+
+    const UInt32 AbstrIgnoreCore  = 0x0100;
+    const UInt32 AbstrIgnoreChild = 0x0200;
+
+    const UInt32 AbstrCheckValid  = 0x0400;
+};
+
 namespace FCDumpFlags
 {
     const BitVector RefCount   = 0x00000001;
@@ -131,20 +144,24 @@ void clearRefCP(FieldContainerPtrBase &objectP);
 
 OSG_SYSTEMLIB_DLLMAPPING
 void beginEditCP(const FieldContainerPtr &objectP, 
-                       BitVector          whichField = FieldBits::AllFields);
+                       BitVector         whichField = FieldBits    ::AllFields,
+                       UInt32            origin     = ChangedOrigin::External);
 
 OSG_SYSTEMLIB_DLLMAPPING
 void endEditCP  (const FieldContainerPtr &objectP, 
-                       BitVector          whichField = FieldBits::AllFields);
+                       BitVector         whichField = FieldBits    ::AllFields,
+                       UInt32            origin     = ChangedOrigin::External);
 
 OSG_SYSTEMLIB_DLLMAPPING
 void changedCP  (const FieldContainerPtr &objectP, 
-                       BitVector          whichField = FieldBits::AllFields);
+                       BitVector         whichField = FieldBits    ::AllFields,
+                       UInt32            origin     = ChangedOrigin::External);
 
 OSG_SYSTEMLIB_DLLMAPPING
 void endEditNotChangedCP(
     const FieldContainerPtr &objectP, 
-          BitVector          whichField = FieldBits::AllFields);
+          BitVector          whichField = FieldBits    ::AllFields,
+          UInt32             origin     = ChangedOrigin::External);
 
 
 /*! \defgroup FieldContainerLib OpenSG Field Container Library
@@ -163,13 +180,6 @@ class FieldContainer
     enum { NextFieldId = 1 };
 
     static const BitVector NextFieldMask;
-
-    enum ChangeMode
-    {
-        External = 0x01,
-        Sync     = 0x02,
-        Child    = 0x03
-    };
 
     /*---------------------------------------------------------------------*/
     /*! \name             Get Class Type Information                       */
@@ -247,7 +257,7 @@ class FieldContainer
     /*! \{                                                                 */
 
     OSG_SYSTEMLIB_DLLMAPPING 
-    virtual void changed        (BitVector whichField, ChangeMode from);
+    virtual void changed        (BitVector whichField, UInt32 origin);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

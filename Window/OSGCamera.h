@@ -79,7 +79,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+                         UInt32     origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

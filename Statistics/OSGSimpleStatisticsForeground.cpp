@@ -106,7 +106,7 @@ void SimpleStatisticsForeground::initMethod(void)
 
 //! react to field changes
 
-void SimpleStatisticsForeground::changed(BitVector, ChangeMode)
+void SimpleStatisticsForeground::changed(BitVector, UInt32)
 {
 }
 
@@ -316,7 +316,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.7 2002/05/23 04:07:02 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.8 2002/06/01 10:37:25 vossg Exp $";
     static char cvsid_hpp[] = OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESTATISTICSFOREGROUND_INLINE_CVSID;
 }

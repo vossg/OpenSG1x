@@ -156,7 +156,7 @@ Background::~Background(void)
 /** \brief react to field changes
  */
 
-void Background::changed(BitVector, ChangeMode)
+void Background::changed(BitVector, UInt32)
 {
 }
 

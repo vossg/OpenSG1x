@@ -76,8 +76,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
     /*! \{                                                                 */
 
 
-    virtual void changed(BitVector  whichField,
-                        ChangeMode from);
+    virtual void changed(BitVector whichField,
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -197,7 +197,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+                         UInt32     origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

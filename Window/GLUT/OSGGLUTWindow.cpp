@@ -104,7 +104,7 @@ void GLUTWindow::initMethod (void)
 
 //! react to field changes
 
-void GLUTWindow::changed(BitVector, ChangeMode)
+void GLUTWindow::changed(BitVector, UInt32)
 {
 }
 

@@ -63,8 +63,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform :
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField,
-                         ChangeMode from);
+    virtual void changed(BitVector whichField,
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -119,6 +119,6 @@ OSG_END_NAMESPACE
 #include <OSGComponentTransformBase.inl>
 #include <OSGComponentTransform.inl>
 
-#define OSGCOMPONENTTRANSFORM_HEADER_CVSID "@(#)$Id: OSGComponentTransform.h,v 1.7 2002/04/01 14:25:25 vossg Exp $"
+#define OSGCOMPONENTTRANSFORM_HEADER_CVSID "@(#)$Id: OSGComponentTransform.h,v 1.8 2002/06/01 10:37:23 vossg Exp $"
 
 #endif /* _OSGCOMPONENTTRANSFORM_H_ */

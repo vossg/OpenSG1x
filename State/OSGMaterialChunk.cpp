@@ -149,7 +149,7 @@ MaterialChunk::~MaterialChunk(void)
 /** \brief react to field changes
  */
 
-void MaterialChunk::changed(BitVector, ChangeMode)
+void MaterialChunk::changed(BitVector, UInt32)
 {
 }
 

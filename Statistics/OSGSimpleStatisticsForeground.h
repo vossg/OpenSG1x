@@ -68,8 +68,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
-                         ChangeMode from);
+    virtual void changed(BitVector whichField, 
+                         UInt32    origin    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -144,6 +144,6 @@ OSG_END_NAMESPACE
 #include <OSGSimpleStatisticsForegroundBase.inl>
 #include <OSGSimpleStatisticsForeground.inl>
 
-#define OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForeground.h,v 1.3 2002/04/01 14:25:23 vossg Exp $"
+#define OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForeground.h,v 1.4 2002/06/01 10:37:25 vossg Exp $"
 
 #endif /* _OSGSIMPLESTATISTICSFOREGROUND_H_ */

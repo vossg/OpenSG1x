@@ -318,10 +318,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
     /*! \name                    MT Edit                                   */
     /*! \{                                                                 */
 
-    void beginEdit        (BitVector whichField) const;
-    void endEdit          (BitVector whichField) const;
-    void changed          (BitVector whichField) const;
-    void endEditNotChanged(BitVector whichField) const;
+    void beginEdit        (BitVector whichField, UInt32 origin) const;
+    void endEdit          (BitVector whichField, UInt32 origin) const;
+    void changed          (BitVector whichField, UInt32 origin) const;
+    void endEditNotChanged(BitVector whichField, UInt32 origin) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -343,19 +343,23 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
 
     friend OSG_SYSTEMLIB_DLLMAPPING
     void beginEditCP        (const FieldContainerPtr &objectP, 
-                                   BitVector          whichField);
+                                   BitVector          whichField,
+                                   UInt32             origin    );
 
     friend OSG_SYSTEMLIB_DLLMAPPING
     void endEditCP          (const FieldContainerPtr &objectP, 
-                                   BitVector          whichField);
+                                   BitVector          whichField,
+                                   UInt32             origin    );
 
     friend OSG_SYSTEMLIB_DLLMAPPING
     void changedCP          (const FieldContainerPtr &objectP, 
-                                   BitVector          whichField);
+                                   BitVector          whichField,
+                                   UInt32             origin    );
 
     friend OSG_SYSTEMLIB_DLLMAPPING
     void endEditNotChangedCP(const FieldContainerPtr &objectP, 
-                                   BitVector          whichField);
+                                   BitVector          whichField,
+                                   UInt32             origin    );
 };
 
 
