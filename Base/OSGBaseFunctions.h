@@ -392,6 +392,13 @@ OSG_BASE_DLLMAPPING struct EQString
 
 /*@}*/
 
+template<class VecPntT> inline
+UInt32 getMaxIndexAbs3(const VecPntT &v)
+{
+    return fabsf(v[0]) > fabsf(v[1]) ? 
+        fabsf(v[0]) > fabsf(v[2]) ? 0 : 2 : fabsf(v[1]) > fabsf(v[2]) ? 1 : 2;
+}
+
 inline
 OSG_BASE_DLLMAPPING int putenv(char *string);
 
