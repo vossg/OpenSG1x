@@ -94,7 +94,8 @@ static void errorOutput (png_structp png_ptr, const char *message)
   longjmp(png_ptr->jmpbuf, 1);
 }
 
-static void warningOutput (png_structp png_ptr, const char *message)
+static void warningOutput (png_structp OSG_CHECK_ARG(png_ptr), 
+                           const char *message)
 {
   FWARNING (("PNG: %s\n", message )); 
 }
