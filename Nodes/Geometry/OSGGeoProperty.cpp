@@ -61,7 +61,7 @@ OSG_USING_NAMESPACE
 // explicit instantiation to work around compiler problems with static
 // init for templated classes
 
-//#ifdef OSG_NEED_EXPLICIT_INST_FOR_STATIC
+#ifdef OSG_NEED_EXPLICIT_INST_FOR_STATIC
 
 template class OSG_GEOMETRY_DLLMAPPING 
      AbstractGeoProperty<GeoPositionPropertyDesc>;
@@ -82,7 +82,7 @@ template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoIndexUI32PropertyDesc>;
 template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoPTypePropertyDesc>;
 template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoPLengthPropertyDesc>;
 
-//#endif
+#endif
 
 
 ///---------------------------------------------------------------------------
