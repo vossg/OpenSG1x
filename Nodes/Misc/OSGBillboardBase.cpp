@@ -180,7 +180,7 @@ FieldContainerPtr BillboardBase::shallowCopy(void) const
 
 UInt32 BillboardBase::getContainerSize(void) const 
 { 
-    return sizeof(BillboardBase); 
+    return sizeof(Billboard); 
 }
 
 

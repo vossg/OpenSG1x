@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.24 2002/03/19 18:08:16 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.25 2002/03/29 02:34:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 
@@ -186,7 +186,7 @@ FieldContainerPtr BlendChunkBase::shallowCopy(void) const
 
 UInt32 BlendChunkBase::getContainerSize(void) const 
 { 
-    return sizeof(BlendChunkBase); 
+    return sizeof(BlendChunk); 
 }
 
 

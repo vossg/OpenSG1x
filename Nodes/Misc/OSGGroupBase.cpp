@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.20 2002/03/19 17:38:56 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.21 2002/03/29 02:34:51 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGROUPBASE_INLINE_CVSID;
 
@@ -138,7 +138,7 @@ FieldContainerPtr GroupBase::shallowCopy(void) const
 
 UInt32 GroupBase::getContainerSize(void) const 
 { 
-    return sizeof(GroupBase); 
+    return sizeof(Group); 
 }
 
 

@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.24 2002/03/19 17:38:10 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.25 2002/03/29 02:34:51 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGEOMETRYBASE_INLINE_CVSID;
 
@@ -251,7 +251,7 @@ FieldContainerPtr GeometryBase::shallowCopy(void) const
 
 UInt32 GeometryBase::getContainerSize(void) const 
 { 
-    return sizeof(GeometryBase); 
+    return sizeof(Geometry); 
 }
 
 

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.26 2002/03/19 17:48:18 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.27 2002/03/29 02:34:53 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 
@@ -246,7 +246,7 @@ FieldContainerPtr ViewportBase::shallowCopy(void) const
 
 UInt32 ViewportBase::getContainerSize(void) const 
 { 
-    return sizeof(ViewportBase); 
+    return sizeof(Viewport); 
 }
 
 

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.22 2002/03/19 17:38:56 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.23 2002/03/29 02:34:51 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALGROUPBASE_INLINE_CVSID;
 
@@ -158,7 +158,7 @@ FieldContainerPtr MaterialGroupBase::shallowCopy(void) const
 
 UInt32 MaterialGroupBase::getContainerSize(void) const 
 { 
-    return sizeof(MaterialGroupBase); 
+    return sizeof(MaterialGroup); 
 }
 
 

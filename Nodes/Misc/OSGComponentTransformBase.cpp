@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.8 2002/03/19 17:38:56 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGComponentTransformBase.cpp,v 1.9 2002/03/29 02:34:51 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID;
 
@@ -202,7 +202,7 @@ FieldContainerPtr ComponentTransformBase::shallowCopy(void) const
 
 UInt32 ComponentTransformBase::getContainerSize(void) const 
 { 
-    return sizeof(ComponentTransformBase); 
+    return sizeof(ComponentTransform); 
 }
 
 

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFileGrabForegroundBase.cpp,v 1.4 2002/03/19 17:48:18 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFileGrabForegroundBase.cpp,v 1.5 2002/03/29 02:34:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID;
 
@@ -191,7 +191,7 @@ FieldContainerPtr FileGrabForegroundBase::shallowCopy(void) const
 
 UInt32 FileGrabForegroundBase::getContainerSize(void) const 
 { 
-    return sizeof(FileGrabForegroundBase); 
+    return sizeof(FileGrabForeground); 
 }
 
 

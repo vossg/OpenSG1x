@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveWindowBase.cpp,v 1.3 2002/03/19 17:48:18 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPassiveWindowBase.cpp,v 1.4 2002/03/29 02:34:53 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPASSIVEWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPASSIVEWINDOWBASE_INLINE_CVSID;
 
@@ -138,7 +138,7 @@ FieldContainerPtr PassiveWindowBase::shallowCopy(void) const
 
 UInt32 PassiveWindowBase::getContainerSize(void) const 
 { 
-    return sizeof(PassiveWindowBase); 
+    return sizeof(PassiveWindow); 
 }
 
 

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.8 2002/03/19 17:19:38 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParticlesBase.cpp,v 1.9 2002/03/29 02:34:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
 
@@ -290,7 +290,7 @@ FieldContainerPtr ParticlesBase::shallowCopy(void) const
 
 UInt32 ParticlesBase::getContainerSize(void) const 
 { 
-    return sizeof(ParticlesBase); 
+    return sizeof(Particles); 
 }
 
 

@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.19 2002/03/19 17:38:55 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.20 2002/03/29 02:34:51 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDIRECTIONALLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDIRECTIONALLIGHTBASE_INLINE_CVSID;
 
@@ -141,7 +141,7 @@ FieldContainerPtr DirectionalLightBase::shallowCopy(void) const
 
 UInt32 DirectionalLightBase::getContainerSize(void) const 
 { 
-    return sizeof(DirectionalLightBase); 
+    return sizeof(DirectionalLight); 
 }
 
 

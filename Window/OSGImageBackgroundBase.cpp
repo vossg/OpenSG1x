@@ -86,7 +86,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.8 2002/03/19 17:48:18 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.9 2002/03/29 02:34:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEBACKGROUNDBASE_INLINE_CVSID;
 
@@ -178,7 +178,7 @@ FieldContainerPtr ImageBackgroundBase::shallowCopy(void) const
 
 UInt32 ImageBackgroundBase::getContainerSize(void) const 
 { 
-    return sizeof(ImageBackgroundBase); 
+    return sizeof(ImageBackground); 
 }
 
 

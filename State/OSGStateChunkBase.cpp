@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.21 2002/03/19 18:08:17 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.22 2002/03/29 02:34:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATECHUNKBASE_INLINE_CVSID;
 
@@ -129,7 +129,7 @@ const FieldContainerType &StateChunkBase::getType(void) const
 
 UInt32 StateChunkBase::getContainerSize(void) const 
 { 
-    return sizeof(StateChunkBase); 
+    return sizeof(StateChunk); 
 }
 
 

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStatisticsForegroundBase.cpp,v 1.1 2002/03/19 17:46:18 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStatisticsForegroundBase.cpp,v 1.2 2002/03/29 02:34:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
@@ -160,7 +160,7 @@ const FieldContainerType &StatisticsForegroundBase::getType(void) const
 
 UInt32 StatisticsForegroundBase::getContainerSize(void) const 
 { 
-    return sizeof(StatisticsForegroundBase); 
+    return sizeof(StatisticsForeground); 
 }
 
 

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.20 2002/03/19 17:48:18 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.21 2002/03/29 02:34:53 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTILECAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTILECAMERADECORATORBASE_INLINE_CVSID;
 
@@ -213,7 +213,7 @@ FieldContainerPtr TileCameraDecoratorBase::shallowCopy(void) const
 
 UInt32 TileCameraDecoratorBase::getContainerSize(void) const 
 { 
-    return sizeof(TileCameraDecoratorBase); 
+    return sizeof(TileCameraDecorator); 
 }
 
 

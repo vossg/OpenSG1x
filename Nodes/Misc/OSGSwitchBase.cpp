@@ -158,7 +158,7 @@ FieldContainerPtr SwitchBase::shallowCopy(void) const
 
 UInt32 SwitchBase::getContainerSize(void) const 
 { 
-    return sizeof(SwitchBase); 
+    return sizeof(Switch); 
 }
 
 

@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.14 2002/03/19 17:38:56 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.15 2002/03/29 02:34:51 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDISTANCELODBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISTANCELODBASE_INLINE_CVSID;
 
@@ -152,7 +152,7 @@ FieldContainerPtr DistanceLODBase::shallowCopy(void) const
 
 UInt32 DistanceLODBase::getContainerSize(void) const 
 { 
-    return sizeof(DistanceLODBase); 
+    return sizeof(DistanceLOD); 
 }
 
 

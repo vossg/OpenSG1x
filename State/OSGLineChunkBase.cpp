@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLineChunkBase.cpp,v 1.5 2002/03/19 18:08:16 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLineChunkBase.cpp,v 1.6 2002/03/29 02:34:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLINECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLINECHUNKBASE_INLINE_CVSID;
 
@@ -175,7 +175,7 @@ FieldContainerPtr LineChunkBase::shallowCopy(void) const
 
 UInt32 LineChunkBase::getContainerSize(void) const 
 { 
-    return sizeof(LineChunkBase); 
+    return sizeof(LineChunk); 
 }
 
 

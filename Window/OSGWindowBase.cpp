@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.28 2002/03/19 17:48:18 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.29 2002/03/29 02:34:53 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 
@@ -215,7 +215,7 @@ const FieldContainerType &WindowBase::getType(void) const
 
 UInt32 WindowBase::getContainerSize(void) const 
 { 
-    return sizeof(WindowBase); 
+    return sizeof(Window); 
 }
 
 

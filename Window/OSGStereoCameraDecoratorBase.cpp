@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStereoCameraDecoratorBase.cpp,v 1.1 2002/02/22 17:08:05 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStereoCameraDecoratorBase.cpp,v 1.2 2002/03/29 02:34:53 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTEREOCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTEREOCAMERADECORATORBASE_INLINE_CVSID;
 
@@ -160,7 +160,7 @@ const FieldContainerType &StereoCameraDecoratorBase::getType(void) const
 
 UInt32 StereoCameraDecoratorBase::getContainerSize(void) const 
 { 
-    return sizeof(StereoCameraDecoratorBase); 
+    return sizeof(StereoCameraDecorator); 
 }
 
 

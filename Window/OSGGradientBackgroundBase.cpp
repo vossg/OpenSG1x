@@ -86,7 +86,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.23 2002/03/19 17:48:18 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.24 2002/03/29 02:34:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID;
 
@@ -167,7 +167,7 @@ FieldContainerPtr GradientBackgroundBase::shallowCopy(void) const
 
 UInt32 GradientBackgroundBase::getContainerSize(void) const 
 { 
-    return sizeof(GradientBackgroundBase); 
+    return sizeof(GradientBackground); 
 }
 
 

@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureTransformChunkBase.cpp,v 1.2 2002/03/19 18:08:18 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureTransformChunkBase.cpp,v 1.3 2002/03/29 02:34:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURETRANSFORMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURETRANSFORMCHUNKBASE_INLINE_CVSID;
 
@@ -121,7 +121,7 @@ FieldContainerPtr TextureTransformChunkBase::shallowCopy(void) const
 
 UInt32 TextureTransformChunkBase::getContainerSize(void) const 
 { 
-    return sizeof(TextureTransformChunkBase); 
+    return sizeof(TextureTransformChunk); 
 }
 
 

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWIN32WindowBase.cpp,v 1.6 2002/03/19 18:01:41 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWIN32WindowBase.cpp,v 1.7 2002/03/29 02:34:53 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGWIN32WINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWIN32WINDOWBASE_INLINE_CVSID;
 
@@ -191,7 +191,7 @@ FieldContainerPtr WIN32WindowBase::shallowCopy(void) const
 
 UInt32 WIN32WindowBase::getContainerSize(void) const 
 { 
-    return sizeof(WIN32WindowBase); 
+    return sizeof(WIN32Window); 
 }
 
 

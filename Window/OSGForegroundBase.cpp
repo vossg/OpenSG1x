@@ -129,7 +129,7 @@ const FieldContainerType &ForegroundBase::getType(void) const
 
 UInt32 ForegroundBase::getContainerSize(void) const 
 { 
-    return sizeof(ForegroundBase); 
+    return sizeof(Foreground); 
 }
 
 

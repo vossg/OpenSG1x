@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.19 2002/03/19 17:38:55 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.20 2002/03/29 02:34:51 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSPOTLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSPOTLIGHTBASE_INLINE_CVSID;
 
@@ -163,7 +163,7 @@ FieldContainerPtr SpotLightBase::shallowCopy(void) const
 
 UInt32 SpotLightBase::getContainerSize(void) const 
 { 
-    return sizeof(SpotLightBase); 
+    return sizeof(SpotLight); 
 }
 
 

@@ -9,9 +9,11 @@
 #ifndef CHANGELISTVIEWER_H
 #define CHANGELISTVIEWER_H
 
-#include <qvariant.h>
-#include <OSGChangeList.h>
 #include <OSGConfig.h>
+#include <OSGChangeList.h>
+#include <OSGWindowQTDef.h>
+
+#include <qvariant.h>
 #include <qwidget.h>
 class QVBoxLayout; 
 class QHBoxLayout; 
@@ -23,7 +25,7 @@ class QSplitter;
 class QTable;
 class ColorTableItem;
 
-class ChangeListViewer : public QWidget
+class OSG_WINDOWQTLIB_DLLMAPPING ChangeListViewer : public QWidget
 { 
     Q_OBJECT
 

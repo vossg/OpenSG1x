@@ -136,7 +136,7 @@ FieldContainerPtr PassiveBackgroundBase::shallowCopy(void) const
 
 UInt32 PassiveBackgroundBase::getContainerSize(void) const 
 { 
-    return sizeof(PassiveBackgroundBase); 
+    return sizeof(PassiveBackground); 
 }
 
 

@@ -99,7 +99,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
     virtual bool       isTransparent     (void) const;
 
     /*! \}                                                                 */
- 
+
     /*=========================  PROTECTED  ===============================*/
   protected:
 

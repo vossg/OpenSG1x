@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.23 2002/03/19 17:48:18 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.24 2002/03/29 02:34:53 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
 
@@ -158,7 +158,7 @@ FieldContainerPtr PerspectiveCameraBase::shallowCopy(void) const
 
 UInt32 PerspectiveCameraBase::getContainerSize(void) const 
 { 
-    return sizeof(PerspectiveCameraBase); 
+    return sizeof(PerspectiveCamera); 
 }
 
 
