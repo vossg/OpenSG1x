@@ -205,10 +205,10 @@ class SimpleAttachment : public Attachment
 
     typedef typename AttachmentDescT::FieldTypeT          StoredFieldType;
 
-    typedef          SimpleAttachment<AttachmentDescT>    SimpleAttType;
+    typedef          SimpleAttachment<AttachmentDescT>    Self;
 
-    typedef          FCPtr<AttachmentPtr,  SimpleAttType> PtrType;
-
+    typedef          FCPtr<AttachmentPtr,  Self      >    PtrType;
+    
     enum 
     { 
         SimpleFieldId     = Inherited::NextFieldId, 
@@ -391,11 +391,11 @@ class DynFieldAttachment :
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef          DynFieldAttachment<AttachmentDescT   > DynFieldAttType;
+    typedef          DynFieldAttachment<AttachmentDescT> Self;
 
-    typedef typename AttachmentDescT::ParentPtr             ParentPtrType;
+    typedef typename AttachmentDescT::ParentPtr          ParentPtrType;
 
-    typedef          FCPtr<ParentPtrType,  DynFieldAttType> PtrType;
+    typedef          FCPtr<ParentPtrType,  Self        > PtrType;
 
     /*---------------------------------------------------------------------*/
     /*! \name        General Fieldcontainer Declaration                    */

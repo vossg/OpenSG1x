@@ -377,7 +377,8 @@ void TransformationMatrix<ValueTypeT>::setValue(const Char8 *str)
                 break;
             case ' ':
             case '\t':
-                  case '\n':
+            case '\n':
+            case ',':
                 if (tokenC)
                 {
                     *tokenC = 0;
@@ -1078,9 +1079,9 @@ void TransformationMatrix<ValueTypeT>::multPntMatrix(
                    src[2] * _matrix[1][2] +
                             _matrix[1][3]),
                   (src[0] * _matrix[2][0] +
-                   src[1] * _matrix[3][1] +
-                   src[2] * _matrix[3][2] +
-                            _matrix[3][3]));
+                   src[1] * _matrix[2][1] +
+                   src[2] * _matrix[2][2] +
+                            _matrix[2][3]));
 }
 
 //! Multiplies given row point by matrix (pT * M) 

@@ -84,7 +84,7 @@ WARNINGS_C_OFF	:= # -woff 835
 
 WARNINGS_CPP_ERR := -we167
 
-WARNINGS_CPP_OFF := -wd981,424
+WARNINGS_CPP_OFF := -wd981,424,76
 
 # -Wcast-qual  (removed from default because of qt2.2
 # -Wno-reorder (removed from default because of the generated base fc's
@@ -99,7 +99,7 @@ endif
 
 LANG_FLAGS          = 
 #-frepo  -fno-implicit-templates
-COMPILER    		= -Tnoauto -KPIC -Kc++eh -Krtti
+COMPILER    		= -Tnoauto -KPIC -Kc++eh -Krtti -ansi
 
 ### Optimize / Debug ###############################################
 

@@ -113,10 +113,10 @@ VRMLFile::VRMLFile(void) :
 
     _pathHandler()
 {
-    setReferenceHeader("#VRML V2.0 ");
+    Self::setReferenceHeader("#VRML V2.0 ");
 
-    setDefaultOptions (VRMLFile::StripeGeometry |
-                       VRMLFile::CreateNormals  );
+    Self::setDefaultOptions (VRMLFile::StripeGeometry |
+                             VRMLFile::CreateNormals  );
 
     initIntExtFieldTypeMapper();
     initExtIntFieldTypeMapper();
@@ -759,23 +759,23 @@ PROTO Anchor [
      addEventInDecl       ("MFNode", "addChildren");
      addEventInDecl       ("MFNode", "removeChildren");
      
-     beginExposedFieldDecl("MFNode",   OSGmfNode,   "children");
+     beginExposedFieldDecl("MFNode",   Self::OSGmfNode,   "children");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFString", OSGsfString, "description");
+     beginExposedFieldDecl("SFString", Self::OSGsfString, "description");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFString", OSGmfString, "parameter");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "parameter");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFString", OSGmfString, "url");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "url");
      endExposedFieldDecl  ();
      
-     beginFieldDecl       ("SFVec3f",  OSGsfVec3f, "bboxCenter");
+     beginFieldDecl       ("SFVec3f",  Self::OSGsfVec3f, "bboxCenter");
      addFieldValue        ("0 0 0");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFVec3f",  OSGsfVec3f, "bboxSize");
+     beginFieldDecl       ("SFVec3f",  Self::OSGsfVec3f, "bboxSize");
      addFieldValue        ("-1 -1 -1");
      endFieldDecl         ();
  }
@@ -792,15 +792,15 @@ PROTO Appearance [
 
  beginProto("Appearance");
  {
-     beginExposedFieldDecl("SFNode", OSGsfNode, "material");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "material");
 //     addFieldValue         ("NULL");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFNode", OSGsfNode, "texture");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "texture");
 //     addFieldValue         ("NULL");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFNode", OSGsfNode, "textureTransform");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "textureTransform");
 //     addFieldValue         ("NULL");
      endExposedFieldDecl  ();
  }
@@ -821,27 +821,27 @@ PROTO AudioClip [
 
  beginProto("AudioClip");
  {
-     beginExposedFieldDecl("SFString", OSGsfString, "description");
+     beginExposedFieldDecl("SFString", Self::OSGsfString, "description");
      addFieldValue        ("");
      endExposedFieldDecl  ();
      
-     beginExposedFieldDecl("SFBool", OSGsfBool, "loop");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "loop");
      addFieldValue        ("FALSE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "pitch");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "pitch");
      addFieldValue        ("1.0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFTime", OSGsfTime, "startTime");
+     beginExposedFieldDecl("SFTime", Self::OSGsfTime, "startTime");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFTime", OSGsfTime, "stopTime");
+     beginExposedFieldDecl("SFTime", Self::OSGsfTime, "stopTime");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFString", OSGmfString, "url");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "url");
      endExposedFieldDecl  ();
 
      addEventOutDecl      ("SFTime", "duration_changed");
@@ -870,34 +870,34 @@ PROTO Background [
  {
      addEventInDecl       ("SFBool", "set_bind");
      
-     beginExposedFieldDecl("MFFloat", OSGmfFloat, "groundAngle");
+     beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "groundAngle");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFColor", OSGmfColor, "groundColor");
+     beginExposedFieldDecl("MFColor", Self::OSGmfColor, "groundColor");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFString", OSGmfString, "backUrl");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "backUrl");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFString", OSGmfString, "bottomUrl");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "bottomUrl");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFString", OSGmfString, "frontUrl");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "frontUrl");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFString", OSGmfString, "leftUrl");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "leftUrl");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFString", OSGmfString, "rightUrl");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "rightUrl");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFString", OSGmfString, "topUrl");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "topUrl");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFFloat", OSGmfFloat, "skyAngle");
+     beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "skyAngle");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFColor", OSGmfColor, "skyColor");
+     beginExposedFieldDecl("MFColor", Self::OSGmfColor, "skyColor");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
@@ -922,18 +922,18 @@ PROTO Billboard [
      addEventInDecl       ("MFNode", "addChildren");
      addEventInDecl       ("MFNode", "removeChildren");
      
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "axisOfRotation");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "axisOfRotation");
      addFieldValue        ("0 1 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFNode", OSGmfNode, "children");
+     beginExposedFieldDecl("MFNode", Self::OSGmfNode, "children");
      endExposedFieldDecl  ();
      
-     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxCenter");
+     beginFieldDecl       ("SFVec3f", Self::OSGsfVec3f, "bboxCenter");
      addFieldValue        ("0 0 0");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxSize");
+     beginFieldDecl       ("SFVec3f", Self::OSGsfVec3f, "bboxSize");
      addFieldValue        ("-1 -1 -1");
      endFieldDecl         ();
  }
@@ -947,7 +947,7 @@ PROTO Box [
 
  beginProto("Box");
  {
-     beginFieldDecl("SFVec3f", OSGsfVec3f, "size");
+     beginFieldDecl("SFVec3f", Self::OSGsfVec3f, "size");
      addFieldValue ("2 2 2");
      endFieldDecl  ();
  }
@@ -971,22 +971,22 @@ PROTO Collision [
      addEventInDecl      ("MFNode", "addChildren");
      addEventInDecl      ("MFNode", "removeChildren");
 
-     beginExposedFieldDecl("MFNode", OSGmfNode, "children");
+     beginExposedFieldDecl("MFNode", Self::OSGmfNode, "children");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "collide");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "collide");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxCenter");
+     beginFieldDecl       ("SFVec3f", Self::OSGsfVec3f, "bboxCenter");
      addFieldValue        ("0 0 0");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxSize");
+     beginFieldDecl       ("SFVec3f", Self::OSGsfVec3f, "bboxSize");
      addFieldValue        ("-1 -1 -1");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFNode", OSGsfNode, "proxy");
+     beginFieldDecl       ("SFNode", Self::OSGsfNode, "proxy");
      endFieldDecl         ();
      
      addEventOutDecl      ("SFTime", "collideTime");
@@ -1001,7 +1001,7 @@ PROTO Color [
 
  beginProto("Color");
  {
-     beginExposedFieldDecl("MFColor", OSGmfColor, "color");
+     beginExposedFieldDecl("MFColor", Self::OSGmfColor, "color");
      endExposedFieldDecl  ();
  }
  endProto  ();
@@ -1019,10 +1019,10 @@ PROTO ColorInterpolator [
  {
      addEventInDecl       ("SFFloat", "set_fraction");
 
-     beginExposedFieldDecl("MFFloat", OSGmfFloat, "key");
+     beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFColor", OSGmfColor, "keyValue");
+     beginExposedFieldDecl("MFColor", Self::OSGmfColor, "keyValue");
      endExposedFieldDecl  ();
 
      addEventOutDecl      ("SFColor", "value_changed");
@@ -1040,19 +1040,19 @@ PROTO Cone [
 
  beginProto("Cone");
  {
-     beginFieldDecl("SFFloat", OSGsfFloat, "bottomRadius");
+     beginFieldDecl("SFFloat", Self::OSGsfFloat, "bottomRadius");
      addFieldValue ("1");
      endFieldDecl  ();
 
-     beginFieldDecl("SFFloat", OSGsfFloat, "height");
+     beginFieldDecl("SFFloat", Self::OSGsfFloat, "height");
      addFieldValue ("2");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "side");
+     beginFieldDecl("SFBool", Self::OSGsfBool, "side");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "bottom");
+     beginFieldDecl("SFBool", Self::OSGsfBool, "bottom");
      addFieldValue ("TRUE");
      endFieldDecl  ();
  }
@@ -1066,7 +1066,7 @@ PROTO Coordinate [
 
  beginProto("Coordinate");
  {
-     beginExposedFieldDecl("MFVec3f", OSGmfVec3f, "point");
+     beginExposedFieldDecl("MFVec3f", Self::OSGmfVec3f, "point");
      endExposedFieldDecl  ();
  }
  endProto  ();
@@ -1084,10 +1084,10 @@ PROTO CoordinateInterpolator [
  {
      addEventInDecl       ("SFFloat", "set_fraction");
      
-     beginExposedFieldDecl("MFFloat", OSGmfFloat, "key");
+     beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFVec3f", OSGmfVec3f, "keyValue");
+     beginExposedFieldDecl("MFVec3f", Self::OSGmfVec3f, "keyValue");
      endExposedFieldDecl  ();
 
      addEventOutDecl      ("MFVec3f", "value_changed");
@@ -1106,23 +1106,23 @@ PROTO Cylinder [
 
  beginProto("Cylinder");
  {
-     beginFieldDecl("SFBool", OSGsfBool, "bottom");
+     beginFieldDecl("SFBool", Self::OSGsfBool, "bottom");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
-     beginFieldDecl("SFFloat", OSGsfFloat, "height");
+     beginFieldDecl("SFFloat", Self::OSGsfFloat, "height");
      addFieldValue ("2");
      endFieldDecl  ();
 
-     beginFieldDecl("SFFloat", OSGsfFloat, "radius");
+     beginFieldDecl("SFFloat", Self::OSGsfFloat, "radius");
      addFieldValue ("1");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "side");
+     beginFieldDecl("SFBool", Self::OSGsfBool, "side");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "top");
+     beginFieldDecl("SFBool", Self::OSGsfBool, "top");
      addFieldValue ("TRUE");
      endFieldDecl  ();
  }
@@ -1144,27 +1144,27 @@ PROTO CylinderSensor [
 
  beginProto("CylinderSensor");
  {
-     beginExposedFieldDecl("SFBool", OSGsfBool, "autoOffset");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "autoOffset");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "diskAngle");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "diskAngle");
      addFieldValue        ("0.262");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "maxAngle");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "maxAngle");
      addFieldValue        ("-1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "minAngle");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "minAngle");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "offset");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "offset");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
      
@@ -1186,23 +1186,23 @@ PROTO DirectionalLight [
 
  beginProto("DirectionalLight");
  {
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "ambientIntensity");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "ambientIntensity");
      addFieldValue        ("0"); 
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFColor", OSGsfColor, "color");
+     beginExposedFieldDecl("SFColor", Self::OSGsfColor, "color");
      addFieldValue        ("1 1 1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "direction");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "direction");
      addFieldValue        ("0 0 -1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "intensity");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "intensity");
      addFieldValue        ("1"); 
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "on");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "on");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
  }
@@ -1232,54 +1232,54 @@ PROTO ElevationGrid [
  {
      addEventInDecl       ("MFFloat", "set_height");
 
-     beginExposedFieldDecl("SFNode", OSGsfNode, "color");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "color");
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFNode", OSGsfNode, "normal");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "normal");
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFNode", OSGsfNode, "texCoord");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "texCoord");
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "ccw");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "ccw");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "colorPerVertex");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "colorPerVertex");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFFloat", OSGsfFloat, "creaseAngle");
+     beginFieldDecl       ("SFFloat", Self::OSGsfFloat, "creaseAngle");
      addFieldValue        ("0");
      endFieldDecl         ();
 
-     beginFieldDecl       ("MFFloat", OSGsfFloat, "height");
+     beginFieldDecl       ("MFFloat", Self::OSGsfFloat, "height");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "normalPerVertex");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "normalPerVertex");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "solid");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "solid");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFInt32", OSGsfInt32, "xDimension");
+     beginFieldDecl       ("SFInt32", Self::OSGsfInt32, "xDimension");
      addFieldValue        ("0");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFFloat", OSGsfFloat, "xSpacing");
+     beginFieldDecl       ("SFFloat", Self::OSGsfFloat, "xSpacing");
      addFieldValue        ("0.0");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFInt32", OSGsfInt32, "zDimension");
+     beginFieldDecl       ("SFInt32", Self::OSGsfInt32, "zDimension");
      addFieldValue        ("0");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFFloat", OSGsfFloat, "zSpacing");
+     beginFieldDecl       ("SFFloat", Self::OSGsfFloat, "zSpacing");
      addFieldValue        ("0.0");
      endFieldDecl         ();
  }
@@ -1311,23 +1311,23 @@ PROTO Extrusion [
      addEventInDecl("MFVec2f", "set_scale");
      addEventInDecl("MFVec3f", "set_spine");
 
-     beginFieldDecl("SFBool", OSGsfBool, "beginCap");
+     beginFieldDecl("SFBool", Self::OSGsfBool, "beginCap");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "ccw");
+     beginFieldDecl("SFBool", Self::OSGsfBool, "ccw");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "convex");
+     beginFieldDecl("SFBool", Self::OSGsfBool, "convex");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
-     beginFieldDecl("SFFloat", OSGsfFloat, "creaseAngle");
+     beginFieldDecl("SFFloat", Self::OSGsfFloat, "creaseAngle");
      addFieldValue ("0");
      endFieldDecl  ();
 
-     beginFieldDecl("MFVec2f", OSGmfVec2f, "crossSection");
+     beginFieldDecl("MFVec2f", Self::OSGmfVec2f, "crossSection");
      addFieldValue (" 1  1");
      addFieldValue (" 1 -1");
      addFieldValue ("-1 -1");
@@ -1335,23 +1335,23 @@ PROTO Extrusion [
      addFieldValue (" 1  1");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "endCap");
+     beginFieldDecl("SFBool", Self::OSGsfBool, "endCap");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
-     beginFieldDecl("MFRotation", OSGmfRotation, "orientation");
+     beginFieldDecl("MFRotation", Self::OSGmfRotation, "orientation");
      addFieldValue ("0 0 1 0");
      endFieldDecl  ();
 
-     beginFieldDecl("MFVec2f", OSGmfVec2f, "scale");
+     beginFieldDecl("MFVec2f", Self::OSGmfVec2f, "scale");
      addFieldValue ("1 1");
      endFieldDecl  ();
      
-     beginFieldDecl("SFBool", OSGsfBool, "solid");
+     beginFieldDecl("SFBool", Self::OSGsfBool, "solid");
      addFieldValue ("TRUE");
      endFieldDecl  ();
      
-     beginFieldDecl("MFVec3f", OSGmfVec3f, "spine");
+     beginFieldDecl("MFVec3f", Self::OSGmfVec3f, "spine");
      addFieldValue ("0 0 0");
      addFieldValue ("0 1 0");
      endFieldDecl  ();
@@ -1370,15 +1370,15 @@ PROTO Fog [
 
  beginProto("Fog");
  {
-     beginExposedFieldDecl("SFColor", OSGsfColor, "color");
+     beginExposedFieldDecl("SFColor", Self::OSGsfColor, "color");
      addFieldValue        ("1 1 1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFString", OSGsfString, "fogType");
+     beginExposedFieldDecl("SFString", Self::OSGsfString, "fogType");
      addFieldValue        ("LINEAR");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "visibilityRange");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "visibilityRange");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
 
@@ -1403,39 +1403,39 @@ PROTO FontStyle [
 
  beginProto("FontStyle");
  {
-     beginFieldDecl("SFString", OSGsfString, "family");
+     beginFieldDecl("SFString", Self::OSGsfString, "family");
      addFieldValue ("SERIF");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "horizontal");
+     beginFieldDecl("SFBool", Self::OSGsfBool, "horizontal");
      addFieldValue ("TRUE");
      endFieldDecl  ();
      
-     beginFieldDecl("MFString", OSGmfString, "justify");
+     beginFieldDecl("MFString", Self::OSGmfString, "justify");
      addFieldValue ("BEGIN");
      endFieldDecl  ();
 
-     beginFieldDecl("SFString", OSGsfString, "language");
+     beginFieldDecl("SFString", Self::OSGsfString, "language");
      addFieldValue ("");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "leftToRight");
+     beginFieldDecl("SFBool", Self::OSGsfBool, "leftToRight");
      addFieldValue ("TRUE");
      endFieldDecl  ();
 
-     beginFieldDecl("SFFloat", OSGsfFloat, "size");
+     beginFieldDecl("SFFloat", Self::OSGsfFloat, "size");
      addFieldValue ("1.0");
      endFieldDecl  ();
 
-     beginFieldDecl("SFFloat", OSGsfFloat, "spacing");
+     beginFieldDecl("SFFloat", Self::OSGsfFloat, "spacing");
      addFieldValue ("1.0");
      endFieldDecl  ();
 
-     beginFieldDecl("SFString", OSGsfString, "style");
+     beginFieldDecl("SFString", Self::OSGsfString, "style");
      addFieldValue ("PLAIN");
      endFieldDecl  ();
 
-     beginFieldDecl("SFBool", OSGsfBool, "topToBottom");
+     beginFieldDecl("SFBool", Self::OSGsfBool, "topToBottom");
      addFieldValue ("TRUE");
      endFieldDecl  ();
  }
@@ -1456,14 +1456,14 @@ PROTO Group [
      addEventInDecl    ("MFNode", "addChildren");
      addEventInDecl    ("MFNode", "removeChildren");
  
-     beginExposedFieldDecl("MFNode", OSGmfNode, "children");
+     beginExposedFieldDecl("MFNode", Self::OSGmfNode, "children");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxCenter");
+     beginFieldDecl       ("SFVec3f", Self::OSGsfVec3f, "bboxCenter");
      addFieldValue        ("0 0 0");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxSize");
+     beginFieldDecl       ("SFVec3f", Self::OSGsfVec3f, "bboxSize");
      addFieldValue        ("-1 -1 -1");
      endFieldDecl         ();
  }
@@ -1479,14 +1479,14 @@ PROTO ImageTexture [
 
  beginProto("ImageTexture");
  {
-     beginExposedFieldDecl("MFString", OSGmfString, "url");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "url");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "repeatS");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "repeatS");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "repeatT");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "repeatT");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
  }
@@ -1522,56 +1522,56 @@ PROTO IndexedFaceSet [
      addEventInDecl       ("MFInt32", "set_normalIndex");
      addEventInDecl       ("MFInt32", "set_texCoordIndex");
      
-     beginExposedFieldDecl("SFNode", OSGsfNode, "color");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "color");
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
      
-     beginExposedFieldDecl("SFNode", OSGsfNode, "coord");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "coord");
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFNode", OSGsfNode, "normal");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "normal");
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFNode", OSGsfNode, "texCoord");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "texCoord");
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "ccw");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "ccw");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("MFInt32", OSGmfInt32, "colorIndex");
+     beginFieldDecl       ("MFInt32", Self::OSGmfInt32, "colorIndex");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "colorPerVertex");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "colorPerVertex");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "convex");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "convex");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("MFInt32", OSGmfInt32, "coordIndex");
+     beginFieldDecl       ("MFInt32", Self::OSGmfInt32, "coordIndex");
      endFieldDecl         ();
      
-     beginFieldDecl       ("SFFloat", OSGsfFloat, "creaseAngle");
+     beginFieldDecl       ("SFFloat", Self::OSGsfFloat, "creaseAngle");
      addFieldValue        ("0");
      endFieldDecl         ();
 
-     beginFieldDecl       ("MFInt32", OSGmfInt32, "normalIndex");
+     beginFieldDecl       ("MFInt32", Self::OSGmfInt32, "normalIndex");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool",  OSGsfBool, "normalPerVertex");
+     beginFieldDecl       ("SFBool",  Self::OSGsfBool, "normalPerVertex");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool",  OSGsfBool, "solid");
+     beginFieldDecl       ("SFBool",  Self::OSGsfBool, "solid");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
      
-     beginFieldDecl       ("MFInt32", OSGmfInt32, "texCoordIndex");
+     beginFieldDecl       ("MFInt32", Self::OSGmfInt32, "texCoordIndex");
      endFieldDecl();
  }
  endProto  ();
@@ -1593,22 +1593,22 @@ PROTO IndexedLineSet [
      addEventInDecl       ("MFInt32", "set_colorIndex");
      addEventInDecl       ("MFInt32", "set_coordIndex");
 
-     beginExposedFieldDecl("SFNode", OSGsfNode, "color");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "color");
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFNode", OSGsfNode, "coord");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "coord");
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("MFInt32", OSGmfInt32, "colorIndex");
+     beginFieldDecl       ("MFInt32", Self::OSGmfInt32, "colorIndex");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "colorPerVertex");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "colorPerVertex");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
      
-     beginFieldDecl       ("MFInt32", OSGmfInt32, "coordIndex");
+     beginFieldDecl       ("MFInt32", Self::OSGmfInt32, "coordIndex");
      endFieldDecl         ();
  }
  endProto  ();
@@ -1623,14 +1623,14 @@ PROTO Inline [
 
  beginProto("Inline");
  {
-     beginExposedFieldDecl("MFString", OSGmfString, "url");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "url");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxCenter");
+     beginFieldDecl       ("SFVec3f", Self::OSGsfVec3f, "bboxCenter");
      addFieldValue        ("0 0 0");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxSize");
+     beginFieldDecl       ("SFVec3f", Self::OSGsfVec3f, "bboxSize");
      addFieldValue        ("-1 -1 -1");
      endFieldDecl         ();
  }
@@ -1646,14 +1646,14 @@ PROTO LOD [
 
  beginProto("LOD");
  {
-     beginExposedFieldDecl("MFNode", OSGmfNode, "level");
+     beginExposedFieldDecl("MFNode", Self::OSGmfNode, "level");
      endExposedFieldDecl  ();
      
-     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "center");
+     beginFieldDecl       ("SFVec3f", Self::OSGsfVec3f, "center");
      addFieldValue        ("0 0 0");
      endFieldDecl         ();
 
-     beginFieldDecl       ("MFFloat", OSGmfFloat, "range");
+     beginFieldDecl       ("MFFloat", Self::OSGmfFloat, "range");
      endFieldDecl         ();
  }
  endProto  ();
@@ -1671,27 +1671,27 @@ PROTO Material [
 
  beginProto("Material");
  {
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "ambientIntensity");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "ambientIntensity");
      addFieldValue        ("0.2");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFColor", OSGsfColor, "diffuseColor");
+     beginExposedFieldDecl("SFColor", Self::OSGsfColor, "diffuseColor");
      addFieldValue        ("0.8 0.8 0.8");
      endExposedFieldDecl  ();
      
-     beginExposedFieldDecl("SFColor", OSGsfColor, "emissiveColor");
+     beginExposedFieldDecl("SFColor", Self::OSGsfColor, "emissiveColor");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "shininess");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "shininess");
      addFieldValue        ("0.2");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFColor", OSGsfColor, "specularColor");
+     beginExposedFieldDecl("SFColor", Self::OSGsfColor, "specularColor");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "transparency");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "transparency");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
  }
@@ -1713,30 +1713,30 @@ PROTO MovieTexture [
 
  beginProto("MovieTexture");
  {
-     beginExposedFieldDecl("SFBool", OSGsfBool, "loop");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "loop");
      addFieldValue        ("FALSE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "speed");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "speed");
      addFieldValue        ("1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFTime", OSGsfTime, "startTime");
+     beginExposedFieldDecl("SFTime", Self::OSGsfTime, "startTime");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFTime", OSGsfTime, "stopTime");
+     beginExposedFieldDecl("SFTime", Self::OSGsfTime, "stopTime");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFString", OSGmfString, "url");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "url");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "repeatS");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "repeatS");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "repeatT");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "repeatT");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
@@ -1761,25 +1761,25 @@ PROTO NavigationInfo [
  {
      addEventInDecl       ("SFBool", "set_bind");
      
-     beginExposedFieldDecl("MFFloat", OSGmfFloat, "avatarSize");
+     beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "avatarSize");
      addFieldValue        ("0.25");
      addFieldValue        ("1.6 ");
      addFieldValue        ("0.75");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "headlight");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "headlight");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "speed");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "speed");
      addFieldValue        ("1.0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFString", OSGmfString, "type");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "type");
      addFieldValue        ("WALK");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "visibilityLimit");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "visibilityLimit");
      addFieldValue        ("0.0");
      endExposedFieldDecl  ();
 
@@ -1795,7 +1795,7 @@ PROTO Normal [
 
  beginProto("Normal");
  {
-     beginExposedFieldDecl("MFVec3f", OSGmfVec3f, "vector");
+     beginExposedFieldDecl("MFVec3f", Self::OSGmfVec3f, "vector");
      endExposedFieldDecl  ();
  }
  endProto  ();
@@ -1813,10 +1813,10 @@ PROTO NormalInterpolator [
  {
      addEventInDecl       ("SFFloat", "set_fraction");
      
-     beginExposedFieldDecl("MFFloat", OSGmfFloat, "key");
+     beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFVec3f", OSGmfVec3f, "keyValue");
+     beginExposedFieldDecl("MFVec3f", Self::OSGmfVec3f, "keyValue");
      endExposedFieldDecl  ();
 
      addEventOutDecl      ("MFVec3f",  "value_changed");
@@ -1836,10 +1836,10 @@ PROTO OrientationInterpolator [
  {
      addEventInDecl       ("SFFloat", "set_fraction");
 
-     beginExposedFieldDecl("MFFloat", OSGmfFloat, "key");
+     beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFRotation", OSGmfRotation, "keyValue");
+     beginExposedFieldDecl("MFRotation", Self::OSGmfRotation, "keyValue");
      endExposedFieldDecl  ();
      
      addEventOutDecl      ("SFRotation", "value_changed");
@@ -1856,15 +1856,15 @@ PROTO PixelTexture [
 
  beginProto("PixelTexture");
  {
-     beginExposedFieldDecl("SFImage", OSGsfImage, "image");
+     beginExposedFieldDecl("SFImage", Self::OSGsfImage, "image");
 //     addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "repeatS");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "repeatS");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "repeatT");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "repeatT");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
  }
@@ -1885,23 +1885,23 @@ PROTO PlaneSensor [
 
  beginProto("PlaneSensor");
  {
-     beginExposedFieldDecl("SFBool", OSGsfBool, "autoOffset");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "autoOffset");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec2f", OSGsfVec2f, "maxPosition");
+     beginExposedFieldDecl("SFVec2f", Self::OSGsfVec2f, "maxPosition");
      addFieldValue        ("-1 -1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec2f", OSGsfVec2f, "minPosition");
+     beginExposedFieldDecl("SFVec2f", Self::OSGsfVec2f, "minPosition");
      addFieldValue        ("0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "offset");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "offset");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
@@ -1926,31 +1926,31 @@ PROTO PointLight [
 
  beginProto("PointLight");
  {
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "ambientIntensity");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "ambientIntensity");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "attenuation");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "attenuation");
      addFieldValue        ("1 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFColor", OSGsfColor, "color");
+     beginExposedFieldDecl("SFColor", Self::OSGsfColor, "color");
      addFieldValue        ("1 1 1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "intensity");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "intensity");
      addFieldValue        ("1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "location");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "location");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "on");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "on");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "radius");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "radius");
      addFieldValue        ("100");
      endExposedFieldDecl  ();
  }
@@ -1965,11 +1965,11 @@ PROTO PointSet [
 
  beginProto("PointSet");
  {
-     beginExposedFieldDecl("SFNode", OSGsfNode, "color");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "color");
 //     addFieldValue        ("NULL");
      endFieldDecl         ();
 
-     beginExposedFieldDecl("SFNode", OSGsfNode, "coord");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "coord");
 //     addFieldValue        ("NULL");
      endFieldDecl         ();
  }
@@ -1988,10 +1988,10 @@ PROTO PositionInterpolator [
  {
      addEventInDecl       ("SFFloat", "set_fraction");
      
-     beginExposedFieldDecl("MFFloat", OSGmfFloat, "key");
+     beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl();
 
-     beginExposedFieldDecl("MFVec3f", OSGmfVec3f, "keyValue");
+     beginExposedFieldDecl("MFVec3f", Self::OSGmfVec3f, "keyValue");
      endExposedFieldDecl  ();
 
      addEventOutDecl      ("SFVec3f", "value_changed");
@@ -2013,15 +2013,15 @@ PROTO ProximitySensor [
 
  beginProto("ProximitySensor");
  {
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "center");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "center");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "size");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "size");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -2046,10 +2046,10 @@ PROTO ScalarInterpolator [
  {
      addEventInDecl       ("SFFloat", "set_fraction");
 
-     beginExposedFieldDecl("MFFloat", OSGmfFloat, "key");
+     beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "key");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFFloat", OSGmfFloat, "keyValue");
+     beginExposedFieldDecl("MFFloat", Self::OSGmfFloat, "keyValue");
      endExposedFieldDecl  ();
      
      addEventOutDecl      ("SFFloat", "value_changed");
@@ -2066,14 +2066,14 @@ PROTO Script [
 
  beginProto("Script");
  {
-     beginExposedFieldDecl("MFString", OSGmfString, "url");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "url");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "directOutput");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "directOutput");
      addFieldValue        ("FALSE");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFBool", OSGsfBool, "mustEvaluate");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "mustEvaluate");
      addFieldValue        ("FALSE");
      endFieldDecl         ();
  }
@@ -2088,11 +2088,11 @@ PROTO Shape [
 
  beginProto("Shape");
  {
-     beginFieldDecl("SFNode", OSGsfNode, "appearance");
+     beginFieldDecl("SFNode", Self::OSGsfNode, "appearance");
 //     addFieldValue ("NULL");
      endFieldDecl  ();
 
-     beginFieldDecl("SFNode", OSGsfNode, "geometry");
+     beginFieldDecl("SFNode", Self::OSGsfNode, "geometry");
 //     addFieldValue ("NULL");
      endFieldDecl  ();
  }
@@ -2115,43 +2115,43 @@ PROTO Sound [
 
  beginProto("Sound");
  {
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "direction");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "direction");
      addFieldValue        ("0 0 1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "intensity");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "intensity");
      addFieldValue        ("1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "location");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "location");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "maxBack");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "maxBack");
      addFieldValue        ("10");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "maxFront");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "maxFront");
      addFieldValue        ("10");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "minBack");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "minBack");
      addFieldValue        ("1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "minFront");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "minFront");
      addFieldValue        ("1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "priority");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "priority");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
      
-     beginExposedFieldDecl("SFNode", OSGsfNode, "source");
+     beginExposedFieldDecl("SFNode", Self::OSGsfNode, "source");
 //     addFieldValue        ("NULL");
      endExposedFieldDecl  ();
      
-     beginFieldDecl       ("SFBool", OSGsfBool, "spatialize");
+     beginFieldDecl       ("SFBool", Self::OSGsfBool, "spatialize");
      addFieldValue        ("TRUE");
      endFieldDecl         ();
  }
@@ -2165,7 +2165,7 @@ PROTO Sphere [
 
  beginProto("Sphere");
  {
-     beginFieldDecl("SFFloat", OSGsfFloat, "radius");
+     beginFieldDecl("SFFloat", Self::OSGsfFloat, "radius");
      addFieldValue ("1");
      endFieldDecl  ();
  }
@@ -2184,15 +2184,15 @@ PROTO SphereSensor [
 
  beginProto("SphereSensor");
  {
-     beginExposedFieldDecl("SFBool", OSGsfBool, "autoOffset");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "autoOffset");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFRotation", OSGsfRotation, "offset");
+     beginExposedFieldDecl("SFRotation", Self::OSGsfRotation, "offset");
      addFieldValue        ("0 1 0 0");
      endExposedFieldDecl  ();
 
@@ -2219,43 +2219,43 @@ PROTO SpotLight [
 
  beginProto("SpotLight");
  {
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "ambientIntensity");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "ambientIntensity");
      addFieldValue        ("0"); 
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "attenuation");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "attenuation");
      addFieldValue        ("1 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "beamWidth");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "beamWidth");
      addFieldValue        ("1.570796");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFColor", OSGsfColor, "color");
+     beginExposedFieldDecl("SFColor", Self::OSGsfColor, "color");
      addFieldValue        ("1 1 1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "cutOffAngle");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "cutOffAngle");
      addFieldValue        ("0.785398");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "direction");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "direction");
      addFieldValue        ("0 0 -1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "intensity");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "intensity");
      addFieldValue        ("1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "location");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "location");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "on");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "on");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "radius");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "radius");
      addFieldValue        ("100");
      endExposedFieldDecl  ();
  }
@@ -2270,10 +2270,10 @@ PROTO Switch [
 
  beginProto("Switch");
  {
-     beginExposedFieldDecl("MFNode", OSGmfNode, "choice");
+     beginExposedFieldDecl("MFNode", Self::OSGmfNode, "choice");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFInt32", OSGsfInt32, "whichChoice");
+     beginExposedFieldDecl("SFInt32", Self::OSGsfInt32, "whichChoice");
      addFieldValue        ("-1");
      endExposedFieldDecl  ();
  }
@@ -2290,17 +2290,17 @@ PROTO Text [
 
  beginProto("Text");
  {
-     beginExposedFieldDecl("MFString", OSGmfString, "string");
+     beginExposedFieldDecl("MFString", Self::OSGmfString, "string");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFNode", OSGsfNode, "fontStyle");
+     beginFieldDecl       ("SFNode", Self::OSGsfNode, "fontStyle");
 //     addFieldValue        ("NULL");
      endFieldDecl         ();
 
-     beginFieldDecl       ("MFFloat", OSGmfFloat, "length");
+     beginFieldDecl       ("MFFloat", Self::OSGmfFloat, "length");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFFloat", OSGsfFloat, "maxExtent");
+     beginFieldDecl       ("SFFloat", Self::OSGsfFloat, "maxExtent");
      addFieldValue        ("0.0");
      endFieldDecl         ();
  }
@@ -2314,7 +2314,7 @@ PROTO TextureCoordinate [
 
  beginProto("TextureCoordinate");
  {
-     beginExposedFieldDecl("MFVec2f", OSGmfVec2f, "point");
+     beginExposedFieldDecl("MFVec2f", Self::OSGmfVec2f, "point");
      endExposedFieldDecl  ();
  }
  endProto  ();
@@ -2330,19 +2330,19 @@ PROTO TextureTransform [
 
  beginProto("TextureTransform");
  {
-     beginExposedFieldDecl("SFVec2f", OSGsfVec2f, "center");
+     beginExposedFieldDecl("SFVec2f", Self::OSGsfVec2f, "center");
      addFieldValue        ("0 0");
      endExposedFieldDecl  ();
      
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "rotation");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "rotation");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec2f", OSGsfVec2f, "scale");
+     beginExposedFieldDecl("SFVec2f", Self::OSGsfVec2f, "scale");
      addFieldValue        ("1 1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec2f", OSGsfVec2f, "translation");
+     beginExposedFieldDecl("SFVec2f", Self::OSGsfVec2f, "translation");
      addFieldValue        ("0 0");
      endExposedFieldDecl  ();
  }
@@ -2364,23 +2364,23 @@ PROTO TimeSensor [
 
  beginProto("TimeSensor");
  {
-     beginExposedFieldDecl("SFTime", OSGsfTime, "cycleInterval");
+     beginExposedFieldDecl("SFTime", Self::OSGsfTime, "cycleInterval");
      addFieldValue        ("1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "loop");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "loop");
      addFieldValue        ("FALSE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFTime", OSGsfTime, "startTime");
+     beginExposedFieldDecl("SFTime", Self::OSGsfTime, "startTime");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFTime", OSGsfTime, "stopTime");
+     beginExposedFieldDecl("SFTime", Self::OSGsfTime, "stopTime");
      addFieldValue        ("0");
      endExposedFieldDecl  ();
 
@@ -2405,7 +2405,7 @@ PROTO TouchSensor [
 
  beginProto("TouchSensor");
  {
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
@@ -2438,34 +2438,34 @@ PROTO Transform [
      addEventInDecl       ("MFNode", "addChildren");
      addEventInDecl       ("MFNode", "removeChildren");
      
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "center");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "center");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("MFNode", OSGmfNode, "children");
+     beginExposedFieldDecl("MFNode", Self::OSGmfNode, "children");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFRotation", OSGsfRotation, "rotation");
+     beginExposedFieldDecl("SFRotation", Self::OSGsfRotation, "rotation");
      addFieldValue        ("0 0 1  0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "scale");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "scale");
      addFieldValue        ("1 1 1");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFRotation", OSGsfRotation, "scaleOrientation");
+     beginExposedFieldDecl("SFRotation", Self::OSGsfRotation, "scaleOrientation");
      addFieldValue        ("0 0 1  0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "translation");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "translation");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxCenter");
+     beginFieldDecl       ("SFVec3f", Self::OSGsfVec3f, "bboxCenter");
      addFieldValue        ("0 0 0");
      endFieldDecl         ();
 
-     beginFieldDecl       ("SFVec3f", OSGsfVec3f, "bboxSize");
+     beginFieldDecl       ("SFVec3f", Self::OSGsfVec3f, "bboxSize");
      addFieldValue        ("-1 -1 -1");
      endFieldDecl         ();
  }
@@ -2488,23 +2488,23 @@ PROTO Viewpoint [
  {
      addEventInDecl       ("SFBool", "set_bind");
      
-     beginExposedFieldDecl("SFFloat", OSGsfFloat, "fieldOfView");
+     beginExposedFieldDecl("SFFloat", Self::OSGsfFloat, "fieldOfView");
      addFieldValue        ("0.785398");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "jump");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "jump");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFRotation", OSGsfRotation, "orientation");
+     beginExposedFieldDecl("SFRotation", Self::OSGsfRotation, "orientation");
      addFieldValue        ("0 0 1  0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "position");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "position");
      addFieldValue        ("0 0 10");
      endExposedFieldDecl  ();
 
-     beginFieldDecl       ("SFString", OSGsfString, "description");
+     beginFieldDecl       ("SFString", Self::OSGsfString, "description");
      addFieldValue        ("");
      endFieldDecl         ();
 
@@ -2526,15 +2526,15 @@ PROTO VisibilitySensor [
 
  beginProto("VisibilitySensor");
  {
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "center");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "center");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFBool", OSGsfBool, "enabled");
+     beginExposedFieldDecl("SFBool", Self::OSGsfBool, "enabled");
      addFieldValue        ("TRUE");
      endExposedFieldDecl  ();
 
-     beginExposedFieldDecl("SFVec3f", OSGsfVec3f, "size");
+     beginExposedFieldDecl("SFVec3f", Self::OSGsfVec3f, "size");
      addFieldValue        ("0 0 0");
      endExposedFieldDecl  ();
 
@@ -2553,10 +2553,10 @@ PROTO WorldInfo [
 
  beginProto("WorldInfo");
  {
-     beginFieldDecl("MFString", OSGmfString, "info");
+     beginFieldDecl("MFString", Self::OSGmfString, "info");
      endFieldDecl  ();
      
-     beginFieldDecl("SFString", OSGsfString, "title");
+     beginFieldDecl("SFString", Self::OSGsfString, "title");
      addFieldValue("");
      endFieldDecl();
  }
@@ -2575,216 +2575,216 @@ NodePtr VRMLFile::getRoot(void)
 
 void VRMLFile::initIntExtFieldTypeMapper(void)
 {
-    setIntExtMapping(SFBool::getClassType().getId(),
-                     ScanParseSkel::OSGsfBool);
+    Self::setIntExtMapping(SFBool::getClassType().getId(),
+                           ScanParseSkel::OSGsfBool);
 
-    setIntExtMapping(SFColor3f::getClassType().getId(),
-                     ScanParseSkel::OSGsfColor);
+    Self::setIntExtMapping(SFColor3f::getClassType().getId(),
+                           ScanParseSkel::OSGsfColor);
 
-    setIntExtMapping(SFReal32::getClassType().getId(), 
-                     ScanParseSkel::OSGsfFloat);
+    Self::setIntExtMapping(SFReal32::getClassType().getId(), 
+                           ScanParseSkel::OSGsfFloat);
 
-    setIntExtMapping(SFImageP::getClassType().getId(),
-                     ScanParseSkel::OSGsfImage);
+    Self::setIntExtMapping(SFImageP::getClassType().getId(),
+                           ScanParseSkel::OSGsfImage);
 
-    setIntExtMapping(SFInt32::getClassType().getId(),
-                     ScanParseSkel::OSGsfInt32);
+    Self::setIntExtMapping(SFInt32::getClassType().getId(),
+                           ScanParseSkel::OSGsfInt32);
 
-    setIntExtMapping(SFQuaternion::getClassType().getId(),
-                     ScanParseSkel::OSGsfRotation);
+    Self::setIntExtMapping(SFQuaternion::getClassType().getId(),
+                           ScanParseSkel::OSGsfRotation);
 
-    setIntExtMapping(SFString::getClassType().getId(),
-                     ScanParseSkel::OSGsfString);
+    Self::setIntExtMapping(SFString::getClassType().getId(),
+                           ScanParseSkel::OSGsfString);
 
-    setIntExtMapping(SFTime::getClassType().getId(),
-                     ScanParseSkel::OSGsfTime);
+    Self::setIntExtMapping(SFTime::getClassType().getId(),
+                           ScanParseSkel::OSGsfTime);
 
-    setIntExtMapping(SFVec2f::getClassType().getId(),
-                     ScanParseSkel::OSGsfVec2f);
+    Self::setIntExtMapping(SFVec2f::getClassType().getId(),
+                           ScanParseSkel::OSGsfVec2f);
 
-    setIntExtMapping(SFVec3f::getClassType().getId(),
-                     ScanParseSkel::OSGsfVec3f);
-
-
-
-    setIntExtMapping(MFColor3f::getClassType().getId(),
-                     ScanParseSkel::OSGmfColor);
-
-    setIntExtMapping(MFReal32::getClassType().getId(),
-                     ScanParseSkel::OSGmfFloat);
-
-    setIntExtMapping(MFInt32::getClassType().getId(),
-                     ScanParseSkel::OSGmfInt32);
-
-    setIntExtMapping(MFQuaternion::getClassType().getId(),
-                     ScanParseSkel::OSGmfRotation);
-
-    setIntExtMapping(MFString::getClassType().getId(),
-                     ScanParseSkel::OSGmfString);
-
-    setIntExtMapping(MFTime::getClassType().getId(),
-                     ScanParseSkel::OSGmfTime);
-
-    setIntExtMapping(MFVec3f::getClassType().getId(),
-                     ScanParseSkel::OSGmfVec3f);
-
-    setIntExtMapping(MFVec2f::getClassType().getId(),
-                     ScanParseSkel::OSGmfVec2f);
+    Self::setIntExtMapping(SFVec3f::getClassType().getId(),
+                           ScanParseSkel::OSGsfVec3f);
 
 
-    setIntExtMapping(SFNodePtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(MFNodePtr::getClassType().getId(),
-                     ScanParseSkel::OSGmfNode);
+    Self::setIntExtMapping(MFColor3f::getClassType().getId(),
+                           ScanParseSkel::OSGmfColor);
+
+    Self::setIntExtMapping(MFReal32::getClassType().getId(),
+                           ScanParseSkel::OSGmfFloat);
+
+    Self::setIntExtMapping(MFInt32::getClassType().getId(),
+                           ScanParseSkel::OSGmfInt32);
+
+    Self::setIntExtMapping(MFQuaternion::getClassType().getId(),
+                           ScanParseSkel::OSGmfRotation);
+
+    Self::setIntExtMapping(MFString::getClassType().getId(),
+                           ScanParseSkel::OSGmfString);
+
+    Self::setIntExtMapping(MFTime::getClassType().getId(),
+                           ScanParseSkel::OSGmfTime);
+
+    Self::setIntExtMapping(MFVec3f::getClassType().getId(),
+                           ScanParseSkel::OSGmfVec3f);
+
+    Self::setIntExtMapping(MFVec2f::getClassType().getId(),
+                           ScanParseSkel::OSGmfVec2f);
+
+
+    Self::setIntExtMapping(SFNodePtr::getClassType().getId(),
+                           ScanParseSkel::OSGsfNode);
+
+    Self::setIntExtMapping(MFNodePtr::getClassType().getId(),
+                           ScanParseSkel::OSGmfNode);
 
     /* To Base Type Mappings */
 
-    setIntExtMapping(SFUInt8::getClassType().getId(),
-                     ScanParseSkel::OSGsfInt32);
+    Self::setIntExtMapping(SFUInt8::getClassType().getId(),
+                           ScanParseSkel::OSGsfInt32);
 
-    setIntExtMapping(MFUInt8::getClassType().getId(),
-                     ScanParseSkel::OSGmfInt32);
+    Self::setIntExtMapping(MFUInt8::getClassType().getId(),
+                           ScanParseSkel::OSGmfInt32);
 
-    setIntExtMapping(SFUInt32::getClassType().getId(),
-                     ScanParseSkel::OSGsfInt32);
+    Self::setIntExtMapping(SFUInt32::getClassType().getId(),
+                           ScanParseSkel::OSGsfInt32);
 
-    setIntExtMapping(MFUInt32::getClassType().getId(),
-                     ScanParseSkel::OSGmfInt32);
+    Self::setIntExtMapping(MFUInt32::getClassType().getId(),
+                           ScanParseSkel::OSGmfInt32);
 
     /* To Node Mappings */
 
-    setIntExtMapping(SFNodeCorePtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
+    Self::setIntExtMapping(SFNodeCorePtr::getClassType().getId(),
+                           ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFMaterialPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
+    Self::setIntExtMapping(SFMaterialPtr::getClassType().getId(),
+                           ScanParseSkel::OSGsfNode);
     
-    setIntExtMapping(SFGeoPTypesPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
+    Self::setIntExtMapping(SFGeoPTypesPtr::getClassType().getId(),
+                           ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoIndicesPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
+    Self::setIntExtMapping(SFGeoIndicesPtr::getClassType().getId(),
+                           ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoPLengthsPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
+    Self::setIntExtMapping(SFGeoPLengthsPtr::getClassType().getId(),
+                           ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoColorsPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
+    Self::setIntExtMapping(SFGeoColorsPtr::getClassType().getId(),
+                           ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoPositionsPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
+    Self::setIntExtMapping(SFGeoPositionsPtr::getClassType().getId(),
+                           ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoNormalsPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
+    Self::setIntExtMapping(SFGeoNormalsPtr::getClassType().getId(),
+                           ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFGeoTexCoordsPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
+    Self::setIntExtMapping(SFGeoTexCoordsPtr::getClassType().getId(),
+                           ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(MFStateChunkPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
+    Self::setIntExtMapping(MFStateChunkPtr::getClassType().getId(),
+                           ScanParseSkel::OSGsfNode);
 
-    setIntExtMapping(SFAttachmentMap::getClassType().getId(),
-                     ScanParseSkel::OSGmfNode);
+    Self::setIntExtMapping(SFAttachmentMap::getClassType().getId(),
+                           ScanParseSkel::OSGmfNode);
 
-    setIntExtMapping(SFFieldContainerPtr::getClassType().getId(),
-                     ScanParseSkel::OSGsfNode);
+    Self::setIntExtMapping(SFFieldContainerPtr::getClassType().getId(),
+                           ScanParseSkel::OSGsfNode);
 
     /* extended types */
 
-    setIntExtMapping(SFMatrix::getClassType().getId(),
-                     ScanParseSkel::OSGsfMatrix);
-
-    setIntExtMapping(SFPnt3f::getClassType().getId(),
-                     ScanParseSkel::OSGsfPnt3f);
-
-    setIntExtMapping(MFPnt3f::getClassType().getId(),
-                     ScanParseSkel::OSGmfPnt3f);
+    Self::setIntExtMapping(SFMatrix::getClassType().getId(),
+                           ScanParseSkel::OSGsfMatrix);
+    
+    Self::setIntExtMapping(SFPnt3f::getClassType().getId(),
+                           ScanParseSkel::OSGsfPnt3f);
+    
+    Self::setIntExtMapping(MFPnt3f::getClassType().getId(),
+                           ScanParseSkel::OSGmfPnt3f);
 }
 
 
 void VRMLFile::initExtIntFieldTypeMapper(void)
 {
-    setExtIntMapping(ScanParseSkel::OSGsfBool, 
-                     SFBool::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGsfBool, 
+                           SFBool::getClassType().getId());
 
-    setExtIntMapping(ScanParseSkel::OSGsfColor, 
-                     SFColor3f::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGsfColor, 
+                           SFColor3f::getClassType().getId());
 
-    setExtIntMapping(ScanParseSkel::OSGsfFloat, 
-                     SFReal32::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGsfFloat, 
+                           SFReal32::getClassType().getId());
 
 /*
-    setExtIntMapping(SFImage::getClassType().getId(),
+    Self::setExtIntMapping(SFImage::getClassType().getId(),
                      ScanParseSkel::OSGsfInt32);
                      */
 
-    setExtIntMapping(ScanParseSkel::OSGsfImage, 
-                     SFImageP::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGsfImage, 
+                           SFImageP::getClassType().getId());
 
-    setExtIntMapping(ScanParseSkel::OSGsfInt32, 
-                     SFInt32::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGsfInt32, 
+                           SFInt32::getClassType().getId());
     
 
-    setExtIntMapping(ScanParseSkel::OSGsfRotation, 
-                     SFQuaternion::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGsfRotation, 
+                           SFQuaternion::getClassType().getId());
 
-    setExtIntMapping(ScanParseSkel::OSGsfString, 
-                     SFString::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGsfString, 
+                           SFString::getClassType().getId());
 
-    setExtIntMapping(ScanParseSkel::OSGsfTime, 
-                     SFTime::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGsfTime, 
+                           SFTime::getClassType().getId());
 
-    setExtIntMapping(ScanParseSkel::OSGsfVec2f, 
-                     SFVec2f::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGsfVec2f, 
+                           SFVec2f::getClassType().getId());
 
-    setExtIntMapping(ScanParseSkel::OSGsfVec3f, 
-                     SFVec3f::getClassType().getId());
-
-
-
-    setExtIntMapping(ScanParseSkel::OSGmfColor, 
-                     MFColor3f::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGmfFloat, 
-                     MFReal32::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGmfInt32, 
-                     MFInt32::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGmfRotation, 
-                     MFQuaternion::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGmfString, 
-                     MFString::getClassType().getId());
-
-    setExtIntMapping(ScanParseSkel::OSGmfTime, 
-                     MFTime::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGsfVec3f, 
+                           SFVec3f::getClassType().getId());
 
 
-    setExtIntMapping(ScanParseSkel::OSGmfVec3f, 
-                     MFVec3f::getClassType().getId());
 
-    setExtIntMapping(ScanParseSkel::OSGmfVec2f, 
-                     MFVec2f::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGmfColor, 
+                           MFColor3f::getClassType().getId());
+
+    Self::setExtIntMapping(ScanParseSkel::OSGmfFloat, 
+                           MFReal32::getClassType().getId());
+
+    Self::setExtIntMapping(ScanParseSkel::OSGmfInt32, 
+                           MFInt32::getClassType().getId());
+
+    Self::setExtIntMapping(ScanParseSkel::OSGmfRotation, 
+                           MFQuaternion::getClassType().getId());
+
+    Self::setExtIntMapping(ScanParseSkel::OSGmfString, 
+                           MFString::getClassType().getId());
+
+    Self::setExtIntMapping(ScanParseSkel::OSGmfTime, 
+                           MFTime::getClassType().getId());
 
 
-    setExtIntMapping(ScanParseSkel::OSGsfNode,
-                     SFNodePtr::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGmfVec3f, 
+                           MFVec3f::getClassType().getId());
 
-    setExtIntMapping(ScanParseSkel::OSGmfNode,
-                     MFNodePtr::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGmfVec2f, 
+                           MFVec2f::getClassType().getId());
+
+
+    Self::setExtIntMapping(ScanParseSkel::OSGsfNode,
+                           SFNodePtr::getClassType().getId());
+
+    Self::setExtIntMapping(ScanParseSkel::OSGmfNode,
+                           MFNodePtr::getClassType().getId());
 
     /* extended types */
 
-    setExtIntMapping(ScanParseSkel::OSGsfMatrix, 
-                     SFMatrix::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGsfMatrix, 
+                           SFMatrix::getClassType().getId());
 
-    setExtIntMapping(ScanParseSkel::OSGsfPnt3f, 
-                     SFPnt3f::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGsfPnt3f, 
+                           SFPnt3f::getClassType().getId());
 
-    setExtIntMapping(ScanParseSkel::OSGmfPnt3f, 
-                     MFPnt3f::getClassType().getId());
+    Self::setExtIntMapping(ScanParseSkel::OSGmfPnt3f, 
+                           MFPnt3f::getClassType().getId());
 }
 
 /* remove this, if there is a general methode to find containers */

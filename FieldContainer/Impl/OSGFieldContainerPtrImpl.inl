@@ -824,7 +824,7 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 void FCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
     const NullFieldContainerPtr &)
 {
-    setNull();
+    Self::setNull();
 }
 
 /*-------------------------------------------------------------------------*/
@@ -980,7 +980,7 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 void ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::operator = (
     const NullFieldContainerPtr &)
 {
-    setNull();
+    Self::setNull();
 }
 
 /*-------------------------------------------------------------------------*/

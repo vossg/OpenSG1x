@@ -60,7 +60,15 @@ class NodeGraph
   private:
 
     enum WalkCase { START = -2, NEW = -1, LEFT = 0, RIGHT = 1, FINISH = 10 };
+
+    class Edge;
+    friend class Edge;
+
+    class NodeList;
+    friend class NodeList;
+
     class Node;
+    friend class Node;
 
     class Edge
     {

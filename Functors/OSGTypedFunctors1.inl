@@ -118,7 +118,7 @@ TypedFunctor1Base<RetT,
 
     Inherited(source)
 {
-    postCopyConstruct(source);
+    Self::postCopyConstruct(source);
 }
 
 
@@ -246,7 +246,7 @@ TypedVoidFunctor1Base<CallArgT, SizeTraitsT>::TypedVoidFunctor1Base(
 
     Inherited(source)
 {
-    postCopyConstruct(source);
+    Self::postCopyConstruct(source);
 }
 
 

@@ -390,7 +390,7 @@ OSGLoader::OSGLoader(void) :
     _fdStack      (),
     _pathHandler  ()
 {
-    setReferenceHeader("#OSG V1.0 ");
+    Self::setReferenceHeader("#OSG V1.0 ");
     initFieldTypeMapper();
 }
 

@@ -53,69 +53,73 @@ class OSG_SYSTEMLIB_DLLMAPPING BINLoader
 {
     /*==========================  PUBLIC  =================================*/
 
-	public:
-		void read();
-        NodePtr         getRootNode();
-        vector<NodePtr> getRootNodes();
+  public:
+    void read();
+    NodePtr         getRootNode();
+    vector<NodePtr> getRootNodes();
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
-		BINLoader(FILE *file);
+    BINLoader(FILE *file);
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
-		virtual ~BINLoader();
+    virtual ~BINLoader();
 
        
     /*=========================  PROTECTED  ===============================*/
-	protected:
+  protected:
     /*---------------------------------------------------------------------*/
     /*! \name                  Type information                            */
     /*! \{                                                                 */
-		
-	    struct FCInfoStruct
-	    {
-		   UInt32            newId;
-		   FieldContainerPtr ptr;
-           bool              read; 
-           FCInfoStruct();
-		};
-		//          oldID	newId + FCPtr
-		typedef map<UInt32, FCInfoStruct> IDLookupMap;
 
-		struct FCIdMapper:public FieldContainerMapper
-        {                                              
-            const IDLookupMap *ptrMap;
-			FCIdMapper(IDLookupMap *m);
+    struct FCIdMapper;
+    friend class FCIdMapper;
 
-			virtual UInt32 map(UInt32 uiId);
-        };
+    struct FCInfoStruct
+    {
+        UInt32            newId;
+        FieldContainerPtr ptr;
+        bool              read; 
+        FCInfoStruct();
+    };
+    //          oldID	newId + FCPtr
+    typedef map<UInt32, FCInfoStruct> IDLookupMap;
 
-    	class BinaryFileHandler : public OSG::BinaryDataHandler
-        {
-	      public:
-		    BinaryFileHandler(FILE *file);
-		    virtual ~BinaryFileHandler();
+    struct FCIdMapper : public FieldContainerMapper
+    {                                              
+        const IDLookupMap *ptrMap;
+        FCIdMapper(IDLookupMap *m);
+
+        virtual UInt32 map(UInt32 uiId);
+    };
+
+    class BinaryFileHandler : public OSG::BinaryDataHandler
+    {
+      public:
+        BinaryFileHandler(FILE *file);
+        virtual ~BinaryFileHandler();
 	    
-		    void read (OSG::MemoryHandle mem, OSG::UInt32 size);
-		    void write(OSG::MemoryHandle mem, OSG::UInt32 size);
+        void read (OSG::MemoryHandle mem, OSG::UInt32 size);
+        void write(OSG::MemoryHandle mem, OSG::UInt32 size);
 	
-    	  private:  
-	    	vector<OSG::UInt8> _readMemory;
-		    vector<OSG::UInt8> _writeMemory;
-    		FILE *_file;
-    	};
+      private:  
+        vector<OSG::UInt8> _readMemory;
+        vector<OSG::UInt8> _writeMemory;
+        FILE *_file;
+    };
 
          
     /*==========================  PRIVATE  ================================*/
-	private:
-    	BinaryFileHandler _inFileHandler;
-    	IDLookupMap       _fcInfoMap;
-		UInt32            _countContainers;
-        vector<NodePtr>   _vec_pRootNodes;
-		void createFieldContainers();
-		void chargeFieldContainers();
+  private:
+
+    BinaryFileHandler _inFileHandler;
+    IDLookupMap       _fcInfoMap;
+    UInt32            _countContainers;
+    vector<NodePtr>   _vec_pRootNodes;
+    void createFieldContainers();
+    void chargeFieldContainers();
 
 };
 

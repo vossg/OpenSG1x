@@ -122,7 +122,7 @@ TypedFunctor2Base<RetT,
 
     Inherited(source)
 {
-    postCopyConstruct(source);
+    Self::postCopyConstruct(source);
 }
 
 
@@ -258,7 +258,7 @@ TypedVoidFunctor2Base<CallArgT,
 
     Inherited(source)
 {
-    postCopyConstruct(source);
+    Self::postCopyConstruct(source);
 }
 
 

@@ -64,7 +64,7 @@ OSG_BEGIN_NAMESPACE
 typedef VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> > Parent;
 
 #ifndef OSG_COMPILEVRMLLOADERINST
-#if !defined(__sgi) && !defined(__hpux)
+#if !defined(__sgi) && !defined(__hpux) && !defined(OSG_LINUX_ICC)
 extern template OSG_SYSTEMLIB_DLLMAPPING
 ScanParseFieldTypeMapper<ScanParseSkel>;
 extern template OSG_SYSTEMLIB_DLLMAPPING
@@ -80,7 +80,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    typedef Parent Inherited;
+    typedef Parent   Inherited;
+    typedef VRMLFile Self;
 
     /*==========================  PUBLIC  =================================*/
   public:

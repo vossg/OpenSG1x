@@ -71,6 +71,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     typedef ScanParseFieldTypeMapper<ScanParseSkel    > Inherited;
     typedef map                     <string, 
                                      FieldContainerPtr> NamedFCMap;
+    typedef OSGLoader                                   Self;
+
   public :
 
     /*---------------------------------------------------------------------*/

@@ -53,6 +53,18 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
     /*==========================  PUBLIC  =================================*/
   public:
 
+    enum FormatType
+    {
+        UNKNOWN_FT = 0,
+      
+        UCHAR_FT, 
+        USHORT_FT, 
+        UINT_FT, 
+        ULONG_FT, 
+        FLOAT_FT, 
+        DOUBLE_FT
+    };
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
@@ -125,13 +137,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
       FILE_OFFSET_KT
     };
            
-    enum FormatType
-    {
-      UNKNOWN_FT = 0,
-      
-      UCHAR_FT, USHORT_FT, UINT_FT, ULONG_FT, FLOAT_FT, DOUBLE_FT
-    };
-
     struct FormatDesc 
     {
       bool               needConversion;

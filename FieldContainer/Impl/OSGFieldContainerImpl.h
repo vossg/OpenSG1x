@@ -628,7 +628,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
     {                                                                   \
         OSG_CLASS_PTR returnValue;                                      \
                                                                         \
-        newPtr(returnValue);                                            \
+        Self::newPtr(returnValue);                                      \
                                                                         \
         return returnValue;                                             \
     }
@@ -655,7 +655,7 @@ const OSG::BitVector OSG_CLASS<OSG_TMPL_PARAM>::NextFieldMask =               \
     {                                                                         \
         OSG_CLASS_PTR returnValue;                                            \
                                                                               \
-        newPtr(returnValue, this);                                            \
+        Self::newPtr(returnValue, this);                                      \
                                                                               \
         return returnValue;                                                   \
     } 

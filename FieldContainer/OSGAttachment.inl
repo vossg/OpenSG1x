@@ -425,7 +425,7 @@ void DynFieldAttachment<AttachmentDescT>::dump(      UInt32    uiIndent,
         indentLog(uiIndent, PLOG);
         PLOG <<      getType().getFieldDescription(i)->getCName ()
              << " ("
-             << const_cast<DynFieldAttType *>(this)->getField(
+             << const_cast<Self *>(this)->getField(
                      getType().getFieldDescription(i)->getFieldId())
              << ")"
              << endl;
