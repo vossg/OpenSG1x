@@ -461,7 +461,7 @@ if test "$echo_libs" = "yes"; then
 
     opensg_lib_path=${linkdir_pre}${exec_prefix}/lib/${lib_suf}${linkdir_suf}
 
-    echo $link_flags $img_libs_path $system_libs_path $opensg_lib_path $opensg_libs $img_libs $system_libs
+    echo $link_flags $img_libs_path $system_libs_path $opensg_lib_path $lib_add_path $opensg_libs $img_libs $system_libs
 
 fi      
 
