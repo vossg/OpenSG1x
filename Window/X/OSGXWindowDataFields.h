@@ -108,7 +108,7 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<X11Window> :
     static bool      getFromString(      X11Window     &window,
                                    const Char8         *)
     {
-        window=NULL;
+        window=0;
         return true;
     }
 
@@ -191,6 +191,6 @@ OSG_DLLEXPORT_DECL1(MField, GLXContext, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowDataFields.h,v 1.6 2002/06/17 14:52:51 mroth Exp $"
+#define OSGWINDOWXFIELDS_HEADER_CVSID "@(#)$Id: OSGXWindowDataFields.h,v 1.7 2002/08/29 16:24:58 dirk Exp $"
 
 #endif /* _OSGXWINDOWDATAFIELDS_H_ */
