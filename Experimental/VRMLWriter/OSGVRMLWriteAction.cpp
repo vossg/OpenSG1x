@@ -52,6 +52,7 @@
 #include <OSGNodeCore.h>
 #include <OSGGroup.h>
 #include <OSGGeometry.h>
+#include <OSGFaceIterator.h>
 #include <OSGComponentTransform.h>
 #include <OSGGeoPropPtrs.h>
 #include <OSGSimpleMaterial.h>
@@ -763,92 +764,106 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         return;
     }
 
-    UInt32 uiCurrentIndex = 0;
-
     pWriter->printIndent();
     fprintf(pFile, "coordIndex [\n");
     pWriter->incIndent(4);
 
+    FaceIterator it;
 
-    for(UInt32 i = 0; i < pLengthField->size(); i++)
+    for(it = pGeo->beginFaces(); it != pGeo->endFaces(); ++it)
     {
-        switch((*pTypeField)[i])
-        {
-            case GL_TRIANGLES:
-                for(j = 0; j < (*pLengthField)[i]; j+=3)
-                {
-                    pWriter->printIndent();
-                    fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex++]);
-                    fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex++]);
-                    fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex++]);
-
-                    if(j == (*pLengthField)[i] - 4)
-                    {
-                        fprintf(pFile, "-1\n");
-                    }
-                    else
-                    {
-                        fprintf(pFile, "-1,\n");
-                    }
-                }
-                break;
-
-            case GL_TRIANGLE_STRIP:
-                for(j = 0; j < (*pLengthField)[i]; j++)
-                {
-                    pWriter->printIndent();
-                    fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex]);
-                    if ( uiCurrentIndex & 1 )
-                    {
-                        fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+2]);
-                        fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+1]);
-                    }
-                    else
-                    {
-                        fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+1]);
-                        fprintf(pFile, "%d,", (*pIndexField)[uiCurrentIndex+2]);
-                    }
-                    uiCurrentIndex++;
-                    
-                    if(j == (*pLengthField)[i] - 4)
-                    {
-                        fprintf(pFile, "-1\n");
-                    }
-                    else
-                    {
-                        fprintf(pFile, "-1,\n");
-                    }
-                }
-                break;
-
-            case GL_POLYGON:
-                pWriter->printIndent();
-
-                for(j = 0; j < (*pLengthField)[i]; j++)
-                {
-                    fprintf(pFile, "%d, ", (*pIndexField)[uiCurrentIndex++]);
-                }
-
-                if(i == pLengthField->size() - 1)
-                {
-                    fprintf(pFile, "-1\n");
-                }
-                else
-                {
-                    fprintf(pFile, "-1,\n");
-                }
-                break;
-            
-            default:
-                fprintf(stderr, "Primitive %d currently not supported\n",
-                        (*pTypeField)[i]);
-                break;
-        }
+        pWriter->printIndent();
+ 
+        fprintf(pFile, "%d,%d,%d,", it.getPositionIndex(0), 
+                                    it.getPositionIndex(1), 
+                                    it.getPositionIndex(2));
+        if(it.getPositionIndex(3) != -1)
+            fprintf(pFile, "%d,", it.getPositionIndex(3));
+        
+        fprintf(pFile, "-1\n");
     }
 
     pWriter->decIndent(4);
     pWriter->printIndent();
     fprintf(pFile, "]\n");
+    
+    if(pGeo->getNormals() != NullFC && pGeo->getNormals()->getSize() > 0)
+    {
+        pWriter->printIndent();
+        fprintf(pFile, "normalIndex [\n");
+        pWriter->incIndent(4);
+
+        FaceIterator it;
+
+        for(it = pGeo->beginFaces(); it != pGeo->endFaces(); ++it)
+        {
+            pWriter->printIndent();
+
+            fprintf(pFile, "%d,%d,%d,", it.getNormalIndex(0), 
+                                        it.getNormalIndex(1), 
+                                        it.getNormalIndex(2));
+            if(it.getNormalIndex(3) != -1)
+                fprintf(pFile, "%d,", it.getNormalIndex(3));
+
+            fprintf(pFile, "-1\n");
+        }
+
+        pWriter->decIndent(4);
+        pWriter->printIndent();
+        fprintf(pFile, "]\n");
+    }
+    
+    if(pGeo->getColors() != NullFC && pGeo->getColors()->getSize() > 0)
+    {
+        pWriter->printIndent();
+        fprintf(pFile, "colorIndex [\n");
+        pWriter->incIndent(4);
+
+        FaceIterator it;
+
+        for(it = pGeo->beginFaces(); it != pGeo->endFaces(); ++it)
+        {
+            pWriter->printIndent();
+
+            fprintf(pFile, "%d,%d,%d,", it.getColorIndex(0), 
+                                        it.getColorIndex(1), 
+                                        it.getColorIndex(2));
+            if(it.getColorIndex(3) != -1)
+                fprintf(pFile, "%d,", it.getColorIndex(3));
+
+            fprintf(pFile, "-1\n");
+        }
+
+        pWriter->decIndent(4);
+        pWriter->printIndent();
+        fprintf(pFile, "]\n");
+    }
+    
+    if(pGeo->getTexCoords() != NullFC && pGeo->getTexCoords()->getSize() > 0)
+    {
+        pWriter->printIndent();
+        fprintf(pFile, "texCoordIndex [\n");
+        pWriter->incIndent(4);
+
+        FaceIterator it;
+
+        for(it = pGeo->beginFaces(); it != pGeo->endFaces(); ++it)
+        {
+            pWriter->printIndent();
+
+            fprintf(pFile, "%d,%d,%d,", it.getTexCoordsIndex(0), 
+                                        it.getTexCoordsIndex(1), 
+                                        it.getTexCoordsIndex(2));
+            if(it.getTexCoordsIndex(3) != -1)
+                fprintf(pFile, "%d,", it.getTexCoordsIndex(3));
+
+            fprintf(pFile, "-1\n");
+        }
+
+        pWriter->decIndent(4);
+        pWriter->printIndent();
+        fprintf(pFile, "]\n");
+    }
 }
 
 void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo, 
@@ -858,11 +873,24 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    MaterialPtr pMat = pGeo->getMaterial();
+    MaterialPtr pMat;
+    
+    pMat = pWriter->getMaterial();
+    
+    if(pMat == NullFC)
+        pMat = pGeo->getMaterial();
 
-    SimpleMaterialPtr pSMat = SimpleMaterialPtr::dcast(pMat);
-
-    if(pSMat == NullFC)
+    StatePtr st = pMat->makeState();
+    
+    StateChunkPtr sChunk =
+        st->getChunk(MaterialChunk::getChunkClass().getID());
+    
+    if(sChunk == NullFC)
+        return;
+    
+    MaterialChunkPtr mChunk = MaterialChunkPtr::dcast(sChunk);
+    
+    if(mChunk == NullFC)
         return;
 
     pWriter->printIndent();
@@ -883,17 +911,17 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
 
     Real32 rAmbient = 0.f;
 
-    if(osgabs(pSMat->getDiffuse()[0]) > Eps)
+    if(osgabs(mChunk->getDiffuse()[0]) > Eps)
     {
-        rAmbient = pSMat->getAmbient()[0] / pSMat->getDiffuse()[0];
+        rAmbient = mChunk->getAmbient()[0] / mChunk->getDiffuse()[0];
     }
-    else if(osgabs(pSMat->getDiffuse()[1]) > Eps)
+    else if(osgabs(mChunk->getDiffuse()[1]) > Eps)
     {
-        rAmbient = pSMat->getAmbient()[1] / pSMat->getDiffuse()[1];
+        rAmbient = mChunk->getAmbient()[1] / mChunk->getDiffuse()[1];
     }
-    else if(osgabs(pSMat->getDiffuse()[2]) > Eps)
+    else if(osgabs(mChunk->getDiffuse()[2]) > Eps)
     {
-        rAmbient = pSMat->getAmbient()[2] / pSMat->getDiffuse()[2];
+        rAmbient = mChunk->getAmbient()[2] / mChunk->getDiffuse()[2];
     }
 
 
@@ -902,29 +930,29 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
 
     pWriter->printIndent();
     fprintf(pFile, "diffuseColor %f %f %f\n",
-            pSMat->getDiffuse()[0],
-            pSMat->getDiffuse()[1],
-            pSMat->getDiffuse()[2]);
+            mChunk->getDiffuse()[0],
+            mChunk->getDiffuse()[1],
+            mChunk->getDiffuse()[2]);
 
     pWriter->printIndent();
     fprintf(pFile, "emissiveColor %f %f %f\n",
-            pSMat->getEmission()[0],
-            pSMat->getEmission()[1],
-            pSMat->getEmission()[2]);
+            mChunk->getEmission()[0],
+            mChunk->getEmission()[1],
+            mChunk->getEmission()[2]);
 
     pWriter->printIndent();
     fprintf(pFile, "shininess %f\n",
-            pSMat->getShininess());
+            mChunk->getShininess() / 128.);
 
     pWriter->printIndent();
     fprintf(pFile, "specularColor %f %f %f\n",
-            pSMat->getSpecular()[0],
-            pSMat->getSpecular()[1],
-            pSMat->getSpecular()[2]);
+            mChunk->getSpecular()[0],
+            mChunk->getSpecular()[1],
+            mChunk->getSpecular()[2]);
 
     pWriter->printIndent();
     fprintf(pFile, "transparency %f\n",
-            pSMat->getTransparency());
+            1.f-mChunk->getDiffuse()[3]);
     
     pWriter->decIndent(4);
     
@@ -936,6 +964,8 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
     
     pWriter->printIndent();
     fprintf(pFile, "}\n");
+
+    subRefCP(st);
 }
 
 Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
@@ -1057,17 +1087,41 @@ Action::ResultE VRMLWriteAction::writeGeoLeave(CNodePtr &,
     return Action::Continue;
 }
 
-Action::ResultE VRMLWriteAction::writeMatGroupEnter(CNodePtr &,
-                                                    Action   *)
+Action::ResultE VRMLWriteAction::writeMatGroupEnter(CNodePtr &pGroup,
+                                                    Action   *pAction)
 {
+    VRMLWriteAction *pWriter = dynamic_cast<VRMLWriteAction *>(pAction);
+
+    MaterialGroupPtr pMatGroup = 
+        MaterialGroupPtr::dcast(pGroup.getNode()->getCore());
+
+    if(pWriter == NULL || pMatGroup == NullFC)
+    {
+        return Action::Quit;
+    }
+
+    fprintf(stderr, "Write MatGroup Enter 0x%04x\n", pWriter->getMode());
+    
+    pWriter->setMaterial(pMatGroup->getMaterial());
     
     return Action::Continue;
 }
 
 Action::ResultE VRMLWriteAction::writeMatGroupLeave(CNodePtr &,
-                                                    Action   *)
+                                                    Action   *pAction)
 {
+    VRMLWriteAction *pWriter = dynamic_cast<VRMLWriteAction *>(pAction);
+ 
 
+    if(pWriter == NULL)
+    {
+        return Action::Quit;
+    }
+    
+    fprintf(stderr, "Write MatGroup Leave 0x%04x\n", pWriter->getMode());
+   
+    pWriter->setMaterial(NullFC);
+    
     return Action::Continue;
 }
 
@@ -1123,7 +1177,7 @@ Bool VRMLWriteAction::initializeAction(int &, char **)
                             Action *>(&VRMLWriteAction::writeGeoLeave));
 
     VRMLWriteAction::registerLeaveDefault(
-        Group::getClassType(), 
+        MaterialGroup::getClassType(), 
         osgFunctionFunctor2<Action::ResultE,
                             CNodePtr &,
                             Action *>(&VRMLWriteAction::writeMatGroupLeave));
@@ -1342,7 +1396,7 @@ VRMLWriteAction::~VRMLWriteAction(void)
 
 /*---------------------------- properties ---------------------------------*/
     
-void VRMLWriteAction::setMaterial(Material *material)
+void VRMLWriteAction::setMaterial(MaterialPtr material)
 {
     _material = material;
 }
@@ -1383,6 +1437,8 @@ Action::ResultE VRMLWriteAction::write(NodePtr node)
     _vFCInfos.resize(
         FieldContainerFactory::the()->getFieldContainerStore()->size());
 
+    setMaterial(NullFC);
+    
     returnValue = Inherited::apply(node);
 
     if(returnValue == Action::Continue)

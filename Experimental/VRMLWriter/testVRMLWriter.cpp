@@ -13,7 +13,7 @@
 #include "OSGNode.h"
 #include "OSGGroup.h"
 #include "OSGVRMLWriteAction.h"
-#include <OSGVRMLFile.h>
+#include <OSGSceneFileHandler.h>
 
 OSG_USING_NAMESPACE
 
@@ -30,13 +30,7 @@ int main (int argc, char **argv)
 
     pScene->setCore(pSceneGroup);
 
-    VRMLFile *pFile = new VRMLFile;
-
-    pFile->scanStandardPrototypes("std.wrl", 0);
-
-    pFile->scanFile(fileName, 0);
-
-    node = pFile->getRoot();
+    node = SceneFileHandler::the().read(fileName, 0);
 
     node->updateVolume();
 

@@ -102,7 +102,7 @@ OSG_BEGIN_NAMESPACE
 /*---------------------------- properties ---------------------------------*/
 
 inline 
-Material *VRMLWriteAction::getMaterial(void) const
+MaterialPtr VRMLWriteAction::getMaterial(void) const
 {
   return _material;
 }

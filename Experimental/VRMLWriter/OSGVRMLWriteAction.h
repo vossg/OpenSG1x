@@ -129,8 +129,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     
     // rendering state handling
     
-    Material   *getMaterial(void) const;
-    void        setMaterial(Material *material);
+    MaterialPtr    getMaterial(void) const;
+    void           setMaterial(MaterialPtr material);
 
     FILE          *getFilePtr(void) const;
     TraversalMode  getMode   (void) const;
@@ -311,7 +311,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    Material      *_material;
+    MaterialPtr    _material;
 
     UInt32         _uiIndent;
     FILE          *_pFile;
