@@ -90,8 +90,9 @@ using namespace OSG;
 
 char DrawAction::cvsid[] = "@(#)$Id: $";
 
-vector<Action::Functor> *DrawAction::_defaultEnterFunctors;
+DrawAction * DrawAction::_prototype = NULL;
 
+vector<Action::Functor> *DrawAction::_defaultEnterFunctors;
 vector<Action::Functor> *DrawAction::_defaultLeaveFunctors;
 
 /***************************************************************************\
@@ -113,7 +114,7 @@ void DrawAction::registerEnterDefault(	const FieldContainerType &type,
 	while(type.getId() >= _defaultEnterFunctors->size())
 	{
 		_defaultEnterFunctors->push_back( 
-				osgFunctionFunctor2(&Action::_defaultFunction));
+				osgFunctionFunctor2(&Action::_defaultEnterFunction));
 	}
 	
 	(*_defaultEnterFunctors)[ type.getId() ] = func;
@@ -128,12 +129,22 @@ void DrawAction::registerLeaveDefault(	const FieldContainerType &type,
 	while(type.getId() >= _defaultLeaveFunctors->size())
 	{
 		_defaultLeaveFunctors->push_back( 
-				osgFunctionFunctor2(&Action::_defaultFunction));
+				osgFunctionFunctor2(&Action::_defaultLeaveFunction));
 	}
 	
 	(*_defaultLeaveFunctors)[ type.getId() ] = func;
 }
 
+
+void DrawAction::setPrototype( DrawAction * proto )
+{
+	_prototype = proto;
+}
+
+DrawAction *DrawAction::getPrototype( void )
+{
+	return _prototype;
+}
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -166,6 +177,30 @@ DrawAction::DrawAction(void)
 
 	if ( _defaultLeaveFunctors )
 		_leaveFunctors = *_defaultLeaveFunctors;
+}
+
+
+/** \brief Copy-Constructor
+ */
+
+DrawAction::DrawAction( const DrawAction & source ) :
+	Inherited( source )
+{
+}
+
+/** \brief create a new action
+ */
+
+DrawAction * DrawAction::create( void )
+{
+	DrawAction * act;
+	
+	if ( _prototype )
+		act = new DrawAction( *_prototype );
+	else
+		act = new DrawAction();
+	
+	return act;
 }
 
 

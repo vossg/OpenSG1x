@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRENDERACTION_H_
-#define _OSGRENDERACTION_H_
+#ifndef _OSGDRAWACTION_H_
+#define _OSGDRAWACTION_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -117,11 +117,17 @@ class OSG_DRAWACTION_DLLMAPPING DrawAction : public Action
 
     static const char *getClassname(void) { return "DrawAction"; };
 
+	// create a new DrawAction by cloning the prototype
+	static DrawAction * create( void );
+	
+	// prototype access
+	// after setting the prototype all new DrawActions are clones of it
+	static void        setPrototype( DrawAction * proto );
+	static DrawAction *getPrototype( void );
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-    DrawAction(void);
 
     virtual ~DrawAction(void); 
 
@@ -212,6 +218,9 @@ class OSG_DRAWACTION_DLLMAPPING DrawAction : public Action
 
     static char cvsid[];
 
+	// the prototype which is copied to create new actions
+	static DrawAction * _prototype;
+
     // default functors for instantiation
     static vector<Functor> *_defaultEnterFunctors;
     static vector<Functor> *_defaultLeaveFunctors;
@@ -236,6 +245,7 @@ class OSG_DRAWACTION_DLLMAPPING DrawAction : public Action
 
     // prohibit default functions (move to 'public' if you need one)
 
+    DrawAction(void);
     DrawAction(const DrawAction &source);
     DrawAction& operator =(const DrawAction &source);
 };
@@ -252,4 +262,4 @@ OSG_END_NAMESPACE
 
 #include "OSGDrawAction.inl"
 
-#endif /* _OSGRENDERACTION_H_ */
+#endif /* _OSGDRAWACTION_H_ */
