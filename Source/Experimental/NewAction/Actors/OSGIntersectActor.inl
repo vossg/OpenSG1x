@@ -1,6 +1,0 @@
-
-OSG_BEGIN_NAMESPACE
-
-OSG_END_NAMESPACE
-
-#define OSGINTERSECTACTOR_INLINE_CVSID "@(#)$Id: OSGIntersectActor.inl,v 1.1 2003/10/10 13:51:07 neumannc Exp $"
