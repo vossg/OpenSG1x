@@ -240,6 +240,11 @@ void FieldDescription::setFieldId(UInt32 uiFieldId)
     _uiFieldId = uiFieldId;
 }
 
+Bool FieldDescription::isInternal(void)  const
+{
+    return _bInternal; 
+} 
+
 Bool FieldDescription::isValid(void)  const
 {
     return (_szName.length()) ? true : false; 
