@@ -1,0 +1,486 @@
+#include <OSGConfig.h>
+
+#ifdef OSG_STREAM_IN_STD_NAMESPACE
+#include <iostream>
+#else
+#include <iostream.h>
+#endif
+
+#include <GL/glut.h>
+
+#include <OSGFieldContainerFactory.h>
+#include <OSGSFSysTypes.h>
+#include <OSGVector.h>
+#include <OSGQuaternion.h>
+#include <OSGMatrix.h>
+#include <OSGMatrixUtility.h>
+#include <OSGBoxVolume.h>
+#include <OSGNode.h>
+#include <OSGGroup.h>
+#include <OSGThread.h>
+#include <OSGTransform.h>
+#include <OSGAttachment.h>
+#include <OSGMFVecTypes.h>
+#include <OSGAction.h>
+#include <OSGDrawAction.h>
+#include <OSGIntersectAction.h>
+#include <OSGSimpleMaterial.h>
+#include <OSGGeoProperty.h>
+#include <OSGGeometry.h>
+#include <OSGTriangleIterator.h>
+#include <OSGSceneFileHandler.h>
+
+#include <OSGDirectionalLight.h>
+
+#include "OSGViewport.h"
+#include "OSGCamera.h"
+#include "OSGWindow.h"
+#include "OSGGLUTWindow.h"
+//#include "OSGPipe.h"
+#include "OSGCamera.h"
+#include "OSGPerspectiveCamera.h"
+#include "OSGBackground.h"
+//#include "OSGUniformBackground.h"
+
+#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
+#include "OSGRAWSceneFileType.h"
+#endif
+
+#include "OSGTrackball.h"
+
+using namespace OSG;
+
+DrawAction * ract;
+
+NodePtr  root;
+NodePtr  iroot;
+
+NodePtr  file;
+
+GeoPosition3fPtr isect_points;
+
+PerspectiveCameraPtr cam;
+ViewportPtr vp;
+WindowPtr win;
+
+TransformPtr cam_trans;
+
+Trackball tball;
+
+int mouseb = 0;
+int lastx=0, lasty=0;
+
+void 
+display(void)
+{
+	Matrix m1, m2, m3;
+    Quaternion q1;
+
+    tball.getRotation().getValue(m3);
+
+    q1.setValue(m3);
+
+    m1.setRotate(q1);
+    
+//    cout << "TBROT" << endl << tball.getRotation() << endl;
+//    cout << "M3" << endl << m3 << endl;
+//    cout << "Q1" << endl << q1 << endl;
+//    cout << "M1" << endl << m1 << endl;
+
+//	m1.setRotate( tball.getRotation() );
+	m2.setTranslate( tball.getPosition() );
+	
+//cout << "Pos: " << tball.getPosition() << ", Rot: " << tball.getRotation() << endl;
+
+//    cout << tball.getRotation() << endl;
+
+	m1.mult( m2 );
+	cam_trans->getSFMatrix()->setValue( m1 );
+
+	win->draw( ract );
+}
+
+void reshape( int w, int h )
+{
+	cerr << "Reshape: " << w << "," << h << endl;
+	win->resize( w, h );
+}
+
+
+void
+animate(void)
+{
+	glutPostRedisplay();
+}
+
+// tballall stuff
+
+
+void
+motion(int x, int y)
+{	
+	Real32 w = win->getWidth(), h = win->getHeight();
+	
+
+	Real32	a = -2. * ( lastx / w - .5 ),
+				b = -2. * ( .5 - lasty / h ),
+				c = -2. * ( x / w - .5 ),
+				d = -2. * ( .5 - y / h );
+
+	if ( mouseb & ( 1 << GLUT_LEFT_BUTTON ) )
+	{
+		tball.updateRotation( a, b, c, d );	
+	}
+	else if ( mouseb & ( 1 << GLUT_MIDDLE_BUTTON ) )
+	{
+		tball.updatePosition( a, b, c, d );	
+	}
+	else if ( mouseb & ( 1 << GLUT_RIGHT_BUTTON ) )
+	{
+		tball.updatePositionNeg( a, b, c, d );	
+	}
+	lastx = x;
+	lasty = y;
+}
+
+void
+mouse(int button, int state, int x, int y)
+{
+	if ( state == 0 )
+	{
+		switch ( button )
+		{
+		case GLUT_LEFT_BUTTON:	break;
+		case GLUT_MIDDLE_BUTTON:tball.setAutoPosition(true);
+								break;
+		case GLUT_RIGHT_BUTTON:	tball.setAutoPositionNeg(true);
+								break;
+		}
+		mouseb |= 1 << button;
+	}
+	else if ( state == 1 )
+	{
+		switch ( button )
+		{
+		case GLUT_LEFT_BUTTON:	break;
+		case GLUT_MIDDLE_BUTTON:tball.setAutoPosition(false);
+								break;
+		case GLUT_RIGHT_BUTTON:	tball.setAutoPositionNeg(false);
+								break;
+		}		
+		mouseb &= ~(1 << button);
+	}
+	lastx = x;
+	lasty = y;
+}
+
+void
+vis(int visible)
+{
+	if (visible == GLUT_VISIBLE) 
+	{
+		glutIdleFunc(animate);
+	} 
+	else 
+	{
+		glutIdleFunc(NULL);
+	}
+}
+
+void key(unsigned char key, int x, int y)
+{
+	switch ( key )
+	{
+	case 27:	osgExit(); exit(0);
+	case 'a':	glDisable( GL_LIGHTING );
+				cerr << "Lighting disabled." << endl;
+				break;
+	case 's':	glEnable( GL_LIGHTING );
+				cerr << "Lighting enabled." << endl;
+				break;
+	case 'z':	glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
+				cerr << "PolygonMode: Point." << endl;
+				break;
+	case 'x':	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
+				cerr << "PolygonMode: Line." << endl;
+				break;
+	case 'c':	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+				cerr << "PolygonMode: Fill." << endl;
+				break;
+	case 'r':	cerr << "Sending ray through " << x << "," << y << endl;
+				Line l;
+				cam->calcViewRay( l, x, y, *vp );
+				cerr << "From " << l.getPosition() << ", dir " << l.getDirection() << endl;
+	
+				IntersectAction act;
+				
+				act.setLine( l );
+			
+				act.apply( iroot );
+			
+				osgBeginEditCP(isect_points);
+				isect_points->setValue( l.getPosition(), 0 );
+				isect_points->setValue( l.getPosition() + l.getDirection(), 1 );
+			
+				if ( act.didHit() )
+				{
+					cerr << " object " << act.getHitObject() 
+						 << " tri " << act.getHitTriangle() 
+						 << " at " << act.getHitPoint();
+			
+					isect_points->setValue( l.getPosition() + 
+							l.getDirection() * act.getHitT(), 1 );
+					
+					TriangleIterator it( act.getHitObject() );
+					it.seek( act.getHitTriangle() );
+					
+					Matrix m;
+					act.getHitObject()->getToWorld(m);
+			
+					Pnt3f p = it.getPosition(0);
+					m.multMatrixPnt( p );
+					isect_points->setValue( p, 2 );
+					p = it.getPosition(1);
+					m.multMatrixPnt( p );
+					isect_points->setValue( p, 3 );
+					p = it.getPosition(2);
+					m.multMatrixPnt( p );
+					isect_points->setValue( p, 4 );
+				}
+				else
+				{
+					isect_points->setValue( Pnt3f(0,0,0), 2 );
+					isect_points->setValue( Pnt3f(0,0,0), 3 );
+					isect_points->setValue( Pnt3f(0,0,0), 4 );
+				}
+				osgEndEditCP(isect_points);
+			
+				cerr << endl;
+			
+				glutPostRedisplay();
+				break;
+	}
+}
+
+
+int main (int argc, char **argv)
+{
+	osgInit(argc,argv);
+
+	// GLUT init
+
+	glutInit(&argc, argv);
+	glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+	int winid = glutCreateWindow("OpenSG");
+	glutKeyboardFunc(key);
+	glutVisibilityFunc(vis);
+	glutReshapeFunc(reshape);
+	glutDisplayFunc(display);       
+	glutMouseFunc(mouse);   
+	glutMotionFunc(motion); 
+	
+	glutIdleFunc(display);	
+
+	// glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+	
+	glDepthFunc( GL_LEQUAL );
+	glEnable( GL_DEPTH_TEST );
+	glEnable( GL_LIGHTING );
+	glEnable( GL_LIGHT0 );
+
+	// OSG
+
+#if defined(__linux) || ( defined(WIN32) && ! defined(OSG_BUILD_DLL) )
+    RAWSceneFileType *pR = &(RAWSceneFileType::staticThe());
+#endif
+
+    SceneFileHandler::the().print();
+
+	// create the graph
+
+	// beacon for camera and light	
+    NodePtr b1n = Node::create();
+    GroupPtr b1 = Group::create();
+	osgBeginEditCP(b1n);
+	b1n->setCore( b1 );
+	osgEndEditCP(b1n);
+
+	// transformation
+    NodePtr t1n = Node::create();
+    TransformPtr t1 = Transform::create();
+	osgBeginEditCP(t1n);
+	t1n->setCore( t1 );
+	t1n->addChild( b1n );
+	osgEndEditCP(t1n);
+
+	cam_trans = t1;
+
+	// light
+	
+	NodePtr dlight = Node::create();
+	DirectionalLightPtr dl = DirectionalLight::create();
+
+	osgBeginEditCP(dlight);
+	dlight->setCore( dl );
+	osgEndEditCP(dlight);
+	
+	osgBeginEditCP(dl);
+	dl->setAmbientColor( .3, .3, .3, 1 );
+	dl->setDiffuseColor( 1, 1, 1, 1 );
+	dl->setDirection(0,0,1);
+	dl->setBeacon( b1n);
+	osgEndEditCP(dl);
+
+	// intersect geometry
+
+  	SimpleMaterialPtr white = SimpleMaterial::create();
+  	SimpleMaterialPtr red = SimpleMaterial::create();
+	
+	white->setEmission( Color3f( 1,1,1 ) );
+	red->setEmission( Color3f( 1,0,0 ) );	
+
+	isect_points = GeoPosition3f::create();
+	osgBeginEditCP(isect_points);
+	isect_points->addValue( Pnt3f(0,0,0) );
+	isect_points->addValue( Pnt3f(0,0,0) );
+	isect_points->addValue( Pnt3f(0,0,0) );
+	isect_points->addValue( Pnt3f(0,0,0) );
+	isect_points->addValue( Pnt3f(0,0,0) );
+	osgEndEditCP(isect_points);
+
+	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
+	osgBeginEditCP(index);
+	index->addValue( 0 );
+	index->addValue( 1 );
+	index->addValue( 2 );
+	index->addValue( 3 );
+	index->addValue( 4 );
+	osgEndEditCP(index);
+
+	GeoPLengthPtr lens = GeoPLength::create();	
+	osgBeginEditCP(lens);
+	lens->addValue( 2 );
+	lens->addValue( 3 );
+	osgEndEditCP(lens);
+	
+	GeoPTypePtr type = GeoPType::create();	
+	osgBeginEditCP(type);
+	type->addValue( GL_LINES );
+	type->addValue( GL_TRIANGLES );
+	osgEndEditCP(type);
+
+	GeometryPtr testgeocore = Geometry::create();
+	osgBeginEditCP(testgeocore);
+	testgeocore->setPositions( isect_points );
+	testgeocore->setIndex( index );
+	testgeocore->setLengths( lens );
+	testgeocore->setTypes( type );
+	testgeocore->setMaterial( red );
+	osgEndEditCP( testgeocore );
+	
+	
+	NodePtr testgeo = Node::create();
+	osgBeginEditCP(testgeo);
+	testgeo->setCore( testgeocore );
+	osgEndEditCP( testgeo );
+	
+
+	// root
+    root = Node::create();
+    GroupPtr gr1 = Group::create();
+	osgBeginEditCP(root);
+	root->setCore( gr1 );
+	root->addChild( t1n );
+	root->addChild( dlight );
+	root->addChild( testgeo );
+	osgEndEditCP(root);
+
+	// Load the file
+
+	NodePtr file = SceneFileHandler::the().read(argv[1]);
+
+	file->updateVolume();
+
+	// should check first. ok for now.
+	const BoxVolume *vol = (BoxVolume *)&file->getVolume();
+
+	Vec3f min,max;
+	vol->getBounds( min, max );
+	
+	cout << "Volume: from " << min << " to " << max << endl;
+
+	osgBeginEditCP(dlight);
+	dlight->addChild( file );
+	osgEndEditCP(dlight);
+
+	// Intersect the loaded file only
+	iroot = file;
+
+	cerr << "Tree: " << endl;
+	root->print();
+
+	// Camera
+	
+	cam = PerspectiveCamera::create();
+	cam->setBeacon( b1n );
+	cam->setDegrees( 90 );
+	cam->setNear( 0.1 );
+	cam->setFar( 10000 );
+
+	// Background
+	BackgroundPtr bkgnd = Background::create();
+	
+	//bkgnd->setColor( 0,0,1 );
+
+	// Viewport
+
+	vp = Viewport::create();
+	vp->setCamera( cam );
+	vp->setBackground( bkgnd );
+	vp->setRoot( root );
+	vp->setSize( 0,0, 1,1 );
+
+	// Window
+	cout << "GLUT winid: " << winid << endl;
+
+	GLUTWindowPtr gwin;
+
+	GLint glvp[4];
+	glGetIntegerv( GL_VIEWPORT, glvp );
+
+	gwin = GLUTWindow::create();
+	gwin->setWinID(winid);
+	gwin->setSize( glvp[2], glvp[3] );
+
+	win = gwin;
+
+	win->addPort( vp );
+
+	// Action
+	
+	ract = new DrawAction;
+
+	// tball
+
+	Vec3f pos( 0, 0, max[2] + ( max[2] - min[2] ) * 1.5 );
+
+	tball.setMode( Trackball::OSGObject );
+	tball.setStartPosition( pos, true );
+	tball.setSum( true );
+	tball.setTranslationMode( Trackball::OSGFree );
+
+	// run...
+
+    FieldContainerPtr pc;
+
+    pc.dump();
+
+    pc = FieldContainerFactory::the().createFieldContainer("Camera");
+
+    pc.dump();
+	
+	glutMainLoop();
+	
+    return 0;
+}
+
