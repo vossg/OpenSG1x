@@ -71,6 +71,7 @@
 #include <OSGColor4fFields.h> // ShadowColor type
 #include <OSGUInt32Fields.h> // MapSize type
 #include <OSGNodeFields.h> // LightNodes type
+#include <OSGNodeFields.h> // ExcludeNodes type
 #include <OSGBoolFields.h> // ShadowOn type
 #include <OSGBoolFields.h> // MapAutoUpdate type
 
@@ -102,7 +103,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
         ShadowColorFieldId   = SceneRootFieldId     + 1,
         MapSizeFieldId       = ShadowColorFieldId   + 1,
         LightNodesFieldId    = MapSizeFieldId       + 1,
-        ShadowOnFieldId      = LightNodesFieldId    + 1,
+        ExcludeNodesFieldId  = LightNodesFieldId    + 1,
+        ShadowOnFieldId      = ExcludeNodesFieldId  + 1,
         MapAutoUpdateFieldId = ShadowOnFieldId      + 1,
         NextFieldId          = MapAutoUpdateFieldId + 1
     };
@@ -113,6 +115,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
     static const OSG::BitVector ShadowColorFieldMask;
     static const OSG::BitVector MapSizeFieldMask;
     static const OSG::BitVector LightNodesFieldMask;
+    static const OSG::BitVector ExcludeNodesFieldMask;
     static const OSG::BitVector ShadowOnFieldMask;
     static const OSG::BitVector MapAutoUpdateFieldMask;
 
@@ -147,6 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
            SFColor4f           *getSFShadowColor    (void);
            SFUInt32            *getSFMapSize        (void);
            MFNodePtr           *getMFLightNodes     (void);
+           MFNodePtr           *getMFExcludeNodes   (void);
            SFBool              *getSFShadowOn       (void);
            SFBool              *getSFMapAutoUpdate  (void);
 
@@ -167,6 +171,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
            NodePtr             &getLightNodes     (const UInt32 index);
            MFNodePtr           &getLightNodes     (void);
      const MFNodePtr           &getLightNodes     (void) const;
+           NodePtr             &getExcludeNodes   (const UInt32 index);
+           MFNodePtr           &getExcludeNodes   (void);
+     const MFNodePtr           &getExcludeNodes   (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -231,6 +238,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
     SFColor4f           _sfShadowColor;
     SFUInt32            _sfMapSize;
     MFNodePtr           _mfLightNodes;
+    MFNodePtr           _mfExcludeNodes;
     SFBool              _sfShadowOn;
     SFBool              _sfMapAutoUpdate;
 
@@ -280,6 +288,6 @@ typedef ShadowMapViewportBase *ShadowMapViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.4 2004/08/30 17:49:38 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.5 2004/09/08 09:00:25 a-m-z Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORTBASE_H_ */

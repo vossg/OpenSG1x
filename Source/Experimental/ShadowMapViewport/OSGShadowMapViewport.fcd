@@ -68,6 +68,14 @@ First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lig
 	>
 	</Field>
 	<Field
+		name="excludeNodes"
+		type="NodePtr"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
 		name="shadowOn"
 		type="bool"
 		cardinality="single"

@@ -806,10 +806,18 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
     glDepthMask(GL_TRUE);
 
     // disable all lights more speed
-    for(UInt32 i = 0; i< _lights.size(); ++i)
+    for(UInt32 i = 0; i < _lights.size(); ++i)
     {
         if(_lightStates[i] != 0)
             _lights[i]->setOn(false);
+    }
+    
+    // deactivate exclude nodes:
+    for(UInt32 i = 0; i < getExcludeNodes().getSize(); ++i)
+    {
+        NodePtr exnode = getExcludeNodes()[i];
+        if(exnode != NullFC)
+            exnode->setActive(false);
     }
     
     for(UInt32 i = 0; i< _lights.size(); ++i)
@@ -868,6 +876,14 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
                 ypos += _mapRenderSize;
             }
         }
+    }
+
+    // activate exclude nodes:
+    for(UInt32 i = 0; i < getExcludeNodes().getSize(); ++i)
+    {
+        NodePtr exnode = getExcludeNodes()[i];
+        if(exnode != NullFC)
+            exnode->setActive(true);
     }
 
     // enable all lights.
@@ -1029,7 +1045,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.9 2004/08/30 17:49:38 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.10 2004/09/08 09:00:25 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

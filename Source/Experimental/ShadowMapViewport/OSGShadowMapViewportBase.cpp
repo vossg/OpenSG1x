@@ -82,6 +82,9 @@ const OSG::BitVector  ShadowMapViewportBase::MapSizeFieldMask =
 const OSG::BitVector  ShadowMapViewportBase::LightNodesFieldMask = 
     (TypeTraits<BitVector>::One << ShadowMapViewportBase::LightNodesFieldId);
 
+const OSG::BitVector  ShadowMapViewportBase::ExcludeNodesFieldMask = 
+    (TypeTraits<BitVector>::One << ShadowMapViewportBase::ExcludeNodesFieldId);
+
 const OSG::BitVector  ShadowMapViewportBase::ShadowOnFieldMask = 
     (TypeTraits<BitVector>::One << ShadowMapViewportBase::ShadowOnFieldId);
 
@@ -111,6 +114,9 @@ const OSG::BitVector ShadowMapViewportBase::MTInfluenceMask =
     
 */
 /*! \var NodePtr         ShadowMapViewportBase::_mfLightNodes
+    
+*/
+/*! \var NodePtr         ShadowMapViewportBase::_mfExcludeNodes
     
 */
 /*! \var bool            ShadowMapViewportBase::_sfShadowOn
@@ -154,6 +160,11 @@ FieldDescription *ShadowMapViewportBase::_desc[] =
                      LightNodesFieldId, LightNodesFieldMask,
                      false,
                      (FieldAccessMethod) &ShadowMapViewportBase::getMFLightNodes),
+    new FieldDescription(MFNodePtr::getClassType(), 
+                     "excludeNodes", 
+                     ExcludeNodesFieldId, ExcludeNodesFieldMask,
+                     false,
+                     (FieldAccessMethod) &ShadowMapViewportBase::getMFExcludeNodes),
     new FieldDescription(SFBool::getClassType(), 
                      "shadowOn", 
                      ShadowOnFieldId, ShadowOnFieldMask,
@@ -225,6 +236,7 @@ ShadowMapViewportBase::ShadowMapViewportBase(void) :
     _sfShadowColor            (Color4f(0,0,0,1)), 
     _sfMapSize                (UInt32(512)), 
     _mfLightNodes             (), 
+    _mfExcludeNodes           (), 
     _sfShadowOn               (bool(true)), 
     _sfMapAutoUpdate          (bool(true)), 
     Inherited() 
@@ -242,6 +254,7 @@ ShadowMapViewportBase::ShadowMapViewportBase(const ShadowMapViewportBase &source
     _sfShadowColor            (source._sfShadowColor            ), 
     _sfMapSize                (source._sfMapSize                ), 
     _mfLightNodes             (source._mfLightNodes             ), 
+    _mfExcludeNodes           (source._mfExcludeNodes           ), 
     _sfShadowOn               (source._sfShadowOn               ), 
     _sfMapAutoUpdate          (source._sfMapAutoUpdate          ), 
     Inherited                 (source)
@@ -288,6 +301,11 @@ UInt32 ShadowMapViewportBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (LightNodesFieldMask & whichField))
     {
         returnValue += _mfLightNodes.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ExcludeNodesFieldMask & whichField))
+    {
+        returnValue += _mfExcludeNodes.getBinSize();
     }
 
     if(FieldBits::NoField != (ShadowOnFieldMask & whichField))
@@ -339,6 +357,11 @@ void ShadowMapViewportBase::copyToBin(      BinaryDataHandler &pMem,
         _mfLightNodes.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (ExcludeNodesFieldMask & whichField))
+    {
+        _mfExcludeNodes.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (ShadowOnFieldMask & whichField))
     {
         _sfShadowOn.copyToBin(pMem);
@@ -387,6 +410,11 @@ void ShadowMapViewportBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfLightNodes.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ExcludeNodesFieldMask & whichField))
+    {
+        _mfExcludeNodes.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (ShadowOnFieldMask & whichField))
     {
         _sfShadowOn.copyFromBin(pMem);
@@ -423,6 +451,9 @@ void ShadowMapViewportBase::executeSyncImpl(      ShadowMapViewportBase *pOther,
 
     if(FieldBits::NoField != (LightNodesFieldMask & whichField))
         _mfLightNodes.syncWith(pOther->_mfLightNodes);
+
+    if(FieldBits::NoField != (ExcludeNodesFieldMask & whichField))
+        _mfExcludeNodes.syncWith(pOther->_mfExcludeNodes);
 
     if(FieldBits::NoField != (ShadowOnFieldMask & whichField))
         _sfShadowOn.syncWith(pOther->_sfShadowOn);
@@ -463,7 +494,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.4 2004/08/30 17:49:38 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.5 2004/09/08 09:00:25 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 
