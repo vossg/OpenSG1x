@@ -200,16 +200,9 @@ Action::ResultE ProxyGroup::draw(Action *action)
     {
         if(da->getActNode()->getNChildren() == 0)
         {
-            bool l = glIsEnabled( GL_LIGHTING );
-            glDisable( GL_LIGHTING );
-            GLfloat color[4];
-            glGetFloatv(GL_CURRENT_COLOR,color);
-            glColor3f(.3,1,.3);
-            drawVolume( da->getActNode()->getVolume() );
-            glColor4fv(color);
-
-            if ( l ) 
-                glEnable( GL_LIGHTING );
+            Color3f col;
+            col.setValuesRGB(.5,.3,0);            
+            dropVolume(da, da->getActNode(), col);
         }
     }
 
