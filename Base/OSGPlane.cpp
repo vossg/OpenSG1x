@@ -179,10 +179,37 @@ Bool Plane::intersect(const Line &line, Real32 &t) const
 }
 
 /// Transforms the plane by the given matrix
-void Plane::transform(const Matrix &/*matrix*/)
+void Plane::transform(const Matrix &matrix)
 {
 	// TODO
-	assert(false);
+//	assert(false);
+    
+    matrix.transform(_normalVec);
+    _normalVec.normalize();
+
+    Vec3f trans   ( matrix[3]);
+
+    trans.projectTo(_normalVec);
+
+
+    UInt32 uiValNorm  = getMaxIndexAbs3(_normalVec);
+    UInt32 uiValPoint = getMaxIndexAbs3( trans);
+
+    if(trans[uiValPoint] >  Eps ||
+       trans[uiValPoint] < -Eps)
+    {
+        if((_normalVec[uiValNorm ] < 0. &&
+             trans    [uiValPoint] < 0. ) ||
+           (_normalVec[uiValNorm ] > 0. &&
+             trans    [uiValPoint] > 0. ))
+        {
+            _distance -= trans.length();
+        }
+        else
+        {
+            _distance += trans.length();
+        }
+    }
 }
 
 /// set the plane param
