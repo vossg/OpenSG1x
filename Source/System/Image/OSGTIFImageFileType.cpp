@@ -38,6 +38,11 @@
 //-------------------------------
 // Includes  
 //-------------------------------
+
+#ifdef __hpux // prevent int32 clash (model.h/tiff.h)  
+#define _INT32
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 

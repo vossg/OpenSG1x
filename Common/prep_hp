@@ -17,6 +17,6 @@ if test -w Source/System/FileIO/OBJ/tmp_gv; then
 
     if test -w Source/System/FileIO/OBJ/OSGOBJSceneFileType.cpp; then
         echo "mv Source/System/FileIO/OBJ/OSGOBJSceneFileType.cpp Source/System/FileIO/OBJ/tmp_gv"
-        mv Source/System/FileIO/OSGOBJSceneFileType.cpp Source/System/FileIO/OBJ/tmp_gv
+        mv Source/System/FileIO/OBJ/OSGOBJSceneFileType.cpp Source/System/FileIO/OBJ/tmp_gv
     fi
 fi
