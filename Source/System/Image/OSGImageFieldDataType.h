@@ -82,14 +82,34 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
     static void             putToString(const      ImageP &inVal,
                                               std::string &outStr)
     {
-		       std::string fileName;
-        static      UInt32 counter = 0;
+        const  std::string *pFileName;
+               std::string  fileName("");
+        static UInt32       counter = 0;
 
-		if(inVal != NULL)
-		{
-		    fileName.assign("Image");
-			fileName.append( TypeConstants<UInt32>::putToString(counter++) );
+        if(inVal != NULL)
+        {
+            if(inVal->hasAttachment())
+            {
+                pFileName = inVal->findAttachment("fileName");
+                
+                if(pFileName != NULL)
+                {
+                    outStr.assign( "\""       );
+                    outStr.append( *pFileName );
+                    outStr.append( "\""       );
 
+                    inVal->write(NULL);
+
+                    return;
+                }
+            }
+            
+            // No Attachment available or no filename stored
+
+            fileName.assign("Image");
+            fileName.append(
+                TypeConstants<UInt32>::putToString(counter++));
+            
             if(inVal->getDepth() > 1)
             {
                 fileName.append(".mtd");
@@ -99,15 +119,14 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
                 fileName.append(".pnm");
             }
 
-			inVal->write(fileName.c_str());
-		}
-
-		outStr.assign( "\"" );
-		if(inVal != NULL)
-		{
-			outStr.append( fileName );
-		}
-	    outStr.append( "\"" );
+            inVal->write(fileName.c_str());
+        }
+ 
+        inVal->write(fileName.c_str());
+                                           
+        outStr.assign( "\""     );
+        outStr.append( fileName );
+        outStr.append( "\""     );
     }
 
     static UInt32 getBinSize(const ImageP &oObject)
