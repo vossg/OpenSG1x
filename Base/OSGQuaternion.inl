@@ -440,7 +440,7 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const Char8 *str)
     }
     else
     {
-        setValueAsAxisRad (_quat[0], _quat[1], _quat[2], _quat[3]);
+        setValueAsAxisRad(_quat[0], _quat[1], _quat[2], _quat[3]);
     }
 }
 
@@ -462,7 +462,7 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const Char8 *str)
     }
     else
     {
-        setValueAsAxisRad (_quat[0], _quat[1], _quat[2], _quat[3]);
+        setValueAsAxisDeg(_quat[0], _quat[1], _quat[2], _quat[3]);
     }
 }
 
