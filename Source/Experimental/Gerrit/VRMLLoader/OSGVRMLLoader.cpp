@@ -62,6 +62,7 @@
 #include "OSGMFVecTypes.h"
 #include "OSGSFMathTypes.h"
 #include "OSGMFMathTypes.h"
+#include "OSGImage.h"
 
 #include "OSGDataElementDesc.h"
 //#include "OSGVRMLRouteTask.h"
@@ -215,6 +216,8 @@ void VRMLLoader::initFieldTypeMapper(void)
     setIntExtMapping(SFVRMLNode::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
+    setIntExtMapping(SFImagePtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfImage);
 
 
     setIntExtMapping(MFColor3f::getClassType().getId(),
