@@ -62,7 +62,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.4 2002/01/14 18:39:37 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.5 2002/01/21 01:51:00 dirk Exp $";
     static char cvsid_hpp[] = OSGSKYBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSKYBACKGROUND_INLINE_CVSID;
 }
@@ -179,8 +179,9 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
                                         viewport->getPixelHeight() );
     m[3][0] = m[3][1] = m[3][2] = 0;
     glLoadMatrixf( m.getValues() );         
+    Real32 viewscale = (m[0].length() + m[1].length() + m[2].length()) / 3.f;
     float scale = ( action->getCamera()->getFar() + 
-                    action->getCamera()->getNear() ) / 2;
+                    action->getCamera()->getNear() ) / 2 / viewscale;
     glScalef( scale, scale, scale );
 
     glMatrixMode(GL_PROJECTION);
