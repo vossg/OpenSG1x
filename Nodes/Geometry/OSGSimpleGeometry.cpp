@@ -375,8 +375,8 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 
 		for ( j = 0; j <= sides; j++ ) 
 		{
-				i->addValue( baseindex + j );
 				i->addValue( baseindex + sides + 1 + j );
+				i->addValue( baseindex + j );
 		}
 	}
 	
@@ -429,7 +429,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 
 		for ( j = 0; j < sides; j++ ) 
 		{
-				i->addValue( baseindex + j );
+				i->addValue( baseindex + sides - 1 - j );
 		}
 		i->addValue( baseindex );
 	}
