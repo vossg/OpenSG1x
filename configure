@@ -9892,13 +9892,8 @@ case "$build_os" in
         echo "please contact me (vossg@camtech.ntu.edu.sg) beforehand"
     ;;
     linux*)
-        case `\ls -1l /usr/lib/libGL.*so* | grep '^l' | wc -l` in
-         *0)
-            echo "NOTICE: Can't find libGL.so. Do you have OpenGL support?"
-            ;;
-         *1)
-            ;;
-         *2)
+        if test -e /usr/lib/libGL.so -a -e /usr/lib/libGL.so.1 
+        then
             diff -q /usr/lib/libGL.so /usr/lib/libGL.so.1 > /dev/null
             if test $? != 0
             then
@@ -9911,11 +9906,7 @@ case "$build_os" in
                 echo "If OpenSG programs crash when accessing OpenGL extensions, please make "
                 echo "sure your OpenGL installation is ok."
             fi
-            ;;
-        *)
-            echo "NOTICE: More than 2 OpenGL libs found. Make sure your installation is ok"
-            ;;
-        esac
+        fi
     ;;
 esac
 
