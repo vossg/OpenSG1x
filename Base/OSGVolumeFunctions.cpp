@@ -205,6 +205,7 @@ OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box,
   int i;
   const Pnt3f &min = box.getMin();
   const Pnt3f &max = box.getMax();
+ 
   Plane frust[] = {frustum.getNear(), frustum.getFar(), frustum.getLeft(), frustum.getRight(), frustum.getTop(), frustum.getBottom()};
 
   for (i=0; i<6; i++){
@@ -231,6 +232,7 @@ OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box,
 
     if(frust[i].getNormal().x()*max.x()+frust[i].getNormal().y()*max.y()+frust[i].getNormal().z()*max.z()+frust[i].getDistanceFromOrigin()>0)
       continue;
+
 
     return false;
   }
@@ -337,28 +339,18 @@ OSG_BASE_DLLMAPPING Bool intersect (const SphereVolume &sphere,
 OSG_BASE_DLLMAPPING Bool intersect ( const SphereVolume &sphere, 
 																		 const FrustumVolume &frustum)
 {
-	Bool retCode = false;
 	int i;
-	int intersectPlanes = 0, passedPlanes = 0;
-	float distance;
-	Plane frust[] = {frustum.getNear(), frustum.getFar(), frustum.getLeft(), frustum.getRight(), frustum.getTop(), frustum.getBottom()};
+	Plane frust[6] = {frustum.getNear(), frustum.getFar(), frustum.getLeft(), frustum.getRight(), 
+			  frustum.getTop(), frustum.getBottom()};
 
-	for (i=0; i<6; i++) {
-		distance = frust[i].getNormal().x()*sphere.getCenter().x() +
-			frust[i].getNormal().y()*sphere.getCenter().y() +
-			frust[i].getNormal().z()*sphere.getCenter().z() + 
-			frust[i].getDistanceFromOrigin();
-		if (distance > sphere.getRadius())
-		  passedPlanes++;
-		else if (distance > -(sphere.getRadius()))
-		  intersectPlanes++;
-	}
-	if (passedPlanes == 6 || intersectPlanes > 0)
-	  retCode = true;
-
-	return retCode;
-	// imp;
-	
+	for (i=0;i<6;i++){
+	  if (frust[i].getNormal().x()*sphere.getCenter().x() +
+	      frust[i].getNormal().y()*sphere.getCenter().y() +
+	      frust[i].getNormal().z()*sphere.getCenter().z() + 
+	      frust[i].getDistanceFromOrigin()<=-sphere.getRadius())
+	    return false;
+	}	
+	return true;
 }
 
 

@@ -57,6 +57,8 @@
 
 #include <OSGLine.h>
 #include <OSGMatrix.h>
+#include <OSGPlane.h>
+#include <OSGVector.h>
 
 #include "OSGFrustumVolume.h"
 
@@ -88,22 +90,31 @@ OSG_USING_NAMESPACE
 
 
 void FrustumVolume::setPlanes (  const Pnt3f &nlt, const Pnt3f &nlb,
-                  							const Pnt3f &nrt, const Pnt3f &nrb,
-                  							const Pnt3f &flt, const Pnt3f &flb,
-                  							const Pnt3f &frt, const Pnt3f &frb )
+                                 const Pnt3f &nrt, const Pnt3f &nrb,
+                                 const Pnt3f &flt, const Pnt3f &flb,
+                                 const Pnt3f &frt, const Pnt3f &frb )
 {
-	;
+  Plane near(nlb,nlt,nrb);
+  Plane far(frb,frt,flb);
+  Plane left(flb,flt,nlb);
+  Plane right(nrb,nrt,frb);
+  Plane top(frt,nrt,flt);
+  Plane bottom(nlb,nrb,flb);
+
+	_planeVec[0] = near;
+	_planeVec[1] = far;
+	_planeVec[2] = left;
+	_planeVec[3] = right;
+	_planeVec[4] = top;
+	_planeVec[5] = bottom;	
 }
 
-void FrustumVolume::setPlane ( const Matrix &matrix )
+void FrustumVolume::setPlanes ( const Matrix &objectClipMat )
 {
-/*
-	Real32 planeEquation[4][4], objectClipMat[4][4];
+	Real32 planeEquation[6][4]; 
 	Real32 vectorLength;
-	Int32 i;
-*/
-/*
-	matrix.getValue(objectClipMat);	
+  Int32 i;
+  Vec3f dir;
 	
 	planeEquation[0][0] = objectClipMat[0][3]-objectClipMat[0][0];
 	planeEquation[0][1] = objectClipMat[1][3]-objectClipMat[1][0];
@@ -137,17 +148,40 @@ void FrustumVolume::setPlane ( const Matrix &matrix )
 	
 	for (i = 0; i < 6; i++) {
 		vectorLength = sqrt(planeEquation[i][0] * planeEquation[i][0] +
-												planeEquation[i][1] * planeEquation[i][1] +
-												planeEquation[i][2] * planeEquation[i][2]);
+                        planeEquation[i][1] * planeEquation[i][1] +
+                        planeEquation[i][2] * planeEquation[i][2]);
+
 		planeEquation[i][0] /= vectorLength;
 		planeEquation[i][1] /= vectorLength;
 		planeEquation[i][2] /= vectorLength;
 		planeEquation[i][3] /= vectorLength;
-	}	
-	*/
+	}
 
+  dir.setValues (planeEquation[0][0],planeEquation[0][1],planeEquation[0][2]);
+  Plane right  ( dir, planeEquation[0][3] );
+
+  dir.setValues (planeEquation[1][0],planeEquation[1][1],planeEquation[1][2]);
+	Plane left   ( dir, planeEquation[1][3]);
+
+  dir.setValues (planeEquation[2][0],planeEquation[2][1],planeEquation[2][2]);
+	Plane bottom ( dir, planeEquation[2][3]);
+
+  dir.setValues (planeEquation[3][0],planeEquation[3][1],planeEquation[3][2]);
+	Plane top    ( dir, planeEquation[3][3]);
+
+  dir.setValues (planeEquation[4][0],planeEquation[4][1],planeEquation[4][2]);
+	Plane near   ( dir, planeEquation[4][3]);
+
+  dir.setValues (planeEquation[5][0],planeEquation[5][1],planeEquation[5][2]);
+	Plane far    ( dir, planeEquation[5][3]);
+
+	_planeVec[0] = near;
+	_planeVec[1] = far;
+	_planeVec[2] = left;
+	_planeVec[3] = right;
+	_planeVec[4] = top;
+	_planeVec[5] = bottom;
 }
-
 /// Returns the center of a box
 void FrustumVolume::getCenter(Pnt3f &center) const
 {
@@ -158,8 +192,8 @@ void FrustumVolume::getCenter(Pnt3f &center) const
 /// Gives the volume of the box (0 for an empty box)
 float FrustumVolume::getScalarVolume() const
 {
-	// not implemented !!!
 	return 0;
+	// not implemented !!!
 }
 
 /// Gives the boundaries of the volume 

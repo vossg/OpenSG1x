@@ -146,15 +146,15 @@ public:
 
 	/** set method for all planes */
 	inline void setPlanes( const Plane &pnear, const Plane &pfar,
-								 const Plane &left, const Plane &right,
-								 const Plane &top,  const Plane &bottom);
+                         const Plane &left, const Plane &right,
+                         const Plane &top,  const Plane &bottom);
 
 	void setPlanes (  const Pnt3f &nlt, const Pnt3f &nlb,
 										const Pnt3f &nrt, const Pnt3f &nrb,
 										const Pnt3f &flt, const Pnt3f &flb,
 										const Pnt3f &frt, const Pnt3f &frb );
 
-	void setPlane ( const Matrix &matrix );
+	void setPlanes ( const Matrix &matrix );
 									
  /** gives the center of the volume */
   virtual void getCenter (Pnt3f &center) const;
