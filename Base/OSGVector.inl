@@ -1679,7 +1679,7 @@ VectorInterface<ValueTypeT, StorageInterfaceT> &
 
 /*------------------------- comparison ----------------------------------*/
 
-/** \brief Less than, not implemented
+/*! Less than.
  */
 
 template <class    ValueTypeT,
@@ -1692,11 +1692,13 @@ Bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator < (
 
     for(i = 0; i < _iSize; i++)
     {
-        if ( _values[i] >= other._values[i] )
+        if ( _values[i] > other._values[i] )
         {
             ret = false;
             break;
         }
+        if ( _values[i] < other._values[i] )
+            break;
     }
 
     return ret;
