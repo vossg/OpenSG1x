@@ -73,8 +73,8 @@ class MyOSGQGLWidget : public OSGQGLWidget
 		virtual void keyPressEvent ( QKeyEvent* );
 		
 		UInt32		mouseb;
-		UInt32		lastx;
-		UInt32		lasty;
+		Int32		lastx;
+		Int32		lasty;
 };
 
 OSG_END_NAMESPACE
@@ -165,7 +165,8 @@ void MyOSGQGLWidget::mouseReleaseEvent ( QMouseEvent *me )
 			tball.setAutoPositionNeg(false);
 			break;
 	}
-	mouseb &= me->button();
+	mouseb &= ~me->button();
+
 	lastx = me->x();
 	lasty = me->y();	
 }
@@ -192,6 +193,7 @@ void MyOSGQGLWidget::mouseMoveEvent ( QMouseEvent *me )
 	{
 		tball.updatePositionNeg( a, b, c, d );
 	}
+
 	lastx = me->pos().x();
 	lasty = me->pos().y();
 	

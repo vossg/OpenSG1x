@@ -219,7 +219,7 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
             iPixelFormat = ChoosePixelFormat(hDC, &pfd);
             SetPixelFormat(hDC, iPixelFormat, &pfd);	
             
-            win->setHDC ( hDC );
+//            win->setHDC ( hDC );
             
             win->init();
 	

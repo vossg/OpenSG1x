@@ -156,10 +156,13 @@ WIN32Window::~WIN32Window(void)
 // init the window: create the HDC and context
 void WIN32Window::init( void )
 {
+    _hdc = GetDC(_hwin);
+
     if ( ! ( _glcx = wglCreateContext( _hdc ) ) )
     {
 		cout << "WIN32Window::init: failed: " << GetLastError() << endl;   	
     }
+
     ReleaseDC(_hwin,_hdc);
     activate();
 	setupGL();
@@ -169,7 +172,8 @@ void WIN32Window::init( void )
 // activate the window: bind the OGL context
 void WIN32Window::activate( void )
 {    
-	_hdc = BeginPaint( _hwin, &_ps );	
+    _hdc = GetDC(_hwin);
+
     if ( ! wglMakeCurrent( _hdc, _glcx ) )
     {
     	cout << "WIN32Window::activate: failed: " << GetLastError() << endl;   	
@@ -180,8 +184,9 @@ void WIN32Window::deactivate ( void )
 {
 	// unbind the context
 	wglMakeCurrent(NULL, NULL);
+
 	// release the hardware device context
-	EndPaint( _hwin, &_ps );	
+    ReleaseDC(_hwin,_hdc);
 }
 
 // swap front and back buffers
