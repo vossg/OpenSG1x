@@ -256,15 +256,27 @@ std::string StreamSockConnection::bind(const std::string &address)
     _acceptSocket.bind(SocketAddress(SocketAddress::ANY,port));
     _acceptSocket.listen();
     gethostname(localhost,255);
-    if(getdomainname(localdomain,255)<0)
+
+#ifndef WIN32
+    if(getdomainname(localdomain, 255) < 0)
+    {
         sprintf(boundAddress,"%s:%5d",
                 localhost,
                 _acceptSocket.getAddress().getPort());
+    }
     else
+    {
         sprintf(boundAddress,"%s.%s:%5d",
                 localhost,
                 localdomain,
                 _acceptSocket.getAddress().getPort());
+    }
+#else
+    sprintf(boundAddress,"%s:%5d",
+            localhost,
+            _acceptSocket.getAddress().getPort());
+#endif
+
     return boundAddress;
 }
 
