@@ -402,6 +402,12 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexNormals(GeometryPtr geo,
         positions = geo->getPositions();
     }
 
+    if(positions->size() < 3)
+    {
+        FFATAL(("Geo with less than 3 positions in calcVertexNormals()\n"));
+        return;
+    }
+
     // Get normal property, create if needed
     if(geo->getNormals() == NullFC)
     {
@@ -420,10 +426,15 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexNormals(GeometryPtr geo,
 
     endEditCP(geo);
 
+    // HACK but without indices it crashes.
+    if(geo->getIndices() == NullFC)
+        createSharedIndex(geo);
+
     // Do the normals have their own index?
     MFUInt16        &im = geo->getIndexMapping();
     Int16           ni = geo->calcMappingIndex(Geometry::MapNormal);
     GeoIndicesPtr   ip = geo->getIndices();
+    
     UInt32          nind = ip->size() / (im.size() ? im.size() : 1);
     int             imsize = 0;
     if(ni < 0 || im[ni] != Geometry::MapNormal)
