@@ -674,55 +674,70 @@ bool Line::intersect(const Pnt3f  &v0,
                            Real32 &t,
                            Vec3f  *norm) const
 {
-    Vec3f dir1;
-    Vec3f dir2;
+    // Eps (1E-6f) didn't work with very small geometries!
+    static const Real32 sEps = 1E-10f;
 
-    dir1 = v1 - v0;
-    dir2 = v2 - v0;
+    // find vectors for two edges sharing v0.
+    Vec3f edge1 = v1 - v0;
+    Vec3f edge2 = v2 - v0;
 
-    Vec3f a = _dir.cross(dir2);
-    Vec3f b = _pos - v0;
-    Vec3f c;
+    // begin calculating determinant - also used to calculate U parameter.
+    Vec3f pvec = _dir.cross(edge2);
 
-    Real32 d = dir1.dot(a);
-    Real32 u =    b.dot(a);
-    Real32 v;
+    // if determinant is near zero, ray lies in plane of triangle.
+    Real32 det = edge1.dot(pvec);
+    Vec3f qvec;
 
-    if(d > Eps)
+    if(det > sEps)
     {
-        if(u < 0 || u > d)
+        // calculate distance from v0 to ray origin.
+        Vec3f tvec = _pos - v0;
+
+        // calculate U parameter and test bounds.
+        Real32 u = tvec.dot(pvec);
+
+        if(u < 0.0 || u > det)
             return false;
 
-        c =  b  .cross(dir1);
-        v = _dir.dot  (c   );
+        // prepare to test V parameter.
+        qvec = tvec.cross(edge1);
 
-        if(v < 0 || u + v > d)
+        // calculate V parameter and test bounds.
+        Real32 v = _dir.dot(qvec);
+
+        if(v < 0.0 || u + v > det)
             return false;
     }
-    else if(d < -Eps)
+    else if(det < -sEps)
     {
-        if(u > 0 || u < d)
+        // calculate distance from v0 to ray origin.
+        Vec3f tvec = _pos - v0;
+
+        // calculate U parameter and test bounds.
+        Real32 u = tvec.dot(pvec);
+
+        if(u > 0.0 || u < det)
             return false;
 
-        c =  b  .cross(dir1);
-        v = _dir.dot  (c   );
+        // prepare to test V parameter.
+        qvec = tvec.cross(edge1);
 
-        if(v > 0 || u + v < d)
+        // calculate V parameter and test bounds.
+        Real32 v = _dir.dot(qvec);
+
+        if(v > 0.0 || u + v < det)
             return false;
     }
     else
-    {
-        return false;
-    }
+        return false;  // ray is parallel to the plane of the triangle.
 
-    Real32 id = 1.f / d;
+    Real32 inv_det = 1.0 / det;
 
-    t = dir2.dot(c) * id;
+    // calculate t, ray intersects triangle.
+    t = edge2.dot(qvec) * inv_det;
 
     if(norm != NULL)
-    {
-        *norm = a;
-    }
+        *norm = pvec;
 
     return true;
 }
