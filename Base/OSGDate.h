@@ -51,10 +51,10 @@ OSG_BEGIN_NAMESPACE
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class Date;
-bool operator==(const Date &v1, const Date &v2);
-bool operator< (const Date &v1, const Date &v2);
-ostream& operator<< (ostream & os, const Date &obj);
-istream& operator>> (istream & is, Date &obj);
+OSG_BASE_DLLMAPPING bool operator==(const Date &v1, const Date &v2);
+OSG_BASE_DLLMAPPING bool operator< (const Date &v1, const Date &v2);
+OSG_BASE_DLLMAPPING ostream& operator<< (ostream & os, const Date &obj);
+OSG_BASE_DLLMAPPING istream& operator>> (istream & is, Date &obj);
 #endif
 
 /** Date & Time.
