@@ -55,7 +55,7 @@ OSG_BEGIN_NAMESPACE
     PageSystemWindowForegroundGrabFile for a description.
 */
 
-class OSG_SYSTEMLIB_DLLMAPPING AVCodecGrabForeground : public AVCodecGrabForegroundBase
+class OSG_CONTRIBLIB_DLLMAPPING AVCodecGrabForeground : public AVCodecGrabForegroundBase
 {
   private:
 

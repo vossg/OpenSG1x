@@ -74,6 +74,8 @@ int main(int argc, char **argv)
     GLUTWindowPtr gwin= GLUTWindow::create();
     gwin->setId(winid);
     gwin->init();
+    // Choose a window size divisible by 16.
+    glutReshapeWindow(352, 288);
 
     if ( argc >= 2  && argv[2] )
     {
@@ -116,8 +118,16 @@ int main(int argc, char **argv)
     // show the whole scene
     mgr->showAll();
     
-    // GLUT main loop
-    glutMainLoop();
+    try
+    {
+        // GLUT main loop
+        glutMainLoop();
+    }
+    
+    catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
+    {
+        SFATAL << e.what() << std::endl;
+    }
 
     return 0;
 }

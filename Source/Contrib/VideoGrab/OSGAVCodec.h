@@ -47,6 +47,7 @@
 #define uint64_t_C(c)    (c ## ULL)
 #endif
 
+#include <ffmpeg/config.h>
 #include <ffmpeg/avformat.h>
 
 /* --------------------------------------------------------------- *\
