@@ -45,8 +45,9 @@ NodePtr             scene;
 NodePtr             n[3];
 UInt8               numNodes = 0, currentNode = 0;
 Text                fontText;
-vector<string>      lineVec;
-Real32              lastT;
+
+std::vector<std::string> lineVec;
+Real32                   lastT;
 
 /* */
 void next_child(void)
@@ -152,16 +153,16 @@ int main(int argc, char **argv)
     // Textured - Text
     Color4ub    col1(102, 175, 250, 0);
     Color4ub    col2(255, 225, 41, 0);
-    Image       img;
+    Image       *pImg = new Image();
 
-    if(fontText.fillImage(img, lineVec, &col1, &col2))
+    if(fontText.fillImage(*pImg, lineVec, &col1, &col2))
     {
         geo = makeBoxGeo(4, 1, 0.001, 1, 1, 1);
 
         SimpleTexturedMaterialPtr   mat = SimpleTexturedMaterial::create();
         beginEditCP(mat);
         {
-            mat->setImage(&img);
+            mat->setImage(pImg);
         }
 
         endEditCP(mat);
@@ -180,10 +181,10 @@ int main(int argc, char **argv)
     n[numNodes] = Node::create();
     txfGeo = Geometry::create();
 
-    Image   txfImg;
+    Image   *pTxfImg = new Image();
     if(fontText.fillTXFGeo(*txfGeo, true, lineVec))
     {
-        fontText.fillTXFImage(txfImg);
+        fontText.fillTXFImage(*pTxfImg);
 
         BlendChunkPtr   bl = BlendChunk::create();
         beginEditCP(bl);
@@ -197,7 +198,7 @@ int main(int argc, char **argv)
         SimpleTexturedMaterialPtr   mat = SimpleTexturedMaterial::create();
         beginEditCP(mat);
         {
-            mat->setImage(&txfImg);
+            mat->setImage(pTxfImg);
             mat->addChunk(bl);
         }
 
@@ -213,7 +214,7 @@ int main(int argc, char **argv)
 
     if(!numNodes)
     {
-        cerr << "FATAL: could not create anything." << endl;
+        std::cerr << "FATAL: could not create anything." << std::endl;
         exit(1);
     }
 

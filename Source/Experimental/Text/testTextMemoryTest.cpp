@@ -44,8 +44,9 @@ int                 setupGLUT(int *argc, char *argv[]);
 NodePtr             scene;
 NodePtr             n;
 Text                fontText;
-vector<string>      lineVec;
-Real32              lastT;
+
+std::vector<std::string> lineVec;
+Real32                   lastT;
 
 GeometryPtr         txfGeo;
 
@@ -108,11 +109,11 @@ int main(int argc, char **argv)
     ((TTFontStyle *) fontStyle)->createTXFMap((UChar8 *) ". fps0123456789");
 
     // write it somewhere
-    ostrstream  target;
+    std::ostrstream  target;
     fontStyle->dump(target);
 
     // stream from memory
-    istrstream  source(target.str(), target.pcount());
+    std::istrstream  source(target.str(), target.pcount());
 
     FLOG(("Font size: %d byte\n", target.pcount()));
 
@@ -131,15 +132,15 @@ int main(int argc, char **argv)
     n = Node::create();
     txfGeo = Geometry::create();
 
-    Image   txfImg;
+    Image   *pTxfImg = new Image();
     if(fontText.fillTXFGeo(*txfGeo, true, lineVec))
     {
-        fontText.fillTXFImage(txfImg);
+        fontText.fillTXFImage(*pTxfImg);
 
         SimpleTexturedMaterialPtr   mat = SimpleTexturedMaterial::create();
         beginEditCP(mat);
         {
-            mat->setImage(&txfImg);
+            mat->setImage(pTxfImg);
         }
 
         endEditCP(mat);

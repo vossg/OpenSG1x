@@ -65,29 +65,29 @@ int main(int argc, char **argv)
     ((TTFontStyle *) fontStyle)->createTXFMap();
 
     // write it somewhere
-    ostrstream  target;
+    std::ostrstream  target;
     fontStyle->dump(target);
 
     FLOG(("Font size: %d byte\n", target.pcount()));
 
-    ofstream    out(argv[2]);
+    std::ofstream    out(argv[2]);
     if(out.eof() == false)
     {
         UChar8    *data = (UChar8 *) target.str();
 
         out << "UInt32 fontDataSize = " << target.pcount() << ";"
-            << endl;
+            << std::endl;
         out << "UChar8 fontData[" << target.pcount() << "] = {";
         for(UInt32 i = 0; i < target.pcount(); i++)
         {
             if((i % 20) == 0)
-                out << endl;
+                out << std::endl;
             out << int(data[i]);
             if(i < target.pcount() - 1)
                 out << ",";
         }
 
-        out << endl << "};" << endl;
+        out << std::endl << "};" << std::endl;
         delete[] data;
         retCode = 0;
     }

@@ -44,8 +44,8 @@ int                 setupGLUT(int *argc, char *argv[]);
 NodePtr             scene;
 NodePtr             n;
 Text                fontText;
-vector<string>      lineVec;
-Real32              lastT;
+std::vector<std::string> lineVec;
+Real32                   lastT;
 
 GeometryPtr         txfGeo;
 
@@ -146,15 +146,15 @@ int main(int argc, char **argv)
     n = Node::create();
     txfGeo = Geometry::create();
 
-    Image   txfImg;
+    Image   *pTxfImg = new Image;
     if(fontText.fillTXFGeo(*txfGeo, true, lineVec))
     {
-        fontText.fillTXFImage(txfImg);
+        fontText.fillTXFImage(*pTxfImg);
 
         SimpleTexturedMaterialPtr   mat = SimpleTexturedMaterial::create();
         beginEditCP(mat);
         {
-            mat->setImage(&txfImg);
+            mat->setImage(pTxfImg);
         }
 
         endEditCP(mat);
