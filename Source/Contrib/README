@@ -21,7 +21,11 @@ author(s) and some general information about the contribution. The primary
 thing to watch out for are additional libraries needed by the contributions.
 These have to be added manually to the configure call in the --with-add-lib=,
 and possibly using the --with-add-incdir= and --with-add-libdir= options for
-libraries that are not in the standard pathes.
+libraries that are not in the standard pathes. Example: the VideoGrab contrib
+needs the avcodoc and avformat libs, and the ffmpeg/avformat.h header. You
+need to call configure with "--with-add-incdir=<path where ffmpeg is> 
+--with-add-libdir=<path where libavformat.so and libavcodec.so are>
+--with-add-lib=avformat:avcodec"
 
 The currently available contributions are
 
