@@ -259,13 +259,12 @@ bool ImageFileHandler::read(Image &image, const char *fileName,
 
     if(type)
     {
-        SINFO << "try to read " << fullFilePath << " as " 
-              << type->getMimeType() << endl;
+        FDEBUG(("try to image read %s as %s\n", fullFilePath, 
+                    type->getMimeType()));
         retCode = type->read(image, fullFilePath.c_str());
         if(retCode)
         {
-            SINFO << "image: " << image.getWidth() << "x" 
-                  << image.getHeight() << endl;
+            FDEBUG(("image: %dx%d\n", image.getWidth(), image.getHeight()));
             image.setAttachment(_fileNameKey, fileName);
             image.setAttachment(_fullFilePathKey, fullFilePath);
         }
