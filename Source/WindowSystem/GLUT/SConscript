@@ -16,10 +16,12 @@ headers = Split("""
 
 InstallHeaders(env, headers)
 
-BuildLibrary(tc, 'OSGWindowGLUT', sources,
-             CPPPATH=['.'] + BaseDirs + SystemDirs,
+def custom(env):
+    env.Append(LIBS=env.get('OSG_WINDOW_GLUT_LIBS', []))
+
+BuildLibrary(tc, 'OSGWindowGLUT', sources, updates=[custom],
+             CPPPATH=ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs),
              CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWGLUTLIB',
                          'OSG_WITH_GLUT'],
              LIBPATH=['../../Base', '../../System'],
-             LIBS=['OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}',
-                   'glut32', 'opengl32', 'ws2_32'])
+             LIBS=['OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}'])

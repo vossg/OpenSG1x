@@ -1,0 +1,26 @@
+Import('*')
+
+sources = Split("""
+    OSGXWindow.cpp
+    OSGXWindowBase.cpp
+""")
+
+headers = Split("""
+    OSGWindowXDef.h
+    OSGXWindow.h
+    OSGXWindow.inl
+    OSGXWindowBase.h
+    OSGXWindowBase.inl
+    OSGXWindowDataFields.h
+    OSGXWindowFields.h
+""")
+InstallHeaders(env, headers)
+
+def custom(env):
+    env.Append(LIBS = env.get('OSG_WINDOW_X_LIBS', []))
+
+BuildLibrary(tc, 'OSGWindowX', sources, updates=[custom],
+             CPPPATH=ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs),
+             CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWXLIB'],
+             LIBPATH=['../../Base', '../../System'],
+             LIBS=['OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}'])

@@ -21,7 +21,7 @@ def ProcessDirs(dirs):
             generated.append(d)
         else:
             # Some of this logic is taken from SConscript.py in SCons.
-            
+
             FS = SCons.Node.FS.default_fs
             old_fs = FS.getcwd()
             FS.chdir(d, change_os_dir=0)
@@ -36,10 +36,6 @@ def ProcessDirs(dirs):
 
 def InstallHeaders(env, headers):
     env = env.Copy()
-    
-    # XXX HACK for sed
-    #env.AppendENVPath('PATH', 'C:/cygwin/bin')
-    env.AppendENVPath('PATH', GetWinPath('/bin'))
 
     for h in headers:
         env.Command('$PREFIX/include/OpenSG/%s' % os.path.basename(str(h)),
@@ -51,8 +47,8 @@ def InstallHeaders(env, headers):
 def InstallLibrary(env, lib):
     env.Install('$PREFIX/lib', lib)
 
-def ExpandCPPPath(list, generated):
-    return list + generated
+def ExpandCPPPath(list, generated = []):
+    return [n.srcnode() for n in list] + generated
 
 def BuildLibrary(tc, name, sources, tools=[], updates=[], includeGen=0, **kw):
     for env in tc.get_env_list():
@@ -75,7 +71,7 @@ def BuildLibrary(tc, name, sources, tools=[], updates=[], includeGen=0, **kw):
 Export('ProcessDirs InstallHeaders ExpandCPPPath BuildLibrary')
 
 
-BaseDirs = [Dir('Base').Dir(n).srcnode() for n in Split("""
+BaseDirs = [Dir('Base').Dir(n) for n in Split("""
     Base
     Field
     Functors
@@ -85,7 +81,7 @@ BaseDirs = [Dir('Base').Dir(n).srcnode() for n in Split("""
     Xml
 """)]
 
-SystemDirs = [Dir('System').Dir(n).srcnode() for n in Split("""
+SystemDirs = [Dir('System').Dir(n) for n in Split("""
     Action
     Action/DrawAction
     Action/IntersectAction

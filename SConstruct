@@ -2,6 +2,7 @@ import dumbdbm
 import fnmatch
 import os.path
 import string
+import sys
 
 SConsignFile(dbm_module=dumbdbm)
 #CacheDir('cache')
@@ -13,9 +14,9 @@ def Glob(match):
     def fn_filter(node):
         fn = str(node)
         return fnmatch.fnmatch(os.path.basename(fn), match)
-    
+
     here = Dir('.')
-    
+
     children = here.all_children()
     nodes = map(File, filter(fn_filter, children))
     node_srcs = [n.srcnode() for n in nodes]
@@ -31,23 +32,31 @@ def Glob(match):
 
 Export('Glob')
 
-def GetWinPath(path):
-    f = os.popen('cygpath -w -p ' + path, 'r')
-    for wpath in f.xreadlines():
-        break
-    # remove line feed
-    if wpath[-1:] == '\n':
-        wpath = wpath[:len(wpath)-1]
-    return wpath
 
-Export('GetWinPath')
+if DefaultEnvironment().get('PLATFORM') == 'cygwin':
+
+    def GetCygwinPath(path):
+        f = os.popen('cygpath -w -p ' + path, 'r')
+        for wpath in f.xreadlines():
+            # remove line feed
+            if wpath[-1:] == '\n':
+                wpath = wpath[:len(wpath)-1]
+        return wpath
+
+    Export('GetCygwinPath')
+
+
+def CreateEnvironment(*args, **kw):
+    "Creates an environment with some things that always have to be set."
+    env = apply(Environment, args, kw)
+    env['ENV']['HOME'] = os.environ.get('HOME')
+    return env
+
 
 win32_defines = ['WIN32', '_WINDOWS', 'WINVER=0x0400', '_WIN32_WINDOWS=0x0410',
                  '_WIN32_WINNT=0x0400', 'OSG_DEFAULT_LOG_LEVEL=2',
                  'OSG_DEFAULT_LOG_TYPE=2',
-                 'STRICT', 'NOMINMAX']
-
-# 'WIN32_LEAN_AND_MEAN'
+                 'STRICT', 'NOMINMAX', 'WIN32_LEAN_AND_MEAN']
 
 # ok we need to add some kind of configure for creating the OSGConfigured.h header file.
 # '_OSG_HAVE_CONFIGURED_H_'
@@ -55,7 +64,7 @@ win32_defines = ['WIN32', '_WINDOWS', 'WINVER=0x0400', '_WIN32_WINDOWS=0x0410',
 class ToolChain:
     def __init__(self, name, **kw):
         self.name = name
-        self.env = apply(Environment, [], kw)
+        self.env = apply(CreateEnvironment, [], kw)
 
     def get_name(self):
         return self.name
@@ -63,7 +72,7 @@ class ToolChain:
     def get_env(self):
         """Returns base environment for this tool chain."""
         return self.env
-    
+
     def get_env_list(self):
         """Returns list of customized environment configurations
         (debug, opt, etc.) for this tool chain."""
@@ -73,13 +82,23 @@ class ToolChain:
         env['OSG_PROGSUF'] = ''
         return [env]
 
-class win32_icl_base(ToolChain):
+    def is_win32(self):
+        return 0
+
+class win32(ToolChain):
+    def __init__(self, name):
+        ToolChain.__init__(self, name)
+        
+    def is_win32(self):
+        return 1
+
+class win32_icl_base(win32):
     def __init__(self, name):
         ToolChain.__init__(self, name)
         env = self.get_env()
-        
+
         env.Replace(no_import_lib = 1)
-        
+
         # add msvc6 include and lib paths
         import SCons.Tool.msvc
         include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("6.0", 0)
@@ -104,9 +123,7 @@ class win32_icl_base(ToolChain):
         #print env['ENV']['INCLUDE']
         #print env['ENV']['LIB']
 
-        # XXX HACK
-        #env.AppendENVPath('PATH', 'C:/cygwin/bin')
-        env.AppendENVPath('PATH', GetWinPath('/bin'))
+        env.AppendENVPath('PATH', GetCygwinPath('/bin'))
 
         env.Append(CXXFLAGS=['-W4',
                              '-Qwd985', '-Qwd530', '-Qwd981', '-Qwd193',
@@ -121,10 +138,15 @@ class win32_icl_base(ToolChain):
         # XXX HACK need to autodetect the compiler version!
         # '__STDC__'
         env.Append(CPPDEFINES=['__INTEL_COMPILER_VERSION=600'])
+        
+        env['OSG_BASE_LIBS'] = ['winmm', 'ws2_32']
+        env['OSG_SYSTEM_LIBS'] = ['opengl32', 'glu32', 'winmm', 'ws2_32']
+        env['OSG_WINDOW_GLUT_LIBS'] = ['glut32', 'opengl32', 'ws2_32']
+        env['OSG_WINDOW_QT_LIBS'] = ['ws2_32']
 
     def get_env_list(self):
         env = self.get_env()
-        
+
         dbg = env.Copy()
         dbg.Append(CXXFLAGS=['/MDd', '/Od', '/RTC1', '/Z7'],
                    LINKFLAGS=['/DEBUG'],
@@ -148,17 +170,22 @@ class win32_icl(win32_icl_base):
         win32_icl_base.__init__(self, 'win32-icl')
         env = self.get_env()
 
-class win32_msvc_base(ToolChain):
+class win32_msvc_base(win32):
     def __init__(self, name):
-        ToolChain.__init__(self, name)
+        win32.__init__(self, name)
         env = self.get_env()
-        
-        # XXX HACK
-        #env.AppendENVPath('PATH', 'C:/cygwin/bin')
-        env.AppendENVPath('PATH', GetWinPath('/bin'))
+
+        # This needs to be user-specified.
+        env['QT_LIB'] = 'qt-mteval323'
+
+        env.AppendENVPath('PATH', GetCygwinPath('/bin'))
 
         env.Append(CPPDEFINES=win32_defines,
-                   CXXFLAGS=['/GX', '/GR'])
+                   CXXFLAGS=['/GX', '/GR'],
+                   OSG_BASE_LIBS = ['winmm', 'ws2_32'],
+                   OSG_SYSTEM_LIBS = ['opengl32', 'glu32', 'winmm', 'ws2_32'],
+                   OSG_WINDOW_GLUT_LIBS = ['glut32', 'opengl32', 'ws2_32'],
+                   OSG_WINDOW_QT_LIBS = ['ws2_32'])
 
     def get_env_list(self):
         env = self.get_env()
@@ -189,13 +216,30 @@ class win32_msvc70(win32_msvc_base):
     def __init__(self):
         win32_msvc_base.__init__(self, 'win32-msvc70')
 
-class cygwin_gcc(ToolChain):
+class cygwin_gcc(win32):
     def __init__(self):
-        ToolChain.__init__(self, 'cygwin-gcc')
+        win32.__init__(self, 'cygwin-gcc')
         env = self.get_env()
         env.Append(CPPDEFINES=win32_defines,
                    CXXFLAGS=['-mno-cygwin'],
                    LINKFLAGS=['-mno-cygwin'])
+
+class linux_gcc(ToolChain):
+    def __init__(self):
+        ToolChain.__init__(self, 'linux-gcc')
+
+    def get_env_list(self):
+        env = self.get_env()
+        
+        env = env.Copy()
+        env['OSG_BASE_LIBS'] = []
+        env['OSG_SYSTEM_LIBS'] = ['GLU', 'GL']
+        env['OSG_WINDOW_GLUT_LIBS'] = ['glut', 'GL']
+        env['OSG_WINDOW_QT_LIBS'] = []
+        env['OSG_WINDOW_X_LIBS'] = []
+
+        env['OSG_OBJDIR'] = 'obj'
+        return [env]
 
 class unknown(ToolChain):
     "Specific build type is not known.  Try defaults."
@@ -216,7 +260,7 @@ def SelectToolChain():
         return cygwin_gcc()
     elif de.get('PLATFORM') == 'win32':
         msvs_version = de.get('MSVS_VERSION')
-        
+
         if hasICL(): # is there a better way testing this?
             return win32_icl()
         elif msvs_version == '7.1':
@@ -227,17 +271,43 @@ def SelectToolChain():
             print "WARNING: Unsupported MSVS version found: %s.  Trying defaults." % msvs_version
             return unknown()
     else:
-        print "WARNING: Build toolchain not autodetected.  Trying defaults."
-        return unknown()
+        if sys.platform == 'linux2':
+            return linux_gcc()
+        else:
+            print "WARNING: Build toolchain not autodetected.  Trying defaults."
+            return unknown()
 
 tc = SelectToolChain()
 print "Detected environment: %s" % tc.get_name()
 Export('tc')
 
+
 env = tc.get_env()
 env['BUILD_DIR'] = Dir(os.path.join('Build', tc.get_name()))
 env['PREFIX'] = env['BUILD_DIR'].Dir('installed')
 Default(env['PREFIX'])
+
+
+# Process options.
+
+opts = Options('options.cache', ARGUMENTS)
+opts.AddOptions(
+    BoolOption('distcc', 'Compile using distcc', 0))
+opts.Update(env)  # Update the environment with the options.
+opts.Save('options.cache', env)
+Help(opts.GenerateHelpText(env))
+
+
+if env['distcc']:
+    distcc = WhereIs('distcc')
+    if distcc:
+        print "Found distcc: " + distcc
+        env['CC']  = ['$(', distcc, '$)', env['CC']]
+        env['CXX'] = ['$(', distcc, '$)', env['CXX']]
+        env['ENV']['DISTCC_HOSTS'] = os.environ.get('DISTCC_HOSTS')
+    else:
+        print "Error: distcc not found in PATH"
+
 
 BuildDir(env['BUILD_DIR'], '.', duplicate=0)
 

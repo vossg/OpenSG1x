@@ -67,16 +67,26 @@ def custom(env):
     # By default, SCons/QT generates moc_<file>.cpp
     env['QT_MOCNAMEGENERATOR'] = lambda x, src_suffix, env: x + '_moc.cpp'
     env['QT_AUTOBUILD_MOC_SOURCES'] = 0
-    env['QT_LIB'] = 'qt-mteval323'
 
     # Otherwise QT/moc tries to generate .cc files.
     env['CXXFILESUFFIX'] = '.cpp'
+    
+    env.Append(LIBS=env.get('OSG_WINDOW_QT_LIBS', []))
+
+if tc.is_win32():
+    dep_CPPPATH = ['../WIN32']
+    dep_LIBPATH = ['../WIN32']
+    dep_LIBS    = ['OSGWindowWIN32${OSG_LIBSUF}']
+else:
+    dep_CPPPATH = ['../X']
+    dep_LIBPATH = ['../X']
+    dep_LIBS    = ['OSGWindowX${OSG_LIBSUF}']
 
 BuildLibrary(tc, 'OSGWindowQT', sources, tools=['qt'], updates=[custom],
              includeGen=1,
-             CPPPATH = ['.'] + BaseDirs + SystemDirs + ['../WIN32'],
+             CPPPATH = ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs + map(Dir, dep_CPPPATH)),
              CPPDEFINES = ['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWQTLIB',
-                           'OSG_WITH_QT'],
-             LIBPATH = ['../../Base', '../../System', '../WIN32'],
-             LIBS = ['OSGWindowWIN32${OSG_LIBSUF}', 'OSGSystem${OSG_LIBSUF}',
-                     'OSGBase${OSG_LIBSUF}', 'ws2_32'])
+                           'OSG_WITH_QT', 'QT_CLEAN_NAMESPACE'],
+             LIBPATH = ['../../Base', '../../System'] + dep_LIBPATH,
+             LIBS = dep_LIBS + ['OSGSystem${OSG_LIBSUF}',
+                     'OSGBase${OSG_LIBSUF}'])

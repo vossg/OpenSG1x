@@ -3,8 +3,11 @@ Import('*')
 headers, sources, tests, generated = ProcessDirs(SystemDirs)
 InstallHeaders(env, headers)
 
-BuildLibrary(tc, 'OSGSystem', sources,
+def custom(env):
+    env.Append(LIBS=env.get('OSG_SYSTEM_LIBS', []))
+
+BuildLibrary(tc, 'OSGSystem', sources, updates=[custom],
              CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILESYSTEMLIB'],
              CPPPATH=ExpandCPPPath(SystemDirs + BaseDirs, generated),
              LIBPATH=['../Base'],
-             LIBS=['OSGBase${OSG_LIBSUF}', 'opengl32', 'glu32', 'winmm', 'ws2_32'])
+             LIBS=['OSGBase${OSG_LIBSUF}'])

@@ -1,1 +1,6 @@
-SConscript(dirs = ['GLUT', 'QT', 'WIN32'])
+Import('*')
+SConscript(dirs = ['GLUT', 'QT'])
+if tc.is_win32():
+    SConscript(dirs = ['WIN32'])
+else:
+    SConscript(dirs = ['X'])
