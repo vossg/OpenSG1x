@@ -672,9 +672,11 @@ void OSG::Window::frameExit(void)
 
 void (*Window::getFunctionByName(const Char8 *s))(void)
 {
+    void (*retval)(void);
+    
 #if defined(GLX_VERSION_1_4)
 
-    return glXGetProcAddress((const GLubyte *) s);
+    retval = glXGetProcAddress((const GLubyte *) s);
 
 #elif defined(__hpux) || defined (__sgi)
 
@@ -683,16 +685,22 @@ void (*Window::getFunctionByName(const Char8 *s))(void)
     if(libHandle == NULL)
     {
         // HACK, but if we get here we link against libGL anyway
-        libHandle = dlopen(NULL, RTLD_GLOBAL);
+        libHandle = dlopen(NULL, RTLD_NOW | RTLD_GLOBAL);
+        
+        if(!libHandle)
+        {
+            FWARNING(("Error in dlopen: %s\n",dlerror()));
+            abort();
+        }
     }
 
-    return (void (*)(void)) dlsym(libHandle, s);
+    retval = (void (*)(void)) dlsym(libHandle, s);
 
 // UGLY HACK: SGI/NVidia header don't define GLX_ARB_get_proc_address,
 // but they use __GLX_glx_h__ instead of GLX_H as an include guard.
 #elif defined(GLX_ARB_get_proc_address) || defined(__GLX_glx_h__)
 
-    return glXGetProcAddressARB((const GLubyte *) s);
+    retval = glXGetProcAddressARB((const GLubyte *) s);
 
 #elif defined(darwin)
 
@@ -703,17 +711,25 @@ void (*Window::getFunctionByName(const Char8 *s))(void)
         libHandle = dlopen("libGL.dylib", RTLD_NOW);
     }
 
-    return (void (*)(void)) dlsym(libHandle, s);
+    retval = (void (*)(void)) dlsym(libHandle, s);
 
 #elif defined(WIN32)
 
-    return (void(__cdecl*)(void)) wglGetProcAddress(s);
+    retval = (void(__cdecl*)(void)) wglGetProcAddress(s);
 
 #else
 
-    return NULL;
+    retval = NULL;
 
 #endif
+
+    if(!retval)
+    {
+        FNOTICE(("Window::getFunctionByName: Couldn't get function '%s' for "
+                 "Window %p.\n", s, this));
+    }
+    
+    return retval;
 }
 
 
