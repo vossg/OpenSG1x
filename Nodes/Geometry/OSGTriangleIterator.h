@@ -122,14 +122,17 @@ class OSG_GEOMETRY_DLLMAPPING TriangleIterator
 	// get the data indices/values. Indices < 0 indicate data not present
 	// in that case the value will be Nullxxx
 
-	inline Int32    	getPositionIndex( Int32 which ) const;
-	inline Pnt3f		getPosition		( Int32 which ) const;
+	inline Int32    	getPositionIndex	( Int32 which ) const;
+	inline Pnt3f		getPosition			( Int32 which ) const;
 
-	inline Int32    	getNormalIndex	( Int32 which ) const;
-	inline Vec3f   		getNormal	 	( Int32 which ) const;
+	inline Int32    	getNormalIndex		( Int32 which ) const;
+	inline Vec3f   		getNormal	 		( Int32 which ) const;
 
-	inline Int32    	getColorIndex 	( Int32 which ) const;
-	inline Color3f		getColor		( Int32 which ) const;
+	inline Int32    	getColorIndex 		( Int32 which ) const;
+	inline Color3f		getColor			( Int32 which ) const;
+
+	inline Int32    	getTexCoordsIndex 	( Int32 which ) const;
+	inline Vec2f		getTexCoords		( Int32 which ) const;
 
 
     /*------------------------- your_operators ------------------------------*/

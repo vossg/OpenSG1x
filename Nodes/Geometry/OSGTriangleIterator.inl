@@ -160,6 +160,30 @@ Color3f TriangleIterator::getColor( Int32 which ) const
 }
 
 
+/*! Return the texture coordinate index of a point in the current face. 
+	\param which the point to access. Must be between 0 and getLength().
+*/
+inline		 
+Int32 TriangleIterator::getTexCoordsIndex( Int32 which ) const
+{
+	return _primIt.getColorIndex( _triPntIndex[which] );
+}
+
+/*! Return the texture coordinate of a point in the current face. 
+	\param which the point to access. Must be between 0 and getLength().
+*/
+inline 
+Vec2f TriangleIterator::getTexCoords( Int32 which ) const
+{	
+	Int32 ind = getTexCoordsIndex( which );
+	
+	if ( ind < 0 )
+		return NullVec2f;
+		
+	return _geo->getTexCoords()->getValue( ind );
+}
+
+
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -

@@ -139,6 +139,9 @@ class OSG_GEOMETRY_DLLMAPPING PrimitiveIterator
 	inline Int32    	getColorIndex 	( Int32 which ) const;
 	inline Color3f		getColor		( Int32 which ) const;
 
+	inline Int32    	getTexCoordsIndex 	( Int32 which ) const;
+	inline Vec2f		getTexCoords		( Int32 which ) const;
+
 	// TODO add texture coordinates
 
     /*------------------------- your_operators ------------------------------*/

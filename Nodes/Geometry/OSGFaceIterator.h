@@ -142,7 +142,7 @@ class OSG_GEOMETRY_DLLMAPPING FaceIterator
 	inline Color3f		getColor			( Int32 which ) const;
 
 	inline Int32    	getTexCoordsIndex 	( Int32 which ) const;
-	inline TexCoords2f	getTexCoords		( Int32 which ) const;
+	inline Vec2f		getTexCoords		( Int32 which ) const;
 	
 	//@}
 

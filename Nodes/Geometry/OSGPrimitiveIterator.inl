@@ -195,6 +195,27 @@ Color3f PrimitiveIterator::getColor( Int32 which ) const
 
 
 
+inline		 
+Int32 PrimitiveIterator::getTexCoordsIndex( Int32 which ) const
+{
+	if ( _geo->getTexCoords() == NullFC )
+		return -1;
+
+	return _indices->getValue( _actPointIndex + which );
+}
+
+inline 
+Vec2f PrimitiveIterator::getTexCoords( Int32 which ) const
+{	
+	Int32 ind = getTexCoordsIndex( which );
+	
+	if ( ind < 0 )
+		return NullVec2f;
+		
+	return _geo->getTexCoords()->getValue( ind );
+}
+
+
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
