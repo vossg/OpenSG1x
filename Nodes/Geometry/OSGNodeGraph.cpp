@@ -95,7 +95,8 @@ bool NodeGraph::verify (bool printInfo )
     int edgeCount = 0;
     map< int, int > connectionMap;
     map< int, int >::iterator connectionI;
-    int connectionCount;
+    unsigned connectionCount;
+    unsigned nonManifoldCount;
 
     for (i = 0; i < 4; i++)
         nodeDegree[i] = 0;
@@ -109,8 +110,13 @@ bool NodeGraph::verify (bool printInfo )
             }
             else
             {
-                FWARNING (( "Invalid node degree %d for face %d\n",
-                  _nodeVec[i].degree, i ));               
+              if (_nodeVec[i].degree == -1)
+                nonManifoldCount++;
+              else
+              {
+                FFATAL (( "Invalid degree %d in node %d\n", 
+                          _nodeVec[i].degree, i ));
+              }
             }
         }
         else
@@ -126,6 +132,7 @@ bool NodeGraph::verify (bool printInfo )
     FNOTICE (( "NodeDegree: %d %d %d %d\n",
              nodeDegree[0], nodeDegree[1], nodeDegree[2], nodeDegree[3] ));
 
+    FNOTICE (( "NonManifold: %d\n", nonManifoldCount ));
     FNOTICE (( "EdgeCount: %d\n", edgeCount ));
     n = _edgeMapVec.size();
     for (i = 0; i < n; i++) {
