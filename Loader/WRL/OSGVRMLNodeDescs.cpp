@@ -1370,6 +1370,23 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                 createOptimizedPrimitives(pGeo, 1, true, true, 8, false);
             }
         }
+        else
+        {
+            PWARNING << "Invalid geometry replaced by a group" << endl;
+
+            GroupPtr pGr = Group::create();
+
+            MFNodePtr           pGeoParents = pGeo->getParents ();
+            MFNodePtr::iterator parentsIt   = pGeoParents.begin();
+            MFNodePtr::iterator endParents  = pGeoParents.end  ();
+
+            while(parentsIt != endParents)
+            {
+                (*parentsIt)->setCore(pGr);
+
+                ++parentsIt;
+            }
+        }
     }
     else
     {
@@ -1397,6 +1414,23 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                                  pColorPerVertex->getValue() ,
                                  false,  // create normal; not yet :)
                                  false);
+        }
+        else
+        {
+            PWARNING << "Invalid geometry replaced by a group" << endl;
+
+            GroupPtr pGr = Group::create();
+
+            MFNodePtr           pGeoParents = pGeo->getParents ();
+            MFNodePtr::iterator parentsIt   = pGeoParents.begin();
+            MFNodePtr::iterator endParents  = pGeoParents.end  ();
+
+            while(parentsIt != endParents)
+            {
+                (*parentsIt)->setCore(pGr);
+
+                ++parentsIt;
+            }
         }
     }
 
