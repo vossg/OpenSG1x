@@ -305,7 +305,7 @@ NodePtr OBJSceneFileType::read(const Char8 *fileName, UInt32) const
                 if (meshIndexMask & 1)
                     geoPtr->getIndexMapping().push_back( Geometry::MapPosition );
                 if (meshIndexMask & 2)
-                    geoPtr->getIndexMapping().push_back( Geometry::MapTexcoords );
+                    geoPtr->getIndexMapping().push_back( Geometry::MapTexCoords );
                 if (meshIndexMask & 4)
                   geoPtr->getIndexMapping().push_back( Geometry::MapNormal );
                 geoPtr->setPositions ( coordPtr );
@@ -784,7 +784,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.27 2002/05/13 09:21:09 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOBJSceneFileType.cpp,v 1.28 2002/06/10 21:52:45 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGOBJSCENEFILETYPE_HEADER_CVSID;
 }
 
