@@ -151,7 +151,7 @@ FieldType::FieldType(const char           *szName,
 	else
 		cerr << "ERROR: Invalid Field::Field() parameter" << endl;
 
-    SLOG << "Initialized FieldType : " << _szName << endl;
+    SDEBUG << "Initialized FieldType : " << _szName << endl;
 }
 
 
