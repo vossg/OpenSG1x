@@ -95,7 +95,7 @@ OSG_FIELD_CONTAINER_INL_DEF(WIN32Window, WIN32WindowPtr)
 // Query for a GL function
 inline void (*WIN32Window::getFunctionByName( const Char8 *s ))()
 {
-	return ( wglGetProcAddress( s ) );
+	return (void (*)(void))wglGetProcAddress(s);
 }
 
 
