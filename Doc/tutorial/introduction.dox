@@ -21,12 +21,6 @@ Chapter Overview
 \image html opensg_logo_small.png ""
 \image latex opensg_logo_small.eps "OpenSG Logo" width=8cm
 
-Hello and welcome to the OpenSG tutorial. My name is Oliver Abert, I'm a 
-student of  computer visualistics at the Univeristy of Koblenz. After
-helping a large number of my fellow students getting to know OpenSG I
-decided that we needed a written introduction to help people get into it.
-This is what you're reading right now. Enjoy!
-
 \section TutorialWhatIsOpenSG What is OpenSG
 
 OpenSG is an Open Source real-time rendering system based on a scenegraph metaphor on top of OpenGL. But 
