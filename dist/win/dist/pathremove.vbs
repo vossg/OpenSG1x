@@ -19,11 +19,17 @@ If pos <> 0 Then
 	epos=InStr(pos,Path,";")
 	If epos = 0 Then
 		epos = Len(Path)+1
+	Else
+		osgpath = osgpath & ";"
 	End If
 	'WScript.echo bpos, epos
-	'WScript.echo oldpath
+	'WScript.echo osgpath
 	WScript.echo "Removed OpenSG path " & osgpath & " from your PATH environment."
-	newpath = Replace(Path,oldpath,"")
+	newpath = Replace(Path,osgpath,"")
+	If Right(newpath,1) = ";" Then
+		newpath = Left(newpath, Len(newpath)-1)
+	End If
+	'WScript.echo newpath
 	WSHShell.Environment("USER").Item("PATH") = newpath
 Else
 	'WScript.echo Path

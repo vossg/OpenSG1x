@@ -42,7 +42,7 @@ Filename: "{app}\pathappend.vbs"; WorkingDir: "{app}"; Flags: shellexec
 Filename: "{app}\pathremove.vbs"; WorkingDir: "{app}"; Flags: shellexec
 
 [Icons]
-Name: "{group}\OpenSG Scene Viewer"; Filename: "{app}\osgSceneViewer.exe"; Parameters: "{app}\bin"
+Name: "{group}\OpenSG Scene Viewer"; Filename: "{app}\osgSceneViewer.exe";
 Name: "{group}\OpenSG Home Page"; Filename: "{app}\OpenSG Web.url"
 Name: "{group}\OpenSG Directory"; Filename: "explorer.exe"; Parameters: "{app}"
 Name: "{group}\Tutorials\01 Hello OpenSG"; Filename: "{app}\Tutorials\01hello.exe"
