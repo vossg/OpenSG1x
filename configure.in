@@ -368,6 +368,8 @@ ac_gdz_package_sys_common_out=common.$build-$ac_gdz_compiler.mk
 
 AC_GDZ_WRITE_PACKET_MAKE()
 
+ac_gdz_lib_package_sys_common_out=common.$build-$ac_gdz_compiler.mk
+
 AC_GDZ_WRITE_BUILDS_MAKE()
 
 if [[ "$enable_win_localstorage" = yes ]]; then
@@ -379,8 +381,6 @@ fi
 if [[ "$enable_win_bool_is_unsigned" = yes ]]; then
     AC_DEFINE(OSG_BOOL_IS_UNSIGNED)
 fi
-
-ac_gdz_lib_package_sys_common_out=common.$build-$ac_gdz_compiler.mk
 
 AC_GDZ_WRITE_SYSTEM_COMMON()
 
