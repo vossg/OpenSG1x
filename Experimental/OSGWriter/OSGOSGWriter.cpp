@@ -218,7 +218,7 @@ void OSGWriter::visitField(const Field* pF)
     }
 
     const FieldType& fType       = pF->getType();
-    const DataType & contentType = pF->getContentType();
+//    const DataType & contentType = pF->getContentType();
 
     //handle SFAttachmentMap as special case here
     //if(fType.isDerivedFrom(SFAttachmentMap::getClassType()))
@@ -471,6 +471,6 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.14 2002/08/29 15:53:33 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGOSGWriter.cpp,v 1.15 2002/09/02 05:10:25 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGOSGWRITER_HEADER_CVSID;
 }

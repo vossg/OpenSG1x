@@ -1733,7 +1733,7 @@ void VRMLGeometryPointSetDesc::endNode(FieldContainerPtr pFC)
 
     beginEditCP(pTypes);
     {
-        pTypes->push_back(GL_POINTS);
+        pTypeField->push_back(GL_POINTS);
     }
     endEditCP  (pTypes);
 

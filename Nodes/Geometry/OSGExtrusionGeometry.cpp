@@ -80,7 +80,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGExtrusionGeometry.cpp,v 1.3 2002/08/26 09:02:46 dirk Exp $";
+static char cvsid[] = "@(#)$Id: OSGExtrusionGeometry.cpp,v 1.4 2002/09/02 05:10:25 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -115,7 +115,7 @@ struct grid
 
 };
 
-#ifdef OSG_DEBUG
+#ifdef OSG_DEBUG_PM
 
 /* these come in handy sometimes */
 
