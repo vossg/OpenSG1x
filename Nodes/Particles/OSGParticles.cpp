@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -63,7 +61,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.3 2002/01/09 10:41:59 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.4 2002/01/10 04:51:31 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
@@ -595,6 +593,7 @@ struct sorter
 
 Int32 *Particles::calcIndex(DrawActionBase *action, NodePtr )
 { 
+    UInt32 i = 0;
     // some variables for faster access
     GeoPositionsPtr  pos  = getPositions();
     
@@ -609,7 +608,7 @@ Int32 *Particles::calcIndex(DrawActionBase *action, NodePtr )
     
     Pnt3f p,q;
 
-    for(UInt32 i=0; i<pos->getSize(); i++)
+    for(i=0; i<pos->getSize(); i++)
     {
         pos->getValue(p,i);
         
@@ -623,7 +622,7 @@ Int32 *Particles::calcIndex(DrawActionBase *action, NodePtr )
     
     Int32 *index=new Int32[pos->getSize()];
     
-    for(UInt32 i=0; i<pos->getSize(); i++)
+    for(i=0; i<pos->getSize(); i++)
     {
         index[i]=list[i]._index;
     }
