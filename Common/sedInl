@@ -13,6 +13,7 @@ then
     if test -r $2/$file
     then
         chmod 444 $2/$file
+        touch -r $1 $2/$file
     fi
 else
 

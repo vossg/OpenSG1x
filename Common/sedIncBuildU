@@ -11,4 +11,5 @@ if test -r $1 -a -w $2 -a $1 -nt $2/$file; then
     sed -e 's/include[ ]*<OSG/include <OpenSG\/OSG/g' -e 's/include[ ]*\"OSG/include \"OpenSG\/OSG/g' $1 > $2/$file
 
     chmod 444 $2/$file
+    touch -r $1 $2/$file
 fi
