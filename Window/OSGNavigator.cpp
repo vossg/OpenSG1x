@@ -290,14 +290,21 @@ void Navigator::updateCameraTransformation()
         default: FNOTICE(("Navigator: updateCamTrans, unknown mode\n"));
     }
 
-    TransformPtr t=TransformPtr::dcast(_cartN->getCore());
-    if (t == NullFC)
+    if (_cartN!=NullFC) 
     {
-        FNOTICE (("Navigator: updateCamTrans, core is not TransformPtr\n"));
+        TransformPtr t=TransformPtr::dcast(_cartN->getCore());
+        if (t == NullFC)
+        {
+            FWARNING (("Navigator: updateCamTrans, core is not TransformPtr\n"));
+        }
+        else
+        {
+            t->getSFMatrix()->setValue(theMatrix);
+        }
     }
     else
     {
-        t->getSFMatrix()->setValue(theMatrix);
+        FFATAL (("!_cartN in Navigator::updateCameraTrans\n"));
     }
 }
 
@@ -398,7 +405,7 @@ void Navigator::set(Pnt3f new_from, Pnt3f new_at, Vec3f new_up)
 /*! Sets the navigator position from matrix
  */
 
-void Navigator::set(Matrix new_matrix)
+void Navigator::set(const Matrix & new_matrix)
 {
     switch (_currentMode)
     {
@@ -412,9 +419,14 @@ void Navigator::set(Matrix new_matrix)
 /*! Sets the camera transformation node
  */
 
-void Navigator::setCameraTransformation(NodePtr new_cartn)
+void Navigator::setCameraTransformation(const NodePtr & new_cartn)
 {
-    _cartN=new_cartn;
+    if (new_cartn == NullFC)
+    {
+        FWARNING (("Set _cartN in Navigator to NullFC\n"));
+    }
+
+    _cartN = new_cartn;
 }
 
 /*------------------------------ get --------------------------------------*/
@@ -623,7 +635,7 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.9 2002/06/26 16:43:44 istoynov Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.10 2002/06/28 19:26:00 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
     //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
 

@@ -135,10 +135,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
     void setDistance     (Real32      new_distance);
     void setUp           (Vec3f       new_up      );
     void set             (Pnt3f       new_from, Pnt3f new_at, Vec3f new_up);
-    void set             (Matrix      new_matrix  );
+    void set             (const Matrix      & new_matrix  );
     bool setClickCenter  (bool        state       );
 
-    void setCameraTransformation(NodePtr new_cartn);
+    void setCameraTransformation(const NodePtr & new_cartn);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -186,6 +186,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
 
 OSG_END_NAMESPACE
 
-#define OSGNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGNavigator.h,v 1.6 2002/06/26 16:43:44 istoynov Exp $"
+#define OSGNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGNavigator.h,v 1.7 2002/06/28 19:26:00 jbehr Exp $"
 
 #endif
