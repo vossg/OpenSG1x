@@ -23,6 +23,9 @@ class FieldContainer {
 
 private:
 
+    struct KeyDic;
+    friend struct KeyDic;
+
 	enum FieldKey { NAME_FIELD, PARENT_FIELD, LIBRARY_FIELD, 
 									STRUCTURE_FIELD, POINTERFIELDTYPES_FIELD, 
 
