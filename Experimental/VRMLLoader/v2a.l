@@ -40,7 +40,7 @@ int v2a_wrap()
 }
 
 extern int v2aLineNumber;
-extern char v2a_text[8192];
+extern char v2a_text[];
 
 #include "v2a.tab.h"
 }  
