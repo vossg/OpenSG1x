@@ -555,6 +555,35 @@ typedef bool (*InitFuncF)(void);
 
 typedef bool (*ExitFuncF)(void);
 
+
+class OSG_BASE_DLLMAPPING InitFuncWrapper
+{
+    /*==========================  PUBLIC  =================================*/
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Constructors                            */
+    /*! \{                                                                 */
+
+    InitFuncWrapper(const InitFuncF func);
+
+    /*! \}                                                                 */
+};
+
+class OSG_BASE_DLLMAPPING StaticInitFuncWrapper
+{
+    /*==========================  PUBLIC  =================================*/
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Constructors                            */
+    /*! \{                                                                 */
+
+    StaticInitFuncWrapper(const InitFuncF func);
+
+    /*! \}                                                                 */
+};
+
 /*! \brief addInitFunction, function called by osgInit after the
  *         multithreading is initialized and after dynamically loading 
  *         a shared object
