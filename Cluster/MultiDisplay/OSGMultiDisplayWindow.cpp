@@ -124,8 +124,9 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
                                        RenderAction *action )
 {
     TileCameraDecoratorPtr deco;
-    ViewportPtr serverPort;
+    StereoBufferViewportPtr serverPort;
     ViewportPtr clientPort;
+    StereoBufferViewportPtr clientStereoPort;
     UInt32 sv,cv;
     Int32 l,r,t,b;
     Int32 cleft,cright,ctop,cbottom;
@@ -154,6 +155,7 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
     for(cv=0,sv=0;cv<getPort().size();cv++)
     {
         clientPort = getPort()[cv];
+	clientStereoPort = StereoBufferViewportPtr::dcast(clientPort);
         cleft   = (Int32)(clientPort->getLeft()   * scaleCWidth);
         cbottom = (Int32)(clientPort->getBottom() * scaleCHeight);
         cright  = (Int32)(clientPort->getRight()  * scaleCWidth);
@@ -182,11 +184,22 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
         }
         else
         {
-            serverPort = serverWindow->getPort()[sv];
+            serverPort = StereoBufferViewportPtr::dcast(
+			    serverWindow->getPort()[sv]);
             deco=TileCameraDecoratorPtr::dcast(serverPort->getCamera());
         }
         // duplicate values
         beginEditCP(serverPort);
+	if(clientStereoPort!=NullFC)
+	{
+	    serverPort->setRightBuffer( clientStereoPort->getRightBuffer() );
+	    serverPort->setLeftBuffer( clientStereoPort->getLeftBuffer() );
+	}
+	else
+	{
+	    serverPort->setRightBuffer( true );
+	    serverPort->setLeftBuffer( true );
+	}
         serverPort->setSize(l,b,r,t);
         serverPort->setRoot      ( clientPort->getRoot()       );
         serverPort->setBackground( clientPort->getBackground() );
