@@ -124,7 +124,7 @@ NodePtr OFFSceneFileType::read (const char *fileName ) const
 	GeoPLengthPtr lens;
 	GeoPTypePtr type;   
   SimpleMaterialPtr mat;
-  Int32 i,j,k,n,vN,faceI,fN,pType;
+  Int32 i,j,k,n,vN,fN,pType;
   Int32 triCount = 0, vertexCount, faceCount, uk;
   Real64 x, y, z;
 
