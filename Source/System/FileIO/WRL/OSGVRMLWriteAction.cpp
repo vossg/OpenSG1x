@@ -359,7 +359,7 @@ Action::ResultE VRMLWriteAction::writeGroupEnter(CNodePtr &pGroup,
 
         if(pInfo == NULL || pCoreInfo == NULL)
         {
-            fprintf(stderr, "Info missing %p %p\n", pInfo, pCoreInfo);
+            FWARNING(("Info missing %p %p\n", pInfo, pCoreInfo));
             return Action::Quit;
         }
 
@@ -1204,7 +1204,7 @@ bool VRMLWriteAction::writeGeoCommon(NodePtr          pNode,
 
     if(pInfo == NULL || pCoreInfo == NULL || setTypename == NULL)
     {
-        fprintf(stderr, "Info missing %p %p\n", pInfo, pCoreInfo);
+        FWARNING(("Info missing %p %p\n", pInfo, pCoreInfo));
         return false;
     }
 
@@ -1269,7 +1269,7 @@ void VRMLWriteAction::writePointSet(NodePtr          pNode,
                                     FILE            *pFile,
                                     VRMLWriteAction *pWriter)
 {
-    fprintf(stderr, "point set not supported\n");
+    FWARNING(("point set not supported\n"));
 
     if(writeGeoCommon(pNode, pGeo, pFile, pWriter, "PointSet") == true)
     {
@@ -1411,19 +1411,17 @@ Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
             ++pIt;
         }
 
-        fprintf(stderr,
-                "Geo Stat : %d %d %d\n", 
+        FINFO(( "Geo Stat : %d %d %d\n", 
                 uiPointCount, 
                 uiLineCount,
-                uiFaceCount);
+                uiFaceCount));
 
         if(uiPointCount != 0)
         {
             if((uiLineCount != 0) || (uiFaceCount != 0))
             {
-                fprintf(stderr, 
-                        "ERROR writer does not support mixed primitives"
-                        "including points\n");
+                FWARNING(("ERROR writer does not support mixed primitives"
+                          "including points\n"));
             }
             else
             {
