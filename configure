@@ -15,7 +15,7 @@ ac_help="$ac_help
   --with-compiler=<compiler> choose one of the following\
  compilers
         IRIX    : CC
-        Windows : icl, icl45, icl50, bcc55, g++
+        Windows : icl (==50), icl45, icl50, icl60
         Linux   : g++,icc"
 ac_help="$ac_help
   --with-suffix=SUFFIX               add suffix to build dir"
@@ -695,7 +695,7 @@ if test "${with_gl+set}" = set; then
   withval="$with_gl"
   :
 else
-  with_gl=no
+  with_gl=yes
 fi
  
 

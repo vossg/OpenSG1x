@@ -99,7 +99,7 @@ fi
 dnl ############# GL Settings #####################
 
 AC_ARG_WITH(gl,     [  --with-gl=DIR                    Use gl, if DIR is given use the file from the give directory],
-			,with_gl=no) 
+			,with_gl=yes) 
 
 if test "$with_gl" = yes; then
 	ac_gdz_gl_dir=yes
