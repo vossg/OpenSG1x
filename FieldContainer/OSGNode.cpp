@@ -102,7 +102,7 @@ FieldDescription *Node::_desc[] =
 
 FieldContainerType Node::_type(
     "Node",
-    "FieldContainer",
+    "AttachmentContainer",
     0,
     (PrototypeCreateF) &Node::createEmpty,
     0,
