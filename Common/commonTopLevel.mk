@@ -190,7 +190,18 @@ ifeq ($(OSG_DO_DOC),1)
 endif
 
 doc: 
-	$(DOC_ENV) doxygen $(OSGPOOL)/$(OSGCOMMON)/Doxygen$(OS_BASE).cfg
+	# find all headers and create dummy classes
+	rm -f $(OSGPOOL)/Common/dummyClasses.doxygen $(OSGPOOL)/Common/dummyClasses.list
+	touch $(OSGPOOL)/Common/dummyClasses.doxygen $(OSGPOOL)/Common/dummyClasses.list
+	for i in $(DOC_LIBS) ; do \
+		find $(OSGPOOL)/$i -name '*.h' -print > $(OSGPOOL)/Common/dummyClasses.list; \
+	done
+	perl $(OSGPOOL)/Common/makeDummyClasses `cat $(OSGPOOL)/Common/dummyClasses.list` \
+		 > $(OSGPOOL)/Common/dummyClasses.doxygen
+	rm -f $(OSGPOOL)/Common/dummyClasses.list	
+	# do doxygen
+	$(DOC_ENV) doxygen $(OSGPOOL)/$(OSGCOMMON)/Doxygen$(OS_BASE).cfg -d
+	rm -f $(OSGPOOL)/Common/dummyClasses.doxygen	
 
 include $(COMMONINCLUDE)
 

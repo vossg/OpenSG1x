@@ -224,24 +224,22 @@ DOCCODEDIR := Code
 DOCDIR     := $(DOCBASEDIR)/$(DOCCODEDIR)
 
 DOC_PROJECT_NAME = OpenSG
-DOC_PROJECT_NUMBER = 0.1
+DOC_PROJECT_NUMBER = "0.2 beta"
 
-DOC_HTML  = NO
-DOC_LATEX = NO
-DOC_MAN   = NO
+DOC_LIBS   ?= Base Field FieldContainer Image Loader Log Material \
+		Nodes/OSGNodes.doxygen Nodes/Geometry Nodes/Light \
+		Nodes/Misc State Window mainpage.doxygen \
+		Common/dummyClasses.doxygen
 
-DOC_LIBS   ?= Base Field FieldContainer Image Loader Log Material Nodes \
-			Nodes/Geometry Nodes/Light Nodes/Misc State Window
 
-#DOC_LIBS   ?= Base Communication DataStorage Field Log Math \
-#                        PluginsInternal PluginsExternal
-			  
+#DOC_LIBS   = Window
 
-DOC_PATTERN = OSG*.cpp OSG*.hpp OSG*.inl 
+DOC_PATTERN = OSG*.cpp OSG*.hpp OSG*.inl OSG*.doxygen
 
 DOC_ENV := DOC_PROJECT_NAME="$(DOC_PROJECT_NAME)" DOCDIR=$(DOCDIR) 
 DOC_ENV += DOC_PROJECT_NUMBER=$(DOC_PROJECT_NUMBER) DOC_LIBS="$(DOC_LIBS)"
 DOC_ENV += DOC_PATTERN="$(DOC_PATTERN)"
+DOC_ENV += OSGPOOL="$(OSGPOOL)"
 
 -include .lastdbg
 

@@ -1,0 +1,125 @@
+#!/usr/bin/perl -w
+
+# This is my first perl program, so if it's not optimal, tell me how to improve it.
+# DR 01/02/13
+
+# Filter the 'typedef SField<Bla> SFBla' out of the header files and create a
+# dummy file that makes doxygen think that it's actually 
+# 'class SFBla: public SField<Bla>'.
+#
+# Do the same for MField<> and GeoProperty<> and some others.
+
+
+@simplelist = ( "TransformationMatrix",  "QuaternionBase", "VectorInterface", 
+				"PointInterface", "SimpleAttachment", );
+
+while (<>) 
+{
+	# SField/MField
+	if ( /typedef\s+([SM])Field<\s*([^>]*)\s*>\s+([^;\s]*);/ )
+	{
+		$ftype = $1 ;
+		$fname = $2 ;
+		$cname = $3 ;
+
+		$fname =~ s/\s*//g ;
+		$line = join( "", 
+					  ("class ", $cname, ": private ", $ftype, "Field<", $fname ,"> {};")
+					);
+		push( @fout, $line );
+	}
+	# AbstractGeoProperty
+	elsif  ( /^typedef\s+AbstractGeoProperty<\s*([^>]*)\s*>\s+([^;\s]*);/ )
+	{
+		$ftype = $1;
+		$fname = $2;
+		$fname =~ s/\s*//g ;
+
+		$line = join( "", 
+					  ("class ", $fname, ": private AbstractGeoProperty<", $ftype ,"> {};")
+					);
+		push( @fout, $line );
+		
+	}
+	# GeoProperty
+	elsif  ( /^typedef\s+GeoProperty<\s*[^>]*\s*>\s+([^;\s]*);/ )
+	{
+		$fname = $1;
+		($cname =  $fname) =~ s/[A-Z]*[0-9].*$// ;
+
+		if ( $fname ne $cname )
+		{
+			$line = join( "", 
+						  ("class ", $fname, ": private ",  $cname, " {};")
+						);
+			push( @fout, $line );
+		}
+		
+	}
+	# FCPtr
+	elsif  ( /^typedef\s+FCPtr<\s*([^,]+),([^>]+)*\s*>\s+([^;\s]*);/ )
+	{
+		$ppname = $1;
+		$pname  = $2;
+		$cname  = $3;
+		$ppname =~ s/\s*//g ;
+		$pname  =~ s/\s*//g ;
+
+		$line = join( "", 
+					  ("class ", $cname, ": public ", $ppname ," { ", $pname, "* _val; };")
+					);
+		push( @fout, $line );
+
+	}
+	# simple ones 
+	elsif  ( /^typedef\s+(\w+)\s*<\s*([^>]*)\s*>\s+([^;\s]*);/ )
+	{
+		$tname = $1 ;
+		$tparam = $2 ;
+		$cname = $3 ;
+		$tparam =~ s/\s*//g ;
+		
+		for $n ( @simplelist )
+		{
+			if ( $n eq $tname )
+			{
+				$line = join( "", 
+						("class ", $cname, ": private ",  $tname, "<", $tparam, ">  {};")
+							);
+				push( @fout, $line );				
+			}
+		}
+	}
+}
+
+@fout = sort( @fout ) ;
+
+# print header
+
+print	"/* This is an automatically created file */\n";
+print	"/* needed to make doxygen interpret traited/typedefed classes */\n";
+print	"/* as real classes. */\n\n";
+print	"namespace osg {\n\n";
+
+$last = "";
+
+for $n ( @fout )
+{
+	# compress equal entries
+	if ( $n ne $last )
+	{
+		print	"/*!\n";
+		print	" This is a documentation wrapper. Its only purpose is to fool\n";
+		print	" doxygen into thinking of the typedef as a class.\n";
+		print	" Use 'List of all members' to see the interface of the class.\n";
+		print	" \n";
+		print	" \warning The real inheritance is not what you see here.\n";
+		print	" \warning This is just to give you an idea of the conceptual relations and to make exploring the relations easier.\n";
+		print	" */\n";
+
+		print $n, "\n\n"
+	}
+	$last = $n
+}
+
+print	"\n\n}\n\n";
