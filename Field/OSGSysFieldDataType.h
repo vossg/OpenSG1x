@@ -307,15 +307,15 @@ struct OSGFieldDataTraits<OSGReal64> : public OSGTraits
 
     static OSGReal64        getDefault(void)    { return 0.; }
 
-    static bool             getFromString(OSGReal64   &target,
-                                          const char *&source)
+    static bool             getFromString(OSGReal64   &,
+                                          const char *&)
     {
         // TO_BE_DONE
         return false;
     }
 
-    static void             putToString(const OSGReal64 &source,
-                                              OSGString &target)
+    static void             putToString(const OSGReal64 &,
+                                              OSGString &)
     {
         // TO_BE_DONE
     }

@@ -50,7 +50,7 @@ struct OSGFieldDataTraits<OSGString> : public OSGTraits
 
     static char            *getMName(void)      { return "MFString";    }
 
-    static OSGString        getDefault(void)     { return OSGString();   }
+    static OSGString        getDefault(void)    { return OSGString();   }
 
     static bool             getFromString(OSGString   &target,
                                           const char *&source)
@@ -79,7 +79,7 @@ struct OSGFieldDataTraits<OSGColor3f> : public OSGTraits
 
     static char            *getMName(void)      { return "MFColor3f";    }
 
-    static OSGColor3f       getDefault(void)     { return OSGColor3f();   }
+    static OSGColor3f       getDefault(void)    { return OSGColor3f();   }
 
     static bool             getFromString(OSGColor3f    &,
                                           const char *&)
@@ -102,7 +102,7 @@ struct OSGFieldDataTraits<OSGColor4f> : public OSGTraits
 
     static char            *getMName(void)      { return "MFColor4f";    }
 
-    static OSGColor4f       getDefault(void)     { return OSGColor4f();   }
+    static OSGColor4f       getDefault(void)    { return OSGColor4f();   }
 
     static bool             getFromString(OSGColor4f    &,
                                           const char *&)
@@ -125,7 +125,7 @@ struct OSGFieldDataTraits<OSGDynamicVolume> : public OSGTraits
 
     static char            *getMName(void)      { return "MFVolume";    }
 
-    static OSGDynamicVolume getDefault(void)     { return OSGDynamicVolume();}
+    static OSGDynamicVolume getDefault(void)    { return OSGDynamicVolume();}
 
     static bool             getFromString(OSGDynamicVolume  &,
                                           const char       *&)

@@ -36,7 +36,9 @@ OSG_BEGIN_NAMESPACE
 class OSGFieldContainer;
 class OSGNodePtr;
 class OSGNodeCorePtr;
-class OSGPropertyPtr;
+
+class OSGAttachmentPtr;
+typedef map<OSGUInt32, OSGAttachmentPtr>  OSGAttachmentMap;
 
 /** \ingroup FieldLib
  *  \ingroup SingleFields
@@ -123,10 +125,23 @@ struct OSGFieldDataTraits<OSGNodeCorePtr> : public OSGTraits
  */
 
 template <>
-struct OSGFieldDataTraits<OSGPropertyPtr> : public OSGTraits
+struct OSGFieldDataTraits<OSGAttachmentMap> : public OSGTraits
 {
-    static char *getSName(void) { return "SFPropertyPtr"; }
-    static char *getMName(void) { return "MFPropertyPtr"; }
+    static char *getSName(void) { return "SFAttachmentMap"; }
+    static char *getMName(void) { return "MFAttachmentMap"; }
+
+    static bool             getFromString(OSGAttachmentMap  &,
+                                          const char       *&)
+    {
+        // TO_BE_DONE
+        return false;
+    }
+
+    static void             putToString(const OSGAttachmentMap &,
+                                              OSGString        &)
+    {
+        // TO_BE_DONE
+    }
 };
 
 OSG_END_NAMESPACE

@@ -49,6 +49,7 @@
  * <LI> osg::OSGSFNodePtr
  * <LI> osg::OSGSFNodeCorePtr
  * <LI> osg::OSGSFPropertyPtr
+ * <LI> osg::OSGSFAttachmentMap;
  * </UL>
  */
 
@@ -69,10 +70,11 @@ typedef OSGSField<OSGNodePtr>           OSGSFNodePtr;
 
 typedef OSGSField<OSGNodeCorePtr>       OSGSFNodeCorePtr;
 
-/** \brief OSGSFPropertyPtr
+/** \brief OSGSFAttachmentMap
  */
 
-typedef OSGSField<OSGPropertyPtr>       OSGSFPropertyPtr;
+typedef OSGSField<OSGAttachmentMap>     OSGSFAttachmentMap;
+
 
 OSG_END_NAMESPACE
 
