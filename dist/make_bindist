@@ -137,7 +137,7 @@ case $system in
     distname=sgi
     ;;
     
-    *-pc-linux-gnu )    
+    *-linux-gnu )    
         
     glut_dir="/usr"
     glut_lib="libglut.so.3"
@@ -452,8 +452,12 @@ case $system in
     echo "Cleaning up"
 
     # cleanup the garbage
-    rm -rf CVS ../CVS Makefile* common.* template.* Tutorials.dsp.raw README BUILD \
+    rm -rf Makefile* common.* template.* Tutorials.dsp.raw README BUILD \
            vc60.idb vc70.idb *.obj *.pdb *.ilk .prefix*
+    
+    cd ..
+    
+    find . -name CVS | xargs rm -rf
     
     var_expand $OSGPOOL/dist/win/BUILD.tutorials BUILD.txt
     var_expand $OSGPOOL/dist/README.tutorials README.txt
