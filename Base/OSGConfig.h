@@ -135,7 +135,6 @@
 
 /* name SGI MipsPro Compiler Defines (NOT gcc) */ 
 # if defined(__sgi) && !defined(__GNUC__)
-#   include <standards.h>
 
 #   if !defined(_BOOL)
 #   endif  /* _BOOL */

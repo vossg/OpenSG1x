@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,98 +36,91 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
+#ifndef _OSGFIELDCONTAINERFUNCSIMPL_INL_
+#define _OSGFIELDCONTAINERFUNCSIMPL_INL_
 
-#include <stdlib.h>
-#include <stdio.h>
-
-#include "OSGConfig.h"
-
-#include "OSGField.h"
-
-OSG_USING_NAMESPACE
-
-/*! \defgroup FieldLib FieldLib
-    \brief This lib contains all the stuff related to fields.
-*/
-
-/*! \class osg::Field
- */
-
-
-/*! \fn const FieldType &Field::getType(void) const
-    \brief Get field type
-*/
-
-/*! \fn UInt32 Field::getSize(void) const
-    \brief Returns the size of the field, allway 1 for single fields.
-*/
-
-/*! \fn void Field::pushValueByStr(const Char8 *str)
-    \brief Set value from string
-*/
-
-/*! \fn string &Field::getValueByStr(string &str) const
-    \brief dump value to string
-*/
-
-/*! \fn void Field::setAbstrValue(const Field &obj)
-    \brief Set value from the given Field, if possible
-*/
-
+OSG_BEGIN_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
+/*                               Functions                                 */
 
-Field::~Field(void)
+inline
+void addRefCP(const FieldContainerPtrBase &objectP)
 {
+    if(objectP != NullFC)
+        objectP.addRef();
 }
 
-/*-------------------------------------------------------------------------*/
-/*                                Get                                      */
-
-//! Returns the content type of the field
-
-const DataType &Field::getContentType(void) const
+inline
+void subRefCP(const FieldContainerPtrBase &objectP)
 {
-    return getType().getContentType();
+    if(objectP != NullFC)
+        objectP.subRef();
 }
 
-//! Returns the cardinality of the field
-
-FieldType::Cardinality Field::getCardinality(void) const
+inline
+void clearRefCP(FieldContainerPtrBase &objectP)
 {
-    return getType().getCardinality();
+    if(objectP != NullFC)
+        objectP.subRef();
+
+    objectP = NullFC;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
-Field::Field(void)
+inline
+void setRefdCP(      FieldContainerPtrBase &objectP,
+               const FieldContainerPtrBase &newObjectP)
 {
+    if(objectP != newObjectP)
+    {
+        if(objectP != NullFC)
+            objectP.subRef();
+
+        objectP = newObjectP;
+
+        if(objectP != NullFC)
+            objectP.addRef();
+    }
 }
 
-Field::Field(const Field &)
+inline
+void beginEditCP(const FieldContainerPtr &objectP,
+                       BitVector         whichField,
+                       UInt32            origin    )
 {
+    if(objectP != NullFC)
+        objectP.beginEdit(whichField, origin);
 }
 
-
-/*-------------------------------------------------------------------------*/
-/*                              cvs id's                                   */
-
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
+inline
+void endEditCP(const FieldContainerPtr &objectP,
+                     BitVector          whichField,
+                     UInt32             origin    )
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGFIELD_HEADER_CVSID;
+    if(objectP != NullFC)
+        objectP.endEdit(whichField, origin);
 }
 
+inline
+void changedCP(const FieldContainerPtr &objectP,
+                     BitVector          whichField,
+                     UInt32             origin    )
+{
+    if(objectP != NullFC)
+        objectP.changed(whichField, origin);
+}
+
+inline
+void endEditNotChangedCP(const FieldContainerPtr &objectP,
+                               BitVector          whichField,
+                               UInt32             origin    )
+{
+    if(objectP != NullFC)
+        objectP.endEditNotChanged(whichField, origin);
+}
+
+OSG_END_NAMESPACE
+
+#define OSGFIELDCONTAINERFUNCS_INLINE_CVSID "@(#)$Id: $"
+
+#endif /* _OSGFIELDCONTAINREFUNCSIMPL_INL_ */

@@ -221,12 +221,14 @@ void SwitchBase::executeSyncImpl(      SwitchBase *pOther,
 }
 
 
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<SwitchPtr>::_type("SwitchPtr", "GroupPtr");
+
 
 OSG_DLLEXPORT_SFIELD_DEF1(SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);

@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -294,6 +292,6 @@ typedef LightChunkBase *LightChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.19 2002/03/25 01:25:59 vossg Exp $"
+#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.20 2002/06/18 08:17:54 vossg Exp $"
 
 #endif /* _OSGLIGHTCHUNKBASE_H_ */

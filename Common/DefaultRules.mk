@@ -187,14 +187,15 @@ define irix_make_depend
 	@echo "# Building dependency $(@F) from $(<F) "
 	@-rm -f $@
 	@echo '# Module dependencies' > $@
-	@$(CC) $(DEPEND_OPTION) $< $(CCFLAGS) $(CCLOCALFLAGS) $(INCL) 	\
-	 $(INC_OPTION)$(OBJDIR) $(INC_OPTION).							\
-	 | $(SED)	-e 's/^\([^:]*:\)/$(OBJDIR)\/\1/1' 					\
-	 		 	-e '/:[     ]*\/usr\/include\//d'					\
+	@makedepend -f- $(DEFINES) $(INCL) $(INC_OPTION)$(OBJDIR) 		\
+			   $(INC_OPTION). $(INC_OPTION)/usr/include/CC 			\
+			   -- $(CCDEPFLAGS) -- $< 2> /dev/null 								\
+	 | $(SED) 	-e 's/^\/\([A-Za-z0-9\.-_]*\/\)*/$(OBJDIR)\//'		\
 				-e '/:.*\/stdlib\//d' 								\
 				-e '/:.*\.\.\/Base\//d'								\
 				-e 's/^\([^\.]*\)$(OBJ_SUFFIX):/\1$(DEP_SUFFIX) \1$(OBJ_SUFFIX):/1' \
-			>> $@
+				-e '/:[     ]*\/usr\/include\//d'					\
+			>> $@ 
 endef
 
 define darwin_make_depend

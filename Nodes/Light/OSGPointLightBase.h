@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGLightBase.h> // Parent
 
@@ -222,6 +220,6 @@ typedef PointLightBase *PointLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGPointLightBase.h,v 1.19 2002/03/25 01:25:58 vossg Exp $"
+#define OSGPOINTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGPointLightBase.h,v 1.20 2002/06/18 08:17:53 vossg Exp $"
 
 #endif /* _OSGPOINTLIGHTBASE_H_ */

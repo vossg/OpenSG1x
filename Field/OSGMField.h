@@ -90,6 +90,8 @@ class MField : public Field
 
     typedef          FieldTypeT                                  StoredType;
 
+    typedef typename MFieldTraits::ArgumentType                  ArgumentType;
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Get                                  */
     /*! \{                                                                 */
@@ -101,8 +103,8 @@ class MField : public Field
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    MField         (void);
-    MField         (const MField  &obj);
+             MField(void);
+             MField(const MField  &obj);
     explicit MField(const UInt32   size);
 
     /*! \}                                                                 */
@@ -117,15 +119,12 @@ class MField : public Field
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
-                  reference    getValue (const UInt32 index);
-            const_reference    getValue (const UInt32 index) const;
-
                   StorageType &getValues(void);
             const StorageType &getValues(void) const;
  
-    virtual       bool         isEmpty  (void) const;
-    
     virtual const FieldType   &getType  (void) const;
+
+    virtual       bool         isEmpty  (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -134,17 +133,8 @@ class MField : public Field
 
     virtual void setAbstrValue(const Field       &obj  );
 
-            void setValue     (const FieldTypeT  &value,
-                               const UInt32       index);
             void setValues    (const StorageType &value);
             void setValues    (const Self        &obj  );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Add                                     */
-    /*! \{                                                                 */
-
-    void addValue(const FieldTypeT &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -156,32 +146,36 @@ class MField : public Field
     
     const_iterator  begin    (void) const;
     const_iterator  end      (void) const;
-
+    
     reference       front    (void);
     const_reference front    (void) const;
-
+    
     reference       back     (void);
     const_reference back     (void) const;
-
+    
     void            clear    (void);
-
-    iterator        insert   (iterator pos, const FieldTypeT &value);
-    iterator        erase    (iterator pos                         );
-
-    iterator        find     (const FieldTypeT &value);
-    const_iterator  find     (const FieldTypeT &value) const;
-
-    void            push_back(const FieldTypeT &value);
-
-    void            resize   (size_t newsize);
+    
+    iterator        insert   (iterator pos, ArgumentType value);
+    iterator        erase    (iterator pos                    );
+    
+    iterator        find     (ArgumentType value);
+    const_iterator  find     (ArgumentType value) const;
+    
+    void            push_back(ArgumentType value);
+    
+    void            resize   (size_t newsize, FieldTypeT t = FieldTypeT());
     void            reserve  (size_t newsize);
-
+    
     UInt32          size     (void          ) const;
-
-    // depreciated
-    UInt32          getSize  (void          ) const;
-
     bool            empty    (void          ) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Index Operator                              */
+    /*! \{                                                                 */
+
+          reference operator [](UInt32 index);
+    const_reference operator [](UInt32 index) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -199,14 +193,6 @@ class MField : public Field
     virtual string &getValueByStr (string                    &str  ) const;
     virtual string &getValueByStr (string                    &str,
                                    StringConversionStateBase &state) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Index Operator                              */
-    /*! \{                                                                 */
-
-          reference operator [](UInt32 index);
-    const_reference operator [](UInt32 index) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -233,7 +219,6 @@ class MField : public Field
     virtual void dump (void) const;
 
     /*! \}                                                                 */
-
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -241,7 +226,7 @@ class MField : public Field
 
     /*---------------------------------------------------------------------*/
     /*                             Member                                  */
-    
+
     static const FieldType    _fieldType;
 
                  StorageType  _values;
@@ -255,8 +240,6 @@ class MField : public Field
   private:
 
     friend class FieldContainer;
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
 };
 
 OSG_END_NAMESPACE

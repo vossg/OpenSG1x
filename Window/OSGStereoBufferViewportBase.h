@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGViewport.h> // Parent
 
@@ -230,6 +228,6 @@ typedef StereoBufferViewportBase *StereoBufferViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTEREOBUFFERVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGStereoBufferViewportBase.h,v 1.2 2002/03/25 01:26:00 vossg Exp $"
+#define OSGSTEREOBUFFERVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGStereoBufferViewportBase.h,v 1.3 2002/06/18 08:17:56 vossg Exp $"
 
 #endif /* _OSGSTEREOBUFFERVIEWPORTBASE_H_ */

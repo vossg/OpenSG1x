@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGForeground.h> // Parent
 
@@ -214,6 +212,6 @@ typedef StatisticsForegroundBase *StatisticsForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGStatisticsForegroundBase.h,v 1.3 2002/05/13 09:21:11 vossg Exp $"
+#define OSGSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGStatisticsForegroundBase.h,v 1.4 2002/06/18 08:17:55 vossg Exp $"
 
 #endif /* _OSGSTATISTICSFOREGROUNDBASE_H_ */

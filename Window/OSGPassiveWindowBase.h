@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGWindow.h> // Parent
 
@@ -188,6 +186,6 @@ typedef PassiveWindowBase *PassiveWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGPassiveWindowBase.h,v 1.2 2002/03/19 17:48:18 dirk Exp $"
+#define OSGPASSIVEWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGPassiveWindowBase.h,v 1.3 2002/06/18 08:17:56 vossg Exp $"
 
 #endif /* _OSGPASSIVEWINDOWBASE_H_ */

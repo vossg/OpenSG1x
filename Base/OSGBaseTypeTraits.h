@@ -48,50 +48,102 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief TypeConstantsBase, documentation dummy
- *  \ingroup BaseConstants
+/*! \brief TypeTraitsBase, documentation dummy
+ *  \ingroup BaseTraits
  */
 
-struct OSG_BASE_DLLMAPPING TypeConstantsBase
+struct OSG_BASE_DLLMAPPING TypeTraitsBase
 {
 };
 
-/*! \brief TypeConstants
- *  \ingroup BaseConstants
+/*! \brief TypeTraits
+ *  \ingroup BaseTraits
  */
 
 template <class LookupTypeT>
-struct TypeConstants : public TypeConstantsBase
+struct TypeTraits : public TypeTraitsBase
 {
+    static const bool IsPOD = false;
+
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
     typedef LookupTypeT RealReturnType;
 #endif
 };
 
-/*! \brief TypeConstants<UInt8>
- *  \ingroup BaseConstants
+template <>
+struct TypeTraits<bool> : public TypeTraitsBase
+{
+    static const  bool               IsPOD    = true;
+    static const  MathTypeProperties MathProp = BoolValue;
+
+    static const  bool              BitsSet     = true ;
+    static const  bool              BitsClear   = false;
+
+    static        bool              getZeroElement(void)
+    {
+        return false;
+    }
+
+    static        bool              getOneElement (void)
+    {
+        return true;
+    }
+
+    static        bool              getMax        (void)
+    {
+        return true;
+    }
+
+    static        bool              getMin        (void)
+    {
+        return false;
+    }
+};
+
+/*! \brief TypeTraits<UInt8>
+ *  \ingroup BaseTraits
  */
 
 template <>
-struct TypeConstants<UInt8> : public TypeConstantsBase
+struct TypeTraits<UInt8> : public TypeTraitsBase
 {
-    typedef       Real32 RealReturnType;
-
-    static inline UInt8 getZeroElement(void) { return 0; };
-    static inline UInt8 getOneElement (void) { return 1; };
-
-    static inline UInt8 getAllSet     (void) { return 0xFF; };
-    static inline UInt8 getAllClear   (void) { return 0x00; };
-
-    static inline UInt8 getMax        (void) { return 0xFF; };
-    static inline UInt8 getMin        (void) { return 0x00; };
+    typedef       Real32             RealReturnType;
 
 
-    static inline Real32 getFraction   (UInt8 val)
+    static const  bool               IsPOD    = true;
+    static const  MathTypeProperties MathProp = IntValue;
+
+    static const  UInt8              BitsSet     = 0xFF;
+    static const  UInt8              BitsClear   = 0x00;
+
+
+    static        UInt8              getZeroElement(void)
+    {
+        return 0;
+    }
+
+    static        UInt8              getOneElement (void)
+    {
+        return 1;
+    }
+
+    static        UInt8              getMax        (void)
+    {
+        return 0xFF;
+    }
+
+    static        UInt8              getMin        (void)
+    {
+        return 0x00;
+    }
+
+
+    static Real32 getFraction  (UInt8 val)
     {
         return (Real32(val) / Real32(getMax()));
     };
-    static inline UInt8 getPortion    (Real32 val)
+
+    static UInt8 getPortion    (Real32 val)
     {
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 810)
@@ -103,10 +155,7 @@ struct TypeConstants<UInt8> : public TypeConstantsBase
     };
 
 
-    static inline MathTypeProperties getProp(void) { return IntValue; };
-
-
-    static inline UInt8 getFromString (const Char8 *szString)
+    static UInt8 getFromString (const Char8 *szString)
     {
         if(szString != NULL)
             return atoi(szString);
@@ -114,7 +163,7 @@ struct TypeConstants<UInt8> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline string putToString (const UInt8 val)
+    static string putToString (const UInt8 val)
     {
         char buffer[10];
 
@@ -124,39 +173,55 @@ struct TypeConstants<UInt8> : public TypeConstantsBase
     }
 };
 
-/*! \brief TypeConstants<Int8>
- *  \ingroup BaseConstants
+/*! \brief TypeTraits<Int8>
+ *  \ingroup BaseTraits
  */
 
 template <>
-struct TypeConstants<Int8> : public TypeConstantsBase
+struct TypeTraits<Int8> : public TypeTraitsBase
 {
-    typedef       Real32 RealReturnType;
-
-    static inline Int8 getZeroElement(void) { return 0; };
-    static inline Int8 getOneElement (void) { return 1; };
-
-    static inline Int8 getAllSet     (void) { return 0xFF; };
-    static inline Int8 getAllClear   (void) { return 0x00; };
-
-    static inline Int8 getMax        (void) { return  0x7F; };
-    static inline Int8 getMin        (void) { return -0x80; };
+    typedef       Real32             RealReturnType;
 
 
-    static inline Real32 getFraction   (Int8 val)
+    static const  bool               IsPOD       = true;
+    static const  MathTypeProperties MathProp    = IntValue;
+
+    static const  Int8               BitsSet     =  0xFF;
+    static const  Int8               BitsClear   =  0x00;
+
+
+    static        Int8               getZeroElement(void)
+    {
+        return 0;
+    }
+
+    static        Int8               getOneElement (void)
+    {
+        return 1;
+    }
+
+    static        Int8               getMin        (void)
+    {
+        return 0x7f;
+    }
+
+    static        Int8               getMax        (void)
+    {
+        return -0x80;
+    }
+
+
+    static Real32 getFraction (Int8   val)
     {
         return (Real32(val) / Real32(getMax()));
     };
-    static inline Int8 getPortion    (Real32 val)
+    static Int8 getPortion    (Real32 val)
     {
         return (Int8) (val * Real32(getMax()));
     };
 
 
-    static inline MathTypeProperties getProp(void) { return IntValue; };
-
-
-    static inline Int8 getFromString (const Char8 *szString)
+    static Int8 getFromString (const Char8 *szString)
     {
         if(szString != NULL)
             return atoi(szString);
@@ -164,7 +229,7 @@ struct TypeConstants<Int8> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline string putToString (const Int8 val)
+    static string putToString (const Int8 val)
     {
         char buffer[10];
 
@@ -174,39 +239,56 @@ struct TypeConstants<Int8> : public TypeConstantsBase
     }
 };
 
-/*! \brief TypeConstants<UInt16>
- *  \ingroup BaseConstants
+/*! \brief TypeTraits<UInt16>
+ *  \ingroup BaseTraits
  */
 
 template <>
-struct TypeConstants<UInt16> : public TypeConstantsBase
+struct TypeTraits<UInt16> : public TypeTraitsBase
 {
-    typedef       Real32 RealReturnType;
-
-    static inline UInt16 getZeroElement(void) { return 0; };
-    static inline UInt16 getOneElement (void) { return 1; };
-
-    static inline UInt16 getAllSet     (void) { return 0xFFFF; };
-    static inline UInt16 getAllClear   (void) { return 0x0000; };
-
-    static inline UInt16 getMax        (void) { return 0xFFFF; };
-    static inline UInt16 getMin        (void) { return 0x0000; };
+    typedef       Real32             RealReturnType;
 
 
-    static inline Real32 getFraction   (UInt16 val)
+    static const  bool               IsPOD       = true;
+    static const  MathTypeProperties MathProp    = IntValue;
+
+    static const  UInt16             BitsSet     = 0xFFFF;
+    static const  UInt16             BitsClear   = 0x0000;
+
+
+    static        UInt16             getZeroElement(void)
+    {
+        return 0;
+    }
+
+    static        UInt16             getOneElement (void)
+    {
+        return 1;
+    }
+    
+    static        UInt16             getMax        (void)
+    {
+        return 0xFFFF;
+    }
+
+    static        UInt16             getMin        (void)
+    {
+        return 0x0000;
+    }
+
+
+    static Real32 getFraction(UInt16 val)
     {
         return (Real32(val) / Real32(getMax()));
     };
-    static inline UInt16 getPortion    (Real32 val)
+
+    static UInt16 getPortion (Real32 val)
     {
         return (UInt16) (val * Real32(getMax()));
     };
 
 
-    static inline MathTypeProperties getProp(void) { return IntValue; };
-
-
-    static inline UInt16 getFromString (const Char8 *szString)
+    static UInt16 getFromString(const Char8 *szString)
     {
         if(szString != NULL)
             return atoi(szString);
@@ -214,7 +296,7 @@ struct TypeConstants<UInt16> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline string putToString (const UInt16 val)
+    static string putToString (const UInt16 val)
     {
         char buffer[10];
 
@@ -224,43 +306,60 @@ struct TypeConstants<UInt16> : public TypeConstantsBase
 #else
         sprintf(buffer, "%u", val);
 #endif
+
         return string(buffer);
     }
 };
 
-/*! \brief TypeConstants<Int16>
- *  \ingroup BaseConstants
+/*! \brief TypeTraits<Int16>
+ *  \ingroup BaseTraits
  */
 
 template <>
-struct TypeConstants<Int16> : public TypeConstantsBase
+struct TypeTraits<Int16> : public TypeTraitsBase
 {
-    typedef       Real32 RealReturnType;
+    typedef       Real32             RealReturnType;
 
-    static inline Int16 getZeroElement(void) { return 0; };
-    static inline Int16 getOneElement (void) { return 1; };
+    static const  bool               IsPOD       = true;
+    static const  MathTypeProperties MathProp    = IntValue;
 
-    static inline Int16 getAllSet(void)      { return 0xFFFF; };
-    static inline Int16 getAllClear(void)    { return 0x0000; };
-
-    static inline Int16 getMax(void)         { return  0x7FFF; };
-    static inline Int16 getMin(void)         { return -0x8000; };
+    static const  Int16              BitsSet     =  0xFFFF;
+    static const  Int16              BitsClear   =  0x0000;
 
 
-    static inline Real32 getFraction   (Int16 val)
+    static        Int16              getZeroElement(void)
+    {
+        return 0;
+    }
+
+    static        Int16              getOneElement (void)
+    {
+        return 1;
+    }
+
+    static        Int16              getMax        (void)
+    {
+        return 0x7FFF;
+    }
+
+    static        Int16              getMin        (void)
+    {
+        return -0x8000;
+    }
+
+
+    static Real32 getFraction(Int16  val)
     {
         return (Real32(val) / Real32(getMax()));
     };
-    static inline Int16 getPortion    (Real32 val)
+
+    static Int16  getPortion (Real32 val)
     {
         return (Int16) (val * Real32(getMax()));
     };
 
 
-    static inline MathTypeProperties getProp(void) { return IntValue; };
-
-
-    static inline Int16 getFromString (const Char8 *szString)
+    static Int16 getFromString (const Char8 *szString)
     {
         if(szString != NULL)
             return atoi(szString);
@@ -268,7 +367,7 @@ struct TypeConstants<Int16> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline string putToString (const Int16 val)
+    static string putToString (const Int16 val)
     {
         char buffer[10];
 
@@ -278,39 +377,56 @@ struct TypeConstants<Int16> : public TypeConstantsBase
     }
 };
 
-/*! \brief TypeConstants<UInt32>
- *  \ingroup BaseConstants
+/*! \brief TypeTraits<UInt32>
+ *  \ingroup BaseTraits
  */
 
 template <>
-struct TypeConstants<UInt32> : public TypeConstantsBase
+struct TypeTraits<UInt32> : public TypeTraitsBase
 {
-    typedef       Real32 RealReturnType;
-
-    static inline UInt32 getZeroElement(void) { return 0; };
-    static inline UInt32 getOneElement (void) { return 1; };
-
-    static inline UInt32 getAllSet(void)      { return 0xFFFFFFFF; };
-    static inline UInt32 getAllClear(void)    { return 0x00000000; };
-
-    static inline UInt32 getMax(void)         { return 0xFFFFFFFF; };
-    static inline UInt32 getMin(void)         { return 0x00000000; };
+    typedef       Real32                RealReturnType;
 
 
-    static inline Real32 getFraction   (UInt32 val)
+    static const  bool               IsPOD       = true;
+    static const  MathTypeProperties MathProp    = IntValue;
+
+    static const  UInt32             BitsSet     = 0xFFFFFFFF;
+    static const  UInt32             BitsClear   = 0x00000000;
+
+
+    static        UInt32             getZeroElement(void)
+    {
+        return 0;
+    }
+
+    static        UInt32             getOneElement (void)
+    {
+        return 1;
+    }
+
+    static        UInt32             getMax        (void) 
+    { 
+        return 0xFFFFFFFF;
+    }
+
+    static        UInt32             getMin        (void)
+    {
+        return 0x00000000;
+    }
+
+
+    static Real32 getFraction(UInt32 val)
     {
         return (Real32(val) / Real32(getMax()));
     };
-    static inline UInt32 getPortion    (Real32 val)
+
+    static UInt32 getPortion (Real32 val)
     {
         return (UInt32) (val * Real32(getMax()));
     };
 
 
-    static inline MathTypeProperties getProp(void) { return IntValue; };
-
-
-    static inline UInt32 getFromString (const Char8 *szString)
+    static UInt32 getFromString(const Char8 *szString)
     {
         if(szString != NULL)
             return atol(szString);
@@ -318,7 +434,7 @@ struct TypeConstants<UInt32> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline string putToString (const UInt32 val)
+    static string putToString  (const UInt32 val)
     {
         char buffer[15];
 
@@ -328,39 +444,56 @@ struct TypeConstants<UInt32> : public TypeConstantsBase
     }
 };
 
-/*! \brief TypeConstants<Int32>
- *  \ingroup BaseConstants
+/*! \brief TypeTraits<Int32>
+ *  \ingroup BaseTraits
  */
 
 template <>
-struct TypeConstants<Int32> : public TypeConstantsBase
+struct TypeTraits<Int32> : public TypeTraitsBase
 {
-    typedef       Real32 RealReturnType;
-
-    static inline Int32 getZeroElement(void) { return 0; };
-    static inline Int32 getOneElement (void) { return 1; };
-
-    static inline Int32 getAllSet     (void) { return 0xFFFFFFFF; };
-    static inline Int32 getAllClear   (void) { return 0x00000000; };
-
-    static inline Int32 getMax        (void) { return  0x7FFFFFFF; };
-    static inline Int32 getMin        (void) { return -0x80000000; };
+    typedef       Real32             RealReturnType;
 
 
-    static inline Real32 getFraction   (Int32 val)
+    static const  bool               IsPOD       = true;
+    static const  MathTypeProperties MathProp    = IntValue;
+
+    static const  Int32              BitsSet     =  0xFFFFFFFF;
+    static const  Int32              BitsClear   =  0x00000000;
+
+
+    static        Int32              getZeroElement(void)
+    {
+        return 0;
+    }
+
+    static        Int32              getOneElement (void)
+    {
+        return 1;
+    }
+
+    static        Int32              getMax        (void)
+    {
+        return 0x7FFFFFFF; 
+    }
+
+    static        Int32              getMin        (void)
+    {
+        return -0x80000000;
+    }
+
+
+    static Real32 getFraction(Int32  val)
     {
         return (Real32(val) / Real32(getMax()));
     };
-    static inline Int32 getPortion    (Real32 val)
+
+    static Int32  getPortion (Real32 val)
     {
         return (Int32) (val * Real32(getMax()));
     };
 
 
-    static inline MathTypeProperties getProp(void) { return IntValue; };
-
-
-    static inline Int32 getFromString (const Char8 *szString)
+    static Int32 getFromString(const Char8 *szString)
     {
         if(szString != NULL)
             return atol(szString);
@@ -368,7 +501,7 @@ struct TypeConstants<Int32> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline string putToString (const Int32 val)
+    static string putToString (const Int32 val)
     {
         char buffer[15];
 
@@ -378,46 +511,75 @@ struct TypeConstants<Int32> : public TypeConstantsBase
     }
 };
 
-/*! \brief TypeConstants<UInt64>
- *  \ingroup BaseConstants
+
+/*! \brief TypeTraits<UInt64>
+ *  \ingroup BaseTraits
  */
 
 template <>
-struct TypeConstants<UInt64> : public TypeConstantsBase
+struct TypeTraits<UInt64> : public TypeTraitsBase
 {
-    typedef       Real32 RealReturnType;
+    typedef       Real32             RealReturnType;
 
-    static inline UInt64 getZeroElement(void) { return 0; };
-    static inline UInt64 getOneElement (void) { return 1; };
+
+    static const  bool               IsPOD       = true;
+    static const  MathTypeProperties MathProp    = IntValue;
 
 #ifdef OSG_LONGLONG_HAS_LL
-    static inline UInt64 getAllSet  (void) { return 0xFFFFFFFFFFFFFFFFLL; };
-    static inline UInt64 getAllClear(void) { return 0x0000000000000000LL; };
-
-    static inline UInt64 getMin     (void) { return 0x0000000000000000LL; };
-    static inline UInt64 getMax     (void) { return 0xFFFFFFFFFFFFFFFFLL; };
+    static const  UInt64             BitsSet     = 0xFFFFFFFFFFFFFFFFLL;
+    static const  UInt64             BitsClear   = 0x0000000000000000LL;
 #else
-    static inline UInt64 getAllSet  (void) { return 0xFFFFFFFFFFFFFFFF; };
-    static inline UInt64 getAllClear(void) { return 0x0000000000000000; };
-
-    static inline UInt64 getMin     (void) { return 0x0000000000000000; };
-    static inline UInt64 getMax     (void) { return 0xFFFFFFFFFFFFFFFF; };
+    static const  UInt64             BitsSet     = 0xFFFFFFFFFFFFFFFF;
+    static const  UInt64             BitsClear   = 0x0000000000000000;
 #endif
 
-    static inline Real32 getFraction   (UInt64 val)
+
+    static        UInt64             getZeroElement(void)
+    {
+        return 0;
+    }
+
+    static        UInt64             getOneElement (void)
+    {
+        return 1;
+    }
+
+
+#ifdef OSG_LONGLONG_HAS_LL
+    static        UInt64             getMax        (void)         
+    {
+        return 0x0000000000000000LL;
+    }
+
+    static        UInt64             getMin        (void)
+    {
+        return 0xFFFFFFFFFFFFFFFFLL;
+    }
+#else
+    static        UInt64             getMax        (void)
+    {
+        reutrn 0xFFFFFFFFFFFFFFFF;
+    }
+
+    static        UInt64             getMin        (void)
+    {
+        return 0x0000000000000000;
+    }
+#endif
+
+
+    static Real32 getFraction(UInt64 val)
     {
         return (Real32(val) / Real32(getMax()));
     };
-    static inline UInt64 getPortion    (Real32 val)
+
+    static UInt64 getPortion (Real32 val)
     {
         return (UInt64) (val * Real32(getMax()));
     };
 
 
-    static inline MathTypeProperties getProp(void) { return IntValue; };
-
-
-    static inline UInt64 getFromString (const Char8 *szString)
+    static UInt64 getFromString (const Char8 *szString)
     {
 #if !defined(__sun) && !defined(__linux) && !defined(darwin) &&  \
     !defined(__hpux)
@@ -432,7 +594,7 @@ struct TypeConstants<UInt64> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline string putToString (const UInt64 val)
+    static string putToString (const UInt64 val)
     {
         char buffer[25];
 
@@ -442,53 +604,79 @@ struct TypeConstants<UInt64> : public TypeConstantsBase
     }
 };
 
-/*! \brief TypeConstants<Int64>
- *  \ingroup BaseConstants
+/*! \brief TypeTraits<Int64>
+ *  \ingroup BaseTraits
  */
 
 template <>
-struct TypeConstants<Int64> : public TypeConstantsBase
+struct TypeTraits<Int64> : public TypeTraitsBase
 {
     typedef       Real32 RealReturnType;
 
-    static inline Int64 getZeroElement(void) { return 0; };
-    static inline Int64 getOneElement (void) { return 1; };
+
+    static const  bool               IsPOD       = true;
+    static const  MathTypeProperties MathProp    = IntValue;
 
 #ifdef OSG_LONGLONG_HAS_LL
-    static inline Int64 getAllSet(void)   { return 0xFFFFFFFFFFFFFFFFLL; };
-    static inline Int64 getAllClear(void) { return 0x0000000000000000LL; };
-
-    static inline Int64 getMax(void)      { return  0x7FFFFFFFFFFFFFFFLL; };
-    static inline Int64 getMin(void)      { return -0x8000000000000000LL; };
+    static const  Int64              BitsSet     =  0xFFFFFFFFFFFFFFFFLL;
+    static const  Int64              BitsClear   =  0x0000000000000000LL;
 #else
-    static inline Int64 getAllSet(void)   { return 0xFFFFFFFFFFFFFFFF; };
-    static inline Int64 getAllClear(void) { return 0x0000000000000000; };
-
-    static inline Int64 getMax(void)      { return  0x7FFFFFFFFFFFFFFF; };
-    static inline Int64 getMin(void)      { return -0x8000000000000000; };
+    static const  Int64              BitsSet     =  0xFFFFFFFFFFFFFFFF;
+    static const  Int64              BitsClear   =  0x0000000000000000;
 #endif
 
 
-    static inline Real32 getFraction   (Int64 val)
+    static        Int64              getZeroElement(void)
+    {
+        return 0;
+    }
+
+    static        Int64              getOneElement (void)
+    {
+        return 1;
+    }
+
+#ifdef OSG_LONGLONG_HAS_LL
+    static        Int64              getMax        (void)
+    {
+        return 0x7FFFFFFFFFFFFFFFLL;
+    }
+
+    static        Int64              getMin        (void)
+    {
+        return -0x8000000000000000LL;
+    }
+#else
+    static        Int64              getMax        (void)
+    {
+        return 0x7FFFFFFFFFFFFFFF;
+    }
+
+    static        Int64              getMin        (void)
+    {
+        return -0x8000000000000000;
+    }
+#endif
+
+
+    static Real32 getFraction(Int64  val)
     {
         return (Real32(val) / Real32(getMax()));
     };
-    static inline Int64 getPortion    (Real32 val)
+
+    static Int64  getPortion (Real32 val)
     {
         return (Int64) (val * Real32(getMax()));
     };
 
 
-    static inline MathTypeProperties getProp(void) { return IntValue; };
-
-
-    static inline Int64 getFromString (const Char8 *szString)
+    static Int64 getFromString (const Char8 *szString)
     {
 #if !defined(__sun) && !defined(__linux) && !defined(darwin) &&  \
     !defined(__hpux)
         if(szString != NULL)
 #ifndef WIN32
-            return atoll(szString);
+            return  atoll (szString);
 #else
             return _atoi64(szString);
 #endif
@@ -497,7 +685,7 @@ struct TypeConstants<Int64> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline string putToString (const Int64 val)
+    static string putToString (const Int64 val)
     {
         char buffer[25];
 
@@ -507,24 +695,45 @@ struct TypeConstants<Int64> : public TypeConstantsBase
     }
 };
 
-/*! \brief TypeConstants<Real64>
- *  \ingroup BaseConstants
+/*! \brief TypeTraits<Real64>
+ *  \ingroup BaseTraits
  */
 
 template <>
-struct TypeConstants<Real64> : public TypeConstantsBase
+struct TypeTraits<Real64> : public TypeTraitsBase
 {
-    typedef       Real64 RealReturnType;
+    typedef       Real64             RealReturnType;
 
-    static inline Real64 getZeroElement(void)           { return 0.; };
-    static inline Real64 getOneElement (void)           { return 1.; };
 
-    static inline Real64 getFraction   (Real64 rVal) { return rVal; };
-    static inline Real64 getPortion    (Real64 rVal) { return rVal; };
+    static const  bool               IsPOD       = true;
+    static const  MathTypeProperties MathProp    = RealValue;
 
-    static inline MathTypeProperties getProp(void) { return RealValue; };
+    static        Real64             getZeroElement(void)
+    {
+        return 1.0;
+    }
 
-    static inline Real64 getFromString (const Char8 *szString)
+    static        Real64             getOneElement (void)
+    {
+        return 0.0;
+    }
+
+    static        Real64             getMax        (void)
+    {
+        return DBL_MAX;
+    }
+
+    static        Real64             getMin        (void)
+    {
+        return DBL_MIN;
+    }
+
+
+    static Real64 getFraction  (Real64 rVal) { return rVal; };
+    static Real64 getPortion   (Real64 rVal) { return rVal; };
+
+
+    static Real64 getFromString(const Char8 *szString)
     {
         if(szString != NULL)
             return atof(szString);
@@ -532,7 +741,7 @@ struct TypeConstants<Real64> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline string putToString (const Real64 val)
+    static string putToString  (const Real64 val)
     {
         char buffer[25];
 
@@ -540,29 +749,46 @@ struct TypeConstants<Real64> : public TypeConstantsBase
 
         return string(buffer);
     }
-
-    static inline Real64 getMax(void) { return DBL_MAX; };
-    static inline Real64 getMin(void) { return DBL_MIN; };
 };
 
-/*! \brief TypeConstants<Real32>
- *  \ingroup BaseConstants
+/*! \brief TypeTraits<Real32>
+ *  \ingroup BaseTraits
  */
 
 template <>
-struct TypeConstants<Real32> : public TypeConstantsBase
+struct TypeTraits<Real32> : public TypeTraitsBase
 {
-    typedef       Real32 RealReturnType;
+    typedef       Real32             RealReturnType;
 
-    static inline Real32 getZeroElement(void) { return 0.; };
-    static inline Real32 getOneElement (void) { return 1.; };
+    static const  bool               IsPOD       = true;
+    static const  MathTypeProperties MathProp    = RealValue;
 
-    static inline Real32 getFraction   (Real32 rVal) { return rVal; };
-    static inline Real32 getPortion    (Real32 rVal) { return rVal; };
+    static        Real32             getZeroElement(void)
+    {
+        return 0.f;
+    }
 
-    static inline MathTypeProperties getProp(void) { return RealValue; };
+    static        Real32             getOneElement (void)
+    {
+        return 1.f;
+    }
 
-    static inline Real32 getFromString (const Char8 *szString)
+    static        Real32             getMax        (void)
+    {
+        return FLT_MAX;
+    }
+
+    static        Real32             getMin        (void)
+    {
+        return FLT_MIN;
+    }
+
+
+    static Real32 getFraction  (Real32 rVal) { return rVal; };
+    static Real32 getPortion   (Real32 rVal) { return rVal; };
+
+
+    static Real32 getFromString(const Char8 *szString)
     {
         if(szString != NULL)
             return atof(szString);
@@ -570,7 +796,7 @@ struct TypeConstants<Real32> : public TypeConstantsBase
             return getZeroElement();
     }
 
-    static inline string putToString (const Real32 val)
+    static string putToString  (const Real32 val)
     {
         char buffer[20];
 
@@ -579,11 +805,12 @@ struct TypeConstants<Real32> : public TypeConstantsBase
         return string(buffer);
     }
 
-    static inline Real32 getMax(void) { return FLT_MAX; };
-    static inline Real32 getMin(void) { return FLT_MIN; };
 };
 
 OSG_END_NAMESPACE
+
+#define TypeConstants TypeTraits
+#define getAllSet()   BitsSet
 
 #define OSGBASETYPETRAITS_HEADER_CVSID "@(#)$Id: $"
 

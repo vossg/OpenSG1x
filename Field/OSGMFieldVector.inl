@@ -41,6 +41,27 @@ OSG_BEGIN_NAMESPACE
 #if defined(__sgi) || defined(__linux) || defined(darwin) || defined(__hpux)
 
 template <class Tp, class Alloc> inline
+UChar8 *MFieldVector<Tp, Alloc>::getStart(void)
+{
+//    return Inherited::_M_start;
+    return NULL;
+}
+
+template <class Tp, class Alloc> inline
+UChar8 *MFieldVector<Tp, Alloc>::getFinish(void)
+{
+//    return Inherited::_M_finish;
+    return NULL;
+}
+
+template <class Tp, class Alloc> inline
+UChar8 *MFieldVector<Tp, Alloc>::getEndOfStorage(void)
+{
+//    return Inherited::_M_end_of_storage;
+    return NULL;
+}
+
+template <class Tp, class Alloc> inline
 MFieldVector<Tp, Alloc>::MFieldVector(const allocator_type& __a) :
     Inherited(__a) 
 {
@@ -101,6 +122,24 @@ MFieldVector<Tp, Alloc>::~MFieldVector()
 }
 
 #elif defined(WIN32)
+
+template <class Tp, class Alloc> inline
+UChar8 *MFieldVector<Tp, Alloc>::getStart(void)
+{
+    return NULL;
+}
+
+template <class Tp, class Alloc> inline
+UChar8 *MFieldVector<Tp, Alloc>::getFinish(void)
+{
+    return NULL;
+}
+
+template <class Tp, class Alloc> inline
+UChar8 *MFieldVector<Tp, Alloc>::getEndOfStorage(void)
+{
+    return NULL;
+}
 
 template<class Ty, class A> inline
 MFieldVector<Ty, A>::MFieldVector(const A &_Al) : 

@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -438,6 +436,6 @@ typedef RegisterCombinersChunkBase *RegisterCombinersChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGREGISTERCOMBINERSCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGRegisterCombinersChunkBase.h,v 1.1 2002/06/10 22:10:47 dirk Exp $"
+#define OSGREGISTERCOMBINERSCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGRegisterCombinersChunkBase.h,v 1.2 2002/06/18 08:17:54 vossg Exp $"
 
 #endif /* _OSGREGISTERCOMBINERSCHUNKBASE_H_ */

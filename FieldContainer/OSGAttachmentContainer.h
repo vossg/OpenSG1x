@@ -43,7 +43,6 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGMatrix.h>
-#include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 #include <OSGAttachmentContainerPtr.h>
 #include <OSGSFAttachmentMap.h>

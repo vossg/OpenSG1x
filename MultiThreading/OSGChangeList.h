@@ -47,12 +47,12 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGMemoryObject.h>
-#include <OSGFieldContainerPtr.h>
 
 OSG_BEGIN_NAMESPACE
 
 class Thread;
 class Field;
+class FieldContainerPtr;
 
 //! ChangeList
 //! \ingroup BaseThreading

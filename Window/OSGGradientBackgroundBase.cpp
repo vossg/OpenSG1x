@@ -252,12 +252,13 @@ void GradientBackgroundBase::executeSyncImpl(      GradientBackgroundBase *pOthe
 }
 
 
-#include <OSGSFieldTypeDef.inl>
+
 #include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<GradientBackgroundPtr>::_type("GradientBackgroundPtr", "BackgroundPtr");
+
 
 OSG_DLLEXPORT_MFIELD_DEF1(GradientBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -277,7 +278,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.31 2002/05/24 09:48:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.32 2002/06/18 08:17:56 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID;
 

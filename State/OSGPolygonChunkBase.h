@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -302,6 +300,6 @@ typedef PolygonChunkBase *PolygonChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.21 2002/05/13 09:21:11 vossg Exp $"
+#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.22 2002/06/18 08:17:54 vossg Exp $"
 
 #endif /* _OSGPOLYGONCHUNKBASE_H_ */

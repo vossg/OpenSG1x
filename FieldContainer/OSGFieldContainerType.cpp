@@ -47,17 +47,36 @@
 
 #include "OSGFieldContainerType.h"
 #include "OSGFieldContainerFactory.h"
+
 #include "OSGFieldDescription.h"
 
-#include "OSGNode.h"
+#include "OSGNodePtr.h"
+#include "OSGAttachmentPtr.h"
+
 #include "OSGNodeCore.h"
 #include "OSGAttachment.h"
+
+#if 0
+#include "OSGNodeCore.h"
+#endif
 
 OSG_USING_NAMESPACE
 
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
+
+/*-------------------------------------------------------------------------*/
+/*                              Register                                   */
+
+inline
+void FieldContainerType::registerType(const Char8 *szGroupName)
+{
+    FieldContainerFactory::the()->registerType (this);
+
+    _uiGroupId = FieldContainerFactory::the()->registerGroup(
+        szGroupName != NULL ? szGroupName : _szName.str());
+}
 
 /*! \class osg::FieldContainerType
  */
@@ -152,57 +171,8 @@ FieldContainerType::~FieldContainerType(void)
     }
 }
 
-
 /*-------------------------------------------------------------------------*/
-/*                                Get                                      */
-
-UInt16 FieldContainerType::getGroupId (void) const
-{
-    return _uiGroupId;
-}
-
-FieldContainerType *FieldContainerType::getParent(void) const
-{
-    return _pParent;
-}
-
-FieldDescription *FieldContainerType::getFieldDescription(UInt32 uiFieldId)
-{
-    if(uiFieldId - 1 < _vDescVec.size())
-        return _vDescVec[uiFieldId - 1];
-    else
-        return NULL;
-}
-
-const FieldDescription *FieldContainerType::getFieldDescription(
-    UInt32 uiFieldId) const
-{
-    if(uiFieldId - 1 < _vDescVec.size())
-        return _vDescVec[uiFieldId - 1];
-    else
-        return NULL;
-}
-
-FieldDescription *FieldContainerType::findFieldDescription(
-    const Char8 *szFieldName)
-{
-    DescMapIt descIt = _mDescMap.find(IDStringLink(szFieldName));
-
-    return (descIt == _mDescMap.end()) ? NULL : (*descIt).second;
-}
-
-const FieldDescription *FieldContainerType::findFieldDescription(
-    const Char8 *szFieldName) const
-{
-    DescMapConstIt descIt = _mDescMap.find(IDStringLink(szFieldName));
-
-    return (descIt == _mDescMap.end()) ? NULL : (*descIt).second;
-}
-
-UInt32 FieldContainerType::getNumFieldDescs(void) const
-{
-    return _vDescVec.size();
-}
+/*                            Add / Sub                                    */
 
 UInt32 FieldContainerType::addDescription(const FieldDescription &desc)
 {
@@ -301,86 +271,6 @@ bool FieldContainerType::subDescription(UInt32 uiFieldId)
     return returnValue;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                           Prototype                                     */
-
-FieldContainerPtr FieldContainerType::getPrototype(void) const
-{
-    return _pPrototype;
-}
-
-bool FieldContainerType::setPrototype(FieldContainerPtr pPrototype)
-{
-    bool returnValue = false;
-
-    if(pPrototype != NullFC)
-    {
-        setRefdCP(_pPrototype, pPrototype);
-        returnValue = true;
-    }
-
-    return returnValue;
-}
-
-/*-------------------------------------------------------------------------*/
-/*                                 Is                                      */
-
-bool FieldContainerType::isInitialized(void) const
-{
-    return _bInitialized;
-}
-
-bool FieldContainerType::isAbstract(void) const
-{
-    return (_pPrototype != NullFC) ? false : true;
-}
-
-bool FieldContainerType::isDerivedFrom(const TypeBase &other) const
-{
-    return Inherited::isDerivedFrom(other);
-}
-
-bool FieldContainerType::isDerivedFrom(const FieldContainerType &other) const
-{
-    bool                returnValue = false;
-    FieldContainerType *pCurrType   = _pParent;
-
-    if(_uiTypeId == other._uiTypeId)
-    {
-        returnValue = true;
-    }
-    else
-    {
-        while(pCurrType != NULL && returnValue == false)
-        {
-            if(other._uiTypeId == pCurrType->_uiTypeId)
-            {
-                returnValue = true;
-            }
-            else
-            {
-                pCurrType = pCurrType->_pParent;
-            }
-        }
-    }
-
-    return returnValue;
-}
-
-bool FieldContainerType::isNode(void) const
-{
-    return (_baseType == IsNode);
-}
-
-bool FieldContainerType::isNodeCore(void) const
-{
-    return (_baseType == IsNodeCore);
-}
-
-bool FieldContainerType::isAttachment(void) const
-{
-    return (_baseType == IsAttachment);
-}
 
 /*-------------------------------------------------------------------------*/
 /*                               Create                                    */
@@ -395,6 +285,7 @@ FieldContainerPtr FieldContainerType::createFieldContainer(void) const
     }
 
     return fc;
+
 }
 
 NodePtr  FieldContainerType::createNode(void) const
@@ -436,6 +327,7 @@ AttachmentPtr FieldContainerType::createAttachment(void) const
     return fc;
 }
 
+
 /*-------------------------------------------------------------------------*/
 /*                                Dump                                     */
 
@@ -462,16 +354,6 @@ void FieldContainerType::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
     }
 }
 
-/*-------------------------------------------------------------------------*/
-/*                              Register                                   */
-
-void FieldContainerType::registerType(const Char8 *szGroupName)
-{
-    FieldContainerFactory::the()->registerType (this);
-
-    _uiGroupId = FieldContainerFactory::the()->registerGroup(
-        szGroupName != NULL ? szGroupName : _szName.str());
-}
 
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */

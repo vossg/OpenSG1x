@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGBackground.h> // Parent
 
@@ -230,6 +228,6 @@ typedef GradientBackgroundBase *GradientBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundBase.h,v 1.19 2002/05/13 09:21:11 vossg Exp $"
+#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundBase.h,v 1.20 2002/06/18 08:17:56 vossg Exp $"
 
 #endif /* _OSGGRADIENTBACKGROUNDBASE_H_ */

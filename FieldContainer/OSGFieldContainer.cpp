@@ -41,12 +41,6 @@
 
 #include "OSGConfig.h"
 #include "OSGFieldContainer.h"
-#include "OSGFieldDescription.h"
-#include "OSGThread.h"
-#include "OSGThreadManager.h"
-#include "OSGChangeList.h"
-#include "OSGFieldContainerPtr.h"
-#include "OSGBinaryDataHandler.h"
 
 OSG_USING_NAMESPACE
 
@@ -68,35 +62,6 @@ const FieldContainerType &FieldContainer::getType(void) const
     return _type;
 }
 
-UInt32 FieldContainer::getTypeId(void) const
-{
-    return getType().getId();
-}
-
-UInt16 FieldContainer::getGroupId(void) const
-{
-    return getType().getGroupId();
-}
-
-const Char8 *FieldContainer::getTypeName(void) const
-{
-    return getType().getCName();
-}
-
-Field *FieldContainer::getField(UInt32 fieldId)
-{
-    const FieldDescription *desc = getType().getFieldDescription(fieldId);
-
-    return desc ? desc->getField(*this) : NULL;
-}
-
-Field *FieldContainer::getField(const Char8 *fieldName)
-{
-    const FieldDescription *desc =getType().findFieldDescription(fieldName);
-
-    return desc ? desc->getField(*this) : NULL;
-}
-
 /*-------------------------------------------------------------------------*/
 /*                            Binary Access                                */
 
@@ -116,27 +81,6 @@ void FieldContainer::copyFromBin(      BinaryDataHandler &,
 }
 
 /*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
-FieldContainer::FieldContainer(void) :
-    _shares(0)
-{
-}
-
-FieldContainer::FieldContainer(const FieldContainer &) :
-    _shares(0)
-
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-FieldContainer::~FieldContainer(void)
-{
-}
-
-/*-------------------------------------------------------------------------*/
 /*                               Changed                                   */
 
 void FieldContainer::changed(BitVector OSG_CHECK_ARG(whichField),
@@ -146,101 +90,11 @@ void FieldContainer::changed(BitVector OSG_CHECK_ARG(whichField),
 }
 
 /*-------------------------------------------------------------------------*/
-/*                             MT Contruction                              */
-
-void FieldContainer::onCreate(const FieldContainer *)
-{
-}
-
-/*-------------------------------------------------------------------------*/
 /*                             MT Destruction                              */
 
 void FieldContainer::onDestroy(void)
 {
 }
-
-/*-------------------------------------------------------------------------*/
-/*                                Sync                                     */
-
-void FieldContainer::executeSyncImpl(      FieldContainer *,
-                                     const BitVector      &)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                               Functions                                 */
-
-OSG_BEGIN_NAMESPACE
-
-void addRefCP(const FieldContainerPtrBase &objectP)
-{
-    if(objectP != NullFC)
-        objectP.addRef();
-}
-
-void subRefCP(const FieldContainerPtrBase &objectP)
-{
-    if(objectP != NullFC)
-        objectP.subRef();
-}
-
-void clearRefCP(FieldContainerPtrBase &objectP)
-{
-    if(objectP != NullFC)
-        objectP.subRef();
-
-    objectP = NullFC;
-}
-
-void setRefdCP(      FieldContainerPtrBase &objectP,
-               const FieldContainerPtrBase &newObjectP)
-{
-    if(objectP != newObjectP)
-    {
-        if(objectP != NullFC)
-            objectP.subRef();
-
-        objectP = newObjectP;
-
-        if(objectP != NullFC)
-            objectP.addRef();
-    }
-}
-
-void beginEditCP(const FieldContainerPtr &objectP,
-                       BitVector         whichField,
-                       UInt32            origin    )
-{
-    if(objectP != NullFC)
-        objectP.beginEdit(whichField, origin);
-}
-
-void endEditCP(const FieldContainerPtr &objectP,
-                     BitVector          whichField,
-                     UInt32             origin    )
-{
-    if(objectP != NullFC)
-        objectP.endEdit(whichField, origin);
-}
-
-void changedCP(const FieldContainerPtr &objectP,
-                     BitVector          whichField,
-                     UInt32             origin    )
-{
-    if(objectP != NullFC)
-        objectP.changed(whichField, origin);
-}
-
-void endEditNotChangedCP(const FieldContainerPtr &objectP,
-                               BitVector          whichField,
-                               UInt32             origin    )
-{
-    if(objectP != NullFC)
-        objectP.endEditNotChanged(whichField, origin);
-}
-
-OSG_END_NAMESPACE
-
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

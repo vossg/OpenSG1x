@@ -221,12 +221,13 @@ void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
 }
 
 
+
 #include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<SolidBackgroundPtr>::_type("SolidBackgroundPtr", "BackgroundPtr");
+
 
 OSG_DLLEXPORT_SFIELD_DEF1(SolidBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -246,7 +247,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.31 2002/05/24 09:48:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.32 2002/06/18 08:17:56 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSOLIDBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSOLIDBACKGROUNDBASE_INLINE_CVSID;
 

@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGNodeCore.h> // Parent
 
@@ -222,6 +220,6 @@ typedef TransformBase *TransformBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGTransformBase.h,v 1.19 2002/03/25 01:25:59 vossg Exp $"
+#define OSGTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGTransformBase.h,v 1.20 2002/06/18 08:17:53 vossg Exp $"
 
 #endif /* _OSGTRANSFORMBASE_H_ */

@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGForeground.h> // Parent
 
@@ -222,6 +220,6 @@ typedef GrabForegroundBase *GrabForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGrabForegroundBase.h,v 1.3 2002/03/25 01:26:00 vossg Exp $"
+#define OSGGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGrabForegroundBase.h,v 1.4 2002/06/18 08:17:56 vossg Exp $"
 
 #endif /* _OSGGRABFOREGROUNDBASE_H_ */

@@ -41,8 +41,8 @@
 
 #include "OSGConfig.h"
 
-#include "OSGAttachmentContainerPtr.h"
 #include "OSGAttachmentContainer.h"
+#include "OSGAttachmentContainerPtr.h"
 #include "OSGThread.h"
 
 OSG_USING_NAMESPACE

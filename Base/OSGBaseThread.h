@@ -53,8 +53,6 @@
 
 #include <utility>
 
-#include <OSGBaseTypes.h>
-
 #if ! defined (OSG_USE_PTHREADS)   && \
     ! defined (OSG_USE_SPROC)      && \
     ! defined (OSG_USE_WINTHREADS)

@@ -45,18 +45,14 @@
 #include <string>
 
 #include "OSGFieldContainerFactory.h"
-#include "OSGIDStringLink.h"
-#include "OSGLog.h"
-#include "OSGThreadManager.h"
-#include "OSGLock.h"
 #include "OSGFieldContainerType.h"
-#include "OSGTypeFactory.h"
-#include "OSGFieldFactory.h"
 #include "OSGFieldDescription.h"
 
 #include "OSGNodePtr.h"
 #include "OSGAttachmentPtr.h"
-#include "OSGThread.h"
+
+#include "OSGFieldFactory.h"
+#include "OSGFieldType.h"
 
 OSG_USING_NAMESPACE
 
@@ -272,46 +268,6 @@ UInt16 FieldContainerFactory::getNumGroups (void) const
     return _pGroupMap ? _pGroupMap->size() : 0;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                              Mapper                                     */
-
-void FieldContainerFactory::setMapper(FieldContainerMapper *pMapper)
-{
-    _pMapper = pMapper;
-}
-
-/*-------------------------------------------------------------------------*/
-/*                                Get                                      */
-
-FieldContainerPtr FieldContainerFactory::getContainer(
-    UInt32 uiContainerId) const
-{
-    FieldContainerPtr returnValue = NullFC;
-
-    _pStoreLock->aquire();
-
-    if(uiContainerId < _pFieldContainerStore->size())
-    {
-        returnValue = (*_pFieldContainerStore)[uiContainerId];
-    }
-
-    _pStoreLock->release();
-
-    return returnValue;
-}
-
-FieldContainerPtr FieldContainerFactory::getMappedContainer(
-    UInt32 uiContainerId) const
-{
-    if(_pMapper != NULL)
-    {
-        return getContainer(_pMapper->map(uiContainerId));
-    }
-    else
-    {
-        return getContainer(uiContainerId);
-    }
-}
 
 /*-------------------------------------------------------------------------*/
 /*                               Create                                    */
@@ -581,50 +537,6 @@ void FieldContainerFactory::initTypeMap(void)
 
 /*-------------------------------------------------------------------------*/
 /*                              Register                                   */
-
-UInt32 FieldContainerFactory::registerFieldContainer(
-    const FieldContainerPtr &pFieldContainer)
-{
-    UInt32 returnValue = 0;
-
-    if(_pStoreLock != NULL)
-        _pStoreLock->aquire();
-
-    if(_pFieldContainerStore == NULL)
-    {
-        _pFieldContainerStore = new FieldContainerStore;
-
-        _pFieldContainerStore->push_back(NullFC);
-    }
-
-    _pFieldContainerStore->push_back(pFieldContainer);
-
-    returnValue = _pFieldContainerStore->size() - 1;
-
-    if(_pStoreLock != NULL)
-        _pStoreLock->release();
-
-    return returnValue;
-}
-
-void FieldContainerFactory::unregisterFieldContainer(
-    const FieldContainerPtr &pFieldContainer)
-{
-    if(pFieldContainer == NullFC)
-        return;
-
-    if(_pStoreLock != NULL)
-        _pStoreLock->aquire();
-
-    if(_pFieldContainerStore != NULL)
-    {
-        (*_pFieldContainerStore)[pFieldContainer.getFieldContainerId()] =
-            NullFC;
-    }
-
-    if(_pStoreLock != NULL)
-        _pStoreLock->release();
-}
 
 UInt32 FieldContainerFactory::registerType(FieldContainerType *pType)
 {

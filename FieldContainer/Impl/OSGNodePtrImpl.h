@@ -36,168 +36,146 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGSFIELD_H_
-#define _OSGSFIELD_H_
+#ifndef _OSGNODEPTRIMPL_H_
+#define _OSGNODEPTRIMPL_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <OSGBase.h>
 #include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
-#include <OSGStringConversionStateBase.h>
-
-#include <vector>
-#include <string>
-
-#include <OSGField.h>
+#include <OSGSystemDef.h>
+#include <OSGAttachmentContainerPtr.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \defgroup SingleFields SingleFields
-    \brief OpenSG Single Fields
-*/
+class Node;
+class NodeCore;
 
-class BinaryDataHandler;
+class CNodePtr;
 
-//! Base class for all single fields, for example ::SFMatrix.
-//! \ingroup FieldLib
-//! \ingroup SingleFields
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
-template <class FieldTypeT, Int32 fieldNameSpace = 0>
-class SField : public Field 
+//! Pointer to a node
+//! \ingroup FieldContainerLib
+
+#ifdef __sgi
+#pragma set woff 1375,1424
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 444 )
+#endif
+
+class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public AttachmentContainerPtr
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
-    typedef typename osgIF<fieldNameSpace == 1,
-                           FieldDataTraits1<FieldTypeT>, 
-                           FieldDataTraits2<FieldTypeT> >::_IRet SF1Trait;
+    typedef Node                   StoredObjectType;
+    typedef NodePtr                ObjectType;
 
-    typedef typename osgIF<fieldNameSpace == 0, 
-                           FieldDataTraits <FieldTypeT>, 
-                           SF1Trait>::_IRet                      SFieldTraits;
-
-    typedef          SField<FieldTypeT, fieldNameSpace>          Self;
-
-
-
-    typedef          FieldTypeT                  StoredType;
-    typedef          FieldTypeT                 &reference;
-    typedef const    FieldTypeT                 &const_reference;
-    typedef typename SFieldTraits::ArgumentType  ArgumentType;
+    typedef AttachmentContainerPtr Inherited;
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Get                                  */
+    /*! \name                      dcast                                   */
     /*! \{                                                                 */
 
-    static const FieldType &getClassType(void);
+    template <class InTypeT> 
+    static NodePtr dcast(const InTypeT oIn);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-             SField(void                     );
-             SField(const SField       &obj  );
-    explicit SField(      ArgumentType  value);
+             NodePtr(void);
+             NodePtr(const NodePtr               &source);
+             NodePtr(const NullFieldContainerPtr &source);
+    explicit NodePtr(const CNodePtr              &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~SField(void); 
+    ~NodePtr(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Get                                     */
+    /*! \name                        Core                                  */
     /*! \{                                                                 */
 
-                  reference   getValue(void);
-            const_reference   getValue(void) const;
-
-    virtual const FieldType  &getType (void) const;
-
-    virtual       bool        isEmpty (void) const;
+    NodeCore *getCore(void);
+    NodeCore *getCore(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Set                                     */
+    /*! \name                 Container Access                             */
     /*! \{                                                                 */
 
-    virtual void setAbstrValue(const Field        &obj  );
+    Node *operator->(void);
+    Node *operator->(void) const;
 
-            void setValue     (      ArgumentType  value);
-            void setValue     (const Self         &obj  );
+    Node &operator *(void);
+    Node &operator *(void) const;
+
+    Node *getCPtr   (void);
+    Node *getCPtr   (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   String IO                                  */
+    /*! \name                    Assignment                                */
     /*! \{                                                                 */
 
-    virtual void    pushValueByStr(const Char8               *str  );
-    virtual string &getValueByStr (string                    &str  ) const;
-    virtual string &getValueByStr (string                    &str,
-                                   StringConversionStateBase &state) const;
+    void operator =(const CNodePtr              &source);
+    void operator =(const NodePtr               &source);
+    void operator =(const NullFieldContainerPtr &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      MT Sync                                 */
+    /*! \name             Container Constructors                           */
     /*! \{                                                                 */
+    /*! \brief Container Constructor, used to work around MS Bugs,  
+     *  use them only if you really now what you are doing ;-)             */
 
-    void syncWith(Self &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Binary Interface                           */
-    /*! \{                                                                 */
-
-    UInt32 getBinSize (void                   );
+    explicit NodePtr(const Node   &source);
+    explicit NodePtr(const Node   *source);
     
-    void   copyToBin  (BinaryDataHandler &pMem);
-    void   copyFromBin(BinaryDataHandler &pMem);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Assign                                  */
-    /*! \{                                                                 */
-
-    void operator =(const SField &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
-    /*! \{                                                                 */
-
-    virtual void dump(void) const;
-
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    typedef Field Inherited;
-
     /*---------------------------------------------------------------------*/
-    /*                             Member                                  */
+    /*! \name             Internal Constructors                            */
+    /*! \{                                                                 */
+    
+    NodePtr(const Node   *source,
+            const UInt16  uiSize,
+            const UInt16  uiParentPos);
 
-    static const FieldType   _fieldType;
-
-                 FieldTypeT  _value;
-
-    static       Field      *create(void);
-
-    /*---------------------------------------------------------------------*/
-
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
+
+    friend class FieldContainer;
 };
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( default : 444 )
+#endif
+
+#ifdef __sgi
+#pragma reset woff 1375,1424
+#endif
+
+OSG_SYSTEMLIB_DLLMAPPING
+ostream &operator <<(      ostream  &os,
+                     const NodePtr  &fc);
 
 OSG_END_NAMESPACE
 
-#include <OSGSField.inl>
+#define OSGNODEPTR_HEADER_CVSID "@(#)$Id: $"
 
-#define OSGSFIELD_HEADER_CVSID "@(#)$Id: $"
-
-#endif /* _OSGSFIELD_H_ */
-
+#endif /* _OSGNODEPTRIMPL_H_ */

@@ -82,9 +82,10 @@ class SField : public Field
 
 
 
-    typedef          FieldTypeT  StoredType;
-    typedef          FieldTypeT &reference;
-    typedef const    FieldTypeT &const_reference;
+    typedef          FieldTypeT                  StoredType;
+    typedef          FieldTypeT                 &reference;
+    typedef const    FieldTypeT                 &const_reference;
+    typedef typename SFieldTraits::ArgumentType  ArgumentType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Get                                  */
@@ -97,9 +98,9 @@ class SField : public Field
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    SField         (void);
-    SField         (const SField  &obj);
-    explicit SField(const FieldTypeT &value);
+             SField(void                     );
+             SField(const SField       &obj  );
+    explicit SField(      ArgumentType  value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -116,19 +117,19 @@ class SField : public Field
                   reference   getValue(void);
             const_reference   getValue(void) const;
 
-    virtual       bool        isEmpty (void) const;
-
     virtual const FieldType  &getType (void) const;
+
+    virtual       bool        isEmpty (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-    virtual void setAbstrValue(const Field      &obj  );
+    virtual void setAbstrValue(const Field        &obj  );
 
-            void setValue     (const FieldTypeT &value);
-            void setValue     (const Self       &obj  );
+            void setValue     (      ArgumentType  value);
+            void setValue     (const Self         &obj  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -183,7 +184,6 @@ class SField : public Field
     static const FieldType   _fieldType;
 
                  FieldTypeT  _value;
-
 
     static       Field      *create(void);
 

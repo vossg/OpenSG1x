@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGFieldContainer.h> // Parent
 
@@ -222,6 +220,6 @@ typedef StateBase *StateBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.20 2002/05/13 09:21:11 vossg Exp $"
+#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.21 2002/06/18 08:17:54 vossg Exp $"
 
 #endif /* _OSGSTATEBASE_H_ */

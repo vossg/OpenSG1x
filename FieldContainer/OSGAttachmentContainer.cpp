@@ -42,10 +42,10 @@
 #include <stdio.h>
 
 #include "OSGConfig.h"
+#include "OSGAttachmentContainer.h"
 #include "OSGFieldContainerPtr.h"
 #include "OSGFieldContainerType.h"
 #include "OSGAttachment.h"
-#include "OSGAttachmentContainer.h"
 #include "OSGBinaryDataHandler.h"
 
 OSG_USING_NAMESPACE
@@ -154,7 +154,14 @@ AttachmentPtr AttachmentContainer::findAttachment(UInt32 groupId,
 
     AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
 
-    return (fcI == _attachmentMap.getValue().end()) ? NullFC : (*fcI).second;
+    if(fcI == _attachmentMap.getValue().end())
+    {
+        return NullFC;
+    }
+    else
+    {
+        return (*fcI).second;
+    }
 }
 
 /*-------------------------------------------------------------------------*/

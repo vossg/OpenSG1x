@@ -94,6 +94,13 @@ struct FieldTraitsRecurseBase : public Traits
 {
     enum { bHasParent = 0x00 };
 
+    static const UInt32 uiTest = TypeTraits<FieldTypeT>::IsPOD == true;
+
+    typedef typename 
+    osgIF<uiTest == 1, 
+          const FieldTypeT  , 
+          const FieldTypeT & >::_IRet  ArgumentType;
+
     static       UInt32    getBinSize (const FieldTypeT &oObject)
     {
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
@@ -226,6 +233,7 @@ struct FieldTraitsIntegralRecurseMapper :
 template <class FieldTypeT>
 struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
 {
+#ifndef __hpux
     static UInt32 getBinSize(const FieldTypeT &oObject)
     {
         typedef typename FieldTypeT::Inherited       Inherited;
@@ -310,6 +318,7 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
 
         MappedTrait::copyFromBin(pMem, pObjectStore, uiNumObjects);
     }
+#endif
 };
 
 

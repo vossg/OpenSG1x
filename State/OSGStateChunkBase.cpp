@@ -172,12 +172,14 @@ void StateChunkBase::executeSyncImpl(      StateChunkBase *pOther,
 }
 
 
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<StateChunkPtr>::_type("StateChunkPtr", "FieldContainerPtr");
+
 
 OSG_DLLEXPORT_SFIELD_DEF1(StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -198,7 +200,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.29 2002/05/24 09:48:39 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.30 2002/06/18 08:17:54 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATECHUNKBASE_INLINE_CVSID;
 

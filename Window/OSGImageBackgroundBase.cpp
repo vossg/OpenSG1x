@@ -283,12 +283,13 @@ void ImageBackgroundBase::executeSyncImpl(      ImageBackgroundBase *pOther,
 }
 
 
+
 #include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<ImageBackgroundPtr>::_type("ImageBackgroundPtr", "BackgroundPtr");
+
 
 OSG_DLLEXPORT_SFIELD_DEF1(ImageBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -308,7 +309,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.16 2002/05/24 09:48:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGImageBackgroundBase.cpp,v 1.17 2002/06/18 08:17:56 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEBACKGROUNDBASE_INLINE_CVSID;
 

@@ -71,12 +71,22 @@ OSG_BEGIN_NAMESPACE
 #    define OSG_STL_DEFAULT_ALLOCATOR(TP) = __STL_DEFAULT_ALLOCATOR(TP)
 #endif
 
+template <class FieldTypeT, Int32 fieldNameSpace>
+class MField;
+
 template <class Tp, class Alloc OSG_STL_DEFAULT_ALLOCATOR(Tp) >
 class MFieldVector : public vector<Tp, Alloc> 
 {
   private:
     
     typedef vector<Tp, Alloc> Inherited;
+
+    template <class FieldTypeT, Int32 fieldNameSpace>
+    friend class MField;
+
+    UChar8 *getStart       (void);
+    UChar8 *getFinish      (void);
+    UChar8 *getEndOfStorage(void);
 
   public:
 
@@ -122,6 +132,13 @@ class MFieldVector : public vector<Ty, A>
 
     typedef          vector<Ty, A>             Inherited;
 	typedef typename Inherited::const_iterator It;
+
+    template <class FieldTypeT, Int32 fieldNameSpace>
+    friend class MField;
+
+    UChar8 *getStart       (void);
+    UChar8 *getFinish      (void);
+    UChar8 *getEndOfStorage(void);
 
   public :	
 

@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGSimpleMaterial.h> // Parent
 
@@ -254,6 +252,6 @@ typedef SimpleTexturedMaterialBase *SimpleTexturedMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.h,v 1.7 2002/03/25 01:25:58 vossg Exp $"
+#define OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.h,v 1.8 2002/06/18 08:17:51 vossg Exp $"
 
 #endif /* _OSGSIMPLETEXTUREDMATERIALBASE_H_ */

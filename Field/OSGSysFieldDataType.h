@@ -171,7 +171,6 @@ struct FieldDataTraits2<bool> :
 
 };
 
-
 /*! \brief Int8 field traits 
     \ingroup FieldLib
     \ingroup SingleFields

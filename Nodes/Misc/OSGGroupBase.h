@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGNodeCore.h> // Parent
 
@@ -188,6 +186,6 @@ typedef GroupBase *GroupBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGGroupBase.h,v 1.14 2001/11/09 08:17:09 vossg Exp $"
+#define OSGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGGroupBase.h,v 1.15 2002/06/18 08:17:53 vossg Exp $"
 
 #endif /* _OSGGROUPBASE_H_ */

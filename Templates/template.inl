@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -42,12 +42,13 @@ OSG_BEGIN_NAMESPACE
 /*! function comment
  *
  */
-inline void CLASSNAME::inline(void)
+inline 
+void CLASSNAME::inline(void)
 {
     return;
 }
 
 OSG_END_NAMESPACE
 
-#define OSG_INLINE_CVSID "@(#)$Id: template.inl,v 1.2 2001/10/15 03:10:24 vossg Exp $"
+#define OSG_INLINE_CVSID "@(#)$Id: template.inl,v 1.3 2002/06/18 08:17:55 vossg Exp $"
 

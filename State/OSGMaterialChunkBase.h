@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -270,6 +268,6 @@ typedef MaterialChunkBase *MaterialChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.21 2002/03/25 01:25:59 vossg Exp $"
+#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.22 2002/06/18 08:17:54 vossg Exp $"
 
 #endif /* _OSGMATERIALCHUNKBASE_H_ */

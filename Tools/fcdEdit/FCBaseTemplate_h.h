@@ -72,8 +72,6 @@ char *FCBaseTemplate_h[]={
 "#include <OSG@!Libname!@Def.h>",
 "",
 "#include <@!HeaderPrefix!@OSGBaseTypes.h>",
-"#include <@!HeaderPrefix!@OSGFieldDescription.h>",
-"#include <@!HeaderPrefix!@OSGFieldContainer.h>",
 "",
 "#include <@!ParentHeaderPrefix!@OSG@!Parent!@.h> // Parent",
 "",
@@ -375,7 +373,7 @@ char *FCBaseTemplate_h[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.25 2002/05/13 09:21:11 vossg Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.26 2002/06/18 08:17:44 vossg Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };

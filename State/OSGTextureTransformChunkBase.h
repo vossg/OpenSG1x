@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGTransformChunk.h> // Parent
 
@@ -188,6 +186,6 @@ typedef TextureTransformChunkBase *TextureTransformChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURETRANSFORMCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunkBase.h,v 1.1 2001/12/03 21:46:42 dirk Exp $"
+#define OSGTEXTURETRANSFORMCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunkBase.h,v 1.2 2002/06/18 08:17:54 vossg Exp $"
 
 #endif /* _OSGTEXTURETRANSFORMCHUNKBASE_H_ */

@@ -47,7 +47,7 @@
 #include <OSGMatrix.h>
 #include <OSGAttachmentContainerPtr.h>
 #include <OSGAttachmentContainer.h>
-#include <OSGMFNodePtr.h>
+#include <OSGNodeFields.h>
 #include <OSGDynamicVolume.h>
 
 OSG_BEGIN_NAMESPACE

@@ -47,6 +47,8 @@
 #include <OSGSField.h>
 #include <OSGMField.h>
 
+#include "OSGFieldContainer.h"
+
 #include "OSGSFFieldContainerPtr.h"
 #include "OSGMFFieldContainerPtr.h"
 

@@ -62,8 +62,6 @@
 #include <OSGWindowWIN32Def.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGWindow.h> // Parent
 
@@ -246,6 +244,6 @@ typedef WIN32WindowBase *WIN32WindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGWIN32WINDOWBASE_HEADER_CVSID "@(#)$Id: OSGWIN32WindowBase.h,v 1.4 2002/03/25 01:26:01 vossg Exp $"
+#define OSGWIN32WINDOWBASE_HEADER_CVSID "@(#)$Id: OSGWIN32WindowBase.h,v 1.5 2002/06/18 08:17:58 vossg Exp $"
 
 #endif /* _OSGWIN32WINDOWBASE_H_ */

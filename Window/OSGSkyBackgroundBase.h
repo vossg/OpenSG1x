@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGBackground.h> // Parent
 
@@ -302,6 +300,6 @@ typedef SkyBackgroundBase *SkyBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundBase.h,v 1.4 2002/05/13 09:21:11 vossg Exp $"
+#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSkyBackgroundBase.h,v 1.5 2002/06/18 08:17:56 vossg Exp $"
 
 #endif /* _OSGSKYBACKGROUNDBASE_H_ */

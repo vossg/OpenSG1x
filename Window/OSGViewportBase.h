@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGAttachmentContainer.h> // Parent
 
@@ -286,6 +284,6 @@ typedef ViewportBase *ViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.22 2002/05/13 09:21:11 vossg Exp $"
+#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.23 2002/06/18 08:17:56 vossg Exp $"
 
 #endif /* _OSGVIEWPORTBASE_H_ */

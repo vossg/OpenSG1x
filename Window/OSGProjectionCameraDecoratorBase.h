@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGStereoCameraDecorator.h> // Parent
 
@@ -283,6 +281,6 @@ typedef ProjectionCameraDecoratorBase *ProjectionCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGProjectionCameraDecoratorBase.h,v 1.3 2002/05/13 09:21:11 vossg Exp $"
+#define OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGProjectionCameraDecoratorBase.h,v 1.4 2002/06/18 08:17:56 vossg Exp $"
 
 #endif /* _OSGPROJECTIONCAMERADECORATORBASE_H_ */

@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGAttachmentContainer.h> // Parent
 
@@ -172,6 +170,6 @@ typedef MaterialBase *MaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.15 2001/12/03 23:53:41 dirk Exp $"
+#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.16 2002/06/18 08:17:51 vossg Exp $"
 
 #endif /* _OSGMATERIALBASE_H_ */

@@ -221,12 +221,14 @@ void TransformBase::executeSyncImpl(      TransformBase *pOther,
 }
 
 
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<TransformPtr>::_type("TransformPtr", "NodeCorePtr");
+
 
 OSG_DLLEXPORT_SFIELD_DEF1(TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -247,7 +249,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.30 2002/05/24 09:48:38 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.31 2002/06/18 08:17:53 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTRANSFORMBASE_INLINE_CVSID;
 

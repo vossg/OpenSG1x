@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,61 +36,106 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include <stdlib.h>
-#include <stdio.h>
-
-#include "OSGConfig.h"
+#ifndef _OSGFIELDCONTAINERFACTORYIMPL_INL_
+#define _OSGFIELDCONTAINERFACTORYIMPL_INL_
 
 OSG_BEGIN_NAMESPACE
+
+/*-------------------------------------------------------------------------*/
+/*                              Mapper                                     */
+
+inline
+void FieldContainerFactory::setMapper(FieldContainerMapper *pMapper)
+{
+    _pMapper = pMapper;
+}
 
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
 
 inline
-FieldContainerType &FieldContainer::getClassType(void)
+FieldContainerPtr FieldContainerFactory::getContainer(
+    UInt32 uiContainerId) const
 {
-    return _type;
-}
+    FieldContainerPtr returnValue = NullFC;
 
-inline
-UInt32 FieldContainer::getClassTypeId(void)
-{
-    return _type.getId();
-}
+    _pStoreLock->aquire();
 
-inline
-UInt16 FieldContainer::getClassGroupId(void)
-{
-    return _type.getGroupId();
-}
-
-/*-------------------------------------------------------------------------*/
-/*                               Functions                                 */
-
-//! Write FC to the given stream
-
-template <class BasePtrTypeT, class FieldContainerTypeT> inline
-ostream &operator <<(
-          ostream                                  &os,
-    const FCPtr<BasePtrTypeT, FieldContainerTypeT> &fc)
-{
-    if(fc == NullFC)
+    if(uiContainerId < _pFieldContainerStore->size())
     {
-        os << hex << "FCPtr 0x" << &fc << dec << ":NullFC";
+        returnValue = (*_pFieldContainerStore)[uiContainerId];
+    }
+
+    _pStoreLock->release();
+
+    return returnValue;
+}
+
+inline
+FieldContainerPtr FieldContainerFactory::getMappedContainer(
+    UInt32 uiContainerId) const
+{
+    if(_pMapper != NULL)
+    {
+        return getContainer(_pMapper->map(uiContainerId));
     }
     else
     {
-        os << hex << "FCPtr 0x"
-           << &fc << dec << ":" << fc->getType().getName() << "Ptr(0x"
-           << hex << (&(*fc)) << dec << ")";
+        return getContainer(uiContainerId);
+    }
+}
+
+/*-------------------------------------------------------------------------*/
+/*                              Register                                   */
+
+inline
+UInt32 FieldContainerFactory::registerFieldContainer(
+    const FieldContainerPtr &pFieldContainer)
+{
+    UInt32 returnValue = 0;
+
+    if(_pStoreLock != NULL)
+        _pStoreLock->aquire();
+
+    if(_pFieldContainerStore == NULL)
+    {
+        _pFieldContainerStore = new FieldContainerStore;
+
+        _pFieldContainerStore->push_back(NullFC);
     }
 
-    return os;
+    _pFieldContainerStore->push_back(pFieldContainer);
+
+    returnValue = _pFieldContainerStore->size() - 1;
+
+    if(_pStoreLock != NULL)
+        _pStoreLock->release();
+
+    return returnValue;
+}
+
+inline
+void FieldContainerFactory::unregisterFieldContainer(
+    const FieldContainerPtr &pFieldContainer)
+{
+    if(pFieldContainer == NullFC)
+        return;
+
+    if(_pStoreLock != NULL)
+        _pStoreLock->aquire();
+
+    if(_pFieldContainerStore != NULL)
+    {
+        (*_pFieldContainerStore)[pFieldContainer.getFieldContainerId()] =
+            NullFC;
+    }
+
+    if(_pStoreLock != NULL)
+        _pStoreLock->release();
 }
 
 OSG_END_NAMESPACE
 
-#define OSGFIELDCONTAINER_INLINE_CVSID "@(#)$Id: $"
+#define OSGFIELDCONTAINERFACTORY_INLINE_CVSID "@(#)$Id: $"
 
-
-
+#endif /* _OSGFIELDCONTAINERFACTORYIMPL_INL_ */

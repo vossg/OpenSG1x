@@ -68,8 +68,7 @@ OSG::UInt32 CameraBase::getClassTypeId(void)
 } 
 
 
-
 OSG_END_NAMESPACE
 
-#define OSGCAMERABASE_INLINE_CVSID "@(#)$Id: OSGCameraBase.inl,v 1.10 2002/03/25 01:26:00 vossg Exp $"
+#define OSGCAMERABASE_INLINE_CVSID "@(#)$Id: OSGCameraBase.inl,v 1.11 2002/06/18 08:17:55 vossg Exp $"
 

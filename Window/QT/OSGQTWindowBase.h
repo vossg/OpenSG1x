@@ -62,8 +62,6 @@
 #include <OSGWindowQTDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGQTWindowDataFields.h> // GlWidget type
 
@@ -234,6 +232,6 @@ typedef QTWindowBase *QTWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGQTWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGQTWindowBase.h,v 1.1 2002/02/05 20:39:34 dirk Exp $"
+#define OSGQTWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGQTWindowBase.h,v 1.2 2002/06/18 08:17:57 vossg Exp $"
 
 #endif /* _OSGQTWINDOWBASE_H_ */

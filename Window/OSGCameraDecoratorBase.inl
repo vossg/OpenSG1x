@@ -71,7 +71,8 @@ OSG::UInt32 CameraDecoratorBase::getClassTypeId(void)
 /*------------------------- decorator get ------------------------------*/
 
 inline
-SFCameraPtr *CameraDecoratorBase::getSFDecoratee(void){
+SFCameraPtr *CameraDecoratorBase::getSFDecoratee(void)
+{
     return &_sfDecoratee;
 }
 
@@ -172,7 +173,8 @@ void CameraDecoratorBase::setFar(const Real32 &value)
     endEditCP  (getDecoratee(), FarFieldMask);
 }
 
+
 OSG_END_NAMESPACE
 
-#define OSGCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGCameraDecoratorBase.inl,v 1.11 2002/06/13 11:02:51 vossg Exp $"
+#define OSGCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGCameraDecoratorBase.inl,v 1.12 2002/06/18 08:17:56 vossg Exp $"
 

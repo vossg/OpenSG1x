@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGNodeCore.h> // Parent
 
@@ -262,6 +260,6 @@ typedef LightBaseBase *LightBaseBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.21 2002/03/25 01:25:58 vossg Exp $"
+#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.22 2002/06/18 08:17:53 vossg Exp $"
 
 #endif /* _OSGLIGHTBASEBASE_H_ */

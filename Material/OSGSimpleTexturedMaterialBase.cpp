@@ -348,12 +348,14 @@ void SimpleTexturedMaterialBase::executeSyncImpl(      SimpleTexturedMaterialBas
 }
 
 
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<SimpleTexturedMaterialPtr>::_type("SimpleTexturedMaterialPtr", "SimpleMaterialPtr");
+
 
 OSG_DLLEXPORT_SFIELD_DEF1(SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -374,7 +376,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.18 2002/05/24 09:48:37 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSimpleTexturedMaterialBase.cpp,v 1.19 2002/06/18 08:17:51 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID;
 

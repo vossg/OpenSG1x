@@ -2,7 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
+ *                                                                           *
+ *                            www.opensg.org                                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -34,57 +36,100 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include <stdlib.h>
-#include <stdio.h>
+#ifndef _OSGNODEPTRIMPL_INL_
+#define _OSGNODEPTRIMPL_INL_
 
-#include "OSGConfig.h"
 
 OSG_BEGIN_NAMESPACE
 
-OSG_FIELD_CONTAINER_INL_DEF(Node, NodePtr)
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+inline
+NodePtr::NodePtr(void) :
+    Inherited()
+{
+}
+
+inline
+NodePtr::NodePtr(const NodePtr &source) :
+    Inherited(source)
+{
+}
+
+inline
+NodePtr::NodePtr(const NullFieldContainerPtr &source) :
+    Inherited(source)
+{
+}
 
 /*-------------------------------------------------------------------------*/
-/*                                Get                                      */
+/*                             Destructor                                  */
 
 inline
-const DynamicVolume &Node::getVolume(void) const
+NodePtr::~NodePtr(void)
 {
-    return _sfVolume.getValue();
+}
+
+/*-------------------------------------------------------------------------*/
+/*                           Container Access                              */
+
+inline
+Node *NodePtr::operator->(void)
+{
+    return (Node *) getElemP(Thread::getAspect());
 }
 
 inline
-DynamicVolume &Node::getVolume(bool update)
+Node *NodePtr::operator->(void) const
 {
-    if(update == true)
-        updateVolume();
-
-    return _sfVolume.getValue();
+    return (Node *) getElemP(Thread::getAspect());
 }
 
 inline
-NodeCorePtr Node::getCore(void)
+Node &NodePtr::operator *(void)
 {
-    return _sfCore.getValue();
+    return *((Node *) getElemP(Thread::getAspect()));
 }
 
 inline
-NodeCorePtr Node::getCore(void) const
+Node &NodePtr::operator *(void) const
 {
-    return _sfCore.getValue();
+    return *((Node *) getElemP(Thread::getAspect()));
 }
 
 inline
-NodePtr Node::getParent(void)
+Node *NodePtr::getCPtr(void)
 {
-    return _sfParent.getValue();
+    return (Node *) getElemP(Thread::getAspect());
 }
 
 inline
-UInt32 Node::getNChildren(void) const
+Node *NodePtr::getCPtr(void) const
 {
-    return _mfChildren.size();
+    return (Node *) getElemP(Thread::getAspect());
 }
- 
+
+
+/*-------------------------------------------------------------------------*/
+/*                             Assignment                                  */
+
+inline
+void NodePtr::operator = (const NodePtr &source)
+{
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
+}
+
+inline
+void NodePtr::operator = (const NullFieldContainerPtr &source)
+{
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = source;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGNODE_INLINE_CVSID "@(#)$Id: $"
+#define OSGNODEPTR_INLINE_CVSID "@(#)$Id: $"
+
+#endif /* _OSGNODEPTRIMPL_INL_ */

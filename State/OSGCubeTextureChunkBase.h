@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGTextureChunk.h> // Parent
 
@@ -254,6 +252,6 @@ typedef CubeTextureChunkBase *CubeTextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCUBETEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCubeTextureChunkBase.h,v 1.1 2002/06/10 22:10:46 dirk Exp $"
+#define OSGCUBETEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCubeTextureChunkBase.h,v 1.2 2002/06/18 08:17:54 vossg Exp $"
 
 #endif /* _OSGCUBETEXTURECHUNKBASE_H_ */

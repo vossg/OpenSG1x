@@ -43,5 +43,5 @@
 
 #include "OSGSFNodeCorePtr.h"
 #include "OSGMFNodeCorePtr.h"
-
+#include "OSGNodeCore.h"
 

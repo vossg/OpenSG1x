@@ -43,13 +43,20 @@
 #endif
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGAttachmentContainerPtr.h>
 
 OSG_BEGIN_NAMESPACE
 
+class FieldContainerPtrBase;
+
+class FieldContainerPtr;
+
 class NodePtr;
 class CNodePtr;
+
+template <class BasePtrTypeT, class FieldContainerTypeT> 
+class FCPtr;
+
+class AttachmentContainerPtr;
 
 class NodeCore;
 typedef FCPtr<AttachmentContainerPtr, NodeCore> NodeCorePtr;

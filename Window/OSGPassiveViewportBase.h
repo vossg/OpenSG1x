@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGViewport.h> // Parent
 
@@ -188,6 +186,6 @@ typedef PassiveViewportBase *PassiveViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPASSIVEVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGPassiveViewportBase.h,v 1.1 2002/02/22 17:08:05 dirk Exp $"
+#define OSGPASSIVEVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGPassiveViewportBase.h,v 1.2 2002/06/18 08:17:56 vossg Exp $"
 
 #endif /* _OSGPASSIVEVIEWPORTBASE_H_ */

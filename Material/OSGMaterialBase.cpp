@@ -172,12 +172,14 @@ void MaterialBase::executeSyncImpl(      MaterialBase *pOther,
 }
 
 
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<MaterialPtr>::_type("MaterialPtr", "AttachmentContainerPtr");
+
 
 OSG_DLLEXPORT_SFIELD_DEF1(MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -198,7 +200,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.30 2002/05/24 09:48:37 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.31 2002/06/18 08:17:51 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALBASE_INLINE_CVSID;
 

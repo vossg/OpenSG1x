@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGPointLight.h> // Parent
 
@@ -238,6 +236,6 @@ typedef SpotLightBase *SpotLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.20 2002/03/25 01:25:58 vossg Exp $"
+#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.21 2002/06/18 08:17:53 vossg Exp $"
 
 #endif /* _OSGSPOTLIGHTBASE_H_ */

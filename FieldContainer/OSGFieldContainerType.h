@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -42,200 +42,33 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGIDStringLink.h>
-#include <OSGDataType.h>
+#if 0
 #include <OSGFieldContainerPtrForward.h>
 
-#include <map>
+#include <OSGFieldContainerPtrFuncsImpl.h>
 
-OSG_BEGIN_NAMESPACE
+#include <OSGFieldContainerPtrImpl.h>
 
-class FieldDescription;
+#include <OSGFieldContainerTypeImpl.h>
+#include <OSGFieldContainerTypeImpl.inl>
 
-typedef void              (*InitContainerF)  (void);
-typedef FieldContainerPtr (*PrototypeCreateF)(void);
+#include <OSGFieldContainerImpl.h>
 
-//! FieldContainerType
-//! \ingroup FieldContainerLib
+#include <OSGFieldDescriptionImpl.h>
 
-class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
-{
-    /*==========================  PUBLIC  =================================*/
-  public :
+#include <OSGFieldContainerFactoryImpl.h>
+#include <OSGFieldContainerFactoryImpl.inl>
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-   
-    FieldContainerType(const Char8       *szName,
-                       const Char8       *szParentName      = NULL,
-                       const Char8       *szGroupName       = NULL,
-                       PrototypeCreateF   fPrototypeCreate  = NULL,
-                       InitContainerF     fInitMethod       = NULL,
-                       FieldDescription **pDesc             = NULL,
-                       UInt32             uiDescByteCounter = 0,
-                       bool               bDescsAddable     = false);
+#include <OSGChangeList.h>
+#include <OSGFieldContainerPtrImpl.inl>
 
-    FieldContainerType(const FieldContainerType &source);
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
+#include <OSGFieldContainerImpl.inl>
+#include <OSGFieldDescriptionImpl.inl>
 
-    virtual ~FieldContainerType(void); 
+#include <OSGFieldContainerPtrFuncsImpl.inl>
+#endif
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Type Information                            */
-    /*! \{                                                                 */
-
-    UInt16              getGroupId(void) const;
-    FieldContainerType *getParent (void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Description                                  */
-    /*! \{                                                                 */
-
-          FieldDescription *getFieldDescription (UInt32 uiFieldId);
-    const FieldDescription *getFieldDescription (UInt32 uiFieldId) const;
-
-          FieldDescription *findFieldDescription(const Char8 *szFieldName);
-
-    const FieldDescription *findFieldDescription(
-        const Char8 *szFieldName) const; 
-
-    UInt32                 getNumFieldDescs(void) const;
-
-    UInt32                 addDescription  (const FieldDescription &desc     );
-    bool                   subDescription  (      UInt32            uiFieldId);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Prototype                                    */
-    /*! \{                                                                 */
-
-    FieldContainerPtr getPrototype(void                        ) const;
-    bool              setPrototype(FieldContainerPtr pPrototype);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                Query Properties                              */
-    /*! \{                                                                 */
-
-    bool isInitialized(void                           ) const;
-
-    bool isAbstract   (void                           ) const;
-
-    bool isDerivedFrom(const TypeBase           &other) const;
-    bool isDerivedFrom(const FieldContainerType &other) const;    
-
-    bool isNode       (void                           ) const;
-    bool isNodeCore   (void                           ) const;
-    bool isAttachment (void                           ) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name              Create Base FieldContainer                      */
-    /*! \{                                                                 */
-
-    FieldContainerPtr createFieldContainer(void) const;
-    NodePtr           createNode          (void) const;
-    NodeCorePtr       createNodeCore      (void) const;
-    AttachmentPtr     createAttachment    (void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
-    /*! \{                                                                 */
-
-    virtual void dump(      UInt32    uiIndent = 0, 
-                      const BitVector bvFlags  = 0) const;
-
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    enum BaseType
-    {
-        IsFieldContainer,
-        IsNode,
-        IsNodeCore,
-        IsAttachment
-    };
-
-    typedef map   <IDStringLink, FieldDescription *> DescMap;
-    typedef vector<              FieldDescription *> DescVec;
-
-    typedef DescMap::iterator                        DescMapIt;
-    typedef DescVec::iterator                        DescVecIt;
-
-    typedef DescMap::const_iterator                  DescMapConstIt;
-    typedef DescVec::const_iterator                  DescVecConstIt;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Member                                  */
-    /*! \{                                                                 */
-
-    UInt16              _uiGroupId;
-
-    bool                _bInitialized;
-    bool                _bDescsAddable;
-
-    BaseType            _baseType;
-
-    FieldContainerType *_pParent;
-    IDString            _szParentName;
-    IDString            _szGroupName;
-
-    FieldContainerPtr   _pPrototype;
-    PrototypeCreateF    _fPrototypeCreate;
-
-    FieldDescription  **_pDesc;
-    UInt32              _uiDescByteCounter;
-
-    DescMap             _mDescMap;
-    DescVec             _vDescVec;
-
-    bool                _bCopy;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Register                                  */
-    /*! \{                                                                 */
-
-    void registerType(const Char8 *szGroupName);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name             Intialization / Termination                      */
-    /*! \{                                                                 */
-
-    bool initPrototype   (void);
-    bool initBaseType    (void);
-    bool initFields      (void);
-    bool initParentFields(void);
-
-    bool initialize      (void);
-    void terminate       (void);
-
-    /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef DataType Inherited;
-
-    friend class FieldContainerFactory;
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const FieldContainerType &source);
-};
-
-OSG_END_NAMESPACE
-
-#define OSGFIELDCONTAINERTYPE_HEADER_CVSID "@(#)$Id: $"
+#include <OSGPrimary.h>
 
 #endif /* _OSGFIELDCONTAINERTYPE_H_ */

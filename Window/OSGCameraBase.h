@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGAttachmentContainer.h> // Parent
 
@@ -222,6 +220,6 @@ typedef CameraBase *CameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: OSGCameraBase.h,v 1.19 2002/02/18 06:29:20 dirk Exp $"
+#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: OSGCameraBase.h,v 1.20 2002/06/18 08:17:55 vossg Exp $"
 
 #endif /* _OSGCAMERABASE_H_ */

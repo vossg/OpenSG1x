@@ -208,12 +208,14 @@ void CameraDecoratorBase::executeSyncImpl(      CameraDecoratorBase *pOther,
 }
 
 
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<CameraDecoratorPtr>::_type("CameraDecoratorPtr", "CameraPtr");
+
 
 OSG_DLLEXPORT_SFIELD_DEF1(CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -234,7 +236,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.27 2002/05/24 09:48:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.28 2002/06/18 08:17:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCAMERADECORATORBASE_INLINE_CVSID;
 

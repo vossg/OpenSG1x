@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -278,6 +276,6 @@ typedef TexGenChunkBase *TexGenChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXGENCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTexGenChunkBase.h,v 1.1 2002/06/10 22:10:47 dirk Exp $"
+#define OSGTEXGENCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTexGenChunkBase.h,v 1.2 2002/06/18 08:17:54 vossg Exp $"
 
 #endif /* _OSGTEXGENCHUNKBASE_H_ */

@@ -43,8 +43,6 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainer.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainerType.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGAttachmentPtr.h>
 #include <OSGSFBaseTypes.h>
@@ -56,6 +54,7 @@
 OSG_BEGIN_NAMESPACE
 
 class BinaryDataHandler;
+class FieldDescription;
 
 //---------------------------------------------------------------------------
 //  Class

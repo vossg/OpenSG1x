@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -254,6 +252,6 @@ typedef BlendChunkBase *BlendChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.21 2002/03/25 01:25:59 vossg Exp $"
+#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.22 2002/06/18 08:17:54 vossg Exp $"
 
 #endif /* _OSGBLENDCHUNKBASE_H_ */

@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGBackground.h> // Parent
 
@@ -238,6 +236,6 @@ typedef ImageBackgroundBase *ImageBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageBackgroundBase.h,v 1.6 2002/03/25 01:26:00 vossg Exp $"
+#define OSGIMAGEBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageBackgroundBase.h,v 1.7 2002/06/18 08:17:56 vossg Exp $"
 
 #endif /* _OSGIMAGEBACKGROUNDBASE_H_ */

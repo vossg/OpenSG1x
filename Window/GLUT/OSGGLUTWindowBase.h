@@ -62,8 +62,6 @@
 #include <OSGWindowGLUTDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGWindow.h> // Parent
 
@@ -222,6 +220,6 @@ typedef GLUTWindowBase *GLUTWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGLUTWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGGLUTWindowBase.h,v 1.3 2002/03/25 01:26:01 vossg Exp $"
+#define OSGGLUTWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGGLUTWindowBase.h,v 1.4 2002/06/18 08:17:57 vossg Exp $"
 
 #endif /* _OSGGLUTWINDOWBASE_H_ */

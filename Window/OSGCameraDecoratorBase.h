@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGCamera.h> // Parent
 
@@ -217,6 +215,6 @@ typedef CameraDecoratorBase *CameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorBase.h,v 1.17 2002/03/25 01:26:00 vossg Exp $"
+#define OSGCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorBase.h,v 1.18 2002/06/18 08:17:56 vossg Exp $"
 
 #endif /* _OSGCAMERADECORATORBASE_H_ */

@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGNodeCore.h> // Parent
 
@@ -337,6 +335,6 @@ typedef ParticlesBase *ParticlesBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.9 2002/05/13 09:21:11 vossg Exp $"
+#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: OSGParticlesBase.h,v 1.10 2002/06/18 08:17:54 vossg Exp $"
 
 #endif /* _OSGPARTICLESBASE_H_ */

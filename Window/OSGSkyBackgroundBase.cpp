@@ -531,12 +531,13 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
 }
 
 
-#include <OSGSFieldTypeDef.inl>
+
 #include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<SkyBackgroundPtr>::_type("SkyBackgroundPtr", "BackgroundPtr");
+
 
 OSG_DLLEXPORT_MFIELD_DEF1(SkyBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
@@ -556,7 +557,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSkyBackgroundBase.cpp,v 1.11 2002/05/24 09:48:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSkyBackgroundBase.cpp,v 1.12 2002/06/18 08:17:56 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSKYBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSKYBACKGROUNDBASE_INLINE_CVSID;
 

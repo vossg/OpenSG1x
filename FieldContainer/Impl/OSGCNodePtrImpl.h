@@ -36,115 +36,136 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGFIELD_H_
-#define _OSGFIELD_H_
+#ifndef _OSGCNODEPTRIMPL_H_
+#define _OSGCNODEPTRIMPL_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <OSGBase.h>
 #include <OSGBaseTypes.h>
-
-#include <OSGFieldType.h>
-#include <OSGIDString.h>
-#include <OSGLog.h>
-#include <string>
+#include <OSGSystemDef.h>
+#include <OSGAttachmentContainerPtr.h>
 
 OSG_BEGIN_NAMESPACE
 
-class StringConversionStateBase;
+class Node;
+class NodeCore;
 
-template <class T>
-struct ErrorFromToString
-{
-    static bool              getFromString(      T      &,
-                                           const Char8 *&)
-    {
-        SLOG << "Error From String Conversion not available for " << endl;
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
-        return false;
-    }
+#ifdef __sgi
+#pragma set woff 1375,1424
+#endif
 
-    static void             putToString(const T      &,
-                                              string &)
-    {
-        SLOG << "Error To String Conversion not available for " << endl;
-    }
-};
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 444 )
+#endif
 
-//! Base class for all fields
-//! \ingroup FieldLib
+//! Pointer to a node
+//! \ingroup FieldContainerLib
 
-class OSG_BASE_DLLMAPPING Field
+class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
+    typedef NodeCore               StoredObjectType;
+    typedef CNodePtr               ObjectType;
+
+    typedef AttachmentContainerPtr Inherited;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+             CNodePtr(void);
+             CNodePtr(const CNodePtr              &source);
+             CNodePtr(const NullFieldContainerPtr &source);
+    explicit CNodePtr(const NodePtr               &source);
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~Field(void); 
+    ~CNodePtr(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Get                                     */
+    /*! \name                      Node                                    */
     /*! \{                                                                 */
 
-    virtual const FieldType              &getType       (void) const = 0;
-            const DataType               &getContentType(void) const;
-
-                  FieldType::Cardinality  getCardinality(void) const;
-
-    virtual       bool                    isEmpty       (void) const = 0;
+    Node *getNode(void);
+    Node *getNode(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   String IO                                  */
+    /*! \name                 Container Access                             */
     /*! \{                                                                 */
 
-    virtual void     pushValueByStr(const Char8  *str)       = 0;
-    virtual string  &getValueByStr (      string &str) const = 0;
-    virtual string  &getValueByStr (      string &str,
-                                    StringConversionStateBase &state) const=0;
+    NodeCore *operator->(void);
+    NodeCore *operator->(void) const;
+
+    NodeCore &operator *(void);
+    NodeCore &operator *(void) const;
+
+    NodeCore *getCPtr   (void);
+    NodeCore *getCPtr   (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Set                                     */
+    /*! \name                    Assignment                                */
     /*! \{                                                                 */
 
-    virtual void setAbstrValue(const Field &obj) = 0;
+    void operator =(const NodePtr               &source);
+    void operator =(const CNodePtr              &source);
+    void operator =(const NullFieldContainerPtr &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
+    /*! \name             Container Constructors                           */
     /*! \{                                                                 */
+    /*! \brief Container Constructor, used to work around MS Bugs,  
+     *  use them only if you really now what you are doing ;-)             */
 
-    virtual void dump(void) const = 0;
+    explicit CNodePtr(const Node &source);
+    explicit CNodePtr(const Node *source);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name             Internal Constructors                            */
     /*! \{                                                                 */
 
-    Field(void);
-    Field(const Field &source);
+    CNodePtr(const Node   *source,
+             const UInt16  uiSize,
+             const UInt16  uiParentPos);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const Field &source);
+    friend class FieldContainer;
 };
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( default : 444 )
+#endif
+
+#ifdef __sgi
+#pragma reset woff 1375,1424
+#endif
+
+OSG_SYSTEMLIB_DLLMAPPING
+ostream &operator <<(      ostream  &os,
+                     const CNodePtr &fc);
 
 OSG_END_NAMESPACE
 
-#define OSGFIELD_HEADER_CVSID "@(#)$Id: $"
+#define OSGCNODEPTR_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGFIELD_HPP_ */
-
-
+#endif /* _OSGCNODEPTRIMPL_H_ */

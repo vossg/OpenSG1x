@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGGroup.h> // Parent
 
@@ -230,6 +228,6 @@ typedef DistanceLODBase *DistanceLODBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.16 2002/05/13 09:21:10 vossg Exp $"
+#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.17 2002/06/18 08:17:53 vossg Exp $"
 
 #endif /* _OSGDISTANCELODBASE_H_ */

@@ -570,12 +570,14 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
 }
 
 
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<TextureChunkPtr>::_type("TextureChunkPtr", "StateChunkPtr");
+
 
 OSG_DLLEXPORT_SFIELD_DEF1(TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -596,7 +598,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.37 2002/06/10 22:10:47 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.38 2002/06/18 08:17:54 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 

@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGBackground.h> // Parent
 
@@ -222,6 +220,6 @@ typedef SolidBackgroundBase *SolidBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSOLIDBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundBase.h,v 1.19 2002/03/25 01:26:00 vossg Exp $"
+#define OSGSOLIDBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundBase.h,v 1.20 2002/06/18 08:17:56 vossg Exp $"
 
 #endif /* _OSGSOLIDBACKGROUNDBASE_H_ */

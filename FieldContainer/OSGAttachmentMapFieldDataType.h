@@ -41,8 +41,8 @@
 
 #include <OSGFieldDataType.h>
 #include <OSGFieldContainerFieldDataType.h>
+#include <OSGFieldContainerPtrForward.h>
 #include <OSGAttachmentPtr.h>
-#include <OSGFieldContainer.h>
 
 #include <map>
 

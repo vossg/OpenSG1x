@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGFieldDescription.h>
-#include <OSGFieldContainer.h>
 
 #include <OSGFieldContainer.h> // Parent
 
@@ -172,6 +170,6 @@ typedef StateChunkBase *StateChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStateChunkBase.h,v 1.14 2001/11/09 08:17:08 vossg Exp $"
+#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStateChunkBase.h,v 1.15 2002/06/18 08:17:54 vossg Exp $"
 
 #endif /* _OSGSTATECHUNKBASE_H_ */

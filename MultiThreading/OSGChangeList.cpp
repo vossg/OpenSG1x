@@ -48,6 +48,7 @@
 #include "OSGThreadManager.h"
 #include "OSGLog.h"
 #include "OSGFieldContainerFactory.h"
+#include <OSGFieldContainerPtr.h>
 
 OSG_USING_NAMESPACE
 

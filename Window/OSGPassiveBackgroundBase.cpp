@@ -181,12 +181,13 @@ void PassiveBackgroundBase::executeSyncImpl(      PassiveBackgroundBase *pOther,
 }
 
 
+
 #include <OSGSFieldTypeDef.inl>
-#include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 DataType FieldDataTraits<PassiveBackgroundPtr>::_type("PassiveBackgroundPtr", "BackgroundPtr");
+
 
 OSG_DLLEXPORT_SFIELD_DEF1(PassiveBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
