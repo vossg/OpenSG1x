@@ -215,7 +215,6 @@ RenderNode& RenderNode::operator = (const RenderNode &source)
 void RenderNode::determinePerformance( WindowPtr &window )
 {
     int c;
-    double faces=0;
     double t;
     UInt32 width,height;
 

@@ -291,14 +291,11 @@ void TileGeometryLoad::updateGeometry()
 {
     const OSG::Volume *volume = &(_node->getVolume().getInstance());
     TriangleIterator   f;
-    int                p,d,s,i;
+    int                p,d,s;
     Vec3f              vmin,vmax;
     Pnt3f              pos;
     Real32             min,max;
     PrimitiveIterator  it;
-    Real32             sum;
-    UInt32             faceStart[FACE_DISTRIBUTION_SAMPLING_COUNT];
-    UInt32             faceCount=0;
     NodeCorePtr        core;
     GeometryPtr        geo;
     const Real32       sq2=sqrt(2.0);
