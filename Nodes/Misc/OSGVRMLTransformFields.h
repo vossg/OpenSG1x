@@ -79,9 +79,11 @@ typedef FCPtr<TransformPtr, VRMLTransform> VRMLTransformPtr;
  */
 
 template <>
-struct FieldDataTraits<VRMLTransformPtr> : public Traits
+struct FieldDataTraits<VRMLTransformPtr> : 
+    public FieldTraitsRecurseMapper<VRMLTransformPtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFVRMLTransformPtr"; }
     static char *getMName(void) { return "MFVRMLTransformPtr"; }

@@ -61,9 +61,11 @@ OSG_BEGIN_NAMESPACE
 typedef GeoPosition::PtrType GeoPositionPtr;
 
 template <>
-struct FieldDataTraits<GeoPositionPtr> : public Traits
+struct FieldDataTraits<GeoPositionPtr> : 
+    public FieldTraitsRecurseMapper<GeoPositionPtr>
 {
     enum                           { StringConvertable = 0x00   };
+    enum                           { bHasParent        = 0x01   };
 
     static Char8 *getSName (void)  { return "SFGeoPositionPtr"; }
     static Char8 *getMName (void)  { return "MFGeoPositionPtr"; }
@@ -89,9 +91,11 @@ OSG_DLLEXPORT_DECL1(SField, GeoPositionPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef GeoNormal::PtrType GeoNormalPtr;
 
 template <>
-struct FieldDataTraits<GeoNormalPtr> : public Traits
+struct FieldDataTraits<GeoNormalPtr> :
+    public FieldTraitsRecurseMapper<GeoNormalPtr>
 {
     enum                            { StringConvertable = 0x00 };
+    enum                            { bHasParent        = 0x01   };
 
     static Char8  *getSName  (void) { return "SFGeoNormalPtr"; }
     static Char8  *getMName  (void) { return "MFGeoNormalPtr"; }
@@ -116,9 +120,11 @@ OSG_DLLEXPORT_DECL1(SField, GeoNormalPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef GeoColor::PtrType GeoColorPtr;
 
 template <>
-struct FieldDataTraits<GeoColorPtr> : public Traits
+struct FieldDataTraits<GeoColorPtr> : 
+    public FieldTraitsRecurseMapper<GeoColorPtr>
 {
     enum                            { StringConvertable = 0x00   };
+    enum                            { bHasParent        = 0x01   };
 
     static Char8  *getSName  (void) { return "SFGeoColorPtr";    }
     static Char8  *getMName  (void) { return "MFGeoColorPtr";    }
@@ -144,9 +150,11 @@ OSG_DLLEXPORT_DECL1(SField, GeoColorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef GeoTexCoords::PtrType GeoTexCoordsPtr;
 
 template <>
-struct FieldDataTraits<GeoTexCoordsPtr> : public Traits
+struct FieldDataTraits<GeoTexCoordsPtr> : 
+    public FieldTraitsRecurseMapper<GeoTexCoordsPtr>
 {
     enum                            { StringConvertable = 0x00   };
+    enum                            { bHasParent        = 0x01   };
 
     static Char8  *getSName  (void) { return "SFGeoTexCoordsPtr";    }
     static Char8  *getMName  (void) { return "MFGeoTexCoordsPtr";    }
@@ -171,9 +179,11 @@ OSG_DLLEXPORT_DECL1(SField, GeoTexCoordsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef GeoIndex::PtrType GeoIndexPtr;
 
 template <>
-struct FieldDataTraits<GeoIndexPtr> : public Traits
+struct FieldDataTraits<GeoIndexPtr> : 
+    public FieldTraitsRecurseMapper<GeoIndexPtr>
 {
     enum                            { StringConvertable = 0x00 };
+    enum                            { bHasParent        = 0x01 };
 
     static Char8  *getSName  (void) { return "SFGeoIndexPtr";  }
     static Char8  *getMName  (void) { return "MFGeoIndexPtr";  }
@@ -199,9 +209,11 @@ OSG_DLLEXPORT_DECL1(SField, GeoIndexPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef GeoPType::PtrType GeoPTypePtr;
 
 template <>
-struct FieldDataTraits<GeoPTypePtr> : public Traits
+struct FieldDataTraits<GeoPTypePtr> : 
+    public FieldTraitsRecurseMapper<GeoPTypePtr>
 {
     enum                            { StringConvertable = 0x00 };
+    enum                            { bHasParent        = 0x01 };
 
     static Char8  *getSName  (void) { return "SFGeoPTypePtr";  }
     static Char8  *getMName  (void) { return "MFGeoPTypePtr";  }
@@ -226,9 +238,11 @@ OSG_DLLEXPORT_DECL1(SField, GeoPTypePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 typedef GeoPLength::PtrType GeoPLengthPtr;
 
 template <>
-struct FieldDataTraits<GeoPLengthPtr> : public Traits
+struct FieldDataTraits<GeoPLengthPtr> :
+    public FieldTraitsRecurseMapper<GeoPLengthPtr>
 {
     enum                            { StringConvertable = 0x00  };
+    enum                            { bHasParent        = 0x01  };
 
     static char   *getSName  (void) { return "SFGeoPLengthPtr"; }
     static char   *getMName  (void) { return "MFGeoPLengthPtr"; }

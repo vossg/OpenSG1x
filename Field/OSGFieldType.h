@@ -48,6 +48,7 @@
 //---------------------------------------------------------------------------
 
 #include <typeinfo>
+#include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGFieldDataType.h>
 #include <OSGTypeBase.h>
@@ -74,7 +75,7 @@ class Field;
  *  \brief FieldType
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING FieldType : public TypeBase
+class OSG_BASE_DLLMAPPING FieldType : public TypeBase
 {
   public:
 

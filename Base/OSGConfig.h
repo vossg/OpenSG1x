@@ -706,23 +706,23 @@ OSG_USING_STD_NAMESPACE
 #define OSG_EXTERN_EXPORT extern
 
 #define OSG_DLLEXPORT_DECL1(CLASSNAME, T1, DLLMAPPING)                       \
-    extern template DLLMAPPING CLASSNAME<T1>;
+    extern template class DLLMAPPING CLASSNAME<T1>;
 
 #define OSG_DLLEXPORT_DECL2(CLASSNAME, T1, T2, DLLMAPPING)                   \
-    extern template DLLMAPPING CLASSNAME<T1, T2>;
+    extern template class DLLMAPPING CLASSNAME<T1, T2>;
 
 #define OSG_DLLEXPORT_DEF1(CLASSNAME, T1, DLLMAPPING)                        \
-           template DLLMAPPING CLASSNAME<T1>;
+           template class DLLMAPPING CLASSNAME<T1>;
 
 #define OSG_DLLEXPORT_DEF2(CLASSNAME, T1, T2, DLLMAPPING)                    \
-           template DLLMAPPING CLASSNAME<T1, T2>;
+           template class DLLMAPPING CLASSNAME<T1, T2>;
 
 
 
 
 
 #define OSG_FC_EXPORT_CLASS_DECL(CLASSNAME, T1, DLLMAPPING)                  \
-    extern template DLLMAPPING CLASSNAME<T1>;
+    extern template class DLLMAPPING CLASSNAME<T1>;
 
 #define OSG_FC_DLLEXPORT_DECL(CLASSNAME, T1, DLLMAPPING)                     \
     OSG_FC_EXPORT_CLASS_DECL (CLASSNAME, T1, DLLMAPPING)
@@ -733,7 +733,7 @@ OSG_USING_STD_NAMESPACE
 
 
 #define OSG_FC_EXPORT_CLASS_DEF(CLASSNAME, T1, DLLMAPPING)                   \
-           template DLLMAPPING CLASSNAME<T1>;
+           template class DLLMAPPING CLASSNAME<T1>;
 
 #define OSG_FC_DLLEXPORT_DEF(CLASSNAME, T1, DLLMAPPING)                      \
     OSG_FC_EXPORT_CLASS_DEF (CLASSNAME, T1, DLLMAPPING)

@@ -107,7 +107,7 @@ const OSG::BitVector	TileCameraDecoratorBase::TopFieldMask =
 
 
 
-char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.2 2001/07/03 14:16:32 vossg Exp $";
+char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.3 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -200,8 +200,8 @@ UInt32 TileCameraDecoratorBase::getSize(void) const
 }
 
 
-void TileCameraDecoratorBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void TileCameraDecoratorBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((TileCameraDecoratorBase *) &other, whichField);
 }
@@ -241,6 +241,92 @@ TileCameraDecoratorBase::~TileCameraDecoratorBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 TileCameraDecoratorBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (LeftFieldMask & whichField))
+    {
+        returnValue += _sfLeft.getBinSize();
+    }
+
+    if(FieldBits::NoField != (RightFieldMask & whichField))
+    {
+        returnValue += _sfRight.getBinSize();
+    }
+
+    if(FieldBits::NoField != (BottomFieldMask & whichField))
+    {
+        returnValue += _sfBottom.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TopFieldMask & whichField))
+    {
+        returnValue += _sfTop.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle TileCameraDecoratorBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (LeftFieldMask & whichField))
+    {
+        pMem = _sfLeft.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RightFieldMask & whichField))
+    {
+        pMem = _sfRight.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BottomFieldMask & whichField))
+    {
+        pMem = _sfBottom.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TopFieldMask & whichField))
+    {
+        pMem = _sfTop.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle TileCameraDecoratorBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (LeftFieldMask & whichField))
+    {
+        pMem = _sfLeft.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RightFieldMask & whichField))
+    {
+        pMem = _sfRight.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BottomFieldMask & whichField))
+    {
+        pMem = _sfBottom.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TopFieldMask & whichField))
+    {
+        pMem = _sfTop.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -248,8 +334,8 @@ TileCameraDecoratorBase::~TileCameraDecoratorBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void TileCameraDecoratorBase::executeSyncImpl(TileCameraDecoratorBase *pOther,
-                                        BitVector          whichField)
+void TileCameraDecoratorBase::executeSyncImpl(      TileCameraDecoratorBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

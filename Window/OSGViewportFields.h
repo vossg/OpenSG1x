@@ -79,9 +79,11 @@ typedef FCPtr<FieldContainerPtr, Viewport> ViewportPtr;
  */
 
 template <>
-struct FieldDataTraits<ViewportPtr> : public Traits
+struct FieldDataTraits<ViewportPtr> : 
+    public FieldTraitsRecurseMapper<ViewportPtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFViewportPtr"; }
     static char *getMName(void) { return "MFViewportPtr"; }

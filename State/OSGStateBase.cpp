@@ -98,7 +98,7 @@ const OSG::BitVector	StateBase::ChunksFieldMask =
 
 
 
-char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -176,8 +176,8 @@ UInt32 StateBase::getSize(void) const
 }
 
 
-void StateBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void StateBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((StateBase *) &other, whichField);
 }
@@ -211,6 +211,47 @@ StateBase::~StateBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 StateBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (ChunksFieldMask & whichField))
+    {
+        returnValue += _mfChunks.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle StateBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ChunksFieldMask & whichField))
+    {
+        pMem = _mfChunks.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle StateBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ChunksFieldMask & whichField))
+    {
+        pMem = _mfChunks.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -218,8 +259,8 @@ StateBase::~StateBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void StateBase::executeSyncImpl(StateBase *pOther,
-                                        BitVector          whichField)
+void StateBase::executeSyncImpl(      StateBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

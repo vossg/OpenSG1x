@@ -40,8 +40,10 @@
 #ifndef _OSG_FIELDDATATYPE_H_
 #define _OSG_FIELDDATATYPE_H_
 
-#include <OSGSystemDef.h>
+#include <OSGBase.h>
 #include <OSGBaseTypes.h>
+#include <OSGBaseFunctions.h>
+#include <OSGString.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -58,7 +60,7 @@ OSG_BEGIN_NAMESPACE
  *  \brief Documentation dummy
  */
 
-struct OSG_SYSTEMLIB_DLLMAPPING Traits
+struct Traits
 {
     enum 
     {
@@ -82,12 +84,32 @@ struct FieldTraitsRecurseBase : public Traits
 {
     enum { bHasParent = 0x00 };
 
-    static void putToBin(void)
+    static UInt32 getBinSize(void)
     {
-        fprintf(stderr, "FieldTraitsRecurseBase<FieldTypeT>\n");
+        fprintf(stderr, "FieldTraitsRecurseBase<FieldTypeT>::getBinSize\n");
+
+        return 0;
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle pMem, 
+                                  const MemoryHandle pObjectStore)
+    {
+        fprintf(stderr, "FieldTraitsRecurseBase<FieldTypeT>::copyToBin\n");
+
+        return pMem;
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle pMem, 
+                                  const MemoryHandle pObjectStore,
+                                        UInt32       uiNumObjects)
+    {
+        fprintf(stderr, "FieldTraitsRecurseBase<FieldTypeT>::mcopyToBin\n");
+
+        return pMem;
     }
 };
 
+#if 0
 template<class FieldTypeT>
 struct FieldTraitsRecurseBase1 : public Traits
 {
@@ -109,17 +131,39 @@ struct FieldTraitsRecurseBase2 : public Traits
         fprintf(stderr, "FieldTraitsRecurseBase2<FieldTypeT>\n");
     }
 };
+#endif
 
 template <class FieldTypeT>
 struct FieldTraitsIntegralRecurseMapper : 
     public FieldTraitsRecurseBase<FieldTypeT>
 {
-    static void putToBin(void)
+    static UInt32 getBinSize(void)
     {
-        fprintf(stderr, "FieldTraitsIntegralRecurseMapper<FieldTypeT>\n");
+        fprintf(stderr,
+                "FieldTraitsIntegralRecurseMapper<FieldTypeT>::getBinSize\n");
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle pMem, 
+                                  const MemoryHandle pObjectStore)
+    {
+        fprintf(stderr, 
+                "FieldTraitsIntegralRecurseMapper<FieldTypeT>::copyToBin\n");
+
+        return pMem;
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle pMem, 
+                                  const MemoryHandle pObjectStore,
+                                        UInt32       uiNumObjects)
+    {
+        fprintf(stderr, 
+                "FieldTraitsIntegralRecurseMapper<FieldTypeT>::mcopyToBin\n");
+
+        return pMem;
     }
 };
 
+#if 0
 template <class FieldTypeT>
 struct FieldTraitsIntegralRecurseMapper1 : 
     public FieldTraitsRecurseBase1<FieldTypeT>
@@ -139,46 +183,116 @@ struct FieldTraitsIntegralRecurseMapper2 :
         fprintf(stderr, "FieldTraitsIntegralRecurseMapper<FieldTypeT>\n");
     }
 };
+#endif
 
 template <class FieldTypeT>
 struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
 {
-    static void putToBin(void)
+    static UInt32 getBinSize(void)
     {
         typedef typename osgIF<FieldDataTraits<FieldTypeT>::bHasParent == 1,
                                FieldDataTraits<FieldTypeT::Inherited>, 
                                FieldTraitsRecurseBase<FieldTypeT>   >::_IRet 
             MappedTrait;
 
-        MappedTrait::putToBin();
+        return MappedTrait::getBinSize();
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle pMem, 
+                                  const MemoryHandle pObjectStore)
+    {
+        typedef typename osgIF<FieldDataTraits<FieldTypeT>::bHasParent == 1,
+                               FieldDataTraits<FieldTypeT::Inherited>, 
+                               FieldTraitsRecurseBase<FieldTypeT>   >::_IRet 
+            MappedTrait;
+
+        return MappedTrait::copyToBin(pMem, pObjectStore);
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle pMem, 
+                                  const MemoryHandle pObjectStore,
+                                        UInt32       uiNumObjects)
+    {
+        typedef typename osgIF<FieldDataTraits<FieldTypeT>::bHasParent == 1,
+                               FieldDataTraits<FieldTypeT::Inherited>, 
+                               FieldTraitsRecurseBase<FieldTypeT>   >::_IRet 
+            MappedTrait;
+
+        return MappedTrait::copyToBin(pMem, pObjectStore, uiNumObjects);
     }
 };
 
 template <class FieldTypeT>
-struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase1<FieldTypeT>
+struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
 {
-    static void putToBin(void)
+    static UInt32 getBinSize(void)
     {
-        typedef typename osgIF<FieldDataTraits<FieldTypeT>::bHasParent == 1,
-                               FieldDataTraits<FieldTypeT::Inherited>, 
-                               FieldTraitsRecurseBase1<FieldTypeT>  >::_IRet 
+        typedef typename osgIF<FieldDataTraits1<FieldTypeT>::bHasParent == 1,
+                               FieldDataTraits1<FieldTypeT::Inherited>, 
+                               FieldTraitsRecurseBase<FieldTypeT>   >::_IRet 
             MappedTrait;
 
-        MappedTrait::putToBin();
+        return MappedTrait::getBinSize();
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle pMem, 
+                                  const MemoryHandle pObjectStore)
+    {
+        typedef typename osgIF<FieldDataTraits1<FieldTypeT>::bHasParent == 1,
+                               FieldDataTraits1<FieldTypeT::Inherited>, 
+                               FieldTraitsRecurseBase<FieldTypeT>   >::_IRet 
+            MappedTrait;
+
+        return MappedTrait::copyToBin(pMem, pObjectStore);
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle pMem, 
+                                  const MemoryHandle pObjectStore,
+                                        UInt32       uiNumObjects)
+    {
+        typedef typename osgIF<FieldDataTraits1<FieldTypeT>::bHasParent == 1,
+                               FieldDataTraits1<FieldTypeT::Inherited>, 
+                               FieldTraitsRecurseBase<FieldTypeT>   >::_IRet 
+            MappedTrait;
+
+        return MappedTrait::copyToBin(pMem, pObjectStore, uiNumObjects);
     }
 };
 
 template <class FieldTypeT>
-struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase2<FieldTypeT>
+struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase<FieldTypeT>
 {
-    static void putToBin(void)
+    static UInt32 getBinSize(void)
     {
         typedef typename osgIF<FieldDataTraits<FieldTypeT>::bHasParent == 1,
                                FieldDataTraits<FieldTypeT::Inherited>, 
-                               FieldTraitsRecurseBase2<FieldTypeT>  >::_IRet 
+                               FieldTraitsRecurseBase<FieldTypeT>   >::_IRet 
             MappedTrait;
 
-        MappedTrait::putToBin();
+        return MappedTrait::getBinSize();
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle pMem, 
+                                  const MemoryHandle pObjectStore)
+    {
+        typedef typename osgIF<FieldDataTraits2<FieldTypeT>::bHasParent == 1,
+                               FieldDataTraits2<FieldTypeT::Inherited>, 
+                               FieldTraitsRecurseBase<FieldTypeT>   >::_IRet 
+            MappedTrait;
+
+        return MappedTrait::copyToBin(pMem, pObjectStore);
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle pMem, 
+                                  const MemoryHandle pObjectStore,
+                                        UInt32       uiNumObjects)
+    {
+        typedef typename osgIF<FieldDataTraits2<FieldTypeT>::bHasParent == 1,
+                               FieldDataTraits2<FieldTypeT::Inherited>, 
+                               FieldTraitsRecurseBase<FieldTypeT>   >::_IRet 
+            MappedTrait;
+
+        return MappedTrait::copyToBin(pMem, pObjectStore, uiNumObjects);
     }
 };
 

@@ -79,9 +79,11 @@ typedef FCPtr<FieldContainerPtr, StateChunk> StateChunkPtr;
  */
 
 template <>
-struct FieldDataTraits<StateChunkPtr> : public Traits
+struct FieldDataTraits<StateChunkPtr> : 
+    public FieldTraitsRecurseMapper<StateChunkPtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFStateChunkPtr"; }
     static char *getMName(void) { return "MFStateChunkPtr"; }

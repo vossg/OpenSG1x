@@ -46,7 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGSystemDef.h>
+#include <OSGBase.h>
 #include <OSGMField.h>
 #include <OSGBaseFieldDataType.h>
 
@@ -78,7 +78,7 @@ typedef MField<String>        MFString;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, String, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, String, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -95,7 +95,7 @@ typedef MField<Time, 1>       MFTime;
 
 #else
 
-OSG_DLLEXPORT_DECL2(MField, Time, 1, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL2(MField, Time, 1, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -112,7 +112,7 @@ typedef MField<Color3f>       MFColor3f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Color3f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Color3f, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -129,7 +129,7 @@ typedef MField<Color4f>       MFColor4f;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Color4f, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Color4f, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -146,7 +146,7 @@ typedef MField<Color3ub>       MFColor3ub;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Color3ub, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Color3ub, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -163,7 +163,7 @@ typedef MField<Color4ub>       MFColor4ub;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Color4ub, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Color4ub, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -181,7 +181,7 @@ typedef MField<DynamicVolume> MFVolume;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, DynamicVolume, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, DynamicVolume, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -198,7 +198,7 @@ typedef MField<BitVector, 1>  MFBitVector;
 
 #else
 
-OSG_DLLEXPORT_DECL2(MField, BitVector, 1, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL2(MField, BitVector, 1, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -215,7 +215,7 @@ typedef MField<Plane> MFPlane;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Plane, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Plane, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif

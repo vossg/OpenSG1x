@@ -98,7 +98,7 @@ const OSG::BitVector	SimpleMaterialBase::TransparencyFieldMask =
 
 
 
-char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char SimpleMaterialBase::cvsid[] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -201,8 +201,8 @@ UInt32 SimpleMaterialBase::getSize(void) const
 }
 
 
-void SimpleMaterialBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void SimpleMaterialBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((SimpleMaterialBase *) &other, whichField);
 }
@@ -246,6 +246,122 @@ SimpleMaterialBase::~SimpleMaterialBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 SimpleMaterialBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+    {
+        returnValue += _sfAmbient.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+    {
+        returnValue += _sfDiffuse.getBinSize();
+    }
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+    {
+        returnValue += _sfSpecular.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ShininessFieldMask & whichField))
+    {
+        returnValue += _sfShininess.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EmissionFieldMask & whichField))
+    {
+        returnValue += _sfEmission.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TransparencyFieldMask & whichField))
+    {
+        returnValue += _sfTransparency.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle SimpleMaterialBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+    {
+        pMem = _sfAmbient.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+    {
+        pMem = _sfDiffuse.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+    {
+        pMem = _sfSpecular.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShininessFieldMask & whichField))
+    {
+        pMem = _sfShininess.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EmissionFieldMask & whichField))
+    {
+        pMem = _sfEmission.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TransparencyFieldMask & whichField))
+    {
+        pMem = _sfTransparency.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle SimpleMaterialBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+    {
+        pMem = _sfAmbient.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+    {
+        pMem = _sfDiffuse.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+    {
+        pMem = _sfSpecular.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShininessFieldMask & whichField))
+    {
+        pMem = _sfShininess.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EmissionFieldMask & whichField))
+    {
+        pMem = _sfEmission.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TransparencyFieldMask & whichField))
+    {
+        pMem = _sfTransparency.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -253,8 +369,8 @@ SimpleMaterialBase::~SimpleMaterialBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void SimpleMaterialBase::executeSyncImpl(SimpleMaterialBase *pOther,
-                                        BitVector          whichField)
+void SimpleMaterialBase::executeSyncImpl(      SimpleMaterialBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

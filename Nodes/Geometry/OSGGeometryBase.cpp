@@ -110,7 +110,7 @@ const OSG::BitVector	GeometryBase::MaterialFieldMask =
 
 
 
-char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -233,8 +233,8 @@ UInt32 GeometryBase::getSize(void) const
 }
 
 
-void GeometryBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void GeometryBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((GeometryBase *) &other, whichField);
 }
@@ -286,6 +286,182 @@ GeometryBase::~GeometryBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 GeometryBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (TypesFieldMask & whichField))
+    {
+        returnValue += _sfTypes.getBinSize();
+    }
+
+    if(FieldBits::NoField != (LengthsFieldMask & whichField))
+    {
+        returnValue += _sfLengths.getBinSize();
+    }
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+    {
+        returnValue += _sfPositions.getBinSize();
+    }
+
+    if(FieldBits::NoField != (NormalsFieldMask & whichField))
+    {
+        returnValue += _sfNormals.getBinSize();
+    }
+
+    if(FieldBits::NoField != (NormalPerVertexFieldMask & whichField))
+    {
+        returnValue += _sfNormalPerVertex.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ColorsFieldMask & whichField))
+    {
+        returnValue += _sfColors.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ColorPerVertexFieldMask & whichField))
+    {
+        returnValue += _sfColorPerVertex.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
+    {
+        returnValue += _sfTexCoords.getBinSize();
+    }
+
+    if(FieldBits::NoField != (IndexFieldMask & whichField))
+    {
+        returnValue += _sfIndex.getBinSize();
+    }
+
+    if(FieldBits::NoField != (MaterialFieldMask & whichField))
+    {
+        returnValue += _sfMaterial.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle GeometryBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (TypesFieldMask & whichField))
+    {
+        pMem = _sfTypes.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (LengthsFieldMask & whichField))
+    {
+        pMem = _sfLengths.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+    {
+        pMem = _sfPositions.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (NormalsFieldMask & whichField))
+    {
+        pMem = _sfNormals.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (NormalPerVertexFieldMask & whichField))
+    {
+        pMem = _sfNormalPerVertex.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ColorsFieldMask & whichField))
+    {
+        pMem = _sfColors.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ColorPerVertexFieldMask & whichField))
+    {
+        pMem = _sfColorPerVertex.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
+    {
+        pMem = _sfTexCoords.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (IndexFieldMask & whichField))
+    {
+        pMem = _sfIndex.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (MaterialFieldMask & whichField))
+    {
+        pMem = _sfMaterial.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle GeometryBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (TypesFieldMask & whichField))
+    {
+        pMem = _sfTypes.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (LengthsFieldMask & whichField))
+    {
+        pMem = _sfLengths.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+    {
+        pMem = _sfPositions.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (NormalsFieldMask & whichField))
+    {
+        pMem = _sfNormals.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (NormalPerVertexFieldMask & whichField))
+    {
+        pMem = _sfNormalPerVertex.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ColorsFieldMask & whichField))
+    {
+        pMem = _sfColors.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ColorPerVertexFieldMask & whichField))
+    {
+        pMem = _sfColorPerVertex.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
+    {
+        pMem = _sfTexCoords.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (IndexFieldMask & whichField))
+    {
+        pMem = _sfIndex.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (MaterialFieldMask & whichField))
+    {
+        pMem = _sfMaterial.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -293,8 +469,8 @@ GeometryBase::~GeometryBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void GeometryBase::executeSyncImpl(GeometryBase *pOther,
-                                        BitVector          whichField)
+void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

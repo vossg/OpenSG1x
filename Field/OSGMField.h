@@ -46,7 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGSystemDef.h>
+#include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 #include <OSGField.h>
@@ -225,7 +225,7 @@ class MFieldVector : public vector<_Tp, _Alloc>
  */
 
 template <class FieldTypeT, Int32 fieldNameSpace = 0>
-class OSG_SYSTEMLIB_DLLMAPPING MField : public Field
+class MField : public Field
 {
   public:
 
@@ -343,7 +343,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MField : public Field
     virtual UInt32     size    (void) const;
             UInt32     getSize (void) const;
 	
-		virtual Bool       empty   (void) const;
+    virtual Bool       empty   (void) const;
 
     /*-------------------------- field type ---------------------------------*/
 
@@ -362,6 +362,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MField : public Field
     /*------------------------------- sync ----------------------------------*/
 
     void syncWith(Self &source);
+
+    /*------------------------------- sync ----------------------------------*/
+
+    UInt32       getBinSize (void);
+    
+    MemoryHandle copyToBin  (MemoryHandle  pMem);
+    MemoryHandle copyFromBin(MemoryHandle  pMem);
 
     /*------------------------------- dump ----------------------------------*/
 
@@ -430,8 +437,6 @@ class OSG_SYSTEMLIB_DLLMAPPING MField : public Field
     //-----------------------------------------------------------------------
 
 	static Field *create(void);
-
-    void beginEdit(void);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  

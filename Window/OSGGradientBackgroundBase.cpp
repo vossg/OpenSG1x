@@ -99,7 +99,7 @@ const OSG::BitVector	GradientBackgroundBase::PositionFieldMask =
 
 
 
-char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
+char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -182,8 +182,8 @@ UInt32 GradientBackgroundBase::getSize(void) const
 }
 
 
-void GradientBackgroundBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void GradientBackgroundBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((GradientBackgroundBase *) &other, whichField);
 }
@@ -219,6 +219,62 @@ GradientBackgroundBase::~GradientBackgroundBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 GradientBackgroundBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        returnValue += _mfColor.getBinSize();
+    }
+
+    if(FieldBits::NoField != (PositionFieldMask & whichField))
+    {
+        returnValue += _mfPosition.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle GradientBackgroundBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        pMem = _mfColor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PositionFieldMask & whichField))
+    {
+        pMem = _mfPosition.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle GradientBackgroundBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        pMem = _mfColor.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PositionFieldMask & whichField))
+    {
+        pMem = _mfPosition.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -226,8 +282,8 @@ GradientBackgroundBase::~GradientBackgroundBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void GradientBackgroundBase::executeSyncImpl(GradientBackgroundBase *pOther,
-                                        BitVector          whichField)
+void GradientBackgroundBase::executeSyncImpl(      GradientBackgroundBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

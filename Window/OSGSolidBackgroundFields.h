@@ -79,9 +79,11 @@ typedef FCPtr<BackgroundPtr, SolidBackground> SolidBackgroundPtr;
  */
 
 template <>
-struct FieldDataTraits<SolidBackgroundPtr> : public Traits
+struct FieldDataTraits<SolidBackgroundPtr> : 
+    public FieldTraitsRecurseMapper<SolidBackgroundPtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFSolidBackgroundPtr"; }
 };

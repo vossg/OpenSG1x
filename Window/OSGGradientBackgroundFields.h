@@ -79,9 +79,11 @@ typedef FCPtr<BackgroundPtr, GradientBackground> GradientBackgroundPtr;
  */
 
 template <>
-struct FieldDataTraits<GradientBackgroundPtr> : public Traits
+struct FieldDataTraits<GradientBackgroundPtr> : 
+    public FieldTraitsRecurseMapper<GradientBackgroundPtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getMName(void) { return "MFGradientBackgroundPtr"; }
 };

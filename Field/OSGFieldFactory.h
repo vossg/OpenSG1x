@@ -46,7 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGSystemDef.h>
+#include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGFieldDataType.h>
 
@@ -73,7 +73,7 @@ class FieldType;
  *  \brief Factory for field
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING FieldFactory 
+class OSG_BASE_DLLMAPPING FieldFactory 
 {
   public:
 

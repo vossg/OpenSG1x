@@ -99,7 +99,7 @@ const OSG::BitVector	DynamicBackgroundBase::AngleFieldMask =
 
 
 
-char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
+char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -182,8 +182,8 @@ UInt32 DynamicBackgroundBase::getSize(void) const
 }
 
 
-void DynamicBackgroundBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void DynamicBackgroundBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((DynamicBackgroundBase *) &other, whichField);
 }
@@ -219,6 +219,62 @@ DynamicBackgroundBase::~DynamicBackgroundBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 DynamicBackgroundBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        returnValue += _mfColor.getBinSize();
+    }
+
+    if(FieldBits::NoField != (AngleFieldMask & whichField))
+    {
+        returnValue += _mfAngle.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle DynamicBackgroundBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        pMem = _mfColor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AngleFieldMask & whichField))
+    {
+        pMem = _mfAngle.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle DynamicBackgroundBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        pMem = _mfColor.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AngleFieldMask & whichField))
+    {
+        pMem = _mfAngle.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -226,8 +282,8 @@ DynamicBackgroundBase::~DynamicBackgroundBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void DynamicBackgroundBase::executeSyncImpl(DynamicBackgroundBase *pOther,
-                                        BitVector          whichField)
+void DynamicBackgroundBase::executeSyncImpl(      DynamicBackgroundBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

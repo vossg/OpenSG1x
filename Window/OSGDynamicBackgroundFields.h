@@ -79,9 +79,11 @@ typedef FCPtr<BackgroundPtr, DynamicBackground> DynamicBackgroundPtr;
  */
 
 template <>
-struct FieldDataTraits<DynamicBackgroundPtr> : public Traits
+struct FieldDataTraits<DynamicBackgroundPtr> : 
+    public FieldTraitsRecurseMapper<DynamicBackgroundPtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getMName(void) { return "MFDynamicBackgroundPtr"; }
 };

@@ -287,6 +287,33 @@ String &SField<FieldTypeT, fieldNameSpace>::getValueByStr(String &string) const
 	return string;
 }
 
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void SField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
+{
+    setValue(source);
+}
+
+/*---------------------------- To / From Bin --------------------------------*/
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+UInt32 SField<FieldTypeT, fieldNameSpace>::getBinSize(void)
+{
+    return SFieldTraits::getBinSize();
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+MemoryHandle SField<FieldTypeT, fieldNameSpace>::copyToBin(MemoryHandle pMem)
+{
+    return SFieldTraits::copyToBin(pMem, 
+                                   (MemoryHandle) (&_value));
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+MemoryHandle SField<FieldTypeT, fieldNameSpace>::copyFromBin(MemoryHandle pMem)
+{
+    return pMem;
+}
+
 /*--------------------------------- dump ------------------------------------*/
 
 /** \brief Dump property contents to stderr, should be changed to use a
@@ -302,18 +329,6 @@ void SField<FieldTypeT, fieldNameSpace>::dump(void) const
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-void SField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
-{
-    setValue(source);
-}
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-void SField<FieldTypeT, fieldNameSpace>::beginEdit(void)
-{
-    
-}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -99,6 +99,10 @@ SOURCE=..\..\..\FieldContainer\OSGAttachment.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\FieldContainer\OSGContainerTypeInst.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\FieldContainer\OSGFieldContainer.cpp
 # End Source File
 # Begin Source File
@@ -140,26 +144,6 @@ SOURCE=..\..\..\MultiThreading\OSGChangeList.cpp
 # Begin Source File
 
 SOURCE=..\..\..\MultiThreading\OSGThread.cpp
-# End Source File
-# End Group
-# Begin Group "Field_cpp"
-
-# PROP Default_Filter "cpp"
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGField.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGFieldFactory.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGFieldType.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGTypeInst.cpp
 # End Source File
 # End Group
 # Begin Group "Action_cpp"
@@ -623,11 +607,23 @@ SOURCE=..\..\..\FieldContainer\OSGAttachment.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\FieldContainer\OSGAttachmentMapFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\FieldContainer\OSGContainerFieldDataType.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\FieldContainer\OSGFieldContainer.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\FieldContainer\OSGFieldContainerFactory.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\FieldContainer\OSGFieldContainerFields.h
 # End Source File
 # Begin Source File
 
@@ -647,6 +643,10 @@ SOURCE=..\..\..\FieldContainer\OSGFieldDescription.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\FieldContainer\OSGMFFieldContainerTypes.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\FieldContainer\OSGNode.h
 # End Source File
 # Begin Source File
@@ -656,6 +656,10 @@ SOURCE=..\..\..\FieldContainer\OSGNodeCore.h
 # Begin Source File
 
 SOURCE=..\..\..\FieldContainer\OSGNodePtr.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\FieldContainer\OSGSFFieldContainerTypes.h
 # End Source File
 # Begin Source File
 
@@ -672,234 +676,6 @@ SOURCE=..\..\..\MultiThreading\OSGChangeList.h
 # Begin Source File
 
 SOURCE=..\..\..\MultiThreading\OSGThread.h
-# End Source File
-# End Group
-# Begin Group "Field_h"
-
-# PROP Default_Filter "hpp"
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGAttachmentMapFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGBaseFieldDataType.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGBoolFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGColor3fFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGColor3ubFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGColor4fFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGColor4ubFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGContainerFieldDataType.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGDynamicVolumeFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGField.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGFieldContainerFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGFieldDataType.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGFieldFactory.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGFieldType.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGInt16Fields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGInt32Fields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGInt64Fields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGInt8Fields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGMathFieldDataType.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGMatrixFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGMFBaseTypes.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGMFFieldContainerTypes.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGMField.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGMFMathTypes.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGMFMatrixFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGMFQuaternionFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGMFSysTypes.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGMFVec3fFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGMFVecTypes.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGNodeCoreFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGNodeFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGPlaneFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGPnt2fFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGPnt3fFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGPnt4fFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGQuaternionFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGReal32Fields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGReal64Fields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGSFBaseTypes.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGSFFieldContainerTypes.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGSField.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGSFMathTypes.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGSFSysTypes.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGSFVecTypes.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGStringFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGSysFieldDataType.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGTimeFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGUInt16Fields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGUInt32Fields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGUInt64Fields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGUInt8Fields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGVec2fFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGVec3fFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGVec4fFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGVec4ubFields.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGVecFieldDataType.h
 # End Source File
 # End Group
 # Begin Group "Action_h"
@@ -1541,14 +1317,6 @@ SOURCE=..\..\..\FieldContainer\OSGNodeCore.inl
 # Begin Group "Field_inl"
 
 # PROP Default_Filter "inl"
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGMField.inl
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Field\OSGSField.inl
-# End Source File
 # End Group
 # Begin Group "Action_inl"
 

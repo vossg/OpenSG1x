@@ -353,15 +353,64 @@ void NodeCore::subParent(const NodePtr &parent)
     }
 }
 
-void NodeCore::executeSync(FieldContainer &other,
-                           BitVector       whichField)
+UInt32 NodeCore::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = 0;
+
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+    {
+        returnValue += _parents.getBinSize();
+    }
+
+    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
+    {
+        returnValue += _attachmentMap.getBinSize();
+    }
+
+    return returnValue;
+}
+
+MemoryHandle NodeCore::copyToBin(      MemoryHandle  pMem, 
+                                 const BitVector    &whichField)
+{
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+    {
+        pMem = _parents.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
+    {
+        pMem = _attachmentMap.copyToBin(pMem);
+    }
+
+    return pMem;
+}
+
+MemoryHandle NodeCore::copyFromBin(      MemoryHandle  pMem, 
+                                   const BitVector    &whichField)
+{
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+    {
+        pMem = _parents.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
+    {
+        pMem = _attachmentMap.copyFromBin(pMem);
+    }
+
+    return pMem;
+}
+
+void NodeCore::executeSync(      FieldContainer &other,
+                           const BitVector      &whichField)
 {
     this->executeSyncImpl((NodeCore *) &other, whichField);
 }
 
 
-void NodeCore::executeSyncImpl(NodeCore  *pOther,
-                               BitVector  whichField)
+void NodeCore::executeSyncImpl(      NodeCore  *pOther,
+                               const BitVector &whichField)
 {
     Inherited::executeSyncImpl(pOther, whichField);
 

@@ -83,7 +83,7 @@ const OSG::BitVector	ChunkMaterialBase::ChunksFieldMask =
 
 
 
-char ChunkMaterialBase::cvsid[] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char ChunkMaterialBase::cvsid[] = "@(#)$Id: OSGChunkMaterialBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -161,8 +161,8 @@ UInt32 ChunkMaterialBase::getSize(void) const
 }
 
 
-void ChunkMaterialBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void ChunkMaterialBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((ChunkMaterialBase *) &other, whichField);
 }
@@ -196,6 +196,47 @@ ChunkMaterialBase::~ChunkMaterialBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 ChunkMaterialBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (ChunksFieldMask & whichField))
+    {
+        returnValue += _mfChunks.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle ChunkMaterialBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ChunksFieldMask & whichField))
+    {
+        pMem = _mfChunks.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle ChunkMaterialBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ChunksFieldMask & whichField))
+    {
+        pMem = _mfChunks.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -203,8 +244,8 @@ ChunkMaterialBase::~ChunkMaterialBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void ChunkMaterialBase::executeSyncImpl(ChunkMaterialBase *pOther,
-                                        BitVector          whichField)
+void ChunkMaterialBase::executeSyncImpl(      ChunkMaterialBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

@@ -119,7 +119,7 @@ const OSG::BitVector	ViewportBase::BackgroundFieldMask =
 
 
 
-char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
+char ViewportBase::cvsid[] = "@(#)$Id: OSGViewportBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -232,8 +232,8 @@ UInt32 ViewportBase::getSize(void) const
 }
 
 
-void ViewportBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void ViewportBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((ViewportBase *) &other, whichField);
 }
@@ -281,6 +281,152 @@ ViewportBase::~ViewportBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 ViewportBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (LeftFieldMask & whichField))
+    {
+        returnValue += _sfLeft.getBinSize();
+    }
+
+    if(FieldBits::NoField != (RightFieldMask & whichField))
+    {
+        returnValue += _sfRight.getBinSize();
+    }
+
+    if(FieldBits::NoField != (BottomFieldMask & whichField))
+    {
+        returnValue += _sfBottom.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TopFieldMask & whichField))
+    {
+        returnValue += _sfTop.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ParentFieldMask & whichField))
+    {
+        returnValue += _sfParent.getBinSize();
+    }
+
+    if(FieldBits::NoField != (CameraFieldMask & whichField))
+    {
+        returnValue += _sfCamera.getBinSize();
+    }
+
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+    {
+        returnValue += _sfRoot.getBinSize();
+    }
+
+    if(FieldBits::NoField != (BackgroundFieldMask & whichField))
+    {
+        returnValue += _sfBackground.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle ViewportBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (LeftFieldMask & whichField))
+    {
+        pMem = _sfLeft.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RightFieldMask & whichField))
+    {
+        pMem = _sfRight.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BottomFieldMask & whichField))
+    {
+        pMem = _sfBottom.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TopFieldMask & whichField))
+    {
+        pMem = _sfTop.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ParentFieldMask & whichField))
+    {
+        pMem = _sfParent.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CameraFieldMask & whichField))
+    {
+        pMem = _sfCamera.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+    {
+        pMem = _sfRoot.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BackgroundFieldMask & whichField))
+    {
+        pMem = _sfBackground.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle ViewportBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (LeftFieldMask & whichField))
+    {
+        pMem = _sfLeft.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RightFieldMask & whichField))
+    {
+        pMem = _sfRight.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BottomFieldMask & whichField))
+    {
+        pMem = _sfBottom.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TopFieldMask & whichField))
+    {
+        pMem = _sfTop.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ParentFieldMask & whichField))
+    {
+        pMem = _sfParent.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CameraFieldMask & whichField))
+    {
+        pMem = _sfCamera.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+    {
+        pMem = _sfRoot.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BackgroundFieldMask & whichField))
+    {
+        pMem = _sfBackground.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -288,8 +434,8 @@ ViewportBase::~ViewportBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void ViewportBase::executeSyncImpl(ViewportBase *pOther,
-                                        BitVector          whichField)
+void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

@@ -98,7 +98,7 @@ const OSG::BitVector	PerspectiveCameraBase::FovFieldMask =
 
 
 
-char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
+char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -176,8 +176,8 @@ UInt32 PerspectiveCameraBase::getSize(void) const
 }
 
 
-void PerspectiveCameraBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void PerspectiveCameraBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((PerspectiveCameraBase *) &other, whichField);
 }
@@ -211,6 +211,47 @@ PerspectiveCameraBase::~PerspectiveCameraBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 PerspectiveCameraBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (FovFieldMask & whichField))
+    {
+        returnValue += _sfFov.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle PerspectiveCameraBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (FovFieldMask & whichField))
+    {
+        pMem = _sfFov.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle PerspectiveCameraBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (FovFieldMask & whichField))
+    {
+        pMem = _sfFov.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -218,8 +259,8 @@ PerspectiveCameraBase::~PerspectiveCameraBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void PerspectiveCameraBase::executeSyncImpl(PerspectiveCameraBase *pOther,
-                                        BitVector          whichField)
+void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

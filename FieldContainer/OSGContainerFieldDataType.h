@@ -41,6 +41,7 @@
 
 #include <OSGFieldDataType.h>
 #include <OSGNodePtr.h>
+
 #include <map>
 OSG_BEGIN_NAMESPACE
 
@@ -65,11 +66,55 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr> :
 {
     enum                        { bHasParent        = 0x00      };
 
-    static void putToBin (void) 
-    { 
-        fprintf(stderr, "FieldTraitsToBin<FieldContainerPtr>\n");
+    static UInt32 getBinSize(void)
+    {
+        fprintf(stderr, "FieldTraitsToBin<FieldContainerPtr>::getBinSize()\n");
+        return 0;
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle pMem, 
+                                  const MemoryHandle pObjectStore)
+    {
+        fprintf(stderr, 
+                "FieldTraitsToBin<FieldContainerPtr>::copyToBin\n");
+
+        return pMem;
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle pMem, 
+                                  const MemoryHandle pObjectStore,
+                                        UInt32       uiNumObjects)
+    {
+        fprintf(stderr, 
+                "FieldTraitsToBin<FieldContainerPtr>::mcopyToBin\n");
+
+        return pMem;
     }
 };
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief FieldContainerPtr field traits 
+ */
+
+template <>
+struct FieldTraitsRecurseMapper<AttachmentMap> : 
+    public FieldTraitsRecurseBase<AttachmentMap>
+{
+    enum                        { bHasParent        = 0x00      };
+
+    static void putToBin (void) 
+    { 
+        fprintf(stderr, "FieldTraitsToBin<AttachmentMap>\n");
+    }
+};
+
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief FieldContainerPtr field traits 
+ */
 
 template <>
 struct FieldDataTraits<FieldContainerPtr> : 

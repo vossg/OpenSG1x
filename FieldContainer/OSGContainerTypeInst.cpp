@@ -36,8 +36,54 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-/* This is a dummy header to allow automatic inference from the type to the */
-/* field type header. */
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
-#include "OSGMFMathTypes.h"
+#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILECONTAINERFIELDINST
+
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "OSGConfig.h"
+
+#include <OSGField.h>
+#include <OSGSField.h>
+#include <OSGMField.h>
+
+#include <map>
+#include <OSGAttachment.h>
+#include "OSGSFFieldContainerTypes.h"
+#include "OSGMFFieldContainerTypes.h"
+
+OSG_BEGIN_NAMESPACE
+
+#if defined(__sgi)
+
+#pragma instantiate SField<FieldContainerPtr>::_fieldType
+#pragma instantiate SField<NodePtr          >::_fieldType
+#pragma instantiate SField<NodeCorePtr      >::_fieldType
+#pragma instantiate SField<AttachmentMap    >::_fieldType
+
+#pragma instantiate MField<FieldContainerPtr>::_fieldType
+#pragma instantiate MField<NodePtr          >::_fieldType
+#pragma instantiate MField<NodeCorePtr      >::_fieldType
+#pragma instantiate MField<AttachmentMap    >::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, FieldContainerPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, NodePtr,           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, NodeCorePtr,       OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, AttachmentMap,     OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+OSG_DLLEXPORT_DEF1(MField, FieldContainerPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, NodePtr,           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, NodeCorePtr,       OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, AttachmentMap,     OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
 

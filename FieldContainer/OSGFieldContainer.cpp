@@ -131,6 +131,23 @@ Field *FieldContainer::getField(const Char8 *fieldName)
 	return desc ? desc->getField(*this) : NULL;
 }
 
+UInt32 FieldContainer::getBinSize(const BitVector    &whichField)
+{
+    return 0;
+}
+
+MemoryHandle FieldContainer::copyToBin(      MemoryHandle  pMem, 
+                                       const BitVector    &)
+{
+    return pMem;
+}
+
+MemoryHandle FieldContainer::copyFromBin(      MemoryHandle  pMem, 
+                                         const BitVector    &)
+{
+    return pMem;
+}
+
 /*------------------------------ access -----------------------------------*/
 
 
@@ -189,8 +206,8 @@ void FieldContainer::onCreate(const FieldContainer &source)
 {
 }
 
-void FieldContainer::executeSyncImpl(FieldContainer *,
-                                     BitVector       )
+void FieldContainer::executeSyncImpl(      FieldContainer *,
+                                     const BitVector      &)
 {
 }
 

@@ -229,6 +229,14 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
 
     virtual FieldContainerPtr shallowCopy(void) const = 0;
 
+    /*--------------------------- To/From Bin ------------------------------*/
+
+    virtual UInt32       getBinSize (const BitVector    &whichField);
+    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem, 
+                                     const BitVector    &whichField);
+    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem, 
+                                     const BitVector    &whichField);
+
     /*----------------------------- dump ----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
@@ -371,16 +379,16 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
 
     template <class FieldTypeT>
     void beginEdit(const BitVector          &,
-                         SField<FieldTypeT> &fieldR)
+                         SField<FieldTypeT> &)
     {
-        fieldR.beginEdit();
+//        fieldR.beginEdit();
     }
 
     template <class FieldTypeT>
     void beginEdit(const BitVector          &,
-                         MField<FieldTypeT> &fieldR)
+                         MField<FieldTypeT> &)
     {
-        fieldR.beginEdit();
+//        fieldR.beginEdit();
     }
 
     template <class FieldTypeT>
@@ -424,11 +432,11 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainer
 
     virtual void onDestroy      (void);
 
-    virtual void executeSync    (FieldContainer &other,
-                                 BitVector       whichField) = 0;
+    virtual void executeSync    (      FieldContainer &other,
+                                 const BitVector      &whichField) = 0;
 
-            void executeSyncImpl(FieldContainer *pOther,
-                                 BitVector       whichField);
+            void executeSyncImpl(      FieldContainer *pOther,
+                                 const BitVector      &whichField);
 
   private:
 

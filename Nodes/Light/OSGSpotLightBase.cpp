@@ -89,7 +89,7 @@ const OSG::BitVector	SpotLightBase::SpotCutOffFieldMask =
 
 
 
-char SpotLightBase::cvsid[] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char SpotLightBase::cvsid[] = "@(#)$Id: OSGSpotLightBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -177,8 +177,8 @@ UInt32 SpotLightBase::getSize(void) const
 }
 
 
-void SpotLightBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void SpotLightBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((SpotLightBase *) &other, whichField);
 }
@@ -216,6 +216,77 @@ SpotLightBase::~SpotLightBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 SpotLightBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (DirectionFieldMask & whichField))
+    {
+        returnValue += _sfDirection.getBinSize();
+    }
+
+    if(FieldBits::NoField != (SpotExponentFieldMask & whichField))
+    {
+        returnValue += _sfSpotExponent.getBinSize();
+    }
+
+    if(FieldBits::NoField != (SpotCutOffFieldMask & whichField))
+    {
+        returnValue += _sfSpotCutOff.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle SpotLightBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (DirectionFieldMask & whichField))
+    {
+        pMem = _sfDirection.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SpotExponentFieldMask & whichField))
+    {
+        pMem = _sfSpotExponent.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SpotCutOffFieldMask & whichField))
+    {
+        pMem = _sfSpotCutOff.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle SpotLightBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (DirectionFieldMask & whichField))
+    {
+        pMem = _sfDirection.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SpotExponentFieldMask & whichField))
+    {
+        pMem = _sfSpotExponent.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SpotCutOffFieldMask & whichField))
+    {
+        pMem = _sfSpotCutOff.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -223,8 +294,8 @@ SpotLightBase::~SpotLightBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void SpotLightBase::executeSyncImpl(SpotLightBase *pOther,
-                                        BitVector          whichField)
+void SpotLightBase::executeSyncImpl(      SpotLightBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

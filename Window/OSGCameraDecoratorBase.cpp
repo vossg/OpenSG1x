@@ -98,7 +98,7 @@ const OSG::BitVector	CameraDecoratorBase::CameraFieldMask =
 
 
 
-char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.2 2001/07/03 14:16:32 vossg Exp $";
+char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.3 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -167,8 +167,8 @@ UInt32 CameraDecoratorBase::getSize(void) const
 }
 
 
-void CameraDecoratorBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void CameraDecoratorBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((CameraDecoratorBase *) &other, whichField);
 }
@@ -202,6 +202,47 @@ CameraDecoratorBase::~CameraDecoratorBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 CameraDecoratorBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (CameraFieldMask & whichField))
+    {
+        returnValue += _sfCamera.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle CameraDecoratorBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (CameraFieldMask & whichField))
+    {
+        pMem = _sfCamera.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle CameraDecoratorBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (CameraFieldMask & whichField))
+    {
+        pMem = _sfCamera.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -209,8 +250,8 @@ CameraDecoratorBase::~CameraDecoratorBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void CameraDecoratorBase::executeSyncImpl(CameraDecoratorBase *pOther,
-                                        BitVector          whichField)
+void CameraDecoratorBase::executeSyncImpl(      CameraDecoratorBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

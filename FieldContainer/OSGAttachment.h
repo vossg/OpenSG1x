@@ -126,6 +126,15 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
 	void                       addParent   (FieldContainerPtr parent);
 	void                       subParent   (FieldContainerPtr parent);
 
+    /*--------------------------To / From Bin ------------------------------*/
+
+    virtual UInt32       getBinSize (const BitVector    &whichField);
+
+    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem, 
+                                     const BitVector    &whichField);
+    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem, 
+                                     const BitVector    &whichField);
+    
     /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
@@ -169,8 +178,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
 
     virtual void onDestroy  (void);
 
-    virtual void executeSync(FieldContainer &other,
-                             BitVector       whichField);
+    virtual void executeSync    (      FieldContainer &other,
+                                 const BitVector      &whichField);
+
+            void executeSyncImpl(      Attachment     *pOther,
+                                 const BitVector      &whichField);
 
   private:
 
@@ -260,10 +272,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
 
 	static const BitVector SimpleFieldMask;
 
-//    OSG_FC_FIRST_FIELD_IDM_DECL(SimpleField)
-
-//    OSG_FC_LAST_FIELD_IDM_DECL (SimpleField)
-
     static const PtrType NullPtr;
 
     //-----------------------------------------------------------------------
@@ -287,6 +295,16 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
     const StoredFieldType &getField   (void) const;
 
     /*------------------------- assignment ----------------------------------*/
+
+    /*--------------------------To / From Bin ------------------------------*/
+
+    virtual UInt32       getBinSize (const BitVector    &whichField);
+
+    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem, 
+                                     const BitVector    &whichField);
+    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem, 
+                                     const BitVector    &whichField);
+    
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -326,6 +344,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
     SimpleAttachment(void);
     SimpleAttachment(const SimpleAttachment &source);
     virtual ~SimpleAttachment(void); 
+
+    virtual void executeSync    (      FieldContainer &other,
+                                 const BitVector      &whichField);
+
+            void executeSyncImpl(      SimpleAttachment *pOther,
+                                 const BitVector        &whichField);
 
   private:
 

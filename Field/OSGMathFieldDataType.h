@@ -39,7 +39,7 @@
 #ifndef _OSG_MATHFIELDDATATYPE_H_
 #define _OSG_MATHFIELDDATATYPE_H_
 
-#include <OSGSystemDef.h>
+#include <OSGBase.h>
 #include <OSGFieldDataType.h>
 #include <OSGMatrix.h>
 #include <OSGQuaternion.h>
@@ -53,7 +53,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <>
-struct FieldDataTraits<Matrix> : public Traits
+struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
 {
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
@@ -84,7 +84,8 @@ struct FieldDataTraits<Matrix> : public Traits
  */
 
 template <>
-struct FieldDataTraits<Quaternion> : public Traits
+struct FieldDataTraits<Quaternion> : 
+    public FieldTraitsRecurseBase<Quaternion>
 {
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
@@ -111,3 +112,4 @@ struct FieldDataTraits<Quaternion> : public Traits
 OSG_END_NAMESPACE
 
 #endif /* _OSG_MATHFIELDDATATYPE_H_ */
+

@@ -40,7 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESYSTEMLIB
+#define OSG_COMPILEBASELIB
 
 #include <stdlib.h>
 #include <stdio.h>

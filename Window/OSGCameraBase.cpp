@@ -104,7 +104,7 @@ const OSG::BitVector	CameraBase::FarFieldMask =
 
 
 
-char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
+char CameraBase::cvsid[] = "@(#)$Id: OSGCameraBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -183,8 +183,8 @@ UInt32 CameraBase::getSize(void) const
 }
 
 
-void CameraBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void CameraBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((CameraBase *) &other, whichField);
 }
@@ -222,6 +222,77 @@ CameraBase::~CameraBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 CameraBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+    {
+        returnValue += _sfBeacon.getBinSize();
+    }
+
+    if(FieldBits::NoField != (NearFieldMask & whichField))
+    {
+        returnValue += _sfNear.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FarFieldMask & whichField))
+    {
+        returnValue += _sfFar.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle CameraBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+    {
+        pMem = _sfBeacon.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (NearFieldMask & whichField))
+    {
+        pMem = _sfNear.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FarFieldMask & whichField))
+    {
+        pMem = _sfFar.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle CameraBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+    {
+        pMem = _sfBeacon.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (NearFieldMask & whichField))
+    {
+        pMem = _sfNear.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FarFieldMask & whichField))
+    {
+        pMem = _sfFar.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -229,8 +300,8 @@ CameraBase::~CameraBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void CameraBase::executeSyncImpl(CameraBase *pOther,
-                                        BitVector          whichField)
+void CameraBase::executeSyncImpl(      CameraBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

@@ -583,6 +583,100 @@ void Node::changed(BitVector  whichField,
     }
 }
 
+UInt32 Node::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = 0;
+
+    if(FieldBits::NoField != (VolumeFieldMask & whichField))
+    {
+            _volume.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ParentFieldMask & whichField))
+    {
+        returnValue += _parent       .getBinSize();
+    }
+
+    if(FieldBits::NoField != (ChildrenFieldMask & whichField))
+    {
+        returnValue += _children     .getBinSize();
+    }
+
+    if(FieldBits::NoField != (CoreFieldMask & whichField))
+    {
+        returnValue += _core         .getBinSize();
+    }
+    
+    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
+    {
+        returnValue += _attachmentMap.getBinSize();
+    }
+
+    return returnValue;
+}
+
+MemoryHandle Node::copyToBin  (      MemoryHandle  pMem, 
+                               const BitVector    &whichField)
+{
+    if(FieldBits::NoField != (VolumeFieldMask & whichField))
+    {
+        pMem = _volume.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ParentFieldMask & whichField))
+    {
+        pMem = _parent.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ChildrenFieldMask & whichField))
+    {
+        pMem = _children.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CoreFieldMask & whichField))
+    {
+        pMem = _core.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
+    {
+        pMem = _attachmentMap.copyToBin(pMem);
+    }
+
+    return pMem;
+}
+
+MemoryHandle Node::copyFromBin(      MemoryHandle  pMem, 
+                               const BitVector    &whichField)
+{
+    if(FieldBits::NoField != (VolumeFieldMask & whichField))
+    {
+        pMem = _volume.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ParentFieldMask & whichField))
+    {
+        pMem = _parent.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ChildrenFieldMask & whichField))
+    {
+        pMem = _children.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CoreFieldMask & whichField))
+    {
+        pMem = _core.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
+    {
+        pMem = _attachmentMap.copyFromBin(pMem);
+    }
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 void Node::dump(      UInt32     uiIndent, 
@@ -760,14 +854,14 @@ void Node::onCreate(const Node &source)
     }
 }
 
-void Node::executeSync(FieldContainer &other,
-                       BitVector       whichField)
+void Node::executeSync(      FieldContainer &other,
+                       const BitVector      &whichField)
 {
     this->executeSyncImpl((Node *) &other, whichField);
 }
 
-void Node::executeSyncImpl(Node      *pOther,
-                           BitVector  whichField)
+void Node::executeSyncImpl(      Node      *pOther,
+                           const BitVector &whichField)
 {
     Inherited::executeSyncImpl(pOther, whichField);
 

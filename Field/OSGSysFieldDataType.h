@@ -51,7 +51,8 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <>
-struct FieldDataTraits2<Bool> : public Traits
+struct FieldDataTraits2<Bool> : 
+    public FieldTraitsIntegralRecurseMapper<Bool>
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -133,7 +134,7 @@ struct FieldDataTraits2<Bool> : public Traits
  */
 
 template <>
-struct FieldDataTraits<Int8> : public Traits
+struct FieldDataTraits<Int8> : public FieldTraitsIntegralRecurseMapper<Int8>
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -165,7 +166,7 @@ struct FieldDataTraits<Int8> : public Traits
  */
 
 template <>
-struct FieldDataTraits<UInt8> : public Traits
+struct FieldDataTraits<UInt8> : public FieldTraitsIntegralRecurseMapper<UInt8>
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -198,7 +199,7 @@ struct FieldDataTraits<UInt8> : public Traits
  */
 
 template <>
-struct FieldDataTraits<Int16> : public Traits
+struct FieldDataTraits<Int16> : public FieldTraitsIntegralRecurseMapper<Int16>
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -230,7 +231,8 @@ struct FieldDataTraits<Int16> : public Traits
  */
 
 template <>
-struct FieldDataTraits<UInt16> : public Traits
+struct FieldDataTraits<UInt16> : 
+    public FieldTraitsIntegralRecurseMapper<UInt16>
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -263,7 +265,8 @@ struct FieldDataTraits<UInt16> : public Traits
  */
 
 template <>
-struct FieldDataTraits<Int32> : public Traits
+struct FieldDataTraits<Int32> : 
+    public FieldTraitsIntegralRecurseMapper<Int32>
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -295,7 +298,8 @@ struct FieldDataTraits<Int32> : public Traits
  */
 
 template <>
-struct FieldDataTraits<UInt32> : public Traits
+struct FieldDataTraits<UInt32> : 
+    public FieldTraitsIntegralRecurseMapper<UInt32>
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -328,7 +332,8 @@ struct FieldDataTraits<UInt32> : public Traits
  */
 
 template <>
-struct FieldDataTraits<Int64> : public Traits
+struct FieldDataTraits<Int64> : 
+    public FieldTraitsIntegralRecurseMapper<Int64>
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -360,7 +365,8 @@ struct FieldDataTraits<Int64> : public Traits
  */
 
 template <>
-struct FieldDataTraits<UInt64> : public Traits
+struct FieldDataTraits<UInt64> : 
+    public FieldTraitsIntegralRecurseMapper<UInt64>
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
@@ -428,7 +434,8 @@ struct FieldDataTraits<Real32> :
  */
 
 template <>
-struct FieldDataTraits<Real64> : public Traits
+struct FieldDataTraits<Real64> : 
+    public FieldTraitsIntegralRecurseMapper<Real64>
 {
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };

@@ -92,7 +92,7 @@ const OSG::BitVector	LightBaseBase::BeaconFieldMask =
 
 
 
-char LightBaseBase::cvsid[] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char LightBaseBase::cvsid[] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -176,8 +176,8 @@ UInt32 LightBaseBase::getSize(void) const
 }
 
 
-void LightBaseBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void LightBaseBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((LightBaseBase *) &other, whichField);
 }
@@ -217,6 +217,92 @@ LightBaseBase::~LightBaseBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 LightBaseBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+    {
+        returnValue += _sfAmbient.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+    {
+        returnValue += _sfDiffuse.getBinSize();
+    }
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+    {
+        returnValue += _sfSpecular.getBinSize();
+    }
+
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+    {
+        returnValue += _sfBeacon.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle LightBaseBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+    {
+        pMem = _sfAmbient.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+    {
+        pMem = _sfDiffuse.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+    {
+        pMem = _sfSpecular.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+    {
+        pMem = _sfBeacon.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle LightBaseBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+    {
+        pMem = _sfAmbient.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+    {
+        pMem = _sfDiffuse.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+    {
+        pMem = _sfSpecular.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+    {
+        pMem = _sfBeacon.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -224,8 +310,8 @@ LightBaseBase::~LightBaseBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void LightBaseBase::executeSyncImpl(LightBaseBase *pOther,
-                                        BitVector          whichField)
+void LightBaseBase::executeSyncImpl(      LightBaseBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

@@ -189,6 +189,43 @@ void Attachment::subParent(FieldContainerPtr parent)
     }
 }
 
+/*--------------------------To / From Bin ------------------------------*/
+
+UInt32 Attachment::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = 0;
+
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+    {
+        returnValue += _parents.getBinSize();
+    }
+
+    return returnValue;
+}
+
+MemoryHandle Attachment::copyToBin(      MemoryHandle  pMem, 
+                                   const BitVector    &whichField)
+{
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+    {
+        pMem = _parents.copyToBin(pMem);
+    }
+
+    return pMem;
+}
+
+MemoryHandle Attachment::copyFromBin(      MemoryHandle  pMem, 
+                                     const BitVector    &whichField)
+{
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+    {
+        pMem = _parents.copyFromBin(pMem);
+    }
+
+    return pMem;
+}
+    
+
 /*------------------------------- dump ------------------------------------*/
 
 /** \brief Dump attachment contents to stderr, should be changed to use a 
@@ -269,9 +306,21 @@ void Attachment::onDestroy(void)
     }
 }
 
-void Attachment::executeSync(FieldContainer &other,
-                             BitVector       whichField)
+void Attachment::executeSync(      FieldContainer &other,
+                             const BitVector      &whichField)
 {
+    this->executeSyncImpl((Attachment *) &other, whichField);
+}
+
+void Attachment::executeSyncImpl(      Attachment     *pOther,
+                                 const BitVector      &whichField)
+{
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+    {
+        _parents.syncWith(pOther->_parents);
+    }
 }
 
 /*-------------------------------------------------------------------------*\

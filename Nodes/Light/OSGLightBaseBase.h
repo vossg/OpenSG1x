@@ -145,8 +145,16 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     static OSG::UInt32              getClassTypeId(void); 
     virtual OSG::UInt32            getSize    (void) const;
 
-    virtual void                   executeSync(FieldContainer &other,
-                                               BitVector       whichField);
+    virtual void                   executeSync(      FieldContainer &other,
+                                               const BitVector      &whichField);
+
+
+    virtual UInt32       getBinSize (const BitVector    &whichField);
+    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
+                                     const BitVector    &whichField);
+    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
+                                     const BitVector    &whichField);
+
     /*--------------------------- access fields ----------------------------*/
 
     //! Return the fields.
@@ -228,8 +236,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     virtual ~LightBaseBase(void); 
     
 
-    void executeSyncImpl(LightBaseBase *pOther,
-                         BitVector          whichField);
+    void executeSyncImpl(      LightBaseBase *pOther,
+                         const BitVector         &whichField);
 
   private:
 

@@ -79,9 +79,11 @@ typedef FCPtr<FieldContainerPtr, Background> BackgroundPtr;
  */
 
 template <>
-struct FieldDataTraits<BackgroundPtr> : public Traits
+struct FieldDataTraits<BackgroundPtr> : 
+    public FieldTraitsRecurseMapper<BackgroundPtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFBackgroundPtr"; }
     static char *getMName(void) { return "MFBackgroundPtr"; }

@@ -94,7 +94,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char GroupBase::cvsid[] = "@(#)$Id: OSGGroupBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char GroupBase::cvsid[] = "@(#)$Id: OSGGroupBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group type
  */
@@ -160,8 +160,8 @@ UInt32 GroupBase::getSize(void) const
 }
 
 
-void GroupBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void GroupBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((GroupBase *) &other, whichField);
 }
@@ -193,6 +193,32 @@ GroupBase::~GroupBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 GroupBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+
+    return returnValue;
+}
+
+MemoryHandle GroupBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+
+    return pMem;
+}
+
+MemoryHandle GroupBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -200,8 +226,8 @@ GroupBase::~GroupBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void GroupBase::executeSyncImpl(GroupBase *pOther,
-                                        BitVector          whichField)
+void GroupBase::executeSyncImpl(      GroupBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

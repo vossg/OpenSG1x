@@ -942,6 +942,8 @@ Bool Image::operator < (const Image &image )
 *private
 ****************************/
 
+OSG_BEGIN_NAMESPACE
+
 #if defined(__sgi)
 
 #pragma instantiate SField<ImageP>::_fieldType
@@ -953,3 +955,5 @@ OSG_DLLEXPORT_DEF1(SField, ImageP,	OSG_SYSTEMLIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DEF1(MField, ImageP,	OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
+
+OSG_END_NAMESPACE

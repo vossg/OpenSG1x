@@ -83,7 +83,7 @@ const OSG::BitVector	TransformChunkBase::MatrixFieldMask =
 
 
 
-char TransformChunkBase::cvsid[] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char TransformChunkBase::cvsid[] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -161,8 +161,8 @@ UInt32 TransformChunkBase::getSize(void) const
 }
 
 
-void TransformChunkBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void TransformChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((TransformChunkBase *) &other, whichField);
 }
@@ -196,6 +196,47 @@ TransformChunkBase::~TransformChunkBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 TransformChunkBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (MatrixFieldMask & whichField))
+    {
+        returnValue += _sfMatrix.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle TransformChunkBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (MatrixFieldMask & whichField))
+    {
+        pMem = _sfMatrix.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle TransformChunkBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (MatrixFieldMask & whichField))
+    {
+        pMem = _sfMatrix.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -203,8 +244,8 @@ TransformChunkBase::~TransformChunkBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void TransformChunkBase::executeSyncImpl(TransformChunkBase *pOther,
-                                        BitVector          whichField)
+void TransformChunkBase::executeSyncImpl(      TransformChunkBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

@@ -94,7 +94,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char StateChunkBase::cvsid[] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
+char StateChunkBase::cvsid[] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief StateChunk type
  */
@@ -151,8 +151,8 @@ UInt32 StateChunkBase::getSize(void) const
 }
 
 
-void StateChunkBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void StateChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((StateChunkBase *) &other, whichField);
 }
@@ -184,6 +184,32 @@ StateChunkBase::~StateChunkBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 StateChunkBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+
+    return returnValue;
+}
+
+MemoryHandle StateChunkBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+
+    return pMem;
+}
+
+MemoryHandle StateChunkBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -191,8 +217,8 @@ StateChunkBase::~StateChunkBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void StateChunkBase::executeSyncImpl(StateChunkBase *pOther,
-                                        BitVector          whichField)
+void StateChunkBase::executeSyncImpl(      StateChunkBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

@@ -98,7 +98,7 @@ const OSG::BitVector	MaterialGroupBase::MaterialFieldMask =
 
 
 
-char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -176,8 +176,8 @@ UInt32 MaterialGroupBase::getSize(void) const
 }
 
 
-void MaterialGroupBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void MaterialGroupBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((MaterialGroupBase *) &other, whichField);
 }
@@ -211,6 +211,47 @@ MaterialGroupBase::~MaterialGroupBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 MaterialGroupBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (MaterialFieldMask & whichField))
+    {
+        returnValue += _sfMaterial.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle MaterialGroupBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (MaterialFieldMask & whichField))
+    {
+        pMem = _sfMaterial.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle MaterialGroupBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (MaterialFieldMask & whichField))
+    {
+        pMem = _sfMaterial.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -218,8 +259,8 @@ MaterialGroupBase::~MaterialGroupBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void MaterialGroupBase::executeSyncImpl(MaterialGroupBase *pOther,
-                                        BitVector          whichField)
+void MaterialGroupBase::executeSyncImpl(      MaterialGroupBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

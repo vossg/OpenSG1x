@@ -692,6 +692,34 @@ String &MField<FieldTypeT, fieldNameSpace>::getValueByStr(String &string) const
 	return string;
 }
 
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void MField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
+{
+    setValues(source);
+}
+
+/*---------------------------- To / From Bin --------------------------------*/
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+UInt32 MField<FieldTypeT, fieldNameSpace>::getBinSize(void)
+{
+    return _values.size() * MFieldTraits::getBinSize();
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+MemoryHandle MField<FieldTypeT, fieldNameSpace>::copyToBin(MemoryHandle pMem)
+{
+    return MFieldTraits::copyToBin( pMem, 
+                                   (MemoryHandle) (&_values),
+                                   _values.size());
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+MemoryHandle MField<FieldTypeT, fieldNameSpace>::copyFromBin(MemoryHandle pMem)
+{
+    return pMem;
+}
+
 /*--------------------------------- dump ------------------------------------*/
 
 /** \brief Dump property contents to stderr, should be changed to use a
@@ -714,18 +742,6 @@ void MField<FieldTypeT, fieldNameSpace>::dump(void) const
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-void MField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
-{
-    setValues(source);
-}
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-void MField<FieldTypeT, fieldNameSpace>::beginEdit(void)
-{
-    
-}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

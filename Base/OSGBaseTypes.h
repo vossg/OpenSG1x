@@ -470,6 +470,13 @@ typedef double     Real64;
 
 typedef UInt32 BitVector;
 
+/*! \var UInt8 *MemoryHandle;
+ *  \brief Handle to raw memory
+ *  \ingroup BaseTypes
+ */
+
+typedef UInt8 *MemoryHandle;
+
 /*! \brief Eps
  *  \ingroup BaseConstants
  */

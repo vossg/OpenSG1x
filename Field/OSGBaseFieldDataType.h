@@ -55,7 +55,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <>
-struct FieldDataTraits<Color3f> : public Traits
+struct FieldDataTraits<Color3f> : public FieldTraitsRecurseBase<Color3f>
 {
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
@@ -82,7 +82,7 @@ struct FieldDataTraits<Color3f> : public Traits
 };
 
 template <>
-struct FieldDataTraits<Color4f> : public Traits
+struct FieldDataTraits<Color4f> : public FieldTraitsRecurseBase<Color4f>
 {
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
@@ -109,7 +109,7 @@ struct FieldDataTraits<Color4f> : public Traits
 };
 
 template <>
-struct FieldDataTraits<Color3ub> : public Traits
+struct FieldDataTraits<Color3ub> : public FieldTraitsRecurseBase<Color3ub>
 {
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
@@ -142,7 +142,7 @@ struct FieldDataTraits<Color3ub> : public Traits
  */
 
 template <>
-struct FieldDataTraits<Color4ub> : public Traits
+struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
 {
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
@@ -170,7 +170,7 @@ struct FieldDataTraits<Color4ub> : public Traits
 
 
 template <>
-struct FieldDataTraits<String> : public Traits
+struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
 {
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
@@ -202,7 +202,7 @@ struct FieldDataTraits<String> : public Traits
 };
 
 template <>
-struct FieldDataTraits1<Time> : public Traits
+struct FieldDataTraits1<Time> : public FieldTraitsRecurseBase<Time>
 {
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
@@ -230,7 +230,7 @@ struct FieldDataTraits1<Time> : public Traits
 
 template <>
 struct FieldDataTraits<DynamicVolume> : 
-    public Traits
+    public FieldTraitsRecurseBase<DynamicVolume>
 {
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
@@ -256,8 +256,7 @@ struct FieldDataTraits<DynamicVolume> :
 };
 
 template <>
-struct FieldDataTraits1<BitVector> : 
-    public Traits
+struct FieldDataTraits1<BitVector> : public FieldTraitsRecurseBase<BitVector>
 {
     enum                     { StringConvertable = 0x00 };
 
@@ -270,8 +269,7 @@ struct FieldDataTraits1<BitVector> :
 
 
 template <>
-struct FieldDataTraits<Plane> : 
-    public Traits
+struct FieldDataTraits<Plane> : public FieldTraitsRecurseBase<Plane>
 {
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };

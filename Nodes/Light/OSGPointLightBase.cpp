@@ -92,7 +92,7 @@ const OSG::BitVector	PointLightBase::QuadraticAttenuationFieldMask =
 
 
 
-char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char PointLightBase::cvsid[] = "@(#)$Id: OSGPointLightBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -185,8 +185,8 @@ UInt32 PointLightBase::getSize(void) const
 }
 
 
-void PointLightBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void PointLightBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((PointLightBase *) &other, whichField);
 }
@@ -226,6 +226,92 @@ PointLightBase::~PointLightBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 PointLightBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (PositionFieldMask & whichField))
+    {
+        returnValue += _sfPosition.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
+    {
+        returnValue += _sfConstantAttenuation.getBinSize();
+    }
+
+    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
+    {
+        returnValue += _sfLinearAttenuation.getBinSize();
+    }
+
+    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
+    {
+        returnValue += _sfQuadraticAttenuation.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle PointLightBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (PositionFieldMask & whichField))
+    {
+        pMem = _sfPosition.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
+    {
+        pMem = _sfConstantAttenuation.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
+    {
+        pMem = _sfLinearAttenuation.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
+    {
+        pMem = _sfQuadraticAttenuation.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle PointLightBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (PositionFieldMask & whichField))
+    {
+        pMem = _sfPosition.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
+    {
+        pMem = _sfConstantAttenuation.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
+    {
+        pMem = _sfLinearAttenuation.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
+    {
+        pMem = _sfQuadraticAttenuation.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -233,8 +319,8 @@ PointLightBase::~PointLightBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void PointLightBase::executeSyncImpl(PointLightBase *pOther,
-                                        BitVector          whichField)
+void PointLightBase::executeSyncImpl(      PointLightBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

@@ -46,7 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGSystemDef.h>
+#include <OSGBase.h>
 #include <OSGMField.h>
 #include <OSGMathFieldDataType.h>
 
@@ -75,7 +75,7 @@ typedef MField<Matrix>     MFMatrix;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Matrix, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Matrix, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif
@@ -93,7 +93,7 @@ typedef MField<Quaternion> MFQuaternion;
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, Quaternion, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, Quaternion, OSG_BASE_DLLTMPLMAPPING)
 
 #endif
 #endif

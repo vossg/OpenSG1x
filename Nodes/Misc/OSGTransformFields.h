@@ -79,9 +79,11 @@ typedef FCPtr<NodeCorePtr, Transform> TransformPtr;
  */
 
 template <>
-struct FieldDataTraits<TransformPtr> : public Traits
+struct FieldDataTraits<TransformPtr> : 
+    public FieldTraitsRecurseMapper<TransformPtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFTransformPtr"; }
     static char *getMName(void) { return "MFTransformPtr"; }

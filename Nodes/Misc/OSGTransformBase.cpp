@@ -98,7 +98,7 @@ const OSG::BitVector	TransformBase::MatrixFieldMask =
 
 
 
-char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -176,8 +176,8 @@ UInt32 TransformBase::getSize(void) const
 }
 
 
-void TransformBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void TransformBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((TransformBase *) &other, whichField);
 }
@@ -211,6 +211,47 @@ TransformBase::~TransformBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 TransformBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (MatrixFieldMask & whichField))
+    {
+        returnValue += _sfMatrix.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle TransformBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (MatrixFieldMask & whichField))
+    {
+        pMem = _sfMatrix.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle TransformBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (MatrixFieldMask & whichField))
+    {
+        pMem = _sfMatrix.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -218,8 +259,8 @@ TransformBase::~TransformBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void TransformBase::executeSyncImpl(TransformBase *pOther,
-                                        BitVector          whichField)
+void TransformBase::executeSyncImpl(      TransformBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

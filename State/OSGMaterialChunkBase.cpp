@@ -95,7 +95,7 @@ const OSG::BitVector	MaterialChunkBase::ShininessFieldMask =
 
 
 
-char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -193,8 +193,8 @@ UInt32 MaterialChunkBase::getSize(void) const
 }
 
 
-void MaterialChunkBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void MaterialChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((MaterialChunkBase *) &other, whichField);
 }
@@ -236,6 +236,107 @@ MaterialChunkBase::~MaterialChunkBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 MaterialChunkBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+    {
+        returnValue += _sfDiffuse.getBinSize();
+    }
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+    {
+        returnValue += _sfAmbient.getBinSize();
+    }
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+    {
+        returnValue += _sfSpecular.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EmissionFieldMask & whichField))
+    {
+        returnValue += _sfEmission.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ShininessFieldMask & whichField))
+    {
+        returnValue += _sfShininess.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle MaterialChunkBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+    {
+        pMem = _sfDiffuse.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+    {
+        pMem = _sfAmbient.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+    {
+        pMem = _sfSpecular.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EmissionFieldMask & whichField))
+    {
+        pMem = _sfEmission.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShininessFieldMask & whichField))
+    {
+        pMem = _sfShininess.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle MaterialChunkBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+    {
+        pMem = _sfDiffuse.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+    {
+        pMem = _sfAmbient.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+    {
+        pMem = _sfSpecular.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EmissionFieldMask & whichField))
+    {
+        pMem = _sfEmission.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShininessFieldMask & whichField))
+    {
+        pMem = _sfShininess.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -243,8 +344,8 @@ MaterialChunkBase::~MaterialChunkBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void MaterialChunkBase::executeSyncImpl(MaterialChunkBase *pOther,
-                                        BitVector          whichField)
+void MaterialChunkBase::executeSyncImpl(      MaterialChunkBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

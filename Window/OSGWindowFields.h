@@ -79,9 +79,11 @@ typedef FCPtr<FieldContainerPtr, Window> WindowPtr;
  */
 
 template <>
-struct FieldDataTraits<WindowPtr> : public Traits
+struct FieldDataTraits<WindowPtr> : 
+    public FieldTraitsRecurseMapper<WindowPtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFWindowPtr"; }
     static char *getMName(void) { return "MFWindowPtr"; }

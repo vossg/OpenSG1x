@@ -47,14 +47,13 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGSystemDef.h>
+#include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 
 #include <vector>
 
 #include <OSGField.h>
-#include <OSGFieldContainerPtr.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -80,7 +79,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class FieldTypeT, Int32 fieldNameSpace = 0>
-class OSG_SYSTEMLIB_DLLMAPPING SField : public Field 
+class OSG_BASE_DLLMAPPING SField : public Field 
 {
   public:
 
@@ -152,6 +151,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SField : public Field
 
     void syncWith(Self &source);
 
+    /*---------------------------- To / From Bin ----------------------------*/
+
+    UInt32       getBinSize (void);
+    
+    MemoryHandle copyToBin  (MemoryHandle  pMem);
+    MemoryHandle copyFromBin(MemoryHandle  pMem);
+
     /*------------------------------- dump ----------------------------------*/
 
     virtual void dump(void) const;
@@ -186,8 +192,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SField : public Field
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    void beginEdit(void);
-
   private:
 
     //-----------------------------------------------------------------------
@@ -203,8 +207,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SField : public Field
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
-
-    friend class FieldContainer;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    

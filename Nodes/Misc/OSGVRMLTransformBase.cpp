@@ -110,7 +110,7 @@ const OSG::BitVector	VRMLTransformBase::TranslationFieldMask =
 
 
 
-char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
+char VRMLTransformBase::cvsid[] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -208,8 +208,8 @@ UInt32 VRMLTransformBase::getSize(void) const
 }
 
 
-void VRMLTransformBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void VRMLTransformBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((VRMLTransformBase *) &other, whichField);
 }
@@ -251,6 +251,107 @@ VRMLTransformBase::~VRMLTransformBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 VRMLTransformBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (CenterFieldMask & whichField))
+    {
+        returnValue += _sfCenter.getBinSize();
+    }
+
+    if(FieldBits::NoField != (RotationFieldMask & whichField))
+    {
+        returnValue += _sfRotation.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        returnValue += _sfScale.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ScaleOrientationFieldMask & whichField))
+    {
+        returnValue += _sfScaleOrientation.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TranslationFieldMask & whichField))
+    {
+        returnValue += _sfTranslation.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle VRMLTransformBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (CenterFieldMask & whichField))
+    {
+        pMem = _sfCenter.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RotationFieldMask & whichField))
+    {
+        pMem = _sfRotation.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        pMem = _sfScale.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ScaleOrientationFieldMask & whichField))
+    {
+        pMem = _sfScaleOrientation.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TranslationFieldMask & whichField))
+    {
+        pMem = _sfTranslation.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle VRMLTransformBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (CenterFieldMask & whichField))
+    {
+        pMem = _sfCenter.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RotationFieldMask & whichField))
+    {
+        pMem = _sfRotation.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        pMem = _sfScale.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ScaleOrientationFieldMask & whichField))
+    {
+        pMem = _sfScaleOrientation.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TranslationFieldMask & whichField))
+    {
+        pMem = _sfTranslation.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -258,8 +359,8 @@ VRMLTransformBase::~VRMLTransformBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void VRMLTransformBase::executeSyncImpl(VRMLTransformBase *pOther,
-                                        BitVector          whichField)
+void VRMLTransformBase::executeSyncImpl(      VRMLTransformBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

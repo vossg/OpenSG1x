@@ -83,7 +83,7 @@ const OSG::BitVector	DirectionalLightBase::DirectionFieldMask =
 
 
 
-char DirectionalLightBase::cvsid[] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char DirectionalLightBase::cvsid[] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -161,8 +161,8 @@ UInt32 DirectionalLightBase::getSize(void) const
 }
 
 
-void DirectionalLightBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void DirectionalLightBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((DirectionalLightBase *) &other, whichField);
 }
@@ -196,6 +196,47 @@ DirectionalLightBase::~DirectionalLightBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 DirectionalLightBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (DirectionFieldMask & whichField))
+    {
+        returnValue += _sfDirection.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle DirectionalLightBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (DirectionFieldMask & whichField))
+    {
+        pMem = _sfDirection.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle DirectionalLightBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (DirectionFieldMask & whichField))
+    {
+        pMem = _sfDirection.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -203,8 +244,8 @@ DirectionalLightBase::~DirectionalLightBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void DirectionalLightBase::executeSyncImpl(DirectionalLightBase *pOther,
-                                        BitVector          whichField)
+void DirectionalLightBase::executeSyncImpl(      DirectionalLightBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

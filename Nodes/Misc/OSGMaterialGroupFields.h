@@ -79,9 +79,11 @@ typedef FCPtr<NodeCorePtr, MaterialGroup> MaterialGroupPtr;
  */
 
 template <>
-struct FieldDataTraits<MaterialGroupPtr> : public Traits
+struct FieldDataTraits<MaterialGroupPtr> : 
+    public FieldTraitsRecurseMapper<MaterialGroupPtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFMaterialGroupPtr"; }
     static char *getMName(void) { return "MFMaterialGroupPtr"; }

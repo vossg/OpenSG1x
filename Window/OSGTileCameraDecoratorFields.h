@@ -79,9 +79,11 @@ typedef FCPtr<CameraDecoratorPtr, TileCameraDecorator> TileCameraDecoratorPtr;
  */
 
 template <>
-struct FieldDataTraits<TileCameraDecoratorPtr> : public Traits
+struct FieldDataTraits<TileCameraDecoratorPtr> : 
+    public FieldTraitsRecurseMapper<TileCameraDecoratorPtr>
 {
     enum                        { StringConvertable = 0x00      };
+    enum                        { bHasParent        = 0x01      };
 
     static char *getSName(void) { return "SFTileCameraDecoratorPtr"; }
     static char *getMName(void) { return "MFTileCameraDecoratorPtr"; }

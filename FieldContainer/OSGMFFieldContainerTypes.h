@@ -71,7 +71,7 @@ OSG_BEGIN_NAMESPACE
 
 typedef MField<FieldContainerPtr> MFFieldContainerPtr;
 
-#ifndef OSG_COMPILEFIELDINST
+#ifndef OSG_COMPILECONTAINERFIELDINST
 #if defined(__sgi)
 
 #pragma do_not_instantiate MField<FieldContainerPtr>::_fieldType
@@ -88,7 +88,7 @@ OSG_DLLEXPORT_DECL1(MField, FieldContainerPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 typedef MField<NodePtr>           MFNodePtr;
 
-#ifndef OSG_COMPILEFIELDINST
+#ifndef OSG_COMPILECONTAINERFIELDINST
 #if defined(__sgi)
 
 #pragma do_not_instantiate MField<NodePtr>::_fieldType
@@ -105,7 +105,7 @@ OSG_DLLEXPORT_DECL1(MField, NodePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 typedef MField<NodeCorePtr>       MFNodeCorePtr;
 
-#ifndef OSG_COMPILEFIELDINST
+#ifndef OSG_COMPILECONTAINERFIELDINST
 #if defined(__sgi)
 
 #pragma do_not_instantiate MField<NodeCorePtr>::_fieldType
@@ -122,7 +122,7 @@ OSG_DLLEXPORT_DECL1(MField, NodeCorePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 typedef MField<AttachmentMap>     MFAttachmentMap;
 
-#ifndef OSG_COMPILEFIELDINST
+#ifndef OSG_COMPILECONTAINERFIELDINST
 #if defined(__sgi)
 
 #pragma do_not_instantiate MField<AttachmentMap>::_fieldType

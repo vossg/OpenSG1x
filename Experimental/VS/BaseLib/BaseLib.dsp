@@ -43,8 +43,8 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /Gi- /GR /GX /O2 /I ".." /I "..\..\..\Base" /I "..\..\..\Log" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D WINVER=0x0400 /D WIN32_WINDOWS=0x0410 /D "OSG_BUILD_DLL" /D "_OSG_HAVE_CONFIGURED_H_" /FD /c
-# SUBTRACT CPP /YX
+# ADD CPP /MD /W3 /GR /GX /O2 /I ".." /I "..\..\..\Base" /I "..\..\..\Log" /I "..\..\..\Field" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D WINVER=0x0400 /D WIN32_WINDOWS=0x0410 /D "OSG_BUILD_DLL" /D "_OSG_HAVE_CONFIGURED_H_" /FD /c
+# SUBTRACT CPP /nologo /YX
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -70,8 +70,8 @@ LINK32=xilink6.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /Gi- /GR /GX /ZI /Od /I ".." /I "..\..\..\Base" /I "..\..\..\Log" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D WINVER=0x0400 /D WIN32_WINDOWS=0x0410 /D "OSG_BUILD_DLL" /D "_OSG_HAVE_CONFIGURED_H_" /FD /GZ /c
-# SUBTRACT CPP /YX
+# ADD CPP /MDd /W3 /Gm /GR /GX /ZI /Od /I ".." /I "..\..\..\Base" /I "..\..\..\Log" /I "..\..\..\Field" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D WINVER=0x0400 /D WIN32_WINDOWS=0x0410 /D "OSG_BUILD_DLL" /D "_OSG_HAVE_CONFIGURED_H_" /FD /GZ /c
+# SUBTRACT CPP /nologo /YX
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -92,6 +92,26 @@ LINK32=xilink6.exe
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# Begin Group "Field_cpp"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGField.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGFieldFactory.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGFieldType.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGTypeInst.cpp
+# End Source File
+# End Group
 # Begin Source File
 
 SOURCE=..\..\..\Base\OSGBarrier.cpp
@@ -200,6 +220,194 @@ SOURCE=..\..\..\Base\OSGVolumeFunctions.cpp
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Group "Field_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGBaseFieldDataType.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGBoolFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGColor3fFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGColor3ubFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGColor4fFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGColor4ubFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGDynamicVolumeFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGField.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGFieldDataType.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGFieldFactory.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGFieldType.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGInt16Fields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGInt32Fields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGInt64Fields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGInt8Fields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGMathFieldDataType.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGMatrixFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGMFBaseTypes.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGMField.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGMFMathTypes.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGMFSysTypes.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGMFVecTypes.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGPlaneFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGPnt2fFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGPnt3fFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGPnt4fFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGQuaternionFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGReal32Fields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGReal64Fields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGSFBaseTypes.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGSField.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGSFMathTypes.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGSFSysTypes.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGSFVecTypes.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGStringFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGSysFieldDataType.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGTimeFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGUInt16Fields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGUInt32Fields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGUInt64Fields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGUInt8Fields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGVec2fFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGVec3fFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGVec4fFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGVec4ubFields.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGVecFieldDataType.h
+# End Source File
+# End Group
 # Begin Source File
 
 SOURCE=..\..\..\Base\OSGBarrier.h
@@ -340,6 +548,18 @@ SOURCE=..\..\..\Base\OSGVolumeFunctions.h
 # Begin Group "Inline Files"
 
 # PROP Default_Filter "inl"
+# Begin Group "Field_inl"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGMField.inl
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Field\OSGSField.inl
+# End Source File
+# End Group
 # Begin Source File
 
 SOURCE=..\..\..\Base\OSGBaseFunctions.inl
@@ -415,4 +635,3 @@ SOURCE=..\..\..\Base\OSGVolumeFunctions.inl
 # End Group
 # End Target
 # End Project
-

@@ -1,18 +1,18 @@
 
 #include <stdio.h>
 #include <OSGContainerFieldDataType.h>
-#include <OSGVecFieldDataType.h>
-#include <OSGSysFieldDataType.h>
-
-#include <OSGGroup.h>
 
 void main(void)
 {
     fprintf(stderr, "TestStart\n");
 
-    OSG::FieldDataTraits<OSG::FieldContainerPtr>::putToBin();
-    OSG::FieldDataTraits<OSG::GroupPtr>::putToBin();
-    OSG::FieldDataTraits<OSG::Vec3f>::putToBin();
+    OSG::FieldDataTraits<OSG::FieldContainerPtr>::copyToBin(NULL, NULL);
+    OSG::FieldDataTraits<OSG::NodePtr          >::copyToBin(NULL, NULL);
+    OSG::FieldDataTraits<OSG::NodeCorePtr      >::copyToBin(NULL, NULL);
+    OSG::FieldDataTraits<OSG::AttachmentMap    >::copyToBin(NULL, NULL);
 
-    OSG::FieldDataTraits<OSG::Real32>::putToBin();
+    OSG::FieldDataTraits<OSG::FieldContainerPtr>::copyToBin(NULL, NULL, 0);
+    OSG::FieldDataTraits<OSG::NodePtr          >::copyToBin(NULL, NULL, 0);
+    OSG::FieldDataTraits<OSG::NodeCorePtr      >::copyToBin(NULL, NULL, 0);
+    OSG::FieldDataTraits<OSG::AttachmentMap    >::copyToBin(NULL, NULL, 0);
 }

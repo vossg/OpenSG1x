@@ -110,7 +110,7 @@ const OSG::BitVector	WindowBase::GlObjectFlagsFieldMask =
 
 
 
-char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.6 2001/07/03 14:16:33 vossg Exp $";
+char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -199,8 +199,8 @@ UInt32 WindowBase::getSize(void) const
 }
 
 
-void WindowBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void WindowBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((WindowBase *) &other, whichField);
 }
@@ -242,6 +242,107 @@ WindowBase::~WindowBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 WindowBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+    {
+        returnValue += _sfWidth.getBinSize();
+    }
+
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+    {
+        returnValue += _sfHeight.getBinSize();
+    }
+
+    if(FieldBits::NoField != (PortFieldMask & whichField))
+    {
+        returnValue += _mfPort.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ResizePendingFieldMask & whichField))
+    {
+        returnValue += _sfResizePending.getBinSize();
+    }
+
+    if(FieldBits::NoField != (GlObjectFlagsFieldMask & whichField))
+    {
+        returnValue += _mfGlObjectFlags.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle WindowBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+    {
+        pMem = _sfWidth.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+    {
+        pMem = _sfHeight.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PortFieldMask & whichField))
+    {
+        pMem = _mfPort.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ResizePendingFieldMask & whichField))
+    {
+        pMem = _sfResizePending.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GlObjectFlagsFieldMask & whichField))
+    {
+        pMem = _mfGlObjectFlags.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle WindowBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+    {
+        pMem = _sfWidth.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+    {
+        pMem = _sfHeight.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PortFieldMask & whichField))
+    {
+        pMem = _mfPort.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ResizePendingFieldMask & whichField))
+    {
+        pMem = _sfResizePending.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GlObjectFlagsFieldMask & whichField))
+    {
+        pMem = _mfGlObjectFlags.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -249,8 +350,8 @@ WindowBase::~WindowBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void WindowBase::executeSyncImpl(WindowBase *pOther,
-                                        BitVector          whichField)
+void WindowBase::executeSyncImpl(      WindowBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

@@ -156,6 +156,15 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer
 
     virtual void adjustVolume    (Volume &volume);
     
+    /*--------------------------To / From Bin ------------------------------*/
+
+    virtual UInt32       getBinSize (const BitVector    &whichField);
+
+    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem, 
+                                     const BitVector    &whichField);
+    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem, 
+                                     const BitVector    &whichField);
+
     /*------------------------------ dump -----------------------------------*/
 
     virtual void dump(      UInt32     uiIndent = 0, 
@@ -201,11 +210,11 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer
 
     NodeCorePtr getPtr(void);
 
-    virtual void executeSync(FieldContainer &other,
-                             BitVector       whichField);
+    virtual void executeSync(      FieldContainer &other,
+                             const BitVector      &whichField);
 
-    void executeSyncImpl(NodeCore  *pOther,
-                         BitVector  whichField);
+    void executeSyncImpl(      NodeCore  *pOther,
+                         const BitVector &whichField);
 
   private:
 

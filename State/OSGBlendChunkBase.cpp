@@ -92,7 +92,7 @@ const OSG::BitVector	BlendChunkBase::GLIdFieldMask =
 
 
 
-char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char BlendChunkBase::cvsid[] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -185,8 +185,8 @@ UInt32 BlendChunkBase::getSize(void) const
 }
 
 
-void BlendChunkBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void BlendChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((BlendChunkBase *) &other, whichField);
 }
@@ -226,6 +226,92 @@ BlendChunkBase::~BlendChunkBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 BlendChunkBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (SrcFactorFieldMask & whichField))
+    {
+        returnValue += _sfSrcFactor.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DestFactorFieldMask & whichField))
+    {
+        returnValue += _sfDestFactor.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        returnValue += _sfColor.getBinSize();
+    }
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        returnValue += _sfGLId.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle BlendChunkBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (SrcFactorFieldMask & whichField))
+    {
+        pMem = _sfSrcFactor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DestFactorFieldMask & whichField))
+    {
+        pMem = _sfDestFactor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        pMem = _sfColor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        pMem = _sfGLId.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle BlendChunkBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (SrcFactorFieldMask & whichField))
+    {
+        pMem = _sfSrcFactor.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DestFactorFieldMask & whichField))
+    {
+        pMem = _sfDestFactor.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        pMem = _sfColor.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        pMem = _sfGLId.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -233,8 +319,8 @@ BlendChunkBase::~BlendChunkBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void BlendChunkBase::executeSyncImpl(BlendChunkBase *pOther,
-                                        BitVector          whichField)
+void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

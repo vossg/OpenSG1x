@@ -202,6 +202,15 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public FieldContainer
 
     virtual void changed(BitVector  whichField, 
                          ChangeMode from);
+
+    /*--------------------------To / From Bin ------------------------------*/
+
+    virtual UInt32       getBinSize (const BitVector    &whichField);
+
+    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem, 
+                                     const BitVector    &whichField);
+    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem, 
+                                     const BitVector    &whichField);
     
     /*------------------------------ dump ----------------------------------*/
 
@@ -254,14 +263,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public FieldContainer
 
     void setParent(const NodePtr &_parent);
 
-            void onCreate       (void);
-            void onCreate       (const Node &source);
+    void onCreate (void);
+    void onCreate (const Node &source);
 
-    virtual void executeSync    (FieldContainer &other,
-                                 BitVector       whichField);
+    virtual void executeSync    (      FieldContainer &other,
+                                 const BitVector      &whichField);
 
-            void executeSyncImpl(Node      *pOther,
-                                 BitVector  whichField);
+            void executeSyncImpl(      Node      *pOther,
+                                 const BitVector &whichField);
 
     /*------------------------------ pointer -------------------------------*/
 

@@ -46,12 +46,11 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGSystemDef.h>
+#include <OSGBase.h>
 #include <OSGBaseTypes.h>
 
 #include <OSGFieldType.h>
 #include <OSGString.h>
-#include <OSGFieldContainerPtr.h>
 #include <OSGLog.h>
 
 OSG_BEGIN_NAMESPACE
@@ -94,7 +93,7 @@ struct ErrorFromToString
  *  \brief Base class for all fields
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING Field
+class OSG_BASE_DLLMAPPING Field
 {
   public:
 
@@ -184,8 +183,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Field
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
-
-    friend class FieldContainerPtr;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    

@@ -96,7 +96,7 @@ const OSG::BitVector	SolidBackgroundBase::ColorFieldMask =
 
 
 
-char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.6 2001/07/03 14:16:32 vossg Exp $";
+char SolidBackgroundBase::cvsid[] = "@(#)$Id: OSGSolidBackgroundBase.cpp,v 1.7 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -174,8 +174,8 @@ UInt32 SolidBackgroundBase::getSize(void) const
 }
 
 
-void SolidBackgroundBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void SolidBackgroundBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((SolidBackgroundBase *) &other, whichField);
 }
@@ -209,6 +209,47 @@ SolidBackgroundBase::~SolidBackgroundBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 SolidBackgroundBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        returnValue += _sfColor.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle SolidBackgroundBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        pMem = _sfColor.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle SolidBackgroundBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+    {
+        pMem = _sfColor.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -216,8 +257,8 @@ SolidBackgroundBase::~SolidBackgroundBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void SolidBackgroundBase::executeSyncImpl(SolidBackgroundBase *pOther,
-                                        BitVector          whichField)
+void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);

@@ -235,6 +235,46 @@ const SimpleAttachment<AttachmentDescT>::StoredFieldType &
     return _field;
 }
 
+template <class AttachmentDescT> inline
+UInt32 SimpleAttachment<AttachmentDescT>::getBinSize(
+    const BitVector &whichField)
+{
+    UInt32 returnValue = 0;
+
+    if(FieldBits::NoField != (SimpleFieldMask & whichField))
+    {
+        returnValue += _field.getBinSize();
+    }
+
+    return returnValue;
+}
+
+template <class AttachmentDescT> inline
+MemoryHandle SimpleAttachment<AttachmentDescT>::copyToBin(
+          MemoryHandle  pMem, 
+    const BitVector    &whichField)
+{
+    if(FieldBits::NoField != (SimpleFieldMask & whichField))
+    {
+        pMem = _field.copyToBin(pMem);
+    }
+
+    return pMem;
+}
+
+template <class AttachmentDescT> inline
+MemoryHandle SimpleAttachment<AttachmentDescT>::copyFromBin(
+          MemoryHandle  pMem, 
+    const BitVector    &whichField)
+{
+    if(FieldBits::NoField != (SimpleFieldMask & whichField))
+    {
+        pMem = _field.copyFromBin(pMem);
+    }
+
+    return pMem;
+}
+    
 
 /*------------------------------- dump ----------------------------------*/
 
@@ -278,6 +318,28 @@ SimpleAttachment<AttachmentDescT>::SimpleAttachment(
 template <class AttachmentDescT> inline
 SimpleAttachment<AttachmentDescT>::~SimpleAttachment(void)
 {
+}
+
+template <class AttachmentDescT> inline
+void SimpleAttachment<AttachmentDescT>::executeSync(
+          FieldContainer &other,
+    const BitVector      &whichField)
+{
+    this->executeSyncImpl((SimpleAttachment *) &other, 
+                          whichField);
+}
+
+template <class AttachmentDescT> inline
+void SimpleAttachment<AttachmentDescT>::executeSyncImpl(      
+          SimpleAttachment *pOther,
+    const BitVector        &whichField)
+{
+    Inherited::executeSyncImpl(pOther, whichField);
+
+    if(FieldBits::NoField != (SimpleFieldMask & whichField))
+    {
+        _field.syncWith(pOther->_field);
+    }
 }
 
 /*-------------------------------------------------------------------------*\

@@ -121,7 +121,7 @@ const OSG::BitVector	PolygonChunkBase::StippleFieldMask =
 
 
 
-char PolygonChunkBase::cvsid[] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.5 2001/07/03 14:16:32 vossg Exp $";
+char PolygonChunkBase::cvsid[] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.6 2001/07/09 07:50:58 vossg Exp $";
 
 /** \brief Group field description
  */
@@ -249,8 +249,8 @@ UInt32 PolygonChunkBase::getSize(void) const
 }
 
 
-void PolygonChunkBase::executeSync(FieldContainer &other,
-                                    BitVector       whichField)
+void PolygonChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
     this->executeSyncImpl((PolygonChunkBase *) &other, whichField);
 }
@@ -304,6 +304,197 @@ PolygonChunkBase::~PolygonChunkBase(void)
 
 /*------------------------------ access -----------------------------------*/
 
+UInt32 PolygonChunkBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (CullFaceFieldMask & whichField))
+    {
+        returnValue += _sfCullFace.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FrontFaceFieldMask & whichField))
+    {
+        returnValue += _sfFrontFace.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ModeFaceFieldMask & whichField))
+    {
+        returnValue += _sfModeFace.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ModeFieldMask & whichField))
+    {
+        returnValue += _sfMode.getBinSize();
+    }
+
+    if(FieldBits::NoField != (SmoothFieldMask & whichField))
+    {
+        returnValue += _sfSmooth.getBinSize();
+    }
+
+    if(FieldBits::NoField != (OffsetFactorFieldMask & whichField))
+    {
+        returnValue += _sfOffsetFactor.getBinSize();
+    }
+
+    if(FieldBits::NoField != (OffsetBiasFieldMask & whichField))
+    {
+        returnValue += _sfOffsetBias.getBinSize();
+    }
+
+    if(FieldBits::NoField != (OffsetPointFieldMask & whichField))
+    {
+        returnValue += _sfOffsetPoint.getBinSize();
+    }
+
+    if(FieldBits::NoField != (OffsetLineFieldMask & whichField))
+    {
+        returnValue += _sfOffsetLine.getBinSize();
+    }
+
+    if(FieldBits::NoField != (OffsetFillFieldMask & whichField))
+    {
+        returnValue += _sfOffsetFill.getBinSize();
+    }
+
+    if(FieldBits::NoField != (StippleFieldMask & whichField))
+    {
+        returnValue += _mfStipple.getBinSize();
+    }
+
+
+    return returnValue;
+}
+
+MemoryHandle PolygonChunkBase::copyToBin(      MemoryHandle  pMem,
+                                          const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (CullFaceFieldMask & whichField))
+    {
+        pMem = _sfCullFace.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FrontFaceFieldMask & whichField))
+    {
+        pMem = _sfFrontFace.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ModeFaceFieldMask & whichField))
+    {
+        pMem = _sfModeFace.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ModeFieldMask & whichField))
+    {
+        pMem = _sfMode.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SmoothFieldMask & whichField))
+    {
+        pMem = _sfSmooth.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (OffsetFactorFieldMask & whichField))
+    {
+        pMem = _sfOffsetFactor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (OffsetBiasFieldMask & whichField))
+    {
+        pMem = _sfOffsetBias.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (OffsetPointFieldMask & whichField))
+    {
+        pMem = _sfOffsetPoint.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (OffsetLineFieldMask & whichField))
+    {
+        pMem = _sfOffsetLine.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (OffsetFillFieldMask & whichField))
+    {
+        pMem = _sfOffsetFill.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (StippleFieldMask & whichField))
+    {
+        pMem = _mfStipple.copyToBin(pMem);
+    }
+
+
+    return pMem;
+}
+
+MemoryHandle PolygonChunkBase::copyFromBin(      MemoryHandle  pMem,
+                                            const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (CullFaceFieldMask & whichField))
+    {
+        pMem = _sfCullFace.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FrontFaceFieldMask & whichField))
+    {
+        pMem = _sfFrontFace.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ModeFaceFieldMask & whichField))
+    {
+        pMem = _sfModeFace.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ModeFieldMask & whichField))
+    {
+        pMem = _sfMode.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SmoothFieldMask & whichField))
+    {
+        pMem = _sfSmooth.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (OffsetFactorFieldMask & whichField))
+    {
+        pMem = _sfOffsetFactor.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (OffsetBiasFieldMask & whichField))
+    {
+        pMem = _sfOffsetBias.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (OffsetPointFieldMask & whichField))
+    {
+        pMem = _sfOffsetPoint.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (OffsetLineFieldMask & whichField))
+    {
+        pMem = _sfOffsetLine.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (OffsetFillFieldMask & whichField))
+    {
+        pMem = _sfOffsetFill.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (StippleFieldMask & whichField))
+    {
+        pMem = _mfStipple.copyFromBin(pMem);
+    }
+
+
+    return pMem;
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 /*-------------------------------------------------------------------------*\
@@ -311,8 +502,8 @@ PolygonChunkBase::~PolygonChunkBase(void)
 \*-------------------------------------------------------------------------*/
 
 
-void PolygonChunkBase::executeSyncImpl(PolygonChunkBase *pOther,
-                                        BitVector          whichField)
+void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,
+                                        const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);
