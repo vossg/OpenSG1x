@@ -43,6 +43,8 @@
 #include <stdio.h>
 #include <assert.h>
 
+#include <sstream>
+
 #include "OSGConfig.h"
 #include "OSGLog.h"
 #include "OSGSocketSelection.h"
@@ -189,6 +191,45 @@ std::string GroupSockConnection::bind(const std::string &address)
     // create address
     sprintf(portStr,"%5d",_acceptSocket.getAddress().getPort());
     return interf + ":" + portStr;
+}
+
+/*! parse the params string.
+ */
+void GroupSockConnection::setParams(const std::string &params)
+{
+    if(params.empty())
+        return;
+
+    std::string option = "bufferSize=";
+    UInt32 i = 0;
+    if((i=params.find(option)) != std::string::npos)
+    {
+        std::string str = params.substr(i + option.size());
+
+        std::stringstream ss;
+        UInt32 j = 0;
+        while(j < str.length() && str[j] != ',' && isdigit(str[j]))
+        {
+            ss << str[j++];
+        }
+        UInt32 bufferSize;
+        ss >> bufferSize;
+
+        // clear old buffer.
+        readBufClear();
+        writeBufClear();
+
+        _socketReadBuffer.resize(bufferSize);
+        _socketWriteBuffer.resize(_socketReadBuffer.size());
+        
+        // reserve first bytes for buffer size
+        readBufAdd (&_socketReadBuffer [sizeof(SocketBufferHeader)],
+                    _socketReadBuffer.size() -sizeof(SocketBufferHeader));
+        writeBufAdd(&_socketWriteBuffer[sizeof(SocketBufferHeader)],
+                    _socketWriteBuffer.size()-sizeof(SocketBufferHeader));
+
+        FINFO(("GroupSockConnection::setParams : setting buffer size to %u.\n", bufferSize));
+    }
 }
 
 /*-------------------------------------------------------------------------*/

@@ -90,6 +90,13 @@ class OSG_BASE_DLLMAPPING GroupSockConnection : public GroupConnection
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   params                                     */
+    /*! \{                                                                 */
+
+    virtual void setParams(const std::string &params);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   channel handling                           */
     /*! \{                                                                 */
 

@@ -161,6 +161,8 @@ void GroupMCastConnection::setParams(const std::string &params)
     if(params.empty())
         return;
 
+    Inherited::setParams(params);
+
     std::string option = "TTL=";
     UInt32 i = 0;
     if((i=params.find(option)) != std::string::npos)
