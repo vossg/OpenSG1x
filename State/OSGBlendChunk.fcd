@@ -1,33 +1,32 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 
 <FieldContainer
 	name="BlendChunk"
 	parent="StateChunk"
 	library="System"
+	pointerfieldtypes="none"
 	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
-	pointerfieldtypes="none"
 >
-The blending chunk handles OpenGL blending, i.e. the definition how incoming pixel
-are combined with the pixel already in the frame buffer.
+The blending chunk handles OpenGL blending, i.e. the definition how incoming pixel are combined with the pixel already in the frame buffer.
 	<Field
 		name="SrcFactor"
 		type="UInt32"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
-	The incoming pixel is multiplied by the source factor. Legal values are directly
-	taken from the glBlendFunc() manpage.
+	The incoming pixel is multiplied by the source factor. Legal values are directly 	taken from the glBlendFunc() manpage.
 	</Field>
 	<Field
 		name="DestFactor"
 		type="UInt32"
 		cardinality="single"
 		visibility="external"
+		access="public"
 	>
-	The frame buffer pixel is multiplied by the destination factor. Legal values are 
-	directly taken from the glBlendFunc() manpage.
+	The frame buffer pixel is multiplied by the destination factor. Legal values are  	directly taken from the glBlendFunc() manpage.
 	</Field>
 	<Field
 		name="Color"
@@ -35,7 +34,28 @@ are combined with the pixel already in the frame buffer.
 		cardinality="single"
 		visibility="external"
 		defaultValue="0,0,0,0"
+		access="public"
 	>
-	This is the constant color used by blend modes *_CONSTANT_*.  
+	This is the constant color used by blend modes *_CONSTANT_*.
+	</Field>
+	<Field
+		name="alphaFunc"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_NONE"
+		defaultHeader="<GL/gl.h>"
+		access="public"
+	>
+	The alphaFunc defines how fragments which do not fulfill a certain condition are handled. See glAlphaFunc() for details.
+	</Field>
+	<Field
+		name="alphaValue"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
 	</Field>
 </FieldContainer>

@@ -75,7 +75,7 @@ pixel are combined with the pixel already in the frame buffer.
  *                           Class variables                               *
 \***************************************************************************/
 
-char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.10 2001/12/17 15:38:33 dirk Exp $";
+char BlendChunk::cvsid[] = "@(#)$Id: OSGBlendChunk.cpp,v 1.11 2002/01/04 16:47:40 dirk Exp $";
 
 StateChunkClass BlendChunk::_class("Blend");
 
@@ -130,8 +130,8 @@ void BlendChunk::initMethod (void)
 BlendChunk::BlendChunk(void) :
     Inherited()
 {
-    _extBlend       = Window::registerExtension( "GL_EXT_blend_color" );
-    _funcBlendColor = Window::registerFunction ( "glBlendColorEXT" );
+    _extBlend      =Window::registerExtension("GL_EXT_blend_color");
+    _funcBlendColor=Window::registerFunction ("glBlendColorEXT");
 }
 
 /** \brief Copy Constructor
@@ -170,30 +170,34 @@ void BlendChunk::dump(      UInt32    uiIndent,
 
 /*-------------------------- your_category---------------------------------*/
 
-void BlendChunk::activate ( DrawActionBase *action, UInt32 )
+void BlendChunk::activate(DrawActionBase *action, UInt32)
 {
-
-    if ( _sfSrcFactor.getValue() != GL_NONE )
+    if(_sfSrcFactor.getValue() != GL_NONE)
     {
-        glBlendFunc( _sfSrcFactor.getValue(), _sfDestFactor.getValue() );
+        glBlendFunc(_sfSrcFactor.getValue(), _sfDestFactor.getValue());
 
-        if ( action->getWindow()->hasExtension( _extBlend ) )
+        if ( action->getWindow()->hasExtension(_extBlend ))
         {
             // get "glBlendColorEXT" function pointer
-
-            void * blendcolor =
+            void (*blendcolor)(GLclampf red,GLclampf green,GLclampf blue,
+                 GLclampf alpha ) =
+                (void (*)(GLclampf red,GLclampf green,GLclampf blue,
+                 GLclampf alpha))
                 action->getWindow()->getFunction( _funcBlendColor );
 
-            ((void (*)(GLclampf red,GLclampf green,GLclampf blue,
-                 GLclampf alpha ))
-                 blendcolor )
-                ( _sfColor.getValue().red(),
-                  _sfColor.getValue().green(),
-                  _sfColor.getValue().blue(),
-                  _sfColor.getValue().alpha() );
-        }
+                blendcolor(_sfColor.getValue().red(),
+                           _sfColor.getValue().green(),
+                           _sfColor.getValue().blue(),
+                           _sfColor.getValue().alpha());
+                 }
 
-        glEnable( GL_BLEND );
+        glEnable(GL_BLEND);
+    }
+    
+    if(_sfAlphaFunc.getValue() != GL_NONE)
+    {
+        glAlphaFunc(_sfAlphaFunc.getValue(), _sfAlphaValue.getValue());
+        glEnable(GL_ALPHA_TEST);
     }
 }
 
@@ -205,15 +209,20 @@ void BlendChunk::changeFrom( DrawActionBase *act, StateChunk * old_chunk, UInt32
 
 void BlendChunk::deactivate ( DrawActionBase *, UInt32 )
 {
-    if ( _sfSrcFactor.getValue() != GL_NONE )
+    if(_sfSrcFactor.getValue() != GL_NONE)
     {
-        glDisable( GL_BLEND );
+        glDisable(GL_BLEND);
+    }
+    
+    if(_sfAlphaFunc.getValue() != GL_NONE)
+    {
+        glDisable(GL_ALPHA_TEST);
     }
 }
 
 /*-------------------------- comparison -----------------------------------*/
 
-Real32 BlendChunk::switchCost( StateChunk * )
+Real32 BlendChunk::switchCost(StateChunk *)
 {
     return 0;
 }
@@ -234,10 +243,6 @@ Bool BlendChunk::operator == (const StateChunk &other) const
     BlendChunk const *tother = dynamic_cast<BlendChunk const*>(&other);
 
     if ( !tother )
-        return false;
-
-    if(getColor() != tother->getColor())
-
         return false;
 
     return true;

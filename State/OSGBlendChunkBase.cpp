@@ -61,6 +61,7 @@
 #include "OSGBlendChunkBase.h"
 #include "OSGBlendChunk.h"
 
+#include <GL/gl.h>                        // AlphaFunc default header
 
 
 OSG_USING_NAMESPACE
@@ -71,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.21 2001/11/09 08:17:08 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGBlendChunkBase.cpp,v 1.22 2002/01/04 16:47:40 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 
@@ -91,6 +92,12 @@ const OSG::BitVector  BlendChunkBase::DestFactorFieldMask =
 const OSG::BitVector  BlendChunkBase::ColorFieldMask = 
     (1 << BlendChunkBase::ColorFieldId);
 
+const OSG::BitVector  BlendChunkBase::AlphaFuncFieldMask = 
+    (1 << BlendChunkBase::AlphaFuncFieldId);
+
+const OSG::BitVector  BlendChunkBase::AlphaValueFieldMask = 
+    (1 << BlendChunkBase::AlphaValueFieldId);
+
 
 
 // Field descriptions
@@ -103,6 +110,12 @@ const OSG::BitVector  BlendChunkBase::ColorFieldMask =
 */
 /*! \var Color4f         BlendChunkBase::_sfColor
     This is the constant color used by blend modes *_CONSTANT_*.
+*/
+/*! \var UInt32          BlendChunkBase::_sfAlphaFunc
+    The alphaFunc defines how fragments which do not fulfill a certain condition are handled. See glAlphaFunc() for details.
+*/
+/*! \var Real32          BlendChunkBase::_sfAlphaValue
+    
 */
 //! BlendChunk description
 
@@ -122,7 +135,17 @@ FieldDescription *BlendChunkBase::_desc[] =
                      "Color", 
                      ColorFieldId, ColorFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendChunkBase::getSFColor)
+                     (FieldAccessMethod) &BlendChunkBase::getSFColor),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "alphaFunc", 
+                     AlphaFuncFieldId, AlphaFuncFieldMask,
+                     false,
+                     (FieldAccessMethod) &BlendChunkBase::getSFAlphaFunc),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "alphaValue", 
+                     AlphaValueFieldId, AlphaValueFieldMask,
+                     false,
+                     (FieldAccessMethod) &BlendChunkBase::getSFAlphaValue)
 };
 
 //! BlendChunk type
@@ -184,6 +207,8 @@ BlendChunkBase::BlendChunkBase(void) :
     _sfSrcFactor              (), 
     _sfDestFactor             (), 
     _sfColor                  (Color4f(0,0,0,0)), 
+    _sfAlphaFunc              (UInt32(GL_NONE)), 
+    _sfAlphaValue             (Real32(0)), 
     Inherited() 
 {
 }
@@ -198,6 +223,8 @@ BlendChunkBase::BlendChunkBase(const BlendChunkBase &source) :
     _sfSrcFactor              (source._sfSrcFactor              ), 
     _sfDestFactor             (source._sfDestFactor             ), 
     _sfColor                  (source._sfColor                  ), 
+    _sfAlphaFunc              (source._sfAlphaFunc              ), 
+    _sfAlphaValue             (source._sfAlphaValue             ), 
     Inherited                 (source)
 {
 }
@@ -231,6 +258,16 @@ UInt32 BlendChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfColor.getBinSize();
     }
 
+    if(FieldBits::NoField != (AlphaFuncFieldMask & whichField))
+    {
+        returnValue += _sfAlphaFunc.getBinSize();
+    }
+
+    if(FieldBits::NoField != (AlphaValueFieldMask & whichField))
+    {
+        returnValue += _sfAlphaValue.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -253,6 +290,16 @@ void BlendChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ColorFieldMask & whichField))
     {
         _sfColor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AlphaFuncFieldMask & whichField))
+    {
+        _sfAlphaFunc.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AlphaValueFieldMask & whichField))
+    {
+        _sfAlphaValue.copyToBin(pMem);
     }
 
 
@@ -278,6 +325,16 @@ void BlendChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfColor.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (AlphaFuncFieldMask & whichField))
+    {
+        _sfAlphaFunc.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AlphaValueFieldMask & whichField))
+    {
+        _sfAlphaValue.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -295,6 +352,12 @@ void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
         _sfColor.syncWith(pOther->_sfColor);
+
+    if(FieldBits::NoField != (AlphaFuncFieldMask & whichField))
+        _sfAlphaFunc.syncWith(pOther->_sfAlphaFunc);
+
+    if(FieldBits::NoField != (AlphaValueFieldMask & whichField))
+        _sfAlphaValue.syncWith(pOther->_sfAlphaValue);
 
 
 }

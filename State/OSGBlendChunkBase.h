@@ -70,6 +70,8 @@
 #include <OSGUInt32Fields.h> // SrcFactor type
 #include <OSGUInt32Fields.h> // DestFactor type
 #include <OSGColor4fFields.h> // Color type
+#include <OSGUInt32Fields.h> // AlphaFunc type
+#include <OSGReal32Fields.h> // AlphaValue type
 
 #include <OSGBlendChunkFields.h>
 
@@ -94,12 +96,16 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
         SrcFactorFieldId  = Inherited::NextFieldId,
         DestFactorFieldId = SrcFactorFieldId  + 1,
         ColorFieldId      = DestFactorFieldId + 1,
-        NextFieldId       = ColorFieldId      + 1
+        AlphaFuncFieldId  = ColorFieldId      + 1,
+        AlphaValueFieldId = AlphaFuncFieldId  + 1,
+        NextFieldId       = AlphaValueFieldId + 1
     };
 
     static const osg::BitVector SrcFactorFieldMask;
     static const osg::BitVector DestFactorFieldMask;
     static const osg::BitVector ColorFieldMask;
+    static const osg::BitVector AlphaFuncFieldMask;
+    static const osg::BitVector AlphaValueFieldMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -126,6 +132,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     inline       SFUInt32            *getSFSrcFactor      (void);
     inline       SFUInt32            *getSFDestFactor     (void);
     inline       SFColor4f           *getSFColor          (void);
+    inline       SFUInt32            *getSFAlphaFunc      (void);
+    inline       SFReal32            *getSFAlphaValue     (void);
 
     inline       UInt32              &getSrcFactor      (void);
     inline const UInt32              &getSrcFactor      (void) const;
@@ -133,6 +141,10 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     inline const UInt32              &getDestFactor     (void) const;
     inline       Color4f             &getColor          (void);
     inline const Color4f             &getColor          (void) const;
+    inline       UInt32              &getAlphaFunc      (void);
+    inline const UInt32              &getAlphaFunc      (void) const;
+    inline       Real32              &getAlphaValue     (void);
+    inline const Real32              &getAlphaValue     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -142,6 +154,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     inline void setSrcFactor      ( const UInt32 &value );
     inline void setDestFactor     ( const UInt32 &value );
     inline void setColor          ( const Color4f &value );
+    inline void setAlphaFunc      ( const UInt32 &value );
+    inline void setAlphaValue     ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -190,6 +204,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     SFUInt32            _sfSrcFactor;
     SFUInt32            _sfDestFactor;
     SFColor4f           _sfColor;
+    SFUInt32            _sfAlphaFunc;
+    SFReal32            _sfAlphaValue;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -237,6 +253,6 @@ typedef BlendChunkBase *BlendChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.18 2001/11/09 08:17:08 vossg Exp $"
+#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.19 2002/01/04 16:47:40 dirk Exp $"
 
 #endif /* _OSGBLENDCHUNKBASE_H_ */

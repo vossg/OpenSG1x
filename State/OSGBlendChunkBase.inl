@@ -110,6 +110,18 @@ SFColor4f *BlendChunkBase::getSFColor(void)
     return &_sfColor;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+SFUInt32 *BlendChunkBase::getSFAlphaFunc(void)
+{
+    return &_sfAlphaFunc;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFReal32 *BlendChunkBase::getSFAlphaValue(void)
+{
+    return &_sfAlphaValue;
+}
+
 
 OSG_SYSTEMLIB_DLLMAPPING
 UInt32 &BlendChunkBase::getSrcFactor(void)
@@ -165,9 +177,45 @@ void BlendChunkBase::setColor(const Color4f &value)
     _sfColor.setValue(value);
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &BlendChunkBase::getAlphaFunc(void)
+{
+    return _sfAlphaFunc.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const UInt32 &BlendChunkBase::getAlphaFunc(void) const
+{
+    return _sfAlphaFunc.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void BlendChunkBase::setAlphaFunc(const UInt32 &value)
+{
+    _sfAlphaFunc.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Real32 &BlendChunkBase::getAlphaValue(void)
+{
+    return _sfAlphaValue.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Real32 &BlendChunkBase::getAlphaValue(void) const
+{
+    return _sfAlphaValue.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void BlendChunkBase::setAlphaValue(const Real32 &value)
+{
+    _sfAlphaValue.setValue(value);
+}
+
 
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGBlendChunkBase.inl,v 1.9 2001/10/03 20:37:35 dirk Exp $"
+#define OSGBLENDCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGBlendChunkBase.inl,v 1.10 2002/01/04 16:47:40 dirk Exp $"
 
