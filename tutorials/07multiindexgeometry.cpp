@@ -78,18 +78,18 @@ int main(int argc, char **argv)
     GeoPTypesPtr type = GeoPTypesUI8::create();        
     beginEditCP(type, GeoPTypesUI8::GeoPropDataFieldMask);
     {
-        type->addValue(GL_POLYGON  );
-        type->addValue(GL_TRIANGLES);
-        type->addValue(GL_QUADS    );
+        type->push_back(GL_POLYGON  );
+        type->push_back(GL_TRIANGLES);
+        type->push_back(GL_QUADS    );
     }
     endEditCP  (type, GeoPTypesUI8::GeoPropDataFieldMask);
 
     GeoPLengthsPtr lens = GeoPLengthsUI32::create();    
     beginEditCP(lens, GeoPLengthsUI32::GeoPropDataFieldMask);
     {
-        lens->addValue(4);
-        lens->addValue(6);
-        lens->addValue(8);
+        lens->push_back(4);
+        lens->push_back(6);
+        lens->push_back(8);
     }
     endEditCP  (lens, GeoPLengthsUI32::GeoPropDataFieldMask);
        
@@ -97,32 +97,32 @@ int main(int argc, char **argv)
     beginEditCP(pnts, GeoPositions3f::GeoPropDataFieldMask);
     {
         // the base
-        pnts->addValue(Pnt3f(-1, -1, -1));
-        pnts->addValue(Pnt3f(-1, -1,  1));
-        pnts->addValue(Pnt3f( 1, -1,  1));
-        pnts->addValue(Pnt3f( 1, -1, -1));
+        pnts->push_back(Pnt3f(-1, -1, -1));
+        pnts->push_back(Pnt3f(-1, -1,  1));
+        pnts->push_back(Pnt3f( 1, -1,  1));
+        pnts->push_back(Pnt3f( 1, -1, -1));
 
         // the roof base
-        pnts->addValue(Pnt3f(-1,  0, -1));
-        pnts->addValue(Pnt3f(-1,  0,  1));
-        pnts->addValue(Pnt3f( 1,  0,  1));
-        pnts->addValue(Pnt3f( 1,  0, -1));
+        pnts->push_back(Pnt3f(-1,  0, -1));
+        pnts->push_back(Pnt3f(-1,  0,  1));
+        pnts->push_back(Pnt3f( 1,  0,  1));
+        pnts->push_back(Pnt3f( 1,  0, -1));
 
         // the gable
-        pnts->addValue(Pnt3f( 0,  1, -1));
-        pnts->addValue(Pnt3f( 0,  1,  1));
+        pnts->push_back(Pnt3f( 0,  1, -1));
+        pnts->push_back(Pnt3f( 0,  1,  1));
     }
     endEditCP  (pnts, GeoPositions3f::GeoPropDataFieldMask);
    
     GeoColors3fPtr colors = GeoColors3f::create();
     beginEditCP(colors, GeoColors3f::GeoPropDataFieldMask);
     {
-        colors->addValue(Color3f(1, 1, 0));
-        colors->addValue(Color3f(1, 0, 0));
-        colors->addValue(Color3f(1, 0, 0));
-        colors->addValue(Color3f(1, 1, 0));
-        colors->addValue(Color3f(0, 1, 1));
-        colors->addValue(Color3f(1, 0, 1));
+        colors->push_back(Color3f(1, 1, 0));
+        colors->push_back(Color3f(1, 0, 0));
+        colors->push_back(Color3f(1, 0, 0));
+        colors->push_back(Color3f(1, 1, 0));
+        colors->push_back(Color3f(0, 1, 1));
+        colors->push_back(Color3f(1, 0, 1));
     }
     endEditCP  (colors, GeoPositions3f::GeoPropDataFieldMask);
 
@@ -135,12 +135,12 @@ int main(int argc, char **argv)
     GeoNormals3fPtr norms = GeoNormals3f::create();
     beginEditCP(norms, GeoNormals3f::GeoPropDataFieldMask);
     {
-        norms->addValue(Vec3f(-1,  0,  0));
-        norms->addValue(Vec3f( 1,  0,  0));
-        norms->addValue(Vec3f( 0, -1,  0));
-        norms->addValue(Vec3f( 0,  1,  0));
-        norms->addValue(Vec3f( 0,  0, -1));
-        norms->addValue(Vec3f( 0,  0,  1));
+        norms->push_back(Vec3f(-1,  0,  0));
+        norms->push_back(Vec3f( 1,  0,  0));
+        norms->push_back(Vec3f( 0, -1,  0));
+        norms->push_back(Vec3f( 0,  1,  0));
+        norms->push_back(Vec3f( 0,  0, -1));
+        norms->push_back(Vec3f( 0,  0,  1));
     }
     endEditCP  (norms, GeoNormals3f::GeoPropDataFieldMask);
     
@@ -158,48 +158,48 @@ int main(int argc, char **argv)
     beginEditCP(indices, GeoIndicesUI32::GeoPropDataFieldMask);
     {
         // indices for the polygon
-        indices->addValue(0);   // position index
-        indices->addValue(3);   // color/normal index
-        indices->addValue(1);   // position index
-        indices->addValue(3);   // color/normal index
-        indices->addValue(2);   // position index
-        indices->addValue(3);   // color/normal index
-        indices->addValue(3);   // position index
-        indices->addValue(3);   // color/normal index
+        indices->push_back(0);   // position index
+        indices->push_back(3);   // color/normal index
+        indices->push_back(1);   // position index
+        indices->push_back(3);   // color/normal index
+        indices->push_back(2);   // position index
+        indices->push_back(3);   // color/normal index
+        indices->push_back(3);   // position index
+        indices->push_back(3);   // color/normal index
        
         // indices for the triangles
-        indices->addValue(7);   // position index
-        indices->addValue(4);   // color/normal index
-        indices->addValue(4);   // position index
-        indices->addValue(4);   // color/normal index
-        indices->addValue(8);   // position index
-        indices->addValue(4);   // color/normal index
+        indices->push_back(7);   // position index
+        indices->push_back(4);   // color/normal index
+        indices->push_back(4);   // position index
+        indices->push_back(4);   // color/normal index
+        indices->push_back(8);   // position index
+        indices->push_back(4);   // color/normal index
 
-        indices->addValue(5);   // position index
-        indices->addValue(5);   // color/normal index
-        indices->addValue(6);   // position index
-        indices->addValue(5);   // color/normal index
-        indices->addValue(9);   // position index
-        indices->addValue(5);   // color/normal index
+        indices->push_back(5);   // position index
+        indices->push_back(5);   // color/normal index
+        indices->push_back(6);   // position index
+        indices->push_back(5);   // color/normal index
+        indices->push_back(9);   // position index
+        indices->push_back(5);   // color/normal index
         
         // indices for the quads
-        indices->addValue(1);   // position index
-        indices->addValue(5);   // color/normal index
-        indices->addValue(2);   // position index
-        indices->addValue(5);   // color/normal index
-        indices->addValue(6);   // position index
-        indices->addValue(5);   // color/normal index
-        indices->addValue(5);   // position index
-        indices->addValue(5);   // color/normal index
+        indices->push_back(1);   // position index
+        indices->push_back(5);   // color/normal index
+        indices->push_back(2);   // position index
+        indices->push_back(5);   // color/normal index
+        indices->push_back(6);   // position index
+        indices->push_back(5);   // color/normal index
+        indices->push_back(5);   // position index
+        indices->push_back(5);   // color/normal index
 
-        indices->addValue(3);   // position index
-        indices->addValue(4);   // color/normal index
-        indices->addValue(0);   // position index
-        indices->addValue(4);   // color/normal index
-        indices->addValue(4);   // position index
-        indices->addValue(4);   // color/normal index
-        indices->addValue(7);   // position index
-        indices->addValue(4);   // color/normal index
+        indices->push_back(3);   // position index
+        indices->push_back(4);   // color/normal index
+        indices->push_back(0);   // position index
+        indices->push_back(4);   // color/normal index
+        indices->push_back(4);   // position index
+        indices->push_back(4);   // color/normal index
+        indices->push_back(7);   // position index
+        indices->push_back(4);   // color/normal index
     }
     endEditCP  (indices, GeoIndicesUI32::GeoPropDataFieldMask);
     
@@ -231,9 +231,9 @@ int main(int argc, char **argv)
              The number of elements in the indexMapping field defines the
              number of indices used for every vertex.
         */
-        geo->getIndexMapping().addValue( Geometry::MapPosition   );
-        geo->getIndexMapping().addValue( Geometry::MapColor    |
-                                         Geometry::MapNormal     );
+        geo->getIndexMapping().push_back( Geometry::MapPosition   );
+        geo->getIndexMapping().push_back( Geometry::MapColor    |
+                                          Geometry::MapNormal     );
          
         geo->setPositions(pnts  );
         geo->setColors   (colors);
