@@ -32,8 +32,9 @@ def Glob(match):
 
 Export('Glob')
 
+PLATFORM = DefaultEnvironment().get('PLATFORM')
 
-if DefaultEnvironment().get('PLATFORM') == 'cygwin':
+if PLATFORM == 'win32':
 
     def GetCygwinPath(path):
         f = os.popen('cygpath -w -p ' + path, 'r')
@@ -45,6 +46,14 @@ if DefaultEnvironment().get('PLATFORM') == 'cygwin':
 
     Export('GetCygwinPath')
 
+elif PLATFORM == 'cygwin':
+    
+    def GetCygwinPath(path):
+        return path
+    
+    Export('GetCygwinPath')
+
+
 
 def CreateEnvironment(*args, **kw):
     "Creates an environment with some things that always have to be set."
@@ -54,9 +63,11 @@ def CreateEnvironment(*args, **kw):
 
 
 win32_defines = ['WIN32', '_WINDOWS', 'WINVER=0x0400', '_WIN32_WINDOWS=0x0410',
-                 '_WIN32_WINNT=0x0400', 'OSG_DEFAULT_LOG_LEVEL=2',
-                 'OSG_DEFAULT_LOG_TYPE=2',
+                 '_WIN32_WINNT=0x0400',
                  'STRICT', 'NOMINMAX', 'WIN32_LEAN_AND_MEAN']
+
+#'OSG_DEFAULT_LOG_TYPE=2'
+#'OSG_DEFAULT_LOG_LEVEL=2'
 
 # ok we need to add some kind of configure for creating the OSGConfigured.h header file.
 # '_OSG_HAVE_CONFIGURED_H_'
@@ -175,9 +186,6 @@ class win32_msvc_base(win32):
         win32.__init__(self, name)
         env = self.get_env()
 
-        # This needs to be user-specified.
-        env['QT_LIB'] = 'qt-mteval323'
-
         env.AppendENVPath('PATH', GetCygwinPath('/bin'))
 
         env.Append(CPPDEFINES=win32_defines,
@@ -249,9 +257,8 @@ class unknown(ToolChain):
 def hasICL():
     f = os.popen('icl -help', 'r')
     for line in f.xreadlines():
-        break
-    if string.find(line, 'Intel') >= 0:
-        return 1
+        if string.find(line, 'Intel') >= 0:
+            return 1
     return 0
 
 def SelectToolChain():
@@ -292,7 +299,9 @@ Default(env['PREFIX'])
 
 opts = Options('options.cache', ARGUMENTS)
 opts.AddOptions(
-    BoolOption('distcc', 'Compile using distcc', 0))
+    BoolOption('distcc', 'Compile using distcc', 0),
+    ('QT_LIB', 'Name of the QT library', 'qt'))
+
 opts.Update(env)  # Update the environment with the options.
 opts.Save('options.cache', env)
 Help(opts.GenerateHelpText(env))

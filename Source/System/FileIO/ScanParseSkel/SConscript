@@ -28,8 +28,7 @@ InstallAs('OSGScanParseSkel.tab.h',   'OSGScanParseSkel_.tab.h')
 InstallAs('OSGScanParseSkel.output',  'OSGScanParseSkel_.output')
 
 if env['PLATFORM'] == 'win32':
-    Install('.', GetWinPath('/usr/include/FlexLexer.h'))
-    #Install('.', 'C:/cygwin/usr/include/FlexLexer.h')
+    Install('.', GetCygwinPath('/usr/include/FlexLexer.h'))
 else:
     Install('.', '/usr/include/FlexLexer.h')
 

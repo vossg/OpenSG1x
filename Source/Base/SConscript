@@ -3,7 +3,9 @@ Import('*')
 headers, sources, tests, generated = ProcessDirs(BaseDirs)
 InstallHeaders(env, headers)
 
-BuildLibrary(tc, 'OSGBase', sources,
+def custom(env):
+    env.Append(LIBS=env.get('OSG_BASE_LIBS', []))
+
+BuildLibrary(tc, 'OSGBase', sources, updates=[custom],
              CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEBASELIB'],
-             CPPPATH=ExpandCPPPath(BaseDirs, generated),
-             LIBS=['$OSG_BASE_LIBS'])
+             CPPPATH=ExpandCPPPath(BaseDirs, generated))

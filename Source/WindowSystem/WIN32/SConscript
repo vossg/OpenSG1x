@@ -18,7 +18,7 @@ headers = Split("""
 InstallHeaders(env, headers)
 
 BuildLibrary(tc, 'OSGWindowWIN32', sources,
-             CPPPATH=['.'] + BaseDirs + SystemDirs,
+             CPPPATH=ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs),
              CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWWIN32LIB'],
              LIBPATH=['../../Base', '../../System'],
              LIBS=['OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}',
