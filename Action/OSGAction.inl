@@ -157,7 +157,7 @@ Action::ResultE Action::callEnter( NodePtr node )
     if ( uiFunctorIndex < _enterFunctors.size() )
         result = _enterFunctors[uiFunctorIndex].call(cnode,this);
 	else
-		result = Continue;
+		result = _defaultEnterFunction(cnode,this);
 
 	return result;
 }
@@ -173,7 +173,7 @@ Action::ResultE Action::callLeave( NodePtr node )
     if ( uiFunctorIndex < _leaveFunctors.size() )
         result = _leaveFunctors[uiFunctorIndex].call(cnode,this);
 	else
-		result = Continue;
+		result = _defaultLeaveFunction(cnode,this);
 
 	return result;
 }

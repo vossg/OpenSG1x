@@ -78,8 +78,9 @@ using namespace OSG;
 
 char Action::cvsid[] = "@(#)$Id: $";
 
-vector<Action::Functor> *Action::_defaultEnterFunctors;
+Action * Action::_prototype = NULL;
 
+vector<Action::Functor> *Action::_defaultEnterFunctors;
 vector<Action::Functor> *Action::_defaultLeaveFunctors;
 
 /***************************************************************************\
@@ -101,7 +102,7 @@ void Action::registerEnterDefault(	const FieldContainerType &type,
 	while(type.getId() >= _defaultEnterFunctors->size())
 	{
 		_defaultEnterFunctors->push_back( 
-				osgFunctionFunctor2(&Action::_defaultFunction));
+				osgFunctionFunctor2(&Action::_defaultEnterFunction));
 	}
 	
 	(*_defaultEnterFunctors)[ type.getId() ] = func;
@@ -116,12 +117,21 @@ void Action::registerLeaveDefault(	const FieldContainerType &type,
 	while(type.getId() >= _defaultLeaveFunctors->size())
 	{
 		_defaultLeaveFunctors->push_back( 
-				osgFunctionFunctor2(&Action::_defaultFunction));
+				osgFunctionFunctor2(&Action::_defaultLeaveFunction));
 	}
 	
 	(*_defaultLeaveFunctors)[ type.getId() ] = func;
 }
 
+void Action::setPrototype( Action * proto )
+{
+	_prototype = proto;
+}
+
+Action *Action::getPrototype( void )
+{
+	return _prototype;
+}
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
@@ -156,6 +166,30 @@ Action::Action(void)
 		_leaveFunctors = *_defaultLeaveFunctors;
 }
 
+/** \brief Copy-Constructor
+ */
+
+Action::Action( const Action & source ) :
+	_enterFunctors( source._enterFunctors ),
+	_leaveFunctors( source._leaveFunctors )
+{
+}
+
+
+/** \brief create a new action
+ */
+
+Action * Action::create( void )
+{
+	Action * act;
+	
+	if ( _prototype )
+		act = new Action( *_prototype );
+	else
+		act = new Action();
+	
+	return act;
+}
 
 /** \brief Destructor
  */
@@ -204,7 +238,7 @@ void Action::registerEnterFunction( const FieldContainerType &type,
 	while ( type.getId() >= _enterFunctors.size() )
 	{
 		_enterFunctors.push_back(
-            osgFunctionFunctor2(&Action::_defaultFunction));
+            osgFunctionFunctor2(&Action::_defaultEnterFunction));
 	}
 	
 	_enterFunctors[ type.getId() ] = func;
@@ -216,7 +250,7 @@ void Action::registerLeaveFunction( const FieldContainerType &type,
 	while ( type.getId() >= _leaveFunctors.size() )
 	{
 		_leaveFunctors.push_back(
-            osgFunctionFunctor2(&Action::_defaultFunction));
+            osgFunctionFunctor2(&Action::_defaultLeaveFunction));
 	}
 	
 	_leaveFunctors[ type.getId() ] = func;
@@ -469,10 +503,64 @@ Bool Action::operator != (const Action &other)
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+// default Action function: try to call the parent function,
+// if there is a known parent
+// Doesn't work yet. Later. !!!
 
-Action::ResultE Action::_defaultFunction(CNodePtr& node, Action * action)
+Action::ResultE Action::_defaultEnterFunction(CNodePtr& node, Action * action)
 {
 	return Continue;
+
+/*
+	ResultE result;
+	FieldContainerType *t = &node->getType();
+	UInt32 uiFunctorIndex = action->_enterFunctors.size();
+
+	while ( t && uiFunctorIndex >= action->_enterFunctors.size() &&
+				action->_enterFunctors[uiFunctorIndex] != 
+				osgFunctionFunctor2(&Action::_defaultEnterFunction)  )
+	{
+		t = t->getParent();
+		if ( t ) 
+			uiFunctorIndex = t->getId();
+	}
+
+	// nothing found?
+	if ( uiFunctorIndex >= action->_enterFunctors.size() )
+		return Continue;
+	
+	result = action->_enterFunctors[uiFunctorIndex].call(node,action);
+
+	return result;
+*/
+}
+
+Action::ResultE Action::_defaultLeaveFunction(CNodePtr& node, Action * action)
+{
+	return Continue;
+
+/*
+	ResultE result;
+	FieldContainerType *t = &node->getType();
+	UInt32 uiFunctorIndex = action->_leaveFunctors.size();
+
+	while ( t && uiFunctorIndex >= action->_leaveFunctors.size() &&
+				action->_leaveFunctors[uiFunctorIndex] != 
+				osgFunctionFunctor2(&Action::_defaultLeaveFunction) )
+	{
+		t = t->getParent();
+		if ( t ) 
+			uiFunctorIndex = t->getId();
+	}
+
+	// nothing found?
+	if ( uiFunctorIndex >= action->_leaveFunctors.size() )
+		return Continue;
+	
+	result = action->_leaveFunctors[uiFunctorIndex].call(node,action);
+
+	return result;
+*/
 }
 
 ///---------------------------------------------------------------------------

@@ -133,11 +133,17 @@ class OSG_ACTION_DLLMAPPING Action
 
     static const char *getClassname(void) { return "Action"; }
 
+	// create a new action by cloning the prototype
+	static Action * create( void );
+	
+	// prototype access
+	// after setting the prototype all new actions are clones of it
+	static void    setPrototype( Action * proto );
+	static Action *getPrototype( void );
+	
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-    Action(void);
 
     virtual ~Action(void);
 
@@ -234,6 +240,10 @@ class OSG_ACTION_DLLMAPPING Action
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
+	// protected to allow derived access
+    Action(void);
+    Action(const Action &source);
+
 	// call the single node. used for cascading actions
 	
 	inline ResultE callEnter( NodePtr node );	
@@ -257,7 +267,8 @@ class OSG_ACTION_DLLMAPPING Action
 
 	// default function
 	
-	static ResultE _defaultFunction( CNodePtr &node, Action *action);
+	static ResultE _defaultEnterFunction( CNodePtr &node, Action *action);
+	static ResultE _defaultLeaveFunction( CNodePtr &node, Action *action);
 
 	// functors
 	// just protected, so that derived actions can access them
@@ -289,6 +300,9 @@ class OSG_ACTION_DLLMAPPING Action
 
 	static char cvsid[];
 
+	// the prototype which is copied to create new actions
+	static Action * _prototype;
+	
 	// default functors for instantiation
 	static vector<Functor> *_defaultEnterFunctors;
 	static vector<Functor> *_defaultLeaveFunctors;
@@ -318,9 +332,6 @@ class OSG_ACTION_DLLMAPPING Action
 	ResultE callStart( void );
 	ResultE callStop( ResultE res );
 
-	// prohibit default functions (move to 'public' if you need one)
-
-    Action(const Action &source);
     Action& operator =(const Action &source);
 };
 
