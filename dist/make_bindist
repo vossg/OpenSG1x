@@ -213,7 +213,7 @@ case $system in
         Common/prep_hp
 	;;
 	
-    ia64-unknown-linux-gnu )	
+    ia64-unknown-linux* )	
     	
         glut_dir="/usr"
         glut_lib="libglut.so.3"
