@@ -11,7 +11,7 @@ OBJS := $(SRCS:.cpp=.o)
 OSGROOT := $(wildcard ../../Builds/$(shell ../../CommonConf/config.guess)-*)
 
 
-CC := CC
+CC := $(shell $(OSGROOT)/bin/osg-config --compiler)
 
 CCFLAGS = -I. $(shell $(OSGROOT)/bin/osg-config --cflags Base System GLUT) 
 
