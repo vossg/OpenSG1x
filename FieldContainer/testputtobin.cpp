@@ -169,6 +169,8 @@ int main(int argc,char **argv)
                      1,0.0,
                      img,true);
 
+    image.setAttachment("hallo","blubber");
+    image.setAttachment("hallo2","blubber2");
     OSG::SFImageP sfimage;
     sfimage.setValue(&image);
 
