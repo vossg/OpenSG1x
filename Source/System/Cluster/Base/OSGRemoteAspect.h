@@ -103,7 +103,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     /*! \name                   Remote aspect functionaliy                 */
     /*! \{                                                                 */
 
-    void receiveSync       ( Connection &connection         );
+    void receiveSync       ( Connection &connection,
+                             bool applyToChangelist=false   );
     void sendSync          ( Connection &connection,
                              ChangeList *changeList=NULL    );
     void registerCreated   ( const FieldContainerType &type, 

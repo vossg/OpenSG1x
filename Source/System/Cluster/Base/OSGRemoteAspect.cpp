@@ -137,7 +137,8 @@ RemoteAspect::~RemoteAspect(void)
  * 
  * \see registerCreated registerChanged registerDeleted
  */
-void RemoteAspect::receiveSync(Connection &connection)
+void RemoteAspect::receiveSync(Connection &connection,
+                               bool applyToChangelist)
 {
     bool finish=false;
     UInt8  cmd;
@@ -241,6 +242,10 @@ void RemoteAspect::receiveSync(Connection &connection)
                 else
                 {
                     fcPtr=factory->getContainer(receivedFCI->second);
+                    if(applyToChangelist)
+                    {
+                        beginEditCP(fcPtr,mask);
+                    }
                     /*
                     for(int i=0;i<fcPtr->getType().getNumFieldDescs();i++)
                     {
@@ -250,8 +255,15 @@ void RemoteAspect::receiveSync(Connection &connection)
                     }
                     */
                     fcPtr->copyFromBin(connection,mask);
-                    // do we need to call this?
-                    changedCP(fcPtr,mask);
+                    if(applyToChangelist)
+                    {
+                        endEditCP(fcPtr,mask);
+                    }
+                    else
+                    {
+                        // do we need to call this?
+                        changedCP(fcPtr,mask);
+                    }
                     callChanged(fcPtr);
                 }
                 break;
