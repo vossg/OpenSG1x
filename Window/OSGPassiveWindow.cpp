@@ -125,19 +125,32 @@ void PassiveWindow::swap( void )
 // Query for a GL extension function
 PassiveWindow::PassiveWindowExtFunc PassiveWindow::getFunctionByName(const Char8 *s)
 {
-#ifdef sgi
+#ifdef __sgi
     static void *libHandle = NULL;
-    if ( ! libHandle ) 
+    if(libHandle == NULL)
         libHandle = dlopen("libgl.so", RTLD_LAZY);
-    return (void (*)(void)) dlsym( libHandle, s);
+    void *func = dlsym( libHandle, s );
+    return (void (*)(void))func;         
 #elif defined( WIN32 )
     return PassiveWindowExtFunc(wglGetProcAddress(s));
-#elif defined(darwin)
-    return NULL;
 #elif defined(__hpux)
-    return NULL;
+    static void *libHandle = NULL;
+
+    if(libHandle == NULL)
+    {
+        // HACK, but we link against libGL anyway
+        libHandle = dlopen(NULL, RTLD_GLOBAL);
+    }
+
+    return (void (*)(void)) dlsym(libHandle, s);
 #else
-    return (  glXGetProcAddressARB((const GLubyte *)s )  );
+// UGLY HACK: SGI/NVidia header don't define GLX_ARB_get_proc_address,
+// but they use __GLX_glx_h__ instead of GLX_H as an include guard.
+#if defined(GLX_ARB_get_proc_address) || defined(__GLX_glx_h__)
+    return glXGetProcAddressARB((const GLubyte *) s);
+#else
+    return NULL;
+#endif
 #endif
     
 //    return PassiveWindowExtFunc(s);
@@ -157,7 +170,7 @@ PassiveWindow::PassiveWindowExtFunc PassiveWindow::getFunctionByName(const Char8
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.8 2002/06/30 05:04:24 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGPassiveWindow.cpp,v 1.9 2002/07/03 10:06:13 dirk Exp $";
     static char cvsid_hpp[] = OSGPASSIVEWINDOW_HEADER_CVSID;
     static char cvsid_inl[] = OSGPASSIVEWINDOW_INLINE_CVSID;
 }
