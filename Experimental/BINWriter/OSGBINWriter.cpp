@@ -264,10 +264,8 @@ void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
         Field            *fieldPtr = fieldConPtr->getField(i);
         const FieldType  &fType    = fieldPtr->getType();
 
-        if(!fDesc->isInternal() ||
-           //parent fields are marked as internal
-           strcmp(fDesc->getCName(),"parent")==0 ||
-           strcmp(fDesc->getCName(),"parents")==0 )
+        // process all containers
+        if(!fDesc->isInternal())
         { 
             //detect referenced containers #DIRTY-HACK#
 			if( strstr(fType.getCName(), "Ptr") != NULL )
@@ -306,24 +304,36 @@ void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
                     doIndexFC(mapIt->second);
                 }
             }
-
-            //ignore node volume
-            if(fcType == Node::getClassType() &&
-               fcType.getFieldDescription(i)->getFieldMask() == 
-               Node::VolumeFieldMask)
-            {
-                continue;
-            }
-            // ignore empty mfields
-            if(fieldPtr->getCardinality() == FieldType::MULTI_FIELD &&
-               fieldPtr->getSize() == 0)
-            {
-                continue;
-            }
-            //add field to fieldmask
-            fcInfo.mask = (fcInfo.mask | fcType.getFieldDescription(i)
-                                                ->getFieldMask());
         }
+
+        // create field mask
+
+        // ignore internal fields except parent fields
+        if(fDesc->isInternal() &&
+           strcmp(fDesc->getCName(),"parent")!=0 &&
+           strcmp(fDesc->getCName(),"parents")!=0 )
+        {
+            continue;
+        }
+
+        // ignore node volume
+        if(fcType == Node::getClassType() &&
+           fcType.getFieldDescription(i)->getFieldMask() == 
+           Node::VolumeFieldMask)
+        {
+            continue;
+        }
+
+        // ignore empty mfields
+        if(fieldPtr->getCardinality() == FieldType::MULTI_FIELD &&
+           fieldPtr->getSize() == 0)
+        {
+            continue;
+        }
+
+        // add field to fieldmask
+        fcInfo.mask = (fcInfo.mask | fcType.getFieldDescription(i)
+                       ->getFieldMask());
 
 	}
 	// add container to the Map of containers to write
