@@ -226,12 +226,23 @@ void FatBorderChunk::initMethod (void)
 FatBorderChunk::FatBorderChunk(void) :
     Inherited()
 {
-	activateWithStandardLighting( );
+// Don't do that in the constructor
+//	activateWithStandardLighting( );
 }
 
 FatBorderChunk::FatBorderChunk(const FatBorderChunk &source) :
     Inherited(source)
 {
+}
+
+
+void FatBorderChunk::onCreate(const FatBorderChunk *)
+{
+    if(GlobalSystemState == Startup)
+        return;
+
+    Inherited::onCreate(NULL);
+    activateWithStandardLighting();
 }
 
 FatBorderChunk::~FatBorderChunk(void)

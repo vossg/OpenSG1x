@@ -97,6 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FatBorderChunk : public FatBorderChunkBase
     FatBorderChunk(void);
     FatBorderChunk(const FatBorderChunk &source);
 
+    void onCreate(const FatBorderChunk *source = NULL);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
