@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class Inline;
+
 //! InlinePtr
 
 typedef FCPtr<NodeCorePtr, Inline> InlinePtr;
 
-/** \ingroup FieldLib Inline
- *  InlinePtr field traits 
- */
+/*! \brief InlinePtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<InlinePtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<InlinePtr> :
 };
 
 //! SFInlinePtr
+//! \ingroup SingleFields
 
 typedef SField<InlinePtr> SFInlinePtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFInlinePtr
+//! \ingroup MultiFields
 
 typedef MField<InlinePtr> MFInlinePtr;
 

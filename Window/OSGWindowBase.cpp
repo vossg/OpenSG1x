@@ -88,11 +88,11 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.22 2001/11/01 05:55:11 vossg Exp $";
-    static char cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
-    static char cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWindowBase.cpp,v 1.23 2001/11/09 08:17:07 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 
-    static char cvsid_fields_hpp[] = OSGWINDOWFIELDS_HEADER_CVSID;
+    static Char8 cvsid_fields_hpp[] = OSGWINDOWFIELDS_HEADER_CVSID;
 }
 
 #ifdef __sgi

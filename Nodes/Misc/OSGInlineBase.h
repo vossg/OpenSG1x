@@ -76,7 +76,7 @@ OSG_BEGIN_NAMESPACE
 class Inline;
 class BinaryDataHandler;
 
-/*! \brief Inline Base Class. */
+//! \brief Inline Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
 {
@@ -134,19 +134,19 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -154,8 +154,8 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  InlinePtr    create          (void); 
-    static  InlinePtr    createEmpty     (void); 
+    static  InlinePtr      create          (void); 
+    static  InlinePtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 

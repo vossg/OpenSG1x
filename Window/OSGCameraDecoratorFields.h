@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class CameraDecorator;
+
 //! CameraDecoratorPtr
 
 typedef FCPtr<CameraPtr, CameraDecorator> CameraDecoratorPtr;
 
-/** \ingroup FieldLib CameraDecorator
- *  CameraDecoratorPtr field traits 
- */
+/*! \brief CameraDecoratorPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<CameraDecoratorPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<CameraDecoratorPtr> :
 };
 
 //! SFCameraDecoratorPtr
+//! \ingroup SingleFields
 
 typedef SField<CameraDecoratorPtr> SFCameraDecoratorPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFCameraDecoratorPtr
+//! \ingroup MultiFields
 
 typedef MField<CameraDecoratorPtr> MFCameraDecoratorPtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorFields.h,v 1.6 2001/09/17 14:15:07 vossg Exp $"
+#define OSGCAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGCameraDecoratorFields.h,v 1.7 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGCAMERADECORATORFIELDS_H_ */

@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class SimpleTexturedMaterial;
+
 //! SimpleTexturedMaterialPtr
 
 typedef FCPtr<SimpleMaterialPtr, SimpleTexturedMaterial> SimpleTexturedMaterialPtr;
 
-/** \ingroup FieldLib SimpleTexturedMaterial
- *  SimpleTexturedMaterialPtr field traits 
- */
+/*! \brief SimpleTexturedMaterialPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<SimpleTexturedMaterialPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<SimpleTexturedMaterialPtr> :
 };
 
 //! SFSimpleTexturedMaterialPtr
+//! \ingroup SingleFields
 
 typedef SField<SimpleTexturedMaterialPtr> SFSimpleTexturedMaterialPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPP
 #endif
 
 //! MFSimpleTexturedMaterialPtr
+//! \ingroup MultiFields
 
 typedef MField<SimpleTexturedMaterialPtr> MFSimpleTexturedMaterialPtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPP
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialFields.h,v 1.2 2001/10/10 10:42:55 vossg Exp $"
+#define OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialFields.h,v 1.3 2001/11/09 08:17:10 vossg Exp $"
 
 #endif /* _OSGSIMPLETEXTUREDMATERIALFIELDS_H_ */

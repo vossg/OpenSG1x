@@ -80,7 +80,7 @@ OSG_BEGIN_NAMESPACE
 class SimpleTexturedMaterial;
 class BinaryDataHandler;
 
-/*! \brief SimpleTexturedMaterial Base Class. */
+//! \brief SimpleTexturedMaterial Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMaterial
 {
@@ -162,19 +162,19 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -182,8 +182,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  SimpleTexturedMaterialPtr    create          (void); 
-    static  SimpleTexturedMaterialPtr    createEmpty     (void); 
+    static  SimpleTexturedMaterialPtr      create          (void); 
+    static  SimpleTexturedMaterialPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -253,6 +253,6 @@ typedef SimpleTexturedMaterialBase *SimpleTexturedMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.h,v 1.4 2001/10/15 07:05:36 vossg Exp $"
+#define OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterialBase.h,v 1.5 2001/11/09 08:17:10 vossg Exp $"
 
 #endif /* _OSGSIMPLETEXTUREDMATERIALBASE_H_ */

@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class Material;
+
 //! MaterialPtr
 
 typedef FCPtr<FieldContainerPtr, Material> MaterialPtr;
 
-/** \ingroup FieldLib Material
- *  MaterialPtr field traits 
- */
+/*! \brief MaterialPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<MaterialPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<MaterialPtr> :
 };
 
 //! SFMaterialPtr
+//! \ingroup SingleFields
 
 typedef SField<MaterialPtr> SFMaterialPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFMaterialPtr
+//! \ingroup MultiFields
 
 typedef MField<MaterialPtr> MFMaterialPtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialFields.h,v 1.10 2001/09/17 14:15:06 vossg Exp $"
+#define OSGMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialFields.h,v 1.11 2001/11/09 08:17:10 vossg Exp $"
 
 #endif /* _OSGMATERIALFIELDS_H_ */

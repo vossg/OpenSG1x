@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class Switch;
+
 //! SwitchPtr
 
 typedef FCPtr<NodeCorePtr, Switch> SwitchPtr;
 
-/** \ingroup FieldLib Switch
- *  SwitchPtr field traits 
- */
+/*! \brief SwitchPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<SwitchPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<SwitchPtr> :
 };
 
 //! SFSwitchPtr
+//! \ingroup SingleFields
 
 typedef SField<SwitchPtr> SFSwitchPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, SwitchPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFSwitchPtr
+//! \ingroup MultiFields
 
 typedef MField<SwitchPtr> MFSwitchPtr;
 

@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class Camera;
+
 //! CameraPtr
 
 typedef FCPtr<AttachmentContainerPtr, Camera> CameraPtr;
 
-/** \ingroup FieldLib Camera
- *  CameraPtr field traits 
- */
+/*! \brief CameraPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<CameraPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<CameraPtr> :
 };
 
 //! SFCameraPtr
+//! \ingroup SingleFields
 
 typedef SField<CameraPtr> SFCameraPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFCameraPtr
+//! \ingroup MultiFields
 
 typedef MField<CameraPtr> MFCameraPtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGCameraFields.h,v 1.11 2001/09/17 14:15:07 vossg Exp $"
+#define OSGCAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGCameraFields.h,v 1.12 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGCAMERAFIELDS_H_ */

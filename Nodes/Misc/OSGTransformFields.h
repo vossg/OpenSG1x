@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class Transform;
+
 //! TransformPtr
 
 typedef FCPtr<NodeCorePtr, Transform> TransformPtr;
 
-/** \ingroup FieldLib Transform
- *  TransformPtr field traits 
- */
+/*! \brief TransformPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<TransformPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<TransformPtr> :
 };
 
 //! SFTransformPtr
+//! \ingroup SingleFields
 
 typedef SField<TransformPtr> SFTransformPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFTransformPtr
+//! \ingroup MultiFields
 
 typedef MField<TransformPtr> MFTransformPtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMFIELDS_HEADER_CVSID "@(#)$Id: OSGTransformFields.h,v 1.9 2001/09/17 14:15:06 vossg Exp $"
+#define OSGTRANSFORMFIELDS_HEADER_CVSID "@(#)$Id: OSGTransformFields.h,v 1.10 2001/11/09 08:17:09 vossg Exp $"
 
 #endif /* _OSGTRANSFORMFIELDS_H_ */

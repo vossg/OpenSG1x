@@ -81,7 +81,7 @@ OSG_BEGIN_NAMESPACE
 class TileCameraDecorator;
 class BinaryDataHandler;
 
-/*! \brief TileCameraDecorator Base Class. */
+//! \brief TileCameraDecorator Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
 {
@@ -169,19 +169,19 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -189,8 +189,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  TileCameraDecoratorPtr    create          (void); 
-    static  TileCameraDecoratorPtr    createEmpty     (void); 
+    static  TileCameraDecoratorPtr      create          (void); 
+    static  TileCameraDecoratorPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -261,6 +261,6 @@ typedef TileCameraDecoratorBase *TileCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.13 2001/10/15 07:05:37 vossg Exp $"
+#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.14 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGTILECAMERADECORATORBASE_H_ */

@@ -86,7 +86,7 @@ OSG_BEGIN_NAMESPACE
 class PolygonChunk;
 class BinaryDataHandler;
 
-/*! \brief PolygonChunk Base Class. */
+//! \brief PolygonChunk Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
 {
@@ -204,19 +204,19 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -224,8 +224,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  PolygonChunkPtr    create          (void); 
-    static  PolygonChunkPtr    createEmpty     (void); 
+    static  PolygonChunkPtr      create          (void); 
+    static  PolygonChunkPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -301,6 +301,6 @@ typedef PolygonChunkBase *PolygonChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.16 2001/10/15 07:05:37 vossg Exp $"
+#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGPolygonChunkBase.h,v 1.17 2001/11/09 08:17:08 vossg Exp $"
 
 #endif /* _OSGPOLYGONCHUNKBASE_H_ */

@@ -76,7 +76,7 @@ OSG_BEGIN_NAMESPACE
 class Switch;
 class BinaryDataHandler;
 
-/*! \brief Switch Base Class. */
+//! \brief Switch Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public NodeCore
 {
@@ -134,19 +134,19 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public NodeCore
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -154,8 +154,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public NodeCore
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  SwitchPtr    create          (void); 
-    static  SwitchPtr    createEmpty     (void); 
+    static  SwitchPtr      create          (void); 
+    static  SwitchPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 

@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,6 +63,7 @@
 OSG_BEGIN_NAMESPACE
 
 class PointLight;
+
 //! PointLightPtr
 
 typedef FCPtr<LightBasePtr, PointLight> PointLightPtr;
@@ -74,6 +71,6 @@ typedef FCPtr<LightBasePtr, PointLight> PointLightPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPOINTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGPointLightFields.h,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+#define OSGPOINTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGPointLightFields.h,v 1.8 2001/11/09 08:17:09 vossg Exp $"
 
 #endif /* _OSGPOINTLIGHTFIELDS_H_ */

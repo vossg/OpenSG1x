@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,6 +63,7 @@
 OSG_BEGIN_NAMESPACE
 
 class LightChunk;
+
 //! LightChunkPtr
 
 typedef FCPtr<StateChunkPtr, LightChunk> LightChunkPtr;
@@ -74,6 +71,6 @@ typedef FCPtr<StateChunkPtr, LightChunk> LightChunkPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGLightChunkFields.h,v 1.7 2001/09/17 14:15:07 vossg Exp $"
+#define OSGLIGHTCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGLightChunkFields.h,v 1.8 2001/11/09 08:17:08 vossg Exp $"
 
 #endif /* _OSGLIGHTCHUNKFIELDS_H_ */

@@ -76,7 +76,7 @@ OSG_BEGIN_NAMESPACE
 class SolidBackground;
 class BinaryDataHandler;
 
-/*! \brief SolidBackground Base Class. */
+//! \brief SolidBackground Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
 {
@@ -134,19 +134,19 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -154,8 +154,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  SolidBackgroundPtr    create          (void); 
-    static  SolidBackgroundPtr    createEmpty     (void); 
+    static  SolidBackgroundPtr      create          (void); 
+    static  SolidBackgroundPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -221,6 +221,6 @@ typedef SolidBackgroundBase *SolidBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSOLIDBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundBase.h,v 1.16 2001/10/15 07:05:37 vossg Exp $"
+#define OSGSOLIDBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundBase.h,v 1.17 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGSOLIDBACKGROUNDBASE_H_ */

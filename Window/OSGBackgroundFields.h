@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class Background;
+
 //! BackgroundPtr
 
 typedef FCPtr<AttachmentContainerPtr, Background> BackgroundPtr;
 
-/** \ingroup FieldLib Background
- *  BackgroundPtr field traits 
- */
+/*! \brief BackgroundPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<BackgroundPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<BackgroundPtr> :
 };
 
 //! SFBackgroundPtr
+//! \ingroup SingleFields
 
 typedef SField<BackgroundPtr> SFBackgroundPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFBackgroundPtr
+//! \ingroup MultiFields
 
 typedef MField<BackgroundPtr> MFBackgroundPtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGBackgroundFields.h,v 1.11 2001/09/17 14:15:07 vossg Exp $"
+#define OSGBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGBackgroundFields.h,v 1.12 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGBACKGROUNDFIELDS_H_ */

@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,6 +63,7 @@
 OSG_BEGIN_NAMESPACE
 
 class DistanceLOD;
+
 //! DistanceLODPtr
 
 typedef FCPtr<NodeCorePtr, DistanceLOD> DistanceLODPtr;
@@ -74,6 +71,6 @@ typedef FCPtr<NodeCorePtr, DistanceLOD> DistanceLODPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODFIELDS_HEADER_CVSID "@(#)$Id: OSGDistanceLODFields.h,v 1.4 2001/09/17 14:15:06 vossg Exp $"
+#define OSGDISTANCELODFIELDS_HEADER_CVSID "@(#)$Id: OSGDistanceLODFields.h,v 1.5 2001/11/09 08:17:09 vossg Exp $"
 
 #endif /* _OSGDISTANCELODFIELDS_H_ */

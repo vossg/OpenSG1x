@@ -71,11 +71,11 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.17 2001/11/01 05:55:09 vossg Exp $";
-    static char cvsid_hpp       [] = OSGTRANSFORMCHUNKBASE_HEADER_CVSID;
-    static char cvsid_inl       [] = OSGTRANSFORMCHUNKBASE_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.18 2001/11/09 08:17:08 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGTRANSFORMCHUNKBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGTRANSFORMCHUNKBASE_INLINE_CVSID;
 
-    static char cvsid_fields_hpp[] = OSGTRANSFORMCHUNKFIELDS_HEADER_CVSID;
+    static Char8 cvsid_fields_hpp[] = OSGTRANSFORMCHUNKFIELDS_HEADER_CVSID;
 }
 
 #ifdef __sgi

@@ -77,7 +77,7 @@ OSG_BEGIN_NAMESPACE
 class DynamicBackground;
 class BinaryDataHandler;
 
-/*! \brief DynamicBackground Base Class. */
+//! \brief DynamicBackground Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
 {
@@ -141,19 +141,19 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -161,8 +161,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DynamicBackgroundBase : public Background
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  DynamicBackgroundPtr    create          (void); 
-    static  DynamicBackgroundPtr    createEmpty     (void); 
+    static  DynamicBackgroundPtr      create          (void); 
+    static  DynamicBackgroundPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -229,6 +229,6 @@ typedef DynamicBackgroundBase *DynamicBackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundBase.h,v 1.16 2001/10/15 07:05:37 vossg Exp $"
+#define OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundBase.h,v 1.17 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGDYNAMICBACKGROUNDBASE_H_ */

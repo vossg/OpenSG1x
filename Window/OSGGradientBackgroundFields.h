@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,15 @@
 OSG_BEGIN_NAMESPACE
 
 class GradientBackground;
+
 //! GradientBackgroundPtr
 
 typedef FCPtr<BackgroundPtr, GradientBackground> GradientBackgroundPtr;
 
-/** \ingroup FieldLib GradientBackground
- *  GradientBackgroundPtr field traits 
- */
+/*! \brief GradientBackgroundPtr field traits 
+    \ingroup FieldLib
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<GradientBackgroundPtr> : 
@@ -91,6 +89,7 @@ struct FieldDataTraits<GradientBackgroundPtr> :
 
 
 //! MFGradientBackgroundPtr
+//! \ingroup MultiFields
 
 typedef MField<GradientBackgroundPtr> MFGradientBackgroundPtr;
 
@@ -108,6 +107,6 @@ OSG_DLLEXPORT_DECL1(MField, GradientBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundFields.h,v 1.10 2001/09/17 14:15:07 vossg Exp $"
+#define OSGGRADIENTBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGradientBackgroundFields.h,v 1.11 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGGRADIENTBACKGROUNDFIELDS_H_ */

@@ -75,7 +75,7 @@ OSG_BEGIN_NAMESPACE
 class Material;
 class BinaryDataHandler;
 
-/*! \brief Material Base Class. */
+//! \brief Material Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public FieldContainer
 {
@@ -109,19 +109,19 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public FieldContainer
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -172,6 +172,6 @@ typedef MaterialBase *MaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.13 2001/11/01 05:55:04 vossg Exp $"
+#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.14 2001/11/09 08:17:10 vossg Exp $"
 
 #endif /* _OSGMATERIALBASE_H_ */

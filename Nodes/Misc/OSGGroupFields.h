@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class Group;
+
 //! GroupPtr
 
 typedef FCPtr<NodeCorePtr, Group> GroupPtr;
 
-/** \ingroup FieldLib Group
- *  GroupPtr field traits 
- */
+/*! \brief GroupPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<GroupPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<GroupPtr> :
 };
 
 //! SFGroupPtr
+//! \ingroup SingleFields
 
 typedef SField<GroupPtr> SFGroupPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFGroupPtr
+//! \ingroup MultiFields
 
 typedef MField<GroupPtr> MFGroupPtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, GroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGGroupFields.h,v 1.10 2001/09/17 14:15:06 vossg Exp $"
+#define OSGGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGGroupFields.h,v 1.11 2001/11/09 08:17:09 vossg Exp $"
 
 #endif /* _OSGGROUPFIELDS_H_ */

@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,6 +63,7 @@
 OSG_BEGIN_NAMESPACE
 
 class DirectionalLight;
+
 //! DirectionalLightPtr
 
 typedef FCPtr<LightBasePtr, DirectionalLight> DirectionalLightPtr;
@@ -74,6 +71,6 @@ typedef FCPtr<LightBasePtr, DirectionalLight> DirectionalLightPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDIRECTIONALLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGDirectionalLightFields.h,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+#define OSGDIRECTIONALLIGHTFIELDS_HEADER_CVSID "@(#)$Id: OSGDirectionalLightFields.h,v 1.8 2001/11/09 08:17:09 vossg Exp $"
 
 #endif /* _OSGDIRECTIONALLIGHTFIELDS_H_ */

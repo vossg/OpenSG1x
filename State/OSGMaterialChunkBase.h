@@ -82,7 +82,7 @@ OSG_BEGIN_NAMESPACE
 class MaterialChunk;
 class BinaryDataHandler;
 
-/*! \brief MaterialChunk Base Class. */
+//! \brief MaterialChunk Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
 {
@@ -176,19 +176,19 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -196,8 +196,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  MaterialChunkPtr    create          (void); 
-    static  MaterialChunkPtr    createEmpty     (void); 
+    static  MaterialChunkPtr      create          (void); 
+    static  MaterialChunkPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -269,6 +269,6 @@ typedef MaterialChunkBase *MaterialChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.17 2001/10/15 07:05:37 vossg Exp $"
+#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.18 2001/11/09 08:17:08 vossg Exp $"
 
 #endif /* _OSGMATERIALCHUNKBASE_H_ */

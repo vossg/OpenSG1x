@@ -77,7 +77,7 @@ OSG_BEGIN_NAMESPACE
 class ImageForeground;
 class BinaryDataHandler;
 
-/*! \brief ImageForeground Base Class. */
+//! \brief ImageForeground Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
 {
@@ -141,19 +141,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -161,8 +161,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  ImageForegroundPtr    create          (void); 
-    static  ImageForegroundPtr    createEmpty     (void); 
+    static  ImageForegroundPtr      create          (void); 
+    static  ImageForegroundPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -229,6 +229,6 @@ typedef ImageForegroundBase *ImageForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageForegroundBase.h,v 1.4 2001/10/15 07:05:37 vossg Exp $"
+#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGImageForegroundBase.h,v 1.5 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGIMAGEFOREGROUNDBASE_H_ */

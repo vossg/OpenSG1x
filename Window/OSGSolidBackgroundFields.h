@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,15 @@
 OSG_BEGIN_NAMESPACE
 
 class SolidBackground;
+
 //! SolidBackgroundPtr
 
 typedef FCPtr<BackgroundPtr, SolidBackground> SolidBackgroundPtr;
 
-/** \ingroup FieldLib SolidBackground
- *  SolidBackgroundPtr field traits 
- */
+/*! \brief SolidBackgroundPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+*/
 
 template <>
 struct FieldDataTraits<SolidBackgroundPtr> : 
@@ -90,6 +88,7 @@ struct FieldDataTraits<SolidBackgroundPtr> :
 };
 
 //! SFSolidBackgroundPtr
+//! \ingroup SingleFields
 
 typedef SField<SolidBackgroundPtr> SFSolidBackgroundPtr;
 
@@ -107,6 +106,6 @@ OSG_DLLEXPORT_DECL1(SField, SolidBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSOLIDBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundFields.h,v 1.10 2001/09/17 14:15:08 vossg Exp $"
+#define OSGSOLIDBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGSolidBackgroundFields.h,v 1.11 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGSOLIDBACKGROUNDFIELDS_H_ */

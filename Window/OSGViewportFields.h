@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class Viewport;
+
 //! ViewportPtr
 
 typedef FCPtr<AttachmentContainerPtr, Viewport> ViewportPtr;
 
-/** \ingroup FieldLib Viewport
- *  ViewportPtr field traits 
- */
+/*! \brief ViewportPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<ViewportPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<ViewportPtr> :
 };
 
 //! SFViewportPtr
+//! \ingroup SingleFields
 
 typedef SField<ViewportPtr> SFViewportPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFViewportPtr
+//! \ingroup MultiFields
 
 typedef MField<ViewportPtr> MFViewportPtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGViewportFields.h,v 1.11 2001/09/17 14:15:08 vossg Exp $"
+#define OSGVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGViewportFields.h,v 1.12 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGVIEWPORTFIELDS_H_ */

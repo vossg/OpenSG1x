@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class State;
+
 //! StatePtr
 
 typedef FCPtr<FieldContainerPtr, State> StatePtr;
 
-/** \ingroup FieldLib State
- *  StatePtr field traits 
- */
+/*! \brief StatePtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<StatePtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<StatePtr> :
 };
 
 //! SFStatePtr
+//! \ingroup SingleFields
 
 typedef SField<StatePtr> SFStatePtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFStatePtr
+//! \ingroup MultiFields
 
 typedef MField<StatePtr> MFStatePtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEFIELDS_HEADER_CVSID "@(#)$Id: OSGStateFields.h,v 1.9 2001/09/17 14:15:07 vossg Exp $"
+#define OSGSTATEFIELDS_HEADER_CVSID "@(#)$Id: OSGStateFields.h,v 1.10 2001/11/09 08:17:08 vossg Exp $"
 
 #endif /* _OSGSTATEFIELDS_H_ */

@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class PerspectiveCamera;
+
 //! PerspectiveCameraPtr
 
 typedef FCPtr<CameraPtr, PerspectiveCamera> PerspectiveCameraPtr;
 
-/** \ingroup FieldLib PerspectiveCamera
- *  PerspectiveCameraPtr field traits 
- */
+/*! \brief PerspectiveCameraPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<PerspectiveCameraPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<PerspectiveCameraPtr> :
 };
 
 //! SFPerspectiveCameraPtr
+//! \ingroup SingleFields
 
 typedef SField<PerspectiveCameraPtr> SFPerspectiveCameraPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFPerspectiveCameraPtr
+//! \ingroup MultiFields
 
 typedef MField<PerspectiveCameraPtr> MFPerspectiveCameraPtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraFields.h,v 1.10 2001/09/17 14:15:08 vossg Exp $"
+#define OSGPERSPECTIVECAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraFields.h,v 1.11 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGPERSPECTIVECAMERAFIELDS_H_ */

@@ -76,7 +76,7 @@ OSG_BEGIN_NAMESPACE
 class State;
 class BinaryDataHandler;
 
-/*! \brief State Base Class. */
+//! \brief State Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
 {
@@ -134,19 +134,19 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -154,8 +154,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  StatePtr    create          (void); 
-    static  StatePtr    createEmpty     (void); 
+    static  StatePtr      create          (void); 
+    static  StatePtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -221,6 +221,6 @@ typedef StateBase *StateBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.15 2001/10/15 07:05:37 vossg Exp $"
+#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: OSGStateBase.h,v 1.16 2001/11/09 08:17:08 vossg Exp $"
 
 #endif /* _OSGSTATEBASE_H_ */

@@ -78,7 +78,7 @@ OSG_BEGIN_NAMESPACE
 class SpotLight;
 class BinaryDataHandler;
 
-/*! \brief SpotLight Base Class. */
+//! \brief SpotLight Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
 {
@@ -148,19 +148,19 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -168,8 +168,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  SpotLightPtr    create          (void); 
-    static  SpotLightPtr    createEmpty     (void); 
+    static  SpotLightPtr      create          (void); 
+    static  SpotLightPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -237,6 +237,6 @@ typedef SpotLightBase *SpotLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.17 2001/10/15 07:05:36 vossg Exp $"
+#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.18 2001/11/09 08:17:09 vossg Exp $"
 
 #endif /* _OSGSPOTLIGHTBASE_H_ */

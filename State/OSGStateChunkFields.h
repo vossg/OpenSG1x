@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class StateChunk;
+
 //! StateChunkPtr
 
 typedef FCPtr<FieldContainerPtr, StateChunk> StateChunkPtr;
 
-/** \ingroup FieldLib StateChunk
- *  StateChunkPtr field traits 
- */
+/*! \brief StateChunkPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<StateChunkPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<StateChunkPtr> :
 };
 
 //! SFStateChunkPtr
+//! \ingroup SingleFields
 
 typedef SField<StateChunkPtr> SFStateChunkPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFStateChunkPtr
+//! \ingroup MultiFields
 
 typedef MField<StateChunkPtr> MFStateChunkPtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGStateChunkFields.h,v 1.10 2001/09/17 14:15:07 vossg Exp $"
+#define OSGSTATECHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGStateChunkFields.h,v 1.11 2001/11/09 08:17:08 vossg Exp $"
 
 #endif /* _OSGSTATECHUNKFIELDS_H_ */

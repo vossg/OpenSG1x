@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,15 @@
 OSG_BEGIN_NAMESPACE
 
 class DynamicBackground;
+
 //! DynamicBackgroundPtr
 
 typedef FCPtr<BackgroundPtr, DynamicBackground> DynamicBackgroundPtr;
 
-/** \ingroup FieldLib DynamicBackground
- *  DynamicBackgroundPtr field traits 
- */
+/*! \brief DynamicBackgroundPtr field traits 
+    \ingroup FieldLib
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<DynamicBackgroundPtr> : 
@@ -91,6 +89,7 @@ struct FieldDataTraits<DynamicBackgroundPtr> :
 
 
 //! MFDynamicBackgroundPtr
+//! \ingroup MultiFields
 
 typedef MField<DynamicBackgroundPtr> MFDynamicBackgroundPtr;
 
@@ -108,6 +107,6 @@ OSG_DLLEXPORT_DECL1(MField, DynamicBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGDYNAMICBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundFields.h,v 1.10 2001/09/17 14:15:07 vossg Exp $"
+#define OSGDYNAMICBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGDynamicBackgroundFields.h,v 1.11 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGDYNAMICBACKGROUNDFIELDS_H_ */

@@ -80,7 +80,7 @@ OSG_BEGIN_NAMESPACE
 class Window;
 class BinaryDataHandler;
 
-/*! \brief Window Base Class. */
+//! \brief Window Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
 {
@@ -162,19 +162,19 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */

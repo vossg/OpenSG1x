@@ -88,11 +88,11 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.20 2001/11/01 05:55:10 vossg Exp $";
-    static char cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
-    static char cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.21 2001/11/09 08:17:07 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
 
-    static char cvsid_fields_hpp[] = OSGPERSPECTIVECAMERAFIELDS_HEADER_CVSID;
+    static Char8 cvsid_fields_hpp[] = OSGPERSPECTIVECAMERAFIELDS_HEADER_CVSID;
 }
 
 #ifdef __sgi

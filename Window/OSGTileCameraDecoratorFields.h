@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class TileCameraDecorator;
+
 //! TileCameraDecoratorPtr
 
 typedef FCPtr<CameraDecoratorPtr, TileCameraDecorator> TileCameraDecoratorPtr;
 
-/** \ingroup FieldLib TileCameraDecorator
- *  TileCameraDecoratorPtr field traits 
- */
+/*! \brief TileCameraDecoratorPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<TileCameraDecoratorPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<TileCameraDecoratorPtr> :
 };
 
 //! SFTileCameraDecoratorPtr
+//! \ingroup SingleFields
 
 typedef SField<TileCameraDecoratorPtr> SFTileCameraDecoratorPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, TileCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 #endif
 
 //! MFTileCameraDecoratorPtr
+//! \ingroup MultiFields
 
 typedef MField<TileCameraDecoratorPtr> MFTileCameraDecoratorPtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, TileCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 
 OSG_END_NAMESPACE
 
-#define OSGTILECAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorFields.h,v 1.6 2001/09/17 14:15:08 vossg Exp $"
+#define OSGTILECAMERADECORATORFIELDS_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorFields.h,v 1.7 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGTILECAMERADECORATORFIELDS_H_ */

@@ -76,7 +76,7 @@ OSG_BEGIN_NAMESPACE
 class PerspectiveCamera;
 class BinaryDataHandler;
 
-/*! \brief PerspectiveCamera Base Class. */
+//! \brief PerspectiveCamera Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 {
@@ -134,19 +134,19 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -154,8 +154,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  PerspectiveCameraPtr    create          (void); 
-    static  PerspectiveCameraPtr    createEmpty     (void); 
+    static  PerspectiveCameraPtr      create          (void); 
+    static  PerspectiveCameraPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -221,6 +221,6 @@ typedef PerspectiveCameraBase *PerspectiveCameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraBase.h,v 1.17 2001/10/15 07:05:37 vossg Exp $"
+#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraBase.h,v 1.18 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGPERSPECTIVECAMERABASE_H_ */

@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,6 +63,7 @@
 OSG_BEGIN_NAMESPACE
 
 class ChunkMaterial;
+
 //! ChunkMaterialPtr
 
 typedef FCPtr<MaterialPtr, ChunkMaterial> ChunkMaterialPtr;
@@ -74,6 +71,6 @@ typedef FCPtr<MaterialPtr, ChunkMaterial> ChunkMaterialPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCHUNKMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGChunkMaterialFields.h,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+#define OSGCHUNKMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGChunkMaterialFields.h,v 1.8 2001/11/09 08:17:10 vossg Exp $"
 
 #endif /* _OSGCHUNKMATERIALFIELDS_H_ */

@@ -83,7 +83,7 @@ OSG_BEGIN_NAMESPACE
 class LightBase;
 class BinaryDataHandler;
 
-/*! \brief LightBase Base Class. */
+//! \brief LightBase Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
 {
@@ -183,19 +183,19 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -261,6 +261,6 @@ typedef LightBaseBase *LightBaseBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.17 2001/10/15 07:05:36 vossg Exp $"
+#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.18 2001/11/09 08:17:09 vossg Exp $"
 
 #endif /* _OSGLIGHTBASEBASE_H_ */

@@ -84,7 +84,7 @@ OSG_BEGIN_NAMESPACE
 class Viewport;
 class BinaryDataHandler;
 
-/*! \brief Viewport Base Class. */
+//! \brief Viewport Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
 {
@@ -190,19 +190,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -210,8 +210,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  ViewportPtr    create          (void); 
-    static  ViewportPtr    createEmpty     (void); 
+    static  ViewportPtr      create          (void); 
+    static  ViewportPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -285,6 +285,6 @@ typedef ViewportBase *ViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.17 2001/10/15 07:05:37 vossg Exp $"
+#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.18 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGVIEWPORTBASE_H_ */

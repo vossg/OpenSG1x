@@ -88,11 +88,11 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.19 2001/11/01 05:55:08 vossg Exp $";
-    static char cvsid_hpp       [] = OSGMATERIALGROUPBASE_HEADER_CVSID;
-    static char cvsid_inl       [] = OSGMATERIALGROUPBASE_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.20 2001/11/09 08:17:09 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGMATERIALGROUPBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGMATERIALGROUPBASE_INLINE_CVSID;
 
-    static char cvsid_fields_hpp[] = OSGMATERIALGROUPFIELDS_HEADER_CVSID;
+    static Char8 cvsid_fields_hpp[] = OSGMATERIALGROUPFIELDS_HEADER_CVSID;
 }
 
 #ifdef __sgi

@@ -75,7 +75,7 @@ OSG_BEGIN_NAMESPACE
 class StateChunk;
 class BinaryDataHandler;
 
-/*! \brief StateChunk Base Class. */
+//! \brief StateChunk Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
 {
@@ -109,19 +109,19 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -172,6 +172,6 @@ typedef StateChunkBase *StateChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStateChunkBase.h,v 1.13 2001/11/01 05:55:08 vossg Exp $"
+#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStateChunkBase.h,v 1.14 2001/11/09 08:17:08 vossg Exp $"
 
 #endif /* _OSGSTATECHUNKBASE_H_ */

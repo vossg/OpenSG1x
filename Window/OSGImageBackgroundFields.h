@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,15 @@
 OSG_BEGIN_NAMESPACE
 
 class ImageBackground;
+
 //! ImageBackgroundPtr
 
 typedef FCPtr<BackgroundPtr, ImageBackground> ImageBackgroundPtr;
 
-/** \ingroup FieldLib ImageBackground
- *  ImageBackgroundPtr field traits 
- */
+/*! \brief ImageBackgroundPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+*/
 
 template <>
 struct FieldDataTraits<ImageBackgroundPtr> : 
@@ -90,6 +88,7 @@ struct FieldDataTraits<ImageBackgroundPtr> :
 };
 
 //! SFImageBackgroundPtr
+//! \ingroup SingleFields
 
 typedef SField<ImageBackgroundPtr> SFImageBackgroundPtr;
 
@@ -107,6 +106,6 @@ OSG_DLLEXPORT_DECL1(SField, ImageBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGImageBackgroundFields.h,v 1.1 2001/10/29 16:46:56 dirk Exp $"
+#define OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGImageBackgroundFields.h,v 1.2 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGIMAGEBACKGROUNDFIELDS_H_ */

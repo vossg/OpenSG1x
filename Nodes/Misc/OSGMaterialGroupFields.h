@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class MaterialGroup;
+
 //! MaterialGroupPtr
 
 typedef FCPtr<NodeCorePtr, MaterialGroup> MaterialGroupPtr;
 
-/** \ingroup FieldLib MaterialGroup
- *  MaterialGroupPtr field traits 
- */
+/*! \brief MaterialGroupPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<MaterialGroupPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<MaterialGroupPtr> :
 };
 
 //! SFMaterialGroupPtr
+//! \ingroup SingleFields
 
 typedef SField<MaterialGroupPtr> SFMaterialGroupPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFMaterialGroupPtr
+//! \ingroup MultiFields
 
 typedef MField<MaterialGroupPtr> MFMaterialGroupPtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialGroupFields.h,v 1.8 2001/09/17 14:15:06 vossg Exp $"
+#define OSGMATERIALGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialGroupFields.h,v 1.9 2001/11/09 08:17:09 vossg Exp $"
 
 #endif /* _OSGMATERIALGROUPFIELDS_H_ */

@@ -71,11 +71,11 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.11 2001/11/01 05:55:07 vossg Exp $";
-    static char cvsid_hpp       [] = OSGDISTANCELODBASE_HEADER_CVSID;
-    static char cvsid_inl       [] = OSGDISTANCELODBASE_INLINE_CVSID;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDistanceLODBase.cpp,v 1.12 2001/11/09 08:17:09 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGDISTANCELODBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGDISTANCELODBASE_INLINE_CVSID;
 
-    static char cvsid_fields_hpp[] = OSGDISTANCELODFIELDS_HEADER_CVSID;
+    static Char8 cvsid_fields_hpp[] = OSGDISTANCELODFIELDS_HEADER_CVSID;
 }
 
 #ifdef __sgi

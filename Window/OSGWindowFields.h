@@ -54,10 +54,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
@@ -67,13 +63,16 @@
 OSG_BEGIN_NAMESPACE
 
 class Window;
+
 //! WindowPtr
 
 typedef FCPtr<AttachmentContainerPtr, Window> WindowPtr;
 
-/** \ingroup FieldLib Window
- *  WindowPtr field traits 
- */
+/*! \brief WindowPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<WindowPtr> : 
@@ -91,6 +90,7 @@ struct FieldDataTraits<WindowPtr> :
 };
 
 //! SFWindowPtr
+//! \ingroup SingleFields
 
 typedef SField<WindowPtr> SFWindowPtr;
 
@@ -107,6 +107,7 @@ OSG_DLLEXPORT_DECL1(SField, WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
 //! MFWindowPtr
+//! \ingroup MultiFields
 
 typedef MField<WindowPtr> MFWindowPtr;
 
@@ -124,6 +125,6 @@ OSG_DLLEXPORT_DECL1(MField, WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGWindowFields.h,v 1.11 2001/09/17 14:15:08 vossg Exp $"
+#define OSGWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGWindowFields.h,v 1.12 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGWINDOWFIELDS_H_ */

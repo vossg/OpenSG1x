@@ -75,7 +75,7 @@ OSG_BEGIN_NAMESPACE
 class Background;
 class BinaryDataHandler;
 
-/*! \brief Background Base Class. */
+//! \brief Background Base Class.
 
 class OSG_SYSTEMLIB_DLLMAPPING BackgroundBase : public AttachmentContainer
 {
@@ -109,19 +109,19 @@ class OSG_SYSTEMLIB_DLLMAPPING BackgroundBase : public AttachmentContainer
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void         executeSync(      FieldContainer &other,
-                                     const BitVector      &whichField);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual void copyToBin  (      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
-    virtual void copyFromBin(      BinaryDataHandler &pMem,
-                             const BitVector    &whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -172,6 +172,6 @@ typedef BackgroundBase *BackgroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGBackgroundBase.h,v 1.14 2001/11/01 05:55:09 vossg Exp $"
+#define OSGBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGBackgroundBase.h,v 1.15 2001/11/09 08:17:07 vossg Exp $"
 
 #endif /* _OSGBACKGROUNDBASE_H_ */
