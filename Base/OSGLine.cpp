@@ -261,7 +261,7 @@ Bool Line::intersect(const CylinderVolume &cyl, Real32 &enter, Real32 &exit) con
 	else
 	{
 		n.normalize();
-		dl = abs (RC.dot(n));		//shortest distance	
+		dl = osgabs (RC.dot(n));		//shortest distance	
 		isect = (dl <= radius);
 
 		if (isect){					// if ray hits cylinder 
@@ -273,7 +273,8 @@ Bool Line::intersect(const CylinderVolume &cyl, Real32 &enter, Real32 &exit) con
 			t = - (O.dot(n)) / ln;
 			O = n.cross(adir);
 			O.normalize();
-			s = abs ((sqrt ((radius * radius) - (dl * dl))) / (_dir.dot(O)));
+			s = osgabs (
+                (sqrt ((radius * radius) - (dl * dl))) / (_dir.dot(O)));
 
 			exit = t + s;		
 			if ( exit < 0 ) 

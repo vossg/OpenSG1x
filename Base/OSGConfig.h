@@ -310,7 +310,10 @@
 # endif
 
 # define OSG_SGI_STL
-//# define OSG_HASH_MAP_AS_EXT
+
+# if __GNUC__ >= 3 
+#     define OSG_HASH_MAP_AS_EXT
+# endif
 
 // compiler supports namespaces
 # define OSG_HAS_NAMESPACE
