@@ -911,7 +911,7 @@ by hand.
 
 \section TutorialNodeCoresExercises Exercises
 
-\subsection TutoralNodeCoresExercises1 Ex. Complete copy of the woman model
+\subsection TutorialNodeCoresExercises1 Ex. Complete copy of the woman model
 
 
 You might have noticed that when we were copying the geometry of the women, something was missing with the clone model. The eyes where not
@@ -922,11 +922,6 @@ they are named and extend the search and copy function thus the eyes are correct
 Hint: To figure out the names, load the VRML file with a 3D modelling package or just read the file itself with a common text editor. 
 It is really not that hard!
 </I>
-
-\subsection TutorialNodeCoresExercises2 Ex. Optimizing transformation switches
-
-If you did the last tutorial you surely have noticed that the animation "jumps" if you switch from one kind of transformation to another. Figure
-out where the effect comes from and implement a solution.
 
 Next Chapter: \ref Geometry
 */

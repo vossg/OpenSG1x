@@ -291,7 +291,8 @@ that is the keyboard callback is invoked when a key is pressed and the mouse cal
 \section FirstAppTutorialSSM Simple Scene Manager
 
 The simple scene manager is auseful helper class for quickly creating simple scenes. If you do not want to use the 
-simple scene manager (SSM) you would have quite a lot of work to to. You need to create a window, add a viewport to that window,
+simple scene manager (SSM) you would have quite a lot of work to to (if you are already comfortable with OpenSG you can have a look at 
+\ref TutorialWindowsTutorial to see how you can setup a scene witout the SSM). You need to create a window, add a viewport to that window,
 create one or more lights and a camera, set up a navigation and you have to bind that all together. Sometimes that has to be done as the manager
 is useable for simple scenes only (as the name already says), but that will be discussed in detail later. For now we are happy
 with the SSM as it does all of the tasks described above for us. 

@@ -1,0 +1,86 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \page doxypages Appendix C - More Documentation and Tools
+\latexonly Starter:NewChapter \endlatexonly
+
+Chapter Overview
+<HR>
+	\ref TutorialAppendixCDoxy<BR>
+	\ref TutorialAppendixCMailinglist<BR>
+	\ref TutorialAppendixCSceneViewer
+<HR>
+
+\section TutorialAppendixCDoxy Doxygen Documentation Pages
+
+Although, I really tried hard and spent a lot of time, this documentation cannot cover every question that might appear... ;-) So, there still be some
+unanswered questions after all, most of them, I hope, are class specific questions like: "what was that method called" for example. In that case the
+doxgen documentation from OpenSG may help you. 
+
+For version 1.2 you can find that documentation online: <A HREF="http://www.opensg.org/doc-1.2.0/index.html">http://www.opensg.org/doc-1.2.0/index.html</A>.
+If you want the documentation for the cvs version you have to build it yourself by typing
+
+\code
+	cd /path/to/your/OpenSG_Folder
+	make userstarter
+\endcode
+
+Building the doc pages will take about an hour on an average PC. 
+
+Regardless of which version you use, information about all classes can be found easily when clicking on "Alphabetical List". You know see, well, an alphabetical
+list, of all classes found in OpenSG. Click on any and you have some information of that specific class: All member variables and methods are revealed as well
+as the inheritance diagramm. The following image shows the detailed page of the Transform class
+
+\image html doc.png "Class reference page"
+\image latex doc.eps "Class reference page" width = 8cm
+
+In this case, you can see that Transform is derived from FieldContainer. As I mentioned before, please keep in mind, that most of the imortant methods and member
+variables are not stored in the classes themselves, but in their corresponding base classes. If you have a look at the methods of osg::Transform, you will notice
+that there is not much interesting to see. However the most important method for this class is setMatrix() which can be found in osg::TransformBase. You can 
+simply click on that class in the inheritance diagram.
+
+The bad news is, that this doxygen documentation is quite not complete. A detailed description for every (or at least most) methods or classes in general is
+missing. So if you want to implement something, and you have no clue how a class you need could be named or even exists at all, the doxygen pages won't help 
+you.
+
+\section TutorialAppendixCMailinglist OpenSG Mailinglist
+
+However, you need not to desperate, because there is always a last chance where you can and nearly always will get help. The OpenSG mailinglists can be found
+at sourceforge.net : <A HREF="http://sourceforge.net/mail/?group_id=5283">http://sourceforge.net/mail/?group_id=5283</A> where you can subscribe to
+the userlist, which is the most interesting. You can read all mails in the archieve without subscribing, but you need to, if you want to send mails yourself. 
+When subscribing, you can also let sourceforge send you a mail every two or three days, where all new messages are bundeled in. 
+
+The developers themselves, among other experienced users, are very active in replying to questions - so if there is nobody who can help you... then 
+no one will ;-)
+
+\section TutorialAppendixCSceneViewer OpenSG Scene Viewer
+
+Actually the OpenSG Scene Viewer is not related to documentation in any way, but it is a useful tool from time to time. The scene viewer enables you to load any
+scene file, that OpenSG is able to read and besides rendering the modell there is also a tree view of the graph structure. Especially for exported files from
+modelling packages this comes in very useful. The following image  shows the running appication with the Beethoven modell loaded
+
+\image html sceneViewer.png "The OpenSG Scene Viewer in action"
+\image latex sceneViewer.eps "The OpenSG Scene Viewer in action" width = 10cm 
+
+As you can see, there are also some statistics displayed in the rendering window, thus you can test how well a modell is being rended by OpenSG or if it loads
+coorectly at all...
+
+The OpenSG Scene Viewer is not compiled by default, you have to do it yourself, if you have not downloaded a precompiled package. However if you have compiled
+OpenSG on you own, this one is peanuts.
+
+\code
+	cd your_OpenSG_Folder/Examples/SceneViewer
+	make
+\endcode
+
+After a short time of compiling you can start the viewer by calling
+\code
+	./osgSceneViewer
+\endcode
+in that folder. It may be useful to create a symbolic link or copy the binary to /usr/local/bin if you use it often, but that is up to you. 
+
+Windows users will have an entry in their start menu.
+
+Well, I am sure yiu can use this aplication without further explanation ;-) 
+*/

@@ -19,6 +19,10 @@ One very important aspect when creating virtual environments is modelling. A pow
 nothing to render. So in many cases you have to feed your scenegraph with models designed with the help of a modelling package - I am sure you agree, that 
 (hopfully) no one will create a realistic character by using standard primitve geometries...
 
+<B>Note:</B>
+
+There is a useful tool with which you can examine the OpenSG graph structure of any file readable by OpenSG. Have a look here \ref TutorialAppendixCSceneViewer
+
 \section TutorialModellingWhat  What Package to Use
 
 If you want to create models and load them in OpenSG you have several options. You can use any application you like that can export any format OpenSG can read.

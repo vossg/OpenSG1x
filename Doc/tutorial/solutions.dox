@@ -57,6 +57,9 @@ The result is simpy the same. The order of the commands seem to have no impact o
 The setTranslate command for instance will overwrite the appropiate three entries in a matrix that define the translation but will leave all others untouched.
 The same is with the setRotate command. The matrix is the same in both ways.
 
+This would have not been the case if we multiplied a transform and a rotation matrix, however that is not what we have done here, but what might have been
+confusing you!
+
 
 \section SolBasicEx2 Chapter Basics - Exercise 2
 Solution to \ref TutorialBasicExercises2
@@ -108,8 +111,10 @@ Instead of loading just a single file and returning that node we node create one
 all given files and add them to the root node. Notice that our loop begins with one and not zero, as the very first argument is always the program name.
 Also note that you have to provide the complete relative path to the source files.
 
-\section SolNodecores2 Chapter Node Cores - Exercise 2
-Solution to \ref TutoralNodeCoresExercises1
+
+
+\section SolNodecores2 Chapter Node Cores - Exercise 1
+Solution to \ref TutorialNodeCoresExercises1
 
 The eyes are named <I>FACESET_Eyes</I>. The geometry node with this names stores both eyes in a single core. In order to copy the whole woman with her eyes
 we first need to extend the checkName function. We previously have hardcoded the search string "FACESET_Woman" as the node's name this function is looking 
@@ -182,8 +187,9 @@ endEditCP commands.
 		ctNode->addChild(womanEyes);
 \endcode
 
-Now compile and execute! Well, the eyes are still not there, but if you have a closer look at the stomach you can find the eyes. It seems that the trasformation
-is missing - what actually makes sense, as we have copied the geometry only. So we have to locate and copy the transformation that was applied to the eyes.
+Now compile and execute! Well, the eyes are still not there, but if you have a closer look at the stomach you can find the eyes. It seems that the transformation
+is missing - what actually makes sense, as we have copied the geometry only. So it is now up to you to locate and clone the transformation...
+
 
 [TODO: continue]
 */

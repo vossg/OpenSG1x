@@ -29,7 +29,7 @@ void display(void)
 }
 \endcode
 
-Building a scenegraph is only usefull if you do something with it. OpenSG actions are designed to do something with it. In most cases the graph is traversed
+Building a scenegraph is only useful if you do something with it. OpenSG actions are designed to do something with it. In most cases the graph is traversed
 and on entering every node some function is called. There are some predefined actions, like the render action, but you can also create your own of course.
 
 \section TutorialTraversalActions Actions
