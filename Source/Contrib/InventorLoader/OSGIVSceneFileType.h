@@ -81,14 +81,7 @@ class OSG_SYSTEMLIB_DLLMAPPING IVSceneFileType : public SceneFileType
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr read(const Char8  *fileName) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Write                                      */
-    /*! \{                                                                 */
-
-    virtual bool write(const NodePtr &node, const Char8 *fileName) const;
+    virtual NodePtr readFile(const Char8  *fileName) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

@@ -117,7 +117,7 @@ const Char8            *IVSceneFileType::_suffixA[] = {"iv"};
 #pragma set woff 1209
 #endif
 
-NodePtr IVSceneFileType::read(const Char8 *fileName) const
+NodePtr IVSceneFileType::readFile(const Char8 *fileName) const
 {
     InventorLoader l;
 
@@ -140,12 +140,6 @@ NodePtr IVSceneFileType::read(const Char8 *fileName) const
 #ifdef __sgi
 #pragma reset woff 1209
 #endif
-
-bool IVSceneFileType::write(const NodePtr  & OSG_CHECK_ARG(node    ),
-                             const Char8   * OSG_CHECK_ARG(fileName)) const
-{
-    return false;
-}
 
 /******************************
 *protected
