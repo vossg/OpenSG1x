@@ -441,12 +441,17 @@ void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
 
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
+
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<BlendChunkPtr>::_type("BlendChunkPtr", "StateChunkPtr");
 #endif
 
+OSG_DLLEXPORT_SFIELD_DEF1(BlendChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(BlendChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 

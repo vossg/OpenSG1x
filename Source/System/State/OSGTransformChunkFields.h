@@ -88,6 +88,11 @@ struct FieldDataTraits<TransformChunkPtr> :
 
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFTransformChunkPtr"; }
+    static char     *getMName(void) { return "MFTransformChunkPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -99,9 +104,28 @@ struct FieldDataTraits<TransformChunkPtr> :
 #endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
+
+typedef SField<TransformChunkPtr> SFTransformChunkPtr;
+#endif
+
+#ifndef OSG_COMPILETRANSFORMCHUNKINST
+OSG_DLLEXPORT_DECL1(SField, TransformChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
+
+typedef MField<TransformChunkPtr> MFTransformChunkPtr;
+#endif
+
+#ifndef OSG_COMPILETRANSFORMCHUNKINST
+OSG_DLLEXPORT_DECL1(MField, TransformChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMCHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
+#define OSGTRANSFORMCHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.24 2004/08/03 05:53:03 dirk Exp $"
 
 #endif /* _OSGTRANSFORMCHUNKFIELDS_H_ */

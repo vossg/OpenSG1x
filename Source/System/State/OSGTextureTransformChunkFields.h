@@ -88,6 +88,11 @@ struct FieldDataTraits<TextureTransformChunkPtr> :
 
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFTextureTransformChunkPtr"; }
+    static char     *getMName(void) { return "MFTextureTransformChunkPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -99,6 +104,25 @@ struct FieldDataTraits<TextureTransformChunkPtr> :
 #endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
+
+typedef SField<TextureTransformChunkPtr> SFTextureTransformChunkPtr;
+#endif
+
+#ifndef OSG_COMPILETEXTURETRANSFORMCHUNKINST
+OSG_DLLEXPORT_DECL1(SField, TextureTransformChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
+
+typedef MField<TextureTransformChunkPtr> MFTextureTransformChunkPtr;
+#endif
+
+#ifndef OSG_COMPILETEXTURETRANSFORMCHUNKINST
+OSG_DLLEXPORT_DECL1(MField, TextureTransformChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
 
 OSG_END_NAMESPACE
 

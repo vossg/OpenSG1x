@@ -88,6 +88,11 @@ struct FieldDataTraits<LineChunkPtr> :
 
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFLineChunkPtr"; }
+    static char     *getMName(void) { return "MFLineChunkPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -99,9 +104,28 @@ struct FieldDataTraits<LineChunkPtr> :
 #endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
+
+typedef SField<LineChunkPtr> SFLineChunkPtr;
+#endif
+
+#ifndef OSG_COMPILELINECHUNKINST
+OSG_DLLEXPORT_DECL1(SField, LineChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
+
+typedef MField<LineChunkPtr> MFLineChunkPtr;
+#endif
+
+#ifndef OSG_COMPILELINECHUNKINST
+OSG_DLLEXPORT_DECL1(MField, LineChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGLINECHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
+#define OSGLINECHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.24 2004/08/03 05:53:03 dirk Exp $"
 
 #endif /* _OSGLINECHUNKFIELDS_H_ */

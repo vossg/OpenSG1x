@@ -4,7 +4,7 @@
 	name="TextureTransformChunk"
 	parent="TransformChunk"
 	library="System"
-	pointerfieldtypes="none"
+	pointerfieldtypes="both"
 	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"

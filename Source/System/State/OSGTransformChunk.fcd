@@ -5,7 +5,7 @@
 	parent="StateChunk"
 	library="System"
 	structure="concrete"
-	pointerfieldtypes="none"
+	pointerfieldtypes="both"
 	systemcomponent="true"
 	parentsystemcomponent="true"
 >

@@ -88,6 +88,11 @@ struct FieldDataTraits<BlendChunkPtr> :
 
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFBlendChunkPtr"; }
+    static char     *getMName(void) { return "MFBlendChunkPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -99,6 +104,25 @@ struct FieldDataTraits<BlendChunkPtr> :
 #endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
+
+typedef SField<BlendChunkPtr> SFBlendChunkPtr;
+#endif
+
+#ifndef OSG_COMPILEBLENDCHUNKINST
+OSG_DLLEXPORT_DECL1(SField, BlendChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
+
+typedef MField<BlendChunkPtr> MFBlendChunkPtr;
+#endif
+
+#ifndef OSG_COMPILEBLENDCHUNKINST
+OSG_DLLEXPORT_DECL1(MField, BlendChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
 
 OSG_END_NAMESPACE
 

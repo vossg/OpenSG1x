@@ -206,7 +206,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGVERTEXPROGRAMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGVERTEXPROGRAMCHUNKBASE_INLINE_CVSID;
 

@@ -218,12 +218,17 @@ void TextureTransformChunkBase::executeSyncImpl(      TextureTransformChunkBase 
 
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
+
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<TextureTransformChunkPtr>::_type("TextureTransformChunkPtr", "TransformChunkPtr");
 #endif
 
+OSG_DLLEXPORT_SFIELD_DEF1(TextureTransformChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(TextureTransformChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 

@@ -497,12 +497,17 @@ void LightChunkBase::executeSyncImpl(      LightChunkBase *pOther,
 
 
 
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
+
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<LightChunkPtr>::_type("LightChunkPtr", "StateChunkPtr");
 #endif
 
+OSG_DLLEXPORT_SFIELD_DEF1(LightChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(LightChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_END_NAMESPACE
 
@@ -520,7 +525,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTCHUNKBASE_INLINE_CVSID;
 
