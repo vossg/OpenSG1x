@@ -121,7 +121,7 @@ int setupGLUT( int *argc, char *argv[] );
 int main(int argc, char **argv)
 {
     printf("Usage: testCGShader [normal map filename]\n");
-    char *normal_map_img_name = "3dlabsbump.png";
+    char *normal_map_img_name = "opensg_logoDOT3.png";
 
     Color4f tmp;
 
@@ -187,8 +187,9 @@ int main(int argc, char **argv)
     // create root node
     _scene = Node::create();
 
-    // create torus
-    GeometryPtr geo = makeTorusGeo(.8, 1.8, 128, 128);
+    // create geometry
+    //GeometryPtr geo = makeLatLongSphereGeo (100, 100, 1.0);
+    GeometryPtr geo = makePlaneGeo(1.0, 1.0, 100, 100);
     beginEditCP( geo, Geometry::MaterialFieldMask);
         geo->setMaterial(cmat);
     endEditCP(geo, Geometry::MaterialFieldMask);
