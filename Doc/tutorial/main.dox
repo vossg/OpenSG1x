@@ -8,12 +8,16 @@ using namespace OSG;
 
 <HR>
 
-The OpenSG documentation project is not yet finished! It will be finished by end of May. You can already use
-this document, but please do not expect that it is complete or without bugs. If you do encounter any
-mistakes or you have something you do not want to miss on these pages please send me an e-mail : 
-<A HREF ="mailto:mail@oliver-abert.de">mail@oliver-abert.de </A> ! You can find the table of contents at this address 
-http://opensg.sourceforge.net/cgi-bin/twiki/view/Main/DocStructure
+<B>Update May, 7th</B>
 
+The OpenSG documentation project will end at end of May - the version number will then hit 1.0. Except for
+some missing details, the documentation is complete. Currently I am "debugging", i.e. finding typos and
+checking if the tutorials and examples are really working. If you encounter any mistakes, feel free to
+send me a mail to <A HREF ="mailto:mail@oliver-abert.de">mail@oliver-abert.de </A>.
+
+Of course this document can not cover every aspect of OpenSG, but if my limited time allows it I may
+add some more lines after end of may - and that is where you can help: If you have an important example
+or tutorial for a topic that was not covered, I will be glad to add it to the documentation.
 <HR>
 
 Welcome to the OpenSG tuorial pages. By reading the following chapters you will first learn how to use
