@@ -62,6 +62,10 @@ WARNINGS_C_OFF		= # -woff 835
 
 WARNINGS_CPP_OFF 	= #-woff 1110,1174,1375,1682,1424,3322
 
+#,1116 (STLBUG)
+
+WARN_ERR_CPP        =  -diag_error 1548,1681,1552,3303,1682,1551
+
 ### Language #######################################################
 
 LANG_FLAGS          = -LANG:restrict -LANG:exception=OFF
@@ -107,7 +111,7 @@ CFLAGS   = $(WARNINGS) $(WARNINGS_C_OFF) -D__STDC__ $(DEFINES) 	\
 
 # CPP Compiler Flags
 
-CCFLAGS   = $(WARNINGS) $(WARNINGS_CPP_OFF) $(DEFINES) \
+CCFLAGS   = $(WARNINGS) $(WARNINGS_CPP_OFF) $(WARN_ERR_CPP) $(DEFINES) 		\
 		    $(COMPILER) $(COMP_OPTIMIZE) $(COMP_DEBUG) $(NO_STD_INC)
 
 # Assembler Flags
