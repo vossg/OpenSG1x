@@ -1843,6 +1843,24 @@ struct sorter
         return false;
     }
 
+    bool operator<=(const sorter &a) const
+    {
+        if(_value <= a._value)
+            return true;
+
+        return false;
+    }
+
+    bool operator>(const sorter &a) const
+    {
+        return ! (a < *this);
+    }
+
+    bool operator>=(const sorter &a) const
+    {
+        return ! (a <= *this);
+    }
+
     Real32 _value;
     Int32  _index;
 };
@@ -2268,7 +2286,7 @@ ParticlesDrawer *Particles::findDrawer(void)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.20 2002/06/01 10:37:24 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.21 2002/06/09 08:09:14 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }
