@@ -247,6 +247,13 @@ class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
 	GeoPTypePtr 	_types;
 	GeoPLengthPtr 	_lengths;
 	GeoIndexPtr 	_indices;
+
+	// inverse mappings for faster access
+	UInt16 _nmappings;
+	Int16  _positionIndex;
+	Int16  _normalIndex;
+	Int16  _colorIndex;
+	Int16  _texcoordsIndex;
 	
 
     //-----------------------------------------------------------------------

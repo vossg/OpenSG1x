@@ -98,11 +98,14 @@ int main (int argc, char **argv)
     root = Node::create();
     GeometryPtr g1 = Geometry::create();
 
+    	beginEditCP(root);
 	root->setCore( g1 );
+   	endEditCP(root);
 
+    	beginEditCP(g1);
 	cerr << "Geometry Node: " << hex << (Geometry*) g1.getCPtr() << endl;
 
-	GeoPosition3f::PtrType pnts = GeoPosition3f::create();
+	GeoPosition3fPtr pnts = GeoPosition3f::create();
 	g1->setPositions( pnts );
 	cerr << "Points property: " << hex << pnts << endl;
 
@@ -123,13 +126,10 @@ int main (int argc, char **argv)
 	endEditCP(pnts);
 
 
-	GeoColor4ub::PtrType cols = GeoColor4ub::create();
+	GeoColor4ubPtr cols = GeoColor4ub::create();
 	g1->setColors( cols );
-	g1->setColorPerVertex( true );
 	beginEditCP(cols);
 	cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
-	cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
-	cols->getFieldPtr()->addValue( Color4ub(   0, 255, 255, 255) );
 	cols->getFieldPtr()->addValue( Color4ub(   0, 255, 255, 255) );
 	cols->getFieldPtr()->addValue( Color4ub( 255,   0, 255, 255) );
 	cols->getFieldPtr()->addValue( Color4ub( 255, 255,   0, 255) );
@@ -140,7 +140,7 @@ int main (int argc, char **argv)
 
 	// Note: the object has texCoords, but no texture, so don't be suprised to 
 	// not see the texture. ;)
-	GeoTexCoords2f::PtrType texs = GeoTexCoords2f::create();
+	GeoTexCoords2fPtr texs = GeoTexCoords2f::create();
 	g1->setTexCoords( texs );
 	beginEditCP(texs);
 	texs->addValue( Vec2f( 0, 0 ) );
@@ -156,16 +156,28 @@ int main (int argc, char **argv)
 	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
 	g1->setIndex( index );
 	beginEditCP(index);
-	index->getFieldPtr()->addValue( 0 );
-	index->getFieldPtr()->addValue( 1 );
-	index->getFieldPtr()->addValue( 2 );
-	index->getFieldPtr()->addValue( 3 );
-	index->getFieldPtr()->addValue( 4 );
-	index->getFieldPtr()->addValue( 5 );
-	index->getFieldPtr()->addValue( 6 );
-	index->getFieldPtr()->addValue( 7 );
+	index->getFieldPtr()->addValue( 0 ); // PNT index
+	index->getFieldPtr()->addValue( 0 ); // C index
+	index->getFieldPtr()->addValue( 1 ); // PNT index
+	index->getFieldPtr()->addValue( 0 ); // C index
+	index->getFieldPtr()->addValue( 2 ); // PNT index
+	index->getFieldPtr()->addValue( 1 ); // C index
+	index->getFieldPtr()->addValue( 3 ); // PNT index
+	index->getFieldPtr()->addValue( 1 ); // C index
+	index->getFieldPtr()->addValue( 4 ); // PNT index
+	index->getFieldPtr()->addValue( 2 ); // C index
+	index->getFieldPtr()->addValue( 5 ); // PNT index
+	index->getFieldPtr()->addValue( 3 ); // C index
+	index->getFieldPtr()->addValue( 6 ); // PNT index
+	index->getFieldPtr()->addValue( 4 ); // C index
+	index->getFieldPtr()->addValue( 7 ); // PNT index
+	index->getFieldPtr()->addValue( 5 ); // C index
 	endEditCP(index);
 
+    	g1->getIndexMapping().addValue( 
+	    Geometry::MapPosition | Geometry::MapNormal |
+	    Geometry::MapTexcoords );
+    	g1->getIndexMapping().addValue( Geometry::MapColor );
 
 	GeoPLengthPtr lens = GeoPLength::create();	
 	g1->setLengths( lens );
@@ -182,6 +194,8 @@ int main (int argc, char **argv)
 	type->getFieldPtr()->addValue( GL_POLYGON );
 	endEditCP(type);
 
+    	endEditCP(g1);
+	
 	cerr << "Geometry type " << g1->getType().getId() << endl;
 	
 	dact = DrawAction::create();

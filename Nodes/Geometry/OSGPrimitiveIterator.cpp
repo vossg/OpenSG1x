@@ -90,7 +90,7 @@ For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.9 2001/07/03 14:16:32 vossg Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.10 2001/07/23 11:14:06 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -129,20 +129,26 @@ char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.9 2001/
 
 PrimitiveIterator::PrimitiveIterator(void) :
 	_geo(), _primIndex(), _actPrimType(), _actPrimLength(),
-	_actPointIndex(), _types(), _lengths(), _indices(), _ended()
+	_actPointIndex(), _types(), _lengths(), _indices(), _ended(),
+	_nmappings(0),
+	_positionIndex(-1), _normalIndex(-1), _colorIndex(-1), _texcoordsIndex(-1) 
 {
 }
 
 PrimitiveIterator::PrimitiveIterator( const GeometryPtr& geo ) :
 	_geo(), _primIndex(), _actPrimType(), _actPrimLength(),
-	_actPointIndex(), _types(), _lengths(), _indices(), _ended()
+	_actPointIndex(), _types(), _lengths(), _indices(), _ended(),
+	_nmappings(0),
+	_positionIndex(-1), _normalIndex(-1), _colorIndex(-1), _texcoordsIndex(-1) 
 {
 	setGeo( geo );
 }
 
 PrimitiveIterator::PrimitiveIterator( const NodePtr& geo ) :
 	_geo(), _primIndex(), _actPrimType(), _actPrimLength(),
-	_actPointIndex(), _types(), _lengths(), _indices(), _ended()
+	_actPointIndex(), _types(), _lengths(), _indices(), _ended(),
+	_nmappings(0),
+	_positionIndex(-1), _normalIndex(-1), _colorIndex(-1), _texcoordsIndex(-1) 
 {
 	setGeo( geo );
 }
@@ -155,7 +161,13 @@ PrimitiveIterator::PrimitiveIterator(const PrimitiveIterator &source) :
 	_actPrimLength(source._actPrimLength),  
 	_types(source._types), 
 	_lengths(source._lengths), _indices(source._indices), 
-	_ended(source._ended)
+	_ended(source._ended),
+	_nmappings(source._nmappings),
+	_positionIndex(source._positionIndex),
+	_normalIndex(source._normalIndex),
+	_colorIndex(source._colorIndex),
+	_texcoordsIndex(source._texcoordsIndex)
+	
 {
 }
 
@@ -217,6 +229,12 @@ void PrimitiveIterator::setToBegin( void )
 	_primIndex = 0;
 	_actPointIndex = 0;
 	_ended = false;
+	_nmappings      = _geo->getIndexMapping().getSize();
+	_positionIndex  = _geo->calcMappingIndex( Geometry::MapPosition );
+	_normalIndex    = _geo->calcMappingIndex( Geometry::MapNormal );
+	_colorIndex     = _geo->calcMappingIndex( Geometry::MapColor );
+	_texcoordsIndex = _geo->calcMappingIndex( Geometry::MapTexcoords );
+				  
 	if ( _types != GeoPType::NullPtr && _types->getSize() > 0 )
 	{
 		_actPrimType = _types->getValue( _primIndex );
@@ -285,6 +303,11 @@ PrimitiveIterator& PrimitiveIterator::operator = (const PrimitiveIterator &sourc
 	this->_lengths 			= source._lengths;
 	this->_indices 			= source._indices;
 	this->_ended 			= source._ended;
+	this->_nmappings 		= source._nmappings;
+	this->_positionIndex 		= source._positionIndex;
+	this->_normalIndex 		= source._normalIndex;
+	this->_colorIndex 		= source._colorIndex;
+	this->_texcoordsIndex 		= source._texcoordsIndex;
 
 	return *this;
 }

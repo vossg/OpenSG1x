@@ -94,119 +94,146 @@ OSG_BEGIN_NAMESPACE
 /*------------------------------ access -----------------------------------*/
 
 
-inline		 
+inline         
 Bool PrimitiveIterator::isAtEnd( void ) const
 {
 #if 1
-	return _ended;
+    return _ended;
 #else
 // this trigger a bug in sgi compiler in collision between
 // FCPtr::getSize() and GeoProperty::getSize(). Don't use right now.
-	return _primIndex >= _types->getSize();
+    return _primIndex >= _types->getSize();
 #endif
 }
 
-inline		 
+inline         
 Int32 PrimitiveIterator::getIndex( void ) const
 {
-	return _primIndex;
+    return _primIndex;
 }
 
-inline		 
+inline         
 Int32 PrimitiveIterator::getLength( void ) const
 {
-	return _actPrimLength;
+    return _actPrimLength;
 }
 
-inline		 
+inline         
 UInt32 PrimitiveIterator::getType( void ) const
 {
-	return _actPrimType;
+    return _actPrimType;
 }
 
-inline		 
+inline         
 Int32 PrimitiveIterator::getPositionIndex( Int32 which ) const
 {
-	if ( _geo->getIndex() != NullFC )
-		return _indices->getValue( _actPointIndex + which );
-	else
-		return _actPointIndex + which;
+    if ( _geo->getIndex() != NullFC )
+    {
+    	if ( _positionIndex != -1 )
+            return _indices->getValue( ( _actPointIndex + which ) * 
+	                                _nmappings + _positionIndex );
+        else
+	    return _indices->getValue( _actPointIndex + which  );
+    }
+    else
+        return _actPointIndex + which;
 }
 
-inline		 
+inline         
 Pnt3f PrimitiveIterator::getPosition( Int32 which ) const
 {
-	Int32 ind = getPositionIndex( which );
-	
-	return _geo->getPositions()->getValue( ind );
+    Int32 ind = getPositionIndex( which );
+    
+    return _geo->getPositions()->getValue( ind );
 }
 
-inline		 
+inline         
 Int32 PrimitiveIterator::getNormalIndex( Int32 which ) const
 {
-	if ( _geo->getNormals() == NullFC )
-		return -1;
+    if ( _geo->getNormals() == NullFC )
+        return -1;
 
-	if ( _geo->getNormalPerVertex() )
-		return _indices->getValue( _actPointIndex + which );
-	else
-		return _primIndex;
+    if ( _geo->getIndex() != NullFC )
+    {
+    	if ( _normalIndex != -1 )
+            return _indices->getValue( ( _actPointIndex + which ) * 
+	                                _nmappings + _normalIndex );
+        else
+	    return _indices->getValue( _actPointIndex + which  );
+    }
+    else
+        return _actPointIndex + which;
 }
 
 inline 
 Vec3f PrimitiveIterator::getNormal( Int32 which ) const
-{	
-	Int32 ind = getNormalIndex( which );
-	
-	if ( ind < 0 )
-		return NullVec3f;
-		
-	return _geo->getNormals()->getValue( ind );
+{    
+    Int32 ind = getNormalIndex( which );
+    
+    if ( ind < 0 )
+        return NullVec3f;
+        
+    return _geo->getNormals()->getValue( ind );
 }
 
-inline		 
+inline         
 Int32 PrimitiveIterator::getColorIndex( Int32 which ) const
 {
-	if ( _geo->getColors() == NullFC )
-		return -1;
+    if ( _geo->getColors() == NullFC )
+        return -1;
 
-	if ( _geo->getColorPerVertex() )
-		return _indices->getValue( _actPointIndex + which );
-	else
-		return _primIndex;
+    if ( _geo->getIndex() != NullFC )
+    {
+    	if ( _colorIndex != -1 )
+            return _indices->getValue( ( _actPointIndex + which ) * 
+	                                _nmappings + _colorIndex );
+        else
+	    return _indices->getValue( _actPointIndex + which  );
+    }
+    else
+        return _actPointIndex + which;
 }
 
 inline 
 Color3f PrimitiveIterator::getColor( Int32 which ) const
-{	
-	Int32 ind = getColorIndex( which );
-	
-	if ( ind < 0 )
-		return NullColor3f;
-		
-	return _geo->getColors()->getValue( ind );
+{    
+    Int32 ind = getColorIndex( which );
+    
+    if ( ind < 0 )
+        return NullColor3f;
+        
+    return _geo->getColors()->getValue( ind );
 }
 
 
 
-inline		 
+inline         
 Int32 PrimitiveIterator::getTexCoordsIndex( Int32 which ) const
 {
-	if ( _geo->getTexCoords() == NullFC )
-		return -1;
+    if ( _geo->getTexCoords() == NullFC )
+        return -1;
 
-	return _indices->getValue( _actPointIndex + which );
+    if ( _geo->getIndex() != NullFC )
+    {
+    	if ( _texcoordsIndex != -1 )
+            return _indices->getValue( ( _actPointIndex + which ) * 
+	                                _nmappings + _texcoordsIndex );
+        else
+	    return _indices->getValue( _actPointIndex + which  );
+    }
+    else
+        return _actPointIndex + which;
 }
 
 inline 
 Vec2f PrimitiveIterator::getTexCoords( Int32 which ) const
-{	
-	Int32 ind = getTexCoordsIndex( which );
-	
-	if ( ind < 0 )
-		return NullVec2f;
-		
-	return _geo->getTexCoords()->getValue( ind );
+{    
+    Int32 ind = getTexCoordsIndex( which );
+    
+    if ( ind < 0 )
+        return NullVec2f;
+        
+    return _geo->getTexCoords()->getValue( ind );
 }
 
 

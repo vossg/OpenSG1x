@@ -164,9 +164,11 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
  	beginEditCP(geo);
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
-	geo->setNormalPerVertex( true );
 	geo->setTexCoords( tex );
 	geo->setIndex( index );
+	geo->getIndexMapping().addValue( Geometry::MapPosition | 
+	    	    	    	    	  Geometry::MapNormal |
+					  Geometry::MapTexcoords );
 	geo->setTypes( types );
 	geo->setLengths( lens );
 	endEditCP(geo);
@@ -392,7 +394,9 @@ NodePtr OSG::makeConicalFrustum( Real32 height, Real32 topradius, Real32 botradi
  	beginEditCP(geo);
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
-	geo->setNormalPerVertex( true );
+	geo->getIndexMapping().addValue( Geometry::MapPosition | 
+	    	    	    	    	  Geometry::MapNormal |
+					  Geometry::MapTexcoords );
 	geo->setTexCoords( tex );
 	geo->setIndex( index );
 	geo->setTypes( types );
@@ -512,7 +516,9 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
  	beginEditCP(geo);
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
-	geo->setNormalPerVertex( true );
+	geo->getIndexMapping().addValue( Geometry::MapPosition | 
+	    	    	    	    	  Geometry::MapNormal |
+					  Geometry::MapTexcoords );
 	geo->setTexCoords( tex );
 	geo->setIndex( index );
 	geo->setTypes( types );
@@ -705,7 +711,9 @@ NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
  	beginEditCP(geo);
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
-	geo->setNormalPerVertex( true );
+	geo->getIndexMapping().addValue( Geometry::MapPosition | 
+	    	    	    	    	  Geometry::MapNormal |
+					  Geometry::MapTexcoords );
 	geo->setTexCoords( tex );
 	geo->setIndex( index );
 	geo->setTypes( types );
@@ -844,7 +852,9 @@ NodePtr OSG::makeBox( Real32 xsize, Real32 ysize, Real32 zsize,
  	beginEditCP(geo);
 	geo->setPositions( pnts );
 	geo->setNormals( norms );
-	geo->setNormalPerVertex( true );
+	geo->getIndexMapping().addValue( Geometry::MapPosition | 
+	    	    	    	    	  Geometry::MapNormal |
+					  Geometry::MapTexcoords );
 	geo->setTexCoords( tex );
 	geo->setIndex( index );
 	geo->setTypes( types );

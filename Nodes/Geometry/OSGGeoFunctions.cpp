@@ -64,7 +64,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.5 2001/06/10 12:42:07 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.6 2001/07/23 11:14:06 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -124,9 +124,22 @@ void osg::calcVertexNormals( GeometryPtr geo )
 
 	endEditCP(norms);
 	
-	beginEditCP(geo, Geometry::NormalsFieldMask | Geometry::NormalPerVertexFieldMask );
+	beginEditCP(geo, Geometry::NormalsFieldMask | Geometry::IndexMappingFieldMask );
 	geo->setNormals( norms );
-	geo->setNormalPerVertex( true );
+
+    	MFUInt16 &im = geo->getIndexMapping();
+    	if ( im.size() > 0 )
+	{
+	    Int16 pi,ni;
+	    pi = geo->calcMappingIndex( Geometry::MapPosition );
+	    ni = geo->calcMappingIndex( Geometry::MapNormal );
+
+	    if ( ni )
+		im.setValue( im.getValue(ni) & ~ Geometry::MapNormal, ni );
+	    if ( pi >= 0 )
+		im.setValue( im.getValue(pi) |   Geometry::MapNormal, pi );
+	}
+	
 	endEditCP( geo );
 }
 
@@ -156,7 +169,7 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo,
 
 	PrimitiveIterator pi(geo);
 	
-	if ( geo->getNormalPerVertex() )
+	if ( 1 /* no easy way to check right now */ )
 	{
 		for ( pi  = geo->beginPrimitives(); 
 			  pi != geo->endPrimitives(); ++pi )

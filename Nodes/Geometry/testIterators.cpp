@@ -62,7 +62,9 @@ int main (int argc, char **argv)
 
 	GeoColor4ub::PtrType cols = GeoColor4ub::create();
 	g->setColors( cols );
-	g->setColorPerVertex( true );
+ 	g->getIndexMapping().addValue( Geometry::MapPosition | 
+	    	    	    	       Geometry::MapColor );
+ 	
 	beginEditCP(cols);
 	cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
 	cols->getFieldPtr()->addValue( Color4ub( 255, 255, 255, 255) );
