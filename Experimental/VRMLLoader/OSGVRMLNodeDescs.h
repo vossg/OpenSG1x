@@ -111,9 +111,10 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(DynFieldAttachment,
 #endif
 
 template <>
-struct FieldDataTraits<GenericAttPtr> : public Traits
+struct FieldDataTraits<GenericAttPtr> : public FieldTraitsRecurseBase<GenericAttPtr>
 {
     enum                         { StringConvertable = 0x00  };
+    enum                         { bHasParent        = 0x01  };
 
     static Char8 *getSName(void) { return "SFGenericAttPtr"; }
     static Char8 *getMName(void) { return "MFGenericAttPtr"; }
