@@ -192,7 +192,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
 //! \ingroup FieldContainerLib
 
 template <class AttachmentDescT>
-class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
+class SimpleAttachment : public Attachment
 {
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -364,7 +364,7 @@ OSG_FC_DLLEXPORT_DECL(SimpleAttachment,
 //! \ingroup FieldContainerLib
 
 template <class AttachmentDescT>
-class OSG_SYSTEMLIB_DLLMAPPING DynFieldAttachment : 
+class DynFieldAttachment : 
     public AttachmentDescT::Parent
 {
     /*==========================  PUBLIC  =================================*/

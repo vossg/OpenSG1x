@@ -139,20 +139,6 @@ const BitVector GeoProperty<GeoPropertyDesc>::GeoPropDataFieldMask =
 /** \brief Property field description
  */
 
-#if defined(OSG_MICROSOFT_COMPILER_ALERT)
-template <class GeoPropertyDesc>
-FieldDescription *GeoProperty<GeoPropertyDesc>::_desc[] =
-{
-    new FieldDescription(
-        StoredFieldType::getClassType(), 
-        GeoPropertyDesc::getFieldName(), 
-        OSG_FC_FIELD_IDM_DESC(GeoPropDataField),
-        false,
-//        (FieldAccessMethod) &GeoProperty<GeoPropertyDesc>::getFieldPtr)
-        (FieldAccessMethod) NULL)
-};
-#endif
-
 /** \brief Attachment type
  */
 
@@ -169,7 +155,7 @@ FieldContainerType GeoProperty<GeoPropertyDesc>::_type =
         GeoPropertyDesc::getGroupName(),
         (PrototypeCreateF) &GeoProperty<GeoPropertyDesc>::createEmpty,
         GeoPropertyDesc::getInitMethod(),
-        _desc,
+        GeoPropertyDesc::getDesc(),
         sizeof(FieldDescription *));
 #else
 template <class GeoPropertyDesc>
@@ -191,11 +177,27 @@ OSG_FIELD_CONTAINER_INL_TMPL_DEF(GeoProperty,
                                  GeoPropertyDesc,
                                  PtrType)
 
+
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+template <class GeoPropertyDesc> inline 
+FieldAccessMethod GeoProperty<GeoPropertyDesc>::getFPtrAccessMethod(void)
+{
+    typedef GeoProperty<GeoPropertyDesc> Self;
+    typedef StoredFieldType *(Self::*GetFieldPtr)(void);
+
+    GetFieldPtr       tmp       = getFieldPtr;
+
+    FieldAccessMethod tmpMethod = (*((FieldAccessMethod *) &tmp));
+
+    return tmpMethod;
+}
+#endif
+
 /** \brief Constructor
  */
 
-template <class GeoPropertyDesc> 
-inline GeoProperty<GeoPropertyDesc>::GeoProperty(void) :
+template <class GeoPropertyDesc> inline 
+GeoProperty<GeoPropertyDesc>::GeoProperty(void) :
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
     LocalInherited(),
 #else
@@ -209,8 +211,8 @@ inline GeoProperty<GeoPropertyDesc>::GeoProperty(void) :
 /** \brief Copy Constructor
  */
 
-template <class GeoPropertyDesc> 
-inline GeoProperty<GeoPropertyDesc>::GeoProperty(
+template <class GeoPropertyDesc> inline 
+GeoProperty<GeoPropertyDesc>::GeoProperty(
     const GeoProperty &source ) :
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
          LocalInherited(source),
@@ -225,12 +227,12 @@ inline GeoProperty<GeoPropertyDesc>::GeoProperty(
 /** \brief Destructor
  */
 
-template <class GeoPropertyDesc> 
-inline GeoProperty<GeoPropertyDesc>::~GeoProperty(void)
+template <class GeoPropertyDesc> inline 
+GeoProperty<GeoPropertyDesc>::~GeoProperty(void)
 {
 }
 
-template <class GeoPropertyDesc> 
+template <class GeoPropertyDesc> inline
 void GeoProperty<GeoPropertyDesc>::executeSync(
           FieldContainer &other,
     const BitVector      &whichField)
@@ -238,7 +240,7 @@ void GeoProperty<GeoPropertyDesc>::executeSync(
     this->executeSyncImpl((GeoProperty *) &other, whichField);
 }
 
-template <class GeoPropertyDesc> 
+template <class GeoPropertyDesc> inline
 void GeoProperty<GeoPropertyDesc>::executeSyncImpl(
           GeoProperty *pOther,
     const BitVector   &whichField)
@@ -355,7 +357,7 @@ const typename GeoProperty<GeoPropertyDesc>::StoredFieldType &
 /** \brief Clone this Property
  */
 
-template <class GeoPropertyDesc> 
+template <class GeoPropertyDesc> inline
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
 GeoProperty<GeoPropertyDesc>::LocalInheritedPtr
 #else
@@ -387,101 +389,103 @@ UInt32 GeoProperty<GeoPropertyDesc>::getFormatSize(void) const
 }
 
 
-template <class GeoPropertyDesc> 
-inline UInt32 GeoProperty<GeoPropertyDesc>::getStride(void) const
+template <class GeoPropertyDesc> inline
+UInt32 GeoProperty<GeoPropertyDesc>::getStride(void) const
 {
     return GeoPropertyDesc::getStride();
 }
 
 
-template <class GeoPropertyDesc> 
-inline UInt32 GeoProperty<GeoPropertyDesc>::getDimension(void) const
+template <class GeoPropertyDesc> inline
+UInt32 GeoProperty<GeoPropertyDesc>::getDimension(void) const
 {
     return GeoPropertyDesc::getDimension();
 }
 
 
-template <class GeoPropertyDesc> 
-inline UInt32 GeoProperty<GeoPropertyDesc>::getSize(void) const
+template <class GeoPropertyDesc> inline
+UInt32 GeoProperty<GeoPropertyDesc>::getSize(void) const
 {
     return _field.size();
 }
 
 
-template <class GeoPropertyDesc> 
-inline UInt32 GeoProperty<GeoPropertyDesc>::size(void) const
+template <class GeoPropertyDesc> inline
+UInt32 GeoProperty<GeoPropertyDesc>::size(void) const
 {
     return _field.size();
 }
 
 
-template <class GeoPropertyDesc> 
-inline UInt8 *GeoProperty<GeoPropertyDesc>::getData(void) const
+template <class GeoPropertyDesc> inline
+UInt8 *GeoProperty<GeoPropertyDesc>::getData(void) const
 {
     return (UInt8 *) &(_field[0]);
 }
 
 
-template <class propertyDesc> inline 
-typename GeoProperty<propertyDesc>::StoredGenericType
-    GeoProperty<propertyDesc>::getValue(const UInt32 index)
+template <class GeoPropertyDesc> inline 
+typename GeoProperty<GeoPropertyDesc>::StoredGenericType
+    GeoProperty<GeoPropertyDesc>::getValue(const UInt32 index)
 {
 //CHECKCHECK do conversion constructor iff necessary
     return StoredGenericType(_field.getValue( index ));
 }
 
-template <class propertyDesc> inline 
-typename GeoProperty<propertyDesc>::StoredGenericType
-    GeoProperty<propertyDesc>::getValue(const UInt32 index) const
+template <class GeoPropertyDesc> inline 
+typename GeoProperty<GeoPropertyDesc>::StoredGenericType
+    GeoProperty<GeoPropertyDesc>::getValue(const UInt32 index) const
 {
 //CHECKCHECK do conversion constructor iff necessary
     return StoredGenericType(_field.getValue( index ));
 }
 
-template <class propertyDesc> inline 
-void GeoProperty<propertyDesc>::getValue(      StoredGenericType &val,
-                                         const UInt32             index)
+template <class GeoPropertyDesc> inline 
+void GeoProperty<GeoPropertyDesc>::getValue(      StoredGenericType &val,
+                                            const UInt32             index)
 {
     new (&val) StoredGenericType(_field.getValue( index ));
 }
 
 
-template <class propertyDesc> inline 
-void GeoProperty<propertyDesc>::getValue(      StoredGenericType &val,
-                                         const UInt32             index) const
+template <class GeoPropertyDesc> inline 
+void GeoProperty<GeoPropertyDesc>::getValue(
+          StoredGenericType &val,
+    const UInt32             index) const
 {
     new (&val) StoredGenericType(_field.getValue( index ));
 }
 
-template <class propertyDesc> inline 
-void GeoProperty<propertyDesc>::setValue(const StoredGenericType &value,
-                                         const UInt32             index)
+template <class GeoPropertyDesc> inline 
+void GeoProperty<GeoPropertyDesc>::setValue(const StoredGenericType &value,
+                                            const UInt32             index)
 {
 //CHECKCHECK do conversion constructor iff necessary
     _field.setValue( StoredType(value), index );
 }
 
-template <class propertyDesc> inline 
-void GeoProperty<propertyDesc>::addValue(const StoredGenericType & value)
+template <class GeoPropertyDesc> inline 
+void GeoProperty<GeoPropertyDesc>::addValue(const StoredGenericType & value)
 {
 //CHECKCHECK do conversion constructor iff necessary
     _field.addValue( StoredType(value) );
 }
 
-template <class propertyDesc> 
-inline void GeoProperty<propertyDesc>::clear( void )
+template <class GeoPropertyDesc> inline
+void GeoProperty<GeoPropertyDesc>::clear( void )
 {
     _field.clear();
 }
 
-template <class propertyDesc> 
-inline void GeoProperty<propertyDesc>::push_back(const StoredGenericType &value)
+template <class GeoPropertyDesc> inline
+void GeoProperty<GeoPropertyDesc>::push_back(
+    const StoredGenericType &value)
 {
     addValue( value );
 }
 
-template <class propertyDesc> 
-inline void GeoProperty<propertyDesc>::resize( size_t newsize )
+template <class GeoPropertyDesc> inline
+void GeoProperty<GeoPropertyDesc>::resize( size_t newsize )
 {
     _field.resize( newsize );
 }

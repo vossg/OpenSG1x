@@ -54,7 +54,7 @@ OSG_BEGIN_NAMESPACE
 //! \ingroup BaseMathQuaternions
 
 template <class ValueTypeT>
-class OSG_BASE_DLLMAPPING QuaternionBase
+class QuaternionBase
 {
     /*==========================  PUBLIC  =================================*/
   public:

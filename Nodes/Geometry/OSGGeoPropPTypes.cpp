@@ -60,7 +60,7 @@ FieldDescription *GeoPTypesUI8PropertyDesc::_desc[] =
                                   GeoPTypesUI8PropertyDesc>::GeoPropDataField),
         false,
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-        (FieldAccessMethod) NULL)
+        GeoProperty<GeoPTypesUI8PropertyDesc>::getFPtrAccessMethod())
 #else
         (FieldAccessMethod) &GeoProperty<
                                   GeoPTypesUI8PropertyDesc>::getFieldPtr)

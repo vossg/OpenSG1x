@@ -61,7 +61,7 @@ OSG_BEGIN_NAMESPACE
 
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
 template <class GeoPropertyDesc>
-class OSG_SYSTEMLIB_DLLTMPLMAPPING GeoPropertyInterface
+class GeoPropertyInterface
 {
     /*==========================  PUBLIC  =================================*/
   public:

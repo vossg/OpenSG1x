@@ -147,7 +147,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDescBase
 };
 
 template <class Type>
-class OSG_SYSTEMLIB_DLLMAPPING StatElemDesc : public StatElemDescBase
+class StatElemDesc : public StatElemDescBase
 {
     /*==========================  PUBLIC  =================================*/
   public:

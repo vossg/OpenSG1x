@@ -446,7 +446,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFieldContainerPtr :
 //! \ingroup FieldContainerLib
 
 template <class BasePtrTypeT, class FieldContainerTypeT> 
-class OSG_SYSTEMLIB_DLLMAPPING FCPtr : public BasePtrTypeT
+class FCPtr : public BasePtrTypeT
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -550,7 +550,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FCPtr : public BasePtrTypeT
 //! \ingroup FieldContainerLib
 
 template <class BasePtrTypeT, class FieldContainerTypeT> 
-class OSG_SYSTEMLIB_DLLMAPPING ConstFCPtr : public BasePtrTypeT
+class ConstFCPtr : public BasePtrTypeT
 {
     /*==========================  PUBLIC  =================================*/
   public:

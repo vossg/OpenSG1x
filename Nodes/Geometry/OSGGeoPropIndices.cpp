@@ -60,7 +60,7 @@ FieldDescription *GeoIndicesUI32PropertyDesc::_desc[] =
                                 GeoIndicesUI32PropertyDesc>::GeoPropDataField),
         false,
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-        (FieldAccessMethod) NULL)
+        GeoProperty<GeoIndicesUI32PropertyDesc>::getFPtrAccessMethod())
 #else
         (FieldAccessMethod) &GeoProperty<
                                 GeoIndicesUI32PropertyDesc>::getFieldPtr)

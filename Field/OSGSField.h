@@ -65,7 +65,7 @@ class BinaryDataHandler;
 //! \ingroup SingleFields
 
 template <class FieldTypeT, Int32 fieldNameSpace = 0>
-class OSG_BASE_DLLMAPPING SField : public Field 
+class SField : public Field 
 {
     /*==========================  PUBLIC  =================================*/
   public:

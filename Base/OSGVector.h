@@ -317,7 +317,11 @@ class PointInterface : public StorageInterfaceT
 #endif
 
     template<class VectorT> 
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+             PointInterface(const VectorT &vec) : 
+#else
     explicit PointInterface(const VectorT &vec) : 
+#endif
         Inherited()
     {
         UInt32 i;
@@ -616,7 +620,11 @@ class VectorInterface :
 #endif
 
     template<class VectorT> 
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+             VectorInterface(const VectorT &vec) : Inherited()
+#else
     explicit VectorInterface(const VectorT &vec) : Inherited()
+#endif
     {
         UInt32 i;
         

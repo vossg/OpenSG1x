@@ -60,7 +60,7 @@ FieldDescription *GeoTexCoords2fPropertyDesc::_desc[] =
                                 GeoTexCoords2fPropertyDesc>::GeoPropDataField),
         false,
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-        (FieldAccessMethod) NULL)
+        GeoProperty<GeoTexCoords2fPropertyDesc>::getFPtrAccessMethod())
 #else
         (FieldAccessMethod) &GeoProperty<
                                 GeoTexCoords2fPropertyDesc>::getFieldPtr)
@@ -76,7 +76,7 @@ FieldDescription *GeoTexCoords3fPropertyDesc::_desc[] =
                                 GeoTexCoords3fPropertyDesc>::GeoPropDataField),
         false,
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-        (FieldAccessMethod) NULL)
+        GeoProperty<GeoTexCoords3fPropertyDesc>::getFPtrAccessMethod())
 #else
         (FieldAccessMethod) &GeoProperty<
                                 GeoTexCoords3fPropertyDesc>::getFieldPtr)

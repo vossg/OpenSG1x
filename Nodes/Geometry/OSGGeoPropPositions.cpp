@@ -60,7 +60,7 @@ FieldDescription *GeoPositions2fPropertyDesc::_desc[] =
                                 GeoPositions2fPropertyDesc>::GeoPropDataField),
         false,
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-        (FieldAccessMethod) NULL)
+        GeoProperty<GeoPositions2fPropertyDesc>::getFPtrAccessMethod())
 #else
         (FieldAccessMethod) &GeoProperty<
                                 GeoPositions2fPropertyDesc>::getFieldPtr)
@@ -76,7 +76,7 @@ FieldDescription *GeoPositions3fPropertyDesc::_desc[] =
                                 GeoPositions3fPropertyDesc>::GeoPropDataField),
         false,
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-        (FieldAccessMethod) NULL)
+        GeoProperty<GeoPositions3fPropertyDesc>::getFPtrAccessMethod())
 #else
         (FieldAccessMethod) &GeoProperty<
                                 GeoPositions3fPropertyDesc>::getFieldPtr)
@@ -92,7 +92,7 @@ FieldDescription *GeoPositions4fPropertyDesc::_desc[] =
                                 GeoPositions4fPropertyDesc>::GeoPropDataField),
         false,
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-        (FieldAccessMethod) NULL)
+        GeoProperty<GeoPositions4fPropertyDesc>::getFPtrAccessMethod())
 #else
         (FieldAccessMethod) &GeoProperty<
                                 GeoPositions4fPropertyDesc>::getFieldPtr)
@@ -110,7 +110,7 @@ FieldDescription *GeoPositions2dPropertyDesc::_desc[] =
                                 GeoPositions2dPropertyDesc>::GeoPropDataField),
         false,
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-        (FieldAccessMethod) NULL)
+        GeoProperty<GeoPositions2dPropertyDesc>::getFPtrAccessMethod())
 #else
         (FieldAccessMethod) &GeoProperty<
                                 GeoPositions2dPropertyDesc>::getFieldPtr)
@@ -126,7 +126,7 @@ FieldDescription *GeoPositions3dPropertyDesc::_desc[] =
                                 GeoPositions3dPropertyDesc>::GeoPropDataField),
         false,
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-        (FieldAccessMethod) NULL)
+        GeoProperty<GeoPositions3dPropertyDesc>::getFPtrAccessMethod())
 #else
         (FieldAccessMethod) &GeoProperty<
                                 GeoPositions3dPropertyDesc>::getFieldPtr)
@@ -142,7 +142,7 @@ FieldDescription *GeoPositions4dPropertyDesc::_desc[] =
                                 GeoPositions4dPropertyDesc>::GeoPropDataField),
         false,
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-        (FieldAccessMethod) NULL)
+        GeoProperty<GeoPositions4dPropertyDesc>::getFPtrAccessMethod())
 #else
         (FieldAccessMethod) &GeoProperty<
                                 GeoPositions4dPropertyDesc>::getFieldPtr)

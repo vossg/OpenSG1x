@@ -68,7 +68,7 @@ OSG_BEGIN_NAMESPACE
 //! \ingroup BaseThreading
 
 template <class MPFieldT>
-class OSG_BASE_DLLMAPPING MPFieldStore
+class MPFieldStore
 {
     /*==========================  PUBLIC  =================================*/
   public:

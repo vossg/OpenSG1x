@@ -60,7 +60,7 @@ FieldDescription *GeoNormals3fPropertyDesc::_desc[] =
                                   GeoNormals3fPropertyDesc>::GeoPropDataField),
         false,
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-        (FieldAccessMethod) NULL)
+        GeoProperty<GeoNormals3fPropertyDesc>::getFPtrAccessMethod())
 #else
         (FieldAccessMethod) &GeoProperty<
                                   GeoNormals3fPropertyDesc>::getFieldPtr)

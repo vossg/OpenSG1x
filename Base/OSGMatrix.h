@@ -60,7 +60,7 @@ template <class ValueTypeT> class QuaternionBase;
 //! \ingroup BaseMathMatrices
 
 template<class ValueTypeT>
-class OSG_BASE_DLLMAPPING TransformationMatrix
+class TransformationMatrix
 {
     /*==========================  PUBLIC  =================================*/
   public:

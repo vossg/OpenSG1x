@@ -60,7 +60,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class GeoPropertyDesc>
-class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
+class AbstractGeoProperty :
     public GeoPropertyDesc::Inherited
 #ifndef OSG_SUPPORT_NO_GEO_INTERFACE
     , public GeoPropertyDesc::Interface
@@ -172,7 +172,7 @@ class OSG_SYSTEMLIB_DLLTMPLMAPPING AbstractGeoProperty :
 };
 
 template <class GeoPropertyDesc>
-class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
+class GeoProperty :
     public GeoPropertyDesc::Inherited
 {
     /*==========================  PRIVATE  ================================*/
@@ -221,6 +221,10 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
 
     OSG_FIELD_CONTAINER_TMPL_DECL(PtrType)
 
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+    static FieldAccessMethod getFPtrAccessMethod(void);
+#endif
+
     /*---------------------------------------------------------------------*/
     /*! \name                      Access                                  */
     /*! \{                                                                 */
@@ -229,7 +233,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
 
           StoredFieldType &getField(void);
     const StoredFieldType &getField(void) const;
-
 
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
     virtual LocalInheritedPtr clone(void);

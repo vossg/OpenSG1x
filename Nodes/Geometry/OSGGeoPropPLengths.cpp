@@ -60,7 +60,7 @@ FieldDescription *GeoPLengthsUI32PropertyDesc::_desc[] =
                                GeoPLengthsUI32PropertyDesc>::GeoPropDataField),
         false,
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
-        (FieldAccessMethod) NULL)
+        GeoProperty<GeoPLengthsUI32PropertyDesc>::getFPtrAccessMethod())
 #else
         (FieldAccessMethod) &GeoProperty<
                                GeoPLengthsUI32PropertyDesc>::getFieldPtr)
