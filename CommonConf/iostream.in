@@ -1,0 +1,36 @@
+#ifndef OSG_IOSTREAM_SGI_REPLACEMENT
+#define OSG_IOSTREAM_SGI_REPLACEMENT
+
+// This file is here to allow maximum error settings in combinatation
+// with SGI's default stl implementation located in /usr/include/CC
+// I'd rather do it this way instead of compromising the error settings 
+// Yes I know this might be rated as a hack ;-)
+// The usual "Don't try this at home kids" disclaimer apply ;-) (GV)
+
+#ifdef __sgi
+
+#if !defined(OSG_WOFF_SET)
+
+#pragma set woff 1424,3201,1110
+
+#define OSG_WOFF_SET          1
+#define OSG_IOSTREAM_WOFF_SET 1
+
+#endif
+
+#endif
+
+#include "/usr/include/CC/iostream"
+
+#ifdef __sgi
+
+#if defined(OSG_WOFF_SET) && defined(OSG_IOSTREAM_WOFF_SET)
+#pragma reset woff 1424,3201,1110
+
+#undef OSG_WOFF_SET       
+#undef OSG_IOSTREAM_WOFF_SET
+#endif
+
+#endif
+
+#endif
