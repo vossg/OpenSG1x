@@ -122,7 +122,7 @@ OSG_BASE_DLLMAPPING FloatTypeT osgasin(const FloatTypeT &rVal);
 template <class FloatTypeT> 
 OSG_BASE_DLLMAPPING FloatTypeT osgatan(const FloatTypeT &rVal);
 
-/*! \brief osgratan2
+/*! \brief osgatan2
  *  \ingroup BaseMathFunctions
  */
 
@@ -197,6 +197,20 @@ struct osgIF<false, IThenT, IElseT>
     typedef IElseT _IRet;
     typedef IThenT _IDummyRef;
 };
+
+/*! \brief osgispower2
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class TypeT>
+OSG_BASE_DLLMAPPING Bool osgispower2(TypeT rVal);
+
+/*! \brief osgnextpower2
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class TypeT>
+OSG_BASE_DLLMAPPING TypeT osgnextpower2(TypeT rVal);
 
 /*@}*/
 

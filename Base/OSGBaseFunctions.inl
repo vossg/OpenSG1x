@@ -47,6 +47,48 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 
+/*! @name UInt32 Specializations
+ */
+
+/*@{*/
+
+/*! \brief osgispower2
+ *  \ingroup BaseMathFunctions
+ */
+
+template <> inline 
+Bool osgispower2(UInt32 rValue)
+{
+	// find the lowest 1 bit
+    while ( rValue && ! ( rValue & 1 ) )
+		rValue >>= 1;
+
+	// shift the 1 bit out
+	rValue >>= 1;
+
+	// if another 1 left => not 2^
+	if ( rValue )	return false;
+	else			return true;
+}
+
+
+/*! \brief osgnextpower2
+ *  \ingroup BaseMathFunctions
+ */
+
+template <> inline 
+UInt32 osgnextpower2(UInt32 rValue)
+{
+	UInt32 result = 1;
+
+    while ( result < rValue )
+		result <<= 1;
+
+	return result;
+}
+
+/*@}*/
+
 /*! @name Real32 Specializations
  */
 
