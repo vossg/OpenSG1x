@@ -52,7 +52,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.1 2001/11/19 18:40:50 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.2 2001/12/08 13:45:06 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
     //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
 
@@ -217,7 +217,7 @@ void Navigator::moveTo(Int16 x, Int16 y)
                 case TRANSLATING_Z:
                     {
                         Real32 distance=(toY-fromY);
-                        _trackball.translateZ(distance);
+                        _trackball.translateZ(distance * _rMotionFactor);
                     } break;
             }
         } break;
