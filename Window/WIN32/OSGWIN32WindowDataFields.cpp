@@ -49,6 +49,9 @@
 
 #include "OSGWIN32WindowDataFields.h"
 
+#include "OSGMFieldTypeDef.inl"
+#include "OSGSFieldTypeDef.inl"
+
 OSG_USING_NAMESPACE
 
 namespace
