@@ -3811,6 +3811,258 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
  */
 
 //---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+char VRMLViewpointDesc::cvsid[] = "@(#)$Id: $";
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+VRMLViewpointDesc::VRMLViewpointDesc(void) :
+    Inherited(),
+
+    _defaultFieldOfView(),
+    _defaultJump		(),
+    _defaultOrientation(),
+    _defaultPosition	(),
+
+    _fieldOfView(),
+    _jump		 (),
+    _orientation(),
+    _position	 (),
+
+    
+    _defBeaconCore                  (),
+    _beaconCore                 (),
+	_viewpointAttachment		()
+{
+}
+
+/** \brief Destructor
+ */
+
+VRMLViewpointDesc::~VRMLViewpointDesc(void)
+{
+}
+
+/*------------------------------ access -----------------------------------*/
+
+void VRMLViewpointDesc::init(const Char8 *szName)
+{
+    fprintf(stderr, "Viewpoint init : %s \n", szName);
+
+	_defBeaconCore 		= VRMLTransform::create();
+	_defViewAttachment 	= ViewpointAttachment::create();	
+}
+
+void VRMLViewpointDesc::reset(void)
+{
+ //   _pCamera = PerspectiveCamera::NullFC;
+    	
+    _beaconNode = NullNode;
+    _beaconCore = VRMLTransformPtr::NullPtr;
+	_viewpointAttachment = ViewpointAttachmentPtr::NullPtr;
+
+    _defaultFieldOfView.setValue(_fieldOfView);
+    _defaultJump       .setValue(_jump);
+    _defaultOrientation.setValue(_orientation);
+    _defaultPosition   .setValue(_position);
+}
+
+VRMLTransformPtr VRMLViewpointDesc::getDefaultBeacon(void)
+{
+    return _defBeaconCore;
+}
+
+/*
+FieldContainerPtr VRMLViewpointDesc::getSaveFieldContainer(void)
+{
+	return getDefaultBeacon();
+}
+*/
+
+/*---------------------------- properties ---------------------------------*/
+ 
+Bool VRMLViewpointDesc::prototypeAddField(const Char8  *szFieldType,
+                                         const UInt32  uiFieldTypeId,
+                                         const Char8  *szFieldname)
+{
+    Bool bFound;
+
+    _pCurrField = NULL;
+
+    if(stringcasecmp("fieldOfView", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultFieldOfView;
+
+        bFound = true;
+    }
+    else if(stringcasecmp("jump", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultJump;
+
+        bFound = true;
+    }
+    else if(stringcasecmp("orientation", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultOrientation;
+
+        bFound = true;
+    }
+    else if(stringcasecmp("position", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultPosition;
+
+        bFound = true;
+    }
+ 
+    if(bFound == true)
+    {
+        fprintf(stderr, "Add ViewpointPart : %s\n", szFieldname);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void VRMLViewpointDesc::endProtoInterface(void)
+{
+//    _defBeaconCore = VRMLTransform::create();
+
+    // use beacon to set position
+    //_viewpointAttachment->setFieldOfView     (_defaultFieldOfView.getValue() );
+}
+
+void VRMLViewpointDesc::getFieldAndDesc(      
+          FieldContainerPtr  pFC,
+    const Char8            * szFieldname,
+          Field            *&pField,
+    const FieldDescription *&pDesc)
+{
+	cerr << "VRMLViewpointDesc::getFieldAndDesc()\tszFieldname=" << szFieldname
+		 << endl;
+
+    if(stringcasecmp("fieldOfView", szFieldname) == 0)
+    {
+		pField = _viewpointAttachment->getField(szFieldname);
+//        pField = &_fieldOfView;
+    }
+    else if(stringcasecmp("jump", szFieldname) == 0)
+    {
+        pField = &_jump;
+    }
+    else if(stringcasecmp("orientation", szFieldname) == 0)
+    {
+        //pField = &_orientation;
+		pField = _beaconCore->getSFRotation();
+    }
+    else if(stringcasecmp("position", szFieldname) == 0)
+    {
+        //pField = &_position;
+		szFieldname = "translation";
+		pField = _beaconCore->getSFTranslation();
+    }
+ 
+	if(pField != NULL)
+        pDesc = pFC->getType().findFieldDescription(szFieldname);
+ 	else
+    	pDesc = NULL;
+}
+
+/*-------------------------- your_category---------------------------------*/
+
+FieldContainerPtr VRMLViewpointDesc::beginNode(
+    const Char8       *,
+    const Char8       *,
+    FieldContainerPtr  pCurrentFC)
+{
+	cerr << "Viewpoint beginNode" << endl;
+	_beaconNode = Node::create();
+    _beaconCore = VRMLTransform::create();
+	
+	_beaconNode->setCore( _beaconCore );
+	_viewpointAttachment = ViewpointAttachment::create();	
+
+	_beaconNode->addAttachment( _viewpointAttachment );  
+
+    return _beaconNode;
+}
+
+void VRMLViewpointDesc::endNode(FieldContainerPtr)
+{ 
+	/*   
+    if(_beaconCore != NullFC)
+    {
+		_beaconNode->addAttachment( _viewpointAttachment );  
+	}
+	*/
+	
+	cerr << "Viewpoint end node.\n";
+}
+
+/*-------------------------- assignment -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/*-------------------------- comparison -----------------------------------*/
+
+/** \brief assignment
+ */
+
+/** \brief equal
+ */
+
+/** \brief unequal
+ */
+
+
+//---------------------------------------------------------------------------
 //  FUNCTION: 
 //---------------------------------------------------------------------------
 //:  Example for the head comment of a function

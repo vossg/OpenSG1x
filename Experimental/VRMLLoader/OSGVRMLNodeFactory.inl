@@ -145,6 +145,7 @@ void VRMLNodeFactory<BaseT>::postStandardProtos(void)
     VRMLShapeDesc        *pShapeDesc        = NULL;
     VRMLAppearanceDesc   *pAppearanceDesc   = NULL;
     VRMLMaterialDesc     *pMaterialDesc     = NULL;
+	VRMLViewpointDesc    *pViewpointDesc    = NULL;	
 
     pNodeDesc = findNodeDesc("Shape");
 
@@ -176,6 +177,15 @@ void VRMLNodeFactory<BaseT>::postStandardProtos(void)
     {
         pAppearanceDesc->setMaterialDesc(pMaterialDesc);
     }
+	
+	pNodeDesc = findNodeDesc("Viewpoint");
+	
+    if(pNodeDesc != NULL)
+    {
+        pViewpointDesc = dynamic_cast<VRMLViewpointDesc *>(pNodeDesc);
+    }
+	
+	
 }
 
 
@@ -425,6 +435,16 @@ void VRMLNodeFactory<BaseT>::beginProtoInterface(
             
             _mNodeDescHash[szName] = _pCurrentNodeDesc; 
         }
+        else if(stringcasecmp("Viewpoint", szProtoname) == 0)
+        {
+            stringDup(szProtoname, szName);
+            
+            _pCurrentNodeDesc = new VRMLViewpointDesc();
+            
+            _pCurrentNodeDesc->init(szProtoname);
+            
+            _mNodeDescHash[szName] = _pCurrentNodeDesc; 
+        }						
         else
         {
             stringDup(szProtoname, szName);

@@ -71,6 +71,8 @@
 #include <OSGSimpleMaterial.h>
 #include <OSGSFImageTypes.h>
 #include <OSGSFVecTypes.h>
+#include <OSGVRMLTransform.h>
+#include <OSGViewpointAttachment.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -2133,6 +2135,177 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLInlineDesc : public VRMLNodeDesc
 
     /*------------------------- comparison ----------------------------------*/
 };
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \ingroup 
+ *  \brief Brief
+ *
+ *  detailed
+ */
+
+class OSG_SYSTEMLIB_DLLMAPPING VRMLViewpointDesc : public VRMLNodeDesc
+{
+  public:
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+  private:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef VRMLNodeDesc Inherited;
+
+    //-----------------------------------------------------------------------
+    //   friend classes                                                      
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend functions                                                    
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+	static char cvsid[];
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+	// prohibit default functions (move to 'public' if you need one)
+
+    VRMLViewpointDesc(const VRMLViewpointDesc &source);
+    void operator =(const VRMLViewpointDesc &source);
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    SFReal32          _defaultFieldOfView;
+    SFBool         	  _defaultJump;
+    SFQuaternion      _defaultOrientation;
+    SFVec3f           _defaultPosition;
+
+    SFReal32          _fieldOfView;
+    SFBool         	  _jump;
+    SFQuaternion      _orientation;
+    SFVec3f           _position;
+
+	//NodePtr			  _beaconNode;
+	NodePtr			  _beaconNode;
+	VRMLTransformPtr  _defBeaconCore;
+	VRMLTransformPtr  _beaconCore;
+	
+	ViewpointAttachmentPtr	_viewpointAttachment;
+	ViewpointAttachmentPtr	_defViewAttachment;
+	
+	/*
+    PerspectiveCameraPtr _pDefCamera;
+    PerspectiveCameraPtr _pCamera;
+	*/
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+  public :
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    VRMLViewpointDesc();
+
+    virtual ~VRMLViewpointDesc(void); 
+
+    /*------------------------- your_category -------------------------------*/
+
+    virtual void        init (const Char8 *szName);
+
+    virtual void        reset(void);
+
+    virtual VRMLTransformPtr getDefaultBeacon(void);
+//	virtual FieldContainerPtr getSaveFieldContainer(void);
+
+    /*------------------------- your_category -------------------------------*/
+
+    virtual Bool prototypeAddField(const Char8  *szFieldType,
+                                   const UInt32  uiFieldTypeId,
+                                   const Char8  *szFieldName); 
+
+    virtual void endProtoInterface(void);
+
+    virtual void getFieldAndDesc  (      OSG::FieldContainerPtr   pFC,
+                                   const Char8                  * szFieldname,
+                                         OSG::Field             *&pField,
+                                   const OSG::FieldDescription  *&pDesc);
+
+    /*------------------------- your_category -------------------------------*/
+
+    virtual FieldContainerPtr beginNode(const Char8       *szTypename,
+                                        const Char8       *szName,
+                                        FieldContainerPtr  pCurrentFC);
+
+    virtual void              endNode      (FieldContainerPtr);
+
+    /*------------------------- your_operators ------------------------------*/
+
+    /*------------------------- assignment ----------------------------------*/
+
+    /*------------------------- comparison ----------------------------------*/
+};
+
+//---------------------------------------------------------------------------
 
 
 //---------------------------------------------------------------------------
