@@ -21,7 +21,7 @@ OSG_BEGIN_NAMESPACE
 // forward references
 
 
-struct Slicer 
+struct OSG_SYSTEMLIB_DLLMAPPING Slicer 
 {
     enum SliceDir 
     {
