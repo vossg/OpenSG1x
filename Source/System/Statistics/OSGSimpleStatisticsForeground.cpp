@@ -118,7 +118,7 @@ void SimpleStatisticsForeground::addElement(StatElemDescBase &desc,
 
 /*! Convenience function to add an element and format.
 */
-void SimpleStatisticsForeground::addElement(UInt32 id, const char *format)
+void SimpleStatisticsForeground::addElement(Int32 id, const char *format)
 {
     getElementIDs().push_back(id);
     getFormats().push_back(format ? format : "");
@@ -217,20 +217,22 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     {
         for(UInt32 i = 0; i < getElementIDs().size(); ++i)
         {
-            el = col->getElem(getElementIDs()[i]);
-            if(el)
+            Int32 id(getElementIDs()[i]);
+            el = ((id > 0) ? col->getElem(id) : 0);
+
+            stat.resize(stat.size() + 1);
+            std::vector < std::string >::iterator str = stat.end() - 1;
+
+            const char  *format = NULL;
+            if(i < getFormats().size() && getFormats()[i].length())
             {
-                stat.resize(stat.size() + 1);
-                std::vector < std::string >::iterator str = stat.end() - 1;
-
-                const char  *format = NULL;
-                if(i < getFormats().size() && getFormats()[i].length())
-                {
-                    format = getFormats()[i].c_str();
-                }
-
-                el->putToString(*str, format);
+              format = getFormats()[i].c_str();
             }
+
+            if (el)
+                el->putToString(*str, format);
+            else
+                *str = format;
         }
     }
     else    // fallback, show all elements

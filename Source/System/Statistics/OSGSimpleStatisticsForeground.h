@@ -93,7 +93,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
     /*! \{                                                                 */
 
     void addElement( StatElemDescBase &desc, const char *format = NULL);
-    void addElement( UInt32            id,   const char *format = NULL);
+    void addElement( Int32            id,    const char *format = NULL);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
