@@ -1102,6 +1102,13 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
     if(pMat == NullFC)
         pMat = pGeo->getMaterial();
 
+    if(pWriter->isWritten(pMat))
+    {
+        pWriter->printIndent();
+        fprintf(pFile, "appearance USE App_%d\n", pWriter->getIndex(pMat));
+        return;
+    }
+    
     StatePtr st = pMat->makeState();
     
     StateChunkPtr sChunk =
@@ -1116,7 +1123,7 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
         return;
 
     pWriter->printIndent();
-    fprintf(pFile, "appearance Appearance\n");
+    fprintf(pFile, "appearance DEF App_%d Appearance\n", pWriter->setWritten(pMat));
     
     pWriter->printIndent();
     fprintf(pFile, "{\n");
@@ -1187,48 +1194,57 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
 
     if(pTChunk != NullFC)
     {
-        ImagePtr pImage = pTChunk->getImage();
-
-        if(pImage != NullFC)
+        if(pWriter->isWritten(pTChunk))
         {
-            const std::string *pFilename = 
-                pImage->findAttachmentField("fileName");
-
-            if(pFilename != NULL)
-            {
-
-                pWriter->printIndent();
-                fprintf(pFile, "ImageTexture\n");
-
-                pWriter->printIndent();
-                fprintf(pFile, "{\n");
-
-                pWriter->incIndent(4);
-
-                pWriter->printIndent();
-                fprintf(pFile, "url \"%s\"\n",
-                        pFilename->c_str());
-
-                if(pTChunk->getWrapS() != GL_REPEAT)
-                {
-                    pWriter->printIndent();
-                    fprintf(pFile, "repeatS FALSE\n");
-                }
-
-                if(pTChunk->getWrapT() != GL_REPEAT)
-                {
-                    pWriter->printIndent();
-                    fprintf(pFile, "repeatT FALSE\n");
-                }
-
-                pWriter->decIndent(4);
-
-                pWriter->printIndent();
-                fprintf(pFile, "}\n");
-            }
+            pWriter->printIndent();
+            fprintf(pFile, "texture USE Tex_%d\n", pWriter->getIndex(pMat));
+            subRefCP(st);
+            return;
         }
+        else
+        {
+            ImagePtr pImage = pTChunk->getImage();
 
-                
+            if(pImage != NullFC)
+            {
+                const std::string *pFilename = 
+                    pImage->findAttachmentField("fileName");
+
+                if(pFilename != NULL)
+                {
+                    
+                    pWriter->printIndent();
+                    fprintf(pFile, "texture DEF Tex_%d ImageTexture\n",
+                                pWriter->setWritten(pTChunk) );
+
+                    pWriter->printIndent();
+                    fprintf(pFile, "{\n");
+
+                    pWriter->incIndent(4);
+
+                    pWriter->printIndent();
+                    fprintf(pFile, "url \"%s\"\n",
+                            pFilename->c_str());
+
+                    if(pTChunk->getWrapS() != GL_REPEAT)
+                    {
+                        pWriter->printIndent();
+                        fprintf(pFile, "repeatS FALSE\n");
+                    }
+
+                    if(pTChunk->getWrapT() != GL_REPEAT)
+                    {
+                        pWriter->printIndent();
+                        fprintf(pFile, "repeatT FALSE\n");
+                    }
+
+                    pWriter->decIndent(4);
+
+                    pWriter->printIndent();
+                    fprintf(pFile, "}\n");
+                }
+            }
+        }              
     }
 /*
     sChunk = st->getChunk(TextureTransformChunk::getStaticClassId());    
@@ -1788,7 +1804,8 @@ VRMLWriteAction::VRMLWriteAction(void) :
     _eTraversalMode(OSGCollectFC),
     _currentUse    (false       ),
     _uiOptions     (OSGNoOptions),
-    _vFCInfos      (            )
+    _vFCInfos      (            ),
+    _writtenFCs    (            )
 {
     if(_defaultEnterFunctors)
         _enterFunctors = *_defaultEnterFunctors;
@@ -1809,7 +1826,8 @@ VRMLWriteAction::VRMLWriteAction(const VRMLWriteAction &source) :
     _eTraversalMode(source._eTraversalMode),
     _currentUse    (source._currentUse    ),
     _uiOptions     (source._uiOptions     ),
-    _vFCInfos      (source._vFCInfos      )
+    _vFCInfos      (source._vFCInfos      ),
+    _writtenFCs    (source._writtenFCs    )
 {
     if(_defaultEnterFunctors)
         _enterFunctors = *_defaultEnterFunctors;
@@ -1901,6 +1919,8 @@ Action::ResultE VRMLWriteAction::write(NodePtr node)
     _vFCInfos.resize(
         FieldContainerFactory::the()->getFieldContainerStore()->size());
 
+    _writtenFCs.clear();
+    
     setMaterial(NullFC);
     
     returnValue = Inherited::apply(node);

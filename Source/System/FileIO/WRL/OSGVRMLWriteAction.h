@@ -364,7 +364,12 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     UInt32               _uiOptions;
 
     std::vector<FCInfo>  _vFCInfos;
-    
+
+    // this is a quick hack to get material sharing to work. 
+    // I don't understand the reasoning and design of the FCInfo stuff and 
+    // don't have time to do it right. :( DR 040106
+    std::vector<FieldContainerPtr>        _writtenFCs;
+      
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -386,6 +391,10 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     void    addContainerUse(FieldContainerPtr &pContainer);
 
     FCInfo *getInfo        (FieldContainerPtr &pContainer);
+    
+    inline bool        isWritten(FieldContainerPtr &fc);
+    inline UInt32      getIndex(FieldContainerPtr &fc);
+    inline UInt32      setWritten(FieldContainerPtr &fc);
 };
 
 //---------------------------------------------------------------------------

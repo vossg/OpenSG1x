@@ -119,66 +119,29 @@ VRMLWriteAction::TraversalMode VRMLWriteAction::getMode(void) const
     return _eTraversalMode;
 }
 
-/*-------------------------- your_category---------------------------------*/
+inline
+bool VRMLWriteAction::isWritten(FieldContainerPtr &fc)
+{
+    return std::find(_writtenFCs.begin(), _writtenFCs.end(), fc) != 
+            _writtenFCs.end();
+}
 
-/*-------------------------- assignment -----------------------------------*/
+inline
+UInt32 VRMLWriteAction::getIndex(FieldContainerPtr &fc)
+{
+    std::vector<FieldContainerPtr>::iterator it;
+    
+    it =  std::find(_writtenFCs.begin(), _writtenFCs.end(), fc);
+    
+    return it - _writtenFCs.begin();
+}
 
-/** \brief assignment
- */
-
-
-/*-------------------------- comparison -----------------------------------*/
-
-/** \brief assignment
- */
-
-
-/** \brief equal
- */
-
-
-/** \brief unequal
- */
-
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+inline
+UInt32 VRMLWriteAction::setWritten(FieldContainerPtr &fc)
+{
+    _writtenFCs.push_back(fc);
+    
+    return _writtenFCs.size() - 1;
+}
 
 OSG_END_NAMESPACE
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
-
