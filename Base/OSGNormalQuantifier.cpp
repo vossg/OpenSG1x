@@ -55,7 +55,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGNormalQuantifier.cpp,v 1.2 2002/04/24 18:37:40 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGNormalQuantifier.cpp,v 1.3 2002/04/25 02:49:40 vossg Exp $";
     static Char8 cvsid_hpp[] = OSG_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSG_INLINE_CVSID;
 }
@@ -84,7 +84,7 @@ namespace
 
 /*! Constructor documentation
  */
-NormalQuantifier::NormalQuantifier(UInt32 numberSubdivisions = 0 )
+NormalQuantifier::NormalQuantifier(UInt32 numberSubdivisions)
 {
   build(numberSubdivisions);
 }
@@ -182,7 +182,7 @@ UInt32 NormalQuantifier::getSubIndex ( Vec3f point,
   Vec3f newPoint1, newPoint2, newPoint3;
   Vec3f midPoint0, midPoint1, midPoint2, midPoint3;
   Real32 dot0, dot1, dot2, dot3;
-  Real32 max, max01, max23;
+  Real32 max01, max23;
   UInt32 index = 0, gate, gate01, gate23;
   
   number--;
@@ -252,12 +252,10 @@ UInt32 NormalQuantifier::getSubIndex ( Vec3f point,
   if (max01 > max23)
     {
       gate = gate01;
-      max  = max01;
     }
   else
     {
       gate = gate23;
-      max  = max23;
     }
 
   if (number > 0)
