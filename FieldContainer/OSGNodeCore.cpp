@@ -47,6 +47,7 @@
 
 #include "OSGNode.h"
 #include "OSGNodeCore.h"
+#include "OSGBinaryDataHandler.h"
 
 OSG_USING_NAMESPACE
 
@@ -281,30 +282,26 @@ UInt32 NodeCore::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle NodeCore::copyToBin(      MemoryHandle  pMem, 
-                                 const BitVector    &whichField)
+void NodeCore::copyToBin(      BinaryDataHandler &pMem, 
+                         const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
     {
-        pMem = _parents.copyToBin(pMem);
+        _parents.copyToBin(pMem);
     }
-
-    return pMem;
 }
 
-MemoryHandle NodeCore::copyFromBin(      MemoryHandle  pMem, 
-                                   const BitVector    &whichField)
+void NodeCore::copyFromBin(      BinaryDataHandler &pMem, 
+                           const BitVector         &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
     {
-        pMem = _parents.copyFromBin(pMem);
+        _parents.copyFromBin(pMem);
     }
-
-    return pMem;
 }
 
 void NodeCore::executeSync(      FieldContainer &other,

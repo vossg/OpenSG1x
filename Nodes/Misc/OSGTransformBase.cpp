@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.12 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformBase.cpp,v 1.13 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGTRANSFORMBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGTRANSFORMBASE_INLINE_CVSID;
 
@@ -214,28 +214,30 @@ UInt32 TransformBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle TransformBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void TransformBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (MatrixFieldMask & whichField))
-        pMem = _sfMatrix.copyToBin(pMem);
+    {
+        _sfMatrix.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle TransformBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void TransformBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (MatrixFieldMask & whichField))
-        pMem = _sfMatrix.copyFromBin(pMem);
+    {
+        _sfMatrix.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void TransformBase::executeSyncImpl(      TransformBase *pOther,

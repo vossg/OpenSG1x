@@ -81,6 +81,7 @@
 OSG_BEGIN_NAMESPACE
 
 class LightBase;
+class BinaryDataHandler;
 
 /*! \brief LightBase Base Class. */
 
@@ -193,10 +194,10 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -263,6 +264,6 @@ typedef LightBaseBase *LightBaseBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.13 2001/09/17 14:15:06 vossg Exp $"
+#define OSGLIGHTBASEBASE_HEADER_CVSID "@(#)$Id: OSGLightBaseBase.h,v 1.14 2001/09/19 14:36:40 mroth Exp $"
 
 #endif /* _OSGLIGHTBASEBASE_H_ */

@@ -58,6 +58,7 @@
 OSG_BEGIN_NAMESPACE
 
 class NodeCore;
+class BinaryDataHandler;
 
 /*! \ingroup FieldContainerLib
  *  \brief Node
@@ -188,12 +189,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
+    virtual UInt32  getBinSize (const BitVector         &whichField);
 
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem, 
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem, 
-                                     const BitVector    &whichField);
+    virtual void    copyToBin  (      BinaryDataHandler &pMem, 
+                                const BitVector         &whichField);
+    virtual void    copyFromBin(      BinaryDataHandler &pMem, 
+                                const BitVector         &whichField);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

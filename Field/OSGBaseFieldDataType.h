@@ -264,53 +264,62 @@ struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
         return size;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const String       &oObject)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const String            &oObject)
     {
-        UInt32 size = oObject.length() + 1;
-
-        memcpy(pMem, &size, sizeof(size));
-        memcpy(pMem, oObject.str(), size);
-
-        return pMem + sizeof(UInt32) + size;
+        UInt32 size = 0;
+        if(oObject.empty())
+        {
+            pMem.put(&size        , sizeof(size));
+        }
+        else
+        {
+            size = oObject.length() + 1;
+            pMem.put(&size        , sizeof(size));
+            pMem.put(oObject.str(), size);
+        }
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const String       *pObjectStore,
-                                        UInt32        uiNumObjects)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const String            *pObjectStore,
+                                UInt32             uiNumObjects)
     {
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
-            pMem = copyToBin(pMem, pObjectStore[i]);
+            copyToBin(pMem, pObjectStore[i]);
         }
-
-        return pMem;
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle pMem, 
-                                          String   &oObject)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            String            &oObject)
     {
         UInt32 size;
+        Char8 *str;
 
-        memcpy(&size, pMem, sizeof(size));
-
-        oObject.set((const Char8*)(pMem + sizeof(UInt32)));
-
-        return pMem + size + sizeof(UInt32);
+        pMem.get(&size, sizeof(size));
+        if(size==0)
+        {
+            oObject.set(NULL);
+        }
+        else
+        {
+            // we have to copy because the string maight not be
+            // continous in pMem.
+            str = new Char8[size];
+            pMem.get(str,size);
+            oObject.set(str);
+            delete [] str;
+        }
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
-                                          String       *pObjectStore,
-                                          UInt32        uiNumObjects)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            String            *pObjectStore,
+                            UInt32             uiNumObjects)
     {
-        MemoryHandle mem=pMem;
-
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
-            mem = copyFromBin(mem, pObjectStore[i]);
+            copyFromBin(pMem, pObjectStore[i]);
         }
-
-        return mem;
     }
 };
 
@@ -501,53 +510,11 @@ struct FieldDataTraits<Plane> : public FieldTraitsRecurseBase<Plane>
 
     static Plane     getDefault(void)    { return Plane(); }
 
-    static Bool             getFromString(      Plane  &outVal,
-                                          const Char8  *&inVal)
+    static Bool             getFromString(      Plane  &,
+                                          const Char8         *&)
     {
-		Real32 valStore[4];
-		UInt32 length = strlen( inVal );
-		Char8 str[256];
-		Char8 *c = str;
-	
-		if( length > 256 )
-		{
-			cerr << "FieldDataTraits<Plane>::getFromString(): "
-				 << "Input too long" << endl;
-			return false;
-		}
-		strncpy( str, inVal, length );
-		while( *c != '\0' )
-		{
-			if( *c == '[' )
-				*c = ' ';
-			if( *c == ']' )
-				*c = ' ';
-			if( *c == ',' )
-				*c = ' ';
-			c++;
-		}
-		
-		Int16 count = sscanf( str, "%f %f %f %f",
-							&valStore[0], &valStore[1],
-							&valStore[2], &valStore[3] );
-		
-        if( count == 4 )
-		{
-			cerr << "FieldDataTraits<Plane>::getFromString() : "
-				 << valStore[0] << " " << valStore[1] << " " << valStore[2]
-				 << " " << valStore[3] << endl;
-			outVal.set( Vec3f(valStore[0], valStore[1], valStore[2]),
-							  valStore[3] );
-			return true;
-		}
-		else
-		{
-			cerr << "FieldDataTraits<Plane>::getFromString() : using default "
-				 <<  "plane" << endl;
-			outVal.set( getDefault().getNormal(),
-				        getDefault().getDistanceFromOrigin() );
-			return false;
-		}
+        // TO_BE_DONE
+        return false;
     }
 
     static void             putToString(const Plane &inVal,

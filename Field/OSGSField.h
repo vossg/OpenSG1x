@@ -65,6 +65,7 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 //  Forward References
 //---------------------------------------------------------------------------
+class BinaryDataHandler;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -156,8 +157,8 @@ class OSG_BASE_DLLMAPPING SField : public Field
 
     UInt32       getBinSize (void);
     
-    MemoryHandle copyToBin  (MemoryHandle  pMem);
-    MemoryHandle copyFromBin(MemoryHandle  pMem);
+    void copyToBin  (BinaryDataHandler &pMem);
+    void copyFromBin(BinaryDataHandler &pMem);
 
     /*----------------------------- assign ----------------------------------*/
 

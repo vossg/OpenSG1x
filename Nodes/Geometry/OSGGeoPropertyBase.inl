@@ -234,32 +234,29 @@ UInt32 GeoProperty<GeoPropertyDesc>::getBinSize(const BitVector &whichField)
 }
 
 template <class GeoPropertyDesc> inline 
-MemoryHandle GeoProperty<GeoPropertyDesc>::copyToBin(
-          MemoryHandle  pMem,
-    const BitVector    &whichField)
+void GeoProperty<GeoPropertyDesc>::copyToBin(
+          BinaryDataHandler &pMem,
+    const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (GeoPropDataFieldMask & whichField))
     {
-        pMem = _field.copyToBin(pMem);
+        _field.copyToBin(pMem);
     }
-    return pMem;
 }
 
 template <class GeoPropertyDesc> inline 
-MemoryHandle GeoProperty<GeoPropertyDesc>::copyFromBin(
-          MemoryHandle  pMem,
-    const BitVector    &whichField)
+void GeoProperty<GeoPropertyDesc>::copyFromBin(
+          BinaryDataHandler &pMem,
+    const BitVector         &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (GeoPropDataFieldMask & whichField))
     {
-        pMem = _field.copyFromBin(pMem);
+        _field.copyFromBin(pMem);
     }
-
-    return pMem;
 }
 
 /** \brief Returns pointer to stored field

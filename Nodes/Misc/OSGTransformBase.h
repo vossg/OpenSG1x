@@ -74,6 +74,7 @@
 OSG_BEGIN_NAMESPACE
 
 class Transform;
+class BinaryDataHandler;
 
 /*! \brief Transform Base Class. */
 
@@ -144,10 +145,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformBase : public NodeCore
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -223,6 +224,6 @@ typedef TransformBase *TransformBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGTransformBase.h,v 1.12 2001/09/17 14:15:06 vossg Exp $"
+#define OSGTRANSFORMBASE_HEADER_CVSID "@(#)$Id: OSGTransformBase.h,v 1.13 2001/09/19 14:36:41 mroth Exp $"
 
 #endif /* _OSGTRANSFORMBASE_H_ */

@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.11 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTransformChunkBase.cpp,v 1.12 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGTRANSFORMCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGTRANSFORMCHUNKBASE_INLINE_CVSID;
 
@@ -197,28 +197,30 @@ UInt32 TransformChunkBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle TransformChunkBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void TransformChunkBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (MatrixFieldMask & whichField))
-        pMem = _sfMatrix.copyToBin(pMem);
+    {
+        _sfMatrix.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle TransformChunkBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void TransformChunkBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (MatrixFieldMask & whichField))
-        pMem = _sfMatrix.copyFromBin(pMem);
+    {
+        _sfMatrix.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void TransformChunkBase::executeSyncImpl(      TransformChunkBase *pOther,

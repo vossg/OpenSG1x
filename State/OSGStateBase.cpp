@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.12 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGStateBase.cpp,v 1.13 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGSTATEBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSTATEBASE_INLINE_CVSID;
 
@@ -214,28 +214,30 @@ UInt32 StateBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle StateBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void StateBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ChunksFieldMask & whichField))
-        pMem = _mfChunks.copyToBin(pMem);
+    {
+        _mfChunks.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle StateBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void StateBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ChunksFieldMask & whichField))
-        pMem = _mfChunks.copyFromBin(pMem);
+    {
+        _mfChunks.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void StateBase::executeSyncImpl(      StateBase *pOther,

@@ -73,7 +73,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.12 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGSimpleMaterialBase.cpp,v 1.13 2001/09/19 14:36:40 mroth Exp $";
     static char cvsid_hpp       [] = OSGSIMPLEMATERIALBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSIMPLEMATERIALBASE_INLINE_CVSID;
 
@@ -324,70 +324,100 @@ UInt32 SimpleMaterialBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle SimpleMaterialBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void SimpleMaterialBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-        pMem = _sfAmbient.copyToBin(pMem);
+    {
+        _sfAmbient.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-        pMem = _sfDiffuse.copyToBin(pMem);
+    {
+        _sfDiffuse.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-        pMem = _sfSpecular.copyToBin(pMem);
+    {
+        _sfSpecular.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ShininessFieldMask & whichField))
-        pMem = _sfShininess.copyToBin(pMem);
+    {
+        _sfShininess.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (EmissionFieldMask & whichField))
-        pMem = _sfEmission.copyToBin(pMem);
+    {
+        _sfEmission.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (TransparencyFieldMask & whichField))
-        pMem = _sfTransparency.copyToBin(pMem);
+    {
+        _sfTransparency.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (LitFieldMask & whichField))
-        pMem = _sfLit.copyToBin(pMem);
+    {
+        _sfLit.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
-        pMem = _sfColorMaterial.copyToBin(pMem);
+    {
+        _sfColorMaterial.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle SimpleMaterialBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void SimpleMaterialBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-        pMem = _sfAmbient.copyFromBin(pMem);
+    {
+        _sfAmbient.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-        pMem = _sfDiffuse.copyFromBin(pMem);
+    {
+        _sfDiffuse.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-        pMem = _sfSpecular.copyFromBin(pMem);
+    {
+        _sfSpecular.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ShininessFieldMask & whichField))
-        pMem = _sfShininess.copyFromBin(pMem);
+    {
+        _sfShininess.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (EmissionFieldMask & whichField))
-        pMem = _sfEmission.copyFromBin(pMem);
+    {
+        _sfEmission.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (TransparencyFieldMask & whichField))
-        pMem = _sfTransparency.copyFromBin(pMem);
+    {
+        _sfTransparency.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (LitFieldMask & whichField))
-        pMem = _sfLit.copyFromBin(pMem);
+    {
+        _sfLit.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
-        pMem = _sfColorMaterial.copyFromBin(pMem);
+    {
+        _sfColorMaterial.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void SimpleMaterialBase::executeSyncImpl(      SimpleMaterialBase *pOther,

@@ -722,34 +722,28 @@ UInt32 MField<FieldTypeT, fieldNameSpace>::getBinSize(void)
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MemoryHandle MField<FieldTypeT, fieldNameSpace>::copyToBin(MemoryHandle pMem)
+void MField<FieldTypeT, fieldNameSpace>::copyToBin(BinaryDataHandler &pMem)
 {
     UInt32 n = _values.size();
 
-    memcpy(pMem, &n, sizeof(UInt32));
-
-    pMem += sizeof(UInt32);
-
-    return MFieldTraits::copyToBin(   pMem, 
-                                   &(_values[0]),
-                                     _values.size());
+    pMem.put(&n,sizeof(n));
+    MFieldTraits::copyToBin(   pMem, 
+                               &(_values[0]),
+                               _values.size());
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MemoryHandle MField<FieldTypeT, fieldNameSpace>::copyFromBin(MemoryHandle pMem)
+void MField<FieldTypeT, fieldNameSpace>::copyFromBin(BinaryDataHandler &pMem)
 {
     UInt32 n;
 
-    memcpy(&n,pMem,sizeof(UInt32));
-
-    pMem += sizeof(UInt32);
-
+    pMem.get(&n,sizeof(n));
     _values.clear ( );
     _values.resize(n);
 
-    return MFieldTraits::copyFromBin(   pMem, 
-                                     &(_values[0]),
-                                     n);
+    MFieldTraits::copyFromBin(   pMem, 
+                                 &(_values[0]),
+                                 n);
 }
 
 /*--------------------------------- dump ------------------------------------*/

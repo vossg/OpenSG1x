@@ -73,6 +73,7 @@
 OSG_BEGIN_NAMESPACE
 
 class Material;
+class BinaryDataHandler;
 
 /*! \brief Material Base Class. */
 
@@ -119,10 +120,10 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public FieldContainer
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -176,6 +177,6 @@ typedef MaterialBase *MaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.9 2001/09/17 14:15:06 vossg Exp $"
+#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMaterialBase.h,v 1.10 2001/09/19 14:36:40 mroth Exp $"
 
 #endif /* _OSGMATERIALBASE_H_ */

@@ -232,34 +232,40 @@ UInt32 LogoForegroundBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle LogoForegroundBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void LogoForegroundBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ImagesFieldMask & whichField))
-        pMem = _mfImages.copyToBin(pMem);
+    {
+        _mfImages.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
-        pMem = _mfPositions.copyToBin(pMem);
+    {
+        _mfPositions.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle LogoForegroundBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void LogoForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ImagesFieldMask & whichField))
-        pMem = _mfImages.copyFromBin(pMem);
+    {
+        _mfImages.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
-        pMem = _mfPositions.copyFromBin(pMem);
+    {
+        _mfPositions.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void LogoForegroundBase::executeSyncImpl(      LogoForegroundBase *pOther,

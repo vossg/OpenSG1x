@@ -214,28 +214,30 @@ UInt32 SwitchBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle SwitchBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void SwitchBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ChoiceFieldMask & whichField))
-        pMem = _sfChoice.copyToBin(pMem);
+    {
+        _sfChoice.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle SwitchBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void SwitchBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ChoiceFieldMask & whichField))
-        pMem = _sfChoice.copyFromBin(pMem);
+    {
+        _sfChoice.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void SwitchBase::executeSyncImpl(      SwitchBase *pOther,

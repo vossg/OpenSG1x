@@ -178,22 +178,20 @@ UInt32 ForegroundBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle ForegroundBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void ForegroundBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
 
-    return pMem;
 }
 
-MemoryHandle ForegroundBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void ForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
 
-    return pMem;
 }
 
 void ForegroundBase::executeSyncImpl(      ForegroundBase *pOther,

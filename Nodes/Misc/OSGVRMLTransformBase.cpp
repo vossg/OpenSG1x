@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.13 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGVRMLTransformBase.cpp,v 1.14 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGVRMLTRANSFORMBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGVRMLTRANSFORMBASE_INLINE_CVSID;
 
@@ -286,52 +286,70 @@ UInt32 VRMLTransformBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle VRMLTransformBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void VRMLTransformBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (CenterFieldMask & whichField))
-        pMem = _sfCenter.copyToBin(pMem);
+    {
+        _sfCenter.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (RotationFieldMask & whichField))
-        pMem = _sfRotation.copyToBin(pMem);
+    {
+        _sfRotation.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
-        pMem = _sfScale.copyToBin(pMem);
+    {
+        _sfScale.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ScaleOrientationFieldMask & whichField))
-        pMem = _sfScaleOrientation.copyToBin(pMem);
+    {
+        _sfScaleOrientation.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (TranslationFieldMask & whichField))
-        pMem = _sfTranslation.copyToBin(pMem);
+    {
+        _sfTranslation.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle VRMLTransformBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void VRMLTransformBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (CenterFieldMask & whichField))
-        pMem = _sfCenter.copyFromBin(pMem);
+    {
+        _sfCenter.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (RotationFieldMask & whichField))
-        pMem = _sfRotation.copyFromBin(pMem);
+    {
+        _sfRotation.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
-        pMem = _sfScale.copyFromBin(pMem);
+    {
+        _sfScale.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ScaleOrientationFieldMask & whichField))
-        pMem = _sfScaleOrientation.copyFromBin(pMem);
+    {
+        _sfScaleOrientation.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (TranslationFieldMask & whichField))
-        pMem = _sfTranslation.copyFromBin(pMem);
+    {
+        _sfTranslation.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void VRMLTransformBase::executeSyncImpl(      VRMLTransformBase *pOther,

@@ -82,6 +82,7 @@
 OSG_BEGIN_NAMESPACE
 
 class Viewport;
+class BinaryDataHandler;
 
 /*! \brief Viewport Base Class. */
 
@@ -200,10 +201,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -287,6 +288,6 @@ typedef ViewportBase *ViewportBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.13 2001/09/17 14:15:08 vossg Exp $"
+#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGViewportBase.h,v 1.14 2001/09/19 14:36:41 mroth Exp $"
 
 #endif /* _OSGVIEWPORTBASE_H_ */

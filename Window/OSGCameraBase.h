@@ -76,6 +76,7 @@
 OSG_BEGIN_NAMESPACE
 
 class Camera;
+class BinaryDataHandler;
 
 /*! \brief Camera Base Class. */
 
@@ -158,10 +159,10 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public AttachmentContainer
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -223,6 +224,6 @@ typedef CameraBase *CameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: OSGCameraBase.h,v 1.12 2001/09/17 14:15:07 vossg Exp $"
+#define OSGCAMERABASE_HEADER_CVSID "@(#)$Id: OSGCameraBase.h,v 1.13 2001/09/19 14:36:41 mroth Exp $"
 
 #endif /* _OSGCAMERABASE_H_ */

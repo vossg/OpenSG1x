@@ -79,6 +79,7 @@
 OSG_BEGIN_NAMESPACE
 
 class TileCameraDecorator;
+class BinaryDataHandler;
 
 /*! \brief TileCameraDecorator Base Class. */
 
@@ -179,10 +180,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -263,6 +264,6 @@ typedef TileCameraDecoratorBase *TileCameraDecoratorBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.9 2001/09/17 14:15:08 vossg Exp $"
+#define OSGTILECAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGTileCameraDecoratorBase.h,v 1.10 2001/09/19 14:36:41 mroth Exp $"
 
 #endif /* _OSGTILECAMERADECORATORBASE_H_ */

@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.11 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGDirectionalLightBase.cpp,v 1.12 2001/09/19 14:36:40 mroth Exp $";
     static char cvsid_hpp       [] = OSGDIRECTIONALLIGHTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGDIRECTIONALLIGHTBASE_INLINE_CVSID;
 
@@ -197,28 +197,30 @@ UInt32 DirectionalLightBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle DirectionalLightBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void DirectionalLightBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (DirectionFieldMask & whichField))
-        pMem = _sfDirection.copyToBin(pMem);
+    {
+        _sfDirection.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle DirectionalLightBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void DirectionalLightBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (DirectionFieldMask & whichField))
-        pMem = _sfDirection.copyFromBin(pMem);
+    {
+        _sfDirection.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void DirectionalLightBase::executeSyncImpl(      DirectionalLightBase *pOther,

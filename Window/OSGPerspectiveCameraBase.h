@@ -74,6 +74,7 @@
 OSG_BEGIN_NAMESPACE
 
 class PerspectiveCamera;
+class BinaryDataHandler;
 
 /*! \brief PerspectiveCamera Base Class. */
 
@@ -144,10 +145,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -223,6 +224,6 @@ typedef PerspectiveCameraBase *PerspectiveCameraBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraBase.h,v 1.13 2001/09/17 14:15:08 vossg Exp $"
+#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGPerspectiveCameraBase.h,v 1.14 2001/09/19 14:36:41 mroth Exp $"
 
 #endif /* _OSGPERSPECTIVECAMERABASE_H_ */

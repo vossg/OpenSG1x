@@ -64,52 +64,30 @@ struct FieldTraitsRecurseVecStoreBase : public Traits
         return sizeof(ValueTypeT) * uiNumObjects;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const ValueTypeT   &oObject)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const ValueTypeT        &oObject)
     {
-        UInt32 size = getBinSize(oObject);
-
-        memcpy(pMem, &oObject, size);
-
-        return pMem + size;
+        pMem.put(&oObject, getBinSize(oObject));
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const ValueTypeT   *pObjectStore,
-                                        UInt32        uiNumObjects)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const ValueTypeT        *pObjectStore,
+                                UInt32             uiNumObjects)
     {
-        UInt32 size = getBinSize(pObjectStore[0]) * uiNumObjects;
-
-        if(size > 0)
-        {
-            memcpy(pMem, &pObjectStore[0], size);
-        }
-
-        return pMem + size;
+        pMem.put(&pObjectStore[0], getBinSize(pObjectStore, uiNumObjects));
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
-                                          ValueTypeT   &oObject)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            ValueTypeT        &oObject)
     {
-        UInt32 size = getBinSize(oObject);
-
-        memcpy(&oObject, pMem, size);
-
-        return pMem + size;
+        pMem.get(&oObject, getBinSize(oObject));
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
-                                          ValueTypeT   *pObjectStore,
-                                          UInt32        uiNumObjects)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            ValueTypeT        *pObjectStore,
+                            UInt32             uiNumObjects)
     {
-        UInt32 size = getBinSize(pObjectStore, uiNumObjects);
-
-        if(size > 0)
-        {
-            memcpy(&pObjectStore[0], pMem, size);
-        }
-
-        return pMem + size;
+        pMem.get(&pObjectStore[0], getBinSize(pObjectStore, uiNumObjects));
     }
 };
 

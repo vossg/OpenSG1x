@@ -1,17 +1,65 @@
 
 #include <stdio.h>
+#include <vector>
+#include <OSGBaseTypes.h>
+#include <OSGSFVecTypes.h>
+#include <OSGMFVecTypes.h>
 #include <OSGVecFieldDataType.h>
 #include <OSGSysFieldDataType.h>
 #include <OSGMathFieldDataType.h>
 #include <OSGBaseFieldDataType.h>
+#include <OSGBinaryDataHandler.h>
+#include <OSGSFSysTypes.h>
+#include <OSGMFSysTypes.h>
+#include <OSGSFBaseTypes.h>
+
+using std::vector;
+
+class TestHandler:public OSG::BinaryDataHandler
+{
+public:
+    TestHandler(FILE *file):OSG::BinaryDataHandler(),_file(file) {
+        unsigned int i;
+        _memory.resize(7);
+        for(i=0;i<_memory.size();i++)
+        {
+            _memory[i].resize(5);
+            _buffers.push_back(MemoryBlock(&_memory[i][0],
+                                           _memory[i].size()));
+        }
+        _zeroCopyThreshold=5;
+        reset();
+    }
+    void read(OSG::MemoryHandle mem,int size) {
+        fprintf(stderr,"dorect read %d bytes\n",size);
+        fread(mem,size,1,_file);
+    }
+    void write(OSG::MemoryHandle mem,int size) {
+        fprintf(stderr,"direct write %d bytes\n",size);
+        fwrite(mem,size,1,_file);
+    }
+private:
+    vector<vector<OSG::UInt8> > _memory;
+    FILE *_file;
+};
+
+struct TestData {
+    OSG::SFUInt32  uint32;
+    OSG::SFUInt16  uint16;
+    OSG::MFUInt32  muint32;
+    OSG::SFString  str;
+    OSG::SFVec2f   v2;
+    OSG::SFVec3f   v3;
+    OSG::SFVec4f   v4;
+};
 
 int main(void)
 {
-    char memblock[2048];
-
-    OSG::MemoryHandle pMem = (OSG::MemoryHandle) memblock;
-
     fprintf(stderr, "TestStart\n");
+
+    FILE *wfile=fopen("binfile","w");
+
+    TestHandler pMem(wfile);
 
     OSG::Vec2f  v2;
     OSG::Vec3f  v3;
@@ -26,20 +74,16 @@ int main(void)
     OSG::FieldDataTraits<OSG::Vec3f >::copyToBin(pMem, v3);
     OSG::FieldDataTraits<OSG::Vec4f >::copyToBin(pMem, v4);
     OSG::FieldDataTraits<OSG::Vec4ub>::copyToBin(pMem, v4ub);
-
     OSG::FieldDataTraits<OSG::Vec2f >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::Vec3f >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::Vec4f >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::Vec4ub>::copyToBin(pMem, NULL, 0);
-
-    OSG::FieldDataTraits<OSG::Pnt2f>::copyToBin(pMem, p2);
-    OSG::FieldDataTraits<OSG::Pnt3f>::copyToBin(pMem, p3);
-    OSG::FieldDataTraits<OSG::Pnt4f>::copyToBin(pMem, p4);
-
-    OSG::FieldDataTraits<OSG::Pnt2f>::copyToBin(pMem, NULL, 0);
-    OSG::FieldDataTraits<OSG::Pnt3f>::copyToBin(pMem, NULL, 0);
-    OSG::FieldDataTraits<OSG::Pnt4f>::copyToBin(pMem, NULL, 0);
-
+    OSG::FieldDataTraits<OSG::Pnt2f> ::copyToBin(pMem, p2);
+    OSG::FieldDataTraits<OSG::Pnt3f> ::copyToBin(pMem, p3);
+    OSG::FieldDataTraits<OSG::Pnt4f> ::copyToBin(pMem, p4);
+    OSG::FieldDataTraits<OSG::Pnt2f> ::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::Pnt3f> ::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::Pnt4f> ::copyToBin(pMem, NULL, 0);
 
     OSG::Bool b;
 
@@ -104,7 +148,6 @@ int main(void)
     OSG::FieldDataTraits<OSG::Matrix    >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits<OSG::Quaternion>::copyToBin(pMem, NULL, 0);
 
-
     OSG::String        str("xxx");;
     OSG::Time          tim;
     OSG::Color3f       c3;
@@ -113,7 +156,6 @@ int main(void)
     OSG::Color4ub      c4ub;
     OSG::DynamicVolume dv;
     OSG::BitVector     bv;
-
 
     OSG::FieldDataTraits <OSG::String       >::copyToBin(pMem, str);
     OSG::FieldDataTraits1<OSG::Time         >::copyToBin(pMem, tim);
@@ -124,7 +166,6 @@ int main(void)
     OSG::FieldDataTraits <OSG::DynamicVolume>::copyToBin(pMem, dv);
     OSG::FieldDataTraits1<OSG::BitVector    >::copyToBin(pMem, bv);
 
-
     OSG::FieldDataTraits <OSG::String       >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits1<OSG::Time         >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits <OSG::Color3f      >::copyToBin(pMem, NULL, 0);
@@ -133,6 +174,75 @@ int main(void)
     OSG::FieldDataTraits <OSG::Color4ub     >::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits <OSG::DynamicVolume>::copyToBin(pMem, NULL, 0);
     OSG::FieldDataTraits1<OSG::BitVector    >::copyToBin(pMem, NULL, 0);
+    fclose(wfile);
 
+    TestData src,dst;
+
+    src.uint32.setValue(33);
+    src.muint32.push_back(2);
+    src.muint32.push_back(4);
+    src.muint32.push_back(6);
+    src.muint32.push_back(3);
+    src.uint16.setValue(2);
+    src.str.setValue(OSG::String("teststr"));
+    src.v2.setValue(OSG::Vec2f(1,2));
+    src.v3.setValue(OSG::Vec3f(3,4,5));
+    src.v4.setValue(OSG::Vec4f(6,7,8,9));
+    
+    src.uint32.setValue(0x1111);
+    src.uint16.setValue(2);
+    src.str.setValue(OSG::String("teststr"));
+    src.v2.setValue(OSG::Vec2f(1,2));
+    src.v3.setValue(OSG::Vec3f(3,4,5));
+    src.v4.setValue(OSG::Vec4f(6,7,8,9));
+
+    wfile=fopen("binfile","w");
+    TestHandler w(wfile);
+    src.uint32.copyToBin  (w);
+    src.muint32.copyToBin (w);
+    src.uint16.copyToBin  (w);
+    src.str.copyToBin     (w);
+    src.v2.copyToBin      (w);
+    src.v3.copyToBin      (w);
+    src.v4.copyToBin      (w);
+    w.flush();
+    fclose(wfile);
+
+    FILE *rfile=fopen("binfile","r");
+    TestHandler r(rfile);
+    dst.uint32.copyFromBin  (r);
+    dst.muint32.copyFromBin (r);
+    dst.uint16.copyFromBin  (r);
+    dst.str.copyFromBin     (r);
+    dst.v2.copyFromBin      (r);
+    dst.v3.copyFromBin      (r);
+    dst.v4.copyFromBin      (r);
+    fclose(rfile);
+    
+    if(src.uint32.getValue() != dst.uint32.getValue()   ||
+       src.muint32[0]        != dst.muint32[0] ||
+       src.muint32.size()    != dst.muint32.size() ||
+       src.uint16.getValue() != dst.uint16.getValue())
+        fprintf(stderr,"Int error\n");
+    else
+        fprintf(stderr,"Int OK\n");
+
+    if(src.str.getValue() != dst.str.getValue())
+        fprintf(stderr,"string error\n");
+    else
+        fprintf(stderr,"string OK\n");
+
+    if(src.v2.getValue() != dst.v2.getValue() ||
+       src.v3.getValue() != dst.v3.getValue() ||
+       src.v4.getValue() != dst.v4.getValue())
+        fprintf(stderr,"Vec error\n");
+    else
+        fprintf(stderr,"Vec OK\n");
     return 0;
 }
+
+
+
+
+
+

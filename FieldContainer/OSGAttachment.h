@@ -56,6 +56,11 @@
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
+//  Forward References
+//---------------------------------------------------------------------------
+class BinaryDataHandler;
+
+//---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
@@ -107,12 +112,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Attachment : public FieldContainer
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
+    virtual UInt32  getBinSize (const BitVector         &whichField);
 
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem, 
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem, 
-                                     const BitVector    &whichField);
+    virtual void    copyToBin  (      BinaryDataHandler &pMem, 
+                                const BitVector         &whichField);
+    virtual void    copyFromBin(      BinaryDataHandler &pMem, 
+                                const BitVector         &whichField);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -245,10 +250,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
 
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem, 
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem, 
-                                     const BitVector    &whichField);
+    virtual void copyToBin(      BinaryDataHandler &pMem, 
+                           const BitVector         &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem, 
+                             const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

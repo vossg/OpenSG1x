@@ -45,6 +45,7 @@
 #include <OSGBaseFunctions.h>
 #include <OSGString.h>
 #include <OSGDataType.h>
+#include <OSGBinaryDataHandler.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -112,60 +113,45 @@ struct FieldTraitsRecurseBase : public Traits
         return size;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const FieldTypeT   &oObject)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FieldTypeT        &oObject)
     {
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
-
-        UInt32  size = MappedTrait::getBinSize(oObject);
-
-        memcpy(pMem, &oObject, size);
-
-        return pMem + size;
+        pMem.put(&oObject, MappedTrait::getBinSize(oObject));
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const FieldTypeT   *pObjectStore,
-                                        UInt32        uiNumObjects)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FieldTypeT        *pObjectStore,
+                                UInt32             uiNumObjects)
     {
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
 
         // defaut: copy each element
         for(UInt32 i=0; i < uiNumObjects; ++i)
         {
-            pMem = MappedTrait::copyToBin(pMem, pObjectStore[i]);
+            MappedTrait::copyToBin(pMem, pObjectStore[i]);
         }
-
-        return pMem;
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
-                                          FieldTypeT   &oObject)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            FieldTypeT        &oObject)
     {
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
 
-        UInt32 size = MappedTrait::getBinSize(oObject);
-
-        memcpy(&oObject, pMem, size);
-
-        return pMem + size;
+        pMem.get(&oObject, MappedTrait::getBinSize(oObject));
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
-                                          FieldTypeT   *pObjectStore,
-                                          UInt32        uiNumObjects)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            FieldTypeT        *pObjectStore,
+                            UInt32             uiNumObjects)
     {
         typedef FieldDataTraits<FieldTypeT> MappedTrait;
-
-        MemoryHandle mem = pMem;
 
         // defaut: copy each element
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
-            mem = MappedTrait::copyFromBin(mem, pObjectStore[i]);
+            MappedTrait::copyFromBin(pMem, pObjectStore[i]);
         }
-
-        return mem;
     }
 };
 
@@ -184,52 +170,30 @@ struct FieldTraitsIntegralRecurseMapper :
         return sizeof(FieldTypeT) * uiNumObjects;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const FieldTypeT   &oObject)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FieldTypeT        &oObject)
     {
-        UInt32 size = getBinSize(oObject);
-
-        memcpy(pMem, &oObject, size);
-
-        return pMem + size;
+        pMem.put(&oObject, getBinSize(oObject));
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle pMem, 
-                                  const FieldTypeT  *pObjectStore,
-                                        UInt32       uiNumObjects)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FieldTypeT        *pObjectStore,
+                                UInt32             uiNumObjects)
     {
-        UInt32 size = getBinSize(pObjectStore, uiNumObjects);
-
-        if(size > 0)
-        {
-            memcpy(pMem, &pObjectStore[0], size);
-        }
-
-        return pMem + size;
+        pMem.put(&pObjectStore[0], getBinSize(pObjectStore, uiNumObjects));
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
-                                          FieldTypeT   &oObject)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            FieldTypeT        &oObject)
     {
-        UInt32 size = getBinSize(oObject);
-
-        memcpy(&oObject, pMem, size);
-
-        return pMem + size;
+        pMem.get(&oObject, getBinSize(oObject));
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
-                                          FieldTypeT   *pObjectStore,
-                                          UInt32        uiNumObjects)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            FieldTypeT        *pObjectStore,
+                            UInt32             uiNumObjects)
     {
-        UInt32 size = getBinSize(pObjectStore, uiNumObjects);
-
-        if(size > 0)
-        {
-            memcpy(&pObjectStore[0], pMem, size);
-        }
-
-        return pMem + size;
+        pMem.get(&pObjectStore[0], getBinSize(pObjectStore, uiNumObjects));
     }
 };
 
@@ -263,8 +227,8 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
         return MappedTrait::getBinSize(pObjectStore, uiNumObjects);
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const FieldTypeT   &oObject)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FieldTypeT        &oObject)
     {
         typedef typename FieldTypeT::Inherited       Inherited;
         typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
@@ -274,12 +238,12 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
                                FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
             MappedTrait;
 
-        return MappedTrait::copyToBin(pMem, oObject);
+        MappedTrait::copyToBin(pMem, oObject);
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle pMem, 
-                                  const FieldTypeT  *pObjectStore,
-                                        UInt32       uiNumObjects)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FieldTypeT        *pObjectStore,
+                                UInt32             uiNumObjects)
     {
         typedef typename FieldTypeT::Inherited       Inherited;
         typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
@@ -289,11 +253,11 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
                                FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
             MappedTrait;
 
-        return MappedTrait::copyToBin(pMem, pObjectStore, uiNumObjects);
+        MappedTrait::copyToBin(pMem, pObjectStore, uiNumObjects);
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
-                                          FieldTypeT   &oObject)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            FieldTypeT        &oObject)
     {
         typedef typename FieldTypeT::Inherited       Inherited;
         typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
@@ -303,12 +267,12 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
                                FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
             MappedTrait;
 
-        return MappedTrait::copyFromBin(pMem, oObject);
+        MappedTrait::copyFromBin(pMem, oObject);
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle pMem, 
-                                          FieldTypeT  *pObjectStore,
-                                          UInt32       uiNumObjects)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            FieldTypeT        *pObjectStore,
+                            UInt32             uiNumObjects)
     {
         typedef typename FieldTypeT::Inherited       Inherited;
         typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
@@ -318,7 +282,7 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
                                FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
             MappedTrait;
 
-        return MappedTrait::copyFromBin(pMem, pObjectStore, uiNumObjects);
+        MappedTrait::copyFromBin(pMem, pObjectStore, uiNumObjects);
     }
 };
 
@@ -351,11 +315,10 @@ struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
 
         return MappedTrait::getBinSize(pObjectStore, uiNumObjects);
     }
-
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const FieldTypeT   &oObject)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FieldTypeT        &oObject)
     {
-        typedef typename FieldTypeT::Inherited        Inherited;
+        typedef typename FieldTypeT::Inherited       Inherited;
         typedef          FieldDataTraits1<FieldTypeT> FieldTypeTraits;
 
         typedef typename osgIF<FieldTypeTraits::bHasParent == 1,
@@ -363,14 +326,14 @@ struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
                                FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
             MappedTrait;
 
-        return MappedTrait::copyToBin(pMem, oObject);
+        MappedTrait::copyToBin(pMem, oObject);
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const FieldTypeT   *pObjectStore,
-                                        UInt32        uiNumObjects)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FieldTypeT        *pObjectStore,
+                                UInt32             uiNumObjects)
     {
-        typedef typename FieldTypeT::Inherited        Inherited;
+        typedef typename FieldTypeT::Inherited       Inherited;
         typedef          FieldDataTraits1<FieldTypeT> FieldTypeTraits;
 
         typedef typename osgIF<FieldTypeTraits::bHasParent == 1,
@@ -378,36 +341,36 @@ struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
                                FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
             MappedTrait;
 
-        return MappedTrait::copyToBin(pMem, pObjectStore, uiNumObjects);
+        MappedTrait::copyToBin(pMem, pObjectStore, uiNumObjects);
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
-                                          FieldTypeT   &oObject)
+    static void copyFromBin(const BinaryDataHandler &pMem, 
+                                  FieldTypeT        &oObject)
     {
         typedef typename FieldTypeT::Inherited       Inherited;
-        typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
+        typedef          FieldDataTraits1<FieldTypeT> FieldTypeTraits;
 
         typedef typename osgIF<FieldTypeTraits::bHasParent == 1,
                                FieldDataTraits1<Inherited>, 
                                FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
             MappedTrait;
 
-        return MappedTrait::copyFromBin(pMem, oObject);
+        MappedTrait::copyFromBin(pMem, oObject);
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle pMem, 
-                                          FieldTypeT  *pObjectStore,
-                                          UInt32       uiNumObjects)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            FieldTypeT        *pObjectStore,
+                            UInt32             uiNumObjects)
     {
         typedef typename FieldTypeT::Inherited       Inherited;
-        typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
+        typedef          FieldDataTraits1<FieldTypeT> FieldTypeTraits;
 
         typedef typename osgIF<FieldTypeTraits::bHasParent == 1,
                                FieldDataTraits1<Inherited>, 
                                FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
             MappedTrait;
 
-        return MappedTrait::copyFromBin(pMem, pObjectStore, uiNumObjects);
+        MappedTrait::copyFromBin(pMem, pObjectStore, uiNumObjects);
     }
 };
 
@@ -440,11 +403,10 @@ struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase<FieldTypeT>
 
         return MappedTrait::getBinSize(pObjectStore, uiNumObjects);
     }
-
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const FieldTypeT   &oObject)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FieldTypeT        &oObject)
     {
-        typedef typename FieldTypeT::Inherited        Inherited;
+        typedef typename FieldTypeT::Inherited       Inherited;
         typedef          FieldDataTraits2<FieldTypeT> FieldTypeTraits;
 
         typedef typename osgIF<FieldTypeTraits::bHasParent == 1,
@@ -452,14 +414,14 @@ struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase<FieldTypeT>
                                FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
             MappedTrait;
 
-        return MappedTrait::copyToBin(pMem, oObject);
+        MappedTrait::copyToBin(pMem, oObject);
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const FieldTypeT   *pObjectStore,
-                                        UInt32        uiNumObjects)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FieldTypeT        *pObjectStore,
+                                UInt32             uiNumObjects)
     {
-        typedef typename FieldTypeT::Inherited        Inherited;
+        typedef typename FieldTypeT::Inherited       Inherited;
         typedef          FieldDataTraits2<FieldTypeT> FieldTypeTraits;
 
         typedef typename osgIF<FieldTypeTraits::bHasParent == 1,
@@ -467,36 +429,36 @@ struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase<FieldTypeT>
                                FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
             MappedTrait;
 
-        return MappedTrait::copyToBin(pMem, pObjectStore, uiNumObjects);
+        MappedTrait::copyToBin(pMem, pObjectStore, uiNumObjects);
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
-                                          FieldTypeT   &oObject)
+    static void copyFromBin(const BinaryDataHandler &pMem, 
+                                  FieldTypeT        &oObject)
     {
         typedef typename FieldTypeT::Inherited       Inherited;
-        typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
+        typedef          FieldDataTraits2<FieldTypeT> FieldTypeTraits;
 
         typedef typename osgIF<FieldTypeTraits::bHasParent == 1,
                                FieldDataTraits2<Inherited>, 
                                FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
             MappedTrait;
 
-        return MappedTrait::copyFromBin(pMem, oObject);
+        MappedTrait::copyFromBin(pMem, oObject);
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle pMem, 
-                                          FieldTypeT  *pObjectStore,
-                                          UInt32       uiNumObjects)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            FieldTypeT        *pObjectStore,
+                            UInt32             uiNumObjects)
     {
         typedef typename FieldTypeT::Inherited       Inherited;
-        typedef          FieldDataTraits<FieldTypeT> FieldTypeTraits;
+        typedef          FieldDataTraits2<FieldTypeT> FieldTypeTraits;
 
         typedef typename osgIF<FieldTypeTraits::bHasParent == 1,
                                FieldDataTraits2<Inherited>, 
                                FieldTraitsRecurseBase<FieldTypeT> >::_IRet 
             MappedTrait;
 
-        return MappedTrait::copyFromBin(pMem, pObjectStore, uiNumObjects);
+        MappedTrait::copyFromBin(pMem, pObjectStore, uiNumObjects);
     }
 };
 

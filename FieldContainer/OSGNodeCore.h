@@ -52,6 +52,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+class BinaryDataHandler;
 class NodeCore;
 typedef FCPtr<AttachmentContainerPtr, NodeCore> NodeCorePtr;
 
@@ -98,12 +99,12 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32       getBinSize (const BitVector    &whichField);
+    virtual UInt32  getBinSize (const BitVector         &whichField);
 
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem, 
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem, 
-                                     const BitVector    &whichField);
+    virtual void    copyToBin  (      BinaryDataHandler &pMem, 
+                                const BitVector         &whichField);
+    virtual void    copyFromBin(      BinaryDataHandler &pMem, 
+                                const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

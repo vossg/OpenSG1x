@@ -76,6 +76,7 @@
 OSG_BEGIN_NAMESPACE
 
 class BlendChunk;
+class BinaryDataHandler;
 
 /*! \brief BlendChunk Base Class. */
 
@@ -158,10 +159,10 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -239,6 +240,6 @@ typedef BlendChunkBase *BlendChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.13 2001/09/17 14:15:07 vossg Exp $"
+#define OSGBLENDCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGBlendChunkBase.h,v 1.14 2001/09/19 14:36:41 mroth Exp $"
 
 #endif /* _OSGBLENDCHUNKBASE_H_ */

@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.13 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.14 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
 
@@ -214,28 +214,30 @@ UInt32 PerspectiveCameraBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle PerspectiveCameraBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void PerspectiveCameraBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (FovFieldMask & whichField))
-        pMem = _sfFov.copyToBin(pMem);
+    {
+        _sfFov.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle PerspectiveCameraBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void PerspectiveCameraBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (FovFieldMask & whichField))
-        pMem = _sfFov.copyFromBin(pMem);
+    {
+        _sfFov.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,

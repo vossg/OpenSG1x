@@ -83,6 +83,7 @@
 OSG_BEGIN_NAMESPACE
 
 class LightChunk;
+class BinaryDataHandler;
 
 /*! \brief LightChunk Base Class. */
 
@@ -207,10 +208,10 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -295,6 +296,6 @@ typedef LightChunkBase *LightChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.12 2001/09/17 14:15:07 vossg Exp $"
+#define OSGLIGHTCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightChunkBase.h,v 1.13 2001/09/19 14:36:41 mroth Exp $"
 
 #endif /* _OSGLIGHTCHUNKBASE_H_ */

@@ -87,7 +87,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.13 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.14 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID;
 
@@ -230,34 +230,40 @@ UInt32 GradientBackgroundBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle GradientBackgroundBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void GradientBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-        pMem = _mfColor.copyToBin(pMem);
+    {
+        _mfColor.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-        pMem = _mfPosition.copyToBin(pMem);
+    {
+        _mfPosition.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle GradientBackgroundBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void GradientBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-        pMem = _mfColor.copyFromBin(pMem);
+    {
+        _mfColor.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-        pMem = _mfPosition.copyFromBin(pMem);
+    {
+        _mfPosition.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void GradientBackgroundBase::executeSyncImpl(      GradientBackgroundBase *pOther,

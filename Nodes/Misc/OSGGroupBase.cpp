@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.10 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGGroupBase.cpp,v 1.11 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGGROUPBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGGROUPBASE_INLINE_CVSID;
 
@@ -187,22 +187,20 @@ UInt32 GroupBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle GroupBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void GroupBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
 
-    return pMem;
 }
 
-MemoryHandle GroupBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void GroupBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
 
-    return pMem;
 }
 
 void GroupBase::executeSyncImpl(      GroupBase *pOther,

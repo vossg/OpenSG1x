@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGPointLightBase.cpp,v 1.11 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPointLightBase.cpp,v 1.12 2001/09/19 14:36:40 mroth Exp $";
     static char cvsid_hpp       [] = OSGPOINTLIGHTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGPOINTLIGHTBASE_INLINE_CVSID;
 
@@ -197,28 +197,30 @@ UInt32 PointLightBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle PointLightBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void PointLightBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-        pMem = _sfPosition.copyToBin(pMem);
+    {
+        _sfPosition.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle PointLightBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void PointLightBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-        pMem = _sfPosition.copyFromBin(pMem);
+    {
+        _sfPosition.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void PointLightBase::executeSyncImpl(      PointLightBase *pOther,

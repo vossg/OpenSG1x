@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.11 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialBase.cpp,v 1.12 2001/09/19 14:36:40 mroth Exp $";
     static char cvsid_hpp       [] = OSGMATERIALBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGMATERIALBASE_INLINE_CVSID;
 
@@ -178,22 +178,20 @@ UInt32 MaterialBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle MaterialBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void MaterialBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
 
-    return pMem;
 }
 
-MemoryHandle MaterialBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void MaterialBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
 
-    return pMem;
 }
 
 void MaterialBase::executeSyncImpl(      MaterialBase *pOther,

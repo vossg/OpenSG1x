@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.15 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGGeometryBase.cpp,v 1.16 2001/09/19 14:36:40 mroth Exp $";
     static char cvsid_hpp       [] = OSGGEOMETRYBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGGEOMETRYBASE_INLINE_CVSID;
 
@@ -377,88 +377,130 @@ UInt32 GeometryBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle GeometryBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void GeometryBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (TypesFieldMask & whichField))
-        pMem = _sfTypes.copyToBin(pMem);
+    {
+        _sfTypes.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (LengthsFieldMask & whichField))
-        pMem = _sfLengths.copyToBin(pMem);
+    {
+        _sfLengths.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
-        pMem = _sfPositions.copyToBin(pMem);
+    {
+        _sfPositions.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (NormalsFieldMask & whichField))
-        pMem = _sfNormals.copyToBin(pMem);
+    {
+        _sfNormals.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ColorsFieldMask & whichField))
-        pMem = _sfColors.copyToBin(pMem);
+    {
+        _sfColors.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
-        pMem = _sfTexCoords.copyToBin(pMem);
+    {
+        _sfTexCoords.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (IndexFieldMask & whichField))
-        pMem = _sfIndex.copyToBin(pMem);
+    {
+        _sfIndex.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
-        pMem = _mfIndexMapping.copyToBin(pMem);
+    {
+        _mfIndexMapping.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-        pMem = _sfMaterial.copyToBin(pMem);
+    {
+        _sfMaterial.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
-        pMem = _sfDlistCache.copyToBin(pMem);
+    {
+        _sfDlistCache.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
-        pMem = _sfGLId.copyToBin(pMem);
+    {
+        _sfGLId.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle GeometryBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void GeometryBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (TypesFieldMask & whichField))
-        pMem = _sfTypes.copyFromBin(pMem);
+    {
+        _sfTypes.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (LengthsFieldMask & whichField))
-        pMem = _sfLengths.copyFromBin(pMem);
+    {
+        _sfLengths.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (PositionsFieldMask & whichField))
-        pMem = _sfPositions.copyFromBin(pMem);
+    {
+        _sfPositions.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (NormalsFieldMask & whichField))
-        pMem = _sfNormals.copyFromBin(pMem);
+    {
+        _sfNormals.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ColorsFieldMask & whichField))
-        pMem = _sfColors.copyFromBin(pMem);
+    {
+        _sfColors.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
-        pMem = _sfTexCoords.copyFromBin(pMem);
+    {
+        _sfTexCoords.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (IndexFieldMask & whichField))
-        pMem = _sfIndex.copyFromBin(pMem);
+    {
+        _sfIndex.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
-        pMem = _mfIndexMapping.copyFromBin(pMem);
+    {
+        _mfIndexMapping.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-        pMem = _sfMaterial.copyFromBin(pMem);
+    {
+        _sfMaterial.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
-        pMem = _sfDlistCache.copyFromBin(pMem);
+    {
+        _sfDlistCache.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
-        pMem = _sfGLId.copyFromBin(pMem);
+    {
+        _sfGLId.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void GeometryBase::executeSyncImpl(      GeometryBase *pOther,

@@ -87,7 +87,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.14 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.15 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGDYNAMICBACKGROUNDBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGDYNAMICBACKGROUNDBASE_INLINE_CVSID;
 
@@ -230,34 +230,40 @@ UInt32 DynamicBackgroundBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle DynamicBackgroundBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void DynamicBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-        pMem = _mfColor.copyToBin(pMem);
+    {
+        _mfColor.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (AngleFieldMask & whichField))
-        pMem = _mfAngle.copyToBin(pMem);
+    {
+        _mfAngle.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle DynamicBackgroundBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void DynamicBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
-        pMem = _mfColor.copyFromBin(pMem);
+    {
+        _mfColor.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (AngleFieldMask & whichField))
-        pMem = _mfAngle.copyFromBin(pMem);
+    {
+        _mfAngle.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void DynamicBackgroundBase::executeSyncImpl(      DynamicBackgroundBase *pOther,

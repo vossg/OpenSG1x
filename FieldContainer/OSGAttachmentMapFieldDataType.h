@@ -83,8 +83,8 @@ struct FieldTraitsRecurseMapper<AttachmentMap> :
         return size;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle   pMem, 
-                                  const AttachmentMap &pObject)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const AttachmentMap     &pObject)
     {
         UInt16 binding;
         UInt32 id;
@@ -96,87 +96,60 @@ struct FieldTraitsRecurseMapper<AttachmentMap> :
 
         size = pObject.size();
 
-        memcpy(pMem, &size, sizeof(UInt32));
-
-        pMem += sizeof(UInt32);
+        pMem.put(&size, sizeof(UInt32));
 
         for(; mapIt != mapEnd; ++mapIt)
         {
             binding = mapIt->first & 0xffff;
-
             id      = mapIt->second.getFieldContainerId();
 
-            memcpy(pMem, &binding, sizeof(UInt16));
-            pMem += sizeof(UInt16);
-
-            memcpy(pMem, &id, sizeof(UInt32));
-            pMem += sizeof(UInt32);
+            pMem.put(&binding, sizeof(UInt16));
+            pMem.put(&id, sizeof(UInt32));
         }
-
-        return pMem;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle   pMem, 
-                                  const AttachmentMap *pObjectStore,
-                                        UInt32         uiNumObjects)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const AttachmentMap *pObjectStore,
+                                UInt32         uiNumObjects)
     {
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
-            pMem = copyToBin(pMem, pObjectStore[i]);
+            copyToBin(pMem, pObjectStore[i]);
         }
-
-        return pMem;
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle   pMem, 
-                                          AttachmentMap &pObject)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            AttachmentMap     &pObject)
     {
         FieldContainerPtr fcp;
-
-        MemoryHandle mem = pMem;
 
         UInt32 key;
         UInt16 binding;
         UInt32 id;
         UInt32 size;
-        
-        memcpy(&size, mem, sizeof(UInt32));
 
-        mem += sizeof(UInt32);
+        pMem.get(&size, sizeof(UInt32));
 
         pObject.clear();
 
         for(UInt32 i = 0; i < size; ++i)
         {
-            memcpy(&binding, mem, sizeof(UInt16));
-            mem += sizeof(UInt16);
-
-
-            memcpy(&id, mem, sizeof(UInt32));
-            mem+=sizeof(UInt32);
-
+            pMem.get(&binding, sizeof(UInt16));
+            pMem.get(&id,      sizeof(UInt32));
             fcp = FieldContainerFactory::the()->getMappedContainer(id);
-
             key = (UInt32 (fcp->getGroupId()) << 16) | binding;
-
             ((FieldContainerPtr &) pObject[key]) = fcp;
         }
-
-        return mem;
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle   pMem, 
-                                          AttachmentMap *pObjectStore,
-                                          UInt32         uiNumObjects)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            AttachmentMap     *pObjectStore,
+                            UInt32             uiNumObjects)
     {
-        MemoryHandle mem = pMem;
-
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
-            mem = copyFromBin(mem, pObjectStore[i]);
+            copyFromBin(pMem, pObjectStore[i]);
         }
-
-        return mem;
     }
 };
 

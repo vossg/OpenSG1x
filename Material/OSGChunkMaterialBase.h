@@ -74,6 +74,7 @@
 OSG_BEGIN_NAMESPACE
 
 class ChunkMaterial;
+class BinaryDataHandler;
 
 /*! \brief ChunkMaterial Base Class. */
 
@@ -144,10 +145,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -223,6 +224,6 @@ typedef ChunkMaterialBase *ChunkMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCHUNKMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGChunkMaterialBase.h,v 1.11 2001/09/17 14:15:06 vossg Exp $"
+#define OSGCHUNKMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGChunkMaterialBase.h,v 1.12 2001/09/19 14:36:40 mroth Exp $"
 
 #endif /* _OSGCHUNKMATERIALBASE_H_ */

@@ -52,6 +52,7 @@
 #include "OSGThreadManager.h"
 #include "OSGChangeList.h"
 #include "OSGFieldContainerPtr.h"
+#include "OSGBinaryDataHandler.h"
 
 OSG_USING_NAMESPACE
 
@@ -149,16 +150,14 @@ UInt32 FieldContainer::getBinSize(const BitVector    &whichField)
     return 0;
 }
 
-MemoryHandle FieldContainer::copyToBin(      MemoryHandle  pMem, 
-                                       const BitVector    &)
+void FieldContainer::copyToBin(      BinaryDataHandler &, 
+                               const BitVector         &)
 {
-    return pMem;
 }
 
-MemoryHandle FieldContainer::copyFromBin(      MemoryHandle  pMem, 
-                                         const BitVector    &)
+void FieldContainer::copyFromBin(      BinaryDataHandler &, 
+                                 const BitVector         &)
 {
-    return pMem;
 }
 
 /*------------------------------ access -----------------------------------*/

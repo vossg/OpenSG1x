@@ -214,28 +214,30 @@ UInt32 InlineBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle InlineBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void InlineBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (UrlFieldMask & whichField))
-        pMem = _mfUrl.copyToBin(pMem);
+    {
+        _mfUrl.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle InlineBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void InlineBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (UrlFieldMask & whichField))
-        pMem = _mfUrl.copyFromBin(pMem);
+    {
+        _mfUrl.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void InlineBase::executeSyncImpl(      InlineBase *pOther,

@@ -48,6 +48,7 @@
 #include "OSGFieldContainerType.h"
 #include "OSGNode.h"
 #include "OSGNodeCore.h"
+#include "OSGBinaryDataHandler.h"
 
 OSG_USING_NAMESPACE
 
@@ -561,60 +562,56 @@ UInt32 Node::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle Node::copyToBin  (      MemoryHandle  pMem, 
-                               const BitVector    &whichField)
+void Node::copyToBin  (      BinaryDataHandler &pMem, 
+                       const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (VolumeFieldMask & whichField))
     {
-        pMem = _volume.copyToBin(pMem);
+        _volume.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
     {
-        pMem = _parent.copyToBin(pMem);
+        _parent.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (ChildrenFieldMask & whichField))
     {
-        pMem = _children.copyToBin(pMem);
+        _children.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (CoreFieldMask & whichField))
     {
-        pMem = _core.copyToBin(pMem);
+        _core.copyToBin(pMem);
     }
-
-    return pMem;
 }
 
-MemoryHandle Node::copyFromBin(      MemoryHandle  pMem, 
-                               const BitVector    &whichField)
+void Node::copyFromBin(      BinaryDataHandler &pMem, 
+                       const BitVector         &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (VolumeFieldMask & whichField))
     {
-        pMem = _volume.copyFromBin(pMem);
+        _volume.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
     {
-        pMem = _parent.copyFromBin(pMem);
+        _parent.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (ChildrenFieldMask & whichField))
     {
-        pMem = _children.copyFromBin(pMem);
+        _children.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (CoreFieldMask & whichField))
     {
-        pMem = _core.copyFromBin(pMem);
+        _core.copyFromBin(pMem);
     }
-
-    return pMem;
 }
 
 /*------------------------------- dump ----------------------------------*/

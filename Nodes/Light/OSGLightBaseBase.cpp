@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.12 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGLightBaseBase.cpp,v 1.13 2001/09/19 14:36:40 mroth Exp $";
     static char cvsid_hpp       [] = OSGLIGHTBASEBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGLIGHTBASEBASE_INLINE_CVSID;
 
@@ -314,70 +314,100 @@ UInt32 LightBaseBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle LightBaseBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void LightBaseBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-        pMem = _sfAmbient.copyToBin(pMem);
+    {
+        _sfAmbient.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-        pMem = _sfDiffuse.copyToBin(pMem);
+    {
+        _sfDiffuse.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-        pMem = _sfSpecular.copyToBin(pMem);
+    {
+        _sfSpecular.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
-        pMem = _sfBeacon.copyToBin(pMem);
+    {
+        _sfBeacon.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (OnFieldMask & whichField))
-        pMem = _sfOn.copyToBin(pMem);
+    {
+        _sfOn.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
-        pMem = _sfConstantAttenuation.copyToBin(pMem);
+    {
+        _sfConstantAttenuation.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
-        pMem = _sfLinearAttenuation.copyToBin(pMem);
+    {
+        _sfLinearAttenuation.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
-        pMem = _sfQuadraticAttenuation.copyToBin(pMem);
+    {
+        _sfQuadraticAttenuation.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle LightBaseBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void LightBaseBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-        pMem = _sfAmbient.copyFromBin(pMem);
+    {
+        _sfAmbient.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-        pMem = _sfDiffuse.copyFromBin(pMem);
+    {
+        _sfDiffuse.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-        pMem = _sfSpecular.copyFromBin(pMem);
+    {
+        _sfSpecular.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
-        pMem = _sfBeacon.copyFromBin(pMem);
+    {
+        _sfBeacon.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (OnFieldMask & whichField))
-        pMem = _sfOn.copyFromBin(pMem);
+    {
+        _sfOn.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
-        pMem = _sfConstantAttenuation.copyFromBin(pMem);
+    {
+        _sfConstantAttenuation.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
-        pMem = _sfLinearAttenuation.copyFromBin(pMem);
+    {
+        _sfLinearAttenuation.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
-        pMem = _sfQuadraticAttenuation.copyFromBin(pMem);
+    {
+        _sfQuadraticAttenuation.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void LightBaseBase::executeSyncImpl(      LightBaseBase *pOther,

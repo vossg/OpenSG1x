@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.14 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGCameraBase.cpp,v 1.15 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGCAMERABASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGCAMERABASE_INLINE_CVSID;
 
@@ -241,40 +241,50 @@ UInt32 CameraBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle CameraBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void CameraBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
-        pMem = _sfBeacon.copyToBin(pMem);
+    {
+        _sfBeacon.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (NearFieldMask & whichField))
-        pMem = _sfNear.copyToBin(pMem);
+    {
+        _sfNear.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (FarFieldMask & whichField))
-        pMem = _sfFar.copyToBin(pMem);
+    {
+        _sfFar.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle CameraBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void CameraBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
-        pMem = _sfBeacon.copyFromBin(pMem);
+    {
+        _sfBeacon.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (NearFieldMask & whichField))
-        pMem = _sfNear.copyFromBin(pMem);
+    {
+        _sfNear.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (FarFieldMask & whichField))
-        pMem = _sfFar.copyFromBin(pMem);
+    {
+        _sfFar.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void CameraBase::executeSyncImpl(      CameraBase *pOther,

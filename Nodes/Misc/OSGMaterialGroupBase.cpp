@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.12 2001/09/17 14:15:06 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.13 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGMATERIALGROUPBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGMATERIALGROUPBASE_INLINE_CVSID;
 
@@ -214,28 +214,30 @@ UInt32 MaterialGroupBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle MaterialGroupBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void MaterialGroupBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-        pMem = _sfMaterial.copyToBin(pMem);
+    {
+        _sfMaterial.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle MaterialGroupBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void MaterialGroupBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
-        pMem = _sfMaterial.copyFromBin(pMem);
+    {
+        _sfMaterial.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void MaterialGroupBase::executeSyncImpl(      MaterialGroupBase *pOther,

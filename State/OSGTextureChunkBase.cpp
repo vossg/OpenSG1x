@@ -83,7 +83,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.14 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGTextureChunkBase.cpp,v 1.15 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 
@@ -532,136 +532,210 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle TextureChunkBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (ImageFieldMask & whichField))
-        pMem = _sfImage.copyToBin(pMem);
+    {
+        _sfImage.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (InternalFormatFieldMask & whichField))
-        pMem = _sfInternalFormat.copyToBin(pMem);
+    {
+        _sfInternalFormat.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
-        pMem = _sfScale.copyToBin(pMem);
+    {
+        _sfScale.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (FrameFieldMask & whichField))
-        pMem = _sfFrame.copyToBin(pMem);
+    {
+        _sfFrame.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (MinFilterFieldMask & whichField))
-        pMem = _sfMinFilter.copyToBin(pMem);
+    {
+        _sfMinFilter.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (MagFilterFieldMask & whichField))
-        pMem = _sfMagFilter.copyToBin(pMem);
+    {
+        _sfMagFilter.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (WrapSFieldMask & whichField))
-        pMem = _sfWrapS.copyToBin(pMem);
+    {
+        _sfWrapS.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (WrapTFieldMask & whichField))
-        pMem = _sfWrapT.copyToBin(pMem);
+    {
+        _sfWrapT.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (WrapRFieldMask & whichField))
-        pMem = _sfWrapR.copyToBin(pMem);
+    {
+        _sfWrapR.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (EnvModeFieldMask & whichField))
-        pMem = _sfEnvMode.copyToBin(pMem);
+    {
+        _sfEnvMode.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncSFieldMask & whichField))
-        pMem = _sfGenFuncS.copyToBin(pMem);
+    {
+        _sfGenFuncS.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncTFieldMask & whichField))
-        pMem = _sfGenFuncT.copyToBin(pMem);
+    {
+        _sfGenFuncT.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncRFieldMask & whichField))
-        pMem = _sfGenFuncR.copyToBin(pMem);
+    {
+        _sfGenFuncR.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncQFieldMask & whichField))
-        pMem = _sfGenFuncQ.copyToBin(pMem);
+    {
+        _sfGenFuncQ.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncSPlaneFieldMask & whichField))
-        pMem = _sfGenFuncSPlane.copyToBin(pMem);
+    {
+        _sfGenFuncSPlane.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncTPlaneFieldMask & whichField))
-        pMem = _sfGenFuncTPlane.copyToBin(pMem);
+    {
+        _sfGenFuncTPlane.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncRPlaneFieldMask & whichField))
-        pMem = _sfGenFuncRPlane.copyToBin(pMem);
+    {
+        _sfGenFuncRPlane.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncQPlaneFieldMask & whichField))
-        pMem = _sfGenFuncQPlane.copyToBin(pMem);
+    {
+        _sfGenFuncQPlane.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
-        pMem = _sfGLId.copyToBin(pMem);
+    {
+        _sfGLId.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle TextureChunkBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (ImageFieldMask & whichField))
-        pMem = _sfImage.copyFromBin(pMem);
+    {
+        _sfImage.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (InternalFormatFieldMask & whichField))
-        pMem = _sfInternalFormat.copyFromBin(pMem);
+    {
+        _sfInternalFormat.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
-        pMem = _sfScale.copyFromBin(pMem);
+    {
+        _sfScale.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (FrameFieldMask & whichField))
-        pMem = _sfFrame.copyFromBin(pMem);
+    {
+        _sfFrame.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (MinFilterFieldMask & whichField))
-        pMem = _sfMinFilter.copyFromBin(pMem);
+    {
+        _sfMinFilter.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (MagFilterFieldMask & whichField))
-        pMem = _sfMagFilter.copyFromBin(pMem);
+    {
+        _sfMagFilter.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (WrapSFieldMask & whichField))
-        pMem = _sfWrapS.copyFromBin(pMem);
+    {
+        _sfWrapS.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (WrapTFieldMask & whichField))
-        pMem = _sfWrapT.copyFromBin(pMem);
+    {
+        _sfWrapT.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (WrapRFieldMask & whichField))
-        pMem = _sfWrapR.copyFromBin(pMem);
+    {
+        _sfWrapR.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (EnvModeFieldMask & whichField))
-        pMem = _sfEnvMode.copyFromBin(pMem);
+    {
+        _sfEnvMode.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncSFieldMask & whichField))
-        pMem = _sfGenFuncS.copyFromBin(pMem);
+    {
+        _sfGenFuncS.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncTFieldMask & whichField))
-        pMem = _sfGenFuncT.copyFromBin(pMem);
+    {
+        _sfGenFuncT.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncRFieldMask & whichField))
-        pMem = _sfGenFuncR.copyFromBin(pMem);
+    {
+        _sfGenFuncR.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncQFieldMask & whichField))
-        pMem = _sfGenFuncQ.copyFromBin(pMem);
+    {
+        _sfGenFuncQ.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncSPlaneFieldMask & whichField))
-        pMem = _sfGenFuncSPlane.copyFromBin(pMem);
+    {
+        _sfGenFuncSPlane.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncTPlaneFieldMask & whichField))
-        pMem = _sfGenFuncTPlane.copyFromBin(pMem);
+    {
+        _sfGenFuncTPlane.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncRPlaneFieldMask & whichField))
-        pMem = _sfGenFuncRPlane.copyFromBin(pMem);
+    {
+        _sfGenFuncRPlane.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (GenFuncQPlaneFieldMask & whichField))
-        pMem = _sfGenFuncQPlane.copyFromBin(pMem);
+    {
+        _sfGenFuncQPlane.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
-        pMem = _sfGLId.copyFromBin(pMem);
+    {
+        _sfGLId.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,

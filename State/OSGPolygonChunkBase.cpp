@@ -80,7 +80,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.11 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGPolygonChunkBase.cpp,v 1.12 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 
@@ -385,88 +385,130 @@ UInt32 PolygonChunkBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle PolygonChunkBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void PolygonChunkBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (CullFaceFieldMask & whichField))
-        pMem = _sfCullFace.copyToBin(pMem);
+    {
+        _sfCullFace.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (FrontFaceFieldMask & whichField))
-        pMem = _sfFrontFace.copyToBin(pMem);
+    {
+        _sfFrontFace.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ModeFaceFieldMask & whichField))
-        pMem = _sfModeFace.copyToBin(pMem);
+    {
+        _sfModeFace.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ModeFieldMask & whichField))
-        pMem = _sfMode.copyToBin(pMem);
+    {
+        _sfMode.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (SmoothFieldMask & whichField))
-        pMem = _sfSmooth.copyToBin(pMem);
+    {
+        _sfSmooth.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (OffsetFactorFieldMask & whichField))
-        pMem = _sfOffsetFactor.copyToBin(pMem);
+    {
+        _sfOffsetFactor.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (OffsetBiasFieldMask & whichField))
-        pMem = _sfOffsetBias.copyToBin(pMem);
+    {
+        _sfOffsetBias.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (OffsetPointFieldMask & whichField))
-        pMem = _sfOffsetPoint.copyToBin(pMem);
+    {
+        _sfOffsetPoint.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (OffsetLineFieldMask & whichField))
-        pMem = _sfOffsetLine.copyToBin(pMem);
+    {
+        _sfOffsetLine.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (OffsetFillFieldMask & whichField))
-        pMem = _sfOffsetFill.copyToBin(pMem);
+    {
+        _sfOffsetFill.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (StippleFieldMask & whichField))
-        pMem = _mfStipple.copyToBin(pMem);
+    {
+        _mfStipple.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle PolygonChunkBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void PolygonChunkBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (CullFaceFieldMask & whichField))
-        pMem = _sfCullFace.copyFromBin(pMem);
+    {
+        _sfCullFace.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (FrontFaceFieldMask & whichField))
-        pMem = _sfFrontFace.copyFromBin(pMem);
+    {
+        _sfFrontFace.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ModeFaceFieldMask & whichField))
-        pMem = _sfModeFace.copyFromBin(pMem);
+    {
+        _sfModeFace.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ModeFieldMask & whichField))
-        pMem = _sfMode.copyFromBin(pMem);
+    {
+        _sfMode.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (SmoothFieldMask & whichField))
-        pMem = _sfSmooth.copyFromBin(pMem);
+    {
+        _sfSmooth.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (OffsetFactorFieldMask & whichField))
-        pMem = _sfOffsetFactor.copyFromBin(pMem);
+    {
+        _sfOffsetFactor.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (OffsetBiasFieldMask & whichField))
-        pMem = _sfOffsetBias.copyFromBin(pMem);
+    {
+        _sfOffsetBias.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (OffsetPointFieldMask & whichField))
-        pMem = _sfOffsetPoint.copyFromBin(pMem);
+    {
+        _sfOffsetPoint.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (OffsetLineFieldMask & whichField))
-        pMem = _sfOffsetLine.copyFromBin(pMem);
+    {
+        _sfOffsetLine.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (OffsetFillFieldMask & whichField))
-        pMem = _sfOffsetFill.copyFromBin(pMem);
+    {
+        _sfOffsetFill.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (StippleFieldMask & whichField))
-        pMem = _mfStipple.copyFromBin(pMem);
+    {
+        _mfStipple.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,

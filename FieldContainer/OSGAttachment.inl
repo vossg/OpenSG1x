@@ -45,6 +45,7 @@
 #include "OSGConfig.h"
 
 #include <OSGFieldFactory.h>
+#include "OSGBinaryDataHandler.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -241,29 +242,25 @@ UInt32 SimpleAttachment<AttachmentDescT>::getBinSize(
 }
 
 template <class AttachmentDescT> inline
-MemoryHandle SimpleAttachment<AttachmentDescT>::copyToBin(
-          MemoryHandle  pMem, 
-    const BitVector    &whichField)
+void SimpleAttachment<AttachmentDescT>::copyToBin(
+          BinaryDataHandler &pMem, 
+    const BitVector         &whichField)
 {
     if(FieldBits::NoField != (SimpleFieldMask & whichField))
     {
-        pMem = _field.copyToBin(pMem);
+        _field.copyToBin(pMem);
     }
-
-    return pMem;
 }
 
 template <class AttachmentDescT> inline
-MemoryHandle SimpleAttachment<AttachmentDescT>::copyFromBin(
-          MemoryHandle  pMem, 
-    const BitVector    &whichField)
+void SimpleAttachment<AttachmentDescT>::copyFromBin(
+          BinaryDataHandler &pMem, 
+    const BitVector         &whichField)
 {
     if(FieldBits::NoField != (SimpleFieldMask & whichField))
     {
-        pMem = _field.copyFromBin(pMem);
+        _field.copyFromBin(pMem);
     }
-
-    return pMem;
 }
     
 

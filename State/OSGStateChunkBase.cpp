@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.11 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.12 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGSTATECHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGSTATECHUNKBASE_INLINE_CVSID;
 
@@ -178,22 +178,20 @@ UInt32 StateChunkBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle StateChunkBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void StateChunkBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
 
-    return pMem;
 }
 
-MemoryHandle StateChunkBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void StateChunkBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
 
-    return pMem;
 }
 
 void StateChunkBase::executeSyncImpl(      StateChunkBase *pOther,

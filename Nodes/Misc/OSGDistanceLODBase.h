@@ -75,6 +75,7 @@
 OSG_BEGIN_NAMESPACE
 
 class DistanceLOD;
+class BinaryDataHandler;
 
 /*! \brief DistanceLOD Base Class. */
 
@@ -151,10 +152,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public NodeCore
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -231,6 +232,6 @@ typedef DistanceLODBase *DistanceLODBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.7 2001/09/17 14:15:06 vossg Exp $"
+#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: OSGDistanceLODBase.h,v 1.8 2001/09/19 14:36:41 mroth Exp $"
 
 #endif /* _OSGDISTANCELODBASE_H_ */

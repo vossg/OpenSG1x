@@ -72,7 +72,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.11 2001/09/17 14:15:07 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGLightChunkBase.cpp,v 1.12 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGLIGHTCHUNKBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGLIGHTCHUNKBASE_INLINE_CVSID;
 
@@ -359,82 +359,120 @@ UInt32 LightChunkBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle LightChunkBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void LightChunkBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-        pMem = _sfDiffuse.copyToBin(pMem);
+    {
+        _sfDiffuse.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-        pMem = _sfAmbient.copyToBin(pMem);
+    {
+        _sfAmbient.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-        pMem = _sfSpecular.copyToBin(pMem);
+    {
+        _sfSpecular.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-        pMem = _sfPosition.copyToBin(pMem);
+    {
+        _sfPosition.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (DirectionFieldMask & whichField))
-        pMem = _sfDirection.copyToBin(pMem);
+    {
+        _sfDirection.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ExponentFieldMask & whichField))
-        pMem = _sfExponent.copyToBin(pMem);
+    {
+        _sfExponent.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (CutoffFieldMask & whichField))
-        pMem = _sfCutoff.copyToBin(pMem);
+    {
+        _sfCutoff.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
-        pMem = _sfConstantAttenuation.copyToBin(pMem);
+    {
+        _sfConstantAttenuation.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
-        pMem = _sfLinearAttenuation.copyToBin(pMem);
+    {
+        _sfLinearAttenuation.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
-        pMem = _sfQuadraticAttenuation.copyToBin(pMem);
+    {
+        _sfQuadraticAttenuation.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle LightChunkBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void LightChunkBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (DiffuseFieldMask & whichField))
-        pMem = _sfDiffuse.copyFromBin(pMem);
+    {
+        _sfDiffuse.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (AmbientFieldMask & whichField))
-        pMem = _sfAmbient.copyFromBin(pMem);
+    {
+        _sfAmbient.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (SpecularFieldMask & whichField))
-        pMem = _sfSpecular.copyFromBin(pMem);
+    {
+        _sfSpecular.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
-        pMem = _sfPosition.copyFromBin(pMem);
+    {
+        _sfPosition.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (DirectionFieldMask & whichField))
-        pMem = _sfDirection.copyFromBin(pMem);
+    {
+        _sfDirection.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ExponentFieldMask & whichField))
-        pMem = _sfExponent.copyFromBin(pMem);
+    {
+        _sfExponent.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (CutoffFieldMask & whichField))
-        pMem = _sfCutoff.copyFromBin(pMem);
+    {
+        _sfCutoff.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
-        pMem = _sfConstantAttenuation.copyFromBin(pMem);
+    {
+        _sfConstantAttenuation.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
-        pMem = _sfLinearAttenuation.copyFromBin(pMem);
+    {
+        _sfLinearAttenuation.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
-        pMem = _sfQuadraticAttenuation.copyFromBin(pMem);
+    {
+        _sfQuadraticAttenuation.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void LightChunkBase::executeSyncImpl(      LightChunkBase *pOther,

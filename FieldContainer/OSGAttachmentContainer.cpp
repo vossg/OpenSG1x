@@ -48,6 +48,7 @@
 #include "OSGFieldContainerType.h"
 #include "OSGAttachment.h"
 #include "OSGAttachmentContainer.h"
+#include "OSGBinaryDataHandler.h"
 
 OSG_USING_NAMESPACE
 
@@ -242,26 +243,22 @@ UInt32 AttachmentContainer::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle AttachmentContainer::copyToBin  (      MemoryHandle  pMem, 
-                                              const BitVector    &whichField)
+void AttachmentContainer::copyToBin  (      BinaryDataHandler &pMem, 
+                                      const BitVector    &whichField)
 {
     if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
     {
-        pMem = _attachmentMap.copyToBin(pMem);
+        _attachmentMap.copyToBin(pMem);
     }
-
-    return pMem;
 }
 
-MemoryHandle AttachmentContainer::copyFromBin(      MemoryHandle  pMem, 
-                                              const BitVector    &whichField)
+void AttachmentContainer::copyFromBin(      BinaryDataHandler &pMem, 
+                                      const BitVector    &whichField)
 {
     if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
     {
-        pMem = _attachmentMap.copyFromBin(pMem);
+        _attachmentMap.copyFromBin(pMem);
     }
-
-    return pMem;
 }
 
 /*------------------------------- dump ----------------------------------*/

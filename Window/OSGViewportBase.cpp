@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.15 2001/09/17 14:15:08 vossg Exp $";
+    static char cvsid_cpp       [] = "@(#)$Id: OSGViewportBase.cpp,v 1.16 2001/09/19 14:36:41 mroth Exp $";
     static char cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static char cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 
@@ -358,76 +358,110 @@ UInt32 ViewportBase::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle ViewportBase::copyToBin(      MemoryHandle  pMem,
-                                          const BitVector    &whichField)
+void ViewportBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    pMem = Inherited::copyToBin(pMem, whichField);
+    Inherited::copyToBin(pMem, whichField);
 
     if(FieldBits::NoField != (LeftFieldMask & whichField))
-        pMem = _sfLeft.copyToBin(pMem);
+    {
+        _sfLeft.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (RightFieldMask & whichField))
-        pMem = _sfRight.copyToBin(pMem);
+    {
+        _sfRight.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (BottomFieldMask & whichField))
-        pMem = _sfBottom.copyToBin(pMem);
+    {
+        _sfBottom.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (TopFieldMask & whichField))
-        pMem = _sfTop.copyToBin(pMem);
+    {
+        _sfTop.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
-        pMem = _sfParent.copyToBin(pMem);
+    {
+        _sfParent.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (CameraFieldMask & whichField))
-        pMem = _sfCamera.copyToBin(pMem);
+    {
+        _sfCamera.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (RootFieldMask & whichField))
-        pMem = _sfRoot.copyToBin(pMem);
+    {
+        _sfRoot.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (BackgroundFieldMask & whichField))
-        pMem = _sfBackground.copyToBin(pMem);
+    {
+        _sfBackground.copyToBin(pMem);
+    }
 
     if(FieldBits::NoField != (ForegroundsFieldMask & whichField))
-        pMem = _mfForegrounds.copyToBin(pMem);
+    {
+        _mfForegrounds.copyToBin(pMem);
+    }
 
 
-    return pMem;
 }
 
-MemoryHandle ViewportBase::copyFromBin(      MemoryHandle  pMem,
-                                            const BitVector    &whichField)
+void ViewportBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    pMem = Inherited::copyFromBin(pMem, whichField);
+    Inherited::copyFromBin(pMem, whichField);
 
     if(FieldBits::NoField != (LeftFieldMask & whichField))
-        pMem = _sfLeft.copyFromBin(pMem);
+    {
+        _sfLeft.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (RightFieldMask & whichField))
-        pMem = _sfRight.copyFromBin(pMem);
+    {
+        _sfRight.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (BottomFieldMask & whichField))
-        pMem = _sfBottom.copyFromBin(pMem);
+    {
+        _sfBottom.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (TopFieldMask & whichField))
-        pMem = _sfTop.copyFromBin(pMem);
+    {
+        _sfTop.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
-        pMem = _sfParent.copyFromBin(pMem);
+    {
+        _sfParent.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (CameraFieldMask & whichField))
-        pMem = _sfCamera.copyFromBin(pMem);
+    {
+        _sfCamera.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (RootFieldMask & whichField))
-        pMem = _sfRoot.copyFromBin(pMem);
+    {
+        _sfRoot.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (BackgroundFieldMask & whichField))
-        pMem = _sfBackground.copyFromBin(pMem);
+    {
+        _sfBackground.copyFromBin(pMem);
+    }
 
     if(FieldBits::NoField != (ForegroundsFieldMask & whichField))
-        pMem = _mfForegrounds.copyFromBin(pMem);
+    {
+        _mfForegrounds.copyFromBin(pMem);
+    }
 
 
-    return pMem;
 }
 
 void ViewportBase::executeSyncImpl(      ViewportBase *pOther,

@@ -73,6 +73,7 @@
 OSG_BEGIN_NAMESPACE
 
 class StateChunk;
+class BinaryDataHandler;
 
 /*! \brief StateChunk Base Class. */
 
@@ -119,10 +120,10 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -176,6 +177,6 @@ typedef StateChunkBase *StateChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStateChunkBase.h,v 1.9 2001/09/17 14:15:07 vossg Exp $"
+#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStateChunkBase.h,v 1.10 2001/09/19 14:36:41 mroth Exp $"
 
 #endif /* _OSGSTATECHUNKBASE_H_ */

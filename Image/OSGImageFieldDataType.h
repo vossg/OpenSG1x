@@ -120,45 +120,42 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
         return size;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const ImageP   &oObject)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const ImageP   &oObject)
     {
-        UInt64 imgSize=0;
+        UInt32 imgSize=0;
         ImageFileType *type;
 
         type = ImageFileHandler::the().getFileType("MTD");
         if(oObject)
         {
-            imgSize=type->maxBufferSize(*oObject);
+            imgSize=(UInt32)type->maxBufferSize(*oObject);
         }
-        memcpy(pMem,&imgSize,sizeof(imgSize));
-        pMem+=sizeof(imgSize);
+        pMem.put(&imgSize,sizeof(imgSize));
         if(oObject)
         {
-            type->store(*oObject,pMem);
+            UInt8 *image = new UInt8 [imgSize];
+            type->store(*oObject,image);
+            pMem.putAndFree(image,imgSize);
         }
-        return pMem + imgSize;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle pMem, 
-                                  const ImageP      *pObjectStore,
-                                        UInt32       uiNumObjects)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const ImageP            *pObjectStore,
+                                UInt32             uiNumObjects)
     {
         // defaut: copy each element
         for(UInt32 i=0; i < uiNumObjects; ++i)
         {
-            pMem = copyToBin(pMem, pObjectStore[i]);
+            copyToBin(pMem, pObjectStore[i]);
         }
-
-        return pMem;
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
-                                          ImageP       &oObject)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            ImageP       &oObject)
     {
         ImageFileType *type;
-        MemoryHandle mem=pMem;
-        UInt64 imgSize=0;
+        UInt32 imgSize=0;
 
         type = ImageFileHandler::the().getFileType("MTD");
         if(oObject)
@@ -166,31 +163,26 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
             delete oObject;
             oObject=NULL;
         }
-        memcpy(&imgSize,mem,sizeof(imgSize));
-        mem+=sizeof(imgSize);
+        pMem.get(&imgSize,sizeof(imgSize));
         if(imgSize)
         {
+            UInt8 *image;
             oObject=new Image();
-            type->restore(*oObject,mem);
+            pMem.getAndAlloc(image,imgSize);
+            type->restore(*oObject,image);
+            delete [] image;
         }
-
-        mem+=imgSize;
-        return mem;
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
-                                          ImageP       *pObjectStore,
-                                          UInt32        uiNumObjects)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            ImageP            *pObjectStore,
+                            UInt32             uiNumObjects)
     {
-        MemoryHandle mem = pMem;
-
         // defaut: copy each element
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
-            mem = copyFromBin(mem, pObjectStore[i]);
+            copyFromBin(pMem, pObjectStore[i]);
         }
-
-        return mem;
     }
 
 };

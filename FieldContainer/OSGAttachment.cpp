@@ -211,28 +211,23 @@ UInt32 Attachment::getBinSize(const BitVector &whichField)
     return returnValue;
 }
 
-MemoryHandle Attachment::copyToBin(      MemoryHandle  pMem, 
-                                   const BitVector    &whichField)
+void Attachment::copyToBin(      BinaryDataHandler &pMem, 
+                           const BitVector         &whichField)
 {
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
     {
-        pMem = _parents.copyToBin(pMem);
+        _parents.copyToBin(pMem);
     }
-
-    return pMem;
 }
 
-MemoryHandle Attachment::copyFromBin(      MemoryHandle  pMem, 
-                                     const BitVector    &whichField)
+void Attachment::copyFromBin(      BinaryDataHandler &pMem, 
+                             const BitVector         &whichField)
 {
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
     {
-        pMem = _parents.copyFromBin(pMem);
+        _parents.copyFromBin(pMem);
     }
-
-    return pMem;
 }
-    
 
 /*------------------------------- dump ------------------------------------*/
 

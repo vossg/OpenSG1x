@@ -76,6 +76,7 @@
 OSG_BEGIN_NAMESPACE
 
 class SpotLight;
+class BinaryDataHandler;
 
 /*! \brief SpotLight Base Class. */
 
@@ -158,10 +159,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -239,6 +240,6 @@ typedef SpotLightBase *SpotLightBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.13 2001/09/17 14:15:06 vossg Exp $"
+#define OSGSPOTLIGHTBASE_HEADER_CVSID "@(#)$Id: OSGSpotLightBase.h,v 1.14 2001/09/19 14:36:40 mroth Exp $"
 
 #endif /* _OSGSPOTLIGHTBASE_H_ */

@@ -81,6 +81,7 @@
 OSG_BEGIN_NAMESPACE
 
 class SimpleMaterial;
+class BinaryDataHandler;
 
 /*! \brief SimpleMaterial Base Class. */
 
@@ -193,10 +194,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -279,6 +280,6 @@ typedef SimpleMaterialBase *SimpleMaterialBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialBase.h,v 1.13 2001/09/17 14:15:06 vossg Exp $"
+#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSimpleMaterialBase.h,v 1.14 2001/09/19 14:36:40 mroth Exp $"
 
 #endif /* _OSGSIMPLEMATERIALBASE_H_ */

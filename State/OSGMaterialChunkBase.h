@@ -80,6 +80,7 @@
 OSG_BEGIN_NAMESPACE
 
 class MaterialChunk;
+class BinaryDataHandler;
 
 /*! \brief MaterialChunk Base Class. */
 
@@ -186,10 +187,10 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     /*! \{                                                                 */
 
     virtual UInt32       getBinSize (const BitVector    &whichField);
-    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
-    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
-                                     const BitVector    &whichField);
+    virtual void copyToBin  (      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
+    virtual void copyFromBin(      BinaryDataHandler &pMem,
+                             const BitVector    &whichField);
 
 
     /*! \}                                                                 */
@@ -271,6 +272,6 @@ typedef MaterialChunkBase *MaterialChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.13 2001/09/17 14:15:07 vossg Exp $"
+#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGMaterialChunkBase.h,v 1.14 2001/09/19 14:36:41 mroth Exp $"
 
 #endif /* _OSGMATERIALCHUNKBASE_H_ */

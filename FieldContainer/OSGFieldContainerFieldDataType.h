@@ -68,8 +68,8 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr> :
         return sizeof(UInt32) * uiNumObjects;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle       pMem, 
-                                  const FieldContainerPtr &pObject)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FieldContainerPtr &pObject)
     {
         UInt32 id;
 
@@ -83,29 +83,25 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr> :
             id = pObject.getFieldContainerId();
         }
 
-        memcpy(pMem, &id, sizeof(UInt32));
-
-        return pMem + sizeof(UInt32);
+        pMem.put(&id, sizeof(UInt32));
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle       pMem, 
-                                  const FieldContainerPtr *pObjectStore,
-                                        UInt32             uiNumObjects)
+    static void copyToBin(      BinaryDataHandler &pMem, 
+                          const FieldContainerPtr *pObjectStore,
+                                UInt32             uiNumObjects)
     {
         for(UInt32 i = 0; i < uiNumObjects; i++)
         {
-            pMem = copyToBin(pMem, pObjectStore[i]);
+            copyToBin(pMem, pObjectStore[i]);
         }
-
-        return pMem;
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle       pMem, 
-                                          FieldContainerPtr &pObject)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            FieldContainerPtr &pObject)
     {
         UInt32 id;
 
-        memcpy(&id, pMem, sizeof(UInt32));
+        pMem.get(&id, sizeof(UInt32));
 
         if(0 != id)
         {
@@ -115,22 +111,16 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr> :
         {
             pObject = NullFC;
         }
-
-        return pMem + sizeof(UInt32);
     }
 
-    static MemoryHandle copyFromBin(const MemoryHandle       pMem, 
-                                          FieldContainerPtr *pObjectStore,
-                                          UInt32             uiNumObjects)
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            FieldContainerPtr *pObjectStore,
+                            UInt32             uiNumObjects)
     {
-        MemoryHandle mem = pMem;
-
         for(UInt32 i = 0; i < uiNumObjects; i++)
         {
-            mem = copyFromBin(mem, pObjectStore[i]);
+            copyFromBin(pMem, pObjectStore[i]);
         }
-
-        return mem;
     }
 };
 

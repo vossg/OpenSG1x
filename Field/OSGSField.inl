@@ -316,17 +316,17 @@ UInt32 SField<FieldTypeT, fieldNameSpace>::getBinSize(void)
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MemoryHandle SField<FieldTypeT, fieldNameSpace>::copyToBin(MemoryHandle pMem)
+void SField<FieldTypeT, fieldNameSpace>::copyToBin(BinaryDataHandler &pMem)
 {
-    return SFieldTraits::copyToBin( pMem, 
-                                   _value);
+    SFieldTraits::copyToBin( pMem, 
+                             _value);
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MemoryHandle SField<FieldTypeT, fieldNameSpace>::copyFromBin(MemoryHandle pMem)
+void SField<FieldTypeT, fieldNameSpace>::copyFromBin(BinaryDataHandler &pMem)
 {
-    return SFieldTraits::copyFromBin( pMem, 
-                                     _value);
+    SFieldTraits::copyFromBin( pMem, 
+                               _value);
 }
 
 /*--------------------------------- dump ------------------------------------*/
