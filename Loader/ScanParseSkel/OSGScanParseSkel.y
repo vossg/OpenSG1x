@@ -385,6 +385,55 @@ scriptBody : scriptBody scriptBodyElement
            |            scriptBodyElement
 ;
 
+resInterfaceDeclarationScriptEvent : EVENTIN  
+                                     fieldType  { setName(szName1, 
+                                                     OSGScanParseSkel_text); } 
+                                     eventInId  { if(_pSkel != NULL)
+                                                     _pSkel->addProtoEventIn(
+                                                       szName1,
+                                                       OSGScanParseSkel_text); 
+
+                                                 freeName(szName1); }
+                                   | EVENTOUT 
+                                     fieldType  { setName(szName1, 
+                                                      OSGScanParseSkel_text); }
+                                     eventOutId { if(_pSkel != NULL)
+                                                     _pSkel->addProtoEventOut(
+                                                       szName1,
+                                                       OSGScanParseSkel_text); 
+
+                                                  freeName(szName1); }
+;
+
+resInterfaceDeclarationScriptEventEnd : IS eventId 
+                                      |
+;
+
+resInterfaceDeclarationScriptField : FIELD     
+                                     fieldType { setName(szName1, 
+                                                        OSGScanParseSkel_text);
+                                               }
+                                     fieldId   { expectType(nextType); 
+                                              
+                                                 if(_pSkel != NULL)
+                                                     _pSkel->beginProtoField(
+                                                       szName1,
+                                                       nextType,
+                                                       OSGScanParseSkel_text); 
+                                              
+                                                 freeName(szName1);
+                                               }
+;
+
+resInterafceDeclarationScriptFieldEnd : IS fieldId 
+                                      | fieldValue { nextType = 0; 
+
+                                                     if(_pSkel != NULL)
+                                                       _pSkel->endProtoField();
+
+                                                   }
+;
+
 /*
 scriptBodyElement : nodeBodyElement 
                   | restrictedInterfaceDeclaration 
@@ -394,72 +443,11 @@ scriptBodyElement : nodeBodyElement
 ;
 */
 
-/*
-rInterfaceDeclarationScript : EVENTIN  
-                              fieldType  { setName(szName1, 
-                                                   OSGScanParseSkel_text); }
-                              eventInId  { if(_pSkel != NULL)
-                                            _pSkel->addProtoEventIn(
-                                             szName1,
-                                             OSGScanParseSkel_text); 
-                                           freeName(szName1); }
-                            | EVENTOUT 
-                              fieldType  { setName(szName1, 
-                                                   OSGScanParseSkel_text); }
-                              eventOutId { if(_pSkel != NULL)
-                                            _pSkel->addProtoEventOut(
-                                             szName1,
-                                             OSGScanParseSkel_text); 
-                                            freeName(szName1); }
-                               | FIELD    
-                                 fieldType  { setName(szName1, 
-                                                      OSGScanParseSkel_text); }
-                                 fieldId    { expectType(nextType); 
-                                              if(_pSkel != NULL)
-                                               _pSkel->beginProtoField(
-                                                szName1,
-                                                nextType,
-                                                OSGScanParseSkel_text); 
-                                              freeName(szName1); } 
-                                 fieldValue { nextType = 0; 
-                                              if(_pSkel != NULL)
-                                               _pSkel->endProtoField();
-                                             }
-;
-*/
-
-/*
-                  | EVENTIN  fieldType eventInId  IS eventInId 
-                  | EVENTOUT fieldType eventOutId IS eventOutId 
-*/
-
-resInterfaceDeclarationScriptEvent : EVENTIN  
-                                     fieldType  
-                                     eventInId  
-                                   | EVENTOUT 
-                                     fieldType  
-                                     eventOutId 
-;
-
-resInterfaceDeclarationScriptEventEnd : IS eventId 
-                                      |
-;
-
-resInterfaceDeclarationScriptField : FIELD     { fprintf(stderr,"XX1\n"); }
-                                     fieldType { fprintf(stderr,"XX2\n"); }
-                                     fieldId   { fprintf(stderr,"XX3\n"); }
-;
-
-resInterafceDeclarationScriptFieldEnd : IS fieldId { fprintf(stderr,"XX4\n"); }
-                                      | fieldValue { fprintf(stderr,"XX5\n"); }
-;
-
 scriptBodyElement : nodeBodyElement 
                   | resInterfaceDeclarationScriptEvent 
                     resInterfaceDeclarationScriptEventEnd
-                  | resInterfaceDeclarationScriptField { fprintf(stderr,"XX6\n"); }
+                  | resInterfaceDeclarationScriptField 
                     resInterafceDeclarationScriptFieldEnd
-                    { fprintf(stderr,"XX7\n"); }
 ;
 
 
