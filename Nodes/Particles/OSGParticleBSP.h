@@ -176,7 +176,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticleBSPTree
      
     bool getFromString(const Char8 *&inVal);
    
+    UInt32 getBinSize(void) const;
 
+    void copyToBin(BinaryDataHandler &pMem) const;
+    
+    void copyFromBin(BinaryDataHandler &pMem);
+    
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -240,6 +245,23 @@ struct FieldDataTraits<ParticleBSPTree> :
     {
         inVal.putToString(outVal);
     }
+    
+    static UInt32 getBinSize(const ParticleBSPTree &oObject)
+    {
+        return oObject.getBinSize();
+    }
+
+    static void copyToBin(      BinaryDataHandler   &pMem, 
+                          const ParticleBSPTree     &oObject)
+    {
+       oObject.copyToBin(pMem);
+    }
+
+    static void copyFromBin(BinaryDataHandler &pMem, 
+                            ParticleBSPTree     &oObject)
+    {
+        oObject.copyFromBin(pMem);
+    }
 };
 
 /*! \brief ParticleBSPTree fields
@@ -267,6 +289,6 @@ OSG_END_NAMESPACE
 
 #include <OSGParticleBSP.inl>
 
-#define OSGPARTICLEBSP_HEADER_CVSID "@(#)$Id: OSGParticleBSP.h,v 1.2 2002/02/04 20:14:10 dirk Exp $"
+#define OSGPARTICLEBSP_HEADER_CVSID "@(#)$Id: OSGParticleBSP.h,v 1.3 2002/03/05 23:10:31 dirk Exp $"
 
 #endif /* _OSGPARTICLES_H_ */

@@ -452,6 +452,34 @@ void motion(int x, int y)
     glutPostRedisplay();
 }
 
+
+class TestHandler:public OSG::BinaryDataHandler
+{
+public:
+    TestHandler(FILE *file):OSG::BinaryDataHandler(5),_file(file) {
+        unsigned int i;
+        _memory.resize(7*2);
+        for(i=0;i<_memory.size();i+=2)
+        {
+            _memory[i  ].resize(5);
+            _memory[i+1].resize(5);
+            readBufAdd (&_memory[i  ][0],_memory[i  ].size());
+            writeBufAdd(&_memory[i+1][0],_memory[i+1].size());
+        }
+    }
+    void read(OSG::MemoryHandle mem,OSG::UInt32 size) {
+        fprintf(stderr,"direct read %d bytes\n",size);
+        fread(mem,size,1,_file);
+    }
+    void write(OSG::MemoryHandle mem,OSG::UInt32 size) {
+        fprintf(stderr,"direct write %d bytes\n",size);
+        fwrite(mem,size,1,_file);
+    }
+private:
+    vector<vector<OSG::UInt8> > _memory;
+    FILE *_file;
+};
+
 // react to keys
 void keyboard(unsigned char k, int , int )
 {
@@ -504,6 +532,8 @@ void keyboard(unsigned char k, int , int )
                 ParticleBSPTree bsp;
                 bsp.build(particles.getCPtr());
                 bsp.dump();
+                
+                // ASCII
                 string s;
                 FieldDataTraits<ParticleBSPTree>::putToString(bsp,s);
                 PLOG << s << endl;
@@ -519,6 +549,25 @@ void keyboard(unsigned char k, int , int )
                 }
                 cout << endl;
                 delete [] order;
+                
+                // Bin
+                cout << "BIN:" 
+                     << FieldDataTraits<ParticleBSPTree>::getBinSize(bsp) 
+                     << endl;
+                
+                FILE* wfile=fopen("binfile","w");
+                TestHandler w(wfile);               
+                FieldDataTraits<ParticleBSPTree>::copyToBin(w,bsp);
+                w.flush();
+                fclose(wfile);
+                
+                ParticleBSPTree bsp2;
+                FILE *rfile=fopen("binfile","r");
+                TestHandler r(rfile);
+                FieldDataTraits<ParticleBSPTree>::copyFromBin(r,bsp2);
+                fclose(rfile);
+                
+                bsp.dump();
                 }
                 break;
    }

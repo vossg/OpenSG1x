@@ -80,7 +80,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.5 2002/02/25 04:01:55 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticleBSP.cpp,v 1.6 2002/03/05 23:10:31 dirk Exp $";
     static char cvsid_hpp[] = OSGPARTICLEBSP_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLEBSP_INLINE_CVSID;
 }
@@ -247,6 +247,29 @@ bool ParticleBSPTree::getFromString(const Char8 *&inVal)
     }
     
     return true;
+}
+
+    
+UInt32 ParticleBSPTree::getBinSize(void) const
+{
+    return sizeof(UInt32) + _tree.size() * sizeof(ParticleBSPNode);
+}
+    
+void ParticleBSPTree::copyToBin(BinaryDataHandler &pMem) const
+{
+    UInt32 size = _tree.size();
+    pMem.put(&size, sizeof(UInt32));
+
+    pMem.put(&_tree[0], _tree.size() * sizeof(ParticleBSPNode));
+}
+    
+void ParticleBSPTree::copyFromBin(BinaryDataHandler &pMem)
+{
+    UInt32 size = _tree.size();
+    pMem.get(&size, sizeof(UInt32));
+
+    _tree.resize(size);
+    pMem.get(&_tree[0], _tree.size() * sizeof(ParticleBSPNode));
 }
 
 
