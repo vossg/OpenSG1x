@@ -41,10 +41,15 @@
 //---------------------------------------------------------------------------
 #include <stdlib.h>
 #include <stdio.h>
+
 #ifndef WIN32
 #include <unistd.h>
 #endif
 #include <algorithm>
+
+#if defined(__hpux)
+#include <SC/osfcn.h>
+#endif
 
 #include <OSGConfig.h>
 #include <OSGLog.h>
