@@ -40,11 +40,10 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGConfig.h>
-
 #include <stdlib.h>
 #include <stdio.h>
-#include <iostream>
+
+#include <OSGConfig.h>
 
 #include "OSGSharedFontStyle.h"
 
@@ -84,7 +83,7 @@ void SharedFontStyle::changed(BitVector whichField, UInt32 origin)
 void SharedFontStyle::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump SharedFontStyle NI" << endl;
+    SLOG << "Dump SharedFontStyle NI" << std::endl;
 }
 
 
@@ -101,7 +100,7 @@ void SharedFontStyle::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.16 2002/11/19 01:42:54 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHAREDFONTSTYLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHAREDFONTSTYLEBASE_INLINE_CVSID;
 

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
+ *                     Copyright 2000,2001 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -73,7 +73,7 @@ SharedFontStylePtr SharedFontStyleBase::create(void)
 {
     SharedFontStylePtr fc; 
 
-    if(getClassType().getPrototype() != OSG::NullFC) 
+    if(getClassType().getPrototype() != osg::NullFC) 
     {
         fc = SharedFontStylePtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
@@ -128,5 +128,5 @@ void SharedFontStyleBase::setContainedFontStyle(const FontStyleP &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHAREDFONTSTYLEBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGSHAREDFONTSTYLEBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.19 2002/11/09 08:09:45 vossg Exp $"
 

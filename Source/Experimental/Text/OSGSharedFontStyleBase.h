@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -91,7 +91,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleBase : public FieldContainer
         NextFieldId               = ContainedFontStyleFieldId + 1
     };
 
-    static const OSG::BitVector ContainedFontStyleFieldMask;
+    static const osg::BitVector ContainedFontStyleFieldMask;
 
 
     /*---------------------------------------------------------------------*/
@@ -220,6 +220,6 @@ typedef SharedFontStyleBase *SharedFontStyleBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSHAREDFONTSTYLEBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSHAREDFONTSTYLEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.28 2002/10/25 13:09:36 dirk Exp $"
 
 #endif /* _OSGSHAREDFONTSTYLEBASE_H_ */

@@ -57,7 +57,7 @@
 #endif
 
 #include <string>
-
+#include <sstream>
 using namespace std;
 
 #include <OSGConfig.h>
@@ -116,11 +116,18 @@ struct FieldDataTraits<FontStyleP> :
     static bool getFromString( FontStyleP  &outVal,
 							   const Char8 *&inVal)
     {
-		// AT: HIER WEITERMACHEN!
 		PathHandler paths;
 		paths.push_backPath(".");
 
-		outVal = FontStyleFactory::the().create(paths, inVal, 1);
+		istringstream buf( inVal );
+
+		Real32 fontSize;
+		string fontName;
+
+		buf >> fontSize
+			>> fontName;
+
+		outVal = FontStyleFactory::the().create(paths, fontName.c_str(), fontSize);
 
 		if(outVal == NULL)
 		{
@@ -139,15 +146,21 @@ struct FieldDataTraits<FontStyleP> :
 			 << inVal 
 			 << endl;
 
-        return true; //outVal.getFromString(inVal);
+        return true;
     }
 
-    static void           putToString   (const      FontStyleP &inVal,
-                                               std::string     &outVal)
+    static void putToString( const FontStyleP &inVal,
+							 std::string     &outVal )
     {
-        outVal.assign("\"");
-		outVal.append(inVal->getFontName());
-        outVal.append("\"");
+		ostringstream buf;
+		
+		buf << '\"' 
+			<< inVal->getSize()
+			<< ' '
+			<< inVal->getFontName()
+			<< '\"';
+
+		outVal = buf.str();
     }
     
     static UInt32 getBinSize(const FontStyleP &oObject)

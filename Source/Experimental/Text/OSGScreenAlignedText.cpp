@@ -145,6 +145,7 @@ void ScreenAlignedText::tessellate(void)
 
 	SFSharedFontStylePtr *psfsp = getSFFont();
 	SharedFontStylePtr psfs = psfsp->getValue();
+
 	if( psfs == NullFC )
 	{
 		cerr << "ScreenAlignedText::tessellate:  psfs = NullFC ! " << endl;
@@ -160,6 +161,9 @@ void ScreenAlignedText::tessellate(void)
     fontText.setFontStyle( pFS );
     fontText.setJustifyMajor(MIDDLE_JT);
 
+	// Colors are changed during rendering, 
+	// but are needed for 
+	// calling the fillImage routine
     Color4ub    col1( 255, 255, 255, 255);
     Color4ub    col2( 0, 0, 0, 0 );
 	ImageP pImg = new Image();
@@ -180,7 +184,6 @@ void ScreenAlignedText::tessellate(void)
 	}
 
 	cout << "ScreenAlignedText::tessellate(void)" << endl;
-	// AT's changes end here
 }
 
 //! output the instance for debug purposes
@@ -196,25 +199,16 @@ Action::ResultE ScreenAlignedText::drawPrimitives( DrawActionBase * )
     SFVec3f *pos = getSFPosition();
     Vec3f   &vec = pos->getValue();
 	ImageP pImage =_sfRenderImage.getValue();
-	//UChar8 *pImageData = _sfRenderImage.getValue()->getData();
 	GLubyte *pImageData = _sfRenderImage.getValue()->getData();
 	
-	//glPushAttrib( GL_BLEND );	
-	//{
-	//glEnable( GL_BLEND );
-	//glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ); //GL_ONE, GL_ZERO );
 	
 	glRasterPos3f( vec[0], vec[1], vec[2] );
-	glBitmap( pImage->getWidth()*8,           // glDrawPixels
+	glBitmap( pImage->getWidth()*8,
 			  pImage->getHeight(),
 			  .0,.0,
 			  pImage->getWidth(), 
 			  pImage->getHeight(),
-			  //pImage->getPixelFormat(),
-			  //GL_UNSIGNED_BYTE,
 			  pImageData );
-	//}
-	//glPopAttrib();
     
     return Action::Continue;
 }
