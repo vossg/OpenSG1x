@@ -24,6 +24,3 @@ bash ./configure --with-compiler=icl45 --with-qt=<qtdir> --with-glut=<glut-dir>
 cd Build/i686-pc-cygwin-icl45
 make
 
-
-REMARK on IRIX:
-
