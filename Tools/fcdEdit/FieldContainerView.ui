@@ -645,7 +645,7 @@
                     </grid>
                 </widget>
                 <spacer>
-                    <property name="name" stdset="0">
+                    <property name="name">
                         <cstring>Spacer1</cstring>
                     </property>
                     <property name="orientation">
@@ -657,7 +657,7 @@
                     <property name="sizeHint">
                         <size>
                             <width>20</width>
-                            <height>20</height>
+                            <height>0</height>
                         </size>
                     </property>
                 </spacer>
@@ -905,34 +905,41 @@
 </connections>
 <tabstops>
     <tabstop>nodeNameInput</tabstop>
+    <tabstop>sysComp</tabstop>
+    <tabstop>decoratableSwitch</tabstop>
     <tabstop>nodeParentInput</tabstop>
+    <tabstop>parentSysComp</tabstop>
     <tabstop>nodeLibraryInput</tabstop>
     <tabstop>pointerFieldTypesCombo</tabstop>
+    <tabstop>structureCombo</tabstop>
+    <tabstop>nodeDescriptionInput</tabstop>
     <tabstop>partListBox</tabstop>
     <tabstop>partNameInput</tabstop>
     <tabstop>partTypeCombo</tabstop>
     <tabstop>partCardinalityCombo</tabstop>
+    <tabstop>partAccessCombo</tabstop>
     <tabstop>partVisibilityCombo</tabstop>
+    <tabstop>partIncludeInput</tabstop>
     <tabstop>partDefaultValueInput</tabstop>
+    <tabstop>partDefaultHeaderInput</tabstop>
     <tabstop>partDescriptionInput</tabstop>
     <tabstop>newPart</tabstop>
     <tabstop>deletePart</tabstop>
     <tabstop>clonePart</tabstop>
     <tabstop>upPart</tabstop>
     <tabstop>downPart</tabstop>
+    <tabstop>PushButton14</tabstop>
     <tabstop>load</tabstop>
-    <tabstop>loadParent</tabstop>
+    <tabstop>PushButton15</tabstop>
     <tabstop>save</tabstop>
-    <tabstop>saveAs</tabstop>
     <tabstop>writeNodeCode</tabstop>
+    <tabstop>loadParent</tabstop>
+    <tabstop>PushButton16</tabstop>
+    <tabstop>saveAs</tabstop>
     <tabstop>writeProcCode</tabstop>
     <tabstop>about</tabstop>
     <tabstop>exit</tabstop>
-    <tabstop>nodeDescriptionInput</tabstop>
 </tabstops>
-<includes>
-    <include location="local" impldecl="in implementation">FieldContainerView.ui.h</include>
-</includes>
 <slots>
     <slot>aboutSlot()</slot>
     <slot>activePartChanged( int )</slot>

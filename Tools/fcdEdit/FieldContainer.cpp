@@ -1124,7 +1124,7 @@ bool FieldContainer::writeTempl(
                     "hasPrivateFields", "hasProtectedFields", "hasPublicFields", 
                     "isPrivate", "isProtected", "isPublic",
                     "hasDefaultHeader", "SystemComponent",
-                    "isDecoratable", "Decorator",
+                    "isDecoratable", "Decorator", "Library",
                     NULL };
                 
                 char *key = s + strcspn( s, " \t");
@@ -1253,7 +1253,11 @@ bool FieldContainer::writeTempl(
                             if ( ! decorator )
                                 skipIf = 1;
                             break;
-                            
+                case 15:    // Library
+                            if ( !_library || strlen(_library) == 0 )
+                                skipIf = 1;
+                            break;
+                           
                 default:
                             cerr << "Unknown if clause \"" << s + 5 << "\"" 
                                  << endl;
