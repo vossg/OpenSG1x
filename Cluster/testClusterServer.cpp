@@ -86,6 +86,7 @@ int main(int argc,char **argv)
     char           *connectionType="StreamSock";
     bool           fullscreen     =true;
     string         address        ="";
+    int width=-1,height=300,x=0,y=0;
 
     for(int i=1;i<argc;i++)
     {
@@ -102,14 +103,24 @@ int main(int argc,char **argv)
                 case 'a':
                     address=&(argv[i][2]);
                     break;
+                case 'g':
+                    if(sscanf(&(argv[i][2]),"%d,%d,%d,%d",
+			      &width,&height,&x,&y)!=4)
+		    {
+			SWARNING << "Wrong args in -g. Use -gw,h,x,y" << endl;
+			exit(0);
+		    }
+                    break;
                 case 'h':
                     cout << argv[0] 
                          << "-m "
                          << "-w "
+                         << "-gw,h,x,y "
                          << "-aAddress "
                          << endl;
                     cout << "-m        use multicast" << endl;
                     cout << "-w        no fullscreen" << endl;
+                    cout << "-g        geometry" << endl;
                     cout << "-aAddress Server network address" << endl;
                     return 0;
             }
@@ -122,14 +133,19 @@ int main(int argc,char **argv)
         osgInit(argc, argv);
         glutInit(&argc, argv);
         glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+	glutInitWindowPosition(x,y);
+	if(width>0)
+	    glutInitWindowSize(width,height);
         winid = glutCreateWindow("OpenSG Cluster Client");
-
         if(fullscreen)
             glutFullScreen();
         /*
         else
             glutReshapeWindow(300,300);
         */
+	if(width>0)
+	    glutReshapeWindow(width,height);
+	glutPositionWindow(x, y);
 
         glutPopWindow();
         glutDisplayFunc(display);       
