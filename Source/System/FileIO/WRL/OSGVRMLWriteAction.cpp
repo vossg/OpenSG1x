@@ -60,7 +60,9 @@
 #include "OSGAction.h"
 #include "OSGVRMLWriteAction.h"
 #include <OSGSimpleAttachments.h>
-
+#include <OSGTextureChunk.h>
+#include <OSGImage.h>
+#include <OSGImageFileHandler.h>
 
 #include <OSGGL.h>
 
@@ -1184,7 +1186,65 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
     pWriter->printIndent();
     fprintf(pFile, "}\n");
 
-    
+    sChunk = st->getChunk(TextureChunk::getStaticClassId());    
+
+    TextureChunkPtr pTChunk = TextureChunkPtr::dcast(sChunk);
+
+    if(pTChunk != NullFC)
+    {
+        ImagePtr pImage = pTChunk->getImage();
+
+        if(pImage != NullFC)
+        {
+            const std::string *pFilename = 
+                pImage->findAttachmentField("fileName");
+
+            if(pFilename != NULL)
+            {
+
+                pWriter->printIndent();
+                fprintf(pFile, "ImageTexture\n");
+
+                pWriter->printIndent();
+                fprintf(pFile, "{\n");
+
+                pWriter->incIndent(4);
+
+                pWriter->printIndent();
+                fprintf(pFile, "url \"%s\"\n",
+                        pFilename->c_str());
+
+                if(pTChunk->getWrapS() != GL_REPEAT)
+                {
+                    pWriter->printIndent();
+                    fprintf(pFile, "repeatS FALSE\n");
+                }
+
+                if(pTChunk->getWrapT() != GL_REPEAT)
+                {
+                    pWriter->printIndent();
+                    fprintf(pFile, "repeatT FALSE\n");
+                }
+
+                pWriter->decIndent(4);
+
+                pWriter->printIndent();
+                fprintf(pFile, "}\n");
+            }
+        }
+
+                
+    }
+/*
+    sChunk = st->getChunk(TextureTransformChunk::getStaticClassId());    
+
+    TextureTransformChunkPtr pTTChunk = TextureTransformChunkPtr::dcast(sChunk);
+
+    if(pTTChunk != NullFC)
+    {
+    }
+ */
+
     pWriter->decIndent(4);
     
     pWriter->printIndent();
