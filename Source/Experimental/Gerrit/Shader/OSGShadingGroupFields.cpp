@@ -40,53 +40,35 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESHADINGGROUPFIELDINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
 
-#include "OSGShadingMaterial.h"
+#include "OSGShadingGroupFields.h"
+
+#include "OSGSFieldTypeDef.inl"
+#include "OSGMFieldTypeDef.inl"
 
 OSG_USING_NAMESPACE
 
-FieldContainerType ShadingMaterial::_type(
-    "ShadingMaterial",
-    "NodeCore",
-    NULL,
-    (PrototypeCreateF) &ShadingMaterial::createEmpty,
-    NULL,
-    NULL,
-    0);
+DataType FieldDataTraits<ShadingGroup *>::_type("ShadingGroupP", 
+                                                "ShadingType"  );
 
-OSG_FIELD_CONTAINER_DEF(ShadingMaterial, ShadingMaterial::Ptr);
+OSG_DLLEXPORT_SFIELD_DEF1(ShadingGroup *, OSG_SHADER_DLLMAPPING);
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
+OSG_DLLEXPORT_MFIELD_DEF1(ShadingGroup *, OSG_SHADER_DLLMAPPING);
 
-ShadingMaterial::ShadingMaterial(void) :
-     Inherited    (),
-    _shadingGroups()
-{
-}
 
-ShadingMaterial::ShadingMaterial(const ShadingMaterial &source) :
-     Inherited    (source               ),
-    _shadingGroups(source._shadingGroups)
-{
-}
+DataType FieldDataTraits<MFShadingGroupP>::_type("MFShadingGroupP", 
+                                                 "ShadingType"  );
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
+OSG_DLLEXPORT_SFIELD_DEF1(MFShadingGroupP, OSG_SHADER_DLLMAPPING);
 
-ShadingMaterial::~ShadingMaterial(void)
-{
-}
+OSG_DLLEXPORT_MFIELD_DEF1(MFShadingGroupP, OSG_SHADER_DLLMAPPING);
 
-/*-------------------------------------------------------------------------*/
-/*                             Assignment                                  */
-
-/*-------------------------------------------------------------------------*/
-/*                             Comparison                                  */
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
@@ -102,7 +84,6 @@ ShadingMaterial::~ShadingMaterial(void)
 namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGSHADINGMATERIAL_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGSHADINGMATERIAL_INLINE_CVSID;
+    static Char8 cvsid_hpp[] = OSGSHADINGGROUPFIELDS_HEADER_CVSID;
 }
 

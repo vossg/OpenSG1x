@@ -36,73 +36,87 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-#include <stdlib.h>
-#include <stdio.h>
-
-#include "OSGConfig.h"
-
-#include "OSGShadingMaterial.h"
-
-OSG_USING_NAMESPACE
-
-FieldContainerType ShadingMaterial::_type(
-    "ShadingMaterial",
-    "NodeCore",
-    NULL,
-    (PrototypeCreateF) &ShadingMaterial::createEmpty,
-    NULL,
-    NULL,
-    0);
-
-OSG_FIELD_CONTAINER_DEF(ShadingMaterial, ShadingMaterial::Ptr);
-
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
-ShadingMaterial::ShadingMaterial(void) :
-     Inherited    (),
-    _shadingGroups()
-{
-}
-
-ShadingMaterial::ShadingMaterial(const ShadingMaterial &source) :
-     Inherited    (source               ),
-    _shadingGroups(source._shadingGroups)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-ShadingMaterial::~ShadingMaterial(void)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Assignment                                  */
-
-/*-------------------------------------------------------------------------*/
-/*                             Comparison                                  */
-
-/*-------------------------------------------------------------------------*/
-/*                              cvs id's                                   */
-
+#ifndef _OSGSHADINGGROUPFIELDS_H_
+#define _OSGSHADINGGROUPFIELDS_H_
 #ifdef __sgi
-#pragma set woff 1174
+#pragma once
 #endif
 
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
+#include <OSGShaderBase.h>
+#include <OSGBaseTypes.h>
+#include <OSGFieldDataType.h>
+#include <OSGSField.h>
+#include <OSGMField.h>
 
-namespace
+OSG_BEGIN_NAMESPACE
+
+class ShadingGroup;
+
+template <>
+struct FieldDataTraits<ShadingGroup *> : 
+    public FieldTraitsRecurseBase<ShadingGroup *>
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGSHADINGMATERIAL_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGSHADINGMATERIAL_INLINE_CVSID;
-}
+    static  DataType                        _type;
+    typedef FieldDataTraits<ShadingGroup *>  Self;
+    typedef ShadingGroup                 *   ArgumentType;
+    typedef ShadingGroup                 *   FieldTypeT;
 
+    enum                 { StringConvertable = 0x00                      };
+
+    static DataType     &getType      (void) { return _type;             }
+
+    static Char8        *getSName     (void) { return "SFShadingGroupP"; }
+    static Char8        *getMName     (void) { return "MFShadingGroupP"; }
+
+    static ShadingGroup *getDefault   (void) { return NULL;              }
+};
+
+typedef SField<ShadingGroup *> SFShadingGroupP;
+
+#ifndef OSG_COMPILESHADINGGROUPFIELDINST
+OSG_DLLEXPORT_DECL1(SField, ShadingGroup *, OSG_SHADER_DLLMAPPING)
+#endif
+
+typedef MField<ShadingGroup *> MFShadingGroupP;
+
+#ifndef OSG_COMPILESHADINGGROUPFIELDINST
+OSG_DLLEXPORT_DECL1(MField, ShadingGroup *, OSG_SHADER_DLLMAPPING)
+#endif
+
+
+template <>
+struct FieldDataTraits<MFShadingGroupP> : 
+    public FieldTraitsRecurseBase<MFShadingGroupP>
+{
+    static  DataType                         _type;
+    typedef FieldDataTraits<MFShadingGroupP>  Self;
+    typedef MFShadingGroupP                   ArgumentType;
+    typedef MFShadingGroupP                   FieldTypeT;
+
+    enum             { StringConvertable = 0x00                      };
+
+    static DataType        &getType      (void) { return _type;             }
+
+    static Char8           *getSName     (void) { return "SFMFShadingGroupP"; }
+    static Char8           *getMName     (void) { return "MFMFShadingGroupP"; }
+
+    static MFShadingGroupP  getDefault   (void) { return MFShadingGroupP();   }
+};
+
+typedef SField<MFShadingGroupP> SFMFShadingGroupP;
+
+#ifndef OSG_COMPILESHADINGGROUPFIELDINST
+OSG_DLLEXPORT_DECL1(SField, MFShadingGroupP, OSG_SHADER_DLLMAPPING)
+#endif
+
+typedef MField<MFShadingGroupP> MFMFShadingGroupP;
+
+#ifndef OSG_COMPILESHADINGGROUPFIELDINST
+OSG_DLLEXPORT_DECL1(MField, MFShadingGroupP, OSG_SHADER_DLLMAPPING)
+#endif
+
+OSG_END_NAMESPACE
+
+#define OSGSHADINGGROUPFIELDS_HEADER_CVSID "@(#)$Id: $"
+
+#endif /* _OSGSHADINGGROUPFIELDS_H_ */

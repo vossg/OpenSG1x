@@ -94,9 +94,9 @@ OSG_BEGIN_NAMESPACE
 /*---------------------------- properties ---------------------------------*/
 
 inline 
-Material *ShadingAction::getMaterial(void) const
+ShadingMaterial *ShadingAction::getMaterial(void) const
 {
-    return _pMaterial;
+    return NULL;
 }
 
 /*-------------------------- your_category---------------------------------*/

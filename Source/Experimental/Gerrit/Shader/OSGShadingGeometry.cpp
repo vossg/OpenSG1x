@@ -49,6 +49,14 @@
 
 OSG_USING_NAMESPACE
 
+FieldContainerType ShadingGeometry::_type(
+    "ShadingGeometry",
+    "NodeCore",
+    NULL,
+    (PrototypeCreateF) &ShadingGeometry::createEmpty,
+    NULL,
+    NULL,
+    0);
 
 
 OSG_FIELD_CONTAINER_DEF(ShadingGeometry, ShadingGeometry::Ptr);
@@ -57,12 +65,14 @@ OSG_FIELD_CONTAINER_DEF(ShadingGeometry, ShadingGeometry::Ptr);
 /*                            Constructors                                 */
 
 ShadingGeometry::ShadingGeometry(void) :
-    Inherited()
+     Inherited    (),
+    _shadingGroups()
 {
 }
 
 ShadingGeometry::ShadingGeometry(const ShadingGeometry &source) :
-    Inherited(source)
+     Inherited    (source               ),
+    _shadingGroups(source._shadingGroups)
 {
 }
 

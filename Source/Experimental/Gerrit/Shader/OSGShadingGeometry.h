@@ -45,6 +45,7 @@
 #include <OSGShaderBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGGeometry.h>
+#include <OSGShadingGroupFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -155,6 +156,8 @@ class OSG_SHADER_DLLMAPPING ShadingGeometry : public Geometry
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
+
+    MFShadingGroupP _shadingGroups;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

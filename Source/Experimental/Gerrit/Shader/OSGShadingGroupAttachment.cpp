@@ -40,8 +40,6 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILESHADINGGROUPATTACHMENTFIELDINST
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -49,23 +47,12 @@
 
 #include "OSGShadingGroupAttachment.h"
 
-#include "OSGSFieldTypeDef.inl"
-#include "OSGMFieldTypeDef.inl"
-
 OSG_USING_NAMESPACE
 
 #ifdef WIN32
 OSG_FC_TYPE_FUNCTIONS_INL_TMPL_DEF(AttachmentDescT,
                                    SimpleAttachment);
 #endif
-
-DataType FieldDataTraits<ShadingGroup *>::_type("ShadingGroupP", 
-                                                "ShadingType"  );
-
-OSG_DLLEXPORT_SFIELD_DEF1(ShadingGroup *, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_DLLEXPORT_MFIELD_DEF1(ShadingGroup *, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
 
 FieldDescription *ShadingGroupPAttachmentDesc::_desc[] =
 {
@@ -83,7 +70,7 @@ OSG_BEGIN_NAMESPACE
 
 OSG_FC_DLLEXPORT_DEF(SimpleAttachment,
                      ShadingGroupPAttachmentDesc,
-                     OSG_SYSTEMLIB_DLLTMPLMAPPING);
+                     OSG_SHADER_DLLMAPPING);
 
 
 OSG_END_NAMESPACE

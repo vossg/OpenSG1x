@@ -48,12 +48,14 @@
 
 #include <vector>
 
-#include <OSGShaderBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGRenderActionBase.h>
-#include <OSGMatrix.h>
-#include <OSGMaterial.h>
-#include <OSGStatElemTypes.h>
+#include "OSGShaderBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGRenderActionBase.h"
+
+#include "OSGMatrix.h"
+#include "OSGStatElemTypes.h"
+
+#include "OSGShadingMaterial.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -61,9 +63,7 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
-class Material;
-class Geometry;
-class State;
+class ShadingGeometry;
 
 class LightSet;
 class Light;
@@ -107,17 +107,17 @@ class OSG_SHADER_DLLMAPPING ShadingAction : public RenderActionBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static ShadingAction *create      (void                     );
+    static ShadingAction *create      (     void                          );
     
-    static void           setPrototype(ShadingAction *pPrototype);
-    static ShadingAction *getPrototype(void                     );
+    static void           setPrototype(     ShadingAction      *pPrototype);
+    static ShadingAction *getPrototype(     void                          );
 
 
     static void registerEnterDefault (const FieldContainerType &type, 
-                                      const Action::Functor    &func);
+                                      const Action::Functor    &func      );
     
     static void registerLeaveDefault (const FieldContainerType &type, 
-                                      const Action::Functor    &func);
+                                      const Action::Functor    &func      );
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -127,8 +127,8 @@ class OSG_SHADER_DLLMAPPING ShadingAction : public RenderActionBase
 
     /*------------------------- your_category -------------------------------*/
 
-    Material *getMaterial(void               ) const;
-    void      setMaterial(Material *pMaterial);
+    ShadingMaterial *getMaterial(void                      ) const;
+    void             setMaterial(ShadingMaterial *pMaterial);
     
     /*------------------------- your_operators ------------------------------*/
 
@@ -144,19 +144,20 @@ class OSG_SHADER_DLLMAPPING ShadingAction : public RenderActionBase
 
     /*------------------------- assignment ----------------------------------*/
 
-    void dropGeometry(Geometry  *pGeo);
-    void dropLight   (Light     *pLight);
-    void dropFunctor (Material::DrawFunctor &func, Material *mat);
+    void dropGeometry(ShadingGeometry       *pGeo  );
+    void dropLight   (Light                 *pLight);
+    void dropFunctor (Material::DrawFunctor &func, 
+                      ShadingMaterial       *mat   );
 
     /*------------------------- comparison ----------------------------------*/
 
-    void setSortTrans(bool bVal);
+    void setSortTrans  (bool bVal);
     void setZWriteTrans(bool bVal);
 
     /*------------------------- comparison ----------------------------------*/
 
     // test a single node
-    bool isVisible(Node* node);
+    bool isVisible(Node *node);
     
   protected:
 
@@ -187,11 +188,6 @@ class OSG_SHADER_DLLMAPPING ShadingAction : public RenderActionBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    
-    LightSet                 *_pLightStore;
-
-    Material                 *_pMaterial;
-
     UInt32                    _uiMatrixId;
 
     MatrixStore               _currMatrix;
@@ -201,12 +197,9 @@ class OSG_SHADER_DLLMAPPING ShadingAction : public RenderActionBase
     std::vector<MatrixStore>  _vMatrixStack;
 
     UInt32                    _uiActiveMatrix;
-    State                    *_pActiveState;
-
  
     bool                      _bSortTrans;
     bool                      _bZWriteTrans;
-
 
     UInt32                    _uiNumMaterialChanges;
     UInt32                    _uiNumMatrixChanges;

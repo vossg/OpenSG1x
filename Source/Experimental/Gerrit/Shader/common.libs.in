@@ -2,14 +2,14 @@
 
 if test $enable_gv_beta_shader = yes; then
 
-ac_gdz_packages="${ac_gdz_packages} ShaderLib" 
+ac_gdz_packages="${ac_gdz_packages} Shader" 
 ac_gdz_package_order="${ac_gdz_package_order} ShaderLib"
 
 ac_gdz_package_name_Shader="Shader"
 ac_gdz_package_fact_init_Shader="1"
 ac_gdz_package_dirs_Shader="Experimental/Gerrit/Shader@"
 ac_gdz_package_inc_dep_Shader="@Base@ @System@ "
-ac_gdz_package_link_dep_Shader="SystemLib BaseLib"
+ac_gdz_package_link_dep_Shader="SystemLib BaseLib GL"
 ac_gdz_package_testinc_dep_Shader="WindowSystem/GLUT GLUT"
 ac_gdz_package_testlink_dep_Shader="WindowGLUTLib GLUT GL TIF JPG PNG MNG"
 ac_gdz_package_def_Shader="OSG_COMPILESHADERLIB"

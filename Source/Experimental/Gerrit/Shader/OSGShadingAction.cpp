@@ -43,19 +43,24 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define PRINT_MAT
+
 #include "OSGConfig.h"
 
+#include <OSGShadingAction.h>
+
+#include <OSGWindow.h>
+#include <OSGViewport.h>
+#include <OSGCamera.h>
+#include <OSGBackground.h>
+
+#if 0
 #include <OSGLog.h>
 #include <OSGFieldContainer.h>
 #include <OSGFieldContainerPtr.h>
 #include <OSGNode.h>
 #include <OSGNodeCore.h>
 #include <OSGAction.h>
-#include <OSGShadingAction.h>
-#include <OSGWindow.h>
-#include <OSGCamera.h>
-#include <OSGViewport.h>
-#include <OSGBackground.h>
 
 #include <OSGBaseFunctions.h>
 #if defined(OSG_OPT_DRAWTREE)
@@ -73,21 +78,13 @@
 
 #include <OSGGL.h>
 #include <OSGVolumeDraw.h>
+#endif
 
 OSG_USING_NAMESPACE
-
-#if 0
 
 /***************************************************************************\
  *                            Description                                  *
 \***************************************************************************/
-
-/*! \class osg::ShadingAction
-    \ingroup GrpSystemAction
-
-    The render action class.
-
-*/
 
 /***************************************************************************\
  *                               Types                                     *
@@ -97,7 +94,6 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char ShadingAction::cvsid[] = "@(#)$Id: $";
 
 
 /*! \brief the prototype which is copied to create new actions
@@ -112,21 +108,25 @@ std::vector<Action::Functor> *ShadingAction::_vDefaultEnterFunctors = NULL;
 std::vector<Action::Functor> *ShadingAction::_vDefaultLeaveFunctors = NULL;
 
 
-StatElemDesc<StatTimeElem> ShadingAction::statDrawTime("shDrawTime", 
-"time for draw tree traversal");
-StatElemDesc<StatIntElem > ShadingAction::statNMaterials("shNMaterials", 
-"number of material changes");
-StatElemDesc<StatIntElem > ShadingAction::statNMatrices("shNMatrices",  
-"number of matrix changes");
-StatElemDesc<StatIntElem > ShadingAction::statNGeometries("shNGeometries", 
-"number of Geometry nodes");
-StatElemDesc<StatIntElem > ShadingAction::statNTransGeometries("shNTransGeometries",
-"number of transformed Geometry nodes");
+StatElemDesc<StatTimeElem> ShadingAction::statDrawTime(
+    "shDrawTime", 
+    "time for draw tree traversal");
+StatElemDesc<StatIntElem > ShadingAction::statNMaterials(
+    "shNMaterials", 
+    "number of material changes");
+StatElemDesc<StatIntElem > ShadingAction::statNMatrices(
+    "shNMatrices",  
+    "number of matrix changes");
+StatElemDesc<StatIntElem > ShadingAction::statNGeometries(
+    "shNGeometries", 
+    "number of Geometry nodes");
+StatElemDesc<StatIntElem > ShadingAction::statNTransGeometries(
+    "shNTransGeometries",
+    "number of transformed Geometry nodes");
 
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
 
 
 /*-------------------------------------------------------------------------*\
@@ -137,7 +137,7 @@ StatElemDesc<StatIntElem > ShadingAction::statNTransGeometries("shNTransGeometri
  */
 
 void ShadingAction::registerEnterDefault(const FieldContainerType &type, 
-                                        const Action::Functor    &func)
+                                         const Action::Functor    &func)
 {
     if(_vDefaultEnterFunctors == NULL)
     {
@@ -157,7 +157,7 @@ void ShadingAction::registerEnterDefault(const FieldContainerType &type,
 }
 
 void ShadingAction::registerLeaveDefault(const FieldContainerType &type, 
-                                        const Action::Functor    &func)
+                                         const Action::Functor    &func)
 {
     if(_vDefaultLeaveFunctors == NULL)
     {
@@ -212,92 +212,59 @@ ShadingAction *ShadingAction::getPrototype(void)
 
 /*------------- constructors & destructors --------------------------------*/
 
-/** \brief Constructor
- */
-
 ShadingAction::ShadingAction(void) :
-     Inherited           (),
-#if defined(OSG_OPT_DRAWTREE)
-    _pNodeFactory        (NULL),
-#endif
-    _pMaterial           (NULL),
+     Inherited           (     ),
 
-    _uiMatrixId          (0),
-    _currMatrix          (),
-    _vMatrixStack        (),
+    _uiMatrixId          (    0),
 
-    _mMatMap             (),
+    _currMatrix          (     ),
+    _camInverse          (     ),
+    _accMatrix           (     ),
 
-    _pRoot               (NULL),
-    _pMatRoot            (NULL),
-    _pTransMatRoot       (NULL),
+    _vMatrixStack        (     ),
 
-    _uiActiveMatrix      (0),
-    _pActiveState        (NULL),
+    _uiActiveMatrix      (    0),
 
-    _uiNumMaterialChanges(0),
-    _uiNumMatrixChanges  (0),
-    _uiNumGeometries     (0),
-    _uiNumTransGeometries(0),
-
-    _bSortTrans          (true),
+    _bSortTrans          (true ),
     _bZWriteTrans        (false),
 
-    _vLights()
+    _uiNumMaterialChanges(    0),
+    _uiNumMatrixChanges  (    0),
+    _uiNumGeometries     (    0),
+    _uiNumTransGeometries(    0)
 {
     if(_vDefaultEnterFunctors != NULL)
         _enterFunctors = *_vDefaultEnterFunctors;
 
     if(_vDefaultLeaveFunctors != NULL)
         _leaveFunctors = *_vDefaultLeaveFunctors;
-
-#if defined(OSG_OPT_DRAWTREE)
-    _pNodeFactory = new DrawTreeNodeFactory;
-#endif
 }
 
-
-/** \brief Copy-Constructor
- */
 
 ShadingAction::ShadingAction(const ShadingAction &source) :
-     Inherited           (source),
-#if defined(OSG_OPT_DRAWTREE)
-    _pNodeFactory        (NULL),
-#endif
-    _pMaterial           (source._pMaterial),
+     Inherited           (source                      ),
 
-    _uiMatrixId          (source._uiMatrixId),
-    _currMatrix          (source._currMatrix),
-    _vMatrixStack        (source._vMatrixStack),
+    _uiMatrixId          (source._uiMatrixId          ),
 
-    _mMatMap             (source._mMatMap),
+    _currMatrix          (source._currMatrix          ),
+    _camInverse          (source._camInverse          ),
+    _accMatrix           (source._accMatrix           ),
 
-    _pRoot               (source._pRoot),
-    _pMatRoot            (source._pMatRoot),
-    _pTransMatRoot       (source._pTransMatRoot),
+    _vMatrixStack        (source._vMatrixStack        ),
 
-    _uiActiveMatrix      (source._uiActiveMatrix),
-    _pActiveState        (source._pActiveState),
+    _uiActiveMatrix      (source._uiActiveMatrix      ),
+
+    _bSortTrans          (source._bSortTrans          ),
+    _bZWriteTrans        (source._bZWriteTrans        ),
 
     _uiNumMaterialChanges(source._uiNumMaterialChanges),
-    _uiNumMatrixChanges  (source._uiNumMatrixChanges),
-    _uiNumGeometries     (source._uiNumGeometries),
-    _uiNumTransGeometries(source._uiNumTransGeometries),
-
-    _bSortTrans          (source._bSortTrans),
-    _bZWriteTrans        (source._bZWriteTrans),
-    _vLights             (source._vLights)
+    _uiNumMatrixChanges  (source._uiNumMatrixChanges  ),
+    _uiNumGeometries     (source._uiNumGeometries     ),
+    _uiNumTransGeometries(source._uiNumTransGeometries)
 {
-#if defined(OSG_OPT_DRAWTREE)
-    _pNodeFactory = new DrawTreeNodeFactory;
-#endif
 }
 
-/** \brief create a new DrawAction by cloning the prototype
- */
-
-ShadingAction * ShadingAction::create(void)
+ShadingAction *ShadingAction::create(void)
 {
     ShadingAction *returnValue;
     
@@ -314,29 +281,22 @@ ShadingAction * ShadingAction::create(void)
 }
 
 
-/** \brief Destructor
- */
-
 ShadingAction::~ShadingAction(void)
 {
-#if defined(OSG_OPT_DRAWTREE)
-    delete _pNodeFactory;
-#endif    
 }
 
 /*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
 
-// rendering state handling
-
-void ShadingAction::setMaterial(Material *pMaterial)
+void ShadingAction::setMaterial(ShadingMaterial *pMaterial)
 {
-    _pMaterial = pMaterial;
+//    _pMaterial = pMaterial;
 }
 
-void ShadingAction::dropGeometry(Geometry *pGeo)
+void ShadingAction::dropGeometry(ShadingGeometry *pGeo)
 {
+#if 0
     Material *pMat;
     State    *pState;
 
@@ -477,10 +437,14 @@ void ShadingAction::dropGeometry(Geometry *pGeo)
             }
         }
     }
+#endif
+
 }
 
-void ShadingAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
+void ShadingAction::dropFunctor(Material::DrawFunctor &func, 
+                                ShadingMaterial       *mat )
 {
+#if 0
     Material *pMat;
     State    *pState;
 
@@ -615,10 +579,12 @@ void ShadingAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             }
         }
     }
+#endif
 }
 
 void ShadingAction::dropLight(Light *pLight)
 {
+#if 0
     if(pLight != NULL)
     {
         LightStore oStore;
@@ -652,9 +618,10 @@ void ShadingAction::dropLight(Light *pLight)
 
         _vLights.push_back(oStore);
     }
+#endif
 }
 
-bool ShadingAction::isVisible( Node* node )
+bool ShadingAction::isVisible(Node *node)
 {
     if ( getFrustumCulling() == false )
         return true;
@@ -685,6 +652,7 @@ bool ShadingAction::isVisible( Node* node )
 
 /*-------------------------- your_category---------------------------------*/
 
+#if 0
 void ShadingAction::dump(DrawTreeNode *pRoot, UInt32 uiIndent)
 {
     if(pRoot == NULL)
@@ -802,6 +770,7 @@ void ShadingAction::draw(DrawTreeNode *pRoot)
         draw(pRoot->getBrother());
     }
 }
+#endif
 
 void ShadingAction::setSortTrans(bool bVal)
 {
@@ -829,7 +798,7 @@ Action::ResultE ShadingAction::start(void)
     _currMatrix.first = 1;
     _currMatrix.second.setIdentity();
 
-    bool full;
+    bool full = true;
     
     if(_viewport != NULL)
     {
@@ -837,6 +806,7 @@ Action::ResultE ShadingAction::start(void)
         GLint pr  = _viewport->getPixelRight();
         GLint pb  = _viewport->getPixelBottom();
         GLint pt  = _viewport->getPixelTop();
+
         GLint pw  = pr - pl + 1;
         GLint ph  = pt - pb + 1;
         
@@ -844,7 +814,7 @@ Action::ResultE ShadingAction::start(void)
 
         glViewport(pl, pb, pw, ph);
 
-        if (full == false)
+        if(full == false)
         {
             glScissor (pl, pb, pw, ph);
             glEnable(GL_SCISSOR_TEST);
@@ -871,6 +841,7 @@ Action::ResultE ShadingAction::start(void)
         }
     }
 
+#if 0
     _mMatMap.clear();
 
 #if defined(OSG_OPT_DRAWTREE)
@@ -929,6 +900,7 @@ Action::ResultE ShadingAction::start(void)
     _uiNumTransGeometries = 0;
 
     _vLights.clear();
+#endif
 
     if(_viewport != NULL && full == false)
     {
@@ -942,7 +914,8 @@ Action::ResultE ShadingAction::stop(ResultE res)
 {
     if(!_ownStat)
        getStatistics()->getElem(statDrawTime)->start();
-    
+
+#if 0    
     UInt32 i;
 
 //    dump(_pRoot, 0);
@@ -1000,6 +973,7 @@ Action::ResultE ShadingAction::stop(ResultE res)
 //            _uiNumMatrixChanges, 
 //            _uiNumGeometries,
 //            _uiNumTransGeometries));
+#endif
 
     Inherited::stop(res);
     return res;
@@ -1109,8 +1083,6 @@ std::vector<ShadingAction::Functor> *
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

@@ -42,44 +42,12 @@
 #pragma once
 #endif
 
+#include <OSGShaderBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGAttachment.h>
+#include <OSGShadingGroupFields.h>
 
 OSG_BEGIN_NAMESPACE
-
-class ShadingGroup;
-
-template <>
-struct FieldDataTraits<ShadingGroup *> : 
-    public FieldTraitsRecurseBase<ShadingGroup *>
-{
-    static  DataType                        _type;
-    typedef FieldDataTraits<ShadingGroup *>  Self;
-    typedef ShadingGroup                 *   ArgumentType;
-    typedef ShadingGroup                 *   FieldTypeT;
-
-    enum             { StringConvertable = 0x00                      };
-
-    static DataType &getType      (void) { return _type;             }
-
-    static Char8    *getSName     (void) { return "SFShadingGroupP"; }
-    static Char8    *getMName     (void) { return "MFShadingGroupP"; }
-
-    static void     *getDefault   (void) { return NULL;              }
-};
-
-typedef SField<ShadingGroup *> SFShadingGroupP;
-
-#ifndef OSG_COMPILESHADINGGROUPATTACHMENTFIELDINST
-OSG_DLLEXPORT_DECL1(SField, ShadingGroup *, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-#endif
-
-typedef MField<ShadingGroup *> MFShadingGroupP;
-
-#ifndef OSG_COMPILESHADINGGROUPATTACHMENTFIELDINST
-OSG_DLLEXPORT_DECL1(MField, ShadingGroup *, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-#endif
-
 
 struct ShadingGroupPAttachmentDesc
 {

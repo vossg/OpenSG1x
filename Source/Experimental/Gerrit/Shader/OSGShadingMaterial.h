@@ -45,6 +45,7 @@
 #include <OSGShaderBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGChunkMaterial.h>
+#include <OSGShadingGroupFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -155,6 +156,8 @@ class OSG_SHADER_DLLMAPPING ShadingMaterial : public ChunkMaterial
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
+
+    MFMFShadingGroupP _shadingGroups;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

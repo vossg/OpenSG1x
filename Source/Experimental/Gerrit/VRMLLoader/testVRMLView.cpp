@@ -120,7 +120,7 @@ display(void)
 
 void reshape( int w, int h )
 {
-    cerr << "Reshape: " << w << "," << h << endl;
+    std::cerr << "Reshape: " << w << "," << h << endl;
     win->resize( w, h );
 }
 
@@ -211,16 +211,16 @@ void key(unsigned char key, int x, int y)
     {
         case 27:    osgExit(); exit(0);
         case 'a':   glDisable( GL_LIGHTING );
-            cerr << "Lighting disabled." << endl;
+            std::cerr << "Lighting disabled." << endl;
             break;
         case 's':   glEnable( GL_LIGHTING );
-            cerr << "Lighting enabled." << endl;
+            std::cerr << "Lighting enabled." << endl;
             break;
         case 'z':   glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-            cerr << "PolygonMode: Point." << endl;
+            std::cerr << "PolygonMode: Point." << endl;
             break;
         case 'x':   glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-            cerr << "PolygonMode: Line." << endl;
+            std::cerr << "PolygonMode: Line." << endl;
             break;
         case 'c':   glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
             cerr << "PolygonMode: Fill." << endl;
