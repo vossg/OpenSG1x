@@ -65,6 +65,7 @@ WalkNavigator::WalkNavigator(): FlyNavigator(),
     _width(0.1),
     _fatness(0.1)
 {
+    _act = IntersectAction::create();
 }
 
 /*-------------------------- destructors ----------------------------------*/
@@ -148,16 +149,16 @@ void WalkNavigator::forward(Real32 step)
     transl.multMatrixPnt(_rAt);
     transl.multMatrixPnt(_rFrom);
 
-    IntersectAction *act=IntersectAction::create();
+    //IntersectAction *act=IntersectAction::create();
     Line line;
 
     //keep the walker at a constant distance from the ground
     line.setValue(_rFrom,-_vUp);
-    act->setLine(line);
-    act->apply(_ground);
-    if (act->didHit())
+    _act->setLine(line);
+    _act->apply(_ground);
+    if (_act->didHit())
     {
-        Pnt3f p1=act->getHitPoint();
+        Pnt3f p1=_act->getHitPoint();
         Real32 dist=_rFrom.dist(p1);
         upn=_vUp;
         upn.normalize();
@@ -176,12 +177,12 @@ void WalkNavigator::forward(Real32 step)
 
 
     line.setValue(_rFrom+mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance),sv);
-    act->setLine(line/*,_width + 2*_wallDistance*/);
-    act->apply(_world);
+    _act->setLine(line/*,_width + 2*_wallDistance*/);
+    _act->apply(_world);
 
-    if (act->didHit())
+    if (_act->didHit())
     {
-        Pnt3f p1=act->getHitPoint();
+        Pnt3f p1=_act->getHitPoint();
         Real32 dist=(_rFrom+mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance)).dist(p1);
         if (dist<=_width + 2*_wallDistance)
         {
@@ -201,12 +202,12 @@ void WalkNavigator::forward(Real32 step)
 
 
     line.setValue(_rFrom-mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance),mv);
-    act->setLine(line/*,_fatness + 2*_wallDistance*/);
-    act->apply(_world);
+    _act->setLine(line/*,_fatness + 2*_wallDistance*/);
+    _act->apply(_world);
 
-    if (act->didHit())
+    if (_act->didHit())
     {
-        Pnt3f p1=act->getHitPoint();
+        Pnt3f p1=_act->getHitPoint();
         Real32 dist=(_rFrom-mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance)).dist(p1);
         if (dist<=_fatness + 2*_wallDistance)
         {
@@ -224,12 +225,12 @@ void WalkNavigator::forward(Real32 step)
     }
 
     line.setValue(_rFrom-mv*(_fatness/2+_wallDistance)+sv*(_width/2+_wallDistance),mv);
-    act->setLine(line/*,_fatness + 2*_wallDistance*/);
-    act->apply(_world);
+    _act->setLine(line/*,_fatness + 2*_wallDistance*/);
+    _act->apply(_world);
 
-    if (act->didHit())
+    if (_act->didHit())
     {
-        Pnt3f p1=act->getHitPoint();
+        Pnt3f p1=_act->getHitPoint();
         Real32 dist=(_rFrom-mv*(_fatness/2+_wallDistance)+sv*(_width/2+_wallDistance)).dist(p1);
         if (dist<=_fatness + 2*_wallDistance)
         {
@@ -252,12 +253,12 @@ void WalkNavigator::forward(Real32 step)
     //position and my old position intersects something
 
     line.setValue(old_rFrom,_rFrom - old_rFrom);
-    act->setLine(line/*,_rFrom.dist(old_rFrom)*/);
-    act->apply(_world);
+    _act->setLine(line/*,_rFrom.dist(old_rFrom)*/);
+    _act->apply(_world);
 
-    if (act->didHit())
+    if (_act->didHit())
     {
-        Pnt3f p1=act->getHitPoint();
+        Pnt3f p1=_act->getHitPoint();
         Real32 dist=old_rFrom.dist(p1);
         if (dist<=_rFrom.dist(old_rFrom))
         {
@@ -303,16 +304,16 @@ void WalkNavigator::right  (Real32 step)
     transl.multMatrixPnt(_rAt);
     transl.multMatrixPnt(_rFrom);
     
-    IntersectAction *act=IntersectAction::create();
+    //IntersectAction *act=IntersectAction::create();
     Line line;
 
     //keep the walker at a constant distance from the ground
     line.setValue(_rFrom,-_vUp);
-    act->setLine(line);
-    act->apply(_ground);
-    if (act->didHit())
+    _act->setLine(line);
+    _act->apply(_ground);
+    if (_act->didHit())
     {
-        Pnt3f p1=act->getHitPoint();
+        Pnt3f p1=_act->getHitPoint();
         Real32 dist=_rFrom.dist(p1);
         upn=_vUp;
         upn.normalize();
@@ -329,12 +330,12 @@ void WalkNavigator::right  (Real32 step)
     sv.normalize();
 
     line.setValue(_rFrom-mv*(_fatness/2+_wallDistance)+sv*(_width/2+_wallDistance),mv);
-    act->setLine(line,_fatness + 2*_wallDistance);
-    act->apply(_world);
+    _act->setLine(line,_fatness + 2*_wallDistance);
+    _act->apply(_world);
 
-    if (act->didHit())
+    if (_act->didHit())
     {
-        Pnt3f p1=act->getHitPoint();
+        Pnt3f p1=_act->getHitPoint();
         Real32 dist=(_rFrom-mv*(_fatness/2+_wallDistance)+sv*(_width/2+_wallDistance)).dist(p1);
         if (dist<=_fatness + 2*_wallDistance)
         {
@@ -353,12 +354,12 @@ void WalkNavigator::right  (Real32 step)
 
 
     line.setValue(_rFrom+mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance),sv);
-    act->setLine(line,_width + 2*_wallDistance);
-    act->apply(_world);
+    _act->setLine(line,_width + 2*_wallDistance);
+    _act->apply(_world);
 
-    if (act->didHit())
+    if (_act->didHit())
     {
-        Pnt3f p1=act->getHitPoint();
+        Pnt3f p1=_act->getHitPoint();
         Real32 dist=(_rFrom+mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance)).dist(p1);
         if (dist<=_width + 2*_wallDistance)
         {
@@ -376,12 +377,12 @@ void WalkNavigator::right  (Real32 step)
     }
 
     line.setValue(_rFrom-mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance),sv);
-    act->setLine(line,_width + 2*_wallDistance);
-    act->apply(_world);
+    _act->setLine(line,_width + 2*_wallDistance);
+    _act->apply(_world);
 
-    if (act->didHit())
+    if (_act->didHit())
     {
-        Pnt3f p1=act->getHitPoint();
+        Pnt3f p1=_act->getHitPoint();
         Real32 dist=(_rFrom-mv*(_fatness/2+_wallDistance)-sv*(_width/2+_wallDistance)).dist(p1);
         if (dist<=_width + 2*_wallDistance)
         {
@@ -404,12 +405,12 @@ void WalkNavigator::right  (Real32 step)
     //position and my old position intersects something
 
     line.setValue(old_rFrom,_rFrom - old_rFrom);
-    act->setLine(line/*,_rFrom.dist(old_rFrom)*/);
-    act->apply(_world);
+    _act->setLine(line/*,_rFrom.dist(old_rFrom)*/);
+    _act->apply(_world);
 
-    if (act->didHit())
+    if (_act->didHit())
     {
-        Pnt3f p1=act->getHitPoint();
+        Pnt3f p1=_act->getHitPoint();
         Real32 dist=old_rFrom.dist(p1);
         if (dist<=_rFrom.dist(old_rFrom))
         {

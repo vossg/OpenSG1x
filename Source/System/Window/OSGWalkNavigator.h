@@ -108,6 +108,8 @@ class OSG_SYSTEMLIB_DLLMAPPING WalkNavigator: public FlyNavigator
     Real32 _height;
     Real32 _width;
     Real32 _fatness;
+    
+    IntersectAction *_act;
           
     /*! \}                                                                 */
 };
