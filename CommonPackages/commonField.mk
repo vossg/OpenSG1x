@@ -23,7 +23,7 @@ endif
 ifeq ($(OS_BASE), NT)
 REQUIRED_SYSTEM_LIBS$(OS) := libCio.lib
 else
-REQUIRED_SYSTEM_LIBS$(OS) += -lCio -lm
+REQUIRED_SYSTEM_LIBS$(OS) += $(LIBCIO) -lm
 endif
 
 include $(OSGPOOL)/$(OSGCOMMON)/commonPackage.mk

@@ -21,9 +21,9 @@ REQUIRED_SYSTEM_LIBS$(OS) += -lpthread
 endif
 
 ifeq ($(OS_BASE), NT)
-REQUIRED_SYSTEM_LIBS$(OS) := $(LIB_CIO)
+REQUIRED_SYSTEM_LIBS$(OS) := $(LIBCIO)
 else
-REQUIRED_SYSTEM_LIBS$(OS) += -lCio -lm
+REQUIRED_SYSTEM_LIBS$(OS) += $(LIBCIO) -lm
 endif
 
 ifdef OSG_MK_DEBUG_RSL
