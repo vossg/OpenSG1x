@@ -153,9 +153,6 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
     UInt32 vpWidth;
     UInt32 vpHeight;
 
-    // error in frustum culling !!!!!!!!!!!!!!
-    action->setFrustumCulling(false);
-
     // duplicate viewports
     for(cv=0,sv=0;cv<getPort().size();cv++)
     {
