@@ -50,6 +50,9 @@ SOURCE_DEFINES   =
 
 SYSTEM_DEFINES   = /DWIN32 /D_DEBUG /D_WINDOWS \
 				   -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410
+ifdef OSG_BUILD_DLL
+SYSTEM_DEFINES  += /DOSG_BUILD_DLL
+endif
 
 ### Warnings #######################################################
 
@@ -73,7 +76,7 @@ WARNINGS_CPP_OFF 	=
 LANG_FLAGS          = 
 
 ifdef OSG_BUILD_DLL
-COMPILER    		= -Qvc6 /MD /W3 /GX- /Gi- /ZI /Od /FD /GZ /GR
+COMPILER    		= -Qvc6 /MDd /W3 /GX- /Gi- /ZI /Od /FD /GZ /GR
 else
 COMPILER    		= -Qvc6 /MTd /W3 /GX- /Gi- /ZI /Od /FD /GZ /GR
 endif
@@ -178,19 +181,23 @@ ifneq ($(INCLUDE_GLUT),)
 INCL$(OS) += /I$(INCLUDE_GLUT)
 endif
 
+ifdef OSG_BUILD_DLL
+POST_LINK_LIBS$(OS) := \
+	/LIBPATH:$(LIB_SYSTEM)		\
+	/LIBPATH:$(LIB_COMPILER)	\
+	kernel32.lib 				\
+	MSVCPRTD.lib				\
+	MSVCRTD.lib					\
+	libmmd.lib					\
+	winmm.lib					
+else
 POST_LINK_LIBS$(OS) := \
 	/LIBPATH:$(LIB_SYSTEM)		\
 	/LIBPATH:$(LIB_COMPILER)	\
 	kernel32.lib 				\
 	libCPMT.lib					\
-	libCMT.lib					\
-
-
-
-#	MSVCPRT.lib					\
-#	MSVCRT.lib					\
-#	libmmd.lib					\
-#	winmm.lib					\
+	libCMT.lib					
+endif
 
 
 #	..\\Log\\libOSGLog.lib		\
