@@ -328,7 +328,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     static void initMethod(void);
 
     void onCreate      (const Window *source = NULL);
-    void onCreateAspect(const Window *source = NULL);
+    void onCreateAspect(const Window *aspect0,
+                        const Window *source = NULL);
 
     void onDestroy(void);
 

@@ -299,7 +299,7 @@ OSG::Window::~Window(void)
 /*! Instance initialisation
 */
 
-void OSG::Window::onCreate( const Window * )
+void OSG::Window::onCreate(const Window *)
 {
     // Don't add the prototype instances to the list
     if(GlobalSystemState != Running)
@@ -310,7 +310,7 @@ void OSG::Window::onCreate( const Window * )
     _windowId = ++_currentWindowId;
 }
 
-void OSG::Window::onCreateAspect(const Window *)
+void OSG::Window::onCreateAspect(const Window *, const Window *)
 {
     // Don't add the prototype instances to the list
     if(GlobalSystemState != Running)
