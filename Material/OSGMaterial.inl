@@ -43,17 +43,6 @@
 
 #include "OSGMaterial.h"
 
-/** \fn const char *SimpleAttachment::getClassname(void)
- *  \brief Classname
- */
-
-/** \typedef SimpleAttachment::Inherited
- *  \brief Parent type
- */
-
-/** \typedef SimpleAttachment::_field
- *  \brief Data store
- */
 
 OSG_BEGIN_NAMESPACE
 

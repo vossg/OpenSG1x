@@ -59,6 +59,18 @@
 
 OSG_USING_NAMESPACE
 
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::ChunkMaterial
+    \ingroup MaterialLib
+
+The chunk material class.
+
+*/
+
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -74,7 +86,7 @@ OSG_FC_LAST_FIELD_IDM_DEF(ChunkMaterial, StateChunksField)
 
 
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.5 2001/02/12 16:12:22 vossg Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.6 2001/02/13 15:47:40 dirk Exp $";
 
 
 FieldDescription ChunkMaterial::_desc[] = 

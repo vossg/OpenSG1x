@@ -51,6 +51,25 @@
 
 OSG_USING_NAMESPACE
 
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \defgroup MaterialLib
+
+The Material abstracts the surface characteristics that are used to render 
+the renderable objects. 
+
+*/
+
+/*! \class osg::Material
+    \ingroup MaterialLib
+
+The material base class.
+
+*/
+
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -76,7 +95,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.4 2001/02/12 16:12:22 vossg Exp $";
+char Material::cvsid[] = "@(#)$Id: OSGMaterial.cpp,v 1.5 2001/02/13 15:47:40 dirk Exp $";
 
 // FieldDescription Material::_desc[] = {};
 

@@ -92,10 +92,7 @@ typedef FCPtr<FieldContainerPtr, Material> MaterialPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief Material base class
  */
 
 class Material : public FieldContainer

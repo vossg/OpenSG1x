@@ -63,10 +63,7 @@ typedef FCPtr <MaterialPtr, ChunkMaterial> ChunkMaterialPtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief ChunkMaterial class
  */
 
 class OSG_MATERIAL_DLLMAPPING ChunkMaterial : public Material

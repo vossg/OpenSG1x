@@ -60,6 +60,18 @@
 
 OSG_USING_NAMESPACE
 
+
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::SimpleMaterial
+    \ingroup MaterialLib
+
+The simple material class.
+
+*/
+
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -96,7 +108,7 @@ OSG_FC_LAST_FIELD_IDM_DEF(SimpleMaterial, TransparencyField)
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.7 2001/02/12 16:12:22 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.8 2001/02/13 15:47:40 dirk Exp $";
 
 
 FieldDescription SimpleMaterial::_desc[] = 
