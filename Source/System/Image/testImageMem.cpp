@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 
+#include "OSGBaseFunctions.h"
 #include "OSGLog.h"
 
 #include "OSGImageFileHandler.h"
@@ -61,6 +62,9 @@ bool writeMemDump (OSG::ImagePtr &image, const char *fileName)
 
 int main (int argc, char **argv)
 {
+
+  OSG::osgInit(argc,argv);
+    
   int retCode = 0;
   //char defaultOutImage[] = "out.pnm";
   OSG::ImagePtr pImage = OSG::Image::create();

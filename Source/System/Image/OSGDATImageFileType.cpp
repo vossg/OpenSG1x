@@ -271,7 +271,7 @@ bool DATImageFileType::read (      ImagePtr &image,
                 }
                 else 
                 {
-                    FLOG (( "Can not open %s image data\n", 
+                    FWARNING (( "Can not open %s image data\n", 
                              objectFileName.c_str() ));
                 }
             }
