@@ -1,5 +1,6 @@
 
 #include <OSGGLUT.h>
+#include <OSGGLEXT.h>
 #include <OSGLog.h>
 
 #include <OSGWindow.h>
