@@ -42,7 +42,7 @@ struct OSGSimpleAttDesc
     static const char *getFieldName(void) { return "points"; }
     static const char *getGroupName(void) { return "points"; }
     static const char *getClassName(void) { return "GeoPointsAttachment"; }
-    static OSGInitContainerMethod getInitMethod(void) { return initGeos;}
+    static OSGInitContainerF getInitMethod(void) { return initGeos;}
 };
 
 typedef OSGSimpleAttachment<OSGSimpleAttDesc> OSGGeoPoints;
@@ -301,7 +301,7 @@ int main (int argc, char **argv)
         fprintf(stderr, "PIN\n");
     }
 
-    nodeP1 = OSGNullFC;
+    nodeP1 = OSGNullNode;
 
     nodeP1.dump();
 

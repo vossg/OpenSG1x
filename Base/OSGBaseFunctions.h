@@ -512,6 +512,16 @@ void stringDup(const char *szInput, char *&szOutput)
     }
 }
 
+/*! \brief string compare
+ *  \ingroup BaseFunctions
+ */
+
+inline 
+OSGInt32 osgstrcmp(const char *string1, const char *string2)
+{
+	return strcmp(string1, string2);
+}
+
 /*! \brief string case compare
  *  \ingroup BaseFunctions
  */

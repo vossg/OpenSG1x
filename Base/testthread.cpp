@@ -100,7 +100,7 @@ int main(void)
 
     for(OSGUInt32 i = 0; i < NUM_THREADS; i++)
     {
-        gThreads[i] = gThreadManager->createThread(NULL);
+        gThreads[i] = gThreadManager->getThread(NULL);
 
         gLocalId[i] = i;
 
@@ -108,6 +108,7 @@ int main(void)
         {
             gThreads[i]->print();
             gThreads[i]->run(thread_routine,
+                             1,
                              (void *) &(gLocalId[i]));
         }
         else

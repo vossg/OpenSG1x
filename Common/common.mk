@@ -146,8 +146,19 @@ DOC_HTML  = NO
 DOC_LATEX = NO
 DOC_MAN   = NO
 
-DOC_LIBS    = Base 
-#Field FieldContainer Action Log Nodes/Geometry
+DOC_LIBS    ?= Action 				\
+               Action/DrawAction 	\
+               Base 				\
+               Field 				\
+               FieldContainer 		\
+               Loader 				\
+               Log 					\
+               Nodes/Misc 			\
+               Nodes/Geometry 		\
+               Nodes/Light 			\
+               State 				\
+               Window
+
 DOC_PATTERN = OSG*.cpp OSG*.h OSG*.inl 
 
 DOC_ENV := DOC_PROJECT_NAME=$(DOC_PROJECT_NAME) DOCDIR=$(DOCDIR) 

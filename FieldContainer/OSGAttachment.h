@@ -250,8 +250,6 @@ class OSGSimpleAttachment : public OSGAttachment
 
     OSG_FIELD_CONTAINER_TMPL_DECL(OSGPtrType)
 
-    virtual ~OSGSimpleAttachment(void); 
-
     /*----------------------------- access ----------------------------------*/
 
           OSGFieldType *getFieldPtr(void);
@@ -260,8 +258,6 @@ class OSGSimpleAttachment : public OSGAttachment
     const OSGFieldType &getField   (void) const;
 
     /*------------------------- assignment ----------------------------------*/
-
-    OSGSimpleAttachment &operator =(const OSGSimpleAttachment &source);
 
     /*------------------------------ dump -----------------------------------*/
 
@@ -300,6 +296,7 @@ class OSGSimpleAttachment : public OSGAttachment
 
     OSGSimpleAttachment(void);
     OSGSimpleAttachment(const OSGSimpleAttachment &source);
+    virtual ~OSGSimpleAttachment(void); 
 
   private:
 
@@ -342,6 +339,10 @@ class OSGSimpleAttachment : public OSGAttachment
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
+
+	// prohibit default functions (move to 'public' if you need one)
+
+    OSGSimpleAttachment &operator =(const OSGSimpleAttachment &source);
 };
 
 //---------------------------------------------------------------------------

@@ -245,7 +245,7 @@ OSGCamera& OSGCamera::operator = (const OSGCamera &source)
 		return *this;
 
 	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+	// *(static_cast<Inherited *>(this)) = source;
 
 	// free mem alloced by members of 'this'
 

@@ -384,7 +384,7 @@ struct OSGGeoPositionPropertyDesc
 	static const char *getGroupName(void) { return "GeoPosition";         }
 	static const char *getClassName(void) { return "GeoPositionProperty"; }
 
-	static OSGInitContainerMethod getInitMethod(void) { return NULL; }
+	static OSGInitContainerF getInitMethod(void) { return NULL; }
 
 	typedef OSGAttachment             Inherit;
 	typedef OSGAttachmentPropertyDesc InheritDesc;
@@ -430,7 +430,7 @@ struct OSGGeoPosition3fPropertyDesc
 	static const char *getFieldName(void) { return "positions";             }
 	static const char *getGroupName(void) { return "GeoPosition";           }
 
-	static OSGInitContainerMethod getInitMethod(void) { return NULL; }
+	static OSGInitContainerF getInitMethod(void) { return NULL; }
 
 	static OSGUInt32 getFormat    (void)  { return GL_FLOAT;        }
 	static OSGUInt32 getFormatSize(void)  { return sizeof(GLfloat); }
@@ -456,7 +456,7 @@ struct OSGGeoNormalPropertyDesc
 	static const char *getGroupName(void) { return "GeoNormal";         }
 	static const char *getClassName(void) { return "GeoNormalProperty"; }
 
-	static OSGInitContainerMethod getInitMethod(void) { return NULL; }
+	static OSGInitContainerF getInitMethod(void) { return NULL; }
 
 	typedef OSGAttachment             Inherit;
 	typedef OSGAttachmentPropertyDesc InheritDesc;
@@ -501,7 +501,7 @@ struct OSGGeoNormal3fPropertyDesc
 	static const char *getFieldName (void) { return "Normals";             }
 	static const char *getGroupName (void) { return "GeoNormal";           }
 
-	static OSGInitContainerMethod getInitMethod(void) { return NULL; }
+	static OSGInitContainerF getInitMethod(void) { return NULL; }
 
 	static OSGUInt32 getFormat    (void) { return GL_FLOAT;        }
 	static OSGUInt32 getFormatSize(void) { return sizeof(GLfloat); }
@@ -527,7 +527,7 @@ struct OSGGeoColorPropertyDesc
 	static const char *getGroupName(void) { return "GeoColor";         }
 	static const char *getClassName(void) { return "GeoColorProperty"; }
 
-	static OSGInitContainerMethod getInitMethod(void) { return NULL; }
+	static OSGInitContainerF getInitMethod(void) { return NULL; }
 
 	typedef OSGAttachment             Inherit;
 	typedef OSGAttachmentPropertyDesc InheritDesc;
@@ -572,7 +572,7 @@ struct OSGGeoColor3fPropertyDesc
 	static const char *getFieldName(void) { return "Colors";             }
 	static const char *getGroupName(void) { return "GeoColor";           }
 
-	static OSGInitContainerMethod getInitMethod(void) { return NULL; }
+	static OSGInitContainerF getInitMethod(void) { return NULL; }
 
 	static OSGUInt32 getFormat    (void)  { return GL_FLOAT;        }
 	static OSGUInt32 getFormatSize(void)  { return sizeof(GLfloat); }
@@ -600,7 +600,7 @@ struct OSGGeoColor4ubPropertyDesc
 	static const char *getFieldName (void) { return "Colors";              }
 	static const char *getGroupName (void) { return "GeoColor";            }
 
-	static OSGInitContainerMethod getInitMethod(void) { return NULL; }
+	static OSGInitContainerF getInitMethod(void) { return NULL; }
 
 	static OSGUInt32 getFormat    (void)   { return GL_UNSIGNED_BYTE; }
 	static OSGUInt32 getFormatSize(void)   { return sizeof(GLubyte);  }
@@ -626,7 +626,7 @@ struct OSGGeoIndexPropertyDesc
 	static const char *getGroupName(void) { return "GeoIndex";         }
 	static const char *getClassName(void) { return "GeoIndexProperty"; }
 
-	static OSGInitContainerMethod getInitMethod(void) { return NULL; }
+	static OSGInitContainerF getInitMethod(void) { return NULL; }
 
 	typedef OSGAttachment             Inherit;
 	typedef OSGAttachmentPropertyDesc InheritDesc;
@@ -671,7 +671,7 @@ struct OSGGeoIndexUI32PropertyDesc
 	static const char *getFieldName(void) { return "Indices";              }
 	static const char *getGroupName(void) { return "GeoIndex";             }
 
-	static OSGInitContainerMethod getInitMethod(void) { return NULL; }
+	static OSGInitContainerF getInitMethod(void) { return NULL; }
 
 	static OSGUInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
 	static OSGUInt32 getFormatSize(void) { return sizeof(GLuint);  }
@@ -705,7 +705,8 @@ struct OSGGeoPTypePropertyDesc
 	static const char *getFieldName(void) { return "Types"; }
 	static const char *getGroupName(void) { return "GeoPType"; }
 
-	static OSGInitContainerMethod getInitMethod(void) { return NULL; }
+	static OSGInitContainerF getInitMethod(void) { return NULL; }
+
 	static OSGUInt32 getFormat    (void) { return GL_UNSIGNED_BYTE;  }
 	static OSGUInt32 getFormatSize(void) { return sizeof(GLubyte);   }
 	static OSGUInt32 getDimension (void) { return 1;                 }
@@ -760,7 +761,7 @@ struct OSGGeoPLengthPropertyDesc
 	static const char *getFieldName(void) { return "Lengths";            }
 	static const char *getGroupName(void) { return "GeoPLength";         }
 
-	static OSGInitContainerMethod getInitMethod(void) { return NULL; }
+	static OSGInitContainerF getInitMethod(void) { return NULL; }
 
 	static OSGUInt32 getFormat    (void) { return GL_UNSIGNED_INT; }
 	static OSGUInt32 getFormatSize(void) { return sizeof(GLuint);  }

@@ -134,22 +134,22 @@ void osgSetRefdCP  (OSGFieldContainerPtr &objectP,
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
- */
-
-
-/** \defgroup FieldContainerLib FieldContainerLib
+/** \defgroup FieldContainerLib OpenSG Field Container Library
  *  \brief This lib contains all field container elements like NodeCore's,
  *  Attachments.
  */
 
+/*! \ingroup FieldContainerLib
+ *  \brief OSGFieldContainer
+ */
 
 class OSGFieldContainer 
 {
   public:
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
 
     static const OSGUInt32    OSGNextFieldId   =    1;
     static const OSGBitVector OSGNextFieldMask = 0x01;
@@ -173,46 +173,37 @@ class OSGFieldContainer
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+    /*------------------------- type information-----------------------------*/
+
+    static const OSGFieldContainerType &getStaticType  (void);
+    static       OSGUInt32              getStaticTypeId(void);
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    /**  */
-    // unsigned getFieldCount (void);
-        
     /*------------------------- type information-----------------------------*/
     
-    virtual const OSGFieldContainerType & getType       (void) const 
-    { 
-        return _type; 
-    }
-    static const OSGFieldContainerType & getStaticType (void)
-    { 
-        return _type; 
-    }
-    static OSGUInt32 getStaticTypeID (void)
-    { 
-        return _type.getId();
-    }
+    virtual       OSGFieldContainerType &getType    (void);
+    virtual const OSGFieldContainerType &getType    (void) const;
 
-    OSGUInt32 getTypeID(void) const { return getType().getId(); }
+                  OSGUInt32              getTypeId  (void) const;
+                  OSGUInt16              getGroupId (void) const;
 
-    const char *getTypeName(void) const { return getType().getName(); }
-
-
-    OSGUInt16 getGroupID(void) const { return getType().getGroupId(); }
+            const OSGChar8              *getTypeName(void) const;
 
     /*------------------------------ size -----------------------------------*/
 
-    virtual OSGUInt32 getSize(void) const = 0;
+    virtual OSGUInt32            getSize (void) const = 0;
 
     /*----------------------------- access ----------------------------------*/
 
-    OSGField *getField(const char *fieldName);
+            OSGField            *getField(      OSGUInt32 fieldId  );
+            OSGField            *getField(const OSGChar8 *fieldName);
 
     /*----------------------------- clone ----------------------------------*/
 
-    virtual OSGFieldContainerPtr clone(void) = 0;
+    virtual OSGFieldContainerPtr clone   (void) const = 0;
 
     /*----------------------------- dump ----------------------------------*/
 
@@ -248,21 +239,16 @@ class OSGFieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    /** Default Constructor */
-    OSGFieldContainer (void);
-
-    /** Copy Constructor */
-    OSGFieldContainer (const OSGFieldContainer &obj);
-
-    /** Destructor */
+    OSGFieldContainer(void);
+    OSGFieldContainer(const OSGFieldContainer &obj);
     virtual ~OSGFieldContainer (void);
 
     template <class OSGObjectPtrT>
     static void newPtr(      
-                       OSGObjectPtrT                   &result, 
-        const typename OSGObjectPtrT::OSGContainerType *prototypeP)
+                       OSGObjectPtrT                &result, 
+        const typename OSGObjectPtrT::OSGObjectType *prototypeP)
     {
-        typedef typename OSGObjectPtrT::OSGContainerType OSGObjectType;
+        typedef typename OSGObjectPtrT::OSGObjectType OSGObjectType;
 
         OSGUInt8 *pTmp;
 
@@ -301,7 +287,7 @@ class OSGFieldContainer
     template <class OSGObjectPtrT>
     static void newPtr(OSGObjectPtrT &result)
     {
-        typedef typename OSGObjectPtrT::OSGContainerType OSGObjectType;
+        typedef typename OSGObjectPtrT::OSGObjectType OSGObjectType;
 
         OSGUInt8 *pTmp;
 
@@ -337,7 +323,7 @@ class OSGFieldContainer
     }
 
     template <class T>
-    T getPtr(const typename T::OSGContainerType &object)
+    T getPtr(const typename T::OSGObjectType &object)
     {
         T returnValue(object); 
         return returnValue; 
@@ -391,6 +377,8 @@ class OSGFieldContainer
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
+    friend class OSGFieldContainerPtr;
+
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
@@ -399,7 +387,7 @@ class OSGFieldContainer
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    friend class OSGFieldContainerPtr;
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -413,27 +401,48 @@ class OSGFieldContainer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    // prohibit default functions (move to 'public' if you need one)
+	// prohibit default functions (move to 'public' if you need one)
 
+    OSGFieldContainer &operator = (const OSGFieldContainer &other);
 };
 
 //---------------------------------------------------------------------------
 //   Exported Types
 //---------------------------------------------------------------------------
 
+/* \def OSG_FC_TMPL_VAR_INL
+ * \brief 
+ * \relates OSGFieldContainer
+ * \ingroup FieldContainerLib
+ */
+
 #define OSG_FC_TMPL_VAR_INL 
 
 // Macros used to derive a new fieldcontainer
 
+/* \brief declare the first field
+ * \relates OSGFieldContainer
+ */
+
 #define OSG_FC_FIRST_FIELD_IDM_DECL(OSG_FIELDNAME)                            \
     static const OSGUInt32    OSG_FIELDNAME##Id;                              \
     static const OSGBitVector OSG_FIELDNAME##Mask;
+
+/* \brief define the first field
+ * \relates OSGFieldContainer
+ * \ingroup FieldContainerLib
+ */
 
 #define OSG_FC_FIRST_FIELD_IDM_DEF(OSG_CLASS, OSG_FIELDNAME)                  \
 const OSGUInt32    OSG_CLASS::OSG_FIELDNAME##Id   =                           \
     Inherited::OSGNextFieldId;                                                \
 const OSGBitVector OSG_CLASS::OSG_FIELDNAME##Mask =                           \
     Inherited::OSGNextFieldMask;
+
+/* \brief define the first field in template
+ * \relates OSGFieldContainer
+ * \ingroup FieldContainerLib
+ */
 
 #define OSG_FC_FIRST_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                        \
                                             OSG_TMPL_PARAM,                   \
@@ -445,16 +454,30 @@ template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                           \
 const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_FIELDNAME##Mask  =          \
     Inherited::OSGNextFieldMask;
 
+/* \brief declare a field
+ * \relates OSGFieldContainer
+ * \ingroup FieldContainerLib
+ */
 
 #define OSG_FC_FIELD_IDM_DECL(OSG_FIELDNAME)                                  \
     static const OSGUInt32    OSG_FIELDNAME##Id;                              \
     static const OSGBitVector OSG_FIELDNAME##Mask;
+
+/* \brief define a field
+ * \relates OSGFieldContainer
+ * \ingroup FieldContainerLib
+ */
 
 #define OSG_FC_FIELD_IDM_DEF(OSG_CLASS, OSG_FIELDNAME, OSG_PREV_FIELDNAME)    \
 const OSGUInt32    OSG_CLASS::OSG_FIELDNAME##Id    =                          \
     OSG_PREV_FIELDNAME##Id + 1;                                               \
 const OSGBitVector OSG_CLASS::OSG_FIELDNAME##Mask  =                          \
     OSG_PREV_FIELDNAME##Mask << 1;
+
+/* \brief define a field in template
+ * \relates OSGFieldContainer
+ * \ingroup FieldContainerLib
+ */
 
 #define OSG_FC_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                              \
                                       OSG_TMPL_PARAM,                         \
@@ -467,16 +490,27 @@ template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                           \
 const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSG_FIELDNAME##Mask  =          \
     OSG_PREV_FIELDNAME##Mask << 1;
 
+/* \brief declare the end of fields
+ * \ingroup FieldContainerLib
+ */
 
 #define OSG_FC_LAST_FIELD_IDM_DECL                                            \
     static const OSGUInt32    OSGNextFieldId;                                 \
     static const OSGBitVector OSGNextFieldMask;
+
+/* \brief define the end of fields
+ * \ingroup FieldContainerLib
+ */
 
 #define OSG_FC_LAST_FIELD_IDM_DEF(OSG_CLASS, OSG_PREV_FIELDNAME)              \
 const OSGUInt32    OSG_CLASS::OSGNextFieldId   =                              \
     OSG_PREV_FIELDNAME##Id + 1;                                               \
 const OSGBitVector OSG_CLASS::OSGNextFieldMask =                              \
     OSG_PREV_FIELDNAME##Mask << 1;
+
+/* \brief define the end of fields in template
+ * \ingroup FieldContainerLib
+ */
 
 #define OSG_FC_LAST_FIELD_IDM_INL_TMPL_DEF(OSG_CLASS,                         \
                                            OSG_TMPL_PARAM,                    \
@@ -488,21 +522,35 @@ template <class OSG_TMPL_PARAM> OSG_FC_TMPL_VAR_INL                           \
 const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSGNextFieldMask =              \
     OSG_PREV_FIELDNAME##Mask << 1;
 
+/* \brief put the field information in the fielddescription constructor
+ * \ingroup FieldContainerLib
+ */
+
 #define OSG_FC_FIELD_IDM_DESC(OSG_FIELDNAME)                                  \
     OSG_FIELDNAME##Id, OSG_FIELDNAME##Mask
 
 /*---------------------------- get type -------------------------------------*/
 
 #define OSG_FC_GET_TYPE_DECL                                                  \
+    virtual       OSGFieldContainerType &getType(void);                       \
     virtual const OSGFieldContainerType &getType(void) const;
 
 #define OSG_FC_GET_TYPE_DEF(OSG_CLASS)                                        \
+    OSGFieldContainerType &OSG_CLASS::getType(void)                           \
+    {                                                                         \
+        return _type;                                                         \
+    }                                                                         \
     const OSGFieldContainerType &OSG_CLASS::getType(void) const               \
     {                                                                         \
         return _type;                                                         \
     }
 
 #define OSG_FC_GET_TYPE_INL_TMPL_DEF(OSG_TMPL_PARAM, OSG_CLASS)               \
+  template <class OSG_TMPL_PARAM> inline                                      \
+  OSGFieldContainerType &OSG_CLASS<OSG_TMPL_PARAM>::getType(void)             \
+  {                                                                           \
+      return _type;                                                           \
+  }                                                                           \
   template <class OSG_TMPL_PARAM> inline                                      \
   const OSGFieldContainerType &OSG_CLASS<OSG_TMPL_PARAM>::getType(void) const \
   {                                                                           \
@@ -529,11 +577,11 @@ const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSGNextFieldMask =              \
     }
 
 #define OSG_FC_GET_STATIC_TYPE_ID_DECL                                        \
-    static OSGUInt32 getStaticTypeID(void);             
+    static OSGUInt32 getStaticTypeId(void);             
 
 #define OSG_FC_GET_STATIC_TYPE_ID_INL_DEF(OSG_CLASS)                          \
     inline                                                                    \
-    OSGUInt32 OSG_CLASS::getStaticTypeID(void)                                \
+    OSGUInt32 OSG_CLASS::getStaticTypeId(void)                                \
     {                                                                         \
         return _type.getId();                                                 \
     }
@@ -541,7 +589,7 @@ const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSGNextFieldMask =              \
 #define OSG_FC_GET_STATIC_TYPE_ID_INL_TMPL_DEF(OSG_TMPL_PARAM,                \
                                                OSG_CLASS)                     \
     template <class OSG_TMPL_PARAM> inline                                    \
-    OSGUInt32 OSG_CLASS<OSG_TMPL_PARAM>::getStaticTypeID(void)                \
+    OSGUInt32 OSG_CLASS<OSG_TMPL_PARAM>::getStaticTypeId(void)                \
     {                                                                         \
         return _type.getId();                                                 \
     }
@@ -604,7 +652,7 @@ const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSGNextFieldMask =              \
     {                                                                   \
         OSG_CLASS_PTR fc;                                               \
                                                                         \
-        if(_type.getPrototype() != NULL)                                \
+        if(_type.getPrototype() != OSGNullFC)                           \
             _type.getPrototype()->clone().dcast(fc);                    \
                                                                         \
         return fc;                                                      \
@@ -619,7 +667,7 @@ const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSGNextFieldMask =              \
     {                                                                   \
         OSG_CLASS_PTR fc;                                               \
                                                                         \
-        if(_type.getPrototype() != NULL)                                \
+        if(_type.getPrototype() != OSGNullFC)                           \
             _type.getPrototype()->clone().dcast(fc);                    \
                                                                         \
         return fc;                                                      \
@@ -657,10 +705,10 @@ const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSGNextFieldMask =              \
 
 
 #define OSG_FC_CLONE_DECL                                               \
-    virtual OSGFieldContainerPtr clone(void);
+    virtual OSGFieldContainerPtr clone(void) const;
 
 #define OSG_FC_CLONE_DEF(OSG_CLASS, OSG_CLASS_PTR)                      \
-    OSGFieldContainerPtr OSG_CLASS::clone(void)                         \
+    OSGFieldContainerPtr OSG_CLASS::clone(void) const                   \
     {                                                                   \
         OSG_CLASS_PTR returnValue;                                      \
                                                                         \
@@ -673,7 +721,7 @@ const OSGBitVector OSG_CLASS<OSG_TMPL_PARAM>::OSGNextFieldMask =              \
                                   OSG_CLASS,                            \
                                   OSG_CLASS_PTR)                        \
     template <class OSG_TMPL_PARAM>                                     \
-    OSGFieldContainerPtr OSG_CLASS<OSG_TMPL_PARAM>::clone(void)         \
+    OSGFieldContainerPtr OSG_CLASS<OSG_TMPL_PARAM>::clone(void) const   \
     {                                                                   \
         OSG_CLASS_PTR returnValue;                                      \
                                                                         \
@@ -803,4 +851,4 @@ OSG_END_NAMESPACE
 
 #include <OSGFieldContainer.inl>
 
-#endif // _OSGFIELDCONTAINER_H_
+#endif /* _OSGFIELDCONTAINER_H_ */

@@ -26,8 +26,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGFIELDDESCRIPTION_CLASS_DECLARATION_H_
-#define _OSGFIELDDESCRIPTION_CLASS_DECLARATION_H_
+#ifndef _OSGFIELDDESCRIPTION_H_
+#define _OSGFIELDDESCRIPTION_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -59,19 +59,18 @@ typedef OSGField * (OSGFieldContainer::* OSGFieldAccessMethod)(void);
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup FieldContainerLib
+ *  \brief OSGFieldDescription
  */
-
 
 class OSGFieldDescription 
 {
-	friend class OSGFieldContainer;
-
   public:
     
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -88,52 +87,38 @@ class OSGFieldDescription
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-
-    /** Default Constructor */
     OSGFieldDescription(const OSGFieldType         &fieldType, 
-                        const char                 *name, 
+                        const OSGChar8             *name, 
                         const OSGUInt32             fieldId,
                         const OSGBitVector          fieldMask,
                         const OSGBool               internal,
                               OSGFieldAccessMethod  accessMethod,
-                        const char                 *defaultValue = 0);
-    
-    /** Copy Constructor */
-    OSGFieldDescription (const OSGFieldDescription &obj);
-    
-    /** Destructor */
-    ~OSGFieldDescription (void);
-    
-    /** get method for attribute dataType */
-    OSGUInt32 getTypeId (void)  const { return _fieldType.getTypeId(); }
-    
-    /** get method for attribute name */
-	const char * name (void) { return _name.str(); }
-    
-    /** get method for attribute defaultValue */
-    const char * defaultValue (void) { return _name.str(); }
+                        const OSGChar8             *defaultValue = 0);
 
-    OSGBitVector getFieldMask(void);
-    OSGUInt32    getFieldId  (void);
+#ifdef __linux
+    OSGFieldDescription (const OSGFieldDescription &obj);
+#endif
+    
+    ~OSGFieldDescription (void);
     
     /*------------------------- your_category -------------------------------*/
 
+	const OSGChar8 *getName        (void) const;
+    const OSGChar8 *getDefaultValue(void) const;
 
-    /*------------------------- your_operators ------------------------------*/
+    OSGUInt32    getTypeId   (void)  const;  
+    OSGBitVector getFieldMask(void)  const;
+    OSGUInt32    getFieldId  (void)  const;
 
+	OSGBool      isValid     (void)  const;
 
     /*------------------------- assignment ----------------------------------*/
-    
-	void print(void) const;
-	
+
     /*------------------------- comparison ----------------------------------*/
 
-	OSGBool valid(void) const
-        { return (_name.length()) ? true : false; } 
-
+	void print(void) const;
 
   protected:
-
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -158,10 +143,8 @@ class OSGFieldDescription
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
      
-	OSGField *getFieldValue (OSGFieldContainer &fieldContainer);
-
+	OSGField *getField(OSGFieldContainer &fieldContainer) const;
 
   private:
  
@@ -177,6 +160,7 @@ class OSGFieldDescription
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
+	friend class OSGFieldContainer;
     friend class OSGFieldContainerPtr;
 
     //-----------------------------------------------------------------------
@@ -187,7 +171,17 @@ class OSGFieldDescription
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    const OSGFieldType &_fieldType;
+	static char cvsid[];
+
+	//-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    const OSGFieldType  &_fieldType;
 
     OSGUInt32            _fieldId;
     OSGUInt32            _fieldMask;
@@ -200,21 +194,11 @@ class OSGFieldDescription
 
 	OSGString            _defaultValue;
 
-	//-----------------------------------------------------------------------
-    //   class functions                                                     
-    //-----------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------
-    //   instance variables                                                  
-    //-----------------------------------------------------------------------
-
     //-----------------------------------------------------------------------
     //   instance functions                                                  
-    //-----------------------------------------------------------------------
+    //----------------------------------------------------------------------- 
 
-	// prohibit default functions (move to 'public' if you need one)
-
- 
+    OSGFieldDescription &operator = (const OSGFieldDescription &other);
 };
 
 //---------------------------------------------------------------------------
@@ -227,4 +211,4 @@ typedef OSGFieldDescription* OSGFieldDescriptionP;
 
 OSG_END_NAMESPACE
 
-#endif // OSGFIELDDESCRIPTION_CLASS_DECLARATION
+#endif /* _OSGFIELDDESCRIPTION_H_ */

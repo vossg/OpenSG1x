@@ -48,22 +48,6 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
-
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -291,7 +275,7 @@ void OSGState::changeFrom( OSGState * old )
 		if ( n != OSGNullStateChunk )
 		{			
 			if ( o != OSGNullStateChunk )
-				n->changeFrom( o, ind );
+				n->changeFrom( o.getCPtr(), ind );
 			else
 				n->activate( ind );
 		}

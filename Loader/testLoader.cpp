@@ -14,7 +14,7 @@
 #include "OSGSceneFileHandler.h"
 #include "OSGRAWSceneFileType.h"
 
-OSG_USING_OSG_NAMESPACE
+OSG_USING_NAMESPACE
 
 int main (int argc, char **argv)
 {

@@ -50,18 +50,6 @@
 #include <iostream.h>
 #endif
 
-/** \fn const char *OSGSimpleAttachment::getClassname(void)
- *  \brief Classname
- */
-
-/** \typedef OSGSimpleAttachment::Inherited
- *  \brief Parent type
- */
-
-/** \typedef OSGSimpleAttachment::_field
- *  \brief Data store
- */
-
 OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
@@ -119,7 +107,6 @@ OSG_ABSTR_FIELD_CONTAINER_INL_DEF(OSGNodeCore, OSGNodeCorePtr)
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
 
 OSG_END_NAMESPACE
 

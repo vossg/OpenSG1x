@@ -65,7 +65,7 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char OSGFieldContainerType::cvsid[] = "@(#)$Id: OSGFieldContainerType.cpp,v 1.25 2000/06/16 17:08:29 vossg Exp $";
+char OSGFieldContainerType::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -97,24 +97,30 @@ char OSGFieldContainerType::cvsid[] = "@(#)$Id: OSGFieldContainerType.cpp,v 1.25
  */
 
 OSGFieldContainerType::OSGFieldContainerType(
-    const OSGChar8 *name,
-    const OSGChar8 *parentName,
-    const OSGChar8 *group,
-    OSGPrototypeCreateF            prototypeCreateF,
-    OSGInitContainerMethod         initMethod,
-    OSGFieldDescription           *desc,
-    OSGUInt32                      descByteCounter) :
+    const OSGChar8      *name,
+    const OSGChar8      *parentName,
+    const OSGChar8      *group,
+    OSGPrototypeCreateF  prototypeCreateF,
+    OSGInitContainerF    initMethod,
+    OSGFieldDescription *desc,
+    OSGUInt32            descByteCounter) :
 
-    _name(name), 
-    _parentName(parentName),
+    _name       (name), 
+    _parentName (parentName),
+
     _initialized(false),
-    _Id(0), 
+
+    _Id     (0), 
     _groupId(0),
-    _parent(NULL), 
-    _baseType(OSGIsFieldContainer),
-    _prototypeP(OSGNullFC),
+
+    _prototypeP      (OSGNullFC),
     _prototypeCreateF(prototypeCreateF),
-    _descA(desc),
+
+    _parentP(NULL), 
+
+    _baseType(OSGIsFieldContainer),
+
+    _descA          (desc),
     _byteSizeOfDescA(descByteCounter)
 {
 	registerType(group);
@@ -151,15 +157,15 @@ OSGUInt16 OSGFieldContainerType::getGroupId (void) const
 /** \brief Get method for attribute parent 
 */
 
-OSGFieldContainerType *OSGFieldContainerType::getParent(void)
+OSGFieldContainerType *OSGFieldContainerType::getParent(void) const
 {
-    return _parent; 
+    return _parentP; 
 }
 
 /** \brief Get method for attribute name 
  */
 
-const char *OSGFieldContainerType::getName(void) const 
+const OSGChar8 *OSGFieldContainerType::getName(void) const 
 {
     return _name.str(); 
 }
@@ -167,7 +173,7 @@ const char *OSGFieldContainerType::getName(void) const
 /** \brief Retrieve prototype object for type
  */
 
-OSGFieldContainerPtr OSGFieldContainerType::getPrototype(void)
+OSGFieldContainerPtr OSGFieldContainerType::getPrototype(void) const
 {
     return _prototypeP;
 }
@@ -185,7 +191,7 @@ OSGBool OSGFieldContainerType::setPrototype(OSGFieldContainerPtr prototypeP)
 	return returnValue;
 }
 
-OSGNodePtr  OSGFieldContainerType::createNode(void)
+OSGNodePtr  OSGFieldContainerType::createNode(void) const
 {
 	OSGNodePtr fc;
 
@@ -202,7 +208,7 @@ OSGNodePtr  OSGFieldContainerType::createNode(void)
 	return fc;
 }
 
-OSGNodeCorePtr OSGFieldContainerType::createNodeCore(void)
+OSGNodeCorePtr OSGFieldContainerType::createNodeCore(void) const
 {
 	OSGNodeCorePtr fc;
 
@@ -219,7 +225,7 @@ OSGNodeCorePtr OSGFieldContainerType::createNodeCore(void)
 	return fc;
 }
 
-OSGAttachmentPtr OSGFieldContainerType::createAttachment(void)
+OSGAttachmentPtr OSGFieldContainerType::createAttachment(void) const
 {
 	OSGAttachmentPtr fc;
 
@@ -260,7 +266,7 @@ OSGBool OSGFieldContainerType::isDerivedFrom(
     const OSGFieldContainerType &other) const
 {
     OSGBool                returnValue = false;
-    OSGFieldContainerType *currTypeP   = _parent;
+    OSGFieldContainerType *currTypeP   = _parentP;
 
     if(_Id == other._Id)
     {
@@ -276,7 +282,7 @@ OSGBool OSGFieldContainerType::isDerivedFrom(
             }
             else
             {
-                currTypeP = currTypeP->_parent;
+                currTypeP = currTypeP->_parentP;
             }
         }
     }
@@ -284,17 +290,16 @@ OSGBool OSGFieldContainerType::isDerivedFrom(
     return returnValue;
 }
  
-OSGFieldDescription *OSGFieldContainerType::findFieldDescription(
-    const char *fieldName) const 
+const OSGFieldDescription *OSGFieldContainerType::findFieldDescription(
+    const OSGChar8 *fieldName) const 
 {
-    map<OSGStringLink, OSGFieldDescription *>::const_iterator fI = 
-        _descriptionMap.find(fieldName);
+    OSGDescMapConstIt descIt = _descriptionMap.find(fieldName);
 
-    return (fI == _descriptionMap.end()) ? 0 : (*fI).second;
+    return (descIt == _descriptionMap.end()) ? NULL : (*descIt).second;
 }     
 
-OSGFieldDescription *OSGFieldContainerType::getFieldDescription(
-    const OSGUInt32 index) const
+const OSGFieldDescription *OSGFieldContainerType::getFieldDescription(
+    OSGUInt32 index) const
 {
     if(index < _descriptionVec.size())
         return _descriptionVec[index];
@@ -314,7 +319,7 @@ void OSGFieldContainerType::print(void) const
 
  	cerr << "OSGFieldContainerType: " << _name 
          << ", Id: "      << _Id 
-         << ", parent: "  << (_parent ? _parent->getName() : "NONE")
+         << ", parentP: "  << (_parentP ? _parentP->getName() : "NONE")
          << ", groupId: " << _groupId 
          << ", abstract: " 
          << ((_prototypeP != OSGNullFC) ? "false" : "true")
@@ -340,82 +345,16 @@ void OSGFieldContainerType::print(void) const
 
 void OSGFieldContainerType::registerType(const OSGChar8 *group)
 {
-	OSGFieldContainerType *idType, *nameType;
-	const OSGChar8 *groupName = group ? group : _name.str();
-	OSGInt32 i;
-	OSGInt16 groupId;
-
-	OSGFieldContainerFactory::initTypeMap();
-
-	if(_name.empty()) 
-    {
-		SFATAL << "FieldContainerType without name" << endl;
-		return;
-	}
-
-	_Id = OSGFieldContainerFactory::_typeIdMap->size() + 1;
-
-	groupId = OSGFieldContainerFactory::the().findGroupId ( groupName );
-
-	if(groupId) 
-    {
-		_groupId = groupId;
-    }
-	else 
-    {
-		_groupId = _Id;
-		(*OSGFieldContainerFactory::_groupMap)[groupName] = _groupId;
-	}	
-
-	idType = OSGFieldContainerFactory::the().findType(_Id);
-	nameType = OSGFieldContainerFactory::the().findType(_name.str());
-
-	if(_Id <= 0)
-    {
-		SWARNING << "ERROR: Node Id must be > 0" << endl;
-    }
-	else 
-    {
-		if(_name.length())
-        {
-			if(idType) 
-            {
-				SWARNING << "ERROR: Can't add a second "
-                         << "type with the Id" << _Id << endl;
-            }
-			else
-            {
-				if(nameType)
-                {
-					SWARNING << "ERROR: Can't add a second "
-                             << "type with the name" <<_name<<endl;
-                }
-				else 
-                {
-
-					(*OSGFieldContainerFactory::_typeIdMap)[_Id] = this;
-					(*OSGFieldContainerFactory::_typeNameMap)[_name.str()] = 
-                        this;
-                }
-            }
-        }
-    }
+	_Id      = OSGFieldContainerFactory::registerType (_name.str(), this);
+	_groupId = OSGFieldContainerFactory::registerGroup( 
+        group != NULL ? group : _name.str());
 
 	return;
 }
 
-//----------------------------------------------------------------------
-// Method: initialize
-// Author: jbehr
-// Date:   Sat Mar 18 13:39:15 2000
-// Description:
-//         
-//----------------------------------------------------------------------
-
 void OSGFieldContainerType::initialize(void)
 {
     OSGUInt32            i;
-	OSGFieldDescription *fieldDesc;
 
 	map    <OSGStringLink, OSGFieldDescription *>::iterator         dPI;
 	vector <               OSGFieldDescription *>::reverse_iterator dVPI;
@@ -425,17 +364,16 @@ void OSGFieldContainerType::initialize(void)
 
     for(i = 0; i < _byteSizeOfDescA / sizeof(OSGFieldDescription); i++) 
     {
-        if (_descA[i].valid()) 
+        if (_descA[i].isValid()) 
         {
-            fieldDesc = new OSGFieldDescription(_descA[i]);
-            _descriptionMap[fieldDesc->name()] = fieldDesc;
-            _descriptionVec.push_back(fieldDesc);
+            _descriptionMap[_descA[i].getName()] = &_descA[i];
+            _descriptionVec.push_back(&_descA[i]);
         }
         else
         {
             SWARNING << "ERROR: Invalid field description " 
                      << "in " << _name << "from " 
-                     << _descA[i].name() 
+                     << _descA[i].getName() 
                      << _descA[i].getTypeId() << endl;
         }
     }
@@ -447,19 +385,19 @@ void OSGFieldContainerType::initialize(void)
 
     osgAddRefCP(_prototypeP);
 	
-	if(!_parent) 
+	if(!_parentP) 
     {
 		if(_parentName.str()) 
         {
-			_parent = 
+			_parentP = 
                 OSGFieldContainerFactory::the().findType(_parentName.str());
 
-			if(_parent) 
+			if(_parentP) 
             {
-				_parent->initialize();
+				_parentP->initialize();
 
-				for(  dPI  = _parent->_descriptionMap.begin();
-                      dPI != _parent->_descriptionMap.end(); 
+				for(  dPI  = _parentP->_descriptionMap.begin();
+                      dPI != _parentP->_descriptionMap.end(); 
                     ++dPI) 
                 {
 					if(_descriptionMap.find((*dPI).first) == 
@@ -477,8 +415,8 @@ void OSGFieldContainerType::initialize(void)
 
                 reverse(_descriptionVec.begin(), _descriptionVec.end());
 
-                for(  dVPI  = _parent->_descriptionVec.rbegin();
-                      dVPI != _parent->_descriptionVec.rend();
+                for(  dVPI  = _parentP->_descriptionVec.rbegin();
+                      dVPI != _parentP->_descriptionVec.rend();
                     ++dVPI)
                 {
                     _descriptionVec.push_back(*dVPI);

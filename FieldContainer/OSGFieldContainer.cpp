@@ -50,22 +50,6 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
-
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -74,30 +58,25 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSGFieldContainerType OSGFieldContainer::_type ( "FieldContainer" );
+char OSGFieldContainer::cvsid[] = "@(#)$Id: $";
 
+OSGFieldContainerType OSGFieldContainer::_type("FieldContainer");
 
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
 
-
-
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
-
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -105,6 +84,61 @@ OSGFieldContainerType OSGFieldContainer::_type ( "FieldContainer" );
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+OSGFieldContainerType &OSGFieldContainer::getType(void)
+{ 
+    return _type; 
+}
+
+const OSGFieldContainerType &OSGFieldContainer::getType(void) const
+{ 
+    return _type; 
+}
+
+OSGUInt32 OSGFieldContainer::getTypeId(void) const 
+{
+    return getType().getId(); 
+}
+
+OSGUInt16 OSGFieldContainer::getGroupId(void) const
+{
+    return getType().getGroupId(); 
+}
+
+const OSGChar8 *OSGFieldContainer::getTypeName(void) const 
+{
+    return getType().getName(); 
+}
+
+
+OSGField *OSGFieldContainer::getField(OSGUInt32 fieldId)
+{
+	const OSGFieldDescription *desc = getType().getFieldDescription(fieldId);
+
+    return desc ? desc->getField(*this) : NULL;
+}
+
+OSGField *OSGFieldContainer::getField(const OSGChar8 *fieldName)
+{
+	const OSGFieldDescription *desc =getType().findFieldDescription(fieldName);
+
+	return desc ? desc->getField(*this) : NULL;
+}
+
+/*------------------------------ access -----------------------------------*/
+
+
+/*---------------------------- properties ---------------------------------*/
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
 /*------------- constructors & destructors --------------------------------*/
@@ -133,34 +167,10 @@ OSGFieldContainer::~OSGFieldContainer(void)
 {
 }
 
-
-OSGField *OSGFieldContainer::getField(const char *fieldName)
-{
-	OSGFieldDescription *desc = getType().findFieldDescription(fieldName);
-
-	return desc ? desc->getFieldValue(*this) : 0;
-}
-
 void OSGFieldContainer::changed(OSGBitVector whichField, OSGChangeMode from)
 {
     // fprintf(stderr, "FC Changed %d %d\n", whichField, fromSync);
 }
-
-/*------------------------------ access -----------------------------------*/
-
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/*-------------------------- comparison -----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
@@ -168,79 +178,81 @@ void OSGFieldContainer::changed(OSGBitVector whichField, OSGChangeMode from)
 
 
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//  FUNCTION: 
+//---------------------------------------------------------------------------
 //:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
+//---------------------------------------------------------------------------
+//
 //p: Paramaters: 
 //p: 
-///
+//
 //g: GlobalVars:
 //g: 
-///
+//
 //r: Return:
 //r: 
-///
+//
 //c: Caution:
 //c: 
-///
+//
 //a: Assumptions:
 //a: 
-///
+//
 //d: Description:
 //d: 
-///
+//
 //s: SeeAlso:
 //s: 
-///---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
-void OSG::osgAddRefCP(OSGFieldContainerPtr &objectP)
+OSG_BEGIN_NAMESPACE
+
+void osgAddRefCP(OSGFieldContainerPtr &objectP)
 {
     if(objectP != OSGNullFC)
         objectP.addRef();
 }
 
 /*! osgSubRefP */
-void OSG::osgSubRefCP(OSGFieldContainerPtr &objectP)
+void osgSubRefCP(OSGFieldContainerPtr &objectP)
 {
     if(objectP != OSGNullFC)
         objectP.subRef();
 }
 
 /*! osgBeginEditCP */
-void OSG::osgBeginEditCP(OSGFieldContainerPtr &objectP, 
-                         OSGBitVector          whichField)
+void osgBeginEditCP(OSGFieldContainerPtr &objectP, 
+                    OSGBitVector          whichField)
 {
     if(objectP != OSGNullFC)
         objectP.beginEdit(whichField);
 }
 
 /*! osgEndEditCP */
-void OSG::osgEndEditCP(OSGFieldContainerPtr &objectP, 
-                       OSGBitVector          whichField)
+void osgEndEditCP(OSGFieldContainerPtr &objectP, 
+                  OSGBitVector          whichField)
 {
     if(objectP != OSGNullFC)
         objectP.endEdit(whichField);
 }
 
-void OSG::osgChangedCP(OSGFieldContainerPtr &objectP, 
-                       OSGBitVector          whichField)
+void osgChangedCP(OSGFieldContainerPtr &objectP, 
+                  OSGBitVector          whichField)
 {
     if(objectP != OSGNullFC)
         objectP.changed(whichField);
 }
 
-void OSG::osgEndEditNotChangedCP(OSGFieldContainerPtr &objectP, 
-                                 OSGBitVector          whichField)
+void osgEndEditNotChangedCP(OSGFieldContainerPtr &objectP, 
+                            OSGBitVector          whichField)
 {
     if(objectP != OSGNullFC)
         objectP.endEditNotChanged(whichField);
 }
 
-void OSG::osgSetRefdCP(OSGFieldContainerPtr &objectP,
-                       OSGFieldContainerPtr &newObjectP)
+void osgSetRefdCP(OSGFieldContainerPtr &objectP,
+                  OSGFieldContainerPtr &newObjectP)
 {
     if(objectP != newObjectP)
     {
@@ -253,3 +265,5 @@ void OSG::osgSetRefdCP(OSGFieldContainerPtr &objectP,
             objectP.addRef();        
     }
 }
+
+OSG_END_NAMESPACE

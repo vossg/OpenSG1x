@@ -56,22 +56,6 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
-
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -114,23 +98,17 @@ OSGFieldContainerType OSGNodeCore::_type("NodeCore",
  *                           Class methods                                 *
 \***************************************************************************/
 
-
-
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
-
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -142,46 +120,12 @@ OSGFieldContainerType OSGNodeCore::_type("NodeCore",
 
 OSG_ABSTR_FIELD_CONTAINER_DEF(OSGNodeCore, OSGNodeCorePtr)
 
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-OSGNodeCore::OSGNodeCore(void) :
-    _parents      (),
-    _attachmentMap()
-{
-	return;
-}
-
-/** \brief Copy Constructor
- */
-
-OSGNodeCore::OSGNodeCore(const OSGNodeCore &obj) :
-    _parents(),
-    _attachmentMap(obj._attachmentMap)
-{
-}
-
-/** \brief Destructor
- */
-
-OSGNodeCore::~OSGNodeCore (void )
-{
-}
-
-
-
-
 /*------------------------------ access -----------------------------------*/
-
-
 
 void OSGNodeCore::addParent ( const OSGNodePtr &parent)
 {
     _parents.addValue(parent);
 }
-
 
 void OSGNodeCore::subParent ( const OSGNodePtr &parent)
 {
@@ -192,7 +136,6 @@ void OSGNodeCore::subParent ( const OSGNodePtr &parent)
         _parents.erase(parentIt);
     }
 }
-
 
 OSGMFNodePtr *OSGNodeCore::getMFParents(void)
 {
@@ -212,13 +155,12 @@ void OSGNodeCore::addAttachment(OSGAttachmentPtr &fieldContainerP,
 	if(fieldContainerP == OSGNullAttachment)
         return;
 
-	key = (OSGUInt32 (fieldContainerP->getGroupID()) << 16) | binding;
+	key = (OSGUInt32 (fieldContainerP->getGroupId()) << 16) | binding;
 	
 	fieldContainerP->addParent(getPtr());
 
 	_attachmentMap.getValue()[key] = fieldContainerP;
 }
-
 
 void OSGNodeCore::subAttachment(OSGAttachmentPtr &fieldContainerP,
                                 OSGUInt16         binding)
@@ -229,7 +171,7 @@ void OSGNodeCore::subAttachment(OSGAttachmentPtr &fieldContainerP,
     if(fieldContainerP == OSGNullAttachment)
         return;
 
-    key = (OSGUInt32(fieldContainerP->getGroupID()) << 16) | binding;
+    key = (OSGUInt32(fieldContainerP->getGroupId()) << 16) | binding;
 
     fcI = _attachmentMap.getValue().find(key);
 
@@ -240,11 +182,10 @@ void OSGNodeCore::subAttachment(OSGAttachmentPtr &fieldContainerP,
     }  
 }
 
-
-OSGAttachmentPtr OSGNodeCore::findAttachment(OSGUInt16 groupID, 
+OSGAttachmentPtr OSGNodeCore::findAttachment(OSGUInt16 groupId, 
                                              OSGUInt16 binding)
 {
-	OSGUInt32 key = (OSGUInt32(groupID) << 16) | binding;
+	OSGUInt32 key = (OSGUInt32(groupId) << 16) | binding;
 
 	OSGAttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
 	
@@ -323,12 +264,37 @@ void OSGNodeCore::adjustVolume( OSGVolume &  )
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+OSGNodeCore::OSGNodeCore(void) :
+    _parents      (),
+    _attachmentMap()
+{
+	return;
+}
+
+/** \brief Copy Constructor
+ */
+
+OSGNodeCore::OSGNodeCore(const OSGNodeCore &obj) :
+    _parents(),
+    _attachmentMap(obj._attachmentMap)
+{
+}
+
+/** \brief Destructor
+ */
+
+OSGNodeCore::~OSGNodeCore (void )
+{
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
 
 ///---------------------------------------------------------------------------
 ///  FUNCTION: 

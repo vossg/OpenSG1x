@@ -55,6 +55,10 @@
 #include <fstream.h>
 #endif
 
+/*! \defgroup LogLib OpenSG Log Library
+    OpenSG Log Library 
+ */
+
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
@@ -69,6 +73,10 @@ OSG_BEGIN_NAMESPACE
 //   Enums
 //---------------------------------------------------------------------------
 
+/*! \ingroup LogLib
+ *  \brief Log types
+ */
+
 enum OSGLogType  
 { 
     LOG_NONE = 0, 
@@ -76,6 +84,10 @@ enum OSGLogType
     LOG_STDERR, 
     LOG_FILE 
 };
+
+/*! \ingroup LogLib
+ *  \brief Log Levels
+ */
 
 enum OSGLogLevel 
 {
@@ -90,6 +102,11 @@ enum OSGLogLevel
 //---------------------------------------------------------------------------
 //  Support Class
 //---------------------------------------------------------------------------
+
+/*! \ingroup LogLib
+ *  \brief Logger ostream, required to fix some problems between the different
+ *         plattforms
+ */
 
 class OSGLogOStream : public ostream
 {
@@ -109,10 +126,8 @@ class OSGLogOStream : public ostream
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup LogLib
+ *  \brief Message logger class, handles info,warning and error messages
  */
 
 class OSGLog : public ostream 
@@ -141,37 +156,26 @@ class OSGLog : public ostream
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    /** Default Constructor */
     OSGLog(OSGLogType  logType  = LOG_STDERR, 
            OSGLogLevel logLevel = LOG_NOTICE);
 
-    /** Constructor which takes a log file name*/
     OSGLog(const char *fileName, OSGLogLevel logLevel = LOG_NOTICE );
 
     virtual ~OSGLog(void); 
 
     /*------------------------- your_category -------------------------------*/
 
-    /** get method for attribute logType */
     virtual OSGLogType getLogType(void);
+    virtual void       setLogType(OSGLogType logType);
 
-    /** set method for attribute logType */
-    virtual void setLogType(OSGLogType logType);
-
-    /** get method for attribute logLevel */
     virtual OSGLogLevel getLogLevel(void);
+    virtual void        setLogLevel(OSGLogLevel logLevel); 
 
-    /** set method for attribute logLevel */
-    virtual void setLogLevel(OSGLogLevel logLevel); 
+	virtual void        setLogFile (const OSGChar8 *fileName);
 
-	/** method to set and activate the log file */
-	virtual void setLogFile(const char *fileName);
+	ostream &stream(OSGLogLevel level);
 
-	/** returns the error stream */
-	ostream &stream(OSGLogLevel level) { return *(_streamVec[level]); }
-
-	/** print for C-interface helper method */
-	void doLog( char * format, ... );
+	void     doLog (char * format, ...);
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -205,7 +209,6 @@ class OSGLog : public ostream
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	/** reconnects the streams for the current settings */
 	void connect(void );
 
   private:
@@ -248,22 +251,16 @@ class OSGLog : public ostream
 	class nilbuf : public streambuf {	};
 
 #ifdef OSG_HAS_NILBUF
-	/** holds the nil buffer */
 	static nilbuf  *_nilbufP;
 #else
     static fstream *_nilstreamP;
 #endif
 
-    /** holds the log type */
-	OSGLogType      _logType;
+	OSGLogType     _logType;
+	OSGLogLevel    _logLevel;
 
-	/** hosts the log level */
-	OSGLogLevel     _logLevel;
+	fstream        _fileStream;
 
-	/** file stream */
-	fstream         _fileStream;
-
-	/** stream vector */
 	OSGLogOStream *_streamVec[6];
 
     //-----------------------------------------------------------------------

@@ -270,7 +270,7 @@ OSGGeometry::~OSGGeometry(void)
 
 void OSGGeometry::adjustVolume( OSGVolume & volume )
 {
-	if ( getPositions()->getTypeID() != OSGGeoPosition3f::getStaticTypeID() )
+	if ( getPositions()->getTypeId() != OSGGeoPosition3f::getStaticTypeId() )
 	{
 		SWARNING << "adjustVolume: only supporting 3f positions right now!" << endl;
 		return;

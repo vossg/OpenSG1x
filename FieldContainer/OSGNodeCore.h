@@ -71,10 +71,8 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup FieldContainerLib
+ *  \brief OSGNodeCore
  */
 
 class OSGNodeCore : public OSGFieldContainer 
@@ -124,7 +122,7 @@ class OSGNodeCore : public OSGFieldContainer
     void             subAttachment (OSGAttachmentPtr &fieldContainerP,
                                     OSGUInt16         binding = 0);
 
-    OSGAttachmentPtr findAttachment(OSGUInt16 groupID, 
+    OSGAttachmentPtr findAttachment(OSGUInt16 groupId, 
                                     OSGUInt16 binding = 0);
 
     /*------------------------------ pointer -------------------------------*/
@@ -236,4 +234,4 @@ OSG_END_NAMESPACE
 
 #include <OSGNodeCore.inl>
 
-#endif // _OSG_NODECORE_H_
+#endif /* _OSG_NODECORE_H_ */

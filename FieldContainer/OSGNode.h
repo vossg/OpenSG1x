@@ -35,8 +35,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGNODE_CLASS_DECLARATION_H_
-#define _OSGNODE_CLASS_DECLARATION_H_
+#ifndef _OSGNODE_H_
+#define _OSGNODE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -72,10 +72,8 @@ class OSGNodePtr;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup FieldContainerLib
+ *  \brief OSGNode
  */
 
 class OSGNode : public OSGFieldContainer 
@@ -302,4 +300,4 @@ OSG_END_NAMESPACE
 
 #include <OSGNode.inl>
 
-#endif // OSGNODE_CLASS_DECLARATION
+#endif /* _OSGNODE_H_ */

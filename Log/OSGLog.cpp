@@ -60,20 +60,20 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
+/** \var OSGLogType OSGLog::_logType;
+ *  \brief  holds the log type
  */
 
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
+/** \var OSGLogLevel OSGLog::_logLevel;
+ *  \brief holds the log level
  */
 
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
+/** \var fstream OSGLog::_fileStream;
+ *  \brief file stream 
  */
 
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
+/** \var OSGLogOStream *OSGLog::_streamVec[6];
+ *  \brief stream vector
  */
 
 /***************************************************************************\
@@ -87,6 +87,10 @@ OSG_USING_NAMESPACE
 OSGLogP OSG::osgLogP = NULL;
 
 #ifdef OSG_HAS_NILBUF
+
+/*! \brief holds the nil buffer 
+ */
+
 OSGLog::nilbuf *OSGLog::_nilbufP    = NULL;
 #else
 fstream        *OSGLog::_nilStreamP = NULL;
@@ -97,7 +101,6 @@ char OSGLog::cvsid[] = "@(#)$Id: $";
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
-
 
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
@@ -146,6 +149,9 @@ OSGLog::OSGLog(OSGLogType logType, OSGLogLevel logLevel) :
 	setLogLevel(logLevel);
 }
 
+/*! \brief Constructor which takes a log file name
+ */
+
 OSGLog::OSGLog(const char *fileName, OSGLogLevel logLevel) :
 #ifdef OSG_HAS_NILBUF
 	ostream(_nilbufP), 
@@ -178,6 +184,9 @@ OSGLog::~OSGLog(void)
 }
 
 /*------------------------------ access -----------------------------------*/
+
+/*! \brief set method for attribute logType 
+ */
 
 void OSGLog::setLogType(OSGLogType logType) 
 {
@@ -250,10 +259,16 @@ void OSGLog::setLogType(OSGLogType logType)
     connect(); 
 }
 
+/*! \brief get method for attribute logType 
+ */
+
 OSGLogType OSGLog::getLogType(void)
 { 
     return _logType; 
 }
+
+/*! \brief set method for attribute logLevel 
+ */
 
 void OSGLog::setLogLevel(OSGLogLevel logLevel)
 { 
@@ -313,12 +328,18 @@ void OSGLog::setLogLevel(OSGLogLevel logLevel)
 	connect() ; 
 }
 
+/*! \brief get method for attribute logLevel 
+ */
+
 OSGLogLevel OSGLog::getLogLevel(void) 
 {
     return _logLevel; 
 }
 
-void OSGLog::setLogFile(const char * fileName)
+/*! \brief method to set and activate the log file 
+ */
+
+void OSGLog::setLogFile(const OSGChar8 *fileName)
 {
 	const char *name;
 
@@ -357,6 +378,17 @@ void OSGLog::setLogFile(const char * fileName)
 	}
 }
 
+/*! \brief returns the error stream 
+ */
+
+ostream &OSGLog::stream(OSGLogLevel level)
+{
+    return *(_streamVec[level]); 
+}
+
+/*! \brief print for C-interface helper method 
+ */
+
 void OSGLog::doLog(char * format, ...)
 {
 	char buffer[1000];
@@ -386,6 +418,9 @@ void OSGLog::doLog(char * format, ...)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+/*! \brief reconnects the streams for the current settings 
+ */
 
 void OSGLog::connect(void)
 {

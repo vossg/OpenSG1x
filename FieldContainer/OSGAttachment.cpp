@@ -132,33 +132,6 @@ OSGFieldContainerType OSGAttachment::_type("Attachment",
 
 OSG_FIELD_CONTAINER_DEF(OSGAttachment, OSGAttachmentPtr)
 
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-OSGAttachment::OSGAttachment(void) :
-    Inherited(),
-    _parents()
-{
-}
-
-/** \brief Copy Constructor 
- */
-
-OSGAttachment::OSGAttachment(const OSGAttachment &obj) :
-    Inherited(obj),
-    _parents()
-{
-}
-
-/** \brief Destructor
- */
-
-OSGAttachment::~OSGAttachment(void)
-{
-}
-
 /*------------------------------ access -----------------------------------*/
 
 /** \brief Returns pointer to parent field
@@ -229,6 +202,33 @@ void OSGAttachment::dump(void) const
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+OSGAttachment::OSGAttachment(void) :
+    Inherited(),
+    _parents()
+{
+}
+
+/** \brief Copy Constructor 
+ */
+
+OSGAttachment::OSGAttachment(const OSGAttachment &obj) :
+    Inherited(obj),
+    _parents()
+{
+}
+
+/** \brief Destructor
+ */
+
+OSGAttachment::~OSGAttachment(void)
+{
+}
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
@@ -265,4 +265,6 @@ ostream &OSG::operator <<(ostream                &stream,
                           const OSGAttachmentMap &map)
 {
     stream << "OSGAttachment << NI" << endl;
+
+    return stream;
 }

@@ -62,9 +62,14 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-template <class OSGBaseFieldContainerTypeT, class OSGFieldTypeT>
+template <class OSGBaseFieldContainerTypeT, class OSGFieldContainerTypeT>
 char OSGFCPtr<OSGBaseFieldContainerTypeT,
-              OSGFieldTypeT>::cvsid[] = "@(#)$Id: $";
+              OSGFieldContainerTypeT    >::cvsid[] = "@(#)$Id: $";
+
+template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> 
+const OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>
+    OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>::NullPtr;
+
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -86,10 +91,6 @@ char OSGFCPtr<OSGBaseFieldContainerTypeT,
  *                           Instance methods                              *
 \***************************************************************************/
 
-template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> 
-const OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>
-    OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>::NullPtr;
-
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
@@ -103,6 +104,9 @@ template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
 OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>::OSGFCPtr(void) :
 	Inherited()
 {
+#ifdef OSG_DEBUG_TYPED_FCPTR
+    _typedStoreP = (OSGObjectType *) _storeP;
+#endif
 }
 
 /** \brief Copy Constructor
@@ -127,7 +131,7 @@ OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>::OSGFCPtr(
 
     Inherited()
 {
-    _containerSize = sizeof(OSGFieldContainerTypeT);
+    _containerSize = source.getSize();
     _storeP        = (OSGUInt8 *) &source;
     _storeP       -= getElemOff(OSGThread::getAspect());
 
@@ -188,6 +192,24 @@ const OSGFieldContainerTypeT &OSGFCPtr<OSGBasePtrTypeT,
     return *((OSGFieldContainerTypeT *) getElemP(OSGThread::getAspect()));
 }
 
+
+template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
+OSGFieldContainerTypeT *OSGFCPtr<OSGBasePtrTypeT, 
+                                 OSGFieldContainerTypeT>::getCPtr(void)
+
+{
+    return (OSGFieldContainerTypeT *) getElemP(OSGThread::getAspect());
+}
+
+template <class OSGBasePtrTypeT, class OSGFieldContainerTypeT> inline
+const OSGFieldContainerTypeT *
+    OSGFCPtr<OSGBasePtrTypeT, OSGFieldContainerTypeT>::getCPtr(void) const
+{
+    return (OSGFieldContainerTypeT *) getElemP(OSGThread::getAspect());
+}
+
+
+#ifdef OSG_FCPTR_HAS_CAST_OPERATOR
 /** \brief OSGFieldContainerTypeT * cast operator
  */
 
@@ -197,7 +219,7 @@ OSGFCPtr<OSGBasePtrTypeT,
 {
     return (OSGFieldContainerTypeT *) getElemP(OSGThread::getAspect());
 }
-
+#endif
 
 /*-------------------------- assignment -----------------------------------*/
 

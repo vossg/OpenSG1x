@@ -193,51 +193,7 @@ OSGFieldContainerType OSGNode::_type(
 
 OSG_FIELD_CONTAINER_DEF(OSGNode, OSGNodePtr)
 
-
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-OSGNode::OSGNode (void ) :
-    _name(),
-    _parent(),
-    _children(),
-    _core(),
-    _attachmentMap()
-{
-}
-
-/** \brief CopyConstructor, used only by the protoype mechanism
- */
-
-OSGNode::OSGNode(const OSGNode &source) :
-    Inherited(),
-    _name(source._name),
-    _parent(source._parent),
-    _children(source._children),
-    _core(source._core),
-    _attachmentMap(source._attachmentMap)
-{
-}
-
-/** \brief Destructor
- */
-
-OSGNode::~OSGNode (void )
-{
-	return;
-}
-
-
 /*------------------------------ access -----------------------------------*/
-
-
-void OSGNode::setParent(const OSGNodePtr &parent)
-{
-    _parent.setValue(parent);
-}
 
 OSGNodePtr OSGNode::getParent(void)
 {
@@ -249,8 +205,8 @@ void OSGNode::addAttachment(const OSGAttachmentPtr &fieldContainerP)
     if(fieldContainerP == OSGNullAttachment)
         return;
 
-    _attachmentMap.getValue()[fieldContainerP->getTypeID()] = fieldContainerP;
-    _attachmentMap.getValue()[fieldContainerP->getTypeID()]->addParent(
+    _attachmentMap.getValue()[fieldContainerP->getTypeId()] = fieldContainerP;
+    _attachmentMap.getValue()[fieldContainerP->getTypeId()]->addParent(
         getPtr());
 }
 
@@ -258,7 +214,7 @@ void OSGNode::subAttachment(const OSGAttachmentPtr &fieldContainerP)
 {
     OSGAttachmentMap::iterator fcI;
 
-    fcI = _attachmentMap.getValue().find(fieldContainerP->getTypeID());
+    fcI = _attachmentMap.getValue().find(fieldContainerP->getTypeId());
 
     if(fcI != _attachmentMap.getValue().end())
     {
@@ -599,6 +555,48 @@ void OSGNode::dump(void) const
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+OSGNode::OSGNode (void ) :
+    _name(),
+    _parent(),
+    _children(),
+    _core(),
+    _attachmentMap()
+{
+}
+
+/** \brief CopyConstructor, used only by the protoype mechanism
+ */
+
+OSGNode::OSGNode(const OSGNode &source) :
+    Inherited(),
+    _name(source._name),
+    _parent(source._parent),
+    _children(source._children),
+    _core(source._core),
+    _attachmentMap(source._attachmentMap)
+{
+}
+
+/** \brief Destructor
+ */
+
+OSGNode::~OSGNode (void )
+{
+	return;
+}
+
+/*------------------------------ access -----------------------------------*/
+
+void OSGNode::setParent(const OSGNodePtr &parent)
+{
+    _parent.setValue(parent);
+}
 
 
 /*-------------------------------------------------------------------------*\

@@ -2,17 +2,28 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                         Copyright 2000 by OpenSG Forum                    *
+ *                 Copyright (C) 2000 by the OpenSG Forum                    *
  *                                                                           *
- *          contact: {reiners|vossg}@igd.fhg.de, jbehr@zgdv.de               *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, vossg@users.sourceforge.net, jbehr@zgdv.de    *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
  *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
  *                                                                           *
- *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -25,9 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-#ifndef _OSGFIELDCONTAINERFACTORY_CLASS_DECLARATION_H_
-#define _OSGFIELDCONTAINERFACTORY_CLASS_DECLARATION_H_
+#ifndef _OSGFIELDCONTAINERFACTORY_H_
+#define _OSGFIELDCONTAINERFACTORY_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -59,15 +69,17 @@ class OSGLock;
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \ingroup FieldContainerLib
+ *  \brief OSGFieldContainerFactory
  */
 
 class OSGFieldContainerFactory 
 {
   public:
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -81,51 +93,39 @@ class OSGFieldContainerFactory
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static        void                          dump         (void);
-    static const  vector<OSGFieldContainerPtr> *getFieldStore(void);
+    static OSGFieldContainerFactory &the(void);
 
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
 
-    /** Destructor */
-    virtual ~OSGFieldContainerFactory (void);
+   /*--------------------------- types -------------------------------------*/
+        
+    OSGFieldContainerType *findType    (      OSGUInt32  Id)   const;
+    OSGFieldContainerType *findType    (const OSGChar8  *name) const;
+    OSGUInt32              getTypeCount(void)                  const;
 
-    /** get method for attribute the */
-    static OSGFieldContainerFactory &the(void) { return _the; }
+   /*--------------------------- groups ------------------------------------*/
 
-	/**  */
+          OSGUInt16  findGroupId  (const OSGChar8  *name) const;
+    const OSGChar8  *findGroupName(      OSGUInt16  Id)   const;
+        
+          OSGUInt16  getGroupCount(void)                  const;
 
-	static OSGBool   initialize   (int argc, char **argv);
-    static OSGBool   terminate    (void);
+   /*---------------------------- create -----------------------------------*/
 
-    static OSGUInt32 registerFieldContainer(
-        const OSGFieldContainerPtr &fieldP);
+    OSGNodePtr       createNode      (const OSGChar8 *name) const;
+    OSGNodeCorePtr   createNodeCore  (const OSGChar8 *name) const;
+    OSGAttachmentPtr createAttachment(const OSGChar8 *name) const;
 
-    /**  */
-    OSGFieldContainerType * findType (int Id);
+   /*------------------------------- get -----------------------------------*/
 
-    /**  */
-    OSGFieldContainerType * findType (const char *name);
+    OSGFieldContainerPtr getContainer(OSGUInt32 uiContainerId) const;
 
-		
-	const OSGChar8 * findGroupName (OSGUInt16 Id);
+   /*---------------------------- dump -------------------------------------*/
 
-		
-	OSGUInt16 findGroupId (const OSGChar8 * name);
-
-		
-	OSGUInt16 getGroupCount (void) { return _groupMap ? _groupMap->size() : 0;}
-
-    /*------------------------- assignment ----------------------------------*/
-
-	OSGNodePtr       createNode      (const char *name);
-	OSGNodeCorePtr   createNodeCore  (const char *name);
-	OSGAttachmentPtr createAttachment(const char *name);
-
-	OSGUInt32 getTypeCount(void) 
-    { 
-        return _typeNameMap ? _typeNameMap->size() : 0; 
-    }
-
-
+    void dump(void);
+    
   protected:
 
     //-----------------------------------------------------------------------
@@ -144,6 +144,25 @@ class OSGFieldContainerFactory
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
+    static void      initTypeMap(void);
+
+    static OSGBool   initialize (int argc, char **argv);
+    static OSGBool   terminate  (void);
+
+
+    static OSGUInt32 registerFieldContainer(
+        const OSGFieldContainerPtr &fieldP);
+
+    static const vector<OSGFieldContainerPtr> *getFieldStore(void);
+
+    static OSGFieldContainerType *findTypeStatic   (const OSGChar8  *name);
+    static OSGFieldContainerType *findTypeStatic   (      OSGUInt32 typeId);
+    static OSGUInt16              findGroupIdStatic(const OSGChar8  *name);
+
+    static OSGUInt32 registerType (const OSGChar8              *name, 
+                                         OSGFieldContainerType *typeP);
+    static OSGUInt16 registerGroup(const OSGChar8 *name);
+
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
@@ -151,7 +170,6 @@ class OSGFieldContainerFactory
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
 
   private:
 
@@ -167,8 +185,8 @@ class OSGFieldContainerFactory
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class OSGFieldContainerType;
-	friend class OSGAttachment;
+    friend class OSGFieldContainer;
+    friend class OSGFieldContainerType;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    
@@ -178,21 +196,20 @@ class OSGFieldContainerFactory
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static OSGFieldContainerFactory                  _the;
+    static OSGFieldContainerFactory                  _the;
 
     static OSGBool                                   _initialized;
 
-    static map <int, OSGFieldContainerType* >       *_typeIdMap;
-
-    static map <OSGString, OSGFieldContainerType* > *_typeNameMap;
-
-	static map <OSGString, OSGUInt16>               *_groupMap;
+    static map<OSGUInt32, OSGFieldContainerType *>  *_typeIdMap;
+    static map<OSGString, OSGFieldContainerType *>  *_typeNameMap;
+    static map<OSGString, OSGUInt16>                *_groupMap;
 
     static vector<OSGFieldContainerPtr>             *_fieldcontainerStoreV;
 
     static OSGLock                                  *_storeLock;
+    static OSGLock                                  *_mapLock;
 
-	//-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
@@ -204,20 +221,13 @@ class OSGFieldContainerFactory
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
-
-	static void initTypeMap();
-
-	/**  method to add a group, retuns the group Id */
-	static OSGUInt16 addGroup(const OSGChar8 *groupName);
-
-    /** Default Constructor */
     OSGFieldContainerFactory (void);
+    virtual ~OSGFieldContainerFactory (void);
 
-    /** Copy Constructor */
+
+    // prohibit default functions (move to 'public' if you need one)
+
     OSGFieldContainerFactory (const OSGFieldContainerFactory &obj);
-
- 
 };
 
 //---------------------------------------------------------------------------

@@ -52,20 +52,15 @@ OSG_BEGIN_NAMESPACE
 class OSGFieldContainer;
 class OSGFieldDescription;
 
-class OSGNodePtr;
-class OSGNodeCorePtr;
-class OSGAttachmentPtr;
-
-
 class OSGFieldContainer;
 
 //---------------------------------------------------------------------------
 //   Types
 //---------------------------------------------------------------------------
 
-typedef void                 (*OSGInitContainerMethod)(void);
+typedef void                 (*OSGInitContainerF)  (void);
 
-typedef OSGFieldContainerPtr (*OSGPrototypeCreateF)   (void);
+typedef OSGFieldContainerPtr (*OSGPrototypeCreateF)(void);
 
 //---------------------------------------------------------------------------
 //  Class
@@ -78,6 +73,10 @@ typedef OSGFieldContainerPtr (*OSGPrototypeCreateF)   (void);
 class OSGFieldContainerType 
 {
   public:
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -97,14 +96,13 @@ class OSGFieldContainerType
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	OSGFieldContainerType(
-        const OSGChar8                *name,  
-        const OSGChar8                *parentName       = NULL,
-        const OSGChar8                *group            = NULL,
-        OSGPrototypeCreateF            prototypeCreateF = NULL,
-        OSGInitContainerMethod         initMethod       = NULL,
-        OSGFieldDescription           *desc             = NULL,
-        OSGUInt32                      descByteCounter  = 0);
+	OSGFieldContainerType(const OSGChar8      *name,  
+                          const OSGChar8      *parentName       = NULL,
+                          const OSGChar8      *group            = NULL,
+                          OSGPrototypeCreateF  prototypeCreateF = NULL,
+                          OSGInitContainerF    initMethod       = NULL,
+                          OSGFieldDescription *desc             = NULL,
+                          OSGUInt32            descByteCounter  = 0);
 
     virtual ~OSGFieldContainerType (void);
 
@@ -115,20 +113,20 @@ class OSGFieldContainerType
 
     /*------------------------ general info ---------------------------------*/
 
-    OSGFieldContainerType *getParent(void);
+    OSGFieldContainerType *getParent(void) const;
 
-    const char            *getName  (void) const;
+    const OSGChar8        *getName  (void) const;
 
     /*------------------------- prototye ------------------------------------*/
 
-    OSGFieldContainerPtr getPrototype(void);
+    OSGFieldContainerPtr getPrototype(void) const;
     OSGBool              setPrototype(OSGFieldContainerPtr prototype);
 
     /*----------------------------- create ----------------------------------*/
 
-    OSGNodePtr       createNode      (void);
-	OSGNodeCorePtr   createNodeCore  (void);
-	OSGAttachmentPtr createAttachment(void);
+    OSGNodePtr       createNode      (void) const;
+	OSGNodeCorePtr   createNodeCore  (void) const;
+	OSGAttachmentPtr createAttachment(void) const;
 
     /*-------------------------- properties ---------------------------------*/
 
@@ -142,10 +140,13 @@ class OSGFieldContainerType
         
     /*------------------------- description ---------------------------------*/
 
-	OSGFieldDescription *findFieldDescription   (const char *fieldName) const;
-    OSGFieldDescription *getFieldDescription    (const OSGUInt32 index) const;
+	const OSGFieldDescription *findFieldDescription(
+        const char *fieldName) const;
 
-    OSGUInt32            getNumFieldDescriptions(void)                  const;
+    const OSGFieldDescription *getFieldDescription (
+              OSGUInt32 index) const;
+
+    OSGUInt32            getNumFieldDescriptions(void) const;
 
     /*----------------------------- dump ------------------------------------*/
 
@@ -153,9 +154,7 @@ class OSGFieldContainerType
 
     /*------------------------- your_category -------------------------------*/
 
-
     /*------------------------- your_operators ------------------------------*/
-
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -195,8 +194,6 @@ class OSGFieldContainerType
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    OSGFieldContainerType(const OSGFieldContainerType &obj);
-
   private:
 
     //-----------------------------------------------------------------------
@@ -206,6 +203,15 @@ class OSGFieldContainerType
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
+    
+    typedef map   <OSGStringLink,       OSGFieldDescription *> OSGDescMap;
+    typedef vector<OSGFieldDescription *>                      OSGDescVec;
+
+    typedef OSGDescMap::iterator OSGDescMapIt;
+    typedef OSGDescVec::iterator OSGDescVecIt;
+
+    typedef OSGDescMap::const_iterator OSGDescMapConstIt;
+    typedef OSGDescVec::const_iterator OSGDescVecConstIt;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -243,12 +249,12 @@ class OSGFieldContainerType
 
     OSGPrototypeCreateF    _prototypeCreateF;
 
-	OSGFieldContainerType *_parent;
+	OSGFieldContainerType *_parentP;
 
     OSGBaseType            _baseType;
 
-	map   <OSGStringLink,       OSGFieldDescription *> _descriptionMap;
-    vector<OSGFieldDescription *>                      _descriptionVec;
+	OSGDescMap             _descriptionMap;
+    OSGDescVec             _descriptionVec;
 
     OSGFieldDescription   *_descA;
     OSGUInt32              _byteSizeOfDescA;
@@ -263,6 +269,8 @@ class OSGFieldContainerType
     void terminate   (void);
 
 	// prohibit default functions (move to 'public' if you need one)
+
+    OSGFieldContainerType(const OSGFieldContainerType &obj);
     void operator =(const OSGFieldContainerType &source);
 };
 
@@ -270,4 +278,4 @@ typedef OSGFieldContainerType* OSGFieldContainerTypeP;
 
 OSG_END_NAMESPACE
 
-#endif // _OSGFIELDCONTAINERTYPE_H_
+#endif /* _OSGFIELDCONTAINERTYPE_H_ */

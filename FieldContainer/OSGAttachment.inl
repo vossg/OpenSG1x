@@ -50,18 +50,6 @@
 #include <iostream.h>
 #endif
 
-/** \fn const char *OSGSimpleAttachment::getClassname(void)
- *  \brief Classname
- */
-
-/** \typedef OSGSimpleAttachment::Inherited
- *  \brief Parent type
- */
-
-/** \typedef OSGSimpleAttachment::_field
- *  \brief Data store
- */
-
 OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
@@ -223,37 +211,6 @@ OSG_FIELD_CONTAINER_INL_TMPL_DEF(OSGSimpleAttachment,
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-template <class OSGAttachmentDescT> inline
-OSGSimpleAttachment<OSGAttachmentDescT>::OSGSimpleAttachment(void) :
-	Inherited(),
-    _field()
-{
-}
-
-/** \brief Copy Constructor
- */
-
-template <class OSGAttachmentDescT> inline
-OSGSimpleAttachment<OSGAttachmentDescT>::OSGSimpleAttachment(
-                      const OSGSimpleAttachment &source) :
-    Inherited(source),
-    _field(source._field)
-{
-}
-
-/** \brief Destructor
- */
-
-template <class OSGAttachmentDescT> inline
-OSGSimpleAttachment<OSGAttachmentDescT>::~OSGSimpleAttachment(void)
-{
-}
-
 /*------------------------------ access -----------------------------------*/
 
 /** \brief Returns pointer to stored field
@@ -300,6 +257,36 @@ void OSGSimpleAttachment<OSGAttachmentDescT>::dump(void) const
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+/*------------- constructors & destructors --------------------------------*/
+
+/** \brief Constructor
+ */
+
+template <class OSGAttachmentDescT> inline
+OSGSimpleAttachment<OSGAttachmentDescT>::OSGSimpleAttachment(void) :
+	Inherited(),
+    _field()
+{
+}
+
+/** \brief Copy Constructor
+ */
+
+template <class OSGAttachmentDescT> inline
+OSGSimpleAttachment<OSGAttachmentDescT>::OSGSimpleAttachment(
+                      const OSGSimpleAttachment &source) :
+    Inherited(source),
+    _field(source._field)
+{
+}
+
+/** \brief Destructor
+ */
+
+template <class OSGAttachmentDescT> inline
+OSGSimpleAttachment<OSGAttachmentDescT>::~OSGSimpleAttachment(void)
+{
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -122,7 +122,7 @@ class OSGFieldType
 	*/
 
     OSGFieldType(const OSGFieldType &source);
-	void operator =(const OSGFieldType &obj);
+	OSGFieldType &operator =(const OSGFieldType &obj);
 #endif
 
     /*------------------------------ access ---------------------------------*/
@@ -135,6 +135,9 @@ class OSGFieldType
 
     OSGBool operator ==(const OSGFieldType &source) const;
     OSGBool operator !=(const OSGFieldType &source) const;
+
+    /*----------------------------- assignment ------------------------------*/
+
 
   protected:
 
@@ -210,7 +213,7 @@ class OSGFieldType
 
 #if !defined(OSG_MICROSOFT_COMPILER_ALERT)
     OSGFieldType(const OSGFieldType &source);
-    void operator =(const OSGFieldType &source);
+	OSGFieldType &operator =(const OSGFieldType &obj);
 #endif
 };
 

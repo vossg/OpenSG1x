@@ -274,8 +274,8 @@ void OSGViewport::draw( OSGDrawAction * action )
 	if ( ! full )
 		glEnable( GL_SCISSOR_TEST );
 
-	action->setCamera( getCamera() );
-	action->setBackground( getBackground() );
+	action->setCamera( getCamera().getCPtr() );
+	action->setBackground( getBackground().getCPtr() );
 	
 	getCamera()->setup( action, this );
 	getBackground()->clear( action, this );
@@ -297,7 +297,7 @@ OSGViewport& OSGViewport::operator = (const OSGViewport &source)
 		return *this;
 
 	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
+	//*(static_cast<Inherited *>(this)) = source;
 
 	// free mem alloced by members of 'this'
 

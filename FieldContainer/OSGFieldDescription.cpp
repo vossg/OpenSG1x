@@ -47,22 +47,6 @@
 
 OSG_USING_NAMESPACE
 
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
-
 /***************************************************************************\
  *                               Types                                     *
 \***************************************************************************/
@@ -71,84 +55,23 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-OSGFieldDescription::OSGFieldDescription(
-    const OSGFieldType         &fieldType, 
-    const char                 *name, 
-    const OSGUInt32             fieldId,
-    const OSGBitVector          fieldMask,
-    const OSGBool               internal,
-          OSGFieldAccessMethod  accessMethod,
-    const char                 *defaultValue) :
-    _fieldType(fieldType), 
-    _name(name),
-    _fieldId(fieldId),
-    _fieldMask(fieldMask),
-    _internal(internal),
-    _accessMethod(accessMethod),
-    _defaultValue(defaultValue) 
-{
-}
-
-OSGFieldDescription::OSGFieldDescription(const OSGFieldDescription &obj) :
-    _fieldType(obj._fieldType),
-    _name(obj._name), 
-    _fieldId(obj._fieldId),
-    _fieldMask(obj._fieldMask),
-    _internal(obj._internal),
-    _accessMethod(obj._accessMethod), 
-    _defaultValue(obj._defaultValue) 
-{
-}
-
-OSGFieldDescription::~OSGFieldDescription(void) 
-{
-}
-
-OSGField *OSGFieldDescription::getFieldValue (OSGFieldContainer &fc) 
-{
-	OSGField *field;
-
-	if (_accessMethod)
-		field = ( (&fc)->*_accessMethod) () ;
-	else {
-		field = 0;
-		cerr << "No accessMethod for " << _name << endl;
-	}
-
-	return field;
-}
-
-OSGBitVector OSGFieldDescription::getFieldMask(void)
-{
-    return _fieldMask;
-}
-
-OSGUInt32 OSGFieldDescription::getFieldId  (void)
-{
-    return _fieldId;
-}
+char OSGFieldDescription::cvsid[] = "@(#)$Id: $";
 
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
 
-
-
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
-
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -160,14 +83,82 @@ OSGUInt32 OSGFieldDescription::getFieldId  (void)
 
 /*------------- constructors & destructors --------------------------------*/
 
+/*! \brief Default Constructor 
+ */
+
+OSGFieldDescription::OSGFieldDescription(
+    const OSGFieldType         &fieldType, 
+    const OSGChar8             *name, 
+    const OSGUInt32             fieldId,
+    const OSGBitVector          fieldMask,
+    const OSGBool               internal,
+          OSGFieldAccessMethod  accessMethod,
+    const OSGChar8             *defaultValue) :
+    _fieldType(fieldType), 
+    _name(name),
+    _fieldId(fieldId),
+    _fieldMask(fieldMask),
+    _internal(internal),
+    _accessMethod(accessMethod),
+    _defaultValue(defaultValue) 
+{
+}
+
+/*! \brief Destructor 
+ */
+
+OSGFieldDescription::~OSGFieldDescription(void) 
+{
+}
+
+
+
 /*------------------------------ access -----------------------------------*/
+
+/*! \brief get method for attribute name 
+ */
+
+const OSGChar8 *OSGFieldDescription::getName(void) const
+{
+    return _name.str(); 
+}
+
+/*! \brief get method for attribute defaultValue 
+*/
+
+const OSGChar8 *OSGFieldDescription::getDefaultValue(void) const
+{
+    return _defaultValue.str(); 
+}
+
+/*! \brief get method for attribute dataType 
+ */
+
+OSGUInt32 OSGFieldDescription::getTypeId(void) const
+{
+    return _fieldType.getTypeId(); 
+}
+
+OSGBitVector OSGFieldDescription::getFieldMask(void) const
+{
+    return _fieldMask;
+}
+
+OSGUInt32 OSGFieldDescription::getFieldId(void) const
+{
+    return _fieldId;
+}
+
+OSGBool OSGFieldDescription::isValid(void)  const
+{
+    return (_name.length()) ? true : false; 
+} 
 
 /*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/
 
 /*-------------------------- assignment -----------------------------------*/
-
 
 void OSGFieldDescription::print(void) const
 {
@@ -188,6 +179,21 @@ void OSGFieldDescription::print(void) const
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+OSGField *OSGFieldDescription::getField(OSGFieldContainer &fc) const
+{
+	OSGField *field = NULL;
+
+	if(_accessMethod != NULL)
+    {
+		field = ( (&fc)->*_accessMethod) ();
+    }
+	else 
+    {
+		SWARNING << "No accessMethod for " << _name << endl;
+	}
+
+	return field;
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -50,18 +50,6 @@
 #include <iostream.h>
 #endif
 
-/** \fn const char *OSGSimpleAttachment::getClassname(void)
- *  \brief Classname
- */
-
-/** \typedef OSGSimpleAttachment::Inherited
- *  \brief Parent type
- */
-
-/** \typedef OSGSimpleAttachment::_field
- *  \brief Data store
- */
-
 OSG_BEGIN_NAMESPACE
 
 /***************************************************************************\
@@ -106,7 +94,7 @@ OSG_FIELD_CONTAINER_INL_DEF(OSGNode, OSGNodePtr)
 /*------------------------------ access -----------------------------------*/
 
 inline
-const OSGVolume & OSGNode::getVolume( void ) const
+const OSGVolume &OSGNode::getVolume(void) const
 {
 	return _volume.getValue().getVolume();
 }
@@ -125,7 +113,6 @@ const OSGVolume & OSGNode::getVolume( void ) const
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
 
 OSG_END_NAMESPACE
 
