@@ -104,9 +104,13 @@ private:
     std::string getEnterStore        (      void              );
     std::string getLeaveStore        (      void              );
 
-    std::string upCase               (const std::string &inStr   );
-    int         strcasecmp           (const char        *string1,
-                                      const char        *string2 );
+    std::string upCase               (const std::string            &inStr   );
+    int         strcasecmp           (const char                   *string1,
+                                      const char                   *string2 );
+    int         strcompare           (const std::string            &string1,
+                                            std::string::size_type  pos,
+                                            std::string::size_type  n,
+                                      const char                   *string2 );
 
     static char *_ConditionKeys[];
     static char *_ReplaceKeys  [];
@@ -124,6 +128,6 @@ OSG_END_NAMESPACE
 
 #include "OSGActorWriter.inl"
 
-#define OSGACTORWRITER_HEADER_CVSID "@(#)$Id: OSGActorWriter.h,v 1.2 2003/10/17 07:34:59 a-m-z Exp $"
+#define OSGACTORWRITER_HEADER_CVSID "@(#)$Id: OSGActorWriter.h,v 1.3 2003/10/17 14:14:23 a-m-z Exp $"
 
 #endif /* _OSGACTORWRITER_H_ */

@@ -353,18 +353,18 @@ ActorWriter::writeTemplate(std::ostream &os, char **pTemplate)
         if(skipIf > 0)
         {
             // not a special line
-            if(strLine.compare(0, 2, "@@") != 0)
+            if(strcompare(strLine, 0, 2, "@@") != 0)
                 continue;
                 
-            if(strLine.compare(0, 4, "@@if") == 0)
+            if(strcompare(strLine, 0, 4, "@@if") == 0)
             {
                 ++skipIf;
             }
-            else if(strLine.compare(0, 7, "@@endif") == 0)
+            else if(strcompare(strLine, 0, 7, "@@endif") == 0)
             {
                 --skipIf;
             }
-            else if(strLine.compare(0, 6, "@@else") == 0)
+            else if(strcompare(strLine, 0, 6, "@@else") == 0)
             {
                 if(skipIf == 1)
                     skipIf = 0;
@@ -374,9 +374,9 @@ ActorWriter::writeTemplate(std::ostream &os, char **pTemplate)
         }
 
         // special line
-        if(strLine.compare(0, 2, "@@") == 0)
+        if(strcompare(strLine, 0, 2, "@@") == 0)
         {
-            if(strLine.compare(0, 18, "@@BeginStateLoop@@") == 0)
+            if(strcompare(strLine, 0, 18, "@@BeginStateLoop@@") == 0)
             {
                 pStateLoopStart = pTemplate;
                 _itStateElem    = _pAI->beginStateElems();
@@ -384,7 +384,7 @@ ActorWriter::writeTemplate(std::ostream &os, char **pTemplate)
                 if(_itStateElem == _pAI->endStateElems())
                     bSkipStateLoop = true;
             }
-            else if(strLine.compare(0, 16, "@@EndStateLoop@@") == 0)
+            else if(strcompare(strLine, 0, 16, "@@EndStateLoop@@") == 0)
             {
                 if(bSkipStateLoop == true)
                 {
@@ -408,7 +408,7 @@ ActorWriter::writeTemplate(std::ostream &os, char **pTemplate)
             {
                 continue;
             }
-            else if(strLine.compare(0, 4, "@@if") == 0)
+            else if(strcompare(strLine, 0, 4, "@@if") == 0)
             {
                 int  condStart = 0;
                 int  condIndex = 0;
@@ -663,11 +663,11 @@ ActorWriter::writeTemplate(std::ostream &os, char **pTemplate)
                     skipIf = bNegate ? 0 : 1;
                 }
             }
-            else if(strLine.compare(0, 6, "@@else") == 0)
+            else if(strcompare(strLine, 0, 6, "@@else") == 0)
             {
                 skipIf = 1;
             }
-            else if(strLine.compare(0, 7,"@@endif") == 0)
+            else if(strcompare(strLine, 0, 7,"@@endif") == 0)
             {
                 skipIf = 0;
             }
@@ -933,5 +933,18 @@ ActorWriter::strcasecmp(const char *string1, const char *string2)
     return ::strcasecmp(string1, string2);
 #else
     return _stricmp    (string1, string2);
+#endif
+}
+
+int
+ActorWriter::strcompare(const std::string            &string1,
+                              std::string::size_type  pos,
+                              std::string::size_type  n,
+                        const char                   *string2)
+{
+#if defined(__linux) && defined(__GNUC__) && __GNUC__ >= 3
+    return string1.compare(pos, n, string2);
+#else
+    return string1.compare(string2, pos, n);
 #endif
 }

@@ -192,9 +192,6 @@ protected:
 
         /*====================== PQEntryLessCompare ======================*/
 
-        struct PQEntryLessCompare;
-        friend struct PQEntryLessCompare;
-
         struct PQEntryLessCompare
         {
             inline bool operator()(const PQEntryBase &refLHS,
@@ -267,8 +264,8 @@ protected:
 
         friend class PriorityIterator;
 
-        typedef std::list<LeaveEntry> LeaveList;
-        typedef LeaveList::iterator   LeaveListIt;
+        typedef std::list<LeaveEntry *> LeaveList;
+        typedef LeaveList::iterator     LeaveListIt;
 
         /*==================== LeaveEntry ================================*/
 
@@ -423,7 +420,7 @@ protected:
 
         friend class PriorityIterator;
 
-        typedef std::list<LeaveEntry>      LeaveList;
+        typedef std::list<LeaveEntry *>    LeaveList;
         typedef LeaveList::iterator        LeaveListIt;
 
         typedef std::list<ActorStateChunk> StateList;
@@ -519,6 +516,6 @@ OSG_END_NAMESPACE
 
 #include "OSGPriorityIterator.inl"
 
-#define OSGPRIORITYITERATOR_HEADER_CVSID "@(#)$Id: OSGPriorityIterator.h,v 1.4 2003/10/15 09:31:29 vossg Exp $"
+#define OSGPRIORITYITERATOR_HEADER_CVSID "@(#)$Id: OSGPriorityIterator.h,v 1.6 2003/10/17 08:00:34 vossg Exp $"
 
 #endif /* _OSGPRIORITYITERATOR_H_ */

@@ -287,7 +287,11 @@ PriorityIterator::PILeave::preTraversal(void)
     while(_pqueue.empty() == false)
         _pqueue.pop();
 
-    _leaveList.clear();
+    while(_leaveList.empty() == false)
+    {
+        delete _leaveList.back();
+        _leaveList.pop_back();
+    }
 }
 
 void
@@ -325,10 +329,10 @@ PriorityIterator::PILeave::traverse(NodePtr pRoot)
 
             _pqueue.pop();
 
-            while((it != end) && (it->decPending() == 0))
+            while((it != end) && ((*it)->decPending() == 0))
             {
                 pNode   = pNode->getParent();
-                it      = it   ->getParent();
+                it      = (*it)->getParent();
                 
                 getIter()->setResult(ResultE(getIter()->getResult(     ) | 
                                              getIter()->callLeave(pNode)  ));
@@ -359,8 +363,8 @@ PriorityIterator::PILeave::pushChildren(void)
     if(getIter()->getUseNodeList() == true)
     {
         _leaveList.push_back(
-            LeaveEntry(getIter()->getNodeList().getNumActive(),
-                       _pqueue.top().getParentLeaveEntry    () ));
+            new LeaveEntry(getIter()->getNodeList().getNumActive(),
+                           _pqueue.top().getParentLeaveEntry    () ));
 
         LeaveListIt      itLeave = --(_leaveList.end());
         ActiveNodeListIt itNodes = getIter()->beginNodes();
@@ -377,8 +381,8 @@ PriorityIterator::PILeave::pushChildren(void)
     else
     {
         _leaveList.push_back(
-            LeaveEntry(getIter()->getCurrentNode()->getNChildren       (),
-                       _pqueue.top              (). getParentLeaveEntry()));
+           new LeaveEntry(getIter()->getCurrentNode()->getNChildren       (),
+                          _pqueue.top              (). getParentLeaveEntry()));
 
         LeaveListIt         itLeave = --(_leaveList.end());
         MFNodePtr::iterator itNodes = 
@@ -561,7 +565,12 @@ PriorityIterator::PILeaveOrd::preTraversal(void)
     while(_pqueue.empty() == false)
         _pqueue.pop();
 
-    _leaveList.clear();
+    while(_leaveList.empty() == false)
+    {
+        delete _leaveList.back();
+        _leaveList.pop_back();
+    }
+
     _stateList.clear();
 
     _bStateValid = true;
@@ -623,11 +632,11 @@ PriorityIterator::PILeaveOrd::traverse(NodePtr pRoot)
 
             _pqueue.pop();
 
-            while((it != end) && (it->decPending() == 0))
+            while((it != end) && ((*it)->decPending() == 0))
             {
-                _currState   = it   ->getState ();
+                _currState   = (*it)->getState ();
                 pNode        = pNode->getParent();
-                it           = it   ->getParent();
+                it           = (*it)->getParent();
                 _bStateValid = false;
 
                 getIter()->setResult(ResultE(getIter()->getResult(     ) | 
@@ -681,9 +690,9 @@ PriorityIterator::PILeaveOrd::pushChildren(void)
     if(getIter()->getUseNodeList() == true)
     {
         _leaveList.push_back(
-            LeaveEntry(getIter()->getNodeList().getNumActive(),
-                       _pqueue.top().getParentLeaveEntry   (),
-                       _currState                             ));
+            new LeaveEntry(getIter()->getNodeList().getNumActive(),
+                           _pqueue.top().getParentLeaveEntry   (),
+                           _currState                             ));
         
         LeaveListIt      itLeave = --(_leaveList.end());
         ActiveNodeListIt itNodes = getIter()->beginNodes();
@@ -700,9 +709,9 @@ PriorityIterator::PILeaveOrd::pushChildren(void)
     else
     {
         _leaveList.push_back(
-            LeaveEntry(getIter()->getCurrentNode()->getNChildren       (),
-                       _pqueue.top()             .  getParentLeaveEntry(),
-                       _currState                                         ));
+          new LeaveEntry(getIter()->getCurrentNode()->getNChildren       (),
+                         _pqueue.top()             .  getParentLeaveEntry(),
+                         _currState                                         ));
 
         LeaveListIt         itLeave = --(_leaveList.end());
         MFNodePtr::iterator itNodes = 
@@ -749,7 +758,7 @@ PriorityIterator::PILeaveOrd::freeStateList(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPriorityIterator.cpp,v 1.3 2003/10/15 09:31:29 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPriorityIterator.cpp,v 1.4 2003/10/16 14:48:22 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGPRIORITYITERATOR_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPRIORITYITERATOR_INLINE_CVSID;
 }
