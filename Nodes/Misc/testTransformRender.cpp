@@ -166,7 +166,7 @@ int main (int argc, char **argv)
     root->addChild( tnode );
     osgEndEditCP(root);
 
-    dact = new DrawAction;
+    dact = DrawAction::create();
     
     glutMainLoop();
     
