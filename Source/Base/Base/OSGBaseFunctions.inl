@@ -87,6 +87,15 @@ Real64 osgsqrt(const Real64 rVal)
     return sqrt(rVal);
 }
 
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osgsqrt(const Real128 rVal)
+{
+    return sqrtl(rVal);
+}
+
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 /*! \name cos                                                          */
@@ -124,6 +133,15 @@ inline
 Real64 osgcos(const Real64 rVal)
 {
     return cos(rVal);
+}
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osgcos(const Real128 rVal)
+{
+    return cosl(rVal);
 }
 
 /*! \}                                                                 */
@@ -165,6 +183,15 @@ Real64 osgsin(const Real64 rVal)
     return sin(rVal);
 }
 
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osgsin(const Real128 rVal)
+{
+    return sinl(rVal);
+}
+
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 /*! \name tan                                                          */
@@ -204,6 +231,15 @@ Real64 osgtan(const Real64 rVal)
     return tan(rVal);
 }
 
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osgtan(const Real128 rVal)
+{
+    return tanl(rVal);
+}
+
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 /*! \name acos                                                         */
@@ -241,6 +277,15 @@ inline
 Real64 osgacos(const Real64 rVal)
 {
     return acos(rVal);
+}
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osgacos(const Real128 rVal)
+{
+    return acosl(rVal);
 }
 
 /*! \}                                                                 */
@@ -283,6 +328,15 @@ Real64 osgasin(const Real64 rVal)
     return asin(rVal);
 }
 
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osgasin(const Real128 rVal)
+{
+    return asinl(rVal);
+}
+
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 /*! \name atan                                                         */
@@ -320,6 +374,15 @@ inline
 Real64 osgatan(const Real64 rVal)
 {
     return atan(rVal);
+}
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osgatan(const Real128 rVal)
+{
+    return atanl(rVal);
 }
 
 /*! \}                                                                 */
@@ -366,6 +429,15 @@ Real64 osgatan2(const Real64 rVal1, const Real64 rVal2)
     return atan2(rVal1, rVal2);
 }
 
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osgatan2(const Real128 rVal1, const Real128 rVal2)
+{
+    return atan2l(rVal1, rVal2);
+}
+
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 /*! \name abs                                                          */
@@ -400,6 +472,15 @@ inline
 Real64 osgabs(const Real64 rValue)
 {
     return fabs(rValue);
+}
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osgabs(const Real128 rValue)
+{
+    return fabsl(rValue);
 }
 
 /*! \}                                                                 */
@@ -442,6 +523,15 @@ Real64 osgpow(const Real64 rValue, const Real64 rExp)
     return pow(rValue, rExp);
 }
 
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osgpow(const Real128 rValue, const Real128 rExp)
+{
+    return powl(rValue, rExp);
+}
+
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 /*! \name log                                                          */
@@ -481,6 +571,15 @@ Real64 osglog(const Real64 rVal)
     return log(rVal);
 }
 
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osglog(const Real128 rVal)
+{
+    return logl(rVal);
+}
+
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 /*! \name exp                                                          */
@@ -518,6 +617,15 @@ inline
 Real64 osgexp(const Real64 rVal)
 {
     return exp(rVal);
+}
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osgexp(const Real128 rVal)
+{
+    return expl(rVal);
 }
 
 /*! \}                                                                 */
@@ -563,6 +671,15 @@ Real64 osgfloor(const Real64 rValue)
     return floor(rValue);
 }
 
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osgfloor(const Real128 rValue)
+{
+    return floorl(rValue);
+}
+
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 /*! \name ceil                                                         */
@@ -604,6 +721,15 @@ inline
 Real64 osgceil(const Real64 rValue)
 {
     return ceil(rValue);
+}
+
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+inline
+Real128 osgceil(const Real128 rValue)
+{
+    return ceill(rValue);
 }
 
 /*! \}                                                                 */
