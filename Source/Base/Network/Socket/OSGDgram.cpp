@@ -60,14 +60,9 @@ OSG_USING_NAMESPACE
 /*! constructor. Use Dgram::create to get dgrams
  */
 Dgram::Dgram():
-    _size(0)
+    _size(0),
+    _earlySend(false)
 {
-/*
-    printf("size %d\n",sizeof(_buffer));
-    printf("ack %d\n",&_buffer._response.ack);
-    printf("id %d\n",&_buffer._response.readerId);
-    printf("data %d\n",_buffer._data);
-*/
 }
 
 /*! destructor. Use Dgram::release to free dgrams

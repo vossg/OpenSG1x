@@ -128,6 +128,13 @@ void DgramQueue::wait( Lock *lock )
     }
 }
 
+/*! true, if reader is waiting
+ */
+bool DgramQueue::waiting(void)
+{
+    return _waiting;
+}
+
 bool DgramQueue::empty(void)
 {
     return _queue.empty();

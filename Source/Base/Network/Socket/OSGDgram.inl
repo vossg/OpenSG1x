@@ -97,6 +97,11 @@ bool Dgram::getResponseAck(void) const
     return _buffer._data[0];
 }
 
+bool Dgram::getEarlySend(void) const
+{
+    return _earlySend;
+}
+
 /*---------------------------------------------------------------------*/
 /*                      set                                            */
 
@@ -123,6 +128,11 @@ inline void Dgram::setBufferSize(UInt32 size)
 inline void Dgram::setResponseAck(bool value)
 {
     _buffer._data[0] = value;
+}
+
+inline void Dgram::setEarlySend(bool value)
+{
+    _earlySend = value;
 }
 
 /*---------------------------------------------------------------------*/

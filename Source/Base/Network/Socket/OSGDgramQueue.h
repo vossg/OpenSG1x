@@ -86,6 +86,7 @@ class OSG_BASE_DLLMAPPING DgramQueue
     Dgram *get           ( Lock  *lock  );
     bool   empty         ( void         );
     void   wait          ( Lock  *lock  );
+    bool   waiting       ( void         );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

@@ -54,6 +54,8 @@
 #include "OSGGroupMCastConnection.h"
 #include "OSGConnectionType.h"
 
+#define USE_EARLY_SEND
+
 OSG_USING_NAMESPACE
 
 /** \class osg::GroupMCastConnection
@@ -68,6 +70,7 @@ OSG_USING_NAMESPACE
 
 GroupMCastConnection::GroupMCastConnection():
     Inherited(),
+    _sendQueueThread(NULL),
     _seqNumber(0),
     _initialized(false)
 {
@@ -102,7 +105,8 @@ GroupMCastConnection::~GroupMCastConnection(void)
     _queue.put(dgram);
     _lock->release();
     // wait for stop
-    BaseThread::join(_sendQueueThread);    
+    if(_sendQueueThread)
+        BaseThread::join(_sendQueueThread);    
     // close socket
     _mcastSocket.close();
     // free queues
@@ -255,6 +259,15 @@ void GroupMCastConnection::write(MemoryHandle mem,UInt32 size)
             BaseThread::join(_sendQueueThread);    
             throw WriteError("Channel closed");
         }
+#ifdef USE_EARLY_SEND
+        if(_queue.waiting())
+        {
+            dgram->setEarlySend(true);
+            _mcastSocket.sendTo(dgram->getBuffer(),
+                                dgram->getBufferSize(),
+                                _mcastAddress);
+        }
+#endif
         _queue.put(dgram);
         _lock->release();
     }
@@ -390,9 +403,11 @@ bool GroupMCastConnection::sendQueue(void)
             if(drand48()>TEST_LOST_DGRAM_RATE)
 #endif
             {
-                _mcastSocket.sendTo(dgram[send]->getBuffer(),
-                                    dgram[send]->getBufferSize(),
-                                    _mcastAddress);
+                if(!dgram[send]->getEarlySend())
+                    _mcastSocket.sendTo(dgram[send]->getBuffer(),
+                                        dgram[send]->getBufferSize(),
+                                        _mcastAddress);
+                dgram[send]->setEarlySend(false);
             }
             sendId = dgram[send]->getId();
 //            printf("send dgram %d at id %d\n",send,dgram[send]->getId());

@@ -295,7 +295,6 @@ void PointMCastConnection::read(MemoryHandle mem,UInt32 size)
             _lastDgramPos = dgramPos;
         }
     }
-    printf("got 1 data %d\n",size);
 }
 
 /** Read next data block
@@ -442,8 +441,6 @@ void PointMCastConnection::combineAck(Dgram *dgram,SocketAddress from)
 {
     UInt16 maxAck;
 
-//    printf("got ack from %s:%d\n",from.getHost().c_str(),from.getPort());
-    
     if(dgram)
     {
         // do we expect acks from different source
@@ -469,8 +466,6 @@ void PointMCastConnection::combineAck(Dgram *dgram,SocketAddress from)
         if( Dgram::less(aI->second,maxAck) )
             maxAck = aI->second;
     }
-//    printf("New max %d old max %d\n",maxAck,_maxAck);
-
     // when _max ack is now greate
 
     if( Dgram::less(_maxAck,maxAck))
@@ -663,11 +658,12 @@ void PointMCastConnection::initialize()
     std::string   host;
     UInt32        port;
     char          threadName[256];
+    UInt32        len;
 
     sprintf(threadName,"PointMCastConnection%p",this);
 
     // get info about the group
-    _socket.recv(message);
+    len = _socket.recv(message);
     // group and port
     group = message.getString();
     port  = message.getUInt32();

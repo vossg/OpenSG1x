@@ -96,6 +96,8 @@ public:
     inline       UInt32         getBufferSize    (void) const;
     inline       UInt32         getBufferCapacity(void) const;
 
+    inline       bool           getEarlySend     (void) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name               set                                            */
@@ -107,6 +109,8 @@ public:
     inline void setResponseAck  (bool value     );
 
     inline void setBufferSize   (UInt32 size    );
+
+    inline void setEarlySend    (bool value     );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -124,6 +128,7 @@ protected:
     /*! \name               member                                         */
     /*! \{                                                                 */
 
+    bool   _earlySend;
     UInt32 _size;
     struct {
         UInt16 _id;
