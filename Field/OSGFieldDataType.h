@@ -44,6 +44,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 #include <OSGString.h>
+#include <OSGDataType.h>
 
 OSG_BEGIN_NAMESPACE
 
