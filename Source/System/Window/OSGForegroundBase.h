@@ -86,7 +86,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
 
     typedef ForegroundPtr  Ptr;
 
+    enum 
+    {
+        ActiveFieldId = Inherited::NextFieldId,
+        NextFieldId   = ActiveFieldId + 1
+    };
 
+    static const OSG::BitVector ActiveFieldMask;
     static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
@@ -105,6 +111,23 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
     virtual const FieldContainerType &getType  (void) const; 
 
     virtual       UInt32              getContainerSize(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setActive         ( const bool &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           SFBool              *getSFActive         (void);
+
+           bool                &getActive         (void);
+     const bool                &getActive         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -130,6 +153,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
+
+    SFBool              _sfActive;
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -158,6 +188,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
 
     friend class FieldContainer;
 
+    static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
 

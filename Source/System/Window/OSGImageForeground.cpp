@@ -124,6 +124,9 @@ void ImageForeground::dump(     UInt32    OSG_CHECK_ARG(uiIndent),
     
 void ImageForeground::draw(DrawActionBase *, Viewport *)
 {
+    if(getActive() == false)
+        return;
+
     UInt16 i;
     
     for(i = 0; i < getPositions().size(); i++)

@@ -103,13 +103,6 @@ SFImagePtr *GrabForegroundBase::getSFImage(void)
     return &_sfImage;
 }
 
-//! Get the GrabForeground::_sfActive field.
-inline
-SFBool *GrabForegroundBase::getSFActive(void)
-{
-    return &_sfActive;
-}
-
 
 //! Get the value of the GrabForeground::_sfImage field.
 inline
@@ -132,26 +125,6 @@ void GrabForegroundBase::setImage(const ImagePtr &value)
     _sfImage.setValue(value);
 }
 
-//! Get the value of the GrabForeground::_sfActive field.
-inline
-bool &GrabForegroundBase::getActive(void)
-{
-    return _sfActive.getValue();
-}
-
-//! Get the value of the GrabForeground::_sfActive field.
-inline
-const bool &GrabForegroundBase::getActive(void) const
-{
-    return _sfActive.getValue();
-}
-
-//! Set the value of the GrabForeground::_sfActive field.
-inline
-void GrabForegroundBase::setActive(const bool &value)
-{
-    _sfActive.setValue(value);
-}
 
 
 OSG_END_NAMESPACE

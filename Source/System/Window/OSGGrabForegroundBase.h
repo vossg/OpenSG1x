@@ -91,12 +91,10 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
     enum
     {
         ImageFieldId  = Inherited::NextFieldId,
-        ActiveFieldId = ImageFieldId  + 1,
-        NextFieldId   = ActiveFieldId + 1
+        NextFieldId   = ImageFieldId + 1
     };
 
     static const OSG::BitVector ImageFieldMask;
-    static const OSG::BitVector ActiveFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -124,12 +122,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
     /*! \{                                                                 */
 
            SFImagePtr          *getSFImage          (void);
-           SFBool              *getSFActive         (void);
 
            ImagePtr            &getImage          (void);
      const ImagePtr            &getImage          (void) const;
-           bool                &getActive         (void);
-     const bool                &getActive         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -137,7 +132,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
     /*! \{                                                                 */
 
      void setImage          ( const ImagePtr &value );
-     void setActive         ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -184,7 +178,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
     /*! \{                                                                 */
 
     SFImagePtr          _sfImage;
-    SFBool              _sfActive;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

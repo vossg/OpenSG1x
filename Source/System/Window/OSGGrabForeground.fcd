@@ -19,14 +19,4 @@ Background is the base class for all background clearing.
 	>
 	The image to write to.
 	</Field>
-	<Field
-		name="active"
-		type="bool"
-		cardinality="single"
-		visibility="external"
-		defaultValue="false"
-		access="public"
-	>
-	Activate the grabber.
-	</Field>
 </FieldContainer>

@@ -64,11 +64,22 @@
 
 OSG_USING_NAMESPACE
 
+const OSG::BitVector  ForegroundBase::ActiveFieldMask = 
+    (TypeTraits<BitVector>::One << ForegroundBase::ActiveFieldId);
+
 const OSG::BitVector ForegroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
+FieldDescription *ForegroundBase::_desc[] = 
+{
+    new FieldDescription(SFBool::getClassType(), 
+                     "active", 
+                     ActiveFieldId, ActiveFieldMask,
+                     false,
+                     (FieldAccessMethod) &ForegroundBase::getSFActive)
+};
 
 FieldContainerType ForegroundBase::_type(
     "Foreground",
@@ -76,8 +87,8 @@ FieldContainerType ForegroundBase::_type(
     NULL,
     NULL, 
     Foreground::initMethod,
-    NULL,
-    0);
+    _desc,
+    sizeof(_desc));
 
 //OSG_FIELD_CONTAINER_DEF(ForegroundBase, ForegroundPtr)
 
@@ -113,6 +124,7 @@ void ForegroundBase::executeSync(      FieldContainer &other,
 #endif
 
 ForegroundBase::ForegroundBase(void) :
+    _sfActive                 (bool(true)), 
     Inherited() 
 {
 }
@@ -122,6 +134,7 @@ ForegroundBase::ForegroundBase(void) :
 #endif
 
 ForegroundBase::ForegroundBase(const ForegroundBase &source) :
+    _sfActive                 (source._sfActive                 ), 
     Inherited                 (source)
 {
 }
@@ -138,6 +151,10 @@ UInt32 ForegroundBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
+    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+    {
+        returnValue += _sfActive.getBinSize();
+    }
 
     return returnValue;
 }
@@ -147,7 +164,10 @@ void ForegroundBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-
+    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+    {
+        _sfActive.copyToBin(pMem);
+    }
 }
 
 void ForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
@@ -155,7 +175,10 @@ void ForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyFromBin(pMem, whichField);
 
-
+    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+    {
+        _sfActive.copyFromBin(pMem);
+    }
 }
 
 void ForegroundBase::executeSyncImpl(      ForegroundBase *pOther,
@@ -164,7 +187,8 @@ void ForegroundBase::executeSyncImpl(      ForegroundBase *pOther,
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-
+    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+        _sfActive.syncWith(pOther->_sfActive);
 }
 
 

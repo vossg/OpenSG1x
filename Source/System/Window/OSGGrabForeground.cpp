@@ -74,6 +74,7 @@ See \ref PageSystemWindowForegroundGrab for a description.
 GrabForeground::GrabForeground(void) :
     Inherited()
 {
+    Inherited::setActive(false);
 }
 
 GrabForeground::GrabForeground(const GrabForeground &source) :

@@ -70,6 +70,33 @@ OSG::UInt32 ForegroundBase::getClassTypeId(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the Foreground::_sfActive field.
+inline
+SFBool *ForegroundBase::getSFActive(void)
+{
+    return &_sfActive;
+}
+
+//! Get the value of the Foreground::_sfActive field.
+inline
+bool &ForegroundBase::getActive(void)
+{
+    return _sfActive.getValue();
+}
+
+//! Get the value of the Foreground::_sfActive field.
+inline
+const bool &ForegroundBase::getActive(void) const
+{
+    return _sfActive.getValue();
+}
+
+//! Set the value of the Foreground::_sfActive field.
+inline
+void ForegroundBase::setActive(const bool &value)
+{
+    _sfActive.setValue(value);
+}
 
 
 OSG_END_NAMESPACE
