@@ -11,6 +11,8 @@
 #include <OSGBoxVolume.h>
 #include <OSGSphereVolume.h>
 #include <OSGCylinderVolume.h>
+#include <OSGPlane.h>
+#include <OSGFrustumVolume.h>
 
 using namespace OSG;
 
@@ -208,9 +210,21 @@ int main (int argc, char **argv) {
 	BoxVolume boxIn(0,0,0,2,2,2);
 	SphereVolume sphere(Pnt3f(0,0,0),1);
 	SphereVolume sphereOut(Pnt3f(5,0,0),1);
+
 	SphereVolume sphereIn(Pnt3f(1,0,0),1);
-	CylinderVolume cylinder(Pnt3f(0,2,0),Vec3f(0,3,0),1);
- 	FrustumVolume  frustum();
+	CylinderVolume cylinder(Pnt3f(0,1,0),Vec3f(0,1,0),1);
+ 
+ 	Plane near(Vec3f(-1,0,0),0);
+	Plane far(Vec3f(1,0,0),-10);
+	Plane right(Vec3f(-1,-1,0),3.5355);
+	Plane left(Vec3f(-1,1,0),-3.5355);
+	Plane top(Vec3f(-1,0,-1),3.5355);
+	Plane bottom(Vec3f(-1,0,1),-3.5355);
+
+	FrustumVolume frustum(near, far, right, left, top, bottom);
+	
+	cout << "Box/Frustum test : " << flush;
+	cout << (box.intersect(frustum) ? "**BAD**" : "ok") << endl;
 
 	cout << "Box/box outside test: " << flush;
 	cout << (box.intersect(boxOut) ? "**BAD**" : "ok") << endl;

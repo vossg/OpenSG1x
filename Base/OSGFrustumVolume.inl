@@ -141,6 +141,14 @@ const Plane & FrustumVolume::getBottom   (void) const
 	return _planeVec[5];
 }
 
+
+/// get method
+inline
+const Plane *FrustumVolume::getPlanes(void)
+{
+	return _planeVec;
+}
+
 /// set method
 inline
 void FrustumVolume::setPlanes(  const Plane &pnear, const Plane &pfar,

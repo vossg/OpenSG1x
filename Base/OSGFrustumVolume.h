@@ -139,11 +139,15 @@ public:
 	/** return the bottom plane */
 	inline const Plane & getBottom (void) const;
 
+	/** returns the array of planes, (near,far,left,right,top,bottom) */
+	inline
+	const Plane *getPlanes(void); 
+
 	/** set method for all planes */
 	inline
-	void FrustumVolume::setPlanes( const Plane &pnear, const Plane &pfar,
-																 const Plane &left, const Plane &right,
-																 const Plane &top,  const Plane &bottom);
+	void setPlanes( const Plane &pnear, const Plane &pfar,
+								 const Plane &left, const Plane &right,
+								 const Plane &top,  const Plane &bottom);
 
  /** gives the center of the volume */
   virtual void getCenter (Pnt3f &center) const;
