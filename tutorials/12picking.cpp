@@ -5,6 +5,9 @@
 // To do that the IntersectAction is introduced, which tests rays against
 // geometry.
 //
+// Use Space to send a ray into the scene. If it hits something the hit
+// triangle will be highlighted.
+//
 
 // Headers
 #include <GL/glut.h>
