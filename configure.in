@@ -40,6 +40,8 @@ ac_gdz_conf_package_png='0'
 ac_gdz_conf_package_png_e1='0'
 ac_gdz_conf_package_mng='0'
 ac_gdz_conf_package_mng_e1='0'
+ac_gdz_conf_package_gif='0'
+ac_gdz_conf_package_gif_e1='0'
 ac_gdz_conf_package_efence='0'
 ac_gdz_conf_package_efence_e1='0'
 
@@ -197,6 +199,25 @@ else
 	ac_gdz_conf_package_mng='1'
 	ac_gdz_conf_package_mng_e1='1'
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_MNG'
+fi
+
+dnl ############# GIF Settings #####################
+
+AC_ARG_WITH(gif,     [  --with-gif                         Include gif image support],
+			,with_gif=no) 
+
+if [[ "$with_gif" = yes ]]; then
+	ac_gdz_gif_dir=
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_GIF'
+	ac_gdz_conf_package_gif='1'
+	ac_gdz_conf_package_gif_e1='1'
+elif [[ "$with_gif" = no ]]; then
+	ac_gdz_gif_dir=
+else
+	ac_gdz_gif_dir=
+	ac_gdz_conf_package_gif='1'
+	ac_gdz_conf_package_gif_e1='1'
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_GIF'
 fi
 
 dnl ############# efence Settings #####################
@@ -496,6 +517,7 @@ AC_SUBST(ac_gdz_conf_package_tif_e1)
 AC_SUBST(ac_gdz_conf_package_jpg_e1)
 AC_SUBST(ac_gdz_conf_package_png_e1)
 AC_SUBST(ac_gdz_conf_package_mng_e1)
+AC_SUBST(ac_gdz_conf_package_gif_e1)
 AC_SUBST(ac_gdz_conf_package_glut_e1)
 
 AC_SUBST_FILE(ac_gdz_common_patterns)
@@ -553,6 +575,8 @@ AC_GDZ_WRITE_COMMON_JPG()
 AC_GDZ_WRITE_COMMON_PNG()
 
 AC_GDZ_WRITE_COMMON_MNG()
+
+AC_GDZ_WRITE_COMMON_GIF()
 
 AC_GDZ_WRITE_COMMON_GL()
 

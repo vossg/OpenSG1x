@@ -1044,3 +1044,40 @@ dnl e12
     AC_OUTPUT($ac_gdz_common_mng_e12:$ac_gdz_common_mng_in_e12)
 ])
 
+AC_DEFUN(AC_GDZ_WRITE_COMMON_GIF,
+[
+dnl e13
+
+    ac_gdz_gif_lib_e13=
+    ac_gdz_gif_incdir_e13=
+    ac_gdz_gif_libdir_e13=
+
+    if [[ "$with_gif" = yes ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_gif_lib_e13=
+        else
+           ac_gdz_gif_lib_e13=
+        fi
+    elif [[ -n "$ac_gdz_gif_dir" ]]; then
+        if [[ $build_os = cygwin ]]; then
+           ac_gdz_gif_incdir_e13=
+           ac_gdz_gif_libdir_e13=
+           ac_gdz_gif_lib_e13=
+        else
+           ac_gdz_gif_incdir_e13=
+           ac_gdz_gif_libdir_e13=
+           ac_gdz_gif_lib_e13=
+        fi
+    fi
+
+    ac_gdz_common_gif_in_e13=$ac_gdz_commonconf_dir/commonGIF.in
+    ac_gdz_common_gif_e13=$ac_gdz_commonpackage_dir/commonGIF.mk
+
+    AC_SUBST(ac_gdz_gif_incdir_e13)
+    AC_SUBST(ac_gdz_gif_libdir_e13)
+    AC_SUBST(ac_gdz_gif_lib_e13)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_gif_e13:$ac_gdz_common_gif_in_e13)
+])

@@ -193,7 +193,7 @@ Bool FieldContainerFactory::initializePendingTypes(void)
             {
                 uninitIt = _pUnitTypesStore->erase(uninitIt);
 
-                (*_pTypeIdMap  )[(*uninitIt)->getId()         ] = pType;
+                (*_pTypeIdMap  )[pType->getId()               ] = pType;
                 (*_pTypeNameMap)[StringLink(pType->getCName())] = pType;
             }
             else
@@ -202,7 +202,7 @@ Bool FieldContainerFactory::initializePendingTypes(void)
                 {
                     uninitIt = _pUnitTypesStore->erase(uninitIt);
 
-                    (*_pTypeIdMap  )[(*uninitIt)->getId()            ] = pType;
+                    (*_pTypeIdMap  )[pType->getId()               ] = pType;
                     (*_pTypeNameMap)[StringLink(pType->getCName())] = pType;
                 }
                 else
