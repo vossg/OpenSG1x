@@ -251,7 +251,7 @@ void ScanParseSkel::endProtoExposedField(void)
 
 
 void ScanParseSkel::beginField(const Char8 *,
-                                  const UInt32 )
+                                     Int32 &)
 {
 }
 

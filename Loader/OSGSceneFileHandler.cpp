@@ -206,6 +206,63 @@ NodePtr SceneFileHandler::read(const char *fileName,  UInt32 uiOptions)
 }
 
 //----------------------------
+// Function name: readTopNodes
+//----------------------------
+//
+//Parameters:
+//p: Scene &image, const char *fileName
+//GlobalVars:
+//g: 
+//Returns:
+//r:vector<NodePtr>
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d: 
+//SeeAlso:
+//s:
+//
+//------------------------------
+vector<NodePtr> SceneFileHandler::readTopNodes(const char *fileName,
+													 UInt32 uiOptions)
+{
+	SceneFileType *type = getFileType(fileName);
+	vector<NodePtr> nodeVec;
+	
+	if(! fileName)
+	{
+		SWARNING << "cannot read NULL file" << endl;
+		return nodeVec;
+	}
+	
+	if (type) 
+    {
+		SINFO << "try to read " << fileName 
+              << " as "         << type->getName() << endl;
+
+        nodeVec = type->readTopNodes(fileName, uiOptions);
+
+		for( UInt32 i=0; i<nodeVec.size(); ++i )
+		{
+			if( nodeVec[i] == NullNode )
+			{
+				SWARNING << "could not read node " << i << endl;
+				return nodeVec;
+			}
+        }
+		SWARNING << "read ok. " << endl;
+	}
+	else
+    {
+		SWARNING << "could not read "       << fileName 
+                 << "; unknown file format" << endl;
+    }
+
+	return nodeVec;
+}
+//----------------------------
 // Function name: write
 //----------------------------
 //

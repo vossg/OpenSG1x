@@ -81,10 +81,10 @@ extern ScanParseSkel *_pSkel;
 
 
 %x sfcolor4fValue sfmatrixValue sfpnt2fValue sfpnt3fValue sfpnt4fValue
-%x sfvec4fValue
+%x sfvec4fValue sfcolor3fValue sfplaneValue
 
 %x mfcolor4fValue mfmatrixValue mfpnt2fValue mfpnt3fValue mfpnt4fValue 
-%x mfvec4fValue
+%x mfvec4fValue mfcolor3fValue mfplaneValue
 
 %x EXTERROR
 
@@ -168,8 +168,10 @@ header (#[^\n]*\n)
 
                 /* extended Field Types */ 
 
-            case TOK_MFCOLOR4F: BEGIN mfcolor4fValue; break;            
+            case TOK_MFCOLOR4F: BEGIN mfcolor4fValue; break;
+			case TOK_MFCOLOR3F: BEGIN mfcolor3fValue; break;            
             case TOK_SFCOLOR4F: BEGIN sfcolor4fValue; break;            
+			case TOK_SFCOLOR3F: BEGIN sfcolor3fValue; break;
             case TOK_MFMATRIX:  BEGIN mfmatrixValue;  break;
             case TOK_SFMATRIX:  BEGIN sfmatrixValue;  break;            
             case TOK_MFPNT2F:   BEGIN mfpnt2fValue;   break;            
@@ -179,7 +181,9 @@ header (#[^\n]*\n)
             case TOK_MFPNT4F:   BEGIN mfpnt4fValue;   break;            
             case TOK_SFPNT4F:   BEGIN sfpnt4fValue;   break;            
             case TOK_MFVEC4F:   BEGIN mfvec4fValue;   break;            
-            case TOK_SFVEC4F:   BEGIN sfvec4fValue;   break;            
+            case TOK_SFVEC4F:   BEGIN sfvec4fValue;   break;
+			case TOK_MFPLANE:	BEGIN mfplaneValue;	  break;
+			case TOK_SFPLANE:	BEGIN sfplaneValue;	  break;            
 
             default: 
                 fprintf(stderr, "ACK: Bad expectToken"); 
@@ -245,17 +249,21 @@ header (#[^\n]*\n)
     /* extended types */
 
 <NODE>MFColor4f     { return Tok_MFColor4f;  } 
+<NODE>MFColor3f		{ return Tok_MFColor3f;	 }
 <NODE>MFMatrix      { return Tok_MFMatrix;   }
 <NODE>MFPnt2f       { return Tok_MFPnt2f;    } 
 <NODE>MFPnt3f       { return Tok_MFPnt3f;    } 
 <NODE>MFPnt4f       { return Tok_MFPnt4f;    } 
 <NODE>MFVec4f       { return Tok_MFVec4f;    } 
+<NODE>MFPlane		{ return Tok_MFPlane;	 }
 <NODE>SFColor4f     { return Tok_SFColor4f;  } 
+<NODE>SFColor3f		{ return Tok_SFColor3f;  }
 <NODE>SFMatrix      { return Tok_SFMatrix;   } 
 <NODE>SFPnt2f       { return Tok_SFPnt2f;    } 
 <NODE>SFPnt3f       { return Tok_SFPnt3f;    } 
 <NODE>SFPnt4f       { return Tok_SFPnt4f;    } 
-<NODE>SFVec4f       { return Tok_SFVec4f;    } 
+<NODE>SFVec4f       { return Tok_SFVec4f;    }
+<NODE>SFPlane		{ return Tok_SFPlane;	 } 
 
 
 <NODE>{IdFirstChar}{IdRestChar}* { //fprintf(stderr, "ID : %s\n", vrml97_text);
@@ -661,21 +669,21 @@ header (#[^\n]*\n)
     /* extended types */
 
 
-<mfcolor4fValue,mfmatrixValue,mfpnt2fValue>\[ {
+<mfcolor3fValue,mfcolor4fValue,mfmatrixValue,mfpnt2fValue>\[ {
     if(parsing_mf)
         OSGScanParseSkel_error("Syntaxfehler: Doppelte [");
 
     parsing_mf = 1;
 }
 
-<mfpnt3fValue,mfpnt4fValue,mfvec4fValue>\[ {
+<mfpnt3fValue,mfpnt4fValue,mfvec4fValue,mfplaneValue>\[ {
     if(parsing_mf)
         OSGScanParseSkel_error("Syntaxfehler: Doppelte [");
 
     parsing_mf = 1;
 }
 
-<mfcolor4fValue,mfmatrixValue,mfpnt2fValue>\] {
+<mfcolor3fValue,mfcolor4fValue,mfmatrixValue,mfpnt2fValue>\] {
   if(!parsing_mf) 
       OSGScanParseSkel_error("Ueberzaehlige ]");
 
@@ -689,7 +697,7 @@ header (#[^\n]*\n)
   return fieldType;
 }
 
-<mfpnt3fValue,mfpnt4fValue,mfvec4fValue>\] {
+<mfpnt3fValue,mfpnt4fValue,mfvec4fValue,mfplaneValue>\] {
   if(!parsing_mf) 
       OSGScanParseSkel_error("Ueberzaehlige ]");
 
@@ -714,6 +722,18 @@ header (#[^\n]*\n)
         _pSkel->addFieldValue(OSGScanParseSkel_text);
 
   return TOK_SFCOLOR4F;
+}
+
+    /* sfcolor3fValue ::= float float float; */
+
+<sfcolor3fValue>({float}{ws}){2}{float} {
+  BEGIN NODE;
+  expectToken = 0;
+
+    if(_pSkel != NULL)
+        _pSkel->addFieldValue(OSGScanParseSkel_text);
+
+  return TOK_SFCOLOR3F;
 }
 
     /* sfmatrixValue ::= float float float float  */
@@ -753,6 +773,18 @@ header (#[^\n]*\n)
         _pSkel->addFieldValue(OSGScanParseSkel_text);
 
     return TOK_SFPNT3F; 
+}
+
+    /* sfplaneValue ::= float float float float; */
+
+<sfplaneValue>({float}{ws}){3}{float} { 
+    BEGIN NODE; 
+    expectToken = 0; 
+
+    if(_pSkel != NULL)
+        _pSkel->addFieldValue(OSGScanParseSkel_text);
+
+    return TOK_SFPLANE; 
 }
 
     /* sfpnt4fValue ::= float float float float; */
@@ -795,6 +827,25 @@ header (#[^\n]*\n)
         BEGIN NODE;
         expectToken = 0;
         return TOK_MFCOLOR4F;
+    }
+}
+
+    /* mfcolor3fValue  ::= sfcolor3fValue | [ ] | [ sfcolor3fValues ];      */
+    /* sfcolor3fValues ::= sfcolor3fValue | sfcolor3fValue sfcolor3fValues; */
+
+<mfcolor3fValue>({float}{ws}){2}{float} {
+
+    if(_pSkel != NULL)
+        _pSkel->addFieldValue(OSGScanParseSkel_text);
+
+    if (parsing_mf)
+    {
+    }
+    else 
+    {
+        BEGIN NODE;
+        expectToken = 0;
+        return TOK_MFCOLOR3F;
     }
 }
 
@@ -852,6 +903,25 @@ header (#[^\n]*\n)
         return TOK_MFPNT3F;
     }
 }
+
+    /* mfplaneValue  ::= sfplaneValue | [ ] | [ sfplaneValues ];    */
+    /* sfplaneValues ::= sfplaneValue | sfplaneValue sfplaneValues; */
+
+<mfplaneValue>({float}{ws}){3}{float} {
+    if(_pSkel != NULL)
+        _pSkel->addFieldValue(OSGScanParseSkel_text);
+
+    if(parsing_mf)
+    {
+    }
+    else
+    {
+        BEGIN NODE;
+        expectToken = 0;
+        return TOK_MFPLANE;
+    }
+}
+
 
     /* mfpnt4fValue  ::= sfpnt4fValue | [ ] | [ sfpnt4fValues ];    */
     /* sfpnt4fValues ::= sfpnt4fValue | sfpnt4fValue sfpnt4fValues; */

@@ -75,7 +75,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr read(const Char8 *fileName, UInt32 uiOptions) const;
+    virtual NodePtr 		read			(const  Char8 *fileName,
+													UInt32 uiOptions	) const;
+	virtual vector<NodePtr> readTopNodes	(const  Char8 *fileName,
+	  										 		UInt32 uiOptions	) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -99,7 +102,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-   RAWSceneFileType ( const char *suffixArray[],
+    RAWSceneFileType ( const char *suffixArray[],
                                                 UInt16 suffixByteCount );
 
     RAWSceneFileType (const RAWSceneFileType &obj);

@@ -52,7 +52,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-
 class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 {
 
@@ -80,7 +79,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr read (const Char8 *fileName, UInt32 uiOptions = 0);
+    virtual NodePtr 		read 		(const  Char8 *fileName,
+												UInt32 uiOptions = 0	);
+	virtual vector<NodePtr> readTopNodes(const  Char8 *fileName,
+												UInt32 uiOptions = 0	);
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

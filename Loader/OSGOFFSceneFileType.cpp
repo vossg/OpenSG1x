@@ -272,6 +272,34 @@ NodePtr OFFSceneFileType::read(const Char8 *fileName, UInt32) const
 }
 
 //----------------------------
+// Function name: readTopNodes
+//----------------------------
+//
+//Parameters:
+//p: Scene &image, const char *fileName
+//GlobalVars:
+//g: 
+//Returns:
+//r:vector<NodePtr>
+// Caution
+//c: 
+//Assumations:
+//a: 
+//Describtions:
+//d: read the image from the given file
+//SeeAlso:
+//s:
+//
+//------------------------------
+vector<NodePtr> OFFSceneFileType::readTopNodes(
+							const Char8 *fileName, UInt32 uiOptions) const
+{
+	vector<NodePtr> nodeVec;
+	nodeVec.push_back( read(fileName, uiOptions) );
+	return nodeVec;
+}
+	
+//----------------------------
 // Function name: write
 //----------------------------
 //

@@ -8,6 +8,8 @@
 
 #include <string>
 #include <map>
+#include <vector>
+#include <fstream>
 #include <OSGFieldContainerFactory.h>
 #include <OSGSFSysTypes.h>
 #include <OSGNode.h>
@@ -32,12 +34,13 @@
 OSG_USING_NAMESPACE
 
 
-class WriteSceneGraph
+class OSGWriter
 {
 	public:
-	WriteSceneGraph(ostream& stream, UInt32 indentStep=4);
-	~WriteSceneGraph(void);
+	OSGWriter(ostream& stream, UInt32 indentStep=4);
+	~OSGWriter(void);
 	void write( NodePtr node );
+	void write( vector<NodePtr> nodes );
 	
 	private:
 	void indentLine(void);
@@ -65,28 +68,51 @@ class WriteSceneGraph
 	UInt32 _indentStep;
 };
 
-WriteSceneGraph::WriteSceneGraph(ostream& stream, UInt32 indentStep) :
+OSGWriter::OSGWriter(ostream& stream, UInt32 indentStep) :
 			 		_outstream(stream), _indentStep(indentStep)
 {
 	;
 }
 
-WriteSceneGraph::~WriteSceneGraph(void)
+OSGWriter::~OSGWriter(void)
 {
 	;
 }
 
-void WriteSceneGraph::write(NodePtr node)
+void OSGWriter::write(NodePtr node)
 {
 	_fcmap.clear();
 	_sharedFCCount = 0;
 	_indention = 0;
 	
+	_outstream << "#OSG V1.0 " << endl;
+	
 	doListFC(node);
-	doPrintListedFC(node);	
+	doPrintListedFC(node);
 }
 
-void WriteSceneGraph::indentLine(void)
+void OSGWriter::write(vector<NodePtr> nodes)
+{
+	_fcmap.clear();
+	_sharedFCCount = 0;
+	_indention = 0;
+	
+	_outstream << "#OSG V1.0 " << endl;
+	
+	vector<NodePtr>::iterator iter = nodes.begin();
+	for( ; iter != nodes.end(); ++iter )
+	{
+		doListFC( *iter );
+	}
+	for( iter=nodes.begin(); iter != nodes.end(); ++iter )
+	{
+		doPrintListedFC( *iter );
+	}
+}
+
+
+
+void OSGWriter::indentLine(void)
 {
 	for(UInt32 k=0; k<_indention; ++k)
 	{
@@ -94,12 +120,12 @@ void WriteSceneGraph::indentLine(void)
 	}
 }
 
-void WriteSceneGraph::setIndentStep(UInt32 newStep)
+void OSGWriter::setIndentStep(UInt32 newStep)
 {
 	_indentStep = newStep;
 }
 
-void WriteSceneGraph::doListFC( FieldContainerPtr fieldConPtr )
+void OSGWriter::doListFC( FieldContainerPtr fieldConPtr )
 {
 	if( fieldConPtr == NullFC )
 	{
@@ -156,7 +182,7 @@ void WriteSceneGraph::doListFC( FieldContainerPtr fieldConPtr )
 }
 
 
-void WriteSceneGraph::doPrintListedFC( FieldContainerPtr fieldConPtr )
+void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
 {
 	if( fieldConPtr == NullFC )
 	{
@@ -246,7 +272,7 @@ void WriteSceneGraph::doPrintListedFC( FieldContainerPtr fieldConPtr )
 }
 
 
-std::string WriteSceneGraph::SharedFCInfoHelper::buildName(
+std::string OSGWriter::SharedFCInfoHelper::buildName(
 											FieldContainerPtr fcptr,
 									 		UInt32 num)
 {
@@ -264,54 +290,28 @@ int main (int argc, char *argv[])
 		cout << "Param " << i << ":" << argv[i] << endl;
 
     osgInit(argc, argv);
-   
+	
+   	char *inFileName  = "osgWriterInput.osg";
+	char *outFileName = "osgWriterOutput.osg";
+	
+		if( argc > 2 )
+	{
+		inFileName = argv[1];
+		outFileName = argv[2];
+	}
+	
+	NodePtr root = SceneFileHandler::the().read(inFileName,0);
   	
-	NodePtr node1, node2;
-	
-	node1 = makePlane( 2,2, 1,1 );
-	node2 = makePlane( 1,1, 1,1 );
-	
-	NodePtr node11=Node::create(), node12= makeBox( 2,2,2, 1,1,1 );
-	PointLightPtr node11Core = PointLight::create();
-	beginEditCP(node11);
-	node11->setCore(node11Core);
-	endEditCP(node11);
-	
-	if( argc >=2 && *(argv[1]) == '1' )
+	std::ofstream outFileStream( outFileName );
+	if( !outFileStream )
 	{
-		cout << "Sharing the positions..." << endl;
-		beginEditCP( node2 );
-		GeometryPtr::dcast(node2->getCore())->setPositions(
-					GeometryPtr::dcast(node1->getCore())->getPositions() );
-		endEditCP( node2 );
+		cerr << "Can not open output stream to file: " << outFileName << endl;
+		return -1;
 	}
-	else if( argc >=2 && *(argv[1]) == '2' )
-	{
-		node2 = Node::create();
-		cout << "Sharing the core..." << endl;
-		beginEditCP( node2 );
-		node2->setCore( node1->getCore() );
-		endEditCP( node2 );
-	}
-	beginEditCP(node1);
-	node1->addChild(node11);
-	node1->addChild(node12);
-	endEditCP(node1);
-	NodePtr root = Node::create();
-	GroupPtr rootCore = Group::create();
-	beginEditCP(root);
-	root->setCore( rootCore );
-	root->addChild( node1 );
-	root->addChild( node2 );
-	endEditCP(root);
 
 	cerr << "STARTING PRINTOUT:" << endl;
-	WriteSceneGraph writer( cout, 4 );
+	OSGWriter writer( outFileStream, 4 );
 	writer.write( root );
-
-	if( argc >= 3 )
-			writer.write( SceneFileHandler::the().read(argv[2], 0) );
-	
-		
+				
 	return 0;
 }

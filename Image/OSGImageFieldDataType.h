@@ -41,6 +41,7 @@
 
 #include "OSGFieldDataType.h"
 #include "OSGImageFileHandler.h"
+#include <string>
 
 OSG_BEGIN_NAMESPACE
 
@@ -54,7 +55,8 @@ template <>
 struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
 {
     static DataType                      _type;
-    enum                                 { StringConvertable = 0 };
+    enum             { StringConvertable = ToStringConvertable   |
+										   FromStringConvertable };
 
 
     static DataType &getType      (void) { return _type;         }
@@ -64,18 +66,32 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
 
     static ImageP    getDefault   (void) { return NULL;          }
 
+	
+	//Attention: This does expect a filename as arg inVal not a string with
+	//the complete image data in it.
     static Bool      getFromString(      ImageP  &outVal,
                                    const Char8   *&inVal)
     {
-        // TO_BE_DONE
-		return false;
+		outVal = new Image();
+		cerr << "Reading from File: " << inVal;
+        cerr << " " << outVal->read( inVal ) << endl;
+		return true;
     }
 
-    static void             putToString(const ImageP &,
-                                              String  &)
+	//This image into a file and returns the name in outVal
+    static void             putToString(const ImageP &inVal,
+                                              std::string  &outVal)
     {
-        // TO_BE_DONE
-    }
+		static UInt32 counter = 0;
+		std::string fileName;
+		fileName.assign("Image");
+		fileName.append( TypeConstants<UInt32>::putToString(counter++) );
+		fileName.append(".ppm");
+		inVal->write(fileName.c_str());
+		outVal.assign( "\"" );
+		outVal.append( fileName );
+		outVal.append( "\"" );
+	}
 
     static UInt32 getBinSize(const ImageP &oObject)
     {

@@ -8,6 +8,8 @@
 
 #include <GL/glut.h>
 
+#include <vector>
+
 #include <OSGFieldContainerFactory.h>
 #include <OSGSFSysTypes.h>
 #include <OSGVector.h>
@@ -51,7 +53,8 @@ OSG::Bool doWire = false;
 
 OSG::NodePtr  root;
 
-OSG::NodePtr  file;
+std::vector<OSG::NodePtr>  file;
+//OSG::NodePtr file;
 
 OSG::WindowPtr win;
 
@@ -559,13 +562,20 @@ int main (int argc, char **argv)
         else
         {
             file = 
-                OSG::SceneFileHandler::the().read(
+                OSG::SceneFileHandler::the().readTopNodes(
                     argv[numFiles], 
                     OSG::VRMLFile::StripeGeometry |
                     OSG::VRMLFile::CreateNormals);
-            
-            dlight->addChild(file);
-        }
+            /*
+			file = OSG::SceneFileHandler::the().read(argv[numFiles],
+										OSG::VRMLFile::StripeGeometry |
+                   		 				OSG::VRMLFile::CreateNormals);
+			*/
+			for(OSG::UInt32 i=0; i<file.size(); ++i)
+			{
+				dlight->addChild(file[i]);
+			}
+		}
     }
     
     dlight->invalidateVolume();
@@ -597,7 +607,7 @@ int main (int argc, char **argv)
 	cam->setBeacon( b1n );
 	cam->setFov( OSG::deg2rad( 60 ) );
 	cam->setNear( 1 );
-	cam->setFar( 50000 );
+	cam->setFar( 5000 );
 
 	// Solid Background
 	OSG::SolidBackgroundPtr bkgnd = OSG::SolidBackground::create();
@@ -665,7 +675,7 @@ int main (int argc, char **argv)
     tball.setTranslationGen(OSG::Trackball::OSGAbsoluteTranslation);
 
 	// run...
-
+#if 0
 	cam->setFar(size.length() * 4.5);
 
     if((size.length() * 4.5) > 1000.)
@@ -680,7 +690,8 @@ int main (int argc, char **argv)
     {
         cam->setNear(0.1);
     }
-
+#endif
+	
 
 	glutMainLoop();
 	

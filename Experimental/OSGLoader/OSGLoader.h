@@ -57,6 +57,8 @@
 #include <OSGFieldContainer.h>
 
 #include <stack>
+#include <map>
+#include <string>
 
 OSG_BEGIN_NAMESPACE
 
@@ -106,6 +108,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     //-----------------------------------------------------------------------
 
     typedef ScanParseFieldTypeMapper<ScanParseSkel> Inherited;
+	typedef map<std::string, FieldContainerPtr> NamedFCMap;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -165,6 +168,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     NodePtr                  _pRootNode;
     Field                   *_pCurrentField;
     const FieldDescription  *_pCurrentFieldDesc;
+	NamedFCMap				 _defMap;
 
     stack<FieldContainerPtr > _fcStack;
     stack<Field            *> _fStack;
@@ -203,11 +207,12 @@ class OSG_SYSTEMLIB_DLLMAPPING OSGLoader :
     virtual void    use                    (const Char8 *szName);
 
     virtual void    beginField             (const Char8 *szFieldname,
-                                            const UInt32 uiFieldTypeId);
+                                            	  Int32 &uiFieldTypeId);
 
     virtual void    endField               (void);
 
     virtual NodePtr getRoot                (void);
+	virtual vector<NodePtr> getRoots       (void);
 
     virtual FieldContainerPtr getReference(const Char8 *szName);
 

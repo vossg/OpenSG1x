@@ -75,6 +75,7 @@
 #include <OSGMaterialFields.h>
 #include <OSGNode.h>
 #include <OSGGroup.h>
+#include <OSGImagePFields.h>
 
 #include "OSGViewport.h"
 #include "OSGCamera.h"
@@ -139,10 +140,8 @@ void OSGLoader::initFieldTypeMapper(void)
     setIntExtMapping(SFReal32::getClassType().getId(),
                      ScanParseSkel::OSGsfFloat);
 
-/*
-    setIntExtMapping(ScanParseSkel::OSGsfImage   , 
-               ::getClassType().getId());
-*/
+    setIntExtMapping(SFImageP::getClassType().getId(),
+					 ScanParseSkel::OSGsfString);
 
     setIntExtMapping(SFInt32::getClassType().getId(),
                      ScanParseSkel::OSGsfInt32);
@@ -165,6 +164,9 @@ void OSGLoader::initFieldTypeMapper(void)
 
     setIntExtMapping(SFColor4f::getClassType().getId(),
                      ScanParseSkel::OSGsfColor4f);
+	
+	setIntExtMapping(SFColor3f::getClassType().getId(),
+					 ScanParseSkel::OSGsfColor3f);
 
 /*
     setIntExtMapping(ScanParseSkel::OSGmfColor, 
@@ -287,6 +289,11 @@ void OSGLoader::initFieldTypeMapper(void)
                      ScanParseSkel::OSGmfPnt3f);
 	setIntExtMapping(SFDynamicVolume::getClassType().getId(),
 					 ScanParseSkel::OSGmfFloat);
+	
+	setIntExtMapping(SFPlane::getClassType().getId(),
+					 ScanParseSkel::OSGsfPlane);
+	setIntExtMapping(MFPlane::getClassType().getId(),
+					 ScanParseSkel::OSGmfPlane);
 	
 }
 
@@ -482,7 +489,14 @@ void OSGLoader::beginNode(const Char8 *szNodeTypename,
         else
         {
             SLOG << "Fieldcontainer " << szNodeTypename 
-                 << "is neither Node nor NodeCore " << endl;
+                 << " is neither Node nor NodeCore. "
+				 << "Can not use attachment to store Nodename " << endl
+			     << "Adding to _defMap instead. " << endl;
+			if( _defMap.insert(
+				make_pair(std::string(szNodename), pNewNode) ).second == true )
+			{
+				SLOG << "Success." << endl;
+			}
         }
     }
 
@@ -578,6 +592,16 @@ NodePtr OSGLoader::getRoot(void)
     return _pRootNode;
 }
 
+vector<NodePtr> OSGLoader::getRoots(void)
+{
+	vector<NodePtr> nodeVec;
+	for( UInt32 i=0; i<_pRootNode->getNChildren(); ++i )
+	{
+		nodeVec.push_back( _pRootNode->getChild(i) );
+	}
+	return nodeVec;
+}
+
 void OSGLoader::addFieldValue(const Char8 *szFieldVal)
 {
     PLOG << "\t\tFV : " << szFieldVal << endl;
@@ -612,7 +636,7 @@ UInt32 OSGLoader::getFieldType(const Char8 *szFieldname)
 }
 
 void OSGLoader::beginField(const Char8 *szFieldname,
-                           const UInt32 uiFieldTypeId)
+                          		 Int32 &uiFieldTypeId)
 {
     fprintf(stderr, "BeginField : %s %p\n", szFieldname, _pCurrentField);
 
@@ -635,6 +659,30 @@ void OSGLoader::beginField(const Char8 *szFieldname,
         {
             beginEditCP(_pCurrentFC, _pCurrentFieldDesc->getFieldMask());
         }
+		
+		if( uiFieldTypeId < 0 )
+		{
+			cerr << "FieldTypeId invalid, trying to fix. " << endl;
+			cerr << _pCurrentField->getType().getContentType().getCName()
+				 << " comparing with "
+				 << FieldContainer::getClassType().getCName() << endl;
+			if( (_pCurrentField->getType().getContentType().isDerivedFrom(
+				FieldContainer::getClassType() ) == true) ||
+				(strstr(_pCurrentField->getType().getCName(), "Ptr") != NULL) )
+			{
+				cerr << "FieldContainerPtr or derived class, parsing as Node"
+					 << endl;
+				if( _pCurrentField->getCardinality() ==
+										FieldType::SINGLE_FIELD )
+				{
+					uiFieldTypeId = ScanParseSkel::OSGsfNode;
+				}
+				else
+				{
+					uiFieldTypeId = ScanParseSkel::OSGmfNode;
+				}
+			}
+		}
     }
 
     _fStack.push (_pCurrentField);
@@ -677,6 +725,12 @@ void OSGLoader::endField(void)
 FieldContainerPtr OSGLoader::getReference(const Char8 *szName)
 {
     // search reference in this file
+	// search the _defMap first then the tree for name attachments
+	NamedFCMap::iterator iter = _defMap.find( std::string(szName) );
+	if( iter != _defMap.end() )
+	{
+		return (*iter).second;
+	}
     return findFCByName(szName,getRoot());
 }
 

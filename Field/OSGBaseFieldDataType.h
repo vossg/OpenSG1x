@@ -501,11 +501,53 @@ struct FieldDataTraits<Plane> : public FieldTraitsRecurseBase<Plane>
 
     static Plane     getDefault(void)    { return Plane(); }
 
-    static Bool             getFromString(      Plane  &,
-                                          const Char8         *&)
+    static Bool             getFromString(      Plane  &outVal,
+                                          const Char8  *&inVal)
     {
-        // TO_BE_DONE
-        return false;
+		Real32 valStore[4];
+		UInt32 length = strlen( inVal );
+		Char8 str[256];
+		Char8 *c = str;
+	
+		if( length > 256 )
+		{
+			cerr << "FieldDataTraits<Plane>::getFromString(): "
+				 << "Input too long" << endl;
+			return false;
+		}
+		strncpy( str, inVal, length );
+		while( *c != '\0' )
+		{
+			if( *c == '[' )
+				*c = ' ';
+			if( *c == ']' )
+				*c = ' ';
+			if( *c == ',' )
+				*c = ' ';
+			c++;
+		}
+		
+		Int16 count = sscanf( str, "%f %f %f %f",
+							&valStore[0], &valStore[1],
+							&valStore[2], &valStore[3] );
+		
+        if( count == 4 )
+		{
+			cerr << "FieldDataTraits<Plane>::getFromString() : "
+				 << valStore[0] << " " << valStore[1] << " " << valStore[2]
+				 << " " << valStore[3] << endl;
+			outVal.set( Vec3f(valStore[0], valStore[1], valStore[2]),
+							  valStore[3] );
+			return true;
+		}
+		else
+		{
+			cerr << "FieldDataTraits<Plane>::getFromString() : using default "
+				 <<  "plane" << endl;
+			outVal.set( getDefault().getNormal(),
+				        getDefault().getDistanceFromOrigin() );
+			return false;
+		}
     }
 
     static void             putToString(const Plane &inVal,

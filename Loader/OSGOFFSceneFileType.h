@@ -76,6 +76,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OFFSceneFileType : public SceneFileType
     /*! \{                                                                 */
 
     virtual NodePtr read(const Char8 *fileName, UInt32 uiOptions) const;
+	virtual vector<NodePtr> readTopNodes(const Char8 *fileName,
+											   UInt32 uiOptions) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

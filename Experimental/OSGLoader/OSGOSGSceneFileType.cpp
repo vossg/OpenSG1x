@@ -108,6 +108,14 @@ NodePtr OSGSceneFileType::read(const Char8 *fileName, UInt32 uiOptions) const
     return _pFile->getRoot();
 }
 
+vector<NodePtr> OSGSceneFileType::readTopNodes(const Char8 *fileName,
+	 												 UInt32 uiOptions) const
+{
+	_pFile->scanFile(fileName, 0);
+	return _pFile->getRoots();
+}
+
+
 Bool OSGSceneFileType::write(const NodePtr, const char *) const
 {
     return false;

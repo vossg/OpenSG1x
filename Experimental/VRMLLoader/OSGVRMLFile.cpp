@@ -748,7 +748,7 @@ void VRMLFile::endNode(void)
 }
 
 void VRMLFile::beginField(const Char8 *szFieldname,
-                          const UInt32 uiFieldTypeId)
+                          		Int32 &uiFieldTypeId)
 {
     if(szFieldname == NULL)
         return;

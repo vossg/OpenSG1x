@@ -139,34 +139,42 @@ void freeName(char *&szName);
 
 
 %token TOK_MFCOLOR4F
+%token TOK_MFCOLOR3F
 %token TOK_MFMATRIX
 %token TOK_MFPNT2F
 %token TOK_MFPNT3F
 %token TOK_MFPNT4F
 %token TOK_MFVEC4F
+%token TOK_MFPLANE
 
 %token TOK_SFCOLOR4F
+%token TOK_SFCOLOR3F
 %token TOK_SFMATRIX
 %token TOK_SFPNT2F
 %token TOK_SFPNT3F
 %token TOK_SFPNT4F
 %token TOK_SFVEC4F
+%token TOK_SFPLANE
 
 
 
 %token Tok_MFColor4f
+%token Tok_MFColor3f
 %token Tok_MFMatrix
 %token Tok_MFPnt2f
 %token Tok_MFPnt3f
 %token Tok_MFPnt4f
 %token Tok_MFVec4f
+%token Tok_MFPlane
 
 %token Tok_SFColor4f
+%token Tok_SFColor3f
 %token Tok_SFMatrix
 %token Tok_SFPnt2f
 %token Tok_SFPnt3f
 %token Tok_SFPnt4f
 %token Tok_SFVec4f
+%token Tok_SFPlane
 
 %%
 
@@ -468,10 +476,10 @@ nodeBodyElement : fieldId
                       iFieldTypeId = _pSkel->mapExtIntFieldType(iFieldTypeId);
                      }
     
-                     expectType(iFieldTypeId); 
-
                      _pSkel->beginField(OSGScanParseSkel_text, 
                                         iFieldTypeId);
+										
+					 expectType(iFieldTypeId); 
                     } 
                    }
                   fieldValue
@@ -526,17 +534,21 @@ fieldType : Tok_MFColor     { nextType = TOK_MFCOLOR;    }
           | Tok_SFVec2f     { nextType = TOK_SFVEC2F;    }
           | Tok_SFVec3f     { nextType = TOK_SFVEC3F;    }
           | Tok_MFColor4f   { nextType = TOK_MFCOLOR4F;  }
+		  | Tok_MFColor3f	{ nextType = TOK_MFCOLOR3F;	 }
           | Tok_MFMatrix    { nextType = TOK_MFMATRIX;   }
           | Tok_MFPnt2f     { nextType = TOK_MFPNT2F;    }
           | Tok_MFPnt3f     { nextType = TOK_MFPNT3F;    }
           | Tok_MFPnt4f     { nextType = TOK_MFPNT4F;    }
           | Tok_MFVec4f     { nextType = TOK_MFVEC4F;    }
+		  | Tok_MFPlane		{ nextType = TOK_MFPLANE;	 }
           | Tok_SFColor4f   { nextType = TOK_SFCOLOR4F;  }
+		  | Tok_SFColor3f	{ nextType = TOK_SFCOLOR3F;  }
           | Tok_SFMatrix    { nextType = TOK_SFMATRIX;   }
           | Tok_SFPnt2f     { nextType = TOK_SFPNT2F;    }
           | Tok_SFPnt3f     { nextType = TOK_SFPNT3F;    }
           | Tok_SFPnt4f     { nextType = TOK_SFPNT4F;    }
           | Tok_SFVec4f     { nextType = TOK_SFVEC4F;    }
+		  | Tok_SFPlane		{ nextType = TOK_SFPLANE;	 }
 ;
 
 
@@ -561,16 +573,20 @@ fieldValue : TOK_SFBOOL
            | TOK_MFVEC2F
            | TOK_MFVEC3F
            | TOK_MFCOLOR4F
+		   | TOK_MFCOLOR3F
            | TOK_MFMATRIX
            | TOK_MFPNT2F
            | TOK_MFPNT3F
            | TOK_MFPNT4F
+		   | TOK_MFPLANE
            | TOK_MFVEC4F
            | TOK_SFCOLOR4F
+		   | TOK_SFCOLOR3F
            | TOK_SFMATRIX
            | TOK_SFPNT2F
            | TOK_SFPNT3F
            | TOK_SFPNT4F
+		   | TOK_SFPLANE
            | TOK_SFVEC4F
 ;
 

@@ -249,7 +249,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
 
 
     virtual void  beginField              (const Char8 *szFieldname,
-                                           const UInt32 uiFieldTypeId);
+                                           		 Int32 &uiFieldTypeId);
 
     virtual void  endField                (void);
 
