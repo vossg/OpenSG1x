@@ -346,6 +346,8 @@ int main (int argc, char **argv)
 
 	win->addPort( vp );
 
+	win->init();
+
 	// Action
 	
 	ract = DrawAction::create();

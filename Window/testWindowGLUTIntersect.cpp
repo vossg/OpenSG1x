@@ -463,6 +463,8 @@ int main (int argc, char **argv)
 
 	win->addPort( vp );
 
+	win->init();
+
 	// Action
 	
 	ract = DrawAction::create();
@@ -477,14 +479,6 @@ int main (int argc, char **argv)
 	tball.setTranslationMode( Trackball::OSGFree );
 
 	// run...
-
-    FieldContainerPtr pc;
-
-    pc.dump();
-
-    pc = FieldContainerFactory::the()->createFieldContainer("Camera");
-
-    pc.dump();
 	
 	glutMainLoop();
 	
