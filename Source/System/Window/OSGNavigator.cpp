@@ -345,6 +345,8 @@ void Navigator::keyPress(Int16 key, Int16 , Int16 )
     
         switch (key)
         {
+        case LEFTROT   : _walker.rotate(((-_rMotionFactor >= 0) ? -1 : 1)*0.19634954f, 0);  break;
+        case RIGHTROT  : _walker.rotate(((_rMotionFactor >= 0) ? -1 : 1)*0.19634954f, 0);  break;
         case LEFT      : _walker.right(_rMotionFactor);   break;
         case RIGHT     : _walker.right(-_rMotionFactor);    break;
         case FORWARDS  : _walker.forward(-_rMotionFactor); break;

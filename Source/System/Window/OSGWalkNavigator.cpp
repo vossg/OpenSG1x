@@ -129,7 +129,7 @@ void WalkNavigator::rotate (Real32 deltaX, Real32 deltaY)
 /*! "walks" forward
  */
 
-void WalkNavigator::forward(Real32 step)
+Real32 WalkNavigator::forward(Real32 step)
 {
     Vec3f lv = _rFrom - _rAt;
     lv.normalize();
@@ -161,7 +161,7 @@ void WalkNavigator::forward(Real32 step)
             rFrom = rFrom + (_groundDistance-dist+_height)*upn;
             rAt = rAt + (_groundDistance-dist+_height)*upn;
         }
-        else return;    //can't jump so high
+        else return 0.0;    //can't jump so high
     }
 
     //finally check if the move is correct or not
@@ -173,22 +173,74 @@ void WalkNavigator::forward(Real32 step)
     if (_act->didHit()) {
         dist = _act->getHitT();
         if (dist <= (rFrom-_rFrom).length()+_fatness+_wallDistance)
-            return;     //running against a wall
+            return 0.0;     //running against a wall
     }
 
     //move was ok, store new values
     _rFrom = rFrom;
     _rAt = rAt;
+    return step;
 }
 
 /*! turns the viewer right or left
  */
 
-void WalkNavigator::right(Real32 step)
+Real32 WalkNavigator::right(Real32 step)
 {
-    Int16 sign = (step >= 0) ? -1 : 1;
-    Real32 angle = 0.19634954f;
+//    Int16 sign = (step >= 0) ? -1 : 1;
+//    Real32 angle = 0.19634954f;
+//
+//    //rotate around the up vector
+//    FlyNavigator::rotate(sign*angle, 0);
+//    return step;
 
-    //rotate around the up vector
-    FlyNavigator::rotate(sign*angle, 0);
+    Vec3f lv = _rFrom - _rAt;
+    lv.normalize();
+
+    Vec3f upn = _vUp;
+    upn.normalize();
+
+    Vec3f mv = lv - upn.dot(lv)*upn;
+    mv.normalize();
+
+    //side vector symbolizes shoulders
+    Vec3f sv = mv;
+    sv.crossThis(upn);
+    sv.normalize();
+
+    Pnt3f rFrom = _rFrom + step*sv;
+    Pnt3f rAt = _rAt + step*sv;
+
+    Real32 dist;
+    Line line(rFrom, -upn);
+
+    //keep the walker at a constant distance from the ground
+    _act->setLine(line);
+    _act->apply(_ground);
+
+    if (_act->didHit()) {
+        dist = _act->getHitT();
+        if (dist >= _height) {
+            rFrom = rFrom + (_groundDistance-dist+_height)*upn;
+            rAt = rAt + (_groundDistance-dist+_height)*upn;
+        }
+        else return 0.0;    //can't jump so high
+    }
+
+    //finally check if the move is correct or not
+
+    line.setValue(_rFrom, sv);
+    _act->setLine(line);
+    _act->apply(_world);
+
+    if (_act->didHit()) {
+        dist = _act->getHitT();
+        if (dist <= (rFrom-_rFrom).length()+_fatness+_wallDistance)
+            return 0.0;     //running against a wall
+    }
+
+    //move was ok, store new values
+    _rFrom = rFrom;
+    _rAt = rAt;
+    return step;
 }

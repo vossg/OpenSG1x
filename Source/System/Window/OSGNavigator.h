@@ -97,7 +97,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
         LEFT=0,
         RIGHT,
         FORWARDS,
-        BACKWARDS
+        BACKWARDS,
+        LEFTROT,
+        RIGHTROT
     };
 
 

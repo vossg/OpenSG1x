@@ -823,6 +823,8 @@ void SimpleSceneManager::key(UChar8 key, Int16 x, Int16 y)
     {
         case 'j': _navigator.keyPress(Navigator::LEFT,x,y); break;
         case 'g': _navigator.keyPress(Navigator::RIGHT,x,y); break;
+        case 'u': _navigator.keyPress(Navigator::LEFTROT,x,y); break;
+        case 't': _navigator.keyPress(Navigator::RIGHTROT,x,y); break;
         case 'y': _navigator.keyPress(Navigator::FORWARDS,x,y); break;
         case 'h': _navigator.keyPress(Navigator::BACKWARDS,x,y); break;
     }

@@ -88,8 +88,8 @@ class OSG_SYSTEMLIB_DLLMAPPING WalkNavigator: public FlyNavigator
     /*! \{                                                                 */
 
     void rotate (Real32 deltaX, Real32 deltaY);
-    void forward(Real32 step);
-    void right  (Real32 step);
+    Real32 forward(Real32 step);
+    Real32 right  (Real32 step);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

@@ -218,7 +218,7 @@ void FlyNavigator::rotate(Real32 deltaX, Real32 deltaY)
 
 /*! Flies forward, i.e. translation \a step units along the view vector.
 */
-void FlyNavigator::forward(Real32 step)
+Real32 FlyNavigator::forward(Real32 step)
 {
     Vec3f lv;
     lv = _rFrom-_rAt;
@@ -229,11 +229,12 @@ void FlyNavigator::forward(Real32 step)
     transl.setTranslate(lv);
     transl.multMatrixPnt(_rAt);
     transl.multMatrixPnt(_rFrom);
+    return 0.0;
 }
 
 /*! Strafes to the right, i.e. translates along the side vector.
 */
-void FlyNavigator::right(Real32 step)
+Real32 FlyNavigator::right(Real32 step)
 {
     Int16 sign = (step >= 0) ? -1 : 1;
     Real32 angle = 0.19634954f;
@@ -251,6 +252,7 @@ void FlyNavigator::right(Real32 step)
     transl.multMatrixPnt(_rAt);
     transl.multMatrixPnt(_rFrom);
  */
+    return 0.0;
 }
 
 
