@@ -819,6 +819,27 @@ PointInterface<ValueTypeT, StorageInterfaceT>::dist(const PointInterface &vec)
     return osgsqrt(dist2(vec));
 }
 
+//! Returns the maximum value of the vector
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+typename PointInterface<ValueTypeT, 
+                        StorageInterfaceT>::RealReturnType 
+PointInterface<ValueTypeT, StorageInterfaceT>::maxValue(void) 
+    const
+{
+    UInt32 i;
+    RealReturnType   returnValue = TypeConstants<RealReturnType>::getMin();
+
+    for(i = 0; i < _iSize; i++)
+    {
+        if(_values[i] > returnValue)
+            returnValue = _values[i];
+    }
+
+    return returnValue;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                                Math                                     */
 
