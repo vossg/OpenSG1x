@@ -37,103 +37,17 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGSTATELEM_H_
-#define _OSGSTATELEM_H_
+#ifndef _OSGSTATELEMTYPES_H_
+#define _OSGSTATELEMTYPES_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
+#include <OSGStatElem.h>
+#include <OSGStatElemDesc.h>
+#include <OSGStatIntElem.h>
+#include <OSGStatRealElem.h>
+#include <OSGStatTimeElem.h>
+#include <OSGStatStringElem.h>
 
-#include <string>
-
-OSG_BEGIN_NAMESPACE
-
-class StatElemDescBase;
-
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
- */
-
-class OSG_SYSTEMLIB_DLLMAPPING StatElem
-{
-    /*==========================  PUBLIC  =================================*/
-  public:
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "StatElem"; }
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Instance                                 */
-    /*! \{                                                                 */
-
-    inline  bool               getOn        (void);
-
-    inline  void               setOn        (bool on);
-
-    inline  StatElemDescBase * getDesc      (void);
-
-    virtual void               putToString  (string &str, 
-                                             const char *format = NULL) = 0;
-
-    virtual bool               getFromString(const Char8 *&inVal) = 0;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                */
-    /*! \{                                                                 */
-
-    virtual ~StatElem(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Comparison                                  */
-    /*! \{                                                                 */
-
-     bool operator <  (const StatElem &other) const;
-
-    //OSGbool operator == (const StatElem &other) const;
-    //OSGbool operator != (const StatElem &other) const;
-
-    /*! \}                                                                 */
-
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-
-    StatElem (StatElemDescBase *desc);
-
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-
-    // typedef PARENTCLASS Inherited;
-
-    static char cvsid[];
-
-    bool _on;
-
-    StatElemDescBase *_desc;
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    StatElem            (const StatElem &source);
-    StatElem& operator =(const StatElem &source);
-};
-
-typedef StatElem *StatElemP;
-
-OSG_END_NAMESPACE
-
-#include <OSGStatElem.inl>
-
-#define OSGSTATELEM_HEADER_CVSID "@(#)$Id:$"
-
-#endif /* _OSGSTATELEM_H_ */
+#endif /* _OSGSTATELEMTYPES_H_ */

@@ -2,9 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
- *                                                                           *
- *                            www.opensg.org                                 *
+ *                     Copyright 2000,2001 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -36,49 +34,15 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <OSGConfig.h>
+
 OSG_BEGIN_NAMESPACE
-
-/*-------------------------------------------------------------------------*/
-inline  UInt32 StatCollector::getNumOfElems (void)
-{ 
-  return _elemVec.size(); 
-}
-
-/*-------------------------------------------------------------------------*/
-inline  bool StatCollector::isValidID     (Int32 id)
-{ 
-  return ((id >= 0) && (id < Int32(_elemVec.size()))); 
-}
-
-/*-------------------------------------------------------------------------*/
-inline  StatElem *StatCollector::getElem (Int32 id, bool create)  
-{
-  StatElem *elem = _elemVec[id];
-
-  if (create && !elem) 
-    {
-      StatElemDescBase *desc = StatElemDescBase::getDesc(id);
-      elem =_elemVec[id] = desc->createElem();
-    }
-  
-  return elem;
-}
-
-/*-------------------------------------------------------------------------*/
-inline  StatElem  *StatCollector::getElem  (StatElemDescBase &desc, 
-                                            bool create)
-{ 
-  return getElem(desc.getID(),create); 
-}
-
-/*-------------------------------------------------------------------------*/
-
-template<class T> inline 
-T *StatCollector::getElem(StatElemDesc<T> &desc, bool create)
-{
-    return reinterpret_cast<T*>(getElem(desc.getID(),create));
-}
 
 OSG_END_NAMESPACE
 
-#define OSGSTATCOLLECTOR_INLINE_CVSID "@(#)$Id: OSGStatCollector.inl,v 1.8 2002/03/19 17:46:17 dirk Exp $"
+#define OSGSTATISTICSFOREGROUND_INLINE_CVSID "@(#)$Id: OSGStatisticsForeground.inl,v 1.1 2002/03/19 17:46:18 dirk Exp $"
+

@@ -4,8 +4,6 @@
  *                                                                           *
  *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
  *                                                                           *
- *                            www.opensg.org                                 *
- *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
@@ -36,49 +34,32 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+
+#ifndef _OSGSTATISTICSDEFAULTFONT_H_
+#define _OSGSTATISTICSDEFAULTFONT_H_
+#ifdef __sgi
+#pragma once
+#endif
+
+#include <OSGConfig.h>
+#include <OSGSystemDef.h>
+#include <OSGBaseTypes.h>
+
 OSG_BEGIN_NAMESPACE
 
-/*-------------------------------------------------------------------------*/
-inline  UInt32 StatCollector::getNumOfElems (void)
-{ 
-  return _elemVec.size(); 
-}
+/*--------------------------------------------------------------------------*/
+/*! \name                     Geometry Functions                            */
+/*! \{                                                                      */
 
-/*-------------------------------------------------------------------------*/
-inline  bool StatCollector::isValidID     (Int32 id)
-{ 
-  return ((id >= 0) && (id < Int32(_elemVec.size()))); 
-}
+/*! \brief font data for default font 
+ *  \ingroup Statistics
+ */
+extern OSG_SYSTEMLIB_DLLMAPPING UChar8 StatisticsDefaultFontData[];
 
-/*-------------------------------------------------------------------------*/
-inline  StatElem *StatCollector::getElem (Int32 id, bool create)  
-{
-  StatElem *elem = _elemVec[id];
+extern OSG_SYSTEMLIB_DLLMAPPING UInt32 StatisticsDefaultFontDataSize;
 
-  if (create && !elem) 
-    {
-      StatElemDescBase *desc = StatElemDescBase::getDesc(id);
-      elem =_elemVec[id] = desc->createElem();
-    }
-  
-  return elem;
-}
-
-/*-------------------------------------------------------------------------*/
-inline  StatElem  *StatCollector::getElem  (StatElemDescBase &desc, 
-                                            bool create)
-{ 
-  return getElem(desc.getID(),create); 
-}
-
-/*-------------------------------------------------------------------------*/
-
-template<class T> inline 
-T *StatCollector::getElem(StatElemDesc<T> &desc, bool create)
-{
-    return reinterpret_cast<T*>(getElem(desc.getID(),create));
-}
+/*! \}                                                                      */
 
 OSG_END_NAMESPACE
 
-#define OSGSTATCOLLECTOR_INLINE_CVSID "@(#)$Id: OSGStatCollector.inl,v 1.8 2002/03/19 17:46:17 dirk Exp $"
+#endif /* _OSGSTATISTICSDEFAULTFONT_H_ */

@@ -133,13 +133,49 @@ StatTimeElem::StatTimeElem(StatElemDescBase *desc)
 
 StatElem *StatTimeElem::create ( StatElemDescBase *desc)
 {
-  return new StatTimeElem(desc);
+    return new StatTimeElem(desc);
 }
 
 
-void StatTimeElem::putToString(string &str)
+void StatTimeElem::putToString(string &str, const char *format)
 {
-    FieldDataTraits1<Time>::putToString(_time, str);
+    if(!format)
+    {
+        FieldDataTraits1<Time>::putToString(_time, str);
+    }
+    else
+    {
+        char *proc = strchr(format,'%');        
+        char *temp = new char [strlen(format) + 40];
+
+        if(proc)
+        {
+            if(! strncmp(proc, "%ms", 3))
+            {
+                string fcopy(format);
+                fcopy.insert((proc - format) + 1,".2f ");
+                sprintf(temp, fcopy.c_str(), ((double)_time)*1000.);
+            }
+            else if(! strncmp(proc, "%r", 2))
+            {
+                string fcopy(format);
+                fcopy.erase((proc - format) + 1, 1);
+                sprintf(temp, fcopy.c_str(), 1./(double)_time);
+            }
+            else
+            {
+                sprintf(temp, format, (double)_time);
+            }
+           
+        }
+        else
+        {
+            sprintf(temp, format, (double)_time);
+        }
+        
+        str = temp;
+        delete [] temp;
+    }
 }
 
 bool StatTimeElem::getFromString(const Char8 *&inVal)

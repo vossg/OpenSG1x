@@ -133,12 +133,22 @@ StatRealElem::StatRealElem(StatElemDescBase *desc)
 
 StatElem *StatRealElem::create ( StatElemDescBase *desc)
 {
-  return new StatRealElem(desc);
+    return new StatRealElem(desc);
 }
 
-void StatRealElem::putToString(string &str)
+void StatRealElem::putToString(string &str, const char *format)
 {
-  FieldDataTraits<Real32>::putToString(_value, str);
+    if(!format)
+    {
+        FieldDataTraits<Real32>::putToString(_value, str);
+    }
+    else
+    {
+        char *temp = new char [strlen(format) + 40];
+        sprintf(temp, format, _value);
+        str = temp;
+        delete [] temp;
+    }
 }
 
 bool StatRealElem::getFromString(const Char8 *&inVal)

@@ -46,7 +46,7 @@
 #include <OSGConfig.h>
 #include <OSGSysFieldDataType.h>
 
-#include "OSGStatIntElem.h"
+#include "OSGStatStringElem.h"
 
 OSG_USING_NAMESPACE
 
@@ -56,30 +56,14 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGSTATINTELEM_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGSTATINTELEM_INLINE_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.1 2002/03/19 17:46:17 dirk Exp $";
+    static Char8 cvsid_hpp[] = OSGSTATSTRINGELEM_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGSTATSTRINGELEM_INLINE_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
-
-/** \enum OSGVecBase::VectorSizeE
- *  \brief 
- */
-
-/** \var OSGVecBase::VectorSizeE OSGVecBase::_iSize
- * 
- */
-
-/** \fn const char *OSGVecBase::getClassname(void)
- *  \brief Classname
- */
-
-/** \var OSGValueTypeT OSGVecBase::_values[iSize];
- *  \brief Value store
- */
 
 /***************************************************************************\
  *                               Types                                     *
@@ -89,7 +73,7 @@ namespace
  *                           Class variables                               *
 \***************************************************************************/
 
-char StatIntElem::cvsid[] = "@(#)$Id: $";
+char StatStringElem::cvsid[] = "@(#)$Id: OSGStatStringElem.cpp,v 1.1 2002/03/19 17:46:17 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -126,37 +110,42 @@ char StatIntElem::cvsid[] = "@(#)$Id: $";
 /** \brief Constructor
  */
 
-StatIntElem::StatIntElem(StatElemDescBase *desc)
-  : StatElem(desc), _value(0)
+StatStringElem::StatStringElem(StatElemDescBase *desc)
+  : StatElem(desc), _value()
 {
 }
 
-StatElem *StatIntElem::create ( StatElemDescBase *desc)
+StatElem *StatStringElem::create(StatElemDescBase *desc)
 {
-  return new StatIntElem(desc);
+    return new StatStringElem(desc);
 }
 
-void StatIntElem::putToString(string &str, const char *format)
+void StatStringElem::putToString(string &str, const char *format)
 {
     if(!format)
     {
-        FieldDataTraits<Int32>::putToString(_value, str);
+        str = _value;
     }
     else
     {
-        char *temp = new char [strlen(format) + 40];
-        sprintf(temp, format, _value);
+        char *temp = new char [strlen(format) + _value.size() + 10];
+        sprintf(temp, format, _value.c_str());
         str = temp;
         delete [] temp;
     }
 }
 
-bool StatIntElem::getFromString(const Char8 *&inVal)
+bool StatStringElem::getFromString(const Char8 *&inVal)
 {
-    return FieldDataTraits<Int32>::getFromString(_value, inVal);
+    if(inVal != 0)
+    {
+        _value = inVal;
+    }
+
+    return true;
 }
 
-//StatIntElem::StatIntElem(const StatIntElem &source) :
+//StatStringElem::StatStringElem(const StatStringElem &source) :
 //  Inherited(source),
 //    // TODO: initialize members
 //{
@@ -165,7 +154,7 @@ bool StatIntElem::getFromString(const Char8 *&inVal)
 /** \brief Destructor
  */
 
-StatIntElem::~StatIntElem(void)
+StatStringElem::~StatStringElem(void)
 {
 }
 
@@ -180,7 +169,7 @@ StatIntElem::~StatIntElem(void)
 /** \brief assignment
  */
 
-StatIntElem& StatIntElem::operator = (const StatIntElem &source)
+StatStringElem& StatStringElem::operator = (const StatStringElem &source)
 {
     if (this == &source)
         return *this;
@@ -202,7 +191,7 @@ StatIntElem& StatIntElem::operator = (const StatIntElem &source)
 /** \brief assignment
  */
 
-bool StatIntElem::operator < (const StatIntElem &other) const
+bool StatStringElem::operator < (const StatStringElem &other) const
 {
     return this < &other;
 }

@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _OSGSTATELEM_H_
-#define _OSGSTATELEM_H_
+#ifndef _OSGSTATSTRINGTELEM_H_
+#define _OSGSTATSTRINGELEM_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -46,7 +46,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGSystemDef.h>
 
-#include <string>
+#include <OSGStatElem.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -58,82 +58,86 @@ class StatElemDescBase;
  *  detailed
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING StatElem
-{
-    /*==========================  PUBLIC  =================================*/
-  public:
+class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
+
+     /*==========================  PUBLIC  =================================*/
+ public:
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "StatElem"; }
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Instance                                 */
-    /*! \{                                                                 */
-
-    inline  bool               getOn        (void);
-
-    inline  void               setOn        (bool on);
-
-    inline  StatElemDescBase * getDesc      (void);
-
-    virtual void               putToString  (string &str, 
-                                             const char *format = NULL) = 0;
-
-    virtual bool               getFromString(const Char8 *&inVal) = 0;
+    
+    static const char *getClassname(void) { return "StatStringElem"; }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                */
+    /*! \name                    your_category                             */
     /*! \{                                                                 */
-
-    virtual ~StatElem(void);
+    
+    static StatElem *create ( StatElemDescBase *desc );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                  Comparison                                  */
+    /*! \name                    instance                                  */
     /*! \{                                                                 */
 
-     bool operator <  (const StatElem &other) const;
+    virtual ~StatStringElem(void); 
+   
+    inline void set(string value);
 
-    //OSGbool operator == (const StatElem &other) const;
-    //OSGbool operator != (const StatElem &other) const;
+    inline void reset(void);
+
+    virtual void putToString(string &str, const char *format = NULL);
+
+    virtual bool getFromString(const Char8 *&inVal);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   comparison                                 */
+    /*! \{                                                                 */
+ 
+    bool operator < (const StatStringElem &other) const;
+    
+    //OSGbool operator == (const StatStringElem &other) const;
+    //OSGbool operator != (const StatStringElem &other) const;
 
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
 
-    StatElem (StatElemDescBase *desc);
+    StatStringElem ( StatElemDescBase *desc );
 
-    /*==========================  PRIVATE  ================================*/
+    /*! \}                                                                 */
+    /*=========================  PRIVATE    ===============================*/
   private:
 
-
-    // typedef PARENTCLASS Inherited;
+    typedef StatElem Inherited;
 
     static char cvsid[];
+    
+    string _value;
 
-    bool _on;
+    StatStringElem(const StatStringElem &source);
 
-    StatElemDescBase *_desc;
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    StatElem            (const StatElem &source);
-    StatElem& operator =(const StatElem &source);
+    StatStringElem& operator =(const StatStringElem &source);
 };
 
-typedef StatElem *StatElemP;
+//---------------------------------------------------------------------------
+//   Exported Types
+//---------------------------------------------------------------------------
+
+// class pointer
+
+typedef StatStringElem *StatStringElemP;
 
 OSG_END_NAMESPACE
 
-#include <OSGStatElem.inl>
+#include <OSGStatStringElem.inl>
 
-#define OSGSTATELEM_HEADER_CVSID "@(#)$Id:$"
+#define OSGSTATSTRINGELEM_HEADER_CVSID "@(#)$Id: OSGStatStringElem.h,v 1.1 2002/03/19 17:46:17 dirk Exp $"
 
-#endif /* _OSGSTATELEM_H_ */
+#endif /* _OSGSTATSTRINGELEM_H_ */

@@ -36,104 +36,79 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
-#ifndef _OSGSTATELEM_H_
-#define _OSGSTATELEM_H_
+#include <stdlib.h>
+#include <stdio.h>
+
+#include <OSGConfig.h>
+
+#include "OSGStatisticsForeground.h"
+
+OSG_USING_NAMESPACE
+
 #ifdef __sgi
-#pragma once
+#pragma set woff 1174
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
-
-#include <string>
-
-OSG_BEGIN_NAMESPACE
-
-class StatElemDescBase;
-
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
- */
-
-class OSG_SYSTEMLIB_DLLMAPPING StatElem
+namespace
 {
-    /*==========================  PUBLIC  =================================*/
-  public:
+    static char cvsid_cpp[] = "@(#)$Id: OSGStatisticsForeground.cpp,v 1.1 2002/03/19 17:46:18 dirk Exp $";
+    static char cvsid_hpp[] = OSGSTATISTICSFOREGROUND_HEADER_CVSID;
+    static char cvsid_inl[] = OSGSTATISTICSFOREGROUND_INLINE_CVSID;
+}
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
-    static const char *getClassname(void) { return "StatElem"; }
+/*! \class osg::StatisticsForeground
+Background is the base class for all background clearing.  	 	
+*/
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Instance                                 */
-    /*! \{                                                                 */
+/*----------------------- constructors & destructors ----------------------*/
 
-    inline  bool               getOn        (void);
+//! Constructor
 
-    inline  void               setOn        (bool on);
+StatisticsForeground::StatisticsForeground(void) :
+    Inherited()
+{
+}
 
-    inline  StatElemDescBase * getDesc      (void);
+//! Copy Constructor
 
-    virtual void               putToString  (string &str, 
-                                             const char *format = NULL) = 0;
+StatisticsForeground::StatisticsForeground(const StatisticsForeground &source) :
+    Inherited(source)
+{
+}
 
-    virtual bool               getFromString(const Char8 *&inVal) = 0;
+//! Destructor
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                */
-    /*! \{                                                                 */
+StatisticsForeground::~StatisticsForeground(void)
+{
+}
 
-    virtual ~StatElem(void);
+/*----------------------------- class specific ----------------------------*/
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Comparison                                  */
-    /*! \{                                                                 */
+//! initialize the static features of the class, e.g. action callbacks
 
-     bool operator <  (const StatElem &other) const;
+void StatisticsForeground::initMethod (void)
+{
+}
 
-    //OSGbool operator == (const StatElem &other) const;
-    //OSGbool operator != (const StatElem &other) const;
+//! react to field changes
 
-    /*! \}                                                                 */
+void StatisticsForeground::changed(BitVector, ChangeMode)
+{
+}
 
-    /*=========================  PROTECTED  ===============================*/
-  protected:
+//! output the instance for debug purposes
 
+void StatisticsForeground::dump(      UInt32    , 
+                         const BitVector ) const
+{
+    SLOG << "Dump StatisticsForeground NI" << endl;
+}
 
-    StatElem (StatElemDescBase *desc);
-
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-
-    // typedef PARENTCLASS Inherited;
-
-    static char cvsid[];
-
-    bool _on;
-
-    StatElemDescBase *_desc;
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    StatElem            (const StatElem &source);
-    StatElem& operator =(const StatElem &source);
-};
-
-typedef StatElem *StatElemP;
-
-OSG_END_NAMESPACE
-
-#include <OSGStatElem.inl>
-
-#define OSGSTATELEM_HEADER_CVSID "@(#)$Id:$"
-
-#endif /* _OSGSTATELEM_H_ */

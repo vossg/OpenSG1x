@@ -93,7 +93,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem {
 
     inline const Time & getTime(void);
         
-    virtual void putToString(string &str);
+    virtual void putToString(string &str, const char *format = NULL);
 
     virtual bool getFromString(const Char8 *&inVal);
 

@@ -112,6 +112,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
 
     static StatCollector *create(void);
 
+    StatCollector& operator =(const StatCollector &source);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
@@ -137,14 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector {
     /*==========================  PRIVATE  ================================*/
   private:
 
-
-    //typedef PARENTCLASS Inherited;
-
     vector<StatElem*> _elemVec;
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    StatCollector& operator =(const StatCollector &source);
 };
 
 typedef StatCollector *StatCollectorP;
@@ -190,7 +185,7 @@ struct FieldDataTraits<StatCollector> :
 
 typedef SField<StatCollector> SFStatCollector;
 
-#ifndef OSG_COMPILEPARTICLEBSPINST
+#ifndef OSG_COMPILESTATCOLLECTORINST
 #if defined(__sgi)
 
 #pragma do_not_instantiate SField<StatCollector>::_fieldType

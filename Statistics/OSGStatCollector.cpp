@@ -40,6 +40,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILESTATCOLLECTORINST
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -49,6 +51,27 @@
 #include "OSGStatElem.h"
 
 #include "OSGStatCollector.h"
+
+
+OSG_BEGIN_NAMESPACE
+
+/*-------------------------- field instantiations -------------------------*/
+
+DataType FieldDataTraits<StatCollector>::_type("StatCollector", 
+        "None");
+
+#if defined(__sgi)
+
+#pragma instantiate SField<StatCollector>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DEF1(SField, StatCollector, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+
+OSG_END_NAMESPACE
+
 
 OSG_USING_NAMESPACE
 
@@ -96,7 +119,6 @@ namespace
 \***************************************************************************/
 
 
-
 /*-------------------------------------------------------------------------*\
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
@@ -137,17 +159,9 @@ StatCollector::StatCollector(const StatCollector &source) :
 }
 
 StatCollector *StatCollector::create(void)
-
 {
     return new StatCollector();
 }
-
-
-//StatCollector::StatCollector(const StatCollector &source) :
-//  Inherited(source),
-//    // TODO: initialize members
-//{
-//}
 
 /** \brief Destructor
  */
@@ -255,16 +269,9 @@ StatCollector& StatCollector::operator = (const StatCollector &source)
     if (this == &source)
         return *this;
 
-    // copy parts inherited from parent
-    //*(static_cast<Inherited *>(this)) = source;
-
-    // free mem alloced by members of 'this'
-
-    // alloc new mem for members
-
-    // copy 
-
-  return *this;
+    _elemVec = source._elemVec;
+ 
+    return *this;
 }
 
 /*-------------------------- comparison -----------------------------------*/

@@ -36,104 +36,94 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-#ifndef _OSGSTATELEM_H_
-#define _OSGSTATELEM_H_
+#ifndef _OSGSTATISTICSFOREGROUND_H_
+#define _OSGSTATISTICSFOREGROUND_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
+#include <OSGConfig.h>
 
-#include <string>
+#include <OSGStatisticsForegroundBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-class StatElemDescBase;
-
-/*! \ingroup baselib
- *  \brief Brief
- *
- *  detailed
+/*! \brief *put brief class description here* 
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING StatElem
+class OSG_SYSTEMLIB_DLLMAPPING StatisticsForeground : public StatisticsForegroundBase
 {
+  private:
+
+    typedef StatisticsForegroundBase Inherited;
+
     /*==========================  PUBLIC  =================================*/
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
+    /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    static const char *getClassname(void) { return "StatElem"; }
+    virtual void changed(BitVector  whichField, 
+                         ChangeMode from);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                     Instance                                 */
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    inline  bool               getOn        (void);
-
-    inline  void               setOn        (bool on);
-
-    inline  StatElemDescBase * getDesc      (void);
-
-    virtual void               putToString  (string &str, 
-                                             const char *format = NULL) = 0;
-
-    virtual bool               getFromString(const Char8 *&inVal) = 0;
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                */
+    /*! \name                   draw                                       */
     /*! \{                                                                 */
 
-    virtual ~StatElem(void);
+    virtual void draw( DrawActionBase * action, Viewport * port ) = 0;
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Comparison                                  */
-    /*! \{                                                                 */
-
-     bool operator <  (const StatElem &other) const;
-
-    //OSGbool operator == (const StatElem &other) const;
-    //OSGbool operator != (const StatElem &other) const;
-
-    /*! \}                                                                 */
-
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    // Variables should all be in StatisticsForegroundBase.
 
-    StatElem (StatElemDescBase *desc);
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
 
+    StatisticsForeground(void);
+    StatisticsForeground(const StatisticsForeground &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~StatisticsForeground(void); 
+
+    /*! \}                                                                 */
+    
     /*==========================  PRIVATE  ================================*/
   private:
 
+    friend class FieldContainer;
+    friend class StatisticsForegroundBase;
 
-    // typedef PARENTCLASS Inherited;
-
-    static char cvsid[];
-
-    bool _on;
-
-    StatElemDescBase *_desc;
+    static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
 
-    StatElem            (const StatElem &source);
-    StatElem& operator =(const StatElem &source);
+    void operator =(const StatisticsForeground &source);
 };
 
-typedef StatElem *StatElemP;
+typedef StatisticsForeground *StatisticsForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGStatElem.inl>
+#include <OSGStatisticsForeground.inl>
+#include <OSGStatisticsForegroundBase.inl>
 
-#define OSGSTATELEM_HEADER_CVSID "@(#)$Id:$"
+#define OSGSTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGStatisticsForeground.h,v 1.1 2002/03/19 17:46:18 dirk Exp $"
 
-#endif /* _OSGSTATELEM_H_ */
+#endif /* _OSGSTATISTICSFOREGROUND_H_ */
