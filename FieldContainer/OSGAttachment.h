@@ -214,7 +214,8 @@ class SimpleAttachment : public Attachment
         NextFieldId       = SimpleFieldId + 1
     };
 
-    static const BitVector SimpleFieldMask;
+    static const BitVector SimpleFieldMask = 
+        1 << SimpleAttachment<AttachmentDescT>::SimpleFieldId;
 
     /*---------------------------------------------------------------------*/
     /*! \name        General Fieldcontainer Declaration                    */

@@ -58,3 +58,59 @@ OSG_USING_NAMESPACE
 //OSG_BASE_DLLMAPPING Pnt4f   OSG::NullPnt4f( 0,0,0,0 );
 //OSG_BASE_DLLMAPPING Pnt2s   OSG::NullPnt2s( 0,0 );
 
+#ifdef darwin
+
+template <>
+const VectorInterface< Real32, VecStorage2<Real32> >
+    VectorInterface< Real32, VecStorage2<Real32> >::Null(0.f, 0.f);
+
+template <>
+const VectorInterface< Real32, VecStorage3<Real32> >
+    VectorInterface< Real32, VecStorage3<Real32> >::Null(0.f, 0.f, 0.f);
+
+template <>
+const VectorInterface< Real32, VecStorage4<Real32> >
+    VectorInterface< Real32, VecStorage4<Real32> >::Null(0.f, 0.f, 0.f, 0.f);
+
+template <>
+const VectorInterface< UInt16, VecStorage2<UInt16> >
+    VectorInterface< UInt16, VecStorage2<UInt16> >::Null(0, 0);
+
+template <>
+const VectorInterface< UInt8, VecStorage4<UInt8> >
+    VectorInterface< UInt8, VecStorage4<UInt8> >::Null(0, 0, 0, 0);
+
+template <>
+const PointInterface< Real32, VecStorage2<Real32> >
+    PointInterface< Real32, VecStorage2<Real32> >::Null(0.f, 0.f);
+
+template <>
+const PointInterface< Real64, VecStorage2<Real64> >
+    PointInterface< Real64, VecStorage2<Real64> >::Null(0., 0.);
+
+template <>
+const PointInterface< Real32, VecStorage3<Real32> >
+    PointInterface< Real32, VecStorage3<Real32> >::Null(0.f, 0.f, 0.f);
+
+template <>
+const PointInterface< Real64, VecStorage3<Real64> >
+    PointInterface< Real64, VecStorage3<Real64> >::Null(0., 0., 0.);;
+
+template <>
+const PointInterface< Real32, VecStorage4<Real32> >
+    PointInterface< Real32, VecStorage4<Real32> >::Null(0.f, 0.f, 0.f, 0.f);;
+
+template <>
+const PointInterface< Real64, VecStorage4<Real64> >
+    PointInterface< Real64, VecStorage4<Real64> >::Null(0., 0., 0., 0.);;
+
+template <>
+const PointInterface< UInt16, VecStorage2<UInt16> >
+    PointInterface< UInt16, VecStorage2<UInt16> >::Null(0, 0);;
+
+/*
+template <>
+const PointInterface<>
+    PointInterface<>::Null;
+    */
+#endif

@@ -54,10 +54,11 @@ OSG_BEGIN_NAMESPACE
 
 OSG_FIELD_CONTAINER_INL_DEF(Attachment, AttachmentPtr)
 
+/*
 template <class AttachmentDescT>
 const BitVector SimpleAttachment<AttachmentDescT>::SimpleFieldMask =
     (1 << SimpleAttachment<AttachmentDescT>::SimpleFieldId);
-
+    */
 
 /*-------------------------------------------------------------------------*/
 /*                           Type Information                              */

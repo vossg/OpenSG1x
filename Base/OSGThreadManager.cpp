@@ -349,6 +349,12 @@ bool ThreadManager::init(void)
     }
 #endif
 
+#ifdef darwin
+    Lock      ::getClassType();
+    BaseThread::getClassType();
+    Barrier   ::getClassType();
+#endif
+
     _storePLock = _sLockStore.getMPField("OSGTMStoreLock", "OSGLock");
     
     if(_storePLock == NULL)

@@ -201,7 +201,9 @@ class GeoProperty :
         NextFieldId        = GeoPropDataFieldId + 1
     };
 
-    static const BitVector GeoPropDataFieldMask;
+//1 << GeoProperty<GeoPropertyDesc>::GeoPropDataFieldId
+    static const BitVector GeoPropDataFieldMask =
+        1 << GeoPropDataFieldId;
 
     typedef GeoProperty<GeoPropertyDesc>         PropertyType;
     typedef GeoProperty<GeoPropertyDesc>         Self;

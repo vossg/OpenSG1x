@@ -214,7 +214,7 @@ TEST_SOURCES       := $(notdir $(TEST_SOURCES))
 
 ifeq ($(OS_BASE),darwin)
 
-ifeq ($(LNK),)
+ifeq ($(LNK),xx)
 MACHACK_SOURCES    := $(call getMacHackSourceFiles,$(LIB_ABSSOURCEDIRS))
 MACHACK_SOURCES    := $(notdir $(MACHACK_SOURCES))
 
@@ -232,7 +232,7 @@ LIB_OBJECTS        := $(call cnvSourceToObject,$(LIB_SOURCES))
 
 ifeq ($(OS_BASE),darwin)
 
-ifeq ($(LNK),)
+ifeq ($(LNK),xx)
 LIB_OBJECTS        := $(LIB_OBJECTS) $(MACHACK_OBJECTS)
 
 MACHACK_I_TARGETS  := $(MACHACK_IAS_SOURCES) : $(MACHACK_SOURCES)

@@ -424,6 +424,12 @@ Barrier *Barrier::find(const Char8 *szName)
     return ThreadManager::the()->findBarrier(szName);
 }
 
+
+const MPBarrierType &Barrier::getClassType(void)
+{
+    return _type;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 

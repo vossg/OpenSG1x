@@ -311,10 +311,10 @@ class FunctorBase
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-    static const UInt8 ObjectValid;
-    static const UInt8 FuncPtrValid;
+    static const UInt8 ObjectValid   = 0x01;
+    static const UInt8 FuncPtrValid  = 0x02;
 
-    static const UInt8 FunctorActive;
+    static const UInt8 FunctorActive = 0x80;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     

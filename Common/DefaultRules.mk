@@ -379,11 +379,17 @@ ifneq ($(SUB_SO),)
 SubLib: $(LIBS_DEP) $(SUB_SO) 
 	@echo "LASTDBG=$(DBG)" > .lastdbg
 
+ifeq ($(OS_BASE), darwin)
+STORE_SO_NAME := -install_name $(notdir $(SUB_SO))
+else
+STORE_SO_NAME :=
+endif
+
 $(SUB_SO): $(LIBS_DEP) $(LIB_QTTARGET_CPP) $(LIB_OBJECTS) $(SUB_SO_DEF) 
 	@echo $(LIB_OBJECTS) $(AR_FLAGS) $(SUB_SO)
 	$(LD_SHARED) $($(PROJ)SUBPRELINKPAR) $(LD_OUTOPT)$(LD_OUTSPACE)$(SUB_SO) \
 		$(LIBPATHS) $(call cnvSubDirsUnix2Win,$(LIB_OBJECTS)) $(LIBS) 		 \
-		$(SO_INIT_FLAGS) $(LD_FLAGS) $(SO_DEF_FLAGS)
+		$(SO_INIT_FLAGS) $(LD_FLAGS) $(SO_DEF_FLAGS) $(STORE_SO_NAME)
 
 $(LIB_QT_TARGET)
 $(LIB_QTTARGET_DEPS): $(LIB_QTTARGET_CPP)

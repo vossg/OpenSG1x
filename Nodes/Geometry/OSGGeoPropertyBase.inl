@@ -133,9 +133,11 @@ void AbstractGeoProperty<GeoPropertyDesc>::dump(      UInt32    uiIndent,
 #endif
 }
 
+/*
 template <class GeoPropertyDesc>
 const BitVector GeoProperty<GeoPropertyDesc>::GeoPropDataFieldMask = 
     (1 << GeoProperty<GeoPropertyDesc>::GeoPropDataFieldId);
+    */
 
 /** \brief Property field description
  */

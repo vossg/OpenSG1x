@@ -827,6 +827,12 @@ BaseThread *BaseThread::find(const Char8 *szName)
     return ThreadManager::the()->findThread(szName);
 }
 
+const MPThreadType &BaseThread::getClassType(void)
+{
+    return _type;
+}
+
+
 /*-------------------------------------------------------------------------*/
 /*                                Run                                      */
 
@@ -907,8 +913,6 @@ BaseThread::~BaseThread(void)
 void BaseThread::workProc(void)
 {
 }
-
-
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

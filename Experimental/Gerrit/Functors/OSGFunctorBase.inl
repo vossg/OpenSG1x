@@ -61,7 +61,7 @@ OSG_BEGIN_NAMESPACE
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
-
+/*
 template <class SizeTraitsT>
 const UInt8 FunctorBase<SizeTraitsT>::ObjectValid     = 0x01;
 
@@ -70,6 +70,7 @@ const UInt8 FunctorBase<SizeTraitsT>::FuncPtrValid    = 0x02;
 
 template <class SizeTraitsT>
 const UInt8 FunctorBase<SizeTraitsT>::FunctorActive   = 0x80;
+*/
 
 /***************************************************************************\
  *                           Class methods                                 *

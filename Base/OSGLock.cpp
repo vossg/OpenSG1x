@@ -417,6 +417,11 @@ Lock *Lock::find(const Char8 *szName)
     return ThreadManager::the()->findLock(szName);
 }
 
+const MPLockType &Lock::getClassType(void)
+{
+    return _type;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                               Create                                    */
 

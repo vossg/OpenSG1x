@@ -549,8 +549,10 @@ class OSG_BASE_DLLMAPPING BaseThread : public BaseThreadBase
     /*! \name                      Get                                     */
     /*! \{                                                                 */
     
-    static BaseThread *get (const Char8 *szName);
-    static BaseThread *find(const Char8 *szName);
+    static       BaseThread   *get         (const Char8 *szName);
+    static       BaseThread   *find        (const Char8 *szName);
+
+    static const MPThreadType &getClassType(void               );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

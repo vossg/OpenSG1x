@@ -42,9 +42,15 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <strstream>
 
 #include <OSGConfig.h>
+
+#ifdef OSG_HAS_SSTREAM
+#include <sstream>
+#else
+#include <strstream>
+#endif
+
 #include <OSGTXFFont.h>
 #include <OSGViewport.h>
 
@@ -135,8 +141,13 @@ void SimpleStatisticsForeground::initText(void)
 {
 #ifndef WIN32
     // create the text needed
+#ifdef OSG_HAS_SSTREAM
+    istringstream stream((char*)StatisticsDefaultFontData, 
+                         StatisticsDefaultFontDataSize);
+#else
     istrstream stream((char*)StatisticsDefaultFontData, 
-                      StatisticsDefaultFontDataSize);
+                     StatisticsDefaultFontDataSize);
+#endif
                        
     TXFFont *font = new TXFFont("StatisticsDefaultFont", stream);
     font->initFont();
@@ -305,7 +316,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.6 2002/05/13 09:21:11 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleStatisticsForeground.cpp,v 1.7 2002/05/23 04:07:02 vossg Exp $";
     static char cvsid_hpp[] = OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSIMPLESTATISTICSFOREGROUND_INLINE_CVSID;
 }

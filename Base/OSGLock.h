@@ -373,8 +373,10 @@ class OSG_BASE_DLLMAPPING Lock : public LockBase
     /*! \name                      Get                                     */
     /*! \{                                                                 */
     
-    static Lock *get (const Char8 *szName);
-    static Lock *find(const Char8 *szName);
+    static       Lock       *get         (const Char8 *szName);
+    static       Lock       *find        (const Char8 *szName);
+
+    static const MPLockType &getClassType(void               ); 
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

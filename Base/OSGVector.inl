@@ -315,10 +315,12 @@ ValueTypeT VecStorage4<ValueTypeT>::w(void) const
     \brief Parent type
 */
 
+#ifndef darwin
 template <class ValueTypeT,
           class StorageInterfaceT>
 const PointInterface<ValueTypeT, StorageInterfaceT>
     PointInterface<ValueTypeT, StorageInterfaceT>::Null;
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */

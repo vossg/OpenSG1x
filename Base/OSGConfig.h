@@ -372,6 +372,7 @@
 # define OSG_NO_CONCEPT_CHECKS 
 # if __GNUC__ >= 3
 # define OSG_THROW_NOTHING() throw()
+# define OSG_HAS_SSTREAM
 #else
 # define OSG_THROW_NOTHING()
 #endif

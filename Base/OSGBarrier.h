@@ -346,8 +346,10 @@ class OSG_BASE_DLLMAPPING Barrier : public BarrierBase
     /*! \name                      Get                                     */
     /*! \{                                                                 */
     
-    static Barrier *get (const Char8 *szName);
-    static Barrier *find(const Char8 *szName);
+    static       Barrier       *get         (const Char8 *szName);
+    static       Barrier       *find        (const Char8 *szName);
+
+    static const MPBarrierType &getClassType(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
