@@ -155,7 +155,7 @@ int main(int argc, char **argv)
                      0.0,
                      STATISTICS_INVERT | STATISTICS_OVERFLOW_RESIZE
                      | STATISTICS_SMOOTH | STATISTICS_ENABLE_POINTS
-                     | STATISTICS_MAX_TEXT | STATISTICS_MIN_TEXT
+                     | STATISTICS_MAX_TEXT | STATISTICS_MIN_TEXT,
                      100,
                      "FPS"
                      );
