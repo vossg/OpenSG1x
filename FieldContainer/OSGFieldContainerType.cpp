@@ -375,7 +375,10 @@ OSGUInt32 OSGFieldContainerType::addDescription(
 {
     OSGUInt32            returnValue = 0;
     OSGDescMapConstIt    descIt;
+    OSGDescVecIt         descVIt;
+
     OSGFieldDescription *descP;
+    OSGFieldDescription *nullDescP = NULL;
 
     descIt = _descriptionMap.find(OSGStringLink(desc.getName()));
 
@@ -386,9 +389,24 @@ OSGUInt32 OSGFieldContainerType::addDescription(
             descP = new OSGFieldDescription(desc);
 
             _descriptionMap[OSGStringLink(descP->getName())] = descP;
-            _descriptionVec.push_back(descP);
 
-            returnValue = _descriptionVec.size();
+            descVIt = find(_descriptionVec.begin(), 
+                           _descriptionVec.end(),
+                           nullDescP);
+
+            if(descVIt == _descriptionVec.end())
+            {
+                _descriptionVec.push_back(descP);
+
+                returnValue = _descriptionVec.size();
+            }
+            else
+            {
+                (*descVIt) = descP;
+
+                returnValue  = descVIt - _descriptionVec.begin();
+                returnValue += 1;
+            }
         }
         else
         {
@@ -404,6 +422,45 @@ OSGUInt32 OSGFieldContainerType::addDescription(
                  << "in " << _name << "from " 
                  << desc.getTypeId() << endl;
     }
+
+    return returnValue;
+}
+
+OSGBool OSGFieldContainerType::subDescription(OSGUInt32 fieldId)
+{
+    OSGFieldDescription *descP = getFieldDescription(fieldId);
+    OSGDescMapIt         descMIt;
+    OSGDescVecIt         descVIt;
+    OSGBool              returnValue = true;
+
+    if(descP == NULL)
+        return false;
+
+    descMIt = _descriptionMap.find(OSGStringLink(descP->getName()));
+
+    if(descMIt != _descriptionMap.end())
+    {
+        _descriptionMap.erase(descMIt);       
+    }
+    else
+    {
+        returnValue = false;
+    }
+
+    descVIt = find(_descriptionVec.begin(), _descriptionVec.end(), descP);
+
+    if(descVIt != _descriptionVec.end())
+    {
+        (*descVIt) = NULL;
+
+        returnValue &= true;
+    }
+    else
+    {
+        returnValue = false;
+    }
+
+    delete descP;
 
     return returnValue;
 }
@@ -430,7 +487,10 @@ void OSGFieldContainerType::print(void) const
             dVI != _descriptionVec.end(); 
           ++dVI)
     {
-        (*dVI)->print();
+        if( (*dVI) != NULL)
+            (*dVI)->print();        
+        else
+            fprintf(stderr, "NULL DESC\n");
     }
 }
 

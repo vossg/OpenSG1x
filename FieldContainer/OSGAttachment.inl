@@ -407,8 +407,15 @@ OSGUInt32 OSGDynFieldAttachment<OSGAttachmentDescT>::addField(
             descP->setFieldMask(1 << (returnValue - 1));
 
             fieldP = OSGFieldFactory::the().createField(fieldDesc.getTypeId());
+
+            if(_dynFieldsV.size() <=
+               returnValue - Inherited::OSGNextFieldId)
+            {
+                _dynFieldsV.resize((returnValue - 
+                                    Inherited::OSGNextFieldId) + 1);
+            }
             
-            _dynFieldsV.push_back(fieldP);
+            _dynFieldsV[returnValue - Inherited::OSGNextFieldId] = fieldP;
         }
     }
 
@@ -418,6 +425,19 @@ OSGUInt32 OSGDynFieldAttachment<OSGAttachmentDescT>::addField(
 template <class OSGAttachmentDescT> inline
 void OSGDynFieldAttachment<OSGAttachmentDescT>::subField(OSGUInt32 fieldId)
 {
+    if(_localType.subDescription(fieldId) == true)
+    {
+        vector<OSGField *>::iterator vIt = _dynFieldsV.begin();
+
+        vIt += fieldId - Inherited::OSGNextFieldId;
+
+        if(vIt != _dynFieldsV.end())
+        {
+            delete (*vIt);
+
+            (*vIt) = NULL;
+        }
+    }
 }
 
 template <class OSGAttachmentDescT> inline
@@ -433,6 +453,13 @@ template <class OSGAttachmentDescT> inline
 void OSGDynFieldAttachment<OSGAttachmentDescT>::dump(void) const
 {
     SDEBUG << "Dump OSGDynFieldAttachment<> NI" << endl;
+
+    _localType.print();
+
+    for(OSGUInt32 i = 0; i < _dynFieldsV.size(); i++)
+    {
+        fprintf(stderr, "%d\n", _dynFieldsV[i]);
+    }
 }
 
 /*-------------------------------------------------------------------------*\

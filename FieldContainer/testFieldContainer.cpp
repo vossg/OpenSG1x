@@ -321,11 +321,7 @@ int main (int argc, char **argv)
 
     OSGDynAttPtr da;
 
-    da.dump();
-
     da = OSGDynAtt::create();
-
-    da.dump();
 
     da->getType().print();
 
@@ -340,13 +336,55 @@ int main (int argc, char **argv)
         false,
         (OSGFieldIndexAccessMethod) &OSGDynAtt::getDynamicField);
 
-    OSGUInt32 uiFI = da->addField(*pDesc);
+    OSGUInt32 uiFI1 = da->addField(*pDesc);
 
-    fprintf(stderr, "%d\n", uiFI);
+    fprintf(stderr, "%d\n", uiFI1);
+
+
+
+    pDesc = new OSGFieldDescription(
+        OSGSFString::getClassType(), 
+        "name1", 
+        0, 0,
+        false,
+        (OSGFieldIndexAccessMethod) &OSGDynAtt::getDynamicField);
+
+    OSGUInt32 uiFI2 = da->addField(*pDesc);
+
+    fprintf(stderr, "%d\n", uiFI2);
+
+    da->getType().print();
+    da->dump();
+
+    da->subField(uiFI1);
 
     da->getType().print();
 
-    fprintf(stderr, "Retrieve Field %d\n", da->getField(2));
+    da->dump();
+
+    fprintf(stderr, "Retrieve Field 1 %d\n", da->getField(1));
+    fprintf(stderr, "Retrieve Field 2 %d\n", da->getField(2));
+    fprintf(stderr, "Retrieve Field 3 %d\n", da->getField(3));
+
+    pDesc = new OSGFieldDescription(
+        OSGSFString::getClassType(), 
+        "name2", 
+        0, 0,
+        false,
+        (OSGFieldIndexAccessMethod) &OSGDynAtt::getDynamicField);
+
+    OSGUInt32 uiFI3 = da->addField(*pDesc);
+
+    fprintf(stderr, "%d\n", uiFI3);
+
+    da->dump();
+
+    da->getType().print();
+
+
+    fprintf(stderr, "Retrieve Field 1 %d\n", da->getField(1));
+    fprintf(stderr, "Retrieve Field 2 %d\n", da->getField(2));
+    fprintf(stderr, "Retrieve Field 3 %d\n", da->getField(3));
 
     delete pDesc;
 

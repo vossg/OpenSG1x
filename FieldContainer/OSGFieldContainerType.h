@@ -154,6 +154,7 @@ class OSGFieldContainerType
     OSGUInt32            getNumFieldDescriptions(void) const;
 
     OSGUInt32            addDescription(const OSGFieldDescription &desc);
+    OSGBool              subDescription(      OSGUInt32            fieldId);
 
     /*----------------------------- dump ------------------------------------*/
 
