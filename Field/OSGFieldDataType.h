@@ -106,7 +106,7 @@ struct FieldTraitsRecurseBase : public Traits
         // defaut: individual field sizes
         for(UInt32 i=0; i <uiNumObjects; ++i)
         {
-            size += MappedTrait::getBinSize(pObjectStore, uiNumObjects);
+            size += MappedTrait::getBinSize(pObjectStore[i]);
         }
 
         return size;
