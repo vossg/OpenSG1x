@@ -150,7 +150,7 @@ char *FCBaseTemplate_inl[]={
 "@@BeginMFFieldLoop@@",
 "//! Get the value of the \a index element the @!Classname!@::_@!fieldname!@ field.",
 "inline",
-"@!Fieldtype!@ &@!Classname!@::get@!Fieldname!@(const UInt32 index)",
+"@!Fieldtype!@ &@!Classname!@Base::get@!Fieldname!@(const UInt32 index)",
 "{",
 "    return _@!fieldname!@[index];",
 "}",
@@ -256,6 +256,6 @@ char *FCBaseTemplate_inl[]={
 "@@endif",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_INLINE_CVSID \"@(#)$Id: FCBaseTemplate_inl.h,v 1.18 2002/11/08 23:29:37 dirk Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_INLINE_CVSID \"@(#)$Id: FCBaseTemplate_inl.h,v 1.19 2002/11/09 08:09:45 vossg Exp $\"",
 "",
 NULL};
