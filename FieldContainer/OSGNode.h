@@ -294,6 +294,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     void operator =(const Node &source);
 };
 
+OSG_SYSTEMLIB_DLLMAPPING
 NodePtr cloneTree(NodePtr pRootNode);
 
 OSG_END_NAMESPACE
