@@ -196,7 +196,8 @@ void TexGenChunk::activate(DrawActionBase *action, UInt32 idx )
 }
 
 
-static inline void changeGenFunc(GLenum oldfunc, GLenum coord, GLenum gen, 
+static inline void changeGenFunc(GLenum oldfunc, NodePtr oldbeacon, 
+                GLenum coord, GLenum gen, 
                 GLenum func, Vec4f &plane, NodePtr beacon, Matrix &cameraMat)
 {
     if(beacon != NullFC)
@@ -209,7 +210,7 @@ static inline void changeGenFunc(GLenum oldfunc, GLenum coord, GLenum gen,
         glTexGenfv(coord, GL_EYE_PLANE, (GLfloat*)plane.getValues());
         glTexGeni(coord, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
         glPopMatrix();
-        if(oldfunc == GL_NONE) 
+        if(oldfunc == GL_NONE && oldbeacon == NullFC) 
             glEnable(gen);
     }
     else if(func != GL_NONE)                                         
@@ -221,10 +222,10 @@ static inline void changeGenFunc(GLenum oldfunc, GLenum coord, GLenum gen,
         else if(func == GL_EYE_LINEAR)
             glTexGenfv(coord, GL_EYE_PLANE, (GLfloat*)plane.getValues());
             
-        if(oldfunc == GL_NONE) 
+        if(oldfunc == GL_NONE && oldbeacon == NullFC) 
             glEnable(gen);
     }
-    else if(oldfunc != GL_NONE) 
+    else if(oldfunc != GL_NONE || oldbeacon != NullFC) 
         glDisable(gen);  
 }
 
@@ -256,13 +257,17 @@ void TexGenChunk::changeFrom(   DrawActionBase *action,
    
     TextureChunk::activateTexture(action->getWindow(), idx);
 
-    changeGenFunc(oldp->getGenFuncS(), GL_S, GL_TEXTURE_GEN_S, 
+    changeGenFunc(oldp->getGenFuncS(), oldp->getSBeacon(), GL_S, 
+                GL_TEXTURE_GEN_S, 
                 getGenFuncS(), getGenFuncSPlane(), getSBeacon(), cameraMat);
-    changeGenFunc(oldp->getGenFuncT(), GL_T, GL_TEXTURE_GEN_T, 
+    changeGenFunc(oldp->getGenFuncT(), oldp->getTBeacon(), GL_T, 
+                GL_TEXTURE_GEN_T, 
                 getGenFuncT(), getGenFuncTPlane(), getTBeacon(), cameraMat);
-    changeGenFunc(oldp->getGenFuncR(), GL_R, GL_TEXTURE_GEN_R, 
+    changeGenFunc(oldp->getGenFuncR(), oldp->getRBeacon(), GL_R, 
+                GL_TEXTURE_GEN_R, 
                 getGenFuncR(), getGenFuncRPlane(), getRBeacon(), cameraMat);
-    changeGenFunc(oldp->getGenFuncQ(), GL_Q, GL_TEXTURE_GEN_Q, 
+    changeGenFunc(oldp->getGenFuncQ(), oldp->getQBeacon(), GL_Q, 
+                GL_TEXTURE_GEN_Q, 
                 getGenFuncQ(), getGenFuncQPlane(), getQBeacon(), cameraMat);
 
     glErr("TexGenChunk::changeFrom");

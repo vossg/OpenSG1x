@@ -72,7 +72,7 @@ const OSG::BitVector StateChunkBase::MTInfluenceMask =
 
 FieldContainerType StateChunkBase::_type(
     "StateChunk",
-    "FieldContainer",
+    "Attachment",
     NULL,
     NULL, 
     StateChunk::initMethod,
@@ -175,7 +175,7 @@ void StateChunkBase::executeSyncImpl(      StateChunkBase *pOther,
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<StateChunkPtr>::_type("StateChunkPtr", "FieldContainerPtr");
+DataType FieldDataTraits<StateChunkPtr>::_type("StateChunkPtr", "AttachmentPtr");
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -197,7 +197,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATECHUNKBASE_INLINE_CVSID;
 

@@ -63,7 +63,7 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGFieldContainer.h> // Parent
+#include <OSGAttachment.h> // Parent
 
 
 #include <OSGStateChunkFields.h>
@@ -75,11 +75,11 @@ class BinaryDataHandler;
 
 //! \brief StateChunk Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public Attachment
 {
   private:
 
-    typedef FieldContainer    Inherited;
+    typedef Attachment    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -174,6 +174,6 @@ typedef StateChunkBase *StateChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGSTATECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGSTATECHUNKBASE_H_ */

@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGFieldContainerFields.h>
+#include <OSGAttachmentFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,7 +69,7 @@ class StateChunk;
 #if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! StateChunkPtr
 
-typedef FCPtr<FieldContainerPtr, StateChunk> StateChunkPtr;
+typedef FCPtr<AttachmentPtr, StateChunk> StateChunkPtr;
 
 #endif
 
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSTATECHUNKFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGSTATECHUNKFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
 
 #endif /* _OSGSTATECHUNKFIELDS_H_ */

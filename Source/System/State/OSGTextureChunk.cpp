@@ -1158,7 +1158,9 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     ImagePtr      img       = getImage();
     GLenum        target    = getTarget();
     GLenum        oldtarget = oldp->getTarget();
-
+    bool          oldused   = (oldp->getImage() != NullFC &&
+                               oldp->getImage()->getDimension());
+    
     if(img == NullFC || img->getDimension() == 0)
     {
         oldp->deactivate(action, idx);
@@ -1169,7 +1171,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 
     activateTexture(action->getWindow(), idx);
 
-    if ( target == GL_NONE )
+    if(target == GL_NONE)
     {
         if(img->getDepth() > 1)
         {
@@ -1187,9 +1189,9 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         else                            target = GL_TEXTURE_1D;
     }
 
-    if(oldp->getImage() != NullFC)
+    if(oldused)
     {
-        if ( oldtarget == GL_NONE )
+        if(oldtarget == GL_NONE)
         {
             if(oldp->getImage()->getDepth() > 1)
             {
@@ -1223,14 +1225,14 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 
     glBindTexture(target, getGLId());
 
-    if(oldp->getEnvMode() != getEnvMode())
+    if(!oldused || oldp->getEnvMode() != getEnvMode())
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
 
     glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR,
                     (GLfloat*)getEnvColor().getValuesRGBA());
 
 #ifdef GL_NV_point_sprite
-    if(oldp->getPointSprite() != getPointSprite() &&
+    if((!oldused || oldp->getPointSprite() != getPointSprite()) &&
        action->getWindow()->hasExtension(_nvPointSprite)
       )
     {
@@ -1238,8 +1240,9 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     }
 #endif
 
-    if(oldp->getLodBias() != getLodBias() &&
-       action->getWindow()->hasExtension(_extTextureLodBias))
+    if((!oldused || oldp->getLodBias() != getLodBias()) &&
+       action->getWindow()->hasExtension(_extTextureLodBias)
+      )
     {
         glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
 	          getLodBias());
@@ -1274,14 +1277,16 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     if(action->getWindow()->hasExtension(_nvTextureShader))
     {
         if(      getShaderOperation() != GL_NONE &&
-           oldp->getShaderOperation() == GL_NONE    )
+           (!oldused || oldp->getShaderOperation() == GL_NONE)
+          )
         {
             handleTextureShader(action->getWindow(), target);
             if(idx == 0)
                 glEnable(GL_TEXTURE_SHADER_NV);
         }
         else if(      getShaderOperation() == GL_NONE &&
-                oldp->getShaderOperation() != GL_NONE    )
+                (!oldused || oldp->getShaderOperation() != GL_NONE)
+               )
         {
             glTexEnvi(GL_TEXTURE_SHADER_NV, GL_SHADER_OPERATION_NV, GL_NONE);
             if(idx == 0)
