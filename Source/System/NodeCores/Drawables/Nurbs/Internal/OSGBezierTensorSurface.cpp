@@ -131,7 +131,7 @@ int BezierTensorSurface::write( std::ofstream &outfile )
 
 
 //some REAL functionality
-vec3d BezierTensorSurface::computewdeCasteljau( vec2d uv, int &error )
+vec3d BezierTensorSurface::computewdeCasteljau( vec2d uv, int &/*error*/ )
 {
 	const unsigned int	cui_u = control_points.size( );
 	const unsigned int	cui_v = control_points[ 0 ].size( ) - 1;
