@@ -398,8 +398,6 @@ void OSGQuaternionBase<OSGValueTypeT>::setValue(const OSGMatrixType &matrix)
         _quat[0] = (matrix[1][2] - matrix[2][1]) * s;
         _quat[1] = (matrix[2][0] - matrix[0][2]) * s;
         _quat[2] = (matrix[0][1] - matrix[1][0]) * s;
-
-        cout << "TR > 0.0 " << endl;
     }
     else
     {
@@ -427,8 +425,6 @@ void OSGQuaternionBase<OSGValueTypeT>::setValue(const OSGMatrixType &matrix)
         _quat[0] = qt[0];
         _quat[1] = qt[1];
         _quat[2] = qt[2];
-
-        cout << "TR < 0.0 " << endl;
     }
     
     if(_quat[3] > 1.0 || _quat[3] < -1.0)
