@@ -50,6 +50,17 @@
 
 // All these are taken verbatim from the nVidia Linux glext.h
 
+// Secondary Color
+#ifndef GL_EXT_secondary_color
+#define GL_COLOR_SUM_EXT                  0x8458
+#define GL_CURRENT_SECONDARY_COLOR_EXT    0x8459
+#define GL_SECONDARY_COLOR_ARRAY_SIZE_EXT 0x845A
+#define GL_SECONDARY_COLOR_ARRAY_TYPE_EXT 0x845B
+#define GL_SECONDARY_COLOR_ARRAY_STRIDE_EXT 0x845C
+#define GL_SECONDARY_COLOR_ARRAY_POINTER_EXT 0x845D
+#define GL_SECONDARY_COLOR_ARRAY_EXT      0x845E
+#endif
+
 // Multitextures
 #ifndef GL_ARB_multitexture
 #define GL_ARB_multitexture               1
@@ -221,6 +232,6 @@
 #define GL_PER_STAGE_CONSTANTS_NV        0x8535
 #endif
 
-#define OSGGLEXT_HEADER_CVSID "@(#)$Id: OSGGLEXT.h,v 1.3 2002/06/24 14:36:22 vossg Exp $"
+#define OSGGLEXT_HEADER_CVSID "@(#)$Id: OSGGLEXT.h,v 1.4 2002/06/28 09:00:41 dirk Exp $"
 
 #endif /* _OSGGL_H_ */
