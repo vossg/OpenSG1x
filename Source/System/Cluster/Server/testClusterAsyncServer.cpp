@@ -2,7 +2,6 @@
 #include <OSGConfig.h>
 #include <iostream>
 #include <OSGLog.h>
-#include <OSGStreamSockConnection.h>
 #include <OSGClusterServer.h>
 #include <OSGGLUTWindow.h>
 #include <OSGRenderAction.h>

@@ -2,9 +2,9 @@
 #include <iostream>
 #include <OSGLog.h>
 #include <OSGNode.h>
-#include <OSGConnection.h>
+#include <OSGPointConnection.h>
+#include <OSGGroupConnection.h>
 #include <OSGConnectionFactory.h>
-#include <OSGStreamSockConnection.h>
 #include <OSGRemoteAspect.h>
 #include <OSGTransform.h>
 #include <OSGGeometry.h>
@@ -12,7 +12,7 @@
 #include <OSGGLUTWindow.h>
 
 OSG_USING_NAMESPACE RemoteAspect    *aspect;
-Connection                          *connection;
+PointConnection                     *connection;
 bool                                verbose = false;
 WindowPtr                           window;
 
@@ -104,7 +104,7 @@ void client(void)
     int     i, j;
     std::vector < NodePtr > nodes;
 
-    connection->connect("localhost:6789");
+    connection->connectPoint("localhost:6789");
     OSG::Thread::getCurrentChangeList()->clearAll();
 
     // create change and remove in the same frame
@@ -178,7 +178,7 @@ void server(void)
     aspect->registerCreated(Geometry::getClassType(), created);
 
     connection->bind("localhost:6789");
-    connection->accept();
+    connection->acceptPoint();
     connection->selectChannel();
 
     window = GLUTWindow::create();
@@ -207,7 +207,7 @@ int main(int argc, char **argv)
     ChangeList::setReadWriteDefault();
     osgInit(argc, argv);
     aspect = new RemoteAspect();
-    connection = ConnectionFactory::the().create("StreamSock");
+    connection = ConnectionFactory::the().createPoint("StreamSock");
     for(i = 1; i < argc; i++)
     {
         if(argv[i][0] == '-')
